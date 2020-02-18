@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/MTES-MCT/enr#readme",
   "dependencies": {
+    "express": "^4.17.1",
     "npm": "^6.13.7"
   },
   "devDependencies": {
