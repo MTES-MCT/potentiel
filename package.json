@@ -1,0 +1,26 @@
+{
+  "name": "enr.beta.gouv",
+  "version": "0.0.1",
+  "description": "Suivi des Projets d'Energies Renouvelables",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MTES-MCT/enr.git"
+  },
+  "author": "@paduc",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/MTES-MCT/enr/issues"
+  },
+  "homepage": "https://github.com/MTES-MCT/enr#readme",
+  "dependencies": {
+    "npm": "^6.13.7"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "cucumber": "^6.0.5"
+  }
+}
