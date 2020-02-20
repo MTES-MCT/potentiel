@@ -1,13 +1,16 @@
-const express = require('express')
+import * as express from 'express'
 const app = express()
 const port: number = 3000
+import Component from './component'
+import * as ReactDOMServer from 'react-dom/server'
 
 app.use(express.static('src/public'))
 
 const router = express.Router()
 
 router.get('/ssr', async (req, res) => {
-  res.status(201).send('Hello world')
+  const htmlOutput = ReactDOMServer.renderToString(Component('john'))
+  res.status(201).send(htmlOutput)
 })
 
 app.use(router)
