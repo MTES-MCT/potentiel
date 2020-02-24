@@ -5,7 +5,8 @@ export default function makeExpressCallback(controller: ENR.Controller) {
     const httpRequest = {
       body: req.body,
       query: req.query,
-      params: req.params
+      params: req.params,
+      user: req.user
       // ip: req.ip,
       // method: req.method,
       // path: req.path,

@@ -4,10 +4,12 @@ import * as path from 'path'
 import * as ReactDOMServer from 'react-dom/server'
 
 import AdminLogin from './adminLogin'
+import AdminDashboard from './adminDashboard'
 
 const AdminLoginPage = makePresenterPage(AdminLogin)
+const AdminDashboardPage = makePresenterPage(AdminDashboard)
 
-export { AdminLoginPage }
+export { AdminLoginPage, AdminDashboardPage }
 
 /**
  * Turn a Page Component (pure) into a presenter that returns a full HTML page
