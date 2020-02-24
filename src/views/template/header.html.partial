@@ -7,7 +7,7 @@
 
     <title>Suivi des Projets d'Energies Renouvelables</title>
 
-    <link href="main.min.css" rel="stylesheet" />
+    <link href="/main.min.css" rel="stylesheet" />
     <script type="text/javascript">
       if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
         document.write(
@@ -24,24 +24,24 @@
     <link
       rel="apple-touch-icon"
       sizes="180x180"
-      href="images/favicons/apple-icon-180x180.png"
+      href="/images/favicons/apple-icon-180x180.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="images/favicons/favicon-16x16.png"
+      href="/images/favicons/favicon-16x16.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="32x32"
-      href="images/favicons/favicon-32x32.png"
+      href="/images/favicons/favicon-32x32.png"
     />
-    <link rel="manifest" href="images/favicons/manifest.json" />
+    <link rel="manifest" href="/images/favicons/manifest.json" />
     <link
       rel="mask-icon"
-      href="images/favicons/safari-pinned-tab.svg"
+      href="/images/favicons/safari-pinned-tab.svg"
       color="#5bbad5"
     />
   </head>
@@ -194,11 +194,11 @@
         <a class="navbar__home" href="index.html">
           <img
             class="navbar__logo"
-            src="images/logo-marianne.svg"
+            src="/images/logo-marianne.svg"
             alt="enr.data.gouv.fr"
           /><span class="navbar__domain">enr</span
           ><img
-            src="images/pointdatagouvfr.svg"
+            src="/images/pointdatagouvfr.svg"
             class="navbar__gouvfr"
             alt="data.gouv.fr"
           />
