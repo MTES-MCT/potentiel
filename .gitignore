@@ -105,3 +105,6 @@ dist
 
 # VSCode settings
 .vscode
+
+# Persisted database
+.db

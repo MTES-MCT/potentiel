@@ -4,7 +4,13 @@ import * as bodyParser from 'body-parser'
 
 import makeExpressCallback from './helpers/makeExpressCallback'
 import makeAuthentication from './helpers/makeAuthentication'
-import { getAdminLoginPage, getAdminDashboardPage } from './controllers'
+import {
+  getAdminLoginPage,
+  getAdminDashboardPage,
+  registerAuth,
+  postLogin,
+  ensureLoggedIn
+} from './controllers'
 
 const app = express()
 const port: number = 3000
@@ -15,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 const LOGIN_ROUTE = '/admin/login.html'
 
-const { authenticationHandler, ensureLoggedIn } = makeAuthentication({
+registerAuth({
   app,
   loginRoute: LOGIN_ROUTE,
   successRoute: '/admin/dashboard.html'
@@ -25,7 +31,7 @@ const router = express.Router()
 
 router.get(LOGIN_ROUTE, makeExpressCallback(getAdminLoginPage))
 
-router.post('/login', authenticationHandler)
+router.post('/login', postLogin())
 router.get('/logout', (req, res) => {
   req.logout()
   res.redirect('/')

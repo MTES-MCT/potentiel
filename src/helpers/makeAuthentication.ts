@@ -3,6 +3,8 @@ import { Strategy } from 'passport-local'
 import { ensureLoggedIn } from 'connect-ensure-login'
 import { Application } from 'express'
 
+import '../dataAccess'
+
 //
 // Configure Passport authenticated session persistence
 //

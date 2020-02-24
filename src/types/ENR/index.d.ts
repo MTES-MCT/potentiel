@@ -11,4 +11,10 @@ declare namespace ENR {
   }
 
   export type Controller = (req: HttpRequest) => Promise<HttpResponse>
+
+  type Credentials = {
+    readonly email: string
+    readonly hash: string
+    readonly userId: string
+  }
 }

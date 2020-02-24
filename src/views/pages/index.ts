@@ -15,7 +15,7 @@ export { AdminLoginPage, AdminDashboardPage }
  * Turn a Page Component (pure) into a presenter that returns a full HTML page
  * @param pageComponent
  */
-function makePresenterPage(pageComponent: React.StatelessComponent) {
+function makePresenterPage(pageComponent) {
   return (props?: any) =>
     insertIntoHTMLTemplate(
       ReactDOMServer.renderToStaticMarkup(pageComponent(props))
