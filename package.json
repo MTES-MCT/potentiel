@@ -4,7 +4,8 @@
   "description": "Suivi des Projets d'Energies Renouvelables",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "./node_modules/ts-node-dev/bin/ts-node-dev src/server.ts"
   },
   "repository": {
     "type": "git",
