@@ -9,36 +9,46 @@ const makeCredentials = buildMakeCredentials({ hashFn })
 
 import makeCredentialsAccess from '../dataAccess/credentials'
 import loadModels from '../dataAccess/models'
+import makeUserAccess from '../dataAccess/user'
 
-const { credentialsDb } = loadModels({ sequelize })
+const { credentialsDb, userDb } = loadModels({ sequelize })
 const isDbReady = checkIsDbReady()
 
 const credentialsAccess = makeCredentialsAccess({
   isDbReady,
   credentialsDb
 })
-const login = makeLogin({ credentialsAccess, hashFn })
+const userAccess = makeUserAccess({ isDbReady, userDb })
+const login = makeLogin({ credentialsAccess, hashFn, userAccess })
 
 const phonyCredentials = {
   email: 'fake@example.fake',
-  password: 'password',
-  userId: '1'
+  password: 'password'
+}
+
+const phonyUser = {
+  firstName: 'Patrice',
+  lastName: 'Leconte',
+  role: 1
 }
 
 describe('login use-case', () => {
   beforeAll(async () => {
     // Insert a phony user
-    await credentialsAccess.insert(makeCredentials(phonyCredentials))
+    const user = await userAccess.insert(phonyUser)
+    await credentialsAccess.insert(
+      makeCredentials({ ...phonyCredentials, userId: user.id })
+    )
   })
 
-  it('returns the userId if the email and password are correct', async () => {
-    const { email, password, userId } = phonyCredentials
-    const foundUserId = await login({
+  it('returns the user if the email and password are correct', async () => {
+    const { email, password } = phonyCredentials
+    const foundUser = await login({
       email,
       password
     })
 
-    expect(foundUserId).toEqual(userId)
+    expect(foundUser).toEqual(phonyUser)
   })
 
   it('returns null if the email is incorrect', async () => {

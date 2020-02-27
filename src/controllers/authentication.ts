@@ -3,7 +3,7 @@ import { Strategy } from 'passport-local'
 import { ensureLoggedIn } from 'connect-ensure-login'
 import { Application } from 'express'
 
-export default function({ login }) {
+export default function({ login, findUserById }) {
   let isAuthRegistered = false
   let _loginRoute
   let _successRoute
@@ -30,13 +30,13 @@ export default function({ login }) {
     //
     // Configure Passport authenticated session persistence
     //
-    passport.serializeUser(function(user, done) {
-      done(null, user)
+    passport.serializeUser(function(user: { id: number }, done) {
+      done(null, user.id)
     })
 
-    passport.deserializeUser(function(id, done) {
-      // TODO get the user by id
-      done(null, { userId: id })
+    passport.deserializeUser(async function(id, done) {
+      const user = await findUserById({ id })
+      done(null, user)
     })
 
     //
@@ -53,8 +53,8 @@ export default function({ login }) {
         },
         function(username, password, done) {
           login({ email: username, password })
-            .then(userId => {
-              return done(null, userId)
+            .then(user => {
+              return done(null, user)
             })
             .catch(err => {
               return done(err)

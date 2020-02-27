@@ -1,11 +1,14 @@
 import buildMakeCredentials from './credentials'
+import buildMakeUser from './user'
 import hashFn from '../helpers/hashPassword'
 
 const makeCredentials = buildMakeCredentials({ hashFn })
+const makeUser = buildMakeUser()
 
 const entities = Object.freeze({
-  makeCredentials
+  makeCredentials,
+  makeUser
 })
 
 export default entities
-export { makeCredentials }
+export { makeCredentials, makeUser }

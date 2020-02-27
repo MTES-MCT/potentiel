@@ -3,6 +3,7 @@ declare namespace ENR {
     body: string
     query: any
     params: any
+    user: User
   }
 
   export type HttpResponse = {
@@ -16,5 +17,18 @@ declare namespace ENR {
     readonly email: string
     readonly hash: string
     readonly userId: string
+  }
+
+  export const enum UserRole {
+    Admin,
+    DGEC,
+    PorteurProjet
+  }
+
+  export type User = {
+    readonly firstName: string
+    readonly lastName: string
+    readonly role: ENR.UserRole
+    readonly id?: number
   }
 }

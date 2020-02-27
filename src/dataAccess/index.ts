@@ -4,13 +4,14 @@ import * as path from 'path'
 import loadModels from './models'
 
 import makeCredentialsAccess from './credentials'
+import makeUserAccess from './user'
 
 const sequelize = new Sequelize({
   dialect: 'sqlite',
   storage: path.resolve(__dirname, '../../.db/db.sqlite')
 })
 
-const { credentialsDb } = loadModels({ sequelize })
+const { credentialsDb, userDb } = loadModels({ sequelize })
 
 const isDbReady = sequelize
   .authenticate()
@@ -33,9 +34,12 @@ const credentialsAccess = makeCredentialsAccess({
   credentialsDb
 })
 
+const userAccess = makeUserAccess({ isDbReady, userDb })
+
 const dataAccess = Object.freeze({
-  credentialsAccess
+  credentialsAccess,
+  userAccess
 })
 
 export default dataAccess
-export { credentialsAccess }
+export { credentialsAccess, userAccess }

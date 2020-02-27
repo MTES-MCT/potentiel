@@ -3,7 +3,6 @@ import * as session from 'express-session'
 import * as bodyParser from 'body-parser'
 
 import makeExpressCallback from './helpers/makeExpressCallback'
-import makeAuthentication from './helpers/makeAuthentication'
 import {
   getAdminLoginPage,
   getAdminDashboardPage,
