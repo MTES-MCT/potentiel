@@ -1,3 +1,5 @@
+import { User } from '../entities'
+
 export default function makeLogin({ credentialsAccess, userAccess, hashFn }) {
   return async function login({
     email,
@@ -5,7 +7,7 @@ export default function makeLogin({ credentialsAccess, userAccess, hashFn }) {
   }: {
     email: string
     password: string
-  }): Promise<ENR.User> {
+  }): Promise<User> {
     const credentials = await credentialsAccess.findByEmail({ email })
 
     // Email not found

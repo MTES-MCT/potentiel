@@ -1,3 +1,9 @@
+export type Credentials = {
+  readonly email: string
+  readonly hash: string
+  readonly userId: string
+}
+
 export default function buildMakeCredentials({ hashFn }) {
   return function makeCredentials({
     email,
@@ -9,7 +15,7 @@ export default function buildMakeCredentials({ hashFn }) {
     password?: string
     hash?: string
     userId: string
-  }): ENR.Credentials {
+  }): Credentials {
     if (!email) {
       throw new Error('Credentials must have an email.')
     }

@@ -12,3 +12,5 @@ const entities = Object.freeze({
 
 export default entities
 export { makeCredentials, makeUser }
+export * from './user'
+export * from './credentials'

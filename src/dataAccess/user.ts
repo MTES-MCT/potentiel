@@ -1,4 +1,4 @@
-import { makeUser } from '../entities'
+import { makeUser, User } from '../entities'
 
 export default function makeUserAccess({
   isDbReady,
@@ -12,7 +12,7 @@ export default function makeUserAccess({
     insert
   })
 
-  async function findById({ id: _id }): Promise<ENR.User> {
+  async function findById({ id: _id }): Promise<User> {
     await isDbReady
 
     const user = await userDb.findOne({
@@ -22,7 +22,7 @@ export default function makeUserAccess({
     return user ? makeUser(user) : null
   }
 
-  async function insert(user: ENR.User) {
+  async function insert(user: User) {
     await isDbReady
 
     return await userDb.create(user)
