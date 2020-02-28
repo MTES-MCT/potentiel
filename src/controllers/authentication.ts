@@ -3,7 +3,9 @@ import { Strategy } from 'passport-local'
 import { ensureLoggedIn } from 'connect-ensure-login'
 import { Application } from 'express'
 
-export default function({ login, findUserById }) {
+import { login } from '../useCases'
+
+export default function({ findUserById }) {
   let isAuthRegistered = false
   let _loginRoute
   let _successRoute

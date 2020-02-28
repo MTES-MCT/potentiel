@@ -1,5 +1,3 @@
-import { login } from '../useCases'
-
 import makeGetAdminLoginPage from './getAdminLoginPage'
 import makeGetAdminDashboardPage from './getAdminDashboardPage'
 import makeAuthentication from './authentication'
@@ -9,7 +7,6 @@ import { userAccess } from '../dataAccess'
 const getAdminLoginPage = makeGetAdminLoginPage()
 const getAdminDashboardPage = makeGetAdminDashboardPage()
 const { registerAuth, postLogin, ensureLoggedIn } = makeAuthentication({
-  login,
   findUserById: userAccess.findById
 })
 
