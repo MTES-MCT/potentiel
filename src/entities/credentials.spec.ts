@@ -9,6 +9,6 @@ describe('Credentials entity', () => {
     })
 
     expect(credentials.hash).toBeDefined()
-    expect(credentials.hash).toContainEqual('password')
+    expect(credentials.hash).not.toContainEqual('password')
   })
 })

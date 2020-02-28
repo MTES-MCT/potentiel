@@ -41,7 +41,8 @@ export default function makeUserRepo({ sequelize }): UserRepo {
   async function insert(user: User) {
     await _isDbReady
 
-    await userModel.create(user)
+    const { id } = await userModel.create(user)
+    return id.toString()
   }
 }
 

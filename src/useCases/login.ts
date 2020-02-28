@@ -29,6 +29,7 @@ export default function makeLogin({
     const user = await userRepo.findById({ id: credentials.userId })
 
     if (!user) {
+      console.log('userId is ', credentials.userId)
       throw new Error('Cannot find user corresponding to credentials userId')
     }
 

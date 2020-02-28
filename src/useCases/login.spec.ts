@@ -2,42 +2,29 @@ import makeLogin from './login'
 
 import hashFn from '../helpers/hashPassword'
 
-import { sequelize, checkIsDbReady } from '../../__tests__/inMemoryDb'
+import { makeCredentials, makeUser } from '../entities'
 
-import buildMakeCredentials from '../entities/credentials'
-const makeCredentials = buildMakeCredentials({ hashFn })
+import { credentialsRepo, userRepo } from '../dataAccess/inMemory'
 
-import makeCredentialsAccess from '../dataAccess/credentials'
-import loadModels from '../dataAccess/models'
-import makeUserAccess from '../dataAccess/user'
-
-const { credentialsDb, userDb } = loadModels({ sequelize })
-const isDbReady = checkIsDbReady()
-
-const credentialsAccess = makeCredentialsAccess({
-  isDbReady,
-  credentialsDb
-})
-const userAccess = makeUserAccess({ isDbReady, userDb })
-const login = makeLogin({ credentialsAccess, hashFn, userAccess })
+const login = makeLogin({ credentialsRepo, hashFn, userRepo })
 
 const phonyCredentials = {
   email: 'fake@example.fake',
   password: 'password'
 }
 
-const phonyUser = {
+const phonyUser = makeUser({
   firstName: 'Patrice',
   lastName: 'Leconte',
-  role: 1
-}
+  role: 'admin'
+})
 
 describe('login use-case', () => {
   beforeAll(async () => {
     // Insert a phony user
-    const user = await userAccess.insert(phonyUser)
-    await credentialsAccess.insert(
-      makeCredentials({ ...phonyCredentials, userId: user.id })
+    const userId = await userRepo.insert(phonyUser)
+    await credentialsRepo.insert(
+      makeCredentials({ ...phonyCredentials, userId })
     )
   })
 
