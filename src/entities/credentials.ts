@@ -4,26 +4,33 @@ export type Credentials = {
   readonly userId: string
 }
 
-export default function buildMakeCredentials({ hashFn }) {
+interface BuildMakeCredentialsProps {
+  hashFn: (password: string) => string
+}
+
+type EmailAndUserId = {
+  email: string
+  userId: string
+}
+
+// Either a password or a hash (not both)
+type MakeCredentialsProps = EmailAndUserId &
+  (
+    | { password: string; hash?: undefined }
+    | { hash: string; password?: undefined }
+  )
+
+export default function buildMakeCredentials({
+  hashFn
+}: BuildMakeCredentialsProps) {
   return function makeCredentials({
     email,
     password,
     hash,
     userId
-  }: {
-    email: string
-    password?: string
-    hash?: string
-    userId: string
-  }): Credentials {
-    if (!email) {
-      throw new Error('Credentials must have an email.')
-    }
+  }: MakeCredentialsProps): Credentials {
     if (!password && !hash) {
       throw new Error('Credentials must have a password or hash.')
-    }
-    if (!userId) {
-      throw new Error('Credentials must have a userId.')
     }
 
     return {

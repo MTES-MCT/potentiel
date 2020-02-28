@@ -11,7 +11,7 @@ export default function makeUserModel({ sequelize }) {
       allowNull: false
     },
     role: {
-      type: DataTypes.SMALLINT,
+      type: DataTypes.STRING,
       allowNull: false
     }
   })

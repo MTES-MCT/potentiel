@@ -1,13 +1,13 @@
 import makeLogin from './login'
 
-import { credentialsAccess, userAccess } from '../dataAccess'
+import { credentialsRepo, userRepo } from '../dataAccess'
 
 import hashPassword from '../helpers/hashPassword'
 
 const login = makeLogin({
   hashFn: hashPassword,
-  credentialsAccess,
-  userAccess
+  credentialsRepo,
+  userRepo
 })
 
 const useCases = Object.freeze({

@@ -1,8 +1,4 @@
-export const enum UserRole {
-  Admin,
-  DGEC,
-  PorteurProjet
-}
+export type UserRole = 'admin' | 'dgec' | 'porteur-projet'
 
 export type User = {
   readonly firstName: string
@@ -11,7 +7,7 @@ export type User = {
   readonly id?: number
 }
 
-interface UserProps {
+interface MakeUserProps {
   firstName: string
   lastName: string
   role: UserRole
@@ -19,7 +15,12 @@ interface UserProps {
 }
 
 export default function buildMakeUser() {
-  return function makeUser({ firstName, lastName, role, id }: UserProps): User {
+  return function makeUser({
+    firstName,
+    lastName,
+    role,
+    id
+  }: MakeUserProps): User {
     if (!firstName) {
       throw new Error('User must have a first name.')
     }

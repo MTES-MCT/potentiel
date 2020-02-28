@@ -1,12 +1,19 @@
 import { makeCredentials, Credentials } from '../entities'
 
-export default function makeCredentialsAccess({
-  isDbReady,
-  credentialsDb
-}: {
+export type CredentialsRepo = {
+  findByEmail: ({ email: string }) => Promise<Credentials>
+  insert: (credentials: Credentials) => Promise<void>
+}
+
+interface MakeCredentialsRepoProps {
   isDbReady: Promise<void>
   credentialsDb: any
-}) {
+}
+
+export default function makeCredentialsRepo({
+  isDbReady,
+  credentialsDb
+}: MakeCredentialsRepoProps): CredentialsRepo {
   return Object.freeze({
     findByEmail,
     insert
@@ -25,6 +32,6 @@ export default function makeCredentialsAccess({
   async function insert(credentials: Credentials) {
     await isDbReady
 
-    return await credentialsDb.create(credentials)
+    await credentialsDb.create(credentials)
   }
 }

@@ -3,8 +3,8 @@ import * as path from 'path'
 
 import loadModels from './models'
 
-import makeCredentialsAccess from './credentials'
-import makeUserAccess from './user'
+import makeCredentialsRepo from './credentials'
+import makeUserRepo from './user'
 
 const sequelize = new Sequelize({
   dialect: 'sqlite',
@@ -29,17 +29,20 @@ const isDbReady = sequelize
     console.error('Unable to sync database models')
   })
 
-const credentialsAccess = makeCredentialsAccess({
+const credentialsRepo = makeCredentialsRepo({
   isDbReady,
   credentialsDb
 })
 
-const userAccess = makeUserAccess({ isDbReady, userDb })
+const userRepo = makeUserRepo({ isDbReady, userDb })
 
 const dataAccess = Object.freeze({
-  credentialsAccess,
-  userAccess
+  credentialsRepo,
+  userRepo
 })
 
 export default dataAccess
-export { credentialsAccess, userAccess }
+export { credentialsRepo, userRepo }
+
+export * from './user'
+export * from './credentials'

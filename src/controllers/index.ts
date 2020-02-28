@@ -2,12 +2,12 @@ import makeGetAdminLoginPage from './getAdminLoginPage'
 import makeGetAdminDashboardPage from './getAdminDashboardPage'
 import makeAuthentication from './authentication'
 
-import { userAccess } from '../dataAccess'
+import { userRepo } from '../dataAccess'
 
 const getAdminLoginPage = makeGetAdminLoginPage()
 const getAdminDashboardPage = makeGetAdminDashboardPage()
 const { registerAuth, postLogin, ensureLoggedIn } = makeAuthentication({
-  findUserById: userAccess.findById
+  userRepo
 })
 
 const controller = Object.freeze({

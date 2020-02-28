@@ -1,12 +1,19 @@
 import { makeUser, User } from '../entities'
 
-export default function makeUserAccess({
-  isDbReady,
-  userDb
-}: {
+export type UserRepo = {
+  findById: ({ id: string }) => Promise<User>
+  insert: (user: User) => Promise<void>
+}
+
+interface MakeUserRepoProps {
   isDbReady: Promise<void>
   userDb: any
-}) {
+}
+
+export default function makeUserRepo({
+  isDbReady,
+  userDb
+}: MakeUserRepoProps): UserRepo {
   return Object.freeze({
     findById,
     insert
@@ -25,6 +32,6 @@ export default function makeUserAccess({
   async function insert(user: User) {
     await isDbReady
 
-    return await userDb.create(user)
+    await userDb.create(user)
   }
 }

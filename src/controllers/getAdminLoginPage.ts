@@ -1,8 +1,9 @@
 import { AdminLoginPage } from '../views/pages'
-import logger from '../helpers/logger'
 
-export default function makeGetAdminLoginPage(): ENR.Controller {
-  return async (request: ENR.HttpRequest) => {
+import { Controller, HttpRequest } from '../types'
+
+export default function makeGetAdminLoginPage(): Controller {
+  return async (request: HttpRequest) => {
     return {
       statusCode: 200,
       body: AdminLoginPage({ hasError: request.query.error === '1' })

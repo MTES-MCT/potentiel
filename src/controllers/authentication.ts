@@ -3,12 +3,26 @@ import { Strategy } from 'passport-local'
 import { ensureLoggedIn } from 'connect-ensure-login'
 import { Application } from 'express'
 
+import { User } from '../entities'
 import { login } from '../useCases'
+import { UserRepo } from '../dataAccess'
 
-export default function({ findUserById }) {
+interface MakeAuthenticationProps {
+  userRepo: UserRepo
+}
+
+interface RegisterAuthProps {
+  app: Application
+  loginRoute: string
+  successRoute: string
+}
+
+export default function makeAuthentication({
+  userRepo
+}: MakeAuthenticationProps) {
   let isAuthRegistered = false
-  let _loginRoute
-  let _successRoute
+  let _loginRoute: RegisterAuthProps['loginRoute']
+  let _successRoute: RegisterAuthProps['successRoute']
 
   // Method to be called first
   // Sets up passport middleware in the express app
@@ -16,11 +30,7 @@ export default function({ findUserById }) {
     app,
     loginRoute,
     successRoute
-  }: {
-    app: Application
-    loginRoute: string
-    successRoute: string
-  }) => {
+  }: RegisterAuthProps) => {
     if (isAuthRegistered) {
       throw new Error('Authentication can only be registered once')
     }
@@ -32,12 +42,12 @@ export default function({ findUserById }) {
     //
     // Configure Passport authenticated session persistence
     //
-    passport.serializeUser(function(user: { id: number }, done) {
+    passport.serializeUser(function(user: User, done) {
       done(null, user.id)
     })
 
     passport.deserializeUser(async function(id, done) {
-      const user = await findUserById({ id })
+      const user = await userRepo.findById({ id })
       done(null, user)
     })
 
@@ -53,7 +63,7 @@ export default function({ findUserById }) {
           usernameField: 'email',
           passwordField: 'password'
         },
-        function(username, password, done) {
+        function(username: string, password: string, done) {
           login({ email: username, password })
             .then(user => {
               return done(null, user)

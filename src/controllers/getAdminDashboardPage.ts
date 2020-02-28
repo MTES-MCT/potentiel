@@ -1,7 +1,9 @@
 import { AdminDashboardPage } from '../views/pages'
 
-export default function makeGetAdminDashboardPage(): ENR.Controller {
-  return async (request: ENR.HttpRequest) => {
+import { Controller, HttpRequest } from '../types'
+
+export default function makeGetAdminDashboardPage(): Controller {
+  return async (request: HttpRequest) => {
     return {
       statusCode: 200,
       body: AdminDashboardPage({
