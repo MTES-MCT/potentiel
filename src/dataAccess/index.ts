@@ -10,3 +10,4 @@ export { credentialsRepo, userRepo }
 
 export * from './user'
 export * from './credentials'
+export * from './project'

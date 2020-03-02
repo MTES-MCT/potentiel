@@ -1,6 +1,8 @@
 import { CredentialsRepo } from '../credentials'
 import { Credentials, User } from '../../entities'
 import { UserRepo } from '../user'
+import { Project } from '../../entities'
+import { ProjectRepo } from '../project'
 
 const credentialsByEmail: Record<string, Credentials> = {}
 
@@ -31,4 +33,15 @@ const userRepo: UserRepo = {
   }
 }
 
-export { credentialsRepo, userRepo }
+const projects: Array<Project> = []
+const projectRepo: ProjectRepo = {
+  findAll: () => {
+    return Promise.resolve(projects)
+  },
+  insertMany: (_projects: Array<Project>) => {
+    _projects.forEach(project => projects.push(project))
+    return Promise.resolve()
+  }
+}
+
+export { credentialsRepo, userRepo, projectRepo }
