@@ -29,10 +29,7 @@ export default function buildMakeCredentials({
     hash,
     userId
   }: MakeCredentialsProps): Credentials {
-    if (!password && !hash) {
-      throw new Error('Credentials must have a password or hash.')
-    }
-
+    // MakeCredentialsProps definition prevents omission of required fields
     return {
       email,
       hash: hash || hashFn(password),

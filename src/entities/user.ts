@@ -21,16 +21,7 @@ export default function buildMakeUser() {
     role,
     id
   }: MakeUserProps): User {
-    if (!firstName) {
-      throw new Error('User must have a first name.')
-    }
-    if (!lastName) {
-      throw new Error('User must have a last name.')
-    }
-    if (!role) {
-      throw new Error('User must have a role.')
-    }
-
+    // MakeUserProps definition prevents omitting required fields
     return {
       firstName,
       lastName,
