@@ -1,12 +1,24 @@
 import * as React from 'react'
 
+import UploadProjects from '../components/uploadProjects'
+
+interface AdminDashboardProps {
+  adminName: string
+  error?: string
+  success?: string
+}
+
 /* Pure component */
-export default function LoginPage({ adminName }: { adminName: string }) {
+export default function LoginPage({
+  adminName,
+  error,
+  success
+}: AdminDashboardProps) {
   return (
     <main role="main">
       <section className="section section-grey">
         <div className="container">
-          <div className="notification success">Bienvenue {adminName} !</div>
+          <UploadProjects error={error} success={success} />
         </div>
       </section>
     </main>

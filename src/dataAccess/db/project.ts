@@ -11,11 +11,11 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
       type: DataTypes.STRING,
       allowNull: false
     },
-    status: {
+    numeroCRE: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    nom: {
+    famille: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -23,7 +23,7 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
       type: DataTypes.STRING,
       allowNull: false
     },
-    localisation: {
+    nomProjet: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -31,9 +31,53 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
       type: DataTypes.NUMBER,
       allowNull: false
     },
-    prixUnitaire: {
+    prixReference: {
       type: DataTypes.NUMBER,
       allowNull: false
+    },
+    evaluationCarbone: {
+      type: DataTypes.NUMBER,
+      allowNull: false
+    },
+    note: {
+      type: DataTypes.NUMBER,
+      allowNull: false
+    },
+    nomRepresentantLegal: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    adresseProjet: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    codePostalProjet: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    communeProjet: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    departementProjet: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    regionProjet: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    classe: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    motifsElimination: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   })
 
@@ -53,7 +97,7 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
   async function insertMany(projects: Array<Project>) {
     await _isDbReady
 
-    await Promise.all(projects.map(ProjectModel.create))
+    await Promise.all(projects.map(project => ProjectModel.create(project)))
   }
 }
 

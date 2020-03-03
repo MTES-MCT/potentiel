@@ -1,6 +1,7 @@
 import { Project, makeProject } from '../entities'
 import { ProjectRepo } from '../dataAccess'
 import { cpus } from 'os'
+import * as _ from 'lodash'
 
 interface MakeUseCaseProps {
   projectRepo: ProjectRepo
@@ -13,13 +14,23 @@ interface CallUseCaseProps {
 }
 
 export const MANDATORY_HEADER_COLUMNS: Array<string> = [
-  'periode',
-  'status',
-  'nom',
+  'numeroCRE',
+  'famille',
   'nomCandidat',
-  'localisation',
-  'puissance',
-  'prixUnitaire'
+  'nomProjet',
+  'puissance(kWc)',
+  'prixReference(euros/MWh)',
+  'evaluationCarbone(kg eq CO2/kWc)',
+  'note',
+  'nomRepresentantLegal',
+  'email',
+  'adresseProjet',
+  'codePostalProjet',
+  'communeProjet',
+  'departementProjet',
+  'regionProjet',
+  'classé(1/0)',
+  'motifsElimination'
 ]
 
 export const ERREUR_PERIODE = 'Periode manquante'
@@ -27,6 +38,10 @@ export const ERREUR_COLONNES =
   'Format du fichier erroné (vérifier conformité des colonnes)'
 export const ERREUR_AUCUNE_LIGNE = 'Le fichier semble vide (aucune ligne)'
 export const ERREUR_FORMAT_LIGNE = 'Le fichier comporte des lignes erronées'
+
+const toNumber = str => {
+  return Number(str.replace(/,/g, '.'))
+}
 
 export default function makeImportProjects({ projectRepo }: MakeUseCaseProps) {
   return async function importProjects({
@@ -40,7 +55,11 @@ export default function makeImportProjects({ projectRepo }: MakeUseCaseProps) {
     }
 
     // Check header (format of file)
-    if (!headers || headers != MANDATORY_HEADER_COLUMNS) {
+    if (
+      !headers ||
+      !_.isEqual(_.sortBy(headers), _.sortBy(MANDATORY_HEADER_COLUMNS))
+    ) {
+      console.log('headers', headers)
       throw {
         error: ERREUR_COLONNES
       }
@@ -64,25 +83,47 @@ export default function makeImportProjects({ projectRepo }: MakeUseCaseProps) {
         projects.push(
           makeProject({
             periode,
-            status: line.status,
-            nom: line.nom,
-            nomCandidat: line.nomCandidat,
-            localisation: line.localisation,
-            puissance: line.puissance,
-            prixUnitaire: line.prixUnitaire
+            numeroCRE: line['numeroCRE'],
+            famille: line['famille'],
+            nomCandidat: line['nomCandidat'],
+            nomProjet: line['nomProjet'],
+            puissance: toNumber(line['puissance(kWc)']),
+            prixReference: toNumber(line['prixReference(euros/MWh)']),
+            evaluationCarbone: toNumber(
+              line['evaluationCarbone(kg eq CO2/kWc)']
+            ),
+            note: toNumber(line['note']),
+            nomRepresentantLegal: line['nomRepresentantLegal'],
+            email: line['email'],
+            adresseProjet: line['adresseProjet'],
+            codePostalProjet: line['codePostalProjet'],
+            communeProjet: line['communeProjet'],
+            departementProjet: line['departementProjet'],
+            regionProjet: line['regionProjet'],
+            classe: line['classé(1/0)'],
+            motifsElimination: line['motifsElimination']
           })
         )
       } catch (e) {
+        console.log('Erreur de validation', e)
         erroredLines.push({
           line: line,
-          error: e
+          error: e.path
         })
       }
     })
 
     if (erroredLines.length) {
+      let errorLong = ERREUR_FORMAT_LIGNE + ' ('
+      erroredLines.forEach((line, index) => {
+        errorLong += 'Ligne ' + (index + 1) + ' champ ' + line.error
+        if (index < erroredLines.length - 1) errorLong += ', '
+      })
+      errorLong += ')'
+      console.log('erreur lignes', errorLong)
       throw {
         error: ERREUR_FORMAT_LIGNE,
+        errorLong,
         lines: erroredLines
       }
     }

@@ -3,6 +3,7 @@ import * as path from 'path'
 
 import { makeCredentialsRepo } from './credentials'
 import { makeUserRepo } from './user'
+import { makeProjectRepo } from './project'
 
 const sequelize = new Sequelize({
   dialect: 'sqlite',
@@ -15,6 +16,8 @@ const credentialsRepo = makeCredentialsRepo({
 })
 
 const userRepo = makeUserRepo({ sequelize })
+
+const projectRepo = makeProjectRepo({ sequelize })
 
 // Sync the database models
 sequelize
@@ -35,8 +38,9 @@ sequelize
 
 const dbAccess = Object.freeze({
   userRepo,
-  credentialsRepo
+  credentialsRepo,
+  projectRepo
 })
 
 export default dbAccess
-export { userRepo, credentialsRepo }
+export { userRepo, credentialsRepo, projectRepo }

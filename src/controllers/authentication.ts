@@ -66,6 +66,7 @@ export default function makeAuthentication({
         function(username: string, password: string, done) {
           login({ email: username, password })
             .then(user => {
+              console.log('login has returned, setting currentUser to ', user)
               return done(null, user)
             })
             .catch(err => {

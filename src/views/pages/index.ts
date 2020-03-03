@@ -3,6 +3,8 @@ import * as path from 'path'
 
 import * as ReactDOMServer from 'react-dom/server'
 
+import Header from '../components/header'
+
 import AdminLogin from './adminLogin'
 import AdminDashboard from './adminDashboard'
 
@@ -18,7 +20,8 @@ export { AdminLoginPage, AdminDashboardPage }
 function makePresenterPage(pageComponent) {
   return (props?: any) =>
     insertIntoHTMLTemplate(
-      ReactDOMServer.renderToStaticMarkup(pageComponent(props))
+      ReactDOMServer.renderToStaticMarkup(Header(props)) +
+        ReactDOMServer.renderToStaticMarkup(pageComponent(props))
     )
 }
 

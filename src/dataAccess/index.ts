@@ -1,12 +1,13 @@
-import { userRepo, credentialsRepo } from './db'
+import { userRepo, credentialsRepo, projectRepo } from './db'
 
 const dataAccess = Object.freeze({
   credentialsRepo,
-  userRepo
+  userRepo,
+  projectRepo
 })
 
 export default dataAccess
-export { credentialsRepo, userRepo }
+export { credentialsRepo, userRepo, projectRepo }
 
 export * from './user'
 export * from './credentials'

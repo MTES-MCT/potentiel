@@ -1,6 +1,7 @@
 import * as express from 'express'
 import * as session from 'express-session'
 import * as bodyParser from 'body-parser'
+import * as multer from 'multer'
 
 import makeExpressCallback from './helpers/makeExpressCallback'
 import {
@@ -8,14 +9,18 @@ import {
   getAdminDashboardPage,
   registerAuth,
   postLogin,
-  ensureLoggedIn
+  ensureLoggedIn,
+  postProjects
 } from './controllers'
 
 const app = express()
 const port: number = 3000
 
+const upload = multer({ dest: 'uploads/ ' })
+
 app.use(express.static('src/public'))
 app.use(session({ secret: 'cats' }))
+
 app.use(bodyParser.urlencoded({ extended: false }))
 
 const LOGIN_ROUTE = '/admin/login.html'
@@ -30,7 +35,7 @@ const router = express.Router()
 
 router.get(LOGIN_ROUTE, makeExpressCallback(getAdminLoginPage))
 
-router.post('/login', postLogin())
+router.post('/login', postLogin()) // No makeExpressCallback as this uses a middleware
 router.get('/logout', (req, res) => {
   req.logout()
   res.redirect('/')
@@ -40,6 +45,13 @@ router.get(
   '/admin/dashboard.html',
   ensureLoggedIn(),
   makeExpressCallback(getAdminDashboardPage)
+)
+
+router.post(
+  '/importProjects',
+  ensureLoggedIn(),
+  upload.single('candidats'),
+  makeExpressCallback(postProjects)
 )
 
 router.get('/admin/other.html', ensureLoggedIn(), function(req, res) {

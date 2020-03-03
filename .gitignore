@@ -108,3 +108,6 @@ dist
 
 # Persisted database
 .db
+
+# Uploaded files
+uploads/
