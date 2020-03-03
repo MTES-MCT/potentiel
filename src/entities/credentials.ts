@@ -15,25 +15,17 @@ type EmailAndUserId = {
 
 // Either a password or a hash (not both)
 type MakeCredentialsProps = EmailAndUserId &
-  (
-    | { hash?: undefined; password: string }
-    | { hash: string; password?: undefined }
-  )
+  ({ hash?: never; password: string } | { hash: string; password?: never })
 
 export default function buildMakeCredentials({
   hashFn
 }: BuildMakeCredentialsProps) {
-  return function makeCredentials({
-    email,
-    password,
-    hash,
-    userId
-  }: MakeCredentialsProps): Credentials {
+  return function makeCredentials(props: MakeCredentialsProps): Credentials {
     // MakeCredentialsProps definition prevents omission of required fields
     return {
-      email,
-      hash: hash || hashFn(password || ''),
-      userId
+      email: props.email,
+      hash: props.hash ?? hashFn(props.password),
+      userId: props.userId
     }
   }
 }
