@@ -1,5 +1,6 @@
 import makeLogin from './login'
 import makeImportProjects from './importProjects'
+import makeListProjects from './listProjects'
 
 import { credentialsRepo, userRepo, projectRepo } from '../dataAccess'
 
@@ -15,10 +16,13 @@ const importProjects = makeImportProjects({
   projectRepo
 })
 
+const listProjects = makeListProjects({ projectRepo })
+
 const useCases = Object.freeze({
   login,
-  importProjects
+  importProjects,
+  listProjects
 })
 
 export default useCases
-export { login, importProjects }
+export { login, importProjects, listProjects }
