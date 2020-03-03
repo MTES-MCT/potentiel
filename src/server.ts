@@ -23,7 +23,7 @@ app.use(session({ secret: 'cats' }))
 
 app.use(bodyParser.urlencoded({ extended: false }))
 
-const LOGIN_ROUTE = '/admin/login.html'
+const LOGIN_ROUTE = '/login.html'
 
 registerAuth({
   app,
