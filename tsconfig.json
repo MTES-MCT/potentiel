@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "jsx": "react",
-    "typeRoots": ["./src/types", "./node_modules/@types"]
+    "typeRoots": ["./src/types", "./node_modules/@types"],
+    "strictNullChecks": true
   },
   "include": ["src/**/*", "__tests__/**/*"],
   "exclude": ["node_modules", "features"]

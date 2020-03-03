@@ -17,7 +17,10 @@ export default function makeLogin({
   userRepo,
   hashFn
 }: MakeLoginProps) {
-  return async function login({ email, password }: LoginProps): Promise<User> {
+  return async function login({
+    email,
+    password
+  }: LoginProps): Promise<User | null> {
     const credentials = await credentialsRepo.findByEmail({ email })
 
     // Email not found

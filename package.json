@@ -31,7 +31,8 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "sequelize": "^5.21.5",
-    "sqlite3": "^4.1.1"
+    "sqlite3": "^4.1.1",
+    "yup": "^0.28.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.1.1",
@@ -44,6 +45,7 @@
     "@types/react": "^16.9.21",
     "@types/react-dom": "^16.9.5",
     "@types/sequelize": "^4.28.8",
+    "@types/yup": "^0.26.32",
     "chai": "^4.2.0",
     "cucumber": "^6.0.5",
     "jest": "^25.1.0",

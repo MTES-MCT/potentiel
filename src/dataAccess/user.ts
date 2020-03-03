@@ -1,6 +1,6 @@
 import { User } from '../entities'
 
 export type UserRepo = {
-  findById: ({ id: string }) => Promise<User>
+  findById: ({ id: string }) => Promise<User> | Promise<null>
   insert: (user: User) => Promise<string>
 }

@@ -16,7 +16,7 @@ type EmailAndUserId = {
 // Either a password or a hash (not both)
 type MakeCredentialsProps = EmailAndUserId &
   (
-    | { password: string; hash?: undefined }
+    | { hash?: undefined; password: string }
     | { hash: string; password?: undefined }
   )
 
@@ -32,7 +32,7 @@ export default function buildMakeCredentials({
     // MakeCredentialsProps definition prevents omission of required fields
     return {
       email,
-      hash: hash || hashFn(password),
+      hash: hash || hashFn(password || ''),
       userId
     }
   }
