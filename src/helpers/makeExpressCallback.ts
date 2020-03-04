@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 
-import * as querystring from 'querystring'
+import querystring from 'querystring'
 
 import { User } from '../entities'
 

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 
 import { Project } from '../../entities'
 import UploadProjects from '../components/uploadProjects'

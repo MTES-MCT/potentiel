@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize'
-import * as path from 'path'
+import path from 'path'
 
 import { makeCredentialsRepo } from './credentials'
 import { makeUserRepo } from './user'

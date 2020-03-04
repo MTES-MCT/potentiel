@@ -1,7 +1,7 @@
-import * as fs from 'fs'
-import * as path from 'path'
+import fs from 'fs'
+import path from 'path'
 
-import * as ReactDOMServer from 'react-dom/server'
+import ReactDOMServer from 'react-dom/server'
 
 import Header from '../components/header'
 

@@ -1,4 +1,4 @@
-const passport = require('passport')
+import passport from 'passport'
 import { Strategy } from 'passport-local'
 import { ensureLoggedIn } from 'connect-ensure-login'
 import { Application } from 'express'
