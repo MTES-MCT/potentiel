@@ -28,7 +28,7 @@ export default function makeCredentialsRepo({ sequelize }): CredentialsRepo {
     insert
   })
 
-  async function findByEmail({ email: _email }): Promise<Credentials> {
+  async function findByEmail({ email: _email }): Promise<Credentials | null> {
     await _isDbReady
 
     const credentials = await credentialsModel.findOne({

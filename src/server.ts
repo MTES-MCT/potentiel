@@ -1,7 +1,7 @@
-import * as express from 'express'
-import * as session from 'express-session'
+const express = require('express')
+const multer = require('multer')
+const session = require('express-session')
 import * as bodyParser from 'body-parser'
-import * as multer from 'multer'
 
 import makeExpressCallback from './helpers/makeExpressCallback'
 import {

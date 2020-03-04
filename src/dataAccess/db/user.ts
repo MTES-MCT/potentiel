@@ -28,7 +28,7 @@ export default function makeUserRepo({ sequelize }): UserRepo {
     insert
   })
 
-  async function findById({ id: _id }): Promise<User> {
+  async function findById({ id: _id }): Promise<User | null> {
     await _isDbReady
 
     const user = await userModel.findOne({

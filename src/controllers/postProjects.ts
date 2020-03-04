@@ -5,7 +5,7 @@ import { Controller, HttpRequest } from '../types'
 
 import * as fs from 'fs'
 import * as util from 'util'
-import * as csvParse from 'csv-parse'
+const csvParse = require('csv-parse')
 
 const readFile = util.promisify(fs.readFile)
 const deleteFile = util.promisify(fs.unlink)

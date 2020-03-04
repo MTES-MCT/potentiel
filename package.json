@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/MTES-MCT/enr#readme",
   "dependencies": {
+    "@types/express-session": "^1.17.0",
     "body-parser": "^1.19.0",
     "bunyan": "^1.8.12",
     "connect-ensure-login": "^0.1.1",

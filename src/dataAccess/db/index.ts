@@ -7,7 +7,7 @@ import { makeProjectRepo } from './project'
 
 const sequelize = new Sequelize({
   dialect: 'sqlite',
-  storage: path.resolve(__dirname, '../../../.db/db.sqlite')
+  storage: path.resolve(process.cwd(), '.db/db.sqlite')
 })
 
 // Create repo implementations
