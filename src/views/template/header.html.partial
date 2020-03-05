@@ -8,6 +8,7 @@
     <title>Suivi des Projets d'Energies Renouvelables</title>
 
     <link href="/main.min.css" rel="stylesheet" />
+    <link href="/css/potentiel.css" rel="stylesheet" />
     <script type="text/javascript">
       if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
         document.write(
