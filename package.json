@@ -8,7 +8,8 @@
     "test-coverage": "jest --detectOpenHandles --coverage --verbose",
     "watch": "./node_modules/ts-node-dev/bin/ts-node-dev src/server.ts",
     "build": "./node_modules/typescript/bin/tsc ; cp -R src/public dist/src ; cp -R src/views/template dist/src/views",
-    "storybook": "start-storybook"
+    "storybook": "start-storybook",
+    "storybook-build": "build-storybook -c .storybook -o docs"
   },
   "repository": {
     "type": "git",
