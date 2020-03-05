@@ -2,8 +2,6 @@ import React from 'react'
 
 import AdminDashboard from './adminDashboard'
 
-import '../../public/main.css'
-
 export default { title: 'Button' }
 
 export const empty = () => <AdminDashboard adminName="Roger Rabbit" />
