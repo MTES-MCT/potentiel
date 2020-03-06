@@ -1,9 +1,10 @@
 import React from 'react'
 
-import { Project } from '../../entities'
+import { Project, CandidateNotification } from '../../entities'
 import ROUTES from '../../routes'
 
 const ProjectList = ({ projects }: { projects?: Array<Project> }) => {
+  console.log('ProjectList received', projects)
   return (
     <div>
       <h3>Projets</h3>
@@ -41,7 +42,7 @@ const ProjectList = ({ projects }: { projects?: Array<Project> }) => {
             </thead>
             <tbody>
               {projects.map(project => (
-                <tr>
+                <tr key={'project_' + project.id}>
                   <td valign="top">
                     <div>{project.periode}</div>
                     <div
@@ -138,27 +139,37 @@ const ProjectList = ({ projects }: { projects?: Array<Project> }) => {
                     )}
                   </td>
                   <td style={{ position: 'relative' }}>
-                    <img
-                      src="/images/icons/external/more.svg"
-                      height="12"
-                      width="12"
-                      style={{ cursor: 'pointer' }}
-                      tabIndex={0}
-                      className="project-list--action-trigger"
-                    />
-                    <ul className="project-list--action-menu">
-                      <li>
-                        <a
-                          href={
-                            ROUTES.NOTIFICATION_EMAIL +
-                            '?projectId=' +
-                            project.id
-                          }
-                        >
-                          Voir notification
-                        </a>
-                      </li>
-                    </ul>
+                    {project.candidateNotifications?.length ? (
+                      <>
+                        <img
+                          src="/images/icons/external/more.svg"
+                          height="12"
+                          width="12"
+                          style={{ cursor: 'pointer' }}
+                          tabIndex={0}
+                          className="project-list--action-trigger"
+                        />
+                        <ul className="project-list--action-menu">
+                          {project.candidateNotifications.map(
+                            (notif: CandidateNotification) => (
+                              <li key={'notif_' + project.id + '_' + notif.id}>
+                                <a
+                                  href={
+                                    ROUTES.NOTIFICATION_EMAIL +
+                                    '?notificationId=' +
+                                    notif.id
+                                  }
+                                >
+                                  Voir mail {notif.template}
+                                </a>
+                              </li>
+                            )
+                          )}
+                        </ul>
+                      </>
+                    ) : (
+                      ''
+                    )}
                   </td>
                 </tr>
               ))}

@@ -23,28 +23,16 @@ export default function makeSendCandidateNotifications({
 
     // TODO: send error if there are no unnotified projects
 
-    console.log('unNotifiedProjects', unNotifiedProjects)
-
-    // Create a new CandidateNotification for each
-    const notifications: Array<CandidateNotification> = unNotifiedProjects
-      .map(project => ({
-        projectId: project.id,
-        template: project.classe === 'Classé' ? 'laureat' : 'elimination'
-      }))
-      .map(makeCandidateNotification)
-
-    console.log('notifications', notifications)
-
     try {
-      await candidateNotificationRepo.insertMany(notifications)
-
       // update unNotifed projects
       await Promise.all(
         unNotifiedProjects.map(project =>
-          projectRepo.update({
-            ...project,
-            hasBeenNotified: true
-          })
+          projectRepo.addNotification(
+            project,
+            makeCandidateNotification({
+              template: project.classe === 'Classé' ? 'laureat' : 'elimination'
+            })
+          )
         )
       )
     } catch (e) {

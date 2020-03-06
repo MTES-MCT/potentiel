@@ -96,12 +96,72 @@ const userRepo: UserRepo = {
   }
 }
 
-const projectRepo: ProjectRepo = makeClassicRepo<Project>({
-  hasBeenNotified: false
-})
-
 const candidateNotificationRepo: CandidateNotificationRepo = makeClassicRepo<
   CandidateNotification
 >()
+
+const projectsById: Record<string, Project> = {}
+let projectCount = 0
+const projectRepo: ProjectRepo = {
+  findById: ({ id }) => {
+    if (id in projectsById) {
+      return Promise.resolve(projectsById[id])
+    } else return Promise.resolve(null)
+  },
+  findAll: (query?) => {
+    const allItems = Object.values(projectsById)
+
+    if (!query) {
+      return Promise.resolve(allItems)
+    }
+
+    return Promise.resolve(
+      allItems.filter(project =>
+        Object.entries(query).every(([key, value]) => project[key] === value)
+      )
+    )
+  },
+  insertMany: (projects: Array<Project>) => {
+    projects.forEach(project => {
+      const projectId: string = (++projectCount).toString()
+      projectsById[projectId] = {
+        hasBeenNotified: false,
+        ...project,
+        id: projectId
+      }
+    })
+
+    return Promise.resolve()
+  },
+  update: (project: Project) => {
+    if (!project.id) {
+      throw new Error('Cannot update project that has no id')
+    }
+
+    if (!projectsById[project.id]) {
+      throw new Error('Cannot update project that was unknown')
+    }
+
+    projectsById[project.id] = project
+
+    return Promise.resolve()
+  },
+  addNotification: async (
+    project: Project,
+    notification: CandidateNotification
+  ) => {
+    const projectInstance = projectsById[project.id]
+
+    if (!projectInstance) {
+      throw new Error('Cannot find project to add notification to')
+    }
+
+    await candidateNotificationRepo.insertMany([
+      { ...notification, projectId: project.id }
+    ])
+
+    projectInstance.hasBeenNotified = true
+  }
+}
 
 export { credentialsRepo, userRepo, projectRepo, candidateNotificationRepo }

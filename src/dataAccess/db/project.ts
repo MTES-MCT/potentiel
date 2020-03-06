@@ -1,9 +1,9 @@
-import { DataTypes } from 'sequelize'
+import { DataTypes, Sequelize } from 'sequelize'
 
 import isDbReady from './helpers/isDbReady'
 
 import { ProjectRepo } from '../'
-import { makeProject, Project } from '../../entities'
+import { makeProject, Project, CandidateNotification } from '../../entities'
 
 export default function makeProjectRepo({ sequelize }): ProjectRepo {
   const ProjectModel = sequelize.define('project', {
@@ -92,7 +92,8 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
     findById,
     findAll,
     insertMany,
-    update
+    update,
+    addNotification
   })
 
   async function findById({ id }): Promise<Project | null> {
@@ -102,24 +103,21 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
     return projectInDb && makeProject(projectInDb)
   }
 
-  async function findAll(query?): Promise<Array<Project>> {
+  async function findAll(
+    query?,
+    includeNotifications?: boolean
+  ): Promise<Array<Project>> {
     await _isDbReady
 
-    return (
-      await ProjectModel.findAll(
-        query
-          ? {
-              where: query
-            }
-          : {}
-      )
-    ).map(makeProject)
-  }
+    const CandidateNotificationModel = sequelize.model('candidateNotification')
 
+    const opts: any = {}
+    if (query) opts.where = query
+    if (includeNotifications) opts.include = CandidateNotificationModel
+    return (await ProjectModel.findAll(opts)).map(makeProject)
+  }
   async function insertMany(projects: Array<Project>) {
     await _isDbReady
-
-    console.log('projectRepo.insertMany', projects)
 
     await Promise.all(projects.map(project => ProjectModel.create(project)))
   }
@@ -134,6 +132,27 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
     }
 
     await ProjectModel.update(project, { where: { id: project.id } })
+  }
+
+  async function addNotification(
+    project: Project,
+    notification: CandidateNotification
+  ) {
+    await _isDbReady
+
+    const projectInstance = await ProjectModel.findByPk(project.id)
+
+    if (!projectInstance) {
+      throw new Error('Cannot find project to add notification to')
+    }
+
+    const CandidateNotificationModel = sequelize.model('candidateNotification')
+    const candidateNotification = await CandidateNotificationModel.create(
+      notification
+    )
+
+    await projectInstance.addCandidateNotification(candidateNotification)
+    await projectInstance.update({ hasBeenNotified: true })
   }
 }
 

@@ -18,10 +18,6 @@ export default function makeCandidateNotificationRepo({
   sequelize
 }): CandidateNotificationRepo {
   const CandidateNotificationModel = sequelize.define('candidateNotification', {
-    projectId: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
     template: {
       type: DataTypes.STRING,
       allowNull: false

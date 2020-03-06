@@ -56,13 +56,15 @@ const projectSchema = yup.object({
     .min(2),
   classe: yup.mixed<'Eliminé' | 'Classé'>().oneOf(['Eliminé', 'Classé']),
   motifsElimination: yup.string(),
-  hasBeenNotified: yup.boolean().default(false)
+  hasBeenNotified: yup.boolean().default(false),
+  candidateNotifications: yup.array()
 })
 
 export type Project = yup.InferType<typeof projectSchema>
 
 export default function buildMakeProject() {
   return function makeProject(project: any): Project {
+    // console.log('makeProject received', project)
     try {
       return projectSchema.validateSync(project, { stripUnknown: true })
     } catch (e) {

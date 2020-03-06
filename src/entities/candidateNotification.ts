@@ -2,7 +2,7 @@ import * as yup from 'yup'
 
 const candidateNotificationSchema = yup.object({
   id: yup.string().notRequired(),
-  projectId: yup.string().required(),
+  projectId: yup.string().notRequired(),
   template: yup
     .mixed<'laureat' | 'elimination'>()
     .oneOf(['laureat', 'elimination']),

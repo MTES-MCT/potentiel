@@ -23,6 +23,12 @@ const projectRepo = makeProjectRepo({ sequelize })
 
 const candidateNotificationRepo = makeCandidateNotificationRepo({ sequelize })
 
+// Set the one-to-many relationship between project and candidateNotification
+const ProjectModel = sequelize.model('project')
+const CandidateNotificationModel = sequelize.model('candidateNotification')
+ProjectModel.hasMany(CandidateNotificationModel)
+CandidateNotificationModel.belongsTo(ProjectModel, { foreignKey: 'projectId' })
+
 // Sync the database models
 sequelize
   .authenticate()

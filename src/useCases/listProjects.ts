@@ -11,6 +11,6 @@ export default function makeImportProjects({ projectRepo }: MakeUseCaseProps) {
   return async function listProjects(
     props: CallUseCaseProps
   ): Promise<Array<Project>> {
-    return projectRepo.findAll()
+    return projectRepo.findAll(undefined, true)
   }
 }
