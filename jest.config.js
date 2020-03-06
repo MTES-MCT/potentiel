@@ -9,5 +9,6 @@ module.exports = {
     '^.+\\.(ts|tsx)$': 'ts-jest'
   },
   testMatch: ['**/*.spec.(ts|js)'],
+  testPathIgnorePatterns: ['/node_modules/', '/dist/'],
   testEnvironment: 'jsdom'
 }

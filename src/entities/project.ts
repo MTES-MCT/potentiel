@@ -1,6 +1,7 @@
 import * as yup from 'yup'
 
 const projectSchema = yup.object({
+  id: yup.string(),
   periode: yup.string().required(),
   numeroCRE: yup
     .string()
@@ -54,7 +55,8 @@ const projectSchema = yup.object({
     .required()
     .min(2),
   classe: yup.mixed<'Eliminé' | 'Classé'>().oneOf(['Eliminé', 'Classé']),
-  motifsElimination: yup.string()
+  motifsElimination: yup.string(),
+  hasBeenNotified: yup.boolean().default(false)
 })
 
 export type Project = yup.InferType<typeof projectSchema>
@@ -62,11 +64,9 @@ export type Project = yup.InferType<typeof projectSchema>
 export default function buildMakeProject() {
   return function makeProject(project: any): Project {
     try {
-      projectSchema.validateSync(project)
+      return projectSchema.validateSync(project, { stripUnknown: true })
     } catch (e) {
       throw e
     }
-
-    return project as Project
   }
 }

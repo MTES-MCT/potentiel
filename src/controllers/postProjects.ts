@@ -1,4 +1,3 @@
-import { getAdminDashboardPage } from './'
 import { importProjects } from '../useCases'
 import { ERREUR_FORMAT_LIGNE } from '../useCases/importProjects'
 import { Controller, HttpRequest } from '../types'
@@ -7,11 +6,9 @@ import fs from 'fs'
 import util from 'util'
 import csvParse from 'csv-parse'
 
-const readFile = util.promisify(fs.readFile)
 const deleteFile = util.promisify(fs.unlink)
 
 import ROUTES from '../routes'
-import { string } from 'yup'
 
 const parse = file =>
   new Promise<Array<Record<string, string>>>((resolve, reject) => {

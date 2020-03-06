@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { Project } from '../../entities'
+import ROUTES from '../../routes'
 
 const ProjectList = ({ projects }: { projects?: Array<Project> }) => {
   return (
@@ -11,7 +12,7 @@ const ProjectList = ({ projects }: { projects?: Array<Project> }) => {
         className="table__filter"
         placeholder="Filtrer les projets"
       />
-      <button
+      <a
         className="button-outline primary"
         style={{
           float: 'right',
@@ -19,9 +20,10 @@ const ProjectList = ({ projects }: { projects?: Array<Project> }) => {
           marginTop: '5px',
           marginRight: '15px'
         }}
+        href={ROUTES.SEND_NOTIFICATIONS_ACTION}
       >
         Envoyer les notifications aux candidats
-      </button>
+      </a>
       {projects && projects.length ? (
         <>
           <table className="table">
@@ -34,6 +36,7 @@ const ProjectList = ({ projects }: { projects?: Array<Project> }) => {
                 <th>Prix</th>
                 <th>Evaluation Carbone</th>
                 <th>Classé</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -133,6 +136,29 @@ const ProjectList = ({ projects }: { projects?: Array<Project> }) => {
                     ) : (
                       ''
                     )}
+                  </td>
+                  <td style={{ position: 'relative' }}>
+                    <img
+                      src="/images/icons/external/more.svg"
+                      height="12"
+                      width="12"
+                      style={{ cursor: 'pointer' }}
+                      tabIndex={0}
+                      className="project-list--action-trigger"
+                    />
+                    <ul className="project-list--action-menu">
+                      <li>
+                        <a
+                          href={
+                            ROUTES.NOTIFICATION_EMAIL +
+                            '?projectId=' +
+                            project.id
+                          }
+                        >
+                          Voir notification
+                        </a>
+                      </li>
+                    </ul>
                   </td>
                 </tr>
               ))}

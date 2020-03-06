@@ -1,8 +1,14 @@
 import makeLogin from './login'
 import makeImportProjects from './importProjects'
 import makeListProjects from './listProjects'
+import makeSendCandidateNotifications from './sendCandidateNotifications'
 
-import { credentialsRepo, userRepo, projectRepo } from '../dataAccess'
+import {
+  credentialsRepo,
+  userRepo,
+  projectRepo,
+  candidateNotificationRepo
+} from '../dataAccess'
 
 import hashPassword from '../helpers/hashPassword'
 
@@ -18,11 +24,17 @@ const importProjects = makeImportProjects({
 
 const listProjects = makeListProjects({ projectRepo })
 
+const sendCandidateNotifications = makeSendCandidateNotifications({
+  projectRepo,
+  candidateNotificationRepo
+})
+
 const useCases = Object.freeze({
   login,
   importProjects,
-  listProjects
+  listProjects,
+  sendCandidateNotifications
 })
 
 export default useCases
-export { login, importProjects, listProjects }
+export { login, importProjects, listProjects, sendCandidateNotifications }

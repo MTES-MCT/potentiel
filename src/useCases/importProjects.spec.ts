@@ -6,8 +6,6 @@ import makeImportProjects, {
   ERREUR_FORMAT_LIGNE
 } from './importProjects'
 
-import { makeProject } from '../entities'
-
 import { projectRepo } from '../dataAccess/inMemory'
 
 const importProjects = makeImportProjects({ projectRepo })

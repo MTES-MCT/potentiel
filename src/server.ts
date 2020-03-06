@@ -10,8 +10,11 @@ import {
   registerAuth,
   postLogin,
   ensureLoggedIn,
-  postProjects
+  postProjects,
+  getSendCandidateNotifications
 } from './controllers'
+
+import ROUTES from './routes'
 
 const app = express()
 const port: number = 3000
@@ -23,40 +26,40 @@ app.use(session({ secret: 'cats' }))
 
 app.use(bodyParser.urlencoded({ extended: false }))
 
-const LOGIN_ROUTE = '/login.html'
-
 registerAuth({
   app,
-  loginRoute: LOGIN_ROUTE,
-  successRoute: '/admin/dashboard.html'
+  loginRoute: ROUTES.LOGIN,
+  successRoute: ROUTES.ADMIN_DASHBOARD
 })
 
 const router = express.Router()
 
-router.get(LOGIN_ROUTE, makeExpressCallback(getAdminLoginPage))
+router.get(ROUTES.LOGIN, makeExpressCallback(getAdminLoginPage))
 
-router.post('/login', postLogin()) // No makeExpressCallback as this uses a middleware
-router.get('/logout', (req, res) => {
+router.post(ROUTES.LOGIN_ACTION, postLogin()) // No makeExpressCallback as this uses a middleware
+router.get(ROUTES.LOGOUT_ACTION, (req, res) => {
   req.logout()
   res.redirect('/')
 })
 
 router.get(
-  '/admin/dashboard.html',
+  ROUTES.ADMIN_DASHBOARD,
   ensureLoggedIn(),
   makeExpressCallback(getAdminDashboardPage)
 )
 
 router.post(
-  '/importProjects',
+  ROUTES.IMPORT_PROJECTS_ACTION,
   ensureLoggedIn(),
   upload.single('candidats'),
   makeExpressCallback(postProjects)
 )
 
-router.get('/admin/other.html', ensureLoggedIn(), function(req, res) {
-  res.send('Other contents reserver to admins')
-})
+router.get(
+  ROUTES.SEND_NOTIFICATIONS_ACTION,
+  ensureLoggedIn(),
+  makeExpressCallback(getSendCandidateNotifications)
+)
 
 app.use(router)
 

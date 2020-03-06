@@ -1,6 +1,5 @@
 import { Project, makeProject } from '../entities'
 import { ProjectRepo } from '../dataAccess'
-import { cpus } from 'os'
 import _ from 'lodash'
 
 interface MakeUseCaseProps {

@@ -4,10 +4,12 @@ import path from 'path'
 import { makeCredentialsRepo } from './credentials'
 import { makeUserRepo } from './user'
 import { makeProjectRepo } from './project'
+import { makeCandidateNotificationRepo } from './candidateNotification'
 
 const sequelize = new Sequelize({
   dialect: 'sqlite',
-  storage: path.resolve(process.cwd(), '.db/db.sqlite')
+  storage: path.resolve(process.cwd(), '.db/db.sqlite'),
+  logging: false
 })
 
 // Create repo implementations
@@ -18,6 +20,8 @@ const credentialsRepo = makeCredentialsRepo({
 const userRepo = makeUserRepo({ sequelize })
 
 const projectRepo = makeProjectRepo({ sequelize })
+
+const candidateNotificationRepo = makeCandidateNotificationRepo({ sequelize })
 
 // Sync the database models
 sequelize
@@ -39,8 +43,9 @@ sequelize
 const dbAccess = Object.freeze({
   userRepo,
   credentialsRepo,
-  projectRepo
+  projectRepo,
+  candidateNotificationRepo
 })
 
 export default dbAccess
-export { userRepo, credentialsRepo, projectRepo }
+export { userRepo, credentialsRepo, projectRepo, candidateNotificationRepo }

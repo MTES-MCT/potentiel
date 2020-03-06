@@ -1,5 +1,7 @@
 import React from 'react'
 
+import ROUTES from '../../routes'
+
 const UploadProjects = ({
   error,
   success
@@ -8,7 +10,11 @@ const UploadProjects = ({
   success?: string
 }) => {
   return (
-    <form action="/importProjects" method="post" encType="multipart/form-data">
+    <form
+      action={ROUTES.IMPORT_PROJECTS_ACTION}
+      method="post"
+      encType="multipart/form-data"
+    >
       <div className="form__group">
         <h4>Importer les candidats d'une période</h4>
         {error ? <div className="notification error">{error}</div> : ''}

@@ -11,9 +11,13 @@ export default function makeGetAdminDashboardPage(): Controller {
     try {
       projects = await listProjects({})
     } catch (e) {
+      console.log('ListProjects error', e)
       return {
         statusCode: 500,
-        body: 'Erreur lors de la récupération de la liste des projets'
+        body:
+          'Erreur lors de la récupération de la liste des projets (' +
+          e.error +
+          ')'
       }
     }
 

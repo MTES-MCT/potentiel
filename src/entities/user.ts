@@ -1,32 +1,28 @@
-export type UserRole = 'admin' | 'dgec' | 'porteur-projet'
+import * as yup from 'yup'
 
-export type User = {
-  readonly firstName: string
-  readonly lastName: string
-  readonly role: UserRole
-  readonly id?: number
-}
+const userSchema = yup.object({
+  id: yup.string(),
+  firstName: yup
+    .string()
+    .required()
+    .min(1),
+  lastName: yup
+    .string()
+    .required()
+    .min(1),
+  role: yup
+    .mixed<'admin' | 'dgec' | 'porteur-projet'>()
+    .oneOf(['admin', 'dgec', 'porteur-projet'])
+})
 
-interface MakeUserProps {
-  firstName: string
-  lastName: string
-  role: UserRole
-  id?: number
-}
+export type User = yup.InferType<typeof userSchema>
 
 export default function buildMakeUser() {
-  return function makeUser({
-    firstName,
-    lastName,
-    role,
-    id
-  }: MakeUserProps): User {
-    // MakeUserProps definition prevents omitting required fields
-    return {
-      firstName,
-      lastName,
-      role,
-      id
+  return function makeUser(user: any): User {
+    try {
+      return userSchema.validateSync(user, { stripUnknown: true })
+    } catch (e) {
+      throw e
     }
   }
 }

@@ -1,0 +1,25 @@
+.project-list--action-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 55px;
+  background-color: white;
+  border: 1px solid var(--theme-border);
+  border-radius: var(--theme-border-radius);
+  padding: 5px 10px;
+  list-style: none;
+  z-index: 10;
+  width: 140px;
+}
+
+.project-list--action-menu a {
+  text-decoration: none;
+}
+
+.project-list--action-menu a:hover {
+  background-color: inherit;
+}
+
+.project-list--action-trigger:focus ~ .project-list--action-menu {
+  display: block;
+}

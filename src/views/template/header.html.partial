@@ -19,6 +19,7 @@
         )
       }
     </script>
+    <script src="/scripts.js"></script>
 
     <!-- Favicons -->
     <meta name="theme-color" content="#ffffff" />

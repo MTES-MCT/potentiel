@@ -6,7 +6,7 @@ import { ProjectRepo } from '../'
 import { makeProject, Project } from '../../entities'
 
 export default function makeProjectRepo({ sequelize }): ProjectRepo {
-  const ProjectModel = sequelize.define('Project', {
+  const ProjectModel = sequelize.define('project', {
     periode: {
       type: DataTypes.STRING,
       allowNull: false
@@ -78,26 +78,62 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
     motifsElimination: {
       type: DataTypes.STRING,
       allowNull: true
+    },
+    hasBeenNotified: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
     }
   })
 
   const _isDbReady = isDbReady({ sequelize })
 
   return Object.freeze({
+    findById,
     findAll,
-    insertMany
+    insertMany,
+    update
   })
 
-  async function findAll(): Promise<Array<Project>> {
+  async function findById({ id }): Promise<Project | null> {
     await _isDbReady
 
-    return (await ProjectModel.findAll()).map(makeProject)
+    const projectInDb = await ProjectModel.findByPk(id)
+    return projectInDb && makeProject(projectInDb)
+  }
+
+  async function findAll(query?): Promise<Array<Project>> {
+    await _isDbReady
+
+    return (
+      await ProjectModel.findAll(
+        query
+          ? {
+              where: query
+            }
+          : {}
+      )
+    ).map(makeProject)
   }
 
   async function insertMany(projects: Array<Project>) {
     await _isDbReady
 
+    console.log('projectRepo.insertMany', projects)
+
     await Promise.all(projects.map(project => ProjectModel.create(project)))
+  }
+
+  async function update(project: Project) {
+    await _isDbReady
+
+    if (!project.id) {
+      if (!project.id) {
+        throw new Error('Cannot update project that has no id')
+      }
+    }
+
+    await ProjectModel.update(project, { where: { id: project.id } })
   }
 }
 
