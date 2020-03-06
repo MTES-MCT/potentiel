@@ -4,7 +4,7 @@ import { Project, CandidateNotification } from '../../entities'
 import ROUTES from '../../routes'
 
 const ProjectList = ({ projects }: { projects?: Array<Project> }) => {
-  console.log('ProjectList received', projects)
+  // console.log('ProjectList received', projects)
   return (
     <div>
       <h3>Projets</h3>
@@ -155,8 +155,8 @@ const ProjectList = ({ projects }: { projects?: Array<Project> }) => {
                               <li key={'notif_' + project.id + '_' + notif.id}>
                                 <a
                                   href={
-                                    ROUTES.NOTIFICATION_EMAIL +
-                                    '?notificationId=' +
+                                    ROUTES.CANDIDATE_NOTIFICATION +
+                                    '?id=' +
                                     notif.id
                                   }
                                 >

@@ -11,7 +11,8 @@ import {
   postLogin,
   ensureLoggedIn,
   postProjects,
-  getSendCandidateNotifications
+  getSendCandidateNotifications,
+  getCandidateNotification
 } from './controllers'
 
 import ROUTES from './routes'
@@ -59,6 +60,11 @@ router.get(
   ROUTES.SEND_NOTIFICATIONS_ACTION,
   ensureLoggedIn(),
   makeExpressCallback(getSendCandidateNotifications)
+)
+router.get(
+  ROUTES.CANDIDATE_NOTIFICATION,
+  ensureLoggedIn(),
+  makeExpressCallback(getCandidateNotification)
 )
 
 app.use(router)

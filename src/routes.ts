@@ -4,6 +4,6 @@ export default {
   LOGOUT_ACTION: '/logout',
   ADMIN_DASHBOARD: '/admin/dashboard.html',
   IMPORT_PROJECTS_ACTION: '/admin/importProjects',
-  NOTIFICATION_EMAIL: '/admin/email-notification.html',
+  CANDIDATE_NOTIFICATION: '/admin/candidate-notification.html',
   SEND_NOTIFICATIONS_ACTION: '/admin/sendCandidateNotifications'
 }

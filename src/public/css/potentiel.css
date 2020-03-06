@@ -20,6 +20,14 @@
   background-color: inherit;
 }
 
+.project-list--action-menu a:hover > .project-list--action-menu {
+  display: block;
+}
+
+.project-list--action-menu:hover {
+  display: block;
+}
+
 .project-list--action-trigger:focus ~ .project-list--action-menu {
   display: block;
 }

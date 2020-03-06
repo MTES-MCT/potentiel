@@ -2,6 +2,7 @@ import makeLogin from './login'
 import makeImportProjects from './importProjects'
 import makeListProjects from './listProjects'
 import makeSendCandidateNotifications from './sendCandidateNotifications'
+import makeShowNotification from './showNotification'
 
 import {
   credentialsRepo,
@@ -29,12 +30,23 @@ const sendCandidateNotifications = makeSendCandidateNotifications({
   candidateNotificationRepo
 })
 
+const showNotification = makeShowNotification({
+  candidateNotificationRepo
+})
+
 const useCases = Object.freeze({
   login,
   importProjects,
   listProjects,
-  sendCandidateNotifications
+  sendCandidateNotifications,
+  showNotification
 })
 
 export default useCases
-export { login, importProjects, listProjects, sendCandidateNotifications }
+export {
+  login,
+  importProjects,
+  listProjects,
+  sendCandidateNotifications,
+  showNotification
+}

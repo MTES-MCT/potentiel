@@ -3,6 +3,7 @@ import makeGetAdminDashboardPage from './getAdminDashboardPage'
 import makeAuthentication from './authentication'
 import makePostProjects from './postProjects'
 import makeGetSendCandidateNotifications from './getSendCandidateNotifications'
+import makeGetCandidateNotification from './getCandidateNotification'
 
 import { userRepo } from '../dataAccess'
 
@@ -13,6 +14,7 @@ const { registerAuth, postLogin, ensureLoggedIn } = makeAuthentication({
 })
 const postProjects = makePostProjects()
 const getSendCandidateNotifications = makeGetSendCandidateNotifications()
+const getCandidateNotification = makeGetCandidateNotification()
 
 const controller = Object.freeze({
   getAdminLoginPage,
@@ -21,7 +23,8 @@ const controller = Object.freeze({
   postLogin,
   ensureLoggedIn,
   postProjects,
-  getSendCandidateNotifications
+  getSendCandidateNotifications,
+  getCandidateNotification
 })
 
 export default controller
@@ -32,5 +35,6 @@ export {
   postLogin,
   ensureLoggedIn,
   postProjects,
-  getSendCandidateNotifications
+  getSendCandidateNotifications,
+  getCandidateNotification
 }

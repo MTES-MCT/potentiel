@@ -6,7 +6,11 @@ const candidateNotificationSchema = yup.object({
   template: yup
     .mixed<'laureat' | 'elimination'>()
     .oneOf(['laureat', 'elimination']),
-  data: yup.object().notRequired()
+  data: yup
+    .object()
+    .nullable()
+    .notRequired()
+    .default({})
 })
 
 export type CandidateNotification = yup.InferType<

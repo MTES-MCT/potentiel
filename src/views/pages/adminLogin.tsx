@@ -24,7 +24,7 @@ export default function LoginPage({
                 name="email"
                 id="email"
                 placeholder="jean.martin@example.com"
-                value="test@test.com"
+                defaultValue="test@test.com"
               />
               <label htmlFor="password">Mot de passe</label>
               <input
@@ -32,7 +32,7 @@ export default function LoginPage({
                 name="password"
                 id="password"
                 placeholder="*******"
-                value="test"
+                defaultValue="test"
               />
               <button
                 className="button"

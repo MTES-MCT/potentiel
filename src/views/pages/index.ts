@@ -7,11 +7,13 @@ import Header from '../components/header'
 
 import AdminLogin from './adminLogin'
 import AdminDashboard from './adminDashboard'
+import CandidateNotification from './candidateNotification'
 
 const AdminLoginPage = makePresenterPage(AdminLogin)
 const AdminDashboardPage = makePresenterPage(AdminDashboard)
+const CandidateNotificationPage = makeRawPage(CandidateNotification)
 
-export { AdminLoginPage, AdminDashboardPage }
+export { AdminLoginPage, AdminDashboardPage, CandidateNotificationPage }
 
 /**
  * Turn a Page Component (pure) into a presenter that returns a full HTML page
@@ -23,6 +25,11 @@ function makePresenterPage(pageComponent) {
       ReactDOMServer.renderToStaticMarkup(Header(props)) +
         ReactDOMServer.renderToStaticMarkup(pageComponent(props))
     )
+}
+
+function makeRawPage(pageComponent) {
+  return (props?: any) =>
+    ReactDOMServer.renderToStaticMarkup(pageComponent(props))
 }
 
 const headerPartial = fs.readFileSync(
