@@ -5,6 +5,7 @@ import { makeCredentialsRepo } from './credentials'
 import { makeUserRepo } from './user'
 import { makeProjectRepo } from './project'
 import { makeCandidateNotificationRepo } from './candidateNotification'
+import { makeProjectAdmissionKeyRepo } from './projectAdmissionKey'
 
 const sequelize = new Sequelize({
   dialect: 'sqlite',
@@ -29,6 +30,13 @@ const CandidateNotificationModel = sequelize.model('candidateNotification')
 ProjectModel.hasMany(CandidateNotificationModel)
 CandidateNotificationModel.belongsTo(ProjectModel, { foreignKey: 'projectId' })
 
+const projectAdmissionKeyRepo = makeProjectAdmissionKeyRepo({ sequelize })
+
+// Set the one-to-many relationship between project and projectAdmissionKeyRepo
+const ProjectAdmissionKeyModel = sequelize.model('projectAdmissionKey')
+ProjectModel.hasMany(ProjectAdmissionKeyModel)
+ProjectAdmissionKeyModel.belongsTo(ProjectModel, { foreignKey: 'projectId' })
+
 // Sync the database models
 sequelize
   .authenticate()
@@ -50,8 +58,15 @@ const dbAccess = Object.freeze({
   userRepo,
   credentialsRepo,
   projectRepo,
-  candidateNotificationRepo
+  candidateNotificationRepo,
+  projectAdmissionKeyRepo
 })
 
 export default dbAccess
-export { userRepo, credentialsRepo, projectRepo, candidateNotificationRepo }
+export {
+  userRepo,
+  credentialsRepo,
+  projectRepo,
+  candidateNotificationRepo,
+  projectAdmissionKeyRepo
+}

@@ -10,7 +10,8 @@ const candidateNotificationSchema = yup.object({
     .object()
     .nullable()
     .notRequired()
-    .default({})
+    .default({}),
+  projectAdmissionKey: yup.string().required()
 })
 
 export type CandidateNotification = yup.InferType<

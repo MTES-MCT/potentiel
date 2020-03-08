@@ -25,6 +25,10 @@ export default function makeCandidateNotificationRepo({
     data: {
       type: DataTypes.STRING,
       allowNull: true
+    },
+    projectAdmissionKey: {
+      type: DataTypes.STRING,
+      allowNull: false
     }
   })
 

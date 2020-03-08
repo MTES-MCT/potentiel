@@ -1,4 +1,8 @@
-import { Project, CandidateNotification } from '../entities'
+import {
+  Project,
+  CandidateNotification,
+  ProjectAdmissionKey
+} from '../entities'
 
 export type ProjectRepo = {
   findById: ({ id: string }) => Promise<Project | null>
@@ -11,5 +15,9 @@ export type ProjectRepo = {
   addNotification: (
     project: Project,
     notification: CandidateNotification
+  ) => Promise<void>
+  addProjectAdmissionKey: (
+    project: Project,
+    key: ProjectAdmissionKey
   ) => Promise<void>
 }

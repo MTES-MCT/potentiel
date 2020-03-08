@@ -1,17 +1,22 @@
-import { CandidateNotification, makeCandidateNotification } from '../entities'
-import { ProjectRepo, CandidateNotificationRepo } from '../dataAccess'
+import {
+  makeCandidateNotification,
+  makeProjectAdmissionKey,
+  Project,
+  ProjectAdmissionKey
+} from '../entities'
+import { ProjectRepo } from '../dataAccess'
 import _ from 'lodash'
 
 interface MakeUseCaseProps {
   projectRepo: ProjectRepo
-  candidateNotificationRepo: CandidateNotificationRepo
+  makeUuid: () => string
 }
 
 interface CallUseCaseProps {}
 
 export default function makeSendCandidateNotifications({
   projectRepo,
-  candidateNotificationRepo
+  makeUuid
 }: MakeUseCaseProps) {
   return async function sendCandidateNotifications({}: CallUseCaseProps): Promise<
     void
@@ -24,13 +29,39 @@ export default function makeSendCandidateNotifications({
     // TODO: send error if there are no unnotified projects
 
     try {
-      // update unNotifed projects
+      // Create a new projectAdmissionKey per project
+      const projectsWithAdmissionKeys = await Promise.all(
+        unNotifiedProjects.map(
+          async (
+            project
+          ): Promise<{
+            project: Project
+            projectAdmissionKey: ProjectAdmissionKey
+          }> => {
+            // For each project, create a new projectAdmissionKey
+            const projectAdmissionKey = makeProjectAdmissionKey({
+              id: makeUuid(),
+              projectId: project.id
+            })
+
+            await projectRepo.addProjectAdmissionKey(
+              project,
+              projectAdmissionKey
+            )
+
+            return { project, projectAdmissionKey }
+          }
+        )
+      )
+
+      // Create a new candidateNotification for each project, including the admission key
       await Promise.all(
-        unNotifiedProjects.map(project =>
+        projectsWithAdmissionKeys.map(({ project, projectAdmissionKey }) =>
           projectRepo.addNotification(
             project,
             makeCandidateNotification({
-              template: project.classe === 'Classé' ? 'laureat' : 'elimination'
+              template: project.classe === 'Classé' ? 'laureat' : 'elimination',
+              projectAdmissionKey: projectAdmissionKey.id
             })
           )
         )

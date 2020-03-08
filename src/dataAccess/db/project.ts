@@ -3,7 +3,12 @@ import { DataTypes, Sequelize } from 'sequelize'
 import isDbReady from './helpers/isDbReady'
 
 import { ProjectRepo } from '../'
-import { makeProject, Project, CandidateNotification } from '../../entities'
+import {
+  makeProject,
+  Project,
+  CandidateNotification,
+  ProjectAdmissionKey
+} from '../../entities'
 
 export default function makeProjectRepo({ sequelize }): ProjectRepo {
   const ProjectModel = sequelize.define('project', {
@@ -93,7 +98,8 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
     findAll,
     insertMany,
     update,
-    addNotification
+    addNotification,
+    addProjectAdmissionKey
   })
 
   async function findById({ id }): Promise<Project | null> {
@@ -147,12 +153,32 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
     }
 
     const CandidateNotificationModel = sequelize.model('candidateNotification')
-    const candidateNotification = await CandidateNotificationModel.create(
-      notification
-    )
+    // TODO: this should not be done here
+    const candidateNotification = await CandidateNotificationModel.create({
+      ...notification,
+      data: JSON.stringify(notification.data)
+    })
 
     await projectInstance.addCandidateNotification(candidateNotification)
     await projectInstance.update({ hasBeenNotified: true })
+  }
+
+  async function addProjectAdmissionKey(
+    project: Project,
+    key: ProjectAdmissionKey
+  ) {
+    await _isDbReady
+
+    const projectInstance = await ProjectModel.findByPk(project.id)
+
+    if (!projectInstance) {
+      throw new Error('Cannot find project to add notification to')
+    }
+
+    const ProjectAdmissionKeyModel = sequelize.model('projectAdmissionKey')
+    const projectAdmissionKey = await ProjectAdmissionKeyModel.create(key)
+
+    await projectInstance.addProjectAdmissionKey(projectAdmissionKey)
   }
 }
 

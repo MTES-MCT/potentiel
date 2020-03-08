@@ -2,13 +2,15 @@ import {
   CredentialsRepo,
   UserRepo,
   ProjectRepo,
-  CandidateNotificationRepo
+  CandidateNotificationRepo,
+  ProjectAdmissionKeyRepo
 } from '../'
 import {
   Credentials,
   User,
   Project,
-  CandidateNotification
+  CandidateNotification,
+  ProjectAdmissionKey
 } from '../../entities'
 
 interface HasId {
@@ -100,6 +102,10 @@ const candidateNotificationRepo: CandidateNotificationRepo = makeClassicRepo<
   CandidateNotification
 >()
 
+const projectAdmissionKeyRepo: ProjectAdmissionKeyRepo = makeClassicRepo<
+  ProjectAdmissionKey
+>()
+
 const projectsById: Record<string, Project> = {}
 let projectCount = 0
 const projectRepo: ProjectRepo = {
@@ -161,7 +167,27 @@ const projectRepo: ProjectRepo = {
     ])
 
     projectInstance.hasBeenNotified = true
+  },
+  addProjectAdmissionKey: async (
+    project: Project,
+    key: ProjectAdmissionKey
+  ) => {
+    const projectInstance = projectsById[project.id]
+
+    if (!projectInstance) {
+      throw new Error('Cannot find project to add project admission key to')
+    }
+
+    await projectAdmissionKeyRepo.insertMany([
+      { ...key, projectId: project.id }
+    ])
   }
 }
 
-export { credentialsRepo, userRepo, projectRepo, candidateNotificationRepo }
+export {
+  credentialsRepo,
+  userRepo,
+  projectRepo,
+  candidateNotificationRepo,
+  projectAdmissionKeyRepo
+}

@@ -1,3 +1,5 @@
+import { v1 as uuidv1 } from 'uuid'
+
 import makeLogin from './login'
 import makeImportProjects from './importProjects'
 import makeListProjects from './listProjects'
@@ -27,7 +29,7 @@ const listProjects = makeListProjects({ projectRepo })
 
 const sendCandidateNotifications = makeSendCandidateNotifications({
   projectRepo,
-  candidateNotificationRepo
+  makeUuid: uuidv1
 })
 
 const showNotification = makeShowNotification({
