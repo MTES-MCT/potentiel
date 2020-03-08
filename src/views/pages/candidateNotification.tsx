@@ -1,12 +1,17 @@
 import React from 'react'
 
 import { CandidateNotification } from '../../entities'
+import ROUTES from '../../routes'
 
 interface PageProps {
   notification: CandidateNotification
 }
 
-const TemplateLaureat = () => {
+const TemplateLaureat = ({
+  notification
+}: {
+  notification: CandidateNotification
+}) => {
   return (
     <>
       <p>Madame, Monsieur,</p>
@@ -18,8 +23,15 @@ const TemplateLaureat = () => {
       </p>
       <p>
         Afin de suivre l’évolution de votre dossier ou d’y apporter des
-        modifications, nous vous invitons à créer directement un compte sur
-        notre plateforme https://aopv.beta.gouv.fr
+        modifications, nous vous invitons à{' '}
+        <a
+          href={
+            ROUTES.PROJECT_ADMISSION + '?p=' + notification.projectAdmissionKey
+          }
+        >
+          créer directement un compte sur notre plateforme
+        </a>
+        .
       </p>
 
       <p>Cordialement,</p>
@@ -27,7 +39,11 @@ const TemplateLaureat = () => {
   )
 }
 
-const TemplateElimination = () => {
+const TemplateElimination = ({
+  notification
+}: {
+  notification: CandidateNotification
+}) => {
   return (
     <>
       <p>Madame, Monsieur,</p>
@@ -38,8 +54,15 @@ const TemplateElimination = () => {
         pas été retenu(s) à l'issue de l'instruction des candidatures.
       </p>
       <p>
-        Si vous souhaitez déposer un recours, nous vous invitons à créer
-        directement un compte sur notre plateforme https://aopv.beta.gouv.fr
+        Si vous souhaitez déposer un recours, nous vous invitons à{' '}
+        <a
+          href={
+            ROUTES.PROJECT_ADMISSION + '?p=' + notification.projectAdmissionKey
+          }
+        >
+          créer directement un compte sur notre plateforme
+        </a>
+        .
       </p>
 
       <p>Cordialement,</p>
@@ -50,10 +73,10 @@ const TemplateElimination = () => {
 /* Pure component */
 export default function CandidateNotificationPage({ notification }: PageProps) {
   if (notification.template === 'laureat') {
-    return <TemplateLaureat />
+    return <TemplateLaureat notification={notification} />
   }
 
   if (notification.template === 'elimination') {
-    return <TemplateElimination />
+    return <TemplateElimination notification={notification} />
   }
 }

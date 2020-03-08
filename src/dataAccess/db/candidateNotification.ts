@@ -45,8 +45,12 @@ export default function makeCandidateNotificationRepo({
     await _isDbReady
 
     const candidateNotificationInDb = await CandidateNotificationModel.findByPk(
-      id
+      id,
+      { raw: true }
     )
+
+    console.log('findByPk found', candidateNotificationInDb)
+
     return (
       candidateNotificationInDb &&
       makeCandidateNotification(deserializeDataField(candidateNotificationInDb))
