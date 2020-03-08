@@ -1,7 +1,7 @@
 import passport from 'passport'
 import { Strategy } from 'passport-local'
 import { ensureLoggedIn } from 'connect-ensure-login'
-import { Application } from 'express'
+import { Application, Request, Response, NextFunction } from 'express'
 
 import { User } from '../entities'
 import { login } from '../useCases'
@@ -66,7 +66,7 @@ export default function makeAuthentication({
         function(username: string, password: string, done) {
           login({ email: username, password })
             .then(user => {
-              console.log('login has returned, setting currentUser to ', user)
+              // console.log('login has returned, setting currentUser to ', user)
               return done(null, user)
             })
             .catch(err => {
@@ -89,9 +89,20 @@ export default function makeAuthentication({
     })
   }
 
+  const logoutMiddleware = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    req.logout()
+
+    next()
+  }
+
   return {
     registerAuth,
     postLogin,
+    logoutMiddleware,
     // Handler for all auth enabled routes
     ensureLoggedIn: () => ensureLoggedIn(_loginRoute)
   }

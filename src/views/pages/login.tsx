@@ -1,9 +1,13 @@
 import React from 'react'
 
+interface Props {
+  hasError?: boolean
+  success?: string
+  email?: string
+}
+
 /* Pure component */
-export default function LoginPage({
-  hasError = false
-}: { hasError?: boolean } = {}) {
+export default function LoginPage({ hasError = false, success, email }: Props) {
   return (
     <main role="main">
       <section className="section section-grey">
@@ -17,22 +21,25 @@ export default function LoginPage({
             ) : (
               ''
             )}
+            {success ? (
+              <div className="notification success">{success}</div>
+            ) : (
+              ''
+            )}
             <div className="form__group">
               <label htmlFor="email">Courrier électronique</label>
               <input
                 type="email"
                 name="email"
                 id="email"
-                placeholder="jean.martin@example.com"
-                defaultValue="test@test.com"
+                defaultValue={email || 'test@test.com'}
               />
               <label htmlFor="password">Mot de passe</label>
               <input
                 type="password"
                 name="password"
                 id="password"
-                placeholder="*******"
-                defaultValue="test"
+                defaultValue={email ? '' : 'test'}
               />
               <button
                 className="button"

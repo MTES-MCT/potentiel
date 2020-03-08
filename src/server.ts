@@ -5,14 +5,17 @@ import bodyParser from 'body-parser'
 
 import makeExpressCallback from './helpers/makeExpressCallback'
 import {
-  getAdminLoginPage,
+  getLoginPage,
   getAdminDashboardPage,
   registerAuth,
   postLogin,
   ensureLoggedIn,
+  logoutMiddleware,
   postProjects,
   getSendCandidateNotifications,
-  getCandidateNotification
+  getCandidateNotification,
+  getSignupPage,
+  postSignup
 } from './controllers'
 
 import ROUTES from './routes'
@@ -35,11 +38,10 @@ registerAuth({
 
 const router = express.Router()
 
-router.get(ROUTES.LOGIN, makeExpressCallback(getAdminLoginPage))
+router.get(ROUTES.LOGIN, makeExpressCallback(getLoginPage))
 
 router.post(ROUTES.LOGIN_ACTION, postLogin()) // No makeExpressCallback as this uses a middleware
-router.get(ROUTES.LOGOUT_ACTION, (req, res) => {
-  req.logout()
+router.get(ROUTES.LOGOUT_ACTION, logoutMiddleware, (req, res) => {
   res.redirect('/')
 })
 
@@ -66,6 +68,18 @@ router.get(
   ensureLoggedIn(),
   makeExpressCallback(getCandidateNotification)
 )
+
+// Going to the signup page automatically logs you out
+router.get(
+  ROUTES.SIGNUP,
+  /*logoutMiddleware,*/ makeExpressCallback(getSignupPage)
+)
+
+router.post(ROUTES.SIGNUP_ACTION, makeExpressCallback(postSignup))
+
+router.get(ROUTES.USER_DASHBOARD, ensureLoggedIn(), (req, res) => {
+  res.send('User dashboard success')
+})
 
 app.use(router)
 

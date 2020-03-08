@@ -49,8 +49,6 @@ export default function makeCandidateNotificationRepo({
       { raw: true }
     )
 
-    console.log('findByPk found', candidateNotificationInDb)
-
     return (
       candidateNotificationInDb &&
       makeCandidateNotification(deserializeDataField(candidateNotificationInDb))

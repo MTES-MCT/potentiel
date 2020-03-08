@@ -26,7 +26,11 @@ const TemplateLaureat = ({
         modifications, nous vous invitons à{' '}
         <a
           href={
-            ROUTES.PROJECT_ADMISSION + '?p=' + notification.projectAdmissionKey
+            ROUTES.SIGNUP +
+            '?key=' +
+            notification.projectAdmissionKey +
+            '&project=' +
+            notification.projectId
           }
         >
           créer directement un compte sur notre plateforme
@@ -57,7 +61,11 @@ const TemplateElimination = ({
         Si vous souhaitez déposer un recours, nous vous invitons à{' '}
         <a
           href={
-            ROUTES.PROJECT_ADMISSION + '?p=' + notification.projectAdmissionKey
+            ROUTES.SIGNUP +
+            '?key=' +
+            notification.projectAdmissionKey +
+            '&project=' +
+            notification.projectId
           }
         >
           créer directement un compte sur notre plateforme

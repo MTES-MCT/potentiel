@@ -37,6 +37,11 @@ const ProjectAdmissionKeyModel = sequelize.model('projectAdmissionKey')
 ProjectModel.hasMany(ProjectAdmissionKeyModel)
 ProjectAdmissionKeyModel.belongsTo(ProjectModel, { foreignKey: 'projectId' })
 
+// Set the many-to-many relationship between projects and users
+const UserModel = sequelize.model('user')
+ProjectModel.belongsToMany(UserModel, { through: 'UserProjects' })
+UserModel.belongsToMany(ProjectModel, { through: 'UserProjects' })
+
 // Sync the database models
 sequelize
   .authenticate()
