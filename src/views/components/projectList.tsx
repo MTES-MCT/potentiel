@@ -138,7 +138,7 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                   ''
                 )}
               </td>
-              {projectActions ? (
+              {projectActions && projectActions(project) ? (
                 <td style={{ position: 'relative' }}>
                   <img
                     src="/images/icons/external/more.svg"

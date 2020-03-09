@@ -28,6 +28,9 @@ export const withProjects = () => (
       makeFakeProject({
         classe: 'Classé',
         candidateNotifications: [makeFakeCandidateNotification()]
+      }),
+      makeFakeProject({
+        classe: 'Classé'
       })
     ]}
   />
