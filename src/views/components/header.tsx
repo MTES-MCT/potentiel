@@ -1,4 +1,5 @@
 import React from 'react'
+import routes from '../../routes'
 
 const Header = (props: any) => {
   return (
@@ -22,10 +23,10 @@ const Header = (props: any) => {
               {props.userName ? (
                 <>
                   <span>{props.userName}</span>
-                  <a href="/logout">Me déconnecter</a>
+                  <a href={routes.LOGOUT_ACTION}>Me déconnecter</a>
                 </>
               ) : (
-                <a href="/admin/login.html">M'identifier</a>
+                <a href={routes.LOGIN}>M'identifier</a>
               )}
             </li>
           </ul>
