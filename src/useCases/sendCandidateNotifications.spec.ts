@@ -1,3 +1,5 @@
+import { v1 as uuidv1 } from 'uuid'
+
 import makeSendCandidateNotifications from './sendCandidateNotifications'
 
 import { projectRepo, candidateNotificationRepo } from '../dataAccess/inMemory'
@@ -6,7 +8,7 @@ import makeFakeCandidateNotification from '../__tests__/fixtures/candidateNotifi
 
 const sendCandidateNotifications = makeSendCandidateNotifications({
   projectRepo,
-  candidateNotificationRepo
+  makeUuid: uuidv1
 })
 
 describe('sendCandidateNotifications use-case', () => {
