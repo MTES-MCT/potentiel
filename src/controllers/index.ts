@@ -1,5 +1,6 @@
 import makeGetLoginPage from './getLoginPage'
 import makeGetAdminDashboardPage from './getAdminDashboardPage'
+import makeGetUserDashboardPage from './getUserDashboardPage'
 import makeAuthentication from './authentication'
 import makePostProjects from './postProjects'
 import makeGetSendCandidateNotifications from './getSendCandidateNotifications'
@@ -11,6 +12,7 @@ import { userRepo } from '../dataAccess'
 
 const getLoginPage = makeGetLoginPage()
 const getAdminDashboardPage = makeGetAdminDashboardPage()
+const getUserDashboardPage = makeGetUserDashboardPage()
 const {
   registerAuth,
   postLogin,
@@ -28,6 +30,7 @@ const postSignup = makePostSignup()
 const controller = Object.freeze({
   getLoginPage,
   getAdminDashboardPage,
+  getUserDashboardPage,
   registerAuth,
   postLogin,
   ensureLoggedIn,
@@ -43,6 +46,7 @@ export default controller
 export {
   getLoginPage,
   getAdminDashboardPage,
+  getUserDashboardPage,
   registerAuth,
   postLogin,
   ensureLoggedIn,

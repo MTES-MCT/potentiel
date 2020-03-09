@@ -1,7 +1,8 @@
-export default function makeFakeCandidateNotification(overrides) {
+export default function makeFakeCandidateNotification(overrides?) {
   const defaultObj = {
     projectId: 1,
-    templateId: 'fakeTemplate',
+    template: 'laureat',
+    projectAdmissionKey: 'this-is-a-fake-key',
     data: {
       param: 'value'
     }

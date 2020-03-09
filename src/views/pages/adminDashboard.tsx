@@ -1,19 +1,19 @@
 import React from 'react'
 
-import { Project } from '../../entities'
+import { Project, CandidateNotification } from '../../entities'
+import ROUTES from '../../routes'
+
 import UploadProjects from '../components/uploadProjects'
 import ProjectList from '../components/projectList'
 
 interface AdminDashboardProps {
-  adminName: string
   error?: string
   success?: string
   projects?: Array<Project>
 }
 
 /* Pure component */
-export default function LoginPage({
-  adminName,
+export default function AdminDashboard({
   error,
   success,
   projects
@@ -33,7 +33,39 @@ export default function LoginPage({
         </section>
         <section className="section section-white">
           <div className="container">
-            <ProjectList projects={projects} />
+            <div>
+              <h3>Projets</h3>
+              <input
+                type="text"
+                className="table__filter"
+                placeholder="Filtrer les projets"
+              />
+              <a
+                className="button-outline primary"
+                style={{
+                  float: 'right',
+                  marginBottom: 'var(--space-s)',
+                  marginTop: '5px',
+                  marginRight: '15px'
+                }}
+                href={ROUTES.SEND_NOTIFICATIONS_ACTION}
+              >
+                Envoyer les notifications aux candidats
+              </a>
+              <ProjectList
+                projects={projects}
+                projectActions={(project: Project) => {
+                  if (!project.candidateNotifications) return null
+
+                  return project.candidateNotifications.map(
+                    (notif: CandidateNotification) => ({
+                      title: 'Voir mail ' + notif.template,
+                      link: ROUTES.CANDIDATE_NOTIFICATION + '?id=' + notif.id
+                    })
+                  )
+                }}
+              />
+            </div>
           </div>
         </section>
       </main>

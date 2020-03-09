@@ -9,11 +9,21 @@
   padding: 5px 10px;
   list-style: none;
   z-index: 10;
-  width: 140px;
+  width: 250px;
+  text-align: center;
 }
 
 .project-list--action-menu a {
   text-decoration: none;
+}
+
+.project-list--action-menu li {
+  padding: 5px 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.project-list--action-menu li:last-child {
+  border-bottom: none;
 }
 
 .project-list--action-menu a:hover {

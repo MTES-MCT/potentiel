@@ -7,6 +7,7 @@ import makeExpressCallback from './helpers/makeExpressCallback'
 import {
   getLoginPage,
   getAdminDashboardPage,
+  getUserDashboardPage,
   registerAuth,
   postLogin,
   ensureLoggedIn,
@@ -119,9 +120,7 @@ router.get(
   ROUTES.USER_DASHBOARD,
   ensureLoggedIn(),
   ensureRole('porteur-projet'),
-  (req, res) => {
-    res.send('User dashboard success')
-  }
+  makeExpressCallback(getUserDashboardPage)
 )
 
 app.use(router)

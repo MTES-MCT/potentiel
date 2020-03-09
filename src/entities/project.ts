@@ -1,4 +1,5 @@
 import * as yup from 'yup'
+import { CandidateNotification } from './candidateNotification'
 
 const projectSchema = yup.object({
   id: yup.string(),
@@ -57,7 +58,7 @@ const projectSchema = yup.object({
   classe: yup.mixed<'Eliminé' | 'Classé'>().oneOf(['Eliminé', 'Classé']),
   motifsElimination: yup.string(),
   hasBeenNotified: yup.boolean().default(false),
-  candidateNotifications: yup.array()
+  candidateNotifications: yup.array<CandidateNotification>()
 })
 
 export type Project = yup.InferType<typeof projectSchema>

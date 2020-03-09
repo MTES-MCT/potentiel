@@ -1,4 +1,6 @@
-export default function makeFakeProject(overrides) {
+import { Project } from '../../entities'
+
+export default function makeFakeProject(overrides?) {
   const defaultObj = {
     id: '1',
     periode: 'periode',

@@ -3,6 +3,7 @@ import { v1 as uuidv1 } from 'uuid'
 import makeLogin from './login'
 import makeImportProjects from './importProjects'
 import makeListProjects from './listProjects'
+import makeListUserProjects from './listUserProjects'
 import makeSendCandidateNotifications from './sendCandidateNotifications'
 import makeShowNotification from './showNotification'
 import makeSignup from './signup'
@@ -44,10 +45,13 @@ const signup = makeSignup({
   projectAdmissionKeyRepo
 })
 
+const listUserProjects = makeListUserProjects({ userRepo })
+
 const useCases = Object.freeze({
   login,
   importProjects,
   listProjects,
+  listUserProjects,
   sendCandidateNotifications,
   showNotification,
   signup
@@ -58,6 +62,7 @@ export {
   login,
   importProjects,
   listProjects,
+  listUserProjects,
   sendCandidateNotifications,
   showNotification,
   signup

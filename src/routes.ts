@@ -1,3 +1,8 @@
+import { Project } from './entities'
+
+const withProjectId = (url: string) => (projectId: Project['id']) =>
+  url + '?projectId=' + projectId
+
 export default {
   LOGIN: '/login.html',
   LOGIN_ACTION: '/login',
@@ -9,5 +14,12 @@ export default {
   IMPORT_PROJECTS_ACTION: '/admin/importProjects',
   CANDIDATE_NOTIFICATION: '/admin/candidate-notification.html',
   SEND_NOTIFICATIONS_ACTION: '/admin/sendCandidateNotifications',
-  USER_DASHBOARD: '/mes-projets.html'
+  USER_DASHBOARD: '/mes-projets.html',
+  DEPOSER_RECOURS: withProjectId('/deposer-recours.html'),
+  TELECHARGER_ATTESTATION: withProjectId('/attestation.pdf'),
+  DEMANDE_DELAIS: withProjectId('/demande-delais.html'),
+  CHANGER_FOURNISSEUR: withProjectId('/changer-fournisseur.html'),
+  CHANGER_ACTIONNAIRE: withProjectId('/changer-actionnaire.html'),
+  CHANGER_PUISSANCE: withProjectId('/changer-puissance.html'),
+  DEMANDER_ABANDON: withProjectId('/abandon.html')
 }

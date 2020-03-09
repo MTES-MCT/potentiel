@@ -6,16 +6,24 @@ import ReactDOMServer from 'react-dom/server'
 import Header from '../components/header'
 
 import Login from './login'
+import UserDashboard from './userDashboard'
 import AdminDashboard from './adminDashboard'
 import CandidateNotification from './candidateNotification'
 import Signup from './signup'
 
 const LoginPage = makePresenterPage(Login)
 const AdminDashboardPage = makePresenterPage(AdminDashboard)
+const UserDashboardPage = makePresenterPage(UserDashboard)
 const CandidateNotificationPage = makeRawPage(CandidateNotification)
 const SignupPage = makePresenterPage(Signup)
 
-export { LoginPage, AdminDashboardPage, CandidateNotificationPage, SignupPage }
+export {
+  LoginPage,
+  AdminDashboardPage,
+  UserDashboardPage,
+  CandidateNotificationPage,
+  SignupPage
+}
 
 /**
  * Turn a Page Component (pure) into a presenter that returns a full HTML page

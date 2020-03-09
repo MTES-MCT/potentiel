@@ -1,4 +1,4 @@
-import { Project, makeProject } from '../entities'
+import { Project } from '../entities'
 import { ProjectRepo } from '../dataAccess'
 
 interface MakeUseCaseProps {
@@ -7,7 +7,7 @@ interface MakeUseCaseProps {
 
 interface CallUseCaseProps {}
 
-export default function makeImportProjects({ projectRepo }: MakeUseCaseProps) {
+export default function makeListProjects({ projectRepo }: MakeUseCaseProps) {
   return async function listProjects(
     props: CallUseCaseProps
   ): Promise<Array<Project>> {

@@ -83,21 +83,6 @@ const credentialsRepo: CredentialsRepo = {
   }
 }
 
-const usersById: Record<string, User> = {}
-let userCounter = 0
-const userRepo: UserRepo = {
-  findById: ({ id }) => {
-    if (id in usersById) {
-      return Promise.resolve(usersById[id])
-    } else return Promise.resolve(null)
-  },
-  insert: (user: User) => {
-    const userId: string = (++userCounter).toString()
-    usersById[userId] = { ...user, id: userId }
-    return Promise.resolve(userId)
-  }
-}
-
 const candidateNotificationRepo: CandidateNotificationRepo = makeClassicRepo<
   CandidateNotification
 >()
@@ -181,6 +166,34 @@ const projectRepo: ProjectRepo = {
     await projectAdmissionKeyRepo.insertMany([
       { ...key, projectId: project.id }
     ])
+  }
+}
+
+const usersById: Record<string, User> = {}
+const userProjects: Record<User['id'], Array<Project['id']>> = {}
+let userCounter = 0
+const userRepo: UserRepo = {
+  findById: ({ id }) => {
+    if (id in usersById) {
+      return Promise.resolve(usersById[id])
+    } else return Promise.resolve(null)
+  },
+  insert: (user: User) => {
+    const userId: string = (++userCounter).toString()
+    usersById[userId] = { ...user, id: userId }
+    return Promise.resolve(userId)
+  },
+  findProjects: async (user: User) => {
+    const projectIds: Array<Project['id']> = userProjects[user.id] || []
+
+    return projectIds.map(projectId => projectsById[projectId])
+  },
+  addProject: async (userId: User['id'], projectId: Project['id']) => {
+    if (!userProjects[userId]) {
+      userProjects[userId] = []
+    }
+
+    userProjects[userId].push(projectId)
   }
 }
 
