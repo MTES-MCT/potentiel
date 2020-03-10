@@ -22,107 +22,117 @@ import {
 import ROUTES from './routes'
 import { User } from './entities'
 
-const app = express()
-const port: number = 3000
+export async function makeServer(port: number = 3000) {
+  const app = express()
 
-const upload = multer({ dest: 'uploads/ ' })
+  const upload = multer({ dest: 'uploads/ ' })
 
-app.use(express.static('src/public'))
-app.use(session({ secret: 'cats' }))
+  app.use(express.static('src/public'))
+  app.use(session({ secret: 'cats' }))
 
-app.use(bodyParser.urlencoded({ extended: false }))
+  app.use(bodyParser.urlencoded({ extended: false }))
 
-registerAuth({
-  app,
-  loginRoute: ROUTES.LOGIN,
-  successRoute: ROUTES.REDIRECT_BASED_ON_ROLE
-})
+  registerAuth({
+    app,
+    loginRoute: ROUTES.LOGIN,
+    successRoute: ROUTES.REDIRECT_BASED_ON_ROLE
+  })
 
-const router = express.Router()
+  const router = express.Router()
 
-const ensureRole = (roles: string | Array<string>) => (req, res, next) => {
-  const user = req.user as User
+  const ensureRole = (roles: string | Array<string>) => (req, res, next) => {
+    const user = req.user as User
 
-  if (!user) {
-    return res.redirect(ROUTES.LOGIN)
+    if (!user) {
+      return res.redirect(ROUTES.LOGIN)
+    }
+
+    if (typeof roles === 'string') {
+      if (user.role !== roles) {
+        return res.redirect(ROUTES.REDIRECT_BASED_ON_ROLE)
+      }
+    } else {
+      if (!roles.includes(user.role)) {
+        return res.redirect(ROUTES.REDIRECT_BASED_ON_ROLE)
+      }
+    }
+
+    // Ok to move forward
+    next()
   }
 
-  if (typeof roles === 'string') {
-    if (user.role !== roles) {
-      return res.redirect(ROUTES.REDIRECT_BASED_ON_ROLE)
-    }
-  } else {
-    if (!roles.includes(user.role)) {
-      return res.redirect(ROUTES.REDIRECT_BASED_ON_ROLE)
-    }
-  }
+  router.get(ROUTES.REDIRECT_BASED_ON_ROLE, ensureLoggedIn(), (req, res) => {
+    const user = req.user as User
 
-  // Ok to move forward
-  next()
+    if (user.role === 'admin' || user.role === 'dgec') {
+      res.redirect(ROUTES.ADMIN_DASHBOARD)
+    }
+
+    if (user.role === 'porteur-projet') {
+      res.redirect(ROUTES.USER_DASHBOARD)
+    }
+  })
+
+  router.get(ROUTES.LOGIN, makeExpressCallback(getLoginPage))
+
+  router.post(ROUTES.LOGIN_ACTION, postLogin()) // No makeExpressCallback as this uses a middleware
+  router.get(ROUTES.LOGOUT_ACTION, logoutMiddleware, (req, res) => {
+    res.redirect('/')
+  })
+
+  router.get(
+    ROUTES.ADMIN_DASHBOARD,
+    ensureLoggedIn(),
+    ensureRole(['admin', 'dgec']),
+    makeExpressCallback(getAdminDashboardPage)
+  )
+
+  router.post(
+    ROUTES.IMPORT_PROJECTS_ACTION,
+    ensureLoggedIn(),
+    ensureRole(['admin', 'dgec']),
+    upload.single('candidats'),
+    makeExpressCallback(postProjects)
+  )
+
+  router.get(
+    ROUTES.SEND_NOTIFICATIONS_ACTION,
+    ensureLoggedIn(),
+    ensureRole(['admin', 'dgec']),
+    makeExpressCallback(getSendCandidateNotifications)
+  )
+  router.get(
+    ROUTES.CANDIDATE_NOTIFICATION,
+    ensureLoggedIn(),
+    ensureRole(['admin', 'dgec']),
+    makeExpressCallback(getCandidateNotification)
+  )
+
+  // Going to the signup page automatically logs you out
+  router.get(
+    ROUTES.SIGNUP,
+    /*logoutMiddleware,*/ makeExpressCallback(getSignupPage)
+  )
+
+  router.post(ROUTES.SIGNUP_ACTION, makeExpressCallback(postSignup))
+
+  router.get(
+    ROUTES.USER_DASHBOARD,
+    ensureLoggedIn(),
+    ensureRole('porteur-projet'),
+    makeExpressCallback(getUserDashboardPage)
+  )
+
+  router.get('/hello', (req, res) => {
+    res.send('Hello, World!')
+  })
+
+  app.use(router)
+
+  return new Promise(resolve => {
+    const server = app.listen(port, () => {
+      console.log(`Server listening on port ${port}!`)
+      resolve(server)
+    })
+  })
 }
-
-router.get(ROUTES.REDIRECT_BASED_ON_ROLE, ensureLoggedIn(), (req, res) => {
-  const user = req.user as User
-
-  if (user.role === 'admin' || user.role === 'dgec') {
-    res.redirect(ROUTES.ADMIN_DASHBOARD)
-  }
-
-  if (user.role === 'porteur-projet') {
-    res.redirect(ROUTES.USER_DASHBOARD)
-  }
-})
-
-router.get(ROUTES.LOGIN, makeExpressCallback(getLoginPage))
-
-router.post(ROUTES.LOGIN_ACTION, postLogin()) // No makeExpressCallback as this uses a middleware
-router.get(ROUTES.LOGOUT_ACTION, logoutMiddleware, (req, res) => {
-  res.redirect('/')
-})
-
-router.get(
-  ROUTES.ADMIN_DASHBOARD,
-  ensureLoggedIn(),
-  ensureRole(['admin', 'dgec']),
-  makeExpressCallback(getAdminDashboardPage)
-)
-
-router.post(
-  ROUTES.IMPORT_PROJECTS_ACTION,
-  ensureLoggedIn(),
-  ensureRole(['admin', 'dgec']),
-  upload.single('candidats'),
-  makeExpressCallback(postProjects)
-)
-
-router.get(
-  ROUTES.SEND_NOTIFICATIONS_ACTION,
-  ensureLoggedIn(),
-  ensureRole(['admin', 'dgec']),
-  makeExpressCallback(getSendCandidateNotifications)
-)
-router.get(
-  ROUTES.CANDIDATE_NOTIFICATION,
-  ensureLoggedIn(),
-  ensureRole(['admin', 'dgec']),
-  makeExpressCallback(getCandidateNotification)
-)
-
-// Going to the signup page automatically logs you out
-router.get(
-  ROUTES.SIGNUP,
-  /*logoutMiddleware,*/ makeExpressCallback(getSignupPage)
-)
-
-router.post(ROUTES.SIGNUP_ACTION, makeExpressCallback(postSignup))
-
-router.get(
-  ROUTES.USER_DASHBOARD,
-  ensureLoggedIn(),
-  ensureRole('porteur-projet'),
-  makeExpressCallback(getUserDashboardPage)
-)
-
-app.use(router)
-
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
