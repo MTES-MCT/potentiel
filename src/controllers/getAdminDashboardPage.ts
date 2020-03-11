@@ -5,7 +5,7 @@ import { Controller, HttpRequest } from '../types'
 
 export default function makeGetAdminDashboardPage(): Controller {
   return async (request: HttpRequest, context: any = {}) => {
-    console.log('adminPage request.query', request.query)
+    // console.log('adminPage request.query', request.query)
 
     let projects: Array<Project>
     try {

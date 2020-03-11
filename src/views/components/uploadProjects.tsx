@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { dataId } from '../../helpers/testId'
 import ROUTES from '../../routes'
 
 const UploadProjects = ({
@@ -18,9 +18,24 @@ const UploadProjects = ({
       <div className="form__group">
         <h4>Importer les candidats d'une période</h4>
         {error ? <div className="notification error">{error}</div> : ''}
-        {success ? <div className="notification success">{success}</div> : ''}
+        {success ? (
+          <div
+            className="notification success"
+            {...dataId('importProjects-successMessage')}
+          >
+            {success}
+          </div>
+        ) : (
+          ''
+        )}
         <label htmlFor="periode">Période</label>
-        <input type="text" name="periode" id="periode" placeholder="3T 2020" />
+        <input
+          type="text"
+          name="periode"
+          id="periode"
+          {...dataId('importProjects-periodeField')}
+          placeholder="3T 2020"
+        />
         <label htmlFor="candidats">
           Fichier (doit suivre{' '}
           <a href="/static/template-candidats.csv" download>
@@ -28,8 +43,19 @@ const UploadProjects = ({
           </a>
           )
         </label>
-        <input type="file" name="candidats" id="candidats" />
-        <button className="button" type="submit" name="submit" id="submit">
+        <input
+          type="file"
+          name="candidats"
+          {...dataId('importProjects-candidatsField')}
+          id="candidats"
+        />
+        <button
+          className="button"
+          type="submit"
+          name="submit"
+          id="submit"
+          {...dataId('importProjects-submitButton')}
+        >
           Envoyer
         </button>
       </div>

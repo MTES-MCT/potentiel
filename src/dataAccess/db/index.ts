@@ -9,7 +9,10 @@ import { makeProjectAdmissionKeyRepo } from './projectAdmissionKey'
 
 const sequelize = new Sequelize({
   dialect: 'sqlite',
-  storage: path.resolve(process.cwd(), '.db/db.sqlite'),
+  storage: path.resolve(
+    process.cwd(),
+    process.env.NODE_ENV === 'test' ? '.db/test.sqlite' : '.db/db.sqlite'
+  ),
   logging: false
 })
 

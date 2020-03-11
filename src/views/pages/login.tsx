@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { dataId } from '../../helpers/testId'
+
 interface Props {
   hasError?: boolean
   success?: string
@@ -32,20 +34,22 @@ export default function LoginPage({ hasError = false, success, email }: Props) {
                 type="email"
                 name="email"
                 id="email"
-                defaultValue={email || 'test@test.com'}
+                {...dataId('login-email')}
+                defaultValue={email || ''}
               />
               <label htmlFor="password">Mot de passe</label>
               <input
                 type="password"
                 name="password"
                 id="password"
-                defaultValue={email ? '' : 'test'}
+                {...dataId('login-password')}
               />
               <button
                 className="button"
                 type="submit"
                 name="submit"
                 id="submit"
+                {...dataId('login-submitButton')}
               >
                 Je m'identifie
               </button>

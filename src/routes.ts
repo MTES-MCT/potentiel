@@ -11,7 +11,9 @@ export default {
   SIGNUP: '/enregistrement.html',
   SIGNUP_ACTION: '/enregistrement',
   ADMIN_DASHBOARD: '/admin/dashboard.html',
+  IMPORT_PROJECTS: '/admin/dashboard.html', // Keep separate from ADMIN_DASHBOARD, may change
   IMPORT_PROJECTS_ACTION: '/admin/importProjects',
+  LIST_PROJECTS: '/admin/dashboard.html',
   CANDIDATE_NOTIFICATION: '/admin/candidate-notification.html',
   SEND_NOTIFICATIONS_ACTION: '/admin/sendCandidateNotifications',
   USER_DASHBOARD: '/mes-projets.html',

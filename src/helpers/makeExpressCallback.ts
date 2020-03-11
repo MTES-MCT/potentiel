@@ -38,7 +38,7 @@ export default function makeExpressCallback(controller: Controller) {
             (httpResponse.query
               ? querystring.stringify(httpResponse.query)
               : '')
-          console.log('redirecting to ', redirectTo, httpResponse.redirect)
+          // console.log('redirecting to ', redirectTo, httpResponse.redirect)
           res.redirect(redirectTo)
         } else {
           res.status(httpResponse.statusCode).send(httpResponse.body)
