@@ -6,45 +6,86 @@ import util from 'util'
 const writeFile = util.promisify(fs.writeFile)
 const deleteFile = util.promisify(fs.unlink)
 
-import makeRoute from '../setup/makeRoute'
-
 import routes from '../../src/routes'
 import { testId } from '../../src/helpers/testId'
-import { ADMIN } from '../../src/__tests__/fixtures/testCredentials'
+import { ERREUR_COLONNES } from '../../src/useCases/importProjects'
 
+import { givenJeSuisAdmin } from './shared-steps'
+
+import makeRoute from '../setup/makeRoute'
 const feature = loadFeature('features/importerFichierCandidats.feature')
 
 defineFeature(feature, test => {
-  let page: Page
   const TEMP_CSV_FILE = 'temp/candidats.csv'
+  let page: Page
 
   beforeAll(async () => {
     page = await global['__BROWSER__'].newPage()
   })
 
-  test('Importer un fichier de candidats', ({ given, and, when, then }) => {
-    given('je suis un administrateur DGEC', async () => {
-      await page.goto(makeRoute(routes.LOGIN))
+  test('Fichier au bon format', ({ given, and, when, then }) => {
+    givenJeSuisAdmin(given, () => page)
 
-      await expect(page).toMatch("Je m'identifie")
+    givenJeSuisSurLaPageImport(given)
 
-      await page.type(testId('login-email'), ADMIN.email)
-      await page.type(testId('login-password'), ADMIN.password)
+    whenJeSaisisLaPeriode(when)
 
-      await page.click(testId('login-submitButton'))
+    whenJeSelectionneUnFichierCsv(when)
 
-      expect(page.url()).toEqual(makeRoute(routes.ADMIN_DASHBOARD))
+    whenJeValideLeFormulaire(when)
+
+    then('le site me redirige vers la page de liste des projets', async () => {
+      expect(page.url().indexOf(makeRoute(routes.LIST_PROJECTS))).toEqual(0)
     })
 
-    and("je suis sur la page d'import de candidats", async () => {
+    and(/^me notifie la réussite par "(.*)"$/, async successMessage => {
+      await expect(page).toMatchElement(
+        testId('importProjects-successMessage'),
+        {
+          text: successMessage
+        }
+      )
+    })
+  })
+
+  test('Fichier au mauvais format', ({ given, and, when, then }) => {
+    givenJeSuisAdmin(given, () => page)
+
+    givenJeSuisSurLaPageImport(given)
+
+    whenJeSaisisLaPeriode(when)
+
+    whenJeSelectionneUnFichierCsv(when)
+
+    whenJeValideLeFormulaire(when)
+
+    then("le site reste sur la page d'import de candidats", async () => {
+      expect(page.url().indexOf(makeRoute(routes.IMPORT_PROJECTS))).toEqual(0)
+    })
+
+    and(/^me notifie l'échec par "(.*)"$/, async errorMessage => {
+      await expect(page).toMatchElement(testId('importProjects-errorMessage'), {
+        text: ERREUR_COLONNES
+      })
+    })
+  })
+
+  // Re-used steps
+
+  function givenJeSuisSurLaPageImport(given) {
+    given("je suis sur la page d'import de candidats", async () => {
       await page.goto(makeRoute(routes.IMPORT_PROJECTS))
     })
+  }
 
+  function whenJeSaisisLaPeriode(when) {
     when(/^je saisis la période '(.*)'$/, async periode => {
       await page.type(testId('importProjects-periodeField'), periode)
     })
+  }
 
-    and('je selectionne le fichier csv de la forme', async csvContents => {
+  function whenJeSelectionneUnFichierCsv(when) {
+    when('je selectionne le fichier csv de la forme', async csvContents => {
       await writeFile(TEMP_CSV_FILE, csvContents, 'utf8')
 
       const inputUploadFile = await page.$(
@@ -60,22 +101,11 @@ defineFeature(feature, test => {
       // clean up on aisle 5
       await deleteFile(TEMP_CSV_FILE)
     })
+  }
 
-    and('je valide le formulaire', async () => {
+  function whenJeValideLeFormulaire(when) {
+    when('je valide le formulaire', async () => {
       await page.click(testId('importProjects-submitButton'))
     })
-
-    then('le site me redirige vers la page de liste des projets', async () => {
-      expect(page.url().indexOf(makeRoute(routes.LIST_PROJECTS))).toEqual(0)
-    })
-
-    and(/^me notifie la réussite par "(.*)"$/, async successMessage => {
-      await expect(page).toMatchElement(
-        testId('importProjects-successMessage'),
-        {
-          text: successMessage
-        }
-      )
-    })
-  })
+  }
 })

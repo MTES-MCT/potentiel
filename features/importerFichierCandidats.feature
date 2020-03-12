@@ -1,7 +1,7 @@
 # language: fr
 Fonctionnalité: Import d'un fichier de candidats
 
-  Scénario: Importer un fichier de candidats
+  Scénario: Fichier au bon format
     Etant donné que je suis un administrateur DGEC
     Et que je suis sur la page d'import de candidats
     Lorsque je saisis la période 'Période 3T Batiment'
@@ -14,3 +14,17 @@ Fonctionnalité: Import d'un fichier de candidats
     Et que je valide le formulaire
     Alors le site me redirige vers la page de liste des projets
     Et me notifie la réussite par "Les candidats ont bien été importés"
+
+
+  Scénario: Fichier au mauvais format
+    Etant donné que je suis un administrateur DGEC
+    Et que je suis sur la page d'import de candidats
+    Lorsque je saisis la période 'Période 3T Batiment'
+    Et que je selectionne le fichier csv de la forme
+      """
+      mauvaiseColonne;etEncoreMauvais
+      1;3
+      """
+    Et que je valide le formulaire
+    Alors le site reste sur la page d'import de candidats
+    Et me notifie l'échec par "Format du fichier erroné (vérifier conformité des colonnes)"

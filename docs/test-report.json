@@ -8,10 +8,10 @@
     "uri": "/Users/paduc/workspace/fabrique-enr/features/importerFichierCandidats.feature",
     "elements": [
       {
-        "id": "import-d'un-fichier-de-candidats;importer-un-fichier-de-candidats",
+        "id": "import-d'un-fichier-de-candidats;fichier-au-bon-format",
         "keyword": "Scenario",
         "line": 4,
-        "name": "Importer un fichier de candidats",
+        "name": "Fichier au bon format",
         "tags": [],
         "type": "scenario",
         "steps": [
@@ -22,7 +22,7 @@
             "name": "je suis un administrateur DGEC",
             "result": {
               "status": "passed",
-              "duration": 557000000
+              "duration": 567000000
             }
           },
           {
@@ -32,7 +32,7 @@
             "name": "je suis sur la page d'import de candidats",
             "result": {
               "status": "passed",
-              "duration": 78000000
+              "duration": 86000000
             }
           },
           {
@@ -42,7 +42,7 @@
             "name": "je saisis la période 'Période 3T Batiment'",
             "result": {
               "status": "passed",
-              "duration": 99000000
+              "duration": 92000000
             }
           },
           {
@@ -57,7 +57,7 @@
             "name": "je selectionne le fichier csv de la forme",
             "result": {
               "status": "passed",
-              "duration": 15000000
+              "duration": 16000000
             }
           },
           {
@@ -67,7 +67,7 @@
             "name": "je valide le formulaire",
             "result": {
               "status": "passed",
-              "duration": 139000000
+              "duration": 152000000
             }
           },
           {
@@ -87,7 +87,92 @@
             "name": "me notifie la réussite par \"Les candidats ont bien été importés\"",
             "result": {
               "status": "passed",
-              "duration": 57000000
+              "duration": 66000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "import-d'un-fichier-de-candidats;fichier-au-mauvais-format",
+        "keyword": "Scenario",
+        "line": 19,
+        "name": "Fichier au mauvais format",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Etant donné que ",
+            "line": 20,
+            "name": "je suis un administrateur DGEC",
+            "result": {
+              "status": "passed",
+              "duration": 447000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Et que ",
+            "line": 21,
+            "name": "je suis sur la page d'import de candidats",
+            "result": {
+              "status": "passed",
+              "duration": 126000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Lorsque ",
+            "line": 22,
+            "name": "je saisis la période 'Période 3T Batiment'",
+            "result": {
+              "status": "passed",
+              "duration": 131000000
+            }
+          },
+          {
+            "arguments": [
+              {
+                "content": "mauvaiseColonne;etEncoreMauvais\n1;3",
+                "line": 24
+              }
+            ],
+            "keyword": "Et que ",
+            "line": 23,
+            "name": "je selectionne le fichier csv de la forme",
+            "result": {
+              "status": "passed",
+              "duration": 10000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Et que ",
+            "line": 28,
+            "name": "je valide le formulaire",
+            "result": {
+              "status": "passed",
+              "duration": 116000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Alors ",
+            "line": 29,
+            "name": "le site reste sur la page d'import de candidats",
+            "result": {
+              "status": "passed",
+              "duration": 1000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Et ",
+            "line": 30,
+            "name": "me notifie l'échec par \"Format du fichier erroné (vérifier conformité des colonnes)\"",
+            "result": {
+              "status": "passed",
+              "duration": 32000000
             }
           }
         ]

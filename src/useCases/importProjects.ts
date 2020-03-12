@@ -58,7 +58,7 @@ export default function makeImportProjects({ projectRepo }: MakeUseCaseProps) {
       !headers ||
       !_.isEqual(_.sortBy(headers), _.sortBy(MANDATORY_HEADER_COLUMNS))
     ) {
-      console.log('headers', headers)
+      // console.log('headers', headers)
       throw {
         error: ERREUR_COLONNES
       }

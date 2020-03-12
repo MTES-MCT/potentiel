@@ -17,7 +17,16 @@ const UploadProjects = ({
     >
       <div className="form__group">
         <h4>Importer les candidats d'une période</h4>
-        {error ? <div className="notification error">{error}</div> : ''}
+        {error ? (
+          <div
+            className="notification error"
+            {...dataId('importProjects-errorMessage')}
+          >
+            {error}
+          </div>
+        ) : (
+          ''
+        )}
         {success ? (
           <div
             className="notification success"

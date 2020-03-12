@@ -7,7 +7,7 @@ var options = {
   output: './docs/index.html',
   reportSuiteAsScenarios: true,
   scenarioTimestamp: true,
-  launchReport: true,
+  launchReport: false,
   brandTitle: 'Rapport fonctionnel',
   metadata: {
     Version: package.version,
