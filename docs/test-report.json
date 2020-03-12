@@ -1,0 +1,97 @@
+[
+  {
+    "keyword": "Fonctionnalité",
+    "name": "Import d'un fichier de candidats",
+    "line": 2,
+    "id": "import-d'un-fichier-de-candidats",
+    "tags": [],
+    "uri": "/Users/paduc/workspace/fabrique-enr/features/importerFichierCandidats.feature",
+    "elements": [
+      {
+        "id": "import-d'un-fichier-de-candidats;importer-un-fichier-de-candidats",
+        "keyword": "Scenario",
+        "line": 4,
+        "name": "Importer un fichier de candidats",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Etant donné que ",
+            "line": 5,
+            "name": "je suis un administrateur DGEC",
+            "result": {
+              "status": "passed",
+              "duration": 557000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Et que ",
+            "line": 6,
+            "name": "je suis sur la page d'import de candidats",
+            "result": {
+              "status": "passed",
+              "duration": 78000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Lorsque ",
+            "line": 7,
+            "name": "je saisis la période 'Période 3T Batiment'",
+            "result": {
+              "status": "passed",
+              "duration": 99000000
+            }
+          },
+          {
+            "arguments": [
+              {
+                "content": "numeroCRE;famille;nomCandidat;nomProjet;puissance(kWc);prixReference(euros/MWh);evaluationCarbone(kg eq CO2/kWc);note;nomRepresentantLegal;email;adresseProjet;codePostalProjet;communeProjet;departementProjet;regionProjet;classé(1/0);motifsElimination\n456851;1;Soleillou SARL;Lavandou 3000;12000;60,45;450,25;3,4;Michel Legrand;michel@soleillou.eu;3 chemin du Prat;23258;Lavandou;Ariège;PACA;Classé;\n75432;2;PV Power SA;SRE-2;1500;80,99;150,00;1,1;Raymond Patoulachi;rayray@lesgaufres.fr;3 rue Paster;69380;Chasselay;Rhône;Rhone-Alpes-Auvergne;Eliminé;Puissance trop faible",
+                "line": 9
+              }
+            ],
+            "keyword": "Et que ",
+            "line": 8,
+            "name": "je selectionne le fichier csv de la forme",
+            "result": {
+              "status": "passed",
+              "duration": 15000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Et que ",
+            "line": 14,
+            "name": "je valide le formulaire",
+            "result": {
+              "status": "passed",
+              "duration": 139000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Alors ",
+            "line": 15,
+            "name": "le site me redirige vers la page de liste des projets",
+            "result": {
+              "status": "passed",
+              "duration": 1000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Et ",
+            "line": 16,
+            "name": "me notifie la réussite par \"Les candidats ont bien été importés\"",
+            "result": {
+              "status": "passed",
+              "duration": 57000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

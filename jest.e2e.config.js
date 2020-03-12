@@ -14,5 +14,14 @@ module.exports = {
   globalSetup: '<rootDir>/features/setup/setup.ts',
   globalTeardown: '<rootDir>/features/setup/teardown.js',
   testEnvironment: '<rootDir>/features/setup/puppeteer_environment.js',
-  setupFilesAfterEnv: ['expect-puppeteer']
+  setupFilesAfterEnv: ['expect-puppeteer'],
+  reporters: [
+    [
+      './node_modules/jest-cucumber/dist/src/reporter',
+      {
+        formatter: 'summary',
+        path: './docs/test-report.json'
+      }
+    ]
+  ]
 }

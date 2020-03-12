@@ -6,11 +6,11 @@ import util from 'util'
 const writeFile = util.promisify(fs.writeFile)
 const deleteFile = util.promisify(fs.unlink)
 
-import makeRoute from './setup/makeRoute'
+import makeRoute from '../setup/makeRoute'
 
-import routes from '../src/routes'
-import { testId } from '../src/helpers/testId'
-import { ADMIN } from '../src/__tests__/fixtures/testCredentials'
+import routes from '../../src/routes'
+import { testId } from '../../src/helpers/testId'
+import { ADMIN } from '../../src/__tests__/fixtures/testCredentials'
 
 const feature = loadFeature('features/importerFichierCandidats.feature')
 
