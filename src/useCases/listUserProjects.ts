@@ -7,13 +7,13 @@ interface MakeUseCaseProps {
 }
 
 interface CallUseCaseProps {
-  user: User
+  userId: User['id']
 }
 
 export default function makeListUserProjects({ userRepo }: MakeUseCaseProps) {
   return async function listUserProjects({
-    user
+    userId
   }: CallUseCaseProps): Promise<Array<Project>> {
-    return userRepo.findProjects(user)
+    return userRepo.findProjects(userId)
   }
 }

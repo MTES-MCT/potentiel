@@ -39,14 +39,15 @@ export default function makeSendCandidateNotifications({
             projectAdmissionKey: ProjectAdmissionKey
           }> => {
             // For each project, create a new projectAdmissionKey
+            // TODO: move the makeUuid to the ProjectAdmissionKey entity
             const projectAdmissionKey = makeProjectAdmissionKey({
               id: makeUuid(),
               projectId: project.id
             })
 
             await projectRepo.addProjectAdmissionKey(
-              project,
-              projectAdmissionKey
+              project.id,
+              projectAdmissionKey.id
             )
 
             return { project, projectAdmissionKey }

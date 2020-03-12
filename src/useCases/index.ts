@@ -16,10 +16,7 @@ import {
   projectAdmissionKeyRepo
 } from '../dataAccess'
 
-import hashPassword from '../helpers/hashPassword'
-
 const login = makeLogin({
-  hashFn: hashPassword,
   credentialsRepo,
   userRepo
 })

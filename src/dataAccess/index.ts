@@ -6,6 +6,12 @@ import {
   projectAdmissionKeyRepo
 } from './db'
 
+if (process.env.NODE_ENV === 'test') {
+  console.log('DO NOT USE THESE DEFAULT DATA ACCESS REPOS (DB) IN TESTS')
+  console.log("Use: import { xxxRepo } from 'dataAccess/inMemory'")
+  process.exit(1)
+}
+
 const dataAccess = Object.freeze({
   credentialsRepo,
   userRepo,

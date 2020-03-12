@@ -1,10 +1,9 @@
-import { User } from '../entities'
+import { User, makeCredentials } from '../entities'
 import { UserRepo, CredentialsRepo } from '../dataAccess'
 
 interface MakeLoginProps {
   credentialsRepo: CredentialsRepo
   userRepo: UserRepo
-  hashFn: (password: string) => string
 }
 
 interface LoginProps {
@@ -14,8 +13,7 @@ interface LoginProps {
 
 export default function makeLogin({
   credentialsRepo,
-  userRepo,
-  hashFn
+  userRepo
 }: MakeLoginProps) {
   return async function login({
     email,
@@ -27,12 +25,13 @@ export default function makeLogin({
     if (!credentials) return null
 
     // Check password
-    if (hashFn(password) !== credentials.hash) return null
+    const providedCredentials = makeCredentials({ email, password, userId: '' })
+    if (providedCredentials.hash !== credentials.hash) return null
 
-    const user = await userRepo.findById({ id: credentials.userId })
+    const user = await userRepo.findById(credentials.userId)
 
     if (!user) {
-      console.log('userId is ', credentials.userId)
+      // console.log('userId is ', credentials.userId)
       throw new Error('Cannot find user corresponding to credentials userId')
     }
 

@@ -26,15 +26,16 @@ export default function makeUserRepo({ sequelize }): UserRepo {
   return Object.freeze({
     findById,
     insert,
+    remove,
     addProject,
     findProjects
   })
 
-  async function findById({ id: _id }): Promise<User | null> {
+  async function findById(id: User['id']): Promise<User | null> {
     await _isDbReady
 
     const user = await userModel.findOne({
-      where: { id: _id }
+      where: { id }
     })
 
     return user ? makeUser(user) : null
@@ -45,6 +46,12 @@ export default function makeUserRepo({ sequelize }): UserRepo {
 
     const { id } = await userModel.create(user)
     return id.toString()
+  }
+
+  async function remove(id: User['id']) {
+    await _isDbReady
+
+    await userModel.destroy({ where: { id } })
   }
 
   async function addProject(userId: string, projectId: string): Promise<void> {
@@ -64,8 +71,8 @@ export default function makeUserRepo({ sequelize }): UserRepo {
     await userInstance.addProject(projectInstance)
   }
 
-  async function findProjects(user: User): Promise<Array<Project>> {
-    const userInstance = await userModel.findByPk(user.id)
+  async function findProjects(userId: User['id']): Promise<Array<Project>> {
+    const userInstance = await userModel.findByPk(userId)
 
     if (!userInstance) {
       throw new Error('Cannot find user to add project to')

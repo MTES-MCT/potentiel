@@ -17,7 +17,7 @@ export type ProjectRepo = {
     notification: CandidateNotification
   ) => Promise<void>
   addProjectAdmissionKey: (
-    project: Project,
-    key: ProjectAdmissionKey
+    projectId: Project['id'],
+    key: ProjectAdmissionKey['id']
   ) => Promise<void>
 }

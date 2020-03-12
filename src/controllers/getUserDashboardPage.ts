@@ -14,7 +14,7 @@ export default function makeGetUserDashboard(): Controller {
       }
     }
 
-    const projects = await listUserProjects({ user: request.user })
+    const projects = await listUserProjects({ userId: request.user.id })
 
     // return {
     //   redirect: ROUTES.WHATEVER,

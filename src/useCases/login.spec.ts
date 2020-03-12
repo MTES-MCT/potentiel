@@ -1,12 +1,10 @@
 import makeLogin from './login'
 
-import hashFn from '../helpers/hashPassword'
-
 import { makeCredentials, makeUser } from '../entities'
 
 import { credentialsRepo, userRepo } from '../dataAccess/inMemory'
 
-const login = makeLogin({ credentialsRepo, hashFn, userRepo })
+const login = makeLogin({ credentialsRepo, userRepo })
 
 const phonyCredentials = {
   email: 'fake@example.fake',
@@ -35,7 +33,7 @@ describe('login use-case', () => {
       password
     })
 
-    expect(foundUser).toEqual(phonyUser)
+    expect(foundUser).toEqual(expect.objectContaining(phonyUser))
   })
 
   it('returns null if the email is incorrect', async () => {

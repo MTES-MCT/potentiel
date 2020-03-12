@@ -11,12 +11,23 @@ import { projectRepo } from '../dataAccess/inMemory'
 const importProjects = makeImportProjects({ projectRepo })
 
 const makePhonyLine = () => ({
-  status: 'eliminé',
-  nom: 'nom',
-  nomCandidat: 'nom candidat',
-  localisation: 'ici',
-  puissance: 12,
-  prixUnitaire: 34
+  numeroCRE: 'numeroCRE',
+  famille: 'famille',
+  nomCandidat: 'nomCandidat',
+  nomProjet: 'nomProjet',
+  'puissance(kWc)': '11,5',
+  'prixReference(euros/MWh)': '100',
+  'evaluationCarbone(kg eq CO2/kWc)': '142.5',
+  note: '11',
+  nomRepresentantLegal: 'nomRepresentantLegal',
+  email: 'email',
+  adresseProjet: 'adresseProjet',
+  codePostalProjet: 'codePostalProjet',
+  communeProjet: 'communeProjet',
+  departementProjet: 'departementProjet',
+  regionProjet: 'regionProjet',
+  'classé(1/0)': 'Classé',
+  motifsElimination: 'motifsElimination'
 })
 
 describe('importProjects use-case', () => {
@@ -99,10 +110,31 @@ describe('importProjects use-case', () => {
 
     const newProjects = await projectRepo.findAll()
 
-    expect(newProjects).toHaveLength(1)
-    expect(newProjects).toContainEqual({
+    // What is expected is the same as the phonyLine
+    // but with numbers instead of strings
+    // and project entity property names
+    const expectedLine = {
       periode: phonyPeriode,
-      ...phonyLine
-    })
+      numeroCRE: 'numeroCRE',
+      famille: 'famille',
+      nomCandidat: 'nomCandidat',
+      nomProjet: 'nomProjet',
+      puissance: 11.5,
+      prixReference: 100,
+      evaluationCarbone: 142.5,
+      note: 11,
+      nomRepresentantLegal: 'nomRepresentantLegal',
+      email: 'email',
+      adresseProjet: 'adresseProjet',
+      codePostalProjet: 'codePostalProjet',
+      communeProjet: 'communeProjet',
+      departementProjet: 'departementProjet',
+      regionProjet: 'regionProjet',
+      classe: 'Classé',
+      motifsElimination: 'motifsElimination'
+    }
+
+    expect(newProjects).toHaveLength(1)
+    expect(newProjects).toContainEqual(expect.objectContaining(expectedLine))
   })
 })

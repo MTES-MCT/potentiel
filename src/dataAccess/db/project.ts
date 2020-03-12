@@ -164,19 +164,22 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
   }
 
   async function addProjectAdmissionKey(
-    project: Project,
-    key: ProjectAdmissionKey
+    projectId: Project['id'],
+    key: ProjectAdmissionKey['id']
   ) {
     await _isDbReady
 
-    const projectInstance = await ProjectModel.findByPk(project.id)
+    const projectInstance = await ProjectModel.findByPk(projectId)
 
     if (!projectInstance) {
       throw new Error('Cannot find project to add notification to')
     }
 
     const ProjectAdmissionKeyModel = sequelize.model('projectAdmissionKey')
-    const projectAdmissionKey = await ProjectAdmissionKeyModel.create(key)
+    const projectAdmissionKey = await ProjectAdmissionKeyModel.create({
+      id: key,
+      projectId
+    })
 
     await projectInstance.addProjectAdmissionKey(projectAdmissionKey)
   }

@@ -9,7 +9,7 @@ interface CallUseCaseProps {}
 
 export default function makeListProjects({ projectRepo }: MakeUseCaseProps) {
   return async function listProjects(
-    props: CallUseCaseProps
+    props?: CallUseCaseProps
   ): Promise<Array<Project>> {
     return projectRepo.findAll(undefined, true)
   }

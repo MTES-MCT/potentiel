@@ -20,11 +20,16 @@ interface HasId {
 const makeClassicRepo = <T extends HasId>(
   defaultProperties: Record<string, any> = {}
 ) => {
-  const itemsById: Record<string, T> = {}
+  let itemsById: Record<string, T> = {}
   let itemCount = 0
 
   return {
+    reset: () => {
+      itemsById = {}
+      itemCount = 0
+    },
     findById: ({ id }) => {
+      // console.log('findById', id, itemsById)
       if (id in itemsById) {
         return Promise.resolve(itemsById[id])
       } else return Promise.resolve(null)
@@ -45,10 +50,10 @@ const makeClassicRepo = <T extends HasId>(
     insertMany: (items: Array<T>) => {
       items.forEach(item => {
         const itemId: string = (++itemCount).toString()
-        itemsById[itemId] = {
+        itemsById[item.id || itemId] = {
           ...defaultProperties,
-          ...item,
-          id: itemId
+          id: itemId,
+          ...item
         }
       })
 
@@ -70,7 +75,7 @@ const makeClassicRepo = <T extends HasId>(
   }
 }
 
-const credentialsByEmail: Record<string, Credentials> = {}
+let credentialsByEmail: Record<string, Credentials> = {}
 const credentialsRepo: CredentialsRepo = {
   findByEmail: ({ email }) => {
     if (email in credentialsByEmail) {
@@ -83,15 +88,11 @@ const credentialsRepo: CredentialsRepo = {
   }
 }
 
-const candidateNotificationRepo: CandidateNotificationRepo = makeClassicRepo<
-  CandidateNotification
->()
+const candidateNotificationRepo = makeClassicRepo<CandidateNotification>()
 
-const projectAdmissionKeyRepo: ProjectAdmissionKeyRepo = makeClassicRepo<
-  ProjectAdmissionKey
->()
+const projectAdmissionKeyRepo = makeClassicRepo<ProjectAdmissionKey>()
 
-const projectsById: Record<string, Project> = {}
+let projectsById: Record<string, Project> = {}
 let projectCount = 0
 const projectRepo: ProjectRepo = {
   findById: ({ id }) => {
@@ -154,26 +155,26 @@ const projectRepo: ProjectRepo = {
     projectInstance.hasBeenNotified = true
   },
   addProjectAdmissionKey: async (
-    project: Project,
-    key: ProjectAdmissionKey
+    projectId: Project['id'],
+    key: ProjectAdmissionKey['id']
   ) => {
-    const projectInstance = projectsById[project.id]
+    const projectInstance = projectsById[projectId]
 
     if (!projectInstance) {
       throw new Error('Cannot find project to add project admission key to')
     }
 
     await projectAdmissionKeyRepo.insertMany([
-      { ...key, projectId: project.id }
+      { id: key, projectId: projectId }
     ])
   }
 }
 
-const usersById: Record<string, User> = {}
-const userProjects: Record<User['id'], Array<Project['id']>> = {}
+let usersById: Record<string, User> = {}
+let userProjects: Record<User['id'], Array<Project['id']>> = {}
 let userCounter = 0
 const userRepo: UserRepo = {
-  findById: ({ id }) => {
+  findById: (id: User['id']) => {
     if (id in usersById) {
       return Promise.resolve(usersById[id])
     } else return Promise.resolve(null)
@@ -183,10 +184,13 @@ const userRepo: UserRepo = {
     usersById[userId] = { ...user, id: userId }
     return Promise.resolve(userId)
   },
-  findProjects: async (user: User) => {
-    const projectIds: Array<Project['id']> = userProjects[user.id] || []
+  findProjects: async (userId: User['id']) => {
+    const projectIds: Array<Project['id']> = userProjects[userId] || []
 
     return projectIds.map(projectId => projectsById[projectId])
+  },
+  remove: async (userId: User['id']) => {
+    delete usersById[userId]
   },
   addProject: async (userId: User['id'], projectId: Project['id']) => {
     if (!userProjects[userId]) {
@@ -197,10 +201,22 @@ const userRepo: UserRepo = {
   }
 }
 
+const resetDb = () => {
+  credentialsByEmail = {}
+  projectsById = {}
+  projectCount = 0
+  usersById = {}
+  userProjects = {}
+  userCounter = 0
+  candidateNotificationRepo.reset()
+  projectAdmissionKeyRepo.reset()
+}
+
 export {
   credentialsRepo,
   userRepo,
   projectRepo,
   candidateNotificationRepo,
-  projectAdmissionKeyRepo
+  projectAdmissionKeyRepo,
+  resetDb
 }

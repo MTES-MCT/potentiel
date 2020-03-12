@@ -39,7 +39,11 @@ export const ERREUR_AUCUNE_LIGNE = 'Le fichier semble vide (aucune ligne)'
 export const ERREUR_FORMAT_LIGNE = 'Le fichier comporte des lignes erronées'
 
 const toNumber = str => {
-  return Number(str.replace(/,/g, '.'))
+  return typeof str === 'number'
+    ? str
+    : typeof str === 'string'
+    ? Number(str.replace(/,/g, '.'))
+    : undefined
 }
 
 export default function makeImportProjects({ projectRepo }: MakeUseCaseProps) {
@@ -104,7 +108,7 @@ export default function makeImportProjects({ projectRepo }: MakeUseCaseProps) {
           })
         )
       } catch (e) {
-        console.log('Erreur de validation', e)
+        // console.log('Erreur de validation', e)
         erroredLines.push({
           line: line,
           error: e.path
@@ -119,7 +123,7 @@ export default function makeImportProjects({ projectRepo }: MakeUseCaseProps) {
         if (index < erroredLines.length - 1) errorLong += ', '
       })
       errorLong += ')'
-      console.log('erreur lignes', errorLong)
+      // console.log('erreur lignes', errorLong)
       throw {
         error: ERREUR_FORMAT_LIGNE,
         errorLong,
