@@ -22,18 +22,27 @@ export default function makeLogin({
     const credentials = await credentialsRepo.findByEmail({ email })
 
     // Email not found
-    if (!credentials) return null
+    if (!credentials) {
+      // console.log('login() : email not found')
+      return null
+    }
 
     // Check password
     const providedCredentials = makeCredentials({ email, password, userId: '' })
-    if (providedCredentials.hash !== credentials.hash) return null
+    if (providedCredentials.hash !== credentials.hash) {
+      // console.log('login() : wrong password')
+      return null
+    }
 
     const user = await userRepo.findById(credentials.userId)
 
     if (!user) {
       // console.log('userId is ', credentials.userId)
+      // console.log('login() : user not found')
       throw new Error('Cannot find user corresponding to credentials userId')
     }
+
+    // console.log('login() : all good, user is ', user)
 
     return user
   }

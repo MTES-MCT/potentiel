@@ -46,8 +46,8 @@ export default function makeAuthentication({
       done(null, user.id)
     })
 
-    passport.deserializeUser(async function(id, done) {
-      const user = await userRepo.findById({ id })
+    passport.deserializeUser(async function(id: User['id'], done) {
+      const user = await userRepo.findById(id)
       done(null, user)
     })
 
@@ -70,6 +70,7 @@ export default function makeAuthentication({
               return done(null, user)
             })
             .catch(err => {
+              console.log('login caught an error', err)
               return done(err)
             })
         }

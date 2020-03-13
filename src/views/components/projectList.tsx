@@ -2,6 +2,7 @@ import React from 'react'
 
 import { Project, CandidateNotification } from '../../entities'
 import ROUTES from '../../routes'
+import { dataId } from '../../helpers/testId'
 
 interface Props {
   projects?: Array<Project>
@@ -27,7 +28,7 @@ const ProjectList = ({ projects, projectActions }: Props) => {
 
   return (
     <>
-      <table className="table">
+      <table className="table" {...dataId('projectList-list')}>
         <thead>
           <tr>
             <th>Periode</th>
@@ -44,19 +45,24 @@ const ProjectList = ({ projects, projectActions }: Props) => {
           {projects.map(project => (
             <tr key={'project_' + project.id}>
               <td valign="top">
-                <div>{project.periode}</div>
+                <div {...dataId('projectList-item-periode')}>
+                  {project.periode}
+                </div>
                 <div
                   style={{
                     fontStyle: 'italic',
                     lineHeight: 'normal',
                     fontSize: 12
                   }}
+                  {...dataId('projectList-item-famille')}
                 >
                   famille {project.famille}
                 </div>
               </td>
               <td valign="top">
-                <div>{project.nomProjet}</div>
+                <div {...dataId('projectList-item-nomProjet')}>
+                  {project.nomProjet}
+                </div>
                 <div
                   style={{
                     fontStyle: 'italic',
@@ -64,12 +70,23 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                     fontSize: 12
                   }}
                 >
-                  {project.communeProjet}, {project.departementProjet},{' '}
-                  {project.regionProjet}
+                  <span {...dataId('projectList-item-communeProjet')}>
+                    {project.communeProjet}
+                  </span>
+                  ,{' '}
+                  <span {...dataId('projectList-item-departementProjet')}>
+                    {project.departementProjet}
+                  </span>
+                  ,{' '}
+                  <span {...dataId('projectList-item-regionProjet')}>
+                    {project.regionProjet}
+                  </span>
                 </div>
               </td>
               <td valign="top">
-                <div>{project.nomCandidat}</div>
+                <div {...dataId('projectList-item-nomCandidat')}>
+                  {project.nomCandidat}
+                </div>
                 <div
                   style={{
                     fontStyle: 'italic',
@@ -77,11 +94,18 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                     fontSize: 12
                   }}
                 >
-                  {project.nomRepresentantLegal} {project.email}
+                  <span {...dataId('projectList-item-nomRepresentantLegal')}>
+                    {project.nomRepresentantLegal}
+                  </span>{' '}
+                  <span {...dataId('projectList-item-email')}>
+                    {project.email}
+                  </span>
                 </div>
               </td>
               <td valign="top">
-                {project.puissance}{' '}
+                <span {...dataId('projectList-item-puissance')}>
+                  {project.puissance}
+                </span>{' '}
                 <span
                   style={{
                     fontStyle: 'italic',
@@ -93,7 +117,9 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                 </span>
               </td>
               <td valign="top">
-                {project.prixReference}{' '}
+                <span {...dataId('projectList-item-prixReference')}>
+                  {project.prixReference}
+                </span>{' '}
                 <span
                   style={{
                     fontStyle: 'italic',
@@ -105,7 +131,9 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                 </span>
               </td>
               <td valign="top">
-                {project.evaluationCarbone}{' '}
+                <span {...dataId('projectList-item-evaluationCarbone')}>
+                  {project.evaluationCarbone}
+                </span>{' '}
                 <span
                   style={{
                     fontStyle: 'italic',
@@ -123,20 +151,19 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                   (project.classe === 'Classé' ? 'success' : 'error')
                 }
               >
-                <div>{project.classe}</div>
-                {project.motifsElimination ? (
-                  <div
-                    style={{
-                      fontStyle: 'italic',
-                      lineHeight: 'normal',
-                      fontSize: 12
-                    }}
-                  >
-                    {project.motifsElimination}
-                  </div>
-                ) : (
-                  ''
-                )}
+                <div {...dataId('projectList-item-classe')}>
+                  {project.classe}
+                </div>
+                <div
+                  style={{
+                    fontStyle: 'italic',
+                    lineHeight: 'normal',
+                    fontSize: 12
+                  }}
+                  {...dataId('projectList-item-motifsElimination')}
+                >
+                  {project.motifsElimination || ''}
+                </div>
               </td>
               {projectActions && projectActions(project) ? (
                 <td style={{ position: 'relative' }}>

@@ -6,8 +6,8 @@ import {
   projectAdmissionKeyRepo
 } from './db'
 
-if (process.env.NODE_ENV === 'test') {
-  console.log('DO NOT USE THESE DEFAULT DATA ACCESS REPOS (DB) IN TESTS')
+if (process.env.NODE_ENV === 'unit-test') {
+  console.log('DO NOT USE THESE DEFAULT DATA ACCESS REPOS (DB) IN UNIT TESTS')
   console.log("Use: import { xxxRepo } from 'dataAccess/inMemory'")
   process.exit(1)
 }

@@ -13,7 +13,7 @@ Fonctionnalité: Import d'un fichier de candidats
       """
     Et que je valide le formulaire
     Alors le site me redirige vers la page de liste des projets
-    Et me notifie la réussite par "Les candidats ont bien été importés"
+    Et me notifie la réussite par "Les candidats ont bien été importés."
 
 
   Scénario: Fichier au mauvais format
