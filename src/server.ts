@@ -19,6 +19,8 @@ import {
   postSignup
 } from './controllers'
 
+import { init } from './dataAccess'
+
 import ROUTES from './routes'
 import { User } from './entities'
 
@@ -129,6 +131,9 @@ export async function makeServer(port: number = 3000) {
 
   app.use(router)
 
+  // wait for the database to initialize
+  await init()
+
   return new Promise(resolve => {
     const server = app.listen(port, () => {
       console.log(`Server listening on port ${port}!`)
@@ -136,3 +141,5 @@ export async function makeServer(port: number = 3000) {
     })
   })
 }
+
+export * from './dataAccess'

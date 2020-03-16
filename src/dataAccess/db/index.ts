@@ -46,28 +46,28 @@ ProjectModel.belongsToMany(UserModel, { through: 'UserProjects' })
 UserModel.belongsToMany(ProjectModel, { through: 'UserProjects' })
 
 // Sync the database models
-sequelize
-  .authenticate()
-  .then(() => {
+const init = async () => {
+  try {
+    await sequelize.authenticate()
     console.log('Connection has been established successfully.')
-    return sequelize.sync({ force: false }) // Set to true to crush db if changes
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err)
-  })
-  .then(() => {
-    console.log('Database models are sync')
-  })
-  .catch(err => {
-    console.error('Unable to sync database models')
-  })
+  } catch (error) {
+    console.error('Unable to connect to the database:', error)
+  }
+
+  try {
+    await sequelize.sync({ force: process.env.NODE_ENV === 'test' }) // Set to true to crush db if changes
+  } catch (error) {
+    console.error('Unable to sync database models', error)
+  }
+}
 
 const dbAccess = Object.freeze({
   userRepo,
   credentialsRepo,
   projectRepo,
   candidateNotificationRepo,
-  projectAdmissionKeyRepo
+  projectAdmissionKeyRepo,
+  init
 })
 
 export default dbAccess
@@ -76,5 +76,6 @@ export {
   credentialsRepo,
   projectRepo,
   candidateNotificationRepo,
-  projectAdmissionKeyRepo
+  projectAdmissionKeyRepo,
+  init
 }
