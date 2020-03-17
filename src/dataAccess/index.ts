@@ -4,7 +4,8 @@ import {
   projectRepo,
   candidateNotificationRepo,
   projectAdmissionKeyRepo,
-  init
+  initDatabase,
+  resetDatabase
 } from './db'
 
 if (process.env.NODE_ENV === 'unit-test') {
@@ -19,7 +20,8 @@ const dataAccess = Object.freeze({
   projectRepo,
   candidateNotificationRepo,
   projectAdmissionKeyRepo,
-  init
+  initDatabase,
+  resetDatabase
 })
 
 export default dataAccess
@@ -29,7 +31,8 @@ export {
   projectRepo,
   candidateNotificationRepo,
   projectAdmissionKeyRepo,
-  init
+  initDatabase,
+  resetDatabase
 }
 
 export * from './user'

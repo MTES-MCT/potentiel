@@ -13,7 +13,7 @@ import {
   credentialsRepo,
   projectAdmissionKeyRepo,
   projectRepo,
-  resetDb
+  resetDatabase
 } from '../dataAccess/inMemory'
 import { makeCredentials, makeProjectAdmissionKey } from '../entities'
 import makeFakeProject from '../__tests__/fixtures/project'
@@ -40,7 +40,7 @@ const makePhonySignup = (overrides = {}) => ({
 
 describe('signup use-case', () => {
   beforeEach(async () => {
-    resetDb()
+    resetDatabase()
     await credentialsRepo.insert(
       makeCredentials({
         email: 'existing@email.com',

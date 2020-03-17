@@ -179,7 +179,9 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                     {projectActions(project)?.map(
                       ({ title, link }, actionIndex) => (
                         <li key={'notif_' + project.id + '_' + actionIndex}>
-                          <a href={link}>{title}</a>
+                          <a href={link} {...dataId('projectList-item-action')}>
+                            {title}
+                          </a>
                         </li>
                       )
                     )}

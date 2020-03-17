@@ -46,7 +46,7 @@ ProjectModel.belongsToMany(UserModel, { through: 'UserProjects' })
 UserModel.belongsToMany(ProjectModel, { through: 'UserProjects' })
 
 // Sync the database models
-const init = async () => {
+const initDatabase = async () => {
   try {
     await sequelize.authenticate()
     console.log('Connection has been established successfully.')
@@ -61,13 +61,24 @@ const init = async () => {
   }
 }
 
+// Sync the database models
+const resetDatabase = async () => {
+  try {
+    await sequelize.sync({ force: true })
+    console.log('Database has been emptied.')
+  } catch (error) {
+    console.error('Unable to drop to the database:', error)
+  }
+}
+
 const dbAccess = Object.freeze({
   userRepo,
   credentialsRepo,
   projectRepo,
   candidateNotificationRepo,
   projectAdmissionKeyRepo,
-  init
+  initDatabase,
+  resetDatabase
 })
 
 export default dbAccess
@@ -77,5 +88,6 @@ export {
   projectRepo,
   candidateNotificationRepo,
   projectAdmissionKeyRepo,
-  init
+  initDatabase,
+  resetDatabase
 }

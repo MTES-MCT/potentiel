@@ -4,7 +4,7 @@ Fonctionnalité: Import d'un fichier de candidats
   Scénario: Fichier au bon format
     Etant donné que je suis un administrateur DGEC
     Et que je suis sur la page d'import de candidats
-    Lorsque je saisis la période 'Période 3T Batiment'
+    Lorsque je saisis la période "Période 3T Batiment"
     Et que je selectionne le fichier csv de la forme
       """
       numeroCRE;famille;nomCandidat;nomProjet;puissance(kWc);prixReference(euros/MWh);evaluationCarbone(kg eq CO2/kWc);note;nomRepresentantLegal;email;adresseProjet;codePostalProjet;communeProjet;departementProjet;regionProjet;classé(1/0);motifsElimination
@@ -16,10 +16,11 @@ Fonctionnalité: Import d'un fichier de candidats
     Et me notifie la réussite par "Les candidats ont bien été importés."
 
 
+
   Scénario: Fichier au mauvais format
     Etant donné que je suis un administrateur DGEC
     Et que je suis sur la page d'import de candidats
-    Lorsque je saisis la période 'Période 3T Batiment'
+    Lorsque je saisis la période "Période 3T Batiment"
     Et que je selectionne le fichier csv de la forme
       """
       mauvaiseColonne;etEncoreMauvais

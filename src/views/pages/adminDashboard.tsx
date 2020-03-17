@@ -2,6 +2,7 @@ import React from 'react'
 
 import { Project, CandidateNotification } from '../../entities'
 import ROUTES from '../../routes'
+import { dataId } from '../../helpers/testId'
 
 import UploadProjects from '../components/uploadProjects'
 import ProjectList from '../components/projectList'
@@ -48,6 +49,7 @@ export default function AdminDashboard({
                   marginTop: '5px',
                   marginRight: '15px'
                 }}
+                {...dataId('send-candidate-notifications-button')}
                 href={ROUTES.SEND_NOTIFICATIONS_ACTION}
               >
                 Envoyer les notifications aux candidats

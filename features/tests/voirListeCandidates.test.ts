@@ -5,9 +5,6 @@ import routes from '../../src/routes'
 import { testId } from '../../src/helpers/testId'
 
 import makeRoute from '../setup/makeRoute'
-When('je me rends sur la page qui liste les projets', async function() {
-  await this.page.goto(makeRoute(routes.LIST_PROJECTS))
-})
 
 Then(
   'je vois une liste de projets, avec pour chaque projet les champs suivants:',

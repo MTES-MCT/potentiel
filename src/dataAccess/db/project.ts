@@ -125,7 +125,12 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
   async function insertMany(projects: Array<Project>) {
     await _isDbReady
 
-    await Promise.all(projects.map(project => ProjectModel.create(project)))
+    try {
+      await Promise.all(projects.map(project => ProjectModel.create(project)))
+    } catch (error) {
+      console.log('project insertmany error', error)
+      throw error
+    }
   }
 
   async function update(project: Project) {

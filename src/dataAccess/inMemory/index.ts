@@ -201,7 +201,7 @@ const userRepo: UserRepo = {
   }
 }
 
-const resetDb = () => {
+const resetDatabase = () => {
   credentialsByEmail = {}
   projectsById = {}
   projectCount = 0
@@ -218,5 +218,5 @@ export {
   projectRepo,
   candidateNotificationRepo,
   projectAdmissionKeyRepo,
-  resetDb
+  resetDatabase
 }
