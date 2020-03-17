@@ -13,10 +13,11 @@ export default {
   ADMIN_DASHBOARD: '/admin/dashboard.html',
   IMPORT_PROJECTS: '/admin/dashboard.html', // Keep separate from ADMIN_DASHBOARD, may change
   IMPORT_PROJECTS_ACTION: '/admin/importProjects',
-  LIST_PROJECTS: '/admin/dashboard.html',
+  ADMIN_LIST_PROJECTS: '/admin/dashboard.html',
   CANDIDATE_NOTIFICATION: '/admin/candidate-notification.html',
   SEND_NOTIFICATIONS_ACTION: '/admin/sendCandidateNotifications',
   USER_DASHBOARD: '/mes-projets.html',
+  USER_LIST_PROJECTS: '/mes-projets.html',
   DEPOSER_RECOURS: withProjectId('/deposer-recours.html'),
   TELECHARGER_ATTESTATION: withProjectId('/attestation.pdf'),
   DEMANDE_DELAIS: withProjectId('/demande-delais.html'),

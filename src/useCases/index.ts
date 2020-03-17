@@ -29,6 +29,8 @@ const listProjects = makeListProjects({ projectRepo })
 
 const sendCandidateNotifications = makeSendCandidateNotifications({
   projectRepo,
+  userRepo,
+  credentialsRepo,
   makeUuid: uuidv1
 })
 

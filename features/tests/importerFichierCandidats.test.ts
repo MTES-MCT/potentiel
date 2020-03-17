@@ -48,7 +48,9 @@ When('je valide le formulaire', async function() {
 // Bon format
 
 Then('le site me redirige vers la page de liste des projets', async function() {
-  expect(this.page.url().indexOf(makeRoute(routes.LIST_PROJECTS))).to.equal(0)
+  expect(
+    this.page.url().indexOf(makeRoute(routes.ADMIN_LIST_PROJECTS))
+  ).to.equal(0)
 })
 
 Then('me notifie la réussite par {string}', async function(successMessage) {

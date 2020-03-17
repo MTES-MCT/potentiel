@@ -4,11 +4,13 @@ import {
   Project,
   ProjectAdmissionKey
 } from '../entities'
-import { ProjectRepo } from '../dataAccess'
+import { ProjectRepo, UserRepo, CredentialsRepo } from '../dataAccess'
 import _ from 'lodash'
 
 interface MakeUseCaseProps {
   projectRepo: ProjectRepo
+  userRepo: UserRepo
+  credentialsRepo: CredentialsRepo
   makeUuid: () => string
 }
 
@@ -16,6 +18,8 @@ interface CallUseCaseProps {}
 
 export default function makeSendCandidateNotifications({
   projectRepo,
+  userRepo,
+  credentialsRepo,
   makeUuid
 }: MakeUseCaseProps) {
   return async function sendCandidateNotifications({}: CallUseCaseProps): Promise<
@@ -25,6 +29,8 @@ export default function makeSendCandidateNotifications({
     const unNotifiedProjects = await projectRepo.findAll({
       hasBeenNotified: false
     })
+
+    // console.log('unNotifiedProjects', unNotifiedProjects)
 
     // TODO: send error if there are no unnotified projects
 
@@ -71,5 +77,20 @@ export default function makeSendCandidateNotifications({
       console.log('sendCandidateNotifications error', e)
       throw 'Updating notifications and or projects has failed'
     }
+
+    // Add projects to the users
+    await Promise.all(
+      unNotifiedProjects.map(async project => {
+        if (project.email) {
+          const userCredentials = await credentialsRepo.findByEmail({
+            email: project.email
+          })
+          if (!userCredentials) return // user hasn't registered yet
+
+          // Link the project with the user
+          await userRepo.addProject(userCredentials.userId, project.id)
+        }
+      })
+    )
   }
 }
