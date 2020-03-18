@@ -1,14 +1,12 @@
-import { importProjects } from '../useCases'
-import { ERREUR_FORMAT_LIGNE } from '../useCases/importProjects'
-import { Controller, HttpRequest } from '../types'
-
+import csvParse from 'csv-parse'
 import fs from 'fs'
 import util from 'util'
-import csvParse from 'csv-parse'
+import ROUTES from '../routes'
+import { HttpRequest } from '../types'
+import { importProjects } from '../useCases'
+import { ERREUR_FORMAT_LIGNE } from '../useCases/importProjects'
 
 const deleteFile = util.promisify(fs.unlink)
-
-import ROUTES from '../routes'
 
 const parse = file =>
   new Promise<Array<Record<string, string>>>((resolve, reject) => {
@@ -67,30 +65,29 @@ const tryImportProjects = async ({ periode, headers, lines }) => {
   }
 }
 
-export default function makePostProjects(): Controller {
-  return async (request: HttpRequest) => {
-    // console.log('Call to postProjects received', request.body, request.file)
+const postProjects = async (request: HttpRequest) => {
+  // console.log('Call to postProjects received', request.body, request.file)
 
-    if (!request.file || !request.file.path) {
-      return {
-        redirect: ROUTES.ADMIN_DASHBOARD,
-        query: { error: 'Le fichier candidat est manquant.' }
-      }
+  if (!request.file || !request.file.path) {
+    return {
+      redirect: ROUTES.ADMIN_DASHBOARD,
+      query: { error: 'Le fichier candidat est manquant.' }
     }
-
-    // Parse the csv file
-    const lines = await parse(request.file.path)
-    const headers = (lines.length && Object.keys(lines[0])) || []
-
-    const result = await tryImportProjects({
-      periode: request.body.periode,
-      headers,
-      lines
-    })
-
-    // remove temp file
-    await deleteFile(request.file.path)
-
-    return result
   }
+
+  // Parse the csv file
+  const lines = await parse(request.file.path)
+  const headers = (lines.length && Object.keys(lines[0])) || []
+
+  const result = await tryImportProjects({
+    periode: request.body.periode,
+    headers,
+    lines
+  })
+
+  // remove temp file
+  await deleteFile(request.file.path)
+
+  return result
 }
+export { postProjects }
