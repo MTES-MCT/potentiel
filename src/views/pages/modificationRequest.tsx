@@ -16,7 +16,7 @@ interface PageProps {
 
 const titlePerAction = {
   fournisseur: 'un changement de fournisseur',
-  delais: 'un délais supplémentaire',
+  delais: 'un délai supplémentaire',
   actionnaire: "un changement d'actionnaire",
   puissance: 'un changement de puissance',
   producteur: 'un changement de producteur',

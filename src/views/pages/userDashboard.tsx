@@ -58,7 +58,7 @@ export default function LoginPage({
                       disabled: true
                     },
                     {
-                      title: 'Demander un délais',
+                      title: 'Demander un délai',
                       link: ROUTES.DEMANDE_DELAIS(project.id)
                     },
                     {
@@ -78,7 +78,7 @@ export default function LoginPage({
                       link: ROUTES.CHANGER_PUISSANCE(project.id)
                     },
                     {
-                      title: 'Demande un abandon',
+                      title: 'Demander un abandon',
                       link: ROUTES.DEMANDER_ABANDON(project.id)
                     }
                   ]
