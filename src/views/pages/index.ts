@@ -10,19 +10,22 @@ import UserDashboard from './userDashboard'
 import AdminDashboard from './adminDashboard'
 import CandidateNotification from './candidateNotification'
 import Signup from './signup'
+import ModificationRequest from './modificationRequest'
 
 const LoginPage = makePresenterPage(Login)
 const AdminDashboardPage = makePresenterPage(AdminDashboard)
 const UserDashboardPage = makePresenterPage(UserDashboard)
 const CandidateNotificationPage = makeRawPage(CandidateNotification)
 const SignupPage = makePresenterPage(Signup)
+const ModificationRequestPage = makePresenterPage(ModificationRequest)
 
 export {
   LoginPage,
   AdminDashboardPage,
   UserDashboardPage,
   CandidateNotificationPage,
-  SignupPage
+  SignupPage,
+  ModificationRequestPage
 }
 
 /**

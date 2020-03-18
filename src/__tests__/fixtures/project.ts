@@ -3,11 +3,11 @@ import { Project } from '../../entities'
 export default function makeFakeProject(overrides?) {
   const defaultObj = {
     id: '1',
-    periode: 'periode',
-    numeroCRE: 'numeroCRE',
-    famille: 'famille',
-    nomCandidat: 'nomCandidat',
-    nomProjet: 'nomProjet',
+    periode: 'Batiment 3T2020',
+    numeroCRE: 'CRE#12335',
+    famille: '1',
+    nomCandidat: 'Mr Porter',
+    nomProjet: 'Mon projet PV',
     puissance: 12765,
     prixReference: 87.9,
     evaluationCarbone: 4.4,
@@ -20,7 +20,9 @@ export default function makeFakeProject(overrides?) {
     departementProjet: 'departementProjet',
     regionProjet: 'regionProjet',
     classe: 'Eliminé' as 'Eliminé',
-    motifsElimination: 'motifsElimination'
+    motifsElimination: 'motifsElimination',
+    fournisseur: 'Mon fournisseur',
+    actionnaire: 'Mon actionnaire'
   }
 
   return {

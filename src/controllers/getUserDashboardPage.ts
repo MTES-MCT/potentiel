@@ -6,7 +6,7 @@ import { UserDashboardPage } from '../views/pages'
 
 export default function makeGetUserDashboard(): Controller {
   return async (request: HttpRequest) => {
-    // console.log('Call to getUserDashboard received', request.body, request.file)
+    console.log('Call to getUserDashboard received', request.body, request.file)
 
     if (!request.user) {
       return {
@@ -14,7 +14,14 @@ export default function makeGetUserDashboard(): Controller {
       }
     }
 
-    const projects = await listUserProjects({ userId: request.user.id })
+    let projects
+    try {
+      projects = await listUserProjects({ userId: request.user.id })
+    } catch (error) {
+      console.log('listUserProjects errored', error)
+    }
+
+    // console.log('user projects found')
 
     // return {
     //   redirect: ROUTES.WHATEVER,

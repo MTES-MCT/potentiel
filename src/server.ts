@@ -16,7 +16,8 @@ import {
   getSendCandidateNotifications,
   getCandidateNotification,
   getSignupPage,
-  postSignup
+  postSignup,
+  getDemandePage
 } from './controllers'
 
 import { initDatabase } from './dataAccess'
@@ -123,6 +124,13 @@ export async function makeServer(port: number = 3000) {
     ensureLoggedIn(),
     ensureRole('porteur-projet'),
     makeExpressCallback(getUserDashboardPage)
+  )
+
+  router.get(
+    ROUTES.DEMANDE_GENERIQUE,
+    ensureLoggedIn(),
+    ensureRole('porteur-projet'),
+    makeExpressCallback(getDemandePage)
   )
 
   router.get('/hello', (req, res) => {
