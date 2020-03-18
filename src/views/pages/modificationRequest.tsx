@@ -40,8 +40,8 @@ export default function ModificationRequestPage({
         <section className="section section-white">
           <div className="container">
             <form
-              action={ROUTES.IMPORT_PROJECTS_ACTION}
-              method="post"
+              // action={ROUTES.IMPORT_PROJECTS_ACTION}
+              // method="post"
               encType="multipart/form-data"
             >
               <div className="form__group">
