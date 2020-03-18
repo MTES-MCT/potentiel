@@ -38,6 +38,7 @@ When(
     expect(projectAdmissionKeys).to.have.lengthOf(1)
 
     const projectAdmissionKey = projectAdmissionKeys[0]
+    this.currentProject = userProjects[0]
 
     await this.navigateTo(
       makeRoute(
@@ -92,5 +93,22 @@ Then(
     expect(projectsInList).to.include.members(
       userProjects.map(project => project.nomProjet)
     )
+  }
+)
+
+Then(
+  "je vois uniquement le projet correspondant au lien que j'ai cliqué",
+  async function() {
+    await this.page.waitForSelector(testId('projectList-item-nomProjet'))
+
+    const projectsInList = await this.page.$$eval(
+      testId('projectList-item-nomProjet'),
+      actionElements =>
+        actionElements.map(actionElement => actionElement.innerText)
+    )
+
+    expect(projectsInList).to.have.lengthOf(1)
+
+    expect(projectsInList).to.include(this.currentProject.nomProjet)
   }
 )
