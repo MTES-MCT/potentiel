@@ -2,7 +2,8 @@ import * as yup from 'yup'
 
 const projectAdmissionKeySchema = yup.object({
   id: yup.string().required(),
-  projectId: yup.string().required()
+  projectId: yup.string().required(),
+  email: yup.string().required()
 })
 
 export type ProjectAdmissionKey = yup.InferType<

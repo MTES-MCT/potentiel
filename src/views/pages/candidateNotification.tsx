@@ -25,13 +25,10 @@ const TemplateLaureat = ({
         Afin de suivre l’évolution de votre dossier ou d’y apporter des
         modifications, nous vous invitons à{' '}
         <a
-          href={
-            ROUTES.SIGNUP +
-            '?key=' +
-            notification.projectAdmissionKey +
-            '&project=' +
-            notification.projectId
-          }
+          href={ROUTES.PROJECT_INVITATION(
+            notification.projectAdmissionKey,
+            notification.projectId || ''
+          )}
         >
           créer directement un compte sur notre plateforme
         </a>

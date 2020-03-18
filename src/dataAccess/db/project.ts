@@ -170,7 +170,8 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
 
   async function addProjectAdmissionKey(
     projectId: Project['id'],
-    key: ProjectAdmissionKey['id']
+    key: ProjectAdmissionKey['id'],
+    email: ProjectAdmissionKey['email']
   ) {
     await _isDbReady
 
@@ -183,7 +184,8 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
     const ProjectAdmissionKeyModel = sequelize.model('projectAdmissionKey')
     const projectAdmissionKey = await ProjectAdmissionKeyModel.create({
       id: key,
-      projectId
+      projectId,
+      email
     })
 
     await projectInstance.addProjectAdmissionKey(projectAdmissionKey)

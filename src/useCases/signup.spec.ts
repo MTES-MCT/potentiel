@@ -21,7 +21,8 @@ import makeFakeProject from '../__tests__/fixtures/project'
 const signup = makeSignup({
   userRepo,
   credentialsRepo,
-  projectAdmissionKeyRepo
+  projectAdmissionKeyRepo,
+  projectRepo
 })
 
 const login = makeLogin({
@@ -50,11 +51,12 @@ describe('signup use-case', () => {
     )
   })
 
-  it('should create a new user with the project attached', async () => {
-    // Create a fake project
+  it('should create a new user with all the projects with the same email attached if user used the address the notification was sent to', async () => {
+    const sameEmailEverywhere = 'one@address.com'
+    // Create two fake projects, with the same email
     await projectRepo.insertMany([
-      makeFakeProject({ id: '1' }),
-      makeFakeProject({ id: '2' })
+      makeFakeProject({ id: '1', email: sameEmailEverywhere }),
+      makeFakeProject({ id: '2', email: sameEmailEverywhere })
     ])
     const [project, otherProject] = await projectRepo.findAll()
 
@@ -63,14 +65,76 @@ describe('signup use-case', () => {
     // Add a projectAdmissionKey
     const projectAdmissionKey = makeProjectAdmissionKey({
       id: 'projectAdmissionKey',
-      projectId: project.id
+      projectId: project.id,
+      email: sameEmailEverywhere
     })
-    await projectAdmissionKeyRepo.insertMany([projectAdmissionKey])
-    await projectRepo.addProjectAdmissionKey(project.id, projectAdmissionKey.id)
 
+    await projectRepo.addProjectAdmissionKey(
+      project.id,
+      projectAdmissionKey.id,
+      projectAdmissionKey.email
+    )
+
+    // Signup with the same email address
     const phonySignup = makePhonySignup({
       projectAdmissionKey: projectAdmissionKey.id,
-      projectId: project.id
+      projectId: project.id,
+      email: sameEmailEverywhere
+    })
+
+    await signup(phonySignup)
+
+    // Check if login works
+    const user = await login({
+      email: phonySignup.email,
+      password: phonySignup.password
+    })
+
+    expect(user).toBeDefined()
+    expect(user).toEqual(
+      expect.objectContaining({
+        firstName: phonySignup.firstName,
+        lastName: phonySignup.lastName
+      })
+    )
+
+    if (!user) return
+
+    // Check if the project has been attached
+    const userProjects = await userRepo.findProjects(user.id)
+    expect(userProjects).toHaveLength(2)
+    expect(userProjects).toContainEqual(expect.objectContaining(project))
+    expect(userProjects).toContainEqual(expect.objectContaining(otherProject))
+  })
+
+  it('should create a new user with the single project attached if user used a different email address', async () => {
+    const oneEmail = 'one@address.com'
+    // Create two fake projects, with the same email
+    await projectRepo.insertMany([
+      makeFakeProject({ id: '1', email: oneEmail }),
+      makeFakeProject({ id: '2', email: oneEmail })
+    ])
+    const [project, otherProject] = await projectRepo.findAll()
+
+    expect(project).toBeDefined()
+
+    // Add a projectAdmissionKey
+    const projectAdmissionKey = makeProjectAdmissionKey({
+      id: 'projectAdmissionKey',
+      projectId: project.id,
+      email: oneEmail
+    })
+    await projectRepo.addProjectAdmissionKey(
+      project.id,
+      projectAdmissionKey.id,
+      projectAdmissionKey.email
+    )
+
+    // Signup with another email address
+    const phonySignup = makePhonySignup({
+      projectAdmissionKey: projectAdmissionKey.id,
+      projectId: project.id,
+      email: 'other@address.com'
     })
 
     await signup(phonySignup)
@@ -160,7 +224,11 @@ describe('signup use-case', () => {
 
     // Add a projectAdmissionKey
     const projectAdmissionKey = 'projectAdmissionKey'
-    await projectRepo.addProjectAdmissionKey(project.id, projectAdmissionKey)
+    await projectRepo.addProjectAdmissionKey(
+      project.id,
+      projectAdmissionKey,
+      project.email
+    )
 
     try {
       await signup(

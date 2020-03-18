@@ -6,7 +6,7 @@ import { ERREUR_FORMAT_LIGNE } from '../useCases/importProjects'
 
 export default function makePostSignup(): Controller {
   return async (request: HttpRequest) => {
-    console.log('Call to postSignup received', request.body)
+    // console.log('Call  to postSignup received', request.body)
 
     // TODO: pass the request body items to useCase
     // TODO: catch errors and redirect to signup page if any (try to populate fields?)
@@ -14,7 +14,7 @@ export default function makePostSignup(): Controller {
     const formContents = request.body
 
     try {
-      await signup({
+      const userId = await signup({
         firstName: formContents.firstName,
         lastName: formContents.lastName,
         email: formContents.email,
@@ -23,22 +23,23 @@ export default function makePostSignup(): Controller {
         projectAdmissionKey: formContents.projectAdmissionKey,
         projectId: formContents.projectId
       })
+
+      return {
+        redirect: ROUTES.USER_DASHBOARD,
+        user: { id: userId }, // This will login the user in
+        query: {
+          success:
+            'Votre compte a bien été créé, vous pouvez vous à présent vous identifier.'
+        }
+      }
     } catch (e) {
       console.log('postSignup error', e)
       return {
         redirect: ROUTES.SIGNUP,
-        query: { ...formContents, error: 'Signup failed' }
-      }
-    }
-
-    // Log the user in
-
-    return {
-      redirect: ROUTES.LOGIN,
-      query: {
-        email: formContents.email,
-        success:
-          'Votre compte a bien été créé, vous pouvez vous à présent vous identifier.'
+        query: {
+          ...formContents,
+          error: 'Erreur lors de la création de compte'
+        }
       }
     }
   }

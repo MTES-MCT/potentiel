@@ -9,7 +9,8 @@ import {
 import {
   UserRepo,
   CredentialsRepo,
-  ProjectAdmissionKeyRepo
+  ProjectAdmissionKeyRepo,
+  ProjectRepo
 } from '../dataAccess'
 import _ from 'lodash'
 
@@ -17,6 +18,7 @@ interface MakeUseCaseProps {
   userRepo: UserRepo
   credentialsRepo: CredentialsRepo
   projectAdmissionKeyRepo: ProjectAdmissionKeyRepo
+  projectRepo: ProjectRepo
 }
 
 interface CallUseCaseProps {
@@ -39,7 +41,8 @@ export const WRONG_PROJECT_ADMISSION_KEY_ERROR = 'Lien de projet erroné'
 export default function makeSignup({
   userRepo,
   credentialsRepo,
-  projectAdmissionKeyRepo
+  projectAdmissionKeyRepo,
+  projectRepo
 }: MakeUseCaseProps) {
   return async function signup({
     projectId,
@@ -49,14 +52,14 @@ export default function makeSignup({
     email,
     password,
     confirmPassword
-  }: CallUseCaseProps): Promise<void> {
+  }: CallUseCaseProps): Promise<User['id']> {
     // Check if passwords match
     if (!password || password !== confirmPassword) {
       throw new Error(PASSWORD_MISMATCH_ERROR)
     }
 
     // Create a user object
-    let userId: string
+    let userId: User['id']
     try {
       userId = await userRepo.insert(
         makeUser({ firstName, lastName, role: 'porteur-projet' })
@@ -97,10 +100,22 @@ export default function makeSignup({
         throw new Error(WRONG_PROJECT_ADMISSION_KEY_ERROR)
       }
 
-      // Link the user and the project
-      await userRepo.addProject(userId, projectId)
-
-      // TODO: look for other projectAdmissionKeys that were sent to the same email ?
+      if (email === projectAdmissionKeyInstance.email) {
+        // User validated his email address by registering with it
+        // Add all projects that have that email
+        const projectsWithSameEmail = await projectRepo.findAll({ email })
+        await Promise.all(
+          projectsWithSameEmail.map(project =>
+            userRepo.addProject(userId, project.id)
+          )
+        )
+      } else {
+        // User used another email address
+        // Only link the user with the project from the admisssion key
+        await userRepo.addProject(userId, projectId)
+      }
     }
+
+    return userId
   }
 }

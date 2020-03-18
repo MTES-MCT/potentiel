@@ -18,6 +18,7 @@ export type ProjectRepo = {
   ) => Promise<void>
   addProjectAdmissionKey: (
     projectId: Project['id'],
-    key: ProjectAdmissionKey['id']
+    key: ProjectAdmissionKey['id'],
+    email: ProjectAdmissionKey['email']
   ) => Promise<void>
 }

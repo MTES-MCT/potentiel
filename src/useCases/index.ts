@@ -41,7 +41,8 @@ const showNotification = makeShowNotification({
 const signup = makeSignup({
   userRepo,
   credentialsRepo,
-  projectAdmissionKeyRepo
+  projectAdmissionKeyRepo,
+  projectRepo
 })
 
 const listUserProjects = makeListUserProjects({ userRepo })

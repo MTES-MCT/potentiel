@@ -46,6 +46,6 @@ Given('les projets suivants:', async function(dataTable) {
   await projectRepo.insertMany(this.projects)
 })
 
-When('je me rends sur la page qui liste les projets', async function() {
+When('je me rends sur la page qui liste tous les projets', async function() {
   await this.page.goto(makeRoute(routes.ADMIN_LIST_PROJECTS))
 })

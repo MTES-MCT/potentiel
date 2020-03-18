@@ -13,7 +13,7 @@ export type HttpResponse =
       statusCode: number
       body: string
     }
-  | { redirect: string; query?: Record<string, any> }
+  | { redirect: string; user?: Partial<User>; query?: Record<string, any> }
 
 export type Controller = (
   req: HttpRequest,

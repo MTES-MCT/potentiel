@@ -156,7 +156,8 @@ const projectRepo: ProjectRepo = {
   },
   addProjectAdmissionKey: async (
     projectId: Project['id'],
-    key: ProjectAdmissionKey['id']
+    key: ProjectAdmissionKey['id'],
+    email: ProjectAdmissionKey['email']
   ) => {
     const projectInstance = projectsById[projectId]
 
@@ -164,9 +165,7 @@ const projectRepo: ProjectRepo = {
       throw new Error('Cannot find project to add project admission key to')
     }
 
-    await projectAdmissionKeyRepo.insertMany([
-      { id: key, projectId: projectId }
-    ])
+    await projectAdmissionKeyRepo.insertMany([{ id: key, projectId, email }])
   }
 }
 

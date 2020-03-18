@@ -1,4 +1,4 @@
-import { Project } from './entities'
+import { Project, ProjectAdmissionKey } from './entities'
 
 const withProjectId = (url: string) => (projectId: Project['id']) =>
   url + '?projectId=' + projectId
@@ -10,6 +10,10 @@ export default {
   REDIRECT_BASED_ON_ROLE: '/go-to-user-dashboard',
   SIGNUP: '/enregistrement.html',
   SIGNUP_ACTION: '/enregistrement',
+  PROJECT_INVITATION: (
+    projectAdmissionKey: ProjectAdmissionKey['id'],
+    projectId: Project['id']
+  ) => `/enregistrement.html?key=${projectAdmissionKey}&project=${projectId}`,
   ADMIN_DASHBOARD: '/admin/dashboard.html',
   IMPORT_PROJECTS: '/admin/dashboard.html', // Keep separate from ADMIN_DASHBOARD, may change
   IMPORT_PROJECTS_ACTION: '/admin/importProjects',
