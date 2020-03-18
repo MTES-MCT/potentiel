@@ -1,7 +1,7 @@
 import { Project, ProjectAdmissionKey } from './entities'
 
 const withProjectId = (url: string) => (projectId: Project['id']) =>
-  url + '?projectId=' + projectId
+  url + (url.indexOf('?') === -1 ? '?' : '&') + 'projectId=' + projectId
 
 export default {
   LOGIN: '/login.html',
@@ -24,9 +24,21 @@ export default {
   USER_LIST_PROJECTS: '/mes-projets.html',
   DEPOSER_RECOURS: withProjectId('/deposer-recours.html'),
   TELECHARGER_ATTESTATION: withProjectId('/attestation.pdf'),
-  DEMANDE_DELAIS: withProjectId('/demande-delais.html'),
-  CHANGER_FOURNISSEUR: withProjectId('/changer-fournisseur.html'),
-  CHANGER_ACTIONNAIRE: withProjectId('/changer-actionnaire.html'),
-  CHANGER_PUISSANCE: withProjectId('/changer-puissance.html'),
-  DEMANDER_ABANDON: withProjectId('/abandon.html')
+  // DEMANDE_DELAIS: withProjectId('/demande-delais.html'),
+  // CHANGER_FOURNISSEUR: withProjectId('/changer-fournisseur.html'),
+  // CHANGER_ACTIONNAIRE: withProjectId('/changer-actionnaire.html'),
+  // CHANGER_PUISSANCE: withProjectId('/changer-puissance.html'),
+  // DEMANDER_ABANDON: withProjectId('/abandon.html'),
+  DEMANDE_GENERIQUE: '/demande-modification.html',
+  DEMANDE_DELAIS: withProjectId('/demande-modification.html?action=delais'),
+  CHANGER_FOURNISSEUR: withProjectId(
+    '/demande-modification.html?action=fournisseur'
+  ),
+  CHANGER_ACTIONNAIRE: withProjectId(
+    '/demande-modification.html?action=actionnaire'
+  ),
+  CHANGER_PUISSANCE: withProjectId(
+    '/demande-modification.html?action=puissance'
+  ),
+  DEMANDER_ABANDON: withProjectId('/demande-modification.html?action=abandon')
 }

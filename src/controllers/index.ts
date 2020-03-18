@@ -7,6 +7,7 @@ import makeGetSendCandidateNotifications from './getSendCandidateNotifications'
 import makeGetCandidateNotification from './getCandidateNotification'
 import makeGetSignupPage from './getSignupPage'
 import makePostSignup from './postSignup'
+import makeGetDemandePage from './getDemandePage'
 
 import { userRepo } from '../dataAccess'
 
@@ -26,6 +27,7 @@ const getSendCandidateNotifications = makeGetSendCandidateNotifications()
 const getCandidateNotification = makeGetCandidateNotification()
 const getSignupPage = makeGetSignupPage()
 const postSignup = makePostSignup()
+const getDemandePage = makeGetDemandePage()
 
 const controller = Object.freeze({
   getLoginPage,
@@ -39,7 +41,8 @@ const controller = Object.freeze({
   getSendCandidateNotifications,
   getCandidateNotification,
   getSignupPage,
-  postSignup
+  postSignup,
+  getDemandePage
 })
 
 export default controller
@@ -55,5 +58,6 @@ export {
   getSendCandidateNotifications,
   getCandidateNotification,
   getSignupPage,
-  postSignup
+  postSignup,
+  getDemandePage
 }
