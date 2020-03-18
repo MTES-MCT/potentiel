@@ -45,7 +45,8 @@ export default function LoginPage({
                       },
                       {
                         title: 'Télécharger mon attestation',
-                        link: ROUTES.TELECHARGER_ATTESTATION(project.id)
+                        link: ROUTES.TELECHARGER_ATTESTATION(project.id),
+                        disabled: true
                       }
                     ]
                   }
@@ -53,7 +54,8 @@ export default function LoginPage({
                   return [
                     {
                       title: 'Télécharger mon attestation',
-                      link: ROUTES.TELECHARGER_ATTESTATION(project.id)
+                      link: ROUTES.TELECHARGER_ATTESTATION(project.id),
+                      disabled: true
                     },
                     {
                       title: 'Demander un délais',

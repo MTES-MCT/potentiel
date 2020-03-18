@@ -8,7 +8,7 @@ interface Props {
   projects?: Array<Project>
   projectActions?: (
     project: Project
-  ) => Array<{ title: string; link: string }> | null
+  ) => Array<{ title: string; link: string; disabled?: boolean }> | null
 }
 
 const ProjectList = ({ projects, projectActions }: Props) => {
@@ -177,11 +177,18 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                   />
                   <ul className="project-list--action-menu">
                     {projectActions(project)?.map(
-                      ({ title, link }, actionIndex) => (
+                      ({ title, link, disabled }, actionIndex) => (
                         <li key={'notif_' + project.id + '_' + actionIndex}>
-                          <a href={link} {...dataId('projectList-item-action')}>
-                            {title}
-                          </a>
+                          {disabled ? (
+                            <i>{title}</i>
+                          ) : (
+                            <a
+                              href={link}
+                              {...dataId('projectList-item-action')}
+                            >
+                              {title}
+                            </a>
+                          )}
                         </li>
                       )
                     )}
