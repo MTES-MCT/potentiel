@@ -7,10 +7,6 @@ import { User } from '../entities'
 import { login } from '../useCases'
 import { UserRepo, userRepo } from '../dataAccess'
 
-interface MakeAuthenticationProps {
-  userRepo: UserRepo
-}
-
 interface RegisterAuthProps {
   app: Application
   loginRoute: string

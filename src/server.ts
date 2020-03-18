@@ -121,8 +121,8 @@ export async function makeServer(port: number = 3000) {
 
   router.get(
     ROUTES.USER_DASHBOARD,
-    ensureLoggedIn(),
-    ensureRole('porteur-projet'),
+    // ensureLoggedIn(),
+    // ensureRole('porteur-projet'),
     makeExpressCallback(getUserDashboardPage)
   )
 

@@ -1,3 +1,4 @@
+import { Redirect } from '../helpers/responses'
 import ROUTES from '../routes'
 import { HttpRequest } from '../types'
 import { sendCandidateNotifications } from '../useCases'
@@ -7,18 +8,14 @@ const getSendCandidateNotifications = async (request: HttpRequest) => {
 
   try {
     await sendCandidateNotifications({})
-    return {
-      redirect: ROUTES.ADMIN_DASHBOARD,
-      query: { success: 'Les notifications ont bien été envoyées.' }
-    }
+    return Redirect(ROUTES.ADMIN_DASHBOARD, {
+      success: 'Les notifications ont bien été envoyées.'
+    })
   } catch (e) {
     console.log('sendCandidateNotifications failed', e)
-    return {
-      redirect: ROUTES.ADMIN_DASHBOARD,
-      query: {
-        error: "Les notifications n'ont pas pu être envoyées. (" + e + ')'
-      }
-    }
+    return Redirect(ROUTES.ADMIN_DASHBOARD, {
+      error: "Les notifications n'ont pas pu être envoyées. (" + e + ')'
+    })
   }
 }
 export { getSendCandidateNotifications }

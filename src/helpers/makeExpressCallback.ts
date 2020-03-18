@@ -43,8 +43,8 @@ export default function makeExpressCallback(controller: Controller) {
 
         if ('redirect' in httpResponse) {
           // If user is provided, log him in
-          return (httpResponse.user
-            ? login(req, httpResponse.user)
+          return (httpResponse.userId
+            ? login(req, { id: httpResponse.userId })
             : Promise.resolve()
           ).then(() => {
             const redirectTo: string =

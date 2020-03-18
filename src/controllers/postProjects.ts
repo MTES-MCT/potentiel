@@ -1,6 +1,7 @@
 import csvParse from 'csv-parse'
 import fs from 'fs'
 import util from 'util'
+import { Redirect } from '../helpers/responses'
 import ROUTES from '../routes'
 import { HttpRequest } from '../types'
 import { importProjects } from '../useCases'
@@ -38,30 +39,21 @@ const tryImportProjects = async ({ periode, headers, lines }) => {
       lines
     })
 
-    return {
-      redirect: ROUTES.ADMIN_DASHBOARD,
-      query: {
-        success: 'Les candidats ont bien été importés.'
-      }
-    }
+    return Redirect(ROUTES.ADMIN_DASHBOARD, {
+      success: 'Les candidats ont bien été importés.'
+    })
   } catch (error) {
     console.log('Caught an error after importProjects', error)
 
     if (error.error === ERREUR_FORMAT_LIGNE) {
-      return {
-        redirect: ROUTES.ADMIN_DASHBOARD,
-        query: {
-          error: error.errorLong
-        }
-      }
+      return Redirect(ROUTES.ADMIN_DASHBOARD, {
+        error: error.errorLong
+      })
     }
 
-    return {
-      redirect: ROUTES.ADMIN_DASHBOARD,
-      query: {
-        error: error.error
-      }
-    }
+    return Redirect(ROUTES.ADMIN_DASHBOARD, {
+      error: error.error
+    })
   }
 }
 

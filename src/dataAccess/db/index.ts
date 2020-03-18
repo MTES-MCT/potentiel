@@ -65,7 +65,7 @@ const initDatabase = async () => {
 const resetDatabase = async () => {
   try {
     await sequelize.sync({ force: true })
-    console.log('Database has been emptied.')
+    // console.log('Database has been emptied.')
   } catch (error) {
     console.error('Unable to drop to the database:', error)
   }

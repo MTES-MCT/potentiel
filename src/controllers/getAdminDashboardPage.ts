@@ -2,6 +2,7 @@ import { Project } from '../entities'
 import { HttpRequest } from '../types'
 import { listProjects } from '../useCases'
 import { AdminDashboardPage } from '../views/pages'
+import { Success } from '../helpers/responses'
 
 const getAdminDashboardPage = async (
   request: HttpRequest,
@@ -23,15 +24,14 @@ const getAdminDashboardPage = async (
     }
   }
 
-  return {
-    statusCode: 200,
-    body: AdminDashboardPage({
+  return Success(
+    AdminDashboardPage({
       userName: request.user.firstName + ' ' + request.user.lastName,
       success: request.query.success,
       error: request.query.error,
       projects
     })
-  }
+  )
 }
 
 export { getAdminDashboardPage }

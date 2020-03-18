@@ -1,3 +1,4 @@
+import { Redirect } from '../helpers/responses'
 import ROUTES from '../routes'
 import { HttpRequest } from '../types'
 import { signup } from '../useCases'
@@ -21,23 +22,20 @@ const postSignup = async (request: HttpRequest) => {
       projectId: formContents.projectId
     })
 
-    return {
-      redirect: ROUTES.USER_DASHBOARD,
-      user: { id: userId }, // This will login the user in
-      query: {
+    return Redirect(
+      ROUTES.USER_DASHBOARD,
+      {
         success:
           'Votre compte a bien été créé, vous pouvez vous à présent vous identifier.'
-      }
-    }
+      },
+      userId // This will login the user in
+    )
   } catch (e) {
     console.log('postSignup error', e)
-    return {
-      redirect: ROUTES.SIGNUP,
-      query: {
-        ...formContents,
-        error: 'Erreur lors de la création de compte'
-      }
-    }
+    return Redirect(ROUTES.SIGNUP, {
+      ...formContents,
+      error: 'Erreur lors de la création de compte'
+    })
   }
 }
 export { postSignup }
