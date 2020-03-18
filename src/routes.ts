@@ -40,5 +40,8 @@ export default {
   CHANGER_PUISSANCE: withProjectId(
     '/demande-modification.html?action=puissance'
   ),
+  CHANGER_PRODUCTEUR: withProjectId(
+    '/demande-modification.html?action=producteur'
+  ),
   DEMANDER_ABANDON: withProjectId('/demande-modification.html?action=abandon')
 }

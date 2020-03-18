@@ -57,6 +57,7 @@ const projectSchema = yup.object({
     .min(2),
   fournisseur: yup.string().min(2),
   actionnaire: yup.string().min(2),
+  producteur: yup.string().min(2),
   classe: yup.mixed<'Eliminé' | 'Classé'>().oneOf(['Eliminé', 'Classé']),
   motifsElimination: yup.string(),
   hasBeenNotified: yup.boolean().default(false),

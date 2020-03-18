@@ -19,6 +19,7 @@ const titlePerAction = {
   delais: 'un délais supplémentaire',
   actionnaire: "un changement d'actionnaire",
   puissance: 'un changement de puissance',
+  producteur: 'un changement de producteur',
   abandon: "l'abandon de mon projet"
 }
 
@@ -129,6 +130,23 @@ export default function ModificationRequestPage({
                       name="fournisseur"
                       id="fournisseur"
                       {...dataId('modificationRequest-fournisseurField')}
+                    />
+                  </>
+                ) : (
+                  ''
+                )}
+                {action === 'producteur' ? (
+                  <>
+                    <label>Ancien producteur</label>
+                    <input type="text" disabled value={project.producteur} />
+                    <label className="required" htmlFor="producteur">
+                      Nouveau producteur
+                    </label>
+                    <input
+                      type="text"
+                      name="producteur"
+                      id="producteur"
+                      {...dataId('modificationRequest-producteurField')}
                     />
                   </>
                 ) : (

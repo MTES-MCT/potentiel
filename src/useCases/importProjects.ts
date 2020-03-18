@@ -29,7 +29,9 @@ export const MANDATORY_HEADER_COLUMNS: Array<string> = [
   'departementProjet',
   'regionProjet',
   'classé(1/0)',
-  'motifsElimination'
+  'motifsElimination',
+  'fournisseur',
+  'actionnaire'
 ]
 
 export const ERREUR_PERIODE = 'Periode manquante'
@@ -60,9 +62,9 @@ export default function makeImportProjects({ projectRepo }: MakeUseCaseProps) {
     // Check header (format of file)
     if (
       !headers ||
-      !_.isEqual(_.sortBy(headers), _.sortBy(MANDATORY_HEADER_COLUMNS))
+      !MANDATORY_HEADER_COLUMNS.every(column => headers.includes(column))
     ) {
-      // console.log('headers', headers)
+      console.log('Import missing header columns', headers)
       throw {
         error: ERREUR_COLONNES
       }
@@ -104,7 +106,10 @@ export default function makeImportProjects({ projectRepo }: MakeUseCaseProps) {
             departementProjet: line['departementProjet'],
             regionProjet: line['regionProjet'],
             classe: line['classé(1/0)'],
-            motifsElimination: line['motifsElimination']
+            motifsElimination: line['motifsElimination'],
+            fournisseur: line['fournisseur'] || 'N/A',
+            actionnaire: line['actionnaire'] || 'N/A',
+            producteur: line['producteur'] || 'N/A'
           })
         )
       } catch (e) {

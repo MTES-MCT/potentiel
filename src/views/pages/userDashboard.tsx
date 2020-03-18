@@ -66,6 +66,10 @@ export default function LoginPage({
                       link: ROUTES.CHANGER_FOURNISSEUR(project.id)
                     },
                     {
+                      title: 'Changer de producteur',
+                      link: ROUTES.CHANGER_PRODUCTEUR(project.id)
+                    },
+                    {
                       title: "Changer d'actionnaire",
                       link: ROUTES.CHANGER_ACTIONNAIRE(project.id)
                     },

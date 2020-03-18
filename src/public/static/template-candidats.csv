@@ -1,1 +1,1 @@
-numeroCRE;famille;nomCandidat;nomProjet;puissance(kWc);prixReference(euros/MWh);evaluationCarbone(kg eq CO2/kWc);note;nomRepresentantLegal;email;adresseProjet;codePostalProjet;communeProjet;departementProjet;regionProjet;classé(1/0);motifsElimination
+numeroCRE;famille;nomCandidat;nomProjet;puissance(kWc);prixReference(euros/MWh);evaluationCarbone(kg eq CO2/kWc);note;nomRepresentantLegal;email;adresseProjet;codePostalProjet;communeProjet;departementProjet;regionProjet;classé(1/0);motifsElimination;fournisseur;actionnaire;producteur

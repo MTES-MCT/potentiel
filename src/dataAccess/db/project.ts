@@ -80,6 +80,18 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
       type: DataTypes.STRING,
       allowNull: false
     },
+    fournisseur: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    actionnaire: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    producteur: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     motifsElimination: {
       type: DataTypes.STRING,
       allowNull: true
