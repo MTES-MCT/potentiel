@@ -13,20 +13,15 @@ const getCandidateNotification = async (request: HttpRequest) => {
     }
   }
 
-  try {
-    const notification = await showNotification({ id: request.query.id })
+  const notificationResult = await showNotification({ id: request.query.id })
 
-    if (!notification) {
-      return NotFoundError("La notification n'est pas disponible")
-    }
-
-    return Success(CandidateNotificationPage({ notification }))
-  } catch (e) {
-    console.log('getCandidateNotification Error', e)
-    return SystemError(
-      '<h1>Oops</h1><pre>' + JSON.stringify(e, null, 2) + '</pre>'
-    )
+  if (notificationResult.is_none()) {
+    return NotFoundError("La notification n'est pas disponible")
   }
+
+  return Success(
+    CandidateNotificationPage({ notification: notificationResult.unwrap() })
+  )
 }
 
 export { getCandidateNotification }

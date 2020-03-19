@@ -36,8 +36,14 @@ const registerAuth = ({ app, loginRoute, successRoute }: RegisterAuthProps) => {
   })
 
   passport.deserializeUser(async function(id: User['id'], done) {
-    const user = await userRepo.findById(id)
-    done(null, user)
+    const userResult = await userRepo.findById(id)
+
+    if (userResult.is_none()) {
+      console.log('Authenication: Found user session id but no matching user')
+      done(null, null)
+    }
+
+    done(null, userResult.unwrap())
   })
 
   //
@@ -54,11 +60,17 @@ const registerAuth = ({ app, loginRoute, successRoute }: RegisterAuthProps) => {
       },
       function(username: string, password: string, done) {
         login({ email: username, password })
-          .then(user => {
+          .then(userResult => {
             // console.log('login has returned, setting currentUser to ', user)
-            return done(null, user)
+
+            if (userResult.is_err()) {
+              return done(userResult.unwrap_err())
+            }
+
+            return done(null, userResult.unwrap())
           })
           .catch(err => {
+            // Should never happen because login shouldn't throw
             console.log('login caught an error', err)
             return done(err)
           })

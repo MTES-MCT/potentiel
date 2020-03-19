@@ -13,7 +13,7 @@ describe('listProjects use-case', () => {
   ]
 
   beforeAll(async () => {
-    await projectRepo.insertMany(fakeProjects)
+    await Promise.all(fakeProjects.map(projectRepo.insert))
   })
 
   it('should return all projects', async () => {

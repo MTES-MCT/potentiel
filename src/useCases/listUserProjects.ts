@@ -1,19 +1,20 @@
-import { User, Project } from '../entities'
-import { UserRepo } from '../dataAccess'
-import _ from 'lodash'
+import { ProjectRepo } from '../dataAccess'
+import { Project, User } from '../entities'
 
 interface MakeUseCaseProps {
-  userRepo: UserRepo
+  projectRepo: ProjectRepo
 }
 
 interface CallUseCaseProps {
   userId: User['id']
 }
 
-export default function makeListUserProjects({ userRepo }: MakeUseCaseProps) {
+export default function makeListUserProjects({
+  projectRepo
+}: MakeUseCaseProps) {
   return async function listUserProjects({
     userId
   }: CallUseCaseProps): Promise<Array<Project>> {
-    return userRepo.findProjects(userId)
+    return projectRepo.findByUser(userId)
   }
 }

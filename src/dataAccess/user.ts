@@ -1,9 +1,14 @@
 import { User, Project } from '../entities'
+import { ResultAsync, OptionAsync } from '../types'
 
 export type UserRepo = {
-  findById: (id: User['id']) => Promise<User | null>
-  insert: (user: User) => Promise<string>
-  findProjects: (userId: User['id']) => Promise<Array<Project>>
-  addProject: (userId: User['id'], projectId: Project['id']) => Promise<void>
-  remove: (userId: User['id']) => Promise<void>
+  findById: (id: User['id']) => OptionAsync<User>
+  findAll: (query?: Record<string, any>) => Promise<Array<User>>
+  insert: (user: User) => ResultAsync<User>
+  update: (user: User) => ResultAsync<User>
+  addProject: (
+    userId: User['id'],
+    projectId: Project['id']
+  ) => ResultAsync<void>
+  remove: (userId: User['id']) => ResultAsync<void>
 }

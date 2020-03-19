@@ -1,4 +1,7 @@
-import makeLogin from './login'
+import makeLogin, {
+  ERREUR_USER_INCONNU,
+  ERREUR_MOT_DE_PASSE_ERRONE
+} from './login'
 
 import { makeCredentials, makeUser } from '../entities'
 
@@ -11,42 +14,52 @@ const phonyCredentials = {
   password: 'password'
 }
 
-const phonyUser = makeUser({
-  firstName: 'Patrice',
-  lastName: 'Leconte',
-  role: 'admin'
-})
-
 describe('login use-case', () => {
+  let phonyUser
   beforeAll(async () => {
+    const phonyUserResult = makeUser({
+      firstName: 'Patrice',
+      lastName: 'Leconte',
+      role: 'admin'
+    })
+
     // Insert a phony user
-    const userId = await userRepo.insert(phonyUser)
-    await credentialsRepo.insert(
-      makeCredentials({ ...phonyCredentials, userId })
-    )
+    expect(phonyUserResult.is_ok())
+    phonyUser = phonyUserResult.unwrap()
+
+    await userRepo.insert(phonyUser)
+    const credentialsResult = makeCredentials({
+      ...phonyCredentials,
+      userId: phonyUser.id
+    })
+    expect(credentialsResult.is_ok())
+    await credentialsRepo.insert(credentialsResult.unwrap())
   })
 
   it('returns the user if the email and password are correct', async () => {
     const { email, password } = phonyCredentials
-    const foundUser = await login({
+    const foundUserResult = await login({
       email,
       password
     })
 
-    expect(foundUser).toEqual(expect.objectContaining(phonyUser))
+    expect(foundUserResult.is_ok())
+    expect(foundUserResult.unwrap()).toEqual(expect.objectContaining(phonyUser))
   })
 
   it('returns null if the email is incorrect', async () => {
     const { password } = phonyCredentials
-    const userId = await login({ email: 'wrong@email.com', password })
+    const userResult = await login({ email: 'wrong@email.com', password })
 
-    expect(userId).toBeNull()
+    expect(userResult.is_err())
+    expect(userResult.unwrap_err().message).toEqual(ERREUR_USER_INCONNU)
   })
 
   it('returns null if the password is incorrect', async () => {
     const { email } = phonyCredentials
-    const userId = await login({ email, password: 'oops' })
+    const userResult = await login({ email, password: 'oops' })
 
-    expect(userId).toBeNull()
+    expect(userResult.is_err())
+    expect(userResult.unwrap_err().message).toEqual(ERREUR_MOT_DE_PASSE_ERRONE)
   })
 })

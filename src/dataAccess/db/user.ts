@@ -1,12 +1,21 @@
 import { DataTypes } from 'sequelize'
-
+import { UserRepo } from '../'
+import { User, makeUser, Project, makeProject } from '../../entities'
+import { mapExceptError, mapIfOk } from '../../helpers/results'
+import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types'
+import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
 
-import { UserRepo } from '../'
-import { makeUser, User, Project, makeProject } from '../../entities'
+// Override these to apply serialization/deserialization on inputs/outputs
+const deserialize = item => item
+const serialize = item => item
 
 export default function makeUserRepo({ sequelize }): UserRepo {
-  const userModel = sequelize.define('user', {
+  const UserModel = sequelize.define('user', {
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true
+    },
     firstName: {
       type: DataTypes.STRING,
       allowNull: false
@@ -25,61 +34,120 @@ export default function makeUserRepo({ sequelize }): UserRepo {
 
   return Object.freeze({
     findById,
+    findAll,
     insert,
-    remove,
+    update,
     addProject,
-    findProjects
+    remove
   })
 
-  async function findById(id: User['id']): Promise<User | null> {
+  async function findById(id: User['id']): OptionAsync<User> {
     await _isDbReady
 
-    const user = await userModel.findOne({
-      where: { id }
-    })
+    try {
+      const userInDb = await UserModel.findByPk(id, { raw: true })
 
-    return user ? makeUser(user) : null
+      if (!userInDb) return None
+
+      const userInstance = makeUser(deserialize(userInDb))
+
+      if (userInstance.is_err()) throw userInstance.unwrap_err()
+
+      return Some(userInstance.unwrap())
+    } catch (error) {
+      if (CONFIG.logDbErrors) console.log('User.findById error', error)
+      return None
+    }
   }
 
-  async function insert(user: User) {
-    // console.log('Call to User.insert')
+  async function findAll(query?: Record<string, any>): Promise<Array<User>> {
     await _isDbReady
 
-    const { id } = await userModel.create(user)
-    return id.toString()
+    try {
+      const usersRaw = await UserModel.findAll(
+        query
+          ? {
+              where: query
+            }
+          : {},
+        { raw: true }
+      )
+
+      const deserializedItems = mapExceptError(
+        usersRaw,
+        deserialize,
+        'User.findAll.deserialize error'
+      )
+
+      return mapIfOk(deserializedItems, makeUser, 'User.findAll.makeUser error')
+    } catch (error) {
+      if (CONFIG.logDbErrors) console.log('User.findAll error', error)
+      return []
+    }
   }
 
-  async function remove(id: User['id']) {
+  async function insert(user: User): ResultAsync<User> {
     await _isDbReady
 
-    await userModel.destroy({ where: { id } })
+    try {
+      await UserModel.create(serialize(user))
+      return Ok(user)
+    } catch (error) {
+      if (CONFIG.logDbErrors) console.log('User.insert error', error)
+      return Err(error)
+    }
   }
 
-  async function addProject(userId: string, projectId: string): Promise<void> {
-    const userInstance = await userModel.findByPk(userId)
+  async function update(user: User): ResultAsync<User> {
+    await _isDbReady
 
-    if (!userInstance) {
-      throw new Error('Cannot find user to add project to')
+    try {
+      await UserModel.update(serialize(user), {
+        where: { id: user.id }
+      })
+      return Ok(user)
+    } catch (error) {
+      if (CONFIG.logDbErrors) console.log('User.findAll error', error)
+      return Err(error)
     }
-
-    const projectModel = sequelize.model('project')
-    const projectInstance = await projectModel.findByPk(projectId)
-
-    if (!projectInstance) {
-      throw new Error('Cannot find project to be added to user')
-    }
-
-    await userInstance.addProject(projectInstance)
   }
 
-  async function findProjects(userId: User['id']): Promise<Array<Project>> {
-    const userInstance = await userModel.findByPk(userId)
+  async function addProject(
+    userId: User['id'],
+    projectId: Project['id']
+  ): ResultAsync<void> {
+    try {
+      const userInstance = await UserModel.findByPk(userId)
 
-    if (!userInstance) {
-      throw new Error('Cannot find user to add project to')
+      if (!userInstance) {
+        throw new Error('Cannot find user to add project to')
+      }
+
+      const ProjectModel = sequelize.model('project')
+      const projectInstance = await ProjectModel.findByPk(projectId)
+
+      if (!projectInstance) {
+        throw new Error('Cannot find project to be added to user')
+      }
+
+      await userInstance.addProject(projectInstance)
+      return Ok(null)
+    } catch (error) {
+      if (CONFIG.logDbErrors) console.log('User.addProject error', error)
+      return Err(error)
     }
+  }
 
-    return (await userInstance.getProjects({ raw: true })).map(makeProject)
+  async function remove(id: User['id']): ResultAsync<void> {
+    await _isDbReady
+
+    try {
+      await UserModel.destroy({ where: { id } })
+      return Ok(null)
+    } catch (error) {
+      if (CONFIG.logDbErrors) console.log('User.remove error', error)
+      return Err(error)
+    }
   }
 }
 

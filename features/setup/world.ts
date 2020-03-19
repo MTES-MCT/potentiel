@@ -30,14 +30,20 @@ export class World {
     await this.page.goto(route, options)
   }
 
-  async loginAs({ email, password }) {
+  async logout() {
+    // console.log('Calling logout')
     await this.navigateTo(makeRoute(routes.LOGOUT_ACTION))
+  }
+
+  async loginAs({ email, password }) {
+    // console.log('Going to login page')
     await this.navigateTo(makeRoute(routes.LOGIN))
 
     await this.page.type(testId('login-email'), email)
     await this.page.type(testId('login-password'), password)
 
     await this.page.click(testId('login-submitButton'))
+    // console.log('Login done')
   }
 }
 

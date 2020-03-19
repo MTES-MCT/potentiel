@@ -13,9 +13,9 @@ const getDemandePage = async (request: HttpRequest) => {
     }
   }
 
-  const project = await projectRepo.findById({ id: request.query.projectId })
+  const projectResult = await projectRepo.findById(request.query.projectId)
 
-  if (!project) {
+  if (projectResult.is_none()) {
     return Redirect(ROUTES.USER_DASHBOARD, {
       error: "Le projet demandé n'existe pas"
     })
@@ -24,7 +24,7 @@ const getDemandePage = async (request: HttpRequest) => {
   return Success(
     ModificationRequestPage({
       action: request.query.action,
-      project,
+      project: projectResult.unwrap(),
       success: request.query.success,
       error: request.query.error,
       userName: request.user.firstName + ' ' + request.user.lastName

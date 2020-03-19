@@ -1,0 +1,54 @@
+import { Result, Ok, Err, ErrorResult } from '../types'
+import { Runtype } from '../types/schemaTypes'
+import { Optional } from 'utility-types'
+import _ from 'lodash'
+
+interface HasId {
+  id: string
+}
+
+const buildMakeEntity = <T extends HasId>(
+  schema: Runtype<T>,
+  makeId: () => string,
+  typeFields: Array<string>,
+  defaults?: Record<string, any>
+) => {
+  // Make a small utility to remove all unnecessary fields
+  const extractTypeFields = (obj: any) => _.pick(obj, typeFields)
+
+  // The input object doesn't require an id
+  return (obj: Optional<T, 'id'>): Result<T, Error> => {
+    // Extract fields that are not in the type
+    const onlyTypeFields = extractTypeFields(obj)
+
+    // Add an id if there is none
+    if (!onlyTypeFields.id) {
+      // console.log('Setting an id because none were given')
+      onlyTypeFields.id = makeId()
+    }
+
+    if (defaults) {
+      // console.log('Applying defaults')
+      Object.entries(defaults).forEach(([key, value]) => {
+        if (typeof obj[key] !== 'undefined') return
+
+        if (typeof value === 'function') {
+          // apply this to the key
+          onlyTypeFields[key] = value(onlyTypeFields[key])
+        } else {
+          // Insert the default value
+          onlyTypeFields[key] = value
+        }
+      })
+    }
+
+    // console.log('Object is now', onlyTypeFields)
+    try {
+      return Ok(schema.check(onlyTypeFields))
+    } catch (error) {
+      return ErrorResult(`${error.message} in field ${error.key}`)
+    }
+  }
+}
+
+export default buildMakeEntity

@@ -1,5 +1,6 @@
 import { User, makeCredentials } from '../entities'
 import { UserRepo, CredentialsRepo } from '../dataAccess'
+import { ResultAsync, Ok, Err, ErrorResult } from '../types'
 
 interface MakeLoginProps {
   credentialsRepo: CredentialsRepo
@@ -11,6 +12,10 @@ interface LoginProps {
   password: string
 }
 
+export const ERREUR_USER_INCONNU = 'Aucun utilisateur avec cet email'
+export const ERREUR_MOT_DE_PASSE_ERRONE = 'Mot de passe erroné'
+export const ERREUR_GRAVE = 'Erreur système merci de bien vouloir réessayer'
+
 export default function makeLogin({
   credentialsRepo,
   userRepo
@@ -18,32 +23,49 @@ export default function makeLogin({
   return async function login({
     email,
     password
-  }: LoginProps): Promise<User | null> {
-    const credentials = await credentialsRepo.findByEmail({ email })
+  }: LoginProps): ResultAsync<User> {
+    const credentials = await credentialsRepo.findByEmail(email)
 
     // Email not found
-    if (!credentials) {
+    if (credentials.is_none()) {
       // console.log('login() : email not found')
-      return null
+      return ErrorResult(ERREUR_USER_INCONNU)
     }
 
     // Check password
-    const providedCredentials = makeCredentials({ email, password, userId: '' })
-    if (providedCredentials.hash !== credentials.hash) {
-      // console.log('login() : wrong password')
-      return null
+    const providedCredentialsResult = makeCredentials({
+      email,
+      password,
+      userId: ''
+    })
+
+    if (providedCredentialsResult.is_err()) {
+      console.log(
+        'login use-case: makeCredentials est en erreur',
+        providedCredentialsResult.unwrap_err()
+      )
+      return ErrorResult(ERREUR_GRAVE)
     }
 
-    const user = await userRepo.findById(credentials.userId)
+    const providedCredentials = providedCredentialsResult.unwrap()
 
-    if (!user) {
-      // console.log('userId is ', credentials.userId)
-      // console.log('login() : user not found')
-      throw new Error('Cannot find user corresponding to credentials userId')
+    if (providedCredentials.hash !== credentials.unwrap().hash) {
+      // console.log('login() : wrong password')
+      return ErrorResult(ERREUR_MOT_DE_PASSE_ERRONE)
+    }
+
+    const userResult = await userRepo.findById(credentials.unwrap().userId)
+
+    if (userResult.is_none()) {
+      console.log(
+        'login use-case: user avec le userId contenu dans les credentials est introuvable',
+        providedCredentialsResult.unwrap_err()
+      )
+      return ErrorResult(ERREUR_GRAVE)
     }
 
     // console.log('login() : all good, user is ', user)
 
-    return user
+    return Ok(userResult.unwrap())
   }
 }

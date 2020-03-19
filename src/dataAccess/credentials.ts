@@ -1,6 +1,8 @@
 import { Credentials } from '../entities'
+import { ResultAsync, OptionAsync } from '../types'
 
 export type CredentialsRepo = {
-  findByEmail: ({ email: string }) => Promise<Credentials | null>
-  insert: (credentials: Credentials) => Promise<void>
+  findByEmail: (email: Credentials['email']) => OptionAsync<Credentials>
+  insert: (credentials: Credentials) => ResultAsync<Credentials>
+  update: (credentials: Credentials) => ResultAsync<Credentials>
 }

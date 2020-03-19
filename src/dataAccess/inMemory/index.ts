@@ -12,12 +12,13 @@ import {
   CandidateNotification,
   ProjectAdmissionKey
 } from '../../entities'
+import { Ok, Err, Some, None, ErrorResult } from '../../types'
 
 interface HasId {
-  id?: string
+  id: string
 }
 
-const makeClassicRepo = <T extends HasId>(
+const makeClassicRepo = async <T extends HasId>(
   defaultProperties: Record<string, any> = {}
 ) => {
   let itemsById: Record<string, T> = {}
@@ -28,115 +29,209 @@ const makeClassicRepo = <T extends HasId>(
       itemsById = {}
       itemCount = 0
     },
-    findById: ({ id }) => {
+    findById: async (id: string) => {
       // console.log('findById', id, itemsById)
       if (id in itemsById) {
-        return Promise.resolve(itemsById[id])
-      } else return Promise.resolve(null)
+        return Some(itemsById[id])
+      } else return None
     },
-    findAll: (query?) => {
+    findAll: async (query?) => {
       const allItems = Object.values(itemsById)
 
       if (!query) {
-        return Promise.resolve(allItems)
+        return allItems
       }
 
-      return Promise.resolve(
-        allItems.filter(item =>
-          Object.entries(query).every(([key, value]) => item[key] === value)
-        )
+      return allItems.filter(item =>
+        Object.entries(query).every(([key, value]) => item[key] === value)
       )
     },
-    insertMany: (items: Array<T>) => {
-      items.forEach(item => {
-        const itemId: string = (++itemCount).toString()
-        itemsById[item.id || itemId] = {
-          ...defaultProperties,
-          id: itemId,
-          ...item
-        }
-      })
+    insert: async (item: T) => {
+      itemsById[item.id] = {
+        ...defaultProperties,
+        ...item
+      }
 
-      return Promise.resolve()
+      return Ok<T>(item)
     },
-    update: (item: T) => {
+    update: async (item: T) => {
       if (!item.id) {
-        throw new Error('Cannot update item that has no id')
+        return ErrorResult('Cannot update item that has no id')
       }
 
       if (!itemsById[item.id]) {
-        throw new Error('Cannot update item that was unknown')
+        return ErrorResult('Cannot update item that was unknown')
       }
 
       itemsById[item.id] = item
 
-      return Promise.resolve()
+      return Ok<T>(item)
     }
   }
 }
 
 let credentialsByEmail: Record<string, Credentials> = {}
+let credentialsById: Record<string, Credentials> = {}
 const credentialsRepo: CredentialsRepo = {
-  findByEmail: ({ email }) => {
+  findByEmail: (email: string) => {
     if (email in credentialsByEmail) {
-      return Promise.resolve(credentialsByEmail[email])
-    } else return Promise.resolve(null)
+      return Promise.resolve(Some(credentialsByEmail[email]))
+    } else return Promise.resolve(None)
   },
   insert: (credentials: Credentials) => {
     credentialsByEmail[credentials.email] = credentials
-    return Promise.resolve()
+    credentialsById[credentials.id] = credentials
+    return Promise.resolve(Ok(credentials))
+  },
+  update: (credentials: Credentials) => {
+    if (!credentials.id) {
+      return Promise.resolve(
+        ErrorResult('Cannot update credentials that has no id')
+      )
+    }
+
+    if (!credentialsById[credentials.id]) {
+      return Promise.resolve(
+        ErrorResult('Cannot update credentials that was unknown')
+      )
+    }
+
+    credentialsById[credentials.id] = credentials
+
+    return Promise.resolve(Ok(credentials))
   }
 }
 
-const candidateNotificationRepo = makeClassicRepo<CandidateNotification>()
+let candidateNotificationsById: Record<string, CandidateNotification> = {}
+const candidateNotificationRepo: CandidateNotificationRepo = {
+  findById: async (id: string) => {
+    // console.log('findById', id, itemsById)
+    if (id in candidateNotificationsById) {
+      return Some(candidateNotificationsById[id])
+    } else return None
+  },
+  findAll: async (query?) => {
+    const allItems = Object.values(candidateNotificationsById)
 
-const projectAdmissionKeyRepo = makeClassicRepo<ProjectAdmissionKey>()
+    if (!query) {
+      return allItems
+    }
+
+    return allItems.filter(item =>
+      Object.entries(query).every(([key, value]) => item[key] === value)
+    )
+  },
+  insert: async (item: CandidateNotification) => {
+    candidateNotificationsById[item.id] = item
+
+    return Ok(item)
+  },
+  update: async (item: CandidateNotification) => {
+    if (!item.id) {
+      return ErrorResult('Cannot update item that has no id')
+    }
+
+    if (!candidateNotificationsById[item.id]) {
+      return ErrorResult('Cannot update item that was unknown')
+    }
+
+    candidateNotificationsById[item.id] = item
+
+    return Ok(item)
+  }
+}
+
+let projectAdmissionKeysById: Record<string, ProjectAdmissionKey> = {}
+const projectAdmissionKeyRepo: ProjectAdmissionKeyRepo = {
+  findById: async (id: string) => {
+    // console.log('findById', id, itemsById)
+    if (id in projectAdmissionKeysById) {
+      return Some(projectAdmissionKeysById[id])
+    } else return None
+  },
+  // @ts-ignore
+  findAll: async (query?) => {
+    const allItems = Object.values(candidateNotificationsById)
+
+    if (!query) {
+      return allItems
+    }
+
+    return allItems.filter(item =>
+      Object.entries(query).every(([key, value]) => item[key] === value)
+    )
+  },
+  insert: async (item: ProjectAdmissionKey) => {
+    projectAdmissionKeysById[item.id] = item
+
+    return Ok(item)
+  }
+}
 
 let projectsById: Record<string, Project> = {}
-let projectCount = 0
 const projectRepo: ProjectRepo = {
-  findById: ({ id }) => {
+  findById: (id: string) => {
+    // console.log('findById', id, itemsById)
     if (id in projectsById) {
-      return Promise.resolve(projectsById[id])
-    } else return Promise.resolve(null)
+      return Promise.resolve(Some(projectsById[id]))
+    } else return Promise.resolve(None)
   },
-  findAll: (query?) => {
+  findAll: (query?, includeNotifications?: boolean) => {
     const allItems = Object.values(projectsById)
 
     if (!query) {
       return Promise.resolve(allItems)
     }
 
-    return Promise.resolve(
-      allItems.filter(project =>
-        Object.entries(query).every(([key, value]) => project[key] === value)
-      )
+    return Promise.all(
+      allItems
+        .filter(item =>
+          Object.entries(query).every(([key, value]) => item[key] === value)
+        )
+        .map(async item => {
+          if (includeNotifications) {
+            item.candidateNotifications = await candidateNotificationRepo.findAll(
+              {
+                projectId: item.id
+              }
+            )
+          }
+          return item
+        })
     )
   },
-  insertMany: (projects: Array<Project>) => {
-    projects.forEach(project => {
-      const projectId: string = (++projectCount).toString()
-      projectsById[projectId] = {
-        hasBeenNotified: false,
-        ...project,
-        id: projectId
-      }
-    })
+  findByUser: (userId: User['id']) => {
+    const projectIds: Array<Project['id']> = userProjects[userId] || []
 
-    return Promise.resolve()
+    return Promise.resolve(projectIds.map(projectId => projectsById[projectId]))
+  },
+  insert: (project: Project) => {
+    projectsById[project.id] = project
+
+    // console.log('Calling projectRepo.insert with', project)
+
+    return Promise.resolve(Ok(project))
   },
   update: (project: Project) => {
     if (!project.id) {
-      throw new Error('Cannot update project that has no id')
+      return Promise.resolve(
+        Err(new Error('Cannot update project that has no id'))
+      )
     }
 
     if (!projectsById[project.id]) {
-      throw new Error('Cannot update project that was unknown')
+      return Promise.resolve(
+        Err(new Error('Cannot update project that was unknown'))
+      )
     }
 
     projectsById[project.id] = project
 
-    return Promise.resolve()
+    return Promise.resolve(Ok(project))
+  },
+  remove: async (id: Project['id']) => {
+    delete usersById[id]
+    return Ok(null)
   },
   addNotification: async (
     project: Project,
@@ -145,51 +240,66 @@ const projectRepo: ProjectRepo = {
     const projectInstance = projectsById[project.id]
 
     if (!projectInstance) {
-      throw new Error('Cannot find project to add notification to')
+      return Err(new Error('Cannot find project to add notification to'))
     }
 
-    await candidateNotificationRepo.insertMany([
-      { ...notification, projectId: project.id }
-    ])
+    await candidateNotificationRepo.insert({
+      ...notification,
+      projectId: project.id
+    })
 
     projectInstance.hasBeenNotified = true
-  },
-  addProjectAdmissionKey: async (
-    projectId: Project['id'],
-    key: ProjectAdmissionKey['id'],
-    email: ProjectAdmissionKey['email']
-  ) => {
-    const projectInstance = projectsById[projectId]
-
-    if (!projectInstance) {
-      throw new Error('Cannot find project to add project admission key to')
-    }
-
-    await projectAdmissionKeyRepo.insertMany([{ id: key, projectId, email }])
+    return Ok(project)
   }
 }
 
 let usersById: Record<string, User> = {}
 let userProjects: Record<User['id'], Array<Project['id']>> = {}
-let userCounter = 0
 const userRepo: UserRepo = {
-  findById: (id: User['id']) => {
+  findById: (id: string) => {
+    // console.log('findById', id, itemsById)
     if (id in usersById) {
-      return Promise.resolve(usersById[id])
-    } else return Promise.resolve(null)
+      return Promise.resolve(Some(usersById[id]))
+    } else return Promise.resolve(None)
+  },
+  findAll: (query?) => {
+    const allItems = Object.values(usersById)
+
+    if (!query) {
+      return Promise.resolve(allItems)
+    }
+
+    return Promise.resolve(
+      allItems.filter(user =>
+        Object.entries(query).every(([key, value]) => user[key] === value)
+      )
+    )
   },
   insert: (user: User) => {
-    const userId: string = (++userCounter).toString()
-    usersById[userId] = { ...user, id: userId }
-    return Promise.resolve(userId)
-  },
-  findProjects: async (userId: User['id']) => {
-    const projectIds: Array<Project['id']> = userProjects[userId] || []
+    usersById[user.id] = user
 
-    return projectIds.map(projectId => projectsById[projectId])
+    return Promise.resolve(Ok(user))
+  },
+  update: (user: User) => {
+    if (!user.id) {
+      return Promise.resolve(
+        Err(new Error('Cannot update user that has no id'))
+      )
+    }
+
+    if (!usersById[user.id]) {
+      return Promise.resolve(
+        Err(new Error('Cannot update user that was unknown'))
+      )
+    }
+
+    usersById[user.id] = user
+
+    return Promise.resolve(Ok(user))
   },
   remove: async (userId: User['id']) => {
     delete usersById[userId]
+    return Ok(null)
   },
   addProject: async (userId: User['id'], projectId: Project['id']) => {
     if (!userProjects[userId]) {
@@ -197,18 +307,17 @@ const userRepo: UserRepo = {
     }
 
     userProjects[userId].push(projectId)
+    return Ok(null)
   }
 }
 
 const resetDatabase = () => {
   credentialsByEmail = {}
   projectsById = {}
-  projectCount = 0
   usersById = {}
   userProjects = {}
-  userCounter = 0
-  candidateNotificationRepo.reset()
-  projectAdmissionKeyRepo.reset()
+  candidateNotificationsById = {}
+  projectAdmissionKeysById = {}
 }
 
 export {

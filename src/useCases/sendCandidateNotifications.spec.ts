@@ -1,25 +1,32 @@
-import { v1 as uuidv1 } from 'uuid'
-
 import makeSendCandidateNotifications from './sendCandidateNotifications'
 
 import {
   projectRepo,
   candidateNotificationRepo,
   credentialsRepo,
-  userRepo
+  userRepo,
+  projectAdmissionKeyRepo,
+  resetDatabase
 } from '../dataAccess/inMemory'
 import makeFakeProject from '../__tests__/fixtures/project'
 import makeFakeCandidateNotification from '../__tests__/fixtures/candidateNotification'
 import makeFakeUser from '../__tests__/fixtures/user'
 import { PORTEUR_PROJET } from '../__tests__/fixtures/testCredentials'
 
-import { makeUser, User } from '../entities'
+import {
+  makeUser,
+  User,
+  makeCredentials,
+  makeProject,
+  makeCandidateNotification
+} from '../entities'
 
 const sendCandidateNotifications = makeSendCandidateNotifications({
   projectRepo,
   userRepo,
   credentialsRepo,
-  makeUuid: uuidv1
+  candidateNotificationRepo,
+  projectAdmissionKeyRepo
 })
 
 describe('sendCandidateNotifications use-case', () => {
@@ -27,50 +34,77 @@ describe('sendCandidateNotifications use-case', () => {
   const fakeUserProjectName = 'fakeProjectName'
 
   beforeAll(async () => {
+    resetDatabase()
+
     const previousNotifs = await candidateNotificationRepo.findAll()
     expect(previousNotifs).toBeDefined()
     expect(previousNotifs).toHaveLength(0)
 
     // Make a fake porteur de projet
     const bogusEmail = 'bogus@email.com'
-    await credentialsRepo.insert({
-      hash: 'fakeHash',
-      email: bogusEmail,
-      userId: fakeUserId
-    })
+    await Promise.all(
+      [
+        makeCredentials({
+          hash: 'fakeHash',
+          email: bogusEmail,
+          userId: fakeUserId
+        })
+      ]
+        .filter(item => item.is_ok())
+        .map(item => item.unwrap())
+        .map(credentialsRepo.insert)
+    )
 
-    await projectRepo.insertMany([
-      makeFakeProject({ classe: 'Eliminé', hasBeenNotified: true }),
-      makeFakeProject({ classe: 'Classé', hasBeenNotified: true }),
-      makeFakeProject({
-        classe: 'Eliminé',
-        email: bogusEmail,
-        nomProjet: fakeUserProjectName
-      }),
-      makeFakeProject({ classe: 'Classé' })
-    ])
+    await Promise.all(
+      [
+        makeFakeProject({
+          classe: 'Eliminé',
+          hasBeenNotified: true
+        }),
+        makeFakeProject({
+          classe: 'Classé',
+          hasBeenNotified: true
+        }),
+        makeFakeProject({
+          classe: 'Eliminé',
+          email: bogusEmail,
+          nomProjet: fakeUserProjectName
+        }),
+        makeFakeProject({ classe: 'Classé' })
+      ]
+        .map(makeProject)
+        .filter(item => item.is_ok())
+        .map(item => item.unwrap())
+        .map(projectRepo.insert)
+    )
 
     const allProjects = await projectRepo.findAll()
 
     // For the first two, create a notification
-    const fakePriorNotifs = [
-      makeFakeCandidateNotification({
-        projectId: allProjects[0].id,
-        template: 'elimination'
-      }),
-      makeFakeCandidateNotification({
-        projectId: allProjects[1].id,
-        template: 'laureat'
-      })
-    ]
     // Insert these notifications in the repo
-    await candidateNotificationRepo.insertMany(fakePriorNotifs)
+    await Promise.all(
+      [
+        makeFakeCandidateNotification({
+          projectId: allProjects[0].id,
+          template: 'elimination'
+        }),
+        makeFakeCandidateNotification({
+          projectId: allProjects[1].id,
+          template: 'laureat'
+        })
+      ]
+        .map(makeCandidateNotification)
+        .filter(item => item.is_ok())
+        .map(item => item.unwrap())
+        .map(candidateNotificationRepo.insert)
+    )
 
     const priorNotifs = await candidateNotificationRepo.findAll()
     expect(priorNotifs).toHaveLength(2)
 
     // Send new notifications
-    await sendCandidateNotifications({})
+    const result = await sendCandidateNotifications({})
+    expect(result.is_ok()).toBeTruthy()
   })
 
   it('should create a notification for every project that has none', async () => {
@@ -93,14 +127,12 @@ describe('sendCandidateNotifications use-case', () => {
 
     expect(allNotifs).toHaveLength(4)
 
-    expect.assertions(allNotifs.length * 2 + 1)
-
     await Promise.all(
       allNotifs.map(async notif => {
-        const project = await projectRepo.findById({ id: notif.projectId })
-        expect(project).toBeDefined()
+        const projectResult = await projectRepo.findById(notif.projectId)
+        expect(projectResult.is_some())
 
-        if (project === null) return // To avoid compiler error below
+        const project = projectResult.unwrap()
 
         if (project.classe === 'Classé') {
           expect(notif.template).toEqual('laureat')
@@ -114,7 +146,7 @@ describe('sendCandidateNotifications use-case', () => {
   })
 
   it('should add the projects to the existing users if emails are the same', async () => {
-    const userProjects = await userRepo.findProjects(fakeUserId)
+    const userProjects = await projectRepo.findByUser(fakeUserId)
 
     expect(userProjects).toBeDefined()
     expect(userProjects).toHaveLength(1)

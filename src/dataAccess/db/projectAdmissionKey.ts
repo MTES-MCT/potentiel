@@ -1,9 +1,14 @@
 import { DataTypes } from 'sequelize'
-
+import { ProjectAdmissionKeyRepo } from '../'
+import { ProjectAdmissionKey, makeProjectAdmissionKey } from '../../entities'
+import { mapExceptError, mapIfOk } from '../../helpers/results'
+import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types'
+import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
 
-import { ProjectAdmissionKeyRepo } from '../'
-import { makeProjectAdmissionKey, ProjectAdmissionKey } from '../../entities'
+// Override these to apply serialization/deserialization on inputs/outputs
+const deserialize = item => item
+const serialize = item => item
 
 export default function makeProjectAdmissionKeyRepo({
   sequelize
@@ -14,7 +19,12 @@ export default function makeProjectAdmissionKeyRepo({
       primaryKey: true
     },
     email: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    projectId: {
+      type: DataTypes.UUID,
+      allowNull: false
     }
   })
 
@@ -23,54 +33,83 @@ export default function makeProjectAdmissionKeyRepo({
   return Object.freeze({
     findById,
     findAll,
-    insertMany,
-    update
+    insert
   })
 
-  async function findById({ id }): Promise<ProjectAdmissionKey | null> {
+  async function findById(
+    id: ProjectAdmissionKey['id']
+  ): OptionAsync<ProjectAdmissionKey> {
     await _isDbReady
 
-    const projectAdmissionKeyInDb = await ProjectAdmissionKeyModel.findByPk(id)
-    return (
-      projectAdmissionKeyInDb &&
-      makeProjectAdmissionKey(projectAdmissionKeyInDb)
-    )
+    try {
+      const projectAdmissionKeyInDb = await ProjectAdmissionKeyModel.findByPk(
+        id,
+        { raw: true }
+      )
+
+      if (!projectAdmissionKeyInDb) return None
+
+      const projectAdmissionKeyInstance = makeProjectAdmissionKey(
+        deserialize(projectAdmissionKeyInDb)
+      )
+
+      if (projectAdmissionKeyInstance.is_err())
+        throw projectAdmissionKeyInstance.unwrap_err()
+
+      return Some(projectAdmissionKeyInstance.unwrap())
+    } catch (error) {
+      if (CONFIG.logDbErrors)
+        console.log('ProjectAdmissionKey.findById error', error)
+      return None
+    }
   }
 
-  async function findAll(query?): Promise<Array<ProjectAdmissionKey>> {
+  async function findAll(
+    query?: Record<string, any>
+  ): Promise<Array<ProjectAdmissionKey>> {
     await _isDbReady
 
-    return (
-      await ProjectAdmissionKeyModel.findAll(
+    try {
+      const projectAdmissionKeysRaw = await ProjectAdmissionKeyModel.findAll(
         query
           ? {
               where: query
             }
-          : {}
+          : {},
+        { raw: true }
       )
-    ).map(makeProjectAdmissionKey)
-  }
 
-  async function insertMany(projectAdmissionKeys: Array<ProjectAdmissionKey>) {
-    await _isDbReady
-
-    await Promise.all(
-      projectAdmissionKeys.map(projectAdmissionKey =>
-        ProjectAdmissionKeyModel.create(projectAdmissionKey)
+      const deserializedItems = mapExceptError(
+        projectAdmissionKeysRaw,
+        deserialize,
+        'ProjectAdmissionKey.findAll.deserialize error'
       )
-    )
-  }
 
-  async function update(projectAdmissionKey: ProjectAdmissionKey) {
-    await _isDbReady
-
-    if (!projectAdmissionKey.id) {
-      throw new Error('Cannot update projectAdmissionKey that has no id')
+      return mapIfOk(
+        deserializedItems,
+        makeProjectAdmissionKey,
+        'ProjectAdmissionKey.findAll.makeProjectAdmissionKey error'
+      )
+    } catch (error) {
+      if (CONFIG.logDbErrors)
+        console.log('ProjectAdmissionKey.findAll error', error)
+      return []
     }
+  }
 
-    await ProjectAdmissionKeyModel.update(projectAdmissionKey, {
-      where: { id: projectAdmissionKey.id }
-    })
+  async function insert(
+    projectAdmissionKey: ProjectAdmissionKey
+  ): ResultAsync<ProjectAdmissionKey> {
+    await _isDbReady
+
+    try {
+      await ProjectAdmissionKeyModel.create(serialize(projectAdmissionKey))
+      return Ok(projectAdmissionKey)
+    } catch (error) {
+      if (CONFIG.logDbErrors)
+        console.log('ProjectAdmissionKey.insert error', error)
+      return Err(error)
+    }
   }
 }
 

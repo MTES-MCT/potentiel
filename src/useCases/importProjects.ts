@@ -1,6 +1,8 @@
 import { Project, makeProject } from '../entities'
 import { ProjectRepo } from '../dataAccess'
 import _ from 'lodash'
+import { Result, ResultAsync, Err, Ok, ErrorResult } from '../types'
+import toNumber from '../helpers/toNumber'
 
 interface MakeUseCaseProps {
   projectRepo: ProjectRepo
@@ -39,24 +41,18 @@ export const ERREUR_COLONNES =
   'Format du fichier erroné (vérifier conformité des colonnes)'
 export const ERREUR_AUCUNE_LIGNE = 'Le fichier semble vide (aucune ligne)'
 export const ERREUR_FORMAT_LIGNE = 'Le fichier comporte des lignes erronées'
-
-const toNumber = str => {
-  return typeof str === 'number'
-    ? str
-    : typeof str === 'string'
-    ? Number(str.replace(/,/g, '.'))
-    : undefined
-}
+export const ERREUR_INSERTION = "Impossible d'insérer les projets en base"
 
 export default function makeImportProjects({ projectRepo }: MakeUseCaseProps) {
   return async function importProjects({
     periode,
     headers,
     lines
-  }: CallUseCaseProps): Promise<void> {
+  }: CallUseCaseProps): ResultAsync<null> {
     // Check periode string
     if (!periode || !periode.length) {
-      throw { error: ERREUR_PERIODE }
+      console.log('importProjects use-case: missing periode', headers)
+      return ErrorResult(ERREUR_PERIODE)
     }
 
     // Check header (format of file)
@@ -64,79 +60,116 @@ export default function makeImportProjects({ projectRepo }: MakeUseCaseProps) {
       !headers ||
       !MANDATORY_HEADER_COLUMNS.every(column => headers.includes(column))
     ) {
-      console.log('Import missing header columns', headers)
-      throw {
-        error: ERREUR_COLONNES
-      }
+      console.log('importProjects use-case: missing header columns', headers)
+      return ErrorResult(ERREUR_COLONNES)
     }
 
     // Check if there is at least one line to insert
     if (!lines || !lines.length) {
-      throw {
-        error: ERREUR_AUCUNE_LIGNE
-      }
+      console.log('importProjects use-case: missing lines', lines)
+      return ErrorResult(ERREUR_AUCUNE_LIGNE)
     }
 
     // Check individual lines (use makeProject on each)
-    const projects: Array<Project> = []
-    const erroredLines: Array<{
-      line: Record<string, any>
-      error: any
-    }> = []
-    lines.forEach(line => {
-      try {
-        projects.push(
-          makeProject({
-            periode,
-            numeroCRE: line['numeroCRE'],
-            famille: line['famille'],
-            nomCandidat: line['nomCandidat'],
-            nomProjet: line['nomProjet'],
-            puissance: toNumber(line['puissance(kWc)']),
-            prixReference: toNumber(line['prixReference(euros/MWh)']),
-            evaluationCarbone: toNumber(
-              line['evaluationCarbone(kg eq CO2/kWc)']
-            ),
-            note: toNumber(line['note']),
-            nomRepresentantLegal: line['nomRepresentantLegal'],
-            email: line['email'],
-            adresseProjet: line['adresseProjet'],
-            codePostalProjet: line['codePostalProjet'],
-            communeProjet: line['communeProjet'],
-            departementProjet: line['departementProjet'],
-            regionProjet: line['regionProjet'],
-            classe: line['classé(1/0)'],
-            motifsElimination: line['motifsElimination'],
-            fournisseur: line['fournisseur'] || 'N/A',
-            actionnaire: line['actionnaire'] || 'N/A',
-            producteur: line['producteur'] || 'N/A'
-          })
-        )
-      } catch (e) {
-        // console.log('Erreur de validation', e)
-        erroredLines.push({
-          line: line,
-          error: e.path
-        })
-      }
-    })
-
-    if (erroredLines.length) {
-      let errorLong = ERREUR_FORMAT_LIGNE + ' ('
-      erroredLines.forEach((line, index) => {
-        errorLong += 'Ligne ' + (index + 1) + ' champ ' + line.error
-        if (index < erroredLines.length - 1) errorLong += ', '
+    const projects = lines.reduce((currentResults, line, index) => {
+      const projectResult = makeProject({
+        periode,
+        numeroCRE: line['numeroCRE'],
+        famille: line['famille'],
+        nomCandidat: line['nomCandidat'],
+        nomProjet: line['nomProjet'],
+        puissance: toNumber(line['puissance(kWc)']) || 0,
+        prixReference: toNumber(line['prixReference(euros/MWh)']) || 0,
+        evaluationCarbone:
+          toNumber(line['evaluationCarbone(kg eq CO2/kWc)']) || 0,
+        note: toNumber(line['note']) || -1,
+        nomRepresentantLegal: line['nomRepresentantLegal'],
+        email: line['email'],
+        adresseProjet: line['adresseProjet'],
+        codePostalProjet: line['codePostalProjet'],
+        communeProjet: line['communeProjet'],
+        departementProjet: line['departementProjet'],
+        regionProjet: line['regionProjet'],
+        classe: line['classé(1/0)'],
+        motifsElimination: line['motifsElimination'],
+        fournisseur: line['fournisseur'] || 'N/A',
+        actionnaire: line['actionnaire'] || 'N/A',
+        producteur: line['producteur'] || 'N/A',
+        hasBeenNotified: false
       })
-      errorLong += ')'
-      // console.log('erreur lignes', errorLong)
-      throw {
-        error: ERREUR_FORMAT_LIGNE,
-        errorLong,
-        lines: erroredLines
+
+      if (projectResult.is_err()) {
+        // This line is an error
+        console.log(
+          'importProjects use-case: this line has an error',
+          line,
+          projectResult.unwrap_err()
+        )
+
+        let errors: Array<Error> = []
+        if (currentResults.is_err()) {
+          // It already had errors, add this one
+          errors = currentResults.unwrap_err()
+        }
+        // Add the error from this line prefixed with the line number
+        const projectError = projectResult.unwrap_err()
+        projectError.message =
+          'Ligne ' + (index + 2) + ': ' + projectError.message
+        errors.push(projectError)
+
+        return Err(errors)
       }
+
+      if (currentResults.is_err()) {
+        // This line is not an error but previous lines are
+        return currentResults
+      }
+
+      // No errors so far
+      // Add this line's project to the current list
+      const projects = currentResults.unwrap()
+      projects.push(projectResult.unwrap())
+      return Ok(projects)
+    }, Ok([]))
+
+    if (projects.is_err()) {
+      console.log(
+        'importProjects use-case: some projects have errors',
+        projects.unwrap_err()
+      )
+      const error = new Error()
+      error.message = projects
+        .unwrap_err()
+        .reduce(
+          (message, error) => message + '\n' + error.message,
+          ERREUR_FORMAT_LIGNE
+        )
+      return Err(error)
     }
 
-    // Insert into project repo
-    await projectRepo.insertMany(projects)
+    console.log('')
+
+    const insertions: Array<Result<Project, Error>> = await Promise.all(
+      projects.unwrap().map(projectRepo.insert)
+    )
+
+    if (insertions.some(project => project.is_err())) {
+      console.log(
+        'importProjects use-case: some insertions have errors',
+        insertions.filter(item => item.is_err()).map(item => item.unwrap_err())
+      )
+      projects.unwrap_err()
+      // Some projects failed to be inserted
+      // Remove all the others
+      await Promise.all(
+        insertions
+          .filter(project => project.is_ok())
+          .map(project => project.unwrap().id)
+          .map(projectRepo.remove)
+      )
+      return ErrorResult(ERREUR_INSERTION)
+    }
+
+    return Ok(null)
   }
 }

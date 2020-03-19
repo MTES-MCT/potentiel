@@ -1,33 +1,44 @@
-import * as yup from 'yup'
+import {
+  String,
+  Number,
+  Record,
+  Array,
+  Union,
+  Literal,
+  Boolean,
+  Static,
+  Unknown,
+  Partial,
+  Undefined
+} from '../types/schemaTypes'
+import buildMakeEntity from '../helpers/buildMakeEntity'
 
-const candidateNotificationSchema = yup.object({
-  id: yup.string().notRequired(),
-  projectId: yup.string().notRequired(),
-  template: yup
-    .mixed<'laureat' | 'elimination'>()
-    .oneOf(['laureat', 'elimination']),
-  data: yup
-    .object()
-    .nullable()
-    .notRequired()
-    .default({}),
-  projectAdmissionKey: yup.string().required()
+const baseCandidateNotificationSchema = Record({
+  id: String,
+  projectId: String,
+  template: Union(Literal('laureat'), Literal('elimination')),
+  projectAdmissionKey: String
 })
+const candidateNotificationSchema = baseCandidateNotificationSchema.And(
+  Partial({ hash: String.withConstraint(value => value.length >= 1) })
+)
 
-export type CandidateNotification = yup.InferType<
-  typeof candidateNotificationSchema
->
+const fields: string[] = [
+  'hash',
+  ...Object.keys(baseCandidateNotificationSchema.fields)
+]
 
-export default function buildMakeCandidateNotification() {
-  return function makeCandidateNotification(
-    candidateNotification: any
-  ): CandidateNotification {
-    try {
-      return candidateNotificationSchema.validateSync(candidateNotification, {
-        stripUnknown: true
-      })
-    } catch (e) {
-      throw e
-    }
-  }
+type CandidateNotification = Static<typeof candidateNotificationSchema>
+
+interface MakeCandidateNotificationDependencies {
+  makeId: () => string
 }
+
+export default ({ makeId }: MakeCandidateNotificationDependencies) =>
+  buildMakeEntity<CandidateNotification>(
+    candidateNotificationSchema,
+    makeId,
+    fields
+  )
+
+export { CandidateNotification, candidateNotificationSchema }

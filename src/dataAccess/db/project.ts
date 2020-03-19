@@ -1,17 +1,29 @@
-import { DataTypes, Sequelize } from 'sequelize'
-
-import isDbReady from './helpers/isDbReady'
-
+import { DataTypes } from 'sequelize'
 import { ProjectRepo } from '../'
 import {
-  makeProject,
   Project,
-  CandidateNotification,
-  ProjectAdmissionKey
+  User,
+  makeProject,
+  CandidateNotification
 } from '../../entities'
+import { mapExceptError, mapIfOk } from '../../helpers/results'
+import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types'
+import CONFIG from '../config'
+import isDbReady from './helpers/isDbReady'
+
+// Override these to apply serialization/deserialization on inputs/outputs
+const deserialize = item => ({
+  ...item,
+  hasBeenNotified: !!item.hasBeenNotified
+})
+const serialize = item => item
 
 export default function makeProjectRepo({ sequelize }): ProjectRepo {
   const ProjectModel = sequelize.define('project', {
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true
+    },
     periode: {
       type: DataTypes.STRING,
       allowNull: false
@@ -108,99 +120,174 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
   return Object.freeze({
     findById,
     findAll,
-    insertMany,
+    findByUser,
+    insert,
     update,
-    addNotification,
-    addProjectAdmissionKey
+    remove,
+    addNotification
   })
 
-  async function findById({ id }): Promise<Project | null> {
+  async function findById(id: Project['id']): OptionAsync<Project> {
     await _isDbReady
 
-    const projectInDb = await ProjectModel.findByPk(id)
-    return projectInDb && makeProject(projectInDb)
+    try {
+      const projectInDb = await ProjectModel.findByPk(id, { raw: true })
+
+      if (!projectInDb) return None
+
+      const projectInstance = makeProject(deserialize(projectInDb))
+
+      if (projectInstance.is_err()) throw projectInstance.unwrap_err()
+
+      return Some(projectInstance.unwrap())
+    } catch (error) {
+      if (CONFIG.logDbErrors) console.log('Project.findById error', error)
+      return None
+    }
   }
 
   async function findAll(
-    query?,
+    query?: Record<string, any>,
     includeNotifications?: boolean
   ): Promise<Array<Project>> {
     await _isDbReady
 
-    const CandidateNotificationModel = sequelize.model('candidateNotification')
+    try {
+      const CandidateNotificationModel = sequelize.model(
+        'candidateNotification'
+      )
 
-    const opts: any = {}
-    if (query) opts.where = query
-    if (includeNotifications) opts.include = CandidateNotificationModel
-    return (await ProjectModel.findAll(opts)).map(makeProject)
+      const opts: any = {}
+      if (query) opts.where = query
+      if (includeNotifications) opts.include = CandidateNotificationModel
+
+      const projectsRaw = (
+        await ProjectModel.findAll({
+          ...opts
+        })
+      ).map(item => item.get()) // We need to use this instead of raw: true because of the include
+
+      const deserializedItems = mapExceptError(
+        projectsRaw,
+        deserialize,
+        'Project.findAll.deserialize error'
+      )
+
+      return mapIfOk(
+        deserializedItems,
+        makeProject,
+        'Project.findAll.makeProject error'
+      )
+    } catch (error) {
+      if (CONFIG.logDbErrors) console.log('Project.findAll error', error)
+      return []
+    }
   }
-  async function insertMany(projects: Array<Project>) {
+
+  async function findByUser(userId: User['id']): Promise<Array<Project>> {
+    try {
+      const UserModel = sequelize.model('user')
+      const userInstance = await UserModel.findByPk(userId)
+      if (!userInstance) {
+        if (CONFIG.logDbErrors)
+          console.log('Cannot find user to get projects from')
+
+        return []
+      }
+
+      const rawProjects = await userInstance.getProjects({ raw: true })
+
+      const deserializedItems = mapExceptError(
+        rawProjects,
+        deserialize,
+        'Project.findAll.deserialize error'
+      )
+
+      return mapIfOk(
+        deserializedItems,
+        makeProject,
+        'Project.findByUser.makeProject error'
+      )
+    } catch (error) {
+      if (CONFIG.logDbErrors) console.log('User.findProjects error', error)
+      return []
+    }
+  }
+
+  async function insert(project: Project): ResultAsync<Project> {
     await _isDbReady
 
     try {
-      await Promise.all(projects.map(project => ProjectModel.create(project)))
+      await ProjectModel.create(serialize(project))
+      return Ok(project)
     } catch (error) {
-      console.log('project insertmany error', error)
-      throw error
+      if (CONFIG.logDbErrors) console.log('Project.insert error', error)
+      return Err(error)
     }
   }
 
-  async function update(project: Project) {
+  async function update(project: Project): ResultAsync<Project> {
     await _isDbReady
 
-    if (!project.id) {
-      if (!project.id) {
-        throw new Error('Cannot update project that has no id')
-      }
+    try {
+      await ProjectModel.update(serialize(project), {
+        where: { id: project.id }
+      })
+      return Ok(project)
+    } catch (error) {
+      if (CONFIG.logDbErrors) console.log('Project.findAll error', error)
+      return Err(error)
     }
+  }
 
-    await ProjectModel.update(project, { where: { id: project.id } })
+  async function remove(id: Project['id']): ResultAsync<void> {
+    await _isDbReady
+
+    try {
+      await ProjectModel.destroy({ where: { id } })
+      return Ok(null)
+    } catch (error) {
+      if (CONFIG.logDbErrors) console.log('Project.remove error', error)
+      return Err(error)
+    }
   }
 
   async function addNotification(
     project: Project,
     notification: CandidateNotification
-  ) {
+  ): ResultAsync<Project> {
     await _isDbReady
 
-    const projectInstance = await ProjectModel.findByPk(project.id)
+    try {
+      const projectInstance = await ProjectModel.findByPk(project.id)
 
-    if (!projectInstance) {
-      throw new Error('Cannot find project to add notification to')
+      if (!projectInstance) {
+        throw new Error('Cannot find project to add notification to')
+      }
+
+      const CandidateNotificationModel = sequelize.model(
+        'candidateNotification'
+      )
+
+      const candidateNotificationInstance = await CandidateNotificationModel.findByPk(
+        notification.id
+      )
+
+      if (!candidateNotificationInstance)
+        throw new Error('CandidateNotification not found')
+
+      await projectInstance.addCandidateNotification(
+        candidateNotificationInstance
+      )
+      await projectInstance.update({ hasBeenNotified: true })
+      project.hasBeenNotified = true
+
+      return Ok(project)
+    } catch (error) {
+      if (CONFIG.logDbErrors)
+        console.log('Project.addNotification error', error)
+      return Err(error)
     }
-
-    const CandidateNotificationModel = sequelize.model('candidateNotification')
-    // TODO: this should not be done here
-    const candidateNotification = await CandidateNotificationModel.create({
-      ...notification,
-      data: JSON.stringify(notification.data)
-    })
-
-    await projectInstance.addCandidateNotification(candidateNotification)
-    await projectInstance.update({ hasBeenNotified: true })
-  }
-
-  async function addProjectAdmissionKey(
-    projectId: Project['id'],
-    key: ProjectAdmissionKey['id'],
-    email: ProjectAdmissionKey['email']
-  ) {
-    await _isDbReady
-
-    const projectInstance = await ProjectModel.findByPk(projectId)
-
-    if (!projectInstance) {
-      throw new Error('Cannot find project to add notification to')
-    }
-
-    const ProjectAdmissionKeyModel = sequelize.model('projectAdmissionKey')
-    const projectAdmissionKey = await ProjectAdmissionKeyModel.create({
-      id: key,
-      projectId,
-      email
-    })
-
-    await projectInstance.addProjectAdmissionKey(projectAdmissionKey)
   }
 }
 

@@ -1,12 +1,20 @@
 import { DataTypes } from 'sequelize'
-
+import { CredentialsRepo } from '../'
+import { Credentials, makeCredentials } from '../../entities'
+import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types'
+import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
 
-import { CredentialsRepo } from '../'
-import { makeCredentials, Credentials } from '../../entities'
+// Override these to apply serialization/deserialization on inputs/outputs
+const deserialize = item => item
+const serialize = item => item
 
 export default function makeCredentialsRepo({ sequelize }): CredentialsRepo {
-  const credentialsModel = sequelize.define('credentials', {
+  const CredentialsModel = sequelize.define('credentials', {
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true
+    },
     email: {
       type: DataTypes.STRING,
       allowNull: false
@@ -25,23 +33,61 @@ export default function makeCredentialsRepo({ sequelize }): CredentialsRepo {
 
   return Object.freeze({
     findByEmail,
-    insert
+    insert,
+    update
   })
 
-  async function findByEmail({ email: _email }): Promise<Credentials | null> {
+  async function findByEmail(
+    _email: Credentials['email']
+  ): OptionAsync<Credentials> {
     await _isDbReady
 
-    const credentials = await credentialsModel.findOne({
-      where: { email: _email }
-    })
+    try {
+      const credentialsInDb = await CredentialsModel.findOne(
+        {
+          where: { email: _email }
+        },
+        { raw: true }
+      )
 
-    return credentials ? makeCredentials(credentials) : null
+      if (!credentialsInDb) return None
+
+      const credentialsInstance = makeCredentials(deserialize(credentialsInDb))
+
+      if (credentialsInstance.is_err()) throw credentialsInstance.unwrap_err()
+
+      return Some(credentialsInstance.unwrap())
+    } catch (error) {
+      if (CONFIG.logDbErrors)
+        console.log('Credentials.findByEmail error', error)
+      return None
+    }
   }
 
-  async function insert(credentials: Credentials) {
+  async function insert(credentials: Credentials): ResultAsync<Credentials> {
     await _isDbReady
 
-    await credentialsModel.create(credentials)
+    try {
+      await CredentialsModel.create(serialize(credentials))
+      return Ok(credentials)
+    } catch (error) {
+      if (CONFIG.logDbErrors) console.log('Credentials.insert error', error)
+      return Err(error)
+    }
+  }
+
+  async function update(credentials: Credentials): ResultAsync<Credentials> {
+    await _isDbReady
+
+    try {
+      await CredentialsModel.update(serialize(credentials), {
+        where: { id: credentials.id }
+      })
+      return Ok(credentials)
+    } catch (error) {
+      if (CONFIG.logDbErrors) console.log('Credentials.findAll error', error)
+      return Err(error)
+    }
   }
 }
 

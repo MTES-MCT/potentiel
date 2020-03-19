@@ -15,14 +15,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MTES-MCT/enr.git"
+    "url": "git+https://github.com/MTES-MCT/potentiel.git"
   },
   "author": "@paduc",
   "license": "AGPL-3.0",
   "bugs": {
-    "url": "https://github.com/MTES-MCT/enr/issues"
+    "url": "https://github.com/MTES-MCT/potentiel/issues"
   },
-  "homepage": "https://github.com/MTES-MCT/enr#readme",
+  "homepage": "https://github.com/MTES-MCT/potentiel#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
     "bunyan": "^1.8.12",
@@ -31,16 +31,20 @@
     "csv-parse": "^4.8.7",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
+    "isemail": "^3.2.0",
     "multer": "^1.4.2",
     "npm": "^6.13.7",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "runtypes": "^4.2.0",
     "sequelize": "^5.21.5",
     "sqlite3": "^4.1.1",
+    "utility-types": "^3.10.0",
     "uuid": "^7.0.2",
-    "yup": "^0.28.1"
+    "yup": "^0.28.1",
+    "zod": "^1.0.9"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
@@ -59,6 +63,7 @@
     "@types/react-dom": "^16.9.5",
     "@types/sequelize": "^4.28.8",
     "@types/yup": "^0.26.32",
+    "@usefultools/monads": "^3.0.3",
     "babel-loader": "^8.0.6",
     "chai": "^4.2.0",
     "cucumber": "^6.0.5",

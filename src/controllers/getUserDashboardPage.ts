@@ -11,16 +11,11 @@ const getUserDashboardPage = async (request: HttpRequest) => {
   //   request.file
   // )
 
-  if (!request.user) {ogin')
+  if (!request.user) {
     return Redirect(ROUTES.LOGIN)
   }
 
-  let projects
-  try {
-    projects = await listUserProjects({ userId: request.user.id })
-  } catch (error) {
-    console.log('listUserProjects errored', error)
-  }
+  const projects = await listUserProjects({ userId: request.user.id })
 
   return Success(
     UserDashboardPage({

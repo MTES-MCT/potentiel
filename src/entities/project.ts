@@ -1,78 +1,66 @@
-import * as yup from 'yup'
-import { CandidateNotification } from './candidateNotification'
+import isEmail from 'isemail'
+import {
+  String,
+  Number,
+  Record,
+  Array,
+  Union,
+  Literal,
+  Boolean,
+  Static,
+  Unknown,
+  Partial,
+  Undefined
+} from '../types/schemaTypes'
+import buildMakeEntity from '../helpers/buildMakeEntity'
 
-const projectSchema = yup.object({
-  id: yup.string(),
-  periode: yup.string().required(),
-  numeroCRE: yup
-    .string()
-    .required()
-    .min(1),
-  famille: yup.string().required(),
-  nomCandidat: yup
-    .string()
-    .required()
-    .min(2),
-  nomProjet: yup
-    .string()
-    .required()
-    .min(2),
-  puissance: yup
-    .number()
-    .required()
-    .min(1),
-  prixReference: yup
-    .number()
-    .required()
-    .min(1),
-  evaluationCarbone: yup
-    .number()
-    .required()
-    .min(1),
-  note: yup.number().required(),
-  nomRepresentantLegal: yup
-    .string()
-    .required()
-    .min(2),
-  email: yup.string().required(),
-  adresseProjet: yup
-    .string()
-    .required()
-    .min(2),
-  codePostalProjet: yup
-    .string()
-    .required()
-    .min(2),
-  communeProjet: yup
-    .string()
-    .required()
-    .min(2),
-  departementProjet: yup
-    .string()
-    .required()
-    .min(2),
-  regionProjet: yup
-    .string()
-    .required()
-    .min(2),
-  fournisseur: yup.string().min(2),
-  actionnaire: yup.string().min(2),
-  producteur: yup.string().min(2),
-  classe: yup.mixed<'Eliminé' | 'Classé'>().oneOf(['Eliminé', 'Classé']),
-  motifsElimination: yup.string(),
-  hasBeenNotified: yup.boolean().default(false),
-  candidateNotifications: yup.array<CandidateNotification>()
+import { candidateNotificationSchema } from './candidateNotification'
+
+const baseProjectSchema = Record({
+  id: String,
+  periode: String,
+  numeroCRE: String,
+  famille: String,
+  nomCandidat: String,
+  nomProjet: String,
+  puissance: Number.withConstraint(value => value > 0),
+  prixReference: Number.withConstraint(value => value > 0),
+  evaluationCarbone: Number.withConstraint(value => value > 0),
+  note: Number.withConstraint(value => value >= 0),
+  nomRepresentantLegal: String,
+  email: String.withConstraint(isEmail.validate),
+  adresseProjet: String,
+  codePostalProjet: String,
+  communeProjet: String,
+  departementProjet: String,
+  regionProjet: String,
+  fournisseur: String,
+  actionnaire: String,
+  producteur: String,
+  classe: Union(Literal('Eliminé'), Literal('Classé')),
+  motifsElimination: String,
+  hasBeenNotified: Boolean
 })
+const projectSchema = baseProjectSchema.And(
+  Partial({
+    candidateNotifications: Array(candidateNotificationSchema).Or(Undefined)
+  })
+)
 
-export type Project = yup.InferType<typeof projectSchema>
+const fields: string[] = [
+  'candidateNotifications',
+  ...Object.keys(baseProjectSchema.fields)
+]
 
-export default function buildMakeProject() {
-  return function makeProject(project: any): Project {
-    // console.log('makeProject received', project)
-    try {
-      return projectSchema.validateSync(project, { stripUnknown: true })
-    } catch (e) {
-      throw e
-    }
-  }
+type Project = Static<typeof projectSchema>
+
+interface MakeProjectDependencies {
+  makeId: () => string
 }
+
+export default ({ makeId }: MakeProjectDependencies) =>
+  buildMakeEntity<Project>(projectSchema, makeId, fields, {
+    hasBeenNotified: false
+  })
+
+export { Project }

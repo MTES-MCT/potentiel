@@ -2,6 +2,8 @@ import { CandidateNotification, makeCandidateNotification } from '../entities'
 import { CandidateNotificationRepo } from '../dataAccess'
 import _ from 'lodash'
 
+import { OptionAsync } from '../types'
+
 interface MakeUseCaseProps {
   candidateNotificationRepo: CandidateNotificationRepo
 }
@@ -15,7 +17,7 @@ export default function makeShowNotification({
 }: MakeUseCaseProps) {
   return async function showNotification({
     id
-  }: CallUseCaseProps): Promise<CandidateNotification | null> {
-    return await candidateNotificationRepo.findById({ id })
+  }: CallUseCaseProps): OptionAsync<CandidateNotification> {
+    return await candidateNotificationRepo.findById(id)
   }
 }

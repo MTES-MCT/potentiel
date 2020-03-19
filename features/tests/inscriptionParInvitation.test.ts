@@ -70,7 +70,6 @@ When("je crée un compte avec l'adresse {string}", async function(email) {
   await this.page.click(testId('signup-submit-button'))
 })
 When('je me rends sur la page qui liste mes projets', async function() {
-  console.log('Je me rends sur la page', routes.USER_DASHBOARD)
   await this.navigateTo(makeRoute(routes.USER_DASHBOARD))
 })
 

@@ -26,7 +26,7 @@ const puppeteerOpts = HEADLESS
     }
 
 BeforeAll(async function() {
-  console.log('BeforeAll called', this)
+  console.log('BeforeAll called')
 
   console.log('Launching web server')
   global['__SERVER__'] = await makeServer(PORT)

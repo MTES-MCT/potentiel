@@ -1,8 +1,5 @@
-import { Project } from '../../entities'
-
 export default function makeFakeProject(overrides?) {
   const defaultObj = {
-    id: '1',
     periode: 'Batiment 3T2020',
     numeroCRE: 'CRE#12335',
     famille: '1',
@@ -13,7 +10,7 @@ export default function makeFakeProject(overrides?) {
     evaluationCarbone: 4.4,
     note: 11,
     nomRepresentantLegal: 'nomRepresentantLegal',
-    email: 'email',
+    email: 'email@address.com',
     adresseProjet: 'adresseProjet',
     codePostalProjet: 'codePostalProjet',
     communeProjet: 'communeProjet',

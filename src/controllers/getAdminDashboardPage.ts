@@ -8,7 +8,7 @@ const getAdminDashboardPage = async (
   request: HttpRequest,
   context: any = {}
 ) => {
-  // console.log('adminPage request.query', request.query)
+  // console.log('getAdminDashboardPage request.query', request.query)
 
   let projects: Array<Project>
   try {

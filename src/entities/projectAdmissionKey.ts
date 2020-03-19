@@ -1,25 +1,37 @@
-import * as yup from 'yup'
+import isEmail from 'isemail'
+import {
+  String,
+  Number,
+  Record,
+  Array,
+  Union,
+  Literal,
+  Boolean,
+  Static,
+  Unknown,
+  Undefined
+} from '../types/schemaTypes'
+import buildMakeEntity from '../helpers/buildMakeEntity'
 
-const projectAdmissionKeySchema = yup.object({
-  id: yup.string().required(),
-  projectId: yup.string().required(),
-  email: yup.string().required()
+const projectAdmissionKeySchema = Record({
+  id: String,
+  projectId: String,
+  email: String.withConstraint(isEmail.validate)
 })
 
-export type ProjectAdmissionKey = yup.InferType<
-  typeof projectAdmissionKeySchema
->
+const fields: string[] = [...Object.keys(projectAdmissionKeySchema.fields)]
 
-export default function buildMakeProjectAdmissionKey() {
-  return function makeProjectAdmissionKey(
-    projectAdmissionKey: any
-  ): ProjectAdmissionKey {
-    try {
-      return projectAdmissionKeySchema.validateSync(projectAdmissionKey, {
-        stripUnknown: true
-      })
-    } catch (e) {
-      throw e
-    }
-  }
+type ProjectAdmissionKey = Static<typeof projectAdmissionKeySchema>
+
+interface MakeProjectAdmissionKeyDependencies {
+  makeId: () => string
 }
+
+export default ({ makeId }: MakeProjectAdmissionKeyDependencies) =>
+  buildMakeEntity<ProjectAdmissionKey>(
+    projectAdmissionKeySchema,
+    makeId,
+    fields
+  )
+
+export { ProjectAdmissionKey }

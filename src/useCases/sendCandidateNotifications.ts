@@ -1,29 +1,36 @@
-import {
-  makeCandidateNotification,
-  makeProjectAdmissionKey,
-  Project,
-  ProjectAdmissionKey
-} from '../entities'
-import { ProjectRepo, UserRepo, CredentialsRepo } from '../dataAccess'
 import _ from 'lodash'
+import {
+  CandidateNotificationRepo,
+  CredentialsRepo,
+  ProjectAdmissionKeyRepo,
+  ProjectRepo,
+  UserRepo
+} from '../dataAccess'
+import { makeCandidateNotification, makeProjectAdmissionKey } from '../entities'
+import { ErrorResult, Ok, ResultAsync } from '../types'
 
 interface MakeUseCaseProps {
   projectRepo: ProjectRepo
   userRepo: UserRepo
   credentialsRepo: CredentialsRepo
-  makeUuid: () => string
+  candidateNotificationRepo: CandidateNotificationRepo
+  projectAdmissionKeyRepo: ProjectAdmissionKeyRepo
 }
 
 interface CallUseCaseProps {}
+
+export const ERREUR_AUCUN_PROJET_NON_NOTIFIE =
+  'Tous les projets sont déjà notifiés'
 
 export default function makeSendCandidateNotifications({
   projectRepo,
   userRepo,
   credentialsRepo,
-  makeUuid
+  candidateNotificationRepo,
+  projectAdmissionKeyRepo
 }: MakeUseCaseProps) {
-  return async function sendCandidateNotifications({}: CallUseCaseProps): Promise<
-    void
+  return async function sendCandidateNotifications({}: CallUseCaseProps): ResultAsync<
+    null
   > {
     // Find all projects that have not been notified
     const unNotifiedProjects = await projectRepo.findAll({
@@ -32,68 +39,131 @@ export default function makeSendCandidateNotifications({
 
     // console.log('unNotifiedProjects', unNotifiedProjects)
 
-    // TODO: send error if there are no unnotified projects
+    if (!unNotifiedProjects.length) {
+      return ErrorResult(ERREUR_AUCUN_PROJET_NON_NOTIFIE)
+    }
 
-    try {
-      // Create a new projectAdmissionKey per project
-      const projectsWithAdmissionKeys = await Promise.all(
-        unNotifiedProjects.map(
-          async (
-            project
-          ): Promise<{
-            project: Project
-            projectAdmissionKey: ProjectAdmissionKey
-          }> => {
-            // For each project, create a new projectAdmissionKey
-            // TODO: move the makeUuid to the ProjectAdmissionKey entity
+    // Create a new projectAdmissionKey per project
+    const projectsWithAdmissionKeys = _.compact(
+      await Promise.all(
+        unNotifiedProjects.map(async project => {
+          // For each project, create a new projectAdmissionKey
 
-            const projectAdmissionKey = makeProjectAdmissionKey({
-              id: makeUuid(),
-              projectId: project.id,
-              email: project.email
-            })
-            // TODO: refactor: call directly projectAdmissionKeyRepo.insertMany and remove the addProjectAdmissionKey method
-            await projectRepo.addProjectAdmissionKey(
-              project.id,
-              projectAdmissionKey.id,
-              projectAdmissionKey.email
+          const projectAdmissionKeyResult = makeProjectAdmissionKey({
+            projectId: project.id,
+            email: project.email
+          })
+
+          if (projectAdmissionKeyResult.is_err()) {
+            // OOPS
+            console.log(
+              'sendCandidationNotfications use-case: error when calling makeProjectAdmissionKey with',
+              {
+                projectId: project.id,
+                email: project.email
+              }
             )
 
-            return { project, projectAdmissionKey }
+            // ignore this project
+            return null
           }
-        )
-      )
 
-      // Create a new candidateNotification for each project, including the admission key
-      await Promise.all(
-        projectsWithAdmissionKeys.map(({ project, projectAdmissionKey }) =>
-          projectRepo.addNotification(
-            project,
-            makeCandidateNotification({
-              template: project.classe === 'Classé' ? 'laureat' : 'elimination',
-              projectAdmissionKey: projectAdmissionKey.id
-            })
+          const projectAdmissionKey = projectAdmissionKeyResult.unwrap()
+
+          const insertionResult = await projectAdmissionKeyRepo.insert(
+            projectAdmissionKey
           )
-        )
+
+          if (insertionResult.is_err()) {
+            // OOPS
+            console.log(
+              'sendCandidationNotfications use-case: error when calling projectAdmissionKeyRepo.insert with',
+              {
+                projectId: project.id,
+                email: project.email
+              }
+            )
+
+            // ignore this project
+            return null
+          }
+
+          return { project, projectAdmissionKey }
+        })
       )
-    } catch (e) {
-      console.log('sendCandidateNotifications error', e)
-      throw 'Updating notifications and or projects has failed'
-    }
+    )
+
+    // Create a new candidateNotification for each project, including the admission key
+    await Promise.all(
+      projectsWithAdmissionKeys.map(
+        async ({ project, projectAdmissionKey }) => {
+          const candidateNotificationData = {
+            template:
+              project.classe === 'Classé'
+                ? ('laureat' as 'laureat')
+                : ('elimination' as 'elimination'),
+            projectAdmissionKey: projectAdmissionKey.id,
+            projectId: project.id
+          }
+
+          const candidateNotificationResult = makeCandidateNotification(
+            candidateNotificationData
+          )
+
+          if (candidateNotificationResult.is_err()) {
+            // OOPS
+            console.log(
+              'sendCandidationNotfications use-case: error when calling makeCandidateNotification with',
+              candidateNotificationData
+            )
+
+            // ignore this project
+            return null
+          }
+
+          const candidateNotification = candidateNotificationResult.unwrap()
+
+          const insertionResult = await candidateNotificationRepo.insert(
+            candidateNotification
+          )
+
+          if (insertionResult.is_err()) {
+            // OOPS
+            console.log(
+              'sendCandidationNotfications use-case: error when calling candidateNotificationRepo.insert with',
+              candidateNotificationData
+            )
+
+            // ignore this project
+            return null
+          }
+
+          await projectRepo.addNotification(project, candidateNotification)
+        }
+      )
+    )
 
     // Add projects to the users
     await Promise.all(
       unNotifiedProjects.map(async project => {
         if (project.email) {
-          const userCredentials = await credentialsRepo.findByEmail({
-            email: project.email
-          })
-          if (!userCredentials) return // user hasn't registered yet
+          const userCredentialsResult = await credentialsRepo.findByEmail(
+            project.email
+          )
+
+          if (userCredentialsResult.is_none()) {
+            // user hasn't registered yet
+            return
+          }
+
+          const userCredentials = userCredentialsResult.unwrap()
 
           // Link the project with the user
           await userRepo.addProject(userCredentials.userId, project.id)
         }
       })
     )
+
+    return Ok(null)
   }
 }

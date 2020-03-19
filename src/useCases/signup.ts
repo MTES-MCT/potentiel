@@ -14,6 +14,8 @@ import {
 } from '../dataAccess'
 import _ from 'lodash'
 
+import { ResultAsync, ErrorResult, Ok } from '../types'
+
 interface MakeUseCaseProps {
   userRepo: UserRepo
   credentialsRepo: CredentialsRepo
@@ -32,11 +34,11 @@ interface CallUseCaseProps {
 }
 
 export const PASSWORD_MISMATCH_ERROR = 'Les mots de passe ne correspondent pas.'
+export const SYSTEM_ERROR =
+  'Votre compte ne peut pas être créé, merci de réessayer ultérieurement.'
 export const EMAIL_USED_ERROR = 'Email déjà utilisé pour un autre compte'
+export const PASSWORD_INVALID_ERROR = "Le mot de passe n'est pas suffisant"
 export const USER_INFO_ERROR = 'Prénom ou nom manquants'
-export const MISSING_PROJECT_ID_ERROR =
-  'Impossible de lier ce compte utilisateur au projet associé.'
-export const WRONG_PROJECT_ADMISSION_KEY_ERROR = 'Lien de projet erroné'
 
 export default function makeSignup({
   userRepo,
@@ -52,70 +54,116 @@ export default function makeSignup({
     email,
     password,
     confirmPassword
-  }: CallUseCaseProps): Promise<User['id']> {
+  }: CallUseCaseProps): ResultAsync<User> {
     // Check if passwords match
     if (!password || password !== confirmPassword) {
-      throw new Error(PASSWORD_MISMATCH_ERROR)
+      return ErrorResult(PASSWORD_MISMATCH_ERROR)
+    }
+
+    // Check if email is already used
+    const existingCredential = await credentialsRepo.findByEmail(email)
+
+    if (existingCredential.is_some()) {
+      return ErrorResult(EMAIL_USED_ERROR)
     }
 
     // Create a user object
-    let userId: User['id']
-    try {
-      userId = await userRepo.insert(
-        makeUser({ firstName, lastName, role: 'porteur-projet' })
+    const userResult = makeUser({
+      firstName,
+      lastName,
+      role: 'porteur-projet'
+    })
+
+    if (userResult.is_err()) {
+      console.log(
+        'signup use-case: makeUser est en erreur',
+        userResult.unwrap_err()
       )
-    } catch (e) {
-      throw new Error(USER_INFO_ERROR)
+      return ErrorResult(USER_INFO_ERROR)
     }
 
-    // Create a credentials object
-    try {
-      const existingCredential = await credentialsRepo.findByEmail({ email })
+    const user = userResult.unwrap()
 
-      if (existingCredential) {
-        throw new Error(EMAIL_USED_ERROR)
-      }
+    const credentialsData = {
+      email,
+      userId: user.id,
+      password
+    }
+    const credentialsResult = makeCredentials(credentialsData)
 
-      await credentialsRepo.insert(makeCredentials({ email, userId, password }))
-    } catch (e) {
-      // Remove user that was created
-      await userRepo.remove(userId)
-      throw new Error(EMAIL_USED_ERROR)
+    if (credentialsResult.is_err()) {
+      console.log(
+        'signup use-case: makeCredentials est en erreur',
+        credentialsResult.unwrap_err(),
+        credentialsData
+      )
+      return ErrorResult(SYSTEM_ERROR)
     }
 
-    if (projectAdmissionKey) {
-      if (!projectId) {
-        throw new Error(MISSING_PROJECT_ID_ERROR)
-      }
+    const credentials = credentialsResult.unwrap()
 
-      const projectAdmissionKeyInstance = await projectAdmissionKeyRepo.findById(
-        { id: projectAdmissionKey }
+    // Insert the user in the database
+    const userInsertion = await userRepo.insert(user)
+
+    if (userInsertion.is_err()) {
+      console.log(
+        'signup use-case: userRepo.insert est en erreur',
+        userInsertion.unwrap_err(),
+        user
+      )
+      return ErrorResult(SYSTEM_ERROR)
+    }
+
+    const credentialsInsertion = await credentialsRepo.insert(credentials)
+
+    if (credentialsInsertion.is_err()) {
+      console.log(
+        'signup use-case: credentialsRepo.insert est en erreur',
+        credentialsInsertion.unwrap_err(),
+        credentials
       )
 
-      if (!projectAdmissionKeyInstance) {
-        throw new Error(WRONG_PROJECT_ADMISSION_KEY_ERROR)
-      }
+      // Remove the user from the database
+      await userRepo.remove(user.id)
 
-      if (projectAdmissionKeyInstance.projectId !== projectId) {
-        throw new Error(WRONG_PROJECT_ADMISSION_KEY_ERROR)
-      }
+      return ErrorResult(SYSTEM_ERROR)
+    }
 
-      if (email === projectAdmissionKeyInstance.email) {
-        // User validated his email address by registering with it
-        // Add all projects that have that email
-        const projectsWithSameEmail = await projectRepo.findAll({ email })
-        await Promise.all(
-          projectsWithSameEmail.map(project =>
-            userRepo.addProject(userId, project.id)
-          )
-        )
+    // Handle the case where the project has an admission key and projectId
+    // Ignore the cases where there's one and not the other
+    if (projectAdmissionKey && projectId) {
+      const projectAdmissionKeyResult = await projectAdmissionKeyRepo.findById(
+        projectAdmissionKey
+      )
+
+      if (projectAdmissionKeyResult.is_some()) {
+        const projectAdmissionKeyInstance = projectAdmissionKeyResult.unwrap()
+        if (projectAdmissionKeyInstance.projectId === projectId) {
+          // User provided a correct projectAdmissionKey and projectId pair
+
+          if (email === projectAdmissionKeyInstance.email) {
+            // User validated his email address by registering with it
+            // Add all projects that have that email
+            const projectsWithSameEmail = await projectRepo.findAll({ email })
+            await Promise.all(
+              projectsWithSameEmail.map(project =>
+                userRepo.addProject(user.id, project.id)
+              )
+            )
+          } else {
+            // User used another email address
+            // Only link the user with the project from the admisssion key
+            await userRepo.addProject(user.id, projectId)
+          }
+        }
       } else {
-        // User used another email address
-        // Only link the user with the project from the admisssion key
-        await userRepo.addProject(userId, projectId)
+        console.log(
+          'signup use-case: user provided projectAdmissionKey and projectId but projectAdmissionKey was not found ',
+          credentials
+        )
       }
     }
 
-    return userId
+    return Ok(user)
   }
 }

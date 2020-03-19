@@ -32,29 +32,23 @@ const parse = file =>
 
 const tryImportProjects = async ({ periode, headers, lines }) => {
   // try Call the importProject useCase
-  try {
-    await importProjects({
-      periode,
-      headers,
-      lines
-    })
+  const result = await importProjects({
+    periode,
+    headers,
+    lines
+  })
 
-    return Redirect(ROUTES.ADMIN_DASHBOARD, {
-      success: 'Les candidats ont bien été importés.'
-    })
-  } catch (error) {
+  if (result.is_err()) {
+    const error = result.unwrap_err()
     console.log('Caught an error after importProjects', error)
-
-    if (error.error === ERREUR_FORMAT_LIGNE) {
-      return Redirect(ROUTES.ADMIN_DASHBOARD, {
-        error: error.errorLong
-      })
-    }
-
     return Redirect(ROUTES.ADMIN_DASHBOARD, {
-      error: error.error
+      error: error.message
     })
   }
+
+  return Redirect(ROUTES.ADMIN_DASHBOARD, {
+    success: 'Les candidats ont bien été importés.'
+  })
 }
 
 const postProjects = async (request: HttpRequest) => {

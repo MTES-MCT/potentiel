@@ -24,6 +24,8 @@ When('je clique sur le bouton pour notifier les candidats', async function() {
 Then('une notification est générée pour chaque projet', async function() {
   await this.page.waitForSelector(testId('projectList-item-action'))
 
+  // console.log("J'ai trouvé le projectList-item-action")
+
   const projectActions = await this.page.$$eval(
     testId('projectList-item-action'),
     actionElements =>
@@ -61,7 +63,7 @@ Then(
         actionElements.map(actionElement => actionElement.innerText)
     )
 
-    console.log('Found projectsInList', projectsInList)
+    // console.log('Found projectsInList', projectsInList)
 
     expect(projectsInList).to.have.lengthOf(userProjects.length)
 

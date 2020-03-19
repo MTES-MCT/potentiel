@@ -1,23 +1,28 @@
 import { DataTypes } from 'sequelize'
-
-import isDbReady from './helpers/isDbReady'
-
 import { CandidateNotificationRepo } from '../'
 import {
-  makeCandidateNotification,
-  CandidateNotification
+  CandidateNotification,
+  makeCandidateNotification
 } from '../../entities'
+import { mapExceptError, mapIfOk } from '../../helpers/results'
+import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types'
+import CONFIG from '../config'
+import isDbReady from './helpers/isDbReady'
 
-const deserializeDataField = item =>
+const deserialize = item =>
   item.data ? { ...item, data: JSON.parse(item.data) } : item
 
-const serializeDataField = item =>
+const serialize = item =>
   item.data ? { ...item, data: JSON.stringify(item.data) } : item
 
 export default function makeCandidateNotificationRepo({
   sequelize
 }): CandidateNotificationRepo {
   const CandidateNotificationModel = sequelize.define('candidateNotification', {
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true
+    },
     template: {
       type: DataTypes.STRING,
       allowNull: false
@@ -37,67 +42,104 @@ export default function makeCandidateNotificationRepo({
   return Object.freeze({
     findById,
     findAll,
-    insertMany,
+    insert,
     update
   })
 
-  async function findById({ id }): Promise<CandidateNotification | null> {
+  async function findById(
+    id: CandidateNotification['id']
+  ): OptionAsync<CandidateNotification> {
     await _isDbReady
 
-    const candidateNotificationInDb = await CandidateNotificationModel.findByPk(
-      id,
-      { raw: true }
-    )
+    try {
+      const candidateNotificationInDb = await CandidateNotificationModel.findByPk(
+        id,
+        { raw: true }
+      )
 
-    return (
-      candidateNotificationInDb &&
-      makeCandidateNotification(deserializeDataField(candidateNotificationInDb))
-    )
+      if (!candidateNotificationInDb) return None
+
+      const candidateNotificationInstance = makeCandidateNotification(
+        deserialize(candidateNotificationInDb)
+      )
+
+      if (candidateNotificationInstance.is_err())
+        throw candidateNotificationInstance.unwrap_err()
+
+      return Some(candidateNotificationInstance.unwrap())
+    } catch (error) {
+      if (CONFIG.logDbErrors)
+        console.log('CandidateNotification.findById error', error)
+      return None
+    }
   }
 
-  async function findAll(query?): Promise<Array<CandidateNotification>> {
+  async function findAll(
+    query?: Record<string, any>
+  ): Promise<Array<CandidateNotification>> {
     await _isDbReady
 
-    return (
-      await CandidateNotificationModel.findAll(
+    try {
+      const candidateNotificationsRaw = await CandidateNotificationModel.findAll(
         query
           ? {
               where: query
             }
-          : {}
+          : {},
+        { raw: true }
       )
-    )
-      .map(deserializeDataField)
-      .map(makeCandidateNotification)
-  }
 
-  async function insertMany(
-    candidateNotifications: Array<CandidateNotification>
-  ) {
-    await _isDbReady
+      const deserializedItems = mapExceptError(
+        candidateNotificationsRaw,
+        deserialize,
+        'CandidateNotification.findAll.deserialize error'
+      )
 
-    await Promise.all(
-      candidateNotifications
-        .map(serializeDataField)
-        .map(candidateNotification =>
-          CandidateNotificationModel.create(candidateNotification)
-        )
-    )
-  }
-
-  async function update(candidateNotification: CandidateNotification) {
-    await _isDbReady
-
-    if (!candidateNotification.id) {
-      throw new Error('Cannot update candidateNotification that has no id')
+      return mapIfOk(
+        deserializedItems,
+        makeCandidateNotification,
+        'CandidateNotification.findAll.makeCandidateNotification error'
+      )
+    } catch (error) {
+      if (CONFIG.logDbErrors)
+        console.log('CandidateNotification.findAll error', error)
+      return []
     }
+  }
 
-    await CandidateNotificationModel.update(
-      serializeDataField(candidateNotification),
-      {
-        where: { id: candidateNotification.id }
-      }
-    )
+  async function insert(
+    candidateNotification: CandidateNotification
+  ): ResultAsync<CandidateNotification> {
+    await _isDbReady
+
+    try {
+      await CandidateNotificationModel.create(serialize(candidateNotification))
+      return Ok(candidateNotification)
+    } catch (error) {
+      if (CONFIG.logDbErrors)
+        console.log('CandidateNotification.insert error', error)
+      return Err(error)
+    }
+  }
+
+  async function update(
+    candidateNotification: CandidateNotification
+  ): ResultAsync<CandidateNotification> {
+    await _isDbReady
+
+    try {
+      await CandidateNotificationModel.update(
+        serialize(candidateNotification),
+        {
+          where: { id: candidateNotification.id }
+        }
+      )
+      return Ok(candidateNotification)
+    } catch (error) {
+      if (CONFIG.logDbErrors)
+        console.log('CandidateNotification.findAll error', error)
+      return Err(error)
+    }
   }
 }
 

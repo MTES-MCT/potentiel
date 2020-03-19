@@ -1,11 +1,17 @@
 import { CandidateNotification } from '../entities'
+import { ResultAsync, OptionAsync } from '../types'
 
 export type CandidateNotificationRepo = {
-  findById: ({ id: string }) => Promise<CandidateNotification | null>
+  findById: (
+    id: CandidateNotification['id']
+  ) => OptionAsync<CandidateNotification>
   findAll: (
     query?: Record<string, any>
   ) => Promise<Array<CandidateNotification>>
-  insertMany: (
-    candidateNotifications: Array<CandidateNotification>
-  ) => Promise<void>
+  insert: (
+    candidateNotification: CandidateNotification
+  ) => ResultAsync<CandidateNotification>
+  update: (
+    candidateNotification: CandidateNotification
+  ) => ResultAsync<CandidateNotification>
 }

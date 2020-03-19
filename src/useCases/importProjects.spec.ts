@@ -3,7 +3,8 @@ import makeImportProjects, {
   ERREUR_COLONNES,
   ERREUR_PERIODE,
   ERREUR_AUCUNE_LIGNE,
-  ERREUR_FORMAT_LIGNE
+  ERREUR_FORMAT_LIGNE,
+  ERREUR_INSERTION
 } from './importProjects'
 
 import { projectRepo } from '../dataAccess/inMemory'
@@ -20,7 +21,7 @@ const makePhonyLine = () => ({
   'evaluationCarbone(kg eq CO2/kWc)': '142.5',
   note: '11',
   nomRepresentantLegal: 'nomRepresentantLegal',
-  email: 'email',
+  email: 'email@address.com',
   adresseProjet: 'adresseProjet',
   codePostalProjet: 'codePostalProjet',
   communeProjet: 'communeProjet',
@@ -32,67 +33,51 @@ const makePhonyLine = () => ({
 
 describe('importProjects use-case', () => {
   it('should throw an error if the periode is missing', async () => {
-    expect.assertions(1)
-    try {
-      await importProjects({
-        periode: '',
-        headers: MANDATORY_HEADER_COLUMNS,
-        lines: []
-      })
-    } catch (e) {
-      expect(e).toEqual({
-        error: ERREUR_PERIODE
-      })
-    }
+    const result = await importProjects({
+      periode: '',
+      headers: MANDATORY_HEADER_COLUMNS,
+      lines: []
+    })
+
+    expect(result.is_err())
+    expect(result.unwrap_err().message).toEqual(ERREUR_PERIODE)
   })
 
   it('should throw an error if the headers are not correct', async () => {
-    expect.assertions(1)
-    try {
-      await importProjects({
-        periode: 'periode',
-        headers: ['bim', 'bam', 'boum'],
-        lines: []
-      })
-    } catch (e) {
-      expect(e).toEqual({
-        error: ERREUR_COLONNES
-      })
-    }
+    const result = await importProjects({
+      periode: 'periode',
+      headers: ['bim', 'bam', 'boum'],
+      lines: []
+    })
+
+    expect(result.is_err())
+    expect(result.unwrap_err().message).toEqual(ERREUR_COLONNES)
   })
 
   it("should throw an error if there isn't at least one line", async () => {
-    expect.assertions(1)
-    try {
-      await importProjects({
-        periode: 'periode',
-        headers: MANDATORY_HEADER_COLUMNS,
-        lines: []
-      })
-    } catch (e) {
-      expect(e).toEqual({
-        error: ERREUR_AUCUNE_LIGNE
-      })
-    }
+    const result = await importProjects({
+      periode: 'periode',
+      headers: MANDATORY_HEADER_COLUMNS,
+      lines: []
+    })
+
+    expect(result.is_err())
+    expect(result.unwrap_err().message).toEqual(ERREUR_AUCUNE_LIGNE)
   })
 
   it("should throw an error if some lines don't have the required fields", async () => {
-    expect.assertions(3)
-    try {
-      const goodLine = makePhonyLine()
-      // create a bad line by removing a required field
-      const { nomCandidat, ...badLine } = goodLine
-      await importProjects({
-        periode: 'periode',
-        headers: MANDATORY_HEADER_COLUMNS,
-        lines: [goodLine, badLine]
-      })
-    } catch (e) {
-      console.log('error is', e)
-      expect(e).toHaveProperty('error', ERREUR_FORMAT_LIGNE)
-      expect(e).toHaveProperty('lines')
-      expect(e.lines).toHaveLength(1)
-    }
+    const goodLine = makePhonyLine()
+    // create a bad line by removing a required field
+    const { nomCandidat, ...badLine } = goodLine
+
+    const result = await importProjects({
+      periode: 'periode',
+      headers: MANDATORY_HEADER_COLUMNS,
+      lines: [goodLine, badLine]
+    })
+
+    expect(result.is_err())
+    expect(result.unwrap_err().message.indexOf(ERREUR_FORMAT_LIGNE)).toEqual(0)
   })
 
   it('inserts all given projects to the store', async () => {
@@ -124,7 +109,7 @@ describe('importProjects use-case', () => {
       evaluationCarbone: 142.5,
       note: 11,
       nomRepresentantLegal: 'nomRepresentantLegal',
-      email: 'email',
+      email: 'email@address.com',
       adresseProjet: 'adresseProjet',
       codePostalProjet: 'codePostalProjet',
       communeProjet: 'communeProjet',

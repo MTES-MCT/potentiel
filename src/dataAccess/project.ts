@@ -1,24 +1,18 @@
-import {
-  Project,
-  CandidateNotification,
-  ProjectAdmissionKey
-} from '../entities'
+import { CandidateNotification, Project, User } from '../entities'
+import { OptionAsync, ResultAsync } from '../types'
 
 export type ProjectRepo = {
-  findById: ({ id: string }) => Promise<Project | null>
+  findById: (id: Project['id']) => OptionAsync<Project>
   findAll: (
     query?: Record<string, any>,
     includeNotifications?: boolean
   ) => Promise<Array<Project>>
-  insertMany: (projects: Array<Project>) => Promise<void>
-  update: (project: Project) => Promise<void>
+  findByUser: (userId: User['id']) => Promise<Array<Project>>
+  insert: (project: Project) => ResultAsync<Project>
+  update: (project: Project) => ResultAsync<Project>
+  remove: (projectId: Project['id']) => ResultAsync<void>
   addNotification: (
     project: Project,
     notification: CandidateNotification
-  ) => Promise<void>
-  addProjectAdmissionKey: (
-    projectId: Project['id'],
-    key: ProjectAdmissionKey['id'],
-    email: ProjectAdmissionKey['email']
-  ) => Promise<void>
+  ) => ResultAsync<Project>
 }
