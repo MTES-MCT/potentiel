@@ -58,8 +58,7 @@ export default function makeLogin({
 
     if (userResult.is_none()) {
       console.log(
-        'login use-case: user avec le userId contenu dans les credentials est introuvable',
-        providedCredentialsResult.unwrap_err()
+        'login use-case: user avec le userId contenu dans les credentials est introuvable'
       )
       return ErrorResult(ERREUR_GRAVE)
     }
