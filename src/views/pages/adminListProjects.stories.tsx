@@ -5,20 +5,20 @@ import makeFakeCandidateNotification from '../../__tests__/fixtures/candidateNot
 import makeFakeRequest from '../../__tests__/fixtures/request'
 import makeFakeUser from '../../__tests__/fixtures/user'
 
-import AdminDashboard from './adminDashboard'
+import AdminListProjects from './adminListProjects'
 
-export default { title: 'Admin Dashboard' }
+export default { title: 'Admin List Projects' }
 
-export const empty = () => <AdminDashboard request={makeFakeRequest()} />
+export const empty = () => <AdminListProjects request={makeFakeRequest()} />
 
 export const withError = () => (
-  <AdminDashboard
+  <AdminListProjects
     request={makeFakeRequest({ query: { error: 'This is an error message!' } })}
   />
 )
 
 export const withSuccess = () => (
-  <AdminDashboard
+  <AdminListProjects
     request={makeFakeRequest({
       query: { success: 'This is a success message!' }
     })}
@@ -26,7 +26,7 @@ export const withSuccess = () => (
 )
 
 export const withProjects = () => (
-  <AdminDashboard
+  <AdminListProjects
     request={makeFakeRequest()}
     projects={[
       makeFakeProject({

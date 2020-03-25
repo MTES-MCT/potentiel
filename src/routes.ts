@@ -16,7 +16,7 @@ export default {
   ) =>
     `/enregistrement.html?projectAdmissionKey=${projectAdmissionKey}&projectId=${projectId}`,
   ADMIN_DASHBOARD: '/admin/dashboard.html',
-  IMPORT_PROJECTS: '/admin/dashboard.html', // Keep separate from ADMIN_DASHBOARD, may change
+  IMPORT_PROJECTS: '/admin/importer-candidats.html', // Keep separate from ADMIN_DASHBOARD, may change
   IMPORT_PROJECTS_ACTION: '/admin/importProjects',
   ADMIN_LIST_PROJECTS: '/admin/dashboard.html',
   CANDIDATE_NOTIFICATION: '/admin/candidate-notification.html',

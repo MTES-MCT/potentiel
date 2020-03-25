@@ -56,7 +56,7 @@ Then('le site me redirige vers la page de liste des projets', async function() {
 Then('me notifie la réussite par {string}', async function(successMessage) {
   // TODO: same as submit, use generic item
   const successElement = await this.page.waitForSelector(
-    testId('importProjects-successMessage')
+    testId('success-message')
   )
 
   expect(successElement).to.not.be.null
@@ -78,9 +78,7 @@ Then("le site reste sur la page d'import de candidats", function() {
 
 Then("me notifie l'échec par {string}", async function(errorMessage) {
   // TODO: same as submit, use generic item
-  const errorElement = await this.page.waitForSelector(
-    testId('importProjects-errorMessage')
-  )
+  const errorElement = await this.page.waitForSelector(testId('error-message'))
 
   expect(errorElement).to.not.be.null
 

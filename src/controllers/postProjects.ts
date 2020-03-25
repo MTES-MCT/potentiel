@@ -35,7 +35,7 @@ const postProjects = async (request: HttpRequest) => {
 
   if (!request.file || !request.file.path) {
     return {
-      redirect: ROUTES.ADMIN_DASHBOARD,
+      redirect: ROUTES.IMPORT_PROJECTS,
       query: {
         error: 'Le fichier candidat est manquant.'
       }
@@ -57,12 +57,12 @@ const postProjects = async (request: HttpRequest) => {
 
   return importProjectsResult.match({
     ok: () =>
-      Redirect(ROUTES.ADMIN_DASHBOARD, {
+      Redirect(ROUTES.ADMIN_LIST_PROJECTS, {
         success: 'Les candidats ont bien été importés.'
       }),
     err: (e: Error) => {
       console.log('Caught an error after importProjects', e)
-      return Redirect(ROUTES.ADMIN_DASHBOARD, {
+      return Redirect(ROUTES.IMPORT_PROJECTS, {
         error: e.message
       })
     }
