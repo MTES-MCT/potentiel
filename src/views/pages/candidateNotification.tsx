@@ -1,11 +1,7 @@
 import React from 'react'
-
 import { CandidateNotification } from '../../entities'
 import ROUTES from '../../routes'
-
-interface PageProps {
-  notification: CandidateNotification
-}
+import AdminDashboard from '../components/adminDashboard'
 
 const TemplateLaureat = ({
   notification
@@ -72,13 +68,23 @@ const TemplateElimination = ({
   )
 }
 
+interface PageProps {
+  notification: CandidateNotification
+}
 /* Pure component */
-export default function CandidateNotificationPage({ notification }: PageProps) {
-  if (notification.template === 'laureat') {
-    return <TemplateLaureat notification={notification} />
-  }
-
-  if (notification.template === 'elimination') {
-    return <TemplateElimination notification={notification} />
-  }
+export default function ShowCandidateNotification({ notification }: PageProps) {
+  return (
+    <AdminDashboard currentPage={undefined}>
+      <div className="panel">
+        <div className="panel__header">
+          <h3>Courrier électronique envoyé au candidat</h3>
+        </div>
+        {notification.template === 'laureat' ? (
+          <TemplateLaureat notification={notification} />
+        ) : (
+          <TemplateElimination notification={notification} />
+        )}
+      </div>
+    </AdminDashboard>
+  )
 }

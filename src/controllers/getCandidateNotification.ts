@@ -15,7 +15,7 @@ const getCandidateNotification = async (request: HttpRequest) => {
 
   return notificationResult.match({
     some: (notification: CandidateNotification) =>
-      Success(CandidateNotificationPage({ notification })),
+      Success(CandidateNotificationPage({ request, notification })),
     none: () => NotFoundError("La notification n'est pas disponible")
   })
 }

@@ -20,7 +20,7 @@ const LoginPage = makePresenterPage(Login)
 const AdminListProjectsPage = makePresenterPage(AdminListProjects)
 const ImportCandidatesPage = makePresenterPage(ImportCandidates)
 const UserDashboardPage = makePresenterPage(UserDashboard)
-const CandidateNotificationPage = makeRawPage(CandidateNotification)
+const CandidateNotificationPage = makePresenterPage(CandidateNotification)
 const SignupPage = makePresenterPage(Signup)
 const ModificationRequestPage = makePresenterPage(ModificationRequest)
 
