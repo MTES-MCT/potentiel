@@ -8,6 +8,10 @@ import { dataId } from '../../helpers/testId'
 import ProjectList from '../components/projectList'
 import { HttpRequest } from '../../types'
 
+import moment from 'moment'
+
+moment.locale('fr')
+
 interface PageProps {
   request: HttpRequest
   project: Project
@@ -65,6 +69,9 @@ export default function ModificationRequestPage({
                       fontSize: 12
                     }}
                   >
+                    <div {...dataId('modificationRequest-item-nomCandidat')}>
+                      {project.nomCandidat}
+                    </div>
                     <span {...dataId('modificationRequest-item-communeProjet')}>
                       {project.communeProjet}
                     </span>
@@ -77,6 +84,24 @@ export default function ModificationRequestPage({
                     ,{' '}
                     <span {...dataId('modificationRequest-item-regionProjet')}>
                       {project.regionProjet}
+                    </span>
+                  </div>
+                  <div {...dataId('modificationRequest-item-puissance')}>
+                    {project.puissance} kWc
+                  </div>
+                  <div>
+                    Désigné le{' '}
+                    <span
+                      {...dataId('modificationRequest-item-designationDate')}
+                    >
+                      {moment(project.notifiedOn).format('DD/MM/YYYY')}
+                    </span>{' '}
+                    pour la période{' '}
+                    <span {...dataId('modificationRequest-item-periode')}>
+                      {project.periode}
+                    </span>{' '}
+                    <span {...dataId('modificationRequest-item-famille')}>
+                      {project.famille}
                     </span>
                   </div>
                 </div>
@@ -103,16 +128,43 @@ export default function ModificationRequestPage({
                 {action === 'puissance' ? (
                   <>
                     <label>Puissance actuelle (en kWc)</label>
-                    <input type="number" disabled value={project.puissance} />
+                    <input
+                      type="text"
+                      disabled
+                      value={project.puissance}
+                      {...dataId('modificationRequest-presentPuissanceField')}
+                    />
                     <label className="required" htmlFor="puissance">
                       Nouvelle puissance (en kWc)
                     </label>
                     <input
-                      type="number"
+                      type="text"
+                      inputMode="numeric"
+                      pattern="[0-9]+([\.,][0-9]+)?"
                       name="puissance"
                       id="puissance"
                       {...dataId('modificationRequest-puissanceField')}
                     />
+                    <div
+                      className="notification warning"
+                      style={{ display: 'none' }}
+                      {...dataId(
+                        'modificationRequest-puissance-error-message-out-of-bounds'
+                      )}
+                    >
+                      La nouvelle puissance doit être située entre 90% et 100%
+                      de la puissance actuelle pour être acceptée.
+                    </div>
+                    <div
+                      className="notification error"
+                      style={{ display: 'none' }}
+                      {...dataId(
+                        'modificationRequest-puissance-error-message-wrong-format'
+                      )}
+                    >
+                      Le format saisi n'est pas conforme (penser à utiliser un
+                      nombre décimal séparé par un point).
+                    </div>
                   </>
                 ) : (
                   ''
@@ -201,12 +253,10 @@ export default function ModificationRequestPage({
                 </button>
                 <a
                   className="button-outline primary"
-                  // style={{
-                  //   float: 'right',
-                  //   marginBottom: 'var(--space-s)',
-                  //   marginTop: '5px',
-                  //   marginRight: '15px'
-                  // }}
+                  style={{
+                    position: 'relative',
+                    top: 15
+                  }}
                   {...dataId('modificationRequest-cancel-button')}
                   href={ROUTES.USER_LIST_PROJECTS}
                 >
