@@ -34,7 +34,7 @@ export default function makeSendCandidateNotifications({
   > {
     // Find all projects that have not been notified
     const unNotifiedProjects = await projectRepo.findAll({
-      hasBeenNotified: false
+      notifiedOn: 0
     })
 
     // console.log('unNotifiedProjects', unNotifiedProjects)
@@ -139,6 +139,10 @@ export default function makeSendCandidateNotifications({
           }
 
           await projectRepo.addNotification(project, candidateNotification)
+
+          // Register the date of notification
+          project.notifiedOn = new Date().getTime()
+          await projectRepo.update(project)
         }
       )
     )

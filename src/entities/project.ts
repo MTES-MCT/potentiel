@@ -39,7 +39,7 @@ const baseProjectSchema = Record({
   producteur: String,
   classe: Union(Literal('Eliminé'), Literal('Classé')),
   motifsElimination: String,
-  hasBeenNotified: Boolean
+  notifiedOn: Number
 })
 const projectSchema = baseProjectSchema.And(
   Partial({
@@ -60,7 +60,7 @@ interface MakeProjectDependencies {
 
 export default ({ makeId }: MakeProjectDependencies) =>
   buildMakeEntity<Project>(projectSchema, makeId, fields, {
-    hasBeenNotified: false
+    notifiedOn: 0
   })
 
 export { Project }

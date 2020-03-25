@@ -59,11 +59,11 @@ describe('sendCandidateNotifications use-case', () => {
       [
         makeFakeProject({
           classe: 'Eliminé',
-          hasBeenNotified: true
+          notifiedOn: new Date().getTime()
         }),
         makeFakeProject({
           classe: 'Classé',
-          hasBeenNotified: true
+          notifiedOn: new Date().getTime()
         }),
         makeFakeProject({
           classe: 'Eliminé',
@@ -116,7 +116,7 @@ describe('sendCandidateNotifications use-case', () => {
 
   it('should update every project as having been notified', async () => {
     const unNotifiedProjects = await projectRepo.findAll({
-      hasBeenNotified: false
+      notifiedOn: 0
     })
 
     expect(unNotifiedProjects).toHaveLength(0)

@@ -248,7 +248,6 @@ const projectRepo: ProjectRepo = {
       projectId: project.id
     })
 
-    projectInstance.hasBeenNotified = true
     return Ok(project)
   }
 }

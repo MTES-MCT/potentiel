@@ -12,10 +12,7 @@ import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
 
 // Override these to apply serialization/deserialization on inputs/outputs
-const deserialize = item => ({
-  ...item,
-  hasBeenNotified: !!item.hasBeenNotified
-})
+const deserialize = item => item
 const serialize = item => item
 
 export default function makeProjectRepo({ sequelize }): ProjectRepo {
@@ -108,10 +105,10 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
       type: DataTypes.STRING,
       allowNull: true
     },
-    hasBeenNotified: {
-      type: DataTypes.BOOLEAN,
+    notifiedOn: {
+      type: DataTypes.NUMBER,
       allowNull: false,
-      defaultValue: false
+      defaultValue: 0
     }
   })
 
@@ -279,8 +276,6 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
       await projectInstance.addCandidateNotification(
         candidateNotificationInstance
       )
-      await projectInstance.update({ hasBeenNotified: true })
-      project.hasBeenNotified = true
 
       return Ok(project)
     } catch (error) {

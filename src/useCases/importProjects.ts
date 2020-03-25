@@ -95,7 +95,7 @@ export default function makeImportProjects({ projectRepo }: MakeUseCaseProps) {
         fournisseur: line['fournisseur'] || 'N/A',
         actionnaire: line['actionnaire'] || 'N/A',
         producteur: line['producteur'] || 'N/A',
-        hasBeenNotified: false
+        notifiedOn: 0
       })
 
       if (projectResult.is_err()) {
