@@ -8,7 +8,7 @@ import { User } from '../../entities'
 import Header from '../components/header'
 
 import Login from './login'
-import UserDashboard from './userDashboard'
+import UserListProjects from './userListProjects'
 import AdminListProjects from './adminListProjects'
 import ImportCandidates from './importCandidates'
 import CandidateNotification from './candidateNotification'
@@ -19,7 +19,7 @@ import { HttpRequest } from '../../types'
 const LoginPage = makePresenterPage(Login)
 const AdminListProjectsPage = makePresenterPage(AdminListProjects)
 const ImportCandidatesPage = makePresenterPage(ImportCandidates)
-const UserDashboardPage = makePresenterPage(UserDashboard)
+const UserListProjectsPage = makePresenterPage(UserListProjects)
 const CandidateNotificationPage = makePresenterPage(CandidateNotification)
 const SignupPage = makePresenterPage(Signup)
 const ModificationRequestPage = makePresenterPage(ModificationRequest)
@@ -28,7 +28,7 @@ export {
   LoginPage,
   AdminListProjectsPage,
   ImportCandidatesPage,
-  UserDashboardPage,
+  UserListProjectsPage,
   CandidateNotificationPage,
   SignupPage,
   ModificationRequestPage

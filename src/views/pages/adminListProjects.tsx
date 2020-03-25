@@ -51,6 +51,13 @@ export default function AdminListProjects({
         ) : (
           ''
         )}
+        {error ? (
+          <div className="notification error" {...dataId('error-message')}>
+            {error}
+          </div>
+        ) : (
+          ''
+        )}
         <ProjectList
           projects={projects}
           projectActions={(project: Project) => {
