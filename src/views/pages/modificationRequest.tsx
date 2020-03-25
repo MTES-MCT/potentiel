@@ -34,7 +34,7 @@ export default function ModificationRequestPage({
   const { action, error, success } = request.query || {}
 
   return (
-    <UserDashboard currentPage="list-projects">
+    <UserDashboard currentPage={undefined}>
       <div className="panel">
         <div className="panel__header">
           <h3>Je demande {titlePerAction[action]}</h3>
