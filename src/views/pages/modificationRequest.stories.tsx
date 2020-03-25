@@ -1,6 +1,7 @@
 import React from 'react'
 
 import makeFakeProject from '../../__tests__/fixtures/project'
+import makeFakeRequest from '../../__tests__/fixtures/request'
 
 import ModificationRequestPage from './modificationRequest'
 
@@ -17,21 +18,36 @@ export default { title: 'Modification Request' }
 // )
 
 export const Fournisseur = () => (
-  <ModificationRequestPage action="fournisseur" project={makeFakeProject()} />
+  <ModificationRequestPage
+    request={makeFakeRequest({ query: { action: 'fournisseur' } })}
+    project={makeFakeProject()}
+  />
 )
 
 export const Délais = () => (
-  <ModificationRequestPage action="delais" project={makeFakeProject()} />
+  <ModificationRequestPage
+    request={makeFakeRequest({ query: { action: 'delais' } })}
+    project={makeFakeProject()}
+  />
 )
 
 export const Actionnaire = () => (
-  <ModificationRequestPage action="actionnaire" project={makeFakeProject()} />
+  <ModificationRequestPage
+    request={makeFakeRequest({ query: { action: 'actionnaire' } })}
+    project={makeFakeProject()}
+  />
 )
 
 export const Puissance = () => (
-  <ModificationRequestPage action="puissance" project={makeFakeProject()} />
+  <ModificationRequestPage
+    request={makeFakeRequest({ query: { action: 'puissance' } })}
+    project={makeFakeProject()}
+  />
 )
 
 export const Abandon = () => (
-  <ModificationRequestPage action="abandon" project={makeFakeProject()} />
+  <ModificationRequestPage
+    request={makeFakeRequest({ query: { action: 'abandon' } })}
+    project={makeFakeProject()}
+  />
 )

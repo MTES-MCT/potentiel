@@ -30,34 +30,15 @@ const parse = file =>
       })
   })
 
-const tryImportProjects = async ({ periode, headers, lines }) => {
-  // try Call the importProject useCase
-  const result = await importProjects({
-    periode,
-    headers,
-    lines
-  })
-
-  if (result.is_err()) {
-    const error = result.unwrap_err()
-    console.log('Caught an error after importProjects', error)
-    return Redirect(ROUTES.ADMIN_DASHBOARD, {
-      error: error.message
-    })
-  }
-
-  return Redirect(ROUTES.ADMIN_DASHBOARD, {
-    success: 'Les candidats ont bien été importés.'
-  })
-}
-
 const postProjects = async (request: HttpRequest) => {
   // console.log('Call to postProjects received', request.body, request.file)
 
   if (!request.file || !request.file.path) {
     return {
       redirect: ROUTES.ADMIN_DASHBOARD,
-      query: { error: 'Le fichier candidat est manquant.' }
+      query: {
+        error: 'Le fichier candidat est manquant.'
+      }
     }
   }
 
@@ -65,7 +46,7 @@ const postProjects = async (request: HttpRequest) => {
   const lines = await parse(request.file.path)
   const headers = (lines.length && Object.keys(lines[0])) || []
 
-  const result = await tryImportProjects({
+  const importProjectsResult = await importProjects({
     periode: request.body.periode,
     headers,
     lines
@@ -74,6 +55,17 @@ const postProjects = async (request: HttpRequest) => {
   // remove temp file
   await deleteFile(request.file.path)
 
-  return result
+  return importProjectsResult.match({
+    ok: () =>
+      Redirect(ROUTES.ADMIN_DASHBOARD, {
+        success: 'Les candidats ont bien été importés.'
+      }),
+    err: (e: Error) => {
+      console.log('Caught an error after importProjects', e)
+      return Redirect(ROUTES.ADMIN_DASHBOARD, {
+        error: e.message
+      })
+    }
+  })
 }
 export { postProjects }

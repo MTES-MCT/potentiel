@@ -3,6 +3,8 @@ import path from 'path'
 
 import ReactDOMServer from 'react-dom/server'
 
+import { User } from '../../entities'
+
 import Header from '../components/header'
 
 import Login from './login'
@@ -11,6 +13,7 @@ import AdminDashboard from './adminDashboard'
 import CandidateNotification from './candidateNotification'
 import Signup from './signup'
 import ModificationRequest from './modificationRequest'
+import { HttpRequest } from '../../types'
 
 const LoginPage = makePresenterPage(Login)
 const AdminDashboardPage = makePresenterPage(AdminDashboard)
@@ -28,12 +31,16 @@ export {
   ModificationRequestPage
 }
 
+interface HasRequest {
+  request: HttpRequest
+}
+
 /**
  * Turn a Page Component (pure) into a presenter that returns a full HTML page
  * @param pageComponent
  */
 function makePresenterPage(pageComponent) {
-  return (props?: any): string =>
+  return <T extends HasRequest>(props: T): string =>
     insertIntoHTMLTemplate(
       ReactDOMServer.renderToStaticMarkup(Header(props)) +
         ReactDOMServer.renderToStaticMarkup(pageComponent(props))

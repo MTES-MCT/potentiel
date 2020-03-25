@@ -1,7 +1,14 @@
 import React from 'react'
 import routes from '../../routes'
+import { User } from '../../entities'
+import { HttpRequest } from '../../types'
 
-const Header = (props: any) => {
+interface HeaderProps {
+  request: HttpRequest
+}
+
+const Header = ({ request }: HeaderProps) => {
+  const user = request.user
   return (
     <header className="navbar" role="navigation">
       <div className="navbar__container">
@@ -20,9 +27,9 @@ const Header = (props: any) => {
         <nav>
           <ul className="nav__links">
             <li className="nav__item">
-              {props.userName ? (
+              {user ? (
                 <>
-                  <span>{props.userName}</span>
+                  <span>{user.firstName + ' ' + user.lastName}</span>
                   <a href={routes.LOGOUT_ACTION}>Me déconnecter</a>
                 </>
               ) : (

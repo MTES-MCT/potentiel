@@ -3,19 +3,16 @@ import React from 'react'
 import { dataId } from '../../helpers/testId'
 
 import ROUTES from '../../routes'
+import { HttpRequest } from '../../types'
 
 interface SignupProps {
-  error?: string
-  projectAdmissionKey?: string
-  projectId?: string
+  request: HttpRequest
 }
 
 /* Pure component */
-export default function SignupPage({
-  error,
-  projectAdmissionKey,
-  projectId
-}: SignupProps) {
+export default function SignupPage({ request }: SignupProps) {
+  const { error, projectAdmissionKey, projectId, firstName, lastName, email } =
+    request.query || {}
   return (
     <main role="main">
       <section className="section section-grey">
@@ -53,6 +50,7 @@ export default function SignupPage({
                 name="lastName"
                 id="lastName"
                 {...dataId('signup-lastName-field')}
+                value={lastName}
               />
               <label htmlFor="firstName">Prénom</label>
               <input
@@ -60,6 +58,7 @@ export default function SignupPage({
                 name="firstName"
                 id="firstName"
                 {...dataId('signup-firstName-field')}
+                value={firstName}
               />
               <label htmlFor="email">Courrier électronique</label>
               <input
@@ -67,6 +66,7 @@ export default function SignupPage({
                 name="email"
                 id="email"
                 {...dataId('signup-email-field')}
+                value={email}
               />
               <label htmlFor="password">Mot de passe</label>
               <input

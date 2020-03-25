@@ -2,26 +2,22 @@ import { HttpRequest } from '../types'
 import { showNotification } from '../useCases'
 import { CandidateNotificationPage } from '../views/pages'
 import { Success, NotFoundError, SystemError } from '../helpers/responses'
+import { CandidateNotification } from '../entities'
 
 const getCandidateNotification = async (request: HttpRequest) => {
   // console.log('Call to getCandidateNotification received', request.query)
 
   if (!request.query.id) {
-    return {
-      statusCode: 404,
-      body: "La notification n'est pas disponible"
-    }
+    return NotFoundError("La notification n'est pas disponible")
   }
 
   const notificationResult = await showNotification({ id: request.query.id })
 
-  if (notificationResult.is_none()) {
-    return NotFoundError("La notification n'est pas disponible")
-  }
-
-  return Success(
-    CandidateNotificationPage({ notification: notificationResult.unwrap() })
-  )
+  return notificationResult.match({
+    some: (notification: CandidateNotification) =>
+      Success(CandidateNotificationPage({ notification })),
+    none: () => NotFoundError("La notification n'est pas disponible")
+  })
 }
 
 export { getCandidateNotification }

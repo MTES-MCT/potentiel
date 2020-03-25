@@ -6,12 +6,11 @@ import ROUTES from '../../routes'
 import { dataId } from '../../helpers/testId'
 
 import ProjectList from '../components/projectList'
+import { HttpRequest } from '../../types'
 
 interface PageProps {
-  action: string
+  request: HttpRequest
   project: Project
-  error?: string
-  success?: string
 }
 
 const titlePerAction = {
@@ -25,11 +24,11 @@ const titlePerAction = {
 
 /* Pure component */
 export default function ModificationRequestPage({
-  action,
-  project,
-  error,
-  success
+  request,
+  project
 }: PageProps) {
+  const { action, error, success } = request.query || {}
+
   return (
     <>
       <div className="hero" role="banner">

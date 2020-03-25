@@ -8,18 +8,18 @@ const getSendCandidateNotifications = async (request: HttpRequest) => {
 
   const result = await sendCandidateNotifications({})
 
-  if (result.is_err()) {
-    console.log('sendCandidateNotifications failed', result.unwrap_err())
-    return Redirect(ROUTES.ADMIN_DASHBOARD, {
-      error:
-        "Les notifications n'ont pas pu être envoyées. (" +
-        result.unwrap_err().message +
-        ')'
-    })
-  }
-
-  return Redirect(ROUTES.ADMIN_DASHBOARD, {
-    success: 'Les notifications ont bien été envoyées.'
+  return result.match({
+    ok: () =>
+      Redirect(ROUTES.ADMIN_DASHBOARD, {
+        success: 'Les notifications ont bien été envoyées.'
+      }),
+    err: (e: Error) => {
+      console.log('sendCandidateNotifications failed', e)
+      return Redirect(ROUTES.ADMIN_DASHBOARD, {
+        error:
+          "Les notifications n'ont pas pu être envoyées. (" + e.message + ')'
+      })
+    }
   })
 }
 export { getSendCandidateNotifications }

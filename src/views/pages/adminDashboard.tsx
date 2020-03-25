@@ -6,19 +6,19 @@ import { dataId } from '../../helpers/testId'
 
 import UploadProjects from '../components/uploadProjects'
 import ProjectList from '../components/projectList'
+import { HttpRequest } from '../../types'
 
 interface AdminDashboardProps {
-  error?: string
-  success?: string
+  request: HttpRequest
   projects?: Array<Project>
 }
 
 /* Pure component */
 export default function AdminDashboard({
-  error,
-  success,
+  request,
   projects
 }: AdminDashboardProps) {
+  const { error, success } = request.query || {}
   return (
     <>
       <div className="hero" role="banner">

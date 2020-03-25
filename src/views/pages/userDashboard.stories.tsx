@@ -1,23 +1,33 @@
 import React from 'react'
 
 import makeFakeProject from '../../__tests__/fixtures/project'
+import makeFakeRequest from '../../__tests__/fixtures/request'
 
 import UserDashboard from './userDashboard'
 
 export default { title: 'User Dashboard' }
 
-export const empty = () => <UserDashboard />
+export const empty = () => <UserDashboard request={makeFakeRequest()} />
 
 export const withError = () => (
-  <UserDashboard error="This is an error message!" />
+  <UserDashboard
+    request={makeFakeRequest({
+      query: { error: 'This is an error message!' }
+    })}
+  />
 )
 
 export const withSuccess = () => (
-  <UserDashboard success="This is a success message!" />
+  <UserDashboard
+    request={makeFakeRequest({
+      query: { success: 'This is a success message!' }
+    })}
+  />
 )
 
 export const withProjects = () => (
   <UserDashboard
+    request={makeFakeRequest()}
     projects={[
       makeFakeProject(),
       makeFakeProject({ classe: 'Classé', motifsElimination: null })

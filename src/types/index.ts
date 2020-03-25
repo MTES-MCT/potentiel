@@ -10,7 +10,7 @@ export type HttpRequest = {
   body: any
   query: any
   params: any
-  user: User
+  user?: User
   file?: any
 }
 

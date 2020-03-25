@@ -1,22 +1,22 @@
 import React from 'react'
 
 import { dataId } from '../../helpers/testId'
+import { HttpRequest } from '../../types'
 
 interface Props {
-  hasError?: boolean
-  success?: string
-  email?: string
+  request: HttpRequest
 }
 
 /* Pure component */
-export default function LoginPage({ hasError = false, success, email }: Props) {
+export default function LoginPage({ request }: Props) {
+  const { error, success, email } = request.query || {}
   return (
     <main role="main">
       <section className="section section-grey">
         <div className="container">
           <form action="/login" method="post" name="form">
             <h3 id="login">Je m'identifie</h3>
-            {hasError ? (
+            {!!error ? (
               <div className="notification error">
                 Identifiant ou mot de passe erroné.
               </div>

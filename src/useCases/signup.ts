@@ -140,7 +140,6 @@ export default function makeSignup({
         const projectAdmissionKeyInstance = projectAdmissionKeyResult.unwrap()
         if (projectAdmissionKeyInstance.projectId === projectId) {
           // User provided a correct projectAdmissionKey and projectId pair
-
           if (email === projectAdmissionKeyInstance.email) {
             // User validated his email address by registering with it
             // Add all projects that have that email

@@ -147,8 +147,6 @@ export default function makeImportProjects({ projectRepo }: MakeUseCaseProps) {
       return Err(error)
     }
 
-    console.log('')
-
     const insertions: Array<Result<Project, Error>> = await Promise.all(
       projects.unwrap().map(projectRepo.insert)
     )

@@ -13,7 +13,8 @@ export default {
   PROJECT_INVITATION: (
     projectAdmissionKey: ProjectAdmissionKey['id'],
     projectId: Project['id']
-  ) => `/enregistrement.html?key=${projectAdmissionKey}&project=${projectId}`,
+  ) =>
+    `/enregistrement.html?projectAdmissionKey=${projectAdmissionKey}&projectId=${projectId}`,
   ADMIN_DASHBOARD: '/admin/dashboard.html',
   IMPORT_PROJECTS: '/admin/dashboard.html', // Keep separate from ADMIN_DASHBOARD, may change
   IMPORT_PROJECTS_ACTION: '/admin/importProjects',

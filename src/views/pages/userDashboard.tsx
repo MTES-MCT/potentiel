@@ -4,19 +4,19 @@ import { Project } from '../../entities'
 import ROUTES from '../../routes'
 
 import ProjectList from '../components/projectList'
+import { HttpRequest } from '../../types'
 
 interface UserDashboardProps {
-  error?: string
-  success?: string
+  request: HttpRequest
   projects?: Array<Project>
 }
 
 /* Pure component */
-export default function LoginPage({
-  error,
-  success,
+export default function UserDashboard({
+  request,
   projects
 }: UserDashboardProps) {
+  const { error, success } = request.query || {}
   return (
     <>
       <div className="hero" role="banner">

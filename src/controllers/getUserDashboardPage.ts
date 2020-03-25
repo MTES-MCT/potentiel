@@ -5,11 +5,7 @@ import { listUserProjects } from '../useCases'
 import { UserDashboardPage } from '../views/pages'
 
 const getUserDashboardPage = async (request: HttpRequest) => {
-  // console.log(
-  //   'Call to getUserDashboardPage received',
-  //   request.body,
-  //   request.file
-  // )
+  // console.log('Call to getUserDashboardPage received')
 
   if (!request.user) {
     return Redirect(ROUTES.LOGIN)
@@ -19,8 +15,8 @@ const getUserDashboardPage = async (request: HttpRequest) => {
 
   return Success(
     UserDashboardPage({
-      projects,
-      userName: request.user.firstName + ' ' + request.user.lastName
+      request,
+      projects
     })
   )
 }

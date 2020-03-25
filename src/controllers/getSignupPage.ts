@@ -8,9 +8,7 @@ const getSignupPage = async (request: HttpRequest) => {
   // Display the signup page
   return Success(
     SignupPage({
-      error: request.query.error,
-      projectAdmissionKey: request.query.key,
-      projectId: request.query.project
+      request
     })
   )
 }
