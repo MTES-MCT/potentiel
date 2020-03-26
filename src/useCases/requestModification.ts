@@ -2,7 +2,7 @@ import { ModificationRequest, makeModificationRequest } from '../entities'
 import { ModificationRequestRepo } from '../dataAccess'
 import _ from 'lodash'
 import { Result, Err, Ok, ResultAsync, ErrorResult } from '../types'
-import { User } from '../entities'
+import { User, Project } from '../entities'
 
 interface MakeUseCaseProps {
   modificationRequestRepo: ModificationRequestRepo
@@ -11,6 +11,7 @@ interface MakeUseCaseProps {
 interface RequestCommon {
   requestedBy: User['id']
   filePath?: string
+  projectId: Project['id']
 }
 
 interface ActionnaireRequest {

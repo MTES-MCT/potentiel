@@ -15,7 +15,8 @@ import buildMakeEntity from '../helpers/buildMakeEntity'
 
 const baseModificationRequestSchema = Record({
   id: String,
-  requestedBy: String
+  requestedBy: String,
+  projectId: String
 })
 
 const actionnaireSchema = Record({

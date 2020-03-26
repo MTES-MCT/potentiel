@@ -6,6 +6,7 @@ import { makeUserRepo } from './user'
 import { makeProjectRepo } from './project'
 import { makeCandidateNotificationRepo } from './candidateNotification'
 import { makeProjectAdmissionKeyRepo } from './projectAdmissionKey'
+import { makeModificationRequestRepo } from './modificationRequest'
 
 const sequelize = new Sequelize({
   dialect: 'sqlite',
@@ -26,6 +27,8 @@ const userRepo = makeUserRepo({ sequelize })
 const projectRepo = makeProjectRepo({ sequelize })
 
 const candidateNotificationRepo = makeCandidateNotificationRepo({ sequelize })
+
+const modificationRequestRepo = makeModificationRequestRepo({ sequelize })
 
 // Set the one-to-many relationship between project and candidateNotification
 const ProjectModel = sequelize.model('project')
@@ -77,6 +80,7 @@ const dbAccess = Object.freeze({
   projectRepo,
   candidateNotificationRepo,
   projectAdmissionKeyRepo,
+  modificationRequestRepo,
   initDatabase,
   resetDatabase
 })
@@ -88,6 +92,7 @@ export {
   projectRepo,
   candidateNotificationRepo,
   projectAdmissionKeyRepo,
+  modificationRequestRepo,
   initDatabase,
   resetDatabase
 }

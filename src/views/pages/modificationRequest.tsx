@@ -19,7 +19,7 @@ interface PageProps {
 
 const titlePerAction = {
   fournisseur: 'un changement de fournisseur',
-  delais: 'un délai supplémentaire',
+  delai: 'un délai supplémentaire',
   actionnaire: "un changement d'actionnaire",
   puissance: 'un changement de puissance',
   producteur: 'un changement de producteur',
@@ -54,10 +54,12 @@ export default function ModificationRequestPage({
           ''
         )}
         <form
-          // action={ROUTES.IMPORT_PROJECTS_ACTION}
-          // method="post"
+          action={ROUTES.DEMANDE_ACTION}
+          method="post"
           encType="multipart/form-data"
         >
+          <input type="hidden" name="projectId" value={project.id} />
+          <input type="hidden" name="type" value={action} />
           <div className="form__group">
             <h4></h4>
             <div style={{ marginBottom: 5 }}>Concerant le projet:</div>
@@ -226,15 +228,15 @@ export default function ModificationRequestPage({
             ) : (
               ''
             )}
-            {action === 'delais' || action === 'abandon' ? (
+            {action === 'delai' || action === 'abandon' ? (
               <>
-                <label className="required" htmlFor="motivation">
+                <label className="required" htmlFor="justification">
                   Pour la raison suivante:
                 </label>
                 <textarea
-                  name="motivation"
-                  id="motivation"
-                  {...dataId('modificationRequest-motivation-field')}
+                  name="justification"
+                  id="justification"
+                  {...dataId('modificationRequest-justification-field')}
                 />
               </>
             ) : (
@@ -253,7 +255,7 @@ export default function ModificationRequestPage({
               type="submit"
               name="submit"
               id="submit"
-              {...dataId('modificationRequest-submit-button')}
+              {...dataId('submit-button')}
             >
               Envoyer
             </button>
@@ -263,7 +265,7 @@ export default function ModificationRequestPage({
               //   position: 'relative',
               //   top: 15
               // }}
-              {...dataId('modificationRequest-cancel-button')}
+              {...dataId('cancel-button')}
               href={ROUTES.USER_LIST_PROJECTS}
             >
               Annuler

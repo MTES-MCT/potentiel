@@ -39,12 +39,6 @@ When('je selectionne le fichier csv de la forme', async function(csvContents) {
   await deleteFile(TEMP_CSV_FILE)
 })
 
-When('je valide le formulaire', async function() {
-  // Write code here that turns the phrase above into concrete actions
-  // TODO: step will be reused, use a generic testId('submitButton') => should only have one per page ?
-  await this.page.click(testId('importProjects-submitButton'))
-})
-
 // Bon format
 
 Then('le site me redirige vers la page de liste des projets', async function() {
@@ -53,40 +47,8 @@ Then('le site me redirige vers la page de liste des projets', async function() {
   ).to.equal(0)
 })
 
-Then('me notifie la réussite par {string}', async function(successMessage) {
-  // TODO: same as submit, use generic item
-  const successElement = await this.page.waitForSelector(
-    testId('success-message')
-  )
-
-  expect(successElement).to.not.be.null
-
-  // console.log('successElement', successElement)
-
-  const successText = await this.page.evaluate(
-    element => element.textContent,
-    successElement
-  )
-  expect(successText).to.equal(successMessage)
-})
-
 // Mauvais format
 
 Then("le site reste sur la page d'import de candidats", function() {
   expect(this.page.url().indexOf(makeRoute(routes.IMPORT_PROJECTS))).to.equal(0)
-})
-
-Then("me notifie l'échec par {string}", async function(errorMessage) {
-  // TODO: same as submit, use generic item
-  const errorElement = await this.page.waitForSelector(testId('error-message'))
-
-  expect(errorElement).to.not.be.null
-
-  // console.log('errorElement', errorElement)
-
-  const errorText = await this.page.evaluate(
-    element => element.textContent,
-    errorElement
-  )
-  expect(errorText).to.equal(errorMessage)
 })

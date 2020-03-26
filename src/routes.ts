@@ -23,6 +23,7 @@ export default {
   SEND_NOTIFICATIONS_ACTION: '/admin/sendCandidateNotifications',
   USER_DASHBOARD: '/mes-projets.html',
   USER_LIST_PROJECTS: '/mes-projets.html',
+  USER_LIST_DEMANDES: '/mes-demandes.html',
   DEPOSER_RECOURS: withProjectId('/deposer-recours.html'),
   TELECHARGER_ATTESTATION: withProjectId('/attestation.pdf'),
   // DEMANDE_DELAIS: withProjectId('/demande-delais.html'),
@@ -31,7 +32,7 @@ export default {
   // CHANGER_PUISSANCE: withProjectId('/changer-puissance.html'),
   // DEMANDER_ABANDON: withProjectId('/abandon.html'),
   DEMANDE_GENERIQUE: '/demande-modification.html',
-  DEMANDE_DELAIS: withProjectId('/demande-modification.html?action=delais'),
+  DEMANDE_DELAIS: withProjectId('/demande-modification.html?action=delai'),
   CHANGER_FOURNISSEUR: withProjectId(
     '/demande-modification.html?action=fournisseur'
   ),
@@ -44,5 +45,6 @@ export default {
   CHANGER_PRODUCTEUR: withProjectId(
     '/demande-modification.html?action=producteur'
   ),
-  DEMANDER_ABANDON: withProjectId('/demande-modification.html?action=abandon')
+  DEMANDER_ABANDON: withProjectId('/demande-modification.html?action=abandon'),
+  DEMANDE_ACTION: '/soumettre-demande'
 }

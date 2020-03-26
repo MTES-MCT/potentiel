@@ -18,7 +18,8 @@ import {
   getCandidateNotification,
   getSignupPage,
   postSignup,
-  getDemandePage
+  getDemandePage,
+  postRequestModification
 } from './controllers'
 
 import { initDatabase } from './dataAccess'
@@ -141,9 +142,13 @@ export async function makeServer(port: number = 3000) {
     makeExpressCallback(getDemandePage)
   )
 
-  router.get('/hello', (req, res) => {
-    res.send('Hello, World!')
-  })
+  router.post(
+    ROUTES.DEMANDE_ACTION,
+    ensureLoggedIn(),
+    ensureRole('porteur-projet'),
+    upload.single('file'),
+    makeExpressCallback(postRequestModification)
+  )
 
   app.use(router)
 

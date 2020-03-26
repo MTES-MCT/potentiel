@@ -34,12 +34,9 @@ const postProjects = async (request: HttpRequest) => {
   // console.log('Call to postProjects received', request.body, request.file)
 
   if (!request.file || !request.file.path) {
-    return {
-      redirect: ROUTES.IMPORT_PROJECTS,
-      query: {
-        error: 'Le fichier candidat est manquant.'
-      }
-    }
+    return Redirect(ROUTES.IMPORT_PROJECTS, {
+      error: 'Le fichier candidat est manquant.'
+    })
   }
 
   // Parse the csv file

@@ -46,7 +46,7 @@ AfterAll(async function() {
   global['__BROWSER__'].close()
 
   // Reset the database
-  await deleteFile('.db/test.sqlite')
+  // await deleteFile('.db/test.sqlite')
 
   console.log('AfterAll done')
 })
