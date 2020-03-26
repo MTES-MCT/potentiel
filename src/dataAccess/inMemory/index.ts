@@ -3,14 +3,16 @@ import {
   UserRepo,
   ProjectRepo,
   CandidateNotificationRepo,
-  ProjectAdmissionKeyRepo
+  ProjectAdmissionKeyRepo,
+  ModificationRequestRepo
 } from '../'
 import {
   Credentials,
   User,
   Project,
   CandidateNotification,
-  ProjectAdmissionKey
+  ProjectAdmissionKey,
+  ModificationRequest
 } from '../../entities'
 import { Ok, Err, Some, None, ErrorResult } from '../../types'
 
@@ -310,6 +312,45 @@ const userRepo: UserRepo = {
   }
 }
 
+let modificationRequestsById: Record<string, ModificationRequest> = {}
+const modificationRequestRepo: ModificationRequestRepo = {
+  findById: async (id: string) => {
+    // console.log('findById', id, itemsById)
+    if (id in modificationRequestsById) {
+      return Some(modificationRequestsById[id])
+    } else return None
+  },
+  findAll: async (query?) => {
+    const allItems = Object.values(modificationRequestsById)
+
+    if (!query) {
+      return allItems
+    }
+
+    return allItems.filter(item =>
+      Object.entries(query).every(([key, value]) => item[key] === value)
+    )
+  },
+  insert: async (item: ModificationRequest) => {
+    modificationRequestsById[item.id] = item
+
+    return Ok(item)
+  },
+  update: async (item: ModificationRequest) => {
+    if (!item.id) {
+      return ErrorResult('Cannot update item that has no id')
+    }
+
+    if (!modificationRequestsById[item.id]) {
+      return ErrorResult('Cannot update item that was unknown')
+    }
+
+    modificationRequestsById[item.id] = item
+
+    return Ok(item)
+  }
+}
+
 const resetDatabase = () => {
   credentialsByEmail = {}
   projectsById = {}
@@ -317,6 +358,7 @@ const resetDatabase = () => {
   userProjects = {}
   candidateNotificationsById = {}
   projectAdmissionKeysById = {}
+  modificationRequestsById = {}
 }
 
 export {
@@ -325,5 +367,6 @@ export {
   projectRepo,
   candidateNotificationRepo,
   projectAdmissionKeyRepo,
+  modificationRequestRepo,
   resetDatabase
 }
