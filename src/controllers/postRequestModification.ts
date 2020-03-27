@@ -18,14 +18,42 @@ const makeDirIfNecessary = async dirpath => {
 }
 const deleteFile = util.promisify(fs.unlink)
 
+const returnRoute = (type, projectId) => {
+  let returnRoute: string
+  switch (type) {
+    case 'delai':
+      returnRoute = ROUTES.DEMANDE_DELAIS(projectId)
+      break
+    case 'fournisseur':
+      returnRoute = ROUTES.CHANGER_FOURNISSEUR(projectId)
+      break
+    case 'actionnaire':
+      returnRoute = ROUTES.CHANGER_ACTIONNAIRE(projectId)
+      break
+    case 'puissance':
+      returnRoute = ROUTES.CHANGER_PUISSANCE(projectId)
+      break
+    case 'producteur':
+      returnRoute = ROUTES.CHANGER_PRODUCTEUR(projectId)
+      break
+    case 'abandon':
+      returnRoute = ROUTES.DEMANDER_ABANDON(projectId)
+      break
+    default:
+      returnRoute = ROUTES.USER_LIST_PROJECTS
+      break
+  }
+  return returnRoute
+}
+
 const postRequestModification = async (request: HttpRequest) => {
   // console.log('Call to postRequestModification received', request.body, request.file)
 
-  console.log(
-    'Call to postRequestModification received',
-    request.body,
-    request.file
-  )
+  // console.log(
+  //   'Call to postRequestModification received',
+  //   request.body,
+  //   request.file
+  // )
 
   if (!request.user) {
     return SystemError('User must be logged in')
@@ -40,6 +68,16 @@ const postRequestModification = async (request: HttpRequest) => {
     'justification',
     'projectId'
   ])
+
+  try {
+    data.puissance = data.puissance && Number(data.puissance)
+  } catch (error) {
+    console.log('Could not convert puissance to Number')
+    const { projectId, type } = data
+    return Redirect(returnRoute(type, projectId), {
+      error: 'Erreur: la puissance doit être un nombre'
+    })
+  }
 
   // TODO If there is a fiel, move it to a proper location
   let filePath
@@ -77,31 +115,7 @@ const postRequestModification = async (request: HttpRequest) => {
     err: (e: Error) => {
       console.log('postRequestModification error', e)
       const { projectId, type } = data
-      let returnRoute
-      switch (type) {
-        case 'delai':
-          returnRoute = ROUTES.DEMANDE_DELAIS(projectId)
-          break
-        case 'fournisseur':
-          returnRoute = ROUTES.CHANGER_FOURNISSEUR(projectId)
-          break
-        case 'actionnaire':
-          returnRoute = ROUTES.CHANGER_ACTIONNAIRE(projectId)
-          break
-        case 'puissance':
-          returnRoute = ROUTES.CHANGER_PUISSANCE(projectId)
-          break
-        case 'producteur':
-          returnRoute = ROUTES.CHANGER_PRODUCTEUR(projectId)
-          break
-        case 'abandon':
-          returnRoute = ROUTES.DEMANDER_ABANDON(projectId)
-          break
-        default:
-          returnRoute = ROUTES.USER_LIST_PROJECTS
-          break
-      }
-      return Redirect(returnRoute, {
+      return Redirect(returnRoute(type, projectId), {
         error: "Votre demande n'a pas pu être prise en compte: " + e.message
       })
     }
