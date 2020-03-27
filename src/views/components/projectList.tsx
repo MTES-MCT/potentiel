@@ -173,9 +173,9 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                     width="12"
                     style={{ cursor: 'pointer' }}
                     tabIndex={0}
-                    className="project-list--action-trigger"
+                    className="list--action-trigger"
                   />
-                  <ul className="project-list--action-menu">
+                  <ul className="list--action-menu">
                     {projectActions(project)?.map(
                       ({ title, link, disabled }, actionIndex) => (
                         <li key={'notif_' + project.id + '_' + actionIndex}>

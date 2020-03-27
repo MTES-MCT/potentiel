@@ -3,7 +3,10 @@ import { ResultAsync, OptionAsync } from '../types'
 
 export type ModificationRequestRepo = {
   findById: (id: ModificationRequest['id']) => OptionAsync<ModificationRequest>
-  findAll: (query?: Record<string, any>) => Promise<Array<ModificationRequest>>
+  findAll: (
+    query?: Record<string, any>,
+    includeInfo?: boolean
+  ) => Promise<Array<ModificationRequest>>
   insert: (
     ModificationRequest: ModificationRequest
   ) => ResultAsync<ModificationRequest>

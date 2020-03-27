@@ -6,6 +6,7 @@ import makeSendCandidateNotifications from './sendCandidateNotifications'
 import makeShowNotification from './showNotification'
 import makeSignup from './signup'
 import makeRequestModification from './requestModification'
+import makeListUserRequests from './listUserRequests'
 
 import {
   credentialsRepo,
@@ -50,6 +51,8 @@ const listUserProjects = makeListUserProjects({ projectRepo })
 
 const requestModification = makeRequestModification({ modificationRequestRepo })
 
+const listUserRequests = makeListUserRequests({ modificationRequestRepo })
+
 const useCases = Object.freeze({
   login,
   importProjects,
@@ -58,7 +61,8 @@ const useCases = Object.freeze({
   sendCandidateNotifications,
   showNotification,
   signup,
-  requestModification
+  requestModification,
+  listUserRequests
 })
 
 export default useCases
@@ -70,5 +74,6 @@ export {
   sendCandidateNotifications,
   showNotification,
   signup,
-  requestModification
+  requestModification,
+  listUserRequests
 }

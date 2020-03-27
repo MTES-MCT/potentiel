@@ -9,6 +9,7 @@ import Header from '../components/header'
 
 import Login from './login'
 import UserListProjects from './userListProjects'
+import UserListRequests from './userListRequests'
 import AdminListProjects from './adminListProjects'
 import ImportCandidates from './importCandidates'
 import CandidateNotification from './candidateNotification'
@@ -20,6 +21,7 @@ const LoginPage = makePresenterPage(Login)
 const AdminListProjectsPage = makePresenterPage(AdminListProjects)
 const ImportCandidatesPage = makePresenterPage(ImportCandidates)
 const UserListProjectsPage = makePresenterPage(UserListProjects)
+const UserListRequestsPage = makePresenterPage(UserListRequests)
 const CandidateNotificationPage = makePresenterPage(CandidateNotification)
 const SignupPage = makePresenterPage(Signup)
 const ModificationRequestPage = makePresenterPage(ModificationRequest)
@@ -29,6 +31,7 @@ export {
   AdminListProjectsPage,
   ImportCandidatesPage,
   UserListProjectsPage,
+  UserListRequestsPage,
   CandidateNotificationPage,
   SignupPage,
   ModificationRequestPage

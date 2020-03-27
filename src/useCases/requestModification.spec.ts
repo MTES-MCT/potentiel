@@ -13,7 +13,7 @@ describe('requestModification use-case', () => {
     const requestData = {
       type: 'actionnaire' as 'actionnaire',
       actionnaire: 'nouvel actionnaire',
-      requestedBy: '1'
+      userId: '1'
     }
     const requestResult = await requestModification(requestData)
 

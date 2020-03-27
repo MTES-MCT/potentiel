@@ -9,7 +9,7 @@ interface MakeUseCaseProps {
 }
 
 interface RequestCommon {
-  requestedBy: User['id']
+  userId: User['id']
   filePath?: string
   projectId: Project['id']
 }

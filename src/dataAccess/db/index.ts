@@ -48,6 +48,15 @@ const UserModel = sequelize.model('user')
 ProjectModel.belongsToMany(UserModel, { through: 'UserProjects' })
 UserModel.belongsToMany(ProjectModel, { through: 'UserProjects' })
 
+// Set the one-to-many relationship between project and modificationRequest
+const ModificationRequestModel = sequelize.model('modificationRequest')
+ProjectModel.hasMany(ModificationRequestModel)
+ModificationRequestModel.belongsTo(ProjectModel, { foreignKey: 'projectId' })
+
+// Set the one-to-many relationship between user and modificationRequest
+UserModel.hasMany(ModificationRequestModel)
+ModificationRequestModel.belongsTo(UserModel, { foreignKey: 'userId' })
+
 // Sync the database models
 const initDatabase = async () => {
   try {

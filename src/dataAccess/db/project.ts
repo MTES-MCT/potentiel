@@ -158,11 +158,9 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
       if (query) opts.where = query
       if (includeNotifications) opts.include = CandidateNotificationModel
 
-      const projectsRaw = (
-        await ProjectModel.findAll({
-          ...opts
-        })
-      ).map(item => item.get()) // We need to use this instead of raw: true because of the include
+      const projectsRaw = (await ProjectModel.findAll(opts)).map(item =>
+        item.get()
+      ) // We need to use this instead of raw: true because of the include
 
       const deserializedItems = mapExceptError(
         projectsRaw,

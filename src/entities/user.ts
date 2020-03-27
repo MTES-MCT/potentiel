@@ -30,4 +30,4 @@ interface MakeUserDependencies {
 export default ({ makeId }: MakeUserDependencies) =>
   buildMakeEntity<User>(userSchema, makeId, fields)
 
-export { User }
+export { User, userSchema }

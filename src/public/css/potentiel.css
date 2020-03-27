@@ -1,4 +1,4 @@
-.project-list--action-menu {
+.list--action-menu {
   display: none;
   position: absolute;
   right: 0;
@@ -13,31 +13,31 @@
   text-align: center;
 }
 
-.project-list--action-menu a {
+.list--action-menu a {
   text-decoration: none;
 }
 
-.project-list--action-menu li {
+.list--action-menu li {
   padding: 5px 10px;
   border-bottom: 1px solid #eee;
 }
 
-.project-list--action-menu li:last-child {
+.list--action-menu li:last-child {
   border-bottom: none;
 }
 
-.project-list--action-menu a:hover {
+.list--action-menu a:hover {
   background-color: inherit;
 }
 
-.project-list--action-menu a:hover > .project-list--action-menu {
+.list--action-menu a:hover > .list--action-menu {
   display: block;
 }
 
-.project-list--action-menu:hover {
+.list--action-menu:hover {
   display: block;
 }
 
-.project-list--action-trigger:focus ~ .project-list--action-menu {
+.list--action-trigger:focus ~ .list--action-menu {
   display: block;
 }

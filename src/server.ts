@@ -19,7 +19,8 @@ import {
   getSignupPage,
   postSignup,
   getDemandePage,
-  postRequestModification
+  postRequestModification,
+  getUserRequestsPage
 } from './controllers'
 
 import { initDatabase } from './dataAccess'
@@ -148,6 +149,13 @@ export async function makeServer(port: number = 3000) {
     ensureRole('porteur-projet'),
     upload.single('file'),
     makeExpressCallback(postRequestModification)
+  )
+
+  router.get(
+    ROUTES.USER_LIST_DEMANDES,
+    ensureLoggedIn(),
+    ensureRole('porteur-projet'),
+    makeExpressCallback(getUserRequestsPage)
   )
 
   app.use(router)

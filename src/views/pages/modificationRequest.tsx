@@ -18,13 +18,15 @@ interface PageProps {
 }
 
 const titlePerAction = {
-  fournisseur: 'un changement de fournisseur',
-  delai: 'un délai supplémentaire',
-  actionnaire: "un changement d'actionnaire",
-  puissance: 'un changement de puissance',
-  producteur: 'un changement de producteur',
-  abandon: "l'abandon de mon projet"
+  fournisseur: 'changement de fournisseur',
+  delai: 'délai supplémentaire',
+  actionnaire: "changement d'actionnaire",
+  puissance: 'changement de puissance',
+  producteur: 'changement de producteur',
+  abandon: 'abandon de mon projet'
 }
+
+export { titlePerAction }
 
 /* Pure component */
 export default function ModificationRequestPage({
@@ -37,7 +39,7 @@ export default function ModificationRequestPage({
     <UserDashboard currentPage={undefined}>
       <div className="panel">
         <div className="panel__header">
-          <h3>Je demande {titlePerAction[action]}</h3>
+          <h3>Je demande un {titlePerAction[action]}</h3>
         </div>
         {success ? (
           <div className="notification success" {...dataId('success-message')}>

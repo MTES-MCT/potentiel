@@ -3,7 +3,7 @@ import ROUTES from '../../routes'
 
 interface UserDashboardProps {
   children: React.ReactNode
-  currentPage: 'list-projects' | undefined
+  currentPage: 'list-projects' | 'list-requests' | undefined
 }
 
 /* Pure component */
@@ -32,6 +32,14 @@ export default function UserDashboard({
                 className={currentPage === 'list-projects' ? 'active' : ''}
               >
                 Mes projets
+              </a>
+            </li>
+            <li>
+              <a
+                href={ROUTES.USER_LIST_DEMANDES}
+                className={currentPage === 'list-requests' ? 'active' : ''}
+              >
+                Mes demandes
               </a>
             </li>
           </ul>

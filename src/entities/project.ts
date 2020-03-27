@@ -63,4 +63,4 @@ export default ({ makeId }: MakeProjectDependencies) =>
     notifiedOn: 0
   })
 
-export { Project }
+export { Project, projectSchema }

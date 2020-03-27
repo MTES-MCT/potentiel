@@ -5,9 +5,18 @@ import { mapExceptError, mapIfOk } from '../../helpers/results'
 import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types'
 import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
+import _ from 'lodash'
 
 // Override these to apply serialization/deserialization on inputs/outputs
-const deserialize = item => item
+const deserialize = item => ({
+  ...item,
+  filePath: item.filePath || undefined,
+  justification: item.justification || undefined,
+  actionnaire: item.actionnaire || undefined,
+  fournisseur: item.fournisseur || undefined,
+  producteur: item.producteur || undefined,
+  puissance: item.puissance || undefined
+})
 const serialize = item => item
 
 export default function makeModificationRequestRepo({
@@ -22,12 +31,12 @@ export default function makeModificationRequestRepo({
       type: DataTypes.UUID,
       allowNull: false
     },
-    type: {
-      type: DataTypes.STRING,
+    userId: {
+      type: DataTypes.UUID,
       allowNull: false
     },
-    requestedBy: {
-      type: DataTypes.UUID,
+    type: {
+      type: DataTypes.STRING,
       allowNull: false
     },
     requestedOn: {
@@ -99,19 +108,28 @@ export default function makeModificationRequestRepo({
   }
 
   async function findAll(
-    query?: Record<string, any>
+    query?: Record<string, any>,
+    includeInfo?: boolean
   ): Promise<Array<ModificationRequest>> {
     await _isDbReady
 
     try {
+      const ProjectModel = sequelize.model('project')
+      const UserModel = sequelize.model('user')
+
+      const opts: any = {}
+      if (query) opts.where = query
+      if (includeInfo) opts.include = [ProjectModel, UserModel]
+
       const modificationRequestsRaw = await ModificationRequestModel.findAll(
-        query
-          ? {
-              where: query
-            }
-          : {},
-        { raw: true }
+        opts
       )
+        .map(item => item.get())
+        .map(item => ({
+          ...item,
+          user: item.user?.get(),
+          project: item.project?.get()
+        }))
 
       const deserializedItems = mapExceptError(
         modificationRequestsRaw,

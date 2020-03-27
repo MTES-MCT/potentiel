@@ -23,7 +23,7 @@ export default function UserListProjects({
     <UserDashboard currentPage="list-projects">
       <div className="panel">
         <div className="panel__header">
-          <h3>Projets</h3>
+          <h3>Mes projets</h3>
           <input
             type="text"
             className="table__filter"

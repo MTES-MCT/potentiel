@@ -12,10 +12,12 @@ import {
   Partial
 } from '../types/schemaTypes'
 import buildMakeEntity from '../helpers/buildMakeEntity'
+import { projectSchema } from './project'
+import { userSchema } from './user'
 
 const baseModificationRequestSchema = Record({
   id: String,
-  requestedBy: String,
+  userId: String,
   projectId: String
 })
 
@@ -58,7 +60,9 @@ const modificationRequestSchema = baseModificationRequestSchema
   .And(
     Partial({
       filePath: String,
-      requestedOn: Number
+      requestedOn: Number,
+      project: projectSchema.Or(Undefined),
+      user: userSchema.Or(Undefined)
     })
   )
 
@@ -70,7 +74,8 @@ const fields: string[] = [
   'fournisseur',
   'puissance',
   'justification',
-  'requestedOn',
+  'user',
+  'project',
   ...Object.keys(baseModificationRequestSchema.fields)
 ]
 
