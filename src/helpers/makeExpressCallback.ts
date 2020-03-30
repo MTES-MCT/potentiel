@@ -16,6 +16,13 @@ const login = (req: Request, user): Promise<void> => {
   })
 }
 
+function addQueryParams(url, query) {
+  if (!query) return url
+  return (
+    url + (url.indexOf('?') === -1 ? '?' : '&') + querystring.stringify(query)
+  )
+}
+
 export default function makeExpressCallback(controller: Controller) {
   return (req: Request, res: Response) => {
     const httpRequest = {
@@ -47,14 +54,9 @@ export default function makeExpressCallback(controller: Controller) {
             ? login(req, { id: httpResponse.userId })
             : Promise.resolve()
           ).then(() => {
-            const redirectTo: string =
-              httpResponse.redirect +
-              '?' +
-              (httpResponse.query
-                ? querystring.stringify(httpResponse.query)
-                : '')
-            // console.log('redirecting to ', redirectTo, httpResponse.redirect)
-            res.redirect(redirectTo)
+            res.redirect(
+              addQueryParams(httpResponse.redirect, httpResponse.query)
+            )
           })
         } else {
           res.status(httpResponse.statusCode).send(httpResponse.body)
