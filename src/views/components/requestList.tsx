@@ -40,7 +40,7 @@ const RequestList = ({ modificationRequests, requestActions }: Props) => {
           <tr>
             <th>Projet</th>
             <th>Type</th>
-            <th>Status</th>
+            <th>Statut</th>
             {requestActions ? <th></th> : ''}
           </tr>
         </thead>
@@ -149,7 +149,7 @@ const RequestList = ({ modificationRequests, requestActions }: Props) => {
             htmlFor="pagination__display"
             className="pagination__display-label"
           >
-            Projets par page
+            Demandes par page
           </label>
           <select className="pagination__display" id="pagination__display">
             <option>5</option>
