@@ -71,6 +71,10 @@ export default function makeModificationRequestRepo({
     evaluationCarbone: {
       type: DataTypes.NUMBER,
       allowNull: true
+    },
+    delayedServiceDate: {
+      type: DataTypes.NUMBER,
+      allowNull: true
     }
   })
 

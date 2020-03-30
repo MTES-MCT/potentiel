@@ -42,7 +42,8 @@ export default function ModificationRequestPage({
     producteur,
     fournisseur,
     justification,
-    evaluationCarbone
+    evaluationCarbone,
+    delayedServiceDate
   } = request.query || {}
 
   return (
@@ -294,8 +295,76 @@ export default function ModificationRequestPage({
             ) : (
               ''
             )}
-            {action === 'delai' || action === 'abandon' ? (
+            {action === 'abandon' ? (
               <>
+                <label className="required" htmlFor="justification">
+                  Pour la raison suivante:
+                </label>
+                <textarea
+                  name="justification"
+                  id="justification"
+                  value={justification || ''}
+                  {...dataId('modificationRequest-justification-field')}
+                />
+                <label htmlFor="candidats">
+                  Pièce justificative (si nécessaire)
+                </label>
+                <input
+                  type="file"
+                  name="file"
+                  {...dataId('modificationRequest-file-field')}
+                  id="file"
+                />
+              </>
+            ) : (
+              ''
+            )}
+            {action === 'delai' ? (
+              <>
+                <label>Date théorique de mise en service</label>
+                <input
+                  type="text"
+                  disabled
+                  value={moment(project.notifiedOn)
+                    .add(24, 'months')
+                    .format('DD/MM/YYYY')}
+                  {...dataId('modificationRequest-presentServiceDateField')}
+                />
+                <label className="required" htmlFor="delayedServiceDate">
+                  Date souhaitée (format JJ/MM/AAAA)
+                </label>
+                <input
+                  type="text"
+                  name="delayedServiceDate"
+                  id="delayedServiceDate"
+                  value={
+                    delayedServiceDate
+                      ? moment(Number(delayedServiceDate)).format('DD/MM/YYYY')
+                      : ''
+                  }
+                  {...dataId('modificationRequest-delayedServiceDateField')}
+                />
+                <div
+                  className="notification error"
+                  style={{ display: 'none' }}
+                  {...dataId(
+                    'modificationRequest-delay-error-message-out-of-bounds'
+                  )}
+                >
+                  Merci de saisir une date postérieure à la date théorique de
+                  mise en service.
+                </div>
+                <div
+                  className="notification error"
+                  style={{ display: 'none' }}
+                  {...dataId(
+                    'modificationRequest-delay-error-message-wrong-format'
+                  )}
+                >
+                  Le format de la date saisie n'est pas conforme. Elle doit être
+                  de la forme JJ/MM/AAAA soit par exemple 25/05/2022 pour 25 Mai
+                  2022.
+                </div>
                 <label className="required" htmlFor="justification">
                   Pour la raison suivante:
                 </label>

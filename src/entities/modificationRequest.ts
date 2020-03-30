@@ -46,7 +46,8 @@ const abandonSchema = Record({
 })
 const delaiSchema = Record({
   type: Literal('delai'),
-  justification: String
+  justification: String,
+  delayedServiceDate: Number
 })
 
 const modificationRequestSchema = baseModificationRequestSchema

@@ -3,6 +3,7 @@ import { Redirect, SystemError } from '../helpers/responses'
 import { Controller, HttpRequest } from '../types'
 import ROUTES from '../routes'
 import _ from 'lodash'
+import moment from 'moment'
 
 import fs from 'fs'
 import util from 'util'
@@ -67,9 +68,11 @@ const postRequestModification = async (request: HttpRequest) => {
     'puissance',
     'justification',
     'projectId',
-    'evaluationCarbone'
+    'evaluationCarbone',
+    'delayedServiceDate'
   ])
 
+  // Convert puissance
   try {
     data.puissance = data.puissance && Number(data.puissance)
   } catch (error) {
@@ -80,6 +83,7 @@ const postRequestModification = async (request: HttpRequest) => {
     })
   }
 
+  // Convert evaluationCarbone
   try {
     data.evaluationCarbone =
       data.evaluationCarbone && Number(data.evaluationCarbone)
@@ -88,6 +92,21 @@ const postRequestModification = async (request: HttpRequest) => {
     const { projectId, type } = data
     return Redirect(returnRoute(type, projectId), {
       error: "Erreur: l'evaluationCarbone doit être un nombre"
+    })
+  }
+
+  // Convert delayedServiceDate
+  try {
+    if (data.delayedServiceDate) {
+      const delayedServiceDate = moment(data.delayedServiceDate, 'DD/MM/YYYY')
+      if (!delayedServiceDate.isValid()) throw 'invalid date format'
+      data.delayedServiceDate = delayedServiceDate.toDate().getTime()
+    }
+  } catch (error) {
+    console.log('Could not convert delayedServiceDate to date')
+    const { projectId, type } = data
+    return Redirect(returnRoute(type, projectId), {
+      error: "Erreur: la date envoyée n'est pas au bon format (JJ/MM/AAAA)"
     })
   }
 
@@ -105,8 +124,6 @@ const postRequestModification = async (request: HttpRequest) => {
       filePath = undefined
     }
   }
-
-  // TODO If everything fails, remove the file
 
   const result = await requestModification({
     ...data,

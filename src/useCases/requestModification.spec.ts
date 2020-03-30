@@ -29,4 +29,9 @@ describe('requestModification use-case', () => {
     const newRequest = allRequests[0]
     expect(newRequest).toEqual(expect.objectContaining(requestData))
   })
+
+  // TODO
+  it(
+    'should return an error when type is delai and delayedServiceDate is before the theoretic date'
+  )
 })
