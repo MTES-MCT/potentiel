@@ -62,7 +62,7 @@ const modificationRequestSchema = baseModificationRequestSchema
   )
   .And(
     Partial({
-      // filePath: String,
+      filePath: String,
       requestedOn: Number,
       project: projectSchema.Or(Undefined),
       user: userSchema.Or(Undefined)

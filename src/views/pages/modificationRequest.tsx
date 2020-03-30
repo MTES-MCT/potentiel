@@ -305,6 +305,15 @@ export default function ModificationRequestPage({
                   value={justification || ''}
                   {...dataId('modificationRequest-justification-field')}
                 />
+                <label htmlFor="candidats">
+                  Pièce justificative (si nécessaire)
+                </label>
+                <input
+                  type="file"
+                  name="file"
+                  {...dataId('modificationRequest-file-field')}
+                  id="file"
+                />
               </>
             ) : (
               ''
