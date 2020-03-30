@@ -27,6 +27,7 @@ interface ProducteurRequest {
 interface FournisseurRequest {
   type: 'fournisseur'
   fournisseur: string
+  evaluationCarbone: number
 }
 
 interface PuissanceRequest {

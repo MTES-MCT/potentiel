@@ -67,6 +67,10 @@ export default function makeModificationRequestRepo({
     puissance: {
       type: DataTypes.NUMBER,
       allowNull: true
+    },
+    evaluationCarbone: {
+      type: DataTypes.NUMBER,
+      allowNull: true
     }
   })
 

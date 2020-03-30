@@ -41,7 +41,8 @@ export default function ModificationRequestPage({
     actionnaire,
     producteur,
     fournisseur,
-    justification
+    justification,
+    evaluationCarbone
   } = request.query || {}
 
   return (
@@ -188,6 +189,38 @@ export default function ModificationRequestPage({
                   id="fournisseur"
                   value={fournisseur || ''}
                   {...dataId('modificationRequest-fournisseurField')}
+                />
+                <label>Ancienne évaluation carbone</label>
+                <input
+                  type="text"
+                  disabled
+                  value={project.evaluationCarbone + ' kg eq CO2/kWc'}
+                />
+                <label className="required" htmlFor="fournisseur">
+                  Nouvelle évaluation carbone (kg eq CO2/kWc)
+                </label>
+                <input
+                  type="text"
+                  name="evaluationCarbone"
+                  id="evaluationCarbone"
+                  value={evaluationCarbone || ''}
+                  {...dataId('modificationRequest-evaluationCarboneField')}
+                />
+                <label className="required" htmlFor="candidats">
+                  Pièce-jointe
+                </label>
+                <input
+                  type="file"
+                  name="file"
+                  {...dataId('modificationRequest-file-field')}
+                  id="file"
+                />
+                <label htmlFor="justification">Pour la raison suivante:</label>
+                <textarea
+                  name="justification"
+                  id="justification"
+                  value={justification || ''}
+                  {...dataId('modificationRequest-justification-field')}
                 />
               </>
             ) : (

@@ -33,7 +33,8 @@ const producteurSchema = Record({
 })
 const fournisseurSchema = Record({
   type: Literal('fournisseur'),
-  fournisseur: String
+  fournisseur: String,
+  evaluationCarbone: Number
 })
 const puissanceSchema = Record({
   type: Literal('puissance'),
@@ -76,6 +77,7 @@ const fields: string[] = [
   'fournisseur',
   'puissance',
   'justification',
+  'evaluationCarbone',
   'user',
   'project',
   ...Object.keys(baseModificationRequestSchema.fields)

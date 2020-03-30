@@ -72,4 +72,56 @@ describe('ModificationRequest entity', () => {
 
     expect(modificationRequestResult.is_err()).toBeTruthy()
   })
+
+  it("should accept an 'fournisseur' request with fournisseur, evaluationCarbone and filePath", () => {
+    const modificationRequestResult = makeModificationRequest({
+      userId: '1',
+      projectId: '1',
+      type: 'fournisseur',
+      fournisseur: 'nouveau fournisseur',
+      filePath: 'filePath',
+      evaluationCarbone: 10
+    } as any)
+
+    expect(modificationRequestResult.is_ok()).toBeTruthy()
+  })
+
+  it("should refuse a 'fournisseur' request that is missing filePath", () => {
+    const modificationRequestResult = makeModificationRequest({
+      userId: '1',
+      projectId: '1',
+      type: 'fournisseur',
+      fournisseur: 'nouvel fournisseur',
+      evaluationCarbone: 10
+      // filePath: 'filePath'
+    } as any)
+
+    expect(modificationRequestResult.is_err()).toBeTruthy()
+  })
+
+  it("should refuse a 'fournisseur' request that is missing fournisseur", () => {
+    const modificationRequestResult = makeModificationRequest({
+      userId: '1',
+      projectId: '1',
+      type: 'fournisseur',
+      // fournisseur: 'nouvel fournisseur'
+      filePath: 'filePath',
+      evaluationCarbone: 10
+    } as any)
+
+    expect(modificationRequestResult.is_err()).toBeTruthy()
+  })
+
+  it("should refuse a 'fournisseur' request that is missing evaluationCarbone", () => {
+    const modificationRequestResult = makeModificationRequest({
+      userId: '1',
+      projectId: '1',
+      type: 'fournisseur',
+      fournisseur: 'nouvel fournisseur',
+      filePath: 'filePath'
+      // evaluationCarbone: 10
+    } as any)
+
+    expect(modificationRequestResult.is_err()).toBeTruthy()
+  })
 })

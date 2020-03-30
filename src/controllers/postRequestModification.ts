@@ -66,7 +66,8 @@ const postRequestModification = async (request: HttpRequest) => {
     'fournisseur',
     'puissance',
     'justification',
-    'projectId'
+    'projectId',
+    'evaluationCarbone'
   ])
 
   try {
@@ -76,6 +77,17 @@ const postRequestModification = async (request: HttpRequest) => {
     const { projectId, type } = data
     return Redirect(returnRoute(type, projectId), {
       error: 'Erreur: la puissance doit être un nombre'
+    })
+  }
+
+  try {
+    data.evaluationCarbone =
+      data.evaluationCarbone && Number(data.evaluationCarbone)
+  } catch (error) {
+    console.log('Could not convert evaluationCarbone to Number')
+    const { projectId, type } = data
+    return Redirect(returnRoute(type, projectId), {
+      error: "Erreur: l'evaluationCarbone doit être un nombre"
     })
   }
 
