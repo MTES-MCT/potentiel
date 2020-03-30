@@ -24,15 +24,12 @@ const baseModificationRequestSchema = Record({
 const actionnaireSchema = Record({
   type: Literal('actionnaire'),
   actionnaire: String,
-  filePath: String.withConstraint(
-    value =>
-      !!value.length ||
-      "Les statuts sont obligatoires pour tout changement d'actionnariat"
-  )
+  filePath: String
 })
 const producteurSchema = Record({
   type: Literal('producteur'),
-  producteur: String
+  producteur: String,
+  filePath: String
 })
 const fournisseurSchema = Record({
   type: Literal('fournisseur'),

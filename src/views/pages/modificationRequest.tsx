@@ -207,6 +207,22 @@ export default function ModificationRequestPage({
                   value={producteur || ''}
                   {...dataId('modificationRequest-producteurField')}
                 />
+                <label className="required" htmlFor="candidats">
+                  Statuts mis à jour
+                </label>
+                <input
+                  type="file"
+                  name="file"
+                  {...dataId('modificationRequest-file-field')}
+                  id="file"
+                />
+                <label htmlFor="justification">Motif (facultatif):</label>
+                <textarea
+                  name="justification"
+                  id="justification"
+                  value={justification || ''}
+                  {...dataId('modificationRequest-justification-field')}
+                />
               </>
             ) : (
               ''
@@ -226,7 +242,7 @@ export default function ModificationRequestPage({
                   {...dataId('modificationRequest-actionnaireField')}
                 />
                 <label className="required" htmlFor="candidats">
-                  Statuts
+                  Statuts mis à jour
                 </label>
                 <input
                   type="file"
