@@ -79,7 +79,7 @@ const postRequestModification = async (request: HttpRequest) => {
     })
   }
 
-  // TODO If there is a fiel, move it to a proper location
+  // If there is a file, move it to a proper location
   let filePath
   if (request.file) {
     try {
@@ -115,7 +115,10 @@ const postRequestModification = async (request: HttpRequest) => {
     err: (e: Error) => {
       console.log('postRequestModification error', e)
       const { projectId, type } = data
-      return Redirect(returnRoute(type, projectId), {
+      const redirectRoute = returnRoute(type, projectId)
+      console.log('redirecting to ', redirectRoute)
+      return Redirect(redirectRoute, {
+        ..._.omit(data, 'projectId'),
         error: "Votre demande n'a pas pu être prise en compte: " + e.message
       })
     }

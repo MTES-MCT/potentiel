@@ -8,7 +8,7 @@ describe('Credentials entity', () => {
       userId: '1'
     })
 
-    expect(credentialsResult.is_ok())
+    expect(credentialsResult.is_ok()).toBeTruthy()
     if (!credentialsResult.is_ok()) return
 
     const credentials = credentialsResult.unwrap()

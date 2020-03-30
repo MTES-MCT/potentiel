@@ -33,28 +33,23 @@ export default function ModificationRequestPage({
   request,
   project
 }: PageProps) {
-  const { action, error, success } = request.query || {}
+  const {
+    action,
+    error,
+    success,
+    puissance,
+    actionnaire,
+    producteur,
+    fournisseur,
+    justification
+  } = request.query || {}
 
   return (
-    <UserDashboard currentPage={undefined}>
+    <UserDashboard currentPage={'list-requests'}>
       <div className="panel">
         <div className="panel__header">
           <h3>Je demande un {titlePerAction[action]}</h3>
         </div>
-        {success ? (
-          <div className="notification success" {...dataId('success-message')}>
-            {success}
-          </div>
-        ) : (
-          ''
-        )}
-        {error ? (
-          <div className="notification error" {...dataId('error-message')}>
-            {error}
-          </div>
-        ) : (
-          ''
-        )}
         <form
           action={ROUTES.DEMANDE_ACTION}
           method="post"
@@ -153,6 +148,7 @@ export default function ModificationRequestPage({
                   pattern="[0-9]+([\.,][0-9]+)?"
                   name="puissance"
                   id="puissance"
+                  value={puissance || ''}
                   {...dataId('modificationRequest-puissanceField')}
                 />
                 <div
@@ -190,6 +186,7 @@ export default function ModificationRequestPage({
                   type="text"
                   name="fournisseur"
                   id="fournisseur"
+                  value={fournisseur || ''}
                   {...dataId('modificationRequest-fournisseurField')}
                 />
               </>
@@ -207,6 +204,7 @@ export default function ModificationRequestPage({
                   type="text"
                   name="producteur"
                   id="producteur"
+                  value={producteur || ''}
                   {...dataId('modificationRequest-producteurField')}
                 />
               </>
@@ -224,7 +222,24 @@ export default function ModificationRequestPage({
                   type="text"
                   name="actionnaire"
                   id="actionnaire"
+                  value={actionnaire || ''}
                   {...dataId('modificationRequest-actionnaireField')}
+                />
+                <label className="required" htmlFor="candidats">
+                  Statuts
+                </label>
+                <input
+                  type="file"
+                  name="file"
+                  {...dataId('modificationRequest-file-field')}
+                  id="file"
+                />
+                <label htmlFor="justification">Motif (facultatif):</label>
+                <textarea
+                  name="justification"
+                  id="justification"
+                  value={justification || ''}
+                  {...dataId('modificationRequest-justification-field')}
                 />
               </>
             ) : (
@@ -238,6 +253,7 @@ export default function ModificationRequestPage({
                 <textarea
                   name="justification"
                   id="justification"
+                  value={justification || ''}
                   {...dataId('modificationRequest-justification-field')}
                 />
               </>
@@ -245,13 +261,6 @@ export default function ModificationRequestPage({
               ''
             )}
 
-            <label htmlFor="candidats">Pièce jointe (si nécessaire)</label>
-            <input
-              type="file"
-              name="file"
-              {...dataId('modificationRequest-file-field')}
-              id="file"
-            />
             <button
               className="button"
               type="submit"

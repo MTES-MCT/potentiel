@@ -54,6 +54,8 @@ type CallUseCaseProps = RequestCommon &
     | AbandonRequest
   )
 
+export const ERREUR_FORMAT = 'Merci de remplir les champs marqués obligatoires'
+
 export default function makeRequestModification({
   modificationRequestRepo
 }: MakeUseCaseProps) {
@@ -68,7 +70,7 @@ export default function makeRequestModification({
         props,
         modificationRequestResult.unwrap_err()
       )
-      return Err(modificationRequestResult.unwrap_err())
+      return ErrorResult(ERREUR_FORMAT)
     }
 
     const modificationRequest = modificationRequestResult.unwrap()

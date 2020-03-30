@@ -23,7 +23,12 @@ const baseModificationRequestSchema = Record({
 
 const actionnaireSchema = Record({
   type: Literal('actionnaire'),
-  actionnaire: String
+  actionnaire: String,
+  filePath: String.withConstraint(
+    value =>
+      !!value.length ||
+      "Les statuts sont obligatoires pour tout changement d'actionnariat"
+  )
 })
 const producteurSchema = Record({
   type: Literal('producteur'),
@@ -59,7 +64,7 @@ const modificationRequestSchema = baseModificationRequestSchema
   )
   .And(
     Partial({
-      filePath: String,
+      // filePath: String,
       requestedOn: Number,
       project: projectSchema.Or(Undefined),
       user: userSchema.Or(Undefined)

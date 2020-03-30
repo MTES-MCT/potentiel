@@ -6,7 +6,7 @@ import { ModificationRequestPage } from '../views/pages'
 import { Success, Redirect } from '../helpers/responses'
 
 const getDemandePage = async (request: HttpRequest) => {
-  // console.log('Call to getDemandePage received', request.body, request.file)
+  // console.log('Call to getDemandePage received', request.body, request.query)
 
   if (!request.query.projectId) {
     return Redirect(ROUTES.USER_DASHBOARD)
