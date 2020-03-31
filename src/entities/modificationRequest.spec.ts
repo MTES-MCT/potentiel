@@ -73,14 +73,15 @@ describe('ModificationRequest entity', () => {
     expect(modificationRequestResult.is_err()).toBeTruthy()
   })
 
-  it("should accept an 'fournisseur' request with fournisseur, evaluationCarbone and filePath", () => {
+  it("should accept an 'fournisseur' request with fournisseur, evaluationCarbone, justification and filePath", () => {
     const modificationRequestResult = makeModificationRequest({
       userId: '1',
       projectId: '1',
       type: 'fournisseur',
       fournisseur: 'nouveau fournisseur',
       filePath: 'filePath',
-      evaluationCarbone: 10
+      evaluationCarbone: 10,
+      justification: 'because'
     } as any)
 
     expect(modificationRequestResult.is_ok()).toBeTruthy()
@@ -92,7 +93,8 @@ describe('ModificationRequest entity', () => {
       projectId: '1',
       type: 'fournisseur',
       fournisseur: 'nouvel fournisseur',
-      evaluationCarbone: 10
+      evaluationCarbone: 10,
+      justification: 'because'
       // filePath: 'filePath'
     } as any)
 
@@ -106,7 +108,8 @@ describe('ModificationRequest entity', () => {
       type: 'fournisseur',
       // fournisseur: 'nouvel fournisseur'
       filePath: 'filePath',
-      evaluationCarbone: 10
+      evaluationCarbone: 10,
+      justification: 'because'
     } as any)
 
     expect(modificationRequestResult.is_err()).toBeTruthy()
@@ -118,8 +121,23 @@ describe('ModificationRequest entity', () => {
       projectId: '1',
       type: 'fournisseur',
       fournisseur: 'nouvel fournisseur',
-      filePath: 'filePath'
+      filePath: 'filePath',
+      justification: 'because'
       // evaluationCarbone: 10
+    } as any)
+
+    expect(modificationRequestResult.is_err()).toBeTruthy()
+  })
+
+  it("should refuse a 'fournisseur' request that is missing justification", () => {
+    const modificationRequestResult = makeModificationRequest({
+      userId: '1',
+      projectId: '1',
+      type: 'fournisseur',
+      fournisseur: 'nouvel fournisseur',
+      filePath: 'filePath',
+      evaluationCarbone: 10
+      // justification: 'because'
     } as any)
 
     expect(modificationRequestResult.is_err()).toBeTruthy()

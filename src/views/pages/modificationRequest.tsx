@@ -216,7 +216,9 @@ export default function ModificationRequestPage({
                   {...dataId('modificationRequest-file-field')}
                   id="file"
                 />
-                <label htmlFor="justification">Pour la raison suivante:</label>
+                <label className="required" htmlFor="justification">
+                  Pour la raison suivante:
+                </label>
                 <textarea
                   name="justification"
                   id="justification"

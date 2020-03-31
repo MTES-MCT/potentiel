@@ -34,7 +34,9 @@ const producteurSchema = Record({
 const fournisseurSchema = Record({
   type: Literal('fournisseur'),
   fournisseur: String,
-  evaluationCarbone: Number
+  evaluationCarbone: Number,
+  justification: String,
+  filePath: String
 })
 const puissanceSchema = Record({
   type: Literal('puissance'),
