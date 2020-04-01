@@ -46,7 +46,7 @@ const RequestList = ({ modificationRequests, requestActions }: Props) => {
         </thead>
         <tbody>
           {modificationRequests.map(
-            ({ project, user, ...modificationRequest }) => (
+            ({ project, user, status, ...modificationRequest }) => (
               <tr key={'modificationRequest_' + modificationRequest.id}>
                 <td valign="top">
                   <div {...dataId('requestList-item-nomProjet')}>
@@ -96,8 +96,32 @@ const RequestList = ({ modificationRequests, requestActions }: Props) => {
                     )}
                   </div>
                 </td>
-                <td valign="top" {...dataId('requestList-item-type')}>
-                  En cours d'instruction
+                <td
+                  valign="top"
+                  className={
+                    'notification' +
+                    (status === 'validée'
+                      ? ' success'
+                      : status === 'refusée'
+                      ? ' error'
+                      : status === 'en instruction' ||
+                        status === 'en validation'
+                      ? ' warning'
+                      : '')
+                  }
+                  {...dataId('requestList-item-type')}
+                >
+                  {status === 'envoyée'
+                    ? 'Envoyée'
+                    : status === 'en instruction'
+                    ? 'En instruction'
+                    : status === 'en validation'
+                    ? 'En attente de validation'
+                    : status === 'validée'
+                    ? 'Validée'
+                    : status === 'refusée'
+                    ? 'Refusée'
+                    : 'N/A'}
                 </td>
                 {requestActions && requestActions(modificationRequest) ? (
                   <td style={{ position: 'relative' }}>

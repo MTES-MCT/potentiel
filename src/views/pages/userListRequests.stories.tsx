@@ -29,8 +29,11 @@ export const withRequests = () => (
   <UserListRequests
     request={makeFakeRequest()}
     modificationRequests={[
-      makeFakeModificationRequest(null, true),
-      makeFakeModificationRequest(null, true)
+      makeFakeModificationRequest({ status: 'envoyée' }, true),
+      makeFakeModificationRequest({ status: 'en instruction' }, true),
+      makeFakeModificationRequest({ status: 'en validation' }, true),
+      makeFakeModificationRequest({ status: 'validée' }, true),
+      makeFakeModificationRequest({ status: 'refusée' }, true)
     ]}
   />
 )
