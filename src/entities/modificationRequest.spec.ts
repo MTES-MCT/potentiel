@@ -143,6 +143,18 @@ describe('ModificationRequest entity', () => {
     expect(modificationRequestResult.is_err()).toBeTruthy()
   })
 
+  it("should accept an 'delai' request with justification and delayedServiceDate", () => {
+    const modificationRequestResult = makeModificationRequest({
+      userId: '1',
+      projectId: '1',
+      type: 'delai',
+      justification: 'because',
+      delayedServiceDate: 1234
+    } as any)
+
+    expect(modificationRequestResult.is_ok()).toBeTruthy()
+  })
+
   it("should set the status to 'envoyée' by default", () => {
     const modificationRequestResult = makeModificationRequest({
       userId: '1',

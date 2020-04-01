@@ -31,7 +31,11 @@ describe('requestModification use-case', () => {
   })
 
   // TODO
-  it(
+  it.todo(
     'should return an error when type is delai and delayedServiceDate is before the theoretic date'
+  )
+
+  it.todo(
+    "should return an error if this user doesn't have rights on this project"
   )
 })

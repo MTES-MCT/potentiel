@@ -19,6 +19,7 @@ export default {
   IMPORT_PROJECTS: '/admin/importer-candidats.html', // Keep separate from ADMIN_DASHBOARD, may change
   IMPORT_PROJECTS_ACTION: '/admin/importProjects',
   ADMIN_LIST_PROJECTS: '/admin/dashboard.html',
+  ADMIN_LIST_REQUESTS: '/admin/demandes.html',
   CANDIDATE_NOTIFICATION: '/admin/candidate-notification.html',
   SEND_NOTIFICATIONS_ACTION: '/admin/sendCandidateNotifications',
   USER_DASHBOARD: '/mes-projets.html',

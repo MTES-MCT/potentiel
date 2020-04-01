@@ -16,6 +16,6 @@ export default function makeListUserRequests({
   return async function listUserRequests({
     userId
   }: CallUseCaseProps): Promise<Array<ModificationRequest>> {
-    return await modificationRequestRepo.findAll({ userId }, true)
+    return modificationRequestRepo.findAll({ userId }, true)
   }
 }

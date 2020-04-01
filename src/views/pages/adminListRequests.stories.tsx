@@ -3,14 +3,14 @@ import React from 'react'
 import makeFakeModificationRequest from '../../__tests__/fixtures/modificationRequest'
 import makeFakeRequest from '../../__tests__/fixtures/request'
 
-import UserListRequests from './userListRequests'
+import AdminListRequests from './adminListRequests'
 
-export default { title: 'Liste de demandes utilisateur' }
+export default { title: 'Liste de demandes (admin)' }
 
-export const empty = () => <UserListRequests request={makeFakeRequest()} />
+export const empty = () => <AdminListRequests request={makeFakeRequest()} />
 
 export const withError = () => (
-  <UserListRequests
+  <AdminListRequests
     request={makeFakeRequest({
       query: { error: 'This is an error message!' }
     })}
@@ -18,7 +18,7 @@ export const withError = () => (
 )
 
 export const withSuccess = () => (
-  <UserListRequests
+  <AdminListRequests
     request={makeFakeRequest({
       query: { success: 'This is a success message!' }
     })}
@@ -26,7 +26,7 @@ export const withSuccess = () => (
 )
 
 export const withRequests = () => (
-  <UserListRequests
+  <AdminListRequests
     request={makeFakeRequest()}
     modificationRequests={[
       makeFakeModificationRequest({ status: 'envoyée' }, true),

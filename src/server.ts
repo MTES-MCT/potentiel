@@ -7,6 +7,7 @@ import makeExpressCallback from './helpers/makeExpressCallback'
 import {
   getLoginPage,
   getAdminDashboardPage,
+  getAdminRequestsPage,
   getImportProjectsPage,
   getUserDashboardPage,
   registerAuth,
@@ -94,6 +95,13 @@ export async function makeServer(port: number = 3000) {
   )
 
   router.get(
+    ROUTES.ADMIN_LIST_REQUESTS,
+    ensureLoggedIn(),
+    ensureRole(['admin', 'dgec']),
+    makeExpressCallback(getAdminRequestsPage)
+  )
+
+  router.get(
     ROUTES.IMPORT_PROJECTS,
     ensureLoggedIn(),
     ensureRole(['admin', 'dgec']),
@@ -131,8 +139,8 @@ export async function makeServer(port: number = 3000) {
 
   router.get(
     ROUTES.USER_DASHBOARD,
-    // ensureLoggedIn(),
-    // ensureRole('porteur-projet'),
+    ensureLoggedIn(),
+    ensureRole('porteur-projet'),
     makeExpressCallback(getUserDashboardPage)
   )
 

@@ -3,7 +3,7 @@ import ROUTES from '../../routes'
 
 interface AdminDashboardProps {
   children: React.ReactNode
-  currentPage: 'list-projects' | 'import-projects' | undefined
+  currentPage: 'list-projects' | 'import-projects' | 'list-requests' | undefined
 }
 
 /* Pure component */
@@ -33,6 +33,14 @@ export default function AdminDashboard({
                 className={currentPage === 'list-projects' ? 'active' : ''}
               >
                 Lister les projets
+              </a>
+            </li>
+            <li>
+              <a
+                href={ROUTES.ADMIN_LIST_REQUESTS}
+                className={currentPage === 'list-requests' ? 'active' : ''}
+              >
+                Lister les demandes
               </a>
             </li>
             <li>

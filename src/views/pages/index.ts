@@ -11,6 +11,7 @@ import Login from './login'
 import UserListProjects from './userListProjects'
 import UserListRequests from './userListRequests'
 import AdminListProjects from './adminListProjects'
+import AdminListRequests from './adminListRequests'
 import ImportCandidates from './importCandidates'
 import CandidateNotification from './candidateNotification'
 import Signup from './signup'
@@ -19,6 +20,7 @@ import { HttpRequest } from '../../types'
 
 const LoginPage = makePresenterPage(Login)
 const AdminListProjectsPage = makePresenterPage(AdminListProjects)
+const AdminListRequestsPage = makePresenterPage(AdminListRequests)
 const ImportCandidatesPage = makePresenterPage(ImportCandidates)
 const UserListProjectsPage = makePresenterPage(UserListProjects)
 const UserListRequestsPage = makePresenterPage(UserListRequests)
@@ -29,6 +31,7 @@ const ModificationRequestPage = makePresenterPage(ModificationRequest)
 export {
   LoginPage,
   AdminListProjectsPage,
+  AdminListRequestsPage,
   ImportCandidatesPage,
   UserListProjectsPage,
   UserListRequestsPage,

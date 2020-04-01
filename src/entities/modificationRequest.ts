@@ -90,6 +90,8 @@ const fields: string[] = [
   'evaluationCarbone',
   'user',
   'project',
+  'delayedServiceDate',
+  'status',
   ...Object.keys(baseModificationRequestSchema.fields)
 ]
 

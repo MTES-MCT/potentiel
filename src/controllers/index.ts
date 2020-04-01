@@ -1,5 +1,6 @@
 export * from './authentication'
 export * from './getAdminDashboardPage'
+export * from './getAdminRequestsPage'
 export * from './getCandidateNotification'
 export * from './getDemandePage'
 export * from './getImportProjectsPage'
