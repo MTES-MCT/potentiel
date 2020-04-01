@@ -68,7 +68,14 @@ const modificationRequestSchema = baseModificationRequestSchema
       filePath: String,
       requestedOn: Number,
       project: projectSchema.Or(Undefined),
-      user: userSchema.Or(Undefined)
+      user: userSchema.Or(Undefined),
+      status: Union(
+        Literal('envoyée'),
+        Literal('en instruction'),
+        Literal('en validation'),
+        Literal('validée'),
+        Literal('refusée')
+      )
     })
   )
 
@@ -97,7 +104,7 @@ export default ({ makeId }: MakeModificationRequestDependencies) =>
     modificationRequestSchema,
     makeId,
     fields,
-    { requestedOn: () => Date.now() }
+    { requestedOn: () => Date.now(), status: () => 'envoyée' }
   )
 
 export { ModificationRequest }

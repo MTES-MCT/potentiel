@@ -142,4 +142,18 @@ describe('ModificationRequest entity', () => {
 
     expect(modificationRequestResult.is_err()).toBeTruthy()
   })
+
+  it("should set the status to 'envoyée' by default", () => {
+    const modificationRequestResult = makeModificationRequest({
+      userId: '1',
+      projectId: '1',
+      type: 'abandon',
+      justification: 'miaou'
+    } as any)
+
+    expect(modificationRequestResult.is_ok()).toBeTruthy()
+
+    const modificationRequest = modificationRequestResult.unwrap()
+    expect(modificationRequest.status).toEqual('envoyée')
+  })
 })

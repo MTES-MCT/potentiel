@@ -44,6 +44,10 @@ export default function makeModificationRequestRepo({
       allowNull: false,
       defaultValue: 0
     },
+    status: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     filePath: {
       type: DataTypes.STRING,
       allowNull: true
