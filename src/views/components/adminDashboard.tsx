@@ -13,6 +13,13 @@ export default function AdminDashboard({
 }: AdminDashboardProps) {
   return (
     <>
+      <section className="section section-color" style={{ padding: '1em 0' }}>
+        <div className="container">
+          <h2 className="section__title" style={{ marginBottom: 0 }}>
+            Portail Administrateur
+          </h2>
+        </div>
+      </section>
       <div className="dashboard">
         <aside className="side-menu" role="navigation">
           <ul>
