@@ -5,10 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=unit-test jest --detectOpenHandles",
-    "test-feat": "NODE_ENV=test ./node_modules/.bin/cucumber-js --require-module ts-node/register --require 'features/setup/**/*.ts' --require 'features/tests/**/*.ts'",
-    "test-int": "npm run test-feat -- features/*.feature",
-    "test-coverage": "jest --detectOpenHandles --coverage --verbose",
+    "cy:run": "./node_modules/.bin/cypress run",
     "watch": "./node_modules/ts-node-dev/bin/ts-node-dev src/index.ts",
+    "test-int": "NODE_ENV=test start-server-and-test watch http://localhost:3000 cy:run",
     "build": "./node_modules/typescript/bin/tsc ; cp -R src/public dist/src ; cp -R src/views/template dist/src/views",
     "storybook": "start-storybook -s ./src/public ",
     "storybook-build": "build-storybook-c .storybook -o docs",
@@ -77,13 +76,19 @@
     "chai": "^4.2.0",
     "cucumber": "^6.0.5",
     "cucumber-html-reporter": "^5.1.0",
+    "cypress": "^4.3.0",
+    "cypress-cucumber-preprocessor": "^2.3.1",
     "expect-puppeteer": "^4.4.0",
     "jest": "^25.1.0",
     "nodemon": "^2.0.2",
     "puppeteer": "^2.1.1",
+    "start-server-and-test": "^1.11.0",
     "ts-jest": "^25.2.1",
     "ts-loader": "^6.2.1",
     "ts-node-dev": "^1.0.0-pre.44",
     "typescript": "^3.8.3"
+  },
+  "cypress-cucumber-preprocessor": {
+    "nonGlobalStepDefinitions": true
   }
 }

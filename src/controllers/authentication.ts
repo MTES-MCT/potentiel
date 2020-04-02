@@ -59,9 +59,13 @@ const registerAuth = ({ app, loginRoute, successRoute }: RegisterAuthProps) => {
         passwordField: 'password',
       },
       function (username: string, password: string, done) {
+        // console.log('Call to login with', username)
         login({ email: username, password })
           .then((userResult) => {
-            // console.log('login has returned, setting currentUser to ', user)
+            // console.log(
+            //   'login has returned, setting currentUser to ',
+            //   userResult
+            // )
 
             if (userResult.is_err()) {
               console.log('Login failed', userResult.unwrap_err())

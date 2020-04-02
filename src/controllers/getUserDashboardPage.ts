@@ -16,7 +16,7 @@ const getUserDashboardPage = async (request: HttpRequest) => {
   return Success(
     UserListProjectsPage({
       request,
-      projects
+      projects,
     })
   )
 }

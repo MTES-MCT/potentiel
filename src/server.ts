@@ -31,6 +31,9 @@ import {
   getCandidateCertificate,
 } from './controllers'
 
+import { resetDbForTests } from './__tests__/integration/resetDbForTests'
+import { addProjectsForTests } from './__tests__/integration/addProjectsForTests'
+
 import { initDatabase } from './dataAccess'
 
 import ROUTES from './routes'
@@ -46,6 +49,7 @@ export async function makeServer(port: number = 3000) {
     app.use(session({ secret: 'cats' }))
 
     app.use(bodyParser.urlencoded({ extended: false }))
+    app.use(bodyParser.json())
 
     registerAuth({
       app,
@@ -186,6 +190,16 @@ export async function makeServer(port: number = 3000) {
       ensureLoggedIn(),
       makeExpressCallback(getCandidateCertificate)
     )
+
+    router.get('/ping', (req, res) => {
+      console.log('Call to ping')
+      res.send('pong')
+    })
+
+    if (process.env.NODE_ENV === 'test') {
+      router.get('/test/reset', makeExpressCallback(resetDbForTests))
+      router.post('/test/addProjects', makeExpressCallback(addProjectsForTests))
+    }
 
     app.use(router)
 

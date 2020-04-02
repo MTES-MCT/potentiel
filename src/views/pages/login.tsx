@@ -49,7 +49,7 @@ export default function LoginPage({ request }: Props) {
                 type="submit"
                 name="submit"
                 id="submit"
-                {...dataId('login-submitButton')}
+                {...dataId('submit-button')}
               >
                 Je m'identifie
               </button>
