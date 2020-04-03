@@ -15,6 +15,7 @@ interface MakeUseCaseProps {
   credentialsRepo: CredentialsRepo
   candidateNotificationRepo: CandidateNotificationRepo
   projectAdmissionKeyRepo: ProjectAdmissionKeyRepo
+  sendEmail: (props: any) => Promise<null>
 }
 
 interface CallUseCaseProps {}
