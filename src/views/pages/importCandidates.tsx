@@ -1,19 +1,20 @@
 import React from 'react'
-import { Project } from '../../entities'
+import { Project, AppelOffre } from '../../entities'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '../../routes'
 import { HttpRequest } from '../../types'
 import AdminDashboard from '../components/adminDashboard'
+import appelOffre from '../../entities/appelOffre'
 
 interface AdminListProjectsProps {
   request: HttpRequest
-  projects?: Array<Project>
+  appelsOffre: Array<AppelOffre>
 }
 
 /* Pure component */
 export default function AdminListProjects({
   request,
-  projects
+  appelsOffre
 }: AdminListProjectsProps) {
   const { error, success } = request.query || {}
   return (
@@ -27,24 +28,37 @@ export default function AdminListProjects({
           method="post"
           encType="multipart/form-data"
         >
+          {error ? (
+            <div className="notification error" {...dataId('error-message')}>
+              {error}
+            </div>
+          ) : (
+            ''
+          )}
           <div className="form__group">
-            {error ? (
-              <div className="notification error" {...dataId('error-message')}>
-                {error}
-              </div>
-            ) : (
-              ''
-            )}
-            <label htmlFor="periode">Période</label>
-            <input
-              type="text"
+            <legend>AO et Période</legend>
+            <select name="ao" id="ao" {...dataId('importProjects-aoField')}>
+              {appelsOffre.map(appelOffre => (
+                <option key={'appel_' + appelOffre.id} value={appelOffre.id}>
+                  {appelOffre.shortTitle}
+                </option>
+              ))}
+            </select>
+            <select
               name="periode"
               id="periode"
               {...dataId('importProjects-periodeField')}
-              placeholder="3T 2020"
-            />
+            >
+              {appelsOffre[0].periodes.map(periode => (
+                <option key={'appel_' + periode.id} value={periode.id}>
+                  {periode.title}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="form__group">
             <label htmlFor="candidats">
-              Fichier (doit suivre{' '}
+              Fichier csv (doit suivre{' '}
               <a href="/static/template-candidats.csv" download>
                 ce format
               </a>
