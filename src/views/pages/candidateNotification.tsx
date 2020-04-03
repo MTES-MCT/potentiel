@@ -3,6 +3,8 @@ import { CandidateNotification } from '../../entities'
 import ROUTES from '../../routes'
 import AdminDashboard from '../components/adminDashboard'
 
+import { HttpRequest } from '../../types'
+
 const TemplateLaureat = ({
   notification
 }: {
@@ -70,6 +72,7 @@ const TemplateElimination = ({
 
 interface PageProps {
   notification: CandidateNotification
+  request: HttpRequest
 }
 /* Pure component */
 export default function ShowCandidateNotification({ notification }: PageProps) {

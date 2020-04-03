@@ -48,10 +48,10 @@ interface HasRequest {
  * Turn a Page Component (pure) into a presenter that returns a full HTML page
  * @param pageComponent
  */
-function makePresenterPage<U extends HasRequest>(
-  pageComponent: (pageProps: U) => JSX.Element
+function makePresenterPage<T extends HasRequest>(
+  pageComponent: (pageProps: T) => JSX.Element
 ) {
-  return <T extends U>(props: T): string =>
+  return (props: T): string =>
     insertIntoHTMLTemplate(
       ReactDOMServer.renderToStaticMarkup(Header(props)) +
         ReactDOMServer.renderToStaticMarkup(pageComponent(props))
