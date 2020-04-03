@@ -8,14 +8,9 @@ import UserDashboard from '../components/userDashboard'
 import { HttpRequest } from '../../types'
 import { dataId } from '../../helpers/testId'
 
-interface HasProjectAndUser {
-  project: Project
-  user: User
-}
-
 interface UserListRequestsProps {
   request: HttpRequest
-  modificationRequests?: Array<ModificationRequest & HasProjectAndUser>
+  modificationRequests?: Array<ModificationRequest>
 }
 
 /* Pure component */

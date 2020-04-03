@@ -8,14 +8,9 @@ import AdminDashboard from '../components/adminDashboard'
 import { HttpRequest } from '../../types'
 import { dataId } from '../../helpers/testId'
 
-interface HasProjectAndUser {
-  project: Project
-  user: User
-}
-
 interface AdminListRequestsProps {
   request: HttpRequest
-  modificationRequests?: Array<ModificationRequest & HasProjectAndUser>
+  modificationRequests?: Array<ModificationRequest>
 }
 
 /* Pure component */

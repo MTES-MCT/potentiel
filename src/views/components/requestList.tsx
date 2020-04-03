@@ -6,13 +6,8 @@ import { dataId } from '../../helpers/testId'
 
 import { titlePerAction } from '../pages/modificationRequest'
 
-interface HasProjectAndUser {
-  project: Project
-  user: User
-}
-
 interface Props {
-  modificationRequests?: Array<ModificationRequest & HasProjectAndUser>
+  modificationRequests?: Array<ModificationRequest>
   requestActions?: (
     modificationRequest: ModificationRequest
   ) => Array<{ title: string; link: string; disabled?: boolean }> | null
@@ -46,124 +41,127 @@ const RequestList = ({ modificationRequests, requestActions }: Props) => {
         </thead>
         <tbody>
           {modificationRequests.map(
-            ({ project, user, status, ...modificationRequest }) => (
-              <tr key={'modificationRequest_' + modificationRequest.id}>
-                <td valign="top">
-                  <div {...dataId('requestList-item-nomProjet')}>
-                    {project.nomProjet}
-                  </div>
-                  <div
-                    style={{
-                      fontStyle: 'italic',
-                      lineHeight: 'normal',
-                      fontSize: 12
-                    }}
-                  >
-                    <span {...dataId('requestList-item-communeProjet')}>
-                      {project.communeProjet}
-                    </span>
-                    ,{' '}
-                    <span {...dataId('requestList-item-departementProjet')}>
-                      {project.departementProjet}
-                    </span>
-                    ,{' '}
-                    <span {...dataId('requestList-item-regionProjet')}>
-                      {project.regionProjet}
-                    </span>
-                  </div>
-                </td>
-                <td valign="top">
-                  <div {...dataId('requestList-item-type')}>
-                    {titlePerAction[modificationRequest.type]}
-                  </div>
-                  <div
-                    style={{
-                      fontStyle: 'italic',
-                      lineHeight: 'normal',
-                      fontSize: 12
-                    }}
-                  >
-                    {modificationRequest.type === 'actionnaire' ? (
-                      <span>{modificationRequest.actionnaire}</span>
-                    ) : modificationRequest.type === 'fournisseur' ? (
-                      <span>{modificationRequest.fournisseur}</span>
-                    ) : modificationRequest.type === 'producteur' ? (
-                      <span>{modificationRequest.producteur}</span>
-                    ) : modificationRequest.type === 'puissance' ? (
-                      <span>{modificationRequest.puissance} kWc</span>
-                    ) : (
-                      ''
-                    )}
-                  </div>
-                </td>
-                <td
-                  valign="top"
-                  className={
-                    'notification' +
-                    (status === 'validée'
-                      ? ' success'
-                      : status === 'refusée'
-                      ? ' error'
-                      : status === 'en instruction' ||
-                        status === 'en validation'
-                      ? ' warning'
-                      : '')
-                  }
-                  {...dataId('requestList-item-type')}
-                >
-                  {status === 'envoyée'
-                    ? 'Envoyée'
-                    : status === 'en instruction'
-                    ? 'En instruction'
-                    : status === 'en validation'
-                    ? 'En attente de validation'
-                    : status === 'validée'
-                    ? 'Validée'
-                    : status === 'refusée'
-                    ? 'Refusée'
-                    : 'N/A'}
-                </td>
-                {requestActions && requestActions(modificationRequest) ? (
-                  <td style={{ position: 'relative' }}>
-                    <img
-                      src="/images/icons/external/more.svg"
-                      height="12"
-                      width="12"
-                      style={{ cursor: 'pointer' }}
-                      tabIndex={0}
-                      className="list--action-trigger"
-                    />
-                    <ul className="list--action-menu">
-                      {requestActions(modificationRequest)?.map(
-                        ({ title, link, disabled }, actionIndex) => (
-                          <li
-                            key={
-                              'request_action_' +
-                              modificationRequest.id +
-                              '_' +
-                              actionIndex
-                            }
-                          >
-                            {disabled ? (
-                              <i>{title}</i>
-                            ) : (
-                              <a
-                                href={link}
-                                {...dataId('requestList-item-action')}
-                              >
-                                {title}
-                              </a>
-                            )}
-                          </li>
-                        )
-                      )}
-                    </ul>
+            ({ project, user, status, ...modificationRequest }) => {
+              if (!project || !user) return ''
+              return (
+                <tr key={'modificationRequest_' + modificationRequest.id}>
+                  <td valign="top">
+                    <div {...dataId('requestList-item-nomProjet')}>
+                      {project.nomProjet}
+                    </div>
+                    <div
+                      style={{
+                        fontStyle: 'italic',
+                        lineHeight: 'normal',
+                        fontSize: 12
+                      }}
+                    >
+                      <span {...dataId('requestList-item-communeProjet')}>
+                        {project.communeProjet}
+                      </span>
+                      ,{' '}
+                      <span {...dataId('requestList-item-departementProjet')}>
+                        {project.departementProjet}
+                      </span>
+                      ,{' '}
+                      <span {...dataId('requestList-item-regionProjet')}>
+                        {project.regionProjet}
+                      </span>
+                    </div>
                   </td>
-                ) : (
-                  ''
-                )}
-              </tr>
-            )
+                  <td valign="top">
+                    <div {...dataId('requestList-item-type')}>
+                      {titlePerAction[modificationRequest.type]}
+                    </div>
+                    <div
+                      style={{
+                        fontStyle: 'italic',
+                        lineHeight: 'normal',
+                        fontSize: 12
+                      }}
+                    >
+                      {modificationRequest.type === 'actionnaire' ? (
+                        <span>{modificationRequest.actionnaire}</span>
+                      ) : modificationRequest.type === 'fournisseur' ? (
+                        <span>{modificationRequest.fournisseur}</span>
+                      ) : modificationRequest.type === 'producteur' ? (
+                        <span>{modificationRequest.producteur}</span>
+                      ) : modificationRequest.type === 'puissance' ? (
+                        <span>{modificationRequest.puissance} kWc</span>
+                      ) : (
+                        ''
+                      )}
+                    </div>
+                  </td>
+                  <td
+                    valign="top"
+                    className={
+                      'notification' +
+                      (status === 'validée'
+                        ? ' success'
+                        : status === 'refusée'
+                        ? ' error'
+                        : status === 'en instruction' ||
+                          status === 'en validation'
+                        ? ' warning'
+                        : '')
+                    }
+                    {...dataId('requestList-item-type')}
+                  >
+                    {status === 'envoyée'
+                      ? 'Envoyée'
+                      : status === 'en instruction'
+                      ? 'En instruction'
+                      : status === 'en validation'
+                      ? 'En attente de validation'
+                      : status === 'validée'
+                      ? 'Validée'
+                      : status === 'refusée'
+                      ? 'Refusée'
+                      : 'N/A'}
+                  </td>
+                  {requestActions && requestActions(modificationRequest) ? (
+                    <td style={{ position: 'relative' }}>
+                      <img
+                        src="/images/icons/external/more.svg"
+                        height="12"
+                        width="12"
+                        style={{ cursor: 'pointer' }}
+                        tabIndex={0}
+                        className="list--action-trigger"
+                      />
+                      <ul className="list--action-menu">
+                        {requestActions(modificationRequest)?.map(
+                          ({ title, link, disabled }, actionIndex) => (
+                            <li
+                              key={
+                                'request_action_' +
+                                modificationRequest.id +
+                                '_' +
+                                actionIndex
+                              }
+                            >
+                              {disabled ? (
+                                <i>{title}</i>
+                              ) : (
+                                <a
+                                  href={link}
+                                  {...dataId('requestList-item-action')}
+                                >
+                                  {title}
+                                </a>
+                              )}
+                            </li>
+                          )
+                        )}
+                      </ul>
+                    </td>
+                  ) : (
+                    ''
+                  )}
+                </tr>
+              )
+            }
           )}
         </tbody>
       </table>
