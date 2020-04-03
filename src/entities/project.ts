@@ -18,9 +18,10 @@ import { candidateNotificationSchema } from './candidateNotification'
 
 const baseProjectSchema = Record({
   id: String,
-  periode: String,
+  appelOffreId: String,
+  periodeId: String,
   numeroCRE: String,
-  famille: String,
+  familleId: String,
   nomCandidat: String,
   nomProjet: String,
   puissance: Number.withConstraint(value => value > 0),

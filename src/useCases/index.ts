@@ -15,7 +15,8 @@ import {
   projectRepo,
   candidateNotificationRepo,
   projectAdmissionKeyRepo,
-  modificationRequestRepo
+  modificationRequestRepo,
+  appelOffreRepo
 } from '../dataAccess'
 
 const login = makeLogin({
@@ -24,7 +25,8 @@ const login = makeLogin({
 })
 
 const importProjects = makeImportProjects({
-  projectRepo
+  projectRepo,
+  appelOffreRepo
 })
 
 const listProjects = makeListProjects({ projectRepo })

@@ -21,7 +21,11 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
       type: DataTypes.UUID,
       primaryKey: true
     },
-    periode: {
+    appelOffreId: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    periodeId: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -29,7 +33,7 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
       type: DataTypes.STRING,
       allowNull: false
     },
-    famille: {
+    familleId: {
       type: DataTypes.STRING,
       allowNull: false
     },

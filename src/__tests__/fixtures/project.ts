@@ -1,8 +1,9 @@
 export default function makeFakeProject(overrides?) {
   const defaultObj = {
-    periode: 'Batiment 3T2020',
+    appelOffreId: 'fessenheim',
+    periodeId: '6',
     numeroCRE: 'CRE#12335',
-    famille: '1',
+    familleId: '1',
     nomCandidat: 'Mr Porter',
     nomProjet: 'Mon projet PV',
     puissance: 12765,

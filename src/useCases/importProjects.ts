@@ -1,15 +1,17 @@
 import { Project, makeProject } from '../entities'
-import { ProjectRepo } from '../dataAccess'
+import { ProjectRepo, AppelOffreRepo } from '../dataAccess'
 import _ from 'lodash'
 import { Result, ResultAsync, Err, Ok, ErrorResult } from '../types'
 import toNumber from '../helpers/toNumber'
 
 interface MakeUseCaseProps {
   projectRepo: ProjectRepo
+  appelOffreRepo: AppelOffreRepo
 }
 
 interface CallUseCaseProps {
-  periode: string
+  appelOffreId: string
+  periodeId: string
   headers: Array<string> // The csv header (to check columns)
   lines: Array<Record<string, any>> // the csv lines (split by separator)
 }
@@ -36,22 +38,45 @@ export const MANDATORY_HEADER_COLUMNS: Array<string> = [
   'actionnaire'
 ]
 
-export const ERREUR_PERIODE = 'Periode manquante'
+export const ERREUR_AO = "L'appel d'offre n'a pas été reconnu"
+export const ERREUR_PERIODE = "La période n'existe pas pour cet appel d'offre"
 export const ERREUR_COLONNES =
   'Format du fichier erroné (vérifier conformité des colonnes)'
 export const ERREUR_AUCUNE_LIGNE = 'Le fichier semble vide (aucune ligne)'
 export const ERREUR_FORMAT_LIGNE = 'Le fichier comporte des lignes erronées'
 export const ERREUR_INSERTION = "Impossible d'insérer les projets en base"
 
-export default function makeImportProjects({ projectRepo }: MakeUseCaseProps) {
+export default function makeImportProjects({
+  projectRepo,
+  appelOffreRepo
+}: MakeUseCaseProps) {
   return async function importProjects({
-    periode,
+    appelOffreId,
+    periodeId,
     headers,
     lines
   }: CallUseCaseProps): ResultAsync<null> {
+    // Check appel offre
+    const appelOffre = await appelOffreRepo.findById(appelOffreId)
+
+    if (!appelOffre) {
+      console.log(
+        'importProjects use-case: cannot recognize appelOffreId',
+        appelOffreId
+      )
+      return ErrorResult(ERREUR_AO)
+    }
+
     // Check periode string
-    if (!periode || !periode.length) {
-      console.log('importProjects use-case: missing periode', headers)
+    const periode = appelOffre.periodes.find(
+      periode => periode.id === periodeId
+    )
+    if (!periodeId || !periode) {
+      console.log(
+        'importProjects use-case: wrong periode for AO',
+        periodeId,
+        appelOffreId
+      )
       return ErrorResult(ERREUR_PERIODE)
     }
 
@@ -73,9 +98,10 @@ export default function makeImportProjects({ projectRepo }: MakeUseCaseProps) {
     // Check individual lines (use makeProject on each)
     const projects = lines.reduce((currentResults, line, index) => {
       const projectResult = makeProject({
-        periode,
+        appelOffreId,
+        periodeId,
         numeroCRE: line['numeroCRE'],
-        famille: line['famille'],
+        familleId: line['famille'],
         nomCandidat: line['nomCandidat'],
         nomProjet: line['nomProjet'],
         puissance: toNumber(line['puissance(kWc)']) || 0,

@@ -37,7 +37,11 @@ export default function AdminListProjects({
           )}
           <div className="form__group">
             <legend>AO et Période</legend>
-            <select name="ao" id="ao" {...dataId('importProjects-aoField')}>
+            <select
+              name="appelOffre"
+              id="appelOffre"
+              {...dataId('importProjects-appelOffreField')}
+            >
               {appelsOffre.map(appelOffre => (
                 <option key={'appel_' + appelOffre.id} value={appelOffre.id}>
                   {appelOffre.shortTitle}

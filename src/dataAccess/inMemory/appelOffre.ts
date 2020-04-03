@@ -34,6 +34,9 @@ const appelsOffreStatic = [fessenheim]
 const appelOffreRepo = {
   findAll: async () => {
     return appelsOffreStatic
+  },
+  findById: async (id: AppelOffre['id']) => {
+    return appelsOffreStatic.find(ao => ao.id === id)
   }
 }
 

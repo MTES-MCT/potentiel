@@ -4,12 +4,13 @@ import makeImportProjects, {
   ERREUR_PERIODE,
   ERREUR_AUCUNE_LIGNE,
   ERREUR_FORMAT_LIGNE,
-  ERREUR_INSERTION
+  ERREUR_INSERTION,
+  ERREUR_AO
 } from './importProjects'
 
-import { projectRepo } from '../dataAccess/inMemory'
+import { projectRepo, appelOffreRepo } from '../dataAccess/inMemory'
 
-const importProjects = makeImportProjects({ projectRepo })
+const importProjects = makeImportProjects({ projectRepo, appelOffreRepo })
 
 const makePhonyLine = () => ({
   numeroCRE: 'numeroCRE',
@@ -32,9 +33,22 @@ const makePhonyLine = () => ({
 })
 
 describe('importProjects use-case', () => {
-  it('should throw an error if the periode is missing', async () => {
+  it("should throw an error if appelOffre doesn't exist", async () => {
     const result = await importProjects({
-      periode: '',
+      appelOffreId: 'hahahahaha',
+      periodeId: '6',
+      headers: MANDATORY_HEADER_COLUMNS,
+      lines: []
+    })
+
+    expect(result.is_err())
+    expect(result.unwrap_err().message).toEqual(ERREUR_AO)
+  })
+
+  it("should throw an error if the periode doesn't exist for this appelOffre", async () => {
+    const result = await importProjects({
+      appelOffreId: 'fessenheim',
+      periodeId: '42',
       headers: MANDATORY_HEADER_COLUMNS,
       lines: []
     })
@@ -45,7 +59,8 @@ describe('importProjects use-case', () => {
 
   it('should throw an error if the headers are not correct', async () => {
     const result = await importProjects({
-      periode: 'periode',
+      appelOffreId: 'fessenheim',
+      periodeId: '6',
       headers: ['bim', 'bam', 'boum'],
       lines: []
     })
@@ -56,7 +71,8 @@ describe('importProjects use-case', () => {
 
   it("should throw an error if there isn't at least one line", async () => {
     const result = await importProjects({
-      periode: 'periode',
+      appelOffreId: 'fessenheim',
+      periodeId: '6',
       headers: MANDATORY_HEADER_COLUMNS,
       lines: []
     })
@@ -71,7 +87,8 @@ describe('importProjects use-case', () => {
     const { nomCandidat, ...badLine } = goodLine
 
     const result = await importProjects({
-      periode: 'periode',
+      appelOffreId: 'fessenheim',
+      periodeId: '6',
       headers: MANDATORY_HEADER_COLUMNS,
       lines: [goodLine, badLine]
     })
@@ -86,9 +103,10 @@ describe('importProjects use-case', () => {
     expect(priorProjects).toHaveLength(0)
 
     const phonyLine = makePhonyLine()
-    const phonyPeriode = 'periode 1'
+    const phonyPeriode = '6'
     await importProjects({
-      periode: phonyPeriode,
+      appelOffreId: 'fessenheim',
+      periodeId: phonyPeriode,
       headers: MANDATORY_HEADER_COLUMNS,
       lines: [phonyLine]
     })
@@ -99,9 +117,10 @@ describe('importProjects use-case', () => {
     // but with numbers instead of strings
     // and project entity property names
     const expectedLine = {
-      periode: phonyPeriode,
+      appelOffreId: 'fessenheim',
+      periodeId: phonyPeriode,
       numeroCRE: 'numeroCRE',
-      famille: 'famille',
+      familleId: 'famille',
       nomCandidat: 'nomCandidat',
       nomProjet: 'nomProjet',
       puissance: 11.5,

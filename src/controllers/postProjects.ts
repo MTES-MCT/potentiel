@@ -31,7 +31,7 @@ const parse = file =>
   })
 
 const postProjects = async (request: HttpRequest) => {
-  // console.log('Call to postProjects received', request.body, request.file)
+  console.log('Call to postProjects received', request.body, request.file)
 
   if (!request.file || !request.file.path) {
     return Redirect(ROUTES.IMPORT_PROJECTS, {
@@ -44,7 +44,8 @@ const postProjects = async (request: HttpRequest) => {
   const headers = (lines.length && Object.keys(lines[0])) || []
 
   const importProjectsResult = await importProjects({
-    periode: request.body.periode,
+    appelOffreId: request.body.appelOffre,
+    periodeId: request.body.periode,
     headers,
     lines
   })

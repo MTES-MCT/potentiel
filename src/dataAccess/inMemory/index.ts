@@ -370,3 +370,4 @@ export {
   modificationRequestRepo,
   resetDatabase
 }
+export * from './appelOffre'
