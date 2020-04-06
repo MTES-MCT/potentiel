@@ -8,20 +8,16 @@ import appelOffre from '../../entities/appelOffre'
 
 interface AdminListProjectsProps {
   request: HttpRequest
-  appelsOffre: Array<AppelOffre>
 }
 
 /* Pure component */
-export default function AdminListProjects({
-  request,
-  appelsOffre
-}: AdminListProjectsProps) {
+export default function AdminListProjects({ request }: AdminListProjectsProps) {
   const { error, success } = request.query || {}
   return (
     <AdminDashboard currentPage="import-projects">
       <div className="panel">
         <div className="panel__header">
-          <h3>Importer un fichier de candidats</h3>
+          <h3>Importer des candidats</h3>
         </div>
         <form
           action={ROUTES.IMPORT_PROJECTS_ACTION}
@@ -35,39 +31,9 @@ export default function AdminListProjects({
           ) : (
             ''
           )}
+
           <div className="form__group">
-            <legend>AO et Période</legend>
-            <select
-              name="appelOffre"
-              id="appelOffre"
-              {...dataId('importProjects-appelOffreField')}
-            >
-              {appelsOffre.map(appelOffre => (
-                <option key={'appel_' + appelOffre.id} value={appelOffre.id}>
-                  {appelOffre.shortTitle}
-                </option>
-              ))}
-            </select>
-            <select
-              name="periode"
-              id="periode"
-              {...dataId('importProjects-periodeField')}
-            >
-              {appelsOffre[0].periodes.map(periode => (
-                <option key={'appel_' + periode.id} value={periode.id}>
-                  {periode.title}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="form__group">
-            <label htmlFor="candidats">
-              Fichier csv (doit suivre{' '}
-              <a href="/static/template-candidats.csv" download>
-                ce format
-              </a>
-              )
-            </label>
+            <label htmlFor="candidats">Fichier csv des candidats</label>
             <input
               type="file"
               name="candidats"

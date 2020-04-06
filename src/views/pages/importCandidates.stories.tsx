@@ -7,23 +7,16 @@ import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
 
 export default { title: 'Import Candidates' }
 
-export const empty = () => (
-  <ImportCandidates
-    appelsOffre={appelsOffreStatic}
-    request={makeFakeRequest()}
-  />
-)
+export const empty = () => <ImportCandidates request={makeFakeRequest()} />
 
 export const withError = () => (
   <ImportCandidates
-    appelsOffre={appelsOffreStatic}
     request={makeFakeRequest({ query: { error: 'This is an error message!' } })}
   />
 )
 
 export const withSuccess = () => (
   <ImportCandidates
-    appelsOffre={appelsOffreStatic}
     request={makeFakeRequest({
       query: { success: 'This is a success message!' }
     })}
