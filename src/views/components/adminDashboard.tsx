@@ -3,7 +3,12 @@ import ROUTES from '../../routes'
 
 interface AdminDashboardProps {
   children: React.ReactNode
-  currentPage: 'list-projects' | 'import-projects' | 'list-requests' | undefined
+  currentPage:
+    | 'list-projects'
+    | 'import-projects'
+    | 'list-requests'
+    | 'notify-candidates'
+    | undefined
 }
 
 /* Pure component */
@@ -36,6 +41,22 @@ export default function AdminDashboard({
 
             <li>
               <a
+                href={ROUTES.IMPORT_PROJECTS}
+                className={currentPage === 'import-projects' ? 'active' : ''}
+              >
+                Importer des candidats
+              </a>
+            </li>
+            <li>
+              <a
+                href={ROUTES.ADMIN_NOTIFY_CANDIDATES}
+                className={currentPage === 'notify-candidates' ? 'active' : ''}
+              >
+                Notifier des candidats
+              </a>
+            </li>
+            <li>
+              <a
                 href={ROUTES.ADMIN_LIST_PROJECTS}
                 className={currentPage === 'list-projects' ? 'active' : ''}
               >
@@ -48,14 +69,6 @@ export default function AdminDashboard({
                 className={currentPage === 'list-requests' ? 'active' : ''}
               >
                 Lister les demandes
-              </a>
-            </li>
-            <li>
-              <a
-                href={ROUTES.IMPORT_PROJECTS}
-                className={currentPage === 'import-projects' ? 'active' : ''}
-              >
-                Importer des candidats
               </a>
             </li>
           </ul>

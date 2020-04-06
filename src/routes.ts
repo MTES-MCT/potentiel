@@ -1,7 +1,23 @@
 import { Project, ProjectAdmissionKey } from './entities'
+import querystring from 'querystring'
 
 const withProjectId = (url: string) => (projectId: Project['id']) =>
   url + (url.indexOf('?') === -1 ? '?' : '&') + 'projectId=' + projectId
+
+const withParams = (url: string) => (params?: Record<string, any>) => {
+  console.log('withParams for url', url, 'and params', params)
+
+  if (!params) return url
+
+  let priorQuery = {}
+  if (url.indexOf('?') > -1) {
+    priorQuery = querystring.parse(url.substring(url.indexOf('?')))
+  }
+
+  const newQueryString = querystring.stringify({ ...priorQuery, ...params })
+
+  return url + (newQueryString.length ? '?' + newQueryString : '')
+}
 
 export default {
   LOGIN: '/login.html',
@@ -20,7 +36,8 @@ export default {
   IMPORT_PROJECTS_ACTION: '/admin/importProjects',
   ADMIN_LIST_PROJECTS: '/admin/dashboard.html',
   ADMIN_LIST_REQUESTS: '/admin/demandes.html',
-  CANDIDATE_NOTIFICATION: '/admin/candidate-notification.html',
+  ADMIN_NOTIFY_CANDIDATES: withParams('/admin/notifier-candidats.html'),
+  CANDIDATE_CERTIFICATE: withProjectId('/admin/candidate-certificate.html'),
   SEND_NOTIFICATIONS_ACTION: '/admin/sendCandidateNotifications',
   USER_DASHBOARD: '/mes-projets.html',
   USER_LIST_PROJECTS: '/mes-projets.html',

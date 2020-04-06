@@ -7,7 +7,43 @@ document.addEventListener('DOMContentLoaded', event => {
 
   addPuissanceModificationHandler()
   addDelayDateModificationHandler()
+  addAOPeriodeSelectorHandler()
 })
+
+function addAOPeriodeSelectorHandler() {
+  const AOSelectField = document.querySelector(
+    '[data-testId=notifyCandidates-appelOffreField]'
+  )
+
+  const periodeSelectField = document.querySelector(
+    '[data-testId=notifyCandidates-periodeField]'
+  )
+
+  if (AOSelectField) {
+    AOSelectField.addEventListener('change', function(event) {
+      // Update the URL with the new appel offre ID
+      console.log('AO Change', event.target.value)
+
+      const queryString = new URLSearchParams(window.location.search)
+
+      queryString.set('appelOffreId', event.target.value)
+
+      window.location.replace(
+        window.location.origin +
+          window.location.pathname +
+          '?' +
+          queryString.toString()
+      )
+    })
+  }
+
+  if (periodeSelectField) {
+    periodeSelectField.addEventListener('change', function(event) {
+      // Update the URL with the new appel offre ID
+      console.log('Periode Change', event.target.value)
+    })
+  }
+}
 
 function addPuissanceModificationHandler() {
   const newPuissanceField = document.querySelector(

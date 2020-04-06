@@ -60,16 +60,12 @@ export default function AdminListProjects({
         )}
         <ProjectList
           projects={projects}
-          projectActions={(project: Project) => {
-            if (!project.candidateNotifications) return null
-
-            return project.candidateNotifications.map(
-              (notif: CandidateNotification) => ({
-                title: 'Voir mail ' + notif.template,
-                link: ROUTES.CANDIDATE_NOTIFICATION + '?id=' + notif.id
-              })
-            )
-          }}
+          projectActions={(project: Project) => [
+            {
+              title: 'Voir attestation',
+              link: ROUTES.CANDIDATE_CERTIFICATE(project.id)
+            }
+          ]}
         />
       </div>
     </AdminDashboard>

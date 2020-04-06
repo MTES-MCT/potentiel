@@ -46,7 +46,7 @@ const ProjectList = ({ projects, projectActions }: Props) => {
             <tr key={'project_' + project.id}>
               <td valign="top">
                 <div {...dataId('projectList-item-periode')}>
-                  {project.periode}
+                  {project.periodeId}
                 </div>
                 <div
                   style={{
@@ -56,7 +56,7 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                   }}
                   {...dataId('projectList-item-famille')}
                 >
-                  famille {project.famille}
+                  famille {project.familleId}
                 </div>
               </td>
               <td valign="top">

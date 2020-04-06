@@ -9,6 +9,7 @@ import {
   getAdminDashboardPage,
   getAdminRequestsPage,
   getImportProjectsPage,
+  getNotifyCandidatesPage,
   getUserDashboardPage,
   registerAuth,
   postLogin,
@@ -16,7 +17,6 @@ import {
   logoutMiddleware,
   postProjects,
   getSendCandidateNotifications,
-  getCandidateNotification,
   getSignupPage,
   postSignup,
   getDemandePage,
@@ -116,17 +116,20 @@ export async function makeServer(port: number = 3000) {
     makeExpressCallback(postProjects)
   )
 
+  console.log('ADMIN_NOTIFY_CANDIDATES() = ', ROUTES.ADMIN_NOTIFY_CANDIDATES())
+
+  router.get(
+    ROUTES.ADMIN_NOTIFY_CANDIDATES(),
+    ensureLoggedIn(),
+    ensureRole(['admin', 'dgec']),
+    makeExpressCallback(getNotifyCandidatesPage)
+  )
+
   router.get(
     ROUTES.SEND_NOTIFICATIONS_ACTION,
     ensureLoggedIn(),
     ensureRole(['admin', 'dgec']),
     makeExpressCallback(getSendCandidateNotifications)
-  )
-  router.get(
-    ROUTES.CANDIDATE_NOTIFICATION,
-    ensureLoggedIn(),
-    ensureRole(['admin', 'dgec']),
-    makeExpressCallback(getCandidateNotification)
   )
 
   // Going to the signup page automatically logs you out

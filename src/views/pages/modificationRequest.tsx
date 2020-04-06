@@ -105,10 +105,10 @@ export default function ModificationRequestPage({
                 </span>{' '}
                 pour la période{' '}
                 <span {...dataId('modificationRequest-item-periode')}>
-                  {project.periode}
+                  {project.periodeId}
                 </span>{' '}
                 <span {...dataId('modificationRequest-item-famille')}>
-                  {project.famille}
+                  {project.familleId}
                 </span>
               </div>
             </div>

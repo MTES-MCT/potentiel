@@ -12,8 +12,8 @@ import UserListProjects from './userListProjects'
 import UserListRequests from './userListRequests'
 import AdminListProjects from './adminListProjects'
 import AdminListRequests from './adminListRequests'
+import AdminNotifyCandidates from './adminNotifyCandidates'
 import ImportCandidates from './importCandidates'
-import CandidateNotification from './candidateNotification'
 import Signup from './signup'
 import ModificationRequest from './modificationRequest'
 import { HttpRequest } from '../../types'
@@ -21,10 +21,10 @@ import { HttpRequest } from '../../types'
 const LoginPage = makePresenterPage(Login)
 const AdminListProjectsPage = makePresenterPage(AdminListProjects)
 const AdminListRequestsPage = makePresenterPage(AdminListRequests)
+const AdminNotifyCandidatesPage = makePresenterPage(AdminNotifyCandidates)
 const ImportCandidatesPage = makePresenterPage(ImportCandidates)
 const UserListProjectsPage = makePresenterPage(UserListProjects)
 const UserListRequestsPage = makePresenterPage(UserListRequests)
-const CandidateNotificationPage = makePresenterPage(CandidateNotification)
 const SignupPage = makePresenterPage(Signup)
 const ModificationRequestPage = makePresenterPage(ModificationRequest)
 
@@ -35,9 +35,9 @@ export {
   ImportCandidatesPage,
   UserListProjectsPage,
   UserListRequestsPage,
-  CandidateNotificationPage,
   SignupPage,
-  ModificationRequestPage
+  ModificationRequestPage,
+  AdminNotifyCandidatesPage
 }
 
 interface HasRequest {
