@@ -3,6 +3,7 @@ import { ProjectRepo, AppelOffreRepo } from '../dataAccess'
 import _ from 'lodash'
 import { Result, ResultAsync, Err, Ok, ErrorResult } from '../types'
 import toNumber from '../helpers/toNumber'
+import moment from 'moment'
 
 interface MakeUseCaseProps {
   projectRepo: ProjectRepo
@@ -10,153 +11,142 @@ interface MakeUseCaseProps {
 }
 
 interface CallUseCaseProps {
-  appelOffreId: string
-  periodeId: string
-  headers: Array<string> // The csv header (to check columns)
   lines: Array<Record<string, any>> // the csv lines (split by separator)
 }
 
-export const MANDATORY_HEADER_COLUMNS: Array<string> = [
-  'numeroCRE',
-  'famille',
-  'nomCandidat',
-  'nomProjet',
-  'puissance(kWc)',
-  'prixReference(euros/MWh)',
-  'evaluationCarbone(kg eq CO2/kWc)',
-  'note',
-  'nomRepresentantLegal',
-  'email',
-  'adresseProjet',
-  'codePostalProjet',
-  'communeProjet',
-  'departementProjet',
-  'regionProjet',
-  'classé(1/0)',
-  'motifsElimination',
-  'fournisseur',
-  'actionnaire'
-]
-
-export const ERREUR_AO = "L'appel d'offre n'a pas été reconnu"
-export const ERREUR_PERIODE = "La période n'existe pas pour cet appel d'offre"
-export const ERREUR_COLONNES =
-  'Format du fichier erroné (vérifier conformité des colonnes)'
 export const ERREUR_AUCUNE_LIGNE = 'Le fichier semble vide (aucune ligne)'
 export const ERREUR_FORMAT_LIGNE = 'Le fichier comporte des lignes erronées'
 export const ERREUR_INSERTION = "Impossible d'insérer les projets en base"
+
+const makeErrorForLine = (
+  error,
+  lineIndex,
+  currentResults: Result<Array<Project>, Array<Error>>
+) => {
+  let errors: Array<Error> = []
+  if (currentResults.is_err()) {
+    // It already had errors, add this one
+    errors = currentResults.unwrap_err()
+  }
+  // Add the error from this line prefixed with the line number
+  error.message = 'Ligne ' + lineIndex + ': ' + error.message
+  errors.push(error)
+
+  return Err(errors)
+}
 
 export default function makeImportProjects({
   projectRepo,
   appelOffreRepo
 }: MakeUseCaseProps) {
   return async function importProjects({
-    appelOffreId,
-    periodeId,
-    headers,
     lines
   }: CallUseCaseProps): ResultAsync<null> {
-    // Check appel offre
-    const appelOffre = await appelOffreRepo.findById(appelOffreId)
-
-    if (!appelOffre) {
-      console.log(
-        'importProjects use-case: cannot recognize appelOffreId',
-        appelOffreId
-      )
-      return ErrorResult(ERREUR_AO)
-    }
-
-    // Check periode string
-    const periode = appelOffre.periodes.find(
-      periode => periode.id === periodeId
-    )
-    if (!periodeId || !periode) {
-      console.log(
-        'importProjects use-case: wrong periode for AO',
-        periodeId,
-        appelOffreId
-      )
-      return ErrorResult(ERREUR_PERIODE)
-    }
-
-    // Check header (format of file)
-    if (
-      !headers ||
-      !MANDATORY_HEADER_COLUMNS.every(column => headers.includes(column))
-    ) {
-      console.log('importProjects use-case: missing header columns', headers)
-      return ErrorResult(ERREUR_COLONNES)
-    }
-
     // Check if there is at least one line to insert
     if (!lines || !lines.length) {
       console.log('importProjects use-case: missing lines', lines)
       return ErrorResult(ERREUR_AUCUNE_LIGNE)
     }
 
-    // Check individual lines (use makeProject on each)
-    const projects = lines.reduce((currentResults, line, index) => {
-      const projectResult = makeProject({
-        appelOffreId,
-        periodeId,
-        numeroCRE: line['numeroCRE'],
-        familleId: line['famille'],
-        nomCandidat: line['nomCandidat'],
-        nomProjet: line['nomProjet'],
-        puissance: toNumber(line['puissance(kWc)']) || 0,
-        prixReference: toNumber(line['prixReference(euros/MWh)']) || 0,
-        evaluationCarbone:
-          toNumber(line['evaluationCarbone(kg eq CO2/kWc)']) || 0,
-        note: toNumber(line['note']) || -1,
-        nomRepresentantLegal: line['nomRepresentantLegal'],
-        email: line['email'],
-        adresseProjet: line['adresseProjet'],
-        codePostalProjet: line['codePostalProjet'],
-        communeProjet: line['communeProjet'],
-        departementProjet: line['departementProjet'],
-        regionProjet: line['regionProjet'],
-        classe: line['classé(1/0)'],
-        motifsElimination: line['motifsElimination'],
-        fournisseur: line['fournisseur'] || 'N/A',
-        actionnaire: line['actionnaire'] || 'N/A',
-        producteur: line['producteur'] || 'N/A',
-        notifiedOn: 0
-      })
+    const appelsOffre = await appelOffreRepo.findAll()
 
-      if (projectResult.is_err()) {
-        // This line is an error
-        console.log(
-          'importProjects use-case: this line has an error',
-          line,
-          projectResult.unwrap_err()
+    // Check individual lines (use makeProject on each)
+    const projects = lines.reduce(
+      (currentResults: Result<Array<Project>, Array<Error>>, line, index) => {
+        // Prepare a method t
+
+        // Find the corresponding appelOffre
+        const appelOffreId = line["Appel d'offres"]
+        const appelOffre = appelsOffre.find(
+          appelOffre => appelOffre.id === appelOffreId
         )
 
-        let errors: Array<Error> = []
-        if (currentResults.is_err()) {
-          // It already had errors, add this one
-          errors = currentResults.unwrap_err()
+        if (!appelOffreId || !appelOffre) {
+          return makeErrorForLine(
+            new Error("Appel d'offre introuvable"),
+            index + 2,
+            currentResults
+          )
         }
-        // Add the error from this line prefixed with the line number
-        const projectError = projectResult.unwrap_err()
-        projectError.message =
-          'Ligne ' + (index + 2) + ': ' + projectError.message
-        errors.push(projectError)
 
-        return Err(errors)
-      }
+        // Check the periode
+        const periodeId = line['Période']
+        const periode = appelOffre.periodes.find(
+          periode => periode.id === periodeId
+        )
 
-      if (currentResults.is_err()) {
-        // This line is not an error but previous lines are
-        return currentResults
-      }
+        if (!periodeId || !periode) {
+          console.log(
+            'Periode introuvable',
+            periodeId,
+            line,
+            appelOffre.periodes.map(item => item.id)
+          )
+          return makeErrorForLine(
+            new Error('Période introuvable'),
+            index + 2,
+            currentResults
+          )
+        }
 
-      // No errors so far
-      // Add this line's project to the current list
-      const projects = currentResults.unwrap()
-      projects.push(projectResult.unwrap())
-      return Ok(projects)
-    }, Ok([]))
+        // All good, try to make the project
+        const projectData = appelOffre.dataFields.reduce(
+          (properties, dataField) => {
+            const { field, string, number, date } = dataField
+
+            // Parse line depending on column format
+            const value = string
+              ? line[string] && line[string].trim()
+              : number
+              ? toNumber(line[number])
+              : date
+              ? (line[date] &&
+                  moment(line[date], 'DD/MM/YYYY')
+                    .toDate()
+                    .getTime()) ||
+                undefined
+              : undefined
+
+            return {
+              ...properties,
+              [field]: value
+            }
+          },
+          {}
+        )
+
+        const projectResult = makeProject(projectData as Project)
+
+        if (projectResult.is_err()) {
+          // This line is an error
+          console.log(
+            'importProjects use-case: this line has an error',
+            projectData,
+            // line,
+            projectResult.unwrap_err()
+          )
+
+          // Add the error from this line prefixed with the line number
+          const projectError = projectResult.unwrap_err()
+          projectError.message =
+            'Ligne ' + (index + 2) + ': ' + projectError.message
+
+          return makeErrorForLine(projectError, index + 2, currentResults)
+        }
+
+        if (currentResults.is_err()) {
+          // This line is not an error but previous lines are
+          return currentResults
+        }
+
+        // No errors so far
+        // Add this line's project to the current list
+        const projects = currentResults.unwrap()
+        projects.push(projectResult.unwrap())
+        return Ok(projects)
+      },
+      Ok([]) as Result<Array<Project>, Array<Error>>
+    )
 
     if (projects.is_err()) {
       console.log(

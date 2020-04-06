@@ -1,11 +1,7 @@
 import makeImportProjects, {
-  MANDATORY_HEADER_COLUMNS,
-  ERREUR_COLONNES,
-  ERREUR_PERIODE,
   ERREUR_AUCUNE_LIGNE,
   ERREUR_FORMAT_LIGNE,
-  ERREUR_INSERTION,
-  ERREUR_AO
+  ERREUR_INSERTION
 } from './importProjects'
 
 import { projectRepo, appelOffreRepo } from '../dataAccess/inMemory'
@@ -13,67 +9,37 @@ import { projectRepo, appelOffreRepo } from '../dataAccess/inMemory'
 const importProjects = makeImportProjects({ projectRepo, appelOffreRepo })
 
 const makePhonyLine = () => ({
-  numeroCRE: 'numeroCRE',
-  famille: 'famille',
-  nomCandidat: 'nomCandidat',
-  nomProjet: 'nomProjet',
-  'puissance(kWc)': '11,5',
-  'prixReference(euros/MWh)': '100',
-  'evaluationCarbone(kg eq CO2/kWc)': '142.5',
-  note: '11',
-  nomRepresentantLegal: 'nomRepresentantLegal',
-  email: 'email@address.com',
-  adresseProjet: 'adresseProjet',
-  codePostalProjet: 'codePostalProjet',
-  communeProjet: 'communeProjet',
-  departementProjet: 'departementProjet',
-  regionProjet: 'regionProjet',
-  'classé(1/0)': 'Classé',
-  motifsElimination: 'motifsElimination'
+  "Appel d'offres": 'fessenheim',
+  Période: '6',
+  'N°CRE': 'numeroCRE',
+  'Famille de candidature': 'famille',
+  Candidat: 'nomCandidat',
+  'Nom projet': 'nomProjet',
+  'Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)':
+    '11,5',
+  'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)':
+    '100',
+  'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)':
+    '142.5',
+  'Note totale': '11',
+  'Nom (personne physique) ou raison sociale (personne morale) :':
+    'nomRepresentantLegal',
+  'Adresse électronique du contact': 'email@address.com',
+  'N°, voie, lieu-dit': 'adresseProjet',
+  CP: 'codePostalProjet',
+  Commune: 'communeProjet',
+  Département: 'departementProjet',
+  Région: 'regionProjet',
+  'Classé ?': 'Classé',
+  "Motif d'élimination": 'motifsElimination',
+  'Nom du fabricant (Modules ou films)': 'fournisseur',
+  'Nom et prénom du représentant légal': 'actionnaire producteur',
+  Notification: '22/04/2020'
 })
 
 describe('importProjects use-case', () => {
-  it("should throw an error if appelOffre doesn't exist", async () => {
-    const result = await importProjects({
-      appelOffreId: 'hahahahaha',
-      periodeId: '6',
-      headers: MANDATORY_HEADER_COLUMNS,
-      lines: []
-    })
-
-    expect(result.is_err())
-    expect(result.unwrap_err().message).toEqual(ERREUR_AO)
-  })
-
-  it("should throw an error if the periode doesn't exist for this appelOffre", async () => {
-    const result = await importProjects({
-      appelOffreId: 'fessenheim',
-      periodeId: '42',
-      headers: MANDATORY_HEADER_COLUMNS,
-      lines: []
-    })
-
-    expect(result.is_err())
-    expect(result.unwrap_err().message).toEqual(ERREUR_PERIODE)
-  })
-
-  it('should throw an error if the headers are not correct', async () => {
-    const result = await importProjects({
-      appelOffreId: 'fessenheim',
-      periodeId: '6',
-      headers: ['bim', 'bam', 'boum'],
-      lines: []
-    })
-
-    expect(result.is_err())
-    expect(result.unwrap_err().message).toEqual(ERREUR_COLONNES)
-  })
-
   it("should throw an error if there isn't at least one line", async () => {
     const result = await importProjects({
-      appelOffreId: 'fessenheim',
-      periodeId: '6',
-      headers: MANDATORY_HEADER_COLUMNS,
       lines: []
     })
 
@@ -84,12 +50,9 @@ describe('importProjects use-case', () => {
   it("should throw an error if some lines don't have the required fields", async () => {
     const goodLine = makePhonyLine()
     // create a bad line by removing a required field
-    const { nomCandidat, ...badLine } = goodLine
+    const { Candidat, ...badLine } = goodLine
 
     const result = await importProjects({
-      appelOffreId: 'fessenheim',
-      periodeId: '6',
-      headers: MANDATORY_HEADER_COLUMNS,
       lines: [goodLine, badLine]
     })
 
@@ -103,11 +66,7 @@ describe('importProjects use-case', () => {
     expect(priorProjects).toHaveLength(0)
 
     const phonyLine = makePhonyLine()
-    const phonyPeriode = '6'
     await importProjects({
-      appelOffreId: 'fessenheim',
-      periodeId: phonyPeriode,
-      headers: MANDATORY_HEADER_COLUMNS,
       lines: [phonyLine]
     })
 
@@ -118,7 +77,7 @@ describe('importProjects use-case', () => {
     // and project entity property names
     const expectedLine = {
       appelOffreId: 'fessenheim',
-      periodeId: phonyPeriode,
+      periodeId: '6',
       numeroCRE: 'numeroCRE',
       familleId: 'famille',
       nomCandidat: 'nomCandidat',

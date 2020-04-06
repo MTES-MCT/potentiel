@@ -16,6 +16,16 @@ import buildMakeEntity from '../helpers/buildMakeEntity'
 import { periodeSchema } from './periode'
 import { familleSchema } from './famille'
 
+const csvFieldSchema = Record({
+  field: String
+}).And(
+  Partial({
+    string: String,
+    number: String,
+    date: String
+  })
+)
+
 const appelOffreSchema = Record({
   id: String,
   title: String,
@@ -30,7 +40,8 @@ const appelOffreSchema = Record({
   designationRemovalParagraph: String,
   ipFpEngagementParagraph: String,
   periodes: Array(periodeSchema),
-  familles: Array(familleSchema)
+  familles: Array(familleSchema),
+  dataFields: Array(csvFieldSchema)
 })
 
 const fields: string[] = [...Object.keys(appelOffreSchema.fields)]
