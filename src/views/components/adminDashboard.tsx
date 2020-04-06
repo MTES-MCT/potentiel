@@ -49,7 +49,7 @@ export default function AdminDashboard({
             </li>
             <li>
               <a
-                href={ROUTES.ADMIN_NOTIFY_CANDIDATES}
+                href={ROUTES.ADMIN_NOTIFY_CANDIDATES()}
                 className={currentPage === 'notify-candidates' ? 'active' : ''}
               >
                 Notifier des candidats

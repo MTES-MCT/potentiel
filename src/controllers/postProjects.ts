@@ -5,7 +5,6 @@ import { Redirect } from '../helpers/responses'
 import ROUTES from '../routes'
 import { HttpRequest } from '../types'
 import { importProjects } from '../useCases'
-import { ERREUR_FORMAT_LIGNE } from '../useCases/importProjects'
 
 const deleteFile = util.promisify(fs.unlink)
 
@@ -41,12 +40,8 @@ const postProjects = async (request: HttpRequest) => {
 
   // Parse the csv file
   const lines = await parse(request.file.path)
-  const headers = (lines.length && Object.keys(lines[0])) || []
 
   const importProjectsResult = await importProjects({
-    appelOffreId: request.body.appelOffre,
-    periodeId: request.body.periode,
-    headers,
     lines
   })
 
