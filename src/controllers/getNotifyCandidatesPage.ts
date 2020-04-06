@@ -1,6 +1,5 @@
-import { Project } from '../entities'
 import { HttpRequest } from '../types'
-import { listProjects } from '../useCases'
+import { listUnnotifiedProjects } from '../useCases'
 import { AdminNotifyCandidatesPage } from '../views/pages'
 import { Success, Redirect } from '../helpers/responses'
 import routes from '../routes'
@@ -16,11 +15,7 @@ const getNotifyCandidatesPage = async (request: HttpRequest) => {
   const appelOffre = appelsOffre.find(item => item.id === appelOffreId)
 
   if (!appelOffreId || !appelOffre) {
-    console.log(
-      'Cannot find appelOffreId',
-      appelOffreId,
-      appelsOffre.map(item => item.id)
-    )
+    console.log('Cannot find appelOffreId', appelOffreId)
     // No valid AO, take the first
     appelOffreId = appelsOffre[0].id
     periodeId = appelsOffre[0].periodes[0].id
@@ -33,12 +28,7 @@ const getNotifyCandidatesPage = async (request: HttpRequest) => {
     !appelOffre.periodes.find(periode => periode.id === periodeId)
   ) {
     // No valid période, take the first from this AO
-    console.log(
-      'Cannot find periodeId',
-      periodeId,
-      appelOffre,
-      appelOffre.periodes.map(item => item.id)
-    )
+    console.log('Cannot find periodeId', periodeId)
     periodeId = appelOffre.periodes[0].id
 
     return Redirect(routes.ADMIN_NOTIFY_CANDIDATES({ appelOffreId, periodeId }))
@@ -46,7 +36,10 @@ const getNotifyCandidatesPage = async (request: HttpRequest) => {
 
   // console.log('All good')
 
-  const projects = await listProjects({})
+  const projects = await listUnnotifiedProjects({
+    appelOffreId,
+    periodeId
+  })
 
   // TODO only list projects that are not notified for this AO / periode
 

@@ -116,8 +116,6 @@ export async function makeServer(port: number = 3000) {
     makeExpressCallback(postProjects)
   )
 
-  console.log('ADMIN_NOTIFY_CANDIDATES() = ', ROUTES.ADMIN_NOTIFY_CANDIDATES())
-
   router.get(
     ROUTES.ADMIN_NOTIFY_CANDIDATES(),
     ensureLoggedIn(),
