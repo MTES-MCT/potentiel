@@ -10,6 +10,20 @@ document.addEventListener('DOMContentLoaded', event => {
   addAOPeriodeSelectorHandler()
 })
 
+function updateAOPeriodeInUrl(field, value) {
+  // Update the URL with the new appel offre Id or periode Id
+  const queryString = new URLSearchParams(window.location.search)
+
+  queryString.set(field, value)
+
+  window.location.replace(
+    window.location.origin +
+      window.location.pathname +
+      '?' +
+      queryString.toString()
+  )
+}
+
 function addAOPeriodeSelectorHandler() {
   const AOSelectField = document.querySelector(
     '[data-testId=notifyCandidates-appelOffreField]'
@@ -21,26 +35,13 @@ function addAOPeriodeSelectorHandler() {
 
   if (AOSelectField) {
     AOSelectField.addEventListener('change', function(event) {
-      // Update the URL with the new appel offre ID
-      console.log('AO Change', event.target.value)
-
-      const queryString = new URLSearchParams(window.location.search)
-
-      queryString.set('appelOffreId', event.target.value)
-
-      window.location.replace(
-        window.location.origin +
-          window.location.pathname +
-          '?' +
-          queryString.toString()
-      )
+      updateAOPeriodeInUrl('appelOffreId', event.target.value)
     })
   }
 
   if (periodeSelectField) {
     periodeSelectField.addEventListener('change', function(event) {
-      // Update the URL with the new appel offre ID
-      console.log('Periode Change', event.target.value)
+      updateAOPeriodeInUrl('periodeId', event.target.value)
     })
   }
 }
