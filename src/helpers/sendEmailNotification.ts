@@ -21,6 +21,9 @@ const AUTHORIZED_TEST_EMAILS =
   process.env.AUTHORIZED_TEST_EMAILS &&
   process.env.AUTHORIZED_TEST_EMAILS.split(',')
 
+console.log('AUTHORIZED TEST EMAILS ARE', AUTHORIZED_TEST_EMAILS)
+console.log('BASE URL IS', process.env.BASE_URL)
+
 const sendEmailNotification = async ({
   template,
   destinationEmail,
@@ -38,6 +41,11 @@ const sendEmailNotification = async ({
       'sendEmailNotification called outside of production environment on an unknown destinationEmail, message stopped.',
       destinationEmail
     )
+    return
+  }
+
+  if (!process.env.BASE_URL) {
+    console.log('Missing process.env.BASE_URL, aborting')
     return
   }
 
@@ -59,7 +67,7 @@ const sendEmailNotification = async ({
           TemplateLanguage: true,
           Subject: subject,
           Variables: {
-            invitation_link: invitationLink
+            invitation_link: process.env.BASE_URL + invitationLink
           }
         }
       ]

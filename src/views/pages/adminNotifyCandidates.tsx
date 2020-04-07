@@ -91,7 +91,9 @@ export default function AdminNotifyCandidates({
           projectActions={(project: Project) => [
             {
               title: "M'envoyer le mail de notification",
-              link: '' // TODO
+              projectId: project.id,
+              link: ROUTES.ADMIN_SEND_COPY_OF_CANDIDATE_NOTIFICATION_ACTION,
+              actionId: 'send-copy-of-notification'
             },
             {
               title: 'Voir attestation',

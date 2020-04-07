@@ -3,6 +3,9 @@ import multer from 'multer'
 import session from 'express-session'
 import bodyParser from 'body-parser'
 
+import dotenv from 'dotenv'
+dotenv.config()
+
 import makeExpressCallback from './helpers/makeExpressCallback'
 import {
   getLoginPage,
@@ -21,7 +24,8 @@ import {
   postSignup,
   getDemandePage,
   postRequestModification,
-  getUserRequestsPage
+  getUserRequestsPage,
+  postSendCopyOfCandidateNotification
 } from './controllers'
 
 import { initDatabase } from './dataAccess'
@@ -114,6 +118,12 @@ export async function makeServer(port: number = 3000) {
     ensureRole(['admin', 'dgec']),
     upload.single('candidats'),
     makeExpressCallback(postProjects)
+  )
+
+  router.get(
+    ROUTES.ADMIN_SEND_COPY_OF_CANDIDATE_NOTIFICATION_ACTION,
+    ensureRole(['admin', 'dgec']),
+    makeExpressCallback(postSendCopyOfCandidateNotification)
   )
 
   router.get(

@@ -23,10 +23,10 @@ const TemplateLaureat = ({
         Afin de suivre l’évolution de votre dossier ou d’y apporter des
         modifications, nous vous invitons à{' '}
         <a
-          href={ROUTES.PROJECT_INVITATION(
-            notification.projectAdmissionKey,
-            notification.projectId || ''
-          )}
+          href={ROUTES.PROJECT_INVITATION({
+            projectAdmissionKey: notification.projectAdmissionKey,
+            projectId: notification.projectId
+          })}
         >
           créer directement un compte sur notre plateforme
         </a>
@@ -55,10 +55,10 @@ const TemplateElimination = ({
       <p>
         Si vous souhaitez déposer un recours, nous vous invitons à{' '}
         <a
-          href={ROUTES.PROJECT_INVITATION(
-            notification.projectAdmissionKey,
-            notification.projectId || ''
-          )}
+          href={ROUTES.PROJECT_INVITATION({
+            projectAdmissionKey: notification.projectAdmissionKey,
+            projectId: notification.projectId
+          })}
         >
           créer directement un compte sur notre plateforme
         </a>

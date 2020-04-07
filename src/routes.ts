@@ -1,11 +1,11 @@
 import { Project, ProjectAdmissionKey } from './entities'
 import querystring from 'querystring'
+import { string } from 'yup'
 
-const withProjectId = (url: string) => (projectId: Project['id']) =>
-  url + (url.indexOf('?') === -1 ? '?' : '&') + 'projectId=' + projectId
-
-const withParams = (url: string) => (params?: Record<string, any>) => {
-  console.log('withParams for url', url, 'and params', params)
+const withParams = <T extends Record<string, any>>(url: string) => (
+  params?: T
+) => {
+  // console.log('withParams for url', url, 'and params', params)
 
   if (!params) return url
 
@@ -19,6 +19,9 @@ const withParams = (url: string) => (params?: Record<string, any>) => {
   return url + (newQueryString.length ? '?' + newQueryString : '')
 }
 
+const withProjectId = (url: string) => (projectId: Project['id']) =>
+  withParams(url)({ projectId })
+
 export default {
   LOGIN: '/login.html',
   LOGIN_ACTION: '/login',
@@ -26,17 +29,21 @@ export default {
   REDIRECT_BASED_ON_ROLE: '/go-to-user-dashboard',
   SIGNUP: '/enregistrement.html',
   SIGNUP_ACTION: '/enregistrement',
-  PROJECT_INVITATION: (
-    projectAdmissionKey: ProjectAdmissionKey['id'],
-    projectId: Project['id']
-  ) =>
-    `/enregistrement.html?projectAdmissionKey=${projectAdmissionKey}&projectId=${projectId}`,
+  PROJECT_INVITATION: withParams<{
+    projectAdmissionKey: string
+    projectId: string
+  }>('/enregistrement.html'),
   ADMIN_DASHBOARD: '/admin/dashboard.html',
   IMPORT_PROJECTS: '/admin/importer-candidats.html', // Keep separate from ADMIN_DASHBOARD, may change
   IMPORT_PROJECTS_ACTION: '/admin/importProjects',
   ADMIN_LIST_PROJECTS: '/admin/dashboard.html',
   ADMIN_LIST_REQUESTS: '/admin/demandes.html',
-  ADMIN_NOTIFY_CANDIDATES: withParams('/admin/notifier-candidats.html'),
+  ADMIN_SEND_COPY_OF_CANDIDATE_NOTIFICATION_ACTION:
+    '/admin/sendCopyOfCandidateNotification',
+  ADMIN_NOTIFY_CANDIDATES: withParams<{
+    appelOffreId: string
+    periodeId: string
+  }>('/admin/notifier-candidats.html'),
   CANDIDATE_CERTIFICATE: withProjectId('/admin/candidate-certificate.html'),
   SEND_NOTIFICATIONS_ACTION: '/admin/sendCandidateNotifications',
   USER_DASHBOARD: '/mes-projets.html',

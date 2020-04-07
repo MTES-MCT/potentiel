@@ -8,7 +8,12 @@ document.addEventListener('DOMContentLoaded', event => {
   addPuissanceModificationHandler()
   addDelayDateModificationHandler()
   addAOPeriodeSelectorHandler()
+  addSendCopyOfNotificationButtonHandler()
 })
+
+//
+// Candidate Notification Page
+//
 
 function updateAOPeriodeInUrl(field, value) {
   // Update the URL with the new appel offre Id or periode Id
@@ -45,6 +50,56 @@ function addAOPeriodeSelectorHandler() {
     })
   }
 }
+
+function addSendCopyOfNotificationButtonHandler() {
+  const sendCopyButtons = document.querySelectorAll(
+    '[data-actionid=send-copy-of-notification]'
+  )
+
+  if (sendCopyButtons) {
+    // console.log('Found sendCopyButtons, adding listener', sendCopyButtons)
+    sendCopyButtons.forEach(item =>
+      item.addEventListener('click', function(event) {
+        // event.stopPropagation()
+        event.preventDefault()
+        const projectId = event.target.getAttribute('data-projectid')
+        const link = event.target.getAttribute('href')
+
+        if (!projectId || !link) {
+          console.log(
+            'Cannot call send copy because missing projectId or link',
+            projectId,
+            link
+          )
+          return
+        }
+
+        fetch(link + '?projectId=' + projectId).then(response => {
+          if (response.ok) {
+            // console.log('GET to send copy of candidate notification succeeded')
+            alert(
+              'Une copie de la notification de ce candidat a été envoyée à votre adresse email'
+            )
+          } else {
+            console.log(
+              'GET to send copy of candidate notification failed',
+              response.error
+            )
+            alert("L'envoi de copie de notification a échoué.")
+          }
+        })
+
+        return false
+      })
+    )
+  } else {
+    // console.log('Cannot find send copy buttons')
+  }
+}
+
+//
+// Puissance modification Page
+//
 
 function addPuissanceModificationHandler() {
   const newPuissanceField = document.querySelector(
@@ -84,6 +139,10 @@ function addPuissanceModificationHandler() {
     })
   }
 }
+
+//
+// Delay request Page
+//
 
 function getDateFromDateString(str) {
   // For a date in the DD/MM/YYYY format
@@ -150,6 +209,10 @@ function addDelayDateModificationHandler() {
     })
   }
 }
+
+//
+// General utility
+//
 
 function addClickHandlerForClass(className, handler) {
   Array.from(document.getElementsByClassName(className)).forEach(function(
