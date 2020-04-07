@@ -11,7 +11,9 @@
     "watch": "./node_modules/ts-node-dev/bin/ts-node-dev src/index.ts",
     "build": "./node_modules/typescript/bin/tsc ; cp -R src/public dist/src ; cp -R src/views/template dist/src/views",
     "storybook": "start-storybook -s ./src/public ",
-    "storybook-build": "build-storybook-c .storybook -o docs"
+    "storybook-build": "build-storybook-c .storybook -o docs",
+    "db:clear": "mv .db/db.sqlite .db/db.sqlite-backup",
+    "db:addUser": "./node_modules/ts-node-dev/bin/ts-node-dev scripts/createUser.ts"
   },
   "repository": {
     "type": "git",
