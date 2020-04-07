@@ -1,7 +1,7 @@
 import { initDatabase, userRepo, credentialsRepo } from '../src/dataAccess'
 import { makeUser, makeCredentials } from '../src/entities'
 
-const [_, __, email, password, role] = process.argv
+const [_, __, email, password, name] = process.argv
 
 if (!email || !password) {
   console.log('email and password are mandatory')
@@ -9,13 +9,21 @@ if (!email || !password) {
   process.exit(1)
 }
 
-console.log('Creating user with email ', email, 'and password', password)
+console.log(
+  'Creating user with email ',
+  email,
+  'and password',
+  password,
+  'and named',
+  name
+)
 
 initDatabase()
   .then(() => {
     const userResult = makeUser({
-      firstName: 'first name',
-      lastName: 'last name',
+      firstName: '',
+      lastName: name,
+      email,
       role: 'admin'
     })
 

@@ -1,3 +1,4 @@
+import isEmail from 'isemail'
 import {
   String,
   Number,
@@ -16,6 +17,7 @@ const userSchema = Record({
   id: String,
   firstName: String,
   lastName: String,
+  email: String.withConstraint(isEmail.validate),
   role: Union(Literal('admin'), Literal('dgec'), Literal('porteur-projet'))
 })
 

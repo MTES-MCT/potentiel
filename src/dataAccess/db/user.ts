@@ -24,6 +24,10 @@ export default function makeUserRepo({ sequelize }): UserRepo {
       type: DataTypes.STRING,
       allowNull: false
     },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     role: {
       type: DataTypes.STRING,
       allowNull: false

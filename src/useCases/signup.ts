@@ -71,6 +71,7 @@ export default function makeSignup({
     const userResult = makeUser({
       firstName,
       lastName,
+      email,
       role: 'porteur-projet'
     })
 
