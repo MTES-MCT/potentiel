@@ -25,7 +25,7 @@ const ProjectList = ({ projects, projectActions }: Props) => {
       <table className="table">
         <tbody>
           <tr>
-            <td>Il n'y a pas encore de projets en base</td>
+            <td>Aucun projet à lister</td>
           </tr>
         </tbody>
       </table>

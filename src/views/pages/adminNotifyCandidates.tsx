@@ -72,6 +72,20 @@ export default function AdminNotifyCandidates({
               ))}
           </select>
         </div>
+        {projects?.length ? (
+          <a
+            href={ROUTES.ADMIN_NOTIFY_CANDIDATES_ACTION({
+              appelOffreId: selectedAppelOffreId,
+              periodeId: selectedPeriodeId
+            })}
+            className="button"
+          >
+            Envoyer les notifications aux candidats
+          </a>
+        ) : (
+          ''
+        )}
+
         {success ? (
           <div className="notification success" {...dataId('success-message')}>
             {success}

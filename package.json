@@ -8,7 +8,7 @@
     "test-feat": "NODE_ENV=test ./node_modules/.bin/cucumber-js --require-module ts-node/register --require 'features/setup/**/*.ts' --require 'features/tests/**/*.ts'",
     "test-int": "npm run test-feat -- features/*.feature",
     "test-coverage": "jest --detectOpenHandles --coverage --verbose",
-    "watch": "./node_modules/ts-node-dev/bin/ts-node-dev src/index.ts",
+    "watch": "./node_modules/ts-node-dev/bin/ts-node-dev --transpile-only src/index.ts",
     "build": "./node_modules/typescript/bin/tsc ; cp -R src/public dist/src ; cp -R src/views/template dist/src/views",
     "storybook": "start-storybook -s ./src/public ",
     "storybook-build": "build-storybook-c .storybook -o docs",

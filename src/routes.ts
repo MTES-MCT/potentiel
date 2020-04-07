@@ -45,7 +45,10 @@ export default {
     periodeId: string
   }>('/admin/notifier-candidats.html'),
   CANDIDATE_CERTIFICATE: withProjectId('/admin/candidate-certificate.html'),
-  SEND_NOTIFICATIONS_ACTION: '/admin/sendCandidateNotifications',
+  ADMIN_NOTIFY_CANDIDATES_ACTION: withParams<{
+    appelOffreId: string
+    periodeId: string
+  }>('/admin/sendCandidateNotifications'),
   USER_DASHBOARD: '/mes-projets.html',
   USER_LIST_PROJECTS: '/mes-projets.html',
   USER_LIST_DEMANDES: '/mes-demandes.html',

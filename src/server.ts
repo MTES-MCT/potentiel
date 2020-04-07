@@ -25,7 +25,7 @@ import {
   getDemandePage,
   postRequestModification,
   getUserRequestsPage,
-  postSendCopyOfCandidateNotification
+  getSendCopyOfCandidateNotification
 } from './controllers'
 
 import { initDatabase } from './dataAccess'
@@ -123,7 +123,7 @@ export async function makeServer(port: number = 3000) {
   router.get(
     ROUTES.ADMIN_SEND_COPY_OF_CANDIDATE_NOTIFICATION_ACTION,
     ensureRole(['admin', 'dgec']),
-    makeExpressCallback(postSendCopyOfCandidateNotification)
+    makeExpressCallback(getSendCopyOfCandidateNotification)
   )
 
   router.get(
@@ -134,7 +134,7 @@ export async function makeServer(port: number = 3000) {
   )
 
   router.get(
-    ROUTES.SEND_NOTIFICATIONS_ACTION,
+    ROUTES.ADMIN_NOTIFY_CANDIDATES_ACTION(),
     ensureLoggedIn(),
     ensureRole(['admin', 'dgec']),
     makeExpressCallback(getSendCandidateNotifications)

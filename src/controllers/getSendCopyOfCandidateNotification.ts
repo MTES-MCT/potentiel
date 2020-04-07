@@ -5,9 +5,9 @@ import ROUTES from '../routes'
 import _ from 'lodash'
 import moment from 'moment'
 
-const postSendCopyOfCandidateNotification = async (request: HttpRequest) => {
+const getSendCopyOfCandidateNotification = async (request: HttpRequest) => {
   // console.log(
-  //   'Call to postSendCopyOfCandidateNotification received',
+  //   'Call to getSendCopyOfCandidateNotification received',
   //   request.body,
   //   request.query
   // )
@@ -37,4 +37,4 @@ const postSendCopyOfCandidateNotification = async (request: HttpRequest) => {
   return Success('Email sent')
 }
 
-export { postSendCopyOfCandidateNotification }
+export { getSendCopyOfCandidateNotification }
