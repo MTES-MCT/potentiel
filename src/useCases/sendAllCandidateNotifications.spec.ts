@@ -1,4 +1,5 @@
-import makeSendCandidateNotifications from './sendCandidateNotifications'
+import makeSendAllCandidateNotifications from './sendAllCandidateNotifications'
+import makeSendCandidateNotification from './sendCandidateNotification'
 
 import {
   projectRepo,
@@ -6,12 +7,19 @@ import {
   credentialsRepo,
   userRepo,
   projectAdmissionKeyRepo,
+  appelsOffreStatic,
+  appelOffreRepo,
   resetDatabase
 } from '../dataAccess/inMemory'
 import makeFakeProject from '../__tests__/fixtures/project'
 import makeFakeCandidateNotification from '../__tests__/fixtures/candidateNotification'
 import makeFakeUser from '../__tests__/fixtures/user'
 import { PORTEUR_PROJET } from '../__tests__/fixtures/testCredentials'
+import {
+  resetEmailStub,
+  sendEmailNotification,
+  getCallsToEmailStub
+} from '../__tests__/fixtures/emailNotificationService'
 
 import {
   makeUser,
@@ -21,20 +29,30 @@ import {
   makeCandidateNotification
 } from '../entities'
 
-const sendCandidateNotifications = makeSendCandidateNotifications({
+const sendCandidateNotification = makeSendCandidateNotification({
+  projectRepo,
+  projectAdmissionKeyRepo,
+  appelOffreRepo,
+  sendEmailNotification
+})
+
+const sendAllCandidateNotifications = makeSendAllCandidateNotifications({
   projectRepo,
   userRepo,
   credentialsRepo,
   candidateNotificationRepo,
-  projectAdmissionKeyRepo
+  sendCandidateNotification
 })
 
-describe('sendCandidateNotifications use-case', () => {
+describe('sendAllCandidateNotifications use-case', () => {
   let fakeUserId: User['id'] = 'fakeUserId'
   const fakeUserProjectName = 'fakeProjectName'
+  const appelOffre = appelsOffreStatic[0]
+  const periode = appelOffre.periodes[0]
 
   beforeAll(async () => {
     resetDatabase()
+    resetEmailStub()
 
     const previousNotifs = await candidateNotificationRepo.findAll()
     expect(previousNotifs).toBeDefined()
@@ -58,19 +76,36 @@ describe('sendCandidateNotifications use-case', () => {
     await Promise.all(
       [
         makeFakeProject({
+          appelOffreId: 'other',
+          periodeId: 'otherother',
+          notifiedOn: 0
+        }),
+        makeFakeProject({
           classe: 'Eliminé',
-          notifiedOn: new Date().getTime()
+          notifiedOn: new Date().getTime(),
+          appelOffreId: appelOffre.id,
+          periodeId: periode.id
         }),
         makeFakeProject({
           classe: 'Classé',
-          notifiedOn: new Date().getTime()
+          notifiedOn: new Date().getTime(),
+          appelOffreId: appelOffre.id,
+          periodeId: periode.id
         }),
         makeFakeProject({
           classe: 'Eliminé',
+          notifiedOn: 0,
           email: bogusEmail,
-          nomProjet: fakeUserProjectName
+          nomProjet: fakeUserProjectName,
+          appelOffreId: appelOffre.id,
+          periodeId: periode.id
         }),
-        makeFakeProject({ classe: 'Classé' })
+        makeFakeProject({
+          classe: 'Classé',
+          notifiedOn: 0,
+          appelOffreId: appelOffre.id,
+          periodeId: periode.id
+        })
       ]
         .map(makeProject)
         .filter(item => item.is_ok())
@@ -80,30 +115,35 @@ describe('sendCandidateNotifications use-case', () => {
 
     const allProjects = await projectRepo.findAll()
 
+    expect(allProjects).toHaveLength(5)
+
     // For the first two, create a notification
     // Insert these notifications in the repo
-    await Promise.all(
-      [
-        makeFakeCandidateNotification({
-          projectId: allProjects[0].id,
-          template: 'elimination'
-        }),
-        makeFakeCandidateNotification({
-          projectId: allProjects[1].id,
-          template: 'laureat'
-        })
-      ]
-        .map(makeCandidateNotification)
-        .filter(item => item.is_ok())
-        .map(item => item.unwrap())
-        .map(candidateNotificationRepo.insert)
-    )
+    // await Promise.all(
+    //   [
+    //     makeFakeCandidateNotification({
+    //       projectId: allProjects[0].id,
+    //       template: 'elimination'
+    //     }),
+    //     makeFakeCandidateNotification({
+    //       projectId: allProjects[1].id,
+    //       template: 'laureat'
+    //     })
+    //   ]
+    //     .map(makeCandidateNotification)
+    //     .filter(item => item.is_ok())
+    //     .map(item => item.unwrap())
+    //     .map(candidateNotificationRepo.insert)
+    // )
 
-    const priorNotifs = await candidateNotificationRepo.findAll()
-    expect(priorNotifs).toHaveLength(2)
+    // const priorNotifs = await candidateNotificationRepo.findAll()
+    // expect(priorNotifs).toHaveLength(2)
 
     // Send new notifications
-    const result = await sendCandidateNotifications({})
+    const result = await sendAllCandidateNotifications({
+      appelOffreId: appelOffre.id,
+      periodeId: periode.id
+    })
     expect(result.is_ok()).toBeTruthy()
   })
 
@@ -111,38 +151,23 @@ describe('sendCandidateNotifications use-case', () => {
     const recentNotifs = await candidateNotificationRepo.findAll()
 
     expect(recentNotifs).toBeDefined()
-    expect(recentNotifs).toHaveLength(4)
+    expect(recentNotifs).toHaveLength(2)
   })
 
   it('should update every project as having been notified', async () => {
     const unNotifiedProjects = await projectRepo.findAll({
+      appelOffreId: appelOffre.id,
+      periodeId: periode.id,
       notifiedOn: 0
     })
 
     expect(unNotifiedProjects).toHaveLength(0)
   })
 
-  it('should send a notification with the right template', async () => {
-    const allNotifs = await candidateNotificationRepo.findAll()
+  it('should send a notification to each unnotified project', async () => {
+    const allNotifs = getCallsToEmailStub()
 
-    expect(allNotifs).toHaveLength(4)
-
-    await Promise.all(
-      allNotifs.map(async notif => {
-        const projectResult = await projectRepo.findById(notif.projectId)
-        expect(projectResult.is_some())
-
-        const project = projectResult.unwrap()
-
-        if (project.classe === 'Classé') {
-          expect(notif.template).toEqual('laureat')
-        }
-
-        if (project.classe === 'Eliminé') {
-          expect(notif.template).toEqual('elimination')
-        }
-      })
-    )
+    expect(allNotifs).toHaveLength(2)
   })
 
   it('should add the projects to the existing users if emails are the same', async () => {

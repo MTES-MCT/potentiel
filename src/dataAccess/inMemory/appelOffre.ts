@@ -45,7 +45,7 @@ const fessenheim: AppelOffre = {
   id: 'Fessenheim',
   title:
     '2019/S 019-040037 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie solaire « transition énergétique du territoire de Fessenheim »',
-  shortTitle: 'Fessenheim',
+  shortTitle: 'Fessenheim 2019/S 019-040037',
   launchDate: 'Janvier 2019',
   powerUnit: 'MWc',
   monthsBeforeRealisation: 24,

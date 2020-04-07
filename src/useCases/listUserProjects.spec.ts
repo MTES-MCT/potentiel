@@ -3,8 +3,7 @@ import makeListUserProjects from './listUserProjects'
 import makeFakeUser from '../__tests__/fixtures/user'
 import makeFakeProject from '../__tests__/fixtures/project'
 import { makeUser, makeProject } from '../entities'
-import { userRepo } from '../dataAccess/inMemory'
-import { projectRepo } from '../dataAccess/inMemory'
+import { userRepo, projectRepo, resetDatabase } from '../dataAccess/inMemory'
 
 const listUserProjects = makeListUserProjects({ projectRepo })
 
@@ -12,6 +11,7 @@ describe('listUserProjects use-case', () => {
   let user
   let userProject
   beforeAll(async () => {
+    resetDatabase()
     // Create a user
     const fakeUserResult = makeUser(makeFakeUser())
     expect(fakeUserResult.is_ok())

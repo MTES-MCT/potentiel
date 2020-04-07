@@ -2,7 +2,7 @@ import makeListUnnotifiedProjects from './listUnnotifiedProjects'
 
 import makeFakeProject from '../__tests__/fixtures/project'
 
-import { projectRepo } from '../dataAccess/inMemory'
+import { projectRepo, resetDatabase } from '../dataAccess/inMemory'
 import { makeProject } from '../entities'
 
 const listUnnotifiedProjects = makeListUnnotifiedProjects({ projectRepo })
@@ -18,6 +18,7 @@ describe('listUnnotifiedProjects use-case', () => {
   ]
 
   beforeAll(async () => {
+    resetDatabase()
     await Promise.all(
       fakeProjects
         .map(makeProject)
