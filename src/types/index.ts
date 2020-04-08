@@ -19,6 +19,9 @@ export type HttpResponse =
       statusCode: number
       body: string
     }
+  | {
+      filePath: string
+    }
   | { redirect: string; userId?: User['id']; query?: Record<string, any> }
 
 export type Controller = (

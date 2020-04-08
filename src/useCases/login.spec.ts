@@ -1,6 +1,6 @@
 import makeLogin, {
   ERREUR_USER_INCONNU,
-  ERREUR_MOT_DE_PASSE_ERRONE
+  ERREUR_MOT_DE_PASSE_ERRONE,
 } from './login'
 
 import { makeCredentials, makeUser } from '../entities'
@@ -11,7 +11,7 @@ const login = makeLogin({ credentialsRepo, userRepo })
 
 const phonyCredentials = {
   email: 'fake@example.fake',
-  password: 'password'
+  password: 'password',
 }
 
 describe('login use-case', () => {
@@ -20,7 +20,8 @@ describe('login use-case', () => {
     const phonyUserResult = makeUser({
       firstName: 'Patrice',
       lastName: 'Leconte',
-      role: 'admin'
+      role: 'admin',
+      email: 'fake@email.com',
     })
 
     // Insert a phony user
@@ -30,7 +31,7 @@ describe('login use-case', () => {
     await userRepo.insert(phonyUser)
     const credentialsResult = makeCredentials({
       ...phonyCredentials,
-      userId: phonyUser.id
+      userId: phonyUser.id,
     })
     expect(credentialsResult.is_ok())
     await credentialsRepo.insert(credentialsResult.unwrap())
@@ -40,7 +41,7 @@ describe('login use-case', () => {
     const { email, password } = phonyCredentials
     const foundUserResult = await login({
       email,
-      password
+      password,
     })
 
     expect(foundUserResult.is_ok())

@@ -10,5 +10,6 @@ export type UserRepo = {
     userId: User['id'],
     projectId: Project['id']
   ) => ResultAsync<void>
+  hasProject: (userId: User['id'], projectId: Project['id']) => Promise<boolean>
   remove: (userId: User['id']) => ResultAsync<void>
 }

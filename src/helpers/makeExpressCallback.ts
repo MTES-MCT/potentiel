@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 
+import path from 'path'
+
 import querystring from 'querystring'
 
 import { User } from '../entities'
@@ -8,7 +10,7 @@ import { Controller } from '../types'
 
 const login = (req: Request, user): Promise<void> => {
   return new Promise((resolve, reject) => {
-    req.login(user, err => {
+    req.login(user, (err) => {
       if (err) reject(err)
 
       resolve()
@@ -30,7 +32,7 @@ export default function makeExpressCallback(controller: Controller) {
       query: req.query,
       params: req.params,
       user: <User>req.user,
-      file: req.file
+      file: req.file,
       // ip: req.ip,
       // method: req.method,
       // path: req.path,
@@ -42,7 +44,7 @@ export default function makeExpressCallback(controller: Controller) {
     }
 
     controller(httpRequest)
-      .then(httpResponse => {
+      .then((httpResponse) => {
         // if (httpResponse.headers) {
         //   res.set(httpResponse.headers)
         // }
@@ -58,10 +60,15 @@ export default function makeExpressCallback(controller: Controller) {
               addQueryParams(httpResponse.redirect, httpResponse.query)
             )
           })
+        } else if ('filePath' in httpResponse) {
+          res.sendFile(path.resolve(process.cwd(), httpResponse.filePath))
         } else {
           res.status(httpResponse.statusCode).send(httpResponse.body)
         }
       })
-      .catch(e => res.status(500).send({ error: 'An unkown error occurred.' }))
+      .catch((e) => {
+        console.log('makeExpressCallback error', e)
+        res.status(500).send({ error: 'An unkown error occurred.' })
+      })
   }
 }

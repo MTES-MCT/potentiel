@@ -16,7 +16,7 @@ interface UserListProjectsProps {
 /* Pure component */
 export default function UserListProjects({
   request,
-  projects
+  projects,
 }: UserListProjectsProps) {
   const { error, success } = request.query || {}
   return (
@@ -51,46 +51,46 @@ export default function UserListProjects({
               return [
                 {
                   title: 'Faire une demande de recours',
-                  link: ROUTES.DEPOSER_RECOURS(project.id)
+                  link: ROUTES.DEPOSER_RECOURS(project.id),
                 },
                 {
                   title: 'Télécharger mon attestation',
-                  link: ROUTES.TELECHARGER_ATTESTATION(project.id),
-                  disabled: true
-                }
+                  link: ROUTES.CANDIDATE_CERTIFICATE(project.id),
+                  isDownload: true,
+                },
               ]
             }
 
             return [
               {
                 title: 'Télécharger mon attestation',
-                link: ROUTES.TELECHARGER_ATTESTATION(project.id),
-                disabled: true
+                link: ROUTES.CANDIDATE_CERTIFICATE(project.id),
+                isDownload: true,
               },
               {
                 title: 'Demander un délai',
-                link: ROUTES.DEMANDE_DELAIS(project.id)
+                link: ROUTES.DEMANDE_DELAIS(project.id),
               },
               {
                 title: 'Changer de fournisseur',
-                link: ROUTES.CHANGER_FOURNISSEUR(project.id)
+                link: ROUTES.CHANGER_FOURNISSEUR(project.id),
               },
               {
                 title: 'Changer de producteur',
-                link: ROUTES.CHANGER_PRODUCTEUR(project.id)
+                link: ROUTES.CHANGER_PRODUCTEUR(project.id),
               },
               {
                 title: "Changer d'actionnaire",
-                link: ROUTES.CHANGER_ACTIONNAIRE(project.id)
+                link: ROUTES.CHANGER_ACTIONNAIRE(project.id),
               },
               {
                 title: 'Changer de puissance',
-                link: ROUTES.CHANGER_PUISSANCE(project.id)
+                link: ROUTES.CHANGER_PUISSANCE(project.id),
               },
               {
                 title: 'Demander un abandon',
-                link: ROUTES.DEMANDER_ABANDON(project.id)
-              }
+                link: ROUTES.DEMANDER_ABANDON(project.id),
+              },
             ]
           }}
         />

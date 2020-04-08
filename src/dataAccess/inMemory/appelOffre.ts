@@ -10,22 +10,22 @@ const commonDataFields = [
   {
     field: 'puissance',
     number:
-      'Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)'
+      'Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)',
   },
   {
     field: 'prixReference',
     number:
-      'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)'
+      'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)',
   },
   {
     field: 'evaluationCarbone',
     number:
-      'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)'
+      'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)',
   },
   { field: 'note', number: 'Note totale' },
   {
     field: 'nomRepresentantLegal',
-    string: 'Nom (personne physique) ou raison sociale (personne morale) :'
+    string: 'Nom (personne physique) ou raison sociale (personne morale) :',
   },
   { field: 'email', string: 'Adresse électronique du contact' },
   { field: 'adresseProjet', string: 'N°, voie, lieu-dit' },
@@ -38,7 +38,7 @@ const commonDataFields = [
   { field: 'fournisseur', string: 'Nom du fabricant \n(Modules ou films)' },
   { field: 'actionnaire', string: 'Nom et prénom du représentant légal' },
   { field: 'producteur', string: 'Nom et prénom du représentant légal' },
-  { field: 'notifiedOn', date: 'Notification' }
+  { field: 'notifiedOn', date: 'Notification' },
 ]
 
 const fessenheim: AppelOffre = {
@@ -56,23 +56,24 @@ const fessenheim: AppelOffre = {
   designationRemovalParagraph: '5.3 et 6.2',
   ipFpEngagementParagraph: '3.2.6 et 7.1.2',
   dataFields: commonDataFields,
+  noteThreshold: 6,
   periodes: [
     {
       id: '1',
-      title: 'première'
+      title: 'première',
     },
     {
       id: '2',
-      title: 'deuxième'
-    }
+      title: 'deuxième',
+    },
   ],
   familles: [
     {
       id: '1',
       title: '<100kwc',
-      requiresFinancialGuarantee: true
-    }
-  ]
+      requiresFinancialGuarantee: true,
+    },
+  ],
 }
 
 const autre: AppelOffre = {
@@ -89,20 +90,21 @@ const autre: AppelOffre = {
   completePluginRequestParagraph: '6.1',
   designationRemovalParagraph: '5.3 et 6.2',
   ipFpEngagementParagraph: '3.2.6 et 7.1.2',
+  noteThreshold: 6,
   dataFields: commonDataFields,
   periodes: [
     {
       id: '3',
-      title: 'troisième'
-    }
+      title: 'troisième',
+    },
   ],
   familles: [
     {
       id: '1',
       title: '<100kwc',
-      requiresFinancialGuarantee: true
-    }
-  ]
+      requiresFinancialGuarantee: true,
+    },
+  ],
 }
 
 const appelsOffreStatic = [fessenheim, autre]
@@ -112,8 +114,8 @@ const appelOffreRepo = {
     return appelsOffreStatic
   },
   findById: async (id: AppelOffre['id']) => {
-    return appelsOffreStatic.find(ao => ao.id === id)
-  }
+    return appelsOffreStatic.find((ao) => ao.id === id)
+  },
 }
 
 export { appelOffreRepo, appelsOffreStatic }

@@ -7,31 +7,31 @@ import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
 
 // Override these to apply serialization/deserialization on inputs/outputs
-const deserialize = item => item
-const serialize = item => item
+const deserialize = (item) => item
+const serialize = (item) => item
 
 export default function makeUserRepo({ sequelize }): UserRepo {
   const UserModel = sequelize.define('user', {
     id: {
       type: DataTypes.UUID,
-      primaryKey: true
+      primaryKey: true,
     },
     firstName: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     lastName: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     email: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     role: {
       type: DataTypes.STRING,
-      allowNull: false
-    }
+      allowNull: false,
+    },
   })
 
   const _isDbReady = isDbReady({ sequelize })
@@ -42,7 +42,8 @@ export default function makeUserRepo({ sequelize }): UserRepo {
     insert,
     update,
     addProject,
-    remove
+    remove,
+    hasProject,
   })
 
   async function findById(id: User['id']): OptionAsync<User> {
@@ -71,7 +72,7 @@ export default function makeUserRepo({ sequelize }): UserRepo {
       const usersRaw = await UserModel.findAll(
         query
           ? {
-              where: query
+              where: query,
             }
           : {},
         { raw: true }
@@ -107,7 +108,7 @@ export default function makeUserRepo({ sequelize }): UserRepo {
 
     try {
       await UserModel.update(serialize(user), {
-        where: { id: user.id }
+        where: { id: user.id },
       })
       return Ok(user)
     } catch (error) {
@@ -139,6 +140,31 @@ export default function makeUserRepo({ sequelize }): UserRepo {
     } catch (error) {
       if (CONFIG.logDbErrors) console.log('User.addProject error', error)
       return Err(error)
+    }
+  }
+
+  async function hasProject(
+    userId: User['id'],
+    projectId: Project['id']
+  ): Promise<boolean> {
+    try {
+      const userInstance = await UserModel.findByPk(userId)
+
+      if (!userInstance) {
+        throw new Error('Cannot find user to add project to')
+      }
+
+      const ProjectModel = sequelize.model('project')
+      const projectInstance = await ProjectModel.findByPk(projectId)
+
+      if (!projectInstance) {
+        throw new Error('Cannot find project to be added to user')
+      }
+
+      return await userInstance.hasProject(projectInstance)
+    } catch (error) {
+      if (CONFIG.logDbErrors) console.log('User.hasProject error', error)
+      return false
     }
   }
 

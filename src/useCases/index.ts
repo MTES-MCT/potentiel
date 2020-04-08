@@ -9,6 +9,7 @@ import makeRequestModification from './requestModification'
 import makeListUserRequests from './listUserRequests'
 import makeListAllRequests from './listAllRequests'
 import makeListUnnotifiedProjects from './listUnnotifiedProjects'
+import makeGetUserProject from './getUserProject'
 
 import { sendEmailNotification } from '../helpers/sendEmailNotification'
 
@@ -19,17 +20,17 @@ import {
   candidateNotificationRepo,
   projectAdmissionKeyRepo,
   modificationRequestRepo,
-  appelOffreRepo
+  appelOffreRepo,
 } from '../dataAccess'
 
 const login = makeLogin({
   credentialsRepo,
-  userRepo
+  userRepo,
 })
 
 const importProjects = makeImportProjects({
   projectRepo,
-  appelOffreRepo
+  appelOffreRepo,
 })
 
 const listProjects = makeListProjects({ projectRepo })
@@ -39,7 +40,7 @@ const sendCandidateNotification = makeSendCandidateNotification({
   projectRepo,
   projectAdmissionKeyRepo,
   appelOffreRepo,
-  sendEmailNotification
+  sendEmailNotification,
 })
 
 const sendAllCandidateNotifications = makeSendAllCandidateNotifiations({
@@ -47,14 +48,14 @@ const sendAllCandidateNotifications = makeSendAllCandidateNotifiations({
   userRepo,
   credentialsRepo,
   candidateNotificationRepo,
-  sendCandidateNotification
+  sendCandidateNotification,
 })
 
 const signup = makeSignup({
   userRepo,
   credentialsRepo,
   projectAdmissionKeyRepo,
-  projectRepo
+  projectRepo,
 })
 
 const listUserProjects = makeListUserProjects({ projectRepo })
@@ -63,6 +64,8 @@ const requestModification = makeRequestModification({ modificationRequestRepo })
 
 const listUserRequests = makeListUserRequests({ modificationRequestRepo })
 const listAllRequests = makeListAllRequests({ modificationRequestRepo })
+
+const getUserProject = makeGetUserProject({ projectRepo, userRepo })
 
 const useCases = Object.freeze({
   login,
@@ -75,7 +78,8 @@ const useCases = Object.freeze({
   requestModification,
   listUserRequests,
   listAllRequests,
-  listUnnotifiedProjects
+  listUnnotifiedProjects,
+  getUserProject,
 })
 
 export default useCases
@@ -90,5 +94,6 @@ export {
   requestModification,
   listUserRequests,
   listAllRequests,
-  listUnnotifiedProjects
+  listUnnotifiedProjects,
+  getUserProject,
 }

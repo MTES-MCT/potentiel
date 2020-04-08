@@ -44,7 +44,12 @@ export default {
     appelOffreId: string
     periodeId: string
   }>('/admin/notifier-candidats.html'),
-  CANDIDATE_CERTIFICATE: withProjectId('/admin/candidate-certificate.html'),
+  CANDIDATE_CERTIFICATE: (projectId?: Project['id']) => {
+    const route = '/telechargement/:projectId/attestation.pdf'
+    if (projectId) {
+      return route.replace(':projectId', projectId)
+    } else return route
+  },
   ADMIN_NOTIFY_CANDIDATES_ACTION: withParams<{
     appelOffreId: string
     periodeId: string
@@ -53,7 +58,6 @@ export default {
   USER_LIST_PROJECTS: '/mes-projets.html',
   USER_LIST_DEMANDES: '/mes-demandes.html',
   DEPOSER_RECOURS: withProjectId('/deposer-recours.html'),
-  TELECHARGER_ATTESTATION: withProjectId('/attestation.pdf'),
   // DEMANDE_DELAIS: withProjectId('/demande-delais.html'),
   // CHANGER_FOURNISSEUR: withProjectId('/changer-fournisseur.html'),
   // CHANGER_ACTIONNAIRE: withProjectId('/changer-actionnaire.html'),
@@ -74,5 +78,5 @@ export default {
     '/demande-modification.html?action=producteur'
   ),
   DEMANDER_ABANDON: withProjectId('/demande-modification.html?action=abandon'),
-  DEMANDE_ACTION: '/soumettre-demande'
+  DEMANDE_ACTION: '/soumettre-demande',
 }

@@ -11,6 +11,7 @@ interface Props {
   ) => Array<{
     title: string
     link: string
+    isDownload?: boolean
     actionId?: string
     projectId?: string
     disabled?: boolean
@@ -48,7 +49,7 @@ const ProjectList = ({ projects, projectActions }: Props) => {
           </tr>
         </thead>
         <tbody>
-          {projects.map(project => (
+          {projects.map((project) => (
             <tr key={'project_' + project.id}>
               <td valign="top">
                 <div {...dataId('projectList-item-periode')}>
@@ -58,7 +59,7 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                   style={{
                     fontStyle: 'italic',
                     lineHeight: 'normal',
-                    fontSize: 12
+                    fontSize: 12,
                   }}
                   {...dataId('projectList-item-famille')}
                 >
@@ -73,7 +74,7 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                   style={{
                     fontStyle: 'italic',
                     lineHeight: 'normal',
-                    fontSize: 12
+                    fontSize: 12,
                   }}
                 >
                   <span {...dataId('projectList-item-communeProjet')}>
@@ -97,7 +98,7 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                   style={{
                     fontStyle: 'italic',
                     lineHeight: 'normal',
-                    fontSize: 12
+                    fontSize: 12,
                   }}
                 >
                   <span {...dataId('projectList-item-nomRepresentantLegal')}>
@@ -116,7 +117,7 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                   style={{
                     fontStyle: 'italic',
                     lineHeight: 'normal',
-                    fontSize: 12
+                    fontSize: 12,
                   }}
                 >
                   kWc
@@ -130,7 +131,7 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                   style={{
                     fontStyle: 'italic',
                     lineHeight: 'normal',
-                    fontSize: 12
+                    fontSize: 12,
                   }}
                 >
                   €/MWh
@@ -144,7 +145,7 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                   style={{
                     fontStyle: 'italic',
                     lineHeight: 'normal',
-                    fontSize: 12
+                    fontSize: 12,
                   }}
                 >
                   kg eq CO2/kWc
@@ -164,7 +165,7 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                   style={{
                     fontStyle: 'italic',
                     lineHeight: 'normal',
-                    fontSize: 12
+                    fontSize: 12,
                   }}
                   {...dataId('projectList-item-motifsElimination')}
                 >
@@ -184,7 +185,14 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                   <ul className="list--action-menu">
                     {projectActions(project)?.map(
                       (
-                        { title, actionId, projectId, link, disabled },
+                        {
+                          title,
+                          actionId,
+                          projectId,
+                          link,
+                          disabled,
+                          isDownload,
+                        },
                         actionIndex
                       ) => (
                         <li key={'notif_' + project.id + '_' + actionIndex}>
@@ -193,6 +201,7 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                           ) : (
                             <a
                               href={link}
+                              download={isDownload}
                               data-actionid={actionId}
                               data-projectid={projectId}
                               {...dataId('projectList-item-action')}

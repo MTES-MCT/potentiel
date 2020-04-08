@@ -4,7 +4,7 @@ import {
   ProjectRepo,
   CandidateNotificationRepo,
   ProjectAdmissionKeyRepo,
-  ModificationRequestRepo
+  ModificationRequestRepo,
 } from '../'
 import {
   Credentials,
@@ -12,7 +12,7 @@ import {
   Project,
   CandidateNotification,
   ProjectAdmissionKey,
-  ModificationRequest
+  ModificationRequest,
 } from '../../entities'
 import { Ok, Err, Some, None, ErrorResult } from '../../types'
 
@@ -44,14 +44,14 @@ const makeClassicRepo = async <T extends HasId>(
         return allItems
       }
 
-      return allItems.filter(item =>
+      return allItems.filter((item) =>
         Object.entries(query).every(([key, value]) => item[key] === value)
       )
     },
     insert: async (item: T) => {
       itemsById[item.id] = {
         ...defaultProperties,
-        ...item
+        ...item,
       }
 
       return Ok<T>(item)
@@ -68,7 +68,7 @@ const makeClassicRepo = async <T extends HasId>(
       itemsById[item.id] = item
 
       return Ok<T>(item)
-    }
+    },
   }
 }
 
@@ -101,7 +101,7 @@ const credentialsRepo: CredentialsRepo = {
     credentialsById[credentials.id] = credentials
 
     return Promise.resolve(Ok(credentials))
-  }
+  },
 }
 
 let candidateNotificationsById: Record<string, CandidateNotification> = {}
@@ -119,7 +119,7 @@ const candidateNotificationRepo: CandidateNotificationRepo = {
       return allItems
     }
 
-    return allItems.filter(item =>
+    return allItems.filter((item) =>
       Object.entries(query).every(([key, value]) => item[key] === value)
     )
   },
@@ -140,7 +140,7 @@ const candidateNotificationRepo: CandidateNotificationRepo = {
     candidateNotificationsById[item.id] = item
 
     return Ok(item)
-  }
+  },
 }
 
 let projectAdmissionKeysById: Record<string, ProjectAdmissionKey> = {}
@@ -159,7 +159,7 @@ const projectAdmissionKeyRepo: ProjectAdmissionKeyRepo = {
       return allItems
     }
 
-    return allItems.filter(item =>
+    return allItems.filter((item) =>
       Object.entries(query).every(([key, value]) => item[key] === value)
     )
   },
@@ -167,7 +167,7 @@ const projectAdmissionKeyRepo: ProjectAdmissionKeyRepo = {
     projectAdmissionKeysById[item.id] = item
 
     return Ok(item)
-  }
+  },
 }
 
 let projectsById: Record<string, Project> = {}
@@ -187,14 +187,14 @@ const projectRepo: ProjectRepo = {
 
     return Promise.all(
       allItems
-        .filter(item =>
+        .filter((item) =>
           Object.entries(query).every(([key, value]) => item[key] === value)
         )
-        .map(async item => {
+        .map(async (item) => {
           if (includeNotifications) {
             item.candidateNotifications = await candidateNotificationRepo.findAll(
               {
-                projectId: item.id
+                projectId: item.id,
               }
             )
           }
@@ -205,7 +205,9 @@ const projectRepo: ProjectRepo = {
   findByUser: (userId: User['id']) => {
     const projectIds: Array<Project['id']> = userProjects[userId] || []
 
-    return Promise.resolve(projectIds.map(projectId => projectsById[projectId]))
+    return Promise.resolve(
+      projectIds.map((projectId) => projectsById[projectId])
+    )
   },
   insert: (project: Project) => {
     projectsById[project.id] = project
@@ -247,11 +249,11 @@ const projectRepo: ProjectRepo = {
 
     await candidateNotificationRepo.insert({
       ...notification,
-      projectId: project.id
+      projectId: project.id,
     })
 
     return Ok(project)
-  }
+  },
 }
 
 let usersById: Record<string, User> = {}
@@ -271,7 +273,7 @@ const userRepo: UserRepo = {
     }
 
     return Promise.resolve(
-      allItems.filter(user =>
+      allItems.filter((user) =>
         Object.entries(query).every(([key, value]) => user[key] === value)
       )
     )
@@ -309,7 +311,14 @@ const userRepo: UserRepo = {
 
     userProjects[userId].push(projectId)
     return Ok(null)
-  }
+  },
+  hasProject: async (userId: User['id'], projectId: Project['id']) => {
+    if (!userProjects[userId]) {
+      return false
+    }
+
+    return userProjects[userId].includes(projectId)
+  },
 }
 
 let modificationRequestsById: Record<string, ModificationRequest> = {}
@@ -327,7 +336,7 @@ const modificationRequestRepo: ModificationRequestRepo = {
       return allItems
     }
 
-    return allItems.filter(item =>
+    return allItems.filter((item) =>
       Object.entries(query).every(([key, value]) => item[key] === value)
     )
   },
@@ -348,7 +357,7 @@ const modificationRequestRepo: ModificationRequestRepo = {
     modificationRequestsById[item.id] = item
 
     return Ok(item)
-  }
+  },
 }
 
 const resetDatabase = () => {
@@ -368,6 +377,6 @@ export {
   candidateNotificationRepo,
   projectAdmissionKeyRepo,
   modificationRequestRepo,
-  resetDatabase
+  resetDatabase,
 }
 export * from './appelOffre'

@@ -51,6 +51,7 @@ export default function AdminListProjects({
             {
               title: 'Voir attestation',
               link: ROUTES.CANDIDATE_CERTIFICATE(project.id),
+              isDownload: true,
             },
           ]}
         />

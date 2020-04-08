@@ -9,7 +9,7 @@ import {
   Static,
   Unknown,
   Partial,
-  Undefined
+  Undefined,
 } from '../types/schemaTypes'
 import buildMakeEntity from '../helpers/buildMakeEntity'
 
@@ -17,12 +17,12 @@ import { periodeSchema } from './periode'
 import { familleSchema } from './famille'
 
 const csvFieldSchema = Record({
-  field: String
+  field: String,
 }).And(
   Partial({
     string: String,
     number: String,
-    date: String
+    date: String,
   })
 )
 
@@ -39,9 +39,10 @@ const appelOffreSchema = Record({
   completePluginRequestParagraph: String,
   designationRemovalParagraph: String,
   ipFpEngagementParagraph: String,
+  noteThreshold: Number,
   periodes: Array(periodeSchema),
   familles: Array(familleSchema),
-  dataFields: Array(csvFieldSchema)
+  dataFields: Array(csvFieldSchema),
 })
 
 const fields: string[] = [...Object.keys(appelOffreSchema.fields)]

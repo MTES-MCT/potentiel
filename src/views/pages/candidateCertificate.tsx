@@ -1,39 +1,348 @@
 import React from 'react'
-import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer'
+import {
+  Page,
+  Text,
+  View,
+  Document,
+  StyleSheet,
+  Image,
+  Font,
+} from '@react-pdf/renderer'
+import ReactPDF from '@react-pdf/renderer'
+import { Project, AppelOffre, Periode } from '../../entities'
+import moment from 'moment'
+moment.locale('fr')
 
-// Create styles
-const styles = StyleSheet.create({
-  page: {
-    flexDirection: 'row',
-    backgroundColor: '#FFFFFF'
-  },
-  section: {
-    margin: 10,
-    padding: 10,
-    flexGrow: 1
-  }
+Font.register({
+  family: 'Open Sans',
+  fonts: [
+    {
+      src:
+        'https://cdn.jsdelivr.net/npm/open-sans-all@0.1.3/fonts/open-sans-regular.ttf',
+    },
+    {
+      src:
+        'https://cdn.jsdelivr.net/npm/open-sans-all@0.1.3/fonts/open-sans-600.ttf',
+      fontWeight: 600,
+    },
+  ],
 })
 
-// Create Document Component
-const MyDocument = () => (
-  <Document>
-    <Page size="A4" style={styles.page}>
-      <View style={styles.section}>
-        <Text>Section #1</Text>
-      </View>
-      <View style={styles.section}>
-        <Text>Section #2</Text>
-      </View>
-    </Page>
-    <Page size="A4" style={styles.page}>
-      <View style={styles.section}>
-        <Text>Section #1</Text>
-      </View>
-      <View style={styles.section}>
-        <Text>Section #2</Text>
-      </View>
-    </Page>
-  </Document>
-)
+interface LaureatProps {
+  project: Project
+  appelOffre: AppelOffre
+  periode: Periode
+}
+const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
+  const objet = `Désignation des lauréats de la {periode.title} période de
+            l'appel offres ${appelOffre.title}`
 
-export { MyDocument }
+  const requiresFinancialGuarantee = appelOffre.familles.find(
+    (famille) => famille.id === project.familleId
+  )?.requiresFinancialGuarantee
+
+  const body = (
+    <>
+      <Text
+        style={{
+          fontSize: 10,
+          textAlign: 'justify',
+          marginTop: 10,
+          fontWeight: 'bold',
+        }}
+      >
+        Suite à l’instruction de votre offre par la Commission de régulation de
+        l’énergie (CRE), j’ai le plaisir de vous annoncer que le projet
+        susmentionné est désigné lauréat de la {periode.title} tranche de
+        l’appel d’offres visé en objet.
+      </Text>
+      <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
+        Conformément à l’engagement contenu dans votre offre, je vous informe
+        que le prix de référence T de l’électricité retenu en application des
+        dispositions du point {appelOffre.referencePriceParagraph} du cahier des
+        charges est de {project.prixReference} €/MWh. La valeur de l’évaluation
+        carbone des modules est de {project.evaluationCarbone} kg eq CO2/kWc.
+      </Text>
+
+      <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
+        Par ailleurs, je vous rappelle les obligations suivantes du fait de
+        cette désignation :
+      </Text>
+      <Text
+        style={{
+          fontSize: 10,
+          textAlign: 'justify',
+          marginTop: 10,
+          marginLeft: 20,
+        }}
+      >
+        - respecter l'ensemble des obligations et prescriptions de toute nature
+        figurant au cahier des charges.
+      </Text>
+      <Text
+        style={{
+          fontSize: 10,
+          textAlign: 'justify',
+          marginTop: 10,
+          marginLeft: 20,
+        }}
+      >
+        - si ce n’est déjà fait, déposer une demande complète de raccordement
+        dans les deux (2) mois à compter de la présente notification&sup1;.
+      </Text>
+      {requiresFinancialGuarantee ? (
+        <Text style={{ fontSize: 10, marginTop: 10, marginLeft: 20 }}>
+          - constituer une garantie d’exécution dans un délai de deux (2) mois à
+          compter de la présente notification. Les candidats retenus n’ayant pas
+          adressé au préfet de région du site d’implantation l’attestation de
+          constitution de garantie financière dans le délai prévu feront l’objet
+          d’une procédure de mise en demeure. En l’absence d’exécution dans un
+          délai d’un mois après réception de la mise en demeure, le candidat
+          pourra faire l’objet d’un retrait de la présente décision le désignant
+          lauréat&sup2;.{' '}
+          <Text style={{ textDecoration: 'underline' }}>
+            La durée de la garantie doit être au minimum de 42 mois.
+          </Text>
+        </Text>
+      ) : (
+        <Text />
+      )}
+      <Text
+        style={{
+          fontSize: 10,
+          textAlign: 'justify',
+          marginTop: 10,
+          marginLeft: 20,
+        }}
+      >
+        - sauf délais dérogatoires prévus au{' '}
+        {appelOffre.derogatoryDelayParagraph} du cahier des charges, achever
+        l’installation dans un délai de {appelOffre.monthsBeforeRealisation}{' '}
+        mois à compter de la présente notification.
+      </Text>
+      <Text
+        style={{
+          fontSize: 10,
+          textAlign: 'justify',
+          marginTop: 10,
+          marginLeft: 20,
+        }}
+      >
+        - fournir à EDF l’attestation de conformité de l’installation prévue au
+        paragraphe {appelOffre.conformityParagraph} du cahier des charges.
+      </Text>
+      <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
+        Je vous rappelle également que l’installation mise en service doit être
+        en tout point conforme à celle décrite dans le dossier de candidature et
+        que toute modification du projet par rapport à l’offre déposée nécessite
+        l’accord de l’autorité administrative.{' '}
+        <Text
+          style={{
+            textDecoration: 'underline',
+          }}
+        >
+          Les changements conduisant à une diminution de la notation d’un ou
+          plusieurs critères d’évaluations de l’offre, notamment par un bilan
+          carbone moins performant, ne seront pas acceptés.
+        </Text>
+      </Text>
+    </>
+  )
+
+  const footnotes = (
+    <>
+      <Text>
+        &sup1; Paragraphe {appelOffre.completePluginRequestParagraph} du cahier
+        des charges
+      </Text>
+      {requiresFinancialGuarantee ? (
+        <Text>
+          &sup2; Paragraphe {appelOffre.designationRemovalParagraph} du cahier
+          des charges
+        </Text>
+      ) : (
+        <Text />
+      )}
+      <Text>
+        &sup3; Paragraphe {appelOffre.derogatoryDelayParagraph} du cahier des
+        charges
+      </Text>
+    </>
+  )
+
+  return { project, appelOffre, periode, objet, body, footnotes }
+}
+
+interface ElimineProps {
+  project: Project
+  appelOffre: AppelOffre
+  periode: Periode
+}
+const Elimine = ({ project, appelOffre, periode }: ElimineProps) => {
+  const objet = `Avis de rejet à l’issue de la ${periode.title} période de
+            l'appel offres ${appelOffre.title}`
+
+  const body = (
+    <>
+      <Text
+        style={{
+          fontSize: 10,
+          textAlign: 'justify',
+          marginTop: 10,
+          fontWeight: 'bold',
+        }}
+      >
+        {project.motifsElimination === 'Au-dessus de Pcible'
+          ? `Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été classée au-delà de la puissance offerte pour cette période de candidature dans la famille concernée. Votre offre a en effet obtenu une note de ${
+              Math.round(project.note * 100) / 100
+            } points alors que le classement des dossiers a fait apparaître que la sélection des offres jusqu’à la note de ${
+              appelOffre.noteThreshold
+            } points permettait de remplir les objectifs de volumes de l’appel d’offres dans cette famille. Par conséquent, cette offre n’a pas été retenue.`
+          : project.motifsElimination.includes('Déjà lauréat')
+          ? 'Suite à l’examen par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été retirée de l’instruction, ayant été désignée lauréate au cours d’un précédent appel d’offres. Par conséquent, cette offre n’a pas été retenue.'
+          : `Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été éliminée pour le motif suivant : «${project.motifsElimination}». Par conséquent, cette offre n’a pas été retenue.`}
+      </Text>
+      <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
+        Vous avez la possibilité de contester la présente décision auprès du
+        tribunal administratif territorialement compétent dans un délai de deux
+        mois à compter de sa date de notification.
+      </Text>
+    </>
+  )
+
+  return { project, appelOffre, periode, objet, body }
+}
+
+// Create Document Component
+interface CertificateProps {
+  project: Project
+  appelOffre: AppelOffre
+  periode: Periode
+  objet: string
+  body: JSX.Element
+  footnotes?: JSX.Element
+}
+const Certificate = ({
+  project,
+  appelOffre,
+  periode,
+  objet,
+  body,
+  footnotes,
+}: CertificateProps) => {
+  if (!project.notifiedOn) {
+    throw new Error("Le projet n'est pas encore notifié")
+  }
+
+  return (
+    <Document>
+      <Page
+        size="A4"
+        style={{
+          backgroundColor: '#FFF',
+          fontFamily: 'Open Sans',
+          paddingTop: 50,
+          paddingBottom: 50,
+        }}
+      >
+        <View
+          style={{
+            position: 'absolute',
+            top: 17,
+            width: '100%',
+            textAlign: 'center',
+          }}
+        >
+          <Image
+            style={{ width: 90, height: 53, marginHorizontal: 'auto' }}
+            src="http://localhost:3000/images/logo.png"
+          />
+          <Text style={{ fontSize: 10, marginTop: 30 }}>
+            MINISTÈRE DE LA TRANSITION ECOLOGIQUE ET SOLIDAIRE
+          </Text>
+        </View>
+        <View style={{ position: 'absolute', top: 150, left: 400 }}>
+          <Text style={{ fontSize: 10, marginBottom: 20 }}>
+            Paris, le {moment(project.notifiedOn).format('D MMMM YYYY')}
+          </Text>
+          <Text style={{ fontSize: 10 }}>{project.nomRepresentantLegal}</Text>
+          <Text style={{ fontSize: 10 }}>{project.nomCandidat}</Text>
+          <Text style={{ fontSize: 10 }}>{project.email}</Text>
+        </View>
+        <View style={{ marginTop: 225, paddingHorizontal: 70 }}>
+          <Text style={{ fontSize: 10, textAlign: 'justify' }}>
+            Objet : {objet}
+          </Text>
+          <Text style={{ fontSize: 8, marginTop: 10 }}>
+            Nos réf.: {appelOffre.shortTitle}/T{periode.id}-N°CRE{' '}
+            {project.numeroCRE}
+          </Text>
+          <Text style={{ fontSize: 8, marginTop: 0 }}>
+            Dossier suivi par : aopv.dgec@developpement-durable.gouv.fr
+          </Text>
+          <Text
+            style={{
+              fontSize: 10,
+              marginTop: 30,
+              marginBottom: 20,
+              marginLeft: 20,
+            }}
+          >
+            Madame, Monsieur,
+          </Text>
+          <Text style={{ fontSize: 10, textAlign: 'justify' }}>
+            En application des dispositions de l’article L. 311-10 du code de
+            l’énergie relatif à la procédure de mise en concurrence pour les
+            installations de production d’électricité, le ministre chargé de
+            l’énergie a lancé en {appelOffre.launchDate} l’appel d’offres cité
+            en objet.
+          </Text>
+          <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
+            En réponse à la {periode.title} tranche de cet appel d’offres, vous
+            avez déposé dans la famille {project.familleId} le projet «{' '}
+            {project.nomProjet} », situé {project.adresseProjet}{' '}
+            {project.codePostalProjet} {project.communeProjet} d’une puissance
+            de {project.puissance} {appelOffre.powerUnit}.
+          </Text>
+          {body}
+          <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 30 }}>
+            Je vous prie d’agréer, Madame, Monsieur, l’expression de mes
+            salutations distinguées.
+          </Text>
+          <Image
+            style={{ width: 260, height: 85, marginTop: 20, marginLeft: 200 }}
+            src="http://localhost:3000/images/signature.png"
+          />
+          {footnotes ? (
+            <View style={{ marginTop: 100, fontSize: 8 }}>{footnotes}</View>
+          ) : (
+            <View />
+          )}
+        </View>
+      </Page>
+    </Document>
+  )
+}
+
+interface MakeCertificateProps {
+  destination: string
+  project: Project
+  appelOffre: AppelOffre
+  periode: Periode
+}
+const makeCertificate = ({
+  destination,
+  project,
+  appelOffre,
+  periode,
+}: MakeCertificateProps) => {
+  let content
+  if (project.classe === 'Classé') {
+    content = Laureat({ project, appelOffre, periode })
+  } else {
+    content = Elimine({ project, appelOffre, periode })
+  }
+  return ReactPDF.render(<Certificate {...content} />, destination)
+}
+
+export { makeCertificate }
