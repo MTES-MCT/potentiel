@@ -17,7 +17,7 @@ interface AdminListProjectsProps {
 /* Pure component */
 export default function AdminListProjects({
   request,
-  projects
+  projects,
 }: AdminListProjectsProps) {
   const { error, success } = request.query || {}
   return (
@@ -30,19 +30,6 @@ export default function AdminListProjects({
             className="table__filter"
             placeholder="Filtrer les projets"
           />
-          <a
-            className="button-outline primary"
-            style={{
-              float: 'right',
-              marginBottom: 'var(--space-s)',
-              marginTop: '2px',
-              marginRight: '15px'
-            }}
-            {...dataId('send-candidate-notifications-button')}
-            href={ROUTES.SEND_NOTIFICATIONS_ACTION}
-          >
-            Envoyer les notifications aux candidats
-          </a>
         </div>
         {success ? (
           <div className="notification success" {...dataId('success-message')}>
@@ -63,8 +50,8 @@ export default function AdminListProjects({
           projectActions={(project: Project) => [
             {
               title: 'Voir attestation',
-              link: ROUTES.CANDIDATE_CERTIFICATE(project.id)
-            }
+              link: ROUTES.CANDIDATE_CERTIFICATE(project.id),
+            },
           ]}
         />
       </div>
