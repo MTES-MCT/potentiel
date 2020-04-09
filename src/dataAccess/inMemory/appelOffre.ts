@@ -1,44 +1,86 @@
 import { AppelOffre } from '../../entities'
+import { asLiteral } from '../../helpers/asLiteral'
+import _ from 'lodash'
 
 const commonDataFields = [
-  { field: 'appelOffreId', string: "Appel d'offres" },
-  { field: 'periodeId', string: 'Période' },
-  { field: 'numeroCRE', string: 'N°CRE' },
-  { field: 'familleId', string: 'Famille de candidature' },
-  { field: 'nomCandidat', string: 'Candidat' },
-  { field: 'nomProjet', string: 'Nom projet' },
+  {
+    field: 'appelOffreId',
+    type: asLiteral('string'),
+    column: "Appel d'offres",
+  },
+  { field: 'periodeId', type: asLiteral('string'), column: 'Période' },
+  { field: 'numeroCRE', type: asLiteral('string'), column: 'N°CRE' },
+  {
+    field: 'familleId',
+    type: asLiteral('string'),
+    column: 'Famille de candidature',
+  },
+  { field: 'nomCandidat', type: asLiteral('string'), column: 'Candidat' },
+  { field: 'nomProjet', type: asLiteral('string'), column: 'Nom projet' },
   {
     field: 'puissance',
-    number:
+    type: asLiteral('number'),
+    column:
       'Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)',
   },
   {
     field: 'prixReference',
-    number:
+    type: asLiteral('number'),
+    column:
       'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)',
   },
   {
     field: 'evaluationCarbone',
-    number:
+    type: asLiteral('number'),
+    column:
       'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)',
   },
-  { field: 'note', number: 'Note totale' },
+  { field: 'note', type: asLiteral('number'), column: 'Note totale' },
   {
     field: 'nomRepresentantLegal',
-    string: 'Nom (personne physique) ou raison sociale (personne morale) :',
+    type: asLiteral('string'),
+    column: 'Nom et prénom du représentant légal',
   },
-  { field: 'email', string: 'Adresse électronique du contact' },
-  { field: 'adresseProjet', string: 'N°, voie, lieu-dit' },
-  { field: 'codePostalProjet', string: 'CP' },
-  { field: 'communeProjet', string: 'Commune' },
-  { field: 'departementProjet', string: 'Département' },
-  { field: 'regionProjet', string: 'Région' },
-  { field: 'classe', string: 'Classé ?' },
-  { field: 'motifsElimination', string: "Motif d'élimination" },
-  { field: 'fournisseur', string: 'Nom du fabricant \n(Modules ou films)' },
-  { field: 'actionnaire', string: 'Nom et prénom du représentant légal' },
-  { field: 'producteur', string: 'Nom et prénom du représentant légal' },
-  { field: 'notifiedOn', date: 'Notification' },
+  {
+    field: 'email',
+    type: asLiteral('string'),
+    column: 'Adresse électronique du contact',
+  },
+  {
+    field: 'adresseProjet',
+    type: asLiteral('string'),
+    column: 'N°, voie, lieu-dit',
+  },
+  { field: 'codePostalProjet', type: asLiteral('string'), column: 'CP' },
+  { field: 'communeProjet', type: asLiteral('string'), column: 'Commune' },
+  {
+    field: 'departementProjet',
+    type: asLiteral('string'),
+    column: 'Département',
+  },
+  { field: 'regionProjet', type: asLiteral('string'), column: 'Région' },
+  { field: 'classe', type: asLiteral('string'), column: 'Classé ?' },
+  {
+    field: 'motifsElimination',
+    type: asLiteral('string'),
+    column: "Motif d'élimination",
+  },
+  {
+    field: 'fournisseur',
+    type: asLiteral('string'),
+    column: 'Nom du fabricant \n(Modules ou films)',
+  },
+  {
+    field: 'actionnaire',
+    type: asLiteral('string'),
+    column: 'Nom (personne physique) ou raison sociale (personne morale) :',
+  },
+  {
+    field: 'producteur',
+    type: asLiteral('string'),
+    column: 'Nom et prénom du signataire du formulaire',
+  },
+  { field: 'notifiedOn', type: asLiteral('date'), column: 'Notification' },
 ]
 
 const fessenheim: AppelOffre = {

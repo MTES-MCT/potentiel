@@ -10,7 +10,7 @@ import {
   Static,
   Unknown,
   Partial,
-  Undefined
+  Undefined,
 } from '../types/schemaTypes'
 import buildMakeEntity from '../helpers/buildMakeEntity'
 
@@ -24,11 +24,13 @@ const baseProjectSchema = Record({
   familleId: String,
   nomCandidat: String,
   nomProjet: String,
-  puissance: Number.withConstraint(value => value > 0),
-  prixReference: Number.withConstraint(value => value > 0),
-  evaluationCarbone: Number.withConstraint(value => value > 0),
-  note: Number.withConstraint(value => value >= 0),
+  puissance: Number.withConstraint((value) => value > 0),
+  prixReference: Number.withConstraint((value) => value > 0),
+  evaluationCarbone: Number.withConstraint((value) => value > 0),
+  note: Number.withConstraint((value) => value >= 0),
   nomRepresentantLegal: String,
+  isFinancementParticipatif: Boolean,
+  isInvestissementParticipatif: Boolean,
   email: String.withConstraint(isEmail.validate),
   adresseProjet: String,
   codePostalProjet: String,
@@ -40,17 +42,17 @@ const baseProjectSchema = Record({
   producteur: String,
   classe: Union(Literal('Eliminé'), Literal('Classé')),
   motifsElimination: String,
-  notifiedOn: Number
+  notifiedOn: Number,
 })
 const projectSchema = baseProjectSchema.And(
   Partial({
-    candidateNotifications: Array(candidateNotificationSchema).Or(Undefined)
+    candidateNotifications: Array(candidateNotificationSchema).Or(Undefined),
   })
 )
 
 const fields: string[] = [
   'candidateNotifications',
-  ...Object.keys(baseProjectSchema.fields)
+  ...Object.keys(baseProjectSchema.fields),
 ]
 
 type Project = Static<typeof projectSchema>
@@ -61,7 +63,9 @@ interface MakeProjectDependencies {
 
 export default ({ makeId }: MakeProjectDependencies) =>
   buildMakeEntity<Project>(projectSchema, makeId, fields, {
-    notifiedOn: 0
+    notifiedOn: 0,
+    isInvestissementParticipatif: false,
+    isFinancementParticipatif: false,
   })
 
 export { Project, projectSchema }

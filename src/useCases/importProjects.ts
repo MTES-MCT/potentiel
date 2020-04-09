@@ -37,10 +37,10 @@ const makeErrorForLine = (
 
 export default function makeImportProjects({
   projectRepo,
-  appelOffreRepo
+  appelOffreRepo,
 }: MakeUseCaseProps) {
   return async function importProjects({
-    lines
+    lines,
   }: CallUseCaseProps): ResultAsync<null> {
     // Check if there is at least one line to insert
     if (!lines || !lines.length) {
@@ -58,7 +58,7 @@ export default function makeImportProjects({
         // Find the corresponding appelOffre
         const appelOffreId = line["Appel d'offres"]
         const appelOffre = appelsOffre.find(
-          appelOffre => appelOffre.id === appelOffreId
+          (appelOffre) => appelOffre.id === appelOffreId
         )
 
         if (!appelOffreId || !appelOffre) {
@@ -72,7 +72,7 @@ export default function makeImportProjects({
         // Check the periode
         const periodeId = line['Période']
         const periode = appelOffre.periodes.find(
-          periode => periode.id === periodeId
+          (periode) => periode.id === periodeId
         )
 
         if (!periodeId || !periode) {
@@ -80,7 +80,7 @@ export default function makeImportProjects({
             'Periode introuvable',
             periodeId,
             line,
-            appelOffre.periodes.map(item => item.id)
+            appelOffre.periodes.map((item) => item.id)
           )
           return makeErrorForLine(
             new Error('Période introuvable'),
@@ -92,24 +92,23 @@ export default function makeImportProjects({
         // All good, try to make the project
         const projectData = appelOffre.dataFields.reduce(
           (properties, dataField) => {
-            const { field, string, number, date } = dataField
+            const { field, column, type } = dataField
 
             // Parse line depending on column format
-            const value = string
-              ? line[string] && line[string].trim()
-              : number
-              ? toNumber(line[number])
-              : date
-              ? (line[date] &&
-                  moment(line[date], 'DD/MM/YYYY')
-                    .toDate()
-                    .getTime()) ||
-                undefined
-              : undefined
+            const value =
+              type === 'string'
+                ? line[column] && line[column].trim()
+                : type === 'number'
+                ? toNumber(line[column])
+                : type === 'date'
+                ? (line[column] &&
+                    moment(line[column], 'DD/MM/YYYY').toDate().getTime()) ||
+                  undefined
+                : undefined
 
             return {
               ...properties,
-              [field]: value
+              [field]: value,
             }
           },
           {}
@@ -167,18 +166,20 @@ export default function makeImportProjects({
       projects.unwrap().map(projectRepo.insert)
     )
 
-    if (insertions.some(project => project.is_err())) {
+    if (insertions.some((project) => project.is_err())) {
       console.log(
         'importProjects use-case: some insertions have errors',
-        insertions.filter(item => item.is_err()).map(item => item.unwrap_err())
+        insertions
+          .filter((item) => item.is_err())
+          .map((item) => item.unwrap_err())
       )
       projects.unwrap_err()
       // Some projects failed to be inserted
       // Remove all the others
       await Promise.all(
         insertions
-          .filter(project => project.is_ok())
-          .map(project => project.unwrap().id)
+          .filter((project) => project.is_ok())
+          .map((project) => project.unwrap().id)
           .map(projectRepo.remove)
       )
       return ErrorResult(ERREUR_INSERTION)

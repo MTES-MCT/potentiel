@@ -4,7 +4,7 @@ import {
   Project,
   User,
   makeProject,
-  CandidateNotification
+  CandidateNotification,
 } from '../../entities'
 import { mapExceptError, mapIfOk } from '../../helpers/results'
 import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types'
@@ -12,108 +12,116 @@ import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
 
 // Override these to apply serialization/deserialization on inputs/outputs
-const deserialize = item => item
-const serialize = item => item
+const deserialize = (item) => item
+const serialize = (item) => item
 
 export default function makeProjectRepo({ sequelize }): ProjectRepo {
   const ProjectModel = sequelize.define('project', {
     id: {
       type: DataTypes.UUID,
-      primaryKey: true
+      primaryKey: true,
     },
     appelOffreId: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     periodeId: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     numeroCRE: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     familleId: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     nomCandidat: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     nomProjet: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     puissance: {
       type: DataTypes.NUMBER,
-      allowNull: false
+      allowNull: false,
     },
     prixReference: {
       type: DataTypes.NUMBER,
-      allowNull: false
+      allowNull: false,
     },
     evaluationCarbone: {
       type: DataTypes.NUMBER,
-      allowNull: false
+      allowNull: false,
     },
     note: {
       type: DataTypes.NUMBER,
-      allowNull: false
+      allowNull: false,
     },
     nomRepresentantLegal: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     email: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     adresseProjet: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     codePostalProjet: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     communeProjet: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     departementProjet: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     regionProjet: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     classe: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     fournisseur: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
     },
     actionnaire: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
     },
     producteur: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
     },
     motifsElimination: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
+    },
+    isFinancementParticipatif: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    },
+    isInvestissementParticipatif: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
     },
     notifiedOn: {
       type: DataTypes.NUMBER,
       allowNull: false,
-      defaultValue: 0
-    }
+      defaultValue: 0,
+    },
   })
 
   const _isDbReady = isDbReady({ sequelize })
@@ -125,7 +133,7 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
     insert,
     update,
     remove,
-    addNotification
+    addNotification,
   })
 
   async function findById(id: Project['id']): OptionAsync<Project> {
@@ -162,7 +170,7 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
       if (query) opts.where = query
       if (includeNotifications) opts.include = CandidateNotificationModel
 
-      const projectsRaw = (await ProjectModel.findAll(opts)).map(item =>
+      const projectsRaw = (await ProjectModel.findAll(opts)).map((item) =>
         item.get()
       ) // We need to use this instead of raw: true because of the include
 
@@ -230,7 +238,7 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
 
     try {
       await ProjectModel.update(serialize(project), {
-        where: { id: project.id }
+        where: { id: project.id },
       })
       return Ok(project)
     } catch (error) {

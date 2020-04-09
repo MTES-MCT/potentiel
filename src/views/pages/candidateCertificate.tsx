@@ -163,10 +163,6 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
       ) : (
         <Text />
       )}
-      <Text>
-        &sup3; Paragraphe {appelOffre.derogatoryDelayParagraph} du cahier des
-        charges
-      </Text>
     </>
   )
 

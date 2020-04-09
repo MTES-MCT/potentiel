@@ -18,13 +18,9 @@ import { familleSchema } from './famille'
 
 const csvFieldSchema = Record({
   field: String,
-}).And(
-  Partial({
-    string: String,
-    number: String,
-    date: String,
-  })
-)
+  column: String,
+  type: Union(Literal('string'), Literal('number'), Literal('date')),
+})
 
 const appelOffreSchema = Record({
   id: String,

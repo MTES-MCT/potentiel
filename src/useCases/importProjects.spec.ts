@@ -1,46 +1,64 @@
 import makeImportProjects, {
   ERREUR_AUCUNE_LIGNE,
   ERREUR_FORMAT_LIGNE,
-  ERREUR_INSERTION
+  ERREUR_INSERTION,
 } from './importProjects'
-
-import { projectRepo, appelOffreRepo } from '../dataAccess/inMemory'
+import _ from 'lodash'
+import {
+  projectRepo,
+  appelOffreRepo,
+  appelsOffreStatic,
+} from '../dataAccess/inMemory'
+import hashPassword from '../helpers/hashPassword'
+import moment from 'moment'
 
 const importProjects = makeImportProjects({ projectRepo, appelOffreRepo })
 
+const phonyAppelOffre = appelsOffreStatic[0]
+const phonyPeriodId = phonyAppelOffre.periodes[0].id
+
+const getColumnForField = (field: string) => {
+  const dataField = phonyAppelOffre.dataFields.find(
+    (item) => item.field === field
+  )
+  if (!dataField)
+    console.log(
+      'importProjects test, getColumnForField missing column for field',
+      field
+    )
+  return dataField ? dataField.column : 'missing-' + field
+}
+
 const makePhonyLine = () => ({
-  "Appel d'offres": 'fessenheim',
-  Période: '6',
-  'N°CRE': 'numeroCRE',
-  'Famille de candidature': 'famille',
-  Candidat: 'nomCandidat',
-  'Nom projet': 'nomProjet',
-  'Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)':
-    '11,5',
-  'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)':
-    '100',
-  'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)':
-    '142.5',
-  'Note totale': '11',
-  'Nom (personne physique) ou raison sociale (personne morale) :':
-    'nomRepresentantLegal',
-  'Adresse électronique du contact': 'email@address.com',
-  'N°, voie, lieu-dit': 'adresseProjet',
-  CP: 'codePostalProjet',
-  Commune: 'communeProjet',
-  Département: 'departementProjet',
-  Région: 'regionProjet',
-  'Classé ?': 'Classé',
-  "Motif d'élimination": 'motifsElimination',
-  'Nom du fabricant (Modules ou films)': 'fournisseur',
-  'Nom et prénom du représentant légal': 'actionnaire producteur',
-  Notification: '22/04/2020'
+  [getColumnForField('appelOffreId')]: phonyAppelOffre.id,
+  [getColumnForField('periodeId')]: phonyPeriodId,
+  [getColumnForField('numeroCRE')]: 'numeroCRE',
+  [getColumnForField('familleId')]: 'famille',
+  [getColumnForField('nomCandidat')]: 'nomCandidat',
+  [getColumnForField('nomProjet')]: 'nomProjet',
+  [getColumnForField('puissance')]: '11,5',
+  [getColumnForField('prixReference')]: '100',
+  [getColumnForField('evaluationCarbone')]: '142.5',
+  [getColumnForField('note')]: '11',
+  [getColumnForField('nomRepresentantLegal')]: 'nomRepresentantLegal',
+  [getColumnForField('email')]: 'email@address.com',
+  [getColumnForField('adresseProjet')]: 'adresseProjet',
+  [getColumnForField('codePostalProjet')]: 'codePostalProjet',
+  [getColumnForField('communeProjet')]: 'communeProjet',
+  [getColumnForField('departementProjet')]: 'departementProjet',
+  [getColumnForField('regionProjet')]: 'regionProjet',
+  [getColumnForField('fournisseur')]: 'fournisseur',
+  [getColumnForField('actionnaire')]: 'actionnaire',
+  [getColumnForField('producteur')]: 'producteur',
+  [getColumnForField('classe')]: 'Classé',
+  [getColumnForField('motifsElimination')]: '',
+  [getColumnForField('notifiedOn')]: '22/04/2020',
 })
 
 describe('importProjects use-case', () => {
   it("should throw an error if there isn't at least one line", async () => {
     const result = await importProjects({
-      lines: []
+      lines: [],
     })
 
     expect(result.is_err())
@@ -50,10 +68,10 @@ describe('importProjects use-case', () => {
   it("should throw an error if some lines don't have the required fields", async () => {
     const goodLine = makePhonyLine()
     // create a bad line by removing a required field
-    const { Candidat, ...badLine } = goodLine
+    const badLine = _.omit(goodLine, getColumnForField('nomCandidat'))
 
     const result = await importProjects({
-      lines: [goodLine, badLine]
+      lines: [goodLine, badLine],
     })
 
     expect(result.is_err())
@@ -67,7 +85,7 @@ describe('importProjects use-case', () => {
 
     const phonyLine = makePhonyLine()
     await importProjects({
-      lines: [phonyLine]
+      lines: [phonyLine],
     })
 
     const newProjects = await projectRepo.findAll()
@@ -76,8 +94,8 @@ describe('importProjects use-case', () => {
     // but with numbers instead of strings
     // and project entity property names
     const expectedLine = {
-      appelOffreId: 'fessenheim',
-      periodeId: '6',
+      appelOffreId: phonyAppelOffre.id,
+      periodeId: phonyPeriodId,
       numeroCRE: 'numeroCRE',
       familleId: 'famille',
       nomCandidat: 'nomCandidat',
@@ -93,11 +111,18 @@ describe('importProjects use-case', () => {
       communeProjet: 'communeProjet',
       departementProjet: 'departementProjet',
       regionProjet: 'regionProjet',
+      fournisseur: 'fournisseur',
+      actionnaire: 'actionnaire',
+      producteur: 'producteur',
       classe: 'Classé',
-      motifsElimination: 'motifsElimination'
+      motifsElimination: '',
+      notifiedOn: moment('22/04/2020', 'DD/MM/YYYY').toDate().getTime(),
     }
 
     expect(newProjects).toHaveLength(1)
-    expect(newProjects).toContainEqual(expect.objectContaining(expectedLine))
+
+    for (const key in expectedLine) {
+      expect(newProjects[0][key]).toEqual(expectedLine[key])
+    }
   })
 })
