@@ -35,7 +35,6 @@ const appelOffreSchema = Record({
   completePluginRequestParagraph: String,
   designationRemovalParagraph: String,
   ipFpEngagementParagraph: String,
-  noteThreshold: Number,
   periodes: Array(periodeSchema),
   familles: Array(familleSchema),
   dataFields: Array(csvFieldSchema),

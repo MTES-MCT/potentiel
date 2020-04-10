@@ -98,7 +98,6 @@ const fessenheim: AppelOffre = {
   designationRemovalParagraph: '5.3 et 6.2',
   ipFpEngagementParagraph: '3.2.6 et 7.1.2',
   dataFields: commonDataFields,
-  noteThreshold: 6,
   periodes: [
     {
       id: '1',
@@ -107,13 +106,27 @@ const fessenheim: AppelOffre = {
     {
       id: '2',
       title: 'deuxième',
+      noteThresholdByFamily: [
+        { familleId: '1', noteThreshold: 69.34 },
+        { familleId: '3', noteThreshold: 1.52 },
+      ],
     },
   ],
   familles: [
     {
       id: '1',
-      title: '<100kwc',
+      title: '1',
       requiresFinancialGuarantee: true,
+    },
+    {
+      id: '2',
+      title: '2',
+      requiresFinancialGuarantee: true,
+    },
+    {
+      id: '3',
+      title: '3',
+      requiresFinancialGuarantee: false,
     },
   ],
 }

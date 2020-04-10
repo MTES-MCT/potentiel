@@ -1,7 +1,7 @@
 import {
   String,
   Number,
-  Record,
+  Record as RTRecord,
   Array,
   Union,
   Literal,
@@ -9,16 +9,30 @@ import {
   Static,
   Unknown,
   Partial,
-  Undefined
+  Undefined,
 } from '../types/schemaTypes'
 import buildMakeEntity from '../helpers/buildMakeEntity'
 
-const periodeSchema = Record({
+const basePeriodeSchema = RTRecord({
   id: String,
-  title: String
+  title: String,
 })
 
-const fields: string[] = [...Object.keys(periodeSchema.fields)]
+const noteThresholdSchema = RTRecord({
+  familleId: String,
+  noteThreshold: Number,
+})
+
+const periodeSchema = basePeriodeSchema.And(
+  Partial({
+    noteThresholdByFamily: Array(noteThresholdSchema),
+  })
+)
+
+const fields: string[] = [
+  'noteThresholdByFamily',
+  ...Object.keys(basePeriodeSchema.fields),
+]
 
 type Periode = Static<typeof periodeSchema>
 

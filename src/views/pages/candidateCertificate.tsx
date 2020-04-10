@@ -267,7 +267,9 @@ const Elimine = ({ project, appelOffre, periode }: ElimineProps) => {
           ? `Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été classée au-delà de la puissance offerte pour cette période de candidature dans la famille concernée. Votre offre a en effet obtenu une note de ${
               Math.round(project.note * 100) / 100
             } points alors que le classement des dossiers a fait apparaître que la sélection des offres jusqu’à la note de ${
-              appelOffre.noteThreshold
+              periode.noteThresholdByFamily?.find(
+                (item) => item.familleId === project.familleId
+              )?.noteThreshold || 'N/A'
             } points permettait de remplir les objectifs de volumes de l’appel d’offres dans cette famille. Par conséquent, cette offre n’a pas été retenue.`
           : project.motifsElimination.includes('Déjà lauréat')
           ? 'Suite à l’examen par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été retirée de l’instruction, ayant été désignée lauréate au cours d’un précédent appel d’offres. Par conséquent, cette offre n’a pas été retenue.'
