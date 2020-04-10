@@ -109,6 +109,9 @@ dist
 # Persisted database
 .db
 
+# test users to be injected in db
+.test-users.json
+
 # Uploaded files
 uploads/
 
