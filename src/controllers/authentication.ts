@@ -31,15 +31,15 @@ const registerAuth = ({ app, loginRoute, successRoute }: RegisterAuthProps) => {
   //
   // Configure Passport authenticated session persistence
   //
-  passport.serializeUser(function(user: User, done) {
+  passport.serializeUser(function (user: User, done) {
     done(null, user.id)
   })
 
-  passport.deserializeUser(async function(id: User['id'], done) {
+  passport.deserializeUser(async function (id: User['id'], done) {
     const userResult = await userRepo.findById(id)
 
     if (userResult.is_none()) {
-      console.log('Authenication: Found user session id but no matching user')
+      console.log('Authentication: Found user session id but no matching user')
       done(null, null)
     }
 
@@ -56,20 +56,21 @@ const registerAuth = ({ app, loginRoute, successRoute }: RegisterAuthProps) => {
     new Strategy(
       {
         usernameField: 'email',
-        passwordField: 'password'
+        passwordField: 'password',
       },
-      function(username: string, password: string, done) {
+      function (username: string, password: string, done) {
         login({ email: username, password })
-          .then(userResult => {
+          .then((userResult) => {
             // console.log('login has returned, setting currentUser to ', user)
 
             if (userResult.is_err()) {
-              return done(userResult.unwrap_err())
+              console.log('Login failed', userResult.unwrap_err())
+              return done(null, false)
             }
 
             return done(null, userResult.unwrap())
           })
-          .catch(err => {
+          .catch((err) => {
             // Should never happen because login shouldn't throw
             console.log('login caught an error', err)
             return done(err)
@@ -87,7 +88,7 @@ const postLogin = () => {
 
   return passport.authenticate('local', {
     successReturnToOrRedirect: _successRoute,
-    failureRedirect: _loginRoute + '?error=1'
+    failureRedirect: _loginRoute + '?error=1',
   })
 }
 
@@ -104,5 +105,5 @@ export {
   postLogin,
   logoutMiddleware,
   // Handler for all auth enabled routes
-  ensureLoggedIn
+  ensureLoggedIn,
 }

@@ -68,7 +68,11 @@ export default function makeExpressCallback(controller: Controller) {
       })
       .catch((e) => {
         console.log('makeExpressCallback error', e)
-        res.status(500).send({ error: 'An unkown error occurred.' })
+        res
+          .status(500)
+          .send(
+            'Une erreur est survenue. Merci de nous excuser de la gène occasionnée.'
+          )
       })
   }
 }
