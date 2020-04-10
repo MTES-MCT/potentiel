@@ -9,7 +9,7 @@ import {
   projectAdmissionKeyRepo,
   appelsOffreStatic,
   appelOffreRepo,
-  resetDatabase
+  resetDatabase,
 } from '../dataAccess/inMemory'
 import makeFakeProject from '../__tests__/fixtures/project'
 import makeFakeCandidateNotification from '../__tests__/fixtures/candidateNotification'
@@ -18,7 +18,7 @@ import { PORTEUR_PROJET } from '../__tests__/fixtures/testCredentials'
 import {
   resetEmailStub,
   sendEmailNotification,
-  getCallsToEmailStub
+  getCallsToEmailStub,
 } from '../__tests__/fixtures/emailNotificationService'
 
 import {
@@ -26,14 +26,14 @@ import {
   User,
   makeCredentials,
   makeProject,
-  makeCandidateNotification
+  makeCandidateNotification,
 } from '../entities'
 
 const sendCandidateNotification = makeSendCandidateNotification({
   projectRepo,
   projectAdmissionKeyRepo,
   appelOffreRepo,
-  sendEmailNotification
+  sendEmailNotification,
 })
 
 const sendAllCandidateNotifications = makeSendAllCandidateNotifications({
@@ -41,7 +41,7 @@ const sendAllCandidateNotifications = makeSendAllCandidateNotifications({
   userRepo,
   credentialsRepo,
   candidateNotificationRepo,
-  sendCandidateNotification
+  sendCandidateNotification,
 })
 
 describe('sendAllCandidateNotifications use-case', () => {
@@ -65,32 +65,32 @@ describe('sendAllCandidateNotifications use-case', () => {
         makeCredentials({
           hash: 'fakeHash',
           email: bogusEmail,
-          userId: fakeUserId
-        })
+          userId: fakeUserId,
+        }),
       ]
-        .filter(item => item.is_ok())
-        .map(item => item.unwrap())
+        .filter((item) => item.is_ok())
+        .map((item) => item.unwrap())
         .map(credentialsRepo.insert)
     )
 
     await Promise.all(
       [
         makeFakeProject({
-          appelOffreId: 'other',
-          periodeId: 'otherother',
-          notifiedOn: 0
-        }),
-        makeFakeProject({
           classe: 'Eliminé',
           notifiedOn: new Date().getTime(),
           appelOffreId: appelOffre.id,
-          periodeId: periode.id
+          periodeId: periode.id,
         }),
         makeFakeProject({
           classe: 'Classé',
           notifiedOn: new Date().getTime(),
           appelOffreId: appelOffre.id,
-          periodeId: periode.id
+          periodeId: periode.id,
+        }),
+        makeFakeProject({
+          appelOffreId: 'other',
+          periodeId: 'otherother',
+          notifiedOn: 0,
         }),
         makeFakeProject({
           classe: 'Eliminé',
@@ -98,51 +98,38 @@ describe('sendAllCandidateNotifications use-case', () => {
           email: bogusEmail,
           nomProjet: fakeUserProjectName,
           appelOffreId: appelOffre.id,
-          periodeId: periode.id
+          periodeId: periode.id,
         }),
         makeFakeProject({
           classe: 'Classé',
           notifiedOn: 0,
+          email: bogusEmail,
+          nomProjet: fakeUserProjectName,
           appelOffreId: appelOffre.id,
-          periodeId: periode.id
-        })
+          periodeId: periode.id,
+        }),
+        makeFakeProject({
+          classe: 'Classé',
+          notifiedOn: 0,
+          email: 'otheremail@test.com',
+          appelOffreId: appelOffre.id,
+          periodeId: periode.id,
+        }),
       ]
         .map(makeProject)
-        .filter(item => item.is_ok())
-        .map(item => item.unwrap())
+        .filter((item) => item.is_ok())
+        .map((item) => item.unwrap())
         .map(projectRepo.insert)
     )
 
     const allProjects = await projectRepo.findAll()
 
-    expect(allProjects).toHaveLength(5)
-
-    // For the first two, create a notification
-    // Insert these notifications in the repo
-    // await Promise.all(
-    //   [
-    //     makeFakeCandidateNotification({
-    //       projectId: allProjects[0].id,
-    //       template: 'elimination'
-    //     }),
-    //     makeFakeCandidateNotification({
-    //       projectId: allProjects[1].id,
-    //       template: 'laureat'
-    //     })
-    //   ]
-    //     .map(makeCandidateNotification)
-    //     .filter(item => item.is_ok())
-    //     .map(item => item.unwrap())
-    //     .map(candidateNotificationRepo.insert)
-    // )
-
-    // const priorNotifs = await candidateNotificationRepo.findAll()
-    // expect(priorNotifs).toHaveLength(2)
+    expect(allProjects).toHaveLength(6)
 
     // Send new notifications
     const result = await sendAllCandidateNotifications({
       appelOffreId: appelOffre.id,
-      periodeId: periode.id
+      periodeId: periode.id,
     })
     expect(result.is_ok()).toBeTruthy()
   })
@@ -151,20 +138,20 @@ describe('sendAllCandidateNotifications use-case', () => {
     const recentNotifs = await candidateNotificationRepo.findAll()
 
     expect(recentNotifs).toBeDefined()
-    expect(recentNotifs).toHaveLength(2)
+    expect(recentNotifs).toHaveLength(3)
   })
 
   it('should update every project as having been notified', async () => {
     const unNotifiedProjects = await projectRepo.findAll({
       appelOffreId: appelOffre.id,
       periodeId: periode.id,
-      notifiedOn: 0
+      notifiedOn: 0,
     })
 
     expect(unNotifiedProjects).toHaveLength(0)
   })
 
-  it('should send a notification to each unnotified project', async () => {
+  it('should send a notification to each email that is concerned', async () => {
     const allNotifs = getCallsToEmailStub()
 
     expect(allNotifs).toHaveLength(2)
@@ -174,7 +161,7 @@ describe('sendAllCandidateNotifications use-case', () => {
     const userProjects = await projectRepo.findByUser(fakeUserId)
 
     expect(userProjects).toBeDefined()
-    expect(userProjects).toHaveLength(1)
+    expect(userProjects).toHaveLength(2)
     expect(userProjects[0].nomProjet).toEqual(fakeUserProjectName)
   })
 })

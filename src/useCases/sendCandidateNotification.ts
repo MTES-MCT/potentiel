@@ -5,19 +5,20 @@ import {
   ProjectAdmissionKeyRepo,
   ProjectRepo,
   UserRepo,
-  AppelOffreRepo
+  AppelOffreRepo,
 } from '../dataAccess'
 import {
   makeCandidateNotification,
   makeProjectAdmissionKey,
   Project,
-  ProjectAdmissionKey
+  ProjectAdmissionKey,
+  AppelOffre,
+  Periode,
 } from '../entities'
 import { ErrorResult, Ok, ResultAsync, Err } from '../types'
 import routes from '../routes'
 
 interface EmailServiceProps {
-  template: 'lauréat' | 'eliminé'
   destinationEmail: string
   destinationName: string
   subject: string
@@ -32,7 +33,9 @@ interface MakeUseCaseProps {
 }
 
 interface CallUseCaseProps {
-  projectId: Project['id']
+  email: string
+  appelOffreId: AppelOffre['id']
+  periodeId: Periode['id']
   overrideDestinationEmail?: string
 }
 
@@ -40,52 +43,57 @@ export default function makeSendCandidateNotification({
   projectRepo,
   projectAdmissionKeyRepo,
   appelOffreRepo,
-  sendEmailNotification
+  sendEmailNotification,
 }: MakeUseCaseProps) {
   return async function sendCandidateNotification({
-    projectId,
-    overrideDestinationEmail
+    email,
+    appelOffreId,
+    periodeId,
+    overrideDestinationEmail,
   }: CallUseCaseProps): ResultAsync<ProjectAdmissionKey['id']> {
-    const projectResult = await projectRepo.findById(projectId)
+    // Find all projects for this email, appel offre and periode
+    const projects = await projectRepo.findAll({
+      appelOffreId,
+      periodeId,
+      email,
+    })
 
-    // Get the project
-    if (projectResult.is_none()) {
+    if (!projects.length) {
       console.log(
-        'sendCandidateNotification use-case, cannot find projet with id',
-        projectId
+        'sendCandidateNotification use-case, found no projects for this email, appelOffreId and periodeId'
       )
-      return ErrorResult('Projet inconnu')
+      return ErrorResult(
+        "Aucun projet pour cet email, appel d'offre et période"
+      )
     }
-    const project = projectResult.unwrap()
 
     const appelsOffre = await appelOffreRepo.findAll()
 
     // Get the corresponding AO/Periode
     const appelOffre = appelsOffre.find(
-      appelOffre => appelOffre.id === project.appelOffreId
+      (appelOffre) => appelOffre.id === appelOffreId
     )
     if (!appelOffre) {
       console.log(
-        'sendCandidateNotification use-case, cannot find appel offre for this project',
-        projectId
+        'sendCandidateNotification use-case, cannot find appel offre',
+        appelOffreId
       )
       return ErrorResult('Appel offre inconnu')
     }
     const periode = appelOffre.periodes.find(
-      periode => periode.id === project.periodeId
+      (periode) => periode.id === periodeId
     )
     if (!periode) {
       console.log(
-        'sendCandidateNotification use-case, cannot find periode for this project',
-        projectId
+        'sendCandidateNotification use-case, cannot find periode',
+        periodeId
       )
       return ErrorResult('Periode inconnue')
     }
 
-    // Create an invitation link
+    // Create an invitation link for this email
     const projectAdmissionKeyResult = makeProjectAdmissionKey({
-      projectId: project.id,
-      email: project.email
+      email,
     })
 
     if (projectAdmissionKeyResult.is_err()) {
@@ -93,8 +101,7 @@ export default function makeSendCandidateNotification({
       console.log(
         'sendCandidateNotfication use-case: error when calling makeProjectAdmissionKey with',
         {
-          projectId: project.id,
-          email: project.email
+          email,
         }
       )
       return ErrorResult('Impossible de créer le projectAdmissionKey')
@@ -111,8 +118,7 @@ export default function makeSendCandidateNotification({
       console.log(
         'sendCandidateNotfication use-case: error when calling projectAdmissionKeyRepo.insert with',
         {
-          projectId: project.id,
-          email: project.email
+          email,
         }
       )
 
@@ -121,25 +127,17 @@ export default function makeSendCandidateNotification({
     }
 
     // Create the subject line depending on Classé/Eliminé
-    const subject =
-      project.classe === 'Classé'
-        ? `Lauréats de la ${periode.title} période de l'appel d'offres ${appelOffre.shortTitle}`
-        : `Offres non retenues à la ${periode.title} période de l'appel d'offres ${appelOffre.shortTitle}`
+    const subject = `Résultats de la ${periode.title} période de l'appel d'offres ${appelOffre.shortTitle}`
 
     // Call sendEmailNotification with the proper informations
     try {
       await sendEmailNotification({
-        template:
-          project.classe === 'Classé'
-            ? ('lauréat' as 'lauréat')
-            : ('eliminé' as 'eliminé'),
         subject,
-        destinationEmail: overrideDestinationEmail || project.email,
-        destinationName: project.nomCandidat,
+        destinationEmail: overrideDestinationEmail || email,
+        destinationName: projects[0].nomRepresentantLegal,
         invitationLink: routes.PROJECT_INVITATION({
           projectAdmissionKey: projectAdmissionKey.id,
-          projectId: project.id
-        })
+        }),
       })
       return Ok(projectAdmissionKey.id)
     } catch (error) {

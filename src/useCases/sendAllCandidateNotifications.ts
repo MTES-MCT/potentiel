@@ -4,7 +4,7 @@ import {
   CredentialsRepo,
   ProjectAdmissionKeyRepo,
   ProjectRepo,
-  UserRepo
+  UserRepo,
 } from '../dataAccess'
 import {
   makeCandidateNotification,
@@ -12,7 +12,7 @@ import {
   AppelOffre,
   Periode,
   Project,
-  ProjectAdmissionKey
+  ProjectAdmissionKey,
 } from '../entities'
 import { ErrorResult, Ok, ResultAsync } from '../types'
 import { sendCandidateNotification } from '.'
@@ -23,7 +23,9 @@ interface MakeUseCaseProps {
   credentialsRepo: CredentialsRepo
   candidateNotificationRepo: CandidateNotificationRepo
   sendCandidateNotification: (args: {
-    projectId: Project['id']
+    email: string
+    appelOffreId: AppelOffre['id']
+    periodeId: Periode['id']
   }) => ResultAsync<ProjectAdmissionKey['id']>
 }
 
@@ -40,18 +42,18 @@ export default function makeSendAllCandidateNotifications({
   userRepo,
   credentialsRepo,
   candidateNotificationRepo,
-  sendCandidateNotification
+  sendCandidateNotification,
 }: MakeUseCaseProps) {
   return async function sendAllCandidateNotifications({
     appelOffreId,
-    periodeId
+    periodeId,
   }: CallUseCaseProps): ResultAsync<null> {
     // Find all projects that have not been notified
     // For this appelOffre and periode
     const unNotifiedProjects = await projectRepo.findAll({
       appelOffreId,
       periodeId,
-      notifiedOn: 0
+      notifiedOn: 0,
     })
 
     // console.log('unNotifiedProjects', unNotifiedProjects)
@@ -60,11 +62,24 @@ export default function makeSendAllCandidateNotifications({
       return ErrorResult(ERREUR_AUCUN_PROJET_NON_NOTIFIE)
     }
 
-    // Call sendCandidateNotification for each project
+    // Regroup projects by email
+    const emailsToNotify = Object.keys(
+      unNotifiedProjects.reduce(
+        (emailMap, project) => ({
+          ...emailMap,
+          [project.email]: true,
+        }),
+        {}
+      )
+    )
+
+    // Call sendCandidateNotification for each email
     const candidateNotificationResults = await Promise.all(
-      unNotifiedProjects.map(unNotifiedProject =>
+      emailsToNotify.map((email) =>
         sendCandidateNotification({
-          projectId: unNotifiedProject.id
+          email,
+          appelOffreId,
+          periodeId,
         })
       )
     )
@@ -74,56 +89,62 @@ export default function makeSendAllCandidateNotifications({
       candidateNotificationResults.map(
         async (projectAdmissionKeyResult, index) => {
           if (projectAdmissionKeyResult.is_ok()) {
-            const project = unNotifiedProjects[index]
-
-            // Register the date of notification
-            project.notifiedOn = new Date().getTime()
-            await projectRepo.update(project)
-
-            const projectAdmissionKeyId = projectAdmissionKeyResult.unwrap()
-            if (!projectAdmissionKeyId) return
-            const candidateNotificationData = {
-              template:
-                project.classe === 'Classé'
-                  ? ('laureat' as 'laureat')
-                  : ('elimination' as 'elimination'),
-              projectAdmissionKey: projectAdmissionKeyId,
-              projectId: project.id
-            }
-
-            const candidateNotificationResult = makeCandidateNotification(
-              candidateNotificationData
+            const email = emailsToNotify[index]
+            const projectsForThisEmail = unNotifiedProjects.filter(
+              (project) => project.email === email
             )
 
-            if (candidateNotificationResult.is_err()) {
-              // OOPS
-              console.log(
-                'sendAllCandidateNotifications use-case: error when calling makeCandidateNotification with',
-                candidateNotificationData
-              )
+            await Promise.all(
+              projectsForThisEmail.map(async (project) => {
+                // Register the date of notification for each project
+                project.notifiedOn = new Date().getTime()
+                await projectRepo.update(project)
 
-              // ignore this project
-              return
-            }
+                // Save a candidate notification for each
+                const projectAdmissionKeyId = projectAdmissionKeyResult.unwrap()
+                if (!projectAdmissionKeyId) return
+                const candidateNotificationData = {
+                  projectAdmissionKey: projectAdmissionKeyId,
+                  projectId: project.id,
+                }
+                const candidateNotificationResult = makeCandidateNotification(
+                  candidateNotificationData
+                )
 
-            const candidateNotification = candidateNotificationResult.unwrap()
+                if (candidateNotificationResult.is_err()) {
+                  // OOPS
+                  console.log(
+                    'sendAllCandidateNotifications use-case: error when calling makeCandidateNotification with',
+                    candidateNotificationData
+                  )
 
-            const insertionResult = await candidateNotificationRepo.insert(
-              candidateNotification
+                  // ignore this project
+                  return
+                }
+
+                const candidateNotification = candidateNotificationResult.unwrap()
+
+                const insertionResult = await candidateNotificationRepo.insert(
+                  candidateNotification
+                )
+
+                if (insertionResult.is_err()) {
+                  // OOPS
+                  console.log(
+                    'sendAllCandidateNotifications use-case: error when calling candidateNotificationRepo.insert with',
+                    candidateNotificationData
+                  )
+
+                  // ignore this project
+                  return
+                }
+
+                await projectRepo.addNotification(
+                  project,
+                  candidateNotification
+                )
+              })
             )
-
-            if (insertionResult.is_err()) {
-              // OOPS
-              console.log(
-                'sendAllCandidateNotifications use-case: error when calling candidateNotificationRepo.insert with',
-                candidateNotificationData
-              )
-
-              // ignore this project
-              return
-            }
-
-            await projectRepo.addNotification(project, candidateNotification)
           }
         }
       )
@@ -131,7 +152,7 @@ export default function makeSendAllCandidateNotifications({
 
     // Add projects to the users
     await Promise.all(
-      unNotifiedProjects.map(async project => {
+      unNotifiedProjects.map(async (project) => {
         if (project.email) {
           const userCredentialsResult = await credentialsRepo.findByEmail(
             project.email

@@ -9,14 +9,13 @@ import {
   Boolean,
   Static,
   Unknown,
-  Undefined
+  Undefined,
 } from '../types/schemaTypes'
 import buildMakeEntity from '../helpers/buildMakeEntity'
 
 const projectAdmissionKeySchema = Record({
   id: String,
-  projectId: String,
-  email: String.withConstraint(isEmail.validate)
+  email: String.withConstraint(isEmail.validate),
 })
 
 const fields: string[] = [...Object.keys(projectAdmissionKeySchema.fields)]

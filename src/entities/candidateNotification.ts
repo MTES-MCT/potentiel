@@ -9,23 +9,22 @@ import {
   Static,
   Unknown,
   Partial,
-  Undefined
+  Undefined,
 } from '../types/schemaTypes'
 import buildMakeEntity from '../helpers/buildMakeEntity'
 
 const baseCandidateNotificationSchema = Record({
   id: String,
   projectId: String,
-  template: Union(Literal('laureat'), Literal('elimination')),
-  projectAdmissionKey: String
+  projectAdmissionKey: String,
 })
 const candidateNotificationSchema = baseCandidateNotificationSchema.And(
-  Partial({ hash: String.withConstraint(value => value.length >= 1) })
+  Partial({ hash: String.withConstraint((value) => value.length >= 1) })
 )
 
 const fields: string[] = [
   'hash',
-  ...Object.keys(baseCandidateNotificationSchema.fields)
+  ...Object.keys(baseCandidateNotificationSchema.fields),
 ]
 
 type CandidateNotification = Static<typeof candidateNotificationSchema>

@@ -4,7 +4,7 @@ import {
   candidateNotificationRepo,
   projectAdmissionKeyRepo,
   projectRepo,
-  resetDatabase
+  resetDatabase,
 } from '../dataAccess/inMemory'
 import { makeProject } from '../entities'
 import makeFakeProject from '../__tests__/fixtures/project'
@@ -13,14 +13,14 @@ import makeSendCandidateNotification from './sendCandidateNotification'
 import {
   resetEmailStub,
   sendEmailNotification,
-  getCallsToEmailStub
+  getCallsToEmailStub,
 } from '../__tests__/fixtures/emailNotificationService'
 
 const sendCandidateNotification = makeSendCandidateNotification({
   projectRepo,
   projectAdmissionKeyRepo,
   appelOffreRepo,
-  sendEmailNotification
+  sendEmailNotification,
 })
 
 describe('sendCandidateNotification use-case', () => {
@@ -47,24 +47,24 @@ describe('sendCandidateNotification use-case', () => {
             appelOffreId: appelOffre.id,
             periodeId: periode.id,
             email: bogusEmail,
-            nomCandidat: bogusName
+            nomRepresentantLegal: bogusName,
           }),
           makeFakeProject({
             classe: 'Eliminé',
             appelOffreId: appelOffre.id,
             periodeId: periode.id,
             email: bogusEmail,
-            nomCandidat: bogusName
-          })
+            nomRepresentantLegal: bogusName,
+          }),
         ]
           .map(makeProject)
-          .filter(item => item.is_ok())
-          .map(item => item.unwrap())
+          .filter((item) => item.is_ok())
+          .map((item) => item.unwrap())
           .map(projectRepo.insert)
       )
     )
-      .filter(item => item.is_ok())
-      .map(item => item.unwrap())
+      .filter((item) => item.is_ok())
+      .map((item) => item.unwrap())
 
     projetLaureat = insertedProjects[0]
     projetElimine = insertedProjects[1]
@@ -72,13 +72,15 @@ describe('sendCandidateNotification use-case', () => {
     expect(insertedProjects).toHaveLength(2)
   })
 
-  it('should call the email service with the project details and the correct template hen project is Classé', async () => {
+  it("should call the email service with the user and appel d'offre details", async () => {
     // Reset email stub
     resetEmailStub()
 
     // Send new notification
     const result = await sendCandidateNotification({
-      projectId: projetLaureat.id
+      email: bogusEmail,
+      appelOffreId: appelOffre.id,
+      periodeId: periode.id,
     })
     expect(result.is_ok()).toBeTruthy()
 
@@ -90,30 +92,6 @@ describe('sendCandidateNotification use-case', () => {
     expect(sentEmail.destinationName).toEqual(bogusName)
     expect(sentEmail.subject).toContain(periode.title)
     expect(sentEmail.subject).toContain(appelOffre.shortTitle)
-    expect(sentEmail.template).toEqual('lauréat')
-    expect(sentEmail.subject.indexOf('Lauréats')).toEqual(0)
-  })
-
-  it('should call the email service with the project details and the correct template when project is Eliminé', async () => {
-    // Reset email stub
-    resetEmailStub()
-
-    // Send new notification
-    const result = await sendCandidateNotification({
-      projectId: projetElimine.id
-    })
-    expect(result.is_ok()).toBeTruthy()
-
-    expect(getCallsToEmailStub()).toHaveLength(1)
-
-    const sentEmail = getCallsToEmailStub()[0]
-
-    expect(sentEmail.destinationEmail).toEqual(bogusEmail)
-    expect(sentEmail.destinationName).toEqual(bogusName)
-    expect(sentEmail.subject).toContain(periode.title)
-    expect(sentEmail.subject).toContain(appelOffre.shortTitle)
-    expect(sentEmail.template).toEqual('eliminé')
-    expect(sentEmail.subject.indexOf('Offres non retenues')).toEqual(0)
   })
 
   it('should send the email to overrideDestinationEmail when provided', async () => {
@@ -122,8 +100,10 @@ describe('sendCandidateNotification use-case', () => {
 
     // Send new notification
     const result = await sendCandidateNotification({
-      projectId: projetLaureat.id,
-      overrideDestinationEmail: 'other@email.com'
+      email: bogusEmail,
+      appelOffreId: appelOffre.id,
+      periodeId: periode.id,
+      overrideDestinationEmail: 'other@email.com',
     })
     expect(result.is_ok()).toBeTruthy()
 

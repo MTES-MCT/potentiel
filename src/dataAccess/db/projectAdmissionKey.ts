@@ -7,25 +7,21 @@ import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
 
 // Override these to apply serialization/deserialization on inputs/outputs
-const deserialize = item => item
-const serialize = item => item
+const deserialize = (item) => item
+const serialize = (item) => item
 
 export default function makeProjectAdmissionKeyRepo({
-  sequelize
+  sequelize,
 }): ProjectAdmissionKeyRepo {
   const ProjectAdmissionKeyModel = sequelize.define('projectAdmissionKey', {
     id: {
       type: DataTypes.UUID,
-      primaryKey: true
+      primaryKey: true,
     },
     email: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
-    projectId: {
-      type: DataTypes.UUID,
-      allowNull: false
-    }
   })
 
   const _isDbReady = isDbReady({ sequelize })
@@ -33,7 +29,7 @@ export default function makeProjectAdmissionKeyRepo({
   return Object.freeze({
     findById,
     findAll,
-    insert
+    insert,
   })
 
   async function findById(
@@ -73,7 +69,7 @@ export default function makeProjectAdmissionKeyRepo({
       const projectAdmissionKeysRaw = await ProjectAdmissionKeyModel.findAll(
         query
           ? {
-              where: query
+              where: query,
             }
           : {},
         { raw: true }

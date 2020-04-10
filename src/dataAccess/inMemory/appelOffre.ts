@@ -9,7 +9,11 @@ const commonDataFields = [
     type: asLiteral('string'),
     column: 'Famille de candidature',
   },
-  { field: 'nomCandidat', type: asLiteral('string'), column: 'Candidat' },
+  {
+    field: 'nomCandidat',
+    type: asLiteral('string'),
+    column: 'Nom (personne physique) ou raison sociale (personne morale) :',
+  },
   { field: 'nomProjet', type: asLiteral('string'), column: 'Nom projet' },
   {
     field: 'puissance',
@@ -69,11 +73,6 @@ const commonDataFields = [
   //   type: asLiteral('string'),
   //   column: 'Nom (personne physique) ou raison sociale (personne morale) :',
   // },
-  {
-    field: 'producteur',
-    type: asLiteral('string'),
-    column: 'Nom et prénom du signataire du formulaire',
-  },
   {
     field: 'isInvestissementParticipatif',
     type: asLiteral('stringEquals'),

@@ -10,7 +10,6 @@ const mailjet = require('node-mailjet').connect(
 )
 
 interface EmailNotificationProps {
-  template: 'lauréat' | 'eliminé'
   destinationEmail: string
   destinationName: string
   subject: string
@@ -25,11 +24,10 @@ console.log('AUTHORIZED TEST EMAILS ARE', AUTHORIZED_TEST_EMAILS)
 console.log('BASE URL IS', process.env.BASE_URL)
 
 const sendEmailNotification = async ({
-  template,
   destinationEmail,
   destinationName,
   subject,
-  invitationLink
+  invitationLink,
 }: EmailNotificationProps) => {
   // If it is not production environment
   // Only authorize sending emails to emails listed in the AUTHORIZED_TEST_EMAILS environment var
@@ -54,24 +52,26 @@ const sendEmailNotification = async ({
       Messages: [
         {
           From: {
-            Email: 'pad@dabla.com',
-            Name: 'Cellule PV'
+            Email: process.env.SEND_EMAILS_FROM,
+            Name: 'Cellule PV',
           },
           To: [
             {
               Email: destinationEmail,
-              Name: destinationName
-            }
+              Name: destinationName,
+            },
           ],
-          TemplateID: template === 'lauréat' ? 1340440 : 1341660,
+          TemplateID: 1350523,
           TemplateLanguage: true,
           Subject: subject,
           Variables: {
-            invitation_link: process.env.BASE_URL + invitationLink
-          }
-        }
-      ]
+            invitation_link: process.env.BASE_URL + invitationLink,
+          },
+        },
+      ],
     })
+
+    return {}
   } catch (error) {
     console.log('sendEmailNotification received an error', error)
   }

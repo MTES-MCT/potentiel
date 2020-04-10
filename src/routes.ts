@@ -31,7 +31,6 @@ export default {
   SIGNUP_ACTION: '/enregistrement',
   PROJECT_INVITATION: withParams<{
     projectAdmissionKey: string
-    projectId: string
   }>('/enregistrement.html'),
   ADMIN_DASHBOARD: '/admin/dashboard.html',
   IMPORT_PROJECTS: '/admin/importer-candidats.html', // Keep separate from ADMIN_DASHBOARD, may change
