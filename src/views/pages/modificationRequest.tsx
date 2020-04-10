@@ -10,6 +10,8 @@ import { HttpRequest } from '../../types'
 
 import moment from 'moment'
 
+import { appelsOffreStatic } from '../../dataAccess'
+
 moment.locale('fr')
 
 interface PageProps {
@@ -25,6 +27,10 @@ const titlePerAction = {
   producteur: 'changement de producteur',
   abandon: 'abandon de mon projet',
   recours: 'recours',
+}
+
+const getPowerUnitForAppelOffre = (appelOffreId) => {
+  return appelsOffreStatic.find((item) => item.id === appelOffreId)?.powerUnit
 }
 
 export { titlePerAction }
@@ -99,7 +105,8 @@ export default function ModificationRequestPage({
                 </span>
               </div>
               <div {...dataId('modificationRequest-item-puissance')}>
-                {project.puissance} kWc
+                {project.puissance}{' '}
+                {getPowerUnitForAppelOffre(project.appelOffreId)}
               </div>
               <div>
                 Désigné le{' '}
@@ -137,7 +144,10 @@ export default function ModificationRequestPage({
             )}
             {action === 'puissance' ? (
               <>
-                <label>Puissance actuelle (en kWc)</label>
+                <label>
+                  Puissance actuelle (en{' '}
+                  {getPowerUnitForAppelOffre(project.appelOffreId)})
+                </label>
                 <input
                   type="text"
                   disabled
@@ -145,7 +155,8 @@ export default function ModificationRequestPage({
                   {...dataId('modificationRequest-presentPuissanceField')}
                 />
                 <label className="required" htmlFor="puissance">
-                  Nouvelle puissance (en kWc)
+                  Nouvelle puissance (en{' '}
+                  {getPowerUnitForAppelOffre(project.appelOffreId)})
                 </label>
                 <input
                   type="text"
