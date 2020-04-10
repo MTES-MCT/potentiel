@@ -33,6 +33,11 @@ const getPowerUnitForAppelOffre = (appelOffreId) => {
   return appelsOffreStatic.find((item) => item.id === appelOffreId)?.powerUnit
 }
 
+const getDelayForAppelOffre = (appelOffreId) => {
+  return appelsOffreStatic.find((item) => item.id === appelOffreId)
+    ?.monthsBeforeRealisation
+}
+
 export { titlePerAction }
 
 /* Pure component */
@@ -366,7 +371,7 @@ export default function ModificationRequestPage({
                   type="text"
                   disabled
                   value={moment(project.notifiedOn)
-                    .add(24, 'months')
+                    .add(getDelayForAppelOffre(project.appelOffreId), 'months')
                     .format('DD/MM/YYYY')}
                   {...dataId('modificationRequest-presentServiceDateField')}
                 />
