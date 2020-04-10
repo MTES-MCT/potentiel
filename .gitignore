@@ -110,7 +110,7 @@ dist
 .db
 
 # test users to be injected in db
-.test-users.json
+.test-users.ts
 
 # Uploaded files
 uploads/
