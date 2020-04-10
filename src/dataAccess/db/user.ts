@@ -16,11 +16,7 @@ export default function makeUserRepo({ sequelize }): UserRepo {
       type: DataTypes.UUID,
       primaryKey: true,
     },
-    firstName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    lastName: {
+    fullName: {
       type: DataTypes.STRING,
       allowNull: false,
     },

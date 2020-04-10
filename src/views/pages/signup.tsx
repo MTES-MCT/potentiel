@@ -11,8 +11,7 @@ interface SignupProps {
 
 /* Pure component */
 export default function SignupPage({ request }: SignupProps) {
-  const { error, projectAdmissionKey, projectId, firstName, lastName, email } =
-    request.query || {}
+  const { error, projectAdmissionKey, fullName, email } = request.query || {}
   return (
     <main role="main">
       <section className="section section-grey">
@@ -26,7 +25,7 @@ export default function SignupPage({ request }: SignupProps) {
             <h3 id="login">Je crée mon compte porteur de projet</h3>
             {error ? <div className="notification error">{error}</div> : ''}
             <div className="form__group">
-              {projectAdmissionKey && projectId ? (
+              {projectAdmissionKey ? (
                 <>
                   <input
                     type="hidden"
@@ -34,39 +33,31 @@ export default function SignupPage({ request }: SignupProps) {
                     id="projectAdmissionKey"
                     value={projectAdmissionKey}
                   />
-                  <input
-                    type="hidden"
-                    name="projectId"
-                    id="projectId"
-                    value={projectId}
-                  />
                 </>
               ) : (
                 ''
               )}
-              <label htmlFor="lastName">Nom</label>
+              <label htmlFor="fullName">Noms, Prénoms</label>
               <input
                 type="text"
-                name="lastName"
-                id="lastName"
-                {...dataId('signup-lastName-field')}
-                value={lastName}
-              />
-              <label htmlFor="firstName">Prénom</label>
-              <input
-                type="text"
-                name="firstName"
-                id="firstName"
-                {...dataId('signup-firstName-field')}
-                value={firstName}
+                name="fullName"
+                id="fullName"
+                {...dataId('signup-fullName-field')}
+                value={fullName}
               />
               <label htmlFor="email">Courrier électronique</label>
+              <div className="notification warning">
+                Il s'agit de l'adresse électronique que vous avez renseigné sur
+                votre dossier de candidature. Vous pourrez la changer par la
+                suite.
+              </div>
               <input
                 type="email"
                 name="email"
                 id="email"
                 {...dataId('signup-email-field')}
                 value={email}
+                disabled
               />
               <label htmlFor="password">Mot de passe</label>
               <input

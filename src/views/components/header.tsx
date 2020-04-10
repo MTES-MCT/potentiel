@@ -29,7 +29,7 @@ const Header = ({ request }: HeaderProps) => {
             <li className="nav__item">
               {user ? (
                 <>
-                  <span>{user.firstName + ' ' + user.lastName}</span>
+                  <span>{user.fullName}</span>
                   <a href={routes.LOGOUT_ACTION}>Me déconnecter</a>
                 </>
               ) : (
