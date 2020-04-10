@@ -14,7 +14,7 @@ interface AdminDashboardProps {
 /* Pure component */
 export default function AdminDashboard({
   children,
-  currentPage
+  currentPage,
 }: AdminDashboardProps) {
   return (
     <>
@@ -41,22 +41,6 @@ export default function AdminDashboard({
 
             <li>
               <a
-                href={ROUTES.IMPORT_PROJECTS}
-                className={currentPage === 'import-projects' ? 'active' : ''}
-              >
-                Importer des candidats
-              </a>
-            </li>
-            <li>
-              <a
-                href={ROUTES.ADMIN_NOTIFY_CANDIDATES()}
-                className={currentPage === 'notify-candidates' ? 'active' : ''}
-              >
-                Notifier des candidats
-              </a>
-            </li>
-            <li>
-              <a
                 href={ROUTES.ADMIN_LIST_PROJECTS}
                 className={currentPage === 'list-projects' ? 'active' : ''}
               >
@@ -69,6 +53,22 @@ export default function AdminDashboard({
                 className={currentPage === 'list-requests' ? 'active' : ''}
               >
                 Lister les demandes
+              </a>
+            </li>
+            <li>
+              <a
+                href={ROUTES.IMPORT_PROJECTS}
+                className={currentPage === 'import-projects' ? 'active' : ''}
+              >
+                Importer des candidats
+              </a>
+            </li>
+            <li>
+              <a
+                href={ROUTES.ADMIN_NOTIFY_CANDIDATES()}
+                className={currentPage === 'notify-candidates' ? 'active' : ''}
+              >
+                Notifier des candidats
               </a>
             </li>
           </ul>
