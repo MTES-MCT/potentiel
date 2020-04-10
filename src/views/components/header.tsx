@@ -16,7 +16,7 @@ const Header = ({ request }: HeaderProps) => {
           <img
             className="navbar__logo"
             src="/images/logo-marianne.svg"
-            alt="enr.data.gouv.fr"
+            alt="potentiel.beta.gouv.fr"
           />
           <span className="navbar__domain">
             potentiel.<b>beta.gouv</b>
