@@ -330,7 +330,14 @@ const Certificate = ({
             MINISTÈRE DE LA TRANSITION ECOLOGIQUE ET SOLIDAIRE
           </Text>
         </View>
-        <View style={{ position: 'absolute', top: 150, left: 400 }}>
+        <View
+          style={{
+            position: 'absolute',
+            top: 150,
+            right: 70,
+            width: 200,
+          }}
+        >
           <Text style={{ fontSize: 10, marginBottom: 20 }}>
             Paris, le{' '}
             {moment(project.notifiedOn || Date.now()).format('D MMMM YYYY')}
