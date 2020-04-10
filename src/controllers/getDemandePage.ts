@@ -5,10 +5,20 @@ import { Project } from '../entities'
 import { ModificationRequestPage } from '../views/pages'
 import { Success, Redirect } from '../helpers/responses'
 
+const ACTIONS = [
+  'delai',
+  'actionnaire',
+  // 'fournisseur',
+  'puissance',
+  'producteur',
+  'abandon',
+  'recours',
+]
+
 const getDemandePage = async (request: HttpRequest) => {
   // console.log('Call to getDemandePage received', request.body, request.query)
 
-  if (!request.query.projectId) {
+  if (!request.query.projectId || !ACTIONS.includes(request.query.action)) {
     return Redirect(ROUTES.USER_DASHBOARD)
   }
 
@@ -19,13 +29,13 @@ const getDemandePage = async (request: HttpRequest) => {
       Success(
         ModificationRequestPage({
           request,
-          project
+          project,
         })
       ),
     none: () =>
       Redirect(ROUTES.USER_DASHBOARD, {
-        error: "Le projet demandé n'existe pas"
-      })
+        error: "Le projet demandé n'existe pas",
+      }),
   })
 }
 

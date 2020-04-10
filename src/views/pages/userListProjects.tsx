@@ -71,10 +71,10 @@ export default function UserListProjects({
                 title: 'Demander un délai',
                 link: ROUTES.DEMANDE_DELAIS(project.id),
               },
-              {
-                title: 'Changer de fournisseur',
-                link: ROUTES.CHANGER_FOURNISSEUR(project.id),
-              },
+              // {
+              //   title: 'Changer de fournisseur',
+              //   link: ROUTES.CHANGER_FOURNISSEUR(project.id),
+              // },
               {
                 title: 'Changer de producteur',
                 link: ROUTES.CHANGER_PRODUCTEUR(project.id),

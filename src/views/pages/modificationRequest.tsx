@@ -18,7 +18,7 @@ interface PageProps {
 }
 
 const titlePerAction = {
-  fournisseur: 'changement de fournisseur',
+  // fournisseur: 'changement de fournisseur',
   delai: 'délai supplémentaire',
   actionnaire: "changement d'actionnaire",
   puissance: 'changement de puissance',
@@ -180,7 +180,7 @@ export default function ModificationRequestPage({
             ) : (
               ''
             )}
-            {action === 'fournisseur' ? (
+            {/* {action === 'fournisseur' ? (
               <>
                 <label>Ancien fournisseur</label>
                 <input type="text" disabled value={project.fournisseur} />
@@ -231,7 +231,7 @@ export default function ModificationRequestPage({
               </>
             ) : (
               ''
-            )}
+            )} */}
             {action === 'producteur' ? (
               <>
                 <label>Ancien producteur</label>
