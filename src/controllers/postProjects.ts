@@ -8,20 +8,20 @@ import { importProjects } from '../useCases'
 
 const deleteFile = util.promisify(fs.unlink)
 
-const parse = file =>
+const parse = (file) =>
   new Promise<Array<Record<string, string>>>((resolve, reject) => {
     const data: Array<Record<string, string>> = []
     fs.createReadStream(file)
       .pipe(
         csvParse({
-          delimiter: ';',
-          columns: true
+          delimiter: ',',
+          columns: true,
         })
       )
       .on('data', (row: Record<string, string>) => {
         data.push(row)
       })
-      .on('error', e => {
+      .on('error', (e) => {
         reject(e)
       })
       .on('end', () => {
@@ -34,7 +34,7 @@ const postProjects = async (request: HttpRequest) => {
 
   if (!request.file || !request.file.path) {
     return Redirect(ROUTES.IMPORT_PROJECTS, {
-      error: 'Le fichier candidat est manquant.'
+      error: 'Le fichier candidat est manquant.',
     })
   }
 
@@ -42,7 +42,7 @@ const postProjects = async (request: HttpRequest) => {
   const lines = await parse(request.file.path)
 
   const importProjectsResult = await importProjects({
-    lines
+    lines,
   })
 
   // remove temp file
@@ -51,14 +51,14 @@ const postProjects = async (request: HttpRequest) => {
   return importProjectsResult.match({
     ok: () =>
       Redirect(ROUTES.ADMIN_LIST_PROJECTS, {
-        success: 'Les candidats ont bien été importés.'
+        success: 'Les candidats ont bien été importés.',
       }),
     err: (e: Error) => {
       console.log('Caught an error after importProjects', e)
       return Redirect(ROUTES.IMPORT_PROJECTS, {
-        error: e.message
+        error: e.message,
       })
-    }
+    },
   })
 }
 export { postProjects }

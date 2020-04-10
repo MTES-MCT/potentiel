@@ -53,8 +53,6 @@ export default function makeImportProjects({
     // Check individual lines (use makeProject on each)
     const projects = lines.reduce(
       (currentResults: Result<Array<Project>, Array<Error>>, line, index) => {
-        // Prepare a method t
-
         // Find the corresponding appelOffre
         const appelOffreId = line["Appel d'offres"]
         const appelOffre = appelsOffre.find(
@@ -62,8 +60,9 @@ export default function makeImportProjects({
         )
 
         if (!appelOffreId || !appelOffre) {
+          console.log('Appel offre introuvable', appelOffreId)
           return makeErrorForLine(
-            new Error("Appel d'offre introuvable"),
+            new Error("Appel d'offre introuvable " + appelOffreId),
             index + 2,
             currentResults
           )
@@ -79,7 +78,6 @@ export default function makeImportProjects({
           console.log(
             'Periode introuvable',
             periodeId,
-            line,
             appelOffre.periodes.map((item) => item.id)
           )
           return makeErrorForLine(
@@ -90,12 +88,14 @@ export default function makeImportProjects({
         }
 
         // All good, try to make the project
-        const projectData = appelOffre.dataFields.reduce(
-          (properties, dataField) => {
-            const { field, column, type } = dataField
+        const projectData = {
+          appelOffreId,
+          periodeId,
+          ...appelOffre.dataFields.reduce((properties, dataField) => {
+            const { field, column, type, value } = dataField
 
             // Parse line depending on column format
-            const value =
+            const fieldValue =
               type === 'string'
                 ? line[column] && line[column].trim()
                 : type === 'number'
@@ -104,15 +104,16 @@ export default function makeImportProjects({
                 ? (line[column] &&
                     moment(line[column], 'DD/MM/YYYY').toDate().getTime()) ||
                   undefined
+                : type === 'stringEquals'
+                ? line[column] === value
                 : undefined
 
             return {
               ...properties,
-              [field]: value,
+              [field]: fieldValue,
             }
-          },
-          {}
-        )
+          }, {}),
+        }
 
         const projectResult = makeProject(projectData as Project)
 
