@@ -45,6 +45,7 @@ const getSignupPage = async (request: HttpRequest) => {
   return Success(
     SignupPage({
       request,
+      projectAdmissionKey,
     }),
     logoutUser
   )

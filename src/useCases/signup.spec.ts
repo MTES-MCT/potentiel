@@ -81,6 +81,7 @@ describe('signup use-case', () => {
           {
             id: 'projectAdmissionKey',
             email: sameEmailEverywhere,
+            fullName: 'fullname',
           },
         ]
           .map(makeProjectAdmissionKey)
@@ -155,6 +156,7 @@ describe('signup use-case', () => {
           {
             id: 'projectAdmissionKey',
             email: 'bla@bli.com',
+            fullName: 'fullname',
           },
         ]
           .map(makeProjectAdmissionKey)
@@ -201,6 +203,7 @@ describe('signup use-case', () => {
           {
             id: 'projectAdmissionKey',
             email: 'existing@email.com',
+            fullName: 'fullname',
           },
         ]
           .map(makeProjectAdmissionKey)

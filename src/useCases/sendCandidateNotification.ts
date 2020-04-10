@@ -67,6 +67,8 @@ export default function makeSendCandidateNotification({
       )
     }
 
+    const projectHolderName = projects[0].nomRepresentantLegal
+
     const appelsOffre = await appelOffreRepo.findAll()
 
     // Get the corresponding AO/Periode
@@ -94,6 +96,7 @@ export default function makeSendCandidateNotification({
     // Create an invitation link for this email
     const projectAdmissionKeyResult = makeProjectAdmissionKey({
       email,
+      fullName: projectHolderName,
     })
 
     if (projectAdmissionKeyResult.is_err()) {
@@ -134,7 +137,7 @@ export default function makeSendCandidateNotification({
       await sendEmailNotification({
         subject,
         destinationEmail: overrideDestinationEmail || email,
-        destinationName: projects[0].nomRepresentantLegal,
+        destinationName: projectHolderName,
         invitationLink: routes.PROJECT_INVITATION({
           projectAdmissionKey: projectAdmissionKey.id,
         }),

@@ -16,6 +16,7 @@ import buildMakeEntity from '../helpers/buildMakeEntity'
 const projectAdmissionKeySchema = Record({
   id: String,
   email: String.withConstraint(isEmail.validate),
+  fullName: String,
 })
 
 const fields: string[] = [...Object.keys(projectAdmissionKeySchema.fields)]

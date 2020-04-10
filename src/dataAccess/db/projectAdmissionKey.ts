@@ -22,6 +22,10 @@ export default function makeProjectAdmissionKeyRepo({
       type: DataTypes.STRING,
       allowNull: false,
     },
+    fullName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   })
 
   const _isDbReady = isDbReady({ sequelize })

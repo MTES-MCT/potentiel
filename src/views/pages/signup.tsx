@@ -4,14 +4,20 @@ import { dataId } from '../../helpers/testId'
 
 import ROUTES from '../../routes'
 import { HttpRequest } from '../../types'
+import { ProjectAdmissionKey } from '../../entities'
 
 interface SignupProps {
   request: HttpRequest
+  projectAdmissionKey: ProjectAdmissionKey
 }
 
 /* Pure component */
-export default function SignupPage({ request }: SignupProps) {
-  const { error, projectAdmissionKey, fullName, email } = request.query || {}
+export default function SignupPage({
+  request,
+  projectAdmissionKey,
+}: SignupProps) {
+  const { error } = request.query || {}
+
   return (
     <main role="main">
       <section className="section section-grey">
@@ -31,7 +37,7 @@ export default function SignupPage({ request }: SignupProps) {
                     type="hidden"
                     name="projectAdmissionKey"
                     id="projectAdmissionKey"
-                    value={projectAdmissionKey}
+                    value={projectAdmissionKey.id}
                   />
                 </>
               ) : (
@@ -43,7 +49,7 @@ export default function SignupPage({ request }: SignupProps) {
                 name="fullName"
                 id="fullName"
                 {...dataId('signup-fullName-field')}
-                value={fullName}
+                value={projectAdmissionKey.fullName}
               />
               <label htmlFor="email">Courrier électronique</label>
               <div className="notification warning">
@@ -56,7 +62,7 @@ export default function SignupPage({ request }: SignupProps) {
                 name="email"
                 id="email"
                 {...dataId('signup-email-field')}
-                value={email}
+                value={projectAdmissionKey.email}
                 disabled
               />
               <label htmlFor="password">Mot de passe</label>
