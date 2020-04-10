@@ -16,16 +16,18 @@ const getSendCopyOfCandidateNotification = async (request: HttpRequest) => {
     return SystemError('User must be logged in as admin')
   }
 
-  const { projectId } = request.query
+  const { email, appelOffreId, periodeId } = request.query
 
-  if (!projectId) {
-    return SystemError('Missing projectId')
+  if (!email || !appelOffreId || !periodeId) {
+    return SystemError('Missing email, appelOffreId or periodeId')
   }
 
   // Send a notification to the current user instead of the project's representative
   const result = await sendCandidateNotification({
-    projectId,
-    overrideDestinationEmail: request.user.email
+    email,
+    appelOffreId,
+    periodeId,
+    overrideDestinationEmail: request.user.email,
   })
 
   if (result.is_err()) {

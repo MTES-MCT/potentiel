@@ -70,8 +70,6 @@ const sendEmailNotification = async ({
         },
       ],
     })
-
-    return {}
   } catch (error) {
     console.log('sendEmailNotification received an error', error)
   }

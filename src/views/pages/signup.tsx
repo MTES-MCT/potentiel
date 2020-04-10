@@ -52,11 +52,6 @@ export default function SignupPage({
                 value={projectAdmissionKey.fullName}
               />
               <label htmlFor="email">Courrier électronique</label>
-              <div className="notification warning">
-                Il s'agit de l'adresse électronique que vous avez renseigné sur
-                votre dossier de candidature. Vous pourrez la changer par la
-                suite.
-              </div>
               <input
                 type="email"
                 name="email"
@@ -65,6 +60,11 @@ export default function SignupPage({
                 value={projectAdmissionKey.email}
                 disabled
               />
+              <div className="notification warning">
+                Il s'agit de l'adresse électronique que vous avez renseigné sur
+                votre dossier de candidature. Vous pourrez la changer par la
+                suite.
+              </div>
               <label htmlFor="password">Mot de passe</label>
               <input
                 type="password"

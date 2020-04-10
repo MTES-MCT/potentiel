@@ -5,12 +5,12 @@ import LoginPage from './login'
 
 import { PDFViewer } from '@react-pdf/renderer'
 
-import { MyDocument } from './candidateCertificate'
+// import { MyDocument } from './candidateCertificate'
 
-export default { title: 'Certificate' }
+// export default { title: 'Certificate' }
 
-export const Blank = () => (
-  <PDFViewer width="100%" height="800">
-    <MyDocument />
-  </PDFViewer>
-)
+// export const Blank = () => (
+//   <PDFViewer width="100%" height="800">
+//     <MyDocument />
+//   </PDFViewer>
+// )

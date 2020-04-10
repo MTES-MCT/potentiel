@@ -11,16 +11,21 @@ const withParams = <T extends Record<string, any>>(url: string) => (
 
   let priorQuery = {}
   if (url.indexOf('?') > -1) {
-    priorQuery = querystring.parse(url.substring(url.indexOf('?')))
+    priorQuery = querystring.parse(url.substring(url.indexOf('?') + 1))
   }
 
   const newQueryString = querystring.stringify({ ...priorQuery, ...params })
 
-  return url + (newQueryString.length ? '?' + newQueryString : '')
+  return (
+    (url.indexOf('?') === -1 ? url : url.substring(0, url.indexOf('?'))) +
+    (newQueryString.length ? '?' + newQueryString.toString() : '')
+  )
 }
 
 const withProjectId = (url: string) => (projectId: Project['id']) =>
   withParams(url)({ projectId })
+
+export { withParams }
 
 export default {
   HOME: '/',
@@ -38,8 +43,11 @@ export default {
   IMPORT_PROJECTS_ACTION: '/admin/importProjects',
   ADMIN_LIST_PROJECTS: '/admin/dashboard.html',
   ADMIN_LIST_REQUESTS: '/admin/demandes.html',
-  ADMIN_SEND_COPY_OF_CANDIDATE_NOTIFICATION_ACTION:
-    '/admin/sendCopyOfCandidateNotification',
+  ADMIN_SEND_COPY_OF_CANDIDATE_NOTIFICATION_ACTION: withParams<{
+    appelOffreId: string
+    periodeId: string
+    email: string
+  }>('/admin/sendCopyOfCandidateNotification'),
   ADMIN_NOTIFY_CANDIDATES: withParams<{
     appelOffreId: string
     periodeId: string
@@ -57,13 +65,8 @@ export default {
   USER_DASHBOARD: '/mes-projets.html',
   USER_LIST_PROJECTS: '/mes-projets.html',
   USER_LIST_DEMANDES: '/mes-demandes.html',
-  DEPOSER_RECOURS: withProjectId('/deposer-recours.html'),
-  // DEMANDE_DELAIS: withProjectId('/demande-delais.html'),
-  // CHANGER_FOURNISSEUR: withProjectId('/changer-fournisseur.html'),
-  // CHANGER_ACTIONNAIRE: withProjectId('/changer-actionnaire.html'),
-  // CHANGER_PUISSANCE: withProjectId('/changer-puissance.html'),
-  // DEMANDER_ABANDON: withProjectId('/abandon.html'),
   DEMANDE_GENERIQUE: '/demande-modification.html',
+  DEPOSER_RECOURS: withProjectId('/demande-modification.html?action=recours'),
   DEMANDE_DELAIS: withProjectId('/demande-modification.html?action=delai'),
   CHANGER_FOURNISSEUR: withProjectId(
     '/demande-modification.html?action=fournisseur'

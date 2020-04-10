@@ -51,3 +51,10 @@ export const Abandon = () => (
     project={makeFakeProject()}
   />
 )
+
+export const Recours = () => (
+  <ModificationRequestPage
+    request={makeFakeRequest({ query: { action: 'recours' } })}
+    project={makeFakeProject()}
+  />
+)

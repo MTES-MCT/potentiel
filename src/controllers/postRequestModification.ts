@@ -11,7 +11,7 @@ import path from 'path'
 const moveFile = util.promisify(fs.rename)
 const dirExists = util.promisify(fs.exists)
 const makeDir = util.promisify(fs.mkdir)
-const makeDirIfNecessary = async dirpath => {
+const makeDirIfNecessary = async (dirpath) => {
   const exists = await dirExists(dirpath)
   if (!exists) await makeDir(dirpath)
 
@@ -39,6 +39,9 @@ const returnRoute = (type, projectId) => {
       break
     case 'abandon':
       returnRoute = ROUTES.DEMANDER_ABANDON(projectId)
+      break
+    case 'recours':
+      returnRoute = ROUTES.DEPOSER_RECOURS(projectId)
       break
     default:
       returnRoute = ROUTES.USER_LIST_PROJECTS
@@ -69,7 +72,7 @@ const postRequestModification = async (request: HttpRequest) => {
     'justification',
     'projectId',
     'evaluationCarbone',
-    'delayedServiceDate'
+    'delayedServiceDate',
   ])
 
   // Convert puissance
@@ -79,7 +82,7 @@ const postRequestModification = async (request: HttpRequest) => {
     console.log('Could not convert puissance to Number')
     const { projectId, type } = data
     return Redirect(returnRoute(type, projectId), {
-      error: 'Erreur: la puissance doit être un nombre'
+      error: 'Erreur: la puissance doit être un nombre',
     })
   }
 
@@ -91,7 +94,7 @@ const postRequestModification = async (request: HttpRequest) => {
     console.log('Could not convert evaluationCarbone to Number')
     const { projectId, type } = data
     return Redirect(returnRoute(type, projectId), {
-      error: "Erreur: l'evaluationCarbone doit être un nombre"
+      error: "Erreur: l'evaluationCarbone doit être un nombre",
     })
   }
 
@@ -106,7 +109,7 @@ const postRequestModification = async (request: HttpRequest) => {
     console.log('Could not convert delayedServiceDate to date')
     const { projectId, type } = data
     return Redirect(returnRoute(type, projectId), {
-      error: "Erreur: la date envoyée n'est pas au bon format (JJ/MM/AAAA)"
+      error: "Erreur: la date envoyée n'est pas au bon format (JJ/MM/AAAA)",
     })
   }
 
@@ -128,7 +131,7 @@ const postRequestModification = async (request: HttpRequest) => {
   const result = await requestModification({
     ...data,
     filePath,
-    userId: request.user.id
+    userId: request.user.id,
   })
 
   if (result.is_err() && filePath) {
@@ -139,7 +142,7 @@ const postRequestModification = async (request: HttpRequest) => {
   return result.match({
     ok: () =>
       Redirect(ROUTES.USER_LIST_DEMANDES, {
-        success: 'Votre demande a bien été prise en compte.'
+        success: 'Votre demande a bien été prise en compte.',
       }),
     err: (e: Error) => {
       console.log('postRequestModification error', e)
@@ -148,9 +151,9 @@ const postRequestModification = async (request: HttpRequest) => {
       console.log('redirecting to ', redirectRoute)
       return Redirect(redirectRoute, {
         ..._.omit(data, 'projectId'),
-        error: "Votre demande n'a pas pu être prise en compte: " + e.message
+        error: "Votre demande n'a pas pu être prise en compte: " + e.message,
       })
-    }
+    },
   })
 }
 

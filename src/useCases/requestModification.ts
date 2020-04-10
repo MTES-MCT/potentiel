@@ -45,6 +45,11 @@ interface AbandonRequest {
   justification: string
 }
 
+interface RecoursRequest {
+  type: 'recours'
+  justification: string
+}
+
 type CallUseCaseProps = RequestCommon &
   (
     | ActionnaireRequest
@@ -53,12 +58,13 @@ type CallUseCaseProps = RequestCommon &
     | PuissanceRequest
     | DelayRequest
     | AbandonRequest
+    | RecoursRequest
   )
 
 export const ERREUR_FORMAT = 'Merci de remplir les champs marqués obligatoires'
 
 export default function makeRequestModification({
-  modificationRequestRepo
+  modificationRequestRepo,
 }: MakeUseCaseProps) {
   return async function requestModification(
     props: CallUseCaseProps

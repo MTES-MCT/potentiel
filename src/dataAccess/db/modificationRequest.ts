@@ -8,78 +8,78 @@ import isDbReady from './helpers/isDbReady'
 import _ from 'lodash'
 
 // Override these to apply serialization/deserialization on inputs/outputs
-const deserialize = item => ({
+const deserialize = (item) => ({
   ...item,
   filePath: item.filePath || undefined,
   justification: item.justification || undefined,
   actionnaire: item.actionnaire || undefined,
   fournisseur: item.fournisseur || undefined,
   producteur: item.producteur || undefined,
-  puissance: item.puissance || undefined
+  puissance: item.puissance || undefined,
 })
-const serialize = item => item
+const serialize = (item) => item
 
 export default function makeModificationRequestRepo({
-  sequelize
+  sequelize,
 }): ModificationRequestRepo {
   const ModificationRequestModel = sequelize.define('modificationRequest', {
     id: {
       type: DataTypes.UUID,
-      primaryKey: true
+      primaryKey: true,
     },
     projectId: {
       type: DataTypes.UUID,
-      allowNull: false
+      allowNull: false,
     },
     userId: {
       type: DataTypes.UUID,
-      allowNull: false
+      allowNull: false,
     },
     type: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     requestedOn: {
       type: DataTypes.NUMBER,
       allowNull: false,
-      defaultValue: 0
+      defaultValue: 0,
     },
     status: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     filePath: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
     },
     justification: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
     },
     actionnaire: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
     },
     producteur: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
     },
     fournisseur: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
     },
     puissance: {
       type: DataTypes.NUMBER,
-      allowNull: true
+      allowNull: true,
     },
     evaluationCarbone: {
       type: DataTypes.NUMBER,
-      allowNull: true
+      allowNull: true,
     },
     delayedServiceDate: {
       type: DataTypes.NUMBER,
-      allowNull: true
-    }
+      allowNull: true,
+    },
   })
 
   const _isDbReady = isDbReady({ sequelize })
@@ -88,7 +88,7 @@ export default function makeModificationRequestRepo({
     findById,
     findAll,
     insert,
-    update
+    update,
   })
 
   async function findById(
@@ -136,11 +136,11 @@ export default function makeModificationRequestRepo({
       const modificationRequestsRaw = await ModificationRequestModel.findAll(
         opts
       )
-        .map(item => item.get())
-        .map(item => ({
+        .map((item) => item.get())
+        .map((item) => ({
           ...item,
           user: item.user?.get(),
-          project: item.project?.get()
+          project: item.project?.get(),
         }))
 
       const deserializedItems = mapExceptError(
@@ -149,11 +149,7 @@ export default function makeModificationRequestRepo({
         'ModificationRequest.findAll.deserialize error'
       )
 
-      return mapIfOk(
-        deserializedItems,
-        makeModificationRequest,
-        'ModificationRequest.findAll.makeModificationRequest error'
-      )
+      return deserializedItems
     } catch (error) {
       if (CONFIG.logDbErrors)
         console.log('ModificationRequest.findAll error', error)
@@ -183,7 +179,7 @@ export default function makeModificationRequestRepo({
 
     try {
       await ModificationRequestModel.update(serialize(modificationRequest), {
-        where: { id: modificationRequest.id }
+        where: { id: modificationRequest.id },
       })
       return Ok(modificationRequest)
     } catch (error) {

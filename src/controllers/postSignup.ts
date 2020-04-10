@@ -42,7 +42,7 @@ const postSignup = async (request: HttpRequest) => {
         ROUTES.USER_DASHBOARD,
         {
           success:
-            'Votre compte a bien été créé, vous pouvez vous à présent vous identifier.',
+            'Votre compte a bien été créé, vous pouvez vous à présent gérer vos projets ci-dessous.',
         },
         user.id // This will log the user in
       )

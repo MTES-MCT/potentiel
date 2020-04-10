@@ -23,7 +23,8 @@ const titlePerAction = {
   actionnaire: "changement d'actionnaire",
   puissance: 'changement de puissance',
   producteur: 'changement de producteur',
-  abandon: 'abandon de mon projet'
+  abandon: 'abandon de mon projet',
+  recours: 'recours',
 }
 
 export { titlePerAction }
@@ -31,7 +32,7 @@ export { titlePerAction }
 /* Pure component */
 export default function ModificationRequestPage({
   request,
-  project
+  project,
 }: PageProps) {
   const {
     action,
@@ -43,8 +44,10 @@ export default function ModificationRequestPage({
     fournisseur,
     justification,
     evaluationCarbone,
-    delayedServiceDate
+    delayedServiceDate,
   } = request.query || {}
+
+  console.log('modificationRequest page with action', action)
 
   return (
     <UserDashboard currentPage={'list-requests'}>
@@ -67,7 +70,7 @@ export default function ModificationRequestPage({
               style={{
                 paddingTop: 10,
                 paddingBottom: 10,
-                marginBottom: 10
+                marginBottom: 10,
               }}
             >
               <div {...dataId('modificationRequest-item-nomProjet')}>
@@ -77,7 +80,7 @@ export default function ModificationRequestPage({
                 style={{
                   fontStyle: 'italic',
                   lineHeight: 'normal',
-                  fontSize: 12
+                  fontSize: 12,
                 }}
               >
                 <div {...dataId('modificationRequest-item-nomCandidat')}>
@@ -232,7 +235,7 @@ export default function ModificationRequestPage({
             {action === 'producteur' ? (
               <>
                 <label>Ancien producteur</label>
-                <input type="text" disabled value={project.producteur} />
+                <input type="text" disabled value={project.nomCandidat} />
                 <label className="required" htmlFor="producteur">
                   Nouveau producteur
                 </label>
@@ -298,6 +301,30 @@ export default function ModificationRequestPage({
               ''
             )}
             {action === 'abandon' ? (
+              <>
+                <label className="required" htmlFor="justification">
+                  Pour la raison suivante:
+                </label>
+                <textarea
+                  name="justification"
+                  id="justification"
+                  value={justification || ''}
+                  {...dataId('modificationRequest-justification-field')}
+                />
+                <label htmlFor="candidats">
+                  Pièce justificative (si nécessaire)
+                </label>
+                <input
+                  type="file"
+                  name="file"
+                  {...dataId('modificationRequest-file-field')}
+                  id="file"
+                />
+              </>
+            ) : (
+              ''
+            )}
+            {action === 'recours' ? (
               <>
                 <label className="required" htmlFor="justification">
                   Pour la raison suivante:

@@ -123,7 +123,7 @@ export async function makeServer(port: number = 3000) {
     )
 
     router.get(
-      ROUTES.ADMIN_SEND_COPY_OF_CANDIDATE_NOTIFICATION_ACTION,
+      ROUTES.ADMIN_SEND_COPY_OF_CANDIDATE_NOTIFICATION_ACTION(),
       ensureRole(['admin', 'dgec']),
       makeExpressCallback(getSendCopyOfCandidateNotification)
     )

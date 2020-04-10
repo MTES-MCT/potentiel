@@ -9,7 +9,7 @@ import {
   Static,
   Unknown,
   Undefined,
-  Partial
+  Partial,
 } from '../types/schemaTypes'
 import buildMakeEntity from '../helpers/buildMakeEntity'
 import { projectSchema } from './project'
@@ -18,38 +18,42 @@ import { userSchema } from './user'
 const baseModificationRequestSchema = Record({
   id: String,
   userId: String,
-  projectId: String
+  projectId: String,
 })
 
 const actionnaireSchema = Record({
   type: Literal('actionnaire'),
   actionnaire: String,
-  filePath: String
+  filePath: String,
 })
 const producteurSchema = Record({
   type: Literal('producteur'),
   producteur: String,
-  filePath: String
+  filePath: String,
 })
 const fournisseurSchema = Record({
   type: Literal('fournisseur'),
   fournisseur: String,
   evaluationCarbone: Number,
   justification: String,
-  filePath: String
+  filePath: String,
 })
 const puissanceSchema = Record({
   type: Literal('puissance'),
-  puissance: Number.withConstraint(value => value > 0)
+  puissance: Number.withConstraint((value) => value > 0),
 })
 const abandonSchema = Record({
   type: Literal('abandon'),
-  justification: String
+  justification: String,
+})
+const recoursSchema = Record({
+  type: Literal('recours'),
+  justification: String,
 })
 const delaiSchema = Record({
   type: Literal('delai'),
   justification: String,
-  delayedServiceDate: Number
+  delayedServiceDate: Number,
 })
 
 const modificationRequestSchema = baseModificationRequestSchema
@@ -60,6 +64,7 @@ const modificationRequestSchema = baseModificationRequestSchema
       fournisseurSchema,
       puissanceSchema,
       abandonSchema,
+      recoursSchema,
       delaiSchema
     )
   )
@@ -75,7 +80,7 @@ const modificationRequestSchema = baseModificationRequestSchema
         Literal('en validation'),
         Literal('validée'),
         Literal('refusée')
-      )
+      ),
     })
   )
 
@@ -92,7 +97,7 @@ const fields: string[] = [
   'project',
   'delayedServiceDate',
   'status',
-  ...Object.keys(baseModificationRequestSchema.fields)
+  ...Object.keys(baseModificationRequestSchema.fields),
 ]
 
 type ModificationRequest = Static<typeof modificationRequestSchema>

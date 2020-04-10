@@ -1,7 +1,7 @@
 // All this to avoid a SPA...
 
-document.addEventListener('DOMContentLoaded', event => {
-  addClickHandlerForClass('project-list--action-trigger', function(e) {
+document.addEventListener('DOMContentLoaded', (event) => {
+  addClickHandlerForClass('project-list--action-trigger', function (e) {
     console.log('User click on an action trigger')
   })
 
@@ -39,13 +39,13 @@ function addAOPeriodeSelectorHandler() {
   )
 
   if (AOSelectField) {
-    AOSelectField.addEventListener('change', function(event) {
+    AOSelectField.addEventListener('change', function (event) {
       updateAOPeriodeInUrl('appelOffreId', event.target.value)
     })
   }
 
   if (periodeSelectField) {
-    periodeSelectField.addEventListener('change', function(event) {
+    periodeSelectField.addEventListener('change', function (event) {
       updateAOPeriodeInUrl('periodeId', event.target.value)
     })
   }
@@ -58,23 +58,18 @@ function addSendCopyOfNotificationButtonHandler() {
 
   if (sendCopyButtons) {
     // console.log('Found sendCopyButtons, adding listener', sendCopyButtons)
-    sendCopyButtons.forEach(item =>
-      item.addEventListener('click', function(event) {
+    sendCopyButtons.forEach((item) =>
+      item.addEventListener('click', function (event) {
         // event.stopPropagation()
         event.preventDefault()
-        const projectId = event.target.getAttribute('data-projectid')
         const link = event.target.getAttribute('href')
 
-        if (!projectId || !link) {
-          console.log(
-            'Cannot call send copy because missing projectId or link',
-            projectId,
-            link
-          )
+        if (!link) {
+          console.log('Cannot call send copy because missing  link', link)
           return
         }
 
-        fetch(link + '?projectId=' + projectId).then(response => {
+        fetch(link).then((response) => {
           if (response.ok) {
             // console.log('GET to send copy of candidate notification succeeded')
             alert(
@@ -109,7 +104,7 @@ function addPuissanceModificationHandler() {
   if (newPuissanceField) {
     var submitButton = '[data-testId=submit-button]'
 
-    newPuissanceField.addEventListener('keyup', function(event) {
+    newPuissanceField.addEventListener('keyup', function (event) {
       var newValue = Number(event.target.value)
 
       var oldValue = getFieldValue(
@@ -165,7 +160,7 @@ function addDelayDateModificationHandler() {
   if (delayedServiceDateField) {
     var submitButton = '[data-testId=submit-button]'
 
-    delayedServiceDateField.addEventListener('keyup', function(event) {
+    delayedServiceDateField.addEventListener('keyup', function (event) {
       var oldDate = getDateFromDateString(
         getFieldValue(
           '[data-testId=modificationRequest-presentServiceDateField]'
@@ -215,7 +210,7 @@ function addDelayDateModificationHandler() {
 //
 
 function addClickHandlerForClass(className, handler) {
-  Array.from(document.getElementsByClassName(className)).forEach(function(
+  Array.from(document.getElementsByClassName(className)).forEach(function (
     element
   ) {
     element.addEventListener('click', handler)
