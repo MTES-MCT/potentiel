@@ -38,8 +38,6 @@ const baseProjectSchema = Record({
   departementProjet: String,
   regionProjet: String,
   fournisseur: String,
-  actionnaire: String,
-  producteur: String,
   classe: Union(Literal('Eliminé'), Literal('Classé')),
   motifsElimination: String,
   notifiedOn: Number,
@@ -47,11 +45,13 @@ const baseProjectSchema = Record({
 const projectSchema = baseProjectSchema.And(
   Partial({
     candidateNotifications: Array(candidateNotificationSchema).Or(Undefined),
+    actionnaire: String,
   })
 )
 
 const fields: string[] = [
   'candidateNotifications',
+  'actionnaire',
   ...Object.keys(baseProjectSchema.fields),
 ]
 

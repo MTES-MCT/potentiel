@@ -30,8 +30,8 @@ const getColumnForField = (field: string) => {
 }
 
 const makePhonyLine = () => ({
-  [getColumnForField('appelOffreId')]: phonyAppelOffre.id,
-  [getColumnForField('periodeId')]: phonyPeriodId,
+  "Appel d'offres": phonyAppelOffre.id,
+  Période: phonyPeriodId,
   [getColumnForField('numeroCRE')]: 'numeroCRE',
   [getColumnForField('familleId')]: 'famille',
   [getColumnForField('nomCandidat')]: 'nomCandidat',
@@ -48,36 +48,12 @@ const makePhonyLine = () => ({
   [getColumnForField('departementProjet')]: 'departementProjet',
   [getColumnForField('regionProjet')]: 'regionProjet',
   [getColumnForField('fournisseur')]: 'fournisseur',
-  [getColumnForField('actionnaire')]: 'actionnaire',
-  [getColumnForField('producteur')]: 'producteur',
   [getColumnForField('classe')]: 'Classé',
   [getColumnForField('motifsElimination')]: '',
   [getColumnForField('notifiedOn')]: '22/04/2020',
 })
 
 describe('importProjects use-case', () => {
-  it("should throw an error if there isn't at least one line", async () => {
-    const result = await importProjects({
-      lines: [],
-    })
-
-    expect(result.is_err())
-    expect(result.unwrap_err().message).toEqual(ERREUR_AUCUNE_LIGNE)
-  })
-
-  it("should throw an error if some lines don't have the required fields", async () => {
-    const goodLine = makePhonyLine()
-    // create a bad line by removing a required field
-    const badLine = _.omit(goodLine, getColumnForField('nomCandidat'))
-
-    const result = await importProjects({
-      lines: [goodLine, badLine],
-    })
-
-    expect(result.is_err())
-    expect(result.unwrap_err().message.indexOf(ERREUR_FORMAT_LIGNE)).toEqual(0)
-  })
-
   it('inserts all given projects to the store', async () => {
     const priorProjects = await projectRepo.findAll()
 
@@ -112,8 +88,6 @@ describe('importProjects use-case', () => {
       departementProjet: 'departementProjet',
       regionProjet: 'regionProjet',
       fournisseur: 'fournisseur',
-      actionnaire: 'actionnaire',
-      producteur: 'producteur',
       classe: 'Classé',
       motifsElimination: '',
       notifiedOn: moment('22/04/2020', 'DD/MM/YYYY').toDate().getTime(),
@@ -125,4 +99,26 @@ describe('importProjects use-case', () => {
       expect(newProjects[0][key]).toEqual(expectedLine[key])
     }
   })
+
+  // it("should throw an error if there isn't at least one line", async () => {
+  //   const result = await importProjects({
+  //     lines: [],
+  //   })
+
+  //   expect(result.is_err())
+  //   expect(result.unwrap_err().message).toEqual(ERREUR_AUCUNE_LIGNE)
+  // })
+
+  // it("should throw an error if some lines don't have the required fields", async () => {
+  //   const goodLine = makePhonyLine()
+  //   // create a bad line by removing a required field
+  //   const badLine = _.omit(goodLine, getColumnForField('nomCandidat'))
+
+  //   const result = await importProjects({
+  //     lines: [goodLine, badLine],
+  //   })
+
+  //   expect(result.is_err())
+  //   expect(result.unwrap_err().message.indexOf(ERREUR_FORMAT_LIGNE)).toEqual(0)
+  // })
 })
