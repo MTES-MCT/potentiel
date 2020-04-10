@@ -4,6 +4,8 @@ import { Project, CandidateNotification } from '../../entities'
 import ROUTES from '../../routes'
 import { dataId } from '../../helpers/testId'
 
+import { appelsOffreStatic } from '../../dataAccess'
+
 interface Props {
   projects?: Array<Project>
   projectActions?: (
@@ -16,6 +18,10 @@ interface Props {
     projectId?: string
     disabled?: boolean
   }> | null
+}
+
+const getPowerUnitForAppelOffre = (appelOffreId) => {
+  return appelsOffreStatic.find((item) => item.id === appelOffreId)?.powerUnit
 }
 
 const ProjectList = ({ projects, projectActions }: Props) => {
@@ -120,7 +126,7 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                     fontSize: 12,
                   }}
                 >
-                  kWc
+                  {getPowerUnitForAppelOffre(project.appelOffreId)}
                 </span>
               </td>
               <td valign="top">
