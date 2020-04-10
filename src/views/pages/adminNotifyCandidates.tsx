@@ -23,7 +23,7 @@ export default function AdminNotifyCandidates({
   projects,
   appelsOffre,
   selectedAppelOffreId,
-  selectedPeriodeId
+  selectedPeriodeId,
 }: AdminNotifyCandidatesProps) {
   const { error, success } = request.query || {}
   return (
@@ -44,7 +44,7 @@ export default function AdminNotifyCandidates({
             id="appelOffre"
             {...dataId('notifyCandidates-appelOffreField')}
           >
-            {appelsOffre.map(appelOffre => (
+            {appelsOffre.map((appelOffre) => (
               <option
                 key={'appel_' + appelOffre.id}
                 value={appelOffre.id}
@@ -60,8 +60,8 @@ export default function AdminNotifyCandidates({
             {...dataId('notifyCandidates-periodeField')}
           >
             {appelsOffre
-              .find(ao => ao.id === selectedAppelOffreId)
-              ?.periodes.map(periode => (
+              .find((ao) => ao.id === selectedAppelOffreId)
+              ?.periodes.map((periode) => (
                 <option
                   key={'appel_' + periode.id}
                   value={periode.id}
@@ -76,7 +76,7 @@ export default function AdminNotifyCandidates({
           <a
             href={ROUTES.ADMIN_NOTIFY_CANDIDATES_ACTION({
               appelOffreId: selectedAppelOffreId,
-              periodeId: selectedPeriodeId
+              periodeId: selectedPeriodeId,
             })}
             className="button"
           >
@@ -107,12 +107,13 @@ export default function AdminNotifyCandidates({
               title: "M'envoyer le mail de notification",
               projectId: project.id,
               link: ROUTES.ADMIN_SEND_COPY_OF_CANDIDATE_NOTIFICATION_ACTION,
-              actionId: 'send-copy-of-notification'
+              actionId: 'send-copy-of-notification',
             },
             {
               title: 'Voir attestation',
-              link: ROUTES.CANDIDATE_CERTIFICATE(project.id)
-            }
+              link: ROUTES.CANDIDATE_CERTIFICATE(project.id),
+              isDownload: true,
+            },
           ]}
         />
       </div>

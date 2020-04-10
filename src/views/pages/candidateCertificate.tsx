@@ -301,10 +301,6 @@ const Certificate = ({
   body,
   footnotes,
 }: CertificateProps) => {
-  if (!project.notifiedOn) {
-    throw new Error("Le projet n'est pas encore notifié")
-  }
-
   return (
     <Document>
       <Page
@@ -334,7 +330,8 @@ const Certificate = ({
         </View>
         <View style={{ position: 'absolute', top: 150, left: 400 }}>
           <Text style={{ fontSize: 10, marginBottom: 20 }}>
-            Paris, le {moment(project.notifiedOn).format('D MMMM YYYY')}
+            Paris, le{' '}
+            {moment(project.notifiedOn || Date.now()).format('D MMMM YYYY')}
           </Text>
           <Text style={{ fontSize: 10 }}>{project.nomRepresentantLegal}</Text>
           <Text style={{ fontSize: 10 }}>{project.nomCandidat}</Text>
