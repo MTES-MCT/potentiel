@@ -64,11 +64,11 @@ const commonDataFields = [
     type: asLiteral('string'),
     column: 'Nom du fabricant \n(Modules ou films)',
   },
-  {
-    field: 'actionnaire',
-    type: asLiteral('string'),
-    column: 'Nom (personne physique) ou raison sociale (personne morale) :',
-  },
+  // {
+  //   field: 'actionnaire',
+  //   type: asLiteral('string'),
+  //   column: 'Nom (personne physique) ou raison sociale (personne morale) :',
+  // },
   {
     field: 'producteur',
     type: asLiteral('string'),
