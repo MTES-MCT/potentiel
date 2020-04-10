@@ -12,7 +12,11 @@ import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
 
 // Override these to apply serialization/deserialization on inputs/outputs
-const deserialize = (item) => item
+const deserialize = (item) => ({
+  ...item,
+  isFinancementParticipatif: item.isFinancementParticipatif === 1,
+  isInvestissementParticipatif: item.isInvestissementParticipatif === 1,
+})
 const serialize = (item) => item
 
 export default function makeProjectRepo({ sequelize }): ProjectRepo {

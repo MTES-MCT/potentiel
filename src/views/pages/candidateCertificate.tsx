@@ -28,18 +28,35 @@ Font.register({
   ],
 })
 
+const FOOTNOTE_INDICES = [185, 178, 179, 186, 9824, 9827, 9829, 9830]
+
+const makeAddFootnote = (footNotes: Array<any>) => {
+  return (footNote: string) => {
+    const indice = FOOTNOTE_INDICES[footNotes.length % FOOTNOTE_INDICES.length]
+    footNotes.push({
+      footNote,
+      indice,
+    })
+
+    return String.fromCharCode(indice)
+  }
+}
+
 interface LaureatProps {
   project: Project
   appelOffre: AppelOffre
   periode: Periode
 }
 const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
-  const objet = `Désignation des lauréats de la {periode.title} période de
+  const objet = `Désignation des lauréats de la ${periode.title} période de
             l'appel offres ${appelOffre.title}`
 
   const requiresFinancialGuarantee = appelOffre.familles.find(
     (famille) => famille.id === project.familleId
   )?.requiresFinancialGuarantee
+
+  const footNotes: Array<{ footNote: string; indice: number }> = []
+  const addFootNote = makeAddFootnote(footNotes)
 
   const body = (
     <>
@@ -62,8 +79,33 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
         dispositions du point {appelOffre.referencePriceParagraph} du cahier des
         charges est de {project.prixReference} €/MWh. La valeur de l’évaluation
         carbone des modules est de {project.evaluationCarbone} kg eq CO2/kWc.
+        {project.isInvestissementParticipatif ? (
+          <Text>
+            En raison de votre engagement à l’investissement participatif, la
+            valeur de ce prix de référence est majorée pendant toute la durée du
+            contrat de 3 €/MWh sous réserve du respect de cet engagement
+            {addFootNote(
+              `Paragraphe ${appelOffre.ipFpEngagementParagraph} du cahier des charges`
+            )}
+            .
+          </Text>
+        ) : (
+          <Text />
+        )}
+        {project.isFinancementParticipatif ? (
+          <Text>
+            En raison de votre engagement au financement participatif, la valeur
+            de ce prix de référence est majorée pendant toute la durée du
+            contrat de 1 €/MWh sous réserve du respect de cet engagement
+            {addFootNote(
+              `Paragraphe ${appelOffre.ipFpEngagementParagraph} du cahier des charges`
+            )}
+            .
+          </Text>
+        ) : (
+          <Text />
+        )}
       </Text>
-
       <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
         Par ailleurs, je vous rappelle les obligations suivantes du fait de
         cette désignation :
@@ -88,7 +130,11 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
         }}
       >
         - si ce n’est déjà fait, déposer une demande complète de raccordement
-        dans les deux (2) mois à compter de la présente notification&sup1;.
+        dans les deux (2) mois à compter de la présente notification
+        {addFootNote(
+          `Paragraphe ${appelOffre.completePluginRequestParagraph} du cahier des charges`
+        )}
+        .
       </Text>
       {requiresFinancialGuarantee ? (
         <Text style={{ fontSize: 10, marginTop: 10, marginLeft: 20 }}>
@@ -99,7 +145,13 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
           d’une procédure de mise en demeure. En l’absence d’exécution dans un
           délai d’un mois après réception de la mise en demeure, le candidat
           pourra faire l’objet d’un retrait de la présente décision le désignant
-          lauréat&sup2;.{' '}
+          lauréat
+          <Text>
+            {addFootNote(
+              `Paragraphe ${appelOffre.designationRemovalParagraph} du cahier des charges`
+            )}
+          </Text>
+          .{' '}
           <Text style={{ textDecoration: 'underline' }}>
             La durée de la garantie doit être au minimum de 42 mois.
           </Text>
@@ -131,6 +183,38 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
         - fournir à EDF l’attestation de conformité de l’installation prévue au
         paragraphe {appelOffre.conformityParagraph} du cahier des charges.
       </Text>
+      {project.isInvestissementParticipatif ? (
+        <Text
+          style={{
+            fontSize: 10,
+            textAlign: 'justify',
+            marginTop: 10,
+            marginLeft: 20,
+          }}
+        >
+          - respecter les engagements pris conformément au(x) paragraphe(s){' '}
+          {appelOffre.ipFpEngagementParagraph} concernant l’investissement
+          participatif.
+        </Text>
+      ) : (
+        <Text />
+      )}
+      {project.isFinancementParticipatif ? (
+        <Text
+          style={{
+            fontSize: 10,
+            textAlign: 'justify',
+            marginTop: 10,
+            marginLeft: 20,
+          }}
+        >
+          - respecter les engagements pris conformément au(x) paragraphe(s){' '}
+          {appelOffre.ipFpEngagementParagraph} concernant le financement
+          participatif.
+        </Text>
+      ) : (
+        <Text />
+      )}
       <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
         Je vous rappelle également que l’installation mise en service doit être
         en tout point conforme à celle décrite dans le dossier de candidature et
@@ -149,23 +233,14 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
     </>
   )
 
-  const footnotes = (
-    <>
-      <Text>
-        &sup1; Paragraphe {appelOffre.completePluginRequestParagraph} du cahier
-        des charges
-      </Text>
-      {requiresFinancialGuarantee ? (
-        <Text>
-          &sup2; Paragraphe {appelOffre.designationRemovalParagraph} du cahier
-          des charges
-        </Text>
-      ) : (
-        <Text />
-      )}
-    </>
-  )
-
+  // We have to jugle a bit with String.fromCharCode to have the actual indices and not literaly &sup1; or other
+  // Also we replace the spaces in the footnote text with non-breaking spaces because of a bug in React-PDF that wraps way too early
+  const footnotes = footNotes.map(({ footNote, indice }) => (
+    <Text>
+      {String.fromCharCode(indice)}{' '}
+      {footNote.replace(/\s/gi, String.fromCharCode(160))}
+    </Text>
+  ))
   return { project, appelOffre, periode, objet, body, footnotes }
 }
 
@@ -310,7 +385,14 @@ const Certificate = ({
             src="http://localhost:3000/images/signature.png"
           />
           {footnotes ? (
-            <View style={{ marginTop: 100, fontSize: 8 }}>{footnotes}</View>
+            <View
+              style={{
+                marginTop: 100,
+                fontSize: 8,
+              }}
+            >
+              {footnotes}
+            </View>
           ) : (
             <View />
           )}
