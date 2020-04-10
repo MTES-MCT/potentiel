@@ -16,6 +16,7 @@ const deserialize = (item) => ({
   ...item,
   isFinancementParticipatif: item.isFinancementParticipatif === 1,
   isInvestissementParticipatif: item.isInvestissementParticipatif === 1,
+  actionnaire: item.actionnaire || '',
 })
 const serialize = (item) => item
 
@@ -102,10 +103,6 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
       allowNull: true,
     },
     actionnaire: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    producteur: {
       type: DataTypes.STRING,
       allowNull: true,
     },
