@@ -18,8 +18,7 @@ describe('login use-case', () => {
   let phonyUser
   beforeAll(async () => {
     const phonyUserResult = makeUser({
-      firstName: 'Patrice',
-      lastName: 'Leconte',
+      fullName: 'Patrice Leconte',
       role: 'admin',
       email: 'fake@email.com',
     })

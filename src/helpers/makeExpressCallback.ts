@@ -18,6 +18,10 @@ const login = (req: Request, user): Promise<void> => {
   })
 }
 
+const logout = async (req: Request) => {
+  req.logout()
+}
+
 function addQueryParams(url, query) {
   if (!query) return url
   return (
@@ -56,6 +60,7 @@ export default function makeExpressCallback(controller: Controller) {
             ? login(req, { id: httpResponse.userId })
             : Promise.resolve()
           ).then(() => {
+            if (httpResponse.logout) req.logout()
             res.redirect(
               addQueryParams(httpResponse.redirect, httpResponse.query)
             )
@@ -63,6 +68,7 @@ export default function makeExpressCallback(controller: Controller) {
         } else if ('filePath' in httpResponse) {
           res.sendFile(path.resolve(process.cwd(), httpResponse.filePath))
         } else {
+          if (httpResponse.logout) req.logout()
           res.status(httpResponse.statusCode).send(httpResponse.body)
         }
       })

@@ -8,27 +8,25 @@ const postSignup = async (request: HttpRequest) => {
   // console.log('Call  to postSignup received', request.body)
 
   const {
-    firstName,
-    lastName,
+    fullName,
     email,
     password,
     confirmPassword,
     projectAdmissionKey,
-    projectId
+    projectId,
   } = request.body
 
   const nonSecretUserInfo = {
-    firstName,
-    lastName,
+    fullName,
     email,
     projectAdmissionKey,
-    projectId
+    projectId,
   }
 
   const userResult = await signup({
     ...nonSecretUserInfo,
     password,
-    confirmPassword
+    confirmPassword,
   })
 
   return userResult.match({
@@ -36,7 +34,7 @@ const postSignup = async (request: HttpRequest) => {
       if (user === null) {
         return Redirect(ROUTES.SIGNUP, {
           ...nonSecretUserInfo,
-          error: 'Erreur lors de la création de compte'
+          error: 'Erreur lors de la création de compte',
         })
       }
 
@@ -44,7 +42,7 @@ const postSignup = async (request: HttpRequest) => {
         ROUTES.USER_DASHBOARD,
         {
           success:
-            'Votre compte a bien été créé, vous pouvez vous à présent vous identifier.'
+            'Votre compte a bien été créé, vous pouvez vous à présent vous identifier.',
         },
         user.id // This will log the user in
       )
@@ -53,9 +51,9 @@ const postSignup = async (request: HttpRequest) => {
       console.log('postSignup error', e)
       return Redirect(ROUTES.SIGNUP, {
         ...nonSecretUserInfo,
-        error: 'Erreur lors de la création de compte: ' + e.message
+        error: 'Erreur lors de la création de compte: ' + e.message,
       })
-    }
+    },
   })
 }
 export { postSignup }

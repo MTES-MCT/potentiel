@@ -4,13 +4,13 @@ import {
   Credentials,
   makeCredentials,
   ProjectAdmissionKey,
-  makeProjectAdmissionKey
+  makeProjectAdmissionKey,
 } from '../entities'
 import {
   UserRepo,
   CredentialsRepo,
   ProjectAdmissionKeyRepo,
-  ProjectRepo
+  ProjectRepo,
 } from '../dataAccess'
 import _ from 'lodash'
 
@@ -24,11 +24,9 @@ interface MakeUseCaseProps {
 }
 
 interface CallUseCaseProps {
-  projectId?: string
-  projectAdmissionKey?: string
-  firstName: string
-  lastName: string
-  email: string
+  projectAdmissionKey: string
+  fullName: string
+  // email: string
   password: string
   confirmPassword: string
 }
@@ -38,43 +36,55 @@ export const SYSTEM_ERROR =
   'Votre compte ne peut pas être créé, merci de réessayer ultérieurement.'
 export const EMAIL_USED_ERROR = 'Email déjà utilisé pour un autre compte'
 export const PASSWORD_INVALID_ERROR = "Le mot de passe n'est pas suffisant"
-export const USER_INFO_ERROR = 'Prénom ou nom manquants'
+export const USER_INFO_ERROR = 'Nom manquant'
+export const MISSING_ADMISSION_KEY_ERROR =
+  'Vous ne pouvez vous inscrire que suite à une invitation reçue par mail.'
 
 export default function makeSignup({
   userRepo,
   credentialsRepo,
   projectAdmissionKeyRepo,
-  projectRepo
+  projectRepo,
 }: MakeUseCaseProps) {
   return async function signup({
-    projectId,
     projectAdmissionKey,
-    firstName,
-    lastName,
-    email,
+    fullName,
+    // email,
     password,
-    confirmPassword
+    confirmPassword,
   }: CallUseCaseProps): ResultAsync<User> {
     // Check if passwords match
     if (!password || password !== confirmPassword) {
       return ErrorResult(PASSWORD_MISMATCH_ERROR)
     }
 
+    const projectAdmissionKeyResult = await projectAdmissionKeyRepo.findById(
+      projectAdmissionKey
+    )
+
+    if (projectAdmissionKeyResult.is_none()) {
+      console.log(
+        'signup use-case: projectAdmissionKey was not found ',
+        projectAdmissionKey
+      )
+      return ErrorResult(MISSING_ADMISSION_KEY_ERROR)
+    }
+
+    const projectAdmissionKeyInstance = projectAdmissionKeyResult.unwrap()
+    const email = projectAdmissionKeyInstance.email
+
     // Check if email is already used
     const existingCredential = await credentialsRepo.findByEmail(email)
-
     if (existingCredential.is_some()) {
       return ErrorResult(EMAIL_USED_ERROR)
     }
 
     // Create a user object
     const userResult = makeUser({
-      firstName,
-      lastName,
+      fullName,
       email,
-      role: 'porteur-projet'
+      role: 'porteur-projet',
     })
-
     if (userResult.is_err()) {
       console.log(
         'signup use-case: makeUser est en erreur',
@@ -82,13 +92,13 @@ export default function makeSignup({
       )
       return ErrorResult(USER_INFO_ERROR)
     }
-
     const user = userResult.unwrap()
 
+    // Create the credentials
     const credentialsData = {
       email,
       userId: user.id,
-      password
+      password,
     }
     const credentialsResult = makeCredentials(credentialsData)
 
@@ -124,45 +134,20 @@ export default function makeSignup({
         credentials
       )
 
-      // Remove the user from the database
+      // Rollback: Remove the user from the database
       await userRepo.remove(user.id)
 
       return ErrorResult(SYSTEM_ERROR)
     }
 
-    // Handle the case where the project has an admission key and projectId
-    // Ignore the cases where there's one and not the other
-    if (projectAdmissionKey && projectId) {
-      const projectAdmissionKeyResult = await projectAdmissionKeyRepo.findById(
-        projectAdmissionKey
+    // User validated his email address by registering with it
+    // Add all projects that have that email
+    const projectsWithSameEmail = await projectRepo.findAll({ email })
+    await Promise.all(
+      projectsWithSameEmail.map((project) =>
+        userRepo.addProject(user.id, project.id)
       )
-
-      if (projectAdmissionKeyResult.is_some()) {
-        const projectAdmissionKeyInstance = projectAdmissionKeyResult.unwrap()
-        if (projectAdmissionKeyInstance.projectId === projectId) {
-          // User provided a correct projectAdmissionKey and projectId pair
-          if (email === projectAdmissionKeyInstance.email) {
-            // User validated his email address by registering with it
-            // Add all projects that have that email
-            const projectsWithSameEmail = await projectRepo.findAll({ email })
-            await Promise.all(
-              projectsWithSameEmail.map(project =>
-                userRepo.addProject(user.id, project.id)
-              )
-            )
-          } else {
-            // User used another email address
-            // Only link the user with the project from the admisssion key
-            await userRepo.addProject(user.id, projectId)
-          }
-        }
-      } else {
-        console.log(
-          'signup use-case: user provided projectAdmissionKey and projectId but projectAdmissionKey was not found ',
-          credentials
-        )
-      }
-    }
+    )
 
     return Ok(user)
   }

@@ -23,6 +23,7 @@ const withProjectId = (url: string) => (projectId: Project['id']) =>
   withParams(url)({ projectId })
 
 export default {
+  HOME: '/',
   LOGIN: '/login.html',
   LOGIN_ACTION: '/login',
   LOGOUT_ACTION: '/logout',

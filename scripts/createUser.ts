@@ -21,10 +21,9 @@ console.log(
 initDatabase()
   .then(() => {
     const userResult = makeUser({
-      firstName: '',
-      lastName: name,
+      fullName: name,
       email,
-      role: 'admin'
+      role: 'admin',
     })
 
     if (userResult.is_err()) {
@@ -36,7 +35,7 @@ initDatabase()
     const credentialsResult = makeCredentials({
       userId: userResult.unwrap().id,
       email,
-      password
+      password,
     })
     if (credentialsResult.is_err()) {
       console.log('Cannot create credentials', credentialsResult.unwrap_err())
@@ -47,7 +46,7 @@ initDatabase()
 
     return Promise.all([
       userRepo.insert(user),
-      credentialsRepo.insert(credentials)
+      credentialsRepo.insert(credentials),
     ])
   })
   .then(([userInsertion, credentialsInsertion]) => {
@@ -70,7 +69,7 @@ initDatabase()
     console.log('User was successfuly inserted into db')
     process.exit(0)
   })
-  .catch(err => {
+  .catch((err) => {
     console.log('Caught error', err)
     process.exit(1)
   })

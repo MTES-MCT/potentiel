@@ -9,16 +9,15 @@ import {
   Boolean,
   Static,
   Unknown,
-  Undefined
+  Undefined,
 } from '../types/schemaTypes'
 import buildMakeEntity from '../helpers/buildMakeEntity'
 
 const userSchema = Record({
   id: String,
-  firstName: String,
-  lastName: String,
+  fullName: String,
   email: String.withConstraint(isEmail.validate),
-  role: Union(Literal('admin'), Literal('dgec'), Literal('porteur-projet'))
+  role: Union(Literal('admin'), Literal('dgec'), Literal('porteur-projet')),
 })
 
 const fields: string[] = [...Object.keys(userSchema.fields)]

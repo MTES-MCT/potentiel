@@ -1,7 +1,6 @@
 export default function makeFakeUser(overrides?) {
   const defaultObj = {
-    firstName: 'Pierre',
-    lastName: 'Durand',
+    fullName: 'Pierre Durand',
     role: 'admin',
     email: 'fake@email.com',
   }

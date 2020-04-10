@@ -18,11 +18,17 @@ export type HttpResponse =
   | {
       statusCode: number
       body: string
+      logout?: boolean
     }
   | {
       filePath: string
     }
-  | { redirect: string; userId?: User['id']; query?: Record<string, any> }
+  | {
+      redirect: string
+      userId?: User['id']
+      query?: Record<string, any>
+      logout?: boolean
+    }
 
 export type Controller = (
   req: HttpRequest,
