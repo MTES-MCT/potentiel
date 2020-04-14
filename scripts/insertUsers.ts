@@ -2,7 +2,7 @@ import { initDatabase, userRepo, credentialsRepo } from '../src/dataAccess'
 import { makeUser, makeCredentials, User } from '../src/entities'
 import { asLiteral } from '../src/helpers/asLiteral'
 
-import testUsers from '../.test-users.ts'
+import testUsers from '../.test-users'
 
 if (!testUsers) {
   console.log("Can't find .test-users.json file")
