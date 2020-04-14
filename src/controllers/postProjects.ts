@@ -1,6 +1,7 @@
 import csvParse from 'csv-parse'
 import fs from 'fs'
 import util from 'util'
+import iconv from 'iconv-lite'
 import { Redirect } from '../helpers/responses'
 import ROUTES from '../routes'
 import { HttpRequest } from '../types'
@@ -8,13 +9,16 @@ import { importProjects } from '../useCases'
 
 const deleteFile = util.promisify(fs.unlink)
 
+const from1252 = iconv.decodeStream('win1252')
+
 const parse = (file) =>
   new Promise<Array<Record<string, string>>>((resolve, reject) => {
     const data: Array<Record<string, string>> = []
     fs.createReadStream(file)
+      .pipe(from1252)
       .pipe(
         csvParse({
-          delimiter: ',',
+          delimiter: ';',
           columns: true,
         })
       )

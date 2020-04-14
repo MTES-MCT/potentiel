@@ -119,12 +119,12 @@ export default function makeImportProjects({
 
         if (projectResult.is_err()) {
           // This line is an error
-          console.log(
-            'importProjects use-case: this line has an error',
-            projectData,
-            // line,
-            projectResult.unwrap_err()
-          )
+          // console.log(
+          //   'importProjects use-case: this line has an error',
+          //   projectData,
+          //   // line,
+          //   projectResult.unwrap_err()
+          // )
 
           // Add the error from this line prefixed with the line number
           const projectError = projectResult.unwrap_err()
@@ -149,10 +149,10 @@ export default function makeImportProjects({
     )
 
     if (projects.is_err()) {
-      console.log(
-        'importProjects use-case: some projects have errors',
-        projects.unwrap_err()
-      )
+      // console.log(
+      //   'importProjects use-case: some projects have errors',
+      //   projects.unwrap_err()
+      // )
       const error = new Error()
       error.message = projects
         .unwrap_err()
@@ -168,12 +168,12 @@ export default function makeImportProjects({
     )
 
     if (insertions.some((project) => project.is_err())) {
-      console.log(
-        'importProjects use-case: some insertions have errors',
-        insertions
-          .filter((item) => item.is_err())
-          .map((item) => item.unwrap_err())
-      )
+      // console.log(
+      //   'importProjects use-case: some insertions have errors',
+      //   insertions
+      //     .filter((item) => item.is_err())
+      //     .map((item) => item.unwrap_err())
+      // )
       projects.unwrap_err()
       // Some projects failed to be inserted
       // Remove all the others
