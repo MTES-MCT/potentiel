@@ -1,85 +1,84 @@
 import { AppelOffre } from '../../entities'
 import { asLiteral } from '../../helpers/asLiteral'
 import _ from 'lodash'
+import { ValuesType } from 'utility-types'
+
+const toTypeLiteral = (str) =>
+  asLiteral<ValuesType<AppelOffre['dataFields']>['type']>(str)
 
 const commonDataFields = [
-  { field: 'numeroCRE', type: asLiteral('string'), column: 'N°CRE' },
+  { field: 'numeroCRE', type: toTypeLiteral('string'), column: 'N°CRE' },
   {
     field: 'familleId',
-    type: asLiteral('string'),
+    type: toTypeLiteral('string'),
     column: 'Famille de candidature',
   },
   {
     field: 'nomCandidat',
-    type: asLiteral('string'),
+    type: toTypeLiteral('string'),
     column: 'Nom (personne physique) ou raison sociale (personne morale) :',
   },
-  { field: 'nomProjet', type: asLiteral('string'), column: 'Nom projet' },
+  { field: 'nomProjet', type: toTypeLiteral('string'), column: 'Nom projet' },
   {
     field: 'puissance',
-    type: asLiteral('number'),
+    type: toTypeLiteral('number'),
     column:
       'Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)',
   },
   {
     field: 'prixReference',
-    type: asLiteral('number'),
+    type: toTypeLiteral('number'),
     column:
       'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)',
   },
   {
     field: 'evaluationCarbone',
-    type: asLiteral('number'),
+    type: toTypeLiteral('number'),
     column:
       'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)',
   },
-  { field: 'note', type: asLiteral('number'), column: 'Note totale' },
+  { field: 'note', type: toTypeLiteral('number'), column: 'Note totale' },
   {
     field: 'nomRepresentantLegal',
-    type: asLiteral('string'),
+    type: toTypeLiteral('string'),
     column: 'Nom et prénom du représentant légal',
   },
   {
     field: 'email',
-    type: asLiteral('string'),
+    type: toTypeLiteral('string'),
     column: 'Adresse électronique du contact',
   },
   {
     field: 'adresseProjet',
-    type: asLiteral('string'),
+    type: toTypeLiteral('string'),
     column: 'N°, voie, lieu-dit',
   },
-  { field: 'codePostalProjet', type: asLiteral('string'), column: 'CP' },
-  { field: 'communeProjet', type: asLiteral('string'), column: 'Commune' },
+  { field: 'codePostalProjet', type: toTypeLiteral('string'), column: 'CP' },
+  { field: 'communeProjet', type: toTypeLiteral('string'), column: 'Commune' },
   {
     field: 'departementProjet',
-    type: asLiteral('string'),
+    type: toTypeLiteral('string'),
     column: 'Département',
   },
-  { field: 'regionProjet', type: asLiteral('string'), column: 'Région' },
-  { field: 'classe', type: asLiteral('string'), column: 'Classé ?' },
+  { field: 'regionProjet', type: toTypeLiteral('string'), column: 'Région' },
+  { field: 'classe', type: toTypeLiteral('string'), column: 'Classé ?' },
   {
     field: 'motifsElimination',
-    type: asLiteral('string'),
+    type: toTypeLiteral('string'),
     column: "Motif d'élimination",
   },
   {
     field: 'fournisseur',
-    type: asLiteral('string'),
+    type: toTypeLiteral('string'),
     column: 'Nom du fabricant \n(Modules ou films)',
   },
-  // {
-  //   field: 'actionnaire',
-  //   type: asLiteral('string'),
-  //   column: 'Nom (personne physique) ou raison sociale (personne morale) :',
-  // },
   {
     field: 'isInvestissementParticipatif',
-    type: asLiteral('stringEquals'),
+    type: toTypeLiteral('stringEquals'),
     column: 'Investissement ou financement participatif ?',
     value: 'Investissement participatif (T1)',
   },
-  { field: 'notifiedOn', type: asLiteral('date'), column: 'Notification' },
+  { field: 'notifiedOn', type: toTypeLiteral('date'), column: 'Notification' },
 ]
 
 const fessenheim: AppelOffre = {
