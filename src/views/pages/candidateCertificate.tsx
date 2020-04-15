@@ -327,7 +327,7 @@ const Certificate = ({
         >
           <Image
             style={{ width: 90, height: 53, marginHorizontal: 'auto' }}
-            src={process.env.BASE_URL + '/images/logo.png'}
+            src={process.env.BASE_URL + '/images/Logo.png'}
           />
           <Text style={{ fontSize: 11, marginTop: 20 }}>
             MINISTÈRE DE LA TRANSITION ECOLOGIQUE ET SOLIDAIRE
