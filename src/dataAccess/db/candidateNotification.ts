@@ -2,39 +2,35 @@ import { DataTypes } from 'sequelize'
 import { CandidateNotificationRepo } from '../'
 import {
   CandidateNotification,
-  makeCandidateNotification
+  makeCandidateNotification,
 } from '../../entities'
 import { mapExceptError, mapIfOk } from '../../helpers/results'
 import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types'
 import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
 
-const deserialize = item =>
+const deserialize = (item) =>
   item.data ? { ...item, data: JSON.parse(item.data) } : item
 
-const serialize = item =>
+const serialize = (item) =>
   item.data ? { ...item, data: JSON.stringify(item.data) } : item
 
 export default function makeCandidateNotificationRepo({
-  sequelize
+  sequelize,
 }): CandidateNotificationRepo {
   const CandidateNotificationModel = sequelize.define('candidateNotification', {
     id: {
       type: DataTypes.UUID,
-      primaryKey: true
+      primaryKey: true,
     },
-    template: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    data: {
-      type: DataTypes.STRING,
-      allowNull: true
+    projectId: {
+      type: DataTypes.UUID,
+      allowNull: false,
     },
     projectAdmissionKey: {
-      type: DataTypes.STRING,
-      allowNull: false
-    }
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
   })
 
   const _isDbReady = isDbReady({ sequelize })
@@ -43,7 +39,7 @@ export default function makeCandidateNotificationRepo({
     findById,
     findAll,
     insert,
-    update
+    update,
   })
 
   async function findById(
@@ -83,7 +79,7 @@ export default function makeCandidateNotificationRepo({
       const candidateNotificationsRaw = await CandidateNotificationModel.findAll(
         query
           ? {
-              where: query
+              where: query,
             }
           : {},
         { raw: true }
@@ -131,7 +127,7 @@ export default function makeCandidateNotificationRepo({
       await CandidateNotificationModel.update(
         serialize(candidateNotification),
         {
-          where: { id: candidateNotification.id }
+          where: { id: candidateNotification.id },
         }
       )
       return Ok(candidateNotification)
