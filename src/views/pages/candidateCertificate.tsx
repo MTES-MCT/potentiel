@@ -46,7 +46,11 @@ interface LaureatProps {
   periode: Periode
 }
 const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
-  const objet = `Désignation des lauréats de la ${periode.title} période de l'appel offres ${appelOffre.title}`
+  const objet =
+    'Désignation des lauréats de la ' +
+    periode.title +
+    " période de l'appel offres " +
+    appelOffre.title
 
   const requiresFinancialGuarantee = appelOffre.familles.find(
     (famille) => famille.id === project.familleId
@@ -82,7 +86,9 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
             valeur de ce prix de référence est majorée pendant toute la durée du
             contrat de 3 €/MWh sous réserve du respect de cet engagement
             {addFootNote(
-              `Paragraphe ${appelOffre.ipFpEngagementParagraph} du cahier des charges`
+              'Paragraphe ' +
+                appelOffre.ipFpEngagementParagraph +
+                ' du cahier des charges'
             )}
             .
           </Text>
@@ -95,7 +101,9 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
             de ce prix de référence est majorée pendant toute la durée du
             contrat de 1 €/MWh sous réserve du respect de cet engagement
             {addFootNote(
-              `Paragraphe ${appelOffre.ipFpEngagementParagraph} du cahier des charges`
+              'Paragraphe ' +
+                appelOffre.ipFpEngagementParagraph +
+                ' du cahier des charges'
             )}
             .
           </Text>
@@ -129,7 +137,9 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
         - si ce n’est déjà fait, déposer une demande complète de raccordement
         dans les deux (2) mois à compter de la présente notification
         {addFootNote(
-          `Paragraphe ${appelOffre.completePluginRequestParagraph} du cahier des charges`
+          'Paragraphe ' +
+            appelOffre.completePluginRequestParagraph +
+            ' du cahier des charges'
         )}
         .
       </Text>
@@ -152,7 +162,9 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
           lauréat
           <Text>
             {addFootNote(
-              `Paragraphe ${appelOffre.designationRemovalParagraph} du cahier des charges`
+              'Paragraphe ' +
+                appelOffre.designationRemovalParagraph +
+                ' du cahier des charges'
             )}
           </Text>
           .{' '}
@@ -254,7 +266,11 @@ interface ElimineProps {
   periode: Periode
 }
 const Elimine = ({ project, appelOffre, periode }: ElimineProps) => {
-  const objet = `Avis de rejet à l’issue de la ${periode.title} période de l'appel offres ${appelOffre.title}`
+  const objet =
+    'Avis de rejet à l’issue de la ' +
+    periode.title +
+    " période de l'appel offres " +
+    appelOffre.title
 
   const body = (
     <>
@@ -267,16 +283,18 @@ const Elimine = ({ project, appelOffre, periode }: ElimineProps) => {
         }}
       >
         {project.motifsElimination === 'Au-dessus de Pcible'
-          ? `Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été classée au-delà de la puissance offerte pour cette période de candidature dans la famille concernée. Votre offre a en effet obtenu une note de ${
-              Math.round(project.note * 100) / 100
-            } points alors que le classement des dossiers a fait apparaître que la sélection des offres jusqu’à la note de ${
-              periode.noteThresholdByFamily?.find(
-                (item) => item.familleId === project.familleId
-              )?.noteThreshold || 'N/A'
-            } points permettait de remplir les objectifs de volumes de l’appel d’offres dans cette famille. Par conséquent, cette offre n’a pas été retenue.`
+          ? 'Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été classée au-delà de la puissance offerte pour cette période de candidature dans la famille concernée. Votre offre a en effet obtenu une note de ' +
+            Math.round(project.note * 100) / 100 +
+            ' points alors que le classement des dossiers a fait apparaître que la sélection des offres jusqu’à la note de ' +
+            (periode.noteThresholdByFamily?.find(
+              (item) => item.familleId === project.familleId
+            )?.noteThreshold || 'N/A') +
+            ' points permettait de remplir les objectifs de volumes de l’appel d’offres dans cette famille. Par conséquent, cette offre n’a pas été retenue.'
           : project.motifsElimination.includes('Déjà lauréat')
           ? 'Suite à l’examen par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été retirée de l’instruction, ayant été désignée lauréate au cours d’un précédent appel d’offres. Par conséquent, cette offre n’a pas été retenue.'
-          : `Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été éliminée pour le motif suivant : «${project.motifsElimination}». Par conséquent, cette offre n’a pas été retenue.`}
+          : 'Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été éliminée pour le motif suivant : «' +
+            project.motifsElimination +
+            '». Par conséquent, cette offre n’a pas été retenue.'}
       </Text>
       <Text style={{ fontSize: 11, textAlign: 'justify', marginTop: 10 }}>
         Vous avez la possibilité de contester la présente décision auprès du
