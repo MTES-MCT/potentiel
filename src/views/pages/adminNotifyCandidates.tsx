@@ -103,15 +103,21 @@ export default function AdminNotifyCandidates({
         <ProjectList
           projects={projects}
           projectActions={(project: Project) => [
-            {
-              title: "M'envoyer le mail de notification",
-              link: ROUTES.ADMIN_SEND_COPY_OF_CANDIDATE_NOTIFICATION_ACTION({
-                appelOffreId: project.appelOffreId,
-                periodeId: project.periodeId,
-                email: project.email,
-              }),
-              actionId: 'send-copy-of-notification',
-            },
+            ...(process.env.NODE_ENV === 'production'
+              ? []
+              : [
+                  {
+                    title: "M'envoyer le mail de notification",
+                    link: ROUTES.ADMIN_SEND_COPY_OF_CANDIDATE_NOTIFICATION_ACTION(
+                      {
+                        appelOffreId: project.appelOffreId,
+                        periodeId: project.periodeId,
+                        email: project.email,
+                      }
+                    ),
+                    actionId: 'send-copy-of-notification',
+                  },
+                ]),
             {
               title: 'Voir attestation',
               link: ROUTES.CANDIDATE_CERTIFICATE(project.id),

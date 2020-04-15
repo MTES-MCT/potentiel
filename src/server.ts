@@ -198,6 +198,7 @@ export async function makeServer(port: number = 3000) {
     return new Promise((resolve) => {
       const server = app.listen(port, () => {
         console.log(`Server listening on port ${port}!`)
+        console.log(`NODE_ENV is ${process.env.NODE_ENV}`)
         resolve(server)
       })
     })
