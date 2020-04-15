@@ -12,7 +12,7 @@ const Header = ({ request }: HeaderProps) => {
   return (
     <header className="navbar" role="navigation">
       <div className="navbar__container">
-        <a className="navbar__home" href="index.html">
+        <a className="navbar__home" href="/index.html">
           <img
             className="navbar__logo"
             src="/images/logo-marianne.svg"
