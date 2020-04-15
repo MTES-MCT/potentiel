@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Project, CandidateNotification } from '../../entities'
+import { Project, CandidateNotification, AppelOffre } from '../../entities'
 import ROUTES from '../../routes'
 import { dataId } from '../../helpers/testId'
 
@@ -9,7 +9,8 @@ import { appelsOffreStatic } from '../../dataAccess'
 interface Props {
   projects?: Array<Project>
   projectActions?: (
-    project: Project
+    project: Project,
+    appelOffre?: AppelOffre
   ) => Array<{
     title: string
     link: string
@@ -18,10 +19,6 @@ interface Props {
     projectId?: string
     disabled?: boolean
   }> | null
-}
-
-const getPowerUnitForAppelOffre = (appelOffreId) => {
-  return appelsOffreStatic.find((item) => item.id === appelOffreId)?.powerUnit
 }
 
 const ProjectList = ({ projects, projectActions }: Props) => {
@@ -55,176 +52,181 @@ const ProjectList = ({ projects, projectActions }: Props) => {
           </tr>
         </thead>
         <tbody>
-          {projects.map((project) => (
-            <tr key={'project_' + project.id}>
-              <td valign="top">
-                <div {...dataId('projectList-item-periode')}>
-                  {project.periodeId}
-                </div>
-                <div
-                  style={{
-                    fontStyle: 'italic',
-                    lineHeight: 'normal',
-                    fontSize: 12,
-                  }}
-                  {...dataId('projectList-item-famille')}
-                >
-                  famille {project.familleId}
-                </div>
-              </td>
-              <td valign="top">
-                <div {...dataId('projectList-item-nomProjet')}>
-                  {project.nomProjet}
-                </div>
-                <div
-                  style={{
-                    fontStyle: 'italic',
-                    lineHeight: 'normal',
-                    fontSize: 12,
-                  }}
-                >
-                  <span {...dataId('projectList-item-communeProjet')}>
-                    {project.communeProjet}
-                  </span>
-                  ,{' '}
-                  <span {...dataId('projectList-item-departementProjet')}>
-                    {project.departementProjet}
-                  </span>
-                  ,{' '}
-                  <span {...dataId('projectList-item-regionProjet')}>
-                    {project.regionProjet}
-                  </span>
-                </div>
-              </td>
-              <td valign="top">
-                <div {...dataId('projectList-item-nomCandidat')}>
-                  {project.nomCandidat}
-                </div>
-                <div
-                  style={{
-                    fontStyle: 'italic',
-                    lineHeight: 'normal',
-                    fontSize: 12,
-                  }}
-                >
-                  <span {...dataId('projectList-item-nomRepresentantLegal')}>
-                    {project.nomRepresentantLegal}
-                  </span>{' '}
-                  <span {...dataId('projectList-item-email')}>
-                    {project.email}
-                  </span>
-                </div>
-              </td>
-              <td valign="top">
-                <span {...dataId('projectList-item-puissance')}>
-                  {project.puissance}
-                </span>{' '}
-                <span
-                  style={{
-                    fontStyle: 'italic',
-                    lineHeight: 'normal',
-                    fontSize: 12,
-                  }}
-                >
-                  {getPowerUnitForAppelOffre(project.appelOffreId)}
-                </span>
-              </td>
-              <td valign="top">
-                <span {...dataId('projectList-item-prixReference')}>
-                  {project.prixReference}
-                </span>{' '}
-                <span
-                  style={{
-                    fontStyle: 'italic',
-                    lineHeight: 'normal',
-                    fontSize: 12,
-                  }}
-                >
-                  €/MWh
-                </span>
-              </td>
-              <td valign="top">
-                <span {...dataId('projectList-item-evaluationCarbone')}>
-                  {project.evaluationCarbone}
-                </span>{' '}
-                <span
-                  style={{
-                    fontStyle: 'italic',
-                    lineHeight: 'normal',
-                    fontSize: 12,
-                  }}
-                >
-                  kg eq CO2/kWc
-                </span>
-              </td>
-              <td
-                valign="top"
-                className={
-                  'notification ' +
-                  (project.classe === 'Classé' ? 'success' : 'error')
-                }
-              >
-                <div {...dataId('projectList-item-classe')}>
-                  {project.classe}
-                </div>
-                <div
-                  style={{
-                    fontStyle: 'italic',
-                    lineHeight: 'normal',
-                    fontSize: 12,
-                  }}
-                  {...dataId('projectList-item-motifsElimination')}
-                >
-                  {project.motifsElimination || ''}
-                </div>
-              </td>
-              {projectActions && projectActions(project) ? (
-                <td style={{ position: 'relative' }}>
-                  <img
-                    src="/images/icons/external/more.svg"
-                    height="12"
-                    width="12"
-                    style={{ cursor: 'pointer' }}
-                    tabIndex={0}
-                    className="list--action-trigger"
-                  />
-                  <ul className="list--action-menu">
-                    {projectActions(project)?.map(
-                      (
-                        {
-                          title,
-                          actionId,
-                          projectId,
-                          link,
-                          disabled,
-                          isDownload,
-                        },
-                        actionIndex
-                      ) => (
-                        <li key={'notif_' + project.id + '_' + actionIndex}>
-                          {disabled ? (
-                            <i>{title}</i>
-                          ) : (
-                            <a
-                              href={link}
-                              download={isDownload}
-                              data-actionid={actionId}
-                              data-projectid={projectId}
-                              {...dataId('projectList-item-action')}
-                            >
-                              {title}
-                            </a>
-                          )}
-                        </li>
-                      )
-                    )}
-                  </ul>
+          {projects.map((project) => {
+            const appelOffre = appelsOffreStatic.find(
+              (item) => item.id === project.appelOffreId
+            )
+            return (
+              <tr key={'project_' + project.id}>
+                <td valign="top">
+                  <div {...dataId('projectList-item-periode')}>
+                    {project.periodeId}
+                  </div>
+                  <div
+                    style={{
+                      fontStyle: 'italic',
+                      lineHeight: 'normal',
+                      fontSize: 12,
+                    }}
+                    {...dataId('projectList-item-famille')}
+                  >
+                    famille {project.familleId}
+                  </div>
                 </td>
-              ) : (
-                ''
-              )}
-            </tr>
-          ))}
+                <td valign="top">
+                  <div {...dataId('projectList-item-nomProjet')}>
+                    {project.nomProjet}
+                  </div>
+                  <div
+                    style={{
+                      fontStyle: 'italic',
+                      lineHeight: 'normal',
+                      fontSize: 12,
+                    }}
+                  >
+                    <span {...dataId('projectList-item-communeProjet')}>
+                      {project.communeProjet}
+                    </span>
+                    ,{' '}
+                    <span {...dataId('projectList-item-departementProjet')}>
+                      {project.departementProjet}
+                    </span>
+                    ,{' '}
+                    <span {...dataId('projectList-item-regionProjet')}>
+                      {project.regionProjet}
+                    </span>
+                  </div>
+                </td>
+                <td valign="top">
+                  <div {...dataId('projectList-item-nomCandidat')}>
+                    {project.nomCandidat}
+                  </div>
+                  <div
+                    style={{
+                      fontStyle: 'italic',
+                      lineHeight: 'normal',
+                      fontSize: 12,
+                    }}
+                  >
+                    <span {...dataId('projectList-item-nomRepresentantLegal')}>
+                      {project.nomRepresentantLegal}
+                    </span>{' '}
+                    <span {...dataId('projectList-item-email')}>
+                      {project.email}
+                    </span>
+                  </div>
+                </td>
+                <td valign="top">
+                  <span {...dataId('projectList-item-puissance')}>
+                    {project.puissance}
+                  </span>{' '}
+                  <span
+                    style={{
+                      fontStyle: 'italic',
+                      lineHeight: 'normal',
+                      fontSize: 12,
+                    }}
+                  >
+                    {appelOffre?.powerUnit}
+                  </span>
+                </td>
+                <td valign="top">
+                  <span {...dataId('projectList-item-prixReference')}>
+                    {project.prixReference}
+                  </span>{' '}
+                  <span
+                    style={{
+                      fontStyle: 'italic',
+                      lineHeight: 'normal',
+                      fontSize: 12,
+                    }}
+                  >
+                    €/MWh
+                  </span>
+                </td>
+                <td valign="top">
+                  <span {...dataId('projectList-item-evaluationCarbone')}>
+                    {project.evaluationCarbone}
+                  </span>{' '}
+                  <span
+                    style={{
+                      fontStyle: 'italic',
+                      lineHeight: 'normal',
+                      fontSize: 12,
+                    }}
+                  >
+                    kg eq CO2/kWc
+                  </span>
+                </td>
+                <td
+                  valign="top"
+                  className={
+                    'notification ' +
+                    (project.classe === 'Classé' ? 'success' : 'error')
+                  }
+                >
+                  <div {...dataId('projectList-item-classe')}>
+                    {project.classe}
+                  </div>
+                  <div
+                    style={{
+                      fontStyle: 'italic',
+                      lineHeight: 'normal',
+                      fontSize: 12,
+                    }}
+                    {...dataId('projectList-item-motifsElimination')}
+                  >
+                    {project.motifsElimination || ''}
+                  </div>
+                </td>
+                {projectActions && projectActions(project, appelOffre) ? (
+                  <td style={{ position: 'relative' }}>
+                    <img
+                      src="/images/icons/external/more.svg"
+                      height="12"
+                      width="12"
+                      style={{ cursor: 'pointer' }}
+                      tabIndex={0}
+                      className="list--action-trigger"
+                    />
+                    <ul className="list--action-menu">
+                      {projectActions(project, appelOffre)?.map(
+                        (
+                          {
+                            title,
+                            actionId,
+                            projectId,
+                            link,
+                            disabled,
+                            isDownload,
+                          },
+                          actionIndex
+                        ) => (
+                          <li key={'notif_' + project.id + '_' + actionIndex}>
+                            {disabled ? (
+                              <i>{title}</i>
+                            ) : (
+                              <a
+                                href={link}
+                                download={isDownload}
+                                data-actionid={actionId}
+                                data-projectid={projectId}
+                                {...dataId('projectList-item-action')}
+                              >
+                                {title}
+                              </a>
+                            )}
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  </td>
+                ) : (
+                  ''
+                )}
+              </tr>
+            )
+          })}
         </tbody>
       </table>
       <nav className="pagination">

@@ -1,6 +1,7 @@
-import { Project, ProjectAdmissionKey } from './entities'
+import { Project, ProjectAdmissionKey, AppelOffre } from './entities'
 import querystring from 'querystring'
 import { string } from 'yup'
+import sanitize from 'sanitize-filename'
 
 const withParams = <T extends Record<string, any>>(url: string) => (
   params?: T
@@ -27,59 +28,93 @@ const withProjectId = (url: string) => (projectId: Project['id']) =>
 
 export { withParams }
 
-export default {
-  HOME: '/',
-  LOGIN: '/login.html',
-  LOGIN_ACTION: '/login',
-  LOGOUT_ACTION: '/logout',
-  REDIRECT_BASED_ON_ROLE: '/go-to-user-dashboard',
-  SIGNUP: '/enregistrement.html',
-  SIGNUP_ACTION: '/enregistrement',
-  PROJECT_INVITATION: withParams<{
+class routes {
+  static HOME = '/'
+  static LOGIN = '/login.html'
+  static LOGIN_ACTION = '/login'
+  static LOGOUT_ACTION = '/logout'
+  static REDIRECT_BASED_ON_ROLE = '/go-to-user-dashboard'
+  static SIGNUP = '/enregistrement.html'
+  static SIGNUP_ACTION = '/enregistrement'
+  static PROJECT_INVITATION = withParams<{
     projectAdmissionKey: string
-  }>('/enregistrement.html'),
-  ADMIN_DASHBOARD: '/admin/dashboard.html',
-  IMPORT_PROJECTS: '/admin/importer-candidats.html', // Keep separate from ADMIN_DASHBOARD, may change
-  IMPORT_PROJECTS_ACTION: '/admin/importProjects',
-  ADMIN_LIST_PROJECTS: '/admin/dashboard.html',
-  ADMIN_LIST_REQUESTS: '/admin/demandes.html',
-  ADMIN_SEND_COPY_OF_CANDIDATE_NOTIFICATION_ACTION: withParams<{
+  }>('/enregistrement.html')
+  static ADMIN_DASHBOARD = '/admin/dashboard.html'
+  static IMPORT_PROJECTS = '/admin/importer-candidats.html' // Keep separate from ADMIN_DASHBOARD, may change
+  static IMPORT_PROJECTS_ACTION = '/admin/importProjects'
+  static ADMIN_LIST_PROJECTS = '/admin/dashboard.html'
+  static ADMIN_LIST_REQUESTS = '/admin/demandes.html'
+  static ADMIN_SEND_COPY_OF_CANDIDATE_NOTIFICATION_ACTION = withParams<{
     appelOffreId: string
     periodeId: string
     email: string
-  }>('/admin/sendCopyOfCandidateNotification'),
-  ADMIN_NOTIFY_CANDIDATES: withParams<{
+  }>('/admin/sendCopyOfCandidateNotification')
+  static ADMIN_NOTIFY_CANDIDATES = withParams<{
     appelOffreId: string
     periodeId: string
-  }>('/admin/notifier-candidats.html'),
-  CANDIDATE_CERTIFICATE: (projectId?: Project['id']) => {
-    const route = '/telechargement/:projectId/attestation.pdf'
+  }>('/admin/notifier-candidats.html')
+
+  static CANDIDATE_CERTIFICATE = (
+    projectId?: Project['id'],
+    filename?: string
+  ) => {
+    const route = '/telechargement/:projectId/attestation/*.pdf'
     if (projectId) {
-      return route.replace(':projectId', projectId)
+      return route
+        .replace(':projectId', projectId)
+        .replace('*', filename || 'attestation')
     } else return route
-  },
-  ADMIN_NOTIFY_CANDIDATES_ACTION: withParams<{
+  }
+
+  static CANDIDATE_CERTIFICATE_FOR_ADMINS = (project: Project) =>
+    routes.CANDIDATE_CERTIFICATE(
+      project.id,
+      sanitize(`attestation-${project.email}`)
+    )
+
+  static CANDIDATE_CERTIFICATE_FOR_CANDIDATES = (
+    project: Project,
+    appelOffre?: AppelOffre
+  ) =>
+    routes.CANDIDATE_CERTIFICATE(
+      project.id,
+      sanitize(
+        `${appelOffre?.id || 'AO'}-P${project.periodeId}-F${
+          project.familleId
+        }-${project.nomProjet}`
+      )
+    )
+
+  static ADMIN_NOTIFY_CANDIDATES_ACTION = withParams<{
     appelOffreId: string
     periodeId: string
-  }>('/admin/sendCandidateNotifications'),
-  USER_DASHBOARD: '/mes-projets.html',
-  USER_LIST_PROJECTS: '/mes-projets.html',
-  USER_LIST_DEMANDES: '/mes-demandes.html',
-  DEMANDE_GENERIQUE: '/demande-modification.html',
-  DEPOSER_RECOURS: withProjectId('/demande-modification.html?action=recours'),
-  DEMANDE_DELAIS: withProjectId('/demande-modification.html?action=delai'),
-  CHANGER_FOURNISSEUR: withProjectId(
+  }>('/admin/sendCandidateNotifications')
+  static USER_DASHBOARD = '/mes-projets.html'
+  static USER_LIST_PROJECTS = '/mes-projets.html'
+  static USER_LIST_DEMANDES = '/mes-demandes.html'
+  static DEMANDE_GENERIQUE = '/demande-modification.html'
+  static DEPOSER_RECOURS = withProjectId(
+    '/demande-modification.html?action=recours'
+  )
+  static DEMANDE_DELAIS = withProjectId(
+    '/demande-modification.html?action=delai'
+  )
+  static CHANGER_FOURNISSEUR = withProjectId(
     '/demande-modification.html?action=fournisseur'
-  ),
-  CHANGER_ACTIONNAIRE: withProjectId(
+  )
+  static CHANGER_ACTIONNAIRE = withProjectId(
     '/demande-modification.html?action=actionnaire'
-  ),
-  CHANGER_PUISSANCE: withProjectId(
+  )
+  static CHANGER_PUISSANCE = withProjectId(
     '/demande-modification.html?action=puissance'
-  ),
-  CHANGER_PRODUCTEUR: withProjectId(
+  )
+  static CHANGER_PRODUCTEUR = withProjectId(
     '/demande-modification.html?action=producteur'
-  ),
-  DEMANDER_ABANDON: withProjectId('/demande-modification.html?action=abandon'),
-  DEMANDE_ACTION: '/soumettre-demande',
+  )
+  static DEMANDER_ABANDON = withProjectId(
+    '/demande-modification.html?action=abandon'
+  )
+  static DEMANDE_ACTION = '/soumettre-demande'
 }
+
+export default routes

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Project } from '../../entities'
+import { Project, AppelOffre } from '../../entities'
 import ROUTES from '../../routes'
 
 import ProjectList from '../components/projectList'
@@ -46,17 +46,20 @@ export default function UserListProjects({
         )}
         <ProjectList
           projects={projects}
-          projectActions={(project: Project) => {
+          projectActions={(project: Project, appelOffre?: AppelOffre) => {
             if (project.classe === 'Eliminé') {
               return [
                 {
-                  title: 'Faire une demande de recours',
-                  link: ROUTES.DEPOSER_RECOURS(project.id),
+                  title: 'Télécharger mon attestation',
+                  link: ROUTES.CANDIDATE_CERTIFICATE_FOR_CANDIDATES(
+                    project,
+                    appelOffre
+                  ),
+                  isDownload: true,
                 },
                 {
-                  title: 'Télécharger mon attestation',
-                  link: ROUTES.CANDIDATE_CERTIFICATE(project.id),
-                  isDownload: true,
+                  title: 'Faire une demande de recours',
+                  link: ROUTES.DEPOSER_RECOURS(project.id),
                 },
               ]
             }
@@ -64,7 +67,10 @@ export default function UserListProjects({
             return [
               {
                 title: 'Télécharger mon attestation',
-                link: ROUTES.CANDIDATE_CERTIFICATE(project.id),
+                link: ROUTES.CANDIDATE_CERTIFICATE_FOR_CANDIDATES(
+                  project,
+                  appelOffre
+                ),
                 isDownload: true,
               },
               {

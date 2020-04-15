@@ -2,7 +2,7 @@ import AdminDashboard from '../components/adminDashboard'
 
 import React from 'react'
 
-import { Project, CandidateNotification } from '../../entities'
+import { Project, AppelOffre } from '../../entities'
 import ROUTES from '../../routes'
 import { dataId } from '../../helpers/testId'
 
@@ -47,10 +47,10 @@ export default function AdminListProjects({
         )}
         <ProjectList
           projects={projects}
-          projectActions={(project: Project) => [
+          projectActions={(project: Project, appelOffre?: AppelOffre) => [
             {
               title: 'Voir attestation',
-              link: ROUTES.CANDIDATE_CERTIFICATE(project.id),
+              link: ROUTES.CANDIDATE_CERTIFICATE_FOR_ADMINS(project),
               isDownload: true,
             },
           ]}
