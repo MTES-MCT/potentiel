@@ -28,29 +28,39 @@ describe('listUserProjects use-case', () => {
     await Promise.all(
       [
         {
-          nomProjet: 'userProject'
+          nomProjet: 'userProject',
+          notifiedOn: 1234,
         },
-        { nomProjet: 'nonUserProject' }
+        {
+          nomProjet: 'userProject',
+          notifiedOn: 0,
+        },
+        { nomProjet: 'nonUserProject' },
       ]
         .map(makeFakeProject)
         .map(makeProject)
-        .filter(item => item.is_ok())
-        .map(item => item.unwrap())
+        .filter((item) => item.is_ok())
+        .map((item) => item.unwrap())
         .map(projectRepo.insert)
     )
 
     const foundUserProjects = await projectRepo.findAll({
-      nomProjet: 'userProject'
+      nomProjet: 'userProject',
     })
 
-    expect(foundUserProjects).toHaveLength(1)
-    userProject = foundUserProjects[0]
+    expect(foundUserProjects).toHaveLength(2)
 
-    // Add project to user
-    await userRepo.addProject(fakeUser.id, userProject.id)
+    await Promise.all(
+      foundUserProjects.map((project) =>
+        userRepo.addProject(fakeUser.id, project.id)
+      )
+    )
+
+    userProject = foundUserProjects.find((project) => project.notifiedOn)
+    expect(userProject).toBeDefined()
   })
 
-  it('should return the projects owned by the user', async () => {
+  it('should return the projects owned by the user that have been notified', async () => {
     const foundUserProjects = await listUserProjects({ userId: user.id })
 
     expect(foundUserProjects).toHaveLength(1)

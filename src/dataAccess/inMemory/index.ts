@@ -206,7 +206,9 @@ const projectRepo: ProjectRepo = {
     const projectIds: Array<Project['id']> = userProjects[userId] || []
 
     return Promise.resolve(
-      projectIds.map((projectId) => projectsById[projectId])
+      projectIds
+        .map((projectId) => projectsById[projectId])
+        .filter((project) => project.notifiedOn != 0)
     )
   },
   insert: (project: Project) => {

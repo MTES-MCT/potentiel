@@ -1,4 +1,4 @@
-import { DataTypes } from 'sequelize'
+import { DataTypes, Op } from 'sequelize'
 import { ProjectRepo } from '../'
 import {
   Project,
@@ -203,7 +203,10 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
         return []
       }
 
-      const rawProjects = await userInstance.getProjects({ raw: true })
+      const rawProjects = await userInstance.getProjects({
+        where: { notifiedOn: { [Op.ne]: 0 } },
+        raw: true,
+      })
 
       const deserializedItems = mapExceptError(
         rawProjects,
