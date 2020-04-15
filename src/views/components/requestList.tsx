@@ -53,7 +53,7 @@ const RequestList = ({ modificationRequests, requestActions }: Props) => {
                       style={{
                         fontStyle: 'italic',
                         lineHeight: 'normal',
-                        fontSize: 12
+                        fontSize: 12,
                       }}
                     >
                       <span {...dataId('requestList-item-communeProjet')}>
@@ -77,7 +77,7 @@ const RequestList = ({ modificationRequests, requestActions }: Props) => {
                       style={{
                         fontStyle: 'italic',
                         lineHeight: 'normal',
-                        fontSize: 12
+                        fontSize: 12,
                       }}
                     >
                       {modificationRequest.type === 'actionnaire' ? (
@@ -165,7 +165,7 @@ const RequestList = ({ modificationRequests, requestActions }: Props) => {
           )}
         </tbody>
       </table>
-      <nav className="pagination">
+      {/* <nav className="pagination">
         <div className="pagination__display-group">
           <label
             htmlFor="pagination__display"
@@ -207,7 +207,7 @@ const RequestList = ({ modificationRequests, requestActions }: Props) => {
             <a>Suivant ❯</a>
           </li>
         </ul>
-      </nav>
+      </nav> */}
     </>
   )
 }

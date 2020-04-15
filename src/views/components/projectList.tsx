@@ -229,7 +229,7 @@ const ProjectList = ({ projects, projectActions }: Props) => {
           })}
         </tbody>
       </table>
-      <nav className="pagination">
+      {/* <nav className="pagination">
         <div className="pagination__display-group">
           <label
             htmlFor="pagination__display"
@@ -271,7 +271,7 @@ const ProjectList = ({ projects, projectActions }: Props) => {
             <a>Suivant ❯</a>
           </li>
         </ul>
-      </nav>
+      </nav> */}
     </>
   )
 }

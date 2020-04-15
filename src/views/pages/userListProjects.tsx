@@ -24,11 +24,11 @@ export default function UserListProjects({
       <div className="panel">
         <div className="panel__header">
           <h3>Mes projets</h3>
-          <input
+          {/* <input
             type="text"
             className="table__filter"
             placeholder="Filtrer les projets"
-          />
+          /> */}
         </div>
         {success ? (
           <div className="notification success" {...dataId('success-message')}>

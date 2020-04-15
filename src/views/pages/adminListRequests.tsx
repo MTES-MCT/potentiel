@@ -16,7 +16,7 @@ interface AdminListRequestsProps {
 /* Pure component */
 export default function UserListRequests({
   request,
-  modificationRequests
+  modificationRequests,
 }: AdminListRequestsProps) {
   const { error, success } = request.query || {}
   return (
@@ -24,11 +24,11 @@ export default function UserListRequests({
       <div className="panel">
         <div className="panel__header">
           <h3>Demandes</h3>
-          <input
+          {/* <input
             type="text"
             className="table__filter"
             placeholder="Filtrer les demandes"
-          />
+          /> */}
         </div>
         {success ? (
           <div className="notification success" {...dataId('success-message')}>
