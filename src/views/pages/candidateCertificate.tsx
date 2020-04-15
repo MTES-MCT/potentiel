@@ -279,7 +279,6 @@ const Elimine = ({ project, appelOffre, periode }: ElimineProps) => {
           fontSize: 11,
           textAlign: 'justify',
           marginTop: 10,
-          fontWeight: 'bold',
         }}
       >
         {project.motifsElimination === 'Au-dessus de Pcible'
