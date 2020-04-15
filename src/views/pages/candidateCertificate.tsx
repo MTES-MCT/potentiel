@@ -87,7 +87,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
             contrat de 3 €/MWh sous réserve du respect de cet engagement
             {addFootNote(
               'Paragraphe ' +
-                appelOffre.ipFpEngagementParagraph +
+                appelOffre.ipFpEngagementFootnote +
                 ' du cahier des charges'
             )}
             .
@@ -102,7 +102,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
             contrat de 1 €/MWh sous réserve du respect de cet engagement
             {addFootNote(
               'Paragraphe ' +
-                appelOffre.ipFpEngagementParagraph +
+                appelOffre.ipFpEngagementFootnote +
                 ' du cahier des charges'
             )}
             .
@@ -138,7 +138,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
         dans les deux (2) mois à compter de la présente notification
         {addFootNote(
           'Paragraphe ' +
-            appelOffre.completePluginRequestParagraph +
+            appelOffre.completePluginRequestFootnote +
             ' du cahier des charges'
         )}
         .
@@ -163,7 +163,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
           <Text>
             {addFootNote(
               'Paragraphe ' +
-                appelOffre.designationRemovalParagraph +
+                appelOffre.designationRemovalFootnote +
                 ' du cahier des charges'
             )}
           </Text>

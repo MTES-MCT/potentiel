@@ -92,9 +92,10 @@ const fessenheim: AppelOffre = {
   referencePriceParagraph: '7',
   derogatoryDelayParagraph: '6.4',
   conformityParagraph: '6.6',
-  completePluginRequestParagraph: '6.1',
-  designationRemovalParagraph: '5.3 et 6.2',
+  completePluginRequestFootnote: '6.1',
+  designationRemovalFootnote: '5.3 et 6.2',
   ipFpEngagementParagraph: '3.2.6',
+  ipFpEngagementFootnote: '3.2.6 et 7.1.2',
   dataFields: commonDataFields,
   periodes: [
     {
