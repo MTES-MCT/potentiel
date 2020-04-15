@@ -101,6 +101,7 @@ const fessenheim: AppelOffre = {
     {
       id: '1',
       title: 'première',
+      canGenerateCertificate: false,
     },
     {
       id: '2',
@@ -109,6 +110,7 @@ const fessenheim: AppelOffre = {
         { familleId: '1', noteThreshold: 69.34 },
         { familleId: '3', noteThreshold: 1.52 },
       ],
+      canGenerateCertificate: true,
     },
   ],
   familles: [

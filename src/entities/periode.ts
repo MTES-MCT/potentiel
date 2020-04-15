@@ -16,6 +16,7 @@ import buildMakeEntity from '../helpers/buildMakeEntity'
 const basePeriodeSchema = RTRecord({
   id: String,
   title: String,
+  canGenerateCertificate: Boolean,
 })
 
 const noteThresholdSchema = RTRecord({

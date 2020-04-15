@@ -47,6 +47,12 @@ export default function UserListProjects({
         <ProjectList
           projects={projects}
           projectActions={(project: Project, appelOffre?: AppelOffre) => {
+            const periode = appelOffre?.periodes.find(
+              (periode) => periode.id === project.periodeId
+            )
+            const canDownloadCertificate =
+              periode && periode.canGenerateCertificate
+
             if (project.classe === 'Eliminé') {
               return [
                 {
@@ -56,6 +62,7 @@ export default function UserListProjects({
                     appelOffre
                   ),
                   isDownload: true,
+                  disabled: !canDownloadCertificate,
                 },
                 {
                   title: 'Faire une demande de recours',
@@ -72,6 +79,7 @@ export default function UserListProjects({
                   appelOffre
                 ),
                 isDownload: true,
+                disabled: !canDownloadCertificate,
               },
               {
                 title: 'Demander un délai',
