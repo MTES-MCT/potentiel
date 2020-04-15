@@ -82,7 +82,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
         carbone des modules est de {project.evaluationCarbone} kg eq CO2/kWc.
         {project.isInvestissementParticipatif ? (
           <Text>
-            En raison de votre engagement à l’investissement participatif, la
+            En raison de votre engagement à l’investissement participatif, la
             valeur de ce prix de référence est majorée pendant toute la durée du
             contrat de 3 €/MWh sous réserve du respect de cet engagement
             {addFootNote(
@@ -267,7 +267,7 @@ interface ElimineProps {
 }
 const Elimine = ({ project, appelOffre, periode }: ElimineProps) => {
   const objet =
-    'Avis de rejet à l’issue de la ' +
+    'Avis de rejet à l’issue de la ' +
     periode.title +
     " période de l'appel offres " +
     appelOffre.title
@@ -282,23 +282,23 @@ const Elimine = ({ project, appelOffre, periode }: ElimineProps) => {
         }}
       >
         {project.motifsElimination === 'Au-dessus de Pcible'
-          ? 'Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été classée au-delà de la puissance offerte pour cette période de candidature dans la famille concernée. Votre offre a en effet obtenu une note de ' +
+          ? 'Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été classée au-delà de la puissance offerte pour cette période de candidature dans la famille concernée. Votre offre a en effet obtenu une note de ' +
             Math.round(project.note * 100) / 100 +
-            ' points alors que le classement des dossiers a fait apparaître que la sélection des offres jusqu’à la note de ' +
+            ' points alors que le classement des dossiers a fait apparaître que la sélection des offres jusqu’à la note de ' +
             (periode.noteThresholdByFamily?.find(
               (item) => item.familleId === project.familleId
             )?.noteThreshold || 'N/A') +
-            ' points permettait de remplir les objectifs de volumes de l’appel d’offres dans cette famille. Par conséquent, cette offre n’a pas été retenue.'
+            ' points permettait de remplir les objectifs de volumes de l’appel d’offres dans cette famille. Par conséquent, cette offre n’a pas été retenue.'
           : project.motifsElimination.includes('Déjà lauréat')
-          ? 'Suite à l’examen par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été retirée de l’instruction, ayant été désignée lauréate au cours d’un précédent appel d’offres. Par conséquent, cette offre n’a pas été retenue.'
-          : 'Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été éliminée pour le motif suivant : «' +
+          ? 'Suite à l’examen par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été retirée de l’instruction, ayant été désignée lauréate au cours d’un précédent appel d’offres. Par conséquent, cette offre n’a pas été retenue.'
+          : 'Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été éliminée pour le motif suivant : «' +
             project.motifsElimination +
-            '». Par conséquent, cette offre n’a pas été retenue.'}
+            '». Par conséquent, cette offre n’a pas été retenue.'}
       </Text>
       <Text style={{ fontSize: 11, textAlign: 'justify', marginTop: 10 }}>
-        Vous avez la possibilité de contester la présente décision auprès du
-        tribunal administratif territorialement compétent dans un délai de deux
-        mois à compter de sa date de notification.
+        Vous avez la possibilité de contester la présente décision auprès du
+        tribunal administratif territorialement compétent dans un délai de deux
+        mois à compter de sa date de notification.
       </Text>
     </>
   )
