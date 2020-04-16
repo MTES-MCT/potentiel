@@ -48,7 +48,7 @@ const getCandidateCertificate = async (request: HttpRequest) => {
     const periode = appelOffre.periodes.find(
       (periode) => periode.id === project.periodeId
     )
-    if (!periode) {
+    if (!periode || !periode.canGenerateCertificate) {
       return SystemError(
         'Impossible de générer le fichier attestation (Période)'
       )
