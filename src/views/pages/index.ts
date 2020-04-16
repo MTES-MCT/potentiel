@@ -6,6 +6,7 @@ import ReactDOMServer from 'react-dom/server'
 import { User } from '../../entities'
 
 import Header from '../components/header'
+import Footer from '../components/footer'
 
 import Login from './login'
 import UserListProjects from './userListProjects'
@@ -37,7 +38,7 @@ export {
   UserListRequestsPage,
   SignupPage,
   ModificationRequestPage,
-  AdminNotifyCandidatesPage
+  AdminNotifyCandidatesPage,
 }
 
 interface HasRequest {
@@ -54,7 +55,8 @@ function makePresenterPage<T extends HasRequest>(
   return (props: T): string =>
     insertIntoHTMLTemplate(
       ReactDOMServer.renderToStaticMarkup(Header(props)) +
-        ReactDOMServer.renderToStaticMarkup(pageComponent(props))
+        ReactDOMServer.renderToStaticMarkup(pageComponent(props)) +
+        ReactDOMServer.renderToStaticMarkup(Footer(props))
     )
 }
 

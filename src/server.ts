@@ -3,6 +3,8 @@ import multer from 'multer'
 import session from 'express-session'
 import bodyParser from 'body-parser'
 
+import { version } from '../package.json'
+
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -179,11 +181,6 @@ export async function makeServer(port: number = 3000) {
       makeExpressCallback(getUserRequestsPage)
     )
 
-    console.log(
-      'candidate certificate will be at',
-      ROUTES.CANDIDATE_CERTIFICATE()
-    )
-
     router.get(
       ROUTES.CANDIDATE_CERTIFICATE(),
       ensureLoggedIn(),
@@ -199,6 +196,7 @@ export async function makeServer(port: number = 3000) {
       const server = app.listen(port, () => {
         console.log(`Server listening on port ${port}!`)
         console.log(`NODE_ENV is ${process.env.NODE_ENV}`)
+        console.log(`Version ${version}`)
         resolve(server)
       })
     })
