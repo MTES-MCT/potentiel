@@ -9,14 +9,14 @@ import {
   Static,
   Unknown,
   Partial,
-  Undefined
+  Undefined,
 } from '../types/schemaTypes'
 import buildMakeEntity from '../helpers/buildMakeEntity'
 
 const familleSchema = Record({
   id: String,
   title: String,
-  requiresFinancialGuarantee: Boolean
+  requiresFinancialGuarantee: Boolean,
 })
 
 const fields: string[] = [...Object.keys(familleSchema.fields)]

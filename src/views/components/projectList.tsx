@@ -70,7 +70,9 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                     }}
                     {...dataId('projectList-item-famille')}
                   >
-                    famille {project.familleId}
+                    {project.familleId?.length
+                      ? `famille ${project.familleId}`
+                      : ''}
                   </div>
                 </td>
                 <td valign="top">

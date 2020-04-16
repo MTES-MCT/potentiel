@@ -16,7 +16,6 @@ import buildMakeEntity from '../helpers/buildMakeEntity'
 const basePeriodeSchema = RTRecord({
   id: String,
   title: String,
-  canGenerateCertificate: Boolean,
 })
 
 const noteThresholdSchema = RTRecord({
@@ -27,11 +26,13 @@ const noteThresholdSchema = RTRecord({
 const periodeSchema = basePeriodeSchema.And(
   Partial({
     noteThresholdByFamily: Array(noteThresholdSchema),
+    canGenerateCertificate: Boolean,
   })
 )
 
 const fields: string[] = [
   'noteThresholdByFamily',
+  'canGenerateCertificate',
   ...Object.keys(basePeriodeSchema.fields),
 ]
 
