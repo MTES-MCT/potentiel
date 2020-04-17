@@ -16,6 +16,7 @@ const fessenheim: AppelOffre = {
   designationRemovalFootnote: '5.3 et 6.2',
   ipFpEngagementParagraph: '3.2.6',
   ipFpEngagementFootnote: '3.2.6 et 7.1.2',
+  competitiveClauseParagraph: '2.8',
   dataFields: commonDataFields,
   periodes: [
     {

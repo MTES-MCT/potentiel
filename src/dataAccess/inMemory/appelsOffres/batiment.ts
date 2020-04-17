@@ -16,6 +16,7 @@ const batiment: AppelOffre = {
   completePluginRequestFootnote: '6.1',
   designationRemovalFootnote: '5.3 et 6.2',
   ipFpEngagementFootnote: '3.2.5 et 7.1.2',
+  competitiveClauseParagraph: '2.6',
   dataFields: commonDataFields,
   periodes: [
     {

@@ -45,6 +45,7 @@ const appelOffreSchema = Record({
   designationRemovalFootnote: String,
   ipFpEngagementParagraph: String,
   ipFpEngagementFootnote: String,
+  competitiveClauseParagraph: String,
   periodes: Array(periodeSchema),
   familles: Array(familleSchema),
   dataFields: Array(csvFieldSchema),

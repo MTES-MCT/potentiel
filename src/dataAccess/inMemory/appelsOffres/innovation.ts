@@ -16,6 +16,7 @@ const innovation: AppelOffre = {
   completePluginRequestFootnote: '6.1',
   designationRemovalFootnote: '5.3',
   ipFpEngagementFootnote: '',
+  competitiveClauseParagraph: '',
   dataFields: commonDataFields,
   periodes: [
     {

@@ -16,6 +16,7 @@ const autoconsommationMetropole: AppelOffre = {
   completePluginRequestFootnote: '6.1',
   designationRemovalFootnote: '',
   ipFpEngagementFootnote: '',
+  competitiveClauseParagraph: '2.10',
   dataFields: commonDataFields,
   periodes: [
     {

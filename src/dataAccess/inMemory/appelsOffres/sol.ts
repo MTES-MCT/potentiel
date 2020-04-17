@@ -16,6 +16,7 @@ const sol: AppelOffre = {
   completePluginRequestFootnote: '6.1',
   designationRemovalFootnote: '5.3 et 6.2',
   ipFpEngagementFootnote: '3.2.6 et 7.2.2',
+  competitiveClauseParagraph: '2.8',
   dataFields: commonDataFields,
   periodes: [
     {

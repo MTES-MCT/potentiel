@@ -16,6 +16,7 @@ const zni: AppelOffre = {
   completePluginRequestFootnote: '6.1',
   designationRemovalFootnote: '5.2 et 6.2',
   ipFpEngagementFootnote: '3.3.6 et 7.1',
+  competitiveClauseParagraph: '2.8',
   dataFields: commonDataFields,
   periodes: [
     {

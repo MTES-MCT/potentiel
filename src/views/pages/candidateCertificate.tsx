@@ -291,6 +291,16 @@ const Elimine = ({ project, appelOffre, periode }: ElimineProps) => {
             ' points permettait de remplir les objectifs de volumes de l’appel d’offres dans cette famille. Par conséquent, cette offre n’a pas été retenue.'
           : project.motifsElimination.includes('Déjà lauréat')
           ? 'Suite à l’examen par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été retirée de l’instruction, ayant été désignée lauréate au cours d’un précédent appel d’offres. Par conséquent, cette offre n’a pas été retenue.'
+          : project.motifsElimination.includes('20%')
+          ? 'Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été classée au-delà de la puissance maximale que le Ministre a décidé de retenir afin de préserver la compétitivité de l’appel d’offres en application des dispositions du paragraphe ' +
+            appelOffre.competitiveClauseParagraph +
+            ' du cahier des charges. Ainsi, pour chaque famille, seules 80 % des projets les mieux notés ont été retenus. Votre offre a en effet obtenu une note de ' +
+            Math.round(project.note * 100) / 100 +
+            ' points alors que la sélection des offres s’est faite jusqu’à la note de ' +
+            (periode.noteThresholdByFamily?.find(
+              (item) => item.familleId === project.familleId
+            )?.noteThreshold || 'N/A') +
+            ' points. Par conséquent, votre offre n’a pas été retenue.'
           : 'Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été éliminée pour le motif suivant : «' +
             project.motifsElimination +
             '». Par conséquent, cette offre n’a pas été retenue.'}
