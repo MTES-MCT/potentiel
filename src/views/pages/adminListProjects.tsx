@@ -2,7 +2,7 @@ import AdminDashboard from '../components/adminDashboard'
 
 import React from 'react'
 
-import { Project, AppelOffre } from '../../entities'
+import { Project, AppelOffre, Periode } from '../../entities'
 import ROUTES from '../../routes'
 import { dataId } from '../../helpers/testId'
 
@@ -12,12 +12,18 @@ import { HttpRequest } from '../../types'
 interface AdminListProjectsProps {
   request: HttpRequest
   projects?: Array<Project>
+  appelsOffre: Array<AppelOffre>
+  selectedAppelOffreId?: AppelOffre['id']
+  selectedPeriodeId?: Periode['id']
 }
 
 /* Pure component */
 export default function AdminListProjects({
   request,
   projects,
+  appelsOffre,
+  selectedAppelOffreId,
+  selectedPeriodeId,
 }: AdminListProjectsProps) {
   const { error, success } = request.query || {}
   return (
@@ -25,11 +31,40 @@ export default function AdminListProjects({
       <div className="panel">
         <div className="panel__header">
           <h3>Projets</h3>
-          {/* <input
-            type="text"
-            className="table__filter"
-            placeholder="Filtrer les projets"
-          /> */}
+
+          <div className="form__group">
+            <legend>Filtrer par AO et/ou Période</legend>
+            <select
+              name="appelOffre"
+              id="appelOffre"
+              {...dataId('appelOffreSelector')}
+            >
+              <option value="">Tous AO</option>
+              {appelsOffre.map((appelOffre) => (
+                <option
+                  key={'appel_' + appelOffre.id}
+                  value={appelOffre.id}
+                  selected={appelOffre.id === selectedAppelOffreId}
+                >
+                  {appelOffre.shortTitle}
+                </option>
+              ))}
+            </select>
+            <select name="periode" id="periode" {...dataId('periodeSelector')}>
+              <option value="">Toutes périodes</option>
+              {appelsOffre
+                .find((ao) => ao.id === selectedAppelOffreId)
+                ?.periodes.map((periode) => (
+                  <option
+                    key={'appel_' + periode.id}
+                    value={periode.id}
+                    selected={periode.id === selectedPeriodeId}
+                  >
+                    {periode.title}
+                  </option>
+                ))}
+            </select>
+          </div>
         </div>
         {success ? (
           <div className="notification success" {...dataId('success-message')}>

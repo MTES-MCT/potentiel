@@ -31,11 +31,11 @@ function updateAOPeriodeInUrl(field, value) {
 
 function addAOPeriodeSelectorHandler() {
   const AOSelectField = document.querySelector(
-    '[data-testId=notifyCandidates-appelOffreField]'
+    '[data-testId=appelOffreSelector]'
   )
 
   const periodeSelectField = document.querySelector(
-    '[data-testId=notifyCandidates-periodeField]'
+    '[data-testId=periodeSelector]'
   )
 
   if (AOSelectField) {

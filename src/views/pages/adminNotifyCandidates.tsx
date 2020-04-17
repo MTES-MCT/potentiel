@@ -42,7 +42,7 @@ export default function AdminNotifyCandidates({
           <select
             name="appelOffre"
             id="appelOffre"
-            {...dataId('notifyCandidates-appelOffreField')}
+            {...dataId('appelOffreSelector')}
           >
             {appelsOffre.map((appelOffre) => (
               <option
@@ -54,11 +54,7 @@ export default function AdminNotifyCandidates({
               </option>
             ))}
           </select>
-          <select
-            name="periode"
-            id="periode"
-            {...dataId('notifyCandidates-periodeField')}
-          >
+          <select name="periode" id="periode" {...dataId('periodeSelector')}>
             {appelsOffre
               .find((ao) => ao.id === selectedAppelOffreId)
               ?.periodes.map((periode) => (
