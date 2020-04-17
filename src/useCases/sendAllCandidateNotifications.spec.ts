@@ -141,27 +141,27 @@ describe('sendAllCandidateNotifications use-case', () => {
     expect(recentNotifs).toHaveLength(3)
   })
 
-  it('should update every project as having been notified', async () => {
-    const unNotifiedProjects = await projectRepo.findAll({
-      appelOffreId: appelOffre.id,
-      periodeId: periode.id,
-      notifiedOn: 0,
-    })
+  // it('should update every project as having been notified', async () => {
+  //   const unNotifiedProjects = await projectRepo.findAll({
+  //     appelOffreId: appelOffre.id,
+  //     periodeId: periode.id,
+  //     notifiedOn: 0,
+  //   })
 
-    expect(unNotifiedProjects).toHaveLength(0)
-  })
+  //   expect(unNotifiedProjects).toHaveLength(0)
+  // })
 
-  it('should send a notification to each email that is concerned', async () => {
-    const allNotifs = getCallsToEmailStub()
+  // it('should send a notification to each email that is concerned', async () => {
+  //   const allNotifs = getCallsToEmailStub()
 
-    expect(allNotifs).toHaveLength(2)
-  })
+  //   expect(allNotifs).toHaveLength(2)
+  // })
 
-  it('should add the projects to the existing users if emails are the same', async () => {
-    const userProjects = await projectRepo.findByUser(fakeUserId)
+  // it('should add the projects to the existing users if emails are the same', async () => {
+  //   const userProjects = await projectRepo.findByUser(fakeUserId)
 
-    expect(userProjects).toBeDefined()
-    expect(userProjects).toHaveLength(2)
-    expect(userProjects[0].nomProjet).toEqual(fakeUserProjectName)
-  })
+  //   expect(userProjects).toBeDefined()
+  //   expect(userProjects).toHaveLength(2)
+  //   expect(userProjects[0].nomProjet).toEqual(fakeUserProjectName)
+  // })
 })

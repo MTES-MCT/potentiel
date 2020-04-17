@@ -2,6 +2,7 @@ import makeListUserProjects from './listUserProjects'
 
 import makeFakeUser from '../__tests__/fixtures/user'
 import makeFakeProject from '../__tests__/fixtures/project'
+import pagination from '../__tests__/fixtures/pagination'
 import { makeUser, makeProject } from '../entities'
 import { userRepo, projectRepo, resetDatabase } from '../dataAccess/inMemory'
 
@@ -44,19 +45,22 @@ describe('listUserProjects use-case', () => {
         .map(projectRepo.insert)
     )
 
-    const foundUserProjects = await projectRepo.findAll({
-      nomProjet: 'userProject',
-    })
+    const foundUserProjects = await projectRepo.findAll(
+      {
+        nomProjet: 'userProject',
+      },
+      pagination
+    )
 
-    expect(foundUserProjects).toHaveLength(2)
+    expect(foundUserProjects.items).toHaveLength(2)
 
     await Promise.all(
-      foundUserProjects.map((project) =>
+      foundUserProjects.items.map((project) =>
         userRepo.addProject(fakeUser.id, project.id)
       )
     )
 
-    userProject = foundUserProjects.find((project) => project.notifiedOn)
+    userProject = foundUserProjects.items.find((project) => project.notifiedOn)
     expect(userProject).toBeDefined()
   })
 

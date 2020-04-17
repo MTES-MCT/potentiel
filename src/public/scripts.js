@@ -9,17 +9,47 @@ document.addEventListener('DOMContentLoaded', (event) => {
   addDelayDateModificationHandler()
   addAOPeriodeSelectorHandler()
   addSendCopyOfNotificationButtonHandler()
+  addPaginationHandler()
 })
 
 //
-// Candidate Notification Page
+// Pagination handlers
 //
 
-function updateAOPeriodeInUrl(field, value) {
+function addPaginationHandler() {
+  const pageSizeSelectField = document.querySelector(
+    '[data-testId=pageSizeSelector]'
+  )
+
+  if (pageSizeSelectField) {
+    pageSizeSelectField.addEventListener('change', function (event) {
+      updateFieldsInUrl({ pageSize: event.target.value, page: 0 })
+    })
+  }
+
+  const goToPageButtons = document.querySelectorAll('[data-testId=goToPage]')
+
+  goToPageButtons.forEach((item) =>
+    item.addEventListener('click', function (event) {
+      event.preventDefault()
+      const pageValue = event.target.getAttribute('data-pagevalue')
+
+      updateFieldInUrl('page', pageValue)
+    })
+  )
+}
+
+//
+// AO/Periode selector handler
+//
+
+function updateFieldsInUrl(fields) {
   // Update the URL with the new appel offre Id or periode Id
   const queryString = new URLSearchParams(window.location.search)
 
-  queryString.set(field, value)
+  Object.entries(fields).forEach(([key, value]) => {
+    queryString.set(key, value)
+  })
 
   window.location.replace(
     window.location.origin +
@@ -27,6 +57,10 @@ function updateAOPeriodeInUrl(field, value) {
       '?' +
       queryString.toString()
   )
+}
+
+function updateFieldInUrl(field, value) {
+  updateFieldsInUrl({ [field]: value })
 }
 
 function addAOPeriodeSelectorHandler() {
@@ -40,13 +74,13 @@ function addAOPeriodeSelectorHandler() {
 
   if (AOSelectField) {
     AOSelectField.addEventListener('change', function (event) {
-      updateAOPeriodeInUrl('appelOffreId', event.target.value)
+      updateFieldInUrl('appelOffreId', event.target.value)
     })
   }
 
   if (periodeSelectField) {
     periodeSelectField.addEventListener('change', function (event) {
-      updateAOPeriodeInUrl('periodeId', event.target.value)
+      updateFieldInUrl('periodeId', event.target.value)
     })
   }
 }

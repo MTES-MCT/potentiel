@@ -10,7 +10,7 @@ import { dataId } from '../../helpers/testId'
 
 interface UserListProjectsProps {
   request: HttpRequest
-  projects?: Array<Project>
+  projects: Array<Project>
 }
 
 /* Pure component */

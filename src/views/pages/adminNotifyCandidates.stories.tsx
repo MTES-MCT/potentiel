@@ -17,6 +17,7 @@ const selectedPeriodeId = appelsOffreStatic[0].periodes[0].id
 
 export const withError = () => (
   <AdminNotifyCandidates
+    projects={[]}
     appelsOffre={appelsOffreStatic}
     selectedAppelOffreId={selectedAppelOffreId}
     selectedPeriodeId={selectedPeriodeId}
@@ -26,11 +27,12 @@ export const withError = () => (
 
 export const withSuccess = () => (
   <AdminNotifyCandidates
+    projects={[]}
     appelsOffre={appelsOffreStatic}
     selectedAppelOffreId={selectedAppelOffreId}
     selectedPeriodeId={selectedPeriodeId}
     request={makeFakeRequest({
-      query: { success: 'This is a success message!' }
+      query: { success: 'This is a success message!' },
     })}
   />
 )
@@ -44,16 +46,16 @@ export const withProjects = () => (
     projects={[
       makeFakeProject({
         candidateNotifications: [
-          makeFakeCandidateNotification({ template: 'elimination' })
-        ]
+          makeFakeCandidateNotification({ template: 'elimination' }),
+        ],
       }),
       makeFakeProject({
         classe: 'Classé',
-        candidateNotifications: [makeFakeCandidateNotification()]
+        candidateNotifications: [makeFakeCandidateNotification()],
       }),
       makeFakeProject({
-        classe: 'Classé'
-      })
+        classe: 'Classé',
+      }),
     ]}
   />
 )

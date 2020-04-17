@@ -14,7 +14,16 @@ import {
   ProjectAdmissionKey,
   ModificationRequest,
 } from '../../entities'
-import { Ok, Err, Some, None, ErrorResult } from '../../types'
+import {
+  Ok,
+  Err,
+  Some,
+  None,
+  ErrorResult,
+  Pagination,
+  PaginatedList,
+} from '../../types'
+import { makePaginatedList } from '../../helpers/paginate'
 
 interface HasId {
   id: string
@@ -171,6 +180,46 @@ const projectAdmissionKeyRepo: ProjectAdmissionKeyRepo = {
 }
 
 let projectsById: Record<string, Project> = {}
+async function findAllProjects(
+  query?: Record<string, any>
+): Promise<Array<Project>>
+async function findAllProjects(
+  query: Record<string, any>,
+  pagination: Pagination
+): Promise<PaginatedList<Project>>
+async function findAllProjects(
+  query?: Record<string, any>,
+  pagination?: Pagination
+): Promise<PaginatedList<Project> | Array<Project>> {
+  const allItems = Object.values(projectsById)
+
+  if (!query) {
+    return pagination
+      ? makePaginatedList(allItems, pagination, allItems.length)
+      : allItems
+  }
+
+  let items = await Promise.all(
+    allItems.filter((item) =>
+      Object.entries(query).every(([key, value]) => item[key] === value)
+    )
+  )
+
+  if (pagination) {
+    const { page, pageSize } = pagination
+    const offset = page * pageSize
+    const limit = pageSize
+
+    const pageCount = Math.ceil(items.length / pagination.pageSize)
+
+    items = items.slice(offset, offset + limit)
+
+    return makePaginatedList(items, pagination, pageCount)
+  }
+
+  return items
+}
+
 const projectRepo: ProjectRepo = {
   findById: (id: string) => {
     // console.log('findById', id, itemsById)
@@ -178,30 +227,7 @@ const projectRepo: ProjectRepo = {
       return Promise.resolve(Some(projectsById[id]))
     } else return Promise.resolve(None)
   },
-  findAll: (query?, includeNotifications?: boolean) => {
-    const allItems = Object.values(projectsById)
-
-    if (!query) {
-      return Promise.resolve(allItems)
-    }
-
-    return Promise.all(
-      allItems
-        .filter((item) =>
-          Object.entries(query).every(([key, value]) => item[key] === value)
-        )
-        .map(async (item) => {
-          if (includeNotifications) {
-            item.candidateNotifications = await candidateNotificationRepo.findAll(
-              {
-                projectId: item.id,
-              }
-            )
-          }
-          return item
-        })
-    )
-  },
+  findAll: findAllProjects,
   findByUser: (userId: User['id']) => {
     const projectIds: Array<Project['id']> = userProjects[userId] || []
 

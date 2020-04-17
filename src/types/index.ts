@@ -44,3 +44,16 @@ export { ErrorResult }
 
 export type ResultAsync<T> = Promise<Result<T | null, Error>>
 export type OptionAsync<T> = Promise<Option<T>>
+
+interface Pagination {
+  page: number
+  pageSize: number
+}
+
+interface PaginatedList<T> {
+  items: Array<T>
+  pagination: Pagination
+  pageCount: number
+}
+
+export { Pagination, PaginatedList }

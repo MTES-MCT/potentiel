@@ -6,8 +6,12 @@ import { dataId } from '../../helpers/testId'
 
 import { appelsOffreStatic } from '../../dataAccess'
 
+import { PaginatedList } from '../../types'
+
+import Pagination from './pagination'
+
 interface Props {
-  projects?: Array<Project>
+  projects: PaginatedList<Project> | Array<Project>
   projectActions?: (
     project: Project,
     appelOffre?: AppelOffre
@@ -22,9 +26,14 @@ interface Props {
 }
 
 const ProjectList = ({ projects, projectActions }: Props) => {
-  // console.log('ProjectList received', projects)
+  let items: Array<Project>
+  if (Array.isArray(projects)) {
+    items = projects
+  } else {
+    items = projects.items
+  }
 
-  if (!projects || !projects.length) {
+  if (!items.length) {
     return (
       <table className="table">
         <tbody>
@@ -52,7 +61,7 @@ const ProjectList = ({ projects, projectActions }: Props) => {
           </tr>
         </thead>
         <tbody>
-          {projects.map((project) => {
+          {items.map((project) => {
             const appelOffre = appelsOffreStatic.find(
               (item) => item.id === project.appelOffreId
             )
@@ -231,49 +240,15 @@ const ProjectList = ({ projects, projectActions }: Props) => {
           })}
         </tbody>
       </table>
-      {/* <nav className="pagination">
-        <div className="pagination__display-group">
-          <label
-            htmlFor="pagination__display"
-            className="pagination__display-label"
-          >
-            Projets par page
-          </label>
-          <select className="pagination__display" id="pagination__display">
-            <option>5</option>
-            <option>10</option>
-            <option>50</option>
-            <option>100</option>
-          </select>
-        </div>
-        <div className="pagination__count">
-          <strong>{projects?.length}</strong> sur{' '}
-          <strong>{projects?.length}</strong>
-        </div>
-        <ul className="pagination__pages" style={{ display: 'none' }}>
-          <li className="disabled">
-            <a>❮ Précédent</a>
-          </li>
-          <li className="active">
-            <a>1</a>
-          </li>
-          <li>
-            <a>2</a>
-          </li>
-          <li>
-            <a>3</a>
-          </li>
-          <li>
-            <a>4</a>
-          </li>
-          <li className="disabled">
-            <a>5</a>
-          </li>
-          <li>
-            <a>Suivant ❯</a>
-          </li>
-        </ul>
-      </nav> */}
+      {!Array.isArray(projects) ? (
+        <Pagination
+          pagination={projects.pagination}
+          pageCount={projects.pageCount}
+          itemTitle="Projets"
+        />
+      ) : (
+        ''
+      )}
     </>
   )
 }

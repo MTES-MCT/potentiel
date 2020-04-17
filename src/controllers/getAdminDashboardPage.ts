@@ -1,14 +1,22 @@
 import { Project } from '../entities'
-import { HttpRequest } from '../types'
+import { HttpRequest, Pagination } from '../types'
 import { listProjects } from '../useCases'
 import { AdminListProjectsPage } from '../views/pages'
 import { Success } from '../helpers/responses'
+import { makePagination } from '../helpers/paginate'
 
 import { appelOffreRepo } from '../dataAccess'
+
+const defaultPagination: Pagination = {
+  page: 0,
+  pageSize: 10,
+}
 
 const getAdminDashboardPage = async (request: HttpRequest) => {
   // console.log('getAdminDashboardPage request.query', request.query)
   let { appelOffreId, periodeId } = request.query
+
+  const pagination = makePagination(request.query, defaultPagination)
 
   const appelsOffre = await appelOffreRepo.findAll()
 
@@ -20,6 +28,7 @@ const getAdminDashboardPage = async (request: HttpRequest) => {
   const projects = await listProjects({
     appelOffreId,
     periodeId,
+    pagination,
   })
 
   return Success(

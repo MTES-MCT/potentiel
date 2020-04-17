@@ -1,6 +1,7 @@
 import makeListProjects from './listProjects'
 
 import makeFakeProject from '../__tests__/fixtures/project'
+import defaultPagination from '../__tests__/fixtures/pagination'
 
 import { projectRepo } from '../dataAccess/inMemory'
 
@@ -31,20 +32,27 @@ describe('listProjects use-case', () => {
 
   it('should return all projects', async () => {
     expect.assertions(fakeProjects.length + 1)
-    const foundProjects = await listProjects({})
+    const foundProjects = await listProjects({ pagination: defaultPagination })
 
-    expect(foundProjects).toHaveLength(fakeProjects.length)
+    expect(foundProjects.items).toHaveLength(fakeProjects.length)
     fakeProjects.forEach((fakeProject) => {
-      expect(foundProjects).toContainEqual(expect.objectContaining(fakeProject))
+      expect(foundProjects.items).toContainEqual(
+        expect.objectContaining(fakeProject)
+      )
     })
   })
 
   it('should return all projects from given appelOffre', async () => {
-    const foundProjects = await listProjects({ appelOffreId: 'appelOffre1' })
+    const foundProjects = await listProjects({
+      appelOffreId: 'appelOffre1',
+      pagination: defaultPagination,
+    })
 
-    expect(foundProjects).toHaveLength(2)
+    expect(foundProjects.items).toHaveLength(2)
     expect(
-      foundProjects.every((project) => project.appelOffreId === 'appelOffre1')
+      foundProjects.items.every(
+        (project) => project.appelOffreId === 'appelOffre1'
+      )
     ).toBeTruthy()
   })
 
@@ -52,18 +60,20 @@ describe('listProjects use-case', () => {
     const foundProjects = await listProjects({
       appelOffreId: 'appelOffre1',
       periodeId: 'periode1',
+      pagination: defaultPagination,
     })
 
-    expect(foundProjects).toHaveLength(1)
-    expect(foundProjects[0].appelOffreId).toEqual('appelOffre1')
-    expect(foundProjects[0].periodeId).toEqual('periode1')
+    expect(foundProjects.items).toHaveLength(1)
+    expect(foundProjects.items[0].appelOffreId).toEqual('appelOffre1')
+    expect(foundProjects.items[0].periodeId).toEqual('periode1')
   })
 
   it('should ignore periode if appelOffre is not given', async () => {
     const foundProjects = await listProjects({
       periodeId: 'periode1',
+      pagination: defaultPagination,
     })
 
-    expect(foundProjects).toHaveLength(3)
+    expect(foundProjects.items).toHaveLength(3)
   })
 })

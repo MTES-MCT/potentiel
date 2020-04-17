@@ -2,6 +2,8 @@ import AdminDashboard from '../components/adminDashboard'
 
 import React from 'react'
 
+import pagination from '../../__tests__/fixtures/pagination'
+
 import { Project, AppelOffre, Periode } from '../../entities'
 import ROUTES from '../../routes'
 import { dataId } from '../../helpers/testId'
@@ -11,7 +13,7 @@ import { HttpRequest } from '../../types'
 
 interface AdminNotifyCandidatesProps {
   request: HttpRequest
-  projects?: Array<Project>
+  projects: Array<Project>
   appelsOffre: Array<AppelOffre>
   selectedAppelOffreId: AppelOffre['id']
   selectedPeriodeId: Periode['id']

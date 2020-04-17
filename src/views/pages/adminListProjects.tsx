@@ -7,11 +7,11 @@ import ROUTES from '../../routes'
 import { dataId } from '../../helpers/testId'
 
 import ProjectList from '../components/projectList'
-import { HttpRequest } from '../../types'
+import { HttpRequest, PaginatedList } from '../../types'
 
 interface AdminListProjectsProps {
   request: HttpRequest
-  projects?: Array<Project>
+  projects: PaginatedList<Project>
   appelsOffre: Array<AppelOffre>
   selectedAppelOffreId?: AppelOffre['id']
   selectedPeriodeId?: Periode['id']

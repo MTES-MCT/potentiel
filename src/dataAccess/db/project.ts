@@ -7,7 +7,17 @@ import {
   CandidateNotification,
 } from '../../entities'
 import { mapExceptError, mapIfOk } from '../../helpers/results'
-import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types'
+import { paginate, pageCount, makePaginatedList } from '../../helpers/paginate'
+import {
+  Err,
+  None,
+  Ok,
+  OptionAsync,
+  ResultAsync,
+  Some,
+  Pagination,
+  PaginatedList,
+} from '../../types'
 import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
 
@@ -156,24 +166,47 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
     }
   }
 
+  async function findAll(query?: Record<string, any>): Promise<Array<Project>>
+  async function findAll(
+    query: Record<string, any>,
+    pagination: Pagination
+  ): Promise<PaginatedList<Project>>
   async function findAll(
     query?: Record<string, any>,
-    includeNotifications?: boolean
-  ): Promise<Array<Project>> {
+    pagination?: Pagination
+  ): Promise<PaginatedList<Project> | Array<Project>> {
     await _isDbReady
 
     try {
-      const CandidateNotificationModel = sequelize.model(
-        'candidateNotification'
-      )
-
       const opts: any = {}
       if (query) opts.where = query
-      if (includeNotifications) opts.include = CandidateNotificationModel
 
-      const projectsRaw = (await ProjectModel.findAll(opts)).map((item) =>
-        item.get()
-      ) // We need to use this instead of raw: true because of the include
+      if (pagination) {
+        const { count, rows } = await ProjectModel.findAndCountAll({
+          ...opts,
+          ...paginate(pagination),
+        })
+
+        const projectsRaw = rows.map((item) => item.get()) // We need to use this instead of raw: true because of the include
+
+        const deserializedItems = mapExceptError(
+          projectsRaw,
+          deserialize,
+          'Project.findAll.deserialize error'
+        )
+
+        const projects = mapIfOk(
+          deserializedItems,
+          makeProject,
+          'Project.findAll.makeProject error'
+        )
+
+        return makePaginatedList(projects, pagination, count)
+      }
+
+      const rows = await ProjectModel.findAll(opts)
+
+      const projectsRaw = rows.map((item) => item.get()) // We need to use this instead of raw: true because of the include
 
       const deserializedItems = mapExceptError(
         projectsRaw,
@@ -187,8 +220,9 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
         'Project.findAll.makeProject error'
       )
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('Project.findAll error', error)
-      return []
+      if (CONFIG.logDbErrors)
+        console.log('Project.findAndCountAll error', error)
+      return pagination ? makePaginatedList([], pagination, 0) : []
     }
   }
 

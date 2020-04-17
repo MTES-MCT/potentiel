@@ -1,5 +1,6 @@
 import { Project, AppelOffre, Periode } from '../entities'
 import { ProjectRepo } from '../dataAccess'
+import { Pagination, PaginatedList } from '../types'
 import periode from '../entities/periode'
 
 interface MakeUseCaseProps {
@@ -9,13 +10,15 @@ interface MakeUseCaseProps {
 interface CallUseCaseProps {
   appelOffreId?: AppelOffre['id']
   periodeId?: Periode['id']
+  pagination: Pagination
 }
 
 export default function makeListProjects({ projectRepo }: MakeUseCaseProps) {
   return async function listProjects({
     appelOffreId,
     periodeId,
-  }: CallUseCaseProps): Promise<Array<Project>> {
+    pagination,
+  }: CallUseCaseProps): Promise<PaginatedList<Project>> {
     const query: any = {}
 
     if (appelOffreId) {
@@ -26,6 +29,6 @@ export default function makeListProjects({ projectRepo }: MakeUseCaseProps) {
       }
     }
 
-    return projectRepo.findAll(query, false)
+    return projectRepo.findAll(query, pagination)
   }
 }
