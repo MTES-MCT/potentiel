@@ -20,6 +20,8 @@ const parse = (file) =>
         csvParse({
           delimiter: ';',
           columns: true,
+          skip_empty_lines: true,
+          skip_lines_with_empty_values: true,
         })
       )
       .on('data', (row: Record<string, string>) => {
