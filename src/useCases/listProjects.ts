@@ -1,4 +1,4 @@
-import { Project, AppelOffre, Periode } from '../entities'
+import { Project, AppelOffre, Periode, Famille } from '../entities'
 import { ProjectRepo } from '../dataAccess'
 import { Pagination, PaginatedList } from '../types'
 import periode from '../entities/periode'
@@ -10,6 +10,7 @@ interface MakeUseCaseProps {
 interface CallUseCaseProps {
   appelOffreId?: AppelOffre['id']
   periodeId?: Periode['id']
+  familleId?: Famille['id']
   pagination: Pagination
 }
 
@@ -17,6 +18,7 @@ export default function makeListProjects({ projectRepo }: MakeUseCaseProps) {
   return async function listProjects({
     appelOffreId,
     periodeId,
+    familleId,
     pagination,
   }: CallUseCaseProps): Promise<PaginatedList<Project>> {
     const query: any = {}
@@ -26,6 +28,10 @@ export default function makeListProjects({ projectRepo }: MakeUseCaseProps) {
 
       if (periodeId) {
         query.periodeId = periodeId
+      }
+
+      if (familleId) {
+        query.familleId = familleId
       }
     }
 

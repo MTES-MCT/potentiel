@@ -6,6 +6,7 @@ import { Success } from '../helpers/responses'
 import { makePagination } from '../helpers/paginate'
 
 import { appelOffreRepo } from '../dataAccess'
+import famille from '../entities/famille'
 
 const defaultPagination: Pagination = {
   page: 0,
@@ -14,20 +15,22 @@ const defaultPagination: Pagination = {
 
 const getAdminDashboardPage = async (request: HttpRequest) => {
   // console.log('getAdminDashboardPage request.query', request.query)
-  let { appelOffreId, periodeId } = request.query
+  let { appelOffreId, periodeId, familleId } = request.query
 
   const pagination = makePagination(request.query, defaultPagination)
 
   const appelsOffre = await appelOffreRepo.findAll()
 
   if (!appelOffreId) {
-    // Reset the periodId if there is no appelOffreId
+    // Reset the periodId and familleId if there is no appelOffreId
     periodeId = undefined
+    familleId = undefined
   }
 
   const projects = await listProjects({
     appelOffreId,
     periodeId,
+    familleId,
     pagination,
   })
 
@@ -38,6 +41,7 @@ const getAdminDashboardPage = async (request: HttpRequest) => {
       appelsOffre,
       selectedAppelOffreId: appelOffreId,
       selectedPeriodeId: periodeId,
+      selectedFamilleId: familleId,
     })
   )
 }

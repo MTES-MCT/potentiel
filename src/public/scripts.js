@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
   addPuissanceModificationHandler()
   addDelayDateModificationHandler()
-  addAOPeriodeSelectorHandler()
+  addAOPeriodeFamilleSelectorHandlers()
   addSendCopyOfNotificationButtonHandler()
   addPaginationHandler()
 })
@@ -63,26 +63,17 @@ function updateFieldInUrl(field, value) {
   updateFieldsInUrl({ [field]: value })
 }
 
-function addAOPeriodeSelectorHandler() {
-  const AOSelectField = document.querySelector(
-    '[data-testId=appelOffreSelector]'
-  )
-
-  const periodeSelectField = document.querySelector(
-    '[data-testId=periodeSelector]'
-  )
-
-  if (AOSelectField) {
-    AOSelectField.addEventListener('change', function (event) {
-      updateFieldInUrl('appelOffreId', event.target.value)
-    })
-  }
-
-  if (periodeSelectField) {
-    periodeSelectField.addEventListener('change', function (event) {
-      updateFieldInUrl('periodeId', event.target.value)
-    })
-  }
+function addAOPeriodeFamilleSelectorHandlers() {
+  ;['appelOffre', 'periode', 'famille'].forEach((key) => {
+    const selectField = document.querySelector(
+      '[data-testId=' + key + 'Selector]'
+    )
+    if (selectField) {
+      selectField.addEventListener('change', function (event) {
+        updateFieldInUrl(key + 'Id', event.target.value)
+      })
+    }
+  })
 }
 
 function addSendCopyOfNotificationButtonHandler() {

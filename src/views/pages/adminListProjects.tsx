@@ -2,7 +2,7 @@ import AdminDashboard from '../components/adminDashboard'
 
 import React from 'react'
 
-import { Project, AppelOffre, Periode } from '../../entities'
+import { Project, AppelOffre, Periode, Famille } from '../../entities'
 import ROUTES from '../../routes'
 import { dataId } from '../../helpers/testId'
 
@@ -15,6 +15,7 @@ interface AdminListProjectsProps {
   appelsOffre: Array<AppelOffre>
   selectedAppelOffreId?: AppelOffre['id']
   selectedPeriodeId?: Periode['id']
+  selectedFamilleId?: Famille['id']
 }
 
 /* Pure component */
@@ -24,6 +25,7 @@ export default function AdminListProjects({
   appelsOffre,
   selectedAppelOffreId,
   selectedPeriodeId,
+  selectedFamilleId,
 }: AdminListProjectsProps) {
   const { error, success } = request.query || {}
   return (
@@ -33,7 +35,7 @@ export default function AdminListProjects({
           <h3>Projets</h3>
 
           <div className="form__group">
-            <legend>Filtrer par AO et/ou Période</legend>
+            <legend>Filtrer par AO, Période et/ou Famille</legend>
             <select
               name="appelOffre"
               id="appelOffre"
@@ -61,6 +63,20 @@ export default function AdminListProjects({
                     selected={periode.id === selectedPeriodeId}
                   >
                     {periode.title}
+                  </option>
+                ))}
+            </select>
+            <select name="famille" id="famille" {...dataId('familleSelector')}>
+              <option value="">Toutes familles</option>
+              {appelsOffre
+                .find((ao) => ao.id === selectedAppelOffreId)
+                ?.familles.map((famille) => (
+                  <option
+                    key={'appel_' + famille.id}
+                    value={famille.id}
+                    selected={famille.id === selectedFamilleId}
+                  >
+                    {famille.title}
                   </option>
                 ))}
             </select>
