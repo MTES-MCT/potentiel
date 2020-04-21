@@ -1,5 +1,6 @@
 import { AppelOffre } from '../../../entities'
 import { commonDataFields } from './commonDataFields'
+import toTypeLiteral from './helpers/toTypeLiteral'
 
 const zni: AppelOffre = {
   id: 'CRE4 - ZNI',
@@ -7,17 +8,34 @@ const zni: AppelOffre = {
     '2016/S 242-441980 portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de l’énergie solaire et situées dans les zones non interconnectées',
   shortTitle: 'CRE4 - ZNI 2016/S 242-441980',
   launchDate: 'Juin 2019',
-  powerUnit: 'MWc',
-  monthsBeforeRealisation: 24,
-  referencePriceParagraph: '7.1',
-  derogatoryDelayParagraph: '6.4',
-  conformityParagraph: '6.6',
-  ipFpEngagementParagraph: '3.3.6',
-  completePluginRequestFootnote: '6.1',
-  designationRemovalFootnote: '5.2 et 6.2',
-  ipFpEngagementFootnote: '3.3.6 et 7.1',
-  competitiveClauseParagraph: '2.8',
-  dataFields: commonDataFields,
+  unitePuissance: 'MWc',
+  delaiRealisationEnMois: 24,
+  paragraphePrixReference: '7.1',
+  paragrapheDelaiDerogatoire: '6.4',
+  paragrapheAttestationConformite: '6.6',
+  paragrapheEngagementIPFP: '3.3.6',
+  afficherParagrapheInstallationMiseEnServiceModification: true,
+  renvoiDemandeCompleteRaccordement: '6.1',
+  renvoiRetraitDesignationGarantieFinancieres: '5.2 et 6.2',
+  renvoiEngagementIPFP: '3.3.6 et 7.1',
+  paragrapheClauseCompetitivite: '2.8',
+  tarifOuPrimeRetenue: "le prix de référence T de l'électricité retenu",
+  afficherValeurEvaluationCarbone: true,
+  afficherPhraseRegionImplantation: true,
+  dataFields: [
+    ...commonDataFields,
+    {
+      field: 'engagementFournitureDePuissanceAlaPointe',
+      type: toTypeLiteral('stringEquals'),
+      column: 'Engagement de fourniture de puissance à la pointe (AO ZNI)',
+      value: 'oui',
+    },
+    {
+      field: 'territoireProjet',
+      type: toTypeLiteral('string'),
+      column: 'Territoire (AO ZNI)',
+    },
+  ],
   periodes: [
     {
       id: '1',
@@ -26,64 +44,91 @@ const zni: AppelOffre = {
     {
       id: '2',
       title: 'deuxième',
-    },
-    {
-      id: '3',
-      title: 'troisième',
-    },
-    {
-      id: '4',
-      title: 'quatrième',
+      canGenerateCertificate: true,
+      noteThresholdByFamily: [
+        { familleId: '1a', territoire: 'Corse', noteThreshold: 53.4 },
+        { familleId: '1a', territoire: 'Guadeloupe', noteThreshold: 56.3 },
+        { familleId: '1a', territoire: 'La Réunion', noteThreshold: 30.6 },
+        { familleId: '1a', territoire: 'Mayotte', noteThreshold: 34.5 },
+        //
+        { familleId: '1b', territoire: 'Corse', noteThreshold: 47.2 },
+        { familleId: '1b', territoire: 'Guadeloupe', noteThreshold: 54.2 },
+        { familleId: '1b', territoire: 'La Réunion', noteThreshold: 61.9 },
+        { familleId: '1b', territoire: 'Mayotte', noteThreshold: 13.1 },
+        //
+        { familleId: '1c', territoire: 'Corse', noteThreshold: 58.2 },
+        { familleId: '1c', territoire: 'Guadeloupe', noteThreshold: 77.1 },
+        { familleId: '1c', territoire: 'Guyane', noteThreshold: 64.1 },
+        { familleId: '1c', territoire: 'La Réunion', noteThreshold: 65.7 },
+        { familleId: '1c', territoire: 'Martinique', noteThreshold: 75.9 },
+        { familleId: '1c', territoire: 'Mayotte', noteThreshold: 19.6 },
+        //
+        { familleId: '2a', territoire: 'Corse', noteThreshold: 42.1 },
+        { familleId: '2a', territoire: 'Guadeloupe', noteThreshold: 47.2 },
+        { familleId: '2a', territoire: 'Guyane', noteThreshold: 18.4 },
+        { familleId: '2a', territoire: 'La Réunion', noteThreshold: 33.3 },
+        { familleId: '2a', territoire: 'Mayotte', noteThreshold: 16 },
+        //
+        { familleId: '2b', territoire: 'Guadeloupe', noteThreshold: 41.7 },
+        { familleId: '2b', territoire: 'Guyane', noteThreshold: 42.4 },
+        { familleId: '2b', territoire: 'La Réunion', noteThreshold: 14.3 },
+        { familleId: '2b', territoire: 'Mayotte', noteThreshold: 24.1 },
+        //
+        { familleId: '2c', territoire: 'Guadeloupe', noteThreshold: 70.4 },
+        { familleId: '2c', territoire: 'Guyane', noteThreshold: 57.6 },
+        { familleId: '2c', territoire: 'La Réunion', noteThreshold: 17.1 },
+        { familleId: '2c', territoire: 'Martinique', noteThreshold: 27.2 },
+      ],
     },
   ],
   familles: [
     // 2017 ZNI avec stockage
     {
       id: '1',
-      title: '100kWc - 250kWc',
-      requiresFinancialGuarantee: false,
+      title: '1. 100kWc - 250kWc',
+      garantieFinanciereEnMois: 0,
     },
     {
       id: '2',
-      title: '250kWc - 1,5MWc',
-      requiresFinancialGuarantee: false,
+      title: '2. 250kWc - 1,5MWc',
+      garantieFinanciereEnMois: 0,
     },
     {
       id: '3',
-      title: '250kWc - 5MWc',
-      requiresFinancialGuarantee: false,
+      title: '3. 250kWc - 5MWc',
+      garantieFinanciereEnMois: 0,
     },
     // 2019 ZNI avec stockage
     {
       id: '1a',
-      title: '100kWc - 500 kWc',
-      requiresFinancialGuarantee: false,
+      title: '1a. 100kWc - 500 kWc',
+      garantieFinanciereEnMois: 0,
     },
     {
       id: '1b',
-      title: '500 kWc - 1,5MWc',
-      requiresFinancialGuarantee: true,
+      title: '1b. 500 kWc - 1,5MWc',
+      garantieFinanciereEnMois: 36,
     },
     {
       id: '1c',
-      title: '500 kWc - 5 MWc',
-      requiresFinancialGuarantee: true,
+      title: '1c. 500 kWc - 5 MWc',
+      garantieFinanciereEnMois: 36,
     },
     // 2019 ZNI sans stockage
     {
       id: '2a',
-      title: '100kWc - 500 kWc',
-      requiresFinancialGuarantee: false,
+      title: '2a. 100kWc - 500 kWc',
+      garantieFinanciereEnMois: 0,
     },
     {
       id: '2b',
-      title: '500 kWc - 1,5MWc',
-      requiresFinancialGuarantee: true,
+      title: '2b. 500 kWc - 1,5MWc',
+      garantieFinanciereEnMois: 36,
     },
     {
       id: '2c',
-      title: '500 kWc - 5 MWc',
-      requiresFinancialGuarantee: true,
+      title: '2c. 500 kWc - 5 MWc',
+      garantieFinanciereEnMois: 36,
     },
   ],
 }

@@ -138,7 +138,7 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                       fontSize: 12,
                     }}
                   >
-                    {appelOffre?.powerUnit}
+                    {appelOffre?.unitePuissance}
                   </span>
                 </td>
                 <td valign="top">

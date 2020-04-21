@@ -31,11 +31,13 @@ const baseProjectSchema = Record({
   nomRepresentantLegal: String,
   isFinancementParticipatif: Boolean,
   isInvestissementParticipatif: Boolean,
+  engagementFournitureDePuissanceAlaPointe: Boolean,
   email: String.withConstraint(isEmail.validate),
   adresseProjet: String,
   codePostalProjet: String,
   communeProjet: String,
   departementProjet: String,
+  territoireProjet: String,
   regionProjet: String,
   fournisseur: String,
   classe: Union(Literal('Eliminé'), Literal('Classé')),
@@ -66,6 +68,8 @@ export default ({ makeId }: MakeProjectDependencies) =>
     notifiedOn: 0,
     isInvestissementParticipatif: false,
     isFinancementParticipatif: false,
+    engagementFournitureDePuissanceAlaPointe: false,
+    territoireProjet: '',
   })
 
 export { Project, projectSchema }

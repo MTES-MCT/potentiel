@@ -21,7 +21,11 @@ const basePeriodeSchema = RTRecord({
 const noteThresholdSchema = RTRecord({
   familleId: String,
   noteThreshold: Number,
-})
+}).And(
+  Partial({
+    territoire: String,
+  })
+)
 
 const periodeSchema = basePeriodeSchema.And(
   Partial({

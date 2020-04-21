@@ -16,7 +16,7 @@ import buildMakeEntity from '../helpers/buildMakeEntity'
 const familleSchema = Record({
   id: String,
   title: String,
-  requiresFinancialGuarantee: Boolean,
+  garantieFinanciereEnMois: Number,
 })
 
 const fields: string[] = [...Object.keys(familleSchema.fields)]

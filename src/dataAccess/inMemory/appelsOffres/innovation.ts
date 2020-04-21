@@ -7,16 +7,20 @@ const innovation: AppelOffre = {
     '2017/S 051-094731 portant sur la réalisation et l’exploitation d’Installations de production d’électricité innovantes à partir de l’énergie solaire, sans dispositifs de stockage',
   shortTitle: 'CRE4 - Innovation 2017/S 051-094731',
   launchDate: 'Mars 2017',
-  powerUnit: 'MWc',
-  monthsBeforeRealisation: 24,
-  referencePriceParagraph: '7.1',
-  derogatoryDelayParagraph: '6.3',
-  conformityParagraph: '6.5',
-  ipFpEngagementParagraph: '',
-  completePluginRequestFootnote: '6.1',
-  designationRemovalFootnote: '5.3',
-  ipFpEngagementFootnote: '',
-  competitiveClauseParagraph: '',
+  unitePuissance: 'MWc',
+  delaiRealisationEnMois: 24,
+  paragraphePrixReference: '7.1',
+  paragrapheDelaiDerogatoire: '6.3',
+  paragrapheAttestationConformite: '6.5',
+  paragrapheEngagementIPFP: '',
+  afficherParagrapheInstallationMiseEnServiceModification: false,
+  renvoiDemandeCompleteRaccordement: '6.1',
+  renvoiRetraitDesignationGarantieFinancieres: '5.3',
+  renvoiEngagementIPFP: '',
+  paragrapheClauseCompetitivite: '',
+  tarifOuPrimeRetenue: "le prix de référence T de l'électricité retenu",
+  afficherValeurEvaluationCarbone: false,
+  afficherPhraseRegionImplantation: false,
   dataFields: commonDataFields,
   periodes: [
     {
@@ -26,10 +30,11 @@ const innovation: AppelOffre = {
     {
       id: '2',
       title: 'deuxième',
-    },
-    {
-      id: '3',
-      title: 'troisième',
+      noteThresholdByFamily: [
+        { familleId: '1', noteThreshold: 71.58 },
+        { familleId: '2', noteThreshold: 45.49 },
+      ],
+      canGenerateCertificate: true,
     },
   ],
   familles: [
@@ -38,33 +43,33 @@ const innovation: AppelOffre = {
     {
       id: '1a',
       title: "Nouvelles conceptions d'intégration",
-      requiresFinancialGuarantee: false,
+      garantieFinanciereEnMois: 0,
     },
     {
       id: '1b',
       title: 'Autres innovations de composants',
-      requiresFinancialGuarantee: false,
+      garantieFinanciereEnMois: 0,
     },
     {
       id: '3',
       title:
         "Innovation liée à l'optimisation et à l'exploitation électrique de la centrale",
-      requiresFinancialGuarantee: false,
+      garantieFinanciereEnMois: 0,
     },
     {
       id: '4',
       title: 'Agrivoltaïsme',
-      requiresFinancialGuarantee: false,
+      garantieFinanciereEnMois: 0,
     },
     {
       id: '1',
       title: '500 kWc - 5MWc',
-      requiresFinancialGuarantee: false,
+      garantieFinanciereEnMois: 0,
     },
     {
       id: '2',
       title: '100 kWc - 3MWc',
-      requiresFinancialGuarantee: false,
+      garantieFinanciereEnMois: 0,
     },
   ],
 }

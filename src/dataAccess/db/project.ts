@@ -26,7 +26,10 @@ const deserialize = (item) => ({
   ...item,
   isFinancementParticipatif: item.isFinancementParticipatif === 1,
   isInvestissementParticipatif: item.isInvestissementParticipatif === 1,
+  engagementFournitureDePuissanceAlaPointe:
+    item.engagementFournitureDePuissanceAlaPointe === 1,
   actionnaire: item.actionnaire || '',
+  territoireProjet: item.territoireProjet || '',
 })
 const serialize = (item) => item
 
@@ -100,6 +103,10 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    territoireProjet: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     regionProjet: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -125,6 +132,10 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
       allowNull: false,
     },
     isInvestissementParticipatif: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    },
+    engagementFournitureDePuissanceAlaPointe: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
     },

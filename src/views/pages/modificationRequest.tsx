@@ -29,13 +29,14 @@ const titlePerAction = {
   recours: 'recours',
 }
 
-const getPowerUnitForAppelOffre = (appelOffreId) => {
-  return appelsOffreStatic.find((item) => item.id === appelOffreId)?.powerUnit
+const getunitePuissanceForAppelOffre = (appelOffreId) => {
+  return appelsOffreStatic.find((item) => item.id === appelOffreId)
+    ?.unitePuissance
 }
 
 const getDelayForAppelOffre = (appelOffreId) => {
   return appelsOffreStatic.find((item) => item.id === appelOffreId)
-    ?.monthsBeforeRealisation
+    ?.delaiRealisationEnMois
 }
 
 export { titlePerAction }
@@ -111,7 +112,7 @@ export default function ModificationRequestPage({
               </div>
               <div {...dataId('modificationRequest-item-puissance')}>
                 {project.puissance}{' '}
-                {getPowerUnitForAppelOffre(project.appelOffreId)}
+                {getunitePuissanceForAppelOffre(project.appelOffreId)}
               </div>
               <div>
                 Désigné le{' '}
@@ -151,7 +152,7 @@ export default function ModificationRequestPage({
               <>
                 <label>
                   Puissance actuelle (en{' '}
-                  {getPowerUnitForAppelOffre(project.appelOffreId)})
+                  {getunitePuissanceForAppelOffre(project.appelOffreId)})
                 </label>
                 <input
                   type="text"
@@ -161,7 +162,7 @@ export default function ModificationRequestPage({
                 />
                 <label className="required" htmlFor="puissance">
                   Nouvelle puissance (en{' '}
-                  {getPowerUnitForAppelOffre(project.appelOffreId)})
+                  {getunitePuissanceForAppelOffre(project.appelOffreId)})
                 </label>
                 <input
                   type="text"

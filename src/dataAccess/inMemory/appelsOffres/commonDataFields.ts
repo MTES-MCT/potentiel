@@ -1,9 +1,4 @@
-import { ValuesType } from 'utility-types'
-import { AppelOffre } from '../../../entities'
-import { asLiteral } from '../../../helpers/asLiteral'
-
-const toTypeLiteral = (str) =>
-  asLiteral<ValuesType<AppelOffre['dataFields']>['type']>(str)
+import toTypeLiteral from './helpers/toTypeLiteral'
 
 const commonDataFields = [
   { field: 'numeroCRE', type: toTypeLiteral('string'), column: 'N°CRE' },

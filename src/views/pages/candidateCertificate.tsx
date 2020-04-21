@@ -30,6 +30,8 @@ const FOOTNOTE_INDICES = [185, 178, 179, 186, 9824, 9827, 9829, 9830]
 
 const makeAddFootnote = (footNotes: Array<any>) => {
   return (footNote: string) => {
+    if (!footNote) return '' // ignore if there is no footnote
+
     const indice = FOOTNOTE_INDICES[footNotes.length % FOOTNOTE_INDICES.length]
     footNotes.push({
       footNote,
@@ -52,9 +54,9 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
     " période de l'appel offres " +
     appelOffre.title
 
-  const requiresFinancialGuarantee = appelOffre.familles.find(
+  const garantieFinanciereEnMois = appelOffre.familles.find(
     (famille) => famille.id === project.familleId
-  )?.requiresFinancialGuarantee
+  )?.garantieFinanciereEnMois
 
   const footNotes: Array<{ footNote: string; indice: number }> = []
   const addFootNote = makeAddFootnote(footNotes)
@@ -76,21 +78,20 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
       </Text>
       <Text style={{ fontSize: 11, textAlign: 'justify', marginTop: 10 }}>
         Conformément à l’engagement contenu dans votre offre, je vous informe
-        que le prix de référence T de l’électricité retenu en application des
-        dispositions du point {appelOffre.referencePriceParagraph} du cahier des
-        charges est de {project.prixReference} €/MWh. La valeur de l’évaluation
-        carbone des modules est de {project.evaluationCarbone} kg eq CO2/kWc.
+        que {appelOffre.tarifOuPrimeRetenue} en application des dispositions du
+        point {appelOffre.paragraphePrixReference} du cahier des charges est de{' '}
+        {project.prixReference} €/MWh.
+        {appelOffre.afficherValeurEvaluationCarbone
+          ? 'La valeur de l’évaluation carbone des modules est de ' +
+            project.evaluationCarbone +
+            ' kg eq CO2/kWc.'
+          : ''}
         {project.isInvestissementParticipatif ? (
           <Text>
             En raison de votre engagement à l’investissement participatif, la
             valeur de ce prix de référence est majorée pendant toute la durée du
             contrat de 3 €/MWh sous réserve du respect de cet engagement
-            {addFootNote(
-              'Paragraphe ' +
-                appelOffre.ipFpEngagementFootnote +
-                ' du cahier des charges'
-            )}
-            .
+            {addFootNote(appelOffre.renvoiEngagementIPFP)}.
           </Text>
         ) : (
           <Text />
@@ -100,17 +101,22 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
             En raison de votre engagement au financement participatif, la valeur
             de ce prix de référence est majorée pendant toute la durée du
             contrat de 1 €/MWh sous réserve du respect de cet engagement
-            {addFootNote(
-              'Paragraphe ' +
-                appelOffre.ipFpEngagementFootnote +
-                ' du cahier des charges'
-            )}
-            .
+            {addFootNote(appelOffre.renvoiEngagementIPFP)}.
           </Text>
         ) : (
           <Text />
         )}
       </Text>
+      {project.engagementFournitureDePuissanceAlaPointe ? (
+        <Text style={{ fontSize: 11, textAlign: 'justify', marginTop: 10 }}>
+          Lors de la réponse à l’appel d’offres, vous avez indiqué souhaiter un
+          fonctionnement avec fourniture de puissance garantie à la pointe du
+          soir et devez ainsi respecter les conditions de l’annexe 9 du cahier
+          des charges relatives à la fourniture de puissance à la pointe.
+        </Text>
+      ) : (
+        <Text />
+      )}
       <Text style={{ fontSize: 11, textAlign: 'justify', marginTop: 10 }}>
         Par ailleurs, je vous rappelle les obligations suivantes du fait de
         cette désignation :
@@ -136,14 +142,9 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
       >
         - si ce n’est déjà fait, déposer une demande complète de raccordement
         dans les deux (2) mois à compter de la présente notification
-        {addFootNote(
-          'Paragraphe ' +
-            appelOffre.completePluginRequestFootnote +
-            ' du cahier des charges'
-        )}
-        .
+        {addFootNote(appelOffre.renvoiDemandeCompleteRaccordement)}.
       </Text>
-      {requiresFinancialGuarantee ? (
+      {garantieFinanciereEnMois ? (
         <Text
           style={{
             fontSize: 11,
@@ -162,14 +163,13 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
           lauréat
           <Text>
             {addFootNote(
-              'Paragraphe ' +
-                appelOffre.designationRemovalFootnote +
-                ' du cahier des charges'
+              appelOffre.renvoiRetraitDesignationGarantieFinancieres
             )}
           </Text>
           .{' '}
           <Text style={{ textDecoration: 'underline' }}>
-            La durée de la garantie doit être au minimum de 42 mois.
+            La durée de la garantie doit être au minimum de{' '}
+            {garantieFinanciereEnMois} mois.
           </Text>
         </Text>
       ) : (
@@ -184,9 +184,9 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
         }}
       >
         - sauf délais dérogatoires prévus au{' '}
-        {appelOffre.derogatoryDelayParagraph} du cahier des charges, achever
-        l’installation dans un délai de {appelOffre.monthsBeforeRealisation}{' '}
-        mois à compter de la présente notification.
+        {appelOffre.paragrapheDelaiDerogatoire} du cahier des charges, achever
+        l’installation dans un délai de {appelOffre.delaiRealisationEnMois} mois
+        à compter de la présente notification.
       </Text>
       <Text
         style={{
@@ -197,7 +197,8 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
         }}
       >
         - fournir à EDF l’attestation de conformité de l’installation prévue au
-        paragraphe {appelOffre.conformityParagraph} du cahier des charges.
+        paragraphe {appelOffre.paragrapheAttestationConformite} du cahier des
+        charges.
       </Text>
       {project.isInvestissementParticipatif ? (
         <Text
@@ -209,7 +210,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
           }}
         >
           - respecter les engagements pris conformément au(x) paragraphe(s){' '}
-          {appelOffre.ipFpEngagementParagraph} concernant l’investissement
+          {appelOffre.paragrapheEngagementIPFP} concernant l’investissement
           participatif.
         </Text>
       ) : (
@@ -225,27 +226,31 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
           }}
         >
           - respecter les engagements pris conformément au paragraphe{' '}
-          {appelOffre.ipFpEngagementParagraph} concernant le financement
+          {appelOffre.paragrapheEngagementIPFP} concernant le financement
           participatif.
         </Text>
       ) : (
         <Text />
       )}
-      <Text style={{ fontSize: 11, textAlign: 'justify', marginTop: 10 }}>
-        Je vous rappelle également que l’installation mise en service doit être
-        en tout point conforme à celle décrite dans le dossier de candidature et
-        que toute modification du projet par rapport à l’offre déposée nécessite
-        l’accord de l’autorité administrative.{' '}
-        <Text
-          style={{
-            textDecoration: 'underline',
-          }}
-        >
-          Les changements conduisant à une diminution de la notation d’un ou
-          plusieurs critères d’évaluations de l’offre, notamment par un bilan
-          carbone moins performant, ne seront pas acceptés.
+      {appelOffre.afficherParagrapheInstallationMiseEnServiceModification ? (
+        <Text style={{ fontSize: 11, textAlign: 'justify', marginTop: 10 }}>
+          Je vous rappelle également que l’installation mise en service doit
+          être en tout point conforme à celle décrite dans le dossier de
+          candidature et que toute modification du projet par rapport à l’offre
+          déposée nécessite l’accord de l’autorité administrative.{' '}
+          <Text
+            style={{
+              textDecoration: 'underline',
+            }}
+          >
+            Les changements conduisant à une diminution de la notation d’un ou
+            plusieurs critères d’évaluations de l’offre, notamment par un bilan
+            carbone moins performant, ne seront pas acceptés.
+          </Text>
         </Text>
-      </Text>
+      ) : (
+        <Text />
+      )}
     </>
   )
 
@@ -253,11 +258,61 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
   // Also we replace the spaces in the footnote text with non-breaking spaces because of a bug in React-PDF that wraps way too early
   const footnotes = footNotes.map(({ footNote, indice }) => (
     <Text>
-      {String.fromCharCode(indice)}{' '}
-      {footNote.replace(/\s/gi, String.fromCharCode(160))}
+      {String.fromCharCode(indice)} Paragraphe{' '}
+      {footNote.replace(/\s/gi, String.fromCharCode(160))} du cahier des charges
     </Text>
   ))
   return { project, appelOffre, periode, objet, body, footnotes }
+}
+
+const getNoteThreshold = (periode: Periode, project: Project) => {
+  if (!periode.noteThresholdByFamily) {
+    console.log(
+      'candidateCertificate: looking for noteThresholdByFamily for a period that has none',
+      periode.id
+    )
+    return 'N/A'
+  }
+
+  if (project.territoireProjet && project.territoireProjet.length) {
+    const note = periode.noteThresholdByFamily.find(
+      (item) =>
+        item.familleId === project.familleId &&
+        item.territoire === project.territoireProjet
+    )?.noteThreshold
+
+    if (!note) {
+      console.log(
+        'candidateCertificate: looking for noteThreshold for periode',
+        periode.id,
+        'famille',
+        project.familleId,
+        'and territoire',
+        project.territoireProjet,
+        ' but could not find it'
+      )
+      return 'N/A'
+    }
+
+    return note
+  }
+
+  const note = periode.noteThresholdByFamily.find(
+    (item) => item.familleId === project.familleId
+  )?.noteThreshold
+
+  if (!note) {
+    console.log(
+      'candidateCertificate: looking for noteThreshold for periode',
+      periode.id,
+      'and famille',
+      project.familleId,
+      ' but could not find it'
+    )
+    return 'N/A'
+  }
+
+  return note
 }
 
 interface ElimineProps {
@@ -285,21 +340,22 @@ const Elimine = ({ project, appelOffre, periode }: ElimineProps) => {
           ? 'Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été classée au-delà de la puissance offerte pour cette période de candidature dans la famille concernée. Votre offre a en effet obtenu une note de ' +
             Math.round(project.note * 100) / 100 +
             ' points alors que le classement des dossiers a fait apparaître que la sélection des offres jusqu’à la note de ' +
-            (periode.noteThresholdByFamily?.find(
-              (item) => item.familleId === project.familleId
-            )?.noteThreshold || 'N/A') +
-            ' points permettait de remplir les objectifs de volumes de l’appel d’offres dans cette famille. Par conséquent, cette offre n’a pas été retenue.'
-          : project.motifsElimination.includes('Déjà lauréat')
+            getNoteThreshold(periode, project) +
+            ' points permettait de remplir les objectifs de volumes de l’appel d’offres dans cette famille' +
+            (appelOffre.afficherPhraseRegionImplantation
+              ? ', et pour la région d’implantation du projet définis au 1.2.2 du cahier des charges'
+              : '') +
+            '. Par conséquent, cette offre n’a pas été retenue.'
+          : project.motifsElimination === 'Déjà lauréat - Non instruit'
           ? 'Suite à l’examen par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été retirée de l’instruction, ayant été désignée lauréate au cours d’un précédent appel d’offres. Par conséquent, cette offre n’a pas été retenue.'
-          : project.motifsElimination.includes('20%')
+          : project.motifsElimination.includes('20%') &&
+            project.motifsElimination.includes('compétitivité')
           ? 'Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été classée au-delà de la puissance maximale que le Ministre a décidé de retenir afin de préserver la compétitivité de l’appel d’offres en application des dispositions du paragraphe ' +
-            appelOffre.competitiveClauseParagraph +
+            appelOffre.paragrapheClauseCompetitivite +
             ' du cahier des charges. Ainsi, pour chaque famille, seules 80 % des projets les mieux notés ont été retenus. Votre offre a en effet obtenu une note de ' +
             Math.round(project.note * 100) / 100 +
             ' points alors que la sélection des offres s’est faite jusqu’à la note de ' +
-            (periode.noteThresholdByFamily?.find(
-              (item) => item.familleId === project.familleId
-            )?.noteThreshold || 'N/A') +
+            getNoteThreshold(periode, project) +
             ' points. Par conséquent, votre offre n’a pas été retenue.'
           : 'Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été éliminée pour le motif suivant : «' +
             project.motifsElimination +
@@ -409,7 +465,7 @@ const Certificate = ({
             avez déposé dans la famille {project.familleId} le projet «{' '}
             {project.nomProjet} », situé {project.adresseProjet}{' '}
             {project.codePostalProjet} {project.communeProjet} d’une puissance
-            de {project.puissance} {appelOffre.powerUnit}.
+            de {project.puissance} {appelOffre.unitePuissance}.
           </Text>
           {body}
           <Text style={{ fontSize: 11, textAlign: 'justify', marginTop: 30 }}>
