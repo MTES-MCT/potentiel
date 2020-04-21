@@ -9,11 +9,10 @@ import { importProjects } from '../useCases'
 
 const deleteFile = util.promisify(fs.unlink)
 
-const from1252 = iconv.decodeStream('win1252')
-
 const parse = (file) =>
   new Promise<Array<Record<string, string>>>((resolve, reject) => {
     const data: Array<Record<string, string>> = []
+    const from1252 = iconv.decodeStream('win1252')
     fs.createReadStream(file)
       .pipe(from1252)
       .pipe(
@@ -25,12 +24,15 @@ const parse = (file) =>
         })
       )
       .on('data', (row: Record<string, string>) => {
+        console.log('stream data')
         data.push(row)
       })
       .on('error', (e) => {
+        console.log('stream error')
         reject(e)
       })
       .on('end', () => {
+        console.log('stream end')
         resolve(data)
       })
   })
@@ -47,12 +49,14 @@ const postProjects = async (request: HttpRequest) => {
   // Parse the csv file
   const lines = await parse(request.file.path)
 
+  console.log('Done parsing file', request.file.path, 'lines', lines[0])
+
   const importProjectsResult = await importProjects({
     lines,
   })
 
   // remove temp file
-  await deleteFile(request.file.path)
+  // await deleteFile(request.file.path)
 
   return importProjectsResult.match({
     ok: () =>
