@@ -53,6 +53,8 @@ export default function makeSignup({
     password,
     confirmPassword,
   }: CallUseCaseProps): ResultAsync<User> {
+    console.log('signup usecase', projectAdmissionKey, fullName, password)
+
     // Check if passwords match
     if (!password || password !== confirmPassword) {
       return ErrorResult(PASSWORD_MISMATCH_ERROR)
