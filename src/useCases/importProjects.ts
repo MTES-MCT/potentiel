@@ -29,7 +29,14 @@ const makeErrorForLine = (
     errors = currentResults.unwrap_err()
   }
   // Add the error from this line prefixed with the line number
-  error.message = 'Ligne ' + lineIndex + ': ' + error.message
+  error.message =
+    'Ligne ' +
+    lineIndex +
+    ': ' +
+    error.message.replace(
+      'Failed constraint check in field',
+      'Valeur interdite dans le champ'
+    )
   errors.push(error)
 
   return Err(errors)
@@ -106,6 +113,10 @@ export default function makeImportProjects({
                   undefined
                 : type === 'stringEquals'
                 ? line[column] === value
+                : type === 'orNumberInColumn'
+                ? line[column]
+                  ? toNumber(line[column])
+                  : value && toNumber(line[value])
                 : undefined
 
             return {
@@ -128,8 +139,8 @@ export default function makeImportProjects({
 
           // Add the error from this line prefixed with the line number
           const projectError = projectResult.unwrap_err()
-          projectError.message =
-            'Ligne ' + (index + 2) + ': ' + projectError.message
+          // projectError.message =
+          //   'Ligne ' + (index + 2) + ': ' + projectError.message
 
           return makeErrorForLine(projectError, index + 2, currentResults)
         }
@@ -157,7 +168,7 @@ export default function makeImportProjects({
       error.message = projects
         .unwrap_err()
         .reduce(
-          (message, error) => message + '\n' + error.message,
+          (message, error) => message + ':\n' + error.message,
           ERREUR_FORMAT_LIGNE
         )
       return Err(error)

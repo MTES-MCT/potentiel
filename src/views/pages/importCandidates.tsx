@@ -26,7 +26,12 @@ export default function AdminListProjects({ request }: AdminListProjectsProps) {
         >
           {error ? (
             <div className="notification error" {...dataId('error-message')}>
-              {error}
+              {error.split('\n').map((piece) => (
+                <>
+                  {piece}
+                  <br />
+                </>
+              ))}
             </div>
           ) : (
             ''
