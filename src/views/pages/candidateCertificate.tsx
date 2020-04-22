@@ -26,8 +26,9 @@ Font.register({
   ],
 })
 
-const formatNumber = (n) => {
-  return (Math.round(n * 100) / 100).toString().replace('.', ',')
+const formatNumber = (n, precisionOverride?: number) => {
+  const precision = precisionOverride || 100
+  return (Math.round(n * precision) / precision).toString().replace('.', ',')
 }
 
 const FOOTNOTE_INDICES = [185, 178, 179, 186, 9824, 9827, 9829, 9830]
@@ -470,7 +471,8 @@ const Certificate = ({
             avez déposé dans la famille {project.familleId} le projet «{' '}
             {project.nomProjet} », situé {project.adresseProjet}{' '}
             {project.codePostalProjet} {project.communeProjet} d’une puissance
-            de {formatNumber(project.puissance)} {appelOffre.unitePuissance}.
+            de {formatNumber(project.puissance, 1e6)}{' '}
+            {appelOffre.unitePuissance}.
           </Text>
           {body}
           <Text style={{ fontSize: 11, textAlign: 'justify', marginTop: 30 }}>
