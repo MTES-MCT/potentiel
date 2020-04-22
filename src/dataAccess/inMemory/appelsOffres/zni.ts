@@ -33,17 +33,20 @@ const zni: AppelOffre = {
     {
       field: 'territoireProjet',
       type: toTypeLiteral('string'),
-      column: 'Territoire (AO ZNI)',
+      column: 'Territoire\n(AO ZNI)',
+    },
+    {
+      // This field is mandatory
+      field: 'evaluationCarbone',
+      type: toTypeLiteral('number'),
+      column:
+        'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)',
     },
   ],
   periodes: [
     {
       id: '1',
       title: 'première',
-    },
-    {
-      id: '2',
-      title: 'deuxième',
       canGenerateCertificate: true,
       noteThresholdByFamily: [
         { familleId: '1a', territoire: 'Corse', noteThreshold: 53.4 },
@@ -62,7 +65,13 @@ const zni: AppelOffre = {
         { familleId: '1c', territoire: 'La Réunion', noteThreshold: 65.7 },
         { familleId: '1c', territoire: 'Martinique', noteThreshold: 75.9 },
         { familleId: '1c', territoire: 'Mayotte', noteThreshold: 19.6 },
-        //
+      ],
+    },
+    {
+      id: '2',
+      title: 'deuxième',
+      canGenerateCertificate: true,
+      noteThresholdByFamily: [
         { familleId: '2a', territoire: 'Corse', noteThreshold: 42.1 },
         { familleId: '2a', territoire: 'Guadeloupe', noteThreshold: 47.2 },
         { familleId: '2a', territoire: 'Guyane', noteThreshold: 18.4 },

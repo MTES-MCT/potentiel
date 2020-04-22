@@ -5,7 +5,7 @@ const commonDataFields = [
   {
     field: 'familleId',
     type: toTypeLiteral('string'),
-    column: 'Famille de candidature',
+    column: 'Famille',
   },
   {
     field: 'nomCandidat',
@@ -24,12 +24,6 @@ const commonDataFields = [
     type: toTypeLiteral('number'),
     column:
       'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)',
-  },
-  {
-    field: 'evaluationCarbone',
-    type: toTypeLiteral('number'),
-    column:
-      'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)',
   },
   { field: 'note', type: toTypeLiteral('number'), column: 'Note totale' },
   {
@@ -71,6 +65,12 @@ const commonDataFields = [
     type: toTypeLiteral('stringEquals'),
     column: 'Investissement ou financement participatif ?',
     value: 'Investissement participatif (T1)',
+  },
+  {
+    field: 'isFinancementParticipatif',
+    type: toTypeLiteral('stringEquals'),
+    column: 'Investissement ou financement participatif ?',
+    value: 'Financement participatif (T2)',
   },
   { field: 'notifiedOn', type: toTypeLiteral('date'), column: 'Notification' },
 ]

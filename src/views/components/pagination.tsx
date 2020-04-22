@@ -63,7 +63,7 @@ const Pagination = ({
         </select>
       </div>
       <div className="pagination__count">
-        <strong>{page + 1}</strong> sur <strong>{pageCount}</strong>
+        Page <strong>{page + 1}</strong> sur <strong>{pageCount}</strong>
       </div>
       <ul className="pagination__pages">
         {page > 0 ? (

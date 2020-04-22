@@ -68,8 +68,15 @@ const ProjectList = ({ projects, projectActions }: Props) => {
             return (
               <tr key={'project_' + project.id}>
                 <td valign="top">
-                  <div {...dataId('projectList-item-periode')}>
-                    {project.periodeId}
+                  <div
+                    style={{
+                      fontStyle: 'italic',
+                      lineHeight: 'normal',
+                      fontSize: 12,
+                    }}
+                    {...dataId('projectList-item-periode')}
+                  >
+                    {project.appelOffreId} Période {project.periodeId}
                   </div>
                   <div
                     style={{
@@ -80,7 +87,7 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                     {...dataId('projectList-item-famille')}
                   >
                     {project.familleId?.length
-                      ? `famille ${project.familleId}`
+                      ? `famille ${project.familleId}`
                       : ''}
                   </div>
                 </td>

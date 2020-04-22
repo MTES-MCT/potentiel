@@ -23,11 +23,13 @@ const csvFieldSchema = Record({
     Literal('string'),
     Literal('number'),
     Literal('date'),
-    Literal('stringEquals')
+    Literal('stringEquals'), // column should equals value
+    Literal('orNumberInColumn') // if column is empty, check try column
   ),
 }).And(
   Partial({
     value: String,
+    defaultValue: Unknown,
   })
 )
 

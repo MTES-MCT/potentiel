@@ -54,6 +54,7 @@ interface PaginatedList<T> {
   items: Array<T>
   pagination: Pagination
   pageCount: number
+  itemCount: number
 }
 
 export { Pagination, PaginatedList }

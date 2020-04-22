@@ -26,6 +26,10 @@ Font.register({
   ],
 })
 
+const formatNumber = (n) => {
+  return (Math.round(n * 100) / 100).toString().replace('.', ',')
+}
+
 const FOOTNOTE_INDICES = [185, 178, 179, 186, 9824, 9827, 9829, 9830]
 
 const makeAddFootnote = (footNotes: Array<any>) => {
@@ -80,17 +84,18 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
         Conformément à l’engagement contenu dans votre offre, je vous informe
         que {appelOffre.tarifOuPrimeRetenue} en application des dispositions du
         point {appelOffre.paragraphePrixReference} du cahier des charges est de{' '}
-        {project.prixReference} €/MWh.
-        {appelOffre.afficherValeurEvaluationCarbone
-          ? 'La valeur de l’évaluation carbone des modules est de ' +
-            project.evaluationCarbone +
-            ' kg eq CO2/kWc.'
+        {formatNumber(project.prixReference)} €/MWh.
+        {appelOffre.afficherValeurEvaluationCarbone &&
+        project.evaluationCarbone > 0
+          ? ' La valeur de l’évaluation carbone des modules est de ' +
+            formatNumber(project.evaluationCarbone) +
+            ' kg eq CO2/kWc. '
           : ''}
         {project.isInvestissementParticipatif ? (
           <Text>
             En raison de votre engagement à l’investissement participatif, la
-            valeur de ce prix de référence est majorée pendant toute la durée du
-            contrat de 3 €/MWh sous réserve du respect de cet engagement
+            valeur de ce prix de référence est majorée pendant toute la durée du
+            contrat de 3 €/MWh sous réserve du respect de cet engagement
             {addFootNote(appelOffre.renvoiEngagementIPFP)}.
           </Text>
         ) : (
@@ -99,8 +104,8 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
         {project.isFinancementParticipatif ? (
           <Text>
             En raison de votre engagement au financement participatif, la valeur
-            de ce prix de référence est majorée pendant toute la durée du
-            contrat de 1 €/MWh sous réserve du respect de cet engagement
+            de ce prix de référence est majorée pendant toute la durée du
+            contrat de 1 €/MWh sous réserve du respect de cet engagement
             {addFootNote(appelOffre.renvoiEngagementIPFP)}.
           </Text>
         ) : (
@@ -209,7 +214,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
             marginLeft: 20,
           }}
         >
-          - respecter les engagements pris conformément au(x) paragraphe(s){' '}
+          - respecter les engagements pris conformément au(x) paragraphe(s){' '}
           {appelOffre.paragrapheEngagementIPFP} concernant l’investissement
           participatif.
         </Text>
@@ -225,7 +230,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
             marginLeft: 20,
           }}
         >
-          - respecter les engagements pris conformément au paragraphe{' '}
+          - respecter les engagements pris conformément au paragraphe{' '}
           {appelOffre.paragrapheEngagementIPFP} concernant le financement
           participatif.
         </Text>
@@ -338,9 +343,9 @@ const Elimine = ({ project, appelOffre, periode }: ElimineProps) => {
       >
         {project.motifsElimination === 'Au-dessus de Pcible'
           ? 'Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été classée au-delà de la puissance offerte pour cette période de candidature dans la famille concernée. Votre offre a en effet obtenu une note de ' +
-            Math.round(project.note * 100) / 100 +
+            formatNumber(project.note) +
             ' points alors que le classement des dossiers a fait apparaître que la sélection des offres jusqu’à la note de ' +
-            getNoteThreshold(periode, project) +
+            formatNumber(getNoteThreshold(periode, project)) +
             ' points permettait de remplir les objectifs de volumes de l’appel d’offres dans cette famille' +
             (appelOffre.afficherPhraseRegionImplantation
               ? ', et pour la région d’implantation du projet définis au 1.2.2 du cahier des charges'
@@ -350,12 +355,12 @@ const Elimine = ({ project, appelOffre, periode }: ElimineProps) => {
           ? 'Suite à l’examen par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été retirée de l’instruction, ayant été désignée lauréate au cours d’un précédent appel d’offres. Par conséquent, cette offre n’a pas été retenue.'
           : project.motifsElimination.includes('20%') &&
             project.motifsElimination.includes('compétitivité')
-          ? 'Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été classée au-delà de la puissance maximale que le Ministre a décidé de retenir afin de préserver la compétitivité de l’appel d’offres en application des dispositions du paragraphe ' +
+          ? 'Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été classée au-delà de la puissance maximale que la Ministre a décidé de retenir afin de préserver la compétitivité de l’appel d’offres en application des dispositions du paragraphe ' +
             appelOffre.paragrapheClauseCompetitivite +
             ' du cahier des charges. Ainsi, pour chaque famille, seules 80 % des projets les mieux notés ont été retenus. Votre offre a en effet obtenu une note de ' +
-            Math.round(project.note * 100) / 100 +
+            formatNumber(project.note) +
             ' points alors que la sélection des offres s’est faite jusqu’à la note de ' +
-            getNoteThreshold(periode, project) +
+            formatNumber(getNoteThreshold(periode, project)) +
             ' points. Par conséquent, votre offre n’a pas été retenue.'
           : 'Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été éliminée pour le motif suivant : «' +
             project.motifsElimination +
@@ -465,7 +470,7 @@ const Certificate = ({
             avez déposé dans la famille {project.familleId} le projet «{' '}
             {project.nomProjet} », situé {project.adresseProjet}{' '}
             {project.codePostalProjet} {project.communeProjet} d’une puissance
-            de {project.puissance} {appelOffre.unitePuissance}.
+            de {formatNumber(project.puissance)} {appelOffre.unitePuissance}.
           </Text>
           {body}
           <Text style={{ fontSize: 11, textAlign: 'justify', marginTop: 30 }}>

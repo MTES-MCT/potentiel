@@ -1,5 +1,6 @@
 import { AppelOffre } from '../../../entities'
 import { commonDataFields } from './commonDataFields'
+import toTypeLiteral from './helpers/toTypeLiteral'
 
 const fessenheim: AppelOffre = {
   id: 'Fessenheim',
@@ -21,7 +22,16 @@ const fessenheim: AppelOffre = {
   tarifOuPrimeRetenue: "le prix de référence T de l'électricité retenu",
   afficherValeurEvaluationCarbone: true,
   afficherPhraseRegionImplantation: false,
-  dataFields: commonDataFields,
+  dataFields: [
+    ...commonDataFields,
+    {
+      // This field is mandatory
+      field: 'evaluationCarbone',
+      type: toTypeLiteral('number'),
+      column:
+        'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)',
+    },
+  ],
   periodes: [
     {
       id: '1',

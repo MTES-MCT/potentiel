@@ -16,6 +16,15 @@ import buildMakeEntity from '../helpers/buildMakeEntity'
 
 import { candidateNotificationSchema } from './candidateNotification'
 
+const territoireSchema = Union(
+  Literal('Corse'),
+  Literal('Guadeloupe'),
+  Literal('Guyane'),
+  Literal('La Réunion'),
+  Literal('Mayotte'),
+  Literal('Martinique')
+)
+
 const baseProjectSchema = Record({
   id: String,
   appelOffreId: String,
@@ -26,7 +35,7 @@ const baseProjectSchema = Record({
   nomProjet: String,
   puissance: Number.withConstraint((value) => value > 0),
   prixReference: Number.withConstraint((value) => value > 0),
-  evaluationCarbone: Number.withConstraint((value) => value > 0),
+  evaluationCarbone: Number,
   note: Number.withConstraint((value) => value >= 0),
   nomRepresentantLegal: String,
   isFinancementParticipatif: Boolean,
@@ -37,7 +46,6 @@ const baseProjectSchema = Record({
   codePostalProjet: String,
   communeProjet: String,
   departementProjet: String,
-  territoireProjet: String,
   regionProjet: String,
   fournisseur: String,
   classe: Union(Literal('Eliminé'), Literal('Classé')),
@@ -48,12 +56,14 @@ const projectSchema = baseProjectSchema.And(
   Partial({
     candidateNotifications: Array(candidateNotificationSchema).Or(Undefined),
     actionnaire: String,
+    territoireProjet: territoireSchema.Or(Undefined),
   })
 )
 
 const fields: string[] = [
   'candidateNotifications',
   'actionnaire',
+  'territoireProjet',
   ...Object.keys(baseProjectSchema.fields),
 ]
 
@@ -69,7 +79,6 @@ export default ({ makeId }: MakeProjectDependencies) =>
     isInvestissementParticipatif: false,
     isFinancementParticipatif: false,
     engagementFournitureDePuissanceAlaPointe: false,
-    territoireProjet: '',
   })
 
-export { Project, projectSchema }
+export { Project, projectSchema, territoireSchema }

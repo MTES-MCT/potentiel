@@ -99,14 +99,14 @@ export default function makeImportProjects({
           appelOffreId,
           periodeId,
           ...appelOffre.dataFields.reduce((properties, dataField) => {
-            const { field, column, type, value } = dataField
+            const { field, column, type, value, defaultValue } = dataField
 
             // Parse line depending on column format
             const fieldValue =
               type === 'string'
                 ? line[column] && line[column].trim()
                 : type === 'number'
-                ? toNumber(line[column])
+                ? toNumber(line[column], defaultValue)
                 : type === 'date'
                 ? (line[column] &&
                     moment(line[column], 'DD/MM/YYYY').toDate().getTime()) ||
@@ -115,10 +115,14 @@ export default function makeImportProjects({
                 ? line[column] === value
                 : type === 'orNumberInColumn'
                 ? line[column]
-                  ? toNumber(line[column])
-                  : value && toNumber(line[value])
+                  ? toNumber(line[column], defaultValue)
+                  : (value && toNumber(line[value], defaultValue)) ||
+                    defaultValue
                 : undefined
 
+            if (field === 'territoireProjet') {
+              console.log('Adding territoire project', fieldValue)
+            }
             return {
               ...properties,
               [field]: fieldValue,

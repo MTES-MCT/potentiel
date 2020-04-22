@@ -24,21 +24,21 @@ const parse = (file) =>
         })
       )
       .on('data', (row: Record<string, string>) => {
-        console.log('stream data')
+        // console.log('stream data')
         data.push(row)
       })
       .on('error', (e) => {
-        console.log('stream error')
+        // console.log('stream error')
         reject(e)
       })
       .on('end', () => {
-        console.log('stream end')
+        // console.log('stream end')
         resolve(data)
       })
   })
 
 const postProjects = async (request: HttpRequest) => {
-  console.log('Call to postProjects received', request.body, request.file)
+  // console.log('Call to postProjects received', request.body, request.file)
 
   if (!request.file || !request.file.path) {
     return Redirect(ROUTES.IMPORT_PROJECTS, {
@@ -49,7 +49,7 @@ const postProjects = async (request: HttpRequest) => {
   // Parse the csv file
   const lines = await parse(request.file.path)
 
-  console.log('Done parsing file', request.file.path, 'lines', lines[0])
+  // console.log('Done parsing file', request.file.path, 'lines', lines[0])
 
   const importProjectsResult = await importProjects({
     lines,

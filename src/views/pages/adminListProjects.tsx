@@ -70,7 +70,8 @@ export default function AdminListProjects({
               <option value="">Toutes familles</option>
               {appelsOffre
                 .find((ao) => ao.id === selectedAppelOffreId)
-                ?.familles.map((famille) => (
+                ?.familles.sort((a, b) => a.title.localeCompare(b.title))
+                .map((famille) => (
                   <option
                     key={'appel_' + famille.id}
                     value={famille.id}
@@ -96,6 +97,10 @@ export default function AdminListProjects({
         ) : (
           ''
         )}
+        <div className="pagination__count">
+          <strong>{projects.itemCount}</strong> projets
+        </div>
+        <div></div>
         <ProjectList
           projects={projects}
           projectActions={(project: Project, appelOffre?: AppelOffre) => {

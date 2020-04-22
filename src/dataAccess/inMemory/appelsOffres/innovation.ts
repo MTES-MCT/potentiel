@@ -1,6 +1,8 @@
 import { AppelOffre } from '../../../entities'
 import { commonDataFields } from './commonDataFields'
 
+import toTypeLiteral from './helpers/toTypeLiteral'
+
 const innovation: AppelOffre = {
   id: 'CRE4 - Innovation',
   title:
@@ -21,7 +23,17 @@ const innovation: AppelOffre = {
   tarifOuPrimeRetenue: "le prix de référence T de l'électricité retenu",
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
-  dataFields: commonDataFields,
+  dataFields: [
+    ...commonDataFields,
+    {
+      field: 'evaluationCarbone',
+      type: toTypeLiteral('orNumberInColumn'),
+      defaultValue: -1, // Accept null values
+      column:
+        'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)',
+      value: 'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)',
+    },
+  ],
   periodes: [
     {
       id: '1',
@@ -42,33 +54,33 @@ const innovation: AppelOffre = {
     // Les périodes 2 et 3 ont les familles 1 et 2 seulement
     {
       id: '1a',
-      title: "Nouvelles conceptions d'intégration",
+      title: "1a. Nouvelles conceptions d'intégration",
       garantieFinanciereEnMois: 0,
     },
     {
       id: '1b',
-      title: 'Autres innovations de composants',
+      title: '1b. Autres innovations de composants',
       garantieFinanciereEnMois: 0,
     },
     {
       id: '3',
       title:
-        "Innovation liée à l'optimisation et à l'exploitation électrique de la centrale",
+        "3. Innovation liée à l'optimisation et à l'exploitation électrique de la centrale",
       garantieFinanciereEnMois: 0,
     },
     {
       id: '4',
-      title: 'Agrivoltaïsme',
+      title: '4. Agrivoltaïsme',
       garantieFinanciereEnMois: 0,
     },
     {
       id: '1',
-      title: '500 kWc - 5MWc',
+      title: '1. 500 kWc - 5MWc',
       garantieFinanciereEnMois: 0,
     },
     {
       id: '2',
-      title: '100 kWc - 3MWc',
+      title: '2. 100 kWc - 3MWc',
       garantieFinanciereEnMois: 0,
     },
   ],

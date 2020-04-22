@@ -1,4 +1,4 @@
-import { Pagination } from '../types'
+import { Pagination, PaginatedList } from '../types'
 
 const paginate = (pagination?: Pagination) => {
   if (!pagination) return {}
@@ -21,11 +21,12 @@ const makePaginatedList = <T>(
   items: Array<T>,
   pagination: Pagination,
   count: number
-) => {
+): PaginatedList<T> => {
   return {
     items,
     pagination,
     pageCount: pageCount(pagination, count),
+    itemCount: count,
   }
 }
 

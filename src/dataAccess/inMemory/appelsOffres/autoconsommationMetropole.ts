@@ -1,5 +1,6 @@
 import { AppelOffre } from '../../../entities'
 import { commonDataFields } from './commonDataFields'
+import toTypeLiteral from './helpers/toTypeLiteral'
 
 const autoconsommationMetropole: AppelOffre = {
   id: 'CRE4 - Autoconsommation métropole',
@@ -21,7 +22,17 @@ const autoconsommationMetropole: AppelOffre = {
   tarifOuPrimeRetenue: 'la prime retenue',
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
-  dataFields: commonDataFields,
+  dataFields: [
+    ...commonDataFields,
+    {
+      field: 'evaluationCarbone',
+      type: toTypeLiteral('orNumberInColumn'),
+      defaultValue: -1, // Accept null values
+      column:
+        'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)',
+      value: 'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)',
+    },
+  ],
   periodes: [
     {
       id: '1',

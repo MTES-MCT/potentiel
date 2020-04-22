@@ -29,7 +29,7 @@ const deserialize = (item) => ({
   engagementFournitureDePuissanceAlaPointe:
     item.engagementFournitureDePuissanceAlaPointe === 1,
   actionnaire: item.actionnaire || '',
-  territoireProjet: item.territoireProjet || '',
+  territoireProjet: item.territoireProjet || undefined,
 })
 const serialize = (item) => item
 
@@ -105,7 +105,7 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
     },
     territoireProjet: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     regionProjet: {
       type: DataTypes.STRING,
@@ -274,6 +274,7 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
     await _isDbReady
 
     try {
+      // console.log('Inserting project', project)
       await ProjectModel.create(serialize(project))
       return Ok(project)
     } catch (error) {

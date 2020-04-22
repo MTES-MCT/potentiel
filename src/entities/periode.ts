@@ -13,6 +13,8 @@ import {
 } from '../types/schemaTypes'
 import buildMakeEntity from '../helpers/buildMakeEntity'
 
+import { territoireSchema } from './project'
+
 const basePeriodeSchema = RTRecord({
   id: String,
   title: String,
@@ -23,7 +25,7 @@ const noteThresholdSchema = RTRecord({
   noteThreshold: Number,
 }).And(
   Partial({
-    territoire: String,
+    territoire: territoireSchema,
   })
 )
 

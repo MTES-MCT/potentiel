@@ -59,7 +59,8 @@ export default function AdminNotifyCandidates({
           <select name="periode" id="periode" {...dataId('periodeSelector')}>
             {appelsOffre
               .find((ao) => ao.id === selectedAppelOffreId)
-              ?.periodes.map((periode) => (
+              ?.periodes.filter((periode) => !!periode.canGenerateCertificate)
+              .map((periode) => (
                 <option
                   key={'appel_' + periode.id}
                   value={periode.id}
@@ -118,7 +119,7 @@ export default function AdminNotifyCandidates({
                 ]),
             {
               title: 'Voir attestation',
-              link: ROUTES.CANDIDATE_CERTIFICATE(project.id),
+              link: ROUTES.CANDIDATE_CERTIFICATE_FOR_ADMINS(project),
               isDownload: true,
             },
           ]}
