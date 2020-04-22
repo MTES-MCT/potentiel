@@ -140,7 +140,7 @@ const getDepartementRegionFromCodePostal = (
   if (codePostal.startsWith('97')) {
     // Outre-mer
     const prefix = codePostal.substr(0, 3)
-    return departementsOutreMer[prefix]
+    return { ...departementsOutreMer[prefix], codePostal }
   }
 
   if (codePostal.startsWith('20')) {

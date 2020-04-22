@@ -80,8 +80,6 @@ const getCodePostalProperties = (properties, value) => {
       }
     )
 
-  console.log(value, 'got me', codePostal, departement, region)
-
   return {
     ...properties,
     codePostalProjet: codePostal,
