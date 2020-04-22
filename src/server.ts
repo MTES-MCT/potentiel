@@ -21,7 +21,7 @@ import {
   ensureLoggedIn,
   logoutMiddleware,
   postProjects,
-  getSendCandidateNotifications,
+  postSendCandidateNotifications,
   getSignupPage,
   postSignup,
   getDemandePage,
@@ -137,11 +137,11 @@ export async function makeServer(port: number = 3000) {
       makeExpressCallback(getNotifyCandidatesPage)
     )
 
-    router.get(
-      ROUTES.ADMIN_NOTIFY_CANDIDATES_ACTION(),
+    router.post(
+      ROUTES.ADMIN_NOTIFY_CANDIDATES_ACTION,
       ensureLoggedIn(),
       ensureRole(['admin', 'dgec']),
-      makeExpressCallback(getSendCandidateNotifications)
+      makeExpressCallback(postSendCandidateNotifications)
     )
 
     // Going to the signup page automatically logs you out

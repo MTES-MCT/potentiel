@@ -32,6 +32,7 @@ interface MakeUseCaseProps {
 interface CallUseCaseProps {
   appelOffreId: AppelOffre['id']
   periodeId: Periode['id']
+  notifiedOn: number
 }
 
 export const ERREUR_AUCUN_PROJET_NON_NOTIFIE =
@@ -47,6 +48,7 @@ export default function makeSendAllCandidateNotifications({
   return async function sendAllCandidateNotifications({
     appelOffreId,
     periodeId,
+    notifiedOn,
   }: CallUseCaseProps): ResultAsync<null> {
     // Find all projects that have not been notified
     // For this appelOffre and periode
@@ -97,7 +99,7 @@ export default function makeSendAllCandidateNotifications({
             await Promise.all(
               projectsForThisEmail.map(async (project) => {
                 // Register the date of notification for each project
-                project.notifiedOn = new Date().getTime()
+                project.notifiedOn = notifiedOn
                 await projectRepo.update(project)
 
                 // Save a candidate notification for each

@@ -1,7 +1,7 @@
 import AdminDashboard from '../components/adminDashboard'
 
 import React from 'react'
-
+import moment from 'moment'
 import pagination from '../../__tests__/fixtures/pagination'
 
 import { Project, AppelOffre, Periode } from '../../entities'
@@ -39,51 +39,74 @@ export default function AdminNotifyCandidates({
             placeholder="Filtrer les projets"
           />
         </div>
-        <div className="form__group">
-          <legend>AO et Période</legend>
-          <select
-            name="appelOffre"
-            id="appelOffre"
-            {...dataId('appelOffreSelector')}
-          >
-            {appelsOffre.map((appelOffre) => (
-              <option
-                key={'appel_' + appelOffre.id}
-                value={appelOffre.id}
-                selected={appelOffre.id === selectedAppelOffreId}
-              >
-                {appelOffre.shortTitle}
-              </option>
-            ))}
-          </select>
-          <select name="periode" id="periode" {...dataId('periodeSelector')}>
-            {appelsOffre
-              .find((ao) => ao.id === selectedAppelOffreId)
-              ?.periodes.filter((periode) => !!periode.canGenerateCertificate)
-              .map((periode) => (
+        <form
+          action={ROUTES.ADMIN_NOTIFY_CANDIDATES_ACTION}
+          method="post"
+          style={{ maxWidth: 'auto', margin: '0 0 15px 0' }}
+        >
+          <div className="form__group">
+            <legend>AO et Période</legend>
+            <select
+              name="appelOffreId"
+              id="appelOffreId"
+              {...dataId('appelOffreSelector')}
+            >
+              {appelsOffre.map((appelOffre) => (
                 <option
-                  key={'appel_' + periode.id}
-                  value={periode.id}
-                  selected={periode.id === selectedPeriodeId}
+                  key={'appel_' + appelOffre.id}
+                  value={appelOffre.id}
+                  selected={appelOffre.id === selectedAppelOffreId}
                 >
-                  {periode.title}
+                  {appelOffre.shortTitle}
                 </option>
               ))}
-          </select>
-        </div>
-        {projects?.length ? (
-          <a
-            href={ROUTES.ADMIN_NOTIFY_CANDIDATES_ACTION({
-              appelOffreId: selectedAppelOffreId,
-              periodeId: selectedPeriodeId,
-            })}
-            className="button"
-          >
-            Envoyer les notifications aux candidats
-          </a>
-        ) : (
-          ''
-        )}
+            </select>
+            <select
+              name="periodeId"
+              id="periodeId"
+              {...dataId('periodeSelector')}
+            >
+              {appelsOffre
+                .find((ao) => ao.id === selectedAppelOffreId)
+                ?.periodes.filter((periode) => !!periode.canGenerateCertificate)
+                .map((periode) => (
+                  <option
+                    key={'appel_' + periode.id}
+                    value={periode.id}
+                    selected={periode.id === selectedPeriodeId}
+                  >
+                    {periode.title}
+                  </option>
+                ))}
+            </select>
+          </div>
+          {projects?.length ? (
+            <div className="form__group">
+              <label htmlFor="notificationDate">
+                Date désignation (format JJ/MM/AAAA)
+              </label>
+              <input
+                type="text"
+                name="notificationDate"
+                id="notificationDate"
+                value={moment().format('DD/MM/YYYY')}
+                {...dataId('modificationRequest-notificationDateField')}
+                style={{ width: 'auto' }}
+              />
+              <button
+                className="button"
+                type="submit"
+                name="submit"
+                id="submit"
+                {...dataId('submit-button')}
+              >
+                Envoyer la notifications aux {projects.length} candidats
+              </button>
+            </div>
+          ) : (
+            ''
+          )}
+        </form>
 
         {success ? (
           <div className="notification success" {...dataId('success-message')}>

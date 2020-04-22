@@ -51,6 +51,10 @@ function updateFieldsInUrl(fields) {
     queryString.set(key, value)
   })
 
+  // We are going to change page so remove error and success messages
+  queryString.delete('error')
+  queryString.delete('success')
+
   window.location.replace(
     window.location.origin +
       window.location.pathname +

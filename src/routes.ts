@@ -85,10 +85,7 @@ class routes {
       )
     )
 
-  static ADMIN_NOTIFY_CANDIDATES_ACTION = withParams<{
-    appelOffreId: string
-    periodeId: string
-  }>('/admin/sendCandidateNotifications')
+  static ADMIN_NOTIFY_CANDIDATES_ACTION = '/admin/sendCandidateNotifications'
   static USER_DASHBOARD = '/mes-projets.html'
   static USER_LIST_PROJECTS = '/mes-projets.html'
   static USER_LIST_DEMANDES = '/mes-demandes.html'
