@@ -3,6 +3,7 @@ import { ProjectRepo, AppelOffreRepo } from '../dataAccess'
 import _ from 'lodash'
 import { Result, ResultAsync, Err, Ok, ErrorResult } from '../types'
 import toNumber from '../helpers/toNumber'
+import getDepartementRegionFromCodePostal from '../helpers/getDepartementRegionFromCodePostal'
 import moment from 'moment'
 
 interface MakeUseCaseProps {
@@ -40,6 +41,53 @@ const makeErrorForLine = (
   errors.push(error)
 
   return Err(errors)
+}
+
+const appendInfo = (obj, key, value) => {
+  if (!obj[key]) {
+    obj[key] = value
+  } else {
+    if (!obj[key].includes(value)) {
+      obj[key] += ' / ' + value
+    }
+  }
+}
+
+const getCodePostalProperties = (properties, value) => {
+  if (!value) return properties
+
+  const codePostalValues = value.split('/').map((item) => item.trim())
+
+  const { codePostal, region, departement } = codePostalValues
+    .map((codePostalValue) => {
+      return getDepartementRegionFromCodePostal(codePostalValue)
+    })
+    .filter((item) => !!item)
+    .reduce(
+      (geoInfo, departementRegion) => {
+        const { codePostal, region, departement } = departementRegion
+
+        appendInfo(geoInfo, 'codePostal', codePostal)
+        appendInfo(geoInfo, 'departement', departement)
+        appendInfo(geoInfo, 'region', region)
+
+        return geoInfo
+      },
+      {
+        codePostal: '',
+        departement: '',
+        region: '',
+      }
+    )
+
+  console.log(value, 'got me', codePostal, departement, region)
+
+  return {
+    ...properties,
+    codePostalProjet: codePostal,
+    departementProjet: departement,
+    regionProjet: region,
+  }
 }
 
 export default function makeImportProjects({
@@ -101,6 +149,10 @@ export default function makeImportProjects({
           ...appelOffre.dataFields.reduce((properties, dataField) => {
             const { field, column, type, value, defaultValue } = dataField
 
+            if (type === 'codePostal') {
+              return getCodePostalProperties(properties, line[column])
+            }
+
             // Parse line depending on column format
             const fieldValue =
               type === 'string'
@@ -120,9 +172,6 @@ export default function makeImportProjects({
                     defaultValue
                 : undefined
 
-            if (field === 'territoireProjet') {
-              console.log('Adding territoire project', fieldValue)
-            }
             return {
               ...properties,
               [field]: fieldValue,
