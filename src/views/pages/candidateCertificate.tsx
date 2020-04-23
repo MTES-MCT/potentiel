@@ -181,6 +181,24 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
       ) : (
         <Text />
       )}
+      {appelOffre.id === 'CRE4 - Innovation' ? (
+        <Text
+          style={{
+            fontSize: 11,
+            marginTop: 10,
+            textAlign: 'justify',
+            marginLeft: 20,
+          }}
+        >
+          - mettre en oeuvre les éléments, dispositifs et systèmes innovants
+          décrits dans le rapport de contribution à l’innovation et le cas
+          échéant dans le mémoire technique sur la synergie avec l’usage
+          agricole, remis lors du dépôt de l’offre
+          <Text>{addFootNote('3.2.4 et 3.2.5')}</Text>.
+        </Text>
+      ) : (
+        <Text />
+      )}
       <Text
         style={{
           fontSize: 11,
@@ -242,8 +260,10 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
         <Text style={{ fontSize: 11, textAlign: 'justify', marginTop: 10 }}>
           Je vous rappelle également que l’installation mise en service doit
           être en tout point conforme à celle décrite dans le dossier de
-          candidature et que toute modification du projet par rapport à l’offre
-          déposée nécessite l’accord de l’autorité administrative.{' '}
+          candidature. Toutefois, la modification de certains éléments de
+          l’offre postérieurement à la désignation des lauréats est possible,
+          selon les conditions et modalités précisées au{' '}
+          {appelOffre.renvoiModification} du cahier des charges.{' '}
           <Text
             style={{
               textDecoration: 'underline',
@@ -251,7 +271,16 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
           >
             Les changements conduisant à une diminution de la notation d’un ou
             plusieurs critères d’évaluations de l’offre, notamment par un bilan
-            carbone moins performant, ne seront pas acceptés.
+            carbone moins performant, ne seront pas acceptés.{' '}
+            {appelOffre.id === 'CRE4 - Innovation' ? (
+              <>
+                Toute demande de modification substantielle de l’innovation sera
+                notamment refusée
+                <Text>{addFootNote('5.4.4')}</Text>.
+              </>
+            ) : (
+              <Text />
+            )}
           </Text>
         </Text>
       ) : (

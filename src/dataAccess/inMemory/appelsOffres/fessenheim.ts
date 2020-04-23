@@ -15,6 +15,8 @@ const fessenheim: AppelOffre = {
   paragrapheAttestationConformite: '6.6',
   paragrapheEngagementIPFP: '3.2.6',
   afficherParagrapheInstallationMiseEnServiceModification: true,
+  renvoiModification: '5.4',
+  affichageParagrapheECS: true,
   renvoiDemandeCompleteRaccordement: '6.1',
   renvoiRetraitDesignationGarantieFinancieres: '5.3 et 6.2',
   renvoiEngagementIPFP: '3.2.6 et 7.1.2',

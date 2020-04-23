@@ -46,6 +46,8 @@ const appelOffreSchema = Record({
   paragrapheAttestationConformite: String,
   paragrapheEngagementIPFP: String,
   afficherParagrapheInstallationMiseEnServiceModification: Boolean,
+  renvoiModification: String,
+  affichageParagrapheECS: Boolean,
   renvoiDemandeCompleteRaccordement: String,
   renvoiRetraitDesignationGarantieFinancieres: String,
   renvoiEngagementIPFP: String,
