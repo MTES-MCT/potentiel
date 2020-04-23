@@ -59,10 +59,21 @@ const postProjects = async (request: HttpRequest) => {
   // await deleteFile(request.file.path)
 
   return importProjectsResult.match({
-    ok: () =>
-      Redirect(ROUTES.ADMIN_LIST_PROJECTS, {
-        success: 'Les candidats ont bien été importés.',
-      }),
+    ok: (result) => {
+      const { appelOffreId, periodeId, hasUnnotified } = result || {}
+      return Redirect(
+        hasUnnotified
+          ? ROUTES.ADMIN_NOTIFY_CANDIDATES()
+          : ROUTES.ADMIN_LIST_PROJECTS,
+        {
+          appelOffreId,
+          periodeId,
+          success:
+            'Les candidats ont bien été importés.' +
+            (hasUnnotified ? ' Vous pouvez dorénavant les notifier.' : ''),
+        }
+      )
+    },
     err: (e: Error) => {
       console.log('Caught an error after importProjects', e)
       return Redirect(ROUTES.IMPORT_PROJECTS, {

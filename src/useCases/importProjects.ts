@@ -1,4 +1,4 @@
-import { Project, makeProject } from '../entities'
+import { Project, makeProject, AppelOffre, Periode } from '../entities'
 import { ProjectRepo, AppelOffreRepo } from '../dataAccess'
 import _ from 'lodash'
 import { Result, ResultAsync, Err, Ok, ErrorResult } from '../types'
@@ -88,13 +88,19 @@ const getCodePostalProperties = (properties, value) => {
   }
 }
 
+interface ImportReturnType {
+  appelOffreId: AppelOffre['id']
+  periodeId: Periode['id']
+  hasUnnotified: boolean
+}
+
 export default function makeImportProjects({
   projectRepo,
   appelOffreRepo,
 }: MakeUseCaseProps) {
   return async function importProjects({
     lines,
-  }: CallUseCaseProps): ResultAsync<null> {
+  }: CallUseCaseProps): ResultAsync<ImportReturnType> {
     // Check if there is at least one line to insert
     if (!lines || !lines.length) {
       console.log('importProjects use-case: missing lines', lines)
@@ -248,6 +254,21 @@ export default function makeImportProjects({
       return ErrorResult(ERREUR_INSERTION)
     }
 
-    return Ok(null)
+    const insertedProjects = projects.unwrap()
+    const unNotifiedProject: Project = insertedProjects.find(
+      (project) => project.notifiedOn === 0
+    )
+
+    if (unNotifiedProject) {
+      return Ok({
+        appelOffreId: unNotifiedProject.appelOffreId,
+        periodeId: unNotifiedProject.periodeId,
+        hasUnnotified: true,
+      })
+    }
+
+    const { appelOffreId, periodeId } = insertedProjects[0]
+
+    return Ok({ appelOffreId, periodeId, hasUnnotified: false })
   }
 }
