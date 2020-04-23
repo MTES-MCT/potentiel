@@ -158,11 +158,11 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
     await _isDbReady
 
     try {
-      const projectInDb = await ProjectModel.findByPk(id, { raw: true })
+      const projectInDb = await ProjectModel.findByPk(id)
 
       if (!projectInDb) return None
 
-      const projectInstance = makeProject(deserialize(projectInDb))
+      const projectInstance = makeProject(deserialize(projectInDb.get()))
 
       if (projectInstance.is_err()) throw projectInstance.unwrap_err()
 
@@ -254,10 +254,11 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
         return []
       }
 
-      const rawProjects = await userInstance.getProjects({
-        where: excludeUnnotified ? { notifiedOn: { [Op.ne]: 0 } } : {},
-        raw: true,
-      })
+      const rawProjects = (
+        await userInstance.getProjects({
+          where: excludeUnnotified ? { notifiedOn: { [Op.ne]: 0 } } : {},
+        })
+      ).map((item) => item.get())
 
       const deserializedItems = mapExceptError(
         rawProjects,
