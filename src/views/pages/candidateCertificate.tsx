@@ -233,7 +233,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
             marginLeft: 20,
           }}
         >
-          - respecter les engagements pris conformément au(x) paragraphe(s){' '}
+          - respecter les engagements pris conformément aux paragraphes{' '}
           {appelOffre.paragrapheEngagementIPFP} concernant l’investissement
           participatif.
         </Text>
@@ -249,7 +249,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
             marginLeft: 20,
           }}
         >
-          - respecter les engagements pris conformément au paragraphe{' '}
+          - respecter les engagements pris conformément aux paragraphes{' '}
           {appelOffre.paragrapheEngagementIPFP} concernant le financement
           participatif.
         </Text>
