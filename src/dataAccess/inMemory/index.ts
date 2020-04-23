@@ -201,7 +201,12 @@ async function findAllProjects(
 
   let items = await Promise.all(
     allItems.filter((item) =>
-      Object.entries(query).every(([key, value]) => item[key] === value)
+      Object.entries(query).every(([key, value]) => {
+        if (key === 'notifiedOn' && value === -1) {
+          return item.notifiedOn > 0
+        }
+        return item[key] === value
+      })
     )
   )
 

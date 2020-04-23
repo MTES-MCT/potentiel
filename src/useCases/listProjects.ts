@@ -21,7 +21,9 @@ export default function makeListProjects({ projectRepo }: MakeUseCaseProps) {
     familleId,
     pagination,
   }: CallUseCaseProps): Promise<PaginatedList<Project>> {
-    const query: any = {}
+    const query: any = {
+      notifiedOn: -1, // This means > 0
+    }
 
     if (appelOffreId) {
       query.appelOffreId = appelOffreId

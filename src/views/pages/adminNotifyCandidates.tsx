@@ -141,7 +141,7 @@ export default function AdminNotifyCandidates({
                   },
                 ]),
             {
-              title: 'Voir attestation',
+              title: 'Aperçu attestation',
               link: ROUTES.CANDIDATE_CERTIFICATE_FOR_ADMINS(project),
               isDownload: true,
             },

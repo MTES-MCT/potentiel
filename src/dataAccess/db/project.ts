@@ -190,7 +190,14 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
 
     try {
       const opts: any = {}
-      if (query) opts.where = query
+      if (query) {
+        opts.where = query
+
+        if (query.notifiedOn === -1) {
+          // Special case which means != 0
+          opts.where.notifiedOn = { [Op.ne]: 0 }
+        }
+      }
 
       if (pagination) {
         const { count, rows } = await ProjectModel.findAndCountAll({

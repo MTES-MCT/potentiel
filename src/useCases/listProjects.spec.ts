@@ -13,16 +13,25 @@ describe('listProjects use-case', () => {
       id: '1',
       appelOffreId: 'appelOffre1',
       periodeId: 'periode1',
+      notifiedOn: 1,
     }),
     makeFakeProject({
       id: '2',
       appelOffreId: 'appelOffre1',
       periodeId: 'periode2',
+      notifiedOn: 1,
     }),
     makeFakeProject({
       id: '3',
       appelOffreId: 'appelOffre2',
       periodeId: 'periode1',
+      notifiedOn: 1,
+    }),
+    makeFakeProject({
+      id: '4',
+      appelOffreId: 'appelOffre3',
+      periodeId: 'periode1',
+      notifiedOn: 0,
     }),
   ]
 
@@ -30,12 +39,15 @@ describe('listProjects use-case', () => {
     await Promise.all(fakeProjects.map(projectRepo.insert))
   })
 
-  it('should return all projects', async () => {
-    expect.assertions(fakeProjects.length + 1)
+  it('should return all projects that have been notified', async () => {
+    const notifiedProjects = fakeProjects.filter(
+      (project) => project.notifiedOn > 0
+    )
+    expect.assertions(notifiedProjects.length + 1)
     const foundProjects = await listProjects({ pagination: defaultPagination })
 
-    expect(foundProjects.items).toHaveLength(fakeProjects.length)
-    fakeProjects.forEach((fakeProject) => {
+    expect(foundProjects.items).toHaveLength(notifiedProjects.length)
+    notifiedProjects.forEach((fakeProject) => {
       expect(foundProjects.items).toContainEqual(
         expect.objectContaining(fakeProject)
       )
