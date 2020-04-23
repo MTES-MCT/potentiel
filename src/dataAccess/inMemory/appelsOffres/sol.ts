@@ -44,10 +44,6 @@ const sol: AppelOffre = {
       title: 'deuxième',
     },
     {
-      id: '2',
-      title: 'deuxième',
-    },
-    {
       id: '3',
       title: 'troisième',
     },

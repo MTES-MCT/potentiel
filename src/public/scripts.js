@@ -104,7 +104,8 @@ function updateFieldsInUrl(fields) {
   const queryString = new URLSearchParams(window.location.search)
 
   Object.entries(fields).forEach(([key, value]) => {
-    queryString.set(key, value)
+    if (value === null) queryString.delete(key)
+    else queryString.set(key, value)
   })
 
   // We are going to change page so remove error and success messages
@@ -130,7 +131,15 @@ function addAOPeriodeFamilleSelectorHandlers() {
     )
     if (selectField) {
       selectField.addEventListener('change', function (event) {
-        updateFieldInUrl(key + 'Id', event.target.value)
+        if (key === 'appelOffre') {
+          updateFieldsInUrl({
+            appelOffreId: event.target.value,
+            periodeId: null,
+            familleId: null,
+          })
+        } else {
+          updateFieldInUrl(key + 'Id', event.target.value)
+        }
       })
     }
   })

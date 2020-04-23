@@ -12,7 +12,7 @@ const getNotifyCandidatesPage = async (request: HttpRequest) => {
 
   const appelsOffre = await appelOffreRepo.findAll()
 
-  const appelOffre = appelsOffre.find(item => item.id === appelOffreId)
+  const appelOffre = appelsOffre.find((item) => item.id === appelOffreId)
 
   if (!appelOffreId || !appelOffre) {
     console.log('Cannot find appelOffreId', appelOffreId)
@@ -25,11 +25,15 @@ const getNotifyCandidatesPage = async (request: HttpRequest) => {
 
   if (
     !periodeId ||
-    !appelOffre.periodes.find(periode => periode.id === periodeId)
+    !appelOffre.periodes.find(
+      (periode) => periode.id === periodeId && periode.canGenerateCertificate
+    )
   ) {
     // No valid période, take the first from this AO
     console.log('Cannot find periodeId', periodeId)
-    periodeId = appelOffre.periodes[0].id
+    periodeId = appelOffre.periodes.filter(
+      (periode) => periode.canGenerateCertificate
+    )[0]?.id
 
     return Redirect(routes.ADMIN_NOTIFY_CANDIDATES({ appelOffreId, periodeId }))
   }
@@ -38,7 +42,7 @@ const getNotifyCandidatesPage = async (request: HttpRequest) => {
 
   const projects = await listUnnotifiedProjects({
     appelOffreId,
-    periodeId
+    periodeId,
   })
 
   // TODO only list projects that are not notified for this AO / periode
@@ -49,7 +53,7 @@ const getNotifyCandidatesPage = async (request: HttpRequest) => {
       projects,
       appelsOffre,
       selectedAppelOffreId: appelOffreId,
-      selectedPeriodeId: periodeId
+      selectedPeriodeId: periodeId,
     })
   )
 }

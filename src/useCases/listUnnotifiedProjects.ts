@@ -11,16 +11,17 @@ interface CallUseCaseProps {
 }
 
 export default function makeListUnnotifiedProjects({
-  projectRepo
+  projectRepo,
 }: MakeUseCaseProps) {
   return async function listUnnotifiedProjects({
     appelOffreId,
-    periodeId
+    periodeId,
   }: CallUseCaseProps): Promise<Array<Project>> {
+    console.log('listUnnotifiedProjets', appelOffreId, periodeId)
     return projectRepo.findAll({
       appelOffreId,
       periodeId,
-      notifiedOn: 0
+      notifiedOn: 0,
     })
   }
 }
