@@ -228,13 +228,13 @@ const projectRepo: ProjectRepo = {
     } else return Promise.resolve(None)
   },
   findAll: findAllProjects,
-  findByUser: (userId: User['id']) => {
+  findByUser: (userId: User['id'], excludeUnnotified?: boolean) => {
     const projectIds: Array<Project['id']> = userProjects[userId] || []
 
     return Promise.resolve(
       projectIds
         .map((projectId) => projectsById[projectId])
-        .filter((project) => project.notifiedOn != 0)
+        .filter((item) => !excludeUnnotified || item.notifiedOn !== 0)
     )
   },
   insert: (project: Project) => {

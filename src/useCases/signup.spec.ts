@@ -79,7 +79,7 @@ describe('signup use-case', () => {
       await Promise.all(
         [
           {
-            id: 'projectAdmissionKey',
+            id: 'phonyProjectAdmissionKey',
             email: sameEmailEverywhere,
             fullName: 'fullname',
           },
@@ -94,7 +94,6 @@ describe('signup use-case', () => {
       .map((item) => item.unwrap())
 
     expect(projectAdmissionKey).toBeDefined()
-    console.log('projectAdmissionKey', projectAdmissionKey)
     if (!projectAdmissionKey) return
 
     // Signup with the same email address
@@ -134,99 +133,99 @@ describe('signup use-case', () => {
     expect(userProjects).toContainEqual(expect.objectContaining(otherProject))
   })
 
-  // it("should return an error if passwords don't match", async () => {
-  //   const phonySignup = makePhonySignup({
-  //     password: 'a',
-  //     confirmPassword: 'b',
-  //   })
-  //   const signupResult = await signup(phonySignup)
+  it("should return an error if passwords don't match", async () => {
+    const phonySignup = makePhonySignup({
+      password: 'a',
+      confirmPassword: 'b',
+    })
+    const signupResult = await signup(phonySignup)
 
-  //   expect(signupResult.is_err())
-  //   if (!signupResult.is_err()) return
+    expect(signupResult.is_err())
+    if (!signupResult.is_err()) return
 
-  //   expect(signupResult.unwrap_err()).toEqual(
-  //     new Error(PASSWORD_MISMATCH_ERROR)
-  //   )
-  // })
+    expect(signupResult.unwrap_err()).toEqual(
+      new Error(PASSWORD_MISMATCH_ERROR)
+    )
+  })
 
-  // it('should return an error if fullName is missing', async () => {
-  //   // Add a projectAdmissionKey
-  //   const [projectAdmissionKey] = (
-  //     await Promise.all(
-  //       [
-  //         {
-  //           id: 'projectAdmissionKey',
-  //           email: 'bla@bli.com',
-  //           fullName: 'fullname',
-  //         },
-  //       ]
-  //         .map(makeProjectAdmissionKey)
-  //         .filter((item) => item.is_ok())
-  //         .map((item) => item.unwrap())
-  //         .map(projectAdmissionKeyRepo.insert)
-  //     )
-  //   )
-  //     .filter((item) => item.is_ok())
-  //     .map((item) => item.unwrap())
+  it('should return an error if fullName is missing', async () => {
+    // Add a projectAdmissionKey
+    const [projectAdmissionKey] = (
+      await Promise.all(
+        [
+          {
+            id: 'projectAdmissionKey',
+            email: 'bla@bli.com',
+            fullName: 'fullname',
+          },
+        ]
+          .map(makeProjectAdmissionKey)
+          .filter((item) => item.is_ok())
+          .map((item) => item.unwrap())
+          .map(projectAdmissionKeyRepo.insert)
+      )
+    )
+      .filter((item) => item.is_ok())
+      .map((item) => item.unwrap())
 
-  //   expect(projectAdmissionKey).toBeDefined()
-  //   if (!projectAdmissionKey) return
+    expect(projectAdmissionKey).toBeDefined()
+    if (!projectAdmissionKey) return
 
-  //   const phonySignup = makePhonySignup({
-  //     fullName: null,
-  //     projectAdmissionKey: projectAdmissionKey.id,
-  //   })
-  //   const signupResult = await signup(phonySignup)
+    const phonySignup = makePhonySignup({
+      fullName: null,
+      projectAdmissionKey: projectAdmissionKey.id,
+    })
+    const signupResult = await signup(phonySignup)
 
-  //   expect(signupResult.is_err())
-  //   if (!signupResult.is_err()) return
+    expect(signupResult.is_err())
+    if (!signupResult.is_err()) return
 
-  //   expect(signupResult.unwrap_err()).toEqual(new Error(USER_INFO_ERROR))
-  // })
+    expect(signupResult.unwrap_err()).toEqual(new Error(USER_INFO_ERROR))
+  })
 
-  // it('should return an error if projectAdmissionKey is missing', async () => {
-  //   const phonySignup = makePhonySignup({ projectAdmissionKey: null })
-  //   const signupResult = await signup(phonySignup)
+  it('should return an error if projectAdmissionKey is missing', async () => {
+    const phonySignup = makePhonySignup({ projectAdmissionKey: null })
+    const signupResult = await signup(phonySignup)
 
-  //   expect(signupResult.is_err())
-  //   if (!signupResult.is_err()) return
+    expect(signupResult.is_err())
+    if (!signupResult.is_err()) return
 
-  //   expect(signupResult.unwrap_err()).toEqual(
-  //     new Error(MISSING_ADMISSION_KEY_ERROR)
-  //   )
-  // })
+    expect(signupResult.unwrap_err()).toEqual(
+      new Error(MISSING_ADMISSION_KEY_ERROR)
+    )
+  })
 
-  // it('should return an error if email is already used', async () => {
-  //   // Add a projectAdmissionKey
-  //   const [projectAdmissionKey] = (
-  //     await Promise.all(
-  //       [
-  //         {
-  //           id: 'projectAdmissionKey',
-  //           email: 'existing@email.com',
-  //           fullName: 'fullname',
-  //         },
-  //       ]
-  //         .map(makeProjectAdmissionKey)
-  //         .filter((item) => item.is_ok())
-  //         .map((item) => item.unwrap())
-  //         .map(projectAdmissionKeyRepo.insert)
-  //     )
-  //   )
-  //     .filter((item) => item.is_ok())
-  //     .map((item) => item.unwrap())
+  it('should return an error if email is already used', async () => {
+    // Add a projectAdmissionKey
+    const [projectAdmissionKey] = (
+      await Promise.all(
+        [
+          {
+            id: 'projectAdmissionKey',
+            email: 'existing@email.com',
+            fullName: 'fullname',
+          },
+        ]
+          .map(makeProjectAdmissionKey)
+          .filter((item) => item.is_ok())
+          .map((item) => item.unwrap())
+          .map(projectAdmissionKeyRepo.insert)
+      )
+    )
+      .filter((item) => item.is_ok())
+      .map((item) => item.unwrap())
 
-  //   expect(projectAdmissionKey).toBeDefined()
-  //   if (!projectAdmissionKey) return
+    expect(projectAdmissionKey).toBeDefined()
+    if (!projectAdmissionKey) return
 
-  //   const phonySignup = makePhonySignup({
-  //     projectAdmissionKey: projectAdmissionKey.id,
-  //   })
-  //   const signupResult = await signup(phonySignup)
+    const phonySignup = makePhonySignup({
+      projectAdmissionKey: projectAdmissionKey.id,
+    })
+    const signupResult = await signup(phonySignup)
 
-  //   expect(signupResult.is_err())
-  //   if (!signupResult.is_err()) return
+    expect(signupResult.is_err())
+    if (!signupResult.is_err()) return
 
-  //   expect(signupResult.unwrap_err()).toEqual(new Error(EMAIL_USED_ERROR))
-  // })
+    expect(signupResult.unwrap_err()).toEqual(new Error(EMAIL_USED_ERROR))
+  })
 })

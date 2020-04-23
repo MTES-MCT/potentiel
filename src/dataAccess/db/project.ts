@@ -237,7 +237,10 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
     }
   }
 
-  async function findByUser(userId: User['id']): Promise<Array<Project>> {
+  async function findByUser(
+    userId: User['id'],
+    excludeUnnotified?: boolean
+  ): Promise<Array<Project>> {
     try {
       const UserModel = sequelize.model('user')
       const userInstance = await UserModel.findByPk(userId)
@@ -249,7 +252,7 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
       }
 
       const rawProjects = await userInstance.getProjects({
-        where: { notifiedOn: { [Op.ne]: 0 } },
+        where: excludeUnnotified ? { notifiedOn: { [Op.ne]: 0 } } : {},
         raw: true,
       })
 

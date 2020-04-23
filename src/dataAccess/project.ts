@@ -8,7 +8,10 @@ export type ProjectRepo = {
     query: Record<string, any>,
     pagination: Pagination
   ): Promise<PaginatedList<Project>>
-  findByUser: (userId: User['id']) => Promise<Array<Project>>
+  findByUser: (
+    userId: User['id'],
+    excludeUnnotified?: boolean
+  ) => Promise<Array<Project>>
   insert: (project: Project) => ResultAsync<Project>
   update: (project: Project) => ResultAsync<Project>
   remove: (projectId: Project['id']) => ResultAsync<void>
