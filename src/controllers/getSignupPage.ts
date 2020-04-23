@@ -1,7 +1,7 @@
 import { Success, Redirect } from '../helpers/responses'
 import { HttpRequest } from '../types'
 import { SignupPage } from '../views/pages'
-import { projectAdmissionKeyRepo } from '../dataAccess'
+import { projectAdmissionKeyRepo, credentialsRepo } from '../dataAccess'
 import routes from '../routes'
 
 const getSignupPage = async (request: HttpRequest) => {
@@ -39,6 +39,19 @@ const getSignupPage = async (request: HttpRequest) => {
     // User is already logged in with a different email
     // Log him out
     logoutUser = true
+  } else {
+    // User is not logged in but account exists with this email, log him ins
+    const existingCredentialsForEmail = await credentialsRepo.findByEmail(
+      projectAdmissionKey.email
+    )
+
+    if (existingCredentialsForEmail.is_some()) {
+      return Redirect(
+        routes.USER_LIST_PROJECTS,
+        {},
+        existingCredentialsForEmail.unwrap().userId
+      )
+    }
   }
 
   // Display the signup page
