@@ -27,8 +27,8 @@ const zni: AppelOffre = {
     {
       field: 'engagementFournitureDePuissanceAlaPointe',
       type: toTypeLiteral('stringEquals'),
-      column: 'Engagement de fourniture de puissance à la pointe (AO ZNI)',
-      value: 'oui',
+      column: 'Engagement de fourniture de puissance à la pointe\n(AO ZNI)',
+      value: 'Oui',
     },
     {
       field: 'territoireProjet',
