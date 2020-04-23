@@ -269,9 +269,15 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
               textDecoration: 'underline',
             }}
           >
-            Les changements conduisant à une diminution de la notation d’un ou
-            plusieurs critères d’évaluations de l’offre, notamment par un bilan
-            carbone moins performant, ne seront pas acceptés.{' '}
+            {appelOffre.affichageParagrapheECS ? (
+              <Text>
+                Les changements conduisant à une diminution de la notation d’un
+                ou plusieurs critères d’évaluations de l’offre, notamment par un
+                bilan carbone moins performant, ne seront pas acceptés.{' '}
+              </Text>
+            ) : (
+              <Text />
+            )}
             {appelOffre.id === 'CRE4 - Innovation' ? (
               <>
                 Toute demande de modification substantielle de l’innovation sera
