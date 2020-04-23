@@ -66,7 +66,7 @@ const ProjectList = ({ projects, projectActions }: Props) => {
               (item) => item.id === project.appelOffreId
             )
             return (
-              <tr key={'project_' + project.id}>
+              <tr key={'project_' + project.id} {...dataId('projectList-item')}>
                 <td valign="top">
                   <div
                     style={{
@@ -182,16 +182,44 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                     'notification ' +
                     (project.classe === 'Classé' ? 'success' : 'error')
                   }
+                  style={{ position: 'relative' }}
                 >
                   <div {...dataId('projectList-item-classe')}>
-                    {project.classe}
+                    {project.classe === 'Classé' ||
+                    !project.motifsElimination ? (
+                      project.classe
+                    ) : (
+                      <a
+                        href="#"
+                        {...dataId('projectList-item-toggleMotifsElimination')}
+                        style={{
+                          textDecoration: 'none',
+                          color: 'var(--theme-dark-text)',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        Eliminé
+                        <svg
+                          className="icon icon-mail"
+                          style={{
+                            width: 10,
+                            verticalAlign: 'bottom',
+                            marginLeft: 5,
+                          }}
+                        >
+                          <use xlinkHref="#expand"></use>
+                        </svg>
+                      </a>
+                    )}
                   </div>
                   <div
                     style={{
                       fontStyle: 'italic',
                       lineHeight: 'normal',
                       fontSize: 12,
+                      display: 'none',
                     }}
+                    className="motif-popover"
                     {...dataId('projectList-item-motifsElimination')}
                   >
                     {project.motifsElimination || ''}

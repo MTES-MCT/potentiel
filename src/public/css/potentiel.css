@@ -41,3 +41,16 @@
 .list--action-trigger:focus ~ .list--action-menu {
   display: block;
 }
+
+.motif-popover {
+  position: absolute;
+  right: 0;
+  top: 40px;
+  background-color: white;
+  border: 1px solid var(--theme-border);
+  border-radius: var(--theme-border-radius);
+  padding: 5px 10px;
+  list-style: none;
+  z-index: 10;
+  width: 400px;
+}

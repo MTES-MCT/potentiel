@@ -1,586 +1,802 @@
-<!doctype html>
+<!DOCTYPE html>
 <html itemscope itemtype="http://schema.org/WebPage" lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Suivi des Projets d'Energies Renouvelables</title>
 
-  <title>Suivi des Projets d'Energies Renouvelables</title>
+    <link href="main.min.css" rel="stylesheet" />
+    <script type="text/javascript">
+      if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
+        document.write(
+          '<script src="https://unpkg.com/@babel/polyfill@7.0.0/dist/polyfill.js"><\/script>'
+        )
+        document.write(
+          '<script src="https://unpkg.com/url-polyfill@1.0.14/url-polyfill.js"><\/script>'
+        )
+      }
+    </script>
 
-  <link href="main.min.css" rel="stylesheet">
-  <script type="text/javascript">
-    if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
-      document.write('<script src="https://unpkg.com/@babel/polyfill@7.0.0/dist/polyfill.js"><\/script>');
-      document.write('<script src="https://unpkg.com/url-polyfill@1.0.14/url-polyfill.js"><\/script>');
-    }
-  </script>
+    <!-- Favicons -->
+    <meta name="theme-color" content="#ffffff" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="images/favicons/apple-icon-180x180.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="images/favicons/favicon-16x16.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="images/favicons/favicon-32x32.png"
+    />
+    <link rel="manifest" href="images/favicons/manifest.json" />
+    <link
+      rel="mask-icon"
+      href="images/favicons/safari-pinned-tab.svg"
+      color="#5bbad5"
+    />
+  </head>
 
-  <!-- Favicons -->
-  <meta name="theme-color" content="#ffffff">
-  <link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-icon-180x180.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16x16.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="images/favicons/favicon-32x32.png">
-  <link rel="manifest" href="images/favicons/manifest.json">
-  <link rel="mask-icon" href="images/favicons/safari-pinned-tab.svg" color="#5bbad5">
-</head>
-
-<body>
-  <svg aria-hidden="true" focusable="false" style="display:none">
-    <defs>
-      <symbol viewBox="0 0 32 32" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round"
-        stroke-miterlimit="1.414" id="copy" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M19.75 8.5V1H6.625L1 6.625V23.5h11.25V31H31V8.5H19.75zM6.625 3.651v2.974H3.651l2.974-2.974zm-3.75 17.974V8.5H8.5V2.875h9.375V8.5l-5.625 5.625v7.5H2.875zm15-10.474v2.974h-2.974l2.974-2.974zm11.25 17.974h-15V16h5.625v-5.625h9.375v18.75z"
-          fill-rule="nonzero" />
-      </symbol>
-
-      <symbol viewBox="0 0 32 32" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round"
-        stroke-miterlimit="1.414" id="envelope" xmlns="http://www.w3.org/2000/svg">
-        <g fill-rule="nonzero">
+  <body>
+    <svg aria-hidden="true" focusable="false" style="display: none;">
+      <defs>
+        <symbol
+          viewBox="0 0 32 32"
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          stroke-linejoin="round"
+          stroke-miterlimit="1.414"
+          id="expand"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <path
-            d="M30.1 5.419c-9.355-.002-18.733-.005-28.1-.005A1.06 1.06 0 0 0 .975 6.439v19.122A1.06 1.06 0 0 0 2 26.586h28a1.061 1.061 0 0 0 1.025-1.025V6.439a1.056 1.056 0 0 0-.925-1.02zM3.025 7.464h25.95v17.072H3.025V7.464z" />
+            style="
+              stroke: none;
+              fill-rule: nonzero;
+              fill: rgb(0%, 0%, 0%);
+              fill-opacity: 1;
+            "
+            d="M 28.265625 6.132812 L 16 18.398438 L 3.734375 6.132812 L 0 9.867188 L 16 25.867188 L 32 9.867188 Z M 28.265625 6.132812 "
+          />
+        </symbol>
+
+        <symbol
+          viewBox="0 0 32 32"
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          stroke-linejoin="round"
+          stroke-miterlimit="1.414"
+          id="copy"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <path
-            d="M30.06 9.513c.933.098 1.382 1.395.393 1.945L16.54 18.287c-.438.188-.479.178-.893 0L1.733 11.458c-1.743-.968-.065-2.254.894-1.842l13.466 6.61 13.562-6.651c.3-.094.312-.062.405-.062z" />
-        </g>
-      </symbol>
+            d="M19.75 8.5V1H6.625L1 6.625V23.5h11.25V31H31V8.5H19.75zM6.625 3.651v2.974H3.651l2.974-2.974zm-3.75 17.974V8.5H8.5V2.875h9.375V8.5l-5.625 5.625v7.5H2.875zm15-10.474v2.974h-2.974l2.974-2.974zm11.25 17.974h-15V16h5.625v-5.625h9.375v18.75z"
+            fill-rule="nonzero"
+          />
+        </symbol>
 
-      <symbol viewBox="0 0 32 32" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round"
-        stroke-miterlimit="1.414" id="facebook" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M28.188 1H3.812A2.821 2.821 0 0 0 1 3.813v24.375A2.821 2.821 0 0 0 3.813 31H16V17.875h-3.75v-3.75H16V12.25a5.635 5.635 0 0 1 5.625-5.625h3.75v3.75h-3.75a1.88 1.88 0 0 0-1.875 1.875v1.875h5.625l-.937 3.75H19.75V31h8.438A2.821 2.821 0 0 0 31 28.187V3.812A2.821 2.821 0 0 0 28.188 1z" />
-      </symbol>
+        <symbol
+          viewBox="0 0 32 32"
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          stroke-linejoin="round"
+          stroke-miterlimit="1.414"
+          id="envelope"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g fill-rule="nonzero">
+            <path
+              d="M30.1 5.419c-9.355-.002-18.733-.005-28.1-.005A1.06 1.06 0 0 0 .975 6.439v19.122A1.06 1.06 0 0 0 2 26.586h28a1.061 1.061 0 0 0 1.025-1.025V6.439a1.056 1.056 0 0 0-.925-1.02zM3.025 7.464h25.95v17.072H3.025V7.464z"
+            />
+            <path
+              d="M30.06 9.513c.933.098 1.382 1.395.393 1.945L16.54 18.287c-.438.188-.479.178-.893 0L1.733 11.458c-1.743-.968-.065-2.254.894-1.842l13.466 6.61 13.562-6.651c.3-.094.312-.062.405-.062z"
+            />
+          </g>
+        </symbol>
 
-      <symbol viewBox="0 0 32 32" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round"
-        stroke-miterlimit="1.414" id="github" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M16 1.371c-8.284 0-15 6.715-15 15 0 6.627 4.298 12.25 10.258 14.233.75.138 1.026-.326 1.026-.722 0-.357-.014-1.54-.021-2.793-4.174.907-5.054-1.77-5.054-1.77-.682-1.733-1.665-2.195-1.665-2.195-1.361-.931.103-.912.103-.912 1.506.106 2.299 1.546 2.299 1.546 1.338 2.293 3.509 1.63 4.365 1.247.134-.969.523-1.631.952-2.006-3.331-.379-6.834-1.666-6.834-7.413 0-1.638.586-2.976 1.546-4.027-.156-.378-.669-1.903.145-3.969 0 0 1.26-.403 4.126 1.537a14.453 14.453 0 0 1 3.755-.505c1.274.006 2.558.173 3.757.505 2.864-1.94 4.121-1.537 4.121-1.537.816 2.066.303 3.591.147 3.969.962 1.05 1.544 2.389 1.544 4.027 0 5.761-3.509 7.029-6.849 7.401.538.466 1.017 1.379 1.017 2.778 0 2.007-.018 3.623-.018 4.117 0 .399.27.867 1.03.72C26.707 28.616 31 22.996 31 16.371c0-8.285-6.716-15-15-15z"
-          fill-rule="nonzero" />
-      </symbol>
+        <symbol
+          viewBox="0 0 32 32"
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          stroke-linejoin="round"
+          stroke-miterlimit="1.414"
+          id="facebook"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M28.188 1H3.812A2.821 2.821 0 0 0 1 3.813v24.375A2.821 2.821 0 0 0 3.813 31H16V17.875h-3.75v-3.75H16V12.25a5.635 5.635 0 0 1 5.625-5.625h3.75v3.75h-3.75a1.88 1.88 0 0 0-1.875 1.875v1.875h5.625l-.937 3.75H19.75V31h8.438A2.821 2.821 0 0 0 31 28.187V3.812A2.821 2.821 0 0 0 28.188 1z"
+          />
+        </symbol>
 
-      <symbol viewBox="0 0 32 32" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round"
-        stroke-miterlimit="1.414" id="googleplus" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M28.188 1H3.812A2.821 2.821 0 0 0 1 3.813v24.375A2.821 2.821 0 0 0 3.813 31h24.375A2.821 2.821 0 0 0 31 28.187V3.812A2.821 2.821 0 0 0 28.187 1zM12.251 23.5a7.493 7.493 0 0 1-7.5-7.5c0-4.148 3.352-7.5 7.5-7.5 2.027 0 3.721.738 5.028 1.963l-2.039 1.958c-.557-.534-1.529-1.154-2.989-1.154-2.56 0-4.653 2.121-4.653 4.734s2.092 4.734 4.653 4.734c2.971 0 4.084-2.133 4.254-3.234h-4.253v-2.573h7.084c.064.375.117.75.117 1.243 0 4.289-2.872 7.33-7.201 7.33l-.001-.001zm15-7.5h-1.875v1.875h-1.875V16h-1.875v-1.875h1.875V12.25h1.875v1.875h1.875V16z"
-          fill-rule="nonzero" />
-      </symbol>
+        <symbol
+          viewBox="0 0 32 32"
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          stroke-linejoin="round"
+          stroke-miterlimit="1.414"
+          id="github"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M16 1.371c-8.284 0-15 6.715-15 15 0 6.627 4.298 12.25 10.258 14.233.75.138 1.026-.326 1.026-.722 0-.357-.014-1.54-.021-2.793-4.174.907-5.054-1.77-5.054-1.77-.682-1.733-1.665-2.195-1.665-2.195-1.361-.931.103-.912.103-.912 1.506.106 2.299 1.546 2.299 1.546 1.338 2.293 3.509 1.63 4.365 1.247.134-.969.523-1.631.952-2.006-3.331-.379-6.834-1.666-6.834-7.413 0-1.638.586-2.976 1.546-4.027-.156-.378-.669-1.903.145-3.969 0 0 1.26-.403 4.126 1.537a14.453 14.453 0 0 1 3.755-.505c1.274.006 2.558.173 3.757.505 2.864-1.94 4.121-1.537 4.121-1.537.816 2.066.303 3.591.147 3.969.962 1.05 1.544 2.389 1.544 4.027 0 5.761-3.509 7.029-6.849 7.401.538.466 1.017 1.379 1.017 2.778 0 2.007-.018 3.623-.018 4.117 0 .399.27.867 1.03.72C26.707 28.616 31 22.996 31 16.371c0-8.285-6.716-15-15-15z"
+            fill-rule="nonzero"
+          />
+        </symbol>
 
-      <symbol viewBox="0 0 32 32" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round"
-        stroke-miterlimit="1.414" id="magnifier" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M30.07 26.529l-7.106-6.043c-.735-.662-1.521-.964-2.155-.936a11.194 11.194 0 0 0 2.691-7.299c0-6.214-5.036-11.25-11.25-11.25S1 6.037 1 12.251s5.036 11.25 11.25 11.25c2.786 0 5.334-1.012 7.299-2.691-.03.634.274 1.42.936 2.155l6.043 7.106c1.035 1.149 2.725 1.247 3.756.216 1.031-1.032.934-2.723-.216-3.756l.002-.002zm-17.82-6.78a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z"
-          fill-rule="nonzero" />
-      </symbol>
+        <symbol
+          viewBox="0 0 32 32"
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          stroke-linejoin="round"
+          stroke-miterlimit="1.414"
+          id="googleplus"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M28.188 1H3.812A2.821 2.821 0 0 0 1 3.813v24.375A2.821 2.821 0 0 0 3.813 31h24.375A2.821 2.821 0 0 0 31 28.187V3.812A2.821 2.821 0 0 0 28.187 1zM12.251 23.5a7.493 7.493 0 0 1-7.5-7.5c0-4.148 3.352-7.5 7.5-7.5 2.027 0 3.721.738 5.028 1.963l-2.039 1.958c-.557-.534-1.529-1.154-2.989-1.154-2.56 0-4.653 2.121-4.653 4.734s2.092 4.734 4.653 4.734c2.971 0 4.084-2.133 4.254-3.234h-4.253v-2.573h7.084c.064.375.117.75.117 1.243 0 4.289-2.872 7.33-7.201 7.33l-.001-.001zm15-7.5h-1.875v1.875h-1.875V16h-1.875v-1.875h1.875V12.25h1.875v1.875h1.875V16z"
+            fill-rule="nonzero"
+          />
+        </symbol>
 
-      <symbol viewBox="0 0 32 32" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round"
-        stroke-miterlimit="1.414" id="round-cross" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M16 .5C24.554.5 31.5 7.446 31.5 16S24.554 31.5 16 31.5.5 24.554.5 16 7.446.5 16 .5zm6.161 11.718a7.233 7.233 0 0 0-2.379-2.379L16 13.621l-3.782-3.782a7.233 7.233 0 0 0-2.379 2.379L13.621 16l-3.782 3.782a7.233 7.233 0 0 0 2.379 2.379L16 18.379l3.782 3.782a7.233 7.233 0 0 0 2.379-2.379L18.379 16l3.782-3.782z"
-          fill-rule="nonzero" />
-      </symbol>
+        <symbol
+          viewBox="0 0 32 32"
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          stroke-linejoin="round"
+          stroke-miterlimit="1.414"
+          id="magnifier"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M30.07 26.529l-7.106-6.043c-.735-.662-1.521-.964-2.155-.936a11.194 11.194 0 0 0 2.691-7.299c0-6.214-5.036-11.25-11.25-11.25S1 6.037 1 12.251s5.036 11.25 11.25 11.25c2.786 0 5.334-1.012 7.299-2.691-.03.634.274 1.42.936 2.155l6.043 7.106c1.035 1.149 2.725 1.247 3.756.216 1.031-1.032.934-2.723-.216-3.756l.002-.002zm-17.82-6.78a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z"
+            fill-rule="nonzero"
+          />
+        </symbol>
 
-      <symbol viewBox="0 0 32 32" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round"
-        stroke-miterlimit="1.414" id="rss" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M28.188 1H3.812A2.821 2.821 0 0 0 1 3.813v24.375A2.821 2.821 0 0 0 3.813 31h24.375A2.821 2.821 0 0 0 31 28.187V3.812A2.821 2.821 0 0 0 28.187 1zM9.175 25.352a2.541 2.541 0 0 1-2.549-2.537 2.553 2.553 0 0 1 2.549-2.543 2.55 2.55 0 0 1 2.549 2.543 2.541 2.541 0 0 1-2.549 2.537zm6.399.023a8.913 8.913 0 0 0-2.62-6.339 8.882 8.882 0 0 0-6.328-2.625v-3.668c6.961 0 12.633 5.666 12.633 12.633h-3.685v-.001zm6.51 0c0-8.526-6.932-15.469-15.451-15.469V6.239c10.546 0 19.13 8.589 19.13 19.137h-3.68v-.001z"
-          fill-rule="nonzero" />
-      </symbol>
+        <symbol
+          viewBox="0 0 32 32"
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          stroke-linejoin="round"
+          stroke-miterlimit="1.414"
+          id="round-cross"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M16 .5C24.554.5 31.5 7.446 31.5 16S24.554 31.5 16 31.5.5 24.554.5 16 7.446.5 16 .5zm6.161 11.718a7.233 7.233 0 0 0-2.379-2.379L16 13.621l-3.782-3.782a7.233 7.233 0 0 0-2.379 2.379L13.621 16l-3.782 3.782a7.233 7.233 0 0 0 2.379 2.379L16 18.379l3.782 3.782a7.233 7.233 0 0 0 2.379-2.379L18.379 16l3.782-3.782z"
+            fill-rule="nonzero"
+          />
+        </symbol>
 
-      <symbol viewBox="0 0 32 32" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round"
-        stroke-miterlimit="1.414" id="twitter" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M31.003 6.695c-1.102.492-2.291.82-3.533.966a6.185 6.185 0 0 0 2.706-3.404 12.404 12.404 0 0 1-3.908 1.495 6.154 6.154 0 0 0-4.495-1.94 6.153 6.153 0 0 0-5.994 7.553A17.468 17.468 0 0 1 3.093 4.932a6.15 6.15 0 0 0-.831 3.094 6.147 6.147 0 0 0 2.736 5.122 6.16 6.16 0 0 1-2.789-.768v.076a6.154 6.154 0 0 0 4.94 6.034 6.149 6.149 0 0 1-2.783.106 6.177 6.177 0 0 0 5.748 4.277 12.347 12.347 0 0 1-9.117 2.549 17.4 17.4 0 0 0 9.44 2.766c11.32 0 17.513-9.381 17.513-17.514 0-.269-.005-.533-.017-.796a12.405 12.405 0 0 0 3.07-3.182v-.001z"
-          fill-rule="nonzero" />
-      </symbol>
-    </defs>
-  </svg>
+        <symbol
+          viewBox="0 0 32 32"
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          stroke-linejoin="round"
+          stroke-miterlimit="1.414"
+          id="rss"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M28.188 1H3.812A2.821 2.821 0 0 0 1 3.813v24.375A2.821 2.821 0 0 0 3.813 31h24.375A2.821 2.821 0 0 0 31 28.187V3.812A2.821 2.821 0 0 0 28.187 1zM9.175 25.352a2.541 2.541 0 0 1-2.549-2.537 2.553 2.553 0 0 1 2.549-2.543 2.55 2.55 0 0 1 2.549 2.543 2.541 2.541 0 0 1-2.549 2.537zm6.399.023a8.913 8.913 0 0 0-2.62-6.339 8.882 8.882 0 0 0-6.328-2.625v-3.668c6.961 0 12.633 5.666 12.633 12.633h-3.685v-.001zm6.51 0c0-8.526-6.932-15.469-15.451-15.469V6.239c10.546 0 19.13 8.589 19.13 19.137h-3.68v-.001z"
+            fill-rule="nonzero"
+          />
+        </symbol>
 
-  <header class="navbar" role="navigation">
-    <div class="navbar__container">
-      <a class="navbar__home" href="index.html">
-        <img class="navbar__logo" src="images/logo-marianne.svg" alt="template.data.gouv.fr" /><span
-          class="navbar__domain">template</span><img src="images/pointdatagouvfr.svg" class="navbar__gouvfr"
-          alt="data.gouv.fr" />
-      </a>
+        <symbol
+          viewBox="0 0 32 32"
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          stroke-linejoin="round"
+          stroke-miterlimit="1.414"
+          id="twitter"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M31.003 6.695c-1.102.492-2.291.82-3.533.966a6.185 6.185 0 0 0 2.706-3.404 12.404 12.404 0 0 1-3.908 1.495 6.154 6.154 0 0 0-4.495-1.94 6.153 6.153 0 0 0-5.994 7.553A17.468 17.468 0 0 1 3.093 4.932a6.15 6.15 0 0 0-.831 3.094 6.147 6.147 0 0 0 2.736 5.122 6.16 6.16 0 0 1-2.789-.768v.076a6.154 6.154 0 0 0 4.94 6.034 6.149 6.149 0 0 1-2.783.106 6.177 6.177 0 0 0 5.748 4.277 12.347 12.347 0 0 1-9.117 2.549 17.4 17.4 0 0 0 9.44 2.766c11.32 0 17.513-9.381 17.513-17.514 0-.269-.005-.533-.017-.796a12.405 12.405 0 0 0 3.07-3.182v-.001z"
+            fill-rule="nonzero"
+          />
+        </symbol>
+      </defs>
+    </svg>
 
-      <nav>
-        <ul class="nav__links">
-          <li class="nav__item"><a href="#typography">Typographie</a></li>
-          <li class="nav__item"><a href="#colors">Couleurs</a></li>
-          <li class="nav__item"><a href="#form">Form</a></li>
-          <li class="nav__item"><a href="#documentation">Documentation</a></li>
-          <li class="nav__item">
-            <div class="dropdown">
-              Langage
-              <div class="dropdown-content">
-                <a href="#">Français 🇫🇷</a>
-                <a href="#">Anglais 🇬🇧</a>
+    <header class="navbar" role="navigation">
+      <div class="navbar__container">
+        <a class="navbar__home" href="index.html">
+          <img
+            class="navbar__logo"
+            src="images/logo-marianne.svg"
+            alt="template.data.gouv.fr"
+          /><span class="navbar__domain">template</span
+          ><img
+            src="images/pointdatagouvfr.svg"
+            class="navbar__gouvfr"
+            alt="data.gouv.fr"
+          />
+        </a>
+
+        <nav>
+          <ul class="nav__links">
+            <li class="nav__item"><a href="#typography">Typographie</a></li>
+            <li class="nav__item"><a href="#colors">Couleurs</a></li>
+            <li class="nav__item"><a href="#form">Form</a></li>
+            <li class="nav__item">
+              <a href="#documentation">Documentation</a>
+            </li>
+            <li class="nav__item">
+              <div class="dropdown">
+                Langage
+                <div class="dropdown-content">
+                  <a href="#">Français 🇫🇷</a>
+                  <a href="#">Anglais 🇬🇧</a>
+                </div>
               </div>
-            </div>
-          </li>
-        </ul>
-      </nav>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="hero" role="banner">
+      <div class="hero__container">
+        <h1>
+          Titre - chili con carne<a
+            href="mailto:info@data.gouv.fr"
+            title="Nous écrire un mail"
+            ><svg class="icon icon-mail">
+              <use xlink:href="#expand"></use></svg
+          ></a>
+        </h1>
+
+        <p>Tagline - libérer les données sans effort et sur data.gouv.fr</p>
+        <p>
+          Code source :
+          <a target="new" href="https://github.com/etalab/template.data.gouv.fr"
+            >github.com/etalab/template.data.gouv.fr</a
+          >
+        </p>
+      </div>
     </div>
-  </header>
 
-  <div class="hero" role="banner">
-    <div class="hero__container">
-      <h1>Titre - chili con carne</h1>
-      <p>Tagline - libérer les données sans effort et sur data.gouv.fr</p>
-      <p>Code source : <a target="new"
-          href="https://github.com/etalab/template.data.gouv.fr">github.com/etalab/template.data.gouv.fr</a></p>
-    </div>
-  </div>
+    <main role="main">
+      <section class="section section-grey">
+        <div class="container">
+          <h2 class="section__title">Titre de section</h2>
+          <p class="section__subtitle">Sous-titre de section</p>
 
-  <main role="main">
-    <section class="section section-grey">
-      <div class="container">
-        <h2 class="section__title">Titre de section</h2>
-        <p class="section__subtitle">Sous-titre de section</p>
-
-        <div class="row">
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua.</p>
-          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-          </p>
-          <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-            laborum.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section-dark">
-      <div class="container">
-        <h2 class="section__title">Titre de section</h2>
-        <p class="section__subtitle">Sous-titre de section</p>
-
-        <div class="row">
-          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-          </p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua.</p>
-          <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-            laborum.</p>
-          <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section-color">
-      <div class="container">
-        <h2 class="section__title">Titre de section</h2>
-        <p class="section__subtitle">Sous-titre de section</p>
-
-        <div class="row">
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua.</p>
-          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-          </p>
-          <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-            laborum.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section-white" id="typography">
-      <div class="container">
-        <h1>Typography</h1>
-        <p class="lead-text">Ceci n’est pas un paragraphe introductif</p>
-        <p>Nous utilisons les polices <a>Source Sans Pro</a> pour le corps de texte et <a>Evolventa</a> pour les titres
-          sur <a>data.gouv.fr</a> et sites parents.</p>
-        <div class="typography__sample">
-          <h1>Heading H1</h1><span class="typography__caption label">2em</span>
-        </div>
-        <div class="typography__sample">
-          <h2>Heading H2</h2><span class="typography__caption label">1.75em</span>
-        </div>
-        <div class="typography__sample">
-          <h3>Heading H3</h3><span class="typography__caption label">1.5em</span>
-        </div>
-        <div class="typography__sample">
-          <h4>Heading H4</h4><span class="typography__caption label">1.25em</span>
-        </div>
-        <div class="typography__sample">
-          <h5>Heading H5</h5><span class="typography__caption label">1.125em</span>
-        </div>
-        <div class="typography__sample">
-          <h6>Heading H6</h6><span class="typography__caption label">1em</span>
-        </div>
-        <div class="typography__sample"><a>Lien</a><span class="typography__caption label">1em</span></div>
-        <div class="typography__sample">
-          <div class="text-quote">
-            <p>The last Metroid is in captivity. The galaxy is at peace…</p>
+          <div class="row">
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </p>
+            <p>
+              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat.
+            </p>
+            <p>
+              Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+              officia deserunt mollit anim id est laborum.
+            </p>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="section section-grey" id="colors">
-      <div class="container">
-        <h1>Couleurs</h1>
-        <div class="panel">
-          <div class="color-panel primary">
-            <div class="color-panel__block">
-              <div class="color-panel__sample primary-medium">
-              </div>
-              <div class="color-panel__description">
-                <div class="color-panel__name">Medium</div>
-                #0053b3
-              </div>
-            </div>
-            <div class="color-panel__block">
-              <div class="color-panel__sample primary-light">
-              </div>
-              <div class="color-panel__description">
-                <div class="color-panel__name">Light</div>
-                #006be6
-              </div>
-            </div>
-            <div class="color-panel__block">
-              <div class="color-panel__sample primary-dark">
-              </div>
-              <div class="color-panel__description">
-                <div class="color-panel__name">Dark</div>
-                #003b80
-              </div>
-            </div>
-            <div class="color-panel__block">
-              <div class="color-panel__sample primary-darker">
-              </div>
-              <div class="color-panel__description">
-                <div class="color-panel__name">Darker</div>
-                #00234d
-              </div>
+      <section class="section section-dark">
+        <div class="container">
+          <h2 class="section__title">Titre de section</h2>
+          <p class="section__subtitle">Sous-titre de section</p>
+
+          <div class="row">
+            <p>
+              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat.
+            </p>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </p>
+            <p>
+              Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+              officia deserunt mollit anim id est laborum.
+            </p>
+            <p>
+              Duis aute irure dolor in reprehenderit in voluptate velit esse
+              cillum dolore eu fugiat nulla pariatur.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-color">
+        <div class="container">
+          <h2 class="section__title">Titre de section</h2>
+          <p class="section__subtitle">Sous-titre de section</p>
+
+          <div class="row">
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </p>
+            <p>
+              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat.
+            </p>
+            <p>
+              Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+              officia deserunt mollit anim id est laborum.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-white" id="typography">
+        <div class="container">
+          <h1>Typography</h1>
+          <p class="lead-text">Ceci n’est pas un paragraphe introductif</p>
+          <p>
+            Nous utilisons les polices <a>Source Sans Pro</a> pour le corps de
+            texte et <a>Evolventa</a> pour les titres sur <a>data.gouv.fr</a> et
+            sites parents.
+          </p>
+          <div class="typography__sample">
+            <h1>Heading H1</h1>
+            <span class="typography__caption label">2em</span>
+          </div>
+          <div class="typography__sample">
+            <h2>Heading H2</h2>
+            <span class="typography__caption label">1.75em</span>
+          </div>
+          <div class="typography__sample">
+            <h3>Heading H3</h3>
+            <span class="typography__caption label">1.5em</span>
+          </div>
+          <div class="typography__sample">
+            <h4>Heading H4</h4>
+            <span class="typography__caption label">1.25em</span>
+          </div>
+          <div class="typography__sample">
+            <h5>Heading H5</h5>
+            <span class="typography__caption label">1.125em</span>
+          </div>
+          <div class="typography__sample">
+            <h6>Heading H6</h6>
+            <span class="typography__caption label">1em</span>
+          </div>
+          <div class="typography__sample">
+            <a>Lien</a><span class="typography__caption label">1em</span>
+          </div>
+          <div class="typography__sample">
+            <div class="text-quote">
+              <p>The last Metroid is in captivity. The galaxy is at peace…</p>
             </div>
           </div>
+        </div>
+      </section>
 
-          <div class="color-panel grayscale">
-            <div class="color-panel__block">
-              <div class="color-panel__sample white">
-              </div>
-              <div class="color-panel__description">
-                <div class="color-panel__name">White</div>
-                #ffffff
-              </div>
-            </div>
-            <div class="color-panel__block">
-              <div class="color-panel__sample lighter-grey">
-              </div>
-              <div class="color-panel__description">
-                <div class="color-panel__name">Lighter grey</div>
-                #ebeff3
-              </div>
-            </div>
-            <div class="color-panel__block">
-              <div class="color-panel__sample light-grey">
-              </div>
-              <div class="color-panel__description">
-                <div class="color-panel__name">Light grey</div>
-                #c9d3df
-              </div>
-            </div>
-            <div class="color-panel__block">
-              <div class="color-panel__sample grey">
-              </div>
-              <div class="color-panel__description">
-                <div class="color-panel__name">Grey</div>
-                #adb9c9
-              </div>
-            </div>
-            <div class="color-panel__block">
-              <div class="color-panel__sample dark-grey">
-              </div>
-              <div class="color-panel__description">
-                <div class="color-panel__name">Dark grey</div>
-                #8393a7
-              </div>
-            </div>
-            <div class="color-panel__block">
-              <div class="color-panel__sample darker-grey">
-              </div>
-              <div class="color-panel__description">
-                <div class="color-panel__name">Darker grey</div>
-                #53657d
-              </div>
-            </div>
-            <div class="color-panel__block">
-              <div class="color-panel__sample almost-black">
-              </div>
-              <div class="color-panel__description">
-                <div class="color-panel__name">Almost black</div>
-                #26353f
-              </div>
-            </div>
-            <div class="color-panel__block">
-              <div class="color-panel__sample black">
-              </div>
-              <div class="color-panel__description">
-                <div class="color-panel__name">Black</div>
-                #1c1c1c
-              </div>
-            </div>
-          </div>
-
-          <div class="color-panel notifications">
-            <div class="color-panel__block">
-              <div class="color-panel__sample-double">
-                <div class="color-panel__sample green">
-                </div>
-                <div class="color-panel__sample light-green">
-                </div>
-              </div>
-              <div class="color-panel__description-double">
+      <section class="section section-grey" id="colors">
+        <div class="container">
+          <h1>Couleurs</h1>
+          <div class="panel">
+            <div class="color-panel primary">
+              <div class="color-panel__block">
+                <div class="color-panel__sample primary-medium"></div>
                 <div class="color-panel__description">
-                  <div class="color-panel__name">Green</div>
-                  #03bd5b
-                </div>
-                <div class="color-panel__description">
-                  <div class="color-panel__name">Light green</div>
-                  #daf5e7
-                </div>
-              </div>
-            </div>
-            <div class="color-panel__block">
-              <div class="color-panel__sample-double">
-                <div class="color-panel__sample orange">
-                </div>
-                <div class="color-panel__sample light-orange">
-                </div>
-              </div>
-              <div class="color-panel__description-double">
-                <div class="color-panel__description">
-                  <div class="color-panel__name">Orange</div>
-                  #ff9947
-                </div>
-                <div class="color-panel__description">
-                  <div class="color-panel__name">Light orange</div>
-                  #fff0e4
-                </div>
-              </div>
-            </div>
-            <div class="color-panel__block">
-              <div class="color-panel__sample-double">
-                <div class="color-panel__sample red">
-                </div>
-                <div class="color-panel__sample light-red">
-                </div>
-              </div>
-              <div class="color-panel__description-double">
-                <div class="color-panel__description">
-                  <div class="color-panel__name">Red</div>
-                  #d63626
-                </div>
-                <div class="color-panel__description">
-                  <div class="color-panel__name">Light red</div>
-                  #efaca6
-                </div>
-              </div>
-            </div>
-            <div class="color-panel__block">
-              <div class="color-panel__sample-double">
-                <div class="color-panel__sample blue">
-                </div>
-                <div class="color-panel__sample light-blue">
-                </div>
-              </div>
-              <div class="color-panel__description-double">
-                <div class="color-panel__description">
-                  <div class="color-panel__name">Blue</div>
+                  <div class="color-panel__name">Medium</div>
                   #0053b3
                 </div>
+              </div>
+              <div class="color-panel__block">
+                <div class="color-panel__sample primary-light"></div>
                 <div class="color-panel__description">
-                  <div class="color-panel__name">Lighter blue</div>
-                  #b4e1fa
+                  <div class="color-panel__name">Light</div>
+                  #006be6
+                </div>
+              </div>
+              <div class="color-panel__block">
+                <div class="color-panel__sample primary-dark"></div>
+                <div class="color-panel__description">
+                  <div class="color-panel__name">Dark</div>
+                  #003b80
+                </div>
+              </div>
+              <div class="color-panel__block">
+                <div class="color-panel__sample primary-darker"></div>
+                <div class="color-panel__description">
+                  <div class="color-panel__name">Darker</div>
+                  #00234d
+                </div>
+              </div>
+            </div>
+
+            <div class="color-panel grayscale">
+              <div class="color-panel__block">
+                <div class="color-panel__sample white"></div>
+                <div class="color-panel__description">
+                  <div class="color-panel__name">White</div>
+                  #ffffff
+                </div>
+              </div>
+              <div class="color-panel__block">
+                <div class="color-panel__sample lighter-grey"></div>
+                <div class="color-panel__description">
+                  <div class="color-panel__name">Lighter grey</div>
+                  #ebeff3
+                </div>
+              </div>
+              <div class="color-panel__block">
+                <div class="color-panel__sample light-grey"></div>
+                <div class="color-panel__description">
+                  <div class="color-panel__name">Light grey</div>
+                  #c9d3df
+                </div>
+              </div>
+              <div class="color-panel__block">
+                <div class="color-panel__sample grey"></div>
+                <div class="color-panel__description">
+                  <div class="color-panel__name">Grey</div>
+                  #adb9c9
+                </div>
+              </div>
+              <div class="color-panel__block">
+                <div class="color-panel__sample dark-grey"></div>
+                <div class="color-panel__description">
+                  <div class="color-panel__name">Dark grey</div>
+                  #8393a7
+                </div>
+              </div>
+              <div class="color-panel__block">
+                <div class="color-panel__sample darker-grey"></div>
+                <div class="color-panel__description">
+                  <div class="color-panel__name">Darker grey</div>
+                  #53657d
+                </div>
+              </div>
+              <div class="color-panel__block">
+                <div class="color-panel__sample almost-black"></div>
+                <div class="color-panel__description">
+                  <div class="color-panel__name">Almost black</div>
+                  #26353f
+                </div>
+              </div>
+              <div class="color-panel__block">
+                <div class="color-panel__sample black"></div>
+                <div class="color-panel__description">
+                  <div class="color-panel__name">Black</div>
+                  #1c1c1c
+                </div>
+              </div>
+            </div>
+
+            <div class="color-panel notifications">
+              <div class="color-panel__block">
+                <div class="color-panel__sample-double">
+                  <div class="color-panel__sample green"></div>
+                  <div class="color-panel__sample light-green"></div>
+                </div>
+                <div class="color-panel__description-double">
+                  <div class="color-panel__description">
+                    <div class="color-panel__name">Green</div>
+                    #03bd5b
+                  </div>
+                  <div class="color-panel__description">
+                    <div class="color-panel__name">Light green</div>
+                    #daf5e7
+                  </div>
+                </div>
+              </div>
+              <div class="color-panel__block">
+                <div class="color-panel__sample-double">
+                  <div class="color-panel__sample orange"></div>
+                  <div class="color-panel__sample light-orange"></div>
+                </div>
+                <div class="color-panel__description-double">
+                  <div class="color-panel__description">
+                    <div class="color-panel__name">Orange</div>
+                    #ff9947
+                  </div>
+                  <div class="color-panel__description">
+                    <div class="color-panel__name">Light orange</div>
+                    #fff0e4
+                  </div>
+                </div>
+              </div>
+              <div class="color-panel__block">
+                <div class="color-panel__sample-double">
+                  <div class="color-panel__sample red"></div>
+                  <div class="color-panel__sample light-red"></div>
+                </div>
+                <div class="color-panel__description-double">
+                  <div class="color-panel__description">
+                    <div class="color-panel__name">Red</div>
+                    #d63626
+                  </div>
+                  <div class="color-panel__description">
+                    <div class="color-panel__name">Light red</div>
+                    #efaca6
+                  </div>
+                </div>
+              </div>
+              <div class="color-panel__block">
+                <div class="color-panel__sample-double">
+                  <div class="color-panel__sample blue"></div>
+                  <div class="color-panel__sample light-blue"></div>
+                </div>
+                <div class="color-panel__description-double">
+                  <div class="color-panel__description">
+                    <div class="color-panel__name">Blue</div>
+                    #0053b3
+                  </div>
+                  <div class="color-panel__description">
+                    <div class="color-panel__name">Lighter blue</div>
+                    #b4e1fa
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="section section-white" id="form">
-      <div class="container">
-        <form action="#" method="post" name="form" target="_blank" novalidate>
-          <h1>Form</h1>
-          <div class="form__group">
-            <label for="email">Pour être informé des nouveautés, inscrivez-vous à notre newsletter :</label>
-            <input type="email" value="" name="email" id="email">
-          </div>
+      <section class="section section-white" id="form">
+        <div class="container">
+          <form action="#" method="post" name="form" target="_blank" novalidate>
+            <h1>Form</h1>
+            <div class="form__group">
+              <label for="email"
+                >Pour être informé des nouveautés, inscrivez-vous à notre
+                newsletter :</label
+              >
+              <input type="email" value="" name="email" id="email" />
+            </div>
 
-          <div class="form__group">
-            <label class="required" for="textarea">Renseignez votre meilleure recette de lasagnes :</label>
-            <textarea name="textarea" id="textarea"></textarea>
-          </div>
+            <div class="form__group">
+              <label class="required" for="textarea"
+                >Renseignez votre meilleure recette de lasagnes :</label
+              >
+              <textarea name="textarea" id="textarea"></textarea>
+            </div>
 
-          <div class="form__group">
-            <label for="search">Tapez un mot-clef :</label>
-            <div class="search__group">
-              <input type="search" class="" value="" name="search" id="search">
-              <button class="overlay-button" aria-label="Recherche">
-                <svg class="icon icon-search">
-                  <use xlink:href="#magnifier"></use>
-                </svg>
-              </button>
+            <div class="form__group">
+              <label for="search">Tapez un mot-clef :</label>
+              <div class="search__group">
+                <input
+                  type="search"
+                  class=""
+                  value=""
+                  name="search"
+                  id="search"
+                />
+                <button class="overlay-button" aria-label="Recherche">
+                  <svg class="icon icon-search">
+                    <use xlink:href="#magnifier"></use>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="form__group">
+              <fieldset>
+                <legend>Radio</legend>
+                <input
+                  type="radio"
+                  name="radio"
+                  id="radio-pup"
+                  value="1"
+                /><label for="radio-pup" class="label-inline">Chiots</label>
+                <input
+                  type="radio"
+                  name="radio"
+                  id="radio-kitten"
+                  value="0"
+                /><label for="radio-kitten" class="label-inline">Chatons</label>
+              </fieldset>
+            </div>
+
+            <div class="form__group">
+              <fieldset>
+                <legend>Checkbox</legend>
+                <input
+                  type="checkbox"
+                  name="checkbox"
+                  id="checkbox-fraises"
+                  value="fraise"
+                /><label for="checkbox-fraises" class="label-inline"
+                  >Fraises</label
+                >
+                <input
+                  type="checkbox"
+                  name="checkbox"
+                  id="checkbox-bananes"
+                  value="bananes"
+                /><label for="checkbox-bananes" class="label-inline"
+                  >Bananes</label
+                >
+                <input
+                  type="checkbox"
+                  name="checkbox"
+                  id="checkbox-ananas"
+                  value="fraise"
+                /><label for="checkbox-ananas" class="label-inline"
+                  >Ananas</label
+                >
+              </fieldset>
+            </div>
+
+            <div class="form__group">
+              <fieldset>
+                <legend>Switch</legend>
+                <label class="switch">
+                  <input
+                    type="checkbox"
+                    name="show-chat"
+                    id="show-chat"
+                    value="show-chat"
+                  />
+                  <span class="slider"></span>
+                  Afficher les chats mignons
+                </label>
+                <label class="switch">
+                  <input
+                    type="checkbox"
+                    name="disabled-switch"
+                    id="disabled-switch"
+                    value="disabled-switch"
+                    disabled
+                  />
+                  <span class="slider"></span>
+                  Switch désactivé
+                </label>
+              </fieldset>
+            </div>
+
+            <div class="form__group">
+              <fieldset>
+                <legend>Switch avec texte</legend>
+                <p>Mon animal préféré :</p>
+                <label class="switch-text">
+                  <input
+                    type="checkbox"
+                    name="prefere-chat"
+                    id="prefere-chat"
+                    value="prefere-chat"
+                  />
+                  <span class="slider">
+                    <span class="first-option">Lapin</span>
+                    <span class="second-option">&nbsp;Chat</span>
+                  </span>
+                  C'est le plus beau
+                </label>
+                <label class="switch-text">
+                  <input
+                    type="checkbox"
+                    name="prefere-chat"
+                    id="prefere-chien"
+                    value="prefere-chien"
+                    disabled
+                    checked
+                  />
+                  <span class="slider">
+                    <span class="first-option">Chien</span>
+                    <span class="second-option">&nbsp;Chat</span>
+                  </span>
+                  Switch désactivé
+                </label>
+              </fieldset>
+            </div>
+
+            <div class="form__group">
+              <label for="select">Select</label>
+              <select id="select">
+                <option>Choisissez...</option>
+                <option>Frites</option>
+                <option>Salade</option>
+              </select>
+            </div>
+
+            <button class="button" type="submit" name="subscribe" id="submit">
+              Valider
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <section class="section section-grey">
+        <div class="container">
+          <h1>Buttons</h1>
+          <div class="panel">
+            <h2 class="subtitle">Full</h2>
+            <div class="form__group">
+              <button class="button large">Valider</button>
+              <button class="button large warning-light">Modifier</button>
+              <button class="button large warning">Annuler</button>
+              <button class="button large secondary">¯\_(ツ)_/¯</button>
+            </div>
+            <div class="form__group">
+              <button class="button">Valider</button>
+              <button class="button warning-light">Modifier</button>
+              <button class="button warning">Annuler</button>
+              <button class="button secondary">¯\_(ツ)_/¯</button>
+            </div>
+            <div class="form__group">
+              <button class="button small">Valider</button>
+              <button class="button small warning-light">Modifier</button>
+              <button class="button small warning">Annuler</button>
+              <button class="button small secondary">¯\_(ツ)_/¯</button>
+            </div>
+            <h2 class="subtitle">Outlined</h2>
+            <div class="form__group dark-background">
+              <button class="button-outline large">Valider</button>
+              <button class="button-outline">Annuler</button>
+              <button class="button-outline small">¯\_(ツ)_/¯</button>
+            </div>
+            <div class="form__group light-background">
+              <button class="button-outline large primary">Valider</button>
+              <button class="button-outline primary">Annuler</button>
+              <button class="button-outline small primary">¯\_(ツ)_/¯</button>
+            </div>
+            <div class="form__group light-background">
+              <button class="button-outline large warning">Valider</button>
+              <button class="button-outline warning">Annuler</button>
+              <button class="button-outline small warning">¯\_(ツ)_/¯</button>
+            </div>
+            <div class="form__group light-background">
+              <button class="button-outline large secondary">Valider</button>
+              <button class="button-outline secondary">Annuler</button>
+              <button class="button-outline small secondary">¯\_(ツ)_/¯</button>
             </div>
           </div>
-
-          <div class="form__group">
-            <fieldset>
-              <legend>Radio</legend>
-              <input type="radio" name="radio" id="radio-pup" value="1" /><label for="radio-pup"
-                class="label-inline">Chiots</label>
-              <input type="radio" name="radio" id="radio-kitten" value="0" /><label for="radio-kitten"
-                class="label-inline">Chatons</label>
-            </fieldset>
-          </div>
-
-          <div class="form__group">
-            <fieldset>
-              <legend>Checkbox</legend>
-              <input type="checkbox" name="checkbox" id="checkbox-fraises" value="fraise"><label for="checkbox-fraises"
-                class="label-inline">Fraises</label>
-              <input type="checkbox" name="checkbox" id="checkbox-bananes" value="bananes"><label for="checkbox-bananes"
-                class="label-inline">Bananes</label>
-              <input type="checkbox" name="checkbox" id="checkbox-ananas" value="fraise"><label for="checkbox-ananas"
-                class="label-inline">Ananas</label>
-            </fieldset>
-          </div>
-
-          <div class="form__group">
-            <fieldset>
-              <legend>Switch</legend>
-              <label class="switch">
-                <input type="checkbox" name="show-chat" id="show-chat" value="show-chat">
-                <span class="slider"></span>
-                Afficher les chats mignons
-              </label>
-              <label class="switch">
-                <input type="checkbox" name="disabled-switch" id="disabled-switch" value="disabled-switch" disabled>
-                <span class="slider"></span>
-                Switch désactivé
-              </label>
-            </fieldset>
-          </div>
-
-          <div class="form__group">
-            <fieldset>
-              <legend>Switch avec texte</legend>
-              <p>Mon animal préféré : </p>
-              <label class="switch-text">
-                <input type="checkbox" name="prefere-chat" id="prefere-chat" value="prefere-chat">
-                <span class="slider">
-                  <span class="first-option">Lapin</span>
-                  <span class="second-option">&nbsp;Chat</span>
-                </span>
-                C'est le plus beau
-              </label>
-              <label class="switch-text">
-                <input type="checkbox" name="prefere-chat" id="prefere-chien" value="prefere-chien" disabled checked>
-                <span class="slider">
-                  <span class="first-option">Chien</span>
-                  <span class="second-option">&nbsp;Chat</span>
-                </span>
-                Switch désactivé
-              </label>
-            </fieldset>
-          </div>
-
-
-          <div class="form__group">
-            <label for="select">Select</label>
-            <select id="select">
-              <option>Choisissez...</option>
-              <option>Frites</option>
-              <option>Salade</option>
-            </select>
-          </div>
-
-          <button class="button" type="submit" name="subscribe" id="submit">Valider</button>
-        </form>
-      </div>
-    </section>
-
-    <section class="section section-grey">
-      <div class="container">
-        <h1>Buttons</h1>
-        <div class="panel">
-          <h2 class="subtitle">Full</h2>
-          <div class="form__group">
-            <button class="button large">Valider</button>
-            <button class="button large warning-light">Modifier</button>
-            <button class="button large warning">Annuler</button>
-            <button class="button large secondary">¯\_(ツ)_/¯</button>
-          </div>
-          <div class="form__group">
-            <button class="button">Valider</button>
-            <button class="button warning-light">Modifier</button>
-            <button class="button warning">Annuler</button>
-            <button class="button secondary">¯\_(ツ)_/¯</button>
-          </div>
-          <div class="form__group">
-            <button class="button small">Valider</button>
-            <button class="button small warning-light">Modifier</button>
-            <button class="button small warning">Annuler</button>
-            <button class="button small secondary">¯\_(ツ)_/¯</button>
-          </div>
-          <h2 class="subtitle">Outlined</h2>
-          <div class="form__group dark-background">
-            <button class="button-outline large">Valider</button>
-            <button class="button-outline">Annuler</button>
-            <button class="button-outline small">¯\_(ツ)_/¯</button>
-          </div>
-          <div class="form__group light-background">
-            <button class="button-outline large primary">Valider</button>
-            <button class="button-outline primary">Annuler</button>
-            <button class="button-outline small primary">¯\_(ツ)_/¯</button>
-          </div>
-          <div class="form__group light-background">
-            <button class="button-outline large warning">Valider</button>
-            <button class="button-outline warning">Annuler</button>
-            <button class="button-outline small warning">¯\_(ツ)_/¯</button>
-          </div>
-          <div class="form__group light-background">
-            <button class="button-outline large secondary">Valider</button>
-            <button class="button-outline secondary">Annuler</button>
-            <button class="button-outline small secondary">¯\_(ツ)_/¯</button>
-          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <div id="documentation">
-      <div class="container">
-        <div class="documentation">
-          <nav class="side-pane" role="navigation">
-            <ul class="side-pane__menu">
-              <li class="side-pane__title">
-                <h3>Lorem Ipsum</h3>
-              </li>
-              <li class="side-pane__dropdown unfolded">
-                <a>Menu #1</a>
-                <ul class="side-pane__submenu">
-                  <li><a href="#">This is a sub-menu #1</a></li>
-                  <li><a href="#">Sub-menu #2</a></li>
-                  <li class="active"><a href="#">Another sub-menu #3</a></li>
-                  <li><a href="#">Sub-menu #4</a></li>
-                </ul>
-              </li>
-              <li><a>Menu #2</a></li>
-              <li><a>Menu #3</a></li>
-            </ul>
-          </nav>
-          <div class="main-pane">
-            <div class="richtext">
-              <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                consequat.</p>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua.</p>
-              <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-                laborum.</p>
-              <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-              </p>
-              <pre><code>pre {
+      <div id="documentation">
+        <div class="container">
+          <div class="documentation">
+            <nav class="side-pane" role="navigation">
+              <ul class="side-pane__menu">
+                <li class="side-pane__title">
+                  <h3>Lorem Ipsum</h3>
+                </li>
+                <li class="side-pane__dropdown unfolded">
+                  <a>Menu #1</a>
+                  <ul class="side-pane__submenu">
+                    <li><a href="#">This is a sub-menu #1</a></li>
+                    <li><a href="#">Sub-menu #2</a></li>
+                    <li class="active"><a href="#">Another sub-menu #3</a></li>
+                    <li><a href="#">Sub-menu #4</a></li>
+                  </ul>
+                </li>
+                <li><a>Menu #2</a></li>
+                <li><a>Menu #3</a></li>
+              </ul>
+            </nav>
+            <div class="main-pane">
+              <div class="richtext">
+                <p>
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat.
+                </p>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                </p>
+                <p>
+                  Excepteur sint occaecat cupidatat non proident, sunt in culpa
+                  qui officia deserunt mollit anim id est laborum.
+                </p>
+                <p>
+                  Duis aute irure dolor in reprehenderit in voluptate velit esse
+                  cillum dolore eu fugiat nulla pariatur.
+                </p>
+                <pre><code>pre {
       display: block;
       margin-top: 1em;
     }
@@ -595,489 +811,641 @@
       white-space: normal;
       display: inline-block;
     }</code></pre>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <section class="section section-grey">
-      <div class="container">
-        <form action="#" method="post" name="form" target="_blank" novalidate>
-          <h1>Newsletter</h1>
-          <div class="form__group">
-            <label for="form-email">Pour être informé des nouveautés, inscrivez-vous à notre newsletter :</label>
-            <div class="input__group">
-              <input type="email" value="" name="email" id="form-email">
-              <button class="button" type="submit" name="subscribe" id="form-submit">Valider</button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </section>
-
-    <section class="section section-white">
-      <div class="container container-small">
-        <article class="article">
-          <h1>Article</h1>
-
-          <p>Qui offenderit rapto, <a href="#">terribilem incessu</a>. The voodoo sacerdos suscitat mortuos comedere
-            carnem. </p>
-
-          <h2>Zombie ipsum</h2>
-
-          <p>
-            Zombie ipsum reversus ab viral inferno, nam rick grimes malum cerebro. De carne lumbering animata corpora
-            quaeritis. Summus brains sit​​, morbo vel maleficia? De apocalypsi gorger omero undead survivor dictum
-            mauris. Hi mindless mortuis soulless creaturas, imo evil stalking monstra adventus resi dentevil vultus
-            comedat cerebella viventium. Qui animated corpse, cricket bat max brucks terribilem incessu zomby. The
-            voodoo sacerdos flesh eater, suscitat mortuos comedere carnem virus. Zonbi tattered for solum oculi eorum
-            defunctis go lum cerebro. Nescio brains an Undead zombies. Sicut malus putrid voodoo horror. Nigh tofth eliv
-            ingdead.
-          </p>
-
-          <h2>Nescio an Undead zombies</h2>
-
-          <p>
-            Cum horribilem walking dead resurgere de crazed sepulcris creaturis, zombie sicut de grave feeding iride et
-            serpens. Pestilentia, shaun ofthe dead scythe animated corpses ipsa screams. Pestilentia est plague haec
-            decaying ambulabat mortuos. Sicut zeder apathetic malus voodoo. Aenean a dolor plan et terror soulless
-            vulnerum contagium accedunt, mortui iam vivam unlife. Qui tardius moveri, brid eof reanimator sed in magna
-            copia sint terribiles undeath legionis. Alii missing oculis aliorum sicut serpere crabs nostram.
-          </p>
-
-          <p><strong>Putridi braindead odores kill and infect, aere implent left four dead.</strong></p>
-        </article>
-      </div>
-    </section>
-
-    <div class="notification full-width">Ceci est une note de service.</div>
-    <div class="notification warning full-width closable">Ceci est une note de service <em>fermable</em>.<button
-        class="close" aria-label="Fermer"><svg class="icon icon-cross">
-          <use xlink:href="#round-cross"></use>
-        </svg></button></div>
-
-
-    <section class="section section-white notifications">
-      <div class="container">
-        <div class="notification closable">The princess is in another castle.<button class="close"
-            aria-label="Fermer"><svg class="icon icon-cross">
-              <use xlink:href="#round-cross"></use>
-            </svg></button></div>
-        <div class="notification success closable">Mission complete!<button class="close" aria-label="Fermer"><svg
-              class="icon icon-cross">
-              <use xlink:href="#round-cross"></use>
-            </svg></button></div>
-        <div class="notification warning closable">All your base are belong to us.<button class="close"
-            aria-label="Fermer"><svg class="icon icon-cross">
-              <use xlink:href="#round-cross"></use>
-            </svg></button></div>
-        <div class="notification error">Game over.<button class="close" aria-label="Fermer"></button></div>
-      </div>
-    </section>
-
-    <div id="dashboard" class="dashboard">
-      <aside class="side-menu" role="navigation">
-        <ul>
-          <li><a>Rôles</a></li>
-          <li><a class="active">Utilisateurs</a></li>
-          <li><a>Articles</a></li>
-          <li><a>Paramètres</a></li>
-        </ul>
-      </aside>
-      <div class="main">
-        <div class="panel">
-          <div class="panel__header">
-            <h3>Token panel for API administration</h3>
-            <small class="panel__header-extra">Créé le 31 février</small>
-          </div>
-          <div class="form__group">
-            <label>Token rights</label>
-            <ul class="label-list">
-              <li class="label"><a>zombies</a></li>
-              <li class="label"><a>undeads</a></li>
-              <li class="label"><a>creep swarms</a></li>
-            </ul>
-          </div>
-          <div class="form__group">
-            <label for="token">Token</label>
-            <div class="input__group">
-              <input type="text" name="token" id="token" />
-              <button class="button icon-button">
-                <svg class="icon icon-copy" viewBox="0 0 32 32">
-                  <use xlink:href="#copy" aria-label="Copier"></use>
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="panel">
-          <h3>Pouet</h3>
-          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-          </p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua.</p>
-          <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-            laborum.</p>
-          <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-        </div>
-        <div class="panel">
-          <h3>Dota 2 hero classification</h3>
-          <input type="text" class="table__filter" placeholder="Filtrer le tableau" />
-          <table class="table">
-            <thead>
-              <tr>
-                <th class="ascending">Force</th>
-                <th class="descending">Agility</th>
-                <th>Intelligence</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Sand King</td>
-                <td>Anti-Mage</td>
-                <td>Lina</td>
-              </tr>
-              <tr>
-                <td>Earthshaker</td>
-                <td>Phantom Assassin</td>
-                <td>Crystal Maiden</td>
-              </tr>
-              <tr>
-                <td>Io</td>
-                <td>Venomancer</td>
-                <td>Witch Doctor</td>
-              </tr>
-            </tbody>
-          </table>
-          <nav class="pagination">
-            <div class="pagination__display-group">
-              <label for="pagination__display" class="pagination__display-label">Rows per page</label>
-              <select class="pagination__display" id="pagination__display">
-                <option>5</option>
-                <option>10</option>
-                <option>50</option>
-                <option>100</option>
-              </select>
-            </div>
-            <div class="pagination__count"><strong>3</strong> sur <strong>112</strong></div>
-            <ul class="pagination__pages">
-              <li class="disabled">
-                <a>❮ Précédent</a>
-              </li>
-              <li class="active">
-                <a>1</a>
-              </li>
-              <li>
-                <a>2</a>
-              </li>
-              <li>
-                <a>3</a>
-              </li>
-              <li>
-                <a>4</a>
-              </li>
-              <li class="disabled">
-                <a>5</a>
-              </li>
-              <li>
-                <a>Suivant ❯</a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </div>
-    </div>
-
-    <section class="section section-grey">
-      <div class="container">
-        <div class="tiles">
-          <h1>Tuiles</h1>
-          <div class="grid">
-            <div class="tile">
-              <img class="tile__icon" src="images/icons/external/heart.svg" alt="Coeur" />
-              <h3>Santé</h3>
-            </div>
-            <div class="tile">
-              <img class="tile__icon" src="images/icons/external/trees.svg" alt="Arbre" />
-              <h3>Écologie</h3>
-            </div>
-            <div class="tile">
-              <img class="tile__icon" src="images/icons/external/store.svg" alt="Boutique" />
-              <h3>Emplois</h3>
-            </div>
-            <div class="tile tile-colored">
-              <img class="tile__icon" src="images/icons/external/map-white.svg" alt="Carte" />
-              <h3>Géographie</h3>
-            </div>
-            <div class="tile tile-colored">
-              <img class="tile__icon" src="images/icons/external/pen-white.svg" alt="Stylo" />
-              <h3>Éducation</h3>
-            </div>
-            <div class="tile tile-colored">
-              <img class="tile__icon" src="images/icons/external/user-white.svg" alt="Personne" />
-              <h3>Démographie</h3>
-            </div>
-          </div>
-        </div>
-        <div class="cards">
-          <h1>Cartes</h1>
-          <div class="row">
-            <div class="card">
-              <div class="card__cover">
-                <img src="images/template/shiba.jpg" alt="Shiba Inu" />
-              </div>
-              <div class="card__content">
-                <h3>Shiba Inu</h3>
-                <div class="card__meta"><time>12 avril 2018</time><span>Juna</span></div>
-                <p>The Shiba Inu (柴犬) is the smallest of the six original and distinct spitz breeds of dog from Japan.
-                </p>
-              </div>
-              <div class="card__extra">
-                <div class="label label--active">shiba inu</div>
-                <div class="label label--inactive"><a href="#">dog</a></div>
-                <div class="label">japan</div>
-                <div class="label"><a href="#">wow</a></div>
-              </div>
-            </div>
-            <div class="card">
-              <div class="card__cover">
-                <img src="images/template/french.jpg" alt="French Bulldog" />
-              </div>
-              <div class="card__content">
-                <h3>French Bulldog</h3>
-                <div class="card__meta"><time>12 avril 2018</time><span>Tama</span></div>
-                <p>The French Bulldog, also known as the Frenchie, is a small breed of domestic dog. Frenchies were the
-                  result in the 1800s of a cross between bulldog ancestors imported from England and local ratters in
-                  Paris (France).
-                </p>
-              </div>
-              <div class="card__extra">
-                <div class="label"><a href="#">stick in the mouth</a></div>
-              </div>
-            </div>
-            <div class="card">
-              <div class="card__cover">
-                <img src="images/template/corgi.jpg" alt="Corgi" />
-              </div>
-              <div class="card__content">
-                <h3>Corgi</h3>
-                <div class="card__meta"><time>12 avril 2018</time><span>Nova</span></div>
-                <p>The Welsh Corgi, sometimes known as just a Corgi (/ˈkɔːrɡi/, Welsh for "dwarf dog"; plural "corgis"
-                  or occasionally the etymologically consistent "corgwn" (/ˈkɔːrɡuːn/)), is a small type of herding dog
-                  that originated in Wales.</p>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
 
-    <section class="section section-white modals" id="modal-section">
-      <div class="container">
-        <h1>Modal</h1>
-        <p>Cet exemple fonctionne sans javascript mais libre à vous d’adapter le code à vos besoins.</p>
-        <a class="button" href="#modal">Click me!</a>
-      </div>
-      <div class="modal__backdrop" id="modal">
-        <div class="modal">
-          <h2>Hello</h2>
-          <p>Yes. This is dog.</p>
-          <div class="form__group button__group">
-            <a class="button" href="#modal-section">Valider</a>
-            <a class="button secondary" href="#modal-section">Annuler</a>
-          </div>
+      <section class="section section-grey">
+        <div class="container">
+          <form action="#" method="post" name="form" target="_blank" novalidate>
+            <h1>Newsletter</h1>
+            <div class="form__group">
+              <label for="form-email"
+                >Pour être informé des nouveautés, inscrivez-vous à notre
+                newsletter :</label
+              >
+              <div class="input__group">
+                <input type="email" value="" name="email" id="form-email" />
+                <button
+                  class="button"
+                  type="submit"
+                  name="subscribe"
+                  id="form-submit"
+                >
+                  Valider
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="section section-grey article__list">
-      <div class="container container-small">
-        <h1>Blog</h1>
-        <article class="article article__preview panel">
-          <div class="article__author">
-            <img src="images/template/french.jpg" alt="Shiba Inu" />
-            <span class="article__author-name">French Bulldog</span>
-          </div>
-          <div class="article__author">
-            <img src="images/template/corgi.jpg" alt="Corgi" />
-            <span class="article__author-name">Corgi</span>
-          </div>
-          <a class="article__link" title="article title" href="#">
-            <h2 class="article__title">Wow, such stick.</h2>
-          </a>
-          <div class="article__meta">Paru le <time>12/02/2018</time>.</div>
-          <div class="article__thumbnail">
-            <img src="images/template/shiba.jpg" alt="Shiba Inu" />
-          </div>
-          <div class="richtext">
-            <p>2017 a été une très bonne année pour notre Startup d’État. Depuis que le service n’est plus en version «
-              beta », en mars 2017, <a href="https://mes-aides.gouv.fr/">Mes Aides</a> a déjà renseigné plus d’<a
-                href="https://stats.data.gouv.fr/index.php?module=CoreHome&amp;action=index&amp;idSite=9&amp;period=year&amp;date=2017-01-08#?module=Goals&amp;action=goalReport&amp;idSite=9&amp;period=year&amp;date=2017-01-08&amp;idGoal=1">un
-                million de personnes</a>. Nous avons continué à intégrer des nouveautés et des améliorations en restant
-              à l’écoute de nos usagers, particuliers et professionnels de la sphère sociale. Pour 2018, notre objectif
-              est d’avoir un impact encore plus grand en continuant à lutter contre le non-recours aux aides sociales.
-            </p>
-          </div>
-          <a class="article__more" href="#">Lire la suite…</a>
-        </article>
-        <article class="article article__preview panel">
-          <div class="article__author">
-            <img src="images/template/french.jpg" alt="French Bulldog" />
-            <span class="article__author-name">French Bulldog</span>
-          </div>
-          <div class="article__author">
-            <img src="images/template/corgi.jpg" alt="Corgi" />
-            <span class="article__author-name">Corgi</span>
-          </div>
-          <a class="article__link" title="article title" href="#">
-            <h2 class="article__title">Wow, such stick.</h2>
-          </a>
-          <div class="article__meta">Paru le <time>12/02/2018</time>.</div>
-          <div class="article__thumbnail">
-            <img src="images/template/shiba.jpg" alt="Shiba Inu" />
-          </div>
-          <div class="richtext">
-            <p>2017 a été une très bonne année pour notre Startup d’État. Depuis que le service n’est plus en version «
-              beta », en mars 2017, <a href="https://mes-aides.gouv.fr/">Mes Aides</a> a déjà renseigné plus d’<a
-                href="https://stats.data.gouv.fr/index.php?module=CoreHome&amp;action=index&amp;idSite=9&amp;period=year&amp;date=2017-01-08#?module=Goals&amp;action=goalReport&amp;idSite=9&amp;period=year&amp;date=2017-01-08&amp;idGoal=1">un
-                million de personnes</a>. Nous avons continué à intégrer des nouveautés et des améliorations en restant
-              à l’écoute de nos usagers, particuliers et professionnels de la sphère sociale. Pour 2018, notre objectif
-              est d’avoir un impact encore plus grand en continuant à lutter contre le non-recours aux aides sociales.
-            </p>
-          </div>
-          <a class="article__more" href="#">Lire la suite…</a>
-        </article>
-        <article class="article article__preview panel">
-          <div class="article__author">
-            <img src="images/template/french.jpg" alt="French Bulldog" />
-            <span class="article__author-name">French Bulldog</span>
-          </div>
-          <div class="article__author">
-            <img src="images/template/corgi.jpg" alt="Corgi" />
-            <span class="article__author-name">Corgi</span>
-          </div>
-          <a class="article__link" title="article title" href="#">
-            <h2 class="article__title">Wow, such stick.</h2>
-          </a>
-          <div class="article__meta">Paru le <time>12/02/2018</time>.</div>
-          <div class="article__thumbnail">
-            <img src="images/template/shiba.jpg" alt="Shiba Inu" />
-          </div>
-          <div class="richtext">
-            <p>2017 a été une très bonne année pour notre Startup d’État. Depuis que le service n’est plus en version «
-              beta », en mars 2017, <a href="https://mes-aides.gouv.fr/">Mes Aides</a> a déjà renseigné plus d’<a
-                href="https://stats.data.gouv.fr/index.php?module=CoreHome&amp;action=index&amp;idSite=9&amp;period=year&amp;date=2017-01-08#?module=Goals&amp;action=goalReport&amp;idSite=9&amp;period=year&amp;date=2017-01-08&amp;idGoal=1">un
-                million de personnes</a>. Nous avons continué à intégrer des nouveautés et des améliorations en restant
-              à l’écoute de nos usagers, particuliers et professionnels de la sphère sociale. Pour 2018, notre objectif
-              est d’avoir un impact encore plus grand en continuant à lutter contre le non-recours aux aides sociales.
-            </p>
-          </div>
-          <a class="article__more" href="#">Lire la suite…</a>
-        </article>
-      </div>
-    </section>
-
-    <section class="section article article__full">
-      <div class="hero article__hero">
-        <img src="images/template/shiba.jpg" alt="Shiba Inu" />
+      <section class="section section-white">
         <div class="container container-small">
-          <h1 class="article__title">Wow, such article.</h1>
-          <div class="article__meta">Paru le <time>12/02/2018</time></div>
+          <article class="article">
+            <h1>Article</h1>
+
+            <p>
+              Qui offenderit rapto, <a href="#">terribilem incessu</a>. The
+              voodoo sacerdos suscitat mortuos comedere carnem.
+            </p>
+
+            <h2>Zombie ipsum</h2>
+
+            <p>
+              Zombie ipsum reversus ab viral inferno, nam rick grimes malum
+              cerebro. De carne lumbering animata corpora quaeritis. Summus
+              brains sit​​, morbo vel maleficia? De apocalypsi gorger omero
+              undead survivor dictum mauris. Hi mindless mortuis soulless
+              creaturas, imo evil stalking monstra adventus resi dentevil vultus
+              comedat cerebella viventium. Qui animated corpse, cricket bat max
+              brucks terribilem incessu zomby. The voodoo sacerdos flesh eater,
+              suscitat mortuos comedere carnem virus. Zonbi tattered for solum
+              oculi eorum defunctis go lum cerebro. Nescio brains an Undead
+              zombies. Sicut malus putrid voodoo horror. Nigh tofth eliv
+              ingdead.
+            </p>
+
+            <h2>Nescio an Undead zombies</h2>
+
+            <p>
+              Cum horribilem walking dead resurgere de crazed sepulcris
+              creaturis, zombie sicut de grave feeding iride et serpens.
+              Pestilentia, shaun ofthe dead scythe animated corpses ipsa
+              screams. Pestilentia est plague haec decaying ambulabat mortuos.
+              Sicut zeder apathetic malus voodoo. Aenean a dolor plan et terror
+              soulless vulnerum contagium accedunt, mortui iam vivam unlife. Qui
+              tardius moveri, brid eof reanimator sed in magna copia sint
+              terribiles undeath legionis. Alii missing oculis aliorum sicut
+              serpere crabs nostram.
+            </p>
+
+            <p>
+              <strong
+                >Putridi braindead odores kill and infect, aere implent left
+                four dead.</strong
+              >
+            </p>
+          </article>
         </div>
+      </section>
+
+      <div class="notification full-width">Ceci est une note de service.</div>
+      <div class="notification warning full-width closable">
+        Ceci est une note de service <em>fermable</em>.<button
+          class="close"
+          aria-label="Fermer"
+        >
+          <svg class="icon icon-cross">
+            <use xlink:href="#round-cross"></use>
+          </svg>
+        </button>
       </div>
-      <div class="article__content">
-        <div class="article__container">
-          <div class="richtext">
-            <p>2017 a été une très bonne année pour notre Startup d’État. Depuis que le service n’est plus en version «
-              beta », en mars 2017, <a href="https://mes-aides.gouv.fr/">Mes Aides</a> a déjà renseigné plus d’<a
-                href="https://stats.data.gouv.fr/index.php?module=CoreHome&amp;action=index&amp;idSite=9&amp;period=year&amp;date=2017-01-08#?module=Goals&amp;action=goalReport&amp;idSite=9&amp;period=year&amp;date=2017-01-08&amp;idGoal=1">un
-                million de personnes</a>. Nous avons continué à intégrer des nouveautés et des améliorations en restant
-              à l’écoute de nos usagers, particuliers et professionnels de la sphère sociale. Pour 2018, notre objectif
-              est d’avoir un impact encore plus grand en continuant à lutter contre le non-recours aux aides sociales.
+
+      <section class="section section-white notifications">
+        <div class="container">
+          <div class="notification closable">
+            The princess is in another castle.<button
+              class="close"
+              aria-label="Fermer"
+            >
+              <svg class="icon icon-cross">
+                <use xlink:href="#round-cross"></use>
+              </svg>
+            </button>
+          </div>
+          <div class="notification success closable">
+            Mission complete!<button class="close" aria-label="Fermer">
+              <svg class="icon icon-cross">
+                <use xlink:href="#round-cross"></use>
+              </svg>
+            </button>
+          </div>
+          <div class="notification warning closable">
+            All your base are belong to us.<button
+              class="close"
+              aria-label="Fermer"
+            >
+              <svg class="icon icon-cross">
+                <use xlink:href="#round-cross"></use>
+              </svg>
+            </button>
+          </div>
+          <div class="notification error">
+            Game over.<button class="close" aria-label="Fermer"></button>
+          </div>
+        </div>
+      </section>
+
+      <div id="dashboard" class="dashboard">
+        <aside class="side-menu" role="navigation">
+          <ul>
+            <li><a>Rôles</a></li>
+            <li><a class="active">Utilisateurs</a></li>
+            <li><a>Articles</a></li>
+            <li><a>Paramètres</a></li>
+          </ul>
+        </aside>
+        <div class="main">
+          <div class="panel">
+            <div class="panel__header">
+              <h3>Token panel for API administration</h3>
+              <small class="panel__header-extra">Créé le 31 février</small>
+            </div>
+            <div class="form__group">
+              <label>Token rights</label>
+              <ul class="label-list">
+                <li class="label"><a>zombies</a></li>
+                <li class="label"><a>undeads</a></li>
+                <li class="label"><a>creep swarms</a></li>
+              </ul>
+            </div>
+            <div class="form__group">
+              <label for="token">Token</label>
+              <div class="input__group">
+                <input type="text" name="token" id="token" />
+                <button class="button icon-button">
+                  <svg class="icon icon-copy" viewBox="0 0 32 32">
+                    <use xlink:href="#copy" aria-label="Copier"></use>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>Pouet</h3>
+            <p>
+              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat.
+            </p>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </p>
+            <p>
+              Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+              officia deserunt mollit anim id est laborum.
+            </p>
+            <p>
+              Duis aute irure dolor in reprehenderit in voluptate velit esse
+              cillum dolore eu fugiat nulla pariatur.
             </p>
           </div>
-          <div class="article__author-list">
-            <div class="article__author panel">
-              <div class="article__author-info">
-                <div class="article__author-name">Corgi</div>
-                <div class="article__author-role">Intrapreneur</div>
+          <div class="panel">
+            <h3>Dota 2 hero classification</h3>
+            <input
+              type="text"
+              class="table__filter"
+              placeholder="Filtrer le tableau"
+            />
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="ascending">Force</th>
+                  <th class="descending">Agility</th>
+                  <th>Intelligence</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Sand King</td>
+                  <td>Anti-Mage</td>
+                  <td>Lina</td>
+                </tr>
+                <tr>
+                  <td>Earthshaker</td>
+                  <td>Phantom Assassin</td>
+                  <td>Crystal Maiden</td>
+                </tr>
+                <tr>
+                  <td>Io</td>
+                  <td>Venomancer</td>
+                  <td>Witch Doctor</td>
+                </tr>
+              </tbody>
+            </table>
+            <nav class="pagination">
+              <div class="pagination__display-group">
+                <label
+                  for="pagination__display"
+                  class="pagination__display-label"
+                  >Rows per page</label
+                >
+                <select class="pagination__display" id="pagination__display">
+                  <option>5</option>
+                  <option>10</option>
+                  <option>50</option>
+                  <option>100</option>
+                </select>
               </div>
-              <img src="images/template/corgi.jpg" alt="Corgi" />
-              <p class="article__author-description">The Welsh Corgi is a small type of herding dog that originated in
-                Wales.</p>
-            </div>
-            <div class="article__author panel">
-              <div class="article__author-info">
-                <div class="article__author-name">French</div>
-                <div class="article__author-role">Developer</div>
+              <div class="pagination__count">
+                <strong>3</strong> sur <strong>112</strong>
               </div>
-              <img src="images/template/french.jpg" alt="French" />
-              <p class="article__author-description">The French Bulldog, also known as the Frenchie, is a small breed of
-                domestic dog.</p>
-            </div>
+              <ul class="pagination__pages">
+                <li class="disabled">
+                  <a>❮ Précédent</a>
+                </li>
+                <li class="active">
+                  <a>1</a>
+                </li>
+                <li>
+                  <a>2</a>
+                </li>
+                <li>
+                  <a>3</a>
+                </li>
+                <li>
+                  <a>4</a>
+                </li>
+                <li class="disabled">
+                  <a>5</a>
+                </li>
+                <li>
+                  <a>Suivant ❯</a>
+                </li>
+              </ul>
+            </nav>
           </div>
         </div>
       </div>
-    </section>
 
-    <section class="section section-grey">
-      <ul class="steps-form">
-        <li class="done">
-          <div>
-            Step 1
+      <section class="section section-grey">
+        <div class="container">
+          <div class="tiles">
+            <h1>Tuiles</h1>
+            <div class="grid">
+              <div class="tile">
+                <img
+                  class="tile__icon"
+                  src="images/icons/external/heart.svg"
+                  alt="Coeur"
+                />
+                <h3>Santé</h3>
+              </div>
+              <div class="tile">
+                <img
+                  class="tile__icon"
+                  src="images/icons/external/trees.svg"
+                  alt="Arbre"
+                />
+                <h3>Écologie</h3>
+              </div>
+              <div class="tile">
+                <img
+                  class="tile__icon"
+                  src="images/icons/external/store.svg"
+                  alt="Boutique"
+                />
+                <h3>Emplois</h3>
+              </div>
+              <div class="tile tile-colored">
+                <img
+                  class="tile__icon"
+                  src="images/icons/external/map-white.svg"
+                  alt="Carte"
+                />
+                <h3>Géographie</h3>
+              </div>
+              <div class="tile tile-colored">
+                <img
+                  class="tile__icon"
+                  src="images/icons/external/pen-white.svg"
+                  alt="Stylo"
+                />
+                <h3>Éducation</h3>
+              </div>
+              <div class="tile tile-colored">
+                <img
+                  class="tile__icon"
+                  src="images/icons/external/user-white.svg"
+                  alt="Personne"
+                />
+                <h3>Démographie</h3>
+              </div>
+            </div>
           </div>
-        </li>
-        <li class="done">
-          <div>
-            Step 2
+          <div class="cards">
+            <h1>Cartes</h1>
+            <div class="row">
+              <div class="card">
+                <div class="card__cover">
+                  <img src="images/template/shiba.jpg" alt="Shiba Inu" />
+                </div>
+                <div class="card__content">
+                  <h3>Shiba Inu</h3>
+                  <div class="card__meta">
+                    <time>12 avril 2018</time><span>Juna</span>
+                  </div>
+                  <p>
+                    The Shiba Inu (柴犬) is the smallest of the six original and
+                    distinct spitz breeds of dog from Japan.
+                  </p>
+                </div>
+                <div class="card__extra">
+                  <div class="label label--active">shiba inu</div>
+                  <div class="label label--inactive"><a href="#">dog</a></div>
+                  <div class="label">japan</div>
+                  <div class="label"><a href="#">wow</a></div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card__cover">
+                  <img src="images/template/french.jpg" alt="French Bulldog" />
+                </div>
+                <div class="card__content">
+                  <h3>French Bulldog</h3>
+                  <div class="card__meta">
+                    <time>12 avril 2018</time><span>Tama</span>
+                  </div>
+                  <p>
+                    The French Bulldog, also known as the Frenchie, is a small
+                    breed of domestic dog. Frenchies were the result in the
+                    1800s of a cross between bulldog ancestors imported from
+                    England and local ratters in Paris (France).
+                  </p>
+                </div>
+                <div class="card__extra">
+                  <div class="label"><a href="#">stick in the mouth</a></div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card__cover">
+                  <img src="images/template/corgi.jpg" alt="Corgi" />
+                </div>
+                <div class="card__content">
+                  <h3>Corgi</h3>
+                  <div class="card__meta">
+                    <time>12 avril 2018</time><span>Nova</span>
+                  </div>
+                  <p>
+                    The Welsh Corgi, sometimes known as just a Corgi (/ˈkɔːrɡi/,
+                    Welsh for "dwarf dog"; plural "corgis" or occasionally the
+                    etymologically consistent "corgwn" (/ˈkɔːrɡuːn/)), is a
+                    small type of herding dog that originated in Wales.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
-        </li>
-        <li class="active">
-          <div>
-            Step 3
-          </div>
-        </li>
-        <li>
-          <div>
-            Step 4
-          </div>
-        </li>
-      </ul>
-    </section>
-  </main>
+        </div>
+      </section>
 
-  <footer class="footer" role="contentinfo">
-    <div class="container">
-      <div class="footer__logo">
-        <img src="images/etalab.svg" alt="Logo Etalab">
-        <ul class="footer__social">
-          <li><a href="https://twitter.com/etalab" title="Twitter"><svg class="icon icon-twitter">
-                <use xlink:href="#twitter"></use>
-              </svg></a></li>
-          <li><a href="https://github.com/etalab" title="Github"><svg class="icon icon-github">
-                <use xlink:href="#github"></use>
-              </svg></a></li>
-          <li><a href="https://www.facebook.com/etalab" title="Facebook"><svg class="icon icon-fb">
-                <use xlink:href="#facebook"></use>
-              </svg></a></li>
-          <li><a href="mailto:info@data.gouv.fr" title="Nous écrire un mail"><svg class="icon icon-mail">
-                <use xlink:href="#envelope"></use>
-              </svg></a></li>
+      <section class="section section-white modals" id="modal-section">
+        <div class="container">
+          <h1>Modal</h1>
+          <p>
+            Cet exemple fonctionne sans javascript mais libre à vous d’adapter
+            le code à vos besoins.
+          </p>
+          <a class="button" href="#modal">Click me!</a>
+        </div>
+        <div class="modal__backdrop" id="modal">
+          <div class="modal">
+            <h2>Hello</h2>
+            <p>Yes. This is dog.</p>
+            <div class="form__group button__group">
+              <a class="button" href="#modal-section">Valider</a>
+              <a class="button secondary" href="#modal-section">Annuler</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-grey article__list">
+        <div class="container container-small">
+          <h1>Blog</h1>
+          <article class="article article__preview panel">
+            <div class="article__author">
+              <img src="images/template/french.jpg" alt="Shiba Inu" />
+              <span class="article__author-name">French Bulldog</span>
+            </div>
+            <div class="article__author">
+              <img src="images/template/corgi.jpg" alt="Corgi" />
+              <span class="article__author-name">Corgi</span>
+            </div>
+            <a class="article__link" title="article title" href="#">
+              <h2 class="article__title">Wow, such stick.</h2>
+            </a>
+            <div class="article__meta">Paru le <time>12/02/2018</time>.</div>
+            <div class="article__thumbnail">
+              <img src="images/template/shiba.jpg" alt="Shiba Inu" />
+            </div>
+            <div class="richtext">
+              <p>
+                2017 a été une très bonne année pour notre Startup d’État.
+                Depuis que le service n’est plus en version « beta », en mars
+                2017, <a href="https://mes-aides.gouv.fr/">Mes Aides</a> a déjà
+                renseigné plus d’<a
+                  href="https://stats.data.gouv.fr/index.php?module=CoreHome&amp;action=index&amp;idSite=9&amp;period=year&amp;date=2017-01-08#?module=Goals&amp;action=goalReport&amp;idSite=9&amp;period=year&amp;date=2017-01-08&amp;idGoal=1"
+                  >un million de personnes</a
+                >. Nous avons continué à intégrer des nouveautés et des
+                améliorations en restant à l’écoute de nos usagers, particuliers
+                et professionnels de la sphère sociale. Pour 2018, notre
+                objectif est d’avoir un impact encore plus grand en continuant à
+                lutter contre le non-recours aux aides sociales.
+              </p>
+            </div>
+            <a class="article__more" href="#">Lire la suite…</a>
+          </article>
+          <article class="article article__preview panel">
+            <div class="article__author">
+              <img src="images/template/french.jpg" alt="French Bulldog" />
+              <span class="article__author-name">French Bulldog</span>
+            </div>
+            <div class="article__author">
+              <img src="images/template/corgi.jpg" alt="Corgi" />
+              <span class="article__author-name">Corgi</span>
+            </div>
+            <a class="article__link" title="article title" href="#">
+              <h2 class="article__title">Wow, such stick.</h2>
+            </a>
+            <div class="article__meta">Paru le <time>12/02/2018</time>.</div>
+            <div class="article__thumbnail">
+              <img src="images/template/shiba.jpg" alt="Shiba Inu" />
+            </div>
+            <div class="richtext">
+              <p>
+                2017 a été une très bonne année pour notre Startup d’État.
+                Depuis que le service n’est plus en version « beta », en mars
+                2017, <a href="https://mes-aides.gouv.fr/">Mes Aides</a> a déjà
+                renseigné plus d’<a
+                  href="https://stats.data.gouv.fr/index.php?module=CoreHome&amp;action=index&amp;idSite=9&amp;period=year&amp;date=2017-01-08#?module=Goals&amp;action=goalReport&amp;idSite=9&amp;period=year&amp;date=2017-01-08&amp;idGoal=1"
+                  >un million de personnes</a
+                >. Nous avons continué à intégrer des nouveautés et des
+                améliorations en restant à l’écoute de nos usagers, particuliers
+                et professionnels de la sphère sociale. Pour 2018, notre
+                objectif est d’avoir un impact encore plus grand en continuant à
+                lutter contre le non-recours aux aides sociales.
+              </p>
+            </div>
+            <a class="article__more" href="#">Lire la suite…</a>
+          </article>
+          <article class="article article__preview panel">
+            <div class="article__author">
+              <img src="images/template/french.jpg" alt="French Bulldog" />
+              <span class="article__author-name">French Bulldog</span>
+            </div>
+            <div class="article__author">
+              <img src="images/template/corgi.jpg" alt="Corgi" />
+              <span class="article__author-name">Corgi</span>
+            </div>
+            <a class="article__link" title="article title" href="#">
+              <h2 class="article__title">Wow, such stick.</h2>
+            </a>
+            <div class="article__meta">Paru le <time>12/02/2018</time>.</div>
+            <div class="article__thumbnail">
+              <img src="images/template/shiba.jpg" alt="Shiba Inu" />
+            </div>
+            <div class="richtext">
+              <p>
+                2017 a été une très bonne année pour notre Startup d’État.
+                Depuis que le service n’est plus en version « beta », en mars
+                2017, <a href="https://mes-aides.gouv.fr/">Mes Aides</a> a déjà
+                renseigné plus d’<a
+                  href="https://stats.data.gouv.fr/index.php?module=CoreHome&amp;action=index&amp;idSite=9&amp;period=year&amp;date=2017-01-08#?module=Goals&amp;action=goalReport&amp;idSite=9&amp;period=year&amp;date=2017-01-08&amp;idGoal=1"
+                  >un million de personnes</a
+                >. Nous avons continué à intégrer des nouveautés et des
+                améliorations en restant à l’écoute de nos usagers, particuliers
+                et professionnels de la sphère sociale. Pour 2018, notre
+                objectif est d’avoir un impact encore plus grand en continuant à
+                lutter contre le non-recours aux aides sociales.
+              </p>
+            </div>
+            <a class="article__more" href="#">Lire la suite…</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="section article article__full">
+        <div class="hero article__hero">
+          <img src="images/template/shiba.jpg" alt="Shiba Inu" />
+          <div class="container container-small">
+            <h1 class="article__title">Wow, such article.</h1>
+            <div class="article__meta">Paru le <time>12/02/2018</time></div>
+          </div>
+        </div>
+        <div class="article__content">
+          <div class="article__container">
+            <div class="richtext">
+              <p>
+                2017 a été une très bonne année pour notre Startup d’État.
+                Depuis que le service n’est plus en version « beta », en mars
+                2017, <a href="https://mes-aides.gouv.fr/">Mes Aides</a> a déjà
+                renseigné plus d’<a
+                  href="https://stats.data.gouv.fr/index.php?module=CoreHome&amp;action=index&amp;idSite=9&amp;period=year&amp;date=2017-01-08#?module=Goals&amp;action=goalReport&amp;idSite=9&amp;period=year&amp;date=2017-01-08&amp;idGoal=1"
+                  >un million de personnes</a
+                >. Nous avons continué à intégrer des nouveautés et des
+                améliorations en restant à l’écoute de nos usagers, particuliers
+                et professionnels de la sphère sociale. Pour 2018, notre
+                objectif est d’avoir un impact encore plus grand en continuant à
+                lutter contre le non-recours aux aides sociales.
+              </p>
+            </div>
+            <div class="article__author-list">
+              <div class="article__author panel">
+                <div class="article__author-info">
+                  <div class="article__author-name">Corgi</div>
+                  <div class="article__author-role">Intrapreneur</div>
+                </div>
+                <img src="images/template/corgi.jpg" alt="Corgi" />
+                <p class="article__author-description">
+                  The Welsh Corgi is a small type of herding dog that originated
+                  in Wales.
+                </p>
+              </div>
+              <div class="article__author panel">
+                <div class="article__author-info">
+                  <div class="article__author-name">French</div>
+                  <div class="article__author-role">Developer</div>
+                </div>
+                <img src="images/template/french.jpg" alt="French" />
+                <p class="article__author-description">
+                  The French Bulldog, also known as the Frenchie, is a small
+                  breed of domestic dog.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-grey">
+        <ul class="steps-form">
+          <li class="done">
+            <div>
+              Step 1
+            </div>
+          </li>
+          <li class="done">
+            <div>
+              Step 2
+            </div>
+          </li>
+          <li class="active">
+            <div>
+              Step 3
+            </div>
+          </li>
+          <li>
+            <div>
+              Step 4
+            </div>
+          </li>
         </ul>
+      </section>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+      <div class="container">
+        <div class="footer__logo">
+          <img src="images/etalab.svg" alt="Logo Etalab" />
+          <ul class="footer__social">
+            <li>
+              <a href="https://twitter.com/etalab" title="Twitter"
+                ><svg class="icon icon-twitter">
+                  <use xlink:href="#twitter"></use></svg
+              ></a>
+            </li>
+            <li>
+              <a href="https://github.com/etalab" title="Github"
+                ><svg class="icon icon-github">
+                  <use xlink:href="#github"></use></svg
+              ></a>
+            </li>
+            <li>
+              <a href="https://www.facebook.com/etalab" title="Facebook"
+                ><svg class="icon icon-fb">
+                  <use xlink:href="#facebook"></use></svg
+              ></a>
+            </li>
+            <li>
+              <a href="mailto:info@data.gouv.fr" title="Nous écrire un mail"
+                ><svg class="icon icon-mail">
+                  <use xlink:href="#envelope"></use></svg
+              ></a>
+            </li>
+          </ul>
+        </div>
+        <ul class="footer__links">
+          <li>
+            <h2>template.data.gouv.fr</h2>
+          </li>
+          <li>
+            <a href="https://www.data.gouv.fr/reference"
+              >Données de référence</a
+            >
+          </li>
+          <li>
+            <a href="https://www.data.gouv.fr/terms"
+              >Conditions générales d'utilisation</a
+            >
+          </li>
+          <li><a href="https://www.data.gouv.fr/api">API</a></li>
+        </ul>
+        <ul class="footer__links"></ul>
       </div>
-      <ul class="footer__links">
-        <li>
-          <h2>template.data.gouv.fr</h2>
-        </li>
-        <li><a href="https://www.data.gouv.fr/reference">Données de référence</a></li>
-        <li><a href="https://www.data.gouv.fr/terms">Conditions générales d'utilisation</a></li>
-        <li><a href="https://www.data.gouv.fr/api">API</a></li>
-      </ul>
-      <ul class="footer__links"></ul>
-    </div>
-  </footer>
-
-</body>
-
+    </footer>
+  </body>
 </html>

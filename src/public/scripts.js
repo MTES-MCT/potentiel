@@ -10,7 +10,63 @@ document.addEventListener('DOMContentLoaded', (event) => {
   addAOPeriodeFamilleSelectorHandlers()
   addSendCopyOfNotificationButtonHandler()
   addPaginationHandler()
+  addMotifEliminationToggleHandlers()
 })
+
+//
+// Project List
+//
+
+function addMotifEliminationToggleHandlers() {
+  const motifToggle = document.querySelectorAll(
+    '[data-testId=projectList-item-toggleMotifsElimination]'
+  )
+
+  motifToggle.forEach((item) =>
+    item.addEventListener('click', function (event) {
+      console.log('motif toggle click', item)
+      event.preventDefault()
+
+      const icon = item.querySelector('svg')
+      const wasVisible = icon && icon.style.transform === 'rotate(180deg)'
+      console.log('wasVisible', wasVisible, icon, icon.style.transform)
+
+      // Hide all motifs
+      document
+        .querySelectorAll(
+          '[data-testId=projectList-item-toggleMotifsElimination]'
+        )
+        .forEach((item) => toggleMotifVisibilty(item, false))
+
+      toggleMotifVisibilty(item, !wasVisible)
+    })
+  )
+}
+
+function toggleMotifVisibilty(toggleItem, shouldBeVisible) {
+  const parent = toggleItem.closest('[data-testId=projectList-item]')
+
+  if (parent) {
+    // console.log('motif toggle click found parent', parent)
+    const motifs = parent.querySelector(
+      '[data-testId=projectList-item-motifsElimination]'
+    )
+
+    if (motifs) {
+      // console.log('motif toggle click found motifs', motifs)
+      // Display this motif
+      motifs.style.display = shouldBeVisible ? 'block' : 'none'
+
+      // reverse the expand icon
+      const icon = toggleItem.querySelector('svg')
+      if (icon) {
+        icon.style.transform = shouldBeVisible
+          ? 'rotate(180deg)'
+          : 'rotate(0deg)'
+      }
+    }
+  }
+}
 
 //
 // Pagination handlers
