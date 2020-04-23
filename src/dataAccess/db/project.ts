@@ -24,10 +24,6 @@ import isDbReady from './helpers/isDbReady'
 // Override these to apply serialization/deserialization on inputs/outputs
 const deserialize = (item) => ({
   ...item,
-  isFinancementParticipatif: item.isFinancementParticipatif === 1,
-  isInvestissementParticipatif: item.isInvestissementParticipatif === 1,
-  engagementFournitureDePuissanceAlaPointe:
-    item.engagementFournitureDePuissanceAlaPointe === 1,
   actionnaire: item.actionnaire || '',
   territoireProjet: item.territoireProjet || undefined,
 })
@@ -293,16 +289,22 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
     }
   }
 
-  async function update(project: Project): ResultAsync<Project> {
+  async function update(
+    projectId: Project['id'],
+    update: Partial<Project>
+  ): ResultAsync<Project> {
     await _isDbReady
 
     try {
-      await ProjectModel.update(serialize(project), {
-        where: { id: project.id },
+      await ProjectModel.update(update, {
+        where: { id: projectId },
       })
+
+      const project = await ProjectModel.findByPk(projectId, { raw: true })
+
       return Ok(project)
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('Project.findAll error', error)
+      if (CONFIG.logDbErrors) console.log('Project.update error', error)
       return Err(error)
     }
   }

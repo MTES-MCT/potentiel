@@ -13,7 +13,10 @@ export type ProjectRepo = {
     excludeUnnotified?: boolean
   ) => Promise<Array<Project>>
   insert: (project: Project) => ResultAsync<Project>
-  update: (project: Project) => ResultAsync<Project>
+  update: (
+    projectId: Project['id'],
+    update: Partial<Project>
+  ) => ResultAsync<Project>
   remove: (projectId: Project['id']) => ResultAsync<void>
   addNotification: (
     project: Project,

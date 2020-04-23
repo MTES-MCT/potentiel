@@ -7,7 +7,7 @@ import moment from 'moment'
 const FORMAT_DATE = 'DD/MM/YYYY'
 
 const postSendCandidateNotifications = async (request: HttpRequest) => {
-  console.log('Call to sendCandidateNotifications received', request.body)
+  // console.log('Call to sendCandidateNotifications received', request.body)
 
   const { appelOffreId, periodeId, notificationDate } = request.body
 

@@ -24,6 +24,7 @@ import {
 import {
   makeUser,
   User,
+  Project,
   makeCredentials,
   makeProject,
   makeCandidateNotification,
@@ -49,6 +50,9 @@ describe('sendAllCandidateNotifications use-case', () => {
   const fakeUserProjectName = 'fakeProjectName'
   const appelOffre = appelsOffreStatic[0]
   const periode = appelOffre.periodes[0]
+
+  let projectsToNotify: Array<Project>
+  const notificationDate = Date.now()
 
   beforeAll(async () => {
     resetDatabase()
@@ -99,6 +103,7 @@ describe('sendAllCandidateNotifications use-case', () => {
           nomProjet: fakeUserProjectName,
           appelOffreId: appelOffre.id,
           periodeId: periode.id,
+          isFinancementParticipatif: true,
         }),
         makeFakeProject({
           classe: 'Classé',
@@ -107,6 +112,7 @@ describe('sendAllCandidateNotifications use-case', () => {
           nomProjet: fakeUserProjectName,
           appelOffreId: appelOffre.id,
           periodeId: periode.id,
+          isFinancementParticipatif: true,
         }),
         makeFakeProject({
           classe: 'Classé',
@@ -114,6 +120,7 @@ describe('sendAllCandidateNotifications use-case', () => {
           email: 'otheremail@test.com',
           appelOffreId: appelOffre.id,
           periodeId: periode.id,
+          isFinancementParticipatif: true,
         }),
       ]
         .map(makeProject)
@@ -126,10 +133,20 @@ describe('sendAllCandidateNotifications use-case', () => {
 
     expect(allProjects).toHaveLength(6)
 
+    projectsToNotify = allProjects.filter(
+      (project) =>
+        project.notifiedOn === 0 &&
+        project.appelOffreId === appelOffre.id &&
+        project.periodeId === periode.id
+    )
+
+    expect(projectsToNotify).toHaveLength(3)
+
     // Send new notifications
     const result = await sendAllCandidateNotifications({
       appelOffreId: appelOffre.id,
       periodeId: periode.id,
+      notifiedOn: notificationDate,
     })
     expect(result.is_ok()).toBeTruthy()
   })
@@ -141,27 +158,35 @@ describe('sendAllCandidateNotifications use-case', () => {
     expect(recentNotifs).toHaveLength(3)
   })
 
-  // it('should update every project as having been notified', async () => {
-  //   const unNotifiedProjects = await projectRepo.findAll({
-  //     appelOffreId: appelOffre.id,
-  //     periodeId: periode.id,
-  //     notifiedOn: 0,
-  //   })
+  it('should update every project as having been notified', async () => {
+    expect.assertions(2 * projectsToNotify.length + 1)
+    const notifiedProjects = (
+      await Promise.all(
+        projectsToNotify.map((project) => projectRepo.findById(project.id))
+      )
+    )
+      .filter((item) => item.is_some())
+      .map((item) => item.unwrap())
 
-  //   expect(unNotifiedProjects).toHaveLength(0)
-  // })
+    expect(notifiedProjects).toHaveLength(projectsToNotify.length)
 
-  // it('should send a notification to each email that is concerned', async () => {
-  //   const allNotifs = getCallsToEmailStub()
+    notifiedProjects.forEach((notifiedProject) => {
+      expect(notifiedProject.notifiedOn).toEqual(notificationDate)
+      expect(notifiedProject.isFinancementParticipatif).toBeTruthy()
+    })
+  })
 
-  //   expect(allNotifs).toHaveLength(2)
-  // })
+  it('should send a notification to each email that is concerned', async () => {
+    const allNotifs = getCallsToEmailStub()
 
-  // it('should add the projects to the existing users if emails are the same', async () => {
-  //   const userProjects = await projectRepo.findByUser(fakeUserId)
+    expect(allNotifs).toHaveLength(2)
+  })
 
-  //   expect(userProjects).toBeDefined()
-  //   expect(userProjects).toHaveLength(2)
-  //   expect(userProjects[0].nomProjet).toEqual(fakeUserProjectName)
-  // })
+  it('should add the projects to the existing users if emails are the same', async () => {
+    const userProjects = await projectRepo.findByUser(fakeUserId)
+
+    expect(userProjects).toBeDefined()
+    expect(userProjects).toHaveLength(2)
+    expect(userProjects[0].nomProjet).toEqual(fakeUserProjectName)
+  })
 })

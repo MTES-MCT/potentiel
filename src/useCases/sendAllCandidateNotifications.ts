@@ -99,8 +99,7 @@ export default function makeSendAllCandidateNotifications({
             await Promise.all(
               projectsForThisEmail.map(async (project) => {
                 // Register the date of notification for each project
-                project.notifiedOn = notifiedOn
-                await projectRepo.update(project)
+                await projectRepo.update(project.id, { notifiedOn })
 
                 // Save a candidate notification for each
                 const projectAdmissionKeyId = projectAdmissionKeyResult.unwrap()

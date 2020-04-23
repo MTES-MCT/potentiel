@@ -17,7 +17,7 @@ export default function makeListUnnotifiedProjects({
     appelOffreId,
     periodeId,
   }: CallUseCaseProps): Promise<Array<Project>> {
-    console.log('listUnnotifiedProjets', appelOffreId, periodeId)
+    // console.log("listUnnotifiedProjets", appelOffreId, periodeId)
     return projectRepo.findAll({
       appelOffreId,
       periodeId,

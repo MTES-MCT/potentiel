@@ -249,22 +249,22 @@ const projectRepo: ProjectRepo = {
 
     return Promise.resolve(Ok(project))
   },
-  update: (project: Project) => {
-    if (!project.id) {
+  update: (projectId: Project['id'], update: Partial<Project>) => {
+    if (!projectId) {
       return Promise.resolve(
         Err(new Error('Cannot update project that has no id'))
       )
     }
 
-    if (!projectsById[project.id]) {
+    if (!projectsById[projectId]) {
       return Promise.resolve(
         Err(new Error('Cannot update project that was unknown'))
       )
     }
 
-    projectsById[project.id] = project
+    projectsById[projectId] = { ...projectsById[projectId], ...update }
 
-    return Promise.resolve(Ok(project))
+    return Promise.resolve(Ok(projectsById[projectId]))
   },
   remove: async (id: Project['id']) => {
     delete usersById[id]
