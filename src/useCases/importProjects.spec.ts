@@ -43,10 +43,8 @@ const makePhonyLine = () => ({
   [getColumnForField('nomRepresentantLegal')]: 'nomRepresentantLegal',
   [getColumnForField('email')]: 'email@address.com',
   [getColumnForField('adresseProjet')]: 'adresseProjet',
-  [getColumnForField('codePostalProjet')]: 'codePostalProjet',
+  [getColumnForField('codePostalProjet')]: '01234',
   [getColumnForField('communeProjet')]: 'communeProjet',
-  [getColumnForField('departementProjet')]: 'departementProjet',
-  [getColumnForField('regionProjet')]: 'regionProjet',
   [getColumnForField('fournisseur')]: 'fournisseur',
   [getColumnForField('classe')]: 'Classé',
   [getColumnForField('motifsElimination')]: '',
@@ -60,9 +58,16 @@ describe('importProjects use-case', () => {
     expect(priorProjects).toHaveLength(0)
 
     const phonyLine = makePhonyLine()
-    await importProjects({
+    const result = await importProjects({
       lines: [phonyLine],
     })
+
+    expect(result.is_ok()).toBeTruthy()
+
+    if (result.is_err()) {
+      console.log('importProject returned error', result.unwrap_err())
+      return
+    }
 
     const newProjects = await projectRepo.findAll()
 
@@ -83,10 +88,8 @@ describe('importProjects use-case', () => {
       nomRepresentantLegal: 'nomRepresentantLegal',
       email: 'email@address.com',
       adresseProjet: 'adresseProjet',
-      codePostalProjet: 'codePostalProjet',
+      codePostalProjet: '01234',
       communeProjet: 'communeProjet',
-      departementProjet: 'departementProjet',
-      regionProjet: 'regionProjet',
       fournisseur: 'fournisseur',
       classe: 'Classé',
       motifsElimination: '',
@@ -100,25 +103,25 @@ describe('importProjects use-case', () => {
     }
   })
 
-  // it("should throw an error if there isn't at least one line", async () => {
-  //   const result = await importProjects({
-  //     lines: [],
-  //   })
+  it("should throw an error if there isn't at least one line", async () => {
+    const result = await importProjects({
+      lines: [],
+    })
 
-  //   expect(result.is_err())
-  //   expect(result.unwrap_err().message).toEqual(ERREUR_AUCUNE_LIGNE)
-  // })
+    expect(result.is_err())
+    expect(result.unwrap_err().message).toEqual(ERREUR_AUCUNE_LIGNE)
+  })
 
-  // it("should throw an error if some lines don't have the required fields", async () => {
-  //   const goodLine = makePhonyLine()
-  //   // create a bad line by removing a required field
-  //   const badLine = _.omit(goodLine, getColumnForField('nomCandidat'))
+  it("should throw an error if some lines don't have the required fields", async () => {
+    const goodLine = makePhonyLine()
+    // create a bad line by removing a required field
+    const badLine = _.omit(goodLine, getColumnForField('nomCandidat'))
 
-  //   const result = await importProjects({
-  //     lines: [goodLine, badLine],
-  //   })
+    const result = await importProjects({
+      lines: [goodLine, badLine],
+    })
 
-  //   expect(result.is_err())
-  //   expect(result.unwrap_err().message.indexOf(ERREUR_FORMAT_LIGNE)).toEqual(0)
-  // })
+    expect(result.is_err())
+    expect(result.unwrap_err().message.indexOf(ERREUR_FORMAT_LIGNE)).toEqual(0)
+  })
 })
