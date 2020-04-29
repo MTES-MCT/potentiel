@@ -8,25 +8,11 @@ Before(() => {
 })
 
 Before({ tags: '@porteur-projet' }, () => {
-  cy.request({
-    method: 'POST',
-    url: '/login',
-    body: {
-      email: 'porteur-projet@test.test',
-      password: 'test',
-    },
-    form: true,
-  })
+  cy.wrap('porteur-projet@test.test').as('userEmail')
+  cy.login('porteur-projet@test.test', 'test')
 })
 
 Before({ tags: '@admin' }, () => {
-  cy.request({
-    method: 'POST',
-    url: '/login',
-    body: {
-      email: 'admin@test.test',
-      password: 'test',
-    },
-    form: true,
-  })
+  cy.wrap('admin@test.test').as('userEmail')
+  cy.login('admin@test.test', 'test')
 })

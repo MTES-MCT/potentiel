@@ -33,6 +33,7 @@ import {
 
 import { resetDbForTests } from './__tests__/integration/resetDbForTests'
 import { addProjectsForTests } from './__tests__/integration/addProjectsForTests'
+import { createInvitationForTests } from './__tests__/integration/createInvitationForTests'
 
 import { initDatabase } from './dataAccess'
 
@@ -199,6 +200,10 @@ export async function makeServer(port: number = 3000) {
     if (process.env.NODE_ENV === 'test') {
       router.get('/test/reset', makeExpressCallback(resetDbForTests))
       router.post('/test/addProjects', makeExpressCallback(addProjectsForTests))
+      router.post(
+        '/test/createInvitation',
+        makeExpressCallback(createInvitationForTests)
+      )
     }
 
     app.use(router)

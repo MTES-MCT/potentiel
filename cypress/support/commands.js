@@ -28,6 +28,25 @@ Cypress.Commands.add('findContaining', (parentSelector, searchTerm) => {
   return cy.get(parentSelector).contains(parentSelector, searchTerm)
 })
 
+Cypress.Commands.add('logout', (parentSelector, searchTerm) => {
+  return cy.request({
+    method: 'GET',
+    url: '/logout',
+  })
+})
+
+Cypress.Commands.add('login', (email, password) => {
+  return cy.request({
+    method: 'POST',
+    url: '/login',
+    body: {
+      email,
+      password,
+    },
+    form: true,
+  })
+})
+
 // Cypress.Commands.add('getTestId', (testId) => {
 //   return cy.get('[data-testid=' + testId + ']')
 // })

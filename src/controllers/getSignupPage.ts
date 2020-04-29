@@ -40,17 +40,13 @@ const getSignupPage = async (request: HttpRequest) => {
     // Log him out
     logoutUser = true
   } else {
-    // User is not logged in but account exists with this email, log him ins
     const existingCredentialsForEmail = await credentialsRepo.findByEmail(
       projectAdmissionKey.email
     )
 
     if (existingCredentialsForEmail.is_some()) {
-      return Redirect(
-        routes.USER_LIST_PROJECTS,
-        {},
-        existingCredentialsForEmail.unwrap().userId
-      )
+      // User is not logged in but account exists with this email, redirect to login
+      return Redirect(routes.LOGIN, { email: projectAdmissionKey.email })
     }
   }
 
