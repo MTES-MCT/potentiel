@@ -1,7 +1,10 @@
 import { User } from '../entities'
 import { HttpResponse } from '../types'
 
-const Success = (body: string, logout?: boolean): HttpResponse => {
+const Success = (
+  body: string | Record<string, any>,
+  logout?: boolean
+): HttpResponse => {
   // console.log('Calling success with body', body)
   return {
     statusCode: 200,

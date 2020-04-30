@@ -10,8 +10,13 @@ import makeListUserRequests from './listUserRequests'
 import makeListAllRequests from './listAllRequests'
 import makeListUnnotifiedProjects from './listUnnotifiedProjects'
 import makeGetUserProject from './getUserProject'
+import makeRetrievePassword from './retrievePassword'
+import makeResetPassword from './resetPassword'
 
-import { sendEmailNotification } from '../helpers/sendEmailNotification'
+import {
+  sendEmailNotification,
+  sendPasswordResetEmail,
+} from '../helpers/sendEmailNotification'
 
 import {
   credentialsRepo,
@@ -21,6 +26,7 @@ import {
   projectAdmissionKeyRepo,
   modificationRequestRepo,
   appelOffreRepo,
+  passwordRetrievalRepo,
 } from '../dataAccess'
 
 const login = makeLogin({
@@ -67,6 +73,17 @@ const listAllRequests = makeListAllRequests({ modificationRequestRepo })
 
 const getUserProject = makeGetUserProject({ projectRepo, userRepo })
 
+const retrievePassword = makeRetrievePassword({
+  credentialsRepo,
+  passwordRetrievalRepo,
+  sendPasswordResetEmail,
+})
+
+const resetPassword = makeResetPassword({
+  credentialsRepo,
+  passwordRetrievalRepo,
+})
+
 const useCases = Object.freeze({
   login,
   importProjects,
@@ -80,6 +97,8 @@ const useCases = Object.freeze({
   listAllRequests,
   listUnnotifiedProjects,
   getUserProject,
+  retrievePassword,
+  resetPassword,
 })
 
 export default useCases
@@ -96,4 +115,6 @@ export {
   listAllRequests,
   listUnnotifiedProjects,
   getUserProject,
+  retrievePassword,
+  resetPassword,
 }

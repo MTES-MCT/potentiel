@@ -5,6 +5,7 @@ import {
   CandidateNotificationRepo,
   ProjectAdmissionKeyRepo,
   ModificationRequestRepo,
+  PasswordRetrievalRepo,
 } from '../'
 import {
   Credentials,
@@ -13,6 +14,7 @@ import {
   CandidateNotification,
   ProjectAdmissionKey,
   ModificationRequest,
+  PasswordRetrieval,
 } from '../../entities'
 import {
   Ok,
@@ -94,22 +96,16 @@ const credentialsRepo: CredentialsRepo = {
     credentialsById[credentials.id] = credentials
     return Promise.resolve(Ok(credentials))
   },
-  update: (credentials: Credentials) => {
-    if (!credentials.id) {
-      return Promise.resolve(
-        ErrorResult('Cannot update credentials that has no id')
-      )
-    }
-
-    if (!credentialsById[credentials.id]) {
+  update: (id: Credentials['id'], hash: Credentials['hash']) => {
+    if (!credentialsById[id]) {
       return Promise.resolve(
         ErrorResult('Cannot update credentials that was unknown')
       )
     }
 
-    credentialsById[credentials.id] = credentials
+    credentialsById[id].hash = hash
 
-    return Promise.resolve(Ok(credentials))
+    return Promise.resolve(Ok(credentialsById[id]))
   },
 }
 
@@ -393,6 +389,30 @@ const modificationRequestRepo: ModificationRequestRepo = {
   },
 }
 
+let passwordRetrievalsById: Record<string, PasswordRetrieval> = {}
+const passwordRetrievalRepo: PasswordRetrievalRepo = {
+  findById: async (id: string) => {
+    // console.log('findById', id, itemsById)
+    if (id in passwordRetrievalsById) {
+      return Some(passwordRetrievalsById[id])
+    } else return None
+  },
+  insert: async (item: PasswordRetrieval) => {
+    passwordRetrievalsById[item.id] = item
+
+    return Ok(item)
+  },
+  remove: async (id: string) => {
+    if (!passwordRetrievalsById[id]) {
+      return ErrorResult('Cannot delete unknown item')
+    }
+
+    delete passwordRetrievalsById[id]
+
+    return Ok(null)
+  },
+}
+
 const resetDatabase = () => {
   credentialsByEmail = {}
   projectsById = {}
@@ -401,6 +421,7 @@ const resetDatabase = () => {
   candidateNotificationsById = {}
   projectAdmissionKeysById = {}
   modificationRequestsById = {}
+  passwordRetrievalsById = {}
 }
 
 export {
@@ -410,6 +431,7 @@ export {
   candidateNotificationRepo,
   projectAdmissionKeyRepo,
   modificationRequestRepo,
+  passwordRetrievalRepo,
   resetDatabase,
 }
 export * from './appelOffre'

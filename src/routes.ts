@@ -33,6 +33,12 @@ class routes {
   static LOGIN = '/login.html'
   static LOGIN_ACTION = '/login'
   static LOGOUT_ACTION = '/logout'
+  static FORGOTTEN_PASSWORD = '/mot-de-passe-oublie.html'
+  static FORGOTTEN_PASSWORD_ACTION = '/retrieve-password'
+  static RESET_PASSWORD_LINK = withParams<{
+    resetCode: string
+  }>('/recuperation-mot-de-passe.html')
+  static RESET_PASSWORD_ACTION = '/reset-password'
   static REDIRECT_BASED_ON_ROLE = '/go-to-user-dashboard'
   static SIGNUP = '/enregistrement.html'
   static SIGNUP_ACTION = '/enregistrement'

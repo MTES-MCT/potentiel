@@ -105,7 +105,8 @@ describe('signup use-case', () => {
 
     const signupResult = await signup(phonySignup)
 
-    expect(signupResult.is_ok())
+    expect(signupResult.is_ok()).toBeTruthy()
+    if (!signupResult.is_ok()) return
 
     // Check if login works
     const userResult = await login({
@@ -113,8 +114,7 @@ describe('signup use-case', () => {
       password: phonySignup.password,
     })
 
-    expect(userResult.is_ok())
-
+    expect(userResult.is_ok()).toBeTruthy()
     if (!userResult.is_ok()) return
 
     const user = userResult.unwrap()

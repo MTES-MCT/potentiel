@@ -1,11 +1,15 @@
 import { credentialsRepo, userRepo, resetDatabase } from '../../dataAccess'
 import { makeCredentials, makeUser, User } from '../../entities'
 import { Success } from '../../helpers/responses'
+import { resetSentEmails } from '../../helpers/sendEmailNotification'
 import { HttpRequest } from '../../types'
 
 const resetDbForTests = async (request: HttpRequest) => {
   // Erase everything from the database
   await resetDatabase()
+
+  // Erase emails
+  resetSentEmails()
 
   // Create a test admin
   await createUser({

@@ -36,6 +36,6 @@ Then("je suis dirigé vers la page d'identification", () => {
 
 Then('mon champ email est déjà pré-rempli', () => {
   cy.get('@userEmail').then((userEmail) => {
-    cy.get(testid('login-email')).should('have.value', userEmail)
+    cy.get(testid('email-field')).should('have.value', userEmail)
   })
 })

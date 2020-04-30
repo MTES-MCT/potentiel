@@ -29,10 +29,15 @@ import {
   getUserRequestsPage,
   getSendCopyOfCandidateNotification,
   getCandidateCertificate,
+  getForgottenPasswordPage,
+  postRetrievePassword,
+  getResetPasswordPage,
+  postResetPassword,
 } from './controllers'
 
 import { resetDbForTests } from './__tests__/integration/resetDbForTests'
 import { addProjectsForTests } from './__tests__/integration/addProjectsForTests'
+import { getSentEmailsForTests } from './__tests__/integration/getSentEmailsForTests'
 import { createInvitationForTests } from './__tests__/integration/createInvitationForTests'
 
 import { initDatabase } from './dataAccess'
@@ -99,6 +104,23 @@ export async function makeServer(port: number = 3000) {
     router.get(ROUTES.LOGOUT_ACTION, logoutMiddleware, (req, res) => {
       res.redirect('/')
     })
+
+    router.get(
+      ROUTES.FORGOTTEN_PASSWORD,
+      makeExpressCallback(getForgottenPasswordPage)
+    )
+    router.post(
+      ROUTES.FORGOTTEN_PASSWORD_ACTION,
+      makeExpressCallback(postRetrievePassword)
+    )
+    router.get(
+      ROUTES.RESET_PASSWORD_LINK(),
+      makeExpressCallback(getResetPasswordPage)
+    )
+    router.post(
+      ROUTES.RESET_PASSWORD_ACTION,
+      makeExpressCallback(postResetPassword)
+    )
 
     router.get(
       ROUTES.ADMIN_DASHBOARD,
@@ -203,6 +225,10 @@ export async function makeServer(port: number = 3000) {
       router.post(
         '/test/createInvitation',
         makeExpressCallback(createInvitationForTests)
+      )
+      router.get(
+        '/test/getSentEmails',
+        makeExpressCallback(getSentEmailsForTests)
       )
     }
 

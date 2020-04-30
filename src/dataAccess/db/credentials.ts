@@ -1,32 +1,40 @@
 import { DataTypes } from 'sequelize'
 import { CredentialsRepo } from '../'
 import { Credentials, makeCredentials } from '../../entities'
-import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types'
+import {
+  Err,
+  None,
+  Ok,
+  OptionAsync,
+  ResultAsync,
+  Some,
+  ErrorResult,
+} from '../../types'
 import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
 
 // Override these to apply serialization/deserialization on inputs/outputs
-const deserialize = item => item
-const serialize = item => item
+const deserialize = (item) => item
+const serialize = (item) => item
 
 export default function makeCredentialsRepo({ sequelize }): CredentialsRepo {
   const CredentialsModel = sequelize.define('credentials', {
     id: {
       type: DataTypes.UUID,
-      primaryKey: true
+      primaryKey: true,
     },
     email: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     hash: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     userId: {
       type: DataTypes.STRING,
-      allowNull: false
-    }
+      allowNull: false,
+    },
   })
 
   const _isDbReady = isDbReady({ sequelize })
@@ -34,7 +42,7 @@ export default function makeCredentialsRepo({ sequelize }): CredentialsRepo {
   return Object.freeze({
     findByEmail,
     insert,
-    update
+    update,
   })
 
   async function findByEmail(
@@ -43,20 +51,13 @@ export default function makeCredentialsRepo({ sequelize }): CredentialsRepo {
     await _isDbReady
 
     try {
-      const credentialsInDb = await CredentialsModel.findOne(
-        {
-          where: { email: _email }
-        },
-        { raw: true }
-      )
+      const credentialsInDb = await CredentialsModel.findOne({
+        where: { email: _email },
+      })
 
       if (!credentialsInDb) return None
 
-      const credentialsInstance = makeCredentials(deserialize(credentialsInDb))
-
-      if (credentialsInstance.is_err()) throw credentialsInstance.unwrap_err()
-
-      return Some(credentialsInstance.unwrap())
+      return Some(credentialsInDb.get())
     } catch (error) {
       if (CONFIG.logDbErrors)
         console.log('Credentials.findByEmail error', error)
@@ -76,16 +77,32 @@ export default function makeCredentialsRepo({ sequelize }): CredentialsRepo {
     }
   }
 
-  async function update(credentials: Credentials): ResultAsync<Credentials> {
+  async function update(
+    id: Credentials['id'],
+    hash: Credentials['hash']
+  ): ResultAsync<Credentials> {
     await _isDbReady
 
+    if (!hash || !hash.length) {
+      return ErrorResult('Credentials.update : Missing hash argument')
+    }
+
     try {
-      await CredentialsModel.update(serialize(credentials), {
-        where: { id: credentials.id }
-      })
+      const [updatedRows] = await CredentialsModel.update(
+        { hash },
+        {
+          where: { id },
+        }
+      )
+
+      if (updatedRows === 0) {
+        return ErrorResult('Credentials introuvables')
+      }
+
+      const credentials = await CredentialsModel.findByPk(id, { raw: true })
       return Ok(credentials)
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('Credentials.findAll error', error)
+      if (CONFIG.logDbErrors) console.log('Credentials.update error', error)
       return Err(error)
     }
   }

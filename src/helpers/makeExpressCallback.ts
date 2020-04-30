@@ -69,7 +69,12 @@ export default function makeExpressCallback(controller: Controller) {
           res.sendFile(path.resolve(process.cwd(), httpResponse.filePath))
         } else {
           if (httpResponse.logout) req.logout()
-          res.status(httpResponse.statusCode).send(httpResponse.body)
+          res.status(httpResponse.statusCode)
+          if (typeof httpResponse.body === 'string') {
+            res.send(httpResponse.body)
+          } else {
+            res.json(httpResponse.body)
+          }
         }
       })
       .catch((e) => {

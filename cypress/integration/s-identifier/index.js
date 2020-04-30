@@ -15,11 +15,11 @@ Given("je suis sur la page d'identification", () => {
 })
 
 When('je saisis {string} dans le champ email', (email) => {
-  cy.get(testid('login-email')).type(email)
+  cy.get(testid('email-field')).type(email)
 })
 
 When('je saisis {string} dans le champ mot de passe', (password) => {
-  cy.get(testid('login-password')).type(password)
+  cy.get(testid('password-field')).type(password)
 })
 
 When('je valide le formulaire', (term) => {

@@ -7,6 +7,7 @@ import { makeProjectRepo } from './project'
 import { makeCandidateNotificationRepo } from './candidateNotification'
 import { makeProjectAdmissionKeyRepo } from './projectAdmissionKey'
 import { makeModificationRequestRepo } from './modificationRequest'
+import { makePasswordRetrievalRepo } from './passwordRetrieval'
 
 const sequelize = new Sequelize({
   dialect: 'sqlite',
@@ -14,12 +15,12 @@ const sequelize = new Sequelize({
     process.cwd(),
     process.env.NODE_ENV === 'test' ? '.db/test.sqlite' : '.db/db.sqlite'
   ),
-  logging: false
+  logging: false,
 })
 
 // Create repo implementations
 const credentialsRepo = makeCredentialsRepo({
-  sequelize
+  sequelize,
 })
 
 const userRepo = makeUserRepo({ sequelize })
@@ -29,6 +30,8 @@ const projectRepo = makeProjectRepo({ sequelize })
 const candidateNotificationRepo = makeCandidateNotificationRepo({ sequelize })
 
 const modificationRequestRepo = makeModificationRequestRepo({ sequelize })
+
+const passwordRetrievalRepo = makePasswordRetrievalRepo({ sequelize })
 
 // Set the one-to-many relationship between project and candidateNotification
 const ProjectModel = sequelize.model('project')
@@ -90,8 +93,9 @@ const dbAccess = Object.freeze({
   candidateNotificationRepo,
   projectAdmissionKeyRepo,
   modificationRequestRepo,
+  passwordRetrievalRepo,
   initDatabase,
-  resetDatabase
+  resetDatabase,
 })
 
 export default dbAccess
@@ -102,6 +106,7 @@ export {
   candidateNotificationRepo,
   projectAdmissionKeyRepo,
   modificationRequestRepo,
+  passwordRetrievalRepo,
   initDatabase,
-  resetDatabase
+  resetDatabase,
 }

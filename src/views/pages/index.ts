@@ -17,6 +17,8 @@ import AdminNotifyCandidates from './adminNotifyCandidates'
 import ImportCandidates from './importCandidates'
 import Signup from './signup'
 import ModificationRequest from './modificationRequest'
+import ForgottenPassword from './forgottenPassword'
+import ResetPassword from './resetPassword'
 import { HttpRequest } from '../../types'
 
 const LoginPage = makePresenterPage(Login)
@@ -28,6 +30,8 @@ const UserListProjectsPage = makePresenterPage(UserListProjects)
 const UserListRequestsPage = makePresenterPage(UserListRequests)
 const SignupPage = makePresenterPage(Signup)
 const ModificationRequestPage = makePresenterPage(ModificationRequest)
+const ForgottenPasswordPage = makePresenterPage(ForgottenPassword)
+const ResetPasswordPage = makePresenterPage(ResetPassword)
 
 export {
   LoginPage,
@@ -39,6 +43,8 @@ export {
   SignupPage,
   ModificationRequestPage,
   AdminNotifyCandidatesPage,
+  ForgottenPasswordPage,
+  ResetPasswordPage,
 }
 
 interface HasRequest {

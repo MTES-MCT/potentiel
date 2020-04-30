@@ -17,7 +17,7 @@ export type HttpRequest = {
 export type HttpResponse =
   | {
       statusCode: number
-      body: string
+      body: string | Record<string, any>
       logout?: boolean
     }
   | {
