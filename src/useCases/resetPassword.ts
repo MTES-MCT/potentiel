@@ -95,6 +95,9 @@ export default function makeResetPassword({
       return ErrorResult(SYSTEM_ERROR)
     }
 
+    // Delete the passwordRetrieval entity
+    await passwordRetrievalRepo.remove(passwordRetrieval.id)
+
     return Ok(null)
   }
 }

@@ -31,12 +31,11 @@ const resetPassword = makeResetPassword({
 })
 
 describe('resetPassword use-case', () => {
+  const email = 'test@test.test'
+  let resetCode: string
+
   beforeEach(async () => {
     resetDatabase()
-  })
-
-  it('should update the password', async () => {
-    const email = 'test@test.test'
 
     //
     // Set up a user account
@@ -107,9 +106,13 @@ describe('resetPassword use-case', () => {
     expect(passwordRetrieval).toBeDefined()
     if (!passwordRetrieval) return
 
+    resetCode = passwordRetrieval.id
+  })
+
+  it('should update the password', async () => {
     // Call resetPassword
     const resetPasswordResult = await resetPassword({
-      resetCode: passwordRetrieval.id,
+      resetCode,
       password: 'newPassword',
       confirmPassword: 'newPassword',
     })
@@ -133,5 +136,26 @@ describe('resetPassword use-case', () => {
     })
 
     expect(oldPasswordUserResult.is_err()).toBeTruthy()
+  })
+
+  it('should refuse to update password based on used resetCode', async () => {
+    // Call resetPassword
+    const resetPasswordResult = await resetPassword({
+      resetCode,
+      password: 'newPassword',
+      confirmPassword: 'newPassword',
+    })
+
+    expect(resetPasswordResult.is_ok()).toBeTruthy()
+    if (resetPasswordResult.is_err()) return
+
+    // Call resetPassword again with same resetCode
+    const secondResetPasswordResult = await resetPassword({
+      resetCode,
+      password: 'anotherPassword',
+      confirmPassword: 'anotherPassword',
+    })
+
+    expect(secondResetPasswordResult.is_err()).toBeTruthy()
   })
 })
