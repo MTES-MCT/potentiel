@@ -1,4 +1,4 @@
-import makeRetrievePassword from './retrievePassword'
+import makeRetrievePassword, { RATE_LIMIT_REACHED } from './retrievePassword'
 import { makeCredentials } from '../entities'
 import {
   passwordRetrievalRepo,
@@ -19,13 +19,12 @@ const retrievePassword = makeRetrievePassword({
 })
 
 describe('retrievePassword use-case', () => {
+  let email
   beforeEach(async () => {
     resetDatabase()
     resetEmailStub()
-  })
 
-  it('should send an email with a password reset link', async () => {
-    const email = 'test@test.test'
+    email = 'test@test.test'
 
     // Create credentials
     const credentialsResult = makeCredentials({
@@ -40,7 +39,9 @@ describe('retrievePassword use-case', () => {
     const credentials = credentialsResult.unwrap()
 
     await credentialsRepo.insert(credentials)
+  })
 
+  it('should send an email with a password reset link', async () => {
     // Call use-case
     await retrievePassword({ email })
 
@@ -68,6 +69,24 @@ describe('retrievePassword use-case', () => {
 
   it('should send no email if email is unknown', async () => {
     await retrievePassword({ email: 'bogus@test.test' })
+
+    const sentEmails = getCallsToEmailStub()
+    expect(sentEmails).toHaveLength(0)
+  })
+
+  it('should return an error if there are already 5 or more password retrieval requests in the last 24hours', async () => {
+    // Send 5 requests
+    await retrievePassword({ email })
+    await retrievePassword({ email })
+    await retrievePassword({ email })
+    await retrievePassword({ email })
+    await retrievePassword({ email })
+
+    resetEmailStub()
+    const result = await retrievePassword({ email })
+
+    expect(result.is_err()).toBeTruthy()
+    expect(result.unwrap_err().message).toEqual(RATE_LIMIT_REACHED)
 
     const sentEmails = getCallsToEmailStub()
     expect(sentEmails).toHaveLength(0)

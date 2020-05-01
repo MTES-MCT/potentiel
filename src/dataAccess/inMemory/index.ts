@@ -411,6 +411,11 @@ const passwordRetrievalRepo: PasswordRetrievalRepo = {
 
     return Ok(null)
   },
+  countSince: async (email: string, since: number) => {
+    return Object.values(passwordRetrievalsById).filter(
+      (item) => item.email === email && item.createdOn >= since
+    ).length
+  },
 }
 
 const resetDatabase = () => {

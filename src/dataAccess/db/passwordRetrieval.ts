@@ -1,4 +1,4 @@
-import { DataTypes } from 'sequelize'
+import { DataTypes, Op } from 'sequelize'
 import { PasswordRetrievalRepo } from '../'
 import { PasswordRetrieval, makePasswordRetrieval } from '../../entities'
 import { mapExceptError, mapIfOk } from '../../helpers/results'
@@ -34,6 +34,7 @@ export default function makePasswordRetrievalRepo({
     findById,
     insert,
     remove,
+    countSince,
   })
 
   async function findById(
@@ -90,6 +91,20 @@ export default function makePasswordRetrievalRepo({
       if (CONFIG.logDbErrors)
         console.log('PasswordRetrieval.remove error', error)
       return Err(error)
+    }
+  }
+
+  async function countSince(email: string, since: number): Promise<number> {
+    await _isDbReady
+
+    try {
+      return await PasswordRetrievalModel.count({
+        where: { email, createdOn: { [Op.gte]: since } },
+      })
+    } catch (error) {
+      if (CONFIG.logDbErrors)
+        console.log('PasswordRetrieval.countSince error', error)
+      return 0
     }
   }
 }
