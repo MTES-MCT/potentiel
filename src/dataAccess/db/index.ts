@@ -9,14 +9,14 @@ import { makeProjectAdmissionKeyRepo } from './projectAdmissionKey'
 import { makeModificationRequestRepo } from './modificationRequest'
 import { makePasswordRetrievalRepo } from './passwordRetrieval'
 
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: path.resolve(
-    process.cwd(),
-    process.env.NODE_ENV === 'test' ? '.db/test.sqlite' : '.db/db.sqlite'
-  ),
-  logging: false,
-})
+const sequelize =
+  process.env.NODE_ENV === 'test'
+    ? new Sequelize('sqlite::memory:', { logging: false })
+    : new Sequelize({
+        dialect: 'sqlite',
+        storage: path.resolve(process.cwd(), '.db/db.sqlite'),
+        logging: false,
+      })
 
 // Create repo implementations
 const credentialsRepo = makeCredentialsRepo({
