@@ -4,7 +4,10 @@ import _ from 'lodash'
 
 interface MakeUseCaseProps {
   projectRepo: ProjectRepo
-  userRepo: UserRepo
+  shouldUserAccessProject: (args: {
+    user: User
+    projectId: Project['id']
+  }) => Promise<boolean>
 }
 
 interface CallUseCaseProps {
@@ -14,21 +17,18 @@ interface CallUseCaseProps {
 
 export default function makeGetUserProject({
   projectRepo,
-  userRepo,
+  shouldUserAccessProject,
 }: MakeUseCaseProps) {
   return async function getUserProject({
     user,
     projectId,
   }: CallUseCaseProps): Promise<Project | null> {
     // Check the rights to the project
-    if (!['admin', 'dgec'].includes(user.role)) {
-      const userHasRightsToProject = await userRepo.hasProject(
-        user.id,
-        projectId
-      )
-
-      if (!userHasRightsToProject) return null
-    }
+    const userHasRightsToProject = await shouldUserAccessProject({
+      user,
+      projectId,
+    })
+    if (!userHasRightsToProject) return null
 
     // Rights are ok, return the project instance
     const projectResult = await projectRepo.findById(projectId)

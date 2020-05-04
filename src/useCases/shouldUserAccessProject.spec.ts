@@ -1,20 +1,15 @@
-import makeGetUserProject from './getUserProject'
 import makeShouldUserAccessProject from './shouldUserAccessProject'
 
 import makeFakeProject from '../__tests__/fixtures/project'
 import makeFakeUser from '../__tests__/fixtures/user'
 
 import { projectRepo, userRepo } from '../dataAccess/inMemory'
-import { makeProject, makeUser } from '../entities'
+import { User, makeProject, makeUser } from '../entities'
 
 const shouldUserAccessProject = makeShouldUserAccessProject({ userRepo })
-const getUserProject = makeGetUserProject({
-  projectRepo,
-  shouldUserAccessProject,
-})
 
-describe('getUserProject use-case', () => {
-  it('should return the project if the user is admin', async () => {
+describe('shouldUserAccessProject use-case', () => {
+  it('should return true if the user is admin', async () => {
     const userResult = makeUser(makeFakeUser({ role: 'admin' }))
     expect(userResult.is_ok()).toBeTruthy()
     if (userResult.is_err()) return
@@ -28,15 +23,15 @@ describe('getUserProject use-case', () => {
 
     await projectRepo.insert(fakeProject)
 
-    const projectResult = await getUserProject({
+    const access = await shouldUserAccessProject({
       user,
       projectId: fakeProject.id,
     })
 
-    expect(projectResult).toEqual(expect.objectContaining(fakeProject))
+    expect(access).toBeTruthy()
   })
 
-  it('should return the project if the user has rights on this project', async () => {
+  it('should return true if the user has rights on this project', async () => {
     const userResult = makeUser(makeFakeUser({ role: 'porteur-projet' }))
     expect(userResult.is_ok()).toBeTruthy()
     if (userResult.is_err()) return
@@ -53,15 +48,15 @@ describe('getUserProject use-case', () => {
     // Associate this user to this project
     await userRepo.addProject(user.id, fakeProject.id)
 
-    const projectResult = await getUserProject({
+    const access = await shouldUserAccessProject({
       user,
       projectId: fakeProject.id,
     })
 
-    expect(projectResult).toEqual(expect.objectContaining(fakeProject))
+    expect(access).toBeTruthy()
   })
 
-  it('should return the null if the user has no rights on this project', async () => {
+  it('should return false if the user has no rights on this project', async () => {
     const userResult = makeUser(makeFakeUser({ role: 'porteur-projet' }))
     expect(userResult.is_ok()).toBeTruthy()
     if (userResult.is_err()) {
@@ -79,11 +74,11 @@ describe('getUserProject use-case', () => {
 
     // Do not associate this user to this project
 
-    const projectResult = await getUserProject({
+    const access = await shouldUserAccessProject({
       user,
       projectId: fakeProject.id,
     })
 
-    expect(projectResult).toEqual(null)
+    expect(access).toBeFalsy()
   })
 })

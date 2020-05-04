@@ -92,6 +92,15 @@ const RequestList = ({ modificationRequests, requestActions }: Props) => {
                         ''
                       )}
                     </div>
+                    <div
+                      style={{
+                        fontStyle: 'italic',
+                        lineHeight: 'normal',
+                        fontSize: 12,
+                      }}
+                    >
+                      {modificationRequest.justification || ''}
+                    </div>
                   </td>
                   <td
                     valign="top"

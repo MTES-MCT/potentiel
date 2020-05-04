@@ -12,6 +12,7 @@ import makeListUnnotifiedProjects from './listUnnotifiedProjects'
 import makeGetUserProject from './getUserProject'
 import makeRetrievePassword from './retrievePassword'
 import makeResetPassword from './resetPassword'
+import makeShouldUserAccessProject from './shouldUserAccessProject'
 
 import {
   sendEmailNotification,
@@ -71,7 +72,11 @@ const requestModification = makeRequestModification({ modificationRequestRepo })
 const listUserRequests = makeListUserRequests({ modificationRequestRepo })
 const listAllRequests = makeListAllRequests({ modificationRequestRepo })
 
-const getUserProject = makeGetUserProject({ projectRepo, userRepo })
+const shouldUserAccessProject = makeShouldUserAccessProject({ userRepo })
+const getUserProject = makeGetUserProject({
+  projectRepo,
+  shouldUserAccessProject,
+})
 
 const retrievePassword = makeRetrievePassword({
   credentialsRepo,
