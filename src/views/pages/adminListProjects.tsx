@@ -11,7 +11,7 @@ import { HttpRequest, PaginatedList } from '../../types'
 
 interface AdminListProjectsProps {
   request: HttpRequest
-  projects: PaginatedList<Project>
+  projects: PaginatedList<Project> | Array<Project>
   appelsOffre: Array<AppelOffre>
   selectedAppelOffreId?: AppelOffre['id']
   selectedPeriodeId?: Periode['id']
@@ -98,9 +98,11 @@ export default function AdminListProjects({
           ''
         )}
         <div className="pagination__count">
-          <strong>{projects.itemCount}</strong> projets
+          <strong>
+            {Array.isArray(projects) ? projects.length : projects.itemCount}
+          </strong>{' '}
+          projets
         </div>
-        <div></div>
         <ProjectList
           projects={projects}
           projectActions={(project: Project, appelOffre?: AppelOffre) => {

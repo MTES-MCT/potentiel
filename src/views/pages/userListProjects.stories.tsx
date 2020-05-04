@@ -7,21 +7,27 @@ import UserListProjects from './userListProjects'
 
 export default { title: 'User Dashboard' }
 
-export const empty = () => <UserListProjects request={makeFakeRequest()} />
+import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
+
+export const empty = () => (
+  <UserListProjects request={makeFakeRequest()} projects={[]} />
+)
 
 export const withError = () => (
   <UserListProjects
     request={makeFakeRequest({
-      query: { error: 'This is an error message!' }
+      query: { error: 'This is an error message!' },
     })}
+    projects={[]}
   />
 )
 
 export const withSuccess = () => (
   <UserListProjects
     request={makeFakeRequest({
-      query: { success: 'This is a success message!' }
+      query: { success: 'This is a success message!' },
     })}
+    projects={[]}
   />
 )
 
@@ -30,7 +36,7 @@ export const withProjects = () => (
     request={makeFakeRequest()}
     projects={[
       makeFakeProject(),
-      makeFakeProject({ classe: 'Classé', motifsElimination: null })
+      makeFakeProject({ classe: 'Classé', motifsElimination: null }),
     ]}
   />
 )
