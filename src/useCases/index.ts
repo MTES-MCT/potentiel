@@ -104,6 +104,7 @@ const useCases = Object.freeze({
   getUserProject,
   retrievePassword,
   resetPassword,
+  shouldUserAccessProject,
 })
 
 export default useCases
@@ -122,4 +123,5 @@ export {
   getUserProject,
   retrievePassword,
   resetPassword,
+  shouldUserAccessProject,
 }

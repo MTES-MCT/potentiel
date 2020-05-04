@@ -41,15 +41,22 @@ When('je saisis la valeur {string} dans le champ {string}', async function (
   cy.get(testid('modificationRequest-' + fieldName + 'Field')).type(value)
 })
 
+When('je choisis un fichier dans le champ pièce-jointe', function () {
+  cy.fixture('example.json').then((fileContent) => {
+    cy.get(testid('modificationRequest-fileField')).upload({
+      fileContent,
+      fileName: 'example.json',
+      mimeType: 'application/json',
+    })
+  })
+})
+
 When('je valide le formulaire', () => {
   cy.get(testid('submit-button')).click()
 })
 
 Then('je suis redirigé vers la page qui liste mes demandes', () => {
-  cy.location('pathname', { timeout: 10000 }).should(
-    'include',
-    '/mes-demandes.html'
-  )
+  cy.url().should('include', '/mes-demandes.html')
 })
 
 Then('me notifie la réussite par {string}', (successMessage) => {
@@ -61,5 +68,16 @@ Then(
   (modificationType, projectName) => {
     cy.get(testid('requestList-item-nomProjet')).should('contain', projectName)
     cy.get(testid('requestList-item-type')).should('contain', modificationType)
+  }
+)
+
+Then(
+  'je vois un lien pour {string} pour mon projet {string}',
+  (linkTitle, projectName) => {
+    cy.get(testid('requestList-item-nomProjet')).should('contain', projectName)
+    cy.get(testid('requestList-item-download-link')).should(
+      'contain',
+      linkTitle
+    )
   }
 )

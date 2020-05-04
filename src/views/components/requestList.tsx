@@ -3,6 +3,7 @@ import React from 'react'
 import { ModificationRequest, Project, User } from '../../entities'
 import ROUTES from '../../routes'
 import { dataId } from '../../helpers/testId'
+import { makeProjectFilePath } from '../../helpers/makeProjectFilePath'
 
 import { titlePerAction } from '../pages/modificationRequest'
 
@@ -67,6 +68,9 @@ const RequestList = ({ modificationRequests, requestActions }: Props) => {
                       <span {...dataId('requestList-item-regionProjet')}>
                         {project.regionProjet}
                       </span>
+                      <div {...dataId('requestList-item-email')}>
+                        <a href={'mailto:' + project.email}>{project.email}</a>
+                      </div>
                     </div>
                   </td>
                   <td valign="top">
@@ -100,6 +104,28 @@ const RequestList = ({ modificationRequests, requestActions }: Props) => {
                       }}
                     >
                       {modificationRequest.justification || ''}
+                    </div>
+                    <div
+                      style={{
+                        fontStyle: 'italic',
+                        lineHeight: 'normal',
+                        fontSize: 12,
+                      }}
+                    >
+                      {modificationRequest.filename ? (
+                        <a
+                          href={ROUTES.DOWNLOAD_PROJECT_FILE(
+                            modificationRequest.projectId,
+                            modificationRequest.filename
+                          )}
+                          download={true}
+                          {...dataId('requestList-item-download-link')}
+                        >
+                          Télécharger la pièce-jointe
+                        </a>
+                      ) : (
+                        ''
+                      )}
                     </div>
                   </td>
                   <td

@@ -7,6 +7,7 @@ export * from './getForgottenPasswordPage';
 export * from './getImportProjectsPage';
 export * from './getLoginPage';
 export * from './getNotifyCandidatesPage';
+export * from './getProjectFile';
 export * from './getResetPasswordPage';
 export * from './getSendCopyOfCandidateNotification';
 export * from './getSignupPage';

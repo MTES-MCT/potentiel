@@ -24,19 +24,19 @@ const baseModificationRequestSchema = Record({
 const actionnaireSchema = Record({
   type: Literal('actionnaire'),
   actionnaire: String,
-  filePath: String,
+  filename: String,
 })
 const producteurSchema = Record({
   type: Literal('producteur'),
   producteur: String,
-  filePath: String,
+  filename: String,
 })
 const fournisseurSchema = Record({
   type: Literal('fournisseur'),
   fournisseur: String,
   evaluationCarbone: Number,
   justification: String,
-  filePath: String,
+  filename: String,
 })
 const puissanceSchema = Record({
   type: Literal('puissance'),
@@ -70,7 +70,7 @@ const modificationRequestSchema = baseModificationRequestSchema
   )
   .And(
     Partial({
-      filePath: String,
+      filename: String,
       requestedOn: Number,
       project: projectSchema.Or(Undefined),
       user: userSchema.Or(Undefined),
@@ -85,7 +85,7 @@ const modificationRequestSchema = baseModificationRequestSchema
   )
 
 const fields: string[] = [
-  'filePath',
+  'filename',
   'type',
   'actionnaire',
   'producteur',

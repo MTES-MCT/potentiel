@@ -10,7 +10,7 @@ import _ from 'lodash'
 // Override these to apply serialization/deserialization on inputs/outputs
 const deserialize = (item) => ({
   ...item,
-  filePath: item.filePath || undefined,
+  filename: item.filename || undefined,
   justification: item.justification || undefined,
   actionnaire: item.actionnaire || undefined,
   fournisseur: item.fournisseur || undefined,
@@ -48,7 +48,7 @@ export default function makeModificationRequestRepo({
       type: DataTypes.STRING,
       allowNull: false,
     },
-    filePath: {
+    filename: {
       type: DataTypes.STRING,
       allowNull: true,
     },

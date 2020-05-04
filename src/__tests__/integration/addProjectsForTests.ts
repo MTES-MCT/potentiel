@@ -5,7 +5,7 @@ import { HttpRequest } from '../../types'
 import makeFakeProject from '../fixtures/project'
 
 const addProjectsForTests = async (request: HttpRequest) => {
-  // console.log('addProjectsForTests', request, request.user)
+  // console.log('addProjectsForTests', request.body)
   const { projects } = request.body
   const { user } = request
 
@@ -15,12 +15,21 @@ const addProjectsForTests = async (request: HttpRequest) => {
   }
 
   const builtProjects = projects
-    .map((project) => ({
-      ...project,
-      notifiedOn: project.notifiedOn && Number(project.notifiedOn),
-      puissance: project.puissance && Number(project.puissance),
-    }))
+    .map((project) => {
+      if (project.notifiedOn) {
+        project.notifiedOn = Number(project.notifiedOn)
+      }
+      if (project.puissance) {
+        project.puissance = Number(project.puissance)
+      }
+
+      return project
+    })
     .map(makeFakeProject)
+    // .map((item) => {
+    //   console.log(item)
+    //   return item
+    // })
     .map(makeProject)
     .filter((item) => item.is_ok())
     .map((item) => item.unwrap())

@@ -1,5 +1,6 @@
-import { requestModification } from '../useCases'
+import { requestModification, shouldUserAccessProject } from '../useCases'
 import { Redirect, SystemError } from '../helpers/responses'
+import { makeProjectFilePath } from '../helpers/makeProjectFilePath'
 import { Controller, HttpRequest } from '../types'
 import ROUTES from '../routes'
 import _ from 'lodash'
@@ -51,7 +52,11 @@ const returnRoute = (type, projectId) => {
 }
 
 const postRequestModification = async (request: HttpRequest) => {
-  // console.log('Call to postRequestModification received', request.body, request.file)
+  // console.log(
+  //   'Call to postRequestModification received',
+  //   request.body,
+  //   request.file
+  // )
 
   // console.log(
   //   'Call to postRequestModification received',
@@ -61,6 +66,15 @@ const postRequestModification = async (request: HttpRequest) => {
 
   if (!request.user) {
     return SystemError('User must be logged in')
+  }
+
+  const userAccess = await shouldUserAccessProject({
+    projectId: request.body.projectId,
+    user: request.user,
+  })
+
+  if (!userAccess) {
+    return Redirect(ROUTES.USER_DASHBOARD)
   }
 
   const data = _.pick(request.body, [
@@ -114,29 +128,29 @@ const postRequestModification = async (request: HttpRequest) => {
   }
 
   // If there is a file, move it to a proper location
-  let filePath
-  if (request.file) {
+
+  const { filename, filepath } = request.file
+    ? makeProjectFilePath(data.projectId, request.file.originalname)
+    : { filename: undefined, filepath: undefined }
+  if (request.file && filepath) {
     try {
-      const projectDir = await makeDirIfNecessary(
-        path.join(path.dirname(request.file.path), data.projectId)
-      )
-      filePath = path.join(projectDir, request.file.originalname)
-      await moveFile(request.file.path, filePath)
+      await makeDirIfNecessary(path.dirname(filepath))
+      await moveFile(request.file.path, filepath)
+      // console.log('File moved to ', filepath)
     } catch (error) {
-      console.log('Could not move file to', filePath)
-      filePath = undefined
+      console.log('Could not move file')
     }
   }
 
   const result = await requestModification({
     ...data,
-    filePath,
+    filename,
     userId: request.user.id,
   })
 
-  if (result.is_err() && filePath) {
+  if (result.is_err() && filepath) {
     console.log('requestModification failed, removing file')
-    await deleteFile(filePath)
+    await deleteFile(filepath)
   }
 
   return result.match({

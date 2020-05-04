@@ -23,6 +23,7 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+import 'cypress-file-upload'
 
 Cypress.Commands.add('findContaining', (parentSelector, searchTerm) => {
   return cy.get(parentSelector).contains(parentSelector, searchTerm)

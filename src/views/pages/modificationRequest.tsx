@@ -233,7 +233,7 @@ export default function ModificationRequestPage({
                 <input
                   type="file"
                   name="file"
-                  {...dataId('modificationRequest-file-field')}
+                  {...dataId('modificationRequest-fileField')}
                   id="file"
                 />
                 <label className="required" htmlFor="justification">
@@ -243,7 +243,7 @@ export default function ModificationRequestPage({
                   name="justification"
                   id="justification"
                   value={justification || ''}
-                  {...dataId('modificationRequest-justification-field')}
+                  {...dataId('modificationRequest-justificationField')}
                 />
               </>
             ) : (
@@ -269,7 +269,7 @@ export default function ModificationRequestPage({
                 <input
                   type="file"
                   name="file"
-                  {...dataId('modificationRequest-file-field')}
+                  {...dataId('modificationRequest-fileField')}
                   id="file"
                 />
                 <label htmlFor="justification">Motif (facultatif):</label>
@@ -277,7 +277,7 @@ export default function ModificationRequestPage({
                   name="justification"
                   id="justification"
                   value={justification || ''}
-                  {...dataId('modificationRequest-justification-field')}
+                  {...dataId('modificationRequest-justificationField')}
                 />
               </>
             ) : (
@@ -303,7 +303,7 @@ export default function ModificationRequestPage({
                 <input
                   type="file"
                   name="file"
-                  {...dataId('modificationRequest-file-field')}
+                  {...dataId('modificationRequest-fileField')}
                   id="file"
                 />
                 <label htmlFor="justification">Motif (facultatif):</label>
@@ -311,7 +311,7 @@ export default function ModificationRequestPage({
                   name="justification"
                   id="justification"
                   value={justification || ''}
-                  {...dataId('modificationRequest-justification-field')}
+                  {...dataId('modificationRequest-justificationField')}
                 />
               </>
             ) : (
@@ -326,7 +326,7 @@ export default function ModificationRequestPage({
                   name="justification"
                   id="justification"
                   value={justification || ''}
-                  {...dataId('modificationRequest-justification-field')}
+                  {...dataId('modificationRequest-justificationField')}
                 />
                 <label htmlFor="candidats">
                   Pièce justificative (si nécessaire)
@@ -334,7 +334,7 @@ export default function ModificationRequestPage({
                 <input
                   type="file"
                   name="file"
-                  {...dataId('modificationRequest-file-field')}
+                  {...dataId('modificationRequest-fileField')}
                   id="file"
                 />
               </>
@@ -350,7 +350,7 @@ export default function ModificationRequestPage({
                   name="justification"
                   id="justification"
                   value={justification || ''}
-                  {...dataId('modificationRequest-justification-field')}
+                  {...dataId('modificationRequest-justificationField')}
                 />
                 <label htmlFor="candidats">
                   Pièce justificative (si nécessaire)
@@ -358,7 +358,7 @@ export default function ModificationRequestPage({
                 <input
                   type="file"
                   name="file"
-                  {...dataId('modificationRequest-file-field')}
+                  {...dataId('modificationRequest-fileField')}
                   id="file"
                 />
               </>
@@ -418,7 +418,7 @@ export default function ModificationRequestPage({
                   name="justification"
                   id="justification"
                   value={justification || ''}
-                  {...dataId('modificationRequest-justification-field')}
+                  {...dataId('modificationRequest-justificationField')}
                 />
                 <label htmlFor="candidats">
                   Pièce justificative (si nécessaire)
@@ -426,7 +426,7 @@ export default function ModificationRequestPage({
                 <input
                   type="file"
                   name="file"
-                  {...dataId('modificationRequest-file-field')}
+                  {...dataId('modificationRequest-fileField')}
                   id="file"
                 />
               </>

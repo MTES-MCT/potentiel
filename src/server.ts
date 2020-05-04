@@ -33,6 +33,7 @@ import {
   postRetrievePassword,
   getResetPasswordPage,
   postResetPassword,
+  getProjectFile,
 } from './controllers'
 
 import { resetDbForTests } from './__tests__/integration/resetDbForTests'
@@ -49,10 +50,13 @@ export async function makeServer(port: number = 3000) {
   try {
     const app = express()
 
-    const upload = multer({ dest: 'uploads/ ' })
+    const upload = multer({
+      dest: 'temp',
+      limits: { fileSize: 10 * 1024 * 1024 /* 10MB */ },
+    })
 
     app.use(express.static('src/public'))
-    app.use(session({ secret: 'cats' }))
+    app.use(session({ secret: 'SD7654fsddxc34fsdfsd7è"("SKSRBIOP6FDFf' }))
 
     app.use(bodyParser.urlencoded({ extended: false }))
     app.use(bodyParser.json())
@@ -212,6 +216,12 @@ export async function makeServer(port: number = 3000) {
       ROUTES.CANDIDATE_CERTIFICATE(),
       ensureLoggedIn(),
       makeExpressCallback(getCandidateCertificate)
+    )
+
+    router.get(
+      ROUTES.DOWNLOAD_PROJECT_FILE(),
+      ensureLoggedIn(),
+      makeExpressCallback(getProjectFile)
     )
 
     router.get('/ping', (req, res) => {

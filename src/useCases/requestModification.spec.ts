@@ -13,9 +13,9 @@ describe('requestModification use-case', () => {
     const requestData = {
       type: 'actionnaire' as 'actionnaire',
       actionnaire: 'nouvel actionnaire',
-      filePath: 'fichier',
+      filename: 'fichier',
       userId: '1',
-      projectId: '1'
+      projectId: '1',
     }
     const requestResult = await requestModification(requestData)
 

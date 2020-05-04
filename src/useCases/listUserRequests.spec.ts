@@ -8,7 +8,7 @@ import { makeUser, makeModificationRequest, makeProject } from '../entities'
 import {
   modificationRequestRepo,
   userRepo,
-  projectRepo
+  projectRepo,
 } from '../dataAccess/inMemory'
 
 const listUserRequests = makeListUserRequests({ modificationRequestRepo })
@@ -48,9 +48,9 @@ describe('listUserRequests use-case', () => {
     userRequest = {
       type: 'actionnaire',
       actionnaire: 'nouvel actionnaire',
-      filePath: 'fichier',
+      filename: 'fichier',
       userId: user.id,
-      projectId: userProject.id
+      projectId: userProject.id,
     }
     const insertionResult = await requestModification(userRequest)
 

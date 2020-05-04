@@ -10,7 +10,7 @@ interface MakeUseCaseProps {
 
 interface RequestCommon {
   userId: User['id']
-  filePath?: string
+  filename?: string
   projectId: Project['id']
 }
 
@@ -69,6 +69,7 @@ export default function makeRequestModification({
   return async function requestModification(
     props: CallUseCaseProps
   ): ResultAsync<null> {
+    // console.log('modificationRequest usecase', props)
     const modificationRequestResult = makeModificationRequest(props)
 
     if (modificationRequestResult.is_err()) {
