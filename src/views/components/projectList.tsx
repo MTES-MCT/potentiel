@@ -8,6 +8,7 @@ import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
 
 import { PaginatedList } from '../../types'
 
+import ProjectActions from './projectActions'
 import Pagination from './pagination'
 
 interface Props {
@@ -225,51 +226,13 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                     {project.motifsElimination || ''}
                   </div>
                 </td>
-                {projectActions && projectActions(project, appelOffre) ? (
-                  <td style={{ position: 'relative' }}>
-                    <img
-                      src="/images/icons/external/more.svg"
-                      height="12"
-                      width="12"
-                      style={{ cursor: 'pointer' }}
-                      tabIndex={0}
-                      className="list--action-trigger"
-                    />
-                    <ul className="list--action-menu">
-                      {projectActions(project, appelOffre)?.map(
-                        (
-                          {
-                            title,
-                            actionId,
-                            projectId,
-                            link,
-                            disabled,
-                            isDownload,
-                          },
-                          actionIndex
-                        ) => (
-                          <li key={'notif_' + project.id + '_' + actionIndex}>
-                            {disabled ? (
-                              <i>{title}</i>
-                            ) : (
-                              <a
-                                href={link}
-                                download={isDownload}
-                                data-actionid={actionId}
-                                data-projectid={projectId}
-                                {...dataId('projectList-item-action')}
-                              >
-                                {title}
-                              </a>
-                            )}
-                          </li>
-                        )
-                      )}
-                    </ul>
-                  </td>
-                ) : (
-                  ''
-                )}
+                <td>
+                  <ProjectActions
+                    projectActions={projectActions}
+                    project={project}
+                    appelOffre={appelOffre}
+                  />
+                </td>
               </tr>
             )
           })}

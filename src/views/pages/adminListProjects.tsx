@@ -7,6 +7,7 @@ import ROUTES from '../../routes'
 import { dataId } from '../../helpers/testId'
 
 import ProjectList from '../components/projectList'
+import { adminActions } from '../components/actions'
 import { HttpRequest, PaginatedList } from '../../types'
 
 interface AdminListProjectsProps {
@@ -103,25 +104,7 @@ export default function AdminListProjects({
           </strong>{' '}
           projets
         </div>
-        <ProjectList
-          projects={projects}
-          projectActions={(project: Project, appelOffre?: AppelOffre) => {
-            const periode = appelOffre?.periodes.find(
-              (periode) => periode.id === project.periodeId
-            )
-            const canDownloadCertificate =
-              periode && periode.canGenerateCertificate
-
-            return [
-              {
-                title: 'Voir attestation',
-                link: ROUTES.CANDIDATE_CERTIFICATE_FOR_ADMINS(project),
-                isDownload: true,
-                disabled: !canDownloadCertificate,
-              },
-            ]
-          }}
-        />
+        <ProjectList projects={projects} projectActions={adminActions} />
       </div>
     </AdminDashboard>
   )

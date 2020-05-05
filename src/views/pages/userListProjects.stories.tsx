@@ -5,7 +5,7 @@ import makeFakeRequest from '../../__tests__/fixtures/request'
 
 import UserListProjects from './userListProjects'
 
-export default { title: 'User Dashboard' }
+export default { title: 'User List Projects' }
 
 import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
 
