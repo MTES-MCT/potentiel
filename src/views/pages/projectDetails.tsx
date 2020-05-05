@@ -8,6 +8,28 @@ import { porteurProjetActions, adminActions } from '../components/actions'
 import { HttpRequest } from '../../types'
 import { dataId } from '../../helpers/testId'
 
+const Section = ({ title, children }) => {
+  return (
+    <div {...dataId('projectDetails-section')}>
+      <h3
+        className="section--title"
+        {...dataId('projectDetails-section-toggle')}
+      >
+        {title}
+        <svg className="icon section--expand">
+          <use xlinkHref="#expand"></use>
+        </svg>
+      </h3>
+      <div
+        className="section--content"
+        {...dataId('projectDetails-section-content')}
+      >
+        {children}
+      </div>
+    </div>
+  )
+}
+
 interface ProjectDetailsProps {
   request: HttpRequest
   project: Project
@@ -32,9 +54,9 @@ export default function ProjectDetails({
   return (
     <Dashboard currentPage="list-projects">
       <div className="panel">
-        <div className="panel__header">
+        <div className="panel__header" style={{ position: 'relative' }}>
           <h3>{project.nomProjet}</h3>
-          <div style={{ float: 'right' }}>
+          <div style={{ position: 'absolute', right: 0, bottom: 25 }}>
             <ProjectActions
               project={project}
               projectActions={
@@ -59,6 +81,9 @@ export default function ProjectDetails({
         ) : (
           ''
         )}
+        <Section title="Section 1">Ceci est du contenu</Section>
+        <Section title="Section 2">Ceci est du contenu</Section>
+        <Section title="Section 3">Ceci est du contenu</Section>
       </div>
     </Dashboard>
   )

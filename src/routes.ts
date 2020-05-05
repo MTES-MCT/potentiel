@@ -47,6 +47,14 @@ class routes {
   }>('/enregistrement.html')
   static ADMIN_DASHBOARD = '/admin/dashboard.html'
   static IMPORT_PROJECTS = '/admin/importer-candidats.html' // Keep separate from ADMIN_DASHBOARD, may change
+
+  static PROJECT_DETAILS = (projectId?: Project['id']) => {
+    const route = '/projet/:projectId/details.html'
+    if (projectId) {
+      return route.replace(':projectId', projectId)
+    } else return route
+  }
+
   static IMPORT_PROJECTS_ACTION = '/admin/importProjects'
   static ADMIN_LIST_PROJECTS = '/admin/dashboard.html'
   static ADMIN_LIST_REQUESTS = '/admin/demandes.html'

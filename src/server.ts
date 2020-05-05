@@ -34,6 +34,7 @@ import {
   getResetPasswordPage,
   postResetPassword,
   getProjectFile,
+  getProjectPage,
 } from './controllers'
 
 import { resetDbForTests } from './__tests__/integration/resetDbForTests'
@@ -173,6 +174,12 @@ export async function makeServer(port: number = 3000) {
       ensureLoggedIn(),
       ensureRole(['admin', 'dgec']),
       makeExpressCallback(postSendCandidateNotifications)
+    )
+
+    router.get(
+      ROUTES.PROJECT_DETAILS(),
+      ensureLoggedIn(),
+      makeExpressCallback(getProjectPage)
     )
 
     // Going to the signup page automatically logs you out

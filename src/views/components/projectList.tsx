@@ -67,7 +67,12 @@ const ProjectList = ({ projects, projectActions }: Props) => {
               (item) => item.id === project.appelOffreId
             )
             return (
-              <tr key={'project_' + project.id} {...dataId('projectList-item')}>
+              <tr
+                key={'project_' + project.id}
+                {...dataId('projectList-item')}
+                style={{ cursor: 'pointer' }}
+                data-projectid={project.id}
+              >
                 <td valign="top">
                   <div
                     style={{
@@ -226,7 +231,7 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                     {project.motifsElimination || ''}
                   </div>
                 </td>
-                <td>
+                <td {...dataId('projectList-item-actions-container')}>
                   <ProjectActions
                     projectActions={projectActions}
                     project={project}

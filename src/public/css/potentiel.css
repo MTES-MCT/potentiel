@@ -55,3 +55,30 @@
   z-index: 10;
   width: 400px;
 }
+
+.section--content {
+  display: none;
+  padding-bottom: 20px;
+}
+
+.open ~ .section--content {
+  display: block;
+}
+
+.section--title {
+  cursor: pointer;
+  border-bottom: 1px solid var(--grey);
+  position: relative;
+}
+
+.section--expand {
+  transform: rotate(-90deg);
+  transition: transform 300ms;
+  position: absolute;
+  right: 0px;
+  bottom: 8px;
+}
+
+.open > .section--expand {
+  transform: rotate(0deg);
+}

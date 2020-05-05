@@ -1,21 +1,84 @@
 // All this to avoid a SPA...
 
 document.addEventListener('DOMContentLoaded', (event) => {
-  addClickHandlerForClass('project-list--action-trigger', function (e) {
-    console.log('User click on an action trigger')
-  })
+  // addClickHandlerForClass('project-list--action-trigger', function (e) {
+  //   console.log('User click on an action trigger')
+  // })
 
   addPuissanceModificationHandler()
   addDelayDateModificationHandler()
   addAOPeriodeFamilleSelectorHandlers()
   addSendCopyOfNotificationButtonHandler()
   addPaginationHandler()
+  addGoToProjectPageHandlers()
   addMotifEliminationToggleHandlers()
+  addProjectDetailsSectionHandlers()
 })
+
+//
+// Project page
+//
+
+function addProjectDetailsSectionHandlers() {
+  const sectionToggle = document.querySelectorAll(
+    '[data-testId=projectDetails-section-toggle]'
+  )
+
+  sectionToggle.forEach((item) =>
+    item.addEventListener('click', function (event) {
+      event.preventDefault()
+
+      const wasVisible = item.classList.contains('open')
+
+      // Hide all motifs
+      document
+        .querySelectorAll('[data-testId=projectDetails-section-toggle]')
+        .forEach((item) => toggleSectionVisibilty(item, false))
+
+      toggleSectionVisibilty(item, !wasVisible)
+    })
+  )
+}
+
+function toggleSectionVisibilty(toggleItem, shouldBeVisible) {
+  if (shouldBeVisible) {
+    toggleItem.classList.add('open')
+  } else {
+    toggleItem.classList.remove('open')
+  }
+}
 
 //
 // Project List
 //
+
+function addGoToProjectPageHandlers() {
+  const projectButtons = document.querySelectorAll(
+    '[data-testId=projectList-item]'
+  )
+  projectButtons.forEach((item) =>
+    item.addEventListener('click', function (event) {
+      // console.log('projectList-item click', item)
+      event.preventDefault()
+
+      const projectId = item.getAttribute('data-projectid')
+
+      if (projectId) {
+        location.href = '/projet/' + projectId + '/details.html'
+      }
+    })
+  )
+
+  // We want to ignore all clicks in the actions container (which might be inside the projectList-item area which has the click handler above)
+  const actionsContainer = document.querySelectorAll(
+    '[data-testId=projectList-item-actions-container]'
+  )
+  actionsContainer.forEach((item) =>
+    item.addEventListener('click', function (event) {
+      event.stopPropagation()
+    })
+  )
+}
 
 function addMotifEliminationToggleHandlers() {
   const motifToggle = document.querySelectorAll(
@@ -24,12 +87,12 @@ function addMotifEliminationToggleHandlers() {
 
   motifToggle.forEach((item) =>
     item.addEventListener('click', function (event) {
-      console.log('motif toggle click', item)
+      // console.log('motif toggle click', item)
       event.preventDefault()
 
       const icon = item.querySelector('svg')
       const wasVisible = icon && icon.style.transform === 'rotate(180deg)'
-      console.log('wasVisible', wasVisible, icon, icon.style.transform)
+      // console.log('wasVisible', wasVisible, icon, icon.style.transform)
 
       // Hide all motifs
       document
