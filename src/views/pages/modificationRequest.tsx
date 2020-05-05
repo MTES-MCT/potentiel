@@ -10,7 +10,7 @@ import { HttpRequest } from '../../types'
 
 import moment from 'moment'
 
-import { appelsOffreStatic } from '../../dataAccess'
+import { appelsOffreStatic } from '../../dataAccess/inMemory'
 
 moment.locale('fr')
 

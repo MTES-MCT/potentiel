@@ -4,7 +4,7 @@ import { Project, CandidateNotification, AppelOffre } from '../../entities'
 import ROUTES from '../../routes'
 import { dataId } from '../../helpers/testId'
 
-import { appelsOffreStatic } from '../../dataAccess'
+import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
 
 import { PaginatedList } from '../../types'
 

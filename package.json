@@ -55,7 +55,8 @@
     "zod": "^1.0.9"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.6",
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.0",
     "@storybook/react": "^5.3.14",
     "@types/chai": "^4.2.10",
     "@types/cucumber": "^6.0.1",
