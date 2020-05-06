@@ -1,17 +1,7 @@
-import {
-  Redirect,
-  Success,
-  SuccessFile,
-  SystemError,
-  NotFoundError,
-} from '../helpers/responses'
 import { makeProjectFilePath } from '../helpers/makeProjectFilePath'
-import { projectRepo, appelsOffreStatic } from '../dataAccess'
-import { Controller, HttpRequest } from '../types'
-import ROUTES from '../routes'
+import { NotFoundError, SuccessFile } from '../helpers/responses'
+import { HttpRequest } from '../types'
 import { shouldUserAccessProject } from '../useCases'
-
-import { makeCertificate } from '../views/pages/candidateCertificate'
 
 const getProjectFile = async (request: HttpRequest) => {
   // console.log('Call to getProjectFile received', request.query, request.file)

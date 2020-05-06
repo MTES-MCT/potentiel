@@ -86,14 +86,11 @@ class routes {
       sanitize(`attestation-${project.email}`)
     )
 
-  static CANDIDATE_CERTIFICATE_FOR_CANDIDATES = (
-    project: Project,
-    appelOffre?: AppelOffre
-  ) =>
+  static CANDIDATE_CERTIFICATE_FOR_CANDIDATES = (project: Project) =>
     routes.CANDIDATE_CERTIFICATE(
       project.id,
       sanitize(
-        `${appelOffre?.id || 'AO'}-P${project.periodeId}-F${
+        `${project.appelOffre?.id || 'AO'}-P${project.periodeId}-F${
           project.familleId
         }-${project.nomProjet}`
       )

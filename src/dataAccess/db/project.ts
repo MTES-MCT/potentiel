@@ -29,7 +29,10 @@ const deserialize = (item) => ({
 })
 const serialize = (item) => item
 
-export default function makeProjectRepo({ sequelize }): ProjectRepo {
+export default function makeProjectRepo({
+  sequelize,
+  appelOffreRepo,
+}): ProjectRepo {
   const ProjectModel = sequelize.define('project', {
     id: {
       type: DataTypes.UUID,
@@ -154,6 +157,14 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
     addNotification,
   })
 
+  async function addAppelOffreToProject(project: Project): Promise<Project> {
+    project.appelOffre = await appelOffreRepo.findById(
+      project.appelOffreId,
+      project.periodeId
+    )
+    return project
+  }
+
   async function findById(id: Project['id']): OptionAsync<Project> {
     await _isDbReady
 
@@ -166,7 +177,10 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
 
       if (projectInstance.is_err()) throw projectInstance.unwrap_err()
 
-      return Some(projectInstance.unwrap())
+      const projectWithAppelOffre = await addAppelOffreToProject(
+        projectInstance.unwrap()
+      )
+      return Some(projectWithAppelOffre)
     } catch (error) {
       if (CONFIG.logDbErrors) console.log('Project.findById error', error)
       return None
@@ -209,11 +223,15 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
           'Project.findAll.deserialize error'
         )
 
-        const projects = mapIfOk(
-          deserializedItems,
-          makeProject,
-          'Project.findAll.makeProject error'
+        const projects = await Promise.all(
+          deserializedItems.map(addAppelOffreToProject)
         )
+
+        // const projects = mapIfOk(
+        //   deserializedItems,
+        //   makeProject,
+        //   'Project.findAll.makeProject error'
+        // )
 
         return makePaginatedList(projects, pagination, count)
       }
@@ -228,11 +246,12 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
         'Project.findAll.deserialize error'
       )
 
-      return mapIfOk(
-        deserializedItems,
-        makeProject,
-        'Project.findAll.makeProject error'
-      )
+      // return mapIfOk(
+      //   deserializedItems,
+      //   makeProject,
+      //   'Project.findAll.makeProject error'
+      // )
+      return await Promise.all(deserializedItems.map(addAppelOffreToProject))
     } catch (error) {
       if (CONFIG.logDbErrors)
         console.log('Project.findAndCountAll error', error)
@@ -266,11 +285,12 @@ export default function makeProjectRepo({ sequelize }): ProjectRepo {
         'Project.findAll.deserialize error'
       )
 
-      return mapIfOk(
-        deserializedItems,
-        makeProject,
-        'Project.findByUser.makeProject error'
-      )
+      // return mapIfOk(
+      //   deserializedItems,
+      //   makeProject,
+      //   'Project.findByUser.makeProject error'
+      // )
+      return await Promise.all(deserializedItems.map(addAppelOffreToProject))
     } catch (error) {
       if (CONFIG.logDbErrors) console.log('User.findProjects error', error)
       return []

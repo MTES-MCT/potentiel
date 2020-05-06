@@ -11,7 +11,7 @@ const porteurProjetActions = (project: Project, appelOffre?: AppelOffre) => {
     return [
       {
         title: 'Télécharger mon attestation',
-        link: ROUTES.CANDIDATE_CERTIFICATE_FOR_CANDIDATES(project, appelOffre),
+        link: ROUTES.CANDIDATE_CERTIFICATE_FOR_CANDIDATES(project),
         isDownload: true,
         disabled: !canDownloadCertificate,
       },
@@ -25,7 +25,7 @@ const porteurProjetActions = (project: Project, appelOffre?: AppelOffre) => {
   return [
     {
       title: 'Télécharger mon attestation',
-      link: ROUTES.CANDIDATE_CERTIFICATE_FOR_CANDIDATES(project, appelOffre),
+      link: ROUTES.CANDIDATE_CERTIFICATE_FOR_CANDIDATES(project),
       isDownload: true,
       disabled: !canDownloadCertificate,
     },

@@ -34,7 +34,7 @@ const csvFieldSchema = Record({
   })
 )
 
-const appelOffreSchema = Record({
+const baseAppelOffreSchema = Record({
   id: String,
   title: String,
   shortTitle: String,
@@ -60,7 +60,16 @@ const appelOffreSchema = Record({
   dataFields: Array(csvFieldSchema),
 })
 
-const fields: string[] = [...Object.keys(appelOffreSchema.fields)]
+const appelOffreSchema = baseAppelOffreSchema.And(
+  Partial({
+    periode: periodeSchema,
+  })
+)
+
+const fields: string[] = [
+  'periode',
+  ...Object.keys(baseAppelOffreSchema.fields),
+]
 
 type AppelOffre = Static<typeof appelOffreSchema>
 

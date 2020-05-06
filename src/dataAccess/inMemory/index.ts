@@ -27,6 +27,15 @@ import {
 } from '../../types'
 import { makePaginatedList } from '../../helpers/paginate'
 
+import { appelOffreRepo } from './appelOffre'
+const addAppelOffreToProject = async (project: Project): Promise<Project> => {
+  project.appelOffre = await appelOffreRepo.findById(
+    project.appelOffreId,
+    project.periodeId
+  )
+  return project
+}
+
 interface HasId {
   id: string
 }
@@ -187,7 +196,9 @@ async function findAllProjects(
   query?: Record<string, any>,
   pagination?: Pagination
 ): Promise<PaginatedList<Project> | Array<Project>> {
-  const allItems = Object.values(projectsById)
+  const allItems = await Promise.all(
+    Object.values(projectsById).map(addAppelOffreToProject)
+  )
 
   if (!query) {
     return pagination
@@ -222,20 +233,22 @@ async function findAllProjects(
 }
 
 const projectRepo: ProjectRepo = {
-  findById: (id: string) => {
+  findById: async (id: string) => {
     // console.log('findById', id, itemsById)
     if (id in projectsById) {
-      return Promise.resolve(Some(projectsById[id]))
-    } else return Promise.resolve(None)
+      const project = await addAppelOffreToProject(projectsById[id])
+      return Some(project)
+    } else return None
   },
   findAll: findAllProjects,
   findByUser: (userId: User['id'], excludeUnnotified?: boolean) => {
     const projectIds: Array<Project['id']> = userProjects[userId] || []
 
-    return Promise.resolve(
+    return Promise.all(
       projectIds
         .map((projectId) => projectsById[projectId])
         .filter((item) => !excludeUnnotified || item.notifiedOn !== 0)
+        .map(addAppelOffreToProject)
     )
   },
   insert: (project: Project) => {
@@ -437,6 +450,7 @@ export {
   projectAdmissionKeyRepo,
   modificationRequestRepo,
   passwordRetrievalRepo,
+  appelOffreRepo,
   resetDatabase,
 }
 export * from './appelOffre'

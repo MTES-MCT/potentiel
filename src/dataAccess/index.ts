@@ -6,9 +6,6 @@ if (process.env.NODE_ENV === 'unit-test') {
 
 export * from './db'
 
-// Export the in-memory version of appel offre for the time it is static
-export * from './inMemory/appelOffre'
-
 export * from './user'
 export * from './credentials'
 export * from './project'

@@ -5,7 +5,7 @@ import {
   SystemError,
   NotFoundError,
 } from '../helpers/responses'
-import { projectRepo, appelsOffreStatic } from '../dataAccess'
+import { projectRepo, appelOffreRepo } from '../dataAccess'
 import { Controller, HttpRequest } from '../types'
 import ROUTES from '../routes'
 import { getUserProject } from '../useCases'
@@ -29,6 +29,7 @@ const getCandidateCertificate = async (request: HttpRequest) => {
       )
     }
 
+    // Verify that the current user has the rights to check this out
     const project = await getUserProject({ user: request.user, projectId })
 
     if (!project) {
@@ -36,35 +37,12 @@ const getCandidateCertificate = async (request: HttpRequest) => {
         'Impossible de trouver cette attestation. Etes-vous connecté avec le bon compte de porteur de projet ?'
       )
     }
-
-    const appelOffre = appelsOffreStatic.find(
-      (appelOffre) => appelOffre.id === project.appelOffreId
-    )
-
-    if (!appelOffre) {
-      return SystemError('Impossible de générer le fichier attestation (AO)')
-    }
-
-    const periode = appelOffre.periodes.find(
-      (periode) => periode.id === project.periodeId
-    )
-    if (!periode || !periode.canGenerateCertificate) {
-      return SystemError(
-        'Impossible de générer le fichier attestation (Période)'
-      )
-    }
     // console.log('Found project', project)
-
-    // Verify that the current user has the rights to check this out
-
-    // TODO: create a use-case to check rights and retrieve project if rights ok ?
 
     const location = `temp/attestation-${projectId}.pdf`
     await makeCertificate({
       destination: location,
       project,
-      appelOffre,
-      periode,
     })
 
     return SuccessFile(location)

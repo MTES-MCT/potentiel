@@ -563,16 +563,36 @@ const Certificate = ({
 interface MakeCertificateProps {
   destination: string
   project: Project
-  appelOffre: AppelOffre
-  periode: Periode
 }
-const makeCertificate = ({
-  destination,
-  project,
-  appelOffre,
-  periode,
-}: MakeCertificateProps) => {
+const makeCertificate = ({ destination, project }: MakeCertificateProps) => {
+  const { appelOffre } = project
+  const { periode } = appelOffre || {}
+
+  if (!appelOffre || !periode) {
+    return ReactPDF.render(
+      <Document>
+        <Page
+          size="A4"
+          style={{
+            backgroundColor: '#FFF',
+            fontFamily: 'Arial',
+            paddingTop: 50,
+            paddingBottom: 50,
+          }}
+        >
+          <View>
+            <Text>
+              Une erreur est survenue, merci de contacter l'administrateur.
+            </Text>
+          </View>
+        </Page>
+      </Document>,
+      destination
+    )
+  }
+
   let content
+
   if (project.classe === 'Classé') {
     content = Laureat({ project, appelOffre, periode })
   } else {

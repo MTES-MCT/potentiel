@@ -15,6 +15,7 @@ import {
 import buildMakeEntity from '../helpers/buildMakeEntity'
 
 import { candidateNotificationSchema } from './candidateNotification'
+import { appelOffreSchema } from './appelOffre'
 
 const territoireSchema = Union(
   Literal('Corse'),
@@ -57,6 +58,7 @@ const projectSchema = baseProjectSchema.And(
     candidateNotifications: Array(candidateNotificationSchema).Or(Undefined),
     actionnaire: String,
     territoireProjet: territoireSchema.Or(Undefined),
+    appelOffre: appelOffreSchema,
   })
 )
 
@@ -64,6 +66,7 @@ const fields: string[] = [
   'candidateNotifications',
   'actionnaire',
   'territoireProjet',
+  'appelOffre',
   ...Object.keys(baseProjectSchema.fields),
 ]
 

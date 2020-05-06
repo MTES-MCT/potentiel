@@ -9,6 +9,8 @@ import { makeProjectAdmissionKeyRepo } from './projectAdmissionKey'
 import { makeModificationRequestRepo } from './modificationRequest'
 import { makePasswordRetrievalRepo } from './passwordRetrieval'
 
+import { appelOffreRepo } from '../inMemory/appelOffre'
+
 const sequelize =
   process.env.NODE_ENV === 'test'
     ? new Sequelize('sqlite::memory:', { logging: false })
@@ -25,7 +27,7 @@ const credentialsRepo = makeCredentialsRepo({
 
 const userRepo = makeUserRepo({ sequelize })
 
-const projectRepo = makeProjectRepo({ sequelize })
+const projectRepo = makeProjectRepo({ sequelize, appelOffreRepo })
 
 const candidateNotificationRepo = makeCandidateNotificationRepo({ sequelize })
 
@@ -94,6 +96,7 @@ const dbAccess = Object.freeze({
   projectAdmissionKeyRepo,
   modificationRequestRepo,
   passwordRetrievalRepo,
+  appelOffreRepo,
   initDatabase,
   resetDatabase,
 })
@@ -107,6 +110,7 @@ export {
   projectAdmissionKeyRepo,
   modificationRequestRepo,
   passwordRetrievalRepo,
+  appelOffreRepo,
   initDatabase,
   resetDatabase,
 }
