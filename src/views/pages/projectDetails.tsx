@@ -207,7 +207,8 @@ export default function ProjectDetails({
           <div style={{ marginBottom: 10 }}>{project.nomCandidat}</div>
           <div>
             <h5 style={{ marginBottom: 5 }}>Représentant légal</h5>
-            {project.nomRepresentantLegal}
+            <div>{project.nomRepresentantLegal}</div>
+            <div>{project.email}</div>
           </div>
         </Section>
       </div>
