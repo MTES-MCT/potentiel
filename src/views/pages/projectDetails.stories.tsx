@@ -8,11 +8,32 @@ import ProjectDetails from './projectDetails'
 
 export default { title: 'Project page' }
 
-export const forAdmins = () => (
+import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
+const appelOffre = appelsOffreStatic.find(
+  (appelOffre) => appelOffre.id === 'Fessenheim'
+)
+if (appelOffre) appelOffre.periode = appelOffre.periodes[1]
+
+export const forAdminsLaureat = () => (
   <ProjectDetails
     request={makeFakeRequest({ user: makeFakeUser({ role: 'admin' }) })}
     project={makeFakeProject({
+      id: 'projectId',
       classe: 'Classé',
+      notifiedOn: Date.now(),
+      appelOffre,
+    })}
+  />
+)
+
+export const forAdminsElimine = () => (
+  <ProjectDetails
+    request={makeFakeRequest({ user: makeFakeUser({ role: 'admin' }) })}
+    project={makeFakeProject({
+      id: 'projectId',
+      classe: 'Eliminé',
+      notifiedOn: Date.now(),
+      appelOffre,
     })}
   />
 )
@@ -23,7 +44,10 @@ export const forPorteurProjet = () => (
       user: makeFakeUser({ role: 'porteur-projet' }),
     })}
     project={makeFakeProject({
+      id: 'projectId',
       classe: 'Classé',
+      notifiedOn: Date.now(),
+      appelOffre,
     })}
   />
 )

@@ -1,3 +1,33 @@
 <link href="main.min.css" rel="stylesheet" />
 <link href="/css/potentiel.css" rel="stylesheet" />
 <script src="/scripts.js"></script>
+<script>
+  // Storybook specific, wait for react to print the dom elements
+  setTimeout(function () {
+    window.initHandlers()
+  }, 3000)
+</script>
+
+<svg aria-hidden="true" focusable="false" style="display: none;">
+  <defs>
+    <symbol
+      viewBox="0 0 32 32"
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      stroke-linejoin="round"
+      stroke-miterlimit="1.414"
+      id="expand"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        style="
+          stroke: none;
+          fill-rule: nonzero;
+          fill: rgb(0%, 0%, 0%);
+          fill-opacity: 1;
+        "
+        d="M 28.265625 6.132812 L 16 18.398438 L 3.734375 6.132812 L 0 9.867188 L 16 25.867188 L 32 9.867188 Z M 28.265625 6.132812 "
+      />
+    </symbol>
+  </defs>
+</svg>

@@ -1,10 +1,7 @@
 // All this to avoid a SPA...
 
-document.addEventListener('DOMContentLoaded', (event) => {
-  // addClickHandlerForClass('project-list--action-trigger', function (e) {
-  //   console.log('User click on an action trigger')
-  // })
-
+window.initHandlers = function () {
+  // console.log('initHandlers')
   addPuissanceModificationHandler()
   addDelayDateModificationHandler()
   addAOPeriodeFamilleSelectorHandlers()
@@ -13,6 +10,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
   addGoToProjectPageHandlers()
   addMotifEliminationToggleHandlers()
   addProjectDetailsSectionHandlers()
+}
+
+document.addEventListener('DOMContentLoaded', (event) => {
+  // console.log('DOMContentLoaded')
+  // addClickHandlerForClass('project-list--action-trigger', function (e) {
+  //   console.log('User click on an action trigger')
+  // })
+  initHandlers()
 })
 
 //
