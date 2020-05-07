@@ -171,20 +171,22 @@ export default function ProjectDetails({
         </div>
         <Section title="Projet" icon="building">
           <div>
-            <h5 style={{ marginBottom: 5 }}>Site de production</h5>
+            <h5 style={{ marginBottom: 5 }}>Performances</h5>
+            <div>
+              Puissance installée: {project.puissance}{' '}
+              {project.appelOffre?.unitePuissance}
+            </div>
+          </div>
+          <div>
+            <h5 style={{ marginBottom: 5, marginTop: 10 }}>
+              Site de production
+            </h5>
             <div>{project.adresseProjet}</div>
             <div>
               {project.codePostalProjet} {project.communeProjet}
             </div>
             <div>
               {project.departementProjet}, {project.regionProjet}
-            </div>
-          </div>
-          <div>
-            <h5 style={{ marginBottom: 5, marginTop: 10 }}>Performances</h5>
-            <div>
-              Puissance installée: {project.puissance}{' '}
-              {project.appelOffre?.unitePuissance}
             </div>
           </div>
         </Section>
