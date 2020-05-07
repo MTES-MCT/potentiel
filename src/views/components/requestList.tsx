@@ -128,7 +128,10 @@ const RequestList = ({ modificationRequests, requestActions }: Props) => {
                         fontSize: 12,
                       }}
                     >
-                      {modificationRequest.type === 'recours'
+                      {modificationRequest.type === 'recours' ||
+                      modificationRequest.type === 'abandon' ||
+                      modificationRequest.type === 'delai' ||
+                      modificationRequest.type === 'fournisseur'
                         ? modificationRequest?.justification
                         : ''}
                     </div>
