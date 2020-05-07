@@ -153,13 +153,27 @@ export default function ProjectDetails({
                   )}
                 </FriseItem>
                 {project.classe === 'Classé' ? (
-                  <FriseItem>
-                    {moment(project.notifiedOn)
-                      .add(2, 'months')
-                      .format('D MMM YYYY')}{' '}
-                    - Limite de dépot de garantie financière{' '}
-                    <a href="#">Déposer</a>
-                  </FriseItem>
+                  <>
+                    <FriseItem>
+                      {moment(project.notifiedOn)
+                        .add(2, 'months')
+                        .format('D MMM YYYY')}{' '}
+                      - Limite de dépot de garantie financière{' '}
+                      <a href="#">Déposer</a>
+                    </FriseItem>
+                    <FriseItem>
+                      {moment(project.notifiedOn)
+                        .add(2, 'months')
+                        .format('D MMM YYYY')}{' '}
+                      - Limite de dépot DCR <a href="#">Déposer</a>
+                    </FriseItem>
+                    <FriseItem>
+                      {moment(project.notifiedOn)
+                        .add(8, 'months')
+                        .format('D MMM YYYY')}{' '}
+                      - Limite de dépot PTF
+                    </FriseItem>
+                  </>
                 ) : (
                   ''
                 )}
