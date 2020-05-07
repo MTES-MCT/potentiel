@@ -1,11 +1,9 @@
 import { Project, AppelOffre } from '../../../entities'
 import ROUTES from '../../../routes'
 
-const adminActions = (project: Project, appelOffre?: AppelOffre) => {
-  const periode = appelOffre?.periodes.find(
-    (periode) => periode.id === project.periodeId
-  )
-  const canDownloadCertificate = periode && periode.canGenerateCertificate
+const adminActions = (project: Project) => {
+  const canDownloadCertificate =
+    project.appelOffre?.periode?.canGenerateCertificate
 
   return [
     {

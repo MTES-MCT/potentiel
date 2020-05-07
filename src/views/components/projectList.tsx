@@ -14,8 +14,7 @@ import Pagination from './pagination'
 interface Props {
   projects: PaginatedList<Project> | Array<Project>
   projectActions?: (
-    project: Project,
-    appelOffre?: AppelOffre
+    project: Project
   ) => Array<{
     title: string
     link: string
@@ -63,9 +62,6 @@ const ProjectList = ({ projects, projectActions }: Props) => {
         </thead>
         <tbody>
           {items.map((project) => {
-            const appelOffre = appelsOffreStatic.find(
-              (item) => item.id === project.appelOffreId
-            )
             return (
               <tr
                 key={'project_' + project.id}
@@ -151,7 +147,7 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                       fontSize: 12,
                     }}
                   >
-                    {appelOffre?.unitePuissance}
+                    {project.appelOffre?.unitePuissance}
                   </span>
                 </td>
                 <td valign="top">
@@ -235,7 +231,6 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                   <ProjectActions
                     projectActions={projectActions}
                     project={project}
-                    appelOffre={appelOffre}
                   />
                 </td>
               </tr>

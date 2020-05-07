@@ -4,7 +4,6 @@ import { dataId } from '../../helpers/testId'
 
 interface Props {
   project: Project
-  appelOffre?: AppelOffre
   projectActions?: (
     project: Project,
     appelOffre?: AppelOffre
@@ -18,12 +17,12 @@ interface Props {
   }> | null
 }
 
-const ProjectActions = ({ project, appelOffre, projectActions }: Props) => {
+const ProjectActions = ({ project, projectActions }: Props) => {
   if (!project || !projectActions) {
     return <div />
   }
 
-  const actions = projectActions(project, appelOffre)
+  const actions = projectActions(project)
 
   if (!actions || !actions.length) {
     return <div />
