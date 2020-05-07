@@ -34,6 +34,7 @@ const RequestList = ({ modificationRequests, requestActions }: Props) => {
       <table className="table" {...dataId('requestList-list')}>
         <thead>
           <tr>
+            <th>Période</th>
             <th>Projet</th>
             <th>Type</th>
             <th>Statut</th>
@@ -46,6 +47,30 @@ const RequestList = ({ modificationRequests, requestActions }: Props) => {
               if (!project || !user) return ''
               return (
                 <tr key={'modificationRequest_' + modificationRequest.id}>
+                  <td valign="top">
+                    <div
+                      style={{
+                        fontStyle: 'italic',
+                        lineHeight: 'normal',
+                        fontSize: 12,
+                      }}
+                      {...dataId('requestList-item-periode')}
+                    >
+                      {project.appelOffreId} Période {project.periodeId}
+                    </div>
+                    <div
+                      style={{
+                        fontStyle: 'italic',
+                        lineHeight: 'normal',
+                        fontSize: 12,
+                      }}
+                      {...dataId('requestList-item-famille')}
+                    >
+                      {project.familleId?.length
+                        ? `famille ${project.familleId}`
+                        : ''}
+                    </div>
+                  </td>
                   <td valign="top">
                     <div {...dataId('requestList-item-nomProjet')}>
                       {project.nomProjet}
