@@ -71,10 +71,10 @@ function addProjectDetailsSectionHandlers() {
 
       const wasVisible = item.classList.contains('open')
 
-      // Hide all motifs
-      document
-        .querySelectorAll('[data-testid=projectDetails-section-toggle]')
-        .forEach((item) => toggleSectionVisibilty(item, false))
+      // Hide all sections
+      // document
+      //   .querySelectorAll('[data-testid=projectDetails-section-toggle]')
+      //   .forEach((item) => toggleSectionVisibilty(item, false))
 
       toggleSectionVisibilty(item, !wasVisible)
     })
