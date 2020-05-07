@@ -18,6 +18,10 @@ export default function makeProjectAdmissionKeyRepo({
       type: DataTypes.UUID,
       primaryKey: true,
     },
+    projectId: {
+      type: DataTypes.UUID,
+      allowNull: true,
+    },
     email: {
       type: DataTypes.STRING,
       allowNull: false,

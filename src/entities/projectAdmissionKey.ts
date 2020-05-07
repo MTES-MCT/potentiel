@@ -10,16 +10,26 @@ import {
   Static,
   Unknown,
   Undefined,
+  Partial,
 } from '../types/schemaTypes'
 import buildMakeEntity from '../helpers/buildMakeEntity'
 
-const projectAdmissionKeySchema = Record({
+const baseProjectAdmissionKeySchema = Record({
   id: String,
   email: String.withConstraint(isEmail.validate),
   fullName: String,
 })
 
-const fields: string[] = [...Object.keys(projectAdmissionKeySchema.fields)]
+const projectAdmissionKeySchema = baseProjectAdmissionKeySchema.And(
+  Partial({
+    projectId: String,
+  })
+)
+
+const fields: string[] = [
+  'projectId',
+  ...Object.keys(baseProjectAdmissionKeySchema.fields),
+]
 
 type ProjectAdmissionKey = Static<typeof projectAdmissionKeySchema>
 
