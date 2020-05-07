@@ -31,15 +31,20 @@ const ProjectActions = ({ project, appelOffre, projectActions }: Props) => {
 
   return (
     <div style={{ position: 'relative' }}>
-      <img
+      {/* <img
         src="/images/icons/external/more.svg"
         height="12"
         width="12"
-        style={{ cursor: 'pointer' }}
         tabIndex={0}
-        className="list--action-trigger"
-      />
-      <ul className="list--action-menu">
+        className=""
+      /> */}
+      <svg
+        className="icon list--action-trigger"
+        {...dataId('action-menu-trigger')}
+      >
+        <use xlinkHref="#dots-vertical"></use>
+      </svg>
+      <ul className="list--action-menu" {...dataId('action-menu')}>
         {actions.map(
           (
             { title, actionId, projectId, link, disabled, isDownload },
@@ -54,7 +59,7 @@ const ProjectActions = ({ project, appelOffre, projectActions }: Props) => {
                   download={isDownload}
                   data-actionid={actionId}
                   data-projectid={projectId}
-                  {...dataId('projectList-item-action')}
+                  {...dataId('item-action')}
                 >
                   {title}
                 </a>

@@ -34,7 +34,7 @@ const appelOffreRepo = {
       appelOffre.periode = appelOffre.periodes.find(
         (periode) => periode.id === periodeId
       )
-      console.log('Setting appelOffre.periode to ', appelOffre.periode)
+      // console.log('Setting appelOffre.periode to ', appelOffre.periode)
     }
 
     return appelOffre

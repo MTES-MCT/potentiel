@@ -8,7 +8,7 @@ import createUser from '../setup/createUser'
 import makeRoute from '../setup/makeRoute'
 import { PORTEUR_PROJET } from '../../src/__tests__/fixtures/testCredentials'
 
-Given("un porteur de projet inscrit avec l'adresse {string}", async function(
+Given("un porteur de projet inscrit avec l'adresse {string}", async function (
   email
 ) {
   this.porteurProjet = { ...PORTEUR_PROJET, email }
@@ -17,31 +17,31 @@ Given("un porteur de projet inscrit avec l'adresse {string}", async function(
   await createUser(this.porteurProjet, 'porteur-projet')
 })
 
-When('je clique sur le bouton pour notifier les candidats', async function() {
+When('je clique sur le bouton pour notifier les candidats', async function () {
   await this.page.click(testId('send-candidate-notifications-button'))
 })
 
-Then('une notification est générée pour chaque projet', async function() {
-  await this.page.waitForSelector(testId('projectList-item-action'))
+Then('une notification est générée pour chaque projet', async function () {
+  await this.page.waitForSelector(testId('item-action'))
 
-  // console.log("J'ai trouvé le projectList-item-action")
+  // console.log("J'ai trouvé le item-action")
 
   const projectActions = await this.page.$$eval(
-    testId('projectList-item-action'),
-    actionElements =>
-      actionElements.map(actionElement => actionElement.getAttribute('href'))
+    testId('item-action'),
+    (actionElements) =>
+      actionElements.map((actionElement) => actionElement.getAttribute('href'))
   )
 
   expect(
     projectActions.filter(
-      action => action.indexOf(routes.CANDIDATE_NOTIFICATION) === 0
+      (action) => action.indexOf(routes.CANDIDATE_NOTIFICATION) === 0
     )
   ).to.have.lengthOf(this.projects.length)
 })
 
 Then(
   'le porteur de projet inscrit voit ses nouveaux projets dans sa liste',
-  async function() {
+  async function () {
     // Login as porteur de projet
     await this.loginAs(this.porteurProjet)
 
@@ -50,7 +50,7 @@ Then(
 
     // check if the imported projects are there (use World.importedProjects)
     const userProjects = this.projects.filter(
-      project => project.email === this.porteurProjet.email
+      (project) => project.email === this.porteurProjet.email
     )
 
     // console.log('USER LIST PROJECTS contents', await this.page.content())
@@ -59,8 +59,8 @@ Then(
 
     const projectsInList = await this.page.$$eval(
       testId('projectList-item-nomProjet'),
-      actionElements =>
-        actionElements.map(actionElement => actionElement.innerText)
+      (actionElements) =>
+        actionElements.map((actionElement) => actionElement.innerText)
     )
 
     // console.log('Found projectsInList', projectsInList)
@@ -68,7 +68,7 @@ Then(
     expect(projectsInList).to.have.lengthOf(userProjects.length)
 
     expect(projectsInList).to.include.members(
-      userProjects.map(project => project.nomProjet)
+      userProjects.map((project) => project.nomProjet)
     )
   }
 )

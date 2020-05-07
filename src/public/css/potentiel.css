@@ -35,12 +35,20 @@
   display: block;
 }
 
-.list--action-menu:hover {
+.list--action-menu.open {
   display: block;
 }
 
-.list--action-trigger:focus ~ .list--action-menu {
-  display: block;
+.list--action-trigger {
+  width: 1.2em;
+  height: 1.2em;
+  padding: 0.2em;
+  cursor: pointer;
+  font-size: 26px;
+}
+
+.list--action-trigger:hover {
+  background-color: var(--lighter-grey);
 }
 
 /* Project List */
@@ -105,4 +113,10 @@ ul.frise:before {
   position: absolute;
   left: 27px;
   bottom: 0px;
+}
+
+.section-icon {
+  font-size: 20px;
+  margin-right: 10px;
+  margin-left: 5px;
 }

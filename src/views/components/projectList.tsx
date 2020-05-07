@@ -231,7 +231,7 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                     {project.motifsElimination || ''}
                   </div>
                 </td>
-                <td {...dataId('projectList-item-actions-container')}>
+                <td {...dataId('item-actions-container')}>
                   <ProjectActions
                     projectActions={projectActions}
                     project={project}

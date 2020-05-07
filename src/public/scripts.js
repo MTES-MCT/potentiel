@@ -1,7 +1,8 @@
 // All this to avoid a SPA...
 
 window.initHandlers = function () {
-  // console.log('initHandlers')
+  console.log('initHandlers')
+  addActionMenuHandlers()
   addPuissanceModificationHandler()
   addDelayDateModificationHandler()
   addAOPeriodeFamilleSelectorHandlers()
@@ -21,12 +22,47 @@ document.addEventListener('DOMContentLoaded', (event) => {
 })
 
 //
+// Action menu
+//
+
+function addActionMenuHandlers() {
+  const actionMenuTriggers = document.querySelectorAll(
+    '[data-testid=action-menu-trigger]'
+  )
+
+  const actionMenus = document.querySelectorAll('[data-testid=action-menu]')
+
+  function hideAllMenus() {
+    actionMenus.forEach((item) => item.classList.remove('open'))
+  }
+
+  // console.log('actionMenuTriggers', actionMenuTriggers)
+  actionMenuTriggers.forEach((item) =>
+    item.addEventListener('click', function (event) {
+      event.preventDefault()
+      event.stopPropagation()
+
+      const menu = item.parentElement.querySelector('[data-testid=action-menu]')
+      const wasVisible = menu && menu.classList.contains('open')
+
+      hideAllMenus()
+
+      if (menu && !wasVisible) {
+        menu.classList.add('open')
+      }
+    })
+  )
+
+  document.addEventListener('click', hideAllMenus)
+}
+
+//
 // Project page
 //
 
 function addProjectDetailsSectionHandlers() {
   const sectionToggle = document.querySelectorAll(
-    '[data-testId=projectDetails-section-toggle]'
+    '[data-testid=projectDetails-section-toggle]'
   )
 
   sectionToggle.forEach((item) =>
@@ -37,7 +73,7 @@ function addProjectDetailsSectionHandlers() {
 
       // Hide all motifs
       document
-        .querySelectorAll('[data-testId=projectDetails-section-toggle]')
+        .querySelectorAll('[data-testid=projectDetails-section-toggle]')
         .forEach((item) => toggleSectionVisibilty(item, false))
 
       toggleSectionVisibilty(item, !wasVisible)
@@ -59,7 +95,7 @@ function toggleSectionVisibilty(toggleItem, shouldBeVisible) {
 
 function addGoToProjectPageHandlers() {
   const projectButtons = document.querySelectorAll(
-    '[data-testId=projectList-item]'
+    '[data-testid=projectList-item]'
   )
   projectButtons.forEach((item) =>
     item.addEventListener('click', function (event) {
@@ -76,7 +112,7 @@ function addGoToProjectPageHandlers() {
 
   // We want to ignore all clicks in the actions container (which might be inside the projectList-item area which has the click handler above)
   const actionsContainer = document.querySelectorAll(
-    '[data-testId=projectList-item-actions-container]'
+    '[data-testid=item-actions-container]'
   )
   actionsContainer.forEach((item) =>
     item.addEventListener('click', function (event) {
@@ -87,7 +123,7 @@ function addGoToProjectPageHandlers() {
 
 function addMotifEliminationToggleHandlers() {
   const motifToggle = document.querySelectorAll(
-    '[data-testId=projectList-item-toggleMotifsElimination]'
+    '[data-testid=projectList-item-toggleMotifsElimination]'
   )
 
   motifToggle.forEach((item) =>
@@ -102,7 +138,7 @@ function addMotifEliminationToggleHandlers() {
       // Hide all motifs
       document
         .querySelectorAll(
-          '[data-testId=projectList-item-toggleMotifsElimination]'
+          '[data-testid=projectList-item-toggleMotifsElimination]'
         )
         .forEach((item) => toggleMotifVisibilty(item, false))
 
@@ -112,12 +148,12 @@ function addMotifEliminationToggleHandlers() {
 }
 
 function toggleMotifVisibilty(toggleItem, shouldBeVisible) {
-  const parent = toggleItem.closest('[data-testId=projectList-item]')
+  const parent = toggleItem.closest('[data-testid=projectList-item]')
 
   if (parent) {
     // console.log('motif toggle click found parent', parent)
     const motifs = parent.querySelector(
-      '[data-testId=projectList-item-motifsElimination]'
+      '[data-testid=projectList-item-motifsElimination]'
     )
 
     if (motifs) {
@@ -142,7 +178,7 @@ function toggleMotifVisibilty(toggleItem, shouldBeVisible) {
 
 function addPaginationHandler() {
   const pageSizeSelectField = document.querySelector(
-    '[data-testId=pageSizeSelector]'
+    '[data-testid=pageSizeSelector]'
   )
 
   if (pageSizeSelectField) {
@@ -151,7 +187,7 @@ function addPaginationHandler() {
     })
   }
 
-  const goToPageButtons = document.querySelectorAll('[data-testId=goToPage]')
+  const goToPageButtons = document.querySelectorAll('[data-testid=goToPage]')
 
   goToPageButtons.forEach((item) =>
     item.addEventListener('click', function (event) {
@@ -195,7 +231,7 @@ function updateFieldInUrl(field, value) {
 function addAOPeriodeFamilleSelectorHandlers() {
   ;['appelOffre', 'periode', 'famille'].forEach((key) => {
     const selectField = document.querySelector(
-      '[data-testId=' + key + 'Selector]'
+      '[data-testid=' + key + 'Selector]'
     )
     if (selectField) {
       selectField.addEventListener('change', function (event) {
@@ -260,23 +296,23 @@ function addSendCopyOfNotificationButtonHandler() {
 
 function addPuissanceModificationHandler() {
   const newPuissanceField = document.querySelector(
-    '[data-testId=modificationRequest-puissanceField]'
+    '[data-testid=modificationRequest-puissanceField]'
   )
 
   if (newPuissanceField) {
-    var submitButton = '[data-testId=submit-button]'
+    var submitButton = '[data-testid=submit-button]'
 
     newPuissanceField.addEventListener('keyup', function (event) {
       var newValue = Number(event.target.value)
 
       var oldValue = getFieldValue(
-        '[data-testId=modificationRequest-presentPuissanceField]'
+        '[data-testid=modificationRequest-presentPuissanceField]'
       )
 
       var outOfBounds =
-        '[data-testId=modificationRequest-puissance-error-message-out-of-bounds]'
+        '[data-testid=modificationRequest-puissance-error-message-out-of-bounds]'
       var wrongFormat =
-        '[data-testId=modificationRequest-puissance-error-message-wrong-format]'
+        '[data-testid=modificationRequest-puissance-error-message-wrong-format]'
 
       if (!Number.isNaN(newValue) && !Number.isNaN(oldValue)) {
         console.log('Both are number')
@@ -316,27 +352,27 @@ var dateRegex = new RegExp(
 
 function addDelayDateModificationHandler() {
   const delayedServiceDateField = document.querySelector(
-    '[data-testId=modificationRequest-delayedServiceDateField]'
+    '[data-testid=modificationRequest-delayedServiceDateField]'
   )
 
   if (delayedServiceDateField) {
-    var submitButton = '[data-testId=submit-button]'
+    var submitButton = '[data-testid=submit-button]'
 
     delayedServiceDateField.addEventListener('keyup', function (event) {
       var oldDate = getDateFromDateString(
         getFieldValue(
-          '[data-testId=modificationRequest-presentServiceDateField]'
+          '[data-testid=modificationRequest-presentServiceDateField]'
         )
       )
 
       var newDateStr = getFieldValue(
-        '[data-testId=modificationRequest-delayedServiceDateField]'
+        '[data-testid=modificationRequest-delayedServiceDateField]'
       )
 
       var outOfBounds =
-        '[data-testId=modificationRequest-delay-error-message-out-of-bounds]'
+        '[data-testid=modificationRequest-delay-error-message-out-of-bounds]'
       var wrongFormat =
-        '[data-testId=modificationRequest-delay-error-message-wrong-format]'
+        '[data-testid=modificationRequest-delay-error-message-wrong-format]'
 
       if (newDateStr.length < 6) {
         // Ignore, user is still typing

@@ -20,7 +20,7 @@ When(
   'je click sur le bouton {string} au niveau de mon projet {string}',
   async function (intituleBouton, nomProjet) {
     cy.findContaining(testid('projectList-item'), nomProjet)
-      .get(testid('projectList-item-action'))
+      .get(testid('item-action'))
       .contains(intituleBouton)
       .click({ force: true })
   }

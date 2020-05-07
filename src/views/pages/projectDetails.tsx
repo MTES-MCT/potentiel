@@ -33,16 +33,24 @@ const FriseItem = ({ color, children }: FriseItemProps) => {
 interface SectionProps {
   title: string
   defaultOpen?: boolean
+  icon?: string
   children: React.ReactNode
 }
 
-const Section = ({ title, defaultOpen, children }: SectionProps) => {
+const Section = ({ title, defaultOpen, children, icon }: SectionProps) => {
   return (
     <div {...dataId('projectDetails-section')}>
       <h3
         className={'section--title' + (defaultOpen ? ' open' : '')}
         {...dataId('projectDetails-section-toggle')}
       >
+        {icon ? (
+          <svg className="icon section-icon">
+            <use xlinkHref={'#' + icon}></use>
+          </svg>
+        ) : (
+          ''
+        )}
         {title}
         <svg className="icon section--expand">
           <use xlinkHref="#expand"></use>
@@ -89,26 +97,7 @@ export default function ProjectDetails({
             {project.regionProjet}
           </span>
           <div style={{ fontSize: 13 }}>
-            {project.classe === 'Classé' ? (
-              <span
-                style={{
-                  color: 'rgb(56, 118, 29)',
-                  fontWeight: 'bold',
-                }}
-              >
-                Lauréat
-              </span>
-            ) : (
-              <span
-                style={{
-                  color: 'rgb(204, 0, 0)',
-                  fontWeight: 'bold',
-                }}
-              >
-                Eliminé
-              </span>
-            )}{' '}
-            de {project.appelOffre?.id} {project.appelOffre?.periode?.title}{' '}
+            {project.appelOffre?.id} {project.appelOffre?.periode?.title}{' '}
             période
           </div>
           <div style={{ position: 'absolute', right: 0, bottom: 25 }}>
@@ -180,7 +169,7 @@ export default function ProjectDetails({
             )}
           </ul>
         </div>
-        <Section title="Projet" defaultOpen={true}>
+        <Section title="Projet" icon="building">
           <div>
             <h5 style={{ marginBottom: 5 }}>Site de production</h5>
             <div>{project.adresseProjet}</div>
@@ -197,18 +186,21 @@ export default function ProjectDetails({
               Puissance installée: {project.puissance}{' '}
               {project.appelOffre?.unitePuissance}
             </div>
-            <div>
-              Evaluation carbone simplifiée: {project.evaluationCarbone} kg eq
-              CO2/kWc
-            </div>
           </div>
         </Section>
-        <Section title="Candidat" defaultOpen={true}>
+        <Section title="Contact" icon="user-circle">
           <div style={{ marginBottom: 10 }}>{project.nomCandidat}</div>
           <div>
             <h5 style={{ marginBottom: 5 }}>Représentant légal</h5>
             <div>{project.nomRepresentantLegal}</div>
             <div>{project.email}</div>
+          </div>
+        </Section>
+        <Section title="Matériels et technologies" icon="cog">
+          <div>Fournisseur: {project.fournisseur}</div>
+          <div>
+            Evaluation carbone simplifiée: {project.evaluationCarbone} kg eq
+            CO2/kWc
           </div>
         </Section>
       </div>
