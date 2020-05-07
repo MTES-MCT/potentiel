@@ -167,7 +167,7 @@ const projectAdmissionKeyRepo: ProjectAdmissionKeyRepo = {
   },
   // @ts-ignore
   findAll: async (query?) => {
-    const allItems = Object.values(candidateNotificationsById)
+    const allItems = Object.values(projectAdmissionKeysById)
 
     if (!query) {
       return allItems
