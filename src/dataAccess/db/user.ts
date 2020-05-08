@@ -118,6 +118,10 @@ export default function makeUserRepo({ sequelize }): UserRepo {
     projectId: Project['id']
   ): ResultAsync<void> {
     try {
+      // Check if user already has access to this project
+      const priorAccess = await hasProject(userId, projectId)
+      if (priorAccess) return Ok(null)
+
       const userInstance = await UserModel.findByPk(userId)
 
       if (!userInstance) {
@@ -147,14 +151,14 @@ export default function makeUserRepo({ sequelize }): UserRepo {
       const userInstance = await UserModel.findByPk(userId)
 
       if (!userInstance) {
-        throw new Error('Cannot find user to add project to')
+        throw new Error('Cannot find user')
       }
 
       const ProjectModel = sequelize.model('project')
       const projectInstance = await ProjectModel.findByPk(projectId)
 
       if (!projectInstance) {
-        throw new Error('Cannot find project to be added to user')
+        throw new Error('Cannot find project')
       }
 
       return await userInstance.hasProject(projectInstance)
