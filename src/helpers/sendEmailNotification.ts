@@ -149,6 +149,67 @@ const sendPasswordResetEmail = async (
   }
 }
 
+interface EmailInvitationProps {
+  destinationEmail: string
+  subject: string
+  invitationLink: string
+  nomProjet: string
+}
+
+const sendEmailInvitation = async ({
+  destinationEmail,
+  subject,
+  invitationLink,
+  nomProjet,
+}: EmailInvitationProps) => {
+  if (process.env.NODE_ENV === 'test') {
+    // Register the sent email but don't send it for real
+    sentEmails.push({
+      destinationEmail,
+      subject,
+      invitationLink,
+      nomProjet,
+    })
+    return
+  }
+
+  if (!isAuthorizedEmail(destinationEmail)) {
+    return
+  }
+
+  if (!process.env.BASE_URL) {
+    console.log('Missing process.env.BASE_URL, aborting')
+    return
+  }
+
+  try {
+    await mailjet.post('send', { version: 'v3.1' }).request({
+      Messages: [
+        {
+          From: {
+            Email: process.env.SEND_EMAILS_FROM,
+            Name: 'Cellule PV',
+          },
+          To: [
+            {
+              Email: destinationEmail,
+            },
+          ],
+          TemplateID: 1402576,
+          TemplateLanguage: true,
+          Subject: subject,
+          Variables: {
+            invitation_link: process.env.BASE_URL + invitationLink,
+            nomProjet,
+          },
+        },
+      ],
+    })
+  } catch (error) {
+    console.log('sendEmailInvitation received an error', error)
+  }
+}
+
 // For tests only
 const getSentEmails = () => {
   return sentEmails
@@ -163,6 +224,7 @@ const resetSentEmails = () => {
 export {
   sendEmailNotification,
   sendPasswordResetEmail,
+  sendEmailInvitation,
   getSentEmails,
   resetSentEmails,
 }

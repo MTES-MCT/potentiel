@@ -77,6 +77,15 @@ export default function makeSendCandidateNotification({
     // Check if the email is already a known user
     const existingUserWithEmail = await credentialsRepo.findByEmail(email)
 
+    // Get project info
+    const project = await projectRepo.findById(projectId)
+    if (project.is_none()) {
+      console.log(
+        'inviteUserToProject use-case failed on call to projectRepo.findById'
+      )
+      return ErrorResult(SYSTEM_ERROR)
+    }
+
     if (existingUserWithEmail.is_some()) {
       // The user exists, add project to this user
       const { userId } = existingUserWithEmail.unwrap()
@@ -89,20 +98,25 @@ export default function makeSendCandidateNotification({
         return ErrorResult(SYSTEM_ERROR)
       }
 
-      // Success
+      // Success: send invitation
+      try {
+        await sendEmailInvitation({
+          subject: `${user.fullName} vous invite à suivre un projet sur Potentiel`,
+          destinationEmail: email,
+          nomProjet: project.unwrap().nomProjet,
+          // This link is a link to the project itself
+          invitationLink: routes.PROJECT_DETAILS(projectId),
+        })
+      } catch (error) {
+        console.log(
+          'inviteUserToProject use-case: error when calling sendEmailInvitation for existing user',
+          error
+        )
+      }
       return Ok(null)
     }
 
     // The invited user doesn't exist yet
-
-    // Get project info
-    const project = await projectRepo.findById(projectId)
-    if (project.is_none()) {
-      console.log(
-        'inviteUserToProject use-case failed on call to projectRepo.findById'
-      )
-      return ErrorResult(SYSTEM_ERROR)
-    }
 
     // Create a project admission key
     const projectAdmissionKeyResult = makeProjectAdmissionKey({
@@ -134,9 +148,10 @@ export default function makeSendCandidateNotification({
     // Call sendEmailInvitation with the proper informations
     try {
       await sendEmailInvitation({
-        subject: `${user.fullName} vous invite à rejoindre Potentiel`,
+        subject: `${user.fullName} vous invite à suivre un projet sur Potentiel`,
         destinationEmail: email,
         nomProjet: project.unwrap().nomProjet,
+        // The invitation link is an invitation to register as new user
         invitationLink: routes.PROJECT_INVITATION({
           projectAdmissionKey: projectAdmissionKey.id,
         }),

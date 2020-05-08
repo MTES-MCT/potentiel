@@ -13,10 +13,12 @@ import makeGetUserProject from './getUserProject'
 import makeRetrievePassword from './retrievePassword'
 import makeResetPassword from './resetPassword'
 import makeShouldUserAccessProject from './shouldUserAccessProject'
+import makeInviteUserToProject from './inviteUserToProject'
 
 import {
   sendEmailNotification,
   sendPasswordResetEmail,
+  sendEmailInvitation,
 } from '../helpers/sendEmailNotification'
 
 import {
@@ -89,6 +91,15 @@ const resetPassword = makeResetPassword({
   passwordRetrievalRepo,
 })
 
+const inviteUserToProject = makeInviteUserToProject({
+  projectRepo,
+  credentialsRepo,
+  userRepo,
+  projectAdmissionKeyRepo,
+  shouldUserAccessProject,
+  sendEmailInvitation,
+})
+
 const useCases = Object.freeze({
   login,
   importProjects,
@@ -105,6 +116,7 @@ const useCases = Object.freeze({
   retrievePassword,
   resetPassword,
   shouldUserAccessProject,
+  inviteUserToProject,
 })
 
 export default useCases
@@ -124,4 +136,5 @@ export {
   retrievePassword,
   resetPassword,
   shouldUserAccessProject,
+  inviteUserToProject,
 }

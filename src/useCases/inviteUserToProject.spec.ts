@@ -26,6 +26,7 @@ import {
   sendEmailInvitation,
   getCallsToEmailStub,
 } from '../__tests__/fixtures/emailInvitationService'
+import routes from '../routes'
 
 const shouldUserAccessProject = makeShouldUserAccessProject({ userRepo })
 const inviteUserToProject = makeInviteUserToProject({
@@ -97,7 +98,10 @@ describe('inviteUserToProject use-case', () => {
     expect(res.is_ok()).toBeTruthy()
   })
 
-  it('should add project to invited user if the latter already has an account', async () => {
+  it('should add project to invited user if the latter already has an account and notify them by email', async () => {
+    // Reset email stub
+    resetEmailStub()
+
     const email = 'existing@user.test'
 
     // TODO : insert user as well
@@ -155,6 +159,16 @@ describe('inviteUserToProject use-case', () => {
     const userProjects = await projectRepo.findByUser(existingUser.id)
     expect(userProjects).toHaveLength(1)
     expect(userProjects[0].id).toEqual(projet.id)
+
+    // Make sure the notification has been sent
+    expect(getCallsToEmailStub()).toHaveLength(1)
+
+    const sentEmail = getCallsToEmailStub()[0]
+
+    expect(sentEmail.destinationEmail).toEqual(email)
+    expect(sentEmail.subject).toContain(user.fullName)
+    expect(sentEmail.nomProjet).toEqual(projet.nomProjet)
+    expect(sentEmail.invitationLink).toEqual(routes.PROJECT_DETAILS(projet.id))
   })
 
   it('should send an invitation link to the invited user if he has not account yet', async () => {
