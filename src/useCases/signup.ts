@@ -53,13 +53,14 @@ export default function makeSignup({
     password,
     confirmPassword,
   }: CallUseCaseProps): ResultAsync<User> {
-    // console.log('signup usecase', projectAdmissionKey, fullName, password)
+    console.log('signup usecase', projectAdmissionKey, fullName, password)
 
     // Check if passwords match
     if (!password || password !== confirmPassword) {
       return ErrorResult(PASSWORD_MISMATCH_ERROR)
     }
 
+    // Check if project admission key is valid
     const projectAdmissionKeyResult = await projectAdmissionKeyRepo.findById(
       projectAdmissionKey
     )
@@ -148,6 +149,18 @@ export default function makeSignup({
     await Promise.all(
       projectsWithSameEmail.map((project) =>
         userRepo.addProject(user.id, project.id)
+      )
+    )
+
+    // Add all projects that have a projectAdmissionKey for the same email
+    const projectAdmissionKeysWithSameEmail = await projectAdmissionKeyRepo.findAll(
+      { email }
+    )
+    await Promise.all(
+      projectAdmissionKeysWithSameEmail.map((projectAdmissionKey) =>
+        projectAdmissionKey.projectId
+          ? userRepo.addProject(user.id, projectAdmissionKey.projectId)
+          : undefined
       )
     )
 

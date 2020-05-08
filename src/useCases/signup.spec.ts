@@ -99,7 +99,6 @@ describe('signup use-case', () => {
     // Signup with the same email address
     const phonySignup = makePhonySignup({
       projectAdmissionKey: projectAdmissionKey.id,
-      projectId: project.id,
       email: sameEmailEverywhere,
     })
 
@@ -107,6 +106,95 @@ describe('signup use-case', () => {
 
     expect(signupResult.is_ok()).toBeTruthy()
     if (!signupResult.is_ok()) return
+
+    // Check if login works
+    const userResult = await login({
+      email: phonySignup.email,
+      password: phonySignup.password,
+    })
+
+    expect(userResult.is_ok()).toBeTruthy()
+    if (!userResult.is_ok()) return
+
+    const user = userResult.unwrap()
+    expect(user).toEqual(
+      expect.objectContaining({
+        fullName: phonySignup.fullName,
+      })
+    )
+
+    if (!user) return
+
+    // Check if the project has been attached
+    const userProjects = await projectRepo.findByUser(user.id)
+    expect(userProjects).toHaveLength(2)
+    expect(userProjects).toContainEqual(expect.objectContaining(project))
+    expect(userProjects).toContainEqual(expect.objectContaining(otherProject))
+  })
+
+  it('should create a new user with all the projects that have a projectAdmissionKey for the same email', async () => {
+    const sameEmailEverywhere = 'one@address.com'
+
+    // Create two fake projects, with another email
+    await Promise.all(
+      [
+        makeFakeProject({ nomProjet: 'project1', email: 'other@test.test' }),
+        makeFakeProject({
+          nomProjet: 'project2',
+          email: 'yetAnother@test.test',
+        }),
+      ]
+        .map(makeProject)
+        .filter((item) => item.is_ok())
+        .map((item) => item.unwrap())
+        .map(projectRepo.insert)
+    )
+
+    const [project, otherProject] = await projectRepo.findAll()
+
+    expect(project).toBeDefined()
+    expect(otherProject).toBeDefined()
+    if (!project || !otherProject) return
+
+    const [projectAdmissionKey, otherProjectAdmissionKey] = (
+      await Promise.all(
+        [
+          // Create a project admission key for each fake project
+          ...[project, otherProject].map((project) => ({
+            email: sameEmailEverywhere,
+            fullName: '',
+            projectId: project.id,
+          })),
+          // Also create an admission key for a phony project to check if it is ignored
+          {
+            email: 'another@test.test',
+            projectId: 'shouldBeIgnored',
+            fullName: '',
+          },
+        ]
+          .map(makeProjectAdmissionKey)
+          .filter((item) => item.is_ok())
+          .map((item) => item.unwrap())
+          .map(projectAdmissionKeyRepo.insert)
+      )
+    )
+      .filter((item) => item.is_ok())
+      .map((item) => item.unwrap())
+
+    expect(projectAdmissionKey).toBeDefined()
+    expect(otherProjectAdmissionKey).toBeDefined()
+    if (!projectAdmissionKey || !otherProjectAdmissionKey) return
+
+    // Signup with the same email address
+    const phonySignup = makePhonySignup({
+      projectAdmissionKey: projectAdmissionKey.id,
+      email: sameEmailEverywhere,
+    })
+
+    const signupResult = await signup(phonySignup)
+
+    expect(signupResult.is_ok()).toBeTruthy()
+    if (signupResult.is_err()) return
 
     // Check if login works
     const userResult = await login({
