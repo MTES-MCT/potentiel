@@ -13,7 +13,6 @@ Given('je suis déconnecté', function () {
 })
 
 When("je clique sur le lien d'activation que j'ai reçu", () => {
-  // TODO: get an invitation link
   cy.get('@userEmail').then((userEmail) => {
     cy.request({
       method: 'POST',

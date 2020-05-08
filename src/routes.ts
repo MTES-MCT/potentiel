@@ -134,6 +134,8 @@ class routes {
         .replace(':filename', filename)
     } else return route
   }
+
+  static INVITE_USER_TO_PROJECT_ACTION = '/invite-user-to-project'
 }
 
 export default routes

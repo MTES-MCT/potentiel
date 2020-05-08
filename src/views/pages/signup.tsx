@@ -60,31 +60,37 @@ export default function SignupPage({
                 value={projectAdmissionKey.email}
                 disabled
               />
-              <div className="notification warning">
-                Il s'agit de l'adresse électronique que vous avez renseigné sur
-                votre dossier de candidature. Vous pourrez la changer par la
-                suite.
-              </div>
+              {!projectAdmissionKey.projectId ? (
+                // Only display this warning if it's an email notification
+                // if projectAdmissionKey has a projectId, it's an email invitation coming from another user
+                <div className="notification warning">
+                  Il s'agit de l'adresse électronique que vous avez renseigné
+                  sur votre dossier de candidature. Vous pourrez la changer par
+                  la suite.
+                </div>
+              ) : (
+                ''
+              )}
               <label htmlFor="password">Mot de passe</label>
               <input
                 type="password"
                 name="password"
                 id="password"
-                {...dataId('signup-password-field')}
+                {...dataId('password-field')}
               />
               <label htmlFor="confirmPassword">Confirmer mot de passe</label>
               <input
                 type="password"
                 name="confirmPassword"
                 id="confirmPassword"
-                {...dataId('signup-confirm-password-field')}
+                {...dataId('confirm-password-field')}
               />
               <button
                 className="button"
                 type="submit"
                 name="submit"
                 id="submit"
-                {...dataId('signup-submit-button')}
+                {...dataId('submit-button')}
               >
                 Envoyer
               </button>

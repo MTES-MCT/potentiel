@@ -73,3 +73,44 @@ Cypress.Commands.add('insertProjectsForUser', (projects) => {
     },
   })
 })
+
+Cypress.Commands.add('createUserWithEmail', (email) => {
+  return cy.request({
+    method: 'POST',
+    url: '/test/createUserWithEmail',
+    body: {
+      email,
+    },
+  })
+})
+
+Cypress.Commands.add('checkUserAccessToProject', (email, nomProjet) => {
+  return cy
+    .request({
+      method: 'POST',
+      url: '/test/checkUserAccessToProject',
+      body: {
+        email,
+        nomProjet,
+      },
+    })
+    .then((res) => res.body)
+})
+
+Cypress.Commands.add('getProjectId', (nomProjet) => {
+  return cy
+    .request({
+      method: 'GET',
+      url: '/test/getProjectId?nomProjet=' + nomProjet,
+    })
+    .then((res) => res.body)
+})
+
+Cypress.Commands.add('getSentEmails', () => {
+  return cy
+    .request({
+      method: 'GET',
+      url: '/test/getSentEmails',
+    })
+    .then((res) => res.body.emails)
+})

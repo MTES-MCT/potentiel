@@ -120,3 +120,16 @@ ul.frise:before {
   margin-right: 10px;
   margin-left: 5px;
 }
+
+form.invitationForm {
+  margin-left: 0px;
+  display: none;
+}
+
+.open > form.invitationForm {
+  display: block;
+}
+
+.open > .invitationFormToggle {
+  display: none;
+}

@@ -3,9 +3,12 @@
 <script src="/scripts.js"></script>
 <script>
   // Storybook specific, wait for react to print the dom elements
-  setTimeout(function () {
-    window.initHandlers()
-  }, 3000)
+  document.addEventListener('DOMContentLoaded', (event) => {
+    // console.log('DOMContentLoaded for outer frame', document)
+    setTimeout(() => {
+      initHandlers()
+    }, 2000)
+  })
 </script>
 
 <svg aria-hidden="true" focusable="false" style="display: none;">

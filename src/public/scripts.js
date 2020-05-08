@@ -3,6 +3,7 @@
 window.initHandlers = function () {
   console.log('initHandlers')
   addActionMenuHandlers()
+  addInvitationHandlers()
   addPuissanceModificationHandler()
   addDelayDateModificationHandler()
   addAOPeriodeFamilleSelectorHandlers()
@@ -60,6 +61,38 @@ function addActionMenuHandlers() {
 // Project page
 //
 
+function addInvitationHandlers() {
+  const invitationFormShowButton = document.querySelector(
+    '[data-testid=invitation-form-show-button]'
+  )
+
+  const invitationFormHideButton = document.querySelector(
+    '[data-testid=invitation-form-hide-button]'
+  )
+
+  const invitationForm = document.querySelector('[data-testid=invitation-form]')
+
+  if (invitationFormShowButton) {
+    console.log('found invitation show button')
+    invitationFormShowButton.addEventListener('click', function (event) {
+      console.log('show button click')
+      event.preventDefault()
+
+      toggleVisibility(invitationForm, true)
+    })
+  }
+
+  if (invitationFormHideButton) {
+    console.log('found invitation hide button')
+    invitationFormHideButton.addEventListener('click', function (event) {
+      console.log('hide button click')
+      event.preventDefault()
+
+      toggleVisibility(invitationForm, false)
+    })
+  }
+}
+
 function addProjectDetailsSectionHandlers() {
   const sectionToggle = document.querySelectorAll(
     '[data-testid=projectDetails-section-toggle]'
@@ -74,19 +107,11 @@ function addProjectDetailsSectionHandlers() {
       // Hide all sections
       // document
       //   .querySelectorAll('[data-testid=projectDetails-section-toggle]')
-      //   .forEach((item) => toggleSectionVisibilty(item, false))
+      //   .forEach((item) => toggleVisibility(item, false))
 
-      toggleSectionVisibilty(item, !wasVisible)
+      toggleVisibility(item, !wasVisible)
     })
   )
-}
-
-function toggleSectionVisibilty(toggleItem, shouldBeVisible) {
-  if (shouldBeVisible) {
-    toggleItem.classList.add('open')
-  } else {
-    toggleItem.classList.remove('open')
-  }
 }
 
 //
@@ -406,6 +431,14 @@ function addDelayDateModificationHandler() {
 //
 // General utility
 //
+
+function toggleVisibility(toggleItem, shouldBeVisible) {
+  if (shouldBeVisible) {
+    toggleItem.classList.add('open')
+  } else {
+    toggleItem.classList.remove('open')
+  }
+}
 
 function addClickHandlerForClass(className, handler) {
   Array.from(document.getElementsByClassName(className)).forEach(function (

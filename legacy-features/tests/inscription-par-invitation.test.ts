@@ -11,28 +11,28 @@ import makeRoute from '../setup/makeRoute'
 import { PORTEUR_PROJET } from '../../src/__tests__/fixtures/testCredentials'
 import { projectRepo, projectAdmissionKeyRepo } from '../../src/server'
 
-Given('je suis un porteur de projet sans compte', function() {
+Given('je suis un porteur de projet sans compte', function () {
   // Nothing to do here
 })
 
-Given('les notifications ont été envoyées aux candidats', async function() {
+Given('les notifications ont été envoyées aux candidats', async function () {
   // create the activation link by sending all notifications
   await sendCandidateNotifications({})
 })
 
 When(
   "je clique sur le lien d'activation reçu à l'adresse {string}",
-  async function(email) {
+  async function (email) {
     // Find a project from this user
     const userProjects = await projectRepo.findAll({
-      email
+      email,
     })
 
     expect(userProjects).to.have.length.of.at.least(1)
 
     // Find the activation link for this user
     const projectAdmissionKeys = await projectAdmissionKeyRepo.findAll({
-      projectId: userProjects[0].id
+      projectId: userProjects[0].id,
     })
 
     expect(projectAdmissionKeys).to.have.lengthOf(1)
@@ -50,7 +50,7 @@ When(
     )
   }
 )
-When("je crée un compte avec l'adresse {string}", async function(email) {
+When("je crée un compte avec l'adresse {string}", async function (email) {
   this.currentEmail = email
 
   await this.page.waitForSelector(testId('signup-form'))
@@ -61,47 +61,47 @@ When("je crée un compte avec l'adresse {string}", async function(email) {
     PORTEUR_PROJET.firstName
   )
   await this.page.type(testId('signup-email-field'), email)
-  await this.page.type(testId('signup-password-field'), PORTEUR_PROJET.password)
+  await this.page.type(testId('password-field'), PORTEUR_PROJET.password)
   await this.page.type(
-    testId('signup-confirm-password-field'),
+    testId('confirm-password-field'),
     PORTEUR_PROJET.password
   )
 
-  await this.page.click(testId('signup-submit-button'))
+  await this.page.click(testId('submit-button'))
 })
 
 Then(
   'je vois les projets associés à mon email dans ma liste',
-  async function() {
+  async function () {
     await this.page.waitForSelector(testId('projectList-item-nomProjet'))
 
     const projectsInList = await this.page.$$eval(
       testId('projectList-item-nomProjet'),
-      actionElements =>
-        actionElements.map(actionElement => actionElement.innerText)
+      (actionElements) =>
+        actionElements.map((actionElement) => actionElement.innerText)
     )
 
     const userProjects = this.projects.filter(
-      project => project.email === this.currentEmail
+      (project) => project.email === this.currentEmail
     )
 
     expect(projectsInList).to.have.lengthOf(userProjects.length)
 
     expect(projectsInList).to.include.members(
-      userProjects.map(project => project.nomProjet)
+      userProjects.map((project) => project.nomProjet)
     )
   }
 )
 
 Then(
   "je vois uniquement le projet correspondant au lien que j'ai cliqué",
-  async function() {
+  async function () {
     await this.page.waitForSelector(testId('projectList-item-nomProjet'))
 
     const projectsInList = await this.page.$$eval(
       testId('projectList-item-nomProjet'),
-      actionElements =>
-        actionElements.map(actionElement => actionElement.innerText)
+      (actionElements) =>
+        actionElements.map((actionElement) => actionElement.innerText)
     )
 
     expect(projectsInList).to.have.lengthOf(1)

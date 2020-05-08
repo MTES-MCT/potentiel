@@ -35,12 +35,18 @@ import {
   postResetPassword,
   getProjectFile,
   getProjectPage,
+  postInviteUserToProject,
 } from './controllers'
 
-import { resetDbForTests } from './__tests__/integration/resetDbForTests'
-import { addProjectsForTests } from './__tests__/integration/addProjectsForTests'
-import { getSentEmailsForTests } from './__tests__/integration/getSentEmailsForTests'
-import { createInvitationForTests } from './__tests__/integration/createInvitationForTests'
+import {
+  resetDbForTests,
+  addProjectsForTests,
+  getSentEmailsForTests,
+  createInvitationForTests,
+  checkUserAccessToProjectForTests,
+  createUserWithEmailForTests,
+  getProjectIdForTests,
+} from './__tests__/integration'
 
 import { initDatabase } from './dataAccess'
 
@@ -231,6 +237,12 @@ export async function makeServer(port: number = 3000) {
       makeExpressCallback(getProjectFile)
     )
 
+    router.post(
+      ROUTES.INVITE_USER_TO_PROJECT_ACTION,
+      ensureLoggedIn(),
+      makeExpressCallback(postInviteUserToProject)
+    )
+
     router.get('/ping', (req, res) => {
       console.log('Call to ping')
       res.send('pong')
@@ -246,6 +258,18 @@ export async function makeServer(port: number = 3000) {
       router.get(
         '/test/getSentEmails',
         makeExpressCallback(getSentEmailsForTests)
+      )
+      router.post(
+        '/test/checkUserAccessToProject',
+        makeExpressCallback(checkUserAccessToProjectForTests)
+      )
+      router.post(
+        '/test/createUserWithEmail',
+        makeExpressCallback(createUserWithEmailForTests)
+      )
+      router.get(
+        '/test/getProjectId',
+        makeExpressCallback(getProjectIdForTests)
       )
     }
 

@@ -34,11 +34,7 @@ When(
   'je clique sur le lien de récupération de mot de passe que je reçois par mail',
   () => {
     cy.get('@userEmail').then((userEmail) => {
-      cy.request({
-        method: 'GET',
-        url: '/test/getSentEmails',
-      }).then((res) => {
-        const { emails } = res.body
+      cy.getSentEmails().then((emails) => {
         cy.wrap(emails).should('have.length', 1)
         const myEmail = emails.find(
           (email) => email.destinationEmail === userEmail

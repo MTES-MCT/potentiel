@@ -7,7 +7,10 @@ import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
 
 // Override these to apply serialization/deserialization on inputs/outputs
-const deserialize = (item) => item
+const deserialize = (item) => ({
+  ...item,
+  projectId: item.projectId || undefined,
+})
 const serialize = (item) => item
 
 export default function makeProjectAdmissionKeyRepo({
@@ -79,12 +82,11 @@ export default function makeProjectAdmissionKeyRepo({
           ? {
               where: query,
             }
-          : {},
-        { raw: true }
+          : {}
       )
 
       const deserializedItems = mapExceptError(
-        projectAdmissionKeysRaw,
+        projectAdmissionKeysRaw.map((item) => item.get()),
         deserialize,
         'ProjectAdmissionKey.findAll.deserialize error'
       )

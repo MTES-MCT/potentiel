@@ -204,12 +204,57 @@ export default function ProjectDetails({
             </div>
           </div>
         </Section>
-        <Section title="Contact" icon="user-circle">
+        <Section title="Contact" icon="user-circle" defaultOpen={true}>
           <div style={{ marginBottom: 10 }}>{project.nomCandidat}</div>
           <div>
             <h5 style={{ marginBottom: 5 }}>Représentant légal</h5>
             <div>{project.nomRepresentantLegal}</div>
             <div>{project.email}</div>
+          </div>
+          <div style={{ marginTop: 10 }} {...dataId('invitation-form')}>
+            <a
+              href="#"
+              {...dataId('invitation-form-show-button')}
+              className="invitationFormToggle"
+            >
+              Donner accès à un autre utilisateur
+            </a>
+            <form
+              action={ROUTES.INVITE_USER_TO_PROJECT_ACTION}
+              method="post"
+              name="form"
+              className="invitationForm"
+            >
+              <h5 style={{ marginBottom: 5 }}>Gestion des accès à ce projet</h5>
+              <input
+                type="hidden"
+                name="projectId"
+                id="projectId"
+                value={project.id}
+              />
+              <label htmlFor="email">
+                Courrier électronique de la personne habilitée à suivre ce
+                projet
+              </label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                {...dataId('email-field')}
+              />
+              <button
+                className="button"
+                type="submit"
+                name="submit"
+                id="submit"
+                {...dataId('submit-button')}
+              >
+                Accorder les droits sur ce projet
+              </button>
+              <a href="#" {...dataId('invitation-form-hide-button')}>
+                Annuler
+              </a>
+            </form>
           </div>
         </Section>
         <Section title="Matériels et technologies" icon="cog">
