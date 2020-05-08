@@ -89,8 +89,19 @@ export default function ProjectDetails({
     user.role === 'porteur-projet' ? UserDashboard : AdminDashboard
   return (
     <Dashboard currentPage="list-projects">
-      <div className="panel">
-        <div className="panel__header" style={{ position: 'relative' }}>
+      <div className="panel" style={{ padding: 0 }}>
+        <div
+          className="panel__header"
+          style={{
+            position: 'relative',
+            padding: '1.5em',
+            paddingBottom: 0,
+            backgroundColor:
+              project.classe === 'Classé'
+                ? '#daf5e7'
+                : 'hsla(5,70%,79%,.45882)',
+          }}
+        >
           <h3>{project.nomProjet}</h3>
           <span style={{ marginLeft: 10 }}>
             {project.communeProjet}, {project.departementProjet},{' '}
@@ -100,7 +111,18 @@ export default function ProjectDetails({
             {project.appelOffre?.id} {project.appelOffre?.periode?.title}{' '}
             période
           </div>
-          <div style={{ position: 'absolute', right: 0, bottom: 25 }}>
+          <div
+            style={{
+              fontWeight: 'bold',
+              color:
+                project.classe === 'Classé'
+                  ? 'rgb(56, 118, 29)'
+                  : 'rgb(204, 0, 0)',
+            }}
+          >
+            {project.classe === 'Classé' ? 'Actif' : 'Eliminé'}
+          </div>
+          <div style={{ position: 'absolute', right: '1.5em', bottom: 25 }}>
             <ProjectActions
               project={project}
               projectActions={
@@ -111,159 +133,168 @@ export default function ProjectDetails({
             />
           </div>
         </div>
-        {success ? (
-          <div className="notification success" {...dataId('success-message')}>
-            {success}
-          </div>
-        ) : (
-          ''
-        )}
-        {error ? (
-          <div className="notification error" {...dataId('error-message')}>
-            {error}
-          </div>
-        ) : (
-          ''
-        )}
-        <div style={{ position: 'relative' }}>
-          <ul className="frise">
-            {project.notifiedOn ? (
-              <>
-                <FriseItem
-                  color={
-                    project.classe === 'Classé'
-                      ? 'rgb(56, 118, 29)'
-                      : 'rgb(204, 0, 0)'
-                  }
-                >
-                  {moment(project.notifiedOn).format('D MMM YYYY')} -
-                  Désignation AO {project.appelOffre?.id}{' '}
-                  {project.appelOffre?.periode?.canGenerateCertificate ? (
-                    <a
-                      href={
-                        user.role === 'porteur-projet'
-                          ? ROUTES.CANDIDATE_CERTIFICATE_FOR_CANDIDATES(project)
-                          : ROUTES.CANDIDATE_CERTIFICATE_FOR_ADMINS(project)
-                      }
-                    >
-                      Télécharger l'attestation
-                    </a>
+        <div style={{ padding: '1.5em', paddingTop: 0 }}>
+          {success ? (
+            <div
+              className="notification success"
+              {...dataId('success-message')}
+            >
+              {success}
+            </div>
+          ) : (
+            ''
+          )}
+          {error ? (
+            <div className="notification error" {...dataId('error-message')}>
+              {error}
+            </div>
+          ) : (
+            ''
+          )}
+          <div style={{ position: 'relative' }}>
+            <ul className="frise">
+              {project.notifiedOn ? (
+                <>
+                  <FriseItem
+                    color={
+                      project.classe === 'Classé'
+                        ? 'rgb(56, 118, 29)'
+                        : 'rgb(204, 0, 0)'
+                    }
+                  >
+                    {moment(project.notifiedOn).format('D MMM YYYY')} -
+                    Désignation AO {project.appelOffre?.id}{' '}
+                    {project.appelOffre?.periode?.canGenerateCertificate ? (
+                      <a
+                        href={
+                          user.role === 'porteur-projet'
+                            ? ROUTES.CANDIDATE_CERTIFICATE_FOR_CANDIDATES(
+                                project
+                              )
+                            : ROUTES.CANDIDATE_CERTIFICATE_FOR_ADMINS(project)
+                        }
+                      >
+                        Télécharger l'attestation
+                      </a>
+                    ) : (
+                      ''
+                    )}
+                  </FriseItem>
+                  {project.classe === 'Classé' ? (
+                    <>
+                      <FriseItem>
+                        {moment(project.notifiedOn)
+                          .add(2, 'months')
+                          .format('D MMM YYYY')}{' '}
+                        - Limite de dépot de garantie financière{' '}
+                        <a href="#">Déposer</a>
+                      </FriseItem>
+                      <FriseItem>
+                        {moment(project.notifiedOn)
+                          .add(2, 'months')
+                          .format('D MMM YYYY')}{' '}
+                        - Limite de dépot DCR <a href="#">Déposer</a>
+                      </FriseItem>
+                      <FriseItem>
+                        {moment(project.notifiedOn)
+                          .add(8, 'months')
+                          .format('D MMM YYYY')}{' '}
+                        - Limite de dépot PTF
+                      </FriseItem>
+                    </>
                   ) : (
                     ''
                   )}
-                </FriseItem>
-                {project.classe === 'Classé' ? (
-                  <>
-                    <FriseItem>
-                      {moment(project.notifiedOn)
-                        .add(2, 'months')
-                        .format('D MMM YYYY')}{' '}
-                      - Limite de dépot de garantie financière{' '}
-                      <a href="#">Déposer</a>
-                    </FriseItem>
-                    <FriseItem>
-                      {moment(project.notifiedOn)
-                        .add(2, 'months')
-                        .format('D MMM YYYY')}{' '}
-                      - Limite de dépot DCR <a href="#">Déposer</a>
-                    </FriseItem>
-                    <FriseItem>
-                      {moment(project.notifiedOn)
-                        .add(8, 'months')
-                        .format('D MMM YYYY')}{' '}
-                      - Limite de dépot PTF
-                    </FriseItem>
-                  </>
-                ) : (
-                  ''
-                )}
-              </>
-            ) : (
-              ''
-            )}
-          </ul>
-        </div>
-        <Section title="Projet" icon="building">
-          <div>
-            <h5 style={{ marginBottom: 5 }}>Performances</h5>
-            <div>
-              Puissance installée: {project.puissance}{' '}
-              {project.appelOffre?.unitePuissance}
-            </div>
+                </>
+              ) : (
+                ''
+              )}
+            </ul>
           </div>
-          <div>
-            <h5 style={{ marginBottom: 5, marginTop: 10 }}>
-              Site de production
-            </h5>
-            <div>{project.adresseProjet}</div>
+          <Section title="Projet" icon="building">
             <div>
-              {project.codePostalProjet} {project.communeProjet}
+              <h5 style={{ marginBottom: 5 }}>Performances</h5>
+              <div>
+                Puissance installée: {project.puissance}{' '}
+                {project.appelOffre?.unitePuissance}
+              </div>
             </div>
             <div>
-              {project.departementProjet}, {project.regionProjet}
+              <h5 style={{ marginBottom: 5, marginTop: 10 }}>
+                Site de production
+              </h5>
+              <div>{project.adresseProjet}</div>
+              <div>
+                {project.codePostalProjet} {project.communeProjet}
+              </div>
+              <div>
+                {project.departementProjet}, {project.regionProjet}
+              </div>
             </div>
-          </div>
-        </Section>
-        <Section title="Contact" icon="user-circle" defaultOpen={true}>
-          <div style={{ marginBottom: 10 }}>{project.nomCandidat}</div>
-          <div>
-            <h5 style={{ marginBottom: 5 }}>Représentant légal</h5>
-            <div>{project.nomRepresentantLegal}</div>
-            <div>{project.email}</div>
-          </div>
-          <div style={{ marginTop: 10 }} {...dataId('invitation-form')}>
-            <a
-              href="#"
-              {...dataId('invitation-form-show-button')}
-              className="invitationFormToggle"
-            >
-              Donner accès à un autre utilisateur
-            </a>
-            <form
-              action={ROUTES.INVITE_USER_TO_PROJECT_ACTION}
-              method="post"
-              name="form"
-              className="invitationForm"
-            >
-              <h5 style={{ marginBottom: 5 }}>Gestion des accès à ce projet</h5>
-              <input
-                type="hidden"
-                name="projectId"
-                id="projectId"
-                value={project.id}
-              />
-              <label htmlFor="email">
-                Courrier électronique de la personne habilitée à suivre ce
-                projet
-              </label>
-              <input
-                type="email"
-                name="email"
-                id="email"
-                {...dataId('email-field')}
-              />
-              <button
-                className="button"
-                type="submit"
-                name="submit"
-                id="submit"
-                {...dataId('submit-button')}
+          </Section>
+          <Section title="Contact" icon="user-circle" defaultOpen={true}>
+            <div style={{ marginBottom: 10 }}>{project.nomCandidat}</div>
+            <div>
+              <h5 style={{ marginBottom: 5 }}>Représentant légal</h5>
+              <div>{project.nomRepresentantLegal}</div>
+              <div>{project.email}</div>
+            </div>
+            <div style={{ marginTop: 10 }} {...dataId('invitation-form')}>
+              <a
+                href="#"
+                {...dataId('invitation-form-show-button')}
+                className="invitationFormToggle"
               >
-                Accorder les droits sur ce projet
-              </button>
-              <a href="#" {...dataId('invitation-form-hide-button')}>
-                Annuler
+                Donner accès à un autre utilisateur
               </a>
-            </form>
-          </div>
-        </Section>
-        <Section title="Matériels et technologies" icon="cog">
-          <div>Fournisseur: {project.fournisseur}</div>
-          <div>
-            Evaluation carbone simplifiée: {project.evaluationCarbone} kg eq
-            CO2/kWc
-          </div>
-        </Section>
+              <form
+                action={ROUTES.INVITE_USER_TO_PROJECT_ACTION}
+                method="post"
+                name="form"
+                className="invitationForm"
+              >
+                <h5 style={{ marginBottom: 5 }}>
+                  Gestion des accès à ce projet
+                </h5>
+                <input
+                  type="hidden"
+                  name="projectId"
+                  id="projectId"
+                  value={project.id}
+                />
+                <label htmlFor="email">
+                  Courrier électronique de la personne habilitée à suivre ce
+                  projet
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  {...dataId('email-field')}
+                />
+                <button
+                  className="button"
+                  type="submit"
+                  name="submit"
+                  id="submit"
+                  {...dataId('submit-button')}
+                >
+                  Accorder les droits sur ce projet
+                </button>
+                <a href="#" {...dataId('invitation-form-hide-button')}>
+                  Annuler
+                </a>
+              </form>
+            </div>
+          </Section>
+          <Section title="Matériels et technologies" icon="cog">
+            <div>Fournisseur: {project.fournisseur}</div>
+            <div>
+              Evaluation carbone simplifiée: {project.evaluationCarbone} kg eq
+              CO2/kWc
+            </div>
+          </Section>
+        </div>
       </div>
     </Dashboard>
   )
