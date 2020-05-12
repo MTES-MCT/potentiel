@@ -25,6 +25,7 @@ const csvFieldSchema = Record({
     Literal('date'),
     Literal('stringEquals'), // column should equals value
     Literal('orNumberInColumn'), // if column is empty, check try column
+    Literal('orStringInColumn'), // if column is empty, check try column
     Literal('codePostal') // Special case where we want to extend departement / région from codePostal
   ),
 }).And(

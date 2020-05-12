@@ -175,6 +175,8 @@ export default function makeImportProjects({
                   ? toNumber(line[column], defaultValue)
                   : (value && toNumber(line[value], defaultValue)) ||
                     defaultValue
+                : type === 'orStringInColumn'
+                ? line[column] || (value && line[value])
                 : undefined
 
             return {
