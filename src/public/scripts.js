@@ -155,6 +155,7 @@ function addMotifEliminationToggleHandlers() {
     item.addEventListener('click', function (event) {
       // console.log('motif toggle click', item)
       event.preventDefault()
+      event.stopPropagation()
 
       const icon = item.querySelector('svg')
       const wasVisible = icon && icon.style.transform === 'rotate(180deg)'
