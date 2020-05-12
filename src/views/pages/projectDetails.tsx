@@ -163,7 +163,7 @@ export default function ProjectDetails({
                     }
                   >
                     {moment(project.notifiedOn).format('D MMM YYYY')} -
-                    Désignation AO {project.appelOffre?.id}{' '}
+                    Notification des résultats{' '}
                     {project.appelOffre?.periode?.canGenerateCertificate ? (
                       <a
                         href={
@@ -186,20 +186,40 @@ export default function ProjectDetails({
                         {moment(project.notifiedOn)
                           .add(2, 'months')
                           .format('D MMM YYYY')}{' '}
-                        - Limite de dépot de garantie financière{' '}
-                        <a href="#">Déposer</a>
+                        - Constitution des garanties financières{' '}
+                        <a href="#">Transmettre l'attestation</a>
                       </FriseItem>
                       <FriseItem>
                         {moment(project.notifiedOn)
                           .add(2, 'months')
                           .format('D MMM YYYY')}{' '}
-                        - Limite de dépot DCR <a href="#">Déposer</a>
+                        - Demande complète de raccordement{' '}
+                        <a href="#">Indiquer la date de demande</a>
+                      </FriseItem>
+                      <FriseItem>
+                        Proposition technique et financière{' '}
+                        <a href="#">Indiquer la date de signature</a>
+                      </FriseItem>
+                      <FriseItem>
+                        Convention de raccordement{' '}
+                        <a href="#">Indiquer la date de signature</a>
                       </FriseItem>
                       <FriseItem>
                         {moment(project.notifiedOn)
-                          .add(8, 'months')
+                          .add(
+                            project.appelOffre?.delaiRealisationEnMois,
+                            'months'
+                          )
                           .format('D MMM YYYY')}{' '}
-                        - Limite de dépot PTF
+                        - Attestation de conformité{' '}
+                        <a href="#">Transmettre l'attestation</a>
+                      </FriseItem>
+                      <FriseItem>
+                        Mise en service <a href="#">Indiquer la date</a>
+                      </FriseItem>
+                      <FriseItem>
+                        Contrat d'achat{' '}
+                        <a href="#">Indiquer la date de signature</a>
                       </FriseItem>
                     </>
                   ) : (
