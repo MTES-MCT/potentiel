@@ -252,7 +252,22 @@ const projectRepo: ProjectRepo = {
     )
   },
   insert: (project: Project) => {
-    projectsById[project.id] = project
+    const previousProject = Object.values(projectsById).find(
+      (item) =>
+        item.appelOffreId === project.appelOffreId &&
+        item.periodeId === project.periodeId &&
+        project.numeroCRE === item.numeroCRE
+    )
+
+    if (previousProject) {
+      projectsById[previousProject.id] = {
+        ...project,
+        id: previousProject.id,
+        notifiedOn: previousProject.notifiedOn,
+      }
+    } else {
+      projectsById[project.id] = project
+    }
 
     // console.log('Calling projectRepo.insert with', project)
 

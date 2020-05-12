@@ -42,3 +42,11 @@ Then(
     cy.get(testid('projectList-item-nomProjet')).should('contain', projectName)
   }
 )
+
+Given('le projet suivant', async function (dataTable) {
+  cy.insertProjectsForUser(dataTable.hashes())
+})
+
+Then("la liste ne contient qu'un seul projet", () => {
+  cy.get(testid('projectList-item')).should('have.length', 1)
+})

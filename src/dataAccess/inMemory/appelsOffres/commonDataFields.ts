@@ -47,12 +47,6 @@ const commonDataFields = [
     column: 'CP',
   },
   { field: 'communeProjet', type: toTypeLiteral('string'), column: 'Commune' },
-  // {
-  //   field: 'departementProjet',
-  //   type: toTypeLiteral('string'),
-  //   column: 'Département',
-  // },
-  // { field: 'regionProjet', type: toTypeLiteral('string'), column: 'Région' },
   { field: 'classe', type: toTypeLiteral('string'), column: 'Classé ?' },
   {
     field: 'motifsElimination',

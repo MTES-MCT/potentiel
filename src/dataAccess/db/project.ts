@@ -20,6 +20,7 @@ import {
 } from '../../types'
 import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
+import { ok } from 'assert'
 
 // Override these to apply serialization/deserialization on inputs/outputs
 const deserialize = (item) => ({
@@ -301,9 +302,31 @@ export default function makeProjectRepo({
     await _isDbReady
 
     try {
-      // console.log('Inserting project', project)
-      await ProjectModel.create(serialize(project))
-      return Ok(project)
+      // Check if a project exist with the same numeroCRE, appelOffreId and periodeId
+      const { numeroCRE, appelOffreId, periodeId } = project
+      const existingProject = await ProjectModel.findOne({
+        where: {
+          numeroCRE,
+          appelOffreId,
+          periodeId,
+        },
+      })
+
+      if (existingProject) {
+        // Update the existing project, except notifiedOn field
+        Object.entries(project)
+          .filter(([key]) => key !== 'notifiedOn')
+          .forEach(([key, value]) => {
+            existingProject[key] = value
+          })
+
+        await existingProject.save()
+        return Ok(existingProject)
+      } else {
+        // console.log('Inserting project', project)
+        await ProjectModel.create(serialize(project))
+        return Ok(project)
+      }
     } catch (error) {
       if (CONFIG.logDbErrors) console.log('Project.insert error', error)
       return Err(error)

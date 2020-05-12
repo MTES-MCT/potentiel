@@ -1,8 +1,10 @@
+import { v1 as uuid } from 'uuid'
+
 export default function makeFakeProject(overrides?) {
   const defaultObj = {
     appelOffreId: 'fessenheim',
     periodeId: '6',
-    numeroCRE: 'CRE#12335',
+    numeroCRE: uuid(),
     familleId: '1',
     nomCandidat: 'Mr Porter',
     nomProjet: 'Mon projet PV',

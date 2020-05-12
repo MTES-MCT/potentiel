@@ -112,6 +112,7 @@ export default function makeImportProjects({
     // Check individual lines (use makeProject on each)
     const projects = lines.reduce(
       (currentResults: Result<Array<Project>, Array<Error>>, line, index) => {
+        // console.log('line', line)
         // Find the corresponding appelOffre
         const appelOffreId = line["Appel d'offres"]
         const appelOffre = appelsOffre.find(

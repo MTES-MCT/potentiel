@@ -5,10 +5,19 @@ import makeImportProjects, {
 } from './importProjects'
 import _ from 'lodash'
 import {
+  makeProject,
+  makeCredentials,
+  makeUser,
+  User,
+  Project,
+} from '../entities'
+import {
+  resetDatabase,
   projectRepo,
   appelOffreRepo,
   appelsOffreStatic,
 } from '../dataAccess/inMemory'
+import makeFakeProject from '../__tests__/fixtures/project'
 import hashPassword from '../helpers/hashPassword'
 import moment from 'moment'
 
@@ -16,6 +25,8 @@ const importProjects = makeImportProjects({ projectRepo, appelOffreRepo })
 
 const phonyAppelOffre = appelsOffreStatic[0]
 const phonyPeriodId = phonyAppelOffre.periodes[0].id
+const phonyNumeroCRE = '1'
+const phonyNotifiedOnDate = '22/04/2020'
 
 const getColumnForField = (field: string) => {
   const dataField = phonyAppelOffre.dataFields.find(
@@ -32,7 +43,7 @@ const getColumnForField = (field: string) => {
 const makePhonyLine = () => ({
   "Appel d'offres": phonyAppelOffre.id,
   Période: phonyPeriodId,
-  [getColumnForField('numeroCRE')]: 'numeroCRE',
+  [getColumnForField('numeroCRE')]: phonyNumeroCRE,
   [getColumnForField('familleId')]: 'famille',
   [getColumnForField('nomCandidat')]: 'nomCandidat',
   [getColumnForField('nomProjet')]: 'nomProjet',
@@ -48,10 +59,14 @@ const makePhonyLine = () => ({
   [getColumnForField('fournisseur')]: 'fournisseur',
   [getColumnForField('classe')]: 'Classé',
   [getColumnForField('motifsElimination')]: '',
-  [getColumnForField('notifiedOn')]: '22/04/2020',
+  [getColumnForField('notifiedOn')]: phonyNotifiedOnDate,
 })
 
 describe('importProjects use-case', () => {
+  beforeEach(async () => {
+    await resetDatabase()
+  })
+
   it('inserts all given projects to the store', async () => {
     const priorProjects = await projectRepo.findAll()
 
@@ -77,7 +92,7 @@ describe('importProjects use-case', () => {
     const expectedLine = {
       appelOffreId: phonyAppelOffre.id,
       periodeId: phonyPeriodId,
-      numeroCRE: 'numeroCRE',
+      numeroCRE: phonyNumeroCRE,
       familleId: 'famille',
       nomCandidat: 'nomCandidat',
       nomProjet: 'nomProjet',
@@ -93,7 +108,7 @@ describe('importProjects use-case', () => {
       fournisseur: 'fournisseur',
       classe: 'Classé',
       motifsElimination: '',
-      notifiedOn: moment('22/04/2020', 'DD/MM/YYYY').toDate().getTime(),
+      notifiedOn: moment(phonyNotifiedOnDate, 'DD/MM/YYYY').toDate().getTime(),
     }
 
     expect(newProjects).toHaveLength(1)
@@ -101,6 +116,51 @@ describe('importProjects use-case', () => {
     for (const key in expectedLine) {
       expect(newProjects[0][key]).toEqual(expectedLine[key])
     }
+  })
+
+  it('should override a project line if it has the same numeroCRE, appelOffreId and periode, except the notifiedOn field', async () => {
+    // Create a fake project
+    const insertedProjects = (
+      await Promise.all(
+        [
+          makeFakeProject({
+            appelOffreId: phonyAppelOffre.id,
+            periodeId: phonyPeriodId,
+            numeroCRE: phonyNumeroCRE,
+            nomProjet: 'Ancien nom projet',
+            notifiedOn: 0,
+          }),
+        ]
+          .map(makeProject)
+          .filter((item) => item.is_ok())
+          .map((item) => item.unwrap())
+          .map(projectRepo.insert)
+      )
+    )
+      .filter((item) => item.is_ok())
+      .map((item) => item.unwrap())
+
+    expect(insertedProjects).toHaveLength(1)
+    const oldProject = insertedProjects[0]
+    if (!oldProject) return
+
+    // Insert line through import
+    const phonyLine = makePhonyLine()
+    const result = await importProjects({
+      lines: [phonyLine],
+    })
+
+    expect(result.is_ok()).toBeTruthy()
+
+    // Make sure the project has been updated
+    const updatedProjects = await projectRepo.findAll({
+      appelOffreId: phonyAppelOffre.id,
+      periodeId: phonyPeriodId,
+      numeroCRE: phonyNumeroCRE,
+    })
+    expect(updatedProjects).toHaveLength(1)
+    expect(updatedProjects[0].nomProjet).toEqual('nomProjet')
+    expect(updatedProjects[0].notifiedOn).toEqual(0)
   })
 
   it("should throw an error if there isn't at least one line", async () => {

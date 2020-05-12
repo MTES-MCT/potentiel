@@ -42,7 +42,7 @@ export default function AdminListProjects({ request }: AdminListProjectsProps) {
             <input
               type="file"
               name="candidats"
-              {...dataId('importProjects-candidatsField')}
+              {...dataId('candidats-field')}
               id="candidats"
             />
             <button
