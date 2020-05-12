@@ -74,10 +74,6 @@ const batiment: AppelOffre = {
     {
       id: '10',
       title: 'dixième',
-    },
-    {
-      id: '11',
-      title: 'onzième',
       canGenerateCertificate: true,
     },
   ],
