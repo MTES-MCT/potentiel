@@ -94,10 +94,8 @@
   transform: rotate(0deg);
 }
 
-li.frise--item {
-  z-index: 11;
-  position: relative;
-  line-height: 2em;
+.frise--item {
+  height: 30px;
 }
 
 .frise circle {
@@ -109,12 +107,11 @@ li.frise--item {
 }
 
 .frise--toggle {
-  list-style: none;
-  display: none;
+  visibility: hidden;
 }
 
-.frise--item.frise--collapsed ~ .frise--toggle {
-  display: initial;
+.frise--item.frise--collapsed ~ tr .frise--toggle {
+  visibility: visible;
 }
 
 ul.frise:before {

@@ -10,24 +10,108 @@ import { HttpRequest } from '../../types'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '../../routes'
 
+interface FriseContainerProps {
+  children: React.ReactNode
+}
+
+const Frise = ({ children }) => (
+  <table
+    className="frise"
+    style={{ borderCollapse: 'collapse', marginBottom: 20 }}
+  >
+    <thead>
+      <tr>
+        <td style={{ width: 16 }} />
+        <td style={{ width: 16 }} />
+        <td />
+        <td />
+        <td />
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td
+          style={{
+            position: 'relative',
+            borderRight: '2px solid var(--dark-grey)',
+            height: 10,
+          }}
+        ></td>
+        <td></td>
+      </tr>
+      {children}
+      <tr>
+        <td
+          style={{
+            position: 'relative',
+            borderRight: '2px solid var(--dark-grey)',
+          }}
+        ></td>
+        <td></td>
+        <td colSpan={3} style={{ paddingLeft: 5 }}>
+          <a className="frise--toggle" href="#" {...dataId('frise-toggle')}>
+            Afficher les étapes suivantes
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+)
+
 interface FriseItemProps {
   color?: string
-  children: React.ReactNode
+  date?: string
+  title: string
+  action?: { title: string; link?: string }
   defaultHidden?: boolean
+  isNextUp?: boolean
 }
-const FriseItem = ({ color, children, defaultHidden }: FriseItemProps) => {
+const FriseItem = ({
+  color,
+  defaultHidden,
+  date,
+  title,
+  action,
+  isNextUp,
+}: FriseItemProps) => {
   return (
-    <li
-      className={'frise--item' + (defaultHidden ? ' frise--collapsed' : '')}
-      style={{
-        listStyleImage:
-          "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 100 100'><circle fill='" +
-          (color || '#8393a7') +
-          "' cx='50%' cy='50%' r='50' /></svg>\")",
-      }}
-    >
-      {children}
-    </li>
+    <tr className={'frise--item' + (defaultHidden ? ' frise--collapsed' : '')}>
+      <td
+        style={{
+          position: 'relative',
+          borderRight: '2px solid var(--dark-grey)',
+        }}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="30"
+          height="30"
+          viewBox="0 0 100 100"
+          style={{ position: 'absolute', top: 0 }}
+        >
+          <circle
+            fill={isNextUp ? 'var(--blue)' : color || '#8393a7'}
+            cx="50%"
+            cy="50%"
+            r={isNextUp ? '24' : '20'}
+          />
+        </svg>
+      </td>
+      <td></td>
+      <td style={{ padding: '0 5px', fontStyle: 'italic' }}>{date || ''}</td>
+      <td style={{ padding: '0 5px' }}>{title}</td>
+      <td>
+        {action ? (
+          action.link ? (
+            <a href={action.link}>{action.title}</a>
+          ) : (
+            <span className="disabled-action">{action.title}</span>
+          )
+        ) : (
+          ''
+        )}
+      </td>
+    </tr>
   )
 }
 
@@ -157,7 +241,7 @@ export default function ProjectDetails({
             ''
           )}
           <div style={{ position: 'relative' }}>
-            <ul className="frise">
+            <Frise>
               {project.notifiedOn ? (
                 <>
                   <FriseItem
@@ -166,86 +250,73 @@ export default function ProjectDetails({
                         ? 'rgb(56, 118, 29)'
                         : 'rgb(204, 0, 0)'
                     }
-                  >
-                    {moment(project.notifiedOn).format('D MMM YYYY')} -
-                    Notification des résultats{' '}
-                    {project.appelOffre?.periode?.canGenerateCertificate ? (
-                      <a
-                        href={
-                          user.role === 'porteur-projet'
-                            ? ROUTES.CANDIDATE_CERTIFICATE_FOR_CANDIDATES(
-                                project
-                              )
-                            : ROUTES.CANDIDATE_CERTIFICATE_FOR_ADMINS(project)
-                        }
-                      >
-                        Télécharger l'attestation
-                      </a>
-                    ) : (
-                      ''
-                    )}
-                  </FriseItem>
+                    date={moment(project.notifiedOn).format('D MMM YYYY')}
+                    title="Notification des résultats"
+                    action={
+                      project.appelOffre?.periode?.canGenerateCertificate
+                        ? {
+                            title: "Télécharger l'attestation",
+                            link:
+                              user.role === 'porteur-projet'
+                                ? ROUTES.CANDIDATE_CERTIFICATE_FOR_CANDIDATES(
+                                    project
+                                  )
+                                : ROUTES.CANDIDATE_CERTIFICATE_FOR_ADMINS(
+                                    project
+                                  ),
+                          }
+                        : undefined
+                    }
+                  />
                   {project.classe === 'Classé' ? (
                     <>
-                      <FriseItem>
-                        {moment(project.notifiedOn)
+                      <FriseItem
+                        date={moment(project.notifiedOn)
                           .add(2, 'months')
-                          .format('D MMM YYYY')}{' '}
-                        - Constitution des garanties financières{' '}
-                        <span className="disabled-action">
-                          Transmettre l'attestation
-                        </span>
-                      </FriseItem>
-                      <FriseItem defaultHidden={true}>
-                        {moment(project.notifiedOn)
+                          .format('D MMM YYYY')}
+                        title="Constitution des garanties financières"
+                        action={{ title: "Transmettre l'attestation" }}
+                        isNextUp
+                      />
+                      <FriseItem
+                        date={moment(project.notifiedOn)
                           .add(2, 'months')
-                          .format('D MMM YYYY')}{' '}
-                        - Demande complète de raccordement{' '}
-                        <span className="disabled-action">
-                          Indiquer la date de demande
-                        </span>
-                      </FriseItem>
-                      <FriseItem defaultHidden={true}>
-                        Proposition technique et financière{' '}
-                        <span className="disabled-action">
-                          Indiquer la date de signature
-                        </span>
-                      </FriseItem>
-                      <FriseItem defaultHidden={true}>
-                        Convention de raccordement{' '}
-                        <span className="disabled-action">
-                          Indiquer la date de signature
-                        </span>
-                      </FriseItem>
-                      <FriseItem defaultHidden={true}>
-                        {moment(project.notifiedOn)
+                          .format('D MMM YYYY')}
+                        title="Demande complète de raccordement"
+                        action={{ title: 'Indiquer la date de demande' }}
+                        defaultHidden={true}
+                      />
+                      <FriseItem
+                        title="Proposition technique et financière"
+                        action={{ title: 'Indiquer la date de signature' }}
+                        defaultHidden={true}
+                      />
+                      <FriseItem
+                        title="Convention de raccordement"
+                        action={{ title: 'Indiquer la date de signature' }}
+                        defaultHidden={true}
+                      />
+                      <FriseItem
+                        date={moment(project.notifiedOn)
                           .add(
                             project.appelOffre?.delaiRealisationEnMois,
                             'months'
                           )
-                          .format('D MMM YYYY')}{' '}
-                        - Attestation de conformité{' '}
-                        <span className="disabled-action">
-                          Transmettre l'attestation
-                        </span>
-                      </FriseItem>
-                      <FriseItem defaultHidden={true}>
-                        Mise en service{' '}
-                        <span className="disabled-action">
-                          Indiquer la date
-                        </span>
-                      </FriseItem>
-                      <FriseItem defaultHidden={true}>
-                        Contrat d'achat{' '}
-                        <span className="disabled-action">
-                          Indiquer la date de signature
-                        </span>
-                      </FriseItem>
-                      <li className="frise--toggle">
-                        <a href="#" {...dataId('frise-toggle')}>
-                          Afficher les étapes suivantes
-                        </a>
-                      </li>
+                          .format('D MMM YYYY')}
+                        title="Attestation de conformité"
+                        action={{ title: "Transmettre l'attestation" }}
+                        defaultHidden={true}
+                      />
+                      <FriseItem
+                        title="Mise en service"
+                        action={{ title: 'Indiquer la date' }}
+                        defaultHidden={true}
+                      />
+                      <FriseItem
+                        title="Contrat d'achat"
+                        action={{ title: 'Indiquer la date de signature' }}
+                        defaultHidden={true}
+                      />
                     </>
                   ) : (
                     ''
@@ -254,7 +325,7 @@ export default function ProjectDetails({
               ) : (
                 ''
               )}
-            </ul>
+            </Frise>
           </div>
           <Section title="Projet" icon="building">
             <div>
