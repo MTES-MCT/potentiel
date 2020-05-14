@@ -156,6 +156,7 @@ export default function makeProjectRepo({
     update,
     remove,
     addNotification,
+    getUsers,
   })
 
   async function addAppelOffreToProject(project: Project): Promise<Project> {
@@ -400,6 +401,18 @@ export default function makeProjectRepo({
         console.log('Project.addNotification error', error)
       return Err(error)
     }
+  }
+
+  async function getUsers(projectId: Project['id']): Promise<Array<User>> {
+    await _isDbReady
+
+    const projectInstance = await ProjectModel.findByPk(projectId)
+
+    if (!projectInstance) {
+      return []
+    }
+
+    return (await projectInstance.getUsers()).map((item) => item.get())
   }
 }
 

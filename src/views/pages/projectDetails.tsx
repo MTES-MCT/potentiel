@@ -1,7 +1,7 @@
 import React from 'react'
 import moment from 'moment'
 
-import { Project } from '../../entities'
+import { Project, User } from '../../entities'
 import UserDashboard from '../components/userDashboard'
 import AdminDashboard from '../components/adminDashboard'
 import ProjectActions from '../components/projectActions'
@@ -69,12 +69,16 @@ const Section = ({ title, defaultOpen, children, icon }: SectionProps) => {
 interface ProjectDetailsProps {
   request: HttpRequest
   project: Project
+  projectUsers: Array<User>
+  projectInvitations: Array<{ email: string }>
 }
 
 /* Pure component */
 export default function ProjectDetails({
   request,
   project,
+  projectUsers,
+  projectInvitations,
 }: ProjectDetailsProps) {
   const { user } = request
   const { error, success } = request.query || {}
@@ -259,7 +263,24 @@ export default function ProjectDetails({
               <div>{project.nomRepresentantLegal}</div>
               <div>{project.email}</div>
             </div>
-            <div style={{ marginTop: 10 }} {...dataId('invitation-form')}>
+            <div>
+              <h5 style={{ marginBottom: 5, marginTop: 15 }}>
+                Comptes ayant accès à ce projet
+              </h5>
+              <ul style={{ marginTop: 5, marginBottom: 5 }}>
+                {projectUsers.map((user) => (
+                  <li key={'project_user_' + user.id}>
+                    {user.fullName} - {user.email}
+                  </li>
+                ))}
+                {projectInvitations.map(({ email }) => (
+                  <li key={'project_invitation_' + email}>
+                    {email} (<i>invitation envoyée</i>)
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div {...dataId('invitation-form')}>
               <a
                 href="#"
                 {...dataId('invitation-form-show-button')}

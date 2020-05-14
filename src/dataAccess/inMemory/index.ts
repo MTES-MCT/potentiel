@@ -312,6 +312,11 @@ const projectRepo: ProjectRepo = {
 
     return Ok(project)
   },
+  getUsers: async (_projectId: Project['id']) => {
+    return Object.entries(userProjects)
+      .filter(([userId, projectIds]) => projectIds.includes(_projectId))
+      .map(([userId]) => usersById[userId])
+  },
 }
 
 let usersById: Record<string, User> = {}

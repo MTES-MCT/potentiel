@@ -23,6 +23,8 @@ export const forAdminsLaureat = () => (
       notifiedOn: Date.now(),
       appelOffre,
     })}
+    projectUsers={[makeFakeUser()]}
+    projectInvitations={[{ email: 'invited@email.com' }]}
   />
 )
 
@@ -35,6 +37,8 @@ export const forAdminsElimine = () => (
       notifiedOn: Date.now(),
       appelOffre,
     })}
+    projectUsers={[makeFakeUser()]}
+    projectInvitations={[{ email: 'invited@email.com' }]}
   />
 )
 
@@ -49,5 +53,7 @@ export const forPorteurProjet = () => (
       notifiedOn: Date.now(),
       appelOffre,
     })}
+    projectUsers={[makeFakeUser()]}
+    projectInvitations={[{ email: 'invited@email.com' }]}
   />
 )

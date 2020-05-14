@@ -22,4 +22,5 @@ export type ProjectRepo = {
     project: Project,
     notification: CandidateNotification
   ) => ResultAsync<Project>
+  getUsers: (projectId: Project['id']) => Promise<Array<User>>
 }
