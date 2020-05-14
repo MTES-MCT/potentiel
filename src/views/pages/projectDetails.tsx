@@ -348,7 +348,7 @@ export default function ProjectDetails({
               </div>
             </div>
           </Section>
-          <Section title="Contact" icon="user-circle" defaultOpen={true}>
+          <Section title="Contact" icon="user-circle">
             <div style={{ marginBottom: 10 }}>{project.nomCandidat}</div>
             <div>
               <h5 style={{ marginBottom: 5 }}>Représentant légal</h5>
