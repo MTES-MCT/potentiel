@@ -34,7 +34,7 @@ const Frise = ({ children, displayToggle }: FriseContainerProps) => (
         <td
           style={{
             position: 'relative',
-            borderRight: '2px solid var(--dark-grey)',
+            borderRight: '2px solid var(--lighter-grey)',
             height: 10,
           }}
         ></td>
@@ -46,7 +46,7 @@ const Frise = ({ children, displayToggle }: FriseContainerProps) => (
           <td
             style={{
               position: 'relative',
-              borderRight: '2px solid var(--dark-grey)',
+              borderRight: '2px solid var(--lighter-grey)',
             }}
           ></td>
           <td></td>
@@ -80,7 +80,7 @@ interface FriseItemProps {
   title: string
   action?: { title: string; link?: string }
   defaultHidden?: boolean
-  isNextUp?: boolean
+  status?: 'nextup' | 'past' | 'future'
 }
 const FriseItem = ({
   color,
@@ -88,30 +88,67 @@ const FriseItem = ({
   date,
   title,
   action,
-  isNextUp,
+  status = 'future',
 }: FriseItemProps) => {
   return (
     <tr className={'frise--item' + (defaultHidden ? ' frise--collapsed' : '')}>
       <td
         style={{
           position: 'relative',
-          borderRight: '2px solid var(--dark-grey)',
+          borderRight: '2px solid var(--lighter-grey)',
         }}
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="30"
-          height="30"
-          viewBox="0 0 100 100"
-          style={{ position: 'absolute', top: 0 }}
+        <div
+          style={{
+            position: 'absolute',
+            top: status === 'nextup' ? 4 : 6,
+            left: 4,
+            width: 24,
+            height: 24,
+            textAlign: 'center',
+          }}
         >
-          <circle
-            fill={isNextUp ? 'var(--blue)' : color || '#8393a7'}
-            cx="50%"
-            cy="50%"
-            r={isNextUp ? '24' : '20'}
-          />
-        </svg>
+          {status === 'past' ? (
+            <svg
+              fill="white"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              width="20"
+              height="20"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          ) : status === 'nextup' ? (
+            <svg
+              fill="white"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              width="24"
+              height="24"
+              stroke="var(--blue)"
+              viewBox="0 0 24 24"
+            >
+              <path d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          ) : (
+            <svg
+              fill="white"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              width="20"
+              height="20"
+              stroke="var(--light-grey)"
+              viewBox="0 0 24 24"
+            >
+              <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          )}
+        </div>
       </td>
       <td></td>
       <td style={{ padding: '0 5px', fontStyle: 'italic' }}>{date || ''}</td>
@@ -264,6 +301,7 @@ export default function ProjectDetails({
                     color="var(--darkest-grey)"
                     date={moment(project.notifiedOn).format('D MMM YYYY')}
                     title="Notification des résultats"
+                    status="past"
                     action={
                       project.appelOffre?.periode?.canGenerateCertificate
                         ? {
@@ -291,7 +329,7 @@ export default function ProjectDetails({
                           title:
                             "Transmettre l'attestation (bientôt disponible)",
                         }}
-                        isNextUp
+                        status="nextup"
                       />
                       <FriseItem
                         date={moment(project.notifiedOn)
