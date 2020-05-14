@@ -378,7 +378,10 @@ export default function ProjectDetails({
                   )}
                 </>
               ) : (
-                ''
+                <FriseItem
+                  title="Ce projet n'a pas encore été notifié."
+                  status="nextup"
+                />
               )}
             </Frise>
           </div>

@@ -28,6 +28,20 @@ export const forAdminsLaureat = () => (
   />
 )
 
+export const forAdminsNoAccess = () => (
+  <ProjectDetails
+    request={makeFakeRequest({ user: makeFakeUser({ role: 'admin' }) })}
+    project={makeFakeProject({
+      id: 'projectId',
+      classe: 'Classé',
+      notifiedOn: Date.now(),
+      appelOffre,
+    })}
+    projectUsers={[]}
+    projectInvitations={[]}
+  />
+)
+
 export const forAdminsElimine = () => (
   <ProjectDetails
     request={makeFakeRequest({ user: makeFakeUser({ role: 'admin' }) })}
@@ -39,6 +53,20 @@ export const forAdminsElimine = () => (
     })}
     projectUsers={[makeFakeUser()]}
     projectInvitations={[{ email: 'invited@email.com' }]}
+  />
+)
+
+export const forAdminsNonNotifié = () => (
+  <ProjectDetails
+    request={makeFakeRequest({ user: makeFakeUser({ role: 'admin' }) })}
+    project={makeFakeProject({
+      id: 'projectId',
+      classe: 'Eliminé',
+      notifiedOn: 0,
+      appelOffre,
+    })}
+    projectUsers={[]}
+    projectInvitations={[]}
   />
 )
 
