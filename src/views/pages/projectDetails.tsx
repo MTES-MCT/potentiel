@@ -12,9 +12,10 @@ import ROUTES from '../../routes'
 
 interface FriseContainerProps {
   children: React.ReactNode
+  displayToggle: boolean
 }
 
-const Frise = ({ children }) => (
+const Frise = ({ children, displayToggle }: FriseContainerProps) => (
   <table
     className="frise"
     style={{ borderCollapse: 'collapse', marginBottom: 20 }}
@@ -40,20 +41,35 @@ const Frise = ({ children }) => (
         <td></td>
       </tr>
       {children}
-      <tr>
-        <td
-          style={{
-            position: 'relative',
-            borderRight: '2px solid var(--dark-grey)',
-          }}
-        ></td>
-        <td></td>
-        <td colSpan={3} style={{ paddingLeft: 5 }}>
-          <a className="frise--toggle" href="#" {...dataId('frise-toggle')}>
-            Afficher les étapes suivantes
-          </a>
-        </td>
-      </tr>
+      {displayToggle ? (
+        <tr>
+          <td
+            style={{
+              position: 'relative',
+              borderRight: '2px solid var(--dark-grey)',
+            }}
+          ></td>
+          <td></td>
+          <td colSpan={3} style={{ paddingLeft: 5 }}>
+            <a
+              className="frise--toggle-show"
+              href="#"
+              {...dataId('frise-show-timeline')}
+            >
+              Afficher les étapes suivantes
+            </a>
+            <a
+              className="frise--toggle-hide"
+              href="#"
+              {...dataId('frise-hide-timeline')}
+            >
+              Masquer les étapes à venir
+            </a>
+          </td>
+        </tr>
+      ) : (
+        ''
+      )}
     </tbody>
   </table>
 )
@@ -241,7 +257,7 @@ export default function ProjectDetails({
             ''
           )}
           <div style={{ position: 'relative' }}>
-            <Frise>
+            <Frise displayToggle={project.classe === 'Classé'}>
               {project.notifiedOn ? (
                 <>
                   <FriseItem

@@ -63,14 +63,32 @@ function addActionMenuHandlers() {
 //
 
 function addFriseToggleHandler() {
-  const friseToggle = document.querySelector('[data-testid=frise-toggle]')
+  const friseToggleShow = document.querySelector(
+    '[data-testid=frise-show-timeline]'
+  )
 
-  if (friseToggle) {
-    friseToggle.addEventListener('click', function (event) {
+  if (friseToggleShow) {
+    friseToggleShow.addEventListener('click', function (event) {
       event.preventDefault()
 
       document.querySelectorAll('.frise--collapsed').forEach((el) => {
         el.classList.remove('frise--collapsed')
+        el.classList.add('frise--uncollapsed')
+      })
+    })
+  }
+
+  const friseToggleHide = document.querySelector(
+    '[data-testid=frise-hide-timeline]'
+  )
+
+  if (friseToggleHide) {
+    friseToggleHide.addEventListener('click', function (event) {
+      event.preventDefault()
+
+      document.querySelectorAll('.frise--uncollapsed').forEach((el) => {
+        el.classList.add('frise--collapsed')
+        el.classList.remove('frise--uncollapsed')
       })
     })
   }

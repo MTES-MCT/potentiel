@@ -106,12 +106,15 @@
   display: none;
 }
 
-.frise--toggle {
-  visibility: hidden;
+.frise--toggle-show {
+  display: none;
 }
 
-.frise--item.frise--collapsed ~ tr .frise--toggle {
-  visibility: visible;
+.frise--item.frise--collapsed ~ tr .frise--toggle-show {
+  display: inherit;
+}
+.frise--item.frise--collapsed ~ tr .frise--toggle-hide {
+  display: none;
 }
 
 ul.frise:before {
