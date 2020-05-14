@@ -115,6 +115,11 @@ ul.frise:before {
   bottom: 0px;
 }
 
+.disabled-action {
+  text-decoration: underline;
+  color: var(--dark-grey);
+}
+
 .section-icon {
   font-size: 20px;
   margin-right: 10px;

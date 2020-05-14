@@ -191,22 +191,30 @@ export default function ProjectDetails({
                           .add(2, 'months')
                           .format('D MMM YYYY')}{' '}
                         - Constitution des garanties financières{' '}
-                        <a href="#">Transmettre l'attestation</a>
+                        <span className="disabled-action">
+                          Transmettre l'attestation
+                        </span>
                       </FriseItem>
                       <FriseItem>
                         {moment(project.notifiedOn)
                           .add(2, 'months')
                           .format('D MMM YYYY')}{' '}
                         - Demande complète de raccordement{' '}
-                        <a href="#">Indiquer la date de demande</a>
+                        <span className="disabled-action">
+                          Indiquer la date de demande
+                        </span>
                       </FriseItem>
                       <FriseItem>
                         Proposition technique et financière{' '}
-                        <a href="#">Indiquer la date de signature</a>
+                        <span className="disabled-action">
+                          Indiquer la date de signature
+                        </span>
                       </FriseItem>
                       <FriseItem>
                         Convention de raccordement{' '}
-                        <a href="#">Indiquer la date de signature</a>
+                        <span className="disabled-action">
+                          Indiquer la date de signature
+                        </span>
                       </FriseItem>
                       <FriseItem>
                         {moment(project.notifiedOn)
@@ -216,14 +224,21 @@ export default function ProjectDetails({
                           )
                           .format('D MMM YYYY')}{' '}
                         - Attestation de conformité{' '}
-                        <a href="#">Transmettre l'attestation</a>
+                        <span className="disabled-action">
+                          Transmettre l'attestation
+                        </span>
                       </FriseItem>
                       <FriseItem>
-                        Mise en service <a href="#">Indiquer la date</a>
+                        Mise en service{' '}
+                        <span className="disabled-action">
+                          Indiquer la date
+                        </span>
                       </FriseItem>
                       <FriseItem>
                         Contrat d'achat{' '}
-                        <a href="#">Indiquer la date de signature</a>
+                        <span className="disabled-action">
+                          Indiquer la date de signature
+                        </span>
                       </FriseItem>
                     </>
                   ) : (
