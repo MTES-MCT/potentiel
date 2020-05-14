@@ -28,6 +28,10 @@ const porteurProjetActions = (project: Project) => {
       disabled: !canDownloadCertificate,
     },
     {
+      title: 'Télécharger le récapitulatif',
+      disabled: true,
+    },
+    {
       title: 'Demander un délai',
       link: ROUTES.DEMANDE_DELAIS(project.id),
     },
