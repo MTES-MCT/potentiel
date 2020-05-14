@@ -1,11 +1,9 @@
 import { Project, AppelOffre } from '../../../entities'
 import ROUTES from '../../../routes'
 
-const porteurProjetActions = (project: Project, appelOffre?: AppelOffre) => {
-  const periode = appelOffre?.periodes.find(
-    (periode) => periode.id === project.periodeId
-  )
-  const canDownloadCertificate = periode && periode.canGenerateCertificate
+const porteurProjetActions = (project: Project) => {
+  const canDownloadCertificate =
+    project.appelOffre?.periode?.canGenerateCertificate
 
   if (project.classe === 'Eliminé') {
     return [
