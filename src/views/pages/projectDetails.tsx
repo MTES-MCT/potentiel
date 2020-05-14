@@ -101,10 +101,10 @@ const FriseItem = ({
         <div
           style={{
             position: 'absolute',
-            top: status === 'nextup' ? 4 : 6,
-            left: 4,
-            width: 24,
-            height: 24,
+            top: status === 'nextup' ? 3 : 6,
+            left: 3,
+            width: 26,
+            height: 26,
             textAlign: 'center',
           }}
         >
@@ -127,8 +127,8 @@ const FriseItem = ({
               stroke-linecap="round"
               stroke-linejoin="round"
               stroke-width="2"
-              width="24"
-              height="24"
+              width="26"
+              height="26"
               stroke="var(--blue)"
               viewBox="0 0 24 24"
             >
@@ -340,11 +340,11 @@ export default function ProjectDetails({
                           title:
                             'Indiquer la date de demande (bientôt disponible)',
                         }}
+                        status="nextup"
                       />
                       <FriseItem
                         title="Proposition technique et financière"
                         action={{ title: 'Indiquer la date de signature' }}
-                        defaultHidden={true}
                       />
                       <FriseItem
                         title="Convention de raccordement"
