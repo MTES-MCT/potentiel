@@ -101,7 +101,7 @@ const FriseItem = ({
         <div
           style={{
             position: 'absolute',
-            top: status === 'nextup' ? 3 : 6,
+            top: 6,
             left: 3,
             width: 26,
             height: 26,
@@ -127,8 +127,8 @@ const FriseItem = ({
               stroke-linecap="round"
               stroke-linejoin="round"
               stroke-width="2"
-              width="26"
-              height="26"
+              width="20"
+              height="20"
               stroke="var(--blue)"
               viewBox="0 0 24 24"
             >
