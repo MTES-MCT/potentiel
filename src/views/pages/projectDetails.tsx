@@ -13,11 +13,12 @@ import ROUTES from '../../routes'
 interface FriseItemProps {
   color?: string
   children: React.ReactNode
+  defaultHidden?: boolean
 }
-const FriseItem = ({ color, children }: FriseItemProps) => {
+const FriseItem = ({ color, children, defaultHidden }: FriseItemProps) => {
   return (
     <li
-      className="frise--item"
+      className={'frise--item' + (defaultHidden ? ' frise--collapsed' : '')}
       style={{
         listStyleImage:
           "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 100 100'><circle fill='" +
@@ -195,7 +196,7 @@ export default function ProjectDetails({
                           Transmettre l'attestation
                         </span>
                       </FriseItem>
-                      <FriseItem>
+                      <FriseItem defaultHidden={true}>
                         {moment(project.notifiedOn)
                           .add(2, 'months')
                           .format('D MMM YYYY')}{' '}
@@ -204,19 +205,19 @@ export default function ProjectDetails({
                           Indiquer la date de demande
                         </span>
                       </FriseItem>
-                      <FriseItem>
+                      <FriseItem defaultHidden={true}>
                         Proposition technique et financière{' '}
                         <span className="disabled-action">
                           Indiquer la date de signature
                         </span>
                       </FriseItem>
-                      <FriseItem>
+                      <FriseItem defaultHidden={true}>
                         Convention de raccordement{' '}
                         <span className="disabled-action">
                           Indiquer la date de signature
                         </span>
                       </FriseItem>
-                      <FriseItem>
+                      <FriseItem defaultHidden={true}>
                         {moment(project.notifiedOn)
                           .add(
                             project.appelOffre?.delaiRealisationEnMois,
@@ -228,18 +229,23 @@ export default function ProjectDetails({
                           Transmettre l'attestation
                         </span>
                       </FriseItem>
-                      <FriseItem>
+                      <FriseItem defaultHidden={true}>
                         Mise en service{' '}
                         <span className="disabled-action">
                           Indiquer la date
                         </span>
                       </FriseItem>
-                      <FriseItem>
+                      <FriseItem defaultHidden={true}>
                         Contrat d'achat{' '}
                         <span className="disabled-action">
                           Indiquer la date de signature
                         </span>
                       </FriseItem>
+                      <li className="frise--toggle">
+                        <a href="#" {...dataId('frise-toggle')}>
+                          Afficher les étapes suivantes
+                        </a>
+                      </li>
                     </>
                   ) : (
                     ''

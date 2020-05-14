@@ -104,6 +104,19 @@ li.frise--item {
   color: var(--grey);
 }
 
+.frise--item.frise--collapsed {
+  display: none;
+}
+
+.frise--toggle {
+  list-style: none;
+  display: none;
+}
+
+.frise--item.frise--collapsed ~ .frise--toggle {
+  display: initial;
+}
+
 ul.frise:before {
   content: '';
   z-index: 10;

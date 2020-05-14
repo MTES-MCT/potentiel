@@ -2,6 +2,7 @@
 
 window.initHandlers = function () {
   console.log('initHandlers')
+  addFriseToggleHandler()
   addActionMenuHandlers()
   addInvitationHandlers()
   addPuissanceModificationHandler()
@@ -61,6 +62,20 @@ function addActionMenuHandlers() {
 // Project page
 //
 
+function addFriseToggleHandler() {
+  const friseToggle = document.querySelector('[data-testid=frise-toggle]')
+
+  if (friseToggle) {
+    friseToggle.addEventListener('click', function (event) {
+      event.preventDefault()
+
+      document.querySelectorAll('.frise--collapsed').forEach((el) => {
+        el.classList.remove('frise--collapsed')
+      })
+    })
+  }
+}
+
 function addInvitationHandlers() {
   const invitationFormShowButton = document.querySelector(
     '[data-testid=invitation-form-show-button]'
@@ -73,9 +88,9 @@ function addInvitationHandlers() {
   const invitationForm = document.querySelector('[data-testid=invitation-form]')
 
   if (invitationFormShowButton) {
-    console.log('found invitation show button')
+    // console.log('found invitation show button')
     invitationFormShowButton.addEventListener('click', function (event) {
-      console.log('show button click')
+      // console.log('show button click')
       event.preventDefault()
 
       toggleVisibility(invitationForm, true)
@@ -83,9 +98,9 @@ function addInvitationHandlers() {
   }
 
   if (invitationFormHideButton) {
-    console.log('found invitation hide button')
+    // console.log('found invitation hide button')
     invitationFormHideButton.addEventListener('click', function (event) {
-      console.log('hide button click')
+      // console.log('hide button click')
       event.preventDefault()
 
       toggleVisibility(invitationForm, false)
