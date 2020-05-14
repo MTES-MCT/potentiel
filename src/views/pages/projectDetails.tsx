@@ -275,7 +275,10 @@ export default function ProjectDetails({
                           .add(2, 'months')
                           .format('D MMM YYYY')}
                         title="Constitution des garanties financières"
-                        action={{ title: "Transmettre l'attestation" }}
+                        action={{
+                          title:
+                            "Transmettre l'attestation (bientôt disponible)",
+                        }}
                         isNextUp
                       />
                       <FriseItem
@@ -283,7 +286,10 @@ export default function ProjectDetails({
                           .add(2, 'months')
                           .format('D MMM YYYY')}
                         title="Demande complète de raccordement"
-                        action={{ title: 'Indiquer la date de demande' }}
+                        action={{
+                          title:
+                            'Indiquer la date de demande (bientôt disponible)',
+                        }}
                         defaultHidden={true}
                       />
                       <FriseItem
