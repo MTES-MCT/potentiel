@@ -245,11 +245,7 @@ export default function ProjectDetails({
               {project.notifiedOn ? (
                 <>
                   <FriseItem
-                    color={
-                      project.classe === 'Classé'
-                        ? 'rgb(56, 118, 29)'
-                        : 'rgb(204, 0, 0)'
-                    }
+                    color="var(--darkest-grey)"
                     date={moment(project.notifiedOn).format('D MMM YYYY')}
                     title="Notification des résultats"
                     action={
@@ -290,7 +286,6 @@ export default function ProjectDetails({
                           title:
                             'Indiquer la date de demande (bientôt disponible)',
                         }}
-                        defaultHidden={true}
                       />
                       <FriseItem
                         title="Proposition technique et financière"
