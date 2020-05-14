@@ -32,6 +32,10 @@ Then('je suis dirigé vers la page qui liste les projets à notifier', () => {
   cy.url().should('include', '/admin/notifier-candidats.html')
 })
 
+Then('je suis dirigé vers la page qui liste les projets', () => {
+  cy.url().should('include', '/admin/dashboard.html')
+})
+
 Then('on me notifie la réussite par {string}', (successMessage) => {
   cy.get(testid('success-message')).should('contain', successMessage)
 })

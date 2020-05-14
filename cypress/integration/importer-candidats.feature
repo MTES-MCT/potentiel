@@ -13,12 +13,12 @@ Fonctionnalité: Import d'un fichier de candidats
   @admin
   Scénario: Ré-import d'un projet existant
     Etant donné le projet suivant
-      | appelOffreId | periodeId | numeroCRE | familleId | nomProjet            |
-      | CRE4 - Sol   | 7         | 1         | 1         | Ancien nom du projet |
+      | appelOffreId | periodeId | numeroCRE | familleId | nomProjet            | notifiedOn    |
+      | CRE4 - Sol   | 7         | 1         | 1         | Ancien nom du projet | 1589466999101 |
     Etant donné que je me rends sur la page d'import de candidats
     Lorsque je selectionne le fichier "candidats.csv"
     Et que je valide le formulaire
-    Alors je suis dirigé vers la page qui liste les projets à notifier
+    Alors je suis dirigé vers la page qui liste les projets
     Et on me notifie la réussite par "Les candidats ont bien été importés."
     Et la liste ne contient qu'un seul projet
     Et je trouve bien le projet "Nom du projet" dans la liste des projets
