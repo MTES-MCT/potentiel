@@ -256,7 +256,8 @@ const projectRepo: ProjectRepo = {
       (item) =>
         item.appelOffreId === project.appelOffreId &&
         item.periodeId === project.periodeId &&
-        project.numeroCRE === item.numeroCRE
+        item.numeroCRE === project.numeroCRE &&
+        item.familleId === project.familleId
     )
 
     if (previousProject) {

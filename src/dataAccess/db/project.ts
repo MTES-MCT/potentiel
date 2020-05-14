@@ -303,12 +303,13 @@ export default function makeProjectRepo({
 
     try {
       // Check if a project exist with the same numeroCRE, appelOffreId and periodeId
-      const { numeroCRE, appelOffreId, periodeId } = project
+      const { numeroCRE, appelOffreId, periodeId, familleId } = project
       const existingProject = await ProjectModel.findOne({
         where: {
           numeroCRE,
           appelOffreId,
           periodeId,
+          familleId,
         },
       })
 

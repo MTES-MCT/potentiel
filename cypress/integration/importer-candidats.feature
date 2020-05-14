@@ -13,8 +13,8 @@ Fonctionnalité: Import d'un fichier de candidats
   @admin
   Scénario: Ré-import d'un projet existant
     Etant donné le projet suivant
-      | appelOffreId | periodeId | numeroCRE | nomProjet            |
-      | CRE4 - Sol   | 7         | 1         | Ancien nom du projet |
+      | appelOffreId | periodeId | numeroCRE | familleId | nomProjet            |
+      | CRE4 - Sol   | 7         | 1         | 1         | Ancien nom du projet |
     Etant donné que je me rends sur la page d'import de candidats
     Lorsque je selectionne le fichier "candidats.csv"
     Et que je valide le formulaire

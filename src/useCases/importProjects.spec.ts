@@ -26,6 +26,7 @@ const importProjects = makeImportProjects({ projectRepo, appelOffreRepo })
 const phonyAppelOffre = appelsOffreStatic[0]
 const phonyPeriodId = phonyAppelOffre.periodes[0].id
 const phonyNumeroCRE = '1'
+const phonyFamilleId = '1'
 const phonyNotifiedOnDate = '22/04/2020'
 
 const getColumnForField = (field: string) => {
@@ -44,7 +45,7 @@ const makePhonyLine = () => ({
   "Appel d'offres": phonyAppelOffre.id,
   Période: phonyPeriodId,
   [getColumnForField('numeroCRE')]: phonyNumeroCRE,
-  [getColumnForField('familleId')]: 'famille',
+  [getColumnForField('familleId')]: phonyFamilleId,
   [getColumnForField('nomCandidat')]: 'nomCandidat',
   [getColumnForField('nomProjet')]: 'nomProjet',
   [getColumnForField('puissance')]: '11,5',
@@ -93,7 +94,7 @@ describe('importProjects use-case', () => {
       appelOffreId: phonyAppelOffre.id,
       periodeId: phonyPeriodId,
       numeroCRE: phonyNumeroCRE,
-      familleId: 'famille',
+      familleId: phonyFamilleId,
       nomCandidat: 'nomCandidat',
       nomProjet: 'nomProjet',
       puissance: 11.5,
@@ -118,7 +119,7 @@ describe('importProjects use-case', () => {
     }
   })
 
-  it('should override a project line if it has the same numeroCRE, appelOffreId and periode, except the notifiedOn field', async () => {
+  it('should override a project line if it has the same numeroCRE, appelOffreId, periodeId and familleId, except the notifiedOn field', async () => {
     // Create a fake project
     const insertedProjects = (
       await Promise.all(
@@ -127,6 +128,7 @@ describe('importProjects use-case', () => {
             appelOffreId: phonyAppelOffre.id,
             periodeId: phonyPeriodId,
             numeroCRE: phonyNumeroCRE,
+            familleId: phonyFamilleId,
             nomProjet: 'Ancien nom projet',
             notifiedOn: 0,
           }),
@@ -157,6 +159,7 @@ describe('importProjects use-case', () => {
       appelOffreId: phonyAppelOffre.id,
       periodeId: phonyPeriodId,
       numeroCRE: phonyNumeroCRE,
+      familleId: phonyFamilleId,
     })
     expect(updatedProjects).toHaveLength(1)
     expect(updatedProjects[0].nomProjet).toEqual('nomProjet')
