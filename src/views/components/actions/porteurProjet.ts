@@ -29,6 +29,7 @@ const porteurProjetActions = (project: Project) => {
     },
     {
       title: 'Télécharger le récapitulatif',
+      link: '#',
       disabled: true,
     },
     {
