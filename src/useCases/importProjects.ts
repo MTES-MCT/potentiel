@@ -257,8 +257,10 @@ export default function makeImportProjects({
       return ErrorResult(ERREUR_INSERTION)
     }
 
-    const insertedProjects = projects.unwrap()
-    const unNotifiedProject: Project = insertedProjects.find(
+    const insertedProjects = insertions
+      .filter((project) => project.is_ok())
+      .map((project) => project.unwrap())
+    const unNotifiedProject: Project | undefined = insertedProjects.find(
       (project) => project.notifiedOn === 0
     )
 
