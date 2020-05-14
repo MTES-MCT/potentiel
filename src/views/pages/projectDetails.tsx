@@ -425,6 +425,13 @@ export default function ProjectDetails({
                     {email} (<i>invitation envoyée</i>)
                   </li>
                 ))}
+                {!projectUsers.length && !projectInvitations.length ? (
+                  <li>
+                    Aucun utilisateur n'a accès à ce projet pour le moment.
+                  </li>
+                ) : (
+                  ''
+                )}
               </ul>
             </div>
             <div {...dataId('invitation-form')}>
