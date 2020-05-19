@@ -70,7 +70,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
     <>
       <Text
         style={{
-          fontSize: 11,
+          fontSize: 10,
           textAlign: 'justify',
           marginTop: 10,
           fontWeight: 'bold',
@@ -81,7 +81,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
         susmentionné est désigné lauréat de la {periode.title} tranche de
         l’appel d’offres visé en objet.
       </Text>
-      <Text style={{ fontSize: 11, textAlign: 'justify', marginTop: 10 }}>
+      <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
         Conformément à l’engagement contenu dans votre offre, je vous informe
         que {appelOffre.tarifOuPrimeRetenue} en application des dispositions du
         point {appelOffre.paragraphePrixReference} du cahier des charges est de{' '}
@@ -114,7 +114,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
         )}
       </Text>
       {project.engagementFournitureDePuissanceAlaPointe ? (
-        <Text style={{ fontSize: 11, textAlign: 'justify', marginTop: 10 }}>
+        <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
           Lors de la réponse à l’appel d’offres, vous avez indiqué souhaiter un
           fonctionnement avec fourniture de puissance garantie à la pointe du
           soir et devez ainsi respecter les conditions de l’annexe 9 du cahier
@@ -123,13 +123,13 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
       ) : (
         <Text />
       )}
-      <Text style={{ fontSize: 11, textAlign: 'justify', marginTop: 10 }}>
+      <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
         Par ailleurs, je vous rappelle les obligations suivantes du fait de
         cette désignation :
       </Text>
       <Text
         style={{
-          fontSize: 11,
+          fontSize: 10,
           textAlign: 'justify',
           marginTop: 10,
           marginLeft: 20,
@@ -140,7 +140,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
       </Text>
       <Text
         style={{
-          fontSize: 11,
+          fontSize: 10,
           textAlign: 'justify',
           marginTop: 10,
           marginLeft: 20,
@@ -153,7 +153,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
       {garantieFinanciereEnMois ? (
         <Text
           style={{
-            fontSize: 11,
+            fontSize: 10,
             marginTop: 10,
             textAlign: 'justify',
             marginLeft: 20,
@@ -184,7 +184,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
       {appelOffre.id === 'CRE4 - Innovation' ? (
         <Text
           style={{
-            fontSize: 11,
+            fontSize: 10,
             marginTop: 10,
             textAlign: 'justify',
             marginLeft: 20,
@@ -201,7 +201,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
       )}
       <Text
         style={{
-          fontSize: 11,
+          fontSize: 10,
           textAlign: 'justify',
           marginTop: 10,
           marginLeft: 20,
@@ -214,7 +214,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
       </Text>
       <Text
         style={{
-          fontSize: 11,
+          fontSize: 10,
           textAlign: 'justify',
           marginTop: 10,
           marginLeft: 20,
@@ -227,7 +227,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
       {project.isInvestissementParticipatif ? (
         <Text
           style={{
-            fontSize: 11,
+            fontSize: 10,
             textAlign: 'justify',
             marginTop: 10,
             marginLeft: 20,
@@ -243,7 +243,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
       {project.isFinancementParticipatif ? (
         <Text
           style={{
-            fontSize: 11,
+            fontSize: 10,
             textAlign: 'justify',
             marginTop: 10,
             marginLeft: 20,
@@ -257,7 +257,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
         <Text />
       )}
       {appelOffre.afficherParagrapheInstallationMiseEnServiceModification ? (
-        <Text style={{ fontSize: 11, textAlign: 'justify', marginTop: 10 }}>
+        <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
           Je vous rappelle également que l’installation mise en service doit
           être en tout point conforme à celle décrite dans le dossier de
           candidature. Toutefois, la modification de certains éléments de
@@ -372,7 +372,7 @@ const Elimine = ({ project, appelOffre, periode }: ElimineProps) => {
     <>
       <Text
         style={{
-          fontSize: 11,
+          fontSize: 10,
           textAlign: 'justify',
           marginTop: 10,
         }}
@@ -402,7 +402,7 @@ const Elimine = ({ project, appelOffre, periode }: ElimineProps) => {
             project.motifsElimination +
             '». Par conséquent, cette offre n’a pas été retenue.'}
       </Text>
-      <Text style={{ fontSize: 11, textAlign: 'justify', marginTop: 10 }}>
+      <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
         Vous avez la possibilité de contester la présente décision auprès du
         tribunal administratif territorialement compétent dans un délai de deux
         mois à compter de sa date de notification.
@@ -444,49 +444,85 @@ const Certificate = ({
         <View
           style={{
             position: 'absolute',
-            top: 17,
-            width: '100%',
-            textAlign: 'center',
+            top: 70,
+            left: 63,
           }}
         >
           <Image
-            style={{ width: 90, height: 53, marginHorizontal: 'auto' }}
-            src={process.env.BASE_URL + '/images/Logo.png'}
+            style={{ width: 145, height: 118 }}
+            src={process.env.BASE_URL + '/images/Logo MTES.png'}
           />
-          <Text style={{ fontSize: 11, marginTop: 20 }}>
-            MINISTÈRE DE LA TRANSITION ECOLOGIQUE ET SOLIDAIRE
+        </View>
+        <View
+          style={{
+            position: 'absolute',
+            top: 98,
+            right: 65,
+            width: 250,
+          }}
+        >
+          <Text
+            style={{ fontSize: 12, fontWeight: 'bold', textAlign: 'right' }}
+          >
+            Direction générale de l'énergie et du climat
+          </Text>
+          <Text
+            style={{ fontSize: 12, fontWeight: 'bold', textAlign: 'right' }}
+          >
+            Direction de l'énergie
+          </Text>
+          <Text
+            style={{ fontSize: 10, fontWeight: 'bold', textAlign: 'right' }}
+          >
+            Sous-direction du système électrique
+          </Text>
+          <Text
+            style={{ fontSize: 10, fontWeight: 'bold', textAlign: 'right' }}
+          >
+            et des énergies renouvelables
           </Text>
         </View>
         <View
           style={{
             position: 'absolute',
-            top: 150,
-            right: 70,
-            width: 200,
+            top: 240,
+            right: 65,
+            width: 245,
+            textAlign: 'right',
           }}
         >
-          <Text style={{ fontSize: 11, marginBottom: 20 }}>
+          <Text style={{ fontSize: 8, marginBottom: 60 }}>
             Paris, le{' '}
             {moment(project.notifiedOn || Date.now()).format('D MMMM YYYY')}
           </Text>
-          <Text style={{ fontSize: 11 }}>{project.nomRepresentantLegal}</Text>
-          <Text style={{ fontSize: 11 }}>{project.nomCandidat}</Text>
-          <Text style={{ fontSize: 11 }}>{project.email}</Text>
+          <Text style={{ fontSize: 10 }}>{project.nomRepresentantLegal}</Text>
+          <Text style={{ fontSize: 10 }}>{project.nomCandidat}</Text>
+          <Text style={{ fontSize: 10 }}>{project.email}</Text>
         </View>
-        <View style={{ marginTop: 225, paddingHorizontal: 70 }}>
-          <Text style={{ fontSize: 11, textAlign: 'justify' }}>
-            Objet : {objet}
-          </Text>
-          <Text style={{ fontSize: 9, marginTop: 10 }}>
-            Nos réf.: {appelOffre.shortTitle}/T{periode.id}-N°CRE{' '}
+        <View
+          style={{
+            position: 'absolute',
+            top: 265,
+            left: 65,
+          }}
+        >
+          <Text style={{ fontSize: 8 }}>
+            Réf.: {appelOffre.shortTitle}/T{periode.id}-N°CRE{' '}
             {project.numeroCRE}
           </Text>
-          <Text style={{ fontSize: 9, marginTop: 0 }}>
+          <Text style={{ fontSize: 8 }}>
             Dossier suivi par : aopv.dgec@developpement-durable.gouv.fr
+          </Text>
+        </View>
+        <View
+          style={{ marginTop: 350, paddingHorizontal: 65, marginBottom: 50 }}
+        >
+          <Text style={{ fontSize: 10, textAlign: 'justify' }}>
+            Objet : {objet}
           </Text>
           <Text
             style={{
-              fontSize: 11,
+              fontSize: 10,
               marginTop: 30,
               marginBottom: 20,
               marginLeft: 20,
@@ -494,14 +530,14 @@ const Certificate = ({
           >
             Madame, Monsieur,
           </Text>
-          <Text style={{ fontSize: 11, textAlign: 'justify' }}>
+          <Text style={{ fontSize: 10, textAlign: 'justify' }}>
             En application des dispositions de l’article L. 311-10 du code de
             l’énergie relatif à la procédure de mise en concurrence pour les
             installations de production d’électricité, le ministre chargé de
             l’énergie a lancé en {appelOffre.launchDate} l’appel d’offres cité
             en objet.
           </Text>
-          <Text style={{ fontSize: 11, textAlign: 'justify', marginTop: 10 }}>
+          <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
             En réponse à la {periode.title} tranche de cet appel d’offres, vous
             avez déposé dans la famille {project.familleId} le projet «{' '}
             {project.nomProjet} », situé {project.adresseProjet}{' '}
@@ -510,7 +546,7 @@ const Certificate = ({
             {appelOffre.unitePuissance}.
           </Text>
           {body}
-          <Text style={{ fontSize: 11, textAlign: 'justify', marginTop: 30 }}>
+          <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 30 }}>
             Je vous prie d’agréer, Madame, Monsieur, l’expression de mes
             salutations distinguées.
           </Text>
@@ -522,12 +558,12 @@ const Certificate = ({
             }}
           >
             <Text
-              style={{ fontSize: 11, fontWeight: 'bold', textAlign: 'center' }}
+              style={{ fontSize: 10, fontWeight: 'bold', textAlign: 'center' }}
             >
               L'adjoint au sous-directeur du système électrique et des énergies
               renouvelables,
             </Text>
-            <Text style={{ fontSize: 11, textAlign: 'center', marginTop: 65 }}>
+            <Text style={{ fontSize: 10, textAlign: 'center', marginTop: 65 }}>
               Ghislain Ferran
             </Text>
             <Image
@@ -554,6 +590,22 @@ const Certificate = ({
           ) : (
             <View />
           )}
+        </View>
+        <View
+          style={{
+            position: 'absolute',
+            bottom: 50,
+            left: 65,
+            width: 245,
+            textAlign: 'left',
+          }}
+        >
+          <Text style={{ fontSize: 7, lineHeight: 1.2 }} wrap={false}>
+            Hôtel de Roquelaure{'\n'}
+            246 boulevard Saint-Germain – 75007 Paris{'\n'}
+            Tél : 33(0)1 40 81 21 22{'\n'}
+            www.ecologique-solidaire.gouv.fr
+          </Text>
         </View>
       </Page>
     </Document>
