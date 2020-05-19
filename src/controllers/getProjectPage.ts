@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 import { getUserProject } from '../useCases'
 import { projectRepo, projectAdmissionKeyRepo } from '../dataAccess'
 import { Redirect, Success, NotFoundError } from '../helpers/responses'
@@ -24,8 +26,21 @@ const getProjectPage = async (request: HttpRequest) => {
 
   // Get the project invitations
   const projectInvitations = (
-    await projectAdmissionKeyRepo.findAll({
-      projectId: project.id,
+    await Promise.all([
+      projectAdmissionKeyRepo.findAll({
+        // invitations for this specific project
+        projectId: project.id,
+      }),
+      projectAdmissionKeyRepo.findAll({
+        // invitations for the email associated with this project
+        email: project.email,
+      }),
+    ]).then(([projectSpecificInvitations, emailSpecificInvitations]) => {
+      // only keep one invitation per email
+      return _.uniqBy(
+        [...projectSpecificInvitations, ...emailSpecificInvitations],
+        'email'
+      )
     })
   ).filter(
     // Exclude admission keys for users that are already in the user list
