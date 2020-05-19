@@ -9,6 +9,7 @@ import ProjectDetails from './projectDetails'
 export default { title: 'Project page' }
 
 import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
+import { ProjectAdmissionKey } from '../../entities'
 const appelOffre = appelsOffreStatic.find(
   (appelOffre) => appelOffre.id === 'Fessenheim'
 )
@@ -24,7 +25,9 @@ export const forAdminsLaureat = () => (
       appelOffre,
     })}
     projectUsers={[makeFakeUser()]}
-    projectInvitations={[{ email: 'invited@email.com' }]}
+    projectInvitations={[
+      { id: 'admissionKey', email: 'invited@email.com' } as ProjectAdmissionKey,
+    ]}
   />
 )
 
@@ -52,7 +55,7 @@ export const forAdminsElimine = () => (
       appelOffre,
     })}
     projectUsers={[makeFakeUser()]}
-    projectInvitations={[{ email: 'invited@email.com' }]}
+    projectInvitations={[]}
   />
 )
 
@@ -82,6 +85,11 @@ export const forPorteurProjet = () => (
       appelOffre,
     })}
     projectUsers={[makeFakeUser()]}
-    projectInvitations={[{ email: 'invited@email.com' }]}
+    projectInvitations={[
+      {
+        id: 'admissionKey',
+        email: 'invited@email.com',
+      } as ProjectAdmissionKey,
+    ]}
   />
 )

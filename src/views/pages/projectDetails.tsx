@@ -1,7 +1,7 @@
 import React from 'react'
 import moment from 'moment'
 
-import { Project, User } from '../../entities'
+import { Project, User, ProjectAdmissionKey } from '../../entities'
 import UserDashboard from '../components/userDashboard'
 import AdminDashboard from '../components/adminDashboard'
 import ProjectActions from '../components/projectActions'
@@ -208,7 +208,7 @@ interface ProjectDetailsProps {
   request: HttpRequest
   project: Project
   projectUsers: Array<User>
-  projectInvitations: Array<{ email: string }>
+  projectInvitations: Array<ProjectAdmissionKey>
 }
 
 /* Pure component */
@@ -423,15 +423,29 @@ export default function ProjectDetails({
                     {user.fullName} - {user.email}
                   </li>
                 ))}
-                {projectInvitations.map(({ email }) => (
+                {projectInvitations.map(({ id, email }) => (
                   <li key={'project_invitation_' + email}>
-                    {email} (<i>invitation envoyée</i>)
+                    {email} (
+                    {user.role === 'admin' ? (
+                      <a
+                        href={ROUTES.PROJECT_INVITATION({
+                          projectAdmissionKey: id,
+                        })}
+                      >
+                        invitation envoyée
+                      </a>
+                    ) : (
+                      <i>invitation envoyée</i>
+                    )}
+                    )
                   </li>
                 ))}
                 {!projectUsers.length && !projectInvitations.length ? (
-                  <li>
-                    Aucun utilisateur n'a accès à ce projet pour le moment.
-                  </li>
+                  <>
+                    <li>
+                      Aucun utilisateur n'a accès à ce projet pour le moment.
+                    </li>
+                  </>
                 ) : (
                   ''
                 )}

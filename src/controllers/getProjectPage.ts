@@ -27,13 +27,11 @@ const getProjectPage = async (request: HttpRequest) => {
     await projectAdmissionKeyRepo.findAll({
       projectId: project.id,
     })
+  ).filter(
+    // Exclude admission keys for users that are already in the user list
+    (projectAdmissionKey) =>
+      !projectUsers.some((user) => user.email === projectAdmissionKey.email)
   )
-    .filter(
-      // Exclude admission keys for users that are already in the user list
-      (projectAdmissionKey) =>
-        !projectUsers.some((user) => user.email === projectAdmissionKey.email)
-    )
-    .map(({ email }) => ({ email }))
 
   return Success(
     ProjectDetailsPage({
