@@ -144,6 +144,24 @@ export default function makeProjectRepo({
       allowNull: false,
       defaultValue: 0,
     },
+    garantiesFinancieresSubmittedOn: {
+      type: DataTypes.NUMBER,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    garantiesFinancieresDate: {
+      type: DataTypes.NUMBER,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    garantiesFinancieresFile: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    garantiesFinancieresSubmittedBy: {
+      type: DataTypes.UUID,
+      allowNull: true,
+    },
   })
 
   const _isDbReady = isDbReady({ sequelize })

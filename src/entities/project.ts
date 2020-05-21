@@ -52,6 +52,10 @@ const baseProjectSchema = Record({
   classe: Union(Literal('Eliminé'), Literal('Classé')),
   motifsElimination: String,
   notifiedOn: Number,
+  garantiesFinancieresSubmittedOn: Number,
+  garantiesFinancieresSubmittedBy: String,
+  garantiesFinancieresFile: String,
+  garantiesFinancieresDate: Number,
 })
 const projectSchema = baseProjectSchema.And(
   Partial({
@@ -82,6 +86,10 @@ export default ({ makeId }: MakeProjectDependencies) =>
     isInvestissementParticipatif: false,
     isFinancementParticipatif: false,
     engagementFournitureDePuissanceAlaPointe: false,
+    garantiesFinancieresSubmittedOn: 0,
+    garantiesFinancieresSubmittedBy: '',
+    garantiesFinancieresFile: '',
+    garantiesFinancieresDate: 0,
   })
 
 export { Project, projectSchema, territoireSchema }
