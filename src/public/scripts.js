@@ -3,6 +3,8 @@
 window.initHandlers = function () {
   console.log('initHandlers')
   addFriseToggleHandler()
+  addFriseHiddenContentToggleHandler()
+  addDateValidationHandler()
   addActionMenuHandlers()
   addInvitationHandlers()
   addPuissanceModificationHandler()
@@ -61,6 +63,58 @@ function addActionMenuHandlers() {
 //
 // Project page
 //
+
+function addFriseHiddenContentToggleHandler() {
+  const friseContentToggleShowItems = document.querySelectorAll(
+    '[data-testid=frise-action].frise-content-toggle'
+  )
+
+  const allHiddenContentItems = document.querySelectorAll(
+    '[data-testId=frise-hidden-content]'
+  )
+
+  friseContentToggleShowItems.forEach((friseContentToggleShow) =>
+    friseContentToggleShow.addEventListener('click', function (event) {
+      event.preventDefault()
+
+      const hiddenContent = friseContentToggleShow.closest(
+        '[data-testId=frise-item]'
+      ).nextSibling
+
+      if (
+        !hiddenContent ||
+        hiddenContent.getAttribute('data-testId') !== 'frise-hidden-content'
+      ) {
+        // Can't find it, ignore
+        return
+      }
+
+      const wasHidden = hiddenContent.classList.contains('hidden')
+
+      allHiddenContentItems.forEach((item) => item.classList.add('hidden'))
+
+      hiddenContent.classList.toggle('hidden', !wasHidden)
+    })
+  )
+
+  const friseContentToggleHideItems = document.querySelectorAll(
+    '[data-testid=frise-hide-content]'
+  )
+
+  friseContentToggleHideItems.forEach((friseContentToggleHide) =>
+    friseContentToggleHide.addEventListener('click', function (event) {
+      event.preventDefault()
+
+      const contentToBeHidden = friseContentToggleHide.closest(
+        '[data-testId=frise-hidden-content]'
+      )
+
+      if (contentToBeHidden) {
+        contentToBeHidden.classList.add('hidden')
+      }
+    })
+  )
+}
 
 function addFriseToggleHandler() {
   const friseToggleShow = document.querySelector(
@@ -463,6 +517,71 @@ function addDelayDateModificationHandler() {
 }
 
 //
+// Validated date fields
+//
+
+function addDateValidationHandler() {
+  const dateFields = document.querySelectorAll('[data-testid=date-field]')
+
+  dateFields.forEach((dateField) => {
+    console.log('Found dateField', dateField)
+    const lowerBound = dateField.getAttribute('data-min-date')
+    const upperBound = dateField.getAttribute('data-max-date')
+
+    if (lowerBound || upperBound) {
+      console.log('Found lower/upperBound')
+      // This field needs validation
+
+      const submitButton = dateField
+        .closest('form')
+        .querySelector('[data-testid=submit-button]')
+
+      const outOfBounds = dateField
+        .closest('form')
+        .querySelector('[data-testid=error-message-out-of-bounds]')
+
+      const wrongFormat = dateField
+        .closest('form')
+        .querySelector('[data-testid=error-message-wrong-format]')
+
+      dateField.addEventListener('keyup', function (event) {
+        console.log('dateField keyup')
+        const newDateStr = dateField.value
+
+        if (newDateStr.length < 6) {
+          // Ignore, user is still typing
+          return
+        }
+
+        if (!dateRegex.test(newDateStr)) {
+          disableButton(submitButton, true)
+          showElement(outOfBounds, false)
+          showElement(wrongFormat, true)
+        } else {
+          // Date is valid format
+          var newDate = getDateFromDateString(newDateStr)
+
+          if (
+            (lowerBound && newDate.getTime() <= lowerBound) ||
+            (upperBound && newDate.getTime() >= upperBound)
+          ) {
+            // Date is lower than lower bound or higher than upper bound
+            disableButton(submitButton, true)
+            showElement(outOfBounds, true)
+            showElement(wrongFormat, false)
+          } else {
+            // all good
+            showElement(outOfBounds, false)
+            showElement(wrongFormat, false)
+            disableButton(submitButton, false)
+          }
+        }
+      })
+    }
+  })
+}
+
+//
 // General utility
 //
 
@@ -490,21 +609,27 @@ function getFieldValue(selector) {
   }
 }
 
+function showElement(element, isVisible) {
+  if (element) {
+    element.style.display = isVisible ? 'inherit' : 'none'
+  }
+}
+
 function show(selector, isVisible) {
   var elem = document.querySelector(selector)
 
-  if (elem) {
-    elem.style.display = isVisible ? 'inherit' : 'none'
+  showElement(elem, isVisible)
+}
+
+function disableButton(button, isDisabled) {
+  if (button) {
+    if (isDisabled) button.setAttribute('disabled', true)
+    else button.removeAttribute('disabled')
   }
 }
 
 function disable(selector, isDisabled) {
   var elem = document.querySelector(selector)
 
-  if (elem) {
-    if (isDisabled) elem.setAttribute('disabled', true)
-    else elem.removeAttribute('disabled')
-  } else {
-    console.error('Call disable on void selector', selector)
-  }
+  disableButton(elem, isDisabled)
 }

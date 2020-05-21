@@ -7,8 +7,61 @@ import AdminDashboard from '../components/adminDashboard'
 import ProjectActions from '../components/projectActions'
 import { porteurProjetActions, adminActions } from '../components/actions'
 import { HttpRequest } from '../../types'
-import { dataId } from '../../helpers/testId'
+import { dataId, testId } from '../../helpers/testId'
 import ROUTES from '../../routes'
+
+const GarantiesFinancieresForm = () => (
+  <form
+    action={ROUTES.DEPOSER_GARANTIES_FINANCIERES_ACTION}
+    method="post"
+    encType="multipart/form-data"
+  >
+    <h4 style={{ marginBottom: 10 }}>Transmettre l'attestation</h4>
+    <div className="form__group">
+      <label className="required" htmlFor="date">
+        Date de constitution (format JJ/MM/AAAA)
+      </label>
+      <input
+        type="text"
+        name="date"
+        id="date"
+        {...dataId('date-field')}
+        data-max-date={Date.now()}
+      />
+      <div
+        className="notification error"
+        style={{ display: 'none' }}
+        {...dataId('error-message-out-of-bounds')}
+      >
+        Merci de saisir une date antérieure à la date d'aujourd'hui.
+      </div>
+      <div
+        className="notification error"
+        style={{ display: 'none' }}
+        {...dataId('error-message-wrong-format')}
+      >
+        Le format de la date saisie n'est pas conforme. Elle doit être de la
+        forme JJ/MM/AAAA soit par exemple 25/05/2022 pour 25 Mai 2022.
+      </div>
+      <label className="required" htmlFor="file">
+        Attestation
+      </label>
+      <input type="file" name="file" {...dataId('file-field')} id="file" />
+      <button
+        className="button"
+        type="submit"
+        name="submit"
+        id="submit"
+        {...dataId('submit-button')}
+      >
+        Envoyer
+      </button>
+      <a className="button-outline primary" {...dataId('frise-hide-content')}>
+        Annuler
+      </a>
+    </div>
+  </form>
+)
 
 interface FriseContainerProps {
   children: React.ReactNode
@@ -78,7 +131,8 @@ interface FriseItemProps {
   color?: string
   date?: string
   title: string
-  action?: { title: string; link?: string }
+  action?: { title: string; link?: string; openHiddenContent?: true }
+  hiddenContent?: React.ReactNode
   defaultHidden?: boolean
   status?: 'nextup' | 'past' | 'future'
 }
@@ -88,83 +142,118 @@ const FriseItem = ({
   date,
   title,
   action,
+  hiddenContent,
   status = 'future',
 }: FriseItemProps) => {
   return (
-    <tr className={'frise--item' + (defaultHidden ? ' frise--collapsed' : '')}>
-      <td
-        style={{
-          position: 'relative',
-          borderRight: '2px solid var(--lighter-grey)',
-        }}
+    <>
+      <tr
+        {...dataId('frise-item')}
+        className={'frise--item' + (defaultHidden ? ' frise--collapsed' : '')}
       >
-        <div
+        <td
           style={{
-            position: 'absolute',
-            top: 6,
-            left: 3,
-            width: 26,
-            height: 26,
-            textAlign: 'center',
+            position: 'relative',
+            borderRight: '2px solid var(--lighter-grey)',
           }}
         >
-          {status === 'past' ? (
-            <svg
-              fill="white"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              width="20"
-              height="20"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-          ) : status === 'nextup' ? (
-            <svg
-              fill="white"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              width="20"
-              height="20"
-              stroke="var(--blue)"
-              viewBox="0 0 24 24"
-            >
-              <path d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
+          <div
+            style={{
+              position: 'absolute',
+              top: 6,
+              left: 3,
+              width: 26,
+              height: 26,
+              textAlign: 'center',
+            }}
+          >
+            {status === 'past' ? (
+              <svg
+                fill="white"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                width="20"
+                height="20"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            ) : status === 'nextup' ? (
+              <svg
+                fill="white"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                width="20"
+                height="20"
+                stroke="var(--blue)"
+                viewBox="0 0 24 24"
+              >
+                <path d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            ) : (
+              <svg
+                fill="white"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                width="20"
+                height="20"
+                stroke="var(--light-grey)"
+                viewBox="0 0 24 24"
+              >
+                <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            )}
+          </div>
+        </td>
+        <td></td>
+        <td style={{ padding: '0 5px', fontStyle: 'italic' }}>{date || ''}</td>
+        <td
+          style={{ padding: '0 5px' }}
+          {...dataId('frise-title')}
+          data-status={status}
+        >
+          {title}
+        </td>
+        <td>
+          {action ? (
+            action.link ? (
+              <a href={action.link} {...dataId('frise-action')}>
+                {action.title}
+              </a>
+            ) : action.openHiddenContent ? (
+              <a {...dataId('frise-action')} className="frise-content-toggle">
+                {action.title}
+              </a>
+            ) : (
+              <span className="disabled-action">{action.title}</span>
+            )
           ) : (
-            <svg
-              fill="white"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              width="20"
-              height="20"
-              stroke="var(--light-grey)"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
+            ''
           )}
-        </div>
-      </td>
-      <td></td>
-      <td style={{ padding: '0 5px', fontStyle: 'italic' }}>{date || ''}</td>
-      <td style={{ padding: '0 5px' }}>{title}</td>
-      <td>
-        {action ? (
-          action.link ? (
-            <a href={action.link}>{action.title}</a>
-          ) : (
-            <span className="disabled-action">{action.title}</span>
-          )
-        ) : (
-          ''
-        )}
-      </td>
-    </tr>
+        </td>
+      </tr>
+      {hiddenContent ? (
+        <tr {...dataId('frise-hidden-content')} className="hidden">
+          <td
+            style={{
+              position: 'relative',
+              borderRight: '2px solid var(--lighter-grey)',
+            }}
+          ></td>
+          <td></td>
+          <td></td>
+          <td colSpan={2} style={{ padding: '20px 5px 60px' }}>
+            {hiddenContent}
+          </td>
+        </tr>
+      ) : (
+        ''
+      )}
+    </>
   )
 }
 
@@ -326,10 +415,11 @@ export default function ProjectDetails({
                           .format('D MMM YYYY')}
                         title="Constitution des garanties financières"
                         action={{
-                          title:
-                            "Transmettre l'attestation (bientôt disponible)",
+                          title: "Transmettre l'attestation",
+                          openHiddenContent: true,
                         }}
                         status="nextup"
+                        hiddenContent={<GarantiesFinancieresForm />}
                       />
                       <FriseItem
                         date={moment(project.notifiedOn)
