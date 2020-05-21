@@ -443,7 +443,8 @@ export default function ProjectDetails({
                           title="Constitution des garanties financières"
                           action={{
                             title: "Transmettre l'attestation",
-                            openHiddenContent: true,
+                            openHiddenContent:
+                              user.role === 'porteur-projet' ? true : undefined,
                           }}
                           status="nextup"
                           hiddenContent={
