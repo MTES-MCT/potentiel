@@ -14,6 +14,7 @@ export * from './getSendCopyOfCandidateNotification';
 export * from './getSignupPage';
 export * from './getUserDashboardPage';
 export * from './getUserRequestsPage';
+export * from './postGarantiesFinancieres';
 export * from './postInviteUserToProject';
 export * from './postProjects';
 export * from './postRequestModification';

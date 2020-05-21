@@ -27,6 +27,10 @@ const deserialize = (item) => ({
   ...item,
   actionnaire: item.actionnaire || '',
   territoireProjet: item.territoireProjet || undefined,
+  garantiesFinancieresDate: item.garantiesFinancieresDate || 0,
+  garantiesFinancieresFile: item.garantiesFinancieresFile || '',
+  garantiesFinancieresSubmittedOn: item.garantiesFinancieresSubmittedOn || 0,
+  garantiesFinancieresSubmittedBy: item.garantiesFinancieresSubmittedBy || '',
 })
 const serialize = (item) => item
 

@@ -12,4 +12,4 @@ Fonctionnalité: Transmettre de l'attestation des garanties financières
     Lorsque je choisis un fichier dans le champ pièce-jointe
     Et que je valide le formulaire
     Alors on me notifie la réussite par "Votre constitution de garanties financières a bien été enregistrée."
-    Et je vois que l'étape "Constitution de garanties financières" de la frise est validée
+    Et je vois que l'étape "Constitution des garanties financières" de la frise est validée

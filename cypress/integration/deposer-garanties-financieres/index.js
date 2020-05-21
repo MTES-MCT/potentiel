@@ -41,7 +41,7 @@ When('je choisis un fichier dans le champ pièce-jointe', function () {
 })
 
 When('je valide le formulaire', () => {
-  cy.get(testid('submit-button')).click()
+  cy.get(testid('submit-gf-button')).click()
 })
 
 Then('on me notifie la réussite par {string}', (successMessage) => {

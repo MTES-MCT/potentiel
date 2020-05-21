@@ -36,6 +36,7 @@ import {
   getProjectFile,
   getProjectPage,
   postInviteUserToProject,
+  postGarantiesFinancieres,
 } from './controllers'
 
 import {
@@ -241,6 +242,13 @@ export async function makeServer(port: number = 3000) {
       ROUTES.INVITE_USER_TO_PROJECT_ACTION,
       ensureLoggedIn(),
       makeExpressCallback(postInviteUserToProject)
+    )
+
+    router.post(
+      ROUTES.DEPOSER_GARANTIES_FINANCIERES_ACTION,
+      ensureLoggedIn(),
+      upload.single('file'),
+      makeExpressCallback(postGarantiesFinancieres)
     )
 
     router.get('/ping', (req, res) => {

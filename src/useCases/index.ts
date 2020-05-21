@@ -14,6 +14,7 @@ import makeRetrievePassword from './retrievePassword'
 import makeResetPassword from './resetPassword'
 import makeShouldUserAccessProject from './shouldUserAccessProject'
 import makeInviteUserToProject from './inviteUserToProject'
+import makeAddGarantiesFinancieres from './addGarantiesFinancieres'
 
 import {
   sendEmailNotification,
@@ -100,6 +101,11 @@ const inviteUserToProject = makeInviteUserToProject({
   sendEmailInvitation,
 })
 
+const addGarantiesFinancieres = makeAddGarantiesFinancieres({
+  projectRepo,
+  shouldUserAccessProject,
+})
+
 const useCases = Object.freeze({
   login,
   importProjects,
@@ -117,6 +123,7 @@ const useCases = Object.freeze({
   resetPassword,
   shouldUserAccessProject,
   inviteUserToProject,
+  addGarantiesFinancieres,
 })
 
 export default useCases
@@ -137,4 +144,5 @@ export {
   resetPassword,
   shouldUserAccessProject,
   inviteUserToProject,
+  addGarantiesFinancieres,
 }

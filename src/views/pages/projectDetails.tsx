@@ -10,7 +10,14 @@ import { HttpRequest } from '../../types'
 import { dataId, testId } from '../../helpers/testId'
 import ROUTES from '../../routes'
 
-const GarantiesFinancieresForm = () => (
+interface GarantiesFinancieresFormProps {
+  projectId: string
+  date?: string
+}
+const GarantiesFinancieresForm = ({
+  projectId,
+  date,
+}: GarantiesFinancieresFormProps) => (
   <form
     action={ROUTES.DEPOSER_GARANTIES_FINANCIERES_ACTION}
     method="post"
@@ -26,6 +33,7 @@ const GarantiesFinancieresForm = () => (
         name="date"
         id="date"
         {...dataId('date-field')}
+        value={date || ''}
         data-max-date={Date.now()}
       />
       <div
@@ -46,13 +54,14 @@ const GarantiesFinancieresForm = () => (
       <label className="required" htmlFor="file">
         Attestation
       </label>
+      <input type="hidden" name="projectId" value={projectId} />
       <input type="file" name="file" {...dataId('file-field')} id="file" />
       <button
         className="button"
         type="submit"
         name="submit"
         id="submit"
-        {...dataId('submit-button')}
+        {...dataId('submit-gf-button')}
       >
         Envoyer
       </button>
@@ -221,7 +230,7 @@ const FriseItem = ({
         <td>
           {action ? (
             action.link ? (
-              <a href={action.link} {...dataId('frise-action')}>
+              <a href={action.link} {...dataId('frise-action')} download={true}>
                 {action.title}
               </a>
             ) : action.openHiddenContent ? (
@@ -409,18 +418,42 @@ export default function ProjectDetails({
                   />
                   {project.classe === 'Classé' ? (
                     <>
-                      <FriseItem
-                        date={moment(project.notifiedOn)
-                          .add(2, 'months')
-                          .format('D MMM YYYY')}
-                        title="Constitution des garanties financières"
-                        action={{
-                          title: "Transmettre l'attestation",
-                          openHiddenContent: true,
-                        }}
-                        status="nextup"
-                        hiddenContent={<GarantiesFinancieresForm />}
-                      />
+                      {project.garantiesFinancieresDate ? (
+                        <FriseItem
+                          date={moment(project.garantiesFinancieresDate).format(
+                            'D MMM YYYY'
+                          )}
+                          title="Constitution des garanties financières"
+                          action={{
+                            title: "Télécharger l'attestation",
+                            link: project.garantiesFinancieresFile.length
+                              ? ROUTES.DOWNLOAD_PROJECT_FILE(
+                                  project.id,
+                                  project.garantiesFinancieresFile
+                                )
+                              : undefined,
+                          }}
+                          status="past"
+                        />
+                      ) : (
+                        <FriseItem
+                          date={moment(project.notifiedOn)
+                            .add(2, 'months')
+                            .format('D MMM YYYY')}
+                          title="Constitution des garanties financières"
+                          action={{
+                            title: "Transmettre l'attestation",
+                            openHiddenContent: true,
+                          }}
+                          status="nextup"
+                          hiddenContent={
+                            <GarantiesFinancieresForm
+                              projectId={project.id}
+                              date={request.query.date}
+                            />
+                          }
+                        />
+                      )}
                       <FriseItem
                         date={moment(project.notifiedOn)
                           .add(2, 'months')
