@@ -25,6 +25,10 @@ When('je me rends sur la page du projet {string}', (projectName) => {
   })
 })
 
+When("j'ouvre la section {string}", async function (intituleSection) {
+  cy.contains(intituleSection).click()
+})
+
 When('je click sur le bouton {string}', async function (intituleBouton) {
   cy.contains(intituleBouton).click()
 })

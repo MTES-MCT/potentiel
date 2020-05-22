@@ -8,6 +8,7 @@ Fonctionnalité: Je peux donner les droits à un projet à un autre utilisateur
       | projet 1  | Eliminé | 1234       | motif             |
     Et un autre porteur de projet inscrit avec l'adresse "autre@porteur.test"
     Lorsque je me rends sur la page du projet "projet 1"
+    Et que j'ouvre la section "Contact"
     Et que je click sur le bouton "Donner accès à un autre utilisateur"
     Et que je saisis la valeur "autre@porteur.test" dans le champ "email"
     Et que je valide le formulaire
@@ -22,6 +23,7 @@ Fonctionnalité: Je peux donner les droits à un projet à un autre utilisateur
       | nomProjet | classe  | notifiedOn | motifsElimination |
       | projet 1  | Eliminé | 1234       | motif             |
     Lorsque je me rends sur la page du projet "projet 1"
+    Et que j'ouvre la section "Contact"
     Et que je click sur le bouton "Donner accès à un autre utilisateur"
     Et que je saisis la valeur "inexistant@porteur.test" dans le champ "email"
     Et que je valide le formulaire
