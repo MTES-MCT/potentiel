@@ -3,16 +3,18 @@ import {
   String,
   Number,
   Record,
-  Array,
+  Array as SchemaArray,
   Union,
   Literal,
   Boolean,
   Static,
   Unknown,
-  Partial,
+  Partial as SchemaPartial,
   Undefined,
 } from '../types/schemaTypes'
 import buildMakeEntity from '../helpers/buildMakeEntity'
+
+import { User, ModificationRequest } from './'
 
 import { candidateNotificationSchema } from './candidateNotification'
 import { appelOffreSchema } from './appelOffre'
@@ -58,8 +60,10 @@ const baseProjectSchema = Record({
   garantiesFinancieresDate: Number,
 })
 const projectSchema = baseProjectSchema.And(
-  Partial({
-    candidateNotifications: Array(candidateNotificationSchema).Or(Undefined),
+  SchemaPartial({
+    candidateNotifications: SchemaArray(candidateNotificationSchema).Or(
+      Undefined
+    ),
     actionnaire: String,
     territoireProjet: territoireSchema.Or(Undefined),
     appelOffre: appelOffreSchema,
@@ -71,10 +75,86 @@ const fields: string[] = [
   'actionnaire',
   'territoireProjet',
   'appelOffre',
+  'history',
   ...Object.keys(baseProjectSchema.fields),
 ]
 
-type Project = Static<typeof projectSchema>
+type BaseProject = Static<typeof projectSchema>
+
+type ProjectEvent = {
+  before: Partial<BaseProject>
+  after: Partial<BaseProject>
+  createdAt: number
+  userId: User['id']
+  type:
+    | 'modification-request'
+    | 'import'
+    | 'candidate-notification'
+    | 'garanties-financieres-submission'
+  modificationRequestId?: ModificationRequest['id']
+  isNew?: true
+}
+
+type Project = BaseProject & {
+  history?: Array<ProjectEvent>
+}
+
+interface ApplyProjectUpdateProps {
+  project: Project
+  update?: Partial<BaseProject>
+  context: {
+    userId: User['id']
+    type: ProjectEvent['type']
+    modificationRequestId?: ModificationRequest['id']
+  }
+}
+function applyProjectUpdate({
+  project,
+  update,
+  context,
+}: ApplyProjectUpdateProps): Project {
+  // Determine before/after values from the project and update
+  const { before, after } = update
+    ? Object.keys(update)
+        .filter(
+          (key) =>
+            key !== 'id' &&
+            // Only accept changes to notifiedOn for candidate-notifications
+            (context.type === 'candidate-notification' || key !== 'notifiedOn')
+        )
+        .reduce(
+          ({ before, after }, key: string) => {
+            if (project[key] != update[key]) {
+              before[key] = project[key]
+              after[key] = update[key]
+
+              // Update the project itself
+              project[key] = update[key]
+            }
+            return { before, after }
+          },
+          {
+            before: {} as Partial<BaseProject>,
+            after: {} as Partial<BaseProject>,
+          }
+        )
+    : // If no update is defined, the whole project is new, consider the delta as empty
+      { before: {}, after: {} }
+
+  // Add a ProjectEvent to project.history
+  project.history = [
+    ...(project.history || []),
+    {
+      before,
+      after,
+      ...context,
+      createdAt: Date.now(),
+      isNew: true,
+    },
+  ]
+
+  return project
+}
 
 interface MakeProjectDependencies {
   makeId: () => string
@@ -92,4 +172,10 @@ export default ({ makeId }: MakeProjectDependencies) =>
     garantiesFinancieresDate: 0,
   })
 
-export { Project, projectSchema, territoireSchema }
+export {
+  Project,
+  ProjectEvent,
+  projectSchema,
+  territoireSchema,
+  applyProjectUpdate,
+}

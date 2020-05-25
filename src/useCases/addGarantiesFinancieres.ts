@@ -1,4 +1,4 @@
-import { Project, User, makeProject } from '../entities'
+import { Project, User, makeProject, applyProjectUpdate } from '../entities'
 import { ProjectRepo } from '../dataAccess'
 import _ from 'lodash'
 import { ResultAsync, Ok, Err, ErrorResult } from '../types'
@@ -35,12 +35,30 @@ export default function makeAddGarantiesFinancieres({
 
     if (!access) return ErrorResult(UNAUTHORIZED)
 
-    const res = await projectRepo.update(projectId, {
-      garantiesFinancieresDate: date,
-      garantiesFinancieresFile: filename,
-      garantiesFinancieresSubmittedOn: Date.now(),
-      garantiesFinancieresSubmittedBy: user.id,
-    })
+    const projectRes = await projectRepo.findById(projectId)
+
+    if (projectRes.is_none()) {
+      console.log('addGarantiesFinancières failed because projectRes.is_none()')
+      return ErrorResult(UNAUTHORIZED)
+    }
+
+    const project = projectRes.unwrap()
+
+    const res = await projectRepo.save(
+      applyProjectUpdate({
+        project,
+        update: {
+          garantiesFinancieresDate: date,
+          garantiesFinancieresFile: filename,
+          garantiesFinancieresSubmittedOn: Date.now(),
+          garantiesFinancieresSubmittedBy: user.id,
+        },
+        context: {
+          userId: user.id,
+          type: 'garanties-financieres-submission',
+        },
+      })
+    )
 
     if (res.is_err()) return Err(res.unwrap_err())
     return Ok(null)

@@ -126,7 +126,7 @@ describe('sendAllCandidateNotifications use-case', () => {
         .map(makeProject)
         .filter((item) => item.is_ok())
         .map((item) => item.unwrap())
-        .map(projectRepo.insert)
+        .map(projectRepo.save)
     )
 
     const allProjects = await projectRepo.findAll()
@@ -147,6 +147,7 @@ describe('sendAllCandidateNotifications use-case', () => {
       appelOffreId: appelOffre.id,
       periodeId: periode.id,
       notifiedOn: notificationDate,
+      userId: fakeUserId,
     })
     expect(result.is_ok()).toBeTruthy()
   })
@@ -188,5 +189,31 @@ describe('sendAllCandidateNotifications use-case', () => {
     expect(userProjects).toBeDefined()
     expect(userProjects).toHaveLength(2)
     expect(userProjects[0].nomProjet).toEqual(fakeUserProjectName)
+  })
+
+  it('should add a history event in the projects that have been notified', async () => {
+    // Make sure an event has been recorded in the notified project
+    const notifiedProjectRes = await projectRepo.findById(
+      projectsToNotify[0].id,
+      true
+    )
+
+    expect(notifiedProjectRes.is_some()).toBe(true)
+    if (notifiedProjectRes.is_none()) return
+
+    const notifiedProject = notifiedProjectRes.unwrap()
+    expect(notifiedProject.history).toHaveLength(1)
+    if (!notifiedProject.history?.length) return
+    console.log(notifiedProject.history[0])
+    expect(notifiedProject.history[0].before.notifiedOn).toEqual(0)
+    expect(notifiedProject.history[0].after.notifiedOn).toEqual(
+      notificationDate
+    )
+    expect(notifiedProject.history[0].createdAt / 100).toBeCloseTo(
+      Date.now() / 100,
+      0
+    )
+    expect(notifiedProject.history[0].type).toEqual('candidate-notification')
+    expect(notifiedProject.history[0].userId).toEqual(fakeUserId)
   })
 })

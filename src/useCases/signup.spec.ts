@@ -67,7 +67,7 @@ describe('signup use-case', () => {
         .map(makeProject)
         .filter((item) => item.is_ok())
         .map((item) => item.unwrap())
-        .map(projectRepo.insert)
+        .map(projectRepo.save)
     )
 
     const [project, otherProject] = await projectRepo.findAll()
@@ -147,7 +147,7 @@ describe('signup use-case', () => {
         .map(makeProject)
         .filter((item) => item.is_ok())
         .map((item) => item.unwrap())
-        .map(projectRepo.insert)
+        .map(projectRepo.save)
     )
 
     const [project, otherProject] = await projectRepo.findAll()

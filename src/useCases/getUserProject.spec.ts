@@ -26,7 +26,7 @@ describe('getUserProject use-case', () => {
     if (fakeProjectResult.is_err()) return
     const fakeProject = fakeProjectResult.unwrap()
 
-    await projectRepo.insert(fakeProject)
+    await projectRepo.save(fakeProject)
 
     const projectResult = await getUserProject({
       user,
@@ -48,7 +48,7 @@ describe('getUserProject use-case', () => {
     if (fakeProjectResult.is_err()) return
     const fakeProject = fakeProjectResult.unwrap()
 
-    await projectRepo.insert(fakeProject)
+    await projectRepo.save(fakeProject)
 
     // Associate this user to this project
     await userRepo.addProject(user.id, fakeProject.id)
@@ -75,7 +75,7 @@ describe('getUserProject use-case', () => {
     if (fakeProjectResult.is_err()) return
     const fakeProject = fakeProjectResult.unwrap()
 
-    await projectRepo.insert(fakeProject)
+    await projectRepo.save(fakeProject)
 
     // Do not associate this user to this project
 

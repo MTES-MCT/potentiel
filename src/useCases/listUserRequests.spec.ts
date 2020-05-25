@@ -36,7 +36,7 @@ describe('listUserRequests use-case', () => {
     const fakeProjectResult = makeProject(makeFakeProject())
     expect(fakeProjectResult.is_ok())
     const fakeProject = fakeProjectResult.unwrap()
-    await projectRepo.insert(fakeProject)
+    await projectRepo.save(fakeProject)
     const projectResult = await projectRepo.findById(fakeProject.id)
 
     expect(projectResult.is_some()).toBeTruthy()

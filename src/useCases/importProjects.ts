@@ -1,4 +1,11 @@
-import { Project, makeProject, AppelOffre, Periode } from '../entities'
+import {
+  Project,
+  makeProject,
+  AppelOffre,
+  Periode,
+  applyProjectUpdate,
+  User,
+} from '../entities'
 import { ProjectRepo, AppelOffreRepo } from '../dataAccess'
 import _ from 'lodash'
 import { Result, ResultAsync, Err, Ok, ErrorResult } from '../types'
@@ -12,6 +19,7 @@ interface MakeUseCaseProps {
 }
 
 interface CallUseCaseProps {
+  userId: User['id']
   lines: Array<Record<string, any>> // the csv lines (split by separator)
 }
 
@@ -100,6 +108,7 @@ export default function makeImportProjects({
 }: MakeUseCaseProps) {
   return async function importProjects({
     lines,
+    userId,
   }: CallUseCaseProps): ResultAsync<ImportReturnType> {
     // Check if there is at least one line to insert
     if (!lines || !lines.length) {
@@ -235,7 +244,27 @@ export default function makeImportProjects({
     }
 
     const insertions: Array<Result<Project, Error>> = await Promise.all(
-      projects.unwrap().map(projectRepo.insert)
+      projects.unwrap().map(async (newProject) => {
+        const { appelOffreId, periodeId, numeroCRE, familleId } = newProject
+
+        // An existing project would have the same appelOffre, perdiode, numeroCRE and famille
+        const existingProject = await projectRepo.findOne({
+          appelOffreId,
+          periodeId,
+          numeroCRE,
+          familleId,
+        })
+
+        return projectRepo.save(
+          // If the project is new, existingProject is undefined, no update is applied but the context is saved in a history event
+          // If existingProject exists, newProject values are applied to the existingProject and the context and delta are saved in a history event
+          applyProjectUpdate({
+            project: existingProject || newProject,
+            update: existingProject ? newProject : undefined,
+            context: { type: 'import', userId },
+          })
+        )
+      })
     )
 
     if (insertions.some((project) => project.is_err())) {

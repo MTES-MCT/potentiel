@@ -14,7 +14,7 @@ describe('listUnnotifiedProjects use-case', () => {
     makeFakeProject({ appelOffreId, periodeId, notifiedOn: 123 }), // already notified
     makeFakeProject({ appelOffreId, periodeId: 'other', notifiedOn: 0 }), // Wrong periode
     makeFakeProject({ appelOffreId: 'other', periodeId, notifiedOn: 0 }), // Wrong AppelOffre
-    makeFakeProject({ appelOffreId, periodeId, notifiedOn: 0 }) // Good
+    makeFakeProject({ appelOffreId, periodeId, notifiedOn: 0 }), // Good
   ]
 
   beforeAll(async () => {
@@ -22,16 +22,16 @@ describe('listUnnotifiedProjects use-case', () => {
     await Promise.all(
       fakeProjects
         .map(makeProject)
-        .filter(item => item.is_ok())
-        .map(item => item.unwrap())
-        .map(projectRepo.insert)
+        .filter((item) => item.is_ok())
+        .map((item) => item.unwrap())
+        .map(projectRepo.save)
     )
   })
 
   it('should return all unnotified projects for an AO and a Periode', async () => {
     const foundProjects = await listUnnotifiedProjects({
       appelOffreId,
-      periodeId
+      periodeId,
     })
 
     expect(foundProjects).toHaveLength(1)

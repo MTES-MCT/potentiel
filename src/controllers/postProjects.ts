@@ -40,6 +40,10 @@ const parse = (file) =>
 const postProjects = async (request: HttpRequest) => {
   // console.log('Call to postProjects received', request.body, request.file)
 
+  if (!request.user) {
+    return Redirect(ROUTES.LOGIN)
+  }
+
   if (!request.file || !request.file.path) {
     return Redirect(ROUTES.IMPORT_PROJECTS, {
       error: 'Le fichier candidat est manquant.',
@@ -53,6 +57,7 @@ const postProjects = async (request: HttpRequest) => {
 
   const importProjectsResult = await importProjects({
     lines,
+    userId: request.user.id,
   })
 
   // remove temp file

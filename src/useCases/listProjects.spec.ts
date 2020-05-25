@@ -36,7 +36,7 @@ describe('listProjects use-case', () => {
   ]
 
   beforeAll(async () => {
-    await Promise.all(fakeProjects.map(projectRepo.insert))
+    await Promise.all(fakeProjects.map(projectRepo.save))
   })
 
   it('should return all projects that have been notified', async () => {

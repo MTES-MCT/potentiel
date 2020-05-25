@@ -76,6 +76,7 @@ describe('importProjects use-case', () => {
     const phonyLine = makePhonyLine()
     const result = await importProjects({
       lines: [phonyLine],
+      userId: 'userId',
     })
 
     expect(result.is_ok()).toBeTruthy()
@@ -117,6 +118,23 @@ describe('importProjects use-case', () => {
     for (const key in expectedLine) {
       expect(newProjects[0][key]).toEqual(expectedLine[key])
     }
+
+    // Make sure a history item has been created
+    const newProjectRes = await projectRepo.findById(newProjects[0].id, true)
+    expect(newProjectRes.is_some()).toBe(true)
+    if (newProjectRes.is_none()) return
+    const newProject = newProjectRes.unwrap()
+
+    expect(newProject.history).toHaveLength(1)
+    if (!newProject.history || !newProject.history.length) return
+    expect(newProject.history[0].before).toEqual({})
+    expect(newProject.history[0].after).toEqual({})
+    expect(newProject.history[0].type).toEqual('import')
+    expect(newProject.history[0].userId).toEqual('userId')
+    expect(newProject.history[0].createdAt / 100).toBeCloseTo(
+      Date.now() / 100,
+      0
+    )
   })
 
   it('should override a project line if it has the same numeroCRE, appelOffreId, periodeId and familleId, except the notifiedOn field', async () => {
@@ -136,7 +154,7 @@ describe('importProjects use-case', () => {
           .map(makeProject)
           .filter((item) => item.is_ok())
           .map((item) => item.unwrap())
-          .map(projectRepo.insert)
+          .map(projectRepo.save)
       )
     )
       .filter((item) => item.is_ok())
@@ -150,25 +168,43 @@ describe('importProjects use-case', () => {
     const phonyLine = makePhonyLine()
     const result = await importProjects({
       lines: [phonyLine],
+      userId: 'userId',
     })
 
     expect(result.is_ok()).toBeTruthy()
 
+    // Make sure there's only one project in the database
+    const allProjects = await projectRepo.findAll()
+    expect(allProjects).toHaveLength(1)
+
     // Make sure the project has been updated
-    const updatedProjects = await projectRepo.findAll({
-      appelOffreId: phonyAppelOffre.id,
-      periodeId: phonyPeriodId,
-      numeroCRE: phonyNumeroCRE,
-      familleId: phonyFamilleId,
-    })
-    expect(updatedProjects).toHaveLength(1)
-    expect(updatedProjects[0].nomProjet).toEqual('nomProjet')
-    expect(updatedProjects[0].notifiedOn).toEqual(0)
+    const updatedProjectRes = await projectRepo.findById(oldProject.id, true)
+    expect(updatedProjectRes.is_some()).toBe(true)
+    if (updatedProjectRes.is_none()) return
+    const updatedProject = updatedProjectRes.unwrap()
+
+    expect(updatedProject.nomProjet).toEqual('nomProjet')
+    expect(updatedProject.notifiedOn).toEqual(0)
+
+    // Make sure a history event has been added
+    expect(updatedProject.history).toHaveLength(1)
+    if (!updatedProject.history || !updatedProject.history.length) return
+    expect(updatedProject.history[0].before.nomProjet).toEqual(
+      'Ancien nom projet'
+    )
+    expect(updatedProject.history[0].after.nomProjet).toEqual('nomProjet')
+    expect(updatedProject.history[0].type).toEqual('import')
+    expect(updatedProject.history[0].userId).toEqual('userId')
+    expect(updatedProject.history[0].createdAt / 100).toBeCloseTo(
+      Date.now() / 100,
+      0
+    )
   })
 
   it("should throw an error if there isn't at least one line", async () => {
     const result = await importProjects({
       lines: [],
+      userId: 'userId',
     })
 
     expect(result.is_err())
@@ -182,6 +218,7 @@ describe('importProjects use-case', () => {
 
     const result = await importProjects({
       lines: [goodLine, badLine],
+      userId: 'userId',
     })
 
     expect(result.is_err())

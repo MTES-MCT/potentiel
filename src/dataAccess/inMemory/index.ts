@@ -15,6 +15,7 @@ import {
   ProjectAdmissionKey,
   ModificationRequest,
   PasswordRetrieval,
+  ProjectEvent,
 } from '../../entities'
 import {
   Ok,
@@ -26,6 +27,7 @@ import {
   PaginatedList,
 } from '../../types'
 import { makePaginatedList } from '../../helpers/paginate'
+import _ from 'lodash'
 
 import { appelOffreRepo } from './appelOffre'
 const addAppelOffreToProject = async (project: Project): Promise<Project> => {
@@ -232,13 +234,37 @@ async function findAllProjects(
   return items
 }
 
+const eventsByProjectId: Record<Project['id'], Array<ProjectEvent>> = {}
 const projectRepo: ProjectRepo = {
-  findById: async (id: string) => {
+  findById: async (id: string, includeHistory?: boolean) => {
     // console.log('findById', id, itemsById)
     if (id in projectsById) {
       const project = await addAppelOffreToProject(projectsById[id])
+
+      if (includeHistory) {
+        project.history = eventsByProjectId[id] || []
+      }
+
       return Some(project)
     } else return None
+  },
+  findOne: async (query: Record<string, any>) => {
+    const allItems = await Promise.all(
+      Object.values(projectsById).map(addAppelOffreToProject)
+    )
+
+    let items = await Promise.all(
+      allItems.filter((item) =>
+        Object.entries(query).every(([key, value]) => {
+          if (key === 'notifiedOn' && value === -1) {
+            return item.notifiedOn > 0
+          }
+          return item[key] === value
+        })
+      )
+    )
+
+    return items[0]
   },
   findAll: findAllProjects,
   findByUser: (userId: User['id'], excludeUnnotified?: boolean) => {
@@ -251,45 +277,26 @@ const projectRepo: ProjectRepo = {
         .map(addAppelOffreToProject)
     )
   },
-  insert: (project: Project) => {
-    const previousProject = Object.values(projectsById).find(
-      (item) =>
-        item.appelOffreId === project.appelOffreId &&
-        item.periodeId === project.periodeId &&
-        item.numeroCRE === project.numeroCRE &&
-        item.familleId === project.familleId
-    )
+  save: (project: Project) => {
+    const { history, ...restOfProject } = project
 
-    if (previousProject) {
-      projectsById[previousProject.id] = {
-        ...project,
-        id: previousProject.id,
-        notifiedOn: previousProject.notifiedOn,
-      }
-    } else {
-      projectsById[project.id] = project
+    projectsById[project.id] = restOfProject
+
+    if (history) {
+      history
+        .filter((event) => event.isNew)
+        .forEach((event) => {
+          // Add the new event to the event list
+          eventsByProjectId[project.id] = [
+            ...(eventsByProjectId[project.id] || []),
+            _.omit(event, 'isNew'),
+          ]
+        })
     }
 
     // console.log('Calling projectRepo.insert with', project)
 
     return Promise.resolve(Ok(project))
-  },
-  update: (projectId: Project['id'], update: Partial<Project>) => {
-    if (!projectId) {
-      return Promise.resolve(
-        Err(new Error('Cannot update project that has no id'))
-      )
-    }
-
-    if (!projectsById[projectId]) {
-      return Promise.resolve(
-        Err(new Error('Cannot update project that was unknown'))
-      )
-    }
-
-    projectsById[projectId] = { ...projectsById[projectId], ...update }
-
-    return Promise.resolve(Ok(projectsById[projectId]))
   },
   remove: async (id: Project['id']) => {
     delete usersById[id]

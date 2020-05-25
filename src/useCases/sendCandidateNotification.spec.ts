@@ -60,7 +60,7 @@ describe('sendCandidateNotification use-case', () => {
           .map(makeProject)
           .filter((item) => item.is_ok())
           .map((item) => item.unwrap())
-          .map(projectRepo.insert)
+          .map(projectRepo.save)
       )
     )
       .filter((item) => item.is_ok())

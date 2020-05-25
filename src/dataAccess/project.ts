@@ -2,7 +2,11 @@ import { CandidateNotification, Project, User } from '../entities'
 import { OptionAsync, ResultAsync, Pagination, PaginatedList } from '../types'
 
 export type ProjectRepo = {
-  findById: (id: Project['id']) => OptionAsync<Project>
+  findById: (
+    id: Project['id'],
+    includeHistory?: boolean
+  ) => OptionAsync<Project>
+  findOne(query: Record<string, any>): Promise<Project>
   findAll(query?: Record<string, any>): Promise<Array<Project>>
   findAll(
     query: Record<string, any>,
@@ -12,12 +16,8 @@ export type ProjectRepo = {
     userId: User['id'],
     excludeUnnotified?: boolean
   ) => Promise<Array<Project>>
-  insert: (project: Project) => ResultAsync<Project>
-  update: (
-    projectId: Project['id'],
-    update: Partial<Project>
-  ) => ResultAsync<Project>
   remove: (projectId: Project['id']) => ResultAsync<void>
+  save: (project: Project) => ResultAsync<Project>
   addNotification: (
     project: Project,
     notification: CandidateNotification

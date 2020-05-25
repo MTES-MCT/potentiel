@@ -12,7 +12,9 @@ import {
   AppelOffre,
   Periode,
   Project,
+  User,
   ProjectAdmissionKey,
+  applyProjectUpdate,
 } from '../entities'
 import { ErrorResult, Ok, ResultAsync } from '../types'
 import { sendCandidateNotification } from '.'
@@ -33,6 +35,7 @@ interface CallUseCaseProps {
   appelOffreId: AppelOffre['id']
   periodeId: Periode['id']
   notifiedOn: number
+  userId: User['id']
 }
 
 export const ERREUR_AUCUN_PROJET_NON_NOTIFIE =
@@ -49,6 +52,7 @@ export default function makeSendAllCandidateNotifications({
     appelOffreId,
     periodeId,
     notifiedOn,
+    userId,
   }: CallUseCaseProps): ResultAsync<null> {
     // Find all projects that have not been notified
     // For this appelOffre and periode
@@ -99,7 +103,16 @@ export default function makeSendAllCandidateNotifications({
             await Promise.all(
               projectsForThisEmail.map(async (project) => {
                 // Register the date of notification for each project
-                await projectRepo.update(project.id, { notifiedOn })
+                await projectRepo.save(
+                  applyProjectUpdate({
+                    project,
+                    update: { notifiedOn },
+                    context: {
+                      userId,
+                      type: 'candidate-notification',
+                    },
+                  })
+                )
 
                 // Save a candidate notification for each
                 const projectAdmissionKeyId = projectAdmissionKeyResult.unwrap()

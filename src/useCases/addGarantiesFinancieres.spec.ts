@@ -9,6 +9,7 @@ import makeFakeUser from '../__tests__/fixtures/user'
 import { makeProject, makeUser, User, Project } from '../entities'
 
 import { projectRepo, userRepo, resetDatabase } from '../dataAccess/inMemory'
+import { updateProperty } from 'typescript'
 
 const shouldUserAccessProject = makeShouldUserAccessProject({ userRepo })
 const addGarantiesFinancieres = makeAddGarantiesFinancieres({
@@ -35,7 +36,7 @@ describe('addGarantiesFinancieres use-case', () => {
           .map(makeProject)
           .filter((item) => item.is_ok())
           .map((item) => item.unwrap())
-          .map(projectRepo.insert)
+          .map(projectRepo.save)
       )
     )
       .filter((item) => item.is_ok())
@@ -83,7 +84,7 @@ describe('addGarantiesFinancieres use-case', () => {
     if (res.is_err()) return
 
     // Get the latest version of the project
-    const updatedProjectRes = await projectRepo.findById(projet.id)
+    const updatedProjectRes = await projectRepo.findById(projet.id, true)
 
     expect(updatedProjectRes.is_some()).toBe(true)
     if (updatedProjectRes.is_none()) return
@@ -97,6 +98,30 @@ describe('addGarantiesFinancieres use-case', () => {
     expect(updatedProject.garantiesFinancieresSubmittedBy).toEqual(user.id)
     expect(updatedProject.garantiesFinancieresFile).toEqual(filename)
     expect(updatedProject.garantiesFinancieresDate).toEqual(date)
+
+    expect(updatedProject.history).toHaveLength(1)
+    if (!updatedProject.history?.length) return
+    expect(updatedProject.history[0].before).toEqual({
+      garantiesFinancieresSubmittedBy: '',
+      garantiesFinancieresSubmittedOn: 0,
+      garantiesFinancieresFile: '',
+      garantiesFinancieresDate: 0,
+    })
+    expect(updatedProject.history[0].after).toEqual({
+      garantiesFinancieresSubmittedBy: user.id,
+      garantiesFinancieresSubmittedOn:
+        updatedProject.garantiesFinancieresSubmittedOn,
+      garantiesFinancieresFile: filename,
+      garantiesFinancieresDate: date,
+    })
+    expect(updatedProject.history[0].createdAt / 100).toBeCloseTo(
+      Date.now() / 100,
+      0
+    )
+    expect(updatedProject.history[0].type).toEqual(
+      'garanties-financieres-submission'
+    )
+    expect(updatedProject.history[0].userId).toEqual(user.id)
   })
 
   it('should return an error if the user does not have the rights on this project', async () => {
