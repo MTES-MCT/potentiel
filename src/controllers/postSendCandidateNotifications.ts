@@ -11,6 +11,10 @@ const postSendCandidateNotifications = async (request: HttpRequest) => {
 
   const { appelOffreId, periodeId, notificationDate } = request.body
 
+  if (!request.user) {
+    return Redirect(ROUTES.LOGIN)
+  }
+
   if (
     !notificationDate ||
     moment(notificationDate, FORMAT_DATE).format(FORMAT_DATE) !==
@@ -32,6 +36,7 @@ const postSendCandidateNotifications = async (request: HttpRequest) => {
     appelOffreId,
     periodeId,
     notifiedOn: moment(notificationDate, FORMAT_DATE).toDate().getTime(),
+    userId: request.user.id,
   })
 
   return result.match({

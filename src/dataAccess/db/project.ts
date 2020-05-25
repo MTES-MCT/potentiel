@@ -20,7 +20,7 @@ import {
 } from '../../types'
 import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
-import { ok } from 'assert'
+import _ from 'lodash'
 
 // Override these to apply serialization/deserialization on inputs/outputs
 const deserialize = (item) => ({
@@ -426,6 +426,8 @@ export default function makeProjectRepo({
     try {
       // Use a transaction to ensure the ProjectEvent and Project are saved together
       await sequelize.transaction(async (transaction: Transaction) => {
+        await ProjectModel.upsert(project, { transaction })
+
         // Check if the event history needs updating
         const newEvents = project.history?.filter((event) => event.isNew)
         if (newEvents && newEvents.length) {
@@ -433,14 +435,14 @@ export default function makeProjectRepo({
           // Save them in the ProjectEvent table
           await Promise.all(
             newEvents
-              .map((newEvent) =>
-                ProjectEventModel.build({ ...newEvent, projectId: project.id })
-              )
+              .map((newEvent) => ({
+                ...newEvent,
+                projectId: project.id,
+              }))
+              .map((newEvent) => ProjectEventModel.build(newEvent))
               .map((newEventInstance) => newEventInstance.save({ transaction }))
           )
         }
-
-        await ProjectModel.upsert(project, { transaction })
       })
 
       return Ok(project)
