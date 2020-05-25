@@ -1,4 +1,4 @@
-import { DataTypes, Op } from 'sequelize'
+import { DataTypes, Op, Transaction } from 'sequelize'
 import { ProjectRepo } from '../'
 import {
   Project,
@@ -168,14 +168,83 @@ export default function makeProjectRepo({
     },
   })
 
+  const ProjectEventModel = sequelize.define('projectEvent', {
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+    },
+    before: {
+      type: DataTypes.STRING,
+      get() {
+        const rawValue = this.getDataValue('before')
+        let parsedValue = {}
+        try {
+          if (rawValue) parsedValue = JSON.parse(rawValue)
+        } catch (e) {
+          console.log(
+            'ProjectEventModel failed to parse before rawValue:',
+            rawValue
+          )
+        }
+        return parsedValue
+      },
+      set(value) {
+        this.setDataValue('before', JSON.stringify(value))
+      },
+      allowNull: false,
+    },
+    after: {
+      type: DataTypes.STRING,
+      get() {
+        const rawValue = this.getDataValue('after')
+
+        let parsedValue = {}
+        try {
+          if (rawValue) parsedValue = JSON.parse(rawValue)
+        } catch (e) {
+          console.log(
+            'ProjectEventModel failed to parse after rawValue:',
+            rawValue
+          )
+        }
+        return parsedValue
+      },
+      set(value) {
+        this.setDataValue('after', JSON.stringify(value))
+      },
+      allowNull: false,
+    },
+    createdAt: {
+      type: DataTypes.NUMBER,
+      allowNull: false,
+    },
+    userId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+    type: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    modificationRequestId: {
+      type: DataTypes.UUID,
+      allowNull: true,
+    },
+  })
+
+  ProjectModel.hasMany(ProjectEventModel)
+  ProjectEventModel.belongsTo(ProjectModel, {
+    foreignKey: 'projectId',
+  })
+
   const _isDbReady = isDbReady({ sequelize })
 
   return Object.freeze({
     findById,
+    findOne,
     findAll,
     findByUser,
-    insert,
-    update,
+    save,
     remove,
     addNotification,
     getUsers,
@@ -189,13 +258,44 @@ export default function makeProjectRepo({
     return project
   }
 
-  async function findById(id: Project['id']): OptionAsync<Project> {
+  async function findById(
+    id: Project['id'],
+    includeHistory?: true
+  ): OptionAsync<Project> {
     await _isDbReady
 
     try {
       const projectInDb = await ProjectModel.findByPk(id)
-
       if (!projectInDb) return None
+
+      const projectInstance = makeProject(deserialize(projectInDb.get()))
+
+      const projectWithAppelOffre = await addAppelOffreToProject(
+        projectInstance.unwrap()
+      )
+
+      if (includeHistory) {
+        projectWithAppelOffre.history = (
+          await projectInDb.getProjectEvents()
+        ).map((item) => item.get())
+      }
+
+      return Some(projectWithAppelOffre)
+    } catch (error) {
+      if (CONFIG.logDbErrors) console.log('Project.findById error', error)
+      return None
+    }
+  }
+
+  async function findOne(
+    query: Record<string, any>
+  ): Promise<Project | undefined> {
+    await _isDbReady
+
+    try {
+      const projectInDb = await ProjectModel.findOne({ where: query })
+
+      if (!projectInDb) return
 
       const projectInstance = makeProject(deserialize(projectInDb.get()))
 
@@ -204,10 +304,9 @@ export default function makeProjectRepo({
       const projectWithAppelOffre = await addAppelOffreToProject(
         projectInstance.unwrap()
       )
-      return Some(projectWithAppelOffre)
+      return projectWithAppelOffre
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('Project.findById error', error)
-      return None
+      if (CONFIG.logDbErrors) console.log('Project.findOne error', error)
     }
   }
 
@@ -321,58 +420,32 @@ export default function makeProjectRepo({
     }
   }
 
-  async function insert(project: Project): ResultAsync<Project> {
+  async function save(project: Project): ResultAsync<Project> {
     await _isDbReady
 
     try {
-      // Check if a project exist with the same numeroCRE, appelOffreId and periodeId
-      const { numeroCRE, appelOffreId, periodeId, familleId } = project
-      const existingProject = await ProjectModel.findOne({
-        where: {
-          numeroCRE,
-          appelOffreId,
-          periodeId,
-          familleId,
-        },
+      // Use a transaction to ensure the ProjectEvent and Project are saved together
+      await sequelize.transaction(async (transaction: Transaction) => {
+        // Check if the event history needs updating
+        const newEvents = project.history?.filter((event) => event.isNew)
+        if (newEvents && newEvents.length) {
+          // New events found
+          // Save them in the ProjectEvent table
+          await Promise.all(
+            newEvents
+              .map((newEvent) =>
+                ProjectEventModel.build({ ...newEvent, projectId: project.id })
+              )
+              .map((newEventInstance) => newEventInstance.save({ transaction }))
+          )
+        }
+
+        await ProjectModel.upsert(project, { transaction })
       })
-
-      if (existingProject) {
-        // Update the existing project, except notifiedOn field
-        Object.entries(project)
-          .filter(([key]) => key !== 'notifiedOn')
-          .forEach(([key, value]) => {
-            existingProject[key] = value
-          })
-
-        await existingProject.save()
-        return Ok(existingProject)
-      } else {
-        // console.log('Inserting project', project)
-        await ProjectModel.create(serialize(project))
-        return Ok(project)
-      }
-    } catch (error) {
-      if (CONFIG.logDbErrors) console.log('Project.insert error', error)
-      return Err(error)
-    }
-  }
-
-  async function update(
-    projectId: Project['id'],
-    update: Partial<Project>
-  ): ResultAsync<Project> {
-    await _isDbReady
-
-    try {
-      await ProjectModel.update(update, {
-        where: { id: projectId },
-      })
-
-      const project = await ProjectModel.findByPk(projectId, { raw: true })
 
       return Ok(project)
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('Project.update error', error)
+      if (CONFIG.logDbErrors) console.log('Project.save error', error)
       return Err(error)
     }
   }

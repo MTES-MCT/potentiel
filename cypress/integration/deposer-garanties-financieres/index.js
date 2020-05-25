@@ -13,6 +13,7 @@ Given('mon compte est lié aux projets suivants', async function (dataTable) {
 })
 
 When('je me rends sur la page du projet {string}', (projectName) => {
+  cy.wrap(projectName).as('projectName')
   cy.getProjectId(projectName).then((projectId) => {
     cy.log(projectId)
     cy.visit(`/projet/${projectId}/details.html`)
@@ -54,4 +55,29 @@ Then("je vois que l'étape {string} de la frise est validée", (etape) => {
     'data-status',
     'past'
   )
+})
+
+Then("l'étape a été enregistrée dans l'historique du projet", () => {
+  cy.get('@projectName').then((projectName) => {
+    cy.getProject(projectName).then((project) => {
+      expect(project).to.not.be.undefined
+      expect(project).to.have.property('history')
+      expect(project.history).to.have.lengthOf(1)
+      expect(project.history[0].before).to.have.keys(
+        'garantiesFinancieresDate',
+        'garantiesFinancieresFile',
+        'garantiesFinancieresSubmittedBy',
+        'garantiesFinancieresSubmittedOn'
+      )
+      expect(project.history[0].after).to.have.keys(
+        'garantiesFinancieresDate',
+        'garantiesFinancieresFile',
+        'garantiesFinancieresSubmittedBy',
+        'garantiesFinancieresSubmittedOn'
+      )
+      expect(project.history[0].type).to.equal(
+        'garanties-financieres-submission'
+      )
+    })
+  })
 })

@@ -47,6 +47,7 @@ import {
   checkUserAccessToProjectForTests,
   createUserWithEmailForTests,
   getProjectIdForTests,
+  getProjectHistoryForTests,
 } from './__tests__/integration'
 
 import { initDatabase } from './dataAccess'
@@ -278,6 +279,10 @@ export async function makeServer(port: number = 3000) {
       router.get(
         '/test/getProjectId',
         makeExpressCallback(getProjectIdForTests)
+      )
+      router.get(
+        '/test/getProject',
+        makeExpressCallback(getProjectHistoryForTests)
       )
     }
 

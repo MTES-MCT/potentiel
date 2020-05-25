@@ -106,6 +106,15 @@ Cypress.Commands.add('getProjectId', (nomProjet) => {
     .then((res) => res.body)
 })
 
+Cypress.Commands.add('getProject', (nomProjet) => {
+  return cy
+    .request({
+      method: 'GET',
+      url: '/test/getProject?nomProjet=' + nomProjet,
+    })
+    .then((res) => res.body.project)
+})
+
 Cypress.Commands.add('getSentEmails', () => {
   return cy
     .request({

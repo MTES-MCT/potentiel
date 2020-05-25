@@ -45,7 +45,7 @@ const addProjectsForTests = async (request: HttpRequest) => {
       })
   }
 
-  await Promise.all(builtProjects.map(projectRepo.insert))
+  await Promise.all(builtProjects.map(projectRepo.save))
   // console.log(
   //   '/tests/addProjectsForTests added ' + builtProjects.length + ' projects'
   // )

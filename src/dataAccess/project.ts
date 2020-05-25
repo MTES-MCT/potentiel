@@ -6,7 +6,7 @@ export type ProjectRepo = {
     id: Project['id'],
     includeHistory?: boolean
   ) => OptionAsync<Project>
-  findOne(query: Record<string, any>): Promise<Project>
+  findOne(query: Record<string, any>): Promise<Project | undefined>
   findAll(query?: Record<string, any>): Promise<Array<Project>>
   findAll(
     query: Record<string, any>,

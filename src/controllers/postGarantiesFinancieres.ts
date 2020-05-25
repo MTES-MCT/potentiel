@@ -21,12 +21,6 @@ const makeDirIfNecessary = async (dirpath) => {
 const deleteFile = util.promisify(fs.unlink)
 
 const postGarantiesFinancieres = async (request: HttpRequest) => {
-  console.log(
-    'Call to postGarantiesFinancieres received',
-    request.body,
-    request.file
-  )
-
   // console.log(
   //   'Call to postGarantiesFinancieres received',
   //   request.body,
@@ -39,8 +33,6 @@ const postGarantiesFinancieres = async (request: HttpRequest) => {
 
   const data = _.pick(request.body, ['date', 'projectId'])
   const { projectId } = data
-
-  console.log('postGarantiesFinancieres projectId', projectId)
 
   // Convert date
   try {

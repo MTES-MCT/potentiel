@@ -13,3 +13,4 @@ Fonctionnalité: Transmettre de l'attestation des garanties financières
     Et que je valide le formulaire
     Alors on me notifie la réussite par "Votre constitution de garanties financières a bien été enregistrée."
     Et je vois que l'étape "Constitution des garanties financières" de la frise est validée
+    Et l'étape a été enregistrée dans l'historique du projet
