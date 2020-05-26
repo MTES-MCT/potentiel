@@ -103,16 +103,27 @@ export default function makeSendAllCandidateNotifications({
             await Promise.all(
               projectsForThisEmail.map(async (project) => {
                 // Register the date of notification for each project
-                await projectRepo.save(
-                  applyProjectUpdate({
-                    project,
-                    update: { notifiedOn },
-                    context: {
-                      userId,
-                      type: 'candidate-notification',
-                    },
-                  })
-                )
+                const updatedProject = applyProjectUpdate({
+                  project,
+                  update: { notifiedOn },
+                  context: {
+                    userId,
+                    type: 'candidate-notification',
+                  },
+                })
+
+                if (updatedProject) {
+                  const updateRes = await projectRepo.save(updatedProject)
+                  if (updateRes.is_err()) {
+                    // OOPS
+                    console.log(
+                      'sendAllCandidateNotifications use-case: error when calling projectRepo.save',
+                      updatedProject
+                    )
+
+                    return
+                  }
+                }
 
                 // Save a candidate notification for each
                 const projectAdmissionKeyId = projectAdmissionKeyResult.unwrap()

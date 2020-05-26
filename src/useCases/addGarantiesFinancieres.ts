@@ -21,6 +21,9 @@ interface CallUseCaseProps {
 export const UNAUTHORIZED =
   "Vous n'avez pas le droit de déposer les garanties financières pour ce projet."
 
+export const SYSTEM_ERROR =
+  'Une erreur système est survenue, merci de réessayer ou de contacter un administrateur si le problème persiste.'
+
 export default function makeAddGarantiesFinancieres({
   projectRepo,
   shouldUserAccessProject,
@@ -44,21 +47,30 @@ export default function makeAddGarantiesFinancieres({
 
     const project = projectRes.unwrap()
 
-    const res = await projectRepo.save(
-      applyProjectUpdate({
-        project,
-        update: {
-          garantiesFinancieresDate: date,
-          garantiesFinancieresFile: filename,
-          garantiesFinancieresSubmittedOn: Date.now(),
-          garantiesFinancieresSubmittedBy: user.id,
-        },
-        context: {
-          userId: user.id,
-          type: 'garanties-financieres-submission',
-        },
-      })
-    )
+    const updatedProject = applyProjectUpdate({
+      project,
+      update: {
+        garantiesFinancieresDate: date,
+        garantiesFinancieresFile: filename,
+        garantiesFinancieresSubmittedOn: Date.now(),
+        garantiesFinancieresSubmittedBy: user.id,
+      },
+      context: {
+        userId: user.id,
+        type: 'garanties-financieres-submission',
+      },
+    })
+
+    if (!updatedProject) {
+      // OOPS
+      console.log(
+        'addGarantiesFinancieres use-case: applyProjectUpdate returned null'
+      )
+
+      return ErrorResult(SYSTEM_ERROR)
+    }
+
+    const res = await projectRepo.save(updatedProject)
 
     if (res.is_err()) return Err(res.unwrap_err())
     return Ok(null)
