@@ -5,8 +5,8 @@ import toTypeLiteral from './helpers/toTypeLiteral'
 const zni: AppelOffre = {
   id: 'CRE4 - ZNI',
   title:
-    '2016/S 242-441980 portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de l’énergie solaire et situées dans les zones non interconnectées',
-  shortTitle: 'CRE4 - ZNI 2016/S 242-441980',
+    '2019/S 113-276264 portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de l’énergie solaire et situées dans les zones non interconnectées',
+  shortTitle: 'CRE4 - ZNI 2019/S 113-276264',
   launchDate: 'Juin 2019',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,

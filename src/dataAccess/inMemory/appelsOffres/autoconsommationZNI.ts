@@ -5,8 +5,8 @@ import toTypeLiteral from './helpers/toTypeLiteral'
 const autoconsommationZNI: AppelOffre = {
   id: 'CRE4 - Autoconsommation ZNI',
   title:
-    '2016/S 242-441979 portant sur la réalisation et l’exploitation d’Installations de production  d’électricité à partir d’énergies renouvelables en autoconsommation et situées dans les zones non interconnectées.',
-  shortTitle: 'CRE4 - Autoconsommation ZNI 2016/S 242-441979',
+    '2019/S 113-276257 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées dans les zones non interconnectées.',
+  shortTitle: 'CRE4 - Autoconsommation ZNI 2019/S 113-276257',
   launchDate: 'Juin 2019',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 30,
