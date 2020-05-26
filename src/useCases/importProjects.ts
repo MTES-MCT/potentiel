@@ -29,8 +29,8 @@ export const ERREUR_FORMAT_LIGNE = 'Le fichier comporte des lignes erronées'
 export const ERREUR_INSERTION = "Impossible d'insérer les projets en base"
 
 const makeErrorForLine = (
-  error,
-  lineIndex,
+  error: Error,
+  lineIndex: number,
   currentResults: Result<Array<Project>, Array<Error>>
 ) => {
   let errors: Array<Error> = []
@@ -49,7 +49,7 @@ const makeErrorForLine = (
     )
   errors.push(error)
 
-  return Err(errors)
+  return Err<Array<Project>, Array<Error>>(errors)
 }
 
 const appendInfo = (obj, key, value) => {
@@ -123,8 +123,8 @@ export default function makeImportProjects({
     const appelsOffre = await appelOffreRepo.findAll()
 
     // Check individual lines (use makeProject on each)
-    const projects = lines.reduce(
-      (currentResults: Result<Array<Project>, Array<Error>>, line, index) => {
+    const projects = lines.reduce<Result<Array<Project>, Array<Error>>>(
+      (currentResults, line, index) => {
         // console.log('line', line)
         // Find the corresponding appelOffre
         const appelOffreId = line["Appel d'offres"]
@@ -251,16 +251,19 @@ export default function makeImportProjects({
       await Promise.all(
         projects.unwrap().map(async (newProject) => {
           const { appelOffreId, periodeId, numeroCRE, familleId } = newProject
+          // console.log('importProjects use-case, project ', newProject.nomProjet)
 
           // An existing project would have the same appelOffre, perdiode, numeroCRE and famille
           const existingProject = await projectRepo.findOne({
             appelOffreId,
             periodeId,
             numeroCRE,
-            familleId: familleId && familleId.length ? familleId : undefined, // only if project has a famille
+            // only if project has a famille
+            ...(familleId ? { familleId } : {}),
           })
 
           if (existingProject) {
+            // console.log('importProjects use-case found existing project')
             const updatedProject = applyProjectUpdate({
               project: existingProject,
               update: newProject,
@@ -271,6 +274,7 @@ export default function makeImportProjects({
             })
 
             if (!updatedProject) {
+              // console.log('importProjects use-case no update, ignore')
               // Project has not been changed, nothing to do
               return Ok(null)
             }

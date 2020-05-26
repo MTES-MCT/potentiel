@@ -6,8 +6,10 @@ Fonctionnalité: Import d'un fichier de candidats
     Etant donné que je me rends sur la page d'import de candidats
     Lorsque je selectionne le fichier "candidats.csv"
     Et que je valide le formulaire
-    Alors je suis dirigé vers la page qui liste les projets
+    Alors je suis dirigé vers la page qui liste les projets à notifier
     Et on me notifie la réussite par "1 projet(s) ont bien été importé(s) ou mis à jour dont 1 à notifier."
+    Et la liste ne contient qu'un seul projet
+    Et je trouve bien le projet "Nom du projet" dans la liste des projets
 
   @admin
   Scénario: Ré-import d'un projet existant avec changement
