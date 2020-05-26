@@ -82,6 +82,7 @@ const fields: string[] = [
 type BaseProject = Static<typeof projectSchema>
 
 type ProjectEvent = {
+  id: string
   before: Partial<BaseProject>
   after: Partial<BaseProject>
   createdAt: number
@@ -108,52 +109,61 @@ interface ApplyProjectUpdateProps {
     modificationRequestId?: ModificationRequest['id']
   }
 }
-function applyProjectUpdate({
-  project,
-  update,
-  context,
-}: ApplyProjectUpdateProps): Project {
-  // Determine before/after values from the project and update
-  const { before, after } = update
-    ? Object.keys(update)
-        .filter(
-          (key) =>
-            key !== 'id' &&
-            // Only accept changes to notifiedOn for candidate-notifications
-            (context.type === 'candidate-notification' || key !== 'notifiedOn')
-        )
-        .reduce(
-          ({ before, after }, key: string) => {
-            if (project[key] != update[key]) {
-              before[key] = project[key]
-              after[key] = update[key]
+const buildApplyProjectUpdate = (makeId: () => string) => {
+  return ({
+    project,
+    update,
+    context,
+  }: ApplyProjectUpdateProps): Project | null => {
+    // Determine before/after values from the project and update
+    const { before, after } = update
+      ? Object.keys(update)
+          .filter(
+            (key) =>
+              key !== 'id' &&
+              // Only accept changes to notifiedOn for candidate-notifications
+              (context.type === 'candidate-notification' ||
+                key !== 'notifiedOn')
+          )
+          .reduce(
+            ({ before, after }, key: string) => {
+              if (project[key] != update[key]) {
+                before[key] = project[key]
+                after[key] = update[key]
 
-              // Update the project itself
-              project[key] = update[key]
+                // Update the project itself
+                project[key] = update[key]
+              }
+              return { before, after }
+            },
+            {
+              before: {} as Partial<BaseProject>,
+              after: {} as Partial<BaseProject>,
             }
-            return { before, after }
-          },
-          {
-            before: {} as Partial<BaseProject>,
-            after: {} as Partial<BaseProject>,
-          }
-        )
-    : // If no update is defined, the whole project is new, consider the delta as empty
-      { before: {}, after: {} }
+          )
+      : // If no update is defined, the whole project is new, consider the delta as empty
+        { before: {}, after: {} }
 
-  // Add a ProjectEvent to project.history
-  project.history = [
-    ...(project.history || []),
-    {
-      before,
-      after,
-      ...context,
-      createdAt: Date.now(),
-      isNew: true,
-    },
-  ]
+    if (update && !Object.keys(after).length) {
+      // There's supposed to be an update but nothing has been updated
+      return null
+    }
 
-  return project
+    // Add a ProjectEvent to project.history
+    project.history = [
+      ...(project.history || []),
+      {
+        id: makeId(),
+        before,
+        after,
+        ...context,
+        createdAt: Date.now(),
+        isNew: true,
+      },
+    ]
+
+    return project
+  }
 }
 
 interface MakeProjectDependencies {
@@ -177,5 +187,5 @@ export {
   ProjectEvent,
   projectSchema,
   territoireSchema,
-  applyProjectUpdate,
+  buildApplyProjectUpdate,
 }

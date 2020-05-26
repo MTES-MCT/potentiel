@@ -22,6 +22,15 @@ const addProjectsForTests = async (request: HttpRequest) => {
       if (project.puissance) {
         project.puissance = Number(project.puissance)
       }
+      if (project.prixReference) {
+        project.prixReference = Number(project.prixReference)
+      }
+      if (project.evaluationCarbone) {
+        project.evaluationCarbone = Number(project.evaluationCarbone)
+      }
+      if (project.note) {
+        project.note = Number(project.note)
+      }
 
       return project
     })

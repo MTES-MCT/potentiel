@@ -65,19 +65,17 @@ const postProjects = async (request: HttpRequest) => {
 
   return importProjectsResult.match({
     ok: (result) => {
-      const { appelOffreId, periodeId, hasUnnotified } = result || {}
-      return Redirect(
-        hasUnnotified
-          ? ROUTES.ADMIN_NOTIFY_CANDIDATES()
-          : ROUTES.ADMIN_LIST_PROJECTS,
-        {
-          appelOffreId,
-          periodeId,
-          success:
-            'Les candidats ont bien été importés.' +
-            (hasUnnotified ? ' Vous pouvez dorénavant les notifier.' : ''),
-        }
-      )
+      const { appelOffreId, periodeId, unnotifiedProjects, savedProjects } =
+        result || {}
+      return Redirect(ROUTES.ADMIN_LIST_PROJECTS, {
+        appelOffreId,
+        periodeId,
+        success: savedProjects
+          ? `${savedProjects} projet(s) ont bien été importé(s) ou mis à jour${
+              unnotifiedProjects ? ` dont ${unnotifiedProjects} à notifier` : ''
+            }.`
+          : "L'import est un succès mais le fichier importé n'a pas donné lieu à des changements dans la base de projets.",
+      })
     },
     err: (e: Error) => {
       console.log('Caught an error after importProjects', e)

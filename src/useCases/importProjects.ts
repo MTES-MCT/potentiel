@@ -12,6 +12,7 @@ import { Result, ResultAsync, Err, Ok, ErrorResult } from '../types'
 import toNumber from '../helpers/toNumber'
 import getDepartementRegionFromCodePostal from '../helpers/getDepartementRegionFromCodePostal'
 import moment from 'moment'
+import { retrievePassword } from '.'
 
 interface MakeUseCaseProps {
   projectRepo: ProjectRepo
@@ -97,9 +98,10 @@ const getCodePostalProperties = (properties, value) => {
 }
 
 interface ImportReturnType {
-  appelOffreId: AppelOffre['id']
-  periodeId: Periode['id']
-  hasUnnotified: boolean
+  appelOffreId: AppelOffre['id'] | undefined
+  periodeId: Periode['id'] | undefined
+  savedProjects: number
+  unnotifiedProjects: number
 }
 
 export default function makeImportProjects({
@@ -110,6 +112,8 @@ export default function makeImportProjects({
     lines,
     userId,
   }: CallUseCaseProps): ResultAsync<ImportReturnType> {
+    // console.log('importProjects use-case with ' + lines.length + ' lines')
+
     // Check if there is at least one line to insert
     if (!lines || !lines.length) {
       console.log('importProjects use-case: missing lines', lines)
@@ -243,37 +247,72 @@ export default function makeImportProjects({
       return Err(error)
     }
 
-    const insertions: Array<Result<Project, Error>> = await Promise.all(
-      projects.unwrap().map(async (newProject) => {
-        const { appelOffreId, periodeId, numeroCRE, familleId } = newProject
+    const insertions: Array<Result<Project, Error>> = (
+      await Promise.all(
+        projects.unwrap().map(async (newProject) => {
+          const { appelOffreId, periodeId, numeroCRE, familleId } = newProject
 
-        // An existing project would have the same appelOffre, perdiode, numeroCRE and famille
-        const existingProject = await projectRepo.findOne({
-          appelOffreId,
-          periodeId,
-          numeroCRE,
-          familleId,
-        })
-
-        return projectRepo.save(
-          // If the project is new, existingProject is undefined, no update is applied but the context is saved in a history event
-          // If existingProject exists, newProject values are applied to the existingProject and the context and delta are saved in a history event
-          applyProjectUpdate({
-            project: existingProject || newProject,
-            update: existingProject ? newProject : undefined,
-            context: { type: 'import', userId },
+          // An existing project would have the same appelOffre, perdiode, numeroCRE and famille
+          const existingProject = await projectRepo.findOne({
+            appelOffreId,
+            periodeId,
+            numeroCRE,
+            familleId: familleId && familleId.length ? familleId : undefined, // only if project has a famille
           })
-        )
-      })
+
+          if (existingProject) {
+            const updatedProject = applyProjectUpdate({
+              project: existingProject,
+              update: newProject,
+              context: {
+                type: 'import',
+                userId,
+              },
+            })
+
+            if (!updatedProject) {
+              // Project has not been changed, nothing to do
+              return Ok(null)
+            }
+
+            return projectRepo.save(updatedProject)
+          }
+
+          // No existing project => newly imported project
+          // applyProjectUpdate will add an event to the new project history
+          const newlyImportedProject = applyProjectUpdate({
+            project: newProject,
+            context: {
+              type: 'import',
+              userId,
+            },
+          })
+
+          if (!newlyImportedProject) {
+            console.log(
+              'importProject use-case failed when calling applyProjectUpdate on a newly imported project'
+            )
+            return ErrorResult(ERREUR_INSERTION)
+          }
+
+          return projectRepo.save(newlyImportedProject)
+        })
+      )
+    ).filter(
+      // Only keep errors or Projects (ignore null cases which are noops)
+      (
+        project: Result<Project | null, Error>
+      ): project is Result<Project, Error> =>
+        project.is_err() || project.unwrap() !== null
     )
 
     if (insertions.some((project) => project.is_err())) {
-      // console.log(
-      //   'importProjects use-case: some insertions have errors',
-      //   insertions
-      //     .filter((item) => item.is_err())
-      //     .map((item) => item.unwrap_err())
-      // )
+      console.log(
+        'importProjects use-case: some insertions have errors',
+        insertions
+          .filter((item) => item.is_err())
+          .map((item) => item.unwrap_err())
+      )
       projects.unwrap_err()
       // Some projects failed to be inserted
       // Remove all the others
@@ -286,23 +325,30 @@ export default function makeImportProjects({
       return ErrorResult(ERREUR_INSERTION)
     }
 
-    const insertedProjects = insertions
+    const insertedProjects: Array<Project> = insertions
       .filter((project) => project.is_ok())
       .map((project) => project.unwrap())
-    const unNotifiedProject: Project | undefined = insertedProjects.find(
-      (project) => project.notifiedOn === 0
-    )
 
-    if (unNotifiedProject) {
-      return Ok({
-        appelOffreId: unNotifiedProject.appelOffreId,
-        periodeId: unNotifiedProject.periodeId,
-        hasUnnotified: true,
-      })
+    const unnotifiedProjects: number = insertedProjects.filter(
+      (project) => project.notifiedOn === 0
+    ).length
+
+    // This will help the controller redirect to the project list with the proper filters
+    const exampleInsertedProject: Project | undefined =
+      insertedProjects && insertedProjects.length
+        ? insertedProjects[0]
+        : undefined
+
+    const { appelOffreId, periodeId } = exampleInsertedProject || {
+      appelOffreId: undefined,
+      periodeId: undefined,
     }
 
-    const { appelOffreId, periodeId } = insertedProjects[0]
-
-    return Ok({ appelOffreId, periodeId, hasUnnotified: false })
+    return Ok({
+      appelOffreId,
+      periodeId,
+      savedProjects: insertedProjects.length,
+      unnotifiedProjects,
+    })
   }
 }

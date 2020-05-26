@@ -425,25 +425,33 @@ export default function makeProjectRepo({
 
     try {
       // Use a transaction to ensure the ProjectEvent and Project are saved together
-      await sequelize.transaction(async (transaction: Transaction) => {
-        await ProjectModel.upsert(project, { transaction })
 
-        // Check if the event history needs updating
-        const newEvents = project.history?.filter((event) => event.isNew)
-        if (newEvents && newEvents.length) {
-          // New events found
-          // Save them in the ProjectEvent table
+      // TODO: use a lock to avoid having multiple simultaneous calls to save (which blocks the transaction)
+
+      // await sequelize.transaction(async (transaction: Transaction) => {
+      await ProjectModel.upsert(project /*, { transaction }*/)
+
+      // Check if the event history needs updating
+      const newEvents = project.history?.filter((event) => event.isNew)
+      if (newEvents && newEvents.length) {
+        // New events found
+        // Save them in the ProjectEvent table
+        try {
           await Promise.all(
             newEvents
               .map((newEvent) => ({
                 ...newEvent,
                 projectId: project.id,
               }))
-              .map((newEvent) => ProjectEventModel.build(newEvent))
-              .map((newEventInstance) => newEventInstance.save({ transaction }))
+              .map((newEvent) =>
+                ProjectEventModel.create(newEvent /*, { transaction }*/)
+              )
           )
+        } catch (error) {
+          console.log('projectRepo.save error when saving newEvents', error)
         }
-      })
+      }
+      // })
 
       return Ok(project)
     } catch (error) {
