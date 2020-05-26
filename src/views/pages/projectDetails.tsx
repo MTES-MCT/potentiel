@@ -61,9 +61,12 @@ const GarantiesFinancieresForm = ({
       >
         Envoyer
       </button>
-      <a className="button-outline primary" {...dataId('frise-hide-content')}>
+      <button
+        className="button-outline primary"
+        {...dataId('frise-hide-content')}
+      >
         Annuler
-      </a>
+      </button>
     </div>
   </form>
 )

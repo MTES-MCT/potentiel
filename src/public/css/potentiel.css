@@ -155,3 +155,8 @@ form.invitationForm {
 .open > .invitationFormToggle {
   display: none;
 }
+
+/* fix template */
+a.button-outline {
+  vertical-align: bottom;
+}
