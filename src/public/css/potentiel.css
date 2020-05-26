@@ -102,6 +102,10 @@
   color: var(--grey);
 }
 
+.frise-content-toggle {
+  cursor: pointer;
+}
+
 .frise--item.frise--collapsed {
   display: none;
 }
