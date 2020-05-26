@@ -23,7 +23,6 @@ const GarantiesFinancieresForm = ({
     method="post"
     encType="multipart/form-data"
   >
-    <h4 style={{ marginBottom: 10 }}>Transmettre l'attestation</h4>
     <div className="form__group">
       <label htmlFor="date">Date de constitution (format JJ/MM/AAAA)</label>
       <input
