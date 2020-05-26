@@ -25,9 +25,7 @@ const GarantiesFinancieresForm = ({
   >
     <h4 style={{ marginBottom: 10 }}>Transmettre l'attestation</h4>
     <div className="form__group">
-      <label className="required" htmlFor="date">
-        Date de constitution (format JJ/MM/AAAA)
-      </label>
+      <label htmlFor="date">Date de constitution (format JJ/MM/AAAA)</label>
       <input
         type="text"
         name="date"
@@ -51,9 +49,7 @@ const GarantiesFinancieresForm = ({
         Le format de la date saisie n'est pas conforme. Elle doit être de la
         forme JJ/MM/AAAA soit par exemple 25/05/2022 pour 25 Mai 2022.
       </div>
-      <label className="required" htmlFor="file">
-        Attestation
-      </label>
+      <label htmlFor="file">Attestation</label>
       <input type="hidden" name="projectId" value={projectId} />
       <input type="file" name="file" {...dataId('file-field')} id="file" />
       <button
