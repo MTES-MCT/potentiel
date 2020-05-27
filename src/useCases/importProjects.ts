@@ -173,7 +173,9 @@ export default function makeImportProjects({
 
             // Parse line depending on column format
             const fieldValue =
-              type === 'string'
+              field === 'email'
+                ? line[column] && line[column].split('/')[0].trim()
+                : type === 'string'
                 ? line[column] && line[column].trim()
                 : type === 'number'
                 ? toNumber(line[column], defaultValue)

@@ -89,7 +89,10 @@ const postProjects = async (request: HttpRequest) => {
     err: (e: Error) => {
       console.log('Caught an error after importProjects', e)
       return Redirect(ROUTES.IMPORT_PROJECTS, {
-        error: e.message,
+        error:
+          e.message.length > 1000
+            ? e.message.substring(0, 1000) + '...'
+            : e.message,
       })
     },
   })
