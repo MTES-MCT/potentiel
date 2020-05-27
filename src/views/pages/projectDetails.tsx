@@ -332,7 +332,7 @@ export default function ProjectDetails({
   const Dashboard =
     user.role === 'porteur-projet' ? UserDashboard : AdminDashboard
   return (
-    <Dashboard currentPage="list-projects">
+    <Dashboard role={user.role} currentPage="list-projects">
       <div className="panel" style={{ padding: 0 }}>
         <div
           className="panel__header"
