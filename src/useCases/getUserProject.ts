@@ -36,6 +36,8 @@ export default function makeGetUserProject({
 
     const project = projectResult.unwrap()
 
+    if (user.role === 'porteur-projet' && !project.notifiedOn) return null
+
     return project
   }
 }

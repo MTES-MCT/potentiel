@@ -21,7 +21,7 @@ describe('getUserProject use-case', () => {
     const user = userResult.unwrap()
     await userRepo.insert(user)
 
-    const fakeProjectResult = makeProject(makeFakeProject())
+    const fakeProjectResult = makeProject(makeFakeProject({ notifiedOn: 0 }))
     expect(fakeProjectResult.is_ok()).toBeTruthy()
     if (fakeProjectResult.is_err()) return
     const fakeProject = fakeProjectResult.unwrap()
@@ -43,7 +43,7 @@ describe('getUserProject use-case', () => {
     const user = userResult.unwrap()
     await userRepo.insert(user)
 
-    const fakeProjectResult = makeProject(makeFakeProject())
+    const fakeProjectResult = makeProject(makeFakeProject({ notifiedOn: 1234 }))
     expect(fakeProjectResult.is_ok()).toBeTruthy()
     if (fakeProjectResult.is_err()) return
     const fakeProject = fakeProjectResult.unwrap()
@@ -61,7 +61,32 @@ describe('getUserProject use-case', () => {
     expect(projectResult).toEqual(expect.objectContaining(fakeProject))
   })
 
-  it('should return the null if the user has no rights on this project', async () => {
+  it('should return null if the user has rights on this project but it is not notified', async () => {
+    const userResult = makeUser(makeFakeUser({ role: 'porteur-projet' }))
+    expect(userResult.is_ok()).toBeTruthy()
+    if (userResult.is_err()) return
+    const user = userResult.unwrap()
+    await userRepo.insert(user)
+
+    const fakeProjectResult = makeProject(makeFakeProject({ notifiedOn: 0 }))
+    expect(fakeProjectResult.is_ok()).toBeTruthy()
+    if (fakeProjectResult.is_err()) return
+    const fakeProject = fakeProjectResult.unwrap()
+
+    await projectRepo.save(fakeProject)
+
+    // Associate this user to this project
+    await userRepo.addProject(user.id, fakeProject.id)
+
+    const projectResult = await getUserProject({
+      user,
+      projectId: fakeProject.id,
+    })
+
+    expect(projectResult).toEqual(null)
+  })
+
+  it('should return null if the user has no rights on this project', async () => {
     const userResult = makeUser(makeFakeUser({ role: 'porteur-projet' }))
     expect(userResult.is_ok()).toBeTruthy()
     if (userResult.is_err()) {
