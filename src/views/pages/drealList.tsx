@@ -4,20 +4,34 @@ import React from 'react'
 import moment from 'moment'
 import pagination from '../../__tests__/fixtures/pagination'
 
-import { Project, AppelOffre, Periode, REGIONS, User } from '../../entities'
+import {
+  Project,
+  AppelOffre,
+  ProjectAdmissionKey,
+  Periode,
+  REGIONS,
+  User,
+  DREAL,
+} from '../../entities'
 import ROUTES from '../../routes'
 import { dataId } from '../../helpers/testId'
 
 import ProjectList from '../components/projectList'
 import { HttpRequest } from '../../types'
+import projectAdmissionKey from '../../entities/projectAdmissionKey'
 
 interface DREALListProps {
   request: HttpRequest
-  users: Array<User>
+  users: Array<{ user: User; dreals: Array<DREAL> }>
+  invitations: Array<ProjectAdmissionKey>
 }
 
 /* Pure component */
-export default function DREALList({ request, users }: DREALListProps) {
+export default function DREALList({
+  request,
+  users,
+  invitations,
+}: DREALListProps) {
   const { error, success } = request.query || {}
   return (
     <AdminDashboard role={request.user?.role} currentPage="list-dreal">
@@ -80,7 +94,61 @@ export default function DREALList({ request, users }: DREALListProps) {
             </div>
           </form>
         </div>
-        <h5>Les utilisateurs rattachés à une DREAL</h5>
+        {users && users.length ? (
+          <>
+            <h5>Les utilisateurs rattachés à une DREAL</h5>
+            <table className="table" {...dataId('projectList-list')}>
+              <thead>
+                <tr>
+                  <th>Utilisateur</th>
+                  <th>DREAL(s)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users.map(({ user, dreals }) => {
+                  return (
+                    <tr key={'user_' + user.id} {...dataId('drealList-item')}>
+                      <td valign="top">
+                        {user.fullName} ({user.email})
+                      </td>
+                      <td valign="top">{dreals.join(', ')}</td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </>
+        ) : (
+          ''
+        )}
+        {invitations && invitations.length ? (
+          <>
+            <h5>Les utilisateurs invités</h5>
+            <table className="table" {...dataId('projectList-list')}>
+              <thead>
+                <tr>
+                  <th>Utilisateur</th>
+                  <th>DREAL</th>
+                </tr>
+              </thead>
+              <tbody>
+                {invitations.map((invitation) => {
+                  return (
+                    <tr
+                      key={'invitation_' + invitation.id}
+                      {...dataId('invitationList-item')}
+                    >
+                      <td valign="top">{invitation.email}</td>
+                      <td valign="top">{invitation.dreal}</td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </>
+        ) : (
+          ''
+        )}
       </div>
     </AdminDashboard>
   )

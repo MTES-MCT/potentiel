@@ -79,18 +79,18 @@ export default function makeInviteDreal({
       }
 
       // Success: send invitation
-      try {
-        await sendDrealInvitation({
-          subject: `${user.fullName} vous invite à suivre les projets de votre région sur Potentiel`,
-          destinationEmail: email,
-          invitationLink: routes.ADMIN_LIST_PROJECTS,
-        })
-      } catch (error) {
-        console.log(
-          'inviteDreal use-case: error when calling sendDrealInvitation for existing user',
-          error
-        )
-      }
+      // try {
+      //   await sendDrealInvitation({
+      //     subject: `${user.fullName} vous invite à suivre les projets de votre région sur Potentiel`,
+      //     destinationEmail: email,
+      //     invitationLink: routes.ADMIN_LIST_PROJECTS,
+      //   })
+      // } catch (error) {
+      //   console.log(
+      //     'inviteDreal use-case: error when calling sendDrealInvitation for existing user',
+      //     error
+      //   )
+      // }
       return Ok(null)
     }
 

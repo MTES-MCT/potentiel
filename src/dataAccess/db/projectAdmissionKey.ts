@@ -1,4 +1,4 @@
-import { DataTypes } from 'sequelize'
+import { DataTypes, Op } from 'sequelize'
 import { ProjectAdmissionKeyRepo } from '../'
 import { ProjectAdmissionKey, makeProjectAdmissionKey } from '../../entities'
 import { mapExceptError, mapIfOk } from '../../helpers/results'
@@ -82,12 +82,18 @@ export default function makeProjectAdmissionKeyRepo({
     await _isDbReady
 
     try {
+      const opts: any = {}
+      if (query) {
+        opts.where = query
+
+        if (query.dreal === -1) {
+          // Special case which means not null
+          opts.where.dreal = { [Op.ne]: null }
+        }
+      }
+
       const projectAdmissionKeysRaw = await ProjectAdmissionKeyModel.findAll(
-        query
-          ? {
-              where: query,
-            }
-          : {}
+        opts
       )
 
       const deserializedItems = mapExceptError(

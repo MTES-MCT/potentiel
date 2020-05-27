@@ -105,12 +105,12 @@ export async function makeServer(port: number = 3000) {
     router.get(ROUTES.REDIRECT_BASED_ON_ROLE, ensureLoggedIn(), (req, res) => {
       const user = req.user as User
 
-      if (
-        user.role === 'admin' ||
-        user.role === 'dgec' ||
-        user.role === 'dreal'
-      ) {
+      if (user.role === 'admin' || user.role === 'dgec') {
         res.redirect(ROUTES.ADMIN_DASHBOARD)
+      }
+
+      if (user.role === 'dreal') {
+        res.redirect(ROUTES.GARANTIES_FINANCIERES_LIST)
       }
 
       if (user.role === 'porteur-projet') {

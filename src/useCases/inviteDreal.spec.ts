@@ -129,12 +129,7 @@ describe('inviteDreal use-case', () => {
     expect(drealsForUser).toHaveLength(1)
     expect(drealsForUser[0]).toEqual('Corse')
 
-    // Make sure the notification has been sent
-    expect(getCallsToEmailStub()).toHaveLength(1)
-
-    const sentEmail = getCallsToEmailStub()[0]
-
-    expect(sentEmail.destinationEmail).toEqual(email)
-    expect(sentEmail.invitationLink).toEqual(routes.ADMIN_LIST_PROJECTS)
+    // Make sure the notification has not been sent
+    expect(getCallsToEmailStub()).toHaveLength(0)
   })
 })

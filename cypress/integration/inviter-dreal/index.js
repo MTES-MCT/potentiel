@@ -61,6 +61,10 @@ Then(
   }
 )
 
+Then('{string} apparait dans la liste des dreal invitées', (email) => {
+  cy.findContaining(testid('invitationList-item'), email)
+})
+
 When('je me déconnecte', () => {
   cy.logout()
 })
@@ -87,20 +91,17 @@ Then('je suis dirigé vers la page qui liste les garanties financières', () => 
 })
 
 Then('le projet {string} se trouve dans la liste', (nomProjet) => {
-  cy.findContaining(testid('projectList-item'), nomProjet)
+  cy.findContaining(testid('gfList-item'), nomProjet)
 })
 
 Then('le projet {string} ne se trouve pas dans la liste', (nomProjet) => {
-  cy.findContaining(testid('projectList-item'), nomProjet).should('not.exist')
+  cy.findContaining(testid('gfList-item'), nomProjet).should('not.exist')
 })
 
 When("je me connecte en tant qu'admin", () => {
   cy.login('admin@test.test', 'test')
 })
 
-Then(
-  '{string} apparait dans la liste des dreal inscrites pour {string}',
-  (email, region) => {
-    // TODO
-  }
-)
+Then('{string} apparait dans la liste des dreal inscrites', (email) => {
+  cy.findContaining(testid('drealList-item'), email)
+})

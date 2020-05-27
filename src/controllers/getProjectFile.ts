@@ -4,7 +4,7 @@ import { HttpRequest } from '../types'
 import { shouldUserAccessProject } from '../useCases'
 
 const getProjectFile = async (request: HttpRequest) => {
-  // console.log('Call to getProjectFile received', request.query, request.file)
+  console.log('Call to getProjectFile received', request.query, request.file)
 
   try {
     const { projectId, filename } = request.params
