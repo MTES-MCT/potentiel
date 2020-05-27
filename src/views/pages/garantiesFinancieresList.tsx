@@ -21,7 +21,7 @@ export default function DREALList({ request, projects }: DREALListProps) {
   const { error, success } = request.query || {}
   return (
     <AdminDashboard
-      role={request.user.role}
+      role={request.user?.role}
       currentPage="list-garanties-financieres"
     >
       <div className="panel">
