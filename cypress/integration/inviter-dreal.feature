@@ -4,9 +4,10 @@ Fonctionnalité: Je peux donner inviter un administrateur DREAL
   @admin
   Scénario: J'invite un administrateur qui n'a pas de compte
     Etant donné le projet suivant
-      | nomProjet | regionProjet |
-      | projet 1  | Corse        |
-      | projet 2  | Bretagne     |
+      | nomProjet | regionProjet | garantiesFinancieresSubmittedOn | garantiesFinancieresDate | garantiesFinancieresFile |
+      | projet 1  | Corse        | 1590618495128                   | 1590618495128            | test.pdf                 |
+      | projet 2  | Corse        | 0                               | 0                        |                          |
+      | projet 3  | Bretagne     | 1590618495128                   | 1590618495128            | test.pdf                 |
     Lorsque je me rends sur la page de gestion des DREAL
     Et que je saisis la valeur "admin@dreal.test" dans le champ "email"
     Et que je sélectionne "Corse" dans le menu déroulant "region"
@@ -23,7 +24,8 @@ Fonctionnalité: Je peux donner inviter un administrateur DREAL
     Alors je suis dirigé vers la page qui liste les garanties financières
     Et le projet "projet 1" se trouve dans la liste
     Et le projet "projet 2" ne se trouve pas dans la liste
-    Lorsque je me déconnecte
-    Et que je me connecte en tant qu'admin
-    Et que je me rends sur la page de gestion des DREAL
-    Alors "admin@dreal.test" apparait dans la liste des dreal inscrites pour "Corse"
+    Et le projet "projet 3" ne se trouve pas dans la liste
+# Lorsque je me déconnecte
+# Et que je me connecte en tant qu'admin
+# Et que je me rends sur la page de gestion des DREAL
+# Alors "admin@dreal.test" apparait dans la liste des dreal inscrites pour "Corse"

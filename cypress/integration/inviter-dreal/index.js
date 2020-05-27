@@ -93,3 +93,14 @@ Then('le projet {string} se trouve dans la liste', (nomProjet) => {
 Then('le projet {string} ne se trouve pas dans la liste', (nomProjet) => {
   cy.findContaining(testid('projectList-item'), nomProjet).should('not.exist')
 })
+
+When("je me connecte en tant qu'admin", () => {
+  cy.login('admin@test.test', 'test')
+})
+
+Then(
+  '{string} apparait dans la liste des dreal inscrites pour {string}',
+  (email, region) => {
+    // TODO
+  }
+)

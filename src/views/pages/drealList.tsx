@@ -20,7 +20,7 @@ interface DREALListProps {
 export default function DREALList({ request, users }: DREALListProps) {
   const { error, success } = request.query || {}
   return (
-    <AdminDashboard currentPage="list-dreal">
+    <AdminDashboard role={request.user?.role} currentPage="list-dreal">
       <div className="panel">
         <div className="panel__header">
           <h3>Les DREALs</h3>

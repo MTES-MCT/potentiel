@@ -21,6 +21,7 @@ import ForgottenPassword from './forgottenPassword'
 import ResetPassword from './resetPassword'
 import ProjectDetails from './projectDetails'
 import DrealList from './drealList'
+import GarantiesFinancieresList from './garantiesFinancieresList'
 import { HttpRequest } from '../../types'
 
 const LoginPage = makePresenterPage(Login)
@@ -36,6 +37,7 @@ const ForgottenPasswordPage = makePresenterPage(ForgottenPassword)
 const ResetPasswordPage = makePresenterPage(ResetPassword)
 const ProjectDetailsPage = makePresenterPage(ProjectDetails)
 const DrealListPage = makePresenterPage(DrealList)
+const GarantiesFinancieresListPage = makePresenterPage(GarantiesFinancieresList)
 
 export {
   LoginPage,
@@ -51,6 +53,7 @@ export {
   ResetPasswordPage,
   ProjectDetailsPage,
   DrealListPage,
+  GarantiesFinancieresListPage,
 }
 
 interface HasRequest {

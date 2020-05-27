@@ -44,6 +44,10 @@ export default function makeUserRepo({ sequelize }): UserRepo {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    userId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
   })
 
   UserModel.hasMany(UserDrealModel)
@@ -76,11 +80,11 @@ export default function makeUserRepo({ sequelize }): UserRepo {
         { include: UserModel }
       )
 
-      console.log(
-        'findUsersForDreal (db) found',
-        drealUsersRaw,
-        drealUsersRaw.map((item) => item.get())
-      )
+      // console.log(
+      //   'findUsersForDreal (db) found',
+      //   drealUsersRaw,
+      //   drealUsersRaw.map((item) => item.get())
+      // )
 
       const deserializedItems = mapExceptError(
         drealUsersRaw.map((item) => item.get()).map((item) => item.user),
@@ -103,17 +107,7 @@ export default function makeUserRepo({ sequelize }): UserRepo {
     await _isDbReady
 
     try {
-      const userInDb = await UserModel.findByPk(userId)
-
-      if (!userInDb) return []
-
-      const userDreals = await userInDb.getUserDreal()
-
-      console.log(
-        'findDrealsForUser (db) found',
-        userDreals,
-        userDreals.map((item) => item.get())
-      )
+      const userDreals = await UserDrealModel.findAll({ where: { userId } })
 
       return userDreals.map((item) => item.get().dreal)
     } catch (error) {
@@ -129,11 +123,7 @@ export default function makeUserRepo({ sequelize }): UserRepo {
     await _isDbReady
 
     try {
-      const userInDb = await UserModel.findByPk(userId)
-
-      if (!userInDb) return ErrorResult('User not found')
-
-      await userInDb.addUserDreal(dreal)
+      await UserDrealModel.create({ userId, dreal })
 
       return Ok(null)
     } catch (error) {

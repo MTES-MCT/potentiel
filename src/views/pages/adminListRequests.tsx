@@ -20,7 +20,7 @@ export default function UserListRequests({
 }: AdminListRequestsProps) {
   const { error, success } = request.query || {}
   return (
-    <AdminDashboard currentPage="list-requests">
+    <AdminDashboard role={request.user?.role} currentPage="list-requests">
       <div className="panel">
         <div className="panel__header">
           <h3>Demandes</h3>

@@ -39,6 +39,7 @@ import {
   postGarantiesFinancieres,
   getDrealPage,
   postInviteDreal,
+  getGarantiesFinancieresPage,
 } from './controllers'
 
 import {
@@ -104,7 +105,11 @@ export async function makeServer(port: number = 3000) {
     router.get(ROUTES.REDIRECT_BASED_ON_ROLE, ensureLoggedIn(), (req, res) => {
       const user = req.user as User
 
-      if (user.role === 'admin' || user.role === 'dgec') {
+      if (
+        user.role === 'admin' ||
+        user.role === 'dgec' ||
+        user.role === 'dreal'
+      ) {
         res.redirect(ROUTES.ADMIN_DASHBOARD)
       }
 
@@ -266,6 +271,13 @@ export async function makeServer(port: number = 3000) {
       ensureLoggedIn(),
       ensureRole('admin'),
       makeExpressCallback(postInviteDreal)
+    )
+
+    router.get(
+      ROUTES.GARANTIES_FINANCIERES_LIST,
+      ensureLoggedIn(),
+      ensureRole(['admin', 'dreal']),
+      makeExpressCallback(getGarantiesFinancieresPage)
     )
 
     router.get('/ping', (req, res) => {

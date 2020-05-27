@@ -29,7 +29,7 @@ export default function AdminNotifyCandidates({
 }: AdminNotifyCandidatesProps) {
   const { error, success } = request.query || {}
   return (
-    <AdminDashboard currentPage="notify-candidates">
+    <AdminDashboard role={request.user?.role} currentPage="notify-candidates">
       <div className="panel">
         <div className="panel__header">
           <h3>Projets à notifier</h3>

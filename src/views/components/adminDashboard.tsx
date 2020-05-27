@@ -1,21 +1,49 @@
 import React from 'react'
 import ROUTES from '../../routes'
+import { User } from '../../entities'
 
 interface AdminDashboardProps {
   children: React.ReactNode
+  role: User['role'] | undefined
   currentPage:
     | 'list-projects'
     | 'import-projects'
     | 'list-requests'
     | 'notify-candidates'
     | 'list-dreal'
+    | 'list-garanties-financieres'
     | undefined
 }
+
+interface MenuItemProps {
+  route: string
+  currentPage: AdminDashboardProps['currentPage']
+  itemPage: AdminDashboardProps['currentPage']
+  title: string
+  visibleForRoles: Array<User['role']>
+  role: User['role'] | undefined
+}
+const MenuItem = ({
+  route,
+  title,
+  currentPage,
+  itemPage,
+  visibleForRoles,
+  role,
+}: MenuItemProps) =>
+  role && visibleForRoles.includes(role) ? (
+    <li>
+      <a href={route} className={currentPage === itemPage ? 'active' : ''}>
+        {title}
+      </a>
+    </li>
+  ) : null
 
 /* Pure component */
 export default function AdminDashboard({
   children,
   currentPage,
+  role,
 }: AdminDashboardProps) {
   return (
     <>
@@ -40,46 +68,55 @@ export default function AdminDashboard({
               ''
             )}
 
-            <li>
-              <a
-                href={ROUTES.ADMIN_LIST_PROJECTS}
-                className={currentPage === 'list-projects' ? 'active' : ''}
-              >
-                Lister les projets
-              </a>
-            </li>
-            <li>
-              <a
-                href={ROUTES.ADMIN_LIST_REQUESTS}
-                className={currentPage === 'list-requests' ? 'active' : ''}
-              >
-                Lister les demandes
-              </a>
-            </li>
-            <li>
-              <a
-                href={ROUTES.IMPORT_PROJECTS}
-                className={currentPage === 'import-projects' ? 'active' : ''}
-              >
-                Importer des candidats
-              </a>
-            </li>
-            <li>
-              <a
-                href={ROUTES.ADMIN_NOTIFY_CANDIDATES()}
-                className={currentPage === 'notify-candidates' ? 'active' : ''}
-              >
-                Notifier des candidats
-              </a>
-            </li>
-            <li>
-              <a
-                href={ROUTES.ADMIN_DREAL_LIST}
-                className={currentPage === 'list-dreal' ? 'active' : ''}
-              >
-                Gérer les DREAL
-              </a>
-            </li>
+            <MenuItem
+              route={ROUTES.ADMIN_LIST_PROJECTS}
+              itemPage={'list-projects'}
+              title="Lister les projets"
+              visibleForRoles={['admin']}
+              role={role}
+              currentPage={currentPage}
+            />
+            <MenuItem
+              route={ROUTES.ADMIN_LIST_REQUESTS}
+              itemPage={'list-requests'}
+              title="Lister les demandes"
+              visibleForRoles={['admin']}
+              role={role}
+              currentPage={currentPage}
+            />
+            <MenuItem
+              route={ROUTES.IMPORT_PROJECTS}
+              itemPage={'import-projects'}
+              title="Importer des candidats"
+              visibleForRoles={['admin']}
+              role={role}
+              currentPage={currentPage}
+            />
+
+            <MenuItem
+              route={ROUTES.ADMIN_NOTIFY_CANDIDATES()}
+              itemPage={'notify-candidates'}
+              title="Notifier des candidats"
+              visibleForRoles={['admin']}
+              role={role}
+              currentPage={currentPage}
+            />
+            <MenuItem
+              route={ROUTES.ADMIN_DREAL_LIST}
+              itemPage={'list-dreal'}
+              title="Gérer les DREAL"
+              visibleForRoles={['admin']}
+              role={role}
+              currentPage={currentPage}
+            />
+            <MenuItem
+              route={ROUTES.GARANTIES_FINANCIERES_LIST}
+              itemPage={'list-garanties-financieres'}
+              title="Garanties Financières"
+              visibleForRoles={['admin', 'dreal']}
+              role={role}
+              currentPage={currentPage}
+            />
           </ul>
         </aside>
         <div className="main">{children}</div>

@@ -5,6 +5,7 @@ export * from './getCandidateCertificate';
 export * from './getDemandePage';
 export * from './getDrealPage';
 export * from './getForgottenPasswordPage';
+export * from './getGarantiesFinancieresPage';
 export * from './getImportProjectsPage';
 export * from './getLoginPage';
 export * from './getNotifyCandidatesPage';

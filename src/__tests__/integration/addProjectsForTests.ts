@@ -31,6 +31,16 @@ const addProjectsForTests = async (request: HttpRequest) => {
       if (project.note) {
         project.note = Number(project.note)
       }
+      if (project.garantiesFinancieresSubmittedOn) {
+        project.garantiesFinancieresSubmittedOn = Number(
+          project.garantiesFinancieresSubmittedOn
+        )
+      }
+      if (project.garantiesFinancieresDate) {
+        project.garantiesFinancieresDate = Number(
+          project.garantiesFinancieresDate
+        )
+      }
 
       return project
     })

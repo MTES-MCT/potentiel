@@ -4,8 +4,8 @@ Fonctionnalité: Transmettre de l'attestation des garanties financières
   @porteur-projet
   Scénario: Transmettre mon attestation de GF
     Etant donné que mon compte est lié aux projets suivants
-      | nomProjet | classe | notifiedOn | garantieFinanciereSubmittedOn |
-      | projet 1  | Classé | 1234       | 0                             |
+      | nomProjet | classe | notifiedOn | garantiesFinancieresSubmittedOn |
+      | projet 1  | Classé | 1234       | 0                               |
     Lorsque je me rends sur la page du projet "projet 1"
     Et que je click sur le bouton "Transmettre l'attestation"
     Et que je saisis la valeur "20/05/2020" dans le champ "date"

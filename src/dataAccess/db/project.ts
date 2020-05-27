@@ -330,6 +330,11 @@ export default function makeProjectRepo({
           // Special case which means != 0
           opts.where.notifiedOn = { [Op.ne]: 0 }
         }
+
+        if (query.garantiesFinancieresSubmittedOn === -1) {
+          // Special case which means != 0
+          opts.where.garantiesFinancieresSubmittedOn = { [Op.ne]: 0 }
+        }
       }
 
       if (pagination) {

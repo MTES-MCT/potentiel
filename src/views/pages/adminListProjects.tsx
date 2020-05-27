@@ -30,7 +30,7 @@ export default function AdminListProjects({
 }: AdminListProjectsProps) {
   const { error, success } = request.query || {}
   return (
-    <AdminDashboard currentPage="list-projects">
+    <AdminDashboard role={request.user?.role} currentPage="list-projects">
       <div className="panel">
         <div className="panel__header">
           <h3>Projets</h3>

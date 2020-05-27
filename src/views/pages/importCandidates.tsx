@@ -14,7 +14,7 @@ interface AdminListProjectsProps {
 export default function AdminListProjects({ request }: AdminListProjectsProps) {
   const { error, success } = request.query || {}
   return (
-    <AdminDashboard currentPage="import-projects">
+    <AdminDashboard role={request.user?.role} currentPage="import-projects">
       <div className="panel">
         <div className="panel__header">
           <h3>Importer des candidats</h3>
