@@ -97,6 +97,13 @@ class routes {
     )
 
   static ADMIN_NOTIFY_CANDIDATES_ACTION = '/admin/sendCandidateNotifications'
+  static ADMIN_INVITE_DREAL_ACTION = '/admin/inviteDreal'
+  static DREAL_INVITATION = withParams<{
+    projectAdmissionKey: string
+  }>('/enregistrement.html')
+  static ADMIN_DREAL_LIST = '/admin/dreals.html'
+  static GARANTIES_FINANCIERES_LIST = '/admin/garanties-financieres.html'
+
   static USER_DASHBOARD = '/mes-projets.html'
   static USER_LIST_PROJECTS = '/mes-projets.html'
   static USER_LIST_DEMANDES = '/mes-demandes.html'

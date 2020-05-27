@@ -15,11 +15,13 @@ import makeResetPassword from './resetPassword'
 import makeShouldUserAccessProject from './shouldUserAccessProject'
 import makeInviteUserToProject from './inviteUserToProject'
 import makeAddGarantiesFinancieres from './addGarantiesFinancieres'
+import makeInviteDreal from './inviteDreal'
 
 import {
   sendEmailNotification,
   sendPasswordResetEmail,
-  sendEmailInvitation,
+  sendProjectInvitation,
+  sendDrealInvitation,
 } from '../helpers/sendEmailNotification'
 
 import {
@@ -98,12 +100,19 @@ const inviteUserToProject = makeInviteUserToProject({
   userRepo,
   projectAdmissionKeyRepo,
   shouldUserAccessProject,
-  sendEmailInvitation,
+  sendProjectInvitation,
 })
 
 const addGarantiesFinancieres = makeAddGarantiesFinancieres({
   projectRepo,
   shouldUserAccessProject,
+})
+
+const inviteDreal = makeInviteDreal({
+  credentialsRepo,
+  projectAdmissionKeyRepo,
+  userRepo,
+  sendDrealInvitation,
 })
 
 const useCases = Object.freeze({
@@ -124,6 +133,7 @@ const useCases = Object.freeze({
   shouldUserAccessProject,
   inviteUserToProject,
   addGarantiesFinancieres,
+  inviteDreal,
 })
 
 export default useCases
@@ -145,4 +155,5 @@ export {
   shouldUserAccessProject,
   inviteUserToProject,
   addGarantiesFinancieres,
+  inviteDreal,
 }

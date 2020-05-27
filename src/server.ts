@@ -37,6 +37,8 @@ import {
   getProjectPage,
   postInviteUserToProject,
   postGarantiesFinancieres,
+  getDrealPage,
+  postInviteDreal,
 } from './controllers'
 
 import {
@@ -250,6 +252,20 @@ export async function makeServer(port: number = 3000) {
       ensureLoggedIn(),
       upload.single('file'),
       makeExpressCallback(postGarantiesFinancieres)
+    )
+
+    router.get(
+      ROUTES.ADMIN_DREAL_LIST,
+      ensureLoggedIn(),
+      ensureRole('admin'),
+      makeExpressCallback(getDrealPage)
+    )
+
+    router.post(
+      ROUTES.ADMIN_INVITE_DREAL_ACTION,
+      ensureLoggedIn(),
+      ensureRole('admin'),
+      makeExpressCallback(postInviteDreal)
     )
 
     router.get('/ping', (req, res) => {

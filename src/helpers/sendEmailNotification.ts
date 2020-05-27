@@ -149,19 +149,19 @@ const sendPasswordResetEmail = async (
   }
 }
 
-interface EmailInvitationProps {
+interface ProjectInvitationProps {
   destinationEmail: string
   subject: string
   invitationLink: string
   nomProjet: string
 }
 
-const sendEmailInvitation = async ({
+const sendProjectInvitation = async ({
   destinationEmail,
   subject,
   invitationLink,
   nomProjet,
-}: EmailInvitationProps) => {
+}: ProjectInvitationProps) => {
   if (process.env.NODE_ENV === 'test') {
     // Register the sent email but don't send it for real
     sentEmails.push({
@@ -206,7 +206,64 @@ const sendEmailInvitation = async ({
       ],
     })
   } catch (error) {
-    console.log('sendEmailInvitation received an error', error)
+    console.log('sendProjectInvitation received an error', error)
+  }
+}
+
+interface DrealInvitationProps {
+  destinationEmail: string
+  subject: string
+  invitationLink: string
+}
+
+const sendDrealInvitation = async ({
+  destinationEmail,
+  subject,
+  invitationLink,
+}: DrealInvitationProps) => {
+  if (process.env.NODE_ENV === 'test') {
+    // Register the sent email but don't send it for real
+    sentEmails.push({
+      destinationEmail,
+      subject,
+      invitationLink,
+    })
+    return
+  }
+
+  if (!isAuthorizedEmail(destinationEmail)) {
+    return
+  }
+
+  if (!process.env.BASE_URL) {
+    console.log('Missing process.env.BASE_URL, aborting')
+    return
+  }
+
+  try {
+    await mailjet.post('send', { version: 'v3.1' }).request({
+      Messages: [
+        {
+          From: {
+            Email: process.env.SEND_EMAILS_FROM,
+            Name: 'Cellule PV',
+          },
+          To: [
+            {
+              Email: destinationEmail,
+            },
+          ],
+          TemplateID: 1436254,
+          TemplateLanguage: true,
+          Subject: subject,
+          Variables: {
+            invitation_link: process.env.BASE_URL + invitationLink,
+          },
+        },
+      ],
+    })
+  } catch (error) {
+    console.log('sendDrealInvitation received an error', error)
   }
 }
 
@@ -224,7 +281,8 @@ const resetSentEmails = () => {
 export {
   sendEmailNotification,
   sendPasswordResetEmail,
-  sendEmailInvitation,
+  sendProjectInvitation,
+  sendDrealInvitation,
   getSentEmails,
   resetSentEmails,
 }

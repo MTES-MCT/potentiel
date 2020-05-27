@@ -1,4 +1,4 @@
-import { User, Project } from '../entities'
+import { User, Project, DREAL } from '../entities'
 import { ResultAsync, OptionAsync } from '../types'
 
 export type UserRepo = {
@@ -12,4 +12,7 @@ export type UserRepo = {
   ) => ResultAsync<void>
   hasProject: (userId: User['id'], projectId: Project['id']) => Promise<boolean>
   remove: (userId: User['id']) => ResultAsync<void>
+  findUsersForDreal: (dreal: DREAL) => Promise<Array<User>>
+  findDrealsForUser: (userId: User['id']) => Promise<Array<DREAL>>
+  addToDreal: (userId: User['id'], dreal: DREAL) => ResultAsync<void>
 }

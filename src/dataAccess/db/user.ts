@@ -1,10 +1,19 @@
 import { DataTypes } from 'sequelize'
 import { UserRepo } from '../'
-import { User, makeUser, Project, makeProject } from '../../entities'
+import { User, makeUser, Project, makeProject, DREAL } from '../../entities'
 import { mapExceptError, mapIfOk } from '../../helpers/results'
-import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types'
+import {
+  Err,
+  None,
+  Ok,
+  OptionAsync,
+  ResultAsync,
+  Some,
+  ErrorResult,
+} from '../../types'
 import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
+import { retrievePassword } from '../../useCases'
 
 // Override these to apply serialization/deserialization on inputs/outputs
 const deserialize = (item) => item
@@ -30,17 +39,108 @@ export default function makeUserRepo({ sequelize }): UserRepo {
     },
   })
 
+  const UserDrealModel = sequelize.define('userDreal', {
+    dreal: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  })
+
+  UserModel.hasMany(UserDrealModel)
+  UserDrealModel.belongsTo(UserModel, { foreignKey: 'userId' })
+
   const _isDbReady = isDbReady({ sequelize })
 
   return Object.freeze({
     findById,
     findAll,
+    findUsersForDreal,
+    findDrealsForUser,
+    addToDreal,
     insert,
     update,
     addProject,
     remove,
     hasProject,
   })
+
+  // findDrealsForUser: (userId: User['id']) => Promise<Array<DREAL>>
+  // addToDreal: (userId: User['id'], dreal: DREAL) => ResultAsync<void>
+
+  async function findUsersForDreal(dreal: DREAL): Promise<Array<User>> {
+    await _isDbReady
+
+    try {
+      const drealUsersRaw = await UserDrealModel.findAll(
+        { dreal },
+        { include: UserModel }
+      )
+
+      console.log(
+        'findUsersForDreal (db) found',
+        drealUsersRaw,
+        drealUsersRaw.map((item) => item.get())
+      )
+
+      const deserializedItems = mapExceptError(
+        drealUsersRaw.map((item) => item.get()).map((item) => item.user),
+        deserialize,
+        'User.findUsersForDreal.deserialize error'
+      )
+
+      return mapIfOk(
+        deserializedItems,
+        makeUser,
+        'User.findUsersForDreal.makeUser error'
+      )
+    } catch (error) {
+      if (CONFIG.logDbErrors) console.log('User.findUsersForDreal error', error)
+      return []
+    }
+  }
+
+  async function findDrealsForUser(userId: User['id']): Promise<Array<DREAL>> {
+    await _isDbReady
+
+    try {
+      const userInDb = await UserModel.findByPk(userId)
+
+      if (!userInDb) return []
+
+      const userDreals = await userInDb.getUserDreal()
+
+      console.log(
+        'findDrealsForUser (db) found',
+        userDreals,
+        userDreals.map((item) => item.get())
+      )
+
+      return userDreals.map((item) => item.get().dreal)
+    } catch (error) {
+      if (CONFIG.logDbErrors) console.log('User.findDrealsForUser error', error)
+      return []
+    }
+  }
+
+  async function addToDreal(
+    userId: User['id'],
+    dreal: DREAL
+  ): ResultAsync<void> {
+    await _isDbReady
+
+    try {
+      const userInDb = await UserModel.findByPk(userId)
+
+      if (!userInDb) return ErrorResult('User not found')
+
+      await userInDb.addUserDreal(dreal)
+
+      return Ok(null)
+    } catch (error) {
+      if (CONFIG.logDbErrors) console.log('User.findDrealsForUser error', error)
+      return Err(error)
+    }
+  }
 
   async function findById(id: User['id']): OptionAsync<User> {
     await _isDbReady

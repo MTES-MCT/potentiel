@@ -48,7 +48,7 @@ export default function SignupPage({
                 type="text"
                 name="fullName"
                 id="fullName"
-                {...dataId('signup-fullName-field')}
+                {...dataId('fullName-field')}
                 value={projectAdmissionKey.fullName}
               />
               <label htmlFor="email">Courrier électronique</label>
@@ -56,11 +56,11 @@ export default function SignupPage({
                 type="email"
                 name="email"
                 id="email"
-                {...dataId('signup-email-field')}
+                {...dataId('email-field')}
                 value={projectAdmissionKey.email}
-                disabled
+                disabled={!projectAdmissionKey.dreal}
               />
-              {!projectAdmissionKey.projectId ? (
+              {!projectAdmissionKey.projectId && !projectAdmissionKey.dreal ? (
                 // Only display this warning if it's an email notification
                 // if projectAdmissionKey has a projectId, it's an email invitation coming from another user
                 <div className="notification warning">

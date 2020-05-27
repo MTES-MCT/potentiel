@@ -60,7 +60,7 @@ When("je crée un compte avec l'adresse {string}", async function (email) {
     testId('signup-firstName-field'),
     PORTEUR_PROJET.firstName
   )
-  await this.page.type(testId('signup-email-field'), email)
+  await this.page.type(testId('email-field'), email)
   await this.page.type(testId('password-field'), PORTEUR_PROJET.password)
   await this.page.type(
     testId('confirm-password-field'),

@@ -8,6 +8,7 @@ interface AdminDashboardProps {
     | 'import-projects'
     | 'list-requests'
     | 'notify-candidates'
+    | 'list-dreal'
     | undefined
 }
 
@@ -69,6 +70,14 @@ export default function AdminDashboard({
                 className={currentPage === 'notify-candidates' ? 'active' : ''}
               >
                 Notifier des candidats
+              </a>
+            </li>
+            <li>
+              <a
+                href={ROUTES.ADMIN_DREAL_LIST}
+                className={currentPage === 'list-dreal' ? 'active' : ''}
+              >
+                Gérer les DREAL
               </a>
             </li>
           </ul>

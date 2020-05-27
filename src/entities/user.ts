@@ -17,7 +17,12 @@ const userSchema = Record({
   id: String,
   fullName: String,
   email: String.withConstraint(isEmail.validate),
-  role: Union(Literal('admin'), Literal('dgec'), Literal('porteur-projet')),
+  role: Union(
+    Literal('admin'),
+    Literal('dgec'),
+    Literal('porteur-projet'),
+    Literal('dreal')
+  ),
 })
 
 const fields: string[] = [...Object.keys(userSchema.fields)]

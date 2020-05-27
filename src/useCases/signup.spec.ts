@@ -221,6 +221,52 @@ describe('signup use-case', () => {
     expect(userProjects).toContainEqual(expect.objectContaining(otherProject))
   })
 
+  it('should create a new user with dreal role, with the provided email, and attached to the desired dreal if projectAdmissionKey has a dreal', async () => {
+    // Add a projectAdmissionKey
+    const [projectAdmissionKey] = (
+      await Promise.all(
+        [
+          {
+            id: 'phonyProjectAdmissionKey',
+            email: 'phony@email.com',
+            fullName: 'fullname',
+            dreal: 'Corse',
+          },
+        ]
+          .map(makeProjectAdmissionKey)
+          .filter((item) => item.is_ok())
+          .map((item) => item.unwrap())
+          .map(projectAdmissionKeyRepo.insert)
+      )
+    )
+      .filter((item) => item.is_ok())
+      .map((item) => item.unwrap())
+
+    expect(projectAdmissionKey).toBeDefined()
+    if (!projectAdmissionKey) return
+
+    // Signup with the same email address
+    const phonySignup = makePhonySignup({
+      projectAdmissionKey: projectAdmissionKey.id,
+      email: 'another@email.com',
+    })
+
+    const signupResult = await signup(phonySignup)
+
+    expect(signupResult.is_ok()).toBeTruthy()
+    if (!signupResult.is_ok()) return
+
+    const createdUser = signupResult.unwrap()
+    expect(createdUser).toBeDefined()
+    if (!createdUser) return
+    expect(createdUser.role).toEqual('dreal')
+    expect(createdUser.email).toEqual('another@email.com')
+
+    const userDreals = await userRepo.findDrealsForUser(createdUser.id)
+    expect(userDreals).toHaveLength(1)
+    expect(userDreals[0]).toEqual('Corse')
+  })
+
   it("should return an error if passwords don't match", async () => {
     const phonySignup = makePhonySignup({
       password: 'a',
@@ -275,7 +321,7 @@ describe('signup use-case', () => {
     const phonySignup = makePhonySignup({ projectAdmissionKey: null })
     const signupResult = await signup(phonySignup)
 
-    expect(signupResult.is_err())
+    expect(signupResult.is_err()).toEqual(true)
     if (!signupResult.is_err()) return
 
     expect(signupResult.unwrap_err()).toEqual(
@@ -311,7 +357,7 @@ describe('signup use-case', () => {
     })
     const signupResult = await signup(phonySignup)
 
-    expect(signupResult.is_err())
+    expect(signupResult.is_err()).toEqual(true)
     if (!signupResult.is_err()) return
 
     expect(signupResult.unwrap_err()).toEqual(new Error(EMAIL_USED_ERROR))

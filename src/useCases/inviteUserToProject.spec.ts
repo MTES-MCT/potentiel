@@ -23,9 +23,9 @@ import makeInviteUserToProject, {
 import makeShouldUserAccessProject from './shouldUserAccessProject'
 import {
   resetEmailStub,
-  sendEmailInvitation,
+  sendProjectInvitation,
   getCallsToEmailStub,
-} from '../__tests__/fixtures/emailInvitationService'
+} from '../__tests__/fixtures/projectInvitationService'
 import routes from '../routes'
 
 const shouldUserAccessProject = makeShouldUserAccessProject({ userRepo })
@@ -35,7 +35,7 @@ const inviteUserToProject = makeInviteUserToProject({
   projectAdmissionKeyRepo,
   credentialsRepo,
   shouldUserAccessProject,
-  sendEmailInvitation,
+  sendProjectInvitation,
 })
 
 describe('inviteUserToProject use-case', () => {

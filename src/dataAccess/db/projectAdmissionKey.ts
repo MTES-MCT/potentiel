@@ -10,6 +10,7 @@ import isDbReady from './helpers/isDbReady'
 const deserialize = (item) => ({
   ...item,
   projectId: item.projectId || undefined,
+  dreal: item.dreal || undefined,
 })
 const serialize = (item) => item
 
@@ -32,6 +33,10 @@ export default function makeProjectAdmissionKeyRepo({
     fullName: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    dreal: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
   })
 

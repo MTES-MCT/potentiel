@@ -9,11 +9,11 @@ const callsToEmailStub: Array<EmailServiceProps> = []
 const resetEmailStub = () => {
   while (callsToEmailStub.length) callsToEmailStub.shift()
 }
-const sendEmailInvitation = async (args: EmailServiceProps) => {
+const sendProjectInvitation = async (args: EmailServiceProps) => {
   callsToEmailStub.push(args)
 }
 const getCallsToEmailStub = () => {
   return callsToEmailStub
 }
 
-export { resetEmailStub, sendEmailInvitation, getCallsToEmailStub }
+export { resetEmailStub, sendProjectInvitation, getCallsToEmailStub }

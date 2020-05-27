@@ -15,6 +15,7 @@ import {
   ProjectAdmissionKey,
   AppelOffre,
   Periode,
+  DREAL,
 } from '../entities'
 import { ErrorResult, Ok, ResultAsync, Err } from '../types'
 import routes from '../routes'
@@ -23,52 +24,40 @@ import { importProjects } from '.'
 interface EmailServiceProps {
   destinationEmail: string
   subject: string
-  nomProjet: string
   invitationLink: string
 }
 
 interface MakeUseCaseProps {
-  projectRepo: ProjectRepo
   credentialsRepo: CredentialsRepo
   projectAdmissionKeyRepo: ProjectAdmissionKeyRepo
   userRepo: UserRepo
-  shouldUserAccessProject: (args: {
-    user: User
-    projectId: Project['id']
-  }) => Promise<boolean>
-  sendProjectInvitation: (props: EmailServiceProps) => Promise<void>
+  sendDrealInvitation: (props: EmailServiceProps) => Promise<void>
 }
 
 interface CallUseCaseProps {
   email: string
+  region: DREAL
   user: User
-  projectId: string
 }
 
 export const ACCESS_DENIED_ERROR =
-  "Vous n'avez pas le droit d'inviter un utilisateur sur ce projet"
+  "Vous n'avez pas le droit d'inviter un utilisateur DREAL"
 
 export const SYSTEM_ERROR =
   "Il y a eu un problème lors de l'invitation. Merci de réessayer."
 
-export default function makeInviteUserToProject({
-  projectRepo,
-  projectAdmissionKeyRepo,
+export default function makeInviteDreal({
   credentialsRepo,
+  projectAdmissionKeyRepo,
   userRepo,
-  shouldUserAccessProject,
-  sendProjectInvitation,
+  sendDrealInvitation,
 }: MakeUseCaseProps) {
-  return async function inviteUserToProject({
+  return async function inviteDreal({
     email,
     user,
-    projectId,
+    region,
   }: CallUseCaseProps): ResultAsync<null> {
-    // Check if the user has the rights to this project
-    const access = await shouldUserAccessProject({
-      user,
-      projectId,
-    })
+    const access = user.role === 'admin'
 
     if (!access) {
       return ErrorResult(ACCESS_DENIED_ERROR)
@@ -77,22 +66,13 @@ export default function makeInviteUserToProject({
     // Check if the email is already a known user
     const existingUserWithEmail = await credentialsRepo.findByEmail(email)
 
-    // Get project info
-    const project = await projectRepo.findById(projectId)
-    if (project.is_none()) {
-      console.log(
-        'inviteUserToProject use-case failed on call to projectRepo.findById'
-      )
-      return ErrorResult(SYSTEM_ERROR)
-    }
-
     if (existingUserWithEmail.is_some()) {
-      // The user exists, add project to this user
+      // The user exists, add dreal to this user
       const { userId } = existingUserWithEmail.unwrap()
-      const result = await userRepo.addProject(userId, projectId)
+      const result = await userRepo.addToDreal(userId, region)
       if (result.is_err()) {
         console.log(
-          'inviteUserToProject use-case failed on call to userRepo.addProject',
+          'inviteDreal use-case failed on call to userRepo.addToDreal',
           result.unwrap_err()
         )
         return ErrorResult(SYSTEM_ERROR)
@@ -100,16 +80,14 @@ export default function makeInviteUserToProject({
 
       // Success: send invitation
       try {
-        await sendProjectInvitation({
-          subject: `${user.fullName} vous invite à suivre un projet sur Potentiel`,
+        await sendDrealInvitation({
+          subject: `${user.fullName} vous invite à suivre les projets de votre région sur Potentiel`,
           destinationEmail: email,
-          nomProjet: project.unwrap().nomProjet,
-          // This link is a link to the project itself
-          invitationLink: routes.PROJECT_DETAILS(projectId),
+          invitationLink: routes.ADMIN_LIST_PROJECTS,
         })
       } catch (error) {
         console.log(
-          'inviteUserToProject use-case: error when calling sendProjectInvitation for existing user',
+          'inviteDreal use-case: error when calling sendDrealInvitation for existing user',
           error
         )
       }
@@ -121,12 +99,12 @@ export default function makeInviteUserToProject({
     // Create a project admission key
     const projectAdmissionKeyResult = makeProjectAdmissionKey({
       email,
-      projectId,
+      dreal: region,
       fullName: '',
     })
     if (projectAdmissionKeyResult.is_err()) {
       console.log(
-        'inviteUserToProject use-case failed on call to makeProjectAdmissionKey',
+        'inviteDreal use-case failed on call to makeProjectAdmissionKey',
         projectAdmissionKeyResult.unwrap_err()
       )
       return ErrorResult(SYSTEM_ERROR)
@@ -137,7 +115,7 @@ export default function makeInviteUserToProject({
     )
     if (projectAdmissionKeyInsertion.is_err()) {
       console.log(
-        'inviteUserToProject use-case failed on call to projectAdmissionKeyRepo.insert',
+        'inviteDreal use-case failed on call to projectAdmissionKeyRepo.insert',
         projectAdmissionKeyResult.unwrap_err()
       )
       return ErrorResult(SYSTEM_ERROR)
@@ -145,21 +123,20 @@ export default function makeInviteUserToProject({
 
     // Send email invitation
 
-    // Call sendProjectInvitation with the proper informations
+    // Call sendDrealInvitation with the proper informations
     try {
-      await sendProjectInvitation({
-        subject: `${user.fullName} vous invite à suivre un projet sur Potentiel`,
+      await sendDrealInvitation({
+        subject: `${user.fullName} vous invite à suivre les projets de votre région sur Potentiel`,
         destinationEmail: email,
-        nomProjet: project.unwrap().nomProjet,
         // The invitation link is an invitation to register as new user
-        invitationLink: routes.PROJECT_INVITATION({
+        invitationLink: routes.DREAL_INVITATION({
           projectAdmissionKey: projectAdmissionKey.id,
         }),
       })
       return Ok(null)
     } catch (error) {
       console.log(
-        'inviteUserToProject use-case: error when calling sendProjectInvitation',
+        'inviteDreal use-case: error when calling sendDrealInvitation',
         error
       )
       return Err(error)

@@ -16,6 +16,7 @@ import {
   ModificationRequest,
   PasswordRetrieval,
   ProjectEvent,
+  DREAL,
 } from '../../entities'
 import {
   Ok,
@@ -328,6 +329,7 @@ const projectRepo: ProjectRepo = {
 
 let usersById: Record<string, User> = {}
 let userProjects: Record<User['id'], Array<Project['id']>> = {}
+let drealUsers: Record<string, Array<User['id']>> = {}
 const userRepo: UserRepo = {
   findById: (id: string) => {
     // console.log('findById', id, itemsById)
@@ -347,6 +349,33 @@ const userRepo: UserRepo = {
         Object.entries(query).every(([key, value]) => user[key] === value)
       )
     )
+  },
+  findUsersForDreal: async (dreal: DREAL): Promise<Array<User>> => {
+    if (dreal in drealUsers) {
+      return drealUsers[dreal].map((userId) => usersById[userId])
+    }
+
+    return []
+  },
+  findDrealsForUser: async (userId: User['id']): Promise<Array<DREAL>> => {
+    return Object.entries(drealUsers).reduce(
+      (drealsForUser, [dreal, drealUserList]) => {
+        if (drealUserList.includes(userId)) {
+          drealsForUser.push(dreal)
+        }
+        return drealsForUser
+      },
+      [] as Array<string>
+    ) as Array<DREAL>
+  },
+  addToDreal: async (userId: User['id'], dreal: DREAL) => {
+    if (!(dreal in drealUsers)) {
+      drealUsers[dreal] = []
+    }
+
+    drealUsers[dreal].push(userId)
+
+    return Ok(null)
   },
   insert: (user: User) => {
     usersById[user.id] = user

@@ -5,6 +5,7 @@ import {
   makeCredentials,
   ProjectAdmissionKey,
   makeProjectAdmissionKey,
+  DREAL,
 } from '../entities'
 import {
   UserRepo,
@@ -26,7 +27,7 @@ interface MakeUseCaseProps {
 interface CallUseCaseProps {
   projectAdmissionKey: string
   fullName: string
-  // email: string
+  email: string
   password: string
   confirmPassword: string
 }
@@ -49,7 +50,7 @@ export default function makeSignup({
   return async function signup({
     projectAdmissionKey,
     fullName,
-    // email,
+    email,
     password,
     confirmPassword,
   }: CallUseCaseProps): ResultAsync<User> {
@@ -74,10 +75,14 @@ export default function makeSignup({
     }
 
     const projectAdmissionKeyInstance = projectAdmissionKeyResult.unwrap()
-    const email = projectAdmissionKeyInstance.email
+    // If it's a dreal that has been invited, use the email coming from the props
+    // Else use the email locaited in the projectAdmissionKey
+    const emailToBeUsed = projectAdmissionKeyInstance.dreal
+      ? email
+      : projectAdmissionKeyInstance.email
 
     // Check if email is already used
-    const existingCredential = await credentialsRepo.findByEmail(email)
+    const existingCredential = await credentialsRepo.findByEmail(emailToBeUsed)
     if (existingCredential.is_some()) {
       return ErrorResult(EMAIL_USED_ERROR)
     }
@@ -85,8 +90,8 @@ export default function makeSignup({
     // Create a user object
     const userResult = makeUser({
       fullName,
-      email,
-      role: 'porteur-projet',
+      email: emailToBeUsed,
+      role: projectAdmissionKeyInstance.dreal ? 'dreal' : 'porteur-projet',
     })
     if (userResult.is_err()) {
       console.log(
@@ -99,7 +104,7 @@ export default function makeSignup({
 
     // Create the credentials
     const credentialsData = {
-      email,
+      email: emailToBeUsed,
       userId: user.id,
       password,
     }
@@ -143,26 +148,45 @@ export default function makeSignup({
       return ErrorResult(SYSTEM_ERROR)
     }
 
-    // User validated his email address by registering with it
-    // Add all projects that have that email
-    const projectsWithSameEmail = await projectRepo.findAll({ email })
-    await Promise.all(
-      projectsWithSameEmail.map((project) =>
-        userRepo.addProject(user.id, project.id)
+    if (projectAdmissionKeyInstance.dreal) {
+      // Dreal user
+      // Add user to this dreal
+      const addDrealResult = await userRepo.addToDreal(
+        user.id,
+        projectAdmissionKeyInstance.dreal as DREAL
       )
-    )
 
-    // Add all projects that have a projectAdmissionKey for the same email
-    const projectAdmissionKeysWithSameEmail = await projectAdmissionKeyRepo.findAll(
-      { email }
-    )
-    await Promise.all(
-      projectAdmissionKeysWithSameEmail.map((projectAdmissionKey) =>
-        projectAdmissionKey.projectId
-          ? userRepo.addProject(user.id, projectAdmissionKey.projectId)
-          : undefined
+      if (addDrealResult.is_err()) {
+        console.log(
+          'signup usecase failed to add new user to dreal',
+          addDrealResult.unwrap_err()
+        )
+      }
+    } else {
+      // Porteur-projet user
+      // User validated his email address by registering with it
+      // Add all projects that have that email
+      const projectsWithSameEmail = await projectRepo.findAll({
+        email: projectAdmissionKeyInstance.email,
+      })
+      await Promise.all(
+        projectsWithSameEmail.map((project) =>
+          userRepo.addProject(user.id, project.id)
+        )
       )
-    )
+
+      // Add all projects that have a projectAdmissionKey for the same email
+      const projectAdmissionKeysWithSameEmail = await projectAdmissionKeyRepo.findAll(
+        { email: projectAdmissionKeyInstance.email }
+      )
+      await Promise.all(
+        projectAdmissionKeysWithSameEmail.map((projectAdmissionKey) =>
+          projectAdmissionKey.projectId
+            ? userRepo.addProject(user.id, projectAdmissionKey.projectId)
+            : undefined
+        )
+      )
+    }
 
     return Ok(user)
   }
