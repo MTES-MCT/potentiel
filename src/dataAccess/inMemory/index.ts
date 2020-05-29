@@ -6,12 +6,14 @@ import {
   ProjectAdmissionKeyRepo,
   ModificationRequestRepo,
   PasswordRetrievalRepo,
+  NotificationRepo,
 } from '../'
 import {
   Credentials,
   User,
   Project,
   CandidateNotification,
+  Notification,
   ProjectAdmissionKey,
   ModificationRequest,
   PasswordRetrieval,
@@ -493,6 +495,18 @@ const passwordRetrievalRepo: PasswordRetrievalRepo = {
   },
 }
 
+let notificationsById: Record<string, Notification> = {}
+const notificationRepo: NotificationRepo = {
+  save: async (item: Notification) => {
+    notificationsById[item.id] = item
+
+    return Ok(null)
+  },
+  findAll: async () => {
+    return Object.values(notificationsById)
+  },
+}
+
 const resetDatabase = () => {
   credentialsByEmail = {}
   projectsById = {}
@@ -502,6 +516,7 @@ const resetDatabase = () => {
   projectAdmissionKeysById = {}
   modificationRequestsById = {}
   passwordRetrievalsById = {}
+  notificationsById = {}
 }
 
 export {
@@ -513,6 +528,7 @@ export {
   modificationRequestRepo,
   passwordRetrievalRepo,
   appelOffreRepo,
+  notificationRepo,
   resetDatabase,
 }
 export * from './appelOffre'

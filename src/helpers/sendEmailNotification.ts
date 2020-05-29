@@ -1,3 +1,5 @@
+import { ResultAsync, Ok, ErrorResult } from '../types'
+import { EmailProps } from '../useCases/sendNotification'
 /**
  *
  * This call sends a message to the given recipient with vars and custom vars.
@@ -8,13 +10,6 @@ const mailjet = require('node-mailjet').connect(
   process.env.MJ_APIKEY_PUBLIC,
   process.env.MJ_APIKEY_PRIVATE
 )
-
-interface EmailNotificationProps {
-  destinationEmail: string
-  destinationName: string
-  subject: string
-  invitationLink: string
-}
 
 const AUTHORIZED_TEST_EMAILS =
   process.env.AUTHORIZED_TEST_EMAILS &&
@@ -40,7 +35,71 @@ function isAuthorizedEmail(destinationEmail: string): boolean {
   return true
 }
 
-const sentEmails: any = [] // For testing purposes only
+const sentEmails: Array<EmailProps> = [] // For testing purposes only
+
+async function sendEmail(props: EmailProps): ResultAsync<null> {
+  if (process.env.NODE_ENV === 'test') {
+    // Register the sent email but don't send it for real
+    sentEmails.push(props)
+    return Ok(null)
+  }
+
+  const {
+    id,
+    recipients,
+    fromEmail,
+    fromName,
+    subject,
+    templateId,
+    variables,
+  } = props
+
+  const authorizedRecepients = recipients.filter(({ email }) =>
+    isAuthorizedEmail(email)
+  )
+
+  if (!authorizedRecepients.length) return Ok(null)
+
+  try {
+    const result = await mailjet.post('send', { version: 'v3.1' }).request({
+      Messages: [
+        {
+          From: {
+            Email: fromEmail,
+            Name: fromName,
+          },
+          To: authorizedRecepients.map(({ email, name }) => ({
+            Email: email,
+            Name: name,
+          })),
+          TemplateID: templateId,
+          TemplateLanguage: true,
+          Subject: subject,
+          Variables: variables,
+          CustomId: id,
+        },
+      ],
+    })
+
+    const sentMessage = result.Messages[0]
+    if (sentMessage && sentMessage.Status === 'error') {
+      return ErrorResult(
+        sentMessage.Errors.map((e) => e.ErrorMessage).join('; ')
+      )
+    }
+
+    return Ok(null)
+  } catch (error) {
+    return ErrorResult(error.message)
+  }
+}
+
+interface EmailNotificationProps {
+  destinationEmail: string
+  destinationName: string
+  subject: string
+  invitationLink: string
+}
 
 const sendEmailNotification = async ({
   destinationEmail,
