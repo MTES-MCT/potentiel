@@ -28,7 +28,7 @@ export default function SignupPage({
             name="form"
             {...dataId('signup-form')}
           >
-            <h3 id="login">Je crée mon compte porteur de projet</h3>
+            <h3 id="login">Je crée mon compte</h3>
             {error ? <div className="notification error">{error}</div> : ''}
             <div className="form__group">
               {projectAdmissionKey ? (
