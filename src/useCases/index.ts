@@ -17,6 +17,7 @@ import makeInviteUserToProject from './inviteUserToProject'
 import makeAddGarantiesFinancieres from './addGarantiesFinancieres'
 import makeInviteDreal from './inviteDreal'
 import makeListGarantiesFinancieres from './listGarantiesFinancieres'
+import makeSendNotification from './sendNotification'
 
 import {
   sendEmailNotification,
@@ -24,6 +25,8 @@ import {
   sendProjectInvitation,
   sendDrealInvitation,
 } from '../helpers/sendEmailNotification'
+
+import { sendEmail } from '../helpers/sendEmailNotification'
 
 import {
   credentialsRepo,
@@ -34,6 +37,7 @@ import {
   modificationRequestRepo,
   appelOffreRepo,
   passwordRetrievalRepo,
+  notificationRepo,
 } from '../dataAccess'
 
 const login = makeLogin({
@@ -49,11 +53,16 @@ const importProjects = makeImportProjects({
 const listProjects = makeListProjects({ projectRepo })
 const listUnnotifiedProjects = makeListUnnotifiedProjects({ projectRepo })
 
+const sendNotification = makeSendNotification({
+  notificationRepo,
+  sendEmail,
+})
+
 const sendCandidateNotification = makeSendCandidateNotification({
   projectRepo,
   projectAdmissionKeyRepo,
   appelOffreRepo,
-  sendEmailNotification,
+  sendNotification,
 })
 
 const sendAllCandidateNotifications = makeSendAllCandidateNotifiations({
@@ -126,6 +135,7 @@ const useCases = Object.freeze({
   importProjects,
   listProjects,
   listUserProjects,
+  sendNotification,
   sendCandidateNotification,
   sendAllCandidateNotifications,
   signup,
@@ -149,6 +159,7 @@ export {
   importProjects,
   listProjects,
   listUserProjects,
+  sendNotification,
   sendCandidateNotification,
   sendAllCandidateNotifications,
   signup,

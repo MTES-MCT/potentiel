@@ -5,22 +5,30 @@ import {
   projectAdmissionKeyRepo,
   projectRepo,
   resetDatabase,
+  notificationRepo,
 } from '../dataAccess/inMemory'
 import { makeProject } from '../entities'
 import makeFakeProject from '../__tests__/fixtures/project'
 import makeSendCandidateNotification from './sendCandidateNotification'
+import makeSendNotification from './sendNotification'
+import routes from '../routes'
 
 import {
+  sendEmail,
   resetEmailStub,
-  sendEmailNotification,
   getCallsToEmailStub,
-} from '../__tests__/fixtures/emailNotificationService'
+} from '../__tests__/fixtures/emailService'
+
+const sendNotification = makeSendNotification({
+  notificationRepo,
+  sendEmail,
+})
 
 const sendCandidateNotification = makeSendCandidateNotification({
   projectRepo,
   projectAdmissionKeyRepo,
   appelOffreRepo,
-  sendEmailNotification,
+  sendNotification,
 })
 
 describe('sendCandidateNotification use-case', () => {
@@ -32,8 +40,11 @@ describe('sendCandidateNotification use-case', () => {
   let projetLaureat
   let projetElimine
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     resetDatabase()
+    resetEmailStub()
+
+    process.env.SEND_EMAILS_FROM = 'admin@test.test'
 
     const previousNotifs = await candidateNotificationRepo.findAll()
     expect(previousNotifs).toBeDefined()
@@ -73,9 +84,6 @@ describe('sendCandidateNotification use-case', () => {
   })
 
   it("should call the email service with the user and appel d'offre details", async () => {
-    // Reset email stub
-    resetEmailStub()
-
     // Send new notification
     const result = await sendCandidateNotification({
       email: bogusEmail,
@@ -88,16 +96,18 @@ describe('sendCandidateNotification use-case', () => {
 
     const sentEmail = getCallsToEmailStub()[0]
 
-    expect(sentEmail.destinationEmail).toEqual(bogusEmail)
-    expect(sentEmail.destinationName).toEqual(bogusName)
+    expect(sentEmail.recipients).toHaveLength(1)
+    expect(sentEmail.recipients[0].email).toEqual(bogusEmail)
+    expect(sentEmail.recipients[0].name).toEqual(bogusName)
     expect(sentEmail.subject).toContain(periode.title)
     expect(sentEmail.subject).toContain(appelOffre.shortTitle)
+    expect(sentEmail.templateId).toEqual(1350523)
+    expect(sentEmail.variables.invitation_link).toContain(
+      routes.PROJECT_INVITATION()
+    )
   })
 
   it('should send the email to overrideDestinationEmail when provided', async () => {
-    // Reset email stub
-    resetEmailStub()
-
     // Send new notification
     const result = await sendCandidateNotification({
       email: bogusEmail,
@@ -111,6 +121,7 @@ describe('sendCandidateNotification use-case', () => {
 
     const sentEmail = getCallsToEmailStub()[0]
 
-    expect(sentEmail.destinationEmail).toEqual('other@email.com')
+    expect(sentEmail.recipients).toHaveLength(1)
+    expect(sentEmail.recipients[0].email).toEqual('other@email.com')
   })
 })

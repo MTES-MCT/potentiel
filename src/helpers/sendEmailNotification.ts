@@ -1,5 +1,5 @@
 import { ResultAsync, Ok, ErrorResult } from '../types'
-import { EmailProps } from '../useCases/sendNotification'
+import { EmailProps } from '../useCases/sendN'
 /**
  *
  * This call sends a message to the given recipient with vars and custom vars.
@@ -343,5 +343,6 @@ export {
   sendProjectInvitation,
   sendDrealInvitation,
   getSentEmails,
+  sendEmail,
   resetSentEmails,
 }

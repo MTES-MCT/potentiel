@@ -26,7 +26,8 @@ describe('sendNotification use-case', () => {
       },
       context: {
         projectAdmissionKeyId: 'projectAdmissionKey123',
-        projectId: 'projectId',
+        appelOffreId: 'appelOffreId',
+        periodeId: 'periodeId',
       },
       variables: {
         invitation_link: 'mylink',
@@ -87,7 +88,8 @@ describe('sendNotification use-case', () => {
       },
       context: {
         projectAdmissionKeyId: 'projectAdmissionKey123',
-        projectId: 'projectId',
+        appelOffreId: 'appelOffreId',
+        periodeId: 'periodeId',
       },
       variables: {
         invitation_link: 'mylink',
@@ -114,7 +116,8 @@ describe('sendNotification use-case', () => {
         },
         context: {
           projectAdmissionKeyId: 'projectAdmissionKey123',
-          projectId: 'projectId',
+          appelOffreId: 'appelOffreId',
+          periodeId: 'periodeId',
         },
         variables: {
           invitation_link: 'mylink',
@@ -143,7 +146,8 @@ describe('sendNotification use-case', () => {
       },
       context: {
         projectAdmissionKeyId: 'projectAdmissionKey123',
-        projectId: 'projectId',
+        appelOffreId: 'appelOffreId',
+        periodeId: 'periodeId',
       },
       variables: {
         invitation_link: 'mylink',
@@ -166,7 +170,8 @@ describe('sendNotification use-case', () => {
         },
         context: {
           projectAdmissionKeyId: 'projectAdmissionKey123',
-          projectId: 'projectId',
+          appelOffreId: 'appelOffreId',
+          periodeId: 'periodeId',
         },
         variables: {
           invitation_link: 'mylink',

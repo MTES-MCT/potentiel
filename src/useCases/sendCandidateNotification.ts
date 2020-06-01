@@ -14,6 +14,7 @@ import {
   ProjectAdmissionKey,
   AppelOffre,
   Periode,
+  NotificationProps,
 } from '../entities'
 import { ErrorResult, Ok, ResultAsync, Err } from '../types'
 import routes from '../routes'
@@ -29,7 +30,7 @@ interface MakeUseCaseProps {
   projectRepo: ProjectRepo
   projectAdmissionKeyRepo: ProjectAdmissionKeyRepo
   appelOffreRepo: AppelOffreRepo
-  sendEmailNotification: (props: EmailServiceProps) => Promise<void>
+  sendNotification: (props: NotificationProps) => Promise<void>
 }
 
 interface CallUseCaseProps {
@@ -43,7 +44,7 @@ export default function makeSendCandidateNotification({
   projectRepo,
   projectAdmissionKeyRepo,
   appelOffreRepo,
-  sendEmailNotification,
+  sendNotification,
 }: MakeUseCaseProps) {
   return async function sendCandidateNotification({
     email,
@@ -134,13 +135,23 @@ export default function makeSendCandidateNotification({
 
     // Call sendEmailNotification with the proper informations
     try {
-      await sendEmailNotification({
-        subject,
-        destinationEmail: overrideDestinationEmail || email,
-        destinationName: projectHolderName,
-        invitationLink: routes.PROJECT_INVITATION({
-          projectAdmissionKey: projectAdmissionKey.id,
-        }),
+      await sendNotification({
+        type: 'designation',
+        context: {
+          projectAdmissionKeyId: projectAdmissionKey.id,
+          appelOffreId,
+          periodeId,
+        },
+        variables: {
+          invitation_link: routes.PROJECT_INVITATION({
+            projectAdmissionKey: projectAdmissionKey.id,
+          }),
+        },
+        message: {
+          subject,
+          email: overrideDestinationEmail || email,
+          name: projectHolderName,
+        },
       })
       return Ok(projectAdmissionKey.id)
     } catch (error) {
