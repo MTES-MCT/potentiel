@@ -11,7 +11,6 @@ const sendNotification = makeSendNotification({ sendEmail, notificationRepo })
 
 describe('sendNotification use-case', () => {
   beforeEach(async () => {
-    process.env.SEND_EMAILS_FROM = 'admin@test.test'
     resetEmailStub()
     resetDatabase()
   })

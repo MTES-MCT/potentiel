@@ -9,7 +9,7 @@ export type EmailProps = {
   id: string
   fromEmail: string
   fromName: string
-  subject: string
+  subject?: string
   templateId: number
   variables: Record<string, string>
   recipients: Array<{ email: string; name?: string }>
@@ -43,6 +43,7 @@ export default function makeSendNotification({
   return async function sendNotification(
     props: CallUseCaseProps
   ): Promise<void> {
+    // console.log('Call to sendNotification', props)
     const notification = makeNotification({ ...props, status: 'sent' })
 
     if (!process.env.SEND_EMAILS_FROM) {

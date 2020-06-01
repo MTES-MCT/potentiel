@@ -44,8 +44,6 @@ describe('sendCandidateNotification use-case', () => {
     resetDatabase()
     resetEmailStub()
 
-    process.env.SEND_EMAILS_FROM = 'admin@test.test'
-
     const previousNotifs = await candidateNotificationRepo.findAll()
     expect(previousNotifs).toBeDefined()
     expect(previousNotifs).toHaveLength(0)

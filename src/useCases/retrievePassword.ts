@@ -1,4 +1,8 @@
-import { PasswordRetrieval, makePasswordRetrieval } from '../entities'
+import {
+  PasswordRetrieval,
+  makePasswordRetrieval,
+  NotificationProps,
+} from '../entities'
 import { PasswordRetrievalRepo, CredentialsRepo } from '../dataAccess'
 import _ from 'lodash'
 import { ResultAsync, ErrorResult, Ok } from '../types'
@@ -7,7 +11,7 @@ import routes from '../routes'
 interface MakeUseCaseProps {
   passwordRetrievalRepo: PasswordRetrievalRepo
   credentialsRepo: CredentialsRepo
-  sendPasswordResetEmail: (email: string, resetLink: string) => Promise<void>
+  sendNotification: (props: NotificationProps) => Promise<void>
 }
 
 interface CallUseCaseProps {
@@ -23,15 +27,15 @@ export const SYSTEM_ERROR =
 export default function makeRetrievePassword({
   passwordRetrievalRepo,
   credentialsRepo,
-  sendPasswordResetEmail,
+  sendNotification,
 }: MakeUseCaseProps) {
   return async function retrievePassword({
     email,
   }: CallUseCaseProps): ResultAsync<null> {
     // Check if credentials exist
-    const credentials = await credentialsRepo.findByEmail(email)
+    const credentialsRes = await credentialsRepo.findByEmail(email)
 
-    if (credentials.is_none()) {
+    if (credentialsRes.is_none()) {
       console.log(
         'Forgotten password request for ' +
           email +
@@ -39,6 +43,8 @@ export default function makeRetrievePassword({
       )
       return Ok(null)
     }
+
+    const credentials = credentialsRes.unwrap()
 
     // Check if too many password retrievals havent been done
     const passwordRetrievalCounts = await passwordRetrievalRepo.countSince(
@@ -78,11 +84,22 @@ export default function makeRetrievePassword({
     }
 
     // Send email
-    await sendPasswordResetEmail(
-      email,
-      routes.RESET_PASSWORD_LINK({ resetCode: passwordRetrieval.id })
-    )
-
+    await sendNotification({
+      type: 'password-reset',
+      message: {
+        email,
+        subject: 'Récupération de mot de passe Potentiel',
+      },
+      context: {
+        passwordRetrievalId: passwordRetrieval.id,
+        userId: credentials.id,
+      },
+      variables: {
+        password_reset_link: routes.RESET_PASSWORD_LINK({
+          resetCode: passwordRetrieval.id,
+        }),
+      },
+    })
     return Ok(null)
   }
 }

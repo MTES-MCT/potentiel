@@ -96,7 +96,7 @@ const getUserProject = makeGetUserProject({
 const retrievePassword = makeRetrievePassword({
   credentialsRepo,
   passwordRetrievalRepo,
-  sendPasswordResetEmail,
+  sendNotification,
 })
 
 const resetPassword = makeResetPassword({

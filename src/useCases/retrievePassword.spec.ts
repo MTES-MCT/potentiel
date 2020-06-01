@@ -3,19 +3,26 @@ import { makeCredentials } from '../entities'
 import {
   passwordRetrievalRepo,
   credentialsRepo,
+  notificationRepo,
   resetDatabase,
 } from '../dataAccess/inMemory'
-import {
-  resetEmailStub,
-  sendPasswordResetEmail,
-  getCallsToEmailStub,
-} from '../__tests__/fixtures/passwordResetEmailService'
 import routes from '../routes'
+import makeSendNotification from './sendNotification'
+import {
+  sendEmail,
+  resetEmailStub,
+  getCallsToEmailStub,
+} from '../__tests__/fixtures/emailService'
+
+const sendNotification = makeSendNotification({
+  notificationRepo,
+  sendEmail,
+})
 
 const retrievePassword = makeRetrievePassword({
   passwordRetrievalRepo,
   credentialsRepo,
-  sendPasswordResetEmail,
+  sendNotification,
 })
 
 describe('retrievePassword use-case', () => {
@@ -43,16 +50,25 @@ describe('retrievePassword use-case', () => {
 
   it('should send an email with a password reset link', async () => {
     // Call use-case
-    await retrievePassword({ email })
+    const res = await retrievePassword({ email })
+
+    expect(res.is_ok()).toEqual(true)
+    if (res.is_err()) return
 
     // Check if email has been sent
     const sentEmails = getCallsToEmailStub()
     expect(sentEmails).toHaveLength(1)
-    expect(sentEmails[0].email).toEqual(email)
+    expect(sentEmails[0].recipients[0].email).toEqual(email)
+    expect(sentEmails[0].templateId).toEqual(1389166)
+    expect(sentEmails[0].subject).toEqual(
+      'Récupération de mot de passe Potentiel'
+    )
+
+    expect(sentEmails[0].variables).toHaveProperty('password_reset_link')
 
     // Check if it's for the right account
-    const { resetLink } = sentEmails[0]
-    const passwordRetrievalId: string = resetLink.substring(
+    const { password_reset_link } = sentEmails[0].variables
+    const passwordRetrievalId: string = password_reset_link.substring(
       routes.RESET_PASSWORD_LINK({ resetCode: '' }).length
     )
     const passwordRetrievalResult = await passwordRetrievalRepo.findById(

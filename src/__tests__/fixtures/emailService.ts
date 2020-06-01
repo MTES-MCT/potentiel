@@ -3,6 +3,7 @@ import { EmailProps } from '../../useCases/sendNotification'
 import { Ok } from '../../types'
 const callsToEmailStub: Array<EmailProps> = []
 const resetEmailStub = () => {
+  process.env.SEND_EMAILS_FROM = 'admin@test.test'
   while (callsToEmailStub.length) callsToEmailStub.shift()
 }
 const sendEmail = async (args: EmailProps) => {

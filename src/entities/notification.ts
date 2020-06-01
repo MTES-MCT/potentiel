@@ -68,7 +68,7 @@ export type PasswordReset = {
     userId: string
   }
   variables: {
-    reset_link: string
+    password_reset_link: string
   }
 }
 
