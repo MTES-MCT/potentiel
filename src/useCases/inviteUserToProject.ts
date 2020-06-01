@@ -21,13 +21,6 @@ import { ErrorResult, Ok, ResultAsync, Err } from '../types'
 import routes from '../routes'
 import { importProjects } from '.'
 
-interface EmailServiceProps {
-  destinationEmail: string
-  subject: string
-  nomProjet: string
-  invitationLink: string
-}
-
 interface MakeUseCaseProps {
   projectRepo: ProjectRepo
   credentialsRepo: CredentialsRepo

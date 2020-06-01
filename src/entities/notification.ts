@@ -53,7 +53,6 @@ export type DrealInvitation = {
   type: 'dreal-invitation'
   context: {
     projectAdmissionKeyId: string
-    userId: string
     dreal: DREAL
   }
   variables: {

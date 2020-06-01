@@ -6,6 +6,7 @@ import {
   projectAdmissionKeyRepo,
   credentialsRepo,
   projectRepo,
+  notificationRepo,
   resetDatabase,
 } from '../dataAccess/inMemory'
 import {
@@ -18,18 +19,25 @@ import {
 import makeFakeProject from '../__tests__/fixtures/project'
 import makeFakeUser from '../__tests__/fixtures/user'
 import makeInviteDreal, { ACCESS_DENIED_ERROR } from './inviteDreal'
-import {
-  resetEmailStub,
-  sendDrealInvitation,
-  getCallsToEmailStub,
-} from '../__tests__/fixtures/drealInvitationService'
 import routes from '../routes'
+
+import makeSendNotification from './sendNotification'
+import {
+  sendEmail,
+  resetEmailStub,
+  getCallsToEmailStub,
+} from '../__tests__/fixtures/emailService'
+
+const sendNotification = makeSendNotification({
+  notificationRepo,
+  sendEmail,
+})
 
 const inviteDreal = makeInviteDreal({
   credentialsRepo,
   userRepo,
   projectAdmissionKeyRepo,
-  sendDrealInvitation,
+  sendNotification,
 })
 
 describe('inviteDreal use-case', () => {
@@ -63,9 +71,17 @@ describe('inviteDreal use-case', () => {
     expect(getCallsToEmailStub()).toHaveLength(1)
 
     const sentEmail = getCallsToEmailStub()[0]
-
-    expect(sentEmail.destinationEmail).toEqual(email)
-    expect(sentEmail.invitationLink).toContain(projectAdmissionKey.id)
+    expect(sentEmail.recipients[0].email).toEqual(email)
+    expect(sentEmail.templateId).toEqual(1436254)
+    expect(sentEmail.subject).toEqual(
+      `${user.fullName} vous invite à suivre les projets de votre région sur Potentiel`
+    )
+    expect(sentEmail.variables).toHaveProperty('invitation_link')
+    expect(sentEmail.variables.invitation_link).toEqual(
+      routes.DREAL_INVITATION({
+        projectAdmissionKey: projectAdmissionKey.id,
+      })
+    )
   })
 
   it('should add rights to the dreal if user exists', async () => {

@@ -122,7 +122,7 @@ const inviteDreal = makeInviteDreal({
   credentialsRepo,
   projectAdmissionKeyRepo,
   userRepo,
-  sendDrealInvitation,
+  sendNotification,
 })
 
 const listGarantiesFinancieres = makeListGarantiesFinancieres({

@@ -15,23 +15,18 @@ import {
   ProjectAdmissionKey,
   AppelOffre,
   Periode,
+  NotificationProps,
   DREAL,
 } from '../entities'
 import { ErrorResult, Ok, ResultAsync, Err } from '../types'
 import routes from '../routes'
 import { importProjects } from '.'
 
-interface EmailServiceProps {
-  destinationEmail: string
-  subject: string
-  invitationLink: string
-}
-
 interface MakeUseCaseProps {
   credentialsRepo: CredentialsRepo
   projectAdmissionKeyRepo: ProjectAdmissionKeyRepo
   userRepo: UserRepo
-  sendDrealInvitation: (props: EmailServiceProps) => Promise<void>
+  sendNotification: (props: NotificationProps) => Promise<void>
 }
 
 interface CallUseCaseProps {
@@ -50,7 +45,7 @@ export default function makeInviteDreal({
   credentialsRepo,
   projectAdmissionKeyRepo,
   userRepo,
-  sendDrealInvitation,
+  sendNotification,
 }: MakeUseCaseProps) {
   return async function inviteDreal({
     email,
@@ -125,13 +120,21 @@ export default function makeInviteDreal({
 
     // Call sendDrealInvitation with the proper informations
     try {
-      await sendDrealInvitation({
-        subject: `${user.fullName} vous invite à suivre les projets de votre région sur Potentiel`,
-        destinationEmail: email,
-        // The invitation link is an invitation to register as new user
-        invitationLink: routes.DREAL_INVITATION({
-          projectAdmissionKey: projectAdmissionKey.id,
-        }),
+      await sendNotification({
+        type: 'dreal-invitation',
+        message: {
+          email,
+          subject: `${user.fullName} vous invite à suivre les projets de votre région sur Potentiel`,
+        },
+        context: {
+          projectAdmissionKeyId: projectAdmissionKey.id,
+          dreal: region,
+        },
+        variables: {
+          invitation_link: routes.DREAL_INVITATION({
+            projectAdmissionKey: projectAdmissionKey.id,
+          }),
+        },
       })
       return Ok(null)
     } catch (error) {
