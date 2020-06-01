@@ -68,6 +68,7 @@ describe('resetPassword use-case', () => {
       password: 'password',
       confirmPassword: 'password',
       fullName: 'fullname',
+      email,
     })
 
     expect(signupResult.is_ok())
