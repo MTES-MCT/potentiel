@@ -6,6 +6,7 @@ import {
   projectAdmissionKeyRepo,
   credentialsRepo,
   projectRepo,
+  notificationRepo,
   resetDatabase,
 } from '../dataAccess/inMemory'
 import {
@@ -21,12 +22,18 @@ import makeInviteUserToProject, {
   ACCESS_DENIED_ERROR,
 } from './inviteUserToProject'
 import makeShouldUserAccessProject from './shouldUserAccessProject'
-import {
-  resetEmailStub,
-  sendProjectInvitation,
-  getCallsToEmailStub,
-} from '../__tests__/fixtures/projectInvitationService'
 import routes from '../routes'
+import makeSendNotification from './sendNotification'
+import {
+  sendEmail,
+  resetEmailStub,
+  getCallsToEmailStub,
+} from '../__tests__/fixtures/emailService'
+
+const sendNotification = makeSendNotification({
+  notificationRepo,
+  sendEmail,
+})
 
 const shouldUserAccessProject = makeShouldUserAccessProject({ userRepo })
 const inviteUserToProject = makeInviteUserToProject({
@@ -35,7 +42,7 @@ const inviteUserToProject = makeInviteUserToProject({
   projectAdmissionKeyRepo,
   credentialsRepo,
   shouldUserAccessProject,
-  sendProjectInvitation,
+  sendNotification,
 })
 
 describe('inviteUserToProject use-case', () => {
@@ -47,8 +54,9 @@ describe('inviteUserToProject use-case', () => {
   let projet: Project
   let user: User
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     resetDatabase()
+    resetEmailStub()
 
     // Create a fake project
     const insertedProjects = (
@@ -99,9 +107,6 @@ describe('inviteUserToProject use-case', () => {
   })
 
   it('should add project to invited user if the latter already has an account and notify them by email', async () => {
-    // Reset email stub
-    resetEmailStub()
-
     const email = 'existing@user.test'
 
     // TODO : insert user as well
@@ -165,16 +170,18 @@ describe('inviteUserToProject use-case', () => {
 
     const sentEmail = getCallsToEmailStub()[0]
 
-    expect(sentEmail.destinationEmail).toEqual(email)
-    expect(sentEmail.subject).toContain(user.fullName)
-    expect(sentEmail.nomProjet).toEqual(projet.nomProjet)
-    expect(sentEmail.invitationLink).toEqual(routes.PROJECT_DETAILS(projet.id))
+    expect(sentEmail.recipients[0].email).toEqual(email)
+    expect(sentEmail.subject).toEqual(
+      `${user.fullName} vous invite à suivre un projet sur Potentiel`
+    )
+    expect(sentEmail.variables).toEqual({
+      nomProjet: projet.nomProjet,
+      invitation_link: routes.PROJECT_DETAILS(projet.id),
+    })
+    expect(sentEmail.templateId).toEqual(1402576)
   })
 
   it('should send an invitation link to the invited user if he has not account yet', async () => {
-    // Reset email stub
-    resetEmailStub()
-
     const email = 'non-existing@user.test'
 
     const result = await inviteUserToProject({
@@ -198,10 +205,17 @@ describe('inviteUserToProject use-case', () => {
 
     const sentEmail = getCallsToEmailStub()[0]
 
-    expect(sentEmail.destinationEmail).toEqual(email)
-    expect(sentEmail.subject).toContain(user.fullName)
-    expect(sentEmail.nomProjet).toEqual(projet.nomProjet)
-    expect(sentEmail.invitationLink).toContain(projectAdmissionKey)
+    expect(sentEmail.recipients[0].email).toEqual(email)
+    expect(sentEmail.subject).toEqual(
+      `${user.fullName} vous invite à suivre un projet sur Potentiel`
+    )
+    expect(sentEmail.variables).toEqual({
+      nomProjet: projet.nomProjet,
+      invitation_link: routes.PROJECT_INVITATION({
+        projectAdmissionKey,
+      }),
+    })
+    expect(sentEmail.templateId).toEqual(1402576)
   })
 
   it('should return an error if the calling user doesnt have the right to this project', async () => {

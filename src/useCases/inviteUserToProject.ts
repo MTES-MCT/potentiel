@@ -15,6 +15,7 @@ import {
   ProjectAdmissionKey,
   AppelOffre,
   Periode,
+  NotificationProps,
 } from '../entities'
 import { ErrorResult, Ok, ResultAsync, Err } from '../types'
 import routes from '../routes'
@@ -36,7 +37,7 @@ interface MakeUseCaseProps {
     user: User
     projectId: Project['id']
   }) => Promise<boolean>
-  sendProjectInvitation: (props: EmailServiceProps) => Promise<void>
+  sendNotification: (props: NotificationProps) => Promise<void>
 }
 
 interface CallUseCaseProps {
@@ -57,7 +58,7 @@ export default function makeInviteUserToProject({
   credentialsRepo,
   userRepo,
   shouldUserAccessProject,
-  sendProjectInvitation,
+  sendNotification,
 }: MakeUseCaseProps) {
   return async function inviteUserToProject({
     email,
@@ -99,20 +100,22 @@ export default function makeInviteUserToProject({
       }
 
       // Success: send invitation
-      try {
-        await sendProjectInvitation({
+      await sendNotification({
+        type: 'project-invitation',
+        message: {
+          email,
           subject: `${user.fullName} vous invite à suivre un projet sur Potentiel`,
-          destinationEmail: email,
+        },
+        variables: {
           nomProjet: project.unwrap().nomProjet,
           // This link is a link to the project itself
-          invitationLink: routes.PROJECT_DETAILS(projectId),
-        })
-      } catch (error) {
-        console.log(
-          'inviteUserToProject use-case: error when calling sendProjectInvitation for existing user',
-          error
-        )
-      }
+          invitation_link: routes.PROJECT_DETAILS(projectId),
+        },
+        context: {
+          projectId,
+          userId,
+        },
+      })
       return Ok(null)
     }
 
@@ -146,23 +149,24 @@ export default function makeInviteUserToProject({
     // Send email invitation
 
     // Call sendProjectInvitation with the proper informations
-    try {
-      await sendProjectInvitation({
+    await sendNotification({
+      type: 'project-invitation',
+      message: {
+        email,
         subject: `${user.fullName} vous invite à suivre un projet sur Potentiel`,
-        destinationEmail: email,
+      },
+      variables: {
         nomProjet: project.unwrap().nomProjet,
-        // The invitation link is an invitation to register as new user
-        invitationLink: routes.PROJECT_INVITATION({
+        // This link is a link to the project itself
+        invitation_link: routes.PROJECT_INVITATION({
           projectAdmissionKey: projectAdmissionKey.id,
         }),
-      })
-      return Ok(null)
-    } catch (error) {
-      console.log(
-        'inviteUserToProject use-case: error when calling sendProjectInvitation',
-        error
-      )
-      return Err(error)
-    }
+      },
+      context: {
+        projectId,
+        projectAdmissionKeyId: projectAdmissionKey.id,
+      },
+    })
+    return Ok(null)
   }
 }

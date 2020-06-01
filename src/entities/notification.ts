@@ -39,9 +39,9 @@ export type Designation = {
 export type ProjectInvitation = {
   type: 'project-invitation'
   context: {
-    projectAdmissionKeyId: string
+    projectAdmissionKeyId?: string
+    userId?: string
     projectId: string
-    userId: string
   }
   variables: {
     invitation_link: string

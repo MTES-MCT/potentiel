@@ -110,7 +110,7 @@ const inviteUserToProject = makeInviteUserToProject({
   userRepo,
   projectAdmissionKeyRepo,
   shouldUserAccessProject,
-  sendProjectInvitation,
+  sendNotification,
 })
 
 const addGarantiesFinancieres = makeAddGarantiesFinancieres({
