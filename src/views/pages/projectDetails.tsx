@@ -634,11 +634,7 @@ export default function ProjectDetails({
               CO2/kWc
             </div>
           </Section>
-          <Section
-            title="Résultats de l'appel d'offres"
-            icon="clipboard-check"
-            defaultOpen
-          >
+          <Section title="Résultats de l'appel d'offres" icon="clipboard-check">
             <div style={{ marginBottom: 20, fontSize: 18 }}>
               <b>Note totale</b>: {project.note}
             </div>
