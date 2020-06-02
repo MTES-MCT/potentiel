@@ -662,7 +662,7 @@ export default function ProjectDetails({
               icon="clipboard-check"
             >
               <div style={{ marginBottom: 10, fontSize: 18 }}>
-                <b>Note totale</b>: {project.note}
+                <b>Note totale</b>: {project.note || 'N/A'}
               </div>
               <ul>
                 <NoteElement project={project} column={'Note prix'} />
