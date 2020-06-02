@@ -639,7 +639,7 @@ export default function ProjectDetails({
               <b>Note totale</b>: {project.note}
             </div>
             <div>
-              <b>Note innovation (/20pt)</b>:{' '}
+              <b>Note innovation (/45pt)</b>:{' '}
               {(project.details &&
                 project.details['Note innovation\n(AO innovation)']) ||
                 'N/A'}
