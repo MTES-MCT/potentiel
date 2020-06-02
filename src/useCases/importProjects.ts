@@ -160,12 +160,18 @@ export default function makeImportProjects({
           )
         }
 
+        // Keep track of all the columns that where picked from the line
+        // We will use this to gather all the "other" columns in the project.details section
+        const pickedColumns: Array<string> = ["Appel d'offres", 'Période']
+
         // All good, try to make the project
         const projectData = {
           appelOffreId,
           periodeId,
           ...appelOffre.dataFields.reduce((properties, dataField) => {
             const { field, column, type, value, defaultValue } = dataField
+
+            pickedColumns.push(column)
 
             if (type === 'codePostal') {
               return getCodePostalProperties(properties, line[column])
@@ -200,6 +206,17 @@ export default function makeImportProjects({
             }
           }, {}),
         }
+
+        // Add all the other columns of the csv into the details section of the project
+        projectData.details = Object.entries(line)
+          .filter(([columnTitle]) => !pickedColumns.includes(columnTitle))
+          .reduce(
+            (map, [columnTitle, value]) => ({
+              ...map,
+              [columnTitle]: value,
+            }),
+            {}
+          )
 
         const projectResult = makeProject(projectData as Project)
 

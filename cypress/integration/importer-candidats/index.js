@@ -47,6 +47,29 @@ Then(
   }
 )
 
+Then(
+  'le projet {string} a bien une section details qui contient un champ {string} qui a la valeur {string}',
+  (projectName, fieldName, fieldValue) => {
+    cy.getProject(projectName).then((project) => {
+      expect(project).to.not.be.undefined
+      expect(project).to.have.property('details')
+      expect(project.details).to.have.property(fieldName)
+      expect(project.details[fieldName]).to.equal(fieldValue)
+    })
+  }
+)
+
+Then(
+  'le projet {string} a bien une section details qui ne contient pas de champ {string}',
+  (projectName, fieldName) => {
+    cy.getProject(projectName).then((project) => {
+      expect(project).to.not.be.undefined
+      expect(project).to.have.property('details')
+      expect(project.details).to.not.have.property(fieldName)
+    })
+  }
+)
+
 Given('le projet suivant', async function (dataTable) {
   cy.insertProjectsForUser(dataTable.hashes())
 })

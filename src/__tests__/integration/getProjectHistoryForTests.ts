@@ -25,6 +25,8 @@ const getProjectHistoryForTests = async (request: HttpRequest) => {
     return SystemError('No project with this nomProjet')
   }
 
+  console.log('getProjectHistoryForTests', project)
+
   const projectWithHistoryRes = await projectRepo.findById(project.id, true)
   if (projectWithHistoryRes.is_none()) {
     return SystemError('No project history with this nomProjet')

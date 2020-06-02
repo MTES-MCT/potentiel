@@ -10,12 +10,13 @@ Fonctionnalité: Import d'un fichier de candidats
     Et on me notifie la réussite par "1 projet(s) ont bien été importé(s) ou mis à jour dont 1 à notifier."
     Et la liste ne contient qu'un seul projet
     Et je trouve bien le projet "Nom du projet" dans la liste des projets
+    Et le projet "Nom du projet" a bien une section details qui contient un champ "Autre champ" qui a la valeur "Autre valeur"
 
   @admin
   Scénario: Ré-import d'un projet existant avec changement
     Etant donné le projet suivant
-      | appelOffreId | periodeId | numeroCRE | familleId | nomProjet            | notifiedOn    |
-      | CRE4 - Sol   | 7         | 1         | 1         | Ancien nom du projet | 1589466999101 |
+      | appelOffreId | periodeId | numeroCRE | familleId | nomProjet            | notifiedOn    | details                                                                                |
+      | CRE4 - Sol   | 7         | 1         | 1         | Ancien nom du projet | 1589466999101 | { "Ancien champ": "Valeur ancien champ", "Autre champ": "Ancienne valeur autre champ"} |
     Etant donné que je me rends sur la page d'import de candidats
     Lorsque je selectionne le fichier "candidats.csv"
     Et que je valide le formulaire
@@ -23,6 +24,8 @@ Fonctionnalité: Import d'un fichier de candidats
     Et on me notifie la réussite par "1 projet(s) ont bien été importé(s) ou mis à jour."
     Et la liste ne contient qu'un seul projet
     Et je trouve bien le projet "Nom du projet" dans la liste des projets
+    Et le projet "Nom du projet" a bien une section details qui ne contient pas de champ "Ancien champ"
+    Et le projet "Nom du projet" a bien une section details qui contient un champ "Autre champ" qui a la valeur "Autre valeur"
 
   @admin
   Scénario: Ré-import d'un projet existant sans changement

@@ -1,8 +1,9 @@
 import isEmail from 'isemail'
+import _ from 'lodash'
 import {
   String,
   Number,
-  Record,
+  Record as SchemaRecord,
   Array as SchemaArray,
   Union,
   Literal,
@@ -28,7 +29,7 @@ const territoireSchema = Union(
   Literal('Martinique')
 )
 
-const baseProjectSchema = Record({
+const baseProjectSchema = SchemaRecord({
   id: String,
   appelOffreId: String,
   periodeId: String,
@@ -76,10 +77,13 @@ const fields: string[] = [
   'territoireProjet',
   'appelOffre',
   'history',
+  'details',
   ...Object.keys(baseProjectSchema.fields),
 ]
 
-type BaseProject = Static<typeof projectSchema>
+type BaseProject = Static<typeof projectSchema> & {
+  details?: Record<string, any>
+}
 
 type ProjectEvent = {
   id: string
@@ -127,13 +131,27 @@ const buildApplyProjectUpdate = (makeId: () => string) => {
           )
           .reduce(
             ({ before, after }, key: string) => {
-              if (project[key] != update[key]) {
-                before[key] = project[key]
-                after[key] = update[key]
+              if (project[key] && typeof project[key] === 'object') {
+                // For objects, do a deep compare
+                const changedKeys = [
+                  ...Object.keys(project[key]),
+                  ...Object.keys(update[key]),
+                ].filter(
+                  (innerKey) => project[key][innerKey] != update[key][innerKey]
+                )
 
-                // Update the project itself
-                project[key] = update[key]
+                before[key] = _.pick(project[key], changedKeys)
+                after[key] = _.pick(update[key], changedKeys)
+              } else {
+                // For other types, do a shallow comparison
+                if (project[key] !== update[key]) {
+                  before[key] = project[key]
+                  after[key] = update[key]
+                }
               }
+              // Update the project itself
+              project[key] = update[key]
+
               return { before, after }
             },
             {

@@ -61,6 +61,7 @@ const makePhonyLine = () => ({
   [getColumnForField('classe')]: 'Classé',
   [getColumnForField('motifsElimination')]: '',
   [getColumnForField('notifiedOn')]: phonyNotifiedOnDate,
+  autreColonne: 'valeurAutreColonne',
 })
 
 describe('importProjects use-case', () => {
@@ -111,6 +112,10 @@ describe('importProjects use-case', () => {
       classe: 'Classé',
       motifsElimination: '',
       notifiedOn: moment(phonyNotifiedOnDate, 'DD/MM/YYYY').toDate().getTime(),
+      // special column for all the "other columns" that are not in the project schema
+      details: {
+        autreColonne: 'valeurAutreColonne',
+      },
     }
 
     expect(newProjects).toHaveLength(1)

@@ -166,6 +166,10 @@ export default function makeProjectRepo({
       type: DataTypes.UUID,
       allowNull: true,
     },
+    details: {
+      type: DataTypes.JSON,
+      allowNull: true,
+    },
   })
 
   const ProjectEventModel = sequelize.define('projectEvent', {
@@ -432,6 +436,8 @@ export default function makeProjectRepo({
       // Use a transaction to ensure the ProjectEvent and Project are saved together
 
       // TODO: use a lock to avoid having multiple simultaneous calls to save (which blocks the transaction)
+
+      console.log('projectRepo.save', project)
 
       // await sequelize.transaction(async (transaction: Transaction) => {
       await ProjectModel.upsert(project /*, { transaction }*/)
