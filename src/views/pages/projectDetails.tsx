@@ -306,6 +306,28 @@ const Section = ({ title, defaultOpen, children, icon }: SectionProps) => {
   )
 }
 
+interface NoteElementProps {
+  project: Project
+  column: string
+}
+const NoteElement = ({ project, column }: NoteElementProps) => {
+  let noteStr: string = project.details && project.details[column]
+
+  if (noteStr) {
+    const note = parseFloat(noteStr.replace(',', '.'))
+
+    if (!Number.isNaN(note)) {
+      noteStr = (Math.round(note * 100) / 100).toString()
+    } else noteStr = 'N/A'
+  }
+
+  return (
+    <li>
+      <b>{column.replace('\n(AO innovation)', '')}</b>: {noteStr || 'N/A'}
+    </li>
+  )
+}
+
 interface ProjectDetailsProps {
   request: HttpRequest
   project: Project
@@ -634,61 +656,53 @@ export default function ProjectDetails({
               CO2/kWc
             </div>
           </Section>
-          <Section title="Résultats de l'appel d'offres" icon="clipboard-check">
-            <div style={{ marginBottom: 20, fontSize: 18 }}>
-              <b>Note totale</b>: {project.note}
-            </div>
-            <div>
-              <b>Note innovation (/45pt)</b>:{' '}
-              {(project.details &&
-                project.details['Note innovation\n(AO innovation)']) ||
-                'N/A'}
-            </div>
-            <div>
-              <b>Note degré d’innovation (/20pt)</b>:{' '}
-              {(project.details &&
-                project.details[
-                  'Note degré d’innovation (/20pt)\n(AO innovation)'
-                ]) ||
-                'N/A'}
-            </div>
-            <div>
-              <b>Note positionnement sur le marché (/10pt)</b>:{' '}
-              {(project.details &&
-                project.details[
-                  'Note positionnement sur le marché (/10pt)\n(AO innovation)'
-                ]) ||
-                'N/A'}
-            </div>
-            <div>
-              <b>Note qualité technique (/5pt)</b>:{' '}
-              {(project.details &&
-                project.details[
-                  'Note qualité technique (/5pt)\n(AO innovation)'
-                ]) ||
-                'N/A'}
-            </div>
-            <div>
-              <b>
-                Note adéquation du projet avec les ambitions industrielles
-                (/5pt)
-              </b>
-              :{' '}
-              {(project.details &&
-                project.details[
-                  'Note adéquation du projet avec les ambitions industrielles (/5pt)\n(AO innovation)'
-                ]) ||
-                'N/A'}
-            </div>
-            <div>
-              <b>Note aspects environnementaux et sociaux (/5pt)</b>:{' '}
-              {(project.details &&
-                project.details[
-                  'Note aspects environnementaux et sociaux (/5pt)\n(AO innovation)'
-                ]) ||
-                'N/A'}
-            </div>
-          </Section>
+          {project.appelOffre?.id === 'CRE4 - Innovation' ? (
+            <Section
+              title="Résultats de l'appel d'offres"
+              icon="clipboard-check"
+            >
+              <div style={{ marginBottom: 10, fontSize: 18 }}>
+                <b>Note totale</b>: {project.note}
+              </div>
+              <ul>
+                <NoteElement project={project} column={'Note prix'} />
+                <NoteElement
+                  project={project}
+                  column={'Note innovation\n(AO innovation)'}
+                />
+                <ul>
+                  <NoteElement
+                    project={project}
+                    column={'Note degré d’innovation (/20pt)\n(AO innovation)'}
+                  />
+                  <NoteElement
+                    project={project}
+                    column={
+                      'Note positionnement sur le marché (/10pt)\n(AO innovation)'
+                    }
+                  />
+                  <NoteElement
+                    project={project}
+                    column={'Note qualité technique (/5pt)\n(AO innovation)'}
+                  />
+                  <NoteElement
+                    project={project}
+                    column={
+                      'Note adéquation du projet avec les ambitions industrielles (/5pt)\n(AO innovation)'
+                    }
+                  />
+                  <NoteElement
+                    project={project}
+                    column={
+                      'Note aspects environnementaux et sociaux (/5pt)\n(AO innovation)'
+                    }
+                  />
+                </ul>
+              </ul>
+            </Section>
+          ) : (
+            ''
+          )}
         </div>
       </div>
     </Dashboard>

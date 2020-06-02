@@ -114,7 +114,16 @@ export const forAOInnovation = () => (
       appelOffre: appelOffreInnovation,
       note: 6.3,
       details: {
-        'Note blabla': '9,6',
+        'Note prix': '51,2',
+        'Note innovation\n(AO innovation)': '45,222225',
+        'Note degré d’innovation (/20pt)\n(AO innovation)': '19',
+        'Note positionnement sur le marché (/10pt)\n(AO innovation)':
+          '8,3333333334',
+        'Note qualité technique (/5pt)\n(AO innovation)': '2,56',
+        'Note adéquation du projet avec les ambitions industrielles (/5pt)\n(AO innovation)':
+          '2,555',
+        'Note aspects environnementaux et sociaux (/5pt)\n(AO innovation)':
+          '2,56',
       },
     })}
     projectUsers={[makeFakeUser()]}
