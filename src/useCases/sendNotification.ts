@@ -27,6 +27,7 @@ const TEMPLATE_ID_BY_TYPE: Record<Notification['type'], number> = {
   'project-invitation': 1402576,
   'dreal-invitation': 1436254,
   'password-reset': 1389166,
+  'pp-gf-notification': 1463065,
 }
 
 /**

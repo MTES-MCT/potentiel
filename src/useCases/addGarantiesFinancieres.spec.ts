@@ -8,13 +8,31 @@ import makeFakeUser from '../__tests__/fixtures/user'
 
 import { makeProject, makeUser, User, Project } from '../entities'
 
-import { projectRepo, userRepo, resetDatabase } from '../dataAccess/inMemory'
-import { updateProperty } from 'typescript'
+import {
+  projectRepo,
+  userRepo,
+  notificationRepo,
+  resetDatabase,
+} from '../dataAccess/inMemory'
+import moment from 'moment'
+
+import makeSendNotification from './sendNotification'
+import {
+  sendEmail,
+  resetEmailStub,
+  getCallsToEmailStub,
+} from '../__tests__/fixtures/emailService'
+
+const sendNotification = makeSendNotification({
+  notificationRepo,
+  sendEmail,
+})
 
 const shouldUserAccessProject = makeShouldUserAccessProject({ userRepo })
 const addGarantiesFinancieres = makeAddGarantiesFinancieres({
   projectRepo,
   shouldUserAccessProject,
+  sendNotification,
 })
 
 describe('addGarantiesFinancieres use-case', () => {
@@ -23,6 +41,7 @@ describe('addGarantiesFinancieres use-case', () => {
 
   beforeAll(async () => {
     resetDatabase()
+    resetEmailStub()
 
     // Create a fake project
     const insertedProjects = (
@@ -69,7 +88,7 @@ describe('addGarantiesFinancieres use-case', () => {
     expect(res.is_ok()).toBeTruthy()
   })
 
-  it('should update the project garantiesFinancieres* properties', async () => {
+  it('should update the project garantiesFinancieres* properties and sent email confirmation to user', async () => {
     const filename = 'fakeFile.pdf'
     const date = Date.now()
 
@@ -122,6 +141,22 @@ describe('addGarantiesFinancieres use-case', () => {
       'garanties-financieres-submission'
     )
     expect(updatedProject.history[0].userId).toEqual(user.id)
+
+    // Make sure the notification has been sent
+    expect(getCallsToEmailStub()).toHaveLength(1)
+
+    const sentEmail = getCallsToEmailStub()[0]
+
+    expect(sentEmail.recipients[0].email).toEqual(user.email)
+    expect(sentEmail.subject).toEqual(
+      "Confirmation d'envoi des garanties financières"
+    )
+    expect(sentEmail.variables).toEqual({
+      nomProjet: projet.nomProjet,
+      dreal: projet.regionProjet,
+      date_depot: moment(date).format('DD/MM/YYYY'),
+    })
+    expect(sentEmail.templateId).toEqual(1463065)
   })
 
   it('should return an error if the user does not have the rights on this project', async () => {

@@ -1,6 +1,13 @@
-import { Project, User, makeProject, applyProjectUpdate } from '../entities'
+import {
+  Project,
+  User,
+  makeProject,
+  applyProjectUpdate,
+  NotificationProps,
+} from '../entities'
 import { ProjectRepo } from '../dataAccess'
 import _ from 'lodash'
+import moment from 'moment'
 import { ResultAsync, Ok, Err, ErrorResult } from '../types'
 
 interface MakeUseCaseProps {
@@ -9,6 +16,7 @@ interface MakeUseCaseProps {
     user: User
     projectId: Project['id']
   }) => Promise<boolean>
+  sendNotification: (props: NotificationProps) => Promise<void>
 }
 
 interface CallUseCaseProps {
@@ -27,6 +35,7 @@ export const SYSTEM_ERROR =
 export default function makeAddGarantiesFinancieres({
   projectRepo,
   shouldUserAccessProject,
+  sendNotification,
 }: MakeUseCaseProps) {
   return async function addGarantiesFinancieres({
     filename,
@@ -73,6 +82,28 @@ export default function makeAddGarantiesFinancieres({
     const res = await projectRepo.save(updatedProject)
 
     if (res.is_err()) return Err(res.unwrap_err())
+
+    // Notify porteur de projet
+    await sendNotification({
+      type: 'pp-gf-notification',
+      message: {
+        email: user.email,
+        name: user.fullName,
+        subject: "Confirmation d'envoi des garanties financières",
+      },
+      context: {
+        projectId: project.id,
+        userId: user.id,
+      },
+      variables: {
+        nomProjet: project.nomProjet,
+        dreal: project.regionProjet,
+        date_depot: moment(project.garantiesFinancieresDate).format(
+          'DD/MM/YYYY'
+        ),
+      },
+    })
+
     return Ok(null)
   }
 }

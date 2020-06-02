@@ -71,8 +71,27 @@ export type PasswordReset = {
   }
 }
 
+export type PP_GF_Notification = {
+  type: 'pp-gf-notification'
+  context: {
+    projectId: string
+    userId: string
+  }
+  variables: {
+    nomProjet: string
+    dreal: string
+    date_depot: string
+  }
+}
+
 export type NotificationProps = BaseNotification &
-  (Designation | ProjectInvitation | DrealInvitation | PasswordReset)
+  (
+    | Designation
+    | ProjectInvitation
+    | DrealInvitation
+    | PasswordReset
+    | PP_GF_Notification
+  )
 
 type NotificationWithStatus = NotificationProps & {
   status: 'sent' | 'error'
