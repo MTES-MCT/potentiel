@@ -12,6 +12,7 @@ export default { title: 'Inviter une DREAL' }
 export const withError = () => (
   <DrealList
     users={[]}
+    invitations={[]}
     request={makeFakeRequest({ query: { error: 'This is an error message!' } })}
   />
 )
@@ -19,6 +20,7 @@ export const withError = () => (
 export const withSuccess = () => (
   <DrealList
     users={[]}
+    invitations={[]}
     request={makeFakeRequest({
       query: { success: 'This is a success message!' },
     })}
@@ -26,5 +28,5 @@ export const withSuccess = () => (
 )
 
 export const withUsers = () => (
-  <DrealList users={[]} request={makeFakeRequest()} />
+  <DrealList users={[]} invitations={[]} request={makeFakeRequest()} />
 )

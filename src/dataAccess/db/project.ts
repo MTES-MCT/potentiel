@@ -437,8 +437,6 @@ export default function makeProjectRepo({
 
       // TODO: use a lock to avoid having multiple simultaneous calls to save (which blocks the transaction)
 
-      console.log('projectRepo.save', project)
-
       // await sequelize.transaction(async (transaction: Transaction) => {
       await ProjectModel.upsert(project /*, { transaction }*/)
 

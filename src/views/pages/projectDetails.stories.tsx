@@ -83,6 +83,39 @@ export const forPorteurProjet = () => (
       classe: 'Classé',
       notifiedOn: Date.now(),
       appelOffre,
+      details: {
+        'Note blabla': '9,6',
+      },
+    })}
+    projectUsers={[makeFakeUser()]}
+    projectInvitations={[
+      {
+        id: 'admissionKey',
+        email: 'invited@email.com',
+      } as ProjectAdmissionKey,
+    ]}
+  />
+)
+
+const appelOffreInnovation = appelsOffreStatic.find(
+  (appelOffre) => appelOffre.id === 'CRE4 - Innovation'
+)
+if (appelOffreInnovation)
+  appelOffreInnovation.periode = appelOffreInnovation.periodes[1]
+export const forAOInnovation = () => (
+  <ProjectDetails
+    request={makeFakeRequest({
+      user: makeFakeUser({ role: 'porteur-projet' }),
+    })}
+    project={makeFakeProject({
+      id: 'projectId',
+      classe: 'Classé',
+      notifiedOn: Date.now(),
+      appelOffre: appelOffreInnovation,
+      note: 6.3,
+      details: {
+        'Note blabla': '9,6',
+      },
     })}
     projectUsers={[makeFakeUser()]}
     projectInvitations={[
