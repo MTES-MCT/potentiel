@@ -8,6 +8,7 @@ import { makeCandidateNotificationRepo } from './candidateNotification'
 import { makeProjectAdmissionKeyRepo } from './projectAdmissionKey'
 import { makeModificationRequestRepo } from './modificationRequest'
 import { makePasswordRetrievalRepo } from './passwordRetrieval'
+import { makeNotificationRepo } from './notification'
 
 import { appelOffreRepo } from '../inMemory/appelOffre'
 
@@ -34,6 +35,8 @@ const candidateNotificationRepo = makeCandidateNotificationRepo({ sequelize })
 const modificationRequestRepo = makeModificationRequestRepo({ sequelize })
 
 const passwordRetrievalRepo = makePasswordRetrievalRepo({ sequelize })
+
+const notificationRepo = makeNotificationRepo({ sequelize })
 
 // Set the one-to-many relationship between project and candidateNotification
 const ProjectModel = sequelize.model('project')
@@ -97,6 +100,7 @@ const dbAccess = Object.freeze({
   modificationRequestRepo,
   passwordRetrievalRepo,
   appelOffreRepo,
+  notificationRepo,
   initDatabase,
   resetDatabase,
 })
@@ -111,6 +115,7 @@ export {
   modificationRequestRepo,
   passwordRetrievalRepo,
   appelOffreRepo,
+  notificationRepo,
   initDatabase,
   resetDatabase,
 }
