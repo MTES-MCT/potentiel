@@ -4,7 +4,6 @@ import hashFn from '../helpers/hashPassword'
 import buildMakeCredentials from './credentials'
 import buildMakeUser from './user'
 import buildMakeProject, { buildApplyProjectUpdate } from './project'
-import buildMakeCandidateNotification from './candidateNotification'
 import buildMakeProjectAdmissionKey from './projectAdmissionKey'
 import buildMakeModificationRequest from './modificationRequest'
 import buildMakePasswordRetrieval from './passwordRetrieval'
@@ -16,9 +15,6 @@ const makeCredentials = buildMakeCredentials({ hashFn, makeId })
 const makeUser = buildMakeUser({ makeId })
 const makeProject = buildMakeProject({ makeId })
 const applyProjectUpdate = buildApplyProjectUpdate(makeId)
-const makeCandidateNotification = buildMakeCandidateNotification({
-  makeId,
-})
 const makeProjectAdmissionKey = buildMakeProjectAdmissionKey({ makeId })
 const makeModificationRequest = buildMakeModificationRequest({ makeId })
 const makePasswordRetrieval = buildMakePasswordRetrieval({ makeId })
@@ -28,7 +24,6 @@ export {
   makeCredentials,
   makeUser,
   makeProject,
-  makeCandidateNotification,
   makeProjectAdmissionKey,
   makeModificationRequest,
   makePasswordRetrieval,
@@ -38,7 +33,6 @@ export {
 export * from './user'
 export * from './credentials'
 export * from './project'
-export * from './candidateNotification'
 export * from './projectAdmissionKey'
 export * from './modificationRequest'
 export * from './appelOffre'

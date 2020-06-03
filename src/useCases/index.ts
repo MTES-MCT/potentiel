@@ -25,7 +25,6 @@ import {
   credentialsRepo,
   userRepo,
   projectRepo,
-  candidateNotificationRepo,
   projectAdmissionKeyRepo,
   modificationRequestRepo,
   appelOffreRepo,
@@ -62,7 +61,6 @@ const sendAllCandidateNotifications = makeSendAllCandidateNotifiations({
   projectRepo,
   userRepo,
   credentialsRepo,
-  candidateNotificationRepo,
   sendCandidateNotification,
 })
 

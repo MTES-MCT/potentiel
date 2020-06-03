@@ -1,11 +1,6 @@
 import { DataTypes, Op, Transaction } from 'sequelize'
 import { ProjectRepo } from '../'
-import {
-  Project,
-  User,
-  makeProject,
-  CandidateNotification,
-} from '../../entities'
+import { Project, User, makeProject } from '../../entities'
 import { mapExceptError, mapIfOk } from '../../helpers/results'
 import { paginate, pageCount, makePaginatedList } from '../../helpers/paginate'
 import {
@@ -250,7 +245,6 @@ export default function makeProjectRepo({
     findByUser,
     save,
     remove,
-    addNotification,
     getUsers,
   })
 
@@ -482,42 +476,6 @@ export default function makeProjectRepo({
       return Ok(null)
     } catch (error) {
       if (CONFIG.logDbErrors) console.log('Project.remove error', error)
-      return Err(error)
-    }
-  }
-
-  async function addNotification(
-    project: Project,
-    notification: CandidateNotification
-  ): ResultAsync<Project> {
-    await _isDbReady
-
-    try {
-      const projectInstance = await ProjectModel.findByPk(project.id)
-
-      if (!projectInstance) {
-        throw new Error('Cannot find project to add notification to')
-      }
-
-      const CandidateNotificationModel = sequelize.model(
-        'candidateNotification'
-      )
-
-      const candidateNotificationInstance = await CandidateNotificationModel.findByPk(
-        notification.id
-      )
-
-      if (!candidateNotificationInstance)
-        throw new Error('CandidateNotification not found')
-
-      await projectInstance.addCandidateNotification(
-        candidateNotificationInstance
-      )
-
-      return Ok(project)
-    } catch (error) {
-      if (CONFIG.logDbErrors)
-        console.log('Project.addNotification error', error)
       return Err(error)
     }
   }

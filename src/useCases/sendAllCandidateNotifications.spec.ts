@@ -4,7 +4,6 @@ import makeSendNotification from './sendNotification'
 
 import {
   projectRepo,
-  candidateNotificationRepo,
   credentialsRepo,
   userRepo,
   projectAdmissionKeyRepo,
@@ -14,7 +13,6 @@ import {
   notificationRepo,
 } from '../dataAccess/inMemory'
 import makeFakeProject from '../__tests__/fixtures/project'
-import makeFakeCandidateNotification from '../__tests__/fixtures/candidateNotification'
 import makeFakeUser from '../__tests__/fixtures/user'
 import { PORTEUR_PROJET } from '../__tests__/fixtures/testCredentials'
 
@@ -24,7 +22,6 @@ import {
   Project,
   makeCredentials,
   makeProject,
-  makeCandidateNotification,
 } from '../entities'
 
 import {
@@ -48,7 +45,6 @@ const sendAllCandidateNotifications = makeSendAllCandidateNotifications({
   projectRepo,
   userRepo,
   credentialsRepo,
-  candidateNotificationRepo,
   sendCandidateNotification,
 })
 
@@ -64,10 +60,6 @@ describe('sendAllCandidateNotifications use-case', () => {
   beforeAll(async () => {
     resetDatabase()
     resetEmailStub()
-
-    const previousNotifs = await candidateNotificationRepo.findAll()
-    expect(previousNotifs).toBeDefined()
-    expect(previousNotifs).toHaveLength(0)
 
     // Make a fake porteur de projet
     const bogusEmail = 'bogus@email.com'
@@ -159,15 +151,7 @@ describe('sendAllCandidateNotifications use-case', () => {
     expect(result.is_ok()).toBeTruthy()
   })
 
-  it('should create a notification for every project that has none', async () => {
-    const recentNotifs = await candidateNotificationRepo.findAll()
-
-    expect(recentNotifs).toBeDefined()
-    expect(recentNotifs).toHaveLength(3)
-  })
-
   it('should update every project as having been notified', async () => {
-    expect.assertions(2 * projectsToNotify.length + 1)
     const notifiedProjects = (
       await Promise.all(
         projectsToNotify.map((project) => projectRepo.findById(project.id))
@@ -179,6 +163,7 @@ describe('sendAllCandidateNotifications use-case', () => {
     expect(notifiedProjects).toHaveLength(projectsToNotify.length)
 
     notifiedProjects.forEach((notifiedProject) => {
+      console.log('checking notifiedProject')
       expect(notifiedProject.notifiedOn).toEqual(notificationDate)
       expect(notifiedProject.isFinancementParticipatif).toBeTruthy()
     })
@@ -216,8 +201,8 @@ describe('sendAllCandidateNotifications use-case', () => {
     expect(notifiedProject.history[0].after.notifiedOn).toEqual(
       notificationDate
     )
-    expect(notifiedProject.history[0].createdAt / 100).toBeCloseTo(
-      Date.now() / 100,
+    expect(notifiedProject.history[0].createdAt / 1000).toBeCloseTo(
+      Date.now() / 1000,
       0
     )
     expect(notifiedProject.history[0].type).toEqual('candidate-notification')

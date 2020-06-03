@@ -1,4 +1,4 @@
-import { CandidateNotification, Project, User } from '../entities'
+import { Project, User } from '../entities'
 import { OptionAsync, ResultAsync, Pagination, PaginatedList } from '../types'
 
 export type ProjectRepo = {
@@ -18,9 +18,5 @@ export type ProjectRepo = {
   ) => Promise<Array<Project>>
   remove: (projectId: Project['id']) => ResultAsync<void>
   save: (project: Project) => ResultAsync<Project>
-  addNotification: (
-    project: Project,
-    notification: CandidateNotification
-  ) => ResultAsync<Project>
   getUsers: (projectId: Project['id']) => Promise<Array<User>>
 }

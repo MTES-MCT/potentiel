@@ -1,7 +1,6 @@
 import {
   appelOffreRepo,
   appelsOffreStatic,
-  candidateNotificationRepo,
   projectAdmissionKeyRepo,
   projectRepo,
   resetDatabase,
@@ -43,10 +42,6 @@ describe('sendCandidateNotification use-case', () => {
   beforeEach(async () => {
     resetDatabase()
     resetEmailStub()
-
-    const previousNotifs = await candidateNotificationRepo.findAll()
-    expect(previousNotifs).toBeDefined()
-    expect(previousNotifs).toHaveLength(0)
 
     const insertedProjects = (
       await Promise.all(

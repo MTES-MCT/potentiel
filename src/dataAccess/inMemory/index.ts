@@ -2,7 +2,6 @@ import {
   CredentialsRepo,
   UserRepo,
   ProjectRepo,
-  CandidateNotificationRepo,
   ProjectAdmissionKeyRepo,
   ModificationRequestRepo,
   PasswordRetrievalRepo,
@@ -12,7 +11,6 @@ import {
   Credentials,
   User,
   Project,
-  CandidateNotification,
   Notification,
   ProjectAdmissionKey,
   ModificationRequest,
@@ -125,45 +123,6 @@ const credentialsRepo: CredentialsRepo = {
     credentialsById[id].hash = hash
 
     return Promise.resolve(Ok(credentialsById[id]))
-  },
-}
-
-let candidateNotificationsById: Record<string, CandidateNotification> = {}
-const candidateNotificationRepo: CandidateNotificationRepo = {
-  findById: async (id: string) => {
-    // console.log('findById', id, itemsById)
-    if (id in candidateNotificationsById) {
-      return Some(candidateNotificationsById[id])
-    } else return None
-  },
-  findAll: async (query?) => {
-    const allItems = Object.values(candidateNotificationsById)
-
-    if (!query) {
-      return allItems
-    }
-
-    return allItems.filter((item) =>
-      Object.entries(query).every(([key, value]) => item[key] === value)
-    )
-  },
-  insert: async (item: CandidateNotification) => {
-    candidateNotificationsById[item.id] = item
-
-    return Ok(item)
-  },
-  update: async (item: CandidateNotification) => {
-    if (!item.id) {
-      return ErrorResult('Cannot update item that has no id')
-    }
-
-    if (!candidateNotificationsById[item.id]) {
-      return ErrorResult('Cannot update item that was unknown')
-    }
-
-    candidateNotificationsById[item.id] = item
-
-    return Ok(item)
   },
 }
 
@@ -309,23 +268,6 @@ const projectRepo: ProjectRepo = {
   remove: async (id: Project['id']) => {
     delete usersById[id]
     return Ok(null)
-  },
-  addNotification: async (
-    project: Project,
-    notification: CandidateNotification
-  ) => {
-    const projectInstance = projectsById[project.id]
-
-    if (!projectInstance) {
-      return Err(new Error('Cannot find project to add notification to'))
-    }
-
-    await candidateNotificationRepo.insert({
-      ...notification,
-      projectId: project.id,
-    })
-
-    return Ok(project)
   },
   getUsers: async (_projectId: Project['id']) => {
     return Object.entries(userProjects)
@@ -512,7 +454,6 @@ const resetDatabase = () => {
   projectsById = {}
   usersById = {}
   userProjects = {}
-  candidateNotificationsById = {}
   projectAdmissionKeysById = {}
   modificationRequestsById = {}
   passwordRetrievalsById = {}
@@ -523,7 +464,6 @@ export {
   credentialsRepo,
   userRepo,
   projectRepo,
-  candidateNotificationRepo,
   projectAdmissionKeyRepo,
   modificationRequestRepo,
   passwordRetrievalRepo,

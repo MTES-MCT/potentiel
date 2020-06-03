@@ -2,7 +2,6 @@ import {
   appelOffreRepo,
   userRepo,
   appelsOffreStatic,
-  candidateNotificationRepo,
   projectAdmissionKeyRepo,
   credentialsRepo,
   projectRepo,

@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import {
-  CandidateNotificationRepo,
   CredentialsRepo,
   ProjectAdmissionKeyRepo,
   ProjectRepo,
@@ -8,7 +7,6 @@ import {
   AppelOffreRepo,
 } from '../dataAccess'
 import {
-  makeCandidateNotification,
   makeProjectAdmissionKey,
   Project,
   ProjectAdmissionKey,

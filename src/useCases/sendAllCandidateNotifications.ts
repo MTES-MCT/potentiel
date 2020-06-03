@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import {
-  CandidateNotificationRepo,
   CredentialsRepo,
   ProjectAdmissionKeyRepo,
   ProjectRepo,
@@ -23,7 +22,6 @@ interface MakeUseCaseProps {
   projectRepo: ProjectRepo
   userRepo: UserRepo
   credentialsRepo: CredentialsRepo
-  candidateNotificationRepo: CandidateNotificationRepo
   sendCandidateNotification: (args: {
     email: string
     appelOffreId: AppelOffre['id']
@@ -45,7 +43,6 @@ export default function makeSendAllCandidateNotifications({
   projectRepo,
   userRepo,
   credentialsRepo,
-  candidateNotificationRepo,
   sendCandidateNotification,
 }: MakeUseCaseProps) {
   return async function sendAllCandidateNotifications({
@@ -124,50 +121,6 @@ export default function makeSendAllCandidateNotifications({
                     return
                   }
                 }
-
-                // Save a candidate notification for each
-                const projectAdmissionKeyId = projectAdmissionKeyResult.unwrap()
-                if (!projectAdmissionKeyId) return
-                const candidateNotificationData = {
-                  projectAdmissionKey: projectAdmissionKeyId,
-                  projectId: project.id,
-                }
-                const candidateNotificationResult = makeCandidateNotification(
-                  candidateNotificationData
-                )
-
-                if (candidateNotificationResult.is_err()) {
-                  // OOPS
-                  console.log(
-                    'sendAllCandidateNotifications use-case: error when calling makeCandidateNotification with',
-                    candidateNotificationData
-                  )
-
-                  // ignore this project
-                  return
-                }
-
-                const candidateNotification = candidateNotificationResult.unwrap()
-
-                const insertionResult = await candidateNotificationRepo.insert(
-                  candidateNotification
-                )
-
-                if (insertionResult.is_err()) {
-                  // OOPS
-                  console.log(
-                    'sendAllCandidateNotifications use-case: error when calling candidateNotificationRepo.insert with',
-                    candidateNotificationData
-                  )
-
-                  // ignore this project
-                  return
-                }
-
-                await projectRepo.addNotification(
-                  project,
-                  candidateNotification
-                )
               })
             )
           }

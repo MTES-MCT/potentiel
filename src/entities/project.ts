@@ -17,7 +17,6 @@ import buildMakeEntity from '../helpers/buildMakeEntity'
 
 import { User, ModificationRequest } from './'
 
-import { candidateNotificationSchema } from './candidateNotification'
 import { appelOffreSchema } from './appelOffre'
 import { familleSchema } from './famille'
 
@@ -63,9 +62,6 @@ const baseProjectSchema = SchemaRecord({
 })
 const projectSchema = baseProjectSchema.And(
   SchemaPartial({
-    candidateNotifications: SchemaArray(candidateNotificationSchema).Or(
-      Undefined
-    ),
     actionnaire: String,
     territoireProjet: territoireSchema.Or(Undefined),
     appelOffre: appelOffreSchema,
@@ -74,7 +70,6 @@ const projectSchema = baseProjectSchema.And(
 )
 
 const fields: string[] = [
-  'candidateNotifications',
   'actionnaire',
   'territoireProjet',
   'appelOffre',
