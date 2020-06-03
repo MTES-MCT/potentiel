@@ -444,42 +444,52 @@ export default function ProjectDetails({
                   />
                   {project.classe === 'Classé' ? (
                     <>
-                      {project.garantiesFinancieresDate ? (
-                        <FriseItem
-                          date={moment(project.garantiesFinancieresDate).format(
-                            'D MMM YYYY'
-                          )}
-                          title="Constitution des garanties financières"
-                          action={{
-                            title: "Télécharger l'attestation",
-                            link: project.garantiesFinancieresFile.length
-                              ? ROUTES.DOWNLOAD_PROJECT_FILE(
-                                  project.id,
-                                  project.garantiesFinancieresFile
-                                )
-                              : undefined,
-                          }}
-                          status="past"
-                        />
+                      {project.famille?.garantieFinanciereEnMois ? (
+                        // famille soumise à garanties financières
+                        project.garantiesFinancieresDate ? (
+                          // garanties financières déjà déposées
+                          <FriseItem
+                            date={moment(
+                              project.garantiesFinancieresDate
+                            ).format('D MMM YYYY')}
+                            title="Constitution des garanties financières"
+                            action={{
+                              title: "Télécharger l'attestation",
+                              link: project.garantiesFinancieresFile.length
+                                ? ROUTES.DOWNLOAD_PROJECT_FILE(
+                                    project.id,
+                                    project.garantiesFinancieresFile
+                                  )
+                                : undefined,
+                            }}
+                            status="past"
+                          />
+                        ) : (
+                          // garanties financières non-déposées
+                          <FriseItem
+                            date={moment(project.notifiedOn)
+                              .add(2, 'months')
+                              .format('D MMM YYYY')}
+                            title="Constitution des garanties financières"
+                            action={{
+                              title: "Transmettre l'attestation",
+                              openHiddenContent:
+                                user.role === 'porteur-projet'
+                                  ? true
+                                  : undefined,
+                            }}
+                            status="nextup"
+                            hiddenContent={
+                              <GarantiesFinancieresForm
+                                projectId={project.id}
+                                date={request.query.date}
+                              />
+                            }
+                          />
+                        )
                       ) : (
-                        <FriseItem
-                          date={moment(project.notifiedOn)
-                            .add(2, 'months')
-                            .format('D MMM YYYY')}
-                          title="Constitution des garanties financières"
-                          action={{
-                            title: "Transmettre l'attestation",
-                            openHiddenContent:
-                              user.role === 'porteur-projet' ? true : undefined,
-                          }}
-                          status="nextup"
-                          hiddenContent={
-                            <GarantiesFinancieresForm
-                              projectId={project.id}
-                              date={request.query.date}
-                            />
-                          }
-                        />
+                        // Famille non-soumises à garanties financières
+                        ''
                       )}
                       <FriseItem
                         date={moment(project.notifiedOn)

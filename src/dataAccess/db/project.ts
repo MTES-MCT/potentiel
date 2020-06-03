@@ -259,6 +259,11 @@ export default function makeProjectRepo({
       project.appelOffreId,
       project.periodeId
     )
+
+    project.famille = project.appelOffre?.familles.find(
+      (famille) => famille.id === project.familleId
+    )
+
     return project
   }
 

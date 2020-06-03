@@ -19,6 +19,7 @@ import { User, ModificationRequest } from './'
 
 import { candidateNotificationSchema } from './candidateNotification'
 import { appelOffreSchema } from './appelOffre'
+import { familleSchema } from './famille'
 
 const territoireSchema = Union(
   Literal('Corse'),
@@ -68,6 +69,7 @@ const projectSchema = baseProjectSchema.And(
     actionnaire: String,
     territoireProjet: territoireSchema.Or(Undefined),
     appelOffre: appelOffreSchema,
+    famille: familleSchema,
   })
 )
 
