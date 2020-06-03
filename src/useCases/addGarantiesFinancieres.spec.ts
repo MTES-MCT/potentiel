@@ -227,10 +227,11 @@ describe('addGarantiesFinancieres use-case', () => {
       expect(emailSentToDreal1.subject).toEqual(
         'Potentiel - Nouveau dépôt de garantie financière dans votre région'
       )
-      expect(emailSentToDreal1.variables).toEqual({
-        nomProjet: projet.nomProjet,
-        invitation_link: routes.GARANTIES_FINANCIERES_LIST,
-      })
+
+      expect(emailSentToDreal1.variables.nomProjet).toEqual(projet.nomProjet)
+      expect(emailSentToDreal1.variables.invitation_link).toContain(
+        routes.GARANTIES_FINANCIERES_LIST
+      )
 
       expect(emailSentToDreal1.templateId).toEqual(1456759)
 
@@ -242,10 +243,10 @@ describe('addGarantiesFinancieres use-case', () => {
       expect(emailSentToDreal2.subject).toEqual(
         'Potentiel - Nouveau dépôt de garantie financière dans votre région'
       )
-      expect(emailSentToDreal2.variables).toEqual({
-        nomProjet: projet.nomProjet,
-        invitation_link: routes.GARANTIES_FINANCIERES_LIST,
-      })
+      expect(emailSentToDreal2.variables.nomProjet).toEqual(projet.nomProjet)
+      expect(emailSentToDreal2.variables.invitation_link).toContain(
+        routes.GARANTIES_FINANCIERES_LIST
+      )
       expect(emailSentToDreal2.templateId).toEqual(1456759)
     })
 
@@ -259,12 +260,12 @@ describe('addGarantiesFinancieres use-case', () => {
       expect(emailSentToDreal3.subject).toEqual(
         'Potentiel - Nouveau dépôt de garantie financière dans votre région'
       )
-      expect(emailSentToDreal3.variables).toEqual({
-        nomProjet: projet.nomProjet,
-        invitation_link: routes.DREAL_INVITATION({
+      expect(emailSentToDreal3.variables.nomProjet).toEqual(projet.nomProjet)
+      expect(emailSentToDreal3.variables.invitation_link).toContain(
+        routes.DREAL_INVITATION({
           projectAdmissionKey: '1233',
-        }),
-      })
+        })
+      )
       expect(emailSentToDreal3.templateId).toEqual(1456759)
     })
   })

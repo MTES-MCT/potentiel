@@ -71,14 +71,16 @@ export default function makeUserRepo({ sequelize }): UserRepo {
   // findDrealsForUser: (userId: User['id']) => Promise<Array<DREAL>>
   // addToDreal: (userId: User['id'], dreal: DREAL) => ResultAsync<void>
 
-  async function findUsersForDreal(dreal: DREAL): Promise<Array<User>> {
+  async function findUsersForDreal(dreal: string): Promise<Array<User>> {
     await _isDbReady
 
     try {
-      const drealUsersRaw = await UserDrealModel.findAll(
-        { dreal },
-        { include: UserModel }
-      )
+      if (!dreal) return []
+
+      const drealUsersRaw = await UserDrealModel.findAll({
+        where: { dreal },
+        include: UserModel,
+      })
 
       // console.log(
       //   'findUsersForDreal (db) found',
@@ -87,7 +89,7 @@ export default function makeUserRepo({ sequelize }): UserRepo {
       // )
 
       const deserializedItems = mapExceptError(
-        drealUsersRaw.map((item) => item.get()).map((item) => item.user),
+        drealUsersRaw.map((item) => item.get()).map((item) => item.user.get()),
         deserialize,
         'User.findUsersForDreal.deserialize error'
       )

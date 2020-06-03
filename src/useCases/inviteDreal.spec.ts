@@ -77,7 +77,7 @@ describe('inviteDreal use-case', () => {
       `${user.fullName} vous invite à suivre les projets de votre région sur Potentiel`
     )
     expect(sentEmail.variables).toHaveProperty('invitation_link')
-    expect(sentEmail.variables.invitation_link).toEqual(
+    expect(sentEmail.variables.invitation_link).toContain(
       routes.DREAL_INVITATION({
         projectAdmissionKey: projectAdmissionKey.id,
       })

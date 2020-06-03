@@ -174,10 +174,10 @@ describe('inviteUserToProject use-case', () => {
     expect(sentEmail.subject).toEqual(
       `${user.fullName} vous invite à suivre un projet sur Potentiel`
     )
-    expect(sentEmail.variables).toEqual({
-      nomProjet: projet.nomProjet,
-      invitation_link: routes.PROJECT_DETAILS(projet.id),
-    })
+    expect(sentEmail.variables.nomProjet).toEqual(projet.nomProjet)
+    expect(sentEmail.variables.invitation_link).toContain(
+      routes.PROJECT_DETAILS(projet.id)
+    )
     expect(sentEmail.templateId).toEqual(1402576)
   })
 
@@ -209,12 +209,12 @@ describe('inviteUserToProject use-case', () => {
     expect(sentEmail.subject).toEqual(
       `${user.fullName} vous invite à suivre un projet sur Potentiel`
     )
-    expect(sentEmail.variables).toEqual({
-      nomProjet: projet.nomProjet,
-      invitation_link: routes.PROJECT_INVITATION({
+    expect(sentEmail.variables.nomProjet).toEqual(projet.nomProjet)
+    expect(sentEmail.variables.invitation_link).toContain(
+      routes.PROJECT_INVITATION({
         projectAdmissionKey,
-      }),
-    })
+      })
+    )
     expect(sentEmail.templateId).toEqual(1402576)
   })
 

@@ -15,8 +15,8 @@ Fonctionnalité: Import d'un fichier de candidats
   @admin
   Scénario: Ré-import d'un projet existant avec changement
     Etant donné le projet suivant
-      | appelOffreId | periodeId | numeroCRE | familleId | nomProjet            | notifiedOn    | details                                                                                |
-      | CRE4 - Sol   | 7         | 1         | 1         | Ancien nom du projet | 1589466999101 | { "Ancien champ": "Valeur ancien champ", "Autre champ": "Ancienne valeur autre champ"} |
+      | appelOffreId | periodeId | numeroCRE | familleId | nomProjet            | notifiedOn    | details                                                                               |
+      | CRE4 - Sol   | 7         | 1         | 1         | Ancien nom du projet | 1589466999101 | {"Ancien champ": "Valeur ancien champ", "Autre champ": "Ancienne valeur autre champ"} |
     Etant donné que je me rends sur la page d'import de candidats
     Lorsque je selectionne le fichier "candidats.csv"
     Et que je valide le formulaire
@@ -30,8 +30,8 @@ Fonctionnalité: Import d'un fichier de candidats
   @admin
   Scénario: Ré-import d'un projet existant sans changement
     Etant donné le projet suivant
-      | appelOffreId | periodeId | numeroCRE | familleId | nomCandidat     | nomProjet     | puissance | prixReference | note | nomRepresentantLegal | email          | adresseProjet | codePostalProjet | communeProjet | departementProjet | regionProjet | motifsElimination | classe | fournisseur    | evaluationCarbone | notifiedOn |
-      | CRE4 - Sol   | 7         | 1         | 1         | Nom du candidat | Nom du projet | 250       | 11            | 19   | Représentant légal   | test@test.test | 3 sur la voie | 12345            | Commune       | Aveyron           | Occitanie    |                   | Classé | Fabricant film | 3                 | 12345      |
+      | appelOffreId | periodeId | numeroCRE | familleId | nomCandidat     | nomProjet     | puissance | prixReference | note | nomRepresentantLegal | email          | adresseProjet | codePostalProjet | communeProjet | departementProjet | regionProjet | motifsElimination | classe | fournisseur    | evaluationCarbone | notifiedOn | details                           |
+      | CRE4 - Sol   | 7         | 1         | 1         | Nom du candidat | Nom du projet | 250       | 11            | 19   | Représentant légal   | test@test.test | 3 sur la voie | 12345            | Commune       | Aveyron           | Occitanie    |                   | Classé | Fabricant film | 3                 | 12345      | { "Autre champ": "Autre valeur" } |
     Etant donné que je me rends sur la page d'import de candidats
     Lorsque je selectionne le fichier "candidats.csv"
     Et que je valide le formulaire

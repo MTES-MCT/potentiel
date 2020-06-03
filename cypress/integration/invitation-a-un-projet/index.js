@@ -53,11 +53,12 @@ Then(
   (email, projectName) => {
     cy.getSentEmails().then((sentEmails) => {
       cy.wrap(sentEmails).should('have.length', 1)
-      cy.wrap(sentEmails[0]).should('have.property', 'destinationEmail')
-      cy.wrap(sentEmails[0].destinationEmail).should('equal', email)
-      cy.wrap(sentEmails[0]).should('have.property', 'invitationLink')
+      cy.wrap(sentEmails[0].recipients[0].email).should('equal', email)
       cy.getProjectId(projectName).then((projectId) => {
-        cy.wrap(sentEmails[0].invitationLink).should('contain', projectId)
+        cy.wrap(sentEmails[0].variables.invitation_link).should(
+          'contain',
+          projectId
+        )
       })
     })
   }
@@ -74,18 +75,16 @@ Then(
   (email) => {
     cy.getSentEmails().then((sentEmails) => {
       cy.wrap(sentEmails).should('have.length', 1)
-      cy.wrap(sentEmails[0]).should('have.property', 'destinationEmail')
-      cy.wrap(sentEmails[0].destinationEmail).should('equal', email)
-      cy.wrap(sentEmails[0]).should('have.property', 'invitationLink')
-      cy.wrap(sentEmails[0].invitationLink).should(
+      cy.wrap(sentEmails[0].recipients[0].email).should('equal', email)
+      cy.wrap(sentEmails[0].variables.invitation_link).should(
         'contain',
         '/enregistrement.html'
       )
-      cy.wrap(sentEmails[0].invitationLink).should(
+      cy.wrap(sentEmails[0].variables.invitation_link).should(
         'contain',
         'projectAdmissionKey'
       )
-      cy.wrap(sentEmails[0].invitationLink).as('invitationLink')
+      cy.wrap(sentEmails[0].variables.invitation_link).as('invitationLink')
     })
   }
 )

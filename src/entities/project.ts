@@ -142,8 +142,10 @@ const buildApplyProjectUpdate = (makeId: () => string) => {
                   (innerKey) => project[key][innerKey] != update[key][innerKey]
                 )
 
-                before[key] = _.pick(project[key], changedKeys)
-                after[key] = _.pick(update[key], changedKeys)
+                if (changedKeys.length) {
+                  before[key] = _.pick(project[key], changedKeys)
+                  after[key] = _.pick(update[key], changedKeys)
+                }
               } else {
                 // For other types, do a shallow comparison
                 if (project[key] !== update[key]) {

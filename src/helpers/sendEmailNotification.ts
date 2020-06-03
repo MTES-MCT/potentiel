@@ -81,7 +81,7 @@ async function sendEmail(props: EmailProps): ResultAsync<null> {
       ],
     })
 
-    const sentMessage = result.Messages[0]
+    const sentMessage = result.body.Messages[0]
     if (sentMessage && sentMessage.Status === 'error') {
       return ErrorResult(
         sentMessage.Errors.map((e) => e.ErrorMessage).join('; ')

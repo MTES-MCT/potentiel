@@ -4,6 +4,7 @@ import { Ok } from '../../types'
 const callsToEmailStub: Array<EmailProps> = []
 const resetEmailStub = () => {
   process.env.SEND_EMAILS_FROM = 'admin@test.test'
+  process.env.BASE_URL = 'localhost'
   while (callsToEmailStub.length) callsToEmailStub.shift()
 }
 const sendEmail = async (args: EmailProps) => {

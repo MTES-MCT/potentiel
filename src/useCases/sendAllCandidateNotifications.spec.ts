@@ -1,5 +1,6 @@
 import makeSendAllCandidateNotifications from './sendAllCandidateNotifications'
 import makeSendCandidateNotification from './sendCandidateNotification'
+import makeSendNotification from './sendNotification'
 
 import {
   projectRepo,
@@ -10,16 +11,12 @@ import {
   appelsOffreStatic,
   appelOffreRepo,
   resetDatabase,
+  notificationRepo,
 } from '../dataAccess/inMemory'
 import makeFakeProject from '../__tests__/fixtures/project'
 import makeFakeCandidateNotification from '../__tests__/fixtures/candidateNotification'
 import makeFakeUser from '../__tests__/fixtures/user'
 import { PORTEUR_PROJET } from '../__tests__/fixtures/testCredentials'
-import {
-  resetEmailStub,
-  sendEmailNotification,
-  getCallsToEmailStub,
-} from '../__tests__/fixtures/emailNotificationService'
 
 import {
   makeUser,
@@ -30,13 +27,23 @@ import {
   makeCandidateNotification,
 } from '../entities'
 
+import {
+  sendEmail,
+  resetEmailStub,
+  getCallsToEmailStub,
+} from '../__tests__/fixtures/emailService'
+
+const sendNotification = makeSendNotification({
+  notificationRepo,
+  sendEmail,
+})
+
 const sendCandidateNotification = makeSendCandidateNotification({
   projectRepo,
   projectAdmissionKeyRepo,
   appelOffreRepo,
-  sendEmailNotification,
+  sendNotification,
 })
-
 const sendAllCandidateNotifications = makeSendAllCandidateNotifications({
   projectRepo,
   userRepo,

@@ -69,7 +69,15 @@ describe('retrievePassword use-case', () => {
     // Check if it's for the right account
     const { password_reset_link } = sentEmails[0].variables
     const passwordRetrievalId: string = password_reset_link.substring(
-      routes.RESET_PASSWORD_LINK({ resetCode: '' }).length
+      password_reset_link.indexOf('=') + 1
+    )
+    console.log(
+      'retrievePassword spec, passwordRetrievalId',
+      passwordRetrievalId
+    )
+    console.log(
+      'retrievePassword spec, password_reset_link',
+      password_reset_link
     )
     const passwordRetrievalResult = await passwordRetrievalRepo.findById(
       passwordRetrievalId

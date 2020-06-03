@@ -30,7 +30,7 @@ const GarantiesFinancieresForm = ({
         name="date"
         id="date"
         {...dataId('date-field')}
-        value={date || ''}
+        defaultValue={date || ''}
         data-max-date={Date.now()}
       />
       <div

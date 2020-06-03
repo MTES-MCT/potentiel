@@ -49,7 +49,7 @@ export default function SignupPage({
                 name="fullName"
                 id="fullName"
                 {...dataId('fullName-field')}
-                value={projectAdmissionKey.fullName}
+                defaultValue={projectAdmissionKey.fullName}
               />
               <label htmlFor="email">Courrier électronique</label>
               <input
@@ -57,7 +57,7 @@ export default function SignupPage({
                 name="email"
                 id="email"
                 {...dataId('email-field')}
-                value={projectAdmissionKey.email}
+                defaultValue={projectAdmissionKey.email}
                 disabled={!projectAdmissionKey.dreal}
               />
               {!projectAdmissionKey.projectId && !projectAdmissionKey.dreal ? (

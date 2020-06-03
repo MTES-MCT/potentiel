@@ -41,6 +41,9 @@ const addProjectsForTests = async (request: HttpRequest) => {
           project.garantiesFinancieresDate
         )
       }
+      if (project.details) {
+        project.details = JSON.parse(project.details)
+      }
 
       return project
     })

@@ -37,10 +37,10 @@ When(
       cy.getSentEmails().then((emails) => {
         cy.wrap(emails).should('have.length', 1)
         const myEmail = emails.find(
-          (email) => email.destinationEmail === userEmail
+          (email) => email.recipients[0].email === userEmail
         )
         cy.wrap(myEmail).should('not.be.undefined')
-        cy.visit(myEmail.resetLink)
+        cy.visit(myEmail.variables.password_reset_link)
       })
     })
   }

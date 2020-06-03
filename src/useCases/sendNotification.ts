@@ -58,6 +58,15 @@ export default function makeSendNotification({
       return
     }
 
+    if (!process.env.BASE_URL) {
+      console.log('Cannot send emails if BASE_URL environment var is not set')
+
+      notification.status = 'error'
+      notification.error = 'Missing BASE_URL environment variable'
+      await notificationRepo.save(notification)
+      return
+    }
+
     const {
       id,
       message: { subject, name, email },
@@ -71,7 +80,15 @@ export default function makeSendNotification({
       fromName: 'Cellule PV',
       subject,
       templateId: TEMPLATE_ID_BY_TYPE[type],
-      variables,
+      variables: Object.entries(variables).reduce(
+        // Prefix all relative urls (starting with /) with the base url
+        (newVariables, [key, value]) => ({
+          ...newVariables,
+          [key]:
+            value.indexOf('/') === 0 ? process.env.BASE_URL + value : value,
+        }),
+        {}
+      ),
       recipients: [{ email, name }],
     })
 
