@@ -84,6 +84,19 @@ export type PP_GF_Notification = {
   }
 }
 
+export type DREAL_GF_Notification = {
+  type: 'dreal-gf-notification'
+  context: {
+    projectId: string
+    userId?: string
+    dreal: string
+  }
+  variables: {
+    nomProjet: string
+    invitation_link: string
+  }
+}
+
 export type NotificationProps = BaseNotification &
   (
     | Designation
@@ -91,6 +104,7 @@ export type NotificationProps = BaseNotification &
     | DrealInvitation
     | PasswordReset
     | PP_GF_Notification
+    | DREAL_GF_Notification
   )
 
 type NotificationWithStatus = NotificationProps & {

@@ -12,7 +12,7 @@ export type UserRepo = {
   ) => ResultAsync<void>
   hasProject: (userId: User['id'], projectId: Project['id']) => Promise<boolean>
   remove: (userId: User['id']) => ResultAsync<void>
-  findUsersForDreal: (dreal: DREAL) => Promise<Array<User>>
+  findUsersForDreal: (dreal: string) => Promise<Array<User>>
   findDrealsForUser: (userId: User['id']) => Promise<Array<DREAL>>
   addToDreal: (userId: User['id'], dreal: DREAL) => ResultAsync<void>
 }

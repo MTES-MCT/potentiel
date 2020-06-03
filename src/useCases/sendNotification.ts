@@ -3,7 +3,6 @@ import ROUTES from '../routes'
 import { NotificationRepo } from '../dataAccess'
 import _ from 'lodash'
 import { ResultAsync } from '../types'
-import { Omit } from 'utility-types'
 
 export type EmailProps = {
   id: string
@@ -28,6 +27,7 @@ const TEMPLATE_ID_BY_TYPE: Record<Notification['type'], number> = {
   'dreal-invitation': 1436254,
   'password-reset': 1389166,
   'pp-gf-notification': 1463065,
+  'dreal-gf-notification': 1456759,
 }
 
 /**

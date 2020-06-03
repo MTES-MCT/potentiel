@@ -5,13 +5,16 @@ import {
   applyProjectUpdate,
   NotificationProps,
 } from '../entities'
-import { ProjectRepo } from '../dataAccess'
+import { ProjectRepo, UserRepo, ProjectAdmissionKeyRepo } from '../dataAccess'
 import _ from 'lodash'
 import moment from 'moment'
 import { ResultAsync, Ok, Err, ErrorResult } from '../types'
+import routes from '../routes'
 
 interface MakeUseCaseProps {
   projectRepo: ProjectRepo
+  userRepo: UserRepo
+  projectAdmissionKeyRepo: ProjectAdmissionKeyRepo
   shouldUserAccessProject: (args: {
     user: User
     projectId: Project['id']
@@ -34,6 +37,8 @@ export const SYSTEM_ERROR =
 
 export default function makeAddGarantiesFinancieres({
   projectRepo,
+  userRepo,
+  projectAdmissionKeyRepo,
   shouldUserAccessProject,
   sendNotification,
 }: MakeUseCaseProps) {
@@ -103,6 +108,73 @@ export default function makeAddGarantiesFinancieres({
         ),
       },
     })
+
+    // Notifiy DREAL users for this region
+    const regions = project.regionProjet.split(' / ')
+    await Promise.all(
+      regions.map(async (region) => {
+        // Notifiy existing dreal users
+        const drealUsers = await userRepo.findUsersForDreal(region)
+        await Promise.all(
+          drealUsers.map((drealUser) =>
+            sendNotification({
+              type: 'dreal-gf-notification',
+              message: {
+                email: drealUser.email,
+                name: drealUser.fullName,
+                subject:
+                  'Potentiel - Nouveau dépôt de garantie financière dans votre région',
+              },
+              context: {
+                projectId: project.id,
+                dreal: region,
+                userId: drealUser.id,
+              },
+              variables: {
+                nomProjet: project.nomProjet,
+                invitation_link: routes.GARANTIES_FINANCIERES_LIST,
+              },
+            })
+          )
+        )
+
+        // Notify invited dreal users
+        const invitedDrealUsers = await projectAdmissionKeyRepo.findAll({
+          dreal: region,
+        })
+        await Promise.all(
+          invitedDrealUsers
+            .filter(
+              (invitation) =>
+                // Filter out all the users that have already created an account
+                !drealUsers.find(
+                  (drealUser) => invitation.email === drealUser.email
+                )
+            )
+            .map((invitation) =>
+              sendNotification({
+                type: 'dreal-gf-notification',
+                message: {
+                  email: invitation.email,
+                  name: invitation.fullName,
+                  subject:
+                    'Potentiel - Nouveau dépôt de garantie financière dans votre région',
+                },
+                context: {
+                  projectId: project.id,
+                  dreal: region,
+                },
+                variables: {
+                  nomProjet: project.nomProjet,
+                  invitation_link: routes.DREAL_INVITATION({
+                    projectAdmissionKey: invitation.id,
+                  }),
+                },
+              })
+            )
+        )
+      })
+    )
 
     return Ok(null)
   }

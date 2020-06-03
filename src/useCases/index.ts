@@ -19,13 +19,6 @@ import makeInviteDreal from './inviteDreal'
 import makeListGarantiesFinancieres from './listGarantiesFinancieres'
 import makeSendNotification from './sendNotification'
 
-import {
-  sendEmailNotification,
-  sendPasswordResetEmail,
-  sendProjectInvitation,
-  sendDrealInvitation,
-} from '../helpers/sendEmailNotification'
-
 import { sendEmail } from '../helpers/sendEmailNotification'
 
 import {
@@ -115,7 +108,10 @@ const inviteUserToProject = makeInviteUserToProject({
 
 const addGarantiesFinancieres = makeAddGarantiesFinancieres({
   projectRepo,
+  userRepo,
+  projectAdmissionKeyRepo,
   shouldUserAccessProject,
+  sendNotification,
 })
 
 const inviteDreal = makeInviteDreal({
