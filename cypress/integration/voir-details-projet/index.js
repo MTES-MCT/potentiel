@@ -43,6 +43,14 @@ When(
   }
 )
 
+Then('je vois les notes du projet', () => {
+  cy.get(testid('project-note')).should('exist')
+})
+
+Then('je ne vois pas les notes du projet', () => {
+  cy.get(testid('project-note')).should('not.exist')
+})
+
 Then("le menu action n'est pas visible", () => {
   cy.get(testid('project-actions')).should('not.exist')
 })

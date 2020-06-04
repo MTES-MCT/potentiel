@@ -674,12 +674,16 @@ export default function ProjectDetails({
               CO2/kWc
             </div>
           </Section>
-          {project.appelOffre?.id === 'CRE4 - Innovation' ? (
+          {project.appelOffre?.id === 'CRE4 - Innovation' &&
+          user.role !== 'dreal' ? (
             <Section
               title="Résultats de l'appel d'offres"
               icon="clipboard-check"
             >
-              <div style={{ marginBottom: 10, fontSize: 18 }}>
+              <div
+                style={{ marginBottom: 10, fontSize: 18 }}
+                {...dataId('project-note')}
+              >
                 <b>Note totale</b>: {project.note || 'N/A'}
               </div>
               <ul>
