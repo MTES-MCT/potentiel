@@ -50,3 +50,15 @@ Then("le menu action n'est pas visible", () => {
 Then('le menu action est visible', () => {
   cy.get(testid('project-actions')).should('exist')
 })
+
+When("j'ouvre la section {string}", async function (intituleSection) {
+  cy.contains(intituleSection).click()
+})
+
+Then('le lien pour {string} est visible', (linkTitle) => {
+  cy.contains(linkTitle).should('exist')
+})
+
+Then("le lien pour {string} n'est pas visible", (linkTitle) => {
+  cy.contains(linkTitle).should('not.exist')
+})

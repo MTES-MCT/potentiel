@@ -426,7 +426,8 @@ export default function ProjectDetails({
                     title="Notification des résultats"
                     status="past"
                     action={
-                      project.appelOffre?.periode?.canGenerateCertificate
+                      project.appelOffre?.periode?.canGenerateCertificate &&
+                      user.role !== 'dreal'
                         ? {
                             title: "Télécharger l'attestation",
                             link:
@@ -470,13 +471,17 @@ export default function ProjectDetails({
                               .add(2, 'months')
                               .format('D MMM YYYY')}
                             title="Constitution des garanties financières"
-                            action={{
-                              title: "Transmettre l'attestation",
-                              openHiddenContent:
-                                user.role === 'porteur-projet'
-                                  ? true
-                                  : undefined,
-                            }}
+                            action={
+                              user.role === 'dreal'
+                                ? undefined
+                                : {
+                                    title: "Transmettre l'attestation",
+                                    openHiddenContent:
+                                      user.role === 'porteur-projet'
+                                        ? true
+                                        : undefined,
+                                  }
+                            }
                             status="nextup"
                             hiddenContent={
                               <GarantiesFinancieresForm
@@ -610,53 +615,57 @@ export default function ProjectDetails({
                 )}
               </ul>
             </div>
-            <div {...dataId('invitation-form')}>
-              <a
-                href="#"
-                {...dataId('invitation-form-show-button')}
-                className="invitationFormToggle"
-              >
-                Donner accès à un autre utilisateur
-              </a>
-              <form
-                action={ROUTES.INVITE_USER_TO_PROJECT_ACTION}
-                method="post"
-                name="form"
-                className="invitationForm"
-              >
-                <h5 style={{ marginBottom: 5 }}>
-                  Gestion des accès à ce projet
-                </h5>
-                <input
-                  type="hidden"
-                  name="projectId"
-                  id="projectId"
-                  value={project.id}
-                />
-                <label htmlFor="email">
-                  Courrier électronique de la personne habilitée à suivre ce
-                  projet
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  {...dataId('email-field')}
-                />
-                <button
-                  className="button"
-                  type="submit"
-                  name="submit"
-                  id="submit"
-                  {...dataId('submit-button')}
+            {user.role !== 'dreal' ? (
+              <div {...dataId('invitation-form')}>
+                <a
+                  href="#"
+                  {...dataId('invitation-form-show-button')}
+                  className="invitationFormToggle"
                 >
-                  Accorder les droits sur ce projet
-                </button>
-                <a href="#" {...dataId('invitation-form-hide-button')}>
-                  Annuler
+                  Donner accès à un autre utilisateur
                 </a>
-              </form>
-            </div>
+                <form
+                  action={ROUTES.INVITE_USER_TO_PROJECT_ACTION}
+                  method="post"
+                  name="form"
+                  className="invitationForm"
+                >
+                  <h5 style={{ marginBottom: 5 }}>
+                    Gestion des accès à ce projet
+                  </h5>
+                  <input
+                    type="hidden"
+                    name="projectId"
+                    id="projectId"
+                    value={project.id}
+                  />
+                  <label htmlFor="email">
+                    Courrier électronique de la personne habilitée à suivre ce
+                    projet
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    {...dataId('email-field')}
+                  />
+                  <button
+                    className="button"
+                    type="submit"
+                    name="submit"
+                    id="submit"
+                    {...dataId('submit-button')}
+                  >
+                    Accorder les droits sur ce projet
+                  </button>
+                  <a href="#" {...dataId('invitation-form-hide-button')}>
+                    Annuler
+                  </a>
+                </form>
+              </div>
+            ) : (
+              ''
+            )}
           </Section>
           <Section title="Matériels et technologies" icon="cog">
             <div>Fournisseur: {project.fournisseur}</div>
