@@ -181,6 +181,13 @@ async function findAllProjects(
         if (key === 'notifiedOn' && value === -1) {
           return item.notifiedOn > 0
         }
+        if (key === 'regionProjet') {
+          if (Array.isArray(value)) {
+            return value.some((region) => item[key].includes(region))
+          } else if (typeof value === 'string') {
+            return item[key].includes(value)
+          }
+        }
         return item[key] === value
       })
     )

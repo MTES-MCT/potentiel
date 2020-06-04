@@ -72,7 +72,7 @@ export default function AdminDashboard({
               route={ROUTES.ADMIN_LIST_PROJECTS}
               itemPage={'list-projects'}
               title="Lister les projets"
-              visibleForRoles={['admin']}
+              visibleForRoles={['admin', 'dreal']}
               role={role}
               currentPage={currentPage}
             />

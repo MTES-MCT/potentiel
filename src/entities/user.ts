@@ -3,7 +3,6 @@ import {
   String,
   Number,
   Record,
-  Array,
   Union,
   Literal,
   Boolean,
@@ -12,6 +11,7 @@ import {
   Undefined,
 } from '../types/schemaTypes'
 import buildMakeEntity from '../helpers/buildMakeEntity'
+import { DREAL } from './dreal'
 
 const userSchema = Record({
   id: String,
@@ -25,7 +25,7 @@ const userSchema = Record({
   ),
 })
 
-const fields: string[] = [...Object.keys(userSchema.fields)]
+const fields: string[] = ['dreals', ...Object.keys(userSchema.fields)]
 
 type User = Static<typeof userSchema>
 

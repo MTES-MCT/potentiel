@@ -42,7 +42,7 @@ const importProjects = makeImportProjects({
   appelOffreRepo,
 })
 
-const listProjects = makeListProjects({ projectRepo })
+const listProjects = makeListProjects({ projectRepo, userRepo })
 const listUnnotifiedProjects = makeListUnnotifiedProjects({ projectRepo })
 
 const sendNotification = makeSendNotification({

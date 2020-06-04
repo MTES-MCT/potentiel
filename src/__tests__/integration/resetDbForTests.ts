@@ -20,6 +20,14 @@ const resetDbForTests = async (request: HttpRequest) => {
     role: 'admin',
   })
 
+  // Create a test dreal
+  await createUser({
+    email: 'dreal@test.test',
+    fullName: 'dreal',
+    password: 'test',
+    role: 'dreal',
+  })
+
   // Create a test porteur projet
   await createUser({
     email: 'porteur-projet@test.test',

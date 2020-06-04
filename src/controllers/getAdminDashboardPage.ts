@@ -2,8 +2,9 @@ import { Project } from '../entities'
 import { HttpRequest, Pagination } from '../types'
 import { listProjects } from '../useCases'
 import { AdminListProjectsPage } from '../views/pages'
-import { Success } from '../helpers/responses'
+import { Success, Redirect } from '../helpers/responses'
 import { makePagination } from '../helpers/paginate'
+import ROUTES from '../routes'
 
 import { appelOffreRepo } from '../dataAccess'
 import famille from '../entities/famille'
@@ -17,6 +18,10 @@ const getAdminDashboardPage = async (request: HttpRequest) => {
   // console.log('getAdminDashboardPage request.query', request.query)
   let { appelOffreId, periodeId, familleId } = request.query
 
+  if (!request.user) {
+    return Redirect(ROUTES.LOGIN)
+  }
+
   const pagination = makePagination(request.query, defaultPagination)
 
   const appelsOffre = await appelOffreRepo.findAll()
@@ -28,6 +33,7 @@ const getAdminDashboardPage = async (request: HttpRequest) => {
   }
 
   const projects = await listProjects({
+    user: request.user,
     appelOffreId,
     periodeId,
     familleId,

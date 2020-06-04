@@ -97,6 +97,19 @@ Cypress.Commands.add('checkUserAccessToProject', (email, nomProjet) => {
     .then((res) => res.body)
 })
 
+Cypress.Commands.add('addUserToDreal', (email, region) => {
+  return cy
+    .request({
+      method: 'POST',
+      url: '/test/addUserToDreal',
+      body: {
+        email,
+        region,
+      },
+    })
+    .then((res) => res.body)
+})
+
 Cypress.Commands.add('getProjectId', (nomProjet) => {
   return cy
     .request({

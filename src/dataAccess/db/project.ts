@@ -338,6 +338,23 @@ export default function makeProjectRepo({
           // Special case which means != 0
           opts.where.garantiesFinancieresSubmittedOn = { [Op.ne]: 0 }
         }
+
+        // regionProjet is of shape 'region1 / region2'
+        // to check if regionProjet is 'region1', we need to use 'like' operator
+        if (typeof query.regionProjet === 'string') {
+          opts.where.regionProjet = {
+            [Op.substring]: query.regionProjet,
+          }
+        } else if (
+          Array.isArray(query.regionProjet) &&
+          query.regionProjet.length
+        ) {
+          opts.where.regionProjet = {
+            [Op.or]: query.regionProjet.map((region) => ({
+              [Op.substring]: region,
+            })),
+          }
+        }
       }
 
       if (pagination) {

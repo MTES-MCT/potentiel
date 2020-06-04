@@ -51,6 +51,7 @@ import {
   createUserWithEmailForTests,
   getProjectIdForTests,
   getProjectHistoryForTests,
+  addUserToDrealForTests,
 } from './__tests__/integration'
 
 import { initDatabase } from './dataAccess'
@@ -145,7 +146,7 @@ export async function makeServer(port: number = 3000) {
     router.get(
       ROUTES.ADMIN_DASHBOARD,
       ensureLoggedIn(),
-      ensureRole(['admin', 'dgec']),
+      ensureRole(['admin', 'dgec', 'dreal']),
       makeExpressCallback(getAdminDashboardPage)
     )
 
@@ -311,6 +312,11 @@ export async function makeServer(port: number = 3000) {
       router.get(
         '/test/getProject',
         makeExpressCallback(getProjectHistoryForTests)
+      )
+
+      router.post(
+        '/test/addUserToDreal',
+        makeExpressCallback(addUserToDrealForTests)
       )
     }
 

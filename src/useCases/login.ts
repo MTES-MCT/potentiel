@@ -18,11 +18,11 @@ export const ERREUR_GRAVE = 'Erreur système merci de bien vouloir réessayer'
 
 export default function makeLogin({
   credentialsRepo,
-  userRepo
+  userRepo,
 }: MakeLoginProps) {
   return async function login({
     email,
-    password
+    password,
   }: LoginProps): ResultAsync<User> {
     const credentials = await credentialsRepo.findByEmail(email)
 
@@ -36,7 +36,7 @@ export default function makeLogin({
     const providedCredentialsResult = makeCredentials({
       email,
       password,
-      userId: ''
+      userId: '',
     })
 
     if (providedCredentialsResult.is_err()) {
