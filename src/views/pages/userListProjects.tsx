@@ -47,6 +47,15 @@ export default function UserListProjects({
           ''
         )}
         <ProjectList
+          displayColumns={[
+            'Periode',
+            'Projet',
+            'Candidat',
+            'Puissance',
+            'Prix',
+            'Evaluation Carbone',
+            'Classé',
+          ]}
           projects={projects}
           projectActions={porteurProjetActions}
         />

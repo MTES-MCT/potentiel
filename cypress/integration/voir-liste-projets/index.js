@@ -37,3 +37,11 @@ Then('le projet {string} se trouve dans la liste', (nomProjet) => {
 Then('le projet {string} ne se trouve pas dans la liste', (nomProjet) => {
   cy.findContaining(testid('projectList-item'), nomProjet).should('not.exist')
 })
+
+Then("la colonne {string} n'est pas visible", (colonneName) => {
+  cy.findContaining('th', colonneName).should('not.exist')
+})
+
+Then('la colonne {string} est visible', (colonneName) => {
+  cy.findContaining('th', colonneName)
+})

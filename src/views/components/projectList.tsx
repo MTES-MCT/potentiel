@@ -9,8 +9,185 @@ import { PaginatedList } from '../../types'
 import ProjectActions from './projectActions'
 import Pagination from './pagination'
 
+type Columns =
+  | 'Periode'
+  | 'Projet'
+  | 'Candidat'
+  | 'Puissance'
+  | 'Prix'
+  | 'Evaluation Carbone'
+  | 'Classé'
+
+type ColumnRenderer = (project: Project) => React.ReactNode
+
+const ColumnComponent: Record<Columns, ColumnRenderer> = {
+  Periode: (project) => (
+    <td valign="top">
+      <div
+        style={{
+          fontStyle: 'italic',
+          lineHeight: 'normal',
+          fontSize: 12,
+        }}
+        {...dataId('projectList-item-periode')}
+      >
+        {project.appelOffreId} Période {project.periodeId}
+      </div>
+      <div
+        style={{
+          fontStyle: 'italic',
+          lineHeight: 'normal',
+          fontSize: 12,
+        }}
+        {...dataId('projectList-item-famille')}
+      >
+        {project.familleId?.length ? `famille ${project.familleId}` : ''}
+      </div>
+    </td>
+  ),
+  Projet: (project) => (
+    <td valign="top">
+      <div {...dataId('projectList-item-nomProjet')}>{project.nomProjet}</div>
+      <div
+        style={{
+          fontStyle: 'italic',
+          lineHeight: 'normal',
+          fontSize: 12,
+        }}
+      >
+        <span {...dataId('projectList-item-communeProjet')}>
+          {project.communeProjet}
+        </span>
+        ,{' '}
+        <span {...dataId('projectList-item-departementProjet')}>
+          {project.departementProjet}
+        </span>
+        ,{' '}
+        <span {...dataId('projectList-item-regionProjet')}>
+          {project.regionProjet}
+        </span>
+      </div>
+    </td>
+  ),
+  Candidat: (project) => (
+    <td valign="top">
+      <div {...dataId('projectList-item-nomCandidat')}>
+        {project.nomCandidat}
+      </div>
+      <div
+        style={{
+          fontStyle: 'italic',
+          lineHeight: 'normal',
+          fontSize: 12,
+        }}
+      >
+        <span {...dataId('projectList-item-nomRepresentantLegal')}>
+          {project.nomRepresentantLegal}
+        </span>{' '}
+        <span {...dataId('projectList-item-email')}>{project.email}</span>
+      </div>
+    </td>
+  ),
+  Puissance: (project) => (
+    <td valign="top">
+      <span {...dataId('projectList-item-puissance')}>{project.puissance}</span>{' '}
+      <span
+        style={{
+          fontStyle: 'italic',
+          lineHeight: 'normal',
+          fontSize: 12,
+        }}
+      >
+        {project.appelOffre?.unitePuissance}
+      </span>
+    </td>
+  ),
+  Prix: (project) => (
+    <td valign="top">
+      <span {...dataId('projectList-item-prixReference')}>
+        {project.prixReference}
+      </span>{' '}
+      <span
+        style={{
+          fontStyle: 'italic',
+          lineHeight: 'normal',
+          fontSize: 12,
+        }}
+      >
+        €/MWh
+      </span>
+    </td>
+  ),
+  'Evaluation Carbone': (project) => (
+    <td valign="top">
+      <span {...dataId('projectList-item-evaluationCarbone')}>
+        {project.evaluationCarbone}
+      </span>{' '}
+      <span
+        style={{
+          fontStyle: 'italic',
+          lineHeight: 'normal',
+          fontSize: 12,
+        }}
+      >
+        kg eq CO2/kWc
+      </span>
+    </td>
+  ),
+  Classé: (project) => (
+    <td
+      valign="top"
+      className={
+        'notification ' + (project.classe === 'Classé' ? 'success' : 'error')
+      }
+      style={{ position: 'relative' }}
+    >
+      <div {...dataId('projectList-item-classe')}>
+        {project.classe === 'Classé' || !project.motifsElimination ? (
+          project.classe
+        ) : (
+          <a
+            href="#"
+            {...dataId('projectList-item-toggleMotifsElimination')}
+            style={{
+              textDecoration: 'none',
+              color: 'var(--theme-dark-text)',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            Eliminé
+            <svg
+              className="icon icon-mail"
+              style={{
+                width: 10,
+                verticalAlign: 'bottom',
+                marginLeft: 5,
+              }}
+            >
+              <use xlinkHref="#expand"></use>
+            </svg>
+          </a>
+        )}
+      </div>
+      <div
+        style={{
+          fontStyle: 'italic',
+          lineHeight: 'normal',
+          fontSize: 12,
+          display: 'none',
+        }}
+        className="motif-popover"
+        {...dataId('projectList-item-motifsElimination')}
+      >
+        {project.motifsElimination || ''}
+      </div>
+    </td>
+  ),
+}
+
 interface Props {
   projects: PaginatedList<Project> | Array<Project>
+  displayColumns: Array<string>
   projectActions?: (
     project: Project
   ) => Array<{
@@ -23,7 +200,7 @@ interface Props {
   }> | null
 }
 
-const ProjectList = ({ projects, projectActions }: Props) => {
+const ProjectList = ({ projects, displayColumns, projectActions }: Props) => {
   let items: Array<Project>
   if (Array.isArray(projects)) {
     items = projects
@@ -48,13 +225,9 @@ const ProjectList = ({ projects, projectActions }: Props) => {
       <table className="table" {...dataId('projectList-list')}>
         <thead>
           <tr>
-            <th>Periode</th>
-            <th>Projet</th>
-            <th>Candidat</th>
-            <th>Puissance</th>
-            <th>Prix</th>
-            <th>Evaluation Carbone</th>
-            <th>Classé</th>
+            {displayColumns?.map((column) => (
+              <th key={column}>{column}</th>
+            ))}
             {projectActions ? <th></th> : ''}
           </tr>
         </thead>
@@ -67,170 +240,19 @@ const ProjectList = ({ projects, projectActions }: Props) => {
                 style={{ cursor: 'pointer' }}
                 data-projectid={project.id}
               >
-                <td valign="top">
-                  <div
-                    style={{
-                      fontStyle: 'italic',
-                      lineHeight: 'normal',
-                      fontSize: 12,
-                    }}
-                    {...dataId('projectList-item-periode')}
-                  >
-                    {project.appelOffreId} Période {project.periodeId}
-                  </div>
-                  <div
-                    style={{
-                      fontStyle: 'italic',
-                      lineHeight: 'normal',
-                      fontSize: 12,
-                    }}
-                    {...dataId('projectList-item-famille')}
-                  >
-                    {project.familleId?.length
-                      ? `famille ${project.familleId}`
-                      : ''}
-                  </div>
-                </td>
-                <td valign="top">
-                  <div {...dataId('projectList-item-nomProjet')}>
-                    {project.nomProjet}
-                  </div>
-                  <div
-                    style={{
-                      fontStyle: 'italic',
-                      lineHeight: 'normal',
-                      fontSize: 12,
-                    }}
-                  >
-                    <span {...dataId('projectList-item-communeProjet')}>
-                      {project.communeProjet}
-                    </span>
-                    ,{' '}
-                    <span {...dataId('projectList-item-departementProjet')}>
-                      {project.departementProjet}
-                    </span>
-                    ,{' '}
-                    <span {...dataId('projectList-item-regionProjet')}>
-                      {project.regionProjet}
-                    </span>
-                  </div>
-                </td>
-                <td valign="top">
-                  <div {...dataId('projectList-item-nomCandidat')}>
-                    {project.nomCandidat}
-                  </div>
-                  <div
-                    style={{
-                      fontStyle: 'italic',
-                      lineHeight: 'normal',
-                      fontSize: 12,
-                    }}
-                  >
-                    <span {...dataId('projectList-item-nomRepresentantLegal')}>
-                      {project.nomRepresentantLegal}
-                    </span>{' '}
-                    <span {...dataId('projectList-item-email')}>
-                      {project.email}
-                    </span>
-                  </div>
-                </td>
-                <td valign="top">
-                  <span {...dataId('projectList-item-puissance')}>
-                    {project.puissance}
-                  </span>{' '}
-                  <span
-                    style={{
-                      fontStyle: 'italic',
-                      lineHeight: 'normal',
-                      fontSize: 12,
-                    }}
-                  >
-                    {project.appelOffre?.unitePuissance}
-                  </span>
-                </td>
-                <td valign="top">
-                  <span {...dataId('projectList-item-prixReference')}>
-                    {project.prixReference}
-                  </span>{' '}
-                  <span
-                    style={{
-                      fontStyle: 'italic',
-                      lineHeight: 'normal',
-                      fontSize: 12,
-                    }}
-                  >
-                    €/MWh
-                  </span>
-                </td>
-                <td valign="top">
-                  <span {...dataId('projectList-item-evaluationCarbone')}>
-                    {project.evaluationCarbone}
-                  </span>{' '}
-                  <span
-                    style={{
-                      fontStyle: 'italic',
-                      lineHeight: 'normal',
-                      fontSize: 12,
-                    }}
-                  >
-                    kg eq CO2/kWc
-                  </span>
-                </td>
-                <td
-                  valign="top"
-                  className={
-                    'notification ' +
-                    (project.classe === 'Classé' ? 'success' : 'error')
-                  }
-                  style={{ position: 'relative' }}
-                >
-                  <div {...dataId('projectList-item-classe')}>
-                    {project.classe === 'Classé' ||
-                    !project.motifsElimination ? (
-                      project.classe
-                    ) : (
-                      <a
-                        href="#"
-                        {...dataId('projectList-item-toggleMotifsElimination')}
-                        style={{
-                          textDecoration: 'none',
-                          color: 'var(--theme-dark-text)',
-                          whiteSpace: 'nowrap',
-                        }}
-                      >
-                        Eliminé
-                        <svg
-                          className="icon icon-mail"
-                          style={{
-                            width: 10,
-                            verticalAlign: 'bottom',
-                            marginLeft: 5,
-                          }}
-                        >
-                          <use xlinkHref="#expand"></use>
-                        </svg>
-                      </a>
-                    )}
-                  </div>
-                  <div
-                    style={{
-                      fontStyle: 'italic',
-                      lineHeight: 'normal',
-                      fontSize: 12,
-                      display: 'none',
-                    }}
-                    className="motif-popover"
-                    {...dataId('projectList-item-motifsElimination')}
-                  >
-                    {project.motifsElimination || ''}
-                  </div>
-                </td>
-                <td {...dataId('item-actions-container')}>
-                  <ProjectActions
-                    projectActions={projectActions}
-                    project={project}
-                  />
-                </td>
+                {displayColumns?.map((column) =>
+                  ColumnComponent[column](project)
+                )}
+                {projectActions ? (
+                  <td {...dataId('item-actions-container')}>
+                    <ProjectActions
+                      projectActions={projectActions}
+                      project={project}
+                    />
+                  </td>
+                ) : (
+                  ''
+                )}
               </tr>
             )
           })}

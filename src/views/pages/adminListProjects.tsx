@@ -5,6 +5,7 @@ import React from 'react'
 import { Project, AppelOffre, Periode, Famille } from '../../entities'
 import ROUTES from '../../routes'
 import { dataId } from '../../helpers/testId'
+import { asLiteral } from '../../helpers/asLiteral'
 
 import ProjectList from '../components/projectList'
 import { adminActions } from '../components/actions'
@@ -104,7 +105,21 @@ export default function AdminListProjects({
           </strong>{' '}
           projets
         </div>
-        <ProjectList projects={projects} projectActions={adminActions} />
+        <ProjectList
+          displayColumns={[
+            'Periode',
+            'Projet',
+            'Candidat',
+            'Puissance',
+            ...(request.user?.role === 'admin' ? ['Prix'] : []),
+            'Evaluation Carbone',
+            'Classé',
+          ]}
+          projects={projects}
+          projectActions={
+            request.user?.role === 'admin' ? adminActions : undefined
+          }
+        />
       </div>
     </AdminDashboard>
   )
