@@ -34,6 +34,13 @@ const postGarantiesFinancieres = async (request: HttpRequest) => {
   const data = _.pick(request.body, ['date', 'projectId'])
   const { projectId } = data
 
+  if (!data.date) {
+    return Redirect(ROUTES.PROJECT_DETAILS(projectId), {
+      error:
+        "Vos garantieres financières n'ont pas pu être transmises. La date de constitution est obligatoire",
+    })
+  }
+
   // Convert date
   try {
     if (data.date) {
@@ -43,7 +50,8 @@ const postGarantiesFinancieres = async (request: HttpRequest) => {
     }
   } catch (error) {
     return Redirect(ROUTES.PROJECT_DETAILS(projectId), {
-      error: "la date envoyée n'est pas au bon format (JJ/MM/AAAA)",
+      error:
+        "Vos garantieres financières n'ont pas pu être transmises. La date envoyée n'est pas au bon format (JJ/MM/AAAA)",
     })
   }
 
@@ -63,7 +71,8 @@ const postGarantiesFinancieres = async (request: HttpRequest) => {
 
   if (!filename) {
     return Redirect(ROUTES.PROJECT_DETAILS(projectId), {
-      error: 'pièce-jointe manquante',
+      error:
+        "Vos garantieres financières n'ont pas pu être transmises. Merci de joindre l'attestation en pièce-jointe.",
     })
   }
 
