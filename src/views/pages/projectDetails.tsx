@@ -135,7 +135,6 @@ const Frise = ({ children, displayToggle }: FriseContainerProps) => (
 )
 
 interface FriseItemProps {
-  color?: string
   date?: string
   title: string
   action?: { title: string; link?: string; openHiddenContent?: true }
@@ -144,7 +143,6 @@ interface FriseItemProps {
   status?: 'nextup' | 'past' | 'future'
 }
 const FriseItem = ({
-  color,
   defaultHidden,
   date,
   title,
@@ -394,7 +392,9 @@ export default function ProjectDetails({
               projectActions={
                 user.role === 'porteur-projet'
                   ? porteurProjetActions
-                  : adminActions
+                  : user.role === 'admin'
+                  ? adminActions
+                  : undefined
               }
             />
           </div>
@@ -422,7 +422,6 @@ export default function ProjectDetails({
               {project.notifiedOn ? (
                 <>
                   <FriseItem
-                    color="var(--darkest-grey)"
                     date={moment(project.notifiedOn).format('D MMM YYYY')}
                     title="Notification des résultats"
                     status="past"

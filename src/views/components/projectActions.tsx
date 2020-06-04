@@ -29,7 +29,7 @@ const ProjectActions = ({ project, projectActions }: Props) => {
   }
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div style={{ position: 'relative' }} {...dataId('project-actions')}>
       {/* <img
         src="/images/icons/external/more.svg"
         height="12"
