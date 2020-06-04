@@ -6,7 +6,6 @@ import {
   UserRepo,
 } from '../dataAccess'
 import {
-  makeCandidateNotification,
   makeProjectAdmissionKey,
   AppelOffre,
   Periode,

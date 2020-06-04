@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Project, CandidateNotification, AppelOffre } from '../../entities'
+import { Project, AppelOffre } from '../../entities'
 import ROUTES from '../../routes'
 import { dataId } from '../../helpers/testId'
 
