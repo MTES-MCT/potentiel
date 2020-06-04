@@ -78,7 +78,10 @@ const requestModification = makeRequestModification({ modificationRequestRepo })
 const listUserRequests = makeListUserRequests({ modificationRequestRepo })
 const listAllRequests = makeListAllRequests({ modificationRequestRepo })
 
-const shouldUserAccessProject = makeShouldUserAccessProject({ userRepo })
+const shouldUserAccessProject = makeShouldUserAccessProject({
+  userRepo,
+  projectRepo,
+})
 const getUserProject = makeGetUserProject({
   projectRepo,
   shouldUserAccessProject,

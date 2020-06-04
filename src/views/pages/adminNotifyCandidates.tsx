@@ -124,6 +124,15 @@ export default function AdminNotifyCandidates({
         )}
         <ProjectList
           projects={projects}
+          displayColumns={[
+            'Periode',
+            'Projet',
+            'Candidat',
+            'Puissance',
+            'Prix',
+            'Evaluation Carbone',
+            'Classé',
+          ]}
           projectActions={(project: Project) => [
             ...(process.env.NODE_ENV === 'production'
               ? []

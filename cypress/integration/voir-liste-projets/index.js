@@ -45,3 +45,7 @@ Then("la colonne {string} n'est pas visible", (colonneName) => {
 Then('la colonne {string} est visible', (colonneName) => {
   cy.findContaining('th', colonneName)
 })
+
+Then('je suis redirigé vers la page qui liste les projets', () => {
+  cy.url().should('include', '/admin/dashboard.html')
+})

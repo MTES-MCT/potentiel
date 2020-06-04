@@ -29,6 +29,20 @@ When('je me rends sur la page du projet {string}', (projectName) => {
   })
 })
 
+When(
+  'je ne peux pas me rendre sur la page du projet {string}',
+  (projectName) => {
+    cy.getProjectId(projectName).then((projectId) => {
+      cy.request({
+        url: `/projet/${projectId}/details.html`,
+        failOnStatusCode: false,
+      }).then((response) => {
+        expect(response.status).to.equal(404)
+      })
+    })
+  }
+)
+
 Then("le menu action n'est pas visible", () => {
   cy.get(testid('project-actions')).should('not.exist')
 })
