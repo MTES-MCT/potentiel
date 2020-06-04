@@ -70,7 +70,32 @@ Then(
   }
 )
 
+Then(
+  'le projet {string} a toujours ses informations de garanties financieres',
+  (projectName) => {
+    cy.get('@initialProjects').then((initialProjects) => {
+      cy.getProject(projectName).then((project) => {
+        cy.log(project)
+        expect(project).to.not.be.undefined
+        expect(project.garantiesFinancieresDate.toString()).to.equal(
+          initialProjects[0].garantiesFinancieresDate
+        )
+        expect(project.garantiesFinancieresFile).to.equal(
+          initialProjects[0].garantiesFinancieresFile
+        )
+        expect(project.garantiesFinancieresSubmittedBy).to.equal(
+          initialProjects[0].garantiesFinancieresSubmittedBy
+        )
+        expect(project.garantiesFinancieresSubmittedOn.toString()).to.equal(
+          initialProjects[0].garantiesFinancieresSubmittedOn
+        )
+      })
+    })
+  }
+)
+
 Given('le projet suivant', async function (dataTable) {
+  cy.wrap(dataTable.hashes()).as('initialProjects')
   cy.insertProjectsForUser(dataTable.hashes())
 })
 

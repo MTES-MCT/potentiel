@@ -15,8 +15,8 @@ Fonctionnalité: Import d'un fichier de candidats
   @admin
   Scénario: Ré-import d'un projet existant avec changement
     Etant donné le projet suivant
-      | appelOffreId | periodeId | numeroCRE | familleId | nomProjet            | notifiedOn    | details                                                                               |
-      | CRE4 - Sol   | 7         | 1         | 1         | Ancien nom du projet | 1589466999101 | {"Ancien champ": "Valeur ancien champ", "Autre champ": "Ancienne valeur autre champ"} |
+      | appelOffreId | periodeId | numeroCRE | familleId | nomProjet            | notifiedOn    | garantiesFinancieresSubmittedOn | garantiesFinancieresSubmittedBy | garantiesFinancieresFile | garantiesFinancieresDate | details                                                                               |
+      | CRE4 - Sol   | 7         | 1         | 1         | Ancien nom du projet | 1589466999101 | 1234                            | userId                          | fichier.pdf              | 5678                     | {"Ancien champ": "Valeur ancien champ", "Autre champ": "Ancienne valeur autre champ"} |
     Etant donné que je me rends sur la page d'import de candidats
     Lorsque je selectionne le fichier "candidats.csv"
     Et que je valide le formulaire
@@ -26,6 +26,7 @@ Fonctionnalité: Import d'un fichier de candidats
     Et je trouve bien le projet "Nom du projet" dans la liste des projets
     Et le projet "Nom du projet" a bien une section details qui ne contient pas de champ "Ancien champ"
     Et le projet "Nom du projet" a bien une section details qui contient un champ "Autre champ" qui a la valeur "Autre valeur"
+    Et le projet "Nom du projet" a toujours ses informations de garanties financieres
 
   @admin
   Scénario: Ré-import d'un projet existant sans changement
