@@ -178,10 +178,11 @@ async function findAllProjects(
   let items = await Promise.all(
     allItems.filter((item) =>
       Object.entries(query).every(([key, value]) => {
-        if (key === 'notifiedOn' && value === -1) {
+        if (key === 'garantiesFinancieresSubmittedOn' && value === -1) {
+          return item.garantiesFinancieresSubmittedOn > 0
+        } else if (key === 'notifiedOn' && value === -1) {
           return item.notifiedOn > 0
-        }
-        if (key === 'regionProjet') {
+        } else if (key === 'regionProjet') {
           if (Array.isArray(value)) {
             return value.some((region) => item[key].includes(region))
           } else if (typeof value === 'string') {

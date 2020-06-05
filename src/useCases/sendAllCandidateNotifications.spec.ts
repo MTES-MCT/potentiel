@@ -163,7 +163,6 @@ describe('sendAllCandidateNotifications use-case', () => {
     expect(notifiedProjects).toHaveLength(projectsToNotify.length)
 
     notifiedProjects.forEach((notifiedProject) => {
-      console.log('checking notifiedProject')
       expect(notifiedProject.notifiedOn).toEqual(notificationDate)
       expect(notifiedProject.isFinancementParticipatif).toBeTruthy()
     })
@@ -196,7 +195,6 @@ describe('sendAllCandidateNotifications use-case', () => {
     const notifiedProject = notifiedProjectRes.unwrap()
     expect(notifiedProject.history).toHaveLength(1)
     if (!notifiedProject.history?.length) return
-    console.log(notifiedProject.history[0])
     expect(notifiedProject.history[0].before.notifiedOn).toEqual(0)
     expect(notifiedProject.history[0].after.notifiedOn).toEqual(
       notificationDate
