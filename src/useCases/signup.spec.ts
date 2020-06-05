@@ -87,7 +87,7 @@ describe('signup use-case', () => {
           .map(makeProjectAdmissionKey)
           .filter((item) => item.is_ok())
           .map((item) => item.unwrap())
-          .map(projectAdmissionKeyRepo.insert)
+          .map(projectAdmissionKeyRepo.save)
       )
     )
       .filter((item) => item.is_ok())
@@ -124,6 +124,23 @@ describe('signup use-case', () => {
     )
 
     if (!user) return
+
+    // Link the user account to the projectAdmissionKey that was used
+    expect(user.projectAdmissionKey).toEqual(projectAdmissionKey.id)
+
+    // Make sure the projectAdmissionKey.lastUsedAt is updated
+    const updatedProjectAdmissionKeyRes = await projectAdmissionKeyRepo.findById(
+      projectAdmissionKey.id
+    )
+    expect(updatedProjectAdmissionKeyRes.is_some()).toEqual(true)
+    const updatedProjectAdmissionKey = updatedProjectAdmissionKeyRes.unwrap()
+    if (!updatedProjectAdmissionKey) return
+    expect(updatedProjectAdmissionKey.lastUsedAt).toBeDefined()
+    if (!updatedProjectAdmissionKey.lastUsedAt) return
+    expect(updatedProjectAdmissionKey.lastUsedAt / 1000).toBeCloseTo(
+      Date.now() / 1000,
+      0
+    )
 
     // Check if the project has been attached
     const userProjects = await projectRepo.findByUser(user.id)
@@ -175,7 +192,7 @@ describe('signup use-case', () => {
           .map(makeProjectAdmissionKey)
           .filter((item) => item.is_ok())
           .map((item) => item.unwrap())
-          .map(projectAdmissionKeyRepo.insert)
+          .map(projectAdmissionKeyRepo.save)
       )
     )
       .filter((item) => item.is_ok())
@@ -214,6 +231,23 @@ describe('signup use-case', () => {
 
     if (!user) return
 
+    // Link the user account to the projectAdmissionKey that was used
+    expect(user.projectAdmissionKey).toEqual(projectAdmissionKey.id)
+
+    // Make sure the projectAdmissionKey.lastUsedAt is updated
+    const updatedProjectAdmissionKeyRes = await projectAdmissionKeyRepo.findById(
+      projectAdmissionKey.id
+    )
+    expect(updatedProjectAdmissionKeyRes.is_some()).toEqual(true)
+    const updatedProjectAdmissionKey = updatedProjectAdmissionKeyRes.unwrap()
+    if (!updatedProjectAdmissionKey) return
+    expect(updatedProjectAdmissionKey.lastUsedAt).toBeDefined()
+    if (!updatedProjectAdmissionKey.lastUsedAt) return
+    expect(updatedProjectAdmissionKey.lastUsedAt / 1000).toBeCloseTo(
+      Date.now() / 1000,
+      0
+    )
+
     // Check if the project has been attached
     const userProjects = await projectRepo.findByUser(user.id)
     expect(userProjects).toHaveLength(2)
@@ -236,7 +270,7 @@ describe('signup use-case', () => {
           .map(makeProjectAdmissionKey)
           .filter((item) => item.is_ok())
           .map((item) => item.unwrap())
-          .map(projectAdmissionKeyRepo.insert)
+          .map(projectAdmissionKeyRepo.save)
       )
     )
       .filter((item) => item.is_ok())
@@ -261,6 +295,23 @@ describe('signup use-case', () => {
     if (!createdUser) return
     expect(createdUser.role).toEqual('dreal')
     expect(createdUser.email).toEqual('another@email.com')
+
+    // Link the user account to the projectAdmissionKey that was used
+    expect(createdUser.projectAdmissionKey).toEqual(projectAdmissionKey.id)
+
+    // Make sure the projectAdmissionKey.lastUsedAt is updated
+    const updatedProjectAdmissionKeyRes = await projectAdmissionKeyRepo.findById(
+      projectAdmissionKey.id
+    )
+    expect(updatedProjectAdmissionKeyRes.is_some()).toEqual(true)
+    const updatedProjectAdmissionKey = updatedProjectAdmissionKeyRes.unwrap()
+    if (!updatedProjectAdmissionKey) return
+    expect(updatedProjectAdmissionKey.lastUsedAt).toBeDefined()
+    if (!updatedProjectAdmissionKey.lastUsedAt) return
+    expect(updatedProjectAdmissionKey.lastUsedAt / 1000).toBeCloseTo(
+      Date.now() / 1000,
+      0
+    )
 
     const userDreals = await userRepo.findDrealsForUser(createdUser.id)
     expect(userDreals).toHaveLength(1)
@@ -296,7 +347,7 @@ describe('signup use-case', () => {
           .map(makeProjectAdmissionKey)
           .filter((item) => item.is_ok())
           .map((item) => item.unwrap())
-          .map(projectAdmissionKeyRepo.insert)
+          .map(projectAdmissionKeyRepo.save)
       )
     )
       .filter((item) => item.is_ok())
@@ -343,7 +394,7 @@ describe('signup use-case', () => {
           .map(makeProjectAdmissionKey)
           .filter((item) => item.is_ok())
           .map((item) => item.unwrap())
-          .map(projectAdmissionKeyRepo.insert)
+          .map(projectAdmissionKeyRepo.save)
       )
     )
       .filter((item) => item.is_ok())

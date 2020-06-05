@@ -111,14 +111,14 @@ export default function makeSendCandidateNotification({
 
     const projectAdmissionKey = projectAdmissionKeyResult.unwrap()
 
-    const insertionResult = await projectAdmissionKeyRepo.insert(
+    const insertionResult = await projectAdmissionKeyRepo.save(
       projectAdmissionKey
     )
 
     if (insertionResult.is_err()) {
       // OOPS
       console.log(
-        'sendCandidateNotfication use-case: error when calling projectAdmissionKeyRepo.insert with',
+        'sendCandidateNotfication use-case: error when calling projectAdmissionKeyRepo.save with',
         {
           email,
         }

@@ -65,6 +65,11 @@ describe('inviteDreal use-case', () => {
 
     expect(projectAdmissionKey.email).toEqual(email)
     expect(projectAdmissionKey.dreal).toEqual('Corse')
+    expect(projectAdmissionKey.lastUsedAt).toEqual(0)
+    expect((projectAdmissionKey.createdAt || 0) / 1000).toBeCloseTo(
+      Date.now() / 1000,
+      0
+    )
 
     // Make sure an invitation has been sent
     expect(getCallsToEmailStub()).toHaveLength(1)

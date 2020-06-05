@@ -6,6 +6,7 @@ import {
   Union,
   Literal,
   Boolean,
+  Partial,
   Static,
   Unknown,
   Undefined,
@@ -13,7 +14,7 @@ import {
 import buildMakeEntity from '../helpers/buildMakeEntity'
 import { DREAL } from './dreal'
 
-const userSchema = Record({
+const baseUserSchema = Record({
   id: String,
   fullName: String,
   email: String.withConstraint(isEmail.validate),
@@ -25,7 +26,16 @@ const userSchema = Record({
   ),
 })
 
-const fields: string[] = ['dreals', ...Object.keys(userSchema.fields)]
+const userSchema = baseUserSchema.And(
+  Partial({
+    projectAdmissionKey: String,
+  })
+)
+
+const fields: string[] = [
+  'projectAdmissionKey',
+  ...Object.keys(baseUserSchema.fields),
+]
 
 type User = Static<typeof userSchema>
 

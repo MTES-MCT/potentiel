@@ -103,12 +103,12 @@ export default function makeInviteDreal({
       return ErrorResult(SYSTEM_ERROR)
     }
     const projectAdmissionKey = projectAdmissionKeyResult.unwrap()
-    const projectAdmissionKeyInsertion = await projectAdmissionKeyRepo.insert(
+    const projectAdmissionKeyInsertion = await projectAdmissionKeyRepo.save(
       projectAdmissionKey
     )
     if (projectAdmissionKeyInsertion.is_err()) {
       console.log(
-        'inviteDreal use-case failed on call to projectAdmissionKeyRepo.insert',
+        'inviteDreal use-case failed on call to projectAdmissionKeyRepo.save',
         projectAdmissionKeyResult.unwrap_err()
       )
       return ErrorResult(SYSTEM_ERROR)

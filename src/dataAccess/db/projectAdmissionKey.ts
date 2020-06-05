@@ -11,6 +11,7 @@ const deserialize = (item) => ({
   ...item,
   projectId: item.projectId || undefined,
   dreal: item.dreal || undefined,
+  lastUsedAt: item.lastUsedAt || undefined,
 })
 const serialize = (item) => item
 
@@ -38,6 +39,11 @@ export default function makeProjectAdmissionKeyRepo({
       type: DataTypes.STRING,
       allowNull: true,
     },
+    lastUsedAt: {
+      type: DataTypes.NUMBER,
+      allowNull: false,
+      defaultValue: 0,
+    },
   })
 
   const _isDbReady = isDbReady({ sequelize })
@@ -45,7 +51,7 @@ export default function makeProjectAdmissionKeyRepo({
   return Object.freeze({
     findById,
     findAll,
-    insert,
+    save,
   })
 
   async function findById(
@@ -114,13 +120,13 @@ export default function makeProjectAdmissionKeyRepo({
     }
   }
 
-  async function insert(
+  async function save(
     projectAdmissionKey: ProjectAdmissionKey
   ): ResultAsync<ProjectAdmissionKey> {
     await _isDbReady
 
     try {
-      await ProjectAdmissionKeyModel.create(serialize(projectAdmissionKey))
+      await ProjectAdmissionKeyModel.upsert(serialize(projectAdmissionKey))
       return Ok(projectAdmissionKey)
     } catch (error) {
       if (CONFIG.logDbErrors)

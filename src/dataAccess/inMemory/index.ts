@@ -146,7 +146,7 @@ const projectAdmissionKeyRepo: ProjectAdmissionKeyRepo = {
       Object.entries(query).every(([key, value]) => item[key] === value)
     )
   },
-  insert: async (item: ProjectAdmissionKey) => {
+  save: async (item: ProjectAdmissionKey) => {
     projectAdmissionKeysById[item.id] = item
 
     return Ok(item)

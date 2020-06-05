@@ -36,7 +36,10 @@ const sendNotification = makeSendNotification({
   sendEmail,
 })
 
-const shouldUserAccessProject = makeShouldUserAccessProject({ userRepo })
+const shouldUserAccessProject = makeShouldUserAccessProject({
+  userRepo,
+  projectRepo,
+})
 const addGarantiesFinancieres = makeAddGarantiesFinancieres({
   userRepo,
   projectRepo,
@@ -115,14 +118,14 @@ describe('addGarantiesFinancieres use-case', () => {
     await userRepo.addToDreal(dreal4.id, 'Corse')
 
     // Simulate invitation to other dreal user
-    await projectAdmissionKeyRepo.insert({
+    await projectAdmissionKeyRepo.save({
       id: '1233',
       email: 'dreal3@test.test',
       fullName: 'dreal3',
       dreal: 'Bretagne',
     } as ProjectAdmissionKey)
     // This second invitation should be ignored because the user already has an account
-    await projectAdmissionKeyRepo.insert({
+    await projectAdmissionKeyRepo.save({
       id: '1234',
       email: 'dreal1@test.test',
       fullName: 'dreal1',

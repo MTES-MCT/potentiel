@@ -92,6 +92,7 @@ export default function makeSignup({
       fullName,
       email: emailToBeUsed,
       role: projectAdmissionKeyInstance.dreal ? 'dreal' : 'porteur-projet',
+      projectAdmissionKey: projectAdmissionKeyInstance.id,
     })
     if (userResult.is_err()) {
       console.log(
@@ -146,6 +147,18 @@ export default function makeSignup({
       await userRepo.remove(user.id)
 
       return ErrorResult(SYSTEM_ERROR)
+    }
+
+    // Register the usage of the projectAdmissionKey
+    projectAdmissionKeyInstance.lastUsedAt = Date.now()
+    const projectAdmissionKeyUpdateRes = await projectAdmissionKeyRepo.save(
+      projectAdmissionKeyInstance
+    )
+
+    if (projectAdmissionKeyUpdateRes.is_err()) {
+      console.log(
+        'signup use-case: impossible de mettre à jour projectAdmissionKey'
+      )
     }
 
     if (projectAdmissionKeyInstance.dreal) {

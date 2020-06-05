@@ -36,7 +36,7 @@ const createInvitationForTests = async (request: HttpRequest) => {
 
   const projectAdmissionKey = projectAdmissionKeyResult.unwrap()
 
-  const insertionResult = await projectAdmissionKeyRepo.insert(
+  const insertionResult = await projectAdmissionKeyRepo.save(
     projectAdmissionKey
   )
 

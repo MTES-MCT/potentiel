@@ -24,12 +24,16 @@ const projectAdmissionKeySchema = baseProjectAdmissionKeySchema.And(
   Partial({
     projectId: String,
     dreal: String,
+    createdAt: Number,
+    lastUsedAt: Number,
   })
 )
 
 const fields: string[] = [
   'projectId',
   'dreal',
+  'createdAt',
+  'lastUsedAt',
   ...Object.keys(baseProjectAdmissionKeySchema.fields),
 ]
 
@@ -43,7 +47,11 @@ export default ({ makeId }: MakeProjectAdmissionKeyDependencies) =>
   buildMakeEntity<ProjectAdmissionKey>(
     projectAdmissionKeySchema,
     makeId,
-    fields
+    fields,
+    {
+      lastUsedAt: 0,
+      createdAt: () => Date.now(),
+    }
   )
 
 export { ProjectAdmissionKey }

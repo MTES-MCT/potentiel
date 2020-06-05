@@ -126,12 +126,12 @@ export default function makeInviteUserToProject({
       return ErrorResult(SYSTEM_ERROR)
     }
     const projectAdmissionKey = projectAdmissionKeyResult.unwrap()
-    const projectAdmissionKeyInsertion = await projectAdmissionKeyRepo.insert(
+    const projectAdmissionKeyInsertion = await projectAdmissionKeyRepo.save(
       projectAdmissionKey
     )
     if (projectAdmissionKeyInsertion.is_err()) {
       console.log(
-        'inviteUserToProject use-case failed on call to projectAdmissionKeyRepo.insert',
+        'inviteUserToProject use-case failed on call to projectAdmissionKeyRepo.save',
         projectAdmissionKeyResult.unwrap_err()
       )
       return ErrorResult(SYSTEM_ERROR)
