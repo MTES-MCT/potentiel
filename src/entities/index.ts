@@ -1,4 +1,4 @@
-import { v1 as uuidv1 } from 'uuid'
+import { v4 as uuidv4 } from 'uuid'
 import hashFn from '../helpers/hashPassword'
 
 import buildMakeCredentials from './credentials'
@@ -9,7 +9,7 @@ import buildMakeModificationRequest from './modificationRequest'
 import buildMakePasswordRetrieval from './passwordRetrieval'
 import buildMakeNotification from './notification'
 
-const makeId = uuidv1
+const makeId = uuidv4
 
 const makeCredentials = buildMakeCredentials({ hashFn, makeId })
 const makeUser = buildMakeUser({ makeId })
