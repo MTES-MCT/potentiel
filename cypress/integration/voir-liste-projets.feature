@@ -15,6 +15,8 @@ Fonctionnalité: Listing de projets
     Et le projet "projet autre" ne se trouve pas dans la liste
     Et le projet "projet porteur non notifié" ne se trouve pas dans la liste
     Et la colonne "Prix" est visible
+    Lorsque je click sur la ligne "projet porteur 1"
+    Alors je suis redirigé vers la page du projet "projet porteur 1"
 
   @dreal
   Scénario: Je vois les projets rattachés à ma région
@@ -29,15 +31,19 @@ Fonctionnalité: Listing de projets
     Et le projet "projet hors region" ne se trouve pas dans la liste
     Et le projet "projet region non notifié" ne se trouve pas dans la liste
     Et la colonne "Prix" n'est pas visible
+    Lorsque je click sur la ligne "projet region"
+    Alors je suis redirigé vers la page du projet "projet region"
 
 
   @admin
   Scénario: Je vois tous les projets notifiés
     Etant donné que les projets suivants
       | nomProjet          | notifiedOn |
-      | projet             | 1234       |
+      | projet notifié     | 1234       |
       | projet non notifié | 0          |
     Lorsque je me rends sur la page admin qui liste les projets
-    Alors le projet "projet" se trouve dans la liste
+    Alors le projet "projet notifié" se trouve dans la liste
     Et le projet "projet non notifié" ne se trouve pas dans la liste
     Et la colonne "Prix" est visible
+    Lorsque je click sur la ligne "projet notifié"
+    Alors je suis redirigé vers la page du projet "projet notifié"

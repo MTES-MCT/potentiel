@@ -40,7 +40,12 @@ export default function DREALList({ request, projects }: DREALListProps) {
           <tbody>
             {projects.map((project) => {
               return (
-                <tr key={'project_' + project.id} {...dataId('gfList-item')}>
+                <tr
+                  key={'project_' + project.id}
+                  {...dataId('gfList-item')}
+                  data-goto-projectid={project.id}
+                  style={{ cursor: 'pointer' }}
+                >
                   <td valign="top">
                     <div
                       style={{

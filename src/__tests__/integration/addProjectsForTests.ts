@@ -48,10 +48,6 @@ const addProjectsForTests = async (request: HttpRequest) => {
       return project
     })
     .map(makeFakeProject)
-    // .map((item) => {
-    //   console.log(item)
-    //   return item
-    // })
     .map(makeProject)
     .filter((item) => item.is_ok())
     .map((item) => item.unwrap())

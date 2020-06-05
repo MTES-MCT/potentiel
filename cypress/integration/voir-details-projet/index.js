@@ -24,7 +24,6 @@ Given('je suis dreal de la region {string}', function (region) {
 
 When('je me rends sur la page du projet {string}', (projectName) => {
   cy.getProjectId(projectName).then((projectId) => {
-    cy.log(projectId)
     cy.visit(`/projet/${projectId}/details.html`)
   })
 })

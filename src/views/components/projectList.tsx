@@ -238,7 +238,7 @@ const ProjectList = ({ projects, displayColumns, projectActions }: Props) => {
                 key={'project_' + project.id}
                 {...dataId('projectList-item')}
                 style={{ cursor: 'pointer' }}
-                data-projectid={project.id}
+                data-goto-projectid={project.id}
               >
                 {displayColumns?.map((column) =>
                   ColumnComponent[column](project)

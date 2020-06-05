@@ -206,18 +206,17 @@ function addProjectDetailsSectionHandlers() {
 //
 
 function addGoToProjectPageHandlers() {
-  const projectButtons = document.querySelectorAll(
-    '[data-testid=projectList-item]'
-  )
+  const projectButtons = document.querySelectorAll('[data-goto-projectid]')
   projectButtons.forEach((item) =>
     item.addEventListener('click', function (event) {
-      // console.log('projectList-item click', item)
-      event.preventDefault()
+      if (event.target.nodeName !== 'A') {
+        event.preventDefault()
 
-      const projectId = item.getAttribute('data-projectid')
+        const projectId = item.getAttribute('data-goto-projectid')
 
-      if (projectId) {
-        location.href = '/projet/' + projectId + '/details.html'
+        if (projectId) {
+          location.href = '/projet/' + projectId + '/details.html'
+        }
       }
     })
   )

@@ -30,8 +30,6 @@ export default function makeListGarantiesFinancieres({
       query.regionProjet = await userRepo.findDrealsForUser(user.id)
     }
 
-    console.log('listGarantiesFinancieres useCase query', query)
-
     return projectRepo.findAll(query)
   }
 }
