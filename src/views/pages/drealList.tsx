@@ -129,6 +129,7 @@ export default function DREALList({
                 <tr>
                   <th>Utilisateur</th>
                   <th>DREAL</th>
+                  <th>Date</th>
                 </tr>
               </thead>
               <tbody>
@@ -140,6 +141,11 @@ export default function DREALList({
                     >
                       <td valign="top">{invitation.email}</td>
                       <td valign="top">{invitation.dreal}</td>
+                      <td valign="top">
+                        {moment(invitation.createdAt).format(
+                          'DD/MM/YYYY à HH:mm'
+                        )}
+                      </td>
                     </tr>
                   )
                 })}

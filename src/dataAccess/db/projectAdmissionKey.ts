@@ -12,6 +12,7 @@ const deserialize = (item) => ({
   projectId: item.projectId || undefined,
   dreal: item.dreal || undefined,
   lastUsedAt: item.lastUsedAt || undefined,
+  createdAt: item.createdAt.getTime(),
 })
 const serialize = (item) => item
 
@@ -61,14 +62,13 @@ export default function makeProjectAdmissionKeyRepo({
 
     try {
       const projectAdmissionKeyInDb = await ProjectAdmissionKeyModel.findByPk(
-        id,
-        { raw: true }
+        id
       )
 
       if (!projectAdmissionKeyInDb) return None
 
       const projectAdmissionKeyInstance = makeProjectAdmissionKey(
-        deserialize(projectAdmissionKeyInDb)
+        deserialize(projectAdmissionKeyInDb.get())
       )
 
       if (projectAdmissionKeyInstance.is_err())
