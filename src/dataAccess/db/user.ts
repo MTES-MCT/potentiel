@@ -16,7 +16,10 @@ import isDbReady from './helpers/isDbReady'
 import { retrievePassword } from '../../useCases'
 
 // Override these to apply serialization/deserialization on inputs/outputs
-const deserialize = (item) => item
+const deserialize = (item) => ({
+  ...item,
+  projectAdmissionKey: item.projectAdmissionKey || undefined,
+})
 const serialize = (item) => item
 
 export default function makeUserRepo({ sequelize }): UserRepo {
@@ -36,6 +39,10 @@ export default function makeUserRepo({ sequelize }): UserRepo {
     role: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    projectAdmissionKey: {
+      type: DataTypes.UUID,
+      allowNull: true,
     },
   })
 
