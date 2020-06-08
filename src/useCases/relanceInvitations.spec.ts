@@ -28,17 +28,26 @@ const relanceInvitations = makeRelanceInvitations({
 })
 
 describe('relanceInvitations use-case', () => {
-  let projectAdmissionKeyForUser1: ProjectAdmissionKey
+  const userEmail: string = 'pp-unused1@test.com'
+
   beforeAll(async () => {
     resetDatabase()
     resetEmailStub()
 
-    const [projectAdmissionKey] = (
+    const projectAdmissionKeys = (
       await Promise.all(
         [
           {
-            email: 'pp-unused1@test.com',
+            email: userEmail,
             fullName: 'pp-unused1',
+            createdAt: 1,
+            lastUsedAt: 0,
+          },
+          // Another invitation for the same user
+          {
+            email: userEmail,
+            fullName: 'pp-unused1',
+            createdAt: 1,
             lastUsedAt: 0,
           },
           {
@@ -73,50 +82,42 @@ describe('relanceInvitations use-case', () => {
       .filter((item) => item.is_ok())
       .map((item) => item.unwrap())
 
-    expect(projectAdmissionKey).toBeDefined()
-    if (!projectAdmissionKey) return
-
-    // expect(projectAdmissionKeys).toHaveLength(5)
-
-    // if (!projectAdmissionKeys.length) return
-
-    projectAdmissionKeyForUser1 = projectAdmissionKey
+    expect(projectAdmissionKeys).toHaveLength(6)
 
     const res = await relanceInvitations({})
     expect(res.is_ok()).toEqual(true)
     expect(res.unwrap()).toEqual(2)
   })
 
-  it('should create a new projectAdmissionKey and set lastUsedAt of the previous projectAdmissionKey to the createdAt of the new one', async () => {
+  it('should create a new projectAdmissionKey and set lastUsedAt of all the previous projectAdmissionKeys for the same email to the createdAt of the new one', async () => {
     // Verifiy new key creation
     const newProjectAdmissionKeys = await projectAdmissionKeyRepo.findAll({
-      email: projectAdmissionKeyForUser1.email,
+      email: userEmail,
       lastUsedAt: 0,
     })
 
     expect(newProjectAdmissionKeys).toHaveLength(1)
     const [newProjectAdmissionKey] = newProjectAdmissionKeys
     if (!newProjectAdmissionKey) return
-    expect(newProjectAdmissionKey.id).not.toEqual(
-      projectAdmissionKeyForUser1.id
-    )
-
+    // Make sure its new and not one of the old ones
     expect((newProjectAdmissionKey.createdAt || 0) / 1000).toBeCloseTo(
       Date.now() / 1000,
       0
     )
 
-    const updatedOldProjectAdmissionKeyRes = await projectAdmissionKeyRepo.findById(
-      projectAdmissionKeyForUser1.id
+    const updatedOldProjectAdmissionKeys = await projectAdmissionKeyRepo.findAll(
+      {
+        email: userEmail,
+        createdAt: 1,
+      }
     )
 
-    expect(updatedOldProjectAdmissionKeyRes.is_some()).toEqual(true)
-    const updatedOldProjectAdmissionKey = updatedOldProjectAdmissionKeyRes.unwrap()
-    if (!updatedOldProjectAdmissionKey) return
+    expect(updatedOldProjectAdmissionKeys).toHaveLength(2)
+    if (updatedOldProjectAdmissionKeys.length !== 2) return
 
-    expect(updatedOldProjectAdmissionKey.lastUsedAt).toEqual(
-      newProjectAdmissionKey.createdAt
-    )
+    const [old1, old2] = updatedOldProjectAdmissionKeys
+    expect(old1.lastUsedAt).toEqual(newProjectAdmissionKey.createdAt)
+    expect(old2.lastUsedAt).toEqual(newProjectAdmissionKey.createdAt)
   })
 
   it('should send an email notification to porteurs projets that have not used their invitation', async () => {
@@ -125,9 +126,7 @@ describe('relanceInvitations use-case', () => {
     expect(sentEmails).toHaveLength(2)
 
     const sentEmailForUser1 = sentEmails.find((email) =>
-      email.recipients.some(
-        (recipient) => recipient.email === 'pp-unused1@test.com'
-      )
+      email.recipients.some((recipient) => recipient.email === userEmail)
     )
     expect(sentEmailForUser1).toBeDefined()
     if (!sentEmailForUser1) return
@@ -137,7 +136,7 @@ describe('relanceInvitations use-case', () => {
 
     // The email should contain the new invitation key
     const newProjectAdmissionKeys = await projectAdmissionKeyRepo.findAll({
-      email: projectAdmissionKeyForUser1.email,
+      email: userEmail,
       lastUsedAt: 0,
     })
     expect(newProjectAdmissionKeys).toHaveLength(1)
