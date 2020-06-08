@@ -71,14 +71,7 @@ describe('retrievePassword use-case', () => {
     const passwordRetrievalId: string = password_reset_link.substring(
       password_reset_link.indexOf('=') + 1
     )
-    console.log(
-      'retrievePassword spec, passwordRetrievalId',
-      passwordRetrievalId
-    )
-    console.log(
-      'retrievePassword spec, password_reset_link',
-      password_reset_link
-    )
+
     const passwordRetrievalResult = await passwordRetrievalRepo.findById(
       passwordRetrievalId
     )

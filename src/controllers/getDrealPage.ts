@@ -21,13 +21,11 @@ const getDrealPage = async (request: HttpRequest) => {
     })
   )
 
-  const drealUserEmails = drealUsers.map((item) => item.email)
-
   // Get all invitations for dreals
-  const drealInvitations = await projectAdmissionKeyRepo.findAll({ dreal: -1 })
-  const invitations = drealInvitations.filter(
-    (item) => !drealUserEmails.includes(item.email)
-  )
+  const invitations = await projectAdmissionKeyRepo.findAll({
+    dreal: -1,
+    lastUsedAt: 0,
+  })
 
   return Success(DrealListPage({ request, users, invitations }))
 }

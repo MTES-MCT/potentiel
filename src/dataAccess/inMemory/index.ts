@@ -147,7 +147,21 @@ async function findAllProjectAdmissionKeys(
   }
 
   let items = allItems.filter((item) =>
-    Object.entries(query).every(([key, value]) => item[key] === value)
+    Object.entries(query).every(([key, value]) => {
+      if (key === 'dreal' && value === -1) {
+        return !!item.dreal
+      }
+
+      if (key === 'dreal' && value === null) {
+        return !item.dreal
+      }
+
+      if (key === 'projectId' && value === null) {
+        return !item.projectId
+      }
+
+      return item[key] === value
+    })
   )
 
   if (pagination) {

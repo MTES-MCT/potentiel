@@ -103,3 +103,7 @@ When("je me connecte en tant qu'admin", () => {
 Then('{string} apparait dans la liste des dreal inscrites', (email) => {
   cy.findContaining(testid('drealList-item'), email)
 })
+
+Then("{string} n'apparait pas dans la liste des dreal inscrites", (email) => {
+  cy.findContaining(testid('drealList-item'), email).should('not.exist')
+})

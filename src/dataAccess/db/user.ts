@@ -19,6 +19,7 @@ import { retrievePassword } from '../../useCases'
 const deserialize = (item) => ({
   ...item,
   projectAdmissionKey: item.projectAdmissionKey || undefined,
+  fullName: item.fullName || '',
 })
 const serialize = (item) => item
 
@@ -169,12 +170,11 @@ export default function makeUserRepo({ sequelize }): UserRepo {
           ? {
               where: query,
             }
-          : {},
-        { raw: true }
+          : {}
       )
 
       const deserializedItems = mapExceptError(
-        usersRaw,
+        usersRaw.map((user) => user.get()),
         deserialize,
         'User.findAll.deserialize error'
       )

@@ -18,6 +18,7 @@ import makeAddGarantiesFinancieres from './addGarantiesFinancieres'
 import makeInviteDreal from './inviteDreal'
 import makeListGarantiesFinancieres from './listGarantiesFinancieres'
 import makeSendNotification from './sendNotification'
+import makeRelanceInvitations from './relanceInvitations'
 
 import { sendEmail } from '../helpers/sendEmailNotification'
 
@@ -127,6 +128,11 @@ const listGarantiesFinancieres = makeListGarantiesFinancieres({
   projectRepo,
 })
 
+const relanceInvitations = makeRelanceInvitations({
+  projectAdmissionKeyRepo,
+  sendNotification,
+})
+
 const useCases = Object.freeze({
   login,
   importProjects,
@@ -148,6 +154,7 @@ const useCases = Object.freeze({
   addGarantiesFinancieres,
   inviteDreal,
   listGarantiesFinancieres,
+  relanceInvitations,
 })
 
 export default useCases
@@ -172,4 +179,5 @@ export {
   addGarantiesFinancieres,
   inviteDreal,
   listGarantiesFinancieres,
+  relanceInvitations,
 }

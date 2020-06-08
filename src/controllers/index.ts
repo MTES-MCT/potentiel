@@ -21,6 +21,7 @@ export * from './postGarantiesFinancieres';
 export * from './postInviteDreal';
 export * from './postInviteUserToProject';
 export * from './postProjects';
+export * from './postRelanceInvitations';
 export * from './postRequestModification';
 export * from './postResetPassword';
 export * from './postRetrievePassword';

@@ -103,6 +103,7 @@ class routes {
   }>('/enregistrement.html')
   static ADMIN_DREAL_LIST = '/admin/dreals.html'
   static ADMIN_INVITATION_LIST = '/admin/invitations.html'
+  static ADMIN_INVITATION_RELANCE_ACTION = '/admin/relanceInvitations'
   static GARANTIES_FINANCIERES_LIST = '/admin/garanties-financieres.html'
 
   static USER_DASHBOARD = '/mes-projets.html'

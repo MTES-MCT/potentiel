@@ -29,3 +29,4 @@ Fonctionnalité: Je peux donner inviter un administrateur DREAL
     Et que je me connecte en tant qu'admin
     Et que je me rends sur la page de gestion des DREAL
     Alors "admin-autre@dreal.test" apparait dans la liste des dreal inscrites
+    Et "admin@dreal.test" n'apparait pas dans la liste des dreal inscrites

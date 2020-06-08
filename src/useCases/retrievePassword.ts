@@ -36,11 +36,11 @@ export default function makeRetrievePassword({
     const credentialsRes = await credentialsRepo.findByEmail(email)
 
     if (credentialsRes.is_none()) {
-      console.log(
-        'Forgotten password request for ' +
-          email +
-          ' but no account under this email.'
-      )
+      // console.log(
+      //   'Forgotten password request for ' +
+      //     email +
+      //     ' but no account under this email.'
+      // )
       return Ok(null)
     }
 

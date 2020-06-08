@@ -41,6 +41,7 @@ import {
   postInviteDreal,
   getGarantiesFinancieresPage,
   getInvitationListPage,
+  postRelanceInvitations,
 } from './controllers'
 
 import {
@@ -288,6 +289,13 @@ export async function makeServer(port: number = 3000) {
       ensureLoggedIn(),
       ensureRole(['admin']),
       makeExpressCallback(getInvitationListPage)
+    )
+
+    router.post(
+      ROUTES.ADMIN_INVITATION_RELANCE_ACTION,
+      ensureLoggedIn(),
+      ensureRole(['admin']),
+      makeExpressCallback(postRelanceInvitations)
     )
 
     router.get('/ping', (req, res) => {

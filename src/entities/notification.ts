@@ -36,6 +36,16 @@ export type Designation = {
   }
 }
 
+export type RelanceDesignation = {
+  type: 'relance-designation'
+  context: {
+    projectAdmissionKeyId: string
+  }
+  variables: {
+    invitation_link: string
+  }
+}
+
 export type ProjectInvitation = {
   type: 'project-invitation'
   context: {
@@ -100,6 +110,7 @@ export type DREAL_GF_Notification = {
 export type NotificationProps = BaseNotification &
   (
     | Designation
+    | RelanceDesignation
     | ProjectInvitation
     | DrealInvitation
     | PasswordReset

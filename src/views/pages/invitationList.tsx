@@ -53,13 +53,24 @@ export default function InvitationList({
         ) : (
           ''
         )}
+        {invitations.itemCount ? (
+          <form action={ROUTES.ADMIN_INVITATION_RELANCE_ACTION} method="POST">
+            <button
+              className="button"
+              type="submit"
+              name="submit"
+              id="submit"
+              {...dataId('submit-button')}
+            >
+              Relancer les {invitations.itemCount} porteurs de projet
+              non-inscrits
+            </button>
+          </form>
+        ) : (
+          ''
+        )}
         <div className="pagination__count">
-          <strong>
-            {Array.isArray(invitations)
-              ? invitations.length
-              : invitations.itemCount}
-          </strong>{' '}
-          invitations
+          <strong>{invitations.itemCount}</strong> invitations
         </div>
         {!invitations.items.length ? (
           <table className="table">
