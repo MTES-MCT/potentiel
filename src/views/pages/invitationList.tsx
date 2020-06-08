@@ -84,7 +84,6 @@ export default function InvitationList({
                     <tr
                       key={'invitation_' + invitation.id}
                       {...dataId('invitationList-item')}
-                      style={{ cursor: 'pointer' }}
                     >
                       <td>
                         {invitation.email}{' '}
