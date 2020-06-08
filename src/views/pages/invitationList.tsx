@@ -54,12 +54,17 @@ export default function InvitationList({
           ''
         )}
         {invitations.itemCount ? (
-          <form action={ROUTES.ADMIN_INVITATION_RELANCE_ACTION} method="POST">
+          <form
+            action={ROUTES.ADMIN_INVITATION_RELANCE_ACTION}
+            method="POST"
+            style={{ maxWidth: 'auto', margin: '0 0 25px 0' }}
+          >
             <button
               className="button"
               type="submit"
               name="submit"
               id="submit"
+              style={{ marginTop: 0 }}
               {...dataId('submit-button')}
             >
               Relancer les {invitations.itemCount} porteurs de projet
