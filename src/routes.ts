@@ -102,6 +102,7 @@ class routes {
     projectAdmissionKey: string
   }>('/enregistrement.html')
   static ADMIN_DREAL_LIST = '/admin/dreals.html'
+  static ADMIN_INVITATION_LIST = '/admin/invitations.html'
   static GARANTIES_FINANCIERES_LIST = '/admin/garanties-financieres.html'
 
   static USER_DASHBOARD = '/mes-projets.html'

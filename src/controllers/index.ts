@@ -7,6 +7,7 @@ export * from './getDrealPage';
 export * from './getForgottenPasswordPage';
 export * from './getGarantiesFinancieresPage';
 export * from './getImportProjectsPage';
+export * from './getInvitationListPage';
 export * from './getLoginPage';
 export * from './getNotifyCandidatesPage';
 export * from './getProjectFile';

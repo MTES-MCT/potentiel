@@ -136,3 +136,13 @@ Cypress.Commands.add('getSentEmails', () => {
     })
     .then((res) => res.body.emails)
 })
+
+Cypress.Commands.add('insertInvitations', (invitations) => {
+  return cy.request({
+    method: 'POST',
+    url: '/test/addInvitations',
+    body: {
+      invitations,
+    },
+  })
+})

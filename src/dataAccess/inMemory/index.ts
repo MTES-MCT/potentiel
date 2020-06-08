@@ -127,6 +127,43 @@ const credentialsRepo: CredentialsRepo = {
 }
 
 let projectAdmissionKeysById: Record<string, ProjectAdmissionKey> = {}
+async function findAllProjectAdmissionKeys(
+  query?: Record<string, any>
+): Promise<Array<ProjectAdmissionKey>>
+async function findAllProjectAdmissionKeys(
+  query: Record<string, any>,
+  pagination: Pagination
+): Promise<PaginatedList<ProjectAdmissionKey>>
+async function findAllProjectAdmissionKeys(
+  query?: Record<string, any>,
+  pagination?: Pagination
+): Promise<PaginatedList<ProjectAdmissionKey> | Array<ProjectAdmissionKey>> {
+  const allItems = Object.values(projectAdmissionKeysById)
+
+  if (!query) {
+    return pagination
+      ? makePaginatedList(allItems, pagination, allItems.length)
+      : allItems
+  }
+
+  let items = allItems.filter((item) =>
+    Object.entries(query).every(([key, value]) => item[key] === value)
+  )
+
+  if (pagination) {
+    const { page, pageSize } = pagination
+    const offset = page * pageSize
+    const limit = pageSize
+
+    const pageCount = Math.ceil(items.length / pagination.pageSize)
+
+    items = items.slice(offset, offset + limit)
+
+    return makePaginatedList(items, pagination, pageCount)
+  }
+
+  return items
+}
 const projectAdmissionKeyRepo: ProjectAdmissionKeyRepo = {
   findById: async (id: string) => {
     // console.log('findById', id, itemsById)
@@ -134,18 +171,7 @@ const projectAdmissionKeyRepo: ProjectAdmissionKeyRepo = {
       return Some(projectAdmissionKeysById[id])
     } else return None
   },
-  // @ts-ignore
-  findAll: async (query?) => {
-    const allItems = Object.values(projectAdmissionKeysById)
-
-    if (!query) {
-      return allItems
-    }
-
-    return allItems.filter((item) =>
-      Object.entries(query).every(([key, value]) => item[key] === value)
-    )
-  },
+  findAll: findAllProjectAdmissionKeys,
   save: async (item: ProjectAdmissionKey) => {
     projectAdmissionKeysById[item.id] = item
 

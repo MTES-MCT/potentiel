@@ -2,7 +2,17 @@ import { DataTypes, Op } from 'sequelize'
 import { ProjectAdmissionKeyRepo } from '../'
 import { ProjectAdmissionKey, makeProjectAdmissionKey } from '../../entities'
 import { mapExceptError, mapIfOk } from '../../helpers/results'
-import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types'
+import {
+  Err,
+  None,
+  Ok,
+  OptionAsync,
+  ResultAsync,
+  Some,
+  Pagination,
+  PaginatedList,
+} from '../../types'
+import { paginate, pageCount, makePaginatedList } from '../../helpers/paginate'
 import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
 
@@ -84,7 +94,15 @@ export default function makeProjectAdmissionKeyRepo({
 
   async function findAll(
     query?: Record<string, any>
-  ): Promise<Array<ProjectAdmissionKey>> {
+  ): Promise<Array<ProjectAdmissionKey>>
+  async function findAll(
+    query: Record<string, any>,
+    pagination: Pagination
+  ): Promise<PaginatedList<ProjectAdmissionKey>>
+  async function findAll(
+    query?: Record<string, any>,
+    pagination?: Pagination
+  ): Promise<PaginatedList<ProjectAdmissionKey> | Array<ProjectAdmissionKey>> {
     await _isDbReady
 
     try {
@@ -96,8 +114,32 @@ export default function makeProjectAdmissionKeyRepo({
           // Special case which means not null
           opts.where.dreal = { [Op.ne]: null }
         }
+
+        if (query.dreal === null) {
+          opts.where.dreal = { [Op.eq]: null }
+        }
+
+        if (query.projectId === null) {
+          opts.where.projectId = { [Op.eq]: null }
+        }
       }
 
+      if (pagination) {
+        const { count, rows } = await ProjectAdmissionKeyModel.findAndCountAll({
+          ...opts,
+          ...paginate(pagination),
+        })
+
+        const deserializedItems = mapExceptError(
+          rows.map((item) => item.get()),
+          deserialize,
+          'ProjectAdmissionKey.findAll.deserialize error'
+        )
+
+        return makePaginatedList(deserializedItems, pagination, count)
+      }
+
+      // No pagination
       const projectAdmissionKeysRaw = await ProjectAdmissionKeyModel.findAll(
         opts
       )

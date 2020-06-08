@@ -40,6 +40,7 @@ import {
   getDrealPage,
   postInviteDreal,
   getGarantiesFinancieresPage,
+  getInvitationListPage,
 } from './controllers'
 
 import {
@@ -52,6 +53,7 @@ import {
   getProjectIdForTests,
   getProjectHistoryForTests,
   addUserToDrealForTests,
+  addInvitationsForTests,
 } from './__tests__/integration'
 
 import { initDatabase } from './dataAccess'
@@ -281,6 +283,13 @@ export async function makeServer(port: number = 3000) {
       makeExpressCallback(getGarantiesFinancieresPage)
     )
 
+    router.get(
+      ROUTES.ADMIN_INVITATION_LIST,
+      ensureLoggedIn(),
+      ensureRole(['admin']),
+      makeExpressCallback(getInvitationListPage)
+    )
+
     router.get('/ping', (req, res) => {
       console.log('Call to ping')
       res.send('pong')
@@ -317,6 +326,11 @@ export async function makeServer(port: number = 3000) {
       router.post(
         '/test/addUserToDreal',
         makeExpressCallback(addUserToDrealForTests)
+      )
+
+      router.post(
+        '/test/addInvitations',
+        makeExpressCallback(addInvitationsForTests)
       )
     }
 
