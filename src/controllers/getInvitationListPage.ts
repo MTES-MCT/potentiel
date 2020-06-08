@@ -2,7 +2,7 @@ import _ from 'lodash'
 
 import { userRepo, projectAdmissionKeyRepo } from '../dataAccess'
 import { Redirect, Success, NotFoundError } from '../helpers/responses'
-import { Controller, HttpRequest } from '../types'
+import { Controller, HttpRequest, Pagination } from '../types'
 import { InvitationListPage } from '../views/pages'
 import { makePagination } from '../helpers/paginate'
 import ROUTES from '../routes'
