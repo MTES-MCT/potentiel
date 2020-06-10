@@ -7,7 +7,10 @@ import makeFakeUser from '../__tests__/fixtures/user'
 import { projectRepo, userRepo } from '../dataAccess/inMemory'
 import { makeProject, makeUser } from '../entities'
 
-const shouldUserAccessProject = makeShouldUserAccessProject({ userRepo })
+const shouldUserAccessProject = makeShouldUserAccessProject({
+  userRepo,
+  projectRepo,
+})
 const getUserProject = makeGetUserProject({
   projectRepo,
   shouldUserAccessProject,

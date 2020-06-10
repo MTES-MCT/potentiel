@@ -14,103 +14,114 @@ interface MakeUseCaseProps {
   sendNotification: (props: NotificationProps) => Promise<void>
 }
 
-interface CallUseCaseProps {}
+interface CallUseCaseProps {
+  beforeDate: number
+}
 
 export default function makeRelanceInvitations({
   projectAdmissionKeyRepo,
   sendNotification,
 }: MakeUseCaseProps) {
-  return async function relanceInvitations({}: CallUseCaseProps): ResultAsync<
-    number
-  > {
+  return async function relanceInvitations({
+    beforeDate,
+  }: CallUseCaseProps): ResultAsync<number> {
     const unusedInvitations = await projectAdmissionKeyRepo.findAll({
       lastUsedAt: 0,
       dreal: null,
       projectId: null,
+      createdAt: { before: beforeDate },
     })
 
-    // Map of <email, ProjectAdmissionKey> (the new project admission key)
-    const relanceByEmail: Record<string, ProjectAdmissionKey> = {}
+    // We want to send a new invitation to each unique email that has a pending invitation, older than beforeDate
+    // For each of these pending invitations, we will set the lastUsedAt to simulate that they have been used (so they won't appear again as they are replaced by a new invitation)
+    // If one of these users has a more recent invitation, we need to set the lastUsedAt on that invitation as well
+    // At the end, each email should have only one pending invitation remaining (the new one)
+
+    const uniqueEmails = Object.keys(
+      unusedInvitations.reduce(
+        (map, invitation) => ({
+          ...map,
+          [invitation.email]: true,
+        }),
+        {}
+      )
+    )
+
+    // TODO: For each unique email, create new projectAdmissionKey and fetch all projectAdmissionKeys and update their lastUsedAt
 
     const relances = await Promise.all(
-      unusedInvitations.map(async (invitation) => {
-        let userHasAlreadyReceivedRelance = !!relanceByEmail[invitation.email]
-
-        if (!userHasAlreadyReceivedRelance) {
-          // User has not received a relance yet
-
-          // Create a new projectAdmissionKey
-          // Create an invitation link for this email
-          const projectAdmissionKeyResult = makeProjectAdmissionKey({
-            email: invitation.email,
-            fullName: invitation.fullName,
-          })
-
-          if (projectAdmissionKeyResult.is_err()) {
-            // OOPS
-            console.log(
-              'relanceInvitation use-case: error when calling makeProjectAdmissionKey with',
-              invitation.email
-            )
-            return false
+      uniqueEmails.map(async (email) => {
+        // Get all the previous admission keys for this email (that have not been used)
+        const projectAdmissionKeysForEmail = await projectAdmissionKeyRepo.findAll(
+          {
+            email,
+            lastUsedAt: 0,
           }
+        )
 
-          const projectAdmissionKey = projectAdmissionKeyResult.unwrap()
+        const fullName =
+          projectAdmissionKeysForEmail.find((item) => !!item.fullName)
+            ?.fullName || ''
 
-          relanceByEmail[invitation.email] = projectAdmissionKey
+        // Create a new projectAdmissionKey
+        // Create an invitation link for this email
+        const newProjectAdmissionKeyResult = makeProjectAdmissionKey({
+          email: email,
+          fullName,
+        })
 
-          const insertionResult = await projectAdmissionKeyRepo.save(
-            projectAdmissionKey
-          )
-
-          if (insertionResult.is_err()) {
-            // OOPS
-            console.log(
-              'relanceInvitation use-case: error when calling projectAdmissionKeyRepo.save with',
-              invitation.email
-            )
-            return false
-          }
-        }
-
-        const { createdAt, id, email, fullName } = relanceByEmail[
-          invitation.email
-        ]
-
-        // Update the old invitation
-        invitation.lastUsedAt = createdAt
-        const updateResult = await projectAdmissionKeyRepo.save(invitation)
-        if (updateResult.is_err()) {
+        if (newProjectAdmissionKeyResult.is_err()) {
           // OOPS
           console.log(
-            'relanceInvitation use-case: error when calling projectAdmissionKeyRepo.save on update for ',
-            invitation.id
+            'relanceInvitation use-case: error when calling makeProjectAdmissionKey with',
+            email
           )
-          // Ignore
+          return false
         }
 
-        if (!userHasAlreadyReceivedRelance) {
-          const subject = `Résultats de l'appel d'offres`
-          // Call sendEmailNotification with the proper informations
-          await sendNotification({
-            type: 'relance-designation',
-            context: {
-              projectAdmissionKeyId: id,
-            },
-            variables: {
-              invitation_link: routes.PROJECT_INVITATION({
-                projectAdmissionKey: id,
-              }),
-            },
-            message: {
-              subject,
-              email,
-              name: fullName,
-            },
+        const newProjectAdmissionKey = newProjectAdmissionKeyResult.unwrap()
+
+        const insertionResult = await projectAdmissionKeyRepo.save(
+          newProjectAdmissionKey
+        )
+
+        if (insertionResult.is_err()) {
+          // OOPS
+          console.log(
+            'relanceInvitation use-case: error when calling projectAdmissionKeyRepo.save with',
+            email
+          )
+          return false
+        }
+
+        // Update all the old invitations
+        await Promise.all(
+          projectAdmissionKeysForEmail.map((oldProjectAdmissionKey) => {
+            oldProjectAdmissionKey.lastUsedAt = newProjectAdmissionKey.createdAt
+            return projectAdmissionKeyRepo.save(oldProjectAdmissionKey)
           })
-        }
+        )
 
-        return !userHasAlreadyReceivedRelance
+        const subject = `Résultats de l'appel d'offres`
+        // Call sendEmailNotification with the proper informations
+        await sendNotification({
+          type: 'relance-designation',
+          context: {
+            projectAdmissionKeyId: newProjectAdmissionKey.id,
+          },
+          variables: {
+            invitation_link: routes.PROJECT_INVITATION({
+              projectAdmissionKey: newProjectAdmissionKey.id,
+            }),
+          },
+          message: {
+            subject,
+            email,
+            name: fullName,
+          },
+        })
+
+        return true
       })
     )
 

@@ -49,7 +49,7 @@ export default function AdminNotifyCandidates({
             <select
               name="appelOffreId"
               id="appelOffreId"
-              {...dataId('appelOffreSelector')}
+              {...dataId('appelOffreIdSelector')}
             >
               {appelsOffre.map((appelOffre) => (
                 <option
@@ -64,7 +64,7 @@ export default function AdminNotifyCandidates({
             <select
               name="periodeId"
               id="periodeId"
-              {...dataId('periodeSelector')}
+              {...dataId('periodeIdSelector')}
             >
               {appelsOffre
                 .find((ao) => ao.id === selectedAppelOffreId)

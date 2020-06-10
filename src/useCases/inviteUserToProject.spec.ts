@@ -34,7 +34,10 @@ const sendNotification = makeSendNotification({
   sendEmail,
 })
 
-const shouldUserAccessProject = makeShouldUserAccessProject({ userRepo })
+const shouldUserAccessProject = makeShouldUserAccessProject({
+  userRepo,
+  projectRepo,
+})
 const inviteUserToProject = makeInviteUserToProject({
   projectRepo,
   userRepo,

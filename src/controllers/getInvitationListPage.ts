@@ -18,6 +18,8 @@ const getInvitationListPage = async (request: HttpRequest) => {
     return Redirect(ROUTES.LOGIN)
   }
 
+  const { beforeDate } = request.query
+
   const pagination = makePagination(request.query, defaultPagination)
 
   // Get all projectAdmissionKeys that have not been used
@@ -26,6 +28,7 @@ const getInvitationListPage = async (request: HttpRequest) => {
       lastUsedAt: 0,
       dreal: null,
       projectId: null,
+      ...(beforeDate ? { createdAt: { before: Number(beforeDate) } } : {}),
     },
     pagination
   )

@@ -160,6 +160,17 @@ async function findAllProjectAdmissionKeys(
         return !item.projectId
       }
 
+      if (
+        key === 'createdAt' &&
+        typeof value === 'object' &&
+        typeof value.before === 'number'
+      ) {
+        return (
+          typeof item.createdAt !== 'undefined' &&
+          item.createdAt <= value.before
+        )
+      }
+
       return item[key] === value
     })
   )

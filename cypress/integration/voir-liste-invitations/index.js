@@ -12,6 +12,13 @@ Given('les invitations suivantes', async function (dataTable) {
   cy.insertInvitations(dataTable.hashes())
 })
 
+When(
+  'je me rends sur la page admin qui liste les invitations plus anciennes que {string}',
+  (beforeDateStr) => {
+    cy.visit('/admin/invitations.html?beforeDate=' + beforeDateStr)
+  }
+)
+
 When('je me rends sur la page admin qui liste les invitations', () => {
   cy.visit('/admin/invitations.html')
 })
@@ -28,6 +35,12 @@ When('je click sur le bouton {string}', (buttonName) => {
   cy.contains(buttonName).click()
 })
 
+Then('{string} emails de notifications sont envoyés', (numberString) => {
+  cy.getSentEmails().then((sentEmails) => {
+    cy.wrap(sentEmails).should('have.length.of', Number(numberString))
+  })
+})
+
 Then(
   "{string} reçoit un mail de notification avec un lien d'invitation",
   (email) => {
@@ -37,6 +50,7 @@ Then(
       const invitationEmail = sentEmails.find((sentEmail) =>
         sentEmail.recipients.some((recipient) => recipient.email === email)
       )
+      cy.log(invitationEmail)
       cy.wrap(invitationEmail).should('exist')
       cy.wrap(invitationEmail.variables.invitation_link).should(
         'contain',

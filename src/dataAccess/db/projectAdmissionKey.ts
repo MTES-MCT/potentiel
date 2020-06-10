@@ -1,4 +1,5 @@
 import { DataTypes, Op } from 'sequelize'
+import moment from 'moment'
 import { ProjectAdmissionKeyRepo } from '../'
 import { ProjectAdmissionKey, makeProjectAdmissionKey } from '../../entities'
 import { mapExceptError, mapIfOk } from '../../helpers/results'
@@ -121,6 +122,12 @@ export default function makeProjectAdmissionKeyRepo({
 
         if (query.projectId === null) {
           opts.where.projectId = { [Op.eq]: null }
+        }
+
+        if (typeof query.createdAt === 'object' && query.createdAt.before) {
+          opts.where.createdAt = {
+            [Op.lte]: moment(query.createdAt.before).toDate(),
+          }
         }
       }
 

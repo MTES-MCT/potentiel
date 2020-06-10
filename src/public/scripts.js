@@ -9,7 +9,7 @@ window.initHandlers = function () {
   addInvitationHandlers()
   addPuissanceModificationHandler()
   addDelayDateModificationHandler()
-  addAOPeriodeFamilleSelectorHandlers()
+  addSelectorHandlers()
   addSendCopyOfNotificationButtonHandler()
   addPaginationHandler()
   addGoToProjectPageHandlers()
@@ -340,21 +340,21 @@ function updateFieldInUrl(field, value) {
   updateFieldsInUrl({ [field]: value })
 }
 
-function addAOPeriodeFamilleSelectorHandlers() {
-  ;['appelOffre', 'periode', 'famille'].forEach((key) => {
+function addSelectorHandlers() {
+  ;['appelOffreId', 'periodeId', 'familleId', 'beforeDate'].forEach((key) => {
     const selectField = document.querySelector(
       '[data-testid=' + key + 'Selector]'
     )
     if (selectField) {
       selectField.addEventListener('change', function (event) {
-        if (key === 'appelOffre') {
+        if (key === 'appelOffreId') {
           updateFieldsInUrl({
             appelOffreId: event.target.value,
             periodeId: null,
             familleId: null,
           })
         } else {
-          updateFieldInUrl(key + 'Id', event.target.value)
+          updateFieldInUrl(key, event.target.value)
         }
       })
     }

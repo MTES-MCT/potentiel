@@ -17,6 +17,8 @@ import { asLiteral } from '../../helpers/asLiteral'
 
 import { adminActions } from '../components/actions'
 import { HttpRequest, PaginatedList } from '../../types'
+import { isFunction } from 'util'
+import { date } from 'yup'
 
 interface InvitationListProps {
   request: HttpRequest
@@ -29,6 +31,31 @@ export default function InvitationList({
   invitations,
 }: InvitationListProps) {
   const { error, success } = request.query || {}
+
+  const beforeDate = request.query.beforeDate
+    ? Number(request.query.beforeDate)
+    : undefined
+
+  let dateSelection: '2weeks' | '1month' | 'all' | 'other' = 'all'
+
+  if (beforeDate) {
+    if (
+      Math.abs(
+        moment().subtract(2, 'weeks').diff(moment(beforeDate), 'days')
+      ) <= 1
+    ) {
+      dateSelection = '2weeks'
+    } else if (
+      Math.abs(
+        moment().subtract(1, 'month').diff(moment(beforeDate), 'days')
+      ) <= 1
+    ) {
+      dateSelection = '1month'
+    } else {
+      dateSelection = 'other'
+    }
+  }
+
   return (
     <AdminDashboard role={request.user?.role} currentPage="list-invitations">
       <div className="panel">
@@ -39,43 +66,83 @@ export default function InvitationList({
             une inscription
           </p>
         </div>
-        {success ? (
-          <div className="notification success" {...dataId('success-message')}>
-            {success}
-          </div>
-        ) : (
-          ''
-        )}
-        {error ? (
-          <div className="notification error" {...dataId('error-message')}>
-            {error}
-          </div>
-        ) : (
-          ''
-        )}
-        {invitations.itemCount ? (
+        <div className="panel__header">
           <form
             action={ROUTES.ADMIN_INVITATION_RELANCE_ACTION}
             method="POST"
             style={{ maxWidth: 'auto', margin: '0 0 25px 0' }}
           >
-            <button
-              className="button"
-              type="submit"
-              name="submit"
-              id="submit"
-              style={{ marginTop: 0 }}
-              {...dataId('submit-button')}
-            >
-              Relancer les {invitations.itemCount} porteurs de projet
-              non-inscrits
-            </button>
+            <div className="form__group">
+              <legend>Filtrer par ancienneté de l'invitation</legend>
+              <select
+                name="beforeDate"
+                id="beforeDate"
+                {...dataId('beforeDateSelector')}
+              >
+                {dateSelection === 'other' ? (
+                  <option value={beforeDate} selected>
+                    Avant le {moment(beforeDate).format('DD/MM/YYYY')}
+                  </option>
+                ) : (
+                  ''
+                )}
+                <option
+                  value={moment().subtract(2, 'weeks').toDate().getTime()}
+                  selected={dateSelection === '2weeks'}
+                >
+                  Plus de 2 semaines
+                </option>
+                <option
+                  value={moment().subtract(1, 'month').toDate().getTime()}
+                  selected={dateSelection === '1month'}
+                >
+                  Plus d'un mois
+                </option>
+                <option value="" selected={dateSelection === 'all'}>
+                  Toutes
+                </option>
+              </select>
+            </div>
+            {invitations.itemCount ? (
+              <button
+                className="button"
+                type="submit"
+                name="submit"
+                id="submit"
+                style={{ marginTop: 10 }}
+                {...dataId('submit-button')}
+              >
+                Relancer les {invitations.itemCount} invitations de cette
+                période
+              </button>
+            ) : (
+              ''
+            )}
           </form>
-        ) : (
-          ''
-        )}
+          {success ? (
+            <div
+              className="notification success"
+              {...dataId('success-message')}
+            >
+              {success}
+            </div>
+          ) : (
+            ''
+          )}
+          {error ? (
+            <div className="notification error" {...dataId('error-message')}>
+              {error}
+            </div>
+          ) : (
+            ''
+          )}
+        </div>
+
         <div className="pagination__count">
-          <strong>{invitations.itemCount}</strong> invitations
+          <strong>{invitations.itemCount}</strong> invitations{' '}
+          {beforeDate
+            ? `envoyées avant le ${moment(beforeDate).format('DD/MM/YYYY')}`
+            : ''}
         </div>
         {!invitations.items.length ? (
           <table className="table">

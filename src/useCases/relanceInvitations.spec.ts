@@ -53,6 +53,21 @@ describe('relanceInvitations use-case', () => {
           {
             email: 'pp-unused2@test.com',
             fullName: '',
+            createdAt: 1,
+            lastUsedAt: 0,
+          },
+          // An invitation that is recent for the same user (will be included)
+          {
+            email: userEmail,
+            fullName: 'pp-unused-recent',
+            createdAt: 10,
+            lastUsedAt: 0,
+          },
+          // An invitation that is recent for another user (will not be included)
+          {
+            email: 'another-recent@test.test',
+            fullName: 'pp-unused-recent',
+            createdAt: 10,
             lastUsedAt: 0,
           },
           {
@@ -82,14 +97,14 @@ describe('relanceInvitations use-case', () => {
       .filter((item) => item.is_ok())
       .map((item) => item.unwrap())
 
-    expect(projectAdmissionKeys).toHaveLength(6)
+    expect(projectAdmissionKeys).toHaveLength(8)
 
-    const res = await relanceInvitations({})
+    const res = await relanceInvitations({ beforeDate: 1 })
     expect(res.is_ok()).toEqual(true)
     expect(res.unwrap()).toEqual(2)
   })
 
-  it('should create a new projectAdmissionKey and set lastUsedAt of all the previous projectAdmissionKeys for the same email to the createdAt of the new one', async () => {
+  it('should create a new projectAdmissionKey for each unique email', async () => {
     // Verifiy new key creation
     const newProjectAdmissionKeys = await projectAdmissionKeyRepo.findAll({
       email: userEmail,
@@ -99,25 +114,55 @@ describe('relanceInvitations use-case', () => {
     expect(newProjectAdmissionKeys).toHaveLength(1)
     const [newProjectAdmissionKey] = newProjectAdmissionKeys
     if (!newProjectAdmissionKey) return
+
     // Make sure its new and not one of the old ones
     expect((newProjectAdmissionKey.createdAt || 0) / 1000).toBeCloseTo(
       Date.now() / 1000,
       0
     )
+  })
 
-    const updatedOldProjectAdmissionKeys = await projectAdmissionKeyRepo.findAll(
-      {
+  it('should set oldProjectAdmissionKeys.lastUsedAt to newProjectAdmissionKey.createdAt', async () => {
+    // Verifiy new key creation
+    const newProjectAdmissionKeys = await projectAdmissionKeyRepo.findAll({
+      email: userEmail,
+      lastUsedAt: 0,
+    })
+
+    expect(newProjectAdmissionKeys).toHaveLength(1)
+    const [newProjectAdmissionKey] = newProjectAdmissionKeys
+    if (!newProjectAdmissionKey) return
+
+    // Make sure the old project admission keys have been updated
+    const updatedOldProjectAdmissionKeys = (
+      await projectAdmissionKeyRepo.findAll({
         email: userEmail,
-        createdAt: 1,
-      }
-    )
+      })
+    ).filter((item) => item.id !== newProjectAdmissionKey.id)
 
-    expect(updatedOldProjectAdmissionKeys).toHaveLength(2)
-    if (updatedOldProjectAdmissionKeys.length !== 2) return
+    expect(updatedOldProjectAdmissionKeys).toHaveLength(3)
+    if (updatedOldProjectAdmissionKeys.length !== 3) return
 
-    const [old1, old2] = updatedOldProjectAdmissionKeys
+    const [old1, old2, old3] = updatedOldProjectAdmissionKeys
     expect(old1.lastUsedAt).toEqual(newProjectAdmissionKey.createdAt)
     expect(old2.lastUsedAt).toEqual(newProjectAdmissionKey.createdAt)
+    expect(old3.lastUsedAt).toEqual(newProjectAdmissionKey.createdAt)
+  })
+
+  it('should avoid projectAdmissionKeys that are more recent than beforeDate, except if there is an older projectAdmissionKey with the same email', async () => {
+    // userEmail does have an older projectAdmissionKey
+    // but another-recent@test.test does not
+
+    const [recentProjectAdmissionKey] = await projectAdmissionKeyRepo.findAll({
+      email: 'another-recent@test.test',
+    })
+
+    expect(recentProjectAdmissionKey).toBeDefined()
+    if (!recentProjectAdmissionKey) return
+
+    // Make sure this one is unchanged
+    expect(recentProjectAdmissionKey.lastUsedAt).toEqual(0)
+    expect(recentProjectAdmissionKey.createdAt).toEqual(10)
   })
 
   it('should send an email notification to porteurs projets that have not used their invitation', async () => {

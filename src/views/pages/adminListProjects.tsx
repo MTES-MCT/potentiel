@@ -41,7 +41,7 @@ export default function AdminListProjects({
             <select
               name="appelOffre"
               id="appelOffre"
-              {...dataId('appelOffreSelector')}
+              {...dataId('appelOffreIdSelector')}
             >
               <option value="">Tous AO</option>
               {appelsOffre.map((appelOffre) => (
@@ -54,7 +54,11 @@ export default function AdminListProjects({
                 </option>
               ))}
             </select>
-            <select name="periode" id="periode" {...dataId('periodeSelector')}>
+            <select
+              name="periode"
+              id="periode"
+              {...dataId('periodeIdSelector')}
+            >
               <option value="">Toutes périodes</option>
               {appelsOffre
                 .find((ao) => ao.id === selectedAppelOffreId)
@@ -68,7 +72,11 @@ export default function AdminListProjects({
                   </option>
                 ))}
             </select>
-            <select name="famille" id="famille" {...dataId('familleSelector')}>
+            <select
+              name="famille"
+              id="famille"
+              {...dataId('familleIdSelector')}
+            >
               <option value="">Toutes familles</option>
               {appelsOffre
                 .find((ao) => ao.id === selectedAppelOffreId)
