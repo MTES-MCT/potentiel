@@ -131,6 +131,8 @@ export default function makeProjectAdmissionKeyRepo({
         }
       }
 
+      opts.order = [['createdAt', 'DESC']]
+
       if (pagination) {
         const { count, rows } = await ProjectAdmissionKeyModel.findAndCountAll({
           ...opts,

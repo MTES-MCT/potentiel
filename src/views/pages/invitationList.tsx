@@ -154,11 +154,16 @@ export default function InvitationList({
           </table>
         ) : (
           <>
-            <table className="table" {...dataId('invitationList-list')}>
+            <table
+              className="table"
+              style={{ width: '100%' }}
+              {...dataId('invitationList-list')}
+            >
               <thead>
                 <tr>
                   <th>Email</th>
-                  <th>Date d'invitation</th>
+                  <th style={{ width: 150 }}>Date d'invitation</th>
+                  <th style={{ width: 100 }}></th>
                 </tr>
               </thead>
               <tbody>
@@ -188,6 +193,25 @@ export default function InvitationList({
                         {moment(invitation.createdAt).format(
                           'DD/MM/YYYY HH:mm'
                         )}
+                      </td>
+                      <td>
+                        <form
+                          action={ROUTES.ADMIN_INVITATION_RELANCE_ACTION}
+                          method="POST"
+                          style={{}}
+                        >
+                          <select name="keys" multiple hidden>
+                            <option value={invitation.id} selected></option>
+                          </select>
+                          <button
+                            className="button-outline primary"
+                            type="submit"
+                            name="submit"
+                            style={{ border: 0 }}
+                          >
+                            relancer
+                          </button>
+                        </form>
                       </td>
                     </tr>
                   )

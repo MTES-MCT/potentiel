@@ -35,9 +35,19 @@ When('je click sur le bouton {string}', (buttonName) => {
   cy.contains(buttonName).click()
 })
 
+When(
+  "je click sur le bouton {string} pour l'invitation à {string}",
+  (buttonName, email) => {
+    cy.findContaining(testid('invitationList-item'), email)
+      .contains(buttonName)
+      .click()
+  }
+)
+
 Then('{string} emails de notifications sont envoyés', (numberString) => {
   cy.getSentEmails().then((sentEmails) => {
-    cy.wrap(sentEmails).should('have.length.of', Number(numberString))
+    cy.log(sentEmails)
+    cy.wrap(sentEmails.length).should('equal', Number(numberString))
   })
 })
 
@@ -50,7 +60,6 @@ Then(
       const invitationEmail = sentEmails.find((sentEmail) =>
         sentEmail.recipients.some((recipient) => recipient.email === email)
       )
-      cy.log(invitationEmail)
       cy.wrap(invitationEmail).should('exist')
       cy.wrap(invitationEmail.variables.invitation_link).should(
         'contain',

@@ -11,11 +11,19 @@ const postRelanceInvitations = async (request: HttpRequest) => {
     return Redirect(ROUTES.LOGIN)
   }
 
-  let { beforeDate } = request.body
+  let { beforeDate, keys } = request.body
 
   try {
-    beforeDate = beforeDate ? parseInt(beforeDate) : undefined
-    const result = await relanceInvitations({ beforeDate })
+    let props: any = undefined
+
+    if (keys) {
+      props = { keys: Array.isArray(keys) ? keys : [keys] }
+    } else if (beforeDate) {
+      beforeDate = beforeDate ? parseInt(beforeDate) : undefined
+      props = { beforeDate }
+    }
+
+    const result = await relanceInvitations(props)
     return result.match({
       ok: (sentRelances: number) =>
         Redirect(ROUTES.ADMIN_INVITATION_LIST, {
