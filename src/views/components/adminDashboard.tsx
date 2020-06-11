@@ -51,7 +51,7 @@ export default function AdminDashboard({
       <section className="section section-color" style={{ padding: '1em 0' }}>
         <div className="container">
           <h2 className="section__title" style={{ marginBottom: 0 }}>
-            Portail Administrateur
+            Portail Administrateur {role === 'dreal' ? 'DREAL' : 'DGEC'}
           </h2>
         </div>
       </section>
