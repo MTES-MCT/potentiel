@@ -2,6 +2,22 @@ import React from 'react'
 import ROUTES from '../../routes'
 import { User } from '../../entities'
 
+interface SeparatorItemProps {
+  visibleForRoles: Array<User['role']>
+  role: User['role'] | undefined
+}
+const SeparatorItem = ({ visibleForRoles, role }: SeparatorItemProps) =>
+  role && visibleForRoles.includes(role) ? (
+    <div
+      style={{
+        height: 3,
+        width: '100%',
+        backgroundColor: 'var(--lighter-grey)',
+        margin: '5px 0px',
+      }}
+    />
+  ) : null
+
 interface AdminDashboardProps {
   children: React.ReactNode
   role: User['role'] | undefined
@@ -72,7 +88,7 @@ export default function AdminDashboard({
             <MenuItem
               route={ROUTES.ADMIN_LIST_PROJECTS}
               itemPage={'list-projects'}
-              title="Lister les projets"
+              title="Projets"
               visibleForRoles={['admin', 'dreal']}
               role={role}
               currentPage={currentPage}
@@ -80,11 +96,22 @@ export default function AdminDashboard({
             <MenuItem
               route={ROUTES.ADMIN_LIST_REQUESTS}
               itemPage={'list-requests'}
-              title="Lister les demandes"
+              title="Demandes"
               visibleForRoles={['admin']}
               role={role}
               currentPage={currentPage}
             />
+            <MenuItem
+              route={ROUTES.GARANTIES_FINANCIERES_LIST}
+              itemPage={'list-garanties-financieres'}
+              title="Garanties Financières"
+              visibleForRoles={['admin', 'dreal']}
+              role={role}
+              currentPage={currentPage}
+            />
+
+            <SeparatorItem visibleForRoles={['admin']} role={role} />
+
             <MenuItem
               route={ROUTES.IMPORT_PROJECTS}
               itemPage={'import-projects'}
@@ -103,25 +130,20 @@ export default function AdminDashboard({
               currentPage={currentPage}
             />
             <MenuItem
-              route={ROUTES.ADMIN_DREAL_LIST}
-              itemPage={'list-dreal'}
-              title="Gérer les DREAL"
+              route={ROUTES.ADMIN_INVITATION_LIST}
+              itemPage={'list-invitations'}
+              title="Invitations candidats en attente"
               visibleForRoles={['admin']}
               role={role}
               currentPage={currentPage}
             />
+
+            <SeparatorItem visibleForRoles={['admin']} role={role} />
+
             <MenuItem
-              route={ROUTES.GARANTIES_FINANCIERES_LIST}
-              itemPage={'list-garanties-financieres'}
-              title="Garanties Financières"
-              visibleForRoles={['admin', 'dreal']}
-              role={role}
-              currentPage={currentPage}
-            />
-            <MenuItem
-              route={ROUTES.ADMIN_INVITATION_LIST}
-              itemPage={'list-invitations'}
-              title="Invitations"
+              route={ROUTES.ADMIN_DREAL_LIST}
+              itemPage={'list-dreal'}
+              title="Gérer les DREAL"
               visibleForRoles={['admin']}
               role={role}
               currentPage={currentPage}

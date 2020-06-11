@@ -12,7 +12,7 @@ import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
 
 export const empty = () => (
   <AdminListProjects
-    request={makeFakeRequest()}
+    request={makeFakeRequest({}, { role: 'admin' })}
     projects={[]}
     appelsOffre={appelsOffreStatic}
   />
