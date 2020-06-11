@@ -171,6 +171,24 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
       </div>
       <div
         style={{
+          position: 'absolute',
+          bottom: 0,
+          right: 5,
+          fontSize: 12,
+          color: 'var(--green)',
+        }}
+      >
+        {project.classe === 'Classé'
+          ? project.isFinancementParticipatif
+            ? 'FP'
+            : project.isInvestissementParticipatif
+            ? 'IP'
+            : ''
+          : ''}
+      </div>
+
+      <div
+        style={{
           fontStyle: 'italic',
           lineHeight: 'normal',
           fontSize: 12,

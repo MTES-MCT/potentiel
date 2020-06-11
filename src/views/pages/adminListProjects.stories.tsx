@@ -43,9 +43,16 @@ export const withProjects = () => (
     request={makeFakeRequest()}
     appelsOffre={appelsOffreStatic}
     projects={[
-      makeFakeProject({}),
+      makeFakeProject({
+        isFinancementParticipatif: true,
+      }),
       makeFakeProject({
         classe: 'Classé',
+        isFinancementParticipatif: true,
+      }),
+      makeFakeProject({
+        classe: 'Classé',
+        isInvestissementParticipatif: true,
       }),
       makeFakeProject({
         classe: 'Classé',
