@@ -27,6 +27,8 @@ const postRelanceInvitations = async (request: HttpRequest) => {
     return result.match({
       ok: (sentRelances: number) =>
         Redirect(ROUTES.ADMIN_INVITATION_LIST, {
+          beforeDate,
+          keys,
           success: sentRelances
             ? `${sentRelances} relances ont été envoyées`
             : `Aucun relance n\'a été envoyée. Merci de vérifier qu'il y a bien des invitations à relancer.`,
@@ -34,12 +36,16 @@ const postRelanceInvitations = async (request: HttpRequest) => {
       err: (e: Error) => {
         console.log('postRelanceInvitations failed', e)
         return Redirect(ROUTES.ADMIN_INVITATION_LIST, {
+          beforeDate,
+          keys,
           error: `Les relances n'ont pas pu être envoyées. (Erreur: ${e.message})`,
         })
       },
     })
   } catch (error) {
     return Redirect(ROUTES.ADMIN_INVITATION_LIST, {
+      beforeDate,
+      keys,
       error: `Les relances n'ont pas pu être envoyées. (Erreur: La date seuil n'a pas pu être intégrée.)`,
     })
   }
