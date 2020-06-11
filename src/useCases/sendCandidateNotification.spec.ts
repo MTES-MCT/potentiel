@@ -76,7 +76,7 @@ describe('sendCandidateNotification use-case', () => {
     expect(insertedProjects).toHaveLength(2)
   })
 
-  it("should call the email service with the user and appel d'offre details", async () => {
+  it('should create a projectAdmissionKey and send a notification to the user with an invitation link', async () => {
     // Send new notification
     const result = await sendCandidateNotification({
       email: bogusEmail,
@@ -85,6 +85,25 @@ describe('sendCandidateNotification use-case', () => {
     })
     expect(result.is_ok()).toBeTruthy()
 
+    // Verify project admission key
+    const projectAdmissionKeys = await projectAdmissionKeyRepo.findAll()
+    expect(projectAdmissionKeys).toHaveLength(1)
+
+    const [projectAdmissionKey] = projectAdmissionKeys
+    if (!projectAdmissionKey) return
+    expect(projectAdmissionKey.email).toEqual(bogusEmail)
+    expect(projectAdmissionKey.fullName).toEqual(bogusName)
+    expect(projectAdmissionKey.appelOffreId).toEqual(appelOffre.id)
+    expect(projectAdmissionKey.periodeId).toEqual(periode.id)
+    expect(projectAdmissionKey.projectId).toBeUndefined()
+    expect(projectAdmissionKey.dreal).toBeUndefined()
+    expect(projectAdmissionKey.lastUsedAt).toEqual(0)
+    expect((projectAdmissionKey.createdAt || 0) / 1000).toBeCloseTo(
+      Date.now() / 1000,
+      0
+    )
+
+    // Verify email notification
     expect(getCallsToEmailStub()).toHaveLength(1)
 
     const sentEmail = getCallsToEmailStub()[0]
@@ -97,6 +116,9 @@ describe('sendCandidateNotification use-case', () => {
     expect(sentEmail.templateId).toEqual(1350523)
     expect(sentEmail.variables.invitation_link).toContain(
       routes.PROJECT_INVITATION()
+    )
+    expect(sentEmail.variables.invitation_link).toContain(
+      projectAdmissionKey.id
     )
   })
 

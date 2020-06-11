@@ -23,6 +23,8 @@ const baseProjectAdmissionKeySchema = Record({
 const projectAdmissionKeySchema = baseProjectAdmissionKeySchema.And(
   Partial({
     projectId: String,
+    appelOffreId: String,
+    periodeId: String,
     dreal: String,
     createdAt: Number,
     lastUsedAt: Number,
@@ -31,6 +33,8 @@ const projectAdmissionKeySchema = baseProjectAdmissionKeySchema.And(
 
 const fields: string[] = [
   'projectId',
+  'appelOffreId',
+  'periodeId',
   'dreal',
   'createdAt',
   'lastUsedAt',

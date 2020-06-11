@@ -89,6 +89,8 @@ export default function makeSendCandidateNotification({
     const projectAdmissionKeyResult = makeProjectAdmissionKey({
       email,
       fullName: projectHolderName,
+      appelOffreId,
+      periodeId,
     })
 
     if (projectAdmissionKeyResult.is_err()) {

@@ -21,6 +21,8 @@ import isDbReady from './helpers/isDbReady'
 const deserialize = (item) => ({
   ...item,
   projectId: item.projectId || undefined,
+  appelOffreId: item.appelOffreId || undefined,
+  periodeId: item.periodeId || undefined,
   dreal: item.dreal || undefined,
   lastUsedAt: item.lastUsedAt || undefined,
   createdAt: item.createdAt.getTime(),
@@ -36,6 +38,14 @@ export default function makeProjectAdmissionKeyRepo({
       primaryKey: true,
     },
     projectId: {
+      type: DataTypes.UUID,
+      allowNull: true,
+    },
+    appelOffreId: {
+      type: DataTypes.UUID,
+      allowNull: true,
+    },
+    periodeId: {
       type: DataTypes.UUID,
       allowNull: true,
     },
