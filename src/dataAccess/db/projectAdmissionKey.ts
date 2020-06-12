@@ -42,11 +42,11 @@ export default function makeProjectAdmissionKeyRepo({
       allowNull: true,
     },
     appelOffreId: {
-      type: DataTypes.UUID,
+      type: DataTypes.STRING,
       allowNull: true,
     },
     periodeId: {
-      type: DataTypes.UUID,
+      type: DataTypes.STRING,
       allowNull: true,
     },
     email: {
@@ -177,7 +177,7 @@ export default function makeProjectAdmissionKeyRepo({
     } catch (error) {
       if (CONFIG.logDbErrors)
         console.log('ProjectAdmissionKey.findAll error', error)
-      return []
+      return pagination ? makePaginatedList([], pagination, 0) : []
     }
   }
 

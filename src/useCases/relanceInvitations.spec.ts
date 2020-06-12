@@ -306,4 +306,168 @@ describe('relanceInvitations use-case', () => {
       expect(sentEmailForUser2).toBeDefined()
     })
   })
+
+  describe('given an appelOffreId', () => {
+    beforeAll(async () => {
+      resetDatabase()
+      resetEmailStub()
+
+      const projectAdmissionKeys = (
+        await Promise.all(
+          [
+            {
+              email: userEmail,
+              fullName: 'Good AppelOffreId',
+              appelOffreId: 'Fessenheim',
+              periodeId: '1',
+              createdAt: 123,
+              lastUsedAt: 0,
+            },
+            {
+              email: 'other@test.test',
+              fullName: 'Good AppelOffreId 2',
+              appelOffreId: 'Fessenheim',
+              periodeId: '2',
+              createdAt: 123,
+              lastUsedAt: 0,
+            },
+            {
+              email: userEmail,
+              fullName: 'Bad AppelOffreId but same email',
+              appelOffreId: 'Autre',
+              createdAt: 123,
+              lastUsedAt: 0,
+            },
+            {
+              email: 'pp-unused2@test.com',
+              fullName: 'Bad AppelOffreId',
+              appelOffreId: 'Autre',
+              createdAt: 1,
+              lastUsedAt: 0,
+            },
+            {
+              email: userEmail,
+              fullName: 'Good AppelOffreId but used',
+              appelOffreId: 'Fessenheim',
+              periodeId: '2',
+              createdAt: 1,
+              lastUsedAt: 123,
+            },
+          ]
+            .map(makeProjectAdmissionKey)
+            .filter((item) => item.is_ok())
+            .map((item) => item.unwrap())
+            .map(projectAdmissionKeyRepo.save)
+        )
+      )
+        .filter((item) => item.is_ok())
+        .map((item) => item.unwrap())
+
+      expect(projectAdmissionKeys).toHaveLength(5)
+
+      const res = await relanceInvitations({ appelOffreId: 'Fessenheim' })
+      expect(res.is_ok()).toEqual(true)
+      expect(res.unwrap()).toEqual(2)
+    })
+
+    it('should handle projectAdmissionKeys that are unused and from the same appelOffre, or projectAdmissionKey for the same email', async () => {
+      // userEmail does have an older projectAdmissionKey
+      // but another-recent@test.test does not
+
+      const targetProjectAdmissionKeys = await projectAdmissionKeyRepo.findAll({
+        createdAt: 123,
+      })
+
+      expect(targetProjectAdmissionKeys).toHaveLength(3)
+
+      const [target1, target2, target3] = targetProjectAdmissionKeys
+      if (!target1 || !target2 || !target3) return
+
+      expect(target1.lastUsedAt).not.toEqual(0)
+      expect(target2.lastUsedAt).not.toEqual(0)
+      expect(target3.lastUsedAt).not.toEqual(0)
+
+      const [unchanged1] = await projectAdmissionKeyRepo.findAll({
+        fullName: 'Good AppelOffreId but used',
+      })
+      expect(unchanged1).toBeDefined()
+      if (!unchanged1) return
+      expect(unchanged1.lastUsedAt).toEqual(123)
+
+      const [unchanged2] = await projectAdmissionKeyRepo.findAll({
+        fullName: 'Bad AppelOffreId',
+      })
+      expect(unchanged2).toBeDefined()
+      if (!unchanged2) return
+      expect(unchanged2.lastUsedAt).toEqual(0)
+    })
+  })
+
+  describe('given an appelOffreId and periodeId', () => {
+    beforeAll(async () => {
+      resetDatabase()
+      resetEmailStub()
+
+      const projectAdmissionKeys = (
+        await Promise.all(
+          [
+            {
+              email: userEmail,
+              fullName: 'Good AppelOffreId Good PeriodeId',
+              appelOffreId: 'Fessenheim',
+              periodeId: '1',
+              createdAt: 123,
+              lastUsedAt: 0,
+            },
+            {
+              email: 'other@test.test',
+              fullName: 'Good AppelOffreId Bad PeriodeId',
+              appelOffreId: 'Fessenheim',
+              periodeId: '2',
+              createdAt: 123,
+              lastUsedAt: 0,
+            },
+          ]
+            .map(makeProjectAdmissionKey)
+            .filter((item) => item.is_ok())
+            .map((item) => item.unwrap())
+            .map(projectAdmissionKeyRepo.save)
+        )
+      )
+        .filter((item) => item.is_ok())
+        .map((item) => item.unwrap())
+
+      expect(projectAdmissionKeys).toHaveLength(2)
+
+      const res = await relanceInvitations({
+        appelOffreId: 'Fessenheim',
+        periodeId: '1',
+      })
+      expect(res.is_ok()).toEqual(true)
+      expect(res.unwrap()).toEqual(1)
+    })
+
+    it('should handle projectAdmissionKeys that are unused and from the same appelOffre, or projectAdmissionKey for the same email', async () => {
+      // userEmail does have an older projectAdmissionKey
+      // but another-recent@test.test does not
+
+      const [targetProjectAdmissionKey] = await projectAdmissionKeyRepo.findAll(
+        {
+          fullName: 'Good AppelOffreId Good PeriodeId',
+        }
+      )
+
+      expect(targetProjectAdmissionKey).toBeDefined()
+      if (!targetProjectAdmissionKey) return
+
+      expect(targetProjectAdmissionKey.lastUsedAt).not.toEqual(0)
+
+      const [unchanged] = await projectAdmissionKeyRepo.findAll({
+        fullName: 'Good AppelOffreId Bad PeriodeId',
+      })
+      expect(unchanged).toBeDefined()
+      if (!unchanged) return
+      expect(unchanged.lastUsedAt).toEqual(0)
+    })
+  })
 })

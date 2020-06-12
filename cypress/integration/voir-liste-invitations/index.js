@@ -12,13 +12,6 @@ Given('les invitations suivantes', async function (dataTable) {
   cy.insertInvitations(dataTable.hashes())
 })
 
-When(
-  'je me rends sur la page admin qui liste les invitations plus anciennes que {string}',
-  (beforeDateStr) => {
-    cy.visit('/admin/invitations.html?beforeDate=' + beforeDateStr)
-  }
-)
-
 When('je me rends sur la page admin qui liste les invitations', () => {
   cy.visit('/admin/invitations.html')
 })
@@ -29,6 +22,14 @@ Then("l'invitation de {string} se trouve dans la liste", (email) => {
 
 Then("l'invitation de {string} ne se trouve pas dans la liste", (email) => {
   cy.findContaining(testid('invitationList-item'), email).should('not.exist')
+})
+
+When("je sélectionne l'appel d'offre {string}", (appelOffre) => {
+  cy.get(testid('appelOffreIdSelector')).select(appelOffre)
+})
+
+When('je sélectionne la période {string}', (periode) => {
+  cy.get(testid('periodeIdSelector')).select(periode)
 })
 
 When('je click sur le bouton {string}', (buttonName) => {

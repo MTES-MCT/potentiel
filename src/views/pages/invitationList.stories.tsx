@@ -8,6 +8,8 @@ import { ProjectAdmissionKey } from '../../entities'
 
 import Invitationlist from './invitationList'
 
+import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
+
 export default { title: 'Lister les invitations' }
 
 export const withError = () => (
@@ -21,7 +23,10 @@ export const withError = () => (
         pageSize: 10,
       },
     }}
-    request={makeFakeRequest({ query: { error: 'This is an error message!' } })}
+    request={makeFakeRequest({
+      query: { error: 'This is an error message!' },
+    })}
+    appelsOffre={appelsOffreStatic}
   />
 )
 
@@ -39,6 +44,7 @@ export const withSuccess = () => (
     request={makeFakeRequest({
       query: { success: 'This is a success message!' },
     })}
+    appelsOffre={appelsOffreStatic}
   />
 )
 
@@ -60,5 +66,6 @@ export const withInvitations = () => (
       },
     }}
     request={makeFakeRequest()}
+    appelsOffre={appelsOffreStatic}
   />
 )

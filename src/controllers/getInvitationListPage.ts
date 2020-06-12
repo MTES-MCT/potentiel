@@ -1,6 +1,10 @@
 import _ from 'lodash'
 
-import { userRepo, projectAdmissionKeyRepo } from '../dataAccess'
+import {
+  userRepo,
+  projectAdmissionKeyRepo,
+  appelOffreRepo,
+} from '../dataAccess'
 import { Redirect, Success, NotFoundError } from '../helpers/responses'
 import { Controller, HttpRequest, Pagination } from '../types'
 import { InvitationListPage } from '../views/pages'
@@ -18,9 +22,11 @@ const getInvitationListPage = async (request: HttpRequest) => {
     return Redirect(ROUTES.LOGIN)
   }
 
-  const { beforeDate } = request.query
+  const { appelOffreId, periodeId } = request.query
 
   const pagination = makePagination(request.query, defaultPagination)
+
+  const appelsOffre = await appelOffreRepo.findAll()
 
   // Get all projectAdmissionKeys that have not been used
   const invitations = await projectAdmissionKeyRepo.findAll(
@@ -28,12 +34,13 @@ const getInvitationListPage = async (request: HttpRequest) => {
       lastUsedAt: 0,
       dreal: null,
       projectId: null,
-      ...(beforeDate ? { createdAt: { before: Number(beforeDate) } } : {}),
+      ...(appelOffreId ? { appelOffreId } : {}),
+      ...(periodeId ? { periodeId } : {}),
     },
     pagination
   )
 
-  return Success(InvitationListPage({ request, invitations }))
+  return Success(InvitationListPage({ request, invitations, appelsOffre }))
 }
 
 export { getInvitationListPage }

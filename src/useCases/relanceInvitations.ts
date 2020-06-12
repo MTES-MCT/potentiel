@@ -2,12 +2,13 @@ import {
   ProjectAdmissionKey,
   makeProjectAdmissionKey,
   NotificationProps,
+  AppelOffre,
+  Periode,
 } from '../entities'
 import { ProjectAdmissionKeyRepo } from '../dataAccess'
 import { ResultAsync, Ok } from '../types'
 import routes from '../routes'
 import _ from 'lodash'
-import project, { territoireSchema } from '../entities/project'
 
 interface MakeUseCaseProps {
   projectAdmissionKeyRepo: ProjectAdmissionKeyRepo
@@ -20,6 +21,10 @@ type CallUseCaseProps =
     }
   | {
       keys: string[]
+    }
+  | {
+      appelOffreId: AppelOffre['id']
+      periodeId?: Periode['id']
     }
   | undefined
 
@@ -36,7 +41,13 @@ export default function makeRelanceInvitations({
     const beforeDate =
       props && 'beforeDate' in props ? props.beforeDate : undefined
 
+    const { appelOffreId, periodeId } =
+      props && 'appelOffreId' in props
+        ? props
+        : { appelOffreId: undefined, periodeId: undefined }
+
     if (keys && keys.length) {
+      // console.log('relanceInvitation usecase: specific keys', keys)
       unusedInvitations = (
         await Promise.all(
           keys.map((key) => projectAdmissionKeyRepo.findById(key))
@@ -45,6 +56,19 @@ export default function makeRelanceInvitations({
         .filter((item) => item.is_some())
         .map((item) => item.unwrap())
         .filter((item) => !item.lastUsedAt && !item.dreal && !item.projectId)
+    } else if (appelOffreId) {
+      console.log(
+        // 'relanceInvitation usecase: specific appelOffre/periode',
+        appelOffreId,
+        periodeId
+      )
+      unusedInvitations = await projectAdmissionKeyRepo.findAll({
+        lastUsedAt: 0,
+        dreal: null,
+        projectId: null,
+        appelOffreId,
+        ...(periodeId ? { periodeId } : {}),
+      })
     } else if (beforeDate) {
       unusedInvitations = await projectAdmissionKeyRepo.findAll({
         lastUsedAt: 0,
@@ -54,6 +78,7 @@ export default function makeRelanceInvitations({
       })
     } else {
       // All unused invitations
+      // console.log('relanceInvitation usecase: all')
       unusedInvitations = await projectAdmissionKeyRepo.findAll({
         lastUsedAt: 0,
         dreal: null,

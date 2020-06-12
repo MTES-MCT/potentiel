@@ -11,23 +11,23 @@ const postRelanceInvitations = async (request: HttpRequest) => {
     return Redirect(ROUTES.LOGIN)
   }
 
-  let { beforeDate, keys } = request.body
+  let { appelOffreId, periodeId, keys } = request.body
 
   try {
     let props: any = undefined
 
     if (keys) {
       props = { keys: Array.isArray(keys) ? keys : [keys] }
-    } else if (beforeDate) {
-      beforeDate = beforeDate ? parseInt(beforeDate) : undefined
-      props = { beforeDate }
+    } else if (appelOffreId) {
+      props = { appelOffreId, periodeId }
     }
 
     const result = await relanceInvitations(props)
     return result.match({
       ok: (sentRelances: number) =>
         Redirect(ROUTES.ADMIN_INVITATION_LIST, {
-          beforeDate,
+          appelOffreId,
+          periodeId,
           keys,
           success: sentRelances
             ? `${sentRelances} relances ont été envoyées`
@@ -36,7 +36,8 @@ const postRelanceInvitations = async (request: HttpRequest) => {
       err: (e: Error) => {
         console.log('postRelanceInvitations failed', e)
         return Redirect(ROUTES.ADMIN_INVITATION_LIST, {
-          beforeDate,
+          appelOffreId,
+          periodeId,
           keys,
           error: `Les relances n'ont pas pu être envoyées. (Erreur: ${e.message})`,
         })
@@ -44,7 +45,8 @@ const postRelanceInvitations = async (request: HttpRequest) => {
     })
   } catch (error) {
     return Redirect(ROUTES.ADMIN_INVITATION_LIST, {
-      beforeDate,
+      appelOffreId,
+      periodeId,
       keys,
       error: `Les relances n'ont pas pu être envoyées. (Erreur: La date seuil n'a pas pu être intégrée.)`,
     })

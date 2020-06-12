@@ -23,38 +23,16 @@ import { date } from 'yup'
 interface InvitationListProps {
   request: HttpRequest
   invitations: PaginatedList<ProjectAdmissionKey>
+  appelsOffre: Array<AppelOffre>
 }
 
 /* Pure component */
 export default function InvitationList({
   request,
   invitations,
+  appelsOffre,
 }: InvitationListProps) {
-  const { error, success } = request.query || {}
-
-  const beforeDate = request.query.beforeDate
-    ? Number(request.query.beforeDate)
-    : undefined
-
-  let dateSelection: '2weeks' | '1month' | 'all' | 'other' = 'all'
-
-  if (beforeDate) {
-    if (
-      Math.abs(
-        moment().subtract(2, 'weeks').diff(moment(beforeDate), 'days')
-      ) <= 1
-    ) {
-      dateSelection = '2weeks'
-    } else if (
-      Math.abs(
-        moment().subtract(1, 'month').diff(moment(beforeDate), 'days')
-      ) <= 1
-    ) {
-      dateSelection = '1month'
-    } else {
-      dateSelection = 'other'
-    }
-  }
+  const { error, success, appelOffreId, periodeId } = request.query || {}
 
   return (
     <AdminDashboard role={request.user?.role} currentPage="list-invitations">
@@ -73,34 +51,32 @@ export default function InvitationList({
             style={{ maxWidth: 'auto', margin: '0 0 25px 0' }}
           >
             <div className="form__group">
-              <legend>Filtrer par ancienneté de l'invitation</legend>
-              <select
-                name="beforeDate"
-                id="beforeDate"
-                {...dataId('beforeDateSelector')}
-              >
-                {dateSelection === 'other' ? (
-                  <option value={beforeDate} selected>
-                    Avant le {moment(beforeDate).format('DD/MM/YYYY')}
+              <legend>Filtrer par AO, Période et/ou Famille</legend>
+              <select name="appelOffreId" {...dataId('appelOffreIdSelector')}>
+                <option value="">Tous AO</option>
+                {appelsOffre.map((appelOffre) => (
+                  <option
+                    key={'appel_' + appelOffre.id}
+                    value={appelOffre.id}
+                    selected={appelOffre.id === appelOffreId}
+                  >
+                    {appelOffre.shortTitle}
                   </option>
-                ) : (
-                  ''
-                )}
-                <option
-                  value={moment().subtract(2, 'weeks').toDate().getTime()}
-                  selected={dateSelection === '2weeks'}
-                >
-                  Plus de 2 semaines
-                </option>
-                <option
-                  value={moment().subtract(1, 'month').toDate().getTime()}
-                  selected={dateSelection === '1month'}
-                >
-                  Plus d'un mois
-                </option>
-                <option value="" selected={dateSelection === 'all'}>
-                  Toutes
-                </option>
+                ))}
+              </select>
+              <select name="periodeId" {...dataId('periodeIdSelector')}>
+                <option value="">Toutes périodes</option>
+                {appelsOffre
+                  .find((ao) => ao.id === appelOffreId)
+                  ?.periodes.map((periode) => (
+                    <option
+                      key={'appel_' + periode.id}
+                      value={periode.id}
+                      selected={periode.id === periodeId}
+                    >
+                      {periode.title}
+                    </option>
+                  ))}
               </select>
             </div>
             {invitations.itemCount ? (
@@ -140,9 +116,6 @@ export default function InvitationList({
 
         <div className="pagination__count">
           <strong>{invitations.itemCount}</strong> invitations{' '}
-          {beforeDate
-            ? `envoyées avant le ${moment(beforeDate).format('DD/MM/YYYY')}`
-            : ''}
         </div>
         {!invitations.items.length ? (
           <table className="table">
