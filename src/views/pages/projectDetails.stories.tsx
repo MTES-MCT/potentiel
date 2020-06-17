@@ -97,6 +97,31 @@ export const forPorteurProjet = () => (
   />
 )
 
+export const forPorteurProjetWithSuccess = () => (
+  <ProjectDetails
+    request={makeFakeRequest({
+      user: makeFakeUser({ role: 'porteur-projet' }),
+      query: { success: 'Une invitation a bien été envoyée' },
+    })}
+    project={makeFakeProject({
+      id: 'projectId',
+      classe: 'Classé',
+      notifiedOn: Date.now(),
+      appelOffre,
+      details: {
+        'Note blabla': '9,6',
+      },
+    })}
+    projectUsers={[makeFakeUser()]}
+    projectInvitations={[
+      {
+        id: 'admissionKey',
+        email: 'invited@email.com',
+      } as ProjectAdmissionKey,
+    ]}
+  />
+)
+
 const appelOffreInnovation = appelsOffreStatic.find(
   (appelOffre) => appelOffre.id === 'CRE4 - Innovation'
 )

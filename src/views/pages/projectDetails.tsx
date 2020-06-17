@@ -401,12 +401,27 @@ export default function ProjectDetails({
         </div>
         <div style={{ padding: '1.5em', paddingTop: 0 }}>
           {success ? (
-            <div
-              className="notification success"
-              {...dataId('success-message')}
-            >
-              {success}
-            </div>
+            <>
+              <div
+                className="notification success"
+                {...dataId('success-message')}
+              >
+                {success}
+              </div>
+              {success.includes('Une invitation a bien été envoyée') ? (
+                <div
+                  className="notification warning"
+                  {...dataId('error-message')}
+                >
+                  Certains utilisateurs nous ont rapporté des temps de réception
+                  des mails parfois longs. N'hésitez pas à nous contacter si
+                  votre invité n'a pas reçu le mail d'invitation d'ici 48h.
+                  Merci de votre compréhension.
+                </div>
+              ) : (
+                ''
+              )}
+            </>
           ) : (
             ''
           )}
