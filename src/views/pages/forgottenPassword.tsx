@@ -40,7 +40,7 @@ export default function ForgottenPasswordPage({ request }: Props) {
                   className="notification warning"
                   {...dataId('error-message')}
                 >
-                  Certains utilisateurs nous ont rapporté des temps de réception
+                  Certains utilisateurs nous ont signalé des temps de réception
                   des mails parfois longs. N'hésitez pas à nous contacter si
                   vous n'avez pas reçu le mail de recupération de mot de passe
                   d'ici 48h. Merci de votre compréhension.

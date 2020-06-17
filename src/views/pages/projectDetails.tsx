@@ -413,7 +413,7 @@ export default function ProjectDetails({
                   className="notification warning"
                   {...dataId('error-message')}
                 >
-                  Certains utilisateurs nous ont rapporté des temps de réception
+                  Certains utilisateurs nous ont signalé des temps de réception
                   des mails parfois longs. N'hésitez pas à nous contacter si
                   votre invité n'a pas reçu le mail d'invitation d'ici 48h.
                   Merci de votre compréhension.
