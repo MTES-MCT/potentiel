@@ -12,13 +12,14 @@ import { makeNotificationRepo } from './notification'
 import { appelOffreRepo } from '../inMemory/appelOffre'
 
 const sequelize =
-  process.env.NODE_ENV === 'test'
-    ? new Sequelize('sqlite::memory:', { logging: false })
-    : new Sequelize({
-        dialect: 'sqlite',
-        storage: path.resolve(process.cwd(), '.db/db.sqlite'),
-        logging: false,
-      })
+  // process.env.NODE_ENV === 'test'
+  //   ? new Sequelize('sqlite::memory:', { logging: false })
+  //   :
+  new Sequelize({
+    dialect: 'sqlite',
+    storage: path.resolve(process.cwd(), '.db/db.sqlite'),
+    logging: false,
+  })
 
 // Create repo implementations
 const credentialsRepo = makeCredentialsRepo({
@@ -71,6 +72,16 @@ const initDatabase = async () => {
     await sequelize.sync({ force: process.env.NODE_ENV === 'test' }) // Set to true to crush db if changes
   } catch (error) {
     console.error('Unable to sync database models', error)
+  }
+
+  // Set up the virtual table
+  try {
+    await sequelize.query(
+      'CREATE VIRTUAL TABLE IF NOT EXISTS project_search USING fts3(id UUID, nomCandidat VARCHAR(255), nomProjet VARCHAR(255), nomRepresentantLegal VARCHAR(255), email VARCHAR(255), adresseProjet VARCHAR(255), codePostalProjet VARCHAR(255), communeProjet VARCHAR(255));'
+    )
+    console.log('Done create project_search virtual table')
+  } catch (error) {
+    console.error('Unable to create project_search virtual table', error)
   }
 }
 

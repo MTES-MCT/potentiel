@@ -59,3 +59,16 @@ Then('je suis redirigé vers la page du projet {string}', (projectName) => {
     cy.url().should('include', `/projet/${projectId}/details.html`)
   })
 })
+
+When('je saisis la valeur {string} dans le champ {string}', async function (
+  value,
+  fieldName
+) {
+  cy.get(testid(fieldName + '-field'))
+    .clear()
+    .type(value)
+})
+
+When('je valide le formulaire', (term) => {
+  cy.get(testid('submit-button')).click()
+})

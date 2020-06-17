@@ -14,7 +14,7 @@ window.initHandlers = function () {
   addPaginationHandler()
   addGoToProjectPageHandlers()
   addMotifEliminationToggleHandlers()
-  addProjectDetailsSectionHandlers()
+  addVisibilityToggleHandler()
 }
 
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -180,27 +180,6 @@ function addInvitationHandlers() {
   }
 }
 
-function addProjectDetailsSectionHandlers() {
-  const sectionToggle = document.querySelectorAll(
-    '[data-testid=projectDetails-section-toggle]'
-  )
-
-  sectionToggle.forEach((item) =>
-    item.addEventListener('click', function (event) {
-      event.preventDefault()
-
-      const wasVisible = item.classList.contains('open')
-
-      // Hide all sections
-      // document
-      //   .querySelectorAll('[data-testid=projectDetails-section-toggle]')
-      //   .forEach((item) => toggleVisibility(item, false))
-
-      toggleVisibility(item, !wasVisible)
-    })
-  )
-}
-
 //
 // Project List
 //
@@ -341,7 +320,14 @@ function updateFieldInUrl(field, value) {
 }
 
 function addSelectorHandlers() {
-  ;['appelOffreId', 'periodeId', 'familleId', 'beforeDate'].forEach((key) => {
+  ;[
+    'appelOffreId',
+    'periodeId',
+    'familleId',
+    'beforeDate',
+    'garantiesFinancieres',
+    'classement',
+  ].forEach((key) => {
     const selectField = document.querySelector(
       '[data-testid=' + key + 'Selector]'
     )
@@ -583,6 +569,22 @@ function addDateValidationHandler() {
 //
 // General utility
 //
+
+function addVisibilityToggleHandler() {
+  const sectionToggle = document.querySelectorAll(
+    '[data-testid=visibility-toggle]'
+  )
+
+  sectionToggle.forEach((item) =>
+    item.addEventListener('click', function (event) {
+      event.preventDefault()
+
+      const wasVisible = item.classList.contains('open')
+
+      toggleVisibility(item, !wasVisible)
+    })
+  )
+}
 
 function toggleVisibility(toggleItem, shouldBeVisible) {
   if (shouldBeVisible) {

@@ -261,9 +261,7 @@ const FriseItem = ({
             {hiddenContent}
           </td>
         </tr>
-      ) : (
-        ''
-      )}
+      ) : null}
     </>
   )
 }
@@ -280,7 +278,7 @@ const Section = ({ title, defaultOpen, children, icon }: SectionProps) => {
     <div {...dataId('projectDetails-section')}>
       <h3
         className={'section--title' + (defaultOpen ? ' open' : '')}
-        {...dataId('projectDetails-section-toggle')}
+        {...dataId('visibility-toggle')}
       >
         {icon ? (
           <svg className="icon section-icon">
@@ -506,10 +504,8 @@ export default function ProjectDetails({
                             }
                           />
                         )
-                      ) : (
-                        // Famille non-soumises à garanties financières
-                        ''
-                      )}
+                      ) : // Famille non-soumises à garanties financières
+                      null}
                       <FriseItem
                         date={moment(project.notifiedOn)
                           .add(2, 'months')
@@ -552,9 +548,7 @@ export default function ProjectDetails({
                         defaultHidden={true}
                       />
                     </>
-                  ) : (
-                    ''
-                  )}
+                  ) : null}
                 </>
               ) : (
                 <FriseItem

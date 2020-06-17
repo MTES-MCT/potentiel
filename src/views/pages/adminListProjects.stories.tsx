@@ -18,6 +18,23 @@ export const empty = () => (
   />
 )
 
+export const withFilters = () => (
+  <AdminListProjects
+    request={makeFakeRequest(
+      {
+        query: {
+          classement: 'classés',
+          appelOffreId: 'Fessenheim',
+          garantiesFinancieres: 'notSubmitted',
+        },
+      },
+      { role: 'admin' }
+    )}
+    projects={[]}
+    appelsOffre={appelsOffreStatic}
+  />
+)
+
 export const withError = () => (
   <AdminListProjects
     request={makeFakeRequest({

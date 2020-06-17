@@ -16,6 +16,7 @@ import {
 import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
 import _ from 'lodash'
+import { QueryTypes } from 'sequelize'
 
 // Override these to apply serialization/deserialization on inputs/outputs
 const deserialize = (item) => ({
@@ -323,11 +324,28 @@ export default function makeProjectRepo({
     pagination?: Pagination
   ): Promise<PaginatedList<Project> | Array<Project>> {
     await _isDbReady
-
     try {
       const opts: any = {}
       if (query) {
         opts.where = query
+
+        if (query.recherche) {
+          const projects = await sequelize.query(
+            'SELECT id from project_search WHERE project_search MATCH :recherche LIMIT 100;',
+            {
+              replacements: {
+                recherche: query.recherche
+                  .split(' ')
+                  .map((token) => '*' + token + '*')
+                  .join(' '),
+              },
+              type: QueryTypes.SELECT,
+            }
+          )
+
+          opts.where.id = projects.map((item) => item.id)
+          delete opts.where.recherche
+        }
 
         if (query.notifiedOn === -1) {
           // Special case which means != 0
@@ -455,6 +473,15 @@ export default function makeProjectRepo({
 
       // await sequelize.transaction(async (transaction: Transaction) => {
       await ProjectModel.upsert(project /*, { transaction }*/)
+
+      // update the search index
+      await sequelize.query(
+        'INSERT INTO project_search(id, nomCandidat, nomProjet, nomRepresentantLegal, email, adresseProjet, codePostalProjet, communeProjet) VALUES(:id, :nomCandidat, :nomProjet, :nomRepresentantLegal, :email, :adresseProjet, :codePostalProjet, :communeProjet);',
+        {
+          replacements: project,
+          type: QueryTypes.INSERT,
+        }
+      )
 
       // Check if the event history needs updating
       const newEvents = project.history?.filter((event) => event.isNew)

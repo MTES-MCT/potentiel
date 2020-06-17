@@ -14,6 +14,9 @@ interface CallUseCaseProps {
   periodeId?: Periode['id']
   familleId?: Famille['id']
   pagination: Pagination
+  recherche?: string
+  classement?: 'classés' | 'éliminés'
+  garantiesFinancieres?: 'submitted' | 'notSubmitted'
 }
 
 export default function makeListProjects({
@@ -26,6 +29,9 @@ export default function makeListProjects({
     periodeId,
     familleId,
     pagination,
+    recherche,
+    classement,
+    garantiesFinancieres,
   }: CallUseCaseProps): Promise<PaginatedList<Project>> {
     let userDreals: Array<DREAL> = []
     if (user.role === 'dreal') {
@@ -54,6 +60,20 @@ export default function makeListProjects({
       if (familleId) {
         query.familleId = familleId
       }
+    }
+
+    if (recherche) query.recherche = recherche
+
+    if (classement) {
+      if (classement === 'classés') query.classe = 'Classé'
+      if (classement === 'éliminés') query.classe = 'Eliminé'
+    }
+
+    if (garantiesFinancieres) {
+      if (garantiesFinancieres === 'notSubmitted')
+        query.garantiesFinancieresSubmittedOn = 0
+      if (garantiesFinancieres === 'submitted')
+        query.garantiesFinancieresSubmittedOn = -1
     }
 
     return projectRepo.findAll(query, pagination)

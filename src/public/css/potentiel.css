@@ -164,3 +164,37 @@ form.invitationForm {
 a.button-outline {
   vertical-align: bottom;
 }
+
+/* Filter toggle */
+
+.filter-toggle {
+  cursor: pointer;
+  position: relative;
+}
+
+.filter-icon {
+  transform: rotate(-90deg);
+  transition: transform 300ms;
+  position: absolute;
+  right: -20px;
+  bottom: 4px;
+}
+
+.open > .filter-icon {
+  transform: rotate(0deg);
+}
+
+.filter-panel {
+  display: none;
+  padding-bottom: 20px;
+}
+
+.open ~ .filter-panel {
+  display: block;
+}
+
+/* project list filters */
+
+.filter-panel select:not(.active) {
+  background-color: var(--lighter-grey);
+}

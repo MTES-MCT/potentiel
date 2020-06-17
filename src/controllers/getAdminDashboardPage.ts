@@ -7,7 +7,6 @@ import { makePagination } from '../helpers/paginate'
 import ROUTES from '../routes'
 
 import { appelOffreRepo } from '../dataAccess'
-import famille from '../entities/famille'
 
 const defaultPagination: Pagination = {
   page: 0,
@@ -16,7 +15,14 @@ const defaultPagination: Pagination = {
 
 const getAdminDashboardPage = async (request: HttpRequest) => {
   // console.log('getAdminDashboardPage request.query', request.query)
-  let { appelOffreId, periodeId, familleId } = request.query
+  let {
+    appelOffreId,
+    periodeId,
+    familleId,
+    recherche,
+    classement,
+    garantiesFinancieres,
+  } = request.query
 
   if (!request.user) {
     return Redirect(ROUTES.LOGIN)
@@ -38,6 +44,9 @@ const getAdminDashboardPage = async (request: HttpRequest) => {
     periodeId,
     familleId,
     pagination,
+    recherche,
+    classement,
+    garantiesFinancieres,
   })
 
   return Success(
@@ -45,9 +54,6 @@ const getAdminDashboardPage = async (request: HttpRequest) => {
       request,
       projects,
       appelsOffre,
-      selectedAppelOffreId: appelOffreId,
-      selectedPeriodeId: periodeId,
-      selectedFamilleId: familleId,
     })
   )
 }
