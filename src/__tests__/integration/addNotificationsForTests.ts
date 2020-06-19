@@ -15,7 +15,7 @@ import { HttpRequest } from '../../types'
 import makeFakeProject from '../fixtures/project'
 
 const addNotificationsForTests = async (request: HttpRequest) => {
-  console.log('addNotificationsForTests', request.body)
+  // console.log('addNotificationsForTests', request.body)
   const { notifications } = request.body
 
   if (!notifications) {
@@ -36,6 +36,12 @@ const addNotificationsForTests = async (request: HttpRequest) => {
         variables: JSON.parse(notification.variables),
         status: notification.status,
         error: notification.error,
+        ...(notification.createdAt
+          ? { createdAt: Number(notification.createdAt) }
+          : {}),
+        ...(notification.updatedAt
+          ? { updatedAt: Number(notification.updatedAt) }
+          : {}),
       }
     })
     .map(makeNotification)

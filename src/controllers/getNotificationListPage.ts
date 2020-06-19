@@ -27,7 +27,7 @@ const getNotificationListPage = async (request: HttpRequest) => {
 
   const notifications = await notificationRepo.findAll(
     {
-      status: 'error',
+      status: ['error', 'retried'],
     },
     pagination
   )

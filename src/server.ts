@@ -43,6 +43,7 @@ import {
   getInvitationListPage,
   postRelanceInvitations,
   getNotificationListPage,
+  postRetryNotifications,
 } from './controllers'
 
 import {
@@ -307,12 +308,12 @@ export async function makeServer(port: number = 3000) {
       makeExpressCallback(getNotificationListPage)
     )
 
-    // router.post(
-    //   ROUTES.ADMIN_NOTIFICATION_RETRY_ACTION,
-    //   ensureLoggedIn(),
-    //   ensureRole(['admin']),
-    //   makeExpressCallback(postRetryNotifications)
-    // )
+    router.post(
+      ROUTES.ADMIN_NOTIFICATION_RETRY_ACTION,
+      ensureLoggedIn(),
+      ensureRole(['admin']),
+      makeExpressCallback(postRetryNotifications)
+    )
 
     router.get('/ping', (req, res) => {
       console.log('Call to ping')

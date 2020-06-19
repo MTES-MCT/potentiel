@@ -121,10 +121,13 @@ export type NotificationProps = BaseNotification &
 type NotificationWithStatus = NotificationProps & {
   status: 'sent' | 'error' | 'retried'
   error?: string
-  createdAt: number
 }
 
-export type Notification = NotificationWithStatus & { id: string }
+export type Notification = NotificationWithStatus & {
+  id: string
+  createdAt: number
+  updatedAt: number
+}
 
 interface MakeNotificationDependencies {
   makeId: () => string
@@ -134,5 +137,7 @@ export default ({ makeId }: MakeNotificationDependencies) => (
   notification: NotificationWithStatus
 ): Notification => ({
   id: makeId(),
+  createdAt: Date.now(),
+  updatedAt: 0,
   ...notification,
 })

@@ -36,12 +36,40 @@ Then('{string} emails de notifications sont envoyés', (numberString) => {
 })
 
 Then('{string} reçoit un mail de notification', (email) => {
-  cy.wrap(email).as('notificationEmail')
   cy.getSentEmails().then((sentEmails) => {
     cy.wrap(sentEmails).should('have.length.of.at.least', 1)
     const notificationEmail = sentEmails.find((sentEmail) =>
       sentEmail.recipients.some((recipient) => recipient.email === email)
     )
-    cy.wrap(notificationEmail).should('exist')
+    cy.wrap(notificationEmail).as('notificationEmail').should('exist')
   })
 })
+
+Then('son mail a pour sujet {string}', (subject) => {
+  cy.get('@notificationEmail').then((notificationEmail) => {
+    cy.wrap(notificationEmail).should('have.property', 'subject', subject)
+  })
+})
+
+Then('son mail a pour template {string}', (value) => {
+  cy.get('@notificationEmail').then((notificationEmail) => {
+    cy.wrap(notificationEmail).should(
+      'have.property',
+      'templateId',
+      Number(value)
+    )
+  })
+})
+
+Then(
+  'son mail a la variable {string} avec comme valeur {string}',
+  (variable, value) => {
+    cy.get('@notificationEmail').then((notificationEmail) => {
+      cy.wrap(notificationEmail.variables).should(
+        'have.property',
+        variable,
+        value
+      )
+    })
+  }
+)

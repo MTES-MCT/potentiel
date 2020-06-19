@@ -19,6 +19,7 @@ import makeInviteDreal from './inviteDreal'
 import makeListGarantiesFinancieres from './listGarantiesFinancieres'
 import makeSendNotification from './sendNotification'
 import makeRelanceInvitations from './relanceInvitations'
+import makeRetryNotifications from './retryNotifications'
 
 import { sendEmail } from '../helpers/sendEmailNotification'
 
@@ -133,6 +134,11 @@ const relanceInvitations = makeRelanceInvitations({
   sendNotification,
 })
 
+const retryNotifications = makeRetryNotifications({
+  notificationRepo,
+  sendNotification,
+})
+
 const useCases = Object.freeze({
   login,
   importProjects,
@@ -155,6 +161,7 @@ const useCases = Object.freeze({
   inviteDreal,
   listGarantiesFinancieres,
   relanceInvitations,
+  retryNotifications,
 })
 
 export default useCases
@@ -180,4 +187,5 @@ export {
   inviteDreal,
   listGarantiesFinancieres,
   relanceInvitations,
+  retryNotifications,
 }

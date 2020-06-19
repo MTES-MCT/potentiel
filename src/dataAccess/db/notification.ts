@@ -21,6 +21,7 @@ const deserialize = (item) => ({
   ...item,
   error: item.error || undefined,
   createdAt: item.createdAt.getTime(),
+  updatedAt: item.updatedAt.getTime(),
 })
 const serialize = (item) => item
 
@@ -117,7 +118,7 @@ export default function makeNotificationRepo({ sequelize }): NotificationRepo {
     await _isDbReady
 
     try {
-      await NotificationModel.create(serialize(notification))
+      await NotificationModel.upsert(serialize(notification))
       return Ok(null)
     } catch (error) {
       if (CONFIG.logDbErrors) console.log('Notification.insert error', error)

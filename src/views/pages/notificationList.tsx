@@ -57,7 +57,7 @@ export default function NotificationList({
                 style={{ marginTop: 10 }}
                 {...dataId('submit-button')}
               >
-                Relancer les {notifications.itemCount} notifications en erreur
+                Relancer les notifications en erreur
               </button>
             ) : (
               ''
@@ -122,6 +122,22 @@ export default function NotificationList({
                       <td>
                         {moment(notification.createdAt).format(
                           'DD/MM/YYYY HH:mm'
+                        )}
+                        {notification.status === 'retried' ? (
+                          <div
+                            style={{
+                              fontStyle: 'italic',
+                              lineHeight: 'normal',
+                              fontSize: 12,
+                            }}
+                          >
+                            renvoyé le{' '}
+                            {moment(notification.updatedAt).format(
+                              'DD/MM/YYYY HH:mm'
+                            )}
+                          </div>
+                        ) : (
+                          ''
                         )}
                       </td>
                       <td

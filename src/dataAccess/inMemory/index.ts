@@ -497,15 +497,57 @@ const passwordRetrievalRepo: PasswordRetrievalRepo = {
 }
 
 let notificationsById: Record<string, Notification> = {}
+async function findAllNotifications(
+  query?: Record<string, any>
+): Promise<Array<Notification>>
+async function findAllNotifications(
+  query: Record<string, any>,
+  pagination: Pagination
+): Promise<PaginatedList<Notification>>
+async function findAllNotifications(
+  query?: Record<string, any>,
+  pagination?: Pagination
+): Promise<PaginatedList<Notification> | Array<Notification>> {
+  const allItems = Object.values(notificationsById)
+
+  if (!query) {
+    return pagination
+      ? makePaginatedList(allItems, pagination, allItems.length)
+      : allItems
+  }
+
+  let items = allItems.filter((item) =>
+    Object.entries(query).every(([key, value]) => {
+      if (key === 'status' && Array.isArray(value)) {
+        return value.some((region) => item[key].includes(region))
+      } else if (typeof value === 'string') {
+        return item[key].includes(value)
+      }
+      return item[key] === value
+    })
+  )
+
+  if (pagination) {
+    const { page, pageSize } = pagination
+    const offset = page * pageSize
+    const limit = pageSize
+
+    const pageCount = Math.ceil(items.length / pagination.pageSize)
+
+    items = items.slice(offset, offset + limit)
+
+    return makePaginatedList(items, pagination, pageCount)
+  }
+
+  return items
+}
 const notificationRepo: NotificationRepo = {
   save: async (item: Notification) => {
     notificationsById[item.id] = item
 
     return Ok(null)
   },
-  findAll: async () => {
-    return Object.values(notificationsById)
-  },
+  findAll: findAllNotifications,
 }
 
 const resetDatabase = () => {
