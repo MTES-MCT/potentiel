@@ -23,6 +23,7 @@ import ProjectDetails from './projectDetails'
 import DrealList from './drealList'
 import GarantiesFinancieresList from './garantiesFinancieresList'
 import InvitationList from './invitationList'
+import NotificationList from './notificationList'
 import { HttpRequest } from '../../types'
 
 const LoginPage = makePresenterPage(Login)
@@ -40,6 +41,7 @@ const ProjectDetailsPage = makePresenterPage(ProjectDetails)
 const DrealListPage = makePresenterPage(DrealList)
 const GarantiesFinancieresListPage = makePresenterPage(GarantiesFinancieresList)
 const InvitationListPage = makePresenterPage(InvitationList)
+const NotificationListPage = makePresenterPage(NotificationList)
 
 export {
   LoginPage,
@@ -57,6 +59,7 @@ export {
   DrealListPage,
   GarantiesFinancieresListPage,
   InvitationListPage,
+  NotificationListPage,
 }
 
 interface HasRequest {

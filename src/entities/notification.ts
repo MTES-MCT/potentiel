@@ -119,8 +119,9 @@ export type NotificationProps = BaseNotification &
   )
 
 type NotificationWithStatus = NotificationProps & {
-  status: 'sent' | 'error'
+  status: 'sent' | 'error' | 'retried'
   error?: string
+  createdAt: number
 }
 
 export type Notification = NotificationWithStatus & { id: string }

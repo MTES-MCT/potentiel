@@ -2,12 +2,26 @@ import { DataTypes } from 'sequelize'
 import { NotificationRepo } from '../'
 import { Notification, makeNotification } from '../../entities'
 import { mapExceptError, mapIfOk } from '../../helpers/results'
-import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types'
+import { paginate, makePaginatedList } from '../../helpers/paginate'
+import {
+  Err,
+  None,
+  Ok,
+  OptionAsync,
+  ResultAsync,
+  Some,
+  Pagination,
+  PaginatedList,
+} from '../../types'
 import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
 
 // Override these to apply serialization/deserialization on inputs/outputs
-const deserialize = (item) => item
+const deserialize = (item) => ({
+  ...item,
+  error: item.error || undefined,
+  createdAt: item.createdAt.getTime(),
+})
 const serialize = (item) => item
 
 export default function makeNotificationRepo({ sequelize }): NotificationRepo {
@@ -36,6 +50,10 @@ export default function makeNotificationRepo({ sequelize }): NotificationRepo {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    error: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   })
 
   const _isDbReady = isDbReady({ sequelize })
@@ -45,22 +63,53 @@ export default function makeNotificationRepo({ sequelize }): NotificationRepo {
     save,
   })
 
-  async function findAll(): Promise<Array<Notification>> {
+  async function findAll(
+    query?: Record<string, any>
+  ): Promise<Array<Notification>>
+  async function findAll(
+    query: Record<string, any>,
+    pagination: Pagination
+  ): Promise<PaginatedList<Notification>>
+  async function findAll(
+    query?: Record<string, any>,
+    pagination?: Pagination
+  ): Promise<PaginatedList<Notification> | Array<Notification>> {
     await _isDbReady
 
     try {
-      const notificationsRaw = await NotificationModel.findAll({ raw: true })
+      const opts: any = {}
+      if (query) {
+        opts.where = query
+      }
 
-      const deserializedItems = mapExceptError(
-        notificationsRaw,
+      opts.order = [['createdAt', 'DESC']]
+
+      if (pagination) {
+        const { count, rows } = await NotificationModel.findAndCountAll({
+          ...opts,
+          ...paginate(pagination),
+        })
+
+        const deserializedItems = mapExceptError(
+          rows.map((item) => item.get()),
+          deserialize,
+          'Notification.findAll.deserialize error'
+        )
+
+        return makePaginatedList(deserializedItems, pagination, count)
+      }
+
+      // No pagination
+      const notificationsRaw = await NotificationModel.findAll(opts)
+
+      return mapExceptError(
+        notificationsRaw.map((item) => item.get()),
         deserialize,
         'Notification.findAll.deserialize error'
       )
-
-      return deserializedItems.map(makeNotification)
     } catch (error) {
       if (CONFIG.logDbErrors) console.log('Notification.findAll error', error)
-      return []
+      return pagination ? makePaginatedList([], pagination, 0) : []
     }
   }
 

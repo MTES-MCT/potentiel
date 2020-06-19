@@ -1,5 +1,6 @@
 export * from './helpers';
 export * from './addInvitationsForTests';
+export * from './addNotificationsForTests';
 export * from './addProjectsForTests';
 export * from './addUserToDrealForTests';
 export * from './checkUserAccessToProjectForTests';

@@ -42,6 +42,7 @@ import {
   getGarantiesFinancieresPage,
   getInvitationListPage,
   postRelanceInvitations,
+  getNotificationListPage,
 } from './controllers'
 
 import {
@@ -55,6 +56,7 @@ import {
   getProjectHistoryForTests,
   addUserToDrealForTests,
   addInvitationsForTests,
+  addNotificationsForTests,
 } from './__tests__/integration'
 
 import { initDatabase } from './dataAccess'
@@ -298,6 +300,20 @@ export async function makeServer(port: number = 3000) {
       makeExpressCallback(postRelanceInvitations)
     )
 
+    router.get(
+      ROUTES.ADMIN_NOTIFICATION_LIST,
+      ensureLoggedIn(),
+      ensureRole(['admin']),
+      makeExpressCallback(getNotificationListPage)
+    )
+
+    // router.post(
+    //   ROUTES.ADMIN_NOTIFICATION_RETRY_ACTION,
+    //   ensureLoggedIn(),
+    //   ensureRole(['admin']),
+    //   makeExpressCallback(postRetryNotifications)
+    // )
+
     router.get('/ping', (req, res) => {
       console.log('Call to ping')
       res.send('pong')
@@ -339,6 +355,10 @@ export async function makeServer(port: number = 3000) {
       router.post(
         '/test/addInvitations',
         makeExpressCallback(addInvitationsForTests)
+      )
+      router.post(
+        '/test/addNotifications',
+        makeExpressCallback(addNotificationsForTests)
       )
     }
 

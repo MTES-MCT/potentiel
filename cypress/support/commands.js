@@ -146,3 +146,13 @@ Cypress.Commands.add('insertInvitations', (invitations) => {
     },
   })
 })
+
+Cypress.Commands.add('insertNotifications', (notifications) => {
+  return cy.request({
+    method: 'POST',
+    url: '/test/addNotifications',
+    body: {
+      notifications,
+    },
+  })
+})

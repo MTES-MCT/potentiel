@@ -29,6 +29,7 @@ interface AdminDashboardProps {
     | 'list-dreal'
     | 'list-garanties-financieres'
     | 'list-invitations'
+    | 'list-notifications'
     | undefined
 }
 
@@ -133,6 +134,14 @@ export default function AdminDashboard({
               route={ROUTES.ADMIN_INVITATION_LIST}
               itemPage={'list-invitations'}
               title="Invitations candidats en attente"
+              visibleForRoles={['admin']}
+              role={role}
+              currentPage={currentPage}
+            />
+            <MenuItem
+              route={ROUTES.ADMIN_NOTIFICATION_LIST}
+              itemPage={'list-notifications'}
+              title="Emails en erreur"
               visibleForRoles={['admin']}
               role={role}
               currentPage={currentPage}

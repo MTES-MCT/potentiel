@@ -1,8 +1,12 @@
 import { Notification } from '../entities'
-import { ResultAsync } from '../types'
+import { ResultAsync, PaginatedList, Pagination } from '../types'
 import { Required } from 'utility-types'
 
 export type NotificationRepo = {
   save: (notification: Notification) => ResultAsync<void>
-  findAll: () => Promise<Array<Notification>>
+  findAll(query?: Record<string, any>): Promise<Array<Notification>>
+  findAll(
+    query: Record<string, any>,
+    pagination: Pagination
+  ): Promise<PaginatedList<Notification>>
 }
