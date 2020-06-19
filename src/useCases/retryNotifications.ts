@@ -27,6 +27,7 @@ export default function makeRetryNotifications({
         .map((notification) => ({
           ...notification,
           status: 'retried',
+          updatedAt: Date.now(),
         }))
         .map(notificationRepo.save)
     )
