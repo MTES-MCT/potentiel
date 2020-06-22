@@ -19,6 +19,13 @@ interface CallUseCaseProps {
   garantiesFinancieres?: 'submitted' | 'notSubmitted'
 }
 
+interface UseCaseReturnType {
+  projects: PaginatedList<Project>
+  existingAppelsOffres: Array<AppelOffre['id']>
+  existingPeriodes?: Array<Periode['id']>
+  existingFamilles?: Array<Famille['id']>
+}
+
 export default function makeListProjects({
   projectRepo,
   userRepo,
@@ -32,7 +39,7 @@ export default function makeListProjects({
     recherche,
     classement,
     garantiesFinancieres,
-  }: CallUseCaseProps): Promise<PaginatedList<Project>> {
+  }: CallUseCaseProps): Promise<UseCaseReturnType> {
     const query: any = {
       notifiedOn: -1, // This means > 0
     }
@@ -71,6 +78,25 @@ export default function makeListProjects({
         query.garantiesFinancieresSubmittedOn = -1
     }
 
-    return projectRepo.findAll(query, pagination)
+    const result: any = {}
+
+    result.existingAppelsOffres = await projectRepo.findExistingAppelsOffres(
+      query
+    )
+
+    if (appelOffreId) {
+      result.existingPeriodes = await projectRepo.findExistingPeriodesForAppelOffre(
+        appelOffreId,
+        query
+      )
+      result.existingFamilles = await projectRepo.findExistingFamillesForAppelOffre(
+        appelOffreId,
+        query
+      )
+    }
+
+    result.projects = await projectRepo.findAll(query, pagination)
+
+    return result as UseCaseReturnType
   }
 }

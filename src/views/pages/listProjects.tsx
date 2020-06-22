@@ -16,6 +16,9 @@ interface ListProjectsProps {
   request: HttpRequest
   projects: PaginatedList<Project> | Array<Project>
   appelsOffre: Array<AppelOffre>
+  existingAppelsOffres: Array<AppelOffre['id']>
+  existingPeriodes?: Array<Periode['id']>
+  existingFamilles?: Array<Famille['id']>
 }
 
 /* Pure component */
@@ -23,6 +26,9 @@ export default function ListProjects({
   request,
   projects,
   appelsOffre,
+  existingAppelsOffres,
+  existingPeriodes,
+  existingFamilles,
 }: ListProjectsProps) {
   const {
     error,
@@ -47,6 +53,19 @@ export default function ListProjects({
     familleId ||
     garantiesFinancieres ||
     hasNonDefaultClassement
+
+  const periodes = appelsOffre
+    .find((ao) => ao.id === appelOffreId)
+    ?.periodes.filter(
+      (periode) => !existingPeriodes || existingPeriodes.includes(periode.id)
+    )
+
+  const familles = appelsOffre
+    .find((ao) => ao.id === appelOffreId)
+    ?.familles.sort((a, b) => a.title.localeCompare(b.title))
+    .filter(
+      (famille) => !existingFamilles || existingFamilles.includes(famille.id)
+    )
 
   const contents = (
     <>
@@ -117,27 +136,30 @@ export default function ListProjects({
                     {...dataId('appelOffreIdSelector')}
                   >
                     <option value="">Tous appels d'offres</option>
-                    {appelsOffre.map((appelOffre) => (
-                      <option
-                        key={'appel_' + appelOffre.id}
-                        value={appelOffre.id}
-                        selected={appelOffre.id === appelOffreId}
-                      >
-                        {appelOffre.shortTitle}
-                      </option>
-                    ))}
+                    {appelsOffre
+                      .filter((appelOffre) =>
+                        existingAppelsOffres.includes(appelOffre.id)
+                      )
+                      .map((appelOffre) => (
+                        <option
+                          key={'appel_' + appelOffre.id}
+                          value={appelOffre.id}
+                          selected={appelOffre.id === appelOffreId}
+                        >
+                          {appelOffre.shortTitle}
+                        </option>
+                      ))}
                   </select>
                   {appelOffreId ? (
                     <>
-                      <select
-                        name="periodeId"
-                        className={periodeId ? 'active' : ''}
-                        {...dataId('periodeIdSelector')}
-                      >
-                        <option value="">Toutes périodes</option>
-                        {appelsOffre
-                          .find((ao) => ao.id === appelOffreId)
-                          ?.periodes.map((periode) => (
+                      {periodes && periodes.length ? (
+                        <select
+                          name="periodeId"
+                          className={periodeId ? 'active' : ''}
+                          {...dataId('periodeIdSelector')}
+                        >
+                          <option value="">Toutes périodes</option>
+                          {periodes.map((periode) => (
                             <option
                               key={'appel_' + periode.id}
                               value={periode.id}
@@ -146,19 +168,16 @@ export default function ListProjects({
                               {periode.title}
                             </option>
                           ))}
-                      </select>
-                      <select
-                        name="familleId"
-                        className={familleId ? 'active' : ''}
-                        {...dataId('familleIdSelector')}
-                      >
-                        <option value="">Toutes familles</option>
-                        {appelsOffre
-                          .find((ao) => ao.id === appelOffreId)
-                          ?.familles.sort((a, b) =>
-                            a.title.localeCompare(b.title)
-                          )
-                          .map((famille) => (
+                        </select>
+                      ) : null}
+                      {familles && familles.length ? (
+                        <select
+                          name="familleId"
+                          className={familleId ? 'active' : ''}
+                          {...dataId('familleIdSelector')}
+                        >
+                          <option value="">Toutes familles</option>
+                          {familles.map((famille) => (
                             <option
                               key={'appel_' + famille.id}
                               value={famille.id}
@@ -167,7 +186,8 @@ export default function ListProjects({
                               {famille.title}
                             </option>
                           ))}
-                      </select>
+                        </select>
+                      ) : null}
                     </>
                   ) : null}
                 </div>

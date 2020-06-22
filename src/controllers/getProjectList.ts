@@ -46,7 +46,7 @@ const getProjectList = async (request: HttpRequest) => {
     familleId = undefined
   }
 
-  const projects = await listProjects({
+  const results = await listProjects({
     user: request.user,
     appelOffreId,
     periodeId,
@@ -57,10 +57,20 @@ const getProjectList = async (request: HttpRequest) => {
     garantiesFinancieres,
   })
 
+  const {
+    projects,
+    existingAppelsOffres,
+    existingPeriodes,
+    existingFamilles,
+  } = results
+
   return Success(
     ListProjectsPage({
       request,
       projects,
+      existingAppelsOffres,
+      existingPeriodes,
+      existingFamilles,
       appelsOffre,
     })
   )

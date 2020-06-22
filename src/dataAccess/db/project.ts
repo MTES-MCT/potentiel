@@ -1,6 +1,13 @@
 import { DataTypes, Op, Transaction } from 'sequelize'
 import { ProjectRepo } from '../'
-import { Project, User, makeProject } from '../../entities'
+import {
+  Project,
+  User,
+  makeProject,
+  AppelOffre,
+  Periode,
+  Famille,
+} from '../../entities'
 import { mapExceptError, mapIfOk } from '../../helpers/results'
 import { paginate, pageCount, makePaginatedList } from '../../helpers/paginate'
 import {
@@ -17,6 +24,7 @@ import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
 import _ from 'lodash'
 import { QueryTypes } from 'sequelize'
+import { Sequelize } from 'sequelize'
 
 // Override these to apply serialization/deserialization on inputs/outputs
 const deserialize = (item) => ({
@@ -247,6 +255,9 @@ export default function makeProjectRepo({
     save,
     remove,
     getUsers,
+    findExistingAppelsOffres,
+    findExistingFamillesForAppelOffre,
+    findExistingPeriodesForAppelOffre,
   })
 
   async function addAppelOffreToProject(project: Project): Promise<Project> {
@@ -327,7 +338,7 @@ export default function makeProjectRepo({
     try {
       const opts: any = {}
       if (query) {
-        opts.where = query
+        opts.where = Object.assign({}, query)
 
         if (query.recherche) {
           const projects = await sequelize.query(
@@ -347,21 +358,6 @@ export default function makeProjectRepo({
           delete opts.where.recherche
         }
 
-        if (query.userId) {
-          opts.include = [
-            {
-              model: sequelize.model('user'),
-              // through: {
-              where: {
-                id: query.userId,
-              },
-              // },
-            },
-          ]
-
-          delete query.userId
-        }
-
         if (query.notifiedOn === -1) {
           // Special case which means != 0
           opts.where.notifiedOn = { [Op.ne]: 0 }
@@ -372,22 +368,8 @@ export default function makeProjectRepo({
           opts.where.garantiesFinancieresSubmittedOn = { [Op.ne]: 0 }
         }
 
-        // regionProjet is of shape 'region1 / region2'
-        // to check if regionProjet is 'region1', we need to use 'like' operator
-        if (typeof query.regionProjet === 'string') {
-          opts.where.regionProjet = {
-            [Op.substring]: query.regionProjet,
-          }
-        } else if (
-          Array.isArray(query.regionProjet) &&
-          query.regionProjet.length
-        ) {
-          opts.where.regionProjet = {
-            [Op.or]: query.regionProjet.map((region) => ({
-              [Op.substring]: region,
-            })),
-          }
-        }
+        makeQueryUserSpecific(opts, query)
+        delete opts.where.userId
       }
 
       if (pagination) {
@@ -549,6 +531,95 @@ export default function makeProjectRepo({
     }
 
     return (await projectInstance.getUsers()).map((item) => item.get())
+  }
+
+  function makeQueryUserSpecific(opts: any, query?: Record<string, any>) {
+    if (!query) return
+
+    if (query.userId) {
+      opts.include = [
+        {
+          model: sequelize.model('user'),
+          attributes: ['id'],
+          where: {
+            id: query.userId,
+          },
+        },
+      ]
+    }
+
+    if (query.regionProjet && !opts.where) {
+      opts.where = {}
+    }
+    // Region can be of shape 'region1 / region2' so equality does not work
+    if (typeof query.regionProjet === 'string') {
+      opts.where.regionProjet = {
+        [Op.substring]: query.regionProjet,
+      }
+    } else if (Array.isArray(query.regionProjet) && query.regionProjet.length) {
+      opts.where.regionProjet = {
+        [Op.or]: query.regionProjet.map((region) => ({
+          [Op.substring]: region,
+        })),
+      }
+    }
+  }
+
+  async function findExistingAppelsOffres(
+    query?: Record<string, any>
+  ): Promise<Array<AppelOffre['id']>> {
+    await _isDbReady
+
+    const opts = {}
+    makeQueryUserSpecific(opts, query)
+
+    const appelsOffres = await ProjectModel.findAll({
+      attributes: ['appelOffreId'],
+      group: ['appelOffreId'],
+      ...opts,
+    })
+
+    return appelsOffres.map((item) => item.get().appelOffreId)
+  }
+
+  async function findExistingPeriodesForAppelOffre(
+    appelOffreId: AppelOffre['id'],
+    query?: Record<string, any>
+  ): Promise<Array<Periode['id']>> {
+    const opts = {
+      where: {
+        appelOffreId,
+      },
+    }
+    makeQueryUserSpecific(opts, query)
+
+    const periodes = await ProjectModel.findAll({
+      attributes: ['periodeId'],
+      group: ['periodeId'],
+      ...opts,
+    })
+
+    return periodes.map((item) => item.get().periodeId)
+  }
+
+  async function findExistingFamillesForAppelOffre(
+    appelOffreId: AppelOffre['id'],
+    query?: Record<string, any>
+  ): Promise<Array<Famille['id']>> {
+    const opts = {
+      where: {
+        appelOffreId,
+      },
+    }
+    makeQueryUserSpecific(opts, query)
+
+    const familles = await ProjectModel.findAll({
+      attributes: ['familleId'],
+      group: ['familleId'],
+      ...opts,
+    })
+
+    return familles.map((item) => item.get().familleId)
   }
 }
 

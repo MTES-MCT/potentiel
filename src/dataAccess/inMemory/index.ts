@@ -16,6 +16,7 @@ import {
   ModificationRequest,
   PasswordRetrieval,
   ProjectEvent,
+  AppelOffre,
   DREAL,
 } from '../../entities'
 import {
@@ -333,6 +334,15 @@ const projectRepo: ProjectRepo = {
       .filter(([userId, projectIds]) => projectIds.includes(_projectId))
       .map(([userId]) => usersById[userId])
   },
+  findExistingAppelsOffres: async (query?: Record<string, any>) => [],
+  findExistingPeriodesForAppelOffre: async (
+    appelOffreId: AppelOffre['id'],
+    query?: Record<string, any>
+  ) => [],
+  findExistingFamillesForAppelOffre: async (
+    appelOffreId: AppelOffre['id'],
+    query?: Record<string, any>
+  ) => [],
 }
 
 let usersById: Record<string, User> = {}
