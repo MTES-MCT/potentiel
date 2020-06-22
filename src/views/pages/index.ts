@@ -9,9 +9,8 @@ import Header from '../components/header'
 import Footer from '../components/footer'
 
 import Login from './login'
-import UserListProjects from './userListProjects'
+import ListProjects from './listProjects'
 import UserListRequests from './userListRequests'
-import AdminListProjects from './adminListProjects'
 import AdminListRequests from './adminListRequests'
 import AdminNotifyCandidates from './adminNotifyCandidates'
 import ImportCandidates from './importCandidates'
@@ -27,11 +26,10 @@ import NotificationList from './notificationList'
 import { HttpRequest } from '../../types'
 
 const LoginPage = makePresenterPage(Login)
-const AdminListProjectsPage = makePresenterPage(AdminListProjects)
 const AdminListRequestsPage = makePresenterPage(AdminListRequests)
 const AdminNotifyCandidatesPage = makePresenterPage(AdminNotifyCandidates)
 const ImportCandidatesPage = makePresenterPage(ImportCandidates)
-const UserListProjectsPage = makePresenterPage(UserListProjects)
+const ListProjectsPage = makePresenterPage(ListProjects)
 const UserListRequestsPage = makePresenterPage(UserListRequests)
 const SignupPage = makePresenterPage(Signup)
 const ModificationRequestPage = makePresenterPage(ModificationRequest)
@@ -45,10 +43,9 @@ const NotificationListPage = makePresenterPage(NotificationList)
 
 export {
   LoginPage,
-  AdminListProjectsPage,
   AdminListRequestsPage,
   ImportCandidatesPage,
-  UserListProjectsPage,
+  ListProjectsPage,
   UserListRequestsPage,
   SignupPage,
   ModificationRequestPage,

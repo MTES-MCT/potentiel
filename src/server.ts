@@ -11,11 +11,10 @@ dotenv.config()
 import makeExpressCallback from './helpers/makeExpressCallback'
 import {
   getLoginPage,
-  getAdminDashboardPage,
+  getProjectList,
   getAdminRequestsPage,
   getImportProjectsPage,
   getNotifyCandidatesPage,
-  getUserDashboardPage,
   registerAuth,
   postLogin,
   ensureLoggedIn,
@@ -153,7 +152,7 @@ export async function makeServer(port: number = 3000) {
       ROUTES.ADMIN_DASHBOARD,
       ensureLoggedIn(),
       ensureRole(['admin', 'dgec', 'dreal']),
-      makeExpressCallback(getAdminDashboardPage)
+      makeExpressCallback(getProjectList)
     )
 
     router.get(
@@ -216,7 +215,7 @@ export async function makeServer(port: number = 3000) {
       ROUTES.USER_DASHBOARD,
       ensureLoggedIn(),
       ensureRole('porteur-projet'),
-      makeExpressCallback(getUserDashboardPage)
+      makeExpressCallback(getProjectList)
     )
 
     router.get(

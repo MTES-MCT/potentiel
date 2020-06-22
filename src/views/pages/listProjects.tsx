@@ -1,4 +1,5 @@
 import AdminDashboard from '../components/adminDashboard'
+import UserDashboard from '../components/userDashboard'
 
 import React from 'react'
 
@@ -11,18 +12,18 @@ import ProjectList from '../components/projectList'
 import { adminActions } from '../components/actions'
 import { HttpRequest, PaginatedList } from '../../types'
 
-interface AdminListProjectsProps {
+interface ListProjectsProps {
   request: HttpRequest
   projects: PaginatedList<Project> | Array<Project>
   appelsOffre: Array<AppelOffre>
 }
 
 /* Pure component */
-export default function AdminListProjects({
+export default function ListProjects({
   request,
   projects,
   appelsOffre,
-}: AdminListProjectsProps) {
+}: ListProjectsProps) {
   const {
     error,
     success,
@@ -34,15 +35,30 @@ export default function AdminListProjects({
     classement,
   } = request.query || {}
 
+  const hasNonDefaultClassement =
+    (request.user?.role === 'porteur-projet' && classement) ||
+    (request.user &&
+      ['admin', 'dreal'].includes(request.user?.role) &&
+      classement !== 'classés')
+
   const hasFilters =
-    appelOffreId || periodeId || familleId || garantiesFinancieres || classement
-  return (
-    <AdminDashboard role={request.user?.role} currentPage="list-projects">
+    appelOffreId ||
+    periodeId ||
+    familleId ||
+    garantiesFinancieres ||
+    hasNonDefaultClassement
+
+  const contents = (
+    <>
       <div className="panel">
         <div className="panel__header">
           <h3>Projets</h3>
           <form
-            action={ROUTES.ADMIN_LIST_PROJECTS}
+            action={
+              request.user?.role === 'porteur-projet'
+                ? ROUTES.USER_LIST_PROJECTS
+                : ROUTES.ADMIN_LIST_PROJECTS
+            }
             method="GET"
             style={{ maxWidth: 'auto', margin: '0 0 25px 0' }}
           >
@@ -100,7 +116,7 @@ export default function AdminListProjects({
                     className={appelOffreId ? 'active' : ''}
                     {...dataId('appelOffreIdSelector')}
                   >
-                    <option value="">Tous AO</option>
+                    <option value="">Tous appels d'offres</option>
                     {appelsOffre.map((appelOffre) => (
                       <option
                         key={'appel_' + appelOffre.id}
@@ -111,43 +127,49 @@ export default function AdminListProjects({
                       </option>
                     ))}
                   </select>
-                  <select
-                    name="periodeId"
-                    className={periodeId ? 'active' : ''}
-                    {...dataId('periodeIdSelector')}
-                  >
-                    <option value="">Toutes périodes</option>
-                    {appelsOffre
-                      .find((ao) => ao.id === appelOffreId)
-                      ?.periodes.map((periode) => (
-                        <option
-                          key={'appel_' + periode.id}
-                          value={periode.id}
-                          selected={periode.id === periodeId}
-                        >
-                          {periode.title}
-                        </option>
-                      ))}
-                  </select>
-                  <select
-                    name="familleId"
-                    className={familleId ? 'active' : ''}
-                    {...dataId('familleIdSelector')}
-                  >
-                    <option value="">Toutes familles</option>
-                    {appelsOffre
-                      .find((ao) => ao.id === appelOffreId)
-                      ?.familles.sort((a, b) => a.title.localeCompare(b.title))
-                      .map((famille) => (
-                        <option
-                          key={'appel_' + famille.id}
-                          value={famille.id}
-                          selected={famille.id === familleId}
-                        >
-                          {famille.title}
-                        </option>
-                      ))}
-                  </select>
+                  {appelOffreId ? (
+                    <>
+                      <select
+                        name="periodeId"
+                        className={periodeId ? 'active' : ''}
+                        {...dataId('periodeIdSelector')}
+                      >
+                        <option value="">Toutes périodes</option>
+                        {appelsOffre
+                          .find((ao) => ao.id === appelOffreId)
+                          ?.periodes.map((periode) => (
+                            <option
+                              key={'appel_' + periode.id}
+                              value={periode.id}
+                              selected={periode.id === periodeId}
+                            >
+                              {periode.title}
+                            </option>
+                          ))}
+                      </select>
+                      <select
+                        name="familleId"
+                        className={familleId ? 'active' : ''}
+                        {...dataId('familleIdSelector')}
+                      >
+                        <option value="">Toutes familles</option>
+                        {appelsOffre
+                          .find((ao) => ao.id === appelOffreId)
+                          ?.familles.sort((a, b) =>
+                            a.title.localeCompare(b.title)
+                          )
+                          .map((famille) => (
+                            <option
+                              key={'appel_' + famille.id}
+                              value={famille.id}
+                              selected={famille.id === familleId}
+                            >
+                              {famille.title}
+                            </option>
+                          ))}
+                      </select>
+                    </>
+                  ) : null}
                 </div>
 
                 <div style={{ marginTop: 15 }}>
@@ -182,7 +204,7 @@ export default function AdminListProjects({
                   <div style={{ marginLeft: 2 }}>Classés/Eliminés</div>
                   <select
                     name="classement"
-                    className={classement ? 'active' : ''}
+                    className={hasNonDefaultClassement ? 'active' : ''}
                     {...dataId('classementSelector')}
                   >
                     <option value="">Tous</option>
@@ -230,7 +252,7 @@ export default function AdminListProjects({
             'Projet',
             'Candidat',
             'Puissance',
-            ...(request.user?.role === 'admin' ? ['Prix'] : []),
+            ...(request.user?.role === 'dreal' ? [] : ['Prix']),
             'Evaluation Carbone',
             'Classé',
           ]}
@@ -240,6 +262,16 @@ export default function AdminListProjects({
           }
         />
       </div>
+    </>
+  )
+
+  if (request.user?.role === 'porteur-projet') {
+    return <UserDashboard currentPage="list-projects">{contents}</UserDashboard>
+  }
+
+  return (
+    <AdminDashboard role={request.user?.role} currentPage="list-projects">
+      {contents}
     </AdminDashboard>
   )
 }

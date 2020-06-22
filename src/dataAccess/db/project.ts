@@ -347,6 +347,21 @@ export default function makeProjectRepo({
           delete opts.where.recherche
         }
 
+        if (query.userId) {
+          opts.include = [
+            {
+              model: sequelize.model('user'),
+              // through: {
+              where: {
+                id: query.userId,
+              },
+              // },
+            },
+          ]
+
+          delete query.userId
+        }
+
         if (query.notifiedOn === -1) {
           // Special case which means != 0
           opts.where.notifiedOn = { [Op.ne]: 0 }

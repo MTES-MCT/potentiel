@@ -1,7 +1,7 @@
 import { Project } from '../entities'
 import { HttpRequest, Pagination } from '../types'
 import { listProjects } from '../useCases'
-import { AdminListProjectsPage } from '../views/pages'
+import { ListProjectsPage } from '../views/pages'
 import { Success, Redirect } from '../helpers/responses'
 import { makePagination } from '../helpers/paginate'
 import ROUTES from '../routes'
@@ -13,8 +13,8 @@ const defaultPagination: Pagination = {
   pageSize: 10,
 }
 
-const getAdminDashboardPage = async (request: HttpRequest) => {
-  // console.log('getAdminDashboardPage request.query', request.query)
+const getProjectList = async (request: HttpRequest) => {
+  // console.log('getProjectList request.query', request.query)
   let {
     appelOffreId,
     periodeId,
@@ -26,6 +26,14 @@ const getAdminDashboardPage = async (request: HttpRequest) => {
 
   if (!request.user) {
     return Redirect(ROUTES.LOGIN)
+  }
+
+  if (
+    ['admin', 'dgec', 'dreal'].includes(request.user.role) &&
+    typeof classement === 'undefined'
+  ) {
+    classement = 'classés'
+    request.query.classement = 'classés'
   }
 
   const pagination = makePagination(request.query, defaultPagination)
@@ -50,7 +58,7 @@ const getAdminDashboardPage = async (request: HttpRequest) => {
   })
 
   return Success(
-    AdminListProjectsPage({
+    ListProjectsPage({
       request,
       projects,
       appelsOffre,
@@ -58,4 +66,4 @@ const getAdminDashboardPage = async (request: HttpRequest) => {
   )
 }
 
-export { getAdminDashboardPage }
+export { getProjectList }

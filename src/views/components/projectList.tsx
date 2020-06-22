@@ -18,10 +18,10 @@ type Columns =
   | 'Evaluation Carbone'
   | 'Classé'
 
-type ColumnRenderer = (project: Project) => React.ReactNode
+type ColumnRenderer = (props: { project: Project }) => React.ReactNode
 
 const ColumnComponent: Record<Columns, ColumnRenderer> = {
-  Periode: (project) => (
+  Periode: ({ project }) => (
     <td valign="top">
       <div
         style={{
@@ -45,7 +45,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
       </div>
     </td>
   ),
-  Projet: (project) => (
+  Projet: ({ project }) => (
     <td valign="top">
       <div {...dataId('projectList-item-nomProjet')}>{project.nomProjet}</div>
       <div
@@ -69,7 +69,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
       </div>
     </td>
   ),
-  Candidat: (project) => (
+  Candidat: ({ project }) => (
     <td valign="top">
       <div {...dataId('projectList-item-nomCandidat')}>
         {project.nomCandidat}
@@ -88,7 +88,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
       </div>
     </td>
   ),
-  Puissance: (project) => (
+  Puissance: ({ project }) => (
     <td valign="top">
       <span {...dataId('projectList-item-puissance')}>{project.puissance}</span>{' '}
       <span
@@ -102,7 +102,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
       </span>
     </td>
   ),
-  Prix: (project) => (
+  Prix: ({ project }) => (
     <td valign="top">
       <span {...dataId('projectList-item-prixReference')}>
         {project.prixReference}
@@ -118,7 +118,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
       </span>
     </td>
   ),
-  'Evaluation Carbone': (project) => (
+  'Evaluation Carbone': ({ project }) => (
     <td valign="top">
       <span {...dataId('projectList-item-evaluationCarbone')}>
         {project.evaluationCarbone}
@@ -134,7 +134,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
       </span>
     </td>
   ),
-  Classé: (project) => (
+  Classé: ({ project }) => (
     <td
       valign="top"
       className={
@@ -258,9 +258,15 @@ const ProjectList = ({ projects, displayColumns, projectActions }: Props) => {
                 style={{ cursor: 'pointer' }}
                 data-goto-projectid={project.id}
               >
-                {displayColumns?.map((column) =>
-                  ColumnComponent[column](project)
-                )}
+                {displayColumns?.map((column) => {
+                  const Column = ColumnComponent[column]
+                  return (
+                    <Column
+                      key={'project_' + project.id + '_' + column}
+                      project={project}
+                    />
+                  )
+                })}
                 {projectActions ? (
                   <td {...dataId('item-actions-container')}>
                     <ProjectActions

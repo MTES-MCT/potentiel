@@ -33,22 +33,17 @@ export default function makeListProjects({
     classement,
     garantiesFinancieres,
   }: CallUseCaseProps): Promise<PaginatedList<Project>> {
-    let userDreals: Array<DREAL> = []
-    if (user.role === 'dreal') {
-      userDreals = await userRepo.findDrealsForUser(user.id)
+    const query: any = {
+      notifiedOn: -1, // This means > 0
     }
 
-    const query: any =
-      user.role === 'admin'
-        ? {
-            notifiedOn: -1, // This means > 0
-          }
-        : user.role === 'dreal'
-        ? {
-            notifiedOn: -1, // This means > 0
-            regionProjet: userDreals,
-          }
-        : { id: '' } // never
+    if (user.role === 'dreal') {
+      query.regionProjet = await userRepo.findDrealsForUser(user.id)
+    }
+
+    if (user.role === 'porteur-projet') {
+      query.userId = user.id
+    }
 
     if (appelOffreId) {
       query.appelOffreId = appelOffreId

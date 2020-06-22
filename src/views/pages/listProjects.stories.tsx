@@ -4,22 +4,14 @@ import makeFakeProject from '../../__tests__/fixtures/project'
 import makeFakeRequest from '../../__tests__/fixtures/request'
 import makeFakeUser from '../../__tests__/fixtures/user'
 
-import AdminListProjects from './adminListProjects'
+import ListProjects from './listProjects'
 
-export default { title: 'Admin List Projects' }
+export default { title: 'List Projects' }
 
 import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
 
-export const empty = () => (
-  <AdminListProjects
-    request={makeFakeRequest({}, { role: 'admin' })}
-    projects={[]}
-    appelsOffre={appelsOffreStatic}
-  />
-)
-
 export const withFilters = () => (
-  <AdminListProjects
+  <ListProjects
     request={makeFakeRequest(
       {
         query: {
@@ -28,7 +20,7 @@ export const withFilters = () => (
           garantiesFinancieres: 'notSubmitted',
         },
       },
-      { role: 'admin' }
+      { role: 'porteur-projet' }
     )}
     projects={[]}
     appelsOffre={appelsOffreStatic}
@@ -36,7 +28,7 @@ export const withFilters = () => (
 )
 
 export const withError = () => (
-  <AdminListProjects
+  <ListProjects
     request={makeFakeRequest({
       query: { error: 'This is an error message!' },
     })}
@@ -46,7 +38,7 @@ export const withError = () => (
 )
 
 export const withSuccess = () => (
-  <AdminListProjects
+  <ListProjects
     request={makeFakeRequest({
       query: { success: 'This is a success message!' },
     })}
@@ -55,9 +47,55 @@ export const withSuccess = () => (
   />
 )
 
-export const withProjects = () => (
-  <AdminListProjects
-    request={makeFakeRequest()}
+export const adminWithProjects = () => (
+  <ListProjects
+    request={makeFakeRequest({}, { role: 'admin' })}
+    appelsOffre={appelsOffreStatic}
+    projects={[
+      makeFakeProject({
+        isFinancementParticipatif: true,
+      }),
+      makeFakeProject({
+        classe: 'Classé',
+        isFinancementParticipatif: true,
+      }),
+      makeFakeProject({
+        classe: 'Classé',
+        isInvestissementParticipatif: true,
+      }),
+      makeFakeProject({
+        classe: 'Classé',
+      }),
+    ]}
+  />
+)
+
+export const drealWithProjects = () => (
+  <ListProjects
+    request={makeFakeRequest({}, { role: 'dreal' })}
+    appelsOffre={appelsOffreStatic}
+    projects={[
+      makeFakeProject({
+        isFinancementParticipatif: true,
+      }),
+      makeFakeProject({
+        classe: 'Classé',
+        isFinancementParticipatif: true,
+      }),
+      makeFakeProject({
+        classe: 'Classé',
+        isInvestissementParticipatif: true,
+      }),
+      makeFakeProject({
+        classe: 'Classé',
+      }),
+    ]}
+  />
+)
+
+export const porteurProjetWithProjects = () => (
+  <ListProjects
+    request={makeFakeRequest({}, { role: 'porteur-projet' })}
     appelsOffre={appelsOffreStatic}
     projects={[
       makeFakeProject({
