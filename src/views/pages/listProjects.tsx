@@ -14,7 +14,7 @@ import { HttpRequest, PaginatedList } from '../../types'
 
 interface ListProjectsProps {
   request: HttpRequest
-  projects: PaginatedList<Project> | Array<Project>
+  projects: PaginatedList<Project>
   appelsOffre: Array<AppelOffre>
   existingAppelsOffres: Array<AppelOffre['id']>
   existingPeriodes?: Array<Periode['id']>

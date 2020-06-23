@@ -1,7 +1,7 @@
 import { Project, AppelOffre, Periode, Famille, User, DREAL } from '../entities'
 import { ProjectRepo, UserRepo } from '../dataAccess'
 import { Pagination, PaginatedList } from '../types'
-import periode from '../entities/periode'
+import _ from 'lodash'
 
 interface MakeUseCaseProps {
   projectRepo: ProjectRepo
@@ -41,7 +41,7 @@ export default function makeListProjects({
     garantiesFinancieres,
   }: CallUseCaseProps): Promise<UseCaseReturnType> {
     const query: any = {
-      notifiedOn: -1, // This means > 0
+      notifiedOn: -1, // -1 means !== 0 (only notified projects)
     }
 
     if (user.role === 'dreal') {
@@ -80,18 +80,19 @@ export default function makeListProjects({
 
     const result: any = {}
 
+    const genericQuery = _.pick(query, ['notifiedOn', 'regionProjet', 'userId'])
     result.existingAppelsOffres = await projectRepo.findExistingAppelsOffres(
-      query
+      genericQuery
     )
 
     if (appelOffreId) {
       result.existingPeriodes = await projectRepo.findExistingPeriodesForAppelOffre(
         appelOffreId,
-        query
+        genericQuery
       )
       result.existingFamilles = await projectRepo.findExistingFamillesForAppelOffre(
         appelOffreId,
-        query
+        genericQuery
       )
     }
 

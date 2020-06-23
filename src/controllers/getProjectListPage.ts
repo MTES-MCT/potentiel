@@ -13,8 +13,8 @@ const defaultPagination: Pagination = {
   pageSize: 10,
 }
 
-const getProjectList = async (request: HttpRequest) => {
-  // console.log('getProjectList request.query', request.query)
+const getProjectListPage = async (request: HttpRequest) => {
+  // console.log('getProjectListPage request.query', request.query)
   let {
     appelOffreId,
     periodeId,
@@ -76,4 +76,4 @@ const getProjectList = async (request: HttpRequest) => {
   )
 }
 
-export { getProjectList }
+export { getProjectListPage }

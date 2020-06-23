@@ -1,59 +1,68 @@
-import { HttpRequest } from '../types'
+import { HttpRequest, Pagination } from '../types'
 import { listUnnotifiedProjects } from '../useCases'
 import { AdminNotifyCandidatesPage } from '../views/pages'
 import { Success, Redirect } from '../helpers/responses'
+import { makePagination } from '../helpers/paginate'
 import routes from '../routes'
 
-import { appelOffreRepo } from '../dataAccess'
+const defaultPagination: Pagination = {
+  page: 0,
+  pageSize: 10,
+}
 
 const getNotifyCandidatesPage = async (request: HttpRequest) => {
-  let { appelOffreId, periodeId } = request.query
   // console.log('getNotifyCandidatesPage request.query', appelOffreId, periodeId)
+  let { appelOffreId, periodeId, recherche, classement } = request.query
 
-  const appelsOffre = await appelOffreRepo.findAll()
-
-  const appelOffre = appelsOffre.find((item) => item.id === appelOffreId)
-
-  if (!appelOffreId || !appelOffre) {
-    console.log('Cannot find appelOffreId', appelOffreId)
-    // No valid AO, take the first
-    appelOffreId = appelsOffre[0].id
-    periodeId = appelsOffre[0].periodes[0].id
-
-    return Redirect(routes.ADMIN_NOTIFY_CANDIDATES({ appelOffreId, periodeId }))
+  if (!request.user || !['admin', 'dgec'].includes(request.user.role)) {
+    return Redirect(routes.LOGIN)
   }
 
-  if (
-    !periodeId ||
-    !appelOffre.periodes.find(
-      (periode) => periode.id === periodeId && periode.canGenerateCertificate
-    )
-  ) {
-    // No valid période, take the first from this AO
-    console.log('Cannot find periodeId', periodeId)
-    periodeId = appelOffre.periodes.filter(
-      (periode) => periode.canGenerateCertificate
-    )[0]?.id
+  const pagination = makePagination(request.query, defaultPagination)
 
-    return Redirect(routes.ADMIN_NOTIFY_CANDIDATES({ appelOffreId, periodeId }))
+  if (!appelOffreId) {
+    // Reset the periodId
+    periodeId = undefined
   }
 
-  // console.log('All good')
-
-  const projects = await listUnnotifiedProjects({
+  const result = await listUnnotifiedProjects({
     appelOffreId,
     periodeId,
+    pagination,
+    recherche,
+    classement,
   })
 
-  // TODO only list projects that are not notified for this AO / periode
+  if (result === null) {
+    return Success(
+      AdminNotifyCandidatesPage({
+        request,
+      })
+    )
+  }
+
+  const {
+    appelsOffre,
+    projects,
+    projectsInPeriodCount,
+    selectedAppelOffreId,
+    selectedPeriodeId,
+    existingAppelsOffres,
+    existingPeriodes,
+  } = result
 
   return Success(
     AdminNotifyCandidatesPage({
       request,
-      projects,
-      appelsOffre,
-      selectedAppelOffreId: appelOffreId,
-      selectedPeriodeId: periodeId,
+      results: {
+        appelsOffre,
+        projects,
+        projectsInPeriodCount,
+        selectedAppelOffreId,
+        selectedPeriodeId,
+        existingAppelsOffres,
+        existingPeriodes,
+      },
     })
   )
 }

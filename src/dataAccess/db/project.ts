@@ -325,6 +325,74 @@ export default function makeProjectRepo({
     }
   }
 
+  async function makeSelectorsForQuery(query?: Record<string, any>) {
+    const opts: any = {}
+
+    if (query) {
+      opts.where = Object.assign({}, query)
+
+      if (query.recherche) {
+        const projects = await sequelize.query(
+          'SELECT id from project_search WHERE project_search MATCH :recherche LIMIT 100;',
+          {
+            replacements: {
+              recherche: query.recherche
+                .split(' ')
+                .map((token) => '*' + token + '*')
+                .join(' '),
+            },
+            type: QueryTypes.SELECT,
+          }
+        )
+
+        opts.where.id = projects.map((item) => item.id)
+        delete opts.where.recherche
+      }
+
+      if (query.notifiedOn === -1) {
+        // Special case which means != 0
+        opts.where.notifiedOn = { [Op.ne]: 0 }
+      }
+
+      if (query.garantiesFinancieresSubmittedOn === -1) {
+        // Special case which means != 0
+        opts.where.garantiesFinancieresSubmittedOn = { [Op.ne]: 0 }
+      }
+
+      // Filter specifically for this user
+      if (query.userId) {
+        opts.include = [
+          {
+            model: sequelize.model('user'),
+            attributes: ['id'],
+            where: {
+              id: query.userId,
+            },
+          },
+        ]
+        delete opts.where.userId
+      }
+
+      // Region can be of shape 'region1 / region2' so equality does not work
+      if (typeof query.regionProjet === 'string') {
+        opts.where.regionProjet = {
+          [Op.substring]: query.regionProjet,
+        }
+      } else if (
+        Array.isArray(query.regionProjet) &&
+        query.regionProjet.length
+      ) {
+        opts.where.regionProjet = {
+          [Op.or]: query.regionProjet.map((region) => ({
+            [Op.substring]: region,
+          })),
+        }
+      }
+    }
+
+    return opts
+  }
+
   async function findAll(query?: Record<string, any>): Promise<Array<Project>>
   async function findAll(
     query: Record<string, any>,
@@ -336,41 +404,7 @@ export default function makeProjectRepo({
   ): Promise<PaginatedList<Project> | Array<Project>> {
     await _isDbReady
     try {
-      const opts: any = {}
-      if (query) {
-        opts.where = Object.assign({}, query)
-
-        if (query.recherche) {
-          const projects = await sequelize.query(
-            'SELECT id from project_search WHERE project_search MATCH :recherche LIMIT 100;',
-            {
-              replacements: {
-                recherche: query.recherche
-                  .split(' ')
-                  .map((token) => '*' + token + '*')
-                  .join(' '),
-              },
-              type: QueryTypes.SELECT,
-            }
-          )
-
-          opts.where.id = projects.map((item) => item.id)
-          delete opts.where.recherche
-        }
-
-        if (query.notifiedOn === -1) {
-          // Special case which means != 0
-          opts.where.notifiedOn = { [Op.ne]: 0 }
-        }
-
-        if (query.garantiesFinancieresSubmittedOn === -1) {
-          // Special case which means != 0
-          opts.where.garantiesFinancieresSubmittedOn = { [Op.ne]: 0 }
-        }
-
-        makeQueryUserSpecific(opts, query)
-        delete opts.where.userId
-      }
+      const opts = await makeSelectorsForQuery(query)
 
       if (pagination) {
         const { count, rows } = await ProjectModel.findAndCountAll({
@@ -533,45 +567,12 @@ export default function makeProjectRepo({
     return (await projectInstance.getUsers()).map((item) => item.get())
   }
 
-  function makeQueryUserSpecific(opts: any, query?: Record<string, any>) {
-    if (!query) return
-
-    if (query.userId) {
-      opts.include = [
-        {
-          model: sequelize.model('user'),
-          attributes: ['id'],
-          where: {
-            id: query.userId,
-          },
-        },
-      ]
-    }
-
-    if (query.regionProjet && !opts.where) {
-      opts.where = {}
-    }
-    // Region can be of shape 'region1 / region2' so equality does not work
-    if (typeof query.regionProjet === 'string') {
-      opts.where.regionProjet = {
-        [Op.substring]: query.regionProjet,
-      }
-    } else if (Array.isArray(query.regionProjet) && query.regionProjet.length) {
-      opts.where.regionProjet = {
-        [Op.or]: query.regionProjet.map((region) => ({
-          [Op.substring]: region,
-        })),
-      }
-    }
-  }
-
   async function findExistingAppelsOffres(
     query?: Record<string, any>
   ): Promise<Array<AppelOffre['id']>> {
     await _isDbReady
 
-    const opts = {}
-    makeQueryUserSpecific(opts, query)
+    const opts = await makeSelectorsForQuery(query)
 
     const appelsOffres = await ProjectModel.findAll({
       attributes: ['appelOffreId'],
@@ -586,12 +587,8 @@ export default function makeProjectRepo({
     appelOffreId: AppelOffre['id'],
     query?: Record<string, any>
   ): Promise<Array<Periode['id']>> {
-    const opts = {
-      where: {
-        appelOffreId,
-      },
-    }
-    makeQueryUserSpecific(opts, query)
+    const opts = await makeSelectorsForQuery(query)
+    opts.where.appelOffreId = appelOffreId
 
     const periodes = await ProjectModel.findAll({
       attributes: ['periodeId'],
@@ -606,12 +603,8 @@ export default function makeProjectRepo({
     appelOffreId: AppelOffre['id'],
     query?: Record<string, any>
   ): Promise<Array<Famille['id']>> {
-    const opts = {
-      where: {
-        appelOffreId,
-      },
-    }
-    makeQueryUserSpecific(opts, query)
+    const opts = await makeSelectorsForQuery(query)
+    opts.where.appelOffreId = appelOffreId
 
     const familles = await ProjectModel.findAll({
       attributes: ['familleId'],

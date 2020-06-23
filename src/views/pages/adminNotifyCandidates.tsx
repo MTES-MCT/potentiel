@@ -4,40 +4,163 @@ import React from 'react'
 import moment from 'moment'
 import pagination from '../../__tests__/fixtures/pagination'
 
-import { Project, AppelOffre, Periode } from '../../entities'
+import { Project, AppelOffre, Periode, Famille } from '../../entities'
 import ROUTES from '../../routes'
 import { dataId } from '../../helpers/testId'
 
 import ProjectList from '../components/projectList'
-import { HttpRequest } from '../../types'
+import { HttpRequest, PaginatedList } from '../../types'
 
-interface AdminNotifyCandidatesProps {
+type AdminNotifyCandidatesProps = {
   request: HttpRequest
-  projects: Array<Project>
-  appelsOffre: Array<AppelOffre>
-  selectedAppelOffreId: AppelOffre['id']
-  selectedPeriodeId: Periode['id']
+  results?: {
+    appelsOffre: Array<AppelOffre>
+    projects: PaginatedList<Project>
+    projectsInPeriodCount: number
+    selectedAppelOffreId: AppelOffre['id']
+    selectedPeriodeId: Periode['id']
+    existingAppelsOffres: Array<AppelOffre['id']>
+    existingPeriodes?: Array<Periode['id']>
+  }
 }
 
 /* Pure component */
 export default function AdminNotifyCandidates({
   request,
-  projects,
-  appelsOffre,
-  selectedAppelOffreId,
-  selectedPeriodeId,
+  results,
 }: AdminNotifyCandidatesProps) {
-  const { error, success } = request.query || {}
+  const { error, success, recherche, classement } = request.query || {}
+
+  if (!results) {
+    // All projects have been notified
+    return (
+      <AdminDashboard role={request.user?.role} currentPage="notify-candidates">
+        <div className="panel">
+          <div className="panel__header">
+            <h3>Projets à notifier</h3>
+          </div>
+          {success ? (
+            <div
+              className="notification success"
+              {...dataId('success-message')}
+            >
+              {success}
+            </div>
+          ) : (
+            ''
+          )}
+          {error ? (
+            <div className="notification error" {...dataId('error-message')}>
+              {error}
+            </div>
+          ) : (
+            ''
+          )}
+          <div>Tous les candidats ont été notifiés</div>
+        </div>
+      </AdminDashboard>
+    )
+  }
+
+  const {
+    projects,
+    appelsOffre,
+    projectsInPeriodCount,
+    selectedAppelOffreId,
+    selectedPeriodeId,
+    existingAppelsOffres,
+    existingPeriodes,
+  } = results
+
+  const hasFilters = classement && classement !== ''
+
+  const periodes =
+    appelsOffre
+      .find((ao) => ao.id === selectedAppelOffreId)
+      ?.periodes.filter(
+        (periode) => !existingPeriodes || existingPeriodes.includes(periode.id)
+      ) || []
+
   return (
     <AdminDashboard role={request.user?.role} currentPage="notify-candidates">
       <div className="panel">
         <div className="panel__header">
           <h3>Projets à notifier</h3>
-          <input
-            type="text"
-            className="table__filter"
-            placeholder="Filtrer les projets"
-          />
+          <form
+            action={ROUTES.ADMIN_NOTIFY_CANDIDATES()}
+            method="GET"
+            style={{ maxWidth: 'auto', margin: '0 0 25px 0' }}
+          >
+            <div className="form__group" style={{ marginTop: 20 }}>
+              <input
+                type="text"
+                name="recherche"
+                {...dataId('recherche-field')}
+                style={{ paddingRight: 40 }}
+                defaultValue={recherche || ''}
+              />
+              <button
+                className="overlay-button"
+                style={{
+                  right: 10,
+                  top: 10,
+                  width: 30,
+                  height: 30,
+                }}
+                type="submit"
+                {...dataId('submit-button')}
+              >
+                <svg
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  stroke="var(--grey)"
+                  width="20"
+                  height="20"
+                >
+                  <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+              </button>
+            </div>
+
+            <div className="form__group">
+              <legend
+                {...dataId('visibility-toggle')}
+                className={'filter-toggle' + (hasFilters ? ' open' : '')}
+              >
+                Filtrer
+                <svg className="icon filter-icon">
+                  <use xlinkHref="#expand"></use>
+                </svg>
+              </legend>
+              <div className="filter-panel">
+                <div style={{ marginTop: 15 }}>
+                  <div style={{ marginLeft: 2 }}>Classés/Eliminés</div>
+                  <select
+                    name="classement"
+                    className={classement ? 'active' : ''}
+                    {...dataId('classementSelector')}
+                  >
+                    <option value="">Tous</option>
+                    <option
+                      value="classés"
+                      selected={classement && classement === 'classés'}
+                    >
+                      Classés
+                    </option>
+                    <option
+                      value="éliminés"
+                      selected={classement && classement === 'éliminés'}
+                    >
+                      Eliminés
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
         <form
           action={ROUTES.ADMIN_NOTIFY_CANDIDATES_ACTION}
@@ -51,24 +174,27 @@ export default function AdminNotifyCandidates({
               id="appelOffreId"
               {...dataId('appelOffreIdSelector')}
             >
-              {appelsOffre.map((appelOffre) => (
-                <option
-                  key={'appel_' + appelOffre.id}
-                  value={appelOffre.id}
-                  selected={appelOffre.id === selectedAppelOffreId}
-                >
-                  {appelOffre.shortTitle}
-                </option>
-              ))}
+              {appelsOffre
+                .filter((appelOffre) =>
+                  existingAppelsOffres.includes(appelOffre.id)
+                )
+                .map((appelOffre) => (
+                  <option
+                    key={'appel_' + appelOffre.id}
+                    value={appelOffre.id}
+                    selected={appelOffre.id === selectedAppelOffreId}
+                  >
+                    {appelOffre.shortTitle}
+                  </option>
+                ))}
             </select>
             <select
               name="periodeId"
               id="periodeId"
               {...dataId('periodeIdSelector')}
             >
-              {appelsOffre
-                .find((ao) => ao.id === selectedAppelOffreId)
-                ?.periodes.filter((periode) => !!periode.canGenerateCertificate)
+              {periodes
+                .filter((periode) => !!periode.canGenerateCertificate)
                 .map((periode) => (
                   <option
                     key={'appel_' + periode.id}
@@ -80,7 +206,7 @@ export default function AdminNotifyCandidates({
                 ))}
             </select>
           </div>
-          {projects?.length ? (
+          {projectsInPeriodCount ? (
             <div className="form__group">
               <label htmlFor="notificationDate">
                 Date désignation (format JJ/MM/AAAA)
@@ -89,7 +215,7 @@ export default function AdminNotifyCandidates({
                 type="text"
                 name="notificationDate"
                 id="notificationDate"
-                value={moment().format('DD/MM/YYYY')}
+                defaultValue={moment().format('DD/MM/YYYY')}
                 {...dataId('modificationRequest-notificationDateField')}
                 style={{ width: 'auto' }}
               />
@@ -100,7 +226,8 @@ export default function AdminNotifyCandidates({
                 id="submit"
                 {...dataId('submit-button')}
               >
-                Envoyer la notifications aux {projects.length} candidats
+                Envoyer la notifications aux {projectsInPeriodCount} candidats
+                de cette période
               </button>
             </div>
           ) : (
