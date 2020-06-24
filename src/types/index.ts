@@ -12,12 +12,14 @@ export type HttpRequest = {
   params: any
   user?: User
   file?: any
+  cookies?: Record<string, any>
 }
 
 export type HttpResponse =
   | {
       statusCode: number
       body: string | Record<string, any>
+      cookies?: Record<string, any>
       logout?: boolean
     }
   | {

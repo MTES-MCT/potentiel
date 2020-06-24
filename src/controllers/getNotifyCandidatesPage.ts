@@ -5,11 +5,6 @@ import { Success, Redirect } from '../helpers/responses'
 import { makePagination } from '../helpers/paginate'
 import routes from '../routes'
 
-const defaultPagination: Pagination = {
-  page: 0,
-  pageSize: 10,
-}
-
 const getNotifyCandidatesPage = async (request: HttpRequest) => {
   // console.log('getNotifyCandidatesPage request.query', appelOffreId, periodeId)
   let { appelOffreId, periodeId, recherche, classement } = request.query
@@ -18,6 +13,10 @@ const getNotifyCandidatesPage = async (request: HttpRequest) => {
     return Redirect(routes.LOGIN)
   }
 
+  const defaultPagination: Pagination = {
+    page: 0,
+    pageSize: +request.cookies?.pageSize || 10,
+  }
   const pagination = makePagination(request.query, defaultPagination)
 
   if (!appelOffreId) {
@@ -63,7 +62,13 @@ const getNotifyCandidatesPage = async (request: HttpRequest) => {
         existingAppelsOffres,
         existingPeriodes,
       },
-    })
+    }),
+    // Save pageSize in a cookie
+    request.query.pageSize
+      ? {
+          cookies: { pageSize: request.query.pageSize },
+        }
+      : undefined
   )
 }
 

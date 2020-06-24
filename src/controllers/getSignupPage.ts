@@ -56,7 +56,7 @@ const getSignupPage = async (request: HttpRequest) => {
       request,
       projectAdmissionKey,
     }),
-    logoutUser
+    { logout: logoutUser }
   )
 }
 export { getSignupPage }

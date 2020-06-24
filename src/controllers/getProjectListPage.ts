@@ -8,13 +8,7 @@ import ROUTES from '../routes'
 
 import { appelOffreRepo } from '../dataAccess'
 
-const defaultPagination: Pagination = {
-  page: 0,
-  pageSize: 10,
-}
-
 const getProjectListPage = async (request: HttpRequest) => {
-  // console.log('getProjectListPage request.query', request.query)
   let {
     appelOffreId,
     periodeId,
@@ -36,6 +30,10 @@ const getProjectListPage = async (request: HttpRequest) => {
     request.query.classement = 'classés'
   }
 
+  const defaultPagination: Pagination = {
+    page: 0,
+    pageSize: +request.cookies?.pageSize || 10,
+  }
   const pagination = makePagination(request.query, defaultPagination)
 
   const appelsOffre = await appelOffreRepo.findAll()
@@ -72,7 +70,13 @@ const getProjectListPage = async (request: HttpRequest) => {
       existingPeriodes,
       existingFamilles,
       appelsOffre,
-    })
+    }),
+    // Save pageSize in a cookie
+    request.query.pageSize
+      ? {
+          cookies: { pageSize: request.query.pageSize },
+        }
+      : undefined
   )
 }
 

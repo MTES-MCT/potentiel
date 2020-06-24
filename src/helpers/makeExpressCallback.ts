@@ -37,6 +37,7 @@ export default function makeExpressCallback(controller: Controller) {
       params: req.params,
       user: <User>req.user,
       file: req.file,
+      cookies: req.cookies,
       // ip: req.ip,
       // method: req.method,
       // path: req.path,
@@ -53,6 +54,15 @@ export default function makeExpressCallback(controller: Controller) {
         //   res.set(httpResponse.headers)
         // }
         // res.type('json')
+
+        if ('cookies' in httpResponse) {
+          Object.entries(httpResponse.cookies || {}).forEach(([key, value]) => {
+            res.cookie(key, value, {
+              maxAge: 1000 * 60 * 60 * 24 * 30 * 3, // 3 months
+              httpOnly: true,
+            })
+          })
+        }
 
         if ('redirect' in httpResponse) {
           // If user is provided, log him in

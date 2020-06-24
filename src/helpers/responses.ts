@@ -3,13 +3,17 @@ import { HttpResponse } from '../types'
 
 const Success = (
   body: string | Record<string, any>,
-  logout?: boolean
+  options?: {
+    logout?: boolean
+    cookies?: Record<string, any>
+  }
 ): HttpResponse => {
   // console.log('Calling success with body', body)
   return {
     statusCode: 200,
     body,
-    logout,
+    logout: options?.logout,
+    cookies: options?.cookies,
   }
 }
 

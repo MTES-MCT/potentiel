@@ -2,6 +2,7 @@ import express from 'express'
 import multer from 'multer'
 import session from 'express-session'
 import bodyParser from 'body-parser'
+import cookieParser from 'cookie-parser'
 
 import { version } from '../package.json'
 
@@ -78,6 +79,8 @@ export async function makeServer(port: number = 3000) {
 
     app.use(bodyParser.urlencoded({ extended: false }))
     app.use(bodyParser.json())
+
+    app.use(cookieParser())
 
     registerAuth({
       app,
