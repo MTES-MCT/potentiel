@@ -116,7 +116,7 @@ export default function ListProjects({
             </div>
 
             <div className="form__group">
-              <legend
+              <div
                 {...dataId('visibility-toggle')}
                 className={'filter-toggle' + (hasFilters ? ' open' : '')}
               >
@@ -124,7 +124,7 @@ export default function ListProjects({
                 <svg className="icon filter-icon">
                   <use xlinkHref="#expand"></use>
                 </svg>
-              </legend>
+              </div>
               <div className="filter-panel">
                 <div>
                   <div style={{ marginLeft: 2 }}>

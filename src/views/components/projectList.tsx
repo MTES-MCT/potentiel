@@ -22,7 +22,7 @@ type ColumnRenderer = (props: { project: Project }) => React.ReactNode
 
 const ColumnComponent: Record<Columns, ColumnRenderer> = {
   Periode: ({ project }) => (
-    <td valign="top">
+    <td valign="top" className="projectList-periode-column">
       <div
         style={{
           fontStyle: 'italic',
@@ -46,7 +46,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
     </td>
   ),
   Projet: ({ project }) => (
-    <td valign="top">
+    <td valign="top" className="projectList-projet-column">
       <div {...dataId('projectList-item-nomProjet')}>{project.nomProjet}</div>
       <div
         style={{
@@ -70,7 +70,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
     </td>
   ),
   Candidat: ({ project }) => (
-    <td valign="top">
+    <td valign="top" className="projectList-candidat-column">
       <div {...dataId('projectList-item-nomCandidat')}>
         {project.nomCandidat}
       </div>
@@ -89,7 +89,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
     </td>
   ),
   Puissance: ({ project }) => (
-    <td valign="top">
+    <td valign="top" className="projectList-puissance-column">
       <span {...dataId('projectList-item-puissance')}>{project.puissance}</span>{' '}
       <span
         style={{
@@ -103,7 +103,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
     </td>
   ),
   Prix: ({ project }) => (
-    <td valign="top">
+    <td valign="top" className="projectList-prix-column">
       <span {...dataId('projectList-item-prixReference')}>
         {project.prixReference}
       </span>{' '}
@@ -119,7 +119,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
     </td>
   ),
   'Evaluation Carbone': ({ project }) => (
-    <td valign="top">
+    <td valign="top" className="projectList-evaluation-column">
       <span {...dataId('projectList-item-evaluationCarbone')}>
         {project.evaluationCarbone}
       </span>{' '}
@@ -138,7 +138,8 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
     <td
       valign="top"
       className={
-        'notification ' + (project.classe === 'Classé' ? 'success' : 'error')
+        'projectList-classe-column notification ' +
+        (project.classe === 'Classé' ? 'success' : 'error')
       }
       style={{ position: 'relative' }}
     >
@@ -240,7 +241,7 @@ const ProjectList = ({ projects, displayColumns, projectActions }: Props) => {
 
   return (
     <>
-      <table className="table" {...dataId('projectList-list')}>
+      <table className="table projectList" {...dataId('projectList-list')}>
         <thead>
           <tr>
             {displayColumns?.map((column) => (

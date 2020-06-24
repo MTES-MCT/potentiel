@@ -52,6 +52,25 @@
 }
 
 /* Project List */
+
+@media only screen and (max-width: 750px) {
+  .projectList thead {
+    display: none;
+  }
+  .projectList td {
+    display: none;
+  }
+  .projectList td.projectList-projet-column {
+    display: block;
+    padding-left: var(--space-xs);
+    padding-right: 0;
+  }
+}
+
+select {
+  max-width: 100%;
+}
+
 .motif-popover {
   position: absolute;
   right: 0;
@@ -175,9 +194,9 @@ a.button-outline {
 .filter-icon {
   transform: rotate(-90deg);
   transition: transform 300ms;
-  position: absolute;
-  right: -20px;
-  bottom: 4px;
+  margin-left: 15px;
+  vertical-align: middle;
+  top: -2px;
 }
 
 .open > .filter-icon {
