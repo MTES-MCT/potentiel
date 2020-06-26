@@ -16,20 +16,12 @@ const selectedPeriodeId = appelsOffreStatic[0].periodes[0].id
 
 export const withError = () => (
   <AdminNotifyCandidates
-    projects={[]}
-    appelsOffre={appelsOffreStatic}
-    selectedAppelOffreId={selectedAppelOffreId}
-    selectedPeriodeId={selectedPeriodeId}
     request={makeFakeRequest({ query: { error: 'This is an error message!' } })}
   />
 )
 
 export const withSuccess = () => (
   <AdminNotifyCandidates
-    projects={[]}
-    appelsOffre={appelsOffreStatic}
-    selectedAppelOffreId={selectedAppelOffreId}
-    selectedPeriodeId={selectedPeriodeId}
     request={makeFakeRequest({
       query: { success: 'This is a success message!' },
     })}
@@ -38,18 +30,30 @@ export const withSuccess = () => (
 
 export const withProjects = () => (
   <AdminNotifyCandidates
-    appelsOffre={appelsOffreStatic}
-    selectedAppelOffreId={selectedAppelOffreId}
-    selectedPeriodeId={selectedPeriodeId}
     request={makeFakeRequest()}
-    projects={[
-      makeFakeProject({}),
-      makeFakeProject({
-        classe: 'Classé',
-      }),
-      makeFakeProject({
-        classe: 'Classé',
-      }),
-    ]}
+    results={{
+      appelsOffre: appelsOffreStatic,
+      selectedAppelOffreId: selectedAppelOffreId,
+      projectsInPeriodCount: 3,
+      existingAppelsOffres: [appelsOffreStatic[0].id],
+      selectedPeriodeId: selectedPeriodeId,
+      projects: {
+        itemCount: 3,
+        pagination: {
+          page: 0,
+          pageSize: 10,
+        },
+        pageCount: 1,
+        items: [
+          makeFakeProject({}),
+          makeFakeProject({
+            classe: 'Classé',
+          }),
+          makeFakeProject({
+            classe: 'Classé',
+          }),
+        ],
+      },
+    }}
   />
 )

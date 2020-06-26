@@ -191,6 +191,11 @@ a.button-outline {
   position: relative;
 }
 
+.filter-toggle a {
+  text-decoration: none;
+  margin-left: 15px;
+}
+
 .filter-icon {
   transform: rotate(-90deg);
   transition: transform 300ms;
@@ -208,12 +213,27 @@ a.button-outline {
   padding-bottom: 20px;
 }
 
+.periode-panel select.appelOffre {
+  width: 40%;
+}
+.periode-panel select {
+  width: 30%;
+}
+
+@media only screen and (max-width: 750px) {
+  .periode-panel select,
+  .periode-panel select.appelOffre {
+    width: 100%;
+  }
+}
+
 .open ~ .filter-panel {
   display: block;
 }
 
 /* project list filters */
 
-.filter-panel select:not(.active) {
-  background-color: var(--lighter-grey);
+.filter-panel select.active {
+  background-color: var(--theme-primary);
+  color: var(--theme-light-text);
 }

@@ -14,7 +14,7 @@ import { HttpRequest, PaginatedList } from '../../types'
 
 interface ListProjectsProps {
   request: HttpRequest
-  projects: PaginatedList<Project>
+  projects?: PaginatedList<Project>
   appelsOffre: Array<AppelOffre>
   existingAppelsOffres: Array<AppelOffre['id']>
   existingPeriodes?: Array<Periode['id']>
@@ -126,13 +126,13 @@ export default function ListProjects({
                 </svg>
               </div>
               <div className="filter-panel">
-                <div>
+                <div className="periode-panel">
                   <div style={{ marginLeft: 2 }}>
                     Par appel d'offre, période et famille
                   </div>
                   <select
                     name="appelOffreId"
-                    className={appelOffreId ? 'active' : ''}
+                    className={'appelOffre ' + (appelOffreId ? 'active' : '')}
                     {...dataId('appelOffreIdSelector')}
                   >
                     <option value="">Tous appels d'offres</option>
@@ -150,34 +150,33 @@ export default function ListProjects({
                         </option>
                       ))}
                   </select>
-                  {appelOffreId ? (
-                    <>
-                      {periodes && periodes.length ? (
-                        <select
-                          name="periodeId"
-                          className={periodeId ? 'active' : ''}
-                          {...dataId('periodeIdSelector')}
-                        >
-                          <option value="">Toutes périodes</option>
-                          {periodes.map((periode) => (
-                            <option
-                              key={'appel_' + periode.id}
-                              value={periode.id}
-                              selected={periode.id === periodeId}
-                            >
-                              {periode.title}
-                            </option>
-                          ))}
-                        </select>
-                      ) : null}
-                      {familles && familles.length ? (
-                        <select
-                          name="familleId"
-                          className={familleId ? 'active' : ''}
-                          {...dataId('familleIdSelector')}
-                        >
-                          <option value="">Toutes familles</option>
-                          {familles.map((famille) => (
+                  <select
+                    name="periodeId"
+                    className={periodeId ? 'active' : ''}
+                    {...dataId('periodeIdSelector')}
+                  >
+                    <option value="">Toutes périodes</option>
+                    {periodes && periodes.length
+                      ? periodes.map((periode) => (
+                          <option
+                            key={'appel_' + periode.id}
+                            value={periode.id}
+                            selected={periode.id === periodeId}
+                          >
+                            {periode.title}
+                          </option>
+                        ))
+                      : null}
+                  </select>
+                  {!appelOffreId || (familles && familles.length) ? (
+                    <select
+                      name="familleId"
+                      className={familleId ? 'active' : ''}
+                      {...dataId('familleIdSelector')}
+                    >
+                      <option value="">Toutes familles</option>
+                      {familles && familles.length
+                        ? familles.map((famille) => (
                             <option
                               key={'appel_' + famille.id}
                               value={famille.id}
@@ -185,10 +184,9 @@ export default function ListProjects({
                             >
                               {famille.title}
                             </option>
-                          ))}
-                        </select>
-                      ) : null}
-                    </>
+                          ))
+                        : null}
+                    </select>
                   ) : null}
                 </div>
 
@@ -244,6 +242,15 @@ export default function ListProjects({
                 </div>
               </div>
             </div>
+            {hasFilters ? (
+              <a
+                style={{ marginTop: 10 }}
+                href="#"
+                {...dataId('resetSelectors')}
+              >
+                Retirer tous les filtres
+              </a>
+            ) : null}
           </form>
         </div>
         {success ? (
@@ -260,27 +267,33 @@ export default function ListProjects({
         ) : (
           ''
         )}
-        <div className="pagination__count">
-          <strong>
-            {Array.isArray(projects) ? projects.length : projects.itemCount}
-          </strong>{' '}
-          projets
-        </div>
-        <ProjectList
-          displayColumns={[
-            'Periode',
-            'Projet',
-            'Candidat',
-            'Puissance',
-            ...(request.user?.role === 'dreal' ? [] : ['Prix']),
-            'Evaluation Carbone',
-            'Classé',
-          ]}
-          projects={projects}
-          projectActions={
-            request.user?.role === 'admin' ? adminActions : undefined
-          }
-        />
+        {projects ? (
+          <>
+            <div className="pagination__count">
+              <strong>
+                {Array.isArray(projects) ? projects.length : projects.itemCount}
+              </strong>{' '}
+              projets
+            </div>
+            <ProjectList
+              displayColumns={[
+                'Periode',
+                'Projet',
+                'Candidat',
+                'Puissance',
+                ...(request.user?.role === 'dreal' ? [] : ['Prix']),
+                'Evaluation Carbone',
+                'Classé',
+              ]}
+              projects={projects}
+              projectActions={
+                request.user?.role === 'admin' ? adminActions : undefined
+              }
+            />
+          </>
+        ) : (
+          'Aucun projet à lister'
+        )}
       </div>
     </>
   )

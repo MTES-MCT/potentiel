@@ -22,7 +22,7 @@ export const withFilters = () => (
       },
       { role: 'porteur-projet' }
     )}
-    projects={[]}
+    existingAppelsOffres={appelsOffreStatic.map((item) => item.id)}
     appelsOffre={appelsOffreStatic}
   />
 )
@@ -32,7 +32,7 @@ export const withError = () => (
     request={makeFakeRequest({
       query: { error: 'This is an error message!' },
     })}
-    projects={[]}
+    existingAppelsOffres={[]}
     appelsOffre={appelsOffreStatic}
   />
 )
@@ -42,7 +42,7 @@ export const withSuccess = () => (
     request={makeFakeRequest({
       query: { success: 'This is a success message!' },
     })}
-    projects={[]}
+    existingAppelsOffres={[]}
     appelsOffre={appelsOffreStatic}
   />
 )
@@ -51,22 +51,31 @@ export const adminWithProjects = () => (
   <ListProjects
     request={makeFakeRequest({}, { role: 'admin' })}
     appelsOffre={appelsOffreStatic}
-    projects={[
-      makeFakeProject({
-        isFinancementParticipatif: true,
-      }),
-      makeFakeProject({
-        classe: 'Classé',
-        isFinancementParticipatif: true,
-      }),
-      makeFakeProject({
-        classe: 'Classé',
-        isInvestissementParticipatif: true,
-      }),
-      makeFakeProject({
-        classe: 'Classé',
-      }),
-    ]}
+    existingAppelsOffres={[appelsOffreStatic[0].id]}
+    projects={{
+      itemCount: 3,
+      pagination: {
+        page: 0,
+        pageSize: 10,
+      },
+      pageCount: 1,
+      items: [
+        makeFakeProject({
+          isFinancementParticipatif: true,
+        }),
+        makeFakeProject({
+          classe: 'Classé',
+          isFinancementParticipatif: true,
+        }),
+        makeFakeProject({
+          classe: 'Classé',
+          isInvestissementParticipatif: true,
+        }),
+        makeFakeProject({
+          classe: 'Classé',
+        }),
+      ],
+    }}
   />
 )
 
@@ -74,22 +83,31 @@ export const drealWithProjects = () => (
   <ListProjects
     request={makeFakeRequest({}, { role: 'dreal' })}
     appelsOffre={appelsOffreStatic}
-    projects={[
-      makeFakeProject({
-        isFinancementParticipatif: true,
-      }),
-      makeFakeProject({
-        classe: 'Classé',
-        isFinancementParticipatif: true,
-      }),
-      makeFakeProject({
-        classe: 'Classé',
-        isInvestissementParticipatif: true,
-      }),
-      makeFakeProject({
-        classe: 'Classé',
-      }),
-    ]}
+    existingAppelsOffres={[appelsOffreStatic[0].id]}
+    projects={{
+      itemCount: 3,
+      pagination: {
+        page: 0,
+        pageSize: 10,
+      },
+      pageCount: 1,
+      items: [
+        makeFakeProject({
+          isFinancementParticipatif: true,
+        }),
+        makeFakeProject({
+          classe: 'Classé',
+          isFinancementParticipatif: true,
+        }),
+        makeFakeProject({
+          classe: 'Classé',
+          isInvestissementParticipatif: true,
+        }),
+        makeFakeProject({
+          classe: 'Classé',
+        }),
+      ],
+    }}
   />
 )
 
@@ -97,21 +115,30 @@ export const porteurProjetWithProjects = () => (
   <ListProjects
     request={makeFakeRequest({}, { role: 'porteur-projet' })}
     appelsOffre={appelsOffreStatic}
-    projects={[
-      makeFakeProject({
-        isFinancementParticipatif: true,
-      }),
-      makeFakeProject({
-        classe: 'Classé',
-        isFinancementParticipatif: true,
-      }),
-      makeFakeProject({
-        classe: 'Classé',
-        isInvestissementParticipatif: true,
-      }),
-      makeFakeProject({
-        classe: 'Classé',
-      }),
-    ]}
+    existingAppelsOffres={[appelsOffreStatic[0].id]}
+    projects={{
+      itemCount: 3,
+      pagination: {
+        page: 0,
+        pageSize: 10,
+      },
+      pageCount: 1,
+      items: [
+        makeFakeProject({
+          isFinancementParticipatif: true,
+        }),
+        makeFakeProject({
+          classe: 'Classé',
+          isFinancementParticipatif: true,
+        }),
+        makeFakeProject({
+          classe: 'Classé',
+          isInvestissementParticipatif: true,
+        }),
+        makeFakeProject({
+          classe: 'Classé',
+        }),
+      ],
+    }}
   />
 )

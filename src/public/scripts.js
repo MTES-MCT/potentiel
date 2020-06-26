@@ -345,6 +345,16 @@ function addSelectorHandlers() {
       })
     }
   })
+
+  document.querySelectorAll('[data-testid=resetSelectors]').forEach((item) =>
+    item.addEventListener('click', function (event) {
+      event.preventDefault()
+
+      window.location.replace(window.location.origin + window.location.pathname)
+
+      return false
+    })
+  )
 }
 
 function addSendCopyOfNotificationButtonHandler() {
