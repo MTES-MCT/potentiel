@@ -505,9 +505,13 @@ export default function makeProjectRepo({
       // await sequelize.transaction(async (transaction: Transaction) => {
       await ProjectModel.upsert(project /*, { transaction }*/)
 
-      // update the search index
+      // update the search index (delete then insert)
+      await sequelize.query('DELETE FROM project_search where id is :id;', {
+        replacements: project,
+        type: QueryTypes.DELETE,
+      })
       await sequelize.query(
-        'INSERT INTO project_search(id, nomCandidat, nomProjet, nomRepresentantLegal, email, adresseProjet, codePostalProjet, communeProjet) VALUES(:id, :nomCandidat, :nomProjet, :nomRepresentantLegal, :email, :adresseProjet, :codePostalProjet, :communeProjet);',
+        'INSERT INTO project_search(id, nomCandidat, nomProjet, nomRepresentantLegal, email, adresseProjet, codePostalProjet, communeProjet, departementProjet, regionProjet, numeroCRE) VALUES(:id, :nomCandidat, :nomProjet, :nomRepresentantLegal, :email, :adresseProjet, :codePostalProjet, :communeProjet, :departementProjet, :regionProjet, :numeroCRE);',
         {
           replacements: project,
           type: QueryTypes.INSERT,

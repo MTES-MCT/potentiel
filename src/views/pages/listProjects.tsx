@@ -88,6 +88,7 @@ export default function ListProjects({
                 {...dataId('recherche-field')}
                 style={{ paddingRight: 40 }}
                 defaultValue={recherche || ''}
+                placeholder="Nom projet, candidat, numéro CRE, commune, département, ..."
               />
               <button
                 className="overlay-button"
