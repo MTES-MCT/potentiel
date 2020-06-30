@@ -1,11 +1,25 @@
 import { Project, AppelOffre, Periode, Famille, User, DREAL } from '../entities'
-import { ProjectRepo, UserRepo } from '../dataAccess'
+import {
+  ProjectRepo,
+  UserRepo,
+  ProjectFilters,
+  ContextSpecificProjectListFilter,
+} from '../dataAccess'
 import { Pagination, PaginatedList } from '../types'
 import _ from 'lodash'
+import { Context } from 'mocha'
 
 interface MakeUseCaseProps {
-  projectRepo: ProjectRepo
-  userRepo: UserRepo
+  searchForRegions: ProjectRepo['searchForRegions']
+  findAllForRegions: ProjectRepo['findAllForRegions']
+  searchForUser: ProjectRepo['searchForUser']
+  findAllForUser: ProjectRepo['findAllForUser']
+  searchAll: ProjectRepo['searchAll']
+  findAll: ProjectRepo['findAll']
+  findExistingAppelsOffres: ProjectRepo['findExistingAppelsOffres']
+  findExistingPeriodesForAppelOffre: ProjectRepo['findExistingPeriodesForAppelOffre']
+  findExistingFamillesForAppelOffre: ProjectRepo['findExistingFamillesForAppelOffre']
+  findDrealsForUser: UserRepo['findDrealsForUser']
 }
 
 interface CallUseCaseProps {
@@ -27,8 +41,16 @@ interface UseCaseReturnType {
 }
 
 export default function makeListProjects({
-  projectRepo,
-  userRepo,
+  searchForRegions,
+  findAllForRegions,
+  searchForUser,
+  findAllForUser,
+  searchAll,
+  findAll,
+  findExistingAppelsOffres,
+  findExistingPeriodesForAppelOffre,
+  findExistingFamillesForAppelOffre,
+  findDrealsForUser,
 }: MakeUseCaseProps) {
   return async function listProjects({
     user,
@@ -40,16 +62,8 @@ export default function makeListProjects({
     classement,
     garantiesFinancieres,
   }: CallUseCaseProps): Promise<UseCaseReturnType> {
-    const query: any = {
-      notifiedOn: -1, // -1 means !== 0 (only notified projects)
-    }
-
-    if (user.role === 'dreal') {
-      query.regionProjet = await userRepo.findDrealsForUser(user.id)
-    }
-
-    if (user.role === 'porteur-projet') {
-      query.userId = user.id
+    const query: ProjectFilters = {
+      isNotified: true,
     }
 
     if (appelOffreId) {
@@ -64,39 +78,66 @@ export default function makeListProjects({
       }
     }
 
-    if (recherche) query.recherche = recherche
-
     if (classement) {
-      if (classement === 'classés') query.classe = 'Classé'
-      if (classement === 'éliminés') query.classe = 'Eliminé'
+      query.isClasse = classement === 'classés'
     }
 
     if (garantiesFinancieres) {
-      if (garantiesFinancieres === 'notSubmitted')
-        query.garantiesFinancieresSubmittedOn = 0
-      if (garantiesFinancieres === 'submitted')
-        query.garantiesFinancieresSubmittedOn = -1
+      query.hasGarantiesFinancieres = garantiesFinancieres === 'submitted'
     }
 
     const result: any = {}
 
-    const genericQuery = _.pick(query, ['notifiedOn', 'regionProjet', 'userId'])
-    result.existingAppelsOffres = await projectRepo.findExistingAppelsOffres(
-      genericQuery
-    )
+    let userSpecificProjectListFilter: ContextSpecificProjectListFilter
 
-    if (appelOffreId) {
-      result.existingPeriodes = await projectRepo.findExistingPeriodesForAppelOffre(
-        appelOffreId,
-        genericQuery
-      )
-      result.existingFamilles = await projectRepo.findExistingFamillesForAppelOffre(
-        appelOffreId,
-        genericQuery
-      )
+    switch (user.role) {
+      case 'dreal':
+        const regions = await findDrealsForUser(user.id)
+        result.projects =
+          recherche && recherche.length
+            ? await searchForRegions(regions, recherche, pagination, query)
+            : await findAllForRegions(regions, pagination, query)
+
+        userSpecificProjectListFilter = {
+          regions,
+        }
+        break
+      case 'porteur-projet':
+        result.projects =
+          recherche && recherche.length
+            ? await searchForUser(user.id, recherche, pagination, query)
+            : await findAllForUser(user.id, pagination, query)
+
+        userSpecificProjectListFilter = {
+          userId: user.id,
+        }
+        break
+      case 'admin':
+      case 'dgec':
+        result.projects =
+          recherche && recherche.length
+            ? await searchAll(recherche, pagination, query)
+            : await findAll(query, pagination)
+
+        userSpecificProjectListFilter = {
+          isNotified: true,
+        }
     }
 
-    result.projects = await projectRepo.findAll(query, pagination)
+    result.existingAppelsOffres = await findExistingAppelsOffres(
+      userSpecificProjectListFilter
+    )
+
+    if (appelOffreId && userSpecificProjectListFilter) {
+      result.existingPeriodes = await findExistingPeriodesForAppelOffre(
+        appelOffreId,
+        userSpecificProjectListFilter
+      )
+      result.existingFamilles = await findExistingFamillesForAppelOffre(
+        appelOffreId,
+        userSpecificProjectListFilter
+      )
+    }
 
     return result as UseCaseReturnType
   }

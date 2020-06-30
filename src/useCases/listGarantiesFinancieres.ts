@@ -19,17 +19,25 @@ export default function makeListGarantiesFinancieres({
   return async function listGarantiesFinancieres({
     user,
   }: CallUseCaseProps): Promise<Array<Project>> {
-    if (user.role === 'porteur-projet') return []
-
-    const query: any = {
-      garantiesFinancieresSubmittedOn: -1, // means not 0
+    switch (user.role) {
+      case 'dreal':
+        const regions = await userRepo.findDrealsForUser(user.id)
+        return (
+          await projectRepo.findAllForRegions(
+            regions,
+            { page: 0, pageSize: 1000 },
+            {
+              hasGarantiesFinancieres: true,
+            }
+          )
+        ).items
+      case 'admin':
+      case 'dgec':
+        return projectRepo.findAll({
+          hasGarantiesFinancieres: true,
+        })
+      default:
+        return []
     }
-
-    if (user.role === 'dreal') {
-      // If dreal user, only show projects for this user's dreals
-      query.regionProjet = await userRepo.findDrealsForUser(user.id)
-    }
-
-    return projectRepo.findAll(query)
   }
 }

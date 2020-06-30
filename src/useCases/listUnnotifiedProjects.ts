@@ -40,7 +40,7 @@ export default function makeListUnnotifiedProjects({
 
     // Get all appels offres that have at least one unnotified project
     result.existingAppelsOffres = await projectRepo.findExistingAppelsOffres({
-      notifiedOn: 0, // (only unnotified projects)
+      isNotified: false,
     })
 
     // Not a single unnotified project, stop here
@@ -61,7 +61,7 @@ export default function makeListUnnotifiedProjects({
       await projectRepo.findExistingPeriodesForAppelOffre(
         result.selectedAppelOffreId,
         {
-          notifiedOn: 0,
+          isNotified: false,
         }
       )
     ).filter((periodeId) => {
@@ -86,7 +86,7 @@ export default function makeListUnnotifiedProjects({
     result.projectsInPeriodCount = (
       await projectRepo.findAll(
         {
-          notifiedOn: 0,
+          isNotified: false,
           appelOffreId: result.selectedAppelOffreId,
           periodeId: result.selectedPeriodeId,
         },

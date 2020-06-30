@@ -55,7 +55,7 @@ export default function makeSendAllCandidateNotifications({
     const unNotifiedProjects = await projectRepo.findAll({
       appelOffreId,
       periodeId,
-      notifiedOn: 0,
+      isNotified: false,
     })
 
     // console.log('unNotifiedProjects', unNotifiedProjects)

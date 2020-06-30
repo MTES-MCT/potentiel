@@ -1,7 +1,6 @@
 import makeLogin from './login'
 import makeImportProjects from './importProjects'
 import makeListProjects from './listProjects'
-import makeListUserProjects from './listUserProjects'
 import makeSendCandidateNotification from './sendCandidateNotification'
 import makeSendAllCandidateNotifiations from './sendAllCandidateNotifications'
 import makeSignup from './signup'
@@ -44,7 +43,20 @@ const importProjects = makeImportProjects({
   appelOffreRepo,
 })
 
-const listProjects = makeListProjects({ projectRepo, userRepo })
+const listProjects = makeListProjects({
+  searchForRegions: projectRepo.searchForRegions,
+  findAllForRegions: projectRepo.findAllForRegions,
+  searchForUser: projectRepo.searchForUser,
+  findAllForUser: projectRepo.findAllForUser,
+  searchAll: projectRepo.searchAll,
+  findAll: projectRepo.findAll,
+  findExistingAppelsOffres: projectRepo.findExistingAppelsOffres,
+  findExistingPeriodesForAppelOffre:
+    projectRepo.findExistingPeriodesForAppelOffre,
+  findExistingFamillesForAppelOffre:
+    projectRepo.findExistingFamillesForAppelOffre,
+  findDrealsForUser: userRepo.findDrealsForUser,
+})
 const listUnnotifiedProjects = makeListUnnotifiedProjects({
   projectRepo,
   appelOffreRepo,
@@ -75,8 +87,6 @@ const signup = makeSignup({
   projectAdmissionKeyRepo,
   projectRepo,
 })
-
-const listUserProjects = makeListUserProjects({ projectRepo })
 
 const requestModification = makeRequestModification({ modificationRequestRepo })
 
@@ -146,7 +156,6 @@ const useCases = Object.freeze({
   login,
   importProjects,
   listProjects,
-  listUserProjects,
   sendNotification,
   sendCandidateNotification,
   sendAllCandidateNotifications,
@@ -172,7 +181,6 @@ export {
   login,
   importProjects,
   listProjects,
-  listUserProjects,
   sendNotification,
   sendCandidateNotification,
   sendAllCandidateNotifications,

@@ -22,6 +22,9 @@ export default function makeFakeProject(overrides?) {
     classe: 'Eliminé' as 'Eliminé',
     motifsElimination: 'motifsElimination',
     fournisseur: 'Mon fournisseur',
+    isInvestissementParticipatif: false,
+    isFinancementParticipatif: false,
+    engagementFournitureDePuissanceAlaPointe: false,
   }
 
   return {

@@ -3,11 +3,24 @@ import makeListProjects from './listProjects'
 import makeFakeProject from '../__tests__/fixtures/project'
 import makeFakeUser from '../__tests__/fixtures/user'
 import defaultPagination from '../__tests__/fixtures/pagination'
-import { makeUser, User, DREAL } from '../entities'
+import { makeUser, User, DREAL, Project } from '../entities'
+import { PaginatedList } from '../types'
 
 import { projectRepo, userRepo } from '../dataAccess/inMemory'
 
-const listProjects = makeListProjects({ projectRepo, userRepo })
+const emptyListPromise: Promise<PaginatedList<Project>> = Promise.resolve({
+  items: [],
+  pagination: {
+    page: 0,
+    pageSize: 0,
+  },
+  pageCount: 0,
+  itemCount: 0,
+})
+
+const voidFn: () => Promise<PaginatedList<Project>> = () => {
+  throw 'voidFn should not be called by test case'
+}
 
 describe('listProjects use-case', () => {
   // const fakeProjects = [
@@ -43,7 +56,24 @@ describe('listProjects use-case', () => {
   // beforeAll(async () => {
   //   await Promise.all(fakeProjects.map(projectRepo.save))
   // })
-  describe('when the user is admin', () => {
+  describe('given the user is admin', () => {
+    describe('given a search term', () => {
+      it('should return all notified projects that contain the search term', async () => {
+        const listProjects = makeListProjects({
+          searchForRegions: voidFn,
+          findAllForRegions: voidFn,
+          searchForUser: voidFn,
+          findAllForUser: voidFn,
+          searchAll: voidFn,
+          findAll: voidFn,
+          findExistingAppelsOffres: voidFn,
+          findExistingPeriodesForAppelOffre: voidFn,
+          findExistingFamillesForAppelOffre: voidFn,
+          findDrealsForUser: voidFn,
+        })
+      })
+    })
+
     //   let user: User
     //   beforeAll(async () => {
     //     const [insertedUser] = (

@@ -6,6 +6,8 @@ import {
   ModificationRequestRepo,
   PasswordRetrievalRepo,
   NotificationRepo,
+  ProjectFilters,
+  ContextSpecificProjectListFilter,
 } from '../'
 import {
   Credentials,
@@ -261,6 +263,16 @@ async function findAllProjects(
   return items
 }
 
+const emptyListPromise: Promise<PaginatedList<Project>> = Promise.resolve({
+  items: [],
+  pagination: {
+    page: 0,
+    pageSize: 0,
+  },
+  pageCount: 0,
+  itemCount: 0,
+})
+
 const eventsByProjectId: Record<Project['id'], Array<ProjectEvent>> = {}
 const projectRepo: ProjectRepo = {
   findById: async (id: string, includeHistory?: boolean) => {
@@ -294,16 +306,6 @@ const projectRepo: ProjectRepo = {
     return items[0]
   },
   findAll: findAllProjects,
-  findByUser: (userId: User['id'], excludeUnnotified?: boolean) => {
-    const projectIds: Array<Project['id']> = userProjects[userId] || []
-
-    return Promise.all(
-      projectIds
-        .map((projectId) => projectsById[projectId])
-        .filter((item) => !excludeUnnotified || item.notifiedOn !== 0)
-        .map(addAppelOffreToProject)
-    )
-  },
   save: (project: Project) => {
     const { history, ...restOfProject } = project
 
@@ -334,6 +336,35 @@ const projectRepo: ProjectRepo = {
       .filter(([userId, projectIds]) => projectIds.includes(_projectId))
       .map(([userId]) => usersById[userId])
   },
+  searchForUser: (
+    userId: User['id'],
+    terms: string,
+    pagination: Pagination,
+    filters?: ProjectFilters
+  ): Promise<PaginatedList<Project>> => emptyListPromise,
+  findAllForUser: (
+    userId: User['id'],
+    pagination: Pagination,
+    filters?: ProjectFilters
+  ): Promise<PaginatedList<Project>> => emptyListPromise,
+
+  searchForRegions: (
+    regions: DREAL | DREAL[],
+    terms: string,
+    pagination: Pagination,
+    filters?: ProjectFilters
+  ): Promise<PaginatedList<Project>> => emptyListPromise,
+  findAllForRegions: (
+    regions: DREAL | DREAL[],
+    pagination: Pagination,
+    filters?: ProjectFilters
+  ): Promise<PaginatedList<Project>> => emptyListPromise,
+
+  searchAll: (
+    terms: string,
+    pagination: Pagination,
+    filters?: ProjectFilters
+  ): Promise<PaginatedList<Project>> => emptyListPromise,
   findExistingAppelsOffres: async (query?: Record<string, any>) => [],
   findExistingPeriodesForAppelOffre: async (
     appelOffreId: AppelOffre['id'],

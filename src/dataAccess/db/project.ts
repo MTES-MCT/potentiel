@@ -1,5 +1,9 @@
 import { DataTypes, Op, Transaction } from 'sequelize'
-import { ProjectRepo } from '../'
+import {
+  ProjectRepo,
+  ProjectFilters,
+  ContextSpecificProjectListFilter,
+} from '../'
 import {
   Project,
   User,
@@ -7,6 +11,7 @@ import {
   AppelOffre,
   Periode,
   Famille,
+  DREAL,
 } from '../../entities'
 import { mapExceptError, mapIfOk } from '../../helpers/results'
 import { paginate, pageCount, makePaginatedList } from '../../helpers/paginate'
@@ -24,7 +29,8 @@ import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
 import _ from 'lodash'
 import { QueryTypes } from 'sequelize'
-import { Sequelize } from 'sequelize'
+import { addUserToDrealForTests } from '../../__tests__/integration'
+import user from '../../entities/user'
 
 // Override these to apply serialization/deserialization on inputs/outputs
 const deserialize = (item) => ({
@@ -37,6 +43,18 @@ const deserialize = (item) => ({
   garantiesFinancieresSubmittedBy: item.garantiesFinancieresSubmittedBy || '',
 })
 const serialize = (item) => item
+
+const initSearchIndex = async (sequelize) => {
+  // Set up the virtual table
+  try {
+    await sequelize.query(
+      'CREATE VIRTUAL TABLE IF NOT EXISTS project_search USING fts3(id UUID, nomCandidat VARCHAR(255), nomProjet VARCHAR(255), nomRepresentantLegal VARCHAR(255), email VARCHAR(255), adresseProjet VARCHAR(255), codePostalProjet VARCHAR(255), communeProjet VARCHAR(255), departementProjet VARCHAR(255), regionProjet VARCHAR(255), numeroCRE VARCHAR(255));'
+    )
+    console.log('Done create project_search virtual table')
+  } catch (error) {
+    console.error('Unable to create project_search virtual table', error)
+  }
+}
 
 export default function makeProjectRepo({
   sequelize,
@@ -245,19 +263,25 @@ export default function makeProjectRepo({
     foreignKey: 'projectId',
   })
 
-  const _isDbReady = isDbReady({ sequelize })
+  const _isDbReady = isDbReady({ sequelize }).then(() =>
+    initSearchIndex(sequelize)
+  )
 
   return Object.freeze({
     findById,
     findOne,
     findAll,
-    findByUser,
     save,
     remove,
     getUsers,
     findExistingAppelsOffres,
     findExistingFamillesForAppelOffre,
     findExistingPeriodesForAppelOffre,
+    searchForUser,
+    findAllForUser,
+    searchForRegions,
+    findAllForRegions,
+    searchAll,
   })
 
   async function addAppelOffreToProject(project: Project): Promise<Project> {
@@ -302,13 +326,13 @@ export default function makeProjectRepo({
     }
   }
 
-  async function findOne(
-    query: Record<string, any>
-  ): Promise<Project | undefined> {
+  async function findOne(query: ProjectFilters): Promise<Project | undefined> {
     await _isDbReady
 
     try {
-      const projectInDb = await ProjectModel.findOne({ where: query })
+      const projectInDb = await ProjectModel.findOne({
+        where: query,
+      })
 
       if (!projectInDb) return
 
@@ -325,112 +349,362 @@ export default function makeProjectRepo({
     }
   }
 
-  async function makeSelectorsForQuery(query?: Record<string, any>) {
-    const opts: any = {}
+  function _makeSelectorsForQuery(query?: ProjectFilters) {
+    const opts: any = { where: {} }
 
     if (query) {
-      opts.where = Object.assign({}, query)
+      opts.where = {}
 
-      if (query.recherche) {
-        const projects = await sequelize.query(
-          'SELECT id from project_search WHERE project_search MATCH :recherche LIMIT 100;',
-          {
-            replacements: {
-              recherche: query.recherche
-                .split(' ')
-                .map((token) => '*' + token + '*')
-                .join(' '),
-            },
-            type: QueryTypes.SELECT,
-          }
-        )
-
-        opts.where.id = projects.map((item) => item.id)
-        delete opts.where.recherche
+      if ('isNotified' in query) {
+        opts.where.notifiedOn = query.isNotified ? { [Op.ne]: 0 } : 0
       }
 
-      if (query.notifiedOn === -1) {
-        // Special case which means != 0
-        opts.where.notifiedOn = { [Op.ne]: 0 }
+      if ('hasGarantiesFinancieres' in query) {
+        opts.where.garantiesFinancieresSubmittedOn = query.hasGarantiesFinancieres
+          ? { [Op.ne]: 0 }
+          : 0
       }
 
-      if (query.garantiesFinancieresSubmittedOn === -1) {
-        // Special case which means != 0
-        opts.where.garantiesFinancieresSubmittedOn = { [Op.ne]: 0 }
+      if ('isClasse' in query) {
+        opts.where.classe = query.isClasse ? 'Classé' : 'Eliminé'
       }
 
-      // Filter specifically for this user
-      if (query.userId) {
-        opts.include = [
-          {
-            model: sequelize.model('user'),
-            attributes: ['id'],
-            where: {
-              id: query.userId,
-            },
-          },
-        ]
-        delete opts.where.userId
+      if ('appelOffreId' in query) {
+        opts.where.appelOffreId = query.appelOffreId
+      }
+
+      if ('periodeId' in query) {
+        opts.where.periodeId = query.periodeId
+      }
+
+      if ('familleId' in query) {
+        opts.where.familleId = query.familleId
+      }
+
+      if ('email' in query) {
+        opts.where.email = query.email
+      }
+
+      if ('nomProjet' in query) {
+        opts.where.nomProjet = query.nomProjet
       }
 
       // Region can be of shape 'region1 / region2' so equality does not work
-      if (typeof query.regionProjet === 'string') {
-        opts.where.regionProjet = {
-          [Op.substring]: query.regionProjet,
-        }
-      } else if (
-        Array.isArray(query.regionProjet) &&
-        query.regionProjet.length
-      ) {
-        opts.where.regionProjet = {
-          [Op.or]: query.regionProjet.map((region) => ({
-            [Op.substring]: region,
-          })),
-        }
-      }
+      // if (typeof query.regionProjet === 'string') {
+      //   opts.where.regionProjet = {
+      //     [Op.substring]: query.regionProjet,
+      //   }
+      // } else if (
+      //   Array.isArray(query.regionProjet) &&
+      //   query.regionProjet.length
+      // ) {
+      //   opts.where.regionProjet = {
+      //     [Op.or]: query.regionProjet.map((region) => ({
+      //       [Op.substring]: region,
+      //     })),
+      //   }
+      // }
     }
 
     return opts
   }
 
-  async function findAll(query?: Record<string, any>): Promise<Array<Project>>
+  async function _findAndBuildProjectList(
+    opts: Record<any, any>,
+    pagination: Pagination,
+    filterFn?: (project: Project) => boolean
+  ): Promise<PaginatedList<Project>> {
+    const { count, rows } = await ProjectModel.findAndCountAll({
+      ...opts,
+      ...paginate(pagination),
+    })
+
+    const projectsRaw = rows
+      .map((item) => item.get())
+      // Double check the list of projects if filterFn is given
+      .filter(filterFn || (() => true))
+
+    if (projectsRaw.length !== rows.length) {
+      console.log(
+        'WARNING: searchForRegions had intermediate results that did not match region. Something must be wrong in the query.'
+      )
+    }
+
+    const deserializedItems = mapExceptError(
+      projectsRaw,
+      deserialize,
+      'Project._getProjectsWithIds.deserialize error'
+    )
+
+    const projects = await Promise.all(
+      deserializedItems.map(addAppelOffreToProject)
+    )
+
+    // const projects = mapIfOk(
+    //   deserializedItems,
+    //   makeProject,
+    //   'Project.findAll.makeProject error'
+    // )
+
+    return makePaginatedList(projects, pagination, count)
+  }
+
+  async function _getProjectIdsForUser(
+    userId: User['id'],
+    filters?: ProjectFilters
+  ): Promise<Project['id'][]> {
+    await _isDbReady
+
+    const UserModel = sequelize.model('user')
+    const userInstance = await UserModel.findByPk(userId)
+    if (!userInstance) {
+      if (CONFIG.logDbErrors)
+        console.log('Cannot find user to get projects from')
+
+      return []
+    }
+
+    return (
+      await userInstance.getProjects(_makeSelectorsForQuery(filters))
+    ).map((item) => item.get().id)
+  }
+
+  async function _searchWithinGivenIds(
+    term: string,
+    projectIds: Project['id'][]
+  ) {
+    const projects = await sequelize.query(
+      'SELECT id from project_search WHERE project_search MATCH :recherche AND id IN (:projectIds);',
+      {
+        replacements: {
+          recherche: term
+            .split(' ')
+            .map((token) => '*' + token + '*')
+            .join(' '),
+          projectIds,
+        },
+        type: QueryTypes.SELECT,
+      }
+    )
+
+    return projects.map((item) => item.id)
+  }
+
+  async function _getProjectsWithIds(
+    projectIds: Project['id'][],
+    pagination: Pagination
+  ): Promise<PaginatedList<Project>> {
+    const opts = {
+      where: {
+        id: projectIds,
+      },
+    }
+
+    return _findAndBuildProjectList(opts, pagination, (project) =>
+      projectIds.includes(project.id)
+    )
+  }
+
+  async function searchForUser(
+    userId: User['id'],
+    terms: string,
+    pagination: Pagination,
+    filters?: ProjectFilters
+  ): Promise<PaginatedList<Project>> {
+    await _isDbReady
+    try {
+      const filteredUserProjectIds = await _getProjectIdsForUser(
+        userId,
+        filters
+      )
+
+      if (!filteredUserProjectIds.length)
+        return makePaginatedList([], pagination, 0)
+
+      const searchedUserProjectIds = await _searchWithinGivenIds(
+        terms,
+        filteredUserProjectIds
+      )
+
+      if (!searchedUserProjectIds.length)
+        return makePaginatedList([], pagination, 0)
+
+      return _getProjectsWithIds(searchedUserProjectIds, pagination)
+    } catch (error) {
+      if (CONFIG.logDbErrors) console.log('Project.searchForUser error', error)
+      return makePaginatedList([], pagination, 0)
+    }
+  }
+
+  async function findAllForUser(
+    userId: User['id'],
+    pagination: Pagination,
+    filters?: ProjectFilters
+  ): Promise<PaginatedList<Project>> {
+    await _isDbReady
+    try {
+      const filteredUserProjectIds = await _getProjectIdsForUser(
+        userId,
+        filters
+      )
+
+      if (!filteredUserProjectIds.length)
+        return makePaginatedList([], pagination, 0)
+
+      return _getProjectsWithIds(filteredUserProjectIds, pagination)
+    } catch (error) {
+      if (CONFIG.logDbErrors) console.log('Project.findAllForUser error', error)
+      return makePaginatedList([], pagination, 0)
+    }
+  }
+
+  async function _searchWithinRegions(
+    term: string,
+    regions: DREAL | DREAL[]
+  ): Promise<Project['id'][]> {
+    const termQuery = term
+      .split(' ')
+      .map((token) => '*' + token + '*')
+      .join(' OR ')
+    const regionQuery = Array.isArray(regions)
+      ? regions.map((region) => 'regionProjet:' + region).join(' OR ')
+      : 'regionProjet:' + regions
+    const projects = await sequelize.query(
+      'SELECT id FROM project_search WHERE project_search MATCH :query;',
+      {
+        replacements: {
+          query: '(' + termQuery + ') AND (' + regionQuery + ')',
+        },
+        type: QueryTypes.SELECT,
+      }
+    )
+
+    return projects.map((item) => item.id)
+  }
+
+  async function searchForRegions(
+    regions: DREAL | DREAL[],
+    terms: string,
+    pagination: Pagination,
+    filters?: ProjectFilters
+  ): Promise<PaginatedList<Project>> {
+    await _isDbReady
+    try {
+      const searchedRegionProjectIds = await _searchWithinRegions(
+        terms,
+        regions
+      )
+
+      if (!searchedRegionProjectIds.length)
+        return makePaginatedList([], pagination, 0)
+
+      const opts = _makeSelectorsForQuery(filters)
+
+      opts.where.id = searchedRegionProjectIds
+
+      return _findAndBuildProjectList(opts, pagination, (project) =>
+        project.regionProjet
+          .split(' / ')
+          .some((region) => regions.includes(region as DREAL))
+      )
+    } catch (error) {
+      if (CONFIG.logDbErrors)
+        console.log('Project.searchForRegions error', error)
+      return makePaginatedList([], pagination, 0)
+    }
+  }
+
+  function _makeRegionSelector(regions: DREAL | DREAL[]) {
+    // Region can be of shape 'region1 / region2' so simple equality does not work
+    if (Array.isArray(regions) && regions.length) {
+      return {
+        [Op.or]: regions.map((region) => ({
+          [Op.substring]: region,
+        })),
+      }
+    } else {
+      return {
+        [Op.substring]: regions,
+      }
+    }
+  }
+
+  async function findAllForRegions(
+    regions: DREAL | DREAL[],
+    pagination: Pagination,
+    filters?: ProjectFilters
+  ): Promise<PaginatedList<Project>> {
+    await _isDbReady
+    try {
+      const opts = _makeSelectorsForQuery(filters)
+
+      opts.where.regionProjet = _makeRegionSelector(regions)
+
+      return _findAndBuildProjectList(opts, pagination, (project) =>
+        project.regionProjet
+          .split(' / ')
+          .some((region) => regions.includes(region as DREAL))
+      )
+    } catch (error) {
+      if (CONFIG.logDbErrors) console.log('Project.searchForUser error', error)
+      return makePaginatedList([], pagination, 0)
+    }
+  }
+
+  async function _search(term: string): Promise<Project['id'][]> {
+    const projects = await sequelize.query(
+      'SELECT id FROM project_search WHERE project_search MATCH :query;',
+      {
+        replacements: {
+          query: term
+            .split(' ')
+            .map((token) => '*' + token + '*')
+            .join(' OR '),
+        },
+        type: QueryTypes.SELECT,
+      }
+    )
+
+    return projects.map((item) => item.id)
+  }
+
+  async function searchAll(
+    terms: string,
+    pagination: Pagination,
+    filters?: ProjectFilters
+  ): Promise<PaginatedList<Project>> {
+    await _isDbReady
+    try {
+      const searchResultIds = await _search(terms)
+
+      if (!searchResultIds.length) return makePaginatedList([], pagination, 0)
+
+      const opts = _makeSelectorsForQuery(filters)
+
+      opts.where.id = searchResultIds
+
+      return _findAndBuildProjectList(opts, pagination)
+    } catch (error) {
+      if (CONFIG.logDbErrors) console.log('Project.searchAll error', error)
+      return makePaginatedList([], pagination, 0)
+    }
+  }
+
+  async function findAll(query?: ProjectFilters): Promise<Array<Project>>
   async function findAll(
-    query: Record<string, any>,
+    query: ProjectFilters,
     pagination: Pagination
   ): Promise<PaginatedList<Project>>
   async function findAll(
-    query?: Record<string, any>,
+    query?: ProjectFilters,
     pagination?: Pagination
   ): Promise<PaginatedList<Project> | Array<Project>> {
     await _isDbReady
     try {
-      const opts = await makeSelectorsForQuery(query)
+      const opts = _makeSelectorsForQuery(query)
 
       if (pagination) {
-        const { count, rows } = await ProjectModel.findAndCountAll({
-          ...opts,
-          ...paginate(pagination),
-        })
-
-        const projectsRaw = rows.map((item) => item.get()) // We need to use this instead of raw: true because of the include
-
-        const deserializedItems = mapExceptError(
-          projectsRaw,
-          deserialize,
-          'Project.findAll.deserialize error'
-        )
-
-        const projects = await Promise.all(
-          deserializedItems.map(addAppelOffreToProject)
-        )
-
-        // const projects = mapIfOk(
-        //   deserializedItems,
-        //   makeProject,
-        //   'Project.findAll.makeProject error'
-        // )
-
-        return makePaginatedList(projects, pagination, count)
+        return _findAndBuildProjectList(opts, pagination)
       }
 
       const rows = await ProjectModel.findAll(opts)
@@ -456,41 +730,41 @@ export default function makeProjectRepo({
     }
   }
 
-  async function findByUser(
-    userId: User['id'],
-    excludeUnnotified?: boolean
-  ): Promise<Array<Project>> {
-    try {
-      const UserModel = sequelize.model('user')
-      const userInstance = await UserModel.findByPk(userId)
-      if (!userInstance) {
-        if (CONFIG.logDbErrors)
-          console.log('Cannot find user to get projects from')
-
-        return []
+  async function _indexProject(project: Project) {
+    // update the search index (delete then insert)
+    await sequelize.query('DELETE FROM project_search where id is :id;', {
+      replacements: project,
+      type: QueryTypes.DELETE,
+    })
+    await sequelize.query(
+      'INSERT INTO project_search(id, nomCandidat, nomProjet, nomRepresentantLegal, email, adresseProjet, codePostalProjet, communeProjet, departementProjet, regionProjet, numeroCRE) VALUES(:id, :nomCandidat, :nomProjet, :nomRepresentantLegal, :email, :adresseProjet, :codePostalProjet, :communeProjet, :departementProjet, :regionProjet, :numeroCRE);',
+      {
+        replacements: project,
+        type: QueryTypes.INSERT,
       }
+    )
+  }
 
-      const rawProjects = (
-        await userInstance.getProjects({
-          where: excludeUnnotified ? { notifiedOn: { [Op.ne]: 0 } } : {},
-        })
-      ).map((item) => item.get())
-
-      const deserializedItems = mapExceptError(
-        rawProjects,
-        deserialize,
-        'Project.findAll.deserialize error'
-      )
-
-      // return mapIfOk(
-      //   deserializedItems,
-      //   makeProject,
-      //   'Project.findByUser.makeProject error'
-      // )
-      return await Promise.all(deserializedItems.map(addAppelOffreToProject))
-    } catch (error) {
-      if (CONFIG.logDbErrors) console.log('User.findProjects error', error)
-      return []
+  async function _updateProjectHistory(project: Project) {
+    // Check if the event history needs updating
+    const newEvents = project.history?.filter((event) => event.isNew)
+    if (newEvents && newEvents.length) {
+      // New events found
+      // Save them in the ProjectEvent table
+      try {
+        await Promise.all(
+          newEvents
+            .map((newEvent) => ({
+              ...newEvent,
+              projectId: project.id,
+            }))
+            .map((newEvent) =>
+              ProjectEventModel.create(newEvent /*, { transaction }*/)
+            )
+        )
+      } catch (error) {
+        console.log('projectRepo.save error when saving newEvents', error)
+      }
     }
   }
 
@@ -498,47 +772,17 @@ export default function makeProjectRepo({
     await _isDbReady
 
     try {
-      // Use a transaction to ensure the ProjectEvent and Project are saved together
+      const existingProject = await ProjectModel.findByPk(project.id)
 
-      // TODO: use a lock to avoid having multiple simultaneous calls to save (which blocks the transaction)
-
-      // await sequelize.transaction(async (transaction: Transaction) => {
-      await ProjectModel.upsert(project /*, { transaction }*/)
-
-      // update the search index (delete then insert)
-      await sequelize.query('DELETE FROM project_search where id is :id;', {
-        replacements: project,
-        type: QueryTypes.DELETE,
-      })
-      await sequelize.query(
-        'INSERT INTO project_search(id, nomCandidat, nomProjet, nomRepresentantLegal, email, adresseProjet, codePostalProjet, communeProjet, departementProjet, regionProjet, numeroCRE) VALUES(:id, :nomCandidat, :nomProjet, :nomRepresentantLegal, :email, :adresseProjet, :codePostalProjet, :communeProjet, :departementProjet, :regionProjet, :numeroCRE);',
-        {
-          replacements: project,
-          type: QueryTypes.INSERT,
-        }
-      )
-
-      // Check if the event history needs updating
-      const newEvents = project.history?.filter((event) => event.isNew)
-      if (newEvents && newEvents.length) {
-        // New events found
-        // Save them in the ProjectEvent table
-        try {
-          await Promise.all(
-            newEvents
-              .map((newEvent) => ({
-                ...newEvent,
-                projectId: project.id,
-              }))
-              .map((newEvent) =>
-                ProjectEventModel.create(newEvent /*, { transaction }*/)
-              )
-          )
-        } catch (error) {
-          console.log('projectRepo.save error when saving newEvents', error)
-        }
+      if (existingProject) {
+        await existingProject.update(project)
+      } else {
+        await ProjectModel.create(project)
       }
-      // })
+
+      await _indexProject(project)
+
+      await _updateProjectHistory(project)
 
       return Ok(project)
     } catch (error) {
@@ -572,51 +816,104 @@ export default function makeProjectRepo({
   }
 
   async function findExistingAppelsOffres(
-    query?: Record<string, any>
+    options?: ContextSpecificProjectListFilter
   ): Promise<Array<AppelOffre['id']>> {
     await _isDbReady
 
-    const opts = await makeSelectorsForQuery(query)
+    try {
+      const opts: any = { where: {} }
 
-    const appelsOffres = await ProjectModel.findAll({
-      attributes: ['appelOffreId'],
-      group: ['appelOffreId'],
-      ...opts,
-    })
+      if (!options) {
+      } else if ('userId' in options) {
+        opts.where.id = await _getProjectIdsForUser(options.userId)
+        opts.where.notifiedOn = { [Op.ne]: 0 }
+      } else if ('regions' in options) {
+        opts.where.regionProjet = _makeRegionSelector(options.regions)
+        opts.where.notifiedOn = { [Op.ne]: 0 }
+      } else if ('isNotified' in options) {
+        opts.where.notifiedOn = options.isNotified ? { [Op.ne]: 0 } : 0
+      }
 
-    return appelsOffres.map((item) => item.get().appelOffreId)
+      const appelsOffres = await ProjectModel.findAll({
+        attributes: ['appelOffreId'],
+        group: ['appelOffreId'],
+        ...opts,
+      })
+
+      return appelsOffres.map((item) => item.get().appelOffreId)
+    } catch (error) {
+      if (CONFIG.logDbErrors)
+        console.log('Project.findExistingAppelsOffres error', error)
+      return []
+    }
   }
 
   async function findExistingPeriodesForAppelOffre(
     appelOffreId: AppelOffre['id'],
-    query?: Record<string, any>
+    options?: ContextSpecificProjectListFilter
   ): Promise<Array<Periode['id']>> {
-    const opts = await makeSelectorsForQuery(query)
-    opts.where.appelOffreId = appelOffreId
+    await _isDbReady
 
-    const periodes = await ProjectModel.findAll({
-      attributes: ['periodeId'],
-      group: ['periodeId'],
-      ...opts,
-    })
+    try {
+      const opts: any = { where: { appelOffreId } }
 
-    return periodes.map((item) => item.get().periodeId)
+      if (!options) {
+      } else if ('userId' in options) {
+        opts.where.id = await _getProjectIdsForUser(options.userId)
+        opts.where.notifiedOn = { [Op.ne]: 0 }
+      } else if ('regions' in options) {
+        opts.where.regionProjet = _makeRegionSelector(options.regions)
+        opts.where.notifiedOn = { [Op.ne]: 0 }
+      } else if ('isNotified' in options) {
+        opts.where.notifiedOn = options.isNotified ? { [Op.ne]: 0 } : 0
+      }
+
+      const periodes = await ProjectModel.findAll({
+        attributes: ['periodeId'],
+        group: ['periodeId'],
+        ...opts,
+      })
+
+      return periodes.map((item) => item.get().periodeId)
+    } catch (error) {
+      if (CONFIG.logDbErrors)
+        console.log('Project.findExistingPeriodesForAppelOffre error', error)
+      return []
+    }
   }
 
   async function findExistingFamillesForAppelOffre(
     appelOffreId: AppelOffre['id'],
-    query?: Record<string, any>
+    options?: ContextSpecificProjectListFilter
   ): Promise<Array<Famille['id']>> {
-    const opts = await makeSelectorsForQuery(query)
-    opts.where.appelOffreId = appelOffreId
+    await _isDbReady
 
-    const familles = await ProjectModel.findAll({
-      attributes: ['familleId'],
-      group: ['familleId'],
-      ...opts,
-    })
+    try {
+      const opts: any = { where: { appelOffreId } }
 
-    return familles.map((item) => item.get().familleId)
+      if (!options) {
+      } else if ('userId' in options) {
+        opts.where.id = await _getProjectIdsForUser(options.userId)
+        opts.where.notifiedOn = { [Op.ne]: 0 }
+      } else if ('regions' in options) {
+        opts.where.regionProjet = _makeRegionSelector(options.regions)
+        opts.where.notifiedOn = { [Op.ne]: 0 }
+      } else if ('isNotified' in options) {
+        opts.where.notifiedOn = options.isNotified ? { [Op.ne]: 0 } : 0
+      }
+
+      const familles = await ProjectModel.findAll({
+        attributes: ['familleId'],
+        group: ['familleId'],
+        ...opts,
+      })
+
+      return familles.map((item) => item.get().familleId)
+    } catch (error) {
+      if (CONFIG.logDbErrors)
+        console.log('Project.findExistingFamillesForAppelOffre error', error)
+      return []
+    }
   }
 }
 

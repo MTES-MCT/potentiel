@@ -262,7 +262,12 @@ export default function makeUserRepo({ sequelize }): UserRepo {
 
       return await userInstance.hasProject(projectInstance)
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('User.hasProject error', error)
+      const ProjectModel = sequelize.model('project')
+      const allProjects = await ProjectModel.findAll()
+      console.log('hasProject found all projects', allProjects)
+
+      if (CONFIG.logDbErrors)
+        console.log('User.hasProject error', error, userId, projectId)
       return false
     }
   }

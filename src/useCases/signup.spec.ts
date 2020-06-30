@@ -143,10 +143,8 @@ describe('signup use-case', () => {
     )
 
     // Check if the project has been attached
-    const userProjects = await projectRepo.findByUser(user.id)
-    expect(userProjects).toHaveLength(2)
-    expect(userProjects).toContainEqual(expect.objectContaining(project))
-    expect(userProjects).toContainEqual(expect.objectContaining(otherProject))
+    expect(await userRepo.hasProject(user.id, project.id)).toEqual(true)
+    expect(await userRepo.hasProject(user.id, otherProject.id)).toEqual(true)
   })
 
   it('should create a new user with all the projects that have a projectAdmissionKey for the same email', async () => {
@@ -249,10 +247,8 @@ describe('signup use-case', () => {
     )
 
     // Check if the project has been attached
-    const userProjects = await projectRepo.findByUser(user.id)
-    expect(userProjects).toHaveLength(2)
-    expect(userProjects).toContainEqual(expect.objectContaining(project))
-    expect(userProjects).toContainEqual(expect.objectContaining(otherProject))
+    expect(await userRepo.hasProject(user.id, project.id)).toEqual(true)
+    expect(await userRepo.hasProject(user.id, otherProject.id)).toEqual(true)
   })
 
   it('should create a new user with dreal role, with the provided email, and attached to the desired dreal if projectAdmissionKey has a dreal', async () => {

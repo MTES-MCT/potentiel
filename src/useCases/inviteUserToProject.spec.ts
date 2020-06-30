@@ -163,9 +163,7 @@ describe('inviteUserToProject use-case', () => {
     expect(result.is_ok()).toBeTruthy()
 
     // Make sure the user has been granted access to the project
-    const userProjects = await projectRepo.findByUser(existingUser.id)
-    expect(userProjects).toHaveLength(1)
-    expect(userProjects[0].id).toEqual(projet.id)
+    expect(await userRepo.hasProject(existingUser.id, projet.id)).toEqual(true)
 
     // Make sure the notification has been sent
     expect(getCallsToEmailStub()).toHaveLength(1)

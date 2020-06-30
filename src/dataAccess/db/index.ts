@@ -11,7 +11,7 @@ import { makeNotificationRepo } from './notification'
 
 import { appelOffreRepo } from '../inMemory/appelOffre'
 
-const sequelize =
+export const sequelize =
   process.env.NODE_ENV === 'test'
     ? new Sequelize('sqlite::memory:', { logging: false })
     : new Sequelize({
@@ -59,29 +59,28 @@ UserModel.hasMany(ModificationRequestModel)
 ModificationRequestModel.belongsTo(UserModel, { foreignKey: 'userId' })
 
 // Sync the database models
+let _isDatabaseInitialized = false
 const initDatabase = async () => {
+  if (_isDatabaseInitialized) {
+    console.log('initDatabase: db was already initialized.')
+    return
+  }
+
   try {
     await sequelize.authenticate()
-    console.log('Connection has been established successfully.')
+    // console.log('Connection has been established successfully.')
   } catch (error) {
     console.error('Unable to connect to the database:', error)
   }
 
   try {
     await sequelize.sync({ force: process.env.NODE_ENV === 'test' }) // Set to true to crush db if changes
+    // console.log('Database synced successfully.')
   } catch (error) {
     console.error('Unable to sync database models', error)
   }
 
-  // Set up the virtual table
-  try {
-    await sequelize.query(
-      'CREATE VIRTUAL TABLE IF NOT EXISTS project_search USING fts3(id UUID, nomCandidat VARCHAR(255), nomProjet VARCHAR(255), nomRepresentantLegal VARCHAR(255), email VARCHAR(255), adresseProjet VARCHAR(255), codePostalProjet VARCHAR(255), communeProjet VARCHAR(255), departementProjet VARCHAR(255), regionProjet VARCHAR(255), numeroCRE VARCHAR(255));'
-    )
-    console.log('Done create project_search virtual table')
-  } catch (error) {
-    console.error('Unable to create project_search virtual table', error)
-  }
+  _isDatabaseInitialized = true
 }
 
 // Sync the database models

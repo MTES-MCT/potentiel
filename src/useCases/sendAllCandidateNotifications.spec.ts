@@ -29,6 +29,7 @@ import {
   resetEmailStub,
   getCallsToEmailStub,
 } from '../__tests__/fixtures/emailService'
+import project from '../entities/project'
 
 const sendNotification = makeSendNotification({
   notificationRepo,
@@ -53,6 +54,7 @@ describe('sendAllCandidateNotifications use-case', () => {
   const fakeUserProjectName = 'fakeProjectName'
   const appelOffre = appelsOffreStatic[0]
   const periode = appelOffre.periodes[0]
+  const bogusEmail = 'bogus@email.com'
 
   let projectsToNotify: Array<Project>
   const notificationDate = Date.now()
@@ -62,7 +64,6 @@ describe('sendAllCandidateNotifications use-case', () => {
     resetEmailStub()
 
     // Make a fake porteur de projet
-    const bogusEmail = 'bogus@email.com'
     await Promise.all(
       [
         makeCredentials({
@@ -175,11 +176,17 @@ describe('sendAllCandidateNotifications use-case', () => {
   })
 
   it('should add the projects to the existing users if emails are the same', async () => {
-    const userProjects = await projectRepo.findByUser(fakeUserId)
+    const userProjects = await projectRepo.findAll({
+      email: bogusEmail,
+    })
 
     expect(userProjects).toBeDefined()
     expect(userProjects).toHaveLength(2)
-    expect(userProjects[0].nomProjet).toEqual(fakeUserProjectName)
+
+    const [project1, project2] = userProjects
+
+    expect(await userRepo.hasProject(fakeUserId, project1.id)).toEqual(true)
+    expect(await userRepo.hasProject(fakeUserId, project2.id)).toEqual(true)
   })
 
   it('should add a history event in the projects that have been notified', async () => {

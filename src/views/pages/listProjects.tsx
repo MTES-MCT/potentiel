@@ -9,7 +9,7 @@ import { dataId } from '../../helpers/testId'
 import { asLiteral } from '../../helpers/asLiteral'
 
 import ProjectList from '../components/projectList'
-import { adminActions } from '../components/actions'
+import { adminActions, porteurProjetActions } from '../components/actions'
 import { HttpRequest, PaginatedList } from '../../types'
 
 interface ListProjectsProps {
@@ -288,7 +288,11 @@ export default function ListProjects({
               ]}
               projects={projects}
               projectActions={
-                request.user?.role === 'admin' ? adminActions : undefined
+                ['admin', 'dgec'].includes(request.user?.role || '')
+                  ? adminActions
+                  : request.user?.role === 'porteur-projet'
+                  ? porteurProjetActions
+                  : undefined
               }
             />
           </>
