@@ -406,19 +406,6 @@ export default function ProjectDetails({
               >
                 {success}
               </div>
-              {success.includes('Une invitation a bien été envoyée') ? (
-                <div
-                  className="notification warning"
-                  {...dataId('error-message')}
-                >
-                  Certains utilisateurs nous ont signalé des temps de réception
-                  des mails parfois longs. N'hésitez pas à nous contacter si
-                  votre invité n'a pas reçu le mail d'invitation d'ici 48h.
-                  Merci de votre compréhension.
-                </div>
-              ) : (
-                ''
-              )}
             </>
           ) : (
             ''
