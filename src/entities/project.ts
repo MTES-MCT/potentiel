@@ -1,5 +1,6 @@
 import isEmail from 'isemail'
 import _ from 'lodash'
+import crypto from 'crypto'
 import {
   String,
   Number,
@@ -183,6 +184,27 @@ const buildApplyProjectUpdate = (makeId: () => string) => {
   }
 }
 
+const makeProjectIdentifier = (project: Project): string => {
+  const nakedIdentifier =
+    project.appelOffreId +
+    '-P' +
+    project.periodeId +
+    (project.familleId ? '-F' + project.familleId : '') +
+    '-' +
+    project.numeroCRE
+
+  return (
+    nakedIdentifier +
+    '-' +
+    crypto
+      .createHash('md5')
+      .update(project.id)
+      .digest('hex')
+      .substring(0, 3)
+      .toUpperCase()
+  )
+}
+
 interface MakeProjectDependencies {
   makeId: () => string
 }
@@ -205,4 +227,5 @@ export {
   projectSchema,
   territoireSchema,
   buildApplyProjectUpdate,
+  makeProjectIdentifier,
 }

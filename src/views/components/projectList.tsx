@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Project, AppelOffre } from '../../entities'
+import { Project, AppelOffre, makeProjectIdentifier } from '../../entities'
 import ROUTES from '../../routes'
 import { dataId } from '../../helpers/testId'
 
@@ -66,6 +66,9 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
         <span {...dataId('projectList-item-regionProjet')}>
           {project.regionProjet}
         </span>
+        <div style={{ marginTop: 5, fontStyle: 'normal' }}>
+          {makeProjectIdentifier(project)}
+        </div>
       </div>
     </td>
   ),

@@ -1,7 +1,12 @@
 import React from 'react'
 import moment from 'moment'
 
-import { Project, User, ProjectAdmissionKey } from '../../entities'
+import {
+  Project,
+  User,
+  ProjectAdmissionKey,
+  makeProjectIdentifier,
+} from '../../entities'
 import UserDashboard from '../components/userDashboard'
 import AdminDashboard from '../components/adminDashboard'
 import ProjectActions from '../components/projectActions'
@@ -369,10 +374,7 @@ export default function ProjectDetails({
             {project.communeProjet}, {project.departementProjet},{' '}
             {project.regionProjet}
           </span>
-          <div style={{ fontSize: 13 }}>
-            {project.appelOffre?.id} {project.appelOffre?.periode?.title}{' '}
-            période
-          </div>
+          <div style={{ fontSize: 13 }}>{makeProjectIdentifier(project)}</div>
           <div
             style={{
               fontWeight: 'bold',

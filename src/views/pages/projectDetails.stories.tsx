@@ -23,6 +23,7 @@ export const forAdminsLaureat = () => (
       classe: 'Classé',
       notifiedOn: Date.now(),
       appelOffre,
+      appelOffreId: 'Fessenheim',
     })}
     projectUsers={[makeFakeUser()]}
     projectInvitations={[
