@@ -132,6 +132,7 @@ export default function makeAddGarantiesFinancieres({
               },
               variables: {
                 nomProjet: project.nomProjet,
+                departementProjet: project.departementProjet,
                 invitation_link: routes.GARANTIES_FINANCIERES_LIST,
               },
             })
@@ -166,6 +167,7 @@ export default function makeAddGarantiesFinancieres({
                 },
                 variables: {
                   nomProjet: project.nomProjet,
+                  departementProjet: project.departementProjet,
                   invitation_link: routes.DREAL_INVITATION({
                     projectAdmissionKey: invitation.id,
                   }),

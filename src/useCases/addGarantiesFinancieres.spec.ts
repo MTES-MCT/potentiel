@@ -236,7 +236,7 @@ describe('addGarantiesFinancieres use-case', () => {
         routes.GARANTIES_FINANCIERES_LIST
       )
 
-      expect(emailSentToDreal1.templateId).toEqual(1456759)
+      expect(emailSentToDreal1.templateId).toEqual(1528696)
 
       const emailSentToDreal2 = getCallsToEmailStub().find(
         (email) => email.recipients[0].email === 'dreal2@test.test'
@@ -250,7 +250,7 @@ describe('addGarantiesFinancieres use-case', () => {
       expect(emailSentToDreal2.variables.invitation_link).toContain(
         routes.GARANTIES_FINANCIERES_LIST
       )
-      expect(emailSentToDreal2.templateId).toEqual(1456759)
+      expect(emailSentToDreal2.templateId).toEqual(1528696)
     })
 
     it('should send en email notification to invited dreal users from the projet region', async () => {
@@ -269,7 +269,7 @@ describe('addGarantiesFinancieres use-case', () => {
           projectAdmissionKey: '1233',
         })
       )
-      expect(emailSentToDreal3.templateId).toEqual(1456759)
+      expect(emailSentToDreal3.templateId).toEqual(1528696)
     })
   })
 

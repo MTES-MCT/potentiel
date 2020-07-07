@@ -103,6 +103,7 @@ export type DREAL_GF_Notification = {
   }
   variables: {
     nomProjet: string
+    departementProjet: string
     invitation_link: string
   }
 }
