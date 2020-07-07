@@ -10,5 +10,5 @@ module.exports = {
   },
   testMatch: ['**/*.spec.(ts|js)'],
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],
-  testEnvironment: 'jsdom',
+  testEnvironment: 'node',
 }

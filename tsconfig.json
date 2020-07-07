@@ -3,7 +3,7 @@
     "target": "ES2017",
     "lib": ["esnext"],
     "jsx": "react",
-    "typeRoots": ["./src/types", "./node_modules/@types"],
+    "typeRoots": ["./src/types", "node_modules/@types"],
     "strictNullChecks": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
@@ -14,5 +14,12 @@
     "rootDir": "./"
   },
   "include": ["src/**/*", "src/__tests__/**/*", "scripts"],
-  "exclude": ["node_modules", "features", "**/*.spec.ts", "**/*.integration.ts"]
+  "exclude": [
+    "node_modules",
+    "features",
+    "**/*.spec.ts",
+    "**/*.integration.ts",
+    "cypress",
+    "cypress/**/*"
+  ]
 }

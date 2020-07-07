@@ -1,5 +1,4 @@
 import { Sequelize } from 'sequelize'
-import { expect } from 'chai'
 import { v4 as uuid } from 'uuid'
 import { ProjectRepo } from '../project'
 import { makeProjectRepo } from './project'
@@ -21,7 +20,7 @@ import { Pagination } from '../../types'
 const defaultPagination = { page: 0, pageSize: 10 } as Pagination
 
 describe('projectRepo sequelize', () => {
-  before(async () => {
+  beforeAll(async () => {
     await initDatabase()
   })
 
@@ -46,7 +45,7 @@ describe('projectRepo sequelize', () => {
         )
 
         const results = await projectRepo.findAll()
-        expect(results).to.have.lengthOf(2)
+        expect(results).toHaveLength(2)
       })
     })
 
@@ -127,8 +126,8 @@ describe('projectRepo sequelize', () => {
           nomProjet: 'test',
         })
 
-        expect(results).to.have.lengthOf(1)
-        expect(results[0].id).to.equal(targetProjectId)
+        expect(results).toHaveLength(1)
+        expect(results[0].id).toEqual(targetProjectId)
       })
     })
 
@@ -154,8 +153,8 @@ describe('projectRepo sequelize', () => {
           { isNotified: true },
           defaultPagination
         )
-        expect(itemCount).to.equal(1)
-        expect(items[0].id).to.equal(targetProjectId)
+        expect(itemCount).toEqual(1)
+        expect(items[0].id).toEqual(targetProjectId)
       })
     })
   })
@@ -182,8 +181,8 @@ describe('projectRepo sequelize', () => {
         'term',
         defaultPagination
       )
-      expect(itemCount).to.equal(1)
-      expect(items[0].id).to.equal(targetProjectId)
+      expect(itemCount).toEqual(1)
+      expect(items[0].id).toEqual(targetProjectId)
     })
 
     it('should return projects that match all the filters', async () => {
@@ -212,8 +211,8 @@ describe('projectRepo sequelize', () => {
           isNotified: true,
         }
       )
-      expect(itemCount).to.equal(1)
-      expect(items[0].id).to.equal(targetProjectId)
+      expect(itemCount).toEqual(1)
+      expect(items[0].id).toEqual(targetProjectId)
     })
   })
 
@@ -262,8 +261,8 @@ describe('projectRepo sequelize', () => {
         }
       )
 
-      expect(results.itemCount).to.equal(1)
-      expect(results.items[0].id).to.equal(userProjectId)
+      expect(results.itemCount).toEqual(1)
+      expect(results.items[0].id).toEqual(userProjectId)
     })
 
     it('should return projects that match the query', async () => {
@@ -330,8 +329,8 @@ describe('projectRepo sequelize', () => {
         }
       )
 
-      expect(results.itemCount).to.equal(1)
-      expect(results.items[0].id).to.equal(userProjectId1)
+      expect(results.itemCount).toEqual(1)
+      expect(results.items[0].id).toEqual(userProjectId1)
     })
   })
 
@@ -374,8 +373,8 @@ describe('projectRepo sequelize', () => {
         defaultPagination
       )
 
-      expect(results.itemCount).to.equal(1)
-      expect(results.items[0].id).to.equal(userProjectId1)
+      expect(results.itemCount).toEqual(1)
+      expect(results.items[0].id).toEqual(userProjectId1)
     })
 
     it('should only return user projects', async () => {
@@ -414,8 +413,8 @@ describe('projectRepo sequelize', () => {
         defaultPagination
       )
 
-      expect(results.itemCount).to.equal(1)
-      expect(results.items[0].id).to.equal(userProjectId)
+      expect(results.itemCount).toEqual(1)
+      expect(results.items[0].id).toEqual(userProjectId)
     })
 
     it('should return projects that match all the filters', async () => {
@@ -487,8 +486,8 @@ describe('projectRepo sequelize', () => {
         }
       )
 
-      expect(results.itemCount).to.equal(1)
-      expect(results.items[0].id).to.equal(userProjectId1)
+      expect(results.itemCount).toEqual(1)
+      expect(results.items[0].id).toEqual(userProjectId1)
     })
   })
 
@@ -525,12 +524,10 @@ describe('projectRepo sequelize', () => {
           defaultPagination
         )
 
-        expect(results.itemCount).to.equal(2)
-        expect(results.items.map((item) => item.id)).to.include.members([
-          regionProjectId1,
-          ,
-          regionProjectId2,
-        ])
+        expect(results.itemCount).toEqual(2)
+        expect(results.items.map((item) => item.id)).toEqual(
+          expect.arrayContaining([regionProjectId1, , regionProjectId2])
+        )
       })
     })
 
@@ -566,12 +563,10 @@ describe('projectRepo sequelize', () => {
           defaultPagination
         )
 
-        expect(results.itemCount).to.equal(2)
-        expect(results.items.map((item) => item.id)).to.include.members([
-          regionProjectId1,
-          ,
-          regionProjectId2,
-        ])
+        expect(results.itemCount).toEqual(2)
+        expect(results.items.map((item) => item.id)).toEqual(
+          expect.arrayContaining([regionProjectId1, , regionProjectId2])
+        )
       })
     })
 
@@ -627,8 +622,8 @@ describe('projectRepo sequelize', () => {
         }
       )
 
-      expect(results.itemCount).to.equal(1)
-      expect(results.items[0].id).to.equal(regionProjectId1)
+      expect(results.itemCount).toEqual(1)
+      expect(results.items[0].id).toEqual(regionProjectId1)
     })
   })
 
@@ -661,8 +656,8 @@ describe('projectRepo sequelize', () => {
         defaultPagination
       )
 
-      expect(results.itemCount).to.equal(1)
-      expect(results.items[0].id).to.equal(regionProjectId)
+      expect(results.itemCount).toEqual(1)
+      expect(results.items[0].id).toEqual(regionProjectId)
     })
 
     describe('when a single region is given', () => {
@@ -701,12 +696,10 @@ describe('projectRepo sequelize', () => {
           defaultPagination
         )
 
-        expect(results.itemCount).to.equal(2)
-        expect(results.items.map((item) => item.id)).to.include.members([
-          regionProjectId1,
-          ,
-          regionProjectId2,
-        ])
+        expect(results.itemCount).toEqual(2)
+        expect(results.items.map((item) => item.id)).toEqual(
+          expect.arrayContaining([regionProjectId1, , regionProjectId2])
+        )
       })
     })
 
@@ -746,12 +739,10 @@ describe('projectRepo sequelize', () => {
           defaultPagination
         )
 
-        expect(results.itemCount).to.equal(2)
-        expect(results.items.map((item) => item.id)).to.include.members([
-          regionProjectId1,
-          ,
-          regionProjectId2,
-        ])
+        expect(results.itemCount).toEqual(2)
+        expect(results.items.map((item) => item.id)).toEqual(
+          expect.arrayContaining([regionProjectId1, , regionProjectId2])
+        )
       })
     })
 
@@ -812,8 +803,8 @@ describe('projectRepo sequelize', () => {
         }
       )
 
-      expect(results.itemCount).to.equal(1)
-      expect(results.items[0].id).to.equal(regionProjectId1)
+      expect(results.itemCount).toEqual(1)
+      expect(results.items[0].id).toEqual(regionProjectId1)
     })
   })
 
@@ -835,8 +826,8 @@ describe('projectRepo sequelize', () => {
 
         const results = await projectRepo.findExistingAppelsOffres()
 
-        expect(results).to.have.lengthOf(1)
-        expect(results[0]).to.equal(targetAppelOffre)
+        expect(results).toHaveLength(1)
+        expect(results[0]).toEqual(targetAppelOffre)
       })
     })
 
@@ -870,8 +861,8 @@ describe('projectRepo sequelize', () => {
           isNotified: true,
         })
 
-        expect(results).to.have.lengthOf(1)
-        expect(results[0]).to.equal(targetAppelOffre)
+        expect(results).toHaveLength(1)
+        expect(results[0]).toEqual(targetAppelOffre)
       })
     })
 
@@ -905,8 +896,8 @@ describe('projectRepo sequelize', () => {
           isNotified: false,
         })
 
-        expect(results).to.have.lengthOf(1)
-        expect(results[0]).to.equal(targetAppelOffre)
+        expect(results).toHaveLength(1)
+        expect(results[0]).toEqual(targetAppelOffre)
       })
     })
 
@@ -954,8 +945,8 @@ describe('projectRepo sequelize', () => {
           userId,
         })
 
-        expect(results).to.have.lengthOf(1)
-        expect(results[0]).to.equal(targetAppelOffre)
+        expect(results).toHaveLength(1)
+        expect(results[0]).toEqual(targetAppelOffre)
       })
     })
 
@@ -992,11 +983,10 @@ describe('projectRepo sequelize', () => {
           regions: ['Corse', 'Occitanie'],
         })
 
-        expect(results).to.have.lengthOf(2)
-        expect(results).to.include.members([
-          targetAppelOffre,
-          targetAppelOffre2,
-        ])
+        expect(results).toHaveLength(2)
+        expect(results).toEqual(
+          expect.arrayContaining([targetAppelOffre, targetAppelOffre2])
+        )
       })
     })
   })
@@ -1028,8 +1018,8 @@ describe('projectRepo sequelize', () => {
           targetAppelOffre
         )
 
-        expect(results).to.have.lengthOf(1)
-        expect(results[0]).to.equal(targetPeriode)
+        expect(results).toHaveLength(1)
+        expect(results[0]).toEqual(targetPeriode)
       })
     })
 
@@ -1064,8 +1054,8 @@ describe('projectRepo sequelize', () => {
           }
         )
 
-        expect(results).to.have.lengthOf(1)
-        expect(results[0]).to.equal(targetPeriode)
+        expect(results).toHaveLength(1)
+        expect(results[0]).toEqual(targetPeriode)
       })
     })
 
@@ -1100,8 +1090,8 @@ describe('projectRepo sequelize', () => {
           }
         )
 
-        expect(results).to.have.lengthOf(1)
-        expect(results[0]).to.equal(targetPeriode)
+        expect(results).toHaveLength(1)
+        expect(results[0]).toEqual(targetPeriode)
       })
     })
 
@@ -1156,8 +1146,8 @@ describe('projectRepo sequelize', () => {
           }
         )
 
-        expect(results).to.have.lengthOf(1)
-        expect(results[0]).to.equal(targetPeriode)
+        expect(results).toHaveLength(1)
+        expect(results[0]).toEqual(targetPeriode)
       })
     })
 
@@ -1208,8 +1198,10 @@ describe('projectRepo sequelize', () => {
           }
         )
 
-        expect(results).to.have.lengthOf(2)
-        expect(results).to.include.members([targetPeriode1, targetPeriode2])
+        expect(results).toHaveLength(2)
+        expect(results).toEqual(
+          expect.arrayContaining([targetPeriode1, targetPeriode2])
+        )
       })
     })
   })
@@ -1241,8 +1233,8 @@ describe('projectRepo sequelize', () => {
           targetAppelOffre
         )
 
-        expect(results).to.have.lengthOf(1)
-        expect(results[0]).to.equal(targetFamille)
+        expect(results).toHaveLength(1)
+        expect(results[0]).toEqual(targetFamille)
       })
     })
 
@@ -1277,8 +1269,8 @@ describe('projectRepo sequelize', () => {
           }
         )
 
-        expect(results).to.have.lengthOf(1)
-        expect(results[0]).to.equal(targetFamille)
+        expect(results).toHaveLength(1)
+        expect(results[0]).toEqual(targetFamille)
       })
     })
 
@@ -1313,8 +1305,8 @@ describe('projectRepo sequelize', () => {
           }
         )
 
-        expect(results).to.have.lengthOf(1)
-        expect(results[0]).to.equal(targetFamille)
+        expect(results).toHaveLength(1)
+        expect(results[0]).toEqual(targetFamille)
       })
     })
 
@@ -1369,8 +1361,8 @@ describe('projectRepo sequelize', () => {
           }
         )
 
-        expect(results).to.have.lengthOf(1)
-        expect(results[0]).to.equal(targetFamille)
+        expect(results).toHaveLength(1)
+        expect(results[0]).toEqual(targetFamille)
       })
     })
 
@@ -1421,8 +1413,10 @@ describe('projectRepo sequelize', () => {
           }
         )
 
-        expect(results).to.have.lengthOf(2)
-        expect(results).to.include.members([targetFamille1, targetFamille2])
+        expect(results).toHaveLength(2)
+        expect(results).toEqual(
+          expect.arrayContaining([targetFamille1, targetFamille2])
+        )
       })
     })
   })

@@ -595,6 +595,8 @@ export default function makeProjectRepo({
         regions
       )
 
+      console.log('searchedRegionProjectIds', searchedRegionProjectIds)
+
       if (!searchedRegionProjectIds.length)
         return makePaginatedList([], pagination, 0)
 
