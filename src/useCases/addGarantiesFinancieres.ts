@@ -123,7 +123,8 @@ export default function makeAddGarantiesFinancieres({
                 email: drealUser.email,
                 name: drealUser.fullName,
                 subject:
-                  'Potentiel - Nouveau dépôt de garantie financière dans votre région',
+                  'Potentiel - Nouveau dépôt de garantie financière dans votre région, département ' +
+                  project.departementProjet,
               },
               context: {
                 projectId: project.id,
@@ -159,7 +160,8 @@ export default function makeAddGarantiesFinancieres({
                   email: invitation.email,
                   name: invitation.fullName,
                   subject:
-                    'Potentiel - Nouveau dépôt de garantie financière dans votre région',
+                    'Potentiel - Nouveau dépôt de garantie financière dans votre région, département ' +
+                    project.departementProjet,
                 },
                 context: {
                   projectId: project.id,

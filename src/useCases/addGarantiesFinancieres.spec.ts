@@ -64,6 +64,7 @@ describe('addGarantiesFinancieres use-case', () => {
             classe: 'Classé',
             notifiedOn: Date.now() - 40 * 24 * 3600 * 1000,
             regionProjet: 'Bretagne / Pays de la Loire',
+            departementProjet: 'Loire-Atlantique',
           }),
         ]
           .map(makeProject)
@@ -228,7 +229,7 @@ describe('addGarantiesFinancieres use-case', () => {
       if (!emailSentToDreal1) return
 
       expect(emailSentToDreal1.subject).toEqual(
-        'Potentiel - Nouveau dépôt de garantie financière dans votre région'
+        'Potentiel - Nouveau dépôt de garantie financière dans votre région, departement Loire-Atlantique'
       )
 
       expect(emailSentToDreal1.variables.nomProjet).toEqual(projet.nomProjet)
@@ -244,7 +245,7 @@ describe('addGarantiesFinancieres use-case', () => {
       expect(emailSentToDreal2).toBeDefined()
       if (!emailSentToDreal2) return
       expect(emailSentToDreal2.subject).toEqual(
-        'Potentiel - Nouveau dépôt de garantie financière dans votre région'
+        'Potentiel - Nouveau dépôt de garantie financière dans votre région, departement Loire-Atlantique'
       )
       expect(emailSentToDreal2.variables.nomProjet).toEqual(projet.nomProjet)
       expect(emailSentToDreal2.variables.invitation_link).toContain(
@@ -261,7 +262,7 @@ describe('addGarantiesFinancieres use-case', () => {
       expect(emailSentToDreal3).toBeDefined()
       if (!emailSentToDreal3) return
       expect(emailSentToDreal3.subject).toEqual(
-        'Potentiel - Nouveau dépôt de garantie financière dans votre région'
+        'Potentiel - Nouveau dépôt de garantie financière dans votre région, departement Loire-Atlantique'
       )
       expect(emailSentToDreal3.variables.nomProjet).toEqual(projet.nomProjet)
       expect(emailSentToDreal3.variables.invitation_link).toContain(
