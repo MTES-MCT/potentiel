@@ -17,15 +17,20 @@ const pageCount = (pagination: Pagination, itemCount: number) => {
   return Math.ceil(itemCount / pagination.pageSize)
 }
 
+const nullPagination = (count): Pagination => ({
+  pageSize: count,
+  page: 0,
+})
+
 const makePaginatedList = <T>(
   items: Array<T>,
-  pagination: Pagination,
-  count: number
+  count: number,
+  pagination?: Pagination
 ): PaginatedList<T> => {
   return {
     items,
-    pagination,
-    pageCount: pageCount(pagination, count),
+    pagination: pagination || nullPagination(count),
+    pageCount: pagination ? pageCount(pagination, count) : 1,
     itemCount: count,
   }
 }

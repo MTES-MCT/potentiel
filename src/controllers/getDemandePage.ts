@@ -22,21 +22,18 @@ const getDemandePage = async (request: HttpRequest) => {
     return Redirect(ROUTES.USER_DASHBOARD)
   }
 
-  const projectResult = await projectRepo.findById(request.query.projectId)
+  const project = await projectRepo.findById(request.query.projectId)
 
-  return projectResult.match({
-    some: (project: Project) =>
-      Success(
+  return project
+    ? Success(
         ModificationRequestPage({
           request,
           project,
         })
-      ),
-    none: () =>
-      Redirect(ROUTES.USER_DASHBOARD, {
+      )
+    : Redirect(ROUTES.USER_DASHBOARD, {
         error: "Le projet demandé n'existe pas",
-      }),
-  })
+      })
 }
 
 export { getDemandePage }

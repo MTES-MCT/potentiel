@@ -17,7 +17,7 @@ import {
 } from './'
 import { Pagination } from '../../types'
 
-const defaultPagination = { page: 0, pageSize: 10 } as Pagination
+const defaultPagination = { page: 0, pageSize: 2 } as Pagination
 
 describe('projectRepo sequelize', () => {
   beforeAll(async () => {
@@ -28,11 +28,43 @@ describe('projectRepo sequelize', () => {
     await resetDatabase()
   })
 
+  describe('findById(projectId)', () => {
+    describe('when projectId exists', () => {
+      it('should return the project', async () => {
+        const projectId = uuid()
+        const project = makeFakeProject({ id: projectId })
+        await projectRepo.save(project)
+
+        const foundProject = await projectRepo.findById(projectId)
+        expect(foundProject).toBeDefined()
+        expect(foundProject).toEqual(expect.objectContaining(project))
+      })
+    })
+
+    describe('when projectId does not exist', () => {
+      it('should return undefined', async () => {
+        const projectId = uuid()
+
+        const foundProject = await projectRepo.findById(projectId)
+        expect(foundProject).toBeUndefined()
+      })
+    })
+  })
+
   describe('findAll', () => {
     describe('given no arguments', () => {
-      it('should return all projects', async () => {
+      it('should return a pagination list of all projects', async () => {
         await Promise.all(
           [
+            {
+              id: uuid(),
+            },
+            {
+              id: uuid(),
+            },
+            {
+              id: uuid(),
+            },
             {
               id: uuid(),
             },
@@ -44,8 +76,16 @@ describe('projectRepo sequelize', () => {
             .map(projectRepo.save)
         )
 
-        const results = await projectRepo.findAll()
-        expect(results).toHaveLength(2)
+        const {
+          itemCount,
+          items,
+          pageCount,
+          pagination,
+        } = await projectRepo.findAll(undefined, defaultPagination)
+        expect(itemCount).toEqual(5)
+        expect(items).toHaveLength(2)
+        expect(pageCount).toEqual(3)
+        expect(pagination).toEqual(defaultPagination)
       })
     })
 
@@ -115,7 +155,7 @@ describe('projectRepo sequelize', () => {
             .map(projectRepo.save)
         )
 
-        const results = await projectRepo.findAll({
+        const { itemCount, items } = await projectRepo.findAll({
           isNotified: true,
           hasGarantiesFinancieres: true,
           isClasse: true,
@@ -126,33 +166,6 @@ describe('projectRepo sequelize', () => {
           nomProjet: 'test',
         })
 
-        expect(results).toHaveLength(1)
-        expect(results[0].id).toEqual(targetProjectId)
-      })
-    })
-
-    describe('given filters and a pagination', () => {
-      it('should return a paginated list of projects that match the filters', async () => {
-        const targetProjectId = uuid()
-        await Promise.all(
-          [
-            {
-              id: targetProjectId,
-              notifiedOn: 1,
-            },
-            {
-              id: uuid(),
-              notifiedOn: 0,
-            },
-          ]
-            .map(makeFakeProject)
-            .map(projectRepo.save)
-        )
-
-        const { itemCount, items } = await projectRepo.findAll(
-          { isNotified: true },
-          defaultPagination
-        )
         expect(itemCount).toEqual(1)
         expect(items[0].id).toEqual(targetProjectId)
       })
@@ -177,10 +190,7 @@ describe('projectRepo sequelize', () => {
           .map(projectRepo.save)
       )
 
-      const { itemCount, items } = await projectRepo.searchAll(
-        'term',
-        defaultPagination
-      )
+      const { itemCount, items } = await projectRepo.searchAll('term')
       expect(itemCount).toEqual(1)
       expect(items[0].id).toEqual(targetProjectId)
     })
@@ -204,13 +214,9 @@ describe('projectRepo sequelize', () => {
           .map(projectRepo.save)
       )
 
-      const { itemCount, items } = await projectRepo.searchAll(
-        'term',
-        defaultPagination,
-        {
-          isNotified: true,
-        }
-      )
+      const { itemCount, items } = await projectRepo.searchAll('term', {
+        isNotified: true,
+      })
       expect(itemCount).toEqual(1)
       expect(items[0].id).toEqual(targetProjectId)
     })
@@ -251,15 +257,11 @@ describe('projectRepo sequelize', () => {
 
       await userRepo.addProject(userId, userProjectId)
 
-      const results = await projectRepo.findAllForUser(
-        userId,
-        defaultPagination,
-        {
-          isNotified: true,
-          hasGarantiesFinancieres: true,
-          isClasse: true,
-        }
-      )
+      const results = await projectRepo.findAllForUser(userId, {
+        isNotified: true,
+        hasGarantiesFinancieres: true,
+        isClasse: true,
+      })
 
       expect(results.itemCount).toEqual(1)
       expect(results.items[0].id).toEqual(userProjectId)
@@ -319,15 +321,11 @@ describe('projectRepo sequelize', () => {
       await userRepo.addProject(userId, userProjectId3)
       await userRepo.addProject(userId, userProjectId4)
 
-      const results = await projectRepo.findAllForUser(
-        userId,
-        defaultPagination,
-        {
-          isNotified: true,
-          hasGarantiesFinancieres: true,
-          isClasse: true,
-        }
-      )
+      const results = await projectRepo.findAllForUser(userId, {
+        isNotified: true,
+        hasGarantiesFinancieres: true,
+        isClasse: true,
+      })
 
       expect(results.itemCount).toEqual(1)
       expect(results.items[0].id).toEqual(userProjectId1)
@@ -367,11 +365,7 @@ describe('projectRepo sequelize', () => {
       await userRepo.addProject(userId, userProjectId1)
       await userRepo.addProject(userId, userProjectId2)
 
-      const results = await projectRepo.searchForUser(
-        userId,
-        'term',
-        defaultPagination
-      )
+      const results = await projectRepo.searchForUser(userId, 'term')
 
       expect(results.itemCount).toEqual(1)
       expect(results.items[0].id).toEqual(userProjectId1)
@@ -407,11 +401,7 @@ describe('projectRepo sequelize', () => {
 
       await userRepo.addProject(userId, userProjectId)
 
-      const results = await projectRepo.searchForUser(
-        userId,
-        'term',
-        defaultPagination
-      )
+      const results = await projectRepo.searchForUser(userId, 'term')
 
       expect(results.itemCount).toEqual(1)
       expect(results.items[0].id).toEqual(userProjectId)
@@ -475,16 +465,11 @@ describe('projectRepo sequelize', () => {
       await userRepo.addProject(userId, userProjectId3)
       await userRepo.addProject(userId, userProjectId4)
 
-      const results = await projectRepo.searchForUser(
-        userId,
-        'term',
-        defaultPagination,
-        {
-          isNotified: true,
-          hasGarantiesFinancieres: true,
-          isClasse: true,
-        }
-      )
+      const results = await projectRepo.searchForUser(userId, 'term', {
+        isNotified: true,
+        hasGarantiesFinancieres: true,
+        isClasse: true,
+      })
 
       expect(results.itemCount).toEqual(1)
       expect(results.items[0].id).toEqual(userProjectId1)
@@ -519,10 +504,7 @@ describe('projectRepo sequelize', () => {
             .map(projectRepo.save)
         )
 
-        const results = await projectRepo.findAllForRegions(
-          'Corse',
-          defaultPagination
-        )
+        const results = await projectRepo.findAllForRegions('Corse')
 
         expect(results.itemCount).toEqual(2)
         expect(results.items.map((item) => item.id)).toEqual(
@@ -558,10 +540,10 @@ describe('projectRepo sequelize', () => {
             .map(projectRepo.save)
         )
 
-        const results = await projectRepo.findAllForRegions(
-          ['Corse', 'Occitanie'],
-          defaultPagination
-        )
+        const results = await projectRepo.findAllForRegions([
+          'Corse',
+          'Occitanie',
+        ])
 
         expect(results.itemCount).toEqual(2)
         expect(results.items.map((item) => item.id)).toEqual(
@@ -612,15 +594,11 @@ describe('projectRepo sequelize', () => {
           .map(projectRepo.save)
       )
 
-      const results = await projectRepo.findAllForRegions(
-        'Corse',
-        defaultPagination,
-        {
-          isNotified: true,
-          hasGarantiesFinancieres: true,
-          isClasse: true,
-        }
-      )
+      const results = await projectRepo.findAllForRegions('Corse', {
+        isNotified: true,
+        hasGarantiesFinancieres: true,
+        isClasse: true,
+      })
 
       expect(results.itemCount).toEqual(1)
       expect(results.items[0].id).toEqual(regionProjectId1)
@@ -650,11 +628,7 @@ describe('projectRepo sequelize', () => {
           .map(projectRepo.save)
       )
 
-      const results = await projectRepo.searchForRegions(
-        'Corse',
-        'term',
-        defaultPagination
-      )
+      const results = await projectRepo.searchForRegions('Corse', 'term')
 
       expect(results.itemCount).toEqual(1)
       expect(results.items[0].id).toEqual(regionProjectId)
@@ -690,11 +664,7 @@ describe('projectRepo sequelize', () => {
             .map(projectRepo.save)
         )
 
-        const results = await projectRepo.searchForRegions(
-          'Corse',
-          'term',
-          defaultPagination
-        )
+        const results = await projectRepo.searchForRegions('Corse', 'term')
 
         expect(results.itemCount).toEqual(2)
         expect(results.items.map((item) => item.id)).toEqual(
@@ -735,8 +705,7 @@ describe('projectRepo sequelize', () => {
 
         const results = await projectRepo.searchForRegions(
           ['Corse', 'Occitanie'],
-          'term',
-          defaultPagination
+          'term'
         )
 
         expect(results.itemCount).toEqual(2)
@@ -792,16 +761,11 @@ describe('projectRepo sequelize', () => {
           .map(projectRepo.save)
       )
 
-      const results = await projectRepo.searchForRegions(
-        'Corse',
-        'term',
-        defaultPagination,
-        {
-          isNotified: true,
-          hasGarantiesFinancieres: true,
-          isClasse: true,
-        }
-      )
+      const results = await projectRepo.searchForRegions('Corse', 'term', {
+        isNotified: true,
+        hasGarantiesFinancieres: true,
+        isClasse: true,
+      })
 
       expect(results.itemCount).toEqual(1)
       expect(results.items[0].id).toEqual(regionProjectId1)
@@ -1418,6 +1382,61 @@ describe('projectRepo sequelize', () => {
           expect.arrayContaining([targetFamille1, targetFamille2])
         )
       })
+    })
+  })
+
+  describe('countUnnotifiedProjects(appelOffreId, periodeId)', () => {
+    it('should return the number of unnotified projects for the given appelOffreId and periode', async () => {
+      const targetAppelOffre = 'Fessenheim'
+      const targetPeriode = '1'
+
+      await Promise.all(
+        [
+          {
+            id: uuid(),
+            appelOffreId: targetAppelOffre,
+            periodeId: targetPeriode,
+            notifiedOn: 1,
+          },
+          {
+            id: uuid(),
+            appelOffreId: targetAppelOffre,
+            periodeId: 'other',
+            notifiedOn: 0,
+          },
+          {
+            id: uuid(),
+            appelOffreId: 'other',
+            periodeId: targetPeriode,
+            notifiedOn: 0,
+          },
+        ]
+          .map(makeFakeProject)
+          .map(projectRepo.save)
+      )
+
+      expect(
+        await projectRepo.countUnnotifiedProjects(
+          targetAppelOffre,
+          targetPeriode
+        )
+      ).toEqual(0)
+
+      await projectRepo.save(
+        makeFakeProject({
+          id: uuid(),
+          appelOffreId: targetAppelOffre,
+          periodeId: targetPeriode,
+          notifiedOn: 0,
+        })
+      )
+
+      expect(
+        await projectRepo.countUnnotifiedProjects(
+          targetAppelOffre,
+          targetPeriode
+        )
+      ).toEqual(1)
     })
   })
 })

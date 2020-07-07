@@ -25,7 +25,7 @@ const checkUserAccessToProjectForTests = async (request: HttpRequest) => {
     return SystemError('missing nomProjet')
   }
 
-  const [project] = await projectRepo.findAll({ nomProjet })
+  const [project] = (await projectRepo.findAll({ nomProjet })).items
   if (!project) {
     return SystemError('No project with this nomProjet')
   }

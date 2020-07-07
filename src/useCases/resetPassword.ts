@@ -1,13 +1,6 @@
-import {
-  PasswordRetrieval,
-  makePasswordRetrieval,
-  makeCredentials,
-} from '../entities'
-import { PasswordRetrievalRepo, CredentialsRepo } from '../dataAccess'
-import _ from 'lodash'
-import { ResultAsync, ErrorResult, Ok } from '../types'
-import { sendPasswordResetEmail } from '../__tests__/fixtures/passwordResetEmailService'
-import routes from '../routes'
+import { CredentialsRepo, PasswordRetrievalRepo } from '../dataAccess'
+import { makeCredentials, PasswordRetrieval } from '../entities'
+import { ErrorResult, Ok, ResultAsync } from '../types'
 
 interface MakeUseCaseProps {
   passwordRetrievalRepo: PasswordRetrievalRepo

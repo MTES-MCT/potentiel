@@ -20,7 +20,7 @@ import routes from '../routes'
 import { importProjects } from '.'
 
 interface MakeUseCaseProps {
-  projectRepo: ProjectRepo
+  findProjectById: ProjectRepo['findById']
   credentialsRepo: CredentialsRepo
   projectAdmissionKeyRepo: ProjectAdmissionKeyRepo
   userRepo: UserRepo
@@ -44,7 +44,7 @@ export const SYSTEM_ERROR =
   "Il y a eu un problème lors de l'invitation. Merci de réessayer."
 
 export default function makeInviteUserToProject({
-  projectRepo,
+  findProjectById,
   projectAdmissionKeyRepo,
   credentialsRepo,
   userRepo,
@@ -70,8 +70,8 @@ export default function makeInviteUserToProject({
     const existingUserWithEmail = await credentialsRepo.findByEmail(email)
 
     // Get project info
-    const project = await projectRepo.findById(projectId)
-    if (project.is_none()) {
+    const project = await findProjectById(projectId)
+    if (!project) {
       console.log(
         'inviteUserToProject use-case failed on call to projectRepo.findById'
       )
@@ -98,13 +98,13 @@ export default function makeInviteUserToProject({
           subject: `${user.fullName} vous invite à suivre un projet sur Potentiel`,
         },
         variables: {
-          nomProjet: project.unwrap().nomProjet,
+          nomProjet: project.nomProjet,
           // This link is a link to the project itself
           invitation_link: routes.PROJECT_DETAILS(projectId),
         },
         context: {
           projectId,
-          userId,
+          userId: user.id,
         },
       })
       return Ok(null)
@@ -147,7 +147,7 @@ export default function makeInviteUserToProject({
         subject: `${user.fullName} vous invite à suivre un projet sur Potentiel`,
       },
       variables: {
-        nomProjet: project.unwrap().nomProjet,
+        nomProjet: project.nomProjet,
         // This link is a link to the project itself
         invitation_link: routes.PROJECT_INVITATION({
           projectAdmissionKey: projectAdmissionKey.id,

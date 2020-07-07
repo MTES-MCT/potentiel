@@ -19,9 +19,10 @@ import { ResultAsync, ErrorResult, Ok } from '../types'
 
 interface MakeUseCaseProps {
   userRepo: UserRepo
+  addUserToProjectsWithEmail: UserRepo['addUserToProjectsWithEmail']
+  addUserToProject: UserRepo['addProject']
   credentialsRepo: CredentialsRepo
   projectAdmissionKeyRepo: ProjectAdmissionKeyRepo
-  projectRepo: ProjectRepo
 }
 
 interface CallUseCaseProps {
@@ -43,9 +44,10 @@ export const MISSING_ADMISSION_KEY_ERROR =
 
 export default function makeSignup({
   userRepo,
+  addUserToProjectsWithEmail,
+  addUserToProject,
   credentialsRepo,
   projectAdmissionKeyRepo,
-  projectRepo,
 }: MakeUseCaseProps) {
   return async function signup({
     projectAdmissionKey,
@@ -184,14 +186,11 @@ export default function makeSignup({
     } else {
       // Porteur-projet user
       // User validated his email address by registering with it
+
       // Add all projects that have that email
-      const projectsWithSameEmail = await projectRepo.findAll({
-        email: projectAdmissionKeyInstance.email,
-      })
-      await Promise.all(
-        projectsWithSameEmail.map((project) =>
-          userRepo.addProject(user.id, project.id)
-        )
+      await addUserToProjectsWithEmail(
+        user.id,
+        projectAdmissionKeyInstance.email
       )
 
       // Add all projects that have a projectAdmissionKey for the same email
@@ -201,7 +200,7 @@ export default function makeSignup({
       await Promise.all(
         projectAdmissionKeysWithSameEmail.map((projectAdmissionKey) =>
           projectAdmissionKey.projectId
-            ? userRepo.addProject(user.id, projectAdmissionKey.projectId)
+            ? addUserToProject(user.id, projectAdmissionKey.projectId)
             : undefined
         )
       )

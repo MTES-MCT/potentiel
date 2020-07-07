@@ -97,7 +97,7 @@ export default function makeNotificationRepo({ sequelize }): NotificationRepo {
           'Notification.findAll.deserialize error'
         )
 
-        return makePaginatedList(deserializedItems, pagination, count)
+        return makePaginatedList(deserializedItems, count, pagination)
       }
 
       // No pagination
@@ -110,11 +110,11 @@ export default function makeNotificationRepo({ sequelize }): NotificationRepo {
       )
     } catch (error) {
       if (CONFIG.logDbErrors) console.log('Notification.findAll error', error)
-      return pagination ? makePaginatedList([], pagination, 0) : []
+      return pagination ? makePaginatedList([], 0, pagination) : []
     }
   }
 
-  async function save(notification: Notification): ResultAsync<void> {
+  async function save(notification: Notification): ResultAsync<null> {
     await _isDbReady
 
     try {

@@ -1,9 +1,13 @@
 import { Project, AppelOffre, Periode } from '../entities'
 import { Pagination, PaginatedList } from '../types'
-import { ProjectRepo, AppelOffreRepo } from '../dataAccess'
+import { ProjectRepo, AppelOffreRepo, ProjectFilters } from '../dataAccess'
 
 interface MakeUseCaseProps {
-  projectRepo: ProjectRepo
+  findExistingAppelsOffres: ProjectRepo['findExistingAppelsOffres']
+  findExistingPeriodesForAppelOffre: ProjectRepo['findExistingPeriodesForAppelOffre']
+  countUnnotifiedProjects: ProjectRepo['countUnnotifiedProjects']
+  findAllProjects: ProjectRepo['findAll']
+  searchAllProjects: ProjectRepo['searchAll']
   appelOffreRepo: AppelOffreRepo
 }
 
@@ -15,18 +19,31 @@ interface CallUseCaseProps {
   classement?: 'classés' | 'éliminés'
 }
 
+export type AppelOffreDTO = {
+  id: AppelOffre['id']
+  shortTitle: AppelOffre['title']
+}
+
+export type PeriodeDTO = {
+  id: Periode['id']
+  title: Periode['title']
+}
+
 type UseCaseReturnType = {
-  appelsOffre: Array<AppelOffre>
   projects: PaginatedList<Project>
   projectsInPeriodCount: number
   selectedAppelOffreId: AppelOffre['id']
   selectedPeriodeId: Periode['id']
-  existingAppelsOffres: Array<AppelOffre['id']>
-  existingPeriodes?: Array<Periode['id']>
+  existingAppelsOffres: Array<AppelOffreDTO>
+  existingPeriodes?: Array<PeriodeDTO>
 } | null
 
 export default function makeListUnnotifiedProjects({
-  projectRepo,
+  findExistingAppelsOffres,
+  findExistingPeriodesForAppelOffre,
+  countUnnotifiedProjects,
+  findAllProjects,
+  searchAllProjects,
   appelOffreRepo,
 }: MakeUseCaseProps) {
   return async function listUnnotifiedProjects({
@@ -38,80 +55,86 @@ export default function makeListUnnotifiedProjects({
   }: CallUseCaseProps): Promise<UseCaseReturnType> {
     const result: any = {}
 
+    const appelsOffre = await appelOffreRepo.findAll()
+
     // Get all appels offres that have at least one unnotified project
-    result.existingAppelsOffres = await projectRepo.findExistingAppelsOffres({
-      isNotified: false,
-    })
+    result.existingAppelsOffres = (
+      await findExistingAppelsOffres({
+        isNotified: false,
+      })
+    ).map((appelOffreId) => ({
+      id: appelOffreId,
+      shortTitle:
+        appelsOffre.find((item) => item.id === appelOffreId)?.shortTitle ||
+        appelOffreId,
+    }))
 
     // Not a single unnotified project, stop here
     if (!result.existingAppelsOffres.length) return null
 
     // Retained appel offre is either the one provided or the first of the existing ones
-    result.selectedAppelOffreId = appelOffreId || result.existingAppelsOffres[0]
+    result.selectedAppelOffreId =
+      appelOffreId || result.existingAppelsOffres[0].id
 
-    result.appelsOffre = await appelOffreRepo.findAll()
-    const appelOffre: AppelOffre = result.appelsOffre.find(
+    const selectedAppelOffre = appelsOffre.find(
       (appelOffre) => appelOffre.id === result.selectedAppelOffreId
     )
-
-    if (!appelOffre) return null
+    if (!selectedAppelOffre) return null
 
     // Get all periodes for this appels d'offre which have an unnotified project
     result.existingPeriodes = (
-      await projectRepo.findExistingPeriodesForAppelOffre(
-        result.selectedAppelOffreId,
-        {
-          isNotified: false,
-        }
-      )
-    ).filter((periodeId) => {
-      // Only include periodes for which we can generate a certificate
-      // The reverse means it's a period that isn't in our scope
-      const periode = appelOffre.periodes.find(
-        (periode) => periode.id === periodeId
-      )
+      await findExistingPeriodesForAppelOffre(result.selectedAppelOffreId, {
+        isNotified: false,
+      })
+    )
+      .map((periodeId) => {
+        // Only include periodes for which we can generate a certificate
+        // The reverse means it's a period that isn't in our scope
+        const periode = selectedAppelOffre.periodes.find(
+          (periode) => periode.id === periodeId
+        )
 
-      return periode && !!periode.canGenerateCertificate
-    })
+        return (
+          !!periode &&
+          !!periode.canGenerateCertificate && {
+            id: periodeId,
+            title: periode.title,
+          }
+        )
+      })
+      .filter((item) => !!item)
 
     // Not a single unnotified project for which the admin can notify, stop here
     if (!result.existingPeriodes.length) return null
 
     // Retained periode is either the one provided (if it's in the list) or the first of the existing ones
     result.selectedPeriodeId =
-      (periodeId && result.existingPeriodes.includes(periodeId) && periodeId) ||
-      result.existingPeriodes[0]
+      (periodeId &&
+        result.existingPeriodes.map((item) => item.id).includes(periodeId) &&
+        periodeId) ||
+      result.existingPeriodes[0].id
 
     // Count all projects for this appelOffre and periode
-    result.projectsInPeriodCount = (
-      await projectRepo.findAll(
-        {
-          isNotified: false,
-          appelOffreId: result.selectedAppelOffreId,
-          periodeId: result.selectedPeriodeId,
-        },
-        {
-          page: 0,
-          pageSize: 1,
-        }
-      )
-    ).itemCount
+    result.projectsInPeriodCount = await countUnnotifiedProjects(
+      result.selectedAppelOffreId,
+      result.selectedPeriodeId
+    )
 
     // Return all projects for this appelOffre, periode and search/filter params
-    const query: any = {
-      notifiedOn: 0,
+    const query: ProjectFilters = {
+      isNotified: false,
       appelOffreId: result.selectedAppelOffreId,
       periodeId: result.selectedPeriodeId,
     }
 
-    if (recherche) query.recherche = recherche
-
     if (classement) {
-      if (classement === 'classés') query.classe = 'Classé'
-      if (classement === 'éliminés') query.classe = 'Eliminé'
+      if (classement === 'classés') query.isClasse = true
+      if (classement === 'éliminés') query.isClasse = false
     }
 
-    result.projects = await projectRepo.findAll(query, pagination)
+    result.projects = recherche
+      ? await searchAllProjects(recherche, query, pagination)
+      : await findAllProjects(query, pagination)
 
     return result as UseCaseReturnType
   }

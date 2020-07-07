@@ -9,10 +9,16 @@ export type UserRepo = {
   addProject: (
     userId: User['id'],
     projectId: Project['id']
-  ) => ResultAsync<void>
+  ) => ResultAsync<null>
+
+  addUserToProjectsWithEmail: (
+    userId: User['id'],
+    email: Project['email']
+  ) => ResultAsync<null>
+
   hasProject: (userId: User['id'], projectId: Project['id']) => Promise<boolean>
-  remove: (userId: User['id']) => ResultAsync<void>
+  remove: (userId: User['id']) => ResultAsync<null>
   findUsersForDreal: (dreal: string) => Promise<Array<User>>
   findDrealsForUser: (userId: User['id']) => Promise<Array<DREAL>>
-  addToDreal: (userId: User['id'], dreal: DREAL) => ResultAsync<void>
+  addToDreal: (userId: User['id'], dreal: DREAL) => ResultAsync<null>
 }

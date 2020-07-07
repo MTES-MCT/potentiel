@@ -3,99 +3,77 @@ import makeListGarantiesFinancieres from './listGarantiesFinancieres'
 import makeFakeProject from '../__tests__/fixtures/project'
 import makeFakeUser from '../__tests__/fixtures/user'
 
-import { makeProject, makeUser, Project } from '../entities'
-import { userRepo, projectRepo, resetDatabase } from '../dataAccess/inMemory'
-import expectPuppeteer from 'expect-puppeteer'
+import { makeProject, makeUser, Project, User, DREAL } from '../entities'
+import { UnwrapForTest } from '../types'
 
-const listGarantiesFinancieres = makeListGarantiesFinancieres({
-  userRepo,
-  projectRepo,
+const pagination = {
+  page: 0,
+  pageSize: 10,
+}
+
+const makePaginatedProjectList = (projects: Project[]) => ({
+  items: projects,
+  pagination,
+  pageCount: 1,
+  itemCount: projects.length,
 })
 
 describe('listGarantiesFinancieres use-case', () => {
-  let garantiesFinancieres: Project[]
+  describe('given user is dreal', () => {
+    const user = { id: 'user1', role: 'dreal' } as User
+    const fakeProject = UnwrapForTest(makeProject(makeFakeProject()))
 
-  beforeAll(async () => {
-    resetDatabase()
+    const userRegions: DREAL[] = ['Bretagne', 'Corse']
 
-    // Add projects
-    await Promise.all(
-      [
-        {
-          // Wrong region
-          regionProjet: 'Bretagne',
-          garantiesFinancieresSubmittedOn: 1234,
-        },
-        {
-          // Correct region in multiple region project
-          regionProjet: 'Corse / Bretagne',
-          garantiesFinancieresSubmittedOn: 1234,
-        },
-        {
-          // Correct region in single region project
-          regionProjet: 'Corse',
-          garantiesFinancieresSubmittedOn: 1234,
-        },
-        {
-          // Correct other region
-          regionProjet: 'Occitanie',
-          garantiesFinancieresSubmittedOn: 1234,
-        },
-        {
-          // Correct region but without GF
-          regionProjet: 'Corse',
-          garantiesFinancieresSubmittedOn: 0,
-        },
-      ]
-        .map(makeFakeProject)
-        .map(makeProject)
-        .filter((item) => item.is_ok())
-        .map((item) => item.unwrap())
-        .map(projectRepo.save)
+    const findAllProjectsForRegions = jest.fn(async () =>
+      makePaginatedProjectList([fakeProject])
     )
+    const findAllProjects = jest.fn()
+    const findDrealsForUser = jest.fn(async () => userRegions)
 
-    // Add a user
-    const [user] = (
-      await Promise.all(
-        [{ role: 'dreal' }]
-          .map(makeFakeUser)
-          .map(makeUser)
-          .filter((item) => item.is_ok())
-          .map((item) => item.unwrap())
-          .map(userRepo.insert)
-      )
-    )
-      .filter((item) => item.is_ok())
-      .map((item) => item.unwrap())
+    const listGarantiesFinancieres = makeListGarantiesFinancieres({
+      findAllProjectsForRegions,
+      findAllProjects,
+      findDrealsForUser,
+    })
 
-    expect(user).toBeDefined()
-    if (!user) return
+    it('should return a list of projects with garanties financières for the user regions', async () => {
+      const res = await listGarantiesFinancieres({ user })
+      expect(res).toEqual([fakeProject])
 
-    // Link dreal users to dreal
-    await userRepo.addToDreal(user.id, 'Corse')
-    await userRepo.addToDreal(user.id, 'Occitanie')
-
-    // Make the call
-    garantiesFinancieres = await listGarantiesFinancieres({ user })
+      expect(findDrealsForUser).toHaveBeenCalledWith(user.id)
+      expect(findAllProjectsForRegions).toHaveBeenCalledWith(userRegions, {
+        hasGarantiesFinancieres: true,
+      })
+      expect(findAllProjects).not.toHaveBeenCalled()
+    })
   })
 
-  it('should include projects from the same region as the dreal user', async () => {
-    expect(garantiesFinancieres).toHaveLength(3)
+  describe('given user is admin', () => {
+    const user = { id: 'user1', role: 'admin' } as User
+    const fakeProject = UnwrapForTest(makeProject(makeFakeProject()))
 
-    expect(
-      garantiesFinancieres.every((garantie) =>
-        garantie.regionProjet
-          .split(' / ')
-          .some((region) => ['Corse', 'Occitanie'].includes(region))
-      )
-    ).toEqual(true)
-  })
+    const findAllProjectsForRegions = jest.fn()
+    const findAllProjects = jest.fn(async () =>
+      makePaginatedProjectList([fakeProject])
+    )
+    const findDrealsForUser = jest.fn()
 
-  it('should include projects that have submitted garanties financières', async () => {
-    expect(
-      garantiesFinancieres.every(
-        (garantie) => garantie.garantiesFinancieresSubmittedOn !== 0
-      )
-    ).toEqual(true)
+    const listGarantiesFinancieres = makeListGarantiesFinancieres({
+      findAllProjectsForRegions,
+      findAllProjects,
+      findDrealsForUser,
+    })
+
+    it('should return a list of all projects with garanties financières', async () => {
+      const res = await listGarantiesFinancieres({ user })
+      expect(res).toEqual([fakeProject])
+
+      expect(findAllProjects).toHaveBeenCalledWith({
+        hasGarantiesFinancieres: true,
+      })
+      expect(findDrealsForUser).not.toHaveBeenCalled()
+      expect(findAllProjectsForRegions).not.toHaveBeenCalled()
+    })
   })
 })

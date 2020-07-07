@@ -58,11 +58,6 @@ class routes {
   static IMPORT_PROJECTS_ACTION = '/admin/importProjects'
   static ADMIN_LIST_PROJECTS = '/admin/dashboard.html'
   static ADMIN_LIST_REQUESTS = '/admin/demandes.html'
-  static ADMIN_SEND_COPY_OF_CANDIDATE_NOTIFICATION_ACTION = withParams<{
-    appelOffreId: string
-    periodeId: string
-    email: string
-  }>('/admin/sendCopyOfCandidateNotification')
   static ADMIN_NOTIFY_CANDIDATES = withParams<{
     appelOffreId: string
     periodeId: string

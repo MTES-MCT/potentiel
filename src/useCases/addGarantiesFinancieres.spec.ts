@@ -1,163 +1,94 @@
+import moment from 'moment'
+import {
+  makeProject,
+  makeProjectAdmissionKey,
+  makeUser,
+  Project,
+} from '../entities'
+import routes from '../routes'
+import { Ok, UnwrapForTest } from '../types'
+import makeFakeProject from '../__tests__/fixtures/project'
+import makeFakeUser from '../__tests__/fixtures/user'
 import makeAddGarantiesFinancieres, {
   UNAUTHORIZED,
 } from './addGarantiesFinancieres'
-import makeShouldUserAccessProject from './shouldUserAccessProject'
-
-import makeFakeProject from '../__tests__/fixtures/project'
-import makeFakeUser from '../__tests__/fixtures/user'
-
-import {
-  makeProject,
-  makeUser,
-  User,
-  Project,
-  ProjectAdmissionKey,
-} from '../entities'
-
-import {
-  projectRepo,
-  userRepo,
-  notificationRepo,
-  resetDatabase,
-  projectAdmissionKeyRepo,
-} from '../dataAccess/inMemory'
-import moment from 'moment'
-
-import makeSendNotification from './sendNotification'
-import {
-  sendEmail,
-  resetEmailStub,
-  getCallsToEmailStub,
-} from '../__tests__/fixtures/emailService'
-import routes from '../routes'
-
-const sendNotification = makeSendNotification({
-  notificationRepo,
-  sendEmail,
-})
-
-const shouldUserAccessProject = makeShouldUserAccessProject({
-  userRepo,
-  projectRepo,
-})
-const addGarantiesFinancieres = makeAddGarantiesFinancieres({
-  userRepo,
-  projectRepo,
-  projectAdmissionKeyRepo,
-  shouldUserAccessProject,
-  sendNotification,
-})
 
 describe('addGarantiesFinancieres use-case', () => {
-  let projet: Project
-  let user: User
-
-  beforeAll(async () => {
-    resetDatabase()
-    resetEmailStub()
-
-    // Create a fake project
-    const insertedProjects = (
-      await Promise.all(
-        [
-          makeFakeProject({
-            classe: 'Classé',
-            notifiedOn: Date.now() - 40 * 24 * 3600 * 1000,
-            regionProjet: 'Bretagne / Pays de la Loire',
-            departementProjet: 'Loire-Atlantique',
-          }),
-        ]
-          .map(makeProject)
-          .filter((item) => item.is_ok())
-          .map((item) => item.unwrap())
-          .map(projectRepo.save)
-      )
-    )
-      .filter((item) => item.is_ok())
-      .map((item) => item.unwrap())
-
-    expect(insertedProjects).toHaveLength(1)
-    if (!insertedProjects[0]) return
-    projet = insertedProjects[0]
-    if (!projet) return
-
-    // Create a fake user
-    const [porteurProjet, dreal1, dreal2, dreal4] = (
-      await Promise.all(
-        [
-          { role: 'porteur-projet', email: 'porteur@test.test' },
-          { role: 'dreal', email: 'dreal1@test.test' },
-          { role: 'dreal', email: 'dreal2@test.test' },
-          { role: 'dreal', email: 'dreal4@test.test' },
-        ]
-          .map(makeFakeUser)
-          .map(makeUser)
-          .filter((item) => item.is_ok())
-          .map((item) => item.unwrap())
-          .map(userRepo.insert)
-      )
-    )
-      .filter((item) => item.is_ok())
-      .map((item) => item.unwrap())
-
-    expect(porteurProjet).toBeDefined()
-    expect(dreal1).toBeDefined()
-    expect(dreal2).toBeDefined()
-    expect(dreal4).toBeDefined()
-    if (!porteurProjet || !dreal1 || !dreal2 || !dreal4) return
-
-    user = porteurProjet
-
-    // Link project to user
-    const res = await userRepo.addProject(user.id, projet.id)
-    expect(res.is_ok()).toBeTruthy()
-
-    // Link dreal users to dreal
-    await userRepo.addToDreal(dreal1.id, 'Bretagne')
-    await userRepo.addToDreal(dreal2.id, 'Pays de la Loire')
-    // The next dreal user exists to _not_ receive a notification
-    await userRepo.addToDreal(dreal4.id, 'Corse')
-
-    // Simulate invitation to other dreal user
-    await projectAdmissionKeyRepo.save({
-      id: '1233',
-      email: 'dreal3@test.test',
-      fullName: 'dreal3',
-      dreal: 'Bretagne',
-    } as ProjectAdmissionKey)
-    // This second invitation should be ignored because the user already has an account
-    await projectAdmissionKeyRepo.save({
-      id: '1234',
-      email: 'dreal1@test.test',
-      fullName: 'dreal1',
-      dreal: 'Bretagne',
-    } as ProjectAdmissionKey)
-  })
-
-  describe('successful call', () => {
+  describe('when the user has rights on this project', () => {
     const filename = 'fakeFile.pdf'
     const date = Date.now()
 
+    let updatedProject: Project
+    const originalProject: Project = UnwrapForTest(
+      makeProject(
+        makeFakeProject({
+          classe: 'Classé',
+          notifiedOn: Date.now() - 40 * 24 * 3600 * 1000,
+          regionProjet: 'Bretagne / Pays de la Loire',
+          departementProjet: 'Loire-Atlantique',
+        })
+      )
+    )
+
+    const user = UnwrapForTest(
+      makeUser(makeFakeUser({ role: 'porteur-projet' }))
+    )
+
+    const drealUser1 = UnwrapForTest(makeUser(makeFakeUser({ role: 'dreal' })))
+    const drealUser2 = UnwrapForTest(makeUser(makeFakeUser({ role: 'dreal' })))
+
+    const drealInvitation = UnwrapForTest(
+      makeProjectAdmissionKey({
+        email: 'drealinvite@test.test',
+        dreal: 'Bretagne',
+        fullName: 'fullname',
+      })
+    )
+
+    const sendNotification = jest.fn()
+
     beforeAll(async () => {
+      const shouldUserAccessProject = jest.fn(async () => true)
+      const findUsersForDreal = jest.fn(async (region) => {
+        if (region === 'Bretagne') return [drealUser1]
+        if (region === 'Pays de la Loire') return [drealUser2]
+        else throw 'Wrong region provided : ' + region
+      })
+      const findAllProjectAdmissionKeys = jest.fn(async () => [drealInvitation])
+
+      const addGarantiesFinancieres = makeAddGarantiesFinancieres({
+        findUsersForDreal,
+        findProjectById: async () => originalProject,
+        saveProject: async (project: Project) => {
+          updatedProject = project
+          return Ok(null)
+        },
+        findAllProjectAdmissionKeys,
+        shouldUserAccessProject,
+        sendNotification,
+      })
+
       const res = await addGarantiesFinancieres({
         filename,
         date,
-        projectId: projet.id,
+        projectId: originalProject.id,
         user,
       })
 
       expect(res.is_ok()).toBe(true)
       if (res.is_err()) return
+
+      expect(shouldUserAccessProject).toHaveBeenCalledWith({
+        user,
+        projectId: originalProject.id,
+      })
     })
 
     it('should update the project garantiesFinancieres* properties', async () => {
       // Get the latest version of the project
-      const updatedProjectRes = await projectRepo.findById(projet.id, true)
+      expect(updatedProject).toBeDefined()
 
-      expect(updatedProjectRes.is_some()).toBe(true)
-      if (updatedProjectRes.is_none()) return
-
-      const updatedProject = updatedProjectRes.unwrap()
+      expect(updatedProject.id).toEqual(originalProject.id)
 
       expect(updatedProject.garantiesFinancieresSubmittedOn / 100).toBeCloseTo(
         Date.now() / 100,
@@ -192,119 +123,148 @@ describe('addGarantiesFinancieres use-case', () => {
       expect(updatedProject.history[0].userId).toEqual(user.id)
     })
 
-    it('should send out email notifications', async () => {
-      expect(getCallsToEmailStub()).toHaveLength(4)
-    })
-
     it('should send an email confirmation to the user', async () => {
-      // Make sure the notification has been sent
-      const emailSentToUser = getCallsToEmailStub().find(
-        (email) => email.recipients[0].email === user.email
-      )
-
-      expect(emailSentToUser).toBeDefined()
-      if (!emailSentToUser) return
-      expect(emailSentToUser.subject).toEqual(
-        "Confirmation d'envoi des garanties financières"
-      )
-      expect(emailSentToUser.variables).toEqual({
-        nomProjet: projet.nomProjet,
-        dreal: projet.regionProjet,
-        date_depot: moment(date).format('DD/MM/YYYY'),
+      expect(sendNotification).toHaveBeenCalledWith({
+        type: 'pp-gf-notification',
+        message: {
+          email: user.email,
+          name: user.fullName,
+          subject: "Confirmation d'envoi des garanties financières",
+        },
+        context: {
+          projectId: originalProject.id,
+          userId: user.id,
+        },
+        variables: {
+          nomProjet: originalProject.nomProjet,
+          dreal: originalProject.regionProjet,
+          date_depot: moment(date).format('DD/MM/YYYY'),
+        },
       })
-      expect(emailSentToUser.templateId).toEqual(1463065)
     })
 
-    it('should send an email notification to dreal users from the projet region', async () => {
-      // For this user, user filter instead of find to make sure only one email has been
-      // sent to him (he has an invitation also)
-      const emailsSentToDreal1 = getCallsToEmailStub().filter(
-        (email) => email.recipients[0].email === 'dreal1@test.test'
-      )
+    it('should send an email notification to dreal users from the projet regions', async () => {
+      expect(sendNotification).toHaveBeenCalledWith({
+        type: 'dreal-gf-notification',
+        message: {
+          email: drealUser2.email,
+          name: drealUser1.fullName,
+          subject:
+            'Potentiel - Nouveau dépôt de garantie financière dans votre région, département ' +
+            originalProject.departementProjet,
+        },
+        context: {
+          projectId: originalProject.id,
+          dreal: 'Bretagne',
+          userId: drealUser1.id,
+        },
+        variables: {
+          nomProjet: originalProject.nomProjet,
+          departementProjet: originalProject.departementProjet,
+          invitation_link: routes.GARANTIES_FINANCIERES_LIST,
+        },
+      })
 
-      expect(emailsSentToDreal1).toHaveLength(1)
-      const emailSentToDreal1 = emailsSentToDreal1[0]
-
-      expect(emailSentToDreal1).toBeDefined()
-      if (!emailSentToDreal1) return
-
-      expect(emailSentToDreal1.subject).toEqual(
-        'Potentiel - Nouveau dépôt de garantie financière dans votre région, departement Loire-Atlantique'
-      )
-
-      expect(emailSentToDreal1.variables.nomProjet).toEqual(projet.nomProjet)
-      expect(emailSentToDreal1.variables.invitation_link).toContain(
-        routes.GARANTIES_FINANCIERES_LIST
-      )
-
-      expect(emailSentToDreal1.templateId).toEqual(1528696)
-
-      const emailSentToDreal2 = getCallsToEmailStub().find(
-        (email) => email.recipients[0].email === 'dreal2@test.test'
-      )
-      expect(emailSentToDreal2).toBeDefined()
-      if (!emailSentToDreal2) return
-      expect(emailSentToDreal2.subject).toEqual(
-        'Potentiel - Nouveau dépôt de garantie financière dans votre région, departement Loire-Atlantique'
-      )
-      expect(emailSentToDreal2.variables.nomProjet).toEqual(projet.nomProjet)
-      expect(emailSentToDreal2.variables.invitation_link).toContain(
-        routes.GARANTIES_FINANCIERES_LIST
-      )
-      expect(emailSentToDreal2.templateId).toEqual(1528696)
+      expect(sendNotification).toHaveBeenCalledWith({
+        type: 'dreal-gf-notification',
+        message: {
+          email: drealUser2.email,
+          name: drealUser2.fullName,
+          subject:
+            'Potentiel - Nouveau dépôt de garantie financière dans votre région, département ' +
+            originalProject.departementProjet,
+        },
+        context: {
+          projectId: originalProject.id,
+          dreal: 'Pays de la Loire',
+          userId: drealUser2.id,
+        },
+        variables: {
+          nomProjet: originalProject.nomProjet,
+          departementProjet: originalProject.departementProjet,
+          invitation_link: routes.GARANTIES_FINANCIERES_LIST,
+        },
+      })
     })
 
     it('should send en email notification to invited dreal users from the projet region', async () => {
-      // Make sure the notification has been sent
-      const emailSentToDreal3 = getCallsToEmailStub().find(
-        (email) => email.recipients[0].email === 'dreal3@test.test'
-      )
-      expect(emailSentToDreal3).toBeDefined()
-      if (!emailSentToDreal3) return
-      expect(emailSentToDreal3.subject).toEqual(
-        'Potentiel - Nouveau dépôt de garantie financière dans votre région, departement Loire-Atlantique'
-      )
-      expect(emailSentToDreal3.variables.nomProjet).toEqual(projet.nomProjet)
-      expect(emailSentToDreal3.variables.invitation_link).toContain(
-        routes.DREAL_INVITATION({
-          projectAdmissionKey: '1233',
-        })
-      )
-      expect(emailSentToDreal3.templateId).toEqual(1528696)
+      expect(sendNotification).toHaveBeenCalledWith({
+        type: 'dreal-gf-notification',
+        message: {
+          email: drealInvitation.email,
+          name: drealInvitation.fullName,
+          subject:
+            'Potentiel - Nouveau dépôt de garantie financière dans votre région, département ' +
+            originalProject.departementProjet,
+        },
+        context: {
+          projectId: originalProject.id,
+          dreal: 'Bretagne',
+        },
+        variables: {
+          nomProjet: originalProject.nomProjet,
+          departementProjet: originalProject.departementProjet,
+          invitation_link: routes.DREAL_INVITATION({
+            projectAdmissionKey: drealInvitation.id,
+          }),
+        },
+      })
     })
   })
 
-  it('should return an error if the user does not have the rights on this project', async () => {
-    const filename = 'fakeFile.pdf'
-    const date = Date.now()
+  describe('When the user doesnt have rights on the project', () => {
+    it('should return an UNAUTHORIZED error if the user does not have the rights on this project', async () => {
+      const filename = 'fakeFile.pdf'
+      const date = Date.now()
 
-    // Create another fake user
-    const insertedUsers = (
-      await Promise.all(
-        [makeFakeUser({ role: 'porteur-projet' })]
-          .map(makeUser)
-          .filter((item) => item.is_ok())
-          .map((item) => item.unwrap())
-          .map(userRepo.insert)
+      const user = UnwrapForTest(
+        makeUser(makeFakeUser({ role: 'porteur-projet' }))
       )
-    )
-      .filter((item) => item.is_ok())
-      .map((item) => item.unwrap())
-    expect(insertedUsers).toHaveLength(1)
-    if (!insertedUsers[0]) return
-    const otherUser = insertedUsers[0]
-    if (!otherUser) return
 
-    const res = await addGarantiesFinancieres({
-      filename,
-      date,
-      projectId: projet.id,
-      user: otherUser,
+      const originalProject = UnwrapForTest(
+        makeProject(
+          makeFakeProject({
+            classe: 'Classé',
+            notifiedOn: Date.now() - 40 * 24 * 3600 * 1000,
+            regionProjet: 'Bretagne / Pays de la Loire',
+            departementProjet: 'Loire-Atlantique',
+          })
+        )
+      )
+
+      const shouldUserAccessProject = jest.fn(async () => false)
+
+      const saveProject = jest.fn()
+      const sendNotification = jest.fn()
+
+      const addGarantiesFinancieres = makeAddGarantiesFinancieres({
+        findUsersForDreal: jest.fn(),
+        findProjectById: async () => originalProject,
+        saveProject,
+        findAllProjectAdmissionKeys: jest.fn(),
+        shouldUserAccessProject,
+        sendNotification,
+      })
+
+      const res = await addGarantiesFinancieres({
+        filename,
+        date,
+        projectId: originalProject.id,
+        user,
+      })
+
+      expect(res.is_err()).toBe(true)
+      if (res.is_ok()) return
+
+      expect(shouldUserAccessProject).toHaveBeenCalledWith({
+        user,
+        projectId: originalProject.id,
+      })
+
+      expect(saveProject).not.toHaveBeenCalled()
+      expect(sendNotification).not.toHaveBeenCalled()
+
+      expect(res.unwrap_err()).toEqual(new Error(UNAUTHORIZED))
     })
-
-    expect(res.is_err()).toBe(true)
-    if (res.is_ok()) return
-
-    expect(res.unwrap_err()).toEqual(new Error(UNAUTHORIZED))
   })
 })

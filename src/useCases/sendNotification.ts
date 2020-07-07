@@ -16,7 +16,7 @@ export type EmailProps = {
 
 interface MakeUseCaseProps {
   notificationRepo: NotificationRepo
-  sendEmail: (email: EmailProps) => ResultAsync<void>
+  sendEmail: (email: EmailProps) => ResultAsync<null>
 }
 
 type CallUseCaseProps = NotificationProps

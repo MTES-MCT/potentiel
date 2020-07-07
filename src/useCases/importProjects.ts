@@ -15,7 +15,9 @@ import moment from 'moment'
 import { retrievePassword } from '.'
 
 interface MakeUseCaseProps {
-  projectRepo: ProjectRepo
+  findOneProject: ProjectRepo['findOne']
+  saveProject: ProjectRepo['save']
+  removeProject: ProjectRepo['remove']
   appelOffreRepo: AppelOffreRepo
 }
 
@@ -105,14 +107,19 @@ interface ImportReturnType {
 }
 
 export default function makeImportProjects({
-  projectRepo,
+  findOneProject,
+  saveProject,
+  removeProject,
   appelOffreRepo,
 }: MakeUseCaseProps) {
   return async function importProjects({
     lines,
     userId,
   }: CallUseCaseProps): ResultAsync<ImportReturnType> {
-    // console.log('importProjects use-case with ' + lines.length + ' lines')
+    // console.log(
+    //   'importProjects use-case with ' + lines.length + ' lines',
+    //   lines
+    // )
 
     // Check if there is at least one line to insert
     if (!lines || !lines.length) {
@@ -271,7 +278,7 @@ export default function makeImportProjects({
           // console.log('importProjects use-case, project ', newProject.nomProjet)
 
           // An existing project would have the same appelOffre, perdiode, numeroCRE and famille
-          const existingProject = await projectRepo.findOne({
+          const existingProject = await findOneProject({
             appelOffreId,
             periodeId,
             numeroCRE,
@@ -296,7 +303,7 @@ export default function makeImportProjects({
               return Ok(null)
             }
 
-            return projectRepo.save(updatedProject)
+            return (await saveProject(updatedProject)).map(() => updatedProject)
           }
 
           // No existing project => newly imported project
@@ -309,7 +316,7 @@ export default function makeImportProjects({
             console.log(
               'importProject use-case failed when calling makeProject on a newly imported project'
             )
-            return ErrorResult(ERREUR_INSERTION)
+            return ErrorResult<Project>(ERREUR_INSERTION)
           }
 
           const newlyImportedProject = applyProjectUpdate({
@@ -324,10 +331,12 @@ export default function makeImportProjects({
             console.log(
               'importProject use-case failed when calling applyProjectUpdate on a newly imported project'
             )
-            return ErrorResult(ERREUR_INSERTION)
+            return ErrorResult<Project>(ERREUR_INSERTION)
           }
 
-          return projectRepo.save(newlyImportedProject)
+          return (await saveProject(newlyImportedProject)).map(
+            () => newlyImportedProject
+          )
         })
       )
     ).filter(
@@ -352,7 +361,7 @@ export default function makeImportProjects({
         insertions
           .filter((project) => project.is_ok())
           .map((project) => project.unwrap().id)
-          .map(projectRepo.remove)
+          .map(removeProject)
       )
       return ErrorResult(ERREUR_INSERTION)
     }

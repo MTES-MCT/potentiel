@@ -145,7 +145,7 @@ const postRequestModification = async (request: HttpRequest) => {
   const result = await requestModification({
     ...data,
     filename,
-    userId: request.user.id,
+    user: request.user,
   })
 
   if (result.is_err() && filepath) {

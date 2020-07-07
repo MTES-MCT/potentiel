@@ -4,7 +4,7 @@ import _ from 'lodash'
 
 interface MakeUseCaseProps {
   userRepo: UserRepo
-  projectRepo: ProjectRepo
+  findProjectById: ProjectRepo['findById']
 }
 
 interface CallUseCaseProps {
@@ -14,7 +14,7 @@ interface CallUseCaseProps {
 
 export default function makeShouldUserAccessProject({
   userRepo,
-  projectRepo,
+  findProjectById,
 }: MakeUseCaseProps) {
   return async function shouldUserAccessProject({
     projectId,
@@ -24,11 +24,10 @@ export default function makeShouldUserAccessProject({
 
     if (user.role === 'dreal') {
       const userDreals = await userRepo.findDrealsForUser(user.id)
-      const projectRes = await projectRepo.findById(projectId)
+      const project = await findProjectById(projectId)
 
-      if (projectRes.is_none()) return false
+      if (!project) return false
 
-      const project = projectRes.unwrap()
       return userDreals.some((region) => project.regionProjet.includes(region))
     }
 

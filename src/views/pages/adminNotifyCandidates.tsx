@@ -5,6 +5,10 @@ import moment from 'moment'
 import pagination from '../../__tests__/fixtures/pagination'
 
 import { Project, AppelOffre, Periode, Famille } from '../../entities'
+import {
+  AppelOffreDTO,
+  PeriodeDTO,
+} from '../../useCases/listUnnotifiedProjects'
 import ROUTES from '../../routes'
 import { dataId } from '../../helpers/testId'
 
@@ -14,13 +18,12 @@ import { HttpRequest, PaginatedList } from '../../types'
 type AdminNotifyCandidatesProps = {
   request: HttpRequest
   results?: {
-    appelsOffre: Array<AppelOffre>
     projects: PaginatedList<Project>
     projectsInPeriodCount: number
     selectedAppelOffreId: AppelOffre['id']
     selectedPeriodeId: Periode['id']
-    existingAppelsOffres: Array<AppelOffre['id']>
-    existingPeriodes?: Array<Periode['id']>
+    existingAppelsOffres: Array<AppelOffreDTO>
+    existingPeriodes?: Array<PeriodeDTO>
   }
 }
 
@@ -64,7 +67,6 @@ export default function AdminNotifyCandidates({
 
   const {
     projects,
-    appelsOffre,
     projectsInPeriodCount,
     selectedAppelOffreId,
     selectedPeriodeId,
@@ -73,13 +75,6 @@ export default function AdminNotifyCandidates({
   } = results
 
   const hasFilters = classement && classement !== ''
-
-  const periodes =
-    appelsOffre
-      .find((ao) => ao.id === selectedAppelOffreId)
-      ?.periodes.filter(
-        (periode) => !existingPeriodes || existingPeriodes.includes(periode.id)
-      ) || []
 
   return (
     <AdminDashboard role={request.user?.role} currentPage="notify-candidates">
@@ -174,36 +169,30 @@ export default function AdminNotifyCandidates({
               id="appelOffreId"
               {...dataId('appelOffreIdSelector')}
             >
-              {appelsOffre
-                .filter((appelOffre) =>
-                  existingAppelsOffres.includes(appelOffre.id)
-                )
-                .map((appelOffre) => (
-                  <option
-                    key={'appel_' + appelOffre.id}
-                    value={appelOffre.id}
-                    selected={appelOffre.id === selectedAppelOffreId}
-                  >
-                    {appelOffre.shortTitle}
-                  </option>
-                ))}
+              {existingAppelsOffres.map((appelOffre) => (
+                <option
+                  key={'appel_' + appelOffre.id}
+                  value={appelOffre.id}
+                  selected={appelOffre.id === selectedAppelOffreId}
+                >
+                  {appelOffre.shortTitle}
+                </option>
+              ))}
             </select>
             <select
               name="periodeId"
               id="periodeId"
               {...dataId('periodeIdSelector')}
             >
-              {periodes
-                .filter((periode) => !!periode.canGenerateCertificate)
-                .map((periode) => (
-                  <option
-                    key={'appel_' + periode.id}
-                    value={periode.id}
-                    selected={periode.id === selectedPeriodeId}
-                  >
-                    {periode.title}
-                  </option>
-                ))}
+              {existingPeriodes?.map((periode) => (
+                <option
+                  key={'appel_' + periode.id}
+                  value={periode.id}
+                  selected={periode.id === selectedPeriodeId}
+                >
+                  {periode.title}
+                </option>
+              ))}
             </select>
           </div>
           {projectsInPeriodCount ? (
@@ -261,21 +250,6 @@ export default function AdminNotifyCandidates({
             'Classé',
           ]}
           projectActions={(project: Project) => [
-            ...(process.env.NODE_ENV === 'production'
-              ? []
-              : [
-                  {
-                    title: "M'envoyer le mail de notification",
-                    link: ROUTES.ADMIN_SEND_COPY_OF_CANDIDATE_NOTIFICATION_ACTION(
-                      {
-                        appelOffreId: project.appelOffreId,
-                        periodeId: project.periodeId,
-                        email: project.email,
-                      }
-                    ),
-                    actionId: 'send-copy-of-notification',
-                  },
-                ]),
             {
               title: 'Aperçu attestation',
               link: ROUTES.CANDIDATE_CERTIFICATE_FOR_ADMINS(project),

@@ -73,6 +73,7 @@ export default function makeProjectAdmissionKeyRepo({
   return Object.freeze({
     findById,
     findAll,
+    getList,
     save,
   })
 
@@ -105,15 +106,7 @@ export default function makeProjectAdmissionKeyRepo({
 
   async function findAll(
     query?: Record<string, any>
-  ): Promise<Array<ProjectAdmissionKey>>
-  async function findAll(
-    query: Record<string, any>,
-    pagination: Pagination
-  ): Promise<PaginatedList<ProjectAdmissionKey>>
-  async function findAll(
-    query?: Record<string, any>,
-    pagination?: Pagination
-  ): Promise<PaginatedList<ProjectAdmissionKey> | Array<ProjectAdmissionKey>> {
+  ): Promise<Array<ProjectAdmissionKey>> {
     await _isDbReady
 
     try {
@@ -143,22 +136,6 @@ export default function makeProjectAdmissionKeyRepo({
 
       opts.order = [['createdAt', 'DESC']]
 
-      if (pagination) {
-        const { count, rows } = await ProjectAdmissionKeyModel.findAndCountAll({
-          ...opts,
-          ...paginate(pagination),
-        })
-
-        const deserializedItems = mapExceptError(
-          rows.map((item) => item.get()),
-          deserialize,
-          'ProjectAdmissionKey.findAll.deserialize error'
-        )
-
-        return makePaginatedList(deserializedItems, pagination, count)
-      }
-
-      // No pagination
       const projectAdmissionKeysRaw = await ProjectAdmissionKeyModel.findAll(
         opts
       )
@@ -177,7 +154,59 @@ export default function makeProjectAdmissionKeyRepo({
     } catch (error) {
       if (CONFIG.logDbErrors)
         console.log('ProjectAdmissionKey.findAll error', error)
-      return pagination ? makePaginatedList([], pagination, 0) : []
+      return []
+    }
+  }
+
+  async function getList(
+    query: Record<string, any>,
+    pagination: Pagination
+  ): Promise<PaginatedList<ProjectAdmissionKey>> {
+    await _isDbReady
+
+    try {
+      const opts: any = {}
+      if (query) {
+        opts.where = query
+
+        if (query.dreal === -1) {
+          // Special case which means not null
+          opts.where.dreal = { [Op.ne]: null }
+        }
+
+        if (query.dreal === null) {
+          opts.where.dreal = { [Op.eq]: null }
+        }
+
+        if (query.projectId === null) {
+          opts.where.projectId = { [Op.eq]: null }
+        }
+
+        if (typeof query.createdAt === 'object' && query.createdAt.before) {
+          opts.where.createdAt = {
+            [Op.lte]: moment(query.createdAt.before).toDate(),
+          }
+        }
+      }
+
+      opts.order = [['createdAt', 'DESC']]
+
+      const { count, rows } = await ProjectAdmissionKeyModel.findAndCountAll({
+        ...opts,
+        ...paginate(pagination),
+      })
+
+      const deserializedItems = mapExceptError(
+        rows.map((item) => item.get()),
+        deserialize,
+        'ProjectAdmissionKey.findAll.deserialize error'
+      )
+
+      return makePaginatedList(deserializedItems, count, pagination)
+    } catch (error) {
+      if (CONFIG.logDbErrors)
+        console.log('ProjectAdmissionKey.getList error', error)
+      return makePaginatedList([], 0, pagination)
     }
   }
 

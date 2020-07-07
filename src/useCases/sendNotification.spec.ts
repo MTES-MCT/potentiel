@@ -127,7 +127,7 @@ describe('sendNotification use-case', () => {
   })
 
   it('should save a Notification with an error status sendEmail returns an error', async () => {
-    const sendEmailWithError = async (props: EmailProps): ResultAsync<void> => {
+    const sendEmailWithError = async (props: EmailProps): ResultAsync<null> => {
       return ErrorResult('sendEmail error')
     }
 

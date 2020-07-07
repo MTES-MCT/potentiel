@@ -32,10 +32,14 @@ export const withProjects = () => (
   <AdminNotifyCandidates
     request={makeFakeRequest()}
     results={{
-      appelsOffre: appelsOffreStatic,
       selectedAppelOffreId: selectedAppelOffreId,
       projectsInPeriodCount: 3,
-      existingAppelsOffres: [appelsOffreStatic[0].id],
+      existingAppelsOffres: [
+        {
+          id: appelsOffreStatic[0].id,
+          shortTitle: appelsOffreStatic[0].shortTitle,
+        },
+      ],
       selectedPeriodeId: selectedPeriodeId,
       projects: {
         itemCount: 3,

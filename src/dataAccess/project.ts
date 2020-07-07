@@ -28,43 +28,42 @@ export type ProjectRepo = {
   findById: (
     id: Project['id'],
     includeHistory?: boolean
-  ) => OptionAsync<Project>
+  ) => Promise<Project | undefined>
   findOne(query: Record<string, any>): Promise<Project | undefined>
 
   searchForUser(
     userId: User['id'],
     terms: string,
-    pagination: Pagination,
-    filters?: ProjectFilters
+    filters?: ProjectFilters,
+    pagination?: Pagination
   ): Promise<PaginatedList<Project>>
   findAllForUser(
     userId: User['id'],
-    pagination: Pagination,
-    filters?: ProjectFilters
+    filters?: ProjectFilters,
+    pagination?: Pagination
   ): Promise<PaginatedList<Project>>
 
   searchForRegions(
     regions: DREAL | DREAL[],
     terms: string,
-    pagination: Pagination,
-    filters?: ProjectFilters
+    filters?: ProjectFilters,
+    pagination?: Pagination
   ): Promise<PaginatedList<Project>>
   findAllForRegions(
     regions: DREAL | DREAL[],
-    pagination: Pagination,
-    filters?: ProjectFilters
+    filters?: ProjectFilters,
+    pagination?: Pagination
   ): Promise<PaginatedList<Project>>
 
   searchAll(
     terms: string,
-    pagination: Pagination,
-    filters?: ProjectFilters
+    filters?: ProjectFilters,
+    pagination?: Pagination
   ): Promise<PaginatedList<Project>>
 
-  findAll(query?: ProjectFilters): Promise<Array<Project>>
   findAll(
-    query: ProjectFilters,
-    pagination: Pagination
+    query?: ProjectFilters,
+    pagination?: Pagination
   ): Promise<PaginatedList<Project>>
 
   findExistingAppelsOffres(
@@ -81,7 +80,12 @@ export type ProjectRepo = {
     options?: ContextSpecificProjectListFilter
   ): Promise<Array<Famille['id']>>
 
-  remove: (projectId: Project['id']) => ResultAsync<void>
-  save: (project: Project) => ResultAsync<Project>
+  countUnnotifiedProjects(
+    appelOffreId: AppelOffre['id'],
+    periodeId: Periode['id']
+  ): Promise<number>
+
+  remove: (projectId: Project['id']) => ResultAsync<null>
+  save: (project: Project) => ResultAsync<null>
   getUsers: (projectId: Project['id']) => Promise<Array<User>>
 }

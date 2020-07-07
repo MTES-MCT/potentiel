@@ -1,9 +1,8 @@
-import { Project, makeProject, User } from '../entities'
-import { ProjectRepo, UserRepo } from '../dataAccess'
-import _ from 'lodash'
+import { ProjectRepo } from '../dataAccess'
+import { Project, User } from '../entities'
 
 interface MakeUseCaseProps {
-  projectRepo: ProjectRepo
+  findProjectById: ProjectRepo['findById']
   shouldUserAccessProject: (args: {
     user: User
     projectId: Project['id']
@@ -16,7 +15,7 @@ interface CallUseCaseProps {
 }
 
 export default function makeGetUserProject({
-  projectRepo,
+  findProjectById,
   shouldUserAccessProject,
 }: MakeUseCaseProps) {
   return async function getUserProject({
@@ -31,10 +30,8 @@ export default function makeGetUserProject({
     if (!userHasRightsToProject) return null
 
     // Rights are ok, return the project instance
-    const projectResult = await projectRepo.findById(projectId)
-    if (projectResult.is_none()) return null
-
-    const project = projectResult.unwrap()
+    const project = await findProjectById(projectId)
+    if (!project) return null
 
     if (user.role === 'porteur-projet' && !project.notifiedOn) return null
 

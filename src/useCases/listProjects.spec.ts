@@ -1,178 +1,471 @@
-import makeListProjects from './listProjects'
-
+import { appelsOffreStatic } from '../dataAccess/inMemory'
+import { DREAL, makeProject, makeUser, Project } from '../entities'
+import { UnwrapForTest } from '../types'
 import makeFakeProject from '../__tests__/fixtures/project'
 import makeFakeUser from '../__tests__/fixtures/user'
-import defaultPagination from '../__tests__/fixtures/pagination'
-import { makeUser, User, DREAL, Project } from '../entities'
-import { PaginatedList } from '../types'
+import makeListProjects from './listProjects'
 
-import { projectRepo, userRepo } from '../dataAccess/inMemory'
+const pagination = {
+  page: 0,
+  pageSize: 10,
+}
 
-const emptyListPromise: Promise<PaginatedList<Project>> = Promise.resolve({
-  items: [],
-  pagination: {
-    page: 0,
-    pageSize: 0,
-  },
-  pageCount: 0,
-  itemCount: 0,
+const makePaginatedProjectList = (projects: Project[]) => ({
+  items: projects,
+  pagination,
+  pageCount: 1,
+  itemCount: projects.length,
 })
 
-const voidFn: () => Promise<PaginatedList<Project>> = () => {
-  throw 'voidFn should not be called by test case'
+const project = UnwrapForTest(makeProject(makeFakeProject()))
+const projectList = makePaginatedProjectList([project])
+const appelsOffres = appelsOffreStatic.map((item) => item.id).slice(0, 2)
+const periodes = appelsOffreStatic[0].periodes.map((item) => item.id)
+const familles = appelsOffreStatic[0].familles.map((item) => item.id)
+const DREALs: DREAL[] = ['Bretagne', 'Corse']
+
+const searchForRegions = jest.fn(async () => projectList)
+const findAllForRegions = jest.fn(async () => projectList)
+const searchForUser = jest.fn(async () => projectList)
+const findAllForUser = jest.fn(async () => projectList)
+const searchAll = jest.fn(async () => projectList)
+const findAll = jest.fn(async () => projectList)
+const findExistingAppelsOffres = jest.fn(async () => appelsOffres)
+const findExistingPeriodesForAppelOffre = jest.fn(async () => periodes)
+const findExistingFamillesForAppelOffre = jest.fn(async () => familles)
+const findDrealsForUser = jest.fn(async () => DREALs)
+
+const listProjects = makeListProjects({
+  searchForRegions,
+  findAllForRegions,
+  searchForUser,
+  findAllForUser,
+  searchAll,
+  findAll,
+  findExistingAppelsOffres,
+  findExistingPeriodesForAppelOffre,
+  findExistingFamillesForAppelOffre,
+  findDrealsForUser,
+})
+
+const resetMocks = () => {
+  searchForRegions.mockClear()
+  findAllForRegions.mockClear()
+  searchForUser.mockClear()
+  findAllForUser.mockClear()
+  searchAll.mockClear()
+  findAll.mockClear()
+  findExistingAppelsOffres.mockClear()
+  findExistingPeriodesForAppelOffre.mockClear()
+  findExistingFamillesForAppelOffre.mockClear()
+  findDrealsForUser.mockClear()
 }
 
 describe('listProjects use-case', () => {
-  // const fakeProjects = [
-  //   makeFakeProject({
-  //     id: '1',
-  //     appelOffreId: 'appelOffre1',
-  //     periodeId: 'periode1',
-  //     notifiedOn: 1,
-  //     regionProjet: 'Corse / Bretagne',
-  //   }),
-  //   makeFakeProject({
-  //     id: '2',
-  //     appelOffreId: 'appelOffre1',
-  //     periodeId: 'periode2',
-  //     notifiedOn: 1,
-  //     regionProjet: 'Martinique',
-  //   }),
-  //   makeFakeProject({
-  //     id: '3',
-  //     appelOffreId: 'appelOffre2',
-  //     periodeId: 'periode1',
-  //     notifiedOn: 1,
-  //     regionProjet: 'Guyane',
-  //   }),
-  //   makeFakeProject({
-  //     id: '4',
-  //     appelOffreId: 'appelOffre3',
-  //     periodeId: 'periode1',
-  //     notifiedOn: 0,
-  //     regionProjet: 'Corse',
-  //   }),
-  // ]
-  // beforeAll(async () => {
-  //   await Promise.all(fakeProjects.map(projectRepo.save))
-  // })
   describe('given the user is admin', () => {
-    describe('given a search term', () => {
-      it('should return all notified projects that contain the search term', async () => {
-        const listProjects = makeListProjects({
-          searchForRegions: voidFn,
-          findAllForRegions: voidFn,
-          searchForUser: voidFn,
-          findAllForUser: voidFn,
-          searchAll: voidFn,
-          findAll: voidFn,
-          findExistingAppelsOffres: voidFn,
-          findExistingPeriodesForAppelOffre: voidFn,
-          findExistingFamillesForAppelOffre: voidFn,
-          findDrealsForUser: voidFn,
+    const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
+
+    describe('given no params', () => {
+      let res: any
+
+      beforeAll(async () => {
+        resetMocks()
+
+        res = await listProjects({
+          user,
+          pagination,
         })
+
+        expect(res).toBeDefined()
+
+        expect(searchForRegions).not.toHaveBeenCalled()
+        expect(findAllForRegions).not.toHaveBeenCalled()
+        expect(searchForUser).not.toHaveBeenCalled()
+        expect(findAllForUser).not.toHaveBeenCalled()
+        expect(searchAll).not.toHaveBeenCalled()
+        expect(findExistingPeriodesForAppelOffre).not.toHaveBeenCalled()
+        expect(findExistingFamillesForAppelOffre).not.toHaveBeenCalled()
+        expect(findDrealsForUser).not.toHaveBeenCalled()
+      })
+
+      it('should return all notified projects', async () => {
+        expect(findAll).toHaveBeenCalledWith({ isNotified: true }, pagination)
+
+        expect(res).toHaveProperty('projects')
+        expect(res.projects).toEqual(projectList)
+      })
+
+      it('should return appels offre that contain at least one unnotified project', () => {
+        expect(findExistingAppelsOffres).toHaveBeenCalledWith({
+          isNotified: true,
+        })
+
+        expect(res).toHaveProperty('existingAppelsOffres')
+        expect(res.existingAppelsOffres).toEqual(appelsOffres)
       })
     })
 
-    //   let user: User
-    //   beforeAll(async () => {
-    //     const [insertedUser] = (
-    //       await Promise.all(
-    //         [makeFakeUser({ role: 'admin' })]
-    //           .map(makeUser)
-    //           .filter((item) => item.is_ok())
-    //           .map((item) => item.unwrap())
-    //           .map(userRepo.insert)
-    //       )
-    //     )
-    //       .filter((item) => item.is_ok())
-    //       .map((item) => item.unwrap())
-    //     expect(insertedUser).toBeDefined()
-    //     if (!insertedUser) return
-    //     user = insertedUser
-    //   })
-    it('should return all projects that have been notified', async () => {
-      //     const notifiedProjects = fakeProjects.filter(
-      //       (project) => project.notifiedOn > 0
-      //     )
-      //     const foundProjects = await listProjects({
-      //       user,
-      //       pagination: defaultPagination,
-      //     })
-      //     expect(foundProjects.items).toHaveLength(notifiedProjects.length)
-      //     notifiedProjects.forEach((fakeProject) => {
-      //       expect(foundProjects.items).toContainEqual(
-      //         expect.objectContaining(fakeProject)
-      //       )
-      //     })
-      //     foundProjects.items.forEach((foundProject) => {
-      //       expect(foundProject.notifiedOn).not.toEqual(0)
-      //     })
-      //   })
-      //   it('should return all projects from given appelOffre', async () => {
-      //     const foundProjects = await listProjects({
-      //       user,
-      //       appelOffreId: 'appelOffre1',
-      //       pagination: defaultPagination,
-      //     })
-      //     expect(foundProjects.items).toHaveLength(2)
-      //     expect(
-      //       foundProjects.items.every(
-      //         (project) => project.appelOffreId === 'appelOffre1'
-      //       )
-      //     ).toBeTruthy()
-      //   })
-      //   it('should return all projects from given appelOffre and periode', async () => {
-      //     const foundProjects = await listProjects({
-      //       user,
-      //       appelOffreId: 'appelOffre1',
-      //       periodeId: 'periode1',
-      //       pagination: defaultPagination,
-      //     })
-      //     expect(foundProjects.items).toHaveLength(1)
-      //     expect(foundProjects.items[0].appelOffreId).toEqual('appelOffre1')
-      //     expect(foundProjects.items[0].periodeId).toEqual('periode1')
-      //   })
-      //   it('should ignore periode if appelOffre is not given', async () => {
-      //     const foundProjects = await listProjects({
-      //       user,
-      //       periodeId: 'periode1',
-      //       pagination: defaultPagination,
-      //     })
-      //     expect(foundProjects.items).toHaveLength(3)
+    describe('given an appel offre', () => {
+      let res: any
+      const appelOffreId = 'Fessenheim'
+
+      beforeAll(async () => {
+        resetMocks()
+
+        res = await listProjects({
+          user,
+          appelOffreId,
+          pagination,
+        })
+
+        expect(res).toBeDefined()
+
+        expect(searchForRegions).not.toHaveBeenCalled()
+        expect(findAllForRegions).not.toHaveBeenCalled()
+        expect(searchForUser).not.toHaveBeenCalled()
+        expect(findAllForUser).not.toHaveBeenCalled()
+        expect(searchAll).not.toHaveBeenCalled()
+        expect(findDrealsForUser).not.toHaveBeenCalled()
+      })
+
+      it('should return all notified projects from this appel offre', async () => {
+        expect(findAll).toHaveBeenCalledWith(
+          { appelOffreId, isNotified: true },
+          pagination
+        )
+
+        expect(res).toHaveProperty('projects')
+        expect(res.projects).toEqual(projectList)
+      })
+
+      it('should return periodes from this appel offre that contain at least one unnotified project', () => {
+        expect(findExistingPeriodesForAppelOffre).toHaveBeenCalledWith(
+          appelOffreId,
+          {
+            isNotified: true,
+          }
+        )
+
+        expect(res).toHaveProperty('existingPeriodes')
+        expect(res.existingPeriodes).toEqual(periodes)
+      })
+
+      it('should return familles from this appel offre that contain at least one unnotified project', () => {
+        expect(findExistingFamillesForAppelOffre).toHaveBeenCalledWith(
+          appelOffreId,
+          {
+            isNotified: true,
+          }
+        )
+
+        expect(res).toHaveProperty('existingFamilles')
+        expect(res.existingFamilles).toEqual(familles)
+      })
+    })
+
+    describe('given appel offre, periode, famille, classement and garantiesFinancieres params', () => {
+      let res: any
+      const appelOffreId = 'Fessenheim'
+      const periodeId = '1'
+      const familleId = '2'
+
+      beforeAll(async () => {
+        resetMocks()
+
+        res = await listProjects({
+          user,
+          appelOffreId,
+          periodeId,
+          familleId,
+          classement: 'classés',
+          garantiesFinancieres: 'submitted',
+          pagination,
+        })
+
+        expect(res).toBeDefined()
+
+        expect(searchForRegions).not.toHaveBeenCalled()
+        expect(findAllForRegions).not.toHaveBeenCalled()
+        expect(searchForUser).not.toHaveBeenCalled()
+        expect(findAllForUser).not.toHaveBeenCalled()
+        expect(searchAll).not.toHaveBeenCalled()
+        expect(findDrealsForUser).not.toHaveBeenCalled()
+      })
+
+      it('should return all notified projects from this appel offre, periode, famille, classement and garanties financieres', async () => {
+        expect(findAll).toHaveBeenCalledWith(
+          {
+            appelOffreId,
+            periodeId,
+            familleId,
+            isClasse: true,
+            hasGarantiesFinancieres: true,
+            isNotified: true,
+          },
+          pagination
+        )
+
+        expect(res).toHaveProperty('projects')
+        expect(res.projects).toEqual(projectList)
+      })
+    })
+
+    describe('given only a search term', () => {
+      let res: any
+
+      beforeAll(async () => {
+        resetMocks()
+
+        res = await listProjects({
+          user,
+          recherche: 'term',
+          pagination,
+        })
+
+        expect(res).toBeDefined()
+
+        expect(searchForRegions).not.toHaveBeenCalled()
+        expect(findAllForRegions).not.toHaveBeenCalled()
+        expect(searchForUser).not.toHaveBeenCalled()
+        expect(findAllForUser).not.toHaveBeenCalled()
+        expect(findAll).not.toHaveBeenCalled()
+        expect(findExistingPeriodesForAppelOffre).not.toHaveBeenCalled()
+        expect(findExistingFamillesForAppelOffre).not.toHaveBeenCalled()
+        expect(findDrealsForUser).not.toHaveBeenCalled()
+      })
+
+      it('should return all notified projects that contain the search term', async () => {
+        expect(searchAll).toHaveBeenCalledWith(
+          'term',
+          { isNotified: true },
+          pagination
+        )
+
+        expect(res).toHaveProperty('projects')
+        expect(res.projects).toEqual(projectList)
+      })
+    })
+
+    describe('given a search term and appel offre, periode, famille, classement and garantiesFinancieres params', () => {
+      let res: any
+
+      const appelOffreId = 'Fessenheim'
+      const periodeId = '1'
+      const familleId = '2'
+
+      beforeAll(async () => {
+        resetMocks()
+
+        res = await listProjects({
+          user,
+          recherche: 'term',
+          appelOffreId,
+          periodeId,
+          familleId,
+          classement: 'classés',
+          garantiesFinancieres: 'submitted',
+          pagination,
+        })
+
+        expect(res).toBeDefined()
+
+        expect(searchForRegions).not.toHaveBeenCalled()
+        expect(findAllForRegions).not.toHaveBeenCalled()
+        expect(searchForUser).not.toHaveBeenCalled()
+        expect(findAllForUser).not.toHaveBeenCalled()
+        expect(findAll).not.toHaveBeenCalled()
+        expect(findDrealsForUser).not.toHaveBeenCalled()
+      })
+
+      it('should return all notified projects from this appel offre, periode, famille, classement and garanties financieres that contain the search term', async () => {
+        expect(searchAll).toHaveBeenCalledWith(
+          'term',
+          {
+            appelOffreId,
+            periodeId,
+            familleId,
+            isClasse: true,
+            hasGarantiesFinancieres: true,
+            isNotified: true,
+          },
+          pagination
+        )
+
+        expect(res).toHaveProperty('projects')
+        expect(res.projects).toEqual(projectList)
+      })
     })
   })
-  // describe('when the user is dreal', () => {
-  //   let user: User
-  //   const region: DREAL = 'Corse'
-  //   beforeAll(async () => {
-  //     const [insertedUser] = (
-  //       await Promise.all(
-  //         [makeFakeUser({ role: 'dreal' })]
-  //           .map(makeUser)
-  //           .filter((item) => item.is_ok())
-  //           .map((item) => item.unwrap())
-  //           .map(userRepo.insert)
-  //       )
-  //     )
-  //       .filter((item) => item.is_ok())
-  //       .map((item) => item.unwrap())
-  //     expect(insertedUser).toBeDefined()
-  //     if (!insertedUser) return
-  //     user = insertedUser
-  //     const drealAddition = await userRepo.addToDreal(user.id, region)
-  //     expect(drealAddition.is_ok()).toEqual(true)
-  //   })
-  //   it('should return all projects from that region that have been notified', async () => {
-  //     const foundProjects = await listProjects({
-  //       user,
-  //       pagination: defaultPagination,
-  //     })
-  //     expect(foundProjects.items).toHaveLength(1)
-  //     foundProjects.items.forEach((foundProject) => {
-  //       expect(foundProject.regionProjet).toContain(region)
-  //       expect(foundProject.notifiedOn).not.toEqual(0)
-  //     })
-  //   })
-  // })
+
+  describe('given the user is dreal', () => {
+    const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'dreal' })))
+
+    describe('given no params', () => {
+      let res: any
+
+      beforeAll(async () => {
+        resetMocks()
+
+        res = await listProjects({
+          user,
+          pagination,
+        })
+
+        expect(res).toBeDefined()
+
+        expect(searchForRegions).not.toHaveBeenCalled()
+        expect(searchForUser).not.toHaveBeenCalled()
+        expect(findAllForUser).not.toHaveBeenCalled()
+        expect(findAll).not.toHaveBeenCalled()
+        expect(searchAll).not.toHaveBeenCalled()
+        expect(findExistingPeriodesForAppelOffre).not.toHaveBeenCalled()
+        expect(findExistingFamillesForAppelOffre).not.toHaveBeenCalled()
+      })
+
+      it('should return all notified projects for the user DREALs', async () => {
+        expect(findDrealsForUser).toHaveBeenCalledWith(user.id)
+        expect(findAllForRegions).toHaveBeenCalledWith(
+          DREALs,
+          { isNotified: true },
+          pagination
+        )
+
+        expect(res).toHaveProperty('projects')
+        expect(res.projects).toEqual(projectList)
+      })
+
+      it('should return appels offre that contain at least one unnotified project in these regions', () => {
+        expect(findExistingAppelsOffres).toHaveBeenCalledWith({
+          regions: DREALs,
+        })
+
+        expect(res).toHaveProperty('existingAppelsOffres')
+        expect(res.existingAppelsOffres).toEqual(appelsOffres)
+      })
+    })
+
+    describe('given a search term', () => {
+      let res: any
+
+      beforeAll(async () => {
+        resetMocks()
+
+        res = await listProjects({
+          user,
+          recherche: 'term',
+          pagination,
+        })
+
+        expect(res).toBeDefined()
+
+        expect(findAllForRegions).not.toHaveBeenCalled()
+        expect(searchForUser).not.toHaveBeenCalled()
+        expect(findAllForUser).not.toHaveBeenCalled()
+        expect(searchAll).not.toHaveBeenCalled()
+        expect(findAll).not.toHaveBeenCalled()
+        expect(findExistingPeriodesForAppelOffre).not.toHaveBeenCalled()
+        expect(findExistingFamillesForAppelOffre).not.toHaveBeenCalled()
+      })
+
+      it('should return all notified projects from these regions that contain the search term', async () => {
+        expect(findDrealsForUser).toHaveBeenCalledWith(user.id)
+        expect(searchForRegions).toHaveBeenCalledWith(
+          DREALs,
+          'term',
+          { isNotified: true },
+          pagination
+        )
+
+        expect(res).toHaveProperty('projects')
+        expect(res.projects).toEqual(projectList)
+      })
+    })
+  })
+
+  describe('given the user is porteur projet', () => {
+    const user = UnwrapForTest(
+      makeUser(makeFakeUser({ role: 'porteur-projet' }))
+    )
+
+    describe('given no params', () => {
+      let res: any
+
+      beforeAll(async () => {
+        resetMocks()
+
+        res = await listProjects({
+          user,
+          pagination,
+        })
+
+        expect(res).toBeDefined()
+
+        expect(findAllForRegions).not.toHaveBeenCalled()
+        expect(searchForRegions).not.toHaveBeenCalled()
+        expect(searchForUser).not.toHaveBeenCalled()
+        expect(findAll).not.toHaveBeenCalled()
+        expect(searchAll).not.toHaveBeenCalled()
+        expect(findExistingPeriodesForAppelOffre).not.toHaveBeenCalled()
+        expect(findExistingFamillesForAppelOffre).not.toHaveBeenCalled()
+        expect(findDrealsForUser).not.toHaveBeenCalled()
+      })
+
+      it('should return all notified projects for the user', async () => {
+        expect(findAllForUser).toHaveBeenCalledWith(
+          user.id,
+          { isNotified: true },
+          pagination
+        )
+
+        expect(res).toHaveProperty('projects')
+        expect(res.projects).toEqual(projectList)
+      })
+
+      it('should return appels offre that contain at least one unnotified project for this user', () => {
+        expect(findExistingAppelsOffres).toHaveBeenCalledWith({
+          userId: user.id,
+        })
+
+        expect(res).toHaveProperty('existingAppelsOffres')
+        expect(res.existingAppelsOffres).toEqual(appelsOffres)
+      })
+    })
+
+    describe('given a search term', () => {
+      let res: any
+
+      beforeAll(async () => {
+        resetMocks()
+
+        res = await listProjects({
+          user,
+          recherche: 'term',
+          pagination,
+        })
+
+        expect(res).toBeDefined()
+
+        expect(findAllForRegions).not.toHaveBeenCalled()
+        expect(searchForRegions).not.toHaveBeenCalled()
+        expect(findAllForUser).not.toHaveBeenCalled()
+        expect(findAll).not.toHaveBeenCalled()
+        expect(searchAll).not.toHaveBeenCalled()
+        expect(findExistingPeriodesForAppelOffre).not.toHaveBeenCalled()
+        expect(findExistingFamillesForAppelOffre).not.toHaveBeenCalled()
+        expect(findDrealsForUser).not.toHaveBeenCalled()
+      })
+
+      it('should return all notified projects for this user that contain the search term', async () => {
+        expect(searchForUser).toHaveBeenCalledWith(
+          user.id,
+          'term',
+          { isNotified: true },
+          pagination
+        )
+
+        expect(res).toHaveProperty('projects')
+        expect(res.projects).toEqual(projectList)
+      })
+    })
+  })
 })

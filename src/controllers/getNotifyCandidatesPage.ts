@@ -41,7 +41,6 @@ const getNotifyCandidatesPage = async (request: HttpRequest) => {
   }
 
   const {
-    appelsOffre,
     projects,
     projectsInPeriodCount,
     selectedAppelOffreId,
@@ -54,7 +53,6 @@ const getNotifyCandidatesPage = async (request: HttpRequest) => {
     AdminNotifyCandidatesPage({
       request,
       results: {
-        appelsOffre,
         projects,
         projectsInPeriodCount,
         selectedAppelOffreId,

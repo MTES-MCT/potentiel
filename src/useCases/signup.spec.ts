@@ -7,26 +7,14 @@ import makeSignup, {
 
 import makeLogin from './login'
 
+import { UnwrapForTest } from '../types'
 import {
   userRepo,
   credentialsRepo,
   projectAdmissionKeyRepo,
-  projectRepo,
   resetDatabase,
 } from '../dataAccess/inMemory'
-import {
-  makeCredentials,
-  makeProjectAdmissionKey,
-  makeProject,
-} from '../entities'
-import makeFakeProject from '../__tests__/fixtures/project'
-
-const signup = makeSignup({
-  userRepo,
-  credentialsRepo,
-  projectAdmissionKeyRepo,
-  projectRepo,
-})
+import { makeCredentials, makeProjectAdmissionKey } from '../entities'
 
 const login = makeLogin({
   userRepo,
@@ -43,370 +31,364 @@ const makePhonySignup = (overrides = {}) => ({
 })
 
 describe('signup use-case', () => {
-  beforeEach(async () => {
-    resetDatabase()
-    const credentialsResult = makeCredentials({
-      email: 'existing@email.com',
-      userId: '1',
-      hash: 'qsdsqdqsdqs',
+  describe.only('given the user is a porteur-projet', () => {
+    const addUserToProjectsWithEmail = jest.fn()
+    const addUserToProject = jest.fn()
+
+    const signup = makeSignup({
+      userRepo,
+      credentialsRepo,
+      projectAdmissionKeyRepo,
+      addUserToProjectsWithEmail,
+      addUserToProject,
     })
-    expect(credentialsResult.is_ok())
-    if (!credentialsResult.is_ok()) return
 
-    await credentialsRepo.insert(credentialsResult.unwrap())
-  })
+    const invitationEmail = 'one@address.com'
+    const invitationProject1 = 'project1'
+    const invitationProject2 = 'project2'
+    const projectAdmissionKeyId = 'projectAdmissionKey1'
+    let phonySignup
+    let newUserId
 
-  it('should create a new user with all the projects with the same email attached if user used the address the notification was sent to', async () => {
-    const sameEmailEverywhere = 'one@address.com'
-    // Create two fake projects, with the same email
-    await Promise.all(
-      [
-        makeFakeProject({ id: '1', email: sameEmailEverywhere }),
-        makeFakeProject({ id: '2', email: sameEmailEverywhere }),
-      ]
-        .map(makeProject)
+    beforeAll(async () => {
+      await resetDatabase()
+
+      // Add a projectAdmissionKey
+      const [projectAdmissionKey] = (
+        await Promise.all(
+          [
+            {
+              id: projectAdmissionKeyId,
+              email: invitationEmail,
+              fullName: 'fullname',
+              projectId: invitationProject1,
+            },
+            {
+              id: 'other',
+              email: invitationEmail,
+              fullName: 'fullname',
+              projectId: invitationProject2,
+            },
+          ]
+            .map(makeProjectAdmissionKey)
+            .filter((item) => item.is_ok())
+            .map((item) => item.unwrap())
+            .map(projectAdmissionKeyRepo.save)
+        )
+      )
         .filter((item) => item.is_ok())
         .map((item) => item.unwrap())
-        .map(projectRepo.save)
-    )
 
-    const [project, otherProject] = await projectRepo.findAll()
+      expect(projectAdmissionKey).toBeDefined()
+      if (!projectAdmissionKey) return
 
-    expect(project).toBeDefined()
-
-    // Add a projectAdmissionKey
-    const [projectAdmissionKey] = (
-      await Promise.all(
-        [
-          {
-            id: 'phonyProjectAdmissionKey',
-            email: sameEmailEverywhere,
-            fullName: 'fullname',
-          },
-        ]
-          .map(makeProjectAdmissionKey)
-          .filter((item) => item.is_ok())
-          .map((item) => item.unwrap())
-          .map(projectAdmissionKeyRepo.save)
-      )
-    )
-      .filter((item) => item.is_ok())
-      .map((item) => item.unwrap())
-
-    expect(projectAdmissionKey).toBeDefined()
-    if (!projectAdmissionKey) return
-
-    // Signup with the same email address
-    const phonySignup = makePhonySignup({
-      projectAdmissionKey: projectAdmissionKey.id,
-      email: sameEmailEverywhere,
-    })
-
-    const signupResult = await signup(phonySignup)
-
-    expect(signupResult.is_ok()).toBeTruthy()
-    if (!signupResult.is_ok()) return
-
-    // Check if login works
-    const userResult = await login({
-      email: phonySignup.email,
-      password: phonySignup.password,
-    })
-
-    expect(userResult.is_ok()).toBeTruthy()
-    if (!userResult.is_ok()) return
-
-    const user = userResult.unwrap()
-    expect(user).toEqual(
-      expect.objectContaining({
-        fullName: phonySignup.fullName,
+      // Signup with the same email address
+      phonySignup = makePhonySignup({
+        projectAdmissionKey: projectAdmissionKey.id,
+        email: 'other@email', // this will be ignored
       })
-    )
 
-    if (!user) return
+      const signupResult = await signup(phonySignup)
 
-    // Link the user account to the projectAdmissionKey that was used
-    expect(user.projectAdmissionKey).toEqual(projectAdmissionKey.id)
+      expect(signupResult.is_ok()).toBeTruthy()
 
-    // Make sure the projectAdmissionKey.lastUsedAt is updated
-    const updatedProjectAdmissionKeyRes = await projectAdmissionKeyRepo.findById(
-      projectAdmissionKey.id
-    )
-    expect(updatedProjectAdmissionKeyRes.is_some()).toEqual(true)
-    const updatedProjectAdmissionKey = updatedProjectAdmissionKeyRes.unwrap()
-    if (!updatedProjectAdmissionKey) return
-    expect(updatedProjectAdmissionKey.lastUsedAt).toBeDefined()
-    if (!updatedProjectAdmissionKey.lastUsedAt) return
-    expect(updatedProjectAdmissionKey.lastUsedAt / 1000).toBeCloseTo(
-      Date.now() / 1000,
-      0
-    )
+      newUserId = UnwrapForTest(signupResult).id
+    })
 
-    // Check if the project has been attached
-    expect(await userRepo.hasProject(user.id, project.id)).toEqual(true)
-    expect(await userRepo.hasProject(user.id, otherProject.id)).toEqual(true)
+    it('should create a new user with the email in the invitation', async () => {
+      // Check if login works
+      const userResult = await login({
+        email: invitationEmail,
+        password: phonySignup.password,
+      })
+
+      expect(userResult.is_ok()).toBeTruthy()
+      if (!userResult.is_ok()) return
+
+      const user = userResult.unwrap()
+      expect(user).toEqual(
+        expect.objectContaining({
+          fullName: phonySignup.fullName,
+        })
+      )
+
+      // Link the user account to the projectAdmissionKey that was used
+      expect(user.projectAdmissionKey).toEqual(projectAdmissionKeyId)
+    })
+
+    it('should mark the project admission key as being used', async () => {
+      // Make sure the projectAdmissionKey.lastUsedAt is updated
+      const updatedProjectAdmissionKeyRes = await projectAdmissionKeyRepo.findById(
+        projectAdmissionKeyId
+      )
+      expect(updatedProjectAdmissionKeyRes.is_some()).toEqual(true)
+      const updatedProjectAdmissionKey = updatedProjectAdmissionKeyRes.unwrap()
+      if (!updatedProjectAdmissionKey) return
+      expect(updatedProjectAdmissionKey.lastUsedAt).toBeDefined()
+      if (!updatedProjectAdmissionKey.lastUsedAt) return
+      expect(updatedProjectAdmissionKey.lastUsedAt / 1000).toBeCloseTo(
+        Date.now() / 1000,
+        0
+      )
+    })
+
+    it('should link user to all projects with same email', () => {
+      expect(addUserToProjectsWithEmail).toHaveBeenCalledWith(
+        newUserId,
+        invitationEmail
+      )
+    })
+
+    it('should link user to all projects that have a project admission key with the same email', () => {
+      expect(addUserToProject).toHaveBeenCalledTimes(2)
+      expect(addUserToProject).toHaveBeenCalledWith(
+        newUserId,
+        invitationProject1
+      )
+      expect(addUserToProject).toHaveBeenCalledWith(
+        newUserId,
+        invitationProject2
+      )
+    })
   })
 
-  it('should create a new user with all the projects that have a projectAdmissionKey for the same email', async () => {
-    const sameEmailEverywhere = 'one@address.com'
+  describe('given the user is a dreal', () => {
+    const addUserToProjectsWithEmail = jest.fn()
+    const addUserToProject = jest.fn()
 
-    // Create two fake projects, with another email
-    await Promise.all(
-      [
-        makeFakeProject({ nomProjet: 'project1', email: 'other@test.test' }),
-        makeFakeProject({
-          nomProjet: 'project2',
-          email: 'yetAnother@test.test',
-        }),
-      ]
-        .map(makeProject)
+    const signup = makeSignup({
+      userRepo,
+      credentialsRepo,
+      projectAdmissionKeyRepo,
+      addUserToProjectsWithEmail,
+      addUserToProject,
+    })
+
+    const invitationEmail = 'one@address.com'
+    const overrideEmail = 'one@address.com'
+    const projectAdmissionKeyId = 'projectAdmissionKey1'
+    let phonySignup
+    let newUserId
+
+    beforeAll(async () => {
+      await resetDatabase()
+
+      // Add a projectAdmissionKey
+      const [projectAdmissionKey] = (
+        await Promise.all(
+          [
+            {
+              id: projectAdmissionKeyId,
+              email: invitationEmail,
+              fullName: 'fullname',
+              dreal: 'Corse',
+            },
+          ]
+            .map(makeProjectAdmissionKey)
+            .filter((item) => item.is_ok())
+            .map((item) => item.unwrap())
+            .map(projectAdmissionKeyRepo.save)
+        )
+      )
         .filter((item) => item.is_ok())
         .map((item) => item.unwrap())
-        .map(projectRepo.save)
-    )
 
-    const [project, otherProject] = await projectRepo.findAll()
+      expect(projectAdmissionKey).toBeDefined()
+      if (!projectAdmissionKey) return
 
-    expect(project).toBeDefined()
-    expect(otherProject).toBeDefined()
-    if (!project || !otherProject) return
-
-    const [projectAdmissionKey, otherProjectAdmissionKey] = (
-      await Promise.all(
-        [
-          // Create a project admission key for each fake project
-          ...[project, otherProject].map((project) => ({
-            email: sameEmailEverywhere,
-            fullName: '',
-            projectId: project.id,
-          })),
-          // Also create an admission key for a phony project to check if it is ignored
-          {
-            email: 'another@test.test',
-            projectId: 'shouldBeIgnored',
-            fullName: '',
-          },
-        ]
-          .map(makeProjectAdmissionKey)
-          .filter((item) => item.is_ok())
-          .map((item) => item.unwrap())
-          .map(projectAdmissionKeyRepo.save)
-      )
-    )
-      .filter((item) => item.is_ok())
-      .map((item) => item.unwrap())
-
-    expect(projectAdmissionKey).toBeDefined()
-    expect(otherProjectAdmissionKey).toBeDefined()
-    if (!projectAdmissionKey || !otherProjectAdmissionKey) return
-
-    // Signup with the same email address
-    const phonySignup = makePhonySignup({
-      projectAdmissionKey: projectAdmissionKey.id,
-      email: sameEmailEverywhere,
-    })
-
-    const signupResult = await signup(phonySignup)
-
-    expect(signupResult.is_ok()).toBeTruthy()
-    if (signupResult.is_err()) return
-
-    // Check if login works
-    const userResult = await login({
-      email: phonySignup.email,
-      password: phonySignup.password,
-    })
-
-    expect(userResult.is_ok()).toBeTruthy()
-    if (!userResult.is_ok()) return
-
-    const user = userResult.unwrap()
-    expect(user).toEqual(
-      expect.objectContaining({
-        fullName: phonySignup.fullName,
+      // Signup with the same email address
+      phonySignup = makePhonySignup({
+        projectAdmissionKey: projectAdmissionKey.id,
+        email: overrideEmail,
       })
-    )
 
-    if (!user) return
+      const signupResult = await signup(phonySignup)
 
-    // Link the user account to the projectAdmissionKey that was used
-    expect(user.projectAdmissionKey).toEqual(projectAdmissionKey.id)
+      expect(signupResult.is_ok()).toBeTruthy()
 
-    // Make sure the projectAdmissionKey.lastUsedAt is updated
-    const updatedProjectAdmissionKeyRes = await projectAdmissionKeyRepo.findById(
-      projectAdmissionKey.id
-    )
-    expect(updatedProjectAdmissionKeyRes.is_some()).toEqual(true)
-    const updatedProjectAdmissionKey = updatedProjectAdmissionKeyRes.unwrap()
-    if (!updatedProjectAdmissionKey) return
-    expect(updatedProjectAdmissionKey.lastUsedAt).toBeDefined()
-    if (!updatedProjectAdmissionKey.lastUsedAt) return
-    expect(updatedProjectAdmissionKey.lastUsedAt / 1000).toBeCloseTo(
-      Date.now() / 1000,
-      0
-    )
+      newUserId = UnwrapForTest(signupResult).id
 
-    // Check if the project has been attached
-    expect(await userRepo.hasProject(user.id, project.id)).toEqual(true)
-    expect(await userRepo.hasProject(user.id, otherProject.id)).toEqual(true)
-  })
+      expect(addUserToProjectsWithEmail).not.toHaveBeenCalled()
+      expect(addUserToProject).not.toHaveBeenCalled()
+    })
 
-  it('should create a new user with dreal role, with the provided email, and attached to the desired dreal if projectAdmissionKey has a dreal', async () => {
-    // Add a projectAdmissionKey
-    const [projectAdmissionKey] = (
-      await Promise.all(
-        [
-          {
-            id: 'phonyProjectAdmissionKey',
-            email: 'phony@email.com',
-            fullName: 'fullname',
-            dreal: 'Corse',
-          },
-        ]
-          .map(makeProjectAdmissionKey)
-          .filter((item) => item.is_ok())
-          .map((item) => item.unwrap())
-          .map(projectAdmissionKeyRepo.save)
+    it('should create a new user with the email provided by the other', async () => {
+      // Check if login works
+      const userResult = await login({
+        email: overrideEmail,
+        password: phonySignup.password,
+      })
+
+      expect(userResult.is_ok()).toBeTruthy()
+      if (!userResult.is_ok()) return
+
+      const user = userResult.unwrap()
+      expect(user).toEqual(
+        expect.objectContaining({
+          fullName: phonySignup.fullName,
+        })
       )
-    )
-      .filter((item) => item.is_ok())
-      .map((item) => item.unwrap())
 
-    expect(projectAdmissionKey).toBeDefined()
-    if (!projectAdmissionKey) return
-
-    // Signup with the same email address
-    const phonySignup = makePhonySignup({
-      projectAdmissionKey: projectAdmissionKey.id,
-      email: 'another@email.com',
+      // Link the user account to the projectAdmissionKey that was used
+      expect(user.projectAdmissionKey).toEqual(projectAdmissionKeyId)
     })
 
-    const signupResult = await signup(phonySignup)
-
-    expect(signupResult.is_ok()).toBeTruthy()
-    if (!signupResult.is_ok()) return
-
-    const createdUser = signupResult.unwrap()
-    expect(createdUser).toBeDefined()
-    if (!createdUser) return
-    expect(createdUser.role).toEqual('dreal')
-    expect(createdUser.email).toEqual('another@email.com')
-
-    // Link the user account to the projectAdmissionKey that was used
-    expect(createdUser.projectAdmissionKey).toEqual(projectAdmissionKey.id)
-
-    // Make sure the projectAdmissionKey.lastUsedAt is updated
-    const updatedProjectAdmissionKeyRes = await projectAdmissionKeyRepo.findById(
-      projectAdmissionKey.id
-    )
-    expect(updatedProjectAdmissionKeyRes.is_some()).toEqual(true)
-    const updatedProjectAdmissionKey = updatedProjectAdmissionKeyRes.unwrap()
-    if (!updatedProjectAdmissionKey) return
-    expect(updatedProjectAdmissionKey.lastUsedAt).toBeDefined()
-    if (!updatedProjectAdmissionKey.lastUsedAt) return
-    expect(updatedProjectAdmissionKey.lastUsedAt / 1000).toBeCloseTo(
-      Date.now() / 1000,
-      0
-    )
-
-    const userDreals = await userRepo.findDrealsForUser(createdUser.id)
-    expect(userDreals).toHaveLength(1)
-    expect(userDreals[0]).toEqual('Corse')
-  })
-
-  it("should return an error if passwords don't match", async () => {
-    const phonySignup = makePhonySignup({
-      password: 'a',
-      confirmPassword: 'b',
+    it('should add the user to the dreal', async () => {
+      const userDreals = await userRepo.findDrealsForUser(newUserId)
+      expect(userDreals).toHaveLength(1)
+      expect(userDreals[0]).toEqual('Corse')
     })
-    const signupResult = await signup(phonySignup)
-
-    expect(signupResult.is_err())
-    if (!signupResult.is_err()) return
-
-    expect(signupResult.unwrap_err()).toEqual(
-      new Error(PASSWORD_MISMATCH_ERROR)
-    )
   })
 
-  it('should return an error if fullName is missing', async () => {
-    // Add a projectAdmissionKey
-    const [projectAdmissionKey] = (
-      await Promise.all(
-        [
-          {
-            id: 'projectAdmissionKey',
-            email: 'bla@bli.com',
-            fullName: 'fullname',
-          },
-        ]
-          .map(makeProjectAdmissionKey)
-          .filter((item) => item.is_ok())
-          .map((item) => item.unwrap())
-          .map(projectAdmissionKeyRepo.save)
+  describe('given the passwords dont match', () => {
+    const signup = makeSignup({
+      userRepo,
+      credentialsRepo,
+      projectAdmissionKeyRepo,
+      addUserToProjectsWithEmail: jest.fn(() => {
+        throw 'should not be used'
+      }),
+      addUserToProject: jest.fn(() => {
+        throw 'should not be used'
+      }),
+    })
+
+    it('should return PASSWORD_MISMATCH_ERROR', async () => {
+      const phonySignup = makePhonySignup({
+        password: 'a',
+        confirmPassword: 'b',
+      })
+      const signupResult = await signup(phonySignup)
+
+      expect(signupResult.is_err())
+      if (!signupResult.is_err()) return
+
+      expect(signupResult.unwrap_err()).toEqual(
+        new Error(PASSWORD_MISMATCH_ERROR)
       )
-    )
-      .filter((item) => item.is_ok())
-      .map((item) => item.unwrap())
-
-    expect(projectAdmissionKey).toBeDefined()
-    if (!projectAdmissionKey) return
-
-    const phonySignup = makePhonySignup({
-      fullName: null,
-      projectAdmissionKey: projectAdmissionKey.id,
     })
-    const signupResult = await signup(phonySignup)
-
-    expect(signupResult.is_err())
-    if (!signupResult.is_err()) return
-
-    expect(signupResult.unwrap_err()).toEqual(new Error(USER_INFO_ERROR))
   })
 
-  it('should return an error if projectAdmissionKey is missing', async () => {
-    const phonySignup = makePhonySignup({ projectAdmissionKey: null })
-    const signupResult = await signup(phonySignup)
+  describe('given fullname is missing', () => {
+    const signup = makeSignup({
+      userRepo,
+      credentialsRepo,
+      projectAdmissionKeyRepo,
+      addUserToProjectsWithEmail: jest.fn(() => {
+        throw 'should not be used'
+      }),
+      addUserToProject: jest.fn(() => {
+        throw 'should not be used'
+      }),
+    })
 
-    expect(signupResult.is_err()).toEqual(true)
-    if (!signupResult.is_err()) return
-
-    expect(signupResult.unwrap_err()).toEqual(
-      new Error(MISSING_ADMISSION_KEY_ERROR)
-    )
-  })
-
-  it('should return an error if email is already used', async () => {
-    // Add a projectAdmissionKey
-    const [projectAdmissionKey] = (
-      await Promise.all(
-        [
-          {
-            id: 'projectAdmissionKey',
-            email: 'existing@email.com',
-            fullName: 'fullname',
-          },
-        ]
-          .map(makeProjectAdmissionKey)
-          .filter((item) => item.is_ok())
-          .map((item) => item.unwrap())
-          .map(projectAdmissionKeyRepo.save)
+    it('should return USER_INFO_ERROR', async () => {
+      // Add a projectAdmissionKey
+      const [projectAdmissionKey] = (
+        await Promise.all(
+          [
+            {
+              id: 'projectAdmissionKey',
+              email: 'bla@bli.com',
+              fullName: 'fullname',
+            },
+          ]
+            .map(makeProjectAdmissionKey)
+            .filter((item) => item.is_ok())
+            .map((item) => item.unwrap())
+            .map(projectAdmissionKeyRepo.save)
+        )
       )
-    )
-      .filter((item) => item.is_ok())
-      .map((item) => item.unwrap())
+        .filter((item) => item.is_ok())
+        .map((item) => item.unwrap())
 
-    expect(projectAdmissionKey).toBeDefined()
-    if (!projectAdmissionKey) return
+      expect(projectAdmissionKey).toBeDefined()
+      if (!projectAdmissionKey) return
 
-    const phonySignup = makePhonySignup({
-      projectAdmissionKey: projectAdmissionKey.id,
+      const phonySignup = makePhonySignup({
+        fullName: null,
+        projectAdmissionKey: projectAdmissionKey.id,
+      })
+      const signupResult = await signup(phonySignup)
+
+      expect(signupResult.is_err())
+      if (!signupResult.is_err()) return
+
+      expect(signupResult.unwrap_err()).toEqual(new Error(USER_INFO_ERROR))
     })
-    const signupResult = await signup(phonySignup)
+  })
 
-    expect(signupResult.is_err()).toEqual(true)
-    if (!signupResult.is_err()) return
+  describe('given projectAdmissionKey is missing', () => {
+    const signup = makeSignup({
+      userRepo,
+      credentialsRepo,
+      projectAdmissionKeyRepo,
+      addUserToProjectsWithEmail: jest.fn(() => {
+        throw 'should not be used'
+      }),
+      addUserToProject: jest.fn(() => {
+        throw 'should not be used'
+      }),
+    })
 
-    expect(signupResult.unwrap_err()).toEqual(new Error(EMAIL_USED_ERROR))
+    it('should return MISSING_ADMISSION_KEY_ERROR', async () => {
+      const phonySignup = makePhonySignup({ projectAdmissionKey: null })
+      const signupResult = await signup(phonySignup)
+
+      expect(signupResult.is_err()).toEqual(true)
+      if (!signupResult.is_err()) return
+
+      expect(signupResult.unwrap_err()).toEqual(
+        new Error(MISSING_ADMISSION_KEY_ERROR)
+      )
+    })
+  })
+
+  describe('given email is already used', () => {
+    const signup = makeSignup({
+      userRepo,
+      credentialsRepo,
+      projectAdmissionKeyRepo,
+      addUserToProjectsWithEmail: jest.fn(() => {
+        throw 'should not be used'
+      }),
+      addUserToProject: jest.fn(() => {
+        throw 'should not be used'
+      }),
+    })
+
+    it('should return EMAIL_USED_ERROR', async () => {
+      // Add a projectAdmissionKey
+      const [projectAdmissionKey] = (
+        await Promise.all(
+          [
+            {
+              id: 'projectAdmissionKey',
+              email: 'existing@email.com',
+              fullName: 'fullname',
+            },
+          ]
+            .map(makeProjectAdmissionKey)
+            .filter((item) => item.is_ok())
+            .map((item) => item.unwrap())
+            .map(projectAdmissionKeyRepo.save)
+        )
+      )
+        .filter((item) => item.is_ok())
+        .map((item) => item.unwrap())
+
+      expect(projectAdmissionKey).toBeDefined()
+      if (!projectAdmissionKey) return
+
+      const phonySignup = makePhonySignup({
+        projectAdmissionKey: projectAdmissionKey.id,
+      })
+      const signupResult = await signup(phonySignup)
+
+      expect(signupResult.is_err()).toEqual(true)
+      if (!signupResult.is_err()) return
+
+      expect(signupResult.unwrap_err()).toEqual(new Error(EMAIL_USED_ERROR))
+    })
   })
 })

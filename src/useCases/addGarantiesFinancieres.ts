@@ -12,9 +12,10 @@ import { ResultAsync, Ok, Err, ErrorResult } from '../types'
 import routes from '../routes'
 
 interface MakeUseCaseProps {
-  projectRepo: ProjectRepo
-  userRepo: UserRepo
-  projectAdmissionKeyRepo: ProjectAdmissionKeyRepo
+  findProjectById: ProjectRepo['findById']
+  saveProject: ProjectRepo['save']
+  findUsersForDreal: UserRepo['findUsersForDreal']
+  findAllProjectAdmissionKeys: ProjectAdmissionKeyRepo['findAll']
   shouldUserAccessProject: (args: {
     user: User
     projectId: Project['id']
@@ -36,9 +37,10 @@ export const SYSTEM_ERROR =
   'Une erreur système est survenue, merci de réessayer ou de contacter un administrateur si le problème persiste.'
 
 export default function makeAddGarantiesFinancieres({
-  projectRepo,
-  userRepo,
-  projectAdmissionKeyRepo,
+  findProjectById,
+  saveProject,
+  findUsersForDreal,
+  findAllProjectAdmissionKeys,
   shouldUserAccessProject,
   sendNotification,
 }: MakeUseCaseProps) {
@@ -52,14 +54,12 @@ export default function makeAddGarantiesFinancieres({
 
     if (!access) return ErrorResult(UNAUTHORIZED)
 
-    const projectRes = await projectRepo.findById(projectId)
+    const project = await findProjectById(projectId)
 
-    if (projectRes.is_none()) {
+    if (!project) {
       console.log('addGarantiesFinancières failed because projectRes.is_none()')
       return ErrorResult(UNAUTHORIZED)
     }
-
-    const project = projectRes.unwrap()
 
     const updatedProject = applyProjectUpdate({
       project,
@@ -84,7 +84,7 @@ export default function makeAddGarantiesFinancieres({
       return ErrorResult(SYSTEM_ERROR)
     }
 
-    const res = await projectRepo.save(updatedProject)
+    const res = await saveProject(updatedProject)
 
     if (res.is_err()) return Err(res.unwrap_err())
 
@@ -114,7 +114,7 @@ export default function makeAddGarantiesFinancieres({
     await Promise.all(
       regions.map(async (region) => {
         // Notifiy existing dreal users
-        const drealUsers = await userRepo.findUsersForDreal(region)
+        const drealUsers = await findUsersForDreal(region)
         await Promise.all(
           drealUsers.map((drealUser) =>
             sendNotification({
@@ -141,8 +141,9 @@ export default function makeAddGarantiesFinancieres({
         )
 
         // Notify invited dreal users
-        const invitedDrealUsers = await projectAdmissionKeyRepo.findAll({
+        const invitedDrealUsers = await findAllProjectAdmissionKeys({
           dreal: region,
+          lastUsedAt: 0,
         })
         await Promise.all(
           invitedDrealUsers

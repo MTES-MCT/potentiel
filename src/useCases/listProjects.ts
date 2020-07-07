@@ -7,7 +7,6 @@ import {
 } from '../dataAccess'
 import { Pagination, PaginatedList } from '../types'
 import _ from 'lodash'
-import { Context } from 'mocha'
 
 interface MakeUseCaseProps {
   searchForRegions: ProjectRepo['searchForRegions']
@@ -27,7 +26,7 @@ interface CallUseCaseProps {
   appelOffreId?: AppelOffre['id']
   periodeId?: Periode['id']
   familleId?: Famille['id']
-  pagination: Pagination
+  pagination?: Pagination
   recherche?: string
   classement?: 'classés' | 'éliminés'
   garantiesFinancieres?: 'submitted' | 'notSubmitted'
@@ -95,8 +94,8 @@ export default function makeListProjects({
         const regions = await findDrealsForUser(user.id)
         result.projects =
           recherche && recherche.length
-            ? await searchForRegions(regions, recherche, pagination, query)
-            : await findAllForRegions(regions, pagination, query)
+            ? await searchForRegions(regions, recherche, query, pagination)
+            : await findAllForRegions(regions, query, pagination)
 
         userSpecificProjectListFilter = {
           regions,
@@ -105,8 +104,8 @@ export default function makeListProjects({
       case 'porteur-projet':
         result.projects =
           recherche && recherche.length
-            ? await searchForUser(user.id, recherche, pagination, query)
-            : await findAllForUser(user.id, pagination, query)
+            ? await searchForUser(user.id, recherche, query, pagination)
+            : await findAllForUser(user.id, query, pagination)
 
         userSpecificProjectListFilter = {
           userId: user.id,
@@ -116,7 +115,7 @@ export default function makeListProjects({
       case 'dgec':
         result.projects =
           recherche && recherche.length
-            ? await searchAll(recherche, pagination, query)
+            ? await searchAll(recherche, query, pagination)
             : await findAll(query, pagination)
 
         userSpecificProjectListFilter = {

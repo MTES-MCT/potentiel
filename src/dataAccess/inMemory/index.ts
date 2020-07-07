@@ -145,7 +145,7 @@ async function findAllProjectAdmissionKeys(
 
   if (!query) {
     return pagination
-      ? makePaginatedList(allItems, pagination, allItems.length)
+      ? makePaginatedList(allItems, allItems.length, pagination)
       : allItems
   }
 
@@ -187,7 +187,7 @@ async function findAllProjectAdmissionKeys(
 
     items = items.slice(offset, offset + limit)
 
-    return makePaginatedList(items, pagination, pageCount)
+    return makePaginatedList(items, pageCount, pagination)
   }
 
   return items
@@ -199,7 +199,91 @@ const projectAdmissionKeyRepo: ProjectAdmissionKeyRepo = {
       return Some(projectAdmissionKeysById[id])
     } else return None
   },
-  findAll: findAllProjectAdmissionKeys,
+  findAll: async (
+    query?: Record<string, any>
+  ): Promise<Array<ProjectAdmissionKey>> => {
+    const allItems = Object.values(projectAdmissionKeysById)
+
+    if (!query) {
+      return allItems
+    }
+
+    let items = allItems.filter((item) =>
+      Object.entries(query).every(([key, value]) => {
+        if (key === 'dreal' && value === -1) {
+          return !!item.dreal
+        }
+
+        if (key === 'dreal' && value === null) {
+          return !item.dreal
+        }
+
+        if (key === 'projectId' && value === null) {
+          return !item.projectId
+        }
+
+        if (
+          key === 'createdAt' &&
+          typeof value === 'object' &&
+          typeof value.before === 'number'
+        ) {
+          return (
+            typeof item.createdAt !== 'undefined' &&
+            item.createdAt <= value.before
+          )
+        }
+
+        return item[key] === value
+      })
+    )
+
+    return items
+  },
+  getList: async (
+    query: Record<string, any>,
+    pagination: Pagination
+  ): Promise<PaginatedList<ProjectAdmissionKey>> => {
+    const allItems = Object.values(projectAdmissionKeysById)
+
+    let items = allItems.filter((item) =>
+      Object.entries(query).every(([key, value]) => {
+        if (key === 'dreal' && value === -1) {
+          return !!item.dreal
+        }
+
+        if (key === 'dreal' && value === null) {
+          return !item.dreal
+        }
+
+        if (key === 'projectId' && value === null) {
+          return !item.projectId
+        }
+
+        if (
+          key === 'createdAt' &&
+          typeof value === 'object' &&
+          typeof value.before === 'number'
+        ) {
+          return (
+            typeof item.createdAt !== 'undefined' &&
+            item.createdAt <= value.before
+          )
+        }
+
+        return item[key] === value
+      })
+    )
+
+    const { page, pageSize } = pagination
+    const offset = page * pageSize
+    const limit = pageSize
+
+    const pageCount = Math.ceil(items.length / pagination.pageSize)
+
+    items = items.slice(offset, offset + limit)
+
+    return makePaginatedList(items, pageCount, pagination)
+  },
   save: async (item: ProjectAdmissionKey) => {
     projectAdmissionKeysById[item.id] = item
 
@@ -225,7 +309,7 @@ async function findAllProjects(
 
   if (!query) {
     return pagination
-      ? makePaginatedList(allItems, pagination, allItems.length)
+      ? makePaginatedList(allItems, allItems.length, pagination)
       : allItems
   }
 
@@ -257,7 +341,7 @@ async function findAllProjects(
 
     items = items.slice(offset, offset + limit)
 
-    return makePaginatedList(items, pagination, pageCount)
+    return makePaginatedList(items, pageCount, pagination)
   }
 
   return items
@@ -273,108 +357,108 @@ const emptyListPromise: Promise<PaginatedList<Project>> = Promise.resolve({
   itemCount: 0,
 })
 
-const eventsByProjectId: Record<Project['id'], Array<ProjectEvent>> = {}
-const projectRepo: ProjectRepo = {
-  findById: async (id: string, includeHistory?: boolean) => {
-    // console.log('findById', id, itemsById)
-    if (id in projectsById) {
-      const project = await addAppelOffreToProject(projectsById[id])
+// const eventsByProjectId: Record<Project['id'], Array<ProjectEvent>> = {}
+// const projectRepo: ProjectRepo = {
+//   findById: async (id: string, includeHistory?: boolean) => {
+//     // console.log('findById', id, itemsById)
+//     if (id in projectsById) {
+//       const project = await addAppelOffreToProject(projectsById[id])
 
-      if (includeHistory) {
-        project.history = eventsByProjectId[id] || []
-      }
+//       if (includeHistory) {
+//         project.history = eventsByProjectId[id] || []
+//       }
 
-      return Some(project)
-    } else return None
-  },
-  findOne: async (query: Record<string, any>) => {
-    const allItems = await Promise.all(
-      Object.values(projectsById).map(addAppelOffreToProject)
-    )
+//       return Some(project)
+//     } else return None
+//   },
+//   findOne: async (query: Record<string, any>) => {
+//     const allItems = await Promise.all(
+//       Object.values(projectsById).map(addAppelOffreToProject)
+//     )
 
-    let items = await Promise.all(
-      allItems.filter((item) =>
-        Object.entries(query).every(([key, value]) => {
-          if (key === 'notifiedOn' && value === -1) {
-            return item.notifiedOn > 0
-          }
-          return item[key] === value
-        })
-      )
-    )
+//     let items = await Promise.all(
+//       allItems.filter((item) =>
+//         Object.entries(query).every(([key, value]) => {
+//           if (key === 'notifiedOn' && value === -1) {
+//             return item.notifiedOn > 0
+//           }
+//           return item[key] === value
+//         })
+//       )
+//     )
 
-    return items[0]
-  },
-  findAll: findAllProjects,
-  save: (project: Project) => {
-    const { history, ...restOfProject } = project
+//     return items[0]
+//   },
+//   findAll: findAllProjects,
+//   save: (project: Project) => {
+//     const { history, ...restOfProject } = project
 
-    projectsById[project.id] = restOfProject
+//     projectsById[project.id] = restOfProject
 
-    if (history) {
-      history
-        .filter((event) => event.isNew)
-        .forEach((event) => {
-          // Add the new event to the event list
-          eventsByProjectId[project.id] = [
-            ...(eventsByProjectId[project.id] || []),
-            _.omit(event, 'isNew'),
-          ]
-        })
-    }
+//     if (history) {
+//       history
+//         .filter((event) => event.isNew)
+//         .forEach((event) => {
+//           // Add the new event to the event list
+//           eventsByProjectId[project.id] = [
+//             ...(eventsByProjectId[project.id] || []),
+//             _.omit(event, 'isNew'),
+//           ]
+//         })
+//     }
 
-    // console.log('Calling projectRepo.insert with', project)
+//     // console.log('Calling projectRepo.insert with', project)
 
-    return Promise.resolve(Ok(project))
-  },
-  remove: async (id: Project['id']) => {
-    delete usersById[id]
-    return Ok(null)
-  },
-  getUsers: async (_projectId: Project['id']) => {
-    return Object.entries(userProjects)
-      .filter(([userId, projectIds]) => projectIds.includes(_projectId))
-      .map(([userId]) => usersById[userId])
-  },
-  searchForUser: (
-    userId: User['id'],
-    terms: string,
-    pagination: Pagination,
-    filters?: ProjectFilters
-  ): Promise<PaginatedList<Project>> => emptyListPromise,
-  findAllForUser: (
-    userId: User['id'],
-    pagination: Pagination,
-    filters?: ProjectFilters
-  ): Promise<PaginatedList<Project>> => emptyListPromise,
+//     return Promise.resolve(Ok(project))
+//   },
+//   remove: async (id: Project['id']) => {
+//     delete usersById[id]
+//     return Ok(null)
+//   },
+//   getUsers: async (_projectId: Project['id']) => {
+//     return Object.entries(userProjects)
+//       .filter(([userId, projectIds]) => projectIds.includes(_projectId))
+//       .map(([userId]) => usersById[userId])
+//   },
+//   searchForUser: (
+//     userId: User['id'],
+//     terms: string,
+//     pagination: Pagination,
+//     filters?: ProjectFilters
+//   ): Promise<PaginatedList<Project>> => emptyListPromise,
+//   findAllForUser: (
+//     userId: User['id'],
+//     pagination: Pagination,
+//     filters?: ProjectFilters
+//   ): Promise<PaginatedList<Project>> => emptyListPromise,
 
-  searchForRegions: (
-    regions: DREAL | DREAL[],
-    terms: string,
-    pagination: Pagination,
-    filters?: ProjectFilters
-  ): Promise<PaginatedList<Project>> => emptyListPromise,
-  findAllForRegions: (
-    regions: DREAL | DREAL[],
-    pagination: Pagination,
-    filters?: ProjectFilters
-  ): Promise<PaginatedList<Project>> => emptyListPromise,
+//   searchForRegions: (
+//     regions: DREAL | DREAL[],
+//     terms: string,
+//     pagination: Pagination,
+//     filters?: ProjectFilters
+//   ): Promise<PaginatedList<Project>> => emptyListPromise,
+//   findAllForRegions: (
+//     regions: DREAL | DREAL[],
+//     pagination: Pagination,
+//     filters?: ProjectFilters
+//   ): Promise<PaginatedList<Project>> => emptyListPromise,
 
-  searchAll: (
-    terms: string,
-    pagination: Pagination,
-    filters?: ProjectFilters
-  ): Promise<PaginatedList<Project>> => emptyListPromise,
-  findExistingAppelsOffres: async (query?: Record<string, any>) => [],
-  findExistingPeriodesForAppelOffre: async (
-    appelOffreId: AppelOffre['id'],
-    query?: Record<string, any>
-  ) => [],
-  findExistingFamillesForAppelOffre: async (
-    appelOffreId: AppelOffre['id'],
-    query?: Record<string, any>
-  ) => [],
-}
+//   searchAll: (
+//     terms: string,
+//     pagination: Pagination,
+//     filters?: ProjectFilters
+//   ): Promise<PaginatedList<Project>> => emptyListPromise,
+//   findExistingAppelsOffres: async (query?: Record<string, any>) => [],
+//   findExistingPeriodesForAppelOffre: async (
+//     appelOffreId: AppelOffre['id'],
+//     query?: Record<string, any>
+//   ) => [],
+//   findExistingFamillesForAppelOffre: async (
+//     appelOffreId: AppelOffre['id'],
+//     query?: Record<string, any>
+//   ) => [],
+// }
 
 let usersById: Record<string, User> = {}
 let userProjects: Record<User['id'], Array<Project['id']>> = {}
@@ -467,6 +551,10 @@ const userRepo: UserRepo = {
 
     return userProjects[userId].includes(projectId)
   },
+  addUserToProjectsWithEmail: async (
+    userId: User['id'],
+    email: Project['email']
+  ) => Ok(null),
 }
 
 let modificationRequestsById: Record<string, ModificationRequest> = {}
@@ -553,7 +641,7 @@ async function findAllNotifications(
 
   if (!query) {
     return pagination
-      ? makePaginatedList(allItems, pagination, allItems.length)
+      ? makePaginatedList(allItems, allItems.length, pagination)
       : allItems
   }
 
@@ -577,7 +665,7 @@ async function findAllNotifications(
 
     items = items.slice(offset, offset + limit)
 
-    return makePaginatedList(items, pagination, pageCount)
+    return makePaginatedList(items, pageCount, pagination)
   }
 
   return items
@@ -593,7 +681,7 @@ const notificationRepo: NotificationRepo = {
 
 const resetDatabase = () => {
   credentialsByEmail = {}
-  projectsById = {}
+  // projectsById = {}
   usersById = {}
   userProjects = {}
   projectAdmissionKeysById = {}
@@ -605,7 +693,6 @@ const resetDatabase = () => {
 export {
   credentialsRepo,
   userRepo,
-  projectRepo,
   projectAdmissionKeyRepo,
   modificationRequestRepo,
   passwordRetrievalRepo,

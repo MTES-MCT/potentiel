@@ -6,10 +6,14 @@ import { User, Project } from '../entities'
 
 interface MakeUseCaseProps {
   modificationRequestRepo: ModificationRequestRepo
+  shouldUserAccessProject: (args: {
+    user: User
+    projectId: Project['id']
+  }) => Promise<boolean>
 }
 
 interface RequestCommon {
-  userId: User['id']
+  user: User
   filename?: string
   projectId: Project['id']
 }
@@ -62,15 +66,35 @@ type CallUseCaseProps = RequestCommon &
   )
 
 export const ERREUR_FORMAT = 'Merci de remplir les champs marqués obligatoires'
+export const ACCESS_DENIED_ERROR =
+  "Vous n'avez pas le droit de faire de demandes pour ce projet"
 
 export default function makeRequestModification({
   modificationRequestRepo,
+  shouldUserAccessProject,
 }: MakeUseCaseProps) {
   return async function requestModification(
     props: CallUseCaseProps
   ): ResultAsync<null> {
+    const { user, projectId } = props
+
+    // Check if the user has the rights to this project
+    const access =
+      user.role === 'porteur-projet' &&
+      (await shouldUserAccessProject({
+        user,
+        projectId,
+      }))
+
+    if (!access) {
+      return ErrorResult(ACCESS_DENIED_ERROR)
+    }
+
     // console.log('modificationRequest usecase', props)
-    const modificationRequestResult = makeModificationRequest(props)
+    const modificationRequestResult = makeModificationRequest({
+      ...props,
+      userId: user.id,
+    })
 
     if (modificationRequestResult.is_err()) {
       console.log(

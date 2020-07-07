@@ -1,216 +1,278 @@
-import makeSendAllCandidateNotifications from './sendAllCandidateNotifications'
-import makeSendCandidateNotification from './sendCandidateNotification'
-import makeSendNotification from './sendNotification'
-
 import {
-  projectRepo,
-  credentialsRepo,
-  userRepo,
-  projectAdmissionKeyRepo,
-  appelsOffreStatic,
   appelOffreRepo,
+  appelsOffreStatic,
+  credentialsRepo,
+  projectAdmissionKeyRepo,
   resetDatabase,
-  notificationRepo,
+  userRepo,
 } from '../dataAccess/inMemory'
+import {
+  makeProject,
+  makeUser,
+  Project,
+  User,
+  makeCredentials,
+} from '../entities'
+import routes from '../routes'
+import { UnwrapForTest, Ok } from '../types'
 import makeFakeProject from '../__tests__/fixtures/project'
 import makeFakeUser from '../__tests__/fixtures/user'
 import { PORTEUR_PROJET } from '../__tests__/fixtures/testCredentials'
+import makeSendAllCandidateNotifications, {
+  UNAUTHORIZED_ERROR,
+  INVALID_APPELOFFRE_PERIOD_ERROR,
+  ERREUR_AUCUN_PROJET_NON_NOTIFIE,
+} from './sendAllCandidateNotifications'
 
-import {
-  makeUser,
-  User,
-  Project,
-  makeCredentials,
-  makeProject,
-} from '../entities'
+const pagination = {
+  page: 0,
+  pageSize: 10,
+}
 
-import {
-  sendEmail,
-  resetEmailStub,
-  getCallsToEmailStub,
-} from '../__tests__/fixtures/emailService'
-import project from '../entities/project'
-
-const sendNotification = makeSendNotification({
-  notificationRepo,
-  sendEmail,
-})
-
-const sendCandidateNotification = makeSendCandidateNotification({
-  projectRepo,
-  projectAdmissionKeyRepo,
-  appelOffreRepo,
-  sendNotification,
-})
-const sendAllCandidateNotifications = makeSendAllCandidateNotifications({
-  projectRepo,
-  userRepo,
-  credentialsRepo,
-  sendCandidateNotification,
+const makePaginatedProjectList = (projects: Project[]) => ({
+  items: projects,
+  pagination,
+  pageCount: 1,
+  itemCount: projects.length,
 })
 
 describe('sendAllCandidateNotifications use-case', () => {
-  let fakeUserId: User['id'] = 'fakeUserId'
-  const fakeUserProjectName = 'fakeProjectName'
-  const appelOffre = appelsOffreStatic[0]
-  const periode = appelOffre.periodes[0]
-  const bogusEmail = 'bogus@email.com'
-
-  let projectsToNotify: Array<Project>
-  const notificationDate = Date.now()
+  const appelOffreId = 'Fessenheim'
+  const periodeId = '2'
+  const notifiedOn = Date.now()
 
   beforeAll(async () => {
     resetDatabase()
-    resetEmailStub()
-
-    // Make a fake porteur de projet
-    await Promise.all(
-      [
-        makeCredentials({
-          hash: 'fakeHash',
-          email: bogusEmail,
-          userId: fakeUserId,
-        }),
-      ]
-        .filter((item) => item.is_ok())
-        .map((item) => item.unwrap())
-        .map(credentialsRepo.insert)
-    )
-
-    await Promise.all(
-      [
-        makeFakeProject({
-          classe: 'Eliminé',
-          notifiedOn: new Date().getTime(),
-          appelOffreId: appelOffre.id,
-          periodeId: periode.id,
-        }),
-        makeFakeProject({
-          classe: 'Classé',
-          notifiedOn: new Date().getTime(),
-          appelOffreId: appelOffre.id,
-          periodeId: periode.id,
-        }),
-        makeFakeProject({
-          appelOffreId: 'other',
-          periodeId: 'otherother',
-          notifiedOn: 0,
-        }),
-        makeFakeProject({
-          classe: 'Eliminé',
-          notifiedOn: 0,
-          email: bogusEmail,
-          nomProjet: fakeUserProjectName,
-          appelOffreId: appelOffre.id,
-          periodeId: periode.id,
-          isFinancementParticipatif: true,
-        }),
-        makeFakeProject({
-          classe: 'Classé',
-          notifiedOn: 0,
-          email: bogusEmail,
-          nomProjet: fakeUserProjectName,
-          appelOffreId: appelOffre.id,
-          periodeId: periode.id,
-          isFinancementParticipatif: true,
-        }),
-        makeFakeProject({
-          classe: 'Classé',
-          notifiedOn: 0,
-          email: 'otheremail@test.com',
-          appelOffreId: appelOffre.id,
-          periodeId: periode.id,
-          isFinancementParticipatif: true,
-        }),
-      ]
-        .map(makeProject)
-        .filter((item) => item.is_ok())
-        .map((item) => item.unwrap())
-        .map(projectRepo.save)
-    )
-
-    const allProjects = await projectRepo.findAll()
-
-    expect(allProjects).toHaveLength(6)
-
-    projectsToNotify = allProjects.filter(
-      (project) =>
-        project.notifiedOn === 0 &&
-        project.appelOffreId === appelOffre.id &&
-        project.periodeId === periode.id
-    )
-
-    expect(projectsToNotify).toHaveLength(3)
-
-    // Send new notifications
-    const result = await sendAllCandidateNotifications({
-      appelOffreId: appelOffre.id,
-      periodeId: periode.id,
-      notifiedOn: notificationDate,
-      userId: fakeUserId,
-    })
-    expect(result.is_ok()).toBeTruthy()
   })
 
-  it('should update every project as having been notified', async () => {
-    const notifiedProjects = (
-      await Promise.all(
-        projectsToNotify.map((project) => projectRepo.findById(project.id))
+  describe('given user is admin or dgec', () => {
+    const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
+
+    describe('given a valid appel offre and periode', () => {
+      const fakeOtherUserIdWithEmail = 'otherUserId'
+
+      const fakeEmail = 'fake@email.test'
+      const fakeName = 'Fakester McFakeFace'
+      const fakeProject1 = UnwrapForTest(
+        makeProject(
+          makeFakeProject({
+            email: fakeEmail,
+            nomRepresentantLegal: fakeName,
+          })
+        )
       )
-    )
-      .filter((item) => item.is_some())
-      .map((item) => item.unwrap())
+      const fakeProject2 = UnwrapForTest(
+        makeProject(
+          makeFakeProject({
+            email: fakeEmail,
+            nomRepresentantLegal: fakeName,
+          })
+        )
+      )
+      const fakeProjects = [fakeProject1, fakeProject2]
+      const fakeProjectList = makePaginatedProjectList(fakeProjects)
 
-    expect(notifiedProjects).toHaveLength(projectsToNotify.length)
+      const findAllProjects = jest.fn(async () => fakeProjectList)
+      const saveProject = jest.fn(async () => Ok(null))
+      const sendNotification = jest.fn()
 
-    notifiedProjects.forEach((notifiedProject) => {
-      expect(notifiedProject.notifiedOn).toEqual(notificationDate)
-      expect(notifiedProject.isFinancementParticipatif).toBeTruthy()
+      const sendAllCandidateNotifications = makeSendAllCandidateNotifications({
+        findAllProjects,
+        saveProject,
+        userRepo,
+        appelOffreRepo,
+        credentialsRepo,
+        projectAdmissionKeyRepo,
+        sendNotification,
+      })
+
+      beforeAll(async () => {
+        await credentialsRepo.insert(
+          UnwrapForTest(
+            makeCredentials({
+              ...PORTEUR_PROJET,
+              email: fakeEmail,
+              userId: fakeOtherUserIdWithEmail,
+            })
+          )
+        )
+
+        const res = await sendAllCandidateNotifications({
+          appelOffreId,
+          periodeId,
+          notifiedOn,
+          user,
+        })
+
+        expect(res.is_ok()).toEqual(true)
+      })
+
+      it('should send one notification per unique email of projects that have not been notified in this periode, with an invitation link included', async () => {
+        expect(findAllProjects).toHaveBeenCalledWith({
+          appelOffreId,
+          periodeId,
+          isNotified: false,
+        })
+
+        // Verify project admission key
+        const projectAdmissionKeys = await projectAdmissionKeyRepo.findAll()
+        expect(projectAdmissionKeys).toHaveLength(1)
+        const projectAdmissionKey = projectAdmissionKeys[0]
+        expect(projectAdmissionKey.email).toEqual(fakeEmail)
+        expect(projectAdmissionKey.fullName).toEqual(fakeName)
+
+        expect(sendNotification).toHaveBeenCalledTimes(1)
+        expect(sendNotification).toHaveBeenCalledWith({
+          type: 'designation',
+          context: {
+            projectAdmissionKeyId: projectAdmissionKey.id,
+            appelOffreId,
+            periodeId,
+          },
+          variables: {
+            invitation_link: routes.PROJECT_INVITATION({
+              projectAdmissionKey: projectAdmissionKey.id,
+            }),
+          },
+          message: {
+            subject: `Résultats de la deuxième période de l'appel d'offres Fessenheim 2019/S 019-040037`,
+            email: fakeEmail,
+            name: fakeName,
+          },
+        })
+      })
+
+      it('should update each unnotified project from the periode as having been notified', async () => {
+        expect(saveProject).toHaveBeenCalledTimes(2)
+
+        const fakeProject1Update = saveProject.mock.calls
+          .filter((args: any[]) => args[0].id === fakeProject1.id)
+          .map((args: any[]) => args[0])
+          .pop()
+        expect(fakeProject1Update).toBeDefined()
+        expect(fakeProject1Update.notifiedOn).toEqual(notifiedOn)
+        expect(fakeProject1Update.history).toHaveLength(1)
+        const notificationEvent = fakeProject1Update.history[0]
+        expect(notificationEvent.userId).toEqual(user.id)
+        expect(notificationEvent.type).toEqual('candidate-notification')
+        expect(notificationEvent.after).toEqual({ notifiedOn })
+
+        const fakeProject2Update = saveProject.mock.calls
+          .filter((args: any[]) => args[0].id === fakeProject2.id)
+          .map((args: any[]) => args[0])
+          .pop()
+        expect(fakeProject2Update).toBeDefined()
+      })
+
+      it('should give rights to each notified project to the user registered with the same email', async () => {
+        expect(
+          await userRepo.hasProject(fakeOtherUserIdWithEmail, fakeProject1.id)
+        ).toEqual(true)
+        expect(
+          await userRepo.hasProject(fakeOtherUserIdWithEmail, fakeProject2.id)
+        ).toEqual(true)
+      })
+    })
+
+    describe('given invalid periode', () => {
+      const findAllProjects = jest.fn()
+      const saveProject = jest.fn()
+      const sendNotification = jest.fn()
+      const sendAllCandidateNotifications = makeSendAllCandidateNotifications({
+        findAllProjects,
+        saveProject,
+        userRepo,
+        appelOffreRepo,
+        credentialsRepo,
+        projectAdmissionKeyRepo,
+        sendNotification,
+      })
+
+      it('should return INVALID_APPELOFFRE_PERIOD_ERROR', async () => {
+        const res = await sendAllCandidateNotifications({
+          appelOffreId: 'other',
+          periodeId,
+          notifiedOn,
+          user,
+        })
+
+        expect(res.is_err()).toEqual(true)
+        expect(res.unwrap_err().message).toEqual(
+          INVALID_APPELOFFRE_PERIOD_ERROR
+        )
+
+        expect(findAllProjects).not.toHaveBeenCalled()
+        expect(saveProject).not.toHaveBeenCalled()
+        expect(sendNotification).not.toHaveBeenCalled()
+      })
+    })
+
+    describe('given no unnotified project for this periode', () => {
+      const findAllProjects = jest.fn(async () => makePaginatedProjectList([]))
+      const saveProject = jest.fn()
+      const sendNotification = jest.fn()
+
+      const sendAllCandidateNotifications = makeSendAllCandidateNotifications({
+        findAllProjects,
+        saveProject,
+        userRepo,
+        appelOffreRepo,
+        credentialsRepo,
+        projectAdmissionKeyRepo,
+        sendNotification,
+      })
+
+      it('should return ERREUR_AUCUN_PROJET_NON_NOTIFIE', async () => {
+        const res = await sendAllCandidateNotifications({
+          appelOffreId,
+          periodeId,
+          notifiedOn,
+          user,
+        })
+
+        expect(res.is_err()).toEqual(true)
+        expect(res.unwrap_err().message).toEqual(
+          ERREUR_AUCUN_PROJET_NON_NOTIFIE
+        )
+
+        expect(saveProject).not.toHaveBeenCalled()
+        expect(sendNotification).not.toHaveBeenCalled()
+      })
     })
   })
 
-  it('should send a notification to each email that is concerned', async () => {
-    const allNotifs = getCallsToEmailStub()
+  describe('user is not admin/dgec', () => {
+    const user = UnwrapForTest(
+      makeUser(makeFakeUser({ role: 'porteur-projet' }))
+    )
 
-    expect(allNotifs).toHaveLength(2)
-  })
-
-  it('should add the projects to the existing users if emails are the same', async () => {
-    const userProjects = await projectRepo.findAll({
-      email: bogusEmail,
+    const findAllProjects = jest.fn()
+    const saveProject = jest.fn()
+    const sendNotification = jest.fn()
+    const sendAllCandidateNotifications = makeSendAllCandidateNotifications({
+      findAllProjects,
+      saveProject,
+      userRepo,
+      appelOffreRepo,
+      credentialsRepo,
+      projectAdmissionKeyRepo,
+      sendNotification,
     })
 
-    expect(userProjects).toBeDefined()
-    expect(userProjects).toHaveLength(2)
+    it('should return UNAUTHORIZED_ERROR', async () => {
+      const res = await sendAllCandidateNotifications({
+        appelOffreId,
+        periodeId,
+        notifiedOn,
+        user,
+      })
 
-    const [project1, project2] = userProjects
+      expect(res.is_err()).toEqual(true)
+      expect(res.unwrap_err().message).toEqual(UNAUTHORIZED_ERROR)
 
-    expect(await userRepo.hasProject(fakeUserId, project1.id)).toEqual(true)
-    expect(await userRepo.hasProject(fakeUserId, project2.id)).toEqual(true)
-  })
-
-  it('should add a history event in the projects that have been notified', async () => {
-    // Make sure an event has been recorded in the notified project
-    const notifiedProjectRes = await projectRepo.findById(
-      projectsToNotify[0].id,
-      true
-    )
-
-    expect(notifiedProjectRes.is_some()).toBe(true)
-    if (notifiedProjectRes.is_none()) return
-
-    const notifiedProject = notifiedProjectRes.unwrap()
-    expect(notifiedProject.history).toHaveLength(1)
-    if (!notifiedProject.history?.length) return
-    expect(notifiedProject.history[0].before.notifiedOn).toEqual(0)
-    expect(notifiedProject.history[0].after.notifiedOn).toEqual(
-      notificationDate
-    )
-    expect(notifiedProject.history[0].createdAt / 1000).toBeCloseTo(
-      Date.now() / 1000,
-      0
-    )
-    expect(notifiedProject.history[0].type).toEqual('candidate-notification')
-    expect(notifiedProject.history[0].userId).toEqual(fakeUserId)
+      expect(findAllProjects).not.toHaveBeenCalled()
+      expect(saveProject).not.toHaveBeenCalled()
+      expect(sendNotification).not.toHaveBeenCalled()
+    })
   })
 })

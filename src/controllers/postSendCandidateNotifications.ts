@@ -36,7 +36,7 @@ const postSendCandidateNotifications = async (request: HttpRequest) => {
     appelOffreId,
     periodeId,
     notifiedOn: moment(notificationDate, FORMAT_DATE).toDate().getTime(),
-    userId: request.user.id,
+    user: request.user,
   })
 
   return result.match({

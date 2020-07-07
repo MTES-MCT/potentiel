@@ -27,7 +27,6 @@ import {
   getDemandePage,
   postRequestModification,
   getUserRequestsPage,
-  getSendCopyOfCandidateNotification,
   getCandidateCertificate,
   getForgottenPasswordPage,
   postRetrievePassword,
@@ -178,12 +177,6 @@ export async function makeServer(port: number = 3000) {
       ensureRole(['admin', 'dgec']),
       upload.single('candidats'),
       makeExpressCallback(postProjects)
-    )
-
-    router.get(
-      ROUTES.ADMIN_SEND_COPY_OF_CANDIDATE_NOTIFICATION_ACTION(),
-      ensureRole(['admin', 'dgec']),
-      makeExpressCallback(getSendCopyOfCandidateNotification)
     )
 
     router.get(

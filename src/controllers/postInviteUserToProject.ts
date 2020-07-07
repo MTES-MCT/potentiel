@@ -7,8 +7,6 @@ import moment from 'moment'
 const FORMAT_DATE = 'DD/MM/YYYY'
 
 const postInviteUserToProject = async (request: HttpRequest) => {
-  // console.log('Call to sendCandidateNotifications received', request.body)
-
   const { email, projectId } = request.body
   const { user } = request
 

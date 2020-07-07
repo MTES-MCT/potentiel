@@ -3,38 +3,55 @@ import makeShouldUserAccessProject from './shouldUserAccessProject'
 import makeFakeProject from '../__tests__/fixtures/project'
 import makeFakeUser from '../__tests__/fixtures/user'
 
-import { projectRepo, userRepo } from '../dataAccess/inMemory'
-import { User, makeProject, makeUser } from '../entities'
-
-const shouldUserAccessProject = makeShouldUserAccessProject({
-  userRepo,
-  projectRepo,
-})
+import { userRepo } from '../dataAccess/inMemory'
+import { User, makeProject, makeUser, Project } from '../entities'
 
 describe('shouldUserAccessProject use-case', () => {
-  it('should return true if the user is admin', async () => {
-    const userResult = makeUser(makeFakeUser({ role: 'admin' }))
-    expect(userResult.is_ok()).toBeTruthy()
-    if (userResult.is_err()) return
-    const user = userResult.unwrap()
-    await userRepo.insert(user)
-
-    const fakeProjectResult = makeProject(makeFakeProject())
-    expect(fakeProjectResult.is_ok()).toBeTruthy()
-    if (fakeProjectResult.is_err()) return
-    const fakeProject = fakeProjectResult.unwrap()
-
-    await projectRepo.save(fakeProject)
-
-    const access = await shouldUserAccessProject({
-      user,
-      projectId: fakeProject.id,
+  describe('given user is admin', () => {
+    const findProjectById = jest.fn()
+    const shouldUserAccessProject = makeShouldUserAccessProject({
+      userRepo,
+      findProjectById,
     })
 
-    expect(access).toEqual(true)
+    it('should return true', async () => {
+      const user = makeFakeUser({
+        role: 'admin',
+      })
+
+      const access = await shouldUserAccessProject({
+        user,
+        projectId: 'project1',
+      })
+
+      expect(access).toEqual(true)
+      expect(findProjectById).not.toHaveBeenCalled()
+    })
   })
 
-  describe('user is dreal', () => {
+  describe('given user is dgec', () => {
+    const findProjectById = jest.fn()
+    const shouldUserAccessProject = makeShouldUserAccessProject({
+      userRepo,
+      findProjectById,
+    })
+
+    it('should return true', async () => {
+      const user = makeFakeUser({
+        role: 'dgec',
+      })
+
+      const access = await shouldUserAccessProject({
+        user,
+        projectId: 'project1',
+      })
+
+      expect(access).toEqual(true)
+      expect(findProjectById).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('given user is dreal', () => {
     let user: User
     beforeAll(async () => {
       const userResult = makeUser(makeFakeUser({ role: 'dreal' }))
@@ -46,45 +63,64 @@ describe('shouldUserAccessProject use-case', () => {
       await userRepo.addToDreal(user.id, 'Corse')
     })
 
-    it('should return true if the project region coincides with user dreal', async () => {
-      const fakeProjectResult = makeProject(
-        makeFakeProject({ regionProjet: 'Corse / Bretagne' })
+    describe('given the project is in the dreal region', () => {
+      const findProjectById = jest.fn(
+        async () =>
+          ({
+            regionProjet: 'Corse',
+          } as Project)
       )
-      expect(fakeProjectResult.is_ok()).toBeTruthy()
-      if (fakeProjectResult.is_err()) return
-      const fakeProject = fakeProjectResult.unwrap()
-
-      await projectRepo.save(fakeProject)
-
-      const access = await shouldUserAccessProject({
-        user,
-        projectId: fakeProject.id,
+      const shouldUserAccessProject = makeShouldUserAccessProject({
+        userRepo,
+        findProjectById,
       })
 
-      expect(access).toEqual(true)
+      it('should return true', async () => {
+        const access = await shouldUserAccessProject({
+          user,
+          projectId: 'project1',
+        })
+
+        expect(access).toEqual(true)
+        expect(findProjectById).toHaveBeenCalledWith('project1')
+      })
     })
 
-    it('should return false if the project region does not coincide with user dreal', async () => {
-      const fakeProjectResult = makeProject(
-        makeFakeProject({ regionProjet: 'Bretagne' })
+    describe('given the project is not in the dreal region', () => {
+      const findProjectById = jest.fn(
+        async () =>
+          ({
+            regionProjet: 'Bretagne',
+          } as Project)
       )
-      expect(fakeProjectResult.is_ok()).toBeTruthy()
-      if (fakeProjectResult.is_err()) return
-      const fakeProject = fakeProjectResult.unwrap()
-
-      await projectRepo.save(fakeProject)
-
-      const access = await shouldUserAccessProject({
-        user,
-        projectId: fakeProject.id,
+      const shouldUserAccessProject = makeShouldUserAccessProject({
+        userRepo,
+        findProjectById,
       })
 
-      expect(access).toEqual(false)
+      it('should return false', async () => {
+        const access = await shouldUserAccessProject({
+          user,
+          projectId: 'project1',
+        })
+
+        expect(access).toEqual(false)
+        expect(findProjectById).toHaveBeenCalledWith('project1')
+      })
     })
   })
 
-  describe('user is porteur-projet', () => {
+  describe('given user is porteur-projet', () => {
     let user: User
+
+    const findProjectById = jest.fn(async () => {
+      throw 'do not call'
+    })
+    const shouldUserAccessProject = makeShouldUserAccessProject({
+      userRepo,
+      findProjectById,
+    })
+
     beforeAll(async () => {
       const userResult = makeUser(makeFakeUser({ role: 'porteur-projet' }))
       expect(userResult.is_ok()).toBeTruthy()
@@ -94,37 +130,24 @@ describe('shouldUserAccessProject use-case', () => {
     })
 
     it('should return true if the user has rights on this project', async () => {
-      const fakeProjectResult = makeProject(makeFakeProject())
-      expect(fakeProjectResult.is_ok()).toBeTruthy()
-      if (fakeProjectResult.is_err()) return
-      const fakeProject = fakeProjectResult.unwrap()
-
-      await projectRepo.save(fakeProject)
-
       // Associate this user to this project
-      await userRepo.addProject(user.id, fakeProject.id)
+      const projectId = 'project1'
+      await userRepo.addProject(user.id, projectId)
 
       const access = await shouldUserAccessProject({
         user,
-        projectId: fakeProject.id,
+        projectId: projectId,
       })
 
       expect(access).toEqual(true)
     })
 
     it('should return false if the user has no rights on this project', async () => {
-      const fakeProjectResult = makeProject(makeFakeProject())
-      expect(fakeProjectResult.is_ok()).toBeTruthy()
-      if (fakeProjectResult.is_err()) return
-      const fakeProject = fakeProjectResult.unwrap()
-
-      await projectRepo.save(fakeProject)
-
-      // Do not associate this user to this project
+      const projectId = 'project2'
 
       const access = await shouldUserAccessProject({
         user,
-        projectId: fakeProject.id,
+        projectId: projectId,
       })
 
       expect(access).toEqual(false)

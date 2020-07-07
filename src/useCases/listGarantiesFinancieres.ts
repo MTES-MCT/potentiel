@@ -4,8 +4,9 @@ import { Pagination, PaginatedList } from '../types'
 import periode from '../entities/periode'
 
 interface MakeUseCaseProps {
-  projectRepo: ProjectRepo
-  userRepo: UserRepo
+  findAllProjectsForRegions: ProjectRepo['findAllForRegions']
+  findAllProjects: ProjectRepo['findAll']
+  findDrealsForUser: UserRepo['findDrealsForUser']
 }
 
 interface CallUseCaseProps {
@@ -13,29 +14,28 @@ interface CallUseCaseProps {
 }
 
 export default function makeListGarantiesFinancieres({
-  projectRepo,
-  userRepo,
+  findAllProjectsForRegions,
+  findAllProjects,
+  findDrealsForUser,
 }: MakeUseCaseProps) {
   return async function listGarantiesFinancieres({
     user,
   }: CallUseCaseProps): Promise<Array<Project>> {
     switch (user.role) {
       case 'dreal':
-        const regions = await userRepo.findDrealsForUser(user.id)
+        const regions = await findDrealsForUser(user.id)
         return (
-          await projectRepo.findAllForRegions(
-            regions,
-            { page: 0, pageSize: 1000 },
-            {
-              hasGarantiesFinancieres: true,
-            }
-          )
+          await findAllProjectsForRegions(regions, {
+            hasGarantiesFinancieres: true,
+          })
         ).items
       case 'admin':
       case 'dgec':
-        return projectRepo.findAll({
-          hasGarantiesFinancieres: true,
-        })
+        return (
+          await findAllProjects({
+            hasGarantiesFinancieres: true,
+          })
+        ).items
       default:
         return []
     }

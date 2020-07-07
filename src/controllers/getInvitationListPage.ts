@@ -29,7 +29,7 @@ const getInvitationListPage = async (request: HttpRequest) => {
   const appelsOffre = await appelOffreRepo.findAll()
 
   // Get all projectAdmissionKeys that have not been used
-  const invitations = await projectAdmissionKeyRepo.findAll(
+  const invitations = await projectAdmissionKeyRepo.getList(
     {
       lastUsedAt: 0,
       dreal: null,

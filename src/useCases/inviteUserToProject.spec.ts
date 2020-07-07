@@ -1,251 +1,165 @@
 import {
-  appelOffreRepo,
-  userRepo,
-  appelsOffreStatic,
-  projectAdmissionKeyRepo,
   credentialsRepo,
-  projectRepo,
-  notificationRepo,
+  projectAdmissionKeyRepo,
   resetDatabase,
+  userRepo,
 } from '../dataAccess/inMemory'
-import {
-  makeProject,
-  makeCredentials,
-  makeUser,
-  User,
-  Project,
-} from '../entities'
+import { makeProject, makeUser, Credentials } from '../entities'
+import routes from '../routes'
+import { UnwrapForTest } from '../types'
 import makeFakeProject from '../__tests__/fixtures/project'
 import makeFakeUser from '../__tests__/fixtures/user'
 import makeInviteUserToProject, {
   ACCESS_DENIED_ERROR,
 } from './inviteUserToProject'
-import makeShouldUserAccessProject from './shouldUserAccessProject'
-import routes from '../routes'
-import makeSendNotification from './sendNotification'
-import {
-  sendEmail,
-  resetEmailStub,
-  getCallsToEmailStub,
-} from '../__tests__/fixtures/emailService'
-
-const sendNotification = makeSendNotification({
-  notificationRepo,
-  sendEmail,
-})
-
-const shouldUserAccessProject = makeShouldUserAccessProject({
-  userRepo,
-  projectRepo,
-})
-const inviteUserToProject = makeInviteUserToProject({
-  projectRepo,
-  userRepo,
-  projectAdmissionKeyRepo,
-  credentialsRepo,
-  shouldUserAccessProject,
-  sendNotification,
-})
 
 describe('inviteUserToProject use-case', () => {
-  const bogusEmail = 'bogus@email.com'
-  const bogusName = 'Nom du candidat'
-  const appelOffre = appelsOffreStatic[0]
-  const periode = appelOffre.periodes[0]
+  const invitedEmail = 'invited@test.test'
+  const user = UnwrapForTest(makeUser(makeFakeUser()))
 
-  let projet: Project
-  let user: User
+  describe('given the caller has rights to this project', () => {
+    const fakeProject = UnwrapForTest(makeProject(makeFakeProject()))
+    const projectId = fakeProject.id
 
-  beforeEach(async () => {
-    resetDatabase()
-    resetEmailStub()
+    const shouldUserAccessProject = jest.fn(async () => true)
+    const findProjectById = jest.fn(async () => fakeProject)
+    const sendNotification = jest.fn()
 
-    // Create a fake project
-    const insertedProjects = (
-      await Promise.all(
-        [
-          makeFakeProject({
-            classe: 'Classé',
-            appelOffreId: appelOffre.id,
-            periodeId: periode.id,
-            email: bogusEmail,
-            nomRepresentantLegal: bogusName,
-          }),
-        ]
-          .map(makeProject)
-          .filter((item) => item.is_ok())
-          .map((item) => item.unwrap())
-          .map(projectRepo.save)
-      )
-    )
-      .filter((item) => item.is_ok())
-      .map((item) => item.unwrap())
-
-    expect(insertedProjects).toHaveLength(1)
-    if (!insertedProjects[0]) return
-    projet = insertedProjects[0]
-    if (!projet) return
-
-    // Create a fake user
-    const insertedUsers = (
-      await Promise.all(
-        [makeFakeUser({ role: 'porteur-projet' })]
-          .map(makeUser)
-          .filter((item) => item.is_ok())
-          .map((item) => item.unwrap())
-          .map(userRepo.insert)
-      )
-    )
-      .filter((item) => item.is_ok())
-      .map((item) => item.unwrap())
-    expect(insertedUsers).toHaveLength(1)
-    if (!insertedUsers[0]) return
-    user = insertedUsers[0]
-    if (!user) return
-
-    // Link project to user
-    const res = await userRepo.addProject(user.id, projet.id)
-    expect(res.is_ok()).toBeTruthy()
-  })
-
-  it('should add project to invited user if the latter already has an account and notify them by email', async () => {
-    const email = 'existing@user.test'
-
-    // TODO : insert user as well
-    const insertedUsers = (
-      await Promise.all(
-        [
-          {
-            email,
-            fullName: 'test',
-            role: 'porteur-projet',
-          },
-        ]
-          .map(makeUser)
-          .filter((item) => item.is_ok())
-          .map((item) => item.unwrap())
-          .map(userRepo.insert)
-      )
-    )
-      .filter((item) => item.is_ok())
-      .map((item) => item.unwrap())
-
-    expect(insertedUsers).toHaveLength(1)
-    const existingUser = insertedUsers[0]
-    if (!existingUser) return
-
-    const insertedCredentials = (
-      await Promise.all(
-        [
-          {
-            email,
-            userId: existingUser.id,
-            password: 'password',
-          },
-        ]
-          .map(makeCredentials)
-          .filter((item) => item.is_ok())
-          .map((item) => item.unwrap())
-          .map(credentialsRepo.insert)
-      )
-    )
-      .filter((item) => item.is_ok())
-      .map((item) => item.unwrap())
-
-    expect(insertedCredentials).toHaveLength(1)
-
-    const result = await inviteUserToProject({
-      email,
-      projectId: projet.id,
-      user,
+    const inviteUserToProject = makeInviteUserToProject({
+      findProjectById,
+      userRepo,
+      projectAdmissionKeyRepo,
+      credentialsRepo,
+      shouldUserAccessProject,
+      sendNotification,
     })
 
-    expect(result.is_ok()).toBeTruthy()
+    describe('given the invited user already has an account', () => {
+      const invitedUser = UnwrapForTest(
+        makeUser({
+          email: invitedEmail,
+          fullName: 'test',
+          role: 'porteur-projet',
+        })
+      )
 
-    // Make sure the user has been granted access to the project
-    expect(await userRepo.hasProject(existingUser.id, projet.id)).toEqual(true)
+      beforeAll(async () => {
+        resetDatabase()
+        sendNotification.mockClear()
 
-    // Make sure the notification has been sent
-    expect(getCallsToEmailStub()).toHaveLength(1)
+        await credentialsRepo.insert({
+          userId: invitedUser.id,
+          email: invitedEmail,
+        } as Credentials)
 
-    const sentEmail = getCallsToEmailStub()[0]
+        const res = await inviteUserToProject({
+          email: invitedEmail,
+          user,
+          projectId,
+        })
 
-    expect(sentEmail.recipients[0].email).toEqual(email)
-    expect(sentEmail.subject).toEqual(
-      `${user.fullName} vous invite à suivre un projet sur Potentiel`
-    )
-    expect(sentEmail.variables.nomProjet).toEqual(projet.nomProjet)
-    expect(sentEmail.variables.invitation_link).toContain(
-      routes.PROJECT_DETAILS(projet.id)
-    )
-    expect(sentEmail.templateId).toEqual(1402576)
-  })
-
-  it('should send an invitation link to the invited user if he has not account yet', async () => {
-    const email = 'non-existing@user.test'
-
-    const result = await inviteUserToProject({
-      email,
-      projectId: projet.id,
-      user,
-    })
-
-    expect(result.is_ok()).toBeTruthy()
-
-    // Make sure a projectAdmissionKey has been created
-    const projectAdmissionKeys = await projectAdmissionKeyRepo.findAll({
-      projectId: projet.id,
-      email,
-    })
-    expect(projectAdmissionKeys).toHaveLength(1)
-    const projectAdmissionKey = projectAdmissionKeys[0].id
-
-    // Make sure an invitation has been sent
-    expect(getCallsToEmailStub()).toHaveLength(1)
-
-    const sentEmail = getCallsToEmailStub()[0]
-
-    expect(sentEmail.recipients[0].email).toEqual(email)
-    expect(sentEmail.subject).toEqual(
-      `${user.fullName} vous invite à suivre un projet sur Potentiel`
-    )
-    expect(sentEmail.variables.nomProjet).toEqual(projet.nomProjet)
-    expect(sentEmail.variables.invitation_link).toContain(
-      routes.PROJECT_INVITATION({
-        projectAdmissionKey,
+        expect(res.is_ok()).toEqual(true)
       })
-    )
-    expect(sentEmail.templateId).toEqual(1402576)
-  })
 
-  it('should return an error if the calling user doesnt have the right to this project', async () => {
-    // Create another fake user
-    const insertedUsers = (
-      await Promise.all(
-        [
-          makeFakeUser({
-            role: 'porteur-projet',
-          }),
-        ]
-          .map(makeUser)
-          .filter((item) => item.is_ok())
-          .map((item) => item.unwrap())
-          .map(userRepo.insert)
-      )
-    )
-      .filter((item) => item.is_ok())
-      .map((item) => item.unwrap())
-    expect(insertedUsers).toHaveLength(1)
-    const otherUser = insertedUsers[0]
-
-    if (!otherUser) return
-    const result = await inviteUserToProject({
-      email: 'test@test.test',
-      projectId: projet.id,
-      user: otherUser,
+      it('should add project to invited user', async () => {
+        expect(await userRepo.hasProject(invitedUser.id, projectId)).toEqual(
+          true
+        )
+      })
+      it('should notify the user', () => {
+        expect(sendNotification).toHaveBeenCalledTimes(1)
+        expect(sendNotification).toHaveBeenCalledWith({
+          type: 'project-invitation',
+          message: {
+            email: invitedEmail,
+            subject: `${user.fullName} vous invite à suivre un projet sur Potentiel`,
+          },
+          variables: {
+            nomProjet: fakeProject.nomProjet,
+            invitation_link: routes.PROJECT_DETAILS(projectId),
+          },
+          context: {
+            projectId,
+            userId: user.id,
+          },
+        })
+      })
     })
 
-    expect(result.is_err()).toBeTruthy()
-    expect(result.unwrap_err().message).toEqual(ACCESS_DENIED_ERROR)
+    describe('given the invited user doesnt have an account', () => {
+      beforeAll(async () => {
+        resetDatabase()
+        sendNotification.mockClear()
+
+        const res = await inviteUserToProject({
+          email: invitedEmail,
+          user,
+          projectId,
+        })
+
+        expect(res.is_ok()).toEqual(true)
+      })
+
+      it('should send an invitation to the invited user', async () => {
+        // Verify project admission key
+        const projectAdmissionKeys = await projectAdmissionKeyRepo.findAll()
+        expect(projectAdmissionKeys).toHaveLength(1)
+        const projectAdmissionKey = projectAdmissionKeys[0]
+        expect(projectAdmissionKey.email).toEqual(invitedEmail)
+        expect(projectAdmissionKey.fullName).toEqual('')
+
+        expect(sendNotification).toHaveBeenCalledTimes(1)
+        expect(sendNotification).toHaveBeenCalledWith({
+          type: 'project-invitation',
+          message: {
+            email: invitedEmail,
+            subject: `${user.fullName} vous invite à suivre un projet sur Potentiel`,
+          },
+          variables: {
+            nomProjet: fakeProject.nomProjet,
+            // This link is a link to the project itself
+            invitation_link: routes.PROJECT_INVITATION({
+              projectAdmissionKey: projectAdmissionKey.id,
+            }),
+          },
+          context: {
+            projectId,
+            projectAdmissionKeyId: projectAdmissionKey.id,
+          },
+        })
+      })
+    })
+  })
+
+  describe('given the caller doesnt have rights to this project', () => {
+    it('should return ACCESS_DENIED_ERROR', async () => {
+      const shouldUserAccessProject = jest.fn(async () => false)
+      const findProjectById = jest.fn()
+      const sendNotification = jest.fn()
+
+      const projectId = 'project1'
+
+      const inviteUserToProject = makeInviteUserToProject({
+        findProjectById,
+        userRepo,
+        projectAdmissionKeyRepo,
+        credentialsRepo,
+        shouldUserAccessProject,
+        sendNotification,
+      })
+
+      const res = await inviteUserToProject({
+        email: invitedEmail,
+        user,
+        projectId,
+      })
+
+      expect(res.is_err()).toEqual(true)
+      expect(res.unwrap_err().message).toEqual(ACCESS_DENIED_ERROR)
+
+      expect(shouldUserAccessProject).toHaveBeenCalledWith({ user, projectId })
+      expect(findProjectById).not.toHaveBeenCalled()
+      expect(sendNotification).not.toHaveBeenCalled()
+    })
   })
 })

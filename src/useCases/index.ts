@@ -1,7 +1,6 @@
 import makeLogin from './login'
 import makeImportProjects from './importProjects'
 import makeListProjects from './listProjects'
-import makeSendCandidateNotification from './sendCandidateNotification'
 import makeSendAllCandidateNotifiations from './sendAllCandidateNotifications'
 import makeSignup from './signup'
 import makeRequestModification from './requestModification'
@@ -39,7 +38,9 @@ const login = makeLogin({
 })
 
 const importProjects = makeImportProjects({
-  projectRepo,
+  findOneProject: projectRepo.findOne,
+  saveProject: projectRepo.save,
+  removeProject: projectRepo.remove,
   appelOffreRepo,
 })
 
@@ -58,7 +59,12 @@ const listProjects = makeListProjects({
   findDrealsForUser: userRepo.findDrealsForUser,
 })
 const listUnnotifiedProjects = makeListUnnotifiedProjects({
-  projectRepo,
+  findAllProjects: projectRepo.findAll,
+  findExistingAppelsOffres: projectRepo.findExistingAppelsOffres,
+  findExistingPeriodesForAppelOffre:
+    projectRepo.findExistingPeriodesForAppelOffre,
+  countUnnotifiedProjects: projectRepo.countUnnotifiedProjects,
+  searchAllProjects: projectRepo.searchAll,
   appelOffreRepo,
 })
 
@@ -66,39 +72,39 @@ const sendNotification = makeSendNotification({
   notificationRepo,
   sendEmail,
 })
-
-const sendCandidateNotification = makeSendCandidateNotification({
-  projectRepo,
-  projectAdmissionKeyRepo,
-  appelOffreRepo,
-  sendNotification,
+const shouldUserAccessProject = makeShouldUserAccessProject({
+  userRepo,
+  findProjectById: projectRepo.findById,
 })
 
 const sendAllCandidateNotifications = makeSendAllCandidateNotifiations({
-  projectRepo,
+  findAllProjects: projectRepo.findAll,
+  saveProject: projectRepo.save,
+  projectAdmissionKeyRepo,
   userRepo,
+  appelOffreRepo,
   credentialsRepo,
-  sendCandidateNotification,
+  sendNotification,
 })
 
 const signup = makeSignup({
   userRepo,
+  addUserToProjectsWithEmail: userRepo.addUserToProjectsWithEmail,
+  addUserToProject: userRepo.addProject,
   credentialsRepo,
   projectAdmissionKeyRepo,
-  projectRepo,
 })
 
-const requestModification = makeRequestModification({ modificationRequestRepo })
+const requestModification = makeRequestModification({
+  modificationRequestRepo,
+  shouldUserAccessProject,
+})
 
 const listUserRequests = makeListUserRequests({ modificationRequestRepo })
 const listAllRequests = makeListAllRequests({ modificationRequestRepo })
 
-const shouldUserAccessProject = makeShouldUserAccessProject({
-  userRepo,
-  projectRepo,
-})
 const getUserProject = makeGetUserProject({
-  projectRepo,
+  findProjectById: projectRepo.findById,
   shouldUserAccessProject,
 })
 
@@ -114,7 +120,7 @@ const resetPassword = makeResetPassword({
 })
 
 const inviteUserToProject = makeInviteUserToProject({
-  projectRepo,
+  findProjectById: projectRepo.findById,
   credentialsRepo,
   userRepo,
   projectAdmissionKeyRepo,
@@ -123,9 +129,10 @@ const inviteUserToProject = makeInviteUserToProject({
 })
 
 const addGarantiesFinancieres = makeAddGarantiesFinancieres({
-  projectRepo,
-  userRepo,
-  projectAdmissionKeyRepo,
+  findProjectById: projectRepo.findById,
+  saveProject: projectRepo.save,
+  findUsersForDreal: userRepo.findUsersForDreal,
+  findAllProjectAdmissionKeys: projectAdmissionKeyRepo.findAll,
   shouldUserAccessProject,
   sendNotification,
 })
@@ -138,8 +145,9 @@ const inviteDreal = makeInviteDreal({
 })
 
 const listGarantiesFinancieres = makeListGarantiesFinancieres({
-  userRepo,
-  projectRepo,
+  findAllProjectsForRegions: projectRepo.findAllForRegions,
+  findAllProjects: projectRepo.findAll,
+  findDrealsForUser: userRepo.findDrealsForUser,
 })
 
 const relanceInvitations = makeRelanceInvitations({
@@ -157,7 +165,6 @@ const useCases = Object.freeze({
   importProjects,
   listProjects,
   sendNotification,
-  sendCandidateNotification,
   sendAllCandidateNotifications,
   signup,
   requestModification,
@@ -182,7 +189,6 @@ export {
   importProjects,
   listProjects,
   sendNotification,
-  sendCandidateNotification,
   sendAllCandidateNotifications,
   signup,
   requestModification,

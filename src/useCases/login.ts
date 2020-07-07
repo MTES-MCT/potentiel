@@ -28,7 +28,6 @@ export default function makeLogin({
 
     // Email not found
     if (credentials.is_none()) {
-      // console.log('login() : email not found')
       return ErrorResult(ERREUR_USER_INCONNU)
     }
 

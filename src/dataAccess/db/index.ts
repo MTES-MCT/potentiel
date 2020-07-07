@@ -11,7 +11,7 @@ import { makeNotificationRepo } from './notification'
 
 import { appelOffreRepo } from '../inMemory/appelOffre'
 
-export const sequelize =
+export const sequelize: any =
   process.env.NODE_ENV === 'test'
     ? new Sequelize('sqlite::memory:', { logging: false })
     : new Sequelize({

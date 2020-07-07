@@ -74,10 +74,11 @@ export default function makeUserRepo({ sequelize }): UserRepo {
     addProject,
     remove,
     hasProject,
+    addUserToProjectsWithEmail,
   })
 
   // findDrealsForUser: (userId: User['id']) => Promise<Array<DREAL>>
-  // addToDreal: (userId: User['id'], dreal: DREAL) => ResultAsync<void>
+  // addToDreal: (userId: User['id'], dreal: DREAL) => ResultAsync<null>
 
   async function findUsersForDreal(dreal: string): Promise<Array<User>> {
     await _isDbReady
@@ -129,7 +130,7 @@ export default function makeUserRepo({ sequelize }): UserRepo {
   async function addToDreal(
     userId: User['id'],
     dreal: DREAL
-  ): ResultAsync<void> {
+  ): ResultAsync<null> {
     await _isDbReady
 
     try {
@@ -215,7 +216,7 @@ export default function makeUserRepo({ sequelize }): UserRepo {
   async function addProject(
     userId: User['id'],
     projectId: Project['id']
-  ): ResultAsync<void> {
+  ): ResultAsync<null> {
     try {
       // Check if user already has access to this project
       const priorAccess = await hasProject(userId, projectId)
@@ -235,6 +236,29 @@ export default function makeUserRepo({ sequelize }): UserRepo {
       }
 
       await userInstance.addProject(projectInstance)
+      return Ok(null)
+    } catch (error) {
+      if (CONFIG.logDbErrors) console.log('User.addProject error', error)
+      return Err(error)
+    }
+  }
+
+  async function addUserToProjectsWithEmail(
+    userId: User['id'],
+    email: Project['email']
+  ): ResultAsync<null> {
+    try {
+      const userInstance = await UserModel.findByPk(userId)
+
+      if (!userInstance) {
+        throw new Error('Cannot find user to add project to')
+      }
+
+      const ProjectModel = sequelize.model('project')
+      const projectsWithEmail = await ProjectModel.findAll({ where: { email } })
+
+      await userInstance.addProjects(projectsWithEmail)
+
       return Ok(null)
     } catch (error) {
       if (CONFIG.logDbErrors) console.log('User.addProject error', error)
@@ -272,7 +296,7 @@ export default function makeUserRepo({ sequelize }): UserRepo {
     }
   }
 
-  async function remove(id: User['id']): ResultAsync<void> {
+  async function remove(id: User['id']): ResultAsync<null> {
     await _isDbReady
 
     try {

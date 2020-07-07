@@ -50,7 +50,7 @@ const initSearchIndex = async (sequelize) => {
     await sequelize.query(
       'CREATE VIRTUAL TABLE IF NOT EXISTS project_search USING fts3(id UUID, nomCandidat VARCHAR(255), nomProjet VARCHAR(255), nomRepresentantLegal VARCHAR(255), email VARCHAR(255), adresseProjet VARCHAR(255), codePostalProjet VARCHAR(255), communeProjet VARCHAR(255), departementProjet VARCHAR(255), regionProjet VARCHAR(255), numeroCRE VARCHAR(255));'
     )
-    console.log('Done create project_search virtual table')
+    // console.log('Done create project_search virtual table')
   } catch (error) {
     console.error('Unable to create project_search virtual table', error)
   }
@@ -282,6 +282,7 @@ export default function makeProjectRepo({
     searchForRegions,
     findAllForRegions,
     searchAll,
+    countUnnotifiedProjects,
   })
 
   async function addAppelOffreToProject(project: Project): Promise<Project> {
@@ -300,12 +301,12 @@ export default function makeProjectRepo({
   async function findById(
     id: Project['id'],
     includeHistory?: true
-  ): OptionAsync<Project> {
+  ): Promise<Project | undefined> {
     await _isDbReady
 
     try {
       const projectInDb = await ProjectModel.findByPk(id)
-      if (!projectInDb) return None
+      if (!projectInDb) return
 
       const projectInstance = makeProject(deserialize(projectInDb.get()))
 
@@ -319,10 +320,9 @@ export default function makeProjectRepo({
         ).map((item) => item.get())
       }
 
-      return Some(projectWithAppelOffre)
+      return projectWithAppelOffre
     } catch (error) {
       if (CONFIG.logDbErrors) console.log('Project.findById error', error)
-      return None
     }
   }
 
@@ -411,7 +411,7 @@ export default function makeProjectRepo({
 
   async function _findAndBuildProjectList(
     opts: Record<any, any>,
-    pagination: Pagination,
+    pagination?: Pagination,
     filterFn?: (project: Project) => boolean
   ): Promise<PaginatedList<Project>> {
     const { count, rows } = await ProjectModel.findAndCountAll({
@@ -446,7 +446,7 @@ export default function makeProjectRepo({
     //   'Project.findAll.makeProject error'
     // )
 
-    return makePaginatedList(projects, pagination, count)
+    return makePaginatedList(projects, count, pagination)
   }
 
   async function _getProjectIdsForUser(
@@ -492,7 +492,7 @@ export default function makeProjectRepo({
 
   async function _getProjectsWithIds(
     projectIds: Project['id'][],
-    pagination: Pagination
+    pagination?: Pagination
   ): Promise<PaginatedList<Project>> {
     const opts = {
       where: {
@@ -508,8 +508,8 @@ export default function makeProjectRepo({
   async function searchForUser(
     userId: User['id'],
     terms: string,
-    pagination: Pagination,
-    filters?: ProjectFilters
+    filters?: ProjectFilters,
+    pagination?: Pagination
   ): Promise<PaginatedList<Project>> {
     await _isDbReady
     try {
@@ -519,7 +519,7 @@ export default function makeProjectRepo({
       )
 
       if (!filteredUserProjectIds.length)
-        return makePaginatedList([], pagination, 0)
+        return makePaginatedList([], 0, pagination)
 
       const searchedUserProjectIds = await _searchWithinGivenIds(
         terms,
@@ -527,19 +527,19 @@ export default function makeProjectRepo({
       )
 
       if (!searchedUserProjectIds.length)
-        return makePaginatedList([], pagination, 0)
+        return makePaginatedList([], 0, pagination)
 
       return _getProjectsWithIds(searchedUserProjectIds, pagination)
     } catch (error) {
       if (CONFIG.logDbErrors) console.log('Project.searchForUser error', error)
-      return makePaginatedList([], pagination, 0)
+      return makePaginatedList([], 0, pagination)
     }
   }
 
   async function findAllForUser(
     userId: User['id'],
-    pagination: Pagination,
-    filters?: ProjectFilters
+    filters?: ProjectFilters,
+    pagination?: Pagination
   ): Promise<PaginatedList<Project>> {
     await _isDbReady
     try {
@@ -549,12 +549,12 @@ export default function makeProjectRepo({
       )
 
       if (!filteredUserProjectIds.length)
-        return makePaginatedList([], pagination, 0)
+        return makePaginatedList([], 0, pagination)
 
       return _getProjectsWithIds(filteredUserProjectIds, pagination)
     } catch (error) {
       if (CONFIG.logDbErrors) console.log('Project.findAllForUser error', error)
-      return makePaginatedList([], pagination, 0)
+      return makePaginatedList([], 0, pagination)
     }
   }
 
@@ -585,8 +585,8 @@ export default function makeProjectRepo({
   async function searchForRegions(
     regions: DREAL | DREAL[],
     terms: string,
-    pagination: Pagination,
-    filters?: ProjectFilters
+    filters?: ProjectFilters,
+    pagination?: Pagination
   ): Promise<PaginatedList<Project>> {
     await _isDbReady
     try {
@@ -595,10 +595,8 @@ export default function makeProjectRepo({
         regions
       )
 
-      console.log('searchedRegionProjectIds', searchedRegionProjectIds)
-
       if (!searchedRegionProjectIds.length)
-        return makePaginatedList([], pagination, 0)
+        return makePaginatedList([], 0, pagination)
 
       const opts = _makeSelectorsForQuery(filters)
 
@@ -612,7 +610,7 @@ export default function makeProjectRepo({
     } catch (error) {
       if (CONFIG.logDbErrors)
         console.log('Project.searchForRegions error', error)
-      return makePaginatedList([], pagination, 0)
+      return makePaginatedList([], 0, pagination)
     }
   }
 
@@ -633,8 +631,8 @@ export default function makeProjectRepo({
 
   async function findAllForRegions(
     regions: DREAL | DREAL[],
-    pagination: Pagination,
-    filters?: ProjectFilters
+    filters?: ProjectFilters,
+    pagination?: Pagination
   ): Promise<PaginatedList<Project>> {
     await _isDbReady
     try {
@@ -649,7 +647,7 @@ export default function makeProjectRepo({
       )
     } catch (error) {
       if (CONFIG.logDbErrors) console.log('Project.searchForUser error', error)
-      return makePaginatedList([], pagination, 0)
+      return makePaginatedList([], 0, pagination)
     }
   }
 
@@ -672,14 +670,14 @@ export default function makeProjectRepo({
 
   async function searchAll(
     terms: string,
-    pagination: Pagination,
-    filters?: ProjectFilters
+    filters?: ProjectFilters,
+    pagination?: Pagination
   ): Promise<PaginatedList<Project>> {
     await _isDbReady
     try {
       const searchResultIds = await _search(terms)
 
-      if (!searchResultIds.length) return makePaginatedList([], pagination, 0)
+      if (!searchResultIds.length) return makePaginatedList([], 0, pagination)
 
       const opts = _makeSelectorsForQuery(filters)
 
@@ -688,47 +686,43 @@ export default function makeProjectRepo({
       return _findAndBuildProjectList(opts, pagination)
     } catch (error) {
       if (CONFIG.logDbErrors) console.log('Project.searchAll error', error)
-      return makePaginatedList([], pagination, 0)
+      return makePaginatedList([], 0, pagination)
     }
   }
 
-  async function findAll(query?: ProjectFilters): Promise<Array<Project>>
-  async function findAll(
-    query: ProjectFilters,
-    pagination: Pagination
-  ): Promise<PaginatedList<Project>>
   async function findAll(
     query?: ProjectFilters,
     pagination?: Pagination
-  ): Promise<PaginatedList<Project> | Array<Project>> {
+  ): Promise<PaginatedList<Project>> {
     await _isDbReady
     try {
       const opts = _makeSelectorsForQuery(query)
 
-      if (pagination) {
-        return _findAndBuildProjectList(opts, pagination)
-      }
-
-      const rows = await ProjectModel.findAll(opts)
-
-      const projectsRaw = rows.map((item) => item.get()) // We need to use this instead of raw: true because of the include
-
-      const deserializedItems = mapExceptError(
-        projectsRaw,
-        deserialize,
-        'Project.findAll.deserialize error'
-      )
-
-      // return mapIfOk(
-      //   deserializedItems,
-      //   makeProject,
-      //   'Project.findAll.makeProject error'
-      // )
-      return await Promise.all(deserializedItems.map(addAppelOffreToProject))
+      return _findAndBuildProjectList(opts, pagination)
     } catch (error) {
       if (CONFIG.logDbErrors)
         console.log('Project.findAndCountAll error', error)
-      return pagination ? makePaginatedList([], pagination, 0) : []
+      return makePaginatedList([], 0, pagination)
+    }
+  }
+
+  async function countUnnotifiedProjects(
+    appelOffreId: AppelOffre['id'],
+    periodeId: Periode['id']
+  ): Promise<number> {
+    await _isDbReady
+    try {
+      const opts = _makeSelectorsForQuery({
+        appelOffreId,
+        periodeId,
+        isNotified: false,
+      })
+
+      return await ProjectModel.count(opts)
+    } catch (error) {
+      if (CONFIG.logDbErrors)
+        console.log('Project.countUnnotifiedProjects error', error)
+      return 0
     }
   }
 
@@ -770,7 +764,7 @@ export default function makeProjectRepo({
     }
   }
 
-  async function save(project: Project): ResultAsync<Project> {
+  async function save(project: Project): ResultAsync<null> {
     await _isDbReady
 
     try {
@@ -786,14 +780,14 @@ export default function makeProjectRepo({
 
       await _updateProjectHistory(project)
 
-      return Ok(project)
+      return Ok(null)
     } catch (error) {
       if (CONFIG.logDbErrors) console.log('Project.save error', error)
       return Err(error)
     }
   }
 
-  async function remove(id: Project['id']): ResultAsync<void> {
+  async function remove(id: Project['id']): ResultAsync<null> {
     await _isDbReady
 
     try {
