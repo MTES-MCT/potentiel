@@ -5,7 +5,7 @@ export default function makeFakeProject(overrides?) {
     id: uuid(),
     appelOffreId: 'Fessenheim',
     periodeId: '6',
-    numeroCRE: Math.ceil(Math.random() * 1000),
+    numeroCRE: Math.ceil(Math.random() * 1000).toString(),
     familleId: '1',
     nomCandidat: 'Mr Porter',
     nomProjet: 'Mon projet PV',
