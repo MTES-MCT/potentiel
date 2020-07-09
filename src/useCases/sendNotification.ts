@@ -29,6 +29,7 @@ const TEMPLATE_ID_BY_TYPE: Record<Notification['type'], number> = {
   'pp-gf-notification': 1463065,
   'dreal-gf-notification': 1528696,
   'relance-designation': 1417004,
+  'relance-gf': 1554449,
 }
 
 /**

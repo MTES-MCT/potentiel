@@ -6,12 +6,12 @@ import makeFakeProject from '../fixtures/project'
 
 const addProjectsForTests = async (request: HttpRequest) => {
   // console.log('addProjectsForTests', request.body)
-  const { projects } = request.body
+  const { projects, userId } = request.body
   const { user } = request
 
-  if (!projects || !user) {
-    console.log('tests/addProjectsForTests missing projects or user')
-    return SystemError('tests/addProjectsForTests missing projects or user')
+  if (!projects) {
+    console.log('tests/addProjectsForTests missing projects')
+    return SystemError('tests/addProjectsForTests missing projects')
   }
 
   const builtProjects = projects
@@ -30,6 +30,16 @@ const addProjectsForTests = async (request: HttpRequest) => {
       }
       if (project.note) {
         project.note = Number(project.note)
+      }
+      if (project.garantiesFinancieresDueOn) {
+        project.garantiesFinancieresDueOn = Number(
+          project.garantiesFinancieresDueOn
+        )
+      }
+      if (project.garantiesFinancieresRelanceOn) {
+        project.garantiesFinancieresRelanceOn = Number(
+          project.garantiesFinancieresRelanceOn
+        )
       }
       if (project.garantiesFinancieresSubmittedOn) {
         project.garantiesFinancieresSubmittedOn = Number(
@@ -68,9 +78,17 @@ const addProjectsForTests = async (request: HttpRequest) => {
   //   '/tests/addProjectsForTests added ' + builtProjects.length + ' projects'
   // )
 
-  await Promise.all(
-    builtProjects.map((project) => userRepo.addProject(user.id, project.id))
-  )
+  if (user) {
+    await Promise.all(
+      builtProjects.map((project) => userRepo.addProject(user.id, project.id))
+    )
+  }
+
+  if (userId) {
+    await Promise.all(
+      builtProjects.map((project) => userRepo.addProject(userId, project.id))
+    )
+  }
 
   return Success('success')
 }

@@ -225,8 +225,6 @@ const ProjectList = ({ projects, displayColumns, projectActions }: Props) => {
     items = projects.items
   }
 
-  console.log('ProjectList displayColumns', displayColumns)
-
   if (!items.length) {
     return (
       <table className="table">

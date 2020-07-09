@@ -26,6 +26,8 @@ const deserialize = (item) => ({
   territoireProjet: item.territoireProjet || undefined,
   garantiesFinancieresDate: item.garantiesFinancieresDate || 0,
   garantiesFinancieresFile: item.garantiesFinancieresFile || '',
+  garantiesFinancieresDueOn: item.garantiesFinancieresDueOn || 0,
+  garantiesFinancieresRelanceOn: item.garantiesFinancieresRelanceOn || 0,
   garantiesFinancieresSubmittedOn: item.garantiesFinancieresSubmittedOn || 0,
   garantiesFinancieresSubmittedBy: item.garantiesFinancieresSubmittedBy || '',
 })
@@ -157,6 +159,16 @@ export default function makeProjectRepo({
       allowNull: false,
       defaultValue: 0,
     },
+    garantiesFinancieresDueOn: {
+      type: DataTypes.NUMBER,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    garantiesFinancieresRelanceOn: {
+      type: DataTypes.NUMBER,
+      allowNull: false,
+      defaultValue: 0,
+    },
     garantiesFinancieresSubmittedOn: {
       type: DataTypes.NUMBER,
       allowNull: false,
@@ -270,6 +282,7 @@ export default function makeProjectRepo({
     findAllForRegions,
     searchAll,
     countUnnotifiedProjects,
+    findProjectsWithGarantiesFinancieresPendingBefore,
   })
 
   async function addAppelOffreToProject(project: Project): Promise<Project> {
@@ -895,6 +908,43 @@ export default function makeProjectRepo({
     } catch (error) {
       if (CONFIG.logDbErrors)
         console.log('Project.findExistingFamillesForAppelOffre error', error)
+      return []
+    }
+  }
+
+  async function findProjectsWithGarantiesFinancieresPendingBefore(
+    beforeDate: number
+  ): Promise<Array<Project>> {
+    await _isDbReady
+    try {
+      const projectsRaw = (
+        await ProjectModel.findAll({
+          where: {
+            garantiesFinancieresSubmittedOn: 0,
+            garantiesFinancieresRelanceOn: 0,
+            garantiesFinancieresDueOn: { [Op.ne]: 0, [Op.lte]: beforeDate },
+            notifiedOn: { [Op.ne]: 0 },
+          },
+        })
+      ).map((item) => item.get())
+
+      const deserializedItems = mapExceptError(
+        projectsRaw,
+        deserialize,
+        'Project.findProjectsWithGarantiesFinancieresPendingBefore.deserialize error'
+      )
+
+      const projects = await Promise.all(
+        deserializedItems.map(addAppelOffreToProject)
+      )
+
+      return projects
+    } catch (error) {
+      if (CONFIG.logDbErrors)
+        console.log(
+          'Project.findProjectsWithGarantiesFinancieresPendingBefore error',
+          error
+        )
       return []
     }
   }

@@ -22,14 +22,14 @@ const createUserWithEmailForTests = async (request: HttpRequest) => {
   const [user] = await userRepo.findAll({ email, role: 'dreal' })
 
   // Create a test porteur projet
-  await createUser({
+  const userId = await createUser({
     email,
     fullName: 'Porteur de Projet',
     password: 'test',
     role: 'porteur-projet',
   })
 
-  return Success('')
+  return Success(userId)
 }
 
 export { createUserWithEmailForTests }

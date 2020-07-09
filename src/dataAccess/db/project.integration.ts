@@ -1439,4 +1439,65 @@ describe('projectRepo sequelize', () => {
       ).toEqual(1)
     })
   })
+
+  describe('findProjectsWithGarantiesFinancieresPendingBefore(beforeDate)', () => {
+    it('should return all projects with garantiesFinancieresSubmittedOn != 0 and garantiesFinancieresDueOn before beforeDate and not null', async () => {
+      const targetProjectId = uuid()
+
+      await Promise.all(
+        [
+          {
+            id: targetProjectId,
+            garantiesFinancieresSubmittedOn: 0,
+            garantiesFinancieresRelanceOn: 0,
+            garantiesFinancieresDueOn: 1000,
+            notifiedOn: 1,
+          },
+          {
+            id: uuid(),
+            garantiesFinancieresSubmittedOn: 1,
+            garantiesFinancieresRelanceOn: 0,
+            garantiesFinancieresDueOn: 1000,
+            notifiedOn: 1,
+          },
+          {
+            id: uuid(),
+            garantiesFinancieresSubmittedOn: 0,
+            garantiesFinancieresRelanceOn: 0,
+            garantiesFinancieresDueOn: 2000,
+            notifiedOn: 1,
+          },
+          {
+            id: uuid(),
+            garantiesFinancieresSubmittedOn: 0,
+            garantiesFinancieresRelanceOn: 0,
+            garantiesFinancieresDueOn: 0,
+            notifiedOn: 1,
+          },
+          {
+            id: uuid(),
+            garantiesFinancieresSubmittedOn: 0,
+            garantiesFinancieresRelanceOn: 0,
+            garantiesFinancieresDueOn: 1000,
+            notifiedOn: 0,
+          },
+          {
+            id: uuid(),
+            garantiesFinancieresSubmittedOn: 0,
+            garantiesFinancieresRelanceOn: 1,
+            garantiesFinancieresDueOn: 1000,
+            notifiedOn: 1,
+          },
+        ]
+          .map(makeFakeProject)
+          .map(projectRepo.save)
+      )
+
+      const results = await projectRepo.findProjectsWithGarantiesFinancieresPendingBefore(
+        1500
+      )
+      expect(results).toHaveLength(1)
+      expect(results[0].id).toEqual(targetProjectId)
+    })
+  })
 })

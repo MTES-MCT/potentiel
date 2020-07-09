@@ -1,0 +1,123 @@
+import { appelsOffreStatic } from '../dataAccess/inMemory'
+import moment from 'moment'
+import {
+  DREAL,
+  makeProject,
+  makeUser,
+  Project,
+  makeProjectIdentifier,
+} from '../entities'
+import { UnwrapForTest, Ok } from '../types'
+import makeFakeProject from '../__tests__/fixtures/project'
+import makeFakeUser from '../__tests__/fixtures/user'
+import routes from '../routes'
+import makeRelanceGarantiesFinancieres from './relanceGarantiesFinancieres'
+
+describe('relanceGarantiesFinancieres use-case', () => {
+  const fakeProject = UnwrapForTest(
+    makeProject(
+      makeFakeProject({
+        notifiedOn: 1595943197734,
+        appelOffreId: 'Fessenheim',
+        periodeId: '2',
+        familleId: '1',
+      })
+    )
+  )
+
+  fakeProject.appelOffre = appelsOffreStatic.find(
+    (appelOffre) => appelOffre.id === fakeProject.appelOffreId
+  )
+
+  if (!fakeProject.appelOffre) return
+
+  fakeProject.appelOffre.periode = fakeProject.appelOffre.periodes.find(
+    (periode) => periode.id === fakeProject.periodeId
+  )
+
+  fakeProject.famille = fakeProject.appelOffre?.familles.find(
+    (famille) => famille.id === fakeProject.familleId
+  )
+
+  const findProjectsWithGarantiesFinancieresPendingBefore = jest.fn(
+    async (beforeDate: number) => [fakeProject]
+  )
+  const sendNotification = jest.fn()
+  const saveProject = jest.fn(async (project: Project) => Ok(null))
+
+  const fakeUser = UnwrapForTest(makeUser(makeFakeUser()))
+  const getUsersForProject = jest.fn(async () => [fakeUser])
+
+  const relanceGarantiesFinancieres = makeRelanceGarantiesFinancieres({
+    findProjectsWithGarantiesFinancieresPendingBefore,
+    getUsersForProject,
+    sendNotification,
+    saveProject,
+  })
+
+  beforeAll(async () => {
+    const result = await relanceGarantiesFinancieres()
+
+    expect(result.is_ok()).toEqual(true)
+  })
+
+  it('should get projects with garanties financieres pending in less than 15 days', () => {
+    expect(
+      findProjectsWithGarantiesFinancieresPendingBefore
+    ).toHaveBeenCalledTimes(1)
+    const callTime =
+      findProjectsWithGarantiesFinancieresPendingBefore.mock.calls[0][0]
+    expect(callTime / 1000).toBeCloseTo(
+      moment().add(15, 'days').toDate().getTime() / 1000,
+      0
+    )
+  })
+
+  it('should send a notification to the user', () => {
+    expect(getUsersForProject).toHaveBeenCalledWith(fakeProject.id)
+
+    expect(sendNotification).toHaveBeenCalledTimes(1)
+    expect(sendNotification).toHaveBeenCalledWith({
+      type: 'relance-gf',
+      context: {
+        projectId: fakeProject.id,
+        userId: fakeUser.id,
+      },
+      variables: {
+        nom_projet: fakeProject.nomProjet,
+        code_projet: makeProjectIdentifier(fakeProject),
+        date_designation: '28/07/2020',
+        paragraphe_cdc: '5.3 et 6.2', // Cf AO Fessenheim
+        duree_garanties: '42', // Cf AO Fessenheim
+        invitation_link: routes.PROJECT_DETAILS(fakeProject.id),
+      },
+      message: {
+        subject: `Rappel constitution garantie financière ${fakeProject.nomProjet}`,
+        email: fakeUser.email,
+        name: fakeUser.fullName,
+      },
+    })
+  })
+
+  it('should update each unnotified project from the periode as having been relancé', async () => {
+    expect(saveProject).toHaveBeenCalledTimes(1)
+
+    const fakeProjectUpdate = saveProject.mock.calls[0][0]
+
+    expect(fakeProjectUpdate).toBeDefined()
+    expect(fakeProjectUpdate.garantiesFinancieresRelanceOn / 1000).toBeCloseTo(
+      Date.now() / 1000,
+      0
+    )
+    expect(fakeProjectUpdate.history).toHaveLength(1)
+    if (!fakeProjectUpdate.history || !fakeProjectUpdate.history.length) return
+    const notificationEvent = fakeProjectUpdate.history[0]
+    expect(notificationEvent).toBeDefined()
+    if (!notificationEvent) return
+    expect(notificationEvent.type).toEqual('relance-gf')
+    expect(notificationEvent.after).toEqual({
+      garantiesFinancieresRelanceOn:
+        fakeProjectUpdate.garantiesFinancieresRelanceOn,
+    })
+  })
+})

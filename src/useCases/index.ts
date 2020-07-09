@@ -18,6 +18,7 @@ import makeListGarantiesFinancieres from './listGarantiesFinancieres'
 import makeSendNotification from './sendNotification'
 import makeRelanceInvitations from './relanceInvitations'
 import makeRetryNotifications from './retryNotifications'
+import makeRelanceGarantiesFinancieres from './relanceGarantiesFinancieres'
 
 import { sendEmail } from '../helpers/sendEmailNotification'
 
@@ -159,6 +160,14 @@ const retryNotifications = makeRetryNotifications({
   sendNotification,
 })
 
+const relanceGarantiesFinancieres = makeRelanceGarantiesFinancieres({
+  findProjectsWithGarantiesFinancieresPendingBefore:
+    projectRepo.findProjectsWithGarantiesFinancieresPendingBefore,
+  getUsersForProject: projectRepo.getUsers,
+  saveProject: projectRepo.save,
+  sendNotification,
+})
+
 const useCases = Object.freeze({
   login,
   importProjects,
@@ -180,6 +189,7 @@ const useCases = Object.freeze({
   listGarantiesFinancieres,
   relanceInvitations,
   retryNotifications,
+  relanceGarantiesFinancieres,
 })
 
 export default useCases
@@ -204,4 +214,5 @@ export {
   listGarantiesFinancieres,
   relanceInvitations,
   retryNotifications,
+  relanceGarantiesFinancieres,
 }

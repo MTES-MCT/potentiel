@@ -80,7 +80,7 @@
     "chai": "^4.2.0",
     "cucumber": "^6.0.5",
     "cucumber-html-reporter": "^5.1.0",
-    "cypress": "^4.9.0",
+    "cypress": "^4.11.0",
     "cypress-cucumber-preprocessor": "^2.3.1",
     "cypress-file-upload": "^3.5.3",
     "expect-puppeteer": "^4.4.0",

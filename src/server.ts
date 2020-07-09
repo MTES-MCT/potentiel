@@ -43,6 +43,7 @@ import {
   postRelanceInvitations,
   getNotificationListPage,
   postRetryNotifications,
+  postRelanceGarantiesFinancieres,
 } from './controllers'
 
 import {
@@ -314,6 +315,11 @@ export async function makeServer(port: number = 3000) {
       console.log('Call to ping')
       res.send('pong')
     })
+
+    router.post(
+      '/cron/relanceGarantiesFinancieres',
+      makeExpressCallback(postRelanceGarantiesFinancieres)
+    )
 
     if (process.env.NODE_ENV === 'test') {
       router.get('/test/reset', makeExpressCallback(resetDbForTests))

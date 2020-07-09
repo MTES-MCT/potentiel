@@ -108,6 +108,22 @@ export type DREAL_GF_Notification = {
   }
 }
 
+export type RelanceGarantiesFinancieres = {
+  type: 'relance-gf'
+  context: {
+    projectId: Project['id']
+    userId: User['id']
+  }
+  variables: {
+    nom_projet: string
+    code_projet: string
+    date_designation: string
+    paragraphe_cdc: string
+    duree_garanties: string
+    invitation_link: string
+  }
+}
+
 export type NotificationProps = BaseNotification &
   (
     | Designation
@@ -117,6 +133,7 @@ export type NotificationProps = BaseNotification &
     | PasswordReset
     | PP_GF_Notification
     | DREAL_GF_Notification
+    | RelanceGarantiesFinancieres
   )
 
 type NotificationWithStatus = NotificationProps & {

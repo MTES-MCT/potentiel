@@ -64,12 +64,13 @@ Cypress.Commands.add('login', (email, password) => {
 //   return element.find('[data-testid=' + testId + ']')
 // })
 
-Cypress.Commands.add('insertProjectsForUser', (projects) => {
+Cypress.Commands.add('insertProjectsForUser', (projects, userId) => {
   return cy.request({
     method: 'POST',
     url: '/test/addProjects',
     body: {
       projects,
+      userId,
     },
   })
 })

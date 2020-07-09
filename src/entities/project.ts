@@ -56,6 +56,8 @@ const baseProjectSchema = SchemaRecord({
   classe: Union(Literal('Eliminé'), Literal('Classé')),
   motifsElimination: String,
   notifiedOn: Number,
+  garantiesFinancieresDueOn: Number,
+  garantiesFinancieresRelanceOn: Number,
   garantiesFinancieresSubmittedOn: Number,
   garantiesFinancieresSubmittedBy: String,
   garantiesFinancieresFile: String,
@@ -94,6 +96,7 @@ type ProjectEvent = {
     | 'import'
     | 'candidate-notification'
     | 'garanties-financieres-submission'
+    | 'relance-gf'
   modificationRequestId?: ModificationRequest['id']
   isNew?: true
 }
@@ -215,6 +218,8 @@ export default ({ makeId }: MakeProjectDependencies) =>
     isInvestissementParticipatif: false,
     isFinancementParticipatif: false,
     engagementFournitureDePuissanceAlaPointe: false,
+    garantiesFinancieresDueOn: 0,
+    garantiesFinancieresRelanceOn: 0,
     garantiesFinancieresSubmittedOn: 0,
     garantiesFinancieresSubmittedBy: '',
     garantiesFinancieresFile: '',
