@@ -121,7 +121,14 @@ export default function ListProjects({
                 {...dataId('visibility-toggle')}
                 className={'filter-toggle' + (hasFilters ? ' open' : '')}
               >
-                Filtrer
+                <span
+                  style={{
+                    borderBottom: '1px solid var(--light-grey)',
+                    paddingBottom: 5,
+                  }}
+                >
+                  Filtrer
+                </span>
                 <svg className="icon filter-icon">
                   <use xlinkHref="#expand"></use>
                 </svg>
@@ -235,7 +242,14 @@ export default function ListProjects({
                 {...dataId('projectList-invitation-form-visibility-toggle')}
                 className={'filter-toggle' + (hasFilters ? ' open' : '')}
               >
-                Donner accès à un utilisateur
+                <span
+                  style={{
+                    borderBottom: '1px solid var(--light-grey)',
+                    paddingBottom: 5,
+                  }}
+                >
+                  Donner accès à un utilisateur
+                </span>
                 <svg className="icon filter-icon">
                   <use xlinkHref="#expand"></use>
                 </svg>
