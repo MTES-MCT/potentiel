@@ -7,6 +7,7 @@ import moment from 'moment'
 const FORMAT_DATE = 'DD/MM/YYYY'
 
 const postInviteUserToProject = async (request: HttpRequest) => {
+  // console.log('postInviteUserToProject', request.body)
   const { email, projectId } = request.body
   const { user } = request
 
@@ -20,13 +21,21 @@ const postInviteUserToProject = async (request: HttpRequest) => {
     user,
   })
 
+  const isMultiProject = Array.isArray(projectId)
+
+  const redirectTo = isMultiProject
+    ? user.role === 'porteur-projet'
+      ? ROUTES.USER_LIST_PROJECTS
+      : ROUTES.ADMIN_LIST_PROJECTS
+    : ROUTES.PROJECT_DETAILS(projectId)
+
   return result.match({
     ok: () =>
-      Redirect(ROUTES.PROJECT_DETAILS(projectId), {
+      Redirect(redirectTo, {
         success: 'Une invitation a bien été envoyée à ' + email,
       }),
     err: (error: Error) =>
-      Redirect(ROUTES.PROJECT_DETAILS(projectId), {
+      Redirect(redirectTo, {
         error: error.message,
       }),
   })

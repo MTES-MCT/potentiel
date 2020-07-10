@@ -135,6 +135,7 @@ export default function ListProjects({
                     name="appelOffreId"
                     className={'appelOffre ' + (appelOffreId ? 'active' : '')}
                     {...dataId('appelOffreIdSelector')}
+                    defaultValue={appelOffreId}
                   >
                     <option value="">Tous appels d'offres</option>
                     {appelsOffre
@@ -145,7 +146,6 @@ export default function ListProjects({
                         <option
                           key={'appel_' + appelOffre.id}
                           value={appelOffre.id}
-                          selected={appelOffre.id === appelOffreId}
                         >
                           {appelOffre.shortTitle}
                         </option>
@@ -155,6 +155,7 @@ export default function ListProjects({
                     name="periodeId"
                     className={periodeId ? 'active' : ''}
                     {...dataId('periodeIdSelector')}
+                    defaultValue={periodeId}
                   >
                     <option value="">Toutes périodes</option>
                     {periodes && periodes.length
@@ -162,7 +163,6 @@ export default function ListProjects({
                           <option
                             key={'appel_' + periode.id}
                             value={periode.id}
-                            selected={periode.id === periodeId}
                           >
                             {periode.title}
                           </option>
@@ -174,6 +174,7 @@ export default function ListProjects({
                       name="familleId"
                       className={familleId ? 'active' : ''}
                       {...dataId('familleIdSelector')}
+                      defaultValue={familleId}
                     >
                       <option value="">Toutes familles</option>
                       {familles && familles.length
@@ -181,7 +182,6 @@ export default function ListProjects({
                             <option
                               key={'appel_' + famille.id}
                               value={famille.id}
-                              selected={famille.id === familleId}
                             >
                               {famille.title}
                             </option>
@@ -197,26 +197,11 @@ export default function ListProjects({
                     name="garantiesFinancieres"
                     className={garantiesFinancieres ? 'active' : ''}
                     {...dataId('garantiesFinancieresSelector')}
+                    defaultValue={garantiesFinancieres || ''}
                   >
                     <option value="">Toutes</option>
-                    <option
-                      value="submitted"
-                      selected={
-                        garantiesFinancieres &&
-                        garantiesFinancieres === 'submitted'
-                      }
-                    >
-                      Déposées
-                    </option>
-                    <option
-                      value="notSubmitted"
-                      selected={
-                        garantiesFinancieres &&
-                        garantiesFinancieres === 'notSubmitted'
-                      }
-                    >
-                      Non-déposées
-                    </option>
+                    <option value="submitted">Déposées</option>
+                    <option value="notSubmitted">Non-déposées</option>
                   </select>
                 </div>
                 <div style={{ marginTop: 15 }}>
@@ -225,20 +210,11 @@ export default function ListProjects({
                     name="classement"
                     className={hasNonDefaultClassement ? 'active' : ''}
                     {...dataId('classementSelector')}
+                    defaultValue={classement || ''}
                   >
                     <option value="">Tous</option>
-                    <option
-                      value="classés"
-                      selected={classement && classement === 'classés'}
-                    >
-                      Classés
-                    </option>
-                    <option
-                      value="éliminés"
-                      selected={classement && classement === 'éliminés'}
-                    >
-                      Eliminés
-                    </option>
+                    <option value="classés">Classés</option>
+                    <option value="éliminés">Eliminés</option>
                   </select>
                 </div>
               </div>
@@ -253,6 +229,58 @@ export default function ListProjects({
               </a>
             ) : null}
           </form>
+          {request.user?.role !== 'dreal' ? (
+            <div
+              {...dataId('projectList-invitation-form')}
+              style={{ display: 'none' }}
+            >
+              <div
+                {...dataId('visibility-toggle')}
+                className={'filter-toggle' + (hasFilters ? ' open' : '')}
+              >
+                Donner accès à un utilisateur
+                <svg className="icon filter-icon">
+                  <use xlinkHref="#expand"></use>
+                </svg>
+              </div>
+              <div className="filter-panel">
+                <form
+                  action={ROUTES.INVITE_USER_TO_PROJECT_ACTION}
+                  method="POST"
+                  name="form"
+                  style={{ margin: '15px 0 0 0' }}
+                >
+                  <select
+                    name="projectId"
+                    multiple
+                    {...dataId('invitation-form-project-list')}
+                    style={{ display: 'none' }}
+                  ></select>
+                  <label htmlFor="email">
+                    Courrier électronique de la personne habilitée à suivre ces
+                    projets
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    {...dataId('email-field')}
+                  />
+                  <button
+                    className="button"
+                    type="submit"
+                    name="submit"
+                    id="submit"
+                    {...dataId('submit-button')}
+                  >
+                    Accorder les droits sur ces projets
+                  </button>
+                </form>
+              </div>
+            </div>
+          ) : (
+            ''
+          )}
         </div>
         {success ? (
           <div className="notification success" {...dataId('success-message')}>
@@ -278,7 +306,6 @@ export default function ListProjects({
             </div>
             <ProjectList
               displayColumns={[
-                'Periode',
                 'Projet',
                 'Candidat',
                 'Puissance',

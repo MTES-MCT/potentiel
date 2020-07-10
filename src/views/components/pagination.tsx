@@ -50,13 +50,10 @@ const Pagination = ({
           className="pagination__display"
           id="pagination__display"
           {...dataId('pageSizeSelector')}
+          defaultValue={pageSize}
         >
           {[5, 10, 20, 50, 100].map((count) => (
-            <option
-              key={'select_pageSize_' + count}
-              selected={pageSize === count}
-              value={count}
-            >
+            <option key={'select_pageSize_' + count} value={count}>
               {count}
             </option>
           ))}

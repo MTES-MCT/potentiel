@@ -15,6 +15,7 @@ window.initHandlers = function () {
   addGoToProjectPageHandlers()
   addMotifEliminationToggleHandlers()
   addVisibilityToggleHandler()
+  addProjectListSelectionHandler()
 }
 
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -188,7 +189,7 @@ function addGoToProjectPageHandlers() {
   const projectButtons = document.querySelectorAll('[data-goto-projectid]')
   projectButtons.forEach((item) =>
     item.addEventListener('click', function (event) {
-      if (event.target.nodeName !== 'A') {
+      if (event.target.nodeName !== 'A' && event.target.nodeName !== 'INPUT') {
         event.preventDefault()
 
         const projectId = item.getAttribute('data-goto-projectid')
@@ -236,6 +237,85 @@ function addMotifEliminationToggleHandlers() {
       toggleMotifVisibilty(item, !wasVisible)
     })
   )
+}
+
+function addProjectListSelectionHandler() {
+  const invitedProjectsList = document.querySelector(
+    '[data-testid=invitation-form-project-list]'
+  )
+
+  const projectCheckboxes = document.querySelectorAll(
+    '[data-testid=projectList-item-checkbox]'
+  )
+
+  const selectAllCheckbox = document.querySelector(
+    '[data-testid=projectList-selectAll-checkbox]'
+  )
+
+  const accessForm = document.querySelector(
+    '[data-testid=projectList-invitation-form]'
+  )
+
+  function updateAccessFormVisibility() {
+    if (invitedProjectsList && accessForm) {
+      if (invitedProjectsList.options.length) {
+        accessForm.style.display = 'block'
+      } else {
+        accessForm.style.display = 'none'
+      }
+    }
+  }
+
+  function findOption(options, value) {
+    for (var i = 0; i < options.length; i++) {
+      if (options[i].value === value) return options[i]
+    }
+  }
+
+  function toggleProjectInList(projectId, isSelected) {
+    if (invitedProjectsList) {
+      const projectOption = findOption(invitedProjectsList.options, projectId)
+      if (isSelected && !projectOption) {
+        invitedProjectsList.options.add(
+          new Option(projectId, projectId, true, true)
+        )
+      }
+
+      if (!isSelected && projectOption) {
+        projectOption.remove()
+      }
+    }
+
+    updateAccessFormVisibility()
+  }
+
+  function toggleProjectBox(item, isSelected) {
+    const projectId = item.getAttribute('data-projectid')
+
+    item.checked = isSelected
+
+    toggleProjectInList(projectId, isSelected)
+  }
+
+  projectCheckboxes.forEach((item) =>
+    item.addEventListener('change', function (event) {
+      // console.log('motif toggle click', item)
+
+      if (selectAllCheckbox) {
+        selectAllCheckbox.checked = false
+      }
+
+      toggleProjectBox(item, event.target.checked)
+    })
+  )
+
+  if (selectAllCheckbox) {
+    selectAllCheckbox.addEventListener('change', function (event) {
+      projectCheckboxes.forEach((item) =>
+        toggleProjectBox(item, event.target.checked)
+      )
+    })
+  }
 }
 
 function toggleMotifVisibilty(toggleItem, shouldBeVisible) {

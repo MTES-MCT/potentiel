@@ -57,11 +57,6 @@ export default function makeRelanceInvitations({
         .map((item) => item.unwrap())
         .filter((item) => !item.lastUsedAt && !item.dreal && !item.projectId)
     } else if (appelOffreId) {
-      console.log(
-        // 'relanceInvitation usecase: specific appelOffre/periode',
-        appelOffreId,
-        periodeId
-      )
       unusedInvitations = await projectAdmissionKeyRepo.findAll({
         lastUsedAt: 0,
         dreal: null,

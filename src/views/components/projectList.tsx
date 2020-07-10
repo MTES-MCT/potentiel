@@ -10,41 +10,36 @@ import ProjectActions from './projectActions'
 import Pagination from './pagination'
 
 type Columns =
-  | 'Periode'
-  | 'Projet'
-  | 'Candidat'
-  | 'Puissance'
-  | 'Prix'
-  | 'Evaluation Carbone'
-  | 'Classé'
+  // | 'Periode'
+  'Projet' | 'Candidat' | 'Puissance' | 'Prix' | 'Evaluation Carbone' | 'Classé'
 
 type ColumnRenderer = (props: { project: Project }) => React.ReactNode
 
 const ColumnComponent: Record<Columns, ColumnRenderer> = {
-  Periode: ({ project }) => (
-    <td valign="top" className="projectList-periode-column">
-      <div
-        style={{
-          fontStyle: 'italic',
-          lineHeight: 'normal',
-          fontSize: 12,
-        }}
-        {...dataId('projectList-item-periode')}
-      >
-        {project.appelOffreId} Période {project.periodeId}
-      </div>
-      <div
-        style={{
-          fontStyle: 'italic',
-          lineHeight: 'normal',
-          fontSize: 12,
-        }}
-        {...dataId('projectList-item-famille')}
-      >
-        {project.familleId?.length ? `famille ${project.familleId}` : ''}
-      </div>
-    </td>
-  ),
+  // Periode: ({ project }) => (
+  //   <td valign="top" className="projectList-periode-column">
+  //     <div
+  //       style={{
+  //         fontStyle: 'italic',
+  //         lineHeight: 'normal',
+  //         fontSize: 12,
+  //       }}
+  //       {...dataId('projectList-item-periode')}
+  //     >
+  //       {project.appelOffreId} Période {project.periodeId}
+  //     </div>
+  //     <div
+  //       style={{
+  //         fontStyle: 'italic',
+  //         lineHeight: 'normal',
+  //         fontSize: 12,
+  //       }}
+  //       {...dataId('projectList-item-famille')}
+  //     >
+  //       {project.familleId?.length ? `famille ${project.familleId}` : ''}
+  //     </div>
+  //   </td>
+  // ),
   Projet: ({ project }) => (
     <td valign="top" className="projectList-projet-column">
       <div {...dataId('projectList-item-nomProjet')}>{project.nomProjet}</div>
@@ -247,6 +242,12 @@ const ProjectList = ({ projects, displayColumns, projectActions }: Props) => {
       <table className="table projectList" {...dataId('projectList-list')}>
         <thead>
           <tr>
+            <th>
+              <input
+                type="checkbox"
+                {...dataId('projectList-selectAll-checkbox')}
+              />
+            </th>
             {displayColumns?.map((column) => (
               <th key={column}>{column}</th>
             ))}
@@ -262,6 +263,13 @@ const ProjectList = ({ projects, displayColumns, projectActions }: Props) => {
                 style={{ cursor: 'pointer' }}
                 data-goto-projectid={project.id}
               >
+                <td>
+                  <input
+                    type="checkbox"
+                    {...dataId('projectList-item-checkbox')}
+                    data-projectid={project.id}
+                  />
+                </td>
                 {displayColumns?.map((column) => {
                   const Column = ColumnComponent[column]
                   return (

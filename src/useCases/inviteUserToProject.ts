@@ -34,7 +34,7 @@ interface MakeUseCaseProps {
 interface CallUseCaseProps {
   email: string
   user: User
-  projectId: string
+  projectId: string | string[]
 }
 
 export const ACCESS_DENIED_ERROR =
@@ -57,10 +57,21 @@ export default function makeInviteUserToProject({
     projectId,
   }: CallUseCaseProps): ResultAsync<null> {
     // Check if the user has the rights to this project
-    const access = await shouldUserAccessProject({
-      user,
-      projectId,
-    })
+    const access = Array.isArray(projectId)
+      ? (
+          await Promise.all(
+            projectId.map((projectId) =>
+              shouldUserAccessProject({
+                user,
+                projectId,
+              })
+            )
+          )
+        ).every((item) => !!item)
+      : await shouldUserAccessProject({
+          user,
+          projectId,
+        })
 
     if (!access) {
       return ErrorResult(ACCESS_DENIED_ERROR)
@@ -69,11 +80,18 @@ export default function makeInviteUserToProject({
     // Check if the email is already a known user
     const existingUserWithEmail = await credentialsRepo.findByEmail(email)
 
-    // Get project info
-    const project = await findProjectById(projectId)
-    if (!project) {
+    const projectIds = Array.isArray(projectId) ? projectId : [projectId]
+
+    const projects = (
+      await Promise.all(
+        projectIds.map((projectId) => findProjectById(projectId))
+      )
+    ).filter((item) => typeof item !== undefined) as Project[]
+
+    if (!projects.length) {
       console.log(
-        'inviteUserToProject use-case failed on call to projectRepo.findById'
+        'inviteUserToProject use-case failed to find any of the projects requested',
+        projectIds
       )
       return ErrorResult(SYSTEM_ERROR)
     }
@@ -81,12 +99,18 @@ export default function makeInviteUserToProject({
     if (existingUserWithEmail.is_some()) {
       // The user exists, add project to this user
       const { userId } = existingUserWithEmail.unwrap()
-      const result = await userRepo.addProject(userId, projectId)
-      if (result.is_err()) {
+      const results = await Promise.all(
+        projects.map((project) => userRepo.addProject(userId, project.id))
+      )
+
+      if (results.some((res) => res.is_err())) {
         console.log(
-          'inviteUserToProject use-case failed on call to userRepo.addProject',
-          result.unwrap_err()
+          'inviteUserToProject use-case some calls to userRepo.addProject failed',
+          results.filter((res) => res.is_err()).map((res) => res.unwrap_err())
         )
+      }
+
+      if (results.every((res) => res.is_err())) {
         return ErrorResult(SYSTEM_ERROR)
       }
 
@@ -95,15 +119,19 @@ export default function makeInviteUserToProject({
         type: 'project-invitation',
         message: {
           email,
-          subject: `${user.fullName} vous invite à suivre un projet sur Potentiel`,
+          subject: `${user.fullName} vous invite à suivre ${
+            projects.length > 1 ? 'des projets' : 'un projet'
+          } sur Potentiel`,
         },
         variables: {
-          nomProjet: project.nomProjet,
-          // This link is a link to the project itself
-          invitation_link: routes.PROJECT_DETAILS(projectId),
+          nomProjet: projects.map((item) => item.nomProjet).join(', '),
+          invitation_link:
+            projects.length > 1
+              ? routes.USER_LIST_PROJECTS
+              : routes.PROJECT_DETAILS(projects[0].id),
         },
         context: {
-          projectId,
+          projectId: projects.map((item) => item.id).join(','),
           userId: user.id,
         },
       })
@@ -112,30 +140,47 @@ export default function makeInviteUserToProject({
 
     // The invited user doesn't exist yet
 
-    // Create a project admission key
-    const projectAdmissionKeyResult = makeProjectAdmissionKey({
-      email,
-      projectId,
-      fullName: '',
-    })
-    if (projectAdmissionKeyResult.is_err()) {
-      console.log(
-        'inviteUserToProject use-case failed on call to makeProjectAdmissionKey',
-        projectAdmissionKeyResult.unwrap_err()
-      )
-      return ErrorResult(SYSTEM_ERROR)
-    }
-    const projectAdmissionKey = projectAdmissionKeyResult.unwrap()
-    const projectAdmissionKeyInsertion = await projectAdmissionKeyRepo.save(
-      projectAdmissionKey
+    // Create a project admission key per project
+
+    const projectAdmissionKeyResults = await Promise.all(
+      projects
+        .map((project) => {
+          const projectAdmissionKeyResult = makeProjectAdmissionKey({
+            email,
+            projectId: project.id,
+            fullName: '',
+          })
+
+          if (projectAdmissionKeyResult.is_err()) {
+            console.log(
+              'inviteUserToProject use-case failed on call to makeProjectAdmissionKey',
+              projectAdmissionKeyResult.unwrap_err()
+            )
+          }
+
+          return projectAdmissionKeyResult
+        })
+        .filter((res) => res.is_ok())
+        .map((res) => res.unwrap())
+        .map(projectAdmissionKeyRepo.save)
     )
-    if (projectAdmissionKeyInsertion.is_err()) {
+
+    if (projectAdmissionKeyResults.some((res) => res.is_err())) {
       console.log(
-        'inviteUserToProject use-case failed on call to projectAdmissionKeyRepo.save',
-        projectAdmissionKeyResult.unwrap_err()
+        'inviteUserToProject use-case failed some calls to projectAdmissionKeyRepo.save',
+        projectAdmissionKeyResults
+          .filter((res) => res.is_err())
+          .map((res) => res.unwrap_err())
       )
+    }
+
+    if (projectAdmissionKeyResults.every((res) => res.is_err())) {
       return ErrorResult(SYSTEM_ERROR)
     }
+
+    const projectAdmissionKeys = projectAdmissionKeyResults
+      .filter((res) => res.is_ok())
+      .map((res) => res.unwrap())
 
     // Send email invitation
 
@@ -144,18 +189,20 @@ export default function makeInviteUserToProject({
       type: 'project-invitation',
       message: {
         email,
-        subject: `${user.fullName} vous invite à suivre un projet sur Potentiel`,
+        subject: `${user.fullName} vous invite à suivre ${
+          projects.length > 1 ? 'des projets' : 'un projet'
+        } sur Potentiel`,
       },
       variables: {
-        nomProjet: project.nomProjet,
+        nomProjet: projects.map((item) => item.nomProjet).join(', '),
         // This link is a link to the project itself
         invitation_link: routes.PROJECT_INVITATION({
-          projectAdmissionKey: projectAdmissionKey.id,
+          projectAdmissionKey: projectAdmissionKeys[0].id,
         }),
       },
       context: {
-        projectId,
-        projectAdmissionKeyId: projectAdmissionKey.id,
+        projectId: projects.map((item) => item.id).join(','),
+        projectAdmissionKeyId: projectAdmissionKeys[0].id,
       },
     })
     return Ok(null)

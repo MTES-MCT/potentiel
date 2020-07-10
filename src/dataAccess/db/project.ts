@@ -1,36 +1,23 @@
-import { DataTypes, Op, Transaction } from 'sequelize'
+import { DataTypes, Op, QueryTypes } from 'sequelize'
 import {
-  ProjectRepo,
-  ProjectFilters,
   ContextSpecificProjectListFilter,
+  ProjectFilters,
+  ProjectRepo,
 } from '../'
 import {
+  AppelOffre,
+  DREAL,
+  Famille,
+  makeProject,
+  Periode,
   Project,
   User,
-  makeProject,
-  AppelOffre,
-  Periode,
-  Famille,
-  DREAL,
 } from '../../entities'
-import { mapExceptError, mapIfOk } from '../../helpers/results'
-import { paginate, pageCount, makePaginatedList } from '../../helpers/paginate'
-import {
-  Err,
-  None,
-  Ok,
-  OptionAsync,
-  ResultAsync,
-  Some,
-  Pagination,
-  PaginatedList,
-} from '../../types'
+import { makePaginatedList, paginate } from '../../helpers/paginate'
+import { mapExceptError } from '../../helpers/results'
+import { Err, Ok, PaginatedList, Pagination, ResultAsync } from '../../types'
 import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
-import _ from 'lodash'
-import { QueryTypes } from 'sequelize'
-import { addUserToDrealForTests } from '../../__tests__/integration'
-import user from '../../entities/user'
 
 // Override these to apply serialization/deserialization on inputs/outputs
 const deserialize = (item) => ({
