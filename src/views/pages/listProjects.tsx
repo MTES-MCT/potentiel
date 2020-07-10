@@ -230,12 +230,9 @@ export default function ListProjects({
             ) : null}
           </form>
           {request.user?.role !== 'dreal' ? (
-            <div
-              {...dataId('projectList-invitation-form')}
-              style={{ display: 'none' }}
-            >
+            <div>
               <div
-                {...dataId('visibility-toggle')}
+                {...dataId('projectList-invitation-form-visibility-toggle')}
                 className={'filter-toggle' + (hasFilters ? ' open' : '')}
               >
                 Donner accès à un utilisateur
@@ -257,8 +254,8 @@ export default function ListProjects({
                     style={{ display: 'none' }}
                   ></select>
                   <label htmlFor="email">
-                    Courrier électronique de la personne habilitée à suivre ces
-                    projets
+                    Courrier électronique de la personne habilitée à suivre les
+                    projets selectionnés ci-dessous:
                   </label>
                   <input
                     type="email"
@@ -271,7 +268,8 @@ export default function ListProjects({
                     type="submit"
                     name="submit"
                     id="submit"
-                    {...dataId('submit-button')}
+                    disabled
+                    {...dataId('invitation-submit-button')}
                   >
                     Accorder les droits sur ces projets
                   </button>

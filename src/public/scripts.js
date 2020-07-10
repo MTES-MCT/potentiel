@@ -252,16 +252,40 @@ function addProjectListSelectionHandler() {
     '[data-testid=projectList-selectAll-checkbox]'
   )
 
-  const accessForm = document.querySelector(
-    '[data-testid=projectList-invitation-form]'
+  const checkboxColumns = document.querySelectorAll(
+    '[data-testid=projectList-checkbox]'
+  )
+
+  const invitationFormVisibilityToggle = document.querySelector(
+    '[data-testid=projectList-invitation-form-visibility-toggle]'
+  )
+
+  if (invitationFormVisibilityToggle) {
+    invitationFormVisibilityToggle.addEventListener('click', function (event) {
+      event.preventDefault()
+
+      const wasVisible = invitationFormVisibilityToggle.classList.contains(
+        'open'
+      )
+
+      toggleVisibility(invitationFormVisibilityToggle, !wasVisible)
+
+      checkboxColumns.forEach(
+        (item) => (item.style.display = wasVisible ? 'none' : '')
+      )
+    })
+  }
+
+  const invitationSubmitButton = document.querySelector(
+    '[data-testid=invitation-submit-button]'
   )
 
   function updateAccessFormVisibility() {
-    if (invitedProjectsList && accessForm) {
+    if (invitedProjectsList && invitationSubmitButton) {
       if (invitedProjectsList.options.length) {
-        accessForm.style.display = 'block'
+        invitationSubmitButton.disabled = false
       } else {
-        accessForm.style.display = 'none'
+        invitationSubmitButton.disabled = true
       }
     }
   }

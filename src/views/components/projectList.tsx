@@ -242,7 +242,7 @@ const ProjectList = ({ projects, displayColumns, projectActions }: Props) => {
       <table className="table projectList" {...dataId('projectList-list')}>
         <thead>
           <tr>
-            <th>
+            <th {...dataId('projectList-checkbox')} style={{ display: 'none' }}>
               <input
                 type="checkbox"
                 {...dataId('projectList-selectAll-checkbox')}
@@ -263,7 +263,10 @@ const ProjectList = ({ projects, displayColumns, projectActions }: Props) => {
                 style={{ cursor: 'pointer' }}
                 data-goto-projectid={project.id}
               >
-                <td>
+                <td
+                  {...dataId('projectList-checkbox')}
+                  style={{ display: 'none' }}
+                >
                   <input
                     type="checkbox"
                     {...dataId('projectList-item-checkbox')}
