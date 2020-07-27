@@ -72,37 +72,57 @@ export default function makeListUnnotifiedProjects({
     // Not a single unnotified project, stop here
     if (!result.existingAppelsOffres.length) return null
 
-    // Retained appel offre is either the one provided or the first of the existing ones
-    result.selectedAppelOffreId =
-      appelOffreId || result.existingAppelsOffres[0].id
+    const getPeriodesWithNotifiableProjectsForAppelOffre = async (
+      _appelOffre: AppelOffre
+    ) =>
+      (
+        await findExistingPeriodesForAppelOffre(_appelOffre.id, {
+          isNotified: false,
+        })
+      )
+        .map((periodeId) => {
+          // Only include periodes for which we can generate a certificate
+          // The reverse means it's a period that isn't in our scope
+          const periode = _appelOffre.periodes.find(
+            (periode) => periode.id === periodeId
+          )
 
-    const selectedAppelOffre = appelsOffre.find(
-      (appelOffre) => appelOffre.id === result.selectedAppelOffreId
-    )
-    if (!selectedAppelOffre) return null
+          return (
+            !!periode &&
+            !!periode.canGenerateCertificate && {
+              id: periodeId,
+              title: periode.title,
+            }
+          )
+        })
+        .filter((item) => !!item)
 
-    // Get all periodes for this appels d'offre which have an unnotified project
-    result.existingPeriodes = (
-      await findExistingPeriodesForAppelOffre(result.selectedAppelOffreId, {
-        isNotified: false,
-      })
-    )
-      .map((periodeId) => {
-        // Only include periodes for which we can generate a certificate
-        // The reverse means it's a period that isn't in our scope
-        const periode = selectedAppelOffre.periodes.find(
-          (periode) => periode.id === periodeId
+    if (appelOffreId) {
+      result.selectedAppelOffreId = appelOffreId
+      const selectedAppelOffre = appelsOffre.find(
+        (appelOffre) => appelOffre.id === result.selectedAppelOffreId
+      )
+      if (!selectedAppelOffre) return null
+
+      result.existingPeriodes = await getPeriodesWithNotifiableProjectsForAppelOffre(
+        selectedAppelOffre
+      )
+    } else {
+      // No appel offre given, look for one with a notifiable project
+      for (const appelOffreItem of result.existingAppelsOffres) {
+        const appelOffre = appelsOffre.find(
+          (appelOffre) => appelOffre.id === appelOffreItem.id
         )
 
-        return (
-          !!periode &&
-          !!periode.canGenerateCertificate && {
-            id: periodeId,
-            title: periode.title,
-          }
+        if (!appelOffre) continue
+        result.selectedAppelOffreId = appelOffreItem.id
+        result.existingPeriodes = await getPeriodesWithNotifiableProjectsForAppelOffre(
+          appelOffre
         )
-      })
-      .filter((item) => !!item)
+
+        if (result.existingPeriodes.length) break
+      }
+    }
 
     // Not a single unnotified project for which the admin can notify, stop here
     if (!result.existingPeriodes.length) return null
