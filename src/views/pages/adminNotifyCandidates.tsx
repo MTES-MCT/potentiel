@@ -241,7 +241,6 @@ export default function AdminNotifyCandidates({
         <ProjectList
           projects={projects}
           displayColumns={[
-            'Periode',
             'Projet',
             'Candidat',
             'Puissance',

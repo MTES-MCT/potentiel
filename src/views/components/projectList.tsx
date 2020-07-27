@@ -225,6 +225,8 @@ const ProjectList = ({ projects, displayColumns, projectActions }: Props) => {
     items = projects.items
   }
 
+  console.log('ProjectList displayColumns', displayColumns)
+
   if (!items.length) {
     return (
       <table className="table">
@@ -275,6 +277,10 @@ const ProjectList = ({ projects, displayColumns, projectActions }: Props) => {
                 </td>
                 {displayColumns?.map((column) => {
                   const Column = ColumnComponent[column]
+                  if (!Column) {
+                    console.log('Column', column, 'could not be found')
+                    return <td></td>
+                  }
                   return (
                     <Column
                       key={'project_' + project.id + '_' + column}
