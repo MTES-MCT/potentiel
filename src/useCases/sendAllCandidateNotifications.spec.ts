@@ -79,9 +79,7 @@ describe('sendAllCandidateNotifications use-case', () => {
       const sendAllCandidateNotifications = makeSendAllCandidateNotifications({
         findAllProjects,
         saveProject,
-        userRepo,
         appelOffreRepo,
-        credentialsRepo,
         projectAdmissionKeyRepo,
         sendNotification,
       })
@@ -163,15 +161,6 @@ describe('sendAllCandidateNotifications use-case', () => {
           .pop()
         expect(fakeProject2Update).toBeDefined()
       })
-
-      it('should give rights to each notified project to the user registered with the same email', async () => {
-        expect(
-          await userRepo.hasProject(fakeOtherUserIdWithEmail, fakeProject1.id)
-        ).toEqual(true)
-        expect(
-          await userRepo.hasProject(fakeOtherUserIdWithEmail, fakeProject2.id)
-        ).toEqual(true)
-      })
     })
 
     describe('given invalid periode', () => {
@@ -181,9 +170,7 @@ describe('sendAllCandidateNotifications use-case', () => {
       const sendAllCandidateNotifications = makeSendAllCandidateNotifications({
         findAllProjects,
         saveProject,
-        userRepo,
         appelOffreRepo,
-        credentialsRepo,
         projectAdmissionKeyRepo,
         sendNotification,
       })
@@ -215,9 +202,7 @@ describe('sendAllCandidateNotifications use-case', () => {
       const sendAllCandidateNotifications = makeSendAllCandidateNotifications({
         findAllProjects,
         saveProject,
-        userRepo,
         appelOffreRepo,
-        credentialsRepo,
         projectAdmissionKeyRepo,
         sendNotification,
       })
@@ -252,9 +237,7 @@ describe('sendAllCandidateNotifications use-case', () => {
     const sendAllCandidateNotifications = makeSendAllCandidateNotifications({
       findAllProjects,
       saveProject,
-      userRepo,
       appelOffreRepo,
-      credentialsRepo,
       projectAdmissionKeyRepo,
       sendNotification,
     })

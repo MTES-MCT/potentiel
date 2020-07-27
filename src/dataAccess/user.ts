@@ -16,6 +16,11 @@ export type UserRepo = {
     email: Project['email']
   ) => ResultAsync<null>
 
+  addProjectToUserWithEmail: (
+    projectId: Project['id'],
+    email: Project['email']
+  ) => ResultAsync<null>
+
   hasProject: (userId: User['id'], projectId: Project['id']) => Promise<boolean>
   remove: (userId: User['id']) => ResultAsync<null>
   findUsersForDreal: (dreal: string) => Promise<Array<User>>

@@ -28,6 +28,49 @@ describe('userRepo sequelize', () => {
     await resetDatabase()
   })
 
+  describe('addProjectToUserWithEmail(projectId, email)', () => {
+    describe('when a user with this email exists', () => {
+      it('should add the user to the project', async () => {
+        const userId = uuid()
+        const targetEmail = 'test@test.test'
+
+        await userRepo.insert(
+          makeFakeUser({
+            id: userId,
+            email: targetEmail,
+          })
+        )
+
+        const targetProjetId = uuid()
+
+        await Promise.all(
+          [
+            {
+              id: targetProjetId,
+              email: targetEmail,
+            },
+          ]
+            .map(makeFakeProject)
+            .map(projectRepo.save)
+        )
+
+        const result = await userRepo.addProjectToUserWithEmail(
+          targetProjetId,
+          targetEmail
+        )
+
+        expect(result.is_ok()).toBeTruthy()
+
+        const UserModel = sequelize.model('user')
+        const ProjectModel = sequelize.model('project')
+        const userInstance = await UserModel.findByPk(userId)
+        const projectInstance = await ProjectModel.findByPk(targetProjetId)
+
+        expect(await userInstance.hasProject(projectInstance)).toEqual(true)
+      })
+    })
+  })
+
   describe('addUserToProjectsWithEmail(userId, email)', () => {
     it('should add the user to all projects that have the given email address', async () => {
       const userId = uuid()

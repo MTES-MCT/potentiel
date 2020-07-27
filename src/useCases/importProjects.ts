@@ -6,7 +6,7 @@ import {
   applyProjectUpdate,
   User,
 } from '../entities'
-import { ProjectRepo, AppelOffreRepo } from '../dataAccess'
+import { ProjectRepo, AppelOffreRepo, UserRepo } from '../dataAccess'
 import _ from 'lodash'
 import { Result, ResultAsync, Err, Ok, ErrorResult } from '../types'
 import toNumber from '../helpers/toNumber'
@@ -18,6 +18,7 @@ interface MakeUseCaseProps {
   findOneProject: ProjectRepo['findOne']
   saveProject: ProjectRepo['save']
   removeProject: ProjectRepo['remove']
+  addProjectToUserWithEmail: UserRepo['addProjectToUserWithEmail']
   appelOffreRepo: AppelOffreRepo
 }
 
@@ -110,6 +111,7 @@ export default function makeImportProjects({
   findOneProject,
   saveProject,
   removeProject,
+  addProjectToUserWithEmail,
   appelOffreRepo,
 }: MakeUseCaseProps) {
   return async function importProjects({
@@ -369,6 +371,13 @@ export default function makeImportProjects({
     const insertedProjects: Array<Project> = insertions
       .filter((project) => project.is_ok())
       .map((project) => project.unwrap())
+
+    // For each project, add it to the user with the same email
+    await Promise.all(
+      insertedProjects.map((project) =>
+        addProjectToUserWithEmail(project.id, project.email)
+      )
+    )
 
     const unnotifiedProjects: number = insertedProjects.filter(
       (project) => project.notifiedOn === 0

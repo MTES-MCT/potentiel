@@ -41,6 +41,7 @@ const importProjects = makeImportProjects({
   findOneProject: projectRepo.findOne,
   saveProject: projectRepo.save,
   removeProject: projectRepo.remove,
+  addProjectToUserWithEmail: userRepo.addProjectToUserWithEmail,
   appelOffreRepo,
 })
 
@@ -81,9 +82,7 @@ const sendAllCandidateNotifications = makeSendAllCandidateNotifiations({
   findAllProjects: projectRepo.findAll,
   saveProject: projectRepo.save,
   projectAdmissionKeyRepo,
-  userRepo,
   appelOffreRepo,
-  credentialsRepo,
   sendNotification,
 })
 

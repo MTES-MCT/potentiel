@@ -14,6 +14,7 @@ const phonyPeriodId = phonyAppelOffre.periodes[0].id
 const phonyNumeroCRE = '1'
 const phonyFamilleId = '1'
 const phonyNotifiedOnDate = '22/04/2020'
+const phonyEmail = 'email@address.com'
 
 const getColumnForField = (field: string) => {
   const dataField = phonyAppelOffre.dataFields.find(
@@ -39,7 +40,7 @@ const makePhonyLine = () => ({
   [getColumnForField('evaluationCarbone')]: '142.5',
   [getColumnForField('note')]: '11',
   [getColumnForField('nomRepresentantLegal')]: 'nomRepresentantLegal',
-  [getColumnForField('email')]: 'email@address.com',
+  [getColumnForField('email')]: phonyEmail,
   [getColumnForField('adresseProjet')]: 'adresseProjet',
   [getColumnForField('codePostalProjet')]: '01234',
   [getColumnForField('communeProjet')]: 'communeProjet',
@@ -52,30 +53,31 @@ const makePhonyLine = () => ({
 
 describe('importProjects use-case', () => {
   describe('when the imported project is new', () => {
-    it('creates a new project', async () => {
-      const saveProject = jest.fn(async (project: Project) => Ok(project))
-      const removeProject = jest.fn()
+    const saveProject = jest.fn(async (project: Project) => Ok(null))
+    const removeProject = jest.fn()
+    const addProjectToUserWithEmail = jest.fn()
 
-      const importProjects = makeImportProjects({
-        findOneProject: jest.fn(async () => undefined),
-        saveProject,
-        removeProject,
-        appelOffreRepo,
-      })
+    const importProjects = makeImportProjects({
+      findOneProject: jest.fn(async () => undefined),
+      saveProject,
+      removeProject,
+      addProjectToUserWithEmail,
+      appelOffreRepo,
+    })
 
-      const phonyLine = makePhonyLine()
+    const phonyLine = makePhonyLine()
+    let result
+
+    beforeAll(async () => {
       const result = await importProjects({
         lines: [phonyLine],
         userId: 'userId',
       })
 
       expect(result.is_ok()).toBeTruthy()
+    })
 
-      if (result.is_err()) {
-        console.log('importProject returned error', result.unwrap_err())
-        return
-      }
-
+    it('should create a new project', async () => {
       // What is expected is the same as the phonyLine
       // but with numbers instead of strings
       // and project entity property names
@@ -127,34 +129,49 @@ describe('importProjects use-case', () => {
         0
       )
     })
+
+    it('should add the project to the user with the same email', async () => {
+      const newProject = saveProject.mock.calls[0][0]
+      expect(newProject).toBeDefined()
+      const newProjectId = newProject.id
+      expect(newProjectId).toBeDefined()
+
+      expect(addProjectToUserWithEmail).toHaveBeenCalledTimes(1)
+      expect(addProjectToUserWithEmail).toHaveBeenCalledWith(
+        newProjectId,
+        phonyEmail
+      )
+    })
   })
 
   describe('when a project with the same numero CRE, appel offre, periode and famille exists', () => {
-    it('should update the existing project fields but not the notification date', async () => {
-      // Create a fake project
-      const existingProject = UnwrapForTest(
-        makeProject(
-          makeFakeProject({
-            appelOffreId: phonyAppelOffre.id,
-            periodeId: phonyPeriodId,
-            numeroCRE: phonyNumeroCRE,
-            familleId: phonyFamilleId,
-            nomProjet: 'Ancien nom projet',
-            notifiedOn: 0,
-          })
-        )
+    // Create a fake project
+    const existingProject = UnwrapForTest(
+      makeProject(
+        makeFakeProject({
+          appelOffreId: phonyAppelOffre.id,
+          periodeId: phonyPeriodId,
+          numeroCRE: phonyNumeroCRE,
+          familleId: phonyFamilleId,
+          nomProjet: 'Ancien nom projet',
+          notifiedOn: 0,
+        })
       )
+    )
 
-      const findOneProject = jest.fn(async () => existingProject)
-      const saveProject = jest.fn(async (project: Project) => Ok(project))
+    const findOneProject = jest.fn(async () => existingProject)
+    const saveProject = jest.fn(async (project: Project) => Ok(null))
+    const addProjectToUserWithEmail = jest.fn()
 
-      const importProjects = makeImportProjects({
-        findOneProject,
-        saveProject,
-        removeProject: jest.fn(),
-        appelOffreRepo,
-      })
+    const importProjects = makeImportProjects({
+      findOneProject,
+      saveProject,
+      addProjectToUserWithEmail,
+      removeProject: jest.fn(),
+      appelOffreRepo,
+    })
 
+    beforeAll(async () => {
       // Insert line through import
       const phonyLine = makePhonyLine()
       const result = await importProjects({
@@ -163,7 +180,9 @@ describe('importProjects use-case', () => {
       })
 
       expect(result.is_ok()).toBeTruthy()
+    })
 
+    it('should update the existing project fields but not the notification date', async () => {
       expect(findOneProject).toHaveBeenCalledWith({
         appelOffreId: phonyAppelOffre.id,
         periodeId: phonyPeriodId,
@@ -194,15 +213,30 @@ describe('importProjects use-case', () => {
         0
       )
     })
+
+    it('should add the project to the user with the same email', async () => {
+      const newProject = saveProject.mock.calls[0][0]
+      expect(newProject).toBeDefined()
+      const newProjectId = newProject.id
+      expect(newProjectId).toBeDefined()
+
+      expect(addProjectToUserWithEmail).toHaveBeenCalledTimes(1)
+      expect(addProjectToUserWithEmail).toHaveBeenCalledWith(
+        newProjectId,
+        phonyEmail
+      )
+    })
   })
 
   it("should throw an error if there isn't at least one line", async () => {
     const findOneProject = jest.fn()
     const saveProject = jest.fn()
+    const addProjectToUserWithEmail = jest.fn()
 
     const importProjects = makeImportProjects({
       findOneProject,
       saveProject,
+      addProjectToUserWithEmail,
       removeProject: jest.fn(),
       appelOffreRepo,
     })
@@ -217,15 +251,18 @@ describe('importProjects use-case', () => {
 
     expect(findOneProject).not.toHaveBeenCalled()
     expect(saveProject).not.toHaveBeenCalled()
+    expect(addProjectToUserWithEmail).not.toHaveBeenCalled()
   })
 
   it("should throw an error if some lines don't have the required fields", async () => {
     const findOneProject = jest.fn()
     const saveProject = jest.fn()
+    const addProjectToUserWithEmail = jest.fn()
 
     const importProjects = makeImportProjects({
       findOneProject,
       saveProject,
+      addProjectToUserWithEmail,
       removeProject: jest.fn(),
       appelOffreRepo,
     })
@@ -244,5 +281,6 @@ describe('importProjects use-case', () => {
 
     expect(findOneProject).not.toHaveBeenCalled()
     expect(saveProject).not.toHaveBeenCalled()
+    expect(addProjectToUserWithEmail).not.toHaveBeenCalled()
   })
 })

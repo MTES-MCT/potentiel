@@ -75,6 +75,7 @@ export default function makeUserRepo({ sequelize }): UserRepo {
     remove,
     hasProject,
     addUserToProjectsWithEmail,
+    addProjectToUserWithEmail,
   })
 
   // findDrealsForUser: (userId: User['id']) => Promise<Array<DREAL>>
@@ -261,7 +262,36 @@ export default function makeUserRepo({ sequelize }): UserRepo {
 
       return Ok(null)
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('User.addProject error', error)
+      if (CONFIG.logDbErrors)
+        console.log('User.addUserToProjectsWithEmail error', error)
+      return Err(error)
+    }
+  }
+
+  async function addProjectToUserWithEmail(
+    projectId: Project['id'],
+    email: Project['email']
+  ): ResultAsync<null> {
+    try {
+      const userInstance = await UserModel.findOne({ where: { email } })
+
+      if (!userInstance) {
+        // No user with that email, just ignore the command
+        return Ok(null)
+      }
+
+      const ProjectModel = sequelize.model('project')
+      const projectInstance = await ProjectModel.findByPk(projectId)
+
+      if (!projectInstance) {
+        throw new Error('Cannot find project to be added to user')
+      }
+
+      await userInstance.addProject(projectInstance)
+      return Ok(null)
+    } catch (error) {
+      if (CONFIG.logDbErrors)
+        console.log('User.addProjectToUserWithEmail error', error)
       return Err(error)
     }
   }

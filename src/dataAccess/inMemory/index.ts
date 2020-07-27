@@ -555,6 +555,10 @@ const userRepo: UserRepo = {
     userId: User['id'],
     email: Project['email']
   ) => Ok(null),
+  addProjectToUserWithEmail: async (
+    projectId: Project['id'],
+    email: Project['email']
+  ) => Ok(null),
 }
 
 let modificationRequestsById: Record<string, ModificationRequest> = {}

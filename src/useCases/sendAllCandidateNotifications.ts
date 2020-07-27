@@ -22,9 +22,7 @@ import routes from '../routes'
 interface MakeUseCaseProps {
   findAllProjects: ProjectRepo['findAll']
   saveProject: ProjectRepo['save']
-  userRepo: UserRepo
   appelOffreRepo: AppelOffreRepo
-  credentialsRepo: CredentialsRepo
   projectAdmissionKeyRepo: ProjectAdmissionKeyRepo
   sendNotification: (props: NotificationProps) => Promise<void>
 }
@@ -49,9 +47,7 @@ export default function makeSendAllCandidateNotifications({
   findAllProjects,
   saveProject,
   projectAdmissionKeyRepo,
-  userRepo,
   appelOffreRepo,
-  credentialsRepo,
   sendNotification,
 }: MakeUseCaseProps) {
   return async function sendAllCandidateNotifications({
@@ -147,27 +143,6 @@ export default function makeSendAllCandidateNotifications({
             })
           )
         })
-    )
-
-    // Add projects to the users
-    await Promise.all(
-      unNotifiedProjects.map(async (project) => {
-        if (project.email) {
-          const userCredentialsResult = await credentialsRepo.findByEmail(
-            project.email
-          )
-
-          if (userCredentialsResult.is_none()) {
-            // user hasn't registered yet
-            return
-          }
-
-          const userCredentials = userCredentialsResult.unwrap()
-
-          // Link the project with the user
-          await userRepo.addProject(userCredentials.userId, project.id)
-        }
-      })
     )
 
     return Ok(null)

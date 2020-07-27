@@ -4,7 +4,6 @@ import {
   appelsOffreStatic,
   projectAdmissionKeyRepo,
   credentialsRepo,
-  projectRepo,
   notificationRepo,
   resetDatabase,
 } from '../dataAccess/inMemory'
