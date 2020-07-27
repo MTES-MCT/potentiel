@@ -240,7 +240,7 @@ export default function ListProjects({
             <div>
               <div
                 {...dataId('projectList-invitation-form-visibility-toggle')}
-                className={'filter-toggle' + (hasFilters ? ' open' : '')}
+                className={'filter-toggle'}
               >
                 <span
                   style={{
