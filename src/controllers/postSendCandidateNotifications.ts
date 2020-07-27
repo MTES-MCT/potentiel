@@ -41,15 +41,9 @@ const postSendCandidateNotifications = async (request: HttpRequest) => {
 
   return result.match({
     ok: () =>
-      Redirect(
-        ROUTES.ADMIN_NOTIFY_CANDIDATES({
-          appelOffreId,
-          periodeId,
-        }),
-        {
-          success: 'Les notifications ont bien été envoyées.',
-        }
-      ),
+      Redirect(ROUTES.ADMIN_NOTIFY_CANDIDATES(), {
+        success: 'Les notifications ont bien été envoyées.',
+      }),
     err: (e: Error) => {
       console.log('sendCandidateNotifications failed', e)
       return Redirect(
