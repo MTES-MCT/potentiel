@@ -97,6 +97,7 @@ type ProjectEvent = {
     | 'candidate-notification'
     | 'garanties-financieres-submission'
     | 'relance-gf'
+    | 'manual-edition'
   modificationRequestId?: ModificationRequest['id']
   isNew?: true
 }
