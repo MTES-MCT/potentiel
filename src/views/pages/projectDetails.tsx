@@ -446,8 +446,7 @@ export default function ProjectDetails({
                   />
                   {project.classe === 'Classé' ? (
                     <>
-                      {project.famille?.garantieFinanciereEnMois ? (
-                        // famille soumise à garanties financières
+                      {project.garantiesFinancieresDueOn ? (
                         project.garantiesFinancieresDate ? (
                           // garanties financières déjà déposées
                           <FriseItem
@@ -469,9 +468,9 @@ export default function ProjectDetails({
                         ) : (
                           // garanties financières non-déposées
                           <FriseItem
-                            date={moment(project.notifiedOn)
-                              .add(2, 'months')
-                              .format('D MMM YYYY')}
+                            date={moment(
+                              project.garantiesFinancieresDueOn
+                            ).format('D MMM YYYY')}
                             title="Constitution des garanties financières"
                             action={
                               user.role === 'dreal'
