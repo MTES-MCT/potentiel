@@ -10,6 +10,7 @@ import {
 import { UnwrapForTest, Ok } from '../types'
 import makeFakeProject from '../__tests__/fixtures/project'
 import makeFakeUser from '../__tests__/fixtures/user'
+import addAppelOffreToProject from '../__tests__/fixtures/addAppelOffreToProject'
 import routes from '../routes'
 import makeRelanceGarantiesFinancieres from './relanceGarantiesFinancieres'
 
@@ -25,19 +26,7 @@ describe('relanceGarantiesFinancieres use-case', () => {
     )
   )
 
-  fakeProject.appelOffre = appelsOffreStatic.find(
-    (appelOffre) => appelOffre.id === fakeProject.appelOffreId
-  )
-
-  if (!fakeProject.appelOffre) return
-
-  fakeProject.appelOffre.periode = fakeProject.appelOffre.periodes.find(
-    (periode) => periode.id === fakeProject.periodeId
-  )
-
-  fakeProject.famille = fakeProject.appelOffre?.familles.find(
-    (famille) => famille.id === fakeProject.familleId
-  )
+  addAppelOffreToProject(fakeProject)
 
   const findProjectsWithGarantiesFinancieresPendingBefore = jest.fn(
     async (beforeDate: number) => [fakeProject]

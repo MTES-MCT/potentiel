@@ -9,8 +9,14 @@ import makeImportProjects, {
   ERREUR_FORMAT_LIGNE,
 } from './importProjects'
 
-const phonyAppelOffre = appelsOffreStatic[0]
-const phonyPeriodId = phonyAppelOffre.periodes[0].id
+const phonyAppelOffre = appelsOffreStatic.find(
+  (appelOffre) => appelOffre.id === 'Fessenheim'
+)
+
+if (!phonyAppelOffre) {
+  throw new Error("Impossible de trouver l'appel d'offre Fessenheim")
+}
+const phonyPeriodId = '2'
 const phonyNumeroCRE = '1'
 const phonyFamilleId = '1'
 const phonyNotifiedOnDate = '22/04/2020'

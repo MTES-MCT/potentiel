@@ -6,6 +6,7 @@ import {
   resetDatabase,
   userRepo,
 } from '../dataAccess/inMemory'
+import moment from 'moment'
 import {
   makeProject,
   makeUser,
@@ -18,6 +19,7 @@ import { UnwrapForTest, Ok } from '../types'
 import makeFakeProject from '../__tests__/fixtures/project'
 import makeFakeUser from '../__tests__/fixtures/user'
 import { PORTEUR_PROJET } from '../__tests__/fixtures/testCredentials'
+import addAppelOffreToProject from '../__tests__/fixtures/addAppelOffreToProject'
 import makeSendAllCandidateNotifications, {
   UNAUTHORIZED_ERROR,
   INVALID_APPELOFFRE_PERIOD_ERROR,
@@ -58,6 +60,9 @@ describe('sendAllCandidateNotifications use-case', () => {
           makeFakeProject({
             email: fakeEmail,
             nomRepresentantLegal: fakeName,
+            appelOffreId,
+            periodeId,
+            familleId: '1',
           })
         )
       )
@@ -66,10 +71,14 @@ describe('sendAllCandidateNotifications use-case', () => {
           makeFakeProject({
             email: fakeEmail,
             nomRepresentantLegal: fakeName,
+            appelOffreId,
+            periodeId,
+            familleId: '3', // Pas de GF
           })
         )
       )
       const fakeProjects = [fakeProject1, fakeProject2]
+      fakeProjects.forEach(addAppelOffreToProject)
       const fakeProjectList = makePaginatedProjectList(fakeProjects)
 
       const findAllProjects = jest.fn(async () => fakeProjectList)
@@ -140,7 +149,7 @@ describe('sendAllCandidateNotifications use-case', () => {
         })
       })
 
-      it('should update each unnotified project from the periode as having been notified', async () => {
+      it('should update each unnotified project from the periode as having been notified and set the garanties financieres due date if the famille requires them', async () => {
         expect(saveProject).toHaveBeenCalledTimes(2)
 
         const fakeProject1Update = saveProject.mock.calls
@@ -150,16 +159,30 @@ describe('sendAllCandidateNotifications use-case', () => {
         expect(fakeProject1Update).toBeDefined()
         expect(fakeProject1Update.notifiedOn).toEqual(notifiedOn)
         expect(fakeProject1Update.history).toHaveLength(1)
-        const notificationEvent = fakeProject1Update.history[0]
-        expect(notificationEvent.userId).toEqual(user.id)
-        expect(notificationEvent.type).toEqual('candidate-notification')
-        expect(notificationEvent.after).toEqual({ notifiedOn })
+        const notificationEvent1 = fakeProject1Update.history[0]
+        expect(notificationEvent1.userId).toEqual(user.id)
+        expect(notificationEvent1.type).toEqual('candidate-notification')
+        expect(notificationEvent1.after).toEqual({
+          notifiedOn,
+          // This project requires GF
+          garantiesFinancieresDueDate: moment(notifiedOn)
+            .add(2, 'months')
+            .toDate()
+            .getTime(),
+        })
 
         const fakeProject2Update = saveProject.mock.calls
           .filter((args: any[]) => args[0].id === fakeProject2.id)
           .map((args: any[]) => args[0])
           .pop()
         expect(fakeProject2Update).toBeDefined()
+        const notificationEvent2 = fakeProject2Update.history[0]
+        expect(notificationEvent2.userId).toEqual(user.id)
+        expect(notificationEvent2.type).toEqual('candidate-notification')
+        expect(notificationEvent2.after).toEqual({
+          notifiedOn,
+          // This project does not require GF
+        })
       })
     })
 

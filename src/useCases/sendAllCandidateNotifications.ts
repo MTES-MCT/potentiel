@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import moment from 'moment'
 import {
   CredentialsRepo,
   ProjectAdmissionKeyRepo,
@@ -60,6 +61,8 @@ export default function makeSendAllCandidateNotifications({
       return ErrorResult(UNAUTHORIZED_ERROR)
     }
 
+    // console.log('sendAllCandidateNotifications', appelOffreId, periodeId)
+
     const periodeInfo = await _getAppelOffrePeriode()
 
     if (!periodeInfo) return ErrorResult(INVALID_APPELOFFRE_PERIOD_ERROR)
@@ -119,9 +122,19 @@ export default function makeSendAllCandidateNotifications({
           await Promise.all(
             projectsForThisEmail.map(async (project) => {
               // Register the date of notification for each project
+
+              const update: any = { notifiedOn }
+
+              if (project.famille?.garantieFinanciereEnMois) {
+                update.garantiesFinancieresDueDate = moment(notifiedOn)
+                  .add(2, 'months')
+                  .toDate()
+                  .getTime()
+              }
+
               const updatedProject = applyProjectUpdate({
                 project,
-                update: { notifiedOn },
+                update,
                 context: {
                   userId: user.id,
                   type: 'candidate-notification',
