@@ -32,12 +32,28 @@ describe('projectRepo sequelize', () => {
     describe('when projectId exists', () => {
       it('should return the project', async () => {
         const projectId = uuid()
-        const project = makeFakeProject({ id: projectId })
+        const project = makeFakeProject({
+          id: projectId,
+          appelOffreId: 'Fessenheim',
+          periodeId: '1',
+          familleId: '2',
+        })
         await projectRepo.save(project)
 
         const foundProject = await projectRepo.findById(projectId)
         expect(foundProject).toBeDefined()
+        if (!foundProject) return
         expect(foundProject).toEqual(expect.objectContaining(project))
+
+        expect(foundProject.appelOffre).toBeDefined()
+        if (!foundProject.appelOffre) return
+        expect(foundProject.appelOffre.id).toEqual('Fessenheim')
+        expect(foundProject.appelOffre.periode).toBeDefined()
+        if (!foundProject.appelOffre.periode) return
+        expect(foundProject.appelOffre.periode.id).toEqual('1')
+        expect(foundProject.famille).toBeDefined()
+        if (!foundProject.famille) return
+        expect(foundProject.famille.id).toEqual('2')
       })
     })
 

@@ -14,6 +14,7 @@ initDatabase()
         if (
           !project.garantiesFinancieresDueOn &&
           !!project.notifiedOn &&
+          project.classe === 'Classé' &&
           !!project.famille?.garantieFinanciereEnMois &&
           !!project.appelOffre?.periode?.canGenerateCertificate
         ) {

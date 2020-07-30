@@ -1,4 +1,5 @@
 import { DataTypes, Op, QueryTypes } from 'sequelize'
+import _ from 'lodash'
 import {
   ContextSpecificProjectListFilter,
   ProjectFilters,
@@ -321,12 +322,15 @@ export default function makeProjectRepo({
   })
 
   async function addAppelOffreToProject(project: Project): Promise<Project> {
-    project.appelOffre = await appelOffreRepo.findById(
-      project.appelOffreId,
-      project.periodeId
+    project.appelOffre = await appelOffreRepo.findById(project.appelOffreId)
+
+    if (!project.appelOffre) return project
+
+    project.appelOffre.periode = project.appelOffre.periodes.find(
+      (periode) => periode.id === project.periodeId
     )
 
-    project.famille = project.appelOffre?.familles.find(
+    project.famille = project.appelOffre.familles.find(
       (famille) => famille.id === project.familleId
     )
 
