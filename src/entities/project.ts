@@ -62,6 +62,12 @@ const baseProjectSchema = SchemaRecord({
   garantiesFinancieresSubmittedBy: String,
   garantiesFinancieresFile: String,
   garantiesFinancieresDate: Number,
+  dcrDueOn: Number,
+  dcrSubmittedOn: Number,
+  dcrSubmittedBy: String,
+  dcrNumeroDossier: String,
+  dcrFile: String,
+  dcrDate: Number,
 })
 const projectSchema = baseProjectSchema.And(
   SchemaPartial({
@@ -98,6 +104,7 @@ type ProjectEvent = {
     | 'garanties-financieres-submission'
     | 'relance-gf'
     | 'manual-edition'
+    | 'dcr-submission'
   modificationRequestId?: ModificationRequest['id']
   isNew?: true
 }
@@ -225,6 +232,12 @@ export default ({ makeId }: MakeProjectDependencies) =>
     garantiesFinancieresSubmittedBy: '',
     garantiesFinancieresFile: '',
     garantiesFinancieresDate: 0,
+    dcrDueOn: 0,
+    dcrSubmittedOn: 0,
+    dcrSubmittedBy: '',
+    dcrFile: '',
+    dcrNumeroDossier: '',
+    dcrDate: 0,
   })
 
 export {

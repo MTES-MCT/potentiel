@@ -31,6 +31,11 @@ const addProjectsForTests = async (request: HttpRequest) => {
       if (project.note) {
         project.note = Number(project.note)
       }
+      if (project.garantiesFinancieresDate) {
+        project.garantiesFinancieresDate = Number(
+          project.garantiesFinancieresDate
+        )
+      }
       if (project.garantiesFinancieresDueOn) {
         project.garantiesFinancieresDueOn = Number(
           project.garantiesFinancieresDueOn
@@ -46,10 +51,17 @@ const addProjectsForTests = async (request: HttpRequest) => {
           project.garantiesFinancieresSubmittedOn
         )
       }
-      if (project.garantiesFinancieresDate) {
-        project.garantiesFinancieresDate = Number(
-          project.garantiesFinancieresDate
-        )
+      if (project.dcrDate) {
+        project.dcrDate = Number(project.dcrDate)
+      }
+      if (project.dcrDueOn) {
+        project.dcrDueOn = Number(project.dcrDueOn)
+      }
+      if (project.dcrSubmittedOn) {
+        project.dcrSubmittedOn = Number(project.dcrSubmittedOn)
+      }
+      if (project.dcrDate) {
+        project.dcrDate = Number(project.dcrDate)
       }
       if (project.details) {
         project.details = JSON.parse(project.details)
@@ -72,6 +84,11 @@ const addProjectsForTests = async (request: HttpRequest) => {
         console.log(erroredProject.unwrap_err())
       })
   }
+
+  // console.log(
+  //   'Added projects',
+  //   builtProjects.forEach((item) => console.log(item))
+  // )
 
   await Promise.all(builtProjects.map(projectRepo.save))
   // console.log(

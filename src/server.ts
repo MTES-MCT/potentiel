@@ -36,6 +36,7 @@ import {
   getProjectPage,
   postInviteUserToProject,
   postGarantiesFinancieres,
+  postDCR,
   getDrealPage,
   postInviteDreal,
   getGarantiesFinancieresPage,
@@ -260,6 +261,13 @@ export async function makeServer(port: number = 3000) {
       ensureLoggedIn(),
       upload.single('file'),
       makeExpressCallback(postGarantiesFinancieres)
+    )
+
+    router.post(
+      ROUTES.DEPOSER_DCR_ACTION,
+      ensureLoggedIn(),
+      upload.single('file'),
+      makeExpressCallback(postDCR)
     )
 
     router.get(

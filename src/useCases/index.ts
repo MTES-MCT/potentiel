@@ -13,6 +13,7 @@ import makeResetPassword from './resetPassword'
 import makeShouldUserAccessProject from './shouldUserAccessProject'
 import makeInviteUserToProject from './inviteUserToProject'
 import makeAddGarantiesFinancieres from './addGarantiesFinancieres'
+import makeAddDCR from './addDCR'
 import makeInviteDreal from './inviteDreal'
 import makeListGarantiesFinancieres from './listGarantiesFinancieres'
 import makeSendNotification from './sendNotification'
@@ -137,6 +138,12 @@ const addGarantiesFinancieres = makeAddGarantiesFinancieres({
   sendNotification,
 })
 
+const addDCR = makeAddDCR({
+  findProjectById: projectRepo.findById,
+  saveProject: projectRepo.save,
+  shouldUserAccessProject,
+})
+
 const inviteDreal = makeInviteDreal({
   credentialsRepo,
   projectAdmissionKeyRepo,
@@ -190,6 +197,7 @@ const useCases = Object.freeze({
   relanceInvitations,
   retryNotifications,
   relanceGarantiesFinancieres,
+  addDCR,
 })
 
 export default useCases
@@ -215,4 +223,5 @@ export {
   relanceInvitations,
   retryNotifications,
   relanceGarantiesFinancieres,
+  addDCR,
 }

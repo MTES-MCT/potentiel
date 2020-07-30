@@ -84,6 +84,8 @@ export const forPorteurProjet = () => (
       classe: 'Classé',
       notifiedOn: Date.now(),
       appelOffre,
+      dcrDueOn: Date.now() + 1000 * 3600 * 24 * 30 * 2,
+      garantiesFinancieresDueOn: Date.now() + 1000 * 3600 * 24 * 30 * 2,
       details: {
         'Note blabla': '9,6',
       },

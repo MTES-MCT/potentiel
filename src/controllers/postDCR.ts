@@ -1,4 +1,4 @@
-import { addGarantiesFinancieres } from '../useCases'
+import { addDCR } from '../useCases'
 import { Redirect, SystemError } from '../helpers/responses'
 import { makeProjectFilePath } from '../helpers/makeProjectFilePath'
 import { Controller, HttpRequest } from '../types'
@@ -20,38 +20,38 @@ const makeDirIfNecessary = async (dirpath) => {
 }
 const deleteFile = util.promisify(fs.unlink)
 
-const postGarantiesFinancieres = async (request: HttpRequest) => {
-  console.log(
-    'Call to postGarantiesFinancieres received',
-    request.body,
-    request.file
-  )
+const postDCR = async (request: HttpRequest) => {
+  // console.log(
+  //   'Call to postDCR received',
+  //   request.body,
+  //   request.file
+  // )
 
   if (!request.user) {
     return SystemError('User must be logged in')
   }
 
-  const data = _.pick(request.body, ['gfDate', 'projectId'])
+  const data = _.pick(request.body, ['dcrDate', 'projectId', 'numeroDossier'])
   const { projectId } = data
 
-  if (!data.gfDate) {
+  if (!data.dcrDate) {
     return Redirect(ROUTES.PROJECT_DETAILS(projectId), {
       error:
-        "Vos garantieres financières n'ont pas pu être transmises. La date de constitution est obligatoire",
+        "Votre demande de raccordement n'a pas pu être transmise. La date d'attestation est obligatoire",
     })
   }
 
   // Convert date
   try {
-    if (data.gfDate) {
-      const date = moment(data.gfDate, 'DD/MM/YYYY')
+    if (data.dcrDate) {
+      const date = moment(data.dcrDate, 'DD/MM/YYYY')
       if (!date.isValid()) throw 'invalid date format'
       data.date = date.toDate().getTime()
     }
   } catch (error) {
     return Redirect(ROUTES.PROJECT_DETAILS(projectId), {
       error:
-        "Vos garantieres financières n'ont pas pu être transmises. La date envoyée n'est pas au bon format (JJ/MM/AAAA)",
+        "Votre demande de raccordement n'a pas pu être transmise. La date envoyée n'est pas au bon format (JJ/MM/AAAA)",
     })
   }
 
@@ -72,29 +72,28 @@ const postGarantiesFinancieres = async (request: HttpRequest) => {
   if (!filename) {
     return Redirect(ROUTES.PROJECT_DETAILS(projectId), {
       error:
-        "Vos garantieres financières n'ont pas pu être transmises. Merci de joindre l'attestation en pièce-jointe.",
+        "Votre demande de raccordement n'a pas pu être transmise. Merci de joindre l'attestation en pièce-jointe.",
     })
   }
 
-  const result = await addGarantiesFinancieres({
+  const result = await addDCR({
     ...data,
     filename,
     user: request.user,
   })
 
   if (result.is_err() && filepath) {
-    console.log('addGarantiesFinancieres failed, removing file')
+    console.log('addDCR failed, removing file')
     await deleteFile(filepath)
   }
 
   return result.match({
     ok: () =>
       Redirect(ROUTES.PROJECT_DETAILS(projectId), {
-        success:
-          'Votre constitution de garanties financières a bien été enregistrée.',
+        success: 'Votre demande de raccordement a bien été enregistrée.',
       }),
     err: (e: Error) => {
-      console.log('postGarantiesFinancieres error', e)
+      console.log('postDCR error', e)
       return Redirect(ROUTES.PROJECT_DETAILS(projectId), {
         ..._.omit(data, 'projectId'),
         error: "Votre demande n'a pas pu être prise en compte: " + e.message,
@@ -103,4 +102,4 @@ const postGarantiesFinancieres = async (request: HttpRequest) => {
   })
 }
 
-export { postGarantiesFinancieres }
+export { postDCR }

@@ -16,6 +16,7 @@ export * from './getProjectPage';
 export * from './getResetPasswordPage';
 export * from './getSignupPage';
 export * from './getUserRequestsPage';
+export * from './postDCR';
 export * from './postGarantiesFinancieres';
 export * from './postInviteDreal';
 export * from './postInviteUserToProject';

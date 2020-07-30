@@ -31,6 +31,12 @@ const deserialize = (item) => ({
   garantiesFinancieresRelanceOn: item.garantiesFinancieresRelanceOn || 0,
   garantiesFinancieresSubmittedOn: item.garantiesFinancieresSubmittedOn || 0,
   garantiesFinancieresSubmittedBy: item.garantiesFinancieresSubmittedBy || '',
+  dcrDate: item.dcrDate || 0,
+  dcrFile: item.dcrFile || '',
+  dcrDueOn: item.dcrDueOn || 0,
+  dcrSubmittedOn: item.dcrSubmittedOn || 0,
+  dcrSubmittedBy: item.dcrSubmittedBy || '',
+  dcrNumeroDossier: item.dcrNumeroDossier || '',
 })
 const serialize = (item) => item
 
@@ -188,6 +194,29 @@ export default function makeProjectRepo({
       type: DataTypes.UUID,
       allowNull: true,
     },
+    dcrDueOn: {
+      type: DataTypes.NUMBER,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    dcrSubmittedOn: {
+      type: DataTypes.NUMBER,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    dcrDate: {
+      type: DataTypes.NUMBER,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    dcrFile: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    dcrSubmittedBy: {
+      type: DataTypes.UUID,
+      allowNull: true,
+    },
     details: {
       type: DataTypes.JSON,
       allowNull: true,
@@ -311,6 +340,10 @@ export default function makeProjectRepo({
       if (!projectInDb) return
 
       const projectInstance = makeProject(deserialize(projectInDb.get()))
+
+      if (projectInstance.is_err()) {
+        throw projectInstance.unwrap_err()
+      }
 
       const projectWithAppelOffre = await addAppelOffreToProject(
         projectInstance.unwrap()

@@ -33,8 +33,7 @@ const GarantiesFinancieresForm = ({
       <label htmlFor="date">Date de constitution (format JJ/MM/AAAA)</label>
       <input
         type="text"
-        name="date"
-        id="date"
+        name="gfDate"
         {...dataId('date-field')}
         defaultValue={date || ''}
         data-max-date={Date.now()}
@@ -64,6 +63,66 @@ const GarantiesFinancieresForm = ({
         id="submit"
         {...dataId('submit-gf-button')}
       >
+        Envoyer
+      </button>
+      <button
+        className="button-outline primary"
+        {...dataId('frise-hide-content')}
+      >
+        Annuler
+      </button>
+    </div>
+  </form>
+)
+
+interface DCRFormProps {
+  projectId: string
+  date?: string
+}
+const DCRForm = ({ projectId, date }: DCRFormProps) => (
+  <form
+    action={ROUTES.DEPOSER_DCR_ACTION}
+    method="post"
+    encType="multipart/form-data"
+  >
+    <div className="form__group">
+      <label htmlFor="date">
+        Date d'attestation de DCR (format JJ/MM/AAAA)
+      </label>
+      <input
+        type="text"
+        name="dcrDate"
+        {...dataId('date-field')}
+        defaultValue={date || ''}
+        data-max-date={Date.now()}
+      />
+      <div
+        className="notification error"
+        style={{ display: 'none' }}
+        {...dataId('error-message-out-of-bounds')}
+      >
+        Merci de saisir une date antérieure à la date d'aujourd'hui.
+      </div>
+      <div
+        className="notification error"
+        style={{ display: 'none' }}
+        {...dataId('error-message-wrong-format')}
+      >
+        Le format de la date saisie n'est pas conforme. Elle doit être de la
+        forme JJ/MM/AAAA soit par exemple 25/05/2022 pour 25 Mai 2022.
+      </div>
+      <label htmlFor="numero-dossier">
+        Identifiant gestionnaire de réseau (ex: GEFAR-P)
+      </label>
+      <input
+        type="numero-dossier"
+        name="numeroDossier"
+        {...dataId('numero-dossier-field')}
+      />
+      <label htmlFor="file">Attestation</label>
+      <input type="file" name="file" {...dataId('file-field')} id="file" />
+      <input type="hidden" name="projectId" value={projectId} />
+      <button className="button" type="submit" {...dataId('submit-dcr-button')}>
         Envoyer
       </button>
       <button
@@ -448,7 +507,7 @@ export default function ProjectDetails({
                   {project.classe === 'Classé' ? (
                     <>
                       {project.garantiesFinancieresDueOn ? (
-                        project.garantiesFinancieresDate ? (
+                        project.garantiesFinancieresSubmittedOn ? (
                           // garanties financières déjà déposées
                           <FriseItem
                             date={formatDate(
@@ -490,25 +549,59 @@ export default function ProjectDetails({
                             hiddenContent={
                               <GarantiesFinancieresForm
                                 projectId={project.id}
-                                date={request.query.date}
+                                date={request.query.gfDate}
                               />
                             }
                           />
                         )
-                      ) : // Famille non-soumises à garanties financières
-                      null}
-                      <FriseItem
-                        date={formatDate(
-                          +moment(project.notifiedOn).add(2, 'months'),
-                          'D MMM YYYY'
-                        )}
-                        title="Demande complète de raccordement"
-                        action={{
-                          title:
-                            'Indiquer la date de demande (bientôt disponible)',
-                        }}
-                        status="nextup"
-                      />
+                      ) : null}
+                      {project.dcrDueOn ? (
+                        project.dcrSubmittedOn ? (
+                          // DCR déjà déposée
+                          <FriseItem
+                            date={formatDate(project.dcrDate, 'D MMM YYYY')}
+                            title={`Demande complète de raccordement ${
+                              project.dcrNumeroDossier
+                                ? '(Dossier ' + project.dcrNumeroDossier + ')'
+                                : ''
+                            }`}
+                            action={{
+                              title: "Télécharger l'attestation",
+                              link: project.dcrFile.length
+                                ? ROUTES.DOWNLOAD_PROJECT_FILE(
+                                    project.id,
+                                    project.dcrFile
+                                  )
+                                : undefined,
+                            }}
+                            status="past"
+                          />
+                        ) : (
+                          // DCR non-déposée
+                          <FriseItem
+                            date={formatDate(project.dcrDueOn, 'D MMM YYYY')}
+                            title="Demande complète de raccordement"
+                            action={
+                              user.role === 'dreal'
+                                ? undefined
+                                : {
+                                    title: 'Indiquer la date de demande',
+                                    openHiddenContent:
+                                      user.role === 'porteur-projet'
+                                        ? true
+                                        : undefined,
+                                  }
+                            }
+                            status="nextup"
+                            hiddenContent={
+                              <DCRForm
+                                projectId={project.id}
+                                date={request.query.dcrDate}
+                              />
+                            }
+                          />
+                        )
+                      ) : null}
                       <FriseItem
                         title="Proposition technique et financière"
                         action={{ title: 'Indiquer la date de signature' }}

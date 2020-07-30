@@ -19,8 +19,6 @@ const createUserWithEmailForTests = async (request: HttpRequest) => {
     return SystemError('missing email')
   }
 
-  const [user] = await userRepo.findAll({ email, role: 'dreal' })
-
   // Create a test porteur projet
   const userId = await createUser({
     email,
@@ -29,7 +27,7 @@ const createUserWithEmailForTests = async (request: HttpRequest) => {
     role: 'porteur-projet',
   })
 
-  return Success(userId)
+  return Success(userId || '')
 }
 
 export { createUserWithEmailForTests }

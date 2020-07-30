@@ -144,6 +144,7 @@ class routes {
   static INVITE_USER_TO_PROJECT_ACTION = '/invite-user-to-project'
 
   static DEPOSER_GARANTIES_FINANCIERES_ACTION = '/deposer-garanties-financieres'
+  static DEPOSER_DCR_ACTION = '/deposer-dcr'
 }
 
 export default routes

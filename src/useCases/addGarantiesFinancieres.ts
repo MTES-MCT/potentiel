@@ -50,6 +50,7 @@ export default function makeAddGarantiesFinancieres({
     projectId,
     user,
   }: CallUseCaseProps): ResultAsync<null> {
+    // console.log('addGarantiesFinancieres', filename, date, projectId)
     const access = await shouldUserAccessProject({ user, projectId })
 
     if (!access) return ErrorResult(UNAUTHORIZED)

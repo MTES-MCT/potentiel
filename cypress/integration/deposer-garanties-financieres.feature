@@ -4,8 +4,8 @@ Fonctionnalité: Transmettre de l'attestation des garanties financières
   @porteur-projet
   Scénario: Transmettre mon attestation de GF
     Etant donné que mon compte est lié aux projets suivants
-      | nomProjet | classe | notifiedOn | garantiesFinancieresSubmittedOn | regionProjet | appelOffreId | periodeId | familleId |
-      | projet 1  | Classé | 1234       | 0                               | Corse        | Fessenheim   | 2         | 1         |
+      | nomProjet | classe | notifiedOn | garantiesFinancieresDueOn | garantiesFinancieresSubmittedOn | regionProjet | appelOffreId | periodeId | familleId |
+      | projet 1  | Classé | 1234       | 1234                      | 0                               | Corse        | Fessenheim   | 2         | 1         |
     # Et les agents DREAL suivants
     #   | email           | region |
     #   | dreal@test.test | Corse  |
