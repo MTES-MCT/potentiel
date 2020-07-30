@@ -213,6 +213,10 @@ export default function makeProjectRepo({
       type: DataTypes.STRING,
       allowNull: true,
     },
+    dcrNumeroDossier: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     dcrSubmittedBy: {
       type: DataTypes.UUID,
       allowNull: true,
