@@ -1444,49 +1444,49 @@ describe('projectRepo sequelize', () => {
     it('should return all projects with garantiesFinancieresSubmittedOn != 0 and garantiesFinancieresDueOn before beforeDate and not null', async () => {
       const targetProjectId = uuid()
 
+      const targetProjectProps = {
+        garantiesFinancieresSubmittedOn: 0,
+        garantiesFinancieresRelanceOn: 0,
+        garantiesFinancieresDueOn: 1000,
+        notifiedOn: 1,
+        classe: 'Classé',
+      }
+
       await Promise.all(
         [
           {
             id: targetProjectId,
-            garantiesFinancieresSubmittedOn: 0,
-            garantiesFinancieresRelanceOn: 0,
-            garantiesFinancieresDueOn: 1000,
-            notifiedOn: 1,
+            ...targetProjectProps,
           },
           {
             id: uuid(),
+            ...targetProjectProps,
             garantiesFinancieresSubmittedOn: 1,
-            garantiesFinancieresRelanceOn: 0,
-            garantiesFinancieresDueOn: 1000,
-            notifiedOn: 1,
           },
           {
             id: uuid(),
-            garantiesFinancieresSubmittedOn: 0,
-            garantiesFinancieresRelanceOn: 0,
+            ...targetProjectProps,
             garantiesFinancieresDueOn: 2000,
-            notifiedOn: 1,
           },
           {
             id: uuid(),
-            garantiesFinancieresSubmittedOn: 0,
-            garantiesFinancieresRelanceOn: 0,
+            ...targetProjectProps,
             garantiesFinancieresDueOn: 0,
-            notifiedOn: 1,
           },
           {
             id: uuid(),
-            garantiesFinancieresSubmittedOn: 0,
-            garantiesFinancieresRelanceOn: 0,
-            garantiesFinancieresDueOn: 1000,
+            ...targetProjectProps,
             notifiedOn: 0,
           },
           {
             id: uuid(),
-            garantiesFinancieresSubmittedOn: 0,
+            ...targetProjectProps,
             garantiesFinancieresRelanceOn: 1,
-            garantiesFinancieresDueOn: 1000,
-            notifiedOn: 1,
+          },
+          {
+            id: uuid(),
+            ...targetProjectProps,
+            classe: 'Eliminé',
           },
         ]
           .map(makeFakeProject)

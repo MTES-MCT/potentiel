@@ -924,6 +924,7 @@ export default function makeProjectRepo({
             garantiesFinancieresRelanceOn: 0,
             garantiesFinancieresDueOn: { [Op.ne]: 0, [Op.lte]: beforeDate },
             notifiedOn: { [Op.ne]: 0 },
+            classe: 'Classé',
           },
         })
       ).map((item) => item.get())
