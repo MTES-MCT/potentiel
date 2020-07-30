@@ -190,7 +190,7 @@ const buildApplyProjectUpdate = (makeId: () => string) => {
 
 const makeProjectIdentifier = (project: Project): string => {
   const nakedIdentifier =
-    project.appelOffreId +
+    project.appelOffreId.replace(/ /g, '') +
     '-P' +
     project.periodeId +
     (project.familleId ? '-F' + project.familleId : '') +
