@@ -92,4 +92,5 @@ export type ProjectRepo = {
   remove: (projectId: Project['id']) => ResultAsync<null>
   save: (project: Project) => ResultAsync<null>
   getUsers: (projectId: Project['id']) => Promise<Array<User>>
+  index: (project: Project) => Promise<void>
 }
