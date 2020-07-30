@@ -9,7 +9,12 @@ import {
   Font,
 } from '@react-pdf/renderer'
 import ReactPDF from '@react-pdf/renderer'
-import { Project, AppelOffre, Periode } from '../../entities'
+import {
+  Project,
+  AppelOffre,
+  Periode,
+  makeProjectIdentifier,
+} from '../../entities'
 import { formatDate } from '../../helpers/formatDate'
 
 Font.register({
@@ -506,8 +511,7 @@ const Certificate = ({
           }}
         >
           <Text style={{ fontSize: 8 }}>
-            Réf.: {appelOffre.shortTitle}/T{periode.id}-N°CRE{' '}
-            {project.numeroCRE}
+            Code Potentiel: {makeProjectIdentifier(project)}
           </Text>
           <Text style={{ fontSize: 8 }}>
             Dossier suivi par : aopv.dgec@developpement-durable.gouv.fr
