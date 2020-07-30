@@ -1,5 +1,6 @@
 import React from 'react'
 import moment from 'moment'
+import { formatDate } from '../../helpers/formatDate'
 
 import {
   Project,
@@ -424,7 +425,7 @@ export default function ProjectDetails({
               {project.notifiedOn ? (
                 <>
                   <FriseItem
-                    date={moment(project.notifiedOn).format('D MMM YYYY')}
+                    date={formatDate(project.notifiedOn, 'D MMM YYYY')}
                     title="Notification des résultats"
                     status="past"
                     action={
@@ -450,9 +451,10 @@ export default function ProjectDetails({
                         project.garantiesFinancieresDate ? (
                           // garanties financières déjà déposées
                           <FriseItem
-                            date={moment(
-                              project.garantiesFinancieresDate
-                            ).format('D MMM YYYY')}
+                            date={formatDate(
+                              project.garantiesFinancieresDate,
+                              'D MMM YYYY'
+                            )}
                             title="Constitution des garanties financières"
                             action={{
                               title: "Télécharger l'attestation",
@@ -468,9 +470,10 @@ export default function ProjectDetails({
                         ) : (
                           // garanties financières non-déposées
                           <FriseItem
-                            date={moment(
-                              project.garantiesFinancieresDueOn
-                            ).format('D MMM YYYY')}
+                            date={formatDate(
+                              project.garantiesFinancieresDueOn,
+                              'D MMM YYYY'
+                            )}
                             title="Constitution des garanties financières"
                             action={
                               user.role === 'dreal'
@@ -495,9 +498,10 @@ export default function ProjectDetails({
                       ) : // Famille non-soumises à garanties financières
                       null}
                       <FriseItem
-                        date={moment(project.notifiedOn)
-                          .add(2, 'months')
-                          .format('D MMM YYYY')}
+                        date={formatDate(
+                          +moment(project.notifiedOn).add(2, 'months'),
+                          'D MMM YYYY'
+                        )}
                         title="Demande complète de raccordement"
                         action={{
                           title:
@@ -515,12 +519,13 @@ export default function ProjectDetails({
                         defaultHidden={true}
                       />
                       <FriseItem
-                        date={moment(project.notifiedOn)
-                          .add(
+                        date={formatDate(
+                          +moment(project.notifiedOn).add(
                             project.appelOffre?.delaiRealisationEnMois,
                             'months'
-                          )
-                          .format('D MMM YYYY')}
+                          ),
+                          'D MMM YYYY'
+                        )}
                         title="Attestation de conformité"
                         action={{ title: "Transmettre l'attestation" }}
                         defaultHidden={true}

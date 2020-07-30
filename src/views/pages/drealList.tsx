@@ -1,7 +1,7 @@
 import AdminDashboard from '../components/adminDashboard'
 
 import React from 'react'
-import moment from 'moment'
+import { formatDate } from '../../helpers/formatDate'
 import pagination from '../../__tests__/fixtures/pagination'
 
 import {
@@ -142,9 +142,12 @@ export default function DREALList({
                       <td valign="top">{invitation.email}</td>
                       <td valign="top">{invitation.dreal}</td>
                       <td valign="top">
-                        {moment(invitation.createdAt).format(
-                          'DD/MM/YYYY à HH:mm'
-                        )}
+                        {invitation.createdAt
+                          ? formatDate(
+                              invitation.createdAt,
+                              'DD/MM/YYYY à HH:mm'
+                            )
+                          : ''}
                       </td>
                     </tr>
                   )

@@ -2,7 +2,7 @@ import AdminDashboard from '../components/adminDashboard'
 import Pagination from '../components/pagination'
 
 import React from 'react'
-import moment from 'moment'
+import { formatDate } from '../../helpers/formatDate'
 
 import {
   Project,
@@ -163,9 +163,9 @@ export default function InvitationList({
                         )}
                       </td>
                       <td>
-                        {moment(invitation.createdAt).format(
-                          'DD/MM/YYYY HH:mm'
-                        )}
+                        {invitation.createdAt
+                          ? formatDate(invitation.createdAt, 'DD/MM/YYYY HH:mm')
+                          : ''}
                       </td>
                       <td>
                         <form

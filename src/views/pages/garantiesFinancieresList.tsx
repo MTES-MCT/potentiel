@@ -1,7 +1,7 @@
 import AdminDashboard from '../components/adminDashboard'
 
 import React from 'react'
-import moment from 'moment'
+import { formatDate } from '../../helpers/formatDate'
 import pagination from '../../__tests__/fixtures/pagination'
 
 import { Project, AppelOffre, Periode, REGIONS, User } from '../../entities'
@@ -115,10 +115,7 @@ export default function DREALList({ request, projects }: DREALListProps) {
                   </td>
                   <td valign="top">
                     <div {...dataId('gfList-item-garanties-financieres')}>
-                      Déposées le{' '}
-                      {moment(project.garantiesFinancieresDate).format(
-                        'DD/MM/YYYY'
-                      )}
+                      Déposées le {formatDate(project.garantiesFinancieresDate)}
                     </div>{' '}
                     <a
                       href={ROUTES.DOWNLOAD_PROJECT_FILE(

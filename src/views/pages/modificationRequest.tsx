@@ -8,10 +8,11 @@ import { dataId } from '../../helpers/testId'
 import UserDashboard from '../components/userDashboard'
 import { HttpRequest } from '../../types'
 
-import moment from 'moment'
+import { formatDate } from '../../helpers/formatDate'
 
 import { appelsOffreStatic } from '../../dataAccess/inMemory'
 
+import moment from 'moment'
 moment.locale('fr')
 
 interface PageProps {
@@ -117,7 +118,7 @@ export default function ModificationRequestPage({
               <div>
                 Désigné le{' '}
                 <span {...dataId('modificationRequest-item-designationDate')}>
-                  {moment(project.notifiedOn).format('DD/MM/YYYY')}
+                  {formatDate(project.notifiedOn, 'DD/MM/YYYY')}
                 </span>{' '}
                 pour la période{' '}
                 <span {...dataId('modificationRequest-item-periode')}>
@@ -371,9 +372,13 @@ export default function ModificationRequestPage({
                 <input
                   type="text"
                   disabled
-                  value={moment(project.notifiedOn)
-                    .add(getDelayForAppelOffre(project.appelOffreId), 'months')
-                    .format('DD/MM/YYYY')}
+                  value={formatDate(
+                    +moment(project.notifiedOn).add(
+                      getDelayForAppelOffre(project.appelOffreId),
+                      'months'
+                    ),
+                    'DD/MM/YYYY'
+                  )}
                   {...dataId('modificationRequest-presentServiceDateField')}
                 />
                 <label className="required" htmlFor="delayedServiceDate">
@@ -385,7 +390,7 @@ export default function ModificationRequestPage({
                   id="delayedServiceDate"
                   value={
                     delayedServiceDate
-                      ? moment(Number(delayedServiceDate)).format('DD/MM/YYYY')
+                      ? formatDate(Number(delayedServiceDate), 'DD/MM/YYYY')
                       : ''
                   }
                   {...dataId('modificationRequest-delayedServiceDateField')}

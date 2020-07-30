@@ -10,8 +10,7 @@ import {
 } from '@react-pdf/renderer'
 import ReactPDF from '@react-pdf/renderer'
 import { Project, AppelOffre, Periode } from '../../entities'
-import moment from 'moment'
-moment.locale('fr')
+import { formatDate } from '../../helpers/formatDate'
 
 Font.register({
   family: 'Arial',
@@ -493,7 +492,7 @@ const Certificate = ({
         >
           <Text style={{ fontSize: 8, marginBottom: 60 }}>
             Paris, le{' '}
-            {moment(project.notifiedOn || Date.now()).format('D MMMM YYYY')}
+            {formatDate(project.notifiedOn || Date.now(), 'D MMMM YYYY')}
           </Text>
           <Text style={{ fontSize: 10 }}>{project.nomRepresentantLegal}</Text>
           <Text style={{ fontSize: 10 }}>{project.nomCandidat}</Text>

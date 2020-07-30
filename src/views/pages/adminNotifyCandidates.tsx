@@ -1,7 +1,7 @@
 import AdminDashboard from '../components/adminDashboard'
 
 import React from 'react'
-import moment from 'moment'
+import { formatDate } from '../../helpers/formatDate'
 import pagination from '../../__tests__/fixtures/pagination'
 
 import { Project, AppelOffre, Periode, Famille } from '../../entities'
@@ -204,7 +204,7 @@ export default function AdminNotifyCandidates({
                 type="text"
                 name="notificationDate"
                 id="notificationDate"
-                defaultValue={moment().format('DD/MM/YYYY')}
+                defaultValue={formatDate(Date.now(), 'DD/MM/YYYY')}
                 {...dataId('modificationRequest-notificationDateField')}
                 style={{ width: 'auto' }}
               />

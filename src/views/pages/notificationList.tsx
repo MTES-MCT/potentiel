@@ -2,7 +2,7 @@ import AdminDashboard from '../components/adminDashboard'
 import Pagination from '../components/pagination'
 
 import React from 'react'
-import moment from 'moment'
+import { formatDate } from '../../helpers/formatDate'
 
 import {
   Project,
@@ -120,9 +120,7 @@ export default function NotificationList({
                       </td>
                       <td>{notification.type}</td>
                       <td>
-                        {moment(notification.createdAt).format(
-                          'DD/MM/YYYY HH:mm'
-                        )}
+                        {formatDate(notification.createdAt, 'DD/MM/YYYY HH:mm')}
                         {notification.status === 'retried' ? (
                           <div
                             style={{
@@ -132,7 +130,8 @@ export default function NotificationList({
                             }}
                           >
                             renvoyé le{' '}
-                            {moment(notification.updatedAt).format(
+                            {formatDate(
+                              notification.updatedAt,
                               'DD/MM/YYYY HH:mm'
                             )}
                           </div>
