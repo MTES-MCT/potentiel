@@ -31,7 +31,11 @@ const postDCR = async (request: HttpRequest) => {
     return SystemError('User must be logged in')
   }
 
-  const data = _.pick(request.body, ['dcrDate', 'projectId', 'numeroDossier'])
+  const data: any = _.pick(request.body, [
+    'dcrDate',
+    'projectId',
+    'numeroDossier',
+  ])
   const { projectId } = data
 
   if (!data.dcrDate) {

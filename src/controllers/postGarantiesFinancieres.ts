@@ -31,7 +31,7 @@ const postGarantiesFinancieres = async (request: HttpRequest) => {
     return SystemError('User must be logged in')
   }
 
-  const data = _.pick(request.body, ['gfDate', 'projectId'])
+  const data: any = _.pick(request.body, ['gfDate', 'projectId'])
   const { projectId } = data
 
   if (!data.gfDate) {
