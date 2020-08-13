@@ -21,11 +21,11 @@ const makeDirIfNecessary = async (dirpath) => {
 const deleteFile = util.promisify(fs.unlink)
 
 const postGarantiesFinancieres = async (request: HttpRequest) => {
-  console.log(
-    'Call to postGarantiesFinancieres received',
-    request.body,
-    request.file
-  )
+  // console.log(
+  //   'Call to postGarantiesFinancieres received',
+  //   request.body,
+  //   request.file
+  // )
 
   if (!request.user) {
     return SystemError('User must be logged in')
