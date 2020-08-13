@@ -90,7 +90,7 @@ const batiment: AppelOffre = {
     {
       id: '2',
       title: '2. 500 kWc – 8 MWc',
-      garantieFinanciereEnMois: 42,
+      garantieFinanciereEnMois: 36,
     },
   ],
 }
