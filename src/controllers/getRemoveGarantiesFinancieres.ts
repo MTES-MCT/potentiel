@@ -31,7 +31,7 @@ const getRemoveGarantiesFinancieres = async (request: HttpRequest) => {
           success: 'Les garanties financières ont été retirées avec succès',
         }),
       err: (error: Error) => {
-        console.log('getRemoveGarantiesFinancieres failed', e)
+        console.log('getRemoveGarantiesFinancieres failed', error)
         return Redirect(ROUTES.PROJECT_DETAILS(projectId), {
           error: `Les garanties financières n'ont pas pu être retirées. (Erreur: ${error.message})`,
         })
