@@ -45,6 +45,8 @@ import {
   getNotificationListPage,
   postRetryNotifications,
   postRelanceGarantiesFinancieres,
+  getRemoveDCR,
+  getRemoveGarantiesFinancieres,
 } from './controllers'
 
 import {
@@ -262,12 +264,23 @@ export async function makeServer(port: number = 3000) {
       upload.single('file'),
       makeExpressCallback(postGarantiesFinancieres)
     )
+    router.get(
+      ROUTES.SUPPRIMER_GARANTIES_FINANCIERES_ACTION(),
+      ensureLoggedIn(),
+      makeExpressCallback(getRemoveGarantiesFinancieres)
+    )
 
     router.post(
       ROUTES.DEPOSER_DCR_ACTION,
       ensureLoggedIn(),
       upload.single('file'),
       makeExpressCallback(postDCR)
+    )
+
+    router.get(
+      ROUTES.SUPPRIMER_DCR_ACTION(),
+      ensureLoggedIn(),
+      makeExpressCallback(getRemoveDCR)
     )
 
     router.get(

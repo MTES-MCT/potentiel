@@ -102,9 +102,11 @@ type ProjectEvent = {
     | 'import'
     | 'candidate-notification'
     | 'garanties-financieres-submission'
+    | 'garanties-financieres-removal'
     | 'relance-gf'
     | 'manual-edition'
     | 'dcr-submission'
+    | 'dcr-removal'
   modificationRequestId?: ModificationRequest['id']
   isNew?: true
 }

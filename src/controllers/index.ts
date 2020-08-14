@@ -13,6 +13,8 @@ export * from './getNotifyCandidatesPage';
 export * from './getProjectFile';
 export * from './getProjectListPage';
 export * from './getProjectPage';
+export * from './getRemoveDCR';
+export * from './getRemoveGarantiesFinancieres';
 export * from './getResetPasswordPage';
 export * from './getSignupPage';
 export * from './getUserRequestsPage';
