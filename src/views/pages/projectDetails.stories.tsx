@@ -24,10 +24,16 @@ export const forAdminsLaureat = () => (
       notifiedOn: Date.now(),
       appelOffre,
       appelOffreId: 'Fessenheim',
+      garantiesFinancieresDueOn: Date.now() + 1000 * 3600 * 24 * 30 * 2,
+      garantiesFinancieresSubmittedOn: Date.now(),
+      garantiesFinancieresFile: 'fichier',
     })}
     projectUsers={[makeFakeUser()]}
     projectInvitations={[
-      { id: 'admissionKey', email: 'invited@email.com' } as ProjectAdmissionKey,
+      {
+        id: 'admissionKey',
+        email: 'invited@email.com',
+      } as ProjectAdmissionKey,
     ]}
   />
 )
@@ -86,6 +92,34 @@ export const forPorteurProjet = () => (
       appelOffre,
       dcrDueOn: Date.now() + 1000 * 3600 * 24 * 30 * 2,
       garantiesFinancieresDueOn: Date.now() + 1000 * 3600 * 24 * 30 * 2,
+      details: {
+        'Note blabla': '9,6',
+      },
+    })}
+    projectUsers={[makeFakeUser()]}
+    projectInvitations={[
+      {
+        id: 'admissionKey',
+        email: 'invited@email.com',
+      } as ProjectAdmissionKey,
+    ]}
+  />
+)
+
+export const forPorteurProjetWithGarantiesFinancieres = () => (
+  <ProjectDetails
+    request={makeFakeRequest({
+      user: makeFakeUser({ role: 'porteur-projet' }),
+    })}
+    project={makeFakeProject({
+      id: 'projectId',
+      classe: 'Classé',
+      notifiedOn: Date.now(),
+      appelOffre,
+      dcrDueOn: Date.now() + 1000 * 3600 * 24 * 30 * 2,
+      garantiesFinancieresDueOn: Date.now() + 1000 * 3600 * 24 * 30 * 2,
+      garantiesFinancieresSubmittedOn: Date.now(),
+      garantiesFinancieresFile: 'fichier',
       details: {
         'Note blabla': '9,6',
       },

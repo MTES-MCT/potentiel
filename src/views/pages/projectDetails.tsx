@@ -199,10 +199,18 @@ const Frise = ({ children, displayToggle }: FriseContainerProps) => (
   </table>
 )
 
+interface Action {
+  title: string
+  link?: string
+  download?: true
+  openHiddenContent?: true
+  confirm?: string
+}
+
 interface FriseItemProps {
   date?: string
   title: string
-  action?: { title: string; link?: string; openHiddenContent?: true }
+  action?: Action | Action[]
   hiddenContent?: React.ReactNode
   defaultHidden?: boolean
   status?: 'nextup' | 'past' | 'future'
@@ -215,6 +223,12 @@ const FriseItem = ({
   hiddenContent,
   status = 'future',
 }: FriseItemProps) => {
+  const actions =
+    typeof action === 'undefined'
+      ? undefined
+      : Array.isArray(action)
+      ? action
+      : [action]
   return (
     <>
       <tr
@@ -260,7 +274,8 @@ const FriseItem = ({
                 height="20"
                 stroke="var(--blue)"
                 viewBox="0 0 24 24"
-                {...(action && action.openHiddenContent
+                {...(actions &&
+                actions.some((action) => action.openHiddenContent)
                   ? {
                       ...dataId('frise-action'),
                       className: 'frise-content-toggle',
@@ -295,18 +310,34 @@ const FriseItem = ({
           {title}
         </td>
         <td>
-          {action ? (
-            action.link ? (
-              <a href={action.link} {...dataId('frise-action')} download={true}>
-                {action.title}
-              </a>
-            ) : action.openHiddenContent ? (
-              <a {...dataId('frise-action')} className="frise-content-toggle">
-                {action.title}
-              </a>
-            ) : (
-              <span className="disabled-action">{action.title}</span>
-            )
+          {actions ? (
+            <>
+              {actions.map((action) =>
+                action.link ? (
+                  <a
+                    href={action.link}
+                    {...dataId('frise-action')}
+                    download={action.download}
+                    style={{ marginRight: 10 }}
+                    data-confirm={action.confirm}
+                  >
+                    {action.title}
+                  </a>
+                ) : action.openHiddenContent ? (
+                  <a
+                    {...dataId('frise-action')}
+                    className="frise-content-toggle"
+                    style={{ marginRight: 10 }}
+                  >
+                    {action.title}
+                  </a>
+                ) : (
+                  <span className="disabled-action" style={{ marginRight: 10 }}>
+                    {action.title}
+                  </span>
+                )
+              )}
+            </>
           ) : (
             ''
           )}
@@ -500,6 +531,7 @@ export default function ProjectDetails({
                                 : ROUTES.CANDIDATE_CERTIFICATE_FOR_ADMINS(
                                     project
                                   ),
+                            download: true,
                           }
                         : undefined
                     }
@@ -515,15 +547,30 @@ export default function ProjectDetails({
                               'D MMM YYYY'
                             )}
                             title="Constitution des garanties financières"
-                            action={{
-                              title: "Télécharger l'attestation",
-                              link: project.garantiesFinancieresFile.length
-                                ? ROUTES.DOWNLOAD_PROJECT_FILE(
-                                    project.id,
-                                    project.garantiesFinancieresFile
-                                  )
-                                : undefined,
-                            }}
+                            action={[
+                              {
+                                title: "Télécharger l'attestation",
+                                link: project.garantiesFinancieresFile.length
+                                  ? ROUTES.DOWNLOAD_PROJECT_FILE(
+                                      project.id,
+                                      project.garantiesFinancieresFile
+                                    )
+                                  : undefined,
+                                download: true,
+                              },
+                              ...(user.role === 'porteur-projet'
+                                ? [
+                                    {
+                                      title: 'Annuler le dépôt',
+                                      confirm:
+                                        "Etes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?",
+                                      link: ROUTES.SUPPRIMER_GARANTIES_FINANCIERES_ACTION(
+                                        project.id
+                                      ),
+                                    },
+                                  ]
+                                : []),
+                            ]}
                             status="past"
                           />
                         ) : (
@@ -565,15 +612,29 @@ export default function ProjectDetails({
                                 ? '(Dossier ' + project.dcrNumeroDossier + ')'
                                 : ''
                             }`}
-                            action={{
-                              title: "Télécharger l'attestation",
-                              link: project.dcrFile.length
-                                ? ROUTES.DOWNLOAD_PROJECT_FILE(
-                                    project.id,
-                                    project.dcrFile
-                                  )
-                                : undefined,
-                            }}
+                            action={[
+                              {
+                                title: "Télécharger l'attestation",
+                                link: project.dcrFile.length
+                                  ? ROUTES.DOWNLOAD_PROJECT_FILE(
+                                      project.id,
+                                      project.dcrFile
+                                    )
+                                  : undefined,
+                              },
+                              ...(user.role === 'porteur-projet'
+                                ? [
+                                    {
+                                      title: 'Annuler le dépôt',
+                                      confirm:
+                                        "Etes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?",
+                                      link: ROUTES.SUPPRIMER_DCR_ACTION(
+                                        project.id
+                                      ),
+                                    },
+                                  ]
+                                : []),
+                            ]}
                             status="past"
                           />
                         ) : (

@@ -16,6 +16,7 @@ window.initHandlers = function () {
   addMotifEliminationToggleHandlers()
   addVisibilityToggleHandler()
   addProjectListSelectionHandler()
+  addConfirmHandlers()
 }
 
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -683,6 +684,16 @@ function addDateValidationHandler() {
 //
 // General utility
 //
+
+function addConfirmHandlers() {
+  const confirmableLinks = document.querySelectorAll('[data-confirm]')
+
+  confirmableLinks.forEach((item) =>
+    item.addEventListener('click', function (event) {
+      if (!confirm(item.getAttribute('data-confirm'))) event.preventDefault()
+    })
+  )
+}
 
 function addVisibilityToggleHandler() {
   const sectionToggle = document.querySelectorAll(
