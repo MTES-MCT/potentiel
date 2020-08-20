@@ -68,20 +68,27 @@ import { initDatabase } from './dataAccess'
 import ROUTES from './routes'
 import { User } from './entities'
 
+const FILE_SIZE_LIMIT_MB = 10
+
 export async function makeServer(port: number = 3000) {
   try {
     const app = express()
 
     const upload = multer({
       dest: 'temp',
-      limits: { fileSize: 10 * 1024 * 1024 /* 10MB */ },
+      limits: { fileSize: FILE_SIZE_LIMIT_MB * 1024 * 1024 /* MB */ },
     })
 
     app.use(express.static('src/public'))
     app.use(session({ secret: 'SD7654fsddxc34fsdfsd7è"("SKSRBIOP6FDFf' }))
 
-    app.use(bodyParser.urlencoded({ extended: false }))
-    app.use(bodyParser.json())
+    app.use(
+      bodyParser.urlencoded({
+        extended: false,
+        limit: FILE_SIZE_LIMIT_MB + 'mb',
+      })
+    )
+    app.use(bodyParser.json({ limit: FILE_SIZE_LIMIT_MB + 'mb' }))
 
     app.use(cookieParser())
 
