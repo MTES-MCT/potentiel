@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": ["esnext"],
+    "lib": ["esnext", "dom"],
     "jsx": "react",
     "typeRoots": ["./src/types", "node_modules/@types"],
     "strictNullChecks": true,
