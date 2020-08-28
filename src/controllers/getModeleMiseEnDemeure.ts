@@ -9,6 +9,7 @@ import { fillDocxTemplate } from '../helpers/fillDocxTemplate'
 import sanitize from 'sanitize-filename'
 import moment from 'moment'
 import { makeProjectFilePath } from '../helpers/makeProjectFilePath'
+import { formatDate } from '../helpers/formatDate'
 import { Controller, HttpRequest } from '../types'
 import ROUTES from '../routes'
 import { getUserProject } from '../useCases'
@@ -70,7 +71,7 @@ const getModeleMiseEnDemeure = async (request: HttpRequest) => {
       outputPath: filepath,
       variables: {
         dreal: project.regionProjet.toUpperCase(),
-        dateMiseEnDemeure: moment().format(dateFormat),
+        dateMiseEnDemeure: formatDate(Date.now()),
         contactDreal: request.user.email,
         referenceProjet: makeProjectIdentifier(project),
         titreAppelOffre: project.appelOffre?.title || '!!!AO NON DISPONIBLE!!!',
@@ -83,7 +84,7 @@ const getModeleMiseEnDemeure = async (request: HttpRequest) => {
           project.appelOffre?.unitePuissance || '!!!AO NON DISPONIBLE!!!',
         titrePeriode:
           project.appelOffre?.periode?.title || '!!!AO NON DISPONIBLE!!!',
-        dateNotification: moment(project.notifiedOn).format(dateFormat),
+        dateNotification: formatDate(project.notifiedOn),
         paragrapheGF:
           project.appelOffre?.renvoiRetraitDesignationGarantieFinancieres ||
           '!!!AO NON DISPONIBLE!!!',
@@ -91,13 +92,14 @@ const getModeleMiseEnDemeure = async (request: HttpRequest) => {
           project.famille?.garantieFinanciereEnMois.toString() ||
           '!!!FAMILLE NON DISPONIBLE!!!',
         dateFinGarantieFinanciere: project.famille
-          ? moment(project.notifiedOn)
-              .add(project.famille.garantieFinanciereEnMois, 'months')
-              .format(dateFormat)
+          ? formatDate(
+              moment(project.notifiedOn)
+                .add(project.famille.garantieFinanciereEnMois, 'months')
+                .toDate()
+                .getTime()
+            )
           : '!!!FAMILLE NON DISPONIBLE!!!',
-        dateLimiteDepotGF: moment(project.garantiesFinancieresDueOn).format(
-          dateFormat
-        ),
+        dateLimiteDepotGF: formatDate(project.garantiesFinancieresDueOn),
         nomRepresentantLegal: project.nomRepresentantLegal,
         adresseProjet: project.adresseProjet,
         codePostalProjet: project.codePostalProjet,
