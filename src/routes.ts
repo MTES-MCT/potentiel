@@ -153,6 +153,20 @@ class routes {
     } else return route
   }
 
+  static TELECHARGER_MODELE_MISE_EN_DEMEURE = (project?: Project) => {
+    const route = '/projet/:projectId/telecharger-mise-en-demeure/:filename'
+    if (project) {
+      return route
+        .replace(':projectId', project.id)
+        .replace(
+          ':filename',
+          sanitize(
+            `Mise en demeure Garanties Financières - ${project.nomProjet}.docx`
+          )
+        )
+    } else return route
+  }
+
   static DEPOSER_DCR_ACTION = '/deposer-dcr'
   static SUPPRIMER_DCR_ACTION = (projectId?: Project['id']) => {
     const route = '/projet/:projectId/supprimer-dcr'

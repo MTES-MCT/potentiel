@@ -47,6 +47,7 @@ import {
   postRelanceGarantiesFinancieres,
   getRemoveDCR,
   getRemoveGarantiesFinancieres,
+  getModeleMiseEnDemeure,
 } from './controllers'
 
 import {
@@ -275,6 +276,11 @@ export async function makeServer(port: number = 3000) {
       ROUTES.SUPPRIMER_GARANTIES_FINANCIERES_ACTION(),
       ensureLoggedIn(),
       makeExpressCallback(getRemoveGarantiesFinancieres)
+    )
+    router.get(
+      ROUTES.TELECHARGER_MODELE_MISE_EN_DEMEURE(),
+      ensureLoggedIn(),
+      makeExpressCallback(getModeleMiseEnDemeure)
     )
 
     router.post(

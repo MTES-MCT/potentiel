@@ -159,6 +159,50 @@ export const forPorteurProjetWithSuccess = () => (
   />
 )
 
+export const forDrealGFPassDue = () => (
+  <ProjectDetails
+    request={makeFakeRequest({
+      user: makeFakeUser({ role: 'dreal' }),
+    })}
+    project={makeFakeProject({
+      id: 'projectId',
+      classe: 'Classé',
+      notifiedOn: Date.now(),
+      appelOffre,
+      garantiesFinancieresDueOn: Date.now() - 1000000,
+    })}
+    projectUsers={[makeFakeUser()]}
+    projectInvitations={[
+      {
+        id: 'admissionKey',
+        email: 'invited@email.com',
+      } as ProjectAdmissionKey,
+    ]}
+  />
+)
+
+export const forDrealGFStillDue = () => (
+  <ProjectDetails
+    request={makeFakeRequest({
+      user: makeFakeUser({ role: 'dreal' }),
+    })}
+    project={makeFakeProject({
+      id: 'projectId',
+      classe: 'Classé',
+      notifiedOn: Date.now(),
+      appelOffre,
+      garantiesFinancieresDueOn: Date.now() + 1000000,
+    })}
+    projectUsers={[makeFakeUser()]}
+    projectInvitations={[
+      {
+        id: 'admissionKey',
+        email: 'invited@email.com',
+      } as ProjectAdmissionKey,
+    ]}
+  />
+)
+
 const appelOffreInnovation = appelsOffreStatic.find(
   (appelOffre) => appelOffre.id === 'CRE4 - Innovation'
 )

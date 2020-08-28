@@ -583,7 +583,15 @@ export default function ProjectDetails({
                             title="Constitution des garanties financières"
                             action={
                               user.role === 'dreal'
-                                ? undefined
+                                ? project.garantiesFinancieresDueOn < Date.now()
+                                  ? {
+                                      title: 'Télécharger mise en demeure',
+                                      link: ROUTES.TELECHARGER_MODELE_MISE_EN_DEMEURE(
+                                        project
+                                      ),
+                                      download: true,
+                                    }
+                                  : undefined
                                 : {
                                     title: "Transmettre l'attestation",
                                     openHiddenContent:

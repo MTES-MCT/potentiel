@@ -8,6 +8,7 @@ export * from './getGarantiesFinancieresPage';
 export * from './getImportProjectsPage';
 export * from './getInvitationListPage';
 export * from './getLoginPage';
+export * from './getModeleMiseEnDemeure';
 export * from './getNotificationListPage';
 export * from './getNotifyCandidatesPage';
 export * from './getProjectFile';
