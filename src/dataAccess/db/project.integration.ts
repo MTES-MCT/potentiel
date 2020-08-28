@@ -111,7 +111,6 @@ describe('projectRepo sequelize', () => {
 
         const goodProperties = {
           notifiedOn: 1,
-          garantiesFinancieresSubmittedOn: 1,
           classe: 'Classé',
           appelOffreId: 'Fessenheim',
           periodeId: '2',
@@ -130,11 +129,6 @@ describe('projectRepo sequelize', () => {
               id: uuid(),
               ...goodProperties,
               notifiedOn: 0,
-            },
-            {
-              id: uuid(),
-              ...goodProperties,
-              garantiesFinancieresSubmittedOn: 0,
             },
             {
               id: uuid(),
@@ -173,13 +167,142 @@ describe('projectRepo sequelize', () => {
 
         const { itemCount, items } = await projectRepo.findAll({
           isNotified: true,
-          hasGarantiesFinancieres: true,
           isClasse: true,
           appelOffreId: 'Fessenheim',
           periodeId: '2',
           familleId: '1',
           email: 'test122345@test.com',
           nomProjet: 'test',
+        })
+
+        expect(itemCount).toEqual(1)
+        expect(items[0].id).toEqual(targetProjectId)
+      })
+    })
+
+    describe('given garantiesFinancieresSubmitted filter', () => {
+      describe('with value of true', () => {
+        it('should return all projects that have submitted garanties financieres', async () => {
+          const targetProjectId = uuid()
+
+          const goodProperties = {
+            notifiedOn: 1,
+            garantiesFinancieresSubmittedOn: 1,
+            classe: 'Classé',
+          }
+
+          await Promise.all(
+            [
+              {
+                id: targetProjectId,
+                ...goodProperties,
+              },
+              {
+                id: uuid(),
+                ...goodProperties,
+                garantiesFinancieresSubmittedOn: 0,
+              },
+            ]
+              .map(makeFakeProject)
+              .map(projectRepo.save)
+          )
+
+          const { itemCount, items } = await projectRepo.findAll({
+            isNotified: true,
+            garantiesFinancieres: 'submitted',
+            isClasse: true,
+          })
+
+          expect(itemCount).toEqual(1)
+          expect(items[0].id).toEqual(targetProjectId)
+        })
+      })
+
+      describe('with value of false', () => {
+        it('should return all projects that have a due date but have not submitted garanties financieres', async () => {
+          const targetProjectId = uuid()
+
+          const goodProperties = {
+            notifiedOn: 1,
+            garantiesFinancieresSubmittedOn: 0,
+            garantiesFinancieresDueOn: Date.now() + 1e6,
+            classe: 'Classé',
+          }
+
+          await Promise.all(
+            [
+              {
+                id: targetProjectId,
+                ...goodProperties,
+              },
+              {
+                id: uuid(),
+                ...goodProperties,
+                garantiesFinancieresSubmittedOn: 1,
+              },
+              {
+                id: uuid(),
+                ...goodProperties,
+                garantiesFinancieresDueOn: 0,
+              },
+            ]
+              .map(makeFakeProject)
+              .map(projectRepo.save)
+          )
+
+          const { itemCount, items } = await projectRepo.findAll({
+            isNotified: true,
+            garantiesFinancieres: 'notSubmitted',
+            isClasse: true,
+          })
+
+          expect(itemCount).toEqual(1)
+          expect(items[0].id).toEqual(targetProjectId)
+        })
+      })
+    })
+
+    describe('given garantiesFinancieresPastDue=true filter', () => {
+      it('should return all projects that are due before today and not submitted yet', async () => {
+        const targetProjectId = uuid()
+
+        const goodProperties = {
+          notifiedOn: 1,
+          garantiesFinancieresSubmittedOn: 0,
+          garantiesFinancieresDueOn: 1,
+          classe: 'Classé',
+        }
+
+        await Promise.all(
+          [
+            {
+              id: targetProjectId,
+              ...goodProperties,
+            },
+            {
+              id: uuid(),
+              ...goodProperties,
+              garantiesFinancieresSubmittedOn: 1,
+            },
+            {
+              id: uuid(),
+              ...goodProperties,
+              garantiesFinancieresDueOn: Date.now() + 1e6,
+            },
+            {
+              id: uuid(),
+              ...goodProperties,
+              garantiesFinancieresDueOn: 0,
+            },
+          ]
+            .map(makeFakeProject)
+            .map(projectRepo.save)
+        )
+
+        const { itemCount, items } = await projectRepo.findAll({
+          isNotified: true,
+          garantiesFinancieres: 'pastDue',
+          isClasse: true,
         })
 
         expect(itemCount).toEqual(1)
@@ -255,14 +378,12 @@ describe('projectRepo sequelize', () => {
           {
             // Good user, matches query
             id: userProjectId,
-            garantiesFinancieresSubmittedOn: 1,
             classe: 'Classé',
             notifiedOn: 1,
           },
           {
             // Bad user, matches query
             id: uuid(),
-            garantiesFinancieresSubmittedOn: 1,
             classe: 'Classé',
             notifiedOn: 1,
           },
@@ -275,7 +396,6 @@ describe('projectRepo sequelize', () => {
 
       const results = await projectRepo.findAllForUser(userId, {
         isNotified: true,
-        hasGarantiesFinancieres: true,
         isClasse: true,
       })
 
@@ -293,7 +413,6 @@ describe('projectRepo sequelize', () => {
       )
 
       const userProjectId1 = uuid()
-      const userProjectId2 = uuid()
       const userProjectId3 = uuid()
       const userProjectId4 = uuid()
 
@@ -302,28 +421,18 @@ describe('projectRepo sequelize', () => {
           {
             // Good user, matches filter
             id: userProjectId1,
-            garantiesFinancieresSubmittedOn: 1,
-            classe: 'Classé',
-            notifiedOn: 1,
-          },
-          {
-            // Good user, does not match all filters
-            id: userProjectId2,
-            garantiesFinancieresSubmittedOn: 0,
             classe: 'Classé',
             notifiedOn: 1,
           },
           {
             // Good user, does not match all filters
             id: userProjectId3,
-            garantiesFinancieresSubmittedOn: 1,
             classe: 'Eliminé',
             notifiedOn: 1,
           },
           {
             // Good user, does not match all filters
             id: userProjectId4,
-            garantiesFinancieresSubmittedOn: 1,
             classe: 'Classé',
             notifiedOn: 0,
           },
@@ -333,13 +442,11 @@ describe('projectRepo sequelize', () => {
       )
 
       await userRepo.addProject(userId, userProjectId1)
-      await userRepo.addProject(userId, userProjectId2)
       await userRepo.addProject(userId, userProjectId3)
       await userRepo.addProject(userId, userProjectId4)
 
       const results = await projectRepo.findAllForUser(userId, {
         isNotified: true,
-        hasGarantiesFinancieres: true,
         isClasse: true,
       })
 
@@ -433,7 +540,6 @@ describe('projectRepo sequelize', () => {
       )
 
       const userProjectId1 = uuid()
-      const userProjectId2 = uuid()
       const userProjectId3 = uuid()
       const userProjectId4 = uuid()
 
@@ -443,15 +549,6 @@ describe('projectRepo sequelize', () => {
             // Good user, good search term, matches filter
             id: userProjectId1,
             nomCandidat: 'the search term is there',
-            garantiesFinancieresSubmittedOn: 1,
-            classe: 'Classé',
-            notifiedOn: 1,
-          },
-          {
-            // Good user, good search term, does not match all filters
-            id: userProjectId2,
-            nomCandidat: 'the search term is there',
-            garantiesFinancieresSubmittedOn: 0,
             classe: 'Classé',
             notifiedOn: 1,
           },
@@ -459,7 +556,6 @@ describe('projectRepo sequelize', () => {
             // Good user, good search term, does not match all filters
             id: userProjectId3,
             nomCandidat: 'the search term is there',
-            garantiesFinancieresSubmittedOn: 1,
             classe: 'Eliminé',
             notifiedOn: 1,
           },
@@ -467,7 +563,6 @@ describe('projectRepo sequelize', () => {
             // Good user, good search term, does not match all filters
             id: userProjectId4,
             nomCandidat: 'the search term is there',
-            garantiesFinancieresSubmittedOn: 1,
             classe: 'Classé',
             notifiedOn: 0,
           },
@@ -477,13 +572,11 @@ describe('projectRepo sequelize', () => {
       )
 
       await userRepo.addProject(userId, userProjectId1)
-      await userRepo.addProject(userId, userProjectId2)
       await userRepo.addProject(userId, userProjectId3)
       await userRepo.addProject(userId, userProjectId4)
 
       const results = await projectRepo.searchForUser(userId, 'term', {
         isNotified: true,
-        hasGarantiesFinancieres: true,
         isClasse: true,
       })
 
@@ -577,7 +670,6 @@ describe('projectRepo sequelize', () => {
             // Good region, matches filter
             id: regionProjectId1,
             regionProjet: 'Corse',
-            garantiesFinancieresSubmittedOn: 1,
             classe: 'Classé',
             notifiedOn: 1,
           },
@@ -585,15 +677,6 @@ describe('projectRepo sequelize', () => {
             // Good region, does not match all filters
             id: uuid(),
             regionProjet: 'Corse',
-            garantiesFinancieresSubmittedOn: 0,
-            classe: 'Classé',
-            notifiedOn: 1,
-          },
-          {
-            // Good region, does not match all filters
-            id: uuid(),
-            regionProjet: 'Corse',
-            garantiesFinancieresSubmittedOn: 1,
             classe: 'Eliminé',
             notifiedOn: 1,
           },
@@ -601,7 +684,6 @@ describe('projectRepo sequelize', () => {
             // Good region, does not match all filters
             id: uuid(),
             regionProjet: 'Corse',
-            garantiesFinancieresSubmittedOn: 1,
             classe: 'Classé',
             notifiedOn: 0,
           },
@@ -612,7 +694,6 @@ describe('projectRepo sequelize', () => {
 
       const results = await projectRepo.findAllForRegions('Corse', {
         isNotified: true,
-        hasGarantiesFinancieres: true,
         isClasse: true,
       })
 
@@ -741,7 +822,6 @@ describe('projectRepo sequelize', () => {
             id: regionProjectId1,
             regionProjet: 'Corse',
             nomCandidat: 'the search term is there',
-            garantiesFinancieresSubmittedOn: 1,
             classe: 'Classé',
             notifiedOn: 1,
           },
@@ -750,16 +830,6 @@ describe('projectRepo sequelize', () => {
             id: uuid(),
             regionProjet: 'Corse',
             nomCandidat: 'the search term is there',
-            garantiesFinancieresSubmittedOn: 0,
-            classe: 'Classé',
-            notifiedOn: 1,
-          },
-          {
-            // Good region, good search term, does not match all filters
-            id: uuid(),
-            regionProjet: 'Corse',
-            nomCandidat: 'the search term is there',
-            garantiesFinancieresSubmittedOn: 1,
             classe: 'Eliminé',
             notifiedOn: 1,
           },
@@ -768,7 +838,6 @@ describe('projectRepo sequelize', () => {
             id: uuid(),
             regionProjet: 'Corse',
             nomCandidat: 'the search term is there',
-            garantiesFinancieresSubmittedOn: 1,
             classe: 'Classé',
             notifiedOn: 0,
           },
@@ -779,7 +848,6 @@ describe('projectRepo sequelize', () => {
 
       const results = await projectRepo.searchForRegions('Corse', 'term', {
         isNotified: true,
-        hasGarantiesFinancieres: true,
         isClasse: true,
       })
 

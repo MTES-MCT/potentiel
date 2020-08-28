@@ -29,7 +29,7 @@ interface CallUseCaseProps {
   pagination?: Pagination
   recherche?: string
   classement?: 'classés' | 'éliminés'
-  garantiesFinancieres?: 'submitted' | 'notSubmitted'
+  garantiesFinancieres?: 'submitted' | 'notSubmitted' | 'pastDue'
 }
 
 interface UseCaseReturnType {
@@ -82,7 +82,7 @@ export default function makeListProjects({
     }
 
     if (garantiesFinancieres) {
-      query.hasGarantiesFinancieres = garantiesFinancieres === 'submitted'
+      query.garantiesFinancieres = garantiesFinancieres
     }
 
     const result: any = {}

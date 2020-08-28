@@ -402,10 +402,23 @@ export default function makeProjectRepo({
         opts.where.notifiedOn = query.isNotified ? { [Op.ne]: 0 } : 0
       }
 
-      if ('hasGarantiesFinancieres' in query) {
-        opts.where.garantiesFinancieresSubmittedOn = query.hasGarantiesFinancieres
-          ? { [Op.ne]: 0 }
-          : 0
+      if ('garantiesFinancieres' in query) {
+        switch (query.garantiesFinancieres) {
+          case 'submitted':
+            opts.where.garantiesFinancieresSubmittedOn = { [Op.ne]: 0 }
+            break
+          case 'notSubmitted':
+            opts.where.garantiesFinancieresDueOn = { [Op.ne]: 0 }
+            opts.where.garantiesFinancieresSubmittedOn = 0
+            break
+          case 'pastDue':
+            opts.where.garantiesFinancieresDueOn = {
+              [Op.lte]: Date.now(),
+              [Op.ne]: 0,
+            }
+            opts.where.garantiesFinancieresSubmittedOn = 0
+            break
+        }
       }
 
       if ('isClasse' in query) {

@@ -4,7 +4,7 @@ import { Context } from 'mocha'
 
 export interface ProjectFilters {
   isNotified?: boolean
-  hasGarantiesFinancieres?: boolean
+  garantiesFinancieres?: 'submitted' | 'notSubmitted' | 'pastDue'
   isClasse?: boolean
   nomProjet?: string
   appelOffreId?: AppelOffre['id'] | AppelOffre['id'][]

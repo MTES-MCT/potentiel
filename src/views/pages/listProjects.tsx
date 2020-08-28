@@ -209,6 +209,7 @@ export default function ListProjects({
                     <option value="">Toutes</option>
                     <option value="submitted">Déposées</option>
                     <option value="notSubmitted">Non-déposées</option>
+                    <option value="pastDue">En retard</option>
                   </select>
                 </div>
                 <div style={{ marginTop: 15 }}>
