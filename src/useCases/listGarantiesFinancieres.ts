@@ -26,14 +26,14 @@ export default function makeListGarantiesFinancieres({
         const regions = await findDrealsForUser(user.id)
         return (
           await findAllProjectsForRegions(regions, {
-            hasGarantiesFinancieres: true,
+            garantiesFinancieres: 'submitted',
           })
         ).items
       case 'admin':
       case 'dgec':
         return (
           await findAllProjects({
-            hasGarantiesFinancieres: true,
+            garantiesFinancieres: 'submitted',
           })
         ).items
       default:
