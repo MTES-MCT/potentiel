@@ -85,7 +85,7 @@ describe.skip('objectStorageFileService', () => {
       stream: Readable.from(['test']),
     }
 
-    describe.only('given an existing file', () => {
+    describe('given an existing file', () => {
       let uploadedFileId: ObjectStorageIdentifier
 
       beforeAll(async () => {
