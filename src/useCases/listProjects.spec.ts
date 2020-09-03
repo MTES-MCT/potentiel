@@ -199,7 +199,7 @@ describe('listProjects use-case', () => {
             periodeId,
             familleId,
             isClasse: true,
-            hasGarantiesFinancieres: true,
+            garantiesFinancieres: 'submitted',
             isNotified: true,
           },
           pagination
@@ -285,7 +285,7 @@ describe('listProjects use-case', () => {
             periodeId,
             familleId,
             isClasse: true,
-            hasGarantiesFinancieres: true,
+            garantiesFinancieres: 'submitted',
             isNotified: true,
           },
           pagination

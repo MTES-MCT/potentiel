@@ -1,4 +1,5 @@
 import moment from 'moment'
+import { Readable } from 'stream'
 import {
   makeProject,
   makeProjectAdmissionKey,
@@ -10,10 +11,32 @@ import { Ok, UnwrapForTest } from '../types'
 import makeFakeProject from '../__tests__/fixtures/project'
 import makeFakeUser from '../__tests__/fixtures/user'
 import makeAddDCR, { UNAUTHORIZED } from './addDCR'
+import { FileService } from '../modules/file/FileService'
+import { FileContainer, File } from '../modules/file'
+import { okAsync } from '../core/utils'
 
-const filename = 'fakeFile.pdf'
+const mockFileServiceSave = jest.fn(
+  async (file: File, fileContent: FileContainer) => okAsync(null)
+)
+jest.mock('../modules/file/FileService', () => ({
+  FileService: function () {
+    return {
+      save: mockFileServiceSave,
+    }
+  },
+}))
+
+const MockFileService = <jest.Mock<FileService>>FileService
+
+const fileService = new MockFileService()
+
 const date = Date.now()
 const numeroDossier = 'numero dossier'
+
+const fakeFileContents = {
+  path: 'fakeFile.pdf',
+  stream: Readable.from('test-content'),
+}
 
 describe('addDCR use-case', () => {
   describe('when the user has rights on this project', () => {
@@ -36,8 +59,10 @@ describe('addDCR use-case', () => {
 
     beforeAll(async () => {
       const shouldUserAccessProject = jest.fn(async () => true)
+      mockFileServiceSave.mockClear()
 
       const addDCR = makeAddDCR({
+        fileService,
         findProjectById: async () => originalProject,
         saveProject: async (project: Project) => {
           updatedProject = project
@@ -47,7 +72,7 @@ describe('addDCR use-case', () => {
       })
 
       const res = await addDCR({
-        filename,
+        file: fakeFileContents,
         date,
         numeroDossier,
         projectId: originalProject.id,
@@ -74,8 +99,16 @@ describe('addDCR use-case', () => {
         0
       )
       expect(updatedProject.dcrSubmittedBy).toEqual(user.id)
-      expect(updatedProject.dcrFile).toEqual(filename)
       expect(updatedProject.dcrDate).toEqual(date)
+
+      // Expect the file to be saved
+      expect(mockFileServiceSave).toHaveBeenCalled()
+      expect(mockFileServiceSave.mock.calls[0][1].stream).toEqual(
+        fakeFileContents.stream
+      )
+      const fakeFile = mockFileServiceSave.mock.calls[0][0]
+      expect(fakeFile).toBeDefined()
+      expect(updatedProject.dcrFileId).toEqual(fakeFile.id.toString())
 
       expect(updatedProject.history).toHaveLength(1)
       if (!updatedProject.history?.length) return
@@ -83,13 +116,13 @@ describe('addDCR use-case', () => {
         dcrNumeroDossier: '',
         dcrSubmittedBy: '',
         dcrSubmittedOn: 0,
-        dcrFile: '',
+        dcrFileId: '',
         dcrDate: 0,
       })
       expect(updatedProject.history[0].after).toEqual({
         dcrSubmittedBy: user.id,
         dcrSubmittedOn: updatedProject.dcrSubmittedOn,
-        dcrFile: filename,
+        dcrFileId: fakeFile.id.toString(),
         dcrNumeroDossier: numeroDossier,
         dcrDate: date,
       })
@@ -104,6 +137,8 @@ describe('addDCR use-case', () => {
 
   describe('When the user doesnt have rights on the project', () => {
     it('should return an UNAUTHORIZED error if the user does not have the rights on this project', async () => {
+      mockFileServiceSave.mockClear()
+
       const user = UnwrapForTest(
         makeUser(makeFakeUser({ role: 'porteur-projet' }))
       )
@@ -125,13 +160,14 @@ describe('addDCR use-case', () => {
       const saveProject = jest.fn()
 
       const addDCR = makeAddDCR({
+        fileService,
         findProjectById: async () => originalProject,
         saveProject,
         shouldUserAccessProject,
       })
 
       const res = await addDCR({
-        filename,
+        file: fakeFileContents,
         date,
         numeroDossier,
         projectId: originalProject.id,
@@ -147,6 +183,7 @@ describe('addDCR use-case', () => {
       })
 
       expect(saveProject).not.toHaveBeenCalled()
+      expect(mockFileServiceSave).not.toHaveBeenCalled()
 
       expect(res.unwrap_err()).toEqual(new Error(UNAUTHORIZED))
     })

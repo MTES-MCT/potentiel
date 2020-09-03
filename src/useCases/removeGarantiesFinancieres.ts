@@ -57,7 +57,7 @@ export default function makeRemoveGarantiesFinancieres({
       project,
       update: {
         garantiesFinancieresDate: 0,
-        garantiesFinancieresFile: undefined,
+        garantiesFinancieresFileId: undefined,
         garantiesFinancieresSubmittedOn: 0,
         garantiesFinancieresSubmittedBy: undefined,
       },

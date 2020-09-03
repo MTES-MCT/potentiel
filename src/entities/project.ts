@@ -20,6 +20,7 @@ import { User, ModificationRequest } from './'
 
 import { appelOffreSchema } from './appelOffre'
 import { familleSchema } from './famille'
+import { storage } from 'pkgcloud'
 
 const territoireSchema = Union(
   Literal('Corse'),
@@ -61,12 +62,14 @@ const baseProjectSchema = SchemaRecord({
   garantiesFinancieresSubmittedOn: Number,
   garantiesFinancieresSubmittedBy: String,
   garantiesFinancieresFile: String,
+  garantiesFinancieresFileId: String,
   garantiesFinancieresDate: Number,
   dcrDueOn: Number,
   dcrSubmittedOn: Number,
   dcrSubmittedBy: String,
   dcrNumeroDossier: String,
   dcrFile: String,
+  dcrFileId: String,
   dcrDate: Number,
 })
 const projectSchema = baseProjectSchema.And(
@@ -84,11 +87,21 @@ const fields: string[] = [
   'appelOffre',
   'history',
   'details',
+  'garantiesFinancieresFileRef',
+  'dcrFileRef',
   ...Object.keys(baseProjectSchema.fields),
 ]
 
 type BaseProject = Static<typeof projectSchema> & {
   details?: Record<string, any>
+  garantiesFinancieresFileRef?: {
+    id: string
+    filename: string
+  }
+  dcrFileRef?: {
+    id: string
+    filename: string
+  }
 }
 
 type ProjectEvent = {
@@ -102,11 +115,13 @@ type ProjectEvent = {
     | 'import'
     | 'candidate-notification'
     | 'garanties-financieres-submission'
+    | 'garanties-financieres-file-move'
     | 'garanties-financieres-removal'
     | 'relance-gf'
     | 'manual-edition'
     | 'dcr-submission'
     | 'dcr-removal'
+    | 'dcr-file-move'
   modificationRequestId?: ModificationRequest['id']
   isNew?: true
 }
@@ -233,11 +248,13 @@ export default ({ makeId }: MakeProjectDependencies) =>
     garantiesFinancieresSubmittedOn: 0,
     garantiesFinancieresSubmittedBy: '',
     garantiesFinancieresFile: '',
+    garantiesFinancieresFileId: '',
     garantiesFinancieresDate: 0,
     dcrDueOn: 0,
     dcrSubmittedOn: 0,
     dcrSubmittedBy: '',
     dcrFile: '',
+    dcrFileId: '',
     dcrNumeroDossier: '',
     dcrDate: 0,
   })

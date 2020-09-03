@@ -5,6 +5,7 @@ import makeFakeUser from '../__tests__/fixtures/user'
 
 import { makeProject, makeUser, Project, User, DREAL } from '../entities'
 import { UnwrapForTest } from '../types'
+import { toGarantiesFinancieresList } from '../modules/garantieFinanciere/mappers'
 
 const pagination = {
   page: 0,
@@ -39,11 +40,11 @@ describe('listGarantiesFinancieres use-case', () => {
 
     it('should return a list of projects with garanties financières for the user regions', async () => {
       const res = await listGarantiesFinancieres({ user })
-      expect(res).toEqual([fakeProject])
+      expect(res).toEqual(toGarantiesFinancieresList([fakeProject]))
 
       expect(findDrealsForUser).toHaveBeenCalledWith(user.id)
       expect(findAllProjectsForRegions).toHaveBeenCalledWith(userRegions, {
-        hasGarantiesFinancieres: true,
+        garantiesFinancieres: 'submitted',
       })
       expect(findAllProjects).not.toHaveBeenCalled()
     })
@@ -67,10 +68,10 @@ describe('listGarantiesFinancieres use-case', () => {
 
     it('should return a list of all projects with garanties financières', async () => {
       const res = await listGarantiesFinancieres({ user })
-      expect(res).toEqual([fakeProject])
+      expect(res).toEqual(toGarantiesFinancieresList([fakeProject]))
 
       expect(findAllProjects).toHaveBeenCalledWith({
-        hasGarantiesFinancieres: true,
+        garantiesFinancieres: 'submitted',
       })
       expect(findDrealsForUser).not.toHaveBeenCalled()
       expect(findAllProjectsForRegions).not.toHaveBeenCalled()

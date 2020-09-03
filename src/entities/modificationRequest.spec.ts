@@ -7,7 +7,7 @@ describe('ModificationRequest entity', () => {
       projectId: '1',
       type: 'actionnaire',
       actionnaire: 'nouvel actionnaire',
-      filename: 'filename',
+      fileId: 'filename',
     } as any)
 
     expect(modificationRequestResult.is_ok()).toBeTruthy()
@@ -31,7 +31,7 @@ describe('ModificationRequest entity', () => {
       projectId: '1',
       type: 'actionnaire',
       // actionnaire: 'nouvel actionnaire'
-      filename: 'filename',
+      fileId: 'filename',
     } as any)
 
     expect(modificationRequestResult.is_err()).toBeTruthy()
@@ -43,7 +43,7 @@ describe('ModificationRequest entity', () => {
       projectId: '1',
       type: 'producteur',
       producteur: 'nouveau producteur',
-      filename: 'filename',
+      fileId: 'filename',
     } as any)
 
     expect(modificationRequestResult.is_ok()).toBeTruthy()
@@ -67,7 +67,7 @@ describe('ModificationRequest entity', () => {
       projectId: '1',
       type: 'producteur',
       // producteur: 'nouvel producteur'
-      filename: 'filename',
+      fileId: 'filename',
     } as any)
 
     expect(modificationRequestResult.is_err()).toBeTruthy()
@@ -79,7 +79,7 @@ describe('ModificationRequest entity', () => {
       projectId: '1',
       type: 'fournisseur',
       fournisseur: 'nouveau fournisseur',
-      filename: 'filename',
+      fileId: 'filename',
       evaluationCarbone: 10,
       justification: 'because',
     } as any)
@@ -107,7 +107,7 @@ describe('ModificationRequest entity', () => {
       projectId: '1',
       type: 'fournisseur',
       // fournisseur: 'nouvel fournisseur'
-      filename: 'filename',
+      fileId: 'filename',
       evaluationCarbone: 10,
       justification: 'because',
     } as any)
@@ -121,7 +121,7 @@ describe('ModificationRequest entity', () => {
       projectId: '1',
       type: 'fournisseur',
       fournisseur: 'nouvel fournisseur',
-      filename: 'filename',
+      fileId: 'filename',
       justification: 'because',
       // evaluationCarbone: 10
     } as any)
@@ -135,7 +135,7 @@ describe('ModificationRequest entity', () => {
       projectId: '1',
       type: 'fournisseur',
       fournisseur: 'nouvel fournisseur',
-      filename: 'filename',
+      fileId: 'filename',
       evaluationCarbone: 10,
       // justification: 'because'
     } as any)

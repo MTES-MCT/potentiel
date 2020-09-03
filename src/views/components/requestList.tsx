@@ -142,11 +142,11 @@ const RequestList = ({ modificationRequests, requestActions }: Props) => {
                         fontSize: 12,
                       }}
                     >
-                      {modificationRequest.filename ? (
+                      {modificationRequest.attachmentFile ? (
                         <a
                           href={ROUTES.DOWNLOAD_PROJECT_FILE(
-                            modificationRequest.projectId,
-                            modificationRequest.filename
+                            modificationRequest.attachmentFile.id,
+                            modificationRequest.attachmentFile.filename
                           )}
                           download={true}
                           {...dataId('requestList-item-download-link')}

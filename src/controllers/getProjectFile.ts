@@ -1,31 +1,31 @@
 import { makeProjectFilePath } from '../helpers/makeProjectFilePath'
-import { NotFoundError, SuccessFile } from '../helpers/responses'
+import {
+  NotFoundError,
+  SuccessFileStream,
+  Redirect,
+  SystemError,
+} from '../helpers/responses'
 import { HttpRequest } from '../types'
-import { shouldUserAccessProject } from '../useCases'
+import { fileService } from '../config'
+import ROUTES from '../routes'
 
 const getProjectFile = async (request: HttpRequest) => {
   // console.log('Call to getProjectFile received', request.query, request.file)
 
   try {
-    const { projectId, filename } = request.params
+    const { fileId } = request.params
 
     if (!request.user) {
-      return NotFoundError('Fichier introuvable.')
+      return Redirect(ROUTES.LOGIN)
     }
 
-    // Check user rights on this project
-    const userAccess = await shouldUserAccessProject({
-      projectId,
-      user: request.user,
-    })
+    const result = await fileService.load(fileId, request.user)
 
-    if (!userAccess) {
-      return NotFoundError('Fichier introuvable.')
+    if (result.isErr()) {
+      return SystemError(result.error.message)
     }
 
-    const { filepath } = makeProjectFilePath(projectId, filename, true)
-
-    return SuccessFile(filepath)
+    return SuccessFileStream(result.value.stream)
   } catch (error) {
     console.log('getProjectFile error', error)
     return NotFoundError('Fichier introuvable.')

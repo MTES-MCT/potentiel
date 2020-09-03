@@ -27,7 +27,7 @@ describe('removeDCR use-case', () => {
               dcrSubmittedOn: 1234,
               dcrSubmittedBy: 'id123',
               dcrNumeroDossier: 'dossier123',
-              dcrFile: 'fichier123',
+              dcrFileId: 'fichier123',
               dcrDate: 123,
             })
           )
@@ -63,7 +63,7 @@ describe('removeDCR use-case', () => {
           expect(updatedProject.dcrSubmittedOn).toEqual(0)
           expect(updatedProject.dcrSubmittedBy).toEqual(undefined)
           expect(updatedProject.dcrNumeroDossier).toEqual(undefined)
-          expect(updatedProject.dcrFile).toEqual(undefined)
+          expect(updatedProject.dcrFileId).toEqual(undefined)
           expect(updatedProject.dcrDate).toEqual(0)
 
           expect(updatedProject.history).toHaveLength(1)
@@ -72,14 +72,14 @@ describe('removeDCR use-case', () => {
             dcrSubmittedOn: 1234,
             dcrSubmittedBy: 'id123',
             dcrNumeroDossier: 'dossier123',
-            dcrFile: 'fichier123',
+            dcrFileId: 'fichier123',
             dcrDate: 123,
           })
           expect(updatedProject.history[0].after).toEqual({
             dcrSubmittedOn: 0,
             dcrSubmittedBy: undefined,
             dcrNumeroDossier: undefined,
-            dcrFile: undefined,
+            dcrFileId: undefined,
             dcrDate: 0,
           })
           expect(updatedProject.history[0].createdAt / 100).toBeCloseTo(
@@ -98,7 +98,7 @@ describe('removeDCR use-case', () => {
               dcrSubmittedOn: 0,
               dcrSubmittedBy: undefined,
               dcrNumeroDossier: undefined,
-              dcrFile: undefined,
+              dcrFileId: undefined,
               dcrDate: 0,
             })
           )

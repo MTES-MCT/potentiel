@@ -129,15 +129,10 @@ class routes {
     '/demande-modification.html?action=abandon'
   )
   static DEMANDE_ACTION = '/soumettre-demande'
-  static DOWNLOAD_PROJECT_FILE = (
-    projectId?: Project['id'],
-    filename?: string
-  ) => {
-    const route = '/telechargement/:projectId/fichier/:filename'
-    if (projectId && filename) {
-      return route
-        .replace(':projectId', projectId)
-        .replace(':filename', filename)
+  static DOWNLOAD_PROJECT_FILE = (fileId?: string, filename?: string) => {
+    const route = '/telechargement/:fileId/fichier/:filename'
+    if (fileId && filename) {
+      return route.replace(':fileId', fileId).replace(':filename', filename)
     } else return route
   }
 

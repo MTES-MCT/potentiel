@@ -4,6 +4,8 @@ import { Result, Option, Err, Ok, Some } from '@usefultools/monads'
 import { OptSome, OptNone } from '@usefultools/monads/dist/Option/Option'
 import { ResOk, ResErr } from '@usefultools/monads/dist/Result/Result'
 
+import { Readable } from 'stream'
+
 import { Null } from './schemaTypes'
 
 export type HttpRequest = {
@@ -24,6 +26,9 @@ export type HttpResponse =
     }
   | {
       filePath: string
+    }
+  | {
+      fileStream: Readable
     }
   | {
       redirect: string

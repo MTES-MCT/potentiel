@@ -1,20 +1,23 @@
 import { Readable } from 'stream'
-import {
-  ObjectStorageFileService,
-  ObjectStorageIdentifier,
-} from './objectStorageFileService'
+import { ObjectStorageFileStorageService } from './objectStorageFileStorageService'
+
+import fs from 'fs'
+import path from 'path'
+import dotenv from 'dotenv'
+dotenv.config()
 
 const authUrl = process.env.OS_AUTH_URL
 const region = process.env.OS_REGION
 const username = process.env.OS_USERNAME
 const password = process.env.OS_PASSWORD
+const container = process.env.OS_CONTAINER
 
-describe.skip('objectStorageFileService', () => {
-  const fakePath = 'test/fakeFile.txt'
-  let storage: ObjectStorageFileService
+describe.skip('objectStorageFileStorageService', () => {
+  const fakePath = 'test/fakeFile' + Date.now() + '.txt'
+  let storage: ObjectStorageFileStorageService
 
   beforeAll(async () => {
-    storage = new ObjectStorageFileService(
+    storage = new ObjectStorageFileStorageService(
       {
         provider: 'openstack',
         keystoneAuthVersion: 'v3',
@@ -25,14 +28,14 @@ describe.skip('objectStorageFileService', () => {
         // @ts-ignore
         domainId: 'default',
       },
-      'Potentiel'
+      container
     )
   })
 
   beforeEach(async () => {})
 
-  describe('ObjectStorageFileService.save', () => {
-    let uploadedFileId: ObjectStorageIdentifier
+  describe('ObjectStorageFileStorageService.save', () => {
+    let uploadedFileId: string
     const fakeFile = {
       path: fakePath,
       stream: Readable.from(['test']),
@@ -51,12 +54,16 @@ describe.skip('objectStorageFileService', () => {
         if (result.isErr()) return
 
         uploadedFileId = result.value
+
+        expect(result.value).toEqual(
+          'objectStorage:' + container + ':' + fakePath
+        )
       })
     })
 
     describe('given a wrong container', () => {
       it('should return an error', async () => {
-        const badStorage = new ObjectStorageFileService(
+        const badStorage = new ObjectStorageFileStorageService(
           {
             provider: 'openstack',
             keystoneAuthVersion: 'v3',
@@ -79,14 +86,14 @@ describe.skip('objectStorageFileService', () => {
     })
   })
 
-  describe('ObjectStorageFileService.load', () => {
+  describe.skip('ObjectStorageFileStorageService.load', () => {
     const fakeFile = {
       path: fakePath,
       stream: Readable.from(['test']),
     }
 
     describe('given an existing file', () => {
-      let uploadedFileId: ObjectStorageIdentifier
+      let uploadedFileId: string
 
       beforeAll(async () => {
         const result = await storage.save(fakeFile)
@@ -94,6 +101,10 @@ describe.skip('objectStorageFileService', () => {
         if (result.isErr()) return
 
         uploadedFileId = result.value
+      })
+
+      afterAll(async () => {
+        if (uploadedFileId) await storage.remove(uploadedFileId)
       })
 
       it('should retrieve the file from the object storage', async () => {

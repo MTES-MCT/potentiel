@@ -10,8 +10,11 @@ import _ from 'lodash'
 import moment from 'moment'
 import { ResultAsync, Ok, Err, ErrorResult } from '../types'
 import routes from '../routes'
+import { FileService, File, FileContainer } from '../modules/file'
+import { makeProjectFilePath } from '../helpers/makeProjectFilePath'
 
 interface MakeUseCaseProps {
+  fileService: FileService
   findProjectById: ProjectRepo['findById']
   saveProject: ProjectRepo['save']
   findUsersForDreal: UserRepo['findUsersForDreal']
@@ -24,7 +27,7 @@ interface MakeUseCaseProps {
 }
 
 interface CallUseCaseProps {
-  filename: string
+  file: FileContainer
   date: number
   projectId: Project['id']
   user: User
@@ -37,6 +40,7 @@ export const SYSTEM_ERROR =
   'Une erreur système est survenue, merci de réessayer ou de contacter un administrateur si le problème persiste.'
 
 export default function makeAddGarantiesFinancieres({
+  fileService,
   findProjectById,
   saveProject,
   findUsersForDreal,
@@ -45,7 +49,7 @@ export default function makeAddGarantiesFinancieres({
   sendNotification,
 }: MakeUseCaseProps) {
   return async function addGarantiesFinancieres({
-    filename,
+    file,
     date,
     projectId,
     user,
@@ -62,11 +66,42 @@ export default function makeAddGarantiesFinancieres({
       return ErrorResult(UNAUTHORIZED)
     }
 
+    const fileResult = File.create({
+      designation: 'garantie-financiere',
+      forProject: project.id,
+      createdBy: user.id,
+      filename: file.path,
+    })
+
+    if (fileResult.isErr()) {
+      console.log(
+        'addGarantiesFinancieres use-case: File.create failed',
+        fileResult.error
+      )
+
+      return ErrorResult(SYSTEM_ERROR)
+    }
+
+    const saveFileResult = await fileService.save(fileResult.value, {
+      ...file,
+      path: makeProjectFilePath(projectId, file.path).filepath,
+    })
+
+    if (saveFileResult.isErr()) {
+      // OOPS
+      console.log(
+        'addGarantiesFinancieres use-case: fileService.save failed',
+        saveFileResult.error
+      )
+
+      return ErrorResult(SYSTEM_ERROR)
+    }
+
     const updatedProject = applyProjectUpdate({
       project,
       update: {
         garantiesFinancieresDate: date,
-        garantiesFinancieresFile: filename,
+        garantiesFinancieresFileId: fileResult.value.id.toString(),
         garantiesFinancieresSubmittedOn: Date.now(),
         garantiesFinancieresSubmittedBy: user.id,
       },
@@ -81,6 +116,8 @@ export default function makeAddGarantiesFinancieres({
       console.log(
         'addGarantiesFinancieres use-case: applyProjectUpdate returned null'
       )
+
+      // TODO: Remove uploaded file
 
       return ErrorResult(SYSTEM_ERROR)
     }

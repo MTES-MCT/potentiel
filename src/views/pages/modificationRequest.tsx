@@ -171,7 +171,7 @@ export default function ModificationRequestPage({
                   pattern="[0-9]+([\.,][0-9]+)?"
                   name="puissance"
                   id="puissance"
-                  value={puissance || ''}
+                  defaultValue={puissance || ''}
                   {...dataId('modificationRequest-puissanceField')}
                 />
                 <div
@@ -201,7 +201,7 @@ export default function ModificationRequestPage({
             {/* {action === 'fournisseur' ? (
               <>
                 <label>Ancien fournisseur</label>
-                <input type="text" disabled value={project.fournisseur} />
+                <input type="text" disabled defaultValue={project.fournisseur} />
                 <label className="required" htmlFor="fournisseur">
                   Nouveau fournisseur
                 </label>
@@ -209,14 +209,14 @@ export default function ModificationRequestPage({
                   type="text"
                   name="fournisseur"
                   id="fournisseur"
-                  value={fournisseur || ''}
+                  defaultValue={fournisseur || ''}
                   {...dataId('modificationRequest-fournisseurField')}
                 />
                 <label>Ancienne évaluation carbone</label>
                 <input
                   type="text"
                   disabled
-                  value={project.evaluationCarbone + ' kg eq CO2/kWc'}
+                  defaultValue={project.evaluationCarbone + ' kg eq CO2/kWc'}
                 />
                 <label className="required" htmlFor="fournisseur">
                   Nouvelle évaluation carbone (kg eq CO2/kWc)
@@ -225,7 +225,7 @@ export default function ModificationRequestPage({
                   type="text"
                   name="evaluationCarbone"
                   id="evaluationCarbone"
-                  value={evaluationCarbone || ''}
+                  defaultValue={evaluationCarbone || ''}
                   {...dataId('modificationRequest-evaluationCarboneField')}
                 />
                 <label className="required" htmlFor="candidats">
@@ -243,7 +243,7 @@ export default function ModificationRequestPage({
                 <textarea
                   name="justification"
                   id="justification"
-                  value={justification || ''}
+                  defaultValue={justification || ''}
                   {...dataId('modificationRequest-justificationField')}
                 />
               </>
@@ -253,7 +253,11 @@ export default function ModificationRequestPage({
             {action === 'producteur' ? (
               <>
                 <label>Ancien producteur</label>
-                <input type="text" disabled value={project.nomCandidat} />
+                <input
+                  type="text"
+                  disabled
+                  defaultValue={project.nomCandidat}
+                />
                 <label className="required" htmlFor="producteur">
                   Nouveau producteur
                 </label>
@@ -261,7 +265,7 @@ export default function ModificationRequestPage({
                   type="text"
                   name="producteur"
                   id="producteur"
-                  value={producteur || ''}
+                  defaultValue={producteur || ''}
                   {...dataId('modificationRequest-producteurField')}
                 />
                 <label className="required" htmlFor="candidats">
@@ -277,7 +281,7 @@ export default function ModificationRequestPage({
                 <textarea
                   name="justification"
                   id="justification"
-                  value={justification || ''}
+                  defaultValue={justification || ''}
                   {...dataId('modificationRequest-justificationField')}
                 />
               </>
@@ -287,7 +291,11 @@ export default function ModificationRequestPage({
             {action === 'actionnaire' ? (
               <>
                 <label>Ancien actionnaire</label>
-                <input type="text" disabled value={project.actionnaire} />
+                <input
+                  type="text"
+                  disabled
+                  defaultValue={project.actionnaire}
+                />
                 <label className="required" htmlFor="actionnaire">
                   Nouvel actionnaire
                 </label>
@@ -295,7 +303,7 @@ export default function ModificationRequestPage({
                   type="text"
                   name="actionnaire"
                   id="actionnaire"
-                  value={actionnaire || ''}
+                  defaultValue={actionnaire || ''}
                   {...dataId('modificationRequest-actionnaireField')}
                 />
                 <label className="required" htmlFor="candidats">
@@ -311,7 +319,7 @@ export default function ModificationRequestPage({
                 <textarea
                   name="justification"
                   id="justification"
-                  value={justification || ''}
+                  defaultValue={justification || ''}
                   {...dataId('modificationRequest-justificationField')}
                 />
               </>
@@ -326,7 +334,7 @@ export default function ModificationRequestPage({
                 <textarea
                   name="justification"
                   id="justification"
-                  value={justification || ''}
+                  defaultValue={justification || ''}
                   {...dataId('modificationRequest-justificationField')}
                 />
                 <label htmlFor="candidats">
@@ -350,7 +358,7 @@ export default function ModificationRequestPage({
                 <textarea
                   name="justification"
                   id="justification"
-                  value={justification || ''}
+                  defaultValue={justification || ''}
                   {...dataId('modificationRequest-justificationField')}
                 />
                 <label htmlFor="candidats">
@@ -372,7 +380,7 @@ export default function ModificationRequestPage({
                 <input
                   type="text"
                   disabled
-                  value={formatDate(
+                  defaultValue={formatDate(
                     +moment(project.notifiedOn).add(
                       getDelayForAppelOffre(project.appelOffreId),
                       'months'
@@ -388,7 +396,7 @@ export default function ModificationRequestPage({
                   type="text"
                   name="delayedServiceDate"
                   id="delayedServiceDate"
-                  value={
+                  defaultValue={
                     delayedServiceDate
                       ? formatDate(Number(delayedServiceDate), 'DD/MM/YYYY')
                       : ''
@@ -422,7 +430,7 @@ export default function ModificationRequestPage({
                 <textarea
                   name="justification"
                   id="justification"
-                  value={justification || ''}
+                  defaultValue={justification || ''}
                   {...dataId('modificationRequest-justificationField')}
                 />
                 <label htmlFor="candidats">

@@ -4,11 +4,14 @@ import { makeProjectFilePath } from '../helpers/makeProjectFilePath'
 import { Controller, HttpRequest } from '../types'
 import ROUTES from '../routes'
 import _ from 'lodash'
+import { FileContainer } from '../modules/file'
 import moment from 'moment'
 
 import fs from 'fs'
 import util from 'util'
 import path from 'path'
+
+const fileExists = util.promisify(fs.exists)
 const moveFile = util.promisify(fs.rename)
 const dirExists = util.promisify(fs.exists)
 const makeDir = util.promisify(fs.mkdir)
@@ -127,31 +130,30 @@ const postRequestModification = async (request: HttpRequest) => {
     })
   }
 
-  // If there is a file, move it to a proper location
+  let file: FileContainer | undefined = undefined
 
-  const { filename, filepath } = request.file
-    ? makeProjectFilePath(data.projectId, request.file.originalname)
-    : { filename: undefined, filepath: undefined }
-  if (request.file && filepath) {
-    try {
-      await makeDirIfNecessary(path.dirname(filepath))
-      await moveFile(request.file.path, filepath)
-      // console.log('File moved to ', filepath)
-    } catch (error) {
-      console.log('Could not move file')
+  if (request.file) {
+    if (!(await fileExists(request.file.path))) {
+      const { projectId, type } = data
+      return Redirect(returnRoute(type, projectId), {
+        error:
+          "Erreur: la pièce-jointe n'a pas pu être intégrée. Merci de réessayer.",
+      })
+    }
+
+    file = {
+      stream: fs.createReadStream(request.file.path),
+      path: request.file.originalname,
     }
   }
 
   const result = await requestModification({
     ...data,
-    filename,
+    file,
     user: request.user,
   })
 
-  if (result.is_err() && filepath) {
-    console.log('requestModification failed, removing file')
-    await deleteFile(filepath)
-  }
+  if (request.file) await deleteFile(request.file.path)
 
   return result.match({
     ok: () =>

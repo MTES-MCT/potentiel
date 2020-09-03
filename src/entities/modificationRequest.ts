@@ -24,19 +24,22 @@ const baseModificationRequestSchema = Record({
 const actionnaireSchema = Record({
   type: Literal('actionnaire'),
   actionnaire: String,
-  filename: String,
+  // filename: String,
+  fileId: String,
 })
 const producteurSchema = Record({
   type: Literal('producteur'),
   producteur: String,
-  filename: String,
+  // filename: String,
+  fileId: String,
 })
 const fournisseurSchema = Record({
   type: Literal('fournisseur'),
   fournisseur: String,
   evaluationCarbone: Number,
   justification: String,
-  filename: String,
+  // filename: String,
+  fileId: String,
 })
 const puissanceSchema = Record({
   type: Literal('puissance'),
@@ -70,7 +73,8 @@ const modificationRequestSchema = baseModificationRequestSchema
   )
   .And(
     Partial({
-      filename: String,
+      // filename: String,
+      fileId: String,
       requestedOn: Number,
       project: projectSchema.Or(Undefined),
       user: userSchema.Or(Undefined),
@@ -85,7 +89,9 @@ const modificationRequestSchema = baseModificationRequestSchema
   )
 
 const fields: string[] = [
-  'filename',
+  // 'filename',
+  'fileId',
+  'attachmentFile',
   'type',
   'actionnaire',
   'producteur',
@@ -100,7 +106,12 @@ const fields: string[] = [
   ...Object.keys(baseModificationRequestSchema.fields),
 ]
 
-type ModificationRequest = Static<typeof modificationRequestSchema>
+type ModificationRequest = Static<typeof modificationRequestSchema> & {
+  attachmentFile?: {
+    id: string
+    filename: string
+  }
+}
 
 interface MakeModificationRequestDependencies {
   makeId: () => string

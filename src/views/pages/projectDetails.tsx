@@ -312,9 +312,10 @@ const FriseItem = ({
         <td>
           {actions ? (
             <>
-              {actions.map((action) =>
+              {actions.map((action, index) =>
                 action.link ? (
                   <a
+                    key={'action_' + index}
                     href={action.link}
                     {...dataId('frise-action')}
                     download={action.download}
@@ -325,6 +326,7 @@ const FriseItem = ({
                   </a>
                 ) : action.openHiddenContent ? (
                   <a
+                    key={'action_' + index}
                     {...dataId('frise-action')}
                     className="frise-content-toggle"
                     style={{ marginRight: 10 }}
@@ -332,7 +334,11 @@ const FriseItem = ({
                     {action.title}
                   </a>
                 ) : (
-                  <span className="disabled-action" style={{ marginRight: 10 }}>
+                  <span
+                    key={'action_' + index}
+                    className="disabled-action"
+                    style={{ marginRight: 10 }}
+                  >
                     {action.title}
                   </span>
                 )
@@ -550,10 +556,11 @@ export default function ProjectDetails({
                             action={[
                               {
                                 title: "Télécharger l'attestation",
-                                link: project.garantiesFinancieresFile.length
+                                link: project.garantiesFinancieresFileRef
                                   ? ROUTES.DOWNLOAD_PROJECT_FILE(
-                                      project.id,
-                                      project.garantiesFinancieresFile
+                                      project.garantiesFinancieresFileRef.id,
+                                      project.garantiesFinancieresFileRef
+                                        .filename
                                     )
                                   : undefined,
                                 download: true,
@@ -623,12 +630,13 @@ export default function ProjectDetails({
                             action={[
                               {
                                 title: "Télécharger l'attestation",
-                                link: project.dcrFile.length
+                                link: project.dcrFileRef
                                   ? ROUTES.DOWNLOAD_PROJECT_FILE(
-                                      project.id,
-                                      project.dcrFile
+                                      project.dcrFileRef.id,
+                                      project.dcrFileRef.filename
                                     )
                                   : undefined,
+                                download: true,
                               },
                               ...(user.role === 'porteur-projet'
                                 ? [

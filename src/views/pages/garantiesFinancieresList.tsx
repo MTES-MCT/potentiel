@@ -10,15 +10,20 @@ import { dataId } from '../../helpers/testId'
 
 import ProjectList from '../components/projectList'
 import { HttpRequest } from '../../types'
+import { GarantiesFinancieresListDTO } from '../../modules/garantieFinanciere/dtos/GarantiesFinancieresList'
 
 interface DREALListProps {
   request: HttpRequest
-  projects: Array<Project>
+  garantiesFinancieres: GarantiesFinancieresListDTO
 }
 
 /* Pure component */
-export default function DREALList({ request, projects }: DREALListProps) {
+export default function DREALList({
+  request,
+  garantiesFinancieres,
+}: DREALListProps) {
   const { error, success } = request.query || {}
+  const { projects } = garantiesFinancieres
   return (
     <AdminDashboard
       role={request.user?.role}
@@ -41,9 +46,9 @@ export default function DREALList({ request, projects }: DREALListProps) {
             {projects.map((project) => {
               return (
                 <tr
-                  key={'project_' + project.id}
+                  key={'project_' + project.projectId}
                   {...dataId('gfList-item')}
-                  data-goto-projectid={project.id}
+                  data-goto-projectid={project.projectId}
                   style={{ cursor: 'pointer' }}
                 >
                   <td valign="top">
@@ -115,18 +120,22 @@ export default function DREALList({ request, projects }: DREALListProps) {
                   </td>
                   <td valign="top">
                     <div {...dataId('gfList-item-garanties-financieres')}>
-                      Déposées le {formatDate(project.garantiesFinancieresDate)}
+                      Déposées le {formatDate(project.garantieFinanciere.date)}
                     </div>{' '}
-                    <a
-                      href={ROUTES.DOWNLOAD_PROJECT_FILE(
-                        project.id,
-                        project.garantiesFinancieresFile
-                      )}
-                      download={true}
-                      {...dataId('gfList-item-download-link')}
-                    >
-                      Télécharger la pièce-jointe
-                    </a>
+                    {project.garantieFinanciere.file ? (
+                      <a
+                        href={ROUTES.DOWNLOAD_PROJECT_FILE(
+                          project.garantieFinanciere.file.id,
+                          project.garantieFinanciere.file.filename
+                        )}
+                        download={true}
+                        {...dataId('gfList-item-download-link')}
+                      >
+                        Télécharger la pièce-jointe
+                      </a>
+                    ) : (
+                      ''
+                    )}
                   </td>
                 </tr>
               )

@@ -11,6 +11,7 @@ import _ from 'lodash'
 const deserialize = (item) => ({
   ...item,
   filename: item.filename || undefined,
+  fileId: item.fileId || undefined,
   justification: item.justification || undefined,
   actionnaire: item.actionnaire || undefined,
   fournisseur: item.fournisseur || undefined,
@@ -52,6 +53,10 @@ export default function makeModificationRequestRepo({
       type: DataTypes.STRING,
       allowNull: true,
     },
+    fileId: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     justification: {
       type: DataTypes.STRING,
       allowNull: true,
@@ -82,6 +87,45 @@ export default function makeModificationRequestRepo({
     },
   })
 
+  const FileModel = sequelize.define(
+    'file',
+    {
+      id: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        primaryKey: true,
+      },
+      filename: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      forProject: {
+        type: DataTypes.UUID,
+        allowNull: true,
+      },
+      createdBy: {
+        type: DataTypes.UUID,
+        allowNull: true,
+      },
+      designation: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      storedAt: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+    },
+    {
+      timestamps: true,
+      tableName: 'file',
+    }
+  )
+  ModificationRequestModel.belongsTo(FileModel, {
+    foreignKey: 'fileId',
+    as: 'attachmentFile',
+  })
+
   const _isDbReady = isDbReady({ sequelize })
 
   return Object.freeze({
@@ -99,7 +143,16 @@ export default function makeModificationRequestRepo({
     try {
       const modificationRequestInDb = await ModificationRequestModel.findByPk(
         id,
-        { raw: true }
+        {
+          include: [
+            {
+              model: FileModel,
+              as: 'attachmentFile',
+              attributes: ['id', 'filename'],
+            },
+          ],
+          raw: true,
+        }
       )
 
       if (!modificationRequestInDb) return None
@@ -129,9 +182,17 @@ export default function makeModificationRequestRepo({
       const ProjectModel = sequelize.model('project')
       const UserModel = sequelize.model('user')
 
-      const opts: any = {}
+      const opts: any = {
+        include: [
+          {
+            model: FileModel,
+            as: 'attachmentFile',
+            attributes: ['id', 'filename'],
+          },
+        ],
+      }
       if (query) opts.where = query
-      if (includeInfo) opts.include = [ProjectModel, UserModel]
+      if (includeInfo) opts.include.push(ProjectModel, UserModel)
 
       const modificationRequestsRaw = await ModificationRequestModel.findAll(
         opts

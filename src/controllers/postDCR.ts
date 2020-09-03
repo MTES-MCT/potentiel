@@ -2,22 +2,14 @@ import { addDCR } from '../useCases'
 import { Redirect, SystemError } from '../helpers/responses'
 import { makeProjectFilePath } from '../helpers/makeProjectFilePath'
 import { Controller, HttpRequest } from '../types'
+import { FileContainer } from '../modules/file'
 import ROUTES from '../routes'
 import _ from 'lodash'
 import moment from 'moment'
 
 import fs from 'fs'
 import util from 'util'
-import path from 'path'
-const moveFile = util.promisify(fs.rename)
-const dirExists = util.promisify(fs.exists)
-const makeDir = util.promisify(fs.mkdir)
-const makeDirIfNecessary = async (dirpath) => {
-  const exists = await dirExists(dirpath)
-  if (!exists) await makeDir(dirpath)
-
-  return dirpath
-}
+const fileExists = util.promisify(fs.exists)
 const deleteFile = util.promisify(fs.unlink)
 
 const postDCR = async (request: HttpRequest) => {
@@ -59,37 +51,25 @@ const postDCR = async (request: HttpRequest) => {
     })
   }
 
-  // If there is a file, move it to a proper location
-  const { filename, filepath } = request.file
-    ? makeProjectFilePath(data.projectId, request.file.originalname)
-    : { filename: undefined, filepath: undefined }
-  if (request.file && filepath) {
-    try {
-      await makeDirIfNecessary(path.dirname(filepath))
-      await moveFile(request.file.path, filepath)
-      // console.log('File moved to ', filepath)
-    } catch (error) {
-      console.log('Could not move file')
-    }
-  }
-
-  if (!filename) {
+  if (!request.file || !(await fileExists(request.file.path))) {
     return Redirect(ROUTES.PROJECT_DETAILS(projectId), {
       error:
         "Votre demande de raccordement n'a pas pu être transmise. Merci de joindre l'attestation en pièce-jointe.",
     })
   }
 
+  const file: FileContainer = {
+    stream: fs.createReadStream(request.file.path),
+    path: request.file.originalname,
+  }
+
   const result = await addDCR({
     ...data,
-    filename,
+    file,
     user: request.user,
   })
 
-  if (result.is_err() && filepath) {
-    console.log('addDCR failed, removing file')
-    await deleteFile(filepath)
-  }
+  await deleteFile(request.file.path)
 
   return result.match({
     ok: () =>

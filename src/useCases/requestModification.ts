@@ -1,10 +1,13 @@
 import { ModificationRequest, makeModificationRequest } from '../entities'
 import { ModificationRequestRepo } from '../dataAccess'
 import _ from 'lodash'
+import { FileService, File, FileContainer } from '../modules/file'
 import { Result, Err, Ok, ResultAsync, ErrorResult } from '../types'
+import { makeProjectFilePath } from '../helpers/makeProjectFilePath'
 import { User, Project } from '../entities'
 
 interface MakeUseCaseProps {
+  fileService: FileService
   modificationRequestRepo: ModificationRequestRepo
   shouldUserAccessProject: (args: {
     user: User
@@ -14,7 +17,7 @@ interface MakeUseCaseProps {
 
 interface RequestCommon {
   user: User
-  filename?: string
+  file?: FileContainer
   projectId: Project['id']
 }
 
@@ -68,15 +71,18 @@ type CallUseCaseProps = RequestCommon &
 export const ERREUR_FORMAT = 'Merci de remplir les champs marqués obligatoires'
 export const ACCESS_DENIED_ERROR =
   "Vous n'avez pas le droit de faire de demandes pour ce projet"
+export const SYSTEM_ERROR =
+  'Une erreur système est survenue, merci de réessayer ou de contacter un administrateur si le problème persiste.'
 
 export default function makeRequestModification({
+  fileService,
   modificationRequestRepo,
   shouldUserAccessProject,
 }: MakeUseCaseProps) {
   return async function requestModification(
     props: CallUseCaseProps
   ): ResultAsync<null> {
-    const { user, projectId } = props
+    const { user, projectId, file } = props
 
     // Check if the user has the rights to this project
     const access =
@@ -90,9 +96,47 @@ export default function makeRequestModification({
       return ErrorResult(ACCESS_DENIED_ERROR)
     }
 
+    let fileId: string | undefined = undefined
+
+    if (file) {
+      const fileResult = File.create({
+        designation: 'modification-request',
+        forProject: projectId,
+        createdBy: user.id,
+        filename: file.path,
+      })
+
+      if (fileResult.isErr()) {
+        console.log(
+          'requestModification use-case: File.create failed',
+          fileResult.error
+        )
+
+        return ErrorResult(SYSTEM_ERROR)
+      }
+
+      const saveFileResult = await fileService.save(fileResult.value, {
+        ...file,
+        path: makeProjectFilePath(projectId, file.path).filepath,
+      })
+
+      if (saveFileResult.isErr()) {
+        // OOPS
+        console.log(
+          'requestModification use-case: fileService.save failed',
+          saveFileResult.error
+        )
+
+        return ErrorResult(SYSTEM_ERROR)
+      }
+
+      fileId = fileResult.value.id.toString()
+    }
+
     // console.log('modificationRequest usecase', props)
     const modificationRequestResult = makeModificationRequest({
       ...props,
+      fileId,
       userId: user.id,
     })
 

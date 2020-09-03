@@ -1,5 +1,6 @@
 import { User } from '../entities'
 import { HttpResponse } from '../types'
+import { Readable } from 'stream'
 
 const Success = (
   body: string | Record<string, any>,
@@ -23,6 +24,12 @@ const SuccessFile = (filePath: string): HttpResponse => {
   }
 }
 
+const SuccessFileStream = (fileStream: Readable): HttpResponse => {
+  return {
+    fileStream,
+  }
+}
+
 const ErrorWithCode = (statusCode: number) => (body: string) => ({
   statusCode,
   body,
@@ -43,4 +50,11 @@ const Redirect = (
   logout,
 })
 
-export { Success, SuccessFile, NotFoundError, SystemError, Redirect }
+export {
+  Success,
+  SuccessFile,
+  SuccessFileStream,
+  NotFoundError,
+  SystemError,
+  Redirect,
+}

@@ -4,7 +4,7 @@ import fs, { mkdir } from 'fs'
 import path from 'path'
 import util from 'util'
 import mkdirp from 'mkdirp'
-import { LocalFileService, LocalFileIdentifier } from './localFileService'
+import { LocalFileStorageService } from './localFileStorageService'
 
 const deleteFile = util.promisify(fs.unlink)
 const fileExists = util.promisify(fs.exists)
@@ -14,12 +14,12 @@ const deleteIfExists = (path) =>
 
 const rootPath = os.tmpdir()
 
-describe('localFileService', () => {
+describe('localFileStorageService', () => {
   const fakePath = 'test/fakeFile.txt'
-  const storage: LocalFileService = new LocalFileService(rootPath)
+  const storage: LocalFileStorageService = new LocalFileStorageService(rootPath)
   const targetPath = path.resolve(rootPath, fakePath)
 
-  describe('LocalFileService.save', () => {
+  describe('LocalFileStorageService.save', () => {
     const fakeFile = {
       path: fakePath,
       stream: Readable.from(['test']),
@@ -41,14 +41,14 @@ describe('localFileService', () => {
 
       if (result.isErr()) return
 
-      expect(result.value.filePath).toEqual(targetPath)
+      expect(result.value).toEqual(`localFile:${fakePath}`)
 
       const savedFile = fs.readFileSync(targetPath, 'utf8')
       expect(savedFile).toEqual('test')
     })
   })
 
-  describe('LocalFileService.load', () => {
+  describe('LocalFileStorageService.load', () => {
     describe('given an existing file', () => {
       beforeAll(async () => {
         await mkdirp(path.dirname(targetPath))
@@ -60,7 +60,7 @@ describe('localFileService', () => {
       })
 
       it('should retrieve the file from the file system', async () => {
-        const result = await storage.load(new LocalFileIdentifier(targetPath))
+        const result = await storage.load(`localFile:${fakePath}`)
 
         if (result.isErr()) console.log('error on load', result.error)
         expect(result.isOk()).toBe(true)
@@ -86,7 +86,7 @@ describe('localFileService', () => {
     })
   })
 
-  describe('LocalFileService.remove', () => {
+  describe('LocalFileStorageService.remove', () => {
     describe('given an existing file', () => {
       beforeAll(async () => {
         await mkdirp(path.dirname(targetPath))
@@ -94,7 +94,7 @@ describe('localFileService', () => {
       })
 
       it('should remove the file from the file system', async () => {
-        const result = await storage.remove(new LocalFileIdentifier(targetPath))
+        const result = await storage.remove(`localFile:${fakePath}`)
 
         if (result.isErr()) console.log('error on remove', result.error)
         expect(result.isOk()).toBe(true)

@@ -1,7 +1,7 @@
-import { Project, User, AppelOffre, Periode, Famille } from '../entities'
 import { ProjectRepo, UserRepo } from '../dataAccess'
-import { Pagination, PaginatedList } from '../types'
-import periode from '../entities/periode'
+import { Project, User } from '../entities'
+import { GarantiesFinancieresListDTO } from '../modules/garantieFinanciere/dtos/GarantiesFinancieresList'
+import { toGarantiesFinancieresList } from '../modules/garantieFinanciere/mappers'
 
 interface MakeUseCaseProps {
   findAllProjectsForRegions: ProjectRepo['findAllForRegions']
@@ -20,24 +20,31 @@ export default function makeListGarantiesFinancieres({
 }: MakeUseCaseProps) {
   return async function listGarantiesFinancieres({
     user,
-  }: CallUseCaseProps): Promise<Array<Project>> {
+  }: CallUseCaseProps): Promise<GarantiesFinancieresListDTO> {
+    let projects: Project[]
     switch (user.role) {
       case 'dreal':
         const regions = await findDrealsForUser(user.id)
-        return (
+        projects = (
           await findAllProjectsForRegions(regions, {
             garantiesFinancieres: 'submitted',
           })
         ).items
+        break
       case 'admin':
       case 'dgec':
-        return (
+        projects = (
           await findAllProjects({
             garantiesFinancieres: 'submitted',
           })
         ).items
+        break
       default:
-        return []
+        projects = []
+        break
     }
+
+    // TODO: move this to a specific query that returns a GarantiesFinancieresListDTO directly
+    return toGarantiesFinancieresList(projects)
   }
 }

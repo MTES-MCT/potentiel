@@ -8,10 +8,13 @@ import {
 import { ProjectRepo, UserRepo, ProjectAdmissionKeyRepo } from '../dataAccess'
 import _ from 'lodash'
 import moment from 'moment'
+import { FileService, File, FileContainer } from '../modules/file'
 import { ResultAsync, Ok, Err, ErrorResult } from '../types'
+import { makeProjectFilePath } from '../helpers/makeProjectFilePath'
 import routes from '../routes'
 
 interface MakeUseCaseProps {
+  fileService: FileService
   findProjectById: ProjectRepo['findById']
   saveProject: ProjectRepo['save']
   shouldUserAccessProject: (args: {
@@ -21,7 +24,7 @@ interface MakeUseCaseProps {
 }
 
 interface CallUseCaseProps {
-  filename: string
+  file: FileContainer
   numeroDossier: string
   date: number
   projectId: Project['id']
@@ -34,12 +37,13 @@ export const SYSTEM_ERROR =
   'Une erreur système est survenue, merci de réessayer ou de contacter un administrateur si le problème persiste.'
 
 export default function makeAddDCR({
+  fileService,
   findProjectById,
   saveProject,
   shouldUserAccessProject,
 }: MakeUseCaseProps) {
   return async function addDCR({
-    filename,
+    file,
     numeroDossier,
     date,
     projectId,
@@ -57,11 +61,39 @@ export default function makeAddDCR({
       return ErrorResult(UNAUTHORIZED)
     }
 
+    const fileResult = File.create({
+      designation: 'dcr',
+      forProject: project.id,
+      createdBy: user.id,
+      filename: file.path,
+    })
+
+    if (fileResult.isErr()) {
+      console.log('addDCR use-case: File.create failed', fileResult.error)
+
+      return ErrorResult(SYSTEM_ERROR)
+    }
+
+    const saveFileResult = await fileService.save(fileResult.value, {
+      ...file,
+      path: makeProjectFilePath(projectId, file.path).filepath,
+    })
+
+    if (saveFileResult.isErr()) {
+      // OOPS
+      console.log(
+        'addDCR use-case: fileService.save failed',
+        saveFileResult.error
+      )
+
+      return ErrorResult(SYSTEM_ERROR)
+    }
+
     const updatedProject = applyProjectUpdate({
       project,
       update: {
         dcrDate: date,
-        dcrFile: filename,
+        dcrFileId: fileResult.value.id.toString(),
         dcrNumeroDossier: numeroDossier,
         dcrSubmittedOn: Date.now(),
         dcrSubmittedBy: user.id,

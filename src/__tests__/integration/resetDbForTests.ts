@@ -1,4 +1,5 @@
 import { credentialsRepo, userRepo, resetDatabase } from '../../dataAccess'
+import { sequelize } from '../../sequelize.config'
 import { makeCredentials, makeUser, User } from '../../entities'
 import { Success } from '../../helpers/responses'
 import { resetSentEmails } from '../../helpers/sendEmailNotification'
@@ -8,6 +9,7 @@ import { createUser } from './helpers/createUser'
 const resetDbForTests = async (request: HttpRequest) => {
   // Erase everything from the database
   await resetDatabase()
+  await sequelize.sync({ force: true })
 
   // Erase emails
   resetSentEmails()

@@ -28,12 +28,14 @@ const deserialize = (item) => ({
   territoireProjet: item.territoireProjet || undefined,
   garantiesFinancieresDate: item.garantiesFinancieresDate || 0,
   garantiesFinancieresFile: item.garantiesFinancieresFile || '',
+  garantiesFinancieresFileId: item.garantiesFinancieresFileId || '',
   garantiesFinancieresDueOn: item.garantiesFinancieresDueOn || 0,
   garantiesFinancieresRelanceOn: item.garantiesFinancieresRelanceOn || 0,
   garantiesFinancieresSubmittedOn: item.garantiesFinancieresSubmittedOn || 0,
   garantiesFinancieresSubmittedBy: item.garantiesFinancieresSubmittedBy || '',
   dcrDate: item.dcrDate || 0,
   dcrFile: item.dcrFile || '',
+  dcrFileId: item.dcrFileId || '',
   dcrDueOn: item.dcrDueOn || 0,
   dcrSubmittedOn: item.dcrSubmittedOn || 0,
   dcrSubmittedBy: item.dcrSubmittedBy || '',
@@ -191,6 +193,10 @@ export default function makeProjectRepo({
       type: DataTypes.STRING,
       allowNull: true,
     },
+    garantiesFinancieresFileId: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     garantiesFinancieresSubmittedBy: {
       type: DataTypes.UUID,
       allowNull: true,
@@ -211,6 +217,10 @@ export default function makeProjectRepo({
       defaultValue: 0,
     },
     dcrFile: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    dcrFileId: {
       type: DataTypes.STRING,
       allowNull: true,
     },
@@ -297,6 +307,50 @@ export default function makeProjectRepo({
     foreignKey: 'projectId',
   })
 
+  const FileModel = sequelize.define(
+    'file',
+    {
+      id: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        primaryKey: true,
+      },
+      filename: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      forProject: {
+        type: DataTypes.UUID,
+        allowNull: true,
+      },
+      createdBy: {
+        type: DataTypes.UUID,
+        allowNull: true,
+      },
+      designation: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      storedAt: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+    },
+    {
+      timestamps: true,
+      tableName: 'file',
+    }
+  )
+  ProjectModel.belongsTo(FileModel, {
+    foreignKey: 'garantiesFinancieresFileId',
+    as: 'garantiesFinancieresFileRef',
+  })
+
+  ProjectModel.belongsTo(FileModel, {
+    foreignKey: 'dcrFileId',
+    as: 'dcrFileRef',
+  })
+
   const _isDbReady = isDbReady({ sequelize }).then(() =>
     initSearchIndex(sequelize)
   )
@@ -344,10 +398,25 @@ export default function makeProjectRepo({
     await _isDbReady
 
     try {
-      const projectInDb = await ProjectModel.findByPk(id)
+      const projectInDb = await ProjectModel.findByPk(id, {
+        include: [
+          {
+            model: FileModel,
+            as: 'garantiesFinancieresFileRef',
+            attributes: ['id', 'filename'],
+          },
+          {
+            model: FileModel,
+            as: 'dcrFileRef',
+            attributes: ['id', 'filename'],
+          },
+        ],
+      })
       if (!projectInDb) return
 
-      const projectInstance = makeProject(deserialize(projectInDb.get()))
+      const projectInstance = makeProject(
+        deserialize(projectInDb.get({ plain: true }))
+      )
 
       if (projectInstance.is_err()) {
         throw projectInstance.unwrap_err()
@@ -394,6 +463,19 @@ export default function makeProjectRepo({
 
   function _makeSelectorsForQuery(query?: ProjectFilters) {
     const opts: any = { where: {} }
+
+    opts.include = [
+      {
+        model: FileModel,
+        as: 'garantiesFinancieresFileRef',
+        attributes: ['id', 'filename'],
+      },
+      {
+        model: FileModel,
+        as: 'dcrFileRef',
+        attributes: ['id', 'filename'],
+      },
+    ]
 
     if (query) {
       opts.where = {}
@@ -476,7 +558,7 @@ export default function makeProjectRepo({
     })
 
     const projectsRaw = rows
-      .map((item) => item.get())
+      .map((item) => item.get({ plain: true }))
       // Double check the list of projects if filterFn is given
       .filter(filterFn || (() => true))
 
@@ -696,11 +778,16 @@ export default function makeProjectRepo({
 
       opts.where.regionProjet = _makeRegionSelector(regions)
 
-      return _findAndBuildProjectList(opts, pagination, (project) =>
+      // console.log('findAllForRegions opts', opts)
+      // console.log('findAllForRegions regions', regions)
+
+      const res = await _findAndBuildProjectList(opts, pagination, (project) =>
         project.regionProjet
           .split(' / ')
           .some((region) => regions.includes(region as DREAL))
       )
+      // console.log('findAllForRegions res', res)
+      return res
     } catch (error) {
       if (CONFIG.logDbErrors) console.log('Project.searchForUser error', error)
       return makePaginatedList([], 0, pagination)

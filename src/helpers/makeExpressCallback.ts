@@ -77,6 +77,8 @@ export default function makeExpressCallback(controller: Controller) {
           })
         } else if ('filePath' in httpResponse) {
           res.sendFile(path.resolve(process.cwd(), httpResponse.filePath))
+        } else if ('fileStream' in httpResponse) {
+          httpResponse.fileStream.pipe(res)
         } else {
           if (httpResponse.logout) req.logout()
           res.status(httpResponse.statusCode)

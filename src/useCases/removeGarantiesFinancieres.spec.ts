@@ -28,7 +28,7 @@ describe('removeGarantiesFinancieres use-case', () => {
             makeFakeProject({
               garantiesFinancieresSubmittedOn: 1234,
               garantiesFinancieresSubmittedBy: 'id123',
-              garantiesFinancieresFile: 'file123',
+              garantiesFinancieresFileId: 'file123',
               garantiesFinancieresDate: 123,
             })
           )
@@ -65,7 +65,7 @@ describe('removeGarantiesFinancieres use-case', () => {
           expect(updatedProject.garantiesFinancieresSubmittedBy).toEqual(
             undefined
           )
-          expect(updatedProject.garantiesFinancieresFile).toEqual(undefined)
+          expect(updatedProject.garantiesFinancieresFileId).toEqual(undefined)
           expect(updatedProject.garantiesFinancieresDate).toEqual(0)
 
           expect(updatedProject.history).toHaveLength(1)
@@ -73,13 +73,13 @@ describe('removeGarantiesFinancieres use-case', () => {
           expect(updatedProject.history[0].before).toEqual({
             garantiesFinancieresSubmittedOn: 1234,
             garantiesFinancieresSubmittedBy: 'id123',
-            garantiesFinancieresFile: 'file123',
+            garantiesFinancieresFileId: 'file123',
             garantiesFinancieresDate: 123,
           })
           expect(updatedProject.history[0].after).toEqual({
             garantiesFinancieresSubmittedOn: 0,
             garantiesFinancieresSubmittedBy: undefined,
-            garantiesFinancieresFile: undefined,
+            garantiesFinancieresFileId: undefined,
             garantiesFinancieresDate: 0,
           })
           expect(updatedProject.history[0].createdAt / 100).toBeCloseTo(
@@ -99,7 +99,7 @@ describe('removeGarantiesFinancieres use-case', () => {
             makeFakeProject({
               garantiesFinancieresSubmittedOn: 0,
               garantiesFinancieresSubmittedBy: undefined,
-              garantiesFinancieresFile: undefined,
+              garantiesFinancieresFileId: undefined,
               garantiesFinancieresDate: 0,
             })
           )

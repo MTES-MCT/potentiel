@@ -11,12 +11,14 @@ const getGarantiesFinancieresPage = async (request: HttpRequest) => {
     return Redirect(ROUTES.LOGIN)
   }
 
-  const projects = await listGarantiesFinancieres({ user: request.user })
+  const garantiesFinancieres = await listGarantiesFinancieres({
+    user: request.user,
+  })
 
   return Success(
     GarantiesFinancieresListPage({
       request,
-      projects,
+      garantiesFinancieres,
     })
   )
 }

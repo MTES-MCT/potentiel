@@ -55,7 +55,7 @@ export default function makeRemoveDCR({
       project,
       update: {
         dcrDate: 0,
-        dcrFile: undefined,
+        dcrFileId: undefined,
         dcrNumeroDossier: undefined,
         dcrSubmittedOn: 0,
         dcrSubmittedBy: undefined,

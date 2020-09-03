@@ -25,6 +25,8 @@ import makeRelanceGarantiesFinancieres from './relanceGarantiesFinancieres'
 
 import { sendEmail } from '../helpers/sendEmailNotification'
 
+import { fileService } from '../config'
+
 import {
   credentialsRepo,
   userRepo,
@@ -99,6 +101,7 @@ const signup = makeSignup({
 })
 
 const requestModification = makeRequestModification({
+  fileService,
   modificationRequestRepo,
   shouldUserAccessProject,
 })
@@ -132,6 +135,7 @@ const inviteUserToProject = makeInviteUserToProject({
 })
 
 const addGarantiesFinancieres = makeAddGarantiesFinancieres({
+  fileService,
   findProjectById: projectRepo.findById,
   saveProject: projectRepo.save,
   findUsersForDreal: userRepo.findUsersForDreal,
@@ -146,6 +150,7 @@ const removeGarantiesFinancieres = makeRemoveGarantiesFinancieres({
 })
 
 const addDCR = makeAddDCR({
+  fileService,
   findProjectById: projectRepo.findById,
   saveProject: projectRepo.save,
   shouldUserAccessProject,

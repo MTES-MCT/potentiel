@@ -69,7 +69,7 @@ import { initDatabase } from './dataAccess'
 import ROUTES from './routes'
 import { User } from './entities'
 
-const FILE_SIZE_LIMIT_MB = 10
+const FILE_SIZE_LIMIT_MB = 50
 
 export async function makeServer(port: number = 3000) {
   try {
