@@ -12,7 +12,7 @@ import {
 let fileStorageService: FileStorageService
 
 if (
-  process.env.NODE_ENV === 'development' ||
+  // process.env.NODE_ENV === 'development' ||
   process.env.NODE_ENV === 'production'
 ) {
   const authUrl = process.env.OS_AUTH_URL
