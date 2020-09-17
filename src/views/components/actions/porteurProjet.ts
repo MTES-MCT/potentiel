@@ -2,8 +2,7 @@ import { Project, AppelOffre } from '../../../entities'
 import ROUTES from '../../../routes'
 
 const porteurProjetActions = (project: Project) => {
-  const canDownloadCertificate =
-    project.appelOffre?.periode?.canGenerateCertificate
+  const canDownloadCertificate = !!project.certificateFile
 
   if (project.classe === 'Eliminé') {
     return [

@@ -2,6 +2,7 @@ import { Project, ProjectAdmissionKey, AppelOffre } from './entities'
 import querystring from 'querystring'
 import { string } from 'yup'
 import sanitize from 'sanitize-filename'
+import { makeCertificateFilename } from './modules/project/utils'
 
 const withParams = <T extends Record<string, any>>(url: string) => (
   params?: T
@@ -76,19 +77,15 @@ class routes {
   }
 
   static CANDIDATE_CERTIFICATE_FOR_ADMINS = (project: Project) =>
-    routes.CANDIDATE_CERTIFICATE(
-      project.id,
-      sanitize(`attestation-${project.email}`)
+    routes.DOWNLOAD_PROJECT_FILE(
+      project.certificateFile?.id,
+      makeCertificateFilename(project, true)
     )
 
   static CANDIDATE_CERTIFICATE_FOR_CANDIDATES = (project: Project) =>
-    routes.CANDIDATE_CERTIFICATE(
-      project.id,
-      sanitize(
-        `${project.appelOffre?.id || 'AO'}-P${project.periodeId}-F${
-          project.familleId
-        }-${project.nomProjet}`
-      )
+    routes.DOWNLOAD_PROJECT_FILE(
+      project.certificateFile?.id,
+      makeCertificateFilename(project)
     )
 
   static ADMIN_NOTIFY_CANDIDATES_ACTION = '/admin/sendCandidateNotifications'

@@ -39,7 +39,7 @@ export default function makeRelanceGarantiesFinancieres({
 
     await Promise.all(
       lateProjects.map(async (project) => {
-        if (!project.appelOffre?.periode?.canGenerateCertificate) {
+        if (!project.appelOffre?.periode?.isNotifiedOnPotentiel) {
           console.log(
             'Relance impossible pour un projet qui est dans une période non-notifiée sur Potentiel',
             project.id

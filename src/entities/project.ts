@@ -1,26 +1,23 @@
+import crypto from 'crypto'
 import isEmail from 'isemail'
 import _ from 'lodash'
-import crypto from 'crypto'
-import {
-  String,
-  Number,
-  Record as SchemaRecord,
-  Array as SchemaArray,
-  Union,
-  Literal,
-  Boolean,
-  Static,
-  Unknown,
-  Partial as SchemaPartial,
-  Undefined,
-} from '../types/schemaTypes'
 import buildMakeEntity from '../helpers/buildMakeEntity'
-
-import { User, ModificationRequest } from './'
-
-import { appelOffreSchema } from './appelOffre'
-import { familleSchema } from './famille'
-import { storage } from 'pkgcloud'
+import {
+  Boolean,
+  Literal,
+  Number,
+  Partial as SchemaPartial,
+  Record as SchemaRecord,
+  Static,
+  String,
+  Undefined,
+  Union,
+  Unknown,
+} from '../types/schemaTypes'
+import { ModificationRequest, User } from './'
+import { ProjectAppelOffre } from './appelOffre'
+import { Famille } from './famille'
+import { CertificateTemplate } from './periode'
 
 const territoireSchema = Union(
   Literal('Corse'),
@@ -57,6 +54,7 @@ const baseProjectSchema = SchemaRecord({
   classe: Union(Literal('Eliminé'), Literal('Classé')),
   motifsElimination: String,
   notifiedOn: Number,
+  certificateFileId: String,
   garantiesFinancieresDueOn: Number,
   garantiesFinancieresRelanceOn: Number,
   garantiesFinancieresSubmittedOn: Number,
@@ -76,8 +74,8 @@ const projectSchema = baseProjectSchema.And(
   SchemaPartial({
     actionnaire: String,
     territoireProjet: territoireSchema.Or(Undefined),
-    appelOffre: appelOffreSchema,
-    famille: familleSchema,
+    appelOffre: Unknown.withGuard((obj: any): obj is ProjectAppelOffre => true), // This would be type ProjectAppelOffre
+    famille: Unknown.withGuard((obj: any): obj is Famille => true),
   })
 )
 
@@ -89,6 +87,7 @@ const fields: string[] = [
   'details',
   'garantiesFinancieresFileRef',
   'dcrFileRef',
+  'certificateFile',
   ...Object.keys(baseProjectSchema.fields),
 ]
 
@@ -99,6 +98,10 @@ type BaseProject = Static<typeof projectSchema> & {
     filename: string
   }
   dcrFileRef?: {
+    id: string
+    filename: string
+  }
+  certificateFile?: {
     id: string
     filename: string
   }
@@ -114,6 +117,7 @@ type ProjectEvent = {
     | 'modification-request'
     | 'import'
     | 'candidate-notification'
+    | 'certificate-generation'
     | 'garanties-financieres-submission'
     | 'garanties-financieres-file-move'
     | 'garanties-financieres-removal'
@@ -233,6 +237,31 @@ const makeProjectIdentifier = (project: Project): string => {
   )
 }
 
+const getCertificateIfProjectEligible = (
+  project: Project
+): CertificateTemplate | null => {
+  if (!project.notifiedOn) {
+    console.log('getCertificateIfProjectEligible failed on project notifiedOn')
+    return null
+  }
+
+  if (!project.appelOffre?.periode?.isNotifiedOnPotentiel) {
+    console.log(
+      'getCertificateIfProjectEligible failed on periode.isNotifiedOnPotentiel'
+    )
+    return null
+  }
+
+  if (!project.appelOffre?.periode?.certificateTemplate) {
+    console.log(
+      'getCertificateIfProjectEligible failed on periode.certificateTemplate'
+    )
+    return null
+  }
+
+  return project.appelOffre?.periode?.certificateTemplate
+}
+
 interface MakeProjectDependencies {
   makeId: () => string
 }
@@ -243,6 +272,7 @@ export default ({ makeId }: MakeProjectDependencies) =>
     isInvestissementParticipatif: false,
     isFinancementParticipatif: false,
     engagementFournitureDePuissanceAlaPointe: false,
+    certificateFileId: '',
     garantiesFinancieresDueOn: 0,
     garantiesFinancieresRelanceOn: 0,
     garantiesFinancieresSubmittedOn: 0,
@@ -266,4 +296,5 @@ export {
   territoireSchema,
   buildApplyProjectUpdate,
   makeProjectIdentifier,
+  getCertificateIfProjectEligible,
 }

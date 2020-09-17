@@ -1,9 +1,8 @@
-import { Readable } from 'stream'
 import { ResultAsync } from '../../core/utils/Result'
 
 export type FileContainer = {
   path: string
-  stream: Readable
+  stream: NodeJS.ReadableStream
 }
 
 export interface FileStorageService {

@@ -89,7 +89,7 @@ export default function makeListUnnotifiedProjects({
 
           return (
             !!periode &&
-            !!periode.canGenerateCertificate && {
+            !!periode.isNotifiedOnPotentiel && {
               id: periodeId,
               title: periode.title,
             }

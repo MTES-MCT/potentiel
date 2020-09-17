@@ -1,84 +1,47 @@
-import {
-  String,
-  Number,
-  Record,
-  Array,
-  Union,
-  Literal,
-  Boolean,
-  Static,
-  Unknown,
-  Partial,
-  Undefined,
-} from '../types/schemaTypes'
-import buildMakeEntity from '../helpers/buildMakeEntity'
+import { Periode } from './periode'
+import { Famille } from './famille'
 
-import { periodeSchema } from './periode'
-import { familleSchema } from './famille'
-
-const csvFieldSchema = Record({
-  field: String,
-  column: String,
-  type: Union(
-    Literal('string'),
-    Literal('number'),
-    Literal('date'),
-    Literal('stringEquals'), // column should equals value
-    Literal('orNumberInColumn'), // if column is empty, check try column
-    Literal('orStringInColumn'), // if column is empty, check try column
-    Literal('codePostal') // Special case where we want to extend departement / région from codePostal
-  ),
-}).And(
-  Partial({
-    value: String,
-    defaultValue: Unknown,
-  })
-)
-
-const baseAppelOffreSchema = Record({
-  id: String,
-  title: String,
-  shortTitle: String,
-  launchDate: String,
-  unitePuissance: String,
-  delaiRealisationEnMois: Number,
-  paragraphePrixReference: String,
-  paragrapheDelaiDerogatoire: String,
-  paragrapheAttestationConformite: String,
-  paragrapheEngagementIPFP: String,
-  afficherParagrapheInstallationMiseEnServiceModification: Boolean,
-  renvoiModification: String,
-  affichageParagrapheECS: Boolean,
-  renvoiDemandeCompleteRaccordement: String,
-  renvoiRetraitDesignationGarantieFinancieres: String,
-  renvoiEngagementIPFP: String,
-  paragrapheClauseCompetitivite: String,
-  tarifOuPrimeRetenue: String,
-  afficherValeurEvaluationCarbone: Boolean,
-  afficherPhraseRegionImplantation: Boolean,
-  periodes: Array(periodeSchema),
-  familles: Array(familleSchema),
-  dataFields: Array(csvFieldSchema),
-})
-
-const appelOffreSchema = baseAppelOffreSchema.And(
-  Partial({
-    periode: periodeSchema,
-  })
-)
-
-const fields: string[] = [
-  'periode',
-  ...Object.keys(baseAppelOffreSchema.fields),
-]
-
-type AppelOffre = Static<typeof appelOffreSchema>
-
-interface MakeAppelOffreDependencies {
-  makeId: () => string
+type DataField = {
+  field: string
+  column: string
+  type:
+    | 'string'
+    | 'number'
+    | 'date'
+    | 'stringEquals' // column should equals value
+    | 'orNumberInColumn' // if column is empty, check try column
+    | 'orstringInColumn' // if column is empty, check try column
+    | 'codePostal' // Special case where we want to extend departement / région from codePostal
+  value?: string
+  defaultValue?: unknown
 }
 
-export default ({ makeId }: MakeAppelOffreDependencies) =>
-  buildMakeEntity<AppelOffre>(appelOffreSchema, makeId, fields)
+export type AppelOffre = {
+  id: string
+  title: string
+  shortTitle: string
+  launchDate: string
+  unitePuissance: string
+  delaiRealisationEnMois: number
+  paragraphePrixReference: string
+  paragrapheDelaiDerogatoire: string
+  paragrapheAttestationConformite: string
+  paragrapheEngagementIPFP: string
+  afficherParagrapheInstallationMiseEnServiceModification: boolean
+  renvoiModification: string
+  affichageParagrapheECS: boolean
+  renvoiDemandeCompleteRaccordement: string
+  renvoiRetraitDesignationGarantieFinancieres: string
+  renvoiEngagementIPFP: string
+  paragrapheClauseCompetitivite: string
+  tarifOuPrimeRetenue: string
+  afficherValeurEvaluationCarbone: boolean
+  afficherPhraseRegionImplantation: boolean
+  periodes: Periode[]
+  familles: Famille[]
+  dataFields: DataField[]
+}
 
-export { AppelOffre, appelOffreSchema }
+export type ProjectAppelOffre = AppelOffre & {
+  periode: Periode
+}

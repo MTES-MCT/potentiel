@@ -1,5 +1,5 @@
-import { ResultAsync, Ok, ErrorResult } from '../types'
-import { EmailProps } from '../useCases/sendNotification'
+import { ResultAsync, Ok, ErrorResult } from '../../types'
+import { EmailProps } from '../../useCases/sendNotification'
 /**
  *
  * This call sends a message to the given recipient with vars and custom vars.
@@ -35,15 +35,7 @@ function isAuthorizedEmail(destinationEmail: string): boolean {
   return true
 }
 
-const sentEmails: Array<EmailProps> = [] // For testing purposes only
-
-async function sendEmail(props: EmailProps): ResultAsync<null> {
-  if (process.env.NODE_ENV === 'test') {
-    // Register the sent email but don't send it for real
-    sentEmails.push(props)
-    return Ok(null)
-  }
-
+async function sendEmailFromMailjet(props: EmailProps): ResultAsync<null> {
   const {
     id,
     recipients,
@@ -94,15 +86,4 @@ async function sendEmail(props: EmailProps): ResultAsync<null> {
   }
 }
 
-// For tests only
-const getSentEmails = () => {
-  return sentEmails
-}
-
-const resetSentEmails = () => {
-  while (sentEmails.length) {
-    sentEmails.pop()
-  }
-}
-
-export { getSentEmails, sendEmail, resetSentEmails }
+export { sendEmailFromMailjet }

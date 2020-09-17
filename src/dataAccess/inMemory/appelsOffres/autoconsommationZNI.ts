@@ -39,7 +39,8 @@ const autoconsommationZNI: AppelOffre = {
     {
       id: '1',
       title: 'première',
-      canGenerateCertificate: true,
+      isNotifiedOnPotentiel: true,
+      certificateTemplate: 'v0',
     },
   ],
   familles: [],

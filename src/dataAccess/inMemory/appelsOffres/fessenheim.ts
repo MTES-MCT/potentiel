@@ -46,7 +46,8 @@ const fessenheim: AppelOffre = {
         { familleId: '1', noteThreshold: 69.34 },
         { familleId: '3', noteThreshold: 1.52 },
       ],
-      canGenerateCertificate: true,
+      isNotifiedOnPotentiel: true,
+      certificateTemplate: 'v0',
     },
   ],
   familles: [

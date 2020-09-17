@@ -45,7 +45,7 @@ const appelsOffresDTOs = [
 
 const makePeriodeDTO = (periode) => ({ id: periode.id, title: periode.title })
 const validFessenheimPeriodes = fessenheim.periodes
-  .filter((periode) => !!periode.canGenerateCertificate)
+  .filter((periode) => !!periode.isNotifiedOnPotentiel)
   .map(makePeriodeDTO)
 
 const searchAll = jest.fn(async () => projectList)

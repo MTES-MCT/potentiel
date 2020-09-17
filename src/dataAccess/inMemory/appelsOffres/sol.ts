@@ -67,7 +67,8 @@ const sol: AppelOffre = {
         { familleId: '2', noteThreshold: 48.17 },
         { familleId: '3', noteThreshold: 54.15 },
       ],
-      canGenerateCertificate: true,
+      isNotifiedOnPotentiel: true,
+      certificateTemplate: 'v0',
     },
   ],
   familles: [

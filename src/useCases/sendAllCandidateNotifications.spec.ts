@@ -25,6 +25,7 @@ import makeSendAllCandidateNotifications, {
   INVALID_APPELOFFRE_PERIOD_ERROR,
   ERREUR_AUCUN_PROJET_NON_NOTIFIE,
 } from './sendAllCandidateNotifications'
+import { DomainEvent } from '../core/domain'
 
 const pagination = {
   page: 0,
@@ -84,8 +85,13 @@ describe('sendAllCandidateNotifications use-case', () => {
       const findAllProjects = jest.fn(async () => fakeProjectList)
       const saveProject = jest.fn(async () => Ok(null))
       const sendNotification = jest.fn()
+      const eventBus = {
+        publish: jest.fn((event: DomainEvent<any>) => {}),
+        subscribe: jest.fn(),
+      }
 
       const sendAllCandidateNotifications = makeSendAllCandidateNotifications({
+        eventBus,
         findAllProjects,
         saveProject,
         appelOffreRepo,
@@ -184,13 +190,41 @@ describe('sendAllCandidateNotifications use-case', () => {
           // This project does not require GF
         })
       })
+
+      it('should publish a ProjectNotified event', () => {
+        expect(eventBus.publish).toHaveBeenCalledTimes(2)
+        const publishedEvents = eventBus.publish.mock.calls.map(
+          (call) => call[0]
+        )
+
+        expect(
+          publishedEvents.find(
+            (item) =>
+              item.type === 'ProjectNotified' &&
+              item.payload.projectId === fakeProject1.id
+          )
+        ).toBeDefined()
+
+        expect(
+          publishedEvents.find(
+            (item) =>
+              item.type === 'ProjectNotified' &&
+              item.payload.projectId === fakeProject2.id
+          )
+        ).toBeDefined()
+      })
     })
 
     describe('given invalid periode', () => {
       const findAllProjects = jest.fn()
       const saveProject = jest.fn()
       const sendNotification = jest.fn()
+      const eventBus = {
+        publish: jest.fn((event: DomainEvent<any>) => {}),
+        subscribe: jest.fn(),
+      }
       const sendAllCandidateNotifications = makeSendAllCandidateNotifications({
+        eventBus,
         findAllProjects,
         saveProject,
         appelOffreRepo,
@@ -211,6 +245,7 @@ describe('sendAllCandidateNotifications use-case', () => {
           INVALID_APPELOFFRE_PERIOD_ERROR
         )
 
+        expect(eventBus.publish).not.toHaveBeenCalled()
         expect(findAllProjects).not.toHaveBeenCalled()
         expect(saveProject).not.toHaveBeenCalled()
         expect(sendNotification).not.toHaveBeenCalled()
@@ -221,8 +256,13 @@ describe('sendAllCandidateNotifications use-case', () => {
       const findAllProjects = jest.fn(async () => makePaginatedProjectList([]))
       const saveProject = jest.fn()
       const sendNotification = jest.fn()
+      const eventBus = {
+        publish: jest.fn((event: DomainEvent<any>) => {}),
+        subscribe: jest.fn(),
+      }
 
       const sendAllCandidateNotifications = makeSendAllCandidateNotifications({
+        eventBus,
         findAllProjects,
         saveProject,
         appelOffreRepo,
@@ -243,6 +283,7 @@ describe('sendAllCandidateNotifications use-case', () => {
           ERREUR_AUCUN_PROJET_NON_NOTIFIE
         )
 
+        expect(eventBus.publish).not.toHaveBeenCalled()
         expect(saveProject).not.toHaveBeenCalled()
         expect(sendNotification).not.toHaveBeenCalled()
       })
@@ -257,7 +298,13 @@ describe('sendAllCandidateNotifications use-case', () => {
     const findAllProjects = jest.fn()
     const saveProject = jest.fn()
     const sendNotification = jest.fn()
+    const eventBus = {
+      publish: jest.fn((event: DomainEvent<any>) => {}),
+      subscribe: jest.fn(),
+    }
+
     const sendAllCandidateNotifications = makeSendAllCandidateNotifications({
+      eventBus,
       findAllProjects,
       saveProject,
       appelOffreRepo,
@@ -276,6 +323,7 @@ describe('sendAllCandidateNotifications use-case', () => {
       expect(res.is_err()).toEqual(true)
       expect(res.unwrap_err().message).toEqual(UNAUTHORIZED_ERROR)
 
+      expect(eventBus.publish).not.toHaveBeenCalled()
       expect(findAllProjects).not.toHaveBeenCalled()
       expect(saveProject).not.toHaveBeenCalled()
       expect(sendNotification).not.toHaveBeenCalled()

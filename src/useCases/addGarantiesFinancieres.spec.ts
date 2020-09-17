@@ -1,6 +1,5 @@
 import moment from 'moment'
 import { Readable } from 'stream'
-import { mocked } from 'ts-jest/utils'
 
 import {
   makeProject,

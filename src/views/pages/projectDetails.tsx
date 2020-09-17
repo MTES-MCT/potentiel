@@ -525,8 +525,7 @@ export default function ProjectDetails({
                     title="Notification des résultats"
                     status="past"
                     action={
-                      project.appelOffre?.periode?.canGenerateCertificate &&
-                      user.role !== 'dreal'
+                      !!project.certificateFile && user.role !== 'dreal'
                         ? {
                             title: "Télécharger l'attestation",
                             link:

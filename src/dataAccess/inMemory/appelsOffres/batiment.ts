@@ -74,11 +74,12 @@ const batiment: AppelOffre = {
     {
       id: '10',
       title: 'dixième',
-      canGenerateCertificate: true,
+      isNotifiedOnPotentiel: true,
       noteThresholdByFamily: [
         { familleId: '1', noteThreshold: 27.91 },
         { familleId: '2', noteThreshold: 25.62 },
       ],
+      certificateTemplate: 'v0',
     },
   ],
   familles: [

@@ -23,9 +23,7 @@ import makeRelanceInvitations from './relanceInvitations'
 import makeRetryNotifications from './retryNotifications'
 import makeRelanceGarantiesFinancieres from './relanceGarantiesFinancieres'
 
-import { sendEmail } from '../helpers/sendEmailNotification'
-
-import { fileService } from '../config'
+import { fileService, eventBus, sendEmail } from '../config'
 
 import {
   credentialsRepo,
@@ -85,6 +83,7 @@ const shouldUserAccessProject = makeShouldUserAccessProject({
 })
 
 const sendAllCandidateNotifications = makeSendAllCandidateNotifiations({
+  eventBus,
   findAllProjects: projectRepo.findAll,
   saveProject: projectRepo.save,
   projectAdmissionKeyRepo,

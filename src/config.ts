@@ -6,8 +6,14 @@ import {
   LocalFileStorageService,
   ObjectStorageFileStorageService,
 } from './infra/file'
+import { EventBus } from './core/utils'
+import { InMemoryEventBus } from './infra/eventbus'
+import { fakeSendEmail } from './infra/mail/fakeEmailService'
+import { sendEmailFromMailjet } from './infra/mail/mailjet'
 
-// TODO switch depending on NODE_ENV
+import { ProjectHandlers } from './modules/project/eventHandlers'
+import { GenerateCertificate } from './modules/project/generateCertificate'
+import { buildCertificate } from './views/certificates'
 
 let fileStorageService: FileStorageService
 
@@ -55,8 +61,25 @@ const shouldUserAccessProject = new ShouldUserAccessProject(
   projectRepo.findById
 )
 
+export const eventBus: EventBus = new InMemoryEventBus()
+
 export const fileService = new FileService(
   fileStorageService,
   fileRepo,
   shouldUserAccessProject
+)
+
+export const sendEmail =
+  process.env.NODE_ENV !== 'production' ? fakeSendEmail : sendEmailFromMailjet
+
+// Setup Event handlers
+
+new ProjectHandlers(
+  eventBus,
+  new GenerateCertificate(
+    fileService,
+    projectRepo.findById,
+    projectRepo.save,
+    buildCertificate
+  )
 )

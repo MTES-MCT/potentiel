@@ -19,8 +19,11 @@ import {
 } from '../entities'
 import { ErrorResult, Ok, ResultAsync } from '../types'
 import routes from '../routes'
+import { EventBus } from '../core/utils'
+import { ProjectNotified } from '../modules/project/events/ProjectNotified'
 
 interface MakeUseCaseProps {
+  eventBus: EventBus
   findAllProjects: ProjectRepo['findAll']
   saveProject: ProjectRepo['save']
   appelOffreRepo: AppelOffreRepo
@@ -45,6 +48,7 @@ export const UNAUTHORIZED_ERROR =
   "Vous n'avez pas les droits pour effectuer cette opération"
 
 export default function makeSendAllCandidateNotifications({
+  eventBus,
   findAllProjects,
   saveProject,
   projectAdmissionKeyRepo,
@@ -152,6 +156,8 @@ export default function makeSendAllCandidateNotifications({
 
                   return
                 }
+
+                eventBus.publish(new ProjectNotified({ projectId: project.id }))
               }
             })
           )

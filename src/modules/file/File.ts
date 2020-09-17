@@ -7,7 +7,12 @@ interface FileProps {
   forProject: Project['id']
   createdBy: User['id']
   createdAt?: Date
-  designation: 'garantie-financiere' | 'dcr' | 'modification-request' | 'other'
+  designation:
+    | 'garantie-financiere'
+    | 'dcr'
+    | 'modification-request'
+    | 'attestation-designation'
+    | 'other'
   storedAt?: string
 }
 

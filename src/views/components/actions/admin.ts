@@ -3,7 +3,7 @@ import ROUTES from '../../../routes'
 
 const adminActions = (project: Project) => {
   const canDownloadCertificate =
-    project.appelOffre?.periode?.canGenerateCertificate
+    project.appelOffre?.periode?.isNotifiedOnPotentiel
 
   return [
     {

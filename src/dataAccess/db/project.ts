@@ -40,6 +40,7 @@ const deserialize = (item) => ({
   dcrSubmittedOn: item.dcrSubmittedOn || 0,
   dcrSubmittedBy: item.dcrSubmittedBy || '',
   dcrNumeroDossier: item.dcrNumeroDossier || '',
+  certificateFileId: item.certificateFileId || '',
 })
 const serialize = (item) => item
 
@@ -236,6 +237,10 @@ export default function makeProjectRepo({
       type: DataTypes.JSON,
       allowNull: true,
     },
+    certificateFileId: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   })
 
   const ProjectEventModel = sequelize.define('projectEvent', {
@@ -351,6 +356,11 @@ export default function makeProjectRepo({
     as: 'dcrFileRef',
   })
 
+  ProjectModel.belongsTo(FileModel, {
+    foreignKey: 'certificateFileId',
+    as: 'certificateFile',
+  })
+
   const _isDbReady = isDbReady({ sequelize }).then(() =>
     initSearchIndex(sequelize)
   )
@@ -408,6 +418,11 @@ export default function makeProjectRepo({
           {
             model: FileModel,
             as: 'dcrFileRef',
+            attributes: ['id', 'filename'],
+          },
+          {
+            model: FileModel,
+            as: 'certificateFile',
             attributes: ['id', 'filename'],
           },
         ],
@@ -473,6 +488,11 @@ export default function makeProjectRepo({
       {
         model: FileModel,
         as: 'dcrFileRef',
+        attributes: ['id', 'filename'],
+      },
+      {
+        model: FileModel,
+        as: 'certificateFile',
         attributes: ['id', 'filename'],
       },
     ]
@@ -636,6 +656,13 @@ export default function makeProjectRepo({
       where: {
         id: projectIds,
       },
+      include: [
+        {
+          model: FileModel,
+          as: 'certificateFile',
+          attributes: ['id', 'filename'],
+        },
+      ],
     }
 
     return _findAndBuildProjectList(opts, pagination, (project) =>

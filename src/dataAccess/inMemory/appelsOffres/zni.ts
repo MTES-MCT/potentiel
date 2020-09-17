@@ -49,7 +49,7 @@ const zni: AppelOffre = {
     {
       id: '1',
       title: 'première',
-      canGenerateCertificate: true,
+      isNotifiedOnPotentiel: true,
       noteThresholdByFamily: [
         { familleId: '1a', territoire: 'Corse', noteThreshold: 53.4 },
         { familleId: '1a', territoire: 'Guadeloupe', noteThreshold: 56.3 },
@@ -72,7 +72,8 @@ const zni: AppelOffre = {
     {
       id: '2',
       title: 'deuxième',
-      canGenerateCertificate: true,
+      isNotifiedOnPotentiel: true,
+      certificateTemplate: 'v0',
       noteThresholdByFamily: [
         { familleId: '2a', territoire: 'Corse', noteThreshold: 42.1 },
         { familleId: '2a', territoire: 'Guadeloupe', noteThreshold: 47.2 },

@@ -48,7 +48,8 @@ const innovation: AppelOffre = {
         { familleId: '1', noteThreshold: 71.58 },
         { familleId: '2', noteThreshold: 45.49 },
       ],
-      canGenerateCertificate: true,
+      isNotifiedOnPotentiel: true,
+      certificateTemplate: 'v0',
     },
   ],
   familles: [
