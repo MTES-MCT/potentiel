@@ -15,12 +15,31 @@ import { ProjectHandlers } from './modules/project/eventHandlers'
 import { GenerateCertificate } from './modules/project/generateCertificate'
 import { buildCertificate } from './views/certificates'
 
-let fileStorageService: FileStorageService
-
 if (
-  // process.env.NODE_ENV === 'development' ||
-  process.env.NODE_ENV === 'production'
+  !['test', 'development', 'staging', 'production'].includes(
+    process.env.NODE_ENV || ''
+  )
 ) {
+  console.log('ERROR: NODE_ENV not recognized')
+  process.exit(1)
+}
+
+const isTestEnv = process.env.NODE_ENV === 'test'
+const isDevEnv = process.env.NODE_ENV === 'development'
+const isStagingEnv = process.env.NODE_ENV === 'staging'
+const isProdEnv = process.env.NODE_ENV === 'production'
+
+const shouldUserAccessProject = new ShouldUserAccessProject(
+  userRepo,
+  projectRepo.findById
+)
+
+//
+// Files
+//
+
+let fileStorageService: FileStorageService
+if (isStagingEnv || isProdEnv) {
   const authUrl = process.env.OS_AUTH_URL
   const region = process.env.OS_REGION
   const username = process.env.OS_USERNAME
@@ -56,24 +75,24 @@ if (
   fileStorageService = new LocalFileStorageService('userData')
 }
 
-const shouldUserAccessProject = new ShouldUserAccessProject(
-  userRepo,
-  projectRepo.findById
-)
-
-export const eventBus: EventBus = new InMemoryEventBus()
-
 export const fileService = new FileService(
   fileStorageService,
   fileRepo,
   shouldUserAccessProject
 )
 
+//
+// EMAILS
+//
+
 export const sendEmail =
   process.env.NODE_ENV !== 'production' ? fakeSendEmail : sendEmailFromMailjet
 
-// Setup Event handlers
+//
+// EVENT HANDLERS
+//
 
+export const eventBus: EventBus = new InMemoryEventBus()
 new ProjectHandlers(
   eventBus,
   new GenerateCertificate(

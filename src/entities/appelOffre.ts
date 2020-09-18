@@ -43,5 +43,5 @@ export type AppelOffre = {
 }
 
 export type ProjectAppelOffre = AppelOffre & {
-  periode: Periode
+  periode?: Periode
 }

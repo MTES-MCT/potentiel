@@ -5,14 +5,19 @@ const path = require('path')
 const { NODE_ENV } = process.env
 
 const databaseConfig = {
+  test: {
+    dialect: 'sqlite',
+    storage: ':memory:',
+    logging: false,
+  },
   development: {
     dialect: 'sqlite',
     storage: path.resolve(process.cwd(), '.db/db.sqlite'),
     logging: false,
   },
-  test: {
+  staging: {
     dialect: 'sqlite',
-    storage: ':memory:',
+    storage: path.resolve(process.cwd(), '.db/db.sqlite'),
     logging: false,
   },
   production: {
@@ -22,7 +27,7 @@ const databaseConfig = {
   },
 }
 
-const currentConfig = databaseConfig[NODE_ENV || 'development']
+const currentConfig = databaseConfig[NODE_ENV || 'test']
 
 module.exports = currentConfig
 module.exports.sequelize = new Sequelize(currentConfig)
