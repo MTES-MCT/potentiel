@@ -1,7 +1,11 @@
 import { FileService, FileStorageService } from './modules/file'
 import { ShouldUserAccessProject } from './modules/authorization'
 import { userRepo, projectRepo } from './dataAccess'
-import { fileRepo } from './infra/sequelize'
+import {
+  fileRepo,
+  notificationRepo,
+  getFailedNotifications,
+} from './infra/sequelize'
 import {
   LocalFileStorageService,
   ObjectStorageFileStorageService,
@@ -14,6 +18,7 @@ import { sendEmailFromMailjet } from './infra/mail/mailjet'
 import { ProjectHandlers } from './modules/project/eventHandlers'
 import { GenerateCertificate } from './modules/project/generateCertificate'
 import { buildCertificate } from './views/certificates'
+import { makeNotificationService, SendEmail } from './modules/notification'
 
 if (
   !['test', 'development', 'staging', 'production'].includes(
@@ -85,8 +90,23 @@ export const fileService = new FileService(
 // EMAILS
 //
 
-export const sendEmail =
+const sendEmail: SendEmail =
   process.env.NODE_ENV !== 'production' ? fakeSendEmail : sendEmailFromMailjet
+
+if (!process.env.SEND_EMAILS_FROM) {
+  console.log('ERROR: SEND_EMAILS_FROM is not set')
+  process.exit(1)
+}
+
+export const {
+  sendNotification,
+  retryFailedNotifications,
+} = makeNotificationService({
+  sendEmail,
+  emailSenderAddress: process.env.SEND_EMAILS_FROM,
+  notificationRepo,
+  getFailedNotifications,
+})
 
 //
 // EVENT HANDLERS

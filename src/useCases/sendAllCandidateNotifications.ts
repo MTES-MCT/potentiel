@@ -21,6 +21,7 @@ import { ErrorResult, Ok, ResultAsync } from '../types'
 import routes from '../routes'
 import { EventBus } from '../core/utils'
 import { ProjectNotified } from '../modules/project/events/ProjectNotified'
+import { NotificationService } from '../modules/notification'
 
 interface MakeUseCaseProps {
   eventBus: EventBus
@@ -28,7 +29,7 @@ interface MakeUseCaseProps {
   saveProject: ProjectRepo['save']
   appelOffreRepo: AppelOffreRepo
   projectAdmissionKeyRepo: ProjectAdmissionKeyRepo
-  sendNotification: (props: NotificationProps) => Promise<void>
+  sendNotification: NotificationService['sendNotification']
 }
 
 interface CallUseCaseProps {

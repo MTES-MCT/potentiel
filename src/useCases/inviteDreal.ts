@@ -1,30 +1,18 @@
-import _ from 'lodash'
 import {
   CredentialsRepo,
   ProjectAdmissionKeyRepo,
-  ProjectRepo,
   UserRepo,
-  AppelOffreRepo,
 } from '../dataAccess'
-import {
-  makeProjectAdmissionKey,
-  Project,
-  User,
-  ProjectAdmissionKey,
-  AppelOffre,
-  Periode,
-  NotificationProps,
-  DREAL,
-} from '../entities'
-import { ErrorResult, Ok, ResultAsync, Err } from '../types'
+import { DREAL, makeProjectAdmissionKey, User } from '../entities'
+import { NotificationService } from '../modules/notification'
 import routes from '../routes'
-import { importProjects } from '.'
+import { Err, ErrorResult, Ok, ResultAsync } from '../types'
 
 interface MakeUseCaseProps {
   credentialsRepo: CredentialsRepo
   projectAdmissionKeyRepo: ProjectAdmissionKeyRepo
   userRepo: UserRepo
-  sendNotification: (props: NotificationProps) => Promise<void>
+  sendNotification: NotificationService['sendNotification']
 }
 
 interface CallUseCaseProps {

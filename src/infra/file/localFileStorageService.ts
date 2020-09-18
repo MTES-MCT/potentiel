@@ -61,7 +61,7 @@ export class LocalFileStorageService implements FileStorageService {
   save(file: FileContainer): ResultAsync<string, Error> {
     const fullPath = path.resolve(this._rootPath, file.path)
     return buildDirectoryStructure(fullPath)
-      .andThen(() => writeFileStream(file.stream, fullPath))
+      .andThen(() => writeFileStream(file.stream as Readable, fullPath))
       .map(() => LocalFileStorageService.makeIdentifier(file))
   }
 

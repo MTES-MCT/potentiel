@@ -3,7 +3,7 @@ import { FileAccessDeniedError, FileNotFoundError } from './errors'
 import { OtherError } from '../shared'
 import { File } from './File'
 import { User, Project } from '../../entities'
-import { Repository } from '../../core/domain'
+import { Repository, UniqueEntityID } from '../../core/domain'
 import { ResultAsync, ok, err, errAsync } from '../../core/utils'
 import { ShouldUserAccessProject } from '../authorization'
 import { DomainError } from '../../core/domain/DomainError'
@@ -31,7 +31,7 @@ export class FileService {
 
   load(fileId: string, user: User): ResultAsync<FileContainer, DomainError> {
     return this.fileRepo
-      .load(fileId)
+      .load(new UniqueEntityID(fileId))
       .andThen((file: File) =>
         file.forProject
           ? ResultAsync.fromPromise(

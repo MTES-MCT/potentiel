@@ -12,6 +12,7 @@ import { ResultAsync, Ok, Err, ErrorResult } from '../types'
 import routes from '../routes'
 import { FileService, File, FileContainer } from '../modules/file'
 import { makeProjectFilePath } from '../helpers/makeProjectFilePath'
+import { NotificationService } from '../modules/notification'
 
 interface MakeUseCaseProps {
   fileService: FileService
@@ -23,7 +24,7 @@ interface MakeUseCaseProps {
     user: User
     projectId: Project['id']
   }) => Promise<boolean>
-  sendNotification: (props: NotificationProps) => Promise<void>
+  sendNotification: NotificationService['sendNotification']
 }
 
 interface CallUseCaseProps {

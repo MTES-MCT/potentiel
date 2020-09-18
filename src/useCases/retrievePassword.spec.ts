@@ -7,18 +7,9 @@ import {
   resetDatabase,
 } from '../dataAccess/inMemory'
 import routes from '../routes'
-import makeSendNotification from './sendNotification'
-import {
-  sendEmail,
-  resetEmailStub,
-  getCallsToEmailStub,
-} from '../__tests__/fixtures/emailService'
+import { NotificationArgs } from '../modules/notification'
 
-const sendNotification = makeSendNotification({
-  notificationRepo,
-  sendEmail,
-})
-
+const sendNotification = jest.fn(async (args: NotificationArgs) => null)
 const retrievePassword = makeRetrievePassword({
   passwordRetrievalRepo,
   credentialsRepo,
@@ -29,7 +20,7 @@ describe('retrievePassword use-case', () => {
   let email
   beforeEach(async () => {
     resetDatabase()
-    resetEmailStub()
+    sendNotification.mockClear()
 
     email = 'test@test.test'
 
@@ -56,18 +47,18 @@ describe('retrievePassword use-case', () => {
     if (res.is_err()) return
 
     // Check if email has been sent
-    const sentEmails = getCallsToEmailStub()
+    const sentEmails = sendNotification.mock.calls.map((item) => item[0])
     expect(sentEmails).toHaveLength(1)
-    expect(sentEmails[0].recipients[0].email).toEqual(email)
-    expect(sentEmails[0].templateId).toEqual(1389166)
-    expect(sentEmails[0].subject).toEqual(
+    expect(sentEmails[0].message.email).toEqual(email)
+    expect(sentEmails[0].type).toEqual('password-reset')
+    expect(sentEmails[0].message.subject).toEqual(
       'Récupération de mot de passe Potentiel'
     )
 
     expect(sentEmails[0].variables).toHaveProperty('password_reset_link')
 
     // Check if it's for the right account
-    const { password_reset_link } = sentEmails[0].variables
+    const { password_reset_link } = (sentEmails[0] as any).variables
     const passwordRetrievalId: string = password_reset_link.substring(
       password_reset_link.indexOf('=') + 1
     )
@@ -87,8 +78,7 @@ describe('retrievePassword use-case', () => {
   it('should send no email if email is unknown', async () => {
     await retrievePassword({ email: 'bogus@test.test' })
 
-    const sentEmails = getCallsToEmailStub()
-    expect(sentEmails).toHaveLength(0)
+    expect(sendNotification).not.toHaveBeenCalled()
   })
 
   it('should return an error if there are already 5 or more password retrieval requests in the last 24hours', async () => {
@@ -99,13 +89,12 @@ describe('retrievePassword use-case', () => {
     await retrievePassword({ email })
     await retrievePassword({ email })
 
-    resetEmailStub()
+    sendNotification.mockClear()
     const result = await retrievePassword({ email })
 
     expect(result.is_err()).toBeTruthy()
     expect(result.unwrap_err().message).toEqual(RATE_LIMIT_REACHED)
 
-    const sentEmails = getCallsToEmailStub()
-    expect(sentEmails).toHaveLength(0)
+    expect(sendNotification).not.toHaveBeenCalled()
   })
 })

@@ -18,12 +18,10 @@ import makeAddDCR from './addDCR'
 import makeRemoveDCR from './removeDCR'
 import makeInviteDreal from './inviteDreal'
 import makeListGarantiesFinancieres from './listGarantiesFinancieres'
-import makeSendNotification from './sendNotification'
 import makeRelanceInvitations from './relanceInvitations'
-import makeRetryNotifications from './retryNotifications'
 import makeRelanceGarantiesFinancieres from './relanceGarantiesFinancieres'
 
-import { fileService, eventBus, sendEmail } from '../config'
+import { fileService, eventBus, sendNotification } from '../config'
 
 import {
   credentialsRepo,
@@ -33,7 +31,6 @@ import {
   modificationRequestRepo,
   appelOffreRepo,
   passwordRetrievalRepo,
-  notificationRepo,
 } from '../dataAccess'
 
 const login = makeLogin({
@@ -73,10 +70,6 @@ const listUnnotifiedProjects = makeListUnnotifiedProjects({
   appelOffreRepo,
 })
 
-const sendNotification = makeSendNotification({
-  notificationRepo,
-  sendEmail,
-})
 const shouldUserAccessProject = makeShouldUserAccessProject({
   userRepo,
   findProjectById: projectRepo.findById,
@@ -179,11 +172,6 @@ const relanceInvitations = makeRelanceInvitations({
   sendNotification,
 })
 
-const retryNotifications = makeRetryNotifications({
-  notificationRepo,
-  sendNotification,
-})
-
 const relanceGarantiesFinancieres = makeRelanceGarantiesFinancieres({
   findProjectsWithGarantiesFinancieresPendingBefore:
     projectRepo.findProjectsWithGarantiesFinancieresPendingBefore,
@@ -213,7 +201,6 @@ const useCases = Object.freeze({
   inviteDreal,
   listGarantiesFinancieres,
   relanceInvitations,
-  retryNotifications,
   relanceGarantiesFinancieres,
   addDCR,
   removeDCR,
@@ -241,7 +228,6 @@ export {
   inviteDreal,
   listGarantiesFinancieres,
   relanceInvitations,
-  retryNotifications,
   relanceGarantiesFinancieres,
   addDCR,
   removeDCR,

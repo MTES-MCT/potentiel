@@ -1,4 +1,4 @@
-import { ResultAsync, Ok, ErrorResult } from '../../types'
+import { ResultAsync, okAsync, errAsync } from '../../core/utils'
 import { EmailProps } from '../../useCases/sendNotification'
 /**
  *
@@ -8,11 +8,11 @@ import { EmailProps } from '../../useCases/sendNotification'
 
 const sentEmails: Array<EmailProps> = [] // For testing purposes only
 
-async function fakeSendEmail(props: EmailProps): ResultAsync<null> {
+function fakeSendEmail(props: EmailProps): ResultAsync<null, Error> {
   if (process.env.NODE_ENV === 'test') {
     // Register the sent email but don't send it for real
     sentEmails.push(props)
-    return Ok(null)
+    return okAsync(null)
   }
 
   console.log(
@@ -20,11 +20,11 @@ async function fakeSendEmail(props: EmailProps): ResultAsync<null> {
       props.recipients.map((item) => item.email).join(', ') +
       ' with subject "' +
       props.subject +
-      '" and templateId ' +
-      props.templateId
+      '" and type ' +
+      props.type
   )
 
-  return Ok(null)
+  return okAsync(null)
 }
 
 // For tests only

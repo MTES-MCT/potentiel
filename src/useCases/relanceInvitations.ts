@@ -9,10 +9,11 @@ import { ProjectAdmissionKeyRepo } from '../dataAccess'
 import { ResultAsync, Ok } from '../types'
 import routes from '../routes'
 import _ from 'lodash'
+import { NotificationService } from '../modules/notification'
 
 interface MakeUseCaseProps {
   projectAdmissionKeyRepo: ProjectAdmissionKeyRepo
-  sendNotification: (props: NotificationProps) => Promise<void>
+  sendNotification: NotificationService['sendNotification']
 }
 
 type CallUseCaseProps =

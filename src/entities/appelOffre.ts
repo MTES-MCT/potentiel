@@ -10,7 +10,7 @@ type DataField = {
     | 'date'
     | 'stringEquals' // column should equals value
     | 'orNumberInColumn' // if column is empty, check try column
-    | 'orstringInColumn' // if column is empty, check try column
+    | 'orStringInColumn' // if column is empty, check try column
     | 'codePostal' // Special case where we want to extend departement / région from codePostal
   value?: string
   defaultValue?: unknown

@@ -7,11 +7,12 @@ import { PasswordRetrievalRepo, CredentialsRepo } from '../dataAccess'
 import _ from 'lodash'
 import { ResultAsync, ErrorResult, Ok } from '../types'
 import routes from '../routes'
+import { NotificationService } from '../modules/notification'
 
 interface MakeUseCaseProps {
   passwordRetrievalRepo: PasswordRetrievalRepo
   credentialsRepo: CredentialsRepo
-  sendNotification: (props: NotificationProps) => Promise<void>
+  sendNotification: NotificationService['sendNotification']
 }
 
 interface CallUseCaseProps {

@@ -39,7 +39,7 @@ export class FileRepo implements Repository<File> {
     }
   }
 
-  save(aggregate: File): ResultAsync<null, DomainError> {
+  save(aggregate: File): ResultAsync<null, InfraNotAvailableError> {
     const FileModel = this.models.File
     if (!FileModel) return errAsync(new InfraNotAvailableError())
 
@@ -52,12 +52,14 @@ export class FileRepo implements Repository<File> {
     )
   }
 
-  load(id: string): ResultAsync<File, DomainError> {
+  load(
+    id: UniqueEntityID
+  ): ResultAsync<File, EntityNotFoundError | InfraNotAvailableError> {
     const FileModel = this.models.File
     if (!FileModel) return errAsync(new InfraNotAvailableError())
 
     return ResultAsync.fromPromise<File, DomainError>(
-      FileModel.findByPk(id),
+      FileModel.findByPk(id.toString()),
       (e: any) => {
         console.log('fileRepo.load error', e)
         return new InfraNotAvailableError()

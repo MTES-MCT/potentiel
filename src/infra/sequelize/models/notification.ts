@@ -1,31 +1,34 @@
 import { DataTypes } from 'sequelize'
 
 export default (sequelize) => {
-  const File = sequelize.define(
-    'file',
+  const Notification = sequelize.define(
+    'notification',
     {
       id: {
         type: DataTypes.UUID,
-        allowNull: false,
         primaryKey: true,
       },
-      filename: {
+      type: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      forProject: {
-        type: DataTypes.UUID,
-        allowNull: true,
+      message: {
+        type: DataTypes.JSON,
+        allowNull: false,
       },
-      createdBy: {
-        type: DataTypes.UUID,
-        allowNull: true,
+      context: {
+        type: DataTypes.JSON,
+        allowNull: false,
       },
-      designation: {
+      variables: {
+        type: DataTypes.JSON,
+        allowNull: false,
+      },
+      status: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      storedAt: {
+      error: {
         type: DataTypes.STRING,
         allowNull: true,
       },
@@ -35,9 +38,9 @@ export default (sequelize) => {
     }
   )
 
-  File.associate = (models) => {
+  Notification.associate = (models) => {
     // Add belongsTo etc. statements here
   }
 
-  return File
+  return Notification
 }

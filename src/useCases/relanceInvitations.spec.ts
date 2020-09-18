@@ -1,5 +1,4 @@
 import makeRelanceInvitations from './relanceInvitations'
-import makeSendNotification from './sendNotification'
 
 import { makeProjectAdmissionKey, ProjectAdmissionKey } from '../entities'
 
@@ -10,18 +9,9 @@ import {
   notificationRepo,
   resetDatabase,
 } from '../dataAccess/inMemory'
+import { NotificationArgs, NotificationService } from '../modules/notification'
 
-import {
-  sendEmail,
-  resetEmailStub,
-  getCallsToEmailStub,
-} from '../__tests__/fixtures/emailService'
-
-const sendNotification = makeSendNotification({
-  notificationRepo,
-  sendEmail,
-})
-
+const sendNotification = jest.fn()
 const relanceInvitations = makeRelanceInvitations({
   projectAdmissionKeyRepo,
   sendNotification,
@@ -33,7 +23,7 @@ describe('relanceInvitations use-case', () => {
   describe('given a list of invitationIds', () => {
     beforeAll(async () => {
       resetDatabase()
-      resetEmailStub()
+      sendNotification.mockClear()
 
       const projectAdmissionKeys = (
         await Promise.all(
@@ -134,7 +124,7 @@ describe('relanceInvitations use-case', () => {
   describe('given a beforeDate', () => {
     beforeAll(async () => {
       resetDatabase()
-      resetEmailStub()
+      sendNotification.mockClear()
 
       const projectAdmissionKeys = (
         await Promise.all(
@@ -270,18 +260,20 @@ describe('relanceInvitations use-case', () => {
     })
 
     it('should send an email notification to porteurs projets that have not used their invitation', async () => {
-      const sentEmails = getCallsToEmailStub()
+      expect(sendNotification).toHaveBeenCalledTimes(2)
 
-      expect(sentEmails).toHaveLength(2)
+      const sentEmails = sendNotification.mock.calls.map((item) => item[0])
 
-      const sentEmailForUser1 = sentEmails.find((email) =>
-        email.recipients.some((recipient) => recipient.email === userEmail)
+      const sentEmailForUser1 = sentEmails.find(
+        (email) => email.message.email === userEmail
       )
       expect(sentEmailForUser1).toBeDefined()
       if (!sentEmailForUser1) return
-      expect(sentEmailForUser1.templateId).toEqual(1417004)
-      expect(sentEmailForUser1.recipients[0].name).toEqual('pp-unused1')
-      expect(sentEmailForUser1.subject).toEqual("Résultats de l'appel d'offres")
+      expect(sentEmailForUser1.type).toEqual('relance-designation')
+      expect(sentEmailForUser1.message.name).toEqual('pp-unused1')
+      expect(sentEmailForUser1.message.subject).toEqual(
+        "Résultats de l'appel d'offres"
+      )
 
       // The email should contain the new invitation key
       const newProjectAdmissionKeys = await projectAdmissionKeyRepo.findAll({
@@ -291,17 +283,15 @@ describe('relanceInvitations use-case', () => {
       expect(newProjectAdmissionKeys).toHaveLength(1)
       const [newProjectAdmissionKey] = newProjectAdmissionKeys
       if (!newProjectAdmissionKey) return
-      expect(sentEmailForUser1.variables.invitation_link).toContain(
+      expect((sentEmailForUser1.variables as any).invitation_link).toContain(
         routes.PROJECT_INVITATION({
           projectAdmissionKey: newProjectAdmissionKey.id,
         })
       )
 
       // Also for the other unused invitation
-      const sentEmailForUser2 = sentEmails.find((email) =>
-        email.recipients.some(
-          (recipient) => recipient.email === 'pp-unused2@test.com'
-        )
+      const sentEmailForUser2 = sentEmails.find(
+        (email) => email.message.email === 'pp-unused2@test.com'
       )
       expect(sentEmailForUser2).toBeDefined()
     })
@@ -310,7 +300,7 @@ describe('relanceInvitations use-case', () => {
   describe('given an appelOffreId', () => {
     beforeAll(async () => {
       resetDatabase()
-      resetEmailStub()
+      sendNotification.mockClear()
 
       const projectAdmissionKeys = (
         await Promise.all(
@@ -406,7 +396,7 @@ describe('relanceInvitations use-case', () => {
   describe('given an appelOffreId and periodeId', () => {
     beforeAll(async () => {
       resetDatabase()
-      resetEmailStub()
+      sendNotification.mockClear()
 
       const projectAdmissionKeys = (
         await Promise.all(

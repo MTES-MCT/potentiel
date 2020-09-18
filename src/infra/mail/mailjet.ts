@@ -1,5 +1,5 @@
-import { ResultAsync, Ok, ErrorResult } from '../../types'
-import { EmailProps } from '../../useCases/sendNotification'
+import { ResultAsync, ok, err, errAsync, okAsync } from '../../core/utils'
+import { SendEmailProps, NotificationProps } from '../../modules/notification'
 /**
  *
  * This call sends a message to the given recipient with vars and custom vars.
@@ -35,25 +35,42 @@ function isAuthorizedEmail(destinationEmail: string): boolean {
   return true
 }
 
-async function sendEmailFromMailjet(props: EmailProps): ResultAsync<null> {
+const TEMPLATE_ID_BY_TYPE: Record<NotificationProps['type'], number> = {
+  designation: 1350523,
+  'project-invitation': 1402576,
+  'dreal-invitation': 1436254,
+  'password-reset': 1389166,
+  'pp-gf-notification': 1463065,
+  'dreal-gf-notification': 1528696,
+  'relance-designation': 1417004,
+  'relance-gf': 1554449,
+}
+
+function sendEmailFromMailjet(props: SendEmailProps): ResultAsync<null, Error> {
   const {
     id,
     recipients,
     fromEmail,
     fromName,
     subject,
-    templateId,
+    type,
     variables,
   } = props
+
+  const templateId = TEMPLATE_ID_BY_TYPE[type]
+
+  if (!templateId) {
+    return errAsync(new Error('Cannot find template for type ' + type))
+  }
 
   const authorizedRecepients = recipients.filter(({ email }) =>
     isAuthorizedEmail(email)
   )
 
-  if (!authorizedRecepients.length) return Ok(null)
+  if (!authorizedRecepients.length) return okAsync(null)
 
-  try {
-    const result = await mailjet.post('send', { version: 'v3.1' }).request({
+  return ResultAsync.fromPromise(
+    mailjet.post('send', { version: 'v3.1' }).request({
       Messages: [
         {
           From: {
@@ -71,19 +88,17 @@ async function sendEmailFromMailjet(props: EmailProps): ResultAsync<null> {
           CustomId: id,
         },
       ],
-    })
-
+    }),
+    (err: any) => new Error(err.message)
+  ).andThen((result: any) => {
     const sentMessage = result.body.Messages[0]
     if (sentMessage && sentMessage.Status === 'error') {
-      return ErrorResult(
-        sentMessage.Errors.map((e) => e.ErrorMessage).join('; ')
+      return err(
+        new Error(sentMessage.Errors.map((e) => e.ErrorMessage).join('; '))
       )
     }
-
-    return Ok(null)
-  } catch (error) {
-    return ErrorResult(error.message)
-  }
+    return ok(null)
+  })
 }
 
 export { sendEmailFromMailjet }

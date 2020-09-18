@@ -1,12 +1,14 @@
 import moment from 'moment'
 import { Readable } from 'stream'
-
+import { okAsync } from '../core/utils'
 import {
   makeProject,
   makeProjectAdmissionKey,
   makeUser,
   Project,
 } from '../entities'
+import { File, FileContainer } from '../modules/file'
+import { FileService } from '../modules/file/FileService'
 import routes from '../routes'
 import { Ok, UnwrapForTest } from '../types'
 import makeFakeProject from '../__tests__/fixtures/project'
@@ -14,10 +16,6 @@ import makeFakeUser from '../__tests__/fixtures/user'
 import makeAddGarantiesFinancieres, {
   UNAUTHORIZED,
 } from './addGarantiesFinancieres'
-import { File, FileContainer } from '../modules/file'
-import { FileService } from '../modules/file/FileService'
-import { okAsync, ok } from '../core/utils'
-import { Repository } from '../core/domain'
 
 const mockFileServiceSave = jest.fn((file: File, fileContents: FileContainer) =>
   okAsync(null)

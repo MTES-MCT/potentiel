@@ -18,18 +18,9 @@ import makeFakeProject from '../__tests__/fixtures/project'
 import makeFakeUser from '../__tests__/fixtures/user'
 import makeInviteDreal, { ACCESS_DENIED_ERROR } from './inviteDreal'
 import routes from '../routes'
+import { NotificationArgs } from '../modules/notification'
 
-import makeSendNotification from './sendNotification'
-import {
-  sendEmail,
-  resetEmailStub,
-  getCallsToEmailStub,
-} from '../__tests__/fixtures/emailService'
-
-const sendNotification = makeSendNotification({
-  notificationRepo,
-  sendEmail,
-})
+const sendNotification = jest.fn(async (args: NotificationArgs) => null)
 
 const inviteDreal = makeInviteDreal({
   credentialsRepo,
@@ -43,7 +34,7 @@ describe('inviteDreal use-case', () => {
 
   beforeEach(async () => {
     resetDatabase()
-    resetEmailStub()
+    sendNotification.mockClear()
   })
 
   it('should send an invitation link to the invited user if he has not account yet', async () => {
@@ -71,16 +62,16 @@ describe('inviteDreal use-case', () => {
     )
 
     // Make sure an invitation has been sent
-    expect(getCallsToEmailStub()).toHaveLength(1)
+    expect(sendNotification.mock.calls.map((item) => item[0])).toHaveLength(1)
 
-    const sentEmail = getCallsToEmailStub()[0]
-    expect(sentEmail.recipients[0].email).toEqual(email)
-    expect(sentEmail.templateId).toEqual(1436254)
-    expect(sentEmail.subject).toEqual(
+    const sentEmail = sendNotification.mock.calls.map((item) => item[0])[0]
+    expect(sentEmail.message.email).toEqual(email)
+    expect(sentEmail.type).toEqual('dreal-invitation')
+    expect(sentEmail.message.subject).toEqual(
       `${user.fullName} vous invite à suivre les projets de votre région sur Potentiel`
     )
     expect(sentEmail.variables).toHaveProperty('invitation_link')
-    expect(sentEmail.variables.invitation_link).toContain(
+    expect((sentEmail.variables as any).invitation_link).toContain(
       routes.DREAL_INVITATION({
         projectAdmissionKey: projectAdmissionKey.id,
       })
@@ -89,7 +80,7 @@ describe('inviteDreal use-case', () => {
 
   it('should add rights to the dreal if user exists', async () => {
     // Reset email stub
-    resetEmailStub()
+    sendNotification.mockClear()
 
     const email = 'existing@user.test'
 
@@ -149,6 +140,6 @@ describe('inviteDreal use-case', () => {
     expect(drealsForUser[0]).toEqual('Corse')
 
     // Make sure the notification has not been sent
-    expect(getCallsToEmailStub()).toHaveLength(0)
+    expect(sendNotification.mock.calls.map((item) => item[0])).toHaveLength(0)
   })
 })

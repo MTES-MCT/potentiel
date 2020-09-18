@@ -18,6 +18,7 @@ import {
 import { ErrorResult, Ok, ResultAsync, Err } from '../types'
 import routes from '../routes'
 import { importProjects } from '.'
+import { NotificationService } from '../modules/notification'
 
 interface MakeUseCaseProps {
   findProjectById: ProjectRepo['findById']
@@ -28,7 +29,7 @@ interface MakeUseCaseProps {
     user: User
     projectId: Project['id']
   }) => Promise<boolean>
-  sendNotification: (props: NotificationProps) => Promise<void>
+  sendNotification: NotificationService['sendNotification']
 }
 
 interface CallUseCaseProps {

@@ -630,6 +630,7 @@ interface MakeCertificateProps {
   project: Project
 }
 let queue: Promise<NodeJS.ReadableStream> = Promise.resolve(Readable.from(''))
+
 const makeCertificate = ({
   project,
 }: MakeCertificateProps): ResultAsync<

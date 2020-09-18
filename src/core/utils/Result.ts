@@ -17,3 +17,8 @@ export const fromOldResultAsync = <T>(
     })
   )
 }
+
+export const UnwrapForTest = <T, E>(res: Result<T, E>) => {
+  if (res.isOk()) return res.value
+  throw 'Result is error, cannot unwrap'
+}

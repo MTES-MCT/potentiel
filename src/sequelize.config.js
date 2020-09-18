@@ -29,5 +29,7 @@ const databaseConfig = {
 
 const currentConfig = databaseConfig[NODE_ENV || 'test']
 
+console.log('Sequelize configuration is ', currentConfig)
+
 module.exports = currentConfig
 module.exports.sequelize = new Sequelize(currentConfig)

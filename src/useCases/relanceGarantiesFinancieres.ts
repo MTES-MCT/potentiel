@@ -12,12 +12,13 @@ import { ResultAsync, Ok } from '../types'
 import routes from '../routes'
 import _ from 'lodash'
 import moment from 'moment'
+import { NotificationService } from '../modules/notification'
 
 interface MakeUseCaseProps {
   findProjectsWithGarantiesFinancieresPendingBefore: ProjectRepo['findProjectsWithGarantiesFinancieresPendingBefore']
   getUsersForProject: ProjectRepo['getUsers']
   saveProject: ProjectRepo['save']
-  sendNotification: (props: NotificationProps) => Promise<void>
+  sendNotification: NotificationService['sendNotification']
 }
 
 export default function makeRelanceGarantiesFinancieres({
