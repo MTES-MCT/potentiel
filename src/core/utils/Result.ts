@@ -18,7 +18,29 @@ export const fromOldResultAsync = <T>(
   )
 }
 
+export const fromOldResult = <T>(
+  oldResult: OldResult<T, Error>
+): Result<T, Error> => {
+  if (oldResult.is_err()) {
+    return err(oldResult.unwrap_err())
+  }
+
+  return ok(oldResult.unwrap())
+}
+
 export const UnwrapForTest = <T, E>(res: Result<T, E>) => {
   if (res.isOk()) return res.value
   throw 'Result is error, cannot unwrap'
+}
+
+export const mapResults = <T, K, E>(
+  items: T[],
+  fn: (item: T) => ResultAsync<K, E>
+): ResultAsync<K, E> => {
+  let result = fn(items[0])
+  for (const item of items.slice(1)) {
+    result = result.andThen(() => fn(item))
+  }
+
+  return result
 }

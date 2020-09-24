@@ -1,15 +1,7 @@
-import makeRelanceInvitations from './relanceInvitations'
-
-import { makeProjectAdmissionKey, ProjectAdmissionKey } from '../entities'
-
+import { projectAdmissionKeyRepo, resetDatabase } from '../dataAccess/inMemory'
+import { makeProjectAdmissionKey } from '../entities'
 import routes from '../routes'
-
-import {
-  projectAdmissionKeyRepo,
-  notificationRepo,
-  resetDatabase,
-} from '../dataAccess/inMemory'
-import { NotificationArgs, NotificationService } from '../modules/notification'
+import makeRelanceInvitations from './relanceInvitations'
 
 const sendNotification = jest.fn()
 const relanceInvitations = makeRelanceInvitations({
@@ -56,7 +48,11 @@ describe('relanceInvitations use-case', () => {
             .map(makeProjectAdmissionKey)
             .filter((item) => item.is_ok())
             .map((item) => item.unwrap())
-            .map(projectAdmissionKeyRepo.save)
+            .map((item) =>
+              projectAdmissionKeyRepo
+                .save(item)
+                .then((result) => result.map(() => item))
+            )
         )
       )
         .filter((item) => item.is_ok())

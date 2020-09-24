@@ -1,5 +1,6 @@
 import { storage, ProviderOptions } from 'pkgcloud'
-
+import Stream from 'stream'
+import concat from 'concat-stream'
 import { Result, err, ok, ResultAsync, okAsync } from '../../core/utils/Result'
 
 import {
@@ -23,6 +24,10 @@ export class ObjectStorageFileStorageService implements FileStorageService {
   private _client: storage.Client
   constructor(options: ProviderOptions, private _container: string) {
     this._client = storage.createClient(options)
+
+    // this._client.getContainer(_container, (err, container) => {
+    //   console.log('ObjectStorageFileStorageService found container', container)
+    // })
   }
   private static IDENTIFIER_PREFIX = 'objectStorage'
 
@@ -61,9 +66,20 @@ export class ObjectStorageFileStorageService implements FileStorageService {
         })
         uploadWriteStream.on('error', reject)
         uploadWriteStream.on('success', resolve)
-        file.stream.pipe(uploadWriteStream)
+
+        // This fixes a bug in pkgcloud (See https://github.com/pkgcloud/pkgcloud/pull/673)
+        const concatStream = concat((buffer) => {
+          const bufferStream = new Stream.PassThrough()
+          bufferStream.end(buffer)
+          bufferStream.pipe(uploadWriteStream)
+        })
+
+        file.stream.pipe(concatStream)
       }),
-      (e: any) => new Error(e.message || 'Error in the upload phase')
+      (e: any) => {
+        console.log('objectStorageFileStorageService.save caught error', e)
+        return new Error(e.message || 'Error in the upload phase')
+      }
     ).map(() => this.makeIdentifier(file))
 
     // console.log('objectStorageFileStorageService.save promise returned')

@@ -10,7 +10,7 @@ const makeProjectFilePath = (
   const filename = keepFilename
     ? originalFilename
     : sanitize(`${Date.now()}-${originalFilename}`)
-  const filepath = path.join('uploads', projectId, filename)
+  const filepath = path.join('projects', projectId, filename)
 
   return { filename, filepath }
 }

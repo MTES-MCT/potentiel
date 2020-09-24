@@ -1,13 +1,11 @@
-import makeRetrievePassword, { RATE_LIMIT_REACHED } from './retrievePassword'
-import { makeCredentials } from '../entities'
 import {
-  passwordRetrievalRepo,
   credentialsRepo,
-  notificationRepo,
+  passwordRetrievalRepo,
   resetDatabase,
 } from '../dataAccess/inMemory'
-import routes from '../routes'
+import { makeCredentials } from '../entities'
 import { NotificationArgs } from '../modules/notification'
+import makeRetrievePassword, { RATE_LIMIT_REACHED } from './retrievePassword'
 
 const sendNotification = jest.fn(async (args: NotificationArgs) => null)
 const retrievePassword = makeRetrievePassword({

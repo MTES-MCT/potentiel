@@ -1,8 +1,4 @@
-import {
-  PasswordRetrieval,
-  makePasswordRetrieval,
-  NotificationProps,
-} from '../entities'
+import { PasswordRetrieval, makePasswordRetrieval } from '../entities'
 import { PasswordRetrievalRepo, CredentialsRepo } from '../dataAccess'
 import _ from 'lodash'
 import { ResultAsync, ErrorResult, Ok } from '../types'

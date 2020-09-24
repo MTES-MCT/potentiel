@@ -28,6 +28,85 @@ describe('userRepo sequelize', () => {
     await resetDatabase()
   })
 
+  describe('addToDreal', () => {
+    const userId = uuid()
+    beforeAll(async () => {
+      const UserModel = sequelize.model('user')
+
+      await UserModel.create({
+        id: userId,
+        fullName: '',
+        email: '',
+        role: 'dreal',
+      })
+    })
+
+    it('should add the dreal to the user', async () => {
+      await userRepo.addToDreal(userId, 'Corse')
+
+      const UserDrealModel = sequelize.model('userDreal')
+
+      const userDreals = await UserDrealModel.findAll({ where: { userId } })
+
+      expect(userDreals).toHaveLength(1)
+      expect(userDreals[0].dreal).toEqual('Corse')
+    })
+  })
+
+  describe('findUsersForDreal', () => {
+    const userId = uuid()
+
+    it('return the users associated to the dreal', async () => {
+      const UserModel = sequelize.model('user')
+      const UserDrealModel = sequelize.model('userDreal')
+
+      await UserModel.create({
+        id: userId,
+        fullName: 'fullName',
+        email: 'email@test.test',
+        role: 'dreal',
+      })
+
+      await UserDrealModel.create({
+        userId,
+        dreal: 'Corse',
+      })
+
+      const drealUsers = await userRepo.findUsersForDreal('Corse')
+
+      expect(drealUsers).toHaveLength(1)
+      expect(drealUsers[0].fullName).toEqual('fullName')
+      expect(drealUsers[0].email).toEqual('email@test.test')
+      expect(drealUsers[0].role).toEqual('dreal')
+    })
+  })
+
+  describe('findDrealsForUser', () => {
+    const userId = uuid()
+
+    it('return the users associated to the dreal', async () => {
+      const UserModel = sequelize.model('user')
+      const UserDrealModel = sequelize.model('userDreal')
+
+      await UserModel.create({
+        id: userId,
+        fullName: 'fullName',
+        email: 'email@test.test',
+        role: 'dreal',
+      })
+
+      await UserDrealModel.create({
+        userId,
+        dreal: 'Corse',
+      })
+
+      const dreals = await userRepo.findDrealsForUser(userId)
+
+      expect(dreals).toHaveLength(1)
+      expect(dreals[0]).toEqual('Corse')
+    })
+  })
+
   describe('addProjectToUserWithEmail(projectId, email)', () => {
     describe('when a user with this email exists', () => {
       it('should add the user to the project', async () => {

@@ -1,22 +1,35 @@
 import { FileService, FileStorageService } from './modules/file'
-import { ShouldUserAccessProject } from './modules/authorization'
-import { userRepo, projectRepo } from './dataAccess'
+import {
+  BaseShouldUserAccessProject,
+  ShouldUserAccessProject,
+} from './modules/authorization'
+import { userRepo, projectRepo, projectAdmissionKeyRepo } from './dataAccess'
+import { appelOffreRepo } from './dataAccess/inMemory'
 import {
   fileRepo,
   notificationRepo,
   getFailedNotifications,
+  getUnnotifiedProjectsForPeriode,
+  initProjections,
 } from './infra/sequelize'
 import {
   LocalFileStorageService,
   ObjectStorageFileStorageService,
 } from './infra/file'
-import { EventBus } from './core/utils'
-import { InMemoryEventBus } from './infra/eventbus'
+import { InMemoryEventStore } from './infra/inMemory'
 import { fakeSendEmail } from './infra/mail/fakeEmailService'
 import { sendEmailFromMailjet } from './infra/mail/mailjet'
 
-import { ProjectHandlers } from './modules/project/eventHandlers'
-import { GenerateCertificate } from './modules/project/generateCertificate'
+import {
+  handlePeriodeNotified,
+  handleProjectCertificateGenerated,
+  handleProjectNotified,
+  handleCandidateNotifiedForPeriode,
+} from './modules/project/eventHandlers'
+import {
+  GenerateCertificate,
+  makeGenerateCertificate,
+} from './modules/project/generateCertificate'
 import { buildCertificate } from './views/certificates'
 import { makeNotificationService, SendEmail } from './modules/notification'
 
@@ -34,7 +47,7 @@ const isDevEnv = process.env.NODE_ENV === 'development'
 const isStagingEnv = process.env.NODE_ENV === 'staging'
 const isProdEnv = process.env.NODE_ENV === 'production'
 
-const shouldUserAccessProject = new ShouldUserAccessProject(
+const shouldUserAccessProject = new BaseShouldUserAccessProject(
   userRepo,
   projectRepo.findById
 )
@@ -112,13 +125,30 @@ export const {
 // EVENT HANDLERS
 //
 
-export const eventBus: EventBus = new InMemoryEventBus()
-new ProjectHandlers(
-  eventBus,
-  new GenerateCertificate(
-    fileService,
-    projectRepo.findById,
-    projectRepo.save,
-    buildCertificate
-  )
-)
+export const eventStore = new InMemoryEventStore()
+
+export const generateCertificate = makeGenerateCertificate({
+  fileService,
+  findProjectById: projectRepo.findById,
+  saveProject: projectRepo.save,
+  buildCertificate,
+})
+handlePeriodeNotified(eventStore, getUnnotifiedProjectsForPeriode)
+handleProjectCertificateGenerated(eventStore, {
+  findProjectById: projectRepo.findById,
+})
+handleProjectNotified(eventStore, {
+  generateCertificate,
+  getFamille: appelOffreRepo.getFamille,
+})
+handleCandidateNotifiedForPeriode(eventStore, {
+  sendNotification,
+  saveProjectAdmissionKey: projectAdmissionKeyRepo.save,
+  getPeriodeTitle: appelOffreRepo.getPeriodeTitle,
+})
+
+//
+// Projections
+//
+
+initProjections(eventStore)

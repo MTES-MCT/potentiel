@@ -7,7 +7,11 @@ interface CheckProps {
   user: User
 }
 
-export class ShouldUserAccessProject {
+export interface ShouldUserAccessProject {
+  check: (args: CheckProps) => Promise<boolean>
+}
+
+export class BaseShouldUserAccessProject implements ShouldUserAccessProject {
   constructor(
     private userRepo: UserRepo,
     private findProjectById: ProjectRepo['findById']

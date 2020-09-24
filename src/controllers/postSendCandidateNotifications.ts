@@ -1,8 +1,10 @@
+import moment from 'moment'
+import { v4 as uuid } from 'uuid'
+import { eventStore } from '../config'
 import { Redirect } from '../helpers/responses'
+import { PeriodeNotified } from '../modules/project/events'
 import ROUTES from '../routes'
 import { HttpRequest } from '../types'
-import { sendAllCandidateNotifications } from '../useCases'
-import moment from 'moment'
 
 const FORMAT_DATE = 'DD/MM/YYYY'
 
@@ -12,6 +14,10 @@ const postSendCandidateNotifications = async (request: HttpRequest) => {
   const { appelOffreId, periodeId, notificationDate } = request.body
 
   if (!request.user) {
+    return Redirect(ROUTES.LOGIN)
+  }
+
+  if (!['admin', 'dgec'].includes(request.user.role)) {
     return Redirect(ROUTES.LOGIN)
   }
 
@@ -32,19 +38,25 @@ const postSendCandidateNotifications = async (request: HttpRequest) => {
     )
   }
 
-  const result = await sendAllCandidateNotifications({
-    appelOffreId,
-    periodeId,
-    notifiedOn: moment(notificationDate, FORMAT_DATE).toDate().getTime(),
-    user: request.user,
-  })
+  const requestId = uuid()
+  const result = await eventStore.publish(
+    new PeriodeNotified({
+      payload: {
+        appelOffreId,
+        periodeId,
+        notifiedOn: moment(notificationDate, FORMAT_DATE).toDate().getTime(),
+        requestedBy: request.user.id,
+      },
+      requestId,
+    })
+  )
 
-  return result.match({
-    ok: () =>
+  return result.match(
+    () =>
       Redirect(ROUTES.ADMIN_NOTIFY_CANDIDATES(), {
-        success: 'Les notifications ont bien été envoyées.',
+        success: 'La période a bien été notifiée.',
       }),
-    err: (e: Error) => {
+    (e: Error) => {
       console.log('sendCandidateNotifications failed', e)
       return Redirect(
         ROUTES.ADMIN_NOTIFY_CANDIDATES({
@@ -52,11 +64,10 @@ const postSendCandidateNotifications = async (request: HttpRequest) => {
           periodeId,
         }),
         {
-          error:
-            "Les notifications n'ont pas pu être envoyées. (" + e.message + ')',
+          error: "La période n'a pas pu être notifiée. (" + e.message + ')',
         }
       )
-    },
-  })
+    }
+  )
 }
 export { postSendCandidateNotifications }

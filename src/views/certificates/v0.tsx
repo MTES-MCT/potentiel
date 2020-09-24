@@ -1,6 +1,6 @@
 import React from 'react'
 import { Readable } from 'stream'
-import { ResultAsync, errAsync, ok } from '../../core/utils'
+import { ResultAsync, errAsync, ok, Queue } from '../../core/utils'
 import {
   Page,
   Text,
@@ -19,6 +19,9 @@ import {
 } from '../../entities'
 import { formatDate } from '../../helpers/formatDate'
 import { OtherError } from '../../modules/shared'
+
+import dotenv from 'dotenv'
+dotenv.config()
 
 Font.register({
   family: 'Arial',
@@ -304,8 +307,8 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
 
   // We have to jugle a bit with String.fromCharCode to have the actual indices and not literaly &sup1; or other
   // Also we replace the spaces in the footnote text with non-breaking spaces because of a bug in React-PDF that wraps way too early
-  const footnotes = footNotes.map(({ footNote, indice }) => (
-    <Text>
+  const footnotes = footNotes.map(({ footNote, indice }, index) => (
+    <Text key={'foot_note_' + index}>
       {String.fromCharCode(indice)} Paragraphe{' '}
       {footNote.replace(/\s/gi, String.fromCharCode(160))} du cahier des charges
     </Text>
@@ -629,7 +632,8 @@ class MissingDataError extends Error {
 interface MakeCertificateProps {
   project: Project
 }
-let queue: Promise<NodeJS.ReadableStream> = Promise.resolve(Readable.from(''))
+
+let queue = new Queue()
 
 const makeCertificate = ({
   project,
@@ -652,11 +656,11 @@ const makeCertificate = ({
     content = Elimine({ project, appelOffre, periode })
   }
 
-  queue = queue.then(() =>
+  const ticket = queue.push(() =>
     ReactPDF.renderToStream(<Certificate {...content} />)
   )
 
-  return ResultAsync.fromPromise(queue, (e: any) => new OtherError(e.message))
+  return ResultAsync.fromPromise(ticket, (e: any) => new OtherError(e.message))
 }
 
 export { makeCertificate }

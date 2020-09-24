@@ -48,6 +48,12 @@ export default function makeUserRepo({ sequelize }): UserRepo {
   })
 
   const UserDrealModel = sequelize.define('userDreal', {
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER,
+    },
     dreal: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -57,9 +63,6 @@ export default function makeUserRepo({ sequelize }): UserRepo {
       allowNull: false,
     },
   })
-
-  UserModel.hasMany(UserDrealModel)
-  UserDrealModel.belongsTo(UserModel, { foreignKey: 'userId' })
 
   const _isDbReady = isDbReady({ sequelize })
 
@@ -87,9 +90,16 @@ export default function makeUserRepo({ sequelize }): UserRepo {
     try {
       if (!dreal) return []
 
-      const drealUsersRaw = await UserDrealModel.findAll({
-        where: { dreal },
-        include: UserModel,
+      const drealUsersIds = (
+        await UserDrealModel.findAll({
+          where: { dreal },
+        })
+      ).map((item) => item.get().userId)
+
+      if (!drealUsersIds.length) return []
+
+      const drealUsersRaw = await UserModel.findAll({
+        where: { id: drealUsersIds },
       })
 
       // console.log(
@@ -99,7 +109,7 @@ export default function makeUserRepo({ sequelize }): UserRepo {
       // )
 
       const deserializedItems = mapExceptError(
-        drealUsersRaw.map((item) => item.get()).map((item) => item.user.get()),
+        drealUsersRaw.map((item) => item.get()),
         deserialize,
         'User.findUsersForDreal.deserialize error'
       )

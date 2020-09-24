@@ -1,24 +1,14 @@
 import {
-  appelOffreRepo,
-  userRepo,
-  appelsOffreStatic,
-  projectAdmissionKeyRepo,
   credentialsRepo,
-  notificationRepo,
+  projectAdmissionKeyRepo,
   resetDatabase,
+  userRepo,
 } from '../dataAccess/inMemory'
-import {
-  makeProject,
-  makeCredentials,
-  makeUser,
-  User,
-  Project,
-} from '../entities'
-import makeFakeProject from '../__tests__/fixtures/project'
-import makeFakeUser from '../__tests__/fixtures/user'
-import makeInviteDreal, { ACCESS_DENIED_ERROR } from './inviteDreal'
-import routes from '../routes'
+import { makeCredentials, makeUser, User } from '../entities'
 import { NotificationArgs } from '../modules/notification'
+import routes from '../routes'
+import makeFakeUser from '../__tests__/fixtures/user'
+import makeInviteDreal from './inviteDreal'
 
 const sendNotification = jest.fn(async (args: NotificationArgs) => null)
 

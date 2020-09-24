@@ -1,24 +1,13 @@
-import _ from 'lodash'
 import {
   CredentialsRepo,
   ProjectAdmissionKeyRepo,
   ProjectRepo,
   UserRepo,
-  AppelOffreRepo,
 } from '../dataAccess'
-import {
-  makeProjectAdmissionKey,
-  Project,
-  User,
-  ProjectAdmissionKey,
-  AppelOffre,
-  Periode,
-  NotificationProps,
-} from '../entities'
-import { ErrorResult, Ok, ResultAsync, Err } from '../types'
-import routes from '../routes'
-import { importProjects } from '.'
+import { makeProjectAdmissionKey, Project, User } from '../entities'
 import { NotificationService } from '../modules/notification'
+import routes from '../routes'
+import { ErrorResult, Ok, ResultAsync } from '../types'
 
 interface MakeUseCaseProps {
   findProjectById: ProjectRepo['findById']
@@ -143,45 +132,40 @@ export default function makeInviteUserToProject({
 
     // Create a project admission key per project
 
-    const projectAdmissionKeyResults = await Promise.all(
-      projects
-        .map((project) => {
-          const projectAdmissionKeyResult = makeProjectAdmissionKey({
-            email,
-            projectId: project.id,
-            fullName: '',
-          })
-
-          if (projectAdmissionKeyResult.is_err()) {
-            console.log(
-              'inviteUserToProject use-case failed on call to makeProjectAdmissionKey',
-              projectAdmissionKeyResult.unwrap_err()
-            )
-          }
-
-          return projectAdmissionKeyResult
+    const projectAdmissionKeys = projects
+      .map((project) => {
+        const projectAdmissionKeyResult = makeProjectAdmissionKey({
+          email,
+          projectId: project.id,
+          fullName: '',
         })
-        .filter((res) => res.is_ok())
-        .map((res) => res.unwrap())
-        .map(projectAdmissionKeyRepo.save)
+
+        if (projectAdmissionKeyResult.is_err()) {
+          console.log(
+            'inviteUserToProject use-case failed on call to makeProjectAdmissionKey',
+            projectAdmissionKeyResult.unwrap_err()
+          )
+        }
+
+        return projectAdmissionKeyResult
+      })
+      .filter((res) => res.is_ok())
+      .map((res) => res.unwrap())
+
+    const saveResults = await Promise.all(
+      projectAdmissionKeys.map(projectAdmissionKeyRepo.save)
     )
 
-    if (projectAdmissionKeyResults.some((res) => res.is_err())) {
+    if (saveResults.some((res) => res.is_err())) {
       console.log(
         'inviteUserToProject use-case failed some calls to projectAdmissionKeyRepo.save',
-        projectAdmissionKeyResults
-          .filter((res) => res.is_err())
-          .map((res) => res.unwrap_err())
+        saveResults.filter((res) => res.is_err()).map((res) => res.unwrap_err())
       )
     }
 
-    if (projectAdmissionKeyResults.every((res) => res.is_err())) {
+    if (saveResults.every((res) => res.is_err())) {
       return ErrorResult(SYSTEM_ERROR)
     }
-
-    const projectAdmissionKeys = projectAdmissionKeyResults
-      .filter((res) => res.is_ok())
-      .map((res) => res.unwrap())
 
     // Send email invitation
 

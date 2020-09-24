@@ -1,4 +1,7 @@
-import { ShouldUserAccessProject } from './ShouldUserAccessProject'
+import {
+  BaseShouldUserAccessProject,
+  ShouldUserAccessProject,
+} from './ShouldUserAccessProject'
 
 import makeFakeProject from '../../__tests__/fixtures/project'
 import makeFakeUser from '../../__tests__/fixtures/user'
@@ -9,7 +12,7 @@ import { User, makeProject, makeUser, Project } from '../../entities'
 describe('ShouldUserAccessProject', () => {
   describe('given user is admin', () => {
     const findProjectById = jest.fn()
-    const shouldUserAccessProject = new ShouldUserAccessProject(
+    const shouldUserAccessProject = new BaseShouldUserAccessProject(
       userRepo,
       findProjectById
     )
@@ -31,7 +34,7 @@ describe('ShouldUserAccessProject', () => {
 
   describe('given user is dgec', () => {
     const findProjectById = jest.fn()
-    const shouldUserAccessProject = new ShouldUserAccessProject(
+    const shouldUserAccessProject = new BaseShouldUserAccessProject(
       userRepo,
       findProjectById
     )
@@ -70,7 +73,7 @@ describe('ShouldUserAccessProject', () => {
             regionProjet: 'Corse',
           } as Project)
       )
-      const shouldUserAccessProject = new ShouldUserAccessProject(
+      const shouldUserAccessProject = new BaseShouldUserAccessProject(
         userRepo,
         findProjectById
       )
@@ -93,7 +96,7 @@ describe('ShouldUserAccessProject', () => {
             regionProjet: 'Bretagne',
           } as Project)
       )
-      const shouldUserAccessProject = new ShouldUserAccessProject(
+      const shouldUserAccessProject = new BaseShouldUserAccessProject(
         userRepo,
         findProjectById
       )
@@ -116,7 +119,7 @@ describe('ShouldUserAccessProject', () => {
     const findProjectById = jest.fn(async () => {
       throw 'do not call'
     })
-    const shouldUserAccessProject = new ShouldUserAccessProject(
+    const shouldUserAccessProject = new BaseShouldUserAccessProject(
       userRepo,
       findProjectById
     )

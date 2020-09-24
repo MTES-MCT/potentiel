@@ -29,10 +29,11 @@
   },
   "homepage": "https://github.com/MTES-MCT/potentiel#readme",
   "dependencies": {
-    "@react-pdf/renderer": "^1.6.8",
+    "@react-pdf/renderer": "^1.6.11",
     "@types/pkgcloud": "^1.7.3",
     "body-parser": "^1.19.0",
     "bunyan": "^1.8.12",
+    "concat-stream": "^2.0.0",
     "connect-ensure-login": "^0.1.1",
     "cookie-parser": "^1.4.5",
     "crypto": "^1.0.1",
@@ -63,6 +64,7 @@
     "sqlite3": "^4.2.0",
     "utility-types": "^3.10.0",
     "uuid": "^7.0.2",
+    "wait-for-expect": "^3.0.2",
     "yup": "^0.28.1",
     "zod": "^1.0.9"
   },

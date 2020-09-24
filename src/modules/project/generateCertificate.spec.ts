@@ -1,4 +1,4 @@
-import { GenerateCertificate } from './generateCertificate'
+import { makeGenerateCertificate } from './generateCertificate'
 import { Readable } from 'stream'
 import { Project, makeProject } from '../../entities'
 
@@ -47,18 +47,16 @@ describe('generateCertificate', () => {
   )
   const saveProject = jest.fn(async (project: Project) => Ok(null))
 
-  const generateCertificate = new GenerateCertificate(
+  const generateCertificate = makeGenerateCertificate({
     fileService,
     findProjectById,
     saveProject,
-    buildCertificate
-  )
+    buildCertificate,
+  })
 
+  let result
   beforeAll(async () => {
-    const result = await generateCertificate.execute(project.id)
-
-    if (result.isErr()) console.log(result.error)
-    expect(result.isOk()).toBe(true)
+    result = await generateCertificate(project.id)
   })
 
   it('should retrieve the project entity', () => {
@@ -73,14 +71,13 @@ describe('generateCertificate', () => {
     expect(mockFileServiceSave).toHaveBeenCalled()
   })
 
-  it('should update the project with the new certificateFile', () => {
-    expect(saveProject).toHaveBeenCalled()
-    const updatedProject = saveProject.mock.calls[0][0]
+  it('should return the id to the saved file', () => {
+    const fileId = mockFileServiceSave.mock.calls[0][0].id.toString()
+    expect(fileId).toBeDefined()
 
-    expect(updatedProject).toBeDefined()
-    expect(updatedProject.id).toBe(project.id)
+    expect(result.isOk()).toBe(true)
+    if (result.isErr()) return console.log(result.error)
 
-    const savedFile = mockFileServiceSave.mock.calls[0][0]
-    expect(updatedProject.certificateFileId).toBe(savedFile.id.toString())
+    expect(result.value).toEqual(fileId)
   })
 })

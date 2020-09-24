@@ -11,7 +11,5 @@ export type ProjectAdmissionKeyRepo = {
     pagination: Pagination
   ): Promise<PaginatedList<ProjectAdmissionKey>>
 
-  save: (
-    projectAdmissionKey: ProjectAdmissionKey
-  ) => ResultAsync<ProjectAdmissionKey>
+  save: (projectAdmissionKey: ProjectAdmissionKey) => ResultAsync<null>
 }

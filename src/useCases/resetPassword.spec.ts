@@ -57,7 +57,11 @@ describe('resetPassword use-case', () => {
           .map(makeProjectAdmissionKey)
           .filter((item) => item.is_ok())
           .map((item) => item.unwrap())
-          .map(projectAdmissionKeyRepo.save)
+          .map((item) =>
+            projectAdmissionKeyRepo
+              .save(item)
+              .then((res) => res.map(() => item))
+          )
       )
     )
       .filter((item) => item.is_ok())

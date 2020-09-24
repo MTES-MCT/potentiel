@@ -1,18 +1,9 @@
-import {
-  ProjectAdmissionKey,
-  makeProjectAdmissionKey,
-  NotificationProps,
-  AppelOffre,
-  makeProjectIdentifier,
-  applyProjectUpdate,
-  Periode,
-} from '../entities'
-import { ProjectRepo } from '../dataAccess'
-import { ResultAsync, Ok } from '../types'
-import routes from '../routes'
-import _ from 'lodash'
 import moment from 'moment'
+import { ProjectRepo } from '../dataAccess'
+import { applyProjectUpdate, makeProjectIdentifier } from '../entities'
 import { NotificationService } from '../modules/notification'
+import routes from '../routes'
+import { Ok, ResultAsync } from '../types'
 
 interface MakeUseCaseProps {
   findProjectsWithGarantiesFinancieresPendingBefore: ProjectRepo['findProjectsWithGarantiesFinancieresPendingBefore']

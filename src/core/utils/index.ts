@@ -1,2 +1,2 @@
-export * from './EventBus';
+export * from './Queue';
 export * from './Result';

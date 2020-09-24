@@ -1,15 +1,13 @@
-import {
-  ProjectAdmissionKey,
-  makeProjectAdmissionKey,
-  NotificationProps,
-  AppelOffre,
-  Periode,
-} from '../entities'
 import { ProjectAdmissionKeyRepo } from '../dataAccess'
-import { ResultAsync, Ok } from '../types'
-import routes from '../routes'
-import _ from 'lodash'
+import {
+  AppelOffre,
+  makeProjectAdmissionKey,
+  Periode,
+  ProjectAdmissionKey,
+} from '../entities'
 import { NotificationService } from '../modules/notification'
+import routes from '../routes'
+import { Ok, ResultAsync } from '../types'
 
 interface MakeUseCaseProps {
   projectAdmissionKeyRepo: ProjectAdmissionKeyRepo

@@ -1,10 +1,4 @@
-import {
-  Project,
-  User,
-  makeProject,
-  applyProjectUpdate,
-  NotificationProps,
-} from '../entities'
+import { Project, User, makeProject, applyProjectUpdate } from '../entities'
 import { ProjectRepo, UserRepo, ProjectAdmissionKeyRepo } from '../dataAccess'
 import _ from 'lodash'
 import moment from 'moment'

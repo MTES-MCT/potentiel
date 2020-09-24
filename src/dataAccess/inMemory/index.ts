@@ -5,7 +5,6 @@ import {
   ProjectAdmissionKeyRepo,
   ModificationRequestRepo,
   PasswordRetrievalRepo,
-  NotificationRepo,
   ProjectFilters,
   ContextSpecificProjectListFilter,
 } from '../'
@@ -13,7 +12,6 @@ import {
   Credentials,
   User,
   Project,
-  Notification,
   ProjectAdmissionKey,
   ModificationRequest,
   PasswordRetrieval,
@@ -290,7 +288,7 @@ const projectAdmissionKeyRepo: ProjectAdmissionKeyRepo = {
   save: async (item: ProjectAdmissionKey) => {
     projectAdmissionKeysById[item.id] = item
 
-    return Ok(item)
+    return Ok(null)
   },
 }
 
@@ -677,14 +675,6 @@ async function findAllNotifications(
 
   return items
 }
-const notificationRepo: NotificationRepo = {
-  save: async (item: Notification) => {
-    notificationsById[item.id] = item
-
-    return Ok(null)
-  },
-  findAll: findAllNotifications,
-}
 
 const resetDatabase = () => {
   credentialsByEmail = {}
@@ -694,7 +684,6 @@ const resetDatabase = () => {
   projectAdmissionKeysById = {}
   modificationRequestsById = {}
   passwordRetrievalsById = {}
-  notificationsById = {}
 }
 
 export {
@@ -704,7 +693,6 @@ export {
   modificationRequestRepo,
   passwordRetrievalRepo,
   appelOffreRepo,
-  notificationRepo,
   resetDatabase,
 }
 export * from './appelOffre'

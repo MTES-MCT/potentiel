@@ -238,9 +238,10 @@ const makeProjectIdentifier = (project: Project): string => {
 }
 
 const getCertificateIfProjectEligible = (
-  project: Project
+  project: Project,
+  ignoreNotifiedOn?: boolean
 ): CertificateTemplate | null => {
-  if (!project.notifiedOn) {
+  if (!ignoreNotifiedOn && !project.notifiedOn) {
     console.log('getCertificateIfProjectEligible failed on project notifiedOn')
     return null
   }

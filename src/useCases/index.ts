@@ -1,7 +1,6 @@
 import makeLogin from './login'
 import makeImportProjects from './importProjects'
 import makeListProjects from './listProjects'
-import makeSendAllCandidateNotifiations from './sendAllCandidateNotifications'
 import makeSignup from './signup'
 import makeRequestModification from './requestModification'
 import makeListUserRequests from './listUserRequests'
@@ -21,7 +20,7 @@ import makeListGarantiesFinancieres from './listGarantiesFinancieres'
 import makeRelanceInvitations from './relanceInvitations'
 import makeRelanceGarantiesFinancieres from './relanceGarantiesFinancieres'
 
-import { fileService, eventBus, sendNotification } from '../config'
+import { fileService, sendNotification } from '../config'
 
 import {
   credentialsRepo,
@@ -73,15 +72,6 @@ const listUnnotifiedProjects = makeListUnnotifiedProjects({
 const shouldUserAccessProject = makeShouldUserAccessProject({
   userRepo,
   findProjectById: projectRepo.findById,
-})
-
-const sendAllCandidateNotifications = makeSendAllCandidateNotifiations({
-  eventBus,
-  findAllProjects: projectRepo.findAll,
-  saveProject: projectRepo.save,
-  projectAdmissionKeyRepo,
-  appelOffreRepo,
-  sendNotification,
 })
 
 const signup = makeSignup({
@@ -185,7 +175,6 @@ const useCases = Object.freeze({
   importProjects,
   listProjects,
   sendNotification,
-  sendAllCandidateNotifications,
   signup,
   requestModification,
   listUserRequests,
@@ -212,7 +201,6 @@ export {
   importProjects,
   listProjects,
   sendNotification,
-  sendAllCandidateNotifications,
   signup,
   requestModification,
   listUserRequests,

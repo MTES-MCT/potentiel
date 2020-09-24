@@ -212,12 +212,12 @@ export default function makeProjectAdmissionKeyRepo({
 
   async function save(
     projectAdmissionKey: ProjectAdmissionKey
-  ): ResultAsync<ProjectAdmissionKey> {
+  ): ResultAsync<null> {
     await _isDbReady
 
     try {
       await ProjectAdmissionKeyModel.upsert(serialize(projectAdmissionKey))
-      return Ok(projectAdmissionKey)
+      return Ok(null)
     } catch (error) {
       if (CONFIG.logDbErrors)
         console.log('ProjectAdmissionKey.insert error', error)

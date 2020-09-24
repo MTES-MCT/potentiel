@@ -343,7 +343,6 @@ export default function makeProjectRepo({
     },
     {
       timestamps: true,
-      tableName: 'file',
     }
   )
   ProjectModel.belongsTo(FileModel, {
