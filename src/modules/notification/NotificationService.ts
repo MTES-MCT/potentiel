@@ -1,5 +1,4 @@
 import { Repository } from '../../core/domain'
-import notification from '../../entities/notification'
 import { Notification, NotificationArgs } from './Notification'
 import { GetFailedNotifications } from './queries'
 import { SendEmail } from './SendEmail'
@@ -82,7 +81,7 @@ export const makeNotificationService = (
       if (saveResult.isErr()) {
         console.log(
           'ERROR: NotificationService.retryFailedNotification failed to save retried notification',
-          notification,
+          failedNotification,
           saveResult.error
         )
       }

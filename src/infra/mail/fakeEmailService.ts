@@ -1,14 +1,14 @@
 import { ResultAsync, okAsync, errAsync } from '../../core/utils'
-import { EmailProps } from '../../useCases/sendNotification'
+import { SendEmailProps } from '../../modules/notification'
 /**
  *
  * This call sends a message to the given recipient with vars and custom vars.
  *
  */
 
-const sentEmails: Array<EmailProps> = [] // For testing purposes only
+const sentEmails: Array<SendEmailProps> = [] // For testing purposes only
 
-function fakeSendEmail(props: EmailProps): ResultAsync<null, Error> {
+function fakeSendEmail(props: SendEmailProps): ResultAsync<null, Error> {
   if (process.env.NODE_ENV === 'test') {
     // Register the sent email but don't send it for real
     sentEmails.push(props)

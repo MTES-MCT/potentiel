@@ -7,7 +7,6 @@ import buildMakeProject, { buildApplyProjectUpdate } from './project'
 import buildMakeProjectAdmissionKey from './projectAdmissionKey'
 import buildMakeModificationRequest from './modificationRequest'
 import buildMakePasswordRetrieval from './passwordRetrieval'
-import buildMakeNotification from './notification'
 
 const makeId = uuidv4
 
@@ -18,7 +17,6 @@ const applyProjectUpdate = buildApplyProjectUpdate(makeId)
 const makeProjectAdmissionKey = buildMakeProjectAdmissionKey({ makeId })
 const makeModificationRequest = buildMakeModificationRequest({ makeId })
 const makePasswordRetrieval = buildMakePasswordRetrieval({ makeId })
-const makeNotification = buildMakeNotification({ makeId })
 
 export {
   makeCredentials,
@@ -27,7 +25,6 @@ export {
   makeProjectAdmissionKey,
   makeModificationRequest,
   makePasswordRetrieval,
-  makeNotification,
   applyProjectUpdate,
 }
 export * from './user'
@@ -40,4 +37,3 @@ export * from './famille'
 export * from './periode'
 export * from './passwordRetrieval'
 export * from './dreal'
-export * from './notification'
