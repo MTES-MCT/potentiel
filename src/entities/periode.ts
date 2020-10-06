@@ -7,7 +7,7 @@ type NoteThreshold = {
   territoire?: Static<typeof territoireSchema>
 }
 
-export type CertificateTemplate = 'v0'
+export type CertificateTemplate = 'v0' | 'v1'
 
 export type Periode = {
   id: string
