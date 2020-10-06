@@ -538,7 +538,9 @@ export default function ProjectDetails({
                                   ),
                             download: true,
                           }
-                        : undefined
+                        : {
+                            title: 'Votre attestation sera disponible sous 24h',
+                          }
                     }
                   />
                   {project.classe === 'Classé' ? (
