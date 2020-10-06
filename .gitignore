@@ -117,6 +117,7 @@ uploads/
 
 # temp files
 temp/
+userData/
 
 # cypress test results
 cypress/screenshots

@@ -27,7 +27,7 @@ import {
   getDemandePage,
   postRequestModification,
   getUserRequestsPage,
-  getCandidateCertificate,
+  getCandidateCertificatePreview,
   getForgottenPasswordPage,
   postRetrievePassword,
   getResetPasswordPage,
@@ -249,9 +249,9 @@ export async function makeServer(port: number = 3000) {
     )
 
     router.get(
-      ROUTES.CANDIDATE_CERTIFICATE(),
-      ensureLoggedIn(),
-      makeExpressCallback(getCandidateCertificate)
+      ROUTES.PREVIEW_CANDIDATE_CERTIFICATE(),
+      ensureLoggedIn(['admin', 'dgec']),
+      makeExpressCallback(getCandidateCertificatePreview)
     )
 
     router.get(

@@ -1,6 +1,6 @@
 export * from './authentication';
 export * from './getAdminRequestsPage';
-export * from './getCandidateCertificate';
+export * from './getCandidateCertificatePreview';
 export * from './getDemandePage';
 export * from './getDrealPage';
 export * from './getForgottenPasswordPage';

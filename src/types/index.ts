@@ -28,7 +28,7 @@ export type HttpResponse =
       filePath: string
     }
   | {
-      fileStream: Readable
+      fileStream: NodeJS.ReadableStream
     }
   | {
       redirect: string

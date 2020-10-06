@@ -503,7 +503,9 @@ const Certificate = ({
         >
           <Text style={{ fontSize: 8, marginBottom: 60 }}>
             Paris, le{' '}
-            {formatDate(project.notifiedOn || Date.now(), 'D MMMM YYYY')}
+            {project.notifiedOn
+              ? formatDate(project.notifiedOn, 'D MMMM YYYY')
+              : '[N/A]'}
           </Text>
           <Text style={{ fontSize: 10 }}>{project.nomRepresentantLegal}</Text>
           <Text style={{ fontSize: 10 }}>{project.nomCandidat}</Text>

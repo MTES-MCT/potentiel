@@ -251,7 +251,7 @@ export default function AdminNotifyCandidates({
           projectActions={(project: Project) => [
             {
               title: 'Aperçu attestation',
-              link: ROUTES.CANDIDATE_CERTIFICATE_FOR_ADMINS(project),
+              link: ROUTES.PREVIEW_CANDIDATE_CERTIFICATE(project),
               isDownload: true,
             },
           ]}

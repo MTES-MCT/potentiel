@@ -64,15 +64,12 @@ class routes {
     periodeId: string
   }>('/admin/notifier-candidats.html')
 
-  static CANDIDATE_CERTIFICATE = (
-    projectId?: Project['id'],
-    filename?: string
-  ) => {
-    const route = '/telechargement/:projectId/attestation/*.pdf'
-    if (projectId) {
+  static PREVIEW_CANDIDATE_CERTIFICATE = (project: Project) => {
+    const route = '/previsualiser-attestation/:projectId/*'
+    if (project) {
       return route
-        .replace(':projectId', projectId)
-        .replace('*', filename || 'attestation')
+        .replace(':projectId', project.id)
+        .replace('*', 'aperçu-' + makeCertificateFilename(project, true))
     } else return route
   }
 

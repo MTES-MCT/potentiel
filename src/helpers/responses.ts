@@ -24,7 +24,7 @@ const SuccessFile = (filePath: string): HttpResponse => {
   }
 }
 
-const SuccessFileStream = (fileStream: Readable): HttpResponse => {
+const SuccessFileStream = (fileStream: NodeJS.ReadableStream): HttpResponse => {
   return {
     fileStream,
   }
