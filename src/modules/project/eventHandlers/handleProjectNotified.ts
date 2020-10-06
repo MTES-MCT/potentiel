@@ -99,7 +99,7 @@ export const handleProjectNotified = (
           )
         }
       } else {
-        console.log('handleProjectNotified generateCertificated succeeded')
+        // console.log('handleProjectNotified generateCertificated succeeded')
         certificateFileId = result.value
         break
       }
