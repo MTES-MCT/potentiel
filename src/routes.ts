@@ -64,7 +64,7 @@ class routes {
     periodeId: string
   }>('/admin/notifier-candidats.html')
 
-  static PREVIEW_CANDIDATE_CERTIFICATE = (project: Project) => {
+  static PREVIEW_CANDIDATE_CERTIFICATE = (project?: Project) => {
     const route = '/previsualiser-attestation/:projectId/*'
     if (project) {
       return route

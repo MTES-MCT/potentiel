@@ -250,7 +250,8 @@ export async function makeServer(port: number = 3000) {
 
     router.get(
       ROUTES.PREVIEW_CANDIDATE_CERTIFICATE(),
-      ensureLoggedIn(['admin', 'dgec']),
+      ensureLoggedIn(),
+      ensureRole(['admin', 'dgec']),
       makeExpressCallback(getCandidateCertificatePreview)
     )
 
