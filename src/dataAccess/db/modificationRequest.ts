@@ -88,7 +88,7 @@ export default function makeModificationRequestRepo({
   })
 
   const FileModel = sequelize.define(
-    'file',
+    'files',
     {
       id: {
         type: DataTypes.UUID,
@@ -118,7 +118,6 @@ export default function makeModificationRequestRepo({
     },
     {
       timestamps: true,
-      tableName: 'file',
     }
   )
   ModificationRequestModel.belongsTo(FileModel, {

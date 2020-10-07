@@ -1,19 +1,10 @@
 import { DataTypes } from 'sequelize'
 import { UserRepo } from '../'
-import { User, makeUser, Project, makeProject, DREAL } from '../../entities'
+import { DREAL, makeUser, Project, User } from '../../entities'
 import { mapExceptError, mapIfOk } from '../../helpers/results'
-import {
-  Err,
-  None,
-  Ok,
-  OptionAsync,
-  ResultAsync,
-  Some,
-  ErrorResult,
-} from '../../types'
+import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types'
 import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
-import { retrievePassword } from '../../useCases'
 
 // Override these to apply serialization/deserialization on inputs/outputs
 const deserialize = (item) => ({

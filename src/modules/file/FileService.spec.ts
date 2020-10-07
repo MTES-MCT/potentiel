@@ -4,22 +4,25 @@ import { FileStorageService } from './FileStorageService'
 import { Repository } from '../../core/domain'
 import { Readable } from 'stream'
 import { okAsync, ok } from '../../core/utils'
-import { ShouldUserAccessProject } from '../authorization/ShouldUserAccessProject'
+import {
+  ShouldUserAccessProject,
+  BaseShouldUserAccessProject,
+} from '../authorization/ShouldUserAccessProject'
 import { makeUser } from '../../entities'
 import { UnwrapForTest } from '../../types'
 import makeFakeUser from '../../__tests__/fixtures/user'
 
 const mockShouldUserAccessProjectCheck = jest.fn(async (args) => true)
 jest.mock('../authorization/ShouldUserAccessProject', () => ({
-  ShouldUserAccessProject: function () {
+  BaseShouldUserAccessProject: function () {
     return {
       check: mockShouldUserAccessProjectCheck,
     }
   },
 }))
 
-const MockShouldUserAccessProject = <jest.Mock<ShouldUserAccessProject>>(
-  ShouldUserAccessProject
+const MockShouldUserAccessProject = <jest.Mock<BaseShouldUserAccessProject>>(
+  BaseShouldUserAccessProject
 )
 
 describe('FileService', () => {

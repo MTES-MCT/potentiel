@@ -313,7 +313,7 @@ export default function makeProjectRepo({
   })
 
   const FileModel = sequelize.define(
-    'file',
+    'files',
     {
       id: {
         type: DataTypes.UUID,

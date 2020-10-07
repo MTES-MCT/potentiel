@@ -70,11 +70,14 @@ const initDatabase = async () => {
     console.error('Unable to connect to the database:', error)
   }
 
-  try {
-    await sequelize.sync({ force: process.env.NODE_ENV === 'test' }) // Set to true to crush db if changes
-    // console.log('Database synced successfully.')
-  } catch (error) {
-    console.error('Unable to sync database models', error)
+  if (process.env.NODE_ENV === 'test') {
+    try {
+      // only need to sync when test (in-memory) database
+      // The db tables are created using migration scripts eitherwise
+      await sequelize.sync({ force: true })
+    } catch (error) {
+      console.error('Unable to sync database models', error)
+    }
   }
 
   _isDatabaseInitialized = true

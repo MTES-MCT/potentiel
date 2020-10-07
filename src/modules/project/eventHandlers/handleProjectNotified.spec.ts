@@ -203,7 +203,10 @@ describe('handleProjectNotified', () => {
     })
 
     it('should call generateCertificate with the projectId', () => {
-      expect(generateCertificate).toHaveBeenCalledWith(fakePayload.projectId)
+      expect(generateCertificate).toHaveBeenCalledWith(
+        fakePayload.projectId,
+        fakePayload.notifiedOn
+      )
     })
 
     it('should trigger ProjectCertificateGenerated event', () => {

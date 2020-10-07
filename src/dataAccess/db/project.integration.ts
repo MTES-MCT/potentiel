@@ -1,21 +1,8 @@
-import { Sequelize } from 'sequelize'
 import { v4 as uuid } from 'uuid'
-import { ProjectRepo } from '../project'
-import { makeProjectRepo } from './project'
-import { makeUserRepo } from './user'
-import { appelOffreRepo } from '../inMemory/appelOffre'
-import { UserRepo } from '../user'
+import { Pagination } from '../../types'
 import makeFakeProject from '../../__tests__/fixtures/project'
 import makeFakeUser from '../../__tests__/fixtures/user'
-
-import {
-  userRepo,
-  projectRepo,
-  initDatabase,
-  resetDatabase,
-  sequelize,
-} from './'
-import { Pagination } from '../../types'
+import { initDatabase, projectRepo, resetDatabase, userRepo } from './'
 
 const defaultPagination = { page: 0, pageSize: 2 } as Pagination
 

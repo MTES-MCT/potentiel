@@ -290,6 +290,12 @@ module.exports = {
     })
 
     await queryInterface.createTable('userDreals', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.DataTypes.INTEGER,
+      },
       dreal: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
@@ -347,6 +353,56 @@ module.exports = {
       error: {
         type: Sequelize.DataTypes.STRING,
         allowNull: true,
+      },
+      createdAt: Sequelize.DATE,
+      updatedAt: Sequelize.DATE,
+    })
+
+    await queryInterface.createTable('projectEvents', {
+      id: {
+        type: Sequelize.DataTypes.UUID,
+        primaryKey: true,
+      },
+      before: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
+      },
+      after: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
+      },
+      createdAt: {
+        type: Sequelize.DataTypes.NUMBER,
+        allowNull: false,
+      },
+      userId: {
+        type: Sequelize.DataTypes.UUID,
+        allowNull: false,
+      },
+      projectId: {
+        type: Sequelize.DataTypes.UUID,
+        allowNull: false,
+      },
+      type: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
+      },
+      modificationRequestId: {
+        type: Sequelize.DataTypes.UUID,
+        allowNull: true,
+      },
+      createdAt: Sequelize.DATE,
+      updatedAt: Sequelize.DATE,
+    })
+
+    await queryInterface.createTable('UserProjects', {
+      userId: {
+        type: Sequelize.DataTypes.UUID,
+        allowNull: false,
+      },
+      projectId: {
+        type: Sequelize.DataTypes.UUID,
+        allowNull: false,
       },
       createdAt: Sequelize.DATE,
       updatedAt: Sequelize.DATE,
