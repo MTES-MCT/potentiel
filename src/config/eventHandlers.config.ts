@@ -4,9 +4,7 @@ import {
   handleProjectCertificateGenerated,
   handleProjectNotified,
 } from '../modules/project/eventHandlers'
-import { makeGenerateCertificate } from '../modules/project/generateCertificate'
-import { buildCertificate } from '../views/certificates'
-import { fileService } from './fileStorage.config'
+
 import {
   projectRepo,
   appelOffreRepo,
@@ -15,13 +13,7 @@ import {
 import { eventStore } from './eventStore.config'
 import { getUnnotifiedProjectsForPeriode } from './queries.config'
 import { sendNotification } from './emails.config'
-
-export const generateCertificate = makeGenerateCertificate({
-  fileService,
-  findProjectById: projectRepo.findById,
-  saveProject: projectRepo.save,
-  buildCertificate,
-})
+import { generateCertificate } from './useCases.config'
 
 handlePeriodeNotified(eventStore, getUnnotifiedProjectsForPeriode)
 handleProjectCertificateGenerated(eventStore, {

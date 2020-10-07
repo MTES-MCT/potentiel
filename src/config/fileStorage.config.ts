@@ -2,10 +2,8 @@ import {
   LocalFileStorageService,
   ObjectStorageFileStorageService,
 } from '../infra/file'
-import { FileService, FileStorageService } from '../modules/file'
-import { isStagingEnv, isProdEnv } from './env.config'
-import { fileRepo } from './repos.config'
-import { shouldUserAccessProject } from './useCases.config'
+import { FileStorageService } from '../modules/file'
+import { isProdEnv, isStagingEnv } from './env.config'
 
 let fileStorageService: FileStorageService
 if (isStagingEnv || isProdEnv) {
@@ -44,8 +42,4 @@ if (isStagingEnv || isProdEnv) {
   fileStorageService = new LocalFileStorageService('userData')
 }
 
-export const fileService = new FileService(
-  fileStorageService,
-  fileRepo,
-  shouldUserAccessProject
-)
+export { fileStorageService }

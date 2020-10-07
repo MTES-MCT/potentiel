@@ -539,7 +539,10 @@ export default function ProjectDetails({
                             download: true,
                           }
                         : {
-                            title: 'Votre attestation sera disponible sous 24h',
+                            title: project.appelOffre?.periode
+                              ?.isNotifiedOnPotentiel
+                              ? 'Votre attestation sera disponible sous 24h'
+                              : 'Attestation non disponible pour cette période',
                           }
                     }
                   />

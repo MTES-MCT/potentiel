@@ -19,6 +19,8 @@ const getProjectFile = async (request: HttpRequest) => {
       return Redirect(ROUTES.LOGIN)
     }
 
+    console.log('getProjectFile with fileId', fileId)
+
     const result = await fileService.load(fileId, request.user)
 
     if (result.isErr()) {
