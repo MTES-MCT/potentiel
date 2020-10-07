@@ -1,33 +1,8 @@
-import { Op } from 'sequelize'
-import {
-  initDatabase,
-  userRepo,
-  projectRepo,
-  sequelize,
-} from '../src/dataAccess'
-import {
-  makeUser,
-  makeCredentials,
-  User,
-  applyProjectUpdate,
-} from '../src/entities'
-import { File } from '../src/modules/file'
-import { makeProjectFilePath } from '../src/helpers/makeProjectFilePath'
-import { asLiteral } from '../src/helpers/asLiteral'
-
-import { fileService } from '../src/config/fileStorage.config'
 import { eventStore } from '../src/config/eventStore.config'
 import '../src/config/projections.config'
 import { generateCertificate } from '../src/config/useCases.config'
-
-import fs from 'fs'
-import util from 'util'
-import path, { relative } from 'path'
+import { initDatabase, sequelize } from '../src/dataAccess'
 import { ProjectCertificateGenerated } from '../src/modules/project/events'
-const moveFile = util.promisify(fs.rename)
-const dirExists = util.promisify(fs.exists)
-const fileExists = dirExists
-const deleteFile = util.promisify(fs.unlink)
 
 //
 // In 09/2020 we switched from on-the-fly certificate generation (on download) to pre-generated certificates (at notification)
