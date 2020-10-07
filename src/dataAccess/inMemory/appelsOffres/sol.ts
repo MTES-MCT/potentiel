@@ -24,6 +24,8 @@ const sol: AppelOffre = {
   tarifOuPrimeRetenue: "le prix de référence T de l'électricité retenu",
   afficherValeurEvaluationCarbone: true,
   afficherPhraseRegionImplantation: false,
+  dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
+  renvoiSoumisAuxGarantiesFinancieres: 'doit être au minimum de 42 mois',
   dataFields: [
     ...commonDataFields,
     {

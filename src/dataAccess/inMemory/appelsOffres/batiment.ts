@@ -24,6 +24,8 @@ const batiment: AppelOffre = {
   tarifOuPrimeRetenue: "le prix de référence T de l'électricité retenu",
   afficherValeurEvaluationCarbone: true,
   afficherPhraseRegionImplantation: false,
+  dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
+  renvoiSoumisAuxGarantiesFinancieres: 'doit être au minimum de 42 mois',
   dataFields: [
     ...commonDataFields,
     {
@@ -86,7 +88,6 @@ const batiment: AppelOffre = {
     {
       id: '1',
       title: '1. 100 kWc – 500 Mwc',
-      garantieFinanciereEnMois: 0,
     },
     {
       id: '2',

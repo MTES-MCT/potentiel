@@ -69,9 +69,11 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
     " période de l'appel offres " +
     appelOffre.title
 
-  const garantieFinanciereEnMois = appelOffre.familles.find(
+  const famille = appelOffre.familles.find(
     (famille) => famille.id === project.familleId
-  )?.garantieFinanciereEnMois
+  )
+  const soumisAuxGarantiesFinancieres =
+    famille?.garantieFinanciereEnMois || famille?.soumisAuxGarantiesFinancieres
 
   const footNotes: Array<{ footNote: string; indice: number }> = []
   const addFootNote = makeAddFootnote(footNotes)
@@ -96,8 +98,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
         que {appelOffre.tarifOuPrimeRetenue} en application des dispositions du
         point {appelOffre.paragraphePrixReference} du cahier des charges est de{' '}
         {formatNumber(project.prixReference)} €/MWh.
-        {appelOffre.afficherValeurEvaluationCarbone &&
-        project.evaluationCarbone > 0
+        {appelOffre.affichageParagrapheECS && project.evaluationCarbone > 0
           ? ' La valeur de l’évaluation carbone des modules est de ' +
             formatNumber(project.evaluationCarbone) +
             ' kg eq CO2/kWc. '
@@ -158,9 +159,14 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
       >
         - si ce n’est déjà fait, déposer une demande complète de raccordement
         dans les deux (2) mois à compter de la présente notification
-        {addFootNote(appelOffre.renvoiDemandeCompleteRaccordement)}.
+        {addFootNote(appelOffre.renvoiDemandeCompleteRaccordement)}
+        {appelOffre.id === 'Eolien'
+          ? 'ou dans les deux mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale'
+          : ''}
+        .
       </Text>
-      {garantieFinanciereEnMois ? (
+      {soumisAuxGarantiesFinancieres &&
+      appelOffre.renvoiSoumisAuxGarantiesFinancieres ? (
         <Text
           style={{
             fontSize: 10,
@@ -169,14 +175,15 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
             marginLeft: 20,
           }}
         >
-          - constituer une garantie d’exécution dans un délai de deux (2) mois à
-          compter de la présente notification. Les candidats retenus n’ayant pas
-          adressé au préfet de région du site d’implantation l’attestation de
-          constitution de garantie financière dans le délai prévu feront l’objet
-          d’une procédure de mise en demeure. En l’absence d’exécution dans un
-          délai d’un mois après réception de la mise en demeure, le candidat
-          pourra faire l’objet d’un retrait de la présente décision le désignant
-          lauréat
+          - constituer une garantie{' '}
+          {appelOffre.id === 'Eolien' ? 'bancaire ' : ''}
+          d’exécution dans un délai de deux (2) mois à compter de la présente
+          notification. Les candidats retenus n’ayant pas adressé au préfet de
+          région du site d’implantation l’attestation de constitution de
+          garantie financière dans le délai prévu feront l’objet d’une procédure
+          de mise en demeure. En l’absence d’exécution dans un délai d’un mois
+          après réception de la mise en demeure, le candidat pourra faire
+          l’objet d’un retrait de la présente décision le désignant lauréat
           <Text>
             {addFootNote(
               appelOffre.renvoiRetraitDesignationGarantieFinancieres
@@ -184,8 +191,8 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
           </Text>
           .{' '}
           <Text style={{ textDecoration: 'underline' }}>
-            La durée de la garantie doit être au minimum de{' '}
-            {garantieFinanciereEnMois} mois.
+            La durée de la garantie{' '}
+            {appelOffre.renvoiSoumisAuxGarantiesFinancieres}.
           </Text>
         </Text>
       ) : (
@@ -281,9 +288,9 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
           >
             {appelOffre.affichageParagrapheECS ? (
               <Text>
-                Les changements conduisant à une diminution de la notation d’un
-                ou plusieurs critères d’évaluations de l’offre, notamment par un
-                bilan carbone moins performant, ne seront pas acceptés.{' '}
+                {appelOffre.id === 'Eolien'
+                  ? 'Les changements conduisant à une remise en cause de l’autorisation mentionnée au 3.3.3 ne seront pas acceptés'
+                  : 'Les changements conduisant à une diminution de la notation d’un ou plusieurs critères d’évaluations de l’offre, notamment par un bilan carbone moins performant, ne seront pas acceptés.'}{' '}
               </Text>
             ) : (
               <Text />
@@ -459,8 +466,8 @@ const Certificate = ({
           }}
         >
           <Image
-            style={{ width: 145, height: 118 }}
-            src={process.env.BASE_URL + '/images/Logo MTES.png'}
+            style={{ width: 165, height: 118 }}
+            src={process.env.BASE_URL + '/images/Logo MTE.png'}
           />
         </View>
         <View
@@ -522,7 +529,7 @@ const Certificate = ({
             Code Potentiel: {makeProjectIdentifier(project)}
           </Text>
           <Text style={{ fontSize: 8 }}>
-            Dossier suivi par : aopv.dgec@developpement-durable.gouv.fr
+            Dossier suivi par : {appelOffre.dossierSuiviPar}
           </Text>
         </View>
         <View

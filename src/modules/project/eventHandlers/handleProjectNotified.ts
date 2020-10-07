@@ -49,7 +49,8 @@ export const handleProjectNotified = (
     if (
       familleResult &&
       familleResult.isOk() &&
-      familleResult.value.garantieFinanciereEnMois > 0
+      (!!familleResult.value.garantieFinanciereEnMois ||
+        familleResult.value.soumisAuxGarantiesFinancieres)
     ) {
       await eventStore.publish(
         new ProjectGFDueDateSet({

@@ -37,6 +37,8 @@ export type AppelOffre = {
   tarifOuPrimeRetenue: string
   afficherValeurEvaluationCarbone: boolean
   afficherPhraseRegionImplantation: boolean
+  dossierSuiviPar: string
+  renvoiSoumisAuxGarantiesFinancieres?: string
   periodes: Periode[]
   familles: Famille[]
   dataFields: DataField[]

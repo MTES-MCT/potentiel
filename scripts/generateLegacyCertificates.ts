@@ -11,8 +11,6 @@ import { ProjectCertificateGenerated } from '../src/modules/project/events'
 
 initDatabase()
   .then(async () => {
-    // Get all projects with a dcrFile and no dcrFileId
-
     const ProjectModel = sequelize.model('project')
     const projectsToUpdate = await ProjectModel.findAll({
       where: {

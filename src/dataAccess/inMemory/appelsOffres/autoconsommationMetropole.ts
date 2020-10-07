@@ -24,6 +24,7 @@ const autoconsommationMetropole: AppelOffre = {
   tarifOuPrimeRetenue: 'la prime retenue',
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
+  dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   dataFields: [
     ...commonDataFields,
     {

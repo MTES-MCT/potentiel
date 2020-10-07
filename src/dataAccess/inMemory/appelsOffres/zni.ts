@@ -24,6 +24,8 @@ const zni: AppelOffre = {
   tarifOuPrimeRetenue: "le prix de référence T de l'électricité retenu",
   afficherValeurEvaluationCarbone: true,
   afficherPhraseRegionImplantation: true,
+  dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
+  renvoiSoumisAuxGarantiesFinancieres: 'doit être au minimum de 36 mois',
   dataFields: [
     ...commonDataFields,
     {
@@ -99,23 +101,19 @@ const zni: AppelOffre = {
     {
       id: '1',
       title: '1. 100kWc - 250kWc',
-      garantieFinanciereEnMois: 0,
     },
     {
       id: '2',
       title: '2. 250kWc - 1,5MWc',
-      garantieFinanciereEnMois: 0,
     },
     {
       id: '3',
       title: '3. 250kWc - 5MWc',
-      garantieFinanciereEnMois: 0,
     },
     // 2019 ZNI avec stockage
     {
       id: '1a',
       title: '1a. 100kWc - 500 kWc',
-      garantieFinanciereEnMois: 0,
     },
     {
       id: '1b',
@@ -131,7 +129,6 @@ const zni: AppelOffre = {
     {
       id: '2a',
       title: '2a. 100kWc - 500 kWc',
-      garantieFinanciereEnMois: 0,
     },
     {
       id: '2b',

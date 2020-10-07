@@ -11,6 +11,7 @@ import {
   zni,
   autoconsommationMetropole,
   autoconsommationZNI,
+  eolien,
 } from './appelsOffres'
 import { errAsync, okAsync } from '../../core/utils'
 import { EntityNotFoundError } from '../../modules/shared'
@@ -24,6 +25,7 @@ const appelsOffreStatic = [
   zni,
   autoconsommationMetropole,
   autoconsommationZNI,
+  eolien,
 ]
 
 const appelOffreRepo = {

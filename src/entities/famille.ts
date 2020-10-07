@@ -1,5 +1,6 @@
 export type Famille = {
   id: string
   title: string
-  garantieFinanciereEnMois: number
+  soumisAuxGarantiesFinancieres?: true
+  garantieFinanciereEnMois?: number
 }

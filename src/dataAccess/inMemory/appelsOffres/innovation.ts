@@ -25,6 +25,7 @@ const innovation: AppelOffre = {
   tarifOuPrimeRetenue: "le prix de référence T de l'électricité retenu",
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
+  dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   dataFields: [
     ...commonDataFields,
     {
@@ -58,33 +59,27 @@ const innovation: AppelOffre = {
     {
       id: '1a',
       title: "1a. Nouvelles conceptions d'intégration",
-      garantieFinanciereEnMois: 0,
     },
     {
       id: '1b',
       title: '1b. Autres innovations de composants',
-      garantieFinanciereEnMois: 0,
     },
     {
       id: '3',
       title:
         "3. Innovation liée à l'optimisation et à l'exploitation électrique de la centrale",
-      garantieFinanciereEnMois: 0,
     },
     {
       id: '4',
       title: '4. Agrivoltaïsme',
-      garantieFinanciereEnMois: 0,
     },
     {
       id: '1',
       title: '1. 500 kWc - 5MWc',
-      garantieFinanciereEnMois: 0,
     },
     {
       id: '2',
       title: '2. 100 kWc - 3MWc',
-      garantieFinanciereEnMois: 0,
     },
   ],
 }
