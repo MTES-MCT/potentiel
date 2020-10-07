@@ -49,7 +49,12 @@ initDatabase()
         project.dcrFile,
         true
       )
-      const absoluteFilePath = path.resolve(__dirname, '../', relativeFilePath)
+      const absoluteFilePath = path.resolve(
+        __dirname,
+        '../uploads/',
+        project.id,
+        project.dcrFile
+      )
 
       if (!(await fileExists(absoluteFilePath))) {
         console.log('\nFile with path', absoluteFilePath, 'could not be found')

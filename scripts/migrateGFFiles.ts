@@ -49,7 +49,12 @@ initDatabase()
         project.garantiesFinancieresFile,
         true
       )
-      const absoluteFilePath = path.resolve(__dirname, '../', relativeFilePath)
+      const absoluteFilePath = path.resolve(
+        __dirname,
+        '../uploads/',
+        project.id,
+        project.garantiesFinancieresFile
+      )
 
       if (!(await fileExists(absoluteFilePath))) {
         console.log('\nFile with path', absoluteFilePath, 'could not be found')
