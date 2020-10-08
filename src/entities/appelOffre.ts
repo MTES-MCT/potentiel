@@ -35,6 +35,7 @@ export type AppelOffre = {
   renvoiEngagementIPFP: string
   paragrapheClauseCompetitivite: string
   tarifOuPrimeRetenue: string
+  tarifOuPrimeRetenueAlt: string
   afficherValeurEvaluationCarbone: boolean
   afficherPhraseRegionImplantation: boolean
   dossierSuiviPar: string

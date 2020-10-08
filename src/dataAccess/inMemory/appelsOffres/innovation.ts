@@ -23,6 +23,7 @@ const innovation: AppelOffre = {
   renvoiEngagementIPFP: '',
   paragrapheClauseCompetitivite: '',
   tarifOuPrimeRetenue: "le prix de référence T de l'électricité retenu",
+  tarifOuPrimeRetenueAlt: 'ce prix de référence',
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',

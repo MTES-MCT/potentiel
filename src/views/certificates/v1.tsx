@@ -106,8 +106,9 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
         {project.isInvestissementParticipatif ? (
           <Text>
             En raison de votre engagement à l’investissement participatif, la
-            valeur de ce prix de référence est majorée pendant toute la durée du
-            contrat de 3 €/MWh sous réserve du respect de cet engagement
+            valeur de {appelOffre.tarifOuPrimeRetenueAlt} est majorée pendant
+            toute la durée du contrat de 3 €/MWh sous réserve du respect de cet
+            engagement
             {addFootNote(appelOffre.renvoiEngagementIPFP)}.
           </Text>
         ) : (
@@ -116,8 +117,9 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
         {project.isFinancementParticipatif ? (
           <Text>
             En raison de votre engagement au financement participatif, la valeur
-            de ce prix de référence est majorée pendant toute la durée du
-            contrat de 1 €/MWh sous réserve du respect de cet engagement
+            de {appelOffre.tarifOuPrimeRetenueAlt} est majorée pendant toute la
+            durée du contrat de 1 €/MWh sous réserve du respect de cet
+            engagement
             {addFootNote(appelOffre.renvoiEngagementIPFP)}.
           </Text>
         ) : (

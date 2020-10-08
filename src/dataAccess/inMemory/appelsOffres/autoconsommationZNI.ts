@@ -22,6 +22,7 @@ const autoconsommationZNI: AppelOffre = {
   renvoiEngagementIPFP: '',
   paragrapheClauseCompetitivite: '2.10',
   tarifOuPrimeRetenue: 'la prime retenue',
+  tarifOuPrimeRetenueAlt: 'cette prime',
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',

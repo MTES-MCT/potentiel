@@ -22,6 +22,7 @@ const fessenheim: AppelOffre = {
   renvoiEngagementIPFP: '3.2.6 et 7.1.2',
   paragrapheClauseCompetitivite: '2.8',
   tarifOuPrimeRetenue: "le prix de référence T de l'électricité retenu",
+  tarifOuPrimeRetenueAlt: 'ce prix de référence',
   afficherValeurEvaluationCarbone: true,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',

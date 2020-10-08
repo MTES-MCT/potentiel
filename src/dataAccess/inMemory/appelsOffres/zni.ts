@@ -22,6 +22,7 @@ const zni: AppelOffre = {
   renvoiEngagementIPFP: '3.3.6 et 7.1',
   paragrapheClauseCompetitivite: '2.8',
   tarifOuPrimeRetenue: "le prix de référence T de l'électricité retenu",
+  tarifOuPrimeRetenueAlt: 'ce prix de référence',
   afficherValeurEvaluationCarbone: true,
   afficherPhraseRegionImplantation: true,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',

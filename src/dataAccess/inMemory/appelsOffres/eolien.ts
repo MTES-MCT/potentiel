@@ -12,6 +12,7 @@ const eolien: AppelOffre = {
   launchDate: 'Mai 2017',
   unitePuissance: 'MW',
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
+  tarifOuPrimeRetenueAlt: 'ce prix de référence',
   paragraphePrixReference: '7.2',
   affichageParagrapheECS: false,
   paragrapheEngagementIPFP: '3.3.6',
