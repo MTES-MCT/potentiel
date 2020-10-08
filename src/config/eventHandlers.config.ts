@@ -15,6 +15,8 @@ import { getUnnotifiedProjectsForPeriode } from './queries.config'
 import { sendNotification } from './emails.config'
 import { generateCertificate } from './useCases.config'
 
+console.log('Initializing Event Handlers')
+
 handlePeriodeNotified(eventStore, getUnnotifiedProjectsForPeriode)
 handleProjectCertificateGenerated(eventStore, {
   findProjectById: projectRepo.findById,

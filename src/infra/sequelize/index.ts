@@ -20,6 +20,7 @@ export const getUnnotifiedProjectsForPeriode = makeGetUnnotifiedProjectsForPerio
 export const sequelizeEventStore = new SequelizeEventStore(models)
 
 export const initProjections = (eventStore: EventStore) => {
+  console.log('Initializing Project projections')
   onProjectCertificateGenerated(eventStore, models)
   onProjectNotified(eventStore, models)
   onProjectDCRDueDateSet(eventStore, models)
