@@ -75,7 +75,7 @@ export default function makeRelanceGarantiesFinancieres({
                   project.appelOffre
                     ?.renvoiRetraitDesignationGarantieFinancieres || '',
                 duree_garanties:
-                  project.famille?.garantieFinanciereEnMois.toString() || '',
+                  project.famille?.garantieFinanciereEnMois?.toString() || '',
                 invitation_link: routes.PROJECT_DETAILS(project.id),
               },
               message: {

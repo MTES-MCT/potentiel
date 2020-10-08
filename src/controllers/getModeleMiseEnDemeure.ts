@@ -89,7 +89,7 @@ const getModeleMiseEnDemeure = async (request: HttpRequest) => {
           project.appelOffre?.renvoiRetraitDesignationGarantieFinancieres ||
           '!!!AO NON DISPONIBLE!!!',
         garantieFinanciereEnMois:
-          project.famille?.garantieFinanciereEnMois.toString() ||
+          project.famille?.garantieFinanciereEnMois?.toString() ||
           '!!!FAMILLE NON DISPONIBLE!!!',
         dateFinGarantieFinanciere: project.famille
           ? formatDate(

@@ -165,6 +165,10 @@ export class Notification extends AggregateRoot<NotificationProps> {
     return this.props.createdAt
   }
 
+  get updatedAt() {
+    return this.props.updatedAt
+  }
+
   public sent() {
     this.props.status = 'sent'
   }

@@ -1,16 +1,11 @@
 import AdminDashboard from '../components/adminDashboard'
 import Pagination from '../components/pagination'
+import { Notification } from '../../modules/notification'
 
 import React from 'react'
 import { formatDate } from '../../helpers/formatDate'
 
-import {
-  Project,
-  AppelOffre,
-  Periode,
-  Famille,
-  Notification,
-} from '../../entities'
+import { Project, AppelOffre, Periode, Famille } from '../../entities'
 import ROUTES from '../../routes'
 import { dataId } from '../../helpers/testId'
 import { asLiteral } from '../../helpers/asLiteral'
@@ -120,7 +115,12 @@ export default function NotificationList({
                       </td>
                       <td>{notification.type}</td>
                       <td>
-                        {formatDate(notification.createdAt, 'DD/MM/YYYY HH:mm')}
+                        {notification.createdAt
+                          ? formatDate(
+                              notification.createdAt,
+                              'DD/MM/YYYY HH:mm'
+                            )
+                          : ''}
                         {notification.status === 'retried' ? (
                           <div
                             style={{
@@ -130,10 +130,12 @@ export default function NotificationList({
                             }}
                           >
                             renvoyé le{' '}
-                            {formatDate(
-                              notification.updatedAt,
-                              'DD/MM/YYYY HH:mm'
-                            )}
+                            {notification.updatedAt
+                              ? formatDate(
+                                  notification.updatedAt,
+                                  'DD/MM/YYYY HH:mm'
+                                )
+                              : ''}
                           </div>
                         ) : (
                           ''

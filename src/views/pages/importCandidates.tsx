@@ -1,10 +1,8 @@
 import React from 'react'
-import { Project, AppelOffre } from '../../entities'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '../../routes'
 import { HttpRequest } from '../../types'
 import AdminDashboard from '../components/adminDashboard'
-import appelOffre from '../../entities/appelOffre'
 
 interface AdminListProjectsProps {
   request: HttpRequest

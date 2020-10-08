@@ -1,16 +1,8 @@
-import _ from 'lodash'
-
-import {
-  userRepo,
-  projectAdmissionKeyRepo,
-  appelOffreRepo,
-  notificationRepo,
-} from '../dataAccess'
-import { Redirect, Success, NotFoundError } from '../helpers/responses'
-import { Controller, HttpRequest, Pagination } from '../types'
-import { NotificationListPage } from '../views/pages'
 import { makePagination } from '../helpers/paginate'
+import { Redirect, Success } from '../helpers/responses'
 import ROUTES from '../routes'
+import { HttpRequest, Pagination } from '../types'
+import { NotificationListPage } from '../views/pages'
 
 const defaultPagination: Pagination = {
   page: 0,
@@ -25,14 +17,14 @@ const getNotificationListPage = async (request: HttpRequest) => {
 
   const pagination = makePagination(request.query, defaultPagination)
 
-  const notifications = await notificationRepo.findAll(
-    {
-      status: ['error', 'retried'],
-    },
-    pagination
-  )
+  // TOFIX: query new notification service and return a DTO
 
-  return Success(NotificationListPage({ request, notifications }))
+  return Success(
+    NotificationListPage({
+      request,
+      notifications: { items: [], pagination, pageCount: 0, itemCount: 0 },
+    })
+  )
 }
 
 export { getNotificationListPage }
