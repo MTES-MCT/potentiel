@@ -52,6 +52,16 @@ const innovation: AppelOffre = {
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'v0',
     },
+    {
+      id: '3',
+      title: 'troisième',
+      noteThresholdByFamily: [
+        { familleId: '1', noteThreshold: 0 },
+        { familleId: '2', noteThreshold: 0 },
+      ],
+      isNotifiedOnPotentiel: true,
+      certificateTemplate: 'v1',
+    },
   ],
   familles: [
     // La période 1 a les familles 1a, 1b, 2, 3 et 4

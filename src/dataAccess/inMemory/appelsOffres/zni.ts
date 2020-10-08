@@ -95,6 +95,29 @@ const zni: AppelOffre = {
         { familleId: '2c', territoire: 'Martinique', noteThreshold: 27.2 },
       ],
     },
+    {
+      id: '3',
+      title: 'troisième',
+      isNotifiedOnPotentiel: true,
+      certificateTemplate: 'v1',
+      noteThresholdByFamily: [
+        { familleId: '2a', territoire: 'Corse', noteThreshold: 0 },
+        { familleId: '2a', territoire: 'Guadeloupe', noteThreshold: 0 },
+        { familleId: '2a', territoire: 'Guyane', noteThreshold: 0 },
+        { familleId: '2a', territoire: 'La Réunion', noteThreshold: 0 },
+        { familleId: '2a', territoire: 'Mayotte', noteThreshold: 0
+        //
+        { familleId: '2b', territoire: 'Guadeloupe', noteThreshold: 0 },
+        { familleId: '2b', territoire: 'Guyane', noteThreshold: 0 },
+        { familleId: '2b', territoire: 'La Réunion', noteThreshold: 0 },
+        { familleId: '2b', territoire: 'Mayotte', noteThreshold: 0 },
+        //
+        { familleId: '2c', territoire: 'Guadeloupe', noteThreshold: 0 },
+        { familleId: '2c', territoire: 'Guyane', noteThreshold: 0 },
+        { familleId: '2c', territoire: 'La Réunion', noteThreshold: 0 },
+        { familleId: '2c', territoire: 'Martinique', noteThreshold: 0 },
+      ],
+    },
   ],
   familles: [
     // 2017 ZNI avec stockage
