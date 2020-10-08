@@ -105,7 +105,7 @@ const zni: AppelOffre = {
         { familleId: '2a', territoire: 'Guadeloupe', noteThreshold: 0 },
         { familleId: '2a', territoire: 'Guyane', noteThreshold: 0 },
         { familleId: '2a', territoire: 'La Réunion', noteThreshold: 0 },
-        { familleId: '2a', territoire: 'Mayotte', noteThreshold: 0
+        { familleId: '2a', territoire: 'Mayotte', noteThreshold: 0 },
         //
         { familleId: '2b', territoire: 'Guadeloupe', noteThreshold: 0 },
         { familleId: '2b', territoire: 'Guyane', noteThreshold: 0 },
