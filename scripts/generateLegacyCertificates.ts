@@ -1,3 +1,6 @@
+import dotenv from 'dotenv'
+dotenv.config()
+
 import { eventStore } from '../src/config/eventStore.config'
 import '../src/config/projections.config'
 import { generateCertificate } from '../src/config/useCases.config'

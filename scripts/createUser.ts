@@ -1,5 +1,7 @@
-import { initDatabase, userRepo, credentialsRepo } from '../src/dataAccess'
-import { makeUser, makeCredentials } from '../src/entities'
+import dotenv from 'dotenv'
+import { credentialsRepo, initDatabase, userRepo } from '../src/dataAccess'
+import { makeCredentials, makeUser } from '../src/entities'
+dotenv.config()
 
 const [_, __, email, password, name] = process.argv
 

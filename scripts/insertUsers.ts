@@ -1,8 +1,9 @@
-import { initDatabase, userRepo, credentialsRepo } from '../src/dataAccess'
-import { makeUser, makeCredentials, User } from '../src/entities'
-import { asLiteral } from '../src/helpers/asLiteral'
-
+import dotenv from 'dotenv'
 import testUsers from '../.test-users'
+import { credentialsRepo, initDatabase, userRepo } from '../src/dataAccess'
+import { makeCredentials, makeUser } from '../src/entities'
+import { asLiteral } from '../src/helpers/asLiteral'
+dotenv.config()
 
 if (!testUsers) {
   console.log("Can't find .test-users.json file")

@@ -1,4 +1,6 @@
+import dotenv from 'dotenv'
 import { initDatabase, projectRepo } from '../src/dataAccess'
+dotenv.config()
 
 initDatabase()
   .then(async () => {

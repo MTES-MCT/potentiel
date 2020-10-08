@@ -1,24 +1,15 @@
-import { Op } from 'sequelize'
-import {
-  initDatabase,
-  userRepo,
-  projectRepo,
-  sequelize,
-} from '../src/dataAccess'
-import {
-  makeUser,
-  makeCredentials,
-  User,
-  applyProjectUpdate,
-} from '../src/entities'
-import { File } from '../src/modules/file'
-import { makeProjectFilePath } from '../src/helpers/makeProjectFilePath'
-import { asLiteral } from '../src/helpers/asLiteral'
-import { fileService } from '../src/config'
-
+import dotenv from 'dotenv'
 import fs from 'fs'
+import path from 'path'
+import { Op } from 'sequelize'
 import util from 'util'
-import path, { relative } from 'path'
+import { fileService } from '../src/config'
+import { initDatabase, projectRepo, sequelize } from '../src/dataAccess'
+import { applyProjectUpdate } from '../src/entities'
+import { makeProjectFilePath } from '../src/helpers/makeProjectFilePath'
+import { File } from '../src/modules/file'
+dotenv.config()
+
 const moveFile = util.promisify(fs.rename)
 const dirExists = util.promisify(fs.exists)
 const fileExists = dirExists
