@@ -168,6 +168,7 @@ const relanceInvitations = makeRelanceInvitations({
 })
 
 const relanceGarantiesFinancieres = makeRelanceGarantiesFinancieres({
+  eventStore,
   findProjectsWithGarantiesFinancieresPendingBefore:
     projectRepo.findProjectsWithGarantiesFinancieresPendingBefore,
   getUsersForProject: projectRepo.getUsers,
