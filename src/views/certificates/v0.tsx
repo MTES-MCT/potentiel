@@ -557,36 +557,38 @@ const Certificate = ({
             {appelOffre.unitePuissance}.
           </Text>
           {body}
-          <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 30 }}>
-            Je vous prie d’agréer, Madame, Monsieur, l’expression de mes
-            salutations distinguées.
-          </Text>
-          <View
-            style={{
-              marginTop: 20,
-              marginLeft: 200,
-              position: 'relative',
-            }}
-          >
-            <Text
-              style={{ fontSize: 10, fontWeight: 'bold', textAlign: 'center' }}
-            >
-              L'adjoint au sous-directeur du système électrique et des énergies
-              renouvelables,
+          <View wrap={false}>
+            <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 30 }}>
+              Je vous prie d’agréer, Madame, Monsieur, l’expression de mes
+              salutations distinguées.
             </Text>
-            <Text style={{ fontSize: 10, textAlign: 'center', marginTop: 65 }}>
-              Ghislain Ferran
-            </Text>
-            <Image
+            <View
               style={{
-                position: 'absolute',
-                width: 130,
-                height: 105,
-                top: 25,
-                left: 70,
+                marginTop: 20,
+                marginLeft: 200,
+                position: 'relative',
               }}
-              src={process.env.BASE_URL + '/images/signature.png'}
-            />
+            >
+              <Text
+                style={{ fontSize: 10, fontWeight: 'bold', textAlign: 'center' }}
+              >
+                L'adjoint au sous-directeur du système électrique et des énergies
+                renouvelables,
+              </Text>
+              <Text style={{ fontSize: 10, textAlign: 'center', marginTop: 65 }}>
+                Ghislain Ferran
+              </Text>
+              <Image
+                style={{
+                  position: 'absolute',
+                  width: 130,
+                  height: 105,
+                  top: 25,
+                  left: 70,
+                }}
+                src={process.env.BASE_URL + '/images/signature.png'}
+              />
+            </View>
           </View>
 
           {footnotes ? (
