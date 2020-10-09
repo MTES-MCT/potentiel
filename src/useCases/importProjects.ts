@@ -13,8 +13,11 @@ import toNumber from '../helpers/toNumber'
 import getDepartementRegionFromCodePostal from '../helpers/getDepartementRegionFromCodePostal'
 import moment from 'moment'
 import { retrievePassword } from '.'
+import { EventStore } from '../modules/eventStore'
+import { ProjectImported, ProjectReimported } from '../modules/project/events'
 
 interface MakeUseCaseProps {
+  eventStore: EventStore
   findOneProject: ProjectRepo['findOne']
   saveProject: ProjectRepo['save']
   removeProject: ProjectRepo['remove']
@@ -108,6 +111,7 @@ interface ImportReturnType {
 }
 
 export default function makeImportProjects({
+  eventStore,
   findOneProject,
   saveProject,
   removeProject,
@@ -305,6 +309,17 @@ export default function makeImportProjects({
               return Ok(null)
             }
 
+            await eventStore.publish(
+              new ProjectReimported({
+                payload: {
+                  projectId: updatedProject.id,
+                  data: updatedProject,
+                  importedBy: userId,
+                },
+                aggregateId: updatedProject.id,
+              })
+            )
+
             return (await saveProject(updatedProject)).map(() => updatedProject)
           }
 
@@ -335,6 +350,21 @@ export default function makeImportProjects({
             )
             return ErrorResult<Project>(ERREUR_INSERTION)
           }
+
+          await eventStore.publish(
+            new ProjectImported({
+              payload: {
+                projectId: newlyImportedProject.id,
+                appelOffreId: newlyImportedProject.appelOffreId,
+                periodeId: newlyImportedProject.periodeId,
+                numeroCRE: newlyImportedProject.numeroCRE,
+                familleId: newlyImportedProject.familleId,
+                data: newlyImportedProject,
+                importedBy: userId,
+              },
+              aggregateId: newlyImportedProject.id,
+            })
+          )
 
           return (await saveProject(newlyImportedProject)).map(
             () => newlyImportedProject

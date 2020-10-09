@@ -7,4 +7,6 @@ export * from './ProjectCertificateGenerated';
 export * from './ProjectCertificateGenerationFailed';
 export * from './ProjectDCRDueDateSet';
 export * from './ProjectGFDueDateSet';
+export * from './ProjectImported';
 export * from './ProjectNotified';
+export * from './ProjectReimported';

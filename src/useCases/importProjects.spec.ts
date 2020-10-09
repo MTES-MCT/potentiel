@@ -1,5 +1,7 @@
 import _ from 'lodash'
 import moment from 'moment'
+import waitForExpect from 'wait-for-expect'
+
 import { appelOffreRepo, appelsOffreStatic } from '../dataAccess/inMemory'
 import { makeProject, Project } from '../entities'
 import { UnwrapForTest, Ok } from '../types'
@@ -8,6 +10,8 @@ import makeImportProjects, {
   ERREUR_AUCUNE_LIGNE,
   ERREUR_FORMAT_LIGNE,
 } from './importProjects'
+import { ProjectImported, ProjectReimported } from '../modules/project/events'
+import { InMemoryEventStore } from '../infra/inMemory'
 
 const phonyAppelOffre = appelsOffreStatic.find(
   (appelOffre) => appelOffre.id === 'Fessenheim'
@@ -59,11 +63,13 @@ const makePhonyLine = () => ({
 
 describe('importProjects use-case', () => {
   describe('when the imported project is new', () => {
+    const eventStore = new InMemoryEventStore()
     const saveProject = jest.fn(async (project: Project) => Ok(null))
     const removeProject = jest.fn()
     const addProjectToUserWithEmail = jest.fn()
 
     const importProjects = makeImportProjects({
+      eventStore,
       findOneProject: jest.fn(async () => undefined),
       saveProject,
       removeProject,
@@ -74,7 +80,11 @@ describe('importProjects use-case', () => {
     const phonyLine = makePhonyLine()
     let result
 
+    const projectImportedHandler = jest.fn((event: ProjectImported) => null)
+
     beforeAll(async () => {
+      eventStore.subscribe(ProjectImported.type, projectImportedHandler)
+
       const result = await importProjects({
         lines: [phonyLine],
         userId: 'userId',
@@ -136,6 +146,23 @@ describe('importProjects use-case', () => {
       )
     })
 
+    it('should trigger a ProjectImported event', async () => {
+      await waitForExpect(() => {
+        expect(projectImportedHandler).toHaveBeenCalled()
+        const projectImportedEvent = projectImportedHandler.mock.calls[0][0]
+        expect(projectImportedEvent.payload.appelOffreId).toEqual(
+          phonyAppelOffre.id
+        )
+        expect(projectImportedEvent.payload.periodeId).toEqual(phonyPeriodId)
+        expect(projectImportedEvent.payload.familleId).toEqual(phonyFamilleId)
+        expect(projectImportedEvent.payload.numeroCRE).toEqual(phonyNumeroCRE)
+        expect(projectImportedEvent.payload.importedBy).toEqual('userId')
+        expect(projectImportedEvent.payload.projectId).toEqual(
+          projectImportedEvent.aggregateId
+        )
+      })
+    })
+
     it('should add the project to the user with the same email', async () => {
       const newProject = saveProject.mock.calls[0][0]
       expect(newProject).toBeDefined()
@@ -151,6 +178,8 @@ describe('importProjects use-case', () => {
   })
 
   describe('when a project with the same numero CRE, appel offre, periode and famille exists', () => {
+    const eventStore = new InMemoryEventStore()
+
     // Create a fake project
     const existingProject = UnwrapForTest(
       makeProject(
@@ -170,6 +199,7 @@ describe('importProjects use-case', () => {
     const addProjectToUserWithEmail = jest.fn()
 
     const importProjects = makeImportProjects({
+      eventStore,
       findOneProject,
       saveProject,
       addProjectToUserWithEmail,
@@ -177,7 +207,11 @@ describe('importProjects use-case', () => {
       appelOffreRepo,
     })
 
+    const projectReimportedHandler = jest.fn((event: ProjectReimported) => null)
+
     beforeAll(async () => {
+      eventStore.subscribe(ProjectReimported.type, projectReimportedHandler)
+
       // Insert line through import
       const phonyLine = makePhonyLine()
       const result = await importProjects({
@@ -220,6 +254,18 @@ describe('importProjects use-case', () => {
       )
     })
 
+    it('should trigger a ProjectReimported event', async () => {
+      await waitForExpect(() => {
+        expect(projectReimportedHandler).toHaveBeenCalled()
+        const projectReimportedEvent = projectReimportedHandler.mock.calls[0][0]
+        expect(projectReimportedEvent.payload.importedBy).toEqual('userId')
+        expect(projectReimportedEvent.payload.projectId).toEqual(
+          existingProject.id
+        )
+        expect(projectReimportedEvent.aggregateId).toEqual(existingProject.id)
+      })
+    })
+
     it('should add the project to the user with the same email', async () => {
       const newProject = saveProject.mock.calls[0][0]
       expect(newProject).toBeDefined()
@@ -235,11 +281,13 @@ describe('importProjects use-case', () => {
   })
 
   it("should throw an error if there isn't at least one line", async () => {
+    const eventStore = new InMemoryEventStore()
     const findOneProject = jest.fn()
     const saveProject = jest.fn()
     const addProjectToUserWithEmail = jest.fn()
 
     const importProjects = makeImportProjects({
+      eventStore,
       findOneProject,
       saveProject,
       addProjectToUserWithEmail,
@@ -264,8 +312,10 @@ describe('importProjects use-case', () => {
     const findOneProject = jest.fn()
     const saveProject = jest.fn()
     const addProjectToUserWithEmail = jest.fn()
+    const eventStore = new InMemoryEventStore()
 
     const importProjects = makeImportProjects({
+      eventStore,
       findOneProject,
       saveProject,
       addProjectToUserWithEmail,

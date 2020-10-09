@@ -1,20 +1,16 @@
-import { okAsync } from 'neverthrow'
-import { makeProject, ProjectAdmissionKey } from '../../../entities'
+import waitForExpect from 'wait-for-expect'
+import { makeProject } from '../../../entities'
 import { InMemoryEventStore } from '../../../infra/inMemory'
-import { ErrorResult, Ok, UnwrapForTest } from '../../../types'
+import { UnwrapForTest } from '../../../types'
 import makeFakeProject from '../../../__tests__/fixtures/project'
-import { GetPeriodeTitle } from '../../appelOffre'
 import { StoredEvent } from '../../eventStore'
-import { NotificationArgs } from '../../notification'
 import {
-  CandidateNotificationForPeriodeFailed,
   CandidateNotifiedForPeriode,
   ProjectCertificateGenerated,
   ProjectCertificateGenerationFailed,
   ProjectNotified,
 } from '../events'
 import { handleProjectCertificateGenerated } from './'
-import waitForExpect from 'wait-for-expect'
 
 describe('handleProjectCertificateGenerated', () => {
   const project = UnwrapForTest(

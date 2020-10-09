@@ -20,7 +20,7 @@ import makeListGarantiesFinancieres from './listGarantiesFinancieres'
 import makeRelanceInvitations from './relanceInvitations'
 import makeRelanceGarantiesFinancieres from './relanceGarantiesFinancieres'
 
-import { fileService, sendNotification } from '../config'
+import { fileService, sendNotification, eventStore } from '../config'
 
 import {
   credentialsRepo,
@@ -38,6 +38,7 @@ const login = makeLogin({
 })
 
 const importProjects = makeImportProjects({
+  eventStore,
   findOneProject: projectRepo.findOne,
   saveProject: projectRepo.save,
   removeProject: projectRepo.remove,

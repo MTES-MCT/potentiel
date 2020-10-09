@@ -13,10 +13,12 @@ import {
   ProjectGFDueDateSet,
   LegacyProjectEventSourced,
   LegacyProjectSourced,
+  ProjectImported,
 } from '../project/events'
 import { mapResults, Queue } from '../../core/utils'
 import { Store } from 'express-session'
 import { EventEmitter } from 'events'
+import { ProjectReimported } from '../project/events/ProjectReimported'
 
 export type StoredEvent =
   | ProjectNotified
@@ -29,6 +31,8 @@ export type StoredEvent =
   | ProjectGFDueDateSet
   | LegacyProjectEventSourced
   | LegacyProjectSourced
+  | ProjectImported
+  | ProjectReimported
 
 export interface EventStoreHistoryFilters {
   eventType?: StoredEvent['type'] | StoredEvent['type'][]
