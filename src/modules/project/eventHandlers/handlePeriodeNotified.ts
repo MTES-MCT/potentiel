@@ -11,7 +11,11 @@ export const handlePeriodeNotified = (
   getUnnotifiedProjectsForPeriode: GetUnnotifiedProjectsForPeriode
 ) => {
   eventStore.subscribe(PeriodeNotified.type, async (event: PeriodeNotified) => {
-    console.log('handlePeriodeNotified', event)
+    console.log(
+      'handlePeriodeNotified',
+      event.payload.appelOffreId,
+      event.payload.periodeId
+    )
     const { periodeId, appelOffreId, notifiedOn } = event.payload
 
     const unnotifiedProjectIdsResult = await getUnnotifiedProjectsForPeriode(

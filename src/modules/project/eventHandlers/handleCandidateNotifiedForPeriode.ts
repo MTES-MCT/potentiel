@@ -27,13 +27,11 @@ export const handleCandidateNotifiedForPeriode = (
   eventStore.subscribe(CandidateNotifiedForPeriode.type, callback)
 
   async function callback(event: CandidateNotifiedForPeriode) {
-    // console.log('handleCandidateNotifiedForPeriode', event)
+    // console.log('handleCandidateNotifiedForPeriode')
     const {
       payload: { periodeId, appelOffreId, candidateEmail, candidateName },
       requestId,
     } = event
-
-    console.log('handleCandidateNotifiedForPeriode calling _sendNotification')
 
     const notificationResult = await _sendCandidateNotification()
 

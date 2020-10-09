@@ -27,7 +27,7 @@ export const onProjectCertificateGenerated = (
 
       try {
         await projectInstance.save()
-        console.log(' onProjectCertificateGenerated Done saving')
+        // console.log(' onProjectCertificateGenerated Done saving')
       } catch (e) {
         console.log(
           'Error: onProjectCertificateGenerated projection failed to update project',
