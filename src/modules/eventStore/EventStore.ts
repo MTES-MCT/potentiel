@@ -14,6 +14,8 @@ import {
   LegacyProjectEventSourced,
   LegacyProjectSourced,
   ProjectImported,
+  ProjectDCRSubmitted,
+  ProjectDCRRemoved,
 } from '../project/events'
 import { mapResults, Queue } from '../../core/utils'
 import { Store } from 'express-session'
@@ -33,6 +35,8 @@ export type StoredEvent =
   | LegacyProjectSourced
   | ProjectImported
   | ProjectReimported
+  | ProjectDCRRemoved
+  | ProjectDCRSubmitted
 
 export interface EventStoreHistoryFilters {
   eventType?: StoredEvent['type'] | StoredEvent['type'][]

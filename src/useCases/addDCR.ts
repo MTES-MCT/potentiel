@@ -6,8 +6,11 @@ import { FileService, File, FileContainer } from '../modules/file'
 import { ResultAsync, Ok, Err, ErrorResult } from '../types'
 import { makeProjectFilePath } from '../helpers/makeProjectFilePath'
 import routes from '../routes'
+import { EventStore } from '../modules/eventStore'
+import { ProjectDCRSubmitted } from '../modules/project/events'
 
 interface MakeUseCaseProps {
+  eventStore: EventStore
   fileService: FileService
   findProjectById: ProjectRepo['findById']
   saveProject: ProjectRepo['save']
@@ -31,6 +34,7 @@ export const SYSTEM_ERROR =
   'Une erreur système est survenue, merci de réessayer ou de contacter un administrateur si le problème persiste.'
 
 export default function makeAddDCR({
+  eventStore,
   fileService,
   findProjectById,
   saveProject,
@@ -104,6 +108,19 @@ export default function makeAddDCR({
 
       return ErrorResult(SYSTEM_ERROR)
     }
+
+    await eventStore.publish(
+      new ProjectDCRSubmitted({
+        payload: {
+          projectId: project.id,
+          dcrDate: new Date(date),
+          fileId: fileResult.value.id.toString(),
+          numeroDossier: numeroDossier,
+          submittedBy: user.id,
+        },
+        aggregateId: project.id,
+      })
+    )
 
     const res = await saveProject(updatedProject)
 
