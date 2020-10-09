@@ -248,6 +248,10 @@ export default function makeProjectRepo({
       type: DataTypes.UUID,
       primaryKey: true,
     },
+    projectId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
     before: {
       type: DataTypes.STRING,
       get() {
@@ -290,7 +294,11 @@ export default function makeProjectRepo({
       allowNull: false,
     },
     createdAt: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
       allowNull: false,
     },
     userId: {
