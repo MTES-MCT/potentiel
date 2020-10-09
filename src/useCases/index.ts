@@ -133,6 +133,7 @@ const removeGarantiesFinancieres = makeRemoveGarantiesFinancieres({
 })
 
 const addDCR = makeAddDCR({
+  eventStore,
   fileService,
   findProjectById: projectRepo.findById,
   saveProject: projectRepo.save,
@@ -140,6 +141,7 @@ const addDCR = makeAddDCR({
 })
 
 const removeDCR = makeRemoveDCR({
+  eventStore,
   findProjectById: projectRepo.findById,
   saveProject: projectRepo.save,
   shouldUserAccessProject,
