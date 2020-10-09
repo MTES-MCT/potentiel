@@ -412,7 +412,7 @@ const Elimine = ({ project, appelOffre, periode }: ElimineProps) => {
             project.motifsElimination.includes('compétitivité')
           ? 'Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été classée au-delà de la puissance maximale que la Ministre a décidé de retenir afin de préserver la compétitivité de l’appel d’offres en application des dispositions du paragraphe ' +
             appelOffre.paragrapheClauseCompetitivite +
-            ' du cahier des charges. Ainsi, pour chaque famille, seules 80 % des projets les mieux notés ont été retenus. Votre offre a en effet obtenu une note de ' +
+            ' du cahier des charges. Ainsi, ' + (appelOffre.familles.length ? 'pour chaque famille,' : '') + ' seules 80 % des projets les mieux notés ont été retenus. Votre offre a en effet obtenu une note de ' +
             formatNumber(project.note) +
             ' points alors que la sélection des offres s’est faite jusqu’à la note de ' +
             formatNumber(getNoteThreshold(periode, project)) +
