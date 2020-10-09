@@ -1,4 +1,3 @@
-import { Project } from '../../../entities'
 
 export interface GarantiesFinancieresListDTO {
   projects: {

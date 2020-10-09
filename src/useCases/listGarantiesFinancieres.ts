@@ -1,7 +1,7 @@
 import { ProjectRepo, UserRepo } from '../dataAccess'
 import { Project, User } from '../entities'
-import { GarantiesFinancieresListDTO } from '../modules/garantieFinanciere/dtos/GarantiesFinancieresList'
-import { toGarantiesFinancieresList } from '../modules/garantieFinanciere/mappers'
+import { GarantiesFinancieresListDTO } from '../modules/project/dtos/GarantiesFinancieresList'
+import { toGarantiesFinancieresList } from '../modules/project/mappers'
 
 interface MakeUseCaseProps {
   findAllProjectsForRegions: ProjectRepo['findAllForRegions']

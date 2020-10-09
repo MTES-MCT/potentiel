@@ -1,16 +1,13 @@
-import AdminDashboard from '../components/adminDashboard'
-
 import React from 'react'
 import { formatDate } from '../../helpers/formatDate'
-import pagination from '../../__tests__/fixtures/pagination'
-
-import { Project, AppelOffre, Periode, REGIONS, User } from '../../entities'
-import ROUTES from '../../routes'
 import { dataId } from '../../helpers/testId'
-
-import ProjectList from '../components/projectList'
+import { GarantiesFinancieresListDTO } from '../../modules/project/dtos/GarantiesFinancieresList'
+import ROUTES from '../../routes'
 import { HttpRequest } from '../../types'
-import { GarantiesFinancieresListDTO } from '../../modules/garantieFinanciere/dtos/GarantiesFinancieresList'
+import AdminDashboard from '../components/adminDashboard'
+
+
+
 
 interface DREALListProps {
   request: HttpRequest
