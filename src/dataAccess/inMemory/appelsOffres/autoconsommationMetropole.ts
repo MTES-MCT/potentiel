@@ -72,7 +72,7 @@ const autoconsommationMetropole: AppelOffre = {
     {
       id: '8',
       title: 'huitième',
-      noteThresholdByFamily: [{ familleId: '', noteThreshold: 0 }],
+      noteThresholdByFamily: [{ familleId: '', noteThreshold: 32.04 }],
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'v1',
     },

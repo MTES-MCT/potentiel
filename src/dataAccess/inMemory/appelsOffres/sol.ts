@@ -77,9 +77,9 @@ const sol: AppelOffre = {
       id: '8',
       title: 'huitième',
       noteThresholdByFamily: [
-        { familleId: '1', noteThreshold: 0 },
-        { familleId: '2', noteThreshold: 0 },
-        { familleId: '3', noteThreshold: 0 },
+        { familleId: '1', noteThreshold: 55.25 },
+        { familleId: '2', noteThreshold: 52.04 },
+        { familleId: '3', noteThreshold: 54.35 },
       ],
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'v1',
