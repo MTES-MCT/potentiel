@@ -37,7 +37,7 @@ const baseProjectSchema = SchemaRecord({
   nomCandidat: String,
   nomProjet: String,
   puissance: Number.withConstraint((value) => value > 0),
-  prixReference: Number.withConstraint((value) => value > 0),
+  prixReference: Number.withConstraint((value) => value >= 0),
   evaluationCarbone: Number,
   note: Number.withConstraint((value) => value >= 0),
   nomRepresentantLegal: String,
