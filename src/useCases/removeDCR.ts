@@ -77,6 +77,10 @@ export default function makeRemoveDCR({
       return ErrorResult(SYSTEM_ERROR)
     }
 
+    const res = await saveProject(updatedProject)
+
+    if (res.is_err()) return Err(res.unwrap_err())
+
     await eventStore.publish(
       new ProjectDCRRemoved({
         payload: {
@@ -86,10 +90,6 @@ export default function makeRemoveDCR({
         aggregateId: project.id,
       })
     )
-
-    const res = await saveProject(updatedProject)
-
-    if (res.is_err()) return Err(res.unwrap_err())
 
     return Ok(null)
   }

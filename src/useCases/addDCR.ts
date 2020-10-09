@@ -109,6 +109,10 @@ export default function makeAddDCR({
       return ErrorResult(SYSTEM_ERROR)
     }
 
+    const res = await saveProject(updatedProject)
+
+    if (res.is_err()) return Err(res.unwrap_err())
+
     await eventStore.publish(
       new ProjectDCRSubmitted({
         payload: {
@@ -121,10 +125,6 @@ export default function makeAddDCR({
         aggregateId: project.id,
       })
     )
-
-    const res = await saveProject(updatedProject)
-
-    if (res.is_err()) return Err(res.unwrap_err())
 
     return Ok(null)
   }

@@ -82,6 +82,8 @@ export default function makeRemoveGarantiesFinancieres({
 
     const res = await saveProject(updatedProject)
 
+    if (res.is_err()) return Err(res.unwrap_err())
+
     await eventStore.publish(
       new ProjectGFRemoved({
         payload: {
@@ -91,8 +93,6 @@ export default function makeRemoveGarantiesFinancieres({
         aggregateId: project.id,
       })
     )
-
-    if (res.is_err()) return Err(res.unwrap_err())
 
     return Ok(null)
   }

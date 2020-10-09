@@ -121,6 +121,10 @@ export default function makeAddGarantiesFinancieres({
       return ErrorResult(SYSTEM_ERROR)
     }
 
+    const res = await saveProject(updatedProject)
+
+    if (res.is_err()) return Err(res.unwrap_err())
+
     await eventStore.publish(
       new ProjectGFSubmitted({
         payload: {
@@ -132,10 +136,6 @@ export default function makeAddGarantiesFinancieres({
         aggregateId: project.id,
       })
     )
-
-    const res = await saveProject(updatedProject)
-
-    if (res.is_err()) return Err(res.unwrap_err())
 
     // Notify porteur de projet
     await sendNotification({
