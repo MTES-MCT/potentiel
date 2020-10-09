@@ -14,6 +14,7 @@ import {
   ProjectDCRRemoved,
   ProjectDCRSubmitted,
   ProjectGFDueDateSet,
+  ProjectGFReminded,
   ProjectGFRemoved,
   ProjectGFSubmitted,
   ProjectImported,
@@ -39,6 +40,7 @@ export type StoredEvent =
   | ProjectDCRSubmitted
   | ProjectGFSubmitted
   | ProjectGFRemoved
+  | ProjectGFReminded
 
 export interface EventStoreHistoryFilters {
   eventType?: StoredEvent['type'] | StoredEvent['type'][]

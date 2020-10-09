@@ -118,6 +118,7 @@ const inviteUserToProject = makeInviteUserToProject({
 })
 
 const addGarantiesFinancieres = makeAddGarantiesFinancieres({
+  eventStore,
   fileService,
   findProjectById: projectRepo.findById,
   saveProject: projectRepo.save,
@@ -127,6 +128,7 @@ const addGarantiesFinancieres = makeAddGarantiesFinancieres({
   sendNotification,
 })
 const removeGarantiesFinancieres = makeRemoveGarantiesFinancieres({
+  eventStore,
   findProjectById: projectRepo.findById,
   saveProject: projectRepo.save,
   shouldUserAccessProject,

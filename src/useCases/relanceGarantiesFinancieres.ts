@@ -1,11 +1,14 @@
 import moment from 'moment'
 import { ProjectRepo } from '../dataAccess'
 import { applyProjectUpdate, makeProjectIdentifier } from '../entities'
+import { EventStore } from '../modules/eventStore'
 import { NotificationService } from '../modules/notification'
+import { ProjectGFReminded } from '../modules/project/events'
 import routes from '../routes'
 import { Ok, ResultAsync } from '../types'
 
 interface MakeUseCaseProps {
+  eventStore: EventStore
   findProjectsWithGarantiesFinancieresPendingBefore: ProjectRepo['findProjectsWithGarantiesFinancieresPendingBefore']
   getUsersForProject: ProjectRepo['getUsers']
   saveProject: ProjectRepo['save']
@@ -13,6 +16,7 @@ interface MakeUseCaseProps {
 }
 
 export default function makeRelanceGarantiesFinancieres({
+  eventStore,
   findProjectsWithGarantiesFinancieresPendingBefore,
   getUsersForProject,
   saveProject,
@@ -107,6 +111,15 @@ export default function makeRelanceGarantiesFinancieres({
 
             return
           }
+
+          await eventStore.publish(
+            new ProjectGFReminded({
+              payload: {
+                projectId: project.id,
+              },
+              aggregateId: project.id,
+            })
+          )
         }
       })
     )

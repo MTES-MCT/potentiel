@@ -1,17 +1,18 @@
-import { appelsOffreStatic } from '../dataAccess/inMemory'
 import moment from 'moment'
+import waitForExpect from 'wait-for-expect'
 import {
-  DREAL,
   makeProject,
+  makeProjectIdentifier,
   makeUser,
   Project,
-  makeProjectIdentifier,
 } from '../entities'
-import { UnwrapForTest, Ok } from '../types'
+import { InMemoryEventStore } from '../infra/inMemory'
+import { ProjectGFReminded } from '../modules/project/events'
+import routes from '../routes'
+import { Ok, UnwrapForTest } from '../types'
+import addAppelOffreToProject from '../__tests__/fixtures/addAppelOffreToProject'
 import makeFakeProject from '../__tests__/fixtures/project'
 import makeFakeUser from '../__tests__/fixtures/user'
-import addAppelOffreToProject from '../__tests__/fixtures/addAppelOffreToProject'
-import routes from '../routes'
 import makeRelanceGarantiesFinancieres from './relanceGarantiesFinancieres'
 
 describe('relanceGarantiesFinancieres use-case', () => {
@@ -37,14 +38,20 @@ describe('relanceGarantiesFinancieres use-case', () => {
   const fakeUser = UnwrapForTest(makeUser(makeFakeUser()))
   const getUsersForProject = jest.fn(async () => [fakeUser])
 
+  const eventStore = new InMemoryEventStore()
+
   const relanceGarantiesFinancieres = makeRelanceGarantiesFinancieres({
+    eventStore,
     findProjectsWithGarantiesFinancieresPendingBefore,
     getUsersForProject,
     sendNotification,
     saveProject,
   })
 
+  const projectGFRemindedHandler = jest.fn((event: ProjectGFReminded) => null)
+
   beforeAll(async () => {
+    eventStore.subscribe(ProjectGFReminded.type, projectGFRemindedHandler)
     const result = await relanceGarantiesFinancieres()
 
     expect(result.is_ok()).toEqual(true)
@@ -107,6 +114,15 @@ describe('relanceGarantiesFinancieres use-case', () => {
     expect(notificationEvent.after).toEqual({
       garantiesFinancieresRelanceOn:
         fakeProjectUpdate.garantiesFinancieresRelanceOn,
+    })
+  })
+
+  it('should trigger a ProjectGFReminded event', async () => {
+    await waitForExpect(() => {
+      expect(projectGFRemindedHandler).toHaveBeenCalled()
+      const projectGFRemindedEvent = projectGFRemindedHandler.mock.calls[0][0]
+      expect(projectGFRemindedEvent.payload.projectId).toEqual(fakeProject.id)
+      expect(projectGFRemindedEvent.aggregateId).toEqual(fakeProject.id)
     })
   })
 })
