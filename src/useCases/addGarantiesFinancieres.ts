@@ -7,8 +7,11 @@ import routes from '../routes'
 import { FileService, File, FileContainer } from '../modules/file'
 import { makeProjectFilePath } from '../helpers/makeProjectFilePath'
 import { NotificationService } from '../modules/notification'
+import { EventStore } from '../modules/eventStore'
+import { ProjectGFSubmitted } from '../modules/project/events'
 
 interface MakeUseCaseProps {
+  eventStore: EventStore
   fileService: FileService
   findProjectById: ProjectRepo['findById']
   saveProject: ProjectRepo['save']
@@ -35,6 +38,7 @@ export const SYSTEM_ERROR =
   'Une erreur système est survenue, merci de réessayer ou de contacter un administrateur si le problème persiste.'
 
 export default function makeAddGarantiesFinancieres({
+  eventStore,
   fileService,
   findProjectById,
   saveProject,
@@ -116,6 +120,18 @@ export default function makeAddGarantiesFinancieres({
 
       return ErrorResult(SYSTEM_ERROR)
     }
+
+    await eventStore.publish(
+      new ProjectGFSubmitted({
+        payload: {
+          projectId: project.id,
+          gfDate: new Date(date),
+          fileId: fileResult.value.id.toString(),
+          submittedBy: user.id,
+        },
+        aggregateId: project.id,
+      })
+    )
 
     const res = await saveProject(updatedProject)
 

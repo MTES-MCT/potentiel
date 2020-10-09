@@ -1,17 +1,13 @@
-import moment from 'moment'
-import {
-  makeProject,
-  makeProjectAdmissionKey,
-  makeUser,
-  Project,
-} from '../entities'
-import routes from '../routes'
+import waitForExpect from 'wait-for-expect'
+import { makeProject, makeUser, Project } from '../entities'
 import { Ok, UnwrapForTest } from '../types'
 import makeFakeProject from '../__tests__/fixtures/project'
 import makeFakeUser from '../__tests__/fixtures/user'
 import makeRemoveGarantiesFinancieres, {
   UNAUTHORIZED,
 } from './removeGarantiesFinancieres'
+import { InMemoryEventStore } from '../infra/inMemory'
+import { ProjectGFRemoved } from '../modules/project/events'
 
 describe('removeGarantiesFinancieres use-case', () => {
   describe('when the user is porteur-projet', () => {
@@ -34,9 +30,17 @@ describe('removeGarantiesFinancieres use-case', () => {
           )
         )
 
+        const projectGFRemovedHandler = jest.fn(
+          (event: ProjectGFRemoved) => null
+        )
+
+        const eventStore = new InMemoryEventStore()
+
         it('should remove garanties financieres information on the project', async () => {
+          eventStore.subscribe(ProjectGFRemoved.type, projectGFRemovedHandler)
           const saveProject = jest.fn(async (project: Project) => Ok(null))
           const removeGarantiesFinancieres = makeRemoveGarantiesFinancieres({
+            eventStore,
             findProjectById: async () => originalProject,
             shouldUserAccessProject,
             saveProject,
@@ -91,6 +95,22 @@ describe('removeGarantiesFinancieres use-case', () => {
           )
           expect(updatedProject.history[0].userId).toEqual(user.id)
         })
+
+        it('should trigger a ProjectGFRemoved event', async () => {
+          await waitForExpect(() => {
+            expect(projectGFRemovedHandler).toHaveBeenCalled()
+            const projectGFRemovedEvent =
+              projectGFRemovedHandler.mock.calls[0][0]
+            expect(projectGFRemovedEvent.payload.projectId).toEqual(
+              originalProject.id
+            )
+
+            expect(projectGFRemovedEvent.payload.removedBy).toEqual(user.id)
+            expect(projectGFRemovedEvent.aggregateId).toEqual(
+              originalProject.id
+            )
+          })
+        })
       })
 
       describe('when garanties financières have not been added to project', () => {
@@ -107,7 +127,9 @@ describe('removeGarantiesFinancieres use-case', () => {
 
         it('should not update the project and return ok', async () => {
           const saveProject = jest.fn(async (project: Project) => Ok(null))
+          const eventStore = new InMemoryEventStore()
           const removeGarantiesFinancieres = makeRemoveGarantiesFinancieres({
+            eventStore,
             findProjectById: async () => originalProject,
             shouldUserAccessProject,
             saveProject,
@@ -135,7 +157,9 @@ describe('removeGarantiesFinancieres use-case', () => {
       it('should return an UNAUTHORIZED error', async () => {
         const shouldUserAccessProject = jest.fn(async () => false)
         const saveProject = jest.fn()
+        const eventStore = new InMemoryEventStore()
         const removeGarantiesFinancieres = makeRemoveGarantiesFinancieres({
+          eventStore,
           findProjectById: jest.fn(),
           shouldUserAccessProject,
           saveProject,
@@ -162,7 +186,9 @@ describe('removeGarantiesFinancieres use-case', () => {
 
       const shouldUserAccessProject = jest.fn()
       const saveProject = jest.fn()
+      const eventStore = new InMemoryEventStore()
       const removeGarantiesFinancieres = makeRemoveGarantiesFinancieres({
+        eventStore,
         findProjectById: jest.fn(),
         shouldUserAccessProject,
         saveProject,

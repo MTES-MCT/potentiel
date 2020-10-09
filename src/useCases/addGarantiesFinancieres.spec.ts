@@ -1,5 +1,6 @@
 import moment from 'moment'
 import { Readable } from 'stream'
+import waitForExpect from 'wait-for-expect'
 import { okAsync } from '../core/utils'
 import {
   makeProject,
@@ -16,6 +17,8 @@ import makeFakeUser from '../__tests__/fixtures/user'
 import makeAddGarantiesFinancieres, {
   UNAUTHORIZED,
 } from './addGarantiesFinancieres'
+import { InMemoryEventStore } from '../infra/inMemory'
+import { ProjectGFSubmitted } from '../modules/project/events'
 
 const mockFileServiceSave = jest.fn((file: File, fileContents: FileContainer) =>
   okAsync(null)
@@ -32,6 +35,7 @@ const MockFileService = <jest.Mock<FileService>>FileService
 
 describe('addGarantiesFinancieres use-case', () => {
   describe('when the user has rights on this project', () => {
+    const eventStore = new InMemoryEventStore()
     const date = Date.now()
 
     let updatedProject: Project
@@ -70,7 +74,12 @@ describe('addGarantiesFinancieres use-case', () => {
 
     const fileService = new MockFileService()
 
+    const projectGFSubmittedHandler = jest.fn(
+      (event: ProjectGFSubmitted) => null
+    )
+
     beforeAll(async () => {
+      eventStore.subscribe(ProjectGFSubmitted.type, projectGFSubmittedHandler)
       mockFileServiceSave.mockClear()
       const shouldUserAccessProject = jest.fn(async () => true)
       const findUsersForDreal = jest.fn(async (region) => {
@@ -81,6 +90,7 @@ describe('addGarantiesFinancieres use-case', () => {
       const findAllProjectAdmissionKeys = jest.fn(async () => [drealInvitation])
 
       const addGarantiesFinancieres = makeAddGarantiesFinancieres({
+        eventStore,
         fileService,
         findUsersForDreal,
         findProjectById: async () => originalProject,
@@ -157,6 +167,26 @@ describe('addGarantiesFinancieres use-case', () => {
         'garanties-financieres-submission'
       )
       expect(updatedProject.history[0].userId).toEqual(user.id)
+    })
+
+    it('should trigger a ProjectGFSubmitted event', async () => {
+      await waitForExpect(() => {
+        expect(projectGFSubmittedHandler).toHaveBeenCalled()
+        const projectGFSubmittedEvent =
+          projectGFSubmittedHandler.mock.calls[0][0]
+        expect(projectGFSubmittedEvent.payload.projectId).toEqual(
+          originalProject.id
+        )
+
+        const fakeFile = mockFileServiceSave.mock.calls[0][0]
+
+        expect(projectGFSubmittedEvent.payload.gfDate).toEqual(new Date(date))
+        expect(projectGFSubmittedEvent.payload.fileId).toEqual(
+          fakeFile.id.toString()
+        )
+        expect(projectGFSubmittedEvent.payload.submittedBy).toEqual(user.id)
+        expect(projectGFSubmittedEvent.aggregateId).toEqual(originalProject.id)
+      })
     })
 
     it('should send an email confirmation to the user', async () => {
@@ -280,8 +310,9 @@ describe('addGarantiesFinancieres use-case', () => {
       }
 
       const fileService = new MockFileService()
-
+      const eventStore = new InMemoryEventStore()
       const addGarantiesFinancieres = makeAddGarantiesFinancieres({
+        eventStore,
         fileService,
         findUsersForDreal: jest.fn(),
         findProjectById: async () => originalProject,

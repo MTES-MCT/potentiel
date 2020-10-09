@@ -1,8 +1,11 @@
 import { ProjectRepo } from '../dataAccess'
 import { applyProjectUpdate, Project, User } from '../entities'
+import { EventStore } from '../modules/eventStore'
+import { ProjectGFRemoved } from '../modules/project/events'
 import { Err, ErrorResult, Ok, ResultAsync } from '../types'
 
 interface MakeUseCaseProps {
+  eventStore: EventStore
   findProjectById: ProjectRepo['findById']
   saveProject: ProjectRepo['save']
   shouldUserAccessProject: (args: {
@@ -23,6 +26,7 @@ export const SYSTEM_ERROR =
   'Une erreur système est survenue, merci de réessayer ou de contacter un administrateur si le problème persiste.'
 
 export default function makeRemoveGarantiesFinancieres({
+  eventStore,
   findProjectById,
   saveProject,
   shouldUserAccessProject,
@@ -77,6 +81,16 @@ export default function makeRemoveGarantiesFinancieres({
     }
 
     const res = await saveProject(updatedProject)
+
+    await eventStore.publish(
+      new ProjectGFRemoved({
+        payload: {
+          projectId: project.id,
+          removedBy: user.id,
+        },
+        aggregateId: project.id,
+      })
+    )
 
     if (res.is_err()) return Err(res.unwrap_err())
 

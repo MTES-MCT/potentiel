@@ -9,6 +9,8 @@ export * from './ProjectDCRDueDateSet';
 export * from './ProjectDCRRemoved';
 export * from './ProjectDCRSubmitted';
 export * from './ProjectGFDueDateSet';
+export * from './ProjectGFRemoved';
+export * from './ProjectGFSubmitted';
 export * from './ProjectImported';
 export * from './ProjectNotified';
 export * from './ProjectReimported';

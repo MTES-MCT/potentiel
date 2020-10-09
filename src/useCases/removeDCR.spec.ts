@@ -1,18 +1,11 @@
-import moment from 'moment'
 import waitForExpect from 'wait-for-expect'
-import {
-  makeProject,
-  makeProjectAdmissionKey,
-  makeUser,
-  Project,
-} from '../entities'
-import routes from '../routes'
+import { makeProject, makeUser, Project } from '../entities'
+import { InMemoryEventStore } from '../infra/inMemory'
+import { ProjectDCRRemoved } from '../modules/project/events'
 import { Ok, UnwrapForTest } from '../types'
 import makeFakeProject from '../__tests__/fixtures/project'
 import makeFakeUser from '../__tests__/fixtures/user'
 import makeRemoveDCR, { UNAUTHORIZED } from './removeDCR'
-import { InMemoryEventStore } from '../infra/inMemory'
-import { ProjectDCRRemoved } from '../modules/project/events'
 
 describe('removeDCR use-case', () => {
   describe('when the user is porteur-projet', () => {

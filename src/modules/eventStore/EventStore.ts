@@ -1,26 +1,26 @@
+import { EventEmitter } from 'events'
 import { ok, Result, ResultAsync } from 'neverthrow'
-import { InfraNotAvailableError, OtherError } from '../shared'
 import { DomainEvent } from '../../core/domain/DomainEvent'
-
+import { mapResults, Queue } from '../../core/utils'
 import {
   CandidateNotificationForPeriodeFailed,
   CandidateNotifiedForPeriode,
+  LegacyProjectEventSourced,
+  LegacyProjectSourced,
   PeriodeNotified,
   ProjectCertificateGenerated,
   ProjectCertificateGenerationFailed,
-  ProjectNotified,
   ProjectDCRDueDateSet,
-  ProjectGFDueDateSet,
-  LegacyProjectEventSourced,
-  LegacyProjectSourced,
-  ProjectImported,
-  ProjectDCRSubmitted,
   ProjectDCRRemoved,
+  ProjectDCRSubmitted,
+  ProjectGFDueDateSet,
+  ProjectGFRemoved,
+  ProjectGFSubmitted,
+  ProjectImported,
+  ProjectNotified,
 } from '../project/events'
-import { mapResults, Queue } from '../../core/utils'
-import { Store } from 'express-session'
-import { EventEmitter } from 'events'
 import { ProjectReimported } from '../project/events/ProjectReimported'
+import { InfraNotAvailableError, OtherError } from '../shared'
 
 export type StoredEvent =
   | ProjectNotified
@@ -37,6 +37,8 @@ export type StoredEvent =
   | ProjectReimported
   | ProjectDCRRemoved
   | ProjectDCRSubmitted
+  | ProjectGFSubmitted
+  | ProjectGFRemoved
 
 export interface EventStoreHistoryFilters {
   eventType?: StoredEvent['type'] | StoredEvent['type'][]
