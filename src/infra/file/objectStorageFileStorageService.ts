@@ -70,7 +70,13 @@ export class ObjectStorageFileStorageService implements FileStorageService {
         // This fixes a bug in pkgcloud (See https://github.com/pkgcloud/pkgcloud/pull/673)
         const concatStream = concat((buffer) => {
           const bufferStream = new Stream.PassThrough()
-          bufferStream.end(buffer)
+          if(Array.isArray(buffer)){
+            console.log("WARNING: objectStorageFileStorageService received buffer as array chunk, ignoring chunk")
+            bufferStream.end('')
+          }
+          else {
+            bufferStream.end(buffer)
+          }
           bufferStream.pipe(uploadWriteStream)
         })
 
