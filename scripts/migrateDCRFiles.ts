@@ -71,45 +71,52 @@ initDatabase()
       }
 
       console.log('\nUploading file ' + relativeFilePath)
-      const saveFileResult = await fileService.save(fileResult.value, {
-        ...file,
-        path: relativeFilePath,
-      })
+      try{
 
-      if (saveFileResult.isErr()) {
-        // OOPS
-        console.log('fileService.save failed', saveFileResult.error)
-
+        const saveFileResult = await fileService.save(fileResult.value, {
+          ...file,
+          path: relativeFilePath,
+        })
+  
+        if (saveFileResult.isErr()) {
+          // OOPS
+          console.log('fileService.save failed', saveFileResult.error)
+  
+          continue
+        }
+        console.log('Done uploading file.')
+  
+        const updatedProject = applyProjectUpdate({
+          project,
+          update: {
+            dcrFileId: fileResult.value.id.toString(),
+          },
+          context: {
+            type: 'dcr-file-move',
+            userId: '',
+          },
+        })
+  
+        if (!updatedProject) {
+          // OOPS
+          console.log('applyProjectUpdate returned null')
+  
+          continue
+        }
+  
+        const res = await projectRepo.save(updatedProject)
+  
+        if (res.is_err()) {
+          console.log('projectRepo.save failed', res.unwrap_err())
+          continue
+        }
+  
+        updatedProjects.push(project.id)
+      }
+      catch(e){
+        console.log("Moving dcr failed for project", project.nomProjet, e)
         continue
       }
-      console.log('Done uploading file.')
-
-      const updatedProject = applyProjectUpdate({
-        project,
-        update: {
-          dcrFileId: fileResult.value.id.toString(),
-        },
-        context: {
-          type: 'dcr-file-move',
-          userId: '',
-        },
-      })
-
-      if (!updatedProject) {
-        // OOPS
-        console.log('applyProjectUpdate returned null')
-
-        continue
-      }
-
-      const res = await projectRepo.save(updatedProject)
-
-      if (res.is_err()) {
-        console.log('projectRepo.save failed', res.unwrap_err())
-        continue
-      }
-
-      updatedProjects.push(project.id)
     }
 
     console.log('\nUpdated', updatedProjects.length, 'projects')
