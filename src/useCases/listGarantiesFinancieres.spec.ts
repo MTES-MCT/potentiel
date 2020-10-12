@@ -5,7 +5,7 @@ import makeFakeUser from '../__tests__/fixtures/user'
 
 import { makeProject, makeUser, Project, User, DREAL } from '../entities'
 import { UnwrapForTest } from '../types'
-import { toGarantiesFinancieresList } from '../modules/garantieFinanciere/mappers'
+import { toGarantiesFinancieresList } from '../modules/project/mappers'
 
 const pagination = {
   page: 0,
