@@ -118,18 +118,24 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
   ),
   'Evaluation Carbone': ({ project }) => (
     <td valign="top" className="projectList-evaluation-column">
-      <span {...dataId('projectList-item-evaluationCarbone')}>
-        {project.evaluationCarbone}
-      </span>{' '}
-      <span
-        style={{
-          fontStyle: 'italic',
-          lineHeight: 'normal',
-          fontSize: 12,
-        }}
-      >
-        kg eq CO2/kWc
-      </span>
+      {
+        project.evaluationCarbone !== -1 ?
+        <>
+          <span {...dataId('projectList-item-evaluationCarbone')}>
+            {project.evaluationCarbone}
+          </span>{' '}
+          <span
+            style={{
+              fontStyle: 'italic',
+              lineHeight: 'normal',
+              fontSize: 12,
+            }}
+          >
+            kg eq CO2/kWc
+          </span>
+        </>
+        :""
+      }
     </td>
   ),
   Classé: ({ project }) => (
