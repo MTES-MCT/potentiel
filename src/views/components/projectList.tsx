@@ -119,7 +119,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
   'Evaluation Carbone': ({ project }) => (
     <td valign="top" className="projectList-evaluation-column">
       {
-        project.evaluationCarbone !== -1 ?
+        project.evaluationCarbone <= 0 ?
         <>
           <span {...dataId('projectList-item-evaluationCarbone')}>
             {project.evaluationCarbone}

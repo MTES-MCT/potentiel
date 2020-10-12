@@ -32,7 +32,7 @@ const innovation: AppelOffre = {
     {
       field: 'evaluationCarbone',
       type: toTypeLiteral('orNumberInColumn'),
-      defaultValue: -1, // Accept null values
+      defaultValue: 0,
       column:
         'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)',
       value: 'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)',
