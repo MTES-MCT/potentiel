@@ -76,6 +76,8 @@ const projectSchema = baseProjectSchema.And(
     territoireProjet: territoireSchema.Or(Undefined),
     appelOffre: Unknown.withGuard((obj: any): obj is ProjectAppelOffre => true), // This would be type ProjectAppelOffre
     famille: Unknown.withGuard((obj: any): obj is Famille => true),
+    createdAt: Unknown.withGuard((obj: any): obj is Date => true),
+    updatedAt: Unknown.withGuard((obj: any): obj is Date => true),
   })
 )
 
@@ -88,6 +90,9 @@ const fields: string[] = [
   'garantiesFinancieresFileRef',
   'dcrFileRef',
   'certificateFile',
+  'famille',
+  'createdAt',
+  'updatedAt',
   ...Object.keys(baseProjectSchema.fields),
 ]
 
