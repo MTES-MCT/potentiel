@@ -20,6 +20,8 @@ import {
   ProjectGFSubmitted,
   ProjectImported,
   ProjectNotified,
+  ProjectDataCorrected,
+  ProjectNotificationDateSet,
 } from '../project/events'
 import { ProjectReimported } from '../project/events/ProjectReimported'
 import { InfraNotAvailableError, OtherError } from '../shared'
@@ -43,6 +45,8 @@ export type StoredEvent =
   | ProjectGFSubmitted
   | ProjectGFRemoved
   | ProjectGFReminded
+  | ProjectDataCorrected
+  | ProjectNotificationDateSet
 
 export interface EventStoreHistoryFilters {
   eventType?: StoredEvent['type'] | StoredEvent['type'][]
