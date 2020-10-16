@@ -32,41 +32,6 @@ export const handleProjectNotified = (
       notifiedOn,
     } = payload
 
-    // Set the DCR Due Date
-    await eventStore.publish(
-      new ProjectDCRDueDateSet({
-        payload: {
-          projectId,
-          dcrDueOn: moment(notifiedOn).add(2, 'months').toDate().getTime(),
-        },
-        requestId,
-        aggregateId: projectId,
-      })
-    )
-
-    // Set the GF Due Date if required by project family
-    const familleResult = await deps.getFamille(appelOffreId, familleId)
-    if (
-      familleResult &&
-      familleResult.isOk() &&
-      (!!familleResult.value.garantieFinanciereEnMois ||
-        familleResult.value.soumisAuxGarantiesFinancieres)
-    ) {
-      await eventStore.publish(
-        new ProjectGFDueDateSet({
-          payload: {
-            projectId,
-            garantiesFinancieresDueOn: moment(notifiedOn)
-              .add(2, 'months')
-              .toDate()
-              .getTime(),
-          },
-          requestId,
-          aggregateId: projectId,
-        })
-      )
-    }
-
     let retries = 3
     let certificateFileId = ''
     while (retries-- > 0) {

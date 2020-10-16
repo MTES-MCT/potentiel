@@ -1,5 +1,6 @@
 import { InMemoryEventStore } from '../infra/inMemory'
 import { sequelizeEventStore } from '../infra/sequelize'
+import { EventStore } from '../modules/eventStore'
 import { isTestEnv } from './env.config'
 
 console.log(
@@ -7,6 +8,6 @@ console.log(
     (isTestEnv ? 'InMemoryEventStore' : 'SequelizeEventStore')
 )
 
-export const eventStore = isTestEnv
+export const eventStore: EventStore = isTestEnv
   ? new InMemoryEventStore()
   : sequelizeEventStore

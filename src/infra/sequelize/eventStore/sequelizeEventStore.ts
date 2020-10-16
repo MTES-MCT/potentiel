@@ -14,7 +14,7 @@ import {
   EventStoreHistoryFilters,
   EventStoreTransactionFn,
   StoredEvent,
-} from '../../../modules/eventStore/EventStore'
+} from '../../../modules/eventStore'
 import { InfraNotAvailableError, OtherError } from '../../../modules/shared'
 import { Queue } from '../../../core/utils'
 import {
