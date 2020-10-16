@@ -88,7 +88,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
           fontWeight: 'bold',
         }}
       >
-        Suite à l’instruction de votre offre par la Commission de régulation de
+        À la suite de l’instruction de votre offre par la Commission de régulation de
         l’énergie (CRE), j’ai le plaisir de vous annoncer que le projet
         susmentionné est désigné lauréat de la {periode.title} tranche de
         l’appel d’offres visé en objet.
@@ -397,9 +397,11 @@ const Elimine = ({ project, appelOffre, periode }: ElimineProps) => {
         }}
       >
         {project.motifsElimination === 'Au-dessus de Pcible'
-          ? 'Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été classée au-delà de la puissance offerte pour cette période de candidature dans la famille concernée. Votre offre a en effet obtenu une note de ' +
+          ? 'À la suite de l\'instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été classée au-delà de la puissance offerte pour cette période de candidature dans la famille concernée. Votre offre a en effet obtenu une note de ' +
             formatNumber(project.note) +
-            ' points alors que le classement des dossiers a fait apparaître que la sélection des offres jusqu’à la note de ' +
+            ' points alors qu\'à la suite du classement des dossiers, il apparaît que le volume appelé'+(appelOffre.familles.length ? ' pour cette famille' : '')+((appelOffre.familles.length && appelOffre.afficherPhraseRegionImplantation) ? ', et' : '')+(appelOffre.afficherPhraseRegionImplantation
+              ? ' pour la région d’implantation du projet définis au 1.2.2 du cahier des charges'
+              : '')+' a été atteint ave les offres ayant des notes supérieures à ' +
             formatNumber(getNoteThreshold(periode, project)) +
             ' points permettait de remplir les objectifs de volumes de l’appel d’offres dans cette famille' +
             (appelOffre.afficherPhraseRegionImplantation
@@ -407,17 +409,17 @@ const Elimine = ({ project, appelOffre, periode }: ElimineProps) => {
               : '') +
             '. Par conséquent, cette offre n’a pas été retenue.'
           : project.motifsElimination === 'Déjà lauréat - Non instruit'
-          ? 'Suite à l’examen par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été retirée de l’instruction, ayant été désignée lauréate au cours d’un précédent appel d’offres. Par conséquent, cette offre n’a pas été retenue.'
+          ? 'À la suite de l\'instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre n\'a pas été retenue elle avait déjà été désignée lauréate au cours d\'un précédent appel d\'offres.'
           : project.motifsElimination.includes('20%') &&
             project.motifsElimination.includes('compétitivité')
-          ? 'Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été classée au-delà de la puissance maximale que la Ministre a décidé de retenir afin de préserver la compétitivité de l’appel d’offres en application des dispositions du paragraphe ' +
+          ? 'À la suite de l\'instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été classée au-delà de la puissance maximale que la Ministre a décidé de retenir afin de préserver la compétitivité de l’appel d’offres en application des dispositions du paragraphe ' +
             appelOffre.paragrapheClauseCompetitivite +
             ' du cahier des charges. Ainsi, ' + (appelOffre.familles.length ? 'pour chaque famille,' : '') + ' seuls 80 % des projets les mieux notés ont été retenus. Votre offre a en effet obtenu une note de ' +
             formatNumber(project.note) +
             ' points alors que la sélection des offres s’est faite jusqu’à la note de ' +
             formatNumber(getNoteThreshold(periode, project)) +
-            ' points. Par conséquent, votre offre n’a pas été retenue.'
-          : 'Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été éliminée pour le motif suivant : «' +
+            ' points. Par conséquent, cette offre n’a pas été retenue.'
+          : 'À la suite de l\'instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été éliminée pour le motif suivant : «' +
             project.motifsElimination +
             '». Par conséquent, cette offre n’a pas été retenue.'}
       </Text>
