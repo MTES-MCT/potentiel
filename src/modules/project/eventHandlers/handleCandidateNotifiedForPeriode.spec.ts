@@ -1,26 +1,32 @@
 import { okAsync } from 'neverthrow'
 import { ProjectAdmissionKey } from '../../../entities'
-import { InMemoryEventStore } from '../../../infra/inMemory'
 import { Ok } from '../../../types'
 import { GetPeriodeTitle } from '../../appelOffre'
+import { StoredEvent } from '../../eventStore'
 import { NotificationArgs } from '../../notification'
+import { InfraNotAvailableError } from '../../shared'
 import {
   CandidateNotificationForPeriodeFailed,
   CandidateNotifiedForPeriode,
 } from '../events'
 import { handleCandidateNotifiedForPeriode } from './'
 
+const eventBus = {
+  publish: jest.fn((event: StoredEvent) =>
+    okAsync<null, InfraNotAvailableError>(null)
+  ),
+  subscribe: jest.fn(),
+}
+
+const fakePayload = {
+  periodeId: 'periode1',
+  appelOffreId: 'appelOffre1',
+  candidateEmail: 'email1@test.test',
+  candidateName: 'name',
+}
+
 describe('handleCandidateNotifiedForPeriode', () => {
   describe('general case', () => {
-    const eventStore = new InMemoryEventStore()
-
-    const fakePayload = {
-      periodeId: 'periode1',
-      appelOffreId: 'appelOffre1',
-      candidateEmail: 'email1@test.test',
-      candidateName: 'name',
-    }
-
     const sendNotification = jest.fn(async (args: NotificationArgs) => null)
     const saveProjectAdmissionKey = jest.fn(async (args: ProjectAdmissionKey) =>
       Ok(null)
@@ -32,21 +38,15 @@ describe('handleCandidateNotifiedForPeriode', () => {
       })
     ) as unknown) as GetPeriodeTitle
 
-    const fakeCandidateNotificationForPeriodeFailedHandler = jest.fn()
-
     beforeAll(async () => {
-      eventStore.subscribe(
-        CandidateNotificationForPeriodeFailed.type,
-        fakeCandidateNotificationForPeriodeFailedHandler
-      )
+      eventBus.publish.mockClear()
 
-      handleCandidateNotifiedForPeriode(eventStore, {
+      await handleCandidateNotifiedForPeriode({
+        eventBus,
         sendNotification,
         saveProjectAdmissionKey,
         getPeriodeTitle,
-      })
-
-      await eventStore.publish(
+      })(
         new CandidateNotifiedForPeriode({
           payload: { ...fakePayload },
           requestId: 'request1',
@@ -66,79 +66,56 @@ describe('handleCandidateNotifiedForPeriode', () => {
     })
 
     it('should not trigger CandidateNotificationForPeriodeFailed', () => {
-      expect(
-        fakeCandidateNotificationForPeriodeFailedHandler
-      ).not.toHaveBeenCalled()
+      expect(eventBus.publish).not.toHaveBeenCalled()
     })
   })
 
-  // describe('when sendNotification fails', () => {
-  //   const eventStore = new InMemoryEventStore()
+  describe('when sendNotification fails', () => {
+    const sendNotification = jest.fn(async (args: NotificationArgs) => {
+      throw new Error('oops')
+    })
+    const saveProjectAdmissionKey = jest.fn(async (args: ProjectAdmissionKey) =>
+      Ok(null)
+    )
+    const getPeriodeTitle = (jest.fn((appelOffreId, periodeId) =>
+      okAsync({
+        periodeTitle: 'periode1title',
+        appelOffreTitle: 'appelOffre1title',
+      })
+    ) as unknown) as GetPeriodeTitle
 
-  //   const fakePayload = {
-  //     periodeId: 'periode1',
-  //     appelOffreId: 'appelOffre1',
-  //     candidateEmail: 'email1@test.test',
-  //   }
+    beforeAll(async () => {
+      eventBus.publish.mockClear()
 
-  //   const project = UnwrapForTest(
-  //     makeProject(
-  //       makeFakeProject({
-  //         nomRepresentantLegal: 'representant1',
-  //       })
-  //     )
-  //   )
+      await handleCandidateNotifiedForPeriode({
+        eventBus,
+        sendNotification,
+        saveProjectAdmissionKey,
+        getPeriodeTitle,
+      })(
+        new CandidateNotifiedForPeriode({
+          payload: { ...fakePayload },
+          requestId: 'request1',
+        })
+      )
+    })
 
-  //   const sendNotification = jest.fn(async (args: NotificationArgs) => null)
-  //   const saveProjectAdmissionKey = jest.fn(async (args: ProjectAdmissionKey) =>
-  //     ErrorResult<null>('oops')
-  //   )
-  //   const findProjectById = jest.fn(async (args) => project)
-  //   const getPeriodeTitle = (jest.fn((appelOffreId, periodeId) =>
-  //     okAsync({
-  //       periodeTitle: 'periode1title',
-  //       appelOffreTitle: 'appelOffre1title',
-  //     })
-  //   ) as unknown) as GetPeriodeTitle
+    it('should trigger CandidateNotificationForPeriodeFailed', () => {
+      const event = eventBus.publish.mock.calls
+        .map((call) => call[0])
+        .filter(
+          (event): event is CandidateNotificationForPeriodeFailed =>
+            event.type === CandidateNotificationForPeriodeFailed.type
+        )
+        .pop()
 
-  //   let candidateNotificationForPeriodeFailedEvent:
-  //     | StoredEvent
-  //     | undefined = undefined
+      expect(event).toBeDefined()
 
-  //   beforeAll((done) => {
-  //     eventStore.subscribe(
-  //       CandidateNotificationForPeriodeFailed.type,
-  //       (event) => {
-  //         candidateNotificationForPeriodeFailedEvent = event
-  //         done()
-  //       }
-  //     )
-
-  //     handleCandidateNotifiedForPeriode(eventStore, {
-  //       sendNotification,
-  //       saveProjectAdmissionKey,
-  //       findProjectById,
-  //       getPeriodeTitle,
-  //     })
-
-  //     eventStore.publish(
-  //       new CandidateNotifiedForPeriode({
-  //         payload: { ...fakePayload },
-  //         requestId: 'request1',
-  //       })
-  //     )
-  //   })
-
-  //   it('should trigger CandidateNotificationForPeriodeFailed', () => {
-  //     expect(candidateNotificationForPeriodeFailedEvent).toBeDefined()
-  //     if (!candidateNotificationForPeriodeFailedEvent) return
-  //     expect(candidateNotificationForPeriodeFailedEvent.payload).toEqual({
-  //       ...fakePayload,
-  //       error: '',
-  //     })
-  //     expect(candidateNotificationForPeriodeFailedEvent.requestId).toEqual(
-  //       'request1'
-  //     )
-  //   })
-  // })
+      expect(event!.requestId).toEqual('request1')
+      expect(event!.payload.error).toEqual('oops')
+      expect(event!.payload.candidateEmail).toEqual(fakePayload.candidateEmail)
+      expect(event!.payload.periodeId).toEqual(fakePayload.periodeId)
+      expect(event!.payload.appelOffreId).toEqual(fakePayload.appelOffreId)
+    })
+  })
 })

@@ -23,10 +23,5 @@ handleProjectNotified(eventStore, {
   generateCertificate,
   getFamille: appelOffreRepo.getFamille,
 })
-handleCandidateNotifiedForPeriode(eventStore, {
-  sendNotification,
-  saveProjectAdmissionKey: projectAdmissionKeyRepo.save,
-  getPeriodeTitle: appelOffreRepo.getPeriodeTitle,
-})
 
 console.log('Event Handlers Initialized')
