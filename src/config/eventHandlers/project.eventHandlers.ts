@@ -1,11 +1,14 @@
 import {
   handleCandidateNotifiedForPeriode,
   handlePeriodeNotified,
+  handleProjectCertificateGenerated,
 } from '../../modules/project/eventHandlers'
 import { handleProjectNotificationDateSet } from '../../modules/project/eventHandlers/handleProjectNotificationDateSet'
 import {
   CandidateNotifiedForPeriode,
   PeriodeNotified,
+  ProjectCertificateGenerated,
+  ProjectCertificateGenerationFailed,
   ProjectNotificationDateSet,
 } from '../../modules/project/events'
 import { eventStore } from '../eventStore.config'
@@ -42,6 +45,16 @@ eventStore.subscribe(
     eventStore,
     getUnnotifiedProjectsForPeriode,
   })
+)
+
+const projectCertficateHandler = handleProjectCertificateGenerated({
+  eventStore,
+  findProjectById: projectRepo.findById,
+})
+eventStore.subscribe(ProjectCertificateGenerated.type, projectCertficateHandler)
+eventStore.subscribe(
+  ProjectCertificateGenerationFailed.type,
+  projectCertficateHandler
 )
 
 console.log('Project Event Handlers Initialized')

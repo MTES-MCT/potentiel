@@ -5,28 +5,20 @@ import { CandidateNotifiedForPeriode } from '../events/CandidateNotifiedForPerio
 import { ProjectCertificateGenerated } from '../events/ProjectCertificateGenerated'
 import { ProjectCertificateGenerationFailed } from '../events/ProjectCertificateGenerationFailed'
 
-export const handleProjectCertificateGenerated = (
-  eventStore: EventStore,
-  deps: {
-    findProjectById: ProjectRepo['findById']
-  }
+export const handleProjectCertificateGenerated = (deps: {
+  eventStore: EventStore
+  findProjectById: ProjectRepo['findById']
+}) => async (
+  event: ProjectCertificateGenerated | ProjectCertificateGenerationFailed
 ) => {
-  eventStore.subscribe(ProjectCertificateGenerated.type, callback)
-  eventStore.subscribe(ProjectCertificateGenerationFailed.type, callback)
+  // console.log('handleProjectCertificateGenerated', event)
+  const {
+    payload: { projectId, periodeId, appelOffreId, candidateEmail },
+    requestId,
+  } = event
 
-  async function callback(
-    event: ProjectCertificateGenerated | ProjectCertificateGenerationFailed
-  ) {
-    // const transactionId = Math.floor(Math.random() * 1e3)
-    // console.log('handleProjectCertificateGenerated', event)
-    const {
-      payload: { projectId, periodeId, appelOffreId, candidateEmail },
-      requestId,
-    } = event
-
-    await eventStore.transaction(async ({ loadHistory, publish }) => {
-      // console.log('starting transaction', transactionId)
-
+  const res = await deps.eventStore.transaction(
+    async ({ loadHistory, publish }) => {
       // Check if the candidate has been notified for this periode
       const hasCandidateBeenNotifiedForPeriodeResult = await loadHistory({
         eventType: CandidateNotifiedForPeriode.type,
@@ -128,9 +120,6 @@ export const handleProjectCertificateGenerated = (
         )
         return
       }
-      console.log(
-        'handleProjectCertificateGenerated all notified projects have certificates, publishing CandidateNotifiedForPeriode'
-      )
 
       // Retrieve project to get candidateName
       // TODO: replace this with a narrower query (ex: getCandidateNameByProject)
@@ -147,7 +136,13 @@ export const handleProjectCertificateGenerated = (
           requestId,
         })
       )
-    })
-    // console.log('ending transaction ', transactionId)
+    }
+  )
+
+  if (res.isErr()) {
+    console.log(
+      'handleProjectCertificateGenerated failed to make the transaction',
+      res.error
+    )
   }
 }
