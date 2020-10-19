@@ -1,14 +1,11 @@
 import { okAsync } from '../../../core/utils'
-import { InfraNotAvailableError } from '../../shared'
-import { InMemoryEventStore } from '../../../infra/inMemory'
-
-import { handlePeriodeNotified } from './'
+import { StoredEvent } from '../../eventStore'
+import { InfraNotAvailableError, OtherError } from '../../shared'
 import { PeriodeNotified, ProjectNotified } from '../events'
 import { UnnotifiedProjectDTO } from '../queries'
+import { handlePeriodeNotified } from './'
 
 describe('handlePeriodeNotified', () => {
-  const eventStore = new InMemoryEventStore()
-
   const getUnnotifiedProjectsForPeriode = jest.fn(
     (appelOffreId: string, periodeId: string) =>
       okAsync<UnnotifiedProjectDTO[], InfraNotAvailableError>(
@@ -20,7 +17,6 @@ describe('handlePeriodeNotified', () => {
       )
   )
 
-  const caughtProjectNotifiedEvents: ProjectNotified[] = []
   const fakePayload = {
     periodeId: 'periode1',
     familleId: 'famille',
@@ -28,18 +24,25 @@ describe('handlePeriodeNotified', () => {
     notifiedOn: 1,
   }
 
-  beforeAll((done) => {
-    handlePeriodeNotified(eventStore, getUnnotifiedProjectsForPeriode)
+  const publish = jest.fn((event: StoredEvent) =>
+    okAsync<null, InfraNotAvailableError>(null)
+  )
 
-    let counter = 0
-    eventStore.subscribe(ProjectNotified.type, (event: ProjectNotified) => {
-      caughtProjectNotifiedEvents.push(event)
-      if (++counter == 2) {
-        done()
-      }
-    })
+  const eventStore = {
+    publish: jest.fn(),
+    subscribe: jest.fn(),
+    transaction: jest.fn((cb) => {
+      cb({ publish })
+      return okAsync<null, InfraNotAvailableError | OtherError>(null)
+    }),
+  }
 
-    eventStore.publish(
+  beforeAll(async () => {
+    publish.mockClear()
+    await handlePeriodeNotified({
+      eventStore,
+      getUnnotifiedProjectsForPeriode,
+    })(
       new PeriodeNotified({
         payload: { ...fakePayload, requestedBy: 'user1' },
         requestId: 'request1',
@@ -53,21 +56,34 @@ describe('handlePeriodeNotified', () => {
       fakePayload.periodeId
     )
 
-    expect(caughtProjectNotifiedEvents).toHaveLength(2)
-    expect(caughtProjectNotifiedEvents[0].payload).toEqual({
+    expect(publish).toHaveBeenCalledTimes(2)
+
+    expect(
+      publish.mock.calls.every((call) => call[0].type === ProjectNotified.type)
+    ).toBe(true)
+
+    const project1Event = publish.mock.calls
+      .map((call) => call[0])
+      .find((event) => event.aggregateId === 'project1')
+    expect(project1Event).toBeDefined()
+    expect(project1Event!.payload).toEqual({
       ...fakePayload,
       projectId: 'project1',
       candidateEmail: 'email',
     })
-    expect(caughtProjectNotifiedEvents[1].payload).toEqual({
+
+    const project2Event = publish.mock.calls
+      .map((call) => call[0])
+      .find((event) => event.aggregateId === 'project2')
+    expect(project2Event).toBeDefined()
+    expect(project2Event!.payload).toEqual({
       ...fakePayload,
       projectId: 'project2',
       candidateEmail: 'email',
     })
+
     expect(
-      caughtProjectNotifiedEvents.every(
-        (event) => event.requestId === 'request1'
-      )
+      publish.mock.calls.every((call) => call[0].requestId === 'request1')
     ).toBe(true)
   })
 })

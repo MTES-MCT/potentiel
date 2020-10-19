@@ -1,10 +1,15 @@
-import { handleCandidateNotifiedForPeriode } from '../../modules/project/eventHandlers'
+import {
+  handleCandidateNotifiedForPeriode,
+  handlePeriodeNotified,
+} from '../../modules/project/eventHandlers'
 import { handleProjectNotificationDateSet } from '../../modules/project/eventHandlers/handleProjectNotificationDateSet'
 import {
   CandidateNotifiedForPeriode,
+  PeriodeNotified,
   ProjectNotificationDateSet,
 } from '../../modules/project/events'
 import { eventStore } from '../eventStore.config'
+import { getUnnotifiedProjectsForPeriode } from '../queries.config'
 import {
   appelOffreRepo,
   projectAdmissionKeyRepo,
@@ -30,3 +35,13 @@ eventStore.subscribe(
     getPeriodeTitle: appelOffreRepo.getPeriodeTitle,
   })
 )
+
+eventStore.subscribe(
+  PeriodeNotified.type,
+  handlePeriodeNotified({
+    eventStore,
+    getUnnotifiedProjectsForPeriode,
+  })
+)
+
+console.log('Project Event Handlers Initialized')
