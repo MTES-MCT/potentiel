@@ -1,22 +1,12 @@
-import { EventEmitter } from 'events'
-import {
-  okAsync,
-  ResultAsync,
-  ok,
-  mapResults,
-  Result,
-} from '../../../core/utils'
-import { DomainEvent } from '../../../core/domain'
+import { Op } from 'sequelize'
 import { v4 as uuid } from 'uuid'
+import { DomainEvent } from '../../../core/domain'
+import { ResultAsync } from '../../../core/utils'
 import {
   BaseEventStore,
-  EventStore,
   EventStoreHistoryFilters,
-  EventStoreTransactionFn,
   StoredEvent,
 } from '../../../modules/eventStore'
-import { InfraNotAvailableError, OtherError } from '../../../modules/shared'
-import { Queue } from '../../../core/utils'
 import {
   CandidateNotificationForPeriodeFailed,
   CandidateNotificationForPeriodeFailedPayload,
@@ -31,9 +21,19 @@ import {
   ProjectNotified,
   ProjectNotifiedPayload,
 } from '../../../modules/project/events'
+import { InfraNotAvailableError } from '../../../modules/shared'
 
 function isNotNullOrUndefined<T>(input: null | undefined | T): input is T {
   return input != null
+}
+
+const AGGREGATE_ID_SEPARATOR = ' | '
+const parseAggregateId = (
+  rawAggregateId: string
+): DomainEvent['aggregateId'] => {
+  return rawAggregateId && rawAggregateId.indexOf(AGGREGATE_ID_SEPARATOR) !== -1
+    ? rawAggregateId.split(AGGREGATE_ID_SEPARATOR)
+    : rawAggregateId
 }
 
 export class SequelizeEventStore extends BaseEventStore {
@@ -90,7 +90,9 @@ export class SequelizeEventStore extends BaseEventStore {
       type: event.type,
       version: event.getVersion(),
       payload: event.payload,
-      aggregateId: event.aggregateId,
+      aggregateId: Array.isArray(event.aggregateId)
+        ? event.aggregateId.join(AGGREGATE_ID_SEPARATOR)
+        : event.aggregateId,
       requestId: event.requestId,
       occurredAt: event.occurredAt,
     }
@@ -102,7 +104,7 @@ export class SequelizeEventStore extends BaseEventStore {
         return new ProjectNotified({
           payload: eventRaw.payload as ProjectNotifiedPayload,
           requestId: eventRaw.requestId,
-          aggregateId: eventRaw.aggregateId,
+          aggregateId: parseAggregateId(eventRaw.aggregateId),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -112,7 +114,7 @@ export class SequelizeEventStore extends BaseEventStore {
         return new ProjectCertificateGenerated({
           payload: eventRaw.payload as ProjectCertificateGeneratedPayload,
           requestId: eventRaw.requestId,
-          aggregateId: eventRaw.aggregateId,
+          aggregateId: parseAggregateId(eventRaw.aggregateId),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -122,7 +124,7 @@ export class SequelizeEventStore extends BaseEventStore {
         return new ProjectCertificateGenerationFailed({
           payload: eventRaw.payload as ProjectCertificateGenerationFailedPayload,
           requestId: eventRaw.requestId,
-          aggregateId: eventRaw.aggregateId,
+          aggregateId: parseAggregateId(eventRaw.aggregateId),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -132,7 +134,7 @@ export class SequelizeEventStore extends BaseEventStore {
         return new PeriodeNotified({
           payload: eventRaw.payload as PeriodeNotifiedPayload,
           requestId: eventRaw.requestId,
-          aggregateId: eventRaw.aggregateId,
+          aggregateId: parseAggregateId(eventRaw.aggregateId),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -142,7 +144,7 @@ export class SequelizeEventStore extends BaseEventStore {
         return new CandidateNotificationForPeriodeFailed({
           payload: eventRaw.payload as CandidateNotificationForPeriodeFailedPayload,
           requestId: eventRaw.requestId,
-          aggregateId: eventRaw.aggregateId,
+          aggregateId: parseAggregateId(eventRaw.aggregateId),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -152,7 +154,7 @@ export class SequelizeEventStore extends BaseEventStore {
         return new CandidateNotifiedForPeriode({
           payload: eventRaw.payload as CandidateNotifiedForPeriodePayload,
           requestId: eventRaw.requestId,
-          aggregateId: eventRaw.aggregateId,
+          aggregateId: parseAggregateId(eventRaw.aggregateId),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -175,10 +177,20 @@ export class SequelizeEventStore extends BaseEventStore {
     }
 
     if (filters?.aggregateId) {
-      query.aggregateId = filters.aggregateId
+      if (Array.isArray(filters.aggregateId) && filters.aggregateId.length) {
+        query.aggregateId = {
+          [Op.or]: filters.aggregateId.map((aggregateId) => ({
+            [Op.substring]: aggregateId,
+          })),
+        }
+      } else {
+        query.aggregateId = {
+          [Op.substring]: filters.aggregateId,
+        }
+      }
     }
 
-    // console.log('toQuery query is', query)
+    console.log('toQuery query is', query)
 
     return {
       where: query,

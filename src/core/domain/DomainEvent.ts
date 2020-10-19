@@ -4,7 +4,7 @@ export interface DomainEvent {
   occurredAt: Date
   type: string
   getVersion: () => number
-  aggregateId?: string
+  aggregateId?: string[] | string
   requestId?: string
   payload: any
 }

@@ -470,6 +470,15 @@ describe('SequelizeEventStore', () => {
           new PeriodeNotified({
             payload: samplePeriodeNotifiedPayload,
             aggregateId: '1',
+            requestId: 'A',
+          })
+        )
+
+        await eventStore.publish(
+          new PeriodeNotified({
+            payload: samplePeriodeNotifiedPayload,
+            aggregateId: ['1', '2'],
+            requestId: 'B',
           })
         )
 
@@ -477,6 +486,7 @@ describe('SequelizeEventStore', () => {
           new PeriodeNotified({
             payload: samplePeriodeNotifiedPayload,
             aggregateId: '2',
+            requestId: 'C',
           })
         )
 
@@ -488,8 +498,67 @@ describe('SequelizeEventStore', () => {
             return okAsync(null)
           })
         })
-        expect(priorEvents).toHaveLength(1)
-        expect(priorEvents[0].aggregateId).toEqual('1')
+        expect(priorEvents).toHaveLength(2)
+        expect(
+          priorEvents.every(
+            (event) => !!event.requestId && ['A', 'B'].includes(event.requestId)
+          )
+        ).toEqual(true)
+      })
+
+      it('should filter history by multiple aggregateId', async () => {
+        const eventStore = new SequelizeEventStore(models)
+        await sequelize.sync({ force: true })
+
+        await eventStore.publish(
+          new PeriodeNotified({
+            payload: samplePeriodeNotifiedPayload,
+            aggregateId: '1',
+            requestId: 'A',
+          })
+        )
+
+        await eventStore.publish(
+          new PeriodeNotified({
+            payload: samplePeriodeNotifiedPayload,
+            aggregateId: ['1', '2'],
+            requestId: 'B',
+          })
+        )
+
+        await eventStore.publish(
+          new PeriodeNotified({
+            payload: samplePeriodeNotifiedPayload,
+            aggregateId: '2',
+            requestId: 'C',
+          })
+        )
+
+        await eventStore.publish(
+          new PeriodeNotified({
+            payload: samplePeriodeNotifiedPayload,
+            aggregateId: '3',
+            requestId: 'D',
+          })
+        )
+
+        let priorEvents: StoredEvent[] = []
+
+        await eventStore.transaction(async ({ loadHistory }) => {
+          await loadHistory({ aggregateId: ['1', '2'] }).andThen(
+            (_priorEvents) => {
+              priorEvents = _priorEvents
+              return okAsync(null)
+            }
+          )
+        })
+        expect(priorEvents).toHaveLength(3)
+        expect(
+          priorEvents.every(
+            (event) =>
+              !!event.requestId && ['A', 'B', 'C'].includes(event.requestId)
+          )
+        ).toEqual(true)
       })
 
       it('should filter history by payload filter', async () => {
