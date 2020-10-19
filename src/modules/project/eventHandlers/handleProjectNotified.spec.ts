@@ -1,31 +1,21 @@
-import moment from 'moment'
-import { DomainError, Repository } from '../../../core/domain'
+import { DomainError } from '../../../core/domain'
 import { errAsync, okAsync } from '../../../core/utils'
-import { AppelOffre, Famille } from '../../../entities'
-import { InMemoryEventStore } from '../../../infra/inMemory'
-import { GetFamille } from '../../appelOffre'
 import { StoredEvent } from '../../eventStore'
-import { OtherError } from '../../shared'
-import {
-  ProjectNotified,
-  ProjectDCRDueDateSet,
-  ProjectGFDueDateSet,
-} from '../events'
-import {
-  ProjectCertificateGenerated,
-  ProjectCertificateGeneratedPayload,
-} from '../events/ProjectCertificateGenerated'
-import {
-  ProjectCertificateGenerationFailed,
-  ProjectCertificateGenerationFailedPayload,
-} from '../events/ProjectCertificateGenerationFailed'
-import { GenerateCertificate } from '../generateCertificate'
+import { InfraNotAvailableError, OtherError } from '../../shared'
+import { ProjectNotified } from '../events'
+import { ProjectCertificateGenerated } from '../events/ProjectCertificateGenerated'
+import { ProjectCertificateGenerationFailed } from '../events/ProjectCertificateGenerationFailed'
 import { handleProjectNotified } from './'
+
+const eventBus = {
+  publish: jest.fn((event: StoredEvent) =>
+    okAsync<null, InfraNotAvailableError>(null)
+  ),
+  subscribe: jest.fn(),
+}
 
 describe('handleProjectNotified', () => {
   describe('when generateCertificate succeeds', () => {
-    const eventStore = new InMemoryEventStore()
-
     const generateCertificate = jest.fn((projectId: string) =>
       okAsync<string, DomainError>('fileId1')
     )
@@ -42,17 +32,14 @@ describe('handleProjectNotified', () => {
 
     let projectCertificateGeneratedEvent: StoredEvent | undefined = undefined
 
-    beforeAll((done) => {
-      eventStore.subscribe(ProjectCertificateGenerated.type, (event) => {
-        projectCertificateGeneratedEvent = event
-        done()
-      })
+    beforeAll(async () => {
+      eventBus.publish.mockClear()
 
-      handleProjectNotified(eventStore, { generateCertificate, getFamille })
-
-      eventStore.publish(
-        new ProjectNotified({ payload: fakePayload, requestId: 'request1' })
-      )
+      await handleProjectNotified({
+        eventBus,
+        generateCertificate,
+        getFamille,
+      })(new ProjectNotified({ payload: fakePayload, requestId: 'request1' }))
     })
 
     it('should call generateCertificate with the projectId', () => {
@@ -63,6 +50,11 @@ describe('handleProjectNotified', () => {
     })
 
     it('should trigger ProjectCertificateGenerated event', () => {
+      expect(eventBus.publish).toHaveBeenCalled()
+      const projectCertificateGeneratedEvent = eventBus.publish.mock.calls
+        .map((call) => call[0])
+        .find((event) => event.type === ProjectCertificateGenerated.type)
+
       expect(projectCertificateGeneratedEvent).toBeDefined()
       if (!projectCertificateGeneratedEvent) return
       expect(projectCertificateGeneratedEvent.type).toEqual(
@@ -86,8 +78,6 @@ describe('handleProjectNotified', () => {
   })
 
   describe('when generateCertificate fails twice then succeeds', () => {
-    const eventStore = new InMemoryEventStore()
-
     let failCounter = 2
     const generateCertificate = jest.fn((projectId: string) =>
       failCounter-- > 0
@@ -105,26 +95,14 @@ describe('handleProjectNotified', () => {
       notifiedOn: 0,
     }
 
-    const fakeProjectCertificateGenerationFailedHandler = jest.fn()
+    beforeAll(async () => {
+      eventBus.publish.mockClear()
 
-    let projectCertificateGeneratedEvent: StoredEvent | undefined = undefined
-    let projectCertificateGeneratedEventCount = 0
-
-    beforeAll((done) => {
-      eventStore.subscribe(
-        ProjectCertificateGenerationFailed.type,
-        fakeProjectCertificateGenerationFailedHandler
-      )
-
-      eventStore.subscribe(ProjectCertificateGenerated.type, (event) => {
-        projectCertificateGeneratedEvent = event
-        projectCertificateGeneratedEventCount += 1
-        done()
-      })
-
-      handleProjectNotified(eventStore, { generateCertificate, getFamille })
-
-      eventStore.publish(new ProjectNotified({ payload: fakePayload }))
+      await handleProjectNotified({
+        eventBus,
+        generateCertificate,
+        getFamille,
+      })(new ProjectNotified({ payload: fakePayload }))
     })
 
     it('should retry calling generateCertificate with the projectId three times', () => {
@@ -132,7 +110,11 @@ describe('handleProjectNotified', () => {
     })
 
     it('should trigger ProjectCertificateGenerated event', () => {
-      expect(projectCertificateGeneratedEventCount).toEqual(1)
+      expect(eventBus.publish).toHaveBeenCalled()
+      const projectCertificateGeneratedEvent = eventBus.publish.mock.calls
+        .map((call) => call[0])
+        .find((event) => event.type === ProjectCertificateGenerated.type)
+
       expect(projectCertificateGeneratedEvent).toBeDefined()
       if (!projectCertificateGeneratedEvent) return
       expect(projectCertificateGeneratedEvent.type).toEqual(
@@ -154,21 +136,21 @@ describe('handleProjectNotified', () => {
     })
 
     it('should not trigger ProjectCertificateGenerationFailed event', () => {
-      expect(
-        fakeProjectCertificateGenerationFailedHandler
-      ).not.toHaveBeenCalled()
+      expect(eventBus.publish).toHaveBeenCalled()
+      const projectCertificateFailedEvent = eventBus.publish.mock.calls
+        .map((call) => call[0])
+        .find((event) => event.type === ProjectCertificateGenerationFailed.type)
+
+      expect(projectCertificateFailedEvent).not.toBeDefined()
     })
   })
 
   describe('when generateCertificate keeps failing', () => {
-    const eventStore = new InMemoryEventStore()
-
     const generateCertificate = jest.fn((projectId: string) =>
       errAsync<string, DomainError>(new OtherError('test error'))
     )
     const getFamille = jest.fn()
 
-    const fakeProjectCertificateGeneratedHandler = jest.fn()
     const fakePayload = {
       projectId: 'project1',
       candidateEmail: 'email',
@@ -178,25 +160,14 @@ describe('handleProjectNotified', () => {
       notifiedOn: 0,
     }
 
-    let projectCertificateGeneratedEvent: StoredEvent | undefined = undefined
-    let projectCertificateGeneratedEventCount = 0
+    beforeAll(async () => {
+      eventBus.publish.mockClear()
 
-    beforeAll((done) => {
-      eventStore.subscribe(
-        ProjectCertificateGenerated.type,
-        fakeProjectCertificateGeneratedHandler
-      )
-      eventStore.subscribe(ProjectCertificateGenerationFailed.type, (event) => {
-        projectCertificateGeneratedEvent = event
-        projectCertificateGeneratedEventCount += 1
-        done()
-      })
-
-      handleProjectNotified(eventStore, { generateCertificate, getFamille })
-
-      eventStore.publish(
-        new ProjectNotified({ payload: fakePayload, requestId: 'request1' })
-      )
+      await handleProjectNotified({
+        eventBus,
+        generateCertificate,
+        getFamille,
+      })(new ProjectNotified({ payload: fakePayload, requestId: 'request1' }))
     })
 
     it('should retry calling generateCertificate with the projectId three times', () => {
@@ -204,29 +175,37 @@ describe('handleProjectNotified', () => {
     })
 
     it('should trigger ProjectCertificateGenerationFailed event', () => {
-      expect(projectCertificateGeneratedEventCount).toEqual(1)
-      expect(projectCertificateGeneratedEvent).toBeDefined()
-      if (!projectCertificateGeneratedEvent) return
-      expect(projectCertificateGeneratedEvent.type).toEqual(
-        ProjectCertificateGenerationFailed.type
-      )
-      expect((projectCertificateGeneratedEvent.payload as any).error).toEqual(
-        'test error'
-      )
+      expect(eventBus.publish).toHaveBeenCalled()
+      const projectCertificateGenerationFailedEvent = eventBus.publish.mock.calls
+        .map((call) => call[0])
+        .find((event) => event.type === ProjectCertificateGenerationFailed.type)
+
+      expect(projectCertificateGenerationFailedEvent).toBeDefined()
+      if (!projectCertificateGenerationFailedEvent) return
       expect(
-        (projectCertificateGeneratedEvent.payload as any).projectId
+        (projectCertificateGenerationFailedEvent.payload as any).error
+      ).toEqual('test error')
+      expect(
+        (projectCertificateGenerationFailedEvent.payload as any).projectId
       ).toEqual(fakePayload.projectId)
       expect(
-        (projectCertificateGeneratedEvent.payload as any).appelOffreId
+        (projectCertificateGenerationFailedEvent.payload as any).appelOffreId
       ).toEqual(fakePayload.appelOffreId)
       expect(
-        (projectCertificateGeneratedEvent.payload as any).periodeId
+        (projectCertificateGenerationFailedEvent.payload as any).periodeId
       ).toEqual(fakePayload.periodeId)
-      expect(projectCertificateGeneratedEvent.requestId).toEqual('request1')
+      expect(projectCertificateGenerationFailedEvent.requestId).toEqual(
+        'request1'
+      )
     })
 
     it('should not trigger ProjectCertificateGenerated event', () => {
-      expect(fakeProjectCertificateGeneratedHandler).not.toHaveBeenCalled()
+      expect(eventBus.publish).toHaveBeenCalled()
+      const projectCertificateGeneratedEvent = eventBus.publish.mock.calls
+        .map((call) => call[0])
+        .find((event) => event.type === ProjectCertificateGenerated.type)
+
+      expect(projectCertificateGeneratedEvent).not.toBeDefined()
     })
   })
 })
