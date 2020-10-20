@@ -1,10 +1,13 @@
-import { ProjectCertificateGenerated } from '../../../../modules/project/events'
+import {
+  ProjectCertificateGenerated,
+  ProjectCertificateUpdated,
+} from '../../../../modules/project/events'
 import { sequelize } from '../../../../sequelize.config'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
 import models from '../../models'
-import { onProjectCertificateGenerated } from './onProjectCertificateGenerated'
+import { onProjectCertificate } from './onProjectCertificate'
 
-describe('project.onProjectCertificateGenerated', () => {
+describe('project.onProjectCertificate', () => {
   const fakeProjects = [
     {
       id: 'target',
@@ -19,7 +22,7 @@ describe('project.onProjectCertificateGenerated', () => {
   const ProjectModel = models.Project
   const FileModel = models.File
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     // Create the tables and remove all data
     await sequelize.sync({ force: true })
 
@@ -31,8 +34,8 @@ describe('project.onProjectCertificateGenerated', () => {
     })
   })
 
-  it('should update project.certificateFileId', async () => {
-    await onProjectCertificateGenerated(models)(
+  it('should update project.certificateFileId on ProjectCertificateGenerated', async () => {
+    await onProjectCertificate(models)(
       new ProjectCertificateGenerated({
         payload: {
           certificateFileId: 'certificateFile1',
@@ -40,6 +43,26 @@ describe('project.onProjectCertificateGenerated', () => {
           candidateEmail: '',
           periodeId: '',
           appelOffreId: '',
+        },
+      })
+    )
+
+    const updatedProject = await ProjectModel.findByPk('target')
+    expect(updatedProject.certificateFileId).toEqual('certificateFile1')
+
+    const nonUpdatedProject = await ProjectModel.findByPk('nottarget')
+    expect(nonUpdatedProject).toBeDefined()
+    if (nonUpdatedProject) return
+
+    expect(nonUpdatedProject.certificateFileId).toEqual(null)
+  })
+
+  it('should update project.certificateFileId on ProjectCertificateUpdated', async () => {
+    await onProjectCertificate(models)(
+      new ProjectCertificateUpdated({
+        payload: {
+          certificateFileId: 'certificateFile1',
+          projectId: 'target',
         },
       })
     )

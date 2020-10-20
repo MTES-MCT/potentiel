@@ -1,13 +1,14 @@
 import { EventBus } from '../../../../modules/eventStore'
 import {
   ProjectCertificateGenerated,
+  ProjectCertificateUpdated,
   ProjectDataCorrected,
   ProjectDCRDueDateSet,
   ProjectGFDueDateSet,
   ProjectNotificationDateSet,
   ProjectNotified,
 } from '../../../../modules/project/events'
-import { onProjectCertificateGenerated } from './onProjectCertificateGenerated'
+import { onProjectCertificate } from './onProjectCertificate'
 import { onProjectDataCorrected } from './onProjectDataCorrected'
 import { onProjectDCRDueDateSet } from './onProjectDCRDueDateSet'
 import { onProjectGFDueDateSet } from './onProjectGFDueDateSet'
@@ -25,7 +26,11 @@ export const initProjectProjections = (eventBus: EventBus, models) => {
   )
   eventBus.subscribe(
     ProjectCertificateGenerated.type,
-    onProjectCertificateGenerated(models)
+    onProjectCertificate(models)
+  )
+  eventBus.subscribe(
+    ProjectCertificateUpdated.type,
+    onProjectCertificate(models)
   )
 
   console.log('Initialized Project projections')
