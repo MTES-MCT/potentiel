@@ -73,14 +73,30 @@ class routes {
     } else return route
   }
 
+  static DOWNLOAD_CERTIFICATE_FILE = (
+    projectId?: string,
+    fileId?: string,
+    filename?: string
+  ) => {
+    const route = '/attestation/:projectId/:fileId/:filename'
+    if (projectId && fileId && filename) {
+      return route
+        .replace(':projectId', projectId)
+        .replace(':fileId', fileId)
+        .replace(':filename', filename)
+    } else return route
+  }
+
   static CANDIDATE_CERTIFICATE_FOR_ADMINS = (project: Project) =>
-    routes.DOWNLOAD_PROJECT_FILE(
+    routes.DOWNLOAD_CERTIFICATE_FILE(
+      project.id,
       project.certificateFile?.id,
       makeCertificateFilename(project, true)
     )
 
   static CANDIDATE_CERTIFICATE_FOR_CANDIDATES = (project: Project) =>
-    routes.DOWNLOAD_PROJECT_FILE(
+    routes.DOWNLOAD_CERTIFICATE_FILE(
+      project.id,
       project.certificateFile?.id,
       makeCertificateFilename(project)
     )

@@ -11,6 +11,7 @@ export * from './getLoginPage';
 export * from './getModeleMiseEnDemeure';
 export * from './getNotificationListPage';
 export * from './getNotifyCandidatesPage';
+export * from './getProjectCertificateFile';
 export * from './getProjectFile';
 export * from './getProjectListPage';
 export * from './getProjectPage';

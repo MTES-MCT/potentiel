@@ -48,6 +48,7 @@ import {
   getRemoveDCR,
   getRemoveGarantiesFinancieres,
   getModeleMiseEnDemeure,
+  getProjectCertificateFile,
 } from './controllers'
 
 import {
@@ -259,6 +260,12 @@ export async function makeServer(port: number = 3000) {
       ROUTES.DOWNLOAD_PROJECT_FILE(),
       ensureLoggedIn(),
       makeExpressCallback(getProjectFile)
+    )
+
+    router.get(
+      ROUTES.DOWNLOAD_CERTIFICATE_FILE(),
+      ensureLoggedIn(),
+      makeExpressCallback(getProjectCertificateFile)
     )
 
     router.post(

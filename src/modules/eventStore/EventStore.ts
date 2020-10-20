@@ -8,6 +8,7 @@ import {
   LegacyProjectEventSourced,
   LegacyProjectSourced,
   PeriodeNotified,
+  ProjectCertificateDownloaded,
   ProjectCertificateGenerated,
   ProjectCertificateGenerationFailed,
   ProjectDCRDueDateSet,
@@ -26,6 +27,7 @@ import { InfraNotAvailableError, OtherError } from '../shared'
 export type StoredEvent =
   | ProjectNotified
   | ProjectCertificateGenerated
+  | ProjectCertificateDownloaded
   | ProjectCertificateGenerationFailed
   | PeriodeNotified
   | CandidateNotificationForPeriodeFailed
