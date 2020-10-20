@@ -316,7 +316,6 @@ export default function makeImportProjects({
                   data: updatedProject,
                   importedBy: userId,
                 },
-                aggregateId: updatedProject.id,
               })
             )
 
@@ -362,7 +361,6 @@ export default function makeImportProjects({
                 data: newlyImportedProject,
                 importedBy: userId,
               },
-              aggregateId: newlyImportedProject.id,
             })
           )
 

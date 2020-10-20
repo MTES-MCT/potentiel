@@ -1,5 +1,5 @@
 import {
-  PeriodeNotified,
+  ProjectGFRemoved,
   ProjectCertificateGenerated,
   ProjectNotified,
 } from '../../../modules/project/events'
@@ -9,19 +9,18 @@ import { StoredEvent } from '../../../modules/eventStore'
 import models from '../models'
 import { sequelize } from '../../../sequelize.config'
 import { OtherError } from '../../../modules/shared'
+import { CandidateNotification } from '../../../modules/candidateNotification/CandidateNotification'
 
 describe('SequelizeEventStore', () => {
-  const samplePeriodeNotifiedPayload = {
-    periodeId: 'A',
-    appelOffreId: 'B',
-    requestedBy: '',
-    notifiedOn: 0,
+  const sampleProjectGFRemovedPayload = {
+    projectId: 'projectWithGFRemoved',
+    removedBy: '1',
   }
 
   const sampleProjectNotifiedPayload = {
     periodeId: 'A',
     appelOffreId: 'B',
-    projectId: 'P',
+    projectId: 'projectNotified',
     familleId: 'F',
     candidateEmail: '',
     notifiedOn: 0,
@@ -36,8 +35,8 @@ describe('SequelizeEventStore', () => {
     it('should listen to events of a specific type', (done) => {
       const eventStore = new SequelizeEventStore(models)
 
-      eventStore.subscribe(PeriodeNotified.type, (event) => {
-        expect(event.type).toEqual(PeriodeNotified.type)
+      eventStore.subscribe(ProjectGFRemoved.type, (event) => {
+        expect(event.type).toEqual(ProjectGFRemoved.type)
         done()
       })
 
@@ -48,8 +47,8 @@ describe('SequelizeEventStore', () => {
       )
 
       eventStore.publish(
-        new PeriodeNotified({
-          payload: samplePeriodeNotifiedPayload,
+        new ProjectGFRemoved({
+          payload: sampleProjectGFRemovedPayload,
         })
       )
     })
@@ -58,7 +57,7 @@ describe('SequelizeEventStore', () => {
       const eventStore = new SequelizeEventStore(models)
 
       let receivedEventsIds: string[] = []
-      eventStore.subscribe(PeriodeNotified.type, (event) => {
+      eventStore.subscribe(ProjectGFRemoved.type, (event) => {
         receivedEventsIds.push(event.requestId || '')
         if (receivedEventsIds.length === 2) {
           expect(receivedEventsIds).toEqual(['1', '2'])
@@ -67,15 +66,15 @@ describe('SequelizeEventStore', () => {
       })
 
       eventStore.publish(
-        new PeriodeNotified({
-          payload: samplePeriodeNotifiedPayload,
+        new ProjectGFRemoved({
+          payload: sampleProjectGFRemovedPayload,
           requestId: '1',
         })
       )
 
       eventStore.publish(
-        new PeriodeNotified({
-          payload: samplePeriodeNotifiedPayload,
+        new ProjectGFRemoved({
+          payload: sampleProjectGFRemovedPayload,
           requestId: '2',
         })
       )
@@ -85,11 +84,11 @@ describe('SequelizeEventStore', () => {
       const eventStore = new SequelizeEventStore(models)
 
       let subscriberCatches: string[] = []
-      eventStore.subscribe(PeriodeNotified.type, (event) => {
+      eventStore.subscribe(ProjectGFRemoved.type, (event) => {
         subscriberCatches.push('A')
       })
 
-      eventStore.subscribe(PeriodeNotified.type, (event) => {
+      eventStore.subscribe(ProjectGFRemoved.type, (event) => {
         subscriberCatches.push('B')
         if (subscriberCatches.length === 2) {
           expect(subscriberCatches).toEqual(['A', 'B'])
@@ -98,8 +97,8 @@ describe('SequelizeEventStore', () => {
       })
 
       eventStore.publish(
-        new PeriodeNotified({
-          payload: samplePeriodeNotifiedPayload,
+        new ProjectGFRemoved({
+          payload: sampleProjectGFRemovedPayload,
         })
       )
     })
@@ -108,17 +107,16 @@ describe('SequelizeEventStore', () => {
   describe('publish', () => {
     const eventStore = new SequelizeEventStore(models)
 
-    const event = new PeriodeNotified({
-      payload: samplePeriodeNotifiedPayload,
+    const event = new ProjectGFRemoved({
+      payload: sampleProjectGFRemovedPayload,
       requestId: 'A',
-      aggregateId: 'B',
     })
     let caughtEvent: StoredEvent | undefined = undefined
 
     beforeAll(async (done) => {
       await sequelize.sync({ force: true })
 
-      eventStore.subscribe(PeriodeNotified.type, (event) => {
+      eventStore.subscribe(ProjectGFRemoved.type, (event) => {
         caughtEvent = event
         done()
       })
@@ -130,8 +128,8 @@ describe('SequelizeEventStore', () => {
     it('should publish an event of a specific type', () => {
       expect(caughtEvent).toBeDefined()
       if (!caughtEvent) return
-      expect(caughtEvent.type).toEqual(PeriodeNotified.type)
-      expect(caughtEvent.payload).toEqual(samplePeriodeNotifiedPayload)
+      expect(caughtEvent.type).toEqual(ProjectGFRemoved.type)
+      expect(caughtEvent.payload).toEqual(sampleProjectGFRemovedPayload)
     })
 
     it('should perist the event', async () => {
@@ -139,10 +137,12 @@ describe('SequelizeEventStore', () => {
       const allEvents = await EventModel.findAll()
       expect(allEvents).toHaveLength(1)
       const persistedEvent = allEvents[0]
-      expect(persistedEvent.type).toEqual(PeriodeNotified.type)
-      expect(persistedEvent.payload).toEqual(samplePeriodeNotifiedPayload)
+      expect(persistedEvent.type).toEqual(ProjectGFRemoved.type)
+      expect(persistedEvent.payload).toEqual(sampleProjectGFRemovedPayload)
       expect(persistedEvent.requestId).toEqual('A')
-      expect(persistedEvent.aggregateId).toEqual('B')
+      expect(persistedEvent.aggregateId).toEqual(
+        sampleProjectGFRemovedPayload.projectId
+      )
       expect(persistedEvent.occurredAt).toEqual(event.occurredAt)
       expect(persistedEvent.version).toEqual(event.getVersion().toString())
     })
@@ -178,7 +178,7 @@ describe('SequelizeEventStore', () => {
       it('should be executed entirely before any other transaction is started', async (done) => {
         const eventStore = new SequelizeEventStore(models)
 
-        eventStore.subscribe(PeriodeNotified.type, () => {})
+        eventStore.subscribe(ProjectGFRemoved.type, () => {})
 
         let transactionADone = false
 
@@ -204,7 +204,7 @@ describe('SequelizeEventStore', () => {
 
         let transactionADone = false
 
-        eventStore.subscribe(PeriodeNotified.type, () => {
+        eventStore.subscribe(ProjectGFRemoved.type, () => {
           expect(transactionADone).toBe(true)
           done()
         })
@@ -219,8 +219,8 @@ describe('SequelizeEventStore', () => {
         })
 
         eventStore.publish(
-          new PeriodeNotified({
-            payload: samplePeriodeNotifiedPayload,
+          new ProjectGFRemoved({
+            payload: sampleProjectGFRemovedPayload,
           })
         )
       })
@@ -231,7 +231,7 @@ describe('SequelizeEventStore', () => {
         const eventStore = new SequelizeEventStore(models)
 
         let firstRequest: string | undefined = undefined
-        eventStore.subscribe(PeriodeNotified.type, (event) => {
+        eventStore.subscribe(ProjectGFRemoved.type, (event) => {
           if (!firstRequest) firstRequest = event.requestId
           expect(firstRequest).toEqual('A')
           done()
@@ -243,15 +243,15 @@ describe('SequelizeEventStore', () => {
             setTimeout(resolve, 500)
           })
           await publish(
-            new PeriodeNotified({
-              payload: samplePeriodeNotifiedPayload,
+            new ProjectGFRemoved({
+              payload: sampleProjectGFRemovedPayload,
               requestId: 'A',
             })
           )
         })
         eventStore.publish(
-          new PeriodeNotified({
-            payload: samplePeriodeNotifiedPayload,
+          new ProjectGFRemoved({
+            payload: sampleProjectGFRemovedPayload,
             requestId: 'B',
           })
         )
@@ -263,7 +263,7 @@ describe('SequelizeEventStore', () => {
         let chronology: string[] = []
 
         let eventCount = 0
-        eventStore.subscribe(PeriodeNotified.type, (event) => {
+        eventStore.subscribe(ProjectGFRemoved.type, (event) => {
           chronology.push(event.requestId || '')
           if (++eventCount === 2) {
             expect(chronology).toEqual(['transactionDone', 'A', 'B'])
@@ -273,15 +273,15 @@ describe('SequelizeEventStore', () => {
 
         eventStore.transaction(async ({ publish }) => {
           publish(
-            new PeriodeNotified({
-              payload: samplePeriodeNotifiedPayload,
+            new ProjectGFRemoved({
+              payload: sampleProjectGFRemovedPayload,
               requestId: 'A',
             })
           )
 
           publish(
-            new PeriodeNotified({
-              payload: samplePeriodeNotifiedPayload,
+            new ProjectGFRemoved({
+              payload: sampleProjectGFRemovedPayload,
               requestId: 'B',
             })
           )
@@ -297,10 +297,9 @@ describe('SequelizeEventStore', () => {
     })
 
     describe('publish', () => {
-      const event = new PeriodeNotified({
-        payload: samplePeriodeNotifiedPayload,
+      const event = new ProjectGFRemoved({
+        payload: sampleProjectGFRemovedPayload,
         requestId: 'A',
-        aggregateId: 'B',
       })
       beforeAll(async () => {
         // Create the tables and remove all data
@@ -320,10 +319,12 @@ describe('SequelizeEventStore', () => {
         const allEvents = await EventModel.findAll()
         expect(allEvents).toHaveLength(1)
         const persistedEvent = allEvents[0]
-        expect(persistedEvent.type).toEqual(PeriodeNotified.type)
-        expect(persistedEvent.payload).toEqual(samplePeriodeNotifiedPayload)
+        expect(persistedEvent.type).toEqual(ProjectGFRemoved.type)
+        expect(persistedEvent.payload).toEqual(sampleProjectGFRemovedPayload)
         expect(persistedEvent.requestId).toEqual('A')
-        expect(persistedEvent.aggregateId).toEqual('B')
+        expect(persistedEvent.aggregateId).toEqual(
+          sampleProjectGFRemovedPayload.projectId
+        )
         expect(persistedEvent.occurredAt).toEqual(event.occurredAt)
         expect(persistedEvent.version).toEqual(event.getVersion().toString())
       })
@@ -359,8 +360,8 @@ describe('SequelizeEventStore', () => {
         await sequelize.sync({ force: true })
 
         await eventStore.publish(
-          new PeriodeNotified({
-            payload: samplePeriodeNotifiedPayload,
+          new ProjectGFRemoved({
+            payload: sampleProjectGFRemovedPayload,
           })
         )
 
@@ -373,7 +374,7 @@ describe('SequelizeEventStore', () => {
         let priorEvents: StoredEvent[] = []
 
         await eventStore.transaction(async ({ loadHistory }) => {
-          await loadHistory({ eventType: PeriodeNotified.type }).andThen(
+          await loadHistory({ eventType: ProjectGFRemoved.type }).andThen(
             (_priorEvents) => {
               priorEvents = _priorEvents
               return okAsync(null)
@@ -382,7 +383,7 @@ describe('SequelizeEventStore', () => {
         })
 
         expect(priorEvents).toHaveLength(1)
-        expect(priorEvents[0].type).toEqual(PeriodeNotified.type)
+        expect(priorEvents[0].type).toEqual(ProjectGFRemoved.type)
       })
 
       it('should filter history by multiple eventTypes', async () => {
@@ -390,8 +391,8 @@ describe('SequelizeEventStore', () => {
         await sequelize.sync({ force: true })
 
         await eventStore.publish(
-          new PeriodeNotified({
-            payload: samplePeriodeNotifiedPayload,
+          new ProjectGFRemoved({
+            payload: sampleProjectGFRemovedPayload,
           })
         )
 
@@ -417,7 +418,7 @@ describe('SequelizeEventStore', () => {
 
         await eventStore.transaction(async ({ loadHistory }) => {
           await loadHistory({
-            eventType: [PeriodeNotified.type, ProjectNotified.type],
+            eventType: [ProjectGFRemoved.type, ProjectNotified.type],
           }).andThen((_priorEvents) => {
             priorEvents = _priorEvents
             return okAsync(null)
@@ -427,7 +428,7 @@ describe('SequelizeEventStore', () => {
         expect(priorEvents).toHaveLength(2)
         expect(
           priorEvents.every((event: any) =>
-            [PeriodeNotified.type, ProjectNotified.type].includes(event.type)
+            [ProjectGFRemoved.type, ProjectNotified.type].includes(event.type)
           )
         ).toBe(true)
       })
@@ -437,15 +438,15 @@ describe('SequelizeEventStore', () => {
         await sequelize.sync({ force: true })
 
         await eventStore.publish(
-          new PeriodeNotified({
-            payload: samplePeriodeNotifiedPayload,
+          new ProjectGFRemoved({
+            payload: sampleProjectGFRemovedPayload,
             requestId: '1',
           })
         )
 
         await eventStore.publish(
-          new PeriodeNotified({
-            payload: samplePeriodeNotifiedPayload,
+          new ProjectGFRemoved({
+            payload: sampleProjectGFRemovedPayload,
             requestId: '2',
           })
         )
@@ -462,30 +463,27 @@ describe('SequelizeEventStore', () => {
         expect(priorEvents[0].requestId).toEqual('1')
       })
 
-      it('should filter history by specific aggregateId', async () => {
+      it.only('should filter history by specific aggregateId', async () => {
         const eventStore = new SequelizeEventStore(models)
         await sequelize.sync({ force: true })
 
         await eventStore.publish(
-          new PeriodeNotified({
-            payload: samplePeriodeNotifiedPayload,
-            aggregateId: '1',
+          new ProjectGFRemoved({
+            payload: { ...sampleProjectGFRemovedPayload, projectId: '1' },
             requestId: 'A',
           })
         )
 
         await eventStore.publish(
-          new PeriodeNotified({
-            payload: samplePeriodeNotifiedPayload,
-            aggregateId: ['1', '2'],
+          new ProjectGFRemoved({
+            payload: { ...sampleProjectGFRemovedPayload, projectId: '1' },
             requestId: 'B',
           })
         )
 
         await eventStore.publish(
-          new PeriodeNotified({
-            payload: samplePeriodeNotifiedPayload,
-            aggregateId: '2',
+          new ProjectGFRemoved({
+            payload: { ...sampleProjectGFRemovedPayload, projectId: '2' },
             requestId: 'C',
           })
         )
@@ -511,33 +509,29 @@ describe('SequelizeEventStore', () => {
         await sequelize.sync({ force: true })
 
         await eventStore.publish(
-          new PeriodeNotified({
-            payload: samplePeriodeNotifiedPayload,
-            aggregateId: '1',
+          new ProjectGFRemoved({
+            payload: sampleProjectGFRemovedPayload,
             requestId: 'A',
           })
         )
 
         await eventStore.publish(
-          new PeriodeNotified({
-            payload: samplePeriodeNotifiedPayload,
-            aggregateId: ['1', '2'],
+          new ProjectGFRemoved({
+            payload: sampleProjectGFRemovedPayload,
             requestId: 'B',
           })
         )
 
         await eventStore.publish(
-          new PeriodeNotified({
-            payload: samplePeriodeNotifiedPayload,
-            aggregateId: '2',
+          new ProjectGFRemoved({
+            payload: sampleProjectGFRemovedPayload,
             requestId: 'C',
           })
         )
 
         await eventStore.publish(
-          new PeriodeNotified({
-            payload: samplePeriodeNotifiedPayload,
-            aggregateId: '3',
+          new ProjectGFRemoved({
+            payload: sampleProjectGFRemovedPayload,
             requestId: 'D',
           })
         )
@@ -566,21 +560,21 @@ describe('SequelizeEventStore', () => {
         await sequelize.sync({ force: true })
 
         await eventStore.publish(
-          new PeriodeNotified({
-            payload: { ...samplePeriodeNotifiedPayload, requestedBy: 'A' },
+          new ProjectGFRemoved({
+            payload: { ...sampleProjectGFRemovedPayload, removedBy: 'A' },
           })
         )
 
         await eventStore.publish(
-          new PeriodeNotified({
-            payload: { ...samplePeriodeNotifiedPayload, requestedBy: 'B' },
+          new ProjectGFRemoved({
+            payload: { ...sampleProjectGFRemovedPayload, removedBy: 'B' },
           })
         )
 
         let priorEvents: StoredEvent[] = []
 
         await eventStore.transaction(async ({ loadHistory }) => {
-          await loadHistory({ payload: { requestedBy: 'A' } }).andThen(
+          await loadHistory({ payload: { removedBy: 'A' } }).andThen(
             (_priorEvents) => {
               priorEvents = _priorEvents
               return okAsync(null)
@@ -588,7 +582,7 @@ describe('SequelizeEventStore', () => {
           )
         })
         expect(priorEvents).toHaveLength(1)
-        expect((priorEvents[0] as any).payload.requestedBy).toEqual('A')
+        expect((priorEvents[0] as any).payload.removedBy).toEqual('A')
       })
     })
   })

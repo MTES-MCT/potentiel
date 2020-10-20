@@ -122,7 +122,6 @@ export default function makeAddDCR({
           numeroDossier: numeroDossier,
           submittedBy: user.id,
         },
-        aggregateId: project.id,
       })
     )
 

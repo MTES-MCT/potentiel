@@ -1,4 +1,5 @@
 import { okAsync } from '../../../core/utils'
+import { CandidateNotification } from '../../candidateNotification/CandidateNotification'
 import { StoredEvent } from '../../eventStore'
 import { InfraNotAvailableError, OtherError } from '../../shared'
 import { PeriodeNotified, ProjectNotified } from '../events'
@@ -64,23 +65,41 @@ describe('handlePeriodeNotified', () => {
 
     const project1Event = publish.mock.calls
       .map((call) => call[0])
-      .find((event) => event.aggregateId === 'project1')
+      .find((event) => (event.payload as any).projectId === 'project1')
     expect(project1Event).toBeDefined()
     expect(project1Event!.payload).toEqual({
       ...fakePayload,
       projectId: 'project1',
       candidateEmail: 'email',
     })
+    expect(project1Event!.aggregateId).toEqual(
+      expect.arrayContaining([
+        CandidateNotification.makeId({
+          appelOffreId: fakePayload.appelOffreId,
+          periodeId: fakePayload.periodeId,
+          candidateEmail: 'email',
+        }),
+      ])
+    )
 
     const project2Event = publish.mock.calls
       .map((call) => call[0])
-      .find((event) => event.aggregateId === 'project2')
+      .find((event) => (event.payload as any).projectId === 'project2')
     expect(project2Event).toBeDefined()
     expect(project2Event!.payload).toEqual({
       ...fakePayload,
       projectId: 'project2',
       candidateEmail: 'email',
     })
+    expect(project2Event!.aggregateId).toEqual(
+      expect.arrayContaining([
+        CandidateNotification.makeId({
+          appelOffreId: fakePayload.appelOffreId,
+          periodeId: fakePayload.periodeId,
+          candidateEmail: 'email',
+        }),
+      ])
+    )
 
     expect(
       publish.mock.calls.every((call) => call[0].requestId === 'request1')

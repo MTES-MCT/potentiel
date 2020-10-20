@@ -34,4 +34,8 @@ export class ProjectDataCorrected
   public static type: 'ProjectDataCorrected' = 'ProjectDataCorrected'
   public type = ProjectDataCorrected.type
   currentVersion = 1
+
+  aggregateIdFromPayload(payload: ProjectDataCorrectedPayload) {
+    return payload.projectId
+  }
 }

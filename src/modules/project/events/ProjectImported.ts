@@ -16,4 +16,8 @@ export class ProjectImported
   public static type: 'ProjectImported' = 'ProjectImported'
   public type = ProjectImported.type
   currentVersion = 1
+
+  aggregateIdFromPayload(payload: ProjectImportedPayload) {
+    return payload.projectId
+  }
 }

@@ -12,4 +12,8 @@ export class ProjectGFSubmitted
   public static type: 'ProjectGFSubmitted' = 'ProjectGFSubmitted'
   public type = ProjectGFSubmitted.type
   currentVersion = 1
+
+  aggregateIdFromPayload(payload: ProjectGFSubmittedPayload) {
+    return payload.projectId
+  }
 }

@@ -12,4 +12,8 @@ export class ProjectNotificationDateSet
     'ProjectNotificationDateSet'
   public type = ProjectNotificationDateSet.type
   currentVersion = 1
+
+  aggregateIdFromPayload(payload: ProjectNotificationDateSetPayload) {
+    return payload.projectId
+  }
 }

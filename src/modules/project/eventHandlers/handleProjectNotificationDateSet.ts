@@ -42,7 +42,6 @@ export const handleProjectNotificationDateSet = (deps: {
         dcrDueOn: moment(notifiedOn).add(2, 'months').toDate().getTime(),
       },
       requestId,
-      aggregateId: projectId,
     })
   )
 
@@ -67,7 +66,6 @@ export const handleProjectNotificationDateSet = (deps: {
             .getTime(),
         },
         requestId,
-        aggregateId: projectId,
       })
     )
   }

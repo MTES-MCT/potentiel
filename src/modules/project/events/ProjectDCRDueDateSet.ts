@@ -11,4 +11,8 @@ export class ProjectDCRDueDateSet
   public static type: 'ProjectDCRDueDateSet' = 'ProjectDCRDueDateSet'
   public type = ProjectDCRDueDateSet.type
   currentVersion = 1
+
+  aggregateIdFromPayload(payload: ProjectDCRDueDateSetPayload) {
+    return payload.projectId
+  }
 }

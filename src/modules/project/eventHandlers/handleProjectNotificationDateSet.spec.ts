@@ -54,7 +54,6 @@ describe('handleProjectNotificationDateSet', () => {
             projectId: project.id,
             notifiedOn: 123456789,
           },
-          aggregateId: project.id,
         })
       )
 
@@ -93,7 +92,6 @@ describe('handleProjectNotificationDateSet', () => {
               projectId: project.id,
               notifiedOn: 123456789,
             },
-            aggregateId: project.id,
           })
         )
 
@@ -137,7 +135,6 @@ describe('handleProjectNotificationDateSet', () => {
               projectId: project.id,
               notifiedOn: 123456789,
             },
-            aggregateId: project.id,
           })
         )
 
@@ -175,7 +172,6 @@ describe('handleProjectNotificationDateSet', () => {
             projectId: project.id,
             notifiedOn: 123456789,
           },
-          aggregateId: project.id,
         })
       )
 

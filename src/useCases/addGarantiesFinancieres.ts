@@ -133,7 +133,6 @@ export default function makeAddGarantiesFinancieres({
           fileId: fileResult.value.id.toString(),
           submittedBy: user.id,
         },
-        aggregateId: project.id,
       })
     )
 

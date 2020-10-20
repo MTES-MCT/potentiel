@@ -90,7 +90,6 @@ export default function makeRemoveGarantiesFinancieres({
           projectId: project.id,
           removedBy: user.id,
         },
-        aggregateId: project.id,
       })
     )
 

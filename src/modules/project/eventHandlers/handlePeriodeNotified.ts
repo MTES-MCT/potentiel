@@ -1,3 +1,4 @@
+import { CandidateNotification } from '../../candidateNotification/CandidateNotification'
 import { EventBus, EventStore } from '../../eventStore'
 import {
   PeriodeNotified,
@@ -49,7 +50,6 @@ export const handlePeriodeNotified = (deps: {
               notifiedOn,
             },
             requestId: event.requestId,
-            aggregateId: projectId,
           })
         )
     )

@@ -12,14 +12,42 @@ import {
   CandidateNotificationForPeriodeFailedPayload,
   CandidateNotifiedForPeriode,
   CandidateNotifiedForPeriodePayload,
+} from '../../../modules/candidateNotification/events'
+import {
+  LegacyProjectEventSourced,
+  LegacyProjectEventSourcedPayload,
+  LegacyProjectSourced,
+  LegacyProjectSourcedPayload,
   PeriodeNotified,
   PeriodeNotifiedPayload,
   ProjectCertificateGenerated,
   ProjectCertificateGeneratedPayload,
   ProjectCertificateGenerationFailed,
   ProjectCertificateGenerationFailedPayload,
+  ProjectDataCorrected,
+  ProjectDataCorrectedPayload,
+  ProjectDCRDueDateSet,
+  ProjectDCRDueDateSetPayload,
+  ProjectDCRRemoved,
+  ProjectDCRRemovedPayload,
+  ProjectDCRSubmitted,
+  ProjectDCRSubmittedPayload,
+  ProjectGFDueDateSet,
+  ProjectGFDueDateSetPayload,
+  ProjectGFReminded,
+  ProjectGFRemindedPayload,
+  ProjectGFRemoved,
+  ProjectGFRemovedPayload,
+  ProjectGFSubmitted,
+  ProjectGFSubmittedPayload,
+  ProjectImported,
+  ProjectImportedPayload,
+  ProjectNotificationDateSet,
+  ProjectNotificationDateSetPayload,
   ProjectNotified,
   ProjectNotifiedPayload,
+  ProjectReimported,
+  ProjectReimportedPayload,
 } from '../../../modules/project/events'
 import { InfraNotAvailableError } from '../../../modules/shared'
 
@@ -28,13 +56,6 @@ function isNotNullOrUndefined<T>(input: null | undefined | T): input is T {
 }
 
 const AGGREGATE_ID_SEPARATOR = ' | '
-const parseAggregateId = (
-  rawAggregateId: string
-): DomainEvent['aggregateId'] => {
-  return rawAggregateId && rawAggregateId.indexOf(AGGREGATE_ID_SEPARATOR) !== -1
-    ? rawAggregateId.split(AGGREGATE_ID_SEPARATOR)
-    : rawAggregateId
-}
 
 export class SequelizeEventStore extends BaseEventStore {
   private EventStoreModel
@@ -58,6 +79,8 @@ export class SequelizeEventStore extends BaseEventStore {
   public loadHistory(
     filters?: EventStoreHistoryFilters
   ): ResultAsync<StoredEvent[], InfraNotAvailableError> {
+    // console.log('sequelizeEventStore loadHistory with filters', filters)
+
     return ResultAsync.fromPromise(
       this.EventStoreModel.findAll(this.toQuery(filters)),
       (e: any) => {
@@ -66,6 +89,7 @@ export class SequelizeEventStore extends BaseEventStore {
       }
     )
       .map((events: any[]) => {
+        // console.log('sequelizeEventStore loadHistory found events', events)
         const payload = filters?.payload
         // Do this in memory for now
         // TODO: create proper sequelize query for payload search
@@ -79,9 +103,10 @@ export class SequelizeEventStore extends BaseEventStore {
               )
           : events
       })
-      .map((events: any[]) =>
-        events.map(this.fromPersistance).filter(isNotNullOrUndefined)
-      )
+      .map((events: any[]) => {
+        // console.log('After filter, events', events)
+        return events.map(this.fromPersistance).filter(isNotNullOrUndefined)
+      })
   }
 
   private toPersistance(event: StoredEvent) {
@@ -100,31 +125,19 @@ export class SequelizeEventStore extends BaseEventStore {
 
   private fromPersistance(eventRaw: any): StoredEvent | null {
     switch (eventRaw.type) {
-      case ProjectNotified.type:
-        return new ProjectNotified({
-          payload: eventRaw.payload as ProjectNotifiedPayload,
+      case LegacyProjectEventSourced.type:
+        return new LegacyProjectEventSourced({
+          payload: eventRaw.payload as LegacyProjectEventSourcedPayload,
           requestId: eventRaw.requestId,
-          aggregateId: parseAggregateId(eventRaw.aggregateId),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
           },
         })
-      case ProjectCertificateGenerated.type:
-        return new ProjectCertificateGenerated({
-          payload: eventRaw.payload as ProjectCertificateGeneratedPayload,
+      case LegacyProjectSourced.type:
+        return new LegacyProjectSourced({
+          payload: eventRaw.payload as LegacyProjectSourcedPayload,
           requestId: eventRaw.requestId,
-          aggregateId: parseAggregateId(eventRaw.aggregateId),
-          original: {
-            version: eventRaw.version,
-            occurredAt: eventRaw.occurredAt,
-          },
-        })
-      case ProjectCertificateGenerationFailed.type:
-        return new ProjectCertificateGenerationFailed({
-          payload: eventRaw.payload as ProjectCertificateGenerationFailedPayload,
-          requestId: eventRaw.requestId,
-          aggregateId: parseAggregateId(eventRaw.aggregateId),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -134,7 +147,133 @@ export class SequelizeEventStore extends BaseEventStore {
         return new PeriodeNotified({
           payload: eventRaw.payload as PeriodeNotifiedPayload,
           requestId: eventRaw.requestId,
-          aggregateId: parseAggregateId(eventRaw.aggregateId),
+          original: {
+            version: eventRaw.version,
+            occurredAt: eventRaw.occurredAt,
+          },
+        })
+      case ProjectCertificateGenerated.type:
+        return new ProjectCertificateGenerated({
+          payload: eventRaw.payload as ProjectCertificateGeneratedPayload,
+          requestId: eventRaw.requestId,
+          original: {
+            version: eventRaw.version,
+            occurredAt: eventRaw.occurredAt,
+          },
+        })
+      case ProjectCertificateGenerationFailed.type:
+        return new ProjectCertificateGenerationFailed({
+          payload: eventRaw.payload as ProjectCertificateGenerationFailedPayload,
+          requestId: eventRaw.requestId,
+          original: {
+            version: eventRaw.version,
+            occurredAt: eventRaw.occurredAt,
+          },
+        })
+      case ProjectDataCorrected.type:
+        return new ProjectDataCorrected({
+          payload: eventRaw.payload as ProjectDataCorrectedPayload,
+          requestId: eventRaw.requestId,
+          original: {
+            version: eventRaw.version,
+            occurredAt: eventRaw.occurredAt,
+          },
+        })
+      case ProjectDCRDueDateSet.type:
+        return new ProjectDCRDueDateSet({
+          payload: eventRaw.payload as ProjectDCRDueDateSetPayload,
+          requestId: eventRaw.requestId,
+          original: {
+            version: eventRaw.version,
+            occurredAt: eventRaw.occurredAt,
+          },
+        })
+      case ProjectDCRRemoved.type:
+        return new ProjectDCRRemoved({
+          payload: eventRaw.payload as ProjectDCRRemovedPayload,
+          requestId: eventRaw.requestId,
+          original: {
+            version: eventRaw.version,
+            occurredAt: eventRaw.occurredAt,
+          },
+        })
+      case ProjectDCRSubmitted.type:
+        return new ProjectDCRSubmitted({
+          payload: eventRaw.payload as ProjectDCRSubmittedPayload,
+          requestId: eventRaw.requestId,
+          original: {
+            version: eventRaw.version,
+            occurredAt: eventRaw.occurredAt,
+          },
+        })
+
+      case ProjectGFDueDateSet.type:
+        return new ProjectGFDueDateSet({
+          payload: eventRaw.payload as ProjectGFDueDateSetPayload,
+          requestId: eventRaw.requestId,
+          original: {
+            version: eventRaw.version,
+            occurredAt: eventRaw.occurredAt,
+          },
+        })
+      case ProjectGFRemoved.type:
+        return new ProjectGFRemoved({
+          payload: eventRaw.payload as ProjectGFRemovedPayload,
+          requestId: eventRaw.requestId,
+          original: {
+            version: eventRaw.version,
+            occurredAt: eventRaw.occurredAt,
+          },
+        })
+      case ProjectGFReminded.type:
+        return new ProjectGFReminded({
+          payload: eventRaw.payload as ProjectGFRemindedPayload,
+          requestId: eventRaw.requestId,
+          original: {
+            version: eventRaw.version,
+            occurredAt: eventRaw.occurredAt,
+          },
+        })
+      case ProjectGFSubmitted.type:
+        return new ProjectGFSubmitted({
+          payload: eventRaw.payload as ProjectGFSubmittedPayload,
+          requestId: eventRaw.requestId,
+          original: {
+            version: eventRaw.version,
+            occurredAt: eventRaw.occurredAt,
+          },
+        })
+      case ProjectImported.type:
+        return new ProjectImported({
+          payload: eventRaw.payload as ProjectImportedPayload,
+          requestId: eventRaw.requestId,
+          original: {
+            version: eventRaw.version,
+            occurredAt: eventRaw.occurredAt,
+          },
+        })
+      case ProjectNotificationDateSet.type:
+        return new ProjectNotificationDateSet({
+          payload: eventRaw.payload as ProjectNotificationDateSetPayload,
+          requestId: eventRaw.requestId,
+          original: {
+            version: eventRaw.version,
+            occurredAt: eventRaw.occurredAt,
+          },
+        })
+      case ProjectNotified.type:
+        return new ProjectNotified({
+          payload: eventRaw.payload as ProjectNotifiedPayload,
+          requestId: eventRaw.requestId,
+          original: {
+            version: eventRaw.version,
+            occurredAt: eventRaw.occurredAt,
+          },
+        })
+      case ProjectReimported.type:
+        return new ProjectReimported({
+          payload: eventRaw.payload as ProjectReimportedPayload,
+          requestId: eventRaw.requestId,
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -144,7 +283,6 @@ export class SequelizeEventStore extends BaseEventStore {
         return new CandidateNotificationForPeriodeFailed({
           payload: eventRaw.payload as CandidateNotificationForPeriodeFailedPayload,
           requestId: eventRaw.requestId,
-          aggregateId: parseAggregateId(eventRaw.aggregateId),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -154,13 +292,17 @@ export class SequelizeEventStore extends BaseEventStore {
         return new CandidateNotifiedForPeriode({
           payload: eventRaw.payload as CandidateNotifiedForPeriodePayload,
           requestId: eventRaw.requestId,
-          aggregateId: parseAggregateId(eventRaw.aggregateId),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
           },
         })
+
       default:
+        console.log(
+          'MEGA FAIL: SequelizeEventStore does not recognize this event type (see sequelizeEventStore.fromPersistance for missing type',
+          eventRaw.type
+        )
         return null
     }
   }
@@ -190,7 +332,7 @@ export class SequelizeEventStore extends BaseEventStore {
       }
     }
 
-    console.log('toQuery query is', query)
+    // console.log('toQuery query is', query)
 
     return {
       where: query,

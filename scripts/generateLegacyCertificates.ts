@@ -46,7 +46,6 @@ initDatabase()
             periodeId: project.periodeId,
             appelOffreId: project.appelOffreId,
           },
-          aggregateId: project.id
         })
       )
 

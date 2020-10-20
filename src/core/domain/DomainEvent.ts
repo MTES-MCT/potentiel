@@ -4,7 +4,7 @@ export interface DomainEvent {
   occurredAt: Date
   type: string
   getVersion: () => number
-  aggregateId?: string[] | string
+  aggregateId: string[] | string
   requestId?: string
   payload: any
 }
@@ -12,7 +12,6 @@ export interface DomainEvent {
 export interface BaseDomainEventProps<P> {
   payload: P
   requestId?: DomainEvent['requestId']
-  aggregateId?: DomainEvent['aggregateId']
   original?: {
     occurredAt: DomainEvent['occurredAt']
     version: ReturnType<DomainEvent['getVersion']>
@@ -27,21 +26,18 @@ export abstract class BaseDomainEvent<P> {
 
   abstract readonly currentVersion: number
 
-  constructor({
-    payload,
-    requestId,
-    aggregateId,
-    original,
-  }: BaseDomainEventProps<P>) {
+  constructor({ payload, requestId, original }: BaseDomainEventProps<P>) {
     this.payload = payload
     this.occurredAt = original?.occurredAt || new Date()
     this.requestId = requestId
-    this.aggregateId = aggregateId
+    this.aggregateId = this.aggregateIdFromPayload(payload)
 
     if (original?.version) {
       this.originalVersion = original.version
     }
   }
+
+  abstract aggregateIdFromPayload(payload: P): DomainEvent['aggregateId']
 
   getVersion() {
     return this.originalVersion || this.currentVersion

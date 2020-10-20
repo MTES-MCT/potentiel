@@ -129,7 +129,6 @@ export const makeCorrectProjectData = (
     .andThen(() =>
       deps.eventStore.publish(
         new ProjectDataCorrected({
-          aggregateId: projectId,
           payload: {
             projectId,
             certificateFileId,
@@ -142,7 +141,6 @@ export const makeCorrectProjectData = (
       newNotifiedOn
         ? deps.eventStore.publish(
             new ProjectNotificationDateSet({
-              aggregateId: projectId,
               payload: {
                 projectId,
                 notifiedOn: newNotifiedOn,

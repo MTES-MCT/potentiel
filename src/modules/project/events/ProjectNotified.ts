@@ -1,5 +1,10 @@
 import { Project, Periode, AppelOffre, Famille } from '../../../entities'
-import { DomainEvent, BaseDomainEvent } from '../../../core/domain/DomainEvent'
+import {
+  DomainEvent,
+  BaseDomainEvent,
+  BaseDomainEventProps,
+} from '../../../core/domain/DomainEvent'
+import { CandidateNotification } from '../../candidateNotification/CandidateNotification'
 
 export interface ProjectNotifiedPayload {
   projectId: Project['id']
@@ -15,4 +20,8 @@ export class ProjectNotified
   public static type: 'ProjectNotified' = 'ProjectNotified'
   public type = ProjectNotified.type
   currentVersion = 1
+
+  aggregateIdFromPayload(payload: ProjectNotifiedPayload) {
+    return [payload.projectId, CandidateNotification.makeId(payload)]
+  }
 }

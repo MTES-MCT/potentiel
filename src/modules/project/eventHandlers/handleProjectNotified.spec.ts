@@ -1,5 +1,6 @@
 import { DomainError } from '../../../core/domain'
 import { errAsync, okAsync } from '../../../core/utils'
+import { CandidateNotification } from '../../candidateNotification/CandidateNotification'
 import { StoredEvent } from '../../eventStore'
 import { InfraNotAvailableError, OtherError } from '../../shared'
 import { ProjectNotified } from '../events'
@@ -39,7 +40,12 @@ describe('handleProjectNotified', () => {
         eventBus,
         generateCertificate,
         getFamille,
-      })(new ProjectNotified({ payload: fakePayload, requestId: 'request1' }))
+      })(
+        new ProjectNotified({
+          payload: fakePayload,
+          requestId: 'request1',
+        })
+      )
     })
 
     it('should call generateCertificate with the projectId', () => {
@@ -74,6 +80,10 @@ describe('handleProjectNotified', () => {
         (projectCertificateGeneratedEvent.payload as any).certificateFileId
       ).toEqual('fileId1')
       expect(projectCertificateGeneratedEvent.requestId).toEqual('request1')
+      expect(projectCertificateGeneratedEvent.aggregateId).toEqual([
+        fakePayload.projectId,
+        CandidateNotification.makeId(fakePayload),
+      ])
     })
   })
 
@@ -133,6 +143,10 @@ describe('handleProjectNotified', () => {
       expect(
         (projectCertificateGeneratedEvent.payload as any).certificateFileId
       ).toEqual('fileId1')
+      expect(projectCertificateGeneratedEvent.aggregateId).toEqual([
+        fakePayload.projectId,
+        CandidateNotification.makeId(fakePayload),
+      ])
     })
 
     it('should not trigger ProjectCertificateGenerationFailed event', () => {
@@ -167,7 +181,12 @@ describe('handleProjectNotified', () => {
         eventBus,
         generateCertificate,
         getFamille,
-      })(new ProjectNotified({ payload: fakePayload, requestId: 'request1' }))
+      })(
+        new ProjectNotified({
+          payload: fakePayload,
+          requestId: 'request1',
+        })
+      )
     })
 
     it('should retry calling generateCertificate with the projectId three times', () => {
@@ -197,6 +216,10 @@ describe('handleProjectNotified', () => {
       expect(projectCertificateGenerationFailedEvent.requestId).toEqual(
         'request1'
       )
+      expect(projectCertificateGenerationFailedEvent.aggregateId).toEqual([
+        fakePayload.projectId,
+        CandidateNotification.makeId(fakePayload),
+      ])
     })
 
     it('should not trigger ProjectCertificateGenerated event', () => {

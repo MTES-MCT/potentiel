@@ -103,7 +103,7 @@ export const makeNotificationService = (
           (newVariables, [key, value]) => ({
             ...newVariables,
             [key]:
-              value.indexOf('/') === 0 ? process.env.BASE_URL + value : value,
+              value?.indexOf('/') === 0 ? process.env.BASE_URL + value : value,
           }),
           {}
         ),

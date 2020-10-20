@@ -89,7 +89,6 @@ export class CandidateNotification extends AggregateRoot<
             candidateEmail: this.props.candidateEmail,
             candidateName: this.props.candidateName,
           },
-          aggregateId: this.id.toString(),
           requestId: currentRequestId,
         })
       )
@@ -112,7 +111,10 @@ export class CandidateNotification extends AggregateRoot<
     periodeId: Periode['id']
     candidateEmail: Project['email']
   }) {
-    return JSON.stringify(args)
+    const { appelOffreId, periodeId, candidateEmail } = args
+    const key = { appelOffreId, periodeId, candidateEmail }
+
+    return JSON.stringify(key, Object.keys(key).sort()) // This makes the stringify stable (key order)
   }
 
   public static create(

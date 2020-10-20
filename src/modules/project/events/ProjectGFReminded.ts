@@ -9,4 +9,8 @@ export class ProjectGFReminded
   public static type: 'ProjectGFReminded' = 'ProjectGFReminded'
   public type = ProjectGFReminded.type
   currentVersion = 1
+
+  aggregateIdFromPayload(payload: ProjectGFRemindedPayload) {
+    return payload.projectId
+  }
 }

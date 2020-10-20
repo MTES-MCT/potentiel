@@ -11,4 +11,8 @@ export class ProjectGFDueDateSet
   public static type: 'ProjectGFDueDateSet' = 'ProjectGFDueDateSet'
   public type = ProjectGFDueDateSet.type
   currentVersion = 1
+
+  aggregateIdFromPayload(payload: ProjectGFDueDateSetPayload) {
+    return payload.projectId
+  }
 }

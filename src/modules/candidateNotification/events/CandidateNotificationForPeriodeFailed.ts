@@ -1,5 +1,6 @@
 import { Project, Periode, AppelOffre } from '../../../entities'
 import { DomainEvent, BaseDomainEvent } from '../../../core/domain/DomainEvent'
+import { CandidateNotification } from '../CandidateNotification'
 
 export interface CandidateNotificationForPeriodeFailedPayload {
   candidateEmail: Project['email']
@@ -14,4 +15,10 @@ export class CandidateNotificationForPeriodeFailed
     'CandidateNotificationForPeriodeFailed'
   public type = CandidateNotificationForPeriodeFailed.type
   currentVersion = 1
+
+  aggregateIdFromPayload(
+    payload: CandidateNotificationForPeriodeFailedPayload
+  ) {
+    return CandidateNotification.makeId(payload)
+  }
 }

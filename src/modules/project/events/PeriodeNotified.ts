@@ -13,4 +13,10 @@ export class PeriodeNotified
   public static type: 'PeriodeNotified' = 'PeriodeNotified'
   public type = PeriodeNotified.type
   currentVersion = 1
+
+  aggregateIdFromPayload(payload: PeriodeNotifiedPayload) {
+    const { periodeId, appelOffreId } = payload
+    const key = { appelOffreId, periodeId }
+    return JSON.stringify(key, Object.keys(key).sort()) // This make the stringify stable (key order)
+  }
 }

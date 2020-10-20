@@ -10,4 +10,8 @@ export class ProjectGFRemoved
   public static type: 'ProjectGFRemoved' = 'ProjectGFRemoved'
   public type = ProjectGFRemoved.type
   currentVersion = 1
+
+  aggregateIdFromPayload(payload: ProjectGFRemovedPayload) {
+    return payload.projectId
+  }
 }

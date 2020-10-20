@@ -1,6 +1,7 @@
 import { Project, User } from '../../entities'
 import { AggregateRoot, UniqueEntityID, DomainError } from '../../core/domain'
 import { Result, ok } from '../../core/utils'
+import { StoredEvent } from '../eventStore'
 
 interface FileProps {
   filename: string
@@ -16,7 +17,7 @@ interface FileProps {
   storedAt?: string
 }
 
-export class File extends AggregateRoot<FileProps> {
+export class File extends AggregateRoot<FileProps, StoredEvent> {
   private constructor(props: FileProps, id?: UniqueEntityID) {
     super(props, id)
   }

@@ -1,5 +1,6 @@
-import { Project, Periode, AppelOffre } from '../../../entities'
-import { DomainEvent, BaseDomainEvent } from '../../../core/domain/DomainEvent'
+import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
+import { AppelOffre, Periode, Project } from '../../../entities'
+import { CandidateNotification } from '../../candidateNotification/CandidateNotification'
 
 export interface ProjectCertificateGenerationFailedPayload {
   projectId: Project['id']
@@ -15,4 +16,8 @@ export class ProjectCertificateGenerationFailed
     'ProjectCertificateGenerationFailed'
   public type = ProjectCertificateGenerationFailed.type
   currentVersion = 1
+
+  aggregateIdFromPayload(payload: ProjectCertificateGenerationFailedPayload) {
+    return [payload.projectId, CandidateNotification.makeId(payload)]
+  }
 }

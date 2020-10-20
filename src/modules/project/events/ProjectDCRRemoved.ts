@@ -10,4 +10,8 @@ export class ProjectDCRRemoved
   public static type: 'ProjectDCRRemoved' = 'ProjectDCRRemoved'
   public type = ProjectDCRRemoved.type
   currentVersion = 1
+
+  aggregateIdFromPayload(payload: ProjectDCRRemovedPayload) {
+    return payload.projectId
+  }
 }

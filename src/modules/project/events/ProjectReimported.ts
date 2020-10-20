@@ -12,4 +12,8 @@ export class ProjectReimported
   public static type: 'ProjectReimported' = 'ProjectReimported'
   public type = ProjectReimported.type
   currentVersion = 1
+
+  aggregateIdFromPayload(payload: ProjectReimportedPayload) {
+    return payload.projectId
+  }
 }

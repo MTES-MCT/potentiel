@@ -87,7 +87,6 @@ export default function makeRemoveDCR({
           projectId: project.id,
           removedBy: user.id,
         },
-        aggregateId: project.id,
       })
     )
 

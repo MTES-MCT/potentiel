@@ -34,7 +34,6 @@ initDatabase()
             numeroCRE: project.numeroCRE,
             content: project,
           },
-          aggregateId: project.id,
         })
       )
 
@@ -83,7 +82,6 @@ initDatabase()
             type: projectEvent.type,
             modificationRequestId: projectEvent.modificationRequestId,
           },
-          aggregateId: projectEvent.projectId,
         })
       )
 

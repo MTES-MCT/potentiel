@@ -37,7 +37,6 @@ describe('CandidateNotification', () => {
               candidateEmail,
               notifiedOn: 1,
             },
-            aggregateId: CandidateNotification.makeId(candidateProps),
           }),
           new ProjectNotified({
             payload: {
@@ -48,7 +47,6 @@ describe('CandidateNotification', () => {
               candidateEmail,
               notifiedOn: 1,
             },
-            aggregateId: CandidateNotification.makeId(candidateProps),
           }),
           new ProjectCertificateGenerated({
             payload: {
@@ -58,7 +56,6 @@ describe('CandidateNotification', () => {
               candidateEmail,
               certificateFileId: '1',
             },
-            aggregateId: CandidateNotification.makeId(candidateProps),
           }),
           new ProjectCertificateGenerationFailed({
             payload: {
@@ -68,7 +65,6 @@ describe('CandidateNotification', () => {
               candidateEmail,
               error: 'oops',
             },
-            aggregateId: CandidateNotification.makeId(candidateProps),
           }),
         ],
         'request1'
@@ -87,6 +83,13 @@ describe('CandidateNotification', () => {
           candidateName,
         })
         expect(event!.requestId).toEqual('request1')
+        expect(event!.aggregateId).toEqual(
+          CandidateNotification.makeId({
+            appelOffreId,
+            periodeId,
+            candidateEmail,
+          })
+        )
       })
     })
 
@@ -104,7 +107,6 @@ describe('CandidateNotification', () => {
             candidateEmail,
             notifiedOn: 1,
           },
-          aggregateId: CandidateNotification.makeId(candidateProps),
         }),
         new ProjectNotified({
           payload: {
@@ -115,7 +117,6 @@ describe('CandidateNotification', () => {
             candidateEmail,
             notifiedOn: 1,
           },
-          aggregateId: CandidateNotification.makeId(candidateProps),
         }),
         new ProjectCertificateGenerated({
           payload: {
@@ -125,7 +126,6 @@ describe('CandidateNotification', () => {
             candidateEmail,
             certificateFileId: '1',
           },
-          aggregateId: CandidateNotification.makeId(candidateProps),
         }),
       ])
 
@@ -146,7 +146,6 @@ describe('CandidateNotification', () => {
             candidateEmail,
             candidateName,
           },
-          aggregateId: CandidateNotification.makeId(candidateProps),
         }),
       ])
 

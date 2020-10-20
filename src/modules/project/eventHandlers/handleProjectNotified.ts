@@ -19,7 +19,6 @@ export const handleProjectNotified = (deps: {
     projectId,
     periodeId,
     appelOffreId,
-    familleId,
     candidateEmail,
     notifiedOn,
   } = payload
@@ -52,7 +51,6 @@ export const handleProjectNotified = (deps: {
               error: result.error.message,
             },
             requestId,
-            aggregateId: projectId,
           })
         )
       }
@@ -74,7 +72,6 @@ export const handleProjectNotified = (deps: {
           certificateFileId,
         },
         requestId,
-        aggregateId: projectId,
       })
     )
   }

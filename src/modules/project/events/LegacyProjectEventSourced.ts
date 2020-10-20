@@ -19,4 +19,8 @@ export class LegacyProjectEventSourced
   public static type: 'LegacyProjectEventSourced' = 'LegacyProjectEventSourced'
   public type = LegacyProjectEventSourced.type
   currentVersion = 1
+
+  aggregateIdFromPayload(payload: LegacyProjectEventSourcedPayload) {
+    return payload.projectId
+  }
 }

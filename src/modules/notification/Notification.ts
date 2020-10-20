@@ -3,6 +3,7 @@ import { Optional } from 'utility-types'
 import { Project, User, DREAL } from '../../entities'
 import { AggregateRoot, UniqueEntityID, DomainError } from '../../core/domain'
 import { Result, ok } from '../../core/utils'
+import { StoredEvent } from '../eventStore'
 
 type BaseNotification = {
   message: {
@@ -132,7 +133,10 @@ export type NotificationProps = BaseNotification & NotificationVariants
 export type NotificationArgs = Optional<BaseNotification, 'status'> &
   NotificationVariants
 
-export class Notification extends AggregateRoot<NotificationProps> {
+export class Notification extends AggregateRoot<
+  NotificationProps,
+  StoredEvent
+> {
   private constructor(props: NotificationProps, id?: UniqueEntityID) {
     super(props, id)
   }

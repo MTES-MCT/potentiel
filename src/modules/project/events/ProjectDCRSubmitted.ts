@@ -13,4 +13,8 @@ export class ProjectDCRSubmitted
   public static type: 'ProjectDCRSubmitted' = 'ProjectDCRSubmitted'
   public type = ProjectDCRSubmitted.type
   currentVersion = 1
+
+  aggregateIdFromPayload(payload: ProjectDCRSubmittedPayload) {
+    return payload.projectId
+  }
 }

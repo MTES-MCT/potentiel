@@ -117,7 +117,6 @@ export default function makeRelanceGarantiesFinancieres({
               payload: {
                 projectId: project.id,
               },
-              aggregateId: project.id,
             })
           )
         }
