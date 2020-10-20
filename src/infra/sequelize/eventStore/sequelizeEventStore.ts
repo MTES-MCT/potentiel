@@ -24,6 +24,10 @@ import {
   ProjectCertificateGeneratedPayload,
   ProjectCertificateGenerationFailed,
   ProjectCertificateGenerationFailedPayload,
+  ProjectCertificateUpdated,
+  ProjectCertificateUpdatedPayload,
+  ProjectCertificateUpdateFailed,
+  ProjectCertificateUpdateFailedPayload,
   ProjectDataCorrected,
   ProjectDataCorrectedPayload,
   ProjectDCRDueDateSet,
@@ -164,6 +168,24 @@ export class SequelizeEventStore extends BaseEventStore {
       case ProjectCertificateGenerationFailed.type:
         return new ProjectCertificateGenerationFailed({
           payload: eventRaw.payload as ProjectCertificateGenerationFailedPayload,
+          requestId: eventRaw.requestId,
+          original: {
+            version: eventRaw.version,
+            occurredAt: eventRaw.occurredAt,
+          },
+        })
+      case ProjectCertificateUpdated.type:
+        return new ProjectCertificateUpdated({
+          payload: eventRaw.payload as ProjectCertificateUpdatedPayload,
+          requestId: eventRaw.requestId,
+          original: {
+            version: eventRaw.version,
+            occurredAt: eventRaw.occurredAt,
+          },
+        })
+      case ProjectCertificateUpdateFailed.type:
+        return new ProjectCertificateUpdateFailed({
+          payload: eventRaw.payload as ProjectCertificateUpdateFailedPayload,
           requestId: eventRaw.requestId,
           original: {
             version: eventRaw.version,

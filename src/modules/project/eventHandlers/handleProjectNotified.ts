@@ -11,7 +11,6 @@ import {
 export const handleProjectNotified = (deps: {
   eventBus: EventBus
   generateCertificate: GenerateCertificate
-  getFamille: GetFamille
 }) => async (event: ProjectNotified) => {
   // console.log('handleProjectNotified', event)
   const { payload, requestId } = event

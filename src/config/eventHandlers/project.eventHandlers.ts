@@ -1,10 +1,12 @@
 import {
   handlePeriodeNotified,
+  handleProjectDataCorrected,
   handleProjectNotified,
 } from '../../modules/project/eventHandlers'
 import { handleProjectNotificationDateSet } from '../../modules/project/eventHandlers/handleProjectNotificationDateSet'
 import {
   PeriodeNotified,
+  ProjectDataCorrected,
   ProjectNotificationDateSet,
   ProjectNotified,
 } from '../../modules/project/events'
@@ -35,7 +37,14 @@ eventStore.subscribe(
   handleProjectNotified({
     eventBus: eventStore,
     generateCertificate,
-    getFamille: appelOffreRepo.getFamille,
+  })
+)
+
+eventStore.subscribe(
+  ProjectDataCorrected.type,
+  handleProjectDataCorrected({
+    eventBus: eventStore,
+    generateCertificate,
   })
 )
 

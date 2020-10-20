@@ -96,11 +96,11 @@ export const makeCorrectProjectData = (
         return errAsync(new ProjectHasBeenUpdatedSinceError())
       }
 
-      return okAsync(null)
+      return okAsync(project)
     })
-    .andThen(() => {
+    .andThen((project) => {
       if (!certificateFile) {
-        return okAsync(null)
+        return okAsync({ project })
       }
 
       const fileResult = File.create({
@@ -121,18 +121,21 @@ export const makeCorrectProjectData = (
 
       certificateFileId = fileResult.value.id.toString()
 
-      return deps.fileService.save(fileResult.value, {
-        ...certificateFile,
-        path: makeProjectFilePath(projectId, certificateFile.path).filepath,
-      })
+      return deps.fileService
+        .save(fileResult.value, {
+          ...certificateFile,
+          path: makeProjectFilePath(projectId, certificateFile.path).filepath,
+        })
+        .map(() => ({ certificateFileId, project }))
     })
-    .andThen(() =>
+    .andThen(({ certificateFileId, project }) =>
       deps.eventStore.publish(
         new ProjectDataCorrected({
           payload: {
             projectId,
             certificateFileId,
             correctedData,
+            notifiedOn: newNotifiedOn || project.notifiedOn,
           },
         })
       )

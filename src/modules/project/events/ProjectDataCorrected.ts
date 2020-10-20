@@ -4,6 +4,7 @@ import { DomainEvent, BaseDomainEvent } from '../../../core/domain/DomainEvent'
 export interface ProjectDataCorrectedPayload {
   projectId: Project['id']
   certificateFileId?: Project['certificateFileId']
+  notifiedOn: Project['notifiedOn']
   correctedData: Partial<{
     numeroCRE: string
     appelOffreId: string

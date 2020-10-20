@@ -20,7 +20,6 @@ describe('handleProjectNotified', () => {
     const generateCertificate = jest.fn((projectId: string) =>
       okAsync<string, DomainError>('fileId1')
     )
-    const getFamille = jest.fn()
 
     const fakePayload = {
       projectId: 'project1',
@@ -39,7 +38,6 @@ describe('handleProjectNotified', () => {
       await handleProjectNotified({
         eventBus,
         generateCertificate,
-        getFamille,
       })(
         new ProjectNotified({
           payload: fakePayload,
@@ -94,7 +92,6 @@ describe('handleProjectNotified', () => {
         ? errAsync<string, DomainError>(new OtherError('test error'))
         : okAsync<string, DomainError>('fileId1')
     )
-    const getFamille = jest.fn()
 
     const fakePayload = {
       projectId: 'project1',
@@ -111,7 +108,6 @@ describe('handleProjectNotified', () => {
       await handleProjectNotified({
         eventBus,
         generateCertificate,
-        getFamille,
       })(new ProjectNotified({ payload: fakePayload }))
     })
 
@@ -163,7 +159,6 @@ describe('handleProjectNotified', () => {
     const generateCertificate = jest.fn((projectId: string) =>
       errAsync<string, DomainError>(new OtherError('test error'))
     )
-    const getFamille = jest.fn()
 
     const fakePayload = {
       projectId: 'project1',
@@ -180,7 +175,6 @@ describe('handleProjectNotified', () => {
       await handleProjectNotified({
         eventBus,
         generateCertificate,
-        getFamille,
       })(
         new ProjectNotified({
           payload: fakePayload,
