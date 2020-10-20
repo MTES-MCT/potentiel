@@ -6,13 +6,14 @@ import {
   ProjectDCRDueDateSet,
   ProjectGFDueDateSet,
   ProjectNotificationDateSet,
+  ProjectNotified,
 } from '../events'
 
 export const handleProjectNotificationDateSet = (deps: {
   eventBus: EventBus
   findProjectById: ProjectRepo['findById']
   getFamille: GetFamille
-}) => async (event: ProjectNotificationDateSet) => {
+}) => async (event: ProjectNotificationDateSet | ProjectNotified) => {
   // console.log('handleProjectNotificationDateSet', event)
   const { payload, requestId, aggregateId } = event
   const { projectId, notifiedOn } = payload

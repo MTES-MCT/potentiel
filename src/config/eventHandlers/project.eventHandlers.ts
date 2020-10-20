@@ -15,14 +15,16 @@ import { getUnnotifiedProjectsForPeriode } from '../queries.config'
 import { appelOffreRepo, projectRepo } from '../repos.config'
 import { generateCertificate } from '../useCases.config'
 
+const projectNotificationHandler = handleProjectNotificationDateSet({
+  eventBus: eventStore,
+  findProjectById: projectRepo.findById,
+  getFamille: appelOffreRepo.getFamille,
+})
 eventStore.subscribe(
   ProjectNotificationDateSet.type,
-  handleProjectNotificationDateSet({
-    eventBus: eventStore,
-    findProjectById: projectRepo.findById,
-    getFamille: appelOffreRepo.getFamille,
-  })
+  projectNotificationHandler
 )
+eventStore.subscribe(ProjectNotified.type, projectNotificationHandler)
 
 eventStore.subscribe(
   PeriodeNotified.type,
