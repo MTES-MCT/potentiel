@@ -25,7 +25,7 @@ export const handleProjectNotificationDateSet = (deps: {
     return
   }
 
-  const project = await deps.findProjectById(aggregateId)
+  const project = await deps.findProjectById(payload.projectId)
 
   if (!project) {
     console.log('handleProjectNotificationDateSet cannot find project', event)
