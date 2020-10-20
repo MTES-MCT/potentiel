@@ -1,6 +1,5 @@
 import { Project, User, AppelOffre, Famille, Periode, DREAL } from '../entities'
 import { OptionAsync, ResultAsync, Pagination, PaginatedList } from '../types'
-import { Context } from 'mocha'
 
 export interface ProjectFilters {
   isNotified?: boolean
