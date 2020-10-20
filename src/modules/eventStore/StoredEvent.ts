@@ -1,6 +1,8 @@
 import {
   CandidateNotificationForPeriodeFailed,
   CandidateNotifiedForPeriode,
+} from '../candidateNotification/events'
+import {
   LegacyProjectEventSourced,
   LegacyProjectSourced,
   PeriodeNotified,

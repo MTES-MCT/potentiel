@@ -1,4 +1,3 @@
-export * from './handleCandidateNotifiedForPeriode'
-export * from './handleProjectCertificateGenerated'
-export * from './handleProjectNotified'
 export * from './handlePeriodeNotified'
+export * from './handleProjectNotificationDateSet'
+export * from './handleProjectNotified'

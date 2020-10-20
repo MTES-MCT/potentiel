@@ -5,12 +5,17 @@ import makeFakeProject from '../../../__tests__/fixtures/project'
 import { StoredEvent } from '../../eventStore'
 import { InfraNotAvailableError, OtherError } from '../../shared'
 import {
-  CandidateNotifiedForPeriode,
   ProjectCertificateGenerated,
   ProjectCertificateGenerationFailed,
   ProjectNotified,
-} from '../events'
-import { handleProjectCertificateGenerated } from './'
+} from '../../project/events'
+import { handleProjectCertificateGenerated } from './handleProjectCertificateGenerated'
+import { CandidateNotifiedForPeriode } from '../events'
+import { CandidateNotification } from '../CandidateNotification'
+
+const appelOffreId = 'appelOffre'
+const periodeId = 'periode'
+const candidateEmail = 'candidate@email.test'
 
 describe('handleProjectCertificateGenerated', () => {
   const project = UnwrapForTest(
@@ -25,10 +30,10 @@ describe('handleProjectCertificateGenerated', () => {
 
   describe('when all projects for this periode and email have a ProjectCertificateGenerated (or failed)', () => {
     const fakePayload = {
-      periodeId: 'periode1',
+      periodeId,
       familleId: 'famille1',
-      appelOffreId: 'appelOffre1',
-      candidateEmail: 'email1@test.test',
+      appelOffreId,
+      candidateEmail,
       notifiedOn: 0,
     }
 
@@ -36,52 +41,43 @@ describe('handleProjectCertificateGenerated', () => {
       okAsync<null, InfraNotAvailableError>(null)
     )
     const loadHistory = jest.fn((filters) => {
-      expect(filters.payload).toEqual(
-        expect.objectContaining({
-          candidateEmail: fakePayload.candidateEmail,
+      expect(filters.aggregateId).toEqual(
+        CandidateNotification.makeId({
+          appelOffreId,
+          periodeId,
+          candidateEmail,
         })
       )
 
-      if (filters.eventType === CandidateNotifiedForPeriode.type) {
-        return okAsync([])
-      }
-
-      if (filters.eventType === ProjectNotified.type) {
-        return okAsync([
-          // Simulate two projects for the same candidateEmail
-          new ProjectNotified({
-            payload: { ...fakePayload, projectId: 'project1' },
-            requestId: 'request1',
-          }),
-          new ProjectNotified({
-            payload: { ...fakePayload, projectId: 'project2' },
-            requestId: 'request1',
-          }),
-        ])
-      }
-
-      if (Array.isArray(filters.eventType)) {
-        return okAsync([
-          // project1 has a successfully generated certificate
-          new ProjectCertificateGenerated({
-            payload: {
-              ...fakePayload,
-              projectId: 'project1',
-              certificateFileId: 'certificateFile1',
-            },
-            requestId: 'request1',
-          }),
-          // project2 has a failed certificate generation
-          new ProjectCertificateGenerationFailed({
-            payload: {
-              ...fakePayload,
-              projectId: 'project2',
-              error: 'oops',
-            },
-            requestId: 'request1',
-          }),
-        ])
-      }
+      return okAsync([
+        // Simulate two projects for the same candidateEmail
+        new ProjectNotified({
+          payload: { ...fakePayload, projectId: 'project1' },
+          requestId: 'request1',
+        }),
+        new ProjectNotified({
+          payload: { ...fakePayload, projectId: 'project2' },
+          requestId: 'request1',
+        }),
+        // project1 has a successfully generated certificate
+        new ProjectCertificateGenerated({
+          payload: {
+            ...fakePayload,
+            projectId: 'project1',
+            certificateFileId: 'certificateFile1',
+          },
+          requestId: 'request1',
+        }),
+        // project2 has a failed certificate generation
+        new ProjectCertificateGenerationFailed({
+          payload: {
+            ...fakePayload,
+            projectId: 'project2',
+            error: 'oops',
+          },
+          requestId: 'request1',
+        }),
+      ])
     })
     const eventStore = {
       publish: jest.fn(),
@@ -90,7 +86,10 @@ describe('handleProjectCertificateGenerated', () => {
         return ResultAsync.fromPromise<
           null,
           InfraNotAvailableError | OtherError
-        >(cb({ publish, loadHistory }), () => new OtherError()).map(() => null)
+        >(
+          cb({ publish, loadHistory }),
+          (e: any) => new OtherError('callback failed: ' + e.message)
+        ).map(() => null)
       }),
     }
 
@@ -129,10 +128,10 @@ describe('handleProjectCertificateGenerated', () => {
 
   describe('when some projects for this periode and email have no ProjectCertificateGenerated yet', () => {
     const fakePayload = {
-      periodeId: 'periode1',
+      periodeId,
       familleId: 'famille1',
-      appelOffreId: 'appelOffre1',
-      candidateEmail: 'email1@test.test',
+      appelOffreId,
+      candidateEmail,
       notifiedOn: 0,
     }
 
@@ -140,44 +139,35 @@ describe('handleProjectCertificateGenerated', () => {
       okAsync<null, InfraNotAvailableError>(null)
     )
     const loadHistory = jest.fn((filters) => {
-      expect(filters.payload).toEqual(
-        expect.objectContaining({
-          candidateEmail: fakePayload.candidateEmail,
+      expect(filters.aggregateId).toEqual(
+        CandidateNotification.makeId({
+          appelOffreId,
+          periodeId,
+          candidateEmail,
         })
       )
 
-      if (filters.eventType === CandidateNotifiedForPeriode.type) {
-        return okAsync([])
-      }
-
-      if (filters.eventType === ProjectNotified.type) {
-        return okAsync([
-          // Simulate two projects for the same candidateEmail
-          new ProjectNotified({
-            payload: { ...fakePayload, projectId: 'project1' },
-            requestId: 'request1',
-          }),
-          new ProjectNotified({
-            payload: { ...fakePayload, projectId: 'project2' },
-            requestId: 'request1',
-          }),
-        ])
-      }
-
-      if (Array.isArray(filters.eventType)) {
-        return okAsync([
-          // project1 has a successfully generated certificate
-          new ProjectCertificateGenerated({
-            payload: {
-              ...fakePayload,
-              projectId: 'project1',
-              certificateFileId: 'certificateFile1',
-            },
-            requestId: 'request1',
-          }),
-          // project2 has no certificate yet
-        ])
-      }
+      return okAsync([
+        // Simulate two projects for the same candidateEmail
+        new ProjectNotified({
+          payload: { ...fakePayload, projectId: 'project1' },
+          requestId: 'request1',
+        }),
+        new ProjectNotified({
+          payload: { ...fakePayload, projectId: 'project2' },
+          requestId: 'request1',
+        }),
+        // project1 has a successfully generated certificate
+        new ProjectCertificateGenerated({
+          payload: {
+            ...fakePayload,
+            projectId: 'project1',
+            certificateFileId: 'certificateFile1',
+          },
+          requestId: 'request1',
+        }),
+        // project2 has no certificate yet
+      ])
     })
     const eventStore = {
       publish: jest.fn(),
@@ -186,7 +176,10 @@ describe('handleProjectCertificateGenerated', () => {
         return ResultAsync.fromPromise<
           null,
           InfraNotAvailableError | OtherError
-        >(cb({ publish, loadHistory }), () => new OtherError()).map(() => null)
+        >(
+          cb({ publish, loadHistory }),
+          (e: any) => new OtherError('callback failed: ' + e.message)
+        ).map(() => null)
       }),
     }
 

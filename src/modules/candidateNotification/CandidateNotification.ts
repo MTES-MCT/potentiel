@@ -1,24 +1,31 @@
 import { AppelOffre, Periode, Project, User } from '../../entities'
-import { AggregateRoot, UniqueEntityID, DomainError } from '../../core/domain'
+import {
+  AggregateRoot,
+  UniqueEntityID,
+  DomainError,
+  DomainEvent,
+} from '../../core/domain'
 import { Result, ok } from '../../core/utils'
 import { StoredEvent } from '../eventStore'
 import {
-  CandidateNotifiedForPeriode,
   ProjectCertificateGenerated,
   ProjectCertificateGenerationFailed,
   ProjectNotified,
 } from '../project/events'
+import { CandidateNotifiedForPeriode } from './events'
 
 interface CandidateNotificationProps {
   appelOffreId: AppelOffre['id']
   periodeId: Periode['id']
   candidateEmail: Project['email']
+  candidateName: string
   isCandidateNotified?: boolean
   candidateProjectsWithCertificate?: Record<string, boolean>
 }
 
 export class CandidateNotification extends AggregateRoot<
-  CandidateNotificationProps
+  CandidateNotificationProps,
+  StoredEvent
 > {
   private constructor(props: CandidateNotificationProps, id?: UniqueEntityID) {
     super(props, id)
@@ -44,7 +51,10 @@ export class CandidateNotification extends AggregateRoot<
     }
   }
 
-  public reloadFromHistory(events: StoredEvent[]) {
+  public reloadFromHistory(
+    events: StoredEvent[],
+    currentRequestId?: DomainEvent['requestId']
+  ) {
     // events is a time-sorted list of events related to this specific candidateNotification
     for (const event of events) {
       switch (event.type) {
@@ -62,6 +72,27 @@ export class CandidateNotification extends AggregateRoot<
           // ignore other event types
           break
       }
+    }
+
+    this.triggerEventIfCandidateShouldBeNotified(currentRequestId)
+  }
+
+  private triggerEventIfCandidateShouldBeNotified(
+    currentRequestId: DomainEvent['requestId']
+  ) {
+    if (this.shouldCandidateBeNotified()) {
+      this.addDomainEvent(
+        new CandidateNotifiedForPeriode({
+          payload: {
+            periodeId: this.props.periodeId,
+            appelOffreId: this.props.appelOffreId,
+            candidateEmail: this.props.candidateEmail,
+            candidateName: this.props.candidateName,
+          },
+          aggregateId: this.id.toString(),
+          requestId: currentRequestId,
+        })
+      )
     }
   }
 
@@ -90,7 +121,14 @@ export class CandidateNotification extends AggregateRoot<
   ): Result<CandidateNotification, DomainError> {
     const candidateNotification = new CandidateNotification(
       { ...props, isCandidateNotified: props.isCandidateNotified ?? false },
-      id
+      id ||
+        new UniqueEntityID(
+          this.makeId({
+            appelOffreId: props.appelOffreId,
+            periodeId: props.periodeId,
+            candidateEmail: props.candidateEmail,
+          })
+        )
     )
 
     return ok(candidateNotification)

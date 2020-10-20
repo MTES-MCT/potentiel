@@ -9,7 +9,7 @@ import {
   CandidateNotificationForPeriodeFailed,
   CandidateNotifiedForPeriode,
 } from '../events'
-import { handleCandidateNotifiedForPeriode } from './'
+import { handleCandidateNotifiedForPeriode } from './handleCandidateNotifiedForPeriode'
 
 const eventBus = {
   publish: jest.fn((event: StoredEvent) =>

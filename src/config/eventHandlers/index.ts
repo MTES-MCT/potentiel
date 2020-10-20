@@ -1,1 +1,2 @@
-export * from './project.eventHandlers';
+export * from './candidateNotification.eventHandlers'
+export * from './project.eventHandlers'
