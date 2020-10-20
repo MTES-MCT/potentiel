@@ -10,6 +10,7 @@ const batiment: AppelOffre = {
   launchDate: 'Septembre 2016',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 20,
+  delaiRealisationTexte: 'vingt (20) mois',
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.4',
   paragrapheAttestationConformite: '6.6',

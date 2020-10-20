@@ -23,6 +23,7 @@ export type AppelOffre = {
   launchDate: string
   unitePuissance: string
   delaiRealisationEnMois: number
+  delaiRealisationTexte: string
   paragraphePrixReference: string
   paragrapheDelaiDerogatoire: string
   paragrapheAttestationConformite: string

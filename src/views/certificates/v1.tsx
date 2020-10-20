@@ -72,7 +72,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
   const famille = appelOffre.familles.find(
     (famille) => famille.id === project.familleId
   )
-  const soumisAuxGarantiesFinancieres =
+  const soumisAuxGarantiesFinancieres = appelOffre.id === 'Eolien' || 
     famille?.garantieFinanciereEnMois || famille?.soumisAuxGarantiesFinancieres
 
   const footNotes: Array<{ footNote: string; indice: number }> = []
@@ -102,7 +102,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
           ? ' La valeur de l’évaluation carbone des modules est de ' +
             formatNumber(project.evaluationCarbone) +
             ' kg eq CO2/kWc. '
-          : ''}
+          : ' '}
         {project.isInvestissementParticipatif ? (
           <Text>
             En raison de votre engagement à l’investissement participatif, la
@@ -149,7 +149,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
         }}
       >
         - respecter l'ensemble des obligations et prescriptions de toute nature
-        figurant au cahier des charges.
+        figurant au cahier des charges;
       </Text>
       <Text
         style={{
@@ -165,7 +165,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
         {appelOffre.id === 'Eolien'
           ? ' ou dans les deux mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale'
           : ''}
-        .
+        ;
       </Text>
       {soumisAuxGarantiesFinancieres &&
       appelOffre.renvoiSoumisAuxGarantiesFinancieres ? (
@@ -194,7 +194,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
           .{' '}
           <Text style={{ textDecoration: 'underline' }}>
             La durée de la garantie{' '}
-            {appelOffre.renvoiSoumisAuxGarantiesFinancieres}.
+            {appelOffre.renvoiSoumisAuxGarantiesFinancieres};
           </Text>
         </Text>
       ) : (
@@ -212,7 +212,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
           - mettre en oeuvre les éléments, dispositifs et systèmes innovants
           décrits dans le rapport de contribution à l’innovation et le cas
           échéant dans le mémoire technique sur la synergie avec l’usage
-          agricole, remis lors du dépôt de l’offre
+          agricole, remis lors du dépôt de l’offre;
           <Text>{addFootNote('3.2.4 et 3.2.5')}</Text>.
         </Text>
       ) : (
@@ -228,8 +228,8 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
       >
         - sauf délais dérogatoires prévus au{' '}
         {appelOffre.paragrapheDelaiDerogatoire} du cahier des charges, achever
-        l’installation dans un délai de {appelOffre.delaiRealisationEnMois} mois
-        à compter de la présente notification.
+        l’installation dans un délai de {appelOffre.delaiRealisationTexte}
+        à compter de la présente notification;
       </Text>
       <Text
         style={{
@@ -241,7 +241,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
       >
         - fournir à EDF l’attestation de conformité de l’installation prévue au
         paragraphe {appelOffre.paragrapheAttestationConformite} du cahier des
-        charges.
+        charges{ project.isInvestissementParticipatif || project.isFinancementParticipatif ? ';' : '.'}
       </Text>
       {project.isInvestissementParticipatif ? (
         <Text
@@ -318,7 +318,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
   // Also we replace the spaces in the footnote text with non-breaking spaces because of a bug in React-PDF that wraps way too early
   const footnotes = footNotes.map(({ footNote, indice }, index) => (
     <Text key={'foot_note_' + index}>
-      {String.fromCharCode(indice)} Paragraphe{' '}
+      {String.fromCharCode(indice)} Paragraphes{' '}
       {footNote.replace(/\s/gi, String.fromCharCode(160))} du cahier des charges
     </Text>
   ))
@@ -397,17 +397,13 @@ const Elimine = ({ project, appelOffre, periode }: ElimineProps) => {
         }}
       >
         {project.motifsElimination === 'Au-dessus de Pcible'
-          ? 'À la suite de l\'instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été classée au-delà de la puissance offerte pour cette période de candidature dans la famille concernée. Votre offre a en effet obtenu une note de ' +
+          ? 'À la suite de l\'instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été classée au-delà de la puissance offerte pour cette période de candidature'+(appelOffre.familles.length ? ' dans la famille concernée' : '')+'. Votre offre a en effet obtenu une note de ' +
             formatNumber(project.note) +
             ' points alors qu\'à la suite du classement des dossiers, il apparaît que le volume appelé'+(appelOffre.familles.length ? ' pour cette famille' : '')+((appelOffre.familles.length && appelOffre.afficherPhraseRegionImplantation) ? ', et' : '')+(appelOffre.afficherPhraseRegionImplantation
               ? ' pour la région d’implantation du projet définis au 1.2.2 du cahier des charges'
-              : '')+' a été atteint ave les offres ayant des notes supérieures à ' +
+              : '')+' a été atteint avec les offres ayant des notes supérieures à ' +
             formatNumber(getNoteThreshold(periode, project)) +
-            ' points permettait de remplir les objectifs de volumes de l’appel d’offres dans cette famille' +
-            (appelOffre.afficherPhraseRegionImplantation
-              ? ', et pour la région d’implantation du projet définis au 1.2.2 du cahier des charges'
-              : '') +
-            '. Par conséquent, cette offre n’a pas été retenue.'
+            ' points. Par conséquent, cette offre n’a pas été retenue.'
           : project.motifsElimination === 'Déjà lauréat - Non instruit'
           ? 'À la suite de l\'instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre n\'a pas été retenue elle avait déjà été désignée lauréate au cours d\'un précédent appel d\'offres.'
           : project.motifsElimination.includes('20%') &&
@@ -419,9 +415,9 @@ const Elimine = ({ project, appelOffre, periode }: ElimineProps) => {
             ' points alors que la sélection des offres s’est faite jusqu’à la note de ' +
             formatNumber(getNoteThreshold(periode, project)) +
             ' points. Par conséquent, cette offre n’a pas été retenue.'
-          : 'À la suite de l\'instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été éliminée pour le motif suivant : «' +
+          : 'À la suite de l\'instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été éliminée pour le motif suivant : « ' +
             project.motifsElimination +
-            '». Par conséquent, cette offre n’a pas été retenue.'}
+            ' ». Par conséquent, cette offre n’a pas été retenue.'}
       </Text>
       <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
         Vous avez la possibilité de contester la présente décision auprès du
@@ -561,7 +557,7 @@ const Certificate = ({
           </Text>
           <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
             En réponse à la {periode.title} tranche de cet appel d’offres, vous
-            avez déposé dans la famille {project.familleId} le projet «{' '}
+            avez déposé { appelOffre.familles.length && project.familleId ? `dans la famille ${project.familleId} ` :''}le projet «{' '}
             {project.nomProjet} », situé {project.adresseProjet}{' '}
             {project.codePostalProjet} {project.communeProjet} d’une puissance
             de {formatNumber(project.puissance, 1e6)}{' '}

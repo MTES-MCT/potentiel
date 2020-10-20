@@ -10,6 +10,7 @@ const autoconsommationMetropole: AppelOffre = {
   launchDate: 'Mars 2017',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,
+  delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7.2',
   paragrapheDelaiDerogatoire: '6.3',
   paragrapheAttestationConformite: '6.5',

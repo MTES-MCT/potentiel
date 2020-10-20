@@ -27,6 +27,7 @@ const eolien: AppelOffre = {
   // Renvoi 4 sur l'innovation ?
   paragrapheDelaiDerogatoire: '6.4',
   delaiRealisationEnMois: 36,
+  delaiRealisationTexte: 'trente-six (36) mois',
   paragrapheAttestationConformite: '6.5',
   afficherParagrapheInstallationMiseEnServiceModification: true,
   renvoiModification: '5.4',
@@ -72,9 +73,7 @@ const eolien: AppelOffre = {
       title: 'sixième',
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'v1',
-      noteThresholdByFamily: [
-        { familleId: '', noteThreshold: 10.19 },
-      ],
+      noteThresholdByFamily: [{ familleId: '', noteThreshold: 10.19 }],
     },
   ],
   familles: [],
