@@ -1,12 +1,7 @@
 import { FileRepo } from './file'
 import { NotificationRepo, makeGetFailedNotifications } from './notification'
 import { makeGetUnnotifiedProjectsForPeriode } from './project'
-import {
-  onProjectCertificateGenerated,
-  onProjectNotified,
-  onProjectDCRDueDateSet,
-  onProjectGFDueDateSet,
-} from './project/projections'
+import { initProjectProjections } from './project/projections'
 import models from './models'
 import { EventStore } from '../../modules/eventStore'
 import { SequelizeEventStore } from './eventStore'
@@ -20,9 +15,5 @@ export const getUnnotifiedProjectsForPeriode = makeGetUnnotifiedProjectsForPerio
 export const sequelizeEventStore = new SequelizeEventStore(models)
 
 export const initProjections = (eventStore: EventStore) => {
-  console.log('Initializing Project projections')
-  onProjectCertificateGenerated(eventStore, models)
-  onProjectNotified(eventStore, models)
-  onProjectDCRDueDateSet(eventStore, models)
-  onProjectGFDueDateSet(eventStore, models)
+  initProjectProjections(eventStore, models)
 }

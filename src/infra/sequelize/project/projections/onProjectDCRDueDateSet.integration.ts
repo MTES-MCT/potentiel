@@ -1,14 +1,10 @@
-import waitForExpect from 'wait-for-expect'
-import models from '../../models'
+import { ProjectDCRDueDateSet } from '../../../../modules/project/events'
 import { sequelize } from '../../../../sequelize.config'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
-import { InMemoryEventStore } from '../../../inMemory/eventStore'
+import models from '../../models'
 import { onProjectDCRDueDateSet } from './onProjectDCRDueDateSet'
-import { ProjectDCRDueDateSet } from '../../../../modules/project/events'
 
 describe('project.onProjectDCRDueDateSet', () => {
-  const eventStore = new InMemoryEventStore()
-
   const fakeProjects = [
     {
       id: 'target',
@@ -30,9 +26,7 @@ describe('project.onProjectDCRDueDateSet', () => {
   })
 
   it('should update project.dcrDueOn', async () => {
-    onProjectDCRDueDateSet(eventStore, models)
-
-    await eventStore.publish(
+    await onProjectDCRDueDateSet(models)(
       new ProjectDCRDueDateSet({
         payload: {
           projectId: 'target',
@@ -41,10 +35,8 @@ describe('project.onProjectDCRDueDateSet', () => {
       })
     )
 
-    await waitForExpect(async () => {
-      const updatedProject = await ProjectModel.findByPk('target')
-      expect(updatedProject.dcrDueOn).toEqual(12345)
-    })
+    const updatedProject = await ProjectModel.findByPk('target')
+    expect(updatedProject.dcrDueOn).toEqual(12345)
 
     const nonUpdatedProject = await ProjectModel.findByPk('nottarget')
     expect(nonUpdatedProject).toBeDefined()

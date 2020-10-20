@@ -1,15 +1,10 @@
-import models from '../../models'
+import { ProjectGFDueDateSet } from '../../../../modules/project/events'
 import { sequelize } from '../../../../sequelize.config'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
-import { InMemoryEventStore } from '../../../inMemory/eventStore'
+import models from '../../models'
 import { onProjectGFDueDateSet } from './onProjectGFDueDateSet'
-import { ProjectGFDueDateSet } from '../../../../modules/project/events'
-
-import waitForExpect from 'wait-for-expect'
 
 describe('project.onProjectGFDueDateSet', () => {
-  const eventStore = new InMemoryEventStore()
-
   const fakeProjects = [
     {
       id: 'target',
@@ -31,9 +26,7 @@ describe('project.onProjectGFDueDateSet', () => {
   })
 
   it('should update project.garantiesFinancieresDueOn', async () => {
-    onProjectGFDueDateSet(eventStore, models)
-
-    await eventStore.publish(
+    await onProjectGFDueDateSet(models)(
       new ProjectGFDueDateSet({
         payload: {
           projectId: 'target',
@@ -42,10 +35,8 @@ describe('project.onProjectGFDueDateSet', () => {
       })
     )
 
-    await waitForExpect(async () => {
-      const updatedProject = await ProjectModel.findByPk('target')
-      expect(updatedProject.garantiesFinancieresDueOn).toEqual(12345)
-    })
+    const updatedProject = await ProjectModel.findByPk('target')
+    expect(updatedProject.garantiesFinancieresDueOn).toEqual(12345)
 
     const nonUpdatedProject = await ProjectModel.findByPk('nottarget')
     expect(nonUpdatedProject).toBeDefined()

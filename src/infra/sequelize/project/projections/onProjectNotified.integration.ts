@@ -1,14 +1,10 @@
-import models from '../../models'
+import { ProjectNotified } from '../../../../modules/project/events'
 import { sequelize } from '../../../../sequelize.config'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
-import { InMemoryEventStore } from '../../../inMemory/eventStore'
+import models from '../../models'
 import { onProjectNotified } from './onProjectNotified'
-import { ProjectNotified } from '../../../../modules/project/events'
-import waitForExpect from 'wait-for-expect'
 
 describe('project.onProjectNotified', () => {
-  const eventStore = new InMemoryEventStore()
-
   const fakeProjects = [
     {
       id: 'target',
@@ -30,9 +26,7 @@ describe('project.onProjectNotified', () => {
   })
 
   it('should update project.notifiedOn', async () => {
-    onProjectNotified(eventStore, models)
-
-    await eventStore.publish(
+    await onProjectNotified(models)(
       new ProjectNotified({
         payload: {
           appelOffreId: '',
@@ -45,10 +39,8 @@ describe('project.onProjectNotified', () => {
       })
     )
 
-    await waitForExpect(async () => {
-      const updatedProject = await ProjectModel.findByPk('target')
-      expect(updatedProject.notifiedOn).toEqual(123)
-    })
+    const updatedProject = await ProjectModel.findByPk('target')
+    expect(updatedProject.notifiedOn).toEqual(123)
 
     const nonUpdatedProject = await ProjectModel.findByPk('nottarget')
     expect(nonUpdatedProject).toBeDefined()

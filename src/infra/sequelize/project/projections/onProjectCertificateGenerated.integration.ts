@@ -1,14 +1,10 @@
-import models from '../../models'
+import { ProjectCertificateGenerated } from '../../../../modules/project/events'
 import { sequelize } from '../../../../sequelize.config'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
-import { InMemoryEventStore } from '../../../inMemory/eventStore'
+import models from '../../models'
 import { onProjectCertificateGenerated } from './onProjectCertificateGenerated'
-import { ProjectCertificateGenerated } from '../../../../modules/project/events'
-import waitForExpect from 'wait-for-expect'
 
 describe('project.onProjectCertificateGenerated', () => {
-  const eventStore = new InMemoryEventStore()
-
   const fakeProjects = [
     {
       id: 'target',
@@ -36,9 +32,7 @@ describe('project.onProjectCertificateGenerated', () => {
   })
 
   it('should update project.certificateFileId', async () => {
-    onProjectCertificateGenerated(eventStore, models)
-
-    await eventStore.publish(
+    await onProjectCertificateGenerated(models)(
       new ProjectCertificateGenerated({
         payload: {
           certificateFileId: 'certificateFile1',
@@ -50,10 +44,8 @@ describe('project.onProjectCertificateGenerated', () => {
       })
     )
 
-    await waitForExpect(async () => {
-      const updatedProject = await ProjectModel.findByPk('target')
-      expect(updatedProject.certificateFileId).toEqual('certificateFile1')
-    })
+    const updatedProject = await ProjectModel.findByPk('target')
+    expect(updatedProject.certificateFileId).toEqual('certificateFile1')
 
     const nonUpdatedProject = await ProjectModel.findByPk('nottarget')
     expect(nonUpdatedProject).toBeDefined()
