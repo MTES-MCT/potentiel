@@ -10,13 +10,13 @@ export interface ProjectDataCorrectedPayload {
     periodeId: string
     familleId: string
     nomProjet: string
-    territoire: string
+    territoireProjet: string
     puissance: number
     prixReference: number
     evaluationCarbone: number
     note: number
     nomCandidat: string
-    nomRepresentalLegal: string
+    nomRepresentantLegal: string
     email: string
     adresseProjet: string
     codePostalProjet: string
