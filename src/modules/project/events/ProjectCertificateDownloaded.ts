@@ -13,4 +13,8 @@ export class ProjectCertificateDownloaded
     'ProjectCertificateDownloaded'
   public type = ProjectCertificateDownloaded.type
   currentVersion = 1
+
+  aggregateIdFromPayload(payload: ProjectCertificateDownloadedPayload) {
+    return payload.projectId
+  }
 }

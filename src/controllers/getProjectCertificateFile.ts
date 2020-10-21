@@ -1,14 +1,13 @@
-import { makeProjectFilePath } from '../helpers/makeProjectFilePath'
+import { eventStore, fileService } from '../config'
 import {
   NotFoundError,
-  SuccessFileStream,
   Redirect,
+  SuccessFileStream,
   SystemError,
 } from '../helpers/responses'
-import { HttpRequest } from '../types'
-import { fileService, eventStore } from '../config'
-import ROUTES from '../routes'
 import { ProjectCertificateDownloaded } from '../modules/project/events'
+import ROUTES from '../routes'
+import { HttpRequest } from '../types'
 
 const getProjectCertificateFile = async (request: HttpRequest) => {
   // console.log('Call to getProjectCertificateFile received', request.query, request.file)
@@ -34,7 +33,6 @@ const getProjectCertificateFile = async (request: HttpRequest) => {
             certificateFileId: fileId,
             downloadedBy: request.user.id,
           },
-          aggregateId: projectId,
         })
       )
     }
