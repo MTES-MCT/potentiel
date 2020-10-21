@@ -228,7 +228,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
       >
         - sauf délais dérogatoires prévus au{' '}
         {appelOffre.paragrapheDelaiDerogatoire} du cahier des charges, achever
-        l’installation dans un délai de {appelOffre.delaiRealisationTexte}
+        l’installation dans un délai de {appelOffre.delaiRealisationTexte}{' '}
         à compter de la présente notification;
       </Text>
       <Text
@@ -239,8 +239,8 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
           marginLeft: 20,
         }}
       >
-        - fournir à EDF l’attestation de conformité de l’installation prévue au
-        paragraphe {appelOffre.paragrapheAttestationConformite} du cahier des
+        - fournir à EDF l’attestation de conformité de l’installation prévue au(x)
+        paragraphe(s) {appelOffre.paragrapheAttestationConformite} du cahier des
         charges{ project.isInvestissementParticipatif || project.isFinancementParticipatif ? ';' : '.'}
       </Text>
       {project.isInvestissementParticipatif ? (
@@ -252,7 +252,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
             marginLeft: 20,
           }}
         >
-          - respecter les engagements pris conformément aux paragraphes{' '}
+          - respecter les engagements pris conformément au(x) paragraphe(s){' '}
           {appelOffre.paragrapheEngagementIPFP} concernant l’investissement
           participatif.
         </Text>
@@ -268,7 +268,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
             marginLeft: 20,
           }}
         >
-          - respecter les engagements pris conformément aux paragraphes{' '}
+          - respecter les engagements pris conformément au(x) paragraphe(s){' '}
           {appelOffre.paragrapheEngagementIPFP} concernant le financement
           participatif.
         </Text>
@@ -318,7 +318,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
   // Also we replace the spaces in the footnote text with non-breaking spaces because of a bug in React-PDF that wraps way too early
   const footnotes = footNotes.map(({ footNote, indice }, index) => (
     <Text key={'foot_note_' + index}>
-      {String.fromCharCode(indice)} Paragraphes{' '}
+      {String.fromCharCode(indice)} Paragraphe(s){' '}
       {footNote.replace(/\s/gi, String.fromCharCode(160))} du cahier des charges
     </Text>
   ))
@@ -408,7 +408,7 @@ const Elimine = ({ project, appelOffre, periode }: ElimineProps) => {
           ? 'À la suite de l\'instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre n\'a pas été retenue elle avait déjà été désignée lauréate au cours d\'un précédent appel d\'offres.'
           : project.motifsElimination.includes('20%') &&
             project.motifsElimination.includes('compétitivité')
-          ? 'À la suite de l\'instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été classée au-delà de la puissance maximale que la Ministre a décidé de retenir afin de préserver la compétitivité de l’appel d’offres en application des dispositions du paragraphe ' +
+          ? 'À la suite de l\'instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été classée au-delà de la puissance maximale que la Ministre a décidé de retenir afin de préserver la compétitivité de l’appel d’offres en application des dispositions du(des) paragraphe(s) ' +
             appelOffre.paragrapheClauseCompetitivite +
             ' du cahier des charges. Ainsi, ' + (appelOffre.familles.length ? 'pour chaque famille,' : '') + ' seuls 80 % des projets les mieux notés ont été retenus. Votre offre a en effet obtenu une note de ' +
             formatNumber(project.note) +
