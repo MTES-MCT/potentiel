@@ -78,7 +78,7 @@ const getModeleReponseRecours = async (request: HttpRequest) => {
       '../',
       'views',
       'template',
-      'Modèle réponse Recours gracieux - dynamique.docx'
+      'recours-gracieux.docx'
     )
 
     const dateFormat = 'DD/MM/YYYY'
