@@ -1,2 +1,2 @@
-export * from './candidateNotification.eventHandlers'
-export * from './project.eventHandlers'
+import './candidateNotification.eventHandlers'
+import './project.eventHandlers'
