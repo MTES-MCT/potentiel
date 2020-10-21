@@ -102,6 +102,7 @@ class routes {
     )
 
   static ADMIN_NOTIFY_CANDIDATES_ACTION = '/admin/sendCandidateNotifications'
+  static ADMIN_CORRECT_PROJECT_DATA_ACTION = '/admin/correctProjectData'
   static ADMIN_INVITE_DREAL_ACTION = '/admin/inviteDreal'
   static DREAL_INVITATION = withParams<{
     projectAdmissionKey: string
