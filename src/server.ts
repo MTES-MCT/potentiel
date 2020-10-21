@@ -49,6 +49,7 @@ import {
   getRemoveGarantiesFinancieres,
   getModeleMiseEnDemeure,
   getProjectCertificateFile,
+  postCorrectProjectData,
 } from './controllers'
 
 import {
@@ -197,6 +198,14 @@ export async function makeServer(port: number = 3000) {
       ensureLoggedIn(),
       ensureRole(['admin', 'dgec']),
       makeExpressCallback(getNotifyCandidatesPage)
+    )
+
+    router.post(
+      ROUTES.ADMIN_CORRECT_PROJECT_DATA_ACTION,
+      ensureLoggedIn(),
+      upload.single('file'),
+      ensureRole(['admin', 'dgec']),
+      makeExpressCallback(postCorrectProjectData)
     )
 
     router.post(

@@ -71,6 +71,7 @@ describe('correctProjectData', () => {
             projectId: project.id,
             certificateFile: fakeFile,
             projectVersionDate,
+            newNotifiedOn: 1,
             user,
             correctedData: {
               isClasse: true,
@@ -189,6 +190,7 @@ describe('correctProjectData', () => {
           const res = await correctProjectData({
             projectId: project.id,
             projectVersionDate,
+            newNotifiedOn: project.notifiedOn,
             user,
             correctedData: {
               isClasse: true,
@@ -228,6 +230,7 @@ describe('correctProjectData', () => {
         const res = await correctProjectData({
           projectId: project.id,
           projectVersionDate: new Date(0),
+          newNotifiedOn: project.notifiedOn,
           user,
           correctedData: {
             isClasse: true,
@@ -265,6 +268,7 @@ describe('correctProjectData', () => {
         const res = await correctProjectData({
           projectId: project.id,
           projectVersionDate,
+          newNotifiedOn: project.notifiedOn,
           user,
           correctedData: {
             isClasse: true,
@@ -295,6 +299,7 @@ describe('correctProjectData', () => {
       const res = await correctProjectData({
         projectId: project.id,
         projectVersionDate,
+        newNotifiedOn: project.notifiedOn,
         user,
         correctedData: {
           isClasse: true,

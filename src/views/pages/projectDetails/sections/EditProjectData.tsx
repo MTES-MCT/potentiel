@@ -1,5 +1,7 @@
 import React from 'react';
 import { Project } from '../../../../entities';
+import { formatDate } from '../../../../helpers/formatDate';
+import { dataId } from '../../../../helpers/testId';
 import ROUTES from '../../../../routes';
 
 interface EditProjectDataProps {
@@ -14,6 +16,7 @@ export const EditProjectData = ({ project }: EditProjectDataProps) => (
           encType="multipart/form-data"
         >
           <input type="hidden" name="projectId" value={project.id} />
+          <input type="hidden" name="projectVersionDate" value={project.updatedAt?.getTime()} />
           <div className="form__group">
             <label>
                   Numéro CRE
@@ -192,10 +195,43 @@ export const EditProjectData = ({ project }: EditProjectDataProps) => (
               defaultValue={project.motifsElimination}
             />
           </div>
+          <div className="form__group">
+            <label htmlFor="notificationDate">
+              Date désignation (format JJ/MM/AAAA)
+            </label>
+            <input
+              type="text"
+              name="notificationDate"
+              id="notificationDate"
+              {...dataId(
+                'date-field'
+              )}
+              defaultValue={formatDate(new Date(project.notifiedOn), 'DD/MM/YYYY')}
+              style={{ width: 'auto' }}
+            />
+            <div
+              className="notification error"
+              style={{ display: 'none' }}
+              {...dataId(
+                'error-message-wrong-format'
+              )}
+            >
+              Le format de la date saisie n'est pas conforme. Elle doit être
+              de la forme JJ/MM/AAAA soit par exemple 25/05/2022 pour 25 Mai
+              2022.
+            </div>
+          </div>
+          <div className="form__group">
+            <label htmlFor="file">Attestation (facultatif)</label>
+            <input type="file" name="file" id="file" />
+          </div>
           <button
               className="button"
               type="submit"
               name="submit"
+              {...dataId(
+                'submit-button'
+              )}
             >
               Sauvegarder ces changements
             </button>

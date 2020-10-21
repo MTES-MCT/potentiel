@@ -25,7 +25,7 @@ interface CorrectProjectDataArgs {
   projectId: Project['id']
   certificateFile?: FileContainer
   projectVersionDate: Project['updatedAt']
-  newNotifiedOn?: Project['notifiedOn']
+  newNotifiedOn: Project['notifiedOn']
   user: User
   correctedData: Partial<{
     numeroCRE: string
@@ -92,7 +92,13 @@ export const makeCorrectProjectData = (
         return errAsync(new ProjectCannotBeUpdatedIfUnnotifiedError())
       }
 
-      if (projectVersionDate != project.updatedAt) {
+      console.log(
+        'correctProjectData project.updatedAt',
+        project.updatedAt?.getTime(),
+        projectVersionDate?.getTime()
+      )
+
+      if (projectVersionDate?.getTime() != project.updatedAt?.getTime()) {
         return errAsync(new ProjectHasBeenUpdatedSinceError())
       }
 
@@ -129,19 +135,21 @@ export const makeCorrectProjectData = (
         .map(() => ({ certificateFileId, project }))
     })
     .andThen(({ certificateFileId, project }) =>
-      deps.eventStore.publish(
-        new ProjectDataCorrected({
-          payload: {
-            projectId,
-            certificateFileId,
-            correctedData,
-            notifiedOn: newNotifiedOn || project.notifiedOn,
-          },
-        })
-      )
+      deps.eventStore
+        .publish(
+          new ProjectDataCorrected({
+            payload: {
+              projectId,
+              certificateFileId,
+              correctedData,
+              notifiedOn: newNotifiedOn,
+            },
+          })
+        )
+        .map(() => ({ project }))
     )
-    .andThen(() =>
-      newNotifiedOn
+    .andThen(({ project }) =>
+      newNotifiedOn !== project.notifiedOn
         ? deps.eventStore.publish(
             new ProjectNotificationDateSet({
               payload: {
