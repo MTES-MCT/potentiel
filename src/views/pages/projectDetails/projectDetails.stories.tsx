@@ -1,15 +1,15 @@
 import React from 'react'
 
-import makeFakeProject from '../../__tests__/fixtures/project'
-import makeFakeRequest from '../../__tests__/fixtures/request'
-import makeFakeUser from '../../__tests__/fixtures/user'
+import makeFakeProject from '../../../__tests__/fixtures/project'
+import makeFakeRequest from '../../../__tests__/fixtures/request'
+import makeFakeUser from '../../../__tests__/fixtures/user'
 
-import ProjectDetails from './projectDetails'
+import ProjectDetails from '.'
 
 export default { title: 'Project page' }
 
-import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
-import { ProjectAdmissionKey, ProjectAppelOffre } from '../../entities'
+import { appelsOffreStatic } from '../../../dataAccess/inMemory/appelOffre'
+import { ProjectAdmissionKey, ProjectAppelOffre } from '../../../entities'
 const appelOffre: ProjectAppelOffre | undefined = appelsOffreStatic.find(
   (appelOffre) => appelOffre.id === 'Fessenheim'
 )
@@ -27,6 +27,8 @@ export const forAdminsLaureat = () => (
       garantiesFinancieresDueOn: Date.now() + 1000 * 3600 * 24 * 30 * 2,
       garantiesFinancieresSubmittedOn: Date.now(),
       garantiesFinancieresFile: 'fichier',
+      isFinancementParticipatif: true,
+      motifsElimination: ""
     })}
     projectUsers={[makeFakeUser()]}
     projectInvitations={[

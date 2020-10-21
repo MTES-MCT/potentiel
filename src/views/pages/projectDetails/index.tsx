@@ -11,7 +11,7 @@ import { SuccessErrorBox } from '../../components'
 import AdminDashboard from '../../components/adminDashboard'
 import UserDashboard from '../../components/userDashboard'
 import { NoteElement, Section } from './components'
-import { ProjectFrise, ProjectHeader } from './sections'
+import { ProjectFrise, ProjectHeader, EditProjectData } from './sections'
 
 
 interface ProjectDetailsProps {
@@ -224,6 +224,8 @@ export default function ProjectDetails({
           ) : (
             ''
           )}
+          { 
+          ['admin', 'dgec'].includes(user.role) && project.notifiedOn ? <Section title="Corriger les données projet" icon="building"><EditProjectData project={project} /></Section> : '' }
         </div>
       </div>
     </Dashboard>
