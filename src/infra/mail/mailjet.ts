@@ -44,6 +44,7 @@ const TEMPLATE_ID_BY_TYPE: Record<NotificationProps['type'], number> = {
   'dreal-gf-notification': 1528696,
   'relance-designation': 1417004,
   'relance-gf': 1554449,
+  'pp-certificate-updated': 1765851,
 }
 
 function sendEmailFromMailjet(props: SendEmailProps): ResultAsync<null, Error> {

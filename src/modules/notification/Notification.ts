@@ -87,6 +87,17 @@ type PP_GF_Notification = {
   }
 }
 
+type PP_CertificateUpdated = {
+  type: 'pp-certificate-updated'
+  context: {
+    projectId: string
+    userId: string
+  }
+  variables: {
+    nomProjet: string
+  }
+}
+
 type DREAL_GF_Notification = {
   type: 'dreal-gf-notification'
   context: {
@@ -126,6 +137,7 @@ type NotificationVariants =
   | PP_GF_Notification
   | DREAL_GF_Notification
   | RelanceGarantiesFinancieres
+  | PP_CertificateUpdated
 
 export type NotificationProps = BaseNotification & NotificationVariants
 

@@ -10,8 +10,12 @@ import {
 import {
   CandidateNotificationForPeriodeFailed,
   CandidateNotificationForPeriodeFailedPayload,
+  CandidateInformationOfCertificateUpdateFailed,
+  CandidateInformationOfCertificateUpdateFailedPayload,
   CandidateNotifiedForPeriode,
   CandidateNotifiedForPeriodePayload,
+  CandidateInformedOfCertificateUpdate,
+  CandidateInformedOfCertificateUpdatePayload,
 } from '../../../modules/candidateNotification/events'
 import {
   LegacyProjectEventSourced,
@@ -313,6 +317,24 @@ export class SequelizeEventStore extends BaseEventStore {
       case CandidateNotifiedForPeriode.type:
         return new CandidateNotifiedForPeriode({
           payload: eventRaw.payload as CandidateNotifiedForPeriodePayload,
+          requestId: eventRaw.requestId,
+          original: {
+            version: eventRaw.version,
+            occurredAt: eventRaw.occurredAt,
+          },
+        })
+      case CandidateInformedOfCertificateUpdate.type:
+        return new CandidateInformedOfCertificateUpdate({
+          payload: eventRaw.payload as CandidateInformedOfCertificateUpdatePayload,
+          requestId: eventRaw.requestId,
+          original: {
+            version: eventRaw.version,
+            occurredAt: eventRaw.occurredAt,
+          },
+        })
+      case CandidateInformationOfCertificateUpdateFailed.type:
+        return new CandidateInformationOfCertificateUpdateFailed({
+          payload: eventRaw.payload as CandidateInformationOfCertificateUpdateFailedPayload,
           requestId: eventRaw.requestId,
           original: {
             version: eventRaw.version,
