@@ -1,12 +1,10 @@
-import { GetFamille } from '../../appelOffre'
 import { EventBus } from '../../eventStore'
 import {
   ProjectCertificateUpdated,
   ProjectCertificateUpdateFailed,
   ProjectDataCorrected,
+  ProjectReimported,
 } from '../events'
-import { ProjectCertificateGenerated } from '../events/ProjectCertificateGenerated'
-import { ProjectCertificateGenerationFailed } from '../events/ProjectCertificateGenerationFailed'
 import {
   GenerateCertificate,
   ProjectNotEligibleForCertificateError,
@@ -15,15 +13,30 @@ import {
 export const handleProjectDataCorrected = (deps: {
   eventBus: EventBus
   generateCertificate: GenerateCertificate
-}) => async (event: ProjectDataCorrected) => {
+}) => async (event: ProjectDataCorrected | ProjectReimported) => {
   // console.log('handleProjectDataCorrected', event)
   const { payload, requestId } = event
-  const { projectId, correctedData, certificateFileId, notifiedOn } = payload
+  const { projectId } = payload
 
-  let newCertificateFileId = certificateFileId
+  // Only regenerate certificate if project was notified
+  if (event.type === ProjectReimported.type && !event.payload.notifiedOn) return
 
-  if (!certificateFileId) {
-    const result = await deps.generateCertificate(projectId, notifiedOn)
+  let newCertificateFileId =
+    event.type === ProjectDataCorrected.type
+      ? event.payload.certificateFileId
+      : undefined
+
+  let newNotifiedOn =
+    event.type === ProjectDataCorrected.type
+      ? event.payload.notifiedOn
+      : undefined
+
+  if (!newCertificateFileId) {
+    const result = await deps.generateCertificate(
+      projectId,
+      newNotifiedOn,
+      event.type === ProjectReimported.type ? event.payload.data : undefined
+    )
 
     if (result.isErr()) {
       if (result.error instanceof ProjectNotEligibleForCertificateError) {

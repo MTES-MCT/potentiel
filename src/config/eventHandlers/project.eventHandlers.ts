@@ -9,6 +9,7 @@ import {
   ProjectDataCorrected,
   ProjectNotificationDateSet,
   ProjectNotified,
+  ProjectReimported,
 } from '../../modules/project/events'
 import { eventStore } from '../eventStore.config'
 import { getUnnotifiedProjectsForPeriode } from '../queries.config'
@@ -42,12 +43,11 @@ eventStore.subscribe(
   })
 )
 
-eventStore.subscribe(
-  ProjectDataCorrected.type,
-  handleProjectDataCorrected({
-    eventBus: eventStore,
-    generateCertificate,
-  })
-)
+const projectDataUpdatedHandler = handleProjectDataCorrected({
+  eventBus: eventStore,
+  generateCertificate,
+})
+eventStore.subscribe(ProjectReimported.type, projectDataUpdatedHandler)
+eventStore.subscribe(ProjectDataCorrected.type, projectDataUpdatedHandler)
 
 console.log('Project Event Handlers Initialized')

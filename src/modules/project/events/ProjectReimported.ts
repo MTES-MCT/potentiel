@@ -3,8 +3,9 @@ import { DomainEvent, BaseDomainEvent } from '../../../core/domain/DomainEvent'
 
 export interface ProjectReimportedPayload {
   projectId: Project['id']
+  notifiedOn: Project['notifiedOn']
   importedBy: User['id']
-  data: any
+  data: Project
 }
 export class ProjectReimported
   extends BaseDomainEvent<ProjectReimportedPayload>

@@ -33,7 +33,8 @@ export class ProjectNotEligibleForCertificateError extends DomainError {
 // - Failing to save PDF file (from fileService.save)
 export type GenerateCertificate = (
   projectId: Project['id'],
-  notifiedOn?: Project['notifiedOn']
+  notifiedOn?: Project['notifiedOn'],
+  project?: Project
 ) => ResultAsync<Project['certificateFileId'], DomainError>
 
 interface GenerateCertificateDeps {
@@ -49,25 +50,22 @@ export const makeGenerateCertificate = (
   deps: GenerateCertificateDeps
 ): GenerateCertificate => (
   projectId: Project['id'],
-  notifiedOn?: Project['notifiedOn']
+  notifiedOn?: Project['notifiedOn'],
+  _project?: Project
 ) => {
-  let project: Project
-  let file: File
   // console.log('generaticeCertificate called for project', projectId)
   return ResultAsync.fromPromise(
-    deps.findProjectById(projectId),
+    _project ? Promise.resolve(_project) : deps.findProjectById(projectId),
     () => new InfraNotAvailableError()
   )
-    .andThen((_project: Project | undefined) => {
-      if (!_project) {
+    .andThen((project: Project | undefined) => {
+      if (!project) {
         console.log(
           'Error: generaticeCertificate could not find project',
           projectId
         )
         return err(new EntityNotFoundError())
       }
-
-      project = _project
 
       if (notifiedOn) project.notifiedOn = notifiedOn
 
@@ -87,24 +85,27 @@ export const makeGenerateCertificate = (
       }
 
       // console.log('generaticeCertificate building certificate', projectId)
-      return deps.buildCertificate(certificateTemplate, project)
+      return deps
+        .buildCertificate(certificateTemplate, project)
+        .map((fileStream) => ({ fileStream, project }))
     })
-    .andThen((fileStream: NodeJS.ReadableStream) => {
+    .andThen(({ fileStream, project }) => {
       // Save PDF File to storage
       return File.create({
         filename: makeCertificateFilename(project),
         forProject: projectId,
         createdBy: '',
         designation: 'attestation-designation',
-      }).asyncAndThen((_file: File) => {
-        file = _file
-        return deps.fileService.save(file, {
-          path: makeProjectFilePath(projectId, file.filename).filepath,
-          stream: fileStream,
-        })
+      }).asyncAndThen((file: File) => {
+        return deps.fileService
+          .save(file, {
+            path: makeProjectFilePath(projectId, file.filename).filepath,
+            stream: fileStream,
+          })
+          .map(() => file)
       })
     })
-    .map(() => {
+    .map((file) => {
       // console.log(
       //   'generaticeCertificate done saving certificate file',
       //   projectId

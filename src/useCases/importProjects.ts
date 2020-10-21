@@ -313,6 +313,7 @@ export default function makeImportProjects({
               new ProjectReimported({
                 payload: {
                   projectId: updatedProject.id,
+                  notifiedOn: existingProject.notifiedOn,
                   data: updatedProject,
                   importedBy: userId,
                 },

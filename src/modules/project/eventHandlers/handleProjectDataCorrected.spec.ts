@@ -2,7 +2,11 @@ import { DomainError } from '../../../core/domain'
 import { errAsync, okAsync } from '../../../core/utils'
 import { StoredEvent } from '../../eventStore'
 import { InfraNotAvailableError } from '../../shared'
-import { ProjectCertificateUpdated, ProjectDataCorrected } from '../events'
+import {
+  ProjectCertificateUpdated,
+  ProjectDataCorrected,
+  ProjectReimported,
+} from '../events'
 import { ProjectNotEligibleForCertificateError } from '../generateCertificate'
 import { handleProjectDataCorrected } from './handleProjectDataCorrected'
 
@@ -14,6 +18,84 @@ const eventBus = {
 }
 
 describe('handleProjectDataCorrected', () => {
+  describe('when triggering event is ProjectReimported', () => {
+    const generateCertificate = jest.fn((projectId: string) =>
+      okAsync<string, DomainError>('generatedFileId1')
+    )
+
+    describe('when reimported project is notified', () => {
+      const generateCertificate = jest.fn((projectId: string) =>
+        okAsync<string, DomainError>('generatedFileId1')
+      )
+
+      beforeAll(async () => {
+        eventBus.publish.mockClear()
+
+        await handleProjectDataCorrected({
+          eventBus,
+          generateCertificate,
+        })(
+          new ProjectReimported({
+            payload: {
+              projectId: 'project1',
+              notifiedOn: 1,
+              importedBy: '',
+              data: {},
+            },
+            requestId: 'request1',
+          })
+        )
+      })
+
+      it('should generate a new certificate', () => {
+        expect(generateCertificate).toHaveBeenCalled()
+      })
+
+      it('should trigger ProjectCertificateUpated with the new certificateFileId', () => {
+        expect(eventBus.publish).toHaveBeenCalled()
+
+        const projectCertificateUpdatedEvent = eventBus.publish.mock.calls
+          .map((call) => call[0])
+          .find((event) => event.type === ProjectCertificateUpdated.type)
+
+        expect(projectCertificateUpdatedEvent).toBeDefined()
+        if (!projectCertificateUpdatedEvent) return
+
+        expect(
+          (projectCertificateUpdatedEvent.payload as any).projectId
+        ).toEqual('project1')
+        expect(
+          (projectCertificateUpdatedEvent.payload as any).certificateFileId
+        ).toEqual('generatedFileId1')
+
+        expect(projectCertificateUpdatedEvent.aggregateId).toEqual('project1')
+      })
+    })
+
+    describe('when reimported project is not notified', () => {
+      it('should not trigger any event', async () => {
+        eventBus.publish.mockClear()
+
+        await handleProjectDataCorrected({
+          eventBus,
+          generateCertificate,
+        })(
+          new ProjectReimported({
+            payload: {
+              projectId: 'project1',
+              notifiedOn: 0,
+              importedBy: '',
+              data: {},
+            },
+            requestId: 'request1',
+          })
+        )
+
+        expect(eventBus.publish).not.toHaveBeenCalled()
+      })
+    })
+  })
+
   describe('when payload does not have certificateFileId', () => {
     describe('when periode enables generating a certificate', () => {
       const generateCertificate = jest.fn((projectId: string) =>
