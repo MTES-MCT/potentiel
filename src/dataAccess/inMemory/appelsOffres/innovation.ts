@@ -8,7 +8,7 @@ const innovation: AppelOffre = {
   title:
     '2017/S 051-094731 portant sur la réalisation et l’exploitation d’Installations de production d’électricité innovantes à partir de l’énergie solaire, sans dispositifs de stockage',
   shortTitle: 'CRE4 - Innovation 2017/S 051-094731',
-  launchDate: 'Mars 2017',
+  launchDate: 'mars 2017',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,
   delaiRealisationTexte: 'vingt-quatre (24) mois',

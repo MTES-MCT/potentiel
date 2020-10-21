@@ -7,7 +7,7 @@ const sol: AppelOffre = {
   title:
     '2016/S 148-268152 portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de l’énergie solaire « Centrale au sol »',
   shortTitle: 'CRE4 - Sol 2016/S 148-268152',
-  launchDate: 'Août 2016',
+  launchDate: 'août 2016',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,
   delaiRealisationTexte: 'vingt-quatre (24) mois',

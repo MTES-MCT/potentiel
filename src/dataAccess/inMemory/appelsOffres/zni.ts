@@ -7,7 +7,7 @@ const zni: AppelOffre = {
   title:
     '2019/S 113-276264 portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de l’énergie solaire et situées dans les zones non interconnectées',
   shortTitle: 'CRE4 - ZNI 2019/S 113-276264',
-  launchDate: 'Juin 2019',
+  launchDate: 'juin 2019',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,
   delaiRealisationTexte: 'vingt-quatre (24) mois',

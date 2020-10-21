@@ -7,7 +7,7 @@ const batiment: AppelOffre = {
   title:
     '2016/S 174-312851 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie solaire « Centrales sur bâtiments, serres et hangars agricoles et ombrières de parking de puissance comprise entre 100 kWc et 8 MWc »',
   shortTitle: 'CRE4 - Bâtiment 2016/S 174-312851',
-  launchDate: 'Septembre 2016',
+  launchDate: 'septembre 2016',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 20,
   delaiRealisationTexte: 'vingt (20) mois',

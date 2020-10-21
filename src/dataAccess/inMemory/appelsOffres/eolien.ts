@@ -9,7 +9,7 @@ const eolien: AppelOffre = {
   shortTitle: 'Eolien 2017/S 083-161855',
   dossierSuiviPar:
     'Sandra Stojkovic (sandra.stojkovic@developpement-durable.gouv.fr)',
-  launchDate: 'Mai 2017',
+  launchDate: 'mai 2017',
   unitePuissance: 'MW',
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
   tarifOuPrimeRetenueAlt: 'ce prix de référence',

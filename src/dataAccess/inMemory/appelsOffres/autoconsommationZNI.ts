@@ -7,7 +7,7 @@ const autoconsommationZNI: AppelOffre = {
   title:
     '2019/S 113-276257 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées dans les zones non interconnectées.',
   shortTitle: 'CRE4 - Autoconsommation ZNI 2019/S 113-276257',
-  launchDate: 'Juin 2019',
+  launchDate: 'juin 2019',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 30,
   delaiRealisationTexte: 'trente (30) mois',

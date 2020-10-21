@@ -7,7 +7,7 @@ const autoconsommationMetropole: AppelOffre = {
   title:
     '2017/S 054-100223 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées en métropole continentale',
   shortTitle: 'CRE4 - Autoconsommation métropole 2017/S 054-100223',
-  launchDate: 'Mars 2017',
+  launchDate: 'mars 2017',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,
   delaiRealisationTexte: 'vingt-quatre (24) mois',
