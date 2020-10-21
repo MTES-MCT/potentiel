@@ -1,5 +1,8 @@
 import { DomainError } from '../../../core/domain'
 import { errAsync, okAsync } from '../../../core/utils'
+import { makeProject } from '../../../entities'
+import { UnwrapForTest } from '../../../types'
+import makeFakeProject from '../../../__tests__/fixtures/project'
 import { StoredEvent } from '../../eventStore'
 import { InfraNotAvailableError } from '../../shared'
 import {
@@ -19,6 +22,8 @@ const eventBus = {
 
 describe('handleProjectDataCorrected', () => {
   describe('when triggering event is ProjectReimported', () => {
+    const project = UnwrapForTest(makeProject(makeFakeProject()))
+
     const generateCertificate = jest.fn((projectId: string) =>
       okAsync<string, DomainError>('generatedFileId1')
     )
@@ -40,7 +45,7 @@ describe('handleProjectDataCorrected', () => {
               projectId: 'project1',
               notifiedOn: 1,
               importedBy: '',
-              data: {},
+              data: project,
             },
             requestId: 'request1',
           })
@@ -85,7 +90,7 @@ describe('handleProjectDataCorrected', () => {
               projectId: 'project1',
               notifiedOn: 0,
               importedBy: '',
-              data: {},
+              data: project,
             },
             requestId: 'request1',
           })
