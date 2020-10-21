@@ -50,6 +50,7 @@ import {
   getModeleMiseEnDemeure,
   getProjectCertificateFile,
   postCorrectProjectData,
+  getModeleReponseRecours,
 } from './controllers'
 
 import {
@@ -298,6 +299,12 @@ export async function makeServer(port: number = 3000) {
       ROUTES.TELECHARGER_MODELE_MISE_EN_DEMEURE(),
       ensureLoggedIn(),
       makeExpressCallback(getModeleMiseEnDemeure)
+    )
+    router.get(
+      ROUTES.TELECHARGER_MODELE_REPONSE_RECOURS(),
+      ensureLoggedIn(),
+      ensureRole(['admin', 'dgec']),
+      makeExpressCallback(getModeleReponseRecours)
     )
 
     router.post(

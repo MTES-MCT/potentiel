@@ -1,4 +1,9 @@
-import { Project, ProjectAdmissionKey, AppelOffre } from './entities'
+import {
+  Project,
+  ProjectAdmissionKey,
+  AppelOffre,
+  makeProjectIdentifier,
+} from './entities'
 import querystring from 'querystring'
 import { string } from 'yup'
 import sanitize from 'sanitize-filename'
@@ -168,6 +173,30 @@ class routes {
           ':filename',
           sanitize(
             `Mise en demeure Garanties Financières - ${project.nomProjet}.docx`
+          )
+        )
+    } else return route
+  }
+
+  static TELECHARGER_MODELE_REPONSE_RECOURS = (
+    project?: Project,
+    modificationRequestId?: string
+  ) => {
+    const route =
+      '/projet/:projectId/demande/:modificationRequestId/telecharger-reponse-recours/:filename'
+    if (project && modificationRequestId) {
+      const now = new Date()
+      return route
+        .replace(':projectId', project.id)
+        .replace(':modificationRequestId', modificationRequestId)
+        .replace(
+          ':filename',
+          sanitize(
+            `${now.getFullYear()}-${
+              now.getMonth() + 1
+            }-${now.getDate()} - Recours gracieux - ${makeProjectIdentifier(
+              project
+            )}.docx`
           )
         )
     } else return route

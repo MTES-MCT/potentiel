@@ -29,7 +29,7 @@ export const withRequests = () => (
   <AdminListRequests
     request={makeFakeRequest()}
     modificationRequests={[
-      makeFakeModificationRequest({ status: 'envoyée' }, true),
+      makeFakeModificationRequest({ status: 'envoyée', type: 'recours' }, true),
       makeFakeModificationRequest({ status: 'en instruction' }, true),
       makeFakeModificationRequest({ status: 'en validation' }, true),
       makeFakeModificationRequest({ status: 'validée' }, true),

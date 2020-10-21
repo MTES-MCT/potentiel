@@ -6,15 +6,17 @@ import { dataId } from '../../helpers/testId'
 import { makeProjectFilePath } from '../../helpers/makeProjectFilePath'
 
 import { titlePerAction } from '../pages/modificationRequest'
+import routes from '../../routes'
 
 interface Props {
   modificationRequests?: Array<ModificationRequest>
+  role?: User['role'],
   requestActions?: (
     modificationRequest: ModificationRequest
   ) => Array<{ title: string; link: string; disabled?: boolean }> | null
 }
 
-const RequestList = ({ modificationRequests, requestActions }: Props) => {
+const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
   // console.log('RequestList received', modificationRequests)
 
   if (!modificationRequests || !modificationRequests.length) {
@@ -157,6 +159,16 @@ const RequestList = ({ modificationRequests, requestActions }: Props) => {
                         ''
                       )}
                     </div>
+                    {
+                      modificationRequest.type ==="recours" && role && ['admin', 'dgec'].includes(role)  ?
+                      <div
+                      style={{
+                        fontStyle: 'italic',
+                        lineHeight: 'normal',
+                        fontSize: 12,
+                      }}><a href={routes.TELECHARGER_MODELE_REPONSE_RECOURS(project, modificationRequest.id)} download={true}>Télécharger modèle de réponse</a></div>
+                      :''
+                    }
                   </td>
                   <td
                     valign="top"

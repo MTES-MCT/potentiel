@@ -25,7 +25,7 @@ export const fillDocxTemplate = async ({
     doc = new Docxtemplater(new PizZip(templateBinary))
   } catch (e) {
     console.log('fillDocxTemplate errored at new Docxtemplate()', e)
-    throw 'Compilation error'
+    throw e
   }
 
   doc.setData(variables)
@@ -33,7 +33,7 @@ export const fillDocxTemplate = async ({
     doc.render()
   } catch (e) {
     console.log('fillDocxTemplate errored at doc.render()', e)
-    throw 'Render error'
+    throw e
   }
 
   await writeFile(outputPath, doc.getZip().generate({ type: 'nodebuffer' }))

@@ -9,6 +9,7 @@ export * from './getImportProjectsPage';
 export * from './getInvitationListPage';
 export * from './getLoginPage';
 export * from './getModeleMiseEnDemeure';
+export * from './getModeleReponseRecours';
 export * from './getNotificationListPage';
 export * from './getNotifyCandidatesPage';
 export * from './getProjectCertificateFile';

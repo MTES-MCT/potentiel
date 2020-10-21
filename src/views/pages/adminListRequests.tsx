@@ -44,7 +44,7 @@ export default function UserListRequests({
         ) : (
           ''
         )}
-        <RequestList modificationRequests={modificationRequests} />
+        <RequestList modificationRequests={modificationRequests} role={request.user?.role} />
       </div>
     </AdminDashboard>
   )

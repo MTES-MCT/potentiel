@@ -9,9 +9,9 @@ export default function makeFakeModificationRequest(
     id: '1',
     userId: 'userId',
     projectId: 'projectId',
-    type: 'actionnaire',
+    type: 'recours',
     actionnaire: 'nouvel actionnaire',
-    filePath: '/projectId/fichier.pdf'
+    filePath: '/projectId/fichier.pdf',
   }
 
   if (includeInfo) {
@@ -21,6 +21,6 @@ export default function makeFakeModificationRequest(
 
   return {
     ...defaultObj,
-    ...overrides
+    ...overrides,
   }
 }
