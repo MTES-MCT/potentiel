@@ -93,6 +93,7 @@
     "cypress-cucumber-preprocessor": "^2.3.1",
     "cypress-file-upload": "^3.5.3",
     "expect-puppeteer": "^4.4.0",
+    "husky": "^4.3.0",
     "jest": "^25.5.4",
     "nodemon": "^2.0.2",
     "puppeteer": "^2.1.1",
