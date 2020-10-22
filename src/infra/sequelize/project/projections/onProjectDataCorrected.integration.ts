@@ -51,6 +51,7 @@ describe('project.onProjectDataCorrected', () => {
       new ProjectDataCorrected({
         payload: {
           projectId: 'target',
+          notifiedOn: 1,
           correctedData: { ...newValues, isClasse: true },
         },
       })
