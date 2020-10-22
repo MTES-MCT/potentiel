@@ -123,7 +123,8 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true",
+      "pre-push" : "npm run test && npm run test-int"
     }
   },
   "lint-staged": {
