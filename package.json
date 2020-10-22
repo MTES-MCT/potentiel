@@ -105,6 +105,7 @@
     "expect-puppeteer": "^4.4.0",
     "husky": "^4.3.0",
     "jest": "^25.5.4",
+    "lint-staged": "^10.4.2",
     "nodemon": "^2.0.2",
     "prettier": "2.1.2",
     "puppeteer": "^2.1.1",
@@ -117,5 +118,14 @@
   },
   "cypress-cucumber-preprocessor": {
     "nonGlobalStepDefinitions": true
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.{js,ts,css,md}": "prettier --write --ignore-unknown"
   }
 }
