@@ -1,4 +1,3 @@
-import { EventStore } from '../../../../modules/eventStore'
 import { ProjectDCRDueDateSet } from '../../../../modules/project/events'
 
 export const onProjectDCRDueDateSet = (models) => async (
