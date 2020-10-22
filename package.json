@@ -94,6 +94,7 @@
     "cypress": "^4.11.0",
     "cypress-cucumber-preprocessor": "^2.3.1",
     "cypress-file-upload": "^3.5.3",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.11.0",
     "eslint-config-prettier": "^6.14.0",
     "eslint-config-standard": "^15.0.0",
@@ -121,11 +122,17 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged",
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
     }
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix",
     "*.{js,ts,css,md}": "prettier --write --ignore-unknown"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
