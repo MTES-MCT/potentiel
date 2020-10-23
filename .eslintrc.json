@@ -1,7 +1,8 @@
 {
   "env": {
     "browser": true,
-    "es2021": true
+    "es2021": true,
+    "jest/globals": true
   },
   "extends": [
     "plugin:react/recommended",
@@ -9,6 +10,15 @@
     "prettier",
     "prettier/@typescript-eslint",
     "prettier/react"
+  ],
+  // Prevent ESLint from yelling at chai assertions (e.g : expect(undefined).to.be.undefined)
+  "overrides": [
+    {
+      "files": ["cypress/**/*.js"],
+      "rules": {
+        "no-unused-expressions": "off"
+      }
+    }
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -18,6 +28,10 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint"],
-  "rules": {}
+  "plugins": ["react", "@typescript-eslint", "jest"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
 }
