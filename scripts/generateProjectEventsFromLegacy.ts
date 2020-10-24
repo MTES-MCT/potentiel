@@ -42,9 +42,7 @@ initDatabase()
     let dcrDueDateEvents: number = 0
     let dcrSubmittedEvents: number = 0
 
-    for (const legacyProjectEvent of legacyProjectEvents.map((item) =>
-      item.get()
-    )) {
+    for (const legacyProjectEvent of legacyProjectEvents.map((item) => item.get())) {
       if (!legacyProjectEvent.aggregateId) {
         console.log(
           'generateProjectEventsFromLegacy error, event without aggregateId',
@@ -118,11 +116,7 @@ initDatabase()
           )
 
           if (familleResult.isErr()) {
-            console.log(
-              'Cannot find famille for ',
-              project.appelOffreId,
-              project.familleId
-            )
+            console.log('Cannot find famille for ', project.appelOffreId, project.familleId)
           } else {
             if (
               familleResult.value.garantieFinanciereEnMois ||
@@ -175,10 +169,7 @@ initDatabase()
         )
       }
 
-      if (
-        project.garantiesFinancieresSubmittedOn &&
-        project.garantiesFinancieresFileId
-      ) {
+      if (project.garantiesFinancieresSubmittedOn && project.garantiesFinancieresFileId) {
         gfSubmittedEvents++
         await eventStore.publish(
           new ProjectGFSubmitted({

@@ -27,11 +27,7 @@ interface DREALListProps {
 }
 
 /* Pure component */
-export default function DREALList({
-  request,
-  users,
-  invitations,
-}: DREALListProps) {
+export default function DREALList({ request, users, invitations }: DREALListProps) {
   const { error, success } = request.query || {}
   return (
     <AdminDashboard role={request.user?.role} currentPage="list-dreal">
@@ -43,10 +39,7 @@ export default function DREALList({
           <h5>Ajouter un utilisateur DREAL</h5>
 
           {success ? (
-            <div
-              className="notification success"
-              {...dataId('success-message')}
-            >
+            <div className="notification success" {...dataId('success-message')}>
               {success}
             </div>
           ) : (
@@ -135,18 +128,12 @@ export default function DREALList({
               <tbody>
                 {invitations.map((invitation) => {
                   return (
-                    <tr
-                      key={'invitation_' + invitation.id}
-                      {...dataId('invitationList-item')}
-                    >
+                    <tr key={'invitation_' + invitation.id} {...dataId('invitationList-item')}>
                       <td valign="top">{invitation.email}</td>
                       <td valign="top">{invitation.dreal}</td>
                       <td valign="top">
                         {invitation.createdAt
-                          ? formatDate(
-                              invitation.createdAt,
-                              'DD/MM/YYYY à HH:mm'
-                            )
+                          ? formatDate(invitation.createdAt, 'DD/MM/YYYY à HH:mm')
                           : ''}
                       </td>
                     </tr>

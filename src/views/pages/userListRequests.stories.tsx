@@ -12,7 +12,7 @@ export const empty = () => <UserListRequests request={makeFakeRequest()} />
 export const withError = () => (
   <UserListRequests
     request={makeFakeRequest({
-      query: { error: 'This is an error message!' }
+      query: { error: 'This is an error message!' },
     })}
   />
 )
@@ -20,7 +20,7 @@ export const withError = () => (
 export const withSuccess = () => (
   <UserListRequests
     request={makeFakeRequest({
-      query: { success: 'This is a success message!' }
+      query: { success: 'This is a success message!' },
     })}
   />
 )
@@ -33,7 +33,7 @@ export const withRequests = () => (
       makeFakeModificationRequest({ status: 'en instruction' }, true),
       makeFakeModificationRequest({ status: 'en validation' }, true),
       makeFakeModificationRequest({ status: 'validée' }, true),
-      makeFakeModificationRequest({ status: 'refusée' }, true)
+      makeFakeModificationRequest({ status: 'refusée' }, true),
     ]}
   />
 )

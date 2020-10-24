@@ -14,10 +14,7 @@ interface UserListRequestsProps {
 }
 
 /* Pure component */
-export default function UserListRequests({
-  request,
-  modificationRequests,
-}: UserListRequestsProps) {
+export default function UserListRequests({ request, modificationRequests }: UserListRequestsProps) {
   const { error, success } = request.query || {}
   return (
     <UserDashboard currentPage="list-requests">

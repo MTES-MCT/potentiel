@@ -1,8 +1,6 @@
 import { ProjectDCRDueDateSet } from '../../../../modules/project/events'
 
-export const onProjectDCRDueDateSet = (models) => async (
-  event: ProjectDCRDueDateSet
-) => {
+export const onProjectDCRDueDateSet = (models) => async (event: ProjectDCRDueDateSet) => {
   const ProjectModel = models.Project
   const projectInstance = await ProjectModel.findByPk(event.payload.projectId)
 

@@ -9,15 +9,10 @@ import makeFakeUser from '../../__tests__/fixtures/user'
 import { InMemoryEventStore } from '../../infra/inMemory'
 import { Readable } from 'stream'
 import { ProjectDataCorrected, ProjectNotificationDateSet } from './events'
-import {
-  ProjectHasBeenUpdatedSinceError,
-  ProjectCannotBeUpdatedIfUnnotifiedError,
-} from './errors'
+import { ProjectHasBeenUpdatedSinceError, ProjectCannotBeUpdatedIfUnnotifiedError } from './errors'
 import { UnauthorizedError } from '../shared'
 
-const mockFileServiceSave = jest.fn((file: File, fileContents: FileContainer) =>
-  okAsync(null)
-)
+const mockFileServiceSave = jest.fn((file: File, fileContents: FileContainer) => okAsync(null))
 jest.mock('../file/FileService', () => ({
   FileService: function () {
     return {
@@ -83,9 +78,7 @@ describe('correctProjectData', () => {
 
         it('should save the file', () => {
           expect(mockFileServiceSave).toHaveBeenCalled()
-          expect(mockFileServiceSave.mock.calls[0][1].stream).toEqual(
-            fakeFile.stream
-          )
+          expect(mockFileServiceSave.mock.calls[0][1].stream).toEqual(fakeFile.stream)
         })
 
         it('should emit ProjectDataCorrected with certificateFileId', async () => {
@@ -95,9 +88,7 @@ describe('correctProjectData', () => {
             expect(projectDataCorrectedEvent.aggregateId).toEqual(project.id)
 
             const fileId = mockFileServiceSave.mock.calls[0][0].id.toString()
-            expect(projectDataCorrectedEvent.payload.certificateFileId).toEqual(
-              fileId
-            )
+            expect(projectDataCorrectedEvent.payload.certificateFileId).toEqual(fileId)
 
             expect(projectDataCorrectedEvent.payload.correctedData).toEqual({
               isClasse: true,
@@ -115,9 +106,7 @@ describe('correctProjectData', () => {
         })
 
         const eventHandler = jest.fn((event: ProjectDataCorrected) => null)
-        const eventHandler2 = jest.fn(
-          (event: ProjectNotificationDateSet) => null
-        )
+        const eventHandler2 = jest.fn((event: ProjectNotificationDateSet) => null)
 
         beforeAll(async () => {
           mockFileServiceSave.mockClear()
@@ -143,9 +132,7 @@ describe('correctProjectData', () => {
             const projectDataCorrectedEvent = eventHandler.mock.calls[0][0]
             expect(projectDataCorrectedEvent.aggregateId).toEqual(project.id)
 
-            expect(
-              projectDataCorrectedEvent.payload.certificateFileId
-            ).toBeUndefined()
+            expect(projectDataCorrectedEvent.payload.certificateFileId).toBeUndefined()
 
             expect(projectDataCorrectedEvent.payload.correctedData).toEqual({
               isClasse: true,
@@ -156,19 +143,12 @@ describe('correctProjectData', () => {
         it('should emit ProjectNotificationDateSet', async () => {
           await waitForExpect(() => {
             expect(eventHandler2).toHaveBeenCalled()
-            const projectNotificationDateSetEvent =
-              eventHandler2.mock.calls[0][0]
-            expect(projectNotificationDateSetEvent.aggregateId).toEqual(
-              project.id
-            )
+            const projectNotificationDateSetEvent = eventHandler2.mock.calls[0][0]
+            expect(projectNotificationDateSetEvent.aggregateId).toEqual(project.id)
 
-            expect(projectNotificationDateSetEvent.payload.projectId).toEqual(
-              project.id
-            )
+            expect(projectNotificationDateSetEvent.payload.projectId).toEqual(project.id)
 
-            expect(projectNotificationDateSetEvent.payload.notifiedOn).toEqual(
-              2
-            )
+            expect(projectNotificationDateSetEvent.payload.notifiedOn).toEqual(2)
           })
         })
       })
@@ -206,9 +186,7 @@ describe('correctProjectData', () => {
             const projectDataCorrectedEvent = eventHandler.mock.calls[0][0]
             expect(projectDataCorrectedEvent.aggregateId).toEqual(project.id)
 
-            expect(
-              projectDataCorrectedEvent.payload.certificateFileId
-            ).toBeUndefined()
+            expect(projectDataCorrectedEvent.payload.certificateFileId).toBeUndefined()
 
             expect(projectDataCorrectedEvent.payload.correctedData).toEqual({
               isClasse: true,
@@ -254,9 +232,7 @@ describe('correctProjectData', () => {
         )
       )
       const projectVersionDate = unnotifiedProject.updatedAt
-      const findProjectById = jest.fn(
-        async (projectId: Project['id']) => unnotifiedProject
-      )
+      const findProjectById = jest.fn(async (projectId: Project['id']) => unnotifiedProject)
 
       const correctProjectData = makeCorrectProjectData({
         fileService,
@@ -277,17 +253,13 @@ describe('correctProjectData', () => {
 
         expect(res.isErr()).toEqual(true)
         if (res.isOk()) return
-        expect(res.error).toBeInstanceOf(
-          ProjectCannotBeUpdatedIfUnnotifiedError
-        )
+        expect(res.error).toBeInstanceOf(ProjectCannotBeUpdatedIfUnnotifiedError)
       })
     })
   })
 
   describe('when user is not admin', () => {
-    const user = UnwrapForTest(
-      makeUser(makeFakeUser({ role: 'porteur-projet' }))
-    )
+    const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
     const eventStore = new InMemoryEventStore()
     const correctProjectData = makeCorrectProjectData({
       fileService,

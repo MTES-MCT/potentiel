@@ -19,18 +19,9 @@ export const initProjectProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ProjectDCRDueDateSet.type, onProjectDCRDueDateSet(models))
   eventBus.subscribe(ProjectGFDueDateSet.type, onProjectGFDueDateSet(models))
   eventBus.subscribe(ProjectNotified.type, onProjectNotificationDateSet(models))
-  eventBus.subscribe(
-    ProjectNotificationDateSet.type,
-    onProjectNotificationDateSet(models)
-  )
-  eventBus.subscribe(
-    ProjectCertificateGenerated.type,
-    onProjectCertificate(models)
-  )
-  eventBus.subscribe(
-    ProjectCertificateUpdated.type,
-    onProjectCertificate(models)
-  )
+  eventBus.subscribe(ProjectNotificationDateSet.type, onProjectNotificationDateSet(models))
+  eventBus.subscribe(ProjectCertificateGenerated.type, onProjectCertificate(models))
+  eventBus.subscribe(ProjectCertificateUpdated.type, onProjectCertificate(models))
 
   console.log('Initialized Project projections')
 }

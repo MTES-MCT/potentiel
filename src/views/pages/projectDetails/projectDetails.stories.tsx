@@ -28,7 +28,7 @@ export const forAdminsLaureat = () => (
       garantiesFinancieresSubmittedOn: Date.now(),
       garantiesFinancieresFile: 'fichier',
       isFinancementParticipatif: true,
-      motifsElimination: ""
+      motifsElimination: '',
     })}
     projectUsers={[makeFakeUser()]}
     projectInvitations={[
@@ -40,21 +40,19 @@ export const forAdminsLaureat = () => (
   />
 )
 
-
 export const forAdminsElimine = () => (
   <ProjectDetails
-  request={makeFakeRequest({ user: makeFakeUser({ role: 'admin' }) })}
-  project={makeFakeProject({
-    id: 'projectId',
-    classe: 'Eliminé',
-    notifiedOn: Date.now(),
-    appelOffre,
-  })}
-  projectUsers={[makeFakeUser()]}
-  projectInvitations={[]}
+    request={makeFakeRequest({ user: makeFakeUser({ role: 'admin' }) })}
+    project={makeFakeProject({
+      id: 'projectId',
+      classe: 'Eliminé',
+      notifiedOn: Date.now(),
+      appelOffre,
+    })}
+    projectUsers={[makeFakeUser()]}
+    projectInvitations={[]}
   />
-  )
-
+)
 
 export const forAdminsNonNotifié = () => (
   <ProjectDetails
@@ -193,13 +191,10 @@ export const forDrealGFStillDue = () => (
   />
 )
 
-const appelOffreInnovation:
-  | ProjectAppelOffre
-  | undefined = appelsOffreStatic.find(
+const appelOffreInnovation: ProjectAppelOffre | undefined = appelsOffreStatic.find(
   (appelOffre) => appelOffre.id === 'CRE4 - Innovation'
 )
-if (appelOffreInnovation)
-  appelOffreInnovation.periode = appelOffreInnovation.periodes[1]
+if (appelOffreInnovation) appelOffreInnovation.periode = appelOffreInnovation.periodes[1]
 export const forAOInnovation = () => (
   <ProjectDetails
     request={makeFakeRequest({
@@ -215,13 +210,11 @@ export const forAOInnovation = () => (
         'Note prix': '51,2',
         'Note innovation\n(AO innovation)': '45,222225',
         'Note degré d’innovation (/20pt)\n(AO innovation)': '19',
-        'Note positionnement sur le marché (/10pt)\n(AO innovation)':
-          '8,3333333334',
+        'Note positionnement sur le marché (/10pt)\n(AO innovation)': '8,3333333334',
         'Note qualité technique (/5pt)\n(AO innovation)': '2,56',
         'Note adéquation du projet avec les ambitions industrielles (/5pt)\n(AO innovation)':
           '2,555',
-        'Note aspects environnementaux et sociaux (/5pt)\n(AO innovation)':
-          '2,56',
+        'Note aspects environnementaux et sociaux (/5pt)\n(AO innovation)': '2,56',
       },
     })}
     projectUsers={[makeFakeUser()]}

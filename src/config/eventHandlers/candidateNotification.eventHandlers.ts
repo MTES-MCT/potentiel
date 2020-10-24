@@ -11,11 +11,7 @@ import {
 } from '../../modules/project/events'
 import { sendNotification } from '../emails.config'
 import { eventStore } from '../eventStore.config'
-import {
-  appelOffreRepo,
-  projectAdmissionKeyRepo,
-  projectRepo,
-} from '../repos.config'
+import { appelOffreRepo, projectAdmissionKeyRepo, projectRepo } from '../repos.config'
 
 eventStore.subscribe(
   CandidateNotifiedForPeriode.type,
@@ -32,10 +28,7 @@ const projectCertficateHandler = handleProjectCertificateGenerated({
   findProjectById: projectRepo.findById,
 })
 eventStore.subscribe(ProjectCertificateGenerated.type, projectCertficateHandler)
-eventStore.subscribe(
-  ProjectCertificateGenerationFailed.type,
-  projectCertficateHandler
-)
+eventStore.subscribe(ProjectCertificateGenerationFailed.type, projectCertficateHandler)
 
 eventStore.subscribe(
   ProjectCertificateUpdated.type,

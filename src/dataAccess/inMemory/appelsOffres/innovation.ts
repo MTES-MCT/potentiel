@@ -78,8 +78,7 @@ const innovation: AppelOffre = {
     },
     {
       id: '3',
-      title:
-        "3. Innovation liée à l'optimisation et à l'exploitation électrique de la centrale",
+      title: "3. Innovation liée à l'optimisation et à l'exploitation électrique de la centrale",
     },
     {
       id: '4',

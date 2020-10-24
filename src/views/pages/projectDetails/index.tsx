@@ -1,9 +1,5 @@
 import React from 'react'
-import {
-  Project,
-
-  ProjectAdmissionKey, User
-} from '../../../entities'
+import { Project, ProjectAdmissionKey, User } from '../../../entities'
 import { dataId } from '../../../helpers/testId'
 import ROUTES from '../../../routes'
 import { HttpRequest } from '../../../types'
@@ -12,7 +8,6 @@ import AdminDashboard from '../../components/adminDashboard'
 import UserDashboard from '../../components/userDashboard'
 import { NoteElement, Section } from './components'
 import { ProjectFrise, ProjectHeader, EditProjectData } from './sections'
-
 
 interface ProjectDetailsProps {
   request: HttpRequest
@@ -37,14 +32,13 @@ export default function ProjectDetails({
     return <div />
   }
 
-  const Dashboard =
-    user.role === 'porteur-projet' ? UserDashboard : AdminDashboard
+  const Dashboard = user.role === 'porteur-projet' ? UserDashboard : AdminDashboard
   return (
     <Dashboard role={user.role} currentPage="list-projects">
       <div className="panel" style={{ padding: 0 }}>
-        <ProjectHeader project={project} user={user}/>
+        <ProjectHeader project={project} user={user} />
         <div style={{ padding: '1.5em', paddingTop: 0 }}>
-          <SuccessErrorBox success={success} error={error}/>
+          <SuccessErrorBox success={success} error={error} />
           <div style={{ position: 'relative' }}>
             <ProjectFrise {...{ project, request, user }} />
           </div>
@@ -52,14 +46,11 @@ export default function ProjectDetails({
             <div>
               <h5 style={{ marginBottom: 5 }}>Performances</h5>
               <div>
-                Puissance installée: {project.puissance}{' '}
-                {project.appelOffre?.unitePuissance}
+                Puissance installée: {project.puissance} {project.appelOffre?.unitePuissance}
               </div>
             </div>
             <div>
-              <h5 style={{ marginBottom: 5, marginTop: 10 }}>
-                Site de production
-              </h5>
+              <h5 style={{ marginBottom: 5, marginTop: 10 }}>Site de production</h5>
               <div>{project.adresseProjet}</div>
               <div>
                 {project.codePostalProjet} {project.communeProjet}
@@ -77,9 +68,7 @@ export default function ProjectDetails({
               <div>{project.email}</div>
             </div>
             <div>
-              <h5 style={{ marginBottom: 5, marginTop: 15 }}>
-                Comptes ayant accès à ce projet
-              </h5>
+              <h5 style={{ marginBottom: 5, marginTop: 15 }}>Comptes ayant accès à ce projet</h5>
               <ul style={{ marginTop: 5, marginBottom: 5 }}>
                 {projectUsers.map((user) => (
                   <li key={'project_user_' + user.id}>
@@ -105,9 +94,7 @@ export default function ProjectDetails({
                 ))}
                 {!projectUsers.length && !projectInvitations.length ? (
                   <>
-                    <li>
-                      Aucun utilisateur n'a accès à ce projet pour le moment.
-                    </li>
+                    <li>Aucun utilisateur n'a accès à ce projet pour le moment.</li>
                   </>
                 ) : (
                   ''
@@ -129,25 +116,12 @@ export default function ProjectDetails({
                   name="form"
                   className="invitationForm"
                 >
-                  <h5 style={{ marginBottom: 5 }}>
-                    Gestion des accès à ce projet
-                  </h5>
-                  <input
-                    type="hidden"
-                    name="projectId"
-                    id="projectId"
-                    value={project.id}
-                  />
+                  <h5 style={{ marginBottom: 5 }}>Gestion des accès à ce projet</h5>
+                  <input type="hidden" name="projectId" id="projectId" value={project.id} />
                   <label htmlFor="email">
-                    Courrier électronique de la personne habilitée à suivre ce
-                    projet
+                    Courrier électronique de la personne habilitée à suivre ce projet
                   </label>
-                  <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    {...dataId('email-field')}
-                  />
+                  <input type="email" name="email" id="email" {...dataId('email-field')} />
                   <button
                     className="button"
                     type="submit"
@@ -168,29 +142,16 @@ export default function ProjectDetails({
           </Section>
           <Section title="Matériels et technologies" icon="cog">
             <div>Fournisseur: {project.fournisseur}</div>
-            <div>
-              Evaluation carbone simplifiée: {project.evaluationCarbone} kg eq
-              CO2/kWc
-            </div>
+            <div>Evaluation carbone simplifiée: {project.evaluationCarbone} kg eq CO2/kWc</div>
           </Section>
-          {project.appelOffre?.id === 'CRE4 - Innovation' &&
-          user.role !== 'dreal' ? (
-            <Section
-              title="Résultats de l'appel d'offres"
-              icon="clipboard-check"
-            >
-              <div
-                style={{ marginBottom: 10, fontSize: 18 }}
-                {...dataId('project-note')}
-              >
+          {project.appelOffre?.id === 'CRE4 - Innovation' && user.role !== 'dreal' ? (
+            <Section title="Résultats de l'appel d'offres" icon="clipboard-check">
+              <div style={{ marginBottom: 10, fontSize: 18 }} {...dataId('project-note')}>
                 <b>Note totale</b>: {project.note || 'N/A'}
               </div>
               <ul>
                 <NoteElement project={project} column={'Note prix'} />
-                <NoteElement
-                  project={project}
-                  column={'Note innovation\n(AO innovation)'}
-                />
+                <NoteElement project={project} column={'Note innovation\n(AO innovation)'} />
                 <ul>
                   <NoteElement
                     project={project}
@@ -198,9 +159,7 @@ export default function ProjectDetails({
                   />
                   <NoteElement
                     project={project}
-                    column={
-                      'Note positionnement sur le marché (/10pt)\n(AO innovation)'
-                    }
+                    column={'Note positionnement sur le marché (/10pt)\n(AO innovation)'}
                   />
                   <NoteElement
                     project={project}
@@ -214,9 +173,7 @@ export default function ProjectDetails({
                   />
                   <NoteElement
                     project={project}
-                    column={
-                      'Note aspects environnementaux et sociaux (/5pt)\n(AO innovation)'
-                    }
+                    column={'Note aspects environnementaux et sociaux (/5pt)\n(AO innovation)'}
                   />
                 </ul>
               </ul>
@@ -224,8 +181,13 @@ export default function ProjectDetails({
           ) : (
             ''
           )}
-          { 
-          ['admin', 'dgec'].includes(user.role) && project.notifiedOn && false ? <Section title="Corriger les données projet" icon="building"><EditProjectData project={project} /></Section> : '' }
+          {['admin', 'dgec'].includes(user.role) && project.notifiedOn && false ? (
+            <Section title="Corriger les données projet" icon="building">
+              <EditProjectData project={project} />
+            </Section>
+          ) : (
+            ''
+          )}
         </div>
       </div>
     </Dashboard>

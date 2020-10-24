@@ -25,10 +25,7 @@ export default function LoginPage({ request }: Props) {
               ''
             )}
             {success ? (
-              <div
-                className="notification success"
-                {...dataId('success-message')}
-              >
+              <div className="notification success" {...dataId('success-message')}>
                 {success}
               </div>
             ) : (
@@ -44,12 +41,7 @@ export default function LoginPage({ request }: Props) {
                 defaultValue={email || ''}
               />
               <label htmlFor="password">Mot de passe</label>
-              <input
-                type="password"
-                name="password"
-                id="password"
-                {...dataId('password-field')}
-              />
+              <input type="password" name="password" id="password" {...dataId('password-field')} />
               <button
                 className="button"
                 type="submit"
@@ -59,9 +51,7 @@ export default function LoginPage({ request }: Props) {
               >
                 Je m'identifie
               </button>
-              <a href={routes.FORGOTTEN_PASSWORD}>
-                J'ai oublié mon mot de passe
-              </a>
+              <a href={routes.FORGOTTEN_PASSWORD}>J'ai oublié mon mot de passe</a>
             </div>
           </form>
         </div>

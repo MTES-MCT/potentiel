@@ -52,11 +52,7 @@ initDatabase()
       updatedProjects.push(project)
     }
 
-    console.log(
-      '\nGenerated certificates for ',
-      updatedProjects.length,
-      'projects'
-    )
+    console.log('\nGenerated certificates for ', updatedProjects.length, 'projects')
 
     // For each:
     // look for file in file system

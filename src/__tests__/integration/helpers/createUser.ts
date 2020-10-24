@@ -8,12 +8,7 @@ interface CreateUserProps {
   role: User['role']
 }
 
-async function createUser({
-  email,
-  fullName,
-  password,
-  role,
-}: CreateUserProps) {
+async function createUser({ email, fullName, password, role }: CreateUserProps) {
   // Create a user object
   const userResult = makeUser({
     fullName,
@@ -21,10 +16,7 @@ async function createUser({
     role,
   })
   if (userResult.is_err()) {
-    console.log(
-      'resetDbForTests createUser failed at makeUser',
-      userResult.unwrap_err()
-    )
+    console.log('resetDbForTests createUser failed at makeUser', userResult.unwrap_err())
     return
   }
   const user = userResult.unwrap()

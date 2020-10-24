@@ -4,10 +4,7 @@ import puppeteer from 'puppeteer'
 import { PORT } from '../setup/config'
 import { makeServer } from '../../src/server'
 
-import {
-  ADMIN,
-  PORTEUR_PROJET
-} from '../../src/__tests__/fixtures/testCredentials'
+import { ADMIN, PORTEUR_PROJET } from '../../src/__tests__/fixtures/testCredentials'
 
 import fs from 'fs'
 import util from 'util'
@@ -22,10 +19,10 @@ const puppeteerOpts = HEADLESS
       headless: true,
       slowMo: 100,
       // timeout: 0,
-      args: ['--start-maximized', '--window-size=1920,1040']
+      args: ['--start-maximized', '--window-size=1920,1040'],
     }
 
-BeforeAll(async function() {
+BeforeAll(async function () {
   console.log('BeforeAll called')
 
   console.log('Launching web server')
@@ -39,7 +36,7 @@ BeforeAll(async function() {
   console.log('BeforeAll done')
 })
 
-AfterAll(async function() {
+AfterAll(async function () {
   console.log('AfterAll called')
   global['__SERVER__'].close()
 

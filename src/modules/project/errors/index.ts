@@ -1,2 +1,2 @@
-export * from './ProjectCannotBeUpdatedIfUnnotifiedError';
-export * from './ProjectHasBeenUpdatedSinceError';
+export * from './ProjectCannotBeUpdatedIfUnnotifiedError'
+export * from './ProjectHasBeenUpdatedSinceError'

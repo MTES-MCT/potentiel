@@ -37,35 +37,27 @@ const ProjectActions = ({ project, projectActions }: Props) => {
         tabIndex={0}
         className=""
       /> */}
-      <svg
-        className="icon list--action-trigger"
-        {...dataId('action-menu-trigger')}
-      >
+      <svg className="icon list--action-trigger" {...dataId('action-menu-trigger')}>
         <use xlinkHref="#dots-vertical"></use>
       </svg>
       <ul className="list--action-menu" {...dataId('action-menu')}>
-        {actions.map(
-          (
-            { title, actionId, projectId, link, disabled, isDownload },
-            actionIndex
-          ) => (
-            <li key={'notif_' + project.id + '_' + actionIndex}>
-              {disabled ? (
-                <i>{title}</i>
-              ) : (
-                <a
-                  href={link}
-                  download={isDownload}
-                  data-actionid={actionId}
-                  data-projectid={projectId}
-                  {...dataId('item-action')}
-                >
-                  {title}
-                </a>
-              )}
-            </li>
-          )
-        )}
+        {actions.map(({ title, actionId, projectId, link, disabled, isDownload }, actionIndex) => (
+          <li key={'notif_' + project.id + '_' + actionIndex}>
+            {disabled ? (
+              <i>{title}</i>
+            ) : (
+              <a
+                href={link}
+                download={isDownload}
+                data-actionid={actionId}
+                data-projectid={projectId}
+                {...dataId('item-action')}
+              >
+                {title}
+              </a>
+            )}
+          </li>
+        ))}
       </ul>
     </div>
   )

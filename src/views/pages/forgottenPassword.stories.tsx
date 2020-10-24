@@ -10,9 +10,7 @@ export default { title: 'Mot de passe oublié' }
 
 export const Empty = () => <ForgottenPassword request={makeFakeRequest()} />
 export const withError = () => (
-  <ForgottenPassword
-    request={makeFakeRequest({ query: { error: 'This is an error message!' } })}
-  />
+  <ForgottenPassword request={makeFakeRequest({ query: { error: 'This is an error message!' } })} />
 )
 
 export const withSuccess = () => (

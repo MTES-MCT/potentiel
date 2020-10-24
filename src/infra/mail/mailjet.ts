@@ -12,8 +12,7 @@ const mailjet = require('node-mailjet').connect(
 )
 
 const AUTHORIZED_TEST_EMAILS =
-  process.env.AUTHORIZED_TEST_EMAILS &&
-  process.env.AUTHORIZED_TEST_EMAILS.split(',')
+  process.env.AUTHORIZED_TEST_EMAILS && process.env.AUTHORIZED_TEST_EMAILS.split(',')
 
 console.log('AUTHORIZED TEST EMAILS ARE', AUTHORIZED_TEST_EMAILS)
 console.log('BASE URL IS', process.env.BASE_URL)
@@ -48,15 +47,7 @@ const TEMPLATE_ID_BY_TYPE: Record<NotificationProps['type'], number> = {
 }
 
 function sendEmailFromMailjet(props: SendEmailProps): ResultAsync<null, Error> {
-  const {
-    id,
-    recipients,
-    fromEmail,
-    fromName,
-    subject,
-    type,
-    variables,
-  } = props
+  const { id, recipients, fromEmail, fromName, subject, type, variables } = props
 
   const templateId = TEMPLATE_ID_BY_TYPE[type]
 
@@ -64,9 +55,7 @@ function sendEmailFromMailjet(props: SendEmailProps): ResultAsync<null, Error> {
     return errAsync(new Error('Cannot find template for type ' + type))
   }
 
-  const authorizedRecepients = recipients.filter(({ email }) =>
-    isAuthorizedEmail(email)
-  )
+  const authorizedRecepients = recipients.filter(({ email }) => isAuthorizedEmail(email))
 
   if (!authorizedRecepients.length) return okAsync(null)
 
@@ -94,9 +83,7 @@ function sendEmailFromMailjet(props: SendEmailProps): ResultAsync<null, Error> {
   ).andThen((result: any) => {
     const sentMessage = result.body.Messages[0]
     if (sentMessage && sentMessage.Status === 'error') {
-      return err(
-        new Error(sentMessage.Errors.map((e) => e.ErrorMessage).join('; '))
-      )
+      return err(new Error(sentMessage.Errors.map((e) => e.ErrorMessage).join('; ')))
     }
     return ok(null)
   })

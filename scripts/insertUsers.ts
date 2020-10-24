@@ -32,19 +32,13 @@ initDatabase()
           password,
         })
         if (credentialsResult.is_err()) {
-          console.log(
-            'Cannot create credentials',
-            credentialsResult.unwrap_err()
-          )
+          console.log('Cannot create credentials', credentialsResult.unwrap_err())
           return
         }
 
         const credentials = credentialsResult.unwrap()
 
-        return Promise.all([
-          userRepo.insert(user),
-          credentialsRepo.insert(credentials),
-        ])
+        return Promise.all([userRepo.insert(user), credentialsRepo.insert(credentials)])
       })
     )
   })

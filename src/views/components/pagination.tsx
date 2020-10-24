@@ -11,11 +11,7 @@ interface PaginationProps {
   itemTitle: string
 }
 
-const Pagination = ({
-  pageCount,
-  pagination: { pageSize, page },
-  itemTitle,
-}: PaginationProps) => {
+const Pagination = ({ pageCount, pagination: { pageSize, page }, itemTitle }: PaginationProps) => {
   const pageNumbers = [0, 1]
   if (pageCount <= 5) {
     pageNumbers.push(2, 3, 4)
@@ -40,10 +36,7 @@ const Pagination = ({
   return (
     <nav className="pagination">
       <div className="pagination__display-group">
-        <label
-          htmlFor="pagination__display"
-          className="pagination__display-label"
-        >
+        <label htmlFor="pagination__display" className="pagination__display-label">
           {itemTitle} par page
         </label>
         <select
@@ -81,13 +74,7 @@ const Pagination = ({
           ) : (
             <li
               key={'goToPage_' + index}
-              className={
-                pageNumber === page
-                  ? 'active'
-                  : pageNumber >= pageCount
-                  ? 'disabled'
-                  : ''
-              }
+              className={pageNumber === page ? 'active' : pageNumber >= pageCount ? 'disabled' : ''}
             >
               <a {...dataId('goToPage')} data-pagevalue={pageNumber}>
                 {pageNumber + 1}

@@ -41,14 +41,7 @@ interface MenuItemProps {
   visibleForRoles: Array<User['role']>
   role: User['role'] | undefined
 }
-const MenuItem = ({
-  route,
-  title,
-  currentPage,
-  itemPage,
-  visibleForRoles,
-  role,
-}: MenuItemProps) =>
+const MenuItem = ({ route, title, currentPage, itemPage, visibleForRoles, role }: MenuItemProps) =>
   role && visibleForRoles.includes(role) ? (
     <li>
       <a href={route} className={currentPage === itemPage ? 'active' : ''}>
@@ -58,11 +51,7 @@ const MenuItem = ({
   ) : null
 
 /* Pure component */
-export default function AdminDashboard({
-  children,
-  currentPage,
-  role,
-}: AdminDashboardProps) {
+export default function AdminDashboard({ children, currentPage, role }: AdminDashboardProps) {
   return (
     <>
       <section className="section section-color" style={{ padding: '1em 0' }}>
@@ -77,10 +66,7 @@ export default function AdminDashboard({
           <ul>
             {typeof currentPage === 'undefined' ? (
               <li>
-                <a
-                  className="active"
-                  style={{ fontSize: '2px', cursor: 'default' }}
-                ></a>
+                <a className="active" style={{ fontSize: '2px', cursor: 'default' }}></a>
               </li>
             ) : (
               ''

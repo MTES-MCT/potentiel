@@ -6,15 +6,9 @@ export type UserRepo = {
   findAll: (query?: Record<string, any>) => Promise<Array<User>>
   insert: (user: User) => ResultAsync<User>
   update: (user: User) => ResultAsync<User>
-  addProject: (
-    userId: User['id'],
-    projectId: Project['id']
-  ) => ResultAsync<null>
+  addProject: (userId: User['id'], projectId: Project['id']) => ResultAsync<null>
 
-  addUserToProjectsWithEmail: (
-    userId: User['id'],
-    email: Project['email']
-  ) => ResultAsync<null>
+  addUserToProjectsWithEmail: (userId: User['id'], email: Project['email']) => ResultAsync<null>
 
   addProjectToUserWithEmail: (
     projectId: Project['id'],

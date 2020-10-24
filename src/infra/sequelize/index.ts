@@ -9,9 +9,7 @@ import { SequelizeEventStore } from './eventStore'
 export const fileRepo = new FileRepo(models)
 export const notificationRepo = new NotificationRepo(models)
 export const getFailedNotifications = makeGetFailedNotifications(models)
-export const getUnnotifiedProjectsForPeriode = makeGetUnnotifiedProjectsForPeriode(
-  models
-)
+export const getUnnotifiedProjectsForPeriode = makeGetUnnotifiedProjectsForPeriode(models)
 export const sequelizeEventStore = new SequelizeEventStore(models)
 
 export const initProjections = (eventStore: EventStore) => {

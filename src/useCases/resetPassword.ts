@@ -14,8 +14,7 @@ interface CallUseCaseProps {
 }
 
 export const PASSWORD_MISMATCH_ERROR = 'Les mots de passe ne correspondent pas.'
-export const ILLEGAL_RESET_CODE_ERROR =
-  "Le lien de récupération de mot de passe n'est pas valable."
+export const ILLEGAL_RESET_CODE_ERROR = "Le lien de récupération de mot de passe n'est pas valable."
 export const SYSTEM_ERROR =
   "Votre demande n'a pas pu être traitée, merci de réessayer ou de contacter un administrateur."
 
@@ -29,9 +28,7 @@ export default function makeResetPassword({
     resetCode,
   }: CallUseCaseProps): ResultAsync<null> {
     // Check resetCode
-    const passwordRetrievalResult = await passwordRetrievalRepo.findById(
-      resetCode
-    )
+    const passwordRetrievalResult = await passwordRetrievalRepo.findById(resetCode)
 
     if (passwordRetrievalResult.is_none()) {
       return ErrorResult(ILLEGAL_RESET_CODE_ERROR)
@@ -45,9 +42,7 @@ export default function makeResetPassword({
     }
 
     // Check if credentials exist
-    const credentialsResult = await credentialsRepo.findByEmail(
-      passwordRetrieval.email
-    )
+    const credentialsResult = await credentialsRepo.findByEmail(passwordRetrieval.email)
 
     if (credentialsResult.is_none()) {
       console.log(
@@ -75,10 +70,7 @@ export default function makeResetPassword({
 
     const newCredentials = newCredentialsResult.unwrap()
 
-    const insertionResult = await credentialsRepo.update(
-      credentials.id,
-      newCredentials.hash
-    )
+    const insertionResult = await credentialsRepo.update(credentials.id, newCredentials.hash)
 
     if (insertionResult.is_err()) {
       console.log(

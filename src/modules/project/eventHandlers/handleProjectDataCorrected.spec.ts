@@ -5,18 +5,12 @@ import { UnwrapForTest } from '../../../types'
 import makeFakeProject from '../../../__tests__/fixtures/project'
 import { StoredEvent } from '../../eventStore'
 import { InfraNotAvailableError } from '../../shared'
-import {
-  ProjectCertificateUpdated,
-  ProjectDataCorrected,
-  ProjectReimported,
-} from '../events'
+import { ProjectCertificateUpdated, ProjectDataCorrected, ProjectReimported } from '../events'
 import { ProjectNotEligibleForCertificateError } from '../generateCertificate'
 import { handleProjectDataCorrected } from './handleProjectDataCorrected'
 
 const eventBus = {
-  publish: jest.fn((event: StoredEvent) =>
-    okAsync<null, InfraNotAvailableError>(null)
-  ),
+  publish: jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null)),
   subscribe: jest.fn(),
 }
 
@@ -66,12 +60,10 @@ describe('handleProjectDataCorrected', () => {
         expect(projectCertificateUpdatedEvent).toBeDefined()
         if (!projectCertificateUpdatedEvent) return
 
-        expect(
-          (projectCertificateUpdatedEvent.payload as any).projectId
-        ).toEqual('project1')
-        expect(
-          (projectCertificateUpdatedEvent.payload as any).certificateFileId
-        ).toEqual('generatedFileId1')
+        expect((projectCertificateUpdatedEvent.payload as any).projectId).toEqual('project1')
+        expect((projectCertificateUpdatedEvent.payload as any).certificateFileId).toEqual(
+          'generatedFileId1'
+        )
 
         expect(projectCertificateUpdatedEvent.aggregateId).toEqual('project1')
       })
@@ -141,24 +133,20 @@ describe('handleProjectDataCorrected', () => {
         expect(projectCertificateUpdatedEvent).toBeDefined()
         if (!projectCertificateUpdatedEvent) return
 
-        expect(
-          (projectCertificateUpdatedEvent.payload as any).projectId
-        ).toEqual(fakePayload.projectId)
-        expect(
-          (projectCertificateUpdatedEvent.payload as any).certificateFileId
-        ).toEqual('generatedFileId1')
-
-        expect(projectCertificateUpdatedEvent.aggregateId).toEqual(
+        expect((projectCertificateUpdatedEvent.payload as any).projectId).toEqual(
           fakePayload.projectId
         )
+        expect((projectCertificateUpdatedEvent.payload as any).certificateFileId).toEqual(
+          'generatedFileId1'
+        )
+
+        expect(projectCertificateUpdatedEvent.aggregateId).toEqual(fakePayload.projectId)
       })
     })
 
     describe('when periode does not enable generating a certificate', () => {
       const generateCertificate = jest.fn((projectId: string) =>
-        errAsync<string, DomainError>(
-          new ProjectNotEligibleForCertificateError()
-        )
+        errAsync<string, DomainError>(new ProjectNotEligibleForCertificateError())
       )
 
       const fakePayload = {
@@ -224,13 +212,11 @@ describe('handleProjectDataCorrected', () => {
       expect((projectCertificateUpdatedEvent.payload as any).projectId).toEqual(
         fakePayload.projectId
       )
-      expect(
-        (projectCertificateUpdatedEvent.payload as any).certificateFileId
-      ).toEqual(fakePayload.certificateFileId)
-
-      expect(projectCertificateUpdatedEvent.aggregateId).toEqual(
-        fakePayload.projectId
+      expect((projectCertificateUpdatedEvent.payload as any).certificateFileId).toEqual(
+        fakePayload.certificateFileId
       )
+
+      expect(projectCertificateUpdatedEvent.aggregateId).toEqual(fakePayload.projectId)
     })
   })
 })

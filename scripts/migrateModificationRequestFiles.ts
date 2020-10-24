@@ -4,11 +4,7 @@ import path from 'path'
 import { Op } from 'sequelize'
 import util from 'util'
 import { fileService } from '../src/config'
-import {
-  initDatabase,
-  modificationRequestRepo,
-  sequelize,
-} from '../src/dataAccess'
+import { initDatabase, modificationRequestRepo, sequelize } from '../src/dataAccess'
 import { ModificationRequest } from '../src/entities'
 import { makeProjectFilePath } from '../src/helpers/makeProjectFilePath'
 import { File } from '../src/modules/file'
@@ -34,11 +30,7 @@ initDatabase()
       // logging: console.log,
     })
 
-    console.log(
-      'Found',
-      requestsToUpdate.length,
-      'modification requests to update'
-    )
+    console.log('Found', requestsToUpdate.length, 'modification requests to update')
 
     const updatedProjects: any[] = []
 

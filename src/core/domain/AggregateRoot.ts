@@ -2,10 +2,7 @@ import { Entity } from './Entity'
 import { UniqueEntityID } from './UniqueEntityID'
 import { DomainEvent } from './DomainEvent'
 
-export abstract class AggregateRoot<
-  T,
-  IDomainEvent extends DomainEvent
-> extends Entity<T> {
+export abstract class AggregateRoot<T, IDomainEvent extends DomainEvent> extends Entity<T> {
   private _domainEvents: IDomainEvent[] = []
 
   get id(): UniqueEntityID {

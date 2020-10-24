@@ -20,92 +20,66 @@ Given('les notifications ont été envoyées aux candidats', async function () {
   await sendCandidateNotifications({})
 })
 
-When(
-  "je clique sur le lien d'activation reçu à l'adresse {string}",
-  async function (email) {
-    // Find a project from this user
-    const userProjects = await projectRepo.findAll({
-      email,
-    })
+When("je clique sur le lien d'activation reçu à l'adresse {string}", async function (email) {
+  // Find a project from this user
+  const userProjects = await projectRepo.findAll({
+    email,
+  })
 
-    expect(userProjects).to.have.length.of.at.least(1)
+  expect(userProjects).to.have.length.of.at.least(1)
 
-    // Find the activation link for this user
-    const projectAdmissionKeys = await projectAdmissionKeyRepo.findAll({
-      projectId: userProjects[0].id,
-    })
+  // Find the activation link for this user
+  const projectAdmissionKeys = await projectAdmissionKeyRepo.findAll({
+    projectId: userProjects[0].id,
+  })
 
-    expect(projectAdmissionKeys).to.have.lengthOf(1)
+  expect(projectAdmissionKeys).to.have.lengthOf(1)
 
-    const projectAdmissionKey = projectAdmissionKeys[0]
-    this.currentProject = userProjects[0]
+  const projectAdmissionKey = projectAdmissionKeys[0]
+  this.currentProject = userProjects[0]
 
-    await this.navigateTo(
-      makeRoute(
-        routes.PROJECT_INVITATION(
-          projectAdmissionKey.id,
-          projectAdmissionKey.projectId
-        )
-      )
-    )
-  }
-)
+  await this.navigateTo(
+    makeRoute(routes.PROJECT_INVITATION(projectAdmissionKey.id, projectAdmissionKey.projectId))
+  )
+})
 When("je crée un compte avec l'adresse {string}", async function (email) {
   this.currentEmail = email
 
   await this.page.waitForSelector(testId('signup-form'))
 
   await this.page.type(testId('signup-lastName-field'), PORTEUR_PROJET.lastName)
-  await this.page.type(
-    testId('signup-firstName-field'),
-    PORTEUR_PROJET.firstName
-  )
+  await this.page.type(testId('signup-firstName-field'), PORTEUR_PROJET.firstName)
   await this.page.type(testId('email-field'), email)
   await this.page.type(testId('password-field'), PORTEUR_PROJET.password)
-  await this.page.type(
-    testId('confirm-password-field'),
-    PORTEUR_PROJET.password
-  )
+  await this.page.type(testId('confirm-password-field'), PORTEUR_PROJET.password)
 
   await this.page.click(testId('submit-button'))
 })
 
-Then(
-  'je vois les projets associés à mon email dans ma liste',
-  async function () {
-    await this.page.waitForSelector(testId('projectList-item-nomProjet'))
+Then('je vois les projets associés à mon email dans ma liste', async function () {
+  await this.page.waitForSelector(testId('projectList-item-nomProjet'))
 
-    const projectsInList = await this.page.$$eval(
-      testId('projectList-item-nomProjet'),
-      (actionElements) =>
-        actionElements.map((actionElement) => actionElement.innerText)
-    )
+  const projectsInList = await this.page.$$eval(
+    testId('projectList-item-nomProjet'),
+    (actionElements) => actionElements.map((actionElement) => actionElement.innerText)
+  )
 
-    const userProjects = this.projects.filter(
-      (project) => project.email === this.currentEmail
-    )
+  const userProjects = this.projects.filter((project) => project.email === this.currentEmail)
 
-    expect(projectsInList).to.have.lengthOf(userProjects.length)
+  expect(projectsInList).to.have.lengthOf(userProjects.length)
 
-    expect(projectsInList).to.include.members(
-      userProjects.map((project) => project.nomProjet)
-    )
-  }
-)
+  expect(projectsInList).to.include.members(userProjects.map((project) => project.nomProjet))
+})
 
-Then(
-  "je vois uniquement le projet correspondant au lien que j'ai cliqué",
-  async function () {
-    await this.page.waitForSelector(testId('projectList-item-nomProjet'))
+Then("je vois uniquement le projet correspondant au lien que j'ai cliqué", async function () {
+  await this.page.waitForSelector(testId('projectList-item-nomProjet'))
 
-    const projectsInList = await this.page.$$eval(
-      testId('projectList-item-nomProjet'),
-      (actionElements) =>
-        actionElements.map((actionElement) => actionElement.innerText)
-    )
+  const projectsInList = await this.page.$$eval(
+    testId('projectList-item-nomProjet'),
+    (actionElements) => actionElements.map((actionElement) => actionElement.innerText)
+  )
 
-    expect(projectsInList).to.have.lengthOf(1)
+  expect(projectsInList).to.have.lengthOf(1)
 
-    expect(projectsInList).to.include(this.currentProject.nomProjet)
-  }
-)
+  expect(projectsInList).to.include(this.currentProject.nomProjet)
+})

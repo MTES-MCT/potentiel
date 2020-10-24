@@ -1,3 +1,3 @@
-export * from './File';
-export * from './FileService';
-export * from './FileStorageService';
+export * from './File'
+export * from './FileService'
+export * from './FileStorageService'

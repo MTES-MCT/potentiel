@@ -1,3 +1,3 @@
-export * from './Notification';
-export * from './NotificationService';
-export * from './SendEmail';
+export * from './Notification'
+export * from './NotificationService'
+export * from './SendEmail'

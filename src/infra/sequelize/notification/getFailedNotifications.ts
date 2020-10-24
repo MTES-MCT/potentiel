@@ -3,9 +3,7 @@ import { errAsync, ResultAsync } from '../../../core/utils'
 import { GetFailedNotifications } from '../../../modules/notification/queries'
 import { InfraNotAvailableError } from '../../../modules/shared'
 
-export const makeGetFailedNotifications = (
-  models
-): GetFailedNotifications => () => {
+export const makeGetFailedNotifications = (models): GetFailedNotifications => () => {
   const NotificationModel = models.Notification
   if (!NotificationModel) return errAsync(new InfraNotAvailableError())
 
@@ -15,7 +13,5 @@ export const makeGetFailedNotifications = (
       console.log('getFailedNotifications error', e)
       return new InfraNotAvailableError()
     }
-  ).map((items: any) =>
-    items.map((item) => new UniqueEntityID(item.get().id.toString()))
-  )
+  ).map((items: any) => items.map((item) => new UniqueEntityID(item.get().id.toString())))
 }

@@ -1,10 +1,7 @@
 import { Repository, DomainError, UniqueEntityID } from '../../../core/domain'
 import { Result, ResultAsync, errAsync, err } from '../../../core/utils'
 import { File } from '../../../modules/file'
-import {
-  InfraNotAvailableError,
-  EntityNotFoundError,
-} from '../../../modules/shared'
+import { InfraNotAvailableError, EntityNotFoundError } from '../../../modules/shared'
 
 export class FileRepo implements Repository<File> {
   private models: any
@@ -52,9 +49,7 @@ export class FileRepo implements Repository<File> {
     )
   }
 
-  load(
-    id: UniqueEntityID
-  ): ResultAsync<File, EntityNotFoundError | InfraNotAvailableError> {
+  load(id: UniqueEntityID): ResultAsync<File, EntityNotFoundError | InfraNotAvailableError> {
     const FileModel = this.models.File
     if (!FileModel) return errAsync(new InfraNotAvailableError())
 
@@ -64,8 +59,6 @@ export class FileRepo implements Repository<File> {
         console.log('fileRepo.load error', e)
         return new InfraNotAvailableError()
       }
-    ).andThen((dbResult) =>
-      dbResult ? this.toDomain(dbResult) : err(new EntityNotFoundError())
-    )
+    ).andThen((dbResult) => (dbResult ? this.toDomain(dbResult) : err(new EntityNotFoundError())))
   }
 }

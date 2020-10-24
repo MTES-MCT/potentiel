@@ -5,16 +5,14 @@ import LoginPage from './login'
 
 export default { title: 'Login' }
 
-export const Blank = () => (
-  <LoginPage request={makeFakeRequest({ user: undefined })} />
-)
+export const Blank = () => <LoginPage request={makeFakeRequest({ user: undefined })} />
 
 export const WithError = () => {
   return (
     <LoginPage
       request={makeFakeRequest({
         user: undefined,
-        query: { email: 'email@test.com', error: 'Une erreur est survenue!' }
+        query: { email: 'email@test.com', error: 'Une erreur est survenue!' },
       })}
     />
   )

@@ -17,11 +17,7 @@ export default function AdminListProjects({ request }: AdminListProjectsProps) {
         <div className="panel__header">
           <h3>Importer des candidats</h3>
         </div>
-        <form
-          action={ROUTES.IMPORT_PROJECTS_ACTION}
-          method="post"
-          encType="multipart/form-data"
-        >
+        <form action={ROUTES.IMPORT_PROJECTS_ACTION} method="post" encType="multipart/form-data">
           {error ? (
             <div className="notification error" {...dataId('error-message')}>
               {error.split('\n').map((piece) => (
@@ -37,12 +33,7 @@ export default function AdminListProjects({ request }: AdminListProjectsProps) {
 
           <div className="form__group">
             <label htmlFor="candidats">Fichier csv des candidats</label>
-            <input
-              type="file"
-              name="candidats"
-              {...dataId('candidats-field')}
-              id="candidats"
-            />
+            <input type="file" name="candidats" {...dataId('candidats-field')} id="candidats" />
             <button
               className="button"
               type="submit"

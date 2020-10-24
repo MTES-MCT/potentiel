@@ -50,14 +50,8 @@ export class File extends AggregateRoot<FileProps, StoredEvent> {
     this.props.storedAt = storageIdentifier
   }
 
-  public static create(
-    props: FileProps,
-    id?: UniqueEntityID
-  ): Result<File, DomainError> {
-    const file = new File(
-      { ...props, createdAt: props.createdAt || new Date() },
-      id
-    )
+  public static create(props: FileProps, id?: UniqueEntityID): Result<File, DomainError> {
+    const file = new File({ ...props, createdAt: props.createdAt || new Date() }, id)
 
     return ok(file)
   }

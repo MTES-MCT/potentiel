@@ -21,10 +21,7 @@ const projectNotificationHandler = handleProjectNotificationDateSet({
   findProjectById: projectRepo.findById,
   getFamille: appelOffreRepo.getFamille,
 })
-eventStore.subscribe(
-  ProjectNotificationDateSet.type,
-  projectNotificationHandler
-)
+eventStore.subscribe(ProjectNotificationDateSet.type, projectNotificationHandler)
 eventStore.subscribe(ProjectNotified.type, projectNotificationHandler)
 
 eventStore.subscribe(

@@ -126,9 +126,7 @@ type DepartementRegion = {
   region: string
 }
 
-const getDepartementRegionFromCodePostal = (
-  codePostal?: string
-): DepartementRegion | undefined => {
+const getDepartementRegionFromCodePostal = (codePostal?: string): DepartementRegion | undefined => {
   // Add the 0 prefix if it's missing
 
   if (typeof codePostal !== 'string' || codePostal.length < 4) return

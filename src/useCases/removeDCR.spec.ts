@@ -9,9 +9,7 @@ import makeRemoveDCR, { UNAUTHORIZED } from './removeDCR'
 
 describe('removeDCR use-case', () => {
   describe('when the user is porteur-projet', () => {
-    const user = UnwrapForTest(
-      makeUser(makeFakeUser({ role: 'porteur-projet' }))
-    )
+    const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
 
     describe('when the user has rights on this project', () => {
       const shouldUserAccessProject = jest.fn(async () => true)
@@ -29,9 +27,7 @@ describe('removeDCR use-case', () => {
           )
         )
 
-        const projectDCRRemovedHandler = jest.fn(
-          (event: ProjectDCRRemoved) => null
-        )
+        const projectDCRRemovedHandler = jest.fn((event: ProjectDCRRemoved) => null)
 
         const eventStore = new InMemoryEventStore()
         const saveProject = jest.fn(async (project: Project) => Ok(null))
@@ -87,10 +83,7 @@ describe('removeDCR use-case', () => {
             dcrFileId: undefined,
             dcrDate: 0,
           })
-          expect(updatedProject.history[0].createdAt / 100).toBeCloseTo(
-            Date.now() / 100,
-            0
-          )
+          expect(updatedProject.history[0].createdAt / 100).toBeCloseTo(Date.now() / 100, 0)
           expect(updatedProject.history[0].type).toEqual('dcr-removal')
           expect(updatedProject.history[0].userId).toEqual(user.id)
         })
@@ -98,16 +91,11 @@ describe('removeDCR use-case', () => {
         it('should trigger a ProjectDCRRemoved event', async () => {
           await waitForExpect(() => {
             expect(projectDCRRemovedHandler).toHaveBeenCalled()
-            const projectDCRRemovedEvent =
-              projectDCRRemovedHandler.mock.calls[0][0]
-            expect(projectDCRRemovedEvent.payload.projectId).toEqual(
-              originalProject.id
-            )
+            const projectDCRRemovedEvent = projectDCRRemovedHandler.mock.calls[0][0]
+            expect(projectDCRRemovedEvent.payload.projectId).toEqual(originalProject.id)
 
             expect(projectDCRRemovedEvent.payload.removedBy).toEqual(user.id)
-            expect(projectDCRRemovedEvent.aggregateId).toEqual(
-              originalProject.id
-            )
+            expect(projectDCRRemovedEvent.aggregateId).toEqual(originalProject.id)
           })
         })
       })

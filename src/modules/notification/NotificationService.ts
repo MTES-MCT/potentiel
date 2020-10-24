@@ -14,9 +14,7 @@ interface NotificationServiceDeps {
   notificationRepo: Repository<Notification>
   getFailedNotifications: GetFailedNotifications
 }
-export const makeNotificationService = (
-  deps: NotificationServiceDeps
-): NotificationService => {
+export const makeNotificationService = (deps: NotificationServiceDeps): NotificationService => {
   return {
     sendNotification,
     retryFailedNotifications,
@@ -55,9 +53,7 @@ export const makeNotificationService = (
     let retriedNotificationCount = 0
 
     for (const failedNotificationId of failedNotificationIds) {
-      const failedNotificationResult = await deps.notificationRepo.load(
-        failedNotificationId
-      )
+      const failedNotificationResult = await deps.notificationRepo.load(failedNotificationId)
 
       if (failedNotificationResult.isErr()) {
         console.log(
@@ -102,8 +98,7 @@ export const makeNotificationService = (
           // Prefix all relative urls (starting with /) with the base url
           (newVariables, [key, value]) => ({
             ...newVariables,
-            [key]:
-              value?.indexOf('/') === 0 ? process.env.BASE_URL + value : value,
+            [key]: value?.indexOf('/') === 0 ? process.env.BASE_URL + value : value,
           }),
           {}
         ),

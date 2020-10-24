@@ -3,17 +3,13 @@ import { makeProject, makeUser, Project } from '../entities'
 import { Ok, UnwrapForTest } from '../types'
 import makeFakeProject from '../__tests__/fixtures/project'
 import makeFakeUser from '../__tests__/fixtures/user'
-import makeRemoveGarantiesFinancieres, {
-  UNAUTHORIZED,
-} from './removeGarantiesFinancieres'
+import makeRemoveGarantiesFinancieres, { UNAUTHORIZED } from './removeGarantiesFinancieres'
 import { InMemoryEventStore } from '../infra/inMemory'
 import { ProjectGFRemoved } from '../modules/project/events'
 
 describe('removeGarantiesFinancieres use-case', () => {
   describe('when the user is porteur-projet', () => {
-    const user = UnwrapForTest(
-      makeUser(makeFakeUser({ role: 'porteur-projet' }))
-    )
+    const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
 
     describe('when the user has rights on this project', () => {
       const shouldUserAccessProject = jest.fn(async () => true)
@@ -30,9 +26,7 @@ describe('removeGarantiesFinancieres use-case', () => {
           )
         )
 
-        const projectGFRemovedHandler = jest.fn(
-          (event: ProjectGFRemoved) => null
-        )
+        const projectGFRemovedHandler = jest.fn((event: ProjectGFRemoved) => null)
 
         const eventStore = new InMemoryEventStore()
 
@@ -66,9 +60,7 @@ describe('removeGarantiesFinancieres use-case', () => {
           expect(updatedProject.id).toEqual(originalProject.id)
 
           expect(updatedProject.garantiesFinancieresSubmittedOn).toEqual(0)
-          expect(updatedProject.garantiesFinancieresSubmittedBy).toEqual(
-            undefined
-          )
+          expect(updatedProject.garantiesFinancieresSubmittedBy).toEqual(undefined)
           expect(updatedProject.garantiesFinancieresFileId).toEqual(undefined)
           expect(updatedProject.garantiesFinancieresDate).toEqual(0)
 
@@ -86,29 +78,19 @@ describe('removeGarantiesFinancieres use-case', () => {
             garantiesFinancieresFileId: undefined,
             garantiesFinancieresDate: 0,
           })
-          expect(updatedProject.history[0].createdAt / 100).toBeCloseTo(
-            Date.now() / 100,
-            0
-          )
-          expect(updatedProject.history[0].type).toEqual(
-            'garanties-financieres-removal'
-          )
+          expect(updatedProject.history[0].createdAt / 100).toBeCloseTo(Date.now() / 100, 0)
+          expect(updatedProject.history[0].type).toEqual('garanties-financieres-removal')
           expect(updatedProject.history[0].userId).toEqual(user.id)
         })
 
         it('should trigger a ProjectGFRemoved event', async () => {
           await waitForExpect(() => {
             expect(projectGFRemovedHandler).toHaveBeenCalled()
-            const projectGFRemovedEvent =
-              projectGFRemovedHandler.mock.calls[0][0]
-            expect(projectGFRemovedEvent.payload.projectId).toEqual(
-              originalProject.id
-            )
+            const projectGFRemovedEvent = projectGFRemovedHandler.mock.calls[0][0]
+            expect(projectGFRemovedEvent.payload.projectId).toEqual(originalProject.id)
 
             expect(projectGFRemovedEvent.payload.removedBy).toEqual(user.id)
-            expect(projectGFRemovedEvent.aggregateId).toEqual(
-              originalProject.id
-            )
+            expect(projectGFRemovedEvent.aggregateId).toEqual(originalProject.id)
           })
         })
       })

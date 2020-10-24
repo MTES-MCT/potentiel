@@ -1,2 +1,2 @@
-export * from './getFailedNotifications';
-export * from './notificationRepo';
+export * from './getFailedNotifications'
+export * from './notificationRepo'

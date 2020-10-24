@@ -1,7 +1,6 @@
 import React from 'react'
 import { dataId } from '../../../../helpers/testId'
 
-
 interface Action {
   title: string
   link?: string
@@ -27,11 +26,7 @@ export const FriseItem = ({
   status = 'future',
 }: FriseItemProps) => {
   const actions =
-    typeof action === 'undefined'
-      ? undefined
-      : Array.isArray(action)
-      ? action
-      : [action]
+    typeof action === 'undefined' ? undefined : Array.isArray(action) ? action : [action]
   return (
     <>
       <tr
@@ -77,8 +72,7 @@ export const FriseItem = ({
                 height="20"
                 stroke="var(--blue)"
                 viewBox="0 0 24 24"
-                {...(actions &&
-                actions.some((action) => action.openHiddenContent)
+                {...(actions && actions.some((action) => action.openHiddenContent)
                   ? {
                       ...dataId('frise-action'),
                       className: 'frise-content-toggle',
@@ -105,11 +99,7 @@ export const FriseItem = ({
         </td>
         <td></td>
         <td style={{ padding: '0 5px', fontStyle: 'italic' }}>{date || ''}</td>
-        <td
-          style={{ padding: '0 5px' }}
-          {...dataId('frise-title')}
-          data-status={status}
-        >
+        <td style={{ padding: '0 5px' }} {...dataId('frise-title')} data-status={status}>
           {title}
         </td>
         <td>

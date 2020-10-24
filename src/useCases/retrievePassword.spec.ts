@@ -1,8 +1,4 @@
-import {
-  credentialsRepo,
-  passwordRetrievalRepo,
-  resetDatabase,
-} from '../dataAccess/inMemory'
+import { credentialsRepo, passwordRetrievalRepo, resetDatabase } from '../dataAccess/inMemory'
 import { makeCredentials } from '../entities'
 import { NotificationArgs } from '../modules/notification'
 import makeRetrievePassword, { RATE_LIMIT_REACHED } from './retrievePassword'
@@ -49,9 +45,7 @@ describe('retrievePassword use-case', () => {
     expect(sentEmails).toHaveLength(1)
     expect(sentEmails[0].message.email).toEqual(email)
     expect(sentEmails[0].type).toEqual('password-reset')
-    expect(sentEmails[0].message.subject).toEqual(
-      'Récupération de mot de passe Potentiel'
-    )
+    expect(sentEmails[0].message.subject).toEqual('Récupération de mot de passe Potentiel')
 
     expect(sentEmails[0].variables).toHaveProperty('password_reset_link')
 
@@ -61,9 +55,7 @@ describe('retrievePassword use-case', () => {
       password_reset_link.indexOf('=') + 1
     )
 
-    const passwordRetrievalResult = await passwordRetrievalRepo.findById(
-      passwordRetrievalId
-    )
+    const passwordRetrievalResult = await passwordRetrievalRepo.findById(passwordRetrievalId)
 
     expect(passwordRetrievalResult.is_some()).toBeTruthy()
     if (passwordRetrievalResult.is_none()) return

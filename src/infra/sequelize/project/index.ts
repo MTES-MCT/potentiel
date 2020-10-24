@@ -1,1 +1,1 @@
-export * from './getUnnotifiedProjectsForPeriode';
+export * from './getUnnotifiedProjectsForPeriode'

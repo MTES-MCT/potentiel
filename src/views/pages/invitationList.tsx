@@ -4,13 +4,7 @@ import Pagination from '../components/pagination'
 import React from 'react'
 import { formatDate } from '../../helpers/formatDate'
 
-import {
-  Project,
-  AppelOffre,
-  Periode,
-  Famille,
-  ProjectAdmissionKey,
-} from '../../entities'
+import { Project, AppelOffre, Periode, Famille, ProjectAdmissionKey } from '../../entities'
 import ROUTES from '../../routes'
 import { dataId } from '../../helpers/testId'
 import { asLiteral } from '../../helpers/asLiteral'
@@ -27,11 +21,7 @@ interface InvitationListProps {
 }
 
 /* Pure component */
-export default function InvitationList({
-  request,
-  invitations,
-  appelsOffre,
-}: InvitationListProps) {
+export default function InvitationList({ request, invitations, appelsOffre }: InvitationListProps) {
   const { error, success, appelOffreId, periodeId } = request.query || {}
 
   return (
@@ -39,10 +29,7 @@ export default function InvitationList({
       <div className="panel">
         <div className="panel__header">
           <h3>Invitations en cours</h3>
-          <p>
-            Sont listées uniquement les invitations qui n'ont pas donné lieu à
-            une inscription
-          </p>
+          <p>Sont listées uniquement les invitations qui n'ont pas donné lieu à une inscription</p>
         </div>
         <div className="panel__header">
           <form
@@ -88,18 +75,14 @@ export default function InvitationList({
                 style={{ marginTop: 10 }}
                 {...dataId('submit-button')}
               >
-                Relancer les {invitations.itemCount} invitations de cette
-                période
+                Relancer les {invitations.itemCount} invitations de cette période
               </button>
             ) : (
               ''
             )}
           </form>
           {success ? (
-            <div
-              className="notification success"
-              {...dataId('success-message')}
-            >
+            <div className="notification success" {...dataId('success-message')}>
               {success}
             </div>
           ) : (
@@ -127,11 +110,7 @@ export default function InvitationList({
           </table>
         ) : (
           <>
-            <table
-              className="table"
-              style={{ width: '100%' }}
-              {...dataId('invitationList-list')}
-            >
+            <table className="table" style={{ width: '100%' }} {...dataId('invitationList-list')}>
               <thead>
                 <tr>
                   <th>Email</th>
@@ -142,10 +121,7 @@ export default function InvitationList({
               <tbody>
                 {invitations.items.map((invitation) => {
                   return (
-                    <tr
-                      key={'invitation_' + invitation.id}
-                      {...dataId('invitationList-item')}
-                    >
+                    <tr key={'invitation_' + invitation.id} {...dataId('invitationList-item')}>
                       <td>
                         {invitation.email}{' '}
                         {invitation.fullName ? (

@@ -3,10 +3,7 @@ import { Project, User } from '../entities'
 
 interface MakeUseCaseProps {
   findProjectById: ProjectRepo['findById']
-  shouldUserAccessProject: (args: {
-    user: User
-    projectId: Project['id']
-  }) => Promise<boolean>
+  shouldUserAccessProject: (args: { user: User; projectId: Project['id'] }) => Promise<boolean>
 }
 
 interface CallUseCaseProps {

@@ -1,1 +1,1 @@
-export * from './eventStore';
+export * from './eventStore'

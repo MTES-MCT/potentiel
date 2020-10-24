@@ -9,9 +9,7 @@ import routes from '../routes'
 import { UnwrapForTest } from '../types'
 import makeFakeProject from '../__tests__/fixtures/project'
 import makeFakeUser from '../__tests__/fixtures/user'
-import makeInviteUserToProject, {
-  ACCESS_DENIED_ERROR,
-} from './inviteUserToProject'
+import makeInviteUserToProject, { ACCESS_DENIED_ERROR } from './inviteUserToProject'
 
 describe('inviteUserToProject use-case', () => {
   const invitedEmail = 'invited@test.test'
@@ -63,9 +61,7 @@ describe('inviteUserToProject use-case', () => {
         })
 
         it('should add project to invited user', async () => {
-          expect(await userRepo.hasProject(invitedUser.id, projectId)).toEqual(
-            true
-          )
+          expect(await userRepo.hasProject(invitedUser.id, projectId)).toEqual(true)
         })
 
         it('should notify the user', () => {
@@ -219,12 +215,8 @@ describe('inviteUserToProject use-case', () => {
         })
 
         it('should add all projects to the user account', async () => {
-          expect(
-            await userRepo.hasProject(invitedUser.id, fakeProject1.id)
-          ).toEqual(true)
-          expect(
-            await userRepo.hasProject(invitedUser.id, fakeProject2.id)
-          ).toEqual(true)
+          expect(await userRepo.hasProject(invitedUser.id, fakeProject1.id)).toEqual(true)
+          expect(await userRepo.hasProject(invitedUser.id, fakeProject2.id)).toEqual(true)
         })
 
         it('should send a single notification to the user', async () => {
@@ -268,15 +260,13 @@ describe('inviteUserToProject use-case', () => {
           const projectAdmissionKeys = await projectAdmissionKeyRepo.findAll()
           expect(projectAdmissionKeys).toHaveLength(2)
           const projectAdmissionKey1 = projectAdmissionKeys.find(
-            (projectAdmissionKey) =>
-              projectAdmissionKey.projectId === fakeProject1.id
+            (projectAdmissionKey) => projectAdmissionKey.projectId === fakeProject1.id
           )
           expect(projectAdmissionKey1).toBeDefined()
           if (!projectAdmissionKey1) return
           expect(projectAdmissionKey1.email).toEqual(invitedEmail)
           const projectAdmissionKey2 = projectAdmissionKeys.find(
-            (projectAdmissionKey) =>
-              projectAdmissionKey.projectId === fakeProject2.id
+            (projectAdmissionKey) => projectAdmissionKey.projectId === fakeProject2.id
           )
           expect(projectAdmissionKey2).toBeDefined()
           if (!projectAdmissionKey2) return
