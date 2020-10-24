@@ -103,9 +103,6 @@ dist
 # TernJS port file
 .tern-port
 
-# VSCode settings
-.vscode
-
 # Persisted database
 .db
 
