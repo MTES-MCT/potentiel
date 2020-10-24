@@ -5,8 +5,6 @@ import { listGarantiesFinancieres } from '../useCases'
 import { GarantiesFinancieresListPage } from '../views/pages'
 
 const getGarantiesFinancieresPage = async (request: HttpRequest) => {
-  // console.log('Call to getGarantiesFinancieresPage received')
-
   if (!request.user) {
     return Redirect(ROUTES.LOGIN)
   }

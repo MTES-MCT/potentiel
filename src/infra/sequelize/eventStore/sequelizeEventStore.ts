@@ -1,12 +1,7 @@
 import { Op } from 'sequelize'
 import { v4 as uuid } from 'uuid'
-import { DomainEvent } from '../../../core/domain'
 import { ResultAsync } from '../../../core/utils'
-import {
-  BaseEventStore,
-  EventStoreHistoryFilters,
-  StoredEvent,
-} from '../../../modules/eventStore'
+import { BaseEventStore, EventStoreHistoryFilters, StoredEvent } from '../../../modules/eventStore'
 import {
   CandidateNotificationForPeriodeFailed,
   CandidateNotificationForPeriodeFailedPayload,
@@ -72,9 +67,7 @@ export class SequelizeEventStore extends BaseEventStore {
     this.EventStoreModel = models.EventStore
   }
 
-  protected persistEvent(
-    event: StoredEvent
-  ): ResultAsync<null, InfraNotAvailableError> {
+  protected persistEvent(event: StoredEvent): ResultAsync<null, InfraNotAvailableError> {
     return ResultAsync.fromPromise(
       this.EventStoreModel.create(this.toPersistance(event)),
       (e: any) => {
@@ -87,8 +80,6 @@ export class SequelizeEventStore extends BaseEventStore {
   public loadHistory(
     filters?: EventStoreHistoryFilters
   ): ResultAsync<StoredEvent[], InfraNotAvailableError> {
-    // console.log('sequelizeEventStore loadHistory with filters', filters)
-
     return ResultAsync.fromPromise(
       this.EventStoreModel.findAll(this.toQuery(filters)),
       (e: any) => {
@@ -97,7 +88,6 @@ export class SequelizeEventStore extends BaseEventStore {
       }
     )
       .map((events: any[]) => {
-        // console.log('sequelizeEventStore loadHistory found events', events)
         const payload = filters?.payload
         // Do this in memory for now
         // TODO: create proper sequelize query for payload search
@@ -105,14 +95,11 @@ export class SequelizeEventStore extends BaseEventStore {
           ? events
               .map((item) => item.get())
               .filter((event) =>
-                Object.entries(payload).every(
-                  ([key, value]) => event.payload[key] === value
-                )
+                Object.entries(payload).every(([key, value]) => event.payload[key] === value)
               )
           : events
       })
       .map((events: any[]) => {
-        // console.log('After filter, events', events)
         return events.map(this.fromPersistance).filter(isNotNullOrUndefined)
       })
   }
@@ -375,8 +362,6 @@ export class SequelizeEventStore extends BaseEventStore {
         }
       }
     }
-
-    // console.log('toQuery query is', query)
 
     return {
       where: query,

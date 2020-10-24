@@ -1,7 +1,6 @@
 import { requestModification, shouldUserAccessProject } from '../useCases'
 import { Redirect, SystemError } from '../helpers/responses'
-import { makeProjectFilePath } from '../helpers/makeProjectFilePath'
-import { Controller, HttpRequest } from '../types'
+import { HttpRequest } from '../types'
 import ROUTES from '../routes'
 import _ from 'lodash'
 import { FileContainer } from '../modules/file'
@@ -9,18 +8,8 @@ import moment from 'moment'
 
 import fs from 'fs'
 import util from 'util'
-import path from 'path'
+import { pathExists } from '../core/utils'
 
-const fileExists = util.promisify(fs.exists)
-const moveFile = util.promisify(fs.rename)
-const dirExists = util.promisify(fs.exists)
-const makeDir = util.promisify(fs.mkdir)
-const makeDirIfNecessary = async (dirpath) => {
-  const exists = await dirExists(dirpath)
-  if (!exists) await makeDir(dirpath)
-
-  return dirpath
-}
 const deleteFile = util.promisify(fs.unlink)
 
 const returnRoute = (type, projectId) => {
@@ -55,18 +44,6 @@ const returnRoute = (type, projectId) => {
 }
 
 const postRequestModification = async (request: HttpRequest) => {
-  // console.log(
-  //   'Call to postRequestModification received',
-  //   request.body,
-  //   request.file
-  // )
-
-  // console.log(
-  //   'Call to postRequestModification received',
-  //   request.body,
-  //   request.file
-  // )
-
   if (!request.user) {
     return SystemError('User must be logged in')
   }
@@ -105,8 +82,7 @@ const postRequestModification = async (request: HttpRequest) => {
 
   // Convert evaluationCarbone
   try {
-    data.evaluationCarbone =
-      data.evaluationCarbone && Number(data.evaluationCarbone)
+    data.evaluationCarbone = data.evaluationCarbone && Number(data.evaluationCarbone)
   } catch (error) {
     console.log('Could not convert evaluationCarbone to Number')
     const { projectId, type } = data
@@ -119,7 +95,7 @@ const postRequestModification = async (request: HttpRequest) => {
   try {
     if (data.delayedServiceDate) {
       const delayedServiceDate = moment(data.delayedServiceDate, 'DD/MM/YYYY')
-      if (!delayedServiceDate.isValid()) throw 'invalid date format'
+      if (!delayedServiceDate.isValid()) throw new Error('invalid date format')
       data.delayedServiceDate = delayedServiceDate.toDate().getTime()
     }
   } catch (error) {
@@ -130,14 +106,15 @@ const postRequestModification = async (request: HttpRequest) => {
     })
   }
 
-  let file: FileContainer | undefined = undefined
+  let file: FileContainer | undefined
 
   if (request.file) {
-    if (!(await fileExists(request.file.path))) {
+    const dirExists: boolean = await pathExists(request.file.path)
+
+    if (!dirExists) {
       const { projectId, type } = data
       return Redirect(returnRoute(type, projectId), {
-        error:
-          "Erreur: la pièce-jointe n'a pas pu être intégrée. Merci de réessayer.",
+        error: "Erreur: la pièce-jointe n'a pas pu être intégrée. Merci de réessayer.",
       })
     }
 

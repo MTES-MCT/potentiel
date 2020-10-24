@@ -4,11 +4,7 @@ import makeResetPassword, {
 } from './resetPassword'
 import makeSignup from './signup'
 import makeLogin from './login'
-import {
-  makeCredentials,
-  makeProjectAdmissionKey,
-  makePasswordRetrieval,
-} from '../entities'
+import { makeProjectAdmissionKey, makePasswordRetrieval } from '../entities'
 import {
   passwordRetrievalRepo,
   credentialsRepo,
@@ -57,11 +53,7 @@ describe('resetPassword use-case', () => {
           .map(makeProjectAdmissionKey)
           .filter((item) => item.is_ok())
           .map((item) => item.unwrap())
-          .map((item) =>
-            projectAdmissionKeyRepo
-              .save(item)
-              .then((res) => res.map(() => item))
-          )
+          .map((item) => projectAdmissionKeyRepo.save(item).then((res) => res.map(() => item)))
       )
     )
       .filter((item) => item.is_ok())
@@ -158,9 +150,7 @@ describe('resetPassword use-case', () => {
       })
 
       expect(resetPasswordResult.is_err()).toBeTruthy()
-      expect(resetPasswordResult.unwrap_err().message).toEqual(
-        PASSWORD_MISMATCH_ERROR
-      )
+      expect(resetPasswordResult.unwrap_err().message).toEqual(PASSWORD_MISMATCH_ERROR)
     })
   })
 
@@ -184,9 +174,7 @@ describe('resetPassword use-case', () => {
       })
 
       expect(secondResetPasswordResult.is_err()).toBeTruthy()
-      expect(secondResetPasswordResult.unwrap_err().message).toEqual(
-        ILLEGAL_RESET_CODE_ERROR
-      )
+      expect(secondResetPasswordResult.unwrap_err().message).toEqual(ILLEGAL_RESET_CODE_ERROR)
     })
   })
 
@@ -199,9 +187,7 @@ describe('resetPassword use-case', () => {
         confirmPassword: 'newPassword',
       })
       expect(resetPasswordResult.is_err()).toBeTruthy()
-      expect(resetPasswordResult.unwrap_err().message).toEqual(
-        ILLEGAL_RESET_CODE_ERROR
-      )
+      expect(resetPasswordResult.unwrap_err().message).toEqual(ILLEGAL_RESET_CODE_ERROR)
     })
   })
 })

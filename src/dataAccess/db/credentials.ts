@@ -1,20 +1,11 @@
 import { DataTypes } from 'sequelize'
 import { CredentialsRepo } from '../'
-import { Credentials, makeCredentials } from '../../entities'
-import {
-  Err,
-  None,
-  Ok,
-  OptionAsync,
-  ResultAsync,
-  Some,
-  ErrorResult,
-} from '../../types'
+import { Credentials } from '../../entities'
+import { Err, None, Ok, OptionAsync, ResultAsync, Some, ErrorResult } from '../../types'
 import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
 
 // Override these to apply serialization/deserialization on inputs/outputs
-const deserialize = (item) => item
 const serialize = (item) => item
 
 export default function makeCredentialsRepo({ sequelize }): CredentialsRepo {
@@ -45,9 +36,7 @@ export default function makeCredentialsRepo({ sequelize }): CredentialsRepo {
     update,
   })
 
-  async function findByEmail(
-    _email: Credentials['email']
-  ): OptionAsync<Credentials> {
+  async function findByEmail(_email: Credentials['email']): OptionAsync<Credentials> {
     await _isDbReady
 
     try {
@@ -59,8 +48,7 @@ export default function makeCredentialsRepo({ sequelize }): CredentialsRepo {
 
       return Some(credentialsInDb.get())
     } catch (error) {
-      if (CONFIG.logDbErrors)
-        console.log('Credentials.findByEmail error', error)
+      if (CONFIG.logDbErrors) console.log('Credentials.findByEmail error', error)
       return None
     }
   }

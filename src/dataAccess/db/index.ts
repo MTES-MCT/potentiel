@@ -65,7 +65,6 @@ const initDatabase = async () => {
 
   try {
     await sequelize.authenticate()
-    // console.log('Connection has been established successfully.')
   } catch (error) {
     console.error('Unable to connect to the database:', error)
   }
@@ -87,7 +86,6 @@ const initDatabase = async () => {
 const resetDatabase = async () => {
   try {
     await sequelize.sync({ force: true })
-    // console.log('Database has been emptied.')
   } catch (error) {
     console.error('Unable to drop to the database:', error)
   }

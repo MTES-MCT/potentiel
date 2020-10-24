@@ -4,12 +4,9 @@ import { ResetPasswordPage } from '../views/pages'
 import { passwordRetrievalRepo } from '../dataAccess'
 import routes from '../routes'
 
-const ILLEGAL_RESET_CODE_ERROR =
-  "Le lien de récupération de mot de passe n'est pas valable."
+const ILLEGAL_RESET_CODE_ERROR = "Le lien de récupération de mot de passe n'est pas valable."
 
 const getResetPasswordPage = async (request: HttpRequest) => {
-  // console.log('Call to getResetPasswordPage received', request.query)
-
   const { resetCode } = request.query
 
   if (!resetCode) {
@@ -19,9 +16,7 @@ const getResetPasswordPage = async (request: HttpRequest) => {
   }
 
   // Check resetCode
-  const passwordRetrievalResult = await passwordRetrievalRepo.findById(
-    resetCode
-  )
+  const passwordRetrievalResult = await passwordRetrievalRepo.findById(resetCode)
 
   if (passwordRetrievalResult.is_none()) {
     return Redirect(routes.LOGIN, {

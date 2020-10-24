@@ -1,24 +1,10 @@
 import { DomainError } from '../../core/domain'
-import {
-  err,
-  errAsync,
-  fromOldResultAsync,
-  ResultAsync,
-} from '../../core/utils'
+import { err, ResultAsync } from '../../core/utils'
 import { ProjectRepo } from '../../dataAccess'
-import {
-  applyProjectUpdate,
-  CertificateTemplate,
-  getCertificateIfProjectEligible,
-  Project,
-} from '../../entities'
+import { CertificateTemplate, getCertificateIfProjectEligible, Project } from '../../entities'
 import { makeProjectFilePath } from '../../helpers/makeProjectFilePath'
 import { File, FileService } from '../file'
-import {
-  EntityNotFoundError,
-  InfraNotAvailableError,
-  OtherError,
-} from '../shared/errors'
+import { EntityNotFoundError, InfraNotAvailableError } from '../shared/errors'
 import { makeCertificateFilename } from './utils'
 
 export class ProjectNotEligibleForCertificateError extends DomainError {
@@ -37,6 +23,7 @@ export type GenerateCertificate = (
   project?: Project
 ) => ResultAsync<Project['certificateFileId'], DomainError>
 
+/* global NodeJS */
 interface GenerateCertificateDeps {
   fileService: FileService
   findProjectById: ProjectRepo['findById']
@@ -46,24 +33,18 @@ interface GenerateCertificateDeps {
     project: Project
   ) => ResultAsync<NodeJS.ReadableStream, Error>
 }
-export const makeGenerateCertificate = (
-  deps: GenerateCertificateDeps
-): GenerateCertificate => (
+export const makeGenerateCertificate = (deps: GenerateCertificateDeps): GenerateCertificate => (
   projectId: Project['id'],
   notifiedOn?: Project['notifiedOn'],
   _project?: Project
 ) => {
-  // console.log('generaticeCertificate called for project', projectId)
   return ResultAsync.fromPromise(
     _project ? Promise.resolve(_project) : deps.findProjectById(projectId),
     () => new InfraNotAvailableError()
   )
     .andThen((project: Project | undefined) => {
       if (!project) {
-        console.log(
-          'Error: generaticeCertificate could not find project',
-          projectId
-        )
+        console.log('Error: generaticeCertificate could not find project', projectId)
         return err(new EntityNotFoundError())
       }
 
@@ -71,10 +52,7 @@ export const makeGenerateCertificate = (
 
       // Generate PDF for Certificate
 
-      const certificateTemplate = getCertificateIfProjectEligible(
-        project,
-        !!notifiedOn
-      )
+      const certificateTemplate = getCertificateIfProjectEligible(project, !!notifiedOn)
       // Make sure the project can have a certificate (notifiedOn, classe, periode)
       if (!certificateTemplate) {
         console.log(
@@ -84,7 +62,6 @@ export const makeGenerateCertificate = (
         return err(new ProjectNotEligibleForCertificateError())
       }
 
-      // console.log('generaticeCertificate building certificate', projectId)
       return deps
         .buildCertificate(certificateTemplate, project)
         .map((fileStream) => ({ fileStream, project }))
@@ -106,10 +83,6 @@ export const makeGenerateCertificate = (
       })
     })
     .map((file) => {
-      // console.log(
-      //   'generaticeCertificate done saving certificate file',
-      //   projectId
-      // )
       return file.id.toString()
     })
 }

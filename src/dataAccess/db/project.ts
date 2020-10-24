@@ -1,10 +1,5 @@
 import { DataTypes, Op, QueryTypes } from 'sequelize'
-import _ from 'lodash'
-import {
-  ContextSpecificProjectListFilter,
-  ProjectFilters,
-  ProjectRepo,
-} from '../'
+import { ContextSpecificProjectListFilter, ProjectFilters, ProjectRepo } from '../'
 import {
   AppelOffre,
   DREAL,
@@ -42,7 +37,6 @@ const deserialize = (item) => ({
   dcrNumeroDossier: item.dcrNumeroDossier || '',
   certificateFileId: item.certificateFileId || '',
 })
-const serialize = (item) => item
 
 const initSearchIndex = async (sequelize) => {
   // Set up the virtual table
@@ -50,16 +44,12 @@ const initSearchIndex = async (sequelize) => {
     await sequelize.query(
       'CREATE VIRTUAL TABLE IF NOT EXISTS project_search USING fts3(id UUID, nomCandidat VARCHAR(255), nomProjet VARCHAR(255), nomRepresentantLegal VARCHAR(255), email VARCHAR(255), adresseProjet VARCHAR(255), codePostalProjet VARCHAR(255), communeProjet VARCHAR(255), departementProjet VARCHAR(255), regionProjet VARCHAR(255), numeroCRE VARCHAR(255), identifier VARCHAR(255));'
     )
-    // console.log('Done create project_search virtual table')
   } catch (error) {
     console.error('Unable to create project_search virtual table', error)
   }
 }
 
-export default function makeProjectRepo({
-  sequelize,
-  appelOffreRepo,
-}): ProjectRepo {
+export default function makeProjectRepo({ sequelize, appelOffreRepo }): ProjectRepo {
   const ProjectModel = sequelize.define('project', {
     id: {
       type: DataTypes.UUID,
@@ -260,10 +250,7 @@ export default function makeProjectRepo({
         try {
           if (rawValue) parsedValue = JSON.parse(rawValue)
         } catch (e) {
-          console.log(
-            'ProjectEventModel failed to parse before rawValue:',
-            rawValue
-          )
+          console.log('ProjectEventModel failed to parse before rawValue:', rawValue)
         }
         return parsedValue
       },
@@ -281,10 +268,7 @@ export default function makeProjectRepo({
         try {
           if (rawValue) parsedValue = JSON.parse(rawValue)
         } catch (e) {
-          console.log(
-            'ProjectEventModel failed to parse after rawValue:',
-            rawValue
-          )
+          console.log('ProjectEventModel failed to parse after rawValue:', rawValue)
         }
         return parsedValue
       },
@@ -368,9 +352,7 @@ export default function makeProjectRepo({
     as: 'certificateFile',
   })
 
-  const _isDbReady = isDbReady({ sequelize }).then(() =>
-    initSearchIndex(sequelize)
-  )
+  const _isDbReady = isDbReady({ sequelize }).then(() => initSearchIndex(sequelize))
 
   return Object.freeze({
     findById,
@@ -408,10 +390,7 @@ export default function makeProjectRepo({
     return project
   }
 
-  async function findById(
-    id: Project['id'],
-    includeHistory?: true
-  ): Promise<Project | undefined> {
+  async function findById(id: Project['id'], includeHistory?: true): Promise<Project | undefined> {
     await _isDbReady
 
     try {
@@ -436,22 +415,18 @@ export default function makeProjectRepo({
       })
       if (!projectInDb) return
 
-      const projectInstance = makeProject(
-        deserialize(projectInDb.get({ plain: true }))
-      )
+      const projectInstance = makeProject(deserialize(projectInDb.get({ plain: true })))
 
       if (projectInstance.is_err()) {
         throw projectInstance.unwrap_err()
       }
 
-      const projectWithAppelOffre = await addAppelOffreToProject(
-        projectInstance.unwrap()
-      )
+      const projectWithAppelOffre = await addAppelOffreToProject(projectInstance.unwrap())
 
       if (includeHistory) {
-        projectWithAppelOffre.history = (
-          await projectInDb.getProjectEvents()
-        ).map((item) => item.get())
+        projectWithAppelOffre.history = (await projectInDb.getProjectEvents()).map((item) =>
+          item.get()
+        )
       }
 
       return projectWithAppelOffre
@@ -474,9 +449,7 @@ export default function makeProjectRepo({
 
       if (projectInstance.is_err()) throw projectInstance.unwrap_err()
 
-      const projectWithAppelOffre = await addAppelOffreToProject(
-        projectInstance.unwrap()
-      )
+      const projectWithAppelOffre = await addAppelOffreToProject(projectInstance.unwrap())
       return projectWithAppelOffre
     } catch (error) {
       if (CONFIG.logDbErrors) console.log('Project.findOne error', error)
@@ -601,9 +574,7 @@ export default function makeProjectRepo({
       'Project._getProjectsWithIds.deserialize error'
     )
 
-    const projects = await Promise.all(
-      deserializedItems.map(addAppelOffreToProject)
-    )
+    const projects = await Promise.all(deserializedItems.map(addAppelOffreToProject))
 
     // const projects = mapIfOk(
     //   deserializedItems,
@@ -623,21 +594,17 @@ export default function makeProjectRepo({
     const UserModel = sequelize.model('user')
     const userInstance = await UserModel.findByPk(userId)
     if (!userInstance) {
-      if (CONFIG.logDbErrors)
-        console.log('Cannot find user to get projects from')
+      if (CONFIG.logDbErrors) console.log('Cannot find user to get projects from')
 
       return []
     }
 
-    return (
-      await userInstance.getProjects(_makeSelectorsForQuery(filters))
-    ).map((item) => item.get().id)
+    return (await userInstance.getProjects(_makeSelectorsForQuery(filters))).map(
+      (item) => item.get().id
+    )
   }
 
-  async function _searchWithinGivenIds(
-    term: string,
-    projectIds: Project['id'][]
-  ) {
+  async function _searchWithinGivenIds(term: string, projectIds: Project['id'][]) {
     const projects = await sequelize.query(
       'SELECT id from project_search WHERE project_search MATCH :recherche AND id IN (:projectIds);',
       {
@@ -672,9 +639,7 @@ export default function makeProjectRepo({
       ],
     }
 
-    return _findAndBuildProjectList(opts, pagination, (project) =>
-      projectIds.includes(project.id)
-    )
+    return _findAndBuildProjectList(opts, pagination, (project) => projectIds.includes(project.id))
   }
 
   async function searchForUser(
@@ -685,21 +650,13 @@ export default function makeProjectRepo({
   ): Promise<PaginatedList<Project>> {
     await _isDbReady
     try {
-      const filteredUserProjectIds = await _getProjectIdsForUser(
-        userId,
-        filters
-      )
+      const filteredUserProjectIds = await _getProjectIdsForUser(userId, filters)
 
-      if (!filteredUserProjectIds.length)
-        return makePaginatedList([], 0, pagination)
+      if (!filteredUserProjectIds.length) return makePaginatedList([], 0, pagination)
 
-      const searchedUserProjectIds = await _searchWithinGivenIds(
-        terms,
-        filteredUserProjectIds
-      )
+      const searchedUserProjectIds = await _searchWithinGivenIds(terms, filteredUserProjectIds)
 
-      if (!searchedUserProjectIds.length)
-        return makePaginatedList([], 0, pagination)
+      if (!searchedUserProjectIds.length) return makePaginatedList([], 0, pagination)
 
       return _getProjectsWithIds(searchedUserProjectIds, pagination)
     } catch (error) {
@@ -715,13 +672,9 @@ export default function makeProjectRepo({
   ): Promise<PaginatedList<Project>> {
     await _isDbReady
     try {
-      const filteredUserProjectIds = await _getProjectIdsForUser(
-        userId,
-        filters
-      )
+      const filteredUserProjectIds = await _getProjectIdsForUser(userId, filters)
 
-      if (!filteredUserProjectIds.length)
-        return makePaginatedList([], 0, pagination)
+      if (!filteredUserProjectIds.length) return makePaginatedList([], 0, pagination)
 
       return _getProjectsWithIds(filteredUserProjectIds, pagination)
     } catch (error) {
@@ -762,26 +715,19 @@ export default function makeProjectRepo({
   ): Promise<PaginatedList<Project>> {
     await _isDbReady
     try {
-      const searchedRegionProjectIds = await _searchWithinRegions(
-        terms,
-        regions
-      )
+      const searchedRegionProjectIds = await _searchWithinRegions(terms, regions)
 
-      if (!searchedRegionProjectIds.length)
-        return makePaginatedList([], 0, pagination)
+      if (!searchedRegionProjectIds.length) return makePaginatedList([], 0, pagination)
 
       const opts = _makeSelectorsForQuery(filters)
 
       opts.where.id = searchedRegionProjectIds
 
       return _findAndBuildProjectList(opts, pagination, (project) =>
-        project.regionProjet
-          .split(' / ')
-          .some((region) => regions.includes(region as DREAL))
+        project.regionProjet.split(' / ').some((region) => regions.includes(region as DREAL))
       )
     } catch (error) {
-      if (CONFIG.logDbErrors)
-        console.log('Project.searchForRegions error', error)
+      if (CONFIG.logDbErrors) console.log('Project.searchForRegions error', error)
       return makePaginatedList([], 0, pagination)
     }
   }
@@ -812,15 +758,9 @@ export default function makeProjectRepo({
 
       opts.where.regionProjet = _makeRegionSelector(regions)
 
-      // console.log('findAllForRegions opts', opts)
-      // console.log('findAllForRegions regions', regions)
-
       const res = await _findAndBuildProjectList(opts, pagination, (project) =>
-        project.regionProjet
-          .split(' / ')
-          .some((region) => regions.includes(region as DREAL))
+        project.regionProjet.split(' / ').some((region) => regions.includes(region as DREAL))
       )
-      // console.log('findAllForRegions res', res)
       return res
     } catch (error) {
       if (CONFIG.logDbErrors) console.log('Project.searchForUser error', error)
@@ -877,8 +817,7 @@ export default function makeProjectRepo({
 
       return _findAndBuildProjectList(opts, pagination)
     } catch (error) {
-      if (CONFIG.logDbErrors)
-        console.log('Project.findAndCountAll error', error)
+      if (CONFIG.logDbErrors) console.log('Project.findAndCountAll error', error)
       return makePaginatedList([], 0, pagination)
     }
   }
@@ -897,8 +836,7 @@ export default function makeProjectRepo({
 
       return await ProjectModel.count(opts)
     } catch (error) {
-      if (CONFIG.logDbErrors)
-        console.log('Project.countUnnotifiedProjects error', error)
+      if (CONFIG.logDbErrors) console.log('Project.countUnnotifiedProjects error', error)
       return 0
     }
   }
@@ -934,9 +872,7 @@ export default function makeProjectRepo({
               ...newEvent,
               projectId: project.id,
             }))
-            .map((newEvent) =>
-              ProjectEventModel.create(newEvent /*, { transaction }*/)
-            )
+            .map((newEvent) => ProjectEventModel.create(newEvent /*, { transaction } */))
         )
       } catch (error) {
         console.log('projectRepo.save error when saving newEvents', error)
@@ -1018,8 +954,7 @@ export default function makeProjectRepo({
 
       return appelsOffres.map((item) => item.get().appelOffreId)
     } catch (error) {
-      if (CONFIG.logDbErrors)
-        console.log('Project.findExistingAppelsOffres error', error)
+      if (CONFIG.logDbErrors) console.log('Project.findExistingAppelsOffres error', error)
       return []
     }
   }
@@ -1052,8 +987,7 @@ export default function makeProjectRepo({
 
       return periodes.map((item) => item.get().periodeId)
     } catch (error) {
-      if (CONFIG.logDbErrors)
-        console.log('Project.findExistingPeriodesForAppelOffre error', error)
+      if (CONFIG.logDbErrors) console.log('Project.findExistingPeriodesForAppelOffre error', error)
       return []
     }
   }
@@ -1086,8 +1020,7 @@ export default function makeProjectRepo({
 
       return familles.map((item) => item.get().familleId)
     } catch (error) {
-      if (CONFIG.logDbErrors)
-        console.log('Project.findExistingFamillesForAppelOffre error', error)
+      if (CONFIG.logDbErrors) console.log('Project.findExistingFamillesForAppelOffre error', error)
       return []
     }
   }
@@ -1115,17 +1048,12 @@ export default function makeProjectRepo({
         'Project.findProjectsWithGarantiesFinancieresPendingBefore.deserialize error'
       )
 
-      const projects = await Promise.all(
-        deserializedItems.map(addAppelOffreToProject)
-      )
+      const projects = await Promise.all(deserializedItems.map(addAppelOffreToProject))
 
       return projects
     } catch (error) {
       if (CONFIG.logDbErrors)
-        console.log(
-          'Project.findProjectsWithGarantiesFinancieresPendingBefore error',
-          error
-        )
+        console.log('Project.findProjectsWithGarantiesFinancieresPendingBefore error', error)
       return []
     }
   }

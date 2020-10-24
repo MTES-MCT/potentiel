@@ -1,9 +1,6 @@
-import { EventStore } from '../../../../modules/eventStore'
 import { ProjectDataCorrected } from '../../../../modules/project/events'
 
-export const onProjectDataCorrected = (models) => async (
-  event: ProjectDataCorrected
-) => {
+export const onProjectDataCorrected = (models) => async (event: ProjectDataCorrected) => {
   const ProjectModel = models.Project
   const projectInstance = await ProjectModel.findByPk(event.payload.projectId)
 

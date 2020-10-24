@@ -2,13 +2,8 @@ import { Redirect } from '../helpers/responses'
 import ROUTES from '../routes'
 import { HttpRequest } from '../types'
 import { resetPassword } from '../useCases'
-import moment from 'moment'
-
-const FORMAT_DATE = 'DD/MM/YYYY'
 
 const postResetPassword = async (request: HttpRequest) => {
-  // console.log('Call to sendCandidateNotifications received', request.body)
-
   const { password, confirmPassword, resetCode } = request.body
 
   const result = await resetPassword({

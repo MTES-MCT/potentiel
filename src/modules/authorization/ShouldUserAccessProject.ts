@@ -1,6 +1,5 @@
 import { User, Project } from '../../entities'
 import { UserRepo, ProjectRepo } from '../../dataAccess'
-import _ from 'lodash'
 
 interface CheckProps {
   projectId: Project['id']
@@ -12,10 +11,7 @@ export interface ShouldUserAccessProject {
 }
 
 export class BaseShouldUserAccessProject implements ShouldUserAccessProject {
-  constructor(
-    private userRepo: UserRepo,
-    private findProjectById: ProjectRepo['findById']
-  ) {}
+  constructor(private userRepo: UserRepo, private findProjectById: ProjectRepo['findById']) {}
 
   async check({ projectId, user }: CheckProps): Promise<boolean> {
     if (['admin', 'dgec'].includes(user.role)) return true

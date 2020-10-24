@@ -1,11 +1,7 @@
+/* global cy */
+
 /// <reference types="cypress" />
-import {
-  Before,
-  Given,
-  When,
-  And,
-  Then,
-} from 'cypress-cucumber-preprocessor/steps'
+import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps'
 import testid from '../../helpers/testid'
 
 Given('je suis déconnecté', function () {
@@ -30,34 +26,26 @@ Then('on me notifie la réussite par {string}', (successMessage) => {
   cy.get(testid('success-message')).should('contain', successMessage)
 })
 
-When(
-  'je clique sur le lien de récupération de mot de passe que je reçois par mail',
-  () => {
-    cy.get('@userEmail').then((userEmail) => {
-      cy.getSentEmails().then((emails) => {
-        cy.wrap(emails).should('have.length', 1)
-        const myEmail = emails.find(
-          (email) => email.recipients[0].email === userEmail
-        )
-        cy.wrap(myEmail).should('not.be.undefined')
-        cy.visit(myEmail.variables.password_reset_link)
-      })
+When('je clique sur le lien de récupération de mot de passe que je reçois par mail', () => {
+  cy.get('@userEmail').then((userEmail) => {
+    cy.getSentEmails().then((emails) => {
+      cy.wrap(emails).should('have.length', 1)
+      const myEmail = emails.find((email) => email.recipients[0].email === userEmail)
+      cy.wrap(myEmail).should('not.be.undefined')
+      cy.visit(myEmail.variables.password_reset_link)
     })
-  }
-)
+  })
+})
 
 Then('je suis dirigé vers une page de changement de mot de passe', () => {
   cy.url().should('include', 'recuperation-mot-de-passe.html')
 })
 
-When(
-  'je saisis le nouveau mot de passe {string} dans les deux champs',
-  (newPassword) => {
-    cy.wrap(newPassword).as('newPassword')
-    cy.get(testid('password-field')).type(newPassword)
-    cy.get(testid('confirm-password-field')).type(newPassword)
-  }
-)
+When('je saisis le nouveau mot de passe {string} dans les deux champs', (newPassword) => {
+  cy.wrap(newPassword).as('newPassword')
+  cy.get(testid('password-field')).type(newPassword)
+  cy.get(testid('confirm-password-field')).type(newPassword)
+})
 
 When('je valide le formulaire', (term) => {
   cy.get(testid('submit-button')).click()

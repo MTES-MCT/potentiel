@@ -11,12 +11,11 @@ export class CandidateInformationOfCertificateUpdateFailed
   implements DomainEvent {
   public static type: 'CandidateInformationOfCertificateUpdateFailed' =
     'CandidateInformationOfCertificateUpdateFailed'
+
   public type = CandidateInformationOfCertificateUpdateFailed.type
   currentVersion = 1
 
-  aggregateIdFromPayload(
-    payload: CandidateInformationOfCertificateUpdateFailedPayload
-  ) {
+  aggregateIdFromPayload(payload: CandidateInformationOfCertificateUpdateFailedPayload) {
     return [payload.projectId, payload.porteurProjetId]
   }
 }

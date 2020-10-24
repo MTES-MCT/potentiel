@@ -4,9 +4,7 @@ import makeFakeProject from '../../../__tests__/fixtures/project'
 import { makeGetUnnotifiedProjectsForPeriode } from './getUnnotifiedProjectsForPeriode'
 
 describe('Sequelize getUnnotifiedProjectsForPeriode', () => {
-  const getUnnotifiedProjectsForPeriode = makeGetUnnotifiedProjectsForPeriode(
-    models
-  )
+  const getUnnotifiedProjectsForPeriode = makeGetUnnotifiedProjectsForPeriode(models)
 
   const appelOffreId = 'appelOffre1'
   const periodeId = 'periode1'
@@ -49,10 +47,7 @@ describe('Sequelize getUnnotifiedProjectsForPeriode', () => {
   })
 
   it('should return a list of UnnotifiedProjectDTOs for projects that have not been notified for the specific periode', async () => {
-    const projectsResult = await getUnnotifiedProjectsForPeriode(
-      appelOffreId,
-      periodeId
-    )
+    const projectsResult = await getUnnotifiedProjectsForPeriode(appelOffreId, periodeId)
 
     expect(projectsResult.isOk()).toBe(true)
     if (projectsResult.isErr()) return

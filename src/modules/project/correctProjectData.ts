@@ -1,5 +1,4 @@
 import { okAsync, ResultAsync, errAsync } from '../../core/utils'
-import { DomainError } from '../../core/domain'
 import { ProjectRepo } from '../../dataAccess'
 import { Project, User } from '../../entities'
 import { makeProjectFilePath } from '../../helpers/makeProjectFilePath'
@@ -63,9 +62,7 @@ export type CorrectProjectData = (
   | ProjectCannotBeUpdatedIfUnnotifiedError
 >
 
-export const makeCorrectProjectData = (
-  deps: CorrectProjectDataDeps
-): CorrectProjectData => ({
+export const makeCorrectProjectData = (deps: CorrectProjectDataDeps): CorrectProjectData => ({
   projectId,
   certificateFile,
   projectVersionDate,
@@ -98,7 +95,7 @@ export const makeCorrectProjectData = (
         projectVersionDate?.getTime()
       )
 
-      if (projectVersionDate?.getTime() != project.updatedAt?.getTime()) {
+      if (projectVersionDate?.getTime() !== project.updatedAt?.getTime()) {
         return errAsync(new ProjectHasBeenUpdatedSinceError())
       }
 
@@ -117,10 +114,7 @@ export const makeCorrectProjectData = (
       })
 
       if (fileResult.isErr()) {
-        console.log(
-          'correctProjectData command: File.create failed',
-          fileResult.error
-        )
+        console.log('correctProjectData command: File.create failed', fileResult.error)
 
         return errAsync(new OtherError())
       }

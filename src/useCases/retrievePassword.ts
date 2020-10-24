@@ -1,6 +1,5 @@
-import { PasswordRetrieval, makePasswordRetrieval } from '../entities'
+import { makePasswordRetrieval } from '../entities'
 import { PasswordRetrievalRepo, CredentialsRepo } from '../dataAccess'
-import _ from 'lodash'
 import { ResultAsync, ErrorResult, Ok } from '../types'
 import routes from '../routes'
 import { NotificationService } from '../modules/notification'
@@ -26,18 +25,11 @@ export default function makeRetrievePassword({
   credentialsRepo,
   sendNotification,
 }: MakeUseCaseProps) {
-  return async function retrievePassword({
-    email,
-  }: CallUseCaseProps): ResultAsync<null> {
+  return async function retrievePassword({ email }: CallUseCaseProps): ResultAsync<null> {
     // Check if credentials exist
     const credentialsRes = await credentialsRepo.findByEmail(email)
 
     if (credentialsRes.is_none()) {
-      // console.log(
-      //   'Forgotten password request for ' +
-      //     email +
-      //     ' but no account under this email.'
-      // )
       return Ok(null)
     }
 
@@ -68,9 +60,7 @@ export default function makeRetrievePassword({
 
     const passwordRetrieval = passwordRetrievalResult.unwrap()
 
-    const insertionResult = await passwordRetrievalRepo.insert(
-      passwordRetrieval
-    )
+    const insertionResult = await passwordRetrievalRepo.insert(passwordRetrieval)
 
     if (insertionResult.is_err()) {
       console.log(

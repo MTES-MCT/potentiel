@@ -1,11 +1,7 @@
+/* global cy */
+
 /// <reference types="cypress" />
-import {
-  Before,
-  Given,
-  When,
-  And,
-  Then,
-} from 'cypress-cucumber-preprocessor/steps'
+import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps'
 import testid from '../../helpers/testid'
 
 Given('les projets suivants', async function (dataTable) {
@@ -18,12 +14,9 @@ Given('je suis dreal de la region {string}', function (region) {
   })
 })
 
-When(
-  'je me rends sur la page admin qui liste les garanties financières',
-  () => {
-    cy.visit('/admin/garanties-financieres.html')
-  }
-)
+When('je me rends sur la page admin qui liste les garanties financières', () => {
+  cy.visit('/admin/garanties-financieres.html')
+})
 
 Then('le projet {string} se trouve dans la liste', (nomProjet) => {
   cy.findContaining(testid('gfList-item'), nomProjet)
@@ -43,15 +36,12 @@ Then(
   }
 )
 
-Then(
-  'chaque ligne contient un lien pour télécharger le fichier en pièce-jointe',
-  () => {
-    cy.get(testid('gfList-item-download-link'))
-      .should('contain.text', 'Télécharger la pièce-jointe')
-      .should('have.attr', 'href')
-      .and('match', /fichier\.pdf/)
-  }
-)
+Then('chaque ligne contient un lien pour télécharger le fichier en pièce-jointe', () => {
+  cy.get(testid('gfList-item-download-link'))
+    .should('contain.text', 'Télécharger la pièce-jointe')
+    .should('have.attr', 'href')
+    .and('match', /fichier\.pdf/)
+})
 
 Then('je suis redirigé vers la page qui liste les projets', () => {
   cy.url().should('include', '/admin/dashboard.html')

@@ -1,11 +1,7 @@
+/* global cy */
+
 /// <reference types="cypress" />
-import {
-  Before,
-  Given,
-  When,
-  And,
-  Then,
-} from 'cypress-cucumber-preprocessor/steps'
+import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps'
 import testid from '../../helpers/testid'
 
 Given('le projet suivant', async function (dataTable) {
@@ -16,10 +12,7 @@ When('je me rends sur la page de gestion des DREAL', () => {
   cy.visit(`/admin/dreals.html`)
 })
 
-When('je saisis la valeur {string} dans le champ {string}', async function (
-  value,
-  fieldName
-) {
+When('je saisis la valeur {string} dans le champ {string}', async function (value, fieldName) {
   cy.get(testid(fieldName + '-field'))
     .clear()
     .type(value)
@@ -40,24 +33,15 @@ Then('on me notifie la réussite par {string}', (successMessage) => {
   cy.get(testid('success-message')).should('contain', successMessage)
 })
 
-Then(
-  "{string} reçoit un mail de notification avec un lien d'invitation",
-  (email) => {
-    cy.getSentEmails().then((sentEmails) => {
-      cy.wrap(sentEmails).should('have.length', 1)
-      cy.wrap(sentEmails[0].recipients[0].email).should('equal', email)
-      cy.wrap(sentEmails[0].variables.invitation_link).should(
-        'contain',
-        '/enregistrement.html'
-      )
-      cy.wrap(sentEmails[0].variables.invitation_link).should(
-        'contain',
-        'projectAdmissionKey'
-      )
-      cy.wrap(sentEmails[0].variables.invitation_link).as('invitationLink')
-    })
-  }
-)
+Then("{string} reçoit un mail de notification avec un lien d'invitation", (email) => {
+  cy.getSentEmails().then((sentEmails) => {
+    cy.wrap(sentEmails).should('have.length', 1)
+    cy.wrap(sentEmails[0].recipients[0].email).should('equal', email)
+    cy.wrap(sentEmails[0].variables.invitation_link).should('contain', '/enregistrement.html')
+    cy.wrap(sentEmails[0].variables.invitation_link).should('contain', 'projectAdmissionKey')
+    cy.wrap(sentEmails[0].variables.invitation_link).as('invitationLink')
+  })
+})
 
 Then('{string} apparait dans la liste des dreal invitées', (email) => {
   cy.findContaining(testid('invitationList-item'), email)
@@ -67,14 +51,11 @@ When('je me déconnecte', () => {
   cy.logout()
 })
 
-When(
-  "je click sur le lien d'invitation reçu dans le mail de notification",
-  () => {
-    cy.get('@invitationLink').then((invitationLink) => {
-      cy.visit(invitationLink)
-    })
-  }
-)
+When("je click sur le lien d'invitation reçu dans le mail de notification", () => {
+  cy.get('@invitationLink').then((invitationLink) => {
+    cy.visit(invitationLink)
+  })
+})
 
 Then('je suis dirigé vers la page de création de compte', () => {
   cy.url().should('include', 'enregistrement.html')

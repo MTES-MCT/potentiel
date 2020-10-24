@@ -46,9 +46,7 @@ describe('Sequelize NotificationRepo', () => {
 
       const NotificationModel = models.Notification
 
-      const retrievedNotification = await NotificationModel.findByPk(
-        notification.id.toString()
-      )
+      const retrievedNotification = await NotificationModel.findByPk(notification.id.toString())
 
       expect(retrievedNotification).toBeDefined()
       expect(retrievedNotification.type).toEqual('password-reset')

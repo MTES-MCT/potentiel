@@ -2,12 +2,9 @@ import { Redirect, SystemError } from '../helpers/responses'
 import ROUTES from '../routes'
 import { HttpRequest } from '../types'
 import { inviteDreal } from '../useCases'
-import moment from 'moment'
 import { REGIONS } from '../entities'
 
 const postInviteDreal = async (request: HttpRequest) => {
-  // console.log('Call to postInviteDreal received', request.body)
-
   const { email, region } = request.body
   const { user } = request
 

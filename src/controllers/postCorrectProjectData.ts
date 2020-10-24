@@ -1,10 +1,8 @@
 import { correctProjectData } from '../config'
 import { Redirect, SystemError } from '../helpers/responses'
-import { makeProjectFilePath } from '../helpers/makeProjectFilePath'
-import { Controller, HttpRequest } from '../types'
+import { HttpRequest } from '../types'
 import { FileContainer } from '../modules/file'
 import ROUTES from '../routes'
-import _ from 'lodash'
 import moment from 'moment'
 
 import fs from 'fs'
@@ -14,11 +12,7 @@ const deleteFile = util.promisify(fs.unlink)
 const FORMAT_DATE = 'DD/MM/YYYY'
 
 const postCorrectProjectData = async (request: HttpRequest) => {
-  console.log(
-    'Call to postCorrectProjectData received',
-    request.body,
-    request.file
-  )
+  console.log('Call to postCorrectProjectData received', request.body, request.file)
 
   if (!request.user) {
     return SystemError('User must be logged in')
@@ -55,8 +49,7 @@ const postCorrectProjectData = async (request: HttpRequest) => {
 
   if (
     !notificationDate ||
-    moment(notificationDate, FORMAT_DATE).format(FORMAT_DATE) !==
-      notificationDate
+    moment(notificationDate, FORMAT_DATE).format(FORMAT_DATE) !== notificationDate
   ) {
     return Redirect(
       ROUTES.ADMIN_NOTIFY_CANDIDATES({

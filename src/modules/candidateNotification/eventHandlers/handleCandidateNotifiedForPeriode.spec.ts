@@ -5,16 +5,11 @@ import { GetPeriodeTitle } from '../../appelOffre'
 import { StoredEvent } from '../../eventStore'
 import { NotificationArgs } from '../../notification'
 import { InfraNotAvailableError } from '../../shared'
-import {
-  CandidateNotificationForPeriodeFailed,
-  CandidateNotifiedForPeriode,
-} from '../events'
+import { CandidateNotificationForPeriodeFailed, CandidateNotifiedForPeriode } from '../events'
 import { handleCandidateNotifiedForPeriode } from './handleCandidateNotifiedForPeriode'
 
 const eventBus = {
-  publish: jest.fn((event: StoredEvent) =>
-    okAsync<null, InfraNotAvailableError>(null)
-  ),
+  publish: jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null)),
   subscribe: jest.fn(),
 }
 
@@ -28,9 +23,7 @@ const fakePayload = {
 describe('handleCandidateNotifiedForPeriode', () => {
   describe('general case', () => {
     const sendNotification = jest.fn(async (args: NotificationArgs) => null)
-    const saveProjectAdmissionKey = jest.fn(async (args: ProjectAdmissionKey) =>
-      Ok(null)
-    )
+    const saveProjectAdmissionKey = jest.fn(async (args: ProjectAdmissionKey) => Ok(null))
     const getPeriodeTitle = (jest.fn((appelOffreId, periodeId) =>
       okAsync({
         periodeTitle: 'periode1title',
@@ -74,9 +67,7 @@ describe('handleCandidateNotifiedForPeriode', () => {
     const sendNotification = jest.fn(async (args: NotificationArgs) => {
       throw new Error('oops')
     })
-    const saveProjectAdmissionKey = jest.fn(async (args: ProjectAdmissionKey) =>
-      Ok(null)
-    )
+    const saveProjectAdmissionKey = jest.fn(async (args: ProjectAdmissionKey) => Ok(null))
     const getPeriodeTitle = (jest.fn((appelOffreId, periodeId) =>
       okAsync({
         periodeTitle: 'periode1title',

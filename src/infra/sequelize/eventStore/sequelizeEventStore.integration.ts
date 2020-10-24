@@ -9,7 +9,6 @@ import { StoredEvent } from '../../../modules/eventStore'
 import models from '../models'
 import { sequelize } from '../../../sequelize.config'
 import { OtherError } from '../../../modules/shared'
-import { CandidateNotification } from '../../../modules/candidateNotification/CandidateNotification'
 
 describe('SequelizeEventStore', () => {
   const sampleProjectGFRemovedPayload = {
@@ -56,7 +55,7 @@ describe('SequelizeEventStore', () => {
     it('should receive events in the order they were published', (done) => {
       const eventStore = new SequelizeEventStore(models)
 
-      let receivedEventsIds: string[] = []
+      const receivedEventsIds: string[] = []
       eventStore.subscribe(ProjectGFRemoved.type, (event) => {
         receivedEventsIds.push(event.requestId || '')
         if (receivedEventsIds.length === 2) {
@@ -83,7 +82,7 @@ describe('SequelizeEventStore', () => {
     it('should accept multiple subscribers for the same event type', (done) => {
       const eventStore = new SequelizeEventStore(models)
 
-      let subscriberCatches: string[] = []
+      const subscriberCatches: string[] = []
       eventStore.subscribe(ProjectGFRemoved.type, (event) => {
         subscriberCatches.push('A')
       })
@@ -111,7 +110,7 @@ describe('SequelizeEventStore', () => {
       payload: sampleProjectGFRemovedPayload,
       requestId: 'A',
     })
-    let caughtEvent: StoredEvent | undefined = undefined
+    let caughtEvent: StoredEvent | undefined
 
     beforeAll(async (done) => {
       await sequelize.sync({ force: true })
@@ -140,9 +139,7 @@ describe('SequelizeEventStore', () => {
       expect(persistedEvent.type).toEqual(ProjectGFRemoved.type)
       expect(persistedEvent.payload).toEqual(sampleProjectGFRemovedPayload)
       expect(persistedEvent.requestId).toEqual('A')
-      expect(persistedEvent.aggregateId).toEqual(
-        sampleProjectGFRemovedPayload.projectId
-      )
+      expect(persistedEvent.aggregateId).toEqual(sampleProjectGFRemovedPayload.projectId)
       expect(persistedEvent.occurredAt).toEqual(event.occurredAt)
       expect(persistedEvent.version).toEqual(event.getVersion().toString())
     })
@@ -230,7 +227,7 @@ describe('SequelizeEventStore', () => {
 
         const eventStore = new SequelizeEventStore(models)
 
-        let firstRequest: string | undefined = undefined
+        let firstRequest: string | undefined
         eventStore.subscribe(ProjectGFRemoved.type, (event) => {
           if (!firstRequest) firstRequest = event.requestId
           expect(firstRequest).toEqual('A')
@@ -260,7 +257,7 @@ describe('SequelizeEventStore', () => {
       it('should emit all inner published events after the transaction is done', (done) => {
         const eventStore = new SequelizeEventStore(models)
 
-        let chronology: string[] = []
+        const chronology: string[] = []
 
         let eventCount = 0
         eventStore.subscribe(ProjectGFRemoved.type, (event) => {
@@ -322,9 +319,7 @@ describe('SequelizeEventStore', () => {
         expect(persistedEvent.type).toEqual(ProjectGFRemoved.type)
         expect(persistedEvent.payload).toEqual(sampleProjectGFRemovedPayload)
         expect(persistedEvent.requestId).toEqual('A')
-        expect(persistedEvent.aggregateId).toEqual(
-          sampleProjectGFRemovedPayload.projectId
-        )
+        expect(persistedEvent.aggregateId).toEqual(sampleProjectGFRemovedPayload.projectId)
         expect(persistedEvent.occurredAt).toEqual(event.occurredAt)
         expect(persistedEvent.version).toEqual(event.getVersion().toString())
       })
@@ -374,12 +369,10 @@ describe('SequelizeEventStore', () => {
         let priorEvents: StoredEvent[] = []
 
         await eventStore.transaction(async ({ loadHistory }) => {
-          await loadHistory({ eventType: ProjectGFRemoved.type }).andThen(
-            (_priorEvents) => {
-              priorEvents = _priorEvents
-              return okAsync(null)
-            }
-          )
+          await loadHistory({ eventType: ProjectGFRemoved.type }).andThen((_priorEvents) => {
+            priorEvents = _priorEvents
+            return okAsync(null)
+          })
         })
 
         expect(priorEvents).toHaveLength(1)
@@ -498,9 +491,7 @@ describe('SequelizeEventStore', () => {
         })
         expect(priorEvents).toHaveLength(2)
         expect(
-          priorEvents.every(
-            (event) => !!event.requestId && ['A', 'B'].includes(event.requestId)
-          )
+          priorEvents.every((event) => !!event.requestId && ['A', 'B'].includes(event.requestId))
         ).toEqual(true)
       })
 
@@ -539,18 +530,15 @@ describe('SequelizeEventStore', () => {
         let priorEvents: StoredEvent[] = []
 
         await eventStore.transaction(async ({ loadHistory }) => {
-          await loadHistory({ aggregateId: ['1', '2'] }).andThen(
-            (_priorEvents) => {
-              priorEvents = _priorEvents
-              return okAsync(null)
-            }
-          )
+          await loadHistory({ aggregateId: ['1', '2'] }).andThen((_priorEvents) => {
+            priorEvents = _priorEvents
+            return okAsync(null)
+          })
         })
         expect(priorEvents).toHaveLength(3)
         expect(
           priorEvents.every(
-            (event) =>
-              !!event.requestId && ['A', 'B', 'C'].includes(event.requestId)
+            (event) => !!event.requestId && ['A', 'B', 'C'].includes(event.requestId)
           )
         ).toEqual(true)
       })
@@ -574,12 +562,10 @@ describe('SequelizeEventStore', () => {
         let priorEvents: StoredEvent[] = []
 
         await eventStore.transaction(async ({ loadHistory }) => {
-          await loadHistory({ payload: { removedBy: 'A' } }).andThen(
-            (_priorEvents) => {
-              priorEvents = _priorEvents
-              return okAsync(null)
-            }
-          )
+          await loadHistory({ payload: { removedBy: 'A' } }).andThen((_priorEvents) => {
+            priorEvents = _priorEvents
+            return okAsync(null)
+          })
         })
         expect(priorEvents).toHaveLength(1)
         expect((priorEvents[0] as any).payload.removedBy).toEqual('A')

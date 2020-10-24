@@ -1,11 +1,7 @@
+/* global cy */
+
 /// <reference types="cypress" />
-import {
-  Before,
-  Given,
-  When,
-  And,
-  Then,
-} from 'cypress-cucumber-preprocessor/steps'
+import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps'
 import testid from '../../helpers/testid'
 
 Given('les projets suivants', async function (dataTable) {
@@ -28,19 +24,16 @@ When('je me rends sur la page du projet {string}', (projectName) => {
   })
 })
 
-When(
-  'je ne peux pas me rendre sur la page du projet {string}',
-  (projectName) => {
-    cy.getProjectId(projectName).then((projectId) => {
-      cy.request({
-        url: `/projet/${projectId}/details.html`,
-        failOnStatusCode: false,
-      }).then((response) => {
-        expect(response.status).to.equal(404)
-      })
+When('je ne peux pas me rendre sur la page du projet {string}', (projectName) => {
+  cy.getProjectId(projectName).then((projectId) => {
+    cy.request({
+      url: `/projet/${projectId}/details.html`,
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.equal(404)
     })
-  }
-)
+  })
+})
 
 Then('je vois les notes du projet', () => {
   cy.get(testid('project-note')).should('exist')

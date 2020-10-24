@@ -1,23 +1,7 @@
 import { v4 as uuid } from 'uuid'
-import { ProjectRepo } from '../project'
-import { makeProjectRepo } from './project'
-import { makeUserRepo } from './user'
-import { appelOffreRepo } from '../inMemory/appelOffre'
-import { UserRepo } from '../user'
 import makeFakeProject from '../../__tests__/fixtures/project'
 import makeFakeUser from '../../__tests__/fixtures/user'
-import { Project } from '../../entities'
-
-import {
-  userRepo,
-  projectRepo,
-  initDatabase,
-  resetDatabase,
-  sequelize,
-} from './'
-import { Pagination } from '../../types'
-
-const defaultPagination = { page: 0, pageSize: 10 } as Pagination
+import { userRepo, projectRepo, initDatabase, resetDatabase, sequelize } from './'
 
 describe('userRepo sequelize', () => {
   beforeAll(async () => {
@@ -133,10 +117,7 @@ describe('userRepo sequelize', () => {
             .map(projectRepo.save)
         )
 
-        const result = await userRepo.addProjectToUserWithEmail(
-          targetProjetId,
-          targetEmail
-        )
+        const result = await userRepo.addProjectToUserWithEmail(targetProjetId, targetEmail)
 
         expect(result.is_ok()).toBeTruthy()
 
@@ -183,10 +164,7 @@ describe('userRepo sequelize', () => {
           .map(projectRepo.save)
       )
 
-      const result = await userRepo.addUserToProjectsWithEmail(
-        userId,
-        targetEmail
-      )
+      const result = await userRepo.addUserToProjectsWithEmail(userId, targetEmail)
 
       expect(result.is_ok()).toBeTruthy()
 
@@ -200,9 +178,7 @@ describe('userRepo sequelize', () => {
       ).map((item) => item.get().id)
 
       expect(userProjects).toHaveLength(2)
-      expect(userProjects).toEqual(
-        expect.arrayContaining([targetProjet1, targetProjet2])
-      )
+      expect(userProjects).toEqual(expect.arrayContaining([targetProjet1, targetProjet2]))
     })
   })
 })

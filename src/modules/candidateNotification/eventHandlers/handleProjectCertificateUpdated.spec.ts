@@ -1,14 +1,8 @@
 import { okAsync } from 'neverthrow'
-import {
-  makeProject,
-  makeUser,
-  Project,
-  ProjectAdmissionKey,
-} from '../../../entities'
-import { Ok, UnwrapForTest } from '../../../types'
+import { makeProject, makeUser, Project } from '../../../entities'
+import { UnwrapForTest } from '../../../types'
 import makeFakeProject from '../../../__tests__/fixtures/project'
 import makeFakeUser from '../../../__tests__/fixtures/user'
-import { GetPeriodeTitle } from '../../appelOffre'
 import { StoredEvent } from '../../eventStore'
 import { NotificationArgs } from '../../notification'
 import { ProjectCertificateUpdated } from '../../project/events'
@@ -17,20 +11,12 @@ import {
   CandidateInformationOfCertificateUpdateFailed,
   CandidateInformedOfCertificateUpdate,
 } from '../events'
+
 import { handleProjectCertificateUpdated } from './handleProjectCertificateUpdated'
 
 const eventBus = {
-  publish: jest.fn((event: StoredEvent) =>
-    okAsync<null, InfraNotAvailableError>(null)
-  ),
+  publish: jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null)),
   subscribe: jest.fn(),
-}
-
-const fakePayload = {
-  periodeId: 'periode1',
-  appelOffreId: 'appelOffre1',
-  candidateEmail: 'email1@test.test',
-  candidateName: 'name',
 }
 
 describe('candidateNotificatio.handleProjectCertificateUpdated', () => {
@@ -38,13 +24,9 @@ describe('candidateNotificatio.handleProjectCertificateUpdated', () => {
     UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet', email })))
   )
 
-  const project = UnwrapForTest(
-    makeProject(makeFakeProject({ id: 'project1' }))
-  )
+  const project = UnwrapForTest(makeProject(makeFakeProject({ id: 'project1' })))
 
-  const getUsersForProject = jest.fn(
-    async (projectId: Project['id']) => projectUsers
-  )
+  const getUsersForProject = jest.fn(async (projectId: Project['id']) => projectUsers)
   const findProjectById = jest.fn(async (projectId) => project)
 
   describe('when sendNotification succeeds', () => {
@@ -70,27 +52,23 @@ describe('candidateNotificatio.handleProjectCertificateUpdated', () => {
       expect(sendNotification).toHaveBeenCalledTimes(projectUsers.length)
       const notifications = sendNotification.mock.calls.map((call) => call[0])
 
+      expect(notifications.map((notification) => notification.message.email)).toEqual(
+        projectUsers.map((user) => user.email)
+      )
+
       expect(
-        notifications.map((notification) => notification.message.email)
-      ).toEqual(projectUsers.map((user) => user.email))
+        notifications.every((notification) => notification.type === 'pp-certificate-updated')
+      ).toBe(true)
 
       expect(
         notifications.every(
-          (notification) => notification.type === 'pp-certificate-updated'
+          (notification) => (notification.context as any).projectId === project.id
         )
       ).toBe(true)
 
       expect(
         notifications.every(
-          (notification) =>
-            (notification.context as any).projectId === project.id
-        )
-      ).toBe(true)
-
-      expect(
-        notifications.every(
-          (notification) =>
-            (notification.variables as any).nomProjet === project.nomProjet
+          (notification) => (notification.variables as any).nomProjet === project.nomProjet
         )
       ).toBe(true)
     })
@@ -100,18 +78,14 @@ describe('candidateNotificatio.handleProjectCertificateUpdated', () => {
       const events = eventBus.publish.mock.calls.map((call) => call[0])
 
       expect(
-        events.every(
-          (event) => event.type === CandidateInformedOfCertificateUpdate.type
-        )
+        events.every((event) => event.type === CandidateInformedOfCertificateUpdate.type)
       ).toBe(true)
 
-      expect(
-        events.map((event) => (event.payload as any).porteurProjetId)
-      ).toEqual(projectUsers.map((user) => user.id))
+      expect(events.map((event) => (event.payload as any).porteurProjetId)).toEqual(
+        projectUsers.map((user) => user.id)
+      )
 
-      expect(
-        events.every((event) => (event.payload as any).projectId === project.id)
-      ).toBe(true)
+      expect(events.every((event) => (event.payload as any).projectId === project.id)).toBe(true)
     })
   })
 
@@ -141,23 +115,16 @@ describe('candidateNotificatio.handleProjectCertificateUpdated', () => {
       const events = eventBus.publish.mock.calls.map((call) => call[0])
 
       expect(
-        events.every(
-          (event) =>
-            event.type === CandidateInformationOfCertificateUpdateFailed.type
-        )
+        events.every((event) => event.type === CandidateInformationOfCertificateUpdateFailed.type)
       ).toBe(true)
 
-      expect(
-        events.map((event) => (event.payload as any).porteurProjetId)
-      ).toEqual(projectUsers.map((user) => user.id))
+      expect(events.map((event) => (event.payload as any).porteurProjetId)).toEqual(
+        projectUsers.map((user) => user.id)
+      )
 
-      expect(
-        events.every((event) => (event.payload as any).projectId === project.id)
-      ).toBe(true)
+      expect(events.every((event) => (event.payload as any).projectId === project.id)).toBe(true)
 
-      expect(
-        events.every((event) => (event.payload as any).error === 'oops')
-      ).toBe(true)
+      expect(events.every((event) => (event.payload as any).error === 'oops')).toBe(true)
     })
   })
 })

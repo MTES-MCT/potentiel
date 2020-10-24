@@ -1,11 +1,9 @@
-import { errAsync, okAsync, ResultAsync } from '../../../core/utils'
+import { errAsync, ResultAsync } from '../../../core/utils'
 import { AppelOffre, Periode } from '../../../entities'
 import { GetUnnotifiedProjectsForPeriode } from '../../../modules/project/queries'
 import { InfraNotAvailableError } from '../../../modules/shared'
 
-export const makeGetUnnotifiedProjectsForPeriode = (
-  models
-): GetUnnotifiedProjectsForPeriode => (
+export const makeGetUnnotifiedProjectsForPeriode = (models): GetUnnotifiedProjectsForPeriode => (
   appelOffreId: AppelOffre['id'],
   periodeId: Periode['id']
 ) => {

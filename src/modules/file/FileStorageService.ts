@@ -1,5 +1,7 @@
 import { ResultAsync } from '../../core/utils/Result'
 
+/* global NodeJS */
+
 export type FileContainer = {
   path: string
   stream: NodeJS.ReadableStream

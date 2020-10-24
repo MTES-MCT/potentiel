@@ -4,9 +4,7 @@ import { ResultAsync, Result, ok, err } from 'neverthrow'
 
 export { Result, ResultAsync, ok, okAsync, err, errAsync } from 'neverthrow'
 
-export const fromOldResultAsync = <T>(
-  oldResultAsync: OldResultAsync<T>
-): ResultAsync<T, Error> => {
+export const fromOldResultAsync = <T>(oldResultAsync: OldResultAsync<T>): ResultAsync<T, Error> => {
   return ResultAsync.fromPromise(
     oldResultAsync,
     () => new Error('failed to transform old ResultAsync to new ResultAsync')
@@ -18,9 +16,7 @@ export const fromOldResultAsync = <T>(
   )
 }
 
-export const fromOldResult = <T>(
-  oldResult: OldResult<T, Error>
-): Result<T, Error> => {
+export const fromOldResult = <T>(oldResult: OldResult<T, Error>): Result<T, Error> => {
   if (oldResult.is_err()) {
     return err(oldResult.unwrap_err())
   }
@@ -30,7 +26,7 @@ export const fromOldResult = <T>(
 
 export const UnwrapForTest = <T, E>(res: Result<T, E>) => {
   if (res.isOk()) return res.value
-  throw 'Result is error, cannot unwrap'
+  throw new Error('Result is error, cannot unwrap')
 }
 
 export const mapResults = <T, K, E>(

@@ -1,20 +1,14 @@
+/* global cy */
+
 /// <reference types="cypress" />
-import {
-  Before,
-  Given,
-  When,
-  And,
-  Then,
-} from 'cypress-cucumber-preprocessor/steps'
+import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps'
 import testid from '../../helpers/testid'
 
 Given('mon compte est lié aux projets suivants', async function (dataTable) {
   cy.insertProjectsForUser(dataTable.hashes())
 })
 
-Given("un autre porteur de projet inscrit avec l'adresse {string}", function (
-  userEmail
-) {
+Given("un autre porteur de projet inscrit avec l'adresse {string}", function (userEmail) {
   cy.createUserWithEmail(userEmail)
 })
 
@@ -33,10 +27,7 @@ When('je click sur le bouton {string}', async function (intituleBouton) {
   cy.contains(intituleBouton).click()
 })
 
-When('je saisis la valeur {string} dans le champ {string}', async function (
-  value,
-  fieldName
-) {
+When('je saisis la valeur {string} dans le champ {string}', async function (value, fieldName) {
   cy.get(testid(fieldName + '-field')).type(value)
 })
 
@@ -55,10 +46,7 @@ Then(
       cy.wrap(sentEmails).should('have.length', 1)
       cy.wrap(sentEmails[0].recipients[0].email).should('equal', email)
       cy.getProjectId(projectName).then((projectId) => {
-        cy.wrap(sentEmails[0].variables.invitation_link).should(
-          'contain',
-          projectId
-        )
+        cy.wrap(sentEmails[0].variables.invitation_link).should('contain', projectId)
       })
     })
   }
@@ -70,37 +58,25 @@ Then('{string} a accès au projet {string}', (email, projectName) => {
   })
 })
 
-Then(
-  "{string} reçoit un mail de notification avec un lien d'invitation",
-  (email) => {
-    cy.getSentEmails().then((sentEmails) => {
-      cy.wrap(sentEmails).should('have.length', 1)
-      cy.wrap(sentEmails[0].recipients[0].email).should('equal', email)
-      cy.wrap(sentEmails[0].variables.invitation_link).should(
-        'contain',
-        '/enregistrement.html'
-      )
-      cy.wrap(sentEmails[0].variables.invitation_link).should(
-        'contain',
-        'projectAdmissionKey'
-      )
-      cy.wrap(sentEmails[0].variables.invitation_link).as('invitationLink')
-    })
-  }
-)
+Then("{string} reçoit un mail de notification avec un lien d'invitation", (email) => {
+  cy.getSentEmails().then((sentEmails) => {
+    cy.wrap(sentEmails).should('have.length', 1)
+    cy.wrap(sentEmails[0].recipients[0].email).should('equal', email)
+    cy.wrap(sentEmails[0].variables.invitation_link).should('contain', '/enregistrement.html')
+    cy.wrap(sentEmails[0].variables.invitation_link).should('contain', 'projectAdmissionKey')
+    cy.wrap(sentEmails[0].variables.invitation_link).as('invitationLink')
+  })
+})
 
 When('je me déconnecte', () => {
   cy.logout()
 })
 
-When(
-  "je click sur le lien d'invitation reçu dans le mail de notification",
-  () => {
-    cy.get('@invitationLink').then((invitationLink) => {
-      cy.visit(invitationLink)
-    })
-  }
-)
+When("je click sur le lien d'invitation reçu dans le mail de notification", () => {
+  cy.get('@invitationLink').then((invitationLink) => {
+    cy.visit(invitationLink)
+  })
+})
 
 Then('je suis dirigé vers la page de création de compte', () => {
   cy.url().should('include', 'enregistrement.html')

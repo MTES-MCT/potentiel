@@ -1,11 +1,7 @@
+/* global cy */
+
 /// <reference types="cypress" />
-import {
-  Before,
-  Given,
-  When,
-  And,
-  Then,
-} from 'cypress-cucumber-preprocessor/steps'
+import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps'
 
 Given('les projets suivants', async function (dataTable) {
   dataTable.hashes().forEach((project) => {
@@ -33,9 +29,6 @@ Then('{string} reçoit un mail de relance', (email, projectName) => {
   cy.getSentEmails().then((sentEmails) => {
     cy.wrap(sentEmails).should('have.length', 1)
     cy.wrap(sentEmails[0].recipients[0].email).should('equal', email)
-    cy.wrap(sentEmails[0].subject).should(
-      'contain',
-      'Rappel constitution garantie financière'
-    )
+    cy.wrap(sentEmails[0].subject).should('contain', 'Rappel constitution garantie financière')
   })
 })

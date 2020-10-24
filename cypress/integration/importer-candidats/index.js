@@ -1,11 +1,7 @@
+/* global cy */
+
 /// <reference types="cypress" />
-import {
-  Before,
-  Given,
-  When,
-  And,
-  Then,
-} from 'cypress-cucumber-preprocessor/steps'
+import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps'
 import testid from '../../helpers/testid'
 
 Given("je me rends sur la page d'import de candidats", () => {
@@ -40,12 +36,9 @@ Then('on me notifie la réussite par {string}', (successMessage) => {
   cy.get(testid('success-message')).should('contain', successMessage)
 })
 
-Then(
-  'je trouve bien le projet {string} dans la liste des projets',
-  (projectName) => {
-    cy.get(testid('projectList-item-nomProjet')).should('contain', projectName)
-  }
-)
+Then('je trouve bien le projet {string} dans la liste des projets', (projectName) => {
+  cy.get(testid('projectList-item-nomProjet')).should('contain', projectName)
+})
 
 Then(
   'le projet {string} a bien une section details qui contient un champ {string} qui a la valeur {string}',
@@ -70,29 +63,24 @@ Then(
   }
 )
 
-Then(
-  'le projet {string} a toujours ses informations de garanties financieres',
-  (projectName) => {
-    cy.get('@initialProjects').then((initialProjects) => {
-      cy.getProject(projectName).then((project) => {
-        cy.log(project)
-        expect(project).to.not.be.undefined
-        expect(project.garantiesFinancieresDate.toString()).to.equal(
-          initialProjects[0].garantiesFinancieresDate
-        )
-        expect(project.garantiesFinancieresFile).to.equal(
-          initialProjects[0].garantiesFinancieresFile
-        )
-        expect(project.garantiesFinancieresSubmittedBy).to.equal(
-          initialProjects[0].garantiesFinancieresSubmittedBy
-        )
-        expect(project.garantiesFinancieresSubmittedOn.toString()).to.equal(
-          initialProjects[0].garantiesFinancieresSubmittedOn
-        )
-      })
+Then('le projet {string} a toujours ses informations de garanties financieres', (projectName) => {
+  cy.get('@initialProjects').then((initialProjects) => {
+    cy.getProject(projectName).then((project) => {
+      cy.log(project)
+      expect(project).to.not.be.undefined
+      expect(project.garantiesFinancieresDate.toString()).to.equal(
+        initialProjects[0].garantiesFinancieresDate
+      )
+      expect(project.garantiesFinancieresFile).to.equal(initialProjects[0].garantiesFinancieresFile)
+      expect(project.garantiesFinancieresSubmittedBy).to.equal(
+        initialProjects[0].garantiesFinancieresSubmittedBy
+      )
+      expect(project.garantiesFinancieresSubmittedOn.toString()).to.equal(
+        initialProjects[0].garantiesFinancieresSubmittedOn
+      )
     })
-  }
-)
+  })
+})
 
 Given('le projet suivant', async function (dataTable) {
   cy.wrap(dataTable.hashes()).as('initialProjects')

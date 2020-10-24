@@ -3,10 +3,7 @@ import Stream from 'stream'
 import concat from 'concat-stream'
 import { Result, err, ok, ResultAsync, okAsync } from '../../core/utils/Result'
 
-import {
-  FileStorageService,
-  FileContainer,
-} from '../../modules/file/FileStorageService'
+import { FileStorageService, FileContainer } from '../../modules/file/FileStorageService'
 
 class WrongIdentifierFormat extends Error {
   constructor() {
@@ -24,23 +21,16 @@ export class ObjectStorageFileStorageService implements FileStorageService {
   private _client: storage.Client
   constructor(options: ProviderOptions, private _container: string) {
     this._client = storage.createClient(options)
-
-    // this._client.getContainer(_container, (err, container) => {
-    //   console.log('ObjectStorageFileStorageService found container', container)
-    // })
   }
+
   private static IDENTIFIER_PREFIX = 'objectStorage'
 
   private makeIdentifier(file: FileContainer): string {
     return `${ObjectStorageFileStorageService.IDENTIFIER_PREFIX}:${this._container}:${file.path}`
   }
 
-  private parseIdentifier(
-    fileId: string
-  ): Result<string, WrongIdentifierFormat> {
-    if (
-      fileId.indexOf(ObjectStorageFileStorageService.IDENTIFIER_PREFIX) !== 0
-    ) {
+  private parseIdentifier(fileId: string): Result<string, WrongIdentifierFormat> {
+    if (fileId.indexOf(ObjectStorageFileStorageService.IDENTIFIER_PREFIX) !== 0) {
       return err(new WrongIdentifierFormat())
     }
 
@@ -57,7 +47,6 @@ export class ObjectStorageFileStorageService implements FileStorageService {
   }
 
   save(file: FileContainer): ResultAsync<string, Error> {
-    // console.log('objectStorageFileStorageService call to save()')
     const res = ResultAsync.fromPromise(
       new Promise<storage.File>((resolve, reject) => {
         const uploadWriteStream = this._client.upload({
@@ -70,11 +59,12 @@ export class ObjectStorageFileStorageService implements FileStorageService {
         // This fixes a bug in pkgcloud (See https://github.com/pkgcloud/pkgcloud/pull/673)
         const concatStream = concat((buffer) => {
           const bufferStream = new Stream.PassThrough()
-          if(Array.isArray(buffer)){
-            console.log("WARNING: objectStorageFileStorageService received buffer as array chunk, ignoring chunk")
+          if (Array.isArray(buffer)) {
+            console.log(
+              'WARNING: objectStorageFileStorageService received buffer as array chunk, ignoring chunk'
+            )
             bufferStream.end('')
-          }
-          else {
+          } else {
             bufferStream.end(buffer)
           }
           bufferStream.pipe(uploadWriteStream)
@@ -87,8 +77,6 @@ export class ObjectStorageFileStorageService implements FileStorageService {
         return new Error(e.message || 'Error in the upload phase')
       }
     ).map(() => this.makeIdentifier(file))
-
-    // console.log('objectStorageFileStorageService.save promise returned')
 
     return res
   }

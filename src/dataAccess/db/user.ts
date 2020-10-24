@@ -93,23 +93,13 @@ export default function makeUserRepo({ sequelize }): UserRepo {
         where: { id: drealUsersIds },
       })
 
-      // console.log(
-      //   'findUsersForDreal (db) found',
-      //   drealUsersRaw,
-      //   drealUsersRaw.map((item) => item.get())
-      // )
-
       const deserializedItems = mapExceptError(
         drealUsersRaw.map((item) => item.get()),
         deserialize,
         'User.findUsersForDreal.deserialize error'
       )
 
-      return mapIfOk(
-        deserializedItems,
-        makeUser,
-        'User.findUsersForDreal.makeUser error'
-      )
+      return mapIfOk(deserializedItems, makeUser, 'User.findUsersForDreal.makeUser error')
     } catch (error) {
       if (CONFIG.logDbErrors) console.log('User.findUsersForDreal error', error)
       return []
@@ -129,10 +119,7 @@ export default function makeUserRepo({ sequelize }): UserRepo {
     }
   }
 
-  async function addToDreal(
-    userId: User['id'],
-    dreal: DREAL
-  ): ResultAsync<null> {
+  async function addToDreal(userId: User['id'], dreal: DREAL): ResultAsync<null> {
     await _isDbReady
 
     try {
@@ -215,10 +202,7 @@ export default function makeUserRepo({ sequelize }): UserRepo {
     }
   }
 
-  async function addProject(
-    userId: User['id'],
-    projectId: Project['id']
-  ): ResultAsync<null> {
+  async function addProject(userId: User['id'], projectId: Project['id']): ResultAsync<null> {
     try {
       // Check if user already has access to this project
       const priorAccess = await hasProject(userId, projectId)
@@ -263,8 +247,7 @@ export default function makeUserRepo({ sequelize }): UserRepo {
 
       return Ok(null)
     } catch (error) {
-      if (CONFIG.logDbErrors)
-        console.log('User.addUserToProjectsWithEmail error', error)
+      if (CONFIG.logDbErrors) console.log('User.addUserToProjectsWithEmail error', error)
       return Err(error)
     }
   }
@@ -291,16 +274,12 @@ export default function makeUserRepo({ sequelize }): UserRepo {
       await userInstance.addProject(projectInstance)
       return Ok(null)
     } catch (error) {
-      if (CONFIG.logDbErrors)
-        console.log('User.addProjectToUserWithEmail error', error)
+      if (CONFIG.logDbErrors) console.log('User.addProjectToUserWithEmail error', error)
       return Err(error)
     }
   }
 
-  async function hasProject(
-    userId: User['id'],
-    projectId: Project['id']
-  ): Promise<boolean> {
+  async function hasProject(userId: User['id'], projectId: Project['id']): Promise<boolean> {
     try {
       const userInstance = await UserModel.findByPk(userId)
 
@@ -321,8 +300,7 @@ export default function makeUserRepo({ sequelize }): UserRepo {
       const allProjects = await ProjectModel.findAll()
       console.log('hasProject found all projects', allProjects)
 
-      if (CONFIG.logDbErrors)
-        console.log('User.hasProject error', error, userId, projectId)
+      if (CONFIG.logDbErrors) console.log('User.hasProject error', error, userId, projectId)
       return false
     }
   }

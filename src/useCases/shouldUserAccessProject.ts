@@ -1,6 +1,5 @@
-import { User, Project, makeUser } from '../entities'
+import { User, Project } from '../entities'
 import { UserRepo, ProjectRepo } from '../dataAccess'
-import _ from 'lodash'
 
 interface MakeUseCaseProps {
   userRepo: UserRepo

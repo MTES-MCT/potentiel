@@ -5,16 +5,12 @@ import { projectAdmissionKeyRepo, credentialsRepo } from '../dataAccess'
 import routes from '../routes'
 
 const getSignupPage = async (request: HttpRequest) => {
-  // console.log('Call to getSignupPage received', request.query)
-
   const projectAdmissionKeyId = request.query.projectAdmissionKey
   if (!projectAdmissionKeyId) {
     return Redirect(routes.HOME)
   }
 
-  const projectAdmissionKeyResult = await projectAdmissionKeyRepo.findById(
-    projectAdmissionKeyId
-  )
+  const projectAdmissionKeyResult = await projectAdmissionKeyRepo.findById(projectAdmissionKeyId)
 
   if (projectAdmissionKeyResult.is_none()) {
     // Key doesnt exist
@@ -40,9 +36,7 @@ const getSignupPage = async (request: HttpRequest) => {
     // Log him out
     logoutUser = true
   } else {
-    const existingCredentialsForEmail = await credentialsRepo.findByEmail(
-      projectAdmissionKey.email
-    )
+    const existingCredentialsForEmail = await credentialsRepo.findByEmail(projectAdmissionKey.email)
 
     if (existingCredentialsForEmail.is_some()) {
       // User is not logged in but account exists with this email, redirect to login

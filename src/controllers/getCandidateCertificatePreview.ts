@@ -1,19 +1,9 @@
-import {
-  NotFoundError,
-  SuccessFileStream,
-  SystemError,
-} from '../helpers/responses'
+import { NotFoundError, SuccessFileStream, SystemError } from '../helpers/responses'
 import { HttpRequest } from '../types'
 import { getUserProject } from '../useCases'
 import { buildCertificate } from '../views/certificates'
 
 const getCandidateCertificatePreview = async (request: HttpRequest) => {
-  // console.log(
-  //   'Call to getCandidateCertificatePreview received',
-  //   request.params,
-  //   request.user
-  // )
-
   try {
     const { projectId } = request.params
 
@@ -34,11 +24,8 @@ const getCandidateCertificatePreview = async (request: HttpRequest) => {
     }
 
     if (!project.appelOffre?.periode?.certificateTemplate) {
-      return NotFoundError(
-        "Impossible de trouver le modèle d'attestation pour ce projet"
-      )
+      return NotFoundError("Impossible de trouver le modèle d'attestation pour ce projet")
     }
-    // console.log('Found project', project)
 
     const certificateStreamResult = await buildCertificate(
       project.appelOffre?.periode?.certificateTemplate,
@@ -51,8 +38,7 @@ const getCandidateCertificatePreview = async (request: HttpRequest) => {
         certificateStreamResult.error
       )
       return SystemError(
-        "Erreur lors de la génération de l'attestation: " +
-          certificateStreamResult.error.message
+        "Erreur lors de la génération de l'attestation: " + certificateStreamResult.error.message
       )
     }
 

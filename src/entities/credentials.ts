@@ -1,27 +1,15 @@
 import isEmail from 'isemail'
-import {
-  String,
-  Number,
-  Record,
-  Array,
-  Union,
-  Literal,
-  Boolean,
-  Static,
-  Unknown,
-  Partial,
-  Undefined
-} from '../types/schemaTypes'
+import { String, Record, Static, Partial } from '../types/schemaTypes'
 import { Optional } from 'utility-types'
 import buildMakeEntity from '../helpers/buildMakeEntity'
 
 const baseCredentialsSchema = Record({
   id: String,
   email: String.withConstraint(isEmail.validate),
-  userId: String
+  userId: String,
 })
 const credentialsSchema = baseCredentialsSchema.And(
-  Partial({ hash: String.withConstraint(value => value.length >= 1) })
+  Partial({ hash: String.withConstraint((value) => value.length >= 1) })
 ) // This catches the case where the hash function doesn't work or that no password has been set }))
 
 const fields: string[] = ['hash', ...Object.keys(baseCredentialsSchema.fields)]
@@ -37,11 +25,7 @@ interface MakeCredentialsDependencies {
 type MakeCredentialsProps = Optional<Credentials & { password?: string }, 'id'>
 
 export default ({ makeId, hashFn }: MakeCredentialsDependencies) => {
-  const makeEntity = buildMakeEntity<Credentials>(
-    credentialsSchema,
-    makeId,
-    fields
-  )
+  const makeEntity = buildMakeEntity<Credentials>(credentialsSchema, makeId, fields)
   // This is a little special
   // makeCredentials can accepts either a email/userId/hash coming from the db
   // or an email/userId/password coming from a user sign up form
@@ -51,7 +35,7 @@ export default ({ makeId, hashFn }: MakeCredentialsDependencies) => {
     makeEntity({
       email: props.email,
       hash: props.hash || (props.password ? hashFn(props.password) : ''),
-      userId: props.userId
+      userId: props.userId,
     })
 }
 

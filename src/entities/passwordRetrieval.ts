@@ -1,16 +1,4 @@
-import isEmail from 'isemail'
-import {
-  String,
-  Number,
-  Record,
-  Array,
-  Union,
-  Literal,
-  Boolean,
-  Static,
-  Unknown,
-  Undefined,
-} from '../types/schemaTypes'
+import { String, Number, Record, Static } from '../types/schemaTypes'
 import buildMakeEntity from '../helpers/buildMakeEntity'
 
 const passwordRetrievalSchema = Record({

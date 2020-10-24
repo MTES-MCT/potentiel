@@ -7,8 +7,6 @@ import makeSignup, {
 
 import makeLogin from './login'
 
-import makeFakeUser from '../__tests__/fixtures/user'
-
 import { UnwrapForTest } from '../types'
 import {
   userRepo,
@@ -16,7 +14,7 @@ import {
   projectAdmissionKeyRepo,
   resetDatabase,
 } from '../dataAccess/inMemory'
-import { makeCredentials, makeProjectAdmissionKey, makeUser } from '../entities'
+import { makeCredentials, makeProjectAdmissionKey } from '../entities'
 
 const login = makeLogin({
   userRepo,
@@ -236,10 +234,10 @@ describe('signup use-case', () => {
       credentialsRepo,
       projectAdmissionKeyRepo,
       addUserToProjectsWithEmail: jest.fn(() => {
-        throw 'should not be used'
+        throw new Error('should not be used')
       }),
       addUserToProject: jest.fn(() => {
-        throw 'should not be used'
+        throw new Error('should not be used')
       }),
     })
 
@@ -263,10 +261,10 @@ describe('signup use-case', () => {
       credentialsRepo,
       projectAdmissionKeyRepo,
       addUserToProjectsWithEmail: jest.fn(() => {
-        throw 'should not be used'
+        throw new Error('should not be used')
       }),
       addUserToProject: jest.fn(() => {
-        throw 'should not be used'
+        throw new Error('should not be used')
       }),
     })
 
@@ -312,10 +310,10 @@ describe('signup use-case', () => {
       credentialsRepo,
       projectAdmissionKeyRepo,
       addUserToProjectsWithEmail: jest.fn(() => {
-        throw 'should not be used'
+        throw new Error('should not be used')
       }),
       addUserToProject: jest.fn(() => {
-        throw 'should not be used'
+        throw new Error('should not be used')
       }),
     })
 
@@ -336,10 +334,10 @@ describe('signup use-case', () => {
       credentialsRepo,
       projectAdmissionKeyRepo,
       addUserToProjectsWithEmail: jest.fn(() => {
-        throw 'should not be used'
+        throw new Error('should not be used')
       }),
       addUserToProject: jest.fn(() => {
-        throw 'should not be used'
+        throw new Error('should not be used')
       }),
     })
 
@@ -354,6 +352,8 @@ describe('signup use-case', () => {
     })
 
     it('should return EMAIL_USED_ERROR', async () => {
+      expect.assertions(2)
+
       // Add a projectAdmissionKey
       const [projectAdmissionKey] = (
         await Promise.all(
@@ -380,6 +380,7 @@ describe('signup use-case', () => {
         email: 'Existing@email.com',
         projectAdmissionKey: projectAdmissionKey.id,
       })
+
       const signupResult = await signup(phonySignup)
 
       expect(signupResult.is_err()).toEqual(true)

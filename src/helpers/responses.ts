@@ -1,6 +1,5 @@
 import { User } from '../entities'
 import { HttpResponse } from '../types'
-import { Readable } from 'stream'
 
 const Success = (
   body: string | Record<string, any>,
@@ -9,7 +8,6 @@ const Success = (
     cookies?: Record<string, any>
   }
 ): HttpResponse => {
-  // console.log('Calling success with body', body)
   return {
     statusCode: 200,
     body,
@@ -24,6 +22,7 @@ const SuccessFile = (filePath: string): HttpResponse => {
   }
 }
 
+/* global NodeJS */
 const SuccessFileStream = (fileStream: NodeJS.ReadableStream): HttpResponse => {
   return {
     fileStream,
@@ -38,23 +37,11 @@ const ErrorWithCode = (statusCode: number) => (body: string) => ({
 const NotFoundError = ErrorWithCode(404)
 const SystemError = ErrorWithCode(500)
 
-const Redirect = (
-  route: string,
-  query?: any,
-  userId?: User['id'],
-  logout?: boolean
-) => ({
+const Redirect = (route: string, query?: any, userId?: User['id'], logout?: boolean) => ({
   redirect: route,
   query,
   userId,
   logout,
 })
 
-export {
-  Success,
-  SuccessFile,
-  SuccessFileStream,
-  NotFoundError,
-  SystemError,
-  Redirect,
-}
+export { Success, SuccessFile, SuccessFileStream, NotFoundError, SystemError, Redirect }

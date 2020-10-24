@@ -1,10 +1,5 @@
 import { ProjectAdmissionKeyRepo } from '../dataAccess'
-import {
-  AppelOffre,
-  makeProjectAdmissionKey,
-  Periode,
-  ProjectAdmissionKey,
-} from '../entities'
+import { AppelOffre, makeProjectAdmissionKey, Periode, ProjectAdmissionKey } from '../entities'
 import { NotificationService } from '../modules/notification'
 import routes from '../routes'
 import { Ok, ResultAsync } from '../types'
@@ -31,26 +26,18 @@ export default function makeRelanceInvitations({
   projectAdmissionKeyRepo,
   sendNotification,
 }: MakeUseCaseProps) {
-  return async function relanceInvitations(
-    props: CallUseCaseProps
-  ): ResultAsync<number> {
+  return async function relanceInvitations(props: CallUseCaseProps): ResultAsync<number> {
     let unusedInvitations: ProjectAdmissionKey[]
 
     const keys = props && 'keys' in props ? props.keys : undefined
-    const beforeDate =
-      props && 'beforeDate' in props ? props.beforeDate : undefined
+    const beforeDate = props && 'beforeDate' in props ? props.beforeDate : undefined
 
     const { appelOffreId, periodeId } =
-      props && 'appelOffreId' in props
-        ? props
-        : { appelOffreId: undefined, periodeId: undefined }
+      props && 'appelOffreId' in props ? props : { appelOffreId: undefined, periodeId: undefined }
 
     if (keys && keys.length) {
-      // console.log('relanceInvitation usecase: specific keys', keys)
       unusedInvitations = (
-        await Promise.all(
-          keys.map((key) => projectAdmissionKeyRepo.findById(key))
-        )
+        await Promise.all(keys.map((key) => projectAdmissionKeyRepo.findById(key)))
       )
         .filter((item) => item.is_some())
         .map((item) => item.unwrap())
@@ -72,7 +59,6 @@ export default function makeRelanceInvitations({
       })
     } else {
       // All unused invitations
-      // console.log('relanceInvitation usecase: all')
       unusedInvitations = await projectAdmissionKeyRepo.findAll({
         lastUsedAt: 0,
         dreal: null,
@@ -100,16 +86,13 @@ export default function makeRelanceInvitations({
     const relances = await Promise.all(
       uniqueEmails.map(async (email) => {
         // Get all the previous admission keys for this email (that have not been used)
-        const projectAdmissionKeysForEmail = await projectAdmissionKeyRepo.findAll(
-          {
-            email,
-            lastUsedAt: 0,
-          }
-        )
+        const projectAdmissionKeysForEmail = await projectAdmissionKeyRepo.findAll({
+          email,
+          lastUsedAt: 0,
+        })
 
         const fullName =
-          projectAdmissionKeysForEmail.find((item) => !!item.fullName)
-            ?.fullName || ''
+          projectAdmissionKeysForEmail.find((item) => !!item.fullName)?.fullName || ''
 
         // Create a new projectAdmissionKey
         // Create an invitation link for this email
@@ -129,9 +112,7 @@ export default function makeRelanceInvitations({
 
         const newProjectAdmissionKey = newProjectAdmissionKeyResult.unwrap()
 
-        const insertionResult = await projectAdmissionKeyRepo.save(
-          newProjectAdmissionKey
-        )
+        const insertionResult = await projectAdmissionKeyRepo.save(newProjectAdmissionKey)
 
         if (insertionResult.is_err()) {
           // OOPS
@@ -173,8 +154,8 @@ export default function makeRelanceInvitations({
       })
     )
 
-    const successFulRelances = relances.filter((relance) => relance).length
+    const successfulRelances = relances.filter((relance) => relance).length
 
-    return Ok(successFulRelances)
+    return Ok(successfulRelances)
   }
 }

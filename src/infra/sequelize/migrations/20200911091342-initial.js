@@ -334,10 +334,6 @@ module.exports = {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
       },
-      createdAt: {
-        type: Sequelize.DataTypes.NUMBER,
-        allowNull: false,
-      },
       userId: {
         type: Sequelize.DataTypes.UUID,
         allowNull: false,
@@ -354,7 +350,10 @@ module.exports = {
         type: Sequelize.DataTypes.UUID,
         allowNull: true,
       },
-      createdAt: Sequelize.DATE,
+      createdAt: {
+        type: Sequelize.DataTypes.NUMBER,
+        allowNull: false,
+      },
       updatedAt: Sequelize.DATE,
     })
     await queryInterface.createTable('UserProjects', {

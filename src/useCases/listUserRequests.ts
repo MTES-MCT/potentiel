@@ -1,6 +1,5 @@
-import { ModificationRequest, makeModificationRequest, User } from '../entities'
+import { ModificationRequest, User } from '../entities'
 import { ModificationRequestRepo } from '../dataAccess'
-import _ from 'lodash'
 
 interface MakeUseCaseProps {
   modificationRequestRepo: ModificationRequestRepo
@@ -10,11 +9,9 @@ interface CallUseCaseProps {
   userId: User['id']
 }
 
-export default function makeListUserRequests({
-  modificationRequestRepo
-}: MakeUseCaseProps) {
+export default function makeListUserRequests({ modificationRequestRepo }: MakeUseCaseProps) {
   return async function listUserRequests({
-    userId
+    userId,
   }: CallUseCaseProps): Promise<Array<ModificationRequest>> {
     return modificationRequestRepo.findAll({ userId }, true)
   }

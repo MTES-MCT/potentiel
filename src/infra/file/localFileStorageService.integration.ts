@@ -1,16 +1,18 @@
 import { Readable } from 'stream'
 import os from 'os'
-import fs, { mkdir } from 'fs'
+import fs from 'fs'
 import path from 'path'
 import util from 'util'
 import mkdirp from 'mkdirp'
 import { LocalFileStorageService } from './localFileStorageService'
+import { pathExists } from '../../core/utils'
 
 const deleteFile = util.promisify(fs.unlink)
-const fileExists = util.promisify(fs.exists)
 const writeFile = util.promisify(fs.writeFile)
-const deleteIfExists = (path) =>
-  fileExists(path).then((exists) => (exists ? deleteFile(path) : null))
+
+const deleteFileIfExists = (path) => {
+  pathExists(path).then((exists) => (exists ? deleteFile(path) : null))
+}
 
 const rootPath = os.tmpdir()
 
@@ -26,11 +28,11 @@ describe('localFileStorageService', () => {
     }
 
     beforeAll(async () => {
-      await deleteIfExists(targetPath)
+      await deleteFileIfExists(targetPath)
     })
 
     afterAll(async () => {
-      await deleteIfExists(targetPath)
+      await deleteFileIfExists(targetPath)
     })
 
     it('should create a file in the file system', async () => {
@@ -56,7 +58,7 @@ describe('localFileStorageService', () => {
       })
 
       afterAll(async () => {
-        await deleteIfExists(targetPath)
+        await deleteFileIfExists(targetPath)
       })
 
       it('should retrieve the file from the file system', async () => {
@@ -100,7 +102,7 @@ describe('localFileStorageService', () => {
         expect(result.isOk()).toBe(true)
         if (result.isErr()) return
 
-        const fileStillExists = await fileExists(targetPath)
+        const fileStillExists = await pathExists(targetPath)
         expect(fileStillExists).toBe(false)
       })
     })

@@ -1,13 +1,7 @@
-import {
-  Redirect,
-  SystemError,
-  Success,
-  NotFoundError,
-} from '../helpers/responses'
+import { Redirect, NotFoundError } from '../helpers/responses'
 import ROUTES from '../routes'
 import { HttpRequest } from '../types'
 import { removeGarantiesFinancieres } from '../useCases'
-import moment from 'moment'
 
 const getRemoveGarantiesFinancieres = async (request: HttpRequest) => {
   const { user } = request

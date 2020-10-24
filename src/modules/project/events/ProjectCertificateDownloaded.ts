@@ -1,4 +1,4 @@
-import { Project, Periode, AppelOffre, User } from '../../../entities'
+import { Project, User } from '../../../entities'
 import { DomainEvent, BaseDomainEvent } from '../../../core/domain/DomainEvent'
 
 export interface ProjectCertificateDownloadedPayload {
@@ -9,8 +9,8 @@ export interface ProjectCertificateDownloadedPayload {
 export class ProjectCertificateDownloaded
   extends BaseDomainEvent<ProjectCertificateDownloadedPayload>
   implements DomainEvent {
-  public static type: 'ProjectCertificateDownloaded' =
-    'ProjectCertificateDownloaded'
+  public static type: 'ProjectCertificateDownloaded' = 'ProjectCertificateDownloaded'
+
   public type = ProjectCertificateDownloaded.type
   currentVersion = 1
 

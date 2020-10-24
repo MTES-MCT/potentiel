@@ -6,14 +6,11 @@ import { okAsync } from '../../core/utils'
 
 import { UnwrapForTest, Ok } from '../../types'
 import makeFakeProject from '../../__tests__/fixtures/project'
-import makeFakeUser from '../../__tests__/fixtures/user'
 import addAppelOffreToProject from '../../__tests__/fixtures/addAppelOffreToProject'
 
 import { FileService, FileContainer, File } from '../file/'
 
-const mockFileServiceSave = jest.fn((file: File, fileContents: FileContainer) =>
-  okAsync(null)
-)
+const mockFileServiceSave = jest.fn((file: File, fileContents: FileContainer) => okAsync(null))
 jest.mock('../file/FileService', () => ({
   FileService: function () {
     return {
@@ -40,10 +37,10 @@ describe('generateCertificate', () => {
   addAppelOffreToProject(project)
 
   const findProjectById = jest.fn(async (projectId: Project['id']) => project)
+
+  /* global NodeJS */
   const buildCertificate = jest.fn((template: string, project: Project) =>
-    okAsync<NodeJS.ReadableStream, Error>(
-      Readable.from('test') as NodeJS.ReadableStream
-    )
+    okAsync<NodeJS.ReadableStream, Error>(Readable.from('test') as NodeJS.ReadableStream)
   )
   const saveProject = jest.fn(async (project: Project) => Ok(null))
 

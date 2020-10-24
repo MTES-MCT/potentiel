@@ -4,14 +4,13 @@
 <script>
   // Storybook specific, wait for react to print the dom elements
   document.addEventListener('DOMContentLoaded', (event) => {
-    // console.log('DOMContentLoaded for outer frame', document)
     setTimeout(() => {
       initHandlers()
     }, 2000)
   })
 </script>
 
-<svg aria-hidden="true" focusable="false" style="display: none;">
+<svg aria-hidden="true" focusable="false" style="display: none">
   <defs>
     <symbol
       viewBox="0 0 32 32"
@@ -23,12 +22,7 @@
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        style="
-          stroke: none;
-          fill-rule: nonzero;
-          fill: rgb(0%, 0%, 0%);
-          fill-opacity: 1;
-        "
+        style="stroke: none; fill-rule: nonzero; fill: rgb(0%, 0%, 0%); fill-opacity: 1"
         d="M 28.265625 6.132812 L 16 18.398438 L 3.734375 6.132812 L 0 9.867188 L 16 25.867188 L 32 9.867188 Z M 28.265625 6.132812 "
       />
     </symbol>

@@ -3,11 +3,8 @@ import { File } from './File'
 import { FileStorageService } from './FileStorageService'
 import { Repository } from '../../core/domain'
 import { Readable } from 'stream'
-import { okAsync, ok } from '../../core/utils'
-import {
-  ShouldUserAccessProject,
-  BaseShouldUserAccessProject,
-} from '../authorization/ShouldUserAccessProject'
+import { okAsync } from '../../core/utils'
+import { BaseShouldUserAccessProject } from '../authorization/ShouldUserAccessProject'
 import { makeUser } from '../../entities'
 import { UnwrapForTest } from '../../types'
 import makeFakeUser from '../../__tests__/fixtures/user'
@@ -52,11 +49,7 @@ describe('FileService', () => {
 
     const shouldUserAccessProject = new MockShouldUserAccessProject()
 
-    const fileService = new FileService(
-      fakeStorageService,
-      fakeFileRepo,
-      shouldUserAccessProject
-    )
+    const fileService = new FileService(fakeStorageService, fakeFileRepo, shouldUserAccessProject)
 
     beforeAll(async () => {
       expect(fakeFileResult.isOk()).toBe(true)
@@ -87,9 +80,7 @@ describe('FileService', () => {
     const fakeFileStorageId = 'fakeFileStorageId'
     const fakeProjectId = 'fakeProjectId'
 
-    const fakeUser = UnwrapForTest(
-      makeUser(makeFakeUser({ role: 'porteur-projet' }))
-    )
+    const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
 
     const shouldUserAccessProject = new MockShouldUserAccessProject()
 
@@ -120,11 +111,7 @@ describe('FileService', () => {
         save: jest.fn(),
         load: jest.fn(() => okAsync(fakeFile)),
       }
-      const fileService = new FileService(
-        fakeStorageService,
-        fakeFileRepo,
-        shouldUserAccessProject
-      )
+      const fileService = new FileService(fakeStorageService, fakeFileRepo, shouldUserAccessProject)
 
       const loadResult = await fileService.load(fakeFileStorageId, fakeUser)
 

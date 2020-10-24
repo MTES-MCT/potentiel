@@ -13,7 +13,7 @@ const postRetryNotifications = async (request: HttpRequest) => {
   return Redirect(ROUTES.ADMIN_NOTIFICATION_LIST, {
     success: notificationsRetried
       ? `${notificationsRetried} notifications ont été renvoyées`
-      : `Aucun notification n\'a été renvoyée. Merci de vérifier qu'il y a bien des notifications en erreur.`,
+      : `Aucun notification n'a été renvoyée. Merci de vérifier qu'il y a bien des notifications en erreur.`,
   })
 }
 export { postRetryNotifications }

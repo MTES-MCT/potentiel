@@ -1,9 +1,8 @@
 import makeListGarantiesFinancieres from './listGarantiesFinancieres'
 
 import makeFakeProject from '../__tests__/fixtures/project'
-import makeFakeUser from '../__tests__/fixtures/user'
 
-import { makeProject, makeUser, Project, User, DREAL } from '../entities'
+import { makeProject, Project, User, DREAL } from '../entities'
 import { UnwrapForTest } from '../types'
 import { toGarantiesFinancieresList } from '../modules/project/mappers'
 
@@ -26,9 +25,7 @@ describe('listGarantiesFinancieres use-case', () => {
 
     const userRegions: DREAL[] = ['Bretagne', 'Corse']
 
-    const findAllProjectsForRegions = jest.fn(async () =>
-      makePaginatedProjectList([fakeProject])
-    )
+    const findAllProjectsForRegions = jest.fn(async () => makePaginatedProjectList([fakeProject]))
     const findAllProjects = jest.fn()
     const findDrealsForUser = jest.fn(async () => userRegions)
 
@@ -55,9 +52,7 @@ describe('listGarantiesFinancieres use-case', () => {
     const fakeProject = UnwrapForTest(makeProject(makeFakeProject()))
 
     const findAllProjectsForRegions = jest.fn()
-    const findAllProjects = jest.fn(async () =>
-      makePaginatedProjectList([fakeProject])
-    )
+    const findAllProjects = jest.fn(async () => makePaginatedProjectList([fakeProject]))
     const findDrealsForUser = jest.fn()
 
     const listGarantiesFinancieres = makeListGarantiesFinancieres({

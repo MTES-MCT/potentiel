@@ -1,4 +1,4 @@
-import { PasswordRetrieval, Credentials } from '../entities'
+import { PasswordRetrieval } from '../entities'
 import { ResultAsync, OptionAsync } from '../types'
 
 export type PasswordRetrievalRepo = {

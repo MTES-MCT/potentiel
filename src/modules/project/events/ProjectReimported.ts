@@ -1,4 +1,4 @@
-import { Project, Periode, AppelOffre, Famille, User } from '../../../entities'
+import { Project, User } from '../../../entities'
 import { DomainEvent, BaseDomainEvent } from '../../../core/domain/DomainEvent'
 
 export interface ProjectReimportedPayload {

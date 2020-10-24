@@ -1,8 +1,6 @@
-import waitForExpect from 'wait-for-expect'
 import models from '../../models'
 import { sequelize } from '../../../../sequelize.config'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
-import { InMemoryEventStore } from '../../../inMemory/eventStore'
 import { onProjectDataCorrected } from './onProjectDataCorrected'
 import { ProjectDataCorrected } from '../../../../modules/project/events'
 
@@ -60,11 +58,7 @@ describe('project.onProjectDataCorrected', () => {
     const updatedProject = await ProjectModel.findByPk('target')
     for (const [key, value] of Object.entries(newValues)) {
       console.log(
-        'Checking key ' +
-          key +
-          ' for value ' +
-          value +
-          ' updatedProject[key] = ',
+        'Checking key ' + key + ' for value ' + value + ' updatedProject[key] = ',
         updatedProject[key]
       )
       expect(updatedProject[key]).toEqual(value)

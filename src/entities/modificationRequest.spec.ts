@@ -19,7 +19,6 @@ describe('ModificationRequest entity', () => {
       projectId: '1',
       type: 'actionnaire',
       actionnaire: 'nouvel actionnaire',
-      // filename: 'filename'
     } as any)
 
     expect(modificationRequestResult.is_err()).toBeTruthy()
@@ -30,7 +29,6 @@ describe('ModificationRequest entity', () => {
       userId: '1',
       projectId: '1',
       type: 'actionnaire',
-      // actionnaire: 'nouvel actionnaire'
       fileId: 'filename',
     } as any)
 
@@ -55,7 +53,6 @@ describe('ModificationRequest entity', () => {
       projectId: '1',
       type: 'producteur',
       producteur: 'nouvel producteur',
-      // filename: 'filename'
     } as any)
 
     expect(modificationRequestResult.is_err()).toBeTruthy()
@@ -66,7 +63,6 @@ describe('ModificationRequest entity', () => {
       userId: '1',
       projectId: '1',
       type: 'producteur',
-      // producteur: 'nouvel producteur'
       fileId: 'filename',
     } as any)
 
@@ -95,7 +91,6 @@ describe('ModificationRequest entity', () => {
       fournisseur: 'nouvel fournisseur',
       evaluationCarbone: 10,
       justification: 'because',
-      // filename: 'filename'
     } as any)
 
     expect(modificationRequestResult.is_err()).toBeTruthy()
@@ -106,7 +101,6 @@ describe('ModificationRequest entity', () => {
       userId: '1',
       projectId: '1',
       type: 'fournisseur',
-      // fournisseur: 'nouvel fournisseur'
       fileId: 'filename',
       evaluationCarbone: 10,
       justification: 'because',
@@ -123,7 +117,6 @@ describe('ModificationRequest entity', () => {
       fournisseur: 'nouvel fournisseur',
       fileId: 'filename',
       justification: 'because',
-      // evaluationCarbone: 10
     } as any)
 
     expect(modificationRequestResult.is_err()).toBeTruthy()
@@ -137,7 +130,6 @@ describe('ModificationRequest entity', () => {
       fournisseur: 'nouvel fournisseur',
       fileId: 'filename',
       evaluationCarbone: 10,
-      // justification: 'because'
     } as any)
 
     expect(modificationRequestResult.is_err()).toBeTruthy()

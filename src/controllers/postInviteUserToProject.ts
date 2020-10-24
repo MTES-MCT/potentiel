@@ -2,12 +2,8 @@ import { Redirect, SystemError } from '../helpers/responses'
 import ROUTES from '../routes'
 import { HttpRequest } from '../types'
 import { inviteUserToProject } from '../useCases'
-import moment from 'moment'
-
-const FORMAT_DATE = 'DD/MM/YYYY'
 
 const postInviteUserToProject = async (request: HttpRequest) => {
-  // console.log('postInviteUserToProject', request.body)
   const { email, projectId } = request.body
   const { user } = request
 

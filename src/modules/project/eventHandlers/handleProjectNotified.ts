@@ -1,26 +1,15 @@
-import { GetFamille } from '../../appelOffre'
 import { EventBus } from '../../eventStore'
 import { ProjectNotified } from '../events'
 import { ProjectCertificateGenerated } from '../events/ProjectCertificateGenerated'
 import { ProjectCertificateGenerationFailed } from '../events/ProjectCertificateGenerationFailed'
-import {
-  GenerateCertificate,
-  ProjectNotEligibleForCertificateError,
-} from '../generateCertificate'
+import { GenerateCertificate, ProjectNotEligibleForCertificateError } from '../generateCertificate'
 
 export const handleProjectNotified = (deps: {
   eventBus: EventBus
   generateCertificate: GenerateCertificate
 }) => async (event: ProjectNotified) => {
-  // console.log('handleProjectNotified', event)
   const { payload, requestId } = event
-  const {
-    projectId,
-    periodeId,
-    appelOffreId,
-    candidateEmail,
-    notifiedOn,
-  } = payload
+  const { projectId, periodeId, appelOffreId, candidateEmail, notifiedOn } = payload
 
   let retries = 3
   let certificateFileId = ''
@@ -54,7 +43,6 @@ export const handleProjectNotified = (deps: {
         )
       }
     } else {
-      // console.log('handleProjectNotified generateCertificated succeeded')
       certificateFileId = result.value
       break
     }

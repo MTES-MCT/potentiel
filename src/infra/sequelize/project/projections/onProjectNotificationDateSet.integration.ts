@@ -1,7 +1,4 @@
-import {
-  ProjectNotificationDateSet,
-  ProjectNotified,
-} from '../../../../modules/project/events'
+import { ProjectNotificationDateSet, ProjectNotified } from '../../../../modules/project/events'
 import { sequelize } from '../../../../sequelize.config'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
 import models from '../../models'

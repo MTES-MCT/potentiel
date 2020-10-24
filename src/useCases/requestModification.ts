@@ -1,18 +1,13 @@
-import { ModificationRequest, makeModificationRequest } from '../entities'
+import { makeModificationRequest, User, Project } from '../entities'
 import { ModificationRequestRepo } from '../dataAccess'
-import _ from 'lodash'
 import { FileService, File, FileContainer } from '../modules/file'
-import { Result, Err, Ok, ResultAsync, ErrorResult } from '../types'
+import { Err, Ok, ResultAsync, ErrorResult } from '../types'
 import { makeProjectFilePath } from '../helpers/makeProjectFilePath'
-import { User, Project } from '../entities'
 
 interface MakeUseCaseProps {
   fileService: FileService
   modificationRequestRepo: ModificationRequestRepo
-  shouldUserAccessProject: (args: {
-    user: User
-    projectId: Project['id']
-  }) => Promise<boolean>
+  shouldUserAccessProject: (args: { user: User; projectId: Project['id'] }) => Promise<boolean>
 }
 
 interface RequestCommon {
@@ -69,8 +64,7 @@ type CallUseCaseProps = RequestCommon &
   )
 
 export const ERREUR_FORMAT = 'Merci de remplir les champs marqués obligatoires'
-export const ACCESS_DENIED_ERROR =
-  "Vous n'avez pas le droit de faire de demandes pour ce projet"
+export const ACCESS_DENIED_ERROR = "Vous n'avez pas le droit de faire de demandes pour ce projet"
 export const SYSTEM_ERROR =
   'Une erreur système est survenue, merci de réessayer ou de contacter un administrateur si le problème persiste.'
 
@@ -79,9 +73,7 @@ export default function makeRequestModification({
   modificationRequestRepo,
   shouldUserAccessProject,
 }: MakeUseCaseProps) {
-  return async function requestModification(
-    props: CallUseCaseProps
-  ): ResultAsync<null> {
+  return async function requestModification(props: CallUseCaseProps): ResultAsync<null> {
     const { user, projectId, file } = props
 
     // Check if the user has the rights to this project
@@ -96,7 +88,7 @@ export default function makeRequestModification({
       return ErrorResult(ACCESS_DENIED_ERROR)
     }
 
-    let fileId: string | undefined = undefined
+    let fileId: string | undefined
 
     if (file) {
       const fileResult = File.create({
@@ -107,10 +99,7 @@ export default function makeRequestModification({
       })
 
       if (fileResult.isErr()) {
-        console.log(
-          'requestModification use-case: File.create failed',
-          fileResult.error
-        )
+        console.log('requestModification use-case: File.create failed', fileResult.error)
 
         return ErrorResult(SYSTEM_ERROR)
       }
@@ -122,10 +111,7 @@ export default function makeRequestModification({
 
       if (saveFileResult.isErr()) {
         // OOPS
-        console.log(
-          'requestModification use-case: fileService.save failed',
-          saveFileResult.error
-        )
+        console.log('requestModification use-case: fileService.save failed', saveFileResult.error)
 
         return ErrorResult(SYSTEM_ERROR)
       }
@@ -133,7 +119,6 @@ export default function makeRequestModification({
       fileId = fileResult.value.id.toString()
     }
 
-    // console.log('modificationRequest usecase', props)
     const modificationRequestResult = makeModificationRequest({
       ...props,
       fileId,
@@ -150,9 +135,7 @@ export default function makeRequestModification({
     }
 
     const modificationRequest = modificationRequestResult.unwrap()
-    const insertionResult = await modificationRequestRepo.insert(
-      modificationRequest
-    )
+    const insertionResult = await modificationRequestRepo.insert(modificationRequest)
 
     if (insertionResult.is_err()) {
       console.log(

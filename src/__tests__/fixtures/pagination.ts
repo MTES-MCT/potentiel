@@ -1,5 +1,4 @@
-import { HttpRequest, Pagination } from '../../types'
-import makeFakeUser from './user'
+import { Pagination } from '../../types'
 
 const defaultPagination: Pagination = {
   page: 0,

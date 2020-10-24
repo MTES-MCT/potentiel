@@ -23,9 +23,7 @@ const candidateProps = {
 describe('CandidateNotification', () => {
   describe('reloadFromHistory()', () => {
     describe('when all candidate projects have a certificate and CandidateNotifiedForPeriode has not occurred', () => {
-      const candidateNotification = UnwrapForTest(
-        CandidateNotification.create(candidateProps)
-      )
+      const candidateNotification = UnwrapForTest(CandidateNotification.create(candidateProps))
       candidateNotification.reloadFromHistory(
         [
           new ProjectNotified({
@@ -94,9 +92,7 @@ describe('CandidateNotification', () => {
     })
 
     describe('when some candidate projects do not have a certificate yet', () => {
-      const candidateNotification = UnwrapForTest(
-        CandidateNotification.create(candidateProps)
-      )
+      const candidateNotification = UnwrapForTest(CandidateNotification.create(candidateProps))
       candidateNotification.reloadFromHistory([
         new ProjectNotified({
           payload: {
@@ -135,9 +131,7 @@ describe('CandidateNotification', () => {
     })
 
     describe('when CandidateNotifiedForPeriode exists', () => {
-      const candidateNotification = UnwrapForTest(
-        CandidateNotification.create(candidateProps)
-      )
+      const candidateNotification = UnwrapForTest(CandidateNotification.create(candidateProps))
       candidateNotification.reloadFromHistory([
         new CandidateNotifiedForPeriode({
           payload: {
@@ -155,9 +149,7 @@ describe('CandidateNotification', () => {
     })
 
     describe('when history is empty', () => {
-      const candidateNotification = UnwrapForTest(
-        CandidateNotification.create(candidateProps)
-      )
+      const candidateNotification = UnwrapForTest(CandidateNotification.create(candidateProps))
       candidateNotification.reloadFromHistory([])
 
       it('should not trigger events', () => {

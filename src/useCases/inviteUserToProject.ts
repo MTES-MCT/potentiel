@@ -1,9 +1,4 @@
-import {
-  CredentialsRepo,
-  ProjectAdmissionKeyRepo,
-  ProjectRepo,
-  UserRepo,
-} from '../dataAccess'
+import { CredentialsRepo, ProjectAdmissionKeyRepo, ProjectRepo, UserRepo } from '../dataAccess'
 import { makeProjectAdmissionKey, Project, User } from '../entities'
 import { NotificationService } from '../modules/notification'
 import routes from '../routes'
@@ -14,10 +9,7 @@ interface MakeUseCaseProps {
   credentialsRepo: CredentialsRepo
   projectAdmissionKeyRepo: ProjectAdmissionKeyRepo
   userRepo: UserRepo
-  shouldUserAccessProject: (args: {
-    user: User
-    projectId: Project['id']
-  }) => Promise<boolean>
+  shouldUserAccessProject: (args: { user: User; projectId: Project['id'] }) => Promise<boolean>
   sendNotification: NotificationService['sendNotification']
 }
 
@@ -27,11 +19,9 @@ interface CallUseCaseProps {
   projectId: string | string[]
 }
 
-export const ACCESS_DENIED_ERROR =
-  "Vous n'avez pas le droit d'inviter un utilisateur sur ce projet"
+export const ACCESS_DENIED_ERROR = "Vous n'avez pas le droit d'inviter un utilisateur sur ce projet"
 
-export const SYSTEM_ERROR =
-  "Il y a eu un problème lors de l'invitation. Merci de réessayer."
+export const SYSTEM_ERROR = "Il y a eu un problème lors de l'invitation. Merci de réessayer."
 
 export default function makeInviteUserToProject({
   findProjectById,
@@ -73,10 +63,8 @@ export default function makeInviteUserToProject({
     const projectIds = Array.isArray(projectId) ? projectId : [projectId]
 
     const projects = (
-      await Promise.all(
-        projectIds.map((projectId) => findProjectById(projectId))
-      )
-    ).filter((item) => typeof item !== undefined) as Project[]
+      await Promise.all(projectIds.map((projectId) => findProjectById(projectId)))
+    ).filter(Boolean) as Project[]
 
     if (!projects.length) {
       console.log(
@@ -152,9 +140,7 @@ export default function makeInviteUserToProject({
       .filter((res) => res.is_ok())
       .map((res) => res.unwrap())
 
-    const saveResults = await Promise.all(
-      projectAdmissionKeys.map(projectAdmissionKeyRepo.save)
-    )
+    const saveResults = await Promise.all(projectAdmissionKeys.map(projectAdmissionKeyRepo.save))
 
     if (saveResults.some((res) => res.is_err())) {
       console.log(

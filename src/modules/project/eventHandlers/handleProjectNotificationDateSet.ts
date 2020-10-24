@@ -14,15 +14,11 @@ export const handleProjectNotificationDateSet = (deps: {
   findProjectById: ProjectRepo['findById']
   getFamille: GetFamille
 }) => async (event: ProjectNotificationDateSet | ProjectNotified) => {
-  // console.log('handleProjectNotificationDateSet', event)
   const { payload, requestId, aggregateId } = event
   const { projectId, notifiedOn } = payload
 
   if (!aggregateId) {
-    console.log(
-      'handleProjectNotificationDateSet event missing aggregateId',
-      event
-    )
+    console.log('handleProjectNotificationDateSet event missing aggregateId', event)
     return
   }
 
@@ -47,10 +43,7 @@ export const handleProjectNotificationDateSet = (deps: {
   )
 
   // Set the GF Due Date if required by project family
-  const familleResult = await deps.getFamille(
-    project.appelOffreId,
-    project.familleId
-  )
+  const familleResult = await deps.getFamille(project.appelOffreId, project.familleId)
   if (
     familleResult &&
     familleResult.isOk() &&
@@ -61,10 +54,7 @@ export const handleProjectNotificationDateSet = (deps: {
       new ProjectGFDueDateSet({
         payload: {
           projectId,
-          garantiesFinancieresDueOn: moment(notifiedOn)
-            .add(2, 'months')
-            .toDate()
-            .getTime(),
+          garantiesFinancieresDueOn: moment(notifiedOn).add(2, 'months').toDate().getTime(),
         },
         requestId,
       })

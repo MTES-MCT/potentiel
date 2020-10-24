@@ -68,7 +68,6 @@ describe('importProjects use-case', () => {
     })
 
     const phonyLine = makePhonyLine()
-    let result
 
     const projectImportedHandler = jest.fn((event: ProjectImported) => null)
 

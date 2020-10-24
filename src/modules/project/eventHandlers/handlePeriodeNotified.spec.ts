@@ -7,15 +7,14 @@ import { UnnotifiedProjectDTO } from '../queries'
 import { handlePeriodeNotified } from './'
 
 describe('handlePeriodeNotified', () => {
-  const getUnnotifiedProjectsForPeriode = jest.fn(
-    (appelOffreId: string, periodeId: string) =>
-      okAsync<UnnotifiedProjectDTO[], InfraNotAvailableError>(
-        ['project1', 'project2'].map((projectId) => ({
-          projectId,
-          candidateEmail: 'email',
-          familleId: 'famille',
-        }))
-      )
+  const getUnnotifiedProjectsForPeriode = jest.fn((appelOffreId: string, periodeId: string) =>
+    okAsync<UnnotifiedProjectDTO[], InfraNotAvailableError>(
+      ['project1', 'project2'].map((projectId) => ({
+        projectId,
+        candidateEmail: 'email',
+        familleId: 'famille',
+      }))
+    )
   )
 
   const fakePayload = {
@@ -25,9 +24,7 @@ describe('handlePeriodeNotified', () => {
     notifiedOn: 1,
   }
 
-  const publish = jest.fn((event: StoredEvent) =>
-    okAsync<null, InfraNotAvailableError>(null)
-  )
+  const publish = jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null))
 
   const eventStore = {
     publish: jest.fn(),
@@ -59,9 +56,7 @@ describe('handlePeriodeNotified', () => {
 
     expect(publish).toHaveBeenCalledTimes(2)
 
-    expect(
-      publish.mock.calls.every((call) => call[0].type === ProjectNotified.type)
-    ).toBe(true)
+    expect(publish.mock.calls.every((call) => call[0].type === ProjectNotified.type)).toBe(true)
 
     const project1Event = publish.mock.calls
       .map((call) => call[0])
@@ -101,8 +96,6 @@ describe('handlePeriodeNotified', () => {
       ])
     )
 
-    expect(
-      publish.mock.calls.every((call) => call[0].requestId === 'request1')
-    ).toBe(true)
+    expect(publish.mock.calls.every((call) => call[0].requestId === 'request1')).toBe(true)
   })
 })

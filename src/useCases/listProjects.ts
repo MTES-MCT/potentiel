@@ -6,7 +6,6 @@ import {
   ContextSpecificProjectListFilter,
 } from '../dataAccess'
 import { Pagination, PaginatedList } from '../types'
-import _ from 'lodash'
 
 interface MakeUseCaseProps {
   searchForRegions: ProjectRepo['searchForRegions']
@@ -88,10 +87,11 @@ export default function makeListProjects({
     const result: any = {}
 
     let userSpecificProjectListFilter: ContextSpecificProjectListFilter
+    let regions: DREAL[]
 
     switch (user.role) {
       case 'dreal':
-        const regions = await findDrealsForUser(user.id)
+        regions = await findDrealsForUser(user.id)
         result.projects =
           recherche && recherche.length
             ? await searchForRegions(regions, recherche, query, pagination)
@@ -123,9 +123,7 @@ export default function makeListProjects({
         }
     }
 
-    result.existingAppelsOffres = await findExistingAppelsOffres(
-      userSpecificProjectListFilter
-    )
+    result.existingAppelsOffres = await findExistingAppelsOffres(userSpecificProjectListFilter)
 
     if (appelOffreId && userSpecificProjectListFilter) {
       result.existingPeriodes = await findExistingPeriodesForAppelOffre(

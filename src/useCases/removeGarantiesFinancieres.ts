@@ -8,10 +8,7 @@ interface MakeUseCaseProps {
   eventStore: EventStore
   findProjectById: ProjectRepo['findById']
   saveProject: ProjectRepo['save']
-  shouldUserAccessProject: (args: {
-    user: User
-    projectId: Project['id']
-  }) => Promise<boolean>
+  shouldUserAccessProject: (args: { user: User; projectId: Project['id'] }) => Promise<boolean>
 }
 
 interface CallUseCaseProps {
@@ -35,20 +32,13 @@ export default function makeRemoveGarantiesFinancieres({
     projectId,
     user,
   }: CallUseCaseProps): ResultAsync<null> {
-    // console.log('removeGarantiesFinancieres', projectId)
-
-    if (
-      user.role !== 'porteur-projet' ||
-      !(await shouldUserAccessProject({ user, projectId }))
-    )
+    if (user.role !== 'porteur-projet' || !(await shouldUserAccessProject({ user, projectId })))
       return ErrorResult(UNAUTHORIZED)
 
     const project = await findProjectById(projectId)
 
     if (!project) {
-      console.log(
-        'removeGarantiesFinancieres failed because project could not be found'
-      )
+      console.log('removeGarantiesFinancieres failed because project could not be found')
       return ErrorResult(UNAUTHORIZED)
     }
 
@@ -73,9 +63,7 @@ export default function makeRemoveGarantiesFinancieres({
 
     if (!updatedProject) {
       // OOPS
-      console.log(
-        'removeGarantiesFinancieres use-case: applyProjectUpdate returned null'
-      )
+      console.log('removeGarantiesFinancieres use-case: applyProjectUpdate returned null')
 
       return ErrorResult(SYSTEM_ERROR)
     }

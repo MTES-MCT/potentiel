@@ -12,8 +12,8 @@ export interface ProjectCertificateGeneratedPayload {
 export class ProjectCertificateGenerated
   extends BaseDomainEvent<ProjectCertificateGeneratedPayload>
   implements DomainEvent {
-  public static type: 'ProjectCertificateGenerated' =
-    'ProjectCertificateGenerated'
+  public static type: 'ProjectCertificateGenerated' = 'ProjectCertificateGenerated'
+
   public type = ProjectCertificateGenerated.type
   currentVersion = 1
 

@@ -2,19 +2,16 @@ import { Redirect } from '../helpers/responses'
 import ROUTES from '../routes'
 import { HttpRequest } from '../types'
 import { relanceInvitations } from '../useCases'
-import moment from 'moment'
 
 const postRelanceInvitations = async (request: HttpRequest) => {
-  // console.log('Call to sendCandidateNotifications received', request.body)
-
   if (!request.user || request.user.role !== 'admin') {
     return Redirect(ROUTES.LOGIN)
   }
 
-  let { appelOffreId, periodeId, keys } = request.body
+  const { appelOffreId, periodeId, keys } = request.body
 
   try {
-    let props: any = undefined
+    let props: any
 
     if (keys) {
       props = { keys: Array.isArray(keys) ? keys : [keys] }
@@ -31,7 +28,7 @@ const postRelanceInvitations = async (request: HttpRequest) => {
           keys,
           success: sentRelances
             ? `${sentRelances} relances ont été envoyées`
-            : `Aucun relance n\'a été envoyée. Merci de vérifier qu'il y a bien des invitations à relancer.`,
+            : `Aucun relance n'a été envoyée. Merci de vérifier qu'il y a bien des invitations à relancer.`,
         }),
       err: (e: Error) => {
         console.log('postRelanceInvitations failed', e)

@@ -1,9 +1,4 @@
-import {
-  errAsync,
-  fromOldResult,
-  fromOldResultAsync,
-  ResultAsync,
-} from '../../../core/utils'
+import { errAsync, fromOldResult, fromOldResultAsync, ResultAsync } from '../../../core/utils'
 import { ProjectAdmissionKeyRepo } from '../../../dataAccess'
 import { makeProjectAdmissionKey, ProjectAdmissionKey } from '../../../entities'
 import routes from '../../../routes'
@@ -20,13 +15,7 @@ export const handleCandidateNotifiedForPeriode = (deps: {
   saveProjectAdmissionKey: ProjectAdmissionKeyRepo['save']
   getPeriodeTitle: GetPeriodeTitle
 }) => async (event: CandidateNotifiedForPeriode) => {
-  const {
-    eventBus,
-    sendNotification,
-    saveProjectAdmissionKey,
-    getPeriodeTitle,
-  } = deps
-  // console.log('handleCandidateNotifiedForPeriode')
+  const { eventBus, sendNotification, saveProjectAdmissionKey, getPeriodeTitle } = deps
   const {
     payload: { periodeId, appelOffreId, candidateEmail, candidateName },
     requestId,
@@ -49,7 +38,7 @@ export const handleCandidateNotifiedForPeriode = (deps: {
   }
 
   function _sendCandidateNotification(): ResultAsync<null, Error> {
-    let projectAdmissionKey: ProjectAdmissionKey | undefined = undefined
+    let projectAdmissionKey: ProjectAdmissionKey | undefined
     return fromOldResult(
       makeProjectAdmissionKey({
         email: candidateEmail,
@@ -66,8 +55,7 @@ export const handleCandidateNotifiedForPeriode = (deps: {
       .andThen(({ periodeTitle, appelOffreTitle }) => {
         const subject = `Résultats de la ${periodeTitle} période de l'appel d'offres ${appelOffreTitle}`
 
-        if (!projectAdmissionKey)
-          return errAsync(new OtherError('Impossibru!!!')) // Not actually possible because of chaining above
+        if (!projectAdmissionKey) return errAsync(new OtherError('Impossibru!!!')) // Not actually possible because of chaining above
 
         return ResultAsync.fromPromise(
           sendNotification({
