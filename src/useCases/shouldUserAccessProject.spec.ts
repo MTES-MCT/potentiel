@@ -1,10 +1,9 @@
 import makeShouldUserAccessProject from './shouldUserAccessProject'
 
-import makeFakeProject from '../__tests__/fixtures/project'
 import makeFakeUser from '../__tests__/fixtures/user'
 
 import { userRepo } from '../dataAccess/inMemory'
-import { User, makeProject, makeUser, Project } from '../entities'
+import { User, makeUser, Project } from '../entities'
 
 describe('shouldUserAccessProject use-case', () => {
   describe('given user is admin', () => {
@@ -114,7 +113,7 @@ describe('shouldUserAccessProject use-case', () => {
     let user: User
 
     const findProjectById = jest.fn(async () => {
-      throw 'do not call'
+      throw new Error('do not call')
     })
     const shouldUserAccessProject = makeShouldUserAccessProject({
       userRepo,

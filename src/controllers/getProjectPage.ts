@@ -3,12 +3,11 @@ import _ from 'lodash'
 import { getUserProject } from '../useCases'
 import { projectRepo, projectAdmissionKeyRepo } from '../dataAccess'
 import { Redirect, Success, NotFoundError } from '../helpers/responses'
-import { Controller, HttpRequest } from '../types'
+import { HttpRequest } from '../types'
 import { ProjectDetailsPage } from '../views/pages'
 import ROUTES from '../routes'
 
 const getProjectPage = async (request: HttpRequest) => {
-  // console.log('Call to getProjectPage received', request.body, request.file)
   const { projectId } = request.params
 
   if (!request.user) {
@@ -37,15 +36,11 @@ const getProjectPage = async (request: HttpRequest) => {
       }),
     ]).then(([projectSpecificInvitations, emailSpecificInvitations]) => {
       // only keep one invitation per email
-      return _.uniqBy(
-        [...projectSpecificInvitations, ...emailSpecificInvitations],
-        'email'
-      )
+      return _.uniqBy([...projectSpecificInvitations, ...emailSpecificInvitations], 'email')
     })
   ).filter(
     // Exclude admission keys for users that are already in the user list
-    (projectAdmissionKey) =>
-      !projectUsers.some((user) => user.email === projectAdmissionKey.email)
+    (projectAdmissionKey) => !projectUsers.some((user) => user.email === projectAdmissionKey.email)
   )
 
   return Success(

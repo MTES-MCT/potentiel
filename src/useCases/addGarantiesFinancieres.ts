@@ -1,6 +1,5 @@
-import { Project, User, makeProject, applyProjectUpdate } from '../entities'
+import { Project, User, applyProjectUpdate } from '../entities'
 import { ProjectRepo, UserRepo, ProjectAdmissionKeyRepo } from '../dataAccess'
-import _ from 'lodash'
 import moment from 'moment'
 import { ResultAsync, Ok, Err, ErrorResult } from '../types'
 import routes from '../routes'
@@ -17,10 +16,7 @@ interface MakeUseCaseProps {
   saveProject: ProjectRepo['save']
   findUsersForDreal: UserRepo['findUsersForDreal']
   findAllProjectAdmissionKeys: ProjectAdmissionKeyRepo['findAll']
-  shouldUserAccessProject: (args: {
-    user: User
-    projectId: Project['id']
-  }) => Promise<boolean>
+  shouldUserAccessProject: (args: { user: User; projectId: Project['id'] }) => Promise<boolean>
   sendNotification: NotificationService['sendNotification']
 }
 
@@ -53,7 +49,6 @@ export default function makeAddGarantiesFinancieres({
     projectId,
     user,
   }: CallUseCaseProps): ResultAsync<null> {
-    // console.log('addGarantiesFinancieres', filename, date, projectId)
     const access = await shouldUserAccessProject({ user, projectId })
 
     if (!access) return ErrorResult(UNAUTHORIZED)
@@ -73,10 +68,7 @@ export default function makeAddGarantiesFinancieres({
     })
 
     if (fileResult.isErr()) {
-      console.log(
-        'addGarantiesFinancieres use-case: File.create failed',
-        fileResult.error
-      )
+      console.log('addGarantiesFinancieres use-case: File.create failed', fileResult.error)
 
       return ErrorResult(SYSTEM_ERROR)
     }
@@ -88,10 +80,7 @@ export default function makeAddGarantiesFinancieres({
 
     if (saveFileResult.isErr()) {
       // OOPS
-      console.log(
-        'addGarantiesFinancieres use-case: fileService.save failed',
-        saveFileResult.error
-      )
+      console.log('addGarantiesFinancieres use-case: fileService.save failed', saveFileResult.error)
 
       return ErrorResult(SYSTEM_ERROR)
     }
@@ -112,9 +101,7 @@ export default function makeAddGarantiesFinancieres({
 
     if (!updatedProject) {
       // OOPS
-      console.log(
-        'addGarantiesFinancieres use-case: applyProjectUpdate returned null'
-      )
+      console.log('addGarantiesFinancieres use-case: applyProjectUpdate returned null')
 
       // TODO: Remove uploaded file
 
@@ -151,9 +138,7 @@ export default function makeAddGarantiesFinancieres({
       variables: {
         nomProjet: project.nomProjet,
         dreal: project.regionProjet,
-        date_depot: moment(project.garantiesFinancieresDate).format(
-          'DD/MM/YYYY'
-        ),
+        date_depot: moment(project.garantiesFinancieresDate).format('DD/MM/YYYY'),
       },
     })
 
@@ -198,9 +183,7 @@ export default function makeAddGarantiesFinancieres({
             .filter(
               (invitation) =>
                 // Filter out all the users that have already created an account
-                !drealUsers.find(
-                  (drealUser) => invitation.email === drealUser.email
-                )
+                !drealUsers.find((drealUser) => invitation.email === drealUser.email)
             )
             .map((invitation) =>
               sendNotification({

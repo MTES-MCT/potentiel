@@ -7,7 +7,6 @@ import cookieParser from 'cookie-parser'
 import { version } from '../package.json'
 
 import dotenv from 'dotenv'
-dotenv.config()
 
 import makeExpressCallback from './helpers/makeExpressCallback'
 import {
@@ -71,6 +70,7 @@ import { initDatabase } from './dataAccess'
 
 import ROUTES from './routes'
 import { User } from './entities'
+dotenv.config()
 
 const FILE_SIZE_LIMIT_MB = 50
 
@@ -148,22 +148,10 @@ export async function makeServer(port: number = 3000) {
       res.redirect('/')
     })
 
-    router.get(
-      ROUTES.FORGOTTEN_PASSWORD,
-      makeExpressCallback(getForgottenPasswordPage)
-    )
-    router.post(
-      ROUTES.FORGOTTEN_PASSWORD_ACTION,
-      makeExpressCallback(postRetrievePassword)
-    )
-    router.get(
-      ROUTES.RESET_PASSWORD_LINK(),
-      makeExpressCallback(getResetPasswordPage)
-    )
-    router.post(
-      ROUTES.RESET_PASSWORD_ACTION,
-      makeExpressCallback(postResetPassword)
-    )
+    router.get(ROUTES.FORGOTTEN_PASSWORD, makeExpressCallback(getForgottenPasswordPage))
+    router.post(ROUTES.FORGOTTEN_PASSWORD_ACTION, makeExpressCallback(postRetrievePassword))
+    router.get(ROUTES.RESET_PASSWORD_LINK(), makeExpressCallback(getResetPasswordPage))
+    router.post(ROUTES.RESET_PASSWORD_ACTION, makeExpressCallback(postResetPassword))
 
     router.get(
       ROUTES.ADMIN_DASHBOARD,
@@ -216,17 +204,10 @@ export async function makeServer(port: number = 3000) {
       makeExpressCallback(postSendCandidateNotifications)
     )
 
-    router.get(
-      ROUTES.PROJECT_DETAILS(),
-      ensureLoggedIn(),
-      makeExpressCallback(getProjectPage)
-    )
+    router.get(ROUTES.PROJECT_DETAILS(), ensureLoggedIn(), makeExpressCallback(getProjectPage))
 
     // Going to the signup page automatically logs you out
-    router.get(
-      ROUTES.SIGNUP,
-      /*logoutMiddleware,*/ makeExpressCallback(getSignupPage)
-    )
+    router.get(ROUTES.SIGNUP, /* logoutMiddleware, */ makeExpressCallback(getSignupPage))
 
     router.post(ROUTES.SIGNUP_ACTION, makeExpressCallback(postSignup))
 
@@ -314,11 +295,7 @@ export async function makeServer(port: number = 3000) {
       makeExpressCallback(postDCR)
     )
 
-    router.get(
-      ROUTES.SUPPRIMER_DCR_ACTION(),
-      ensureLoggedIn(),
-      makeExpressCallback(getRemoveDCR)
-    )
+    router.get(ROUTES.SUPPRIMER_DCR_ACTION(), ensureLoggedIn(), makeExpressCallback(getRemoveDCR))
 
     router.get(
       ROUTES.ADMIN_DREAL_LIST,
@@ -382,44 +359,20 @@ export async function makeServer(port: number = 3000) {
     if (process.env.NODE_ENV === 'test') {
       router.get('/test/reset', makeExpressCallback(resetDbForTests))
       router.post('/test/addProjects', makeExpressCallback(addProjectsForTests))
-      router.post(
-        '/test/createInvitation',
-        makeExpressCallback(createInvitationForTests)
-      )
-      router.get(
-        '/test/getSentEmails',
-        makeExpressCallback(getSentEmailsForTests)
-      )
+      router.post('/test/createInvitation', makeExpressCallback(createInvitationForTests))
+      router.get('/test/getSentEmails', makeExpressCallback(getSentEmailsForTests))
       router.post(
         '/test/checkUserAccessToProject',
         makeExpressCallback(checkUserAccessToProjectForTests)
       )
-      router.post(
-        '/test/createUserWithEmail',
-        makeExpressCallback(createUserWithEmailForTests)
-      )
-      router.get(
-        '/test/getProjectId',
-        makeExpressCallback(getProjectIdForTests)
-      )
-      router.get(
-        '/test/getProject',
-        makeExpressCallback(getProjectHistoryForTests)
-      )
+      router.post('/test/createUserWithEmail', makeExpressCallback(createUserWithEmailForTests))
+      router.get('/test/getProjectId', makeExpressCallback(getProjectIdForTests))
+      router.get('/test/getProject', makeExpressCallback(getProjectHistoryForTests))
 
-      router.post(
-        '/test/addUserToDreal',
-        makeExpressCallback(addUserToDrealForTests)
-      )
+      router.post('/test/addUserToDreal', makeExpressCallback(addUserToDrealForTests))
 
-      router.post(
-        '/test/addInvitations',
-        makeExpressCallback(addInvitationsForTests)
-      )
-      router.post(
-        '/test/addNotifications',
-        makeExpressCallback(addNotificationsForTests)
-      )
+      router.post('/test/addInvitations', makeExpressCallback(addInvitationsForTests))
+      router.post('/test/addNotifications', makeExpressCallback(addNotificationsForTests))
     }
 
     app.use(router)

@@ -1,4 +1,4 @@
-import { Project, AppelOffre } from '../../../entities'
+import { Project } from '../../../entities'
 import ROUTES from '../../../routes'
 
 const porteurProjetActions = (project: Project) => {
@@ -35,10 +35,6 @@ const porteurProjetActions = (project: Project) => {
       title: 'Demander un délai',
       link: ROUTES.DEMANDE_DELAIS(project.id),
     },
-    // {
-    //   title: 'Changer de fournisseur',
-    //   link: ROUTES.CHANGER_FOURNISSEUR(project.id),
-    // },
     {
       title: 'Changer de producteur',
       link: ROUTES.CHANGER_PRODUCTEUR(project.id),

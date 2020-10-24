@@ -1,7 +1,6 @@
 import PizZip from 'pizzip'
 import Docxtemplater from 'docxtemplater'
 import fs from 'fs'
-import path from 'path'
 import util from 'util'
 
 const readFile = util.promisify(fs.readFile)

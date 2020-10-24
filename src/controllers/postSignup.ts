@@ -5,8 +5,6 @@ import { signup } from '../useCases'
 import { User } from '../entities'
 
 const postSignup = async (request: HttpRequest) => {
-  // console.log('Call  to postSignup received', request.body)
-
   const {
     fullName,
     email,
@@ -39,9 +37,7 @@ const postSignup = async (request: HttpRequest) => {
       }
 
       return Redirect(
-        user.role === 'dreal'
-          ? ROUTES.GARANTIES_FINANCIERES_LIST
-          : ROUTES.USER_DASHBOARD,
+        user.role === 'dreal' ? ROUTES.GARANTIES_FINANCIERES_LIST : ROUTES.USER_DASHBOARD,
         {
           success:
             'Votre compte a bien été créé, vous pouvez vous à présent gérer vos projets ci-dessous.',

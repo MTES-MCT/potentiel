@@ -8,10 +8,7 @@ interface MakeUseCaseProps {
   eventStore: EventStore
   findProjectById: ProjectRepo['findById']
   saveProject: ProjectRepo['save']
-  shouldUserAccessProject: (args: {
-    user: User
-    projectId: Project['id']
-  }) => Promise<boolean>
+  shouldUserAccessProject: (args: { user: User; projectId: Project['id'] }) => Promise<boolean>
 }
 
 interface CallUseCaseProps {
@@ -31,16 +28,8 @@ export default function makeRemoveDCR({
   saveProject,
   shouldUserAccessProject,
 }: MakeUseCaseProps) {
-  return async function removeDCR({
-    projectId,
-    user,
-  }: CallUseCaseProps): ResultAsync<null> {
-    // console.log('removeDCR', projectId)
-
-    if (
-      user.role !== 'porteur-projet' ||
-      !(await shouldUserAccessProject({ user, projectId }))
-    )
+  return async function removeDCR({ projectId, user }: CallUseCaseProps): ResultAsync<null> {
+    if (user.role !== 'porteur-projet' || !(await shouldUserAccessProject({ user, projectId })))
       return ErrorResult(UNAUTHORIZED)
 
     const project = await findProjectById(projectId)

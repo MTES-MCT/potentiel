@@ -149,11 +149,7 @@ interface ApplyProjectUpdateProps {
   }
 }
 const buildApplyProjectUpdate = (makeId: () => string) => {
-  return ({
-    project,
-    update,
-    context,
-  }: ApplyProjectUpdateProps): Project | null => {
+  return ({ project, update, context }: ApplyProjectUpdateProps): Project | null => {
     // Determine before/after values from the project and update
     const { before, after } = update
       ? Object.keys(update)
@@ -161,8 +157,7 @@ const buildApplyProjectUpdate = (makeId: () => string) => {
             (key) =>
               key !== 'id' &&
               // Only accept changes to notifiedOn for candidate-notifications
-              (context.type === 'candidate-notification' ||
-                key !== 'notifiedOn')
+              (context.type === 'candidate-notification' || key !== 'notifiedOn')
           )
           .reduce(
             ({ before, after }, key: string) => {
@@ -171,9 +166,7 @@ const buildApplyProjectUpdate = (makeId: () => string) => {
                 const changedKeys = [
                   ...Object.keys(project[key]),
                   ...Object.keys(update[key]),
-                ].filter(
-                  (innerKey) => project[key][innerKey] != update[key][innerKey]
-                )
+                ].filter((innerKey) => project[key][innerKey] !== update[key][innerKey])
 
                 if (changedKeys.length) {
                   before[key] = _.pick(project[key], changedKeys)
@@ -233,12 +226,7 @@ const makeProjectIdentifier = (project: Project): string => {
   return (
     nakedIdentifier +
     '-' +
-    crypto
-      .createHash('md5')
-      .update(project.id)
-      .digest('hex')
-      .substring(0, 3)
-      .toUpperCase()
+    crypto.createHash('md5').update(project.id).digest('hex').substring(0, 3).toUpperCase()
   )
 }
 
@@ -252,16 +240,12 @@ const getCertificateIfProjectEligible = (
   }
 
   if (!project.appelOffre?.periode?.isNotifiedOnPotentiel) {
-    console.log(
-      'getCertificateIfProjectEligible failed on periode.isNotifiedOnPotentiel'
-    )
+    console.log('getCertificateIfProjectEligible failed on periode.isNotifiedOnPotentiel')
     return null
   }
 
   if (!project.appelOffre?.periode?.certificateTemplate) {
-    console.log(
-      'getCertificateIfProjectEligible failed on periode.certificateTemplate'
-    )
+    console.log('getCertificateIfProjectEligible failed on periode.certificateTemplate')
     return null
   }
 

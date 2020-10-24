@@ -1,4 +1,4 @@
-import { Result, Ok, Err, ErrorResult } from '../types'
+import { Result, Ok, ErrorResult } from '../types'
 import { Runtype } from '../types/schemaTypes'
 import { Optional } from 'utility-types'
 import _ from 'lodash'
@@ -23,12 +23,10 @@ const buildMakeEntity = <T extends HasId>(
 
     // Add an id if there is none
     if (!onlyTypeFields.id) {
-      // console.log('Setting an id because none were given')
       onlyTypeFields.id = makeId()
     }
 
     if (defaults) {
-      // console.log('Applying defaults')
       Object.entries(defaults).forEach(([key, value]) => {
         if (typeof obj[key] !== 'undefined') return
 
@@ -42,7 +40,6 @@ const buildMakeEntity = <T extends HasId>(
       })
     }
 
-    // console.log('Object is now', onlyTypeFields)
     try {
       return Ok(schema.check(onlyTypeFields))
     } catch (error) {

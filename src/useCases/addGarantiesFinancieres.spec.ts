@@ -2,27 +2,18 @@ import moment from 'moment'
 import { Readable } from 'stream'
 import waitForExpect from 'wait-for-expect'
 import { okAsync } from '../core/utils'
-import {
-  makeProject,
-  makeProjectAdmissionKey,
-  makeUser,
-  Project,
-} from '../entities'
+import { makeProject, makeProjectAdmissionKey, makeUser, Project } from '../entities'
 import { File, FileContainer } from '../modules/file'
 import { FileService } from '../modules/file/FileService'
 import routes from '../routes'
 import { Ok, UnwrapForTest } from '../types'
 import makeFakeProject from '../__tests__/fixtures/project'
 import makeFakeUser from '../__tests__/fixtures/user'
-import makeAddGarantiesFinancieres, {
-  UNAUTHORIZED,
-} from './addGarantiesFinancieres'
+import makeAddGarantiesFinancieres, { UNAUTHORIZED } from './addGarantiesFinancieres'
 import { InMemoryEventStore } from '../infra/inMemory'
 import { ProjectGFSubmitted } from '../modules/project/events'
 
-const mockFileServiceSave = jest.fn((file: File, fileContents: FileContainer) =>
-  okAsync(null)
-)
+const mockFileServiceSave = jest.fn((file: File, fileContents: FileContainer) => okAsync(null))
 jest.mock('../modules/file/FileService', () => ({
   FileService: function () {
     return {
@@ -50,9 +41,7 @@ describe('addGarantiesFinancieres use-case', () => {
       )
     )
 
-    const user = UnwrapForTest(
-      makeUser(makeFakeUser({ role: 'porteur-projet' }))
-    )
+    const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
 
     const drealUser1 = UnwrapForTest(makeUser(makeFakeUser({ role: 'dreal' })))
     const drealUser2 = UnwrapForTest(makeUser(makeFakeUser({ role: 'dreal' })))
@@ -74,9 +63,7 @@ describe('addGarantiesFinancieres use-case', () => {
 
     const fileService = new MockFileService()
 
-    const projectGFSubmittedHandler = jest.fn(
-      (event: ProjectGFSubmitted) => null
-    )
+    const projectGFSubmittedHandler = jest.fn((event: ProjectGFSubmitted) => null)
 
     beforeAll(async () => {
       eventStore.subscribe(ProjectGFSubmitted.type, projectGFSubmittedHandler)
@@ -85,7 +72,7 @@ describe('addGarantiesFinancieres use-case', () => {
       const findUsersForDreal = jest.fn(async (region) => {
         if (region === 'Bretagne') return [drealUser1]
         if (region === 'Pays de la Loire') return [drealUser2]
-        else throw 'Wrong region provided : ' + region
+        else throw new Error(`Wrong region provided : ${region}`)
       })
       const findAllProjectAdmissionKeys = jest.fn(async () => [drealInvitation])
 
@@ -134,14 +121,9 @@ describe('addGarantiesFinancieres use-case', () => {
 
       expect(updatedProject.id).toEqual(originalProject.id)
 
-      expect(updatedProject.garantiesFinancieresSubmittedOn / 100).toBeCloseTo(
-        Date.now() / 100,
-        0
-      )
+      expect(updatedProject.garantiesFinancieresSubmittedOn / 100).toBeCloseTo(Date.now() / 100, 0)
       expect(updatedProject.garantiesFinancieresSubmittedBy).toEqual(user.id)
-      expect(updatedProject.garantiesFinancieresFileId).toEqual(
-        savedFile.id.toString()
-      )
+      expect(updatedProject.garantiesFinancieresFileId).toEqual(savedFile.id.toString())
       expect(updatedProject.garantiesFinancieresDate).toEqual(date)
 
       expect(updatedProject.history).toHaveLength(1)
@@ -154,36 +136,25 @@ describe('addGarantiesFinancieres use-case', () => {
       })
       expect(updatedProject.history[0].after).toEqual({
         garantiesFinancieresSubmittedBy: user.id,
-        garantiesFinancieresSubmittedOn:
-          updatedProject.garantiesFinancieresSubmittedOn,
+        garantiesFinancieresSubmittedOn: updatedProject.garantiesFinancieresSubmittedOn,
         garantiesFinancieresFileId: savedFile.id.toString(),
         garantiesFinancieresDate: date,
       })
-      expect(updatedProject.history[0].createdAt / 100).toBeCloseTo(
-        Date.now() / 100,
-        0
-      )
-      expect(updatedProject.history[0].type).toEqual(
-        'garanties-financieres-submission'
-      )
+      expect(updatedProject.history[0].createdAt / 100).toBeCloseTo(Date.now() / 100, 0)
+      expect(updatedProject.history[0].type).toEqual('garanties-financieres-submission')
       expect(updatedProject.history[0].userId).toEqual(user.id)
     })
 
     it('should trigger a ProjectGFSubmitted event', async () => {
       await waitForExpect(() => {
         expect(projectGFSubmittedHandler).toHaveBeenCalled()
-        const projectGFSubmittedEvent =
-          projectGFSubmittedHandler.mock.calls[0][0]
-        expect(projectGFSubmittedEvent.payload.projectId).toEqual(
-          originalProject.id
-        )
+        const projectGFSubmittedEvent = projectGFSubmittedHandler.mock.calls[0][0]
+        expect(projectGFSubmittedEvent.payload.projectId).toEqual(originalProject.id)
 
         const fakeFile = mockFileServiceSave.mock.calls[0][0]
 
         expect(projectGFSubmittedEvent.payload.gfDate).toEqual(new Date(date))
-        expect(projectGFSubmittedEvent.payload.fileId).toEqual(
-          fakeFile.id.toString()
-        )
+        expect(projectGFSubmittedEvent.payload.fileId).toEqual(fakeFile.id.toString())
         expect(projectGFSubmittedEvent.payload.submittedBy).toEqual(user.id)
         expect(projectGFSubmittedEvent.aggregateId).toEqual(originalProject.id)
       })
@@ -284,9 +255,7 @@ describe('addGarantiesFinancieres use-case', () => {
 
       const date = Date.now()
 
-      const user = UnwrapForTest(
-        makeUser(makeFakeUser({ role: 'porteur-projet' }))
-      )
+      const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
 
       const originalProject = UnwrapForTest(
         makeProject(

@@ -1,31 +1,23 @@
-import {
-  Redirect,
-  Success,
-  SuccessFile,
-  SystemError,
-  NotFoundError,
-} from '../helpers/responses'
+import { SuccessFile, SystemError, NotFoundError } from '../helpers/responses'
 import { fillDocxTemplate } from '../helpers/fillDocxTemplate'
 import sanitize from 'sanitize-filename'
 import moment from 'moment'
 import { makeProjectFilePath } from '../helpers/makeProjectFilePath'
 import { formatDate } from '../helpers/formatDate'
-import { Controller, HttpRequest } from '../types'
-import ROUTES from '../routes'
+import { HttpRequest } from '../types'
 import { getUserProject } from '../useCases'
 import { makeProjectIdentifier } from '../entities/project'
-
-import { makeCertificate } from '../views/pages/candidateCertificate'
 
 import fs from 'fs'
 import util from 'util'
 import path from 'path'
-const dirExists = util.promisify(fs.exists)
-const makeDir = util.promisify(fs.mkdir)
-const makeDirIfNecessary = async (dirpath) => {
-  const exists = await dirExists(dirpath)
-  if (!exists) await makeDir(dirpath)
+import { pathExists } from '../core/utils'
 
+const makeDir = util.promisify(fs.mkdir)
+
+const makeDirIfNecessary = async (dirpath) => {
+  const dirExists: boolean = await pathExists(dirpath)
+  if (!dirExists) await makeDir(dirpath)
   return dirpath
 }
 
@@ -49,9 +41,7 @@ const getModeleMiseEnDemeure = async (request: HttpRequest) => {
 
     const { filepath } = makeProjectFilePath(
       project.id,
-      sanitize(
-        `Mise en demeure Garanties Financières - ${project.nomProjet}.docx`
-      )
+      sanitize(`Mise en demeure Garanties Financières - ${project.nomProjet}.docx`)
     )
 
     await makeDirIfNecessary(path.dirname(filepath))
@@ -64,8 +54,6 @@ const getModeleMiseEnDemeure = async (request: HttpRequest) => {
       'Modèle mise en demeure.docx'
     )
 
-    const dateFormat = 'DD/MM/YYYY'
-
     await fillDocxTemplate({
       templatePath,
       outputPath: filepath,
@@ -75,22 +63,18 @@ const getModeleMiseEnDemeure = async (request: HttpRequest) => {
         contactDreal: request.user.email,
         referenceProjet: makeProjectIdentifier(project),
         titreAppelOffre: project.appelOffre?.title || '!!!AO NON DISPONIBLE!!!',
-        dateLancementAppelOffre:
-          project.appelOffre?.launchDate || '!!!AO NON DISPONIBLE!!!',
+        dateLancementAppelOffre: project.appelOffre?.launchDate || '!!!AO NON DISPONIBLE!!!',
         nomProjet: project.nomProjet,
         adresseCompleteProjet: `${project.adresseProjet} ${project.codePostalProjet} ${project.communeProjet}`,
         puissanceProjet: project.puissance.toString(),
-        unitePuissance:
-          project.appelOffre?.unitePuissance || '!!!AO NON DISPONIBLE!!!',
-        titrePeriode:
-          project.appelOffre?.periode?.title || '!!!AO NON DISPONIBLE!!!',
+        unitePuissance: project.appelOffre?.unitePuissance || '!!!AO NON DISPONIBLE!!!',
+        titrePeriode: project.appelOffre?.periode?.title || '!!!AO NON DISPONIBLE!!!',
         dateNotification: formatDate(project.notifiedOn),
         paragrapheGF:
           project.appelOffre?.renvoiRetraitDesignationGarantieFinancieres ||
           '!!!AO NON DISPONIBLE!!!',
         garantieFinanciereEnMois:
-          project.famille?.garantieFinanciereEnMois?.toString() ||
-          '!!!FAMILLE NON DISPONIBLE!!!',
+          project.famille?.garantieFinanciereEnMois?.toString() || '!!!FAMILLE NON DISPONIBLE!!!',
         dateFinGarantieFinanciere: project.famille
           ? formatDate(
               moment(project.notifiedOn)
@@ -111,9 +95,7 @@ const getModeleMiseEnDemeure = async (request: HttpRequest) => {
     return SuccessFile(filepath)
   } catch (error) {
     console.log('getModeleMiseEnDemeure error', error)
-    return SystemError(
-      'Impossible de générer le fichier modèle de mise en demeure'
-    )
+    return SystemError('Impossible de générer le fichier modèle de mise en demeure')
   }
 }
 

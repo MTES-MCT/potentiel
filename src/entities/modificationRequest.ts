@@ -2,12 +2,9 @@ import {
   String,
   Number,
   Record,
-  Array,
   Union,
   Literal,
-  Boolean,
   Static,
-  Unknown,
   Undefined,
   Partial,
 } from '../types/schemaTypes'
@@ -24,13 +21,11 @@ const baseModificationRequestSchema = Record({
 const actionnaireSchema = Record({
   type: Literal('actionnaire'),
   actionnaire: String,
-  // filename: String,
   fileId: String,
 })
 const producteurSchema = Record({
   type: Literal('producteur'),
   producteur: String,
-  // filename: String,
   fileId: String,
 })
 const fournisseurSchema = Record({
@@ -38,7 +33,6 @@ const fournisseurSchema = Record({
   fournisseur: String,
   evaluationCarbone: Number,
   justification: String,
-  // filename: String,
   fileId: String,
 })
 const puissanceSchema = Record({
@@ -73,7 +67,6 @@ const modificationRequestSchema = baseModificationRequestSchema
   )
   .And(
     Partial({
-      // filename: String,
       fileId: String,
       requestedOn: Number,
       project: projectSchema.Or(Undefined),
@@ -89,7 +82,6 @@ const modificationRequestSchema = baseModificationRequestSchema
   )
 
 const fields: string[] = [
-  // 'filename',
   'fileId',
   'attachmentFile',
   'type',
@@ -118,11 +110,9 @@ interface MakeModificationRequestDependencies {
 }
 
 export default ({ makeId }: MakeModificationRequestDependencies) =>
-  buildMakeEntity<ModificationRequest>(
-    modificationRequestSchema,
-    makeId,
-    fields,
-    { requestedOn: () => Date.now(), status: () => 'envoyée' }
-  )
+  buildMakeEntity<ModificationRequest>(modificationRequestSchema, makeId, fields, {
+    requestedOn: () => Date.now(),
+    status: () => 'envoyée',
+  })
 
 export { ModificationRequest }

@@ -1,17 +1,5 @@
 import isEmail from 'isemail'
-import {
-  String,
-  Number,
-  Record,
-  Array,
-  Union,
-  Literal,
-  Boolean,
-  Static,
-  Unknown,
-  Undefined,
-  Partial,
-} from '../types/schemaTypes'
+import { String, Number, Record, Static, Partial } from '../types/schemaTypes'
 import buildMakeEntity from '../helpers/buildMakeEntity'
 
 const baseProjectAdmissionKeySchema = Record({
@@ -48,14 +36,9 @@ interface MakeProjectAdmissionKeyDependencies {
 }
 
 export default ({ makeId }: MakeProjectAdmissionKeyDependencies) =>
-  buildMakeEntity<ProjectAdmissionKey>(
-    projectAdmissionKeySchema,
-    makeId,
-    fields,
-    {
-      lastUsedAt: 0,
-      createdAt: () => Date.now(),
-    }
-  )
+  buildMakeEntity<ProjectAdmissionKey>(projectAdmissionKeySchema, makeId, fields, {
+    lastUsedAt: 0,
+    createdAt: () => Date.now(),
+  })
 
 export { ProjectAdmissionKey }

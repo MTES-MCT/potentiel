@@ -1,7 +1,6 @@
 import { DataTypes, Op } from 'sequelize'
 import { PasswordRetrievalRepo } from '../'
 import { PasswordRetrieval, makePasswordRetrieval } from '../../entities'
-import { mapExceptError, mapIfOk } from '../../helpers/results'
 import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types'
 import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
@@ -10,9 +9,7 @@ import isDbReady from './helpers/isDbReady'
 const deserialize = (item) => item
 const serialize = (item) => item
 
-export default function makePasswordRetrievalRepo({
-  sequelize,
-}): PasswordRetrievalRepo {
+export default function makePasswordRetrievalRepo({ sequelize }): PasswordRetrievalRepo {
   const PasswordRetrievalModel = sequelize.define('passwordRetrieval', {
     id: {
       type: DataTypes.UUID,
@@ -37,9 +34,7 @@ export default function makePasswordRetrievalRepo({
     countSince,
   })
 
-  async function findById(
-    id: PasswordRetrieval['id']
-  ): OptionAsync<PasswordRetrieval> {
+  async function findById(id: PasswordRetrieval['id']): OptionAsync<PasswordRetrieval> {
     await _isDbReady
 
     try {
@@ -49,32 +44,25 @@ export default function makePasswordRetrievalRepo({
 
       if (!passwordRetrievalInDb) return None
 
-      const passwordRetrievalInstance = makePasswordRetrieval(
-        deserialize(passwordRetrievalInDb)
-      )
+      const passwordRetrievalInstance = makePasswordRetrieval(deserialize(passwordRetrievalInDb))
 
-      if (passwordRetrievalInstance.is_err())
-        throw passwordRetrievalInstance.unwrap_err()
+      if (passwordRetrievalInstance.is_err()) throw passwordRetrievalInstance.unwrap_err()
 
       return Some(passwordRetrievalInstance.unwrap())
     } catch (error) {
-      if (CONFIG.logDbErrors)
-        console.log('PasswordRetrieval.findById error', error)
+      if (CONFIG.logDbErrors) console.log('PasswordRetrieval.findById error', error)
       return None
     }
   }
 
-  async function insert(
-    passwordRetrieval: PasswordRetrieval
-  ): ResultAsync<PasswordRetrieval> {
+  async function insert(passwordRetrieval: PasswordRetrieval): ResultAsync<PasswordRetrieval> {
     await _isDbReady
 
     try {
       await PasswordRetrievalModel.create(serialize(passwordRetrieval))
       return Ok(passwordRetrieval)
     } catch (error) {
-      if (CONFIG.logDbErrors)
-        console.log('PasswordRetrieval.insert error', error)
+      if (CONFIG.logDbErrors) console.log('PasswordRetrieval.insert error', error)
       return Err(error)
     }
   }
@@ -88,8 +76,7 @@ export default function makePasswordRetrievalRepo({
       })
       return Ok(null)
     } catch (error) {
-      if (CONFIG.logDbErrors)
-        console.log('PasswordRetrieval.remove error', error)
+      if (CONFIG.logDbErrors) console.log('PasswordRetrieval.remove error', error)
       return Err(error)
     }
   }
@@ -102,8 +89,7 @@ export default function makePasswordRetrievalRepo({
         where: { email, createdOn: { [Op.gte]: since } },
       })
     } catch (error) {
-      if (CONFIG.logDbErrors)
-        console.log('PasswordRetrieval.countSince error', error)
+      if (CONFIG.logDbErrors) console.log('PasswordRetrieval.countSince error', error)
       return 0
     }
   }

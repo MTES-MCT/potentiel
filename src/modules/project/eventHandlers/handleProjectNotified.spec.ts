@@ -9,9 +9,7 @@ import { ProjectCertificateGenerationFailed } from '../events/ProjectCertificate
 import { handleProjectNotified } from './'
 
 const eventBus = {
-  publish: jest.fn((event: StoredEvent) =>
-    okAsync<null, InfraNotAvailableError>(null)
-  ),
+  publish: jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null)),
   subscribe: jest.fn(),
 }
 
@@ -29,8 +27,6 @@ describe('handleProjectNotified', () => {
       notifiedOn: 0,
       familleId: 'famille1',
     }
-
-    let projectCertificateGeneratedEvent: StoredEvent | undefined = undefined
 
     beforeAll(async () => {
       eventBus.publish.mockClear()
@@ -61,22 +57,18 @@ describe('handleProjectNotified', () => {
 
       expect(projectCertificateGeneratedEvent).toBeDefined()
       if (!projectCertificateGeneratedEvent) return
-      expect(projectCertificateGeneratedEvent.type).toEqual(
-        ProjectCertificateGenerated.type
-      )
+      expect(projectCertificateGeneratedEvent.type).toEqual(ProjectCertificateGenerated.type)
 
-      expect(
-        (projectCertificateGeneratedEvent.payload as any).projectId
-      ).toEqual(fakePayload.projectId)
-      expect(
-        (projectCertificateGeneratedEvent.payload as any).appelOffreId
-      ).toEqual(fakePayload.appelOffreId)
-      expect(
-        (projectCertificateGeneratedEvent.payload as any).periodeId
-      ).toEqual(fakePayload.periodeId)
-      expect(
-        (projectCertificateGeneratedEvent.payload as any).certificateFileId
-      ).toEqual('fileId1')
+      expect((projectCertificateGeneratedEvent.payload as any).projectId).toEqual(
+        fakePayload.projectId
+      )
+      expect((projectCertificateGeneratedEvent.payload as any).appelOffreId).toEqual(
+        fakePayload.appelOffreId
+      )
+      expect((projectCertificateGeneratedEvent.payload as any).periodeId).toEqual(
+        fakePayload.periodeId
+      )
+      expect((projectCertificateGeneratedEvent.payload as any).certificateFileId).toEqual('fileId1')
       expect(projectCertificateGeneratedEvent.requestId).toEqual('request1')
       expect(projectCertificateGeneratedEvent.aggregateId).toEqual([
         fakePayload.projectId,
@@ -123,22 +115,18 @@ describe('handleProjectNotified', () => {
 
       expect(projectCertificateGeneratedEvent).toBeDefined()
       if (!projectCertificateGeneratedEvent) return
-      expect(projectCertificateGeneratedEvent.type).toEqual(
-        ProjectCertificateGenerated.type
-      )
+      expect(projectCertificateGeneratedEvent.type).toEqual(ProjectCertificateGenerated.type)
 
-      expect(
-        (projectCertificateGeneratedEvent.payload as any).projectId
-      ).toEqual(fakePayload.projectId)
-      expect(
-        (projectCertificateGeneratedEvent.payload as any).appelOffreId
-      ).toEqual(fakePayload.appelOffreId)
-      expect(
-        (projectCertificateGeneratedEvent.payload as any).periodeId
-      ).toEqual(fakePayload.periodeId)
-      expect(
-        (projectCertificateGeneratedEvent.payload as any).certificateFileId
-      ).toEqual('fileId1')
+      expect((projectCertificateGeneratedEvent.payload as any).projectId).toEqual(
+        fakePayload.projectId
+      )
+      expect((projectCertificateGeneratedEvent.payload as any).appelOffreId).toEqual(
+        fakePayload.appelOffreId
+      )
+      expect((projectCertificateGeneratedEvent.payload as any).periodeId).toEqual(
+        fakePayload.periodeId
+      )
+      expect((projectCertificateGeneratedEvent.payload as any).certificateFileId).toEqual('fileId1')
       expect(projectCertificateGeneratedEvent.aggregateId).toEqual([
         fakePayload.projectId,
         CandidateNotification.makeId(fakePayload),
@@ -195,21 +183,17 @@ describe('handleProjectNotified', () => {
 
       expect(projectCertificateGenerationFailedEvent).toBeDefined()
       if (!projectCertificateGenerationFailedEvent) return
-      expect(
-        (projectCertificateGenerationFailedEvent.payload as any).error
-      ).toEqual('test error')
-      expect(
-        (projectCertificateGenerationFailedEvent.payload as any).projectId
-      ).toEqual(fakePayload.projectId)
-      expect(
-        (projectCertificateGenerationFailedEvent.payload as any).appelOffreId
-      ).toEqual(fakePayload.appelOffreId)
-      expect(
-        (projectCertificateGenerationFailedEvent.payload as any).periodeId
-      ).toEqual(fakePayload.periodeId)
-      expect(projectCertificateGenerationFailedEvent.requestId).toEqual(
-        'request1'
+      expect((projectCertificateGenerationFailedEvent.payload as any).error).toEqual('test error')
+      expect((projectCertificateGenerationFailedEvent.payload as any).projectId).toEqual(
+        fakePayload.projectId
       )
+      expect((projectCertificateGenerationFailedEvent.payload as any).appelOffreId).toEqual(
+        fakePayload.appelOffreId
+      )
+      expect((projectCertificateGenerationFailedEvent.payload as any).periodeId).toEqual(
+        fakePayload.periodeId
+      )
+      expect(projectCertificateGenerationFailedEvent.requestId).toEqual('request1')
       expect(projectCertificateGenerationFailedEvent.aggregateId).toEqual([
         fakePayload.projectId,
         CandidateNotification.makeId(fakePayload),

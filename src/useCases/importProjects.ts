@@ -1,11 +1,9 @@
 import { Project, makeProject, AppelOffre, Periode, applyProjectUpdate, User } from '../entities'
 import { ProjectRepo, AppelOffreRepo, UserRepo } from '../dataAccess'
-import _ from 'lodash'
 import { Result, ResultAsync, Err, Ok, ErrorResult } from '../types'
 import toNumber from '../helpers/toNumber'
 import getDepartementRegionFromCodePostal from '../helpers/getDepartementRegionFromCodePostal'
 import moment from 'moment'
-import { retrievePassword } from '.'
 import { EventStore } from '../modules/eventStore'
 import { ProjectImported, ProjectReimported } from '../modules/project/events'
 
@@ -112,11 +110,6 @@ export default function makeImportProjects({
     lines,
     userId,
   }: CallUseCaseProps): ResultAsync<ImportReturnType> {
-    // console.log(
-    //   'importProjects use-case with ' + lines.length + ' lines',
-    //   lines
-    // )
-
     // Check if there is at least one line to insert
     if (!lines || !lines.length) {
       console.log('importProjects use-case: missing lines', lines)
@@ -128,7 +121,6 @@ export default function makeImportProjects({
     // Check individual lines (use makeProject on each)
     const projects = lines.reduce<Result<Array<Partial<Project>>, Array<Error>>>(
       (currentResults, line, index) => {
-        // console.log('line', line)
         // Find the corresponding appelOffre
         const appelOffreId = line["Appel d'offres"]
         const appelOffre = appelsOffre.find((appelOffre) => appelOffre.id === appelOffreId)
@@ -214,18 +206,8 @@ export default function makeImportProjects({
         // Validate the project data using makeProject
         const projectResult = makeProject(projectData as Project)
         if (projectResult.is_err()) {
-          // This line is an error
-          // console.log(
-          //   'importProjects use-case: this line has an error',
-          //   projectData,
-          //   // line,
-          //   projectResult.unwrap_err()
-          // )
-
           // Add the error from this line prefixed with the line number
           const projectError = projectResult.unwrap_err()
-          // projectError.message =
-          //   'Ligne ' + (index + 2) + ': ' + projectError.message
 
           return makeErrorForLine(projectError, index + 2, currentResults)
         }
@@ -245,10 +227,6 @@ export default function makeImportProjects({
     )
 
     if (projects.is_err()) {
-      // console.log(
-      //   'importProjects use-case: some projects have errors',
-      //   projects.unwrap_err()
-      // )
       const error = new Error()
       error.message = projects
         .unwrap_err()
@@ -260,7 +238,6 @@ export default function makeImportProjects({
       await Promise.all(
         projects.unwrap().map(async (newProject) => {
           const { appelOffreId, periodeId, numeroCRE, familleId } = newProject
-          // console.log('importProjects use-case, project ', newProject.nomProjet)
 
           // An existing project would have the same appelOffre, perdiode, numeroCRE and famille
           const existingProject = await findOneProject({
@@ -272,7 +249,6 @@ export default function makeImportProjects({
           })
 
           if (existingProject) {
-            // console.log('importProjects use-case found existing project')
             const updatedProject = applyProjectUpdate({
               project: existingProject,
               update: newProject,
@@ -283,7 +259,6 @@ export default function makeImportProjects({
             })
 
             if (!updatedProject) {
-              // console.log('importProjects use-case no update, ignore')
               // Project has not been changed, nothing to do
               return Ok(null)
             }

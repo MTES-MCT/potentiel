@@ -1,11 +1,10 @@
 import { DataTypes } from 'sequelize'
 import { ModificationRequestRepo } from '../'
 import { ModificationRequest, makeModificationRequest } from '../../entities'
-import { mapExceptError, mapIfOk } from '../../helpers/results'
+import { mapExceptError } from '../../helpers/results'
 import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types'
 import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
-import _ from 'lodash'
 
 // Override these to apply serialization/deserialization on inputs/outputs
 const deserialize = (item) => ({
@@ -20,9 +19,7 @@ const deserialize = (item) => ({
 })
 const serialize = (item) => item
 
-export default function makeModificationRequestRepo({
-  sequelize,
-}): ModificationRequestRepo {
+export default function makeModificationRequestRepo({ sequelize }): ModificationRequestRepo {
   const ModificationRequestModel = sequelize.define('modificationRequest', {
     id: {
       type: DataTypes.UUID,
@@ -134,25 +131,20 @@ export default function makeModificationRequestRepo({
     update,
   })
 
-  async function findById(
-    id: ModificationRequest['id']
-  ): OptionAsync<ModificationRequest> {
+  async function findById(id: ModificationRequest['id']): OptionAsync<ModificationRequest> {
     await _isDbReady
 
     try {
-      const modificationRequestInDb = await ModificationRequestModel.findByPk(
-        id,
-        {
-          include: [
-            {
-              model: FileModel,
-              as: 'attachmentFile',
-              attributes: ['id', 'filename'],
-            },
-          ],
-          raw: true,
-        }
-      )
+      const modificationRequestInDb = await ModificationRequestModel.findByPk(id, {
+        include: [
+          {
+            model: FileModel,
+            as: 'attachmentFile',
+            attributes: ['id', 'filename'],
+          },
+        ],
+        raw: true,
+      })
 
       if (!modificationRequestInDb) return None
 
@@ -160,13 +152,11 @@ export default function makeModificationRequestRepo({
         deserialize(modificationRequestInDb)
       )
 
-      if (modificationRequestInstance.is_err())
-        throw modificationRequestInstance.unwrap_err()
+      if (modificationRequestInstance.is_err()) throw modificationRequestInstance.unwrap_err()
 
       return Some(modificationRequestInstance.unwrap())
     } catch (error) {
-      if (CONFIG.logDbErrors)
-        console.log('ModificationRequest.findById error', error)
+      if (CONFIG.logDbErrors) console.log('ModificationRequest.findById error', error)
       return None
     }
   }
@@ -193,9 +183,7 @@ export default function makeModificationRequestRepo({
       if (query) opts.where = query
       if (includeInfo) opts.include.push(ProjectModel, UserModel)
 
-      const modificationRequestsRaw = await ModificationRequestModel.findAll(
-        opts
-      )
+      const modificationRequestsRaw = await ModificationRequestModel.findAll(opts)
         .map((item) => item.get())
         .map((item) => ({
           ...item,
@@ -211,8 +199,7 @@ export default function makeModificationRequestRepo({
 
       return deserializedItems
     } catch (error) {
-      if (CONFIG.logDbErrors)
-        console.log('ModificationRequest.findAll error', error)
+      if (CONFIG.logDbErrors) console.log('ModificationRequest.findAll error', error)
       return []
     }
   }
@@ -226,8 +213,7 @@ export default function makeModificationRequestRepo({
       await ModificationRequestModel.create(serialize(modificationRequest))
       return Ok(modificationRequest)
     } catch (error) {
-      if (CONFIG.logDbErrors)
-        console.log('ModificationRequest.insert error', error)
+      if (CONFIG.logDbErrors) console.log('ModificationRequest.insert error', error)
       return Err(error)
     }
   }
@@ -243,8 +229,7 @@ export default function makeModificationRequestRepo({
       })
       return Ok(modificationRequest)
     } catch (error) {
-      if (CONFIG.logDbErrors)
-        console.log('ModificationRequest.findAll error', error)
+      if (CONFIG.logDbErrors) console.log('ModificationRequest.findAll error', error)
       return Err(error)
     }
   }

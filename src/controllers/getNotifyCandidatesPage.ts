@@ -6,7 +6,6 @@ import { makePagination } from '../helpers/paginate'
 import routes from '../routes'
 
 const getNotifyCandidatesPage = async (request: HttpRequest) => {
-  // console.log('getNotifyCandidatesPage request.query', appelOffreId, periodeId)
   let { appelOffreId, periodeId, recherche, classement } = request.query
 
   if (!request.user || !['admin', 'dgec'].includes(request.user.role)) {

@@ -1,9 +1,5 @@
 import { Project, Periode, AppelOffre, Famille } from '../../../entities'
-import {
-  DomainEvent,
-  BaseDomainEvent,
-  BaseDomainEventProps,
-} from '../../../core/domain/DomainEvent'
+import { DomainEvent, BaseDomainEvent } from '../../../core/domain/DomainEvent'
 import { CandidateNotification } from '../../candidateNotification/CandidateNotification'
 
 export interface ProjectNotifiedPayload {

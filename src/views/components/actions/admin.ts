@@ -1,4 +1,4 @@
-import { Project, AppelOffre } from '../../../entities'
+import { Project } from '../../../entities'
 import ROUTES from '../../../routes'
 
 const adminActions = (project: Project) => {

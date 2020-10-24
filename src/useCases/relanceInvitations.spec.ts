@@ -49,9 +49,7 @@ describe('relanceInvitations use-case', () => {
             .filter((item) => item.is_ok())
             .map((item) => item.unwrap())
             .map((item) =>
-              projectAdmissionKeyRepo
-                .save(item)
-                .then((result) => result.map(() => item))
+              projectAdmissionKeyRepo.save(item).then((result) => result.map(() => item))
             )
         )
       )
@@ -60,12 +58,7 @@ describe('relanceInvitations use-case', () => {
 
       expect(projectAdmissionKeys).toHaveLength(4)
 
-      const [
-        pp1_invitation1,
-        pp1_invitation2,
-        pp2_invitation,
-        pp3_invitation,
-      ] = projectAdmissionKeys
+      const [pp1_invitation1, , pp2_invitation] = projectAdmissionKeys
 
       if (!pp1_invitation1 || !pp2_invitation) return
 
@@ -77,39 +70,31 @@ describe('relanceInvitations use-case', () => {
     })
 
     it('should create a new projectAdmissionKey for each unique email', async () => {
-      const newProjectAdmissionKeysForPP1 = await projectAdmissionKeyRepo.findAll(
-        {
-          email: 'pp-unused1@test.com',
-          lastUsedAt: 0,
-        }
-      )
+      const newProjectAdmissionKeysForPP1 = await projectAdmissionKeyRepo.findAll({
+        email: 'pp-unused1@test.com',
+        lastUsedAt: 0,
+      })
       expect(newProjectAdmissionKeysForPP1).toHaveLength(1)
 
-      const newProjectAdmissionKeysForPP2 = await projectAdmissionKeyRepo.findAll(
-        {
-          email: 'pp-unused2@test.com',
-          lastUsedAt: 0,
-        }
-      )
+      const newProjectAdmissionKeysForPP2 = await projectAdmissionKeyRepo.findAll({
+        email: 'pp-unused2@test.com',
+        lastUsedAt: 0,
+      })
       expect(newProjectAdmissionKeysForPP2).toHaveLength(1)
     })
 
     it('should set oldProjectAdmissionKeys.lastUsedAt to newProjectAdmissionKey.createdAt for all pending invitations for concerned emails', async () => {
-      const [
-        newProjectAdmissionKeyForPP1,
-      ] = await projectAdmissionKeyRepo.findAll({
+      const [newProjectAdmissionKeyForPP1] = await projectAdmissionKeyRepo.findAll({
         email: 'pp-unused1@test.com',
         lastUsedAt: 0,
       })
       expect(newProjectAdmissionKeyForPP1).toBeDefined()
       if (!newProjectAdmissionKeyForPP1) return
 
-      const oldProjectAdmissionKeysForPP1 = await projectAdmissionKeyRepo.findAll(
-        {
-          email: 'pp-unused1@test.com',
-          createdAt: 1,
-        }
-      )
+      const oldProjectAdmissionKeysForPP1 = await projectAdmissionKeyRepo.findAll({
+        email: 'pp-unused1@test.com',
+        createdAt: 1,
+      })
       expect(oldProjectAdmissionKeysForPP1).toHaveLength(2)
       const [old1, old2] = oldProjectAdmissionKeysForPP1
       expect(old1.lastUsedAt).toEqual(newProjectAdmissionKeyForPP1.createdAt)
@@ -204,10 +189,7 @@ describe('relanceInvitations use-case', () => {
       if (!newProjectAdmissionKey) return
 
       // Make sure its new and not one of the old ones
-      expect((newProjectAdmissionKey.createdAt || 0) / 1000).toBeCloseTo(
-        Date.now() / 1000,
-        0
-      )
+      expect((newProjectAdmissionKey.createdAt || 0) / 1000).toBeCloseTo(Date.now() / 1000, 0)
     })
 
     it('should set oldProjectAdmissionKeys.lastUsedAt to newProjectAdmissionKey.createdAt', async () => {
@@ -241,11 +223,9 @@ describe('relanceInvitations use-case', () => {
       // userEmail does have an older projectAdmissionKey
       // but another-recent@test.test does not
 
-      const [recentProjectAdmissionKey] = await projectAdmissionKeyRepo.findAll(
-        {
-          email: 'another-recent@test.test',
-        }
-      )
+      const [recentProjectAdmissionKey] = await projectAdmissionKeyRepo.findAll({
+        email: 'another-recent@test.test',
+      })
 
       expect(recentProjectAdmissionKey).toBeDefined()
       if (!recentProjectAdmissionKey) return
@@ -260,16 +240,12 @@ describe('relanceInvitations use-case', () => {
 
       const sentEmails = sendNotification.mock.calls.map((item) => item[0])
 
-      const sentEmailForUser1 = sentEmails.find(
-        (email) => email.message.email === userEmail
-      )
+      const sentEmailForUser1 = sentEmails.find((email) => email.message.email === userEmail)
       expect(sentEmailForUser1).toBeDefined()
       if (!sentEmailForUser1) return
       expect(sentEmailForUser1.type).toEqual('relance-designation')
       expect(sentEmailForUser1.message.name).toEqual('pp-unused1')
-      expect(sentEmailForUser1.message.subject).toEqual(
-        "Résultats de l'appel d'offres"
-      )
+      expect(sentEmailForUser1.message.subject).toEqual("Résultats de l'appel d'offres")
 
       // The email should contain the new invitation key
       const newProjectAdmissionKeys = await projectAdmissionKeyRepo.findAll({
@@ -437,11 +413,9 @@ describe('relanceInvitations use-case', () => {
       // userEmail does have an older projectAdmissionKey
       // but another-recent@test.test does not
 
-      const [targetProjectAdmissionKey] = await projectAdmissionKeyRepo.findAll(
-        {
-          fullName: 'Good AppelOffreId Good PeriodeId',
-        }
-      )
+      const [targetProjectAdmissionKey] = await projectAdmissionKeyRepo.findAll({
+        fullName: 'Good AppelOffreId Good PeriodeId',
+      })
 
       expect(targetProjectAdmissionKey).toBeDefined()
       if (!targetProjectAdmissionKey) return

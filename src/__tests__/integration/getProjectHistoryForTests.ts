@@ -1,18 +1,8 @@
-import {
-  projectRepo,
-  userRepo,
-  projectAdmissionKeyRepo,
-  credentialsRepo,
-} from '../../dataAccess'
-import { User, makeProject, makeProjectAdmissionKey } from '../../entities'
+import { projectRepo } from '../../dataAccess'
 import { Success, SystemError } from '../../helpers/responses'
 import { HttpRequest } from '../../types'
-import ROUTES from '../../routes'
-import makeFakeProject from '../fixtures/project'
-import { createUser } from './helpers/createUser'
 
 const getProjectHistoryForTests = async (request: HttpRequest) => {
-  // console.log('getProjectHistoryForTests', request, request.user)
   const { nomProjet } = request.query
 
   if (!nomProjet) {
@@ -25,14 +15,10 @@ const getProjectHistoryForTests = async (request: HttpRequest) => {
     return SystemError('No project with this nomProjet')
   }
 
-  // console.log('getProjectHistoryForTests', project)
-
   const projectWithHistory = await projectRepo.findById(project.id, true)
   if (!projectWithHistory) {
     return SystemError('No project history with this nomProjet')
   }
-
-  // console.log('projectWithHistory', projectWithHistory)
 
   return Success({ project: projectWithHistory })
 }

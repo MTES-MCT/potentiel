@@ -1,8 +1,5 @@
-import { projectRepo, userRepo } from '../../dataAccess'
-import { User, makeProject } from '../../entities'
-import { Success, SystemError } from '../../helpers/responses'
+import { Success } from '../../helpers/responses'
 import { HttpRequest } from '../../types'
-import makeFakeProject from '../fixtures/project'
 import { getSentEmails } from '../../infra/mail/fakeEmailService'
 
 const getSentEmailsForTests = async (request: HttpRequest) => {

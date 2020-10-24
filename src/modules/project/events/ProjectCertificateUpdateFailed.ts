@@ -1,6 +1,5 @@
 import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
-import { AppelOffre, Periode, Project } from '../../../entities'
-import { CandidateNotification } from '../../candidateNotification/CandidateNotification'
+import { Project } from '../../../entities'
 
 export interface ProjectCertificateUpdateFailedPayload {
   projectId: Project['id']
@@ -9,8 +8,8 @@ export interface ProjectCertificateUpdateFailedPayload {
 export class ProjectCertificateUpdateFailed
   extends BaseDomainEvent<ProjectCertificateUpdateFailedPayload>
   implements DomainEvent {
-  public static type: 'ProjectCertificateUpdateFailed' =
-    'ProjectCertificateUpdateFailed'
+  public static type: 'ProjectCertificateUpdateFailed' = 'ProjectCertificateUpdateFailed'
+
   public type = ProjectCertificateUpdateFailed.type
   currentVersion = 1
 

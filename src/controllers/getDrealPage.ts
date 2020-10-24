@@ -1,13 +1,10 @@
-import _ from 'lodash'
-
 import { userRepo, projectAdmissionKeyRepo } from '../dataAccess'
-import { Redirect, Success, NotFoundError } from '../helpers/responses'
-import { Controller, HttpRequest } from '../types'
+import { Redirect, Success } from '../helpers/responses'
+import { HttpRequest } from '../types'
 import { DrealListPage } from '../views/pages'
 import ROUTES from '../routes'
 
 const getDrealPage = async (request: HttpRequest) => {
-  // console.log('Call to getDrealPage received', request.body, request.file)
   if (!request.user) {
     return Redirect(ROUTES.LOGIN)
   }

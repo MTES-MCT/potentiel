@@ -10,6 +10,7 @@ export class CandidateInformedOfCertificateUpdate
   implements DomainEvent {
   public static type: 'CandidateInformedOfCertificateUpdate' =
     'CandidateInformedOfCertificateUpdate'
+
   public type = CandidateInformedOfCertificateUpdate.type
   currentVersion = 1
 

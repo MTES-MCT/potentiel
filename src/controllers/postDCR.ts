@@ -1,33 +1,22 @@
 import { addDCR } from '../useCases'
 import { Redirect, SystemError } from '../helpers/responses'
-import { makeProjectFilePath } from '../helpers/makeProjectFilePath'
-import { Controller, HttpRequest } from '../types'
+import { HttpRequest } from '../types'
 import { FileContainer } from '../modules/file'
 import ROUTES from '../routes'
 import _ from 'lodash'
 import moment from 'moment'
+import { pathExists } from '../core/utils'
 
 import fs from 'fs'
 import util from 'util'
-const fileExists = util.promisify(fs.exists)
 const deleteFile = util.promisify(fs.unlink)
 
 const postDCR = async (request: HttpRequest) => {
-  // console.log(
-  //   'Call to postDCR received',
-  //   request.body,
-  //   request.file
-  // )
-
   if (!request.user) {
     return SystemError('User must be logged in')
   }
 
-  const data: any = _.pick(request.body, [
-    'dcrDate',
-    'projectId',
-    'numeroDossier',
-  ])
+  const data: any = _.pick(request.body, ['dcrDate', 'projectId', 'numeroDossier'])
   const { projectId } = data
 
   if (!data.dcrDate) {
@@ -41,7 +30,7 @@ const postDCR = async (request: HttpRequest) => {
   try {
     if (data.dcrDate) {
       const date = moment(data.dcrDate, 'DD/MM/YYYY')
-      if (!date.isValid()) throw 'invalid date format'
+      if (!date.isValid()) throw new Error('invalid date format')
       data.date = date.toDate().getTime()
     }
   } catch (error) {
@@ -51,7 +40,9 @@ const postDCR = async (request: HttpRequest) => {
     })
   }
 
-  if (!request.file || !(await fileExists(request.file.path))) {
+  const attestationExists: boolean = await pathExists(request.file.path)
+
+  if (!request.file || !attestationExists) {
     return Redirect(ROUTES.PROJECT_DETAILS(projectId), {
       error:
         "Votre demande de raccordement n'a pas pu être transmise. Merci de joindre l'attestation en pièce-jointe.",

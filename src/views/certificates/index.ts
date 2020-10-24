@@ -3,6 +3,7 @@ import { CertificateTemplate, Project } from '../../entities'
 import { makeCertificate as makeV0Certificate } from './v0'
 import { makeCertificate as makeV1Certificate } from './v1'
 
+/* global NodeJS */
 export const buildCertificate = (
   template: CertificateTemplate,
   project: Project

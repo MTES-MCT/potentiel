@@ -1,10 +1,5 @@
-import { AppelOffre, Periode, Project, User } from '../../entities'
-import {
-  AggregateRoot,
-  UniqueEntityID,
-  DomainError,
-  DomainEvent,
-} from '../../core/domain'
+import { AppelOffre, Periode, Project } from '../../entities'
+import { AggregateRoot, UniqueEntityID, DomainError, DomainEvent } from '../../core/domain'
 import { Result, ok } from '../../core/utils'
 import { StoredEvent } from '../eventStore'
 import {
@@ -23,10 +18,7 @@ interface CandidateNotificationProps {
   candidateProjectsWithCertificate?: Record<string, boolean>
 }
 
-export class CandidateNotification extends AggregateRoot<
-  CandidateNotificationProps,
-  StoredEvent
-> {
+export class CandidateNotification extends AggregateRoot<CandidateNotificationProps, StoredEvent> {
   private constructor(props: CandidateNotificationProps, id?: UniqueEntityID) {
     super(props, id)
   }
@@ -51,10 +43,7 @@ export class CandidateNotification extends AggregateRoot<
     }
   }
 
-  public reloadFromHistory(
-    events: StoredEvent[],
-    currentRequestId?: DomainEvent['requestId']
-  ) {
+  public reloadFromHistory(events: StoredEvent[], currentRequestId?: DomainEvent['requestId']) {
     // events is a time-sorted list of events related to this specific candidateNotification
     for (const event of events) {
       switch (event.type) {
@@ -77,9 +66,7 @@ export class CandidateNotification extends AggregateRoot<
     this.triggerEventIfCandidateShouldBeNotified(currentRequestId)
   }
 
-  private triggerEventIfCandidateShouldBeNotified(
-    currentRequestId: DomainEvent['requestId']
-  ) {
+  private triggerEventIfCandidateShouldBeNotified(currentRequestId: DomainEvent['requestId']) {
     if (this.shouldCandidateBeNotified()) {
       this.addDomainEvent(
         new CandidateNotifiedForPeriode({
@@ -100,9 +87,7 @@ export class CandidateNotification extends AggregateRoot<
     return (
       !this.props.isCandidateNotified &&
       !!this.props.candidateProjectsWithCertificate &&
-      Object.values(this.props.candidateProjectsWithCertificate).every(
-        (item) => item
-      )
+      Object.values(this.props.candidateProjectsWithCertificate).every((item) => item)
     )
   }
 

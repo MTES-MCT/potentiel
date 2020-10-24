@@ -1,15 +1,9 @@
-import {
-  projectRepo,
-  userRepo,
-  projectAdmissionKeyRepo,
-} from '../../dataAccess'
-import { User, makeProjectAdmissionKey } from '../../entities'
+import { projectAdmissionKeyRepo } from '../../dataAccess'
+import { makeProjectAdmissionKey } from '../../entities'
 import { Success, SystemError } from '../../helpers/responses'
 import { HttpRequest } from '../../types'
-import makeFakeProject from '../fixtures/project'
 
 const addInvitationsForTests = async (request: HttpRequest) => {
-  // console.log('addInvitationsForTests', request.body)
   const { invitations } = request.body
 
   if (!invitations) {
@@ -54,11 +48,7 @@ const addInvitationsForTests = async (request: HttpRequest) => {
 
   await Promise.all(builtInvitations.map(projectAdmissionKeyRepo.save))
 
-  console.log(
-    'addInvitationsForTests inserted ' +
-      builtInvitations.length +
-      ' invitations'
-  )
+  console.log('addInvitationsForTests inserted ' + builtInvitations.length + ' invitations')
 
   return Success('success')
 }

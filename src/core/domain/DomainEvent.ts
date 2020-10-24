@@ -1,5 +1,3 @@
-import { Domain } from 'domain'
-
 export interface DomainEvent {
   occurredAt: Date
   type: string

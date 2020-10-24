@@ -79,12 +79,10 @@ describe('projectRepo sequelize', () => {
             .map(projectRepo.save)
         )
 
-        const {
-          itemCount,
-          items,
-          pageCount,
-          pagination,
-        } = await projectRepo.findAll(undefined, defaultPagination)
+        const { itemCount, items, pageCount, pagination } = await projectRepo.findAll(
+          undefined,
+          defaultPagination
+        )
         expect(itemCount).toEqual(5)
         expect(items).toHaveLength(2)
         expect(pageCount).toEqual(3)
@@ -604,7 +602,7 @@ describe('projectRepo sequelize', () => {
 
         expect(results.itemCount).toEqual(2)
         expect(results.items.map((item) => item.id)).toEqual(
-          expect.arrayContaining([regionProjectId1, , regionProjectId2])
+          expect.arrayContaining([regionProjectId1, regionProjectId2])
         )
       })
     })
@@ -636,14 +634,11 @@ describe('projectRepo sequelize', () => {
             .map(projectRepo.save)
         )
 
-        const results = await projectRepo.findAllForRegions([
-          'Corse',
-          'Occitanie',
-        ])
+        const results = await projectRepo.findAllForRegions(['Corse', 'Occitanie'])
 
         expect(results.itemCount).toEqual(2)
         expect(results.items.map((item) => item.id)).toEqual(
-          expect.arrayContaining([regionProjectId1, , regionProjectId2])
+          expect.arrayContaining([regionProjectId1, regionProjectId2])
         )
       })
     })
@@ -752,7 +747,7 @@ describe('projectRepo sequelize', () => {
 
         expect(results.itemCount).toEqual(2)
         expect(results.items.map((item) => item.id)).toEqual(
-          expect.arrayContaining([regionProjectId1, , regionProjectId2])
+          expect.arrayContaining([regionProjectId1, regionProjectId2])
         )
       })
     })
@@ -787,14 +782,11 @@ describe('projectRepo sequelize', () => {
             .map(projectRepo.save)
         )
 
-        const results = await projectRepo.searchForRegions(
-          ['Corse', 'Occitanie'],
-          'term'
-        )
+        const results = await projectRepo.searchForRegions(['Corse', 'Occitanie'], 'term')
 
         expect(results.itemCount).toEqual(2)
         expect(results.items.map((item) => item.id)).toEqual(
-          expect.arrayContaining([regionProjectId1, , regionProjectId2])
+          expect.arrayContaining([regionProjectId1, regionProjectId2])
         )
       })
     })
@@ -1019,9 +1011,7 @@ describe('projectRepo sequelize', () => {
         })
 
         expect(results).toHaveLength(2)
-        expect(results).toEqual(
-          expect.arrayContaining([targetAppelOffre, targetAppelOffre2])
-        )
+        expect(results).toEqual(expect.arrayContaining([targetAppelOffre, targetAppelOffre2]))
       })
     })
   })
@@ -1049,9 +1039,7 @@ describe('projectRepo sequelize', () => {
             .map(projectRepo.save)
         )
 
-        const results = await projectRepo.findExistingPeriodesForAppelOffre(
-          targetAppelOffre
-        )
+        const results = await projectRepo.findExistingPeriodesForAppelOffre(targetAppelOffre)
 
         expect(results).toHaveLength(1)
         expect(results[0]).toEqual(targetPeriode)
@@ -1082,12 +1070,9 @@ describe('projectRepo sequelize', () => {
             .map(projectRepo.save)
         )
 
-        const results = await projectRepo.findExistingPeriodesForAppelOffre(
-          targetAppelOffre,
-          {
-            isNotified: true,
-          }
-        )
+        const results = await projectRepo.findExistingPeriodesForAppelOffre(targetAppelOffre, {
+          isNotified: true,
+        })
 
         expect(results).toHaveLength(1)
         expect(results[0]).toEqual(targetPeriode)
@@ -1118,12 +1103,9 @@ describe('projectRepo sequelize', () => {
             .map(projectRepo.save)
         )
 
-        const results = await projectRepo.findExistingPeriodesForAppelOffre(
-          targetAppelOffre,
-          {
-            isNotified: false,
-          }
-        )
+        const results = await projectRepo.findExistingPeriodesForAppelOffre(targetAppelOffre, {
+          isNotified: false,
+        })
 
         expect(results).toHaveLength(1)
         expect(results[0]).toEqual(targetPeriode)
@@ -1174,12 +1156,9 @@ describe('projectRepo sequelize', () => {
         await userRepo.addProject(userId, userProjectId1)
         await userRepo.addProject(userId, userProjectId2)
 
-        const results = await projectRepo.findExistingPeriodesForAppelOffre(
-          targetAppelOffre,
-          {
-            userId,
-          }
-        )
+        const results = await projectRepo.findExistingPeriodesForAppelOffre(targetAppelOffre, {
+          userId,
+        })
 
         expect(results).toHaveLength(1)
         expect(results[0]).toEqual(targetPeriode)
@@ -1226,17 +1205,12 @@ describe('projectRepo sequelize', () => {
             .map(projectRepo.save)
         )
 
-        const results = await projectRepo.findExistingPeriodesForAppelOffre(
-          targetAppelOffre,
-          {
-            regions: ['Corse', 'Occitanie'],
-          }
-        )
+        const results = await projectRepo.findExistingPeriodesForAppelOffre(targetAppelOffre, {
+          regions: ['Corse', 'Occitanie'],
+        })
 
         expect(results).toHaveLength(2)
-        expect(results).toEqual(
-          expect.arrayContaining([targetPeriode1, targetPeriode2])
-        )
+        expect(results).toEqual(expect.arrayContaining([targetPeriode1, targetPeriode2]))
       })
     })
   })
@@ -1264,9 +1238,7 @@ describe('projectRepo sequelize', () => {
             .map(projectRepo.save)
         )
 
-        const results = await projectRepo.findExistingFamillesForAppelOffre(
-          targetAppelOffre
-        )
+        const results = await projectRepo.findExistingFamillesForAppelOffre(targetAppelOffre)
 
         expect(results).toHaveLength(1)
         expect(results[0]).toEqual(targetFamille)
@@ -1297,12 +1269,9 @@ describe('projectRepo sequelize', () => {
             .map(projectRepo.save)
         )
 
-        const results = await projectRepo.findExistingFamillesForAppelOffre(
-          targetAppelOffre,
-          {
-            isNotified: true,
-          }
-        )
+        const results = await projectRepo.findExistingFamillesForAppelOffre(targetAppelOffre, {
+          isNotified: true,
+        })
 
         expect(results).toHaveLength(1)
         expect(results[0]).toEqual(targetFamille)
@@ -1333,12 +1302,9 @@ describe('projectRepo sequelize', () => {
             .map(projectRepo.save)
         )
 
-        const results = await projectRepo.findExistingFamillesForAppelOffre(
-          targetAppelOffre,
-          {
-            isNotified: false,
-          }
-        )
+        const results = await projectRepo.findExistingFamillesForAppelOffre(targetAppelOffre, {
+          isNotified: false,
+        })
 
         expect(results).toHaveLength(1)
         expect(results[0]).toEqual(targetFamille)
@@ -1389,12 +1355,9 @@ describe('projectRepo sequelize', () => {
         await userRepo.addProject(userId, userProjectId1)
         await userRepo.addProject(userId, userProjectId2)
 
-        const results = await projectRepo.findExistingFamillesForAppelOffre(
-          targetAppelOffre,
-          {
-            userId,
-          }
-        )
+        const results = await projectRepo.findExistingFamillesForAppelOffre(targetAppelOffre, {
+          userId,
+        })
 
         expect(results).toHaveLength(1)
         expect(results[0]).toEqual(targetFamille)
@@ -1441,17 +1404,12 @@ describe('projectRepo sequelize', () => {
             .map(projectRepo.save)
         )
 
-        const results = await projectRepo.findExistingFamillesForAppelOffre(
-          targetAppelOffre,
-          {
-            regions: ['Corse', 'Occitanie'],
-          }
-        )
+        const results = await projectRepo.findExistingFamillesForAppelOffre(targetAppelOffre, {
+          regions: ['Corse', 'Occitanie'],
+        })
 
         expect(results).toHaveLength(2)
-        expect(results).toEqual(
-          expect.arrayContaining([targetFamille1, targetFamille2])
-        )
+        expect(results).toEqual(expect.arrayContaining([targetFamille1, targetFamille2]))
       })
     })
   })
@@ -1486,12 +1444,7 @@ describe('projectRepo sequelize', () => {
           .map(projectRepo.save)
       )
 
-      expect(
-        await projectRepo.countUnnotifiedProjects(
-          targetAppelOffre,
-          targetPeriode
-        )
-      ).toEqual(0)
+      expect(await projectRepo.countUnnotifiedProjects(targetAppelOffre, targetPeriode)).toEqual(0)
 
       await projectRepo.save(
         makeFakeProject({
@@ -1502,12 +1455,7 @@ describe('projectRepo sequelize', () => {
         })
       )
 
-      expect(
-        await projectRepo.countUnnotifiedProjects(
-          targetAppelOffre,
-          targetPeriode
-        )
-      ).toEqual(1)
+      expect(await projectRepo.countUnnotifiedProjects(targetAppelOffre, targetPeriode)).toEqual(1)
     })
   })
 
@@ -1564,9 +1512,7 @@ describe('projectRepo sequelize', () => {
           .map(projectRepo.save)
       )
 
-      const results = await projectRepo.findProjectsWithGarantiesFinancieresPendingBefore(
-        1500
-      )
+      const results = await projectRepo.findProjectsWithGarantiesFinancieresPendingBefore(1500)
       expect(results).toHaveLength(1)
       expect(results[0].id).toEqual(targetProjectId)
     })

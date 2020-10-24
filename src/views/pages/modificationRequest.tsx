@@ -31,22 +31,17 @@ const titlePerAction = {
 }
 
 const getunitePuissanceForAppelOffre = (appelOffreId) => {
-  return appelsOffreStatic.find((item) => item.id === appelOffreId)
-    ?.unitePuissance
+  return appelsOffreStatic.find((item) => item.id === appelOffreId)?.unitePuissance
 }
 
 const getDelayForAppelOffre = (appelOffreId) => {
-  return appelsOffreStatic.find((item) => item.id === appelOffreId)
-    ?.delaiRealisationEnMois
+  return appelsOffreStatic.find((item) => item.id === appelOffreId)?.delaiRealisationEnMois
 }
 
 export { titlePerAction }
 
 /* Pure component */
-export default function ModificationRequestPage({
-  request,
-  project,
-}: PageProps) {
+export default function ModificationRequestPage({ request, project }: PageProps) {
   const {
     action,
     error,
@@ -60,19 +55,13 @@ export default function ModificationRequestPage({
     delayedServiceDate,
   } = request.query || {}
 
-  // console.log('modificationRequest page with action', action)
-
   return (
     <UserDashboard currentPage={'list-requests'}>
       <div className="panel">
         <div className="panel__header">
           <h3>Je demande un {titlePerAction[action]}</h3>
         </div>
-        <form
-          action={ROUTES.DEMANDE_ACTION}
-          method="post"
-          encType="multipart/form-data"
-        >
+        <form action={ROUTES.DEMANDE_ACTION} method="post" encType="multipart/form-data">
           <input type="hidden" name="projectId" value={project.id} />
           <input type="hidden" name="type" value={action} />
           <div className="form__group">
@@ -86,9 +75,7 @@ export default function ModificationRequestPage({
                 marginBottom: 10,
               }}
             >
-              <div {...dataId('modificationRequest-item-nomProjet')}>
-                {project.nomProjet}
-              </div>
+              <div {...dataId('modificationRequest-item-nomProjet')}>{project.nomProjet}</div>
               <div
                 style={{
                   fontStyle: 'italic',
@@ -96,9 +83,7 @@ export default function ModificationRequestPage({
                   fontSize: 12,
                 }}
               >
-                <div {...dataId('modificationRequest-item-nomCandidat')}>
-                  {project.nomCandidat}
-                </div>
+                <div {...dataId('modificationRequest-item-nomCandidat')}>{project.nomCandidat}</div>
                 <span {...dataId('modificationRequest-item-communeProjet')}>
                   {project.communeProjet}
                 </span>
@@ -112,8 +97,7 @@ export default function ModificationRequestPage({
                 </span>
               </div>
               <div {...dataId('modificationRequest-item-puissance')}>
-                {project.puissance}{' '}
-                {getunitePuissanceForAppelOffre(project.appelOffreId)}
+                {project.puissance} {getunitePuissanceForAppelOffre(project.appelOffreId)}
               </div>
               <div>
                 Désigné le{' '}
@@ -121,19 +105,12 @@ export default function ModificationRequestPage({
                   {formatDate(project.notifiedOn, 'DD/MM/YYYY')}
                 </span>{' '}
                 pour la période{' '}
-                <span {...dataId('modificationRequest-item-periode')}>
-                  {project.periodeId}
-                </span>{' '}
-                <span {...dataId('modificationRequest-item-famille')}>
-                  {project.familleId}
-                </span>
+                <span {...dataId('modificationRequest-item-periode')}>{project.periodeId}</span>{' '}
+                <span {...dataId('modificationRequest-item-famille')}>{project.familleId}</span>
               </div>
             </div>
             {error ? (
-              <div
-                className="notification error"
-                {...dataId('modificationRequest-errorMessage')}
-              >
+              <div className="notification error" {...dataId('modificationRequest-errorMessage')}>
                 {error}
               </div>
             ) : (
@@ -152,8 +129,7 @@ export default function ModificationRequestPage({
             {action === 'puissance' ? (
               <>
                 <label>
-                  Puissance actuelle (en{' '}
-                  {getunitePuissanceForAppelOffre(project.appelOffreId)})
+                  Puissance actuelle (en {getunitePuissanceForAppelOffre(project.appelOffreId)})
                 </label>
                 <input
                   type="text"
@@ -162,8 +138,7 @@ export default function ModificationRequestPage({
                   {...dataId('modificationRequest-presentPuissanceField')}
                 />
                 <label className="required" htmlFor="puissance">
-                  Nouvelle puissance (en{' '}
-                  {getunitePuissanceForAppelOffre(project.appelOffreId)})
+                  Nouvelle puissance (en {getunitePuissanceForAppelOffre(project.appelOffreId)})
                 </label>
                 <input
                   type="text"
@@ -177,22 +152,18 @@ export default function ModificationRequestPage({
                 <div
                   className="notification warning"
                   style={{ display: 'none' }}
-                  {...dataId(
-                    'modificationRequest-puissance-error-message-out-of-bounds'
-                  )}
+                  {...dataId('modificationRequest-puissance-error-message-out-of-bounds')}
                 >
-                  La nouvelle puissance doit être située entre 90% et 100% de la
-                  puissance actuelle pour être acceptée.
+                  La nouvelle puissance doit être située entre 90% et 100% de la puissance actuelle
+                  pour être acceptée.
                 </div>
                 <div
                   className="notification error"
                   style={{ display: 'none' }}
-                  {...dataId(
-                    'modificationRequest-puissance-error-message-wrong-format'
-                  )}
+                  {...dataId('modificationRequest-puissance-error-message-wrong-format')}
                 >
-                  Le format saisi n'est pas conforme (penser à utiliser un
-                  nombre décimal séparé par un point).
+                  Le format saisi n'est pas conforme (penser à utiliser un nombre décimal séparé par
+                  un point).
                 </div>
               </>
             ) : (
@@ -253,11 +224,7 @@ export default function ModificationRequestPage({
             {action === 'producteur' ? (
               <>
                 <label>Ancien producteur</label>
-                <input
-                  type="text"
-                  disabled
-                  defaultValue={project.nomCandidat}
-                />
+                <input type="text" disabled defaultValue={project.nomCandidat} />
                 <label className="required" htmlFor="producteur">
                   Nouveau producteur
                 </label>
@@ -291,11 +258,7 @@ export default function ModificationRequestPage({
             {action === 'actionnaire' ? (
               <>
                 <label>Ancien actionnaire</label>
-                <input
-                  type="text"
-                  disabled
-                  defaultValue={project.actionnaire}
-                />
+                <input type="text" disabled defaultValue={project.actionnaire} />
                 <label className="required" htmlFor="actionnaire">
                   Nouvel actionnaire
                 </label>
@@ -337,9 +300,7 @@ export default function ModificationRequestPage({
                   defaultValue={justification || ''}
                   {...dataId('modificationRequest-justificationField')}
                 />
-                <label htmlFor="candidats">
-                  Pièce justificative (si nécessaire)
-                </label>
+                <label htmlFor="candidats">Pièce justificative (si nécessaire)</label>
                 <input
                   type="file"
                   name="file"
@@ -361,9 +322,7 @@ export default function ModificationRequestPage({
                   defaultValue={justification || ''}
                   {...dataId('modificationRequest-justificationField')}
                 />
-                <label htmlFor="candidats">
-                  Pièce justificative (si nécessaire)
-                </label>
+                <label htmlFor="candidats">Pièce justificative (si nécessaire)</label>
                 <input
                   type="file"
                   name="file"
@@ -397,32 +356,24 @@ export default function ModificationRequestPage({
                   name="delayedServiceDate"
                   id="delayedServiceDate"
                   defaultValue={
-                    delayedServiceDate
-                      ? formatDate(Number(delayedServiceDate), 'DD/MM/YYYY')
-                      : ''
+                    delayedServiceDate ? formatDate(Number(delayedServiceDate), 'DD/MM/YYYY') : ''
                   }
                   {...dataId('modificationRequest-delayedServiceDateField')}
                 />
                 <div
                   className="notification error"
                   style={{ display: 'none' }}
-                  {...dataId(
-                    'modificationRequest-delay-error-message-out-of-bounds'
-                  )}
+                  {...dataId('modificationRequest-delay-error-message-out-of-bounds')}
                 >
-                  Merci de saisir une date postérieure à la date théorique de
-                  mise en service.
+                  Merci de saisir une date postérieure à la date théorique de mise en service.
                 </div>
                 <div
                   className="notification error"
                   style={{ display: 'none' }}
-                  {...dataId(
-                    'modificationRequest-delay-error-message-wrong-format'
-                  )}
+                  {...dataId('modificationRequest-delay-error-message-wrong-format')}
                 >
-                  Le format de la date saisie n'est pas conforme. Elle doit être
-                  de la forme JJ/MM/AAAA soit par exemple 25/05/2022 pour 25 Mai
-                  2022.
+                  Le format de la date saisie n'est pas conforme. Elle doit être de la forme
+                  JJ/MM/AAAA soit par exemple 25/05/2022 pour 25 Mai 2022.
                 </div>
                 <label className="required" htmlFor="justification">
                   Pour la raison suivante:
@@ -433,9 +384,7 @@ export default function ModificationRequestPage({
                   defaultValue={justification || ''}
                   {...dataId('modificationRequest-justificationField')}
                 />
-                <label htmlFor="candidats">
-                  Pièce justificative (si nécessaire)
-                </label>
+                <label htmlFor="candidats">Pièce justificative (si nécessaire)</label>
                 <input
                   type="file"
                   name="file"

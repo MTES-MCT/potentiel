@@ -10,7 +10,6 @@ const defaultPagination: Pagination = {
 }
 
 const getNotificationListPage = async (request: HttpRequest) => {
-  // console.log('Call to getNotificationListPage received', request.body, request.file)
   if (!request.user) {
     return Redirect(ROUTES.LOGIN)
   }

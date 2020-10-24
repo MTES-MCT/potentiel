@@ -1,7 +1,5 @@
 import { AppelOffre, Famille, Periode } from '../../entities'
-import { asLiteral } from '../../helpers/asLiteral'
 import _ from 'lodash'
-import { ValuesType } from 'utility-types'
 
 import {
   fessenheim,
@@ -40,25 +38,18 @@ const appelOffreRepo = {
 
     if (!appelOffre) return errAsync(new EntityNotFoundError())
 
-    const famille = appelOffre.familles.find(
-      (famille) => famille.id === familleId
-    )
+    const famille = appelOffre.familles.find((famille) => famille.id === familleId)
 
     if (!famille) return errAsync(new EntityNotFoundError())
 
     return okAsync(famille)
   }) as GetFamille,
-  getPeriodeTitle: ((
-    appelOffreId: AppelOffre['id'],
-    periodeId: Periode['id']
-  ) => {
+  getPeriodeTitle: ((appelOffreId: AppelOffre['id'], periodeId: Periode['id']) => {
     const appelOffre = appelsOffreStatic.find((ao) => ao.id === appelOffreId)
 
     if (!appelOffre) return errAsync(new EntityNotFoundError())
 
-    const periode = appelOffre.periodes.find(
-      (periode) => periode.id === periodeId
-    )
+    const periode = appelOffre.periodes.find((periode) => periode.id === periodeId)
 
     if (!periode) return errAsync(new EntityNotFoundError())
 

@@ -1,11 +1,7 @@
+/* global cy */
+
 /// <reference types="cypress" />
-import {
-  Before,
-  Given,
-  When,
-  And,
-  Then,
-} from 'cypress-cucumber-preprocessor/steps'
+import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps'
 import testid from '../../helpers/testid'
 
 Given('les notifications suivantes', async function (dataTable) {
@@ -53,23 +49,12 @@ Then('son mail a pour sujet {string}', (subject) => {
 
 Then('son mail a pour template {string}', (value) => {
   cy.get('@notificationEmail').then((notificationEmail) => {
-    cy.wrap(notificationEmail).should(
-      'have.property',
-      'templateId',
-      Number(value)
-    )
+    cy.wrap(notificationEmail).should('have.property', 'templateId', Number(value))
   })
 })
 
-Then(
-  'son mail a la variable {string} avec comme valeur {string}',
-  (variable, value) => {
-    cy.get('@notificationEmail').then((notificationEmail) => {
-      cy.wrap(notificationEmail.variables).should(
-        'have.property',
-        variable,
-        value
-      )
-    })
-  }
-)
+Then('son mail a la variable {string} avec comme valeur {string}', (variable, value) => {
+  cy.get('@notificationEmail').then((notificationEmail) => {
+    cy.wrap(notificationEmail.variables).should('have.property', variable, value)
+  })
+})

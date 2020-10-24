@@ -1,5 +1,5 @@
 import { ProjectRepo, UserRepo } from '../dataAccess'
-import { Project, User } from '../entities'
+import { DREAL, Project, User } from '../entities'
 import { GarantiesFinancieresListDTO } from '../modules/project/dtos/GarantiesFinancieresList'
 import { toGarantiesFinancieresList } from '../modules/project/mappers'
 
@@ -22,9 +22,10 @@ export default function makeListGarantiesFinancieres({
     user,
   }: CallUseCaseProps): Promise<GarantiesFinancieresListDTO> {
     let projects: Project[]
+    let regions: DREAL[]
     switch (user.role) {
       case 'dreal':
-        const regions = await findDrealsForUser(user.id)
+        regions = await findDrealsForUser(user.id)
         projects = (
           await findAllProjectsForRegions(regions, {
             garantiesFinancieres: 'submitted',

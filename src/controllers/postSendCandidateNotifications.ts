@@ -9,8 +9,6 @@ import { HttpRequest } from '../types'
 const FORMAT_DATE = 'DD/MM/YYYY'
 
 const postSendCandidateNotifications = async (request: HttpRequest) => {
-  // console.log('Call to sendCandidateNotifications received', request.body)
-
   const { appelOffreId, periodeId, notificationDate } = request.body
 
   if (!request.user) {
@@ -23,8 +21,7 @@ const postSendCandidateNotifications = async (request: HttpRequest) => {
 
   if (
     !notificationDate ||
-    moment(notificationDate, FORMAT_DATE).format(FORMAT_DATE) !==
-      notificationDate
+    moment(notificationDate, FORMAT_DATE).format(FORMAT_DATE) !== notificationDate
   ) {
     return Redirect(
       ROUTES.ADMIN_NOTIFY_CANDIDATES({

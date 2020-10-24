@@ -13,12 +13,11 @@ export class CandidateNotificationForPeriodeFailed
   implements DomainEvent {
   public static type: 'CandidateNotificationForPeriodeFailed' =
     'CandidateNotificationForPeriodeFailed'
+
   public type = CandidateNotificationForPeriodeFailed.type
   currentVersion = 1
 
-  aggregateIdFromPayload(
-    payload: CandidateNotificationForPeriodeFailedPayload
-  ) {
+  aggregateIdFromPayload(payload: CandidateNotificationForPeriodeFailedPayload) {
     return CandidateNotification.makeId(payload)
   }
 }

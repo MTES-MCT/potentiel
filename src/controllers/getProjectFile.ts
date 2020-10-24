@@ -1,17 +1,9 @@
-import { makeProjectFilePath } from '../helpers/makeProjectFilePath'
-import {
-  NotFoundError,
-  SuccessFileStream,
-  Redirect,
-  SystemError,
-} from '../helpers/responses'
+import { NotFoundError, SuccessFileStream, Redirect, SystemError } from '../helpers/responses'
 import { HttpRequest } from '../types'
 import { fileService } from '../config'
 import ROUTES from '../routes'
 
 const getProjectFile = async (request: HttpRequest) => {
-  // console.log('Call to getProjectFile received', request.query, request.file)
-
   try {
     const { fileId } = request.params
 

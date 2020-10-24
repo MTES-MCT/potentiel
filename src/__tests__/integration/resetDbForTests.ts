@@ -1,6 +1,5 @@
-import { credentialsRepo, userRepo, resetDatabase } from '../../dataAccess'
+import { resetDatabase } from '../../dataAccess'
 import { sequelize } from '../../sequelize.config'
-import { makeCredentials, makeUser, User } from '../../entities'
 import { Success } from '../../helpers/responses'
 import { resetSentEmails } from '../../infra/mail/fakeEmailService'
 import { HttpRequest } from '../../types'

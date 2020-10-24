@@ -1,11 +1,8 @@
-import { Project, User, makeProject, applyProjectUpdate } from '../entities'
-import { ProjectRepo, UserRepo, ProjectAdmissionKeyRepo } from '../dataAccess'
-import _ from 'lodash'
-import moment from 'moment'
+import { Project, User, applyProjectUpdate } from '../entities'
+import { ProjectRepo } from '../dataAccess'
 import { FileService, File, FileContainer } from '../modules/file'
 import { ResultAsync, Ok, Err, ErrorResult } from '../types'
 import { makeProjectFilePath } from '../helpers/makeProjectFilePath'
-import routes from '../routes'
 import { EventStore } from '../modules/eventStore'
 import { ProjectDCRSubmitted } from '../modules/project/events'
 
@@ -14,10 +11,7 @@ interface MakeUseCaseProps {
   fileService: FileService
   findProjectById: ProjectRepo['findById']
   saveProject: ProjectRepo['save']
-  shouldUserAccessProject: (args: {
-    user: User
-    projectId: Project['id']
-  }) => Promise<boolean>
+  shouldUserAccessProject: (args: { user: User; projectId: Project['id'] }) => Promise<boolean>
 }
 
 interface CallUseCaseProps {
@@ -47,7 +41,6 @@ export default function makeAddDCR({
     projectId,
     user,
   }: CallUseCaseProps): ResultAsync<null> {
-    // console.log('addDCR', filename, numeroDossier, date)
     const access = await shouldUserAccessProject({ user, projectId })
 
     if (!access) return ErrorResult(UNAUTHORIZED)
@@ -79,10 +72,7 @@ export default function makeAddDCR({
 
     if (saveFileResult.isErr()) {
       // OOPS
-      console.log(
-        'addDCR use-case: fileService.save failed',
-        saveFileResult.error
-      )
+      console.log('addDCR use-case: fileService.save failed', saveFileResult.error)
 
       return ErrorResult(SYSTEM_ERROR)
     }

@@ -1,4 +1,3 @@
-import { Project } from '../entities'
 import { HttpRequest, Pagination } from '../types'
 import { listProjects } from '../useCases'
 import { ListProjectsPage } from '../views/pages'
@@ -22,10 +21,7 @@ const getProjectListPage = async (request: HttpRequest) => {
     return Redirect(ROUTES.LOGIN)
   }
 
-  if (
-    ['admin', 'dgec', 'dreal'].includes(request.user.role) &&
-    typeof classement === 'undefined'
-  ) {
+  if (['admin', 'dgec', 'dreal'].includes(request.user.role) && typeof classement === 'undefined') {
     classement = 'classés'
     request.query.classement = 'classés'
   }
@@ -55,12 +51,7 @@ const getProjectListPage = async (request: HttpRequest) => {
     garantiesFinancieres,
   })
 
-  const {
-    projects,
-    existingAppelsOffres,
-    existingPeriodes,
-    existingFamilles,
-  } = results
+  const { projects, existingAppelsOffres, existingPeriodes, existingFamilles } = results
 
   return Success(
     ListProjectsPage({

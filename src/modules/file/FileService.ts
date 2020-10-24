@@ -2,9 +2,9 @@ import { FileStorageService, FileContainer } from './FileStorageService'
 import { FileAccessDeniedError, FileNotFoundError } from './errors'
 import { OtherError } from '../shared'
 import { File } from './File'
-import { User, Project } from '../../entities'
+import { User } from '../../entities'
 import { Repository, UniqueEntityID } from '../../core/domain'
-import { ResultAsync, ok, err, errAsync } from '../../core/utils'
+import { ResultAsync, ok, err } from '../../core/utils'
 import { ShouldUserAccessProject } from '../authorization'
 import { DomainError } from '../../core/domain/DomainError'
 
@@ -16,17 +16,10 @@ export class FileService {
   ) {}
 
   save(file: File, fileContent: FileContainer): ResultAsync<null, DomainError> {
-    // console.log('FileService.save')
-    return this.fileStorageService
-      .save(fileContent)
-      .andThen((fileStorageIdentifier: string) => {
-        // console.log(
-        //   'FileService.save fileStorageService returned',
-        //   fileStorageIdentifier
-        // )
-        file.registerStorage(fileStorageIdentifier)
-        return this.fileRepo.save(file)
-      })
+    return this.fileStorageService.save(fileContent).andThen((fileStorageIdentifier: string) => {
+      file.registerStorage(fileStorageIdentifier)
+      return this.fileRepo.save(file)
+    })
   }
 
   load(fileId: string, user: User): ResultAsync<FileContainer, DomainError> {
@@ -46,9 +39,7 @@ export class FileService {
           : ok(file)
       )
       .andThen((file: File) =>
-        file.storedAt
-          ? this.fileStorageService.load(file.storedAt)
-          : err(new FileNotFoundError())
+        file.storedAt ? this.fileStorageService.load(file.storedAt) : err(new FileNotFoundError())
       )
   }
 }

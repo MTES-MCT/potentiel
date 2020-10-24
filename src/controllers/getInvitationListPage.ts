@@ -1,12 +1,6 @@
-import _ from 'lodash'
-
-import {
-  userRepo,
-  projectAdmissionKeyRepo,
-  appelOffreRepo,
-} from '../dataAccess'
-import { Redirect, Success, NotFoundError } from '../helpers/responses'
-import { Controller, HttpRequest, Pagination } from '../types'
+import { projectAdmissionKeyRepo, appelOffreRepo } from '../dataAccess'
+import { Redirect, Success } from '../helpers/responses'
+import { HttpRequest, Pagination } from '../types'
 import { InvitationListPage } from '../views/pages'
 import { makePagination } from '../helpers/paginate'
 import ROUTES from '../routes'
@@ -17,7 +11,6 @@ const defaultPagination: Pagination = {
 }
 
 const getInvitationListPage = async (request: HttpRequest) => {
-  // console.log('Call to getInvitationListPage received', request.body, request.file)
   if (!request.user) {
     return Redirect(ROUTES.LOGIN)
   }

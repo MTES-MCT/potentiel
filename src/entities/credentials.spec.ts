@@ -5,7 +5,7 @@ describe('Credentials entity', () => {
     const credentialsResult = makeCredentials({
       email: 'bla@bla.com',
       password: 'password',
-      userId: '1'
+      userId: '1',
     })
 
     expect(credentialsResult.is_ok()).toBeTruthy()

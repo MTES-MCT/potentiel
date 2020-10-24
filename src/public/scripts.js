@@ -19,22 +19,14 @@ window.initHandlers = function () {
   addConfirmHandlers()
 }
 
-document.addEventListener('DOMContentLoaded', (event) => {
-  // console.log('DOMContentLoaded')
-  // addClickHandlerForClass('project-list--action-trigger', function (e) {
-  //   console.log('User click on an action trigger')
-  // })
-  initHandlers()
-})
+document.addEventListener('DOMContentLoaded', () => window.initHandlers())
 
 //
 // Action menu
 //
 
 function addActionMenuHandlers() {
-  const actionMenuTriggers = document.querySelectorAll(
-    '[data-testid=action-menu-trigger]'
-  )
+  const actionMenuTriggers = document.querySelectorAll('[data-testid=action-menu-trigger]')
 
   const actionMenus = document.querySelectorAll('[data-testid=action-menu]')
 
@@ -42,7 +34,6 @@ function addActionMenuHandlers() {
     actionMenus.forEach((item) => item.classList.remove('open'))
   }
 
-  // console.log('actionMenuTriggers', actionMenuTriggers)
   actionMenuTriggers.forEach((item) =>
     item.addEventListener('click', function (event) {
       event.preventDefault()
@@ -71,22 +62,15 @@ function addFriseHiddenContentToggleHandler() {
     '[data-testid=frise-action].frise-content-toggle'
   )
 
-  const allHiddenContentItems = document.querySelectorAll(
-    '[data-testId=frise-hidden-content]'
-  )
+  const allHiddenContentItems = document.querySelectorAll('[data-testId=frise-hidden-content]')
 
   friseContentToggleShowItems.forEach((friseContentToggleShow) =>
     friseContentToggleShow.addEventListener('click', function (event) {
       event.preventDefault()
 
-      const hiddenContent = friseContentToggleShow.closest(
-        '[data-testId=frise-item]'
-      ).nextSibling
+      const hiddenContent = friseContentToggleShow.closest('[data-testId=frise-item]').nextSibling
 
-      if (
-        !hiddenContent ||
-        hiddenContent.getAttribute('data-testId') !== 'frise-hidden-content'
-      ) {
+      if (!hiddenContent || hiddenContent.getAttribute('data-testId') !== 'frise-hidden-content') {
         // Can't find it, ignore
         return
       }
@@ -99,17 +83,13 @@ function addFriseHiddenContentToggleHandler() {
     })
   )
 
-  const friseContentToggleHideItems = document.querySelectorAll(
-    '[data-testid=frise-hide-content]'
-  )
+  const friseContentToggleHideItems = document.querySelectorAll('[data-testid=frise-hide-content]')
 
   friseContentToggleHideItems.forEach((friseContentToggleHide) =>
     friseContentToggleHide.addEventListener('click', function (event) {
       event.preventDefault()
 
-      const contentToBeHidden = friseContentToggleHide.closest(
-        '[data-testId=frise-hidden-content]'
-      )
+      const contentToBeHidden = friseContentToggleHide.closest('[data-testId=frise-hidden-content]')
 
       if (contentToBeHidden) {
         contentToBeHidden.classList.add('hidden')
@@ -119,9 +99,7 @@ function addFriseHiddenContentToggleHandler() {
 }
 
 function addFriseToggleHandler() {
-  const friseToggleShow = document.querySelector(
-    '[data-testid=frise-show-timeline]'
-  )
+  const friseToggleShow = document.querySelector('[data-testid=frise-show-timeline]')
 
   if (friseToggleShow) {
     friseToggleShow.addEventListener('click', function (event) {
@@ -134,9 +112,7 @@ function addFriseToggleHandler() {
     })
   }
 
-  const friseToggleHide = document.querySelector(
-    '[data-testid=frise-hide-timeline]'
-  )
+  const friseToggleHide = document.querySelector('[data-testid=frise-hide-timeline]')
 
   if (friseToggleHide) {
     friseToggleHide.addEventListener('click', function (event) {
@@ -162,9 +138,7 @@ function addInvitationHandlers() {
   const invitationForm = document.querySelector('[data-testid=invitation-form]')
 
   if (invitationFormShowButton) {
-    // console.log('found invitation show button')
     invitationFormShowButton.addEventListener('click', function (event) {
-      // console.log('show button click')
       event.preventDefault()
 
       toggleVisibility(invitationForm, true)
@@ -172,9 +146,7 @@ function addInvitationHandlers() {
   }
 
   if (invitationFormHideButton) {
-    // console.log('found invitation hide button')
     invitationFormHideButton.addEventListener('click', function (event) {
-      // console.log('hide button click')
       event.preventDefault()
 
       toggleVisibility(invitationForm, false)
@@ -203,9 +175,7 @@ function addGoToProjectPageHandlers() {
   )
 
   // We want to ignore all clicks in the actions container (which might be inside the projectList-item area which has the click handler above)
-  const actionsContainer = document.querySelectorAll(
-    '[data-testid=item-actions-container]'
-  )
+  const actionsContainer = document.querySelectorAll('[data-testid=item-actions-container]')
   actionsContainer.forEach((item) =>
     item.addEventListener('click', function (event) {
       event.stopPropagation()
@@ -220,19 +190,15 @@ function addMotifEliminationToggleHandlers() {
 
   motifToggle.forEach((item) =>
     item.addEventListener('click', function (event) {
-      // console.log('motif toggle click', item)
       event.preventDefault()
       event.stopPropagation()
 
       const icon = item.querySelector('svg')
       const wasVisible = icon && icon.style.transform === 'rotate(180deg)'
-      // console.log('wasVisible', wasVisible, icon, icon.style.transform)
 
       // Hide all motifs
       document
-        .querySelectorAll(
-          '[data-testid=projectList-item-toggleMotifsElimination]'
-        )
+        .querySelectorAll('[data-testid=projectList-item-toggleMotifsElimination]')
         .forEach((item) => toggleMotifVisibilty(item, false))
 
       toggleMotifVisibilty(item, !wasVisible)
@@ -241,21 +207,13 @@ function addMotifEliminationToggleHandlers() {
 }
 
 function addProjectListSelectionHandler() {
-  const invitedProjectsList = document.querySelector(
-    '[data-testid=invitation-form-project-list]'
-  )
+  const invitedProjectsList = document.querySelector('[data-testid=invitation-form-project-list]')
 
-  const projectCheckboxes = document.querySelectorAll(
-    '[data-testid=projectList-item-checkbox]'
-  )
+  const projectCheckboxes = document.querySelectorAll('[data-testid=projectList-item-checkbox]')
 
-  const selectAllCheckbox = document.querySelector(
-    '[data-testid=projectList-selectAll-checkbox]'
-  )
+  const selectAllCheckbox = document.querySelector('[data-testid=projectList-selectAll-checkbox]')
 
-  const checkboxColumns = document.querySelectorAll(
-    '[data-testid=projectList-checkbox]'
-  )
+  const checkboxColumns = document.querySelectorAll('[data-testid=projectList-checkbox]')
 
   const invitationFormVisibilityToggle = document.querySelector(
     '[data-testid=projectList-invitation-form-visibility-toggle]'
@@ -265,21 +223,15 @@ function addProjectListSelectionHandler() {
     invitationFormVisibilityToggle.addEventListener('click', function (event) {
       event.preventDefault()
 
-      const wasVisible = invitationFormVisibilityToggle.classList.contains(
-        'open'
-      )
+      const wasVisible = invitationFormVisibilityToggle.classList.contains('open')
 
       toggleVisibility(invitationFormVisibilityToggle, !wasVisible)
 
-      checkboxColumns.forEach(
-        (item) => (item.style.display = wasVisible ? 'none' : '')
-      )
+      checkboxColumns.forEach((item) => (item.style.display = wasVisible ? 'none' : ''))
     })
   }
 
-  const invitationSubmitButton = document.querySelector(
-    '[data-testid=invitation-submit-button]'
-  )
+  const invitationSubmitButton = document.querySelector('[data-testid=invitation-submit-button]')
 
   function updateAccessFormVisibility() {
     if (invitedProjectsList && invitationSubmitButton) {
@@ -301,9 +253,7 @@ function addProjectListSelectionHandler() {
     if (invitedProjectsList) {
       const projectOption = findOption(invitedProjectsList.options, projectId)
       if (isSelected && !projectOption) {
-        invitedProjectsList.options.add(
-          new Option(projectId, projectId, true, true)
-        )
+        invitedProjectsList.options.add(new Option(projectId, projectId, true, true))
       }
 
       if (!isSelected && projectOption) {
@@ -324,8 +274,6 @@ function addProjectListSelectionHandler() {
 
   projectCheckboxes.forEach((item) =>
     item.addEventListener('change', function (event) {
-      // console.log('motif toggle click', item)
-
       if (selectAllCheckbox) {
         selectAllCheckbox.checked = false
       }
@@ -336,9 +284,7 @@ function addProjectListSelectionHandler() {
 
   if (selectAllCheckbox) {
     selectAllCheckbox.addEventListener('change', function (event) {
-      projectCheckboxes.forEach((item) =>
-        toggleProjectBox(item, event.target.checked)
-      )
+      projectCheckboxes.forEach((item) => toggleProjectBox(item, event.target.checked))
     })
   }
 }
@@ -347,22 +293,16 @@ function toggleMotifVisibilty(toggleItem, shouldBeVisible) {
   const parent = toggleItem.closest('[data-testid=projectList-item]')
 
   if (parent) {
-    // console.log('motif toggle click found parent', parent)
-    const motifs = parent.querySelector(
-      '[data-testid=projectList-item-motifsElimination]'
-    )
+    const motifs = parent.querySelector('[data-testid=projectList-item-motifsElimination]')
 
     if (motifs) {
-      // console.log('motif toggle click found motifs', motifs)
       // Display this motif
       motifs.style.display = shouldBeVisible ? 'block' : 'none'
 
       // reverse the expand icon
       const icon = toggleItem.querySelector('svg')
       if (icon) {
-        icon.style.transform = shouldBeVisible
-          ? 'rotate(180deg)'
-          : 'rotate(0deg)'
+        icon.style.transform = shouldBeVisible ? 'rotate(180deg)' : 'rotate(0deg)'
       }
     }
   }
@@ -373,9 +313,7 @@ function toggleMotifVisibilty(toggleItem, shouldBeVisible) {
 //
 
 function addPaginationHandler() {
-  const pageSizeSelectField = document.querySelector(
-    '[data-testid=pageSizeSelector]'
-  )
+  const pageSizeSelectField = document.querySelector('[data-testid=pageSizeSelector]')
 
   if (pageSizeSelectField) {
     pageSizeSelectField.addEventListener('change', function (event) {
@@ -413,10 +351,7 @@ function updateFieldsInUrl(fields) {
   queryString.delete('success')
 
   window.location.replace(
-    window.location.origin +
-      window.location.pathname +
-      '?' +
-      queryString.toString()
+    window.location.origin + window.location.pathname + '?' + queryString.toString()
   )
 }
 
@@ -433,9 +368,7 @@ function addSelectorHandlers() {
     'garantiesFinancieres',
     'classement',
   ].forEach((key) => {
-    const selectField = document.querySelector(
-      '[data-testid=' + key + 'Selector]'
-    )
+    const selectField = document.querySelector('[data-testid=' + key + 'Selector]')
     if (selectField) {
       selectField.addEventListener('change', function (event) {
         if (key === 'appelOffreId') {
@@ -463,12 +396,9 @@ function addSelectorHandlers() {
 }
 
 function addSendCopyOfNotificationButtonHandler() {
-  const sendCopyButtons = document.querySelectorAll(
-    '[data-actionid=send-copy-of-notification]'
-  )
+  const sendCopyButtons = document.querySelectorAll('[data-actionid=send-copy-of-notification]')
 
   if (sendCopyButtons) {
-    // console.log('Found sendCopyButtons, adding listener', sendCopyButtons)
     sendCopyButtons.forEach((item) =>
       item.addEventListener('click', function (event) {
         // event.stopPropagation()
@@ -482,15 +412,9 @@ function addSendCopyOfNotificationButtonHandler() {
 
         fetch(link).then((response) => {
           if (response.ok) {
-            // console.log('GET to send copy of candidate notification succeeded')
-            alert(
-              'Une copie de la notification de ce candidat a été envoyée à votre adresse email'
-            )
+            alert('Une copie de la notification de ce candidat a été envoyée à votre adresse email')
           } else {
-            console.log(
-              'GET to send copy of candidate notification failed',
-              response.error
-            )
+            console.log('GET to send copy of candidate notification failed', response.error)
             alert("L'envoi de copie de notification a échoué.")
           }
         })
@@ -499,7 +423,6 @@ function addSendCopyOfNotificationButtonHandler() {
       })
     )
   } else {
-    // console.log('Cannot find send copy buttons')
   }
 }
 
@@ -518,14 +441,10 @@ function addPuissanceModificationHandler() {
     newPuissanceField.addEventListener('keyup', function (event) {
       var newValue = Number(event.target.value)
 
-      var oldValue = getFieldValue(
-        '[data-testid=modificationRequest-presentPuissanceField]'
-      )
+      var oldValue = getFieldValue('[data-testid=modificationRequest-presentPuissanceField]')
 
-      var outOfBounds =
-        '[data-testid=modificationRequest-puissance-error-message-out-of-bounds]'
-      var wrongFormat =
-        '[data-testid=modificationRequest-puissance-error-message-wrong-format]'
+      var outOfBounds = '[data-testid=modificationRequest-puissance-error-message-out-of-bounds]'
+      var wrongFormat = '[data-testid=modificationRequest-puissance-error-message-wrong-format]'
 
       if (!Number.isNaN(newValue) && !Number.isNaN(oldValue)) {
         console.log('Both are number')
@@ -559,9 +478,7 @@ function getDateFromDateString(str) {
   return new Date(year, month - 1, day)
 }
 
-var dateRegex = new RegExp(
-  /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/
-)
+var dateRegex = new RegExp(/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/)
 
 function addDelayDateModificationHandler() {
   const delayedServiceDateField = document.querySelector(
@@ -573,19 +490,13 @@ function addDelayDateModificationHandler() {
 
     delayedServiceDateField.addEventListener('keyup', function (event) {
       var oldDate = getDateFromDateString(
-        getFieldValue(
-          '[data-testid=modificationRequest-presentServiceDateField]'
-        )
+        getFieldValue('[data-testid=modificationRequest-presentServiceDateField]')
       )
 
-      var newDateStr = getFieldValue(
-        '[data-testid=modificationRequest-delayedServiceDateField]'
-      )
+      var newDateStr = getFieldValue('[data-testid=modificationRequest-delayedServiceDateField]')
 
-      var outOfBounds =
-        '[data-testid=modificationRequest-delay-error-message-out-of-bounds]'
-      var wrongFormat =
-        '[data-testid=modificationRequest-delay-error-message-wrong-format]'
+      var outOfBounds = '[data-testid=modificationRequest-delay-error-message-out-of-bounds]'
+      var wrongFormat = '[data-testid=modificationRequest-delay-error-message-wrong-format]'
 
       if (newDateStr.length < 6) {
         // Ignore, user is still typing
@@ -632,9 +543,7 @@ function addDateValidationHandler() {
       console.log('Found lower/upperBound')
       // This field needs validation
 
-      const submitButton = dateField
-        .closest('form')
-        .querySelector('[data-testid=submit-button]')
+      const submitButton = dateField.closest('form').querySelector('[data-testid=submit-button]')
 
       const outOfBounds = dateField
         .closest('form')
@@ -696,9 +605,7 @@ function addConfirmHandlers() {
 }
 
 function addVisibilityToggleHandler() {
-  const sectionToggle = document.querySelectorAll(
-    '[data-testid=visibility-toggle]'
-  )
+  const sectionToggle = document.querySelectorAll('[data-testid=visibility-toggle]')
 
   sectionToggle.forEach((item) =>
     item.addEventListener('click', function (event) {
@@ -717,14 +624,6 @@ function toggleVisibility(toggleItem, shouldBeVisible) {
   } else {
     toggleItem.classList.remove('open')
   }
-}
-
-function addClickHandlerForClass(className, handler) {
-  Array.from(document.getElementsByClassName(className)).forEach(function (
-    element
-  ) {
-    element.addEventListener('click', handler)
-  })
 }
 
 function getFieldValue(selector) {

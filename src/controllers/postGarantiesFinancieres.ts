@@ -1,7 +1,6 @@
 import { addGarantiesFinancieres } from '../useCases'
 import { Redirect, SystemError } from '../helpers/responses'
-import { makeProjectFilePath } from '../helpers/makeProjectFilePath'
-import { Controller, HttpRequest } from '../types'
+import { HttpRequest } from '../types'
 import { FileContainer } from '../modules/file'
 import ROUTES from '../routes'
 import _ from 'lodash'
@@ -9,15 +8,11 @@ import moment from 'moment'
 
 import fs from 'fs'
 import util from 'util'
-const fileExists = util.promisify(fs.exists)
+import { pathExists } from '../core/utils'
 const deleteFile = util.promisify(fs.unlink)
 
 const postGarantiesFinancieres = async (request: HttpRequest) => {
-  console.log(
-    'Call to postGarantiesFinancieres received',
-    request.body,
-    request.file
-  )
+  console.log('Call to postGarantiesFinancieres received', request.body, request.file)
 
   if (!request.user) {
     return SystemError('User must be logged in')
@@ -37,7 +32,7 @@ const postGarantiesFinancieres = async (request: HttpRequest) => {
   try {
     if (data.gfDate) {
       const date = moment(data.gfDate, 'DD/MM/YYYY')
-      if (!date.isValid()) throw 'invalid date format'
+      if (!date.isValid()) throw new Error('invalid date format')
       data.date = date.toDate().getTime()
     }
   } catch (error) {
@@ -47,7 +42,9 @@ const postGarantiesFinancieres = async (request: HttpRequest) => {
     })
   }
 
-  if (!request.file || !(await fileExists(request.file.path))) {
+  const attestationExists: boolean = await pathExists(request.file.path)
+
+  if (!request.file || !attestationExists) {
     return Redirect(ROUTES.PROJECT_DETAILS(projectId), {
       error:
         "Vos garantieres financières n'ont pas pu être transmises. Merci de joindre l'attestation en pièce-jointe.",
@@ -74,8 +71,7 @@ const postGarantiesFinancieres = async (request: HttpRequest) => {
   return result.match({
     ok: () =>
       Redirect(ROUTES.PROJECT_DETAILS(projectId), {
-        success:
-          'Votre constitution de garanties financières a bien été enregistrée.',
+        success: 'Votre constitution de garanties financières a bien été enregistrée.',
       }),
     err: (e: Error) => {
       console.log('postGarantiesFinancieres error', e)

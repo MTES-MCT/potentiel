@@ -1,12 +1,5 @@
 import { User } from '../entities'
-import { Result, Option, Err, Ok, Some } from '@usefultools/monads'
-
-import { OptSome, OptNone } from '@usefultools/monads/dist/Option/Option'
-import { ResOk, ResErr } from '@usefultools/monads/dist/Result/Result'
-
-import { Readable } from 'stream'
-
-import { Null } from './schemaTypes'
+import { Result, Option, Err } from '@usefultools/monads'
 
 export type HttpRequest = {
   body: any
@@ -28,6 +21,7 @@ export type HttpResponse =
       filePath: string
     }
   | {
+      /* global NodeJS */
       fileStream: NodeJS.ReadableStream
     }
   | {
@@ -55,7 +49,7 @@ export type OptionAsync<T> = Promise<Option<T>>
 export const UnwrapForTest = <T>(res: Result<T, Error>) => {
   if (res.is_ok()) return res.unwrap()
   console.log('UnwrapForTest error', res.unwrap_err())
-  throw 'UnwrapForTest: Result is error, cannot unwrap'
+  throw new Error('UnwrapForTest: Result is error, cannot unwrap')
 }
 
 interface Pagination {

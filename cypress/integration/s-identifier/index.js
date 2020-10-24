@@ -1,14 +1,7 @@
-import {
-  Before,
-  Given,
-  When,
-  And,
-  Then,
-} from 'cypress-cucumber-preprocessor/steps'
+/* global cy */
+
+import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps'
 import testid from '../../helpers/testid'
-// Before(() => {
-//   cy.visit('')
-// })
 
 Given("je suis sur la page d'identification", () => {
   cy.visit('/login.html')
@@ -26,9 +19,6 @@ When('je valide le formulaire', (term) => {
   cy.get(testid('submit-button')).click()
 })
 
-Then(
-  "le site me redirige vers la page d'accueil de mon compte porteur de projet",
-  () => {
-    cy.url().should('include', '/mes-projets.html')
-  }
-)
+Then("le site me redirige vers la page d'accueil de mon compte porteur de projet", () => {
+  cy.url().should('include', '/mes-projets.html')
+})

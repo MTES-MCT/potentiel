@@ -1,6 +1,4 @@
 import { makeGetFailedNotifications } from './getFailedNotifications'
-import { Notification } from '../../../modules/notification'
-import { v4 as uuid } from 'uuid'
 import models from '../models'
 import { sequelize } from '../../../sequelize.config'
 import { UniqueEntityID } from '../../../core/domain'
@@ -66,9 +64,7 @@ describe('Sequelize getFailedNotifications', () => {
 
       expect(failedNotificationIds).toHaveLength(2)
       expect(failedNotificationIds).toEqual(
-        expect.arrayContaining(
-          ['1', '2'].map((idStr) => new UniqueEntityID(idStr))
-        )
+        expect.arrayContaining(['1', '2'].map((idStr) => new UniqueEntityID(idStr)))
       )
     })
   })

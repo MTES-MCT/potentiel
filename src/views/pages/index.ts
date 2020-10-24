@@ -3,8 +3,6 @@ import path from 'path'
 
 import ReactDOMServer from 'react-dom/server'
 
-import { User } from '../../entities'
-
 import Header from '../components/header'
 import Footer from '../components/footer'
 
@@ -67,9 +65,8 @@ interface HasRequest {
  * Turn a Page Component (pure) into a presenter that returns a full HTML page
  * @param pageComponent
  */
-function makePresenterPage<T extends HasRequest>(
-  pageComponent: (pageProps: T) => JSX.Element
-) {
+/* global JSX */
+function makePresenterPage<T extends HasRequest>(pageComponent: (pageProps: T) => JSX.Element) {
   return (props: T): string =>
     insertIntoHTMLTemplate(
       ReactDOMServer.renderToStaticMarkup(Header(props)) +
@@ -78,17 +75,8 @@ function makePresenterPage<T extends HasRequest>(
     )
 }
 
-function makeRawPage(pageComponent) {
-  return (props?: any) =>
-    ReactDOMServer.renderToStaticMarkup(pageComponent(props))
-}
-
-const headerPartial = fs.readFileSync(
-  path.resolve(__dirname, '../template/header.html.partial')
-)
-const footerPartial = fs.readFileSync(
-  path.resolve(__dirname, '../template/footer.html.partial')
-)
+const headerPartial = fs.readFileSync(path.resolve(__dirname, '../template/header.html.partial'))
+const footerPartial = fs.readFileSync(path.resolve(__dirname, '../template/footer.html.partial'))
 
 /**
  * Insert html contents into the full template

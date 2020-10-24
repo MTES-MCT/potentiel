@@ -1,8 +1,5 @@
 import { Readable } from 'stream'
 import { ObjectStorageFileStorageService } from './objectStorageFileStorageService'
-
-import fs from 'fs'
-import path from 'path'
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -55,9 +52,7 @@ describe.skip('objectStorageFileStorageService', () => {
 
         uploadedFileId = result.value
 
-        expect(result.value).toEqual(
-          'objectStorage:' + container + ':' + fakePath
-        )
+        expect(result.value).toEqual('objectStorage:' + container + ':' + fakePath)
       })
     })
 
@@ -80,8 +75,6 @@ describe.skip('objectStorageFileStorageService', () => {
         const result = await badStorage.save(fakeFile)
 
         expect(result.isErr()).toBe(true)
-
-        if (result.isOk()) return
       })
     })
   })

@@ -13,7 +13,7 @@ import {
   Pagination,
   PaginatedList,
 } from '../../types'
-import { paginate, pageCount, makePaginatedList } from '../../helpers/paginate'
+import { paginate, makePaginatedList } from '../../helpers/paginate'
 import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
 
@@ -29,9 +29,7 @@ const deserialize = (item) => ({
 })
 const serialize = (item) => item
 
-export default function makeProjectAdmissionKeyRepo({
-  sequelize,
-}): ProjectAdmissionKeyRepo {
+export default function makeProjectAdmissionKeyRepo({ sequelize }): ProjectAdmissionKeyRepo {
   const ProjectAdmissionKeyModel = sequelize.define('projectAdmissionKey', {
     id: {
       type: DataTypes.UUID,
@@ -77,15 +75,11 @@ export default function makeProjectAdmissionKeyRepo({
     save,
   })
 
-  async function findById(
-    id: ProjectAdmissionKey['id']
-  ): OptionAsync<ProjectAdmissionKey> {
+  async function findById(id: ProjectAdmissionKey['id']): OptionAsync<ProjectAdmissionKey> {
     await _isDbReady
 
     try {
-      const projectAdmissionKeyInDb = await ProjectAdmissionKeyModel.findByPk(
-        id
-      )
+      const projectAdmissionKeyInDb = await ProjectAdmissionKeyModel.findByPk(id)
 
       if (!projectAdmissionKeyInDb) return None
 
@@ -93,20 +87,16 @@ export default function makeProjectAdmissionKeyRepo({
         deserialize(projectAdmissionKeyInDb.get())
       )
 
-      if (projectAdmissionKeyInstance.is_err())
-        throw projectAdmissionKeyInstance.unwrap_err()
+      if (projectAdmissionKeyInstance.is_err()) throw projectAdmissionKeyInstance.unwrap_err()
 
       return Some(projectAdmissionKeyInstance.unwrap())
     } catch (error) {
-      if (CONFIG.logDbErrors)
-        console.log('ProjectAdmissionKey.findById error', error)
+      if (CONFIG.logDbErrors) console.log('ProjectAdmissionKey.findById error', error)
       return None
     }
   }
 
-  async function findAll(
-    query?: Record<string, any>
-  ): Promise<Array<ProjectAdmissionKey>> {
+  async function findAll(query?: Record<string, any>): Promise<Array<ProjectAdmissionKey>> {
     await _isDbReady
 
     try {
@@ -136,9 +126,7 @@ export default function makeProjectAdmissionKeyRepo({
 
       opts.order = [['createdAt', 'DESC']]
 
-      const projectAdmissionKeysRaw = await ProjectAdmissionKeyModel.findAll(
-        opts
-      )
+      const projectAdmissionKeysRaw = await ProjectAdmissionKeyModel.findAll(opts)
 
       const deserializedItems = mapExceptError(
         projectAdmissionKeysRaw.map((item) => item.get()),
@@ -152,8 +140,7 @@ export default function makeProjectAdmissionKeyRepo({
         'ProjectAdmissionKey.findAll.makeProjectAdmissionKey error'
       )
     } catch (error) {
-      if (CONFIG.logDbErrors)
-        console.log('ProjectAdmissionKey.findAll error', error)
+      if (CONFIG.logDbErrors) console.log('ProjectAdmissionKey.findAll error', error)
       return []
     }
   }
@@ -204,23 +191,19 @@ export default function makeProjectAdmissionKeyRepo({
 
       return makePaginatedList(deserializedItems, count, pagination)
     } catch (error) {
-      if (CONFIG.logDbErrors)
-        console.log('ProjectAdmissionKey.getList error', error)
+      if (CONFIG.logDbErrors) console.log('ProjectAdmissionKey.getList error', error)
       return makePaginatedList([], 0, pagination)
     }
   }
 
-  async function save(
-    projectAdmissionKey: ProjectAdmissionKey
-  ): ResultAsync<null> {
+  async function save(projectAdmissionKey: ProjectAdmissionKey): ResultAsync<null> {
     await _isDbReady
 
     try {
       await ProjectAdmissionKeyModel.upsert(serialize(projectAdmissionKey))
       return Ok(null)
     } catch (error) {
-      if (CONFIG.logDbErrors)
-        console.log('ProjectAdmissionKey.insert error', error)
+      if (CONFIG.logDbErrors) console.log('ProjectAdmissionKey.insert error', error)
       return Err(error)
     }
   }

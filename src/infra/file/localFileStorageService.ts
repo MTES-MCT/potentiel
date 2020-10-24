@@ -4,11 +4,9 @@ import util from 'util'
 import mkdirp from 'mkdirp'
 import { Readable } from 'stream'
 
-import { Result, err, ok, ResultAsync, okAsync } from '../../core/utils/Result'
-import {
-  FileStorageService,
-  FileContainer,
-} from '../../modules/file/FileStorageService'
+import { Result, err, ok, ResultAsync } from '../../core/utils/Result'
+import { FileStorageService, FileContainer } from '../../modules/file/FileStorageService'
+import { pathExists } from '../../core/utils'
 
 const buildDirectoryStructure = (filePath: string) =>
   ResultAsync.fromPromise(
@@ -26,11 +24,9 @@ const writeFileStream = (readStream: Readable, filePath: string) =>
       uploadWriteStream.on('close', resolve)
       readStream.pipe(uploadWriteStream)
     }),
-    (e: any) =>
-      new Error(e.message || 'Error in the fs.createWriteStream phase')
+    (e: any) => new Error(e.message || 'Error in the fs.createWriteStream phase')
   )
 
-const fileExists = util.promisify(fs.exists)
 const deleteFile = util.promisify(fs.unlink)
 
 class WrongIdentifierFormat extends Error {
@@ -48,9 +44,7 @@ export class LocalFileStorageService implements FileStorageService {
     return `${this.IDENTIFIER_PREFIX}:${file.path}`
   }
 
-  private static parseIdentifier(
-    fileId: string
-  ): Result<string, WrongIdentifierFormat> {
+  private static parseIdentifier(fileId: string): Result<string, WrongIdentifierFormat> {
     if (fileId.indexOf(this.IDENTIFIER_PREFIX) !== 0) {
       return err(new WrongIdentifierFormat())
     }
@@ -70,7 +64,7 @@ export class LocalFileStorageService implements FileStorageService {
       .map((relativePath: string) => path.resolve(this._rootPath, relativePath))
       .asyncAndThen((fullPath: string) =>
         ResultAsync.fromPromise(
-          fileExists(fullPath).then((exists) => {
+          pathExists(fullPath).then((exists) => {
             if (!exists) {
               throw new Error('File does not exist')
             }
@@ -79,8 +73,7 @@ export class LocalFileStorageService implements FileStorageService {
               stream: fs.createReadStream(fullPath),
             }
           }),
-          (e: any) =>
-            new Error(e.message || 'Error in the fs.createReadStream phase')
+          (e: any) => new Error(e.message || 'Error in the fs.createReadStream phase')
         )
       )
   }
@@ -90,9 +83,7 @@ export class LocalFileStorageService implements FileStorageService {
       .map((relativePath: string) => path.resolve(this._rootPath, relativePath))
       .asyncAndThen((fullPath: string) =>
         ResultAsync.fromPromise(
-          fileExists(fullPath).then((exists) =>
-            exists ? deleteFile(fullPath) : null
-          ),
+          pathExists(fullPath).then((exists) => (exists ? deleteFile(fullPath) : null)),
           (e: any) => new Error(e.message || 'Error in the fs.unlink phase')
         )
       )

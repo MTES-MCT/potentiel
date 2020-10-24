@@ -1,17 +1,10 @@
 import { eventStore, fileService } from '../config'
-import {
-  NotFoundError,
-  Redirect,
-  SuccessFileStream,
-  SystemError,
-} from '../helpers/responses'
+import { NotFoundError, Redirect, SuccessFileStream, SystemError } from '../helpers/responses'
 import { ProjectCertificateDownloaded } from '../modules/project/events'
 import ROUTES from '../routes'
 import { HttpRequest } from '../types'
 
 const getProjectCertificateFile = async (request: HttpRequest) => {
-  // console.log('Call to getProjectCertificateFile received', request.query, request.file)
-
   try {
     const { projectId, fileId } = request.params
 

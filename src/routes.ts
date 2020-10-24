@@ -1,19 +1,9 @@
-import {
-  Project,
-  ProjectAdmissionKey,
-  AppelOffre,
-  makeProjectIdentifier,
-} from './entities'
+import { Project, makeProjectIdentifier } from './entities'
 import querystring from 'querystring'
-import { string } from 'yup'
 import sanitize from 'sanitize-filename'
 import { makeCertificateFilename } from './modules/project/utils'
 
-const withParams = <T extends Record<string, any>>(url: string) => (
-  params?: T
-) => {
-  // console.log('withParams for url', url, 'and params', params)
-
+const withParams = <T extends Record<string, any>>(url: string) => (params?: T) => {
   if (!params) return url
 
   let priorQuery = {}
@@ -29,8 +19,7 @@ const withParams = <T extends Record<string, any>>(url: string) => (
   )
 }
 
-const withProjectId = (url: string) => (projectId: Project['id']) =>
-  withParams(url)({ projectId })
+const withProjectId = (url: string) => (projectId: Project['id']) => withParams(url)({ projectId })
 
 export { withParams }
 
@@ -44,6 +33,7 @@ class routes {
   static RESET_PASSWORD_LINK = withParams<{
     resetCode: string
   }>('/recuperation-mot-de-passe.html')
+
   static RESET_PASSWORD_ACTION = '/reset-password'
   static REDIRECT_BASED_ON_ROLE = '/go-to-user-dashboard'
   static SIGNUP = '/enregistrement.html'
@@ -51,6 +41,7 @@ class routes {
   static PROJECT_INVITATION = withParams<{
     projectAdmissionKey: string
   }>('/enregistrement.html')
+
   static ADMIN_DASHBOARD = '/admin/dashboard.html'
   static IMPORT_PROJECTS = '/admin/importer-candidats.html' // Keep separate from ADMIN_DASHBOARD, may change
 
@@ -78,11 +69,7 @@ class routes {
     } else return route
   }
 
-  static DOWNLOAD_CERTIFICATE_FILE = (
-    projectId?: string,
-    fileId?: string,
-    filename?: string
-  ) => {
+  static DOWNLOAD_CERTIFICATE_FILE = (projectId?: string, fileId?: string, filename?: string) => {
     const route = '/attestation/:projectId/:fileId/:filename'
     if (projectId && fileId && filename) {
       return route
@@ -112,6 +99,7 @@ class routes {
   static DREAL_INVITATION = withParams<{
     projectAdmissionKey: string
   }>('/enregistrement.html')
+
   static ADMIN_DREAL_LIST = '/admin/dreals.html'
   static ADMIN_INVITATION_LIST = '/admin/invitations.html'
   static ADMIN_INVITATION_RELANCE_ACTION = '/admin/relanceInvitations'
@@ -123,27 +111,20 @@ class routes {
   static USER_LIST_PROJECTS = '/mes-projets.html'
   static USER_LIST_DEMANDES = '/mes-demandes.html'
   static DEMANDE_GENERIQUE = '/demande-modification.html'
-  static DEPOSER_RECOURS = withProjectId(
-    '/demande-modification.html?action=recours'
-  )
-  static DEMANDE_DELAIS = withProjectId(
-    '/demande-modification.html?action=delai'
-  )
-  static CHANGER_FOURNISSEUR = withProjectId(
-    '/demande-modification.html?action=fournisseur'
-  )
-  static CHANGER_ACTIONNAIRE = withProjectId(
-    '/demande-modification.html?action=actionnaire'
-  )
-  static CHANGER_PUISSANCE = withProjectId(
-    '/demande-modification.html?action=puissance'
-  )
-  static CHANGER_PRODUCTEUR = withProjectId(
-    '/demande-modification.html?action=producteur'
-  )
-  static DEMANDER_ABANDON = withProjectId(
-    '/demande-modification.html?action=abandon'
-  )
+  static DEPOSER_RECOURS = withProjectId('/demande-modification.html?action=recours')
+
+  static DEMANDE_DELAIS = withProjectId('/demande-modification.html?action=delai')
+
+  static CHANGER_FOURNISSEUR = withProjectId('/demande-modification.html?action=fournisseur')
+
+  static CHANGER_ACTIONNAIRE = withProjectId('/demande-modification.html?action=actionnaire')
+
+  static CHANGER_PUISSANCE = withProjectId('/demande-modification.html?action=puissance')
+
+  static CHANGER_PRODUCTEUR = withProjectId('/demande-modification.html?action=producteur')
+
+  static DEMANDER_ABANDON = withProjectId('/demande-modification.html?action=abandon')
+
   static DEMANDE_ACTION = '/soumettre-demande'
   static DOWNLOAD_PROJECT_FILE = (fileId?: string, filename?: string) => {
     const route = '/telechargement/:fileId/fichier/:filename'
@@ -155,9 +136,7 @@ class routes {
   static INVITE_USER_TO_PROJECT_ACTION = '/invite-user-to-project'
 
   static DEPOSER_GARANTIES_FINANCIERES_ACTION = '/deposer-garanties-financieres'
-  static SUPPRIMER_GARANTIES_FINANCIERES_ACTION = (
-    projectId?: Project['id']
-  ) => {
+  static SUPPRIMER_GARANTIES_FINANCIERES_ACTION = (projectId?: Project['id']) => {
     const route = '/projet/:projectId/supprimer-garanties-financieres'
     if (projectId) {
       return route.replace(':projectId', projectId)
@@ -171,9 +150,7 @@ class routes {
         .replace(':projectId', project.id)
         .replace(
           ':filename',
-          sanitize(
-            `Mise en demeure Garanties Financières - ${project.nomProjet}.docx`
-          )
+          sanitize(`Mise en demeure Garanties Financières - ${project.nomProjet}.docx`)
         )
     } else return route
   }
@@ -194,9 +171,7 @@ class routes {
           sanitize(
             `${now.getFullYear()}-${
               now.getMonth() + 1
-            }-${now.getDate()} - Recours gracieux - ${makeProjectIdentifier(
-              project
-            )}.docx`
+            }-${now.getDate()} - Recours gracieux - ${makeProjectIdentifier(project)}.docx`
           )
         )
     } else return route

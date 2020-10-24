@@ -9,7 +9,7 @@ describe('listAllRequests use-case', () => {
     // Add modification requests
     await Promise.all(
       [1, 2, 3]
-        .map(item => makeFakeRequest({ id: item.toString() }))
+        .map((item) => makeFakeRequest({ id: item.toString() }))
         .map(modificationRequestRepo.insert)
     )
 
@@ -22,11 +22,5 @@ describe('listAllRequests use-case', () => {
     expect(foundRequests).toHaveLength(3)
   })
 
-  it.todo(
-    'should include the events that happened on each request'
-    // async () => {
-    //   // TODO: add events to the modificationRequest in the beforeAll statement (call the update modificationRequest use-case once it exists)
-    //   expect(foundUserRequests[0].events).toBeDefined()
-    // }
-  )
+  it.todo('should include the events that happened on each request')
 })

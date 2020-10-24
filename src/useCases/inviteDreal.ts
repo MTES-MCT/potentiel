@@ -1,8 +1,4 @@
-import {
-  CredentialsRepo,
-  ProjectAdmissionKeyRepo,
-  UserRepo,
-} from '../dataAccess'
+import { CredentialsRepo, ProjectAdmissionKeyRepo, UserRepo } from '../dataAccess'
 import { DREAL, makeProjectAdmissionKey, User } from '../entities'
 import { NotificationService } from '../modules/notification'
 import routes from '../routes'
@@ -21,11 +17,9 @@ interface CallUseCaseProps {
   user: User
 }
 
-export const ACCESS_DENIED_ERROR =
-  "Vous n'avez pas le droit d'inviter un utilisateur DREAL"
+export const ACCESS_DENIED_ERROR = "Vous n'avez pas le droit d'inviter un utilisateur DREAL"
 
-export const SYSTEM_ERROR =
-  "Il y a eu un problème lors de l'invitation. Merci de réessayer."
+export const SYSTEM_ERROR = "Il y a eu un problème lors de l'invitation. Merci de réessayer."
 
 export default function makeInviteDreal({
   credentialsRepo,
@@ -33,11 +27,7 @@ export default function makeInviteDreal({
   userRepo,
   sendNotification,
 }: MakeUseCaseProps) {
-  return async function inviteDreal({
-    email,
-    user,
-    region,
-  }: CallUseCaseProps): ResultAsync<null> {
+  return async function inviteDreal({ email, user, region }: CallUseCaseProps): ResultAsync<null> {
     const access = user.role === 'admin'
 
     if (!access) {
@@ -59,19 +49,6 @@ export default function makeInviteDreal({
         return ErrorResult(SYSTEM_ERROR)
       }
 
-      // Success: send invitation
-      // try {
-      //   await sendDrealInvitation({
-      //     subject: `${user.fullName} vous invite à suivre les projets de votre région sur Potentiel`,
-      //     destinationEmail: email,
-      //     invitationLink: routes.ADMIN_LIST_PROJECTS,
-      //   })
-      // } catch (error) {
-      //   console.log(
-      //     'inviteDreal use-case: error when calling sendDrealInvitation for existing user',
-      //     error
-      //   )
-      // }
       return Ok(null)
     }
 
@@ -91,9 +68,7 @@ export default function makeInviteDreal({
       return ErrorResult(SYSTEM_ERROR)
     }
     const projectAdmissionKey = projectAdmissionKeyResult.unwrap()
-    const projectAdmissionKeyInsertion = await projectAdmissionKeyRepo.save(
-      projectAdmissionKey
-    )
+    const projectAdmissionKeyInsertion = await projectAdmissionKeyRepo.save(projectAdmissionKey)
     if (projectAdmissionKeyInsertion.is_err()) {
       console.log(
         'inviteDreal use-case failed on call to projectAdmissionKeyRepo.save',
@@ -124,10 +99,7 @@ export default function makeInviteDreal({
       })
       return Ok(null)
     } catch (error) {
-      console.log(
-        'inviteDreal use-case: error when calling sendDrealInvitation',
-        error
-      )
+      console.log('inviteDreal use-case: error when calling sendDrealInvitation', error)
       return Err(error)
     }
   }

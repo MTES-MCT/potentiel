@@ -43,7 +43,6 @@ export default function makeLogin({ credentialsRepo, userRepo }: MakeLoginProps)
     const providedCredentials = providedCredentialsResult.unwrap()
 
     if (providedCredentials.hash !== credentials.unwrap().hash) {
-      // console.log('login() : wrong password')
       return ErrorResult(ERREUR_MOT_DE_PASSE_ERRONE)
     }
 
@@ -55,8 +54,6 @@ export default function makeLogin({ credentialsRepo, userRepo }: MakeLoginProps)
       )
       return ErrorResult(ERREUR_GRAVE)
     }
-
-    // console.log('login() : all good, user is ', user)
 
     return Ok(userResult.unwrap())
   }

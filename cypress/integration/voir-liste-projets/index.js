@@ -1,11 +1,7 @@
+/* global cy */
+
 /// <reference types="cypress" />
-import {
-  Before,
-  Given,
-  When,
-  And,
-  Then,
-} from 'cypress-cucumber-preprocessor/steps'
+import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps'
 import testid from '../../helpers/testid'
 
 Given('les projets suivants', async function (dataTable) {
@@ -60,10 +56,7 @@ Then('je suis redirigé vers la page du projet {string}', (projectName) => {
   })
 })
 
-When('je saisis la valeur {string} dans le champ {string}', async function (
-  value,
-  fieldName
-) {
+When('je saisis la valeur {string} dans le champ {string}', async function (value, fieldName) {
   cy.get(testid(fieldName + '-field'))
     .clear()
     .type(value)

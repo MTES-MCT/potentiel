@@ -1,4 +1,3 @@
-import { sendNotification } from '../../../config'
 import { ProjectRepo } from '../../../dataAccess'
 import { EventBus } from '../../eventStore'
 import { NotificationService } from '../../notification'
@@ -55,8 +54,7 @@ export const handleProjectCertificateUpdated = (deps: {
         message: {
           email: porteurProjet.email,
           name: porteurProjet.fullName,
-          subject:
-            'Nouvelle attestation disponible dans votre espace Potentiel',
+          subject: 'Nouvelle attestation disponible dans votre espace Potentiel',
         },
         context: {
           projectId,

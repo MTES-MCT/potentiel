@@ -4,11 +4,7 @@ import makeFakeProject from '../__tests__/fixtures/project'
 
 import { UnwrapForTest } from '../types'
 
-import {
-  appelOffreRepo,
-  appelsOffreStatic,
-  resetDatabase,
-} from '../dataAccess/inMemory'
+import { appelOffreRepo, appelsOffreStatic } from '../dataAccess/inMemory'
 import { makeProject, Project } from '../entities'
 
 const pagination = {
@@ -28,7 +24,7 @@ const projectList = makePaginatedProjectList([project])
 
 const fessenheim = appelsOffreStatic.find((item) => item.id === 'Fessenheim')
 
-if (!fessenheim) throw 'Cannot find fessenheim in appelsOffre'
+if (!fessenheim) throw new Error('Cannot find fessenheim in appelsOffre')
 
 const makeAppelOffreDTO = (appelOffre) => ({
   id: appelOffre.id,
@@ -51,9 +47,7 @@ const validFessenheimPeriodes = fessenheim.periodes
 const searchAll = jest.fn(async () => projectList)
 const findAll = jest.fn(async () => projectList)
 const countUnnotifiedProjects = jest.fn(async () => 42)
-const findExistingAppelsOffres = jest.fn(async () =>
-  appelsOffresDTOs.map((item) => item.id)
-)
+const findExistingAppelsOffres = jest.fn(async () => appelsOffresDTOs.map((item) => item.id))
 const findExistingPeriodesForAppelOffre = jest.fn(async () =>
   fessenheim.periodes.map((item) => item.id)
 )
@@ -122,9 +116,9 @@ describe('listUnnotifiedProjects use-case', () => {
       })
 
       it('should select the first periode from the selected appel offre with unnotified projects and which is available for notification on Potentiel', () => {
-        expect(
-          findExistingPeriodesForAppelOffre
-        ).toHaveBeenCalledWith(fessenheim.id, { isNotified: false })
+        expect(findExistingPeriodesForAppelOffre).toHaveBeenCalledWith(fessenheim.id, {
+          isNotified: false,
+        })
 
         // For fessenheim, only periode 2 can be notified on Potentiel
         expect(res.selectedPeriodeId).toEqual('2')
@@ -144,9 +138,9 @@ describe('listUnnotifiedProjects use-case', () => {
       })
 
       it('should select the first periode from the selected appel offre with unnotified projects and which is available for notification on Potentiel', () => {
-        expect(
-          findExistingPeriodesForAppelOffre
-        ).toHaveBeenCalledWith(fessenheim.id, { isNotified: false })
+        expect(findExistingPeriodesForAppelOffre).toHaveBeenCalledWith(fessenheim.id, {
+          isNotified: false,
+        })
 
         // For fessenheim, only periode 2 can be notified on Potentiel
         expect(res.selectedPeriodeId).toEqual('2')

@@ -1,11 +1,7 @@
+/* global cy */
+
 /// <reference types="cypress" />
-import {
-  Before,
-  Given,
-  When,
-  And,
-  Then,
-} from 'cypress-cucumber-preprocessor/steps'
+import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps'
 import testid from '../../helpers/testid'
 
 Given('mon compte est lié aux projets suivants', async function (dataTable) {
@@ -24,10 +20,7 @@ When('je click sur le bouton {string}', async function (intituleBouton) {
   cy.findContaining(testid('frise-action'), intituleBouton).click()
 })
 
-When('je saisis la valeur {string} dans le champ {string}', async function (
-  value,
-  fieldName
-) {
+When('je saisis la valeur {string} dans le champ {string}', async function (value, fieldName) {
   cy.get(testid(fieldName + '-field')).type(value)
 })
 
@@ -50,11 +43,7 @@ Then('on me notifie la réussite par {string}', (successMessage) => {
 })
 
 Then("je vois que l'étape {string} de la frise est validée", (etape) => {
-  cy.findContaining(testid('frise-title'), etape).should(
-    'have.attr',
-    'data-status',
-    'past'
-  )
+  cy.findContaining(testid('frise-title'), etape).should('have.attr', 'data-status', 'past')
 })
 
 Then("l'étape a été enregistrée dans l'historique du projet", () => {
@@ -75,9 +64,7 @@ Then("l'étape a été enregistrée dans l'historique du projet", () => {
         'garantiesFinancieresSubmittedBy',
         'garantiesFinancieresSubmittedOn'
       )
-      expect(project.history[0].type).to.equal(
-        'garanties-financieres-submission'
-      )
+      expect(project.history[0].type).to.equal('garanties-financieres-submission')
     })
   })
 })

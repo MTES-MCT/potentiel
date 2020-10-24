@@ -37,9 +37,7 @@ describe('handleProjectCertificateGenerated', () => {
       notifiedOn: 0,
     }
 
-    const publish = jest.fn((event: StoredEvent) =>
-      okAsync<null, InfraNotAvailableError>(null)
-    )
+    const publish = jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null))
     const loadHistory = jest.fn((filters) => {
       expect(filters.aggregateId).toEqual(
         CandidateNotification.makeId({
@@ -83,17 +81,14 @@ describe('handleProjectCertificateGenerated', () => {
       publish: jest.fn(),
       subscribe: jest.fn(),
       transaction: jest.fn((cb) => {
-        return ResultAsync.fromPromise<
-          null,
-          InfraNotAvailableError | OtherError
-        >(
+        return ResultAsync.fromPromise<null, InfraNotAvailableError | OtherError>(
           cb({ publish, loadHistory }),
           (e: any) => new OtherError('callback failed: ' + e.message)
         ).map(() => null)
       }),
     }
 
-    let candidateNotifiedEvent: StoredEvent | undefined = undefined
+    let candidateNotifiedEvent: StoredEvent | undefined
 
     it('should trigger CandidateNotifiedForPeriode', async () => {
       publish.mockClear()
@@ -112,9 +107,7 @@ describe('handleProjectCertificateGenerated', () => {
 
       expect(publish).toHaveBeenCalledTimes(1)
       candidateNotifiedEvent = publish.mock.calls[0][0]
-      expect(candidateNotifiedEvent.type).toEqual(
-        CandidateNotifiedForPeriode.type
-      )
+      expect(candidateNotifiedEvent.type).toEqual(CandidateNotifiedForPeriode.type)
 
       expect(candidateNotifiedEvent!.payload).toEqual({
         candidateEmail: fakePayload.candidateEmail,
@@ -135,9 +128,7 @@ describe('handleProjectCertificateGenerated', () => {
       notifiedOn: 0,
     }
 
-    const publish = jest.fn((event: StoredEvent) =>
-      okAsync<null, InfraNotAvailableError>(null)
-    )
+    const publish = jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null))
     const loadHistory = jest.fn((filters) => {
       expect(filters.aggregateId).toEqual(
         CandidateNotification.makeId({
@@ -173,10 +164,7 @@ describe('handleProjectCertificateGenerated', () => {
       publish: jest.fn(),
       subscribe: jest.fn(),
       transaction: jest.fn((cb) => {
-        return ResultAsync.fromPromise<
-          null,
-          InfraNotAvailableError | OtherError
-        >(
+        return ResultAsync.fromPromise<null, InfraNotAvailableError | OtherError>(
           cb({ publish, loadHistory }),
           (e: any) => new OtherError('callback failed: ' + e.message)
         ).map(() => null)

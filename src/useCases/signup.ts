@@ -1,14 +1,5 @@
-import {
-  User,
-  makeUser,
-  Credentials,
-  makeCredentials,
-  ProjectAdmissionKey,
-  makeProjectAdmissionKey,
-  DREAL,
-} from '../entities'
-import { UserRepo, CredentialsRepo, ProjectAdmissionKeyRepo, ProjectRepo } from '../dataAccess'
-import _ from 'lodash'
+import { User, makeUser, makeCredentials, DREAL } from '../entities'
+import { UserRepo, CredentialsRepo, ProjectAdmissionKeyRepo } from '../dataAccess'
 
 import { ResultAsync, ErrorResult, Ok } from '../types'
 
@@ -50,8 +41,6 @@ export default function makeSignup({
     password,
     confirmPassword,
   }: CallUseCaseProps): ResultAsync<User> {
-    // console.log('signup usecase', projectAdmissionKey, email, fullName, password)
-
     // Check if passwords match
     if (!password || password !== confirmPassword) {
       return ErrorResult(PASSWORD_MISMATCH_ERROR)

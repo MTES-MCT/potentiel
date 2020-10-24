@@ -1,21 +1,14 @@
-import {
-  BaseShouldUserAccessProject,
-  ShouldUserAccessProject,
-} from './ShouldUserAccessProject'
+import { BaseShouldUserAccessProject } from './ShouldUserAccessProject'
 
-import makeFakeProject from '../../__tests__/fixtures/project'
 import makeFakeUser from '../../__tests__/fixtures/user'
 
 import { userRepo } from '../../dataAccess/inMemory'
-import { User, makeProject, makeUser, Project } from '../../entities'
+import { User, makeUser, Project } from '../../entities'
 
 describe('ShouldUserAccessProject', () => {
   describe('given user is admin', () => {
     const findProjectById = jest.fn()
-    const shouldUserAccessProject = new BaseShouldUserAccessProject(
-      userRepo,
-      findProjectById
-    )
+    const shouldUserAccessProject = new BaseShouldUserAccessProject(userRepo, findProjectById)
 
     it('should return true', async () => {
       const user = makeFakeUser({
@@ -34,10 +27,7 @@ describe('ShouldUserAccessProject', () => {
 
   describe('given user is dgec', () => {
     const findProjectById = jest.fn()
-    const shouldUserAccessProject = new BaseShouldUserAccessProject(
-      userRepo,
-      findProjectById
-    )
+    const shouldUserAccessProject = new BaseShouldUserAccessProject(userRepo, findProjectById)
 
     it('should return true', async () => {
       const user = makeFakeUser({
@@ -73,10 +63,7 @@ describe('ShouldUserAccessProject', () => {
             regionProjet: 'Corse',
           } as Project)
       )
-      const shouldUserAccessProject = new BaseShouldUserAccessProject(
-        userRepo,
-        findProjectById
-      )
+      const shouldUserAccessProject = new BaseShouldUserAccessProject(userRepo, findProjectById)
 
       it('should return true', async () => {
         const access = await shouldUserAccessProject.check({
@@ -96,10 +83,7 @@ describe('ShouldUserAccessProject', () => {
             regionProjet: 'Bretagne',
           } as Project)
       )
-      const shouldUserAccessProject = new BaseShouldUserAccessProject(
-        userRepo,
-        findProjectById
-      )
+      const shouldUserAccessProject = new BaseShouldUserAccessProject(userRepo, findProjectById)
 
       it('should return false', async () => {
         const access = await shouldUserAccessProject.check({
@@ -117,12 +101,9 @@ describe('ShouldUserAccessProject', () => {
     let user: User
 
     const findProjectById = jest.fn(async () => {
-      throw 'do not call'
+      throw new Error('do not call')
     })
-    const shouldUserAccessProject = new BaseShouldUserAccessProject(
-      userRepo,
-      findProjectById
-    )
+    const shouldUserAccessProject = new BaseShouldUserAccessProject(userRepo, findProjectById)
 
     beforeAll(async () => {
       const userResult = makeUser(makeFakeUser({ role: 'porteur-projet' }))
