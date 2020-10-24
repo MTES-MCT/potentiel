@@ -142,13 +142,9 @@ type NotificationVariants =
 export type NotificationProps = BaseNotification & NotificationVariants
 
 // No idea why: Optional<NotificationProps, 'status'> does not work
-export type NotificationArgs = Optional<BaseNotification, 'status'> &
-  NotificationVariants
+export type NotificationArgs = Optional<BaseNotification, 'status'> & NotificationVariants
 
-export class Notification extends AggregateRoot<
-  NotificationProps,
-  StoredEvent
-> {
+export class Notification extends AggregateRoot<NotificationProps, StoredEvent> {
   private constructor(props: NotificationProps, id?: UniqueEntityID) {
     super(props, id)
   }

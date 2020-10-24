@@ -5,10 +5,7 @@ import { formatDate } from '../../helpers/formatDate'
 import pagination from '../../__tests__/fixtures/pagination'
 
 import { Project, AppelOffre, Periode, Famille } from '../../entities'
-import {
-  AppelOffreDTO,
-  PeriodeDTO,
-} from '../../useCases/listUnnotifiedProjects'
+import { AppelOffreDTO, PeriodeDTO } from '../../useCases/listUnnotifiedProjects'
 import ROUTES from '../../routes'
 import { dataId } from '../../helpers/testId'
 
@@ -28,10 +25,7 @@ type AdminNotifyCandidatesProps = {
 }
 
 /* Pure component */
-export default function AdminNotifyCandidates({
-  request,
-  results,
-}: AdminNotifyCandidatesProps) {
+export default function AdminNotifyCandidates({ request, results }: AdminNotifyCandidatesProps) {
   const { error, success, recherche, classement } = request.query || {}
 
   if (!results) {
@@ -43,10 +37,7 @@ export default function AdminNotifyCandidates({
             <h3>Projets à notifier</h3>
           </div>
           {success ? (
-            <div
-              className="notification success"
-              {...dataId('success-message')}
-            >
+            <div className="notification success" {...dataId('success-message')}>
               {success}
             </div>
           ) : (
@@ -139,16 +130,10 @@ export default function AdminNotifyCandidates({
                     {...dataId('classementSelector')}
                   >
                     <option value="">Tous</option>
-                    <option
-                      value="classés"
-                      selected={classement && classement === 'classés'}
-                    >
+                    <option value="classés" selected={classement && classement === 'classés'}>
                       Classés
                     </option>
-                    <option
-                      value="éliminés"
-                      selected={classement && classement === 'éliminés'}
-                    >
+                    <option value="éliminés" selected={classement && classement === 'éliminés'}>
                       Eliminés
                     </option>
                   </select>
@@ -164,11 +149,7 @@ export default function AdminNotifyCandidates({
         >
           <div className="form__group">
             <legend>AO et Période</legend>
-            <select
-              name="appelOffreId"
-              id="appelOffreId"
-              {...dataId('appelOffreIdSelector')}
-            >
+            <select name="appelOffreId" id="appelOffreId" {...dataId('appelOffreIdSelector')}>
               {existingAppelsOffres.map((appelOffre) => (
                 <option
                   key={'appel_' + appelOffre.id}
@@ -179,11 +160,7 @@ export default function AdminNotifyCandidates({
                 </option>
               ))}
             </select>
-            <select
-              name="periodeId"
-              id="periodeId"
-              {...dataId('periodeIdSelector')}
-            >
+            <select name="periodeId" id="periodeId" {...dataId('periodeIdSelector')}>
               {existingPeriodes?.map((periode) => (
                 <option
                   key={'appel_' + periode.id}
@@ -197,9 +174,7 @@ export default function AdminNotifyCandidates({
           </div>
           {projectsInPeriodCount ? (
             <div className="form__group">
-              <label htmlFor="notificationDate">
-                Date désignation (format JJ/MM/AAAA)
-              </label>
+              <label htmlFor="notificationDate">Date désignation (format JJ/MM/AAAA)</label>
               <input
                 type="text"
                 name="notificationDate"
@@ -215,8 +190,7 @@ export default function AdminNotifyCandidates({
                 id="submit"
                 {...dataId('submit-button')}
               >
-                Envoyer la notifications aux {projectsInPeriodCount} candidats
-                de cette période
+                Envoyer la notifications aux {projectsInPeriodCount} candidats de cette période
               </button>
             </div>
           ) : (

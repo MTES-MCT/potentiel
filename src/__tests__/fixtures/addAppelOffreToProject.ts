@@ -12,7 +12,5 @@ export default function addAppelOffreToProject(project: Project) {
     (periode) => periode.id === project.periodeId
   )
 
-  project.famille = project.appelOffre.familles.find(
-    (famille) => famille.id === project.familleId
-  )
+  project.famille = project.appelOffre.familles.find((famille) => famille.id === project.familleId)
 }

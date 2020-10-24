@@ -1,1 +1,1 @@
-export * from './toGarantiesFinancieresList';
+export * from './toGarantiesFinancieresList'

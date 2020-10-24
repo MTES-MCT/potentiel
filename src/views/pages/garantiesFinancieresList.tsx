@@ -6,26 +6,17 @@ import ROUTES from '../../routes'
 import { HttpRequest } from '../../types'
 import AdminDashboard from '../components/adminDashboard'
 
-
-
-
 interface DREALListProps {
   request: HttpRequest
   garantiesFinancieres: GarantiesFinancieresListDTO
 }
 
 /* Pure component */
-export default function DREALList({
-  request,
-  garantiesFinancieres,
-}: DREALListProps) {
+export default function DREALList({ request, garantiesFinancieres }: DREALListProps) {
   const { error, success } = request.query || {}
   const { projects } = garantiesFinancieres
   return (
-    <AdminDashboard
-      role={request.user?.role}
-      currentPage="list-garanties-financieres"
-    >
+    <AdminDashboard role={request.user?.role} currentPage="list-garanties-financieres">
       <div className="panel">
         <div className="panel__header">
           <h3>Garanties Financières déposées</h3>
@@ -67,15 +58,11 @@ export default function DREALList({
                       }}
                       {...dataId('gfList-item-famille')}
                     >
-                      {project.familleId?.length
-                        ? `famille ${project.familleId}`
-                        : ''}
+                      {project.familleId?.length ? `famille ${project.familleId}` : ''}
                     </div>
                   </td>
                   <td valign="top">
-                    <div {...dataId('gfList-item-nomProjet')}>
-                      {project.nomProjet}
-                    </div>
+                    <div {...dataId('gfList-item-nomProjet')}>{project.nomProjet}</div>
                     <div
                       style={{
                         fontStyle: 'italic',
@@ -83,23 +70,15 @@ export default function DREALList({
                         fontSize: 12,
                       }}
                     >
-                      <span {...dataId('gfList-item-communeProjet')}>
-                        {project.communeProjet}
-                      </span>
-                      ,{' '}
+                      <span {...dataId('gfList-item-communeProjet')}>{project.communeProjet}</span>,{' '}
                       <span {...dataId('gfList-item-departementProjet')}>
                         {project.departementProjet}
                       </span>
-                      ,{' '}
-                      <span {...dataId('gfList-item-regionProjet')}>
-                        {project.regionProjet}
-                      </span>
+                      , <span {...dataId('gfList-item-regionProjet')}>{project.regionProjet}</span>
                     </div>
                   </td>
                   <td valign="top">
-                    <div {...dataId('gfList-item-nomCandidat')}>
-                      {project.nomCandidat}
-                    </div>
+                    <div {...dataId('gfList-item-nomCandidat')}>{project.nomCandidat}</div>
                     <div
                       style={{
                         fontStyle: 'italic',
@@ -110,9 +89,7 @@ export default function DREALList({
                       <span {...dataId('gfList-item-nomRepresentantLegal')}>
                         {project.nomRepresentantLegal}
                       </span>{' '}
-                      <span {...dataId('gfList-item-email')}>
-                        {project.email}
-                      </span>
+                      <span {...dataId('gfList-item-email')}>{project.email}</span>
                     </div>
                   </td>
                   <td valign="top">

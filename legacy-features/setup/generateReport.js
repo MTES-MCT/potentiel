@@ -11,8 +11,8 @@ var options = {
   brandTitle: 'Rapport fonctionnel',
   metadata: {
     Version: package.version,
-    'Environnement de test': 'STAGING'
-  }
+    'Environnement de test': 'STAGING',
+  },
 }
 
 reporter.generate(options)

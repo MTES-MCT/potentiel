@@ -1,6 +1,4 @@
-import makeRequestModification, {
-  ACCESS_DENIED_ERROR,
-} from './requestModification'
+import makeRequestModification, { ACCESS_DENIED_ERROR } from './requestModification'
 
 import makeFakeUser from '../__tests__/fixtures/user'
 import { Readable } from 'stream'
@@ -9,9 +7,7 @@ import { FileService } from '../modules/file/FileService'
 import { FileContainer, File } from '../modules/file'
 import { okAsync } from '../core/utils'
 
-const mockFileServiceSave = jest.fn(
-  async (file: File, fileContent: FileContainer) => okAsync(null)
-)
+const mockFileServiceSave = jest.fn(async (file: File, fileContent: FileContainer) => okAsync(null))
 jest.mock('../modules/file/FileService', () => ({
   FileService: function () {
     return {
@@ -116,9 +112,7 @@ describe('requestModification use-case', () => {
 
       // Make sure the file has been saved
       expect(mockFileServiceSave).toHaveBeenCalled()
-      expect(mockFileServiceSave.mock.calls[0][1].stream).toEqual(
-        fakeFileContents.stream
-      )
+      expect(mockFileServiceSave.mock.calls[0][1].stream).toEqual(fakeFileContents.stream)
       const fakeFile = mockFileServiceSave.mock.calls[0][0]
       expect(fakeFile).toBeDefined()
 

@@ -1,22 +1,9 @@
 import React from 'react'
 import { Readable } from 'stream'
 import { ResultAsync, errAsync, ok, Queue } from '../../core/utils'
-import {
-  Page,
-  Text,
-  View,
-  Document,
-  StyleSheet,
-  Image,
-  Font,
-} from '@react-pdf/renderer'
+import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/renderer'
 import ReactPDF from '@react-pdf/renderer'
-import {
-  Project,
-  AppelOffre,
-  Periode,
-  makeProjectIdentifier,
-} from '../../entities'
+import { Project, AppelOffre, Periode, makeProjectIdentifier } from '../../entities'
 import { formatDate } from '../../helpers/formatDate'
 import { OtherError } from '../../modules/shared'
 
@@ -69,11 +56,11 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
     " période de l'appel offres " +
     appelOffre.title
 
-  const famille = appelOffre.familles.find(
-    (famille) => famille.id === project.familleId
-  )
-  const soumisAuxGarantiesFinancieres = appelOffre.id === 'Eolien' || 
-    famille?.garantieFinanciereEnMois || famille?.soumisAuxGarantiesFinancieres
+  const famille = appelOffre.familles.find((famille) => famille.id === project.familleId)
+  const soumisAuxGarantiesFinancieres =
+    appelOffre.id === 'Eolien' ||
+    famille?.garantieFinanciereEnMois ||
+    famille?.soumisAuxGarantiesFinancieres
 
   const footNotes: Array<{ footNote: string; indice: number }> = []
   const addFootNote = makeAddFootnote(footNotes)
@@ -88,15 +75,14 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
           fontWeight: 'bold',
         }}
       >
-        À la suite de l’instruction de votre offre par la Commission de régulation de
-        l’énergie (CRE), j’ai le plaisir de vous annoncer que le projet
-        susmentionné est désigné lauréat de la {periode.title} tranche de
-        l’appel d’offres visé en objet.
+        À la suite de l’instruction de votre offre par la Commission de régulation de l’énergie
+        (CRE), j’ai le plaisir de vous annoncer que le projet susmentionné est désigné lauréat de la{' '}
+        {periode.title} tranche de l’appel d’offres visé en objet.
       </Text>
       <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
-        Conformément à l’engagement contenu dans votre offre, je vous informe
-        que {appelOffre.tarifOuPrimeRetenue} en application des dispositions du
-        point {appelOffre.paragraphePrixReference} du cahier des charges est de{' '}
+        Conformément à l’engagement contenu dans votre offre, je vous informe que{' '}
+        {appelOffre.tarifOuPrimeRetenue} en application des dispositions du point{' '}
+        {appelOffre.paragraphePrixReference} du cahier des charges est de{' '}
         {formatNumber(project.prixReference)} €/MWh.
         {appelOffre.affichageParagrapheECS && project.evaluationCarbone > 0
           ? ' La valeur de l’évaluation carbone des modules est de ' +
@@ -105,10 +91,9 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
           : ' '}
         {project.isInvestissementParticipatif ? (
           <Text>
-            En raison de votre engagement à l’investissement participatif, la
-            valeur de {appelOffre.tarifOuPrimeRetenueAlt} est majorée pendant
-            toute la durée du contrat de 3 €/MWh sous réserve du respect de cet
-            engagement
+            En raison de votre engagement à l’investissement participatif, la valeur de{' '}
+            {appelOffre.tarifOuPrimeRetenueAlt} est majorée pendant toute la durée du contrat de 3
+            €/MWh sous réserve du respect de cet engagement
             {addFootNote(appelOffre.renvoiEngagementIPFP)}.
           </Text>
         ) : (
@@ -116,10 +101,9 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
         )}
         {project.isFinancementParticipatif ? (
           <Text>
-            En raison de votre engagement au financement participatif, la valeur
-            de {appelOffre.tarifOuPrimeRetenueAlt} est majorée pendant toute la
-            durée du contrat de 1 €/MWh sous réserve du respect de cet
-            engagement
+            En raison de votre engagement au financement participatif, la valeur de{' '}
+            {appelOffre.tarifOuPrimeRetenueAlt} est majorée pendant toute la durée du contrat de 1
+            €/MWh sous réserve du respect de cet engagement
             {addFootNote(appelOffre.renvoiEngagementIPFP)}.
           </Text>
         ) : (
@@ -128,17 +112,16 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
       </Text>
       {project.engagementFournitureDePuissanceAlaPointe ? (
         <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
-          Lors de la réponse à l’appel d’offres, vous avez indiqué souhaiter un
-          fonctionnement avec fourniture de puissance garantie à la pointe du
-          soir et devez ainsi respecter les conditions de l’annexe 9 du cahier
-          des charges relatives à la fourniture de puissance à la pointe.
+          Lors de la réponse à l’appel d’offres, vous avez indiqué souhaiter un fonctionnement avec
+          fourniture de puissance garantie à la pointe du soir et devez ainsi respecter les
+          conditions de l’annexe 9 du cahier des charges relatives à la fourniture de puissance à la
+          pointe.
         </Text>
       ) : (
         <Text />
       )}
       <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
-        Par ailleurs, je vous rappelle les obligations suivantes du fait de
-        cette désignation :
+        Par ailleurs, je vous rappelle les obligations suivantes du fait de cette désignation :
       </Text>
       <Text
         style={{
@@ -148,8 +131,8 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
           marginLeft: 20,
         }}
       >
-        - respecter l'ensemble des obligations et prescriptions de toute nature
-        figurant au cahier des charges;
+        - respecter l'ensemble des obligations et prescriptions de toute nature figurant au cahier
+        des charges;
       </Text>
       <Text
         style={{
@@ -159,16 +142,15 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
           marginLeft: 20,
         }}
       >
-        - si ce n’est déjà fait, déposer une demande complète de raccordement
-        dans les deux (2) mois à compter de la présente notification
+        - si ce n’est déjà fait, déposer une demande complète de raccordement dans les deux (2) mois
+        à compter de la présente notification
         {addFootNote(appelOffre.renvoiDemandeCompleteRaccordement)}
         {appelOffre.id === 'Eolien'
           ? ' ou dans les deux mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale'
           : ''}
         ;
       </Text>
-      {soumisAuxGarantiesFinancieres &&
-      appelOffre.renvoiSoumisAuxGarantiesFinancieres ? (
+      {soumisAuxGarantiesFinancieres && appelOffre.renvoiSoumisAuxGarantiesFinancieres ? (
         <Text
           style={{
             fontSize: 10,
@@ -177,24 +159,16 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
             marginLeft: 20,
           }}
         >
-          - constituer une garantie{' '}
-          {appelOffre.id === 'Eolien' ? 'bancaire ' : ''}
-          d’exécution dans un délai de deux (2) mois à compter de la présente
-          notification. Les candidats retenus n’ayant pas adressé au préfet de
-          région du site d’implantation l’attestation de constitution de
-          garantie financière dans le délai prévu feront l’objet d’une procédure
-          de mise en demeure. En l’absence d’exécution dans un délai d’un mois
-          après réception de la mise en demeure, le candidat pourra faire
-          l’objet d’un retrait de la présente décision le désignant lauréat
-          <Text>
-            {addFootNote(
-              appelOffre.renvoiRetraitDesignationGarantieFinancieres
-            )}
-          </Text>
-          .{' '}
+          - constituer une garantie {appelOffre.id === 'Eolien' ? 'bancaire ' : ''}
+          d’exécution dans un délai de deux (2) mois à compter de la présente notification. Les
+          candidats retenus n’ayant pas adressé au préfet de région du site d’implantation
+          l’attestation de constitution de garantie financière dans le délai prévu feront l’objet
+          d’une procédure de mise en demeure. En l’absence d’exécution dans un délai d’un mois après
+          réception de la mise en demeure, le candidat pourra faire l’objet d’un retrait de la
+          présente décision le désignant lauréat
+          <Text>{addFootNote(appelOffre.renvoiRetraitDesignationGarantieFinancieres)}</Text>.{' '}
           <Text style={{ textDecoration: 'underline' }}>
-            La durée de la garantie{' '}
-            {appelOffre.renvoiSoumisAuxGarantiesFinancieres};
+            La durée de la garantie {appelOffre.renvoiSoumisAuxGarantiesFinancieres};
           </Text>
         </Text>
       ) : (
@@ -209,10 +183,9 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
             marginLeft: 20,
           }}
         >
-          - mettre en oeuvre les éléments, dispositifs et systèmes innovants
-          décrits dans le rapport de contribution à l’innovation et le cas
-          échéant dans le mémoire technique sur la synergie avec l’usage
-          agricole, remis lors du dépôt de l’offre;
+          - mettre en oeuvre les éléments, dispositifs et systèmes innovants décrits dans le rapport
+          de contribution à l’innovation et le cas échéant dans le mémoire technique sur la synergie
+          avec l’usage agricole, remis lors du dépôt de l’offre;
           <Text>{addFootNote('3.2.4 et 3.2.5')}</Text>.
         </Text>
       ) : (
@@ -226,10 +199,9 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
           marginLeft: 20,
         }}
       >
-        - sauf délais dérogatoires prévus au{' '}
-        {appelOffre.paragrapheDelaiDerogatoire} du cahier des charges, achever
-        l’installation dans un délai de {appelOffre.delaiRealisationTexte}{' '}
-        à compter de la présente notification;
+        - sauf délais dérogatoires prévus au {appelOffre.paragrapheDelaiDerogatoire} du cahier des
+        charges, achever l’installation dans un délai de {appelOffre.delaiRealisationTexte} à
+        compter de la présente notification;
       </Text>
       <Text
         style={{
@@ -239,9 +211,9 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
           marginLeft: 20,
         }}
       >
-        - fournir à EDF l’attestation de conformité de l’installation prévue au(x)
-        paragraphe(s) {appelOffre.paragrapheAttestationConformite} du cahier des
-        charges{ project.isInvestissementParticipatif || project.isFinancementParticipatif ? ';' : '.'}
+        - fournir à EDF l’attestation de conformité de l’installation prévue au(x) paragraphe(s){' '}
+        {appelOffre.paragrapheAttestationConformite} du cahier des charges
+        {project.isInvestissementParticipatif || project.isFinancementParticipatif ? ';' : '.'}
       </Text>
       {project.isInvestissementParticipatif ? (
         <Text
@@ -253,8 +225,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
           }}
         >
           - respecter les engagements pris conformément au(x) paragraphe(s){' '}
-          {appelOffre.paragrapheEngagementIPFP} concernant l’investissement
-          participatif.
+          {appelOffre.paragrapheEngagementIPFP} concernant l’investissement participatif.
         </Text>
       ) : (
         <Text />
@@ -269,20 +240,18 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
           }}
         >
           - respecter les engagements pris conformément au(x) paragraphe(s){' '}
-          {appelOffre.paragrapheEngagementIPFP} concernant le financement
-          participatif.
+          {appelOffre.paragrapheEngagementIPFP} concernant le financement participatif.
         </Text>
       ) : (
         <Text />
       )}
       {appelOffre.afficherParagrapheInstallationMiseEnServiceModification ? (
         <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
-          Je vous rappelle également que l’installation mise en service doit
-          être en tout point conforme à celle décrite dans le dossier de
-          candidature. Toutefois, la modification de certains éléments de
-          l’offre postérieurement à la désignation des lauréats est possible,
-          selon les conditions et modalités précisées au{' '}
-          {appelOffre.renvoiModification} du cahier des charges.{' '}
+          Je vous rappelle également que l’installation mise en service doit être en tout point
+          conforme à celle décrite dans le dossier de candidature. Toutefois, la modification de
+          certains éléments de l’offre postérieurement à la désignation des lauréats est possible,
+          selon les conditions et modalités précisées au {appelOffre.renvoiModification} du cahier
+          des charges.{' '}
           <Text
             style={{
               textDecoration: 'underline',
@@ -299,8 +268,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
             )}
             {appelOffre.id === 'CRE4 - Innovation' ? (
               <>
-                Toute demande de modification substantielle de l’innovation sera
-                notamment refusée
+                Toute demande de modification substantielle de l’innovation sera notamment refusée
                 <Text>{addFootNote('5.4.4')}</Text>.
               </>
             ) : (
@@ -336,9 +304,7 @@ const getNoteThreshold = (periode: Periode, project: Project) => {
 
   if (project.territoireProjet && project.territoireProjet.length) {
     const note = periode.noteThresholdByFamily.find(
-      (item) =>
-        item.familleId === project.familleId &&
-        item.territoire === project.territoireProjet
+      (item) => item.familleId === project.familleId && item.territoire === project.territoireProjet
     )?.noteThreshold
 
     if (!note) {
@@ -357,9 +323,8 @@ const getNoteThreshold = (periode: Periode, project: Project) => {
     return note
   }
 
-  const note = periode.noteThresholdByFamily.find(
-    (item) => item.familleId === project.familleId
-  )?.noteThreshold
+  const note = periode.noteThresholdByFamily.find((item) => item.familleId === project.familleId)
+    ?.noteThreshold
 
   if (!note) {
     console.log(
@@ -397,32 +362,41 @@ const Elimine = ({ project, appelOffre, periode }: ElimineProps) => {
         }}
       >
         {project.motifsElimination === 'Au-dessus de Pcible'
-          ? 'À la suite de l\'instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été classée au-delà de la puissance offerte pour cette période de candidature'+(appelOffre.familles.length ? ' dans la famille concernée' : '')+'. Votre offre a en effet obtenu une note de ' +
+          ? "À la suite de l'instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été classée au-delà de la puissance offerte pour cette période de candidature" +
+            (appelOffre.familles.length ? ' dans la famille concernée' : '') +
+            '. Votre offre a en effet obtenu une note de ' +
             formatNumber(project.note) +
-            ' points alors qu\'à la suite du classement des dossiers, il apparaît que le volume appelé'+(appelOffre.familles.length ? ' pour cette famille' : '')+((appelOffre.familles.length && appelOffre.afficherPhraseRegionImplantation) ? ', et' : '')+(appelOffre.afficherPhraseRegionImplantation
+            " points alors qu'à la suite du classement des dossiers, il apparaît que le volume appelé" +
+            (appelOffre.familles.length ? ' pour cette famille' : '') +
+            (appelOffre.familles.length && appelOffre.afficherPhraseRegionImplantation
+              ? ', et'
+              : '') +
+            (appelOffre.afficherPhraseRegionImplantation
               ? ' pour la région d’implantation du projet définis au 1.2.2 du cahier des charges'
-              : '')+' a été atteint avec les offres ayant des notes supérieures à ' +
+              : '') +
+            ' a été atteint avec les offres ayant des notes supérieures à ' +
             formatNumber(getNoteThreshold(periode, project)) +
             ' points. Par conséquent, cette offre n’a pas été retenue.'
           : project.motifsElimination === 'Déjà lauréat - Non instruit'
-          ? 'À la suite de l\'instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre n\'a pas été retenue elle avait déjà été désignée lauréate au cours d\'un précédent appel d\'offres.'
+          ? "À la suite de l'instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre n'a pas été retenue elle avait déjà été désignée lauréate au cours d'un précédent appel d'offres."
           : project.motifsElimination.includes('20%') &&
             project.motifsElimination.includes('compétitivité')
-          ? 'À la suite de l\'instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été classée au-delà de la puissance maximale que la Ministre a décidé de retenir afin de préserver la compétitivité de l’appel d’offres en application des dispositions du(des) paragraphe(s) ' +
+          ? "À la suite de l'instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été classée au-delà de la puissance maximale que la Ministre a décidé de retenir afin de préserver la compétitivité de l’appel d’offres en application des dispositions du(des) paragraphe(s) " +
             appelOffre.paragrapheClauseCompetitivite +
-            ' du cahier des charges. Ainsi, ' + (appelOffre.familles.length ? 'pour chaque famille,' : '') + ' seuls 80 % des projets les mieux notés ont été retenus. Votre offre a en effet obtenu une note de ' +
+            ' du cahier des charges. Ainsi, ' +
+            (appelOffre.familles.length ? 'pour chaque famille,' : '') +
+            ' seuls 80 % des projets les mieux notés ont été retenus. Votre offre a en effet obtenu une note de ' +
             formatNumber(project.note) +
             ' points alors que la sélection des offres s’est faite jusqu’à la note de ' +
             formatNumber(getNoteThreshold(periode, project)) +
             ' points. Par conséquent, cette offre n’a pas été retenue.'
-          : 'À la suite de l\'instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été éliminée pour le motif suivant : « ' +
+          : "À la suite de l'instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été éliminée pour le motif suivant : « " +
             project.motifsElimination +
             ' ». Par conséquent, cette offre n’a pas été retenue.'}
       </Text>
       <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
-        Vous avez la possibilité de contester la présente décision auprès du
-        tribunal administratif territorialement compétent dans un délai de deux
-        mois à compter de sa date de notification.
+        Vous avez la possibilité de contester la présente décision auprès du tribunal administratif
+        territorialement compétent dans un délai de deux mois à compter de sa date de notification.
       </Text>
     </>
   )
@@ -478,24 +452,16 @@ const Certificate = ({
             width: 250,
           }}
         >
-          <Text
-            style={{ fontSize: 12, fontWeight: 'bold', textAlign: 'right' }}
-          >
+          <Text style={{ fontSize: 12, fontWeight: 'bold', textAlign: 'right' }}>
             Direction générale de l'énergie et du climat
           </Text>
-          <Text
-            style={{ fontSize: 12, fontWeight: 'bold', textAlign: 'right' }}
-          >
+          <Text style={{ fontSize: 12, fontWeight: 'bold', textAlign: 'right' }}>
             Direction de l'énergie
           </Text>
-          <Text
-            style={{ fontSize: 10, fontWeight: 'bold', textAlign: 'right' }}
-          >
+          <Text style={{ fontSize: 10, fontWeight: 'bold', textAlign: 'right' }}>
             Sous-direction du système électrique
           </Text>
-          <Text
-            style={{ fontSize: 10, fontWeight: 'bold', textAlign: 'right' }}
-          >
+          <Text style={{ fontSize: 10, fontWeight: 'bold', textAlign: 'right' }}>
             et des énergies renouvelables
           </Text>
         </View>
@@ -509,10 +475,7 @@ const Certificate = ({
           }}
         >
           <Text style={{ fontSize: 8, marginBottom: 60 }}>
-            Paris, le{' '}
-            {project.notifiedOn
-              ? formatDate(project.notifiedOn, 'D MMMM YYYY')
-              : '[N/A]'}
+            Paris, le {project.notifiedOn ? formatDate(project.notifiedOn, 'D MMMM YYYY') : '[N/A]'}
           </Text>
           <Text style={{ fontSize: 10 }}>{project.nomRepresentantLegal}</Text>
           <Text style={{ fontSize: 10 }}>{project.nomCandidat}</Text>
@@ -525,19 +488,11 @@ const Certificate = ({
             left: 65,
           }}
         >
-          <Text style={{ fontSize: 8 }}>
-            Code Potentiel: {makeProjectIdentifier(project)}
-          </Text>
-          <Text style={{ fontSize: 8 }}>
-            Dossier suivi par : {appelOffre.dossierSuiviPar}
-          </Text>
+          <Text style={{ fontSize: 8 }}>Code Potentiel: {makeProjectIdentifier(project)}</Text>
+          <Text style={{ fontSize: 8 }}>Dossier suivi par : {appelOffre.dossierSuiviPar}</Text>
         </View>
-        <View
-          style={{ marginTop: 350, paddingHorizontal: 65, marginBottom: 50 }}
-        >
-          <Text style={{ fontSize: 10, textAlign: 'justify' }}>
-            Objet : {objet}
-          </Text>
+        <View style={{ marginTop: 350, paddingHorizontal: 65, marginBottom: 50 }}>
+          <Text style={{ fontSize: 10, textAlign: 'justify' }}>Objet : {objet}</Text>
           <Text
             style={{
               fontSize: 10,
@@ -549,25 +504,24 @@ const Certificate = ({
             Madame, Monsieur,
           </Text>
           <Text style={{ fontSize: 10, textAlign: 'justify' }}>
-            En application des dispositions de l’article L. 311-10 du code de
-            l’énergie relatif à la procédure de mise en concurrence pour les
-            installations de production d’électricité, le ministre chargé de
-            l’énergie a lancé en {appelOffre.launchDate} l’appel d’offres cité
-            en objet.
+            En application des dispositions de l’article L. 311-10 du code de l’énergie relatif à la
+            procédure de mise en concurrence pour les installations de production d’électricité, le
+            ministre chargé de l’énergie a lancé en {appelOffre.launchDate} l’appel d’offres cité en
+            objet.
           </Text>
           <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
-            En réponse à la {periode.title} tranche de cet appel d’offres, vous
-            avez déposé { appelOffre.familles.length && project.familleId ? `dans la famille ${project.familleId} ` :''}le projet «{' '}
-            {project.nomProjet} », situé {project.adresseProjet}{' '}
-            {project.codePostalProjet} {project.communeProjet} d’une puissance
-            de {formatNumber(project.puissance, 1e6)}{' '}
-            {appelOffre.unitePuissance}.
+            En réponse à la {periode.title} tranche de cet appel d’offres, vous avez déposé{' '}
+            {appelOffre.familles.length && project.familleId
+              ? `dans la famille ${project.familleId} `
+              : ''}
+            le projet « {project.nomProjet} », situé {project.adresseProjet}{' '}
+            {project.codePostalProjet} {project.communeProjet} d’une puissance de{' '}
+            {formatNumber(project.puissance, 1e6)} {appelOffre.unitePuissance}.
           </Text>
           {body}
           <View wrap={false}>
             <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 30 }}>
-              Je vous prie d’agréer, Madame, Monsieur, l’expression de mes
-              salutations distinguées.
+              Je vous prie d’agréer, Madame, Monsieur, l’expression de mes salutations distinguées.
             </Text>
             <View
               style={{
@@ -576,11 +530,8 @@ const Certificate = ({
                 position: 'relative',
               }}
             >
-              <Text
-                style={{ fontSize: 10, fontWeight: 'bold', textAlign: 'center' }}
-              >
-                L'adjoint au sous-directeur du système électrique et des énergies
-                renouvelables,
+              <Text style={{ fontSize: 10, fontWeight: 'bold', textAlign: 'center' }}>
+                L'adjoint au sous-directeur du système électrique et des énergies renouvelables,
               </Text>
               <Text style={{ fontSize: 10, textAlign: 'center', marginTop: 65 }}>
                 Ghislain Ferran
@@ -621,8 +572,7 @@ const Certificate = ({
           }}
         >
           <Text style={{ fontSize: 7, lineHeight: 1.2 }} wrap={false}>
-            92005 La Défense cedex – Tél : 33(0)1 40 81 98 21 – Fax : 33(0)1 40
-            81 93 97
+            92005 La Défense cedex – Tél : 33(0)1 40 81 98 21 – Fax : 33(0)1 40 81 93 97
           </Text>
         </View>
       </Page>
@@ -632,9 +582,7 @@ const Certificate = ({
 
 class MissingDataError extends Error {
   constructor() {
-    super(
-      'Impossible de générer de certificat pour ce projet, données manquantes.'
-    )
+    super('Impossible de générer de certificat pour ce projet, données manquantes.')
   }
 }
 
@@ -646,10 +594,7 @@ let queue = new Queue()
 
 const makeCertificate = ({
   project,
-}: MakeCertificateProps): ResultAsync<
-  NodeJS.ReadableStream,
-  MissingDataError | OtherError
-> => {
+}: MakeCertificateProps): ResultAsync<NodeJS.ReadableStream, MissingDataError | OtherError> => {
   const { appelOffre } = project
   const { periode } = appelOffre || {}
 
@@ -665,9 +610,7 @@ const makeCertificate = ({
     content = Elimine({ project, appelOffre, periode })
   }
 
-  const ticket = queue.push(() =>
-    ReactPDF.renderToStream(<Certificate {...content} />)
-  )
+  const ticket = queue.push(() => ReactPDF.renderToStream(<Certificate {...content} />))
 
   return ResultAsync.fromPromise(ticket, (e: any) => new OtherError(e.message))
 }

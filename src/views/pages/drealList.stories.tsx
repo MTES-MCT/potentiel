@@ -26,6 +26,4 @@ export const withSuccess = () => (
   />
 )
 
-export const withUsers = () => (
-  <DrealList users={[]} invitations={[]} request={makeFakeRequest()} />
-)
+export const withUsers = () => <DrealList users={[]} invitations={[]} request={makeFakeRequest()} />

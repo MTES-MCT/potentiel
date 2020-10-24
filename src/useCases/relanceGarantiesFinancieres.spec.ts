@@ -1,11 +1,6 @@
 import moment from 'moment'
 import waitForExpect from 'wait-for-expect'
-import {
-  makeProject,
-  makeProjectIdentifier,
-  makeUser,
-  Project,
-} from '../entities'
+import { makeProject, makeProjectIdentifier, makeUser, Project } from '../entities'
 import { InMemoryEventStore } from '../infra/inMemory'
 import { ProjectGFReminded } from '../modules/project/events'
 import routes from '../routes'
@@ -29,9 +24,9 @@ describe('relanceGarantiesFinancieres use-case', () => {
 
   addAppelOffreToProject(fakeProject)
 
-  const findProjectsWithGarantiesFinancieresPendingBefore = jest.fn(
-    async (beforeDate: number) => [fakeProject]
-  )
+  const findProjectsWithGarantiesFinancieresPendingBefore = jest.fn(async (beforeDate: number) => [
+    fakeProject,
+  ])
   const sendNotification = jest.fn()
   const saveProject = jest.fn(async (project: Project) => Ok(null))
 
@@ -58,15 +53,9 @@ describe('relanceGarantiesFinancieres use-case', () => {
   })
 
   it('should get projects with garanties financieres pending in less than 15 days', () => {
-    expect(
-      findProjectsWithGarantiesFinancieresPendingBefore
-    ).toHaveBeenCalledTimes(1)
-    const callTime =
-      findProjectsWithGarantiesFinancieresPendingBefore.mock.calls[0][0]
-    expect(callTime / 1000).toBeCloseTo(
-      moment().add(15, 'days').toDate().getTime() / 1000,
-      0
-    )
+    expect(findProjectsWithGarantiesFinancieresPendingBefore).toHaveBeenCalledTimes(1)
+    const callTime = findProjectsWithGarantiesFinancieresPendingBefore.mock.calls[0][0]
+    expect(callTime / 1000).toBeCloseTo(moment().add(15, 'days').toDate().getTime() / 1000, 0)
   })
 
   it('should send a notification to the user', () => {
@@ -101,10 +90,7 @@ describe('relanceGarantiesFinancieres use-case', () => {
     const fakeProjectUpdate = saveProject.mock.calls[0][0]
 
     expect(fakeProjectUpdate).toBeDefined()
-    expect(fakeProjectUpdate.garantiesFinancieresRelanceOn / 1000).toBeCloseTo(
-      Date.now() / 1000,
-      0
-    )
+    expect(fakeProjectUpdate.garantiesFinancieresRelanceOn / 1000).toBeCloseTo(Date.now() / 1000, 0)
     expect(fakeProjectUpdate.history).toHaveLength(1)
     if (!fakeProjectUpdate.history || !fakeProjectUpdate.history.length) return
     const notificationEvent = fakeProjectUpdate.history[0]
@@ -112,8 +98,7 @@ describe('relanceGarantiesFinancieres use-case', () => {
     if (!notificationEvent) return
     expect(notificationEvent.type).toEqual('relance-gf')
     expect(notificationEvent.after).toEqual({
-      garantiesFinancieresRelanceOn:
-        fakeProjectUpdate.garantiesFinancieresRelanceOn,
+      garantiesFinancieresRelanceOn: fakeProjectUpdate.garantiesFinancieresRelanceOn,
     })
   })
 

@@ -43,29 +43,19 @@ export default function ListProjects({
 
   const hasNonDefaultClassement =
     (request.user?.role === 'porteur-projet' && classement) ||
-    (request.user &&
-      ['admin', 'dreal'].includes(request.user?.role) &&
-      classement !== 'classés')
+    (request.user && ['admin', 'dreal'].includes(request.user?.role) && classement !== 'classés')
 
   const hasFilters =
-    appelOffreId ||
-    periodeId ||
-    familleId ||
-    garantiesFinancieres ||
-    hasNonDefaultClassement
+    appelOffreId || periodeId || familleId || garantiesFinancieres || hasNonDefaultClassement
 
   const periodes = appelsOffre
     .find((ao) => ao.id === appelOffreId)
-    ?.periodes.filter(
-      (periode) => !existingPeriodes || existingPeriodes.includes(periode.id)
-    )
+    ?.periodes.filter((periode) => !existingPeriodes || existingPeriodes.includes(periode.id))
 
   const familles = appelsOffre
     .find((ao) => ao.id === appelOffreId)
     ?.familles.sort((a, b) => a.title.localeCompare(b.title))
-    .filter(
-      (famille) => !existingFamilles || existingFamilles.includes(famille.id)
-    )
+    .filter((famille) => !existingFamilles || existingFamilles.includes(famille.id))
 
   const contents = (
     <>
@@ -135,9 +125,7 @@ export default function ListProjects({
               </div>
               <div className="filter-panel">
                 <div className="periode-panel">
-                  <div style={{ marginLeft: 2 }}>
-                    Par appel d'offre, période et famille
-                  </div>
+                  <div style={{ marginLeft: 2 }}>Par appel d'offre, période et famille</div>
                   <select
                     name="appelOffreId"
                     className={'appelOffre ' + (appelOffreId ? 'active' : '')}
@@ -146,14 +134,9 @@ export default function ListProjects({
                   >
                     <option value="">Tous appels d'offres</option>
                     {appelsOffre
-                      .filter((appelOffre) =>
-                        existingAppelsOffres.includes(appelOffre.id)
-                      )
+                      .filter((appelOffre) => existingAppelsOffres.includes(appelOffre.id))
                       .map((appelOffre) => (
-                        <option
-                          key={'appel_' + appelOffre.id}
-                          value={appelOffre.id}
-                        >
+                        <option key={'appel_' + appelOffre.id} value={appelOffre.id}>
                           {appelOffre.shortTitle}
                         </option>
                       ))}
@@ -167,10 +150,7 @@ export default function ListProjects({
                     <option value="">Toutes périodes</option>
                     {periodes && periodes.length
                       ? periodes.map((periode) => (
-                          <option
-                            key={'appel_' + periode.id}
-                            value={periode.id}
-                          >
+                          <option key={'appel_' + periode.id} value={periode.id}>
                             {periode.title}
                           </option>
                         ))
@@ -186,10 +166,7 @@ export default function ListProjects({
                       <option value="">Toutes familles</option>
                       {familles && familles.length
                         ? familles.map((famille) => (
-                            <option
-                              key={'appel_' + famille.id}
-                              value={famille.id}
-                            >
+                            <option key={'appel_' + famille.id} value={famille.id}>
                               {famille.title}
                             </option>
                           ))
@@ -228,11 +205,7 @@ export default function ListProjects({
               </div>
             </div>
             {hasFilters ? (
-              <a
-                style={{ marginTop: 10 }}
-                href="#"
-                {...dataId('resetSelectors')}
-              >
+              <a style={{ marginTop: 10 }} href="#" {...dataId('resetSelectors')}>
                 Retirer tous les filtres
               </a>
             ) : null}
@@ -269,15 +242,10 @@ export default function ListProjects({
                     style={{ display: 'none' }}
                   ></select>
                   <label htmlFor="email">
-                    Courrier électronique de la personne habilitée à suivre les
-                    projets selectionnés ci-dessous:
+                    Courrier électronique de la personne habilitée à suivre les projets selectionnés
+                    ci-dessous:
                   </label>
-                  <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    {...dataId('email-field')}
-                  />
+                  <input type="email" name="email" id="email" {...dataId('email-field')} />
                   <button
                     className="button"
                     type="submit"
@@ -312,9 +280,7 @@ export default function ListProjects({
         {projects ? (
           <>
             <div className="pagination__count">
-              <strong>
-                {Array.isArray(projects) ? projects.length : projects.itemCount}
-              </strong>{' '}
+              <strong>{Array.isArray(projects) ? projects.length : projects.itemCount}</strong>{' '}
               projets
             </div>
             <ProjectList

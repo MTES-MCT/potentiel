@@ -15,25 +15,18 @@ export const ProjectHeader = ({ project, user }: ProjectHeaderProps) => (
       position: 'relative',
       padding: '1.5em',
       paddingBottom: 0,
-      backgroundColor:
-        project.classe === 'Classé'
-          ? '#daf5e7'
-          : 'hsla(5,70%,79%,.45882)',
+      backgroundColor: project.classe === 'Classé' ? '#daf5e7' : 'hsla(5,70%,79%,.45882)',
     }}
   >
     <h3>{project.nomProjet}</h3>
     <span style={{ marginLeft: 10 }}>
-      {project.communeProjet}, {project.departementProjet},{' '}
-      {project.regionProjet}
+      {project.communeProjet}, {project.departementProjet}, {project.regionProjet}
     </span>
     <div style={{ fontSize: 13 }}>{makeProjectIdentifier(project)}</div>
     <div
       style={{
         fontWeight: 'bold',
-        color:
-          project.classe === 'Classé'
-            ? 'rgb(56, 118, 29)'
-            : 'rgb(204, 0, 0)',
+        color: project.classe === 'Classé' ? 'rgb(56, 118, 29)' : 'rgb(204, 0, 0)',
       }}
     >
       {project.classe === 'Classé' ? 'Actif' : 'Eliminé'}

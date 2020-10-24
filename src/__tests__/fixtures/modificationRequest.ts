@@ -1,10 +1,7 @@
 import makeFakeUser from './user'
 import makeFakeProject from './project'
 
-export default function makeFakeModificationRequest(
-  overrides?,
-  includeInfo?: boolean
-) {
+export default function makeFakeModificationRequest(overrides?, includeInfo?: boolean) {
   const defaultObj: any = {
     id: '1',
     userId: 'userId',

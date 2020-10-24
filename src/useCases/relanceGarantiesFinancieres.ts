@@ -27,11 +27,7 @@ export default function makeRelanceGarantiesFinancieres({
       moment().add(15, 'days').toDate().getTime()
     )
 
-    console.log(
-      'relanceGarantiesFinancieres found ' +
-        lateProjects.length +
-        ' projets à relancer'
-    )
+    console.log('relanceGarantiesFinancieres found ' + lateProjects.length + ' projets à relancer')
 
     await Promise.all(
       lateProjects.map(async (project) => {
@@ -72,14 +68,10 @@ export default function makeRelanceGarantiesFinancieres({
               variables: {
                 nom_projet: project.nomProjet,
                 code_projet: makeProjectIdentifier(project),
-                date_designation: moment(project.notifiedOn).format(
-                  'DD/MM/YYYY'
-                ),
+                date_designation: moment(project.notifiedOn).format('DD/MM/YYYY'),
                 paragraphe_cdc:
-                  project.appelOffre
-                    ?.renvoiRetraitDesignationGarantieFinancieres || '',
-                duree_garanties:
-                  project.famille?.garantieFinanciereEnMois?.toString() || '',
+                  project.appelOffre?.renvoiRetraitDesignationGarantieFinancieres || '',
+                duree_garanties: project.famille?.garantieFinanciereEnMois?.toString() || '',
                 invitation_link: routes.PROJECT_DETAILS(project.id),
               },
               message: {

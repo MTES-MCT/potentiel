@@ -7,10 +7,7 @@ interface FriseProps {
 }
 
 export const Frise = ({ children, displayToggle }: FriseProps) => (
-  <table
-    className="frise"
-    style={{ borderCollapse: 'collapse', marginBottom: 20 }}
-  >
+  <table className="frise" style={{ borderCollapse: 'collapse', marginBottom: 20 }}>
     <thead>
       <tr>
         <td style={{ width: 16 }} />
@@ -42,18 +39,10 @@ export const Frise = ({ children, displayToggle }: FriseProps) => (
           ></td>
           <td></td>
           <td colSpan={3} style={{ paddingLeft: 5 }}>
-            <a
-              className="frise--toggle-show"
-              href="#"
-              {...dataId('frise-show-timeline')}
-            >
+            <a className="frise--toggle-show" href="#" {...dataId('frise-show-timeline')}>
               Afficher les étapes suivantes
             </a>
-            <a
-              className="frise--toggle-hide"
-              href="#"
-              {...dataId('frise-hide-timeline')}
-            >
+            <a className="frise--toggle-hide" href="#" {...dataId('frise-hide-timeline')}>
               Masquer les étapes à venir
             </a>
           </td>

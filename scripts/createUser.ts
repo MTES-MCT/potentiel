@@ -11,14 +11,7 @@ if (!email || !password) {
   process.exit(1)
 }
 
-console.log(
-  'Creating user with email ',
-  email,
-  'and password',
-  password,
-  'and named',
-  name
-)
+console.log('Creating user with email ', email, 'and password', password, 'and named', name)
 
 initDatabase()
   .then(() => {
@@ -46,17 +39,11 @@ initDatabase()
 
     const credentials = credentialsResult.unwrap()
 
-    return Promise.all([
-      userRepo.insert(user),
-      credentialsRepo.insert(credentials),
-    ])
+    return Promise.all([userRepo.insert(user), credentialsRepo.insert(credentials)])
   })
   .then(([userInsertion, credentialsInsertion]) => {
     if (userInsertion.is_err()) {
-      console.log(
-        'Oops User could not be inserted into DB',
-        userInsertion.unwrap_err()
-      )
+      console.log('Oops User could not be inserted into DB', userInsertion.unwrap_err())
       return process.exit(1)
     }
 

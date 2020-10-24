@@ -64,17 +64,13 @@ export default function makeListUnnotifiedProjects({
       })
     ).map((appelOffreId) => ({
       id: appelOffreId,
-      shortTitle:
-        appelsOffre.find((item) => item.id === appelOffreId)?.shortTitle ||
-        appelOffreId,
+      shortTitle: appelsOffre.find((item) => item.id === appelOffreId)?.shortTitle || appelOffreId,
     }))
 
     // Not a single unnotified project, stop here
     if (!result.existingAppelsOffres.length) return null
 
-    const getPeriodesWithNotifiableProjectsForAppelOffre = async (
-      _appelOffre: AppelOffre
-    ) =>
+    const getPeriodesWithNotifiableProjectsForAppelOffre = async (_appelOffre: AppelOffre) =>
       (
         await findExistingPeriodesForAppelOffre(_appelOffre.id, {
           isNotified: false,
@@ -83,9 +79,7 @@ export default function makeListUnnotifiedProjects({
         .map((periodeId) => {
           // Only include periodes for which we can generate a certificate
           // The reverse means it's a period that isn't in our scope
-          const periode = _appelOffre.periodes.find(
-            (periode) => periode.id === periodeId
-          )
+          const periode = _appelOffre.periodes.find((periode) => periode.id === periodeId)
 
           return (
             !!periode &&
@@ -110,15 +104,11 @@ export default function makeListUnnotifiedProjects({
     } else {
       // No appel offre given, look for one with a notifiable project
       for (const appelOffreItem of result.existingAppelsOffres) {
-        const appelOffre = appelsOffre.find(
-          (appelOffre) => appelOffre.id === appelOffreItem.id
-        )
+        const appelOffre = appelsOffre.find((appelOffre) => appelOffre.id === appelOffreItem.id)
 
         if (!appelOffre) continue
         result.selectedAppelOffreId = appelOffreItem.id
-        result.existingPeriodes = await getPeriodesWithNotifiableProjectsForAppelOffre(
-          appelOffre
-        )
+        result.existingPeriodes = await getPeriodesWithNotifiableProjectsForAppelOffre(appelOffre)
 
         if (result.existingPeriodes.length) break
       }

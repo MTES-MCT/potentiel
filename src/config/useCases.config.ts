@@ -12,11 +12,7 @@ export const shouldUserAccessProject = new BaseShouldUserAccessProject(
   projectRepo.findById
 )
 
-export const fileService = new FileService(
-  fileStorageService,
-  fileRepo,
-  shouldUserAccessProject
-)
+export const fileService = new FileService(fileStorageService, fileRepo, shouldUserAccessProject)
 
 export const generateCertificate = makeGenerateCertificate({
   fileService,

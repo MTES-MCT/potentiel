@@ -1,7 +1,4 @@
-import {
-  LocalFileStorageService,
-  ObjectStorageFileStorageService,
-} from '../infra/file'
+import { LocalFileStorageService, ObjectStorageFileStorageService } from '../infra/file'
 import { FileStorageService } from '../modules/file'
 import { isProdEnv, isStagingEnv } from './env.config'
 
@@ -34,9 +31,7 @@ if (isStagingEnv || isProdEnv) {
     container
   )
 
-  console.log(
-    'FileService will be using ObjectStorage on container ' + container
-  )
+  console.log('FileService will be using ObjectStorage on container ' + container)
 } else {
   console.log('FileService will be using LocalFileStorage is userData/')
   fileStorageService = new LocalFileStorageService('userData')

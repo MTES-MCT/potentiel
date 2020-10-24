@@ -7,10 +7,6 @@ export type ModificationRequestRepo = {
     query?: Record<string, any>,
     includeInfo?: boolean
   ) => Promise<Array<ModificationRequest>>
-  insert: (
-    ModificationRequest: ModificationRequest
-  ) => ResultAsync<ModificationRequest>
-  update: (
-    ModificationRequest: ModificationRequest
-  ) => ResultAsync<ModificationRequest>
+  insert: (ModificationRequest: ModificationRequest) => ResultAsync<ModificationRequest>
+  update: (ModificationRequest: ModificationRequest) => ResultAsync<ModificationRequest>
 }

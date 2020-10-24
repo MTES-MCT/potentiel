@@ -1,1 +1,1 @@
-export * from './makeCertificateFilename';
+export * from './makeCertificateFilename'

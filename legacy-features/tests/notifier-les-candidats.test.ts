@@ -8,9 +8,7 @@ import createUser from '../setup/createUser'
 import makeRoute from '../setup/makeRoute'
 import { PORTEUR_PROJET } from '../../src/__tests__/fixtures/testCredentials'
 
-Given("un porteur de projet inscrit avec l'adresse {string}", async function (
-  email
-) {
+Given("un porteur de projet inscrit avec l'adresse {string}", async function (email) {
   this.porteurProjet = { ...PORTEUR_PROJET, email }
 
   // Create a user with a specific email
@@ -26,49 +24,37 @@ Then('une notification est générée pour chaque projet', async function () {
 
   // console.log("J'ai trouvé le item-action")
 
-  const projectActions = await this.page.$$eval(
-    testId('item-action'),
-    (actionElements) =>
-      actionElements.map((actionElement) => actionElement.getAttribute('href'))
+  const projectActions = await this.page.$$eval(testId('item-action'), (actionElements) =>
+    actionElements.map((actionElement) => actionElement.getAttribute('href'))
   )
 
   expect(
-    projectActions.filter(
-      (action) => action.indexOf(routes.CANDIDATE_NOTIFICATION) === 0
-    )
+    projectActions.filter((action) => action.indexOf(routes.CANDIDATE_NOTIFICATION) === 0)
   ).to.have.lengthOf(this.projects.length)
 })
 
-Then(
-  'le porteur de projet inscrit voit ses nouveaux projets dans sa liste',
-  async function () {
-    // Login as porteur de projet
-    await this.loginAs(this.porteurProjet)
+Then('le porteur de projet inscrit voit ses nouveaux projets dans sa liste', async function () {
+  // Login as porteur de projet
+  await this.loginAs(this.porteurProjet)
 
-    // go to list projects page
-    await this.navigateTo(makeRoute(routes.USER_LIST_PROJECTS))
+  // go to list projects page
+  await this.navigateTo(makeRoute(routes.USER_LIST_PROJECTS))
 
-    // check if the imported projects are there (use World.importedProjects)
-    const userProjects = this.projects.filter(
-      (project) => project.email === this.porteurProjet.email
-    )
+  // check if the imported projects are there (use World.importedProjects)
+  const userProjects = this.projects.filter((project) => project.email === this.porteurProjet.email)
 
-    // console.log('USER LIST PROJECTS contents', await this.page.content())
+  // console.log('USER LIST PROJECTS contents', await this.page.content())
 
-    await this.page.waitForSelector(testId('projectList-item-nomProjet'))
+  await this.page.waitForSelector(testId('projectList-item-nomProjet'))
 
-    const projectsInList = await this.page.$$eval(
-      testId('projectList-item-nomProjet'),
-      (actionElements) =>
-        actionElements.map((actionElement) => actionElement.innerText)
-    )
+  const projectsInList = await this.page.$$eval(
+    testId('projectList-item-nomProjet'),
+    (actionElements) => actionElements.map((actionElement) => actionElement.innerText)
+  )
 
-    // console.log('Found projectsInList', projectsInList)
+  // console.log('Found projectsInList', projectsInList)
 
-    expect(projectsInList).to.have.lengthOf(userProjects.length)
+  expect(projectsInList).to.have.lengthOf(userProjects.length)
 
-    expect(projectsInList).to.include.members(
-      userProjects.map((project) => project.nomProjet)
-    )
-  }
-)
+  expect(projectsInList).to.include.members(userProjects.map((project) => project.nomProjet))
+})

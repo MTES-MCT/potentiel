@@ -6,17 +6,11 @@ import makeFakeProject from '../../../__tests__/fixtures/project'
 import { GetFamille } from '../../appelOffre'
 import { StoredEvent } from '../../eventStore'
 import { InfraNotAvailableError } from '../../shared'
-import {
-  ProjectDCRDueDateSet,
-  ProjectGFDueDateSet,
-  ProjectNotificationDateSet,
-} from '../events'
+import { ProjectDCRDueDateSet, ProjectGFDueDateSet, ProjectNotificationDateSet } from '../events'
 import { handleProjectNotificationDateSet } from './handleProjectNotificationDateSet'
 
 const eventBus = {
-  publish: jest.fn((event: StoredEvent) =>
-    okAsync<null, InfraNotAvailableError>(null)
-  ),
+  publish: jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null)),
   subscribe: jest.fn(),
 }
 
@@ -38,9 +32,7 @@ describe('handleProjectNotificationDateSet', () => {
         garantieFinanciereEnMois: 0,
       }
 
-      const getFamille: GetFamille = jest.fn((appelOffreId, familleId) =>
-        okAsync(fakeFamille)
-      )
+      const getFamille: GetFamille = jest.fn((appelOffreId, familleId) => okAsync(fakeFamille))
 
       eventBus.publish.mockClear()
 
@@ -75,9 +67,7 @@ describe('handleProjectNotificationDateSet', () => {
         title: 'familletitle',
         garantieFinanciereEnMois: 17,
       }
-      const getFamille: GetFamille = jest.fn((appelOffreId, familleId) =>
-        okAsync(fakeFamille)
-      )
+      const getFamille: GetFamille = jest.fn((appelOffreId, familleId) => okAsync(fakeFamille))
 
       it('should emit ProjectGFDueDateSet', async () => {
         eventBus.publish.mockClear()
@@ -105,10 +95,7 @@ describe('handleProjectNotificationDateSet', () => {
         expect(event!.aggregateId).toEqual(project.id)
         expect(event!.payload).toEqual({
           projectId: project.id,
-          garantiesFinancieresDueOn: moment(123456789)
-            .add(2, 'months')
-            .toDate()
-            .getTime(),
+          garantiesFinancieresDueOn: moment(123456789).add(2, 'months').toDate().getTime(),
         })
       })
     })
@@ -119,9 +106,7 @@ describe('handleProjectNotificationDateSet', () => {
         title: 'familletitle',
         garantieFinanciereEnMois: 0,
       }
-      const getFamille: GetFamille = jest.fn((appelOffreId, familleId) =>
-        okAsync(fakeFamille)
-      )
+      const getFamille: GetFamille = jest.fn((appelOffreId, familleId) => okAsync(fakeFamille))
 
       it('should not emit ProjectGFDueDateSet', async () => {
         eventBus.publish.mockClear()

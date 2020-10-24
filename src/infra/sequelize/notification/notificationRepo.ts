@@ -1,10 +1,7 @@
 import { Repository, DomainError, UniqueEntityID } from '../../../core/domain'
 import { Result, ResultAsync, errAsync, err } from '../../../core/utils'
 import { Notification } from '../../../modules/notification'
-import {
-  InfraNotAvailableError,
-  EntityNotFoundError,
-} from '../../../modules/shared'
+import { InfraNotAvailableError, EntityNotFoundError } from '../../../modules/shared'
 
 export class NotificationRepo implements Repository<Notification> {
   private models: any
@@ -64,8 +61,6 @@ export class NotificationRepo implements Repository<Notification> {
         console.log('notificationRepo.load error', e)
         return new InfraNotAvailableError()
       }
-    ).andThen((dbResult) =>
-      dbResult ? this.toDomain(dbResult) : err(new EntityNotFoundError())
-    )
+    ).andThen((dbResult) => (dbResult ? this.toDomain(dbResult) : err(new EntityNotFoundError())))
   }
 }

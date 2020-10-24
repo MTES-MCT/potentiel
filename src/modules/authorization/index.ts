@@ -1,2 +1,2 @@
-export * from './errors';
-export * from './ShouldUserAccessProject';
+export * from './errors'
+export * from './ShouldUserAccessProject'

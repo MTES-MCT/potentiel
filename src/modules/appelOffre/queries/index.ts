@@ -1,2 +1,2 @@
-export * from './GetFamille';
-export * from './GetPeriodeTitle';
+export * from './GetFamille'
+export * from './GetPeriodeTitle'

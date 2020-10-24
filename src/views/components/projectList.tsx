@@ -50,28 +50,16 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
           fontSize: 12,
         }}
       >
-        <span {...dataId('projectList-item-communeProjet')}>
-          {project.communeProjet}
-        </span>
-        ,{' '}
-        <span {...dataId('projectList-item-departementProjet')}>
-          {project.departementProjet}
-        </span>
-        ,{' '}
-        <span {...dataId('projectList-item-regionProjet')}>
-          {project.regionProjet}
-        </span>
-        <div style={{ marginTop: 5, fontStyle: 'normal' }}>
-          {makeProjectIdentifier(project)}
-        </div>
+        <span {...dataId('projectList-item-communeProjet')}>{project.communeProjet}</span>,{' '}
+        <span {...dataId('projectList-item-departementProjet')}>{project.departementProjet}</span>,{' '}
+        <span {...dataId('projectList-item-regionProjet')}>{project.regionProjet}</span>
+        <div style={{ marginTop: 5, fontStyle: 'normal' }}>{makeProjectIdentifier(project)}</div>
       </div>
     </td>
   ),
   Candidat: ({ project }) => (
     <td valign="top" className="projectList-candidat-column">
-      <div {...dataId('projectList-item-nomCandidat')}>
-        {project.nomCandidat}
-      </div>
+      <div {...dataId('projectList-item-nomCandidat')}>{project.nomCandidat}</div>
       <div
         style={{
           fontStyle: 'italic',
@@ -102,9 +90,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
   ),
   Prix: ({ project }) => (
     <td valign="top" className="projectList-prix-column">
-      <span {...dataId('projectList-item-prixReference')}>
-        {project.prixReference}
-      </span>{' '}
+      <span {...dataId('projectList-item-prixReference')}>{project.prixReference}</span>{' '}
       <span
         style={{
           fontStyle: 'italic',
@@ -118,12 +104,9 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
   ),
   'Evaluation Carbone': ({ project }) => (
     <td valign="top" className="projectList-evaluation-column">
-      {
-        project.evaluationCarbone > 0 ?
+      {project.evaluationCarbone > 0 ? (
         <>
-          <span {...dataId('projectList-item-evaluationCarbone')}>
-            {project.evaluationCarbone}
-          </span>{' '}
+          <span {...dataId('projectList-item-evaluationCarbone')}>{project.evaluationCarbone}</span>{' '}
           <span
             style={{
               fontStyle: 'italic',
@@ -134,8 +117,9 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
             kg eq CO2/kWc
           </span>
         </>
-        :""
-      }
+      ) : (
+        ''
+      )}
     </td>
   ),
   Classé: ({ project }) => (
@@ -249,10 +233,7 @@ const ProjectList = ({ projects, displayColumns, projectActions }: Props) => {
         <thead>
           <tr>
             <th {...dataId('projectList-checkbox')} style={{ display: 'none' }}>
-              <input
-                type="checkbox"
-                {...dataId('projectList-selectAll-checkbox')}
-              />
+              <input type="checkbox" {...dataId('projectList-selectAll-checkbox')} />
             </th>
             {displayColumns?.map((column) => (
               <th key={column}>{column}</th>
@@ -269,10 +250,7 @@ const ProjectList = ({ projects, displayColumns, projectActions }: Props) => {
                 style={{ cursor: 'pointer' }}
                 data-goto-projectid={project.id}
               >
-                <td
-                  {...dataId('projectList-checkbox')}
-                  style={{ display: 'none' }}
-                >
+                <td {...dataId('projectList-checkbox')} style={{ display: 'none' }}>
                   <input
                     type="checkbox"
                     {...dataId('projectList-item-checkbox')}
@@ -285,19 +263,11 @@ const ProjectList = ({ projects, displayColumns, projectActions }: Props) => {
                     console.log('Column', column, 'could not be found')
                     return <td></td>
                   }
-                  return (
-                    <Column
-                      key={'project_' + project.id + '_' + column}
-                      project={project}
-                    />
-                  )
+                  return <Column key={'project_' + project.id + '_' + column} project={project} />
                 })}
                 {projectActions ? (
                   <td {...dataId('item-actions-container')}>
-                    <ProjectActions
-                      projectActions={projectActions}
-                      project={project}
-                    />
+                    <ProjectActions projectActions={projectActions} project={project} />
                   </td>
                 ) : (
                   ''

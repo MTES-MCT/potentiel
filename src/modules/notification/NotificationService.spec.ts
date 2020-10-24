@@ -6,9 +6,7 @@ import { DomainError, UniqueEntityID } from '../../core/domain'
 import { InfraNotAvailableError } from '../shared'
 
 describe('NotificationService', () => {
-  const sendEmail = jest.fn((props: SendEmailProps) =>
-    okAsync<null, Error>(null)
-  )
+  const sendEmail = jest.fn((props: SendEmailProps) => okAsync<null, Error>(null))
 
   const fakeProps: NotificationArgs = {
     message: {
@@ -36,9 +34,7 @@ describe('NotificationService', () => {
     const fakeNotifA = UnwrapForTest(Notification.create(fakeProps))
     const fakeNotifB = UnwrapForTest(Notification.create(fakeProps))
     const notificationRepo = {
-      save: jest.fn((notification: Notification) =>
-        okAsync<null, DomainError>(null)
-      ),
+      save: jest.fn((notification: Notification) => okAsync<null, DomainError>(null)),
       load: jest.fn((id: UniqueEntityID) =>
         okAsync<Notification, InfraNotAvailableError>(
           id.toString() === 'notifA' ? fakeNotifA : fakeNotifB
@@ -60,19 +56,13 @@ describe('NotificationService', () => {
     it('should retrieve all failed notifications', () => {
       expect(getFailedNotifications).toHaveBeenCalled()
 
-      expect(notificationRepo.load).toHaveBeenCalledWith(
-        new UniqueEntityID('notifA')
-      )
-      expect(notificationRepo.load).toHaveBeenCalledWith(
-        new UniqueEntityID('notifB')
-      )
+      expect(notificationRepo.load).toHaveBeenCalledWith(new UniqueEntityID('notifA'))
+      expect(notificationRepo.load).toHaveBeenCalledWith(new UniqueEntityID('notifB'))
     })
 
     it('should create a new notification and send it for each failed notification', () => {
       expect(sendEmail).toHaveBeenCalledTimes(2)
-      const sentNotificationIds = sendEmail.mock.calls.map((item) =>
-        item[0].id.toString()
-      )
+      const sentNotificationIds = sendEmail.mock.calls.map((item) => item[0].id.toString())
 
       expect(sentNotificationIds).not.toContain(fakeNotifA.id.toString())
       expect(sentNotificationIds).not.toContain(fakeNotifB.id.toString())
@@ -81,8 +71,8 @@ describe('NotificationService', () => {
     it('should update the status of each failed notification to retried', () => {
       expect(notificationRepo.save).toHaveBeenCalledTimes(4) // 2 for failed, 2 for new ones
 
-      const updatedNotificationIds = notificationRepo.save.mock.calls.map(
-        (item) => item[0].id.toString()
+      const updatedNotificationIds = notificationRepo.save.mock.calls.map((item) =>
+        item[0].id.toString()
       )
       expect(updatedNotificationIds).toContain(fakeNotifA.id.toString())
       expect(updatedNotificationIds).toContain(fakeNotifB.id.toString())
@@ -94,13 +84,9 @@ describe('NotificationService', () => {
 
   describe('send(props)', () => {
     describe('when sendEmail succeeds', () => {
-      const sendEmail = jest.fn((props: SendEmailProps) =>
-        okAsync<null, Error>(null)
-      )
+      const sendEmail = jest.fn((props: SendEmailProps) => okAsync<null, Error>(null))
       const notificationRepo = {
-        save: jest.fn((notification: Notification) =>
-          okAsync<null, DomainError>(null)
-        ),
+        save: jest.fn((notification: Notification) => okAsync<null, DomainError>(null)),
         load: jest.fn(),
       }
       const getFailedNotifications = jest.fn()
@@ -137,14 +123,10 @@ describe('NotificationService', () => {
     })
 
     describe('when sendEmail fails', () => {
-      const sendEmail = jest.fn((props: SendEmailProps) =>
-        errAsync<null, Error>(new Error('oops'))
-      )
+      const sendEmail = jest.fn((props: SendEmailProps) => errAsync<null, Error>(new Error('oops')))
       const getFailedNotifications = jest.fn()
       const notificationRepo = {
-        save: jest.fn((notification: Notification) =>
-          okAsync<null, DomainError>(null)
-        ),
+        save: jest.fn((notification: Notification) => okAsync<null, DomainError>(null)),
         load: jest.fn(),
       }
       const notificationService = makeNotificationService({

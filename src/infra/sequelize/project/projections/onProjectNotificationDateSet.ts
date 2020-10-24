@@ -1,7 +1,4 @@
-import {
-  ProjectNotificationDateSet,
-  ProjectNotified,
-} from '../../../../modules/project/events'
+import { ProjectNotificationDateSet, ProjectNotified } from '../../../../modules/project/events'
 
 export const onProjectNotificationDateSet = (models) => async (
   event: ProjectNotificationDateSet | ProjectNotified

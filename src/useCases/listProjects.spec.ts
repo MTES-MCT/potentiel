@@ -129,34 +129,25 @@ describe('listProjects use-case', () => {
       })
 
       it('should return all notified projects from this appel offre', async () => {
-        expect(findAll).toHaveBeenCalledWith(
-          { appelOffreId, isNotified: true },
-          pagination
-        )
+        expect(findAll).toHaveBeenCalledWith({ appelOffreId, isNotified: true }, pagination)
 
         expect(res).toHaveProperty('projects')
         expect(res.projects).toEqual(projectList)
       })
 
       it('should return periodes from this appel offre that contain at least one unnotified project', () => {
-        expect(findExistingPeriodesForAppelOffre).toHaveBeenCalledWith(
-          appelOffreId,
-          {
-            isNotified: true,
-          }
-        )
+        expect(findExistingPeriodesForAppelOffre).toHaveBeenCalledWith(appelOffreId, {
+          isNotified: true,
+        })
 
         expect(res).toHaveProperty('existingPeriodes')
         expect(res.existingPeriodes).toEqual(periodes)
       })
 
       it('should return familles from this appel offre that contain at least one unnotified project', () => {
-        expect(findExistingFamillesForAppelOffre).toHaveBeenCalledWith(
-          appelOffreId,
-          {
-            isNotified: true,
-          }
-        )
+        expect(findExistingFamillesForAppelOffre).toHaveBeenCalledWith(appelOffreId, {
+          isNotified: true,
+        })
 
         expect(res).toHaveProperty('existingFamilles')
         expect(res.existingFamilles).toEqual(familles)
@@ -235,11 +226,7 @@ describe('listProjects use-case', () => {
       })
 
       it('should return all notified projects that contain the search term', async () => {
-        expect(searchAll).toHaveBeenCalledWith(
-          'term',
-          { isNotified: true },
-          pagination
-        )
+        expect(searchAll).toHaveBeenCalledWith('term', { isNotified: true }, pagination)
 
         expect(res).toHaveProperty('projects')
         expect(res.projects).toEqual(projectList)
@@ -324,11 +311,7 @@ describe('listProjects use-case', () => {
 
       it('should return all notified projects for the user DREALs', async () => {
         expect(findDrealsForUser).toHaveBeenCalledWith(user.id)
-        expect(findAllForRegions).toHaveBeenCalledWith(
-          DREALs,
-          { isNotified: true },
-          pagination
-        )
+        expect(findAllForRegions).toHaveBeenCalledWith(DREALs, { isNotified: true }, pagination)
 
         expect(res).toHaveProperty('projects')
         expect(res.projects).toEqual(projectList)
@@ -383,9 +366,7 @@ describe('listProjects use-case', () => {
   })
 
   describe('given the user is porteur projet', () => {
-    const user = UnwrapForTest(
-      makeUser(makeFakeUser({ role: 'porteur-projet' }))
-    )
+    const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
 
     describe('given no params', () => {
       let res: any
@@ -411,11 +392,7 @@ describe('listProjects use-case', () => {
       })
 
       it('should return all notified projects for the user', async () => {
-        expect(findAllForUser).toHaveBeenCalledWith(
-          user.id,
-          { isNotified: true },
-          pagination
-        )
+        expect(findAllForUser).toHaveBeenCalledWith(user.id, { isNotified: true }, pagination)
 
         expect(res).toHaveProperty('projects')
         expect(res.projects).toEqual(projectList)

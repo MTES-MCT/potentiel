@@ -1,1 +1,1 @@
-export * from './GetFailedNotifications';
+export * from './GetFailedNotifications'

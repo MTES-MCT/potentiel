@@ -4,10 +4,7 @@ dotenv.config()
 import { eventStore } from '../src/config/eventStore.config'
 import '../src/config/projections.config'
 import { initDatabase, sequelize } from '../src/dataAccess'
-import {
-  LegacyProjectEventSourced,
-  LegacyProjectSourced,
-} from '../src/modules/project/events'
+import { LegacyProjectEventSourced, LegacyProjectSourced } from '../src/modules/project/events'
 
 //
 // In 09/2020 we switched from on-the-fly certificate generation (on download) to pre-generated certificates (at notification)
@@ -40,11 +37,7 @@ initDatabase()
       updatedProjects.push(project)
     }
 
-    console.log(
-      '\nGenerated source events for ',
-      updatedProjects.length,
-      'projects'
-    )
+    console.log('\nGenerated source events for ', updatedProjects.length, 'projects')
 
     // For each:
     // look for file in file system
@@ -60,17 +53,11 @@ initDatabase()
       logging: console.log,
     })
 
-    console.log(
-      'Found',
-      projectEventsToUpdate.length,
-      'projectEvents to source'
-    )
+    console.log('Found', projectEventsToUpdate.length, 'projectEvents to source')
 
     const updatedProjects: any[] = []
 
-    for (const projectEvent of projectEventsToUpdate.map((item) =>
-      item.get()
-    )) {
+    for (const projectEvent of projectEventsToUpdate.map((item) => item.get())) {
       await eventStore.publish(
         new LegacyProjectEventSourced({
           payload: {
@@ -88,11 +75,7 @@ initDatabase()
       updatedProjects.push(projectEvent)
     }
 
-    console.log(
-      '\nGenerated source events for ',
-      updatedProjects.length,
-      'projectEvents'
-    )
+    console.log('\nGenerated source events for ', updatedProjects.length, 'projectEvents')
     // process.exit(0)
   })
   .catch((err) => {

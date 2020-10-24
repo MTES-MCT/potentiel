@@ -15,11 +15,7 @@ export default function ForgottenPasswordPage({ request }: Props) {
     <main role="main">
       <section className="section section-grey">
         <div className="container">
-          <form
-            action={routes.FORGOTTEN_PASSWORD_ACTION}
-            method="post"
-            name="form"
-          >
+          <form action={routes.FORGOTTEN_PASSWORD_ACTION} method="post" name="form">
             <h3>J'ai oublié mon mot de passe</h3>
             {error ? (
               <div className="notification error" {...dataId('error-message')}>
@@ -30,10 +26,7 @@ export default function ForgottenPasswordPage({ request }: Props) {
             )}
             {success ? (
               <>
-                <div
-                  className="notification success"
-                  {...dataId('success-message')}
-                >
+                <div className="notification success" {...dataId('success-message')}>
                   {success}
                 </div>
               </>
@@ -42,12 +35,7 @@ export default function ForgottenPasswordPage({ request }: Props) {
             )}
             <div className="form__group">
               <label htmlFor="email">Courrier électronique</label>
-              <input
-                type="email"
-                name="email"
-                id="email"
-                {...dataId('email-field')}
-              />
+              <input type="email" name="email" id="email" {...dataId('email-field')} />
               <button
                 className="button"
                 type="submit"

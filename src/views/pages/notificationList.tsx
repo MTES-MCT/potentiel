@@ -21,10 +21,7 @@ interface NotificationListProps {
 }
 
 /* Pure component */
-export default function NotificationList({
-  request,
-  notifications,
-}: NotificationListProps) {
+export default function NotificationList({ request, notifications }: NotificationListProps) {
   const { error, success } = request.query || {}
 
   return (
@@ -32,10 +29,7 @@ export default function NotificationList({
       <div className="panel">
         <div className="panel__header">
           <h3>Notifications en erreur</h3>
-          <p>
-            Sont listées uniquement les notifications qui ont un status
-            "erreur".
-          </p>
+          <p>Sont listées uniquement les notifications qui ont un status "erreur".</p>
         </div>
         <div className="panel__header">
           <form
@@ -59,10 +53,7 @@ export default function NotificationList({
             )}
           </form>
           {success ? (
-            <div
-              className="notification success"
-              {...dataId('success-message')}
-            >
+            <div className="notification success" {...dataId('success-message')}>
               {success}
             </div>
           ) : (
@@ -90,11 +81,7 @@ export default function NotificationList({
           </table>
         ) : (
           <>
-            <table
-              className="table"
-              style={{ width: '100%' }}
-              {...dataId('notificationList-list')}
-            >
+            <table className="table" style={{ width: '100%' }} {...dataId('notificationList-list')}>
               <thead>
                 <tr>
                   <th>Destinataire</th>
@@ -116,10 +103,7 @@ export default function NotificationList({
                       <td>{notification.type}</td>
                       <td>
                         {notification.createdAt
-                          ? formatDate(
-                              notification.createdAt,
-                              'DD/MM/YYYY HH:mm'
-                            )
+                          ? formatDate(notification.createdAt, 'DD/MM/YYYY HH:mm')
                           : ''}
                         {notification.status === 'retried' ? (
                           <div
@@ -131,10 +115,7 @@ export default function NotificationList({
                           >
                             renvoyé le{' '}
                             {notification.updatedAt
-                              ? formatDate(
-                                  notification.updatedAt,
-                                  'DD/MM/YYYY HH:mm'
-                                )
+                              ? formatDate(notification.updatedAt, 'DD/MM/YYYY HH:mm')
                               : ''}
                           </div>
                         ) : (

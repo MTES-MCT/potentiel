@@ -27,10 +27,7 @@ export const Section = ({ title, defaultOpen, children, icon }: SectionProps) =>
           <use xlinkHref="#expand"></use>
         </svg>
       </h3>
-      <div
-        className="section--content"
-        {...dataId('projectDetails-section-content')}
-      >
+      <div className="section--content" {...dataId('projectDetails-section-content')}>
         {children}
       </div>
     </div>

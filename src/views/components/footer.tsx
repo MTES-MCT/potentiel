@@ -10,7 +10,12 @@ const Footer = ({}: FooterProps) => {
       <div className="container">
         <ul className="footer__links">
           <li>
-            <img style={{ maxWidth: "100%" }} src="/images/MIN_Transition_Ecologique_RVB_petit.png" alt="Logo du ministère de la transition énergétique" width="300" />
+            <img
+              style={{ maxWidth: '100%' }}
+              src="/images/MIN_Transition_Ecologique_RVB_petit.png"
+              alt="Logo du ministère de la transition énergétique"
+              width="300"
+            />
           </li>
         </ul>
         <ul className="footer__links"></ul>

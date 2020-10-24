@@ -11,9 +11,7 @@ import makeAddDCR, { UNAUTHORIZED } from './addDCR'
 import { InMemoryEventStore } from '../infra/inMemory'
 import { ProjectDCRSubmitted } from '../modules/project/events'
 
-const mockFileServiceSave = jest.fn(
-  async (file: File, fileContent: FileContainer) => okAsync(null)
-)
+const mockFileServiceSave = jest.fn(async (file: File, fileContent: FileContainer) => okAsync(null))
 jest.mock('../modules/file/FileService', () => ({
   FileService: function () {
     return {
@@ -50,13 +48,9 @@ describe('addDCR use-case', () => {
       )
     )
 
-    const user = UnwrapForTest(
-      makeUser(makeFakeUser({ role: 'porteur-projet' }))
-    )
+    const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
 
-    const projectDCRSubmittedHandler = jest.fn(
-      (event: ProjectDCRSubmitted) => null
-    )
+    const projectDCRSubmittedHandler = jest.fn((event: ProjectDCRSubmitted) => null)
 
     beforeAll(async () => {
       eventStore.subscribe(ProjectDCRSubmitted.type, projectDCRSubmittedHandler)
@@ -97,18 +91,13 @@ describe('addDCR use-case', () => {
 
       expect(updatedProject.id).toEqual(originalProject.id)
 
-      expect(updatedProject.dcrSubmittedOn / 1000).toBeCloseTo(
-        Date.now() / 1000,
-        0
-      )
+      expect(updatedProject.dcrSubmittedOn / 1000).toBeCloseTo(Date.now() / 1000, 0)
       expect(updatedProject.dcrSubmittedBy).toEqual(user.id)
       expect(updatedProject.dcrDate).toEqual(date)
 
       // Expect the file to be saved
       expect(mockFileServiceSave).toHaveBeenCalled()
-      expect(mockFileServiceSave.mock.calls[0][1].stream).toEqual(
-        fakeFileContents.stream
-      )
+      expect(mockFileServiceSave.mock.calls[0][1].stream).toEqual(fakeFileContents.stream)
       const fakeFile = mockFileServiceSave.mock.calls[0][0]
       expect(fakeFile).toBeDefined()
       expect(updatedProject.dcrFileId).toEqual(fakeFile.id.toString())
@@ -129,10 +118,7 @@ describe('addDCR use-case', () => {
         dcrNumeroDossier: numeroDossier,
         dcrDate: date,
       })
-      expect(updatedProject.history[0].createdAt / 100).toBeCloseTo(
-        Date.now() / 100,
-        0
-      )
+      expect(updatedProject.history[0].createdAt / 100).toBeCloseTo(Date.now() / 100, 0)
       expect(updatedProject.history[0].type).toEqual('dcr-submission')
       expect(updatedProject.history[0].userId).toEqual(user.id)
     })
@@ -140,21 +126,14 @@ describe('addDCR use-case', () => {
     it('should trigger a ProjectDCRSubmitted event', async () => {
       await waitForExpect(() => {
         expect(projectDCRSubmittedHandler).toHaveBeenCalled()
-        const projectDCRSubmittedEvent =
-          projectDCRSubmittedHandler.mock.calls[0][0]
-        expect(projectDCRSubmittedEvent.payload.projectId).toEqual(
-          originalProject.id
-        )
+        const projectDCRSubmittedEvent = projectDCRSubmittedHandler.mock.calls[0][0]
+        expect(projectDCRSubmittedEvent.payload.projectId).toEqual(originalProject.id)
 
         const fakeFile = mockFileServiceSave.mock.calls[0][0]
 
         expect(projectDCRSubmittedEvent.payload.dcrDate).toEqual(new Date(date))
-        expect(projectDCRSubmittedEvent.payload.fileId).toEqual(
-          fakeFile.id.toString()
-        )
-        expect(projectDCRSubmittedEvent.payload.numeroDossier).toEqual(
-          numeroDossier
-        )
+        expect(projectDCRSubmittedEvent.payload.fileId).toEqual(fakeFile.id.toString())
+        expect(projectDCRSubmittedEvent.payload.numeroDossier).toEqual(numeroDossier)
         expect(projectDCRSubmittedEvent.payload.submittedBy).toEqual(user.id)
         expect(projectDCRSubmittedEvent.aggregateId).toEqual(originalProject.id)
       })
@@ -166,9 +145,7 @@ describe('addDCR use-case', () => {
       mockFileServiceSave.mockClear()
       const eventStore = new InMemoryEventStore()
 
-      const user = UnwrapForTest(
-        makeUser(makeFakeUser({ role: 'porteur-projet' }))
-      )
+      const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
 
       const originalProject = UnwrapForTest(
         makeProject(

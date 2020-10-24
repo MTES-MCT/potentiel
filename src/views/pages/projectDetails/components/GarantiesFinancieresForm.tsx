@@ -6,10 +6,7 @@ interface GarantiesFinancieresFormProps {
   projectId: string
   date?: string
 }
-export const GarantiesFinancieresForm = ({
-  projectId,
-  date,
-}: GarantiesFinancieresFormProps) => (
+export const GarantiesFinancieresForm = ({ projectId, date }: GarantiesFinancieresFormProps) => (
   <form
     action={ROUTES.DEPOSER_GARANTIES_FINANCIERES_ACTION}
     method="post"
@@ -36,8 +33,8 @@ export const GarantiesFinancieresForm = ({
         style={{ display: 'none' }}
         {...dataId('error-message-wrong-format')}
       >
-        Le format de la date saisie n'est pas conforme. Elle doit être de la
-        forme JJ/MM/AAAA soit par exemple 25/05/2022 pour 25 Mai 2022.
+        Le format de la date saisie n'est pas conforme. Elle doit être de la forme JJ/MM/AAAA soit
+        par exemple 25/05/2022 pour 25 Mai 2022.
       </div>
       <label htmlFor="file">Attestation</label>
       <input type="hidden" name="projectId" value={projectId} />
@@ -51,10 +48,7 @@ export const GarantiesFinancieresForm = ({
       >
         Envoyer
       </button>
-      <button
-        className="button-outline primary"
-        {...dataId('frise-hide-content')}
-      >
+      <button className="button-outline primary" {...dataId('frise-hide-content')}>
         Annuler
       </button>
     </div>

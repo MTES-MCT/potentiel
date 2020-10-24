@@ -1,10 +1,6 @@
 import { Result } from '@usefultools/monads'
 
-const mapExceptError = <T, K>(
-  arr: Array<T>,
-  fn: (T) => K,
-  errorMessage: string
-): Array<K> =>
+const mapExceptError = <T, K>(arr: Array<T>, fn: (T) => K, errorMessage: string): Array<K> =>
   arr.reduce((validItems: Array<K>, item: T) => {
     try {
       validItems.push(fn(item))

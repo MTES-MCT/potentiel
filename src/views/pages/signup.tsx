@@ -12,22 +12,14 @@ interface SignupProps {
 }
 
 /* Pure component */
-export default function SignupPage({
-  request,
-  projectAdmissionKey,
-}: SignupProps) {
+export default function SignupPage({ request, projectAdmissionKey }: SignupProps) {
   const { error } = request.query || {}
 
   return (
     <main role="main">
       <section className="section section-grey">
         <div className="container">
-          <form
-            action={ROUTES.SIGNUP_ACTION}
-            method="post"
-            name="form"
-            {...dataId('signup-form')}
-          >
+          <form action={ROUTES.SIGNUP_ACTION} method="post" name="form" {...dataId('signup-form')}>
             <h3 id="login">Je crée mon compte</h3>
             {error ? <div className="notification error">{error}</div> : ''}
             <div className="form__group">
@@ -64,20 +56,14 @@ export default function SignupPage({
                 // Only display this warning if it's an email notification
                 // if projectAdmissionKey has a projectId, it's an email invitation coming from another user
                 <div className="notification warning">
-                  Il s'agit de l'adresse électronique que vous avez renseigné
-                  sur votre dossier de candidature. Vous pourrez la changer par
-                  la suite.
+                  Il s'agit de l'adresse électronique que vous avez renseigné sur votre dossier de
+                  candidature. Vous pourrez la changer par la suite.
                 </div>
               ) : (
                 ''
               )}
               <label htmlFor="password">Mot de passe</label>
-              <input
-                type="password"
-                name="password"
-                id="password"
-                {...dataId('password-field')}
-              />
+              <input type="password" name="password" id="password" {...dataId('password-field')} />
               <label htmlFor="confirmPassword">Confirmer mot de passe</label>
               <input
                 type="password"

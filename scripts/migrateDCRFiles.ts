@@ -40,12 +40,7 @@ initDatabase()
         project.dcrFile,
         true
       )
-      const absoluteFilePath = path.resolve(
-        __dirname,
-        '../uploads/',
-        project.id,
-        project.dcrFile
-      )
+      const absoluteFilePath = path.resolve(__dirname, '../uploads/', project.id, project.dcrFile)
 
       if (!(await fileExists(absoluteFilePath))) {
         console.log('\nFile with path', absoluteFilePath, 'could not be found')
@@ -71,21 +66,20 @@ initDatabase()
       }
 
       console.log('\nUploading file ' + relativeFilePath)
-      try{
-
+      try {
         const saveFileResult = await fileService.save(fileResult.value, {
           ...file,
           path: relativeFilePath,
         })
-  
+
         if (saveFileResult.isErr()) {
           // OOPS
           console.log('fileService.save failed', saveFileResult.error)
-  
+
           continue
         }
         console.log('Done uploading file.')
-  
+
         const updatedProject = applyProjectUpdate({
           project,
           update: {
@@ -96,25 +90,24 @@ initDatabase()
             userId: '',
           },
         })
-  
+
         if (!updatedProject) {
           // OOPS
           console.log('applyProjectUpdate returned null')
-  
+
           continue
         }
-  
+
         const res = await projectRepo.save(updatedProject)
-  
+
         if (res.is_err()) {
           console.log('projectRepo.save failed', res.unwrap_err())
           continue
         }
-  
+
         updatedProjects.push(project.id)
-      }
-      catch(e){
-        console.log("Moving dcr failed for project", project.nomProjet, e)
+      } catch (e) {
+        console.log('Moving dcr failed for project', project.nomProjet, e)
         continue
       }
     }

@@ -54,17 +54,14 @@ const listProjects = makeListProjects({
   searchAll: projectRepo.searchAll,
   findAll: projectRepo.findAll,
   findExistingAppelsOffres: projectRepo.findExistingAppelsOffres,
-  findExistingPeriodesForAppelOffre:
-    projectRepo.findExistingPeriodesForAppelOffre,
-  findExistingFamillesForAppelOffre:
-    projectRepo.findExistingFamillesForAppelOffre,
+  findExistingPeriodesForAppelOffre: projectRepo.findExistingPeriodesForAppelOffre,
+  findExistingFamillesForAppelOffre: projectRepo.findExistingFamillesForAppelOffre,
   findDrealsForUser: userRepo.findDrealsForUser,
 })
 const listUnnotifiedProjects = makeListUnnotifiedProjects({
   findAllProjects: projectRepo.findAll,
   findExistingAppelsOffres: projectRepo.findExistingAppelsOffres,
-  findExistingPeriodesForAppelOffre:
-    projectRepo.findExistingPeriodesForAppelOffre,
+  findExistingPeriodesForAppelOffre: projectRepo.findExistingPeriodesForAppelOffre,
   countUnnotifiedProjects: projectRepo.countUnnotifiedProjects,
   searchAllProjects: projectRepo.searchAll,
   appelOffreRepo,

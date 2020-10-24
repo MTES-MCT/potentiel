@@ -9,9 +9,7 @@ initDatabase()
       page: 0,
     })
 
-    return Promise.all(
-      projectList.items.map((project) => projectRepo.index(project))
-    )
+    return Promise.all(projectList.items.map((project) => projectRepo.index(project)))
   })
   .then((results) => {
     console.log('Done indexing all ' + results.length + ' projects')

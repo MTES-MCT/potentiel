@@ -1,5 +1,5 @@
 const CONFIG = {
-  logDbErrors: true
+  logDbErrors: true,
 }
 
 export default CONFIG

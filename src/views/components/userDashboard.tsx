@@ -7,10 +7,7 @@ interface UserDashboardProps {
 }
 
 /* Pure component */
-export default function UserDashboard({
-  children,
-  currentPage
-}: UserDashboardProps) {
+export default function UserDashboard({ children, currentPage }: UserDashboardProps) {
   return (
     <>
       <section className="section section-color" style={{ padding: '1em 0' }}>
@@ -25,10 +22,7 @@ export default function UserDashboard({
           <ul>
             {typeof currentPage === 'undefined' ? (
               <li>
-                <a
-                  className="active"
-                  style={{ fontSize: '2px', cursor: 'default' }}
-                ></a>
+                <a className="active" style={{ fontSize: '2px', cursor: 'default' }}></a>
               </li>
             ) : (
               ''
