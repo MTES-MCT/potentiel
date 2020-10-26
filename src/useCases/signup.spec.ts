@@ -352,8 +352,6 @@ describe('signup use-case', () => {
     })
 
     it('should return EMAIL_USED_ERROR', async () => {
-      expect.assertions(2)
-
       // Add a projectAdmissionKey
       const [projectAdmissionKey] = (
         await Promise.all(
