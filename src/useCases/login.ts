@@ -1,6 +1,6 @@
-import { User, makeCredentials } from '../entities'
-import { UserRepo, CredentialsRepo } from '../dataAccess'
-import { ResultAsync, Ok, Err, ErrorResult } from '../types'
+import { CredentialsRepo, UserRepo } from '../dataAccess'
+import { makeCredentials, User } from '../entities'
+import { ErrorResult, Ok, ResultAsync } from '../types'
 
 interface MakeLoginProps {
   credentialsRepo: CredentialsRepo
@@ -16,15 +16,9 @@ export const ERREUR_USER_INCONNU = 'Aucun utilisateur avec cet email'
 export const ERREUR_MOT_DE_PASSE_ERRONE = 'Mot de passe erroné'
 export const ERREUR_GRAVE = 'Erreur système merci de bien vouloir réessayer'
 
-export default function makeLogin({
-  credentialsRepo,
-  userRepo,
-}: MakeLoginProps) {
-  return async function login({
-    email,
-    password,
-  }: LoginProps): ResultAsync<User> {
-    const credentials = await credentialsRepo.findByEmail(email)
+export default function makeLogin({ credentialsRepo, userRepo }: MakeLoginProps) {
+  return async function login({ email, password }: LoginProps): ResultAsync<User> {
+    const credentials = await credentialsRepo.findByEmail(email.toLowerCase())
 
     // Email not found
     if (credentials.is_none()) {

@@ -1,7 +1,4 @@
-import makeLogin, {
-  ERREUR_USER_INCONNU,
-  ERREUR_MOT_DE_PASSE_ERRONE,
-} from './login'
+import makeLogin, { ERREUR_USER_INCONNU, ERREUR_MOT_DE_PASSE_ERRONE } from './login'
 
 import { makeCredentials, makeUser } from '../entities'
 
@@ -20,11 +17,11 @@ describe('login use-case', () => {
     const phonyUserResult = makeUser({
       fullName: 'Patrice Leconte',
       role: 'admin',
-      email: 'fake@email.com',
+      email: phonyCredentials.email,
     })
 
     // Insert a phony user
-    expect(phonyUserResult.is_ok())
+    expect(phonyUserResult.is_ok()).toEqual(true)
     phonyUser = phonyUserResult.unwrap()
 
     await userRepo.insert(phonyUser)
@@ -32,18 +29,19 @@ describe('login use-case', () => {
       ...phonyCredentials,
       userId: phonyUser.id,
     })
-    expect(credentialsResult.is_ok())
+    expect(credentialsResult.is_ok()).toEqual(true)
     await credentialsRepo.insert(credentialsResult.unwrap())
   })
 
   it('returns the user if the email and password are correct', async () => {
-    const { email, password } = phonyCredentials
+    const { password } = phonyCredentials
     const foundUserResult = await login({
-      email,
+      email: 'Fake@example.fake', // Added a uppercase to test case sensitivity
       password,
     })
 
-    expect(foundUserResult.is_ok())
+    expect(foundUserResult.is_ok()).toEqual(true)
+    if (foundUserResult.is_err()) return
     expect(foundUserResult.unwrap()).toEqual(expect.objectContaining(phonyUser))
   })
 
@@ -51,7 +49,7 @@ describe('login use-case', () => {
     const { password } = phonyCredentials
     const userResult = await login({ email: 'wrong@email.com', password })
 
-    expect(userResult.is_err())
+    expect(userResult.is_err()).toEqual(true)
     expect(userResult.unwrap_err().message).toEqual(ERREUR_USER_INCONNU)
   })
 
@@ -59,7 +57,7 @@ describe('login use-case', () => {
     const { email } = phonyCredentials
     const userResult = await login({ email, password: 'oops' })
 
-    expect(userResult.is_err())
+    expect(userResult.is_err()).toEqual(true)
     expect(userResult.unwrap_err().message).toEqual(ERREUR_MOT_DE_PASSE_ERRONE)
   })
 })
