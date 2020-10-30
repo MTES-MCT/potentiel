@@ -1,11 +1,4 @@
-import {
-  Project,
-  makeProject,
-  AppelOffre,
-  Periode,
-  applyProjectUpdate,
-  User,
-} from '../entities'
+import { Project, makeProject, AppelOffre, Periode, applyProjectUpdate, User } from '../entities'
 import { ProjectRepo, AppelOffreRepo, UserRepo } from '../dataAccess'
 import _ from 'lodash'
 import { Result, ResultAsync, Err, Ok, ErrorResult } from '../types'
@@ -49,10 +42,7 @@ const makeErrorForLine = <T>(
     'Ligne ' +
     lineIndex +
     ': ' +
-    error.message.replace(
-      'Failed constraint check in field',
-      'Valeur interdite dans le champ'
-    )
+    error.message.replace('Failed constraint check in field', 'Valeur interdite dans le champ')
   errors.push(error)
 
   return Err<T, Array<Error>>(errors)
@@ -136,131 +126,123 @@ export default function makeImportProjects({
     const appelsOffre = await appelOffreRepo.findAll()
 
     // Check individual lines (use makeProject on each)
-    const projects = lines.reduce<
-      Result<Array<Partial<Project>>, Array<Error>>
-    >((currentResults, line, index) => {
-      // console.log('line', line)
-      // Find the corresponding appelOffre
-      const appelOffreId = line["Appel d'offres"]
-      const appelOffre = appelsOffre.find(
-        (appelOffre) => appelOffre.id === appelOffreId
-      )
+    const projects = lines.reduce<Result<Array<Partial<Project>>, Array<Error>>>(
+      (currentResults, line, index) => {
+        // console.log('line', line)
+        // Find the corresponding appelOffre
+        const appelOffreId = line["Appel d'offres"]
+        const appelOffre = appelsOffre.find((appelOffre) => appelOffre.id === appelOffreId)
 
-      if (!appelOffreId || !appelOffre) {
-        console.log('Appel offre introuvable', appelOffreId)
-        return makeErrorForLine(
-          new Error("Appel d'offre introuvable " + appelOffreId),
-          index + 2,
-          currentResults
-        )
-      }
+        if (!appelOffreId || !appelOffre) {
+          console.log('Appel offre introuvable', appelOffreId)
+          return makeErrorForLine(
+            new Error("Appel d'offre introuvable " + appelOffreId),
+            index + 2,
+            currentResults
+          )
+        }
 
-      // Check the periode
-      const periodeId = line['Période']
-      const periode = appelOffre.periodes.find(
-        (periode) => periode.id === periodeId
-      )
+        // Check the periode
+        const periodeId = line['Période']
+        const periode = appelOffre.periodes.find((periode) => periode.id === periodeId)
 
-      if (!periodeId || !periode) {
-        console.log(
-          'Periode introuvable',
+        if (!periodeId || !periode) {
+          console.log(
+            'Periode introuvable',
+            periodeId,
+            appelOffre.periodes.map((item) => item.id)
+          )
+          return makeErrorForLine(new Error('Période introuvable'), index + 2, currentResults)
+        }
+
+        // Keep track of all the columns that where picked from the line
+        // We will use this to gather all the "other" columns in the project.details section
+        const pickedColumns: Array<string> = ["Appel d'offres", 'Période']
+
+        // All good, try to make the project
+        const projectData: Partial<Project> = {
+          appelOffreId,
           periodeId,
-          appelOffre.periodes.map((item) => item.id)
-        )
-        return makeErrorForLine(
-          new Error('Période introuvable'),
-          index + 2,
-          currentResults
-        )
-      }
+          ...appelOffre.dataFields.reduce((properties, dataField) => {
+            const { field, column, type, value, defaultValue } = dataField
 
-      // Keep track of all the columns that where picked from the line
-      // We will use this to gather all the "other" columns in the project.details section
-      const pickedColumns: Array<string> = ["Appel d'offres", 'Période']
+            pickedColumns.push(column)
 
-      // All good, try to make the project
-      const projectData: Partial<Project> = {
-        appelOffreId,
-        periodeId,
-        ...appelOffre.dataFields.reduce((properties, dataField) => {
-          const { field, column, type, value, defaultValue } = dataField
+            if (type === 'codePostal') {
+              return getCodePostalProperties(properties, line[column])
+            }
 
-          pickedColumns.push(column)
-
-          if (type === 'codePostal') {
-            return getCodePostalProperties(properties, line[column])
-          }
-
-          // Parse line depending on column format
-          const fieldValue =
-            field === 'email'
-              ? line[column] && line[column].split('/')[0].trim()
-              : type === 'string'
-              ? line[column] && line[column].trim()
-              : type === 'number'
-              ? toNumber(line[column], defaultValue)
-              : type === 'date'
-              ? (line[column] &&
-                  moment(line[column], 'DD/MM/YYYY').toDate().getTime()) ||
-                undefined
-              : type === 'stringEquals'
-              ? line[column] === value
-              : type === 'orNumberInColumn'
-              ? line[column]
+            // Parse line depending on column format
+            const fieldValue =
+              field === 'email'
+                ? line[column] && line[column].split('/')[0].trim().toLowerCase()
+                : type === 'string'
+                ? line[column] && line[column].trim()
+                : type === 'number'
                 ? toNumber(line[column], defaultValue)
-                : (value && toNumber(line[value], defaultValue)) || defaultValue
-              : type === 'orStringInColumn'
-              ? line[column] || (value && line[value])
-              : undefined
+                : type === 'date'
+                ? (line[column] && moment(line[column], 'DD/MM/YYYY').toDate().getTime()) ||
+                  undefined
+                : type === 'stringEquals'
+                ? line[column] === value
+                : type === 'orNumberInColumn'
+                ? line[column]
+                  ? toNumber(line[column], defaultValue)
+                  : (value && toNumber(line[value], defaultValue)) || defaultValue
+                : type === 'orStringInColumn'
+                ? line[column] || (value && line[value])
+                : undefined
 
-          return {
-            ...properties,
-            [field]: fieldValue,
-          }
-        }, {}),
-      }
+            return {
+              ...properties,
+              [field]: fieldValue,
+            }
+          }, {}),
+        }
 
-      // Add all the other columns of the csv into the details section of the project
-      projectData.details = Object.entries(line)
-        .filter(([columnTitle]) => !pickedColumns.includes(columnTitle))
-        .reduce(
-          (map, [columnTitle, value]) => ({
-            ...map,
-            [columnTitle]: value,
-          }),
-          {}
-        )
+        // Add all the other columns of the csv into the details section of the project
+        projectData.details = Object.entries(line)
+          .filter(([columnTitle]) => !pickedColumns.includes(columnTitle))
+          .reduce(
+            (map, [columnTitle, value]) => ({
+              ...map,
+              [columnTitle]: value,
+            }),
+            {}
+          )
 
-      // Validate the project data using makeProject
-      const projectResult = makeProject(projectData as Project)
-      if (projectResult.is_err()) {
-        // This line is an error
-        // console.log(
-        //   'importProjects use-case: this line has an error',
-        //   projectData,
-        //   // line,
-        //   projectResult.unwrap_err()
-        // )
+        // Validate the project data using makeProject
+        const projectResult = makeProject(projectData as Project)
+        if (projectResult.is_err()) {
+          // This line is an error
+          // console.log(
+          //   'importProjects use-case: this line has an error',
+          //   projectData,
+          //   // line,
+          //   projectResult.unwrap_err()
+          // )
 
-        // Add the error from this line prefixed with the line number
-        const projectError = projectResult.unwrap_err()
-        // projectError.message =
-        //   'Ligne ' + (index + 2) + ': ' + projectError.message
+          // Add the error from this line prefixed with the line number
+          const projectError = projectResult.unwrap_err()
+          // projectError.message =
+          //   'Ligne ' + (index + 2) + ': ' + projectError.message
 
-        return makeErrorForLine(projectError, index + 2, currentResults)
-      }
+          return makeErrorForLine(projectError, index + 2, currentResults)
+        }
 
-      if (currentResults.is_err()) {
-        // This line is not an error but previous lines are
-        return currentResults
-      }
+        if (currentResults.is_err()) {
+          // This line is not an error but previous lines are
+          return currentResults
+        }
 
-      // No errors so far
-      // Add this line's project to the current list
-      const projects = currentResults.unwrap()
-      projects.push(projectData)
-      return Ok(projects)
-    }, Ok([]))
+        // No errors so far
+        // Add this line's project to the current list
+        const projects = currentResults.unwrap()
+        projects.push(projectData)
+        return Ok(projects)
+      },
+      Ok([])
+    )
 
     if (projects.is_err()) {
       // console.log(
@@ -270,10 +252,7 @@ export default function makeImportProjects({
       const error = new Error()
       error.message = projects
         .unwrap_err()
-        .reduce(
-          (message, error) => message + ':\n' + error.message,
-          ERREUR_FORMAT_LIGNE
-        )
+        .reduce((message, error) => message + ':\n' + error.message, ERREUR_FORMAT_LIGNE)
       return Err(error)
     }
 
@@ -365,25 +344,19 @@ export default function makeImportProjects({
             })
           )
 
-          return (await saveProject(newlyImportedProject)).map(
-            () => newlyImportedProject
-          )
+          return (await saveProject(newlyImportedProject)).map(() => newlyImportedProject)
         })
       )
     ).filter(
       // Only keep errors or Projects (ignore null cases which are noops)
-      (
-        project: Result<Project | null, Error>
-      ): project is Result<Project, Error> =>
+      (project: Result<Project | null, Error>): project is Result<Project, Error> =>
         project.is_err() || project.unwrap() !== null
     )
 
     if (insertions.some((project) => project.is_err())) {
       console.log(
         'importProjects use-case: some insertions have errors',
-        insertions
-          .filter((item) => item.is_err())
-          .map((item) => item.unwrap_err())
+        insertions.filter((item) => item.is_err()).map((item) => item.unwrap_err())
       )
       projects.unwrap_err()
       // Some projects failed to be inserted
@@ -403,9 +376,7 @@ export default function makeImportProjects({
 
     // For each project, add it to the user with the same email
     await Promise.all(
-      insertedProjects.map((project) =>
-        addProjectToUserWithEmail(project.id, project.email)
-      )
+      insertedProjects.map((project) => addProjectToUserWithEmail(project.id, project.email))
     )
 
     const unnotifiedProjects: number = insertedProjects.filter(
@@ -414,9 +385,7 @@ export default function makeImportProjects({
 
     // This will help the controller redirect to the project list with the proper filters
     const exampleInsertedProject: Project | undefined =
-      insertedProjects && insertedProjects.length
-        ? insertedProjects[0]
-        : undefined
+      insertedProjects && insertedProjects.length ? insertedProjects[0] : undefined
 
     const { appelOffreId, periodeId } = exampleInsertedProject || {
       appelOffreId: undefined,

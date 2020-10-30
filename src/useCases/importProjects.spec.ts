@@ -6,16 +6,11 @@ import { appelOffreRepo, appelsOffreStatic } from '../dataAccess/inMemory'
 import { makeProject, Project } from '../entities'
 import { UnwrapForTest, Ok } from '../types'
 import makeFakeProject from '../__tests__/fixtures/project'
-import makeImportProjects, {
-  ERREUR_AUCUNE_LIGNE,
-  ERREUR_FORMAT_LIGNE,
-} from './importProjects'
+import makeImportProjects, { ERREUR_AUCUNE_LIGNE, ERREUR_FORMAT_LIGNE } from './importProjects'
 import { ProjectImported, ProjectReimported } from '../modules/project/events'
 import { InMemoryEventStore } from '../infra/inMemory'
 
-const phonyAppelOffre = appelsOffreStatic.find(
-  (appelOffre) => appelOffre.id === 'Fessenheim'
-)
+const phonyAppelOffre = appelsOffreStatic.find((appelOffre) => appelOffre.id === 'Fessenheim')
 
 if (!phonyAppelOffre) {
   throw new Error("Impossible de trouver l'appel d'offre Fessenheim")
@@ -24,17 +19,12 @@ const phonyPeriodId = '2'
 const phonyNumeroCRE = '1'
 const phonyFamilleId = '1'
 const phonyNotifiedOnDate = '22/04/2020'
-const phonyEmail = 'email@address.com'
+const phonyEmail = 'Email@Address.com'
 
 const getColumnForField = (field: string) => {
-  const dataField = phonyAppelOffre.dataFields.find(
-    (item) => item.field === field
-  )
+  const dataField = phonyAppelOffre.dataFields.find((item) => item.field === field)
   if (!dataField)
-    console.log(
-      'importProjects test, getColumnForField missing column for field',
-      field
-    )
+    console.log('importProjects test, getColumnForField missing column for field', field)
   return dataField ? dataField.column : 'missing-' + field
 }
 
@@ -116,9 +106,7 @@ describe('importProjects use-case', () => {
         fournisseur: 'fournisseur',
         classe: 'Classé',
         motifsElimination: '',
-        notifiedOn: moment(phonyNotifiedOnDate, 'DD/MM/YYYY')
-          .toDate()
-          .getTime(),
+        notifiedOn: moment(phonyNotifiedOnDate, 'DD/MM/YYYY').toDate().getTime(),
         // special column for all the "other columns" that are not in the project schema
         details: {
           autreColonne: 'valeurAutreColonne',
@@ -126,9 +114,7 @@ describe('importProjects use-case', () => {
       }
 
       expect(saveProject).toHaveBeenCalledTimes(1)
-      expect(saveProject).toHaveBeenCalledWith(
-        expect.objectContaining(expectedLine)
-      )
+      expect(saveProject).toHaveBeenCalledWith(expect.objectContaining(expectedLine))
 
       // Make sure a history item has been created
       const newProject = saveProject.mock.calls[0][0]
@@ -140,26 +126,19 @@ describe('importProjects use-case', () => {
       expect(newProject.history[0].after).toEqual({})
       expect(newProject.history[0].type).toEqual('import')
       expect(newProject.history[0].userId).toEqual('userId')
-      expect(newProject.history[0].createdAt / 100).toBeCloseTo(
-        Date.now() / 100,
-        0
-      )
+      expect(newProject.history[0].createdAt / 100).toBeCloseTo(Date.now() / 100, 0)
     })
 
     it('should trigger a ProjectImported event', async () => {
       await waitForExpect(() => {
         expect(projectImportedHandler).toHaveBeenCalled()
         const projectImportedEvent = projectImportedHandler.mock.calls[0][0]
-        expect(projectImportedEvent.payload.appelOffreId).toEqual(
-          phonyAppelOffre.id
-        )
+        expect(projectImportedEvent.payload.appelOffreId).toEqual(phonyAppelOffre.id)
         expect(projectImportedEvent.payload.periodeId).toEqual(phonyPeriodId)
         expect(projectImportedEvent.payload.familleId).toEqual(phonyFamilleId)
         expect(projectImportedEvent.payload.numeroCRE).toEqual(phonyNumeroCRE)
         expect(projectImportedEvent.payload.importedBy).toEqual('userId')
-        expect(projectImportedEvent.payload.projectId).toEqual(
-          projectImportedEvent.aggregateId
-        )
+        expect(projectImportedEvent.payload.projectId).toEqual(projectImportedEvent.aggregateId)
       })
     })
 
@@ -170,10 +149,7 @@ describe('importProjects use-case', () => {
       expect(newProjectId).toBeDefined()
 
       expect(addProjectToUserWithEmail).toHaveBeenCalledTimes(1)
-      expect(addProjectToUserWithEmail).toHaveBeenCalledWith(
-        newProjectId,
-        phonyEmail
-      )
+      expect(addProjectToUserWithEmail).toHaveBeenCalledWith(newProjectId, phonyEmail.toLowerCase())
     })
   })
 
@@ -242,16 +218,11 @@ describe('importProjects use-case', () => {
       // Make sure a history event has been added
       expect(updatedProject.history).toHaveLength(1)
       if (!updatedProject.history || !updatedProject.history.length) return
-      expect(updatedProject.history[0].before.nomProjet).toEqual(
-        'Ancien nom projet'
-      )
+      expect(updatedProject.history[0].before.nomProjet).toEqual('Ancien nom projet')
       expect(updatedProject.history[0].after.nomProjet).toEqual('nomProjet')
       expect(updatedProject.history[0].type).toEqual('import')
       expect(updatedProject.history[0].userId).toEqual('userId')
-      expect(updatedProject.history[0].createdAt / 100).toBeCloseTo(
-        Date.now() / 100,
-        0
-      )
+      expect(updatedProject.history[0].createdAt / 100).toBeCloseTo(Date.now() / 100, 0)
     })
 
     it('should trigger a ProjectReimported event', async () => {
@@ -259,9 +230,7 @@ describe('importProjects use-case', () => {
         expect(projectReimportedHandler).toHaveBeenCalled()
         const projectReimportedEvent = projectReimportedHandler.mock.calls[0][0]
         expect(projectReimportedEvent.payload.importedBy).toEqual('userId')
-        expect(projectReimportedEvent.payload.projectId).toEqual(
-          existingProject.id
-        )
+        expect(projectReimportedEvent.payload.projectId).toEqual(existingProject.id)
         expect(projectReimportedEvent.aggregateId).toEqual(existingProject.id)
       })
     })
@@ -273,10 +242,7 @@ describe('importProjects use-case', () => {
       expect(newProjectId).toBeDefined()
 
       expect(addProjectToUserWithEmail).toHaveBeenCalledTimes(1)
-      expect(addProjectToUserWithEmail).toHaveBeenCalledWith(
-        newProjectId,
-        phonyEmail
-      )
+      expect(addProjectToUserWithEmail).toHaveBeenCalledWith(newProjectId, phonyEmail.toLowerCase())
     })
   })
 
