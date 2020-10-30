@@ -7,6 +7,8 @@ import makeSignup, {
 
 import makeLogin from './login'
 
+import makeFakeUser from '../__tests__/fixtures/user'
+
 import { UnwrapForTest } from '../types'
 import {
   userRepo,
@@ -14,7 +16,7 @@ import {
   projectAdmissionKeyRepo,
   resetDatabase,
 } from '../dataAccess/inMemory'
-import { makeCredentials, makeProjectAdmissionKey } from '../entities'
+import { makeCredentials, makeProjectAdmissionKey, makeUser } from '../entities'
 
 const login = makeLogin({
   userRepo,
@@ -31,7 +33,7 @@ const makePhonySignup = (overrides = {}) => ({
 })
 
 describe('signup use-case', () => {
-  describe.only('given the user is a porteur-projet', () => {
+  describe('given the user is a porteur-projet', () => {
     const addUserToProjectsWithEmail = jest.fn()
     const addUserToProject = jest.fn()
 
@@ -73,11 +75,7 @@ describe('signup use-case', () => {
             .map(makeProjectAdmissionKey)
             .filter((item) => item.is_ok())
             .map((item) => item.unwrap())
-            .map((item) =>
-              projectAdmissionKeyRepo
-                .save(item)
-                .then((res) => res.map(() => item))
-            )
+            .map((item) => projectAdmissionKeyRepo.save(item).then((res) => res.map(() => item)))
         )
       )
         .filter((item) => item.is_ok())
@@ -130,29 +128,17 @@ describe('signup use-case', () => {
       if (!updatedProjectAdmissionKey) return
       expect(updatedProjectAdmissionKey.lastUsedAt).toBeDefined()
       if (!updatedProjectAdmissionKey.lastUsedAt) return
-      expect(updatedProjectAdmissionKey.lastUsedAt / 1000).toBeCloseTo(
-        Date.now() / 1000,
-        0
-      )
+      expect(updatedProjectAdmissionKey.lastUsedAt / 1000).toBeCloseTo(Date.now() / 1000, 0)
     })
 
     it('should link user to all projects with same email', () => {
-      expect(addUserToProjectsWithEmail).toHaveBeenCalledWith(
-        newUserId,
-        invitationEmail
-      )
+      expect(addUserToProjectsWithEmail).toHaveBeenCalledWith(newUserId, invitationEmail)
     })
 
     it('should link user to all projects that have a project admission key with the same email', () => {
       expect(addUserToProject).toHaveBeenCalledTimes(2)
-      expect(addUserToProject).toHaveBeenCalledWith(
-        newUserId,
-        invitationProject1
-      )
-      expect(addUserToProject).toHaveBeenCalledWith(
-        newUserId,
-        invitationProject2
-      )
+      expect(addUserToProject).toHaveBeenCalledWith(newUserId, invitationProject1)
+      expect(addUserToProject).toHaveBeenCalledWith(newUserId, invitationProject2)
     })
   })
 
@@ -169,7 +155,7 @@ describe('signup use-case', () => {
     })
 
     const invitationEmail = 'one@address.com'
-    const overrideEmail = 'one@address.com'
+    const overrideEmail = 'Other@Address.com'
     const projectAdmissionKeyId = 'projectAdmissionKey1'
     let phonySignup
     let newUserId
@@ -191,11 +177,7 @@ describe('signup use-case', () => {
             .map(makeProjectAdmissionKey)
             .filter((item) => item.is_ok())
             .map((item) => item.unwrap())
-            .map((item) =>
-              projectAdmissionKeyRepo
-                .save(item)
-                .then((res) => res.map(() => item))
-            )
+            .map((item) => projectAdmissionKeyRepo.save(item).then((res) => res.map(() => item)))
         )
       )
         .filter((item) => item.is_ok())
@@ -221,24 +203,24 @@ describe('signup use-case', () => {
     })
 
     it('should create a new user with the email provided by the other', async () => {
+      const createdUsers = await userRepo.findAll({ id: newUserId })
+
+      expect(createdUsers).toHaveLength(1)
+
+      const createdUser = createdUsers[0]
+
+      expect(createdUser.email).toEqual(overrideEmail.toLowerCase())
+      expect(createdUser.projectAdmissionKey).toEqual(projectAdmissionKeyId)
+      expect(createdUser.fullName).toEqual(phonySignup.fullName)
+
       // Check if login works
       const userResult = await login({
-        email: overrideEmail,
+        email: overrideEmail.toLowerCase(),
         password: phonySignup.password,
       })
 
+      if (userResult.is_err()) console.log('userResult error', userResult.unwrap_err())
       expect(userResult.is_ok()).toBeTruthy()
-      if (!userResult.is_ok()) return
-
-      const user = userResult.unwrap()
-      expect(user).toEqual(
-        expect.objectContaining({
-          fullName: phonySignup.fullName,
-        })
-      )
-
-      // Link the user account to the projectAdmissionKey that was used
-      expect(user.projectAdmissionKey).toEqual(projectAdmissionKeyId)
     })
 
     it('should add the user to the dreal', async () => {
@@ -271,9 +253,7 @@ describe('signup use-case', () => {
       expect(signupResult.is_err())
       if (!signupResult.is_err()) return
 
-      expect(signupResult.unwrap_err()).toEqual(
-        new Error(PASSWORD_MISMATCH_ERROR)
-      )
+      expect(signupResult.unwrap_err()).toEqual(new Error(PASSWORD_MISMATCH_ERROR))
     })
   })
 
@@ -304,11 +284,7 @@ describe('signup use-case', () => {
             .map(makeProjectAdmissionKey)
             .filter((item) => item.is_ok())
             .map((item) => item.unwrap())
-            .map((item) =>
-              projectAdmissionKeyRepo
-                .save(item)
-                .then((res) => res.map(() => item))
-            )
+            .map((item) => projectAdmissionKeyRepo.save(item).then((res) => res.map(() => item)))
         )
       )
         .filter((item) => item.is_ok())
@@ -350,9 +326,7 @@ describe('signup use-case', () => {
       expect(signupResult.is_err()).toEqual(true)
       if (!signupResult.is_err()) return
 
-      expect(signupResult.unwrap_err()).toEqual(
-        new Error(MISSING_ADMISSION_KEY_ERROR)
-      )
+      expect(signupResult.unwrap_err()).toEqual(new Error(MISSING_ADMISSION_KEY_ERROR))
     })
   })
 
@@ -369,6 +343,16 @@ describe('signup use-case', () => {
       }),
     })
 
+    beforeAll(async () => {
+      await resetDatabase()
+
+      await credentialsRepo.insert(
+        UnwrapForTest(
+          makeCredentials({ email: 'existing@email.com', password: 'password', userId: '' })
+        )
+      )
+    })
+
     it('should return EMAIL_USED_ERROR', async () => {
       // Add a projectAdmissionKey
       const [projectAdmissionKey] = (
@@ -383,11 +367,7 @@ describe('signup use-case', () => {
             .map(makeProjectAdmissionKey)
             .filter((item) => item.is_ok())
             .map((item) => item.unwrap())
-            .map((item) =>
-              projectAdmissionKeyRepo
-                .save(item)
-                .then((res) => res.map(() => item))
-            )
+            .map((item) => projectAdmissionKeyRepo.save(item).then((res) => res.map(() => item)))
         )
       )
         .filter((item) => item.is_ok())
@@ -397,6 +377,7 @@ describe('signup use-case', () => {
       if (!projectAdmissionKey) return
 
       const phonySignup = makePhonySignup({
+        email: 'Existing@email.com',
         projectAdmissionKey: projectAdmissionKey.id,
       })
       const signupResult = await signup(phonySignup)

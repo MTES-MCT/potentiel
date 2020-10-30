@@ -54,7 +54,8 @@ export type OptionAsync<T> = Promise<Option<T>>
 
 export const UnwrapForTest = <T>(res: Result<T, Error>) => {
   if (res.is_ok()) return res.unwrap()
-  throw 'Result is error, cannot unwrap'
+  console.log('UnwrapForTest error', res.unwrap_err())
+  throw 'UnwrapForTest: Result is error, cannot unwrap'
 }
 
 interface Pagination {

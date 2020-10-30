@@ -7,12 +7,7 @@ import {
   makeProjectAdmissionKey,
   DREAL,
 } from '../entities'
-import {
-  UserRepo,
-  CredentialsRepo,
-  ProjectAdmissionKeyRepo,
-  ProjectRepo,
-} from '../dataAccess'
+import { UserRepo, CredentialsRepo, ProjectAdmissionKeyRepo, ProjectRepo } from '../dataAccess'
 import _ from 'lodash'
 
 import { ResultAsync, ErrorResult, Ok } from '../types'
@@ -34,8 +29,7 @@ interface CallUseCaseProps {
 }
 
 export const PASSWORD_MISMATCH_ERROR = 'Les mots de passe ne correspondent pas.'
-export const SYSTEM_ERROR =
-  'Votre compte ne peut pas être créé, merci de réessayer ultérieurement.'
+export const SYSTEM_ERROR = 'Votre compte ne peut pas être créé, merci de réessayer ultérieurement.'
 export const EMAIL_USED_ERROR = 'Email déjà utilisé pour un autre compte'
 export const PASSWORD_INVALID_ERROR = "Le mot de passe n'est pas suffisant"
 export const USER_INFO_ERROR = 'Nom manquant'
@@ -56,13 +50,7 @@ export default function makeSignup({
     password,
     confirmPassword,
   }: CallUseCaseProps): ResultAsync<User> {
-    // console.log(
-    //   'signup usecase',
-    //   projectAdmissionKey,
-    //   email,
-    //   fullName,
-    //   password
-    // )
+    // console.log('signup usecase', projectAdmissionKey, email, fullName, password)
 
     // Check if passwords match
     if (!password || password !== confirmPassword) {
@@ -70,24 +58,20 @@ export default function makeSignup({
     }
 
     // Check if project admission key is valid
-    const projectAdmissionKeyResult = await projectAdmissionKeyRepo.findById(
-      projectAdmissionKey
-    )
+    const projectAdmissionKeyResult = await projectAdmissionKeyRepo.findById(projectAdmissionKey)
 
     if (projectAdmissionKeyResult.is_none()) {
-      console.log(
-        'signup use-case: projectAdmissionKey was not found ',
-        projectAdmissionKey
-      )
+      console.log('signup use-case: projectAdmissionKey was not found ', projectAdmissionKey)
       return ErrorResult(MISSING_ADMISSION_KEY_ERROR)
     }
 
     const projectAdmissionKeyInstance = projectAdmissionKeyResult.unwrap()
     // If it's a dreal that has been invited, use the email coming from the props
     // Else use the email locaited in the projectAdmissionKey
-    const emailToBeUsed = projectAdmissionKeyInstance.dreal
+    const emailToBeUsed = (projectAdmissionKeyInstance.dreal
       ? email
       : projectAdmissionKeyInstance.email
+    ).toLowerCase()
 
     // Check if email is already used
     const existingCredential = await credentialsRepo.findByEmail(emailToBeUsed)
@@ -103,10 +87,7 @@ export default function makeSignup({
       projectAdmissionKey: projectAdmissionKeyInstance.id,
     })
     if (userResult.is_err()) {
-      console.log(
-        'signup use-case: makeUser est en erreur',
-        userResult.unwrap_err()
-      )
+      console.log('signup use-case: makeUser est en erreur', userResult.unwrap_err())
       return ErrorResult(USER_INFO_ERROR)
     }
     const user = userResult.unwrap()
@@ -164,9 +145,7 @@ export default function makeSignup({
     )
 
     if (projectAdmissionKeyUpdateRes.is_err()) {
-      console.log(
-        'signup use-case: impossible de mettre à jour projectAdmissionKey'
-      )
+      console.log('signup use-case: impossible de mettre à jour projectAdmissionKey')
     }
 
     if (projectAdmissionKeyInstance.dreal) {
@@ -178,25 +157,19 @@ export default function makeSignup({
       )
 
       if (addDrealResult.is_err()) {
-        console.log(
-          'signup usecase failed to add new user to dreal',
-          addDrealResult.unwrap_err()
-        )
+        console.log('signup usecase failed to add new user to dreal', addDrealResult.unwrap_err())
       }
     } else {
       // Porteur-projet user
       // User validated his email address by registering with it
 
       // Add all projects that have that email
-      await addUserToProjectsWithEmail(
-        user.id,
-        projectAdmissionKeyInstance.email
-      )
+      await addUserToProjectsWithEmail(user.id, projectAdmissionKeyInstance.email)
 
       // Add all projects that have a projectAdmissionKey for the same email
-      const projectAdmissionKeysWithSameEmail = await projectAdmissionKeyRepo.findAll(
-        { email: projectAdmissionKeyInstance.email }
-      )
+      const projectAdmissionKeysWithSameEmail = await projectAdmissionKeyRepo.findAll({
+        email: projectAdmissionKeyInstance.email,
+      })
       await Promise.all(
         projectAdmissionKeysWithSameEmail.map((projectAdmissionKey) =>
           projectAdmissionKey.projectId
