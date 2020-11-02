@@ -42,9 +42,9 @@ const postGarantiesFinancieres = async (request: HttpRequest) => {
     })
   }
 
-  const attestationExists: boolean = await pathExists(request.file.path)
+  const attestationExists: boolean = !!request.file && (await pathExists(request.file.path))
 
-  if (!request.file || !attestationExists) {
+  if (!attestationExists) {
     return Redirect(ROUTES.PROJECT_DETAILS(projectId), {
       error:
         "Vos garantieres financières n'ont pas pu être transmises. Merci de joindre l'attestation en pièce-jointe.",
