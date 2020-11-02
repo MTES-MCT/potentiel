@@ -40,9 +40,9 @@ const postDCR = async (request: HttpRequest) => {
     })
   }
 
-  const attestationExists: boolean = await pathExists(request.file.path)
+  const attestationExists: boolean = !!request.file && (await pathExists(request.file.path))
 
-  if (!request.file || !attestationExists) {
+  if (!attestationExists) {
     return Redirect(ROUTES.PROJECT_DETAILS(projectId), {
       error:
         "Votre demande de raccordement n'a pas pu être transmise. Merci de joindre l'attestation en pièce-jointe.",
