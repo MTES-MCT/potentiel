@@ -1,17 +1,21 @@
+import { resetDatabase } from '../../../../../dataAccess'
 import { ProjectNotificationDateSet, ProjectNotified } from '../../../../../modules/project/events'
-import { sequelize } from '../../../../../sequelize.config'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import models from '../../../models'
 import { onProjectNotificationDateSet } from './onProjectNotificationDateSet'
+import { v4 as uuid } from 'uuid'
 
 describe('project.onProjectNotificationDateSet', () => {
+  const projectId = uuid()
+  const fakeProjectId = uuid()
+
   const fakeProjects = [
     {
-      id: 'target',
+      id: projectId,
       notifiedOn: 0,
     },
     {
-      id: 'nottarget',
+      id: fakeProjectId,
       notifiedOn: 0,
     },
   ].map(makeFakeProject)
@@ -19,9 +23,7 @@ describe('project.onProjectNotificationDateSet', () => {
   const ProjectModel = models.Project
 
   beforeEach(async () => {
-    // Create the tables and remove all data
-    await sequelize.sync({ force: true })
-
+    await resetDatabase()
     await ProjectModel.bulkCreate(fakeProjects)
   })
 
@@ -29,16 +31,16 @@ describe('project.onProjectNotificationDateSet', () => {
     await onProjectNotificationDateSet(models)(
       new ProjectNotificationDateSet({
         payload: {
-          projectId: 'target',
+          projectId,
           notifiedOn: 12345,
         },
       })
     )
 
-    const updatedProject = await ProjectModel.findByPk('target')
+    const updatedProject = await ProjectModel.findByPk(projectId)
     expect(updatedProject.notifiedOn).toEqual(12345)
 
-    const nonUpdatedProject = await ProjectModel.findByPk('nottarget')
+    const nonUpdatedProject = await ProjectModel.findByPk(fakeProjectId)
     expect(nonUpdatedProject).toBeDefined()
     if (nonUpdatedProject) return
 
@@ -49,7 +51,7 @@ describe('project.onProjectNotificationDateSet', () => {
     await onProjectNotificationDateSet(models)(
       new ProjectNotified({
         payload: {
-          projectId: 'target',
+          projectId,
           notifiedOn: 56789,
           candidateEmail: '',
           candidateName: '',
@@ -60,10 +62,10 @@ describe('project.onProjectNotificationDateSet', () => {
       })
     )
 
-    const updatedProject = await ProjectModel.findByPk('target')
+    const updatedProject = await ProjectModel.findByPk(projectId)
     expect(updatedProject.notifiedOn).toEqual(56789)
 
-    const nonUpdatedProject = await ProjectModel.findByPk('nottarget')
+    const nonUpdatedProject = await ProjectModel.findByPk(fakeProjectId)
     expect(nonUpdatedProject).toBeDefined()
     if (nonUpdatedProject) return
 

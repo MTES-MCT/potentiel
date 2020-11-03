@@ -1,4 +1,5 @@
 import { okAsync } from '../../../core/utils'
+import { resetDatabase } from '../../../dataAccess'
 import { StoredEvent } from '../../../modules/eventStore'
 import {
   ProjectCertificateGenerated,
@@ -6,13 +7,13 @@ import {
   ProjectNotified,
 } from '../../../modules/project/events'
 import { OtherError } from '../../../modules/shared'
-import { sequelize } from '../../../sequelize.config'
 import models from '../models'
 import { SequelizeEventStore } from './sequelizeEventStore'
+import { v4 as uuid } from 'uuid'
 
 describe('SequelizeEventStore', () => {
   const sampleProjectGFRemovedPayload = {
-    projectId: 'projectWithGFRemoved',
+    projectId: uuid(),
     removedBy: '1',
   }
 
@@ -28,8 +29,7 @@ describe('SequelizeEventStore', () => {
 
   describe('subscribe', () => {
     beforeAll(async () => {
-      // Create the tables and remove all data
-      await sequelize.sync({ force: true })
+      await resetDatabase()
     })
 
     it('should listen to events of a specific type', (done) => {
@@ -56,11 +56,14 @@ describe('SequelizeEventStore', () => {
     it('should receive events in the order they were published', (done) => {
       const eventStore = new SequelizeEventStore(models)
 
+      const requestId1 = uuid()
+      const requestId2 = uuid()
+
       const receivedEventsIds: string[] = []
       eventStore.subscribe(ProjectGFRemoved.type, (event) => {
         receivedEventsIds.push(event.requestId || '')
         if (receivedEventsIds.length === 2) {
-          expect(receivedEventsIds).toEqual(['1', '2'])
+          expect(receivedEventsIds).toEqual([requestId1, requestId2])
           done()
         }
       })
@@ -68,14 +71,14 @@ describe('SequelizeEventStore', () => {
       eventStore.publish(
         new ProjectGFRemoved({
           payload: sampleProjectGFRemovedPayload,
-          requestId: '1',
+          requestId: requestId1,
         })
       )
 
       eventStore.publish(
         new ProjectGFRemoved({
           payload: sampleProjectGFRemovedPayload,
-          requestId: '2',
+          requestId: requestId2,
         })
       )
     })
@@ -107,14 +110,16 @@ describe('SequelizeEventStore', () => {
   describe('publish', () => {
     const eventStore = new SequelizeEventStore(models)
 
+    const requestId = uuid()
+
     const event = new ProjectGFRemoved({
       payload: sampleProjectGFRemovedPayload,
-      requestId: 'A',
+      requestId: requestId,
     })
     let caughtEvent: StoredEvent | undefined
 
     beforeAll(async (done) => {
-      await sequelize.sync({ force: true })
+      await resetDatabase()
 
       eventStore.subscribe(ProjectGFRemoved.type, (event) => {
         caughtEvent = event
@@ -139,7 +144,7 @@ describe('SequelizeEventStore', () => {
       const persistedEvent = allEvents[0]
       expect(persistedEvent.type).toEqual(ProjectGFRemoved.type)
       expect(persistedEvent.payload).toEqual(sampleProjectGFRemovedPayload)
-      expect(persistedEvent.requestId).toEqual('A')
+      expect(persistedEvent.requestId).toEqual(requestId)
       expect(persistedEvent.aggregateId).toEqual(sampleProjectGFRemovedPayload.projectId)
       expect(persistedEvent.occurredAt).toEqual(event.occurredAt)
       expect(persistedEvent.version).toEqual(event.getVersion().toString())
@@ -149,8 +154,7 @@ describe('SequelizeEventStore', () => {
   describe('transaction', () => {
     describe('when the transaction function throws', () => {
       beforeAll(async () => {
-        // Create the tables and remove all data
-        await sequelize.sync({ force: true })
+        await resetDatabase()
       })
 
       it('should return a Error Result of type OtherError', async () => {
@@ -169,8 +173,7 @@ describe('SequelizeEventStore', () => {
 
     describe('ordering', () => {
       beforeAll(async () => {
-        // Create the tables and remove all data
-        await sequelize.sync({ force: true })
+        await resetDatabase()
       })
 
       it('should be executed entirely before any other transaction is started', async (done) => {
@@ -224,14 +227,17 @@ describe('SequelizeEventStore', () => {
       })
 
       it('should have its published events before other publish commands', async (done) => {
-        await sequelize.sync({ force: true })
+        await resetDatabase()
+
+        const requestId1 = uuid()
+        const requestId2 = uuid()
 
         const eventStore = new SequelizeEventStore(models)
 
         let firstRequest: string | undefined
         eventStore.subscribe(ProjectGFRemoved.type, (event) => {
           if (!firstRequest) firstRequest = event.requestId
-          expect(firstRequest).toEqual('A')
+          expect(firstRequest).toEqual(requestId1)
           done()
         })
 
@@ -243,14 +249,14 @@ describe('SequelizeEventStore', () => {
           await publish(
             new ProjectGFRemoved({
               payload: sampleProjectGFRemovedPayload,
-              requestId: 'A',
+              requestId: requestId1,
             })
           )
         })
         eventStore.publish(
           new ProjectGFRemoved({
             payload: sampleProjectGFRemovedPayload,
-            requestId: 'B',
+            requestId: requestId2,
           })
         )
       })
@@ -259,12 +265,14 @@ describe('SequelizeEventStore', () => {
         const eventStore = new SequelizeEventStore(models)
 
         const chronology: string[] = []
+        const requestId1 = uuid()
+        const requestId2 = uuid()
 
         let eventCount = 0
         eventStore.subscribe(ProjectGFRemoved.type, (event) => {
           chronology.push(event.requestId || '')
           if (++eventCount === 2) {
-            expect(chronology).toEqual(['transactionDone', 'A', 'B'])
+            expect(chronology).toEqual(['transactionDone', requestId1, requestId2])
             done()
           }
         })
@@ -273,14 +281,14 @@ describe('SequelizeEventStore', () => {
           publish(
             new ProjectGFRemoved({
               payload: sampleProjectGFRemovedPayload,
-              requestId: 'A',
+              requestId: requestId1,
             })
           )
 
           publish(
             new ProjectGFRemoved({
               payload: sampleProjectGFRemovedPayload,
-              requestId: 'B',
+              requestId: requestId2,
             })
           )
 
@@ -295,13 +303,15 @@ describe('SequelizeEventStore', () => {
     })
 
     describe('publish', () => {
+      const requestId = uuid()
+
       const event = new ProjectGFRemoved({
         payload: sampleProjectGFRemovedPayload,
-        requestId: 'A',
+        requestId,
       })
+
       beforeAll(async () => {
-        // Create the tables and remove all data
-        await sequelize.sync({ force: true })
+        await resetDatabase()
 
         const eventStore = new SequelizeEventStore(models)
 
@@ -319,7 +329,7 @@ describe('SequelizeEventStore', () => {
         const persistedEvent = allEvents[0]
         expect(persistedEvent.type).toEqual(ProjectGFRemoved.type)
         expect(persistedEvent.payload).toEqual(sampleProjectGFRemovedPayload)
-        expect(persistedEvent.requestId).toEqual('A')
+        expect(persistedEvent.requestId).toEqual(requestId)
         expect(persistedEvent.aggregateId).toEqual(sampleProjectGFRemovedPayload.projectId)
         expect(persistedEvent.occurredAt).toEqual(event.occurredAt)
         expect(persistedEvent.version).toEqual(event.getVersion().toString())
@@ -329,17 +339,17 @@ describe('SequelizeEventStore', () => {
     describe('loadHistory', () => {
       it('should access history from before the transaction start', async () => {
         const eventStore = new SequelizeEventStore(models)
-        await sequelize.sync({ force: true })
+        await resetDatabase()
 
         const EventModel = models.EventStore
 
         await EventModel.create({
-          id: '',
+          id: uuid(),
           type: 'ProjectNotified',
           version: '1',
           payload: {},
           occurredAt: new Date(),
-          requestId: 'request1',
+          requestId: uuid(),
           aggregateId: 'aggregate1',
         })
 
@@ -353,7 +363,7 @@ describe('SequelizeEventStore', () => {
 
       it('should filter history by specific eventType', async () => {
         const eventStore = new SequelizeEventStore(models)
-        await sequelize.sync({ force: true })
+        await resetDatabase()
 
         await eventStore.publish(
           new ProjectGFRemoved({
@@ -382,7 +392,7 @@ describe('SequelizeEventStore', () => {
 
       it('should filter history by multiple eventTypes', async () => {
         const eventStore = new SequelizeEventStore(models)
-        await sequelize.sync({ force: true })
+        await resetDatabase()
 
         await eventStore.publish(
           new ProjectGFRemoved({
@@ -401,9 +411,9 @@ describe('SequelizeEventStore', () => {
             payload: {
               periodeId: 'A',
               appelOffreId: 'B',
-              projectId: '',
+              projectId: uuid(),
               candidateEmail: '',
-              certificateFileId: '',
+              certificateFileId: uuid(),
             },
           })
         )
@@ -428,110 +438,127 @@ describe('SequelizeEventStore', () => {
       })
 
       it('should filter history by specific requestId', async () => {
+        await resetDatabase()
         const eventStore = new SequelizeEventStore(models)
-        await sequelize.sync({ force: true })
+
+        const requestId = uuid()
 
         await eventStore.publish(
           new ProjectGFRemoved({
             payload: sampleProjectGFRemovedPayload,
-            requestId: '1',
+            requestId,
           })
         )
 
         await eventStore.publish(
           new ProjectGFRemoved({
             payload: sampleProjectGFRemovedPayload,
-            requestId: '2',
+            requestId: uuid(),
           })
         )
 
         let priorEvents: StoredEvent[] = []
 
         await eventStore.transaction(async ({ loadHistory }) => {
-          await loadHistory({ requestId: '1' }).andThen((_priorEvents) => {
+          await loadHistory({ requestId: requestId }).andThen((_priorEvents) => {
             priorEvents = _priorEvents
             return okAsync(null)
           })
         })
         expect(priorEvents).toHaveLength(1)
-        expect(priorEvents[0].requestId).toEqual('1')
+        expect(priorEvents[0].requestId).toEqual(requestId)
       })
 
       it('should filter history by specific aggregateId', async () => {
         const eventStore = new SequelizeEventStore(models)
-        await sequelize.sync({ force: true })
+        await resetDatabase()
+
+        const requestId1 = uuid()
+        const requestId2 = uuid()
+
+        const projectId = uuid()
 
         await eventStore.publish(
           new ProjectGFRemoved({
-            payload: { ...sampleProjectGFRemovedPayload, projectId: '1' },
-            requestId: 'A',
+            payload: { ...sampleProjectGFRemovedPayload, projectId },
+            requestId: requestId1,
           })
         )
 
         await eventStore.publish(
           new ProjectGFRemoved({
-            payload: { ...sampleProjectGFRemovedPayload, projectId: '1' },
-            requestId: 'B',
+            payload: { ...sampleProjectGFRemovedPayload, projectId },
+            requestId: requestId2,
           })
         )
 
         await eventStore.publish(
           new ProjectGFRemoved({
-            payload: { ...sampleProjectGFRemovedPayload, projectId: '2' },
-            requestId: 'C',
+            payload: { ...sampleProjectGFRemovedPayload, projectId: uuid() },
+            requestId: uuid(),
           })
         )
 
         let priorEvents: StoredEvent[] = []
 
         await eventStore.transaction(async ({ loadHistory }) => {
-          await loadHistory({ aggregateId: '1' }).andThen((_priorEvents) => {
+          await loadHistory({ aggregateId: projectId }).andThen((_priorEvents) => {
             priorEvents = _priorEvents
             return okAsync(null)
           })
         })
+
         expect(priorEvents).toHaveLength(2)
         expect(
-          priorEvents.every((event) => !!event.requestId && ['A', 'B'].includes(event.requestId))
+          priorEvents.every(
+            (event) => !!event.requestId && [requestId1, requestId2].includes(event.requestId)
+          )
         ).toEqual(true)
       })
 
       it('should filter history by multiple aggregateId', async () => {
         const eventStore = new SequelizeEventStore(models)
-        await sequelize.sync({ force: true })
+        await resetDatabase()
+
+        const requestId1 = uuid()
+        const requestId2 = uuid()
+        const requestId3 = uuid()
+
+        const projectId1 = uuid()
+        const projectId2 = uuid()
 
         await eventStore.publish(
           new ProjectGFRemoved({
-            payload: { ...sampleProjectGFRemovedPayload, projectId: '1' },
-            requestId: 'A',
+            payload: { ...sampleProjectGFRemovedPayload, projectId: projectId1 },
+            requestId: requestId1,
           })
         )
 
         await eventStore.publish(
           new ProjectGFRemoved({
-            payload: { ...sampleProjectGFRemovedPayload, projectId: '1' },
-            requestId: 'B',
+            payload: { ...sampleProjectGFRemovedPayload, projectId: projectId1 },
+            requestId: requestId2,
           })
         )
 
         await eventStore.publish(
           new ProjectGFRemoved({
-            payload: { ...sampleProjectGFRemovedPayload, projectId: '2' },
-            requestId: 'C',
+            payload: { ...sampleProjectGFRemovedPayload, projectId: projectId2 },
+            requestId: requestId3,
           })
         )
 
         await eventStore.publish(
           new ProjectGFRemoved({
-            payload: { ...sampleProjectGFRemovedPayload, projectId: '3' },
-            requestId: 'D',
+            payload: { ...sampleProjectGFRemovedPayload, projectId: uuid() },
+            requestId: uuid(),
           })
         )
 
         let priorEvents: StoredEvent[] = []
 
         await eventStore.transaction(async ({ loadHistory }) => {
-          await loadHistory({ aggregateId: ['1', '2'] }).andThen((_priorEvents) => {
+          await loadHistory({ aggregateId: [projectId1, projectId2] }).andThen((_priorEvents) => {
             priorEvents = _priorEvents
             return okAsync(null)
           })
@@ -539,14 +566,15 @@ describe('SequelizeEventStore', () => {
         expect(priorEvents).toHaveLength(3)
         expect(
           priorEvents.every(
-            (event) => !!event.requestId && ['A', 'B', 'C'].includes(event.requestId)
+            (event) =>
+              !!event.requestId && [requestId1, requestId2, requestId3].includes(event.requestId)
           )
         ).toEqual(true)
       })
 
       it('should filter history by payload filter', async () => {
         const eventStore = new SequelizeEventStore(models)
-        await sequelize.sync({ force: true })
+        await resetDatabase()
 
         await eventStore.publish(
           new ProjectGFRemoved({

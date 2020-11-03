@@ -1,17 +1,21 @@
+import { resetDatabase } from '../../../../../dataAccess'
 import { ProjectDCRDueDateSet } from '../../../../../modules/project/events'
-import { sequelize } from '../../../../../sequelize.config'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import models from '../../../models'
 import { onProjectDCRDueDateSet } from './onProjectDCRDueDateSet'
+import { v4 as uuid } from 'uuid'
 
 describe('project.onProjectDCRDueDateSet', () => {
+  const projectId = uuid()
+  const fakeProjectId = uuid()
+
   const fakeProjects = [
     {
-      id: 'target',
+      id: projectId,
       dcrDueOn: 0,
     },
     {
-      id: 'nottarget',
+      id: fakeProjectId,
       dcrDueOn: 0,
     },
   ].map(makeFakeProject)
@@ -19,9 +23,7 @@ describe('project.onProjectDCRDueDateSet', () => {
   const ProjectModel = models.Project
 
   beforeAll(async () => {
-    // Create the tables and remove all data
-    await sequelize.sync({ force: true })
-
+    await resetDatabase()
     await ProjectModel.bulkCreate(fakeProjects)
   })
 
@@ -29,16 +31,16 @@ describe('project.onProjectDCRDueDateSet', () => {
     await onProjectDCRDueDateSet(models)(
       new ProjectDCRDueDateSet({
         payload: {
-          projectId: 'target',
+          projectId: projectId,
           dcrDueOn: 12345,
         },
       })
     )
 
-    const updatedProject = await ProjectModel.findByPk('target')
+    const updatedProject = await ProjectModel.findByPk(projectId)
     expect(updatedProject.dcrDueOn).toEqual(12345)
 
-    const nonUpdatedProject = await ProjectModel.findByPk('nottarget')
+    const nonUpdatedProject = await ProjectModel.findByPk(fakeProjectId)
     expect(nonUpdatedProject).toBeDefined()
     if (nonUpdatedProject) return
 

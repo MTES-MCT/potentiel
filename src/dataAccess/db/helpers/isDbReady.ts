@@ -1,3 +1,3 @@
-export default function isDbReady({ sequelize }) {
-  return sequelize.authenticate()
+export default function isDbReady({ sequelizeInstance }) {
+  return sequelizeInstance.authenticate()
 }

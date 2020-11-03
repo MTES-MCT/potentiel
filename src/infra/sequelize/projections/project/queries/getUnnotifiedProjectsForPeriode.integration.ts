@@ -1,7 +1,8 @@
 import models from '../../../models'
-import { sequelize } from '../../../../../sequelize.config'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import { makeGetUnnotifiedProjectsForPeriode } from './getUnnotifiedProjectsForPeriode'
+import { resetDatabase } from '../../../../../dataAccess'
+import { v4 as uuid } from 'uuid'
 
 describe('Sequelize getUnnotifiedProjectsForPeriode', () => {
   const getUnnotifiedProjectsForPeriode = makeGetUnnotifiedProjectsForPeriode(models)
@@ -9,9 +10,11 @@ describe('Sequelize getUnnotifiedProjectsForPeriode', () => {
   const appelOffreId = 'appelOffre1'
   const periodeId = 'periode1'
 
+  const projectId = uuid()
+
   const fakeProjects = [
     {
-      id: 'target',
+      id: projectId,
       email: 'candidate@test.test',
       nomRepresentantLegal: 'john doe',
       appelOffreId: 'appelOffre1',
@@ -20,19 +23,19 @@ describe('Sequelize getUnnotifiedProjectsForPeriode', () => {
       notifiedOn: 0,
     },
     {
-      id: 'notified',
+      id: uuid(), // notified
       appelOffreId: 'appelOffre1',
       periodeId: 'periode1',
       notifiedOn: 1,
     },
     {
-      id: 'otherPeriode',
+      id: uuid(), // otherPeriode
       appelOffreId: 'appelOffre1',
       periodeId: 'periode2',
       notifiedOn: 0,
     },
     {
-      id: 'otherAppel',
+      id: uuid(), // otherAppel
       appelOffreId: 'appelOffre2',
       periodeId: 'periode1',
       notifiedOn: 0,
@@ -40,8 +43,7 @@ describe('Sequelize getUnnotifiedProjectsForPeriode', () => {
   ].map(makeFakeProject)
 
   beforeAll(async () => {
-    // Create the tables and remove all data
-    await sequelize.sync({ force: true })
+    await resetDatabase()
 
     const ProjectModel = models.Project
     await ProjectModel.bulkCreate(fakeProjects)
@@ -59,7 +61,7 @@ describe('Sequelize getUnnotifiedProjectsForPeriode', () => {
     expect(projects).toEqual(
       expect.arrayContaining([
         {
-          projectId: 'target',
+          projectId,
           candidateEmail: 'candidate@test.test',
           candidateName: 'john doe',
           familleId: 'famille1',

@@ -2,15 +2,11 @@ import { v4 as uuid } from 'uuid'
 import { Pagination } from '../../types'
 import makeFakeProject from '../../__tests__/fixtures/project'
 import makeFakeUser from '../../__tests__/fixtures/user'
-import { initDatabase, projectRepo, resetDatabase, userRepo } from './'
+import { projectRepo, resetDatabase, userRepo } from './'
 
 const defaultPagination = { page: 0, pageSize: 2 } as Pagination
 
 describe('projectRepo sequelize', () => {
-  beforeAll(async () => {
-    await initDatabase()
-  })
-
   beforeEach(async () => {
     await resetDatabase()
   })
@@ -25,6 +21,7 @@ describe('projectRepo sequelize', () => {
           periodeId: '1',
           familleId: '2',
         })
+
         await projectRepo.save(project)
 
         const foundProject = await projectRepo.findById(projectId)
@@ -32,15 +29,19 @@ describe('projectRepo sequelize', () => {
         if (!foundProject) return
         expect(foundProject).toEqual(expect.objectContaining(project))
 
-        expect(foundProject.appelOffre).toBeDefined()
-        if (!foundProject.appelOffre) return
-        expect(foundProject.appelOffre.id).toEqual('Fessenheim')
-        expect(foundProject.appelOffre.periode).toBeDefined()
-        if (!foundProject.appelOffre.periode) return
-        expect(foundProject.appelOffre.periode.id).toEqual('1')
-        expect(foundProject.famille).toBeDefined()
-        if (!foundProject.famille) return
-        expect(foundProject.famille.id).toEqual('2')
+        const { famille, appelOffre } = foundProject
+        expect(appelOffre).toBeDefined()
+        if (!appelOffre) return
+
+        expect(appelOffre.id).toEqual('Fessenheim')
+        expect(appelOffre.periode).toBeDefined()
+        if (!appelOffre.periode) return
+
+        expect(appelOffre.periode.id).toEqual('1')
+        expect(famille).toBeDefined()
+        if (!famille) return
+
+        expect(famille.id).toEqual('2')
       })
     })
 

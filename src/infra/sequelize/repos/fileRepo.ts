@@ -43,7 +43,7 @@ export class FileRepo implements Repository<File> {
     return ResultAsync.fromPromise<null, DomainError>(
       FileModel.create(this.toPersistence(aggregate)),
       (e: any) => {
-        console.log('fileRepo.save error', e)
+        console.error('fileRepo.save error', e)
         return new InfraNotAvailableError()
       }
     )
@@ -56,7 +56,7 @@ export class FileRepo implements Repository<File> {
     return ResultAsync.fromPromise<File, DomainError>(
       FileModel.findByPk(id.toString()),
       (e: any) => {
-        console.log('fileRepo.load error', e)
+        console.error('fileRepo.load error', e)
         return new InfraNotAvailableError()
       }
     ).andThen((dbResult) => (dbResult ? this.toDomain(dbResult) : err(new EntityNotFoundError())))

@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=potadmindb
+      - POSTGRES_PASSWORD=localpwd
+      - POSTGRES_DB=potentiel
+    restart: always
+    ports:
+      - 5432:5432

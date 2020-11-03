@@ -29,8 +29,10 @@ const deserialize = (item) => ({
 })
 const serialize = (item) => item
 
-export default function makeProjectAdmissionKeyRepo({ sequelize }): ProjectAdmissionKeyRepo {
-  const ProjectAdmissionKeyModel = sequelize.define('projectAdmissionKey', {
+export default function makeProjectAdmissionKeyRepo({
+  sequelizeInstance,
+}): ProjectAdmissionKeyRepo {
+  const ProjectAdmissionKeyModel = sequelizeInstance.define('projectAdmissionKey', {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
@@ -66,7 +68,7 @@ export default function makeProjectAdmissionKeyRepo({ sequelize }): ProjectAdmis
     },
   })
 
-  const _isDbReady = isDbReady({ sequelize })
+  const _isDbReady = isDbReady({ sequelizeInstance })
 
   return Object.freeze({
     findById,
