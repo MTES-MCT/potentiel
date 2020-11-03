@@ -37,14 +37,14 @@ const getModeleMiseEnDemeure = async (request: HttpRequest) => {
       '../',
       'views',
       'template',
-      'Modèle mise en demeure.docx'
+      'Modèle mise en demeure v2.docx'
     )
 
     await fillDocxTemplate({
       templatePath,
       outputPath: filepath,
       variables: {
-        dreal: project.regionProjet.toUpperCase(),
+        dreal: project.regionProjet,
         dateMiseEnDemeure: formatDate(Date.now()),
         contactDreal: request.user.email,
         referenceProjet: makeProjectIdentifier(project),
