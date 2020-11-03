@@ -19,7 +19,7 @@ const postInviteDreal = async (request: HttpRequest) => {
   }
 
   const result = await inviteDreal({
-    email,
+    email: email.toLowerCase(),
     region,
     user,
   })

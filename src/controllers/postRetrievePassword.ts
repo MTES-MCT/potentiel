@@ -12,7 +12,7 @@ const postRetrievePassword = async (request: HttpRequest) => {
     })
   }
   const result = await retrievePassword({
-    email,
+    email: email.toLowerCase(),
   })
   return result.match({
     ok: () =>
