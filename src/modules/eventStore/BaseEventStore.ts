@@ -58,7 +58,6 @@ export abstract class BaseEventStore implements EventStore {
   }
 
   private _emitEvent(event: StoredEvent) {
-    console.log('Event: publish [' + event.type + ']', event.aggregateId)
     this.eventEmitter.emit(event.type, event)
   }
 

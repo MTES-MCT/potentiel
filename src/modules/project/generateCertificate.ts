@@ -71,7 +71,6 @@ export const makeGenerateCertificate = (deps: GenerateCertificateDeps): Generate
       return File.create({
         filename: makeCertificateFilename(project),
         forProject: projectId,
-        createdBy: '',
         designation: 'attestation-designation',
       }).asyncAndThen((file: File) => {
         return deps.fileService

@@ -1,8 +1,9 @@
 import models from '../../../models'
-import { sequelize } from '../../../../../sequelize.config'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import { onProjectDataCorrected } from './onProjectDataCorrected'
 import { ProjectDataCorrected } from '../../../../../modules/project/events'
+import { resetDatabase } from '../../../../../dataAccess'
+import { v4 as uuid } from 'uuid'
 
 const newValues = {
   numeroCRE: 'numeroCRE1',
@@ -28,9 +29,11 @@ const newValues = {
 }
 
 describe('project.onProjectDataCorrected', () => {
+  const projectId = uuid()
+
   const fakeProjects = [
     {
-      id: 'target',
+      id: projectId,
       classe: 'Eliminé',
     },
   ].map(makeFakeProject)
@@ -38,9 +41,7 @@ describe('project.onProjectDataCorrected', () => {
   const ProjectModel = models.Project
 
   beforeAll(async () => {
-    // Create the tables and remove all data
-    await sequelize.sync({ force: true })
-
+    await resetDatabase()
     await ProjectModel.bulkCreate(fakeProjects)
   })
 
@@ -48,19 +49,15 @@ describe('project.onProjectDataCorrected', () => {
     await onProjectDataCorrected(models)(
       new ProjectDataCorrected({
         payload: {
-          projectId: 'target',
+          projectId,
           notifiedOn: 1,
           correctedData: { ...newValues, isClasse: true },
         },
       })
     )
 
-    const updatedProject = await ProjectModel.findByPk('target')
+    const updatedProject = await ProjectModel.findByPk(projectId)
     for (const [key, value] of Object.entries(newValues)) {
-      console.log(
-        'Checking key ' + key + ' for value ' + value + ' updatedProject[key] = ',
-        updatedProject[key]
-      )
       expect(updatedProject[key]).toEqual(value)
     }
   })

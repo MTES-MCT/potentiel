@@ -1,20 +1,27 @@
+import { resetDatabase } from '../../../../../dataAccess'
 import {
   ProjectCertificateGenerated,
   ProjectCertificateUpdated,
 } from '../../../../../modules/project/events'
-import { sequelize } from '../../../../../sequelize.config'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import models from '../../../models'
 import { onProjectCertificate } from './onProjectCertificate'
+import { v4 as uuid } from 'uuid'
 
 describe('project.onProjectCertificate', () => {
+  const projectId = uuid()
+  const fakeProjectId = uuid()
+
+  const certificateFile1 = uuid()
+  const certificateFile2 = uuid()
+
   const fakeProjects = [
     {
-      id: 'target',
+      id: projectId,
       certificateFileId: null,
     },
     {
-      id: 'nottarget',
+      id: fakeProjectId,
       certificateFileId: null,
     },
   ].map(makeFakeProject)
@@ -23,12 +30,11 @@ describe('project.onProjectCertificate', () => {
   const FileModel = models.File
 
   beforeEach(async () => {
-    // Create the tables and remove all data
-    await sequelize.sync({ force: true })
+    await resetDatabase()
 
     await ProjectModel.bulkCreate(fakeProjects)
     await FileModel.create({
-      id: 'certificateFile1',
+      id: certificateFile1,
       filename: '',
       designation: '',
     })
@@ -38,8 +44,8 @@ describe('project.onProjectCertificate', () => {
     await onProjectCertificate(models)(
       new ProjectCertificateGenerated({
         payload: {
-          certificateFileId: 'certificateFile1',
-          projectId: 'target',
+          certificateFileId: certificateFile2,
+          projectId: projectId,
           candidateEmail: '',
           periodeId: '',
           appelOffreId: '',
@@ -47,10 +53,10 @@ describe('project.onProjectCertificate', () => {
       })
     )
 
-    const updatedProject = await ProjectModel.findByPk('target')
-    expect(updatedProject.certificateFileId).toEqual('certificateFile1')
+    const updatedProject = await ProjectModel.findByPk(projectId)
+    expect(updatedProject.certificateFileId).toEqual(certificateFile2)
 
-    const nonUpdatedProject = await ProjectModel.findByPk('nottarget')
+    const nonUpdatedProject = await ProjectModel.findByPk(fakeProjectId)
     expect(nonUpdatedProject).toBeDefined()
     if (nonUpdatedProject) return
 
@@ -61,16 +67,16 @@ describe('project.onProjectCertificate', () => {
     await onProjectCertificate(models)(
       new ProjectCertificateUpdated({
         payload: {
-          certificateFileId: 'certificateFile1',
-          projectId: 'target',
+          certificateFileId: certificateFile1,
+          projectId: projectId,
         },
       })
     )
 
-    const updatedProject = await ProjectModel.findByPk('target')
-    expect(updatedProject.certificateFileId).toEqual('certificateFile1')
+    const updatedProject = await ProjectModel.findByPk(projectId)
+    expect(updatedProject.certificateFileId).toEqual(certificateFile1)
 
-    const nonUpdatedProject = await ProjectModel.findByPk('nottarget')
+    const nonUpdatedProject = await ProjectModel.findByPk(fakeProjectId)
     expect(nonUpdatedProject).toBeDefined()
     if (nonUpdatedProject) return
 
