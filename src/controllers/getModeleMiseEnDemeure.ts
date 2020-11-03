@@ -1,25 +1,13 @@
-import { SuccessFile, SystemError, NotFoundError } from '../helpers/responses'
-import { fillDocxTemplate } from '../helpers/fillDocxTemplate'
-import sanitize from 'sanitize-filename'
 import moment from 'moment'
-import { makeProjectFilePath } from '../helpers/makeProjectFilePath'
+import os from 'os'
+import path from 'path'
+import sanitize from 'sanitize-filename'
+import { makeProjectIdentifier } from '../entities/project'
+import { fillDocxTemplate } from '../helpers/fillDocxTemplate'
 import { formatDate } from '../helpers/formatDate'
+import { NotFoundError, SuccessFile, SystemError } from '../helpers/responses'
 import { HttpRequest } from '../types'
 import { getUserProject } from '../useCases'
-import { makeProjectIdentifier } from '../entities/project'
-
-import fs from 'fs'
-import util from 'util'
-import path from 'path'
-import { pathExists } from '../core/utils'
-
-const makeDir = util.promisify(fs.mkdir)
-
-const makeDirIfNecessary = async (dirpath) => {
-  const dirExists: boolean = await pathExists(dirpath)
-  if (!dirExists) await makeDir(dirpath)
-  return dirpath
-}
 
 const getModeleMiseEnDemeure = async (request: HttpRequest) => {
   console.log('Call to getModeleMiseEnDemeure received', request.query)
@@ -39,26 +27,24 @@ const getModeleMiseEnDemeure = async (request: HttpRequest) => {
       return NotFoundError('Impossible de générer le fichier demandé.')
     }
 
-    const { filepath } = makeProjectFilePath(
-      project.id,
+    const filepath = path.join(
+      os.tmpdir(),
       sanitize(`Mise en demeure Garanties Financières - ${project.nomProjet}.docx`)
     )
-
-    await makeDirIfNecessary(path.dirname(filepath))
 
     const templatePath = path.resolve(
       __dirname,
       '../',
       'views',
       'template',
-      'Modèle mise en demeure.docx'
+      'Modèle mise en demeure v2.docx'
     )
 
     await fillDocxTemplate({
       templatePath,
       outputPath: filepath,
       variables: {
-        dreal: project.regionProjet.toUpperCase(),
+        dreal: project.regionProjet,
         dateMiseEnDemeure: formatDate(Date.now()),
         contactDreal: request.user.email,
         referenceProjet: makeProjectIdentifier(project),
