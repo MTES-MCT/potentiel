@@ -9,8 +9,8 @@ import isDbReady from './helpers/isDbReady'
 const deserialize = (item) => item
 const serialize = (item) => item
 
-export default function makePasswordRetrievalRepo({ sequelize }): PasswordRetrievalRepo {
-  const PasswordRetrievalModel = sequelize.define('passwordRetrieval', {
+export default function makePasswordRetrievalRepo({ sequelizeInstance }): PasswordRetrievalRepo {
+  const PasswordRetrievalModel = sequelizeInstance.define('passwordRetrieval', {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
@@ -25,7 +25,7 @@ export default function makePasswordRetrievalRepo({ sequelize }): PasswordRetrie
     },
   })
 
-  const _isDbReady = isDbReady({ sequelize })
+  const _isDbReady = isDbReady({ sequelizeInstance })
 
   return Object.freeze({
     findById,
