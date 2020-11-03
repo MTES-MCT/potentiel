@@ -350,10 +350,7 @@ module.exports = {
         type: Sequelize.DataTypes.UUID,
         allowNull: true,
       },
-      createdAt: {
-        type: Sequelize.DataTypes.BIGINT,
-        allowNull: false,
-      },
+      createdAt: Sequelize.DataTypes.DATE,
       updatedAt: Sequelize.DATE,
     })
     await queryInterface.createTable('UserProjects', {

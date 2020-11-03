@@ -5,6 +5,7 @@ import buildMakeEntity from '../helpers/buildMakeEntity'
 import {
   Boolean,
   Literal,
+  Null,
   Number,
   Partial as SchemaPartial,
   Record as SchemaRecord,

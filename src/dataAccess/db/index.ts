@@ -1,5 +1,4 @@
-import { Sequelize } from 'sequelize'
-import path from 'path'
+import { sequelizeInstance } from '../../sequelize.config'
 
 import { makeCredentialsRepo } from './credentials'
 import { makeUserRepo } from './user'
@@ -9,45 +8,37 @@ import { makeModificationRequestRepo } from './modificationRequest'
 import { makePasswordRetrievalRepo } from './passwordRetrieval'
 
 import { appelOffreRepo } from '../inMemory/appelOffre'
-
-export const sequelize: any =
-  process.env.NODE_ENV === 'test'
-    ? new Sequelize('sqlite::memory:', { logging: false })
-    : new Sequelize({
-        dialect: 'sqlite',
-        storage: path.resolve(process.cwd(), '.db/db.sqlite'),
-        logging: false,
-      })
+import truncateAllTables from './helpers/truncateTables'
 
 // Create repo implementations
 const credentialsRepo = makeCredentialsRepo({
-  sequelize,
+  sequelizeInstance,
 })
 
-const userRepo = makeUserRepo({ sequelize })
+const userRepo = makeUserRepo({ sequelizeInstance })
 
-const projectRepo = makeProjectRepo({ sequelize, appelOffreRepo })
+const projectRepo = makeProjectRepo({ sequelizeInstance, appelOffreRepo })
 
-const modificationRequestRepo = makeModificationRequestRepo({ sequelize })
+const modificationRequestRepo = makeModificationRequestRepo({ sequelizeInstance })
 
-const passwordRetrievalRepo = makePasswordRetrievalRepo({ sequelize })
+const passwordRetrievalRepo = makePasswordRetrievalRepo({ sequelizeInstance })
 
-const ProjectModel = sequelize.model('project')
+const ProjectModel = sequelizeInstance.model('project')
 
-const projectAdmissionKeyRepo = makeProjectAdmissionKeyRepo({ sequelize })
+const projectAdmissionKeyRepo = makeProjectAdmissionKeyRepo({ sequelizeInstance })
 
 // Set the one-to-many relationship between project and projectAdmissionKeyRepo
-const ProjectAdmissionKeyModel = sequelize.model('projectAdmissionKey')
+const ProjectAdmissionKeyModel = sequelizeInstance.model('projectAdmissionKey')
 ProjectModel.hasMany(ProjectAdmissionKeyModel)
 ProjectAdmissionKeyModel.belongsTo(ProjectModel, { foreignKey: 'projectId' })
 
 // Set the many-to-many relationship between projects and users
-const UserModel = sequelize.model('user')
+const UserModel = sequelizeInstance.model('user')
 ProjectModel.belongsToMany(UserModel, { through: 'UserProjects' })
 UserModel.belongsToMany(ProjectModel, { through: 'UserProjects' })
 
 // Set the one-to-many relationship between project and modificationRequest
-const ModificationRequestModel = sequelize.model('modificationRequest')
+const ModificationRequestModel = sequelizeInstance.model('modificationRequest')
 ProjectModel.hasMany(ModificationRequestModel)
 ModificationRequestModel.belongsTo(ProjectModel, { foreignKey: 'projectId' })
 
@@ -64,7 +55,7 @@ const initDatabase = async () => {
   }
 
   try {
-    await sequelize.authenticate()
+    await sequelizeInstance.authenticate()
   } catch (error) {
     console.error('Unable to connect to the database:', error)
   }
@@ -73,7 +64,7 @@ const initDatabase = async () => {
     try {
       // only need to sync when test (in-memory) database
       // The db tables are created using migration scripts eitherwise
-      await sequelize.sync({ force: true })
+      await sequelizeInstance.sync({ force: true })
     } catch (error) {
       console.error('Unable to sync database models', error)
     }
@@ -82,12 +73,12 @@ const initDatabase = async () => {
   _isDatabaseInitialized = true
 }
 
-// Sync the database models
+// Flush all tables
 const resetDatabase = async () => {
   try {
-    await sequelize.sync({ force: true })
+    await truncateAllTables()
   } catch (error) {
-    console.error('Unable to drop to the database:', error)
+    console.error('Unable to flush every table:', error)
   }
 }
 

@@ -1,15 +1,15 @@
 import { FileRepo } from './fileRepo'
 import { File } from '../../../modules/file'
-import { v4 as uuid } from 'uuid'
 import models from '../models'
-import { sequelize } from '../../../sequelize.config'
+import { resetDatabase } from '../../../dataAccess'
+import { UniqueEntityID } from '../../../core/domain'
+import { v4 as uuid } from 'uuid'
 
 describe('Sequelize FileRepo', () => {
   const fileRepo = new FileRepo(models)
 
   beforeAll(async () => {
-    // Create the tables and remove all data
-    await sequelize.sync({ force: true })
+    await resetDatabase()
   })
 
   describe('save(file)', () => {
@@ -18,8 +18,8 @@ describe('Sequelize FileRepo', () => {
     beforeAll(() => {
       const fileResult = File.create({
         filename: 'db.filename',
-        forProject: 'db.forProject',
-        createdBy: 'db.createdBy',
+        forProject: uuid(),
+        createdBy: uuid(),
         createdAt: new Date(),
         designation: 'other',
       })
@@ -47,19 +47,22 @@ describe('Sequelize FileRepo', () => {
 
   describe('load(fileId)', () => {
     describe('when the File exists', () => {
-      const fileId = uuid()
+      const fileId = new UniqueEntityID()
+      const projectId = uuid()
 
       beforeAll(async () => {
         const FileModel = models.File
+
         await FileModel.create({
-          id: fileId,
+          id: fileId.toString(),
           filename: 'db.filename',
-          forProject: 'db.forProject',
-          createdBy: 'db.createdBy',
+          forProject: projectId,
+          createdBy: uuid(),
           createdAt: Date.now(),
           designation: 'other',
         })
       })
+
       it('should return a File', async () => {
         const fileResult = await fileRepo.load(fileId)
         expect(fileResult.isOk()).toBe(true)
@@ -69,7 +72,7 @@ describe('Sequelize FileRepo', () => {
         const file = fileResult.value
 
         expect(file).toBeInstanceOf(File)
-        expect(file.forProject).toEqual('db.forProject')
+        expect(file.forProject).toEqual(projectId)
       })
     })
   })

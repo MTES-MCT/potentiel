@@ -5,6 +5,7 @@ import { ProjectCertificateGenerated } from '../../project/events'
 import { EntityNotFoundError, InfraNotAvailableError } from '../../shared'
 import { CandidateNotification } from '../CandidateNotification'
 import { handleProjectCertificateGeneratedOrFailed } from './handleProjectCertificateGeneratedOrFailed'
+import { v4 as uuid } from 'uuid'
 
 describe('handleProjectCertificateGenerated', () => {
   it('should notify candidate if ready', async () => {
@@ -33,7 +34,7 @@ describe('handleProjectCertificateGenerated', () => {
           periodeId: 'periode',
           appelOffreId: 'appelOffre',
           candidateEmail: 'john@test.test',
-          certificateFileId: 'certificateFile1',
+          certificateFileId: uuid(),
         },
       })
     )

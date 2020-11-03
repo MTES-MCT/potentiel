@@ -14,8 +14,8 @@ const deserialize = (item) => ({
 })
 const serialize = (item) => item
 
-export default function makeUserRepo({ sequelize }): UserRepo {
-  const UserModel = sequelize.define('user', {
+export default function makeUserRepo({ sequelizeInstance }): UserRepo {
+  const UserModel = sequelizeInstance.define('user', {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
@@ -38,7 +38,7 @@ export default function makeUserRepo({ sequelize }): UserRepo {
     },
   })
 
-  const UserDrealModel = sequelize.define('userDreal', {
+  const UserDrealModel = sequelizeInstance.define('userDreal', {
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -55,7 +55,7 @@ export default function makeUserRepo({ sequelize }): UserRepo {
     },
   })
 
-  const _isDbReady = isDbReady({ sequelize })
+  const _isDbReady = isDbReady({ sequelizeInstance })
 
   return Object.freeze({
     findById,
@@ -214,7 +214,7 @@ export default function makeUserRepo({ sequelize }): UserRepo {
         throw new Error('Cannot find user to add project to')
       }
 
-      const ProjectModel = sequelize.model('project')
+      const ProjectModel = sequelizeInstance.model('project')
       const projectInstance = await ProjectModel.findByPk(projectId)
 
       if (!projectInstance) {
@@ -240,7 +240,7 @@ export default function makeUserRepo({ sequelize }): UserRepo {
         throw new Error('Cannot find user to add project to')
       }
 
-      const ProjectModel = sequelize.model('project')
+      const ProjectModel = sequelizeInstance.model('project')
       const projectsWithEmail = await ProjectModel.findAll({ where: { email } })
 
       await userInstance.addProjects(projectsWithEmail)
@@ -264,7 +264,7 @@ export default function makeUserRepo({ sequelize }): UserRepo {
         return Ok(null)
       }
 
-      const ProjectModel = sequelize.model('project')
+      const ProjectModel = sequelizeInstance.model('project')
       const projectInstance = await ProjectModel.findByPk(projectId)
 
       if (!projectInstance) {
@@ -287,7 +287,7 @@ export default function makeUserRepo({ sequelize }): UserRepo {
         throw new Error('Cannot find user')
       }
 
-      const ProjectModel = sequelize.model('project')
+      const ProjectModel = sequelizeInstance.model('project')
       const projectInstance = await ProjectModel.findByPk(projectId)
 
       if (!projectInstance) {
@@ -296,7 +296,7 @@ export default function makeUserRepo({ sequelize }): UserRepo {
 
       return await userInstance.hasProject(projectInstance)
     } catch (error) {
-      const ProjectModel = sequelize.model('project')
+      const ProjectModel = sequelizeInstance.model('project')
       const allProjects = await ProjectModel.findAll()
       console.log('hasProject found all projects', allProjects)
 

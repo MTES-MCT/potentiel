@@ -6,7 +6,7 @@ import { StoredEvent } from '../eventStore'
 interface FileProps {
   filename: string
   forProject: Project['id']
-  createdBy: User['id']
+  createdBy?: User['id']
   createdAt?: Date
   designation:
     | 'garantie-financiere'

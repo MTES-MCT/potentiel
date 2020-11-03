@@ -12,7 +12,8 @@
     "allowSyntheticDefaultImports": true,
     "module": "commonjs",
     "outDir": "dist",
-    "rootDir": "./"
+    "rootDir": "./",
+    "sourceMap": true
   },
   "include": ["src/**/*", "src/__tests__/**/*", "scripts"],
   "exclude": [

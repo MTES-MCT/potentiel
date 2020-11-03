@@ -1,15 +1,14 @@
 import { NotificationRepo } from './notificationRepo'
 import { Notification } from '../../../modules/notification'
-import { v4 as uuid } from 'uuid'
 import models from '../models'
-import { sequelize } from '../../../sequelize.config'
+import { resetDatabase } from '../../../dataAccess'
+import { UniqueEntityID } from '../../../core/domain'
 
 describe('Sequelize NotificationRepo', () => {
   const notificationRepo = new NotificationRepo(models)
 
   beforeAll(async () => {
-    // Create the tables and remove all data
-    await sequelize.sync({ force: true })
+    await resetDatabase()
   })
 
   describe('save(notification)', () => {
@@ -55,12 +54,12 @@ describe('Sequelize NotificationRepo', () => {
 
   describe('load(notificationId)', () => {
     describe('when the Notification exists', () => {
-      const notificationId = uuid()
+      const notificationId = new UniqueEntityID()
 
       beforeAll(async () => {
         const NotificationModel = models.Notification
         await NotificationModel.create({
-          id: notificationId,
+          id: notificationId.toString(),
           message: {
             email: 'email@test.test',
             name: 'testname',
@@ -78,6 +77,7 @@ describe('Sequelize NotificationRepo', () => {
           status: 'sent',
         })
       })
+
       it('should return a Notification', async () => {
         const notificationResult = await notificationRepo.load(notificationId)
         expect(notificationResult.isOk()).toBe(true)
