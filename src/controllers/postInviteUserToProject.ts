@@ -12,7 +12,7 @@ const postInviteUserToProject = async (request: HttpRequest) => {
   }
 
   const result = await inviteUserToProject({
-    email,
+    email: email.toLowerCase(),
     projectId,
     user,
   })
