@@ -20,7 +20,7 @@ export default function makePasswordRetrievalRepo({ sequelize }): PasswordRetrie
       allowNull: false,
     },
     createdOn: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.BIGINT,
       allowNull: false,
     },
   })

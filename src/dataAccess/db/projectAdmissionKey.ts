@@ -60,7 +60,7 @@ export default function makeProjectAdmissionKeyRepo({ sequelize }): ProjectAdmis
       allowNull: true,
     },
     lastUsedAt: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       defaultValue: 0,
     },

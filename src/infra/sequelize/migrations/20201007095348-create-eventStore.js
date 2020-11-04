@@ -25,7 +25,7 @@ module.exports = {
         allowNull: false,
       },
       requestId: {
-        type: Sequelize.STRING,
+        type: Sequelize.UUID,
         allowNull: true,
       },
       aggregateId: {
