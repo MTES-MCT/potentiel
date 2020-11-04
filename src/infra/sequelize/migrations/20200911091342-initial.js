@@ -16,7 +16,7 @@ module.exports = {
         allowNull: false,
       },
       userId: {
-        type: Sequelize.DataTypes.STRING,
+        type: Sequelize.DataTypes.UUID,
         allowNull: false,
       },
       createdAt: Sequelize.DATE,
@@ -52,19 +52,19 @@ module.exports = {
         allowNull: false,
       },
       puissance: {
-        type: Sequelize.DataTypes.NUMBER,
+        type: Sequelize.DataTypes.DOUBLE,
         allowNull: false,
       },
       prixReference: {
-        type: Sequelize.DataTypes.NUMBER,
+        type: Sequelize.DataTypes.DOUBLE,
         allowNull: false,
       },
       evaluationCarbone: {
-        type: Sequelize.DataTypes.NUMBER,
+        type: Sequelize.DataTypes.DOUBLE,
         allowNull: false,
       },
       note: {
-        type: Sequelize.DataTypes.NUMBER,
+        type: Sequelize.DataTypes.DOUBLE,
         allowNull: false,
       },
       nomRepresentantLegal: {
@@ -128,27 +128,27 @@ module.exports = {
         allowNull: false,
       },
       notifiedOn: {
-        type: Sequelize.DataTypes.NUMBER,
+        type: Sequelize.DataTypes.BIGINT,
         allowNull: false,
         defaultValue: 0,
       },
       garantiesFinancieresDueOn: {
-        type: Sequelize.DataTypes.NUMBER,
+        type: Sequelize.DataTypes.BIGINT,
         allowNull: false,
         defaultValue: 0,
       },
       garantiesFinancieresRelanceOn: {
-        type: Sequelize.DataTypes.NUMBER,
+        type: Sequelize.DataTypes.BIGINT,
         allowNull: false,
         defaultValue: 0,
       },
       garantiesFinancieresSubmittedOn: {
-        type: Sequelize.DataTypes.NUMBER,
+        type: Sequelize.DataTypes.BIGINT,
         allowNull: false,
         defaultValue: 0,
       },
       garantiesFinancieresDate: {
-        type: Sequelize.DataTypes.NUMBER,
+        type: Sequelize.DataTypes.BIGINT,
         allowNull: false,
         defaultValue: 0,
       },
@@ -161,17 +161,17 @@ module.exports = {
         allowNull: true,
       },
       dcrDueOn: {
-        type: Sequelize.DataTypes.NUMBER,
+        type: Sequelize.DataTypes.BIGINT,
         allowNull: false,
         defaultValue: 0,
       },
       dcrSubmittedOn: {
-        type: Sequelize.DataTypes.NUMBER,
+        type: Sequelize.DataTypes.BIGINT,
         allowNull: false,
         defaultValue: 0,
       },
       dcrDate: {
-        type: Sequelize.DataTypes.NUMBER,
+        type: Sequelize.DataTypes.BIGINT,
         allowNull: false,
         defaultValue: 0,
       },
@@ -224,7 +224,7 @@ module.exports = {
         allowNull: true,
       },
       lastUsedAt: {
-        type: Sequelize.DataTypes.NUMBER,
+        type: Sequelize.DataTypes.BIGINT,
         allowNull: false,
         defaultValue: 0,
       },
@@ -283,7 +283,7 @@ module.exports = {
         allowNull: false,
       },
       createdOn: {
-        type: Sequelize.DataTypes.NUMBER,
+        type: Sequelize.DataTypes.BIGINT,
         allowNull: false,
       },
       createdAt: Sequelize.DATE,
@@ -351,7 +351,7 @@ module.exports = {
         allowNull: true,
       },
       createdAt: {
-        type: Sequelize.DataTypes.NUMBER,
+        type: Sequelize.DataTypes.BIGINT,
         allowNull: false,
       },
       updatedAt: Sequelize.DATE,
@@ -386,7 +386,7 @@ module.exports = {
         allowNull: false,
       },
       requestedOn: {
-        type: Sequelize.DataTypes.NUMBER,
+        type: Sequelize.DataTypes.BIGINT,
         allowNull: false,
         defaultValue: 0,
       },
@@ -415,15 +415,15 @@ module.exports = {
         allowNull: true,
       },
       puissance: {
-        type: Sequelize.DataTypes.NUMBER,
+        type: Sequelize.DataTypes.DOUBLE,
         allowNull: true,
       },
       evaluationCarbone: {
-        type: Sequelize.DataTypes.NUMBER,
+        type: Sequelize.DataTypes.DOUBLE,
         allowNull: true,
       },
       delayedServiceDate: {
-        type: Sequelize.DataTypes.NUMBER,
+        type: Sequelize.DataTypes.BIGINT,
         allowNull: true,
       },
       createdAt: Sequelize.DATE,

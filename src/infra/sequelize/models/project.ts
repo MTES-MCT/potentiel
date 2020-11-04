@@ -33,19 +33,19 @@ export default (sequelize) => {
         allowNull: false,
       },
       puissance: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.DOUBLE,
         allowNull: false,
       },
       prixReference: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.DOUBLE,
         allowNull: false,
       },
       evaluationCarbone: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.DOUBLE,
         allowNull: false,
       },
       note: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.DOUBLE,
         allowNull: false,
       },
       nomRepresentantLegal: {
@@ -109,27 +109,27 @@ export default (sequelize) => {
         allowNull: false,
       },
       notifiedOn: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.BIGINT,
         allowNull: false,
         defaultValue: 0,
       },
       garantiesFinancieresDueOn: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.BIGINT,
         allowNull: false,
         defaultValue: 0,
       },
       garantiesFinancieresRelanceOn: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.BIGINT,
         allowNull: false,
         defaultValue: 0,
       },
       garantiesFinancieresSubmittedOn: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.BIGINT,
         allowNull: false,
         defaultValue: 0,
       },
       garantiesFinancieresDate: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.BIGINT,
         allowNull: false,
         defaultValue: 0,
       },
@@ -138,7 +138,7 @@ export default (sequelize) => {
         allowNull: true,
       },
       garantiesFinancieresFileId: {
-        type: DataTypes.STRING,
+        type: DataTypes.UUID,
         allowNull: true,
       },
       garantiesFinancieresSubmittedBy: {
@@ -146,17 +146,17 @@ export default (sequelize) => {
         allowNull: true,
       },
       dcrDueOn: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.BIGINT,
         allowNull: false,
         defaultValue: 0,
       },
       dcrSubmittedOn: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.BIGINT,
         allowNull: false,
         defaultValue: 0,
       },
       dcrDate: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.BIGINT,
         allowNull: false,
         defaultValue: 0,
       },
@@ -165,7 +165,7 @@ export default (sequelize) => {
         allowNull: true,
       },
       dcrFileId: {
-        type: DataTypes.STRING,
+        type: DataTypes.UUID,
         allowNull: true,
       },
       dcrNumeroDossier: {
@@ -181,7 +181,7 @@ export default (sequelize) => {
         allowNull: true,
       },
       certificateFileId: {
-        type: DataTypes.STRING,
+        type: DataTypes.UUID,
         allowNull: true,
       },
     },

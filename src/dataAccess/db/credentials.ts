@@ -23,7 +23,7 @@ export default function makeCredentialsRepo({ sequelize }): CredentialsRepo {
       allowNull: false,
     },
     userId: {
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
       allowNull: false,
     },
   })

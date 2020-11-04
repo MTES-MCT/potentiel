@@ -80,19 +80,19 @@ export default function makeProjectRepo({ sequelize, appelOffreRepo }): ProjectR
       allowNull: false,
     },
     puissance: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.DOUBLE,
       allowNull: false,
     },
     prixReference: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.DOUBLE,
       allowNull: false,
     },
     evaluationCarbone: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.DOUBLE,
       allowNull: false,
     },
     note: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.DOUBLE,
       allowNull: false,
     },
     nomRepresentantLegal: {
@@ -156,27 +156,27 @@ export default function makeProjectRepo({ sequelize, appelOffreRepo }): ProjectR
       allowNull: false,
     },
     notifiedOn: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       defaultValue: 0,
     },
     garantiesFinancieresDueOn: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       defaultValue: 0,
     },
     garantiesFinancieresRelanceOn: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       defaultValue: 0,
     },
     garantiesFinancieresSubmittedOn: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       defaultValue: 0,
     },
     garantiesFinancieresDate: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       defaultValue: 0,
     },
@@ -185,7 +185,7 @@ export default function makeProjectRepo({ sequelize, appelOffreRepo }): ProjectR
       allowNull: true,
     },
     garantiesFinancieresFileId: {
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
       allowNull: true,
     },
     garantiesFinancieresSubmittedBy: {
@@ -193,17 +193,17 @@ export default function makeProjectRepo({ sequelize, appelOffreRepo }): ProjectR
       allowNull: true,
     },
     dcrDueOn: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       defaultValue: 0,
     },
     dcrSubmittedOn: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       defaultValue: 0,
     },
     dcrDate: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       defaultValue: 0,
     },
@@ -212,7 +212,7 @@ export default function makeProjectRepo({ sequelize, appelOffreRepo }): ProjectR
       allowNull: true,
     },
     dcrFileId: {
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
       allowNull: true,
     },
     dcrNumeroDossier: {
@@ -228,7 +228,7 @@ export default function makeProjectRepo({ sequelize, appelOffreRepo }): ProjectR
       allowNull: true,
     },
     certificateFileId: {
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
       allowNull: true,
     },
   })
@@ -526,22 +526,6 @@ export default function makeProjectRepo({ sequelize, appelOffreRepo }): ProjectR
       if ('nomProjet' in query) {
         opts.where.nomProjet = query.nomProjet
       }
-
-      // Region can be of shape 'region1 / region2' so equality does not work
-      // if (typeof query.regionProjet === 'string') {
-      //   opts.where.regionProjet = {
-      //     [Op.substring]: query.regionProjet,
-      //   }
-      // } else if (
-      //   Array.isArray(query.regionProjet) &&
-      //   query.regionProjet.length
-      // ) {
-      //   opts.where.regionProjet = {
-      //     [Op.or]: query.regionProjet.map((region) => ({
-      //       [Op.substring]: region,
-      //     })),
-      //   }
-      // }
     }
 
     return opts
@@ -575,12 +559,6 @@ export default function makeProjectRepo({ sequelize, appelOffreRepo }): ProjectR
     )
 
     const projects = await Promise.all(deserializedItems.map(addAppelOffreToProject))
-
-    // const projects = mapIfOk(
-    //   deserializedItems,
-    //   makeProject,
-    //   'Project.findAll.makeProject error'
-    // )
 
     return makePaginatedList(projects, count, pagination)
   }
@@ -872,7 +850,7 @@ export default function makeProjectRepo({ sequelize, appelOffreRepo }): ProjectR
               ...newEvent,
               projectId: project.id,
             }))
-            .map((newEvent) => ProjectEventModel.create(newEvent /*, { transaction } */))
+            .map((newEvent) => ProjectEventModel.create(newEvent))
         )
       } catch (error) {
         console.log('projectRepo.save error when saving newEvents', error)

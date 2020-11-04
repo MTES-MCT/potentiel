@@ -24,7 +24,7 @@ export default (sequelize) => {
       allowNull: false,
     },
     requestId: {
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
       allowNull: true,
     },
     aggregateId: {

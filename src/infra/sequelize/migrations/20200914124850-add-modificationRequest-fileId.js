@@ -3,7 +3,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     queryInterface.addColumn('modificationRequests', 'fileId', {
-      type: Sequelize.DataTypes.STRING,
+      type: Sequelize.DataTypes.UUID,
       allowNull: true,
     })
   },

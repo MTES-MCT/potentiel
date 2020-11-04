@@ -38,7 +38,7 @@ export default function makeModificationRequestRepo({ sequelize }): Modification
       allowNull: false,
     },
     requestedOn: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       defaultValue: 0,
     },
@@ -51,7 +51,7 @@ export default function makeModificationRequestRepo({ sequelize }): Modification
       allowNull: true,
     },
     fileId: {
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
       allowNull: true,
     },
     justification: {
@@ -71,15 +71,15 @@ export default function makeModificationRequestRepo({ sequelize }): Modification
       allowNull: true,
     },
     puissance: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.DOUBLE,
       allowNull: true,
     },
     evaluationCarbone: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.DOUBLE,
       allowNull: true,
     },
     delayedServiceDate: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.BIGINT,
       allowNull: true,
     },
   })
