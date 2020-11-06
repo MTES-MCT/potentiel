@@ -33,6 +33,7 @@
     "camelcase": "off",
     "no-useless-constructor": "off",
     "standard/no-callback-literal": "off",
+    "no-unused-vars": "warn",
     "jest/no-focused-tests": "error",
     "jest/no-disabled-tests": "warn",
     "jest/valid-expect": "error"
