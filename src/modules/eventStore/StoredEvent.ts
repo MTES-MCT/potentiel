@@ -1,8 +1,8 @@
 import {
-  CandidateNotificationForPeriodeFailed,
-  CandidateNotifiedForPeriode,
   CandidateInformationOfCertificateUpdateFailed,
   CandidateInformedOfCertificateUpdate,
+  CandidateNotificationForPeriodeFailed,
+  CandidateNotifiedForPeriode,
 } from '../candidateNotification/events'
 import {
   LegacyProjectEventSourced,
@@ -47,6 +47,8 @@ export type StoredEvent =
   | ProjectGFReminded
   | ProjectDataCorrected
   | ProjectNotificationDateSet
+  | ProjectCertificateUpdated
+  | ProjectCertificateUpdateFailed
   | PeriodeNotified
   | CandidateNotificationForPeriodeFailed
   | CandidateNotifiedForPeriode

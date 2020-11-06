@@ -58,7 +58,7 @@ describe('FileService', () => {
       fakeFile = fakeFileResult.value
 
       const saveResult = await fileService.save(fakeFile, fakeFileContents)
-      expect(saveResult.isOk())
+      expect(saveResult.isOk()).toBe(true)
     })
 
     it('should save the file contents to storage', async () => {

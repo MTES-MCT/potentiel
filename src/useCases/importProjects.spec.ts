@@ -265,7 +265,7 @@ describe('importProjects use-case', () => {
       userId: 'userId',
     })
 
-    expect(result.is_err())
+    expect(result.is_err()).toBe(true)
     expect(result.unwrap_err().message).toEqual(ERREUR_AUCUNE_LIGNE)
 
     expect(findOneProject).not.toHaveBeenCalled()
@@ -297,7 +297,7 @@ describe('importProjects use-case', () => {
       userId: 'userId',
     })
 
-    expect(result.is_err())
+    expect(result.is_err()).toBe(true)
     expect(result.unwrap_err().message.indexOf(ERREUR_FORMAT_LIGNE)).toEqual(0)
 
     expect(findOneProject).not.toHaveBeenCalled()
