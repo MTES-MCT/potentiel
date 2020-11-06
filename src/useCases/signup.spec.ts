@@ -248,7 +248,7 @@ describe('signup use-case', () => {
       })
       const signupResult = await signup(phonySignup)
 
-      expect(signupResult.is_err())
+      expect(signupResult.is_err()).toBe(true)
       if (!signupResult.is_err()) return
 
       expect(signupResult.unwrap_err()).toEqual(new Error(PASSWORD_MISMATCH_ERROR))
@@ -297,7 +297,7 @@ describe('signup use-case', () => {
       })
       const signupResult = await signup(phonySignup)
 
-      expect(signupResult.is_err())
+      expect(signupResult.is_err()).toBe(true)
       if (!signupResult.is_err()) return
 
       expect(signupResult.unwrap_err()).toEqual(new Error(USER_INFO_ERROR))

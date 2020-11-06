@@ -1,14 +1,14 @@
+import { okAsync } from '../../../core/utils'
+import { StoredEvent } from '../../../modules/eventStore'
 import {
-  ProjectGFRemoved,
   ProjectCertificateGenerated,
+  ProjectGFRemoved,
   ProjectNotified,
 } from '../../../modules/project/events'
-import { okAsync } from '../../../core/utils'
-import { SequelizeEventStore } from './sequelizeEventStore'
-import { StoredEvent } from '../../../modules/eventStore'
-import models from '../models'
-import { sequelize } from '../../../sequelize.config'
 import { OtherError } from '../../../modules/shared'
+import { sequelize } from '../../../sequelize.config'
+import models from '../models'
+import { SequelizeEventStore } from './sequelizeEventStore'
 
 describe('SequelizeEventStore', () => {
   const sampleProjectGFRemovedPayload = {
@@ -456,7 +456,7 @@ describe('SequelizeEventStore', () => {
         expect(priorEvents[0].requestId).toEqual('1')
       })
 
-      it.only('should filter history by specific aggregateId', async () => {
+      it('should filter history by specific aggregateId', async () => {
         const eventStore = new SequelizeEventStore(models)
         await sequelize.sync({ force: true })
 
@@ -501,28 +501,28 @@ describe('SequelizeEventStore', () => {
 
         await eventStore.publish(
           new ProjectGFRemoved({
-            payload: sampleProjectGFRemovedPayload,
+            payload: { ...sampleProjectGFRemovedPayload, projectId: '1' },
             requestId: 'A',
           })
         )
 
         await eventStore.publish(
           new ProjectGFRemoved({
-            payload: sampleProjectGFRemovedPayload,
+            payload: { ...sampleProjectGFRemovedPayload, projectId: '1' },
             requestId: 'B',
           })
         )
 
         await eventStore.publish(
           new ProjectGFRemoved({
-            payload: sampleProjectGFRemovedPayload,
+            payload: { ...sampleProjectGFRemovedPayload, projectId: '2' },
             requestId: 'C',
           })
         )
 
         await eventStore.publish(
           new ProjectGFRemoved({
-            payload: sampleProjectGFRemovedPayload,
+            payload: { ...sampleProjectGFRemovedPayload, projectId: '3' },
             requestId: 'D',
           })
         )

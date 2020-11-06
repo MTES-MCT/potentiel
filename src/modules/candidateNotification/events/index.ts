@@ -1,4 +1,4 @@
-export * from './CandidateNotificationForPeriodeFailed'
 export * from './CandidateInformationOfCertificateUpdateFailed'
-export * from './CandidateNotifiedForPeriode'
 export * from './CandidateInformedOfCertificateUpdate'
+export * from './CandidateNotificationForPeriodeFailed'
+export * from './CandidateNotifiedForPeriode'

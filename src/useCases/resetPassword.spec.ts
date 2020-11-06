@@ -70,7 +70,7 @@ describe('resetPassword use-case', () => {
       email,
     })
 
-    expect(signupResult.is_ok())
+    expect(signupResult.is_ok()).toBe(true)
 
     // Check if login works
     const userResult = await login({
