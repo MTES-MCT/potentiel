@@ -32,7 +32,10 @@
   "rules": {
     "camelcase": "off",
     "no-useless-constructor": "off",
-    "standard/no-callback-literal": "off"
+    "standard/no-callback-literal": "off",
+    "jest/no-focused-tests": "error",
+    "jest/no-disabled-tests": "warn",
+    "jest/valid-expect": "error"
   },
   "settings": {
     "react": {
