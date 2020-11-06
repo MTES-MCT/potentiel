@@ -123,7 +123,7 @@ export class SequelizeEventStore extends BaseEventStore {
       case LegacyProjectEventSourced.type:
         return new LegacyProjectEventSourced({
           payload: eventRaw.payload as LegacyProjectEventSourcedPayload,
-          requestId: eventRaw.requestId ? eventRaw.requestId.toString() : undefined,
+          requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -132,7 +132,7 @@ export class SequelizeEventStore extends BaseEventStore {
       case LegacyProjectSourced.type:
         return new LegacyProjectSourced({
           payload: eventRaw.payload as LegacyProjectSourcedPayload,
-          requestId: eventRaw.requestId ? eventRaw.requestId.toString() : undefined,
+          requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -141,7 +141,7 @@ export class SequelizeEventStore extends BaseEventStore {
       case PeriodeNotified.type:
         return new PeriodeNotified({
           payload: eventRaw.payload as PeriodeNotifiedPayload,
-          requestId: eventRaw.requestId ? eventRaw.requestId.toString() : undefined,
+          requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -150,7 +150,7 @@ export class SequelizeEventStore extends BaseEventStore {
       case ProjectCertificateGenerated.type:
         return new ProjectCertificateGenerated({
           payload: eventRaw.payload as ProjectCertificateGeneratedPayload,
-          requestId: eventRaw.requestId ? eventRaw.requestId.toString() : undefined,
+          requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -159,7 +159,7 @@ export class SequelizeEventStore extends BaseEventStore {
       case ProjectCertificateGenerationFailed.type:
         return new ProjectCertificateGenerationFailed({
           payload: eventRaw.payload as ProjectCertificateGenerationFailedPayload,
-          requestId: eventRaw.requestId ? eventRaw.requestId.toString() : undefined,
+          requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -168,7 +168,7 @@ export class SequelizeEventStore extends BaseEventStore {
       case ProjectCertificateUpdated.type:
         return new ProjectCertificateUpdated({
           payload: eventRaw.payload as ProjectCertificateUpdatedPayload,
-          requestId: eventRaw.requestId ? eventRaw.requestId.toString() : undefined,
+          requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -177,7 +177,7 @@ export class SequelizeEventStore extends BaseEventStore {
       case ProjectCertificateUpdateFailed.type:
         return new ProjectCertificateUpdateFailed({
           payload: eventRaw.payload as ProjectCertificateUpdateFailedPayload,
-          requestId: eventRaw.requestId ? eventRaw.requestId.toString() : undefined,
+          requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -186,7 +186,7 @@ export class SequelizeEventStore extends BaseEventStore {
       case ProjectDataCorrected.type:
         return new ProjectDataCorrected({
           payload: eventRaw.payload as ProjectDataCorrectedPayload,
-          requestId: eventRaw.requestId ? eventRaw.requestId.toString() : undefined,
+          requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -195,7 +195,7 @@ export class SequelizeEventStore extends BaseEventStore {
       case ProjectDCRDueDateSet.type:
         return new ProjectDCRDueDateSet({
           payload: eventRaw.payload as ProjectDCRDueDateSetPayload,
-          requestId: eventRaw.requestId ? eventRaw.requestId.toString() : undefined,
+          requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -204,7 +204,7 @@ export class SequelizeEventStore extends BaseEventStore {
       case ProjectDCRRemoved.type:
         return new ProjectDCRRemoved({
           payload: eventRaw.payload as ProjectDCRRemovedPayload,
-          requestId: eventRaw.requestId ? eventRaw.requestId.toString() : undefined,
+          requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -213,7 +213,7 @@ export class SequelizeEventStore extends BaseEventStore {
       case ProjectDCRSubmitted.type:
         return new ProjectDCRSubmitted({
           payload: eventRaw.payload as ProjectDCRSubmittedPayload,
-          requestId: eventRaw.requestId ? eventRaw.requestId.toString() : undefined,
+          requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -223,7 +223,7 @@ export class SequelizeEventStore extends BaseEventStore {
       case ProjectGFDueDateSet.type:
         return new ProjectGFDueDateSet({
           payload: eventRaw.payload as ProjectGFDueDateSetPayload,
-          requestId: eventRaw.requestId ? eventRaw.requestId.toString() : undefined,
+          requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -232,7 +232,7 @@ export class SequelizeEventStore extends BaseEventStore {
       case ProjectGFRemoved.type:
         return new ProjectGFRemoved({
           payload: eventRaw.payload as ProjectGFRemovedPayload,
-          requestId: eventRaw.requestId ? eventRaw.requestId.toString() : undefined,
+          requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -241,7 +241,7 @@ export class SequelizeEventStore extends BaseEventStore {
       case ProjectGFReminded.type:
         return new ProjectGFReminded({
           payload: eventRaw.payload as ProjectGFRemindedPayload,
-          requestId: eventRaw.requestId ? eventRaw.requestId.toString() : undefined,
+          requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -250,7 +250,7 @@ export class SequelizeEventStore extends BaseEventStore {
       case ProjectGFSubmitted.type:
         return new ProjectGFSubmitted({
           payload: eventRaw.payload as ProjectGFSubmittedPayload,
-          requestId: eventRaw.requestId ? eventRaw.requestId.toString() : undefined,
+          requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -259,7 +259,7 @@ export class SequelizeEventStore extends BaseEventStore {
       case ProjectImported.type:
         return new ProjectImported({
           payload: eventRaw.payload as ProjectImportedPayload,
-          requestId: eventRaw.requestId ? eventRaw.requestId.toString() : undefined,
+          requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -268,7 +268,7 @@ export class SequelizeEventStore extends BaseEventStore {
       case ProjectNotificationDateSet.type:
         return new ProjectNotificationDateSet({
           payload: eventRaw.payload as ProjectNotificationDateSetPayload,
-          requestId: eventRaw.requestId ? eventRaw.requestId.toString() : undefined,
+          requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -277,7 +277,7 @@ export class SequelizeEventStore extends BaseEventStore {
       case ProjectNotified.type:
         return new ProjectNotified({
           payload: eventRaw.payload as ProjectNotifiedPayload,
-          requestId: eventRaw.requestId ? eventRaw.requestId.toString() : undefined,
+          requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -286,7 +286,7 @@ export class SequelizeEventStore extends BaseEventStore {
       case ProjectReimported.type:
         return new ProjectReimported({
           payload: eventRaw.payload as ProjectReimportedPayload,
-          requestId: eventRaw.requestId ? eventRaw.requestId.toString() : undefined,
+          requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -295,7 +295,7 @@ export class SequelizeEventStore extends BaseEventStore {
       case CandidateNotificationForPeriodeFailed.type:
         return new CandidateNotificationForPeriodeFailed({
           payload: eventRaw.payload as CandidateNotificationForPeriodeFailedPayload,
-          requestId: eventRaw.requestId ? eventRaw.requestId.toString() : undefined,
+          requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -304,7 +304,7 @@ export class SequelizeEventStore extends BaseEventStore {
       case CandidateNotifiedForPeriode.type:
         return new CandidateNotifiedForPeriode({
           payload: eventRaw.payload as CandidateNotifiedForPeriodePayload,
-          requestId: eventRaw.requestId ? eventRaw.requestId.toString() : undefined,
+          requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -313,7 +313,7 @@ export class SequelizeEventStore extends BaseEventStore {
       case CandidateInformedOfCertificateUpdate.type:
         return new CandidateInformedOfCertificateUpdate({
           payload: eventRaw.payload as CandidateInformedOfCertificateUpdatePayload,
-          requestId: eventRaw.requestId ? eventRaw.requestId.toString() : undefined,
+          requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
@@ -322,7 +322,7 @@ export class SequelizeEventStore extends BaseEventStore {
       case CandidateInformationOfCertificateUpdateFailed.type:
         return new CandidateInformationOfCertificateUpdateFailed({
           payload: eventRaw.payload as CandidateInformationOfCertificateUpdateFailedPayload,
-          requestId: eventRaw.requestId ? eventRaw.requestId.toString() : undefined,
+          requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
             occurredAt: eventRaw.occurredAt,
