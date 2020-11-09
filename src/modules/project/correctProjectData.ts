@@ -2,7 +2,7 @@ import { okAsync, ResultAsync, errAsync } from '../../core/utils'
 import { ProjectRepo } from '../../dataAccess'
 import { Project, User } from '../../entities'
 import { makeProjectFilePath } from '../../helpers/makeProjectFilePath'
-import { EventStore } from '../eventStore'
+import { EventBus } from '../eventStore'
 import { File, FileContainer, FileService } from '../file'
 import {
   EntityNotFoundError,
@@ -13,11 +13,12 @@ import {
 import { ProjectHasBeenUpdatedSinceError } from './errors/ProjectHasBeenUpdatedSinceError'
 import { ProjectDataCorrected, ProjectNotificationDateSet } from './events'
 import { ProjectCannotBeUpdatedIfUnnotifiedError } from './errors'
+import { DomainError } from '../../core/domain'
 
 interface CorrectProjectDataDeps {
   fileService: FileService
   findProjectById: ProjectRepo['findById']
-  eventStore: EventStore
+  eventBus: EventBus
 }
 
 interface CorrectProjectDataArgs {
@@ -69,7 +70,7 @@ export const makeCorrectProjectData = (deps: CorrectProjectDataDeps): CorrectPro
   newNotifiedOn,
   user,
   correctedData,
-}: CorrectProjectDataArgs) => {
+}) => {
   let certificateFileId: string | undefined
 
   if (!user || !['admin', 'dgec'].includes(user.role)) {
@@ -80,78 +81,101 @@ export const makeCorrectProjectData = (deps: CorrectProjectDataDeps): CorrectPro
     deps.findProjectById(projectId),
     () => new InfraNotAvailableError()
   )
-    .andThen((project) => {
-      if (!project) {
-        return errAsync(new EntityNotFoundError())
-      }
+    .andThen(
+      (
+        project
+      ): ResultAsync<
+        Project,
+        | EntityNotFoundError
+        | ProjectCannotBeUpdatedIfUnnotifiedError
+        | ProjectHasBeenUpdatedSinceError
+      > => {
+        if (!project) {
+          return errAsync(new EntityNotFoundError())
+        }
 
-      if (!project.notifiedOn) {
-        return errAsync(new ProjectCannotBeUpdatedIfUnnotifiedError())
-      }
+        if (!project.notifiedOn) {
+          return errAsync(new ProjectCannotBeUpdatedIfUnnotifiedError())
+        }
 
-      console.log(
-        'correctProjectData project.updatedAt',
-        project.updatedAt?.getTime(),
-        projectVersionDate?.getTime()
-      )
-
-      if (projectVersionDate?.getTime() !== project.updatedAt?.getTime()) {
-        return errAsync(new ProjectHasBeenUpdatedSinceError())
-      }
-
-      return okAsync(project)
-    })
-    .andThen((project) => {
-      if (!certificateFile) {
-        return okAsync({ project })
-      }
-
-      const fileResult = File.create({
-        designation: 'garantie-financiere',
-        forProject: projectId,
-        createdBy: user.id,
-        filename: certificateFile.path,
-      })
-
-      if (fileResult.isErr()) {
-        console.log('correctProjectData command: File.create failed', fileResult.error)
-
-        return errAsync(new OtherError())
-      }
-
-      certificateFileId = fileResult.value.id.toString()
-
-      return deps.fileService
-        .save(fileResult.value, {
-          ...certificateFile,
-          path: makeProjectFilePath(projectId, certificateFile.path).filepath,
-        })
-        .map(() => ({ certificateFileId, project }))
-    })
-    .andThen(({ certificateFileId, project }) =>
-      deps.eventStore
-        .publish(
-          new ProjectDataCorrected({
-            payload: {
-              projectId,
-              certificateFileId,
-              correctedData,
-              notifiedOn: newNotifiedOn,
-            },
-          })
+        console.log(
+          'correctProjectData project.updatedAt',
+          project.updatedAt?.getTime(),
+          projectVersionDate?.getTime()
         )
-        .map(() => ({ project }))
+
+        if (projectVersionDate?.getTime() !== project.updatedAt?.getTime()) {
+          return errAsync(new ProjectHasBeenUpdatedSinceError())
+        }
+
+        return okAsync(project)
+      }
     )
-    .andThen(({ project }) =>
-      newNotifiedOn !== project.notifiedOn
-        ? deps.eventStore.publish(
-            new ProjectNotificationDateSet({
+    .andThen(
+      (
+        project
+      ): ResultAsync<
+        { certificateFileId: string | undefined; project: Project },
+        OtherError | DomainError
+      > => {
+        if (!certificateFile) {
+          return okAsync({ project, certificateFileId: undefined })
+        }
+
+        const fileResult = File.create({
+          designation: 'garantie-financiere',
+          forProject: projectId,
+          createdBy: user.id,
+          filename: certificateFile.path,
+        })
+
+        if (fileResult.isErr()) {
+          console.log('correctProjectData command: File.create failed', fileResult.error)
+
+          return errAsync(new OtherError())
+        }
+
+        certificateFileId = fileResult.value.id.toString()
+
+        return deps.fileService
+          .save(fileResult.value, {
+            ...certificateFile,
+            path: makeProjectFilePath(projectId, certificateFile.path).filepath,
+          })
+          .map(() => ({ certificateFileId, project }))
+      }
+    )
+    .andThen(
+      ({
+        certificateFileId,
+        project,
+      }): ResultAsync<{ project: Project }, InfraNotAvailableError> => {
+        return deps.eventBus
+          .publish(
+            new ProjectDataCorrected({
               payload: {
                 projectId,
+                certificateFileId,
+                correctedData,
                 notifiedOn: newNotifiedOn,
               },
             })
           )
-        : okAsync(null)
+          .map(() => ({ project }))
+      }
+    )
+    .andThen(
+      ({ project }): ResultAsync<null, InfraNotAvailableError> => {
+        return newNotifiedOn !== project.notifiedOn
+          ? deps.eventBus.publish(
+              new ProjectNotificationDateSet({
+                payload: {
+                  projectId,
+                  notifiedOn: newNotifiedOn,
+                },
+              })
+            )
+          : okAsync(null)
+      }
     )
 }

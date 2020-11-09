@@ -1,8 +1,7 @@
-import { ResultAsync as OldResultAsync, Result as OldResult } from '../../types'
+import { err, ok, Result, ResultAsync } from 'neverthrow'
+import { Result as OldResult, ResultAsync as OldResultAsync } from '../../types'
 
-import { ResultAsync, Result, ok, err } from 'neverthrow'
-
-export { Result, ResultAsync, ok, okAsync, err, errAsync } from 'neverthrow'
+export { err, errAsync, ok, okAsync, Result, ResultAsync } from 'neverthrow'
 
 export const fromOldResultAsync = <T>(oldResultAsync: OldResultAsync<T>): ResultAsync<T, Error> => {
   return ResultAsync.fromPromise(

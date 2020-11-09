@@ -37,7 +37,6 @@ eventStore.subscribe(
   handleProjectNotified({
     eventBus: eventStore,
     generateCertificate,
-    getFamille: appelOffreRepo.getFamille,
   })
 )
 

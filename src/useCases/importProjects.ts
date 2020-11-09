@@ -4,11 +4,11 @@ import { Result, ResultAsync, Err, Ok, ErrorResult } from '../types'
 import toNumber from '../helpers/toNumber'
 import getDepartementRegionFromCodePostal from '../helpers/getDepartementRegionFromCodePostal'
 import moment from 'moment'
-import { EventStore } from '../modules/eventStore'
+import { EventBus } from '../modules/eventStore'
 import { ProjectImported, ProjectReimported } from '../modules/project/events'
 
 interface MakeUseCaseProps {
-  eventStore: EventStore
+  eventBus: EventBus
   findOneProject: ProjectRepo['findOne']
   saveProject: ProjectRepo['save']
   removeProject: ProjectRepo['remove']
@@ -99,7 +99,7 @@ interface ImportReturnType {
 }
 
 export default function makeImportProjects({
-  eventStore,
+  eventBus,
   findOneProject,
   saveProject,
   removeProject,
@@ -263,7 +263,7 @@ export default function makeImportProjects({
               return Ok(null)
             }
 
-            await eventStore.publish(
+            await eventBus.publish(
               new ProjectReimported({
                 payload: {
                   projectId: updatedProject.id,
@@ -305,7 +305,7 @@ export default function makeImportProjects({
             return ErrorResult<Project>(ERREUR_INSERTION)
           }
 
-          await eventStore.publish(
+          await eventBus.publish(
             new ProjectImported({
               payload: {
                 projectId: newlyImportedProject.id,

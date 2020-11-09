@@ -1,10 +1,9 @@
-import { Static } from '../types/schemaTypes'
-import { territoireSchema } from './project'
+import { Territoire } from './territoire'
 
 type NoteThreshold = {
   familleId: string
   noteThreshold: number
-  territoire?: Static<typeof territoireSchema>
+  territoire?: Territoire
 }
 
 export type CertificateTemplate = 'v0' | 'v1'

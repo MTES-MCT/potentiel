@@ -1,11 +1,19 @@
-import waitForExpect from 'wait-for-expect'
+import { okAsync } from '../core/utils'
 import { makeProject, makeUser, Project } from '../entities'
-import { InMemoryEventStore } from '../infra/inMemory'
+import { StoredEvent, EventBus } from '../modules/eventStore'
 import { ProjectDCRRemoved } from '../modules/project/events'
+import { InfraNotAvailableError } from '../modules/shared'
 import { Ok, UnwrapForTest } from '../types'
 import makeFakeProject from '../__tests__/fixtures/project'
 import makeFakeUser from '../__tests__/fixtures/user'
 import makeRemoveDCR, { UNAUTHORIZED } from './removeDCR'
+
+const fakePublish = jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null))
+
+const fakeEventBus: EventBus = {
+  publish: fakePublish,
+  subscribe: jest.fn(),
+}
 
 describe('removeDCR use-case', () => {
   describe('when the user is porteur-projet', () => {
@@ -29,17 +37,16 @@ describe('removeDCR use-case', () => {
 
         const projectDCRRemovedHandler = jest.fn((event: ProjectDCRRemoved) => null)
 
-        const eventStore = new InMemoryEventStore()
+        fakePublish.mockClear()
         const saveProject = jest.fn(async (project: Project) => Ok(null))
         const removeDCR = makeRemoveDCR({
-          eventStore,
+          eventBus: fakeEventBus,
           findProjectById: async () => originalProject,
           shouldUserAccessProject,
           saveProject,
         })
 
         beforeAll(async () => {
-          eventStore.subscribe(ProjectDCRRemoved.type, projectDCRRemovedHandler)
           const res = await removeDCR({
             user,
             projectId: originalProject.id,
@@ -89,14 +96,18 @@ describe('removeDCR use-case', () => {
         })
 
         it('should trigger a ProjectDCRRemoved event', async () => {
-          await waitForExpect(() => {
-            expect(projectDCRRemovedHandler).toHaveBeenCalled()
-            const projectDCRRemovedEvent = projectDCRRemovedHandler.mock.calls[0][0]
-            expect(projectDCRRemovedEvent.payload.projectId).toEqual(originalProject.id)
+          expect(fakePublish).toHaveBeenCalled()
+          const targetEvent = fakePublish.mock.calls
+            .map((call) => call[0])
+            .find((event) => event.type === ProjectDCRRemoved.type) as ProjectDCRRemoved
 
-            expect(projectDCRRemovedEvent.payload.removedBy).toEqual(user.id)
-            expect(projectDCRRemovedEvent.aggregateId).toEqual(originalProject.id)
-          })
+          expect(targetEvent).toBeDefined()
+          if (!targetEvent) return
+
+          expect(targetEvent.payload.projectId).toEqual(originalProject.id)
+
+          expect(targetEvent.payload.removedBy).toEqual(user.id)
+          expect(targetEvent.aggregateId).toEqual(originalProject.id)
         })
       })
 
@@ -114,10 +125,10 @@ describe('removeDCR use-case', () => {
         )
 
         it('should not update the project and return ok', async () => {
-          const eventStore = new InMemoryEventStore()
+          fakePublish.mockClear()
           const saveProject = jest.fn(async (project: Project) => Ok(null))
           const removeDCR = makeRemoveDCR({
-            eventStore,
+            eventBus: fakeEventBus,
             findProjectById: async () => originalProject,
             shouldUserAccessProject,
             saveProject,
@@ -137,17 +148,18 @@ describe('removeDCR use-case', () => {
           })
 
           expect(saveProject).not.toHaveBeenCalled()
+          expect(fakePublish).not.toHaveBeenCalled()
         })
       })
     })
 
     describe('when the user has no rights on this project', () => {
       it('should return an UNAUTHORIZED error', async () => {
-        const eventStore = new InMemoryEventStore()
+        fakePublish.mockClear()
         const shouldUserAccessProject = jest.fn(async () => false)
         const saveProject = jest.fn()
         const removeDCR = makeRemoveDCR({
-          eventStore,
+          eventBus: fakeEventBus,
           findProjectById: jest.fn(),
           shouldUserAccessProject,
           saveProject,
@@ -164,6 +176,7 @@ describe('removeDCR use-case', () => {
 
         expect(shouldUserAccessProject).toHaveBeenCalled()
         expect(saveProject).not.toHaveBeenCalled()
+        expect(fakePublish).not.toHaveBeenCalled()
       })
     })
   })
@@ -171,11 +184,11 @@ describe('removeDCR use-case', () => {
   describe('when the user is not porteur de projet', () => {
     it('should return an UNAUTHORIZED error', async () => {
       const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
-      const eventStore = new InMemoryEventStore()
+      fakePublish.mockClear()
       const shouldUserAccessProject = jest.fn()
       const saveProject = jest.fn()
       const removeDCR = makeRemoveDCR({
-        eventStore,
+        eventBus: fakeEventBus,
         findProjectById: jest.fn(),
         shouldUserAccessProject,
         saveProject,
@@ -192,6 +205,7 @@ describe('removeDCR use-case', () => {
 
       expect(shouldUserAccessProject).not.toHaveBeenCalled()
       expect(saveProject).not.toHaveBeenCalled()
+      expect(fakePublish).not.toHaveBeenCalled()
     })
   })
 })

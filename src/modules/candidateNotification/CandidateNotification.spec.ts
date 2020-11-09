@@ -4,7 +4,8 @@ import {
   ProjectCertificateGenerationFailed,
   ProjectNotified,
 } from '../project/events'
-import { CandidateNotification } from './CandidateNotification'
+import { EntityNotFoundError, HeterogeneousHistoryError } from '../shared'
+import { makeCandidateNotificationId, makeCandidateNotification } from './CandidateNotification'
 import { CandidateNotifiedForPeriode } from './events'
 
 const appelOffreId = 'appelOffre'
@@ -13,19 +14,130 @@ const familleId = 'famille'
 const candidateEmail = 'candidate@email.test'
 const candidateName = 'candidate'
 
-const candidateProps = {
-  appelOffreId,
-  periodeId,
-  candidateEmail,
-  candidateName,
-}
-
 describe('CandidateNotification', () => {
-  describe('reloadFromHistory()', () => {
+  describe('makeCandidateNotification', () => {
+    describe('when history is empty', () => {
+      const candidateNotification = makeCandidateNotification([])
+
+      it('should return a EntityNotFound error result', () => {
+        expect(candidateNotification.isErr()).toBe(true)
+
+        if (candidateNotification.isOk()) return
+
+        expect(candidateNotification.error).toBeInstanceOf(EntityNotFoundError)
+      })
+    })
+
+    describe('when history has events of different appel offre', () => {
+      const candidateNotification = makeCandidateNotification([
+        new ProjectNotified({
+          payload: {
+            projectId: '1',
+            appelOffreId: 'appel1',
+            periodeId,
+            familleId,
+            candidateEmail,
+            candidateName,
+            notifiedOn: 1,
+          },
+        }),
+        new ProjectNotified({
+          payload: {
+            projectId: '2',
+            appelOffreId: 'appel2',
+            periodeId,
+            familleId,
+            candidateEmail,
+            candidateName,
+            notifiedOn: 1,
+          },
+        }),
+      ])
+
+      it('should return a HeterogeneousHistoryError error result', () => {
+        expect(candidateNotification.isErr()).toBe(true)
+
+        if (candidateNotification.isOk()) return
+
+        expect(candidateNotification.error).toBeInstanceOf(HeterogeneousHistoryError)
+      })
+    })
+
+    describe('when history has events of different periode', () => {
+      const candidateNotification = makeCandidateNotification([
+        new ProjectNotified({
+          payload: {
+            projectId: '1',
+            appelOffreId,
+            periodeId: 'periode1',
+            familleId,
+            candidateEmail,
+            candidateName,
+            notifiedOn: 1,
+          },
+        }),
+        new ProjectNotified({
+          payload: {
+            projectId: '2',
+            appelOffreId,
+            periodeId: 'periode2',
+            familleId,
+            candidateEmail,
+            candidateName,
+            notifiedOn: 1,
+          },
+        }),
+      ])
+
+      it('should return a HeterogeneousHistoryError error result', () => {
+        expect(candidateNotification.isErr()).toBe(true)
+
+        if (candidateNotification.isOk()) return
+
+        expect(candidateNotification.error).toBeInstanceOf(HeterogeneousHistoryError)
+      })
+    })
+
+    describe('when history has events of different candidateEmail', () => {
+      const candidateNotification = makeCandidateNotification([
+        new ProjectNotified({
+          payload: {
+            projectId: '1',
+            appelOffreId,
+            periodeId,
+            familleId,
+            candidateEmail: 'email1@test.test',
+            candidateName,
+            notifiedOn: 1,
+          },
+        }),
+        new ProjectNotified({
+          payload: {
+            projectId: '2',
+            appelOffreId,
+            periodeId,
+            familleId,
+            candidateEmail: 'email2@test.test',
+            candidateName,
+            notifiedOn: 1,
+          },
+        }),
+      ])
+
+      it('should return a HeterogeneousHistoryError error result', () => {
+        expect(candidateNotification.isErr()).toBe(true)
+
+        if (candidateNotification.isOk()) return
+
+        expect(candidateNotification.error).toBeInstanceOf(HeterogeneousHistoryError)
+      })
+    })
+  })
+
+  describe('notifyCandidateIfReady()', () => {
     describe('when all candidate projects have a certificate and CandidateNotifiedForPeriode has not occurred', () => {
-      const candidateNotification = UnwrapForTest(CandidateNotification.create(candidateProps))
-      candidateNotification.reloadFromHistory(
-        [
+      const candidateNotification = UnwrapForTest(
+        makeCandidateNotification([
           new ProjectNotified({
             payload: {
               projectId: '1',
@@ -33,6 +145,7 @@ describe('CandidateNotification', () => {
               periodeId,
               familleId,
               candidateEmail,
+              candidateName,
               notifiedOn: 1,
             },
           }),
@@ -43,6 +156,7 @@ describe('CandidateNotification', () => {
               periodeId,
               familleId,
               candidateEmail,
+              candidateName,
               notifiedOn: 1,
             },
           }),
@@ -63,15 +177,19 @@ describe('CandidateNotification', () => {
               candidateEmail,
               error: 'oops',
             },
+            requestId: 'request1',
           }),
-        ],
-        'request1'
+        ])
       )
 
       it('should trigger a CandidateNotifiedForPeriode', () => {
-        expect(candidateNotification.domainEvents).toHaveLength(1)
+        expect(candidateNotification.pendingEvents).toHaveLength(0)
 
-        const event = candidateNotification.domainEvents[0]
+        candidateNotification.notifyCandidateIfReady()
+
+        expect(candidateNotification.pendingEvents).toHaveLength(1)
+
+        const event = candidateNotification.pendingEvents[0]
         expect(event!.type).toEqual(CandidateNotifiedForPeriode.type)
 
         expect(event!.payload).toEqual({
@@ -82,7 +200,7 @@ describe('CandidateNotification', () => {
         })
         expect(event!.requestId).toEqual('request1')
         expect(event!.aggregateId).toEqual(
-          CandidateNotification.makeId({
+          makeCandidateNotificationId({
             appelOffreId,
             periodeId,
             candidateEmail,
@@ -92,68 +210,71 @@ describe('CandidateNotification', () => {
     })
 
     describe('when some candidate projects do not have a certificate yet', () => {
-      const candidateNotification = UnwrapForTest(CandidateNotification.create(candidateProps))
-      candidateNotification.reloadFromHistory([
-        new ProjectNotified({
-          payload: {
-            projectId: '1',
-            appelOffreId,
-            periodeId,
-            familleId,
-            candidateEmail,
-            notifiedOn: 1,
-          },
-        }),
-        new ProjectNotified({
-          payload: {
-            projectId: '2',
-            appelOffreId,
-            periodeId,
-            familleId,
-            candidateEmail,
-            notifiedOn: 1,
-          },
-        }),
-        new ProjectCertificateGenerated({
-          payload: {
-            projectId: '1',
-            appelOffreId,
-            periodeId,
-            candidateEmail,
-            certificateFileId: '1',
-          },
-        }),
-      ])
+      const candidateNotification = UnwrapForTest(
+        makeCandidateNotification([
+          new ProjectNotified({
+            payload: {
+              projectId: '1',
+              appelOffreId,
+              periodeId,
+              familleId,
+              candidateEmail,
+              candidateName,
+              notifiedOn: 1,
+            },
+          }),
+          new ProjectNotified({
+            payload: {
+              projectId: '2',
+              appelOffreId,
+              periodeId,
+              familleId,
+              candidateEmail,
+              candidateName,
+              notifiedOn: 1,
+            },
+          }),
+          new ProjectCertificateGenerated({
+            payload: {
+              projectId: '1',
+              appelOffreId,
+              periodeId,
+              candidateEmail,
+              certificateFileId: '1',
+            },
+          }),
+        ])
+      )
 
       it('should not trigger events', () => {
-        expect(candidateNotification.domainEvents).toHaveLength(0)
+        expect(candidateNotification.pendingEvents).toHaveLength(0)
+
+        candidateNotification.notifyCandidateIfReady()
+
+        expect(candidateNotification.pendingEvents).toHaveLength(0)
       })
     })
 
     describe('when CandidateNotifiedForPeriode exists', () => {
-      const candidateNotification = UnwrapForTest(CandidateNotification.create(candidateProps))
-      candidateNotification.reloadFromHistory([
-        new CandidateNotifiedForPeriode({
-          payload: {
-            appelOffreId,
-            periodeId,
-            candidateEmail,
-            candidateName,
-          },
-        }),
-      ])
+      const candidateNotification = UnwrapForTest(
+        makeCandidateNotification([
+          new CandidateNotifiedForPeriode({
+            payload: {
+              appelOffreId,
+              periodeId,
+              candidateEmail,
+              candidateName,
+            },
+          }),
+        ])
+      )
 
       it('should not trigger events', () => {
-        expect(candidateNotification.domainEvents).toHaveLength(0)
-      })
-    })
+        expect(candidateNotification.pendingEvents).toHaveLength(0)
 
-    describe('when history is empty', () => {
-      const candidateNotification = UnwrapForTest(CandidateNotification.create(candidateProps))
-      candidateNotification.reloadFromHistory([])
+        candidateNotification.notifyCandidateIfReady()
 
-      it('should not trigger events', () => {
-        expect(candidateNotification.domainEvents).toHaveLength(0)
+        expect(candidateNotification.pendingEvents).toHaveLength(0)
       })
     })
   })

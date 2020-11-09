@@ -1,9 +1,8 @@
 import { EventEmitter } from 'events'
-import { ok, Result, ResultAsync } from 'neverthrow'
-import { mapResults, Queue } from '../../core/utils'
+import { ok, Result, ResultAsync, Queue } from '../../core/utils'
 import { InfraNotAvailableError, OtherError } from '../shared'
+import { EventStore, EventStoreHistoryFilters, EventStoreTransactionArgs } from './EventStore'
 import { StoredEvent } from './StoredEvent'
-import { EventStore, EventStoreHistoryFilters, EventStoreTransactionFn } from './EventStore'
 
 export abstract class BaseEventStore implements EventStore {
   private queue: Queue
@@ -15,47 +14,43 @@ export abstract class BaseEventStore implements EventStore {
     this.eventEmitter = new EventEmitter()
   }
 
-  protected abstract persistEvent(event: StoredEvent): ResultAsync<null, InfraNotAvailableError>
+  protected abstract persistEvents(events: StoredEvent[]): ResultAsync<null, InfraNotAvailableError>
 
   public abstract loadHistory(
     filters?: EventStoreHistoryFilters
   ): ResultAsync<StoredEvent[], InfraNotAvailableError>
 
   publish(event: StoredEvent): ResultAsync<null, InfraNotAvailableError> {
-    const ticket = this.queue.push(async () => await this._persistAndPublish(event))
+    const ticket = this.queue.push(async () => await this._persistAndPublish([event]))
 
-    return ResultAsync.fromPromise(ticket, () => new InfraNotAvailableError()).andThen(
-      (result) => result
-    )
+    return ResultAsync.fromPromise(ticket, (e) => {
+      console.log('BaseEventStore publish ticket failed', e)
+      return new InfraNotAvailableError()
+    }).andThen((item) => item)
   }
 
   subscribe<T extends StoredEvent>(eventType: T['type'], callback: (event: T) => any) {
     this.eventEmitter.on(eventType, callback)
   }
 
-  transaction(
-    fn: EventStoreTransactionFn
-  ): ResultAsync<ReturnType<typeof fn>, InfraNotAvailableError | OtherError> {
-    const ticket: Promise<Result<ReturnType<typeof fn>, InfraNotAvailableError>> = this.queue.push(
-      async () => {
-        const eventsToEmit: StoredEvent[] = []
+  transaction<T>(
+    fn: (args: EventStoreTransactionArgs) => T
+  ): ResultAsync<T, InfraNotAvailableError | OtherError> {
+    const ticket: Promise<Result<T, InfraNotAvailableError>> = this.queue.push(async () => {
+      const eventsToEmit: StoredEvent[] = []
 
-        const callbackResult = await fn({
-          loadHistory: (filters) => {
-            return this.loadHistory(filters)
-          },
-          publish: (event: StoredEvent) => {
-            eventsToEmit.push(event)
-          },
-        })
-        // TODO: if one peristence fails, rollback and fail the transaction (ie emit no events?)
-        return eventsToEmit.length
-          ? await mapResults(eventsToEmit, (event) => this._persistAndPublish(event)).map(
-              () => callbackResult
-            )
-          : ok(callbackResult)
-      }
-    )
+      const callbackResult = await fn({
+        loadHistory: (filters) => {
+          return this.loadHistory(filters)
+        },
+        publish: (event: StoredEvent) => {
+          eventsToEmit.push(event)
+        },
+      })
+      return eventsToEmit.length
+        ? await this._persistAndPublish(eventsToEmit).map(() => callbackResult)
+        : ok(callbackResult)
+    })
 
     return ResultAsync.fromPromise(ticket, (e: any) => new OtherError(e.message)).andThen(
       (res) => res
@@ -67,10 +62,10 @@ export abstract class BaseEventStore implements EventStore {
     this.eventEmitter.emit(event.type, event)
   }
 
-  private _persistAndPublish = (event: StoredEvent) => {
-    return this.persistEvent(event).andThen(() => {
-      this._emitEvent(event)
-      return ok(null)
+  private _persistAndPublish = (events: StoredEvent[]) => {
+    return this.persistEvents(events).andThen(() => {
+      events.forEach(this._emitEvent.bind(this))
+      return ok<null, InfraNotAvailableError>(null)
     })
   }
 }

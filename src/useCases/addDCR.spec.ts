@@ -1,15 +1,15 @@
 import { Readable } from 'stream'
-import waitForExpect from 'wait-for-expect'
 import { okAsync } from '../core/utils'
 import { makeProject, makeUser, Project } from '../entities'
+import { EventBus, StoredEvent } from '../modules/eventStore'
 import { File, FileContainer } from '../modules/file'
 import { FileService } from '../modules/file/FileService'
+import { ProjectDCRSubmitted } from '../modules/project/events'
+import { InfraNotAvailableError } from '../modules/shared'
 import { Ok, UnwrapForTest } from '../types'
 import makeFakeProject from '../__tests__/fixtures/project'
 import makeFakeUser from '../__tests__/fixtures/user'
 import makeAddDCR, { UNAUTHORIZED } from './addDCR'
-import { InMemoryEventStore } from '../infra/inMemory'
-import { ProjectDCRSubmitted } from '../modules/project/events'
 
 const mockFileServiceSave = jest.fn(async (file: File, fileContent: FileContainer) => okAsync(null))
 jest.mock('../modules/file/FileService', () => ({
@@ -32,9 +32,15 @@ const fakeFileContents = {
   stream: Readable.from('test-content'),
 }
 
+const fakePublish = jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null))
+
+const fakeEventBus: EventBus = {
+  publish: fakePublish,
+  subscribe: jest.fn(),
+}
+
 describe('addDCR use-case', () => {
   describe('when the user has rights on this project', () => {
-    const eventStore = new InMemoryEventStore()
     let updatedProject: Project
     const originalProject: Project = UnwrapForTest(
       makeProject(
@@ -50,15 +56,13 @@ describe('addDCR use-case', () => {
 
     const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
 
-    const projectDCRSubmittedHandler = jest.fn((event: ProjectDCRSubmitted) => null)
-
     beforeAll(async () => {
-      eventStore.subscribe(ProjectDCRSubmitted.type, projectDCRSubmittedHandler)
       const shouldUserAccessProject = jest.fn(async () => true)
       mockFileServiceSave.mockClear()
+      fakePublish.mockClear()
 
       const addDCR = makeAddDCR({
-        eventStore,
+        eventBus: fakeEventBus,
         fileService,
         findProjectById: async () => originalProject,
         saveProject: async (project: Project) => {
@@ -124,26 +128,30 @@ describe('addDCR use-case', () => {
     })
 
     it('should trigger a ProjectDCRSubmitted event', async () => {
-      await waitForExpect(() => {
-        expect(projectDCRSubmittedHandler).toHaveBeenCalled()
-        const projectDCRSubmittedEvent = projectDCRSubmittedHandler.mock.calls[0][0]
-        expect(projectDCRSubmittedEvent.payload.projectId).toEqual(originalProject.id)
+      expect(fakePublish).toHaveBeenCalled()
+      const targetEvent = fakePublish.mock.calls
+        .map((call) => call[0])
+        .find((event) => event.type === ProjectDCRSubmitted.type) as ProjectDCRSubmitted
 
-        const fakeFile = mockFileServiceSave.mock.calls[0][0]
+      expect(targetEvent).toBeDefined()
+      if (!targetEvent) return
 
-        expect(projectDCRSubmittedEvent.payload.dcrDate).toEqual(new Date(date))
-        expect(projectDCRSubmittedEvent.payload.fileId).toEqual(fakeFile.id.toString())
-        expect(projectDCRSubmittedEvent.payload.numeroDossier).toEqual(numeroDossier)
-        expect(projectDCRSubmittedEvent.payload.submittedBy).toEqual(user.id)
-        expect(projectDCRSubmittedEvent.aggregateId).toEqual(originalProject.id)
-      })
+      expect(targetEvent.payload.projectId).toEqual(originalProject.id)
+
+      const fakeFile = mockFileServiceSave.mock.calls[0][0]
+
+      expect(targetEvent.payload.dcrDate).toEqual(new Date(date))
+      expect(targetEvent.payload.fileId).toEqual(fakeFile.id.toString())
+      expect(targetEvent.payload.numeroDossier).toEqual(numeroDossier)
+      expect(targetEvent.payload.submittedBy).toEqual(user.id)
+      expect(targetEvent.aggregateId).toEqual(originalProject.id)
     })
   })
 
   describe('When the user doesnt have rights on the project', () => {
     it('should return an UNAUTHORIZED error if the user does not have the rights on this project', async () => {
       mockFileServiceSave.mockClear()
-      const eventStore = new InMemoryEventStore()
+      fakePublish.mockClear()
 
       const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
 
@@ -164,7 +172,7 @@ describe('addDCR use-case', () => {
       const saveProject = jest.fn()
 
       const addDCR = makeAddDCR({
-        eventStore,
+        eventBus: fakeEventBus,
         fileService,
         findProjectById: async () => originalProject,
         saveProject,
@@ -189,6 +197,7 @@ describe('addDCR use-case', () => {
 
       expect(saveProject).not.toHaveBeenCalled()
       expect(mockFileServiceSave).not.toHaveBeenCalled()
+      expect(fakePublish).not.toHaveBeenCalled()
 
       expect(res.unwrap_err()).toEqual(new Error(UNAUTHORIZED))
     })

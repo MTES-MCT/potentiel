@@ -1,12 +1,12 @@
-import { FileStorageService, FileContainer } from './FileStorageService'
-import { FileAccessDeniedError, FileNotFoundError } from './errors'
-import { OtherError } from '../shared'
-import { File } from './File'
-import { User } from '../../entities'
 import { Repository, UniqueEntityID } from '../../core/domain'
-import { ResultAsync, ok, err } from '../../core/utils'
-import { ShouldUserAccessProject } from '../authorization'
 import { DomainError } from '../../core/domain/DomainError'
+import { err, errAsync, ok, Result, ResultAsync } from '../../core/utils'
+import { User } from '../../entities'
+import { ShouldUserAccessProject } from '../authorization'
+import { OtherError } from '../shared'
+import { FileAccessDeniedError, FileNotFoundError } from './errors'
+import { File } from './File'
+import { FileContainer, FileStorageService } from './FileStorageService'
 
 export class FileService {
   constructor(
@@ -22,7 +22,7 @@ export class FileService {
     })
   }
 
-  load(fileId: string, user: User): ResultAsync<FileContainer, DomainError> {
+  load(fileId: string, user: User) {
     return this.fileRepo
       .load(new UniqueEntityID(fileId))
       .andThen((file: File) =>
@@ -33,13 +33,17 @@ export class FileService {
                 projectId: file.forProject,
               }),
               (e: any) => new OtherError(e.message)
-            ).andThen((userHasAccess) =>
-              userHasAccess ? ok(file) : err(new FileAccessDeniedError())
+            ).andThen(
+              (userHasAccess): Result<File, FileAccessDeniedError> =>
+                userHasAccess ? ok(file) : err(new FileAccessDeniedError())
             )
-          : ok(file)
+          : ok<File, DomainError>(file)
       )
-      .andThen((file: File) =>
-        file.storedAt ? this.fileStorageService.load(file.storedAt) : err(new FileNotFoundError())
+      .andThen(
+        (file: File): ResultAsync<FileContainer, FileNotFoundError> =>
+          file.storedAt
+            ? this.fileStorageService.load(file.storedAt).mapErr((e) => new FileNotFoundError())
+            : errAsync(new FileNotFoundError())
       )
   }
 }

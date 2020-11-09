@@ -6,6 +6,7 @@ export interface UnnotifiedProjectDTO {
   projectId: Project['id']
   familleId: Project['familleId']
   candidateEmail: Project['email']
+  candidateName: Project['nomRepresentantLegal']
 }
 
 export type GetUnnotifiedProjectsForPeriode = (

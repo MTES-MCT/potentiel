@@ -1,3 +1,3 @@
 export * from './handleCandidateNotifiedForPeriode'
-export * from './handleProjectCertificateGenerated'
+export * from './handleProjectCertificateGeneratedOrFailed'
 export * from './handleProjectCertificateUpdated'

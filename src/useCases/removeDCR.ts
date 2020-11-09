@@ -1,11 +1,11 @@
 import { ProjectRepo } from '../dataAccess'
 import { applyProjectUpdate, Project, User } from '../entities'
-import { EventStore } from '../modules/eventStore'
+import { EventBus } from '../modules/eventStore'
 import { ProjectDCRRemoved } from '../modules/project/events'
 import { Err, ErrorResult, Ok, ResultAsync } from '../types'
 
 interface MakeUseCaseProps {
-  eventStore: EventStore
+  eventBus: EventBus
   findProjectById: ProjectRepo['findById']
   saveProject: ProjectRepo['save']
   shouldUserAccessProject: (args: { user: User; projectId: Project['id'] }) => Promise<boolean>
@@ -23,7 +23,7 @@ export const SYSTEM_ERROR =
   'Une erreur système est survenue, merci de réessayer ou de contacter un administrateur si le problème persiste.'
 
 export default function makeRemoveDCR({
-  eventStore,
+  eventBus,
   findProjectById,
   saveProject,
   shouldUserAccessProject,
@@ -70,7 +70,7 @@ export default function makeRemoveDCR({
 
     if (res.is_err()) return Err(res.unwrap_err())
 
-    await eventStore.publish(
+    await eventBus.publish(
       new ProjectDCRRemoved({
         payload: {
           projectId: project.id,
