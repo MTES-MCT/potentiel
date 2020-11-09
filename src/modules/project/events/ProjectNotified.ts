@@ -1,14 +1,14 @@
-import { Project, Periode, AppelOffre, Famille } from '../../../entities'
 import { DomainEvent, BaseDomainEvent } from '../../../core/domain/DomainEvent'
-import { CandidateNotification } from '../../candidateNotification/CandidateNotification'
+import { makeCandidateNotificationId } from '../../candidateNotification/CandidateNotification'
 
 export interface ProjectNotifiedPayload {
-  projectId: Project['id']
-  candidateEmail: Project['email']
-  periodeId: Periode['id']
-  appelOffreId: AppelOffre['id']
-  familleId: Famille['id']
-  notifiedOn: Project['notifiedOn']
+  projectId: string
+  candidateEmail: string
+  candidateName: string
+  periodeId: string
+  appelOffreId: string
+  familleId: string
+  notifiedOn: number
 }
 export class ProjectNotified
   extends BaseDomainEvent<ProjectNotifiedPayload>
@@ -18,6 +18,6 @@ export class ProjectNotified
   currentVersion = 1
 
   aggregateIdFromPayload(payload: ProjectNotifiedPayload) {
-    return [payload.projectId, CandidateNotification.makeId(payload)]
+    return [payload.projectId, makeCandidateNotificationId(payload)]
   }
 }

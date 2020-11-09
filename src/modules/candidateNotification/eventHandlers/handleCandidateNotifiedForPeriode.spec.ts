@@ -1,4 +1,4 @@
-import { okAsync } from 'neverthrow'
+import { okAsync } from '../../../core/utils'
 import { ProjectAdmissionKey } from '../../../entities'
 import { Ok } from '../../../types'
 import { GetPeriodeTitle } from '../../appelOffre'

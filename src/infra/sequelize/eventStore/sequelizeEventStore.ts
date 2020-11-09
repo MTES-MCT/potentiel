@@ -67,9 +67,9 @@ export class SequelizeEventStore extends BaseEventStore {
     this.EventStoreModel = models.EventStore
   }
 
-  protected persistEvent(event: StoredEvent): ResultAsync<null, InfraNotAvailableError> {
+  protected persistEvents(events: StoredEvent[]): ResultAsync<null, InfraNotAvailableError> {
     return ResultAsync.fromPromise(
-      this.EventStoreModel.create(this.toPersistance(event)),
+      this.EventStoreModel.bulkCreate(events.map(this.toPersistance)),
       (e: any) => {
         console.log('SequelizeEventStore _persistEvent error', e.message)
         return new InfraNotAvailableError()

@@ -38,7 +38,7 @@ const login = makeLogin({
 })
 
 const importProjects = makeImportProjects({
-  eventStore,
+  eventBus: eventStore,
   findOneProject: projectRepo.findOne,
   saveProject: projectRepo.save,
   removeProject: projectRepo.remove,
@@ -115,7 +115,7 @@ const inviteUserToProject = makeInviteUserToProject({
 })
 
 const addGarantiesFinancieres = makeAddGarantiesFinancieres({
-  eventStore,
+  eventBus: eventStore,
   fileService,
   findProjectById: projectRepo.findById,
   saveProject: projectRepo.save,
@@ -125,14 +125,14 @@ const addGarantiesFinancieres = makeAddGarantiesFinancieres({
   sendNotification,
 })
 const removeGarantiesFinancieres = makeRemoveGarantiesFinancieres({
-  eventStore,
+  eventBus: eventStore,
   findProjectById: projectRepo.findById,
   saveProject: projectRepo.save,
   shouldUserAccessProject,
 })
 
 const addDCR = makeAddDCR({
-  eventStore,
+  eventBus: eventStore,
   fileService,
   findProjectById: projectRepo.findById,
   saveProject: projectRepo.save,
@@ -140,7 +140,7 @@ const addDCR = makeAddDCR({
 })
 
 const removeDCR = makeRemoveDCR({
-  eventStore,
+  eventBus: eventStore,
   findProjectById: projectRepo.findById,
   saveProject: projectRepo.save,
   shouldUserAccessProject,
@@ -165,7 +165,7 @@ const relanceInvitations = makeRelanceInvitations({
 })
 
 const relanceGarantiesFinancieres = makeRelanceGarantiesFinancieres({
-  eventStore,
+  eventBus: eventStore,
   findProjectsWithGarantiesFinancieresPendingBefore:
     projectRepo.findProjectsWithGarantiesFinancieresPendingBefore,
   getUsersForProject: projectRepo.getUsers,

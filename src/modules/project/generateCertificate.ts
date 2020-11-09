@@ -34,9 +34,9 @@ interface GenerateCertificateDeps {
   ) => ResultAsync<NodeJS.ReadableStream, Error>
 }
 export const makeGenerateCertificate = (deps: GenerateCertificateDeps): GenerateCertificate => (
-  projectId: Project['id'],
-  notifiedOn?: Project['notifiedOn'],
-  _project?: Project
+  projectId,
+  notifiedOn,
+  _project
 ) => {
   return ResultAsync.fromPromise(
     _project ? Promise.resolve(_project) : deps.findProjectById(projectId),

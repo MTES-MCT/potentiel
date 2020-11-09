@@ -1,4 +1,4 @@
-import { okAsync } from 'neverthrow'
+import { okAsync } from '../../../core/utils'
 import { makeProject, makeUser, Project } from '../../../entities'
 import { UnwrapForTest } from '../../../types'
 import makeFakeProject from '../../../__tests__/fixtures/project'

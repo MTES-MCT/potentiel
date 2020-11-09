@@ -1,11 +1,19 @@
-import waitForExpect from 'wait-for-expect'
+import { okAsync } from '../core/utils'
 import { makeProject, makeUser, Project } from '../entities'
+import { EventBus, StoredEvent } from '../modules/eventStore'
+import { ProjectGFRemoved } from '../modules/project/events'
+import { InfraNotAvailableError } from '../modules/shared'
 import { Ok, UnwrapForTest } from '../types'
 import makeFakeProject from '../__tests__/fixtures/project'
 import makeFakeUser from '../__tests__/fixtures/user'
 import makeRemoveGarantiesFinancieres, { UNAUTHORIZED } from './removeGarantiesFinancieres'
-import { InMemoryEventStore } from '../infra/inMemory'
-import { ProjectGFRemoved } from '../modules/project/events'
+
+const fakePublish = jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null))
+
+const fakeEventBus: EventBus = {
+  publish: fakePublish,
+  subscribe: jest.fn(),
+}
 
 describe('removeGarantiesFinancieres use-case', () => {
   describe('when the user is porteur-projet', () => {
@@ -26,15 +34,12 @@ describe('removeGarantiesFinancieres use-case', () => {
           )
         )
 
-        const projectGFRemovedHandler = jest.fn((event: ProjectGFRemoved) => null)
-
-        const eventStore = new InMemoryEventStore()
+        fakePublish.mockClear()
 
         it('should remove garanties financieres information on the project', async () => {
-          eventStore.subscribe(ProjectGFRemoved.type, projectGFRemovedHandler)
           const saveProject = jest.fn(async (project: Project) => Ok(null))
           const removeGarantiesFinancieres = makeRemoveGarantiesFinancieres({
-            eventStore,
+            eventBus: fakeEventBus,
             findProjectById: async () => originalProject,
             shouldUserAccessProject,
             saveProject,
@@ -84,14 +89,18 @@ describe('removeGarantiesFinancieres use-case', () => {
         })
 
         it('should trigger a ProjectGFRemoved event', async () => {
-          await waitForExpect(() => {
-            expect(projectGFRemovedHandler).toHaveBeenCalled()
-            const projectGFRemovedEvent = projectGFRemovedHandler.mock.calls[0][0]
-            expect(projectGFRemovedEvent.payload.projectId).toEqual(originalProject.id)
+          expect(fakePublish).toHaveBeenCalled()
+          const targetEvent = fakePublish.mock.calls
+            .map((call) => call[0])
+            .find((event) => event.type === ProjectGFRemoved.type) as ProjectGFRemoved
 
-            expect(projectGFRemovedEvent.payload.removedBy).toEqual(user.id)
-            expect(projectGFRemovedEvent.aggregateId).toEqual(originalProject.id)
-          })
+          expect(targetEvent).toBeDefined()
+          if (!targetEvent) return
+
+          expect(targetEvent.payload.projectId).toEqual(originalProject.id)
+
+          expect(targetEvent.payload.removedBy).toEqual(user.id)
+          expect(targetEvent.aggregateId).toEqual(originalProject.id)
         })
       })
 
@@ -109,13 +118,14 @@ describe('removeGarantiesFinancieres use-case', () => {
 
         it('should not update the project and return ok', async () => {
           const saveProject = jest.fn(async (project: Project) => Ok(null))
-          const eventStore = new InMemoryEventStore()
           const removeGarantiesFinancieres = makeRemoveGarantiesFinancieres({
-            eventStore,
+            eventBus: fakeEventBus,
             findProjectById: async () => originalProject,
             shouldUserAccessProject,
             saveProject,
           })
+
+          fakePublish.mockClear()
 
           const res = await removeGarantiesFinancieres({
             user,
@@ -131,6 +141,7 @@ describe('removeGarantiesFinancieres use-case', () => {
           })
 
           expect(saveProject).not.toHaveBeenCalled()
+          expect(fakePublish).not.toHaveBeenCalled()
         })
       })
     })
@@ -139,9 +150,11 @@ describe('removeGarantiesFinancieres use-case', () => {
       it('should return an UNAUTHORIZED error', async () => {
         const shouldUserAccessProject = jest.fn(async () => false)
         const saveProject = jest.fn()
-        const eventStore = new InMemoryEventStore()
+
+        fakePublish.mockClear()
+
         const removeGarantiesFinancieres = makeRemoveGarantiesFinancieres({
-          eventStore,
+          eventBus: fakeEventBus,
           findProjectById: jest.fn(),
           shouldUserAccessProject,
           saveProject,
@@ -158,6 +171,7 @@ describe('removeGarantiesFinancieres use-case', () => {
 
         expect(shouldUserAccessProject).toHaveBeenCalled()
         expect(saveProject).not.toHaveBeenCalled()
+        expect(fakePublish).not.toHaveBeenCalled()
       })
     })
   })
@@ -166,11 +180,11 @@ describe('removeGarantiesFinancieres use-case', () => {
     it('should return an UNAUTHORIZED error', async () => {
       const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
 
+      fakePublish.mockClear()
       const shouldUserAccessProject = jest.fn()
       const saveProject = jest.fn()
-      const eventStore = new InMemoryEventStore()
       const removeGarantiesFinancieres = makeRemoveGarantiesFinancieres({
-        eventStore,
+        eventBus: fakeEventBus,
         findProjectById: jest.fn(),
         shouldUserAccessProject,
         saveProject,
@@ -186,6 +200,7 @@ describe('removeGarantiesFinancieres use-case', () => {
       expect(res.unwrap_err().message).toEqual(UNAUTHORIZED)
 
       expect(shouldUserAccessProject).not.toHaveBeenCalled()
+      expect(fakePublish).not.toHaveBeenCalled()
       expect(saveProject).not.toHaveBeenCalled()
     })
   })

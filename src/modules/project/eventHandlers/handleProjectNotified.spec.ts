@@ -1,6 +1,6 @@
 import { DomainError } from '../../../core/domain'
 import { errAsync, okAsync } from '../../../core/utils'
-import { CandidateNotification } from '../../candidateNotification/CandidateNotification'
+import { makeCandidateNotificationId } from '../../candidateNotification/CandidateNotification'
 import { StoredEvent } from '../../eventStore'
 import { InfraNotAvailableError, OtherError } from '../../shared'
 import { ProjectNotified } from '../events'
@@ -22,6 +22,7 @@ describe('handleProjectNotified', () => {
     const fakePayload = {
       projectId: 'project1',
       candidateEmail: 'email',
+      candidateName: 'name',
       periodeId: 'periode1',
       appelOffreId: 'appelOffre1',
       notifiedOn: 0,
@@ -72,7 +73,7 @@ describe('handleProjectNotified', () => {
       expect(projectCertificateGeneratedEvent.requestId).toEqual('request1')
       expect(projectCertificateGeneratedEvent.aggregateId).toEqual([
         fakePayload.projectId,
-        CandidateNotification.makeId(fakePayload),
+        makeCandidateNotificationId(fakePayload),
       ])
     })
   })
@@ -88,6 +89,7 @@ describe('handleProjectNotified', () => {
     const fakePayload = {
       projectId: 'project1',
       candidateEmail: 'email',
+      candidateName: 'name',
       periodeId: 'periode1',
       appelOffreId: 'appelOffre1',
       familleId: 'famille1',
@@ -129,7 +131,7 @@ describe('handleProjectNotified', () => {
       expect((projectCertificateGeneratedEvent.payload as any).certificateFileId).toEqual('fileId1')
       expect(projectCertificateGeneratedEvent.aggregateId).toEqual([
         fakePayload.projectId,
-        CandidateNotification.makeId(fakePayload),
+        makeCandidateNotificationId(fakePayload),
       ])
     })
 
@@ -151,6 +153,7 @@ describe('handleProjectNotified', () => {
     const fakePayload = {
       projectId: 'project1',
       candidateEmail: 'email',
+      candidateName: 'name',
       periodeId: 'periode1',
       appelOffreId: 'appelOffre1',
       familleId: 'famille1',
@@ -196,7 +199,7 @@ describe('handleProjectNotified', () => {
       expect(projectCertificateGenerationFailedEvent.requestId).toEqual('request1')
       expect(projectCertificateGenerationFailedEvent.aggregateId).toEqual([
         fakePayload.projectId,
-        CandidateNotification.makeId(fakePayload),
+        makeCandidateNotificationId(fakePayload),
       ])
     })
 

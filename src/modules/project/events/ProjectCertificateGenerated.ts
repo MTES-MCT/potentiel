@@ -1,6 +1,6 @@
 import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
 import { AppelOffre, Periode, Project } from '../../../entities'
-import { CandidateNotification } from '../../candidateNotification/CandidateNotification'
+import { makeCandidateNotificationId } from '../../candidateNotification/CandidateNotification'
 
 export interface ProjectCertificateGeneratedPayload {
   certificateFileId: Project['certificateFileId']
@@ -18,6 +18,6 @@ export class ProjectCertificateGenerated
   currentVersion = 1
 
   aggregateIdFromPayload(payload: ProjectCertificateGeneratedPayload) {
-    return [payload.projectId, CandidateNotification.makeId(payload)]
+    return [payload.projectId, makeCandidateNotificationId(payload)]
   }
 }

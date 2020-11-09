@@ -22,6 +22,7 @@ describe('SequelizeEventStore', () => {
     projectId: 'projectNotified',
     familleId: 'F',
     candidateEmail: '',
+    candidateName: '',
     notifiedOn: 0,
   }
 

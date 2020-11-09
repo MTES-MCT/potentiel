@@ -5,8 +5,8 @@ import { InfraNotAvailableError } from '../../modules/shared'
 export class InMemoryEventStore extends BaseEventStore {
   private history: StoredEvent[] = []
 
-  protected persistEvent(event: StoredEvent): ResultAsync<null, InfraNotAvailableError> {
-    this.history.push(event)
+  protected persistEvents(events: StoredEvent[]): ResultAsync<null, InfraNotAvailableError> {
+    events.forEach((event) => this.history.push(event))
     return okAsync<null, InfraNotAvailableError>(null)
   }
 

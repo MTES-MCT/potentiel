@@ -1,6 +1,6 @@
-import { ResultAsync } from 'neverthrow'
-import { DomainEvent } from '../../core/domain/DomainEvent'
-import { InfraNotAvailableError, OtherError } from '../shared'
+import { ResultAsync } from '../../core/utils'
+import { DomainEvent } from '../../core/domain'
+import { InfraNotAvailableError } from '../shared'
 import { EventBus } from './EventBus'
 import { StoredEvent } from './StoredEvent'
 
@@ -11,15 +11,15 @@ export interface EventStoreHistoryFilters {
   payload?: Record<string, any>
 }
 
-export type EventStoreTransactionFn = (args: {
+export type EventStoreTransactionArgs = {
   loadHistory: (
     filters?: EventStoreHistoryFilters
   ) => ResultAsync<StoredEvent[], InfraNotAvailableError>
   publish: (event: StoredEvent) => void
-}) => any
+}
 
 export type EventStore = EventBus & {
-  transaction: (
-    fn: EventStoreTransactionFn
-  ) => ResultAsync<ReturnType<typeof fn>, InfraNotAvailableError | OtherError>
+  transaction: <T>(
+    fn: (args: EventStoreTransactionArgs) => T
+  ) => ResultAsync<T, InfraNotAvailableError>
 }

@@ -1,1 +1,4 @@
-export { getFailedNotifications, getUnnotifiedProjectsForPeriode } from '../infra/sequelize'
+export {
+  getFailedNotifications,
+  getUnnotifiedProjectsForPeriode,
+} from '../infra/sequelize/projections'

@@ -1,7 +1,7 @@
-import { okAsync } from '../../../core/utils'
-import { CandidateNotification } from '../../candidateNotification/CandidateNotification'
-import { StoredEvent } from '../../eventStore'
-import { InfraNotAvailableError, OtherError } from '../../shared'
+import { okAsync, ResultAsync } from '../../../core/utils'
+import { makeCandidateNotificationId } from '../../candidateNotification/CandidateNotification'
+import { EventStore, EventStoreTransactionArgs, StoredEvent } from '../../eventStore'
+import { InfraNotAvailableError } from '../../shared'
 import { PeriodeNotified, ProjectNotified } from '../events'
 import { UnnotifiedProjectDTO } from '../queries'
 import { handlePeriodeNotified } from './'
@@ -12,6 +12,7 @@ describe('handlePeriodeNotified', () => {
       ['project1', 'project2'].map((projectId) => ({
         projectId,
         candidateEmail: 'email',
+        candidateName: 'john doe',
         familleId: 'famille',
       }))
     )
@@ -26,13 +27,15 @@ describe('handlePeriodeNotified', () => {
 
   const publish = jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null))
 
-  const eventStore = {
+  const eventStore: EventStore = {
     publish: jest.fn(),
     subscribe: jest.fn(),
-    transaction: jest.fn((cb) => {
-      cb({ publish })
-      return okAsync<null, InfraNotAvailableError | OtherError>(null)
-    }),
+    transaction: <T>(fn: (args: EventStoreTransactionArgs) => T) => {
+      return ResultAsync.fromPromise(
+        Promise.resolve(fn({ loadHistory: jest.fn(), publish })),
+        () => new InfraNotAvailableError()
+      )
+    },
   }
 
   beforeAll(async () => {
@@ -66,10 +69,11 @@ describe('handlePeriodeNotified', () => {
       ...fakePayload,
       projectId: 'project1',
       candidateEmail: 'email',
+      candidateName: 'john doe',
     })
     expect(project1Event!.aggregateId).toEqual(
       expect.arrayContaining([
-        CandidateNotification.makeId({
+        makeCandidateNotificationId({
           appelOffreId: fakePayload.appelOffreId,
           periodeId: fakePayload.periodeId,
           candidateEmail: 'email',
@@ -85,10 +89,11 @@ describe('handlePeriodeNotified', () => {
       ...fakePayload,
       projectId: 'project2',
       candidateEmail: 'email',
+      candidateName: 'john doe',
     })
     expect(project2Event!.aggregateId).toEqual(
       expect.arrayContaining([
-        CandidateNotification.makeId({
+        makeCandidateNotificationId({
           appelOffreId: fakePayload.appelOffreId,
           periodeId: fakePayload.periodeId,
           candidateEmail: 'email',

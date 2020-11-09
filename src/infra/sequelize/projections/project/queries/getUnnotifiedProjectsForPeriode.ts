@@ -17,6 +17,7 @@ export const makeGetUnnotifiedProjectsForPeriode = (models): GetUnnotifiedProjec
     projects.map((project) => ({
       projectId: project.id,
       candidateEmail: project.email,
+      candidateName: project.nomRepresentantLegal,
       familleId: project.familleId,
     }))
   )

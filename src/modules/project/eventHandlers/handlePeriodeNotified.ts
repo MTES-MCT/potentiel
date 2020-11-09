@@ -18,20 +18,26 @@ export const handlePeriodeNotified = (deps: {
   }
 
   const result = await eventStore.transaction(({ publish }) => {
-    unnotifiedProjectIdsResult.value.forEach(({ projectId, candidateEmail, familleId }) =>
-      publish(
-        new ProjectNotified({
-          payload: {
-            projectId,
-            periodeId,
-            familleId,
-            appelOffreId,
-            candidateEmail,
-            notifiedOn,
-          },
-          requestId: event.requestId,
-        })
-      )
+    console.log(
+      'handlePeriodeNotified, inside transaction found ',
+      unnotifiedProjectIdsResult.value.length
+    )
+    unnotifiedProjectIdsResult.value.forEach(
+      ({ projectId, candidateEmail, candidateName, familleId }) =>
+        publish(
+          new ProjectNotified({
+            payload: {
+              projectId,
+              periodeId,
+              familleId,
+              appelOffreId,
+              candidateEmail,
+              candidateName,
+              notifiedOn,
+            },
+            requestId: event.requestId,
+          })
+        )
     )
   })
 

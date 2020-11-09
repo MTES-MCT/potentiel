@@ -14,19 +14,13 @@ import {
   Union,
   Unknown,
 } from '../types/schemaTypes'
-import { ModificationRequest, User } from './'
+import { ModificationRequest } from './modificationRequest'
+import { User } from './user'
 import { ProjectAppelOffre } from './appelOffre'
 import { Famille } from './famille'
 import { CertificateTemplate } from './periode'
 
-const territoireSchema = Union(
-  Literal('Corse'),
-  Literal('Guadeloupe'),
-  Literal('Guyane'),
-  Literal('La Réunion'),
-  Literal('Mayotte'),
-  Literal('Martinique')
-)
+import { territoireSchema } from './territoire'
 
 const baseProjectSchema = SchemaRecord({
   id: String,

@@ -1,4 +1,5 @@
 export * from './EntityNotFound'
+export * from './HeterogeneousHistoryError'
 export * from './InfraNotAvailable'
 export * from './OtherError'
 export * from './UnauthorizedError'

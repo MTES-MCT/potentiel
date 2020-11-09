@@ -13,6 +13,7 @@ describe('Sequelize getUnnotifiedProjectsForPeriode', () => {
     {
       id: 'target',
       email: 'candidate@test.test',
+      nomRepresentantLegal: 'john doe',
       appelOffreId: 'appelOffre1',
       periodeId: 'periode1',
       familleId: 'famille1',
@@ -60,6 +61,7 @@ describe('Sequelize getUnnotifiedProjectsForPeriode', () => {
         {
           projectId: 'target',
           candidateEmail: 'candidate@test.test',
+          candidateName: 'john doe',
           familleId: 'famille1',
         },
       ])

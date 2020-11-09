@@ -52,6 +52,7 @@ describe('project.onProjectNotificationDateSet', () => {
           projectId: 'target',
           notifiedOn: 56789,
           candidateEmail: '',
+          candidateName: '',
           periodeId: '',
           appelOffreId: '',
           familleId: '',
