@@ -144,11 +144,13 @@ const zni: AppelOffre = {
       id: '1b',
       title: '1b. 500 kWc - 1,5MWc',
       garantieFinanciereEnMois: 36,
+      soumisAuxGarantiesFinancieres: true,
     },
     {
       id: '1c',
       title: '1c. 500 kWc - 5 MWc',
       garantieFinanciereEnMois: 36,
+      soumisAuxGarantiesFinancieres: true,
     },
     // 2019 ZNI sans stockage
     {
@@ -159,11 +161,13 @@ const zni: AppelOffre = {
       id: '2b',
       title: '2b. 500 kWc - 1,5MWc',
       garantieFinanciereEnMois: 36,
+      soumisAuxGarantiesFinancieres: true,
     },
     {
       id: '2c',
       title: '2c. 500 kWc - 5 MWc',
       garantieFinanciereEnMois: 36,
+      soumisAuxGarantiesFinancieres: true,
     },
   ],
 }

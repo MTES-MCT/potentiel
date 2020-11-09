@@ -1,12 +1,11 @@
 import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
-import { AppelOffre, Periode, Project } from '../../../entities'
 import { makeCandidateNotificationId } from '../../candidateNotification/CandidateNotification'
 
 export interface ProjectCertificateGenerationFailedPayload {
-  projectId: Project['id']
-  candidateEmail: Project['email']
-  periodeId: Periode['id']
-  appelOffreId: AppelOffre['id']
+  projectId: string
+  candidateEmail: string
+  periodeId: string
+  appelOffreId: string
   error: string
 }
 export class ProjectCertificateGenerationFailed

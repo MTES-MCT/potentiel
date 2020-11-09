@@ -1,22 +1,15 @@
 import {
   handleCandidateNotifiedForPeriode,
   handleProjectCertificateGeneratedOrFailed,
-  handleProjectCertificateUpdated,
 } from '../../modules/candidateNotification/eventHandlers'
 import { CandidateNotifiedForPeriode } from '../../modules/candidateNotification/events'
 import {
   ProjectCertificateGenerated,
   ProjectCertificateGenerationFailed,
-  ProjectCertificateUpdated,
 } from '../../modules/project/events'
 import { sendNotification } from '../emails.config'
 import { eventStore } from '../eventStore.config'
-import {
-  appelOffreRepo,
-  projectAdmissionKeyRepo,
-  projectRepo,
-  candidateNotificationRepo,
-} from '../repos.config'
+import { appelOffreRepo, candidateNotificationRepo, projectAdmissionKeyRepo } from '../repos.config'
 
 eventStore.subscribe(
   CandidateNotifiedForPeriode.type,
@@ -34,14 +27,5 @@ const projectCertficateHandler = handleProjectCertificateGeneratedOrFailed({
 eventStore.subscribe(ProjectCertificateGenerated.type, projectCertficateHandler)
 eventStore.subscribe(ProjectCertificateGenerationFailed.type, projectCertficateHandler)
 
-eventStore.subscribe(
-  ProjectCertificateUpdated.type,
-  handleProjectCertificateUpdated({
-    eventBus: eventStore,
-    sendNotification,
-    findProjectById: projectRepo.findById,
-    getUsersForProject: projectRepo.getUsers,
-  })
-)
-
 console.log('Candidate Notification Event Handlers Initialized')
+export const candidateNotificationHandlersOk = true

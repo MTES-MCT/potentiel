@@ -1,15 +1,15 @@
 import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
-import { Project } from '../../../entities'
 
 export interface ProjectCertificateUpdatedPayload {
-  projectId: Project['id']
-  certificateFileId: Project['certificateFileId']
+  projectId: string
+  certificateFileId: string
+  uploadedBy: string // userId
 }
-export class ProjectCertificateUpdated
+export class ProjectCertificateUploaded
   extends BaseDomainEvent<ProjectCertificateUpdatedPayload>
   implements DomainEvent {
   public static type: 'ProjectCertificateUpdated' = 'ProjectCertificateUpdated'
-  public type = ProjectCertificateUpdated.type
+  public type = ProjectCertificateUploaded.type
   currentVersion = 1
 
   aggregateIdFromPayload(payload: ProjectCertificateUpdatedPayload) {

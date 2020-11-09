@@ -1,30 +1,28 @@
 import { EventStore, StoredEvent } from '.'
 import { TransactionalRepository, UniqueEntityID } from '../../core/domain'
-import { Result, ResultAsync } from '../../core/utils'
+import { Result, ResultAsync, unwrapResultOfResult } from '../../core/utils'
 import { EntityNotFoundError, HeterogeneousHistoryError, InfraNotAvailableError } from '../shared'
+import { EventStoreAggregate } from './EventStoreAggregate'
 
-type AggregateFromHistoryFn<T> = (
+type AggregateFromHistoryFn<T> = (args: {
   events: StoredEvent[]
-) => Result<T, EntityNotFoundError | HeterogeneousHistoryError>
+  id: UniqueEntityID
+}) => Result<T, EntityNotFoundError | HeterogeneousHistoryError>
 
-interface HasPendingEvents {
-  pendingEvents: StoredEvent[]
-}
-
-export class EventStoreTransactionalRepo<T extends HasPendingEvents>
-  implements TransactionalRepository<T> {
-  constructor(private eventStore: EventStore, private makeFn: AggregateFromHistoryFn<T>) {}
-
+export const makeEventStoreTransactionalRepo = <T extends EventStoreAggregate>(deps: {
+  eventStore: EventStore
+  makeAggregate: AggregateFromHistoryFn<T>
+}): TransactionalRepository<T> => ({
   transaction<K, E>(
     id: UniqueEntityID,
     fn: (aggregate: T) => ResultAsync<K, E> | Result<K, E>
   ): ResultAsync<K, E | EntityNotFoundError | InfraNotAvailableError | HeterogeneousHistoryError> {
-    return this.eventStore
+    return deps.eventStore
       .transaction(({ loadHistory, publish }) => {
         let _aggregate: T
 
         return loadHistory({ aggregateId: id.toString() })
-          .andThen(this.makeFn)
+          .andThen((events) => deps.makeAggregate({ events, id }))
           .andThen((aggregate) => {
             _aggregate = aggregate
             return fn(aggregate)
@@ -35,6 +33,6 @@ export class EventStoreTransactionalRepo<T extends HasPendingEvents>
             return fnResult
           })
       })
-      .andThen((item) => item)
-  }
-}
+      .andThen(unwrapResultOfResult)
+  },
+})

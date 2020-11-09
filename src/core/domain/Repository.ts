@@ -1,4 +1,5 @@
 import {
+  AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   HeterogeneousHistoryError,
   InfraNotAvailableError,
@@ -7,7 +8,9 @@ import { Result, ResultAsync } from '../utils'
 import { UniqueEntityID } from './UniqueEntityID'
 
 export type Repository<T> = {
-  save: (aggregate: T) => ResultAsync<null, InfraNotAvailableError>
+  save: (
+    aggregate: T
+  ) => ResultAsync<null, InfraNotAvailableError | AggregateHasBeenUpdatedSinceError>
   load: (id: UniqueEntityID) => ResultAsync<T, EntityNotFoundError | InfraNotAvailableError>
 }
 

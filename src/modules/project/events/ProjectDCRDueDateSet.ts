@@ -1,9 +1,8 @@
 import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
-import { Project } from '../../../entities'
 
 export interface ProjectDCRDueDateSetPayload {
-  projectId: Project['id']
-  dcrDueOn: Project['dcrDueOn']
+  projectId: string
+  dcrDueOn: number
 }
 export class ProjectDCRDueDateSet
   extends BaseDomainEvent<ProjectDCRDueDateSetPayload>
