@@ -1,7 +1,8 @@
 import { makeGetFailedNotifications } from './getFailedNotifications'
 import models from '../../../models'
-import { sequelize } from '../../../../../sequelize.config'
 import { UniqueEntityID } from '../../../../../core/domain'
+import { resetDatabase } from '../../../../../dataAccess'
+import { v4 as uuid } from 'uuid'
 
 const fakeNotificationArgs = {
   message: {
@@ -12,7 +13,7 @@ const fakeNotificationArgs = {
   type: 'password-reset',
   context: {
     passwordRetrievalId: 'passwordRetrievalId',
-    userId: 'userId',
+    userId: uuid(),
   },
   variables: {
     password_reset_link: 'resetLink',
@@ -25,31 +26,33 @@ describe('Sequelize getFailedNotifications', () => {
   const getFailedNotifications = makeGetFailedNotifications(models)
 
   beforeAll(async () => {
-    // Create the tables and remove all data
-    await sequelize.sync({ force: true })
+    await resetDatabase()
   })
 
   describe('getFailedNotifications()', () => {
+    const notifId1 = uuid()
+    const notifId2 = uuid()
+
     beforeAll(async () => {
       const NotificationModel = models.Notification
       await NotificationModel.create({
         ...fakeNotificationArgs,
-        id: '1',
+        id: notifId1,
         status: 'error',
       })
       await NotificationModel.create({
         ...fakeNotificationArgs,
-        id: '2',
+        id: notifId2,
         status: 'error',
       })
       await NotificationModel.create({
         ...fakeNotificationArgs,
-        id: '3',
+        id: uuid(),
         status: 'sent',
       })
       await NotificationModel.create({
         ...fakeNotificationArgs,
-        id: '4',
+        id: uuid(),
         status: 'retried',
       })
     })
@@ -64,7 +67,7 @@ describe('Sequelize getFailedNotifications', () => {
 
       expect(failedNotificationIds).toHaveLength(2)
       expect(failedNotificationIds).toEqual(
-        expect.arrayContaining(['1', '2'].map((idStr) => new UniqueEntityID(idStr)))
+        expect.arrayContaining([notifId1, notifId2].map((idStr) => new UniqueEntityID(idStr)))
       )
     })
   })

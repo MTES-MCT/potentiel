@@ -1,13 +1,10 @@
 import { v4 as uuid } from 'uuid'
 import makeFakeProject from '../../__tests__/fixtures/project'
 import makeFakeUser from '../../__tests__/fixtures/user'
-import { userRepo, projectRepo, initDatabase, resetDatabase, sequelize } from './'
+import { userRepo, projectRepo, resetDatabase } from './'
+import { sequelizeInstance } from '../../sequelize.config'
 
-describe('userRepo sequelize', () => {
-  beforeAll(async () => {
-    await initDatabase()
-  })
-
+describe('userRepo sequelizeInstance', () => {
   beforeEach(async () => {
     await resetDatabase()
   })
@@ -15,7 +12,7 @@ describe('userRepo sequelize', () => {
   describe('addToDreal', () => {
     const userId = uuid()
     beforeAll(async () => {
-      const UserModel = sequelize.model('user')
+      const UserModel = sequelizeInstance.model('user')
 
       await UserModel.create({
         id: userId,
@@ -28,7 +25,7 @@ describe('userRepo sequelize', () => {
     it('should add the dreal to the user', async () => {
       await userRepo.addToDreal(userId, 'Corse')
 
-      const UserDrealModel = sequelize.model('userDreal')
+      const UserDrealModel = sequelizeInstance.model('userDreal')
 
       const userDreals = await UserDrealModel.findAll({ where: { userId } })
 
@@ -41,8 +38,8 @@ describe('userRepo sequelize', () => {
     const userId = uuid()
 
     it('return the users associated to the dreal', async () => {
-      const UserModel = sequelize.model('user')
-      const UserDrealModel = sequelize.model('userDreal')
+      const UserModel = sequelizeInstance.model('user')
+      const UserDrealModel = sequelizeInstance.model('userDreal')
 
       await UserModel.create({
         id: userId,
@@ -69,8 +66,8 @@ describe('userRepo sequelize', () => {
     const userId = uuid()
 
     it('return the users associated to the dreal', async () => {
-      const UserModel = sequelize.model('user')
-      const UserDrealModel = sequelize.model('userDreal')
+      const UserModel = sequelizeInstance.model('user')
+      const UserDrealModel = sequelizeInstance.model('userDreal')
 
       await UserModel.create({
         id: userId,
@@ -121,8 +118,8 @@ describe('userRepo sequelize', () => {
 
         expect(result.is_ok()).toBeTruthy()
 
-        const UserModel = sequelize.model('user')
-        const ProjectModel = sequelize.model('project')
+        const UserModel = sequelizeInstance.model('user')
+        const ProjectModel = sequelizeInstance.model('project')
         const userInstance = await UserModel.findByPk(userId)
         const projectInstance = await ProjectModel.findByPk(targetProjetId)
 
@@ -168,8 +165,8 @@ describe('userRepo sequelize', () => {
 
       expect(result.is_ok()).toBeTruthy()
 
-      const UserModel = sequelize.model('user')
-      const ProjectModel = sequelize.model('project')
+      const UserModel = sequelizeInstance.model('user')
+      const ProjectModel = sequelizeInstance.model('project')
       const userProjects = (
         await ProjectModel.findAll({
           attributes: ['id'],
