@@ -110,28 +110,23 @@ export const MakeProjectModel = (sequelize) => {
       },
       notifiedOn: {
         type: DataTypes.BIGINT,
-        allowNull: false,
-        defaultValue: 0,
+        allowNull: true,
       },
       garantiesFinancieresDueOn: {
         type: DataTypes.BIGINT,
-        allowNull: false,
-        defaultValue: 0,
+        allowNull: true,
       },
       garantiesFinancieresRelanceOn: {
         type: DataTypes.BIGINT,
-        allowNull: false,
-        defaultValue: 0,
+        allowNull: true,
       },
       garantiesFinancieresSubmittedOn: {
         type: DataTypes.BIGINT,
-        allowNull: false,
-        defaultValue: 0,
+        allowNull: true,
       },
       garantiesFinancieresDate: {
         type: DataTypes.BIGINT,
-        allowNull: false,
-        defaultValue: 0,
+        allowNull: true,
       },
       garantiesFinancieresFile: {
         type: DataTypes.STRING,
@@ -147,18 +142,15 @@ export const MakeProjectModel = (sequelize) => {
       },
       dcrDueOn: {
         type: DataTypes.BIGINT,
-        allowNull: false,
-        defaultValue: 0,
+        allowNull: true,
       },
       dcrSubmittedOn: {
         type: DataTypes.BIGINT,
-        allowNull: false,
-        defaultValue: 0,
+        allowNull: true,
       },
       dcrDate: {
         type: DataTypes.BIGINT,
-        allowNull: false,
-        defaultValue: 0,
+        allowNull: true,
       },
       dcrFile: {
         type: DataTypes.STRING,

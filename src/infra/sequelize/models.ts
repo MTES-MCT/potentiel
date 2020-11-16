@@ -1,4 +1,4 @@
-import { sequelize } from '../../sequelize.config'
+import { sequelizeInstance } from '../../sequelize.config'
 
 import { MakeProjectModel } from './projections/project/project.model'
 import { MakeFileModel } from './projections/file/file.model'
@@ -6,10 +6,10 @@ import { MakeNotificationModel } from './projections/notification/notification.m
 import { MakeEventStoreModel } from './eventStore/eventStore.model'
 
 const models = {
-  File: MakeFileModel(sequelize),
-  Notification: MakeNotificationModel(sequelize),
-  Project: MakeProjectModel(sequelize),
-  EventStore: MakeEventStoreModel(sequelize),
+  File: MakeFileModel(sequelizeInstance),
+  Notification: MakeNotificationModel(sequelizeInstance),
+  Project: MakeProjectModel(sequelizeInstance),
+  EventStore: MakeEventStoreModel(sequelizeInstance),
 }
 
 // Create associations

@@ -1,15 +1,6 @@
-import { DataTypes, Op, QueryTypes } from 'sequelize'
+import { DataTypes, Op } from 'sequelize'
 import { ContextSpecificProjectListFilter, ProjectFilters, ProjectRepo } from '../'
-import {
-  AppelOffre,
-  DREAL,
-  Famille,
-  makeProject,
-  Periode,
-  Project,
-  User,
-  makeProjectIdentifier,
-} from '../../entities'
+import { AppelOffre, DREAL, Famille, makeProject, Periode, User, Project } from '../../entities'
 import { makePaginatedList, paginate } from '../../helpers/paginate'
 import { mapExceptError } from '../../helpers/results'
 import { Err, Ok, PaginatedList, Pagination, ResultAsync } from '../../types'
@@ -38,19 +29,8 @@ const deserialize = (item) => ({
   certificateFileId: item.certificateFileId || '',
 })
 
-const initSearchIndex = async (sequelize) => {
-  // Set up the virtual table
-  try {
-    await sequelize.query(
-      'CREATE VIRTUAL TABLE IF NOT EXISTS project_search USING fts3(id UUID, nomCandidat VARCHAR(255), nomProjet VARCHAR(255), nomRepresentantLegal VARCHAR(255), email VARCHAR(255), adresseProjet VARCHAR(255), codePostalProjet VARCHAR(255), communeProjet VARCHAR(255), departementProjet VARCHAR(255), regionProjet VARCHAR(255), numeroCRE VARCHAR(255), identifier VARCHAR(255));'
-    )
-  } catch (error) {
-    console.error('Unable to create project_search virtual table', error)
-  }
-}
-
-export default function makeProjectRepo({ sequelize, appelOffreRepo }): ProjectRepo {
-  const ProjectModel = sequelize.define('project', {
+export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): ProjectRepo {
+  const ProjectModel = sequelizeInstance.define('project', {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
@@ -233,7 +213,7 @@ export default function makeProjectRepo({ sequelize, appelOffreRepo }): ProjectR
     },
   })
 
-  const ProjectEventModel = sequelize.define('projectEvent', {
+  const ProjectEventModel = sequelizeInstance.define('projectEvent', {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
@@ -278,7 +258,7 @@ export default function makeProjectRepo({ sequelize, appelOffreRepo }): ProjectR
       allowNull: false,
     },
     createdAt: {
-      type: DataTypes.DATE,
+      type: DataTypes.BIGINT,
       allowNull: false,
     },
     updatedAt: {
@@ -304,7 +284,7 @@ export default function makeProjectRepo({ sequelize, appelOffreRepo }): ProjectR
     foreignKey: 'projectId',
   })
 
-  const FileModel = sequelize.define(
+  const FileModel = sequelizeInstance.define(
     'files',
     {
       id: {
@@ -352,14 +332,13 @@ export default function makeProjectRepo({ sequelize, appelOffreRepo }): ProjectR
     as: 'certificateFile',
   })
 
-  const _isDbReady = isDbReady({ sequelize }).then(() => initSearchIndex(sequelize))
+  const _isDbReady = isDbReady({ sequelizeInstance })
 
   return Object.freeze({
     findById,
     findOne,
     findAll,
     save,
-    index: _indexProject,
     remove,
     getUsers,
     findExistingAppelsOffres,
@@ -478,8 +457,6 @@ export default function makeProjectRepo({ sequelize, appelOffreRepo }): ProjectR
     ]
 
     if (query) {
-      opts.where = {}
-
       if ('isNotified' in query) {
         opts.where.notifiedOn = query.isNotified ? { [Op.ne]: 0 } : 0
       }
@@ -569,7 +546,7 @@ export default function makeProjectRepo({ sequelize, appelOffreRepo }): ProjectR
   ): Promise<Project['id'][]> {
     await _isDbReady
 
-    const UserModel = sequelize.model('user')
+    const UserModel = sequelizeInstance.model('user')
     const userInstance = await UserModel.findByPk(userId)
     if (!userInstance) {
       if (CONFIG.logDbErrors) console.log('Cannot find user to get projects from')
@@ -583,21 +560,19 @@ export default function makeProjectRepo({ sequelize, appelOffreRepo }): ProjectR
   }
 
   async function _searchWithinGivenIds(term: string, projectIds: Project['id'][]) {
-    const projects = await sequelize.query(
-      'SELECT id from project_search WHERE project_search MATCH :recherche AND id IN (:projectIds);',
-      {
-        replacements: {
-          recherche: term
-            .split(' ')
-            .map((token) => '*' + token + '*')
-            .join(' '),
-          projectIds,
-        },
-        type: QueryTypes.SELECT,
-      }
-    )
+    const termFormatted = term
+      .split(' ')
+      .reduce((acc, currTerm) => `${acc} ${currTerm}:* |`, '')
+      .slice(0, -1)
 
-    return projects.map((item) => item.id)
+    const projects = await ProjectModel.findAll({
+      where: {
+        id: { [Op.in]: projectIds },
+        [Op.any]: sequelizeInstance.literal(`_search @@ to_tsquery('simple', '${termFormatted}')`),
+      },
+    })
+
+    return projects.map(({ id }) => id)
   }
 
   async function _getProjectsWithIds(
@@ -662,25 +637,27 @@ export default function makeProjectRepo({ sequelize, appelOffreRepo }): ProjectR
   }
 
   async function _searchWithinRegions(
-    term: string,
+    terms: string,
     regions: DREAL | DREAL[]
   ): Promise<Project['id'][]> {
-    const termQuery = term
+    const termsFormatted = terms
       .split(' ')
-      .map((token) => '*' + token + '*')
-      .join(' OR ')
-    const regionQuery = Array.isArray(regions)
-      ? regions.map((region) => 'regionProjet:' + region).join(' OR ')
-      : 'regionProjet:' + regions
-    const projects = await sequelize.query(
-      'SELECT id FROM project_search WHERE project_search MATCH :query;',
-      {
-        replacements: {
-          query: '(' + termQuery + ') AND (' + regionQuery + ')',
-        },
-        type: QueryTypes.SELECT,
-      }
-    )
+      .reduce((acc, currTerm) => `${acc} ${currTerm}:* |`, '')
+      .slice(0, -1)
+
+    const formattedRegions = Array.isArray(regions) ? regions.join('|') : regions
+    const projects = await ProjectModel.findAll({
+      where: {
+        [Op.and]: [
+          {
+            [Op.any]: sequelizeInstance.literal(
+              `_search @@ to_tsquery('simple', '${termsFormatted}')`
+            ),
+            regionProjet: { [Op.iRegexp]: formattedRegions },
+          },
+        ],
+      },
+    })
 
     return projects.map((item) => item.id)
   }
@@ -746,23 +723,6 @@ export default function makeProjectRepo({ sequelize, appelOffreRepo }): ProjectR
     }
   }
 
-  async function _search(term: string): Promise<Project['id'][]> {
-    const projects = await sequelize.query(
-      'SELECT id FROM project_search WHERE project_search MATCH :query;',
-      {
-        replacements: {
-          query: term
-            .split(' ')
-            .map((token) => '*' + token + '*')
-            .join(' OR '),
-        },
-        type: QueryTypes.SELECT,
-      }
-    )
-
-    return projects.map((item) => item.id)
-  }
-
   async function searchAll(
     terms: string,
     filters?: ProjectFilters,
@@ -770,13 +730,15 @@ export default function makeProjectRepo({ sequelize, appelOffreRepo }): ProjectR
   ): Promise<PaginatedList<Project>> {
     await _isDbReady
     try {
-      const searchResultIds = await _search(terms)
-
-      if (!searchResultIds.length) return makePaginatedList([], 0, pagination)
-
       const opts = _makeSelectorsForQuery(filters)
 
-      opts.where.id = searchResultIds
+      const termFormatted = terms
+        .split(' ')
+        .reduce((acc, currTerm) => `${acc} ${currTerm}:* |`, '')
+        .slice(0, -1)
+      opts.where[Op.any] = sequelizeInstance.literal(
+        `_search @@ to_tsquery('simple', '${termFormatted}')`
+      )
 
       return _findAndBuildProjectList(opts, pagination)
     } catch (error) {
@@ -819,24 +781,6 @@ export default function makeProjectRepo({ sequelize, appelOffreRepo }): ProjectR
     }
   }
 
-  async function _indexProject(project: Project) {
-    // update the search index (delete then insert)
-    await sequelize.query('DELETE FROM project_search where id is :id;', {
-      replacements: project,
-      type: QueryTypes.DELETE,
-    })
-    await sequelize.query(
-      'INSERT INTO project_search(id, nomCandidat, nomProjet, nomRepresentantLegal, email, adresseProjet, codePostalProjet, communeProjet, departementProjet, regionProjet, numeroCRE, identifier) VALUES(:id, :nomCandidat, :nomProjet, :nomRepresentantLegal, :email, :adresseProjet, :codePostalProjet, :communeProjet, :departementProjet, :regionProjet, :numeroCRE, :identifier);',
-      {
-        replacements: {
-          ...project,
-          identifier: makeProjectIdentifier(project),
-        },
-        type: QueryTypes.INSERT,
-      }
-    )
-  }
-
   async function _updateProjectHistory(project: Project) {
     // Check if the event history needs updating
     const newEvents = project.history?.filter((event) => event.isNew)
@@ -867,10 +811,19 @@ export default function makeProjectRepo({ sequelize, appelOffreRepo }): ProjectR
       if (existingProject) {
         await existingProject.update(project)
       } else {
+        // TODO PA : est-ce qu'on garde cette partie telle quelle ou on l'améliore ?
+        ;[
+          'garantiesFinancieresFileId',
+          'garantiesFinancieresSubmittedBy',
+          'dcrFileId',
+          'dcrSubmittedBy',
+          'certificateFileId',
+        ].forEach((key) => {
+          // If that property is falsy, remove it (UUIDs can't be falsy)
+          if (!project[key]) delete project[key]
+        })
         await ProjectModel.create(project)
       }
-
-      await _indexProject(project)
 
       await _updateProjectHistory(project)
 

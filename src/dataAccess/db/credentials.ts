@@ -8,8 +8,8 @@ import isDbReady from './helpers/isDbReady'
 // Override these to apply serialization/deserialization on inputs/outputs
 const serialize = (item) => item
 
-export default function makeCredentialsRepo({ sequelize }): CredentialsRepo {
-  const CredentialsModel = sequelize.define('credentials', {
+export default function makeCredentialsRepo({ sequelizeInstance }): CredentialsRepo {
+  const CredentialsModel = sequelizeInstance.define('credentials', {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
@@ -28,7 +28,7 @@ export default function makeCredentialsRepo({ sequelize }): CredentialsRepo {
     },
   })
 
-  const _isDbReady = isDbReady({ sequelize })
+  const _isDbReady = isDbReady({ sequelizeInstance })
 
   return Object.freeze({
     findByEmail,

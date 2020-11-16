@@ -225,8 +225,7 @@ module.exports = {
       },
       lastUsedAt: {
         type: Sequelize.DataTypes.BIGINT,
-        allowNull: false,
-        defaultValue: 0,
+        allowNull: true,
       },
       createdAt: Sequelize.DATE,
       updatedAt: Sequelize.DATE,
@@ -284,7 +283,7 @@ module.exports = {
       },
       createdOn: {
         type: Sequelize.DataTypes.BIGINT,
-        allowNull: false,
+        allowNull: true,
       },
       createdAt: Sequelize.DATE,
       updatedAt: Sequelize.DATE,
@@ -352,7 +351,7 @@ module.exports = {
       },
       createdAt: {
         type: Sequelize.DataTypes.BIGINT,
-        allowNull: false,
+        allowNull: true,
       },
       updatedAt: Sequelize.DATE,
     })
@@ -387,8 +386,7 @@ module.exports = {
       },
       requestedOn: {
         type: Sequelize.DataTypes.BIGINT,
-        allowNull: false,
-        defaultValue: 0,
+        allowNull: true,
       },
       status: {
         type: Sequelize.DataTypes.STRING,

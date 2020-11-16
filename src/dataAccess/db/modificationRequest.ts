@@ -19,8 +19,10 @@ const deserialize = (item) => ({
 })
 const serialize = (item) => item
 
-export default function makeModificationRequestRepo({ sequelize }): ModificationRequestRepo {
-  const ModificationRequestModel = sequelize.define('modificationRequest', {
+export default function makeModificationRequestRepo({
+  sequelizeInstance,
+}): ModificationRequestRepo {
+  const ModificationRequestModel = sequelizeInstance.define('modificationRequest', {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
@@ -39,8 +41,7 @@ export default function makeModificationRequestRepo({ sequelize }): Modification
     },
     requestedOn: {
       type: DataTypes.BIGINT,
-      allowNull: false,
-      defaultValue: 0,
+      allowNull: true,
     },
     status: {
       type: DataTypes.STRING,
@@ -84,7 +85,7 @@ export default function makeModificationRequestRepo({ sequelize }): Modification
     },
   })
 
-  const FileModel = sequelize.define(
+  const FileModel = sequelizeInstance.define(
     'files',
     {
       id: {
@@ -122,7 +123,7 @@ export default function makeModificationRequestRepo({ sequelize }): Modification
     as: 'attachmentFile',
   })
 
-  const _isDbReady = isDbReady({ sequelize })
+  const _isDbReady = isDbReady({ sequelizeInstance })
 
   return Object.freeze({
     findById,
@@ -168,8 +169,8 @@ export default function makeModificationRequestRepo({ sequelize }): Modification
     await _isDbReady
 
     try {
-      const ProjectModel = sequelize.model('project')
-      const UserModel = sequelize.model('user')
+      const ProjectModel = sequelizeInstance.model('project')
+      const UserModel = sequelizeInstance.model('user')
 
       const opts: any = {
         include: [
