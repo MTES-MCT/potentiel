@@ -8,10 +8,9 @@ import { formatDate } from '../helpers/formatDate'
 import { NotFoundError, SuccessFile, SystemError } from '../helpers/responses'
 import { HttpRequest } from '../types'
 import { getUserProject } from '../useCases'
+import { userRepo } from '../dataAccess'
 
 const getModeleMiseEnDemeure = async (request: HttpRequest) => {
-  console.log('Call to getModeleMiseEnDemeure received', request.query)
-
   try {
     const { projectId } = request.params
 
@@ -32,6 +31,16 @@ const getModeleMiseEnDemeure = async (request: HttpRequest) => {
       sanitize(`Mise en demeure Garanties Financières - ${project.nomProjet}.docx`)
     )
 
+    // Get the user's dreal region(s)
+    const userDreals = await userRepo.findDrealsForUser(request.user.id)
+
+    // If there are multiple, use the first to coincide with the project
+    const dreal = userDreals.find((dreal) => project.regionProjet.includes(dreal))
+
+    if (!dreal) {
+      return NotFoundError('Impossible de générer le fichier demandé.')
+    }
+
     const templatePath = path.resolve(
       __dirname,
       '../',
@@ -40,11 +49,14 @@ const getModeleMiseEnDemeure = async (request: HttpRequest) => {
       'Modèle mise en demeure v2.docx'
     )
 
+    const imageToInject = path.resolve(__dirname, '../public/images/dreals', `${dreal}.png`)
+
     await fillDocxTemplate({
       templatePath,
       outputPath: filepath,
+      injectImage: imageToInject,
       variables: {
-        dreal: project.regionProjet,
+        dreal,
         dateMiseEnDemeure: formatDate(Date.now()),
         contactDreal: request.user.email,
         referenceProjet: makeProjectIdentifier(project),
@@ -80,7 +92,7 @@ const getModeleMiseEnDemeure = async (request: HttpRequest) => {
 
     return SuccessFile(filepath)
   } catch (error) {
-    console.log('getModeleMiseEnDemeure error', error)
+    console.error(error)
     return SystemError('Impossible de générer le fichier modèle de mise en demeure')
   }
 }
