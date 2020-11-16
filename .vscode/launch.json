@@ -7,10 +7,11 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Program",
-      "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}/index.js",
-      "preLaunchTask": "tsc: build - tsconfig.json",
+      "name": "Debug",
+      "skipFiles": ["${workspaceFolder}/node_modules/**/*.js, <node_internals>/**/*.js"],
+      "program": "${workspaceFolder}/src/index.ts",
+      "preLaunchTask": "npm: build",
+      "smartStep": true,
       "outFiles": ["${workspaceFolder}/dist/**/*.js"]
     },
     {
@@ -22,6 +23,7 @@
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "disableOptimisticBPs": true,
+      "smartStep": true,
       "windows": {
         "program": "${workspaceFolder}/node_modules/jest/bin/jest"
       },
@@ -35,6 +37,7 @@
       "args": ["${fileBasenameNoExtension}", "--config", "jest.unit.config.js"],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
+      "smartStep": true,
       "disableOptimisticBPs": true,
       "windows": {
         "program": "${workspaceFolder}/node_modules/jest/bin/jest"
@@ -48,6 +51,7 @@
       "program": "${workspaceFolder}/node_modules/.bin/jest",
       "args": ["${fileBasenameNoExtension}", "--config", "jest.integration.config.js"],
       "console": "integratedTerminal",
+      "smartStep": true,
       "internalConsoleOptions": "neverOpen",
       "disableOptimisticBPs": true,
       "windows": {
