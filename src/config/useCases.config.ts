@@ -24,5 +24,5 @@ export const generateCertificate = makeGenerateCertificate({
 export const correctProjectData = makeCorrectProjectData({
   fileService,
   findProjectById: projectRepo.findById,
-  eventStore,
+  eventBus: eventStore,
 })
