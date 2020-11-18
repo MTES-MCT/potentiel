@@ -1,10 +1,7 @@
 import React from 'react'
-import routes from '../../routes'
 import { version } from '../../../package.json'
 
-interface FooterProps {}
-
-const Footer = ({}: FooterProps) => {
+const Footer = () => {
   return (
     <footer className="footer" role="contentinfo">
       <div className="container">
@@ -15,10 +12,12 @@ const Footer = ({}: FooterProps) => {
               src="/images/MIN_Transition_Ecologique_RVB_petit.png"
               alt="Logo du ministère de la transition énergétique"
               width="300"
+              height="215"
             />
           </li>
+          <li><a href="https://docs.potentiel.beta.gouv.fr/info/cgu">Mentions Légales et Conditions générales d'utilisation </a></li>
+          <li><a href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel">Guide d'utilisation</a></li>
         </ul>
-        <ul className="footer__links"></ul>
         <div>{version}</div>
       </div>
     </footer>
