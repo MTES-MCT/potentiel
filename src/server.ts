@@ -50,6 +50,7 @@ import {
   getProjectCertificateFile,
   postCorrectProjectData,
   getModeleReponseRecours,
+  getStatistiquesPage,
 } from './controllers'
 
 import {
@@ -142,6 +143,8 @@ export async function makeServer(port: number = 3000) {
     })
 
     router.get(ROUTES.LOGIN, makeExpressCallback(getLoginPage))
+
+    router.get(ROUTES.STATS, makeExpressCallback(getStatistiquesPage))
 
     router.post(ROUTES.LOGIN_ACTION, postLogin()) // No makeExpressCallback as this uses a middleware
     router.get(ROUTES.LOGOUT_ACTION, logoutMiddleware, (req, res) => {

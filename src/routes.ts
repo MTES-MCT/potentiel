@@ -26,6 +26,7 @@ export { withParams }
 class routes {
   static HOME = '/'
   static LOGIN = '/login.html'
+  static STATS = '/stats.html'
   static LOGIN_ACTION = '/login'
   static LOGOUT_ACTION = '/logout'
   static FORGOTTEN_PASSWORD = '/mot-de-passe-oublie.html'
