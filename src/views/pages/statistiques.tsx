@@ -1,28 +1,9 @@
 import React from 'react'
+import { StatsDTO } from '../../modules/stats/StatsDTO'
 import { HttpRequest } from '../../types'
 
-interface Props {
+interface Props extends StatsDTO {
   request: HttpRequest,
-  projetsTotal: number
-  projetsLaureats: number
-  porteursProjetNotifies: number
-  porteursProjetNotifiesInscrits: number
-  parrainages: number
-  telechargementsAttestation: number
-  projetsAvecAttestation: number
-  gfDeposees: number
-  gfDues: number
-  dcrDeposees: number
-  dcrDues: number
-  demandes: {
-    actionnaire: number
-    producteur: number
-    fournisseur: number
-    puissance: number
-    abandon: number
-    recours: number
-    delai: number
-  }
 }
 
 const ratio = (a: number, b: number) => `${Math.round(a / b * 100)}%`
@@ -39,7 +20,7 @@ interface CardProps {
     suffix?: string
   }
 }
-const Card = ({ value, title, isBig, titleColor, subtitle}: CardProps) => (<div className="card">
+const Card = ({ value, title, isBig, titleColor, subtitle}: CardProps) => (<div className="card">
             <div className="card__content">
               { isBig ? 
               <h1 style={{color: 'var(--blue)', marginBottom: 0}}>{value}</h1>
@@ -54,6 +35,17 @@ const Card = ({ value, title, isBig, titleColor, subtitle}: CardProps) => (<div
             </div>
           </div>)
 
+
+const DEMANDE_TITLE = {
+  actionnaire: "Changement d'actionnaire",
+  producteur: "Changement de producteur",
+  fournisseur: "Changement de fournisseur",
+  puissance: "Changement de puissance",
+  abandon: "Abandon",
+  recours: "Recours",
+  delai: "Demande de délai",
+}
+
 /* Pure component */
 export default function StatistiquesPages(props: Props) {
 
@@ -65,8 +57,8 @@ export default function StatistiquesPages(props: Props) {
           <p className="section__subtitle">Au service des porteurs de projets</p>
 
           <div className="row">
-            <Card value={props.projetsTotal} isBig title='projets sur Potentiel' subtitle={{ prefix: 'dont', value: props.projetsLaureats, suffix: 'lauréats'}} />
-            <Card value={props.porteursProjetNotifies} isBig title='porteurs de projets concernés' />
+            <Card value={props.projetsTotal} isBig title='projets sur Potentiel' subtitle={{ prefix: 'dont', value: props.projetsLaureats, suffix: 'lauréats'}} />
+            <Card value={props.porteursProjetNotifies} isBig title='porteurs de projets concernés' />
           </div>
         </div>
       </section>
@@ -75,9 +67,9 @@ export default function StatistiquesPages(props: Props) {
           <h2>Utilisateurs</h2>
 
           <div className="row">
-            <Card value={props.porteursProjetNotifiesInscrits} title='inscriptions' subtitle={{prefix: 'soit', value: ratio(props.porteursProjetNotifiesInscrits, props.porteursProjetNotifies), suffix: 'des invités'}}/>
-            <Card value={props.parrainages} title='parrainages'/>
-            <Card value={18} title='DREAL' subtitle={{prefix: 'soit', value: '100%', suffix: 'des régions'}}/>
+            <Card value={props.porteursProjetNotifiesInscrits} title='inscriptions' subtitle={{prefix: 'soit', value: ratio(props.porteursProjetNotifiesInscrits, props.porteursProjetNotifies), suffix: 'des invités'}}/>
+            <Card value={props.parrainages} title='parrainages'/>
+            <Card value={18} title='DREAL' subtitle={{prefix: 'soit', value: '100%', suffix: 'des régions'}}/>
           </div>
 </div>
       </section>
@@ -86,9 +78,9 @@ export default function StatistiquesPages(props: Props) {
           <h2>Suivi des étapes</h2>
 
           <div className="row">
-            <Card value={props.telechargementsAttestation} titleColor='var(--theme-dark-text)' title="téléchargements d'attestations" subtitle={{prefix: 'soit', value: ratio(props.telechargementsAttestation,props.projetsAvecAttestation), suffix: 'des projets'}}/>
-            <Card value={props.gfDeposees} titleColor='var(--theme-dark-text)' title='GF déposées' subtitle={{prefix: 'soit', value: ratio(props.gfDeposees, props.gfDues)}}/>
-            <Card value={props.dcrDeposees} titleColor='var(--theme-dark-text)' title='DCR déposées' subtitle={{prefix: 'soit', value: ratio(props.dcrDeposees, props.dcrDues)}}/>
+            <Card value={props.telechargementsAttestation} titleColor='var(--theme-dark-text)' title="téléchargements d'attestations" subtitle={{prefix: 'soit', value: ratio(props.telechargementsAttestation,props.projetsAvecAttestation), suffix: 'des projets'}}/>
+            <Card value={props.gfDeposees} titleColor='var(--theme-dark-text)' title='GF déposées' subtitle={{prefix: 'soit', value: ratio(props.gfDeposees, props.gfDues)}}/>
+            <Card value={props.dcrDeposees} titleColor='var(--theme-dark-text)' title='DCR déposées' subtitle={{prefix: 'soit', value: ratio(props.dcrDeposees, props.dcrDues)}}/>
           </div>
 </div>
       </section>
@@ -98,7 +90,7 @@ export default function StatistiquesPages(props: Props) {
 
           <div className="row">
             {
-              Object.entries(props.demandes).filter(([key, value]) => value).map(([key, value]) => <Card value={value} title={key} key={"demande_"+key}/>)
+              Object.entries(props.demandes).filter(([key, value]) => value).map(([key, value]) => <Card value={value} title={DEMANDE_TITLE[key]} key={"demande_"+key}/>)
             }
           </div>
 
