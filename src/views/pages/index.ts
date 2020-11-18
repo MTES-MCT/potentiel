@@ -71,7 +71,7 @@ function makePresenterPage<T extends HasRequest>(pageComponent: (pageProps: T) =
     insertIntoHTMLTemplate(
       ReactDOMServer.renderToStaticMarkup(Header(props)) +
         ReactDOMServer.renderToStaticMarkup(pageComponent(props)) +
-        ReactDOMServer.renderToStaticMarkup(Footer(props))
+        ReactDOMServer.renderToStaticMarkup(Footer())
     )
 }
 
