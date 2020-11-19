@@ -1,4 +1,6 @@
+import { errAsync, ResultAsync } from '../../../../core/utils'
 import { Op, QueryTypes } from 'sequelize'
+import { InfraNotAvailableError } from '../../../../modules/shared'
 import { GetStats } from '../../../../modules/stats/GetStats'
 import { sequelize } from '../../../../sequelize.config'
 import models from '../../models'
@@ -6,10 +8,10 @@ import models from '../../models'
 const FIRST_NOTIFICATION_DATE = 1586901600000
 const DOWNLOADS_BEFORE_EVENT_SOURCING = 655
 
-export const getStats: GetStats = async () => {
+export const getStats: GetStats = () => {
   const ProjectModel = models.Project
   const EventModel = models.EventStore
-  if (!ProjectModel || !EventModel) return null
+  if (!ProjectModel || !EventModel) return errAsync(new InfraNotAvailableError())
 
   const _getProjetsTotal = async () =>
     await ProjectModel.count({
@@ -112,46 +114,49 @@ export const getStats: GetStats = async () => {
       }
     )
 
-  const [
-    projetsTotal,
-    projetsLaureats,
-    porteursProjetNotifies,
-    porteursProjetNotifiesInscrits,
-    porteursProjetTotal,
-    downloadsSinceEventSourcing,
-    projetsAvecAttestation,
-    gfDeposees,
-    gfDues,
-    dcrDeposees,
-    dcrDues,
-    demandes,
-  ] = await Promise.all([
-    _getProjetsTotal(),
-    _getProjetsLaureats(),
-    _getPorteursProjetNotifies(),
-    _getPorteursProjetNotifiesInscrits(),
-    _getPorteursProjetTotal(),
-    _getDownloadsSinceEventSourcing(),
-    _getProjetsAvecAttestation(),
-    _getGfDeposees(),
-    _getGfDues(),
-    _getDcrDeposees(),
-    _getDcrDues(),
-    _getDemandes(),
-  ])
-
-  return {
-    projetsTotal,
-    projetsLaureats,
-    porteursProjetNotifies,
-    porteursProjetNotifiesInscrits,
-    parrainages: porteursProjetTotal - porteursProjetNotifiesInscrits,
-    telechargementsAttestation: DOWNLOADS_BEFORE_EVENT_SOURCING + downloadsSinceEventSourcing,
-    projetsAvecAttestation,
-    gfDeposees,
-    gfDues,
-    dcrDeposees,
-    dcrDues,
-    demandes,
-  }
+  return ResultAsync.fromPromise(
+    Promise.all([
+      _getProjetsTotal(),
+      _getProjetsLaureats(),
+      _getPorteursProjetNotifies(),
+      _getPorteursProjetNotifiesInscrits(),
+      _getPorteursProjetTotal(),
+      _getDownloadsSinceEventSourcing(),
+      _getProjetsAvecAttestation(),
+      _getGfDeposees(),
+      _getGfDues(),
+      _getDcrDeposees(),
+      _getDcrDues(),
+      _getDemandes(),
+    ]),
+    (e: any) => new InfraNotAvailableError()
+  ).map(
+    ([
+      projetsTotal,
+      projetsLaureats,
+      porteursProjetNotifies,
+      porteursProjetNotifiesInscrits,
+      porteursProjetTotal,
+      downloadsSinceEventSourcing,
+      projetsAvecAttestation,
+      gfDeposees,
+      gfDues,
+      dcrDeposees,
+      dcrDues,
+      demandes,
+    ]) => ({
+      projetsTotal,
+      projetsLaureats,
+      porteursProjetNotifies,
+      porteursProjetNotifiesInscrits,
+      parrainages: porteursProjetTotal - porteursProjetNotifiesInscrits,
+      telechargementsAttestation: DOWNLOADS_BEFORE_EVENT_SOURCING + downloadsSinceEventSourcing,
+      projetsAvecAttestation,
+      gfDeposees,
+      gfDues,
+      dcrDeposees,
+      dcrDues,
+      demandes,
+    })
+  )
 }

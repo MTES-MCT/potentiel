@@ -4,14 +4,15 @@ import { HttpRequest } from '../types'
 import { StatistiquesPage } from '../views/pages'
 
 const getStatistiquesPage = async (request: HttpRequest) => {
-  const stats = await getStats()
+  const statsResult = await getStats()
 
-  if (!stats) return SystemError('Les statistiques ne sont pas disponibles pour le moment.')
+  if (statsResult.isErr())
+    return SystemError('Les statistiques ne sont pas disponibles pour le moment.')
 
   return Success(
     StatistiquesPage({
       request,
-      ...stats,
+      ...statsResult.value,
     })
   )
 }
