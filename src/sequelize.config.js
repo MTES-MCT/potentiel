@@ -17,11 +17,11 @@ let databaseOptions = {
 
 if (NODE_ENV === 'test') {
   databaseOptions = {
-    ...databaseOptions,
-    port: 5433,
+    dialect: 'postgres',
+    host: DB_HOST,
     username: 'testuser',
-    password: 'testpwd',
     database: 'potentiel_test',
+    port: 5433,
   }
 }
 
