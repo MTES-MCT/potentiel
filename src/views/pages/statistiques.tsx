@@ -6,7 +6,7 @@ interface Props extends StatsDTO {
   request: HttpRequest,
 }
 
-const ratio = (a: number, b: number) => `${Math.round(a / b * 100)}%`
+const ratio = (a: number, b: number) => (a && b) ? `${Math.round(a / b * 100)}%` : '0%'
 
 
 interface CardProps {
