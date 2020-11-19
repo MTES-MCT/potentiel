@@ -71,10 +71,7 @@ export default function StatistiquesPages(props: Props) {
             <Card value={props.parrainages} title='parrainages'/>
             <Card value={18} title='DREAL' subtitle={{prefix: 'soit', value: '100%', suffix: 'des régions'}}/>
           </div>
-</div>
-      </section>
-      <section className="section section-dark">
-        <div className="container">
+
           <h2>Suivi des étapes</h2>
 
           <div className="row">
@@ -82,10 +79,7 @@ export default function StatistiquesPages(props: Props) {
             <Card value={props.gfDeposees} titleColor='var(--theme-dark-text)' title='GF déposées' subtitle={{prefix: 'soit', value: ratio(props.gfDeposees, props.gfDues)}}/>
             <Card value={props.dcrDeposees} titleColor='var(--theme-dark-text)' title='DCR déposées' subtitle={{prefix: 'soit', value: ratio(props.dcrDeposees, props.dcrDues)}}/>
           </div>
-</div>
-      </section>
-      <section className="section section-grey">
-        <div className="container">
+
           <h2>Demandes</h2>
 
           <div className="row">
