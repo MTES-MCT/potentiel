@@ -137,5 +137,8 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }
