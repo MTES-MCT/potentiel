@@ -6,7 +6,7 @@ interface Props extends StatsDTO {
   request: HttpRequest,
 }
 
-const ratio = (a: number, b: number) => `${Math.round(a / b * 100)}%`
+const ratio = (a: number, b: number) => (a && b) ? `${Math.round(a / b * 100)}%` : '0%'
 
 
 interface CardProps {
@@ -53,7 +53,7 @@ export default function StatistiquesPages(props: Props) {
     <main role="main">
       <section className="section section-color">
         <div className="container">
-          <h2 className="section__title">Potentiel en nombres</h2>
+          <h2 className="section__title">Potentiel en chiffres</h2>
           <p className="section__subtitle">Au service des porteurs de projets</p>
 
           <div className="row">
@@ -67,25 +67,19 @@ export default function StatistiquesPages(props: Props) {
           <h2>Utilisateurs</h2>
 
           <div className="row">
-            <Card value={props.porteursProjetNotifiesInscrits} title='inscriptions' subtitle={{prefix: 'soit', value: ratio(props.porteursProjetNotifiesInscrits, props.porteursProjetNotifies), suffix: 'des invités'}}/>
+            <Card value={props.porteursProjetNotifiesInscrits} title='porteurs de projet' subtitle={{prefix: 'soit', value: ratio(props.porteursProjetNotifiesInscrits, props.porteursProjetNotifies)}}/>
             <Card value={props.parrainages} title='parrainages'/>
-            <Card value={18} title='DREAL' subtitle={{prefix: 'soit', value: '100%', suffix: 'des régions'}}/>
+            <Card value={18} title='DREAL' subtitle={{prefix: 'soit', value: '100%'}}/>
           </div>
-</div>
-      </section>
-      <section className="section section-dark">
-        <div className="container">
-          <h2>Suivi des étapes</h2>
+
+          <h2>Avancement des projets</h2>
 
           <div className="row">
-            <Card value={props.telechargementsAttestation} titleColor='var(--theme-dark-text)' title="téléchargements d'attestations" subtitle={{prefix: 'soit', value: ratio(props.telechargementsAttestation,props.projetsAvecAttestation), suffix: 'des projets'}}/>
+            <Card value={props.telechargementsAttestation} titleColor='var(--theme-dark-text)' title="attestations téléchargées" subtitle={{prefix: 'soit', value: ratio(props.telechargementsAttestation,props.projetsAvecAttestation)}}/>
             <Card value={props.gfDeposees} titleColor='var(--theme-dark-text)' title='GF déposées' subtitle={{prefix: 'soit', value: ratio(props.gfDeposees, props.gfDues)}}/>
             <Card value={props.dcrDeposees} titleColor='var(--theme-dark-text)' title='DCR déposées' subtitle={{prefix: 'soit', value: ratio(props.dcrDeposees, props.dcrDues)}}/>
           </div>
-</div>
-      </section>
-      <section className="section section-grey">
-        <div className="container">
+
           <h2>Demandes</h2>
 
           <div className="row">
