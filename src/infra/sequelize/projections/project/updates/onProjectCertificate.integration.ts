@@ -76,10 +76,10 @@ describe('project.onProjectCertificate', () => {
       })
     )
 
-    const updatedProject = await ProjectModel.findByPk('target')
-    expect(updatedProject.certificateFileId).toEqual('certificateFile1')
+    const updatedProject = await ProjectModel.findByPk(projectId)
+    expect(updatedProject.certificateFileId).toEqual(certificateFile1)
 
-    const nonUpdatedProject = await ProjectModel.findByPk('nottarget')
+    const nonUpdatedProject = await ProjectModel.findByPk(fakeProjectId)
     expect(nonUpdatedProject).toBeDefined()
     if (nonUpdatedProject) return
 

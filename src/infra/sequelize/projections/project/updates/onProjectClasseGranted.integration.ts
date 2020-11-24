@@ -1,13 +1,15 @@
 import models from '../../../models'
-import { sequelize } from '../../../../../sequelize.config'
+import { sequelizeInstance } from '../../../../../sequelize.config'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import { onProjectClasseGranted } from './onProjectClasseGranted'
 import { ProjectClasseGranted } from '../../../../../modules/project/events'
+import { v4 as uuid } from 'uuid'
 
 describe('project.onProjectClasseGranted', () => {
+  const projectId = uuid()
   const fakeProjects = [
     {
-      id: 'target',
+      id: projectId,
       classe: 'Eliminé',
     },
   ].map(makeFakeProject)
@@ -16,7 +18,7 @@ describe('project.onProjectClasseGranted', () => {
 
   beforeAll(async () => {
     // Create the tables and remove all data
-    await sequelize.sync({ force: true })
+    await sequelizeInstance.sync({ force: true })
 
     await ProjectModel.bulkCreate(fakeProjects)
   })
@@ -25,13 +27,13 @@ describe('project.onProjectClasseGranted', () => {
     await onProjectClasseGranted(models)(
       new ProjectClasseGranted({
         payload: {
-          projectId: 'target',
+          projectId,
           grantedBy: 'user1',
         },
       })
     )
 
-    const updatedProject = await ProjectModel.findByPk('target')
+    const updatedProject = await ProjectModel.findByPk(projectId)
     expect(updatedProject.classe).toEqual('Classé')
   })
 })
