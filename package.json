@@ -95,7 +95,7 @@
     "cypress": "^4.11.0",
     "cypress-cucumber-preprocessor": "^2.3.1",
     "cypress-file-upload": "^3.5.3",
-    "cz-conventional-changelog": "^3.3.0",
+    "cz-emoji": "^1.3.1",
     "eslint": "^7.11.0",
     "eslint-config-prettier": "^6.14.0",
     "eslint-config-standard": "^15.0.0",
@@ -125,7 +125,6 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true",
       "pre-push": "npm run test && npm run test-int"
     }
   },
@@ -135,7 +134,66 @@
   },
   "config": {
     "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
+      "path": "./node_modules/cz-emoji"
+    },
+    "cz-emoji": {
+      "skipQuestions": ["scope", "body"],
+      "types": [
+        {
+          "emoji": "🌟",
+          "code": ":star2:",
+          "description": "Add a new feature",
+          "name": "feature"
+        },
+        {
+          "emoji": "🔧",
+          "code": ":wrench:",
+          "description": "Technical task",
+          "name": "chore"
+        },
+        {
+          "emoji": "✅",
+          "code": ":white_check_mark:",
+          "description": "Tests",
+          "name": "tests"
+        },
+        {
+          "emoji": "♻️",
+          "code": ":recycle:",
+          "description": "Refactor code",
+          "name": "refacto"
+        },
+        {
+          "emoji": "🐛",
+          "code": ":bug:",
+          "description": "Fix a bug",
+          "name": "bug"
+        },
+        {
+          "emoji": "📝",
+          "code": ":memo:",
+          "description": "Documentation",
+          "name": "doc"
+        },
+        {
+          "emoji": "🔒",
+          "code": ":lock:",
+          "description": "Fix security issues",
+          "name": "security"
+        },
+        {
+          "emoji": "💩",
+          "code": ":poop:",
+          "description": "Write bad code that needs to be improved.",
+          "name": "poop"
+        },
+        {
+          "emoji": "⏪",
+          "code": ":revert:",
+          "description": "Revert a commit",
+          "name": "revert"
+        }
+      ]
     }
   },
   "engines": {
