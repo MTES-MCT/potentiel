@@ -1,4 +1,4 @@
-import moment from 'moment'
+import moment from 'moment-timezone'
 import { v4 as uuid } from 'uuid'
 import { eventStore } from '../config'
 import { Redirect } from '../helpers/responses'
@@ -41,7 +41,7 @@ const postSendCandidateNotifications = async (request: HttpRequest) => {
       payload: {
         appelOffreId,
         periodeId,
-        notifiedOn: moment(notificationDate, FORMAT_DATE).toDate().getTime(),
+        notifiedOn: moment(notificationDate, FORMAT_DATE).tz('Europe/Paris').toDate().getTime(),
         requestedBy: request.user.id,
       },
       requestId,

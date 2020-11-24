@@ -49,18 +49,14 @@ describe('project.onProjectDataCorrected', () => {
       new ProjectDataCorrected({
         payload: {
           projectId: 'target',
-          notifiedOn: 1,
-          correctedData: { ...newValues, isClasse: true },
+          correctedBy: 'user1',
+          correctedData: { ...newValues },
         },
       })
     )
 
     const updatedProject = await ProjectModel.findByPk('target')
     for (const [key, value] of Object.entries(newValues)) {
-      console.log(
-        'Checking key ' + key + ' for value ' + value + ' updatedProject[key] = ',
-        updatedProject[key]
-      )
       expect(updatedProject[key]).toEqual(value)
     }
   })

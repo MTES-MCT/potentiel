@@ -12,13 +12,7 @@ export const onProjectDataCorrected = (models) => async (event: ProjectDataCorre
     return
   }
 
-  const { isClasse, ...otherUpdates } = event.payload.correctedData
-
-  Object.assign(projectInstance, otherUpdates)
-
-  if (typeof isClasse !== 'undefined') {
-    projectInstance.classe = isClasse ? 'Classé' : 'Eliminé'
-  }
+  Object.assign(projectInstance, event.payload.correctedData)
 
   try {
     await projectInstance.save()

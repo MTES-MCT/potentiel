@@ -27,8 +27,6 @@ export default function makeRelanceGarantiesFinancieres({
       moment().add(15, 'days').toDate().getTime()
     )
 
-    console.log('relanceGarantiesFinancieres found ' + lateProjects.length + ' projets à relancer')
-
     await Promise.all(
       lateProjects.map(async (project) => {
         if (!project.appelOffre?.periode?.isNotifiedOnPotentiel) {

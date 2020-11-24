@@ -1,6 +1,7 @@
 import {
   ProjectCertificateGenerated,
-  ProjectCertificateUpdated,
+  ProjectCertificateRegenerated,
+  ProjectCertificateUploaded,
 } from '../../../../../modules/project/events'
 import { sequelize } from '../../../../../sequelize.config'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
@@ -39,6 +40,7 @@ describe('project.onProjectCertificate', () => {
       new ProjectCertificateGenerated({
         payload: {
           certificateFileId: 'certificateFile1',
+          projectVersionDate: new Date(0),
           projectId: 'target',
           candidateEmail: '',
           periodeId: '',
@@ -57,11 +59,33 @@ describe('project.onProjectCertificate', () => {
     expect(nonUpdatedProject.certificateFileId).toEqual(null)
   })
 
-  it('should update project.certificateFileId on ProjectCertificateUpdated', async () => {
+  it('should update project.certificateFileId on ProjectCertificateRegenerated', async () => {
     await onProjectCertificate(models)(
-      new ProjectCertificateUpdated({
+      new ProjectCertificateRegenerated({
         payload: {
           certificateFileId: 'certificateFile1',
+          projectVersionDate: new Date(0),
+          projectId: 'target',
+        },
+      })
+    )
+
+    const updatedProject = await ProjectModel.findByPk('target')
+    expect(updatedProject.certificateFileId).toEqual('certificateFile1')
+
+    const nonUpdatedProject = await ProjectModel.findByPk('nottarget')
+    expect(nonUpdatedProject).toBeDefined()
+    if (nonUpdatedProject) return
+
+    expect(nonUpdatedProject.certificateFileId).toEqual(null)
+  })
+
+  it('should update project.certificateFileId on ProjectCertificateUploaded', async () => {
+    await onProjectCertificate(models)(
+      new ProjectCertificateUploaded({
+        payload: {
+          certificateFileId: 'certificateFile1',
+          uploadedBy: 'user1',
           projectId: 'target',
         },
       })

@@ -30,6 +30,7 @@ describe('project.onProjectNotificationDateSet', () => {
       new ProjectNotificationDateSet({
         payload: {
           projectId: 'target',
+          setBy: 'user1',
           notifiedOn: 12345,
         },
       })

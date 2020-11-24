@@ -2,6 +2,7 @@ import { UniqueEntityID } from '../../core/domain'
 import { err, ok, Result } from '../../core/utils'
 import { AppelOffre, Periode, Project } from '../../entities'
 import { StoredEvent } from '../eventStore'
+import { EventStoreAggregate } from '../eventStore/EventStoreAggregate'
 import {
   ProjectCertificateGenerated,
   ProjectCertificateGenerationFailed,
@@ -11,10 +12,8 @@ import { EntityNotFoundError } from '../shared'
 import { HeterogeneousHistoryError } from '../shared/errors'
 import { CandidateNotifiedForPeriode } from './events'
 
-export interface CandidateNotification {
+export interface CandidateNotification extends EventStoreAggregate {
   notifyCandidateIfReady: () => void
-  pendingEvents: StoredEvent[]
-  id?: UniqueEntityID
 }
 
 interface CandidateNotificationProps {
@@ -30,9 +29,12 @@ interface CandidateNotificationProps {
   latestRequestId?: string
 }
 
-export const makeCandidateNotification = (
+export const makeCandidateNotification = (args: {
   events: StoredEvent[]
-): Result<CandidateNotification, EntityNotFoundError | HeterogeneousHistoryError> => {
+  id: UniqueEntityID
+}): Result<CandidateNotification, EntityNotFoundError | HeterogeneousHistoryError> => {
+  const { events, id } = args
+
   if (!events || !events.length) {
     return err(new EntityNotFoundError())
   }
@@ -80,9 +82,11 @@ export const makeCandidateNotification = (
       return pendingEvents
     },
     get id() {
-      return props.candidateAndPeriode
-        ? new UniqueEntityID(makeCandidateNotificationId(props.candidateAndPeriode))
-        : undefined
+      return id
+    },
+    get lastUpdatedOn() {
+      // no versionning here
+      return new Date(0)
     },
   })
 

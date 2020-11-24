@@ -404,6 +404,7 @@ describe('SequelizeEventStore', () => {
               projectId: '',
               candidateEmail: '',
               certificateFileId: '',
+              projectVersionDate: new Date(0),
             },
           })
         )

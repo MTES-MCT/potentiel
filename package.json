@@ -56,7 +56,7 @@
     "passport-local": "^1.0.0",
     "pizzip": "^3.0.6",
     "pkgcloud": "^2.2.0",
-    "react": "^16.12.0",
+    "react": "^16.14.0",
     "react-dom": "^16.12.0",
     "runtypes": "^4.2.0",
     "sanitize-filename": "^1.6.3",

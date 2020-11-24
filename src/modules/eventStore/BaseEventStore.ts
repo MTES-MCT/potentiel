@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events'
-import { ok, Result, ResultAsync, Queue } from '../../core/utils'
+import { ok, Result, ResultAsync, Queue, unwrapResultOfResult } from '../../core/utils'
 import { InfraNotAvailableError, OtherError } from '../shared'
 import { EventStore, EventStoreHistoryFilters, EventStoreTransactionArgs } from './EventStore'
 import { StoredEvent } from './StoredEvent'
@@ -26,7 +26,7 @@ export abstract class BaseEventStore implements EventStore {
     return ResultAsync.fromPromise(ticket, (e) => {
       console.log('BaseEventStore publish ticket failed', e)
       return new InfraNotAvailableError()
-    }).andThen((item) => item)
+    }).andThen(unwrapResultOfResult)
   }
 
   subscribe<T extends StoredEvent>(eventType: T['type'], callback: (event: T) => any) {
