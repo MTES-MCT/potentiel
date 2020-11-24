@@ -1,10 +1,9 @@
-import { Project, User } from '../../../entities'
-import { DomainEvent, BaseDomainEvent } from '../../../core/domain/DomainEvent'
+import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
 
 export interface ProjectCertificateDownloadedPayload {
-  certificateFileId: Project['certificateFileId']
-  projectId: Project['id']
-  downloadedBy: User['id']
+  certificateFileId: string
+  projectId: string
+  downloadedBy: string
 }
 export class ProjectCertificateDownloaded
   extends BaseDomainEvent<ProjectCertificateDownloadedPayload>

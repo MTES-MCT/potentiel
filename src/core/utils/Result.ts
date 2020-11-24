@@ -39,3 +39,9 @@ export const mapResults = <T, K, E>(
 
   return result
 }
+
+// Identity function used to unwrap a Result<Result<T,E>> into Result<T,E>
+// Ex:  ResultOfResult.andThen(unwrapResult) returns a Result
+export const unwrapResultOfResult = <T, E>(
+  item: ResultAsync<T, E> | Result<T, E>
+): ResultAsync<T, E> | Result<T, E> => item

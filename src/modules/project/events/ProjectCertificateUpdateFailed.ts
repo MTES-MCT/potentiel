@@ -1,8 +1,7 @@
 import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
-import { Project } from '../../../entities'
 
 export interface ProjectCertificateUpdateFailedPayload {
-  projectId: Project['id']
+  projectId: string
   error: string
 }
 export class ProjectCertificateUpdateFailed

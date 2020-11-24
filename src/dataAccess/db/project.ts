@@ -358,13 +358,16 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
 
     if (!project.appelOffre) return project
 
-    project.appelOffre.periode = project.appelOffre.periodes.find(
-      (periode) => periode.id === project.periodeId
-    )
+    const periode = project.appelOffre.periodes.find((periode) => periode.id === project.periodeId)
 
-    project.famille = project.appelOffre.familles.find(
-      (famille) => famille.id === project.familleId
-    )
+    if (periode) {
+      project.appelOffre.periode = periode
+    }
+
+    const famille = project.appelOffre.familles.find((famille) => famille.id === project.familleId)
+    if (famille) {
+      project.famille = famille
+    }
 
     return project
   }

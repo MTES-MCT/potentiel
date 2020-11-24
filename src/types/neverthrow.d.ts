@@ -26,7 +26,7 @@ declare module 'neverthrow' {
     isErr(): this is Err<T, E>
     map<A>(_f: (t: T) => A): Result<A, E>
     mapErr<U>(f: (e: E) => U): Result<T, U>
-    aandThen<U, F>(f: (t: T) => Result<U, F>): Result<U, E | F>
+    andThen<U, F>(f: (t: T) => Result<U, F>): Result<U, E | F>
     asyncAndThen<U, F>(f: (t: T) => ResultAsync<U, F>): ResultAsync<U, E | F>
     asyncMap<U>(f: (t: T) => Promise<U>): ResultAsync<U, E>
     unwrapOr(v: T): T

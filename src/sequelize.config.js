@@ -22,24 +22,16 @@ if (NODE_ENV === 'test') {
     username: 'testuser',
     database: 'potentiel_test',
     port: 5433,
+    logging: false,
   }
 }
 
-console.info('Sequelize configuration is ', databaseOptions)
-
 const sequelizeInstance = new Sequelize(databaseOptions)
 
-sequelizeInstance
-  .authenticate()
-  .then(() =>
-    console.info(chalk.green`✅ The connection to the database has been established successfully.`)
-  )
-  .catch((error) => {
-    console.error(
-      chalk.red`❌ There was an error while trying to connect to the database > ${error}`
-    )
-    throw error
-  })
+sequelizeInstance.authenticate().catch((error) => {
+  console.error(chalk.red`❌ There was an error while trying to connect to the database > ${error}`)
+  throw error
+})
 
 module.exports = databaseOptions
 module.exports.sequelizeInstance = sequelizeInstance

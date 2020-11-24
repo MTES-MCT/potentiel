@@ -4,7 +4,7 @@ export default function makeFakeProject(overrides?) {
   const defaultObj = {
     id: uuid(),
     appelOffreId: 'Fessenheim',
-    periodeId: '6',
+    periodeId: '2',
     numeroCRE: Math.ceil(Math.random() * 1000).toString(),
     familleId: '1',
     nomCandidat: 'Mr Porter',

@@ -1,13 +1,16 @@
-import { EventStore } from '../../eventStore'
+import { TransactionalRepository, UniqueEntityID } from '../../../core/domain'
+import { okAsync } from '../../../core/utils'
 import { PeriodeNotified } from '../events/PeriodeNotified'
-import { ProjectNotified } from '../events/ProjectNotified'
+import { GenerateCertificate } from '../useCases/generateCertificate'
+import { Project } from '../Project'
 import { GetUnnotifiedProjectsForPeriode } from '../queries'
 
 export const handlePeriodeNotified = (deps: {
-  eventStore: EventStore
   getUnnotifiedProjectsForPeriode: GetUnnotifiedProjectsForPeriode
+  projectRepo: TransactionalRepository<Project>
+  generateCertificate: GenerateCertificate
 }) => async (event: PeriodeNotified) => {
-  const { eventStore, getUnnotifiedProjectsForPeriode } = deps
+  const { projectRepo, generateCertificate, getUnnotifiedProjectsForPeriode } = deps
 
   const { periodeId, appelOffreId, notifiedOn } = event.payload
 
@@ -17,31 +20,25 @@ export const handlePeriodeNotified = (deps: {
     return
   }
 
-  const result = await eventStore.transaction(({ publish }) => {
-    console.log(
-      'handlePeriodeNotified, inside transaction found ',
-      unnotifiedProjectIdsResult.value.length
-    )
-    unnotifiedProjectIdsResult.value.forEach(
-      ({ projectId, candidateEmail, candidateName, familleId }) =>
-        publish(
-          new ProjectNotified({
-            payload: {
-              projectId,
-              periodeId,
-              familleId,
-              appelOffreId,
-              candidateEmail,
-              candidateName,
-              notifiedOn,
-            },
-            requestId: event.requestId,
-          })
-        )
-    )
-  })
+  const unnotifiedProjectIds = unnotifiedProjectIdsResult.value
 
-  if (result.isErr()) {
-    console.log('handlePeriodeNotified failed to publish events to eventStore', result.error)
-  }
+  await Promise.all(
+    unnotifiedProjectIds.map((unnotifiedProjectId) => {
+      return projectRepo
+        .transaction(new UniqueEntityID(unnotifiedProjectId.projectId), (project) => {
+          return project.notify(notifiedOn).map((): boolean => project.shouldCertificateBeGenerated)
+        })
+        .andThen((shouldCertificateBeGenerated) => {
+          return shouldCertificateBeGenerated
+            ? generateCertificate(unnotifiedProjectId.projectId).map(() => null)
+            : okAsync<null, never>(null)
+        })
+        .match(
+          () => {},
+          (e) => {
+            console.error(e)
+          }
+        )
+    })
+  )
 }

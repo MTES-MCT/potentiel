@@ -21,8 +21,12 @@ import {
   PeriodeNotifiedPayload,
   ProjectCertificateGenerated,
   ProjectCertificateGeneratedPayload,
+  ProjectCertificateRegenerated,
+  ProjectCertificateRegeneratedPayload,
   ProjectCertificateGenerationFailed,
   ProjectCertificateGenerationFailedPayload,
+  ProjectCertificateDownloaded,
+  ProjectCertificateDownloadedPayload,
   ProjectDataCorrected,
   ProjectDataCorrectedPayload,
   ProjectDCRDueDateSet,
@@ -47,7 +51,9 @@ import {
   ProjectNotifiedPayload,
   ProjectReimported,
   ProjectReimportedPayload,
-  ProjectCertificateUpdated,
+  ProjectClasseGranted,
+  ProjectClasseGrantedPayload,
+  ProjectCertificateUploaded,
   ProjectCertificateUpdateFailed,
   ProjectCertificateUpdatedPayload,
   ProjectCertificateUpdateFailedPayload,
@@ -126,7 +132,7 @@ export class SequelizeEventStore extends BaseEventStore {
           requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
-            occurredAt: eventRaw.occurredAt,
+            occurredAt: new Date(eventRaw.occurredAt),
           },
         })
       case LegacyProjectSourced.type:
@@ -135,7 +141,7 @@ export class SequelizeEventStore extends BaseEventStore {
           requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
-            occurredAt: eventRaw.occurredAt,
+            occurredAt: new Date(eventRaw.occurredAt),
           },
         })
       case PeriodeNotified.type:
@@ -144,7 +150,7 @@ export class SequelizeEventStore extends BaseEventStore {
           requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
-            occurredAt: eventRaw.occurredAt,
+            occurredAt: new Date(eventRaw.occurredAt),
           },
         })
       case ProjectCertificateGenerated.type:
@@ -153,7 +159,16 @@ export class SequelizeEventStore extends BaseEventStore {
           requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
-            occurredAt: eventRaw.occurredAt,
+            occurredAt: new Date(eventRaw.occurredAt),
+          },
+        })
+      case ProjectCertificateRegenerated.type:
+        return new ProjectCertificateRegenerated({
+          payload: eventRaw.payload as ProjectCertificateRegeneratedPayload,
+          requestId: eventRaw.requestId?.toString(),
+          original: {
+            version: eventRaw.version,
+            occurredAt: new Date(eventRaw.occurredAt),
           },
         })
       case ProjectCertificateGenerationFailed.type:
@@ -162,16 +177,16 @@ export class SequelizeEventStore extends BaseEventStore {
           requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
-            occurredAt: eventRaw.occurredAt,
+            occurredAt: new Date(eventRaw.occurredAt),
           },
         })
-      case ProjectCertificateUpdated.type:
-        return new ProjectCertificateUpdated({
+      case ProjectCertificateUploaded.type:
+        return new ProjectCertificateUploaded({
           payload: eventRaw.payload as ProjectCertificateUpdatedPayload,
           requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
-            occurredAt: eventRaw.occurredAt,
+            occurredAt: new Date(eventRaw.occurredAt),
           },
         })
       case ProjectCertificateUpdateFailed.type:
@@ -180,7 +195,16 @@ export class SequelizeEventStore extends BaseEventStore {
           requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
-            occurredAt: eventRaw.occurredAt,
+            occurredAt: new Date(eventRaw.occurredAt),
+          },
+        })
+      case ProjectCertificateDownloaded.type:
+        return new ProjectCertificateDownloaded({
+          payload: eventRaw.payload as ProjectCertificateDownloadedPayload,
+          requestId: eventRaw.requestId?.toString(),
+          original: {
+            version: eventRaw.version,
+            occurredAt: new Date(eventRaw.occurredAt),
           },
         })
       case ProjectDataCorrected.type:
@@ -189,7 +213,7 @@ export class SequelizeEventStore extends BaseEventStore {
           requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
-            occurredAt: eventRaw.occurredAt,
+            occurredAt: new Date(eventRaw.occurredAt),
           },
         })
       case ProjectDCRDueDateSet.type:
@@ -198,7 +222,7 @@ export class SequelizeEventStore extends BaseEventStore {
           requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
-            occurredAt: eventRaw.occurredAt,
+            occurredAt: new Date(eventRaw.occurredAt),
           },
         })
       case ProjectDCRRemoved.type:
@@ -207,7 +231,7 @@ export class SequelizeEventStore extends BaseEventStore {
           requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
-            occurredAt: eventRaw.occurredAt,
+            occurredAt: new Date(eventRaw.occurredAt),
           },
         })
       case ProjectDCRSubmitted.type:
@@ -216,7 +240,7 @@ export class SequelizeEventStore extends BaseEventStore {
           requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
-            occurredAt: eventRaw.occurredAt,
+            occurredAt: new Date(eventRaw.occurredAt),
           },
         })
 
@@ -226,7 +250,7 @@ export class SequelizeEventStore extends BaseEventStore {
           requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
-            occurredAt: eventRaw.occurredAt,
+            occurredAt: new Date(eventRaw.occurredAt),
           },
         })
       case ProjectGFRemoved.type:
@@ -235,7 +259,7 @@ export class SequelizeEventStore extends BaseEventStore {
           requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
-            occurredAt: eventRaw.occurredAt,
+            occurredAt: new Date(eventRaw.occurredAt),
           },
         })
       case ProjectGFReminded.type:
@@ -244,7 +268,7 @@ export class SequelizeEventStore extends BaseEventStore {
           requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
-            occurredAt: eventRaw.occurredAt,
+            occurredAt: new Date(eventRaw.occurredAt),
           },
         })
       case ProjectGFSubmitted.type:
@@ -253,7 +277,7 @@ export class SequelizeEventStore extends BaseEventStore {
           requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
-            occurredAt: eventRaw.occurredAt,
+            occurredAt: new Date(eventRaw.occurredAt),
           },
         })
       case ProjectImported.type:
@@ -262,7 +286,7 @@ export class SequelizeEventStore extends BaseEventStore {
           requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
-            occurredAt: eventRaw.occurredAt,
+            occurredAt: new Date(eventRaw.occurredAt),
           },
         })
       case ProjectNotificationDateSet.type:
@@ -271,7 +295,7 @@ export class SequelizeEventStore extends BaseEventStore {
           requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
-            occurredAt: eventRaw.occurredAt,
+            occurredAt: new Date(eventRaw.occurredAt),
           },
         })
       case ProjectNotified.type:
@@ -280,7 +304,16 @@ export class SequelizeEventStore extends BaseEventStore {
           requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
-            occurredAt: eventRaw.occurredAt,
+            occurredAt: new Date(eventRaw.occurredAt),
+          },
+        })
+      case ProjectClasseGranted.type:
+        return new ProjectClasseGranted({
+          payload: eventRaw.payload as ProjectClasseGrantedPayload,
+          requestId: eventRaw.requestId?.toString(),
+          original: {
+            version: eventRaw.version,
+            occurredAt: new Date(eventRaw.occurredAt),
           },
         })
       case ProjectReimported.type:
@@ -289,7 +322,7 @@ export class SequelizeEventStore extends BaseEventStore {
           requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
-            occurredAt: eventRaw.occurredAt,
+            occurredAt: new Date(eventRaw.occurredAt),
           },
         })
       case CandidateNotificationForPeriodeFailed.type:
@@ -298,7 +331,7 @@ export class SequelizeEventStore extends BaseEventStore {
           requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
-            occurredAt: eventRaw.occurredAt,
+            occurredAt: new Date(eventRaw.occurredAt),
           },
         })
       case CandidateNotifiedForPeriode.type:
@@ -307,7 +340,7 @@ export class SequelizeEventStore extends BaseEventStore {
           requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
-            occurredAt: eventRaw.occurredAt,
+            occurredAt: new Date(eventRaw.occurredAt),
           },
         })
       case CandidateInformedOfCertificateUpdate.type:
@@ -316,7 +349,7 @@ export class SequelizeEventStore extends BaseEventStore {
           requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
-            occurredAt: eventRaw.occurredAt,
+            occurredAt: new Date(eventRaw.occurredAt),
           },
         })
       case CandidateInformationOfCertificateUpdateFailed.type:
@@ -325,7 +358,7 @@ export class SequelizeEventStore extends BaseEventStore {
           requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
-            occurredAt: eventRaw.occurredAt,
+            occurredAt: new Date(eventRaw.occurredAt),
           },
         })
 
