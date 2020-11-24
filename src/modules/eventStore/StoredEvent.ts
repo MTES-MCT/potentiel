@@ -9,9 +9,10 @@ import {
   LegacyProjectSourced,
   PeriodeNotified,
   ProjectCertificateGenerated,
+  ProjectCertificateRegenerated,
   ProjectCertificateDownloaded,
   ProjectCertificateGenerationFailed,
-  ProjectCertificateUpdated,
+  ProjectCertificateUploaded,
   ProjectCertificateUpdateFailed,
   ProjectDCRDueDateSet,
   ProjectDCRRemoved,
@@ -25,14 +26,16 @@ import {
   ProjectDataCorrected,
   ProjectNotificationDateSet,
   ProjectReimported,
+  ProjectClasseGranted,
 } from '../project/events'
 
 export type StoredEvent =
   | ProjectNotified
   | ProjectCertificateGenerated
+  | ProjectCertificateRegenerated
   | ProjectCertificateDownloaded
   | ProjectCertificateGenerationFailed
-  | ProjectCertificateUpdated
+  | ProjectCertificateUploaded
   | ProjectCertificateUpdateFailed
   | ProjectDCRDueDateSet
   | ProjectGFDueDateSet
@@ -47,10 +50,11 @@ export type StoredEvent =
   | ProjectGFReminded
   | ProjectDataCorrected
   | ProjectNotificationDateSet
-  | ProjectCertificateUpdated
+  | ProjectCertificateUploaded
   | ProjectCertificateUpdateFailed
   | PeriodeNotified
   | CandidateNotificationForPeriodeFailed
   | CandidateNotifiedForPeriode
   | CandidateInformedOfCertificateUpdate
   | CandidateInformationOfCertificateUpdateFailed
+  | ProjectClasseGranted

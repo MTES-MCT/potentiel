@@ -3,7 +3,7 @@ import { DomainError } from '../../core/domain/DomainError'
 import { err, errAsync, ok, Result, ResultAsync } from '../../core/utils'
 import { User } from '../../entities'
 import { ShouldUserAccessProject } from '../authorization'
-import { OtherError } from '../shared'
+import { AggregateHasBeenUpdatedSinceError, InfraNotAvailableError, OtherError } from '../shared'
 import { FileAccessDeniedError, FileNotFoundError } from './errors'
 import { File } from './File'
 import { FileContainer, FileStorageService } from './FileStorageService'
@@ -15,11 +15,17 @@ export class FileService {
     private shouldUserAccessProject: ShouldUserAccessProject
   ) {}
 
-  save(file: File, fileContent: FileContainer): ResultAsync<null, DomainError> {
-    return this.fileStorageService.save(fileContent).andThen((fileStorageIdentifier: string) => {
-      file.registerStorage(fileStorageIdentifier)
-      return this.fileRepo.save(file)
-    })
+  save(
+    file: File,
+    fileContent: FileContainer
+  ): ResultAsync<null, InfraNotAvailableError | AggregateHasBeenUpdatedSinceError> {
+    return this.fileStorageService
+      .save(fileContent)
+      .mapErr(() => new InfraNotAvailableError())
+      .andThen((fileStorageIdentifier: string) => {
+        file.registerStorage(fileStorageIdentifier)
+        return this.fileRepo.save(file)
+      })
   }
 
   load(fileId: string, user: User) {

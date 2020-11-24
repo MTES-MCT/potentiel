@@ -1,10 +1,11 @@
-import { EventStore, EventStoreTransactionArgs } from '.'
+import { EventStore } from '.'
 import { UniqueEntityID } from '../../core/domain'
-import { ok, okAsync, Result, ResultAsync } from '../../core/utils'
+import { ok, okAsync, Result } from '../../core/utils'
+import { makeFakeEventStore } from '../../__tests__/fixtures/aggregates'
 import { PeriodeNotified } from '../project/events'
 import { EntityNotFoundError, HeterogeneousHistoryError, InfraNotAvailableError } from '../shared'
 import { EventStoreHistoryFilters } from './EventStore'
-import { EventStoreTransactionalRepo } from './EventStoreTransactionalRepo'
+import { makeEventStoreTransactionalRepo } from './makeEventStoreTransactionalRepo'
 import { StoredEvent } from './StoredEvent'
 
 const fakeHistoryEvent = new PeriodeNotified({
@@ -25,37 +26,34 @@ const fakeProducedEvent = new PeriodeNotified({
   },
 })
 
-describe('EventStoreTransactionalRepo', () => {
+describe('makeEventStoreTransactionalRepo', () => {
   describe('transaction()', () => {
     interface FakeAggregate {
-      pendingEvents: StoredEvent[]
+      pendingEvents: readonly StoredEvent[]
+      id: UniqueEntityID
+      lastUpdatedOn: Date
       testFn: () => void
     }
     const fakeAggregate: FakeAggregate = {
       pendingEvents: [fakeProducedEvent],
+      id: new UniqueEntityID(''),
+      lastUpdatedOn: new Date(0),
       testFn: jest.fn(),
     }
-    const fakeMakeAggregate = jest.fn((events: StoredEvent[]) =>
+    const fakeMakeAggregate = jest.fn((args: { events: StoredEvent[]; id: UniqueEntityID }) =>
       ok<FakeAggregate, EntityNotFoundError | HeterogeneousHistoryError>(fakeAggregate)
     )
 
     const fakeLoadHistory = jest.fn((filters?: EventStoreHistoryFilters) => {
       return okAsync<StoredEvent[], InfraNotAvailableError>([fakeHistoryEvent])
     })
-    const fakePublish = jest.fn((event: StoredEvent) => {})
-    const fakeEventStore: EventStore = {
-      publish: jest.fn(),
-      subscribe: jest.fn(),
-      transaction: <T>(fn: (args: EventStoreTransactionArgs) => T) => {
-        return ResultAsync.fromPromise(
-          Promise.resolve(fn({ loadHistory: fakeLoadHistory, publish: fakePublish })),
-          () => new InfraNotAvailableError()
-        )
-      },
-    }
+    const fakeEventStore = makeFakeEventStore(fakeLoadHistory)
 
     beforeAll(async () => {
-      const repo = new EventStoreTransactionalRepo(fakeEventStore, fakeMakeAggregate)
+      const repo = makeEventStoreTransactionalRepo({
+        eventStore: fakeEventStore as EventStore,
+        makeAggregate: fakeMakeAggregate,
+      })
 
       const res = await repo.transaction(
         new UniqueEntityID('test'),
@@ -74,10 +72,13 @@ describe('EventStoreTransactionalRepo', () => {
     it('should create an aggregate from the eventStore history', async () => {
       expect(fakeLoadHistory).toHaveBeenCalledWith({ aggregateId: 'test' })
 
-      expect(fakeMakeAggregate).toHaveBeenCalledWith([fakeHistoryEvent])
+      expect(fakeMakeAggregate).toHaveBeenCalledWith({
+        events: [fakeHistoryEvent],
+        id: new UniqueEntityID('test'),
+      })
 
-      expect(fakePublish).toHaveBeenCalledTimes(1)
-      expect(fakePublish.mock.calls[0][0]).toEqual(fakeProducedEvent)
+      expect(fakeEventStore.fakePublish).toHaveBeenCalledTimes(1)
+      expect(fakeEventStore.fakePublish.mock.calls[0][0]).toEqual(fakeProducedEvent)
     })
 
     it('should execute the passed callback on the created aggregate', () => {
@@ -85,8 +86,8 @@ describe('EventStoreTransactionalRepo', () => {
     })
 
     it('should publish any events that are pending in the aggregate', () => {
-      expect(fakePublish).toHaveBeenCalledTimes(1)
-      expect(fakePublish.mock.calls[0][0]).toEqual(fakeProducedEvent)
+      expect(fakeEventStore.fakePublish).toHaveBeenCalledTimes(1)
+      expect(fakeEventStore.fakePublish.mock.calls[0][0]).toEqual(fakeProducedEvent)
     })
   })
 })

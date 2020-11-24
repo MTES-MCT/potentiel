@@ -1,3 +1,5 @@
+export * from './eventHandlers'
+export * from './queries'
 export * from './Notification'
 export * from './NotificationService'
 export * from './SendEmail'

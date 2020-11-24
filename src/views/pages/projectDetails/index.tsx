@@ -181,9 +181,9 @@ export default function ProjectDetails({
           ) : (
             ''
           )}
-          {['admin', 'dgec'].includes(user.role) && project.notifiedOn && false ? (
+          {['admin', 'dgec'].includes(user.role) && project.notifiedOn ? (
             <Section title="Corriger les données projet" icon="building">
-              <EditProjectData project={project} />
+              <EditProjectData project={project} request={request} />
             </Section>
           ) : (
             ''

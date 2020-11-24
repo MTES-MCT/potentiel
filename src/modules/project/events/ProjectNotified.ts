@@ -7,7 +7,7 @@ export interface ProjectNotifiedPayload {
   candidateName: string
   periodeId: string
   appelOffreId: string
-  familleId: string
+  familleId?: string
   notifiedOn: number
 }
 export class ProjectNotified

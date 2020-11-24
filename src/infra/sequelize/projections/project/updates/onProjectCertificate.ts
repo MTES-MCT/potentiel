@@ -1,10 +1,11 @@
 import {
   ProjectCertificateGenerated,
-  ProjectCertificateUpdated,
+  ProjectCertificateRegenerated,
+  ProjectCertificateUploaded,
 } from '../../../../../modules/project/events'
 
 export const onProjectCertificate = (models) => async (
-  event: ProjectCertificateGenerated | ProjectCertificateUpdated
+  event: ProjectCertificateGenerated | ProjectCertificateUploaded | ProjectCertificateRegenerated
 ) => {
   const ProjectModel = models.Project
   const projectInstance = await ProjectModel.findByPk(event.payload.projectId)

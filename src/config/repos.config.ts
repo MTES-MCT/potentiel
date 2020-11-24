@@ -1,3 +1,8 @@
-export { fileRepo, notificationRepo, candidateNotificationRepo } from '../infra/sequelize/repos'
-export { projectAdmissionKeyRepo, projectRepo, userRepo } from '../dataAccess'
+export {
+  fileRepo,
+  notificationRepo,
+  candidateNotificationRepo,
+  projectRepo,
+} from '../infra/sequelize/repos'
+export { projectAdmissionKeyRepo, userRepo, projectRepo as oldProjectRepo } from '../dataAccess'
 export { appelOffreRepo } from '../dataAccess/inMemory'

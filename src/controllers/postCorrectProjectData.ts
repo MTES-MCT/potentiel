@@ -3,17 +3,16 @@ import { Redirect, SystemError } from '../helpers/responses'
 import { HttpRequest } from '../types'
 import { FileContainer } from '../modules/file'
 import ROUTES from '../routes'
-import moment from 'moment'
+import moment from 'moment-timezone'
 
 import fs from 'fs'
 import util from 'util'
+import { IllegalProjectDataError } from '../modules/project/errors'
 const deleteFile = util.promisify(fs.unlink)
 
 const FORMAT_DATE = 'DD/MM/YYYY'
 
 const postCorrectProjectData = async (request: HttpRequest) => {
-  console.log('Call to postCorrectProjectData received', request.body, request.file)
-
   if (!request.user) {
     return SystemError('User must be logged in')
   }
@@ -23,8 +22,6 @@ const postCorrectProjectData = async (request: HttpRequest) => {
     projectVersionDate,
     notificationDate,
     numeroCRE,
-    appelOffreId,
-    periodeId,
     familleId,
     nomProjet,
     territoireProjet,
@@ -39,27 +36,28 @@ const postCorrectProjectData = async (request: HttpRequest) => {
     codePostalProjet,
     communeProjet,
     engagementFournitureDePuissanceAlaPointe,
-    isFinancementParticipatif,
-    isInvestissementParticipatif,
+    participatif,
     isClasse,
     motifsElimination,
+    appelOffreAndPeriode,
   } = request.body
 
-  console.log('projectVersionDate', projectVersionDate)
+  const [appelOffreId, periodeId] = appelOffreAndPeriode?.split('|')
+  const { isFinancementParticipatif, isInvestissementParticipatif } =
+    participatif === 'investissement'
+      ? { isFinancementParticipatif: false, isInvestissementParticipatif: true }
+      : participatif === 'financement'
+      ? { isFinancementParticipatif: true, isInvestissementParticipatif: false }
+      : { isFinancementParticipatif: false, isInvestissementParticipatif: false }
 
   if (
     !notificationDate ||
     moment(notificationDate, FORMAT_DATE).format(FORMAT_DATE) !== notificationDate
   ) {
-    return Redirect(
-      ROUTES.ADMIN_NOTIFY_CANDIDATES({
-        appelOffreId,
-        periodeId,
-      }),
-      {
-        error: 'La date de notification est au mauvais format.',
-      }
-    )
+    return Redirect(ROUTES.PROJECT_DETAILS(projectId), {
+      error: 'La date de notification est au mauvais format.',
+      ...request.body,
+    })
   }
 
   const correctedData = {
@@ -69,25 +67,21 @@ const postCorrectProjectData = async (request: HttpRequest) => {
     familleId,
     nomProjet,
     territoireProjet,
-    puissance,
-    prixReference,
-    evaluationCarbone,
-    note,
+    puissance: Number(puissance),
+    prixReference: Number(prixReference),
+    evaluationCarbone: Number(evaluationCarbone),
+    note: Number(note),
     nomCandidat,
     nomRepresentantLegal,
     email,
     adresseProjet,
     codePostalProjet,
     communeProjet,
-    engagementFournitureDePuissanceAlaPointe,
-    isFinancementParticipatif,
-    isInvestissementParticipatif,
-    isClasse,
+    engagementFournitureDePuissanceAlaPointe: Boolean(engagementFournitureDePuissanceAlaPointe),
+    isFinancementParticipatif: Boolean(isFinancementParticipatif),
+    isInvestissementParticipatif: Boolean(isInvestissementParticipatif),
     motifsElimination,
   }
-
-  // TODO: transform strings to numbers
-  console.log('correctedData', correctedData)
 
   const certificateFile: FileContainer | undefined = request.file
     ? {
@@ -101,25 +95,35 @@ const postCorrectProjectData = async (request: HttpRequest) => {
     projectVersionDate: new Date(Number(projectVersionDate)),
     correctedData,
     certificateFile,
-    newNotifiedOn: moment(notificationDate, FORMAT_DATE).toDate().getTime(),
+    newNotifiedOn: moment(notificationDate, FORMAT_DATE).tz('Europe/London').toDate().getTime(),
     user: request.user,
+    shouldGrantClasse: isClasse === 1,
   })
 
-  console.log('postCorrectProjectData correctProjectData returned', result)
-
   if (request.file) await deleteFile(request.file.path)
-
-  console.log('postCorrectProjectData temp file deleted')
 
   return result.match(
     () =>
       Redirect(ROUTES.PROJECT_DETAILS(projectId), {
         success: 'Les données du projet ont bien été mises à jour.',
       }),
-    (e: Error) => {
-      console.log('postCorrectProjectData error', e)
+    (e) => {
+      console.error(e)
+
+      if (e instanceof IllegalProjectDataError) {
+        return Redirect(ROUTES.PROJECT_DETAILS(projectId), {
+          error:
+            "Votre demande n'a pas pu être prise en compte: " +
+            Object.entries(e.errorsInFields)
+              .map(([key, value]) => `${key} (${value})`)
+              .join(', '),
+          ...request.body,
+        })
+      }
+
       return Redirect(ROUTES.PROJECT_DETAILS(projectId), {
         error: "Votre demande n'a pas pu être prise en compte: " + e.message,
+        ...request.body,
       })
     }
   )

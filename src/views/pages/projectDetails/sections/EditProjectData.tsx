@@ -4,11 +4,19 @@ import { formatDate } from '../../../../helpers/formatDate'
 import { dataId } from '../../../../helpers/testId'
 import ROUTES from '../../../../routes'
 
+import { appelsOffreStatic } from '../../../../dataAccess/inMemory/appelOffre'
+import { HttpRequest } from '../../../../types'
+
 interface EditProjectDataProps {
   project: Project
+  request: HttpRequest
 }
 
-export const EditProjectData = ({ project }: EditProjectDataProps) => (
+export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
+  
+  const { query } = request
+
+  return (
   <div>
     <form
       action={ROUTES.ADMIN_CORRECT_PROJECT_DATA_ACTION}
@@ -18,21 +26,39 @@ export const EditProjectData = ({ project }: EditProjectDataProps) => (
       <input type="hidden" name="projectId" value={project.id} />
       <input type="hidden" name="projectVersionDate" value={project.updatedAt?.getTime()} />
       <div className="form__group">
+        <label>Période</label>
+        <select name="appelOffreAndPeriode" defaultValue={query.appelOffreAndPeriode || `${project.appelOffreId}|${project.periodeId}`}>
+          {
+            appelsOffreStatic.reduce((periodes: React.ReactNode[], appelOffre) => {
+              return periodes?.concat(appelOffre.periodes.map((periode) => <option key={`${appelOffre.id}|${periode.id}`} value={`${appelOffre.id}|${periode.id}`}>{appelOffre.id} - {periode.id}</option>))
+            }, [] as React.ReactNode[])
+          }
+        </select>
+      </div>
+      <div className="form__group">
+        <label>Famille</label>
+        <input type="text" name="familleId" defaultValue={query.familleId ||project.familleId || ''} />
+      </div>
+      <div className="form__group">
+        <label>Territoire</label>
+        <input type="text" name="territoireProjet" defaultValue={query.territoireProjet ||project.territoireProjet || ''} />
+      </div>
+      <div className="form__group">
         <label>Numéro CRE</label>
-        <input type="text" name="numeroCRE" defaultValue={project.numeroCRE} />
+        <input type="text" name="numeroCRE" defaultValue={query.numeroCRE || project.numeroCRE} />
       </div>
       <div className="form__group">
         <label>Nom Projet</label>
-        <input type="text" name="nomProjet" defaultValue={project.nomProjet} />
+        <input type="text" name="nomProjet" defaultValue={query.nomProjet || project.nomProjet} />
       </div>
       <div className="form__group">
-        <label>Puissance actuelle (en {project.appelOffre?.unitePuissance})</label>
+        <label>Puissance (en {project.appelOffre?.unitePuissance})</label>
         <input
           type="text"
           inputMode="numeric"
           pattern="[0-9]+([\.,][0-9]+)?"
           name="puissance"
-          defaultValue={project.puissance}
+          defaultValue={query.puissance || project.puissance}
         />
       </div>
       <div className="form__group">
@@ -42,7 +68,7 @@ export const EditProjectData = ({ project }: EditProjectDataProps) => (
           inputMode="numeric"
           pattern="[0-9]+([\.,][0-9]+)?"
           name="prixReference"
-          defaultValue={project.prixReference}
+          defaultValue={query.prixReference || project.prixReference}
         />
       </div>
       <div className="form__group">
@@ -52,7 +78,7 @@ export const EditProjectData = ({ project }: EditProjectDataProps) => (
           inputMode="numeric"
           pattern="[0-9]+([\.,][0-9]+)?"
           name="evaluationCarbone"
-          defaultValue={project.evaluationCarbone}
+          defaultValue={query.evaluationCarbone || project.evaluationCarbone}
         />
       </div>
       <div className="form__group">
@@ -62,72 +88,70 @@ export const EditProjectData = ({ project }: EditProjectDataProps) => (
           inputMode="numeric"
           pattern="[0-9]+([\.,][0-9]+)?"
           name="note"
-          defaultValue={project.note}
+          defaultValue={query.note || project.note}
         />
       </div>
       <div className="form__group">
         <label>Nom candidat</label>
-        <input type="text" name="nomCandidat" defaultValue={project.nomCandidat} />
+        <input type="text" name="nomCandidat" defaultValue={query.nomCandidat || project.nomCandidat} />
       </div>
       <div className="form__group">
         <label>Nom représentant légal</label>
         <input
           type="text"
           name="nomRepresentantLegal"
-          defaultValue={project.nomRepresentantLegal}
+          defaultValue={query.nomRepresentantLegal || project.nomRepresentantLegal}
         />
       </div>
       <div className="form__group">
         <label>Email</label>
-        <input type="email" name="email" defaultValue={project.email} />
+        <input type="email" name="email" defaultValue={query.email || project.email} />
       </div>
       <div className="form__group">
         <label>Adresse projet (rue et numéro)</label>
-        <input type="text" name="adresseProjet" defaultValue={project.adresseProjet} />
+        <input type="text" name="adresseProjet" defaultValue={query.adresseProjet || project.adresseProjet} />
       </div>
       <div className="form__group">
         <label>Code postal projet</label>
-        <input type="text" name="codePostalProjet" defaultValue={project.codePostalProjet} />
+        <input type="text" name="codePostalProjet" defaultValue={query.codePostalProjet || project.codePostalProjet} />
       </div>
       <div className="form__group">
         <label>Commune</label>
-        <input type="text" name="communeProjet" defaultValue={project.communeProjet} />
+        <input type="text" name="communeProjet" defaultValue={query.communeProjet || project.communeProjet} />
       </div>
       <div className="form__group">
         <label>Engagement de fourniture de puissance à la pointe</label>
         <input
           type="checkbox"
           name="engagementFournitureDePuissanceAlaPointe"
-          defaultChecked={project.engagementFournitureDePuissanceAlaPointe}
+          defaultChecked={query.engagementFournitureDePuissanceAlaPointe || project.engagementFournitureDePuissanceAlaPointe}
         />
       </div>
       <div className="form__group">
-        <label>Financement participatif</label>
-        <input
-          type="checkbox"
-          name="isFinancementParticipatif"
-          defaultChecked={project.isFinancementParticipatif}
-        />
+        <label>Financement/Investissement participatif</label>
+<select name="participatif" defaultValue={query.participatif ||(project.isFinancementParticipatif ? 'financement' : project.isInvestissementParticipatif ? 'investissement' : '')}>
+          <option value={''}>Non</option>
+          <option value={'financement'}>Financement participatif</option>
+          <option value={'investissement'}>Investissement participatif</option>
+        </select>
       </div>
-      <div className="form__group">
-        <label>Investissement participatif</label>
-        <input
-          type="checkbox"
-          name="isInvestissementParticipatif"
-          defaultChecked={project.isInvestissementParticipatif}
-        />
-      </div>
-      <div className="form__group">
+      {
+        project.classe === 'Eliminé' ?
+      <><div className="form__group">
         <label>Classement</label>
-        <select name="isClasse" defaultValue={project.classe === 'Classé' ? 1 : 0}>
+        <select name="isClasse" defaultValue={0}>
           <option value={1}>Classé</option>
           <option value={0}>Eliminé</option>
         </select>
       </div>
       <div className="form__group">
         <label>Motif Elimination (si éliminé)</label>
-        <input type="text" name="motifsElimination" defaultValue={project.motifsElimination} />
+        <input type="text" name="motifsElimination" defaultValue={query.motifsElimination ||project.motifsElimination} />
+      </div></> : <div className="form__group">
+        <label>Classement</label>
+        <b>Classé</b>
       </div>
+      }
       <div className="form__group">
         <label htmlFor="notificationDate">Date désignation (format JJ/MM/AAAA)</label>
         <input
@@ -135,7 +159,7 @@ export const EditProjectData = ({ project }: EditProjectDataProps) => (
           name="notificationDate"
           id="notificationDate"
           {...dataId('date-field')}
-          defaultValue={formatDate(new Date(project.notifiedOn), 'DD/MM/YYYY')}
+          defaultValue={query.notificationDate || formatDate(new Date(project.notifiedOn), 'DD/MM/YYYY')}
           style={{ width: 'auto' }}
         />
         <div
@@ -143,7 +167,7 @@ export const EditProjectData = ({ project }: EditProjectDataProps) => (
           style={{ display: 'none' }}
           {...dataId('error-message-wrong-format')}
         >
-          Le format de la date saisie n'est pas conforme. Elle doit être de la forme JJ/MM/AAAA soit
+          Le format de la date saisie n’est pas conforme. Elle doit être de la forme JJ/MM/AAAA soit
           par exemple 25/05/2022 pour 25 Mai 2022.
         </div>
       </div>
@@ -157,3 +181,4 @@ export const EditProjectData = ({ project }: EditProjectDataProps) => (
     </form>
   </div>
 )
+}

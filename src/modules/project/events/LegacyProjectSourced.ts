@@ -10,7 +10,35 @@ export interface LegacyProjectSourcedPayload {
   periodeId: string
   appelOffreId: string
   familleId: string
-  content: Record<string, any>
+  content: {
+    periodeId: string
+    appelOffreId: string
+    familleId: string
+    territoireProjet: string
+    numeroCRE: string
+    nomCandidat: string
+    nomProjet: string
+    puissance: number
+    prixReference: number
+    evaluationCarbone: number
+    note: number
+    nomRepresentantLegal: string
+    isFinancementParticipatif: boolean
+    isInvestissementParticipatif: boolean
+    engagementFournitureDePuissanceAlaPointe: boolean
+    email: string
+    adresseProjet: string
+    codePostalProjet: string
+    communeProjet: string
+    departementProjet: string
+    regionProjet: string
+    fournisseur: string
+    actionnaire: string
+    classe: string
+    motifsElimination: string
+    notifiedOn: number
+    details: any
+  }
 }
 export class LegacyProjectSourced
   extends BaseDomainEvent<LegacyProjectSourcedPayload>

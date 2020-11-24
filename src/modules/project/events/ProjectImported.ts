@@ -1,14 +1,41 @@
-import { Project, Periode, AppelOffre, Famille, User } from '../../../entities'
 import { DomainEvent, BaseDomainEvent } from '../../../core/domain/DomainEvent'
 
 export interface ProjectImportedPayload {
-  projectId: Project['id']
-  periodeId: Periode['id']
-  appelOffreId: AppelOffre['id']
-  familleId: Famille['id']
-  numeroCRE: Project['numeroCRE']
-  data: any
-  importedBy: User['id']
+  projectId: string
+  periodeId: string
+  appelOffreId: string
+  familleId: string
+  numeroCRE: string
+  importedBy: string
+  data: {
+    periodeId: string
+    appelOffreId: string
+    familleId: string
+    territoireProjet: string
+    numeroCRE: string
+    nomCandidat: string
+    nomProjet: string
+    puissance: number
+    prixReference: number
+    evaluationCarbone: number
+    note: number
+    nomRepresentantLegal: string
+    isFinancementParticipatif: boolean
+    isInvestissementParticipatif: boolean
+    engagementFournitureDePuissanceAlaPointe: boolean
+    email: string
+    adresseProjet: string
+    codePostalProjet: string
+    communeProjet: string
+    departementProjet: string
+    regionProjet: string
+    fournisseur: string
+    actionnaire: string
+    classe: string
+    motifsElimination: string
+    notifiedOn: number
+    details: any
+  }
 }
 export class ProjectImported
   extends BaseDomainEvent<ProjectImportedPayload>

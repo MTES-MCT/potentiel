@@ -268,7 +268,7 @@ export default function makeImportProjects({
                 payload: {
                   projectId: updatedProject.id,
                   notifiedOn: existingProject.notifiedOn,
-                  data: updatedProject,
+                  data: updatedProject as ProjectReimported['payload']['data'],
                   importedBy: userId,
                 },
               })
@@ -313,7 +313,7 @@ export default function makeImportProjects({
                 periodeId: newlyImportedProject.periodeId,
                 numeroCRE: newlyImportedProject.numeroCRE,
                 familleId: newlyImportedProject.familleId,
-                data: newlyImportedProject,
+                data: newlyImportedProject as ProjectImported['payload']['data'],
                 importedBy: userId,
               },
             })

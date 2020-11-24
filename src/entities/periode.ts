@@ -12,6 +12,10 @@ export type Periode = {
   id: string
   title: string
   noteThresholdByFamily?: NoteThreshold[]
-  isNotifiedOnPotentiel?: true
-  certificateTemplate?: CertificateTemplate
-}
+} & (
+  | {
+      isNotifiedOnPotentiel: true
+      certificateTemplate: CertificateTemplate
+    }
+  | { isNotifiedOnPotentiel?: false }
+)

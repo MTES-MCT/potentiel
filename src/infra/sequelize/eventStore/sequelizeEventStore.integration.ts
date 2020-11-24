@@ -414,6 +414,7 @@ describe('SequelizeEventStore', () => {
               projectId: uuid(),
               candidateEmail: '',
               certificateFileId: uuid(),
+              projectVersionDate: new Date(0),
             },
           })
         )

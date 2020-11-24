@@ -1,4 +1,8 @@
-import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
+import {
+  BaseDomainEvent,
+  BaseDomainEventProps,
+  DomainEvent,
+} from '../../../core/domain/DomainEvent'
 
 export interface ProjectGFSubmittedPayload {
   projectId: string
@@ -12,6 +16,13 @@ export class ProjectGFSubmitted
   public static type: 'ProjectGFSubmitted' = 'ProjectGFSubmitted'
   public type = ProjectGFSubmitted.type
   currentVersion = 1
+
+  constructor(props: BaseDomainEventProps<ProjectGFSubmittedPayload>) {
+    super(props)
+
+    // convert to date (in case it is a string)
+    this.payload.gfDate = new Date(this.payload.gfDate)
+  }
 
   aggregateIdFromPayload(payload: ProjectGFSubmittedPayload) {
     return payload.projectId

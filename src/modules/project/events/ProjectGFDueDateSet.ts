@@ -1,9 +1,8 @@
 import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
-import { Project } from '../../../entities'
 
 export interface ProjectGFDueDateSetPayload {
-  projectId: Project['id']
-  garantiesFinancieresDueOn: Project['garantiesFinancieresDueOn']
+  projectId: string
+  garantiesFinancieresDueOn: number
 }
 export class ProjectGFDueDateSet
   extends BaseDomainEvent<ProjectGFDueDateSetPayload>
