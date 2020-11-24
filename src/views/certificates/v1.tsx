@@ -1,13 +1,13 @@
+/* global JSX */
+import ReactPDF, { Document, Font, Image, Page, Text, View } from '@react-pdf/renderer'
+import dotenv from 'dotenv'
 import React from 'react'
-import { Readable } from 'stream'
-import { ResultAsync, errAsync, ok, Queue } from '../../core/utils'
-import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/renderer'
-import ReactPDF from '@react-pdf/renderer'
-import { Project, AppelOffre, Periode, makeProjectIdentifier } from '../../entities'
+import { errAsync, Queue, ResultAsync } from '../../core/utils'
 import { formatDate } from '../../helpers/formatDate'
+import { ProjectDataForCertificate } from '../../modules/project/dtos'
+import { IllegalProjectDataError } from '../../modules/project/errors'
 import { OtherError } from '../../modules/shared'
 
-import dotenv from 'dotenv'
 dotenv.config()
 
 Font.register({
@@ -44,12 +44,9 @@ const makeAddFootnote = (footNotes: Array<any>) => {
   }
 }
 
-interface LaureatProps {
-  project: Project
-  appelOffre: AppelOffre
-  periode: Periode
-}
-const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
+const Laureat = (project: ProjectDataForCertificate) => {
+  const { appelOffre } = project
+  const { periode } = appelOffre || {}
   const objet =
     'Désignation des lauréats de la ' +
     periode.title +
@@ -131,7 +128,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
           marginLeft: 20,
         }}
       >
-        - respecter l'ensemble des obligations et prescriptions de toute nature figurant au cahier
+        - respecter l’ensemble des obligations et prescriptions de toute nature figurant au cahier
         des charges;
       </Text>
       <Text
@@ -293,7 +290,10 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
   return { project, appelOffre, periode, objet, body, footnotes }
 }
 
-const getNoteThreshold = (periode: Periode, project: Project) => {
+const getNoteThreshold = (project: ProjectDataForCertificate) => {
+
+  const periode = project.appelOffre.periode
+
   if (!periode.noteThresholdByFamily) {
     console.log(
       'candidateCertificate: looking for noteThresholdByFamily for a period that has none',
@@ -339,13 +339,9 @@ const getNoteThreshold = (periode: Periode, project: Project) => {
 
   return note
 }
-
-interface ElimineProps {
-  project: Project
-  appelOffre: AppelOffre
-  periode: Periode
-}
-const Elimine = ({ project, appelOffre, periode }: ElimineProps) => {
+const Elimine = (project: ProjectDataForCertificate) => {
+  const { appelOffre } = project
+  const { periode } = appelOffre || {}
   const objet =
     'Avis de rejet à l’issue de la ' +
     periode.title +
@@ -375,7 +371,7 @@ const Elimine = ({ project, appelOffre, periode }: ElimineProps) => {
               ? ' pour la région d’implantation du projet définis au 1.2.2 du cahier des charges'
               : '') +
             ' a été atteint avec les offres ayant des notes supérieures à ' +
-            formatNumber(getNoteThreshold(periode, project)) +
+            formatNumber(getNoteThreshold(project)) +
             ' points. Par conséquent, cette offre n’a pas été retenue.'
           : project.motifsElimination === 'Déjà lauréat - Non instruit'
           ? "À la suite de l'instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre n'a pas été retenue elle avait déjà été désignée lauréate au cours d'un précédent appel d'offres."
@@ -388,7 +384,7 @@ const Elimine = ({ project, appelOffre, periode }: ElimineProps) => {
             ' seuls 80 % des projets les mieux notés ont été retenus. Votre offre a en effet obtenu une note de ' +
             formatNumber(project.note) +
             ' points alors que la sélection des offres s’est faite jusqu’à la note de ' +
-            formatNumber(getNoteThreshold(periode, project)) +
+            formatNumber(getNoteThreshold(project)) +
             ' points. Par conséquent, cette offre n’a pas été retenue.'
           : "À la suite de l'instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été éliminée pour le motif suivant : « " +
             project.motifsElimination +
@@ -406,21 +402,21 @@ const Elimine = ({ project, appelOffre, periode }: ElimineProps) => {
 
 // Create Document Component
 interface CertificateProps {
-  project: Project
-  appelOffre: AppelOffre
-  periode: Periode
+  project: ProjectDataForCertificate
   objet: string
   body: JSX.Element
   footnotes?: JSX.Element
 }
 const Certificate = ({
   project,
-  appelOffre,
-  periode,
   objet,
   body,
   footnotes,
 }: CertificateProps) => {
+
+  const { appelOffre } = project
+  const { periode } = appelOffre || {}
+
   return (
     <Document>
       <Page
@@ -453,10 +449,10 @@ const Certificate = ({
           }}
         >
           <Text style={{ fontSize: 12, fontWeight: 'bold', textAlign: 'right' }}>
-            Direction générale de l'énergie et du climat
+            Direction générale de l’énergie et du climat
           </Text>
           <Text style={{ fontSize: 12, fontWeight: 'bold', textAlign: 'right' }}>
-            Direction de l'énergie
+            Direction de l’énergie
           </Text>
           <Text style={{ fontSize: 10, fontWeight: 'bold', textAlign: 'right' }}>
             Sous-direction du système électrique
@@ -488,7 +484,7 @@ const Certificate = ({
             left: 65,
           }}
         >
-          <Text style={{ fontSize: 8 }}>Code Potentiel: {makeProjectIdentifier(project)}</Text>
+          <Text style={{ fontSize: 8 }}>Code Potentiel: {project.potentielId}</Text>
           <Text style={{ fontSize: 8 }}>Dossier suivi par : {appelOffre.dossierSuiviPar}</Text>
         </View>
         <View style={{ marginTop: 350, paddingHorizontal: 65, marginBottom: 50 }}>
@@ -504,7 +500,7 @@ const Certificate = ({
             Madame, Monsieur,
           </Text>
           <Text style={{ fontSize: 10, textAlign: 'justify' }}>
-            En application des dispositions de l’article L. 311-10 du code de l’énergie relatif à la
+            En application des dispositions de l’article L. 311-10 du code de l’énergie relatif à la
             procédure de mise en concurrence pour les installations de production d’électricité, le
             ministre chargé de l’énergie a lancé en {appelOffre.launchDate} l’appel d’offres cité en
             objet.
@@ -531,7 +527,7 @@ const Certificate = ({
               }}
             >
               <Text style={{ fontSize: 10, fontWeight: 'bold', textAlign: 'center' }}>
-                L'adjoint au sous-directeur du système électrique et des énergies renouvelables,
+                L’adjoint au sous-directeur du système électrique et des énergies renouvelables,
               </Text>
               <Text style={{ fontSize: 10, textAlign: 'center', marginTop: 65 }}>
                 Ghislain Ferran
@@ -580,39 +576,28 @@ const Certificate = ({
   )
 }
 
-class MissingDataError extends Error {
-  constructor() {
-    super('Impossible de générer de certificat pour ce projet, données manquantes.')
-  }
-}
+const queue = new Queue()
 
-interface MakeCertificateProps {
-  project: Project
-}
-
-let queue = new Queue()
-
-const makeCertificate = ({
-  project,
-}: MakeCertificateProps): ResultAsync<NodeJS.ReadableStream, MissingDataError | OtherError> => {
+/* global NodeJS */
+const makeCertificate = (project: ProjectDataForCertificate): ResultAsync<NodeJS.ReadableStream, IllegalProjectDataError | OtherError> => {
   const { appelOffre } = project
   const { periode } = appelOffre || {}
 
   if (!appelOffre || !periode) {
-    return errAsync(new MissingDataError())
+    return errAsync(new IllegalProjectDataError({ appelOffre: 'appelOffre et/ou periode manquantes'}))
   }
 
   let content
 
-  if (project.classe === 'Classé') {
-    content = Laureat({ project, appelOffre, periode })
+  if (project.isClasse) {
+    content = Laureat(project)
   } else {
-    content = Elimine({ project, appelOffre, periode })
+    content = Elimine(project)
   }
 
   const ticket = queue.push(() => ReactPDF.renderToStream(<Certificate {...content} />))
 
-  return ResultAsync.fromPromise(ticket, (e: any) => new OtherError(e.message))
+  return ResultAsync.fromPromise(ticket, (e: any) =>  new OtherError(e.message) )
 }
 
 export { makeCertificate }

@@ -1,11 +1,10 @@
-import { AppelOffre, Periode, Project, User } from '../../../entities'
-import { DomainEvent, BaseDomainEvent } from '../../../core/domain/DomainEvent'
+import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
 
 export interface PeriodeNotifiedPayload {
-  periodeId: Periode['id']
-  appelOffreId: AppelOffre['id']
-  notifiedOn: Project['notifiedOn']
-  requestedBy: User['id']
+  periodeId: string
+  appelOffreId: string
+  notifiedOn: number
+  requestedBy: string
 }
 export class PeriodeNotified
   extends BaseDomainEvent<PeriodeNotifiedPayload>

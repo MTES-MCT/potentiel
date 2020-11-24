@@ -50,8 +50,8 @@ describe('project.onProjectDataCorrected', () => {
       new ProjectDataCorrected({
         payload: {
           projectId,
-          notifiedOn: 1,
-          correctedData: { ...newValues, isClasse: true },
+          correctedBy: 'user1',
+          correctedData: { ...newValues },
         },
       })
     )

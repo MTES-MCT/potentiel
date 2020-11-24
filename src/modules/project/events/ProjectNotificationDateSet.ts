@@ -1,9 +1,9 @@
 import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
-import { Project } from '../../../entities'
 
 export interface ProjectNotificationDateSetPayload {
-  projectId: Project['id']
-  notifiedOn: Project['notifiedOn']
+  projectId: string
+  notifiedOn: number
+  setBy: string // userId
 }
 export class ProjectNotificationDateSet
   extends BaseDomainEvent<ProjectNotificationDateSetPayload>

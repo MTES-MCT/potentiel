@@ -355,7 +355,6 @@ describe('SequelizeEventStore', () => {
 
         const result = await eventStore.transaction(async ({ loadHistory }) => {
           const events = await loadHistory()
-          console.log('events', events)
         })
 
         expect(result.isOk()).toBe(true)
@@ -414,6 +413,7 @@ describe('SequelizeEventStore', () => {
               projectId: uuid(),
               candidateEmail: '',
               certificateFileId: uuid(),
+              projectVersionDate: new Date(0),
             },
           })
         )

@@ -6,13 +6,15 @@ import makeFakeUser from '../../../__tests__/fixtures/user'
 
 import ProjectDetails from '.'
 
-export default { title: 'Project page' }
 
 import { appelsOffreStatic } from '../../../dataAccess/inMemory/appelOffre'
 import { ProjectAdmissionKey, ProjectAppelOffre } from '../../../entities'
+
+export default { title: 'Project page' }
+
 const appelOffre: ProjectAppelOffre | undefined = appelsOffreStatic.find(
   (appelOffre) => appelOffre.id === 'Fessenheim'
-)
+) as ProjectAppelOffre
 if (appelOffre) appelOffre.periode = appelOffre.periodes[1]
 
 export const forAdminsLaureat = () => (
@@ -193,7 +195,8 @@ export const forDrealGFStillDue = () => (
 
 const appelOffreInnovation: ProjectAppelOffre | undefined = appelsOffreStatic.find(
   (appelOffre) => appelOffre.id === 'CRE4 - Innovation'
-)
+) as (ProjectAppelOffre | undefined)
+
 if (appelOffreInnovation) appelOffreInnovation.periode = appelOffreInnovation.periodes[1]
 export const forAOInnovation = () => (
   <ProjectDetails

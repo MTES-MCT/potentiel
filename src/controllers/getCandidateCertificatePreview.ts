@@ -1,4 +1,7 @@
+import { UniqueEntityID } from '../core/domain'
 import { NotFoundError, SuccessFileStream, SystemError } from '../helpers/responses'
+import { toProjectDataForCertificate } from '../modules/project/mappers'
+import { ProjectProps } from '../modules/project/Project'
 import { HttpRequest } from '../types'
 import { getUserProject } from '../useCases'
 import { buildCertificate } from '../views/certificates'
@@ -23,14 +26,30 @@ const getCandidateCertificatePreview = async (request: HttpRequest) => {
       )
     }
 
-    if (!project.appelOffre?.periode?.certificateTemplate) {
+    if (!project.appelOffre?.periode?.isNotifiedOnPotentiel) {
       return NotFoundError("Impossible de trouver le modèle d'attestation pour ce projet")
     }
 
-    const certificateStreamResult = await buildCertificate(
-      project.appelOffre?.periode?.certificateTemplate,
-      project
-    )
+    const projectDataResult = toProjectDataForCertificate({
+      appelOffre: project.appelOffre,
+      isClasse: project.classe === 'Classé',
+      notifiedOn: project.notifiedOn,
+      projectId: new UniqueEntityID(project.id),
+      data: project as unknown,
+    } as ProjectProps)
+
+    if (projectDataResult.isErr()) {
+      console.error(
+        'getCandidateCertificatePreview failed to make projectDataForCertificate',
+        projectDataResult.error
+      )
+      return NotFoundError("Impossible de générer l'attestion parce qu'il manque des données.")
+    }
+
+    const certificateStreamResult = await buildCertificate({
+      template: project.appelOffre.periode.certificateTemplate,
+      data: projectDataResult.value,
+    })
 
     if (certificateStreamResult.isErr()) {
       console.log(

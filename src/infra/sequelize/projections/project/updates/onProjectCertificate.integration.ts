@@ -1,7 +1,8 @@
 import { resetDatabase } from '../../../../../dataAccess'
 import {
   ProjectCertificateGenerated,
-  ProjectCertificateUpdated,
+  ProjectCertificateRegenerated,
+  ProjectCertificateUploaded,
 } from '../../../../../modules/project/events'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import models from '../../../models'
@@ -46,6 +47,7 @@ describe('project.onProjectCertificate', () => {
         payload: {
           certificateFileId: certificateFile2,
           projectId: projectId,
+          projectVersionDate: new Date(0),
           candidateEmail: '',
           periodeId: '',
           appelOffreId: '',
@@ -63,12 +65,34 @@ describe('project.onProjectCertificate', () => {
     expect(nonUpdatedProject.certificateFileId).toEqual(null)
   })
 
-  it('should update project.certificateFileId on ProjectCertificateUpdated', async () => {
+  it('should update project.certificateFileId on ProjectCertificateRegenerated', async () => {
     await onProjectCertificate(models)(
-      new ProjectCertificateUpdated({
+      new ProjectCertificateRegenerated({
         payload: {
           certificateFileId: certificateFile1,
           projectId: projectId,
+          projectVersionDate: new Date(0),
+        },
+      })
+    )
+
+    const updatedProject = await ProjectModel.findByPk(projectId)
+    expect(updatedProject.certificateFileId).toEqual(certificateFile1)
+
+    const nonUpdatedProject = await ProjectModel.findByPk(fakeProjectId)
+    expect(nonUpdatedProject).toBeDefined()
+    if (nonUpdatedProject) return
+
+    expect(nonUpdatedProject.certificateFileId).toEqual(null)
+  })
+
+  it('should update project.certificateFileId on ProjectCertificateUploaded', async () => {
+    await onProjectCertificate(models)(
+      new ProjectCertificateUploaded({
+        payload: {
+          certificateFileId: certificateFile1,
+          projectId: projectId,
+          uploadedBy: 'user1',
         },
       })
     )
