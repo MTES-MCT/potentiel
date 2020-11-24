@@ -84,6 +84,7 @@ const modificationRequestSchema = baseModificationRequestSchema
 const fields: string[] = [
   'fileId',
   'attachmentFile',
+  'requestedOn',
   'type',
   'actionnaire',
   'producteur',
