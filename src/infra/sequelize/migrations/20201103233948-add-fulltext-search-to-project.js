@@ -25,7 +25,7 @@ module.exports = {
             { transaction: t }
           )
         )
-        .error(console.error)
+        .catch(console.error)
     ),
 
   down: (queryInterface) =>
