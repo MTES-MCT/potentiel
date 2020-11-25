@@ -1,14 +1,17 @@
 import { ResultAsync } from '../../core/utils/Result'
-
-/* global NodeJS */
-
-export type FileContainer = {
-  path: string
-  stream: NodeJS.ReadableStream
-}
+import { InfraNotAvailableError } from '../shared'
+import { FileAccessDeniedError, FileNotFoundError } from './errors'
+import { FileContents } from './FileObject'
 
 export interface FileStorageService {
-  save: (file: FileContainer) => ResultAsync<string, Error>
-  load: (fileId: string) => ResultAsync<FileContainer, Error>
-  remove: (fileId: string) => ResultAsync<null, Error>
+  upload: ({
+    contents: FileContents,
+    path: string,
+  }) => ResultAsync<string, FileAccessDeniedError | InfraNotAvailableError>
+  download: (
+    storedAt: string
+  ) => ResultAsync<FileContents, FileNotFoundError | FileAccessDeniedError | InfraNotAvailableError>
+  remove: (
+    storedAt: string
+  ) => ResultAsync<null, FileNotFoundError | FileAccessDeniedError | InfraNotAvailableError>
 }

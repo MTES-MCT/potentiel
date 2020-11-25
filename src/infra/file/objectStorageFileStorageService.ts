@@ -1,9 +1,10 @@
 import { storage, ProviderOptions } from 'pkgcloud'
 import Stream from 'stream'
 import concat from 'concat-stream'
-import { Result, err, ok, ResultAsync, okAsync } from '../../core/utils/Result'
+import { Result, err, ok, ResultAsync, okAsync, errAsync } from '../../core/utils/Result'
 
-import { FileStorageService, FileContainer } from '../../modules/file/FileStorageService'
+import { FileStorageService, FileContents } from '../../modules/file'
+import { InfraNotAvailableError } from '../../modules/shared'
 
 class WrongIdentifierFormat extends Error {
   constructor() {
@@ -17,93 +18,95 @@ class WrongContainer extends Error {
   }
 }
 
-export class ObjectStorageFileStorageService implements FileStorageService {
-  private _client: storage.Client
-  constructor(options: ProviderOptions, private _container: string) {
-    this._client = storage.createClient(options)
+const IDENTIFIER_PREFIX = 'objectStorage'
+
+function makeIdentifier(filePath: string, container: string): string {
+  return `${IDENTIFIER_PREFIX}:${container}:${filePath}`
+}
+
+function parseIdentifier(
+  fileId: string,
+  _container: string
+): Result<string, WrongIdentifierFormat> {
+  if (fileId.indexOf(IDENTIFIER_PREFIX) !== 0) {
+    return err(new WrongIdentifierFormat())
   }
 
-  private static IDENTIFIER_PREFIX = 'objectStorage'
+  const container = fileId.substring(IDENTIFIER_PREFIX.length + 1, fileId.lastIndexOf(':'))
 
-  private makeIdentifier(file: FileContainer): string {
-    return `${ObjectStorageFileStorageService.IDENTIFIER_PREFIX}:${this._container}:${file.path}`
+  if (container !== _container) {
+    return err(new WrongContainer())
   }
 
-  private parseIdentifier(fileId: string): Result<string, WrongIdentifierFormat> {
-    if (fileId.indexOf(ObjectStorageFileStorageService.IDENTIFIER_PREFIX) !== 0) {
-      return err(new WrongIdentifierFormat())
-    }
+  return ok(fileId.substring(fileId.lastIndexOf(':') + 1))
+}
 
-    const container = fileId.substring(
-      ObjectStorageFileStorageService.IDENTIFIER_PREFIX.length + 1,
-      fileId.lastIndexOf(':')
-    )
+export const makeObjectStorageFileStorageService = (
+  options: ProviderOptions,
+  _container: string
+): FileStorageService => {
+  const _client = storage.createClient(options)
 
-    if (container !== this._container) {
-      return err(new WrongContainer())
-    }
-
-    return ok(fileId.substring(fileId.lastIndexOf(':') + 1))
-  }
-
-  save(file: FileContainer): ResultAsync<string, Error> {
-    const res = ResultAsync.fromPromise(
-      new Promise<storage.File>((resolve, reject) => {
-        const uploadWriteStream = this._client.upload({
-          container: this._container,
-          remote: file.path,
-        })
-        uploadWriteStream.on('error', reject)
-        uploadWriteStream.on('success', resolve)
-
-        // This fixes a bug in pkgcloud (See https://github.com/pkgcloud/pkgcloud/pull/673)
-        const concatStream = concat((buffer) => {
-          const bufferStream = new Stream.PassThrough()
-          if (Array.isArray(buffer)) {
-            console.log(
-              'WARNING: objectStorageFileStorageService received buffer as array chunk, ignoring chunk'
-            )
-            bufferStream.end('')
-          } else {
-            bufferStream.end(buffer)
-          }
-          bufferStream.pipe(uploadWriteStream)
-        })
-
-        file.stream.pipe(concatStream)
-      }),
-      (e: any) => {
-        console.log('objectStorageFileStorageService.save caught error', e)
-        return new Error(e.message || 'Error in the upload phase')
-      }
-    ).map(() => this.makeIdentifier(file))
-
-    return res
-  }
-
-  load(fileId: string): ResultAsync<FileContainer, Error> {
-    return this.parseIdentifier(fileId)
-      .map((remote: string) => ({
-        path: remote,
-        stream: this._client.download({
-          container: this._container,
-          remote: remote,
-        }),
-      }))
-      .asyncAndThen((res) => okAsync(res))
-  }
-
-  remove(fileId: string): ResultAsync<null, Error> {
-    return this.parseIdentifier(fileId).asyncAndThen((remote) =>
-      ResultAsync.fromPromise(
-        new Promise<null>((resolve, reject) => {
-          this._client.removeFile(this._container, remote, (err) => {
-            if (err) reject(err)
-            else resolve(null)
+  return {
+    upload({ contents, path: filePath }) {
+      return ResultAsync.fromPromise(
+        new Promise<storage.File>((resolve, reject) => {
+          const uploadWriteStream = _client.upload({
+            container: _container,
+            remote: filePath,
           })
+          uploadWriteStream.on('error', reject)
+          uploadWriteStream.on('success', resolve)
+
+          // This fixes a bug in pkgcloud (See https://github.com/pkgcloud/pkgcloud/pull/673)
+          const concatStream = concat((buffer) => {
+            const bufferStream = new Stream.PassThrough()
+            if (Array.isArray(buffer)) {
+              console.log(
+                'WARNING: objectStorageFileStorageService received buffer as array chunk, ignoring chunk'
+              )
+              bufferStream.end('')
+            } else {
+              bufferStream.end(buffer)
+            }
+            bufferStream.pipe(uploadWriteStream)
+          })
+
+          contents.pipe(concatStream)
         }),
-        (e: any) => new Error(e.message || 'Error in the remove phase')
+        (e: any) => {
+          console.error('ObjectStorageFileStorageService.remove', e)
+          return new InfraNotAvailableError()
+        }
+      ).map(() => makeIdentifier(filePath, _container))
+    },
+
+    download(storedAt) {
+      return parseIdentifier(storedAt, _container)
+        .map((remote: string) =>
+          _client.download({
+            container: _container,
+            remote: remote,
+          })
+        )
+        .asyncAndThen((res) => okAsync(res))
+    },
+
+    remove(storedAt) {
+      return parseIdentifier(storedAt, _container).asyncAndThen((remote) =>
+        ResultAsync.fromPromise(
+          new Promise<null>((resolve, reject) => {
+            _client.removeFile(_container, remote, (err) => {
+              if (err) reject(err)
+              else resolve(null)
+            })
+          }),
+          (e: any) => {
+            console.error('ObjectStorageFileStorageService.remove', e)
+            return new InfraNotAvailableError()
+          }
+        )
       )
-    )
+    },
   }
 }

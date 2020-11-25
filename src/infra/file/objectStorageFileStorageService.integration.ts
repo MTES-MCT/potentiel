@@ -1,6 +1,7 @@
 import { Readable } from 'stream'
-import { ObjectStorageFileStorageService } from './objectStorageFileStorageService'
+import { makeObjectStorageFileStorageService } from './objectStorageFileStorageService'
 import dotenv from 'dotenv'
+import { ProviderOptions } from 'pkgcloud'
 dotenv.config()
 
 const authUrl = process.env.OS_AUTH_URL
@@ -9,41 +10,37 @@ const username = process.env.OS_USERNAME
 const password = process.env.OS_PASSWORD
 const container = process.env.OS_CONTAINER
 
+const providerOptions: ProviderOptions = {
+  provider: 'openstack',
+  keystoneAuthVersion: 'v3',
+  authUrl,
+  region,
+  username,
+  password,
+  // @ts-ignore
+  domainId: 'default',
+}
+
 describe.skip('objectStorageFileStorageService', () => {
-  const fakePath = 'test/fakeFile' + Date.now() + '.txt'
-  let storage: ObjectStorageFileStorageService
+  const fakePath = `test/fakeFile-${Date.now()}.txt`
 
-  beforeAll(async () => {
-    storage = new ObjectStorageFileStorageService(
-      {
-        provider: 'openstack',
-        keystoneAuthVersion: 'v3',
-        authUrl,
-        region,
-        username,
-        password,
-        // @ts-ignore
-        domainId: 'default',
-      },
-      container
-    )
-  })
-
-  beforeEach(async () => {})
-
-  describe('ObjectStorageFileStorageService.save', () => {
+  describe('upload', () => {
     let uploadedFileId: string
-    const fakeFile = {
-      path: fakePath,
-      stream: Readable.from(['test']),
-    }
 
-    describe('given a proper storage client', () => {
+    describe('given a proper container', () => {
+      expect(container).toBeDefined()
+      if (!container) return
+
+      const fileStorageService = makeObjectStorageFileStorageService(providerOptions, container)
+
       afterAll(async () => {
-        if (uploadedFileId) await storage.remove(uploadedFileId)
+        if (uploadedFileId) await fileStorageService.remove(uploadedFileId)
       })
+
       it('should call the client upload', async () => {
-        const result = await storage.save(fakeFile)
+        const fakeContents = Readable.from(['test'])
+
+        const result = await fileStorageService.upload({ contents: fakeContents, path: fakePath })
 
         if (result.isErr()) console.log('error on save', result.error)
         expect(result.isOk()).toBe(true)
@@ -58,38 +55,31 @@ describe.skip('objectStorageFileStorageService', () => {
 
     describe('given a wrong container', () => {
       it('should return an error', async () => {
-        const badStorage = new ObjectStorageFileStorageService(
-          {
-            provider: 'openstack',
-            keystoneAuthVersion: 'v3',
-            authUrl,
-            region,
-            username,
-            password,
-            // @ts-ignore
-            domainId: 'default',
-          },
+        const fileStorageService = makeObjectStorageFileStorageService(
+          providerOptions,
           'CONTAINERTHATDOESNTEXIST'
         )
-
-        const result = await badStorage.save(fakeFile)
+        const fakeContents = Readable.from(['test'])
+        const result = await fileStorageService.upload({ contents: fakeContents, path: fakePath })
 
         expect(result.isErr()).toBe(true)
       })
     })
   })
 
-  describe.skip('ObjectStorageFileStorageService.load', () => {
-    const fakeFile = {
-      path: fakePath,
-      stream: Readable.from(['test']),
-    }
+  describe('download', () => {
+    expect(container).toBeDefined()
+    if (!container) return
+
+    const fileStorageService = makeObjectStorageFileStorageService(providerOptions, container)
 
     describe('given an existing file', () => {
       let uploadedFileId: string
 
       beforeAll(async () => {
-        const result = await storage.save(fakeFile)
+        const fakeContents = Readable.from(['test'])
+        const result = await fileStorageService.upload({ contents: fakeContents, path: fakePath })
+
         expect(result.isOk()).toBe(true)
         if (result.isErr()) return
 
@@ -97,11 +87,11 @@ describe.skip('objectStorageFileStorageService', () => {
       })
 
       afterAll(async () => {
-        if (uploadedFileId) await storage.remove(uploadedFileId)
+        if (uploadedFileId) await fileStorageService.remove(uploadedFileId)
       })
 
       it('should retrieve the file from the object storage', async () => {
-        const result = await storage.load(uploadedFileId)
+        const result = await fileStorageService.download(uploadedFileId)
 
         if (result.isErr()) console.log('error on load', result.error)
         expect(result.isOk()).toBe(true)
@@ -109,13 +99,13 @@ describe.skip('objectStorageFileStorageService', () => {
 
         const downloadedFile = await new Promise((resolve, reject) => {
           let fileContents = ''
-          result.value.stream.on('data', (chunk) => {
+          result.value.on('data', (chunk) => {
             fileContents += chunk
           })
-          result.value.stream.on('error', (err) => {
+          result.value.on('error', (err) => {
             reject(err)
           })
-          result.value.stream.on('end', () => {
+          result.value.on('end', () => {
             resolve(fileContents)
           })
         })

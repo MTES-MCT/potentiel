@@ -1,17 +1,17 @@
-import { Project, User, applyProjectUpdate } from '../entities'
-import { ProjectRepo, UserRepo, ProjectAdmissionKeyRepo } from '../dataAccess'
 import moment from 'moment'
-import { ResultAsync, Ok, Err, ErrorResult } from '../types'
-import routes from '../routes'
-import { FileService, File, FileContainer } from '../modules/file'
-import { makeProjectFilePath } from '../helpers/makeProjectFilePath'
-import { NotificationService } from '../modules/notification'
+import { Repository, UniqueEntityID } from '../core/domain'
+import { ProjectAdmissionKeyRepo, ProjectRepo, UserRepo } from '../dataAccess'
+import { applyProjectUpdate, Project, User } from '../entities'
 import { EventBus } from '../modules/eventStore'
+import { FileContents, FileObject, makeFileObject } from '../modules/file'
+import { NotificationService } from '../modules/notification'
 import { ProjectGFSubmitted } from '../modules/project/events'
+import routes from '../routes'
+import { Err, ErrorResult, Ok, ResultAsync } from '../types'
 
 interface MakeUseCaseProps {
   eventBus: EventBus
-  fileService: FileService
+  fileRepo: Repository<FileObject>
   findProjectById: ProjectRepo['findById']
   saveProject: ProjectRepo['save']
   findUsersForDreal: UserRepo['findUsersForDreal']
@@ -21,7 +21,10 @@ interface MakeUseCaseProps {
 }
 
 interface CallUseCaseProps {
-  file: FileContainer
+  file: {
+    contents: FileContents
+    filename: string
+  }
   date: number
   projectId: Project['id']
   user: User
@@ -35,7 +38,7 @@ export const SYSTEM_ERROR =
 
 export default function makeAddGarantiesFinancieres({
   eventBus,
-  fileService,
+  fileRepo,
   findProjectById,
   saveProject,
   findUsersForDreal,
@@ -60,28 +63,18 @@ export default function makeAddGarantiesFinancieres({
       return ErrorResult(UNAUTHORIZED)
     }
 
-    const fileResult = File.create({
-      designation: 'garantie-financiere',
-      forProject: project.id,
-      createdBy: user.id,
-      filename: file.path,
-    })
+    const { contents, filename } = file
 
-    if (fileResult.isErr()) {
-      console.log('addGarantiesFinancieres use-case: File.create failed', fileResult.error)
+    const fileIdResult = await makeFileObject({
+      designation: 'dcr',
+      forProject: new UniqueEntityID(project.id),
+      createdBy: new UniqueEntityID(user.id),
+      filename,
+      contents,
+    }).asyncAndThen((file) => fileRepo.save(file).map(() => file.id.toString()))
 
-      return ErrorResult(SYSTEM_ERROR)
-    }
-
-    const saveFileResult = await fileService.save(fileResult.value, {
-      ...file,
-      path: makeProjectFilePath(projectId, file.path).filepath,
-    })
-
-    if (saveFileResult.isErr()) {
-      // OOPS
-      console.log('addGarantiesFinancieres use-case: fileService.save failed', saveFileResult.error)
-
+    if (fileIdResult.isErr()) {
+      console.error('addGarantiesFinancières use-case: failed to save file', fileIdResult.error)
       return ErrorResult(SYSTEM_ERROR)
     }
 
@@ -89,7 +82,7 @@ export default function makeAddGarantiesFinancieres({
       project,
       update: {
         garantiesFinancieresDate: date,
-        garantiesFinancieresFileId: fileResult.value.id.toString(),
+        garantiesFinancieresFileId: fileIdResult.value.toString(),
         garantiesFinancieresSubmittedOn: Date.now(),
         garantiesFinancieresSubmittedBy: user.id,
       },
@@ -117,7 +110,7 @@ export default function makeAddGarantiesFinancieres({
         payload: {
           projectId: project.id,
           gfDate: new Date(date),
-          fileId: fileResult.value.id.toString(),
+          fileId: fileIdResult.value.toString(),
           submittedBy: user.id,
         },
       })

@@ -3,40 +3,31 @@ import makeRequestModification, { ACCESS_DENIED_ERROR } from './requestModificat
 import makeFakeUser from '../__tests__/fixtures/user'
 import { Readable } from 'stream'
 import { modificationRequestRepo } from '../dataAccess/inMemory'
-import { FileService } from '../modules/file/FileService'
-import { FileContainer, File } from '../modules/file'
+import { FileObject } from '../modules/file'
 import { okAsync } from '../core/utils'
-
-const mockFileServiceSave = jest.fn(async (file: File, fileContent: FileContainer) => okAsync(null))
-jest.mock('../modules/file/FileService', () => ({
-  FileService: function () {
-    return {
-      save: mockFileServiceSave,
-    }
-  },
-}))
-
-const MockFileService = <jest.Mock<FileService>>FileService
-
-const fileService = new MockFileService()
+import { Repository } from '../core/domain'
 
 const fakeFileContents = {
-  path: 'fakeFile.pdf',
-  stream: Readable.from('test-content'),
+  filename: 'fakeFile.pdf',
+  contents: Readable.from('test-content'),
 }
 
 describe('requestModification use-case', () => {
   describe('given user has no rights on this project', () => {
     const shouldUserAccessProject = jest.fn(async () => false)
 
+    const fileRepo = {
+      save: jest.fn(),
+      load: jest.fn(),
+    }
+
     const requestModification = makeRequestModification({
-      fileService,
+      fileRepo,
       modificationRequestRepo,
       shouldUserAccessProject,
     })
 
     it('should return ACCESS_DENIED_ERROR', async () => {
-      mockFileServiceSave.mockClear()
       const user = makeFakeUser({ role: 'porteur-projet' })
       const requestResult = await requestModification({
         type: 'actionnaire',
@@ -51,7 +42,7 @@ describe('requestModification use-case', () => {
         projectId: 'project1',
       })
 
-      expect(mockFileServiceSave).not.toHaveBeenCalled()
+      expect(fileRepo.save).not.toHaveBeenCalled()
       expect(requestResult.is_err()).toEqual(true)
       expect(requestResult.unwrap_err().message).toEqual(ACCESS_DENIED_ERROR)
     })
@@ -60,15 +51,18 @@ describe('requestModification use-case', () => {
   describe('given user is not a porteur-projet', () => {
     const shouldUserAccessProject = jest.fn()
 
+    const fileRepo = {
+      save: jest.fn(),
+      load: jest.fn(),
+    }
+
     const requestModification = makeRequestModification({
-      fileService,
+      fileRepo,
       modificationRequestRepo,
       shouldUserAccessProject,
     })
 
     it('should return ACCESS_DENIED_ERROR', async () => {
-      mockFileServiceSave.mockClear()
-
       const user = makeFakeUser({ role: 'admin' })
       const requestResult = await requestModification({
         type: 'actionnaire',
@@ -79,7 +73,7 @@ describe('requestModification use-case', () => {
       })
 
       expect(shouldUserAccessProject).not.toHaveBeenCalled()
-      expect(mockFileServiceSave).not.toHaveBeenCalled()
+      expect(fileRepo.save).not.toHaveBeenCalled()
       expect(requestResult.is_err()).toEqual(true)
       expect(requestResult.unwrap_err().message).toEqual(ACCESS_DENIED_ERROR)
     })
@@ -88,8 +82,13 @@ describe('requestModification use-case', () => {
   describe('given user is the projects porteur-project', () => {
     const shouldUserAccessProject = jest.fn(async () => true)
 
+    const fileRepo = {
+      save: jest.fn((file: FileObject) => okAsync(null)),
+      load: jest.fn(),
+    }
+
     const requestModification = makeRequestModification({
-      fileService,
+      fileRepo: fileRepo as Repository<FileObject>,
       modificationRequestRepo,
       shouldUserAccessProject,
     })
@@ -111,9 +110,9 @@ describe('requestModification use-case', () => {
       expect(allRequests).toHaveLength(1)
 
       // Make sure the file has been saved
-      expect(mockFileServiceSave).toHaveBeenCalled()
-      expect(mockFileServiceSave.mock.calls[0][1].stream).toEqual(fakeFileContents.stream)
-      const fakeFile = mockFileServiceSave.mock.calls[0][0]
+      expect(fileRepo.save).toHaveBeenCalled()
+      expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents.contents)
+      const fakeFile = fileRepo.save.mock.calls[0][0]
       expect(fakeFile).toBeDefined()
 
       const newRequest = allRequests[0]

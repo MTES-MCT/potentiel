@@ -1,5 +1,8 @@
+/* global NodeJS */
 import { UniqueEntityID } from '../../core/domain'
-import { ok, Result } from '../../core/utils'
+import { isDefined, makeValidator, ok, Result } from '../../core/utils'
+import { makeProjectFilePath } from '../../helpers/makeProjectFilePath'
+import { IllegalFileDataError } from './errors'
 
 type FileDesignation =
   | 'garantie-financiere'
@@ -8,39 +11,52 @@ type FileDesignation =
   | 'attestation-designation'
   | 'other'
 
+export type FileContents = NodeJS.ReadableStream
+
 export interface FileObject {
+  readonly id: UniqueEntityID
   readonly filename: string
-  readonly forProject: UniqueEntityID
-  readonly createdBy: UniqueEntityID
+  readonly forProject: UniqueEntityID | undefined
+  readonly createdBy: UniqueEntityID | undefined
   readonly designation: FileDesignation
   readonly createdAt: Date
-  readonly storedAt: string | undefined
-  addStorage: (storedAt: string) => void
+  readonly contents: FileContents
+  readonly path: string
 }
 
 interface FileObjectArgs {
+  id?: UniqueEntityID
+  createdAt?: Date
   filename: string
-  forProject: UniqueEntityID
-  createdBy: UniqueEntityID
+  forProject?: UniqueEntityID
+  createdBy?: UniqueEntityID
   designation: FileDesignation
+  contents: FileContents
 }
 
-export const makeFileObject = (args: FileObjectArgs): Result<FileObject, never> => {
-  const { filename, forProject, createdBy, designation } = args
+const validateFileArgs = makeValidator<FileObjectArgs, typeof IllegalFileDataError>(
+  {
+    filename: isDefined,
+    designation: isDefined,
+    contents: isDefined,
+  },
+  IllegalFileDataError
+)
 
-  let storedAt: string | undefined
-
-  return ok({
-    filename,
-    forProject,
-    createdBy,
-    designation,
-    createdAt: new Date(),
-    get storedAt() {
-      return storedAt
-    },
-    addStorage: (_storedAt: string) => {
-      storedAt = _storedAt
-    },
+export const makeFileObject = (args: FileObjectArgs): Result<FileObject, IllegalFileDataError> => {
+  return validateFileArgs(args).andThen((args) => {
+    const { filename, forProject, createdBy, designation, contents, id, createdAt } = args
+    return ok({
+      filename,
+      forProject,
+      createdBy,
+      designation,
+      contents,
+      createdAt: createdAt || new Date(),
+      id: id || new UniqueEntityID(),
+      get path() {
+        return forProject ? makeProjectFilePath(forProject.toString(), filename).filepath : filename
+      },
+    })
   })
 }

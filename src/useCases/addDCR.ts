@@ -1,21 +1,25 @@
+import { Repository, UniqueEntityID } from '../core/domain'
 import { ProjectRepo } from '../dataAccess'
 import { applyProjectUpdate, Project, User } from '../entities'
 import { makeProjectFilePath } from '../helpers/makeProjectFilePath'
 import { EventBus } from '../modules/eventStore'
-import { File, FileContainer, FileService } from '../modules/file'
+import { FileContents, FileObject, makeFileObject } from '../modules/file'
 import { ProjectDCRSubmitted } from '../modules/project/events'
 import { Err, ErrorResult, Ok, ResultAsync } from '../types'
 
 interface MakeUseCaseProps {
   eventBus: EventBus
-  fileService: FileService
+  fileRepo: Repository<FileObject>
   findProjectById: ProjectRepo['findById']
   saveProject: ProjectRepo['save']
   shouldUserAccessProject: (args: { user: User; projectId: Project['id'] }) => Promise<boolean>
 }
 
 interface CallUseCaseProps {
-  file: FileContainer
+  file: {
+    contents: FileContents
+    filename: string
+  }
   numeroDossier: string
   date: number
   projectId: Project['id']
@@ -29,7 +33,7 @@ export const SYSTEM_ERROR =
 
 export default function makeAddDCR({
   eventBus,
-  fileService,
+  fileRepo,
   findProjectById,
   saveProject,
   shouldUserAccessProject,
@@ -52,28 +56,18 @@ export default function makeAddDCR({
       return ErrorResult(UNAUTHORIZED)
     }
 
-    const fileResult = File.create({
+    const { contents, filename } = file
+
+    const fileIdResult = await makeFileObject({
       designation: 'dcr',
-      forProject: project.id,
-      createdBy: user.id,
-      filename: file.path,
-    })
+      forProject: new UniqueEntityID(project.id),
+      createdBy: new UniqueEntityID(user.id),
+      filename,
+      contents,
+    }).asyncAndThen((file) => fileRepo.save(file).map(() => file.id.toString()))
 
-    if (fileResult.isErr()) {
-      console.log('addDCR use-case: File.create failed', fileResult.error)
-
-      return ErrorResult(SYSTEM_ERROR)
-    }
-
-    const saveFileResult = await fileService.save(fileResult.value, {
-      ...file,
-      path: makeProjectFilePath(projectId, file.path).filepath,
-    })
-
-    if (saveFileResult.isErr()) {
-      // OOPS
-      console.log('addDCR use-case: fileService.save failed', saveFileResult.error)
-
+    if (fileIdResult.isErr()) {
+      console.error('addDCR use-case: failed to save file', fileIdResult.error)
       return ErrorResult(SYSTEM_ERROR)
     }
 
@@ -81,7 +75,7 @@ export default function makeAddDCR({
       project,
       update: {
         dcrDate: date,
-        dcrFileId: fileResult.value.id.toString(),
+        dcrFileId: fileIdResult.value.toString(),
         dcrNumeroDossier: numeroDossier,
         dcrSubmittedOn: Date.now(),
         dcrSubmittedBy: user.id,
@@ -108,7 +102,7 @@ export default function makeAddDCR({
         payload: {
           projectId: project.id,
           dcrDate: new Date(date),
-          fileId: fileResult.value.id.toString(),
+          fileId: fileIdResult.value.toString(),
           numeroDossier: numeroDossier,
           submittedBy: user.id,
         },

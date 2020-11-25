@@ -1,24 +1,13 @@
 import { Readable } from 'stream'
-import { UniqueEntityID } from '../../../core/domain'
+import { Repository, UniqueEntityID } from '../../../core/domain'
 import { ok, okAsync } from '../../../core/utils'
 import { CertificateTemplate } from '../../../entities'
 import { fakeRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
-import { File, FileContainer, FileService } from '../../file'
+import { FileObject } from '../../file'
 import { OtherError } from '../../shared'
 import { ProjectDataForCertificate } from '../dtos'
-import { makeGenerateCertificate } from './generateCertificate'
 import { Project } from '../Project'
-
-const mockFileServiceSave = jest.fn((file: File, fileContents: FileContainer) => okAsync(null))
-jest.mock('../../file/FileService', () => ({
-  FileService: function () {
-    return {
-      save: mockFileServiceSave,
-    }
-  },
-}))
-
-const MockFileService = <jest.Mock<FileService>>FileService
+import { makeGenerateCertificate } from './generateCertificate'
 
 const projectId = 'project1'
 
@@ -33,16 +22,19 @@ const fakeProject = {
 const projectRepo = fakeRepo(fakeProject as Project)
 
 describe('generateCertificate', () => {
-  const fileService = new MockFileService()
-
   /* global NodeJS */
   const buildCertificate = jest.fn(
     (args: { template: CertificateTemplate; data: ProjectDataForCertificate }) =>
       okAsync<NodeJS.ReadableStream, OtherError>(Readable.from('test') as NodeJS.ReadableStream)
   )
 
+  const fileRepo = {
+    save: jest.fn((file: FileObject) => okAsync(null)),
+    load: jest.fn(),
+  }
+
   const generateCertificate = makeGenerateCertificate({
-    fileService,
+    fileRepo: fileRepo as Repository<FileObject>,
     projectRepo,
     buildCertificate,
   })
@@ -61,7 +53,7 @@ describe('generateCertificate', () => {
   })
 
   it('should save the pdf file using the file service', () => {
-    expect(mockFileServiceSave).toHaveBeenCalled()
+    expect(fileRepo.save).toHaveBeenCalled()
   })
 
   it('should call project.addGeneratedCertificate()', () => {

@@ -1,64 +1,74 @@
-import { Repository, DomainError, UniqueEntityID } from '../../../core/domain'
-import { Result, ResultAsync, errAsync, err } from '../../../core/utils'
-import { File } from '../../../modules/file'
-import { InfraNotAvailableError, EntityNotFoundError } from '../../../modules/shared'
+import { Repository, UniqueEntityID } from '../../../core/domain'
+import { errAsync, ResultAsync } from '../../../core/utils'
+import { FileContents, FileObject, FileStorageService, makeFileObject } from '../../../modules/file'
+import { EntityNotFoundError, InfraNotAvailableError } from '../../../modules/shared'
 
-export class FileRepo implements Repository<File> {
-  private models: any
+interface FileRepoDeps {
+  models: any
+  fileStorageService: FileStorageService
+}
 
-  constructor(models: any) {
-    this.models = models
+export const makeFileRepo = (deps: FileRepoDeps): Repository<FileObject> => {
+  const FileModel = deps.models.File
+
+  return {
+    save(file: FileObject) {
+      if (!FileModel) return errAsync(new InfraNotAvailableError())
+
+      const { contents, path } = file
+      return deps.fileStorageService.upload({ contents, path }).andThen((storedAt) => {
+        return ResultAsync.fromPromise<null, InfraNotAvailableError>(
+          FileModel.create(_toPersistence(file, storedAt)),
+          (e: any) => {
+            console.log('fileRepo.save error', e)
+            return new InfraNotAvailableError()
+          }
+        )
+      })
+    },
+
+    load(id: UniqueEntityID) {
+      return ResultAsync.fromPromise(FileModel.findByPk(id.toString()), (e: any) => {
+        console.error('fileRepo.load error querying FileModel', e)
+        return new InfraNotAvailableError()
+      }).andThen((fileRaw: any) => {
+        if (!fileRaw) return errAsync(new EntityNotFoundError())
+
+        const file = fileRaw.get()
+
+        return deps.fileStorageService
+          .download(file.storedAt)
+          .andThen((contents) => _toDomain(file, contents))
+          .mapErr((e) => {
+            console.error('fileRepo.load failed to retrieve file', e)
+            return new InfraNotAvailableError()
+          })
+      })
+    },
   }
 
-  private toDomain(db: any): Result<File, DomainError> {
-    return File.create(
-      {
-        filename: db.filename,
-        forProject: db.forProject || undefined,
-        createdBy: db.createdBy || undefined,
-        createdAt: db.createdAt,
-        designation: db.designation,
-        storedAt: db.storedAt,
-      },
-      new UniqueEntityID(db.id)
-    )
+  function _toDomain(file: any, contents: FileContents) {
+    const { id, filename, forProject, createdBy, createdAt, designation } = file
+    return makeFileObject({
+      id: new UniqueEntityID(id),
+      filename,
+      forProject: forProject ? new UniqueEntityID(forProject) : undefined,
+      createdBy: createdBy ? new UniqueEntityID(createdBy) : undefined,
+      createdAt,
+      designation,
+      contents,
+    })
   }
 
-  private toPersistence(file: File): any {
+  function _toPersistence(file: FileObject, storedAt: string): any {
     return {
       id: file.id.toString(),
       filename: file.filename,
-      forProject: file.forProject,
-      createdBy: file.createdBy,
-      createdAt: file.createdAt || new Date(),
+      forProject: file.forProject?.toString(),
+      createdBy: file.createdBy?.toString(),
+      createdAt: file.createdAt,
       designation: file.designation,
-      storedAt: file.storedAt,
+      storedAt: storedAt,
     }
-  }
-
-  save(aggregate: File): ResultAsync<null, InfraNotAvailableError> {
-    const FileModel = this.models.File
-    if (!FileModel) return errAsync(new InfraNotAvailableError())
-
-    return ResultAsync.fromPromise<null, DomainError>(
-      FileModel.create(this.toPersistence(aggregate)),
-      (e: any) => {
-        console.log('fileRepo.save error', e)
-        return new InfraNotAvailableError()
-      }
-    )
-  }
-
-  load(id: UniqueEntityID): ResultAsync<File, EntityNotFoundError | InfraNotAvailableError> {
-    const FileModel = this.models.File
-    if (!FileModel) return errAsync(new InfraNotAvailableError())
-
-    return ResultAsync.fromPromise<File, DomainError>(
-      FileModel.findByPk(id.toString()),
-      (e: any) => {
-        console.log('fileRepo.load error', e)
-        return new InfraNotAvailableError()
-      }
-    ).andThen((dbResult) => (dbResult ? this.toDomain(dbResult) : err(new EntityNotFoundError())))
   }
 }

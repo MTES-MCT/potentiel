@@ -1,13 +1,14 @@
 import { correctProjectData } from '../config'
 import { Redirect, SystemError } from '../helpers/responses'
 import { HttpRequest } from '../types'
-import { FileContainer } from '../modules/file'
+import { FileContents } from '../modules/file'
 import ROUTES from '../routes'
 import moment from 'moment-timezone'
 
 import fs from 'fs'
 import util from 'util'
 import { IllegalProjectDataError } from '../modules/project/errors'
+import sanitize from 'sanitize-filename'
 const deleteFile = util.promisify(fs.unlink)
 
 const FORMAT_DATE = 'DD/MM/YYYY'
@@ -83,10 +84,10 @@ const postCorrectProjectData = async (request: HttpRequest) => {
     motifsElimination,
   }
 
-  const certificateFile: FileContainer | undefined = request.file
+  const certificateFile = request.file
     ? {
-        stream: fs.createReadStream(request.file.path),
-        path: request.file.originalname,
+        contents: fs.createReadStream(request.file.path),
+        filename: sanitize(`${Date.now()}-${request.file.originalname}`),
       }
     : undefined
 
