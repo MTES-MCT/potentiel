@@ -8,5 +8,6 @@ services:
       - POSTGRES_USER=testuser
       - POSTGRES_DB=potentiel_test
     restart: always
+    container_name: potentiel_db_tests_integration
     ports:
       - 5433:5432
