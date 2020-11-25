@@ -25,7 +25,7 @@ export const isStrictlyPositiveNumber = validateOrThrow<number>((nbr: any) => {
 export const isDefined = <T>(obj: any): obj is T =>
   validateOrThrow((nbr: any) => {
     return typeof nbr !== 'undefined'
-  }, 'doit être un nombre strictement positif')(obj)
+  }, 'doit être défini')(obj)
 
 interface PropertyValidator {
   (object: Record<string, any>): Record<string, string>
