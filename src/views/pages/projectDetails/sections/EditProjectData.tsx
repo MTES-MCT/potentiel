@@ -172,11 +172,11 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
         </div>
       </div>
       <div className="form__group">
-        <label htmlFor="file">Attestation (facultatif)</label>
+        <label htmlFor="file">Attestation (facultatif, elle sera générée à partir des données ci-dessus)</label>
         <input type="file" name="file" id="file" />
       </div>
       <button className="button" type="submit" name="submit" {...dataId('submit-button')}>
-        Sauvegarder ces changements
+        Remplacer l’attestation
       </button>
     </form>
   </div>
