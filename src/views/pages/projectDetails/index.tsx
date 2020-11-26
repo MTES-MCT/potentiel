@@ -182,7 +182,7 @@ export default function ProjectDetails({
             ''
           )}
           {['admin', 'dgec'].includes(user.role) && project.notifiedOn ? (
-            <Section title="Corriger les données projet" icon="building">
+            <Section title="Remplacer l'attestation" icon="building">
               <EditProjectData project={project} request={request} />
             </Section>
           ) : (
