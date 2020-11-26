@@ -3,7 +3,7 @@ import React from 'react'
 import makeFakeProject from '../../__tests__/fixtures/project'
 import makeFakeRequest from '../../__tests__/fixtures/request'
 
-import ModificationRequestPage from './modificationRequest'
+import ModificationRequestPage from './newModificationRequest'
 
 export default { title: 'Modification Request' }
 

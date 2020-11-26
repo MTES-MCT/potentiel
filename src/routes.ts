@@ -96,6 +96,7 @@ class routes {
 
   static ADMIN_NOTIFY_CANDIDATES_ACTION = '/admin/sendCandidateNotifications'
   static ADMIN_CORRECT_PROJECT_DATA_ACTION = '/admin/correctProjectData'
+  static ADMIN_REPLY_TO_MODIFICATION_REQUEST = '/admin/replyToModificationRequest'
   static ADMIN_INVITE_DREAL_ACTION = '/admin/inviteDreal'
   static DREAL_INVITATION = withParams<{
     projectAdmissionKey: string
@@ -131,6 +132,13 @@ class routes {
     const route = '/telechargement/:fileId/fichier/:filename'
     if (fileId && filename) {
       return route.replace(':fileId', fileId).replace(':filename', filename)
+    } else return route
+  }
+
+  static DEMANDE_PAGE_DETAILS = (modificationRequestId?: string) => {
+    const route = '/demande/:modificationRequestId/details.html'
+    if (modificationRequestId) {
+      return route.replace(':modificationRequestId', modificationRequestId)
     } else return route
   }
 

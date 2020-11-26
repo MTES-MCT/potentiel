@@ -1,12 +1,10 @@
 import React from 'react'
-
-import { ModificationRequest, Project, User } from '../../entities'
-import ROUTES from '../../routes'
+import { ModificationRequest, User } from '../../entities'
 import { dataId } from '../../helpers/testId'
-import { makeProjectFilePath } from '../../helpers/makeProjectFilePath'
+import ROUTES from '../../routes'
+import { titlePerAction } from '../pages/newModificationRequest'
 
-import { titlePerAction } from '../pages/modificationRequest'
-import routes from '../../routes'
+
 
 interface Props {
   modificationRequests?: Array<ModificationRequest>
@@ -22,7 +20,7 @@ const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
       <table className="table">
         <tbody>
           <tr>
-            <td>Aucune demande n'a été trouvée</td>
+            <td>Aucune demande n’a été trouvée</td>
           </tr>
         </tbody>
       </table>
@@ -45,7 +43,8 @@ const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
           {modificationRequests.map(({ project, user, status, ...modificationRequest }) => {
             if (!project || !user) return ''
             return (
-              <tr key={'modificationRequest_' + modificationRequest.id}>
+              <tr key={'modificationRequest_' + modificationRequest.id} 
+                style={{ cursor: 'pointer' }} data-goto-onclick={ROUTES.DEMANDE_PAGE_DETAILS(modificationRequest.id)}>
                 <td valign="top">
                   <div
                     style={{
@@ -55,7 +54,7 @@ const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
                     }}
                     {...dataId('requestList-item-periode')}
                   >
-                    {project.appelOffreId} Période {project.periodeId}
+                    {project.appelOffreId} Période {project.periodeId}
                   </div>
                   <div
                     style={{
@@ -65,7 +64,7 @@ const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
                     }}
                     {...dataId('requestList-item-famille')}
                   >
-                    {project.familleId?.length ? `famille ${project.familleId}` : ''}
+                    {project.familleId?.length ? `famille ${project.familleId}` : ''}
                   </div>
                 </td>
                 <td valign="top">
@@ -161,7 +160,7 @@ const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
                       }}
                     >
                       <a
-                        href={routes.TELECHARGER_MODELE_REPONSE_RECOURS(
+                        href={ROUTES.TELECHARGER_MODELE_REPONSE_RECOURS(
                           project,
                           modificationRequest.id
                         )}

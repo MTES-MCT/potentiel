@@ -41,7 +41,7 @@ const getDelayForAppelOffre = (appelOffreId) => {
 export { titlePerAction }
 
 /* Pure component */
-export default function ModificationRequestPage({ request, project }: PageProps) {
+export default function NewModificationRequestPage({ request, project }: PageProps) {
   const {
     action,
     error,
@@ -49,9 +49,7 @@ export default function ModificationRequestPage({ request, project }: PageProps)
     puissance,
     actionnaire,
     producteur,
-    fournisseur,
     justification,
-    evaluationCarbone,
     delayedServiceDate,
   } = request.query || {}
 
@@ -162,7 +160,7 @@ export default function ModificationRequestPage({ request, project }: PageProps)
                   style={{ display: 'none' }}
                   {...dataId('modificationRequest-puissance-error-message-wrong-format')}
                 >
-                  Le format saisi n'est pas conforme (penser à utiliser un nombre décimal séparé par
+                  Le format saisi n’est pas conforme (penser à utiliser un nombre décimal séparé par
                   un point).
                 </div>
               </>
@@ -372,7 +370,7 @@ export default function ModificationRequestPage({ request, project }: PageProps)
                   style={{ display: 'none' }}
                   {...dataId('modificationRequest-delay-error-message-wrong-format')}
                 >
-                  Le format de la date saisie n'est pas conforme. Elle doit être de la forme
+                  Le format de la date saisie n’est pas conforme. Elle doit être de la forme
                   JJ/MM/AAAA soit par exemple 25/05/2022 pour 25 Mai 2022.
                 </div>
                 <label className="required" htmlFor="justification">

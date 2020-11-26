@@ -51,6 +51,7 @@ import {
   postCorrectProjectData,
   getModeleReponseRecours,
   getStatistiquesPage,
+  getModificationRequestPage,
 } from './controllers'
 
 import {
@@ -248,6 +249,13 @@ export async function makeServer(port: number = 3000) {
       ensureLoggedIn(),
       ensureRole(['admin', 'dgec']),
       makeExpressCallback(getCandidateCertificatePreview)
+    )
+
+    router.get(
+      ROUTES.DEMANDE_PAGE_DETAILS(),
+      ensureLoggedIn(),
+      ensureRole(['admin', 'dgec']),
+      makeExpressCallback(getModificationRequestPage)
     )
 
     router.get(

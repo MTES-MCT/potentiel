@@ -1,0 +1,166 @@
+import React from 'react'
+
+import { dataId } from '../../helpers/testId'
+
+import {Project } from '../../entities'
+
+import AdminDashboard from '../components/adminDashboard'
+import { HttpRequest } from '../../types'
+import ROUTES from '../../routes'
+
+import { formatDate } from '../../helpers/formatDate'
+
+
+import moment from 'moment'
+import { AdminModificationRequestDTO } from '../../modules/modificationRequest'
+import { ModificationRequestTitleByType } from '../helpers'
+moment.locale('fr')
+
+interface PageProps {
+  request: HttpRequest
+  modificationRequest: AdminModificationRequestDTO
+}
+
+/* Pure component */
+export default function AdminModificationRequestPage({ request, modificationRequest }: PageProps) {
+  const { error, success, user}  = request.query
+  const { project, type, requestedOn, requestedBy, attachmentFile, justification, versionDate } = modificationRequest
+
+  return (
+    <AdminDashboard role={user?.role} currentPage={'list-requests'}>
+      <div className="panel">
+        <div className="panel__header">
+          <h3>Demande de {ModificationRequestTitleByType[type]}</h3>
+        </div>
+        <div className="panel__header">
+          <div
+            className="text-quote"
+            style={{
+              paddingTop: 10,
+              paddingBottom: 10,
+              marginBottom: 10,
+            }}
+          ><div style={{fontStyle: 'italic'}}>{justification}</div>
+          {attachmentFile ? (
+              <a
+                href={ROUTES.DOWNLOAD_PROJECT_FILE(
+                  attachmentFile.id,
+                  attachmentFile.filename
+                )}
+                download={true}
+                {...dataId('requestList-item-download-link')}
+              >
+                Télécharger la pièce-jointe
+              </a>
+            ) : (
+              ''
+          )}
+          <div style={{ marginTop: 10 }}>Déposée par {requestedBy} le {formatDate(requestedOn)}</div></div>
+          
+          
+          <div style={{ marginBottom: 5 }}>Concerant le projet:</div>
+          <div
+            className="text-quote"
+            style={{
+              paddingTop: 10,
+              paddingBottom: 10,
+              marginBottom: 10,
+            }}
+          >
+            <div {...dataId('modificationRequest-item-nomProjet')}>{project.nomProjet}</div>
+            <div
+              style={{
+                fontStyle: 'italic',
+                lineHeight: 'normal',
+                fontSize: 12,
+              }}
+            >
+              <div {...dataId('modificationRequest-item-nomCandidat')}>{project.nomCandidat}</div>
+              <span {...dataId('modificationRequest-item-communeProjet')}>
+                {project.communeProjet}
+              </span>
+              ,{' '}
+              <span {...dataId('modificationRequest-item-departementProjet')}>
+                {project.departementProjet}
+              </span>
+              ,{' '}
+              <span {...dataId('modificationRequest-item-regionProjet')}>
+                {project.regionProjet}
+              </span>
+            </div>
+            <div {...dataId('modificationRequest-item-puissance')}>
+              {project.puissance} {project.unitePuissance}
+            </div>
+            <div>
+              Désigné le{' '}
+              <span {...dataId('modificationRequest-item-designationDate')}>
+                {formatDate(project.notifiedOn)}
+              </span>{' '}
+              pour la période{' '}
+              <span {...dataId('modificationRequest-item-periode')}>{project.appelOffreId} {project.periodeId}</span>{' '}
+              <span {...dataId('modificationRequest-item-famille')}>{project.familleId}</span>
+            </div>
+          </div>
+          {error ? (
+            <div className="notification error" {...dataId('modificationRequest-errorMessage')}>
+              {error}
+            </div>
+          ) : (
+            ''
+          )}
+          {success ? (
+            <div
+              className="notification success"
+              {...dataId('modificationRequest-successMessage')}
+            >
+              {success}
+            </div>
+          ) : (
+            ''
+          )}
+        </div>
+          {type === 'recours' ? (
+        <div className="panel__header">
+              <a
+                
+                href={ROUTES.TELECHARGER_MODELE_REPONSE_RECOURS(
+                  project as unknown as Project,
+                  modificationRequest.id
+                )}
+                download={true}
+              >
+                Télécharger un modèle de réponse
+              </a>
+        </div>
+          ) : (
+            ''
+          )}
+        <div>
+          <div>
+            <form
+              action={ROUTES.ADMIN_REPLY_TO_MODIFICATION_REQUEST}
+              method="post"
+              encType="multipart/form-data"
+            >
+              <input type="hidden" name="modificationRequestId" value={modificationRequest.id} />
+              <input type="hidden" name="versionDate" value={versionDate} />
+
+              <div className="form__group">
+                <label htmlFor="file">Réponse signée (fichier pdf)</label>
+                <input type="file" name="file" id="file" />
+              </div>
+
+              <button className="button" type="submit" name="submit-accept" data-confirm={`Etes-vous sur de vouloir accepter la demande de ${ModificationRequestTitleByType[type]} ?`} {...dataId('submit-button')}>
+                Accepter la demande de {ModificationRequestTitleByType[type]}
+              </button>
+              <button className="button warning" type="submit" data-confirm={`Etes-vous sur de vouloir refuser la demande de ${ModificationRequestTitleByType[type]} ?`} name="submit-refuse" {...dataId('submit-button-alt')}>
+                Refuser la demande de {ModificationRequestTitleByType[type]}
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </AdminDashboard>
+  )
+}
