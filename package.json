@@ -31,6 +31,7 @@
   "dependencies": {
     "@react-pdf/renderer": "^1.6.11",
     "@types/pkgcloud": "^1.7.3",
+    "aws-sdk": "^2.799.0",
     "body-parser": "^1.19.0",
     "bunyan": "^1.8.12",
     "concat-stream": "^2.0.0",
