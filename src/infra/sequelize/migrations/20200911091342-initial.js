@@ -112,7 +112,7 @@ module.exports = {
         allowNull: true,
       },
       motifsElimination: {
-        type: Sequelize.DataTypes.STRING,
+        type: Sequelize.DataTypes.TEXT,
         allowNull: true,
       },
       isFinancementParticipatif: {
@@ -396,7 +396,7 @@ module.exports = {
         allowNull: true,
       },
       justification: {
-        type: Sequelize.DataTypes.STRING,
+        type: Sequelize.DataTypes.TEXT,
         allowNull: true,
       },
       actionnaire: {
