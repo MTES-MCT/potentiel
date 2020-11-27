@@ -2,7 +2,7 @@ export interface AdminModificationRequestDTO {
   id: string
   type: string
 
-  versionDate: number
+  versionDate: Date
 
   requestedOn: Date
   requestedBy: string

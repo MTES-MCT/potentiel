@@ -23,7 +23,8 @@ interface PageProps {
 
 /* Pure component */
 export default function AdminModificationRequestPage({ request, modificationRequest }: PageProps) {
-  const { error, success, user}  = request.query
+  const { user } = request
+  const { error, success}  = request.query
   const { project, type, requestedOn, requestedBy, attachmentFile, justification, versionDate } = modificationRequest
 
   return (
@@ -143,7 +144,7 @@ export default function AdminModificationRequestPage({ request, modificationRequ
               encType="multipart/form-data"
             >
               <input type="hidden" name="modificationRequestId" value={modificationRequest.id} />
-              <input type="hidden" name="versionDate" value={versionDate} />
+              <input type="hidden" name="versionDate" value={versionDate.getTime()} />
 
               <div className="form__group">
                 <label htmlFor="file">Réponse signée (fichier pdf)</label>

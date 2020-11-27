@@ -4,4 +4,5 @@ export {
   getUnnotifiedProjectsForPeriode,
   getStats,
   getFileProject,
+  getModificationRequestDetails,
 } from '../infra/sequelize/projections'

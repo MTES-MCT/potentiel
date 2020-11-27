@@ -12,7 +12,7 @@ export const Recours = () => (
     request={makeFakeRequest({ user: makeFakeUser({ role: "admin"}) })}
     modificationRequest={{
       id: "modificationRequest123",
-      versionDate: 1,
+      versionDate: new Date(),
       type: "recours",
       requestedOn: new Date(),
       requestedBy: 'John Doe',
