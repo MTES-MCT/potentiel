@@ -1,10 +1,10 @@
 import moment from 'moment'
 import { Readable } from 'stream'
+import { Repository } from '../core/domain'
 import { okAsync } from '../core/utils'
 import { makeProject, makeProjectAdmissionKey, makeUser, Project } from '../entities'
 import { EventBus, StoredEvent } from '../modules/eventStore'
-import { File, FileContainer } from '../modules/file'
-import { FileService } from '../modules/file/FileService'
+import { FileObject } from '../modules/file'
 import { ProjectGFSubmitted } from '../modules/project/events'
 import { InfraNotAvailableError } from '../modules/shared'
 import routes from '../routes'
@@ -12,17 +12,6 @@ import { Ok, UnwrapForTest } from '../types'
 import makeFakeProject from '../__tests__/fixtures/project'
 import makeFakeUser from '../__tests__/fixtures/user'
 import makeAddGarantiesFinancieres, { UNAUTHORIZED } from './addGarantiesFinancieres'
-
-const mockFileServiceSave = jest.fn((file: File, fileContents: FileContainer) => okAsync(null))
-jest.mock('../modules/file/FileService', () => ({
-  FileService: function () {
-    return {
-      save: mockFileServiceSave,
-    }
-  },
-}))
-
-const MockFileService = <jest.Mock<FileService>>FileService
 
 const fakePublish = jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null))
 
@@ -62,17 +51,17 @@ describe('addGarantiesFinancieres use-case', () => {
 
     const sendNotification = jest.fn()
 
-    const fakeFile = {
-      path: 'test-path',
-      stream: Readable.from('test-content'),
+    const fakeFileContents = {
+      filename: 'fakeFile.pdf',
+      contents: Readable.from('test-content'),
     }
 
-    const fileService = new MockFileService()
-
-    const projectGFSubmittedHandler = jest.fn((event: ProjectGFSubmitted) => null)
+    const fileRepo = {
+      save: jest.fn((file: FileObject) => okAsync(null)),
+      load: jest.fn(),
+    }
 
     beforeAll(async () => {
-      mockFileServiceSave.mockClear()
       fakePublish.mockClear()
       const shouldUserAccessProject = jest.fn(async () => true)
       const findUsersForDreal = jest.fn(async (region) => {
@@ -84,7 +73,7 @@ describe('addGarantiesFinancieres use-case', () => {
 
       const addGarantiesFinancieres = makeAddGarantiesFinancieres({
         eventBus: fakeEventBus,
-        fileService,
+        fileRepo: fileRepo as Repository<FileObject>,
         findUsersForDreal,
         findProjectById: async () => originalProject,
         saveProject: async (project: Project) => {
@@ -97,7 +86,7 @@ describe('addGarantiesFinancieres use-case', () => {
       })
 
       const res = await addGarantiesFinancieres({
-        file: fakeFile,
+        file: fakeFileContents,
         date,
         projectId: originalProject.id,
         user,
@@ -113,13 +102,13 @@ describe('addGarantiesFinancieres use-case', () => {
     })
 
     it('should save the attachment with the file service', () => {
-      expect(mockFileServiceSave).toHaveBeenCalled()
-      const savedFileContents = mockFileServiceSave.mock.calls[0][1]
-      expect(savedFileContents.stream).toEqual(fakeFile.stream)
+      expect(fileRepo.save).toHaveBeenCalled()
+      const savedFileContents = fileRepo.save.mock.calls[0][0]
+      expect(savedFileContents.contents).toEqual(fakeFileContents.contents)
     })
 
     it('should update the project garantiesFinancieres* properties', async () => {
-      const savedFile = mockFileServiceSave.mock.calls[0][0]
+      const savedFile = fileRepo.save.mock.calls[0][0]
       expect(savedFile).toBeDefined()
 
       // Get the latest version of the project
@@ -162,7 +151,7 @@ describe('addGarantiesFinancieres use-case', () => {
 
       expect(targetEvent.payload.projectId).toEqual(originalProject.id)
 
-      const fakeFile = mockFileServiceSave.mock.calls[0][0]
+      const fakeFile = fileRepo.save.mock.calls[0][0]
 
       expect(targetEvent.payload.gfDate).toEqual(new Date(date))
       expect(targetEvent.payload.fileId).toEqual(fakeFile.id.toString())
@@ -261,7 +250,6 @@ describe('addGarantiesFinancieres use-case', () => {
 
   describe('When the user doesnt have rights on the project', () => {
     it('should return an UNAUTHORIZED error if the user does not have the rights on this project', async () => {
-      mockFileServiceSave.mockClear()
       fakePublish.mockClear()
 
       const date = Date.now()
@@ -284,15 +272,14 @@ describe('addGarantiesFinancieres use-case', () => {
       const saveProject = jest.fn()
       const sendNotification = jest.fn()
 
-      const fakeFile = {
-        path: 'test-path',
-        stream: Readable.from('test-content'),
+      const fileRepo = {
+        save: jest.fn(),
+        load: jest.fn(),
       }
 
-      const fileService = new MockFileService()
       const addGarantiesFinancieres = makeAddGarantiesFinancieres({
         eventBus: fakeEventBus,
-        fileService,
+        fileRepo,
         findUsersForDreal: jest.fn(),
         findProjectById: async () => originalProject,
         saveProject,
@@ -301,8 +288,13 @@ describe('addGarantiesFinancieres use-case', () => {
         sendNotification,
       })
 
+      const fakeFileContents = {
+        filename: 'fakeFile.pdf',
+        contents: Readable.from('test-content'),
+      }
+
       const res = await addGarantiesFinancieres({
-        file: fakeFile,
+        file: fakeFileContents,
         date,
         projectId: originalProject.id,
         user,
@@ -316,7 +308,7 @@ describe('addGarantiesFinancieres use-case', () => {
         projectId: originalProject.id,
       })
 
-      expect(mockFileServiceSave).not.toHaveBeenCalled()
+      expect(fileRepo.save).not.toHaveBeenCalled()
       expect(saveProject).not.toHaveBeenCalled()
       expect(sendNotification).not.toHaveBeenCalled()
       expect(fakePublish).not.toHaveBeenCalled()

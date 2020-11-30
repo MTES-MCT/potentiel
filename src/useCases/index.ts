@@ -20,7 +20,7 @@ import makeListGarantiesFinancieres from './listGarantiesFinancieres'
 import makeRelanceInvitations from './relanceInvitations'
 import makeRelanceGarantiesFinancieres from './relanceGarantiesFinancieres'
 
-import { fileService, sendNotification, eventStore } from '../config'
+import { fileRepo, sendNotification, eventStore } from '../config'
 
 import {
   credentialsRepo,
@@ -81,7 +81,7 @@ const signup = makeSignup({
 })
 
 const requestModification = makeRequestModification({
-  fileService,
+  fileRepo,
   modificationRequestRepo,
   shouldUserAccessProject,
 })
@@ -116,7 +116,7 @@ const inviteUserToProject = makeInviteUserToProject({
 
 const addGarantiesFinancieres = makeAddGarantiesFinancieres({
   eventBus: eventStore,
-  fileService,
+  fileRepo,
   findProjectById: projectRepo.findById,
   saveProject: projectRepo.save,
   findUsersForDreal: userRepo.findUsersForDreal,
@@ -133,7 +133,7 @@ const removeGarantiesFinancieres = makeRemoveGarantiesFinancieres({
 
 const addDCR = makeAddDCR({
   eventBus: eventStore,
-  fileService,
+  fileRepo,
   findProjectById: projectRepo.findById,
   saveProject: projectRepo.save,
   shouldUserAccessProject,

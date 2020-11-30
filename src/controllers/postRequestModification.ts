@@ -3,7 +3,6 @@ import { Redirect, SystemError } from '../helpers/responses'
 import { HttpRequest } from '../types'
 import ROUTES from '../routes'
 import _ from 'lodash'
-import { FileContainer } from '../modules/file'
 import moment from 'moment'
 
 import fs from 'fs'
@@ -106,7 +105,7 @@ const postRequestModification = async (request: HttpRequest) => {
     })
   }
 
-  let file: FileContainer | undefined
+  let file
 
   if (request.file) {
     const dirExists: boolean = await pathExists(request.file.path)
@@ -119,8 +118,8 @@ const postRequestModification = async (request: HttpRequest) => {
     }
 
     file = {
-      stream: fs.createReadStream(request.file.path),
-      path: request.file.originalname,
+      contents: fs.createReadStream(request.file.path),
+      filename: `${Date.now()}-${request.file.originalname}`,
     }
   }
 

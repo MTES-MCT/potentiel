@@ -1,27 +1,15 @@
 import { Readable } from 'stream'
-import { DomainError, UniqueEntityID } from '../../../core/domain'
+import { DomainError, Repository, UniqueEntityID } from '../../../core/domain'
 import { okAsync } from '../../../core/utils'
 import { makeUser } from '../../../entities'
 import { UnwrapForTest } from '../../../types'
-import { makeFakeProject, fakeTransactionalRepo } from '../../../__tests__/fixtures/aggregates'
+import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
 import makeFakeUser from '../../../__tests__/fixtures/user'
-import { File, FileContainer, FileService } from '../../file'
+import { FileObject } from '../../file'
 import { UnauthorizedError } from '../../shared'
-import { makeCorrectProjectData } from './correctProjectData'
 import { ProjectHasBeenUpdatedSinceError } from '../errors'
 import { Project } from '../Project'
-
-const mockFileServiceSave = jest.fn((file: File, fileContents: FileContainer) => okAsync(null))
-jest.mock('../../file/FileService', () => ({
-  FileService: function () {
-    return {
-      save: mockFileServiceSave,
-    }
-  },
-}))
-const MockFileService = <jest.Mock<FileService>>FileService
-
-const fileService = new MockFileService()
+import { makeCorrectProjectData } from './correctProjectData'
 
 const projectId = 'project1'
 
@@ -35,10 +23,15 @@ describe('correctProjectData', () => {
 
     const projectRepo = fakeTransactionalRepo(fakeProject as Project)
 
+    const fileRepo: Repository<FileObject> = {
+      save: jest.fn(),
+      load: jest.fn(),
+    }
+
     const correctProjectData = makeCorrectProjectData({
       generateCertificate: fakeGenerateCertificate,
       projectRepo,
-      fileService,
+      fileRepo,
     })
 
     it('should return an UnauthorizedError', async () => {
@@ -69,11 +62,15 @@ describe('correctProjectData', () => {
         lastUpdatedOn: new Date(1),
       }
       const projectRepo = fakeTransactionalRepo(fakeProject as Project)
+      const fileRepo: Repository<FileObject> = {
+        save: jest.fn(),
+        load: jest.fn(),
+      }
 
       const correctProjectData = makeCorrectProjectData({
         generateCertificate: fakeGenerateCertificate,
         projectRepo,
-        fileService,
+        fileRepo,
       })
 
       it('should return a ProjectHasBeenUpdatedSinceError', async () => {
@@ -101,27 +98,31 @@ describe('correctProjectData', () => {
           shouldCertificateBeGenerated: false,
         }
         const projectRepo = fakeTransactionalRepo(fakeProject as Project)
+        const fileRepo = {
+          save: jest.fn((file: FileObject) => okAsync(null)),
+          load: jest.fn(),
+        }
 
         const correctProjectData = makeCorrectProjectData({
           generateCertificate: fakeGenerateCertificate,
           projectRepo,
-          fileService,
+          fileRepo: fileRepo as Repository<FileObject>,
         })
 
-        const fakeFile = {
-          path: 'test-path',
-          stream: Readable.from('test-content'),
-        }
+        const fakeFileContents = Readable.from('test-content')
+        const fakeFilename = 'filename'
 
         beforeAll(async () => {
-          mockFileServiceSave.mockClear()
           fakeProject.uploadCertificate.mockClear()
           fakeGenerateCertificate.mockClear()
 
           const res = await correctProjectData({
             projectId: projectId,
             projectVersionDate: new Date(0),
-            certificateFile: fakeFile,
+            certificateFile: {
+              contents: fakeFileContents,
+              filename: fakeFilename,
+            },
             newNotifiedOn: 1234,
             user,
             shouldGrantClasse: true,
@@ -135,8 +136,9 @@ describe('correctProjectData', () => {
         })
 
         it('should save the file', () => {
-          expect(mockFileServiceSave).toHaveBeenCalled()
-          expect(mockFileServiceSave.mock.calls[0][1].stream).toEqual(fakeFile.stream)
+          expect(fileRepo.save).toHaveBeenCalled()
+          expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents)
+          expect(fileRepo.save.mock.calls[0][0].filename).toEqual(fakeFilename)
         })
 
         it('should call project.uploadCertificate()', () => {
@@ -173,15 +175,18 @@ describe('correctProjectData', () => {
           lastUpdatedOn: new Date(0),
         }
         const projectRepo = fakeTransactionalRepo(fakeProject as Project)
+        const fileRepo: Repository<FileObject> = {
+          save: jest.fn(),
+          load: jest.fn(),
+        }
 
         const correctProjectData = makeCorrectProjectData({
           generateCertificate: fakeGenerateCertificate,
           projectRepo,
-          fileService,
+          fileRepo,
         })
 
         beforeAll(async () => {
-          mockFileServiceSave.mockClear()
           fakeProject.uploadCertificate.mockClear()
           fakeGenerateCertificate.mockClear()
 

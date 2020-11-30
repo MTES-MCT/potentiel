@@ -1,7 +1,7 @@
 import { Repository, UniqueEntityID } from '../../../core/domain'
 import { ResultAsync } from '../../../core/utils'
 import { makeProjectFilePath } from '../../../helpers/makeProjectFilePath'
-import { File, FileService } from '../../file'
+import { makeFileObject, FileObject, IllegalFileDataError } from '../../file'
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
@@ -19,6 +19,7 @@ export type GenerateCertificate = (
   | EntityNotFoundError
   | InfraNotAvailableError
   | IncompleteDataError
+  | IllegalFileDataError
   | ProjectNotEligibleForCertificateError
   | OtherError
   | AggregateHasBeenUpdatedSinceError
@@ -26,7 +27,7 @@ export type GenerateCertificate = (
 
 /* global NodeJS */
 interface GenerateCertificateDeps {
-  fileService: FileService
+  fileRepo: Repository<FileObject>
   projectRepo: Repository<Project>
   buildCertificate: ({
     template: CertificateTemplate,
@@ -63,19 +64,14 @@ export const makeGenerateCertificate = (deps: GenerateCertificateDeps): Generate
     project: Project
   }) {
     const { fileStream, project } = args
-    return File.create({
+    return makeFileObject({
       filename: project.certificateFilename,
-      forProject: projectId,
-      createdBy: '',
+      contents: fileStream,
+      forProject: new UniqueEntityID(projectId),
       designation: 'attestation-designation',
     })
-      .asyncAndThen((file: File) => {
-        return deps.fileService
-          .save(file, {
-            path: makeProjectFilePath(projectId, file.filename).filepath,
-            stream: fileStream,
-          })
-          .map(() => file.id.toString())
+      .asyncAndThen((file: FileObject) => {
+        return deps.fileRepo.save(file).map(() => file.id.toString())
       })
       .map((certificateFileId) => ({ certificateFileId, project }))
   }

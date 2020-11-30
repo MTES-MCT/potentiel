@@ -1,8 +1,7 @@
-import { DomainError, TransactionalRepository, UniqueEntityID } from '../../../core/domain'
-import { okAsync, errAsync, ResultAsync, ok, Result, err } from '../../../core/utils'
+import { Repository, TransactionalRepository, UniqueEntityID } from '../../../core/domain'
+import { err, errAsync, ok, okAsync, Result, ResultAsync } from '../../../core/utils'
 import { User } from '../../../entities'
-import { makeProjectFilePath } from '../../../helpers/makeProjectFilePath'
-import { FileContainer, FileService, File } from '../../file'
+import { FileContents, FileObject, IllegalFileDataError, makeFileObject } from '../../file'
 import {
   EntityNotFoundError,
   InfraNotAvailableError,
@@ -11,18 +10,21 @@ import {
 } from '../../shared'
 import { IllegalProjectDataError, ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors'
 import { ProjectHasBeenUpdatedSinceError } from '../errors/ProjectHasBeenUpdatedSinceError'
-import { GenerateCertificate } from './generateCertificate'
 import { Project } from '../Project'
+import { GenerateCertificate } from './generateCertificate'
 
 interface CorrectProjectDataDeps {
   projectRepo: TransactionalRepository<Project>
-  fileService: FileService
+  fileRepo: Repository<FileObject>
   generateCertificate: GenerateCertificate
 }
 
 interface CorrectProjectDataArgs {
   projectId: string
-  certificateFile?: FileContainer
+  certificateFile?: {
+    contents: FileContents
+    filename: string
+  }
   projectVersionDate: Date
   newNotifiedOn: number
   user: User
@@ -58,6 +60,7 @@ type CorrectProjectDataError =
   | UnauthorizedError
   | ProjectCannotBeUpdatedIfUnnotifiedError
   | IllegalProjectDataError
+  | IllegalFileDataError
   | OtherError
 
 export type CorrectProjectData = (
@@ -120,29 +123,28 @@ export const makeCorrectProjectData = (deps: CorrectProjectDataDeps): CorrectPro
     return certificateFileId ? project.uploadCertificate(user, certificateFileId) : ok(null)
   }
 
-  function _uploadFileIfExists(): ResultAsync<string | null, OtherError | DomainError> {
+  function _uploadFileIfExists(): ResultAsync<
+    string | null,
+    IllegalFileDataError | InfraNotAvailableError
+  > {
     if (!certificateFile) return okAsync(null)
 
-    const fileResult = File.create({
+    const { filename, contents } = certificateFile
+
+    return makeFileObject({
       designation: 'garantie-financiere',
-      forProject: projectId,
-      createdBy: user.id,
-      filename: certificateFile.path,
-    })
-
-    if (fileResult.isErr()) {
-      console.log('correctProjectData command: File.create failed', fileResult.error)
-
-      return errAsync(new OtherError())
-    }
-
-    const certificateFileId = fileResult.value.id.toString()
-
-    return deps.fileService
-      .save(fileResult.value, {
-        ...certificateFile,
-        path: makeProjectFilePath(projectId, certificateFile.path).filepath,
-      })
-      .map(() => certificateFileId)
+      forProject: new UniqueEntityID(projectId),
+      createdBy: new UniqueEntityID(user.id),
+      filename,
+      contents,
+    }).asyncAndThen((file) =>
+      deps.fileRepo
+        .save(file)
+        .map(() => file.id.toString())
+        .mapErr((e: any) => {
+          console.error(e)
+          return new InfraNotAvailableError()
+        })
+    )
   }
 }

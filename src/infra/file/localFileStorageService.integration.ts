@@ -4,8 +4,9 @@ import fs from 'fs'
 import path from 'path'
 import util from 'util'
 import mkdirp from 'mkdirp'
-import { LocalFileStorageService } from './localFileStorageService'
+import { makeLocalFileStorageService } from './localFileStorageService'
 import { pathExists } from '../../core/utils'
+import { FileNotFoundError } from '../../modules/file'
 
 const deleteFile = util.promisify(fs.unlink)
 const writeFile = util.promisify(fs.writeFile)
@@ -18,14 +19,11 @@ const rootPath = os.tmpdir()
 
 describe('localFileStorageService', () => {
   const fakePath = 'test/fakeFile.txt'
-  const storage: LocalFileStorageService = new LocalFileStorageService(rootPath)
+  const storage = makeLocalFileStorageService(rootPath)
   const targetPath = path.resolve(rootPath, fakePath)
 
-  describe('LocalFileStorageService.save', () => {
-    const fakeFile = {
-      path: fakePath,
-      stream: Readable.from(['test']),
-    }
+  describe('upload', () => {
+    const fakeContents = Readable.from(['test'])
 
     beforeAll(async () => {
       await deleteFileIfExists(targetPath)
@@ -36,7 +34,7 @@ describe('localFileStorageService', () => {
     })
 
     it('should create a file in the file system', async () => {
-      const result = await storage.save(fakeFile)
+      const result = await storage.upload({ contents: fakeContents, path: fakePath })
 
       if (result.isErr()) console.log('error on save', result.error)
       expect(result.isOk()).toBe(true)
@@ -50,7 +48,7 @@ describe('localFileStorageService', () => {
     })
   })
 
-  describe('LocalFileStorageService.load', () => {
+  describe('download', () => {
     describe('given an existing file', () => {
       beforeAll(async () => {
         await mkdirp(path.dirname(targetPath))
@@ -62,28 +60,37 @@ describe('localFileStorageService', () => {
       })
 
       it('should retrieve the file from the file system', async () => {
-        const result = await storage.load(`localFile:${fakePath}`)
+        const result = await storage.download(`localFile:${fakePath}`)
 
         if (result.isErr()) console.log('error on load', result.error)
         expect(result.isOk()).toBe(true)
         if (result.isErr()) return
 
-        expect(result.value.path).toEqual(fakePath)
-
         const downloadedFile = await new Promise((resolve, reject) => {
           let fileContents = ''
-          result.value.stream.on('data', (chunk) => {
+          result.value.on('data', (chunk) => {
             fileContents += chunk
           })
-          result.value.stream.on('error', (err) => {
+          result.value.on('error', (err) => {
             reject(err)
           })
-          result.value.stream.on('end', () => {
+          result.value.on('end', () => {
             resolve(fileContents)
           })
         })
 
         expect(downloadedFile).toEqual('test')
+      })
+    })
+
+    describe('given an missing file', () => {
+      it('should return a FileNotFoundError', async () => {
+        const result = await storage.download(`localFile:doesNotExist`)
+
+        expect(result.isErr()).toBe(true)
+        if (result.isOk()) return
+
+        expect(result.error).toBeInstanceOf(FileNotFoundError)
       })
     })
   })
@@ -104,6 +111,16 @@ describe('localFileStorageService', () => {
 
         const fileStillExists = await pathExists(targetPath)
         expect(fileStillExists).toBe(false)
+      })
+    })
+    describe('given an missing file', () => {
+      it('should return a FileNotFoundError', async () => {
+        const result = await storage.remove(`localFile:doesNotExist`)
+
+        expect(result.isErr()).toBe(true)
+        if (result.isOk()) return
+
+        expect(result.error).toBeInstanceOf(FileNotFoundError)
       })
     })
   })
