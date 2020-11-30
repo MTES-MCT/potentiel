@@ -1,4 +1,4 @@
-import { eventStore, fileService } from '../config'
+import { eventStore, loadFileForUser } from '../config'
 import { NotFoundError, Redirect, SuccessFileStream, SystemError } from '../helpers/responses'
 import { ProjectCertificateDownloaded } from '../modules/project/events'
 import ROUTES from '../routes'
@@ -12,7 +12,7 @@ const getProjectCertificateFile = async (request: HttpRequest) => {
       return Redirect(ROUTES.LOGIN)
     }
 
-    const result = await fileService.load(fileId, request.user)
+    const result = await loadFileForUser({ fileId, user: request.user })
 
     if (result.isErr()) {
       return SystemError(result.error.message)
@@ -30,7 +30,7 @@ const getProjectCertificateFile = async (request: HttpRequest) => {
       )
     }
 
-    return SuccessFileStream(result.value.stream)
+    return SuccessFileStream(result.value.contents)
   } catch (error) {
     console.log('getProjectCertificateFile error', error)
     return NotFoundError('Fichier introuvable.')

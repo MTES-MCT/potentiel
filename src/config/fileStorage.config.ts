@@ -1,4 +1,4 @@
-import { LocalFileStorageService, ObjectStorageFileStorageService } from '../infra/file'
+import { makeLocalFileStorageService, makeObjectStorageFileStorageService } from '../infra/file'
 import { FileStorageService } from '../modules/file'
 import { isProdEnv, isStagingEnv } from './env.config'
 
@@ -17,7 +17,7 @@ if (isStagingEnv || isProdEnv) {
     process.exit(1)
   }
 
-  fileStorageService = new ObjectStorageFileStorageService(
+  fileStorageService = makeObjectStorageFileStorageService(
     {
       provider: 'openstack',
       keystoneAuthVersion: 'v3',
@@ -34,7 +34,7 @@ if (isStagingEnv || isProdEnv) {
   console.log('FileService will be using ObjectStorage on container ' + container)
 } else {
   console.log('FileService will be using LocalFileStorage is userData/')
-  fileStorageService = new LocalFileStorageService('userData')
+  fileStorageService = makeLocalFileStorageService('userData')
 }
 
 export { fileStorageService }
