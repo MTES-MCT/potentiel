@@ -1,4 +1,7 @@
 export * from './BaseEventStore'
 export * from './EventBus'
 export * from './EventStore'
+export * from './EventStoreAggregate'
 export * from './StoredEvent'
+export * from './makeEventStoreRepo'
+export * from './makeEventStoreTransactionalRepo'

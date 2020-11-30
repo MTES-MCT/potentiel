@@ -17,8 +17,7 @@ import {
   ProjectAppelOffre,
   User,
 } from '../../entities'
-import { StoredEvent } from '../eventStore'
-import { EventStoreAggregate } from '../eventStore/EventStoreAggregate'
+import { StoredEvent, EventStoreAggregate } from '../eventStore'
 import {
   EntityNotFoundError,
   HeterogeneousHistoryError,

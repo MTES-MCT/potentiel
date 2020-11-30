@@ -110,7 +110,7 @@
     "ts-jest": "^25.5.1",
     "ts-loader": "^6.2.1",
     "ts-node-dev": "^1.0.0-pre.44",
-    "typescript": "^3.8.3"
+    "typescript": "^3.9.7"
   },
   "cypress-cucumber-preprocessor": {
     "nonGlobalStepDefinitions": true

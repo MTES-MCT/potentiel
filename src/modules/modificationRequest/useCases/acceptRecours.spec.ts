@@ -1,0 +1,108 @@
+import { ModificationRequest } from '../ModificationRequest'
+import {
+  fakeRepo,
+  makeFakeModificationRequest,
+  makeFakeProject,
+} from '../../../__tests__/fixtures/aggregates'
+import { makeAcceptRecours } from './acceptRecours'
+import { okAsync } from '../../../core/utils'
+import { FileObject } from '../../file'
+import { Repository, UniqueEntityID } from '../../../core/domain'
+import { Readable } from 'stream'
+import makeFakeUser from '../../../__tests__/fixtures/user'
+import { makeUser } from '../../../entities'
+import { UnwrapForTest } from '../../../types'
+import { Project } from '../../project/Project'
+import { AggregateHasBeenUpdatedSinceError } from '../../shared'
+
+describe('acceptRecours use-case', () => {
+  const fakeModificationRequest = {
+    ...makeFakeModificationRequest(),
+  }
+
+  const fakeProject = {
+    ...makeFakeProject(),
+    id: fakeModificationRequest.projectId,
+  }
+
+  const modificationRequestRepo = fakeRepo(fakeModificationRequest as ModificationRequest)
+  const projectRepo = fakeRepo(fakeProject as Project)
+  const fileRepo = {
+    save: jest.fn((file: FileObject) => okAsync(null)),
+    load: jest.fn(),
+  }
+  const fakeFileContents = Readable.from('test-content')
+  const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
+
+  const acceptRecours = makeAcceptRecours({
+    modificationRequestRepo,
+    projectRepo,
+    fileRepo: fileRepo as Repository<FileObject>,
+  })
+
+  describe('when a response file is attached', () => {
+    beforeAll(async () => {
+      const res = await acceptRecours({
+        modificationRequestId: fakeModificationRequest.id,
+        versionDate: fakeModificationRequest.lastUpdatedOn,
+        responseFile: fakeFileContents,
+        submittedBy: fakeUser,
+      })
+
+      if (res.isErr()) console.log('error', res.error)
+      expect(res.isOk()).toEqual(true)
+    })
+
+    it('should call acceptRecours on modificationRequest', () => {
+      expect(fakeModificationRequest.acceptRecours).toHaveBeenCalledTimes(1)
+    })
+
+    it('should call grantClasse on project', () => {
+      expect(fakeProject.grantClasse).toHaveBeenCalledTimes(1)
+      expect(fakeProject.grantClasse.mock.calls[0][0]).toEqual(fakeUser)
+    })
+
+    it('should call uploadCertificate on project', () => {
+      expect(fakeProject.uploadCertificate).toHaveBeenCalledTimes(1)
+      expect(fakeProject.uploadCertificate.mock.calls[0][0]).toEqual(fakeUser)
+      expect(fakeProject.uploadCertificate.mock.calls[0][1]).toHaveLength(
+        new UniqueEntityID().toString().length
+      )
+    })
+
+    it('should call setNotificationDate on project', () => {
+      expect(fakeProject.setNotificationDate).toHaveBeenCalledTimes(1)
+      expect(fakeProject.setNotificationDate.mock.calls[0][0]).toEqual(fakeUser)
+    })
+
+    it('should save the file', () => {
+      expect(fileRepo.save).toHaveBeenCalled()
+      expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents)
+    })
+
+    it('should save the project', () => {
+      expect(projectRepo.save).toHaveBeenCalled()
+      expect(projectRepo.save.mock.calls[0][0]).toEqual(fakeProject)
+    })
+
+    it('should save the modificationRequest', () => {
+      expect(modificationRequestRepo.save).toHaveBeenCalled()
+      expect(modificationRequestRepo.save.mock.calls[0][0]).toEqual(fakeModificationRequest)
+    })
+  })
+
+  describe('when versionDate is different than current versionDate', () => {
+    it('should return AggregateHasBeenUpdatedSinceError', async () => {
+      const res = await acceptRecours({
+        modificationRequestId: fakeModificationRequest.id,
+        versionDate: new Date(1),
+        responseFile: fakeFileContents,
+        submittedBy: fakeUser,
+      })
+
+      expect(res.isErr()).toEqual(true)
+      if (res.isOk()) return
+      expect(res.error).toBeInstanceOf(AggregateHasBeenUpdatedSinceError)
+    })
+  })
+})
