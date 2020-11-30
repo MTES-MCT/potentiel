@@ -120,7 +120,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
       allowNull: true,
     },
     motifsElimination: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     isFinancementParticipatif: {
