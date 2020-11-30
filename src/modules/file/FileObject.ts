@@ -1,4 +1,3 @@
-/* global NodeJS */
 import { UniqueEntityID } from '../../core/domain'
 import { isDefined, makeValidator, ok, Result } from '../../core/utils'
 import { makeProjectFilePath } from '../../helpers/makeProjectFilePath'
@@ -11,6 +10,7 @@ type FileDesignation =
   | 'attestation-designation'
   | 'other'
 
+/* global NodeJS */
 export type FileContents = NodeJS.ReadableStream
 
 export interface FileObject {
@@ -24,7 +24,7 @@ export interface FileObject {
   readonly path: string
 }
 
-interface FileObjectArgs {
+export interface FileObjectArgs {
   id?: UniqueEntityID
   createdAt?: Date
   filename: string

@@ -3,7 +3,7 @@ import { Repository, UniqueEntityID } from '../core/domain'
 import { ProjectAdmissionKeyRepo, ProjectRepo, UserRepo } from '../dataAccess'
 import { applyProjectUpdate, Project, User } from '../entities'
 import { EventBus } from '../modules/eventStore'
-import { FileContents, FileObject, makeFileObject } from '../modules/file'
+import { FileContents, FileObject, makeAndSaveFile, makeFileObject } from '../modules/file'
 import { NotificationService } from '../modules/notification'
 import { ProjectGFSubmitted } from '../modules/project/events'
 import routes from '../routes'
@@ -65,13 +65,16 @@ export default function makeAddGarantiesFinancieres({
 
     const { contents, filename } = file
 
-    const fileIdResult = await makeFileObject({
-      designation: 'dcr',
-      forProject: new UniqueEntityID(project.id),
-      createdBy: new UniqueEntityID(user.id),
-      filename,
-      contents,
-    }).asyncAndThen((file) => fileRepo.save(file).map(() => file.id.toString()))
+    const fileIdResult = await makeAndSaveFile({
+      file: {
+        designation: 'garantie-financiere',
+        forProject: new UniqueEntityID(project.id),
+        createdBy: new UniqueEntityID(user.id),
+        filename,
+        contents,
+      },
+      fileRepo,
+    })
 
     if (fileIdResult.isErr()) {
       console.error('addGarantiesFinancières use-case: failed to save file', fileIdResult.error)

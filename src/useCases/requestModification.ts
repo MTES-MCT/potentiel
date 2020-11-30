@@ -1,7 +1,7 @@
 import { Repository, UniqueEntityID } from '../core/domain'
 import { ModificationRequestRepo } from '../dataAccess'
 import { makeModificationRequest, Project, User } from '../entities'
-import { FileContents, FileObject, makeFileObject } from '../modules/file'
+import { FileContents, FileObject, makeAndSaveFile, makeFileObject } from '../modules/file'
 import { Err, ErrorResult, Ok, ResultAsync } from '../types'
 
 interface MakeUseCaseProps {
@@ -96,13 +96,16 @@ export default function makeRequestModification({
     if (file) {
       const { filename, contents } = file
 
-      const fileIdResult = await makeFileObject({
-        designation: 'modification-request',
-        forProject: new UniqueEntityID(projectId),
-        createdBy: new UniqueEntityID(user.id),
-        filename,
-        contents,
-      }).asyncAndThen((file) => fileRepo.save(file).map(() => file.id.toString()))
+      const fileIdResult = await makeAndSaveFile({
+        file: {
+          designation: 'modification-request',
+          forProject: new UniqueEntityID(projectId),
+          createdBy: new UniqueEntityID(user.id),
+          filename,
+          contents,
+        },
+        fileRepo,
+      })
 
       if (fileIdResult.isErr()) {
         console.error('addGarantiesFinancières use-case: failed to save file', fileIdResult.error)
