@@ -53,7 +53,7 @@ export const makeS3FileStorageService = (args: {
           })
           .promise(),
         (e: any) => {
-          console.error('S3FileStorageService.upload', e)
+          console.error(e)
           return new InfraNotAvailableError()
         }
       ).map(() => makeIdentifier(filePath, bucket))
@@ -83,7 +83,7 @@ export const makeS3FileStorageService = (args: {
               })
               .promise(),
             (e: any) => {
-              console.error('S3FileStorageService.remove', e)
+              console.error(e)
               return new InfraNotAvailableError()
             }
           )

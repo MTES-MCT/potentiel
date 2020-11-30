@@ -6,7 +6,7 @@ dotenv.config()
 const bucket = process.env.S3_BUCKET
 const endpoint = process.env.S3_ENDPOINT
 
-describe('S3FileStorageService', () => {
+describe.skip('S3FileStorageService', () => {
   const fakePath = `test/fakeFile-${Date.now()}.txt`
 
   describe('upload', () => {
@@ -30,14 +30,13 @@ describe('S3FileStorageService', () => {
 
         const result = await fileStorageService.upload({ contents: fakeContents, path: fakePath })
 
-        if (result.isErr()) console.log('error on save', result.error)
         expect(result.isOk()).toBe(true)
 
         if (result.isErr()) return
 
         uploadedFileId = result.value
 
-        expect(result.value).toEqual('S3:' + bucket + ':' + fakePath)
+        expect(result.value).toEqual(`S3:${bucket}:${fakePath}`)
       })
     })
 
@@ -87,7 +86,6 @@ describe('S3FileStorageService', () => {
       it('should retrieve the file from the S3 storage', async () => {
         const result = await fileStorageService.download(uploadedFileId)
 
-        if (result.isErr()) console.log('error on load', result.error)
         expect(result.isOk()).toBe(true)
         if (result.isErr()) return
 
