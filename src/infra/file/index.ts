@@ -1,2 +1,2 @@
+export * from './S3FileStorageService'
 export * from './localFileStorageService'
-export * from './objectStorageFileStorageService'

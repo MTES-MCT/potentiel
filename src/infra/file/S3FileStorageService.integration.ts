@@ -1,37 +1,25 @@
 import { Readable } from 'stream'
-import { makeObjectStorageFileStorageService } from './objectStorageFileStorageService'
+import { makeS3FileStorageService } from './S3FileStorageService'
 import dotenv from 'dotenv'
-import { ProviderOptions } from 'pkgcloud'
 dotenv.config()
 
-const authUrl = process.env.OS_AUTH_URL
-const region = process.env.OS_REGION
-const username = process.env.OS_USERNAME
-const password = process.env.OS_PASSWORD
-const container = process.env.OS_CONTAINER
+const bucket = process.env.S3_BUCKET
+const endpoint = process.env.S3_ENDPOINT
 
-const providerOptions: ProviderOptions = {
-  provider: 'openstack',
-  keystoneAuthVersion: 'v3',
-  authUrl,
-  region,
-  username,
-  password,
-  // @ts-ignore
-  domainId: 'default',
-}
-
-describe.skip('objectStorageFileStorageService', () => {
+describe.skip('S3FileStorageService', () => {
   const fakePath = `test/fakeFile-${Date.now()}.txt`
 
   describe('upload', () => {
     let uploadedFileId: string
 
-    describe('given a proper container', () => {
-      expect(container).toBeDefined()
-      if (!container) return
+    describe('given a proper bucket', () => {
+      expect(bucket).toBeDefined()
+      if (!bucket) return
 
-      const fileStorageService = makeObjectStorageFileStorageService(providerOptions, container)
+      expect(endpoint).toBeDefined()
+      if (!endpoint) return
+
+      const fileStorageService = makeS3FileStorageService({ endpoint, bucket })
 
       afterAll(async () => {
         if (uploadedFileId) await fileStorageService.remove(uploadedFileId)
@@ -42,23 +30,25 @@ describe.skip('objectStorageFileStorageService', () => {
 
         const result = await fileStorageService.upload({ contents: fakeContents, path: fakePath })
 
-        if (result.isErr()) console.log('error on save', result.error)
         expect(result.isOk()).toBe(true)
 
         if (result.isErr()) return
 
         uploadedFileId = result.value
 
-        expect(result.value).toEqual('objectStorage:' + container + ':' + fakePath)
+        expect(result.value).toEqual(`S3:${bucket}:${fakePath}`)
       })
     })
 
-    describe('given a wrong container', () => {
+    describe('given a wrong bucket', () => {
       it('should return an error', async () => {
-        const fileStorageService = makeObjectStorageFileStorageService(
-          providerOptions,
-          'CONTAINERTHATDOESNTEXIST'
-        )
+        expect(endpoint).toBeDefined()
+        if (!endpoint) return
+
+        const fileStorageService = makeS3FileStorageService({
+          endpoint,
+          bucket: 'CONTAINERTHATDOESNTEXIST',
+        })
         const fakeContents = Readable.from(['test'])
         const result = await fileStorageService.upload({ contents: fakeContents, path: fakePath })
 
@@ -68,10 +58,13 @@ describe.skip('objectStorageFileStorageService', () => {
   })
 
   describe('download', () => {
-    expect(container).toBeDefined()
-    if (!container) return
+    expect(bucket).toBeDefined()
+    if (!bucket) return
 
-    const fileStorageService = makeObjectStorageFileStorageService(providerOptions, container)
+    expect(endpoint).toBeDefined()
+    if (!endpoint) return
+
+    const fileStorageService = makeS3FileStorageService({ endpoint, bucket })
 
     describe('given an existing file', () => {
       let uploadedFileId: string
@@ -90,10 +83,9 @@ describe.skip('objectStorageFileStorageService', () => {
         if (uploadedFileId) await fileStorageService.remove(uploadedFileId)
       })
 
-      it('should retrieve the file from the object storage', async () => {
+      it('should retrieve the file from the S3 storage', async () => {
         const result = await fileStorageService.download(uploadedFileId)
 
-        if (result.isErr()) console.log('error on load', result.error)
         expect(result.isOk()).toBe(true)
         if (result.isErr()) return
 
