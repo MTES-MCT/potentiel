@@ -574,8 +574,17 @@ export const makeProject = (args: {
       )
     }
   }
+
+  function _shouldSubmitGF() {
+    return (
+      props.isClasse &&
+      (!!props.appelOffre.famille?.soumisAuxGarantiesFinancieres ||
+        props.appelOffre.id === 'Eolien')
+    )
+  }
+
   function _updateGFDate() {
-    if (props.isClasse && !!props.appelOffre.famille?.soumisAuxGarantiesFinancieres) {
+    if (_shouldSubmitGF()) {
       _publishEvent(
         new ProjectGFDueDateSet({
           payload: {
