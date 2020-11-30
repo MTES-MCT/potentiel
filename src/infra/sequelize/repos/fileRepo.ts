@@ -20,7 +20,7 @@ export const makeFileRepo = (deps: FileRepoDeps): Repository<FileObject> => {
         return ResultAsync.fromPromise<null, InfraNotAvailableError>(
           FileModel.create(_toPersistence(file, storedAt)),
           (e: any) => {
-            console.log('fileRepo.save error', e)
+            console.error('fileRepo.save error', e)
             return new InfraNotAvailableError()
           }
         )

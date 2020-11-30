@@ -1,9 +1,8 @@
 import { Repository, UniqueEntityID } from '../core/domain'
 import { ProjectRepo } from '../dataAccess'
 import { applyProjectUpdate, Project, User } from '../entities'
-import { makeProjectFilePath } from '../helpers/makeProjectFilePath'
 import { EventBus } from '../modules/eventStore'
-import { FileContents, FileObject, makeAndSaveFile, makeFileObject } from '../modules/file'
+import { FileContents, FileObject, makeAndSaveFile } from '../modules/file'
 import { ProjectDCRSubmitted } from '../modules/project/events'
 import { Err, ErrorResult, Ok, ResultAsync } from '../types'
 

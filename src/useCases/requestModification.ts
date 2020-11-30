@@ -1,7 +1,7 @@
 import { Repository, UniqueEntityID } from '../core/domain'
 import { ModificationRequestRepo } from '../dataAccess'
 import { makeModificationRequest, Project, User } from '../entities'
-import { FileContents, FileObject, makeAndSaveFile, makeFileObject } from '../modules/file'
+import { FileContents, FileObject, makeAndSaveFile } from '../modules/file'
 import { Err, ErrorResult, Ok, ResultAsync } from '../types'
 
 interface MakeUseCaseProps {

@@ -54,10 +54,9 @@ interface HasErrorFieldsContructor {
 export const ValidationError: HasErrorFieldsContructor = class ValidationError extends DomainError {
   constructor(errorsInFields: Record<string, string>) {
     super(
-      'Champs erronés: ' +
-        Object.entries(errorsInFields)
-          .map(([key, value]) => `${key} (${value})`)
-          .join(', ')
+      `Champs erronés: ${Object.entries(errorsInFields)
+        .map(([key, value]) => `${key} (${value})`)
+        .join(', ')}`
     )
   }
 }

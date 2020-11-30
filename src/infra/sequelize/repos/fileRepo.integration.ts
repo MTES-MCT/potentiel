@@ -1,16 +1,16 @@
-import { makeFileRepo } from './fileRepo'
-import { FileObject, FileStorageService, makeFileObject } from '../../../modules/file'
-import models from '../models'
-import { sequelize } from '../../../sequelize.config'
-import { okAsync, UnwrapForTest } from '../../../core/utils'
 import { Readable } from 'stream'
 import { UniqueEntityID } from '../../../core/domain'
+import { okAsync, UnwrapForTest } from '../../../core/utils'
+import { FileContents, FileObject, FileStorageService, makeFileObject } from '../../../modules/file'
 import { EntityNotFoundError } from '../../../modules/shared'
+import { sequelize } from '../../../sequelize.config'
+import models from '../models'
+import { makeFileRepo } from './fileRepo'
 
 describe('Sequelize FileRepo', () => {
   const fakeFileStream = Readable.from('text123')
   const fileStorageService: FileStorageService = {
-    upload: jest.fn((args: { contents; path }) => okAsync('storageLocation')),
+    upload: jest.fn((args: { contents: FileContents; path: string }) => okAsync('storageLocation')),
     download: jest.fn((storedAt: string) => okAsync(fakeFileStream)),
     remove: jest.fn(),
   }

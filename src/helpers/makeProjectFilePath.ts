@@ -6,7 +6,6 @@ const makeProjectFilePath = (
   originalFilename: string,
   keepFilename?: boolean
 ): { filename: string; filepath: string } => {
-  // add timestamp to avoid duplicate file names
   const filename = keepFilename ? originalFilename : sanitize(originalFilename)
   const filepath = path.join('projects', projectId, filename)
 
