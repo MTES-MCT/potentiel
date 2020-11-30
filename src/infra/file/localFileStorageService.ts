@@ -1,12 +1,12 @@
 import fs from 'fs'
-import path from 'path'
-import util from 'util'
 import mkdirp from 'mkdirp'
+import path from 'path'
 import { Readable } from 'stream'
-
-import { Result, err, ok, ResultAsync } from '../../core/utils/Result'
-import { FileStorageService, FileContainer } from '../../modules/file/FileStorageService'
+import util from 'util'
 import { pathExists } from '../../core/utils'
+import { err, ok, Result, ResultAsync } from '../../core/utils/Result'
+import { FileContents, FileNotFoundError, FileStorageService } from '../../modules/file'
+import { InfraNotAvailableError } from '../../modules/shared'
 
 const buildDirectoryStructure = (filePath: string) =>
   ResultAsync.fromPromise(
@@ -35,58 +35,66 @@ class WrongIdentifierFormat extends Error {
   }
 }
 
-export class LocalFileStorageService implements FileStorageService {
-  constructor(private _rootPath: string) {}
+const IDENTIFIER_PREFIX = 'localFile'
+function makeIdentifier(path: string): string {
+  return `${IDENTIFIER_PREFIX}:${path}`
+}
 
-  private static IDENTIFIER_PREFIX = 'localFile'
-
-  private static makeIdentifier(file: FileContainer): string {
-    return `${this.IDENTIFIER_PREFIX}:${file.path}`
+function parseIdentifier(fileId: string): Result<string, WrongIdentifierFormat> {
+  if (fileId.indexOf(IDENTIFIER_PREFIX) !== 0) {
+    return err(new WrongIdentifierFormat())
   }
 
-  private static parseIdentifier(fileId: string): Result<string, WrongIdentifierFormat> {
-    if (fileId.indexOf(this.IDENTIFIER_PREFIX) !== 0) {
-      return err(new WrongIdentifierFormat())
-    }
+  return ok(fileId.substring(IDENTIFIER_PREFIX.length + 1))
+}
 
-    return ok(fileId.substring(this.IDENTIFIER_PREFIX.length + 1))
+function assertFileExists(fileExists: boolean): Result<null, FileNotFoundError> {
+  if (!fileExists) {
+    return err(new FileNotFoundError())
   }
 
-  save(file: FileContainer): ResultAsync<string, Error> {
-    const fullPath = path.resolve(this._rootPath, file.path)
-    return buildDirectoryStructure(fullPath)
-      .andThen(() => writeFileStream(file.stream as Readable, fullPath))
-      .map(() => LocalFileStorageService.makeIdentifier(file))
-  }
+  return ok(null)
+}
 
-  load(fileId: string): ResultAsync<FileContainer, Error> {
-    return LocalFileStorageService.parseIdentifier(fileId)
-      .map((relativePath: string) => path.resolve(this._rootPath, relativePath))
-      .asyncAndThen((fullPath: string) =>
-        ResultAsync.fromPromise(
-          pathExists(fullPath).then((exists) => {
-            if (!exists) {
-              throw new Error('File does not exist')
-            }
-            return {
-              path: path.relative(this._rootPath, fullPath),
-              stream: fs.createReadStream(fullPath),
-            }
-          }),
-          (e: any) => new Error(e.message || 'Error in the fs.createReadStream phase')
+export const makeLocalFileStorageService = (_rootPath: string): FileStorageService => {
+  return {
+    upload({ contents, path: filePath }) {
+      const fullPath = path.resolve(_rootPath, filePath)
+      return buildDirectoryStructure(fullPath)
+        .andThen(() => writeFileStream(contents, fullPath))
+        .map(() => makeIdentifier(filePath))
+    },
+
+    download(storedAt) {
+      return parseIdentifier(storedAt)
+        .map((relativePath: string) => path.resolve(_rootPath, relativePath))
+        .asyncAndThen((fullPath: string) =>
+          ResultAsync.fromPromise(pathExists(fullPath), (e: any) => {
+            console.error(e)
+            return new InfraNotAvailableError()
+          }).map((fileExists) => ({ fileExists, fullPath }))
         )
-      )
-  }
+        .andThen(({ fileExists, fullPath }) => assertFileExists(fileExists).map(() => fullPath))
+        .map((fullPath) => fs.createReadStream(fullPath) as FileContents)
+    },
 
-  remove(fileId: string): ResultAsync<null, Error> {
-    return LocalFileStorageService.parseIdentifier(fileId)
-      .map((relativePath: string) => path.resolve(this._rootPath, relativePath))
-      .asyncAndThen((fullPath: string) =>
-        ResultAsync.fromPromise(
-          pathExists(fullPath).then((exists) => (exists ? deleteFile(fullPath) : null)),
-          (e: any) => new Error(e.message || 'Error in the fs.unlink phase')
+    remove(storedAt) {
+      return parseIdentifier(storedAt)
+        .map((relativePath: string) => path.resolve(_rootPath, relativePath))
+        .asyncAndThen((fullPath: string) =>
+          ResultAsync.fromPromise(pathExists(fullPath), (e: any) => {
+            console.error(e)
+            return new InfraNotAvailableError()
+          }).map((fileExists) => ({ fileExists, fullPath }))
         )
-      )
-      .map(() => null)
+        .andThen(({ fileExists, fullPath }) => assertFileExists(fileExists).map(() => fullPath))
+        .andThen((fullPath) =>
+          ResultAsync.fromPromise(deleteFile(fullPath), (e: any) => {
+            console.error(e)
+            return new InfraNotAvailableError()
+          })
+        )
+        .map(() => null)
+    },
   }
 }

@@ -1,9 +1,9 @@
 import { Readable } from 'stream'
+import { Repository } from '../core/domain'
 import { okAsync } from '../core/utils'
 import { makeProject, makeUser, Project } from '../entities'
 import { EventBus, StoredEvent } from '../modules/eventStore'
-import { File, FileContainer } from '../modules/file'
-import { FileService } from '../modules/file/FileService'
+import { FileObject } from '../modules/file'
 import { ProjectDCRSubmitted } from '../modules/project/events'
 import { InfraNotAvailableError } from '../modules/shared'
 import { Ok, UnwrapForTest } from '../types'
@@ -11,25 +11,12 @@ import makeFakeProject from '../__tests__/fixtures/project'
 import makeFakeUser from '../__tests__/fixtures/user'
 import makeAddDCR, { UNAUTHORIZED } from './addDCR'
 
-const mockFileServiceSave = jest.fn(async (file: File, fileContent: FileContainer) => okAsync(null))
-jest.mock('../modules/file/FileService', () => ({
-  FileService: function () {
-    return {
-      save: mockFileServiceSave,
-    }
-  },
-}))
-
-const MockFileService = <jest.Mock<FileService>>FileService
-
-const fileService = new MockFileService()
-
 const date = Date.now()
 const numeroDossier = 'numero dossier'
 
 const fakeFileContents = {
-  path: 'fakeFile.pdf',
-  stream: Readable.from('test-content'),
+  filename: 'fakeFile.pdf',
+  contents: Readable.from('test-content'),
 }
 
 const fakePublish = jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null))
@@ -56,14 +43,18 @@ describe('addDCR use-case', () => {
 
     const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
 
+    const fileRepo = {
+      save: jest.fn((file: FileObject) => okAsync(null)),
+      load: jest.fn(),
+    }
+
     beforeAll(async () => {
       const shouldUserAccessProject = jest.fn(async () => true)
-      mockFileServiceSave.mockClear()
       fakePublish.mockClear()
 
       const addDCR = makeAddDCR({
         eventBus: fakeEventBus,
-        fileService,
+        fileRepo: fileRepo as Repository<FileObject>,
         findProjectById: async () => originalProject,
         saveProject: async (project: Project) => {
           updatedProject = project
@@ -100,9 +91,9 @@ describe('addDCR use-case', () => {
       expect(updatedProject.dcrDate).toEqual(date)
 
       // Expect the file to be saved
-      expect(mockFileServiceSave).toHaveBeenCalled()
-      expect(mockFileServiceSave.mock.calls[0][1].stream).toEqual(fakeFileContents.stream)
-      const fakeFile = mockFileServiceSave.mock.calls[0][0]
+      expect(fileRepo.save).toHaveBeenCalled()
+      expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents.contents)
+      const fakeFile = fileRepo.save.mock.calls[0][0]
       expect(fakeFile).toBeDefined()
       expect(updatedProject.dcrFileId).toEqual(fakeFile.id.toString())
 
@@ -138,7 +129,7 @@ describe('addDCR use-case', () => {
 
       expect(targetEvent.payload.projectId).toEqual(originalProject.id)
 
-      const fakeFile = mockFileServiceSave.mock.calls[0][0]
+      const fakeFile = fileRepo.save.mock.calls[0][0]
 
       expect(targetEvent.payload.dcrDate).toEqual(new Date(date))
       expect(targetEvent.payload.fileId).toEqual(fakeFile.id.toString())
@@ -150,7 +141,6 @@ describe('addDCR use-case', () => {
 
   describe('When the user doesnt have rights on the project', () => {
     it('should return an UNAUTHORIZED error if the user does not have the rights on this project', async () => {
-      mockFileServiceSave.mockClear()
       fakePublish.mockClear()
 
       const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
@@ -171,9 +161,14 @@ describe('addDCR use-case', () => {
 
       const saveProject = jest.fn()
 
+      const fileRepo = {
+        save: jest.fn(),
+        load: jest.fn(),
+      }
+
       const addDCR = makeAddDCR({
         eventBus: fakeEventBus,
-        fileService,
+        fileRepo,
         findProjectById: async () => originalProject,
         saveProject,
         shouldUserAccessProject,
@@ -196,7 +191,7 @@ describe('addDCR use-case', () => {
       })
 
       expect(saveProject).not.toHaveBeenCalled()
-      expect(mockFileServiceSave).not.toHaveBeenCalled()
+      expect(fileRepo.save).not.toHaveBeenCalled()
       expect(fakePublish).not.toHaveBeenCalled()
 
       expect(res.unwrap_err()).toEqual(new Error(UNAUTHORIZED))

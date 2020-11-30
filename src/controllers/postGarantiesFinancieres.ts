@@ -1,14 +1,13 @@
-import { addGarantiesFinancieres } from '../useCases'
-import { Redirect, SystemError } from '../helpers/responses'
-import { HttpRequest } from '../types'
-import { FileContainer } from '../modules/file'
-import ROUTES from '../routes'
+import fs from 'fs'
 import _ from 'lodash'
 import moment from 'moment'
-
-import fs from 'fs'
 import util from 'util'
 import { pathExists } from '../core/utils'
+import { Redirect, SystemError } from '../helpers/responses'
+import ROUTES from '../routes'
+import { HttpRequest } from '../types'
+import { addGarantiesFinancieres } from '../useCases'
+
 const deleteFile = util.promisify(fs.unlink)
 
 const postGarantiesFinancieres = async (request: HttpRequest) => {
@@ -51,9 +50,9 @@ const postGarantiesFinancieres = async (request: HttpRequest) => {
     })
   }
 
-  const file: FileContainer = {
-    stream: fs.createReadStream(request.file.path),
-    path: request.file.originalname,
+  const file = {
+    contents: fs.createReadStream(request.file.path),
+    filename: `${Date.now()}-${request.file.originalname}`,
   }
 
   const result = await addGarantiesFinancieres({
