@@ -48,6 +48,14 @@ function parseIdentifier(fileId: string): Result<string, WrongIdentifierFormat> 
   return ok(fileId.substring(IDENTIFIER_PREFIX.length + 1))
 }
 
+function assertFileExists(fileExists: boolean): Result<null, FileNotFoundError> {
+  if (!fileExists) {
+    return err(new FileNotFoundError())
+  }
+
+  return ok(null)
+}
+
 export const makeLocalFileStorageService = (_rootPath: string): FileStorageService => {
   return {
     upload({ contents, path: filePath }) {
@@ -66,12 +74,8 @@ export const makeLocalFileStorageService = (_rootPath: string): FileStorageServi
             return new InfraNotAvailableError()
           }).map((fileExists) => ({ fileExists, fullPath }))
         )
-        .andThen(({ fileExists, fullPath }) => {
-          if (!fileExists) {
-            return err(new FileNotFoundError())
-          }
-          return ok(fs.createReadStream(fullPath) as FileContents)
-        })
+        .andThen(({ fileExists, fullPath }) => assertFileExists(fileExists).map(() => fullPath))
+        .map((fullPath) => fs.createReadStream(fullPath) as FileContents)
     },
 
     remove(storedAt) {
@@ -83,15 +87,13 @@ export const makeLocalFileStorageService = (_rootPath: string): FileStorageServi
             return new InfraNotAvailableError()
           }).map((fileExists) => ({ fileExists, fullPath }))
         )
-        .andThen(({ fileExists, fullPath }) => {
-          if (!fileExists) {
-            return err(new FileNotFoundError())
-          }
-          return ResultAsync.fromPromise(deleteFile(fullPath), (e: any) => {
+        .andThen(({ fileExists, fullPath }) => assertFileExists(fileExists).map(() => fullPath))
+        .andThen((fullPath) =>
+          ResultAsync.fromPromise(deleteFile(fullPath), (e: any) => {
             console.error(e)
             return new InfraNotAvailableError()
           })
-        })
+        )
         .map(() => null)
     },
   }
