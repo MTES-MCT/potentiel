@@ -93,7 +93,7 @@ export const MakeProjectModel = (sequelize) => {
         allowNull: true,
       },
       motifsElimination: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
       },
       isFinancementParticipatif: {

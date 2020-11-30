@@ -57,7 +57,7 @@ export default function makeModificationRequestRepo({
       allowNull: true,
     },
     justification: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     actionnaire: {
@@ -185,7 +185,7 @@ export default function makeModificationRequestRepo({
       if (query) opts.where = query
       if (includeInfo) opts.include.push(ProjectModel, UserModel)
 
-      const modificationRequestsRaw = await ModificationRequestModel.findAll(opts)
+      const modificationRequestsRaw = (await ModificationRequestModel.findAll(opts))
         .map((item) => item.get())
         .map((item) => ({
           ...item,
