@@ -2,7 +2,7 @@ import { errAsync, ResultAsync } from '../../../../core/utils'
 import { Op, QueryTypes } from 'sequelize'
 import { InfraNotAvailableError } from '../../../../modules/shared'
 import { GetStats } from '../../../../modules/stats/GetStats'
-import { sequelize } from '../../../../sequelize.config'
+import { sequelizeInstance } from '../../../../sequelize.config'
 import models from '../../models'
 
 const FIRST_NOTIFICATION_DATE = 1586901600000
@@ -32,7 +32,7 @@ export const getStats: GetStats = () => {
 
   const _getPorteursProjetNotifiesInscrits = async () =>
     (
-      await sequelize.query(
+      await sequelizeInstance.query(
         'SELECT COUNT(DISTINCT(projects.email)) as count FROM projects INNER JOIN users ON users.email = projects.email;',
         { type: QueryTypes.SELECT }
       )
@@ -40,7 +40,7 @@ export const getStats: GetStats = () => {
 
   const _getPorteursProjetTotal = async () =>
     (
-      await sequelize.query(
+      await sequelizeInstance.query(
         "SELECT COUNT(id) as count FROM users WHERE role is 'porteur-projet';",
         { type: QueryTypes.SELECT }
       )
@@ -95,7 +95,7 @@ export const getStats: GetStats = () => {
 
   const _getDemandes = async () =>
     (
-      await sequelize.query('SELECT type FROM modificationRequests;', {
+      await sequelizeInstance.query('SELECT type FROM modificationRequests;', {
         type: QueryTypes.SELECT,
       })
     ).reduce(
