@@ -9,7 +9,8 @@ export const onRecoursAccepted = (models) => async (event: RecoursAccepted) => {
     return
   }
 
-  instance.status = 'accepté'
+  instance.status = 'acceptée'
+  instance.versionDate = event.occurredAt
 
   try {
     await instance.save()

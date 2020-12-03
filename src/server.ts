@@ -52,6 +52,7 @@ import {
   getModeleReponseRecours,
   getStatistiquesPage,
   getModificationRequestPage,
+  postReplyToModificationRequest,
 } from './controllers'
 
 import {
@@ -199,6 +200,14 @@ export async function makeServer(port: number = 3000) {
       upload.single('file'),
       ensureRole(['admin', 'dgec']),
       makeExpressCallback(postCorrectProjectData)
+    )
+
+    router.post(
+      ROUTES.ADMIN_REPLY_TO_MODIFICATION_REQUEST,
+      ensureLoggedIn(),
+      upload.single('file'),
+      ensureRole(['admin', 'dgec']),
+      makeExpressCallback(postReplyToModificationRequest)
     )
 
     router.post(

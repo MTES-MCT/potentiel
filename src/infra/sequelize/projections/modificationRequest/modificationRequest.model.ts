@@ -1,4 +1,4 @@
-import { DataTypes } from 'sequelize'
+import { DataTypes, NOW } from 'sequelize'
 
 export const MakeModificationRequestModel = (sequelize) => {
   const ModificationRequest = sequelize.define(
@@ -24,6 +24,11 @@ export const MakeModificationRequestModel = (sequelize) => {
         type: DataTypes.BIGINT,
         allowNull: false,
         defaultValue: 0,
+      },
+      versionDate: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: NOW,
       },
       status: {
         type: DataTypes.STRING,

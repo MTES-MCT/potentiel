@@ -2,14 +2,13 @@ import React from 'react'
 
 import { dataId } from '../../helpers/testId'
 
-import {Project } from '../../entities'
+import { Project } from '../../entities'
 
 import AdminDashboard from '../components/adminDashboard'
 import { HttpRequest } from '../../types'
 import ROUTES from '../../routes'
 
 import { formatDate } from '../../helpers/formatDate'
-
 
 import moment from 'moment'
 import { AdminModificationRequestDTO } from '../../modules/modificationRequest'
@@ -23,9 +22,17 @@ interface PageProps {
 
 /* Pure component */
 export default function AdminModificationRequestPage({ request, modificationRequest }: PageProps) {
-  const { user } = request
-  const { error, success}  = request.query
-  const { project, type, requestedOn, requestedBy, attachmentFile, justification, versionDate } = modificationRequest
+  const { user } = request
+  const { error, success } = request.query
+  const {
+    project,
+    type,
+    requestedOn,
+    requestedBy,
+    attachmentFile,
+    justification,
+    versionDate,
+  } = modificationRequest
 
   return (
     <AdminDashboard role={user?.role} currentPage={'list-requests'}>
@@ -41,13 +48,11 @@ export default function AdminModificationRequestPage({ request, modificationRequ
               paddingBottom: 10,
               marginBottom: 10,
             }}
-          ><div style={{fontStyle: 'italic'}}>{justification}</div>
-          {attachmentFile ? (
+          >
+            <div style={{ fontStyle: 'italic' }}>{justification}</div>
+            {attachmentFile ? (
               <a
-                href={ROUTES.DOWNLOAD_PROJECT_FILE(
-                  attachmentFile.id,
-                  attachmentFile.filename
-                )}
+                href={ROUTES.DOWNLOAD_PROJECT_FILE(attachmentFile.id, attachmentFile.filename)}
                 download={true}
                 {...dataId('requestList-item-download-link')}
               >
@@ -55,10 +60,12 @@ export default function AdminModificationRequestPage({ request, modificationRequ
               </a>
             ) : (
               ''
-          )}
-          <div style={{ marginTop: 10 }}>Déposée par {requestedBy} le {formatDate(requestedOn)}</div></div>
-          
-          
+            )}
+            <div style={{ marginTop: 10 }}>
+              Déposée par {requestedBy} le {formatDate(requestedOn)}
+            </div>
+          </div>
+
           <div style={{ marginBottom: 5 }}>Concerant le projet:</div>
           <div
             className="text-quote"
@@ -98,7 +105,9 @@ export default function AdminModificationRequestPage({ request, modificationRequ
                 {formatDate(project.notifiedOn)}
               </span>{' '}
               pour la période{' '}
-              <span {...dataId('modificationRequest-item-periode')}>{project.appelOffreId} {project.periodeId}</span>{' '}
+              <span {...dataId('modificationRequest-item-periode')}>
+                {project.appelOffreId} {project.periodeId}
+              </span>{' '}
               <span {...dataId('modificationRequest-item-famille')}>{project.familleId}</span>
             </div>
           </div>
@@ -110,32 +119,28 @@ export default function AdminModificationRequestPage({ request, modificationRequ
             ''
           )}
           {success ? (
-            <div
-              className="notification success"
-              {...dataId('modificationRequest-successMessage')}
-            >
+            <div className="notification success" {...dataId('modificationRequest-successMessage')}>
               {success}
             </div>
           ) : (
             ''
           )}
         </div>
-          {type === 'recours' ? (
-        <div className="panel__header">
-              <a
-                
-                href={ROUTES.TELECHARGER_MODELE_REPONSE_RECOURS(
-                  project as unknown as Project,
-                  modificationRequest.id
-                )}
-                download={true}
-              >
-                Télécharger un modèle de réponse
-              </a>
-        </div>
-          ) : (
-            ''
-          )}
+        {type === 'recours' ? (
+          <div className="panel__header">
+            <a
+              href={ROUTES.TELECHARGER_MODELE_REPONSE_RECOURS(
+                (project as unknown) as Project,
+                modificationRequest.id
+              )}
+              download={true}
+            >
+              Télécharger un modèle de réponse
+            </a>
+          </div>
+        ) : (
+          ''
+        )}
         <div>
           <div>
             <form
@@ -144,6 +149,7 @@ export default function AdminModificationRequestPage({ request, modificationRequ
               encType="multipart/form-data"
             >
               <input type="hidden" name="modificationRequestId" value={modificationRequest.id} />
+              <input type="hidden" name="type" value={modificationRequest.type} />
               <input type="hidden" name="versionDate" value={versionDate.getTime()} />
 
               <div className="form__group">
@@ -151,15 +157,26 @@ export default function AdminModificationRequestPage({ request, modificationRequ
                 <input type="file" name="file" id="file" />
               </div>
 
-              <button className="button" type="submit" name="submit-accept" data-confirm={`Etes-vous sur de vouloir accepter la demande de ${ModificationRequestTitleByType[type]} ?`} {...dataId('submit-button')}>
+              <button
+                className="button"
+                type="submit"
+                name="submitAccept"
+                data-confirm={`Etes-vous sur de vouloir accepter la demande de ${ModificationRequestTitleByType[type]} ?`}
+                {...dataId('submit-button')}
+              >
                 Accepter la demande de {ModificationRequestTitleByType[type]}
               </button>
-              <button className="button warning" type="submit" data-confirm={`Etes-vous sur de vouloir refuser la demande de ${ModificationRequestTitleByType[type]} ?`} name="submit-refuse" {...dataId('submit-button-alt')}>
+              <button
+                className="button warning"
+                type="submit"
+                data-confirm={`Etes-vous sur de vouloir refuser la demande de ${ModificationRequestTitleByType[type]} ?`}
+                name="submitRefuse"
+                {...dataId('submit-button-alt')}
+              >
                 Refuser la demande de {ModificationRequestTitleByType[type]}
               </button>
             </form>
           </div>
-
         </div>
       </div>
     </AdminDashboard>

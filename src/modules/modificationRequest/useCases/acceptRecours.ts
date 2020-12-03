@@ -44,7 +44,7 @@ export const makeAcceptRecours = (deps: AcceptRecoursDeps) => (
     .load(modificationRequestId)
     .andThen(
       (modificationRequest): Result<ModificationRequest, AggregateHasBeenUpdatedSinceError> => {
-        if (modificationRequest.lastUpdatedOn !== versionDate) {
+        if (modificationRequest.lastUpdatedOn.getTime() !== versionDate.getTime()) {
           return err(new AggregateHasBeenUpdatedSinceError())
         }
 

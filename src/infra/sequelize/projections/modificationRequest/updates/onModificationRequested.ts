@@ -23,6 +23,7 @@ export const onModificationRequested = (models) => async (event: ModificationReq
       projectId,
       type,
       requestedOn: event.occurredAt.getTime(),
+      versionDate: event.occurredAt,
       status: 'envoyée',
       fileId,
       userId: requestedBy,
