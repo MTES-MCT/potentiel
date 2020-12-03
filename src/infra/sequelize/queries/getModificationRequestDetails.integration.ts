@@ -1,10 +1,10 @@
-import models from '../../../models'
-import { sequelize } from '../../../../../sequelize.config'
-import makeFakeProject from '../../../../../__tests__/fixtures/project'
-import makeFakeFile from '../../../../../__tests__/fixtures/file'
-import makeFakeUser from '../../../../../__tests__/fixtures/user'
+import models from '../models'
+import { sequelize } from '../../../sequelize.config'
+import makeFakeProject from '../../../__tests__/fixtures/project'
+import makeFakeFile from '../../../__tests__/fixtures/file'
+import makeFakeUser from '../../../__tests__/fixtures/user'
 import { makeGetModificationRequestDetails } from './getModificationRequestDetails'
-import { UniqueEntityID } from '../../../../../core/domain'
+import { UniqueEntityID } from '../../../core/domain'
 
 describe('Sequelize getModificationRequestDetails', () => {
   const getModificationRequestDetails = makeGetModificationRequestDetails(models)

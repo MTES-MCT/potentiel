@@ -1,9 +1,8 @@
-import models from '../../../models'
-import { sequelize } from '../../../../../sequelize.config'
-import makeFakeProject from '../../../../../__tests__/fixtures/project'
+import { UniqueEntityID } from '../../../core/domain'
+import { FileNotFoundError } from '../../../modules/file'
+import { sequelize } from '../../../sequelize.config'
+import models from '../models'
 import { makeGetFileProject } from './getFileProject'
-import { UniqueEntityID } from '../../../../../core/domain'
-import { FileNotFoundError } from '../../../../../modules/file'
 
 describe('Sequelize getFileProject', () => {
   const getFileProject = makeGetFileProject(models)

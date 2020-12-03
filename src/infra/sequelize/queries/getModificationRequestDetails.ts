@@ -1,10 +1,10 @@
-import { err, errAsync, ok, ResultAsync } from '../../../../../core/utils'
-import { getAppelOffre } from '../../../../../dataAccess/inMemory/appelOffre'
+import { err, errAsync, ok, ResultAsync } from '../../../core/utils'
+import { getAppelOffre } from '../../../dataAccess/inMemory/appelOffre'
 import {
   AdminModificationRequestDTO,
   GetModificationRequestDetails,
-} from '../../../../../modules/modificationRequest'
-import { EntityNotFoundError, InfraNotAvailableError } from '../../../../../modules/shared'
+} from '../../../modules/modificationRequest'
+import { EntityNotFoundError, InfraNotAvailableError } from '../../../modules/shared'
 
 export const makeGetModificationRequestDetails = (models): GetModificationRequestDetails => (
   modificationRequestId: string
@@ -64,7 +64,7 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
       justification,
       attachmentFile,
       project,
-      updatedAt,
+      versionDate,
     } = modificationRequestRaw.get()
 
     const { appelOffreId, periodeId } = project
@@ -73,7 +73,7 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
     return ok({
       id,
       type,
-      versionDate: updatedAt,
+      versionDate,
       requestedOn: new Date(requestedOn),
       requestedBy: requestedBy.get().fullName,
       justification,

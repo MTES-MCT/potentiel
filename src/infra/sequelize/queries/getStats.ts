@@ -1,9 +1,9 @@
-import { errAsync, ResultAsync } from '../../../../core/utils'
+import { errAsync, ResultAsync } from '../../../core/utils'
 import { Op, QueryTypes } from 'sequelize'
-import { InfraNotAvailableError } from '../../../../modules/shared'
-import { GetStats } from '../../../../modules/stats/GetStats'
-import { sequelize } from '../../../../sequelize.config'
-import models from '../../models'
+import { InfraNotAvailableError } from '../../../modules/shared'
+import { GetStats } from '../../../modules/stats/GetStats'
+import { sequelize } from '../../../sequelize.config'
+import models from '../models'
 
 const FIRST_NOTIFICATION_DATE = 1586901600000
 const DOWNLOADS_BEFORE_EVENT_SOURCING = 655

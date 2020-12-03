@@ -1,7 +1,7 @@
-import { UniqueEntityID } from '../../../../../core/domain'
-import { err, errAsync, ok, ResultAsync } from '../../../../../core/utils'
-import { FileNotFoundError, GetFileProject } from '../../../../../modules/file'
-import { InfraNotAvailableError } from '../../../../../modules/shared'
+import { UniqueEntityID } from '../../../core/domain'
+import { err, errAsync, ok, ResultAsync } from '../../../core/utils'
+import { FileNotFoundError, GetFileProject } from '../../../modules/file'
+import { InfraNotAvailableError } from '../../../modules/shared'
 
 export const makeGetFileProject = (models): GetFileProject => (fileId: UniqueEntityID) => {
   const FileModel = models.File

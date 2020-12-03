@@ -1,6 +1,6 @@
-import models from '../../../models'
-import { sequelize } from '../../../../../sequelize.config'
-import makeFakeProject from '../../../../../__tests__/fixtures/project'
+import models from '../models'
+import { sequelize } from '../../../sequelize.config'
+import makeFakeProject from '../../../__tests__/fixtures/project'
 import { makeGetUnnotifiedProjectsForPeriode } from './getUnnotifiedProjectsForPeriode'
 
 describe('Sequelize getUnnotifiedProjectsForPeriode', () => {
