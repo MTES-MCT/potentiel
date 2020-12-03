@@ -1,5 +1,5 @@
 import { Repository, UniqueEntityID } from '../../../core/domain'
-import { err, ok, Result, ResultAsync } from '../../../core/utils'
+import { err, errAsync, ok, Result, ResultAsync } from '../../../core/utils'
 import { User } from '../../../entities'
 import { FileContents, FileObject, makeAndSaveFile } from '../../file'
 import { Project } from '../../project/Project'
@@ -35,6 +35,10 @@ export const makeAcceptRecours = (deps: AcceptRecoursDeps) => (
 > => {
   const { fileRepo, modificationRequestRepo, projectRepo } = deps
   const { modificationRequestId, versionDate, responseFile, submittedBy } = args
+
+  if (!['admin', 'dgec'].includes(submittedBy.role)) {
+    return errAsync(new UnauthorizedError())
+  }
 
   return modificationRequestRepo
     .load(modificationRequestId)

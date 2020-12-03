@@ -13,7 +13,7 @@ import makeFakeUser from '../../../__tests__/fixtures/user'
 import { makeUser } from '../../../entities'
 import { UnwrapForTest } from '../../../types'
 import { Project } from '../../project/Project'
-import { AggregateHasBeenUpdatedSinceError } from '../../shared'
+import { AggregateHasBeenUpdatedSinceError, UnauthorizedError } from '../../shared'
 
 describe('acceptRecours use-case', () => {
   const fakeModificationRequest = {
@@ -40,8 +40,65 @@ describe('acceptRecours use-case', () => {
     fileRepo: fileRepo as Repository<FileObject>,
   })
 
-  describe('when a response file is attached', () => {
-    beforeAll(async () => {
+  describe('when user is admin', () => {
+    const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
+
+    describe('when a response file is attached', () => {
+      beforeAll(async () => {
+        const res = await acceptRecours({
+          modificationRequestId: fakeModificationRequest.id,
+          versionDate: fakeModificationRequest.lastUpdatedOn,
+          responseFile: fakeFileContents,
+          submittedBy: fakeUser,
+        })
+
+        if (res.isErr()) console.log('error', res.error)
+        expect(res.isOk()).toEqual(true)
+      })
+
+      it('should call acceptRecours on modificationRequest', () => {
+        expect(fakeModificationRequest.acceptRecours).toHaveBeenCalledTimes(1)
+      })
+
+      it('should call grantClasse on project', () => {
+        expect(fakeProject.grantClasse).toHaveBeenCalledTimes(1)
+        expect(fakeProject.grantClasse.mock.calls[0][0]).toEqual(fakeUser)
+      })
+
+      it('should call uploadCertificate on project', () => {
+        expect(fakeProject.uploadCertificate).toHaveBeenCalledTimes(1)
+        expect(fakeProject.uploadCertificate.mock.calls[0][0]).toEqual(fakeUser)
+        expect(fakeProject.uploadCertificate.mock.calls[0][1]).toHaveLength(
+          new UniqueEntityID().toString().length
+        )
+      })
+
+      it('should call setNotificationDate on project', () => {
+        expect(fakeProject.setNotificationDate).toHaveBeenCalledTimes(1)
+        expect(fakeProject.setNotificationDate.mock.calls[0][0]).toEqual(fakeUser)
+      })
+
+      it('should save the file', () => {
+        expect(fileRepo.save).toHaveBeenCalled()
+        expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents)
+      })
+
+      it('should save the project', () => {
+        expect(projectRepo.save).toHaveBeenCalled()
+        expect(projectRepo.save.mock.calls[0][0]).toEqual(fakeProject)
+      })
+
+      it('should save the modificationRequest', () => {
+        expect(modificationRequestRepo.save).toHaveBeenCalled()
+        expect(modificationRequestRepo.save.mock.calls[0][0]).toEqual(fakeModificationRequest)
+      })
+    })
+  })
+
+  describe('when user is not admin', () => {
+    const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
+
+    it('should return UnauthorizedError', async () => {
       const res = await acceptRecours({
         modificationRequestId: fakeModificationRequest.id,
         versionDate: fakeModificationRequest.lastUpdatedOn,
@@ -49,45 +106,10 @@ describe('acceptRecours use-case', () => {
         submittedBy: fakeUser,
       })
 
-      if (res.isErr()) console.log('error', res.error)
-      expect(res.isOk()).toEqual(true)
-    })
+      expect(res.isErr()).toEqual(true)
+      if (res.isOk()) return
 
-    it('should call acceptRecours on modificationRequest', () => {
-      expect(fakeModificationRequest.acceptRecours).toHaveBeenCalledTimes(1)
-    })
-
-    it('should call grantClasse on project', () => {
-      expect(fakeProject.grantClasse).toHaveBeenCalledTimes(1)
-      expect(fakeProject.grantClasse.mock.calls[0][0]).toEqual(fakeUser)
-    })
-
-    it('should call uploadCertificate on project', () => {
-      expect(fakeProject.uploadCertificate).toHaveBeenCalledTimes(1)
-      expect(fakeProject.uploadCertificate.mock.calls[0][0]).toEqual(fakeUser)
-      expect(fakeProject.uploadCertificate.mock.calls[0][1]).toHaveLength(
-        new UniqueEntityID().toString().length
-      )
-    })
-
-    it('should call setNotificationDate on project', () => {
-      expect(fakeProject.setNotificationDate).toHaveBeenCalledTimes(1)
-      expect(fakeProject.setNotificationDate.mock.calls[0][0]).toEqual(fakeUser)
-    })
-
-    it('should save the file', () => {
-      expect(fileRepo.save).toHaveBeenCalled()
-      expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents)
-    })
-
-    it('should save the project', () => {
-      expect(projectRepo.save).toHaveBeenCalled()
-      expect(projectRepo.save.mock.calls[0][0]).toEqual(fakeProject)
-    })
-
-    it('should save the modificationRequest', () => {
-      expect(modificationRequestRepo.save).toHaveBeenCalled()
-      expect(modificationRequestRepo.save.mock.calls[0][0]).toEqual(fakeModificationRequest)
+      expect(res.error).toBeInstanceOf(UnauthorizedError)
     })
   })
 
