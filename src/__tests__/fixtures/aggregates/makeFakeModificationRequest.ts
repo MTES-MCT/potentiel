@@ -8,4 +8,5 @@ export const makeFakeModificationRequest = () => ({
   pendingEvents: [] as StoredEvent[],
   lastUpdatedOn: new Date(0),
   id: new UniqueEntityID(),
+  status: 'envoyée',
 })

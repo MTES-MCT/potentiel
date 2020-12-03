@@ -77,7 +77,9 @@ export const makeAcceptRecours = (deps: AcceptRecoursDeps) => (
         .map(() => ({ project, modificationRequest }))
     })
     .andThen(({ project, modificationRequest }) => {
-      return modificationRequest.acceptRecours().map(() => ({ project, modificationRequest }))
+      return modificationRequest
+        .acceptRecours(submittedBy)
+        .map(() => ({ project, modificationRequest }))
     })
     .andThen(({ project, modificationRequest }) => {
       return projectRepo.save(project).map(() => modificationRequest)
