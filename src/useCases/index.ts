@@ -82,7 +82,7 @@ const signup = makeSignup({
 
 const requestModification = makeRequestModification({
   fileRepo,
-  modificationRequestRepo,
+  eventBus: eventStore,
   shouldUserAccessProject,
 })
 

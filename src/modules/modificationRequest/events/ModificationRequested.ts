@@ -7,6 +7,12 @@ export interface ModificationRequestedPayload {
   requestedBy: string
   fileId?: string
   justification?: string
+  actionnaire?: string
+  producteur?: string
+  fournisseur?: string
+  puissance?: number
+  evaluationCarbone?: number
+  delayedServiceDate?: number
 }
 export class ModificationRequested
   extends BaseDomainEvent<ModificationRequestedPayload>

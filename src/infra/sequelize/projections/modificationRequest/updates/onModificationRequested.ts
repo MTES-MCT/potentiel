@@ -10,6 +10,12 @@ export const onModificationRequested = (models) => async (event: ModificationReq
     fileId,
     justification,
     requestedBy,
+    actionnaire,
+    producteur,
+    fournisseur,
+    puissance,
+    evaluationCarbone,
+    delayedServiceDate,
   } = event.payload
   try {
     await ModificationRequestModel.create({
@@ -19,8 +25,14 @@ export const onModificationRequested = (models) => async (event: ModificationReq
       requestedOn: event.occurredAt.getTime(),
       status: 'envoyée',
       fileId,
-      justification,
       userId: requestedBy,
+      justification,
+      actionnaire,
+      producteur,
+      fournisseur,
+      puissance,
+      evaluationCarbone,
+      delayedServiceDate,
     })
   } catch (e) {
     console.error(e)
