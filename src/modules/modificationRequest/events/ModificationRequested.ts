@@ -4,6 +4,9 @@ export interface ModificationRequestedPayload {
   type: string
   modificationRequestId: string
   projectId: string
+  requestedBy: string
+  fileId?: string
+  justification?: string
 }
 export class ModificationRequested
   extends BaseDomainEvent<ModificationRequestedPayload>

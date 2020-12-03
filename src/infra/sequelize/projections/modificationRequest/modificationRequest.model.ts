@@ -76,18 +76,21 @@ export const MakeModificationRequestModel = (sequelize) => {
     ModificationRequest.belongsTo(FileModel, {
       foreignKey: 'fileId',
       as: 'attachmentFile',
+      constraints: false,
     })
 
     const ProjectModel = models.Project
     ModificationRequest.belongsTo(ProjectModel, {
       foreignKey: 'projectId',
       as: 'project',
+      constraints: false,
     })
 
     const UserModel = models.User
     ModificationRequest.belongsTo(UserModel, {
       foreignKey: 'userId',
       as: 'requestedBy',
+      constraints: false,
     })
     // Add belongsTo etc. statements here
   }
