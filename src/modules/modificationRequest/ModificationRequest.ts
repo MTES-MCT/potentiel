@@ -4,7 +4,7 @@ import { User } from '../../entities'
 import { EventStoreAggregate, StoredEvent } from '../eventStore'
 import { EntityNotFoundError, IllegalInitialStateForAggregateError } from '../shared'
 import { StatusPreventsAcceptingError } from './errors'
-import { ModificationRequested, RecoursAccepted } from './events'
+import { ModificationRequested, RecoursAccepted, ResponseTemplateDownloaded } from './events'
 
 export interface ModificationRequest extends EventStoreAggregate {
   acceptRecours(acceptedBy: User): Result<null, StatusPreventsAcceptingError>
@@ -108,6 +108,9 @@ export const makeModificationRequest = (args: {
       case RecoursAccepted.type:
         props.status = 'acceptée'
         break
+      case ResponseTemplateDownloaded.type:
+        if (props.status === 'envoyée') props.status = 'en instruction'
+        break
       default:
         // ignore other event types
         break
@@ -117,7 +120,9 @@ export const makeModificationRequest = (args: {
   }
 
   function _updateLastUpdatedOn(event: StoredEvent) {
-    props.lastUpdatedOn = event.occurredAt
+    if (event.type !== ResponseTemplateDownloaded.type) {
+      props.lastUpdatedOn = event.occurredAt
+    }
   }
 
   function _isModificationRequestedEvent(event: StoredEvent): event is ModificationRequested {

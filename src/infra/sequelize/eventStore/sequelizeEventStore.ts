@@ -8,6 +8,8 @@ import {
   ModificationRequestedPayload,
   RecoursAccepted,
   RecoursAcceptedPayload,
+  ResponseTemplateDownloaded,
+  ResponseTemplateDownloadedPayload,
 } from '../../../modules/modificationRequest/events'
 import {
   CandidateInformationOfCertificateUpdateFailed,
@@ -380,6 +382,15 @@ export class SequelizeEventStore extends BaseEventStore {
       case RecoursAccepted.type:
         return new RecoursAccepted({
           payload: eventRaw.payload as RecoursAcceptedPayload,
+          requestId: eventRaw.requestId?.toString(),
+          original: {
+            version: eventRaw.version,
+            occurredAt: new Date(eventRaw.occurredAt),
+          },
+        })
+      case ResponseTemplateDownloaded.type:
+        return new ResponseTemplateDownloaded({
+          payload: eventRaw.payload as ResponseTemplateDownloadedPayload,
           requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,

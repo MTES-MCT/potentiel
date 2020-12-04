@@ -28,7 +28,11 @@ import {
   ProjectReimported,
   ProjectClasseGranted,
 } from '../project/events'
-import { ModificationRequested, RecoursAccepted } from '../modificationRequest/events'
+import {
+  ModificationRequested,
+  RecoursAccepted,
+  ResponseTemplateDownloaded,
+} from '../modificationRequest/events'
 
 export type StoredEvent =
   | ProjectNotified
@@ -61,3 +65,4 @@ export type StoredEvent =
   | ProjectClasseGranted
   | ModificationRequested
   | RecoursAccepted
+  | ResponseTemplateDownloaded
