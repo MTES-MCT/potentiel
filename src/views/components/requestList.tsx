@@ -1,10 +1,33 @@
 import React from 'react'
 import { ModificationRequest, User } from '../../entities'
+import { ModificationRequestStatus } from '../../modules/modificationRequest'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '../../routes'
 import { titlePerAction } from '../pages/newModificationRequest'
 
+const COLOR_BY_STATUS: Record<ModificationRequestStatus, 'danger' | 'success' | 'warning' | ''> = {
+  envoyée: '',
+  'en instruction': 'warning',
+  acceptée: 'success',
+  rejetée: 'danger',
+  'en appel': 'warning',
+  'en appel en instruction': 'warning',
+  'en appel acceptée': 'success',
+  'en appel rejetée': 'danger',
+  annulée: '',
+}
 
+const TITLE_BY_STATUS: Record<ModificationRequestStatus, string> = {
+  envoyée: 'Envoyée',
+  'en instruction': 'En instruction',
+  acceptée: 'Acceptée',
+  rejetée: 'Rejetée',
+  'en appel': 'En appel',
+  'en appel en instruction': 'Appel en instruction',
+  'en appel acceptée': 'Accepté en appel',
+  'en appel rejetée': 'Appel rejeté',
+  annulée: 'Annulée',
+}
 
 interface Props {
   modificationRequests?: Array<ModificationRequest>
@@ -43,8 +66,11 @@ const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
           {modificationRequests.map(({ project, user, status, ...modificationRequest }) => {
             if (!project || !user) return ''
             return (
-              <tr key={'modificationRequest_' + modificationRequest.id} 
-                style={{ cursor: 'pointer' }} data-goto-onclick={ROUTES.DEMANDE_PAGE_DETAILS(modificationRequest.id)}>
+              <tr
+                key={'modificationRequest_' + modificationRequest.id}
+                style={{ cursor: 'pointer' }}
+                data-goto-onclick={ROUTES.DEMANDE_PAGE_DETAILS(modificationRequest.id)}
+              >
                 <td valign="top">
                   <div
                     style={{
@@ -175,29 +201,10 @@ const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
                 </td>
                 <td
                   valign="top"
-                  className={
-                    'notification' +
-                    (status === 'validée'
-                      ? ' success'
-                      : status === 'refusée'
-                      ? ' error'
-                      : status === 'en instruction' || status === 'en validation'
-                      ? ' warning'
-                      : '')
-                  }
+                  className={'notification ' + (status ? COLOR_BY_STATUS[status] : '')}
                   {...dataId('requestList-item-type')}
                 >
-                  {status === 'envoyée'
-                    ? 'Envoyée'
-                    : status === 'en instruction'
-                    ? 'En instruction'
-                    : status === 'en validation'
-                    ? 'En attente de validation'
-                    : status === 'validée'
-                    ? 'Validée'
-                    : status === 'refusée'
-                    ? 'Refusée'
-                    : 'N/A'}
+                  {status ? TITLE_BY_STATUS[status] : ''}
                 </td>
                 {requestActions && requestActions(modificationRequest) ? (
                   <td style={{ position: 'relative' }}>

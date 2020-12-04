@@ -77,7 +77,7 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
       requestedOn: new Date(requestedOn),
       requestedBy: requestedBy.get().fullName,
       justification,
-      attachmentFile: attachmentFile.get(),
+      attachmentFile: attachmentFile && attachmentFile.get(),
       project: {
         ...project.get(),
         notifiedOn: new Date(project.notifiedOn),

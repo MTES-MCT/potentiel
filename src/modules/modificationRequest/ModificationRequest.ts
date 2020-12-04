@@ -12,7 +12,7 @@ export interface ModificationRequest extends EventStoreAggregate {
   readonly status: ModificationRequestStatus
 }
 
-type ModificationRequestStatus =
+export type ModificationRequestStatus =
   | 'envoyée'
   | 'en instruction'
   | 'acceptée'
