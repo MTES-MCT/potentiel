@@ -7,35 +7,108 @@ import AdminModificationRequestPage from './adminModificationRequest'
 
 export default { title: 'Admin Modification Request' }
 
-export const Recours = () => (
+export const RecoursOuvert = () => (
   <AdminModificationRequestPage
-    request={makeFakeRequest({ user: makeFakeUser({ role: "admin"}) })}
+    request={makeFakeRequest({ user: makeFakeUser({ role: 'admin' }) })}
     modificationRequest={{
-      id: "modificationRequest123",
+      id: 'modificationRequest123',
+      status: 'envoyée',
       versionDate: new Date(),
-      type: "recours",
+      type: 'recours',
       requestedOn: new Date(),
       requestedBy: 'John Doe',
-      justification: "Ceci est la justification de ma demande de recours",
+      justification: 'Ceci est la justification de ma demande de recours',
       attachmentFile: {
-        filename: "attachment.pdf",
-        id: 'file123'
+        filename: 'attachment.pdf',
+        id: 'file123',
       },
       project: {
         id: 'projectId',
         numeroCRE: 'CRE123',
-        nomProjet: "Project ABC",
-        nomCandidat: "Mr John Doe",
-        communeProjet: "Commune",
-        departementProjet: "Departement",
-        regionProjet: "Région",
+        nomProjet: 'Project ABC',
+        nomCandidat: 'Mr John Doe',
+        communeProjet: 'Commune',
+        departementProjet: 'Departement',
+        regionProjet: 'Région',
         puissance: 123,
         unitePuissance: 'kWc',
         notifiedOn: new Date(),
-        appelOffreId: "CRE4 - Nucléaire",
+        appelOffreId: 'CRE4 - Nucléaire',
         periodeId: '10',
-        familleId: '1C'
-      }
+        familleId: '1C',
+      },
+    }}
+  />
+)
+
+export const RecoursAccepté = () => (
+  <AdminModificationRequestPage
+    request={makeFakeRequest({ user: makeFakeUser({ role: 'admin' }) })}
+    modificationRequest={{
+      id: 'modificationRequest123',
+      status: 'acceptée',
+      respondedBy: 'Admin Doe',
+      respondedOn: new Date(),
+      versionDate: new Date(),
+      type: 'recours',
+      requestedOn: new Date(),
+      requestedBy: 'John Doe',
+      justification: 'Ceci est la justification de ma demande de recours',
+      attachmentFile: {
+        filename: 'attachment.pdf',
+        id: 'file123',
+      },
+      project: {
+        id: 'projectId',
+        numeroCRE: 'CRE123',
+        nomProjet: 'Project ABC',
+        nomCandidat: 'Mr John Doe',
+        communeProjet: 'Commune',
+        departementProjet: 'Departement',
+        regionProjet: 'Région',
+        puissance: 123,
+        unitePuissance: 'kWc',
+        notifiedOn: new Date(),
+        appelOffreId: 'CRE4 - Nucléaire',
+        periodeId: '10',
+        familleId: '1C',
+      },
+    }}
+  />
+)
+
+export const RecoursRejeté = () => (
+  <AdminModificationRequestPage
+    request={makeFakeRequest({ user: makeFakeUser({ role: 'admin' }) })}
+    modificationRequest={{
+      id: 'modificationRequest123',
+      status: 'rejetée',
+      respondedBy: 'Admin Doe',
+      respondedOn: new Date(),
+      versionDate: new Date(),
+      type: 'recours',
+      requestedOn: new Date(),
+      requestedBy: 'John Doe',
+      justification: 'Ceci est la justification de ma demande de recours',
+      attachmentFile: {
+        filename: 'attachment.pdf',
+        id: 'file123',
+      },
+      project: {
+        id: 'projectId',
+        numeroCRE: 'CRE123',
+        nomProjet: 'Project ABC',
+        nomCandidat: 'Mr John Doe',
+        communeProjet: 'Commune',
+        departementProjet: 'Departement',
+        regionProjet: 'Région',
+        puissance: 123,
+        unitePuissance: 'kWc',
+        notifiedOn: new Date(),
+        appelOffreId: 'CRE4 - Nucléaire',
+        periodeId: '10',
+        familleId: '1C',
+      },
     }}
   />
 )

@@ -2,6 +2,7 @@ import React from 'react'
 import { ModificationRequest, User } from '../../entities'
 import { ModificationRequestStatus } from '../../modules/modificationRequest'
 import { dataId } from '../../helpers/testId'
+import { ModificationRequestStatusTitle } from '../helpers'
 import ROUTES from '../../routes'
 import { titlePerAction } from '../pages/newModificationRequest'
 
@@ -15,18 +16,6 @@ const COLOR_BY_STATUS: Record<ModificationRequestStatus, 'danger' | 'success' | 
   'en appel acceptée': 'success',
   'en appel rejetée': 'danger',
   annulée: '',
-}
-
-const TITLE_BY_STATUS: Record<ModificationRequestStatus, string> = {
-  envoyée: 'Envoyée',
-  'en instruction': 'En instruction',
-  acceptée: 'Acceptée',
-  rejetée: 'Rejetée',
-  'en appel': 'En appel',
-  'en appel en instruction': 'Appel en instruction',
-  'en appel acceptée': 'Accepté en appel',
-  'en appel rejetée': 'Appel rejeté',
-  annulée: 'Annulée',
 }
 
 interface Props {
@@ -204,7 +193,7 @@ const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
                   className={'notification ' + (status ? COLOR_BY_STATUS[status] : '')}
                   {...dataId('requestList-item-type')}
                 >
-                  {status ? TITLE_BY_STATUS[status] : ''}
+                  {status ? ModificationRequestStatusTitle[status] : ''}
                 </td>
                 {requestActions && requestActions(modificationRequest) ? (
                   <td style={{ position: 'relative' }}>

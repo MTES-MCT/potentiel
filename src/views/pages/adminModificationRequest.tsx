@@ -12,12 +12,20 @@ import { formatDate } from '../../helpers/formatDate'
 
 import moment from 'moment'
 import { AdminModificationRequestDTO } from '../../modules/modificationRequest'
-import { ModificationRequestTitleByType } from '../helpers'
+import { ModificationRequestTitleByType, ModificationRequestStatusTitle } from '../helpers'
 moment.locale('fr')
 
 interface PageProps {
   request: HttpRequest
   modificationRequest: AdminModificationRequestDTO
+}
+
+const TITLE_COLOR_BY_STATUS = (status: string): string => {
+  console.log('status', status)
+  if (status.includes('accepté')) return 'rgb(56, 118, 29)'
+  if (status.includes('rejeté')) return 'rgb(204, 0, 0)'
+
+  return ''
 }
 
 /* Pure component */
@@ -27,8 +35,11 @@ export default function AdminModificationRequestPage({ request, modificationRequ
   const {
     project,
     type,
+    status,
     requestedOn,
     requestedBy,
+    respondedOn,
+    respondedBy,
     attachmentFile,
     justification,
     versionDate,
@@ -37,8 +48,30 @@ export default function AdminModificationRequestPage({ request, modificationRequ
   return (
     <AdminDashboard role={user?.role} currentPage={'list-requests'}>
       <div className="panel">
-        <div className="panel__header">
+        <div className="panel__header" style={{ position: 'relative' }}>
           <h3>Demande de {ModificationRequestTitleByType[type]}</h3>
+          <div>
+            Déposée par {requestedBy} le {formatDate(requestedOn)}
+          </div>
+          <div
+            style={{
+              fontWeight: 'bold',
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              color: TITLE_COLOR_BY_STATUS(status),
+            }}
+          >
+            {ModificationRequestStatusTitle[status]}
+          </div>
+          {respondedBy ? (
+            <div>
+              {ModificationRequestStatusTitle[status]} par {respondedBy} le{' '}
+              {formatDate(respondedOn)}
+            </div>
+          ) : (
+            ''
+          )}
         </div>
         <div className="panel__header">
           <div
@@ -126,7 +159,7 @@ export default function AdminModificationRequestPage({ request, modificationRequ
             ''
           )}
         </div>
-        {type === 'recours' ? (
+        {type === 'recours' && !modificationRequest.respondedOn ? (
           <div className="panel__header">
             <a
               href={ROUTES.TELECHARGER_MODELE_REPONSE_RECOURS(
@@ -141,7 +174,7 @@ export default function AdminModificationRequestPage({ request, modificationRequ
         ) : (
           ''
         )}
-        <div>
+        {type === 'recours' && !modificationRequest.respondedOn ? (
           <div>
             <form
               action={ROUTES.ADMIN_REPLY_TO_MODIFICATION_REQUEST}
@@ -177,7 +210,9 @@ export default function AdminModificationRequestPage({ request, modificationRequ
               </button>
             </form>
           </div>
-        </div>
+        ) : (
+          ''
+        )}
       </div>
     </AdminDashboard>
   )

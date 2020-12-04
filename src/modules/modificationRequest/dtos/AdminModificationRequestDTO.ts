@@ -1,11 +1,16 @@
 export interface AdminModificationRequestDTO {
   id: string
   type: string
+  status: string
+
+  respondedBy?: string
+  respondedOn?: Date
 
   versionDate: Date
 
   requestedOn: Date
   requestedBy: string
+
   justification: string
   attachmentFile: {
     filename: string
