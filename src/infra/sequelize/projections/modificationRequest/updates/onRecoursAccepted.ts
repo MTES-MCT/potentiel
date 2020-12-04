@@ -5,11 +5,13 @@ export const onRecoursAccepted = (models) => async (event: RecoursAccepted) => {
   const instance = await ModificationRequestModel.findByPk(event.payload.modificationRequestId)
 
   if (!instance) {
-    console.log('Error: onRecoursAccepted projection failed to retrieve project from db', event)
+    console.error('Error: onRecoursAccepted projection failed to retrieve project from db', event)
     return
   }
 
   instance.status = 'acceptée'
+  instance.respondedOn = event.occurredAt.getTime()
+  instance.respondedBy = event.payload.acceptedBy
   instance.versionDate = event.occurredAt
 
   try {

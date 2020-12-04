@@ -25,6 +25,14 @@ export const MakeModificationRequestModel = (sequelize) => {
         allowNull: false,
         defaultValue: 0,
       },
+      respondedOn: {
+        type: DataTypes.BIGINT,
+        allowNull: true,
+      },
+      respondedBy: {
+        type: DataTypes.UUID,
+        allowNull: true,
+      },
       versionDate: {
         type: DataTypes.DATE,
         allowNull: false,
@@ -95,6 +103,11 @@ export const MakeModificationRequestModel = (sequelize) => {
     ModificationRequest.belongsTo(UserModel, {
       foreignKey: 'userId',
       as: 'requestedBy',
+      constraints: false,
+    })
+    ModificationRequest.belongsTo(UserModel, {
+      foreignKey: 'respondedBy',
+      as: 'respondedByUser',
       constraints: false,
     })
     // Add belongsTo etc. statements here

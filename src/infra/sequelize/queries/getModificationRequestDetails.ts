@@ -47,6 +47,11 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
           as: 'requestedBy',
           attributes: ['fullName'],
         },
+        {
+          model: UserModel,
+          as: 'respondedByUser',
+          attributes: ['fullName'],
+        },
       ],
     }),
     (e) => {
@@ -59,8 +64,11 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
     const {
       id,
       type,
+      status,
       requestedOn,
       requestedBy,
+      respondedOn,
+      respondedByUser,
       justification,
       attachmentFile,
       project,
@@ -74,8 +82,11 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
       id,
       type,
       versionDate,
+      status,
       requestedOn: new Date(requestedOn),
       requestedBy: requestedBy.get().fullName,
+      respondedOn: respondedOn && new Date(respondedOn),
+      respondedBy: respondedByUser && respondedByUser.get().fullName,
       justification,
       attachmentFile: attachmentFile && attachmentFile.get(),
       project: {

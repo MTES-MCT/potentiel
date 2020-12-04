@@ -2,9 +2,12 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    console.log('Sequelize.NOW', Sequelize.NOW)
-    queryInterface.addColumn('modificationRequests', 'versionDate', {
-      type: Sequelize.DataTypes.DATE,
+    queryInterface.addColumn('modificationRequests', 'respondedBy', {
+      type: Sequelize.DataTypes.UUID,
+      allowNull: true,
+    })
+    queryInterface.addColumn('modificationRequests', 'respondedOn', {
+      type: Sequelize.DataTypes.BIGINT,
       allowNull: true,
     })
   },

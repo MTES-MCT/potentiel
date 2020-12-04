@@ -13,6 +13,7 @@ describe('Sequelize getModificationRequestDetails', () => {
   const fileId = new UniqueEntityID().toString()
   const modificationRequestId = new UniqueEntityID().toString()
   const userId = new UniqueEntityID().toString()
+  const userId2 = new UniqueEntityID().toString()
 
   const projectInfo = {
     id: projectId,
@@ -29,7 +30,7 @@ describe('Sequelize getModificationRequestDetails', () => {
     familleId: 'familleId',
   }
 
-  let versionDate: Date | undefined
+  const versionDate = new Date(456)
 
   beforeAll(async () => {
     // Create the tables and remove all data
@@ -44,20 +45,22 @@ describe('Sequelize getModificationRequestDetails', () => {
     console.log('beforeall creating file')
     const UserModel = models.User
     await UserModel.create(makeFakeUser({ id: userId, fullName: 'John Doe' }))
+    await UserModel.create(makeFakeUser({ id: userId2, fullName: 'Admin Doe' }))
 
     const ModificationRequestModel = models.ModificationRequest
-    const { updatedAt } = await ModificationRequestModel.create({
+    await ModificationRequestModel.create({
       id: modificationRequestId,
       projectId,
       userId,
       fileId,
       type: 'recours',
       requestedOn: 123,
+      respondedOn: 321,
+      respondedBy: userId2,
       status: 'envoyée',
       justification: 'justification',
+      versionDate,
     })
-
-    versionDate = updatedAt
   })
 
   it('should return a complete AdminModificationRequestDTO', async () => {
@@ -73,6 +76,9 @@ describe('Sequelize getModificationRequestDetails', () => {
     expect(modificationRequestDTO).toEqual({
       id: modificationRequestId,
       type: 'recours',
+      status: 'envoyée',
+      respondedOn: new Date(321),
+      respondedBy: 'Admin Doe',
       versionDate,
       requestedOn: new Date(123),
       requestedBy: 'John Doe',

@@ -1,22 +1,9 @@
 import React from 'react'
 import { ModificationRequest, User } from '../../entities'
-import { ModificationRequestStatus } from '../../modules/modificationRequest'
 import { dataId } from '../../helpers/testId'
-import { ModificationRequestStatusTitle } from '../helpers'
+import { ModificationRequestStatusTitle, ModificationRequestColorByStatus } from '../helpers'
 import ROUTES from '../../routes'
 import { titlePerAction } from '../pages/newModificationRequest'
-
-const COLOR_BY_STATUS: Record<ModificationRequestStatus, 'danger' | 'success' | 'warning' | ''> = {
-  envoyée: '',
-  'en instruction': 'warning',
-  acceptée: 'success',
-  rejetée: 'danger',
-  'en appel': 'warning',
-  'en appel en instruction': 'warning',
-  'en appel acceptée': 'success',
-  'en appel rejetée': 'danger',
-  annulée: '',
-}
 
 interface Props {
   modificationRequests?: Array<ModificationRequest>
@@ -164,33 +151,12 @@ const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
                       ''
                     )}
                   </div>
-                  {modificationRequest.type === 'recours' &&
-                  role &&
-                  ['admin', 'dgec'].includes(role) ? (
-                    <div
-                      style={{
-                        fontStyle: 'italic',
-                        lineHeight: 'normal',
-                        fontSize: 12,
-                      }}
-                    >
-                      <a
-                        href={ROUTES.TELECHARGER_MODELE_REPONSE_RECOURS(
-                          project,
-                          modificationRequest.id
-                        )}
-                        download={true}
-                      >
-                        Télécharger modèle de réponse
-                      </a>
-                    </div>
-                  ) : (
-                    ''
-                  )}
                 </td>
                 <td
                   valign="top"
-                  className={'notification ' + (status ? COLOR_BY_STATUS[status] : '')}
+                  className={
+                    'notification ' + (status ? ModificationRequestColorByStatus[status] : '')
+                  }
                   {...dataId('requestList-item-type')}
                 >
                   {status ? ModificationRequestStatusTitle[status] : ''}

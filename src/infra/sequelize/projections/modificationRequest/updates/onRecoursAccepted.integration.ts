@@ -22,6 +22,7 @@ describe('modificationRequest.onRecoursAccepted', () => {
       type: 'recours',
       status: 'envoyée',
       requestedOn: 1,
+      requestedBy: userId,
     })
   })
 

@@ -12,7 +12,12 @@ import { formatDate } from '../../helpers/formatDate'
 
 import moment from 'moment'
 import { AdminModificationRequestDTO } from '../../modules/modificationRequest'
-import { ModificationRequestTitleByType, ModificationRequestStatusTitle } from '../helpers'
+import {
+  ModificationRequestTitleByType,
+  ModificationRequestStatusTitle,
+  ModificationRequestColorByStatus,
+} from '../helpers'
+import { DownloadIcon } from '../components'
 moment.locale('fr')
 
 interface PageProps {
@@ -50,40 +55,23 @@ export default function AdminModificationRequestPage({ request, modificationRequ
       <div className="panel">
         <div className="panel__header" style={{ position: 'relative' }}>
           <h3>Demande de {ModificationRequestTitleByType[type]}</h3>
+        </div>
+        <div className="panel__header">
           <div>
             Déposée par {requestedBy} le {formatDate(requestedOn)}
           </div>
-          <div
-            style={{
-              fontWeight: 'bold',
-              position: 'absolute',
-              top: 0,
-              right: 0,
-              color: TITLE_COLOR_BY_STATUS(status),
-            }}
-          >
-            {ModificationRequestStatusTitle[status]}
-          </div>
-          {respondedBy ? (
-            <div>
-              {ModificationRequestStatusTitle[status]} par {respondedBy} le{' '}
-              {formatDate(respondedOn)}
+          {justification ? (
+            <div style={{ fontStyle: 'italic', marginTop: 5 }}>
+              {'"'}
+              {justification}
+              {'"'}
             </div>
           ) : (
             ''
           )}
-        </div>
-        <div className="panel__header">
-          <div
-            className="text-quote"
-            style={{
-              paddingTop: 10,
-              paddingBottom: 10,
-              marginBottom: 10,
-            }}
-          >
-            <div style={{ fontStyle: 'italic' }}>{justification}</div>
-            {attachmentFile ? (
+          {attachmentFile ? (
+            <div style={{ marginTop: 10 }}>
+              <DownloadIcon />
               <a
                 href={ROUTES.DOWNLOAD_PROJECT_FILE(attachmentFile.id, attachmentFile.filename)}
                 download={true}
@@ -91,14 +79,12 @@ export default function AdminModificationRequestPage({ request, modificationRequ
               >
                 Télécharger la pièce-jointe
               </a>
-            ) : (
-              ''
-            )}
-            <div style={{ marginTop: 10 }}>
-              Déposée par {requestedBy} le {formatDate(requestedOn)}
             </div>
-          </div>
-
+          ) : (
+            ''
+          )}
+        </div>
+        <div className="panel__header">
           <div style={{ marginBottom: 5 }}>Concerant le projet:</div>
           <div
             className="text-quote"
@@ -160,26 +146,26 @@ export default function AdminModificationRequestPage({ request, modificationRequ
           )}
         </div>
         {type === 'recours' && !modificationRequest.respondedOn ? (
-          <div className="panel__header">
-            <a
-              href={ROUTES.TELECHARGER_MODELE_REPONSE_RECOURS(
-                (project as unknown) as Project,
-                modificationRequest.id
-              )}
-              download={true}
-            >
-              Télécharger un modèle de réponse
-            </a>
-          </div>
-        ) : (
-          ''
-        )}
-        {type === 'recours' && !modificationRequest.respondedOn ? (
           <div>
+            <h4>Répondre</h4>
+            <div style={{ marginBottom: 10 }}>
+              <DownloadIcon />
+              <a
+                href={ROUTES.TELECHARGER_MODELE_REPONSE_RECOURS(
+                  (project as unknown) as Project,
+                  modificationRequest.id
+                )}
+                download={true}
+              >
+                Télécharger un modèle de réponse
+              </a>
+            </div>
+
             <form
               action={ROUTES.ADMIN_REPLY_TO_MODIFICATION_REQUEST}
               method="post"
               encType="multipart/form-data"
+              style={{ margin: 0 }}
             >
               <input type="hidden" name="modificationRequestId" value={modificationRequest.id} />
               <input type="hidden" name="type" value={modificationRequest.type} />
@@ -209,6 +195,23 @@ export default function AdminModificationRequestPage({ request, modificationRequ
                 Refuser la demande de {ModificationRequestTitleByType[type]}
               </button>
             </form>
+          </div>
+        ) : (
+          ''
+        )}
+        {respondedBy && respondedOn ? (
+          <div
+            className={'notification ' + (status ? ModificationRequestColorByStatus[status] : '')}
+            style={{ color: TITLE_COLOR_BY_STATUS(status) }}
+          >
+            <span
+              style={{
+                fontWeight: 'bold',
+              }}
+            >
+              {ModificationRequestStatusTitle[status]}
+            </span>{' '}
+            par {respondedBy} le {formatDate(respondedOn)}
           </div>
         ) : (
           ''
