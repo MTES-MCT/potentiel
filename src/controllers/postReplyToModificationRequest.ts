@@ -1,4 +1,5 @@
 import fs from 'fs'
+import moment from 'moment-timezone'
 import util from 'util'
 import { acceptRecours } from '../config'
 import { pathExists } from '../core/utils'
@@ -8,12 +9,20 @@ import { HttpRequest } from '../types'
 
 const deleteFile = util.promisify(fs.unlink)
 
+const FORMAT_DATE = 'DD/MM/YYYY'
+
 const postReplyToModificationRequest = async (request: HttpRequest) => {
   if (!request.user) {
     return SystemError('User must be logged in')
   }
 
-  const { modificationRequestId, type, versionDate, submitAccept } = request.body
+  const {
+    modificationRequestId,
+    type,
+    versionDate,
+    submitAccept,
+    newNotificationDate,
+  } = request.body
 
   const acceptedReply = typeof submitAccept === 'string'
 
@@ -25,11 +34,21 @@ const postReplyToModificationRequest = async (request: HttpRequest) => {
     })
   }
 
+  if (
+    !newNotificationDate ||
+    moment(newNotificationDate, FORMAT_DATE).format(FORMAT_DATE) !== newNotificationDate
+  ) {
+    return Redirect(ROUTES.DEMANDE_PAGE_DETAILS(modificationRequestId), {
+      error: "Les notifications n'ont pas pu être envoyées: la date de notification est erronnée.",
+    })
+  }
+
   if (type === 'recours' && acceptedReply) {
     const result = await acceptRecours({
       modificationRequestId,
       versionDate: new Date(Number(versionDate)),
       responseFile: fs.createReadStream(request.file.path),
+      newNotificationDate: moment(newNotificationDate, FORMAT_DATE).tz('Europe/Paris').toDate(),
       submittedBy: request.user,
     })
 

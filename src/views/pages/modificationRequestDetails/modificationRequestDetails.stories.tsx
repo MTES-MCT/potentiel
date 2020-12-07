@@ -1,13 +1,13 @@
 import React from 'react'
 
-import makeFakeRequest from '../../__tests__/fixtures/request'
-import makeFakeUser from '../../__tests__/fixtures/user'
+import makeFakeRequest from '../../../__tests__/fixtures/request'
+import makeFakeUser from '../../../__tests__/fixtures/user'
 
-import AdminModificationRequestPage from './adminModificationRequest'
+import AdminModificationRequestPage from './'
 
-export default { title: 'Admin Modification Request' }
+export default { title: 'Modification Request Details' }
 
-export const RecoursOuvert = () => (
+export const RecoursOuvertPourAdmin = () => (
   <AdminModificationRequestPage
     request={makeFakeRequest({ user: makeFakeUser({ role: 'admin' }) })}
     modificationRequest={{

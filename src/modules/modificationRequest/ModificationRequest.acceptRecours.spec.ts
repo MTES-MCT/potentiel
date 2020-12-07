@@ -22,6 +22,7 @@ describe('Modification.acceptRecours()', () => {
               modificationRequestId: modificationRequestId.toString(),
               projectId: projectId.toString(),
               type: 'recours',
+              requestedBy: fakeUser.id,
             },
           }),
         ],
@@ -62,6 +63,7 @@ describe('Modification.acceptRecours()', () => {
               modificationRequestId: modificationRequestId.toString(),
               projectId: projectId.toString(),
               type: 'recours',
+              requestedBy: fakeUser.id,
             },
           }),
           new RecoursAccepted({

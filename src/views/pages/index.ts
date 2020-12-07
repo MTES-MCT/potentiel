@@ -14,7 +14,7 @@ import AdminNotifyCandidates from './adminNotifyCandidates'
 import ImportCandidates from './importCandidates'
 import Signup from './signup'
 import NewModificationRequest from './newModificationRequest'
-import AdminModificationRequest from './adminModificationRequest'
+import ModificationRequestDetails from './modificationRequestDetails'
 import ForgottenPassword from './forgottenPassword'
 import ResetPassword from './resetPassword'
 import ProjectDetails from './projectDetails'
@@ -41,7 +41,7 @@ const GarantiesFinancieresListPage = makePresenterPage(GarantiesFinancieresList)
 const InvitationListPage = makePresenterPage(InvitationList)
 const NotificationListPage = makePresenterPage(NotificationList)
 const StatistiquesPage = makePresenterPage(Statistiques)
-const AdminModificationRequestPage = makePresenterPage(AdminModificationRequest)
+const ModificationRequestPageDetails = makePresenterPage(ModificationRequestDetails)
 
 export {
   LoginPage,
@@ -60,7 +60,7 @@ export {
   InvitationListPage,
   NotificationListPage,
   StatistiquesPage,
-  AdminModificationRequestPage,
+  ModificationRequestPageDetails,
 }
 
 interface HasRequest {

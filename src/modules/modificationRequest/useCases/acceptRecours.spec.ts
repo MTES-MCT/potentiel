@@ -48,6 +48,7 @@ describe('acceptRecours use-case', () => {
         const res = await acceptRecours({
           modificationRequestId: fakeModificationRequest.id,
           versionDate: fakeModificationRequest.lastUpdatedOn,
+          newNotificationDate: new Date(1234),
           responseFile: fakeFileContents,
           submittedBy: fakeUser,
         })
@@ -73,9 +74,10 @@ describe('acceptRecours use-case', () => {
         )
       })
 
-      it('should call setNotificationDate on project', () => {
+      it('should call setNotificationDate on project with the newNotificationDate', () => {
         expect(fakeProject.setNotificationDate).toHaveBeenCalledTimes(1)
         expect(fakeProject.setNotificationDate.mock.calls[0][0]).toEqual(fakeUser)
+        expect(fakeProject.setNotificationDate.mock.calls[0][1]).toEqual(1234)
       })
 
       it('should save the file', () => {
@@ -102,6 +104,7 @@ describe('acceptRecours use-case', () => {
       const res = await acceptRecours({
         modificationRequestId: fakeModificationRequest.id,
         versionDate: fakeModificationRequest.lastUpdatedOn,
+        newNotificationDate: new Date(1),
         responseFile: fakeFileContents,
         submittedBy: fakeUser,
       })
@@ -118,6 +121,7 @@ describe('acceptRecours use-case', () => {
       const res = await acceptRecours({
         modificationRequestId: fakeModificationRequest.id,
         versionDate: new Date(1),
+        newNotificationDate: new Date(1),
         responseFile: fakeFileContents,
         submittedBy: fakeUser,
       })

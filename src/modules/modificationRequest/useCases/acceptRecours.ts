@@ -19,6 +19,7 @@ interface AcceptRecoursDeps {
 
 interface AcceptRecoursArgs {
   modificationRequestId: UniqueEntityID
+  newNotificationDate: Date
   versionDate: Date
   responseFile: FileContents
   submittedBy: User
@@ -34,7 +35,13 @@ export const makeAcceptRecours = (deps: AcceptRecoursDeps) => (
   | UnauthorizedError
 > => {
   const { fileRepo, modificationRequestRepo, projectRepo } = deps
-  const { modificationRequestId, versionDate, responseFile, submittedBy } = args
+  const {
+    modificationRequestId,
+    versionDate,
+    responseFile,
+    submittedBy,
+    newNotificationDate,
+  } = args
 
   if (!['admin', 'dgec'].includes(submittedBy.role)) {
     return errAsync(new UnauthorizedError())
@@ -77,7 +84,7 @@ export const makeAcceptRecours = (deps: AcceptRecoursDeps) => (
       return project
         .grantClasse(submittedBy)
         .andThen(() => project.uploadCertificate(submittedBy, certificateFileId))
-        .andThen(() => project.setNotificationDate(submittedBy, Date.now()))
+        .andThen(() => project.setNotificationDate(submittedBy, newNotificationDate.getTime()))
         .map(() => ({ project, modificationRequest }))
     })
     .andThen(({ project, modificationRequest }) => {

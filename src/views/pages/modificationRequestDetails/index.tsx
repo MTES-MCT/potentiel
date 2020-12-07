@@ -1,23 +1,23 @@
 import React from 'react'
 
-import { dataId } from '../../helpers/testId'
+import { dataId } from '../../../helpers/testId'
 
-import { Project } from '../../entities'
+import { Project } from '../../../entities'
 
-import AdminDashboard from '../components/adminDashboard'
-import { HttpRequest } from '../../types'
-import ROUTES from '../../routes'
+import AdminDashboard from '../../components/adminDashboard'
+import { HttpRequest } from '../../../types'
+import ROUTES from '../../../routes'
 
-import { formatDate } from '../../helpers/formatDate'
+import { formatDate } from '../../../helpers/formatDate'
 
 import moment from 'moment'
-import { AdminModificationRequestDTO } from '../../modules/modificationRequest'
+import { AdminModificationRequestDTO } from '../../../modules/modificationRequest'
 import {
   ModificationRequestTitleByType,
   ModificationRequestStatusTitle,
   ModificationRequestColorByStatus,
-} from '../helpers'
-import { DownloadIcon } from '../components'
+} from '../../helpers'
+import { DownloadIcon } from '../../components'
 moment.locale('fr')
 
 interface PageProps {
@@ -94,7 +94,9 @@ export default function AdminModificationRequestPage({ request, modificationRequ
               marginBottom: 10,
             }}
           >
-            <div {...dataId('modificationRequest-item-nomProjet')}>{project.nomProjet}</div>
+            <div {...dataId('modificationRequest-item-nomProjet')}>
+              <a href={ROUTES.PROJECT_DETAILS(project.id)}>{project.nomProjet}</a>
+            </div>
             <div
               style={{
                 fontStyle: 'italic',
@@ -174,6 +176,20 @@ export default function AdminModificationRequestPage({ request, modificationRequ
               <div className="form__group">
                 <label htmlFor="file">Réponse signée (fichier pdf)</label>
                 <input type="file" name="file" id="file" />
+              </div>
+
+              <div className="form__group" style={{ marginTop: 5 }}>
+                <label htmlFor="newNotificationDate">
+                  Nouvelle date de désignation (format JJ/MM/AAAA)
+                </label>
+                <input
+                  type="text"
+                  name="newNotificationDate"
+                  id="newNotificationDate"
+                  defaultValue={formatDate(Date.now(), 'DD/MM/YYYY')}
+                  {...dataId('modificationRequest-newNotificationDateField')}
+                  style={{ width: 'auto' }}
+                />
               </div>
 
               <button
