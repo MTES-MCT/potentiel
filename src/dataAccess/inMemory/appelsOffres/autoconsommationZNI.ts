@@ -45,6 +45,13 @@ const autoconsommationZNI: AppelOffre = {
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'v0',
     },
+    {
+      id: '2',
+      title: 'deuxième',
+      isNotifiedOnPotentiel: true,
+      certificateTemplate: 'v1',
+      noteThresholdByFamily: [{ familleId: '', noteThreshold: 32.9 }],
+    },
   ],
   familles: [],
 }
