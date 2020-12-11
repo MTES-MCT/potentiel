@@ -69,6 +69,8 @@ const getModeleReponseRecours = async (request: HttpRequest) => {
       templatePath,
       outputPath: filepath,
       variables: {
+        suiviPar: request.user?.fullName || '???',
+        refPotentiel: makeProjectIdentifier(project),
         nomRepresentantLegal: project.nomRepresentantLegal,
         nomCandidat: project.nomCandidat,
         adresseProjet: project.adresseProjet,

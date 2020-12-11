@@ -41,7 +41,7 @@ const GarantiesFinancieresListPage = makePresenterPage(GarantiesFinancieresList)
 const InvitationListPage = makePresenterPage(InvitationList)
 const NotificationListPage = makePresenterPage(NotificationList)
 const StatistiquesPage = makePresenterPage(Statistiques)
-const ModificationRequestPageDetails = makePresenterPage(ModificationRequestDetails)
+const ModificationRequestDetailsPage = makePresenterPage(ModificationRequestDetails)
 
 export {
   LoginPage,
@@ -60,7 +60,7 @@ export {
   InvitationListPage,
   NotificationListPage,
   StatistiquesPage,
-  ModificationRequestPageDetails,
+  ModificationRequestDetailsPage,
 }
 
 interface HasRequest {
