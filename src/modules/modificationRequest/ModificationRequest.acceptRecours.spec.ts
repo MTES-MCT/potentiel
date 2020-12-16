@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '../../core/domain'
 import { makeUser } from '../../entities'
 import makeFakeUser from '../../__tests__/fixtures/user'
-import { ModificationRequested, RecoursAccepted } from './events'
+import { ModificationRequested, ModificationRequestAccepted } from './events'
 import { StatusPreventsAcceptingError } from './errors'
 import { makeModificationRequest } from './ModificationRequest'
 import { UnwrapForTest as OldUnwrapForTest } from '../../types'
@@ -12,7 +12,7 @@ describe('Modification.acceptRecours()', () => {
   const projectId = new UniqueEntityID()
   const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
 
-  describe('when demande status is envoyée or en instruction', () => {
+  describe('when demande status is envoyée', () => {
     const fakeModificationRequest = UnwrapForTest(
       makeModificationRequest({
         modificationRequestId,
@@ -32,24 +32,20 @@ describe('Modification.acceptRecours()', () => {
     beforeAll(() => {
       expect(fakeModificationRequest.status).toEqual('envoyée')
 
-      const res = fakeModificationRequest.acceptRecours(fakeUser)
+      const res = fakeModificationRequest.accept(fakeUser)
       expect(res.isOk()).toBe(true)
     })
 
-    it('should emit RecoursAccepted', () => {
+    it('should emit ModificationRequestAccepted', () => {
       expect(fakeModificationRequest.pendingEvents).not.toHaveLength(0)
 
       const targetEvent = fakeModificationRequest.pendingEvents.find(
-        (item) => item.type === RecoursAccepted.type
-      ) as RecoursAccepted | undefined
+        (item) => item.type === ModificationRequestAccepted.type
+      ) as ModificationRequestAccepted | undefined
       expect(targetEvent).toBeDefined()
       if (!targetEvent) return
 
       expect(targetEvent.payload.modificationRequestId).toEqual(modificationRequestId.toString())
-    })
-
-    it('should set status to acceptée', () => {
-      expect(fakeModificationRequest.status).toEqual('acceptée')
     })
   })
 
@@ -66,7 +62,7 @@ describe('Modification.acceptRecours()', () => {
               requestedBy: fakeUser.id,
             },
           }),
-          new RecoursAccepted({
+          new ModificationRequestAccepted({
             payload: {
               modificationRequestId: modificationRequestId.toString(),
               acceptedBy: fakeUser.id,
@@ -79,7 +75,7 @@ describe('Modification.acceptRecours()', () => {
     it('should return StatusPreventsAcceptingError', () => {
       expect(fakeModificationRequest.status).toEqual('acceptée')
 
-      const res = fakeModificationRequest.acceptRecours(fakeUser)
+      const res = fakeModificationRequest.accept(fakeUser)
       expect(res.isErr()).toBe(true)
       if (res.isOk()) return
 

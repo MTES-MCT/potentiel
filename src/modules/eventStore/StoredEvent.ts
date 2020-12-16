@@ -30,7 +30,8 @@ import {
 } from '../project/events'
 import {
   ModificationRequested,
-  RecoursAccepted,
+  ModificationRequestAccepted,
+  ModificationRequestRejected,
   ResponseTemplateDownloaded,
 } from '../modificationRequest/events'
 
@@ -64,5 +65,6 @@ export type StoredEvent =
   | CandidateInformationOfCertificateUpdateFailed
   | ProjectClasseGranted
   | ModificationRequested
-  | RecoursAccepted
+  | ModificationRequestRejected
+  | ModificationRequestAccepted
   | ResponseTemplateDownloaded

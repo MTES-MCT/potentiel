@@ -1,1 +1,1 @@
-export * from './acceptRecours'
+export * from './acceptModificationRequest'

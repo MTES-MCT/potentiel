@@ -1,10 +1,10 @@
 import models from '../../../models'
 import { sequelize } from '../../../../../sequelize.config'
-import { onRecoursAccepted } from './onRecoursAccepted'
-import { RecoursAccepted } from '../../../../../modules/modificationRequest/events'
+import { onModificationRequestAccepted } from './onModificationRequestAccepted'
+import { ModificationRequestAccepted } from '../../../../../modules/modificationRequest/events'
 import { UniqueEntityID } from '../../../../../core/domain'
 
-describe('modificationRequest.onRecoursAccepted', () => {
+describe('modificationRequest.onModificationRequestAccepted', () => {
   const ModificationRequestModel = models.ModificationRequest
 
   const modificationRequestId = new UniqueEntityID().toString()
@@ -27,8 +27,8 @@ describe('modificationRequest.onRecoursAccepted', () => {
   })
 
   it('should update status to accepté', async () => {
-    await onRecoursAccepted(models)(
-      new RecoursAccepted({
+    await onModificationRequestAccepted(models)(
+      new ModificationRequestAccepted({
         payload: {
           modificationRequestId,
           acceptedBy: userId,
@@ -39,6 +39,6 @@ describe('modificationRequest.onRecoursAccepted', () => {
     const updatedModificationRequest = await ModificationRequestModel.findByPk(
       modificationRequestId
     )
-    expect(updatedModificationRequest.status).toEqual('accepté')
+    expect(updatedModificationRequest.status).toEqual('acceptée')
   })
 })

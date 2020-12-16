@@ -1,7 +1,7 @@
 import fs from 'fs'
 import moment from 'moment-timezone'
 import util from 'util'
-import { acceptRecours } from '../config'
+import { acceptModificationRequest } from '../config'
 import { pathExists } from '../core/utils'
 import { Redirect, SystemError } from '../helpers/responses'
 import ROUTES from '../routes'
@@ -44,11 +44,13 @@ const postReplyToModificationRequest = async (request: HttpRequest) => {
   }
 
   if (type === 'recours' && acceptedReply) {
-    const result = await acceptRecours({
+    const result = await acceptModificationRequest({
       modificationRequestId,
       versionDate: new Date(Number(versionDate)),
       responseFile: fs.createReadStream(request.file.path),
-      newNotificationDate: moment(newNotificationDate, FORMAT_DATE).tz('Europe/Paris').toDate(),
+      acceptanceParams: {
+        newNotificationDate: moment(newNotificationDate, FORMAT_DATE).tz('Europe/Paris').toDate(),
+      },
       submittedBy: request.user,
     })
 

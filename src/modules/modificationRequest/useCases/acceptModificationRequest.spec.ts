@@ -4,7 +4,7 @@ import {
   makeFakeModificationRequest,
   makeFakeProject,
 } from '../../../__tests__/fixtures/aggregates'
-import { makeAcceptRecours } from './acceptRecours'
+import { makeAcceptModificationRequest } from './acceptModificationRequest'
 import { okAsync } from '../../../core/utils'
 import { FileObject } from '../../file'
 import { Repository, UniqueEntityID } from '../../../core/domain'
@@ -15,7 +15,7 @@ import { UnwrapForTest } from '../../../types'
 import { Project } from '../../project/Project'
 import { AggregateHasBeenUpdatedSinceError, UnauthorizedError } from '../../shared'
 
-describe('acceptRecours use-case', () => {
+describe('acceptModificationRequest use-case', () => {
   const fakeModificationRequest = {
     ...makeFakeModificationRequest(),
   }
@@ -34,7 +34,7 @@ describe('acceptRecours use-case', () => {
   const fakeFileContents = Readable.from('test-content')
   const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
 
-  const acceptRecours = makeAcceptRecours({
+  const acceptModificationRequest = makeAcceptModificationRequest({
     modificationRequestRepo,
     projectRepo,
     fileRepo: fileRepo as Repository<FileObject>,
@@ -45,10 +45,10 @@ describe('acceptRecours use-case', () => {
 
     describe('when a response file is attached', () => {
       beforeAll(async () => {
-        const res = await acceptRecours({
+        const res = await acceptModificationRequest({
           modificationRequestId: fakeModificationRequest.id,
           versionDate: fakeModificationRequest.lastUpdatedOn,
-          newNotificationDate: new Date(1234),
+          acceptanceParams: { newNotificationDate: new Date(1234) },
           responseFile: fakeFileContents,
           submittedBy: fakeUser,
         })
@@ -57,8 +57,8 @@ describe('acceptRecours use-case', () => {
         expect(res.isOk()).toEqual(true)
       })
 
-      it('should call acceptRecours on modificationRequest', () => {
-        expect(fakeModificationRequest.acceptRecours).toHaveBeenCalledTimes(1)
+      it('should call accept on modificationRequest', () => {
+        expect(fakeModificationRequest.accept).toHaveBeenCalledTimes(1)
       })
 
       it('should call grantClasse on project', () => {
@@ -101,10 +101,10 @@ describe('acceptRecours use-case', () => {
     const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
 
     it('should return UnauthorizedError', async () => {
-      const res = await acceptRecours({
+      const res = await acceptModificationRequest({
         modificationRequestId: fakeModificationRequest.id,
         versionDate: fakeModificationRequest.lastUpdatedOn,
-        newNotificationDate: new Date(1),
+        acceptanceParams: { newNotificationDate: new Date(1) },
         responseFile: fakeFileContents,
         submittedBy: fakeUser,
       })
@@ -118,10 +118,10 @@ describe('acceptRecours use-case', () => {
 
   describe('when versionDate is different than current versionDate', () => {
     it('should return AggregateHasBeenUpdatedSinceError', async () => {
-      const res = await acceptRecours({
+      const res = await acceptModificationRequest({
         modificationRequestId: fakeModificationRequest.id,
         versionDate: new Date(1),
-        newNotificationDate: new Date(1),
+        acceptanceParams: { newNotificationDate: new Date(1) },
         responseFile: fakeFileContents,
         submittedBy: fakeUser,
       })

@@ -4,24 +4,25 @@ import { User } from '../../entities'
 import { EventStoreAggregate, StoredEvent } from '../eventStore'
 import { EntityNotFoundError, IllegalInitialStateForAggregateError } from '../shared'
 import { StatusPreventsAcceptingError } from './errors'
-import { ModificationRequested, RecoursAccepted, ResponseTemplateDownloaded } from './events'
+import {
+  ModificationRequested,
+  ModificationRequestAccepted,
+  ModificationRequestRejected,
+  ResponseTemplateDownloaded,
+} from './events'
 
 export interface ModificationRequest extends EventStoreAggregate {
-  acceptRecours(acceptedBy: User): Result<null, StatusPreventsAcceptingError>
+  accept(
+    acceptedBy: User,
+    params?: ModificationRequestAcceptanceParams
+  ): Result<null, StatusPreventsAcceptingError>
   readonly projectId: UniqueEntityID
   readonly status: ModificationRequestStatus
 }
 
-export type ModificationRequestStatus =
-  | 'envoyée'
-  | 'en instruction'
-  | 'acceptée'
-  | 'rejetée'
-  | 'en appel'
-  | 'en appel en instruction'
-  | 'en appel acceptée'
-  | 'en appel rejetée'
-  | 'annulée'
+export type ModificationRequestStatus = 'envoyée' | 'acceptée' | 'rejetée' | 'annulée'
+
+export type ModificationRequestAcceptanceParams = { newNotificationDate: Date }
 
 interface ModificationRequestProps {
   lastUpdatedOn: Date
@@ -63,15 +64,16 @@ export const makeModificationRequest = (args: {
 
   // public methods
   return ok({
-    acceptRecours: function (acceptedBy: User) {
-      if (props.status !== 'en instruction' && props.status !== 'envoyée') {
+    accept: function (acceptedBy, params) {
+      if (props.status !== 'envoyée') {
         return err(new StatusPreventsAcceptingError(props.status))
       }
 
       _publishEvent(
-        new RecoursAccepted({
+        new ModificationRequestAccepted({
           payload: {
             modificationRequestId: modificationRequestId.toString(),
+            params,
             acceptedBy: acceptedBy.id,
           },
         })
@@ -104,12 +106,13 @@ export const makeModificationRequest = (args: {
   function _processEvent(event: StoredEvent) {
     switch (event.type) {
       case ModificationRequested.type:
+        props.status = 'envoyée'
         break
-      case RecoursAccepted.type:
+      case ModificationRequestAccepted.type:
         props.status = 'acceptée'
         break
-      case ResponseTemplateDownloaded.type:
-        if (props.status === 'envoyée') props.status = 'en instruction'
+      case ModificationRequestRejected.type:
+        props.status = 'rejetée'
         break
       default:
         // ignore other event types
