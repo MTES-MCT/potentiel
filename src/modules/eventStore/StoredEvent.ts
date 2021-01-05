@@ -32,6 +32,7 @@ import {
   ModificationRequested,
   ModificationRequestAccepted,
   ModificationRequestRejected,
+  ModificationRequestInstructionStarted,
   ResponseTemplateDownloaded,
 } from '../modificationRequest/events'
 
@@ -67,4 +68,5 @@ export type StoredEvent =
   | ModificationRequested
   | ModificationRequestRejected
   | ModificationRequestAccepted
+  | ModificationRequestInstructionStarted
   | ResponseTemplateDownloaded

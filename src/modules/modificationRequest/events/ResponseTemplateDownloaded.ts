@@ -12,6 +12,7 @@ export class ResponseTemplateDownloaded
   currentVersion = 1
 
   aggregateIdFromPayload(payload: ResponseTemplateDownloadedPayload) {
-    return payload.modificationRequestId
+    // This event does not mutate an agregate
+    return undefined
   }
 }

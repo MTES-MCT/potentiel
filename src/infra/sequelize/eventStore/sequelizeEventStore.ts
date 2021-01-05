@@ -6,10 +6,14 @@ import { BaseEventStore, EventStoreHistoryFilters, StoredEvent } from '../../../
 import {
   ModificationRequested,
   ModificationRequestedPayload,
-  RecoursAccepted,
-  RecoursAcceptedPayload,
   ResponseTemplateDownloaded,
   ResponseTemplateDownloadedPayload,
+  ModificationRequestAccepted,
+  ModificationRequestAcceptedPayload,
+  ModificationRequestInstructionStarted,
+  ModificationRequestInstructionStartedPayload,
+  ModificationRequestRejected,
+  ModificationRequestRejectedPayload,
 } from '../../../modules/modificationRequest/events'
 import {
   CandidateInformationOfCertificateUpdateFailed,
@@ -379,9 +383,27 @@ export class SequelizeEventStore extends BaseEventStore {
             occurredAt: new Date(eventRaw.occurredAt),
           },
         })
-      case RecoursAccepted.type:
-        return new RecoursAccepted({
-          payload: eventRaw.payload as RecoursAcceptedPayload,
+      case ModificationRequestAccepted.type:
+        return new ModificationRequestAccepted({
+          payload: eventRaw.payload as ModificationRequestAcceptedPayload,
+          requestId: eventRaw.requestId?.toString(),
+          original: {
+            version: eventRaw.version,
+            occurredAt: new Date(eventRaw.occurredAt),
+          },
+        })
+      case ModificationRequestInstructionStarted.type:
+        return new ModificationRequestInstructionStarted({
+          payload: eventRaw.payload as ModificationRequestInstructionStartedPayload,
+          requestId: eventRaw.requestId?.toString(),
+          original: {
+            version: eventRaw.version,
+            occurredAt: new Date(eventRaw.occurredAt),
+          },
+        })
+      case ModificationRequestRejected.type:
+        return new ModificationRequestRejected({
+          payload: eventRaw.payload as ModificationRequestRejectedPayload,
           requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
