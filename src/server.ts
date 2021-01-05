@@ -75,7 +75,7 @@ dotenv.config()
 
 const FILE_SIZE_LIMIT_MB = 50
 
-export async function makeServer(port: number = 3000) {
+export async function makeServer(port: number) {
   try {
     const app = express()
 

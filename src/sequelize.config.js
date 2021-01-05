@@ -3,18 +3,26 @@ require('pg').defaults.parseInt8 = true
 const chalk = require('chalk')
 const Sequelize = require('sequelize')
 
-const { DB_HOST, DB_PORT, DB_NAME, DB_USERNAME, DB_PASSWORD, DB_POOL_MAX, NODE_ENV } = process.env
+const {
+  POSTGRESQL_ADDON_HOST,
+  POSTGRESQL_ADDON_PORT,
+  POSTGRESQL_ADDON_DB,
+  POSTGRESQL_ADDON_USER,
+  POSTGRESQL_ADDON_PASSWORD,
+  POSTGRESQL_POOL_MAX,
+  NODE_ENV,
+} = process.env
 
 let databaseOptions = {
   dialect: 'postgres',
-  host: DB_HOST,
-  username: DB_USERNAME,
-  password: DB_PASSWORD,
-  database: DB_NAME,
-  port: DB_PORT,
+  host: POSTGRESQL_ADDON_HOST,
+  username: POSTGRESQL_ADDON_USER,
+  password: POSTGRESQL_ADDON_PASSWORD,
+  database: POSTGRESQL_ADDON_DB,
+  port: POSTGRESQL_ADDON_PORT,
   logging: false,
   pool: {
-    max: Number(DB_POOL_MAX),
+    max: Number(POSTGRESQL_POOL_MAX),
   },
 }
 
