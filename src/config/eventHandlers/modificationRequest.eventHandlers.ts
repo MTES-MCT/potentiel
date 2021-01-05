@@ -1,7 +1,7 @@
 import { ResponseTemplateDownloaded } from '../../modules/modificationRequest'
 import { handleResponseTemplateDownloaded } from '../../modules/modificationRequest/eventHandlers/handleResponseTemplateDownloaded'
 import { eventStore } from '../eventStore.config'
-import { getModificationRequestStatus } from '../../infra/sequelize/queries'
+import { getModificationRequestStatus } from '../queries.config'
 
 eventStore.subscribe(
   ResponseTemplateDownloaded.type,

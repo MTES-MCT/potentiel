@@ -42,7 +42,6 @@ describe('Sequelize getModificationRequestDetails', () => {
     const FileModel = models.File
     await FileModel.create(makeFakeFile({ id: fileId, filename: 'filename' }))
 
-    console.log('beforeall creating file')
     const UserModel = models.User
     await UserModel.create(makeFakeUser({ id: userId, fullName: 'John Doe' }))
     await UserModel.create(makeFakeUser({ id: userId2, fullName: 'Admin Doe' }))
