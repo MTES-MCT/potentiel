@@ -4,19 +4,21 @@
   "description": "Suivi des Projets d'Energies Renouvelables",
   "main": "index.js",
   "scripts": {
-    "build": "./node_modules/typescript/bin/tsc ; cp -R src/public dist/src ; cp -R src/views/template dist/src/views",
-    "watch": "./node_modules/ts-node-dev/bin/ts-node-dev src/index.ts",
+    "build": "./node_modules/typescript/bin/tsc && cp -R src/public dist/src && cp -R src/views/template dist/src/views",
+    "cy:run": "./node_modules/.bin/cypress run",
+    "db:addUser": "./node_modules/ts-node/dist/bin.js scripts/createUser.ts",
+    "db:insertUsers": "./node_modules/ts-node/dist/bin.js scripts/insertUsers.ts",
+    "install": "npm run build",
     "test": "NODE_ENV=unit-test jest --config=jest.unit.config.js --detectOpenHandles",
-    "test:watch": "NODE_ENV=test TEST=unit jest --config=jest.unit.config.js --detectOpenHandles --watch",
+    "test-e2e": "NODE_ENV=test start-server-and-test watch http://localhost:3000 cy:run",
     "test-int": "NODE_ENV=test jest --config=jest.integration.config.js --detectOpenHandles",
     "test-int-init-db": "export NODE_ENV=test && docker-compose down --remove-orphans && docker-compose -f ./docker-compose-integration.yml up -d && until docker exec potentiel_db_tests_integration pg_isready -U testuser -d potentiel_test; do sleep 1; done && sleep 2 && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
     "test-int:watch": "NODE_ENV=test jest --config=jest.integration.config.js --detectOpenHandles --watch",
-    "cy:run": "./node_modules/.bin/cypress run",
-    "test-e2e": "NODE_ENV=test start-server-and-test watch http://localhost:3000 cy:run",
+    "test:watch": "NODE_ENV=test TEST=unit jest --config=jest.unit.config.js --detectOpenHandles --watch",
     "storybook": "start-storybook -s ./src/public ",
     "storybook-build": "build-storybook-c .storybook -o docs",
-    "db:addUser": "./node_modules/ts-node/dist/bin.js scripts/createUser.ts",
-    "db:insertUsers": "./node_modules/ts-node/dist/bin.js scripts/insertUsers.ts"
+    "start": "node ./dist/src/index.js",
+    "watch": "./node_modules/ts-node-dev/bin/ts-node-dev src/index.ts"
   },
   "repository": {
     "type": "git",
@@ -197,6 +199,6 @@
     }
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": "^14.0.0"
   }
 }

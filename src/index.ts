@@ -11,4 +11,5 @@ mandatoryVariables.forEach((variable) => {
   }
 })
 
-makeServer()
+const port: number = Number(process.env.PORT) || 3000
+makeServer(port)

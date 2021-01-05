@@ -22,6 +22,7 @@
     "**/*.spec.ts",
     "**/*.integration.ts",
     "cypress",
-    "cypress/**/*"
+    "cypress/**/*",
+    "scripts"
   ]
 }
