@@ -5,13 +5,14 @@ import { dataId } from '../../../helpers/testId'
 import { Project } from '../../../entities'
 
 import AdminDashboard from '../../components/adminDashboard'
+import UserDashboard from '../../components/userDashboard'
 import { HttpRequest } from '../../../types'
 import ROUTES from '../../../routes'
 
 import { formatDate } from '../../../helpers/formatDate'
 
 import moment from 'moment'
-import { AdminModificationRequestDTO } from '../../../modules/modificationRequest'
+import { ModificationRequestPageDTO } from '../../../modules/modificationRequest'
 import {
   ModificationRequestTitleByType,
   ModificationRequestStatusTitle,
@@ -22,7 +23,7 @@ moment.locale('fr')
 
 interface PageProps {
   request: HttpRequest
-  modificationRequest: AdminModificationRequestDTO
+  modificationRequest: ModificationRequestPageDTO
 }
 
 const TITLE_COLOR_BY_STATUS = (status: string): string => {
@@ -50,8 +51,18 @@ export default function AdminModificationRequestPage({ request, modificationRequ
     versionDate,
   } = modificationRequest
 
+  if (!user) {
+    // Should never happen
+    console.log('Try to render ProjectDetails without a user')
+    return <div />
+  }
+
+  const isAdmin = user.role !== 'porteur-projet'
+
+  const Dashboard = isAdmin ? AdminDashboard : UserDashboard
+
   return (
-    <AdminDashboard role={user?.role} currentPage={'list-requests'}>
+    <Dashboard role={user.role} currentPage={'list-requests'}>
       <div className="panel">
         <div className="panel__header" style={{ position: 'relative' }}>
           <h3>Demande de {ModificationRequestTitleByType[type]}</h3>
@@ -147,71 +158,75 @@ export default function AdminModificationRequestPage({ request, modificationRequ
             ''
           )}
         </div>
-        {type === 'recours' && !modificationRequest.respondedOn ? (
-          <div>
-            <h4>Répondre</h4>
-            <div style={{ marginBottom: 10 }}>
-              <DownloadIcon />
-              <a
-                href={ROUTES.TELECHARGER_MODELE_REPONSE_RECOURS(
-                  (project as unknown) as Project,
-                  modificationRequest.id
-                )}
-                download={true}
+        {isAdmin ? (
+          type === 'recours' && !modificationRequest.respondedOn ? (
+            <div>
+              <h4>Répondre</h4>
+              <div style={{ marginBottom: 10 }}>
+                <DownloadIcon />
+                <a
+                  href={ROUTES.TELECHARGER_MODELE_REPONSE_RECOURS(
+                    (project as unknown) as Project,
+                    modificationRequest.id
+                  )}
+                  download={true}
+                >
+                  Télécharger un modèle de réponse
+                </a>
+              </div>
+
+              <form
+                action={ROUTES.ADMIN_REPLY_TO_MODIFICATION_REQUEST}
+                method="post"
+                encType="multipart/form-data"
+                style={{ margin: 0 }}
               >
-                Télécharger un modèle de réponse
-              </a>
+                <input type="hidden" name="modificationRequestId" value={modificationRequest.id} />
+                <input type="hidden" name="type" value={modificationRequest.type} />
+                <input type="hidden" name="versionDate" value={versionDate.getTime()} />
+
+                <div className="form__group">
+                  <label htmlFor="file">Réponse signée (fichier pdf)</label>
+                  <input type="file" name="file" id="file" />
+                </div>
+
+                <div className="form__group" style={{ marginTop: 5 }}>
+                  <label htmlFor="newNotificationDate">
+                    Nouvelle date de désignation (format JJ/MM/AAAA)
+                  </label>
+                  <input
+                    type="text"
+                    name="newNotificationDate"
+                    id="newNotificationDate"
+                    defaultValue={formatDate(Date.now(), 'DD/MM/YYYY')}
+                    {...dataId('modificationRequest-newNotificationDateField')}
+                    style={{ width: 'auto' }}
+                  />
+                </div>
+
+                <button
+                  className="button"
+                  type="submit"
+                  name="submitAccept"
+                  data-confirm={`Etes-vous sur de vouloir accepter la demande de ${ModificationRequestTitleByType[type]} ?`}
+                  {...dataId('submit-button')}
+                >
+                  Accepter la demande de {ModificationRequestTitleByType[type]}
+                </button>
+                <button
+                  className="button warning"
+                  type="submit"
+                  data-confirm={`Etes-vous sur de vouloir refuser la demande de ${ModificationRequestTitleByType[type]} ?`}
+                  name="submitRefuse"
+                  {...dataId('submit-button-alt')}
+                >
+                  Refuser la demande de {ModificationRequestTitleByType[type]}
+                </button>
+              </form>
             </div>
-
-            <form
-              action={ROUTES.ADMIN_REPLY_TO_MODIFICATION_REQUEST}
-              method="post"
-              encType="multipart/form-data"
-              style={{ margin: 0 }}
-            >
-              <input type="hidden" name="modificationRequestId" value={modificationRequest.id} />
-              <input type="hidden" name="type" value={modificationRequest.type} />
-              <input type="hidden" name="versionDate" value={versionDate.getTime()} />
-
-              <div className="form__group">
-                <label htmlFor="file">Réponse signée (fichier pdf)</label>
-                <input type="file" name="file" id="file" />
-              </div>
-
-              <div className="form__group" style={{ marginTop: 5 }}>
-                <label htmlFor="newNotificationDate">
-                  Nouvelle date de désignation (format JJ/MM/AAAA)
-                </label>
-                <input
-                  type="text"
-                  name="newNotificationDate"
-                  id="newNotificationDate"
-                  defaultValue={formatDate(Date.now(), 'DD/MM/YYYY')}
-                  {...dataId('modificationRequest-newNotificationDateField')}
-                  style={{ width: 'auto' }}
-                />
-              </div>
-
-              <button
-                className="button"
-                type="submit"
-                name="submitAccept"
-                data-confirm={`Etes-vous sur de vouloir accepter la demande de ${ModificationRequestTitleByType[type]} ?`}
-                {...dataId('submit-button')}
-              >
-                Accepter la demande de {ModificationRequestTitleByType[type]}
-              </button>
-              <button
-                className="button warning"
-                type="submit"
-                data-confirm={`Etes-vous sur de vouloir refuser la demande de ${ModificationRequestTitleByType[type]} ?`}
-                name="submitRefuse"
-                {...dataId('submit-button-alt')}
-              >
-                Refuser la demande de {ModificationRequestTitleByType[type]}
-              </button>
-            </form>
-          </div>
+          ) : (
+            ''
+          )
         ) : (
           ''
         )}
@@ -233,6 +248,6 @@ export default function AdminModificationRequestPage({ request, modificationRequ
           ''
         )}
       </div>
-    </AdminDashboard>
+    </Dashboard>
   )
 }

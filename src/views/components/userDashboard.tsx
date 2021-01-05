@@ -37,7 +37,7 @@ export default function UserDashboard({ children, currentPage }: UserDashboardPr
             </li>
             <li>
               <a
-                href={ROUTES.USER_LIST_DEMANDES}
+                href={ROUTES.USER_LIST_REQUESTS}
                 className={currentPage === 'list-requests' ? 'active' : ''}
               >
                 Mes demandes

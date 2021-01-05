@@ -9,6 +9,8 @@ const getModificationRequestPage = async (request: HttpRequest) => {
     return Redirect(ROUTES.LOGIN)
   }
 
+  const isAdmin = ['admin', 'dgec'].includes(request.user.role)
+
   const modificationRequestResult = await getModificationRequestDetails(
     request.params.modificationRequestId
   )
@@ -18,7 +20,9 @@ const getModificationRequestPage = async (request: HttpRequest) => {
       Success(ModificationRequestDetailsPage({ request, modificationRequest })),
     (e) => {
       console.error('getModificationRequestPage error', e)
-      return Redirect(ROUTES.ADMIN_LIST_REQUESTS, { error: e.message })
+      return Redirect(isAdmin ? ROUTES.ADMIN_LIST_REQUESTS : ROUTES.USER_LIST_REQUESTS, {
+        error: e.message,
+      })
     }
   )
 }

@@ -1,4 +1,4 @@
-export interface AdminModificationRequestDTO {
+export interface ModificationRequestPageDTO {
   id: string
   type: string
   status: string

@@ -1,10 +1,10 @@
 import { ResultAsync } from '../../../core/utils'
 import { EntityNotFoundError, InfraNotAvailableError } from '../../shared'
-import { AdminModificationRequestDTO } from '../dtos'
+import { ModificationRequestPageDTO } from '../dtos'
 
 export interface GetModificationRequestDetails {
   (modificationRequestId: string): ResultAsync<
-    AdminModificationRequestDTO,
+    ModificationRequestPageDTO,
     EntityNotFoundError | InfraNotAvailableError
   >
 }

@@ -1,2 +1,2 @@
-export * from './AdminModificationRequestDTO'
+export * from './ModificationRequestPageDTO'
 export * from './ModificationRequestInfoForStatusNotificationDTO'

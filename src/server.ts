@@ -247,7 +247,7 @@ export async function makeServer(port: number = 3000) {
     )
 
     router.get(
-      ROUTES.USER_LIST_DEMANDES,
+      ROUTES.USER_LIST_REQUESTS,
       ensureLoggedIn(),
       ensureRole('porteur-projet'),
       makeExpressCallback(getUserRequestsPage)
@@ -263,7 +263,6 @@ export async function makeServer(port: number = 3000) {
     router.get(
       ROUTES.DEMANDE_PAGE_DETAILS(),
       ensureLoggedIn(),
-      ensureRole(['admin', 'dgec']),
       makeExpressCallback(getModificationRequestPage)
     )
 

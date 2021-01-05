@@ -1,7 +1,7 @@
 import { err, errAsync, ok, ResultAsync } from '../../../core/utils'
 import { getAppelOffre } from '../../../dataAccess/inMemory/appelOffre'
 import {
-  AdminModificationRequestDTO,
+  ModificationRequestPageDTO,
   GetModificationRequestDetails,
 } from '../../../modules/modificationRequest'
 import { EntityNotFoundError, InfraNotAvailableError } from '../../../modules/shared'
@@ -94,6 +94,6 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
         notifiedOn: new Date(project.notifiedOn),
         unitePuissance,
       },
-    } as AdminModificationRequestDTO)
+    } as ModificationRequestPageDTO)
   })
 }

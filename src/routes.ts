@@ -111,7 +111,7 @@ class routes {
 
   static USER_DASHBOARD = '/mes-projets.html'
   static USER_LIST_PROJECTS = '/mes-projets.html'
-  static USER_LIST_DEMANDES = '/mes-demandes.html'
+  static USER_LIST_REQUESTS = '/mes-demandes.html'
   static DEMANDE_GENERIQUE = '/demande-modification.html'
   static DEPOSER_RECOURS = withProjectId('/demande-modification.html?action=recours')
 
