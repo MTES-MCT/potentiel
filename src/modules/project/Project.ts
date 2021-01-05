@@ -536,7 +536,7 @@ export const makeProject = (args: {
   }
 
   function _allEventsHaveSameAggregateId() {
-    return history.every((event) => event.aggregateId.includes(projectId.toString()))
+    return history.every((event) => event.aggregateId?.includes(projectId.toString()))
   }
 
   function _isLegacyOrImport(event: StoredEvent): event is LegacyProjectSourced | ProjectImported {

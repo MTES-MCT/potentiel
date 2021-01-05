@@ -2,7 +2,7 @@ export interface DomainEvent {
   occurredAt: Date
   type: string
   getVersion: () => number
-  aggregateId: string[] | string
+  aggregateId: string[] | string | undefined
   requestId?: string
   payload: any
 }
@@ -35,7 +35,7 @@ export abstract class BaseDomainEvent<P> {
     }
   }
 
-  abstract aggregateIdFromPayload(payload: P): DomainEvent['aggregateId']
+  abstract aggregateIdFromPayload(payload: P): DomainEvent['aggregateId'] | undefined
 
   getVersion() {
     return this.originalVersion || this.currentVersion
