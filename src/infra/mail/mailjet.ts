@@ -69,7 +69,7 @@ export const makeSendEmailFromMailjet = (deps: SendEmailFromMailjetDeps): SendEm
       (err: any) => new Error(err.message)
     ).andThen((result: any) => {
       const sentMessage = result.body.Messages[0]
-      if (sentMessage && sentMessage.Status === 'error') {
+      if (sentMessage?.Status === 'error') {
         const errorMessage = sentMessage.Errors.map((e) => e.ErrorMessage).join('; ')
         console.error('Mailjet returned an error', errorMessage)
         return err(new Error(errorMessage))

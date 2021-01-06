@@ -10,7 +10,7 @@ let sendEmail: SendEmail = fakeSendEmail
 
 if (isProdEnv || isStagingEnv) {
   const { MJ_APIKEY_PUBLIC, MJ_APIKEY_PRIVATE, AUTHORIZED_TEST_EMAILS } = process.env
-  const authorizedTestEmails = (AUTHORIZED_TEST_EMAILS && AUTHORIZED_TEST_EMAILS.split(',')) || []
+  const authorizedTestEmails = AUTHORIZED_TEST_EMAILS?.split(',') || []
 
   if (!MJ_APIKEY_PRIVATE || !MJ_APIKEY_PUBLIC) {
     console.error('Missing MJ_APIKEY_PRIVATE and/or MJ_APIKEY_PUBLIC env variables. Aborting.')
