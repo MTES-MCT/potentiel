@@ -11,6 +11,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - run: git fetch --prune --unshallow
       - name: Use Node.js 14.x
         uses: actions/setup-node@v1
         with:
