@@ -1,38 +1,11 @@
 import { ResultAsync, ok, err, errAsync, okAsync } from '../../core/utils'
-import { SendEmailProps, NotificationProps } from '../../modules/notification'
+import { SendEmailProps, NotificationProps, SendEmail } from '../../modules/notification'
+import Mailjet from 'node-mailjet'
 /**
  *
  * This call sends a message to the given recipient with vars and custom vars.
  *
  */
-
-const mailjet = require('node-mailjet').connect(
-  process.env.MJ_APIKEY_PUBLIC,
-  process.env.MJ_APIKEY_PRIVATE
-)
-
-const AUTHORIZED_TEST_EMAILS =
-  process.env.AUTHORIZED_TEST_EMAILS && process.env.AUTHORIZED_TEST_EMAILS.split(',')
-
-console.log('AUTHORIZED TEST EMAILS ARE', AUTHORIZED_TEST_EMAILS)
-console.log('BASE URL IS', process.env.BASE_URL)
-
-function isAuthorizedEmail(destinationEmail: string): boolean {
-  // If it is not production environment
-  // Only authorize sending emails to emails listed in the AUTHORIZED_TEST_EMAILS environment var
-  if (
-    process.env.NODE_ENV !== 'production' &&
-    !AUTHORIZED_TEST_EMAILS?.includes(destinationEmail)
-  ) {
-    console.log(
-      'sendEmailNotification called outside of production environment on an unknown destinationEmail, message stopped.',
-      destinationEmail
-    )
-    return false
-  }
-
-  return true
-}
 
 const TEMPLATE_ID_BY_TYPE: Record<NotificationProps['type'], number> = {
   designation: 1350523,
@@ -46,47 +19,83 @@ const TEMPLATE_ID_BY_TYPE: Record<NotificationProps['type'], number> = {
   'pp-certificate-updated': 1765851,
 }
 
-function sendEmailFromMailjet(props: SendEmailProps): ResultAsync<null, Error> {
-  const { id, recipients, fromEmail, fromName, subject, type, variables } = props
-
-  const templateId = TEMPLATE_ID_BY_TYPE[type]
-
-  if (!templateId) {
-    return errAsync(new Error('Cannot find template for type ' + type))
-  }
-
-  const authorizedRecepients = recipients.filter(({ email }) => isAuthorizedEmail(email))
-
-  if (!authorizedRecepients.length) return okAsync(null)
-
-  return ResultAsync.fromPromise(
-    mailjet.post('send', { version: 'v3.1' }).request({
-      Messages: [
-        {
-          From: {
-            Email: fromEmail,
-            Name: fromName,
-          },
-          To: authorizedRecepients.map(({ email, name }) => ({
-            Email: email,
-            Name: name,
-          })),
-          TemplateID: templateId,
-          TemplateLanguage: true,
-          Subject: subject,
-          Variables: variables,
-          CustomId: id,
-        },
-      ],
-    }),
-    (err: any) => new Error(err.message)
-  ).andThen((result: any) => {
-    const sentMessage = result.body.Messages[0]
-    if (sentMessage && sentMessage.Status === 'error') {
-      return err(new Error(sentMessage.Errors.map((e) => e.ErrorMessage).join('; ')))
-    }
-    return ok(null)
-  })
+interface SendEmailFromMailjetDeps {
+  MJ_APIKEY_PUBLIC: string
+  MJ_APIKEY_PRIVATE: string
+  authorizedTestEmails: string[]
+  isProduction: boolean
 }
 
-export { sendEmailFromMailjet }
+export const makeSendEmailFromMailjet = (deps: SendEmailFromMailjetDeps): SendEmail => {
+  const { MJ_APIKEY_PUBLIC, MJ_APIKEY_PRIVATE, authorizedTestEmails, isProduction } = deps
+
+  const mailjetClient = Mailjet.connect(MJ_APIKEY_PUBLIC, MJ_APIKEY_PRIVATE)
+
+  return function sendEmailFromMailjet(props: SendEmailProps): ResultAsync<null, Error> {
+    const { id, recipients, fromEmail, fromName, subject, type, variables } = props
+
+    const templateId = TEMPLATE_ID_BY_TYPE[type]
+
+    if (!templateId) {
+      return errAsync(new Error('Cannot find template for type ' + type))
+    }
+
+    const authorizedRecepients = recipients.filter(({ email }) =>
+      isAuthorizedEmail({ email, isProduction, authorizedTestEmails })
+    )
+
+    if (!authorizedRecepients.length) return okAsync(null)
+
+    return ResultAsync.fromPromise(
+      mailjetClient.post('send', { version: 'v3.1' }).request({
+        Messages: [
+          {
+            From: {
+              Email: fromEmail,
+              Name: fromName,
+            },
+            To: authorizedRecepients.map(({ email, name }) => ({
+              Email: email,
+              Name: name,
+            })),
+            TemplateID: templateId,
+            TemplateLanguage: true,
+            Subject: subject,
+            Variables: variables,
+            CustomId: id,
+          },
+        ],
+      }),
+      (err: any) => new Error(err.message)
+    ).andThen((result: any) => {
+      const sentMessage = result.body.Messages[0]
+      if (sentMessage && sentMessage.Status === 'error') {
+        const errorMessage = sentMessage.Errors.map((e) => e.ErrorMessage).join('; ')
+        console.error('Mailjet returned an error', errorMessage)
+        return err(new Error(errorMessage))
+      }
+      return ok(null)
+    })
+  }
+}
+
+interface IsAuthorizedEmailProps {
+  email: string
+  authorizedTestEmails: string[]
+  isProduction: boolean
+}
+
+function isAuthorizedEmail(args: IsAuthorizedEmailProps): boolean {
+  const { email, authorizedTestEmails, isProduction } = args
+  // If it is not production environment
+  // Only authorize sending emails to emails listed in the AUTHORIZED_TEST_EMAILS environment var
+  if (!isProduction && !authorizedTestEmails.includes(email)) {
+    console.log(
+      'sendEmailNotification called outside of production environment on an unknown email, message stopped.',
+      email
+    )
+    return false
+  }
+
+  return true
+}
