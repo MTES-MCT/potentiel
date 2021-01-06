@@ -27,9 +27,9 @@ interface PageProps {
 }
 
 const TITLE_COLOR_BY_STATUS = (status: string): string => {
-  console.log('status', status)
   if (status.includes('accepté')) return 'rgb(56, 118, 29)'
   if (status.includes('rejeté')) return 'rgb(204, 0, 0)'
+  if (status.includes('en instruction')) return '#ff9947'
 
   return ''
 }
@@ -230,7 +230,7 @@ export default function AdminModificationRequestPage({ request, modificationRequ
         ) : (
           ''
         )}
-        {respondedBy && respondedOn ? (
+        {status === 'en instruction' || (respondedBy && respondedOn) ? (
           <div
             className={'notification ' + (status ? ModificationRequestColorByStatus[status] : '')}
             style={{ color: TITLE_COLOR_BY_STATUS(status) }}
@@ -242,7 +242,7 @@ export default function AdminModificationRequestPage({ request, modificationRequ
             >
               {ModificationRequestStatusTitle[status]}
             </span>{' '}
-            par {respondedBy} le {formatDate(respondedOn)}
+            {respondedOn && respondedBy ? `par ${respondedBy} le ${formatDate(respondedOn)}` : ''}
           </div>
         ) : (
           ''
