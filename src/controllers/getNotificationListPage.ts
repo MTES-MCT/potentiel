@@ -1,8 +1,9 @@
 import { makePagination } from '../helpers/paginate'
-import { Redirect, Success } from '../helpers/responses'
+import { Redirect, Success, SystemError } from '../helpers/responses'
 import ROUTES from '../routes'
 import { HttpRequest, Pagination } from '../types'
 import { NotificationListPage } from '../views/pages'
+import { getFailedNotificationDetails } from '../config'
 
 const defaultPagination: Pagination = {
   page: 0,
@@ -16,13 +17,18 @@ const getNotificationListPage = async (request: HttpRequest) => {
 
   const pagination = makePagination(request.query, defaultPagination)
 
-  // TOFIX: query new notification service and return a DTO
-
-  return Success(
-    NotificationListPage({
-      request,
-      notifications: { items: [], pagination, pageCount: 0, itemCount: 0 },
-    })
+  return await getFailedNotificationDetails(pagination).match(
+    (notifications) =>
+      Success(
+        NotificationListPage({
+          request,
+          notifications,
+        })
+      ),
+    (e) => {
+      console.error(e)
+      return SystemError('Impossible de charger la liste des notifications en erreur.')
+    }
   )
 }
 

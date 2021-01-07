@@ -1,5 +1,6 @@
 export {
   getFailedNotifications,
+  getFailedNotificationDetails,
   getUnnotifiedProjectsForPeriode,
   getStats,
   getFileProject,
