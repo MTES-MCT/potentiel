@@ -19,7 +19,7 @@ export const makeGetFailedNotificationDetails = (models): GetFailedNotificationD
       ...paginate(pagination),
     }),
     (e: any) => {
-      console.log('getFailedNotifications error', e)
+      console.error(e)
       return new InfraNotAvailableError()
     }
   ).map(({ count, rows }) =>
