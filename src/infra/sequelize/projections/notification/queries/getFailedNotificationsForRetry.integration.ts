@@ -2,6 +2,7 @@ import { makeGetFailedNotificationsForRetry } from './getFailedNotificationsForR
 import models from '../../../models'
 import { sequelize } from '../../../../../sequelize.config'
 import { UniqueEntityID } from '../../../../../core/domain'
+import makeFakeProject from '../../../../../__tests__/fixtures/project'
 
 const fakeNotificationArgs = {
   message: {},
@@ -51,12 +52,11 @@ describe('Sequelize getFailedNotificationsForRetry', () => {
       it('should return the notifications with status of error', async () => {
         const results = await getFailedNotificationsForRetry()
 
-        expect(results._unsafeUnwrap()).toHaveLength(1)
         expect(results._unsafeUnwrap()).toEqual([{ id: targetId, isObsolete: false }])
       })
     })
 
-    describe('when multiple password-reset for the same email, mark all but latest obsolete', () => {
+    describe('when multiple password-reset for the same email', () => {
       const obsoleteId = new UniqueEntityID()
       const stillCurrentId = new UniqueEntityID()
       const otherId = new UniqueEntityID()
@@ -91,14 +91,63 @@ describe('Sequelize getFailedNotificationsForRetry', () => {
         })
       })
 
-      it('should return the notifications with status of error', async () => {
+      it('should mark all but latest obsolete', async () => {
         const results = await getFailedNotificationsForRetry()
 
-        expect(results._unsafeUnwrap()).toHaveLength(3)
         expect(results._unsafeUnwrap()).toEqual([
           { id: otherId, isObsolete: false },
           { id: stillCurrentId, isObsolete: false },
           { id: obsoleteId, isObsolete: true },
+        ])
+      })
+    })
+
+    describe('when type is relance-gf', () => {
+      const projectWithGFId = new UniqueEntityID()
+      const obsoleteRelanceId = new UniqueEntityID()
+
+      const projectWithoutGFId = new UniqueEntityID()
+      const stillCurrentRelanceId = new UniqueEntityID()
+
+      beforeAll(async () => {
+        await sequelize.sync({ force: true })
+
+        const ProjectModel = models.Project
+        await ProjectModel.create(
+          makeFakeProject({
+            id: projectWithGFId.toString(),
+            garantiesFinancieresSubmittedOn: new Date(123),
+          })
+        )
+        await ProjectModel.create(
+          makeFakeProject({
+            id: projectWithoutGFId.toString(),
+          })
+        )
+
+        const NotificationModel = models.Notification
+        await NotificationModel.create({
+          ...fakeNotificationArgs,
+          id: obsoleteRelanceId.toString(),
+          type: 'relance-gf',
+          context: { projectId: projectWithGFId.toString() },
+          status: 'error',
+        })
+        await NotificationModel.create({
+          ...fakeNotificationArgs,
+          id: stillCurrentRelanceId.toString(),
+          type: 'relance-gf',
+          context: { projectId: projectWithoutGFId.toString() },
+          status: 'error',
+        })
+      })
+
+      it('should mark notifications for projects that have since submitted gf as obsolete', async () => {
+        const results = await getFailedNotificationsForRetry()
+
+        expect(results._unsafeUnwrap()).toEqual([
+          { id: obsoleteRelanceId, isObsolete: true },
+          { id: stillCurrentRelanceId, isObsolete: false },
         ])
       })
     })
