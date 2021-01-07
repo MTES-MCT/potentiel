@@ -1,23 +1,14 @@
-import AdminDashboard from '../components/adminDashboard'
-import Pagination from '../components/pagination'
-import { Notification } from '../../modules/notification'
-
 import React from 'react'
 import { formatDate } from '../../helpers/formatDate'
-
-import { Project, AppelOffre, Periode, Famille } from '../../entities'
-import ROUTES from '../../routes'
 import { dataId } from '../../helpers/testId'
-import { asLiteral } from '../../helpers/asLiteral'
-
-import { adminActions } from '../components/actions'
+import { FailedNotificationDTO } from '../../modules/notification'
+import ROUTES from '../../routes'
 import { HttpRequest, PaginatedList } from '../../types'
-import { isFunction } from 'util'
-import { date } from 'yup'
-
+import AdminDashboard from '../components/adminDashboard'
+import Pagination from '../components/pagination'
 interface NotificationListProps {
   request: HttpRequest
-  notifications: PaginatedList<Notification>
+  notifications: PaginatedList<FailedNotificationDTO>
 }
 
 /* Pure component */
@@ -29,7 +20,7 @@ export default function NotificationList({ request, notifications }: Notificatio
       <div className="panel">
         <div className="panel__header">
           <h3>Notifications en erreur</h3>
-          <p>Sont listées uniquement les notifications qui ont un status "erreur".</p>
+          <p>Sont listées uniquement les notifications qui ont un status &quot;erreur&quot;.</p>
         </div>
         <div className="panel__header">
           <form
@@ -98,44 +89,20 @@ export default function NotificationList({ request, notifications }: Notificatio
                       {...dataId('notificationList-item')}
                     >
                       <td>
-                        {notification.message.email} {notification.message.name}
+                        {notification.recipient.email} {notification.recipient.name}
                       </td>
                       <td>{notification.type}</td>
                       <td>
                         {notification.createdAt
                           ? formatDate(notification.createdAt, 'DD/MM/YYYY HH:mm')
                           : ''}
-                        {notification.status === 'retried' ? (
-                          <div
-                            style={{
-                              fontStyle: 'italic',
-                              lineHeight: 'normal',
-                              fontSize: 12,
-                            }}
-                          >
-                            renvoyé le{' '}
-                            {notification.updatedAt
-                              ? formatDate(notification.updatedAt, 'DD/MM/YYYY HH:mm')
-                              : ''}
-                          </div>
-                        ) : (
-                          ''
-                        )}
                       </td>
                       <td
                         valign="top"
-                        className={
-                          'notification ' +
-                          (notification.status === 'sent'
-                            ? 'success'
-                            : notification.status === 'retried'
-                            ? 'warning'
-                            : 'error')
-                        }
+                        className="notification error"
                         style={{ position: 'relative' }}
                       >
-                        <div>{notification.status}</div>
-
+                        <div>Echec de l‘envoi</div>
                         <div
                           style={{
                             fontStyle: 'italic',

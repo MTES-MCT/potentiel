@@ -1,3 +1,4 @@
+export * from './dtos'
 export * from './eventHandlers'
 export * from './queries'
 export * from './Notification'
