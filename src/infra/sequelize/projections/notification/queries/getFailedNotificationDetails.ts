@@ -13,7 +13,11 @@ export const makeGetFailedNotificationDetails = (models): GetFailedNotificationD
   if (!NotificationModel) return errAsync(new InfraNotAvailableError())
 
   return ResultAsync.fromPromise(
-    NotificationModel.findAndCountAll({ where: { status: 'error' }, ...paginate(pagination) }),
+    NotificationModel.findAndCountAll({
+      where: { status: 'error' },
+      order: [['createdAt', 'DESC']],
+      ...paginate(pagination),
+    }),
     (e: any) => {
       console.log('getFailedNotifications error', e)
       return new InfraNotAvailableError()
