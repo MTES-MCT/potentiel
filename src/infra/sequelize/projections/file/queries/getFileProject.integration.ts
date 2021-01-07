@@ -1,9 +1,8 @@
-import models from '../../../models'
-import { sequelize } from '../../../../../sequelize.config'
-import makeFakeProject from '../../../../../__tests__/fixtures/project'
-import { makeGetFileProject } from './getFileProject'
 import { UniqueEntityID } from '../../../../../core/domain'
 import { FileNotFoundError } from '../../../../../modules/file'
+import { sequelizeInstance } from '../../../../../sequelize.config'
+import models from '../../../models'
+import { makeGetFileProject } from './getFileProject'
 
 describe('Sequelize getFileProject', () => {
   const getFileProject = makeGetFileProject(models)
@@ -14,7 +13,7 @@ describe('Sequelize getFileProject', () => {
 
   beforeAll(async () => {
     // Create the tables and remove all data
-    await sequelize.sync({ force: true })
+    await sequelizeInstance.sync({ force: true })
 
     const FileModel = models.File
     await FileModel.bulkCreate([
