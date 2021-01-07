@@ -1,7 +1,6 @@
 import { Repository, UniqueEntityID } from '../../../core/domain'
 import { ResultAsync } from '../../../core/utils'
-import { makeProjectFilePath } from '../../../helpers/makeProjectFilePath'
-import { makeFileObject, FileObject, IllegalFileDataError } from '../../file'
+import { FileObject, IllegalFileDataError, makeFileObject } from '../../file'
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,

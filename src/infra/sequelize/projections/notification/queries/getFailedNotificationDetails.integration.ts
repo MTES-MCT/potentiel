@@ -1,6 +1,6 @@
 import { makeGetFailedNotificationDetails } from './getFailedNotificationDetails'
 import models from '../../../models'
-import { sequelize } from '../../../../../sequelize.config'
+import { sequelizeInstance } from '../../../../../sequelize.config'
 import { UniqueEntityID } from '../../../../../core/domain'
 
 const fakeNotificationArgs = {
@@ -26,7 +26,7 @@ describe('Sequelize getFailedNotificationDetails', () => {
 
   beforeAll(async () => {
     // Create the tables and remove all data
-    await sequelize.sync({ force: true })
+    await sequelizeInstance.sync({ force: true })
   })
 
   describe('getFailedNotificationDetails()', () => {

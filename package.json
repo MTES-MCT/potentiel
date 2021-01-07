@@ -32,6 +32,7 @@
   "homepage": "https://github.com/MTES-MCT/potentiel#readme",
   "dependencies": {
     "@react-pdf/renderer": "^1.6.11",
+    "@usefultools/monads": "^3.0.3",
     "aws-sdk": "^2.799.0",
     "body-parser": "^1.19.0",
     "bunyan": "^1.8.12",
@@ -133,7 +134,10 @@
       "path": "./node_modules/cz-emoji"
     },
     "cz-emoji": {
-      "skipQuestions": ["scope", "body"],
+      "skipQuestions": [
+        "scope",
+        "body"
+      ],
       "types": [
         {
           "emoji": "🌟",
