@@ -35,7 +35,7 @@ export abstract class BaseDomainEvent<P> {
     }
   }
 
-  abstract aggregateIdFromPayload(payload: P): DomainEvent['aggregateId'] | undefined
+  abstract aggregateIdFromPayload(payload: P): DomainEvent['aggregateId']
 
   getVersion() {
     return this.originalVersion || this.currentVersion
