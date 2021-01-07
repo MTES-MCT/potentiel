@@ -11,7 +11,7 @@ type BaseNotification = {
     name?: string
     subject: string
   }
-  status: 'sent' | 'error' | 'retried'
+  status: 'sent' | 'error' | 'retried' | 'cancelled'
   error?: string
   createdAt?: Date
   updatedAt?: Date
@@ -187,6 +187,10 @@ export class Notification extends AggregateRoot<NotificationProps, StoredEvent> 
 
   public retried() {
     this.props.status = 'retried'
+  }
+
+  public cancelled() {
+    this.props.status = 'cancelled'
   }
 
   public setError(error: string) {
