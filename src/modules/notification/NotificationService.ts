@@ -23,7 +23,7 @@ export const makeNotificationService = (deps: NotificationServiceDeps): Notifica
   async function sendNotification(args: NotificationArgs): Promise<null> {
     const notificationResult = Notification.create(args)
     if (notificationResult.isErr()) {
-      console.log(
+      console.error(
         'ERROR: NotificationService.send failed to create a Notification',
         args,
         notificationResult.error
@@ -56,7 +56,7 @@ export const makeNotificationService = (deps: NotificationServiceDeps): Notifica
       const failedNotificationResult = await deps.notificationRepo.load(id)
 
       if (failedNotificationResult.isErr()) {
-        console.log(
+        console.error(
           'NotificationService.retryFailedNotifications found a failed notification but could not load it',
           id
         )
@@ -66,9 +66,6 @@ export const makeNotificationService = (deps: NotificationServiceDeps): Notifica
       const failedNotification = failedNotificationResult.value
 
       if (!isObsolete) {
-        // The failed notification is still pertinent
-        // Re-send it and mark as retried
-
         // Create a clone of the failed notification and send it
         const retryNotification = Notification.clone(failedNotification)
         await _send(retryNotification)
@@ -84,7 +81,7 @@ export const makeNotificationService = (deps: NotificationServiceDeps): Notifica
 
       const saveResult = await deps.notificationRepo.save(failedNotification)
       if (saveResult.isErr()) {
-        console.log(
+        console.error(
           'ERROR: NotificationService.retryFailedNotification failed to save retried notification',
           failedNotification,
           saveResult.error
@@ -129,7 +126,7 @@ export const makeNotificationService = (deps: NotificationServiceDeps): Notifica
       )
     const saveResult = await deps.notificationRepo.save(notification)
     if (saveResult.isErr()) {
-      console.log(
+      console.error(
         'ERROR: NotificationService.send failed to save Notification',
         notification,
         saveResult.error

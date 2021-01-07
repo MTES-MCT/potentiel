@@ -16,29 +16,32 @@ export const makeGetFailedNotificationsForRetry = (
       console.error(e)
       return new InfraNotAvailableError()
     }
-  ).andThen((items: any) => {
-    const passwordResetEmails: string[] = []
+  ).andThen((notifications: any) => {
+    const passwordResetEmails: Set<string> = new Set()
+
+    async function _isObsolete(notification): Promise<boolean> {
+      if (notification.type === 'password-reset') {
+        if (passwordResetEmails.has(notification.message.email)) {
+          return true
+        }
+        passwordResetEmails.add(notification.message.email)
+      } else if (notification.type === 'relance-gf') {
+        const { projectId } = notification.context
+        const project = await ProjectModel.findByPk(projectId)
+        if (!project || project.get().garantiesFinancieresSubmittedOn) {
+          return true
+        }
+      }
+      return false
+    }
 
     return ResultAsync.fromPromise(
       Promise.all(
-        items
-          .map((item) => item.get())
-          .map(async (item) => {
-            let isObsolete = false
-
-            if (item.type === 'password-reset') {
-              if (passwordResetEmails.includes(item.message.email)) {
-                isObsolete = true
-              } else passwordResetEmails.push(item.message.email)
-            } else if (item.type === 'relance-gf') {
-              const { projectId } = item.context
-              const project = await ProjectModel.findByPk(projectId)
-              if (!project || project.get().garantiesFinancieresSubmittedOn) {
-                isObsolete = true
-              }
-            }
-
-            return { id: new UniqueEntityID(item.id), isObsolete }
+        notifications
+          .map((notification) => notification.get())
+          .map(async (notification) => {
+            const isObsolete = await _isObsolete(notification)
+            return { id: new UniqueEntityID(notification.id), isObsolete }
           })
       ),
       (e: any) => {
