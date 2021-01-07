@@ -1,6 +1,6 @@
 import models from '../../../models'
-import { makeGetFailedNotifications } from './getFailedNotifications'
+import { makeGetFailedNotificationsForRetry } from './getFailedNotificationsForRetry'
 import { makeGetFailedNotificationDetails } from './getFailedNotificationDetails'
 
-export const getFailedNotifications = makeGetFailedNotifications(models)
+export const getFailedNotificationsForRetry = makeGetFailedNotificationsForRetry(models)
 export const getFailedNotificationDetails = makeGetFailedNotificationDetails(models)
