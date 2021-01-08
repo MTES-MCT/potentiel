@@ -98,7 +98,7 @@ const postCorrectProjectData = async (request: HttpRequest) => {
     certificateFile,
     newNotifiedOn: moment(notificationDate, FORMAT_DATE).tz('Europe/London').toDate().getTime(),
     user: request.user,
-    shouldGrantClasse: isClasse === 1,
+    shouldGrantClasse: Number(isClasse) === 1,
   })
 
   if (request.file) await deleteFile(request.file.path)
