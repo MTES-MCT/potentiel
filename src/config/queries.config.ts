@@ -1,5 +1,5 @@
 export {
-  getFailedNotifications,
+  getFailedNotificationsForRetry,
   getFailedNotificationDetails,
   getUnnotifiedProjectsForPeriode,
   getStats,

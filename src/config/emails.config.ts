@@ -4,7 +4,7 @@ import { makeSendEmailFromMailjet } from '../infra/mail/mailjet'
 import { makeNotificationService, SendEmail } from '../modules/notification'
 import { isProdEnv, isStagingEnv } from './env.config'
 import { notificationRepo } from './repos.config'
-import { getFailedNotifications } from './queries.config'
+import { getFailedNotificationsForRetry } from './queries.config'
 
 let sendEmail: SendEmail = fakeSendEmail
 
@@ -43,5 +43,5 @@ export const { sendNotification, retryFailedNotifications } = makeNotificationSe
   sendEmail,
   emailSenderAddress: process.env.SEND_EMAILS_FROM,
   notificationRepo,
-  getFailedNotifications,
+  getFailedNotificationsForRetry,
 })

@@ -1,2 +1,2 @@
 export * from './GetFailedNotificationDetails'
-export * from './GetFailedNotifications'
+export * from './GetFailedNotificationsForRetry'

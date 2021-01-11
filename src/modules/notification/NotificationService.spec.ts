@@ -25,10 +25,10 @@ describe('NotificationService', () => {
   }
 
   describe('retryFailedNotifications()', () => {
-    const getFailedNotifications = jest.fn(() =>
-      okAsync<UniqueEntityID[], InfraNotAvailableError>([
-        new UniqueEntityID('notifA'),
-        new UniqueEntityID('notifB'),
+    const getFailedNotificationsForRetry = jest.fn(() =>
+      okAsync<any, InfraNotAvailableError>([
+        { id: new UniqueEntityID('notifA'), isObsolete: false },
+        { id: new UniqueEntityID('notifB'), isObsolete: false },
       ])
     )
     const fakeNotifA = UnwrapForTest(Notification.create(fakeProps))
@@ -45,7 +45,7 @@ describe('NotificationService', () => {
       sendEmail,
       emailSenderAddress: 'sender@test.test',
       notificationRepo,
-      getFailedNotifications,
+      getFailedNotificationsForRetry,
     })
 
     beforeAll(async () => {
@@ -54,7 +54,7 @@ describe('NotificationService', () => {
     })
 
     it('should retrieve all failed notifications', () => {
-      expect(getFailedNotifications).toHaveBeenCalled()
+      expect(getFailedNotificationsForRetry).toHaveBeenCalled()
 
       expect(notificationRepo.load).toHaveBeenCalledWith(new UniqueEntityID('notifA'))
       expect(notificationRepo.load).toHaveBeenCalledWith(new UniqueEntityID('notifB'))
@@ -89,12 +89,12 @@ describe('NotificationService', () => {
         save: jest.fn((notification: Notification) => okAsync<null, DomainError>(null)),
         load: jest.fn(),
       }
-      const getFailedNotifications = jest.fn()
+      const getFailedNotificationsForRetry = jest.fn()
       const notificationService = makeNotificationService({
         sendEmail,
         emailSenderAddress: 'sender@test.test',
         notificationRepo,
-        getFailedNotifications,
+        getFailedNotificationsForRetry,
       })
 
       beforeAll(async () => {
@@ -124,7 +124,7 @@ describe('NotificationService', () => {
 
     describe('when sendEmail fails', () => {
       const sendEmail = jest.fn((props: SendEmailProps) => errAsync<null, Error>(new Error('oops')))
-      const getFailedNotifications = jest.fn()
+      const getFailedNotificationsForRetry = jest.fn()
       const notificationRepo = {
         save: jest.fn((notification: Notification) => okAsync<null, DomainError>(null)),
         load: jest.fn(),
@@ -133,7 +133,7 @@ describe('NotificationService', () => {
         sendEmail,
         emailSenderAddress: 'sender@test.test',
         notificationRepo,
-        getFailedNotifications,
+        getFailedNotificationsForRetry,
       })
 
       beforeAll(async () => {
