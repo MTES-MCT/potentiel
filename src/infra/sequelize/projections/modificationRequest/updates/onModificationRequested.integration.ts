@@ -1,6 +1,6 @@
 import { UniqueEntityID } from '../../../../../core/domain'
 import { ModificationRequested } from '../../../../../modules/modificationRequest'
-import { sequelize } from '../../../../../sequelize.config'
+import { sequelizeInstance } from '../../../../../sequelize.config'
 import models from '../../../models'
 import { onModificationRequested } from './onModificationRequested'
 
@@ -13,7 +13,7 @@ describe('modificationRequest.onModificationRequested', () => {
 
   beforeEach(async () => {
     // Create the tables and remove all data
-    await sequelize.sync({ force: true })
+    await sequelizeInstance.sync({ force: true })
   })
 
   it('should create a new modificationRequest', async () => {

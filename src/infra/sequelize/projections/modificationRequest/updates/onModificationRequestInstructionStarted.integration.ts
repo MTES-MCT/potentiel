@@ -1,5 +1,5 @@
 import models from '../../../models'
-import { sequelize } from '../../../../../sequelize.config'
+import { sequelizeInstance } from '../../../../../sequelize.config'
 import { onModificationRequestInstructionStarted } from './onModificationRequestInstructionStarted'
 import { ModificationRequestInstructionStarted } from '../../../../../modules/modificationRequest/events'
 import { UniqueEntityID } from '../../../../../core/domain'
@@ -13,7 +13,7 @@ describe('modificationRequest.onModificationRequestInstructionStarted', () => {
 
   beforeAll(async () => {
     // Create the tables and remove all data
-    await sequelize.sync({ force: true })
+    await sequelizeInstance.sync({ force: true })
 
     await ModificationRequestModel.create({
       id: modificationRequestId,

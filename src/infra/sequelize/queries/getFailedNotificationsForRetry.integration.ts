@@ -1,6 +1,6 @@
 import { makeGetFailedNotificationsForRetry } from './getFailedNotificationsForRetry'
 import models from '../models'
-import { sequelize } from '../../../sequelize.config'
+import { sequelizeInstance } from '../../../sequelize.config'
 import { UniqueEntityID } from '../../../core/domain'
 import makeFakeProject from '../../../__tests__/fixtures/project'
 
@@ -20,7 +20,7 @@ describe('Sequelize getFailedNotificationsForRetry', () => {
       const targetId = new UniqueEntityID()
 
       beforeAll(async () => {
-        await sequelize.sync({ force: true })
+        await sequelizeInstance.sync({ force: true })
 
         const NotificationModel = models.Notification
         await NotificationModel.create({
@@ -62,7 +62,7 @@ describe('Sequelize getFailedNotificationsForRetry', () => {
       const otherId = new UniqueEntityID()
 
       beforeAll(async () => {
-        await sequelize.sync({ force: true })
+        await sequelizeInstance.sync({ force: true })
 
         const NotificationModel = models.Notification
         await NotificationModel.create({
@@ -110,7 +110,7 @@ describe('Sequelize getFailedNotificationsForRetry', () => {
       const stillCurrentRelanceId = new UniqueEntityID()
 
       beforeAll(async () => {
-        await sequelize.sync({ force: true })
+        await sequelizeInstance.sync({ force: true })
 
         const ProjectModel = models.Project
         await ProjectModel.create(
