@@ -1,12 +1,13 @@
 import { Repository, UniqueEntityID } from '../core/domain'
-import { ModificationRequestRepo } from '../dataAccess'
-import { makeModificationRequest, Project, User } from '../entities'
+import { Project, User } from '../entities'
+import { EventBus } from '../modules/eventStore'
 import { FileContents, FileObject, makeAndSaveFile } from '../modules/file'
-import { Err, ErrorResult, Ok, ResultAsync } from '../types'
+import { ModificationRequested } from '../modules/modificationRequest'
+import { ErrorResult, Ok, ResultAsync } from '../types'
 
 interface MakeUseCaseProps {
   fileRepo: Repository<FileObject>
-  modificationRequestRepo: ModificationRequestRepo
+  eventBus: EventBus
   shouldUserAccessProject: (args: { user: User; projectId: Project['id'] }) => Promise<boolean>
 }
 
@@ -43,6 +44,7 @@ interface PuissanceRequest {
 interface DelayRequest {
   type: 'delai'
   justification: string
+  delayedServiceDate: number
 }
 
 interface AbandonRequest {
@@ -73,11 +75,11 @@ export const SYSTEM_ERROR =
 
 export default function makeRequestModification({
   fileRepo,
-  modificationRequestRepo,
+  eventBus,
   shouldUserAccessProject,
 }: MakeUseCaseProps) {
   return async function requestModification(props: CallUseCaseProps): ResultAsync<null> {
-    const { user, projectId, file } = props
+    const { user, projectId, file, type } = props
 
     // Check if the user has the rights to this project
     const access =
@@ -115,35 +117,40 @@ export default function makeRequestModification({
       fileId = fileIdResult.value.toString()
     }
 
-    const modificationRequestResult = makeModificationRequest({
-      ...props,
-      fileId,
-      userId: user.id,
-    })
+    const {
+      justification,
+      actionnaire,
+      producteur,
+      fournisseur,
+      puissance,
+      evaluationCarbone,
+      delayedServiceDate,
+    } = props as any
 
-    if (modificationRequestResult.is_err()) {
-      console.log(
-        'requestModification use-case could not create modificationRequest',
-        props,
-        modificationRequestResult.unwrap_err()
-      )
-      return ErrorResult(ERREUR_FORMAT)
-    }
+    const res = await eventBus.publish(
+      new ModificationRequested({
+        payload: {
+          type,
+          modificationRequestId: new UniqueEntityID().toString(),
+          projectId,
+          requestedBy: user.id,
+          fileId,
+          justification,
+          actionnaire,
+          producteur,
+          fournisseur,
+          puissance,
+          evaluationCarbone,
+          delayedServiceDate,
+        },
+      })
+    )
 
-    const modificationRequest = modificationRequestResult.unwrap()
-    const insertionResult = await modificationRequestRepo.insert(modificationRequest)
-
-    if (insertionResult.is_err()) {
-      console.log(
-        'requestModification use-case could not insert modificationRequest',
-        modificationRequest,
-        insertionResult.unwrap_err()
-      )
-      return Err(insertionResult.unwrap_err())
+    if (res.isErr()) {
+      return ErrorResult(SYSTEM_ERROR)
     }
 
     // All is good
-
     return Ok(null)
   }
 }

@@ -1,7 +1,1 @@
-export {
-  getFailedNotificationsForRetry,
-  getFailedNotificationDetails,
-  getUnnotifiedProjectsForPeriode,
-  getStats,
-  getFileProject,
-} from '../infra/sequelize/projections'
+export * from '../infra/sequelize/queries'

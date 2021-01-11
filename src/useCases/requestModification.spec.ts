@@ -6,6 +6,8 @@ import { modificationRequestRepo } from '../dataAccess/inMemory'
 import { FileObject } from '../modules/file'
 import { okAsync } from '../core/utils'
 import { Repository } from '../core/domain'
+import { StoredEvent } from '../modules/eventStore'
+import { InfraNotAvailableError } from '../modules/shared'
 
 const fakeFileContents = {
   filename: 'fakeFile.pdf',
@@ -21,9 +23,14 @@ describe('requestModification use-case', () => {
       load: jest.fn(),
     }
 
+    const eventBus = {
+      publish: jest.fn(),
+      subscribe: jest.fn(),
+    }
+
     const requestModification = makeRequestModification({
       fileRepo,
-      modificationRequestRepo,
+      eventBus,
       shouldUserAccessProject,
     })
 
@@ -56,9 +63,14 @@ describe('requestModification use-case', () => {
       load: jest.fn(),
     }
 
+    const eventBus = {
+      publish: jest.fn(),
+      subscribe: jest.fn(),
+    }
+
     const requestModification = makeRequestModification({
       fileRepo,
-      modificationRequestRepo,
+      eventBus,
       shouldUserAccessProject,
     })
 
@@ -87,14 +99,20 @@ describe('requestModification use-case', () => {
       load: jest.fn(),
     }
 
+    const eventBus = {
+      publish: jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null)),
+      subscribe: jest.fn(),
+    }
+
     const requestModification = makeRequestModification({
       fileRepo: fileRepo as Repository<FileObject>,
-      modificationRequestRepo,
+      eventBus,
       shouldUserAccessProject,
     })
 
-    it('should register the modification request', async () => {
-      const user = makeFakeUser({ id: '1234', role: 'porteur-projet' })
+    const user = makeFakeUser({ id: '1234', role: 'porteur-projet' })
+
+    beforeAll(async () => {
       const requestResult = await requestModification({
         type: 'actionnaire' as 'actionnaire',
         actionnaire: 'nouvel actionnaire',
@@ -104,24 +122,25 @@ describe('requestModification use-case', () => {
       })
 
       expect(requestResult.is_ok()).toEqual(true)
+    })
 
-      const allRequests = await modificationRequestRepo.findAll()
-
-      expect(allRequests).toHaveLength(1)
-
+    it('should save the file attachment', () => {
       // Make sure the file has been saved
       expect(fileRepo.save).toHaveBeenCalled()
       expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents.contents)
       const fakeFile = fileRepo.save.mock.calls[0][0]
       expect(fakeFile).toBeDefined()
+    })
 
-      const newRequest = allRequests[0]
-      expect(newRequest).toEqual(
+    it('should emit ModificationRequested', () => {
+      const fakeFile = fileRepo.save.mock.calls[0][0]
+      expect(eventBus.publish).toHaveBeenCalledTimes(1)
+      expect(eventBus.publish.mock.calls[0][0].payload).toEqual(
         expect.objectContaining({
-          type: 'actionnaire' as 'actionnaire',
+          type: 'actionnaire',
           actionnaire: 'nouvel actionnaire',
           fileId: fakeFile.id.toString(),
-          userId: user.id,
+          requestedBy: user.id,
           projectId: 'project1',
         })
       )

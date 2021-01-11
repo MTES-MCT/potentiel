@@ -1,7 +1,7 @@
 import { projectRepo } from '../dataAccess'
 import ROUTES from '../routes'
 import { HttpRequest } from '../types'
-import { ModificationRequestPage } from '../views/pages'
+import { NewModificationRequestPage } from '../views/pages'
 import { Success, Redirect } from '../helpers/responses'
 
 const ACTIONS = ['delai', 'actionnaire', 'puissance', 'producteur', 'abandon', 'recours']
@@ -15,7 +15,7 @@ const getDemandePage = async (request: HttpRequest) => {
 
   return project
     ? Success(
-        ModificationRequestPage({
+        NewModificationRequestPage({
           request,
           project,
         })

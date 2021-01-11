@@ -10,6 +10,8 @@ import { modificationRequestRepo } from '../dataAccess'
 
 import os from 'os'
 import path from 'path'
+import { eventStore } from '../config'
+import { ResponseTemplateDownloaded } from '../modules/modificationRequest'
 
 const getModeleReponseRecours = async (request: HttpRequest) => {
   console.log('Call to getModeleReponseRecours received', request.query)
@@ -67,6 +69,8 @@ const getModeleReponseRecours = async (request: HttpRequest) => {
       templatePath,
       outputPath: filepath,
       variables: {
+        suiviPar: request.user?.fullName || '???',
+        refPotentiel: makeProjectIdentifier(project),
         nomRepresentantLegal: project.nomRepresentantLegal,
         nomCandidat: project.nomCandidat,
         adresseProjet: project.adresseProjet,
@@ -123,6 +127,15 @@ const getModeleReponseRecours = async (request: HttpRequest) => {
           project.appelOffre?.delaiRealisationTexte || '!!!AO NON DISPONIBLE!!!',
       },
     })
+
+    await eventStore.publish(
+      new ResponseTemplateDownloaded({
+        payload: {
+          modificationRequestId,
+          downloadedBy: request.user.id,
+        },
+      })
+    )
 
     return SuccessFile(filepath)
   } catch (error) {
