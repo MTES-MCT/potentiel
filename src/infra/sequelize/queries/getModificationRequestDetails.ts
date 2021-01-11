@@ -9,23 +9,20 @@ import { EntityNotFoundError, InfraNotAvailableError } from '../../../modules/sh
 export const makeGetModificationRequestDetails = (models): GetModificationRequestDetails => (
   modificationRequestId: string
 ) => {
-  const ModificationRequestModel = models.ModificationRequest
-  const ProjectModel = models.Project
-  const FileModel = models.File
-  const UserModel = models.User
-  if (!ModificationRequestModel || !ProjectModel || !FileModel || !UserModel)
+  const { ModificationRequest, Project, File, User } = models
+  if (!ModificationRequest || !Project || !File || !User)
     return errAsync(new InfraNotAvailableError())
 
   return ResultAsync.fromPromise(
-    ModificationRequestModel.findByPk(modificationRequestId, {
+    ModificationRequest.findByPk(modificationRequestId, {
       include: [
         {
-          model: FileModel,
+          model: File,
           as: 'attachmentFile',
           attributes: ['id', 'filename'],
         },
         {
-          model: ProjectModel,
+          model: Project,
           as: 'project',
           attributes: [
             'id',
@@ -43,12 +40,12 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
           ],
         },
         {
-          model: UserModel,
+          model: User,
           as: 'requestedBy',
           attributes: ['fullName'],
         },
         {
-          model: UserModel,
+          model: User,
           as: 'respondedByUser',
           attributes: ['fullName'],
         },
@@ -86,9 +83,9 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
       requestedOn: new Date(requestedOn),
       requestedBy: requestedBy.get().fullName,
       respondedOn: respondedOn && new Date(respondedOn),
-      respondedBy: respondedByUser && respondedByUser.get().fullName,
+      respondedBy: respondedByUser?.get().fullName,
       justification,
-      attachmentFile: attachmentFile && attachmentFile.get(),
+      attachmentFile: attachmentFile?.get(),
       project: {
         ...project.get(),
         notifiedOn: new Date(project.notifiedOn),

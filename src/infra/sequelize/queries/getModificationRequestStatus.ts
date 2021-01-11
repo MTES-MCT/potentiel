@@ -11,5 +11,5 @@ export const makeGetModificationRequestStatus = (models): GetModificationRequest
   return ResultAsync.fromPromise(
     ModificationRequestModel.findByPk(modificationRequestId),
     () => new InfraNotAvailableError()
-  ).map((modificationRequest: any) => modificationRequest.status)
+  ).map(({ status }) => status)
 }

@@ -14,10 +14,17 @@ export const onModificationRequestAccepted = (models) => async (
     return
   }
 
-  instance.status = 'acceptée'
-  instance.respondedOn = event.occurredAt.getTime()
-  instance.respondedBy = event.payload.acceptedBy
-  instance.versionDate = event.occurredAt
+  const {
+    occurredAt,
+    payload: { acceptedBy },
+  } = event
+
+  Object.assign(instance, {
+    status: 'acceptée',
+    respondedOn: occurredAt.getTime(),
+    respondedBy: acceptedBy,
+    versionDate: occurredAt,
+  })
 
   try {
     await instance.save()

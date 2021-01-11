@@ -8,22 +8,19 @@ import { EntityNotFoundError, InfraNotAvailableError } from '../../../modules/sh
 export const makeGetModificationRequestUpdateInfo = (
   models
 ): GetModificationRequestInfoForStatusNotification => (modificationRequestId: string) => {
-  const ModificationRequestModel = models.ModificationRequest
-  const ProjectModel = models.Project
-  const UserModel = models.User
-  if (!ModificationRequestModel || !ProjectModel || !UserModel)
-    return errAsync(new InfraNotAvailableError())
+  const { ModificationRequest, Project, User } = models
+  if (!ModificationRequest || !Project || !User) return errAsync(new InfraNotAvailableError())
 
   return ResultAsync.fromPromise(
-    ModificationRequestModel.findByPk(modificationRequestId, {
+    ModificationRequest.findByPk(modificationRequestId, {
       include: [
         {
-          model: ProjectModel,
+          model: Project,
           as: 'project',
           attributes: ['nomProjet'],
         },
         {
-          model: UserModel,
+          model: User,
           as: 'requestedBy',
           attributes: ['fullName', 'email', 'id'],
         },
@@ -36,10 +33,11 @@ export const makeGetModificationRequestUpdateInfo = (
   ).andThen((modificationRequestRaw: any) => {
     if (!modificationRequestRaw) return err(new EntityNotFoundError())
 
-    const { type, requestedBy, project } = modificationRequestRaw.get()
-
-    const { nomProjet } = project
-    const { email, fullName, id } = requestedBy
+    const {
+      type,
+      requestedBy: { email, fullName, id },
+      project: { nomProjet },
+    } = modificationRequestRaw.get()
 
     return ok({
       type,

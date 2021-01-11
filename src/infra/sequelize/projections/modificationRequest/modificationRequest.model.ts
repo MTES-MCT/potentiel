@@ -110,7 +110,6 @@ export const MakeModificationRequestModel = (sequelize) => {
       as: 'respondedByUser',
       constraints: false,
     })
-    // Add belongsTo etc. statements here
   }
 
   return ModificationRequest

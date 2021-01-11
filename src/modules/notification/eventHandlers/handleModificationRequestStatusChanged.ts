@@ -44,10 +44,7 @@ export const handleModificationRequestStatusChanged = (deps: {
       )
     },
     (e: any) => {
-      console.error(
-        'handleModificationRequestStatusChanged caught an event but could not send the notifications',
-        e
-      )
+      console.error(e)
     }
   )
 

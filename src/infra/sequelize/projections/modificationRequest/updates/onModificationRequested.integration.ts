@@ -36,16 +36,18 @@ describe('modificationRequest.onModificationRequested', () => {
     expect(projection).toBeDefined()
     if (!projection) return
 
+    const { occurredAt } = event
+
     expect(projection.get()).toEqual(
       expect.objectContaining({
         id: modificationRequestId,
         projectId,
         type: 'recours',
-        requestedOn: event.occurredAt.getTime(),
+        requestedOn: occurredAt.getTime(),
         status: 'envoyée',
-        fileId: event.payload.fileId,
-        justification: event.payload.justification,
-        userId: event.payload.requestedBy,
+        fileId,
+        justification: 'justification',
+        userId,
       })
     )
   })

@@ -24,6 +24,8 @@ const postReplyToModificationRequest = async (request: HttpRequest) => {
     newNotificationDate,
   } = request.body
 
+  // There are two submit buttons on the form, named submitAccept and submitReject
+  // We know which one has been clicked when it has a string value
   const acceptedReply = typeof submitAccept === 'string'
 
   const courrierReponseExists: boolean = !!request.file && (await pathExists(request.file.path))
@@ -54,7 +56,11 @@ const postReplyToModificationRequest = async (request: HttpRequest) => {
       submittedBy: request.user,
     })
 
-    await deleteFile(request.file.path)
+    try {
+      await deleteFile(request.file.path)
+    } catch (error) {
+      console.error(error)
+    }
 
     return result.match(
       () =>
@@ -64,16 +70,20 @@ const postReplyToModificationRequest = async (request: HttpRequest) => {
       (e) => {
         console.error(e)
         return Redirect(ROUTES.DEMANDE_PAGE_DETAILS(modificationRequestId), {
-          error: "Votre réponse n'a pas pu être prise en compte: " + e.message,
+          error: `Votre réponse n'a pas pu être prise en compte:  ${e.message}`,
         })
       }
     )
   }
 
-  await deleteFile(request.file.path)
+  try {
+    await deleteFile(request.file.path)
+  } catch (error) {
+    console.error(error)
+  }
 
   return Redirect(ROUTES.DEMANDE_PAGE_DETAILS(modificationRequestId), {
-    error: 'Impossible de répondre à ce type de demande pour le moment?',
+    error: 'Impossible de répondre à ce type de demande pour le moment.',
   })
 }
 

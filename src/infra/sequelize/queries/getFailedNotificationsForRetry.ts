@@ -1,7 +1,7 @@
-import { UniqueEntityID } from '../../../../../core/domain'
-import { errAsync, ResultAsync } from '../../../../../core/utils'
-import { GetFailedNotificationsForRetry } from '../../../../../modules/notification/queries'
-import { InfraNotAvailableError } from '../../../../../modules/shared'
+import { UniqueEntityID } from '../../../core/domain'
+import { errAsync, ResultAsync } from '../../../core/utils'
+import { GetFailedNotificationsForRetry } from '../../../modules/notification/queries'
+import { InfraNotAvailableError } from '../../../modules/shared'
 
 export const makeGetFailedNotificationsForRetry = (
   models

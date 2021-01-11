@@ -37,7 +37,7 @@ export const makeModificationRequest = (args: {
 }): Result<ModificationRequest, EntityNotFoundError | IllegalInitialStateForAggregateError> => {
   const { history, modificationRequestId } = args
 
-  if (!history || !history.length) {
+  if (!history?.length) {
     return err(new EntityNotFoundError())
   }
 

@@ -1,8 +1,8 @@
 import { makeGetFailedNotificationsForRetry } from './getFailedNotificationsForRetry'
-import models from '../../../models'
-import { sequelize } from '../../../../../sequelize.config'
-import { UniqueEntityID } from '../../../../../core/domain'
-import makeFakeProject from '../../../../../__tests__/fixtures/project'
+import models from '../models'
+import { sequelize } from '../../../sequelize.config'
+import { UniqueEntityID } from '../../../core/domain'
+import makeFakeProject from '../../../__tests__/fixtures/project'
 
 const fakeNotificationArgs = {
   message: {},

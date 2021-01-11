@@ -1,7 +1,7 @@
 import { makeGetFailedNotificationDetails } from './getFailedNotificationDetails'
-import models from '../../../models'
-import { sequelize } from '../../../../../sequelize.config'
-import { UniqueEntityID } from '../../../../../core/domain'
+import models from '../models'
+import { sequelize } from '../../../sequelize.config'
+import { UniqueEntityID } from '../../../core/domain'
 
 const fakeNotificationArgs = {
   message: {

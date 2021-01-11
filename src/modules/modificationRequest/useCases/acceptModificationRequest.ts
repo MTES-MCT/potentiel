@@ -94,5 +94,4 @@ export const makeAcceptModificationRequest = (deps: AcceptModificationRequestDep
     .andThen((modificationRequest) => {
       return modificationRequestRepo.save(modificationRequest)
     })
-    .map(() => null)
 }

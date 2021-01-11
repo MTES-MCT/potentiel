@@ -26,7 +26,7 @@ export const handleResponseTemplateDownloaded = (deps: {
     .match(
       () => {},
       (e) => {
-        console.error('handleResponseTemplateDownloaded failed to make the transaction', e)
+        console.error(e)
       }
     )
 }
