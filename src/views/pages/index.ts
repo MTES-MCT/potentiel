@@ -13,7 +13,8 @@ import AdminListRequests from './adminListRequests'
 import AdminNotifyCandidates from './adminNotifyCandidates'
 import ImportCandidates from './importCandidates'
 import Signup from './signup'
-import ModificationRequest from './modificationRequest'
+import NewModificationRequest from './newModificationRequest'
+import ModificationRequestDetails from './modificationRequestDetails'
 import ForgottenPassword from './forgottenPassword'
 import ResetPassword from './resetPassword'
 import ProjectDetails from './projectDetails'
@@ -31,7 +32,7 @@ const ImportCandidatesPage = makePresenterPage(ImportCandidates)
 const ListProjectsPage = makePresenterPage(ListProjects)
 const UserListRequestsPage = makePresenterPage(UserListRequests)
 const SignupPage = makePresenterPage(Signup)
-const ModificationRequestPage = makePresenterPage(ModificationRequest)
+const NewModificationRequestPage = makePresenterPage(NewModificationRequest)
 const ForgottenPasswordPage = makePresenterPage(ForgottenPassword)
 const ResetPasswordPage = makePresenterPage(ResetPassword)
 const ProjectDetailsPage = makePresenterPage(ProjectDetails)
@@ -40,6 +41,7 @@ const GarantiesFinancieresListPage = makePresenterPage(GarantiesFinancieresList)
 const InvitationListPage = makePresenterPage(InvitationList)
 const NotificationListPage = makePresenterPage(NotificationList)
 const StatistiquesPage = makePresenterPage(Statistiques)
+const ModificationRequestDetailsPage = makePresenterPage(ModificationRequestDetails)
 
 export {
   LoginPage,
@@ -48,7 +50,7 @@ export {
   ListProjectsPage,
   UserListRequestsPage,
   SignupPage,
-  ModificationRequestPage,
+  NewModificationRequestPage,
   AdminNotifyCandidatesPage,
   ForgottenPasswordPage,
   ResetPasswordPage,
@@ -58,6 +60,7 @@ export {
   InvitationListPage,
   NotificationListPage,
   StatistiquesPage,
+  ModificationRequestDetailsPage,
 }
 
 interface HasRequest {

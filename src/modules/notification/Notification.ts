@@ -128,6 +128,21 @@ type RelanceGarantiesFinancieres = {
   }
 }
 
+type ModificationRequestStatusUpdate = {
+  type: 'modification-request-status-update'
+  context: {
+    modificationRequestId: string
+    userId: string
+  }
+  variables: {
+    nom_projet: string
+    status: string
+    type_demande: string
+    document_absent: string | undefined
+    modification_request_url: string
+  }
+}
+
 type NotificationVariants =
   | Designation
   | RelanceDesignation
@@ -138,6 +153,7 @@ type NotificationVariants =
   | DREAL_GF_Notification
   | RelanceGarantiesFinancieres
   | PP_CertificateUpdated
+  | ModificationRequestStatusUpdate
 
 export type NotificationProps = BaseNotification & NotificationVariants
 

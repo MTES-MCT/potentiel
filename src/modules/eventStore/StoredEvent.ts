@@ -28,6 +28,13 @@ import {
   ProjectReimported,
   ProjectClasseGranted,
 } from '../project/events'
+import {
+  ModificationRequested,
+  ModificationRequestAccepted,
+  ModificationRequestRejected,
+  ModificationRequestInstructionStarted,
+  ResponseTemplateDownloaded,
+} from '../modificationRequest/events'
 
 export type StoredEvent =
   | ProjectNotified
@@ -58,3 +65,8 @@ export type StoredEvent =
   | CandidateInformedOfCertificateUpdate
   | CandidateInformationOfCertificateUpdateFailed
   | ProjectClasseGranted
+  | ModificationRequested
+  | ModificationRequestRejected
+  | ModificationRequestAccepted
+  | ModificationRequestInstructionStarted
+  | ResponseTemplateDownloaded

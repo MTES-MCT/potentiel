@@ -2,6 +2,19 @@ import { Op } from 'sequelize'
 import { v4 as uuid } from 'uuid'
 import { ResultAsync } from '../../../core/utils'
 import { BaseEventStore, EventStoreHistoryFilters, StoredEvent } from '../../../modules/eventStore'
+
+import {
+  ModificationRequested,
+  ModificationRequestedPayload,
+  ResponseTemplateDownloaded,
+  ResponseTemplateDownloadedPayload,
+  ModificationRequestAccepted,
+  ModificationRequestAcceptedPayload,
+  ModificationRequestInstructionStarted,
+  ModificationRequestInstructionStartedPayload,
+  ModificationRequestRejected,
+  ModificationRequestRejectedPayload,
+} from '../../../modules/modificationRequest/events'
 import {
   CandidateInformationOfCertificateUpdateFailed,
   CandidateInformationOfCertificateUpdateFailedPayload,
@@ -355,6 +368,51 @@ export class SequelizeEventStore extends BaseEventStore {
       case CandidateInformationOfCertificateUpdateFailed.type:
         return new CandidateInformationOfCertificateUpdateFailed({
           payload: eventRaw.payload as CandidateInformationOfCertificateUpdateFailedPayload,
+          requestId: eventRaw.requestId?.toString(),
+          original: {
+            version: eventRaw.version,
+            occurredAt: new Date(eventRaw.occurredAt),
+          },
+        })
+      case ModificationRequested.type:
+        return new ModificationRequested({
+          payload: eventRaw.payload as ModificationRequestedPayload,
+          requestId: eventRaw.requestId?.toString(),
+          original: {
+            version: eventRaw.version,
+            occurredAt: new Date(eventRaw.occurredAt),
+          },
+        })
+      case ModificationRequestAccepted.type:
+        return new ModificationRequestAccepted({
+          payload: eventRaw.payload as ModificationRequestAcceptedPayload,
+          requestId: eventRaw.requestId?.toString(),
+          original: {
+            version: eventRaw.version,
+            occurredAt: new Date(eventRaw.occurredAt),
+          },
+        })
+      case ModificationRequestInstructionStarted.type:
+        return new ModificationRequestInstructionStarted({
+          payload: eventRaw.payload as ModificationRequestInstructionStartedPayload,
+          requestId: eventRaw.requestId?.toString(),
+          original: {
+            version: eventRaw.version,
+            occurredAt: new Date(eventRaw.occurredAt),
+          },
+        })
+      case ModificationRequestRejected.type:
+        return new ModificationRequestRejected({
+          payload: eventRaw.payload as ModificationRequestRejectedPayload,
+          requestId: eventRaw.requestId?.toString(),
+          original: {
+            version: eventRaw.version,
+            occurredAt: new Date(eventRaw.occurredAt),
+          },
+        })
+      case ResponseTemplateDownloaded.type:
+        return new ResponseTemplateDownloaded({
+          payload: eventRaw.payload as ResponseTemplateDownloadedPayload,
           requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,

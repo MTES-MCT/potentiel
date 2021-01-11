@@ -133,7 +133,7 @@ const postRequestModification = async (request: HttpRequest) => {
 
   return result.match({
     ok: () =>
-      Redirect(ROUTES.USER_LIST_DEMANDES, {
+      Redirect(ROUTES.USER_LIST_REQUESTS, {
         success: 'Votre demande a bien été prise en compte.',
       }),
     err: (e: Error) => {

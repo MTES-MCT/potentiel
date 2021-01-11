@@ -15,13 +15,13 @@ function fakeSendEmail(props: SendEmailProps): ResultAsync<null, Error> {
     return okAsync(null)
   }
 
+  const { subject, recipients, type, variables } = props
+
   console.log(
-    'EMAIL OUT: ' +
-      props.recipients.map((item) => item.email).join(', ') +
-      ' with subject "' +
-      props.subject +
-      '" and type ' +
-      props.type
+    `EMAIL OUT: ${recipients
+      .map((item) => item.email)
+      .join(', ')} with subject "${subject}" and type ${type}`,
+    variables
   )
 
   return okAsync(null)

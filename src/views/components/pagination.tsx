@@ -1,9 +1,7 @@
 import React from 'react'
-import routes from '../../routes'
-import { version } from '../../../package.json'
-
 import { dataId } from '../../helpers/testId'
 import { Pagination } from '../../types'
+
 
 interface PaginationProps {
   pageCount: number
@@ -11,7 +9,7 @@ interface PaginationProps {
   itemTitle: string
 }
 
-const Pagination = ({ pageCount, pagination: { pageSize, page }, itemTitle }: PaginationProps) => {
+export default function PaginationPanel({ pageCount, pagination: { pageSize, page }, itemTitle }: PaginationProps) {
   const pageNumbers = [0, 1]
   if (pageCount <= 5) {
     pageNumbers.push(2, 3, 4)
@@ -96,4 +94,4 @@ const Pagination = ({ pageCount, pagination: { pageSize, page }, itemTitle }: Pa
   )
 }
 
-export default Pagination
+

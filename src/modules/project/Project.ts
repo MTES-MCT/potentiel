@@ -17,8 +17,7 @@ import {
   ProjectAppelOffre,
   User,
 } from '../../entities'
-import { StoredEvent } from '../eventStore'
-import { EventStoreAggregate } from '../eventStore/EventStoreAggregate'
+import { StoredEvent, EventStoreAggregate } from '../eventStore'
 import {
   EntityNotFoundError,
   HeterogeneousHistoryError,
@@ -537,7 +536,7 @@ export const makeProject = (args: {
   }
 
   function _allEventsHaveSameAggregateId() {
-    return history.every((event) => event.aggregateId.includes(projectId.toString()))
+    return history.every((event) => event.aggregateId?.includes(projectId.toString()))
   }
 
   function _isLegacyOrImport(event: StoredEvent): event is LegacyProjectSourced | ProjectImported {
