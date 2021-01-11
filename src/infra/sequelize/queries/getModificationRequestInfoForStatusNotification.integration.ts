@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '../../../core/domain'
-import { sequelize } from '../../../sequelize.config'
+import { sequelizeInstance } from '../../../sequelize.config'
 import makeFakeProject from '../../../__tests__/fixtures/project'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import models from '../models'
@@ -19,7 +19,7 @@ describe('Sequelize getModificationRequestUpdateInfo', () => {
 
   beforeAll(async () => {
     // Create the tables and remove all data
-    await sequelize.sync({ force: true })
+    await sequelizeInstance.sync({ force: true })
 
     const ProjectModel = models.Project
     await ProjectModel.create(makeFakeProject(projectInfo))

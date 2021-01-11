@@ -1,5 +1,5 @@
 import models from '../models'
-import { sequelize } from '../../../sequelize.config'
+import { sequelizeInstance } from '../../../sequelize.config'
 import makeFakeProject from '../../../__tests__/fixtures/project'
 import makeFakeFile from '../../../__tests__/fixtures/file'
 import makeFakeUser from '../../../__tests__/fixtures/user'
@@ -34,7 +34,7 @@ describe('Sequelize getModificationRequestDetails', () => {
 
   beforeAll(async () => {
     // Create the tables and remove all data
-    await sequelize.sync({ force: true })
+    await sequelizeInstance.sync({ force: true })
 
     const ProjectModel = models.Project
     await ProjectModel.create(makeFakeProject(projectInfo))
