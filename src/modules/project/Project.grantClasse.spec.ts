@@ -5,7 +5,12 @@ import { makeUser } from '../../entities'
 import { UnwrapForTest as OldUnwrapForTest } from '../../types'
 import makeFakeProject from '../../__tests__/fixtures/project'
 import makeFakeUser from '../../__tests__/fixtures/user'
-import { LegacyProjectSourced, ProjectClasseGranted } from './events'
+import {
+  LegacyProjectSourced,
+  ProjectClasseGranted,
+  ProjectDCRDueDateSet,
+  ProjectGFDueDateSet,
+} from './events'
 import { makeProject } from './Project'
 
 const projectId = new UniqueEntityID('project1')
@@ -42,10 +47,8 @@ describe('Project.grantClasse()', () => {
       })
     )
 
-    it('emit ProjectClasseGranted event', () => {
+    it('should emit ProjectClasseGranted event', () => {
       project.grantClasse(fakeUser)
-
-      expect(project.pendingEvents).toHaveLength(1)
 
       const targetEvent = project.pendingEvents.find(
         (item) => item.type === ProjectClasseGranted.type
@@ -55,6 +58,26 @@ describe('Project.grantClasse()', () => {
 
       expect(targetEvent.payload.projectId).toEqual(projectId.toString())
       expect(targetEvent.payload.grantedBy).toEqual(fakeUser.id)
+    })
+
+    it('should emit ProjectDCRDueDateSet', () => {
+      const targetEvent = project.pendingEvents.find(
+        (item) => item.type === ProjectDCRDueDateSet.type
+      ) as ProjectDCRDueDateSet | undefined
+      expect(targetEvent).toBeDefined()
+      if (!targetEvent) return
+
+      expect(targetEvent.payload.projectId).toEqual(projectId.toString())
+    })
+
+    it('should emit ProjectGFDueDateSet', () => {
+      const targetEvent = project.pendingEvents.find(
+        (item) => item.type === ProjectGFDueDateSet.type
+      ) as ProjectGFDueDateSet | undefined
+      expect(targetEvent).toBeDefined()
+      if (!targetEvent) return
+
+      expect(targetEvent.payload.projectId).toEqual(projectId.toString())
     })
   })
 
