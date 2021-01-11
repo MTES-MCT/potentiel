@@ -43,7 +43,7 @@ export class NotificationRepo implements Repository<Notification> {
     if (!NotificationModel) return errAsync(new InfraNotAvailableError())
 
     return ResultAsync.fromPromise<null, DomainError>(
-      NotificationModel.create(this.toPersistence(aggregate)),
+      NotificationModel.upsert(this.toPersistence(aggregate)),
       (e: any) => {
         console.log('notificationRepo.save error', e)
         return new InfraNotAvailableError()
