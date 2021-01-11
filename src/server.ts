@@ -51,6 +51,8 @@ import {
   postCorrectProjectData,
   getModeleReponseRecours,
   getStatistiquesPage,
+  getModificationRequestPage,
+  postReplyToModificationRequest,
 } from './controllers'
 
 import {
@@ -201,6 +203,14 @@ export async function makeServer(port: number) {
     )
 
     router.post(
+      ROUTES.ADMIN_REPLY_TO_MODIFICATION_REQUEST,
+      ensureLoggedIn(),
+      upload.single('file'),
+      ensureRole(['admin', 'dgec']),
+      makeExpressCallback(postReplyToModificationRequest)
+    )
+
+    router.post(
       ROUTES.ADMIN_NOTIFY_CANDIDATES_ACTION,
       ensureLoggedIn(),
       ensureRole(['admin', 'dgec']),
@@ -237,7 +247,7 @@ export async function makeServer(port: number) {
     )
 
     router.get(
-      ROUTES.USER_LIST_DEMANDES,
+      ROUTES.USER_LIST_REQUESTS,
       ensureLoggedIn(),
       ensureRole('porteur-projet'),
       makeExpressCallback(getUserRequestsPage)
@@ -248,6 +258,12 @@ export async function makeServer(port: number) {
       ensureLoggedIn(),
       ensureRole(['admin', 'dgec']),
       makeExpressCallback(getCandidateCertificatePreview)
+    )
+
+    router.get(
+      ROUTES.DEMANDE_PAGE_DETAILS(),
+      ensureLoggedIn(),
+      makeExpressCallback(getModificationRequestPage)
     )
 
     router.get(

@@ -2,7 +2,7 @@ export interface DomainEvent {
   occurredAt: Date
   type: string
   getVersion: () => number
-  aggregateId: string[] | string
+  aggregateId: string[] | string | undefined
   requestId?: string
   payload: any
 }

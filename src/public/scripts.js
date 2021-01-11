@@ -17,6 +17,7 @@ window.initHandlers = function () {
   addVisibilityToggleHandler()
   addProjectListSelectionHandler()
   addConfirmHandlers()
+  addGoToOnClickHandlers()
 }
 
 document.addEventListener('DOMContentLoaded', () => window.initHandlers())
@@ -152,6 +153,31 @@ function addInvitationHandlers() {
       toggleVisibility(invitationForm, false)
     })
   }
+}
+
+function addGoToOnClickHandlers() {
+  const targets = document.querySelectorAll('[data-goto-onclick]')
+  targets.forEach((item) =>
+    item.addEventListener('click', function (event) {
+      if (event.target.nodeName !== 'A' && event.target.nodeName !== 'INPUT') {
+        event.preventDefault()
+
+        const url = item.getAttribute('data-goto-onclick')
+
+        if (url) {
+          location.href = url
+        }
+      }
+    })
+  )
+
+  // We want to ignore all clicks in the actions container (which might be inside the area which has the click handler above)
+  const actionsContainer = document.querySelectorAll('[data-testid=item-actions-container]')
+  actionsContainer.forEach((item) =>
+    item.addEventListener('click', function (event) {
+      event.stopPropagation()
+    })
+  )
 }
 
 //
