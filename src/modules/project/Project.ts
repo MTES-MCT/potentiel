@@ -1,5 +1,6 @@
 import moment from 'moment-timezone'
 import sanitize from 'sanitize-filename'
+import _ from 'lodash'
 import { UniqueEntityID } from '../../core/domain'
 import {
   err,
@@ -300,6 +301,9 @@ export const makeProject = (args: {
             },
           })
         )
+
+        _updateDCRDate()
+        _updateGFDate()
       }
 
       return ok(null)
@@ -562,8 +566,13 @@ export const makeProject = (args: {
     return null
   }
 
+  function _removePendingEventsOfType(type: StoredEvent['type']) {
+    _.remove(pendingEvents, (event) => event.type === type)
+  }
+
   function _updateDCRDate() {
     if (props.isClasse) {
+      _removePendingEventsOfType(ProjectDCRDueDateSet.type)
       _publishEvent(
         new ProjectDCRDueDateSet({
           payload: {
@@ -585,6 +594,7 @@ export const makeProject = (args: {
 
   function _updateGFDate() {
     if (_shouldSubmitGF()) {
+      _removePendingEventsOfType(ProjectGFDueDateSet.type)
       _publishEvent(
         new ProjectGFDueDateSet({
           payload: {
