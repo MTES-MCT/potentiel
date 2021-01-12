@@ -1,4 +1,4 @@
-import { resetDatabase } from '../../../../../dataAccess'
+import { resetDatabase } from '../../../helpers'
 import { ProjectGFDueDateSet } from '../../../../../modules/project/events'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import models from '../../../models'

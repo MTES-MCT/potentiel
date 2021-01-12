@@ -1,5 +1,5 @@
 import { makeGetFailedNotificationDetails } from './getFailedNotificationDetails'
-import { sequelizeInstance } from '../../../sequelize.config'
+import { resetDatabase } from '../helpers'
 import { UniqueEntityID } from '../../../core/domain'
 import models from '../models'
 
@@ -26,7 +26,7 @@ describe('Sequelize getFailedNotificationDetails', () => {
 
   beforeAll(async () => {
     // Create the tables and remove all data
-    await sequelizeInstance.sync({ force: true })
+    await resetDatabase()
   })
 
   describe('getFailedNotificationDetails()', () => {

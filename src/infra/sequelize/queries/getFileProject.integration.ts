@@ -1,6 +1,6 @@
 import { UniqueEntityID } from '../../../core/domain'
 import { FileNotFoundError } from '../../../modules/file'
-import { sequelizeInstance } from '../../../sequelize.config'
+import { resetDatabase } from '../helpers'
 import models from '../models'
 import { makeGetFileProject } from './getFileProject'
 
@@ -13,7 +13,7 @@ describe('Sequelize getFileProject', () => {
 
   beforeAll(async () => {
     // Create the tables and remove all data
-    await sequelizeInstance.sync({ force: true })
+    await resetDatabase()
 
     const FileModel = models.File
     await FileModel.bulkCreate([

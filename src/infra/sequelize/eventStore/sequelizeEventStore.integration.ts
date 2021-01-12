@@ -1,5 +1,5 @@
 import { okAsync } from '../../../core/utils'
-import { resetDatabase } from '../../../dataAccess'
+import { resetDatabase } from '../helpers'
 import { StoredEvent } from '../../../modules/eventStore'
 import {
   ProjectCertificateGenerated,

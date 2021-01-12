@@ -1,4 +1,4 @@
-import { resetDatabase } from '../../../../../dataAccess'
+import { resetDatabase } from '../../../helpers'
 import {
   ProjectCertificateGenerated,
   ProjectCertificateRegenerated,

@@ -1,10 +1,9 @@
-import map from 'lodash/map'
-import { sequelizeInstance } from '../../../sequelize.legacy.config'
+import { sequelizeInstance } from '../../../sequelize.config'
 
-export default async function truncateAllTables() {
+export const resetDatabase = async () => {
   const { models } = sequelizeInstance
   return await Promise.all(
-    map(Object.keys(models), (key: string) => {
+    Object.keys(models).map((key: string) => {
       if (['sequelize', 'Sequelize'].includes(key)) return null
       return models[key].destroy({ where: {}, force: true })
     })

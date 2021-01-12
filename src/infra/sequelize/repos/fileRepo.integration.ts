@@ -1,7 +1,7 @@
 import { Readable } from 'stream'
 import { UniqueEntityID } from '../../../core/domain'
 import { okAsync, UnwrapForTest } from '../../../core/utils'
-import { resetDatabase } from '../../../dataAccess'
+import { resetDatabase } from '../helpers'
 import { FileContents, FileObject, FileStorageService, makeFileObject } from '../../../modules/file'
 import { EntityNotFoundError } from '../../../modules/shared'
 import models from '../models'
