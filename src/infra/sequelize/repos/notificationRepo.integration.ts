@@ -1,7 +1,7 @@
 import { NotificationRepo } from './notificationRepo'
 import { Notification } from '../../../modules/notification'
 import models from '../models'
-import { resetDatabase } from '../../../dataAccess'
+import { resetDatabase } from '../helpers'
 import { UniqueEntityID } from '../../../core/domain'
 
 describe('Sequelize NotificationRepo', () => {

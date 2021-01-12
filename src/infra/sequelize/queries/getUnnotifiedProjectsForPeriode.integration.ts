@@ -1,5 +1,5 @@
 import models from '../models'
-import { sequelizeInstance } from '../../../sequelize.config'
+import { resetDatabase } from '../helpers'
 import makeFakeProject from '../../../__tests__/fixtures/project'
 import { makeGetUnnotifiedProjectsForPeriode } from './getUnnotifiedProjectsForPeriode'
 import { v4 as uuid } from 'uuid'
@@ -43,7 +43,7 @@ describe('Sequelize getUnnotifiedProjectsForPeriode', () => {
   ].map(makeFakeProject)
 
   beforeAll(async () => {
-    await sequelizeInstance.sync({ force: true })
+    await resetDatabase()
 
     const ProjectModel = models.Project
     await ProjectModel.bulkCreate(fakeProjects)
