@@ -1,4 +1,4 @@
-import { sequelizeInstance } from '../../sequelize.config'
+import { sequelizeInstance } from '../../sequelize.legacy.config'
 
 import { makeCredentialsRepo } from './credentials'
 import { makeUserRepo } from './user'

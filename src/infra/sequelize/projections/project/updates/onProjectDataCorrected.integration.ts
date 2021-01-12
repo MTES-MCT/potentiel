@@ -2,7 +2,7 @@ import models from '../../../models'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import { onProjectDataCorrected } from './onProjectDataCorrected'
 import { ProjectDataCorrected } from '../../../../../modules/project/events'
-import { resetDatabase } from '../../../../../dataAccess'
+import { resetDatabase } from '../../../helpers'
 import { v4 as uuid } from 'uuid'
 
 const newValues = {

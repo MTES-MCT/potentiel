@@ -1,5 +1,5 @@
 import models from '../../../models'
-import { sequelizeInstance } from '../../../../../sequelize.config'
+import { resetDatabase } from '../../../helpers'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import { onProjectClasseGranted } from './onProjectClasseGranted'
 import { ProjectClasseGranted } from '../../../../../modules/project/events'
@@ -18,7 +18,7 @@ describe('project.onProjectClasseGranted', () => {
 
   beforeAll(async () => {
     // Create the tables and remove all data
-    await sequelizeInstance.sync({ force: true })
+    await resetDatabase()
 
     await ProjectModel.bulkCreate(fakeProjects)
   })

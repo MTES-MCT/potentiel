@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '../../../core/domain'
-import { sequelizeInstance } from '../../../sequelize.config'
+import { resetDatabase } from '../helpers'
 import models from '../models'
 import { makeGetModificationRequestStatus } from './getModificationRequestStatus'
 
@@ -16,7 +16,7 @@ describe('Sequelize getModificationRequestStatus', () => {
 
   beforeAll(async () => {
     // Create the tables and remove all data
-    await sequelizeInstance.sync({ force: true })
+    await resetDatabase()
 
     const ModificationRequestModel = models.ModificationRequest
     await ModificationRequestModel.create({
