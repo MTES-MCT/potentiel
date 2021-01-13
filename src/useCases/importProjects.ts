@@ -147,14 +147,37 @@ export default function makeImportProjects({
           return makeErrorForLine(new Error('Période introuvable'), index + 2, currentResults)
         }
 
+        // Check the famille
+        const familleId = line.Famille
+        if (familleId) {
+          const famille = appelOffre.familles.find((famille) => famille.id === familleId)
+          if (!famille) {
+            console.log('famille erronnée', familleId)
+            return makeErrorForLine(
+              new Error('Famille inconnue pour cet appel d‘offre'),
+              index + 2,
+              currentResults
+            )
+          }
+        }
+        if (appelOffre.familles.length && !familleId) {
+          console.log('famille manquante', appelOffre)
+          return makeErrorForLine(
+            new Error('Famille manquante (cette appel d‘offre requiert une famille)'),
+            index + 2,
+            currentResults
+          )
+        }
+
         // Keep track of all the columns that where picked from the line
         // We will use this to gather all the "other" columns in the project.details section
-        const pickedColumns: Array<string> = ["Appel d'offres", 'Période']
+        const pickedColumns: Array<string> = ["Appel d'offres", 'Période', 'Famille']
 
         // All good, try to make the project
         const projectData: Partial<Project> = {
           appelOffreId,
           periodeId,
+          familleId: familleId || '',
           ...appelOffre.dataFields.reduce((properties, dataField) => {
             const { field, column, type, value, defaultValue } = dataField
 
