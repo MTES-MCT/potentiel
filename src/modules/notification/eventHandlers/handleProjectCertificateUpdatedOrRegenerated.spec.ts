@@ -4,11 +4,11 @@ import { UnwrapForTest } from '../../../types'
 import { fakeRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { NotificationArgs } from '..'
-import { ProjectCertificateUploaded } from '../../project/events'
+import { ProjectCertificateUpdated } from '../../project/events'
 import { Project } from '../../project/Project'
-import { handleProjectCertificateUploadedOrRegenerated } from './handleProjectCertificateUploadedOrRegenerated'
+import { handleProjectCertificateUpdatedOrRegenerated } from './handleProjectCertificateUpdatedOrRegenerated'
 
-describe('candidateNotificatio.handleProjectCertificateUploadedOrRegenerated', () => {
+describe('candidateNotificatio.handleProjectCertificateUpdatedOrRegenerated', () => {
   const projectUsers = ['email1@test.test', 'email1@test.test'].map((email) =>
     UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet', email })))
   )
@@ -24,12 +24,12 @@ describe('candidateNotificatio.handleProjectCertificateUploadedOrRegenerated', (
   const sendNotification = jest.fn(async (args: NotificationArgs) => null)
 
   it('should call sendNotification for each user that has rights to this project', async () => {
-    await handleProjectCertificateUploadedOrRegenerated({
+    await handleProjectCertificateUpdatedOrRegenerated({
       sendNotification,
       getUsersForProject,
       projectRepo,
     })(
-      new ProjectCertificateUploaded({
+      new ProjectCertificateUpdated({
         payload: { projectId, certificateFileId: 'file1', uploadedBy: 'user1' },
         requestId: 'request1',
       })

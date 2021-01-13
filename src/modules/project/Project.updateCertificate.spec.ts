@@ -7,7 +7,7 @@ import makeFakeProject from '../../__tests__/fixtures/project'
 import makeFakeUser from '../../__tests__/fixtures/user'
 import { StoredEvent } from '../eventStore'
 import { ProjectCannotBeUpdatedIfUnnotifiedError } from './errors'
-import { ProjectCertificateUploaded, ProjectImported, ProjectNotified } from './events'
+import { ProjectCertificateUpdated, ProjectImported, ProjectNotified } from './events'
 import { makeProject } from './Project'
 
 const projectId = new UniqueEntityID('project1')
@@ -56,11 +56,11 @@ const fakeHistory: StoredEvent[] = [
   }),
 ]
 
-describe('Project.uploadCertificate()', () => {
-  it('should emit ProjectCertificateUploaded', () => {
+describe('Project.updateCertificate()', () => {
+  it('should emit ProjectCertificateUpdated', () => {
     const project = UnwrapForTest(makeProject({ projectId, history: fakeHistory, appelsOffres }))
 
-    const res = project.uploadCertificate(fakeUser, 'fakeFileId')
+    const res = project.updateCertificate(fakeUser, 'fakeFileId')
 
     expect(res.isOk()).toBe(true)
     if (res.isErr()) return
@@ -68,8 +68,8 @@ describe('Project.uploadCertificate()', () => {
     expect(project.pendingEvents).not.toHaveLength(0)
 
     const targetEvent = project.pendingEvents.find(
-      (item) => item.type === ProjectCertificateUploaded.type
-    ) as ProjectCertificateUploaded | undefined
+      (item) => item.type === ProjectCertificateUpdated.type
+    ) as ProjectCertificateUpdated | undefined
     expect(targetEvent).toBeDefined()
     if (!targetEvent) return
 
@@ -89,7 +89,7 @@ describe('Project.uploadCertificate()', () => {
         })
       )
 
-      const res = project.uploadCertificate(fakeUser, 'fakeFileId')
+      const res = project.updateCertificate(fakeUser, 'fakeFileId')
 
       expect(res.isErr()).toEqual(true)
       if (res.isOk()) return

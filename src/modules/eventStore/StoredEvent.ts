@@ -12,7 +12,7 @@ import {
   ProjectCertificateRegenerated,
   ProjectCertificateDownloaded,
   ProjectCertificateGenerationFailed,
-  ProjectCertificateUploaded,
+  ProjectCertificateUpdated,
   ProjectCertificateUpdateFailed,
   ProjectDCRDueDateSet,
   ProjectDCRRemoved,
@@ -42,7 +42,7 @@ export type StoredEvent =
   | ProjectCertificateRegenerated
   | ProjectCertificateDownloaded
   | ProjectCertificateGenerationFailed
-  | ProjectCertificateUploaded
+  | ProjectCertificateUpdated
   | ProjectCertificateUpdateFailed
   | ProjectDCRDueDateSet
   | ProjectGFDueDateSet
@@ -57,7 +57,7 @@ export type StoredEvent =
   | ProjectGFReminded
   | ProjectDataCorrected
   | ProjectNotificationDateSet
-  | ProjectCertificateUploaded
+  | ProjectCertificateUpdated
   | ProjectCertificateUpdateFailed
   | PeriodeNotified
   | CandidateNotificationForPeriodeFailed

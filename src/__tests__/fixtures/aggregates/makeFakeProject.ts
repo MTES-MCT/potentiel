@@ -21,7 +21,7 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   setNotificationDate: jest.fn((user: User, notifiedOn: number) =>
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError>(null)
   ),
-  uploadCertificate: jest.fn((user: User, certificateFileId: string) =>
+  updateCertificate: jest.fn((user: User, certificateFileId: string) =>
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)
   ),
   grantClasse: jest.fn((user: User) => ok<null, never>(null)),

@@ -2,7 +2,7 @@ import { EventBus } from '../../../../../modules/eventStore'
 import {
   ProjectCertificateGenerated,
   ProjectCertificateRegenerated,
-  ProjectCertificateUploaded,
+  ProjectCertificateUpdated,
   ProjectClasseGranted,
   ProjectDataCorrected,
   ProjectDCRDueDateSet,
@@ -25,7 +25,7 @@ export const initProjectProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ProjectNotificationDateSet.type, onProjectNotificationDateSet(models))
   eventBus.subscribe(ProjectCertificateGenerated.type, onProjectCertificate(models))
   eventBus.subscribe(ProjectCertificateRegenerated.type, onProjectCertificate(models))
-  eventBus.subscribe(ProjectCertificateUploaded.type, onProjectCertificate(models))
+  eventBus.subscribe(ProjectCertificateUpdated.type, onProjectCertificate(models))
 
   eventBus.subscribe(ProjectClasseGranted.type, onProjectClasseGranted(models))
 
