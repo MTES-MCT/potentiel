@@ -10,6 +10,7 @@ import {
   ProjectCertificateGenerated,
   ProjectCertificateUploaded,
   ProjectImported,
+  ProjectNotificationDateSet,
   ProjectNotified,
 } from './events'
 import { makeProject } from './Project'
@@ -146,6 +147,46 @@ describe('Project.shouldCertificateBeGenerated', () => {
       })
     })
 
+    describe('when the project has been updated since last certificate generation', () => {
+      const project = UnwrapForTest(
+        makeProject({
+          projectId,
+          appelsOffres,
+          history: fakeHistory.concat([
+            new ProjectCertificateGenerated({
+              payload: {
+                projectId: projectId.toString(),
+                projectVersionDate: new Date(123),
+                certificateFileId: 'file1',
+                candidateEmail: '',
+                periodeId: '',
+                appelOffreId: '',
+              },
+              original: {
+                occurredAt: new Date(1000),
+                version: 1,
+              },
+            }),
+            new ProjectNotificationDateSet({
+              payload: {
+                projectId: projectId.toString(),
+                notifiedOn: 1234,
+                setBy: fakeUser.id,
+              },
+              original: {
+                occurredAt: new Date(1001),
+                version: 1,
+              },
+            }),
+          ]),
+        })
+      )
+
+      it('should return true', () => {
+        expect(project.shouldCertificateBeGenerated).toBe(true)
+      })
+    })
+
     describe('when a certificate has been uploaded since last update', () => {
       const project = UnwrapForTest(
         makeProject({
@@ -168,6 +209,22 @@ describe('Project.shouldCertificateBeGenerated', () => {
       )
 
       it('should return false', () => {
+        expect(project.shouldCertificateBeGenerated).toBe(false)
+      })
+    })
+
+    describe('when a certificate has been updated in the same transaction as a change', () => {
+      const project = UnwrapForTest(
+        makeProject({
+          projectId,
+          appelsOffres,
+          history: fakeHistory,
+        })
+      )
+
+      it('should return false', () => {
+        project.uploadCertificate(fakeUser, 'fakeCertificateFileId')
+        project.setNotificationDate(fakeUser, 5454564654)
         expect(project.shouldCertificateBeGenerated).toBe(false)
       })
     })

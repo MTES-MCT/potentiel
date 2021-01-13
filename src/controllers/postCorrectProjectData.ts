@@ -106,7 +106,8 @@ const postCorrectProjectData = async (request: HttpRequest) => {
   return result.match(
     () =>
       Redirect(ROUTES.PROJECT_DETAILS(projectId), {
-        success: 'Les données du projet ont bien été mises à jour.',
+        success:
+          'Les données du projet ont bien été mises à jour. N‘hésitez pas à rafraichir la page pour avoir les données à jour.',
       }),
     (e) => {
       console.error(e)
