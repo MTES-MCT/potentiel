@@ -66,10 +66,10 @@ describe('acceptModificationRequest use-case', () => {
         expect(fakeProject.grantClasse.mock.calls[0][0]).toEqual(fakeUser)
       })
 
-      it('should call uploadCertificate on project', () => {
-        expect(fakeProject.uploadCertificate).toHaveBeenCalledTimes(1)
-        expect(fakeProject.uploadCertificate.mock.calls[0][0]).toEqual(fakeUser)
-        expect(fakeProject.uploadCertificate.mock.calls[0][1]).toHaveLength(
+      it('should call updateCertificate on project', () => {
+        expect(fakeProject.updateCertificate).toHaveBeenCalledTimes(1)
+        expect(fakeProject.updateCertificate.mock.calls[0][0]).toEqual(fakeUser)
+        expect(fakeProject.updateCertificate.mock.calls[0][1]).toHaveLength(
           new UniqueEntityID().toString().length
         )
       })

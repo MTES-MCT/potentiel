@@ -8,7 +8,7 @@ import makeFakeUser from '../../__tests__/fixtures/user'
 import { StoredEvent } from '../eventStore'
 import {
   ProjectCertificateGenerated,
-  ProjectCertificateUploaded,
+  ProjectCertificateUpdated,
   ProjectImported,
   ProjectNotificationDateSet,
   ProjectNotified,
@@ -193,7 +193,7 @@ describe('Project.shouldCertificateBeGenerated', () => {
           projectId,
           appelsOffres,
           history: fakeHistory.concat([
-            new ProjectCertificateUploaded({
+            new ProjectCertificateUpdated({
               payload: {
                 projectId: projectId.toString(),
                 certificateFileId: 'file1',
@@ -223,7 +223,7 @@ describe('Project.shouldCertificateBeGenerated', () => {
       )
 
       it('should return false', () => {
-        project.uploadCertificate(fakeUser, 'fakeCertificateFileId')
+        project.updateCertificate(fakeUser, 'fakeCertificateFileId')
         project.setNotificationDate(fakeUser, 5454564654)
         expect(project.shouldCertificateBeGenerated).toBe(false)
       })

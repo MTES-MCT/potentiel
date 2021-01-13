@@ -120,7 +120,7 @@ export const makeCorrectProjectData = (deps: CorrectProjectDataDeps): CorrectPro
     certificateFileId: string | null,
     project: Project
   ): Result<null, ProjectCannotBeUpdatedIfUnnotifiedError> {
-    return certificateFileId ? project.uploadCertificate(user, certificateFileId) : ok(null)
+    return certificateFileId ? project.updateCertificate(user, certificateFileId) : ok(null)
   }
 
   function _uploadFileIfExists(): ResultAsync<

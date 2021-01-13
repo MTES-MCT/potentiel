@@ -2,15 +2,15 @@ import { ResultAsync } from 'neverthrow'
 import { Repository, UniqueEntityID } from '../../../core/domain'
 import { ProjectRepo } from '../../../dataAccess'
 import { NotificationService } from '..'
-import { ProjectCertificateRegenerated, ProjectCertificateUploaded } from '../../project/events'
+import { ProjectCertificateRegenerated, ProjectCertificateUpdated } from '../../project/events'
 import { Project } from '../../project/Project'
 import { User } from '../../../entities'
 
-export const handleProjectCertificateUploadedOrRegenerated = (deps: {
+export const handleProjectCertificateUpdatedOrRegenerated = (deps: {
   sendNotification: NotificationService['sendNotification']
   getUsersForProject: ProjectRepo['getUsers']
   projectRepo: Repository<Project>
-}) => async (event: ProjectCertificateUploaded | ProjectCertificateRegenerated) => {
+}) => async (event: ProjectCertificateUpdated | ProjectCertificateRegenerated) => {
   const projectId = event.payload.projectId
 
   const porteursProjet = (await deps.getUsersForProject(projectId)).filter(
