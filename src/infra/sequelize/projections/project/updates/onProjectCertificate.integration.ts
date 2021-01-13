@@ -2,7 +2,7 @@ import { resetDatabase } from '../../../helpers'
 import {
   ProjectCertificateGenerated,
   ProjectCertificateRegenerated,
-  ProjectCertificateUploaded,
+  ProjectCertificateUpdated,
 } from '../../../../../modules/project/events'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import models from '../../../models'
@@ -86,9 +86,9 @@ describe('project.onProjectCertificate', () => {
     expect(nonUpdatedProject.certificateFileId).toEqual(null)
   })
 
-  it('should update project.certificateFileId on ProjectCertificateUploaded', async () => {
+  it('should update project.certificateFileId on ProjectCertificateUpdated', async () => {
     await onProjectCertificate(models)(
-      new ProjectCertificateUploaded({
+      new ProjectCertificateUpdated({
         payload: {
           certificateFileId: certificateFile1,
           projectId: projectId,

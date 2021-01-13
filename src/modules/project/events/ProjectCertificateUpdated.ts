@@ -5,11 +5,11 @@ export interface ProjectCertificateUpdatedPayload {
   certificateFileId: string
   uploadedBy: string // userId
 }
-export class ProjectCertificateUploaded
+export class ProjectCertificateUpdated
   extends BaseDomainEvent<ProjectCertificateUpdatedPayload>
   implements DomainEvent {
   public static type: 'ProjectCertificateUpdated' = 'ProjectCertificateUpdated'
-  public type = ProjectCertificateUploaded.type
+  public type = ProjectCertificateUpdated.type
   currentVersion = 1
 
   aggregateIdFromPayload(payload: ProjectCertificateUpdatedPayload) {

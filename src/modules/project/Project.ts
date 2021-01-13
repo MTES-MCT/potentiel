@@ -35,7 +35,7 @@ import {
   LegacyProjectSourced,
   ProjectCertificateGenerated,
   ProjectCertificateRegenerated,
-  ProjectCertificateUploaded,
+  ProjectCertificateUpdated,
   ProjectClasseGranted,
   ProjectDataCorrected,
   ProjectDataCorrectedPayload,
@@ -60,7 +60,7 @@ export interface Project extends EventStoreAggregate {
     user: User,
     notifiedOn: number
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError>
-  uploadCertificate: (
+  updateCertificate: (
     user: User,
     certificateFileId: string
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
@@ -273,13 +273,13 @@ export const makeProject = (args: {
 
       return ok(null)
     },
-    uploadCertificate: function (user, certificateFileId) {
+    updateCertificate: function (user, certificateFileId) {
       if (!_isNotified()) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
       }
 
       _publishEvent(
-        new ProjectCertificateUploaded({
+        new ProjectCertificateUpdated({
           payload: {
             projectId: props.projectId.toString(),
             certificateFileId,
@@ -342,7 +342,7 @@ export const makeProject = (args: {
       return (
         _isNotified() &&
         _periodeHasCertificate() &&
-        !_hasPendingEventOfType(ProjectCertificateUploaded.type) &&
+        !_hasPendingEventOfType(ProjectCertificateUpdated.type) &&
         (!props.lastCertificateUpdate || props.lastCertificateUpdate < props.lastUpdatedOn)
       )
     },
@@ -463,7 +463,7 @@ export const makeProject = (args: {
         props.data = { ...props.data, ...event.payload.correctedData } as ProjectProps['data']
         _updateAppelOffre(event.payload.correctedData)
         break
-      case ProjectCertificateUploaded.type:
+      case ProjectCertificateUpdated.type:
         props.lastCertificateUpdate = event.occurredAt
         break
       case ProjectCertificateGenerated.type:

@@ -77,7 +77,7 @@ export const makeAcceptModificationRequest = (deps: AcceptModificationRequestDep
     .andThen(({ project, modificationRequest, certificateFileId }) => {
       return project
         .grantClasse(submittedBy)
-        .andThen(() => project.uploadCertificate(submittedBy, certificateFileId))
+        .andThen(() => project.updateCertificate(submittedBy, certificateFileId))
         .andThen(() =>
           project.setNotificationDate(submittedBy, acceptanceParams.newNotificationDate.getTime())
         )

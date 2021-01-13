@@ -66,7 +66,7 @@ import {
   ProjectReimportedPayload,
   ProjectClasseGranted,
   ProjectClasseGrantedPayload,
-  ProjectCertificateUploaded,
+  ProjectCertificateUpdated,
   ProjectCertificateUpdateFailed,
   ProjectCertificateUpdatedPayload,
   ProjectCertificateUpdateFailedPayload,
@@ -193,8 +193,8 @@ export class SequelizeEventStore extends BaseEventStore {
             occurredAt: new Date(eventRaw.occurredAt),
           },
         })
-      case ProjectCertificateUploaded.type:
-        return new ProjectCertificateUploaded({
+      case ProjectCertificateUpdated.type:
+        return new ProjectCertificateUpdated({
           payload: eventRaw.payload as ProjectCertificateUpdatedPayload,
           requestId: eventRaw.requestId?.toString(),
           original: {

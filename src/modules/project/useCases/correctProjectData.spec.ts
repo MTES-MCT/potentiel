@@ -113,7 +113,7 @@ describe('correctProjectData', () => {
         const fakeFilename = 'filename'
 
         beforeAll(async () => {
-          fakeProject.uploadCertificate.mockClear()
+          fakeProject.updateCertificate.mockClear()
           fakeGenerateCertificate.mockClear()
 
           const res = await correctProjectData({
@@ -141,9 +141,9 @@ describe('correctProjectData', () => {
           expect(fileRepo.save.mock.calls[0][0].filename).toEqual(fakeFilename)
         })
 
-        it('should call project.uploadCertificate()', () => {
-          expect(fakeProject.uploadCertificate).toHaveBeenCalledTimes(1)
-          expect(fakeProject.uploadCertificate.mock.calls[0][0]).toEqual(user)
+        it('should call project.updateCertificate()', () => {
+          expect(fakeProject.updateCertificate).toHaveBeenCalledTimes(1)
+          expect(fakeProject.updateCertificate.mock.calls[0][0]).toEqual(user)
         })
 
         it('should call project.correctData()', async () => {
@@ -187,7 +187,7 @@ describe('correctProjectData', () => {
         })
 
         beforeAll(async () => {
-          fakeProject.uploadCertificate.mockClear()
+          fakeProject.updateCertificate.mockClear()
           fakeGenerateCertificate.mockClear()
 
           const res = await correctProjectData({

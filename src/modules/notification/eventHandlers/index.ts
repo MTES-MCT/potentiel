@@ -1,2 +1,2 @@
 export * from './handleModificationRequestStatusChanged'
-export * from './handleProjectCertificateUploadedOrRegenerated'
+export * from './handleProjectCertificateUpdatedOrRegenerated'

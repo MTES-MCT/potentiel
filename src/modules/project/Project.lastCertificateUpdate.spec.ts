@@ -9,7 +9,7 @@ import { StoredEvent } from '../eventStore'
 import {
   ProjectCertificateGenerated,
   ProjectCertificateRegenerated,
-  ProjectCertificateUploaded,
+  ProjectCertificateUpdated,
   ProjectImported,
   ProjectNotified,
 } from './events'
@@ -70,7 +70,7 @@ describe('Project.lastCertificateUpdate', () => {
           history: fakeHistory.filter(
             (event) =>
               event.type !== ProjectCertificateGenerated.type &&
-              event.type !== ProjectCertificateUploaded.type
+              event.type !== ProjectCertificateUpdated.type
           ),
         })
       )
@@ -113,7 +113,7 @@ describe('Project.lastCertificateUpdate', () => {
           projectId,
           appelsOffres,
           history: fakeHistory.concat([
-            new ProjectCertificateUploaded({
+            new ProjectCertificateUpdated({
               payload: {
                 projectId: projectId.toString(),
                 certificateFileId: 'file1',

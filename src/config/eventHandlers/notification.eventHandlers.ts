@@ -1,10 +1,10 @@
 import {
-  handleProjectCertificateUploadedOrRegenerated,
+  handleProjectCertificateUpdatedOrRegenerated,
   handleModificationRequestStatusChanged,
 } from '../../modules/notification'
 import {
   ProjectCertificateRegenerated,
-  ProjectCertificateUploaded,
+  ProjectCertificateUpdated,
 } from '../../modules/project/events'
 import { projectRepo, oldProjectRepo } from '../repos.config'
 import { getModificationRequestInfoForStatusNotification } from '../queries.config'
@@ -15,13 +15,13 @@ import {
   ModificationRequestInstructionStarted,
 } from '../../modules/modificationRequest'
 
-const projectCertificateChangeHandler = handleProjectCertificateUploadedOrRegenerated({
+const projectCertificateChangeHandler = handleProjectCertificateUpdatedOrRegenerated({
   sendNotification,
   projectRepo,
   getUsersForProject: oldProjectRepo.getUsers,
 })
 
-eventStore.subscribe(ProjectCertificateUploaded.type, projectCertificateChangeHandler)
+eventStore.subscribe(ProjectCertificateUpdated.type, projectCertificateChangeHandler)
 eventStore.subscribe(ProjectCertificateRegenerated.type, projectCertificateChangeHandler)
 
 const modificationRequestStatusChangeHandler = handleModificationRequestStatusChanged({
