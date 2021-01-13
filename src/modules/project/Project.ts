@@ -342,6 +342,7 @@ export const makeProject = (args: {
       return (
         _isNotified() &&
         _periodeHasCertificate() &&
+        !_hasPendingEventOfType(ProjectCertificateUploaded.type) &&
         (!props.lastCertificateUpdate || props.lastCertificateUpdate < props.lastUpdatedOn)
       )
     },
@@ -567,6 +568,10 @@ export const makeProject = (args: {
 
   function _removePendingEventsOfType(type: StoredEvent['type']) {
     _.remove(pendingEvents, (event) => event.type === type)
+  }
+
+  function _hasPendingEventOfType(type: StoredEvent['type']) {
+    return pendingEvents.some((event) => event.type === type)
   }
 
   function _updateDCRDate() {
