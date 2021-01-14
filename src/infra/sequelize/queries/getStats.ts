@@ -41,7 +41,7 @@ export const getStats: GetStats = () => {
   const _getPorteursProjetTotal = async () =>
     (
       await sequelizeInstance.query(
-        "SELECT COUNT(id) as count FROM users WHERE role is 'porteur-projet';",
+        "SELECT COUNT(id) as count FROM users WHERE role = 'porteur-projet';",
         { type: QueryTypes.SELECT }
       )
     )[0].count
@@ -95,7 +95,7 @@ export const getStats: GetStats = () => {
 
   const _getDemandes = async () =>
     (
-      await sequelizeInstance.query('SELECT type FROM modificationRequests;', {
+      await sequelizeInstance.query('SELECT type FROM "modificationRequests";', {
         type: QueryTypes.SELECT,
       })
     ).reduce(
