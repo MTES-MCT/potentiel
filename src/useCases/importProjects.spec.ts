@@ -32,8 +32,8 @@ const getColumnForField = (field: string) => {
 const makePhonyLine = () => ({
   "Appel d'offres": phonyAppelOffre.id,
   Période: phonyPeriodId,
+  Famille: phonyFamilleId,
   [getColumnForField('numeroCRE')]: phonyNumeroCRE,
-  [getColumnForField('familleId')]: phonyFamilleId,
   [getColumnForField('nomCandidat')]: 'nomCandidat',
   [getColumnForField('nomProjet')]: 'nomProjet',
   [getColumnForField('puissance')]: '11,5',
@@ -308,5 +308,100 @@ describe('importProjects use-case', () => {
     expect(findOneProject).not.toHaveBeenCalled()
     expect(saveProject).not.toHaveBeenCalled()
     expect(addProjectToUserWithEmail).not.toHaveBeenCalled()
+  })
+
+  describe('when the appel offre requires a famille', () => {
+    describe('when a line doesn‘t have a familleId', () => {
+      it('should throw an error', async () => {
+        const findOneProject = jest.fn()
+        const saveProject = jest.fn()
+        const addProjectToUserWithEmail = jest.fn()
+
+        const importProjects = makeImportProjects({
+          eventBus: fakeEventBus,
+          findOneProject,
+          saveProject,
+          addProjectToUserWithEmail,
+          removeProject: jest.fn(),
+          appelOffreRepo,
+        })
+
+        const badLine = _.omit(makePhonyLine(), 'Famille')
+
+        const result = await importProjects({
+          lines: [badLine],
+          userId: 'userId',
+        })
+
+        expect(result.is_err()).toBe(true)
+        expect(result.unwrap_err().message.indexOf(ERREUR_FORMAT_LIGNE)).toEqual(0)
+
+        expect(findOneProject).not.toHaveBeenCalled()
+        expect(saveProject).not.toHaveBeenCalled()
+        expect(addProjectToUserWithEmail).not.toHaveBeenCalled()
+      })
+    })
+
+    describe('when a line doesn‘t have a valid familleId', () => {
+      it('should throw an error', async () => {
+        const findOneProject = jest.fn()
+        const saveProject = jest.fn()
+        const addProjectToUserWithEmail = jest.fn()
+
+        const importProjects = makeImportProjects({
+          eventBus: fakeEventBus,
+          findOneProject,
+          saveProject,
+          addProjectToUserWithEmail,
+          removeProject: jest.fn(),
+          appelOffreRepo,
+        })
+
+        const badLine = { ...makePhonyLine(), Famille: 'abc' }
+
+        const result = await importProjects({
+          lines: [badLine],
+          userId: 'userId',
+        })
+
+        expect(result.is_err()).toBe(true)
+        expect(result.unwrap_err().message.indexOf(ERREUR_FORMAT_LIGNE)).toEqual(0)
+
+        expect(findOneProject).not.toHaveBeenCalled()
+        expect(saveProject).not.toHaveBeenCalled()
+        expect(addProjectToUserWithEmail).not.toHaveBeenCalled()
+      })
+    })
+  })
+
+  describe('when the appel offre doesn‘t require a famille and familleId is not provided', () => {
+    const goodLine = {
+      ...makePhonyLine(),
+      "Appel d'offres": 'CRE4 - Autoconsommation ZNI',
+      Période: '1',
+      Famille: undefined,
+    }
+    it('should not throw an error', async () => {
+      const findOneProject = jest.fn()
+      const saveProject = jest.fn(async (project: Project) => Ok(null))
+      const addProjectToUserWithEmail = jest.fn()
+
+      const importProjects = makeImportProjects({
+        eventBus: fakeEventBus,
+        findOneProject,
+        saveProject,
+        addProjectToUserWithEmail,
+        removeProject: jest.fn(),
+        appelOffreRepo,
+      })
+
+      const result = await importProjects({
+        lines: [goodLine],
+        userId: 'userId',
+      })
+
+      if (result.is_err()) console.log(result.unwrap_err().message)
+      expect(result.is_ok()).toBe(true)
+    })
   })
 })

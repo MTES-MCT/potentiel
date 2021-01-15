@@ -3,11 +3,6 @@ import toTypeLiteral from './helpers/toTypeLiteral'
 const commonDataFields = [
   { field: 'numeroCRE', type: toTypeLiteral('string'), column: 'N°CRE' },
   {
-    field: 'familleId',
-    type: toTypeLiteral('string'),
-    column: 'Famille',
-  },
-  {
     field: 'nomCandidat',
     type: toTypeLiteral('orStringInColumn'),
     column: 'Nom (personne physique) ou raison sociale (personne morale) :',
