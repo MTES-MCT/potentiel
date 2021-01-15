@@ -121,6 +121,9 @@ export default function makeImportProjects({
     // Check individual lines (use makeProject on each)
     const projects = lines.reduce<Result<Array<Partial<Project>>, Array<Error>>>(
       (currentResults, line, index) => {
+        // The actual line number is removed by 2 because of the csv file header lines
+        const lineIndex = index + 2
+
         // Find the corresponding appelOffre
         const appelOffreId = line["Appel d'offres"]
         const appelOffre = appelsOffre.find((appelOffre) => appelOffre.id === appelOffreId)
@@ -129,7 +132,7 @@ export default function makeImportProjects({
           console.log('Appel offre introuvable', appelOffreId)
           return makeErrorForLine(
             new Error("Appel d'offre introuvable " + appelOffreId),
-            index + 2,
+            lineIndex,
             currentResults
           )
         }
@@ -144,7 +147,7 @@ export default function makeImportProjects({
             periodeId,
             appelOffre.periodes.map((item) => item.id)
           )
-          return makeErrorForLine(new Error('Période introuvable'), index + 2, currentResults)
+          return makeErrorForLine(new Error('Période introuvable'), lineIndex, currentResults)
         }
 
         // Check the famille
@@ -155,7 +158,7 @@ export default function makeImportProjects({
             console.log('famille erronnée', familleId)
             return makeErrorForLine(
               new Error('Famille inconnue pour cet appel d‘offre'),
-              index + 2,
+              lineIndex,
               currentResults
             )
           }
@@ -163,8 +166,8 @@ export default function makeImportProjects({
         if (appelOffre.familles.length && !familleId) {
           console.log('famille manquante', appelOffre)
           return makeErrorForLine(
-            new Error('Famille manquante (cette appel d‘offre requiert une famille)'),
-            index + 2,
+            new Error('Famille manquante (cet appel d‘offre requiert une famille)'),
+            lineIndex,
             currentResults
           )
         }
