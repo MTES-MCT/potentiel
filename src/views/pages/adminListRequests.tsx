@@ -1,16 +1,13 @@
 import React from 'react'
-
-import { ModificationRequest, Project, User } from '../../entities'
-import ROUTES from '../../routes'
-
-import RequestList from '../components/requestList'
-import AdminDashboard from '../components/adminDashboard'
-import { HttpRequest } from '../../types'
 import { dataId } from '../../helpers/testId'
+import { ModificationRequestListItemDTO } from '../../modules/modificationRequest'
+import { HttpRequest, PaginatedList } from '../../types'
+import AdminDashboard from '../components/adminDashboard'
+import RequestList from '../components/requestList'
 
 interface AdminListRequestsProps {
   request: HttpRequest
-  modificationRequests?: Array<ModificationRequest>
+  modificationRequests?: PaginatedList<ModificationRequestListItemDTO>
 }
 
 /* Pure component */

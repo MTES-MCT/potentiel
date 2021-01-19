@@ -6,6 +6,7 @@ import { makeGetModificationRequestUpdateInfo } from './getModificationRequestIn
 import { makeGetFileProject } from './getFileProject'
 import { makeGetFailedNotificationsForRetry } from './getFailedNotificationsForRetry'
 import { makeGetFailedNotificationDetails } from './getFailedNotificationDetails'
+import { makeGetModificationRequestListForUser } from './getModificationRequestListForUser'
 
 export const getUnnotifiedProjectsForPeriode = makeGetUnnotifiedProjectsForPeriode(models)
 export const getModificationRequestDetails = makeGetModificationRequestDetails(models)
@@ -13,6 +14,8 @@ export const getModificationRequestStatus = makeGetModificationRequestStatus(mod
 export const getModificationRequestInfoForStatusNotification = makeGetModificationRequestUpdateInfo(
   models
 )
+export const getModificationRequestListForUser = makeGetModificationRequestListForUser(models)
+
 export const getFileProject = makeGetFileProject(models)
 export { getStats } from './getStats'
 export const getFailedNotificationsForRetry = makeGetFailedNotificationsForRetry(models)
