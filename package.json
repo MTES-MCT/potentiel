@@ -29,6 +29,7 @@
   "homepage": "https://github.com/MTES-MCT/potentiel#readme",
   "dependencies": {
     "@react-pdf/renderer": "^1.6.11",
+    "@sentry/node": "^6.0.0",
     "@usefultools/monads": "^3.0.3",
     "aws-sdk": "^2.799.0",
     "body-parser": "^1.19.0",
