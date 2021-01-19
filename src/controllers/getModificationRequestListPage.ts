@@ -3,23 +3,25 @@ import { makePagination } from '../helpers/paginate'
 import { Redirect, Success, SystemError } from '../helpers/responses'
 import ROUTES from '../routes'
 import { HttpRequest, Pagination } from '../types'
-import { UserListRequestsPage } from '../views/pages'
+import { ModificationRequestListPage } from '../views/pages'
 
-const getUserRequestsPage = async (request: HttpRequest) => {
-  if (!request.user) {
+export const getModificationRequestListPage = async (request: HttpRequest) => {
+  const { user, cookies, query } = request
+
+  if (!user) {
     return Redirect(ROUTES.LOGIN)
   }
 
   const defaultPagination: Pagination = {
     page: 0,
-    pageSize: +request.cookies?.pageSize || 10,
+    pageSize: +cookies?.pageSize || 10,
   }
-  const pagination = makePagination(request.query, defaultPagination)
+  const pagination = makePagination(query, defaultPagination)
 
-  return await getModificationRequestListForUser(request.user, pagination).match(
+  return await getModificationRequestListForUser(user, pagination).match(
     (modificationRequests) =>
       Success(
-        UserListRequestsPage({
+        ModificationRequestListPage({
           request,
           modificationRequests,
         })
@@ -32,5 +34,3 @@ const getUserRequestsPage = async (request: HttpRequest) => {
     }
   )
 }
-
-export { getUserRequestsPage }
