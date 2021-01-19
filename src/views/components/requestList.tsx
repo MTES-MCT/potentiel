@@ -1,20 +1,24 @@
 import React from 'react'
-import { ModificationRequest, User } from '../../entities'
+import { User } from '../../entities'
 import { dataId } from '../../helpers/testId'
-import { ModificationRequestStatusTitle, ModificationRequestColorByStatus } from '../helpers'
+import { formatDate } from '../../helpers/formatDate'
+import { ModificationRequestListItemDTO } from '../../modules/modificationRequest'
 import ROUTES from '../../routes'
+import { PaginatedList } from '../../types'
+import { ModificationRequestColorByStatus, ModificationRequestStatusTitle } from '../helpers'
 import { titlePerAction } from '../pages/newModificationRequest'
+import Pagination from './pagination'
 
 interface Props {
-  modificationRequests?: Array<ModificationRequest>
+  modificationRequests?: PaginatedList<ModificationRequestListItemDTO>
   role?: User['role']
   requestActions?: (
-    modificationRequest: ModificationRequest
+    modificationRequest: ModificationRequestListItemDTO
   ) => Array<{ title: string; link: string; disabled?: boolean }> | null
 }
 
 const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
-  if (!modificationRequests || !modificationRequests.length) {
+  if (!modificationRequests || !modificationRequests.itemCount) {
     return (
       <table className="table">
         <tbody>
@@ -39,8 +43,14 @@ const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
           </tr>
         </thead>
         <tbody>
-          {modificationRequests.map(({ project, user, status, ...modificationRequest }) => {
-            if (!project || !user) return ''
+          {modificationRequests.items.map((modificationRequestItem) => {
+            const {
+              project,
+              requestedBy,
+              requestedOn,
+              status,
+              ...modificationRequest
+            } = modificationRequestItem
             return (
               <tr
                 key={'modificationRequest_' + modificationRequest.id}
@@ -88,7 +98,8 @@ const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
                     ,{' '}
                     <span {...dataId('requestList-item-regionProjet')}>{project.regionProjet}</span>
                     <div {...dataId('requestList-item-email')}>
-                      <a href={'mailto:' + project.email}>{project.email}</a>
+                      Déposé par <a href={'mailto:' + requestedBy.email}>{requestedBy.fullName}</a>{' '}
+                      le {formatDate(requestedOn)}
                     </div>
                   </div>
                 </td>
@@ -110,7 +121,9 @@ const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
                     ) : modificationRequest.type === 'producteur' ? (
                       <span>{modificationRequest.producteur}</span>
                     ) : modificationRequest.type === 'puissance' ? (
-                      <span>{modificationRequest.puissance} kWc</span>
+                      <span>
+                        {modificationRequest.puissance} {project.unitePuissance}
+                      </span>
                     ) : (
                       ''
                     )}
@@ -161,7 +174,7 @@ const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
                 >
                   {status ? ModificationRequestStatusTitle[status] : ''}
                 </td>
-                {requestActions && requestActions(modificationRequest) ? (
+                {requestActions && requestActions(modificationRequestItem) ? (
                   <td style={{ position: 'relative' }}>
                     <img
                       src="/images/icons/external/more.svg"
@@ -172,9 +185,11 @@ const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
                       className="list--action-trigger"
                     />
                     <ul className="list--action-menu">
-                      {requestActions(modificationRequest)?.map(
+                      {requestActions(modificationRequestItem)?.map(
                         ({ title, link, disabled }, actionIndex) => (
-                          <li key={'request_action_' + modificationRequest.id + '_' + actionIndex}>
+                          <li
+                            key={'request_action_' + modificationRequestItem.id + '_' + actionIndex}
+                          >
                             {disabled ? (
                               <i>{title}</i>
                             ) : (
@@ -195,49 +210,11 @@ const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
           })}
         </tbody>
       </table>
-      {/* <nav className="pagination">
-        <div className="pagination__display-group">
-          <label
-            htmlFor="pagination__display"
-            className="pagination__display-label"
-          >
-            Demandes par page
-          </label>
-          <select className="pagination__display" id="pagination__display">
-            <option>5</option>
-            <option>10</option>
-            <option>50</option>
-            <option>100</option>
-          </select>
-        </div>
-        <div className="pagination__count">
-          <strong>{modificationRequests?.length}</strong> sur{' '}
-          <strong>{modificationRequests?.length}</strong>
-        </div>
-        <ul className="pagination__pages" style={{ display: 'none' }}>
-          <li className="disabled">
-            <a>❮ Précédent</a>
-          </li>
-          <li className="active">
-            <a>1</a>
-          </li>
-          <li>
-            <a>2</a>
-          </li>
-          <li>
-            <a>3</a>
-          </li>
-          <li>
-            <a>4</a>
-          </li>
-          <li className="disabled">
-            <a>5</a>
-          </li>
-          <li>
-            <a>Suivant ❯</a>
-          </li>
-        </ul>
-      </nav> */}
+      <Pagination
+        pagination={modificationRequests.pagination}
+        pageCount={modificationRequests.pageCount}
+        itemTitle="Demandes"
+      />
     </>
   )
 }
