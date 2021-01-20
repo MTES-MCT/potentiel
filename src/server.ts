@@ -1,78 +1,72 @@
-import express from 'express'
-import multer from 'multer'
-import session from 'express-session'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
-
-import { version } from '../package.json'
-
 import dotenv from 'dotenv'
-
-import makeExpressCallback from './helpers/makeExpressCallback'
+import express from 'express'
+import session from 'express-session'
+import multer from 'multer'
+import { version } from '../package.json'
 import {
-  getLoginPage,
-  getProjectListPage,
-  getAdminRequestsPage,
-  getImportProjectsPage,
-  getNotifyCandidatesPage,
-  registerAuth,
-  postLogin,
   ensureLoggedIn,
-  logoutMiddleware,
-  postProjects,
-  postSendCandidateNotifications,
-  getSignupPage,
-  postSignup,
-  getDemandePage,
-  postRequestModification,
-  getUserRequestsPage,
   getCandidateCertificatePreview,
-  getForgottenPasswordPage,
-  postRetrievePassword,
-  getResetPasswordPage,
-  postResetPassword,
-  getProjectFile,
-  getProjectPage,
-  postInviteUserToProject,
-  postGarantiesFinancieres,
-  postDCR,
+  getDemandePage,
   getDrealPage,
-  postInviteDreal,
+  getForgottenPasswordPage,
   getGarantiesFinancieresPage,
+  getImportProjectsPage,
   getInvitationListPage,
-  postRelanceInvitations,
+  getLoginPage,
+  getModeleMiseEnDemeure,
+  getModeleReponseRecours,
+  getModificationRequestListPage,
+  getModificationRequestPage,
   getNotificationListPage,
-  postRetryNotifications,
-  postRelanceGarantiesFinancieres,
+  getNotifyCandidatesPage,
+  getProjectCertificateFile,
+  getProjectFile,
+  getProjectListPage,
+  getProjectPage,
   getRemoveDCR,
   getRemoveGarantiesFinancieres,
-  getModeleMiseEnDemeure,
-  getProjectCertificateFile,
-  postCorrectProjectData,
-  getModeleReponseRecours,
+  getResetPasswordPage,
+  getSignupPage,
   getStatistiquesPage,
-  getModificationRequestPage,
+  logoutMiddleware,
+  postCorrectProjectData,
+  postDCR,
+  postGarantiesFinancieres,
+  postInviteDreal,
+  postInviteUserToProject,
+  postLogin,
+  postProjects,
+  postRelanceGarantiesFinancieres,
+  postRelanceInvitations,
   postReplyToModificationRequest,
+  postRequestModification,
+  postResetPassword,
+  postRetrievePassword,
+  postRetryNotifications,
+  postSendCandidateNotifications,
+  postSignup,
+  registerAuth,
 } from './controllers'
-
+import { initDatabase } from './dataAccess'
+import { User } from './entities'
+import makeExpressCallback from './helpers/makeExpressCallback'
+import ROUTES from './routes'
 import {
-  resetDbForTests,
-  addProjectsForTests,
-  getSentEmailsForTests,
-  createInvitationForTests,
-  checkUserAccessToProjectForTests,
-  createUserWithEmailForTests,
-  getProjectIdForTests,
-  getProjectHistoryForTests,
-  addUserToDrealForTests,
   addInvitationsForTests,
   addNotificationsForTests,
+  addProjectsForTests,
+  addUserToDrealForTests,
+  checkUserAccessToProjectForTests,
+  createInvitationForTests,
+  createUserWithEmailForTests,
+  getProjectHistoryForTests,
+  getProjectIdForTests,
+  getSentEmailsForTests,
+  resetDbForTests,
 } from './__tests__/integration'
 
-import { initDatabase } from './dataAccess'
-
-import ROUTES from './routes'
-import { User } from './entities'
 dotenv.config()
 
 const FILE_SIZE_LIMIT_MB = 50
@@ -169,7 +163,7 @@ export async function makeServer(port: number) {
       ROUTES.ADMIN_LIST_REQUESTS,
       ensureLoggedIn(),
       ensureRole(['admin', 'dgec']),
-      makeExpressCallback(getAdminRequestsPage)
+      makeExpressCallback(getModificationRequestListPage)
     )
 
     router.get(
@@ -250,7 +244,7 @@ export async function makeServer(port: number) {
       ROUTES.USER_LIST_REQUESTS,
       ensureLoggedIn(),
       ensureRole('porteur-projet'),
-      makeExpressCallback(getUserRequestsPage)
+      makeExpressCallback(getModificationRequestListPage)
     )
 
     router.get(
