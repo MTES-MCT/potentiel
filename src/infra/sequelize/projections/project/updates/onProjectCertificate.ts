@@ -1,3 +1,4 @@
+import { logger } from '../../../../../core/utils'
 import {
   ProjectCertificateGenerated,
   ProjectCertificateRegenerated,
@@ -11,7 +12,9 @@ export const onProjectCertificate = (models) => async (
   const projectInstance = await ProjectModel.findByPk(event.payload.projectId)
 
   if (!projectInstance) {
-    console.log('Error: onProjectCertificate projection failed to retrieve project from db', event)
+    logger.error(
+      `Error: onProjectCertificate projection failed to retrieve project from db' ${event}`
+    )
     return
   }
 
@@ -21,6 +24,7 @@ export const onProjectCertificate = (models) => async (
   try {
     await projectInstance.save()
   } catch (e) {
-    console.log('Error: onProjectCertificate projection failed to update project', event, e.message)
+    logger.error(e)
+    logger.info('Error: onProjectCertificate projection failed to update project', event)
   }
 }

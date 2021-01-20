@@ -2,6 +2,7 @@ import { Redirect, NotFoundError } from '../helpers/responses'
 import ROUTES from '../routes'
 import { HttpRequest } from '../types'
 import { removeDCR } from '../useCases'
+import { logger } from '../core/utils'
 
 const getRemoveDCR = async (request: HttpRequest) => {
   const { user } = request
@@ -25,7 +26,7 @@ const getRemoveDCR = async (request: HttpRequest) => {
           success: 'La demande complète de raccordement a été retirée avec succès',
         }),
       err: (e: Error) => {
-        console.log('getRemoveDCR failed', e)
+        logger.error(e)
         return Redirect(ROUTES.PROJECT_DETAILS(projectId), {
           error: `La demande complète de raccordement n'a pas pu être retirée. (Erreur: ${e.message})`,
         })

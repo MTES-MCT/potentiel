@@ -1,5 +1,5 @@
 import { Repository, UniqueEntityID } from '../../../core/domain'
-import { err, errAsync, ok, Result, ResultAsync } from '../../../core/utils'
+import { err, errAsync, logger, ok, Result, ResultAsync } from '../../../core/utils'
 import { User } from '../../../entities'
 import { FileContents, FileObject, makeAndSaveFile } from '../../file'
 import { Project } from '../../project/Project'
@@ -69,8 +69,8 @@ export const makeAcceptModificationRequest = (deps: AcceptModificationRequestDep
         fileRepo,
       })
         .map((certificateFileId) => ({ project, modificationRequest, certificateFileId }))
-        .mapErr((e) => {
-          console.error(e)
+        .mapErr((e: Error) => {
+          logger.error(e)
           return new InfraNotAvailableError()
         })
     })

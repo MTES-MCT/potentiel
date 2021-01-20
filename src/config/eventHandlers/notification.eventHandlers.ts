@@ -14,6 +14,7 @@ import {
   ModificationRequestAccepted,
   ModificationRequestInstructionStarted,
 } from '../../modules/modificationRequest'
+import { logger } from '../../core/utils'
 
 const projectCertificateChangeHandler = handleProjectCertificateUpdatedOrRegenerated({
   sendNotification,
@@ -34,5 +35,5 @@ eventStore.subscribe(
 )
 eventStore.subscribe(ModificationRequestAccepted.type, modificationRequestStatusChangeHandler)
 
-console.log('Notification Event Handlers Initialized')
+logger.info('Notification Event Handlers Initialized')
 export const notificationHandlersOk = true

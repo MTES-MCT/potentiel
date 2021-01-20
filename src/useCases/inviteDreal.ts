@@ -1,3 +1,4 @@
+import { logger } from '../core/utils'
 import { CredentialsRepo, ProjectAdmissionKeyRepo, UserRepo } from '../dataAccess'
 import { DREAL, makeProjectAdmissionKey, User } from '../entities'
 import { NotificationService } from '../modules/notification'
@@ -42,10 +43,7 @@ export default function makeInviteDreal({
       const { userId } = existingUserWithEmail.unwrap()
       const result = await userRepo.addToDreal(userId, region)
       if (result.is_err()) {
-        console.log(
-          'inviteDreal use-case failed on call to userRepo.addToDreal',
-          result.unwrap_err()
-        )
+        logger.error(result.unwrap_err())
         return ErrorResult(SYSTEM_ERROR)
       }
 
@@ -61,19 +59,13 @@ export default function makeInviteDreal({
       fullName: '',
     })
     if (projectAdmissionKeyResult.is_err()) {
-      console.log(
-        'inviteDreal use-case failed on call to makeProjectAdmissionKey',
-        projectAdmissionKeyResult.unwrap_err()
-      )
+      logger.error(projectAdmissionKeyResult.unwrap_err())
       return ErrorResult(SYSTEM_ERROR)
     }
     const projectAdmissionKey = projectAdmissionKeyResult.unwrap()
     const projectAdmissionKeyInsertion = await projectAdmissionKeyRepo.save(projectAdmissionKey)
     if (projectAdmissionKeyInsertion.is_err()) {
-      console.log(
-        'inviteDreal use-case failed on call to projectAdmissionKeyRepo.save',
-        projectAdmissionKeyResult.unwrap_err()
-      )
+      logger.error(projectAdmissionKeyResult.unwrap_err())
       return ErrorResult(SYSTEM_ERROR)
     }
 
@@ -99,7 +91,7 @@ export default function makeInviteDreal({
       })
       return Ok(null)
     } catch (error) {
-      console.log('inviteDreal use-case: error when calling sendDrealInvitation', error)
+      logger.error(error)
       return Err(error)
     }
   }

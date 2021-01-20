@@ -2,6 +2,8 @@ import { NotFoundError, SuccessFileStream, Redirect, SystemError } from '../help
 import { HttpRequest } from '../types'
 import { loadFileForUser } from '../config'
 import ROUTES from '../routes'
+import { logger } from '../core/utils'
+import { InfraNotAvailableError } from '../modules/shared'
 
 const getProjectFile = async (request: HttpRequest) => {
   try {
@@ -19,7 +21,12 @@ const getProjectFile = async (request: HttpRequest) => {
 
     return SuccessFileStream(result.value.contents)
   } catch (error) {
-    console.log('getProjectFile error', error)
+    if (error instanceof InfraNotAvailableError) {
+      logger.error(error)
+    } else {
+      logger.warning(error.message)
+    }
+
     return NotFoundError('Fichier introuvable.')
   }
 }

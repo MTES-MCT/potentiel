@@ -1,4 +1,5 @@
 import AWS from 'aws-sdk'
+import { logger } from '../../core/utils'
 import { err, ok, okAsync, Result, ResultAsync } from '../../core/utils/Result'
 import { FileStorageService } from '../../modules/file'
 import { InfraNotAvailableError } from '../../modules/shared'
@@ -53,7 +54,7 @@ export const makeS3FileStorageService = (args: {
           })
           .promise(),
         (e: any) => {
-          console.error(e)
+          logger.error(e)
           return new InfraNotAvailableError()
         }
       ).map(() => makeIdentifier(filePath, bucket))
@@ -83,7 +84,7 @@ export const makeS3FileStorageService = (args: {
               })
               .promise(),
             (e: any) => {
-              console.error(e)
+              logger.error(e)
               return new InfraNotAvailableError()
             }
           )

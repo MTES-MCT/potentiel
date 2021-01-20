@@ -1,5 +1,7 @@
 'use strict'
 
+const logger = require('../../../core/utils')
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     /**
@@ -75,7 +77,7 @@ module.exports = {
         {}
       )
     } catch (error) {
-      console.log('Error', error)
+      logger.error(error)
     }
   },
 

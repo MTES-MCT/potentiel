@@ -1,5 +1,5 @@
 import { TransactionalRepository, UniqueEntityID } from '../../../core/domain'
-import { okAsync } from '../../../core/utils'
+import { logger, okAsync } from '../../../core/utils'
 import { PeriodeNotified } from '../events/PeriodeNotified'
 import { GenerateCertificate } from '../useCases/generateCertificate'
 import { Project } from '../Project'
@@ -35,8 +35,8 @@ export const handlePeriodeNotified = (deps: {
         })
         .match(
           () => {},
-          (e) => {
-            console.error(e)
+          (e: Error) => {
+            logger.error(e)
           }
         )
     })

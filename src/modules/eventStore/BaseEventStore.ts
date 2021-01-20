@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events'
-import { ok, Result, ResultAsync, Queue, unwrapResultOfResult } from '../../core/utils'
+import { ok, Result, ResultAsync, Queue, unwrapResultOfResult, logger } from '../../core/utils'
 import { InfraNotAvailableError, OtherError } from '../shared'
 import { EventStore, EventStoreHistoryFilters, EventStoreTransactionArgs } from './EventStore'
 import { StoredEvent } from './StoredEvent'
@@ -23,8 +23,8 @@ export abstract class BaseEventStore implements EventStore {
   publish(event: StoredEvent): ResultAsync<null, InfraNotAvailableError> {
     const ticket = this.queue.push(async () => await this._persistAndPublish([event]))
 
-    return ResultAsync.fromPromise(ticket, (e) => {
-      console.log('BaseEventStore publish ticket failed', e)
+    return ResultAsync.fromPromise(ticket, (e: Error) => {
+      logger.error(e)
       return new InfraNotAvailableError()
     }).andThen(unwrapResultOfResult)
   }
@@ -58,7 +58,7 @@ export abstract class BaseEventStore implements EventStore {
   }
 
   private _emitEvent(event: StoredEvent) {
-    console.log(`[${event.type}] ${event.aggregateId}`)
+    logger.info(`[${event.type}] ${event.aggregateId}`)
     this.eventEmitter.emit(event.type, event)
   }
 

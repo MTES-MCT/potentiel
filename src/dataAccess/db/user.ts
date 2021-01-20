@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize'
 import { UserRepo } from '../'
+import { logger } from '../../core/utils/logger'
 import { DREAL, makeUser, Project, User } from '../../entities'
 import { mapExceptError, mapIfOk } from '../../helpers/results'
 import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types'
@@ -101,7 +102,7 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
 
       return mapIfOk(deserializedItems, makeUser, 'User.findUsersForDreal.makeUser error')
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('User.findUsersForDreal error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return []
     }
   }
@@ -114,7 +115,7 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
 
       return userDreals.map((item) => item.get().dreal)
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('User.findDrealsForUser error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return []
     }
   }
@@ -127,7 +128,7 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
 
       return Ok(null)
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('User.findDrealsForUser error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return Err(error)
     }
   }
@@ -146,7 +147,7 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
 
       return Some(userInstance.unwrap())
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('User.findById error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return None
     }
   }
@@ -171,7 +172,7 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
 
       return mapIfOk(deserializedItems, makeUser, 'User.findAll.makeUser error')
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('User.findAll error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return []
     }
   }
@@ -183,7 +184,7 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
       await UserModel.create(serialize(user))
       return Ok(user)
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('User.insert error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return Err(error)
     }
   }
@@ -197,7 +198,7 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
       })
       return Ok(user)
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('User.findAll error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return Err(error)
     }
   }
@@ -224,7 +225,7 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
       await userInstance.addProject(projectInstance)
       return Ok(null)
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('User.addProject error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return Err(error)
     }
   }
@@ -247,7 +248,7 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
 
       return Ok(null)
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('User.addUserToProjectsWithEmail error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return Err(error)
     }
   }
@@ -274,7 +275,7 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
       await userInstance.addProject(projectInstance)
       return Ok(null)
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('User.addProjectToUserWithEmail error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return Err(error)
     }
   }
@@ -296,11 +297,10 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
 
       return await userInstance.hasProject(projectInstance)
     } catch (error) {
-      const ProjectModel = sequelizeInstance.model('project')
-      const allProjects = await ProjectModel.findAll()
-      console.log('hasProject found all projects', allProjects)
-
-      if (CONFIG.logDbErrors) console.log('User.hasProject error', error, userId, projectId)
+      if (CONFIG.logDbErrors) {
+        logger.error(error)
+        logger.info(userId, projectId)
+      }
       return false
     }
   }
@@ -312,7 +312,7 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
       await UserModel.destroy({ where: { id } })
       return Ok(null)
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('User.remove error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return Err(error)
     }
   }

@@ -1,6 +1,6 @@
 import moment from 'moment'
 import { UniqueEntityID } from '../../core/domain'
-import { UnwrapForTest } from '../../core/utils'
+import { logger, UnwrapForTest } from '../../core/utils'
 import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
 import { makeUser } from '../../entities'
 import { UnwrapForTest as OldUnwrapForTest } from '../../types'
@@ -81,7 +81,7 @@ describe('Project.notify()', () => {
     beforeAll(() => {
       const res = project.setNotificationDate(fakeUser, notifiedOn)
 
-      if (res.isErr()) console.log(res.error)
+      if (res.isErr()) logger.error(res.error)
       expect(res.isOk()).toBe(true)
     })
 

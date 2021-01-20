@@ -1,6 +1,7 @@
 import { SystemError, Success } from '../helpers/responses'
 import { HttpRequest } from '../types'
 import { relanceGarantiesFinancieres } from '../useCases'
+import { logger } from '../core/utils'
 
 const postRelanceGarantiesFinancieres = async (request: HttpRequest) => {
   try {
@@ -8,7 +9,7 @@ const postRelanceGarantiesFinancieres = async (request: HttpRequest) => {
     return result.match({
       ok: () => Success('Relance envoyées avec succès'),
       err: (e: Error) => {
-        console.log('postRelanceGarantiesFinancieres failed', e)
+        logger.error(e)
         return SystemError(`Les relances n'ont pas pu être envoyées. (Erreur: ${e.message})`)
       },
     })

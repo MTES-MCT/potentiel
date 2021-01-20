@@ -2,7 +2,7 @@ import fs from 'fs'
 import _ from 'lodash'
 import moment from 'moment'
 import util from 'util'
-import { pathExists } from '../core/utils'
+import { pathExists, logger } from '../core/utils'
 import { Redirect, SystemError } from '../helpers/responses'
 import ROUTES from '../routes'
 import { HttpRequest } from '../types'
@@ -11,8 +11,6 @@ import { addGarantiesFinancieres } from '../useCases'
 const deleteFile = util.promisify(fs.unlink)
 
 const postGarantiesFinancieres = async (request: HttpRequest) => {
-  console.log('Call to postGarantiesFinancieres received', request.body, request.file)
-
   if (!request.user) {
     return SystemError('User must be logged in')
   }
@@ -61,11 +59,7 @@ const postGarantiesFinancieres = async (request: HttpRequest) => {
     user: request.user,
   })
 
-  console.log('postGarantiesFinancieres addGarantiesFinancieres returned')
-
   await deleteFile(request.file.path)
-
-  console.log('postGarantiesFinancieres temp file deleted')
 
   return result.match({
     ok: () =>
@@ -73,7 +67,7 @@ const postGarantiesFinancieres = async (request: HttpRequest) => {
         success: 'Votre constitution de garanties financières a bien été enregistrée.',
       }),
     err: (e: Error) => {
-      console.log('postGarantiesFinancieres error', e)
+      logger.error(e)
       return Redirect(ROUTES.PROJECT_DETAILS(projectId), {
         ..._.omit(data, 'projectId'),
         error: "Votre demande n'a pas pu être prise en compte: " + e.message,

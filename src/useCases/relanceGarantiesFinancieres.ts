@@ -1,4 +1,5 @@
 import moment from 'moment'
+import { logger } from '../core/utils'
 import { ProjectRepo } from '../dataAccess'
 import { applyProjectUpdate, makeProjectIdentifier } from '../entities'
 import { EventBus } from '../modules/eventStore'
@@ -30,25 +31,23 @@ export default function makeRelanceGarantiesFinancieres({
     await Promise.all(
       lateProjects.map(async (project) => {
         if (!project.appelOffre?.periode?.isNotifiedOnPotentiel) {
-          console.log(
-            'Relance impossible pour un projet qui est dans une période non-notifiée sur Potentiel',
-            project.id
+          logger.error(
+            `Relance impossible pour un projet qui est dans une période non-notifiée sur Potentiel. Id : ${project.id}`
           )
+
           return
         }
 
         if (!project.famille?.garantieFinanciereEnMois) {
-          console.log(
-            'Relance impossible pour un projet qui est dans une famille non soumise aux garanties financieres',
-            project.id
+          logger.error(
+            `Relance impossible pour un projet qui est dans une famille non soumise aux garanties financieres. Id : ${project.id}`
           )
           return
         }
 
         if (!project.appelOffre?.renvoiRetraitDesignationGarantieFinancieres) {
-          console.log(
-            'Relance impossible sur un projet sans renvoi retrait designation garanties financieres',
-            project.id
+          logger.error(
+            `Relance impossible sur un projet sans renvoi retrait designation garanties financieres. Id : ${project.id}`
           )
           return
         }
@@ -93,8 +92,10 @@ export default function makeRelanceGarantiesFinancieres({
         if (updatedProject) {
           const updateRes = await saveProject(updatedProject)
           if (updateRes.is_err()) {
-            // OOPS
-            console.log(
+            logger.error(
+              `relanceGarantiesFinancieres use-case: error when calling projectRepo.save`
+            )
+            logger.info(
               'relanceGarantiesFinancieres use-case: error when calling projectRepo.save',
               updatedProject
             )

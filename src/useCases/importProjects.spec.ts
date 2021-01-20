@@ -8,7 +8,7 @@ import makeFakeProject from '../__tests__/fixtures/project'
 import makeImportProjects, { ERREUR_AUCUNE_LIGNE, ERREUR_FORMAT_LIGNE } from './importProjects'
 import { ProjectImported, ProjectReimported } from '../modules/project/events'
 import { EventBus, StoredEvent } from '../modules/eventStore'
-import { okAsync } from '../core/utils'
+import { logger, okAsync } from '../core/utils'
 import { InfraNotAvailableError } from '../modules/shared'
 
 const phonyAppelOffre = appelsOffreStatic.find((appelOffre) => appelOffre.id === 'Fessenheim')
@@ -25,7 +25,7 @@ const phonyEmail = 'Email@Address.com'
 const getColumnForField = (field: string) => {
   const dataField = phonyAppelOffre.dataFields.find((item) => item.field === field)
   if (!dataField)
-    console.log('importProjects test, getColumnForField missing column for field', field)
+    logger.error(`importProjects test, getColumnForField missing column for field:  ${field}`)
   return dataField ? dataField.column : 'missing-' + field
 }
 

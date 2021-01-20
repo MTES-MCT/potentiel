@@ -4,6 +4,7 @@ import { PasswordRetrieval, makePasswordRetrieval } from '../../entities'
 import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types'
 import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
+import { logger } from '../../core/utils'
 
 // Override these to apply serialization/deserialization on inputs/outputs
 const deserialize = (item) => item
@@ -50,7 +51,7 @@ export default function makePasswordRetrievalRepo({ sequelizeInstance }): Passwo
 
       return Some(passwordRetrievalInstance.unwrap())
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('PasswordRetrieval.findById error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return None
     }
   }
@@ -62,7 +63,7 @@ export default function makePasswordRetrievalRepo({ sequelizeInstance }): Passwo
       await PasswordRetrievalModel.create(serialize(passwordRetrieval))
       return Ok(passwordRetrieval)
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('PasswordRetrieval.insert error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return Err(error)
     }
   }
@@ -76,7 +77,7 @@ export default function makePasswordRetrievalRepo({ sequelizeInstance }): Passwo
       })
       return Ok(null)
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('PasswordRetrieval.remove error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return Err(error)
     }
   }
@@ -89,7 +90,7 @@ export default function makePasswordRetrievalRepo({ sequelizeInstance }): Passwo
         where: { email, createdOn: { [Op.gte]: since } },
       })
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('PasswordRetrieval.countSince error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return 0
     }
   }

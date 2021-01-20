@@ -1,5 +1,6 @@
 import { DataTypes, Op } from 'sequelize'
 import { ContextSpecificProjectListFilter, ProjectFilters, ProjectRepo } from '../'
+import { logger } from '../../core/utils'
 import { AppelOffre, DREAL, Famille, makeProject, Periode, User, Project } from '../../entities'
 import { makePaginatedList, paginate } from '../../helpers/paginate'
 import { mapExceptError } from '../../helpers/results'
@@ -230,7 +231,8 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
         try {
           if (rawValue) parsedValue = JSON.parse(rawValue)
         } catch (e) {
-          console.log('ProjectEventModel failed to parse before rawValue:', rawValue)
+          logger.info('ProjectEventModel failed to parse before rawValue', rawValue)
+          logger.error(e)
         }
         return parsedValue
       },
@@ -248,7 +250,8 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
         try {
           if (rawValue) parsedValue = JSON.parse(rawValue)
         } catch (e) {
-          console.log('ProjectEventModel failed to parse after rawValue:', rawValue)
+          logger.info('ProjectEventModel failed to parse after rawValue', rawValue)
+          logger.error(e)
         }
         return parsedValue
       },
@@ -413,7 +416,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
 
       return projectWithAppelOffre
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('Project.findById error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
     }
   }
 
@@ -434,7 +437,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
       const projectWithAppelOffre = await addAppelOffreToProject(projectInstance.unwrap())
       return projectWithAppelOffre
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('Project.findOne error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
     }
   }
 
@@ -527,7 +530,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
       .filter(filterFn || (() => true))
 
     if (projectsRaw.length !== rows.length) {
-      console.log(
+      logger.warning(
         'WARNING: searchForRegions had intermediate results that did not match region. Something must be wrong in the query.'
       )
     }
@@ -552,7 +555,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
     const UserModel = sequelizeInstance.model('user')
     const userInstance = await UserModel.findByPk(userId)
     if (!userInstance) {
-      if (CONFIG.logDbErrors) console.log('Cannot find user to get projects from')
+      if (CONFIG.logDbErrors) logger.error('Cannot find user to get projects from')
 
       return []
     }
@@ -616,7 +619,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
 
       return _getProjectsWithIds(searchedUserProjectIds, pagination)
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('Project.searchForUser error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return makePaginatedList([], 0, pagination)
     }
   }
@@ -634,7 +637,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
 
       return _getProjectsWithIds(filteredUserProjectIds, pagination)
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('Project.findAllForUser error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return makePaginatedList([], 0, pagination)
     }
   }
@@ -685,7 +688,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
         project.regionProjet.split(' / ').some((region) => regions.includes(region as DREAL))
       )
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('Project.searchForRegions error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return makePaginatedList([], 0, pagination)
     }
   }
@@ -721,7 +724,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
       )
       return res
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('Project.searchForUser error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return makePaginatedList([], 0, pagination)
     }
   }
@@ -745,7 +748,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
 
       return _findAndBuildProjectList(opts, pagination)
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('Project.searchAll error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return makePaginatedList([], 0, pagination)
     }
   }
@@ -760,7 +763,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
 
       return _findAndBuildProjectList(opts, pagination)
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('Project.findAndCountAll error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return makePaginatedList([], 0, pagination)
     }
   }
@@ -779,7 +782,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
 
       return await ProjectModel.count(opts)
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('Project.countUnnotifiedProjects error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return 0
     }
   }
@@ -800,7 +803,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
             .map((newEvent) => ProjectEventModel.create(newEvent))
         )
       } catch (error) {
-        console.log('projectRepo.save error when saving newEvents', error)
+        logger.error(error)
       }
     }
   }
@@ -838,7 +841,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
 
       return Ok(null)
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('Project.save error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return Err(error)
     }
   }
@@ -850,7 +853,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
       await ProjectModel.destroy({ where: { id } })
       return Ok(null)
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('Project.remove error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return Err(error)
     }
   }
@@ -894,7 +897,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
 
       return appelsOffres.map((item) => item.get().appelOffreId)
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('Project.findExistingAppelsOffres error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return []
     }
   }
@@ -927,7 +930,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
 
       return periodes.map((item) => item.get().periodeId)
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('Project.findExistingPeriodesForAppelOffre error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return []
     }
   }
@@ -960,7 +963,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
 
       return familles.map((item) => item.get().familleId)
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('Project.findExistingFamillesForAppelOffre error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return []
     }
   }
@@ -992,8 +995,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
 
       return projects
     } catch (error) {
-      if (CONFIG.logDbErrors)
-        console.log('Project.findProjectsWithGarantiesFinancieresPendingBefore error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return []
     }
   }

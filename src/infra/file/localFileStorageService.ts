@@ -3,7 +3,7 @@ import mkdirp from 'mkdirp'
 import path from 'path'
 import { Readable } from 'stream'
 import util from 'util'
-import { pathExists } from '../../core/utils'
+import { logger, pathExists } from '../../core/utils'
 import { err, ok, Result, ResultAsync } from '../../core/utils/Result'
 import { FileContents, FileNotFoundError, FileStorageService } from '../../modules/file'
 import { InfraNotAvailableError } from '../../modules/shared'
@@ -70,7 +70,7 @@ export const makeLocalFileStorageService = (_rootPath: string): FileStorageServi
         .map((relativePath: string) => path.resolve(_rootPath, relativePath))
         .asyncAndThen((fullPath: string) =>
           ResultAsync.fromPromise(pathExists(fullPath), (e: any) => {
-            console.error(e)
+            logger.error(e)
             return new InfraNotAvailableError()
           }).map((fileExists) => ({ fileExists, fullPath }))
         )
@@ -83,14 +83,14 @@ export const makeLocalFileStorageService = (_rootPath: string): FileStorageServi
         .map((relativePath: string) => path.resolve(_rootPath, relativePath))
         .asyncAndThen((fullPath: string) =>
           ResultAsync.fromPromise(pathExists(fullPath), (e: any) => {
-            console.error(e)
+            logger.error(e)
             return new InfraNotAvailableError()
           }).map((fileExists) => ({ fileExists, fullPath }))
         )
         .andThen(({ fileExists, fullPath }) => assertFileExists(fileExists).map(() => fullPath))
         .andThen((fullPath) =>
           ResultAsync.fromPromise(deleteFile(fullPath), (e: any) => {
-            console.error(e)
+            logger.error(e)
             return new InfraNotAvailableError()
           })
         )

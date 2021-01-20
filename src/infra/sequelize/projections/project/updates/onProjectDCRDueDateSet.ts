@@ -1,3 +1,4 @@
+import { logger } from '../../../../../core/utils'
 import { ProjectDCRDueDateSet } from '../../../../../modules/project/events'
 
 export const onProjectDCRDueDateSet = (models) => async (event: ProjectDCRDueDateSet) => {
@@ -5,9 +6,8 @@ export const onProjectDCRDueDateSet = (models) => async (event: ProjectDCRDueDat
   const projectInstance = await ProjectModel.findByPk(event.payload.projectId)
 
   if (!projectInstance) {
-    console.log(
-      'Error: onProjectDCRDueDateSet projection failed to retrieve project from db',
-      event
+    logger.error(
+      `Error: onProjectDCRDueDateSet projection failed to retrieve project from db': ${event}`
     )
     return
   }
@@ -18,10 +18,7 @@ export const onProjectDCRDueDateSet = (models) => async (event: ProjectDCRDueDat
   try {
     await projectInstance.save()
   } catch (e) {
-    console.log(
-      'Error: onProjectDCRDueDateSet projection failed to update project',
-      event,
-      e.message
-    )
+    logger.error(e)
+    logger.info('Error: onProjectDCRDueDateSet projection failed to update project', event)
   }
 }

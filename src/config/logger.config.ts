@@ -3,6 +3,13 @@ import { isProdEnv } from './env.config'
 import * as Sentry from '@sentry/node'
 
 if (isProdEnv) {
+  const sentryDsn = process.env.SENTRY_DSN
+
+  if (!sentryDsn) {
+    console.error('SENTRY_DSN is empty. It should be provided as an environment variable.')
+    process.exit(1)
+  }
+
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
 
@@ -11,33 +18,33 @@ if (isProdEnv) {
     tracesSampleRate: 1.0,
   })
 
-  logger.on('info', (...args) => {
+  logger.on('infoLog', (...args) => {
     console.info(...args)
   })
 
-  logger.on('warning', (message: string) => {
+  logger.on('warningLog', (message: string) => {
     console.warn(message)
     Sentry.captureMessage(message)
   })
 
-  logger.on('error', (exception: Error) => {
+  logger.on('errorLog', (exception: Error) => {
     console.error(exception)
     Sentry.captureException(exception)
   })
 } else {
-  logger.on('debug', (...args) => {
+  logger.on('debugLog', (...args) => {
     console.debug(...args)
   })
 
-  logger.on('info', (...args) => {
+  logger.on('infoLog', (...args) => {
     console.info(...args)
   })
 
-  logger.on('warning', (message: string) => {
+  logger.on('warningLog', (message: string) => {
     console.warn(message)
   })
 
-  logger.on('error', (exception: Error) => {
+  logger.on('errorLog', (exception: Error) => {
     console.error(exception)
   })
 }

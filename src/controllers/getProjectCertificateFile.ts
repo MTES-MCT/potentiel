@@ -3,6 +3,7 @@ import { NotFoundError, Redirect, SuccessFileStream, SystemError } from '../help
 import { ProjectCertificateDownloaded } from '../modules/project/events'
 import ROUTES from '../routes'
 import { HttpRequest } from '../types'
+import { logger } from '../core/utils'
 
 const getProjectCertificateFile = async (request: HttpRequest) => {
   try {
@@ -32,7 +33,7 @@ const getProjectCertificateFile = async (request: HttpRequest) => {
 
     return SuccessFileStream(result.value.contents)
   } catch (error) {
-    console.log('getProjectCertificateFile error', error)
+    logger.error(error)
     return NotFoundError('Fichier introuvable.')
   }
 }
