@@ -1,0 +1,40 @@
+name: Deploy production on push
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - 'package.json' #To avoid circular actions because of version bump
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Pre-requise for the clever-cloud deployment
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          # SPECIAL_GH_ACTIONS_TOKEN is a personal access token for an admin user
+          # It is required to have write rights when increasing version number
+          token: ${{ secrets.SPECIAL_GH_ACTIONS_TOKEN }}
+
+      - run: git fetch --prune --unshallow
+
+      - name: Increase version number
+        uses: 'phips28/gh-action-bump-version@master'
+        env:
+          GITHUB_TOKEN: ${{ secrets.SPECIAL_GH_ACTIONS_TOKEN }}
+        with:
+          tag-prefix: ''
+          minor-wording: ':star2:,:revert:'
+          major-wording: 'BREAKING'
+
+      - name: Deploy to Clever Cloud
+        uses: 47ng/actions-clever-cloud@v1
+        with:
+          appID: app_01c01a7d-783f-42a6-8d10-db9167ae056b
+        env:
+          CLEVER_TOKEN: ${{ secrets.CLEVER_TOKEN }}
+          CLEVER_SECRET: ${{ secrets.CLEVER_SECRET }}
