@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - staging
+    paths-ignore:
+      - 'package.json' #To avoid circular actions because of version bump
 
 jobs:
   deploy:
@@ -11,19 +13,24 @@ jobs:
 
     steps:
       # Pre-requise for the clever-cloud deployment
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.SPECIAL_GH_ACTIONS_TOKEN }}
+
       - run: git fetch --prune --unshallow
 
-      - uses: 'phips28/gh-action-bump-version@master'
+      - name: Increase version number
+        uses: 'phips28/gh-action-bump-version@master'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.SPECIAL_GH_ACTIONS_TOKEN }}
         with:
           tag-prefix: ''
-          minor-wording: '🌟,⏪'
-          major-wording: 'BREAKING,:star2:'
+          minor-wording: ':star2:,:revert:'
+          major-wording: 'BREAKING'
 
-      # Deploy
-      - uses: 47ng/actions-clever-cloud@v1
+      - name: Deploy to Clever Cloud
+        uses: 47ng/actions-clever-cloud@v1
         with:
           appID: app_14ec2d47-8d37-4388-9833-ea413f2841da
         env:
