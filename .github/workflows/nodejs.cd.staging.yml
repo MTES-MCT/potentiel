@@ -1,29 +1,23 @@
-name: Node.js CI
+name: Node.js CD for staging
 
 on:
   push:
     branches:
-      - dev
+      - staging
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
+      # Pre-requise for the clever-cloud deployment
       - uses: actions/checkout@v2
       - run: git fetch --prune --unshallow
-      - name: Use Node.js 14.x
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14.x
-      - run: npm ci
-      - run: npm test
-      - run: npm run test-int-init-db
-      - run: npm run test-int
-      - run: npm run build
+
+      # Deploy
       - uses: 47ng/actions-clever-cloud@v1
         with:
-          appID: app_eeb6121a-65e3-4085-b85a-a56c986c680c
+          appID: app_14ec2d47-8d37-4388-9833-ea413f2841da
         env:
           CLEVER_TOKEN: ${{ secrets.CLEVER_TOKEN }}
           CLEVER_SECRET: ${{ secrets.CLEVER_SECRET }}
