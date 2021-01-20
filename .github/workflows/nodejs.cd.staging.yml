@@ -6,7 +6,7 @@ on:
       - staging
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,7 +20,7 @@ jobs:
         with:
           tag-prefix: ''
           minor-wording: '🌟,⏪'
-          major-wording: 'BREAKING'
+          major-wording: 'BREAKING,:star2:'
 
       # Deploy
       - uses: 47ng/actions-clever-cloud@v1
