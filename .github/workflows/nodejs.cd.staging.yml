@@ -19,8 +19,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag-prefix: ''
-          minor-wording: '🌟,⏪'
-          major-wording: 'BREAKING,:star2:'
+          minor-wording: ':star2:,:revert:'
+          major-wording: 'BREAKING'
 
       # Deploy
       - uses: 47ng/actions-clever-cloud@v1
