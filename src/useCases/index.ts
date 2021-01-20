@@ -3,8 +3,6 @@ import makeImportProjects from './importProjects'
 import makeListProjects from './listProjects'
 import makeSignup from './signup'
 import makeRequestModification from './requestModification'
-import makeListUserRequests from './listUserRequests'
-import makeListAllRequests from './listAllRequests'
 import makeListUnnotifiedProjects from './listUnnotifiedProjects'
 import makeGetUserProject from './getUserProject'
 import makeRetrievePassword from './retrievePassword'
@@ -27,7 +25,6 @@ import {
   userRepo,
   projectRepo,
   projectAdmissionKeyRepo,
-  modificationRequestRepo,
   appelOffreRepo,
   passwordRetrievalRepo,
 } from '../dataAccess'
@@ -85,9 +82,6 @@ const requestModification = makeRequestModification({
   eventBus: eventStore,
   shouldUserAccessProject,
 })
-
-const listUserRequests = makeListUserRequests({ modificationRequestRepo })
-const listAllRequests = makeListAllRequests({ modificationRequestRepo })
 
 const getUserProject = makeGetUserProject({
   findProjectById: projectRepo.findById,
@@ -180,8 +174,6 @@ const useCases = Object.freeze({
   sendNotification,
   signup,
   requestModification,
-  listUserRequests,
-  listAllRequests,
   listUnnotifiedProjects,
   getUserProject,
   retrievePassword,
@@ -206,8 +198,6 @@ export {
   sendNotification,
   signup,
   requestModification,
-  listUserRequests,
-  listAllRequests,
   listUnnotifiedProjects,
   getUserProject,
   retrievePassword,

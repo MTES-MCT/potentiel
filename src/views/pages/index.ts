@@ -8,8 +8,6 @@ import Footer from '../components/footer'
 
 import Login from './login'
 import ListProjects from './listProjects'
-import UserListRequests from './userListRequests'
-import AdminListRequests from './adminListRequests'
 import AdminNotifyCandidates from './adminNotifyCandidates'
 import ImportCandidates from './importCandidates'
 import Signup from './signup'
@@ -22,15 +20,14 @@ import DrealList from './drealList'
 import GarantiesFinancieresList from './garantiesFinancieresList'
 import InvitationList from './invitationList'
 import NotificationList from './notificationList'
+import ModificationRequestList from './modificationRequestList'
 import Statistiques from './statistiques'
 import { HttpRequest } from '../../types'
 
 const LoginPage = makePresenterPage(Login)
-const AdminListRequestsPage = makePresenterPage(AdminListRequests)
 const AdminNotifyCandidatesPage = makePresenterPage(AdminNotifyCandidates)
 const ImportCandidatesPage = makePresenterPage(ImportCandidates)
 const ListProjectsPage = makePresenterPage(ListProjects)
-const UserListRequestsPage = makePresenterPage(UserListRequests)
 const SignupPage = makePresenterPage(Signup)
 const NewModificationRequestPage = makePresenterPage(NewModificationRequest)
 const ForgottenPasswordPage = makePresenterPage(ForgottenPassword)
@@ -42,13 +39,12 @@ const InvitationListPage = makePresenterPage(InvitationList)
 const NotificationListPage = makePresenterPage(NotificationList)
 const StatistiquesPage = makePresenterPage(Statistiques)
 const ModificationRequestDetailsPage = makePresenterPage(ModificationRequestDetails)
+const ModificationRequestListPage = makePresenterPage(ModificationRequestList)
 
 export {
   LoginPage,
-  AdminListRequestsPage,
   ImportCandidatesPage,
   ListProjectsPage,
-  UserListRequestsPage,
   SignupPage,
   NewModificationRequestPage,
   AdminNotifyCandidatesPage,
@@ -61,6 +57,7 @@ export {
   NotificationListPage,
   StatistiquesPage,
   ModificationRequestDetailsPage,
+  ModificationRequestListPage,
 }
 
 interface HasRequest {
