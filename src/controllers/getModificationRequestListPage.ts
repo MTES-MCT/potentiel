@@ -14,7 +14,7 @@ export const getModificationRequestListPage = async (request: HttpRequest) => {
 
   const defaultPagination: Pagination = {
     page: 0,
-    pageSize: +cookies?.pageSize || 10,
+    pageSize: Number(cookies?.pageSize) || 10,
   }
   const pagination = makePagination(query, defaultPagination)
 

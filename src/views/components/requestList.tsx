@@ -18,7 +18,7 @@ interface Props {
 }
 
 const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
-  if (!modificationRequests || !modificationRequests.itemCount) {
+  if (!modificationRequests?.itemCount) {
     return (
       <table className="table">
         <tbody>
