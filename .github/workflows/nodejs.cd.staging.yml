@@ -18,9 +18,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag-prefix: 'v'
-          minor-wording: 'minor'
-          major-wording: 'major'
+          tag-prefix: ''
+          minor-wording: '🌟,⏪'
+          major-wording: 'BREAKING'
 
       # Deploy
       - uses: 47ng/actions-clever-cloud@v1
