@@ -812,7 +812,13 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
       const existingProject = await ProjectModel.findByPk(project.id)
 
       if (existingProject) {
-        await existingProject.update(project)
+        const updates = project.history?.reduce(
+          (delta, event) => ({ ...delta, ...event.after }),
+          {}
+        )
+        if (updates) {
+          await existingProject.update(updates)
+        }
       } else {
         // TODO PA : est-ce qu'on garde cette partie telle quelle ou on l'améliore ?
         ;[
