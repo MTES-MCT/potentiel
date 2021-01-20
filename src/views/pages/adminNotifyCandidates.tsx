@@ -172,7 +172,7 @@ export default function AdminNotifyCandidates({ request, results }: AdminNotifyC
               ))}
             </select>
           </div>
-          {projectsInPeriodCount ? (
+          {projectsInPeriodCount && !success ? (
             <div className="form__group">
               <label htmlFor="notificationDate">Date désignation (format JJ/MM/AAAA)</label>
               <input
