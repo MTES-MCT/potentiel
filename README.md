@@ -68,4 +68,4 @@ Il est possible de spécifier un autre fichier pour l'environnement par exemple:
 dotenv -e .env.local -- bash -c 'psql -h $POSTGRESQL_ADDON_HOST -p $POSTGRESQL_ADDON_PORT -U $POSTGRESQL_ADDON_USER -d $POSTGRESQL_ADDON_DB'
 ```
 
-e
+f
