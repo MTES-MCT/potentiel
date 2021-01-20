@@ -1,0 +1,25 @@
+name: Deploy staging on push
+
+on:
+  push:
+    branches:
+      - staging
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Pre-requise for the clever-cloud deployment
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - run: git fetch --prune --unshallow
+
+      - name: Deploy to Clever Cloud
+        uses: 47ng/actions-clever-cloud@v1
+        with:
+          appID: app_14ec2d47-8d37-4388-9833-ea413f2841da
+        env:
+          CLEVER_TOKEN: ${{ secrets.CLEVER_TOKEN }}
+          CLEVER_SECRET: ${{ secrets.CLEVER_SECRET }}
