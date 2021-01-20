@@ -51,19 +51,26 @@ Il est possible de spécifier un autre fichier pour l'environnement par exemple:
 dotenv -e .env.local -- bash -c 'psql -h $POSTGRESQL_ADDON_HOST -p $POSTGRESQL_ADDON_PORT -U $POSTGRESQL_ADDON_USER -d $POSTGRESQL_ADDON_DB'
 ```
 
+### Créer un dump de base de données
+
+```
+dotenv -- bash -c 'pg_dump -h $POSTGRESQL_ADDON_HOST -p $POSTGRESQL_ADDON_PORT -U $POSTGRESQL_ADDON_USER -d $POSTGRESQL_ADDON_DB --format=c -f database.dump'
+```
+
 ### Restaurer un dump de base de données
 
-Nécessite d'installer `psql` sur sa machine.
-
 En utilisant les credentials présents dans le fichier `.env`:
+
+Si la destination est identique à la source:
 
 ```
 export BACKUP_FILE=path/to/backup.dump
 dotenv -- bash -c 'pg_restore -h $POSTGRESQL_ADDON_HOST -p $POSTGRESQL_ADDON_PORT -U $POSTGRESQL_ADDON_USER -d $POSTGRESQL_ADDON_DB --format=c $BACKUP_FILE'
 ```
 
-Il est possible de spécifier un autre fichier pour l'environnement par exemple:
+Si la destination est différente de la source, il faut rajouter les options `--clean --no-owner --no-privileges`:
 
 ```
-dotenv -e .env.local -- bash -c 'psql -h $POSTGRESQL_ADDON_HOST -p $POSTGRESQL_ADDON_PORT -U $POSTGRESQL_ADDON_USER -d $POSTGRESQL_ADDON_DB'
+export BACKUP_FILE=path/to/backup.dump
+dotenv -- bash -c 'pg_restore --clean --no-owner --no-privileges -h $POSTGRESQL_ADDON_HOST -p $POSTGRESQL_ADDON_PORT -U $POSTGRESQL_ADDON_USER -d $POSTGRESQL_ADDON_DB --format=c $BACKUP_FILE'
 ```
