@@ -1,6 +1,7 @@
 import { HttpRequest } from '../types'
 import { ImportCandidatesPage } from '../views/pages'
 import { Success, SystemError } from '../helpers/responses'
+import { logger } from '../core/utils'
 
 const getImportProjectsPage = async (request: HttpRequest) => {
   try {
@@ -10,7 +11,7 @@ const getImportProjectsPage = async (request: HttpRequest) => {
       })
     )
   } catch (error) {
-    console.log('Error in getImportPage', error)
+    logger.error(error)
     return SystemError('Erreur système')
   }
 }

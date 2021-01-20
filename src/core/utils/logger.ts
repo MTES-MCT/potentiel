@@ -3,16 +3,16 @@ const emitter = new EventEmitter()
 
 export const logger = Object.freeze({
   debug(...args: any) {
-    emitter.emit('debug', ...args)
+    emitter.emit('debugLog', ...args)
   },
   info(...args: any) {
-    emitter.emit('info', ...args)
+    emitter.emit('infoLog', ...args)
   },
   warning(message: string) {
-    emitter.emit('warning', message)
+    emitter.emit('warningLog', message)
   },
-  error(error: Error) {
-    emitter.emit('error', error)
+  error(error: Error | string) {
+    emitter.emit('errorLog', error)
   },
   on: emitter.on,
 })

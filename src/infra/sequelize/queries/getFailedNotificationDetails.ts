@@ -1,4 +1,4 @@
-import { errAsync, ResultAsync } from '../../../core/utils'
+import { errAsync, logger, ResultAsync } from '../../../core/utils'
 import { makePaginatedList, paginate } from '../../../helpers/paginate'
 import { FailedNotificationDTO, GetFailedNotificationDetails } from '../../../modules/notification'
 import { InfraNotAvailableError } from '../../../modules/shared'
@@ -16,7 +16,7 @@ export const makeGetFailedNotificationDetails = (models): GetFailedNotificationD
       ...paginate(pagination),
     }),
     (e: any) => {
-      console.error(e)
+      logger.error(e)
       return new InfraNotAvailableError()
     }
   ).map(({ count, rows }) =>

@@ -19,6 +19,7 @@ import {
   ModificationRequestColorByStatus,
 } from '../../helpers'
 import { DownloadIcon } from '../../components'
+import { logger } from '../../../core/utils'
 moment.locale('fr')
 
 interface PageProps {
@@ -53,7 +54,7 @@ export default function AdminModificationRequestPage({ request, modificationRequ
 
   if (!user) {
     // Should never happen
-    console.log('Try to render ProjectDetails without a user')
+    logger.error('Try to render ProjectDetails without a user')
     return <div />
   }
 

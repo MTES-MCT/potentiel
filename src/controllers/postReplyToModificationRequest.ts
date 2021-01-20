@@ -2,7 +2,7 @@ import fs from 'fs'
 import moment from 'moment-timezone'
 import util from 'util'
 import { acceptModificationRequest } from '../config'
-import { pathExists } from '../core/utils'
+import { pathExists, logger } from '../core/utils'
 import { Redirect, SystemError } from '../helpers/responses'
 import ROUTES from '../routes'
 import { HttpRequest } from '../types'
@@ -59,7 +59,7 @@ const postReplyToModificationRequest = async (request: HttpRequest) => {
     try {
       await deleteFile(request.file.path)
     } catch (error) {
-      console.error(error)
+      logger.error(error)
     }
 
     return result.match(
@@ -68,7 +68,7 @@ const postReplyToModificationRequest = async (request: HttpRequest) => {
           success: 'Votre réponse a bien été enregistrée.',
         }),
       (e) => {
-        console.error(e)
+        logger.error(e)
         return Redirect(ROUTES.DEMANDE_PAGE_DETAILS(modificationRequestId), {
           error: `Votre réponse n'a pas pu être prise en compte:  ${e.message}`,
         })
@@ -79,7 +79,7 @@ const postReplyToModificationRequest = async (request: HttpRequest) => {
   try {
     await deleteFile(request.file.path)
   } catch (error) {
-    console.error(error)
+    logger.error(error)
   }
 
   return Redirect(ROUTES.DEMANDE_PAGE_DETAILS(modificationRequestId), {

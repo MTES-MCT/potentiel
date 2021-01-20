@@ -16,6 +16,7 @@ import { onProjectDCRDueDateSet } from './onProjectDCRDueDateSet'
 import { onProjectGFDueDateSet } from './onProjectGFDueDateSet'
 import { onProjectNotificationDateSet } from './onProjectNotificationDateSet'
 import { onProjectClasseGranted } from './onProjectClasseGranted'
+import { logger } from '../../../../../core/utils'
 
 export const initProjectProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ProjectDataCorrected.type, onProjectDataCorrected(models))
@@ -29,5 +30,5 @@ export const initProjectProjections = (eventBus: EventBus, models) => {
 
   eventBus.subscribe(ProjectClasseGranted.type, onProjectClasseGranted(models))
 
-  console.log('Initialized Project projections')
+  logger.info('Initialized Project projections')
 }

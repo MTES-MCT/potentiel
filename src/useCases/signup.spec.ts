@@ -15,6 +15,7 @@ import {
   resetDatabase,
 } from '../dataAccess/inMemory'
 import { makeCredentials, makeProjectAdmissionKey } from '../entities'
+import { logger } from '../core/utils'
 
 const login = makeLogin({
   userRepo,
@@ -217,7 +218,7 @@ describe('signup use-case', () => {
         password: phonySignup.password,
       })
 
-      if (userResult.is_err()) console.log('userResult error', userResult.unwrap_err())
+      if (userResult.is_err()) logger.error(userResult.unwrap_err())
       expect(userResult.is_ok()).toBeTruthy()
     })
 

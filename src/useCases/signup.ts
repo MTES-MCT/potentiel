@@ -2,6 +2,7 @@ import { User, makeUser, makeCredentials, DREAL } from '../entities'
 import { UserRepo, CredentialsRepo, ProjectAdmissionKeyRepo } from '../dataAccess'
 
 import { ResultAsync, ErrorResult, Ok } from '../types'
+import { logger } from '../core/utils'
 
 interface MakeUseCaseProps {
   userRepo: UserRepo
@@ -50,7 +51,7 @@ export default function makeSignup({
     const projectAdmissionKeyResult = await projectAdmissionKeyRepo.findById(projectAdmissionKey)
 
     if (projectAdmissionKeyResult.is_none()) {
-      console.log('signup use-case: projectAdmissionKey was not found ', projectAdmissionKey)
+      logger.error(`signup use-case: projectAdmissionKey was not found : ${projectAdmissionKey}`)
       return ErrorResult(MISSING_ADMISSION_KEY_ERROR)
     }
 
@@ -76,7 +77,7 @@ export default function makeSignup({
       projectAdmissionKey: projectAdmissionKeyInstance.id,
     })
     if (userResult.is_err()) {
-      console.log('signup use-case: makeUser est en erreur', userResult.unwrap_err())
+      logger.error(userResult.unwrap_err())
       return ErrorResult(USER_INFO_ERROR)
     }
     const user = userResult.unwrap()
@@ -90,11 +91,8 @@ export default function makeSignup({
     const credentialsResult = makeCredentials(credentialsData)
 
     if (credentialsResult.is_err()) {
-      console.log(
-        'signup use-case: makeCredentials est en erreur',
-        credentialsResult.unwrap_err(),
-        credentialsData
-      )
+      logger.error(credentialsResult.unwrap_err())
+      logger.info('signup use-case: makeCredentials est en erreur', credentialsData)
       return ErrorResult(SYSTEM_ERROR)
     }
 
@@ -104,22 +102,16 @@ export default function makeSignup({
     const userInsertion = await userRepo.insert(user)
 
     if (userInsertion.is_err()) {
-      console.log(
-        'signup use-case: userRepo.insert est en erreur',
-        userInsertion.unwrap_err(),
-        user
-      )
+      logger.error(userInsertion.unwrap_err())
+      logger.info('signup use-case: userRepo.insert est en erreur', user)
       return ErrorResult(SYSTEM_ERROR)
     }
 
     const credentialsInsertion = await credentialsRepo.insert(credentials)
 
     if (credentialsInsertion.is_err()) {
-      console.log(
-        'signup use-case: credentialsRepo.insert est en erreur',
-        credentialsInsertion.unwrap_err(),
-        credentials
-      )
+      logger.error(credentialsInsertion.unwrap_err())
+      logger.info('signup use-case: credentialsRepo.insert est en erreur', credentials)
 
       // Rollback: Remove the user from the database
       await userRepo.remove(user.id)
@@ -134,7 +126,7 @@ export default function makeSignup({
     )
 
     if (projectAdmissionKeyUpdateRes.is_err()) {
-      console.log('signup use-case: impossible de mettre à jour projectAdmissionKey')
+      logger.error('signup use-case: impossible de mettre à jour projectAdmissionKey')
     }
 
     if (projectAdmissionKeyInstance.dreal) {
@@ -146,7 +138,7 @@ export default function makeSignup({
       )
 
       if (addDrealResult.is_err()) {
-        console.log('signup usecase failed to add new user to dreal', addDrealResult.unwrap_err())
+        logger.error(addDrealResult.unwrap_err())
       }
     } else {
       // Porteur-projet user

@@ -1,3 +1,4 @@
+import { logger } from '../../../../../core/utils'
 import { ModificationRequestInstructionStarted } from '../../../../../modules/modificationRequest/events'
 
 export const onModificationRequestInstructionStarted = (models) => async (
@@ -7,10 +8,10 @@ export const onModificationRequestInstructionStarted = (models) => async (
   const instance = await ModificationRequestModel.findByPk(event.payload.modificationRequestId)
 
   if (!instance) {
-    console.error(
-      'Error: onModificationRequestInstructionStarted projection failed to retrieve project from db',
-      event
+    logger.error(
+      `Error: onModificationRequestInstructionStarted projection failed to retrieve project from db ${event}`
     )
+
     return
   }
 
@@ -19,10 +20,10 @@ export const onModificationRequestInstructionStarted = (models) => async (
   try {
     await instance.save()
   } catch (e) {
-    console.error(
-      'Error: onModificationRequestInstructionStarted projection failed to update project',
-      event,
-      e.message
+    logger.error(e)
+    logger.info(
+      'Error: onModificationRequestInstructionStarted projection failed to update project :',
+      event
     )
   }
 }

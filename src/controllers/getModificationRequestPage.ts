@@ -3,6 +3,7 @@ import { Redirect, Success } from '../helpers/responses'
 import ROUTES from '../routes'
 import { HttpRequest } from '../types'
 import { ModificationRequestDetailsPage } from '../views/pages'
+import { logger } from '../core/utils'
 
 const getModificationRequestPage = async (request: HttpRequest) => {
   if (!request.user) {
@@ -19,7 +20,7 @@ const getModificationRequestPage = async (request: HttpRequest) => {
     (modificationRequest) =>
       Success(ModificationRequestDetailsPage({ request, modificationRequest })),
     (e) => {
-      console.error('getModificationRequestPage error', e)
+      logger.error(e)
       return Redirect(isAdmin ? ROUTES.ADMIN_LIST_REQUESTS : ROUTES.USER_LIST_REQUESTS, {
         error: e.message,
       })

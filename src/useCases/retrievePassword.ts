@@ -3,6 +3,7 @@ import { PasswordRetrievalRepo, CredentialsRepo } from '../dataAccess'
 import { ResultAsync, ErrorResult, Ok } from '../types'
 import routes from '../routes'
 import { NotificationService } from '../modules/notification'
+import { logger } from '../core/utils'
 
 interface MakeUseCaseProps {
   passwordRetrievalRepo: PasswordRetrievalRepo
@@ -51,10 +52,7 @@ export default function makeRetrievePassword({
     })
 
     if (passwordRetrievalResult.is_err()) {
-      console.log(
-        'retrievePassword use-case failed to make passwordRetrievel entity',
-        passwordRetrievalResult.unwrap_err()
-      )
+      logger.error(passwordRetrievalResult.unwrap_err())
       return ErrorResult(SYSTEM_ERROR)
     }
 
@@ -63,10 +61,7 @@ export default function makeRetrievePassword({
     const insertionResult = await passwordRetrievalRepo.insert(passwordRetrieval)
 
     if (insertionResult.is_err()) {
-      console.log(
-        'retrievePassword use-case failed to insert passwordRetrievel into db',
-        insertionResult.unwrap_err()
-      )
+      logger.error(insertionResult.unwrap_err())
       return ErrorResult(SYSTEM_ERROR)
     }
 

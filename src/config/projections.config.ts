@@ -1,6 +1,7 @@
 import { initProjections } from '../infra/sequelize'
 import { eventStore } from './eventStore.config'
+import { logger } from '../core/utils'
 
 initProjections(eventStore)
 
-console.log('Projections initialized')
+logger.info('Projections initialized')

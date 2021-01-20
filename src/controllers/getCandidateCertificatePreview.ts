@@ -5,6 +5,7 @@ import { ProjectProps } from '../modules/project/Project'
 import { HttpRequest } from '../types'
 import { getUserProject } from '../useCases'
 import { buildCertificate } from '../views/certificates'
+import { logger } from '../core/utils'
 
 const getCandidateCertificatePreview = async (request: HttpRequest) => {
   try {
@@ -39,10 +40,7 @@ const getCandidateCertificatePreview = async (request: HttpRequest) => {
     } as ProjectProps)
 
     if (projectDataResult.isErr()) {
-      console.error(
-        'getCandidateCertificatePreview failed to make projectDataForCertificate',
-        projectDataResult.error
-      )
+      logger.error(projectDataResult.error)
       return NotFoundError("Impossible de générer l'attestion parce qu'il manque des données.")
     }
 
@@ -52,10 +50,7 @@ const getCandidateCertificatePreview = async (request: HttpRequest) => {
     })
 
     if (certificateStreamResult.isErr()) {
-      console.log(
-        'getCandidateCertificatePreview error: cannot generate certificate',
-        certificateStreamResult.error
-      )
+      logger.error(certificateStreamResult.error)
       return SystemError(
         "Erreur lors de la génération de l'attestation: " + certificateStreamResult.error.message
       )
@@ -63,7 +58,7 @@ const getCandidateCertificatePreview = async (request: HttpRequest) => {
 
     return SuccessFileStream(certificateStreamResult.value)
   } catch (error) {
-    console.log('getCandidateCertificatePreview error', error)
+    logger.error(error)
     return SystemError('Impossible de générer le fichier attestation')
   }
 }

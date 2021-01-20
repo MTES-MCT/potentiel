@@ -3,12 +3,13 @@ import { Success, SystemError } from '../../helpers/responses'
 import { HttpRequest } from '../../types'
 import ROUTES from '../../routes'
 import { projectAdmissionKeyRepo } from '../../dataAccess'
+import { logger } from '../../core/utils'
 
 const createInvitationForTests = async (request: HttpRequest) => {
   const { email } = request.body
 
   if (!email) {
-    console.log('createInvitationForTests missing email')
+    logger.error('createInvitationForTests missing email')
     return SystemError('missing email')
   }
 
@@ -18,10 +19,9 @@ const createInvitationForTests = async (request: HttpRequest) => {
   })
 
   if (projectAdmissionKeyResult.is_err()) {
-    // OOPS
-    console.log('createInvitationForTests: error when calling makeProjectAdmissionKey with', {
-      email,
-    })
+    logger.error(
+      `createInvitationForTests: error when calling makeProjectAdmissionKey with' ${email}`
+    )
     return SystemError('Impossible de créer le projectAdmissionKey')
   }
 

@@ -5,6 +5,7 @@ import { Redirect } from '../helpers/responses'
 import ROUTES from '../routes'
 import { HttpRequest } from '../types'
 import { importProjects } from '../useCases'
+import { logger } from '../core/utils'
 
 const parse = (file) =>
   new Promise<Array<Record<string, string>>>((resolve, reject) => {
@@ -69,7 +70,7 @@ const postProjects = async (request: HttpRequest) => {
       )
     },
     err: (e: Error) => {
-      console.log('Caught an error after importProjects', e)
+      logger.error(e)
       return Redirect(ROUTES.IMPORT_PROJECTS, {
         error: e.message.length > 1000 ? e.message.substring(0, 1000) + '...' : e.message,
       })

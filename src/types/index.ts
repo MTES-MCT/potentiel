@@ -1,5 +1,6 @@
 import { User } from '../entities'
 import { Result, Option, Err } from '@usefultools/monads'
+import { logger } from '../core/utils'
 
 export type HttpRequest = {
   body: any
@@ -48,7 +49,7 @@ export type OptionAsync<T> = Promise<Option<T>>
 
 export const UnwrapForTest = <T>(res: Result<T, Error>) => {
   if (res.is_ok()) return res.unwrap()
-  console.log('UnwrapForTest error', res.unwrap_err())
+  logger.error(res.unwrap_err())
   throw new Error('UnwrapForTest: Result is error, cannot unwrap')
 }
 

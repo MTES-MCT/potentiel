@@ -1,4 +1,5 @@
 import { okAsync } from 'neverthrow'
+import { logger } from '../../../core/utils'
 import { EventBus } from '../../eventStore'
 import { ResponseTemplateDownloaded } from '../events'
 import { ModificationRequestInstructionStarted } from '../events/ModificationRequestInstructionStarted'
@@ -25,8 +26,8 @@ export const handleResponseTemplateDownloaded = (deps: {
     })
     .match(
       () => {},
-      (e) => {
-        console.error(e)
+      (e: Error) => {
+        logger.error(e)
       }
     )
 }

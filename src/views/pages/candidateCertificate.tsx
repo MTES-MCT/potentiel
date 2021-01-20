@@ -3,6 +3,7 @@ import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/
 import ReactPDF from '@react-pdf/renderer'
 import { Project, AppelOffre, Periode, makeProjectIdentifier } from '../../entities'
 import { formatDate } from '../../helpers/formatDate'
+import { logger } from '../../core/utils'
 
 Font.register({
   family: 'Arial',
@@ -281,9 +282,8 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
 
 const getNoteThreshold = (periode: Periode, project: Project) => {
   if (!periode.noteThresholdByFamily) {
-    console.log(
-      'candidateCertificate: looking for noteThresholdByFamily for a period that has none',
-      periode.id
+    logger.error(
+      `candidateCertificate: looking for noteThresholdByFamily for a period that has none. Periode Id : ${periode.id}`
     )
     return 'N/A'
   }
@@ -294,14 +294,8 @@ const getNoteThreshold = (periode: Periode, project: Project) => {
     )?.noteThreshold
 
     if (!note) {
-      console.log(
-        'candidateCertificate: looking for noteThreshold for periode',
-        periode.id,
-        'famille',
-        project.familleId,
-        'and territoire',
-        project.territoireProjet,
-        ' but could not find it'
+      logger.error(
+        `candidateCertificate: looking for noteThreshold for periode: ${periode.id}, famille: ${project.familleId} and territoire: ${project.territoireProjet} but could not find it`
       )
       return 'N/A'
     }
@@ -313,12 +307,8 @@ const getNoteThreshold = (periode: Periode, project: Project) => {
     ?.noteThreshold
 
   if (!note) {
-    console.log(
-      'candidateCertificate: looking for noteThreshold for periode',
-      periode.id,
-      'and famille',
-      project.familleId,
-      ' but could not find it'
+    logger.error(
+      `candidateCertificate: looking for noteThreshold for periode: ${periode.id} and famille: ${project.familleId} but could not find it`
     )
     return 'N/A'
   }

@@ -6,6 +6,7 @@ import { Application, Request, Response, NextFunction } from 'express'
 import { User } from '../entities'
 import { login } from '../useCases'
 import { userRepo } from '../dataAccess'
+import { logger } from '../core/utils'
 
 interface RegisterAuthProps {
   app: Application
@@ -39,7 +40,7 @@ const registerAuth = ({ app, loginRoute, successRoute }: RegisterAuthProps) => {
     const userResult = await userRepo.findById(id)
 
     if (userResult.is_none()) {
-      console.log('Authentication: Found user session id but no matching user')
+      logger.error('Authentication: Found user session id but no matching user')
       done(null, null)
     }
 
@@ -62,7 +63,7 @@ const registerAuth = ({ app, loginRoute, successRoute }: RegisterAuthProps) => {
         login({ email: username, password })
           .then((userResult) => {
             if (userResult.is_err()) {
-              console.log('Login failed', userResult.unwrap_err())
+              logger.warning(userResult.unwrap_err().toString())
               return done(null, false)
             }
 
@@ -70,7 +71,7 @@ const registerAuth = ({ app, loginRoute, successRoute }: RegisterAuthProps) => {
           })
           .catch((err) => {
             // Should never happen because login shouldn't throw
-            console.log('login caught an error', err)
+            logger.error(err)
             return done(err)
           })
       }

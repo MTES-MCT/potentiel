@@ -1,5 +1,5 @@
 import { Repository, DomainError, UniqueEntityID } from '../../../core/domain'
-import { Result, ResultAsync, errAsync, err } from '../../../core/utils'
+import { Result, ResultAsync, errAsync, err, logger } from '../../../core/utils'
 import { Notification } from '../../../modules/notification'
 import { InfraNotAvailableError, EntityNotFoundError } from '../../../modules/shared'
 
@@ -45,7 +45,7 @@ export class NotificationRepo implements Repository<Notification> {
     return ResultAsync.fromPromise<null, DomainError>(
       NotificationModel.upsert(this.toPersistence(aggregate)),
       (e: any) => {
-        console.log('notificationRepo.save error', e)
+        logger.error(e)
         return new InfraNotAvailableError()
       }
     )
@@ -58,7 +58,7 @@ export class NotificationRepo implements Repository<Notification> {
     return ResultAsync.fromPromise<Notification, DomainError>(
       NotificationModel.findByPk(id.toString()),
       (e: any) => {
-        console.log('notificationRepo.load error', e)
+        logger.error(e)
         return new InfraNotAvailableError()
       }
     ).andThen((dbResult) => (dbResult ? this.toDomain(dbResult) : err(new EntityNotFoundError())))

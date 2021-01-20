@@ -1,4 +1,4 @@
-import { ResultAsync, okAsync } from '../../core/utils'
+import { ResultAsync, okAsync, logger } from '../../core/utils'
 import { SendEmailProps } from '../../modules/notification'
 /**
  *
@@ -17,7 +17,7 @@ function fakeSendEmail(props: SendEmailProps): ResultAsync<null, Error> {
 
   const { subject, recipients, type, variables } = props
 
-  console.log(
+  logger.info(
     `EMAIL OUT: ${recipients
       .map((item) => item.email)
       .join(', ')} with subject "${subject}" and type ${type}`,

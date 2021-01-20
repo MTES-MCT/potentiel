@@ -1,3 +1,4 @@
+import { logger } from '../core/utils'
 import { ProjectRepo } from '../dataAccess'
 import { applyProjectUpdate, Project, User } from '../entities'
 import { EventBus } from '../modules/eventStore'
@@ -35,7 +36,7 @@ export default function makeRemoveDCR({
     const project = await findProjectById(projectId)
 
     if (!project) {
-      console.log('removeDCR failed because project could not be found')
+      logger.error('removeDCR failed because project could not be found')
       return ErrorResult(UNAUTHORIZED)
     }
 
@@ -60,8 +61,7 @@ export default function makeRemoveDCR({
     })
 
     if (!updatedProject) {
-      // OOPS
-      console.log('removeDCR use-case: applyProjectUpdate returned null')
+      logger.error('removeDCR use-case: applyProjectUpdate returned null')
 
       return ErrorResult(SYSTEM_ERROR)
     }

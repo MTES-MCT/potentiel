@@ -1,6 +1,6 @@
 import { Readable } from 'stream'
 import { UniqueEntityID } from '../../../core/domain'
-import { okAsync, UnwrapForTest } from '../../../core/utils'
+import { logger, okAsync, UnwrapForTest } from '../../../core/utils'
 import { resetDatabase } from '../helpers'
 import { FileContents, FileObject, FileStorageService, makeFileObject } from '../../../modules/file'
 import { EntityNotFoundError } from '../../../modules/shared'
@@ -42,7 +42,7 @@ describe('Sequelize FileRepo', () => {
     beforeAll(async () => {
       const saveResult = await fileRepo.save(file)
 
-      if (saveResult.isErr()) console.log(saveResult.error)
+      if (saveResult.isErr()) logger.error(saveResult.error)
       expect(saveResult.isOk()).toBe(true)
     })
 

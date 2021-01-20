@@ -1,6 +1,7 @@
 import { makeLocalFileStorageService, makeS3FileStorageService } from '../infra/file'
 import { FileStorageService } from '../modules/file'
 import { isProdEnv, isStagingEnv } from './env.config'
+import { logger } from '../core/utils'
 
 let fileStorageService: FileStorageService
 if (isStagingEnv || isProdEnv) {
@@ -14,19 +15,18 @@ if (isStagingEnv || isProdEnv) {
   ].filter((key) => !process.env[key])
 
   if (missingVars.length) {
-    console.log(
-      `Cannot start S3FileStorageService because of missing environment variables: ${missingVars.join(
-        ', '
-      )}`
-    )
+    const errorMsg = `Cannot start S3FileStorageService because of missing environment variables: ${missingVars.join(
+      ', '
+    )}`
+    console.error(errorMsg)
     process.exit(1)
   }
 
   fileStorageService = makeS3FileStorageService({ endpoint: S3_ENDPOINT!, bucket: S3_BUCKET! })
 
-  console.log(`FileService will be using S3 on bucket ${S3_BUCKET}`)
+  logger.info(`FileService will be using S3 on bucket ${S3_BUCKET}`)
 } else {
-  console.log('FileService will be using LocalFileStorage is userData/')
+  logger.info('FileService will be using LocalFileStorage is userData/')
   fileStorageService = makeLocalFileStorageService('userData')
 }
 

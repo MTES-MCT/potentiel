@@ -1,8 +1,9 @@
+import { logger } from '../core/utils'
 import dotenv from 'dotenv'
 dotenv.config()
 
 if (!['test', 'development', 'staging', 'production'].includes(process.env.NODE_ENV || '')) {
-  console.log('ERROR: NODE_ENV not recognized')
+  console.error('ERROR: NODE_ENV not recognized')
   process.exit(1)
 }
 
@@ -11,7 +12,7 @@ export const isDevEnv = process.env.NODE_ENV === 'development'
 export const isStagingEnv = process.env.NODE_ENV === 'staging'
 export const isProdEnv = process.env.NODE_ENV === 'production'
 
-console.log(
+logger.info(
   'Environment is ' +
     (isTestEnv
       ? 'Test'
