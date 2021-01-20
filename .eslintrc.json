@@ -38,7 +38,8 @@
     "jest/no-disabled-tests": "warn",
     "jest/valid-expect": "error",
     "no-use-before-define": "off",
-    "@typescript-eslint/no-use-before-define": "off"
+    "@typescript-eslint/no-use-before-define": "off",
+    "no-console": "warn"
   },
   "settings": {
     "react": {
