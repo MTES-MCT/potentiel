@@ -9,8 +9,6 @@ export const handleModificationRequested = (deps: {
 }) => async (event: ModificationRequested) => {
   const { modificationRequestId, projectId, type, requestedBy } = event.payload
 
-  // TODO: create a query to get the nomProjet for projectId and fullName/email for requestedBy => notification/queries/GetProjectInfoForModificationRequest
-
   await deps.getInfoForModificationRequested({ projectId, userId: requestedBy }).match(
     async ({ nomProjet, porteurProjet: { fullName, email } }) => {
       await _sendUpdateNotification({
