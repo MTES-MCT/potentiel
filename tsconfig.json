@@ -15,12 +15,13 @@
     "rootDir": "./",
     "sourceMap": true
   },
-  "include": ["src/**/*", "src/__tests__/**/*", "scripts"],
+  "include": ["src/**/*"],
   "exclude": [
     "node_modules",
     "features",
     "**/*.spec.ts",
     "**/*.integration.ts",
+    "src/__tests__/**/*",
     "cypress",
     "cypress/**/*",
     "scripts"
