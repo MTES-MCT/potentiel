@@ -5,9 +5,6 @@
   "main": "index.js",
   "scripts": {
     "build": "./node_modules/typescript/bin/tsc && cp -R src/public dist/src && cp -R src/views/template dist/src/views",
-    "cy:run": "./node_modules/.bin/cypress run",
-    "db:addUser": "./node_modules/ts-node/dist/bin.js scripts/createUser.ts",
-    "db:insertUsers": "./node_modules/ts-node/dist/bin.js scripts/insertUsers.ts",
     "install": "npm run build",
     "test": "NODE_ENV=unit-test jest --config=jest.unit.config.js --detectOpenHandles",
     "test-e2e": "NODE_ENV=test start-server-and-test watch http://localhost:3000 cy:run",
@@ -35,7 +32,6 @@
     "@usefultools/monads": "^3.0.3",
     "aws-sdk": "^2.799.0",
     "body-parser": "^1.19.0",
-    "bunyan": "^1.8.12",
     "chalk": "^4.1.0",
     "concat-stream": "^2.0.0",
     "connect-ensure-login": "^0.1.1",
@@ -49,7 +45,6 @@
     "iconv-lite": "^0.5.1",
     "isemail": "^3.2.0",
     "mkdirp": "^1.0.4",
-    "mocha": "^8.1.3",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.31",
     "multer": "^1.4.2",
@@ -63,13 +58,14 @@
     "pizzip": "^3.0.6",
     "react": "^16.14.0",
     "react-dom": "^16.12.0",
+    "@types/react": "^16.9.21",
+    "@types/react-dom": "^16.9.5",
     "runtypes": "^4.2.0",
     "sanitize-filename": "^1.6.3",
     "sequelize": "^6.3.5",
     "utility-types": "^3.10.0",
     "uuid": "^7.0.2",
-    "yup": "^0.28.1",
-    "zod": "^1.0.9"
+    "typescript": "^3.9.7"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
@@ -82,12 +78,10 @@
     "@types/multer": "^1.4.2",
     "@types/node": "^13.7.4",
     "@types/passport": "^1.0.2",
-    "@types/react": "^16.9.21",
-    "@types/react-dom": "^16.9.5",
-    "@types/yup": "^0.26.32",
     "@typescript-eslint/eslint-plugin": "^4.5.0",
     "@typescript-eslint/parser": "^4.5.0",
     "babel-loader": "^8.0.6",
+    "mocha": "^8.1.3",
     "chai": "^4.2.0",
     "cucumber": "^6.0.5",
     "cucumber-html-reporter": "^5.1.0",
@@ -107,14 +101,12 @@
     "husky": "^4.3.0",
     "jest": "^25.5.4",
     "lint-staged": "^10.4.2",
-    "nodemon": "^2.0.2",
     "prettier": "2.1.2",
     "sequelize-cli": "^6.2.0",
     "start-server-and-test": "^1.11.0",
     "ts-jest": "^25.5.1",
     "ts-loader": "^6.2.1",
-    "ts-node-dev": "^1.0.0-pre.44",
-    "typescript": "^3.9.7"
+    "ts-node-dev": "^1.0.0-pre.44"
   },
   "cypress-cucumber-preprocessor": {
     "nonGlobalStepDefinitions": true
