@@ -1,19 +1,11 @@
+import React from 'react'
+import { AppelOffre, ProjectAdmissionKey } from '../../entities'
+import { formatDate } from '../../helpers/formatDate'
+import { dataId } from '../../helpers/testId'
+import ROUTES from '../../routes'
+import { HttpRequest, PaginatedList } from '../../types'
 import AdminDashboard from '../components/adminDashboard'
 import Pagination from '../components/pagination'
-
-import React from 'react'
-import { formatDate } from '../../helpers/formatDate'
-
-import { Project, AppelOffre, Periode, Famille, ProjectAdmissionKey } from '../../entities'
-import ROUTES from '../../routes'
-import { dataId } from '../../helpers/testId'
-import { asLiteral } from '../../helpers/asLiteral'
-
-import { adminActions } from '../components/actions'
-import { HttpRequest, PaginatedList } from '../../types'
-import { isFunction } from 'util'
-import { date } from 'yup'
-
 interface InvitationListProps {
   request: HttpRequest
   invitations: PaginatedList<ProjectAdmissionKey>
@@ -29,7 +21,7 @@ export default function InvitationList({ request, invitations, appelsOffre }: In
       <div className="panel">
         <div className="panel__header">
           <h3>Invitations en cours</h3>
-          <p>Sont listées uniquement les invitations qui n'ont pas donné lieu à une inscription</p>
+          <p>Sont listées uniquement les invitations qui n‘ont pas donné lieu à une inscription</p>
         </div>
         <div className="panel__header">
           <form
@@ -114,7 +106,7 @@ export default function InvitationList({ request, invitations, appelsOffre }: In
               <thead>
                 <tr>
                   <th>Email</th>
-                  <th style={{ width: 150 }}>Date d'invitation</th>
+                  <th style={{ width: 150 }}>Date d‘invitation</th>
                   <th style={{ width: 100 }}></th>
                 </tr>
               </thead>
