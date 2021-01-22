@@ -129,7 +129,7 @@
     "cz-emoji": {
       "skipQuestions": [
         "scope",
-        "body"
+        "breaking"
       ],
       "types": [
         {
