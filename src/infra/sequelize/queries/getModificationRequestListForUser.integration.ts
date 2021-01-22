@@ -8,26 +8,29 @@ import { UniqueEntityID } from '../../../core/domain'
 import { UnwrapForTest as OldUnwrapForTest } from '../../../types'
 import { makeUser } from '../../../entities'
 
+const { Project, User, File, ModificationRequest } = models
+
 describe('Sequelize getModificationRequestListForUser', () => {
   const getModificationRequestListForUser = makeGetModificationRequestListForUser(models)
 
-  const modificationRequestId = new UniqueEntityID().toString()
   const projectId = new UniqueEntityID().toString()
   const fileId = new UniqueEntityID().toString()
   const userId = new UniqueEntityID().toString()
 
-  const projectInfo = {
-    id: projectId,
-    nomProjet: 'nomProjet',
-    communeProjet: 'communeProjet',
-    departementProjet: 'departementProjet',
-    regionProjet: 'regionProjet',
-    appelOffreId: 'Fessenheim',
-    periodeId: '1',
-    familleId: 'familleId',
-  }
+  describe('generally', () => {
+    const modificationRequestId = new UniqueEntityID().toString()
 
-  describe('when user is admin', () => {
+    const projectInfo = {
+      id: projectId,
+      nomProjet: 'nomProjet',
+      communeProjet: 'communeProjet',
+      departementProjet: 'departementProjet',
+      regionProjet: 'regionProjet',
+      appelOffreId: 'Fessenheim',
+      periodeId: '1',
+      familleId: 'familleId',
+    }
+
     const fakeUserInfo = makeFakeUser({
       id: userId,
       fullName: 'John Doe',
@@ -40,17 +43,13 @@ describe('Sequelize getModificationRequestListForUser', () => {
       // Create the tables and remove all data
       await resetDatabase()
 
-      const ProjectModel = models.Project
-      await ProjectModel.create(makeFakeProject(projectInfo))
+      await Project.create(makeFakeProject(projectInfo))
 
-      const FileModel = models.File
-      await FileModel.create(makeFakeFile({ id: fileId, filename: 'filename' }))
+      await File.create(makeFakeFile({ id: fileId, filename: 'filename' }))
 
-      const UserModel = models.User
-      await UserModel.create(fakeUser)
+      await User.create(fakeUser)
 
-      const ModificationRequestModel = models.ModificationRequest
-      await ModificationRequestModel.create({
+      await ModificationRequest.create({
         id: modificationRequestId,
         projectId,
         userId,
@@ -71,33 +70,100 @@ describe('Sequelize getModificationRequestListForUser', () => {
       expect(res.isOk()).toBe(true)
 
       expect(res._unsafeUnwrap().itemCount).toEqual(1)
-      expect(res._unsafeUnwrap().items[0]).toEqual(
-        expect.objectContaining({
-          id: modificationRequestId,
-          status: 'envoyée',
-          requestedOn: new Date(123),
-          requestedBy: {
-            email: 'email@test.test',
-            fullName: 'John Doe',
-          },
-          attachmentFile: {
-            filename: 'filename',
-            id: fileId,
-          },
-          project: {
-            nomProjet: 'nomProjet',
-            communeProjet: 'communeProjet',
-            departementProjet: 'departementProjet',
-            regionProjet: 'regionProjet',
-            appelOffreId: 'Fessenheim',
-            periodeId: '1',
-            familleId: 'familleId',
-            unitePuissance: 'MWc', // see fessenheim.ts
-          },
+      expect(res._unsafeUnwrap().items[0]).toMatchObject({
+        id: modificationRequestId,
+        status: 'envoyée',
+        requestedOn: new Date(123),
+        requestedBy: {
+          email: 'email@test.test',
+          fullName: 'John Doe',
+        },
+        attachmentFile: {
+          filename: 'filename',
+          id: fileId,
+        },
+        project: {
+          nomProjet: 'nomProjet',
+          communeProjet: 'communeProjet',
+          departementProjet: 'departementProjet',
+          regionProjet: 'regionProjet',
+          appelOffreId: 'Fessenheim',
+          periodeId: '1',
+          familleId: 'familleId',
+          unitePuissance: 'MWc', // see fessenheim.ts
+        },
+        type: 'recours',
+        justification: 'justification',
+      })
+    })
+  })
+
+  describe('when user is admin', () => {
+    const fakeUserInfo = makeFakeUser({
+      id: userId,
+      role: 'admin',
+    })
+    const fakeUser = OldUnwrapForTest(makeUser(fakeUserInfo))
+
+    beforeAll(async () => {
+      // Create the tables and remove all data
+      await resetDatabase()
+
+      await Project.create(makeFakeProject({ id: projectId }))
+
+      await File.create(makeFakeFile({ id: fileId }))
+
+      await User.create(fakeUser)
+
+      const baseRequest = {
+        projectId,
+        userId,
+        fileId,
+        requestedOn: 123,
+        status: 'envoyée',
+      }
+
+      await ModificationRequest.bulkCreate([
+        {
+          ...baseRequest,
+          id: new UniqueEntityID().toString(),
           type: 'recours',
-          justification: 'justification',
-        })
-      )
+        },
+        {
+          ...baseRequest,
+          id: new UniqueEntityID().toString(),
+          type: 'delai',
+        },
+        {
+          ...baseRequest,
+          id: new UniqueEntityID().toString(),
+          type: 'abandon',
+        },
+        {
+          ...baseRequest,
+          id: new UniqueEntityID().toString(),
+          type: 'other',
+        },
+      ])
+    })
+
+    it('should return all modification requests of type recours, delai and abandon', async () => {
+      const res = await getModificationRequestListForUser({
+        user: fakeUser,
+        pagination: { page: 0, pageSize: 10 },
+      })
+
+      expect(res.isOk()).toBe(true)
+
+      expect(res._unsafeUnwrap().itemCount).toEqual(3)
+
+      expect(
+        res
+          ._unsafeUnwrap()
+          .items.every((modificationRequest) =>
+            ['recours', 'delai', 'abandon'].includes(modificationRequest.type)
+          )
+      ).toBe(true)
     })
   })
 
@@ -110,6 +176,19 @@ describe('Sequelize getModificationRequestListForUser', () => {
     })
     const fakeUser = OldUnwrapForTest(makeUser(fakeUserInfo))
 
+    const projectInfo = {
+      id: projectId,
+      nomProjet: 'nomProjet',
+      communeProjet: 'communeProjet',
+      departementProjet: 'departementProjet',
+      regionProjet: 'regionProjet',
+      appelOffreId: 'Fessenheim',
+      periodeId: '1',
+      familleId: 'familleId',
+    }
+
+    const userModificationRequestId = new UniqueEntityID().toString()
+
     const otherUserId = new UniqueEntityID().toString()
     const fakeOtherUser = OldUnwrapForTest(makeUser(makeFakeUser({ id: otherUserId })))
 
@@ -117,51 +196,45 @@ describe('Sequelize getModificationRequestListForUser', () => {
       // Create the tables and remove all data
       await resetDatabase()
 
-      const ProjectModel = models.Project
-      await ProjectModel.create(makeFakeProject(projectInfo))
+      await Project.create(makeFakeProject(projectInfo))
 
-      const FileModel = models.File
-      await FileModel.create(makeFakeFile({ id: fileId, filename: 'filename' }))
+      await File.create(makeFakeFile({ id: fileId, filename: 'filename' }))
 
-      const UserModel = models.User
-      await UserModel.create(fakeUser)
-      await UserModel.create(fakeOtherUser)
+      await User.create(fakeUser)
+      await User.create(fakeOtherUser)
 
-      const ModificationRequestModel = models.ModificationRequest
-      await ModificationRequestModel.create({
-        id: modificationRequestId,
+      const baseRequest = {
         projectId,
-        userId,
         fileId,
-        type: 'recours',
         requestedOn: 123,
         status: 'envoyée',
-        justification: 'justification',
+        type: 'recours',
+      }
+
+      await ModificationRequest.create({
+        ...baseRequest,
+        id: userModificationRequestId,
+        userId,
       })
 
       // Create a modification request from otherUser
-      await ModificationRequestModel.create({
+      await ModificationRequest.create({
+        ...baseRequest,
         id: new UniqueEntityID().toString(),
-        projectId,
         userId: otherUserId,
-        fileId,
-        type: 'other',
-        requestedOn: 456,
-        status: 'envoyée',
-        justification: 'justification2',
       })
     })
 
     it('should return a paginated list of the user‘s modification requests', async () => {
       const res = await getModificationRequestListForUser({
         user: fakeUser,
-        pagination: { page: 0, pageSize: 1 },
+        pagination: { page: 0, pageSize: 10 },
       })
 
       expect(res.isOk()).toBe(true)
 
       expect(res._unsafeUnwrap().itemCount).toEqual(1)
-      expect(res._unsafeUnwrap().items[0].id).toEqual(modificationRequestId)
+      expect(res._unsafeUnwrap().items[0].id).toEqual(userModificationRequestId)
     })
   })
 })
