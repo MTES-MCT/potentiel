@@ -9,6 +9,7 @@ import { MakeProjectStepModel } from './projections/projectStep/projectStep.mode
 
 import { MakeUserProjectsModel } from './projections/userProjects/userProjects.model'
 import { MakeProjectAdmissionKeyModel } from './projections/projectAdmissionKey/projectAdmissionKey.model'
+import { MakeUserDrealModel } from './projections/userDreal/userDreal.model'
 import { MakeModificationRequestModel } from './projections/modificationRequest/modificationRequest.model'
 import { MakeAppelOffreModel } from './projections/appelOffre/appelOffre.model'
 import { MakePeriodeModel } from './projections/appelOffre/periode.model'
@@ -26,6 +27,7 @@ const models = {
   ProjectStep: MakeProjectStepModel(sequelizeInstance),
   AppelOffre: MakeAppelOffreModel(sequelizeInstance),
   Periode: MakePeriodeModel(sequelizeInstance),
+  UserDreal: MakeUserDrealModel(sequelizeInstance),
 }
 
 // Link projectors with the eventBus (called by the application config)

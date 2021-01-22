@@ -167,6 +167,113 @@ describe('Sequelize getModificationRequestListForUser', () => {
     })
   })
 
+  describe('when user is dreal', () => {
+    const drealUserId = new UniqueEntityID().toString()
+    const drealUserInfo = makeFakeUser({
+      id: drealUserId,
+      role: 'dreal',
+    })
+    const drealUser = OldUnwrapForTest(makeUser(drealUserInfo))
+
+    const ppUserId = new UniqueEntityID().toString()
+    const ppUserInfo = makeFakeUser({
+      id: ppUserId,
+      role: 'porteur-projet',
+    })
+    const ppUser = OldUnwrapForTest(makeUser(ppUserInfo))
+
+    beforeAll(async () => {
+      // Create the tables and remove all data
+      await resetDatabase()
+
+      const ProjectModel = models.Project
+      await ProjectModel.create(makeFakeProject({ id: projectId, regionProjet: 'Bretagne' }))
+
+      const outsideRegionProjectId = new UniqueEntityID().toString()
+      await ProjectModel.create(
+        makeFakeProject({ id: outsideRegionProjectId, regionProjet: 'Occitanie' })
+      )
+
+      const FileModel = models.File
+      await FileModel.create(makeFakeFile({ id: fileId }))
+
+      const UserModel = models.User
+      await UserModel.create(drealUser)
+      await UserModel.create(ppUser)
+
+      const UserDrealModel = models.UserDreal
+      await UserDrealModel.create({
+        userId: drealUserId,
+        dreal: 'Bretagne',
+      })
+
+      const ModificationRequestModel = models.ModificationRequest
+
+      const baseRequest = {
+        projectId,
+        userId: ppUserId,
+        fileId,
+        requestedOn: 123,
+        status: 'envoyée',
+      }
+
+      await ModificationRequestModel.bulkCreate([
+        {
+          ...baseRequest,
+          id: new UniqueEntityID().toString(),
+          type: 'puissance',
+        },
+        {
+          ...baseRequest,
+          id: new UniqueEntityID().toString(),
+          type: 'fournisseur',
+        },
+        {
+          ...baseRequest,
+          id: new UniqueEntityID().toString(),
+          type: 'producteur',
+        },
+        {
+          ...baseRequest,
+          id: new UniqueEntityID().toString(),
+          type: 'actionnaire',
+        },
+        {
+          // outside of scope because of type
+          ...baseRequest,
+          id: new UniqueEntityID().toString(),
+          type: 'other',
+        },
+        {
+          // outside of scope because of project region
+          ...baseRequest,
+          projectId: outsideRegionProjectId,
+          id: new UniqueEntityID().toString(),
+          type: 'puissance',
+        },
+      ])
+    })
+
+    it('should return all modification requests of types puissance, fournisseur, producteur, actionnaire and in the user‘s region', async () => {
+      const res = await getModificationRequestListForUser(drealUser, { page: 0, pageSize: 10 })
+
+      expect(res.isOk()).toBe(true)
+
+      expect(res._unsafeUnwrap().itemCount).toEqual(4)
+
+      expect(
+        res
+          ._unsafeUnwrap()
+          .items.every(
+            (modificationRequest) =>
+              ['puissance', 'fournisseur', 'producteur', 'actionnaire'].includes(
+                modificationRequest.type
+              ) && modificationRequest.project.regionProjet === 'Bretagne'
+          )
+      ).toBe(true)
+    })
+  })
+
   describe('when user is porteur-projet', () => {
     const fakeUserInfo = makeFakeUser({
       id: userId,
