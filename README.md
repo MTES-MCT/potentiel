@@ -27,6 +27,30 @@
 
 # Developpement
 
+### Déployer sur une instance dev
+
+Nécessite l'installation de clever-tools
+
+```
+npm install -g clever-tools
+clever login
+```
+
+Puis une fois l'identification faite:
+
+```
+# link app
+clever link app_123456
+
+# deploy
+clever deploy
+```
+
+### Déployer sur l'instance de staging
+
+L'instance de staging est déployée continuellement à partir de la branche `staging`, qui n'est pas protégée.
+Il suffit donc de faire un push sur la branche `staging` et l'instance sera déployée.
+
 ### Obtenir une base de données vierge
 
 ```
