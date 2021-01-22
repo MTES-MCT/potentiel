@@ -1,4 +1,3 @@
-import { logger } from '../core/utils'
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -12,7 +11,7 @@ export const isDevEnv = process.env.NODE_ENV === 'development'
 export const isStagingEnv = process.env.NODE_ENV === 'staging'
 export const isProdEnv = process.env.NODE_ENV === 'production'
 
-logger.info(
+console.log(
   'Environment is ' +
     (isTestEnv
       ? 'Test'

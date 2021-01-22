@@ -27,7 +27,7 @@ if (isProdEnv) {
     Sentry.captureMessage(message)
   })
 
-  logger.on('errorLog', (exception: Error) => {
+  logger.on('errorLog', (exception: Error | string) => {
     console.error(exception)
     Sentry.captureException(exception)
   })
@@ -44,7 +44,7 @@ if (isProdEnv) {
     console.warn(message)
   })
 
-  logger.on('errorLog', (exception: Error) => {
+  logger.on('errorLog', (exception: Error | string) => {
     console.error(exception)
   })
 }

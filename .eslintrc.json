@@ -18,6 +18,12 @@
       "rules": {
         "no-unused-expressions": "off"
       }
+    },
+    {
+      "files": ["src/config/**/*.ts}"],
+      "rules": {
+        "no-console": "off"
+      }
     }
   ],
   "parser": "@typescript-eslint/parser",

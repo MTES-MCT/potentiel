@@ -1,7 +1,6 @@
 import { makeLocalFileStorageService, makeS3FileStorageService } from '../infra/file'
 import { FileStorageService } from '../modules/file'
 import { isProdEnv, isStagingEnv } from './env.config'
-import { logger } from '../core/utils'
 
 let fileStorageService: FileStorageService
 if (isStagingEnv || isProdEnv) {
@@ -24,9 +23,9 @@ if (isStagingEnv || isProdEnv) {
 
   fileStorageService = makeS3FileStorageService({ endpoint: S3_ENDPOINT!, bucket: S3_BUCKET! })
 
-  logger.info(`FileService will be using S3 on bucket ${S3_BUCKET}`)
+  console.log(`FileService will be using S3 on bucket ${S3_BUCKET}`)
 } else {
-  logger.info('FileService will be using LocalFileStorage is userData/')
+  console.log('FileService will be using LocalFileStorage is userData/')
   fileStorageService = makeLocalFileStorageService('userData')
 }
 

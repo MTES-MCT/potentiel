@@ -14,5 +14,5 @@ export const logger = Object.freeze({
   error(error: Error | string) {
     emitter.emit('errorLog', error)
   },
-  on: emitter.on,
+  on: emitter.on.bind(emitter),
 })

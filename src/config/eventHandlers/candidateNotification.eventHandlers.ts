@@ -10,7 +10,6 @@ import {
 import { sendNotification } from '../emails.config'
 import { eventStore } from '../eventStore.config'
 import { appelOffreRepo, candidateNotificationRepo, projectAdmissionKeyRepo } from '../repos.config'
-import { logger } from '../../core/utils'
 
 eventStore.subscribe(
   CandidateNotifiedForPeriode.type,
@@ -28,5 +27,5 @@ const projectCertficateHandler = handleProjectCertificateGeneratedOrFailed({
 eventStore.subscribe(ProjectCertificateGenerated.type, projectCertficateHandler)
 eventStore.subscribe(ProjectCertificateGenerationFailed.type, projectCertficateHandler)
 
-logger.info('Candidate Notification Event Handlers Initialized')
+console.log('Candidate Notification Event Handlers Initialized')
 export const candidateNotificationHandlersOk = true

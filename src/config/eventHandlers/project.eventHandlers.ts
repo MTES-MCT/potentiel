@@ -4,7 +4,6 @@ import { eventStore } from '../eventStore.config'
 import { getUnnotifiedProjectsForPeriode } from '../queries.config'
 import { projectRepo } from '../repos.config'
 import { generateCertificate } from '../useCases.config'
-import { logger } from '../../core/utils'
 
 eventStore.subscribe(
   PeriodeNotified.type,
@@ -15,5 +14,5 @@ eventStore.subscribe(
   })
 )
 
-logger.info('Project Event Handlers Initialized')
+console.log('Project Event Handlers Initialized')
 export const projectHandlersOk = true
