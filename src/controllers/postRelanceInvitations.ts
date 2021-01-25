@@ -2,6 +2,7 @@ import { Redirect } from '../helpers/responses'
 import ROUTES from '../routes'
 import { HttpRequest } from '../types'
 import { relanceInvitations } from '../useCases'
+import { logger } from '../core/utils'
 
 const postRelanceInvitations = async (request: HttpRequest) => {
   if (!request.user || request.user.role !== 'admin') {
@@ -31,7 +32,7 @@ const postRelanceInvitations = async (request: HttpRequest) => {
             : `Aucun relance n'a été envoyée. Merci de vérifier qu'il y a bien des invitations à relancer.`,
         }),
       err: (e: Error) => {
-        console.log('postRelanceInvitations failed', e)
+        logger.error(e)
         return Redirect(ROUTES.ADMIN_INVITATION_LIST, {
           appelOffreId,
           periodeId,

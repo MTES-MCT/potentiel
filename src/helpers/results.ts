@@ -1,11 +1,13 @@
 import { Result } from '@usefultools/monads'
+import { logger } from '../core/utils'
 
 const mapExceptError = <T, K>(arr: Array<T>, fn: (T) => K, errorMessage: string): Array<K> =>
   arr.reduce((validItems: Array<K>, item: T) => {
     try {
       validItems.push(fn(item))
     } catch (error) {
-      console.log(errorMessage || 'mapExceptError error', error)
+      if (errorMessage) logger.error(errorMessage)
+      logger.error(error)
     }
     return validItems
   }, [])
@@ -20,7 +22,9 @@ const mapIfOk = <T, K>(
     if (result.is_ok()) {
       validItems.push(result.unwrap())
     } else {
-      console.log(errorMessage || 'mapIfOk error', result.unwrap_err(), item)
+      if (errorMessage) logger.error(errorMessage)
+      logger.error(result.unwrap_err())
+      logger.info(item)
     }
     return validItems
   }, [])

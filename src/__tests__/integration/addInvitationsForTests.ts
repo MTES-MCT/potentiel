@@ -2,12 +2,13 @@ import { projectAdmissionKeyRepo } from '../../dataAccess'
 import { makeProjectAdmissionKey } from '../../entities'
 import { Success, SystemError } from '../../helpers/responses'
 import { HttpRequest } from '../../types'
+import { logger } from '../../core/utils'
 
 const addInvitationsForTests = async (request: HttpRequest) => {
   const { invitations } = request.body
 
   if (!invitations) {
-    console.log('tests/addInvitationsForTests missing invitations')
+    logger.error('tests/addInvitationsForTests missing invitations')
     return SystemError('tests/addInvitationsForTests missing invitations')
   }
 
@@ -37,18 +38,18 @@ const addInvitationsForTests = async (request: HttpRequest) => {
     .map((item) => item.unwrap())
 
   if (builtInvitations.length !== invitations.length) {
-    console.log('addProjects for Tests could not add all required projects')
+    logger.error('addProjects for Tests could not add all required projects')
     invitations
       .map(makeProjectAdmissionKey)
       .filter((item) => item.is_err())
       .forEach((error) => {
-        console.log(error.unwrap_err())
+        logger.error(error.unwrap_err())
       })
   }
 
   await Promise.all(builtInvitations.map(projectAdmissionKeyRepo.save))
 
-  console.log('addInvitationsForTests inserted ' + builtInvitations.length + ' invitations')
+  logger.info(`addInvitationsForTests inserted ${builtInvitations.length} invitations`)
 
   return Success('success')
 }

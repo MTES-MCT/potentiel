@@ -18,6 +18,12 @@
       "rules": {
         "no-unused-expressions": "off"
       }
+    },
+    {
+      "files": ["src/config/**/*.ts}"],
+      "rules": {
+        "no-console": "off"
+      }
     }
   ],
   "parser": "@typescript-eslint/parser",
@@ -38,7 +44,8 @@
     "jest/no-disabled-tests": "warn",
     "jest/valid-expect": "error",
     "no-use-before-define": "off",
-    "@typescript-eslint/no-use-before-define": "off"
+    "@typescript-eslint/no-use-before-define": "off",
+    "no-console": "warn"
   },
   "settings": {
     "react": {

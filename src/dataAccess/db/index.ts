@@ -6,6 +6,7 @@ import { makeProjectRepo } from './project'
 import { makeProjectAdmissionKeyRepo } from './projectAdmissionKey'
 import { makeModificationRequestRepo } from './modificationRequest'
 import { makePasswordRetrievalRepo } from './passwordRetrieval'
+import { logger } from '../../core/utils'
 
 import { appelOffreRepo } from '../inMemory/appelOffre'
 import truncateAllTables from './helpers/truncateTables'
@@ -50,14 +51,14 @@ ModificationRequestModel.belongsTo(UserModel, { foreignKey: 'userId' })
 let _isDatabaseInitialized = false
 const initDatabase = async () => {
   if (_isDatabaseInitialized) {
-    console.log('initDatabase: db was already initialized.')
+    logger.info('initDatabase: db was already initialized.')
     return
   }
 
   try {
     await sequelizeInstance.authenticate()
   } catch (error) {
-    console.error('Unable to connect to the database:', error)
+    logger.error(error)
   }
 
   if (process.env.NODE_ENV === 'test') {
@@ -66,7 +67,7 @@ const initDatabase = async () => {
       // The db tables are created using migration scripts eitherwise
       await sequelizeInstance.sync({ force: true })
     } catch (error) {
-      console.error('Unable to sync database models', error)
+      logger.error(error)
     }
   }
 
@@ -78,7 +79,7 @@ const resetDatabase = async () => {
   try {
     await truncateAllTables()
   } catch (error) {
-    console.error('Unable to flush every table:', error)
+    logger.error(error)
   }
 }
 

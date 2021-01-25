@@ -4,6 +4,7 @@ import ROUTES from '../routes'
 import { HttpRequest, Pagination } from '../types'
 import { NotificationListPage } from '../views/pages'
 import { getFailedNotificationDetails } from '../config'
+import { logger } from '../core/utils'
 
 const defaultPagination: Pagination = {
   page: 0,
@@ -26,7 +27,7 @@ const getNotificationListPage = async (request: HttpRequest) => {
         })
       ),
     (e) => {
-      console.error(e)
+      logger.error(e)
       return SystemError('Impossible de charger la liste des notifications en erreur.')
     }
   )

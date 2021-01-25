@@ -1,5 +1,5 @@
 import { Repository, UniqueEntityID } from '../../../core/domain'
-import { errAsync, ResultAsync } from '../../../core/utils'
+import { errAsync, logger, ResultAsync } from '../../../core/utils'
 import { FileContents, FileObject, FileStorageService, makeFileObject } from '../../../modules/file'
 import { EntityNotFoundError, InfraNotAvailableError } from '../../../modules/shared'
 
@@ -20,7 +20,7 @@ export const makeFileRepo = (deps: FileRepoDeps): Repository<FileObject> => {
         return ResultAsync.fromPromise<null, InfraNotAvailableError>(
           FileModel.create(_toPersistence(file, storedAt)),
           (e: any) => {
-            console.error('fileRepo.save error', e)
+            logger.error(e)
             return new InfraNotAvailableError()
           }
         )
@@ -29,7 +29,7 @@ export const makeFileRepo = (deps: FileRepoDeps): Repository<FileObject> => {
 
     load(id: UniqueEntityID) {
       return ResultAsync.fromPromise(FileModel.findByPk(id.toString()), (e: any) => {
-        console.error('fileRepo.load error querying FileModel', e)
+        logger.error(e)
         return new InfraNotAvailableError()
       }).andThen((fileRaw: any) => {
         if (!fileRaw) return errAsync(new EntityNotFoundError())
@@ -39,8 +39,8 @@ export const makeFileRepo = (deps: FileRepoDeps): Repository<FileObject> => {
         return deps.fileStorageService
           .download(file.storedAt)
           .andThen((contents) => _toDomain(file, contents))
-          .mapErr((e) => {
-            console.error('fileRepo.load failed to retrieve file', e)
+          .mapErr((e: Error) => {
+            logger.error(e)
             return new InfraNotAvailableError()
           })
       })

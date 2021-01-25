@@ -75,7 +75,7 @@ module.exports = {
         {}
       )
     } catch (error) {
-      console.log('Error', error)
+      console.error(error)
     }
   },
 

@@ -67,6 +67,7 @@ import {
   resetDbForTests,
 } from './__tests__/integration'
 
+import { logger } from './core/utils'
 dotenv.config()
 
 const FILE_SIZE_LIMIT_MB = 50
@@ -360,7 +361,7 @@ export async function makeServer(port: number) {
     )
 
     router.get('/ping', (req, res) => {
-      console.log('Call to ping')
+      logger.info('Call to ping')
       res.send('pong')
     })
 
@@ -395,14 +396,14 @@ export async function makeServer(port: number) {
 
     return new Promise((resolve) => {
       const server = app.listen(port, () => {
-        console.log(`Server listening on port ${port}!`)
-        console.log(`NODE_ENV is ${process.env.NODE_ENV}`)
-        console.log(`Version ${version}`)
+        logger.info(`Server listening on port ${port}!`)
+        logger.info(`NODE_ENV is ${process.env.NODE_ENV}`)
+        logger.info(`Version ${version}`)
         resolve(server)
       })
     })
   } catch (error) {
-    console.log('Error launching server', error)
+    logger.error(error)
   }
 }
 

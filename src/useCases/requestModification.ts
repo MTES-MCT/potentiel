@@ -1,4 +1,5 @@
 import { Repository, UniqueEntityID } from '../core/domain'
+import { logger } from '../core/utils'
 import { Project, User } from '../entities'
 import { EventBus } from '../modules/eventStore'
 import { FileContents, FileObject, makeAndSaveFile } from '../modules/file'
@@ -110,7 +111,7 @@ export default function makeRequestModification({
       })
 
       if (fileIdResult.isErr()) {
-        console.error('addGarantiesFinancières use-case: failed to save file', fileIdResult.error)
+        logger.error(fileIdResult.error as Error)
         return ErrorResult(SYSTEM_ERROR)
       }
 

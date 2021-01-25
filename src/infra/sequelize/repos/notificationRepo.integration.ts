@@ -3,6 +3,7 @@ import { Notification } from '../../../modules/notification'
 import models from '../models'
 import { resetDatabase } from '../helpers'
 import { UniqueEntityID } from '../../../core/domain'
+import { logger } from '../../../core/utils'
 
 describe('Sequelize NotificationRepo', () => {
   const notificationRepo = new NotificationRepo(models)
@@ -40,7 +41,7 @@ describe('Sequelize NotificationRepo', () => {
     it('should save the Notification to database', async () => {
       const saveResult = await notificationRepo.save(notification)
 
-      if (saveResult.isErr()) console.log(saveResult.error.message)
+      if (saveResult.isErr()) logger.error(saveResult.error)
       expect(saveResult.isOk()).toBe(true)
 
       const NotificationModel = models.Notification

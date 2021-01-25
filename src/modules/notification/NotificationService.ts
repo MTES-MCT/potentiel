@@ -1,4 +1,5 @@
 import { Repository } from '../../core/domain'
+import { logger } from '../../core/utils'
 import { Notification, NotificationArgs } from './Notification'
 import { GetFailedNotificationsForRetry } from './queries'
 import { SendEmail } from './SendEmail'
@@ -23,11 +24,8 @@ export const makeNotificationService = (deps: NotificationServiceDeps): Notifica
   async function sendNotification(args: NotificationArgs): Promise<null> {
     const notificationResult = Notification.create(args)
     if (notificationResult.isErr()) {
-      console.error(
-        'ERROR: NotificationService.send failed to create a Notification',
-        args,
-        notificationResult.error
-      )
+      logger.error(notificationResult.error)
+      logger.info('ERROR: NotificationService.send failed to create a Notification', args)
       return null
     }
 
@@ -41,10 +39,7 @@ export const makeNotificationService = (deps: NotificationServiceDeps): Notifica
     const failedNotificationsResult = await deps.getFailedNotificationsForRetry()
 
     if (failedNotificationsResult.isErr()) {
-      console.error(
-        'NotificationService.retryFailedNotifications errored',
-        failedNotificationsResult.error
-      )
+      logger.error(failedNotificationsResult.error)
       return 0
     }
 
@@ -56,9 +51,8 @@ export const makeNotificationService = (deps: NotificationServiceDeps): Notifica
       const failedNotificationResult = await deps.notificationRepo.load(id)
 
       if (failedNotificationResult.isErr()) {
-        console.error(
-          'NotificationService.retryFailedNotifications found a failed notification but could not load it',
-          id
+        logger.error(
+          `NotificationService.retryFailedNotifications found a failed notification but could not load it. Id : ${id}`
         )
         continue
       }
@@ -81,10 +75,10 @@ export const makeNotificationService = (deps: NotificationServiceDeps): Notifica
 
       const saveResult = await deps.notificationRepo.save(failedNotification)
       if (saveResult.isErr()) {
-        console.error(
+        logger.error(saveResult.error)
+        logger.info(
           'ERROR: NotificationService.retryFailedNotification failed to save retried notification',
-          failedNotification,
-          saveResult.error
+          failedNotification
         )
       }
     }
@@ -126,11 +120,8 @@ export const makeNotificationService = (deps: NotificationServiceDeps): Notifica
       )
     const saveResult = await deps.notificationRepo.save(notification)
     if (saveResult.isErr()) {
-      console.error(
-        'ERROR: NotificationService.send failed to save Notification',
-        notification,
-        saveResult.error
-      )
+      logger.error(saveResult.error)
+      logger.info('ERROR: NotificationService.send failed to save Notification', notification)
     }
   }
 }

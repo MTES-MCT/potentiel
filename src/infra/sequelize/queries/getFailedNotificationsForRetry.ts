@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '../../../core/domain'
-import { errAsync, ResultAsync } from '../../../core/utils'
+import { errAsync, logger, ResultAsync } from '../../../core/utils'
 import { GetFailedNotificationsForRetry } from '../../../modules/notification/queries'
 import { InfraNotAvailableError } from '../../../modules/shared'
 
@@ -13,7 +13,7 @@ export const makeGetFailedNotificationsForRetry = (
   return ResultAsync.fromPromise(
     NotificationModel.findAll({ where: { status: 'error' }, order: [['createdAt', 'DESC']] }),
     (e: any) => {
-      console.error(e)
+      logger.error(e)
       return new InfraNotAvailableError()
     }
   ).andThen((notifications: any) => {
@@ -45,7 +45,7 @@ export const makeGetFailedNotificationsForRetry = (
           })
       ),
       (e: any) => {
-        console.error(e)
+        logger.error(e)
         return new InfraNotAvailableError()
       }
     )

@@ -3,6 +3,7 @@ import { HttpRequest } from '../types'
 import { SignupPage } from '../views/pages'
 import { projectAdmissionKeyRepo, credentialsRepo } from '../dataAccess'
 import routes from '../routes'
+import { logger } from '../core/utils'
 
 const getSignupPage = async (request: HttpRequest) => {
   const projectAdmissionKeyId = request.query.projectAdmissionKey
@@ -14,9 +15,8 @@ const getSignupPage = async (request: HttpRequest) => {
 
   if (projectAdmissionKeyResult.is_none()) {
     // Key doesnt exist
-    console.log(
-      'getSignupPage called with a projectAdmissionKey that could not be found',
-      projectAdmissionKeyId
+    logger.warning(
+      `getSignupPage called with a projectAdmissionKey that could not be found : ${projectAdmissionKeyId}`
     )
     return Redirect(routes.HOME)
   }

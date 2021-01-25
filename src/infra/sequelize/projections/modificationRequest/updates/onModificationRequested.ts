@@ -1,3 +1,4 @@
+import { logger } from '../../../../../core/utils'
 import { ModificationRequested } from '../../../../../modules/modificationRequest'
 
 export const onModificationRequested = (models) => async (event: ModificationRequested) => {
@@ -36,6 +37,6 @@ export const onModificationRequested = (models) => async (event: ModificationReq
       delayedServiceDate,
     })
   } catch (e) {
-    console.error(e)
+    logger.error(e)
   }
 }

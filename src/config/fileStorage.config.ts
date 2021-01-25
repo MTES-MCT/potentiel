@@ -14,11 +14,10 @@ if (isStagingEnv || isProdEnv) {
   ].filter((key) => !process.env[key])
 
   if (missingVars.length) {
-    console.log(
-      `Cannot start S3FileStorageService because of missing environment variables: ${missingVars.join(
-        ', '
-      )}`
-    )
+    const errorMsg = `Cannot start S3FileStorageService because of missing environment variables: ${missingVars.join(
+      ', '
+    )}`
+    console.error(errorMsg)
     process.exit(1)
   }
 

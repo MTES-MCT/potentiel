@@ -5,7 +5,7 @@ import {
   makeFakeProject,
 } from '../../../__tests__/fixtures/aggregates'
 import { makeAcceptModificationRequest } from './acceptModificationRequest'
-import { okAsync } from '../../../core/utils'
+import { logger, okAsync } from '../../../core/utils'
 import { FileObject } from '../../file'
 import { Repository, UniqueEntityID } from '../../../core/domain'
 import { Readable } from 'stream'
@@ -53,7 +53,7 @@ describe('acceptModificationRequest use-case', () => {
           submittedBy: fakeUser,
         })
 
-        if (res.isErr()) console.log('error', res.error)
+        if (res.isErr()) logger.error(res.error)
         expect(res.isOk()).toEqual(true)
       })
 

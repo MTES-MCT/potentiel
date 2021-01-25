@@ -5,6 +5,7 @@ import { formatDate } from '../helpers/formatDate'
 import { HttpRequest } from '../types'
 import { getUserProject } from '../useCases'
 import { makeProjectIdentifier } from '../entities/project'
+import { logger } from '../core/utils'
 
 import { modificationRequestRepo } from '../dataAccess'
 
@@ -14,8 +15,6 @@ import { eventStore } from '../config'
 import { ResponseTemplateDownloaded } from '../modules/modificationRequest'
 
 const getModeleReponseRecours = async (request: HttpRequest) => {
-  console.log('Call to getModeleReponseRecours received', request.query)
-
   try {
     const { projectId, modificationRequestId } = request.params
 
@@ -139,7 +138,7 @@ const getModeleReponseRecours = async (request: HttpRequest) => {
 
     return SuccessFile(filepath)
   } catch (error) {
-    console.log('getModeleReponseRecours error', error)
+    logger.error(error)
     return SystemError('Impossible de générer le fichier modèle de recours')
   }
 }

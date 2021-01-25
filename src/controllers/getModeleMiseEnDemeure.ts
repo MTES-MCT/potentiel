@@ -9,6 +9,7 @@ import { NotFoundError, SuccessFile, SystemError } from '../helpers/responses'
 import { HttpRequest } from '../types'
 import { getUserProject } from '../useCases'
 import { userRepo } from '../dataAccess'
+import { logger } from '../core/utils'
 
 const getModeleMiseEnDemeure = async (request: HttpRequest) => {
   try {
@@ -92,7 +93,7 @@ const getModeleMiseEnDemeure = async (request: HttpRequest) => {
 
     return SuccessFile(filepath)
   } catch (error) {
-    console.error(error)
+    logger.error(error)
     return SystemError('Impossible de générer le fichier modèle de mise en demeure')
   }
 }

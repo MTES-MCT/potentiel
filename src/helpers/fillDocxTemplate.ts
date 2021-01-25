@@ -2,6 +2,7 @@ import Docxtemplater from 'docxtemplater'
 import fs from 'fs'
 import PizZip from 'pizzip'
 import util from 'util'
+import { logger } from '../core/utils'
 
 const readFile = util.promisify(fs.readFile)
 const writeFile = util.promisify(fs.writeFile)
@@ -33,7 +34,7 @@ export const fillDocxTemplate = async ({
       zipFile.file('word/media/image1.png', imageContents, { binary: true })
     } catch (e) {
       // If image is not found, ignore it
-      console.log(e)
+      logger.error(e)
     }
   }
   await writeFile(outputPath, doc.getZip().generate({ type: 'nodebuffer' }))

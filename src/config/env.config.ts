@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 if (!['test', 'development', 'staging', 'production'].includes(process.env.NODE_ENV || '')) {
-  console.log('ERROR: NODE_ENV not recognized')
+  console.error('ERROR: NODE_ENV not recognized')
   process.exit(1)
 }
 

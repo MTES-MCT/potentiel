@@ -3,6 +3,7 @@ import ROUTES from '../routes'
 import { HttpRequest } from '../types'
 import { signup } from '../useCases'
 import { User } from '../entities'
+import { logger } from '../core/utils'
 
 const postSignup = async (request: HttpRequest) => {
   const {
@@ -46,7 +47,7 @@ const postSignup = async (request: HttpRequest) => {
       )
     },
     err: (e: Error) => {
-      console.log('postSignup error', e)
+      logger.error(e)
       return Redirect(ROUTES.SIGNUP, {
         ...nonSecretUserInfo,
         error: 'Erreur lors de la création de compte: ' + e.message,

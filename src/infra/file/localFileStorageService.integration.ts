@@ -5,7 +5,7 @@ import path from 'path'
 import util from 'util'
 import mkdirp from 'mkdirp'
 import { makeLocalFileStorageService } from './localFileStorageService'
-import { pathExists } from '../../core/utils'
+import { logger, pathExists } from '../../core/utils'
 import { FileNotFoundError } from '../../modules/file'
 
 const deleteFile = util.promisify(fs.unlink)
@@ -36,7 +36,7 @@ describe('localFileStorageService', () => {
     it('should create a file in the file system', async () => {
       const result = await storage.upload({ contents: fakeContents, path: fakePath })
 
-      if (result.isErr()) console.log('error on save', result.error)
+      if (result.isErr()) logger.error(result.error)
       expect(result.isOk()).toBe(true)
 
       if (result.isErr()) return
@@ -62,7 +62,7 @@ describe('localFileStorageService', () => {
       it('should retrieve the file from the file system', async () => {
         const result = await storage.download(`localFile:${fakePath}`)
 
-        if (result.isErr()) console.log('error on load', result.error)
+        if (result.isErr()) logger.error(result.error)
         expect(result.isOk()).toBe(true)
         if (result.isErr()) return
 
@@ -105,7 +105,7 @@ describe('localFileStorageService', () => {
       it('should remove the file from the file system', async () => {
         const result = await storage.remove(`localFile:${fakePath}`)
 
-        if (result.isErr()) console.log('error on remove', result.error)
+        if (result.isErr()) logger.error(result.error)
         expect(result.isOk()).toBe(true)
         if (result.isErr()) return
 

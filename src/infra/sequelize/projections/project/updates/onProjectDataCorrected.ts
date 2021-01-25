@@ -1,3 +1,4 @@
+import { logger } from '../../../../../core/utils'
 import { ProjectDataCorrected } from '../../../../../modules/project/events'
 
 export const onProjectDataCorrected = (models) => async (event: ProjectDataCorrected) => {
@@ -5,9 +6,8 @@ export const onProjectDataCorrected = (models) => async (event: ProjectDataCorre
   const projectInstance = await ProjectModel.findByPk(event.payload.projectId)
 
   if (!projectInstance) {
-    console.log(
-      'Error: onProjectDataCorrected projection failed to retrieve project from db',
-      event
+    logger.error(
+      `Error: onProjectDataCorrected projection failed to retrieve project from db ${event}`
     )
     return
   }
@@ -17,10 +17,7 @@ export const onProjectDataCorrected = (models) => async (event: ProjectDataCorre
   try {
     await projectInstance.save()
   } catch (e) {
-    console.log(
-      'Error: onProjectDataCorrected projection failed to update project',
-      event,
-      e.message
-    )
+    logger.error(e)
+    logger.info('Error: onProjectDataCorrected projection failed to update project', event)
   }
 }
