@@ -38,10 +38,10 @@ export const getStats: GetStats = () => {
       )
     )[0].count
 
-  const _getPorteursProjetTotal = async () =>
+  const _getParrainages = async () =>
     (
       await sequelizeInstance.query(
-        "SELECT COUNT(id) as count FROM users WHERE role = 'porteur-projet';",
+        "SELECT COUNT(DISTINCT(users.email)) FROM notifications INNER JOIN users on notifications.message ->> 'email' = users.email where type = 'project-invitation';",
         { type: QueryTypes.SELECT }
       )
     )[0].count
@@ -120,7 +120,7 @@ export const getStats: GetStats = () => {
       _getProjetsLaureats(),
       _getPorteursProjetNotifies(),
       _getPorteursProjetNotifiesInscrits(),
-      _getPorteursProjetTotal(),
+      _getParrainages(),
       _getDownloadsSinceEventSourcing(),
       _getProjetsAvecAttestation(),
       _getGfDeposees(),
@@ -136,7 +136,7 @@ export const getStats: GetStats = () => {
       projetsLaureats,
       porteursProjetNotifies,
       porteursProjetNotifiesInscrits,
-      porteursProjetTotal,
+      parrainages,
       downloadsSinceEventSourcing,
       projetsAvecAttestation,
       gfDeposees,
@@ -149,7 +149,7 @@ export const getStats: GetStats = () => {
       projetsLaureats,
       porteursProjetNotifies,
       porteursProjetNotifiesInscrits,
-      parrainages: porteursProjetTotal - porteursProjetNotifiesInscrits,
+      parrainages,
       telechargementsAttestation: DOWNLOADS_BEFORE_EVENT_SOURCING + downloadsSinceEventSourcing,
       projetsAvecAttestation,
       gfDeposees,
