@@ -40,7 +40,7 @@ const registerAuth = ({ app, loginRoute, successRoute }: RegisterAuthProps) => {
 
     if (userResult.is_none()) {
       console.log('Authentication: Found user session id but no matching user')
-      done(null, null)
+      return done(null, null)
     }
 
     done(null, userResult.unwrap())
