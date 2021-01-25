@@ -1,4 +1,4 @@
-import { ResultAsync, ok, err, errAsync, okAsync } from '../../core/utils'
+import { ResultAsync, ok, err, errAsync, okAsync, logger } from '../../core/utils'
 import { SendEmailProps, NotificationProps, SendEmail } from '../../modules/notification'
 import Mailjet from 'node-mailjet'
 /**
@@ -72,7 +72,7 @@ export const makeSendEmailFromMailjet = (deps: SendEmailFromMailjetDeps): SendEm
       const sentMessage = result.body.Messages[0]
       if (sentMessage?.Status === 'error') {
         const errorMessage = sentMessage.Errors.map((e) => e.ErrorMessage).join('; ')
-        console.error('Mailjet returned an error', errorMessage)
+        logger.error(errorMessage)
         return err(new Error(errorMessage))
       }
       return ok(null)
@@ -91,9 +91,8 @@ function isAuthorizedEmail(args: IsAuthorizedEmailProps): boolean {
   // If it is not production environment
   // Only authorize sending emails to emails listed in the AUTHORIZED_TEST_EMAILS environment var
   if (!isProduction && !authorizedTestEmails.includes(email)) {
-    console.log(
-      'sendEmailNotification called outside of production environment on an unknown email, message stopped.',
-      email
+    logger.error(
+      `sendEmailNotification called outside of production environment on an unknown email, message stopped. : ${email}`
     )
     return false
   }

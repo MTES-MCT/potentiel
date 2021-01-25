@@ -3,13 +3,14 @@ import { makeProject } from '../../entities'
 import { Success, SystemError } from '../../helpers/responses'
 import { HttpRequest } from '../../types'
 import makeFakeProject from '../fixtures/project'
+import { logger } from '../../core/utils'
 
 const addProjectsForTests = async (request: HttpRequest) => {
   const { projects, userId } = request.body
   const { user } = request
 
   if (!projects) {
-    console.log('tests/addProjectsForTests missing projects')
+    logger.error('tests/addProjectsForTests missing projects')
     return SystemError('tests/addProjectsForTests missing projects')
   }
 
@@ -66,13 +67,13 @@ const addProjectsForTests = async (request: HttpRequest) => {
     .map((item) => item.unwrap())
 
   if (builtProjects.length !== projects.length) {
-    console.log('addProjects for Tests could not add all required projects')
+    logger.error('addProjects for Tests could not add all required projects')
     projects
       .map(makeFakeProject)
       .map(makeProject)
       .filter((item) => item.is_err())
       .forEach((erroredProject) => {
-        console.log(erroredProject.unwrap_err())
+        logger.error(erroredProject.unwrap_err())
       })
   }
   await Promise.all(builtProjects.map(projectRepo.save))

@@ -1,4 +1,5 @@
 import React from 'react'
+import { logger } from '../../../core/utils'
 import { Project, ProjectAdmissionKey, User } from '../../../entities'
 import { dataId } from '../../../helpers/testId'
 import ROUTES from '../../../routes'
@@ -28,7 +29,7 @@ export default function ProjectDetails({
 
   if (!user) {
     // Should never happen
-    console.log('Try to render ProjectDetails without a user')
+    logger.error('Try to render ProjectDetails without a user')
     return <div />
   }
 

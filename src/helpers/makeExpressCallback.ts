@@ -3,6 +3,7 @@ import { Request, Response } from 'express'
 import path from 'path'
 
 import querystring from 'querystring'
+import { logger } from '../core/utils'
 
 import { User } from '../entities'
 
@@ -69,7 +70,7 @@ export default function makeExpressCallback(controller: Controller) {
         }
       })
       .catch((e) => {
-        console.log('makeExpressCallback error', e)
+        logger.error(e)
         res
           .status(500)
           .send('Une erreur est survenue. Merci de nous excuser de la gène occasionnée.')

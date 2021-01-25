@@ -16,6 +16,7 @@ import {
 import { paginate, makePaginatedList } from '../../helpers/paginate'
 import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
+import { logger } from '../../core/utils'
 
 // Override these to apply serialization/deserialization on inputs/outputs
 const deserialize = (item) => ({
@@ -93,7 +94,7 @@ export default function makeProjectAdmissionKeyRepo({
 
       return Some(projectAdmissionKeyInstance.unwrap())
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('ProjectAdmissionKey.findById error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return None
     }
   }
@@ -142,7 +143,7 @@ export default function makeProjectAdmissionKeyRepo({
         'ProjectAdmissionKey.findAll.makeProjectAdmissionKey error'
       )
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('ProjectAdmissionKey.findAll error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return []
     }
   }
@@ -193,7 +194,7 @@ export default function makeProjectAdmissionKeyRepo({
 
       return makePaginatedList(deserializedItems, count, pagination)
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('ProjectAdmissionKey.getList error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return makePaginatedList([], 0, pagination)
     }
   }
@@ -205,7 +206,7 @@ export default function makeProjectAdmissionKeyRepo({
       await ProjectAdmissionKeyModel.upsert(serialize(projectAdmissionKey))
       return Ok(null)
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('ProjectAdmissionKey.insert error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return Err(error)
     }
   }

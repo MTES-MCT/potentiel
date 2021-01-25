@@ -13,7 +13,9 @@
     "module": "commonjs",
     "outDir": "dist",
     "rootDir": "./",
-    "sourceMap": true
+    "sourceMap": true,
+    "inlineSources": true,
+    "sourceRoot": "/"
   },
   "include": ["src/**/*"],
   "exclude": [

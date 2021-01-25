@@ -1,9 +1,9 @@
 import { correctProjectData } from '../config'
 import { Redirect, SystemError } from '../helpers/responses'
 import { HttpRequest } from '../types'
-import { FileContents } from '../modules/file'
 import ROUTES from '../routes'
 import moment from 'moment-timezone'
+import { logger } from '../core/utils'
 
 import fs from 'fs'
 import util from 'util'
@@ -109,9 +109,7 @@ const postCorrectProjectData = async (request: HttpRequest) => {
         success:
           'Les données du projet ont bien été mises à jour. N‘hésitez pas à rafraichir la page pour avoir les données à jour.',
       }),
-    (e) => {
-      console.error(e)
-
+    (e: Error) => {
       if (e instanceof IllegalProjectDataError) {
         return Redirect(ROUTES.PROJECT_DETAILS(projectId), {
           error:
@@ -122,6 +120,8 @@ const postCorrectProjectData = async (request: HttpRequest) => {
           ...request.body,
         })
       }
+
+      logger.error(e)
 
       return Redirect(ROUTES.PROJECT_DETAILS(projectId), {
         error: "Votre demande n'a pas pu être prise en compte: " + e.message,

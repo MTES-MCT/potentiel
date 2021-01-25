@@ -1,6 +1,6 @@
 import { Readable } from 'stream'
 import { DomainError, Repository, UniqueEntityID } from '../../../core/domain'
-import { okAsync } from '../../../core/utils'
+import { logger, okAsync } from '../../../core/utils'
 import { makeUser } from '../../../entities'
 import { UnwrapForTest } from '../../../types'
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
@@ -131,7 +131,7 @@ describe('correctProjectData', () => {
             },
           })
 
-          if (res.isErr()) console.log('error', res.error)
+          if (res.isErr()) logger.error(res.error as Error)
           expect(res.isOk()).toEqual(true)
         })
 
@@ -201,7 +201,7 @@ describe('correctProjectData', () => {
             },
           })
 
-          if (res.isErr()) console.log('error', res.error)
+          if (res.isErr()) logger.error(res.error as Error)
           expect(res.isOk()).toEqual(true)
         })
 

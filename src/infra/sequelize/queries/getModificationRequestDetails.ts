@@ -1,4 +1,4 @@
-import { err, errAsync, ok, ResultAsync } from '../../../core/utils'
+import { err, errAsync, logger, ok, ResultAsync } from '../../../core/utils'
 import { getAppelOffre } from '../../../dataAccess/inMemory/appelOffre'
 import {
   ModificationRequestPageDTO,
@@ -51,8 +51,8 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
         },
       ],
     }),
-    (e) => {
-      console.error(e)
+    (e: Error) => {
+      logger.error(e)
       return new InfraNotAvailableError()
     }
   ).andThen((modificationRequestRaw: any) => {

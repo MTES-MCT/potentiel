@@ -1,5 +1,6 @@
 import moment from 'moment'
 import { Repository, UniqueEntityID } from '../core/domain'
+import { logger } from '../core/utils'
 import { ProjectAdmissionKeyRepo, ProjectRepo, UserRepo } from '../dataAccess'
 import { applyProjectUpdate, Project, User } from '../entities'
 import { EventBus } from '../modules/eventStore'
@@ -59,7 +60,7 @@ export default function makeAddGarantiesFinancieres({
     const project = await findProjectById(projectId)
 
     if (!project) {
-      console.log('addGarantiesFinancières failed because projectRes.is_none()')
+      logger.error('addGarantiesFinancières failed because projectRes.is_none()')
       return ErrorResult(UNAUTHORIZED)
     }
 
@@ -77,7 +78,7 @@ export default function makeAddGarantiesFinancieres({
     })
 
     if (fileIdResult.isErr()) {
-      console.error('addGarantiesFinancières use-case: failed to save file', fileIdResult.error)
+      logger.error(fileIdResult.error as Error)
       return ErrorResult(SYSTEM_ERROR)
     }
 
@@ -96,8 +97,7 @@ export default function makeAddGarantiesFinancieres({
     })
 
     if (!updatedProject) {
-      // OOPS
-      console.log('addGarantiesFinancieres use-case: applyProjectUpdate returned null')
+      logger.error('addGarantiesFinancieres use-case: applyProjectUpdate returned null')
 
       // TODO: Remove uploaded file
 

@@ -7,7 +7,7 @@ import moment from 'moment'
 
 import fs from 'fs'
 import util from 'util'
-import { pathExists } from '../core/utils'
+import { pathExists, logger } from '../core/utils'
 
 const deleteFile = util.promisify(fs.unlink)
 
@@ -72,7 +72,7 @@ const postRequestModification = async (request: HttpRequest) => {
   try {
     data.puissance = data.puissance && Number(data.puissance)
   } catch (error) {
-    console.log('Could not convert puissance to Number')
+    logger.info('Could not convert puissance to Number')
     const { projectId, type } = data
     return Redirect(returnRoute(type, projectId), {
       error: 'Erreur: la puissance doit être un nombre',
@@ -83,7 +83,7 @@ const postRequestModification = async (request: HttpRequest) => {
   try {
     data.evaluationCarbone = data.evaluationCarbone && Number(data.evaluationCarbone)
   } catch (error) {
-    console.log('Could not convert evaluationCarbone to Number')
+    logger.info('Could not convert evaluationCarbone to Number')
     const { projectId, type } = data
     return Redirect(returnRoute(type, projectId), {
       error: "Erreur: l'evaluationCarbone doit être un nombre",
@@ -98,7 +98,7 @@ const postRequestModification = async (request: HttpRequest) => {
       data.delayedServiceDate = delayedServiceDate.toDate().getTime()
     }
   } catch (error) {
-    console.log('Could not convert delayedServiceDate to date')
+    logger.info('Could not convert delayedServiceDate to date')
     const { projectId, type } = data
     return Redirect(returnRoute(type, projectId), {
       error: "Erreur: la date envoyée n'est pas au bon format (JJ/MM/AAAA)",
@@ -137,10 +137,9 @@ const postRequestModification = async (request: HttpRequest) => {
         success: 'Votre demande a bien été prise en compte.',
       }),
     err: (e: Error) => {
-      console.log('postRequestModification error', e)
+      logger.error(e)
       const { projectId, type } = data
       const redirectRoute = returnRoute(type, projectId)
-      console.log('redirecting to ', redirectRoute)
       return Redirect(redirectRoute, {
         ..._.omit(data, 'projectId'),
         error: "Votre demande n'a pas pu être prise en compte: " + e.message,

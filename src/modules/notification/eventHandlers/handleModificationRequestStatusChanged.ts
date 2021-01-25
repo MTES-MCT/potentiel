@@ -1,4 +1,5 @@
 import { NotificationService } from '..'
+import { logger } from '../../../core/utils'
 import routes from '../../../routes'
 import {
   ModificationRequestAccepted,
@@ -43,8 +44,8 @@ export const handleModificationRequestStatusChanged = (deps: {
         )
       )
     },
-    (e: any) => {
-      console.error(e)
+    (e: Error) => {
+      logger.error(e)
     }
   )
 

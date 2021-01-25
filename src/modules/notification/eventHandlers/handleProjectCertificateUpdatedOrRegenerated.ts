@@ -5,6 +5,7 @@ import { NotificationService } from '..'
 import { ProjectCertificateRegenerated, ProjectCertificateUpdated } from '../../project/events'
 import { Project } from '../../project/Project'
 import { User } from '../../../entities'
+import { logger } from '../../../core/utils'
 
 export const handleProjectCertificateUpdatedOrRegenerated = (deps: {
   sendNotification: NotificationService['sendNotification']
@@ -29,8 +30,8 @@ export const handleProjectCertificateUpdatedOrRegenerated = (deps: {
           _sendCandidateNotification({ porteurProjet, project })
         )
       ),
-      (e: any) => {
-        console.error('handleProjectCertificateUploaded failed during calls to sendNotification', e)
+      (e: Error) => {
+        logger.error(e)
       }
     )
   )

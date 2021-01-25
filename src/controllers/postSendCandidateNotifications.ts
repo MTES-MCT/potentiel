@@ -5,6 +5,7 @@ import { Redirect } from '../helpers/responses'
 import { PeriodeNotified } from '../modules/project/events'
 import ROUTES from '../routes'
 import { HttpRequest } from '../types'
+import { logger } from '../core/utils'
 
 const FORMAT_DATE = 'DD/MM/YYYY'
 
@@ -60,7 +61,7 @@ const postSendCandidateNotifications = async (request: HttpRequest) => {
         }
       ),
     (e: Error) => {
-      console.log('sendCandidateNotifications failed', e)
+      logger.error(e)
       return Redirect(
         ROUTES.ADMIN_NOTIFY_CANDIDATES({
           appelOffreId,

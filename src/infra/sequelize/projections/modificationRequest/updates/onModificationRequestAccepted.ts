@@ -1,3 +1,4 @@
+import { logger } from '../../../../../core/utils'
 import { ModificationRequestAccepted } from '../../../../../modules/modificationRequest/events'
 
 export const onModificationRequestAccepted = (models) => async (
@@ -7,9 +8,8 @@ export const onModificationRequestAccepted = (models) => async (
   const instance = await ModificationRequestModel.findByPk(event.payload.modificationRequestId)
 
   if (!instance) {
-    console.error(
-      'Error: onModificationRequestAccepted projection failed to retrieve project from db',
-      event
+    logger.error(
+      `Error: onModificationRequestAccepted projection failed to retrieve project from db ${event}`
     )
     return
   }
@@ -29,10 +29,7 @@ export const onModificationRequestAccepted = (models) => async (
   try {
     await instance.save()
   } catch (e) {
-    console.error(
-      'Error: onModificationRequestAccepted projection failed to update project',
-      event,
-      e.message
-    )
+    logger.error(e)
+    logger.info('Error: onModificationRequestAccepted projection failed to update project :', event)
   }
 }

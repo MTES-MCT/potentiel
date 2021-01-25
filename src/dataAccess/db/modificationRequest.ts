@@ -5,6 +5,7 @@ import { mapExceptError } from '../../helpers/results'
 import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types'
 import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
+import { logger } from '../../core/utils'
 
 // Override these to apply serialization/deserialization on inputs/outputs
 const deserialize = (item) => ({
@@ -158,7 +159,7 @@ export default function makeModificationRequestRepo({
 
       return Some(modificationRequestInstance.unwrap())
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('ModificationRequest.findById error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return None
     }
   }
@@ -201,7 +202,7 @@ export default function makeModificationRequestRepo({
 
       return deserializedItems
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('ModificationRequest.findAll error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return []
     }
   }
@@ -215,7 +216,7 @@ export default function makeModificationRequestRepo({
       await ModificationRequestModel.create(serialize(modificationRequest))
       return Ok(modificationRequest)
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('ModificationRequest.insert error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return Err(error)
     }
   }
@@ -231,7 +232,7 @@ export default function makeModificationRequestRepo({
       })
       return Ok(modificationRequest)
     } catch (error) {
-      if (CONFIG.logDbErrors) console.log('ModificationRequest.findAll error', error)
+      if (CONFIG.logDbErrors) logger.error(error)
       return Err(error)
     }
   }

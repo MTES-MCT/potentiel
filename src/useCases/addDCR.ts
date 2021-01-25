@@ -1,4 +1,5 @@
 import { Repository, UniqueEntityID } from '../core/domain'
+import { logger } from '../core/utils'
 import { ProjectRepo } from '../dataAccess'
 import { applyProjectUpdate, Project, User } from '../entities'
 import { EventBus } from '../modules/eventStore'
@@ -51,7 +52,7 @@ export default function makeAddDCR({
     const project = await findProjectById(projectId)
 
     if (!project) {
-      console.log('addDCR failed because projectRes.is_none()')
+      logger.error('addDCR failed because projectRes.is_none()')
       return ErrorResult(UNAUTHORIZED)
     }
 
@@ -69,7 +70,7 @@ export default function makeAddDCR({
     })
 
     if (fileIdResult.isErr()) {
-      console.error('addDCR use-case: failed to save file', fileIdResult.error)
+      logger.error(fileIdResult.error as Error)
       return ErrorResult(SYSTEM_ERROR)
     }
 
@@ -89,8 +90,7 @@ export default function makeAddDCR({
     })
 
     if (!updatedProject) {
-      // OOPS
-      console.log('addDCR use-case: applyProjectUpdate returned null')
+      logger.error('addDCR use-case: applyProjectUpdate returned null')
 
       return ErrorResult(SYSTEM_ERROR)
     }

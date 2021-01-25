@@ -1,5 +1,5 @@
 import { Repository, TransactionalRepository, UniqueEntityID } from '../../../core/domain'
-import { err, errAsync, ok, okAsync, Result, ResultAsync } from '../../../core/utils'
+import { err, errAsync, logger, ok, okAsync, Result, ResultAsync } from '../../../core/utils'
 import { User } from '../../../entities'
 import { FileContents, FileObject, IllegalFileDataError, makeFileObject } from '../../file'
 import {
@@ -141,8 +141,8 @@ export const makeCorrectProjectData = (deps: CorrectProjectDataDeps): CorrectPro
       deps.fileRepo
         .save(file)
         .map(() => file.id.toString())
-        .mapErr((e: any) => {
-          console.error(e)
+        .mapErr((e: Error) => {
+          logger.error(e)
           return new InfraNotAvailableError()
         })
     )

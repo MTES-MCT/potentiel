@@ -27,7 +27,7 @@ if (isProdEnv || isStagingEnv) {
     console.log('Emails will be sent through MAILJET')
     if (isStagingEnv) console.log('Outgoing emails will be restricted to:', authorizedTestEmails)
   } catch (e) {
-    console.error('Unable to create mailjet sendEmail. Aborting.', e)
+    console.error(e)
     process.exit(1)
   }
 } else {
@@ -35,7 +35,7 @@ if (isProdEnv || isStagingEnv) {
 }
 
 if (!process.env.SEND_EMAILS_FROM) {
-  console.log('ERROR: SEND_EMAILS_FROM is not set')
+  console.error('ERROR: SEND_EMAILS_FROM is not set')
   process.exit(1)
 }
 

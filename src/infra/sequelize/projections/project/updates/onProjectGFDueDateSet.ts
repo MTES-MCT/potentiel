@@ -1,3 +1,4 @@
+import { logger } from '../../../../../core/utils'
 import { ProjectGFDueDateSet } from '../../../../../modules/project/events'
 
 export const onProjectGFDueDateSet = (models) => async (event: ProjectGFDueDateSet) => {
@@ -5,7 +6,9 @@ export const onProjectGFDueDateSet = (models) => async (event: ProjectGFDueDateS
   const projectInstance = await ProjectModel.findByPk(event.payload.projectId)
 
   if (!projectInstance) {
-    console.log('Error: onProjectGFDueDateSet projection failed to retrieve project from db', event)
+    logger.error(
+      `Error: onProjectGFDueDateSet projection failed to retrieve project from db': ${event}`
+    )
     return
   }
 
@@ -15,10 +18,7 @@ export const onProjectGFDueDateSet = (models) => async (event: ProjectGFDueDateS
   try {
     await projectInstance.save()
   } catch (e) {
-    console.log(
-      'Error: onProjectGFDueDateSet projection failed to update project',
-      event,
-      e.message
-    )
+    logger.error(e)
+    logger.info('Error: onProjectGFDueDateSet projection failed to update project', event)
   }
 }

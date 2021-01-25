@@ -1,4 +1,4 @@
-import { okAsync } from '../../../core/utils'
+import { logger, okAsync } from '../../../core/utils'
 import { TransactionalRepository, UniqueEntityID } from '../../../core/domain'
 import {
   ProjectCertificateGenerated,
@@ -29,9 +29,6 @@ export const handleProjectCertificateGeneratedOrFailed = (deps: {
     }
   )
   if (res.isErr()) {
-    console.error(
-      'handleProjectCertificateGeneratedOrFailed failed to make the transaction',
-      res.error
-    )
+    logger.error(res.error as Error)
   }
 }
