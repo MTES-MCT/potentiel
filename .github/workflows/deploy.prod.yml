@@ -8,6 +8,15 @@ on:
       - 'package.json' #To avoid circular actions because of version bump
       - 'package-lock.json' #To avoid circular actions because of version bump
       - 'README.md'
+      - '.github/**'
+      - '.storybook/**'
+      - '.vscode/**'
+      - 'legacy-features/**'
+      - 'scripts/**'
+      - '.env.template'
+      - '.eslint**'
+      - '.prettier**'
+      - 'LICENSE'
 
 jobs:
   deploy:
