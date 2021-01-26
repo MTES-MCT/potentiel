@@ -1,18 +1,18 @@
 name: Run tests on PR
 
-on: [pull_request]
-  paths-ignore:
-    - 'README.md'
-    - '.github/**'
-    - '.storybook/**'
-    - '.vscode/**'
-    - 'legacy-features/**'
-    - 'scripts/**'
-    - '.env.template'
-    - '.eslint**'
-    - '.prettier**'
-    - 'LICENSE'
-  
+on:
+  pull_request:
+    paths-ignore:
+      - 'README.md'
+      - '.github/**'
+      - '.storybook/**'
+      - '.vscode/**'
+      - 'legacy-features/**'
+      - 'scripts/**'
+      - '.env.template'
+      - '.eslint**'
+      - '.prettier**'
+      - 'LICENSE'
 
 jobs:
   build:
