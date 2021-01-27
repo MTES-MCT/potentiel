@@ -2,6 +2,7 @@ import { NotificationService } from '..'
 import routes from '../../../routes'
 import { ModificationRequested } from '../../modificationRequest'
 import { GetInfoForModificationRequested } from '../queries'
+import { logger } from '../../../core/utils'
 
 export const handleModificationRequested = (deps: {
   sendNotification: NotificationService['sendNotification']
@@ -18,7 +19,7 @@ export const handleModificationRequested = (deps: {
       })
     },
     (e: Error) => {
-      console.error(e)
+      logger.error(e)
     }
   )
 
