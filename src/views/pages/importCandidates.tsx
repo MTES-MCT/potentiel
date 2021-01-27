@@ -18,6 +18,15 @@ export default function AdminListProjects({ request }: AdminListProjectsProps) {
           <h3>Importer des candidats</h3>
         </div>
         <form action={ROUTES.IMPORT_PROJECTS_ACTION} method="post" encType="multipart/form-data">
+          {success ? (
+            <>
+              <div className="notification success" {...dataId('success-message')}>
+                {success}
+              </div>
+            </>
+          ) : (
+            ''
+          )}
           {error ? (
             <div className="notification error" {...dataId('error-message')}>
               {error.split('\n').map((piece) => (
