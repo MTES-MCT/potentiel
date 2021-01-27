@@ -4,6 +4,8 @@ import dotenv from 'dotenv'
 import express from 'express'
 import session from 'express-session'
 import multer from 'multer'
+import { sequelizeInstance } from './sequelize.config'
+import makeSequelizeStore from 'connect-session-sequelize'
 import { version } from '../package.json'
 import {
   ensureLoggedIn,
@@ -70,6 +72,8 @@ import {
 import { logger } from './core/utils'
 dotenv.config()
 
+const SequelizeStore = makeSequelizeStore(session.Store)
+
 const FILE_SIZE_LIMIT_MB = 50
 
 export async function makeServer(port: number) {
@@ -81,8 +85,24 @@ export async function makeServer(port: number) {
       limits: { fileSize: FILE_SIZE_LIMIT_MB * 1024 * 1024 /* MB */ },
     })
 
+    const store = new SequelizeStore({
+      db: sequelizeInstance,
+      tableName: 'sessions',
+      checkExpirationInterval: 15 * 60 * 1000, // 15 minutes
+      expiration: 24 * 60 * 60 * 1000, // 1 day
+    })
+
+    store.sync()
+
     app.use(express.static('src/public'))
-    app.use(session({ secret: 'SD7654fsddxc34fsdfsd7è"("SKSRBIOP6FDFf' }))
+    app.use(
+      session({
+        secret: 'SD7654fsddxc34fsdfsd7è"("SKSRBIOP6FDFf',
+        store,
+        resave: false,
+        proxy: true,
+      })
+    )
 
     app.use(
       bodyParser.urlencoded({

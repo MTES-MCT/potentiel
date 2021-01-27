@@ -30,12 +30,15 @@
   "dependencies": {
     "@react-pdf/renderer": "^1.6.11",
     "@sentry/node": "^6.0.0",
+    "@types/react": "^16.9.21",
+    "@types/react-dom": "^16.9.5",
     "@usefultools/monads": "^3.0.3",
     "aws-sdk": "^2.799.0",
     "body-parser": "^1.19.0",
     "chalk": "^4.1.0",
     "concat-stream": "^2.0.0",
     "connect-ensure-login": "^0.1.1",
+    "connect-session-sequelize": "^7.1.0",
     "cookie-parser": "^1.4.5",
     "crypto": "^1.0.1",
     "csv-parse": "^4.8.7",
@@ -59,14 +62,12 @@
     "pizzip": "^3.0.6",
     "react": "^16.14.0",
     "react-dom": "^16.12.0",
-    "@types/react": "^16.9.21",
-    "@types/react-dom": "^16.9.5",
     "runtypes": "^4.2.0",
     "sanitize-filename": "^1.6.3",
     "sequelize": "^6.3.5",
+    "typescript": "^3.9.7",
     "utility-types": "^3.10.0",
-    "uuid": "^7.0.2",
-    "typescript": "^3.9.7"
+    "uuid": "^7.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
