@@ -76,7 +76,7 @@ const SequelizeStore = makeSequelizeStore(session.Store)
 
 const FILE_SIZE_LIMIT_MB = 50
 
-export async function makeServer(port: number) {
+export async function makeServer(port: number, sessionSecret: string) {
   try {
     const app = express()
 
@@ -97,7 +97,7 @@ export async function makeServer(port: number) {
     app.use(express.static('src/public'))
     app.use(
       session({
-        secret: 'SD7654fsddxc34fsdfsd7è"("SKSRBIOP6FDFf',
+        secret: sessionSecret,
         store,
         resave: false,
         proxy: true,
