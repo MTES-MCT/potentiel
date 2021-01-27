@@ -17,7 +17,7 @@ export const handleModificationRequested = (deps: {
         nomProjet,
       })
     },
-    (e: any) => {
+    (e: Error) => {
       console.error(e)
     }
   )
