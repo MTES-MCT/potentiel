@@ -1,79 +1,104 @@
 import fs from 'fs'
 import _ from 'lodash'
 import moment from 'moment'
+import multer from 'multer'
 import util from 'util'
-import { pathExists, logger } from '../core/utils'
-import { Redirect, SystemError } from '../helpers/responses'
-import ROUTES from '../routes'
-import { HttpRequest } from '../types'
+import { logger, pathExists } from '../core/utils'
+import { addQueryParams } from '../helpers/addQueryParams'
+import routes from '../routes'
 import { addGarantiesFinancieres } from '../useCases'
+import { ensureLoggedIn, ensureRole } from './authentication'
+import { v1Router } from './v1Router'
 
 const deleteFile = util.promisify(fs.unlink)
 
-const postGarantiesFinancieres = async (request: HttpRequest) => {
-  if (!request.user) {
-    return SystemError('User must be logged in')
-  }
+const FILE_SIZE_LIMIT_MB = 50
+const upload = multer({
+  dest: 'temp',
+  limits: { fileSize: FILE_SIZE_LIMIT_MB * 1024 * 1024 /* MB */ },
+})
 
-  const data: any = _.pick(request.body, ['gfDate', 'projectId'])
-  const { projectId } = data
+v1Router.post(
+  routes.DEPOSER_GARANTIES_FINANCIERES_ACTION,
+  ensureLoggedIn(),
+  ensureRole(['admin', 'dgec', 'dreal', 'porteur-projet']),
+  upload.single('file'),
+  async (request, response) => {
+    const data: any = _.pick(request.body, ['gfDate', 'projectId'])
+    const { projectId } = data
 
-  if (!data.gfDate) {
-    return Redirect(ROUTES.PROJECT_DETAILS(projectId), {
-      error:
-        "Vos garantieres financières n'ont pas pu être transmises. La date de constitution est obligatoire",
-    })
-  }
-
-  // Convert date
-  try {
-    if (data.gfDate) {
-      const date = moment(data.gfDate, 'DD/MM/YYYY')
-      if (!date.isValid()) throw new Error('invalid date format')
-      data.date = date.toDate().getTime()
+    if (!data.gfDate) {
+      return response.redirect(
+        addQueryParams(routes.PROJECT_DETAILS(projectId), {
+          error:
+            "Vos garantieres financières n'ont pas pu être transmises. La date de constitution est obligatoire",
+        })
+      )
     }
-  } catch (error) {
-    return Redirect(ROUTES.PROJECT_DETAILS(projectId), {
-      error:
-        "Vos garantieres financières n'ont pas pu être transmises. La date envoyée n'est pas au bon format (JJ/MM/AAAA)",
+
+    // Convert date
+    try {
+      if (data.gfDate) {
+        const date = moment(data.gfDate, 'DD/MM/YYYY')
+        if (!date.isValid()) throw new Error('invalid date format')
+        data.date = date.toDate().getTime()
+      }
+    } catch (error) {
+      return response.redirect(
+        addQueryParams(routes.PROJECT_DETAILS(projectId), {
+          error:
+            "Vos garantieres financières n'ont pas pu être transmises. La date envoyée n'est pas au bon format (JJ/MM/AAAA)",
+        })
+      )
+    }
+
+    const attestationExists: boolean = !!request.file && (await pathExists(request.file.path))
+
+    if (!attestationExists) {
+      return response.redirect(
+        addQueryParams(routes.PROJECT_DETAILS(projectId), {
+          error:
+            "Vos garantieres financières n'ont pas pu être transmises. Merci de joindre l'attestation en pièce-jointe.",
+        })
+      )
+    }
+
+    const file = {
+      contents: fs.createReadStream(request.file.path),
+      filename: `${Date.now()}-${request.file.originalname}`,
+    }
+
+    const result = await addGarantiesFinancieres({
+      ...data,
+      file,
+      user: request.user,
     })
-  }
 
-  const attestationExists: boolean = !!request.file && (await pathExists(request.file.path))
-
-  if (!attestationExists) {
-    return Redirect(ROUTES.PROJECT_DETAILS(projectId), {
-      error:
-        "Vos garantieres financières n'ont pas pu être transmises. Merci de joindre l'attestation en pièce-jointe.",
+    return result.match({
+      ok: () =>
+        response.redirect(
+          addQueryParams(routes.PROJECT_DETAILS(projectId), {
+            success: 'Votre constitution de garanties financières a bien été enregistrée.',
+          })
+        ),
+      err: (e: Error) => {
+        logger.error(e)
+        return response.redirect(
+          addQueryParams(routes.PROJECT_DETAILS(projectId), {
+            ..._.omit(data, 'projectId'),
+            error: "Votre demande n'a pas pu être prise en compte: " + e.message,
+          })
+        )
+      },
     })
+  },
+  async (request) => {
+    if (request.file) {
+      try {
+        await deleteFile(request.file.path)
+      } catch (error) {
+        logger.error(error)
+      }
+    }
   }
-
-  const file = {
-    contents: fs.createReadStream(request.file.path),
-    filename: `${Date.now()}-${request.file.originalname}`,
-  }
-
-  const result = await addGarantiesFinancieres({
-    ...data,
-    file,
-    user: request.user,
-  })
-
-  await deleteFile(request.file.path)
-
-  return result.match({
-    ok: () =>
-      Redirect(ROUTES.PROJECT_DETAILS(projectId), {
-        success: 'Votre constitution de garanties financières a bien été enregistrée.',
-      }),
-    err: (e: Error) => {
-      logger.error(e)
-      return Redirect(ROUTES.PROJECT_DETAILS(projectId), {
-        ..._.omit(data, 'projectId'),
-        error: "Votre demande n'a pas pu être prise en compte: " + e.message,
-      })
-    },
-  })
-}
-
-export { postGarantiesFinancieres }
+)

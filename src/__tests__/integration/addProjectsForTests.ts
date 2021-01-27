@@ -1,17 +1,16 @@
+import { logger } from '../../core/utils'
 import { projectRepo, userRepo } from '../../dataAccess'
 import { makeProject } from '../../entities'
-import { Success, SystemError } from '../../helpers/responses'
-import { HttpRequest } from '../../types'
 import makeFakeProject from '../fixtures/project'
-import { logger } from '../../core/utils'
+import { testRouter } from './testRouter'
 
-const addProjectsForTests = async (request: HttpRequest) => {
+testRouter.post('/test/addProjects', async (request, response) => {
   const { projects, userId } = request.body
   const { user } = request
 
   if (!projects) {
     logger.error('tests/addProjectsForTests missing projects')
-    return SystemError('tests/addProjectsForTests missing projects')
+    return response.status(500).send('tests/addProjectsForTests missing projects')
   }
 
   const builtProjects = projects
@@ -86,7 +85,5 @@ const addProjectsForTests = async (request: HttpRequest) => {
     await Promise.all(builtProjects.map((project) => userRepo.addProject(userId, project.id)))
   }
 
-  return Success('success')
-}
-
-export { addProjectsForTests }
+  return response.send('success')
+})

@@ -1,41 +1,48 @@
 import { eventStore, loadFileForUser } from '../config'
-import { NotFoundError, Redirect, SuccessFileStream, SystemError } from '../helpers/responses'
+import { UniqueEntityID } from '../core/domain'
+import { FileAccessDeniedError, FileNotFoundError } from '../modules/file'
 import { ProjectCertificateDownloaded } from '../modules/project/events'
-import ROUTES from '../routes'
-import { HttpRequest } from '../types'
-import { logger } from '../core/utils'
+import { InfraNotAvailableError } from '../modules/shared'
+import routes from '../routes'
+import { ensureLoggedIn, ensureRole } from './authentication'
+import { v1Router } from './v1Router'
 
-const getProjectCertificateFile = async (request: HttpRequest) => {
-  try {
+v1Router.get(
+  routes.DOWNLOAD_CERTIFICATE_FILE(),
+  ensureLoggedIn(),
+  ensureRole(['admin', 'dgec', 'porteur-projet']),
+  async (request, response) => {
     const { projectId, fileId } = request.params
+    const { user } = request
 
-    if (!request.user) {
-      return Redirect(ROUTES.LOGIN)
-    }
+    await loadFileForUser({
+      fileId: new UniqueEntityID(fileId),
+      user,
+    }).match(
+      async (fileStream) => {
+        if (user.role === 'porteur-projet') {
+          await eventStore.publish(
+            new ProjectCertificateDownloaded({
+              payload: {
+                projectId,
+                certificateFileId: fileId,
+                downloadedBy: user.id,
+              },
+            })
+          )
+        }
 
-    const result = await loadFileForUser({ fileId, user: request.user })
-
-    if (result.isErr()) {
-      return SystemError(result.error.message)
-    }
-
-    if (request.user.role === 'porteur-projet') {
-      await eventStore.publish(
-        new ProjectCertificateDownloaded({
-          payload: {
-            projectId,
-            certificateFileId: fileId,
-            downloadedBy: request.user.id,
-          },
-        })
-      )
-    }
-
-    return SuccessFileStream(result.value.contents)
-  } catch (error) {
-    logger.error(error)
-    return NotFoundError('Fichier introuvable.')
+        fileStream.contents.pipe(response)
+      },
+      async (e) => {
+        if (e instanceof FileNotFoundError) {
+          response.status(404).send('Fichier introuvable.')
+        } else if (e instanceof FileAccessDeniedError) {
+          response.status(403).send('Accès interdit.')
+        } else if (e instanceof InfraNotAvailableError) {
+          response.status(500).send('Service indisponible. Merci de réessayer.')
+        }
+      }
+    )
   }
-}
-
-export { getProjectCertificateFile }
+)

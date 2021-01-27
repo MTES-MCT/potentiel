@@ -1,13 +1,13 @@
-import { HttpRequest, Pagination } from '../types'
+import { appelOffreRepo } from '../dataAccess'
+import { makePagination } from '../helpers/paginate'
+import routes from '../routes'
+import { Pagination } from '../types'
 import { listProjects } from '../useCases'
 import { ListProjectsPage } from '../views/pages'
-import { Success, Redirect } from '../helpers/responses'
-import { makePagination } from '../helpers/paginate'
-import ROUTES from '../routes'
+import { ensureLoggedIn, ensureRole } from './authentication'
+import { v1Router } from './v1Router'
 
-import { appelOffreRepo } from '../dataAccess'
-
-const getProjectListPage = async (request: HttpRequest) => {
+const getProjectListPage = async (request, response) => {
   let {
     appelOffreId,
     periodeId,
@@ -15,13 +15,12 @@ const getProjectListPage = async (request: HttpRequest) => {
     recherche,
     classement,
     garantiesFinancieres,
+    pageSize,
   } = request.query
+  const { user } = request
 
-  if (!request.user) {
-    return Redirect(ROUTES.LOGIN)
-  }
-
-  if (['admin', 'dgec', 'dreal'].includes(request.user.role) && typeof classement === 'undefined') {
+  // Set default filter on classés for admins
+  if (['admin', 'dgec', 'dreal'].includes(user.role) && typeof classement === 'undefined') {
     classement = 'classés'
     request.query.classement = 'classés'
   }
@@ -41,7 +40,7 @@ const getProjectListPage = async (request: HttpRequest) => {
   }
 
   const results = await listProjects({
-    user: request.user,
+    user,
     appelOffreId,
     periodeId,
     familleId,
@@ -53,7 +52,15 @@ const getProjectListPage = async (request: HttpRequest) => {
 
   const { projects, existingAppelsOffres, existingPeriodes, existingFamilles } = results
 
-  return Success(
+  if (pageSize) {
+    // Save the pageSize in a cookie
+    response.cookie('pageSize', pageSize, {
+      maxAge: 1000 * 60 * 60 * 24 * 30 * 3, // 3 months
+      httpOnly: true,
+    })
+  }
+
+  response.send(
     ListProjectsPage({
       request,
       projects,
@@ -61,14 +68,20 @@ const getProjectListPage = async (request: HttpRequest) => {
       existingPeriodes,
       existingFamilles,
       appelsOffre,
-    }),
-    // Save pageSize in a cookie
-    request.query.pageSize
-      ? {
-          cookies: { pageSize: request.query.pageSize },
-        }
-      : undefined
+    })
   )
 }
 
-export { getProjectListPage }
+v1Router.get(
+  routes.ADMIN_DASHBOARD,
+  ensureLoggedIn(),
+  ensureRole(['admin', 'dgec', 'dreal']),
+  getProjectListPage
+)
+
+v1Router.get(
+  routes.USER_DASHBOARD,
+  ensureLoggedIn(),
+  ensureRole('porteur-projet'),
+  getProjectListPage
+)

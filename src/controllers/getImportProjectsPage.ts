@@ -1,19 +1,17 @@
-import { HttpRequest } from '../types'
+import routes from '../routes'
 import { ImportCandidatesPage } from '../views/pages'
-import { Success, SystemError } from '../helpers/responses'
-import { logger } from '../core/utils'
+import { ensureLoggedIn, ensureRole } from './authentication'
+import { v1Router } from './v1Router'
 
-const getImportProjectsPage = async (request: HttpRequest) => {
-  try {
-    return Success(
+v1Router.get(
+  routes.IMPORT_PROJECTS,
+  ensureLoggedIn(),
+  // ensureRole(['admin', 'dgec']),
+  async (request, response) => {
+    return response.send(
       ImportCandidatesPage({
         request,
       })
     )
-  } catch (error) {
-    logger.error(error)
-    return SystemError('Erreur système')
   }
-}
-
-export { getImportProjectsPage }
+)

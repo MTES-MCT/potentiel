@@ -1,9 +1,6 @@
-import { Success } from '../../helpers/responses'
-import { HttpRequest } from '../../types'
 import { getSentEmails } from '../../infra/mail/fakeEmailService'
+import { testRouter } from './testRouter'
 
-const getSentEmailsForTests = async (request: HttpRequest) => {
-  return Success({ emails: getSentEmails() })
-}
-
-export { getSentEmailsForTests }
+testRouter.get('/test/getSentEmails', async (request, response) => {
+  return response.send({ emails: getSentEmails() })
+})

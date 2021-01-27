@@ -1,16 +1,14 @@
 import { getModificationRequestListForUser } from '../config/queries.config'
 import { makePagination } from '../helpers/paginate'
-import { Redirect, Success, SystemError } from '../helpers/responses'
-import ROUTES from '../routes'
-import { HttpRequest, Pagination } from '../types'
+import routes from '../routes'
+import { logger } from '../core/utils'
+import { Pagination } from '../types'
 import { ModificationRequestListPage } from '../views/pages'
+import { ensureLoggedIn, ensureRole } from './authentication'
+import { v1Router } from './v1Router'
 
-export const getModificationRequestListPage = async (request: HttpRequest) => {
+const getModificationRequestListPage = async (request, response) => {
   const { user, cookies, query } = request
-
-  if (!user) {
-    return Redirect(ROUTES.LOGIN)
-  }
 
   const defaultPagination: Pagination = {
     page: 0,
@@ -20,17 +18,31 @@ export const getModificationRequestListPage = async (request: HttpRequest) => {
 
   return await getModificationRequestListForUser(user, pagination).match(
     (modificationRequests) =>
-      Success(
+      response.send(
         ModificationRequestListPage({
           request,
           modificationRequests,
         })
       ),
     (e) => {
-      console.error(e)
-      return SystemError(
-        'Impossible de charger la liste des demandes. Merci de réessayer plus tard.'
-      )
+      logger.error(e)
+      return response
+        .status(500)
+        .send('Impossible de charger la liste des demandes. Merci de réessayer plus tard.')
     }
   )
 }
+
+v1Router.get(
+  routes.ADMIN_LIST_REQUESTS,
+  ensureLoggedIn(),
+  ensureRole(['admin', 'dgec']),
+  getModificationRequestListPage
+)
+
+v1Router.get(
+  routes.USER_LIST_REQUESTS,
+  ensureLoggedIn(),
+  ensureRole(['porteur-projet']),
+  getModificationRequestListPage
+)

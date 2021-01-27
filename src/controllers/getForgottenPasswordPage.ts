@@ -1,12 +1,11 @@
-import { Success } from '../helpers/responses'
-import { HttpRequest } from '../types'
+import routes from '../routes'
 import { ForgottenPasswordPage } from '../views/pages'
+import { v1Router } from './v1Router'
 
-const getForgottenPasswordPage = async (request: HttpRequest) => {
-  return Success(
+v1Router.get(routes.FORGOTTEN_PASSWORD, async (request, response) => {
+  return response.send(
     ForgottenPasswordPage({
       request,
     })
   )
-}
-export { getForgottenPasswordPage }
+})

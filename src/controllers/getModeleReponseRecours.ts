@@ -1,39 +1,35 @@
-import { SuccessFile, SystemError, NotFoundError } from '../helpers/responses'
-import { fillDocxTemplate } from '../helpers/fillDocxTemplate'
-import sanitize from 'sanitize-filename'
-import { formatDate } from '../helpers/formatDate'
-import { HttpRequest } from '../types'
-import { getUserProject } from '../useCases'
-import { makeProjectIdentifier } from '../entities/project'
-import { logger } from '../core/utils'
-
-import { modificationRequestRepo } from '../dataAccess'
-
 import os from 'os'
 import path from 'path'
+import sanitize from 'sanitize-filename'
 import { eventStore } from '../config'
+import { modificationRequestRepo } from '../dataAccess'
+import { makeProjectIdentifier } from '../entities/project'
+import { fillDocxTemplate } from '../helpers/fillDocxTemplate'
+import { formatDate } from '../helpers/formatDate'
 import { ResponseTemplateDownloaded } from '../modules/modificationRequest'
+import routes from '../routes'
+import { getUserProject } from '../useCases'
+import { ensureLoggedIn, ensureRole } from './authentication'
+import { v1Router } from './v1Router'
 
-const getModeleReponseRecours = async (request: HttpRequest) => {
-  try {
+v1Router.get(
+  routes.TELECHARGER_MODELE_REPONSE_RECOURS(),
+  ensureLoggedIn(),
+  ensureRole(['admin', 'dgec']),
+  async (request, response) => {
     const { projectId, modificationRequestId } = request.params
-
-    if (!request.user) {
-      // Should never happen, login is verified at the server level
-      return SystemError('Impossible de générer le fichier sans être connecté')
-    }
 
     // Verify that the current user has the rights to check this out
     const project = await getUserProject({ user: request.user, projectId })
 
     if (!project) {
-      return NotFoundError('Impossible de générer le fichier demandé.')
+      return response.status(404).send('Impossible de générer le fichier demandé.')
     }
 
     const maybeModificationRequest = await modificationRequestRepo.findById(modificationRequestId)
 
     if (maybeModificationRequest.is_none()) {
-      return NotFoundError('Impossible de générer le fichier demandé.')
+      return response.status(404).send('Impossible de générer le fichier demandé.')
     }
 
     const modificationRequest = maybeModificationRequest.unwrap()
@@ -136,11 +132,6 @@ const getModeleReponseRecours = async (request: HttpRequest) => {
       })
     )
 
-    return SuccessFile(filepath)
-  } catch (error) {
-    logger.error(error)
-    return SystemError('Impossible de générer le fichier modèle de recours')
+    return response.sendFile(path.resolve(process.cwd(), filepath))
   }
-}
-
-export { getModeleReponseRecours }
+)

@@ -1,26 +1,30 @@
-import { Redirect } from '../helpers/responses'
-import ROUTES from '../routes'
-import { HttpRequest } from '../types'
+import { addQueryParams } from '../helpers/addQueryParams'
+import routes from '../routes'
 import { resetPassword } from '../useCases'
+import { v1Router } from './v1Router'
 
-const postResetPassword = async (request: HttpRequest) => {
+v1Router.post(routes.RESET_PASSWORD_ACTION, async (request, response) => {
   const { password, confirmPassword, resetCode } = request.body
 
-  const result = await resetPassword({
-    password,
-    confirmPassword,
-    resetCode,
-  })
-  return result.match({
+  ;(
+    await resetPassword({
+      password,
+      confirmPassword,
+      resetCode,
+    })
+  ).match({
     ok: () =>
-      Redirect(ROUTES.LOGIN, {
-        success:
-          'Votre mot de passe a bien été mis à jour. Vous pouvez à présenter vous identifier.',
-      }),
+      response.redirect(
+        addQueryParams(routes.LOGIN, {
+          success:
+            'Votre mot de passe a bien été mis à jour. Vous pouvez à présenter vous identifier.',
+        })
+      ),
     err: (error: Error) =>
-      Redirect(ROUTES.RESET_PASSWORD_LINK({ resetCode }), {
-        error: error.message,
-      }),
+      response.redirect(
+        addQueryParams(routes.RESET_PASSWORD_LINK({ resetCode }), {
+          error: error.message,
+        })
+      ),
   })
-}
-export { postResetPassword }
+})

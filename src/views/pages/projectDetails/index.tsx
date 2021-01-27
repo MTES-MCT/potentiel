@@ -3,7 +3,7 @@ import { logger } from '../../../core/utils'
 import { Project, ProjectAdmissionKey, User } from '../../../entities'
 import { dataId } from '../../../helpers/testId'
 import ROUTES from '../../../routes'
-import { HttpRequest } from '../../../types'
+import { Request } from 'express'
 import { SuccessErrorBox } from '../../components'
 import AdminDashboard from '../../components/adminDashboard'
 import UserDashboard from '../../components/userDashboard'
@@ -11,7 +11,7 @@ import { NoteElement, Section } from './components'
 import { ProjectFrise, ProjectHeader, EditProjectData } from './sections'
 
 interface ProjectDetailsProps {
-  request: HttpRequest
+  request: Request
   project: Project
   projectUsers: Array<User>
   projectInvitations: Array<ProjectAdmissionKey>

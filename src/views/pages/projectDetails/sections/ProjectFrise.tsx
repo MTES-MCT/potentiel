@@ -9,7 +9,7 @@ import { HttpRequest } from '../../../../types'
 interface ProjectFriseProps {
   project: Project
   user: User
-  request: HttpRequest
+  request: Request
 }
 
 export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (

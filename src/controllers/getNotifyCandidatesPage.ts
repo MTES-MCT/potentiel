@@ -1,72 +1,74 @@
-import { HttpRequest, Pagination } from '../types'
-import { listUnnotifiedProjects } from '../useCases'
-import { AdminNotifyCandidatesPage } from '../views/pages'
-import { Success, Redirect } from '../helpers/responses'
 import { makePagination } from '../helpers/paginate'
 import routes from '../routes'
+import { Pagination } from '../types'
+import { listUnnotifiedProjects } from '../useCases'
+import { AdminNotifyCandidatesPage } from '../views/pages'
+import { ensureLoggedIn, ensureRole } from './authentication'
+import { v1Router } from './v1Router'
 
-const getNotifyCandidatesPage = async (request: HttpRequest) => {
-  let { appelOffreId, periodeId, recherche, classement } = request.query
+v1Router.get(
+  routes.ADMIN_NOTIFY_CANDIDATES(),
+  ensureLoggedIn(),
+  ensureRole(['admin', 'dgec']),
+  async (request, response) => {
+    let { appelOffreId, periodeId, recherche, classement, pageSize } = request.query
 
-  if (!request.user || !['admin', 'dgec'].includes(request.user.role)) {
-    return Redirect(routes.LOGIN)
-  }
+    const defaultPagination: Pagination = {
+      page: 0,
+      pageSize: +request.cookies?.pageSize || 10,
+    }
+    const pagination = makePagination(request.query, defaultPagination)
 
-  const defaultPagination: Pagination = {
-    page: 0,
-    pageSize: +request.cookies?.pageSize || 10,
-  }
-  const pagination = makePagination(request.query, defaultPagination)
+    if (!appelOffreId) {
+      // Reset the periodId
+      periodeId = undefined
+    }
 
-  if (!appelOffreId) {
-    // Reset the periodId
-    periodeId = undefined
-  }
+    const result = await listUnnotifiedProjects({
+      appelOffreId,
+      periodeId,
+      pagination,
+      recherche,
+      classement,
+    })
 
-  const result = await listUnnotifiedProjects({
-    appelOffreId,
-    periodeId,
-    pagination,
-    recherche,
-    classement,
-  })
+    if (result === null) {
+      return response.send(
+        AdminNotifyCandidatesPage({
+          request,
+        })
+      )
+    }
 
-  if (result === null) {
-    return Success(
+    const {
+      projects,
+      projectsInPeriodCount,
+      selectedAppelOffreId,
+      selectedPeriodeId,
+      existingAppelsOffres,
+      existingPeriodes,
+    } = result
+
+    if (pageSize) {
+      // Save the pageSize in a cookie
+      response.cookie('pageSize', pageSize, {
+        maxAge: 1000 * 60 * 60 * 24 * 30 * 3, // 3 months
+        httpOnly: true,
+      })
+    }
+
+    response.send(
       AdminNotifyCandidatesPage({
         request,
+        results: {
+          projects,
+          projectsInPeriodCount,
+          selectedAppelOffreId,
+          selectedPeriodeId,
+          existingAppelsOffres,
+          existingPeriodes,
+        },
       })
     )
   }
-
-  const {
-    projects,
-    projectsInPeriodCount,
-    selectedAppelOffreId,
-    selectedPeriodeId,
-    existingAppelsOffres,
-    existingPeriodes,
-  } = result
-
-  return Success(
-    AdminNotifyCandidatesPage({
-      request,
-      results: {
-        projects,
-        projectsInPeriodCount,
-        selectedAppelOffreId,
-        selectedPeriodeId,
-        existingAppelsOffres,
-        existingPeriodes,
-      },
-    }),
-    // Save pageSize in a cookie
-    request.query.pageSize
-      ? {
-          cookies: { pageSize: request.query.pageSize },
-        }
-      : undefined
-  )
-}
-
-export { getNotifyCandidatesPage }
+)

@@ -1,30 +1,29 @@
-import { userRepo, projectAdmissionKeyRepo } from '../dataAccess'
-import { Redirect, Success } from '../helpers/responses'
-import { HttpRequest } from '../types'
+import { projectAdmissionKeyRepo, userRepo } from '../dataAccess'
+import routes from '../routes'
 import { DrealListPage } from '../views/pages'
-import ROUTES from '../routes'
+import { ensureLoggedIn, ensureRole } from './authentication'
+import { v1Router } from './v1Router'
 
-const getDrealPage = async (request: HttpRequest) => {
-  if (!request.user) {
-    return Redirect(ROUTES.LOGIN)
-  }
+v1Router.get(
+  routes.ADMIN_DREAL_LIST,
+  ensureLoggedIn(),
+  ensureRole('admin'),
+  async (request, response) => {
+    // Get all dreal users
+    const drealUsers = await userRepo.findAll({ role: 'dreal' })
+    const users = await Promise.all(
+      drealUsers.map(async (user) => {
+        const dreals = await userRepo.findDrealsForUser(user.id)
+        return { user, dreals }
+      })
+    )
 
-  // Get all dreal users
-  const drealUsers = await userRepo.findAll({ role: 'dreal' })
-  const users = await Promise.all(
-    drealUsers.map(async (user) => {
-      const dreals = await userRepo.findDrealsForUser(user.id)
-      return { user, dreals }
+    // Get all invitations for dreals
+    const invitations = await projectAdmissionKeyRepo.findAll({
+      dreal: -1,
+      lastUsedAt: 0,
     })
-  )
 
-  // Get all invitations for dreals
-  const invitations = await projectAdmissionKeyRepo.findAll({
-    dreal: -1,
-    lastUsedAt: 0,
-  })
-
-  return Success(DrealListPage({ request, users, invitations }))
-}
-
-export { getDrealPage }
+    return response.send(DrealListPage({ request, users, invitations }))
+  }
+)

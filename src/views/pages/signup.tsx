@@ -3,11 +3,11 @@ import React from 'react'
 import { dataId } from '../../helpers/testId'
 
 import ROUTES from '../../routes'
-import { HttpRequest } from '../../types'
+import { Request } from 'express'
 import { ProjectAdmissionKey } from '../../entities'
 
 interface SignupProps {
-  request: HttpRequest
+  request: Request
   projectAdmissionKey: ProjectAdmissionKey
 }
 

@@ -1,17 +1,15 @@
-import { Success, Redirect } from '../helpers/responses'
-import { HttpRequest } from '../types'
-import { LoginPage } from '../views/pages'
 import routes from '../routes'
+import { LoginPage } from '../views/pages'
+import { v1Router } from './v1Router'
 
-const getLoginPage = async (request: HttpRequest) => {
+v1Router.get(routes.LOGIN, async (request, response) => {
   if (request.user) {
-    return Redirect(routes.REDIRECT_BASED_ON_ROLE)
+    return response.redirect(routes.REDIRECT_BASED_ON_ROLE)
   }
 
-  return Success(
+  return response.send(
     LoginPage({
       request,
     })
   )
-}
-export { getLoginPage }
+})

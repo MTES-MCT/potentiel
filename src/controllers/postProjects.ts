@@ -1,11 +1,15 @@
 import csvParse from 'csv-parse'
 import fs from 'fs'
+import util from 'util'
 import iconv from 'iconv-lite'
-import { Redirect } from '../helpers/responses'
-import ROUTES from '../routes'
-import { HttpRequest } from '../types'
-import { importProjects } from '../useCases'
+import multer from 'multer'
 import { logger } from '../core/utils'
+import { addQueryParams } from '../helpers/addQueryParams'
+import routes from '../routes'
+import { importProjects } from '../useCases'
+import { ensureLoggedIn, ensureRole } from './authentication'
+import { v1Router } from './v1Router'
+const deleteFile = util.promisify(fs.unlink)
 
 const parse = (file) =>
   new Promise<Array<Record<string, string>>>((resolve, reject) => {
@@ -32,42 +36,65 @@ const parse = (file) =>
       })
   })
 
-const postProjects = async (request: HttpRequest) => {
-  if (!request.user) {
-    return Redirect(ROUTES.LOGIN)
-  }
+const FILE_SIZE_LIMIT_MB = 50
+const upload = multer({
+  dest: 'temp',
+  limits: { fileSize: FILE_SIZE_LIMIT_MB * 1024 * 1024 /* MB */ },
+})
 
-  if (!request.file || !request.file.path) {
-    return Redirect(ROUTES.IMPORT_PROJECTS, {
-      error: 'Le fichier candidat est manquant.',
+v1Router.post(
+  routes.IMPORT_PROJECTS_ACTION,
+  ensureLoggedIn(),
+  ensureRole(['admin', 'dgec']),
+  upload.single('candidats'),
+  async (request, response) => {
+    if (!request.file || !request.file.path) {
+      return response.redirect(
+        addQueryParams(routes.IMPORT_PROJECTS, {
+          error: 'Le fichier candidat est manquant.',
+        })
+      )
+    }
+
+    // Parse the csv file
+    const lines = await parse(request.file.path)
+
+    // console.log('postProject has lines count ', lines)
+    ;(
+      await importProjects({
+        lines,
+        userId: request.user.id,
+      })
+    ).match({
+      ok: (result) => {
+        const { unnotifiedProjects, savedProjects } = result || {}
+        return response.redirect(
+          addQueryParams(routes.IMPORT_PROJECTS, {
+            success: savedProjects
+              ? `${savedProjects} projet(s) ont bien été importé(s) ou mis à jour${
+                  unnotifiedProjects ? ` dont ${unnotifiedProjects} à notifier` : ''
+                }.`
+              : "L'import est un succès mais le fichier importé n'a pas donné lieu à des changements dans la base de projets.",
+          })
+        )
+      },
+      err: (e: Error) => {
+        logger.error(e)
+        return response.redirect(
+          addQueryParams(routes.IMPORT_PROJECTS, {
+            error: e.message.length > 1000 ? e.message.substring(0, 1000) + '...' : e.message,
+          })
+        )
+      },
     })
+  },
+  async (request) => {
+    if (request.file) {
+      try {
+        await deleteFile(request.file.path)
+      } catch (error) {
+        logger.error(error)
+      }
+    }
   }
-
-  // Parse the csv file
-  const lines = await parse(request.file.path)
-
-  const importProjectsResult = await importProjects({
-    lines,
-    userId: request.user.id,
-  })
-
-  return importProjectsResult.match({
-    ok: (result) => {
-      const { unnotifiedProjects, savedProjects } = result || {}
-      return Redirect(ROUTES.IMPORT_PROJECTS, {
-        success: savedProjects
-          ? `${savedProjects} projet(s) ont bien été importé(s) ou mis à jour${
-              unnotifiedProjects ? ` dont ${unnotifiedProjects} à notifier` : ''
-            }.`
-          : "L'import est un succès mais le fichier importé n'a pas donné lieu à des changements dans la base de projets.",
-      })
-    },
-    err: (e: Error) => {
-      logger.error(e)
-      return Redirect(ROUTES.IMPORT_PROJECTS, {
-        error: e.message.length > 1000 ? e.message.substring(0, 1000) + '...' : e.message,
-      })
-    },
-  })
-}
-export { postProjects }
+)

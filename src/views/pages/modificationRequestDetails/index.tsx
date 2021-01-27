@@ -6,7 +6,7 @@ import { Project } from '../../../entities'
 
 import AdminDashboard from '../../components/adminDashboard'
 import UserDashboard from '../../components/userDashboard'
-import { HttpRequest } from '../../../types'
+import { Request } from 'express'
 import ROUTES from '../../../routes'
 
 import { formatDate } from '../../../helpers/formatDate'
@@ -23,7 +23,7 @@ import { logger } from '../../../core/utils'
 moment.locale('fr')
 
 interface PageProps {
-  request: HttpRequest
+  request: Request
   modificationRequest: ModificationRequestPageDTO
 }
 

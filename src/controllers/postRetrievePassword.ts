@@ -1,29 +1,35 @@
-import { Redirect } from '../helpers/responses'
-import ROUTES from '../routes'
-import { HttpRequest } from '../types'
+import { addQueryParams } from '../helpers/addQueryParams'
+import routes from '../routes'
 import { retrievePassword } from '../useCases'
+import { v1Router } from './v1Router'
 
-const postRetrievePassword = async (request: HttpRequest) => {
+v1Router.post(routes.FORGOTTEN_PASSWORD_ACTION, async (request, response) => {
   const { email } = request.body
 
   if (!email) {
-    return Redirect(ROUTES.FORGOTTEN_PASSWORD, {
-      error: 'Merci de saisir une adresse email.',
-    })
+    return response.redirect(
+      addQueryParams(routes.FORGOTTEN_PASSWORD, {
+        error: 'Merci de saisir une adresse email.',
+      })
+    )
   }
-  const result = await retrievePassword({
-    email: email.toLowerCase(),
-  })
-  return result.match({
+  ;(
+    await retrievePassword({
+      email: email.toLowerCase(),
+    })
+  ).match({
     ok: () =>
-      Redirect(ROUTES.FORGOTTEN_PASSWORD, {
-        success:
-          "Si l'adresse saisie correspond bien à un compte Potentiel, vous recevrez un courrier électronique avec des instructions pour choisir un nouveau mot de passe.",
-      }),
+      response.redirect(
+        addQueryParams(routes.FORGOTTEN_PASSWORD, {
+          success:
+            "Si l'adresse saisie correspond bien à un compte Potentiel, vous recevrez un courrier électronique avec des instructions pour choisir un nouveau mot de passe.",
+        })
+      ),
     err: (error: Error) =>
-      Redirect(ROUTES.FORGOTTEN_PASSWORD, {
-        error: error.message,
-      }),
+      response.redirect(
+        addQueryParams(routes.FORGOTTEN_PASSWORD, {
+          error: error.message,
+        })
+      ),
   })
-}
-export { postRetrievePassword }
+})

@@ -1,41 +1,39 @@
-import { Redirect, NotFoundError } from '../helpers/responses'
-import ROUTES from '../routes'
-import { HttpRequest } from '../types'
-import { removeGarantiesFinancieres } from '../useCases'
 import { logger } from '../core/utils'
+import { addQueryParams } from '../helpers/addQueryParams'
+import routes from '../routes'
+import { removeGarantiesFinancieres } from '../useCases'
+import { ensureLoggedIn, ensureRole } from './authentication'
+import { v1Router } from './v1Router'
 
-const getRemoveGarantiesFinancieres = async (request: HttpRequest) => {
-  const { user } = request
+v1Router.get(
+  routes.SUPPRIMER_GARANTIES_FINANCIERES_ACTION(),
+  ensureLoggedIn(),
+  ensureRole(['admin', 'dgec', 'porteur-projet']),
+  async (request, response) => {
+    const { user } = request
 
-  if (!user) {
-    return Redirect(ROUTES.LOGIN)
-  }
+    const { projectId } = request.params
 
-  const { projectId } = request.params
-
-  if (!projectId) return NotFoundError('')
-
-  try {
-    const result = await removeGarantiesFinancieres({
-      user,
-      projectId,
-    })
-    return result.match({
+    ;(
+      await removeGarantiesFinancieres({
+        user,
+        projectId,
+      })
+    ).match({
       ok: () =>
-        Redirect(ROUTES.PROJECT_DETAILS(projectId), {
-          success: 'Les garanties financières ont été retirées avec succès',
-        }),
+        response.redirect(
+          addQueryParams(routes.PROJECT_DETAILS(projectId), {
+            success: 'Les garanties financières ont été retirées avec succès',
+          })
+        ),
       err: (error: Error) => {
         logger.error(error)
-        return Redirect(ROUTES.PROJECT_DETAILS(projectId), {
-          error: `Les garanties financières n'ont pas pu être retirées. (Erreur: ${error.message})`,
-        })
+        return response.redirect(
+          addQueryParams(routes.PROJECT_DETAILS(projectId), {
+            error: `Les garanties financières n'ont pas pu être retirées.`,
+          })
+        )
       },
     })
-  } catch (error) {
-    return Redirect(ROUTES.PROJECT_DETAILS(projectId), {
-      error: `Les garanties financières n'ont pas pu être retirées. (Erreur: ${error.message})`,
-    })
   }
-}
-export { getRemoveGarantiesFinancieres }
+)

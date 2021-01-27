@@ -1,41 +1,37 @@
-import { Redirect, NotFoundError } from '../helpers/responses'
-import ROUTES from '../routes'
-import { HttpRequest } from '../types'
-import { removeDCR } from '../useCases'
 import { logger } from '../core/utils'
+import { addQueryParams } from '../helpers/addQueryParams'
+import routes from '../routes'
+import { removeDCR } from '../useCases'
+import { ensureLoggedIn, ensureRole } from './authentication'
+import { v1Router } from './v1Router'
 
-const getRemoveDCR = async (request: HttpRequest) => {
-  const { user } = request
-
-  if (!user) {
-    return Redirect(ROUTES.LOGIN)
-  }
-
-  const { projectId } = request.params
-
-  if (!projectId) return NotFoundError('')
-
-  try {
-    const result = await removeDCR({
-      user,
-      projectId,
-    })
-    return result.match({
+v1Router.get(
+  routes.SUPPRIMER_DCR_ACTION(),
+  ensureLoggedIn(),
+  ensureRole(['admin', 'dgec', 'porteur-projet']),
+  async (request, response) => {
+    const { user } = request
+    const { projectId } = request.params
+    ;(
+      await removeDCR({
+        user,
+        projectId,
+      })
+    ).match({
       ok: () =>
-        Redirect(ROUTES.PROJECT_DETAILS(projectId), {
-          success: 'La demande complète de raccordement a été retirée avec succès',
-        }),
+        response.redirect(
+          addQueryParams(routes.PROJECT_DETAILS(projectId), {
+            success: 'La demande complète de raccordement a été retirée avec succès',
+          })
+        ),
       err: (e: Error) => {
         logger.error(e)
-        return Redirect(ROUTES.PROJECT_DETAILS(projectId), {
-          error: `La demande complète de raccordement n'a pas pu être retirée. (Erreur: ${e.message})`,
-        })
+        return response.redirect(
+          addQueryParams(routes.PROJECT_DETAILS(projectId), {
+            error: `La demande complète de raccordement n'a pas pu être retirée.`,
+          })
+        )
       },
     })
-  } catch (error) {
-    return Redirect(ROUTES.PROJECT_DETAILS(projectId), {
-      error: `La demande complète de raccordement n'a pas pu être retirée. (Erreur: ${error.message})`,
-    })
   }
-}
-export { getRemoveDCR }
+)

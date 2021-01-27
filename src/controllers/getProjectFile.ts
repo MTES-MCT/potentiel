@@ -1,34 +1,35 @@
-import { NotFoundError, SuccessFileStream, Redirect, SystemError } from '../helpers/responses'
-import { HttpRequest } from '../types'
 import { loadFileForUser } from '../config'
-import ROUTES from '../routes'
-import { logger } from '../core/utils'
+import { UniqueEntityID } from '../core/domain'
+import { FileAccessDeniedError, FileNotFoundError } from '../modules/file'
 import { InfraNotAvailableError } from '../modules/shared'
+import routes from '../routes'
+import { ensureLoggedIn, ensureRole } from './authentication'
+import { v1Router } from './v1Router'
 
-const getProjectFile = async (request: HttpRequest) => {
-  try {
+v1Router.get(
+  routes.DOWNLOAD_PROJECT_FILE(),
+  ensureLoggedIn(),
+  ensureRole(['admin', 'dgec', 'dreal', 'porteur-projet']),
+  async (request, response) => {
     const { fileId } = request.params
+    const { user } = request
 
-    if (!request.user) {
-      return Redirect(ROUTES.LOGIN)
-    }
-
-    const result = await loadFileForUser({ fileId, user: request.user })
-
-    if (result.isErr()) {
-      return SystemError(result.error.message)
-    }
-
-    return SuccessFileStream(result.value.contents)
-  } catch (error) {
-    if (error instanceof InfraNotAvailableError) {
-      logger.error(error)
-    } else {
-      logger.warning(error.message)
-    }
-
-    return NotFoundError('Fichier introuvable.')
+    await loadFileForUser({
+      fileId: new UniqueEntityID(fileId),
+      user,
+    }).match(
+      async (fileStream) => {
+        fileStream.contents.pipe(response)
+      },
+      async (e) => {
+        if (e instanceof FileNotFoundError) {
+          response.status(404).send('Fichier introuvable.')
+        } else if (e instanceof FileAccessDeniedError) {
+          response.status(403).send('Accès interdit.')
+        } else if (e instanceof InfraNotAvailableError) {
+          response.status(500).send('Service indisponible. Merci de réessayer.')
+        }
+      }
+    )
   }
-}
-
-export { getProjectFile }
+)

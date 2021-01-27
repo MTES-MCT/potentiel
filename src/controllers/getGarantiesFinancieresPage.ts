@@ -1,23 +1,24 @@
-import { Redirect, Success } from '../helpers/responses'
-import ROUTES from '../routes'
-import { HttpRequest } from '../types'
+import routes from '../routes'
 import { listGarantiesFinancieres } from '../useCases'
 import { GarantiesFinancieresListPage } from '../views/pages'
+import { ensureLoggedIn, ensureRole } from './authentication'
+import { v1Router } from './v1Router'
 
-const getGarantiesFinancieresPage = async (request: HttpRequest) => {
-  if (!request.user) {
-    return Redirect(ROUTES.LOGIN)
-  }
-
-  const garantiesFinancieres = await listGarantiesFinancieres({
-    user: request.user,
-  })
-
-  return Success(
-    GarantiesFinancieresListPage({
-      request,
-      garantiesFinancieres,
+v1Router.get(
+  routes.GARANTIES_FINANCIERES_LIST,
+  ensureLoggedIn(),
+  ensureRole(['admin', 'dreal']),
+  async (request, response) => {
+    const { user } = request
+    const garantiesFinancieres = await listGarantiesFinancieres({
+      user,
     })
-  )
-}
-export { getGarantiesFinancieresPage }
+
+    return response.send(
+      GarantiesFinancieresListPage({
+        request,
+        garantiesFinancieres,
+      })
+    )
+  }
+)

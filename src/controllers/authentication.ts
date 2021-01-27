@@ -7,6 +7,8 @@ import { User } from '../entities'
 import { login } from '../useCases'
 import { userRepo } from '../dataAccess'
 import { logger } from '../core/utils'
+import routes from '../routes'
+import { v1Router } from './v1Router'
 
 interface RegisterAuthProps {
   app: Application
@@ -14,21 +16,9 @@ interface RegisterAuthProps {
   successRoute: string
 }
 
-let isAuthRegistered = false
-let _loginRoute: RegisterAuthProps['loginRoute']
-let _successRoute: RegisterAuthProps['successRoute']
-
 // Method to be called first
 // Sets up passport middleware in the express app
-const registerAuth = ({ app, loginRoute, successRoute }: RegisterAuthProps) => {
-  if (isAuthRegistered) {
-    throw new Error('Authentication can only be registered once')
-  }
-
-  isAuthRegistered = true
-  _loginRoute = loginRoute
-  _successRoute = successRoute
-
+const registerAuth = ({ app }: RegisterAuthProps) => {
   //
   // Configure Passport authenticated session persistence
   //
@@ -77,17 +67,33 @@ const registerAuth = ({ app, loginRoute, successRoute }: RegisterAuthProps) => {
       }
     )
   )
+
+  v1Router.post(routes.LOGIN_ACTION, postLogin())
+  v1Router.get(routes.LOGOUT_ACTION, logoutMiddleware, (req, res) => {
+    res.redirect('/')
+  })
+  v1Router.get(routes.REDIRECT_BASED_ON_ROLE, ensureLoggedIn(), (req, res) => {
+    const user = req.user as User
+
+    if (user.role === 'admin' || user.role === 'dgec') {
+      res.redirect(routes.ADMIN_DASHBOARD)
+    }
+
+    if (user.role === 'dreal') {
+      res.redirect(routes.GARANTIES_FINANCIERES_LIST)
+    }
+
+    if (user.role === 'porteur-projet') {
+      res.redirect(routes.USER_DASHBOARD)
+    }
+  })
 }
 
 // Handler for the login route
 const postLogin = () => {
-  if (!isAuthRegistered) {
-    throw new Error('Cannot use postLogin before calling registerAuth')
-  }
-
   return passport.authenticate('local', {
-    successReturnToOrRedirect: _successRoute,
-    failureRedirect: _loginRoute + '?error=1',
+    successReturnToOrRedirect: routes.REDIRECT_BASED_ON_ROLE,
+    failureRedirect: routes.LOGIN + '?error=1',
   })
 }
 
@@ -97,12 +103,32 @@ const logoutMiddleware = (req: Request, res: Response, next: NextFunction) => {
   next()
 }
 
-const ensureLoggedIn = () => _ensureLoggedIn(_loginRoute)
+const ensureLoggedIn = () => _ensureLoggedIn(routes.LOGIN)
+
+const ensureRole = (roles: string | Array<string>) => (req, res, next) => {
+  const user = req.user as User
+
+  if (!user) {
+    return res.redirect(routes.LOGIN)
+  }
+
+  if (typeof roles === 'string') {
+    if (user.role !== roles) {
+      return res.redirect(routes.REDIRECT_BASED_ON_ROLE)
+    }
+  } else {
+    if (!roles.includes(user.role)) {
+      return res.redirect(routes.REDIRECT_BASED_ON_ROLE)
+    }
+  }
+
+  // Ok to move forward
+  next()
+}
 
 export {
   registerAuth,
-  postLogin,
-  logoutMiddleware,
   // Handler for all auth enabled routes
   ensureLoggedIn,
+  ensureRole,
 }

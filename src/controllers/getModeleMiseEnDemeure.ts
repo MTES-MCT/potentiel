@@ -2,29 +2,27 @@ import moment from 'moment'
 import os from 'os'
 import path from 'path'
 import sanitize from 'sanitize-filename'
+import { userRepo } from '../dataAccess'
 import { makeProjectIdentifier } from '../entities/project'
 import { fillDocxTemplate } from '../helpers/fillDocxTemplate'
 import { formatDate } from '../helpers/formatDate'
-import { NotFoundError, SuccessFile, SystemError } from '../helpers/responses'
-import { HttpRequest } from '../types'
+import routes from '../routes'
 import { getUserProject } from '../useCases'
-import { userRepo } from '../dataAccess'
-import { logger } from '../core/utils'
+import { ensureLoggedIn, ensureRole } from './authentication'
+import { v1Router } from './v1Router'
 
-const getModeleMiseEnDemeure = async (request: HttpRequest) => {
-  try {
+v1Router.get(
+  routes.TELECHARGER_MODELE_MISE_EN_DEMEURE(),
+  ensureLoggedIn(),
+  ensureRole('dreal'),
+  async (request, response) => {
     const { projectId } = request.params
-
-    if (!request.user || request.user.role !== 'dreal') {
-      // Should never happen, login is verified at the server level
-      return SystemError('Impossible de générer le fichier sans être connecté')
-    }
 
     // Verify that the current user has the rights to check this out
     const project = await getUserProject({ user: request.user, projectId })
 
     if (!project) {
-      return NotFoundError('Impossible de générer le fichier demandé.')
+      return response.status(404).send('Impossible de générer le fichier demandé.')
     }
 
     const filepath = path.join(
@@ -39,7 +37,7 @@ const getModeleMiseEnDemeure = async (request: HttpRequest) => {
     const dreal = userDreals.find((dreal) => project.regionProjet.includes(dreal))
 
     if (!dreal) {
-      return NotFoundError('Impossible de générer le fichier demandé.')
+      return response.status(403).send('Impossible de générer le fichier demandé.')
     }
 
     const templatePath = path.resolve(
@@ -91,11 +89,6 @@ const getModeleMiseEnDemeure = async (request: HttpRequest) => {
       },
     })
 
-    return SuccessFile(filepath)
-  } catch (error) {
-    logger.error(error)
-    return SystemError('Impossible de générer le fichier modèle de mise en demeure')
+    return response.sendFile(path.resolve(process.cwd(), filepath))
   }
-}
-
-export { getModeleMiseEnDemeure }
+)

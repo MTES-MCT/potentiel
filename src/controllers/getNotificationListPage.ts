@@ -1,36 +1,38 @@
-import { makePagination } from '../helpers/paginate'
-import { Redirect, Success, SystemError } from '../helpers/responses'
-import ROUTES from '../routes'
-import { HttpRequest, Pagination } from '../types'
-import { NotificationListPage } from '../views/pages'
 import { getFailedNotificationDetails } from '../config'
 import { logger } from '../core/utils'
+import { makePagination } from '../helpers/paginate'
+import routes from '../routes'
+import { Pagination } from '../types'
+import { NotificationListPage } from '../views/pages'
+import { ensureLoggedIn, ensureRole } from './authentication'
+import { v1Router } from './v1Router'
 
 const defaultPagination: Pagination = {
   page: 0,
   pageSize: 50,
 }
 
-const getNotificationListPage = async (request: HttpRequest) => {
-  if (!request.user) {
-    return Redirect(ROUTES.LOGIN)
+v1Router.get(
+  routes.ADMIN_NOTIFICATION_LIST,
+  ensureLoggedIn(),
+  ensureRole(['admin']),
+  async (request, response) => {
+    const pagination = makePagination(request.query, defaultPagination)
+
+    return await getFailedNotificationDetails(pagination).match(
+      (notifications) =>
+        response.send(
+          NotificationListPage({
+            request,
+            notifications,
+          })
+        ),
+      (e) => {
+        logger.error(e)
+        return response
+          .status(500)
+          .send('Impossible de charger la liste des notifications en erreur.')
+      }
+    )
   }
-
-  const pagination = makePagination(request.query, defaultPagination)
-
-  return await getFailedNotificationDetails(pagination).match(
-    (notifications) =>
-      Success(
-        NotificationListPage({
-          request,
-          notifications,
-        })
-      ),
-    (e) => {
-      logger.error(e)
-      return SystemError('Impossible de charger la liste des notifications en erreur.')
-    }
-  )
-}
-
-export { getNotificationListPage }
+)

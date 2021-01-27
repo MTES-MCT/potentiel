@@ -1,11 +1,12 @@
-import { Redirect } from '../helpers/responses'
-import ROUTES from '../routes'
-import { HttpRequest } from '../types'
-import { signup } from '../useCases'
-import { User } from '../entities'
+import { promisify } from 'util'
 import { logger } from '../core/utils'
+import { User } from '../entities'
+import { addQueryParams } from '../helpers/addQueryParams'
+import routes from '../routes'
+import { signup } from '../useCases'
+import { v1Router } from './v1Router'
 
-const postSignup = async (request: HttpRequest) => {
+v1Router.post(routes.SIGNUP_ACTION, async (request, response) => {
   const {
     fullName,
     email,
@@ -22,37 +23,44 @@ const postSignup = async (request: HttpRequest) => {
     projectId,
   }
 
-  const userResult = await signup({
-    ...nonSecretUserInfo,
-    password,
-    confirmPassword,
-  })
-
-  return userResult.match({
-    ok: (user: User) => {
+  ;(
+    await signup({
+      ...nonSecretUserInfo,
+      password,
+      confirmPassword,
+    })
+  ).match({
+    ok: async (user: User) => {
       if (user === null) {
-        return Redirect(ROUTES.SIGNUP, {
-          ...nonSecretUserInfo,
-          error: 'Erreur lors de la création de compte',
-        })
+        return response.redirect(
+          addQueryParams(routes.SIGNUP, {
+            ...nonSecretUserInfo,
+            error: 'Erreur lors de la création de compte',
+          })
+        )
       }
 
-      return Redirect(
-        user.role === 'dreal' ? ROUTES.GARANTIES_FINANCIERES_LIST : ROUTES.USER_DASHBOARD,
-        {
-          success:
-            'Votre compte a bien été créé, vous pouvez vous à présent gérer vos projets ci-dessous.',
-        },
-        user.id // This will log the user in
+      // Auto-log the user in
+      await promisify(request.login)(user)
+
+      return response.redirect(
+        addQueryParams(
+          user.role === 'dreal' ? routes.GARANTIES_FINANCIERES_LIST : routes.USER_DASHBOARD,
+          {
+            success:
+              'Votre compte a bien été créé, vous pouvez vous à présent gérer vos projets ci-dessous.',
+          }
+        )
       )
     },
-    err: (e: Error) => {
+    err: async (e: Error) => {
       logger.error(e)
-      return Redirect(ROUTES.SIGNUP, {
-        ...nonSecretUserInfo,
-        error: 'Erreur lors de la création de compte: ' + e.message,
-      })
+      return response.redirect(
+        addQueryParams(routes.SIGNUP, {
+          ...nonSecretUserInfo,
+          error: 'Erreur lors de la création de compte: ' + e.message,
+        })
+      )
     },
   })
-}
-export { postSignup }
+})
