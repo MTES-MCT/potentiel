@@ -11,5 +11,11 @@ mandatoryVariables.forEach((variable) => {
   }
 })
 
+const sessionSecret = process.env.SESSION_SECRET
+if (!sessionSecret) {
+  console.error('Missing SESSION_SECRET environment variable')
+  process.exit(1)
+}
+
 const port: number = Number(process.env.PORT) || 3000
-makeServer(port)
+makeServer(port, sessionSecret)
