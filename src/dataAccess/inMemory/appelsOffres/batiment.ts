@@ -90,8 +90,8 @@ const batiment: AppelOffre = {
       title: 'onzième',
       isNotifiedOnPotentiel: true,
       noteThresholdByFamily: [
-        { familleId: '1', noteThreshold: 0 },
-        { familleId: '2', noteThreshold: 0 },
+        { familleId: '1', noteThreshold: 30.82 },
+        { familleId: '2', noteThreshold: 29.85 },
       ],
       certificateTemplate: 'v1',
     },
