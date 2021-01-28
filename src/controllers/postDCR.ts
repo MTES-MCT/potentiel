@@ -1,8 +1,7 @@
 import fs from 'fs'
 import _ from 'lodash'
 import moment from 'moment'
-import multer from 'multer'
-import util from 'util'
+import { upload } from './upload'
 import { logger, pathExists } from '../core/utils'
 import { addQueryParams } from '../helpers/addQueryParams'
 import routes from '../routes'
@@ -10,19 +9,12 @@ import { addDCR } from '../useCases'
 import { ensureLoggedIn, ensureRole } from './authentication'
 import { v1Router } from './v1Router'
 
-const deleteFile = util.promisify(fs.unlink)
-
-const FILE_SIZE_LIMIT_MB = 50
-const upload = multer({
-  dest: 'temp',
-  limits: { fileSize: FILE_SIZE_LIMIT_MB * 1024 * 1024 /* MB */ },
-})
-
 v1Router.post(
   routes.DEPOSER_DCR_ACTION,
   ensureLoggedIn(),
   ensureRole(['admin', 'dgec', 'dreal', 'porteur-projet']),
   upload.single('file'),
+
   async (request, response) => {
     const data: any = _.pick(request.body, ['dcrDate', 'projectId', 'numeroDossier'])
     const { projectId } = data
@@ -91,14 +83,5 @@ v1Router.post(
         )
       },
     })
-  },
-  async (request) => {
-    if (request.file) {
-      try {
-        await deleteFile(request.file.path)
-      } catch (error) {
-        logger.error(error)
-      }
-    }
   }
 )

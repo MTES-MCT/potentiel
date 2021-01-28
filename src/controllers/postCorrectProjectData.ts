@@ -1,24 +1,16 @@
 import fs from 'fs'
 import moment from 'moment-timezone'
-import multer from 'multer'
 import sanitize from 'sanitize-filename'
-import util from 'util'
 import { correctProjectData } from '../config'
 import { logger } from '../core/utils'
 import { addQueryParams } from '../helpers/addQueryParams'
 import { IllegalProjectDataError } from '../modules/project/errors'
 import routes from '../routes'
 import { ensureLoggedIn, ensureRole } from './authentication'
+import { upload } from './upload'
 import { v1Router } from './v1Router'
 
-const deleteFile = util.promisify(fs.unlink)
-
 const FORMAT_DATE = 'DD/MM/YYYY'
-const FILE_SIZE_LIMIT_MB = 50
-const upload = multer({
-  dest: 'temp',
-  limits: { fileSize: FILE_SIZE_LIMIT_MB * 1024 * 1024 /* MB */ },
-})
 
 v1Router.post(
   routes.ADMIN_CORRECT_PROJECT_DATA_ACTION,
@@ -144,14 +136,5 @@ v1Router.post(
         )
       }
     )
-  },
-  async (request) => {
-    if (request.file) {
-      try {
-        await deleteFile(request.file.path)
-      } catch (error) {
-        logger.error(error)
-      }
-    }
   }
 )

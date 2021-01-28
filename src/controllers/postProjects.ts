@@ -1,15 +1,13 @@
 import csvParse from 'csv-parse'
 import fs from 'fs'
-import util from 'util'
 import iconv from 'iconv-lite'
-import multer from 'multer'
 import { logger } from '../core/utils'
 import { addQueryParams } from '../helpers/addQueryParams'
 import routes from '../routes'
 import { importProjects } from '../useCases'
 import { ensureLoggedIn, ensureRole } from './authentication'
+import { upload } from './upload'
 import { v1Router } from './v1Router'
-const deleteFile = util.promisify(fs.unlink)
 
 const parse = (file) =>
   new Promise<Array<Record<string, string>>>((resolve, reject) => {
@@ -35,12 +33,6 @@ const parse = (file) =>
         resolve(data)
       })
   })
-
-const FILE_SIZE_LIMIT_MB = 50
-const upload = multer({
-  dest: 'temp',
-  limits: { fileSize: FILE_SIZE_LIMIT_MB * 1024 * 1024 /* MB */ },
-})
 
 v1Router.post(
   routes.IMPORT_PROJECTS_ACTION,
@@ -87,14 +79,5 @@ v1Router.post(
         )
       },
     })
-  },
-  async (request) => {
-    if (request.file) {
-      try {
-        await deleteFile(request.file.path)
-      } catch (error) {
-        logger.error(error)
-      }
-    }
   }
 )

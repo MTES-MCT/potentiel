@@ -1,24 +1,15 @@
 import fs from 'fs'
 import moment from 'moment-timezone'
-import multer from 'multer'
-import util from 'util'
 import { acceptModificationRequest } from '../config'
 import { logger, pathExists } from '../core/utils'
 import { addQueryParams } from '../helpers/addQueryParams'
 import { AggregateHasBeenUpdatedSinceError } from '../modules/shared'
 import routes from '../routes'
 import { ensureLoggedIn, ensureRole } from './authentication'
+import { upload } from './upload'
 import { v1Router } from './v1Router'
 
-const deleteFile = util.promisify(fs.unlink)
-
 const FORMAT_DATE = 'DD/MM/YYYY'
-
-const FILE_SIZE_LIMIT_MB = 50
-const upload = multer({
-  dest: 'temp',
-  limits: { fileSize: FILE_SIZE_LIMIT_MB * 1024 * 1024 /* MB */ },
-})
 
 v1Router.post(
   routes.ADMIN_REPLY_TO_MODIFICATION_REQUEST,
@@ -102,14 +93,5 @@ v1Router.post(
         error: 'Impossible de répondre à ce type de demande pour le moment.',
       })
     )
-  },
-  async (request) => {
-    if (request.file) {
-      try {
-        await deleteFile(request.file.path)
-      } catch (error) {
-        logger.error(error)
-      }
-    }
   }
 )

@@ -35,6 +35,7 @@ export async function makeServer(port: number, sessionSecret: string) {
         store,
         resave: false,
         proxy: true,
+        saveUninitialized: false,
       })
     )
 

@@ -1,21 +1,13 @@
 import fs from 'fs'
 import _ from 'lodash'
 import moment from 'moment'
-import multer from 'multer'
-import util from 'util'
 import { logger, pathExists } from '../core/utils'
 import { addQueryParams } from '../helpers/addQueryParams'
 import routes from '../routes'
 import { requestModification, shouldUserAccessProject } from '../useCases'
 import { ensureLoggedIn, ensureRole } from './authentication'
+import { upload } from './upload'
 import { v1Router } from './v1Router'
-
-const deleteFile = util.promisify(fs.unlink)
-const FILE_SIZE_LIMIT_MB = 50
-const upload = multer({
-  dest: 'temp',
-  limits: { fileSize: FILE_SIZE_LIMIT_MB * 1024 * 1024 /* MB */ },
-})
 
 const returnRoute = (type, projectId) => {
   let returnRoute: string
@@ -167,14 +159,5 @@ v1Router.post(
         )
       },
     })
-  },
-  async (request) => {
-    if (request.file) {
-      try {
-        await deleteFile(request.file.path)
-      } catch (error) {
-        logger.error(error)
-      }
-    }
   }
 )
