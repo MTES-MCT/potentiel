@@ -3,12 +3,13 @@ import routes from '../../routes'
 import { DrealListPage } from '../../views/pages'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { v1Router } from '../v1Router'
+import asyncHandler from 'express-async-handler'
 
 v1Router.get(
   routes.ADMIN_DREAL_LIST,
   ensureLoggedIn(),
   ensureRole('admin'),
-  async (request, response) => {
+  asyncHandler(async (request, response) => {
     // Get all dreal users
     const drealUsers = await userRepo.findAll({ role: 'dreal' })
     const users = await Promise.all(
@@ -25,5 +26,5 @@ v1Router.get(
     })
 
     return response.send(DrealListPage({ request, users, invitations }))
-  }
+  })
 )

@@ -4,12 +4,13 @@ import routes from '../../routes'
 import { removeGarantiesFinancieres } from '../../useCases'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { v1Router } from '../v1Router'
+import asyncHandler from 'express-async-handler'
 
 v1Router.get(
   routes.SUPPRIMER_GARANTIES_FINANCIERES_ACTION(),
   ensureLoggedIn(),
   ensureRole(['admin', 'dgec', 'porteur-projet']),
-  async (request, response) => {
+  asyncHandler(async (request, response) => {
     const { user } = request
 
     const { projectId } = request.params
@@ -35,5 +36,5 @@ v1Router.get(
         )
       },
     })
-  }
+  })
 )

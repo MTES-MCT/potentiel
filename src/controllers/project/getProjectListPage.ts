@@ -6,8 +6,9 @@ import { listProjects } from '../../useCases'
 import { ListProjectsPage } from '../../views/pages'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { v1Router } from '../v1Router'
+import asyncHandler from 'express-async-handler'
 
-const getProjectListPage = async (request, response) => {
+const getProjectListPage = asyncHandler(async (request, response) => {
   let {
     appelOffreId,
     periodeId,
@@ -70,7 +71,7 @@ const getProjectListPage = async (request, response) => {
       appelsOffre,
     })
   )
-}
+})
 
 v1Router.get(
   routes.ADMIN_DASHBOARD,

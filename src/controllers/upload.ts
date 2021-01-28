@@ -1,9 +1,6 @@
 import multer from 'multer'
-import fs from 'fs'
-import { promisify } from 'util'
+import { promises as fs } from 'fs'
 import { logger } from '../core/utils'
-
-const deleteFile = promisify(fs.unlink)
 
 const FILE_SIZE_LIMIT_MB = 50
 const uploadWithMulter = multer({
@@ -17,7 +14,7 @@ export const upload = {
   single: (filename: string) => (req, res, next) => {
     res.on('finish', async () => {
       try {
-        await deleteFile(req.file.path)
+        await fs.unlink(req.file.path)
       } catch (error) {
         logger.error(error)
       }

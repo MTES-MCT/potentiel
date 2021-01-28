@@ -8,6 +8,7 @@ import routes from '../../routes'
 import { addDCR } from '../../useCases'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { v1Router } from '../v1Router'
+import asyncHandler from 'express-async-handler'
 
 v1Router.post(
   routes.DEPOSER_DCR_ACTION,
@@ -15,7 +16,7 @@ v1Router.post(
   ensureRole(['admin', 'dgec', 'dreal', 'porteur-projet']),
   upload.single('file'),
 
-  async (request, response) => {
+  asyncHandler(async (request, response) => {
     const data: any = _.pick(request.body, ['dcrDate', 'projectId', 'numeroDossier'])
     const { projectId } = data
 
@@ -83,5 +84,5 @@ v1Router.post(
         )
       },
     })
-  }
+  })
 )

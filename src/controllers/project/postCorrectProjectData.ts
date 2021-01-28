@@ -9,6 +9,7 @@ import routes from '../../routes'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
+import asyncHandler from 'express-async-handler'
 
 const FORMAT_DATE = 'DD/MM/YYYY'
 
@@ -17,7 +18,7 @@ v1Router.post(
   ensureLoggedIn(),
   upload.single('file'),
   ensureRole(['admin', 'dgec']),
-  async (request, response) => {
+  asyncHandler(async (request, response) => {
     const {
       projectId,
       projectVersionDate,
@@ -136,5 +137,5 @@ v1Router.post(
         )
       }
     )
-  }
+  })
 )

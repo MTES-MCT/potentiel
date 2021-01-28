@@ -6,6 +6,7 @@ import { Pagination } from '../../types'
 import { NotificationListPage } from '../../views/pages'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { v1Router } from '../v1Router'
+import asyncHandler from 'express-async-handler'
 
 const defaultPagination: Pagination = {
   page: 0,
@@ -16,7 +17,7 @@ v1Router.get(
   routes.ADMIN_NOTIFICATION_LIST,
   ensureLoggedIn(),
   ensureRole(['admin']),
-  async (request, response) => {
+  asyncHandler(async (request, response) => {
     const pagination = makePagination(request.query, defaultPagination)
 
     return await getFailedNotificationDetails(pagination).match(
@@ -34,5 +35,5 @@ v1Router.get(
           .send('Impossible de charger la liste des notifications en erreur.')
       }
     )
-  }
+  })
 )

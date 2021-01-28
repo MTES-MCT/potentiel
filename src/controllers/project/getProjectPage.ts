@@ -5,12 +5,13 @@ import { getUserProject } from '../../useCases'
 import { ProjectDetailsPage } from '../../views/pages'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { v1Router } from '../v1Router'
+import asyncHandler from 'express-async-handler'
 
 v1Router.get(
   routes.PROJECT_DETAILS(),
   ensureLoggedIn(),
   ensureRole(['admin', 'dgec', 'dreal', 'porteur-projet']),
-  async (request, response) => {
+  asyncHandler(async (request, response) => {
     const { projectId } = request.params
 
     const project = await getUserProject({ user: request.user, projectId })
@@ -51,5 +52,5 @@ v1Router.get(
         projectInvitations,
       })
     )
-  }
+  })
 )

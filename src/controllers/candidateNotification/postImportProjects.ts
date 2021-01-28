@@ -8,6 +8,7 @@ import { importProjects } from '../../useCases'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
+import asyncHandler from 'express-async-handler'
 
 const parse = (file) =>
   new Promise<Array<Record<string, string>>>((resolve, reject) => {
@@ -39,7 +40,7 @@ v1Router.post(
   ensureLoggedIn(),
   ensureRole(['admin', 'dgec']),
   upload.single('candidats'),
-  async (request, response) => {
+  asyncHandler(async (request, response) => {
     if (!request.file || !request.file.path) {
       return response.redirect(
         addQueryParams(routes.IMPORT_PROJECTS, {
@@ -79,5 +80,5 @@ v1Router.post(
         )
       },
     })
-  }
+  })
 )

@@ -4,6 +4,7 @@ import { NewModificationRequestPage } from '../../views/pages'
 import routes from '../../routes'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { v1Router } from '../v1Router'
+import asyncHandler from 'express-async-handler'
 
 const ACTIONS = ['delai', 'actionnaire', 'puissance', 'producteur', 'abandon', 'recours']
 
@@ -11,7 +12,7 @@ v1Router.get(
   routes.DEMANDE_GENERIQUE,
   ensureLoggedIn(),
   ensureRole('porteur-projet'),
-  async (request, response) => {
+  asyncHandler(async (request, response) => {
     if (!request.query.projectId || !ACTIONS.includes(request.query.action)) {
       return response.redirect(routes.USER_DASHBOARD)
     }
@@ -30,5 +31,5 @@ v1Router.get(
             error: "Le projet demandé n'existe pas",
           })
         )
-  }
+  })
 )

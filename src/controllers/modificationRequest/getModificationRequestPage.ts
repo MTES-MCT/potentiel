@@ -5,12 +5,13 @@ import routes from '../../routes'
 import { ModificationRequestDetailsPage } from '../../views/pages'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { v1Router } from '../v1Router'
+import asyncHandler from 'express-async-handler'
 
 v1Router.get(
   routes.DEMANDE_PAGE_DETAILS(),
   ensureLoggedIn(),
   ensureRole(['admin', 'dgec', 'dreal', 'porteur-projet']),
-  async (request, response) => {
+  asyncHandler(async (request, response) => {
     const isAdmin = ['admin', 'dgec'].includes(request.user.role)
 
     const modificationRequestResult = await getModificationRequestDetails(
@@ -30,5 +31,5 @@ v1Router.get(
         )
       }
     )
-  }
+  })
 )

@@ -5,12 +5,13 @@ import { InfraNotAvailableError } from '../../modules/shared'
 import routes from '../../routes'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { v1Router } from '../v1Router'
+import asyncHandler from 'express-async-handler'
 
 v1Router.get(
   routes.DOWNLOAD_PROJECT_FILE(),
   ensureLoggedIn(),
   ensureRole(['admin', 'dgec', 'dreal', 'porteur-projet']),
-  async (request, response) => {
+  asyncHandler(async (request, response) => {
     const { fileId } = request.params
     const { user } = request
 
@@ -31,5 +32,5 @@ v1Router.get(
         }
       }
     )
-  }
+  })
 )

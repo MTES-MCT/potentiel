@@ -5,6 +5,7 @@ import { Pagination } from '../../types'
 import { InvitationListPage } from '../../views/pages'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { v1Router } from '../v1Router'
+import asyncHandler from 'express-async-handler'
 
 const defaultPagination: Pagination = {
   page: 0,
@@ -15,7 +16,7 @@ v1Router.get(
   routes.ADMIN_INVITATION_LIST,
   ensureLoggedIn(),
   ensureRole(['admin']),
-  async (request, response) => {
+  asyncHandler(async (request, response) => {
     const { appelOffreId, periodeId } = request.query
 
     const pagination = makePagination(request.query, defaultPagination)
@@ -35,5 +36,5 @@ v1Router.get(
     )
 
     return response.send(InvitationListPage({ request, invitations, appelsOffre }))
-  }
+  })
 )

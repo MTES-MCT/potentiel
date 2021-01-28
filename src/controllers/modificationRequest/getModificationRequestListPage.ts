@@ -6,8 +6,9 @@ import { Pagination } from '../../types'
 import { ModificationRequestListPage } from '../../views/pages'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { v1Router } from '../v1Router'
+import asyncHandler from 'express-async-handler'
 
-const getModificationRequestListPage = async (request, response) => {
+const getModificationRequestListPage = asyncHandler(async (request, response) => {
   const { user, cookies, query } = request
 
   const defaultPagination: Pagination = {
@@ -31,7 +32,7 @@ const getModificationRequestListPage = async (request, response) => {
         .send('Impossible de charger la liste des demandes. Merci de réessayer plus tard.')
     }
   )
-}
+})
 
 v1Router.get(
   routes.ADMIN_LIST_REQUESTS,

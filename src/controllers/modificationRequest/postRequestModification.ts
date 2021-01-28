@@ -8,6 +8,7 @@ import { requestModification, shouldUserAccessProject } from '../../useCases'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
+import asyncHandler from 'express-async-handler'
 
 const returnRoute = (type, projectId) => {
   let returnRoute: string
@@ -45,7 +46,7 @@ v1Router.post(
   ensureLoggedIn(),
   ensureRole('porteur-projet'),
   upload.single('file'),
-  async (request, response) => {
+  asyncHandler(async (request, response) => {
     if (!request.user) {
       return response.status(500).send('User must be logged in')
     }
@@ -159,5 +160,5 @@ v1Router.post(
         )
       },
     })
-  }
+  })
 )

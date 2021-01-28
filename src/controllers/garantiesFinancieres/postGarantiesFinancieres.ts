@@ -8,13 +8,14 @@ import { addGarantiesFinancieres } from '../../useCases'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
+import asyncHandler from 'express-async-handler'
 
 v1Router.post(
   routes.DEPOSER_GARANTIES_FINANCIERES_ACTION,
   ensureLoggedIn(),
   ensureRole(['admin', 'dgec', 'dreal', 'porteur-projet']),
   upload.single('file'),
-  async (request, response) => {
+  asyncHandler(async (request, response) => {
     const data: any = _.pick(request.body, ['gfDate', 'projectId'])
     const { projectId } = data
 
@@ -82,5 +83,5 @@ v1Router.post(
         )
       },
     })
-  }
+  })
 )

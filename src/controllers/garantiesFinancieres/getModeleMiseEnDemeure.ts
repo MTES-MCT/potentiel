@@ -10,12 +10,13 @@ import routes from '../../routes'
 import { getUserProject } from '../../useCases'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { v1Router } from '../v1Router'
+import asyncHandler from 'express-async-handler'
 
 v1Router.get(
   routes.TELECHARGER_MODELE_MISE_EN_DEMEURE(),
   ensureLoggedIn(),
   ensureRole('dreal'),
-  async (request, response) => {
+  asyncHandler(async (request, response) => {
     const { projectId } = request.params
 
     // Verify that the current user has the rights to check this out
@@ -90,5 +91,5 @@ v1Router.get(
     })
 
     return response.sendFile(path.resolve(process.cwd(), filepath))
-  }
+  })
 )
