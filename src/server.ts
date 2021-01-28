@@ -92,8 +92,6 @@ export async function makeServer(port: number, sessionSecret: string) {
       expiration: 24 * 60 * 60 * 1000, // 1 day
     })
 
-    store.sync()
-
     app.use(express.static('src/public'))
     app.use(
       session({
