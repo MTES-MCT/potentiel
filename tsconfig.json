@@ -23,6 +23,7 @@
     "features",
     "**/*.spec.ts",
     "**/*.integration.ts",
+    "**/*.stories.tsx",
     "src/__tests__/**/*",
     "cypress",
     "cypress/**/*",

@@ -1,10 +1,10 @@
 import React from 'react'
 import routes from '../../routes'
 import { User } from '../../entities'
-import { HttpRequest } from '../../types'
+import { Request } from 'express'
 
 interface HeaderProps {
-  request: HttpRequest
+  request: Request
 }
 
 const Header = ({ request }: HeaderProps) => {

@@ -3,11 +3,12 @@ import { AppelOffre, ProjectAdmissionKey } from '../../entities'
 import { formatDate } from '../../helpers/formatDate'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '../../routes'
-import { HttpRequest, PaginatedList } from '../../types'
+import { PaginatedList } from '../../types'
+import { Request } from 'express'
 import AdminDashboard from '../components/adminDashboard'
 import Pagination from '../components/pagination'
 interface InvitationListProps {
-  request: HttpRequest
+  request: Request
   invitations: PaginatedList<ProjectAdmissionKey>
   appelsOffre: Array<AppelOffre>
 }

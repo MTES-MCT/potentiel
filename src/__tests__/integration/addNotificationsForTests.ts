@@ -1,16 +1,13 @@
-import { Success, SystemError } from '../../helpers/responses'
-import { HttpRequest } from '../../types'
 import { logger } from '../../core/utils'
+import { testRouter } from './testRouter'
 
-const addNotificationsForTests = async (request: HttpRequest) => {
+testRouter.post('/test/addNotifications', async (request, response) => {
   const { notifications } = request.body
 
   if (!notifications) {
     logger.error('tests/addNotificationsForTests missing notifications')
-    return SystemError('tests/addNotificationsForTests missing notifications')
+    return response.status(500).send('tests/addNotificationsForTests missing notifications')
   }
 
-  return Success('success')
-}
-
-export { addNotificationsForTests }
+  return response.send('success')
+})

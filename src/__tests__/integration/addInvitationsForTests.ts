@@ -1,15 +1,14 @@
+import { logger } from '../../core/utils'
 import { projectAdmissionKeyRepo } from '../../dataAccess'
 import { makeProjectAdmissionKey } from '../../entities'
-import { Success, SystemError } from '../../helpers/responses'
-import { HttpRequest } from '../../types'
-import { logger } from '../../core/utils'
+import { testRouter } from './testRouter'
 
-const addInvitationsForTests = async (request: HttpRequest) => {
+testRouter.post('/test/addInvitations', async (request, response) => {
   const { invitations } = request.body
 
   if (!invitations) {
     logger.error('tests/addInvitationsForTests missing invitations')
-    return SystemError('tests/addInvitationsForTests missing invitations')
+    return response.status(500).send('tests/addInvitationsForTests missing invitations')
   }
 
   const builtInvitations = invitations
@@ -51,7 +50,5 @@ const addInvitationsForTests = async (request: HttpRequest) => {
 
   logger.info(`addInvitationsForTests inserted ${builtInvitations.length} invitations`)
 
-  return Success('success')
-}
-
-export { addInvitationsForTests }
+  return response.send('success')
+})

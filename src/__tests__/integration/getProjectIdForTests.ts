@@ -1,22 +1,19 @@
-import { projectRepo } from '../../dataAccess'
-import { Success, SystemError } from '../../helpers/responses'
-import { HttpRequest } from '../../types'
 import { logger } from '../../core/utils'
+import { projectRepo } from '../../dataAccess'
+import { testRouter } from './testRouter'
 
-const getProjectIdForTests = async (request: HttpRequest) => {
+testRouter.get('/test/getProjectId', async (request, response) => {
   const { nomProjet } = request.query
 
   if (!nomProjet) {
     logger.error('getProjectIdForTests missing nomProjet')
-    return SystemError('missing nomProjet')
+    return response.status(500).send('missing nomProjet')
   }
 
   const [project] = (await projectRepo.findAll({ nomProjet })).items
   if (!project) {
-    return SystemError('No project with this nomProjet')
+    return response.status(500).send('No project with this nomProjet')
   }
 
-  return Success(project.id)
-}
-
-export { getProjectIdForTests }
+  return response.send(project.id)
+})

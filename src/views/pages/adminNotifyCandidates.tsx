@@ -10,10 +10,11 @@ import ROUTES from '../../routes'
 import { dataId } from '../../helpers/testId'
 
 import ProjectList from '../components/projectList'
-import { HttpRequest, PaginatedList } from '../../types'
+import { PaginatedList } from '../../types'
+import { Request } from 'express'
 
 type AdminNotifyCandidatesProps = {
-  request: HttpRequest
+  request: Request
   results?: {
     projects: PaginatedList<Project>
     projectsInPeriodCount: number

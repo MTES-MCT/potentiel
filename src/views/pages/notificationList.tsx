@@ -3,11 +3,12 @@ import { formatDate } from '../../helpers/formatDate'
 import { dataId } from '../../helpers/testId'
 import { FailedNotificationDTO } from '../../modules/notification'
 import ROUTES from '../../routes'
-import { HttpRequest, PaginatedList } from '../../types'
+import { PaginatedList } from '../../types'
+import { Request } from 'express'
 import AdminDashboard from '../components/adminDashboard'
 import Pagination from '../components/pagination'
 interface NotificationListProps {
-  request: HttpRequest
+  request: Request
   notifications: PaginatedList<FailedNotificationDTO>
 }
 

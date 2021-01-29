@@ -1,11 +1,11 @@
 import React from 'react'
 
 import { dataId } from '../../helpers/testId'
-import { HttpRequest } from '../../types'
+import { Request } from 'express'
 import routes from '../../routes'
 
 interface Props {
-  request: HttpRequest
+  request: Request
 }
 
 /* Pure component */
