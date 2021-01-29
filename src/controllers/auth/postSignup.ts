@@ -44,17 +44,21 @@ v1Router.post(
         }
 
         // Auto-log the user in
-        await promisify(request.login)(user)
+        request.login(user, (err) => {
+          if (err) {
+            logger.error(err)
+          }
 
-        return response.redirect(
-          addQueryParams(
-            user.role === 'dreal' ? routes.GARANTIES_FINANCIERES_LIST : routes.USER_DASHBOARD,
-            {
-              success:
-                'Votre compte a bien été créé, vous pouvez vous à présent gérer vos projets ci-dessous.',
-            }
+          response.redirect(
+            addQueryParams(
+              user.role === 'dreal' ? routes.GARANTIES_FINANCIERES_LIST : routes.USER_DASHBOARD,
+              {
+                success:
+                  'Votre compte a bien été créé, vous pouvez vous à présent gérer vos projets ci-dessous.',
+              }
+            )
           )
-        )
+        })
       },
       err: async (e: Error) => {
         logger.error(e)
