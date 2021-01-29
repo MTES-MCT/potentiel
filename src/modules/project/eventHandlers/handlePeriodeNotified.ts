@@ -22,23 +22,21 @@ export const handlePeriodeNotified = (deps: {
 
   const unnotifiedProjectIds = unnotifiedProjectIdsResult.value
 
-  await Promise.all(
-    unnotifiedProjectIds.map((unnotifiedProjectId) => {
-      return projectRepo
-        .transaction(new UniqueEntityID(unnotifiedProjectId.projectId), (project) => {
-          return project.notify(notifiedOn).map((): boolean => project.shouldCertificateBeGenerated)
-        })
-        .andThen((shouldCertificateBeGenerated) => {
-          return shouldCertificateBeGenerated
-            ? generateCertificate(unnotifiedProjectId.projectId).map(() => null)
-            : okAsync<null, never>(null)
-        })
-        .match(
-          () => {},
-          (e: Error) => {
-            logger.error(e)
-          }
-        )
-    })
-  )
+  for (const unnotifiedProjectId of unnotifiedProjectIds) {
+    await projectRepo
+      .transaction(new UniqueEntityID(unnotifiedProjectId.projectId), (project) => {
+        return project.notify(notifiedOn).map((): boolean => project.shouldCertificateBeGenerated)
+      })
+      .andThen((shouldCertificateBeGenerated) => {
+        return shouldCertificateBeGenerated
+          ? generateCertificate(unnotifiedProjectId.projectId).map(() => null)
+          : okAsync<null, never>(null)
+      })
+      .match(
+        () => {},
+        (e: Error) => {
+          logger.error(e)
+        }
+      )
+  }
 }
