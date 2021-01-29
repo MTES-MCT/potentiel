@@ -1,11 +1,11 @@
-import { HttpRequest } from '../../types'
+import { Request } from 'express'
 import makeFakeUser from './user'
 import { User } from '../../entities'
 
 export default function makeFakeRequest(
-  overrides?: Partial<HttpRequest>,
+  overrides?: Partial<Request>,
   userOverrides?: Partial<User>
-): HttpRequest {
+) {
   const defaultObj = {
     body: {},
     query: {},

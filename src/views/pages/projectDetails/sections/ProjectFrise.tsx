@@ -4,7 +4,7 @@ import { formatDate } from '../../../../helpers/formatDate'
 import { DCRForm, Frise, FriseItem, GarantiesFinancieresForm } from '../components'
 import ROUTES from '../../../../routes'
 import moment from 'moment'
-import { HttpRequest } from '../../../../types'
+import { Request } from 'express'
 
 interface ProjectFriseProps {
   project: Project

@@ -5,7 +5,7 @@ import { dataId } from '../../../../helpers/testId'
 import ROUTES from '../../../../routes'
 
 import { appelsOffreStatic } from '../../../../dataAccess/inMemory/appelOffre'
-import { HttpRequest } from '../../../../types'
+import { Request } from 'express'
 
 interface EditProjectDataProps {
   project: Project
