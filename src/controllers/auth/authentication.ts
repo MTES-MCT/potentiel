@@ -37,12 +37,6 @@ const registerAuth = ({ app }: RegisterAuthProps) => {
     done(null, userResult.unwrap())
   })
 
-  //
-  // Initialize authentication state from session, if any
-  //
-  app.use(passport.initialize())
-  app.use(passport.session())
-
   passport.use(
     new Strategy(
       {
@@ -67,6 +61,12 @@ const registerAuth = ({ app }: RegisterAuthProps) => {
       }
     )
   )
+
+  //
+  // Initialize authentication state from session, if any
+  //
+  app.use(passport.initialize())
+  app.use(passport.session())
 
   v1Router.post(routes.LOGIN_ACTION, postLogin())
   v1Router.get(routes.LOGOUT_ACTION, logoutMiddleware, (req, res) => {

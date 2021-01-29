@@ -30,16 +30,6 @@ export async function makeServer(port: number, sessionSecret: string) {
     })
 
     app.use(
-      session({
-        secret: sessionSecret,
-        store,
-        resave: false,
-        proxy: true,
-        saveUninitialized: false,
-      })
-    )
-
-    app.use(
       bodyParser.urlencoded({
         extended: false,
         limit: FILE_SIZE_LIMIT_MB + 'mb',
@@ -48,6 +38,16 @@ export async function makeServer(port: number, sessionSecret: string) {
     app.use(bodyParser.json({ limit: FILE_SIZE_LIMIT_MB + 'mb' }))
 
     app.use(cookieParser())
+
+    app.use(
+      session({
+        secret: sessionSecret,
+        store,
+        resave: false,
+        proxy: true,
+        saveUninitialized: false,
+      })
+    )
 
     registerAuth({
       app,
