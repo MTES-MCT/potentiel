@@ -1,10 +1,9 @@
 import { resetDatabase } from '../../dataAccess'
-import { Success } from '../../helpers/responses'
 import { resetSentEmails } from '../../infra/mail/fakeEmailService'
-import { HttpRequest } from '../../types'
 import { createUser } from './helpers/createUser'
+import { testRouter } from './testRouter'
 
-const resetDbForTests = async (request: HttpRequest) => {
+testRouter.get('/test/reset', async (request, response) => {
   // Erase everything from the database
   await resetDatabase()
 
@@ -35,7 +34,5 @@ const resetDbForTests = async (request: HttpRequest) => {
     role: 'porteur-projet',
   })
 
-  return Success('success')
-}
-
-export { resetDbForTests }
+  return response.send('success')
+})

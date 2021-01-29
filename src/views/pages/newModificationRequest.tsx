@@ -6,7 +6,7 @@ import ROUTES from '../../routes'
 import { dataId } from '../../helpers/testId'
 
 import UserDashboard from '../components/userDashboard'
-import { HttpRequest } from '../../types'
+import { Request } from 'express'
 
 import { formatDate } from '../../helpers/formatDate'
 
@@ -16,7 +16,7 @@ import moment from 'moment'
 moment.locale('fr')
 
 interface PageProps {
-  request: HttpRequest
+  request: Request
   project: Project
 }
 

@@ -17,11 +17,11 @@ import ROUTES from '../../routes'
 import { dataId } from '../../helpers/testId'
 
 import ProjectList from '../components/projectList'
-import { HttpRequest } from '../../types'
+import { Request } from 'express'
 import projectAdmissionKey from '../../entities/projectAdmissionKey'
 
 interface DREALListProps {
-  request: HttpRequest
+  request: Request
   users: Array<{ user: User; dreals: Array<DREAL> }>
   invitations: Array<ProjectAdmissionKey>
 }

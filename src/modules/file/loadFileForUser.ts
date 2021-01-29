@@ -27,7 +27,12 @@ export const makeLoadFileForUser = (deps: LoadFileForUserDeps): LoadFileForUser 
   return deps
     .getFileProject(fileId)
     .andThen(
-      (projectId): ResultAsync<boolean, FileAccessDeniedError | InfraNotAvailableError> => {
+      (
+        projectId
+      ): ResultAsync<
+        boolean,
+        FileAccessDeniedError | InfraNotAvailableError | FileNotFoundError
+      > => {
         if (!projectId) {
           if (['admin', 'dgec'].includes(user.role)) {
             return okAsync(true)

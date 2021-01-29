@@ -1,16 +1,15 @@
-import { makeProjectAdmissionKey } from '../../entities'
-import { Success, SystemError } from '../../helpers/responses'
-import { HttpRequest } from '../../types'
-import ROUTES from '../../routes'
-import { projectAdmissionKeyRepo } from '../../dataAccess'
 import { logger } from '../../core/utils'
+import { projectAdmissionKeyRepo } from '../../dataAccess'
+import { makeProjectAdmissionKey } from '../../entities'
+import ROUTES from '../../routes'
+import { testRouter } from './testRouter'
 
-const createInvitationForTests = async (request: HttpRequest) => {
+testRouter.post('/test/createInvitation', async (request, response) => {
   const { email } = request.body
 
   if (!email) {
     logger.error('createInvitationForTests missing email')
-    return SystemError('missing email')
+    return response.status(500).send('missing email')
   }
 
   const projectAdmissionKeyResult = makeProjectAdmissionKey({
@@ -22,14 +21,12 @@ const createInvitationForTests = async (request: HttpRequest) => {
     logger.error(
       `createInvitationForTests: error when calling makeProjectAdmissionKey with' ${email}`
     )
-    return SystemError('Impossible de créer le projectAdmissionKey')
+    return response.status(500).send('Impossible de créer le projectAdmissionKey')
   }
 
   const projectAdmissionKey = projectAdmissionKeyResult.unwrap()
 
   await projectAdmissionKeyRepo.save(projectAdmissionKey)
 
-  return Success(ROUTES.PROJECT_INVITATION({ projectAdmissionKey: projectAdmissionKey.id }))
-}
-
-export { createInvitationForTests }
+  return response.send(ROUTES.PROJECT_INVITATION({ projectAdmissionKey: projectAdmissionKey.id }))
+})

@@ -22,7 +22,7 @@ import InvitationList from './invitationList'
 import NotificationList from './notificationList'
 import ModificationRequestList from './modificationRequestList'
 import Statistiques from './statistiques'
-import { HttpRequest } from '../../types'
+import { Request } from 'express'
 
 const LoginPage = makePresenterPage(Login)
 const AdminNotifyCandidatesPage = makePresenterPage(AdminNotifyCandidates)
@@ -61,7 +61,7 @@ export {
 }
 
 interface HasRequest {
-  request: HttpRequest
+  request: Request
 }
 
 /**

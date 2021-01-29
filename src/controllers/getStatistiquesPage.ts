@@ -1,19 +1,26 @@
 import { getStats } from '../config'
-import { Success, SystemError } from '../helpers/responses'
-import { HttpRequest } from '../types'
+import { logger } from '../core/utils'
+import routes from '../routes'
 import { StatistiquesPage } from '../views/pages'
+import { v1Router } from './v1Router'
+import asyncHandler from 'express-async-handler'
 
-const getStatistiquesPage = async (request: HttpRequest) => {
-  const statsResult = await getStats()
-
-  if (statsResult.isErr())
-    return SystemError('Les statistiques ne sont pas disponibles pour le moment.')
-
-  return Success(
-    StatistiquesPage({
-      request,
-      ...statsResult.value,
-    })
-  )
-}
-export { getStatistiquesPage }
+v1Router.get(
+  routes.STATS,
+  asyncHandler(async (request, response) => {
+    await getStats().match(
+      (stats) => {
+        response.send(
+          StatistiquesPage({
+            request,
+            ...stats,
+          })
+        )
+      },
+      (e) => {
+        logger.error(e)
+        response.status(500).send('Les statistiques ne sont pas disponibles pour le moment.')
+      }
+    )
+  })
+)

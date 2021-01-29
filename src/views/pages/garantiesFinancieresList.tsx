@@ -3,11 +3,11 @@ import { formatDate } from '../../helpers/formatDate'
 import { dataId } from '../../helpers/testId'
 import { GarantiesFinancieresListDTO } from '../../modules/project/dtos/GarantiesFinancieresList'
 import ROUTES from '../../routes'
-import { HttpRequest } from '../../types'
+import { Request } from 'express'
 import AdminDashboard from '../components/adminDashboard'
 
 interface DREALListProps {
-  request: HttpRequest
+  request: Request
   garantiesFinancieres: GarantiesFinancieresListDTO
 }
 

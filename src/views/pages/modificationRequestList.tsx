@@ -1,13 +1,14 @@
 import React from 'react'
 import { dataId } from '../../helpers/testId'
 import { ModificationRequestListItemDTO } from '../../modules/modificationRequest'
-import { HttpRequest, PaginatedList } from '../../types'
+import { PaginatedList } from '../../types'
+import { Request } from 'express'
 import AdminDashboard from '../components/adminDashboard'
 import RequestList from '../components/requestList'
 import UserDashboard from '../components/userDashboard'
 
 interface ModificationRequestListProps {
-  request: HttpRequest
+  request: Request
   modificationRequests?: PaginatedList<ModificationRequestListItemDTO>
 }
 

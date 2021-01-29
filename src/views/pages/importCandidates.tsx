@@ -1,11 +1,11 @@
 import React from 'react'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '../../routes'
-import { HttpRequest } from '../../types'
+import { Request } from 'express'
 import AdminDashboard from '../components/adminDashboard'
 
 interface AdminListProjectsProps {
-  request: HttpRequest
+  request: Request
 }
 
 /* Pure component */

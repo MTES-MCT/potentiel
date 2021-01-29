@@ -1,14 +1,13 @@
-import { Success, SystemError } from '../../helpers/responses'
-import { HttpRequest } from '../../types'
-import { createUser } from './helpers/createUser'
 import { logger } from '../../core/utils'
+import { createUser } from './helpers/createUser'
+import { testRouter } from './testRouter'
 
-const createUserWithEmailForTests = async (request: HttpRequest) => {
+testRouter.post('/test/createUserWithEmail', async (request, response) => {
   const { email } = request.body
 
   if (!email) {
     logger.error('createUserWithEmailForTests missing email')
-    return SystemError('missing email')
+    return response.status(500).send('missing email')
   }
 
   // Create a test porteur projet
@@ -19,7 +18,5 @@ const createUserWithEmailForTests = async (request: HttpRequest) => {
     role: 'porteur-projet',
   })
 
-  return Success(userId || '')
-}
-
-export { createUserWithEmailForTests }
+  return response.send(userId || '')
+})

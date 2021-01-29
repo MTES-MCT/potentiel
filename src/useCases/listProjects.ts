@@ -20,7 +20,7 @@ interface MakeUseCaseProps {
   findDrealsForUser: UserRepo['findDrealsForUser']
 }
 
-interface CallUseCaseProps {
+interface ListProjectsDeps {
   user: User
   appelOffreId?: AppelOffre['id']
   periodeId?: Periode['id']
@@ -31,7 +31,7 @@ interface CallUseCaseProps {
   garantiesFinancieres?: 'submitted' | 'notSubmitted' | 'pastDue'
 }
 
-interface UseCaseReturnType {
+interface ListProjectsResult {
   projects: PaginatedList<Project>
   existingAppelsOffres: Array<AppelOffre['id']>
   existingPeriodes?: Array<Periode['id']>
@@ -59,7 +59,7 @@ export default function makeListProjects({
     recherche,
     classement,
     garantiesFinancieres,
-  }: CallUseCaseProps): Promise<UseCaseReturnType> {
+  }: ListProjectsDeps): Promise<ListProjectsResult> {
     const query: ProjectFilters = {
       isNotified: true,
     }
@@ -136,6 +136,6 @@ export default function makeListProjects({
       )
     }
 
-    return result as UseCaseReturnType
+    return result as ListProjectsResult
   }
 }

@@ -10,10 +10,11 @@ import { asLiteral } from '../../helpers/asLiteral'
 
 import ProjectList from '../components/projectList'
 import { adminActions, porteurProjetActions } from '../components/actions'
-import { HttpRequest, PaginatedList } from '../../types'
+import { PaginatedList } from '../../types'
+import { Request } from 'express'
 
 interface ListProjectsProps {
-  request: HttpRequest
+  request: Request
   projects?: PaginatedList<Project>
   appelsOffre: Array<AppelOffre>
   existingAppelsOffres: Array<AppelOffre['id']>
