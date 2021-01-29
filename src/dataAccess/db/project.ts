@@ -574,7 +574,11 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
     const projects = await ProjectModel.findAll({
       where: {
         id: { [Op.in]: projectIds },
-        [Op.any]: sequelizeInstance.literal(`_search @@ to_tsquery('simple', '${termsFormatted}')`),
+        [Op.any]: sequelizeInstance.literal(
+          `_search @@ to_tsquery('simple', quote_literal(${sequelizeInstance.escape(
+            termsFormatted
+          )}))`
+        ),
       },
     })
 
@@ -657,7 +661,9 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
         [Op.and]: [
           {
             [Op.any]: sequelizeInstance.literal(
-              `_search @@ to_tsquery('simple', '${termsFormatted}')`
+              `_search @@ to_tsquery('simple', quote_literal(${sequelizeInstance.escape(
+                termsFormatted
+              )}))`
             ),
             regionProjet: { [Op.iRegexp]: formattedRegions },
           },
@@ -742,8 +748,11 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
         .split(' ')
         .reduce((acc, currTerm) => `${acc} ${currTerm}:* |`, '')
         .slice(0, -1)
+
       opts.where[Op.any] = sequelizeInstance.literal(
-        `_search @@ to_tsquery('simple', '${termsFormatted}')`
+        `_search @@ to_tsquery('simple', quote_literal(${sequelizeInstance.escape(
+          termsFormatted
+        )}))`
       )
 
       return _findAndBuildProjectList(opts, pagination)
