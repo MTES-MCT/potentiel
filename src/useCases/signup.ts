@@ -51,7 +51,7 @@ export default function makeSignup({
     const projectAdmissionKeyResult = await projectAdmissionKeyRepo.findById(projectAdmissionKey)
 
     if (projectAdmissionKeyResult.is_none()) {
-      logger.error(`signup use-case: projectAdmissionKey was not found : ${projectAdmissionKey}`)
+      logger.warning(`signup use-case: projectAdmissionKey was not found : ${projectAdmissionKey}`)
       return ErrorResult(MISSING_ADMISSION_KEY_ERROR)
     }
 
@@ -77,7 +77,7 @@ export default function makeSignup({
       projectAdmissionKey: projectAdmissionKeyInstance.id,
     })
     if (userResult.is_err()) {
-      logger.error(userResult.unwrap_err())
+      logger.info(userResult.unwrap_err())
       return ErrorResult(USER_INFO_ERROR)
     }
     const user = userResult.unwrap()
@@ -92,7 +92,6 @@ export default function makeSignup({
 
     if (credentialsResult.is_err()) {
       logger.error(credentialsResult.unwrap_err())
-      logger.info('signup use-case: makeCredentials est en erreur', credentialsData)
       return ErrorResult(SYSTEM_ERROR)
     }
 
@@ -103,7 +102,6 @@ export default function makeSignup({
 
     if (userInsertion.is_err()) {
       logger.error(userInsertion.unwrap_err())
-      logger.info('signup use-case: userRepo.insert est en erreur', user)
       return ErrorResult(SYSTEM_ERROR)
     }
 
@@ -111,7 +109,6 @@ export default function makeSignup({
 
     if (credentialsInsertion.is_err()) {
       logger.error(credentialsInsertion.unwrap_err())
-      logger.info('signup use-case: credentialsRepo.insert est en erreur', credentials)
 
       // Rollback: Remove the user from the database
       await userRepo.remove(user.id)
@@ -126,7 +123,7 @@ export default function makeSignup({
     )
 
     if (projectAdmissionKeyUpdateRes.is_err()) {
-      logger.error('signup use-case: impossible de mettre à jour projectAdmissionKey')
+      logger.error(projectAdmissionKeyUpdateRes.unwrap_err())
     }
 
     if (projectAdmissionKeyInstance.dreal) {
