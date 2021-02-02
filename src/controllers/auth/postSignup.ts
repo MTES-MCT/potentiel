@@ -1,9 +1,9 @@
-import { promisify } from 'util'
 import { logger } from '../../core/utils'
 import { User } from '../../entities'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import routes from '../../routes'
 import { signup } from '../../useCases'
+import { SYSTEM_ERROR } from '../../useCases/signup'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
 
@@ -61,7 +61,7 @@ v1Router.post(
         })
       },
       err: async (e: Error) => {
-        logger.error(e)
+        if (e.message === SYSTEM_ERROR) logger.error(e)
         return response.redirect(
           addQueryParams(routes.SIGNUP, {
             ...nonSecretUserInfo,

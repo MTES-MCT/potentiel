@@ -47,7 +47,7 @@ const registerAuth = ({ app }: RegisterAuthProps) => {
         login({ email: username, password })
           .then((userResult) => {
             if (userResult.is_err()) {
-              logger.warning(userResult.unwrap_err().toString())
+              logger.info(userResult.unwrap_err().toString())
               return done(null, false)
             }
 
