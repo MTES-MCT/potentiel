@@ -193,6 +193,11 @@ class routes {
       return route.replace(':projectId', projectId)
     } else return route
   }
+
+  static REVOKE_USER_RIGHTS_TO_PROJECT_ACTION = withParams<{
+    projectId: string
+    userId: string
+  }>('/retirer-droits')
 }
 
 export default routes

@@ -71,9 +71,23 @@ export default function ProjectDetails({
             <div>
               <h5 style={{ marginBottom: 5, marginTop: 15 }}>Comptes ayant accès à ce projet</h5>
               <ul style={{ marginTop: 5, marginBottom: 5 }}>
-                {projectUsers.map((user) => (
-                  <li key={'project_user_' + user.id}>
-                    {user.fullName} - {user.email}
+                {projectUsers.map(({ id, fullName, email }) => (
+                  <li key={'project_user_' + id}>
+                    {fullName} - {email}
+                    {id !== user.id ? (
+                      <a
+                        href={ROUTES.REVOKE_USER_RIGHTS_TO_PROJECT_ACTION({
+                          projectId: project.id,
+                          userId: id,
+                        })}
+                        style={{ marginLeft: 5 }}
+                        data-confirm={`Etes-vous sur de vouloir retirer les droits à ce projet à ${fullName} ?`}
+                      >
+                        retirer
+                      </a>
+                    ) : (
+                      ''
+                    )}
                   </li>
                 ))}
                 {projectInvitations.map(({ id, email }) => (
@@ -95,7 +109,7 @@ export default function ProjectDetails({
                 ))}
                 {!projectUsers.length && !projectInvitations.length ? (
                   <>
-                    <li>Aucun utilisateur n'a accès à ce projet pour le moment.</li>
+                    <li>Aucun utilisateur n‘a accès à ce projet pour le moment.</li>
                   </>
                 ) : (
                   ''
