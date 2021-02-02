@@ -29,10 +29,12 @@ v1Router.get(
         projectAdmissionKeyRepo.findAll({
           // invitations for this specific project
           projectId: project.id,
+          lastUsedAt: 0,
         }),
         projectAdmissionKeyRepo.findAll({
           // invitations for the email associated with this project
           email: project.email,
+          lastUsedAt: 0,
         }),
       ]).then(([projectSpecificInvitations, emailSpecificInvitations]) => {
         // only keep one invitation per email

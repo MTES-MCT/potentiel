@@ -1,4 +1,4 @@
-import { BaseShouldUserAccessProject } from '../modules/authorization'
+import { BaseShouldUserAccessProject, makeRevokeRightsToProject } from '../modules/authorization'
 import { makeLoadFileForUser } from '../modules/file'
 import { makeCorrectProjectData, makeGenerateCertificate } from '../modules/project/useCases'
 import { buildCertificate } from '../views/certificates'
@@ -10,6 +10,7 @@ import {
   modificationRequestRepo,
 } from './repos.config'
 import { getFileProject } from './queries.config'
+import { eventStore } from './eventStore.config'
 import { makeAcceptModificationRequest } from '../modules/modificationRequest'
 
 export const shouldUserAccessProject = new BaseShouldUserAccessProject(
@@ -39,4 +40,9 @@ export const acceptModificationRequest = makeAcceptModificationRequest({
   fileRepo,
   projectRepo,
   modificationRequestRepo,
+})
+
+export const revokeUserRightsToProject = makeRevokeRightsToProject({
+  eventBus: eventStore,
+  shouldUserAccessProject: shouldUserAccessProject.check,
 })
