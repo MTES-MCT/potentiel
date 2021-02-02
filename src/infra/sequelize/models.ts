@@ -5,6 +5,7 @@ import { MakeFileModel } from './projections/file/file.model'
 import { MakeNotificationModel } from './projections/notification/notification.model'
 import { MakeEventStoreModel } from './eventStore/eventStore.model'
 import { MakeUserModel } from './projections/user/user.model'
+import { MakeUserProjectsModel } from './projections/userProjects/userProjects.model'
 import { MakeModificationRequestModel } from './projections/modificationRequest/modificationRequest.model'
 
 const models = {
@@ -14,6 +15,7 @@ const models = {
   EventStore: MakeEventStoreModel(sequelizeInstance),
   ModificationRequest: MakeModificationRequestModel(sequelizeInstance),
   User: MakeUserModel(sequelizeInstance),
+  UserProjects: MakeUserProjectsModel(sequelizeInstance),
 }
 
 // Create associations
