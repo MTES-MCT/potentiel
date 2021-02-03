@@ -37,6 +37,11 @@ export const MakeProjectAdmissionKeyModel = (sequelize) => {
         allowNull: false,
         defaultValue: 0,
       },
+      cancelled: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+      },
     },
     {
       timestamps: true,
