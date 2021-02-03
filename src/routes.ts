@@ -198,6 +198,11 @@ class routes {
     projectId: string
     userId: string
   }>('/retirer-droits')
+
+  static CANCEL_INVITATION_TO_PROJECT_ACTION = withParams<{
+    projectAdmissionKeyId: string
+    projectId: string
+  }>('/annuler-invitation')
 }
 
 export default routes

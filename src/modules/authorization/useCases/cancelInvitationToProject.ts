@@ -2,7 +2,7 @@ import { errAsync } from 'neverthrow'
 import { logger, ResultAsync } from '../../../core/utils'
 import { User } from '../../../entities'
 import { EventBus } from '../../eventStore'
-import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
+import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { InvitationToProjectCancelled } from '../events'
 import { GetProjectIdForAdmissionKey } from '../queries'
 
@@ -22,7 +22,7 @@ export const makeCancelInvitationToProject = (deps: CancelInvitationToProjectDep
   cancelledBy,
 }: CancelInvitationToProjectArgs): ResultAsync<
   null,
-  InfraNotAvailableError | UnauthorizedError
+  InfraNotAvailableError | UnauthorizedError | EntityNotFoundError
 > => {
   return deps
     .getProjectIdForAdmissionKey(projectAdmissionKeyId)

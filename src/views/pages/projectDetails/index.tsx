@@ -105,6 +105,20 @@ export default function ProjectDetails({
                       <i>invitation envoyée</i>
                     )}
                     )
+                    {email !== project.email ? (
+                      <a
+                        href={ROUTES.CANCEL_INVITATION_TO_PROJECT_ACTION({
+                          projectAdmissionKeyId: id,
+                          projectId: project.id,
+                        })}
+                        style={{ marginLeft: 5 }}
+                        data-confirm={`Etes-vous sur de vouloir annuler l‘invitation à ${email} ?`}
+                      >
+                        annuler
+                      </a>
+                    ) : (
+                      ''
+                    )}
                   </li>
                 ))}
                 {!projectUsers.length && !projectInvitations.length ? (
