@@ -93,7 +93,7 @@ const registerAuth = ({ app }: RegisterAuthProps) => {
 const postLogin = () => {
   return passport.authenticate('local', {
     successReturnToOrRedirect: routes.REDIRECT_BASED_ON_ROLE,
-    failureRedirect: routes.LOGIN + '?error=1',
+    failureRedirect: `${routes.LOGIN}?error=Identifiant ou mot de passe erroné.`,
   })
 }
 

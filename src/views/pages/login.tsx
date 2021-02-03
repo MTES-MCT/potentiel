@@ -16,10 +16,10 @@ export default function LoginPage({ request }: Props) {
       <section className="section section-grey">
         <div className="container">
           <form action={routes.LOGIN_ACTION} method="post" name="form">
-            <h3 id="login">Je m'identifie</h3>
-            {!!error ? (
+            <h3 id="login">Je m‘identifie</h3>
+            {error ? (
               <div className="notification error" {...dataId('error-message')}>
-                Identifiant ou mot de passe erroné.
+                {error}
               </div>
             ) : (
               ''

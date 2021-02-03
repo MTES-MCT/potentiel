@@ -37,15 +37,12 @@ v1Router.get(
       // User is already logged in with a different email
       // Log him out
       request.logout()
-    } else {
-      const existingCredentialsForEmail = await credentialsRepo.findByEmail(
-        projectAdmissionKey.email
-      )
+    }
 
-      if (existingCredentialsForEmail.is_some()) {
-        // User is not logged in but account exists with this email, redirect to login
-        return response.redirect(addQueryParams(routes.LOGIN, { email: projectAdmissionKey.email }))
-      }
+    if (projectAdmissionKey.lastUsedAt || projectAdmissionKey.cancelled) {
+      return response.redirect(
+        addQueryParams(routes.LOGIN, { error: 'Cette invitation n‘est plus valide.' })
+      )
     }
 
     // Display the signup page
