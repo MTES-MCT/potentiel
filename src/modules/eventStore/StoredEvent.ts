@@ -35,7 +35,7 @@ import {
   ModificationRequestInstructionStarted,
   ResponseTemplateDownloaded,
 } from '../modificationRequest/events'
-import { UserRightsToProjectRevoked } from '../authorization'
+import { UserRightsToProjectRevoked, InvitationToProjectCancelled } from '../authorization'
 
 export type StoredEvent =
   | ProjectNotified
@@ -72,3 +72,4 @@ export type StoredEvent =
   | ModificationRequestInstructionStarted
   | ResponseTemplateDownloaded
   | UserRightsToProjectRevoked
+  | InvitationToProjectCancelled
