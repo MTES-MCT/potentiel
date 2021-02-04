@@ -26,6 +26,7 @@ const deserialize = (item) => ({
   periodeId: item.periodeId || undefined,
   dreal: item.dreal || undefined,
   lastUsedAt: item.lastUsedAt || undefined,
+  cancelled: item.cancelled || false,
   createdAt: item.createdAt.getTime(),
 })
 const serialize = (item) => item
@@ -66,6 +67,11 @@ export default function makeProjectAdmissionKeyRepo({
       type: DataTypes.BIGINT,
       allowNull: false,
       defaultValue: 0,
+    },
+    cancelled: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: false,
     },
   })
 

@@ -25,6 +25,7 @@ export const SYSTEM_ERROR = 'Votre compte ne peut pas être créé, merci de ré
 export const EMAIL_USED_ERROR = 'Email déjà utilisé pour un autre compte'
 export const PASSWORD_INVALID_ERROR = "Le mot de passe n'est pas suffisant"
 export const USER_INFO_ERROR = 'Nom manquant'
+export const INVALID_ADMISSION_KEY_ERROR = 'Cette invitation n‘est plus valide.'
 export const MISSING_ADMISSION_KEY_ERROR =
   'Vous ne pouvez vous inscrire que suite à une invitation reçue par mail.'
 
@@ -56,6 +57,11 @@ export default function makeSignup({
     }
 
     const projectAdmissionKeyInstance = projectAdmissionKeyResult.unwrap()
+
+    if (projectAdmissionKeyInstance.lastUsedAt || projectAdmissionKeyInstance.cancelled) {
+      return ErrorResult(INVALID_ADMISSION_KEY_ERROR)
+    }
+
     // If it's a dreal that has been invited, use the email coming from the props
     // Else use the email locaited in the projectAdmissionKey
     const emailToBeUsed = (projectAdmissionKeyInstance.dreal

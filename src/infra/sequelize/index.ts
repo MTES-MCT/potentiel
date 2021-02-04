@@ -5,6 +5,7 @@ import {
   initModificationRequestProjections,
   initProjectProjections,
   initUserProjectsProjections,
+  initAdmissionKeyProjections,
 } from './projections'
 
 export const sequelizeEventStore = new SequelizeEventStore(models)
@@ -13,4 +14,5 @@ export const initProjections = (eventStore: EventStore) => {
   initProjectProjections(eventStore, models)
   initModificationRequestProjections(eventStore, models)
   initUserProjectsProjections(eventStore, models)
+  initAdmissionKeyProjections(eventStore, models)
 }
