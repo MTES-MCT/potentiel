@@ -8,15 +8,15 @@ const uploadWithMulter = multer({
   limits: { fileSize: FILE_SIZE_LIMIT_MB * 1024 * 1024 /* MB */ },
 })
 
-// export const upload = uploadWithMulter
-
 export const upload = {
   single: (filename: string) => (req, res, next) => {
     res.on('finish', async () => {
-      try {
-        await fs.unlink(req.file.path)
-      } catch (error) {
-        logger.error(error)
+      if (req.file) {
+        try {
+          await fs.unlink(req.file.path)
+        } catch (error) {
+          logger.error(error)
+        }
       }
     })
 
