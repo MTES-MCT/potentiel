@@ -73,6 +73,13 @@ const eolien: AppelOffre = {
       certificateTemplate: 'v1',
       noteThresholdByFamily: [{ familleId: '', noteThreshold: 10.19 }],
     },
+    {
+      id: '7',
+      title: 'septième',
+      isNotifiedOnPotentiel: true,
+      certificateTemplate: 'v1',
+      noteThresholdByFamily: [{ familleId: '', noteThreshold: 13 }],
+    },
   ],
   familles: [],
 }
