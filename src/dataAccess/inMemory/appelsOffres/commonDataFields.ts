@@ -67,4 +67,26 @@ const commonDataFields = [
   { field: 'notifiedOn', type: toTypeLiteral('date'), column: 'Notification' },
 ]
 
-export { commonDataFields }
+const additionalFields = [
+  {
+    field: 'appelOffreId',
+    column: "Appel d'offres",
+  },
+  { field: 'periodeId', column: 'Période' },
+  {
+    field: 'evaluationCarbone',
+    column:
+      'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)',
+  },
+  {
+    field: 'familleId',
+    column: 'Famille',
+  },
+  {
+    field: 'departementProjet',
+    column: 'Département',
+  },
+  { field: 'regionProjet', column: 'Région' },
+]
+
+export { commonDataFields, additionalFields }
