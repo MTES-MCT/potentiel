@@ -1,5 +1,5 @@
 import isEmail from 'isemail'
-import { String, Number, Record, Static, Partial } from '../types/schemaTypes'
+import { String, Number, Record, Static, Partial, Boolean } from '../types/schemaTypes'
 import buildMakeEntity from '../helpers/buildMakeEntity'
 
 const baseProjectAdmissionKeySchema = Record({
@@ -16,6 +16,7 @@ const projectAdmissionKeySchema = baseProjectAdmissionKeySchema.And(
     dreal: String,
     createdAt: Number,
     lastUsedAt: Number,
+    cancelled: Boolean,
   })
 )
 
@@ -26,6 +27,7 @@ const fields: string[] = [
   'dreal',
   'createdAt',
   'lastUsedAt',
+  'cancelled',
   ...Object.keys(baseProjectAdmissionKeySchema.fields),
 ]
 
@@ -38,6 +40,7 @@ interface MakeProjectAdmissionKeyDependencies {
 export default ({ makeId }: MakeProjectAdmissionKeyDependencies) =>
   buildMakeEntity<ProjectAdmissionKey>(projectAdmissionKeySchema, makeId, fields, {
     lastUsedAt: 0,
+    cancelled: false,
     createdAt: () => Date.now(),
   })
 

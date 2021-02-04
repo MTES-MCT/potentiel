@@ -3,6 +3,7 @@ import makeSignup, {
   EMAIL_USED_ERROR,
   USER_INFO_ERROR,
   MISSING_ADMISSION_KEY_ERROR,
+  INVALID_ADMISSION_KEY_ERROR,
 } from './signup'
 
 import makeLogin from './login'
@@ -386,6 +387,116 @@ describe('signup use-case', () => {
       if (!signupResult.is_err()) return
 
       expect(signupResult.unwrap_err()).toEqual(new Error(EMAIL_USED_ERROR))
+    })
+  })
+
+  describe('given admission key is already used', () => {
+    const signup = makeSignup({
+      userRepo,
+      credentialsRepo,
+      projectAdmissionKeyRepo,
+      addUserToProjectsWithEmail: jest.fn(() => {
+        throw new Error('should not be used')
+      }),
+      addUserToProject: jest.fn(() => {
+        throw new Error('should not be used')
+      }),
+    })
+
+    beforeAll(async () => {
+      await resetDatabase()
+    })
+
+    it('should return INVALID_ADMISSION_KEY_ERROR', async () => {
+      // Add a projectAdmissionKey
+      const [projectAdmissionKey] = (
+        await Promise.all(
+          [
+            {
+              id: 'projectAdmissionKey',
+              email: 'existing@email.com',
+              fullName: 'fullname',
+              lastUsedAt: 1,
+            },
+          ]
+            .map(makeProjectAdmissionKey)
+            .filter((item) => item.is_ok())
+            .map((item) => item.unwrap())
+            .map((item) => projectAdmissionKeyRepo.save(item).then((res) => res.map(() => item)))
+        )
+      )
+        .filter((item) => item.is_ok())
+        .map((item) => item.unwrap())
+
+      expect(projectAdmissionKey).toBeDefined()
+      if (!projectAdmissionKey) return
+
+      const phonySignup = makePhonySignup({
+        email: 'Existing@email.com',
+        projectAdmissionKey: projectAdmissionKey.id,
+      })
+
+      const signupResult = await signup(phonySignup)
+
+      expect(signupResult.is_err()).toEqual(true)
+      if (!signupResult.is_err()) return
+
+      expect(signupResult.unwrap_err()).toEqual(new Error(INVALID_ADMISSION_KEY_ERROR))
+    })
+  })
+
+  describe('given admission key has been cancelled', () => {
+    const signup = makeSignup({
+      userRepo,
+      credentialsRepo,
+      projectAdmissionKeyRepo,
+      addUserToProjectsWithEmail: jest.fn(() => {
+        throw new Error('should not be used')
+      }),
+      addUserToProject: jest.fn(() => {
+        throw new Error('should not be used')
+      }),
+    })
+
+    beforeAll(async () => {
+      await resetDatabase()
+    })
+
+    it('should return INVALID_ADMISSION_KEY_ERROR', async () => {
+      // Add a projectAdmissionKey
+      const [projectAdmissionKey] = (
+        await Promise.all(
+          [
+            {
+              id: 'projectAdmissionKey',
+              email: 'existing@email.com',
+              fullName: 'fullname',
+              cancelled: true,
+            },
+          ]
+            .map(makeProjectAdmissionKey)
+            .filter((item) => item.is_ok())
+            .map((item) => item.unwrap())
+            .map((item) => projectAdmissionKeyRepo.save(item).then((res) => res.map(() => item)))
+        )
+      )
+        .filter((item) => item.is_ok())
+        .map((item) => item.unwrap())
+
+      expect(projectAdmissionKey).toBeDefined()
+      if (!projectAdmissionKey) return
+
+      const phonySignup = makePhonySignup({
+        email: 'Existing@email.com',
+        projectAdmissionKey: projectAdmissionKey.id,
+      })
+
+      const signupResult = await signup(phonySignup)
+
+      expect(signupResult.is_err()).toEqual(true)
+      if (!signupResult.is_err()) return
+
+      expect(signupResult.unwrap_err()).toEqual(new Error(INVALID_ADMISSION_KEY_ERROR))
     })
   })
 })
