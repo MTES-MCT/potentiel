@@ -48,11 +48,11 @@ export const acceptModificationRequest = makeAcceptModificationRequest({
 
 export const revokeUserRightsToProject = makeRevokeRightsToProject({
   eventBus: eventStore,
-  shouldUserAccessProject: shouldUserAccessProject.check,
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
 })
 
 export const cancelInvitationToProject = makeCancelInvitationToProject({
   eventBus: eventStore,
-  shouldUserAccessProject: shouldUserAccessProject.check,
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   getProjectIdForAdmissionKey,
 })
