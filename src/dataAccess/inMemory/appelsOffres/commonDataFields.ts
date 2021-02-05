@@ -87,6 +87,26 @@ const additionalFields = [
     column: 'Département',
   },
   { field: 'regionProjet', column: 'Région' },
+  {
+    field: 'garantiesFinancieresDate',
+    column: 'Date déclarée par le PP de dépôt des garanties financières',
+  },
+  {
+    field: 'garantiesFinancieresFile',
+    column: 'Attestation garanties financières (fichier)',
+  },
+  {
+    field: 'garantiesFinancieresSubmittedOn',
+    column: 'Date de soumission sur Potentiel des garanties financières',
+  },
 ]
 
 export { commonDataFields, additionalFields }
+
+export const dataFieldsFlattened: Map<string, string> = [
+  ...commonDataFields,
+  ...additionalFields,
+].reduce((fields, currField) => {
+  fields.set(currField.field, currField.column)
+  return fields
+}, new Map())

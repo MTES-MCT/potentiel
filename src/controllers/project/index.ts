@@ -1,4 +1,4 @@
-export * from './downloadProjectListCsv'
+export * from './getProjectListCsv'
 export * from './getCancelInvitationToProject'
 export * from './getProjectFile'
 export * from './getProjectListPage'

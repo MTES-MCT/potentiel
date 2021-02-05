@@ -12,6 +12,7 @@ import { adminActions, porteurProjetActions } from '../components/actions'
 import { PaginatedList } from '../../types'
 import { Request } from 'express'
 import { DownloadIcon } from '../components/downloadIcon'
+import querystring from 'querystring'
 
 interface ListProjectsProps {
   request: Request
@@ -283,12 +284,7 @@ export default function ListProjects({
             <div className="pagination__count">
               <strong>{Array.isArray(projects) ? projects.length : projects.itemCount}</strong>{' '}
               projets
-              <a
-                href={Object.entries(request.query).reduce(
-                  (formattedParams, [key, value]) => `${formattedParams}&${key}=${value}`,
-                  `${ROUTES.DOWNLOAD_PROJECTS_CSV}?`
-                )}
-              >
+              <a href={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(request.query)}`}>
                 <DownloadIcon />
               </a>
             </div>
