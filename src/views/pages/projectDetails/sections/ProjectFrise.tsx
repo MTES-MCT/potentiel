@@ -4,8 +4,8 @@ import React from 'react'
 import { User } from '../../../../entities'
 import { formatDate } from '../../../../helpers/formatDate'
 import { ProjectDataForProjectPage } from '../../../../modules/project/dtos'
+import { DCRForm, PTFForm, Frise, FriseItem, GarantiesFinancieresForm } from '../components'
 import ROUTES from '../../../../routes'
-import { DCRForm, Frise, FriseItem, GarantiesFinancieresForm } from '../components'
 
 interface ProjectFriseProps {
   project: ProjectDataForProjectPage
@@ -147,7 +147,15 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (
             ) : null}
             <FriseItem
               title="Proposition technique et financière"
-              action={{ title: 'Indiquer la date de signature' }}
+              action={
+                user.role === 'dreal'
+                  ? undefined
+                  : {
+                      title: 'Indiquer la date de signature',
+                      openHiddenContent: user.role === 'porteur-projet' ? true : undefined,
+                    }
+              }
+              hiddenContent={<PTFForm projectId={project.id} date={request.query.ptfDate} />}
             />
             <FriseItem
               title="Convention de raccordement"

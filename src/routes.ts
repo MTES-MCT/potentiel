@@ -224,6 +224,7 @@ class routes {
   }
 
   static DEPOSER_DCR_ACTION = '/deposer-dcr'
+  static DEPOSER_PTF_ACTION = '/deposer-ptf'
   static SUPPRIMER_DCR_ACTION = (projectId?: Project['id']) => {
     const route = '/projet/:projectId/supprimer-dcr'
     if (projectId) {

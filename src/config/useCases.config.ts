@@ -4,7 +4,11 @@ import {
   makeCancelInvitationToProject,
 } from '../modules/authorization'
 import { makeLoadFileForUser } from '../modules/file'
-import { makeCorrectProjectData, makeGenerateCertificate } from '../modules/project/useCases'
+import {
+  makeCorrectProjectData,
+  makeGenerateCertificate,
+  makeSubmitPTF,
+} from '../modules/project/useCases'
 import { buildCertificate } from '../views/certificates'
 import {
   fileRepo,
@@ -55,4 +59,10 @@ export const cancelInvitationToProject = makeCancelInvitationToProject({
   eventBus: eventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   getProjectIdForAdmissionKey,
+})
+
+export const submitPTF = makeSubmitPTF({
+  eventBus: eventStore,
+  fileRepo,
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
 })
