@@ -27,7 +27,7 @@ const batiment: AppelOffre = {
   afficherValeurEvaluationCarbone: true,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
-  renvoiSoumisAuxGarantiesFinancieres: 'doit être au minimum de 42 mois',
+  renvoiSoumisAuxGarantiesFinancieres: 'doit être au minimum de 36 mois',
   dataFields: [
     ...commonDataFields,
     {
