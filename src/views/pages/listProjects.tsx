@@ -6,12 +6,13 @@ import React from 'react'
 import { Project, AppelOffre, Periode, Famille } from '../../entities'
 import ROUTES from '../../routes'
 import { dataId } from '../../helpers/testId'
-import { asLiteral } from '../../helpers/asLiteral'
 
 import ProjectList from '../components/projectList'
 import { adminActions, porteurProjetActions } from '../components/actions'
 import { PaginatedList } from '../../types'
 import { Request } from 'express'
+import { DownloadIcon } from '../components/downloadIcon'
+import querystring from 'querystring'
 
 interface ListProjectsProps {
   request: Request
@@ -283,6 +284,9 @@ export default function ListProjects({
             <div className="pagination__count">
               <strong>{Array.isArray(projects) ? projects.length : projects.itemCount}</strong>{' '}
               projets
+              <a href={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(request.query)}`}>
+                <DownloadIcon />
+              </a>
             </div>
             <ProjectList
               displayColumns={[

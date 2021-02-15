@@ -53,6 +53,7 @@ class routes {
     } else return route
   }
 
+  static DOWNLOAD_PROJECTS_CSV = '/export-projets.csv'
   static IMPORT_PROJECTS_ACTION = '/admin/importProjects'
   static ADMIN_LIST_PROJECTS = '/admin/dashboard.html'
   static ADMIN_LIST_REQUESTS = '/admin/demandes.html'
