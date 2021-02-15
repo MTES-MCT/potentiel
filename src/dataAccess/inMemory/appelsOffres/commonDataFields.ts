@@ -92,10 +92,6 @@ const additionalFields = [
     column: 'Date déclarée par le PP de dépôt des garanties financières',
   },
   {
-    field: 'garantiesFinancieresFile',
-    column: 'Attestation garanties financières (fichier)',
-  },
-  {
     field: 'garantiesFinancieresSubmittedOn',
     column: 'Date de soumission sur Potentiel des garanties financières',
   },
