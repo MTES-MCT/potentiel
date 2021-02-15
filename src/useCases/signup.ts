@@ -148,7 +148,7 @@ export default function makeSignup({
       // User validated his email address by registering with it
 
       // Add all projects that have that email
-      await addUserToProjectsWithEmail(user.id, projectAdmissionKeyInstance.email)
+      await addUserToProjectsWithEmail(user.id, emailToBeUsed)
 
       // Add all projects that have a projectAdmissionKey for the same email
       const projectAdmissionKeysWithSameEmail = await projectAdmissionKeyRepo.findAll({
