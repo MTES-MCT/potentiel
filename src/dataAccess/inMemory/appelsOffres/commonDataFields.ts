@@ -67,4 +67,42 @@ const commonDataFields = [
   { field: 'notifiedOn', type: toTypeLiteral('date'), column: 'Notification' },
 ]
 
-export { commonDataFields }
+const additionalFields = [
+  {
+    field: 'appelOffreId',
+    column: "Appel d'offres",
+  },
+  { field: 'periodeId', column: 'Période' },
+  {
+    field: 'evaluationCarbone',
+    column:
+      'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)',
+  },
+  {
+    field: 'familleId',
+    column: 'Famille',
+  },
+  {
+    field: 'departementProjet',
+    column: 'Département',
+  },
+  { field: 'regionProjet', column: 'Région' },
+  {
+    field: 'garantiesFinancieresDate',
+    column: 'Date déclarée par le PP de dépôt des garanties financières',
+  },
+  {
+    field: 'garantiesFinancieresSubmittedOn',
+    column: 'Date de soumission sur Potentiel des garanties financières',
+  },
+]
+
+export { commonDataFields, additionalFields }
+
+export const dataFieldsFlattened: Map<string, string> = [
+  ...commonDataFields,
+  ...additionalFields,
+].reduce((fields, currField) => {
+  fields.set(currField.field, currField.column)
+  return fields
+}, new Map())
