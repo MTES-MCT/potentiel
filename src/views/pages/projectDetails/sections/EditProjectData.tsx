@@ -234,6 +234,22 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
           </label>
           <input type="file" name="file" id="file" />
         </div>
+        <div className="form__group">
+          <label htmlFor="forceCertificateGeneration">
+            Forcer la regénération de l‘attestation
+          </label>
+          <input
+            type="checkbox"
+            name="forceCertificateGeneration"
+            id="forceCertificateGeneration"
+          />
+        </div>
+        <div className="form__group">
+          <label htmlFor="forceCertificateGeneration">
+            Message justificatif du changement (facultatif)
+          </label>
+          <textarea name="reason" defaultValue={query.reason} />
+        </div>
         <button className="button" type="submit" name="submit" {...dataId('submit-button')}>
           Remplacer l’attestation
         </button>
