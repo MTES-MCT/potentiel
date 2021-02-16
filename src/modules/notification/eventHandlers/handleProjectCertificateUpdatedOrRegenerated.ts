@@ -12,7 +12,7 @@ export const handleProjectCertificateUpdatedOrRegenerated = (deps: {
   getUsersForProject: ProjectRepo['getUsers']
   projectRepo: Repository<Project>
 }) => async (event: ProjectCertificateUpdated | ProjectCertificateRegenerated) => {
-  const projectId = event.payload.projectId
+  const { projectId } = event.payload
 
   const porteursProjet = (await deps.getUsersForProject(projectId)).filter(
     (user) => user.role === 'porteur-projet'
@@ -51,6 +51,8 @@ export const handleProjectCertificateUpdatedOrRegenerated = (deps: {
       },
       variables: {
         nomProjet: project.data?.nomProjet || '',
+        raison:
+          event.type === ProjectCertificateRegenerated.type ? event.payload.reason : undefined,
       },
     })
   }
