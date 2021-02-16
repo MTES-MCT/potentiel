@@ -114,6 +114,7 @@ describe('Project.addGeneratedCertificate()', () => {
       project.addGeneratedCertificate({
         projectVersionDate: new Date(123),
         certificateFileId: 'file1',
+        reason: 'reason',
       })
 
       expect(project.pendingEvents).toHaveLength(1)
@@ -127,6 +128,7 @@ describe('Project.addGeneratedCertificate()', () => {
       expect(targetEvent.payload.projectId).toEqual(projectId.toString())
       expect(targetEvent.payload.projectVersionDate).toEqual(new Date(123))
       expect(targetEvent.payload.certificateFileId).toEqual('file1')
+      expect(targetEvent.payload.reason).toEqual('reason')
     })
   })
 })
