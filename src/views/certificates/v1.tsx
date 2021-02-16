@@ -362,7 +362,7 @@ const Elimine = (project: ProjectDataForCertificate) => {
             formatNumber(getNoteThreshold(project)) +
             ' points. Par conséquent, cette offre n’a pas été retenue.'
           : project.motifsElimination === 'Déjà lauréat - Non instruit'
-          ? "À la suite de l'instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre n'a pas été retenue elle avait déjà été désignée lauréate au cours d'un précédent appel d'offres."
+          ? "À la suite de l'instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre n'a pas été retenue, elle avait déjà été désignée lauréate au cours d'un précédent appel d'offres."
           : project.motifsElimination.includes('20%') &&
             project.motifsElimination.includes('compétitivité')
           ? "À la suite de l'instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été classée au-delà de la puissance maximale que la Ministre a décidé de retenir afin de préserver la compétitivité de l’appel d’offres en application des dispositions du(des) paragraphe(s) " +
