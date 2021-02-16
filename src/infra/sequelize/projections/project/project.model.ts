@@ -191,22 +191,38 @@ export const MakeProjectModel = (sequelize) => {
   )
 
   Project.associate = (models) => {
-    const FileModel = models.File
-    Project.belongsTo(FileModel, {
+    const { File, UserProjects, ProjectAdmissionKey } = models
+    Project.belongsTo(File, {
       foreignKey: 'garantiesFinancieresFileId',
       as: 'garantiesFinancieresFileRef',
     })
 
-    Project.belongsTo(FileModel, {
+    Project.belongsTo(File, {
       foreignKey: 'dcrFileId',
       as: 'dcrFileRef',
     })
 
-    Project.belongsTo(FileModel, {
+    Project.belongsTo(File, {
       foreignKey: 'certificateFileId',
       as: 'certificateFile',
     })
-    // Add belongsTo etc. statements here
+
+    Project.hasMany(UserProjects, {
+      as: 'users',
+    })
+
+    // All invitations for this specific project
+    Project.hasMany(ProjectAdmissionKey, {
+      as: 'invitations',
+      foreignKey: 'projectId',
+    })
+
+    // All invitations for same email
+    Project.hasMany(ProjectAdmissionKey, {
+      as: 'invitationsForProjectEmail',
+      foreignKey: 'email',
+      sourceKey: 'email',
+    })
   }
 
   return Project

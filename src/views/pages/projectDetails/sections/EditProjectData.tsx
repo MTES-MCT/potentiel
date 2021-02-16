@@ -1,19 +1,22 @@
+import { Request } from 'express'
 import React from 'react'
-import { Project } from '../../../../entities'
+import { appelsOffreStatic } from '../../../../dataAccess/inMemory/appelOffre'
 import { formatDate } from '../../../../helpers/formatDate'
 import { dataId } from '../../../../helpers/testId'
+import { ProjectDataForProjectPage } from '../../../../modules/project/dtos'
 import ROUTES from '../../../../routes'
 
-import { appelsOffreStatic } from '../../../../dataAccess/inMemory/appelOffre'
-import { Request } from 'express'
-
 interface EditProjectDataProps {
-  project: Project
+  project: ProjectDataForProjectPage
   request: Request
 }
 
 export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
   const { query } = request
+
+  if (!project.notifiedOn) {
+    return <div>Projet non-notifié</div>
+  }
 
   return (
     <div>
@@ -183,7 +186,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             <option value={'investissement'}>Investissement participatif</option>
           </select>
         </div>
-        {project.classe === 'Eliminé' ? (
+        {!project.isClasse ? (
           <>
             <div className="form__group">
               <label>Classement</label>
@@ -215,7 +218,8 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             id="notificationDate"
             {...dataId('date-field')}
             defaultValue={
-              query.notificationDate || formatDate(new Date(project.notifiedOn), 'DD/MM/YYYY')
+              query.notificationDate ||
+              (project.notifiedOn && formatDate(project.notifiedOn, 'DD/MM/YYYY'))
             }
             style={{ width: 'auto' }}
           />

@@ -1,29 +1,22 @@
+import { Request } from 'express'
 import React from 'react'
 import { logger } from '../../../core/utils'
-import { Project, ProjectAdmissionKey, User } from '../../../entities'
 import { dataId } from '../../../helpers/testId'
+import { ProjectDataForProjectPage } from '../../../modules/project/dtos'
 import ROUTES from '../../../routes'
-import { Request } from 'express'
 import { SuccessErrorBox } from '../../components'
 import AdminDashboard from '../../components/adminDashboard'
 import UserDashboard from '../../components/userDashboard'
 import { NoteElement, Section } from './components'
-import { ProjectFrise, ProjectHeader, EditProjectData } from './sections'
+import { EditProjectData, ProjectFrise, ProjectHeader } from './sections'
 
 interface ProjectDetailsProps {
   request: Request
-  project: Project
-  projectUsers: Array<User>
-  projectInvitations: Array<ProjectAdmissionKey>
+  project: ProjectDataForProjectPage
 }
 
 /* Pure component */
-export default function ProjectDetails({
-  request,
-  project,
-  projectUsers,
-  projectInvitations,
-}: ProjectDetailsProps) {
+export default function ProjectDetails({ request, project }: ProjectDetailsProps) {
   const { user } = request
   const { error, success } = request.query || {}
 
@@ -68,69 +61,73 @@ export default function ProjectDetails({
               <div>{project.nomRepresentantLegal}</div>
               <div>{project.email}</div>
             </div>
-            <div>
-              <h5 style={{ marginBottom: 5, marginTop: 15 }}>Comptes ayant accès à ce projet</h5>
-              <ul style={{ marginTop: 5, marginBottom: 5 }}>
-                {projectUsers.map(({ id, fullName, email }) => (
-                  <li key={'project_user_' + id}>
-                    {fullName} - {email}
-                    {id !== user.id ? (
-                      <a
-                        href={ROUTES.REVOKE_USER_RIGHTS_TO_PROJECT_ACTION({
-                          projectId: project.id,
-                          userId: id,
-                        })}
-                        style={{ marginLeft: 5 }}
-                        data-confirm={`Etes-vous sur de vouloir retirer les droits à ce projet à ${fullName} ?`}
-                      >
-                        retirer
-                      </a>
-                    ) : (
-                      ''
-                    )}
-                  </li>
-                ))}
-                {projectInvitations.map(({ id, email }) => (
-                  <li key={'project_invitation_' + email}>
-                    {email} (
-                    {user.role === 'admin' ? (
-                      <a
-                        href={ROUTES.PROJECT_INVITATION({
-                          projectAdmissionKey: id,
-                        })}
-                      >
-                        invitation envoyée
-                      </a>
-                    ) : (
-                      <i>invitation envoyée</i>
-                    )}
-                    )
-                    {email !== project.email ? (
-                      <a
-                        href={ROUTES.CANCEL_INVITATION_TO_PROJECT_ACTION({
-                          projectAdmissionKeyId: id,
-                          projectId: project.id,
-                        })}
-                        style={{ marginLeft: 5 }}
-                        data-confirm={`Etes-vous sur de vouloir annuler l‘invitation à ${email} ?`}
-                      >
-                        annuler
-                      </a>
-                    ) : (
-                      ''
-                    )}
-                  </li>
-                ))}
-                {!projectUsers.length && !projectInvitations.length ? (
-                  <>
-                    <li>Aucun utilisateur n‘a accès à ce projet pour le moment.</li>
-                  </>
-                ) : (
-                  ''
-                )}
-              </ul>
-            </div>
-            {user.role !== 'dreal' ? (
+            {project.notifiedOn ? (
+              <div>
+                <h5 style={{ marginBottom: 5, marginTop: 15 }}>Comptes ayant accès à ce projet</h5>
+                <ul style={{ marginTop: 5, marginBottom: 5 }}>
+                  {project.users.map(({ id, fullName, email }) => (
+                    <li key={'project_user_' + id}>
+                      {fullName} - {email}
+                      {id !== user.id ? (
+                        <a
+                          href={ROUTES.REVOKE_USER_RIGHTS_TO_PROJECT_ACTION({
+                            projectId: project.id,
+                            userId: id,
+                          })}
+                          style={{ marginLeft: 5 }}
+                          data-confirm={`Etes-vous sur de vouloir retirer les droits à ce projet à ${fullName} ?`}
+                        >
+                          retirer
+                        </a>
+                      ) : (
+                        ''
+                      )}
+                    </li>
+                  ))}
+                  {project.invitations.map(({ id, email }) => (
+                    <li key={'project_invitation_' + email}>
+                      {email} (
+                      {user.role === 'admin' ? (
+                        <a
+                          href={ROUTES.PROJECT_INVITATION({
+                            projectAdmissionKey: id,
+                          })}
+                        >
+                          invitation envoyée
+                        </a>
+                      ) : (
+                        <i>invitation envoyée</i>
+                      )}
+                      )
+                      {email !== project.email ? (
+                        <a
+                          href={ROUTES.CANCEL_INVITATION_TO_PROJECT_ACTION({
+                            projectAdmissionKeyId: id,
+                            projectId: project.id,
+                          })}
+                          style={{ marginLeft: 5 }}
+                          data-confirm={`Etes-vous sur de vouloir annuler l‘invitation à ${email} ?`}
+                        >
+                          annuler
+                        </a>
+                      ) : (
+                        ''
+                      )}
+                    </li>
+                  ))}
+                  {!project.users.length && !project.invitations.length ? (
+                    <>
+                      <li>Aucun utilisateur n‘a accès à ce projet pour le moment.</li>
+                    </>
+                  ) : (
+                    ''
+                  )}
+                </ul>
+              </div>
+            ) : (
+              ''
+            )}
+            {['admin', 'dgec', 'porteur-projet'].includes(user.role) ? (
               <div {...dataId('invitation-form')}>
                 <a
                   href="#"

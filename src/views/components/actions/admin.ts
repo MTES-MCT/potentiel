@@ -1,7 +1,19 @@
-import { Project } from '../../../entities'
 import ROUTES from '../../../routes'
 
-const adminActions = (project: Project) => {
+const adminActions = (project: {
+  id: string
+  certificateFile?: {
+    id: string
+    filename: string
+  }
+  notifiedOn: Date | null
+  appelOffreId: string
+  periodeId: string
+  familleId: string | undefined
+  numeroCRE: string
+  email: string
+  nomProjet: string
+}) => {
   const canDownloadCertificate = !!project.certificateFile
 
   const actions: any = []
