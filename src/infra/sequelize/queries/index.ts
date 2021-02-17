@@ -9,6 +9,7 @@ import { makeGetFailedNotificationDetails } from './getFailedNotificationDetails
 import { makeGetModificationRequestListForUser } from './getModificationRequestListForUser'
 import { makeGetInfoForModificationRequested } from './getInfoForModificationRequested'
 import { makeGetProjectIdForAdmissionKey } from './getProjectIdForAdmissionKey'
+import { makeGetProjectDataForProjectPage } from './getProjectDataForProjectPage'
 
 export const getUnnotifiedProjectsForPeriode = makeGetUnnotifiedProjectsForPeriode(models)
 export const getModificationRequestDetails = makeGetModificationRequestDetails(models)
@@ -24,3 +25,4 @@ export const getFailedNotificationsForRetry = makeGetFailedNotificationsForRetry
 export const getFailedNotificationDetails = makeGetFailedNotificationDetails(models)
 export const getInfoForModificationRequested = makeGetInfoForModificationRequested(models)
 export const getProjectIdForAdmissionKey = makeGetProjectIdForAdmissionKey(models)
+export const getProjectDataForProjectPage = makeGetProjectDataForProjectPage(models)

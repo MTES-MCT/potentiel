@@ -1,8 +1,9 @@
 import React from 'react'
-import { Project } from '../../../../entities'
 
 interface NoteElementProps {
-  project: Project
+  project: {
+    details: Record<string, any>
+  }
   column: string
 }
 export const NoteElement = ({ project, column }: NoteElementProps) => {
