@@ -62,7 +62,19 @@ class routes {
     periodeId: string
   }>('/admin/notifier-candidats.html')
 
-  static PREVIEW_CANDIDATE_CERTIFICATE = (project?: Project) => {
+  static PREVIEW_CANDIDATE_CERTIFICATE = (project?: {
+    id: string
+    certificateFile?: {
+      id: string
+      filename: string
+    }
+    appelOffreId: string
+    periodeId: string
+    familleId: string | undefined
+    numeroCRE: string
+    email: string
+    nomProjet: string
+  }) => {
     const route = '/previsualiser-attestation/:projectId/*'
     if (project) {
       return route
@@ -81,14 +93,38 @@ class routes {
     } else return route
   }
 
-  static CANDIDATE_CERTIFICATE_FOR_ADMINS = (project: Project) =>
+  static CANDIDATE_CERTIFICATE_FOR_ADMINS = (project: {
+    id: string
+    certificateFile?: {
+      id: string
+      filename: string
+    }
+    appelOffreId: string
+    periodeId: string
+    familleId: string | undefined
+    numeroCRE: string
+    email: string
+    nomProjet: string
+  }) =>
     routes.DOWNLOAD_CERTIFICATE_FILE(
       project.id,
       project.certificateFile?.id,
       makeCertificateFilename(project, true)
     )
 
-  static CANDIDATE_CERTIFICATE_FOR_CANDIDATES = (project: Project) =>
+  static CANDIDATE_CERTIFICATE_FOR_CANDIDATES = (project: {
+    id: string
+    certificateFile?: {
+      id: string
+      filename: string
+    }
+    appelOffreId: string
+    periodeId: string
+    familleId: string | undefined
+    numeroCRE: string
+    email: string
+    nomProjet: string
+  }) =>
     routes.DOWNLOAD_CERTIFICATE_FILE(
       project.id,
       project.certificateFile?.id,
@@ -153,7 +189,7 @@ class routes {
     } else return route
   }
 
-  static TELECHARGER_MODELE_MISE_EN_DEMEURE = (project?: Project) => {
+  static TELECHARGER_MODELE_MISE_EN_DEMEURE = (project?: { id: string; nomProjet: string }) => {
     const route = '/projet/:projectId/telecharger-mise-en-demeure/:filename'
     if (project) {
       return route

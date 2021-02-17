@@ -1,19 +1,20 @@
-import React from 'react'
-import { Project, User } from '../../../../entities'
-import { formatDate } from '../../../../helpers/formatDate'
-import { DCRForm, Frise, FriseItem, GarantiesFinancieresForm } from '../components'
-import ROUTES from '../../../../routes'
-import moment from 'moment'
 import { Request } from 'express'
+import moment from 'moment'
+import React from 'react'
+import { User } from '../../../../entities'
+import { formatDate } from '../../../../helpers/formatDate'
+import { ProjectDataForProjectPage } from '../../../../modules/project/dtos'
+import ROUTES from '../../../../routes'
+import { DCRForm, Frise, FriseItem, GarantiesFinancieresForm } from '../components'
 
 interface ProjectFriseProps {
-  project: Project
+  project: ProjectDataForProjectPage
   user: User
   request: Request
 }
 
 export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (
-  <Frise displayToggle={project.classe === 'Classé'}>
+  <Frise displayToggle={!!project.notifiedOn && project.isClasse}>
     {project.notifiedOn ? (
       <>
         <FriseItem
@@ -21,7 +22,7 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (
           title="Notification des résultats"
           status="past"
           action={
-            !!project.certificateFile && user.role !== 'dreal'
+            project.certificateFile
               ? {
                   title: "Télécharger l'attestation",
                   link:
@@ -30,6 +31,8 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (
                       : ROUTES.CANDIDATE_CERTIFICATE_FOR_ADMINS(project),
                   download: true,
                 }
+              : user.role === 'dreal'
+              ? undefined
               : {
                   title: project.appelOffre?.periode?.isNotifiedOnPotentiel
                     ? 'Votre attestation sera disponible sous 24h'
@@ -37,7 +40,7 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (
                 }
           }
         />
-        {project.classe === 'Classé' ? (
+        {project.isClasse ? (
           <>
             {project.garantiesFinancieresDueOn ? (
               project.garantiesFinancieresSubmittedOn ? (
@@ -48,10 +51,10 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (
                   action={[
                     {
                       title: "Télécharger l'attestation",
-                      link: project.garantiesFinancieresFileRef
+                      link: project.garantiesFinancieresFile
                         ? ROUTES.DOWNLOAD_PROJECT_FILE(
-                            project.garantiesFinancieresFileRef.id,
-                            project.garantiesFinancieresFileRef.filename
+                            project.garantiesFinancieresFile.id,
+                            project.garantiesFinancieresFile.filename
                           )
                         : undefined,
                       download: true,
@@ -76,7 +79,7 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (
                   title="Constitution des garanties financières"
                   action={
                     user.role === 'dreal'
-                      ? project.garantiesFinancieresDueOn < Date.now()
+                      ? project.garantiesFinancieresDueOn.getTime() < Date.now()
                         ? {
                             title: 'Télécharger mise en demeure',
                             link: ROUTES.TELECHARGER_MODELE_MISE_EN_DEMEURE(project),
@@ -95,7 +98,7 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (
                 />
               )
             ) : null}
-            {project.dcrDueOn ? (
+            {project.notifiedOn && project.dcrDueOn ? (
               project.dcrSubmittedOn ? (
                 // DCR déjà déposée
                 <FriseItem
@@ -106,11 +109,8 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (
                   action={[
                     {
                       title: "Télécharger l'attestation",
-                      link: project.dcrFileRef
-                        ? ROUTES.DOWNLOAD_PROJECT_FILE(
-                            project.dcrFileRef.id,
-                            project.dcrFileRef.filename
-                          )
+                      link: project.dcrFile
+                        ? ROUTES.DOWNLOAD_PROJECT_FILE(project.dcrFile.id, project.dcrFile.filename)
                         : undefined,
                       download: true,
                     },

@@ -21,7 +21,9 @@ export const MakeUserProjectsModel = (sequelize) => {
   )
 
   UserProjects.associate = (models) => {
-    // Add belongsTo etc. statements here
+    const { User } = models
+
+    UserProjects.belongsTo(User, { foreignKey: 'userId' })
   }
 
   return UserProjects

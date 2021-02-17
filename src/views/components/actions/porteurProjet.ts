@@ -1,10 +1,23 @@
-import { Project } from '../../../entities'
 import ROUTES from '../../../routes'
 
-const porteurProjetActions = (project: Project) => {
+const porteurProjetActions = (project: {
+  id: string
+  isClasse: boolean
+  certificateFile?: {
+    id: string
+    filename: string
+  }
+  notifiedOn: Date | null
+  appelOffreId: string
+  periodeId: string
+  familleId: string | undefined
+  numeroCRE: string
+  email: string
+  nomProjet: string
+}) => {
   const canDownloadCertificate = !!project.certificateFile
 
-  if (project.classe === 'Eliminé') {
+  if (!project.isClasse) {
     return [
       {
         title: 'Télécharger mon attestation',

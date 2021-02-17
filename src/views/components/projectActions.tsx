@@ -1,11 +1,35 @@
 import React from 'react'
-import { AppelOffre, Project } from '../../entities'
+import { AppelOffre } from '../../entities'
 import { dataId } from '../../helpers/testId'
 
 interface Props {
-  project: Project
+  project: {
+    id: string
+    certificateFile?: {
+      id: string
+      filename: string
+    }
+    appelOffreId: string
+    periodeId: string
+    familleId: string | undefined
+    numeroCRE: string
+    email: string
+    nomProjet: string
+  }
   projectActions?: (
-    project: Project,
+    project: {
+      id: string
+      certificateFile?: {
+        id: string
+        filename: string
+      }
+      appelOffreId: string
+      periodeId: string
+      familleId: string | undefined
+      numeroCRE: string
+      email: string
+      nomProjet: string
+    },
     appelOffre?: AppelOffre
   ) => Array<{
     title: string
@@ -42,7 +66,7 @@ const ProjectActions = ({ project, projectActions }: Props) => {
       </svg>
       <ul className="list--action-menu" {...dataId('action-menu')}>
         {actions.map(({ title, actionId, projectId, link, disabled, isDownload }, actionIndex) => (
-          <li key={'notif_' + project.id + '_' + actionIndex}>
+          <li key={'notif_' + projectId + '_' + actionIndex}>
             {disabled ? (
               <i>{title}</i>
             ) : (

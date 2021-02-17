@@ -1,11 +1,11 @@
-import _ from 'lodash'
-import { projectAdmissionKeyRepo, projectRepo } from '../../dataAccess'
+import asyncHandler from 'express-async-handler'
+import { getProjectDataForProjectPage } from '../../config/queries.config'
+import { shouldUserAccessProject } from '../../config/useCases.config'
+import { EntityNotFoundError } from '../../modules/shared'
 import routes from '../../routes'
-import { getUserProject } from '../../useCases'
 import { ProjectDetailsPage } from '../../views/pages'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { v1Router } from '../v1Router'
-import asyncHandler from 'express-async-handler'
 
 v1Router.get(
   routes.PROJECT_DETAILS(),
@@ -13,48 +13,34 @@ v1Router.get(
   ensureRole(['admin', 'dgec', 'dreal', 'porteur-projet']),
   asyncHandler(async (request, response) => {
     const { projectId } = request.params
+    const { user } = request
 
-    const project = await getUserProject({ user: request.user, projectId })
-
-    if (!project) {
-      return response.status(404).send('Le projet demandé est introuvable')
+    const userHasRightsToProject = await shouldUserAccessProject.check({
+      user,
+      projectId,
+    })
+    if (!userHasRightsToProject) {
+      return response.status(403).send('Vous n‘êtes pas autorisé à consulter ce projet.')
     }
 
-    // Get the project users
-    const projectUsers = await projectRepo.getUsers(project.id)
+    ;(await getProjectDataForProjectPage({ projectId, user })).match(
+      (project) => {
+        response.send(
+          ProjectDetailsPage({
+            request,
+            project,
+          })
+        )
+      },
+      (e) => {
+        if (e instanceof EntityNotFoundError) {
+          return response.status(404).send('Le projet est introuvable.')
+        }
 
-    // Get the project invitations
-    const projectInvitations = (
-      await Promise.all([
-        projectAdmissionKeyRepo.findAll({
-          // invitations for this specific project
-          projectId: project.id,
-          lastUsedAt: 0,
-          cancelled: false,
-        }),
-        projectAdmissionKeyRepo.findAll({
-          // invitations for the email associated with this project
-          email: project.email,
-          lastUsedAt: 0,
-          cancelled: false,
-        }),
-      ]).then(([projectSpecificInvitations, emailSpecificInvitations]) => {
-        // only keep one invitation per email
-        return _.uniqBy([...projectSpecificInvitations, ...emailSpecificInvitations], 'email')
-      })
-    ).filter(
-      // Exclude admission keys for users that are already in the user list
-      (projectAdmissionKey) =>
-        !projectUsers.some((user) => user.email === projectAdmissionKey.email)
-    )
-
-    return response.send(
-      ProjectDetailsPage({
-        request,
-        project,
-        projectUsers,
-        projectInvitations,
-      })
+        return response
+          .status(500)
+          .send('Une erreur est survenue. Merci de réessayer ou de contacter un administrateur.')
+      }
     )
   })
 )
