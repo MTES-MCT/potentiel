@@ -44,6 +44,7 @@ describe('correctProjectData', () => {
         correctedData: {
           numeroCRE: '1',
         },
+        forceCertificateGeneration: false,
       })
 
       expect(res.isErr()).toEqual(true)
@@ -81,6 +82,7 @@ describe('correctProjectData', () => {
           user,
           shouldGrantClasse: true,
           correctedData: {},
+          forceCertificateGeneration: false,
         })
 
         expect(res.isErr()).toEqual(true)
@@ -129,6 +131,7 @@ describe('correctProjectData', () => {
             correctedData: {
               numeroCRE: 'nouveauNumero',
             },
+            forceCertificateGeneration: false,
           })
 
           if (res.isErr()) logger.error(res.error as Error)
@@ -169,44 +172,120 @@ describe('correctProjectData', () => {
       })
 
       describe('when no certificate is provided', () => {
-        const fakeProject = {
-          ...makeFakeProject(),
-          id: new UniqueEntityID(projectId),
-          lastUpdatedOn: new Date(0),
-        }
-        const projectRepo = fakeTransactionalRepo(fakeProject as Project)
-        const fileRepo: Repository<FileObject> = {
-          save: jest.fn(),
-          load: jest.fn(),
-        }
+        describe('when project has changed (shouldGeneratedCertificate is true)', () => {
+          const fakeProject = {
+            ...makeFakeProject(),
+            id: new UniqueEntityID(projectId),
+            lastUpdatedOn: new Date(0),
+            shouldCertificateBeGenerated: true,
+          }
+          const projectRepo = fakeTransactionalRepo(fakeProject as Project)
+          const fileRepo: Repository<FileObject> = {
+            save: jest.fn(),
+            load: jest.fn(),
+          }
 
-        const correctProjectData = makeCorrectProjectData({
-          generateCertificate: fakeGenerateCertificate,
-          projectRepo,
-          fileRepo,
-        })
-
-        beforeAll(async () => {
-          fakeProject.updateCertificate.mockClear()
-          fakeGenerateCertificate.mockClear()
-
-          const res = await correctProjectData({
-            projectId: projectId,
-            projectVersionDate: new Date(0),
-            newNotifiedOn: 1234,
-            user,
-            shouldGrantClasse: true,
-            correctedData: {
-              numeroCRE: 'nouveauNumero',
-            },
+          const correctProjectData = makeCorrectProjectData({
+            generateCertificate: fakeGenerateCertificate,
+            projectRepo,
+            fileRepo,
           })
 
-          if (res.isErr()) logger.error(res.error as Error)
-          expect(res.isOk()).toEqual(true)
+          beforeAll(async () => {
+            fakeProject.updateCertificate.mockClear()
+            fakeGenerateCertificate.mockClear()
+
+            const res = await correctProjectData({
+              projectId: projectId,
+              projectVersionDate: new Date(0),
+              newNotifiedOn: 1234,
+              user,
+              shouldGrantClasse: true,
+              correctedData: {
+                numeroCRE: 'nouveauNumero',
+              },
+              forceCertificateGeneration: false,
+            })
+
+            if (res.isErr()) logger.error(res.error as Error)
+            expect(res.isOk()).toEqual(true)
+          })
+
+          it('should call generateCertificate', () => {
+            expect(fakeGenerateCertificate).toHaveBeenCalled()
+          })
         })
 
-        it('should call generateCertificate', () => {
-          expect(fakeGenerateCertificate).toHaveBeenCalled()
+        describe('when project has not changed (shouldGeneratedCertificate is false)', () => {
+          const fakeProject = {
+            ...makeFakeProject(),
+            id: new UniqueEntityID(projectId),
+            lastUpdatedOn: new Date(0),
+            shouldCertificateBeGenerated: false,
+          }
+          const projectRepo = fakeTransactionalRepo(fakeProject as Project)
+          const fileRepo: Repository<FileObject> = {
+            save: jest.fn(),
+            load: jest.fn(),
+          }
+
+          const correctProjectData = makeCorrectProjectData({
+            generateCertificate: fakeGenerateCertificate,
+            projectRepo,
+            fileRepo,
+          })
+
+          describe('when forceCertificateGeneration is false', () => {
+            beforeAll(async () => {
+              fakeProject.updateCertificate.mockClear()
+              fakeGenerateCertificate.mockClear()
+
+              const res = await correctProjectData({
+                projectId: projectId,
+                projectVersionDate: new Date(0),
+                newNotifiedOn: 1234,
+                user,
+                shouldGrantClasse: true,
+                correctedData: {
+                  numeroCRE: 'nouveauNumero',
+                },
+                forceCertificateGeneration: false,
+              })
+
+              if (res.isErr()) logger.error(res.error as Error)
+              expect(res.isOk()).toEqual(true)
+            })
+
+            it('should not call generateCertificate', () => {
+              expect(fakeGenerateCertificate).not.toHaveBeenCalled()
+            })
+          })
+
+          describe('when forceCertificateGeneration is true', () => {
+            beforeAll(async () => {
+              fakeProject.updateCertificate.mockClear()
+              fakeGenerateCertificate.mockClear()
+
+              const res = await correctProjectData({
+                projectId: projectId,
+                projectVersionDate: new Date(0),
+                newNotifiedOn: 1234,
+                user,
+                shouldGrantClasse: true,
+                correctedData: {
+                  numeroCRE: 'nouveauNumero',
+                },
+                forceCertificateGeneration: true,
+              })
+
+              if (res.isErr()) logger.error(res.error as Error)
+              expect(res.isOk()).toEqual(true)
+            })
+
+            it('should call generateCertificate', () => {
+              expect(fakeGenerateCertificate).toHaveBeenCalled()
+            })
+          })
         })
       })
     })

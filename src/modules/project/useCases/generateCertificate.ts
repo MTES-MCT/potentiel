@@ -12,7 +12,8 @@ import { IllegalProjectDataError, ProjectNotEligibleForCertificateError } from '
 import { Project } from '../Project'
 
 export type GenerateCertificate = (
-  projectId: string
+  projectId: string,
+  reason?: string
 ) => ResultAsync<
   null,
   | EntityNotFoundError
@@ -43,7 +44,8 @@ interface GenerateCertificateDeps {
   >
 }
 export const makeGenerateCertificate = (deps: GenerateCertificateDeps): GenerateCertificate => (
-  projectId
+  projectId,
+  reason
 ) => {
   return deps.projectRepo
     .load(new UniqueEntityID(projectId))
@@ -81,6 +83,7 @@ export const makeGenerateCertificate = (deps: GenerateCertificateDeps): Generate
       .addGeneratedCertificate({
         projectVersionDate: project.lastUpdatedOn,
         certificateFileId,
+        reason,
       })
       .map(() => project)
   }
