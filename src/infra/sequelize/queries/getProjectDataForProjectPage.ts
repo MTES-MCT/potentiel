@@ -150,7 +150,7 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
       notifiedOn: notifiedOn ? new Date(notifiedOn) : undefined,
       isClasse: classe === 'Classé',
       motifsElimination,
-      users: users && users.map((user) => user.user),
+      users: users?.map((user) => user.user),
       invitations: allInvitations,
     }
 
@@ -158,32 +158,32 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
       result.prixReference = prixReference
     }
 
-    if (notifiedOn) {
-      if (certificateFile && user.role !== 'dreal') {
-        result.certificateFile = certificateFile.get()
+    if (!notifiedOn) return ok(result)
+
+    if (certificateFile && user.role !== 'dreal') {
+      result.certificateFile = certificateFile.get()
+    }
+
+    if (garantiesFinancieresDueOn) {
+      result.garantiesFinancieresDueOn = new Date(garantiesFinancieresDueOn)
+
+      if (garantiesFinancieresSubmittedOn) {
+        result.garantiesFinancieresSubmittedOn = new Date(garantiesFinancieresSubmittedOn)
+        result.garantiesFinancieresDate =
+          garantiesFinancieresDate && new Date(garantiesFinancieresDate)
+        result.garantiesFinancieresFile =
+          garantiesFinancieresFileRef && garantiesFinancieresFileRef.get()
       }
+    }
 
-      if (garantiesFinancieresDueOn) {
-        result.garantiesFinancieresDueOn = new Date(garantiesFinancieresDueOn)
+    if (dcrDueOn) {
+      result.dcrDueOn = new Date(dcrDueOn)
 
-        if (garantiesFinancieresSubmittedOn) {
-          result.garantiesFinancieresSubmittedOn = new Date(garantiesFinancieresSubmittedOn)
-          result.garantiesFinancieresDate =
-            garantiesFinancieresDate && new Date(garantiesFinancieresDate)
-          result.garantiesFinancieresFile =
-            garantiesFinancieresFileRef && garantiesFinancieresFileRef.get()
-        }
-      }
-
-      if (dcrDueOn) {
-        result.dcrDueOn = new Date(dcrDueOn)
-
-        if (dcrSubmittedOn) {
-          result.dcrSubmittedOn = new Date(dcrSubmittedOn)
-          result.dcrDate = dcrDate && new Date(dcrDate)
-          result.dcrFile = dcrFileRef && dcrFileRef.get()
-          result.dcrNumeroDossier = dcrNumeroDossier
-        }
+      if (dcrSubmittedOn) {
+        result.dcrSubmittedOn = new Date(dcrSubmittedOn)
+        result.dcrDate = dcrDate && new Date(dcrDate)
+        result.dcrFile = dcrFileRef && dcrFileRef.get()
+        result.dcrNumeroDossier = dcrNumeroDossier
       }
     }
 
