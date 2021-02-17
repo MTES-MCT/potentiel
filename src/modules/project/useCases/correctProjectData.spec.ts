@@ -1,4 +1,3 @@
-import { truncateSync } from 'fs'
 import { Readable } from 'stream'
 import { DomainError, Repository, UniqueEntityID } from '../../../core/domain'
 import { logger, okAsync } from '../../../core/utils'
