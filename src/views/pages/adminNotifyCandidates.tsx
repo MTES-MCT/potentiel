@@ -223,7 +223,7 @@ export default function AdminNotifyCandidates({ request, results }: AdminNotifyC
             'Evaluation Carbone',
             'Classé',
           ]}
-          projectActions={(project: Project) => [
+          projectActions={(project) => [
             {
               title: 'Aperçu attestation',
               link: ROUTES.PREVIEW_CANDIDATE_CERTIFICATE(project),
