@@ -150,7 +150,7 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
       notifiedOn: notifiedOn ? new Date(notifiedOn) : undefined,
       isClasse: classe === 'Classé',
       motifsElimination,
-      users: users?.map((user) => user.user),
+      users: users?.map(({ user }) => user),
       invitations: allInvitations,
     }
 
