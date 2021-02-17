@@ -6,6 +6,8 @@ import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtu
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { Project } from '../Project'
 import { makeRegenerateCertificatesForPeriode } from './regenerateCertificatesForPeriode'
+import { StoredEvent } from '../../eventStore'
+import { CertificatesForPeriodeRegenerated } from '../events'
 
 describe('regenerateCertificatesForPeriode', () => {
   const appelOffreId = 'appelOffreId'
@@ -31,11 +33,16 @@ describe('regenerateCertificatesForPeriode', () => {
       const projectRepo = {
         transaction: jest.fn(),
       }
+      const eventBus = {
+        subscribe: jest.fn(),
+        publish: jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null)),
+      }
 
       const regenerateCertificatesForPeriode = makeRegenerateCertificatesForPeriode({
         getProjectIdsForPeriode,
         projectRepo,
         generateCertificate,
+        eventBus,
       })
 
       it('should call generateCertificate for each project from this periode', async () => {
@@ -53,6 +60,18 @@ describe('regenerateCertificatesForPeriode', () => {
         expect(generateCertificate).toHaveBeenCalledWith(projectId2, 'reason')
 
         expect(projectRepo.transaction).not.toHaveBeenCalled()
+      })
+
+      it('should emit CertificatesForPeriodeRegenerated', () => {
+        expect(eventBus.publish).toHaveBeenCalledTimes(1)
+        const event = eventBus.publish.mock.calls[0][0]
+        expect(event).toBeInstanceOf(CertificatesForPeriodeRegenerated)
+        expect(event.payload).toMatchObject({
+          appelOffreId,
+          periodeId,
+          requestedBy: user.id,
+          reason,
+        })
       })
     })
 
@@ -72,10 +91,16 @@ describe('regenerateCertificatesForPeriode', () => {
 
       const projectRepo = fakeTransactionalRepo(fakeProject as Project)
 
+      const eventBus = {
+        subscribe: jest.fn(),
+        publish: jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null)),
+      }
+
       const regenerateCertificatesForPeriode = makeRegenerateCertificatesForPeriode({
         getProjectIdsForPeriode,
         projectRepo,
         generateCertificate,
+        eventBus,
       })
 
       it('should update the notification date for each project from this periode', async () => {
@@ -104,10 +129,16 @@ describe('regenerateCertificatesForPeriode', () => {
       transaction: jest.fn(),
     }
 
+    const eventBus = {
+      subscribe: jest.fn(),
+      publish: jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null)),
+    }
+
     const regenerateCertificatesForPeriode = makeRegenerateCertificatesForPeriode({
       getProjectIdsForPeriode,
       projectRepo,
       generateCertificate,
+      eventBus,
     })
 
     it('should return a UnauthorizedError', async () => {

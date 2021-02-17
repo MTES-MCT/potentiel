@@ -1,13 +1,16 @@
 import { TransactionalRepository, UniqueEntityID } from '../../../core/domain'
 import { errAsync, logger, okAsync, Result, ResultAsync } from '../../../core/utils'
 import { User } from '../../../entities'
+import { EventBus } from '../../eventStore'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { IllegalProjectDataError, ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors'
+import { CertificatesForPeriodeRegenerated } from '../events'
 import { Project } from '../Project'
 import { GetProjectIdsForPeriode } from '../queries'
 import { GenerateCertificate } from './generateCertificate'
 
 interface RegenerateCertificatesForPeriodeDeps {
+  eventBus: EventBus
   getProjectIdsForPeriode: GetProjectIdsForPeriode
   projectRepo: TransactionalRepository<Project>
   generateCertificate: GenerateCertificate
@@ -47,6 +50,19 @@ export const makeRegenerateCertificatesForPeriode = (
           )
         ),
         () => new InfraNotAvailableError()
+      )
+    )
+    .andThen(() =>
+      deps.eventBus.publish(
+        new CertificatesForPeriodeRegenerated({
+          payload: {
+            appelOffreId,
+            periodeId,
+            reason,
+            newNotifiedOn,
+            requestedBy: user.id,
+          },
+        })
       )
     )
     .map(() => null)
