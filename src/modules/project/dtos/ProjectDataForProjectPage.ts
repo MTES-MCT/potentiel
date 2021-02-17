@@ -35,7 +35,8 @@ export type ProjectDataForProjectPage = {
   details: Record<string, any>
 
   updatedAt?: Date
-} & (IsNotified | IsNotNotified)
+} & (IsNotified | IsNotNotified) &
+  (IsClasse | IsElimine)
 
 type IsNotNotified = {
   notifiedOn: undefined
@@ -47,8 +48,7 @@ type IsNotified = {
     id: string
     filename: string
   }
-} & (IsClasse | IsElimine) &
-  Users &
+} & Users &
   Invitations
 
 type IsClasse = {
