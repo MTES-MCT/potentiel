@@ -10,195 +10,194 @@ import ProjectActions from './projectActions'
 import Pagination from './pagination'
 import { logger } from '../../core/utils'
 
-type Columns =
-  // | 'Periode'
-  'Projet' | 'Candidat' | 'Puissance' | 'Prix' | 'Evaluation Carbone' | 'Classé'
+type Columns = 'Projet' | 'Candidat' | 'Puissance' | 'Prix' | 'Evaluation Carbone' | 'Classé'
 
 type ColumnRenderer = (props: { project: Project }) => React.ReactNode
 
 const ColumnComponent: Record<Columns, ColumnRenderer> = {
-  // Periode: ({ project }) => (
-  //   <td valign="top" className="projectList-periode-column">
-  //     <div
-  //       style={{
-  //         fontStyle: 'italic',
-  //         lineHeight: 'normal',
-  //         fontSize: 12,
-  //       }}
-  //       {...dataId('projectList-item-periode')}
-  //     >
-  //       {project.appelOffreId} Période {project.periodeId}
-  //     </div>
-  //     <div
-  //       style={{
-  //         fontStyle: 'italic',
-  //         lineHeight: 'normal',
-  //         fontSize: 12,
-  //       }}
-  //       {...dataId('projectList-item-famille')}
-  //     >
-  //       {project.familleId?.length ? `famille ${project.familleId}` : ''}
-  //     </div>
-  //   </td>
-  // ),
-  Projet: ({ project }) => (
-    <td valign="top" className="projectList-projet-column">
-      <div {...dataId('projectList-item-nomProjet')}>{project.nomProjet}</div>
-      <div
-        style={{
-          fontStyle: 'italic',
-          lineHeight: 'normal',
-          fontSize: 12,
-        }}
-      >
-        <span {...dataId('projectList-item-communeProjet')}>{project.communeProjet}</span>,{' '}
-        <span {...dataId('projectList-item-departementProjet')}>{project.departementProjet}</span>,{' '}
-        <span {...dataId('projectList-item-regionProjet')}>{project.regionProjet}</span>
-        <div style={{ marginTop: 5, fontStyle: 'normal' }}>{makeProjectIdentifier(project)}</div>
-      </div>
-    </td>
-  ),
-  Candidat: ({ project }) => (
-    <td valign="top" className="projectList-candidat-column">
-      <div {...dataId('projectList-item-nomCandidat')}>{project.nomCandidat}</div>
-      <div
-        style={{
-          fontStyle: 'italic',
-          lineHeight: 'normal',
-          fontSize: 12,
-        }}
-      >
-        <span {...dataId('projectList-item-nomRepresentantLegal')}>
-          {project.nomRepresentantLegal}
-        </span>{' '}
-        <span {...dataId('projectList-item-email')}>{project.email}</span>
-      </div>
-    </td>
-  ),
-  Puissance: ({ project }) => (
-    <td valign="top" className="projectList-puissance-column">
-      <span {...dataId('projectList-item-puissance')}>{project.puissance}</span>{' '}
-      <span
-        style={{
-          fontStyle: 'italic',
-          lineHeight: 'normal',
-          fontSize: 12,
-        }}
-      >
-        {project.appelOffre?.unitePuissance}
-      </span>
-    </td>
-  ),
-  Prix: ({ project }) => (
-    <td valign="top" className="projectList-prix-column">
-      <span {...dataId('projectList-item-prixReference')}>{project.prixReference}</span>{' '}
-      <span
-        style={{
-          fontStyle: 'italic',
-          lineHeight: 'normal',
-          fontSize: 12,
-        }}
-      >
-        €/MWh
-      </span>
-    </td>
-  ),
-  'Evaluation Carbone': ({ project }) => (
-    <td valign="top" className="projectList-evaluation-column">
-      {project.evaluationCarbone > 0 ? (
-        <>
-          <span {...dataId('projectList-item-evaluationCarbone')}>{project.evaluationCarbone}</span>{' '}
-          <span
-            style={{
-              fontStyle: 'italic',
-              lineHeight: 'normal',
-              fontSize: 12,
-            }}
-          >
-            kg eq CO2/kWc
-          </span>
-        </>
-      ) : (
-        ''
-      )}
-    </td>
-  ),
-  Classé: ({ project }) => (
-    <td
-      valign="top"
-      className={
-        'projectList-classe-column notification ' +
-        (project.classe === 'Classé' ? 'success' : 'error')
-      }
-      style={{ position: 'relative' }}
-    >
-      <div {...dataId('projectList-item-classe')}>
-        {project.classe === 'Classé' || !project.motifsElimination ? (
-          project.classe
-        ) : (
-          <a
-            href="#"
-            {...dataId('projectList-item-toggleMotifsElimination')}
-            style={{
-              textDecoration: 'none',
-              color: 'var(--theme-dark-text)',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            Eliminé
-            <svg
-              className="icon icon-mail"
+  Projet: function ProjetColumn({ project }) {
+    return (
+      <td valign="top" className="projectList-projet-column">
+        <div {...dataId('projectList-item-nomProjet')}>{project.nomProjet}</div>
+        <div
+          style={{
+            fontStyle: 'italic',
+            lineHeight: 'normal',
+            fontSize: 12,
+          }}
+        >
+          <span {...dataId('projectList-item-communeProjet')}>{project.communeProjet}</span>,{' '}
+          <span {...dataId('projectList-item-departementProjet')}>{project.departementProjet}</span>
+          , <span {...dataId('projectList-item-regionProjet')}>{project.regionProjet}</span>
+          <div style={{ marginTop: 5, fontStyle: 'normal' }}>{makeProjectIdentifier(project)}</div>
+        </div>
+      </td>
+    )
+  } as ColumnRenderer,
+  Candidat: function CandidatColumn({ project }) {
+    return (
+      <td valign="top" className="projectList-candidat-column">
+        <div {...dataId('projectList-item-nomCandidat')}>{project.nomCandidat}</div>
+        <div
+          style={{
+            fontStyle: 'italic',
+            lineHeight: 'normal',
+            fontSize: 12,
+          }}
+        >
+          <span {...dataId('projectList-item-nomRepresentantLegal')}>
+            {project.nomRepresentantLegal}
+          </span>{' '}
+          <span {...dataId('projectList-item-email')}>{project.email}</span>
+        </div>
+      </td>
+    )
+  } as ColumnRenderer,
+  Puissance: function PuissanceColumn({ project }) {
+    return (
+      <td valign="top" className="projectList-puissance-column">
+        <span {...dataId('projectList-item-puissance')}>{project.puissance}</span>{' '}
+        <span
+          style={{
+            fontStyle: 'italic',
+            lineHeight: 'normal',
+            fontSize: 12,
+          }}
+        >
+          {project.appelOffre?.unitePuissance}
+        </span>
+      </td>
+    )
+  } as ColumnRenderer,
+  Prix: function PrixColumn({ project }) {
+    return (
+      <td valign="top" className="projectList-prix-column">
+        <span {...dataId('projectList-item-prixReference')}>{project.prixReference}</span>{' '}
+        <span
+          style={{
+            fontStyle: 'italic',
+            lineHeight: 'normal',
+            fontSize: 12,
+          }}
+        >
+          €/MWh
+        </span>
+      </td>
+    )
+  } as ColumnRenderer,
+  'Evaluation Carbone': function EvaluationCarboneColumn({ project }) {
+    return (
+      <td valign="top" className="projectList-evaluation-column">
+        {project.evaluationCarbone > 0 ? (
+          <>
+            <span {...dataId('projectList-item-evaluationCarbone')}>
+              {project.evaluationCarbone}
+            </span>{' '}
+            <span
               style={{
-                width: 10,
-                verticalAlign: 'bottom',
-                marginLeft: 5,
+                fontStyle: 'italic',
+                lineHeight: 'normal',
+                fontSize: 12,
               }}
             >
-              <use xlinkHref="#expand"></use>
-            </svg>
-          </a>
+              kg eq CO2/kWc
+            </span>
+          </>
+        ) : (
+          ''
         )}
-      </div>
-      <div
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          right: 5,
-          fontSize: 12,
-          color: 'var(--green)',
-        }}
+      </td>
+    )
+  } as ColumnRenderer,
+  Classé: function ClasséColumn({ project }) {
+    return (
+      <td
+        valign="top"
+        className={
+          'projectList-classe-column notification ' +
+          (project.classe === 'Classé' ? 'success' : 'error')
+        }
+        style={{ position: 'relative' }}
       >
-        {project.classe === 'Classé'
-          ? project.isFinancementParticipatif
-            ? 'FP'
-            : project.isInvestissementParticipatif
-            ? 'IP'
-            : ''
-          : ''}
-      </div>
+        <div {...dataId('projectList-item-classe')}>
+          {project.classe === 'Classé' || !project.motifsElimination ? (
+            project.classe
+          ) : (
+            <a
+              href="#"
+              {...dataId('projectList-item-toggleMotifsElimination')}
+              style={{
+                textDecoration: 'none',
+                color: 'var(--theme-dark-text)',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              Eliminé
+              <svg
+                className="icon icon-mail"
+                style={{
+                  width: 10,
+                  verticalAlign: 'bottom',
+                  marginLeft: 5,
+                }}
+              >
+                <use xlinkHref="#expand"></use>
+              </svg>
+            </a>
+          )}
+        </div>
+        <div
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            right: 5,
+            fontSize: 12,
+            color: 'var(--green)',
+          }}
+        >
+          {project.classe === 'Classé'
+            ? project.isFinancementParticipatif
+              ? 'FP'
+              : project.isInvestissementParticipatif
+              ? 'IP'
+              : ''
+            : ''}
+        </div>
 
-      <div
-        style={{
-          fontStyle: 'italic',
-          lineHeight: 'normal',
-          fontSize: 12,
-          display: 'none',
-        }}
-        className="motif-popover"
-        {...dataId('projectList-item-motifsElimination')}
-      >
-        {project.motifsElimination || ''}
-      </div>
-    </td>
-  ),
+        <div
+          style={{
+            fontStyle: 'italic',
+            lineHeight: 'normal',
+            fontSize: 12,
+            display: 'none',
+          }}
+          className="motif-popover"
+          {...dataId('projectList-item-motifsElimination')}
+        >
+          {project.motifsElimination || ''}
+        </div>
+      </td>
+    )
+  } as ColumnRenderer,
 }
 
 interface Props {
   projects: PaginatedList<Project> | Array<Project>
   displayColumns: Array<string>
-  projectActions?: (
-    project: Project
-  ) => Array<{
+  projectActions?: (project: {
+    id: string
+    certificateFile?: {
+      id: string
+      filename: string
+    }
+    notifiedOn: Date | null
+    appelOffreId: string
+    periodeId: string
+    familleId: string | undefined
+    numeroCRE: string
+    email: string
+    nomProjet: string
+  }) => Array<{
     title: string
     link: string
     isDownload?: boolean

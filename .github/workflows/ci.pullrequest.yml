@@ -28,3 +28,4 @@ jobs:
       - run: npm test
       - run: npm run test-int-init-db
       - run: npm run test-int
+      - run: npm run build
