@@ -68,6 +68,7 @@ export interface Project extends EventStoreAggregate {
   addGeneratedCertificate: (args: {
     projectVersionDate: Date
     certificateFileId: string
+    reason?: string
   }) => Result<null, never>
   readonly shouldCertificateBeGenerated: boolean
   readonly appelOffre: ProjectAppelOffre
@@ -307,7 +308,7 @@ export const makeProject = (args: {
 
       return ok(null)
     },
-    addGeneratedCertificate: function ({ projectVersionDate, certificateFileId }) {
+    addGeneratedCertificate: function ({ projectVersionDate, certificateFileId, reason }) {
       if (props.lastCertificateUpdate) {
         _publishEvent(
           new ProjectCertificateRegenerated({
@@ -315,6 +316,7 @@ export const makeProject = (args: {
               projectId: props.projectId.toString(),
               projectVersionDate,
               certificateFileId,
+              reason,
             },
           })
         )

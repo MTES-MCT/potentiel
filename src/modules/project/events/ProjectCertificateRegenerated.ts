@@ -8,6 +8,7 @@ export interface ProjectCertificateRegeneratedPayload {
   certificateFileId: string
   projectVersionDate: Date
   projectId: string
+  reason?: string
 }
 export class ProjectCertificateRegenerated
   extends BaseDomainEvent<ProjectCertificateRegeneratedPayload>

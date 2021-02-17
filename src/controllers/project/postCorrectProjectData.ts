@@ -42,6 +42,8 @@ v1Router.post(
       isClasse,
       motifsElimination,
       appelOffreAndPeriode,
+      forceCertificateGeneration,
+      reason,
     } = request.body
 
     const [appelOffreId, periodeId] = appelOffreAndPeriode?.split('|')
@@ -68,9 +70,9 @@ v1Router.post(
       numeroCRE,
       appelOffreId,
       periodeId,
-      familleId,
+      familleId: familleId.length ? familleId : undefined,
+      territoireProjet: territoireProjet.length ? territoireProjet : undefined,
       nomProjet,
-      territoireProjet,
       puissance: Number(puissance),
       prixReference: Number(prixReference),
       evaluationCarbone: Number(evaluationCarbone),
@@ -102,6 +104,8 @@ v1Router.post(
       newNotifiedOn: moment(notificationDate, FORMAT_DATE).tz('Europe/London').toDate().getTime(),
       user: request.user,
       shouldGrantClasse: Number(isClasse) === 1,
+      forceCertificateGeneration: Boolean(forceCertificateGeneration),
+      reason,
     })
 
     return await result.match(

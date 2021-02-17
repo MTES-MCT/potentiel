@@ -29,6 +29,8 @@ interface CorrectProjectDataArgs {
   newNotifiedOn: number
   user: User
   shouldGrantClasse: boolean
+  forceCertificateGeneration: boolean
+  reason?: string
   correctedData: Partial<{
     numeroCRE: string
     appelOffreId: string
@@ -75,6 +77,8 @@ export const makeCorrectProjectData = (deps: CorrectProjectDataDeps): CorrectPro
   user,
   correctedData,
   shouldGrantClasse,
+  forceCertificateGeneration,
+  reason,
 }) => {
   if (!user || !['admin', 'dgec'].includes(user.role)) {
     return errAsync(new UnauthorizedError())
@@ -107,8 +111,8 @@ export const makeCorrectProjectData = (deps: CorrectProjectDataDeps): CorrectPro
 
     // If shouldCertificateBeGenerated, generate a new certificate
     return projectTransaction.andThen((shouldCertificateBeGenerated) => {
-      return shouldCertificateBeGenerated
-        ? deps.generateCertificate(projectId).map(() => null)
+      return shouldCertificateBeGenerated || forceCertificateGeneration
+        ? deps.generateCertificate(projectId, reason).map(() => null)
         : okAsync<null, CorrectProjectDataError>(null)
     })
   })
