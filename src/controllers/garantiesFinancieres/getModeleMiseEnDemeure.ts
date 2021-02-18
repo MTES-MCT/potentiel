@@ -49,7 +49,7 @@ v1Router.get(
       'Modèle mise en demeure v2.docx'
     )
 
-    const imageToInject = path.resolve(__dirname, '../public/images/dreals', `${dreal}.png`)
+    const imageToInject = path.resolve(__dirname, '../../public/images/dreals', `${dreal}.png`)
 
     await fillDocxTemplate({
       templatePath,
