@@ -9,6 +9,7 @@ import {
   makeGenerateCertificate,
   makeSubmitStep,
   makeRemoveStep,
+  makeRegenerateCertificatesForPeriode,
 } from '../modules/project/useCases'
 import { buildCertificate } from '../views/certificates'
 import {
@@ -18,7 +19,11 @@ import {
   userRepo,
   modificationRequestRepo,
 } from './repos.config'
-import { getFileProject, getProjectIdForAdmissionKey } from './queries.config'
+import {
+  getFileProject,
+  getProjectIdForAdmissionKey,
+  getProjectIdsForPeriode,
+} from './queries.config'
 import { eventStore } from './eventStore.config'
 import { makeAcceptModificationRequest } from '../modules/modificationRequest'
 
@@ -71,4 +76,11 @@ export const submitStep = makeSubmitStep({
 export const removeStep = makeRemoveStep({
   eventBus: eventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+})
+
+export const regenerateCertificatesForPeriode = makeRegenerateCertificatesForPeriode({
+  eventBus: eventStore,
+  generateCertificate,
+  projectRepo,
+  getProjectIdsForPeriode,
 })

@@ -58,6 +58,8 @@ class routes {
   static IMPORT_PROJECTS_ACTION = '/admin/importProjects'
   static ADMIN_LIST_PROJECTS = '/admin/dashboard.html'
   static ADMIN_LIST_REQUESTS = '/admin/demandes.html'
+  static ADMIN_REGENERATE_CERTIFICATES = '/admin/regenerer-attestations.html'
+  static ADMIN_REGENERATE_CERTIFICATES_ACTION = '/admin/regenerer-attestations'
   static ADMIN_NOTIFY_CANDIDATES = withParams<{
     appelOffreId: string
     periodeId: string
