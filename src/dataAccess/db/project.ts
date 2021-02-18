@@ -335,12 +335,6 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
 
       const projectWithAppelOffre = await addAppelOffreToProject(projectInstance.unwrap())
 
-      if (includeHistory) {
-        projectWithAppelOffre.history = (await projectInDb.getProjectEvents()).map((item) =>
-          item.get()
-        )
-      }
-
       return projectWithAppelOffre
     } catch (error) {
       if (CONFIG.logDbErrors) logger.error(error)
