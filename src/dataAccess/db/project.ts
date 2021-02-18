@@ -214,79 +214,6 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
     },
   })
 
-  const ProjectEventModel = sequelizeInstance.define('projectEvent', {
-    id: {
-      type: DataTypes.UUID,
-      primaryKey: true,
-    },
-    projectId: {
-      type: DataTypes.UUID,
-      allowNull: false,
-    },
-    before: {
-      type: DataTypes.STRING,
-      get() {
-        const rawValue = this.getDataValue('before')
-        let parsedValue = {}
-        try {
-          if (rawValue) parsedValue = JSON.parse(rawValue)
-        } catch (e) {
-          logger.info('ProjectEventModel failed to parse before rawValue', rawValue)
-          logger.error(e)
-        }
-        return parsedValue
-      },
-      set(value) {
-        this.setDataValue('before', JSON.stringify(value))
-      },
-      allowNull: false,
-    },
-    after: {
-      type: DataTypes.STRING,
-      get() {
-        const rawValue = this.getDataValue('after')
-
-        let parsedValue = {}
-        try {
-          if (rawValue) parsedValue = JSON.parse(rawValue)
-        } catch (e) {
-          logger.info('ProjectEventModel failed to parse after rawValue', rawValue)
-          logger.error(e)
-        }
-        return parsedValue
-      },
-      set(value) {
-        this.setDataValue('after', JSON.stringify(value))
-      },
-      allowNull: false,
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    userId: {
-      type: DataTypes.UUID,
-      allowNull: false,
-    },
-    type: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    modificationRequestId: {
-      type: DataTypes.UUID,
-      allowNull: true,
-    },
-  })
-
-  ProjectModel.hasMany(ProjectEventModel)
-  ProjectEventModel.belongsTo(ProjectModel, {
-    foreignKey: 'projectId',
-  })
-
   const FileModel = sequelizeInstance.define(
     'files',
     {
@@ -796,27 +723,6 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
     }
   }
 
-  async function _updateProjectHistory(project: Project) {
-    // Check if the event history needs updating
-    const newEvents = project.history?.filter((event) => event.isNew)
-    if (newEvents && newEvents.length) {
-      // New events found
-      // Save them in the ProjectEvent table
-      try {
-        await Promise.all(
-          newEvents
-            .map((newEvent) => ({
-              ...newEvent,
-              projectId: project.id,
-            }))
-            .map((newEvent) => ProjectEventModel.create(newEvent))
-        )
-      } catch (error) {
-        logger.error(error)
-      }
-    }
-  }
-
   async function save(project: Project): ResultAsync<null> {
     await _isDbReady
 
@@ -845,8 +751,6 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
         })
         await ProjectModel.create(project)
       }
-
-      await _updateProjectHistory(project)
 
       return Ok(null)
     } catch (error) {
