@@ -11,7 +11,7 @@ import { formatField, writeCsvOnDisk } from '../../helpers/csv'
 import { promises as fsPromises } from 'fs'
 import { Project } from '../../entities'
 
-const getProjectsNotifiesCsv = asyncHandler(async (request, response) => {
+const getCandidatesCsv = asyncHandler(async (request, response) => {
   const { appelOffreId, periodeId, classement, recherche, beforeNotification } = request.query
 
   if (!appelOffreId || !periodeId) {
@@ -30,16 +30,13 @@ const getProjectsNotifiesCsv = asyncHandler(async (request, response) => {
   const pagination = makePagination(request.query, defaultPagination)
 
   const projetsCandidats = [
-    { name: 'Candidat' },
+    { name: 'nomCandidat' },
     { name: 'nomProjet' },
     { name: 'puissance' },
     { name: 'familleId' },
     { name: 'departementProjet' },
     { name: 'regionProjet' },
   ]
-
-  const fields = projetsCandidats.map((field) => formatField(field))
-  fields.unshift({ label: 'Titre', value: 'appelOffre.title' })
 
   try {
     const {
@@ -65,6 +62,10 @@ const getProjectsNotifiesCsv = asyncHandler(async (request, response) => {
           })
 
     const sortedProjects = _sortProjectsByRegionsAndDepartements(projects)
+
+    const fields = projetsCandidats.map((field) => formatField(field))
+    const title = `Liste des lauréats de la ${projects[0].appelOffre.periode.title} période d'appel d'offres portant sur ${projects[0].appelOffre.title}`
+    fields.unshift({ label: 'Titre', value: () => title })
 
     const csv = await parseAsync(sortedProjects, { fields, delimiter: ';' })
     const csvFilePath = await writeCsvOnDisk(csv, '/tmp')
@@ -95,8 +96,8 @@ function _sortProjectsByRegionsAndDepartements(projects: Project[]) {
 }
 
 v1Router.get(
-  routes.ADMIN_DOWNLOAD_PROJECTS_CANDIDATS_CSV,
+  routes.ADMIN_DOWNLOAD_CANDIDATES_CSV,
   ensureLoggedIn(),
   ensureRole('admin'),
-  getProjectsNotifiesCsv
+  getCandidatesCsv
 )

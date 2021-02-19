@@ -172,7 +172,6 @@ export default function ListProjects({
                     </select>
                   ) : null}
                 </div>
-
                 <div style={{ marginTop: 15 }}>
                   <div style={{ marginLeft: 2 }}>Garanties Financières</div>
                   <select
@@ -201,12 +200,10 @@ export default function ListProjects({
                   </select>
                 </div>
 
-                {request.user.role === 'admin' && (
+                {request.user.role === 'admin' && appelOffreId && periodeId && (
                   <div style={{ marginTop: 15 }}>
                     <a
-                      href={`${
-                        ROUTES.ADMIN_DOWNLOAD_PROJECTS_CANDIDATS_CSV
-                      }?${querystring.stringify({
+                      href={`${ROUTES.ADMIN_DOWNLOAD_CANDIDATES_CSV}?${querystring.stringify({
                         ...request.query,
                         beforeNotification: false,
                       })}`}

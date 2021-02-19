@@ -151,7 +151,7 @@ export default function AdminNotifyCandidates({ request, results }: AdminNotifyC
               AO et Période{' '}
               <a
                 href={`
-                ${ROUTES.ADMIN_DOWNLOAD_PROJECTS_CANDIDATS_CSV}?${querystring.stringify({
+                ${ROUTES.ADMIN_DOWNLOAD_CANDIDATES_CSV}?${querystring.stringify({
                   ...request.query,
                   appelOffreId: selectedAppelOffreId,
                   periodeId: selectedPeriodeId,
