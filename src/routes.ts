@@ -54,7 +54,7 @@ class routes {
   }
 
   static DOWNLOAD_PROJECTS_CSV = '/export-projets.csv'
-  static ADMIN_DOWNLOAD_CANDIDATES_CSV = '/export-projets-candidats.csv'
+  static ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV = '/export-projets-laureats.csv'
   static IMPORT_PROJECTS_ACTION = '/admin/importProjects'
   static ADMIN_LIST_PROJECTS = '/admin/dashboard.html'
   static ADMIN_LIST_REQUESTS = '/admin/demandes.html'

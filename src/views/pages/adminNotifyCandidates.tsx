@@ -147,21 +147,6 @@ export default function AdminNotifyCandidates({ request, results }: AdminNotifyC
           style={{ maxWidth: 'auto', margin: '0 0 15px 0' }}
         >
           <div className="form__group">
-            <legend>
-              AO et Période{' '}
-              <a
-                href={`
-                ${ROUTES.ADMIN_DOWNLOAD_CANDIDATES_CSV}?${querystring.stringify({
-                  ...request.query,
-                  appelOffreId: selectedAppelOffreId,
-                  periodeId: selectedPeriodeId,
-                  beforeNotification: true,
-                })}`}
-              >
-                <DownloadIcon />
-              </a>
-            </legend>
-
             <select name="appelOffreId" id="appelOffreId" {...dataId('appelOffreIdSelector')}>
               {existingAppelsOffres.map((appelOffre) => (
                 <option
@@ -184,6 +169,23 @@ export default function AdminNotifyCandidates({ request, results }: AdminNotifyC
                 </option>
               ))}
             </select>
+
+            {selectedAppelOffreId && selectedPeriodeId && (
+              <div style={{ marginTop: '15px' }}>
+                <a
+                  href={`
+                ${ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV}?${querystring.stringify({
+                    ...request.query,
+                    appelOffreId: selectedAppelOffreId,
+                    periodeId: selectedPeriodeId,
+                    beforeNotification: true,
+                  })}`}
+                >
+                  Liste des lauréats
+                  <DownloadIcon color="red" />
+                </a>
+              </div>
+            )}
           </div>
           {projectsInPeriodCount && !success ? (
             <div className="form__group">

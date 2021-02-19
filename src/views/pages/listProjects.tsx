@@ -203,10 +203,12 @@ export default function ListProjects({
                 {request.user.role === 'admin' && appelOffreId && periodeId && (
                   <div style={{ marginTop: 15 }}>
                     <a
-                      href={`${ROUTES.ADMIN_DOWNLOAD_CANDIDATES_CSV}?${querystring.stringify({
-                        ...request.query,
-                        beforeNotification: false,
-                      })}`}
+                      href={`${ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV}?${querystring.stringify(
+                        {
+                          ...request.query,
+                          beforeNotification: false,
+                        }
+                      )}`}
                     >
                       Liste des lauréats
                       <DownloadIcon color="red" />

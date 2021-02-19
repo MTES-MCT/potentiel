@@ -1,5 +1,5 @@
 export * from './getProjectListCsv'
-export * from './getCandidatesCsv'
+export * from './getProjectsLaureatsCsv'
 export * from './getCancelInvitationToProject'
 export * from './getProjectFile'
 export * from './getProjectListPage'

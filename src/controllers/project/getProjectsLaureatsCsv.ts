@@ -11,14 +11,14 @@ import { formatField, writeCsvOnDisk } from '../../helpers/csv'
 import { promises as fsPromises } from 'fs'
 import { Project } from '../../entities'
 
-const getCandidatesCsv = asyncHandler(async (request, response) => {
-  const { appelOffreId, periodeId, classement, recherche, beforeNotification } = request.query
+const getProjectsLaureatsCsv = asyncHandler(async (request, response) => {
+  const { appelOffreId, periodeId, recherche, beforeNotification } = request.query
 
   if (!appelOffreId || !periodeId) {
     return response
       .status(400)
       .send(
-        `Pour exporter la liste des projets notifiés, vous devez d'abord sélectionner un appel d'offre ainsi qu'une période.`
+        `Pour exporter la liste des projets lauréats, vous devez d'abord sélectionner un appel d'offre ainsi qu'une période.`
       )
   }
 
@@ -48,7 +48,7 @@ const getCandidatesCsv = asyncHandler(async (request, response) => {
             periodeId,
             pagination,
             recherche,
-            classement,
+            classement: 'classés',
           })
         : await listProjects({
             user: request.user,
@@ -80,7 +80,7 @@ const getCandidatesCsv = asyncHandler(async (request, response) => {
     response
       .status(500)
       .send(
-        "Un problème est survenu pendant la génération de l'export des projets en format csv. Veuillez contacter un administrateur."
+        "Un problème est survenu pendant la génération de l'export des projets lauréats. Veuillez contacter un administrateur."
       )
   }
 })
@@ -96,8 +96,8 @@ function _sortProjectsByRegionsAndDepartements(projects: Project[]) {
 }
 
 v1Router.get(
-  routes.ADMIN_DOWNLOAD_CANDIDATES_CSV,
+  routes.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV,
   ensureLoggedIn(),
   ensureRole('admin'),
-  getCandidatesCsv
+  getProjectsLaureatsCsv
 )
