@@ -2,27 +2,43 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('project_ptfs', {
-      projectId: {
+    await queryInterface.createTable('project_steps', {
+      id: {
         type: Sequelize.DataTypes.UUID,
         primaryKey: true,
         allowNull: false,
       },
-      ptfDate: {
-        type: Sequelize.DataTypes.DATE,
+      type: {
+        type: Sequelize.DataTypes.STRING,
         allowNull: false,
+      },
+      projectId: {
+        type: Sequelize.DataTypes.UUID,
+        allowNull: false,
+      },
+      dueOn: {
+        type: Sequelize.DataTypes.DATE,
+        allowNull: true,
+      },
+      stepDate: {
+        type: Sequelize.DataTypes.DATE,
+        allowNull: true,
       },
       fileId: {
         type: Sequelize.DataTypes.UUID,
-        allowNull: false,
-      },
-      submittedBy: {
-        type: Sequelize.DataTypes.UUID,
-        allowNull: false,
+        allowNull: true,
       },
       submittedOn: {
         type: Sequelize.DataTypes.DATE,
-        allowNull: false,
+        allowNull: true,
+      },
+      submittedBy: {
+        type: Sequelize.DataTypes.UUID,
+        allowNull: true,
+      },
+      details: {
+        type: Sequelize.DataTypes.JSON,
+        allowNull: true,
       },
       createdAt: Sequelize.DATE,
       updatedAt: Sequelize.DATE,

@@ -5,7 +5,7 @@ import models from '../../../models'
 import { onProjectPTFSubmitted } from './onProjectPTFSubmitted'
 
 describe('projectPTF.onProjectPTFSubmitted', () => {
-  const { ProjectPTF } = models
+  const { ProjectStep } = models
 
   const projectId = new UniqueEntityID().toString()
   const userId = new UniqueEntityID().toString()
@@ -28,17 +28,18 @@ describe('projectPTF.onProjectPTFSubmitted', () => {
     })
     await onProjectPTFSubmitted(models)(event)
 
-    const projection = await ProjectPTF.findByPk(projectId)
+    const projection = await ProjectStep.findByPk(projectId)
 
     expect(projection).toBeDefined()
     if (!projection) return
 
     expect(projection.get()).toEqual(
       expect.objectContaining({
+        type: 'ptf',
         projectId,
-        ptfDate,
+        stepDate: ptfDate,
         fileId,
-        submittedBy: userId,
+        submittedById: userId,
       })
     )
   })

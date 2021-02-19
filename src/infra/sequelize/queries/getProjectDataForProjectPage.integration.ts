@@ -7,7 +7,7 @@ import { makeUser } from '../../../entities'
 import { UniqueEntityID } from '../../../core/domain'
 import { makeGetProjectDataForProjectPage } from './getProjectDataForProjectPage'
 
-const { Project, File, User, UserProjects, ProjectAdmissionKey, ProjectPTF } = models
+const { Project, File, User, UserProjects, ProjectAdmissionKey, ProjectStep } = models
 const certificateFileId = new UniqueEntityID().toString()
 
 const projectId = new UniqueEntityID().toString()
@@ -285,9 +285,11 @@ describe('Sequelize getProjectDataForProjectPage', () => {
       await Project.create(makeFakeProject(projectInfo))
       await File.create(makeFakeFile({ id: certificateFileId, filename: 'filename' }))
       await File.create(makeFakeFile({ id: ptfFileId, filename: 'filename' }))
-      await ProjectPTF.create({
+      await ProjectStep.create({
+        id: new UniqueEntityID().toString(),
+        type: 'ptf',
         projectId,
-        ptfDate: new Date(56),
+        stepDate: new Date(56),
         fileId: ptfFileId,
         submittedOn: new Date(567),
         submittedBy: user.id,
@@ -296,11 +298,13 @@ describe('Sequelize getProjectDataForProjectPage', () => {
       const res = await getProjectDataForProjectPage({ projectId, user })
 
       expect(res._unsafeUnwrap()).toMatchObject({
-        ptfSubmittedOn: new Date(567),
-        ptfDate: new Date(56),
-        ptfFile: {
-          id: ptfFileId,
-          filename: 'filename',
+        ptf: {
+          submittedOn: new Date(567),
+          ptfDate: new Date(56),
+          file: {
+            id: ptfFileId,
+            filename: 'filename',
+          },
         },
       })
     })

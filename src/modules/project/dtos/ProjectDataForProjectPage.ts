@@ -83,16 +83,18 @@ type DCRPending = {
 type PTF = PTFSubmitted | PTFPending
 
 type PTFSubmitted = {
-  ptfSubmittedOn: Date
-  ptfDate: Date
-  ptfFile: {
-    id: string
-    filename: string
+  ptf: {
+    submittedOn: Date
+    ptfDate: Date
+    file: {
+      id: string
+      filename: string
+    }
   }
 }
 
 type PTFPending = {
-  ptfSubmittedOn: undefined
+  ptf: undefined
 }
 
 type GarantieFinanciere = RequiresGF | DoesNotRequireGF

@@ -191,7 +191,7 @@ export const MakeProjectModel = (sequelize) => {
   )
 
   Project.associate = (models) => {
-    const { File, UserProjects, ProjectAdmissionKey, ProjectPTF } = models
+    const { File, UserProjects, ProjectAdmissionKey, ProjectStep } = models
     Project.belongsTo(File, {
       foreignKey: 'garantiesFinancieresFileId',
       as: 'garantiesFinancieresFileRef',
@@ -224,8 +224,8 @@ export const MakeProjectModel = (sequelize) => {
       sourceKey: 'email',
     })
 
-    Project.hasOne(ProjectPTF, {
-      as: 'ptf',
+    Project.hasMany(ProjectStep, {
+      as: 'steps',
       foreignKey: 'projectId',
     })
   }

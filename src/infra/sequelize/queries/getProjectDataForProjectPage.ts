@@ -7,8 +7,8 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
   projectId,
   user,
 }) => {
-  const { Project, File, User, UserProjects, ProjectAdmissionKey, ProjectPTF } = models
-  if (!Project || !File || !User || !UserProjects || !ProjectAdmissionKey || !ProjectPTF)
+  const { Project, File, User, UserProjects, ProjectAdmissionKey, ProjectStep } = models
+  if (!Project || !File || !User || !UserProjects || !ProjectAdmissionKey || !ProjectStep)
     return errAsync(new InfraNotAvailableError())
 
   return ResultAsync.fromPromise(
@@ -62,8 +62,8 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
           required: false,
         },
         {
-          model: ProjectPTF,
-          as: 'ptf',
+          model: ProjectStep,
+          as: 'steps',
           required: false,
           include: [
             {
@@ -123,7 +123,7 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
       users,
       invitations,
       invitationsForProjectEmail,
-      ptf,
+      steps,
     } = projectRaw.get()
 
     let allInvitations: any[] = []
@@ -200,10 +200,12 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
       }
     }
 
-    if (ptf) {
-      result.ptfSubmittedOn = ptf.submittedOn
-      result.ptfDate = ptf.ptfDate
-      result.ptfFile = ptf.file && ptf.file.get()
+    if (steps) {
+      const ptf = steps.find((step) => step.type === 'ptf')
+      if (ptf) {
+        const { submittedOn, file, stepDate } = ptf
+        result.ptf = { submittedOn, file: file && file.get(), ptfDate: stepDate }
+      }
     }
 
     return ok(result)

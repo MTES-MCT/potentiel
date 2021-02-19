@@ -1,14 +1,17 @@
+import { UniqueEntityID } from '../../../../../core/domain'
 import { logger } from '../../../../../core/utils'
 import { ProjectPTFSubmitted } from '../../../../../modules/project/events'
 
 export const onProjectPTFSubmitted = (models) => async (event: ProjectPTFSubmitted) => {
-  const { ProjectPTF } = models
+  const { ProjectStep } = models
 
   const { projectId, ptfDate, fileId, submittedBy } = event.payload
   try {
-    await ProjectPTF.create({
+    await ProjectStep.create({
+      id: new UniqueEntityID().toString(),
+      type: 'ptf',
       projectId,
-      ptfDate,
+      stepDate: ptfDate,
       fileId,
       submittedBy,
       submittedOn: event.occurredAt,
