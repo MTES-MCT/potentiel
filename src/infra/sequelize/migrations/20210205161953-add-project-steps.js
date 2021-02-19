@@ -16,25 +16,21 @@ module.exports = {
         type: Sequelize.DataTypes.UUID,
         allowNull: false,
       },
-      dueOn: {
-        type: Sequelize.DataTypes.DATE,
-        allowNull: true,
-      },
       stepDate: {
         type: Sequelize.DataTypes.DATE,
-        allowNull: true,
+        allowNull: false,
       },
       fileId: {
         type: Sequelize.DataTypes.UUID,
-        allowNull: true,
+        allowNull: false,
       },
       submittedOn: {
         type: Sequelize.DataTypes.DATE,
-        allowNull: true,
+        allowNull: false,
       },
       submittedBy: {
         type: Sequelize.DataTypes.UUID,
-        allowNull: true,
+        allowNull: false,
       },
       details: {
         type: Sequelize.DataTypes.JSON,

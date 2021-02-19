@@ -17,25 +17,21 @@ export const MakeProjectStepModel = (sequelize) => {
         type: DataTypes.UUID,
         allowNull: false,
       },
-      dueOn: {
-        type: DataTypes.DATE,
-        allowNull: true,
-      },
       stepDate: {
         type: DataTypes.DATE,
-        allowNull: true,
+        allowNull: false,
       },
       fileId: {
         type: DataTypes.UUID,
-        allowNull: true,
+        allowNull: false,
       },
       submittedOn: {
         type: DataTypes.DATE,
-        allowNull: true,
+        allowNull: false,
       },
       submittedBy: {
         type: DataTypes.UUID,
-        allowNull: true,
+        allowNull: false,
       },
       details: {
         type: DataTypes.JSON,

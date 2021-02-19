@@ -39,7 +39,7 @@ describe('projectPTF.onProjectPTFSubmitted', () => {
         projectId,
         stepDate: ptfDate,
         fileId,
-        submittedById: userId,
+        submittedBy: userId,
       })
     )
   })
