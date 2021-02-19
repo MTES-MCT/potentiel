@@ -1,19 +1,16 @@
-import { PaginatedList, Pagination } from '../../types'
-import { v4 as uuid } from 'uuid'
+import { Pagination } from '../../types'
 import { listProjects } from '../../useCases'
 import { makePagination } from '../../helpers/paginate'
 import routes from '../../routes'
 import { parseAsync } from 'json2csv'
 import { logger } from '../../core/utils'
-import { dataFieldsFlattened } from '../../dataAccess/inMemory/appelsOffres'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
 import { ensureLoggedIn } from '../auth'
 import { promises as fsPromises } from 'fs'
-import { encode } from 'iconv-lite'
 import moment from 'moment'
 import { Project } from '../../entities'
-import { idText } from 'typescript'
+import { formatField, writeCsvOnDisk } from '../../helpers/csv'
 
 const orderedFields = [
   { name: 'numeroCRE', visibility: ['*'] },
@@ -291,7 +288,7 @@ const orderedFields = [
   { name: "Type d'utorisation d'Urbanisme (pièce n°3)", visibility: ['admin', 'dreal'] },
   {
     name: 'Investissement ou financement participatif ?',
-    value: (row) => row.isInvestissementParticipatif || row.isFinancementParticipatif,
+    fn: (row) => row.isInvestissementParticipatif || row.isFinancementParticipatif,
     visibility: ['admin', 'dreal', 'edfoa'],
   },
   { name: '€/MWh bonus participatif', visibility: ['admin', 'porteur-projet', 'edfoa'] },
@@ -409,8 +406,6 @@ const orderedFields = [
   { name: 'garantiesFinancieresSubmittedOn', visibility: ['*'] },
 ]
 
-const csvSaveDir = '/tmp'
-
 const getProjectListCsv = asyncHandler(async (request, response) => {
   let {
     appelOffreId,
@@ -443,7 +438,9 @@ const getProjectListCsv = asyncHandler(async (request, response) => {
     familleId = undefined
   }
 
-  const results = await listProjects({
+  const {
+    projects: { items: projects },
+  } = await listProjects({
     user: request.user,
     appelOffreId,
     periodeId,
@@ -454,16 +451,14 @@ const getProjectListCsv = asyncHandler(async (request, response) => {
     garantiesFinancieres,
   })
 
-  const { projects } = results
-
   try {
     const selectedFields = _selectFieldsForRole(request.user.role)
 
     _convertTimestampToFrenchDateFormat(projects)
 
-    const csv = await parseAsync(projects.items, { fields: selectedFields, delimiter: ';' })
+    const csv = await parseAsync(projects, { fields: selectedFields, delimiter: ';' })
 
-    const csvFilePath = await _writeCsvOnDisk(csv)
+    const csvFilePath = await writeCsvOnDisk(csv, '/tmp')
 
     // Delete file when the client's download is complete
     response.on('finish', async () => {
@@ -481,21 +476,14 @@ const getProjectListCsv = asyncHandler(async (request, response) => {
   }
 })
 
-async function _writeCsvOnDisk(csv: string): Promise<string> {
-  const csvUtf8Bom = encode(csv, 'utf-8', { addBOM: true })
-  const fileName = `${csvSaveDir}/${uuid()}.csv`
-  await fsPromises.writeFile(fileName, csvUtf8Bom)
-  return fileName
-}
-
-function _convertTimestampToFrenchDateFormat(projects: PaginatedList<Project>): void {
+function _convertTimestampToFrenchDateFormat(projects: Project[]): void {
   const timestampsFields = [
     'notifiedOn',
     'garantiesFinancieresSubmittedOn',
     'garantiesFinancieresDate',
   ]
 
-  projects.items.forEach((project) => {
+  projects.forEach((project) => {
     Object.entries(project).forEach(([key, value]) => {
       if (timestampsFields.includes(key) && project[key] !== 0)
         project[key] = moment(Number(value)).format('DD/MM/YYYY')
@@ -503,20 +491,10 @@ function _convertTimestampToFrenchDateFormat(projects: PaginatedList<Project>): 
   })
 }
 
-function _selectFieldsForRole(userRole: string): object[] {
+function _selectFieldsForRole(userRole: string): { label: string; value: string | Function }[] {
   return orderedFields
     .filter((field) => field.visibility.includes(userRole) || field.visibility.includes('*'))
-    .reduce((fields, field) => [...fields, _formatField(field)], [])
-}
-
-function _formatField(field: any): object {
-  const { name, value } = field
-
-  if (value) return { label: name, value }
-
-  return dataFieldsFlattened.has(name)
-    ? { label: dataFieldsFlattened.get(name), value: name }
-    : { label: name, value: `details.${name}` }
+    .reduce((fields, field) => [...fields, formatField(field)], [])
 }
 
 v1Router.get(routes.DOWNLOAD_PROJECTS_CSV, ensureLoggedIn(), getProjectListCsv)
