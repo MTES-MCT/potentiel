@@ -20,6 +20,10 @@ module.exports = {
         type: Sequelize.DataTypes.UUID,
         allowNull: false,
       },
+      submittedOn: {
+        type: Sequelize.DataTypes.DATE,
+        allowNull: false,
+      },
       createdAt: Sequelize.DATE,
       updatedAt: Sequelize.DATE,
     })

@@ -7,8 +7,8 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
   projectId,
   user,
 }) => {
-  const { Project, File, User, UserProjects, ProjectAdmissionKey } = models
-  if (!Project || !File || !User || !UserProjects || !ProjectAdmissionKey)
+  const { Project, File, User, UserProjects, ProjectAdmissionKey, ProjectPTF } = models
+  if (!Project || !File || !User || !UserProjects || !ProjectAdmissionKey || !ProjectPTF)
     return errAsync(new InfraNotAvailableError())
 
   return ResultAsync.fromPromise(
@@ -61,6 +61,18 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
           attributes: ['id', 'email'],
           required: false,
         },
+        {
+          model: ProjectPTF,
+          as: 'ptf',
+          required: false,
+          include: [
+            {
+              model: File,
+              as: 'file',
+              attributes: ['id', 'filename'],
+            },
+          ],
+        },
       ],
     }),
     (e: Error) => {
@@ -111,6 +123,7 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
       users,
       invitations,
       invitationsForProjectEmail,
+      ptf,
     } = projectRaw.get()
 
     let allInvitations: any[] = []
@@ -185,6 +198,12 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
         result.dcrFile = dcrFileRef && dcrFileRef.get()
         result.dcrNumeroDossier = dcrNumeroDossier
       }
+    }
+
+    if (ptf) {
+      result.ptfSubmittedOn = ptf.submittedOn
+      result.ptfDate = ptf.ptfDate
+      result.ptfFile = ptf.file && ptf.file.get()
     }
 
     return ok(result)

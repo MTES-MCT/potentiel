@@ -11,6 +11,7 @@ export const onProjectPTFSubmitted = (models) => async (event: ProjectPTFSubmitt
       ptfDate,
       fileId,
       submittedBy,
+      submittedOn: event.occurredAt,
     })
   } catch (e) {
     logger.error(e)
