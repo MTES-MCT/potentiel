@@ -189,6 +189,7 @@ class routes {
     } else return route
   }
 
+  static DEPOSER_ETAPE_ACTION = '/deposer-etape'
   static SUPPRIMER_ETAPE_ACTION = (args?: { projectId: string; type: string }) => {
     const route = '/projet/:projectId/supprimer/:type'
     if (args) {
@@ -232,7 +233,7 @@ class routes {
   }
 
   static DEPOSER_DCR_ACTION = '/deposer-dcr'
-  static DEPOSER_PTF_ACTION = '/deposer-ptf'
+
   static SUPPRIMER_DCR_ACTION = (projectId?: Project['id']) => {
     const route = '/projet/:projectId/supprimer-dcr'
     if (projectId) {

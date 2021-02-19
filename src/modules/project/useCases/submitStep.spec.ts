@@ -9,9 +9,8 @@ import { UnwrapForTest } from '../../../types'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { UnauthorizedError } from '../../shared'
 import { ProjectPTFSubmitted } from '../events'
-import { makeSubmitPTF } from './submitPTF'
+import { makeSubmitStep } from './submitStep'
 
-const ptfDate = new Date(123)
 const projectId = new UniqueEntityID().toString()
 
 const fakeFileContents = {
@@ -26,7 +25,7 @@ const fakeEventBus: EventBus = {
   subscribe: jest.fn(),
 }
 
-describe('submitPTF use-case', () => {
+describe('submitStep use-case', () => {
   describe('when the user has rights on this project', () => {
     const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
 
@@ -35,52 +34,57 @@ describe('submitPTF use-case', () => {
       load: jest.fn(),
     }
 
-    beforeAll(async () => {
-      const shouldUserAccessProject = jest.fn(async () => true)
-      fakePublish.mockClear()
+    describe('when type is ptf', () => {
+      const ptfDate = new Date(123)
 
-      const submitPTF = makeSubmitPTF({
-        eventBus: fakeEventBus,
-        fileRepo: fileRepo as Repository<FileObject>,
-        shouldUserAccessProject,
+      beforeAll(async () => {
+        const shouldUserAccessProject = jest.fn(async () => true)
+        fakePublish.mockClear()
+
+        const submitStep = makeSubmitStep({
+          eventBus: fakeEventBus,
+          fileRepo: fileRepo as Repository<FileObject>,
+          shouldUserAccessProject,
+        })
+
+        const res = await submitStep({
+          type: 'ptf',
+          file: fakeFileContents,
+          stepDate: ptfDate,
+          projectId,
+          submittedBy: user,
+        })
+
+        expect(res.isOk()).toBe(true)
+
+        expect(shouldUserAccessProject).toHaveBeenCalledWith({
+          user,
+          projectId,
+        })
       })
 
-      const res = await submitPTF({
-        file: fakeFileContents,
-        ptfDate,
-        projectId,
-        submittedBy: user,
+      it('should save the attachment file', async () => {
+        expect(fileRepo.save).toHaveBeenCalled()
+        expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents.contents)
       })
 
-      expect(res.isOk()).toBe(true)
+      it('should trigger a ProjectPTFSubmitted event', async () => {
+        expect(fakePublish).toHaveBeenCalled()
+        const targetEvent = fakePublish.mock.calls
+          .map((call) => call[0])
+          .find((event) => event.type === ProjectPTFSubmitted.type) as ProjectPTFSubmitted
 
-      expect(shouldUserAccessProject).toHaveBeenCalledWith({
-        user,
-        projectId,
+        expect(targetEvent).toBeDefined()
+        if (!targetEvent) return
+
+        expect(targetEvent.payload.projectId).toEqual(projectId)
+
+        const fakeFile = fileRepo.save.mock.calls[0][0]
+
+        expect(targetEvent.payload.ptfDate).toEqual(ptfDate)
+        expect(targetEvent.payload.fileId).toEqual(fakeFile.id.toString())
+        expect(targetEvent.payload.submittedBy).toEqual(user.id)
       })
-    })
-
-    it('should save the attachment file', async () => {
-      expect(fileRepo.save).toHaveBeenCalled()
-      expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents.contents)
-    })
-
-    it('should trigger a ProjectPTFSubmitted event', async () => {
-      expect(fakePublish).toHaveBeenCalled()
-      const targetEvent = fakePublish.mock.calls
-        .map((call) => call[0])
-        .find((event) => event.type === ProjectPTFSubmitted.type) as ProjectPTFSubmitted
-
-      expect(targetEvent).toBeDefined()
-      if (!targetEvent) return
-
-      expect(targetEvent.payload.projectId).toEqual(projectId)
-
-      const fakeFile = fileRepo.save.mock.calls[0][0]
-
-      expect(targetEvent.payload.ptfDate).toEqual(ptfDate)
-      expect(targetEvent.payload.fileId).toEqual(fakeFile.id.toString())
-      expect(targetEvent.payload.submittedBy).toEqual(user.id)
     })
   })
 
@@ -97,15 +101,16 @@ describe('submitPTF use-case', () => {
         load: jest.fn(),
       }
 
-      const submitPTF = makeSubmitPTF({
+      const submitStep = makeSubmitStep({
         eventBus: fakeEventBus,
         fileRepo,
         shouldUserAccessProject,
       })
 
-      const res = await submitPTF({
+      const res = await submitStep({
+        type: 'ptf',
         file: fakeFileContents,
-        ptfDate,
+        stepDate: new Date(123),
         projectId,
         submittedBy: user,
       })

@@ -7,7 +7,8 @@ interface PTFFormProps {
   date?: string
 }
 export const PTFForm = ({ projectId, date }: PTFFormProps) => (
-  <form action={ROUTES.DEPOSER_PTF_ACTION} method="post" encType="multipart/form-data">
+  <form action={ROUTES.DEPOSER_ETAPE_ACTION} method="post" encType="multipart/form-data">
+    <input type="hidden" name="type" id="type" value="ptf" />
     <div className="form__group">
       <label htmlFor="date">Date de signature du PTF (format JJ/MM/AAAA)</label>
       <input

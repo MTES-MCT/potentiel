@@ -145,50 +145,55 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (
                 />
               )
             ) : null}
-            {project.ptf ? (
-              // PTF déjà déposée
-              <FriseItem
-                date={formatDate(project.ptf.ptfDate, 'D MMM YYYY')}
-                title="Proposition technique et financière"
-                action={[
-                  {
-                    title: 'Télécharger',
-                    link: project.ptf.file
-                      ? ROUTES.DOWNLOAD_PROJECT_FILE(project.ptf.file.id, project.ptf.file.filename)
-                      : undefined,
-                    download: true,
-                  },
-                  ...(user.role === 'porteur-projet'
-                    ? [
-                        {
-                          title: 'Annuler le dépôt',
-                          confirm:
-                            "Etes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?",
-                          link: ROUTES.SUPPRIMER_ETAPE_ACTION({
-                            projectId: project.id,
-                            type: 'ptf',
-                          }),
-                        },
-                      ]
-                    : []),
-                ]}
-                status="past"
-              />
-            ) : (
-              // PTF non-déposée
-              <FriseItem
-                title="Proposition technique et financière"
-                action={
-                  user.role === 'dreal'
-                    ? undefined
-                    : {
-                        title: 'Indiquer la date de signature',
-                        openHiddenContent: user.role === 'porteur-projet' ? true : undefined,
-                      }
-                }
-                hiddenContent={<PTFForm projectId={project.id} date={request.query.ptfDate} />}
-              />
-            )}
+            {['admin', 'dgec', 'porteur-projet'].includes(user.role) ? (
+              project.ptf ? (
+                // PTF déjà déposée
+                <FriseItem
+                  date={formatDate(project.ptf.ptfDate, 'D MMM YYYY')}
+                  title="Proposition technique et financière"
+                  action={[
+                    {
+                      title: 'Télécharger',
+                      link: project.ptf.file
+                        ? ROUTES.DOWNLOAD_PROJECT_FILE(
+                            project.ptf.file.id,
+                            project.ptf.file.filename
+                          )
+                        : undefined,
+                      download: true,
+                    },
+                    ...(user.role === 'porteur-projet'
+                      ? [
+                          {
+                            title: 'Annuler le dépôt',
+                            confirm:
+                              "Etes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?",
+                            link: ROUTES.SUPPRIMER_ETAPE_ACTION({
+                              projectId: project.id,
+                              type: 'ptf',
+                            }),
+                          },
+                        ]
+                      : []),
+                  ]}
+                  status="past"
+                />
+              ) : (
+                // PTF non-déposée
+                <FriseItem
+                  title="Proposition technique et financière"
+                  action={
+                    user.role === 'dreal'
+                      ? undefined
+                      : {
+                          title: 'Indiquer la date de signature',
+                          openHiddenContent: user.role === 'porteur-projet' ? true : undefined,
+                        }
+                  }
+                  hiddenContent={<PTFForm projectId={project.id} date={request.query.ptfDate} />}
+                />
+              )
+            ) : null}
             <FriseItem
               title="Convention de raccordement"
               action={{ title: 'Indiquer la date de signature (bientôt disponible)' }}

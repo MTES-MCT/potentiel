@@ -1,3 +1,3 @@
 export * from './correctProjectData'
 export * from './generateCertificate'
-export * from './submitPTF'
+export * from './submitStep'

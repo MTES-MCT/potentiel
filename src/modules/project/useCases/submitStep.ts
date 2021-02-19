@@ -1,21 +1,21 @@
-import { errAsync } from 'neverthrow'
 import { Repository, UniqueEntityID } from '../../../core/domain'
-import { logger, ResultAsync } from '../../../core/utils'
+import { logger, ResultAsync, okAsync, errAsync } from '../../../core/utils'
 import { User } from '../../../entities'
 import { EventBus } from '../../eventStore'
 import { FileContents, FileObject, makeFileObject } from '../../file'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { ProjectPTFSubmitted } from '../events'
 
-interface SubmitPTFDeps {
+interface SubmitStepDeps {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
   fileRepo: Repository<FileObject>
   eventBus: EventBus
 }
 
-interface SubmitPTFArgs {
+type SubmitStepArgs = {
+  type: 'ptf'
   projectId: string
-  ptfDate: Date
+  stepDate: Date
   file: {
     contents: FileContents
     filename: string
@@ -23,12 +23,13 @@ interface SubmitPTFArgs {
   submittedBy: User
 }
 
-export const makeSubmitPTF = (deps: SubmitPTFDeps) => ({
+export const makeSubmitStep = (deps: SubmitStepDeps) => ({
+  type,
   projectId,
-  ptfDate,
+  stepDate,
   file,
   submittedBy,
-}: SubmitPTFArgs): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
+}: SubmitStepArgs): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
   const { filename, contents } = file
 
   return ResultAsync.fromPromise(
@@ -43,7 +44,7 @@ export const makeSubmitPTF = (deps: SubmitPTFDeps) => ({
         if (!userHasRightsToProject) return errAsync(new UnauthorizedError())
 
         const res = makeFileObject({
-          designation: 'ptf',
+          designation: type,
           forProject: new UniqueEntityID(projectId),
           createdBy: new UniqueEntityID(submittedBy.id),
           filename,
@@ -59,15 +60,17 @@ export const makeSubmitPTF = (deps: SubmitPTFDeps) => ({
       }
     )
     .andThen((fileId) =>
-      deps.eventBus.publish(
-        new ProjectPTFSubmitted({
-          payload: {
-            projectId,
-            ptfDate,
-            fileId,
-            submittedBy: submittedBy.id,
-          },
-        })
-      )
+      type === 'ptf'
+        ? deps.eventBus.publish(
+            new ProjectPTFSubmitted({
+              payload: {
+                projectId,
+                ptfDate: stepDate,
+                fileId,
+                submittedBy: submittedBy.id,
+              },
+            })
+          )
+        : okAsync(null)
     )
 }

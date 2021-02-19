@@ -7,7 +7,7 @@ import { makeLoadFileForUser } from '../modules/file'
 import {
   makeCorrectProjectData,
   makeGenerateCertificate,
-  makeSubmitPTF,
+  makeSubmitStep,
 } from '../modules/project/useCases'
 import { buildCertificate } from '../views/certificates'
 import {
@@ -61,7 +61,7 @@ export const cancelInvitationToProject = makeCancelInvitationToProject({
   getProjectIdForAdmissionKey,
 })
 
-export const submitPTF = makeSubmitPTF({
+export const submitStep = makeSubmitStep({
   eventBus: eventStore,
   fileRepo,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
