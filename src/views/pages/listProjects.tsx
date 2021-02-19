@@ -200,6 +200,22 @@ export default function ListProjects({
                     <option value="éliminés">Eliminés</option>
                   </select>
                 </div>
+
+                {request.user.role === 'admin' && (
+                  <div style={{ marginTop: 15 }}>
+                    <a
+                      href={`${
+                        ROUTES.ADMIN_DOWNLOAD_PROJECTS_CANDIDATS_CSV
+                      }?${querystring.stringify({
+                        ...request.query,
+                        beforeNotification: false,
+                      })}`}
+                    >
+                      Liste des lauréats
+                      <DownloadIcon color="red" />
+                    </a>
+                  </div>
+                )}
               </div>
             </div>
             {hasFilters ? (
