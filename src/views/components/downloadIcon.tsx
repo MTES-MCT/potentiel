@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const DownloadIcon = () => {
+export const DownloadIcon = ({ color = 'currentColor' }) => {
   return (
     <svg
       fill="none"
@@ -11,7 +11,7 @@ export const DownloadIcon = () => {
         marginBottom: 5,
         marginRight: 5,
       }}
-      stroke="currentColor"
+      stroke={color}
       opacity={0.5}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
