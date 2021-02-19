@@ -8,6 +8,7 @@ import {
   makeCorrectProjectData,
   makeGenerateCertificate,
   makeSubmitStep,
+  makeRemoveStep,
 } from '../modules/project/useCases'
 import { buildCertificate } from '../views/certificates'
 import {
@@ -64,5 +65,10 @@ export const cancelInvitationToProject = makeCancelInvitationToProject({
 export const submitStep = makeSubmitStep({
   eventBus: eventStore,
   fileRepo,
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+})
+
+export const removeStep = makeRemoveStep({
+  eventBus: eventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
 })
