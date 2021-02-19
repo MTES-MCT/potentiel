@@ -140,6 +140,28 @@ export const forPorteurProjetWithGarantiesFinancieres = () => (
   />
 )
 
+export const forPorteurProjetWithPTF = () => (
+  <ProjectDetails
+    request={makeFakeRequest({
+      user: makeFakeUser({ role: 'porteur-projet' }),
+    })}
+    project={
+      {
+        ...fakeProjectData,
+        isClasse: true,
+        ptf: {
+          submittedOn: new Date(),
+          ptfDate: new Date(),
+          file: {
+            id: 'fileId',
+            filename: 'filename.pdf',
+          },
+        },
+      } as ProjectDataForProjectPage
+    }
+  />
+)
+
 export const forPorteurProjetWithSuccess = () => (
   <ProjectDetails
     request={makeFakeRequest({
