@@ -77,6 +77,13 @@ const autoconsommationMetropole: AppelOffre = {
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'v1',
     },
+    {
+      id: '9',
+      title: 'neuvième',
+      noteThresholdByFamily: [{ familleId: '', noteThreshold: 9.9 }],
+      isNotifiedOnPotentiel: true,
+      certificateTemplate: 'v1',
+    },
   ],
   familles: [],
 }
