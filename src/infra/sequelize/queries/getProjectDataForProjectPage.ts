@@ -173,8 +173,8 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
 
     if (!notifiedOn) return ok(result)
 
-    if (certificateFile && user.role !== 'dreal') {
-      result.certificateFile = certificateFile.get()
+    if (user.role !== 'dreal') {
+      result.certificateFile = certificateFile?.get()
     }
 
     if (garantiesFinancieresDueOn) {
@@ -184,8 +184,7 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
         result.garantiesFinancieresSubmittedOn = new Date(garantiesFinancieresSubmittedOn)
         result.garantiesFinancieresDate =
           garantiesFinancieresDate && new Date(garantiesFinancieresDate)
-        result.garantiesFinancieresFile =
-          garantiesFinancieresFileRef && garantiesFinancieresFileRef.get()
+        result.garantiesFinancieresFile = garantiesFinancieresFileRef?.get()
       }
     }
 
@@ -195,7 +194,7 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
       if (dcrSubmittedOn) {
         result.dcrSubmittedOn = new Date(dcrSubmittedOn)
         result.dcrDate = dcrDate && new Date(dcrDate)
-        result.dcrFile = dcrFileRef && dcrFileRef.get()
+        result.dcrFile = dcrFileRef?.get()
         result.dcrNumeroDossier = dcrNumeroDossier
       }
     }
@@ -204,7 +203,7 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
       const ptf = steps.find((step) => step.type === 'ptf')
       if (ptf) {
         const { submittedOn, file, stepDate } = ptf
-        result.ptf = { submittedOn, file: file && file.get(), ptfDate: stepDate }
+        result.ptf = { submittedOn, file: file?.get(), ptfDate: stepDate }
       }
     }
 

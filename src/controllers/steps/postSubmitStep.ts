@@ -30,12 +30,7 @@ v1Router.post(
       )
     }
 
-    // Convert date
-    try {
-      if (ptfDate) {
-        if (!moment(ptfDate, 'DD/MM/YYYY').isValid()) throw new Error('invalid date format')
-      }
-    } catch (error) {
+    if (!isDateFormatValid(ptfDate)) {
       return response.redirect(
         addQueryParams(routes.PROJECT_DETAILS(projectId), {
           error:
@@ -50,7 +45,7 @@ v1Router.post(
       return response.redirect(
         addQueryParams(routes.PROJECT_DETAILS(projectId), {
           error:
-            "Votre dépôt n'a pas pu être transmis. Merci de joindre l'attestation en pièce-jointe.",
+            "Votre dépôt n'a pas pu être transmis. Merci d'attacher l'attestation en pièce-jointe.",
         })
       )
     }
@@ -80,10 +75,14 @@ v1Router.post(
         return response.redirect(
           addQueryParams(routes.PROJECT_DETAILS(projectId), {
             ptfDate,
-            error: "Votre demande n'a pas pu être prise en compte: " + e.message,
+            error: `Votre demande n'a pas pu être prise en compte: ${e.message}`,
           })
         )
       }
     )
   })
 )
+
+function isDateFormatValid(dateStr: string) {
+  return moment(dateStr, 'DD/MM/YYYY').isValid()
+}
