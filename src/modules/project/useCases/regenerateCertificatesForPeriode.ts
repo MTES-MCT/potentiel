@@ -39,16 +39,7 @@ export const makeRegenerateCertificatesForPeriode = (
     .getProjectIdsForPeriode({ appelOffreId, periodeId })
     .andThen((projectIds) =>
       ResultAsync.fromPromise(
-        Promise.all(
-          projectIds.map((projectId) =>
-            _updateNotificationDateIfNecessary(projectId).andThen(() =>
-              deps.generateCertificate(projectId, reason).mapErr((e) => {
-                logger.info(`regenerateCertificatesForPeriode failed for projectId ${projectId}`)
-                logger.error(e)
-              })
-            )
-          )
-        ),
+        _regenerateCertificatesForProjects(projectIds),
         () => new InfraNotAvailableError()
       )
     )
@@ -66,6 +57,17 @@ export const makeRegenerateCertificatesForPeriode = (
       )
     )
     .map(() => null)
+
+  async function _regenerateCertificatesForProjects(projectIds: string[]) {
+    for (const projectId of projectIds) {
+      await _updateNotificationDateIfNecessary(projectId).andThen(() =>
+        deps.generateCertificate(projectId, reason).mapErr((e) => {
+          logger.info(`regenerateCertificatesForPeriode failed for projectId ${projectId}`)
+          logger.error(e)
+        })
+      )
+    }
+  }
 
   function _updateNotificationDateIfNecessary(projectId: string) {
     if (!newNotifiedOn) return okAsync(null)
