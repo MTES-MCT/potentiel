@@ -54,7 +54,8 @@ type IsNotified = {
 type IsClasse = {
   isClasse: true
 } & GarantieFinanciere &
-  DCR
+  DCR &
+  PTF
 
 type IsElimine = {
   isClasse: false
@@ -77,6 +78,23 @@ type DCRSubmitted = {
 type DCRPending = {
   dcrDueOn: Date
   dcrSubmittedOn: undefined
+}
+
+type PTF = PTFSubmitted | PTFPending
+
+type PTFSubmitted = {
+  ptf: {
+    submittedOn: Date
+    ptfDate: Date
+    file: {
+      id: string
+      filename: string
+    }
+  }
+}
+
+type PTFPending = {
+  ptf: undefined
 }
 
 type GarantieFinanciere = RequiresGF | DoesNotRequireGF

@@ -8,6 +8,7 @@ type FileDesignation =
   | 'dcr'
   | 'modification-request'
   | 'attestation-designation'
+  | 'ptf'
   | 'other'
 
 /* global NodeJS */

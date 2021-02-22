@@ -16,5 +16,5 @@ export default function makeFakeRequest(
   return {
     ...defaultObj,
     ...overrides,
-  }
+  } as Request
 }

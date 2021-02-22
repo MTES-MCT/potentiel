@@ -7,8 +7,8 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
   projectId,
   user,
 }) => {
-  const { Project, File, User, UserProjects, ProjectAdmissionKey } = models
-  if (!Project || !File || !User || !UserProjects || !ProjectAdmissionKey)
+  const { Project, File, User, UserProjects, ProjectAdmissionKey, ProjectStep } = models
+  if (!Project || !File || !User || !UserProjects || !ProjectAdmissionKey || !ProjectStep)
     return errAsync(new InfraNotAvailableError())
 
   return ResultAsync.fromPromise(
@@ -61,6 +61,18 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
           attributes: ['id', 'email'],
           required: false,
         },
+        {
+          model: ProjectStep,
+          as: 'steps',
+          required: false,
+          include: [
+            {
+              model: File,
+              as: 'file',
+              attributes: ['id', 'filename'],
+            },
+          ],
+        },
       ],
     }),
     (e: Error) => {
@@ -111,6 +123,7 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
       users,
       invitations,
       invitationsForProjectEmail,
+      steps,
     } = projectRaw.get()
 
     let allInvitations: any[] = []
@@ -160,8 +173,8 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
 
     if (!notifiedOn) return ok(result)
 
-    if (certificateFile && user.role !== 'dreal') {
-      result.certificateFile = certificateFile.get()
+    if (user.role !== 'dreal') {
+      result.certificateFile = certificateFile?.get()
     }
 
     if (garantiesFinancieresDueOn) {
@@ -171,8 +184,7 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
         result.garantiesFinancieresSubmittedOn = new Date(garantiesFinancieresSubmittedOn)
         result.garantiesFinancieresDate =
           garantiesFinancieresDate && new Date(garantiesFinancieresDate)
-        result.garantiesFinancieresFile =
-          garantiesFinancieresFileRef && garantiesFinancieresFileRef.get()
+        result.garantiesFinancieresFile = garantiesFinancieresFileRef?.get()
       }
     }
 
@@ -182,8 +194,16 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
       if (dcrSubmittedOn) {
         result.dcrSubmittedOn = new Date(dcrSubmittedOn)
         result.dcrDate = dcrDate && new Date(dcrDate)
-        result.dcrFile = dcrFileRef && dcrFileRef.get()
+        result.dcrFile = dcrFileRef?.get()
         result.dcrNumeroDossier = dcrNumeroDossier
+      }
+    }
+
+    if (steps) {
+      const ptf = steps.find((step) => step.type === 'ptf')
+      if (ptf) {
+        const { submittedOn, file, stepDate } = ptf
+        result.ptf = { submittedOn, file: file?.get(), ptfDate: stepDate }
       }
     }
 
