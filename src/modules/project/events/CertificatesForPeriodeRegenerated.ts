@@ -17,6 +17,6 @@ export class CertificatesForPeriodeRegenerated
   aggregateIdFromPayload(payload: CertificatesForPeriodeRegeneratedPayload) {
     const { periodeId, appelOffreId } = payload
     const key = { appelOffreId, periodeId }
-    return JSON.stringify(key, Object.keys(key).sort()) // This make the stringify stable (key order)
+    return JSON.stringify(key, Object.keys(key).sort()) // This makes the stringify stable (key order)
   }
 }

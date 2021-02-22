@@ -14,15 +14,14 @@ v1Router.post(
   ensureLoggedIn(),
   ensureRole(['admin']),
   asyncHandler(async (request, response) => {
-    const { appelOffreAndPeriode, reason, notificationDate } = request.body
-    const { user } = request
+    const {
+      user,
+      body: { appelOffreAndPeriode, reason, notificationDate },
+    } = request
 
     const [appelOffreId, periodeId] = appelOffreAndPeriode?.split('|')
 
-    if (
-      notificationDate &&
-      moment(notificationDate, FORMAT_DATE).format(FORMAT_DATE) !== notificationDate
-    ) {
+    if (notificationDate && !isDateFormatValid(notificationDate)) {
       return response.redirect(
         addQueryParams(routes.ADMIN_REGENERATE_CERTIFICATES, {
           error: 'La date de notification est au mauvais format.',
@@ -58,3 +57,7 @@ v1Router.post(
     )
   })
 )
+
+function isDateFormatValid(dateStr) {
+  return moment(dateStr, FORMAT_DATE).format(FORMAT_DATE) === dateStr
+}
