@@ -27,6 +27,8 @@ import {
   ProjectNotificationDateSet,
   ProjectReimported,
   ProjectClasseGranted,
+  ProjectPTFRemoved,
+  ProjectPTFSubmitted,
 } from '../project/events'
 import {
   ModificationRequested,
@@ -56,6 +58,8 @@ export type StoredEvent =
   | ProjectGFSubmitted
   | ProjectGFRemoved
   | ProjectGFReminded
+  | ProjectPTFSubmitted
+  | ProjectPTFRemoved
   | ProjectDataCorrected
   | ProjectNotificationDateSet
   | ProjectCertificateUpdated

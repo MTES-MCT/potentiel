@@ -4,8 +4,8 @@ import React from 'react'
 import { User } from '../../../../entities'
 import { formatDate } from '../../../../helpers/formatDate'
 import { ProjectDataForProjectPage } from '../../../../modules/project/dtos'
+import { DCRForm, PTFForm, Frise, FriseItem, GarantiesFinancieresForm } from '../components'
 import ROUTES from '../../../../routes'
-import { DCRForm, Frise, FriseItem, GarantiesFinancieresForm } from '../components'
 
 interface ProjectFriseProps {
   project: ProjectDataForProjectPage
@@ -98,7 +98,7 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (
                 />
               )
             ) : null}
-            {project.notifiedOn && project.dcrDueOn ? (
+            {project.dcrDueOn ? (
               project.dcrSubmittedOn ? (
                 // DCR déjà déposée
                 <FriseItem
@@ -145,13 +145,58 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (
                 />
               )
             ) : null}
-            <FriseItem
-              title="Proposition technique et financière"
-              action={{ title: 'Indiquer la date de signature' }}
-            />
+            {['admin', 'dgec', 'porteur-projet'].includes(user.role) ? (
+              project.ptf ? (
+                // PTF déjà déposée
+                <FriseItem
+                  date={formatDate(project.ptf.ptfDate, 'D MMM YYYY')}
+                  title="Proposition technique et financière"
+                  action={[
+                    {
+                      title: 'Télécharger',
+                      link: project.ptf.file
+                        ? ROUTES.DOWNLOAD_PROJECT_FILE(
+                            project.ptf.file.id,
+                            project.ptf.file.filename
+                          )
+                        : undefined,
+                      download: true,
+                    },
+                    ...(user.role === 'porteur-projet'
+                      ? [
+                          {
+                            title: 'Annuler le dépôt',
+                            confirm:
+                              "Etes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?",
+                            link: ROUTES.SUPPRIMER_ETAPE_ACTION({
+                              projectId: project.id,
+                              type: 'ptf',
+                            }),
+                          },
+                        ]
+                      : []),
+                  ]}
+                  status="past"
+                />
+              ) : (
+                // PTF non-déposée
+                <FriseItem
+                  title="Proposition technique et financière"
+                  action={
+                    user.role === 'dreal'
+                      ? undefined
+                      : {
+                          title: 'Indiquer la date de signature',
+                          openHiddenContent: user.role === 'porteur-projet' ? true : undefined,
+                        }
+                  }
+                  hiddenContent={<PTFForm projectId={project.id} date={request.query.ptfDate} />}
+                />
+              )
+            ) : null}
             <FriseItem
               title="Convention de raccordement"
-              action={{ title: 'Indiquer la date de signature' }}
+              action={{ title: 'Indiquer la date de signature (bientôt disponible)' }}
               defaultHidden={true}
             />
             <FriseItem
@@ -163,17 +208,17 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (
                 'D MMM YYYY'
               )}
               title="Attestation de conformité"
-              action={{ title: "Transmettre l'attestation" }}
+              action={{ title: "Transmettre l'attestation (bientôt disponible)" }}
               defaultHidden={true}
             />
             <FriseItem
               title="Mise en service"
-              action={{ title: 'Indiquer la date' }}
+              action={{ title: 'Indiquer la date  (bientôt disponible)' }}
               defaultHidden={true}
             />
             <FriseItem
               title="Contrat d'achat"
-              action={{ title: 'Indiquer la date de signature' }}
+              action={{ title: 'Indiquer la date de signature  (bientôt disponible)' }}
               defaultHidden={true}
             />
           </>

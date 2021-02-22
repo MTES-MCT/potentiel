@@ -189,6 +189,15 @@ class routes {
     } else return route
   }
 
+  static DEPOSER_ETAPE_ACTION = '/deposer-etape'
+  static SUPPRIMER_ETAPE_ACTION = (args?: { projectId: string; type: string }) => {
+    const route = '/projet/:projectId/supprimer/:type'
+    if (args) {
+      const { type, projectId } = args
+      return route.replace(':projectId', projectId).replace(':type', type)
+    } else return route
+  }
+
   static TELECHARGER_MODELE_MISE_EN_DEMEURE = (project?: { id: string; nomProjet: string }) => {
     const route = '/projet/:projectId/telecharger-mise-en-demeure/:filename'
     if (project) {
@@ -224,6 +233,7 @@ class routes {
   }
 
   static DEPOSER_DCR_ACTION = '/deposer-dcr'
+
   static SUPPRIMER_DCR_ACTION = (projectId?: Project['id']) => {
     const route = '/projet/:projectId/supprimer-dcr'
     if (projectId) {
