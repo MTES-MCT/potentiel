@@ -6,13 +6,17 @@ import { InfraNotAvailableError } from '../../../modules/shared'
 export const makeGetProjectIdsForPeriode = (models): GetProjectIdsForPeriode => ({
   appelOffreId,
   periodeId,
+  familleId,
 }) => {
   const { Project } = models
   if (!Project) return errAsync(new InfraNotAvailableError())
 
+  const where: any = { notifiedOn: { [Op.ne]: 0 }, appelOffreId, periodeId }
+  if (familleId) where.familleId = familleId
+
   return ResultAsync.fromPromise(
     Project.findAll({
-      where: { notifiedOn: { [Op.ne]: 0 }, appelOffreId, periodeId },
+      where,
       attributes: ['id'],
     }),
     () => new InfraNotAvailableError()

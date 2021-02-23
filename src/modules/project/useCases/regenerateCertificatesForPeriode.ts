@@ -19,6 +19,7 @@ interface RegenerateCertificatesForPeriodeDeps {
 interface RegenerateCertificatesForPeriodeArgs {
   appelOffreId: string
   periodeId: string
+  familleId?: string
   newNotifiedOn?: number
   user: User
   reason?: string
@@ -29,14 +30,14 @@ export const makeRegenerateCertificatesForPeriode = (
 ) => (
   args: RegenerateCertificatesForPeriodeArgs
 ): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
-  const { appelOffreId, periodeId, newNotifiedOn, user, reason } = args
+  const { appelOffreId, periodeId, familleId, newNotifiedOn, user, reason } = args
 
   if (!user || !['admin', 'dgec'].includes(user.role)) {
     return errAsync(new UnauthorizedError())
   }
 
   return deps
-    .getProjectIdsForPeriode({ appelOffreId, periodeId })
+    .getProjectIdsForPeriode({ appelOffreId, periodeId, familleId })
     .andThen((projectIds) =>
       ResultAsync.fromPromise(
         _regenerateCertificatesForProjects(projectIds),
@@ -49,6 +50,7 @@ export const makeRegenerateCertificatesForPeriode = (
           payload: {
             appelOffreId,
             periodeId,
+            familleId,
             reason,
             newNotifiedOn,
             requestedBy: user.id,

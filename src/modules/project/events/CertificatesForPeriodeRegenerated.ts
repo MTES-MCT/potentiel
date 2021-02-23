@@ -3,6 +3,7 @@ import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
 export interface CertificatesForPeriodeRegeneratedPayload {
   periodeId: string
   appelOffreId: string
+  familleId?: string
   requestedBy: string
   newNotifiedOn?: number
   reason?: string

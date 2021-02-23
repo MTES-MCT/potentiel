@@ -1,12 +1,9 @@
 import { Request } from 'express'
 import React from 'react'
-import { Project } from '../../entities'
-import { formatDate } from '../../helpers/formatDate'
+import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '../../routes'
 import AdminDashboard from '../components/adminDashboard'
-import ProjectList from '../components/projectList'
-import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
 
 type AdminRegenerateCertificatesProps = {
   request: Request
@@ -14,7 +11,14 @@ type AdminRegenerateCertificatesProps = {
 
 /* Pure component */
 export default function AdminRegenerateCertificates({ request }: AdminRegenerateCertificatesProps) {
-  const { error, success, appelOffreAndPeriode, notificationDate, reason } = request.query || {}
+  const { error, success, appelOffreId, periodeId, familleId, notificationDate, reason } =
+    request.query || {}
+
+  const periodes = appelsOffreStatic.find((ao) => ao.id === appelOffreId)?.periodes
+
+  const familles = appelsOffreStatic
+    .find((ao) => ao.id === appelOffreId)
+    ?.familles.sort((a, b) => a.title.localeCompare(b.title))
 
   return (
     <AdminDashboard role={request.user?.role} currentPage="regenerate-certificates">
@@ -49,22 +53,47 @@ export default function AdminRegenerateCertificates({ request }: AdminRegenerate
           method="post"
           style={{ maxWidth: 'auto', margin: '0 0 15px 0' }}
         >
-          <div className="form__group">
-            <label>Période concernée</label>
-            <select name="appelOffreAndPeriode" defaultValue={appelOffreAndPeriode}>
-              {appelsOffreStatic.reduce((periodes: React.ReactNode[], appelOffre) => {
-                return periodes?.concat(
-                  appelOffre.periodes.map((periode) => (
-                    <option
-                      key={`${appelOffre.id}|${periode.id}`}
-                      value={`${appelOffre.id}|${periode.id}`}
-                    >
-                      {appelOffre.id} - {periode.id}
-                    </option>
-                  ))
-                )
-              }, [] as React.ReactNode[])}
+          <div className="periode-panel form__group">
+            <div style={{ marginLeft: 2 }}>Période concernée</div>
+            <select
+              name="appelOffreId"
+              {...dataId('appelOffreIdSelector')}
+              defaultValue={appelOffreId}
+            >
+              <option value="">Choisir appel d‘offre</option>
+              {appelsOffreStatic.map((appelOffre) => (
+                <option key={'appel_' + appelOffre.id} value={appelOffre.id}>
+                  {appelOffre.shortTitle}
+                </option>
+              ))}
             </select>
+            {periodes && periodes.length ? (
+              <select
+                name="periodeId"
+                {...dataId('periodeIdSelector')}
+                defaultValue={periodeId || periodes[periodes.length - 1].id}
+              >
+                {periodes.map((periode) => (
+                  <option key={'appel_' + periode.id} value={periode.id}>
+                    {periode.title}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              ''
+            )}
+            {appelOffreId && familles && familles.length ? (
+              <select name="familleId" defaultValue={familleId}>
+                <option value="">Toutes familles</option>
+                {familles && familles.length
+                  ? familles.map((famille) => (
+                      <option key={'appel_' + famille.id} value={famille.id}>
+                        {famille.title}
+                      </option>
+                    ))
+                  : null}
+              </select>
+            ) : null}
           </div>
           <div className="form__group">
             <label htmlFor="notificationDate">

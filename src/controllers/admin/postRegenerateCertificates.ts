@@ -16,10 +16,17 @@ v1Router.post(
   asyncHandler(async (request, response) => {
     const {
       user,
-      body: { appelOffreAndPeriode, reason, notificationDate },
+      body: { appelOffreId, periodeId, familleId, reason, notificationDate },
     } = request
 
-    const [appelOffreId, periodeId] = appelOffreAndPeriode?.split('|')
+    if (!appelOffreId || !periodeId) {
+      return response.redirect(
+        addQueryParams(routes.ADMIN_REGENERATE_CERTIFICATES, {
+          error: 'Il est nécessaire de choisir un appel d‘offre et une période.',
+          ...request.body,
+        })
+      )
+    }
 
     if (notificationDate && !isDateFormatValid(notificationDate)) {
       return response.redirect(
@@ -34,6 +41,7 @@ v1Router.post(
       await regenerateCertificatesForPeriode({
         appelOffreId,
         periodeId,
+        familleId,
         user,
         reason,
         newNotifiedOn: moment(notificationDate, FORMAT_DATE).tz('Europe/London').toDate().getTime(),
@@ -42,7 +50,9 @@ v1Router.post(
       () =>
         response.redirect(
           addQueryParams(routes.ADMIN_REGENERATE_CERTIFICATES, {
-            success: `Les attestations de la période ${appelOffreId} - ${periodeId} sont en cours de regénération. Les porteurs de projets seront prévenus par email dès que leur nouvelle attestation sera prête.`,
+            success: `Les attestations de la période ${appelOffreId} - ${periodeId}${
+              familleId ? ` famille ${familleId}` : ''
+            } sont en cours de regénération. Les porteurs de projets seront prévenus par email dès que leur nouvelle attestation sera prête.`,
           })
         ),
       (e: Error) => {

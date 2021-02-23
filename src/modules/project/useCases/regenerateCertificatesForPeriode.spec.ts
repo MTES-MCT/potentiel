@@ -22,8 +22,12 @@ describe('regenerateCertificatesForPeriode', () => {
       const projectId2 = new UniqueEntityID().toString()
 
       const getProjectIdsForPeriode = jest.fn(
-        (args: { appelOffreId; periodeId }): ResultAsync<string[], InfraNotAvailableError> =>
-          args.appelOffreId === appelOffreId && args.periodeId === periodeId
+        (args: {
+          appelOffreId
+          periodeId
+          familleId
+        }): ResultAsync<string[], InfraNotAvailableError> =>
+          args.appelOffreId === appelOffreId && args.periodeId === periodeId && !args.familleId
             ? okAsync([projectId1, projectId2])
             : errAsync(new InfraNotAvailableError())
       )
@@ -72,6 +76,46 @@ describe('regenerateCertificatesForPeriode', () => {
           requestedBy: user.id,
           reason,
         })
+      })
+    })
+
+    describe('when a familleId is given', () => {
+      const getProjectIdsForPeriode = jest.fn(
+        (args: {
+          appelOffreId
+          periodeId
+          familleId
+        }): ResultAsync<string[], InfraNotAvailableError> => okAsync([])
+      )
+      const generateCertificate = jest.fn((projectId: string, reason: string) =>
+        errAsync<null, DomainError>(new InfraNotAvailableError())
+      )
+      const projectRepo = {
+        transaction: jest.fn(),
+      }
+      const eventBus = {
+        subscribe: jest.fn(),
+        publish: jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null)),
+      }
+
+      const regenerateCertificatesForPeriode = makeRegenerateCertificatesForPeriode({
+        getProjectIdsForPeriode,
+        projectRepo,
+        generateCertificate,
+        eventBus,
+      })
+
+      it('should only get projects for this familleId', async () => {
+        const familleId = 'familleId'
+        await regenerateCertificatesForPeriode({
+          appelOffreId,
+          periodeId,
+          familleId,
+          user,
+          reason,
+        })
+
+        expect(getProjectIdsForPeriode).toHaveBeenCalledWith({ appelOffreId, periodeId, familleId })
       })
     })
 
