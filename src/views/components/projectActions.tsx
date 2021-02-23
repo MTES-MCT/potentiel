@@ -1,10 +1,13 @@
 import React from 'react'
-import { AppelOffre } from '../../entities'
+import { User } from '../../entities'
+import { ACTION_BY_ROLE } from '../components/actions'
 import { dataId } from '../../helpers/testId'
 
 interface Props {
   project: {
     id: string
+    isClasse: boolean
+    notifiedOn?: Date
     certificateFile?: {
       id: string
       filename: string
@@ -16,37 +19,15 @@ interface Props {
     email: string
     nomProjet: string
   }
-  projectActions?: (
-    project: {
-      id: string
-      certificateFile?: {
-        id: string
-        filename: string
-      }
-      appelOffreId: string
-      periodeId: string
-      familleId: string | undefined
-      numeroCRE: string
-      email: string
-      nomProjet: string
-    },
-    appelOffre?: AppelOffre
-  ) => Array<{
-    title: string
-    link: string
-    isDownload?: boolean
-    actionId?: string
-    projectId?: string
-    disabled?: boolean
-  }> | null
+  role: User['role']
 }
 
-const ProjectActions = ({ project, projectActions }: Props) => {
-  if (!project || !projectActions) {
+const ProjectActions = ({ project, role }: Props) => {
+  if (!project || !role) {
     return <div />
   }
 
-  const actions = projectActions(project)
+  const actions = ACTION_BY_ROLE[role]?.call(null, project)
 
   if (!actions || !actions.length) {
     return <div />

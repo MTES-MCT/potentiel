@@ -1,14 +1,11 @@
 import React from 'react'
-
-import { Project, AppelOffre, makeProjectIdentifier } from '../../entities'
-import ROUTES from '../../routes'
-import { dataId } from '../../helpers/testId'
-
-import { PaginatedList } from '../../types'
-
-import ProjectActions from './projectActions'
-import Pagination from './pagination'
 import { logger } from '../../core/utils'
+import { makeProjectIdentifier, Project, User } from '../../entities'
+import { dataId } from '../../helpers/testId'
+import { PaginatedList } from '../../types'
+import { ACTION_BY_ROLE } from './actions'
+import Pagination from './pagination'
+import ProjectActions from './projectActions'
 
 type Columns = 'Projet' | 'Candidat' | 'Puissance' | 'Prix' | 'Evaluation Carbone' | 'Classé'
 
@@ -184,30 +181,10 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
 interface Props {
   projects: PaginatedList<Project> | Array<Project>
   displayColumns: Array<string>
-  projectActions?: (project: {
-    id: string
-    certificateFile?: {
-      id: string
-      filename: string
-    }
-    notifiedOn: Date | null
-    appelOffreId: string
-    periodeId: string
-    familleId: string | undefined
-    numeroCRE: string
-    email: string
-    nomProjet: string
-  }) => Array<{
-    title: string
-    link: string
-    isDownload?: boolean
-    actionId?: string
-    projectId?: string
-    disabled?: boolean
-  }> | null
+  role: User['role']
 }
 
-const ProjectList = ({ projects, displayColumns, projectActions }: Props) => {
+const ProjectList = ({ projects, displayColumns, role }: Props) => {
   let items: Array<Project>
   if (Array.isArray(projects)) {
     items = projects
@@ -238,7 +215,7 @@ const ProjectList = ({ projects, displayColumns, projectActions }: Props) => {
             {displayColumns?.map((column) => (
               <th key={column}>{column}</th>
             ))}
-            {projectActions ? <th></th> : ''}
+            {ACTION_BY_ROLE[role] ? <th></th> : ''}
           </tr>
         </thead>
         <tbody>
@@ -265,9 +242,16 @@ const ProjectList = ({ projects, displayColumns, projectActions }: Props) => {
                   }
                   return <Column key={'project_' + project.id + '_' + column} project={project} />
                 })}
-                {projectActions ? (
+                {ACTION_BY_ROLE[role] ? (
                   <td {...dataId('item-actions-container')}>
-                    <ProjectActions projectActions={projectActions} project={project} />
+                    <ProjectActions
+                      role={role}
+                      project={{
+                        ...project,
+                        isClasse: project.classe === 'Classé',
+                        notifiedOn: project.notifiedOn ? new Date(project.notifiedOn) : undefined,
+                      }}
+                    />
                   </td>
                 ) : (
                   ''

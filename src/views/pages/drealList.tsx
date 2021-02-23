@@ -1,24 +1,10 @@
-import AdminDashboard from '../components/adminDashboard'
-
-import React from 'react'
-import { formatDate } from '../../helpers/formatDate'
-import pagination from '../../__tests__/fixtures/pagination'
-
-import {
-  Project,
-  AppelOffre,
-  ProjectAdmissionKey,
-  Periode,
-  REGIONS,
-  User,
-  DREAL,
-} from '../../entities'
-import ROUTES from '../../routes'
-import { dataId } from '../../helpers/testId'
-
-import ProjectList from '../components/projectList'
 import { Request } from 'express'
-import projectAdmissionKey from '../../entities/projectAdmissionKey'
+import React from 'react'
+import { DREAL, ProjectAdmissionKey, REGIONS, User } from '../../entities'
+import { formatDate } from '../../helpers/formatDate'
+import { dataId } from '../../helpers/testId'
+import ROUTES from '../../routes'
+import AdminDashboard from '../components/adminDashboard'
 
 interface DREALListProps {
   request: Request
