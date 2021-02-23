@@ -87,7 +87,7 @@ export default function AdminDashboard({ children, currentPage, role }: AdminDas
               route={ROUTES.ADMIN_LIST_REQUESTS}
               itemPage={'list-requests'}
               title="Demandes"
-              visibleForRoles={['admin']}
+              visibleForRoles={['admin', 'dreal']}
               role={role}
               currentPage={currentPage}
             />

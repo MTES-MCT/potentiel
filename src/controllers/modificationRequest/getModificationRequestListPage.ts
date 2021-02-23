@@ -74,7 +74,7 @@ const getModificationRequestListPage = asyncHandler(async (request, response) =>
 v1Router.get(
   routes.ADMIN_LIST_REQUESTS,
   ensureLoggedIn(),
-  ensureRole(['admin', 'dgec']),
+  ensureRole(['admin', 'dgec', 'dreal']),
   getModificationRequestListPage
 )
 
