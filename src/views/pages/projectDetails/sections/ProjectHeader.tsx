@@ -1,7 +1,6 @@
 import React from 'react'
 import { makeProjectIdentifier, User } from '../../../../entities'
 import { ProjectDataForProjectPage } from '../../../../modules/project/dtos'
-import { adminActions, porteurProjetActions } from '../../../components/actions'
 import ProjectActions from '../../../components/projectActions'
 
 interface ProjectHeaderProps {
@@ -32,17 +31,9 @@ export const ProjectHeader = ({ project, user }: ProjectHeaderProps) => (
     >
       {project.isClasse ? 'Actif' : 'Eliminé'}
     </div>
+
     <div style={{ position: 'absolute', right: '1.5em', bottom: 25 }}>
-      <ProjectActions
-        project={project}
-        projectActions={
-          user.role === 'porteur-projet'
-            ? porteurProjetActions
-            : user.role === 'admin'
-            ? adminActions
-            : undefined
-        }
-      />
+      <ProjectActions project={project} role={user.role} />
     </div>
   </div>
 )

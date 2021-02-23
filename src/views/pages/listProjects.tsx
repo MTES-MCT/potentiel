@@ -1,18 +1,14 @@
-import AdminDashboard from '../components/adminDashboard'
-import UserDashboard from '../components/userDashboard'
-
-import React from 'react'
-
-import { Project, AppelOffre, Periode, Famille } from '../../entities'
-import ROUTES from '../../routes'
-import { dataId } from '../../helpers/testId'
-
-import ProjectList from '../components/projectList'
-import { adminActions, porteurProjetActions } from '../components/actions'
-import { PaginatedList } from '../../types'
 import { Request } from 'express'
-import { DownloadIcon } from '../components/downloadIcon'
 import querystring from 'querystring'
+import React from 'react'
+import { AppelOffre, Famille, Periode, Project } from '../../entities'
+import { dataId } from '../../helpers/testId'
+import ROUTES from '../../routes'
+import { PaginatedList } from '../../types'
+import AdminDashboard from '../components/adminDashboard'
+import { DownloadIcon } from '../components/downloadIcon'
+import ProjectList from '../components/projectList'
+import UserDashboard from '../components/userDashboard'
 
 interface ListProjectsProps {
   request: Request
@@ -298,13 +294,7 @@ export default function ListProjects({
                 'Classé',
               ]}
               projects={projects}
-              projectActions={
-                ['admin', 'dgec'].includes(request.user?.role || '')
-                  ? adminActions
-                  : request.user?.role === 'porteur-projet'
-                  ? porteurProjetActions
-                  : undefined
-              }
+              role={request.user?.role}
             />
           </>
         ) : (

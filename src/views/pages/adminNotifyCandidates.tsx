@@ -1,17 +1,13 @@
-import AdminDashboard from '../components/adminDashboard'
-
-import React from 'react'
-import { formatDate } from '../../helpers/formatDate'
-import pagination from '../../__tests__/fixtures/pagination'
-
-import { Project, AppelOffre, Periode, Famille } from '../../entities'
-import { AppelOffreDTO, PeriodeDTO } from '../../useCases/listUnnotifiedProjects'
-import ROUTES from '../../routes'
-import { dataId } from '../../helpers/testId'
-
-import ProjectList from '../components/projectList'
-import { PaginatedList } from '../../types'
 import { Request } from 'express'
+import React from 'react'
+import { AppelOffre, Periode, Project } from '../../entities'
+import { formatDate } from '../../helpers/formatDate'
+import { dataId } from '../../helpers/testId'
+import ROUTES from '../../routes'
+import { PaginatedList } from '../../types'
+import { AppelOffreDTO, PeriodeDTO } from '../../useCases/listUnnotifiedProjects'
+import AdminDashboard from '../components/adminDashboard'
+import ProjectList from '../components/projectList'
 
 type AdminNotifyCandidatesProps = {
   request: Request
@@ -223,13 +219,7 @@ export default function AdminNotifyCandidates({ request, results }: AdminNotifyC
             'Evaluation Carbone',
             'Classé',
           ]}
-          projectActions={(project) => [
-            {
-              title: 'Aperçu attestation',
-              link: ROUTES.PREVIEW_CANDIDATE_CERTIFICATE(project),
-              isDownload: true,
-            },
-          ]}
+          role={request.user?.role}
         />
       </div>
     </AdminDashboard>
