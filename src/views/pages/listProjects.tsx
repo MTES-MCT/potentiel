@@ -209,6 +209,7 @@ export default function ListProjects({
                           beforeNotification: false,
                         }
                       )}`}
+                      download
                     >
                       Liste des lauréats
                       <DownloadIcon color="red" />
@@ -295,7 +296,10 @@ export default function ListProjects({
             <div className="pagination__count">
               <strong>{Array.isArray(projects) ? projects.length : projects.itemCount}</strong>{' '}
               projets
-              <a href={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(request.query)}`}>
+              <a
+                href={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(request.query)}`}
+                download
+              >
                 <DownloadIcon />
               </a>
             </div>

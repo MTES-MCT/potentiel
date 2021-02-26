@@ -180,6 +180,7 @@ export default function AdminNotifyCandidates({ request, results }: AdminNotifyC
                     periodeId: selectedPeriodeId,
                     beforeNotification: true,
                   })}`}
+                  download
                 >
                   Liste des lauréats
                   <DownloadIcon color="red" />

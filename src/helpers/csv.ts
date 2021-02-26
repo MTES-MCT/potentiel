@@ -12,15 +12,19 @@ export async function writeCsvOnDisk(csv: string, csvSaveDir: string): Promise<s
   return fileName
 }
 
-export function formatField(field: {
-  name: string
-  fn?: (project: Project) => any
-}): { label: string; value: string | ((project: Project) => any) } {
-  const { name, fn } = field
+export function formatField(
+  field:
+    | {
+        label: string
+        value: (project: Project) => any
+      }
+    | { dataField: string }
+): { label: string; value: string | ((project: Project) => any) } {
+  if ('value' in field) return { label: field.label, value: field.value }
 
-  if (fn) return { label: name, value: fn }
+  const dataField = field.dataField
 
-  return dataFieldsFlattened.has(name)
-    ? { label: dataFieldsFlattened.get(name) as string, value: name }
-    : { label: name, value: `details.${name}` }
+  return dataFieldsFlattened.has(dataField)
+    ? { label: dataFieldsFlattened.get(dataField) as string, value: dataField }
+    : { label: dataField, value: `details.${dataField}` }
 }

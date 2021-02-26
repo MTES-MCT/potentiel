@@ -30,12 +30,12 @@ const getProjectsLaureatsCsv = asyncHandler(async (request, response) => {
   const pagination = makePagination(request.query, defaultPagination)
 
   const projetsCandidats = [
-    { name: 'nomCandidat' },
-    { name: 'nomProjet' },
-    { name: 'puissance' },
-    { name: 'familleId' },
-    { name: 'departementProjet' },
-    { name: 'regionProjet' },
+    { dataField: 'nomCandidat' },
+    { dataField: 'nomProjet' },
+    { dataField: 'puissance' },
+    { dataField: 'familleId' },
+    { dataField: 'departementProjet' },
+    { dataField: 'regionProjet' },
   ]
 
   try {
