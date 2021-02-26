@@ -172,7 +172,6 @@ export default function ListProjects({
                     </select>
                   ) : null}
                 </div>
-
                 <div style={{ marginTop: 15 }}>
                   <div style={{ marginLeft: 2 }}>Garanties Financières</div>
                   <select
@@ -200,6 +199,23 @@ export default function ListProjects({
                     <option value="éliminés">Eliminés</option>
                   </select>
                 </div>
+
+                {request.user.role === 'admin' && appelOffreId && periodeId && (
+                  <div style={{ marginTop: 15 }}>
+                    <a
+                      href={`${ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV}?${querystring.stringify(
+                        {
+                          ...request.query,
+                          beforeNotification: false,
+                        }
+                      )}`}
+                      download
+                    >
+                      Liste des lauréats
+                      <DownloadIcon color="red" />
+                    </a>
+                  </div>
+                )}
               </div>
             </div>
             {hasFilters ? (
@@ -280,7 +296,10 @@ export default function ListProjects({
             <div className="pagination__count">
               <strong>{Array.isArray(projects) ? projects.length : projects.itemCount}</strong>{' '}
               projets
-              <a href={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(request.query)}`}>
+              <a
+                href={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(request.query)}`}
+                download
+              >
                 <DownloadIcon />
               </a>
             </div>
