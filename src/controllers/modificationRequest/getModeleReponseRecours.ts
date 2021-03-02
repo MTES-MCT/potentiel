@@ -69,7 +69,9 @@ v1Router.get(
         refPotentiel: makeProjectIdentifier(project),
         nomRepresentantLegal: project.nomRepresentantLegal,
         nomCandidat: project.nomCandidat,
-        adresseProjet: project.adresseProjet,
+        adresseCandidat:
+          project.details?.['Adresse postale du contact'] ||
+          '!!!ADRESSE CANDIDAT NON DISPONIBLE!!!',
         codePostalProjet: project.codePostalProjet,
         communeProjet: project.communeProjet,
         email: project.email,
