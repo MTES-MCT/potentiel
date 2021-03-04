@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '../../../core/domain'
-import { err, errAsync, ok, ResultAsync } from '../../../core/utils'
+import { err, errAsync, ok, wrapInfra } from '../../../core/utils'
 import { FileNotFoundError, GetFileProject } from '../../../modules/file'
 import { InfraNotAvailableError } from '../../../modules/shared'
 
@@ -7,10 +7,7 @@ export const makeGetFileProject = (models): GetFileProject => (fileId: UniqueEnt
   const FileModel = models.File
   if (!FileModel) return errAsync(new InfraNotAvailableError())
 
-  return ResultAsync.fromPromise(
-    FileModel.findByPk(fileId.toString()),
-    () => new InfraNotAvailableError()
-  ).andThen((file: any) => {
+  return wrapInfra(FileModel.findByPk(fileId.toString())).andThen((file: any) => {
     if (!file) return err(new FileNotFoundError())
 
     if (file.forProject) return ok(new UniqueEntityID(file.forProject))
