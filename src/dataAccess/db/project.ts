@@ -903,6 +903,8 @@ function _getFullTextSearchOptions(terms: string): object {
     'departementProjet',
     'regionProjet',
     'numeroCRE',
+    'details.Nom et prénom du signataire du formulaire',
+    'details.Nom et prénom du contact',
   ]
 
   const options = searchedColumns.reduce((opts, col) => {
