@@ -1,5 +1,5 @@
 import { Repository, UniqueEntityID } from '../../../core/domain'
-import { logger, ResultAsync, okAsync, errAsync } from '../../../core/utils'
+import { logger, ResultAsync, okAsync, errAsync, wrapInfra } from '../../../core/utils'
 import { User } from '../../../entities'
 import { EventBus } from '../../eventStore'
 import { FileContents, FileObject, makeFileObject } from '../../file'
@@ -32,13 +32,7 @@ export const makeSubmitStep = (deps: SubmitStepDeps) => ({
 }: SubmitStepArgs): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
   const { filename, contents } = file
 
-  return ResultAsync.fromPromise(
-    deps.shouldUserAccessProject({ projectId, user: submittedBy }),
-    (e: Error) => {
-      logger.error(e)
-      return new InfraNotAvailableError()
-    }
-  )
+  return wrapInfra(deps.shouldUserAccessProject({ projectId, user: submittedBy }))
     .andThen(
       (userHasRightsToProject): ResultAsync<string, InfraNotAvailableError | UnauthorizedError> => {
         if (!userHasRightsToProject) return errAsync(new UnauthorizedError())

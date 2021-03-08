@@ -1,4 +1,4 @@
-import { errAsync, logger, ResultAsync } from '../../../core/utils'
+import { errAsync, wrapInfra } from '../../../core/utils'
 import { makePaginatedList, paginate } from '../../../helpers/paginate'
 import { FailedNotificationDTO, GetFailedNotificationDetails } from '../../../modules/notification'
 import { InfraNotAvailableError } from '../../../modules/shared'
@@ -9,16 +9,12 @@ export const makeGetFailedNotificationDetails = (models): GetFailedNotificationD
   const NotificationModel = models.Notification
   if (!NotificationModel) return errAsync(new InfraNotAvailableError())
 
-  return ResultAsync.fromPromise(
+  return wrapInfra(
     NotificationModel.findAndCountAll({
       where: { status: 'error' },
       order: [['createdAt', 'DESC']],
       ...paginate(pagination),
-    }),
-    (e: any) => {
-      logger.error(e)
-      return new InfraNotAvailableError()
-    }
+    })
   ).map(({ count, rows }) =>
     makePaginatedList(
       rows

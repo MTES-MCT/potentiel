@@ -1,11 +1,10 @@
-import { ResultAsync } from 'neverthrow'
-import { Repository, UniqueEntityID } from '../../../core/domain'
-import { ProjectRepo } from '../../../dataAccess'
 import { NotificationService } from '..'
+import { Repository, UniqueEntityID } from '../../../core/domain'
+import { wrapInfra } from '../../../core/utils'
+import { ProjectRepo } from '../../../dataAccess'
+import { User } from '../../../entities'
 import { ProjectCertificateRegenerated, ProjectCertificateUpdated } from '../../project/events'
 import { Project } from '../../project/Project'
-import { User } from '../../../entities'
-import { logger } from '../../../core/utils'
 
 export const handleProjectCertificateUpdatedOrRegenerated = (deps: {
   sendNotification: NotificationService['sendNotification']
@@ -23,18 +22,17 @@ export const handleProjectCertificateUpdatedOrRegenerated = (deps: {
     return
   }
 
-  await deps.projectRepo.load(new UniqueEntityID(projectId)).andThen((project) =>
-    ResultAsync.fromPromise(
-      Promise.all(
-        porteursProjet.map((porteurProjet) =>
-          _sendCandidateNotification({ porteurProjet, project })
+  await deps.projectRepo
+    .load(new UniqueEntityID(projectId))
+    .andThen((project) =>
+      wrapInfra(
+        Promise.all(
+          porteursProjet.map((porteurProjet) =>
+            _sendCandidateNotification({ porteurProjet, project })
+          )
         )
-      ),
-      (e: Error) => {
-        logger.error(e)
-      }
+      )
     )
-  )
 
   function _sendCandidateNotification(args: { porteurProjet: User; project: Project }) {
     const { porteurProjet, project } = args

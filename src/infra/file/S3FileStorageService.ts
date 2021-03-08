@@ -1,8 +1,7 @@
 import AWS from 'aws-sdk'
-import { logger } from '../../core/utils'
-import { err, ok, okAsync, Result, ResultAsync } from '../../core/utils/Result'
+import { wrapInfra } from '../../core/utils'
+import { err, ok, okAsync, Result } from '../../core/utils/Result'
 import { FileStorageService } from '../../modules/file'
-import { InfraNotAvailableError } from '../../modules/shared'
 
 class WrongIdentifierFormat extends Error {
   constructor() {
@@ -45,18 +44,14 @@ export const makeS3FileStorageService = (args: {
 
   return {
     upload({ contents, path: filePath }) {
-      return ResultAsync.fromPromise(
+      return wrapInfra(
         _client
           .upload({
             Bucket: bucket,
             Key: filePath,
             Body: contents,
           })
-          .promise(),
-        (e: any) => {
-          logger.error(e)
-          return new InfraNotAvailableError()
-        }
+          .promise()
       ).map(() => makeIdentifier(filePath, bucket))
     },
 
@@ -76,17 +71,13 @@ export const makeS3FileStorageService = (args: {
     remove(storedAt) {
       return parseIdentifier(storedAt, bucket)
         .asyncAndThen((remote) =>
-          ResultAsync.fromPromise(
+          wrapInfra(
             _client
               .deleteObject({
                 Bucket: bucket,
                 Key: remote,
               })
-              .promise(),
-            (e: any) => {
-              logger.error(e)
-              return new InfraNotAvailableError()
-            }
+              .promise()
           )
         )
         .map(() => null)

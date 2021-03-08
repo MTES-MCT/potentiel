@@ -1,4 +1,4 @@
-import { errAsync, okAsync, ResultAsync } from '../../core/utils'
+import { errAsync, okAsync, ResultAsync, wrapInfra } from '../../core/utils'
 import { Repository, UniqueEntityID } from '../../core/domain'
 import { User } from '../../entities'
 import { ShouldUserAccessProject } from '../authorization'
@@ -41,9 +41,8 @@ export const makeLoadFileForUser = (deps: LoadFileForUserDeps): LoadFileForUser 
           return errAsync(new FileAccessDeniedError())
         }
 
-        return ResultAsync.fromPromise(
-          deps.shouldUserAccessProject.check({ projectId: projectId.toString(), user }),
-          () => new InfraNotAvailableError()
+        return wrapInfra(
+          deps.shouldUserAccessProject.check({ projectId: projectId.toString(), user })
         )
       }
     )

@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '../../../core/domain'
-import { errAsync, logger, ResultAsync } from '../../../core/utils'
+import { errAsync, wrapInfra } from '../../../core/utils'
 import { GetFailedNotificationsForRetry } from '../../../modules/notification/queries'
 import { InfraNotAvailableError } from '../../../modules/shared'
 
@@ -10,12 +10,8 @@ export const makeGetFailedNotificationsForRetry = (
   const ProjectModel = models.Project
   if (!NotificationModel || !ProjectModel) return errAsync(new InfraNotAvailableError())
 
-  return ResultAsync.fromPromise(
-    NotificationModel.findAll({ where: { status: 'error' }, order: [['createdAt', 'DESC']] }),
-    (e: any) => {
-      logger.error(e)
-      return new InfraNotAvailableError()
-    }
+  return wrapInfra(
+    NotificationModel.findAll({ where: { status: 'error' }, order: [['createdAt', 'DESC']] })
   ).andThen((notifications: any) => {
     const passwordResetEmails: Set<string> = new Set()
 
@@ -35,7 +31,7 @@ export const makeGetFailedNotificationsForRetry = (
       return false
     }
 
-    return ResultAsync.fromPromise(
+    return wrapInfra(
       Promise.all(
         notifications
           .map((notification) => notification.get())
@@ -43,11 +39,7 @@ export const makeGetFailedNotificationsForRetry = (
             const isObsolete = await _isObsolete(notification)
             return { id: new UniqueEntityID(notification.id), isObsolete }
           })
-      ),
-      (e: any) => {
-        logger.error(e)
-        return new InfraNotAvailableError()
-      }
+      )
     )
   })
 }

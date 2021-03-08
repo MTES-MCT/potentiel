@@ -1,4 +1,4 @@
-import { err, errAsync, ok, ResultAsync, logger } from '../../../core/utils'
+import { err, errAsync, ok, wrapInfra } from '../../../core/utils'
 import { GetInfoForModificationRequested } from '../../../modules/notification'
 import { EntityNotFoundError, InfraNotAvailableError } from '../../../modules/shared'
 
@@ -9,24 +9,16 @@ export const makeGetInfoForModificationRequested = (models): GetInfoForModificat
   const { Project, User } = models
   if (!Project || !User) return errAsync(new InfraNotAvailableError())
 
-  return ResultAsync.fromPromise(
+  return wrapInfra(
     Project.findByPk(projectId, {
       attributes: ['nomProjet'],
-    }),
-    (e: Error) => {
-      logger.error(e)
-      return new InfraNotAvailableError()
-    }
+    })
   )
     .andThen((project: any) => {
-      return ResultAsync.fromPromise(
+      return wrapInfra(
         User.findByPk(userId, {
           attributes: ['fullName', 'email'],
-        }),
-        (e: Error) => {
-          logger.error(e)
-          return new InfraNotAvailableError()
-        }
+        })
       ).map((user: any) => ({ user, project }))
     })
     .andThen(({ user, project }) => {
