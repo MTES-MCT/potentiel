@@ -1,6 +1,6 @@
 import { Op } from 'sequelize'
 import { v4 as uuid } from 'uuid'
-import { logger, ResultAsync } from '../../../core/utils'
+import { logger, ResultAsync, wrapInfra } from '../../../core/utils'
 import { BaseEventStore, EventStoreHistoryFilters, StoredEvent } from '../../../modules/eventStore'
 
 import {
@@ -87,25 +87,13 @@ export class SequelizeEventStore extends BaseEventStore {
   }
 
   protected persistEvents(events: StoredEvent[]): ResultAsync<null, InfraNotAvailableError> {
-    return ResultAsync.fromPromise(
-      this.EventStoreModel.bulkCreate(events.map(this.toPersistance)),
-      (e: any) => {
-        logger.error(e.message)
-        return new InfraNotAvailableError()
-      }
-    )
+    return wrapInfra(this.EventStoreModel.bulkCreate(events.map(this.toPersistance)))
   }
 
   public loadHistory(
     filters?: EventStoreHistoryFilters
   ): ResultAsync<StoredEvent[], InfraNotAvailableError> {
-    return ResultAsync.fromPromise(
-      this.EventStoreModel.findAll(this.toQuery(filters)),
-      (e: any) => {
-        logger.error(e.message)
-        return new InfraNotAvailableError()
-      }
-    )
+    return wrapInfra(this.EventStoreModel.findAll(this.toQuery(filters)))
       .map((events: any[]) => events.map((item) => item.get()))
       .map((events: any[]) => {
         const payload = filters?.payload

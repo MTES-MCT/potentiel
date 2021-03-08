@@ -1,7 +1,7 @@
-import { err, errAsync, logger, ok, ResultAsync } from '../../../core/utils'
+import { err, errAsync, ok, wrapInfra } from '../../../core/utils'
 import { getAppelOffre } from '../../../dataAccess/inMemory'
 import { GetProjectDataForProjectPage } from '../../../modules/project/queries/GetProjectDataForProjectPage'
-import { InfraNotAvailableError, EntityNotFoundError } from '../../../modules/shared'
+import { EntityNotFoundError, InfraNotAvailableError } from '../../../modules/shared'
 
 export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProjectPage => ({
   projectId,
@@ -11,7 +11,7 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
   if (!Project || !File || !User || !UserProjects || !ProjectAdmissionKey || !ProjectStep)
     return errAsync(new InfraNotAvailableError())
 
-  return ResultAsync.fromPromise(
+  return wrapInfra(
     Project.findByPk(projectId, {
       include: [
         {
@@ -74,11 +74,7 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
           ],
         },
       ],
-    }),
-    (e: Error) => {
-      logger.error(e)
-      return new InfraNotAvailableError()
-    }
+    })
   ).andThen((projectRaw: any) => {
     if (!projectRaw) return err(new EntityNotFoundError())
 

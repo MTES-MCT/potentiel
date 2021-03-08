@@ -1,5 +1,5 @@
 import { Repository, UniqueEntityID } from '../../../core/domain'
-import { errAsync, logger, ResultAsync } from '../../../core/utils'
+import { errAsync, logger, wrapInfra } from '../../../core/utils'
 import { FileContents, FileObject, FileStorageService, makeFileObject } from '../../../modules/file'
 import { EntityNotFoundError, InfraNotAvailableError } from '../../../modules/shared'
 
@@ -17,21 +17,12 @@ export const makeFileRepo = (deps: FileRepoDeps): Repository<FileObject> => {
 
       const { contents, path } = file
       return deps.fileStorageService.upload({ contents, path }).andThen((storedAt) => {
-        return ResultAsync.fromPromise<null, InfraNotAvailableError>(
-          FileModel.create(_toPersistence(file, storedAt)),
-          (e: any) => {
-            logger.error(e)
-            return new InfraNotAvailableError()
-          }
-        )
+        return wrapInfra(FileModel.create(_toPersistence(file, storedAt)))
       })
     },
 
     load(id: UniqueEntityID) {
-      return ResultAsync.fromPromise(FileModel.findByPk(id.toString()), (e: any) => {
-        logger.error(e)
-        return new InfraNotAvailableError()
-      }).andThen((fileRaw: any) => {
+      return wrapInfra(FileModel.findByPk(id.toString())).andThen((fileRaw: any) => {
         if (!fileRaw) return errAsync(new EntityNotFoundError())
 
         const file = fileRaw.get()

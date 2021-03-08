@@ -1,8 +1,8 @@
-import { errAsync, ok, ResultAsync } from '../../../core/utils'
+import { errAsync, ok, wrapInfra } from '../../../core/utils'
+import { getAppelOffre } from '../../../dataAccess/inMemory/appelOffre'
 import { makePaginatedList, paginate } from '../../../helpers/paginate'
 import { GetModificationRequestListForUser } from '../../../modules/modificationRequest'
 import { InfraNotAvailableError } from '../../../modules/shared'
-import { getAppelOffre } from '../../../dataAccess/inMemory/appelOffre'
 
 function _getPuissanceForAppelOffre(args: { appelOffreId; periodeId }): string {
   return getAppelOffre(args)?.unitePuissance || 'unité de puissance'
@@ -22,7 +22,7 @@ export const makeGetModificationRequestListForUser = (
     userClause = {}
   }
 
-  return ResultAsync.fromPromise(
+  return wrapInfra(
     ModificationRequest.findAndCountAll({
       ...userClause,
       include: [
@@ -54,11 +54,7 @@ export const makeGetModificationRequestListForUser = (
         },
       ],
       ...paginate(pagination),
-    }),
-    (e) => {
-      console.error(e)
-      return new InfraNotAvailableError()
-    }
+    })
   ).andThen((res: any) => {
     const { count, rows } = res
 

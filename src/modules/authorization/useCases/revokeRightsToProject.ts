@@ -1,5 +1,5 @@
 import { errAsync } from 'neverthrow'
-import { logger, ResultAsync } from '../../../core/utils'
+import { ResultAsync, wrapInfra } from '../../../core/utils'
 import { User } from '../../../entities'
 import { EventBus } from '../../eventStore'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
@@ -21,23 +21,18 @@ export const makeRevokeRightsToProject = (deps: RevokeRightsToProjectDeps) => ({
   userId,
   revokedBy,
 }: RevokeRightsToProjectArgs): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
-  return ResultAsync.fromPromise(
-    deps.shouldUserAccessProject({ projectId, user: revokedBy }),
-    (e: Error) => {
-      logger.error(e)
-      return new InfraNotAvailableError()
-    }
-  ).andThen((userHasRightsToProject) =>
-    userHasRightsToProject
-      ? deps.eventBus.publish(
-          new UserRightsToProjectRevoked({
-            payload: {
-              projectId,
-              userId,
-              revokedBy: revokedBy.id,
-            },
-          })
-        )
-      : errAsync(new UnauthorizedError())
+  return wrapInfra(deps.shouldUserAccessProject({ projectId, user: revokedBy })).andThen(
+    (userHasRightsToProject) =>
+      userHasRightsToProject
+        ? deps.eventBus.publish(
+            new UserRightsToProjectRevoked({
+              payload: {
+                projectId,
+                userId,
+                revokedBy: revokedBy.id,
+              },
+            })
+          )
+        : errAsync(new UnauthorizedError())
   )
 }

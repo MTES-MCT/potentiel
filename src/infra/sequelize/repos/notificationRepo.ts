@@ -1,7 +1,7 @@
-import { Repository, DomainError, UniqueEntityID } from '../../../core/domain'
-import { Result, ResultAsync, errAsync, err, logger } from '../../../core/utils'
+import { DomainError, Repository, UniqueEntityID } from '../../../core/domain'
+import { err, errAsync, Result, ResultAsync, wrapInfra } from '../../../core/utils'
 import { Notification } from '../../../modules/notification'
-import { InfraNotAvailableError, EntityNotFoundError } from '../../../modules/shared'
+import { EntityNotFoundError, InfraNotAvailableError } from '../../../modules/shared'
 
 export class NotificationRepo implements Repository<Notification> {
   private models: any
@@ -42,25 +42,15 @@ export class NotificationRepo implements Repository<Notification> {
     const NotificationModel = this.models.Notification
     if (!NotificationModel) return errAsync(new InfraNotAvailableError())
 
-    return ResultAsync.fromPromise<null, DomainError>(
-      NotificationModel.upsert(this.toPersistence(aggregate)),
-      (e: any) => {
-        logger.error(e)
-        return new InfraNotAvailableError()
-      }
-    )
+    return wrapInfra(NotificationModel.upsert(this.toPersistence(aggregate)))
   }
 
   load(id: UniqueEntityID): ResultAsync<Notification, DomainError> {
     const NotificationModel = this.models.Notification
     if (!NotificationModel) return errAsync(new InfraNotAvailableError())
 
-    return ResultAsync.fromPromise<Notification, DomainError>(
-      NotificationModel.findByPk(id.toString()),
-      (e: any) => {
-        logger.error(e)
-        return new InfraNotAvailableError()
-      }
-    ).andThen((dbResult) => (dbResult ? this.toDomain(dbResult) : err(new EntityNotFoundError())))
+    return wrapInfra(NotificationModel.findByPk(id.toString())).andThen((dbResult) =>
+      dbResult ? this.toDomain(dbResult) : err(new EntityNotFoundError())
+    )
   }
 }

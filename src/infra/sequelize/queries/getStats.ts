@@ -1,4 +1,4 @@
-import { errAsync, ResultAsync } from '../../../core/utils'
+import { errAsync, wrapInfra } from '../../../core/utils'
 import { Op, QueryTypes } from 'sequelize'
 import { InfraNotAvailableError } from '../../../modules/shared'
 import { GetStats } from '../../../modules/stats/GetStats'
@@ -114,7 +114,7 @@ export const getStats: GetStats = () => {
       }
     )
 
-  return ResultAsync.fromPromise(
+  return wrapInfra(
     Promise.all([
       _getProjetsTotal(),
       _getProjetsLaureats(),
@@ -128,8 +128,7 @@ export const getStats: GetStats = () => {
       _getDcrDeposees(),
       _getDcrDues(),
       _getDemandes(),
-    ]),
-    (e: any) => new InfraNotAvailableError()
+    ])
   ).map(
     ([
       projetsTotal,

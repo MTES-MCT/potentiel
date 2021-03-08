@@ -1,4 +1,4 @@
-import { err, errAsync, logger, ok, ResultAsync } from '../../../core/utils'
+import { err, errAsync, ok, wrapInfra } from '../../../core/utils'
 import {
   GetModificationRequestInfoForStatusNotification,
   ModificationRequestInfoForStatusNotificationDTO,
@@ -11,7 +11,7 @@ export const makeGetModificationRequestUpdateInfo = (
   const { ModificationRequest, Project, User } = models
   if (!ModificationRequest || !Project || !User) return errAsync(new InfraNotAvailableError())
 
-  return ResultAsync.fromPromise(
+  return wrapInfra(
     ModificationRequest.findByPk(modificationRequestId, {
       include: [
         {
@@ -25,11 +25,7 @@ export const makeGetModificationRequestUpdateInfo = (
           attributes: ['fullName', 'email', 'id'],
         },
       ],
-    }),
-    (e: Error) => {
-      logger.error(e)
-      return new InfraNotAvailableError()
-    }
+    })
   ).andThen((modificationRequestRaw: any) => {
     if (!modificationRequestRaw) return err(new EntityNotFoundError())
 

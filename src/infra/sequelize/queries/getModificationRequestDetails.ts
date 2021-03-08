@@ -1,8 +1,8 @@
-import { err, errAsync, logger, ok, ResultAsync } from '../../../core/utils'
+import { err, errAsync, ok, wrapInfra } from '../../../core/utils'
 import { getAppelOffre } from '../../../dataAccess/inMemory/appelOffre'
 import {
-  ModificationRequestPageDTO,
   GetModificationRequestDetails,
+  ModificationRequestPageDTO,
 } from '../../../modules/modificationRequest'
 import { EntityNotFoundError, InfraNotAvailableError } from '../../../modules/shared'
 
@@ -13,7 +13,7 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
   if (!ModificationRequest || !Project || !File || !User)
     return errAsync(new InfraNotAvailableError())
 
-  return ResultAsync.fromPromise(
+  return wrapInfra(
     ModificationRequest.findByPk(modificationRequestId, {
       include: [
         {
@@ -50,11 +50,7 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
           attributes: ['fullName'],
         },
       ],
-    }),
-    (e: Error) => {
-      logger.error(e)
-      return new InfraNotAvailableError()
-    }
+    })
   ).andThen((modificationRequestRaw: any) => {
     if (!modificationRequestRaw) return err(new EntityNotFoundError())
 

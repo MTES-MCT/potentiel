@@ -1,5 +1,5 @@
 import { errAsync } from 'neverthrow'
-import { logger, ResultAsync } from '../../../core/utils'
+import { ResultAsync, wrapInfra } from '../../../core/utils'
 import { User } from '../../../entities'
 import { EventBus } from '../../eventStore'
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../shared'
@@ -27,13 +27,7 @@ export const makeCancelInvitationToProject = (deps: CancelInvitationToProjectDep
   return deps
     .getProjectIdForAdmissionKey(projectAdmissionKeyId)
     .andThen((projectId) => {
-      return ResultAsync.fromPromise(
-        deps.shouldUserAccessProject({ projectId, user: cancelledBy }),
-        (e: Error) => {
-          logger.error(e)
-          return new InfraNotAvailableError()
-        }
-      )
+      return wrapInfra(deps.shouldUserAccessProject({ projectId, user: cancelledBy }))
     })
     .andThen((userHasRightsToProject) =>
       userHasRightsToProject
