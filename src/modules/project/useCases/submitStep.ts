@@ -1,10 +1,10 @@
 import { Repository, UniqueEntityID } from '../../../core/domain'
-import { logger, ResultAsync, okAsync, errAsync, wrapInfra } from '../../../core/utils'
+import { errAsync, logger, ResultAsync, wrapInfra } from '../../../core/utils'
 import { User } from '../../../entities'
-import { EventBus } from '../../eventStore'
+import { EventBus, StoredEvent } from '../../eventStore'
 import { FileContents, FileObject, makeFileObject } from '../../file'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
-import { ProjectPTFSubmitted } from '../events'
+import { ProjectDCRSubmitted, ProjectGFSubmitted, ProjectPTFSubmitted } from '../events'
 
 interface SubmitStepDeps {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
@@ -13,9 +13,10 @@ interface SubmitStepDeps {
 }
 
 type SubmitStepArgs = {
-  type: 'ptf'
+  type: 'ptf' | 'dcr' | 'garantie-financiere'
   projectId: string
   stepDate: Date
+  numeroDossier?: string
   file: {
     contents: FileContents
     filename: string
@@ -23,13 +24,10 @@ type SubmitStepArgs = {
   submittedBy: User
 }
 
-export const makeSubmitStep = (deps: SubmitStepDeps) => ({
-  type,
-  projectId,
-  stepDate,
-  file,
-  submittedBy,
-}: SubmitStepArgs): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
+export const makeSubmitStep = (deps: SubmitStepDeps) => (
+  args: SubmitStepArgs
+): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
+  const { type, projectId, file, submittedBy } = args
   const { filename, contents } = file
 
   return wrapInfra(deps.shouldUserAccessProject({ projectId, user: submittedBy }))
@@ -53,18 +51,39 @@ export const makeSubmitStep = (deps: SubmitStepDeps) => ({
         return res
       }
     )
-    .andThen((fileId) =>
-      type === 'ptf'
-        ? deps.eventBus.publish(
-            new ProjectPTFSubmitted({
-              payload: {
-                projectId,
-                ptfDate: stepDate,
-                fileId,
-                submittedBy: submittedBy.id,
-              },
-            })
-          )
-        : okAsync(null)
-    )
+    .andThen((fileId) => deps.eventBus.publish(EventByType[type](args, fileId)))
+}
+
+const EventByType: Record<
+  SubmitStepArgs['type'],
+  (args: SubmitStepArgs, fileId: string) => StoredEvent
+> = {
+  dcr: ({ projectId, stepDate, submittedBy, numeroDossier }, fileId) =>
+    new ProjectDCRSubmitted({
+      payload: {
+        projectId,
+        dcrDate: stepDate,
+        fileId,
+        submittedBy: submittedBy.id,
+        numeroDossier: numeroDossier || '',
+      },
+    }),
+  ptf: ({ projectId, stepDate, submittedBy }, fileId) =>
+    new ProjectPTFSubmitted({
+      payload: {
+        projectId,
+        ptfDate: stepDate,
+        fileId,
+        submittedBy: submittedBy.id,
+      },
+    }),
+  'garantie-financiere': ({ projectId, stepDate, submittedBy }, fileId) =>
+    new ProjectGFSubmitted({
+      payload: {
+        projectId,
+        gfDate: stepDate,
+        fileId,
+        submittedBy: submittedBy.id,
+      },
+    }),
 }

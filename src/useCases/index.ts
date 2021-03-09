@@ -9,9 +9,7 @@ import makeRetrievePassword from './retrievePassword'
 import makeResetPassword from './resetPassword'
 import makeShouldUserAccessProject from './shouldUserAccessProject'
 import makeInviteUserToProject from './inviteUserToProject'
-import makeAddGarantiesFinancieres from './addGarantiesFinancieres'
 import makeRemoveGarantiesFinancieres from './removeGarantiesFinancieres'
-import makeAddDCR from './addDCR'
 import makeRemoveDCR from './removeDCR'
 import makeInviteDreal from './inviteDreal'
 import makeRelanceInvitations from './relanceInvitations'
@@ -107,26 +105,8 @@ const inviteUserToProject = makeInviteUserToProject({
   sendNotification,
 })
 
-const addGarantiesFinancieres = makeAddGarantiesFinancieres({
-  eventBus: eventStore,
-  fileRepo,
-  findProjectById: projectRepo.findById,
-  saveProject: projectRepo.save,
-  findUsersForDreal: userRepo.findUsersForDreal,
-  findAllProjectAdmissionKeys: projectAdmissionKeyRepo.findAll,
-  shouldUserAccessProject,
-  sendNotification,
-})
 const removeGarantiesFinancieres = makeRemoveGarantiesFinancieres({
   eventBus: eventStore,
-  findProjectById: projectRepo.findById,
-  saveProject: projectRepo.save,
-  shouldUserAccessProject,
-})
-
-const addDCR = makeAddDCR({
-  eventBus: eventStore,
-  fileRepo,
   findProjectById: projectRepo.findById,
   saveProject: projectRepo.save,
   shouldUserAccessProject,
@@ -173,12 +153,10 @@ const useCases = Object.freeze({
   resetPassword,
   shouldUserAccessProject,
   inviteUserToProject,
-  addGarantiesFinancieres,
   removeGarantiesFinancieres,
   inviteDreal,
   relanceInvitations,
   relanceGarantiesFinancieres,
-  addDCR,
   removeDCR,
 })
 
@@ -196,11 +174,9 @@ export {
   resetPassword,
   shouldUserAccessProject,
   inviteUserToProject,
-  addGarantiesFinancieres,
   removeGarantiesFinancieres,
   inviteDreal,
   relanceInvitations,
   relanceGarantiesFinancieres,
-  addDCR,
   removeDCR,
 }

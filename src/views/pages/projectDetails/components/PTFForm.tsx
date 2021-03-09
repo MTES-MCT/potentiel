@@ -13,7 +13,7 @@ export const PTFForm = ({ projectId, date }: PTFFormProps) => (
       <label htmlFor="date">Date de signature du PTF (format JJ/MM/AAAA)</label>
       <input
         type="text"
-        name="ptfDate"
+        name="stepDate"
         {...dataId('date-field')}
         defaultValue={date || ''}
         data-max-date={Date.now()}

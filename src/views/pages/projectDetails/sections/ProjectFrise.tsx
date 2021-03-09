@@ -141,7 +141,7 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (
                         }
                   }
                   status="nextup"
-                  hiddenContent={<DCRForm projectId={project.id} date={request.query.dcrDate} />}
+                  hiddenContent={<DCRForm projectId={project.id} date={request.query.stepDate} />}
                 />
               )
             ) : null}
