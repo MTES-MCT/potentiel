@@ -486,20 +486,11 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
     )
   }
 
-  async function _searchWithinGivenIds(term: string, projectIds: Project['id'][]) {
-    const termsFormatted = term
-      .split(' ')
-      .reduce((acc, currTerm) => `${acc} ${currTerm}:* |`, '')
-      .slice(0, -1)
-
+  async function _searchWithinGivenIds(terms: string, projectIds: Project['id'][]) {
     const projects = await ProjectModel.findAll({
       where: {
         id: { [Op.in]: projectIds },
-        [Op.any]: sequelizeInstance.literal(
-          `_search @@ to_tsquery('simple', quote_literal(${sequelizeInstance.escape(
-            termsFormatted
-          )}))`
-        ),
+        [Op.or]: { ..._getFullTextSearchOptions(terms) },
       },
     })
 
@@ -571,21 +562,15 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
     terms: string,
     regions: DREAL | DREAL[]
   ): Promise<Project['id'][]> {
-    const termsFormatted = terms
-      .split(' ')
-      .reduce((acc, currTerm) => `${acc} ${currTerm}:* |`, '')
-      .slice(0, -1)
-
     const formattedRegions = Array.isArray(regions) ? regions.join('|') : regions
+
     const projects = await ProjectModel.findAll({
       where: {
         [Op.and]: [
           {
-            [Op.any]: sequelizeInstance.literal(
-              `_search @@ to_tsquery('simple', quote_literal(${sequelizeInstance.escape(
-                termsFormatted
-              )}))`
-            ),
+            [Op.or]: { ..._getFullTextSearchOptions(terms) },
+          },
+          {
             regionProjet: { [Op.iRegexp]: formattedRegions },
           },
         ],
@@ -665,16 +650,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
     try {
       const opts = _makeSelectorsForQuery(filters)
 
-      const termsFormatted = terms
-        .split(' ')
-        .reduce((acc, currTerm) => `${acc} ${currTerm}:* |`, '')
-        .slice(0, -1)
-
-      opts.where[Op.any] = sequelizeInstance.literal(
-        `_search @@ to_tsquery('simple', quote_literal(${sequelizeInstance.escape(
-          termsFormatted
-        )}))`
-      )
+      opts.where[Op.or] = { ..._getFullTextSearchOptions(terms) }
 
       return _findAndBuildProjectList(opts, pagination)
     } catch (error) {
@@ -909,3 +885,34 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
 }
 
 export { makeProjectRepo }
+
+function _getFullTextSearchOptions(terms: string): object {
+  const formattedTerms = terms
+    .split(' ')
+    .filter((term) => term.trim() !== '')
+    .map((term) => `%${term}%`)
+
+  const searchedColumns = [
+    'nomCandidat',
+    'nomProjet',
+    'nomRepresentantLegal',
+    'email',
+    'adresseProjet',
+    'codePostalProjet',
+    'communeProjet',
+    'departementProjet',
+    'regionProjet',
+    'numeroCRE',
+    'details.Nom et prénom du signataire du formulaire',
+    'details.Nom et prénom du contact',
+  ]
+
+  const options = searchedColumns.reduce((opts, col) => {
+    return {
+      ...opts,
+      [col]: { [Op.iLike]: { [Op.any]: [...formattedTerms] } },
+    }
+  }, {})
+
+  return options
+}
