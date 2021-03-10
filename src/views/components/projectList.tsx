@@ -1,13 +1,23 @@
 import React from 'react'
 import { logger } from '../../core/utils'
 import { makeProjectIdentifier, Project, User } from '../../entities'
+import { formatDate } from '../../helpers/formatDate'
 import { dataId } from '../../helpers/testId'
 import { PaginatedList } from '../../types'
 import { ACTION_BY_ROLE } from './actions'
 import Pagination from './pagination'
 import ProjectActions from './projectActions'
+import ROUTES from '../../routes'
+import { DownloadIcon } from './downloadIcon'
 
-type Columns = 'Projet' | 'Candidat' | 'Puissance' | 'Prix' | 'Evaluation Carbone' | 'Classé'
+type Columns =
+  | 'Projet'
+  | 'Candidat'
+  | 'Puissance'
+  | 'Prix'
+  | 'Evaluation Carbone'
+  | 'Garanties Financières'
+  | 'Classé'
 
 type ColumnRenderer = (props: { project: Project }) => React.ReactNode
 
@@ -100,6 +110,33 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
               kg eq CO2/kWc
             </span>
           </>
+        ) : (
+          ''
+        )}
+      </td>
+    )
+  } as ColumnRenderer,
+  'Garanties Financières': function GarantieFinanciereColumn({ project }) {
+    return (
+      <td valign="top">
+        {project.garantiesFinancieresSubmittedOn !== 0 ? (
+          <div {...dataId('gfList-item-garanties-financieres')}>
+            {project.garantiesFinancieresFileRef ? (
+              <a
+                href={ROUTES.DOWNLOAD_PROJECT_FILE(
+                  project.garantiesFinancieresFileRef.id,
+                  project.garantiesFinancieresFileRef.filename
+                )}
+                download={true}
+                {...dataId('gfList-item-download-link')}
+              >
+                <DownloadIcon />
+                Déposées le {formatDate(project.garantiesFinancieresSubmittedOn)}
+              </a>
+            ) : (
+              <span>Déposées le {formatDate(project.garantiesFinancieresSubmittedOn)}</span>
+            )}
+          </div>
         ) : (
           ''
         )}

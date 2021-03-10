@@ -197,7 +197,7 @@ describe('addGarantiesFinancieres use-case', () => {
         variables: {
           nomProjet: originalProject.nomProjet,
           departementProjet: originalProject.departementProjet,
-          invitation_link: routes.GARANTIES_FINANCIERES_LIST,
+          invitation_link: routes.ADMIN_DASHBOARD,
         },
       })
 
@@ -218,7 +218,7 @@ describe('addGarantiesFinancieres use-case', () => {
         variables: {
           nomProjet: originalProject.nomProjet,
           departementProjet: originalProject.departementProjet,
-          invitation_link: routes.GARANTIES_FINANCIERES_LIST,
+          invitation_link: routes.ADMIN_DASHBOARD,
         },
       })
     })

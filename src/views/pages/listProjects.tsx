@@ -308,7 +308,7 @@ export default function ListProjects({
                 'Projet',
                 'Candidat',
                 'Puissance',
-                ...(request.user?.role === 'dreal' ? [] : ['Prix']),
+                ...(request.user?.role === 'dreal' ? ['Garanties Financières'] : ['Prix']),
                 'Evaluation Carbone',
                 'Classé',
               ]}

@@ -50,13 +50,10 @@ v1Router.post(
           }
 
           response.redirect(
-            addQueryParams(
-              user.role === 'dreal' ? routes.GARANTIES_FINANCIERES_LIST : routes.USER_DASHBOARD,
-              {
-                success:
-                  'Votre compte a bien été créé, vous pouvez vous à présent gérer vos projets ci-dessous.',
-              }
-            )
+            addQueryParams(user.role === 'dreal' ? routes.ADMIN_DASHBOARD : routes.USER_DASHBOARD, {
+              success:
+                'Votre compte a bien été créé, vous pouvez vous à présent gérer vos projets ci-dessous.',
+            })
           )
         })
       },
