@@ -3,6 +3,7 @@ import { Pagination } from '../../types'
 import makeFakeProject from '../../__tests__/fixtures/project'
 import makeFakeUser from '../../__tests__/fixtures/user'
 import { projectRepo, resetDatabase, userRepo } from './'
+import { sequelizeInstance } from '../../sequelize.legacy.config'
 
 const defaultPagination = { page: 0, pageSize: 2 } as Pagination
 
@@ -173,7 +174,6 @@ describe('projectRepo sequelize', () => {
 
           const goodProperties = {
             notifiedOn: 1,
-            garantiesFinancieresSubmittedOn: 1,
             classe: 'Classé',
           }
 
@@ -186,12 +186,23 @@ describe('projectRepo sequelize', () => {
               {
                 id: uuid(),
                 ...goodProperties,
-                garantiesFinancieresSubmittedOn: 0,
               },
             ]
               .map(makeFakeProject)
               .map(projectRepo.save)
           )
+
+          // Add GF Step for the target project
+          const ProjectStepModel = sequelizeInstance.model('project_step')
+          await ProjectStepModel.create({
+            id: uuid(),
+            type: 'garantie-financiere',
+            projectId: targetProjectId,
+            stepDate: new Date(123),
+            fileId: uuid(),
+            submittedOn: new Date(345),
+            submittedBy: uuid(),
+          })
 
           const { itemCount, items } = await projectRepo.findAll({
             isNotified: true,
@@ -206,11 +217,11 @@ describe('projectRepo sequelize', () => {
 
       describe('with value of false', () => {
         it('should return all projects that have a due date but have not submitted garanties financieres', async () => {
-          const targetProjectId = uuid()
+          const projectWithoutGF = uuid()
+          const projectWithGF = uuid()
 
           const goodProperties = {
             notifiedOn: 1,
-            garantiesFinancieresSubmittedOn: 0,
             garantiesFinancieresDueOn: Date.now() + 1e6,
             classe: 'Classé',
           }
@@ -218,13 +229,12 @@ describe('projectRepo sequelize', () => {
           await Promise.all(
             [
               {
-                id: targetProjectId,
+                id: projectWithoutGF,
                 ...goodProperties,
               },
               {
-                id: uuid(),
+                id: projectWithGF,
                 ...goodProperties,
-                garantiesFinancieresSubmittedOn: 1,
               },
               {
                 id: uuid(),
@@ -236,6 +246,18 @@ describe('projectRepo sequelize', () => {
               .map(projectRepo.save)
           )
 
+          // Add GF Step for the other project (not targetted)
+          const ProjectStepModel = sequelizeInstance.model('project_step')
+          await ProjectStepModel.create({
+            id: uuid(),
+            type: 'garantie-financiere',
+            projectId: projectWithGF,
+            stepDate: new Date(123),
+            fileId: uuid(),
+            submittedOn: new Date(345),
+            submittedBy: uuid(),
+          })
+
           const { itemCount, items } = await projectRepo.findAll({
             isNotified: true,
             garantiesFinancieres: 'notSubmitted',
@@ -243,18 +265,18 @@ describe('projectRepo sequelize', () => {
           })
 
           expect(itemCount).toEqual(1)
-          expect(items[0].id).toEqual(targetProjectId)
+          expect(items[0].id).toEqual(projectWithoutGF)
         })
       })
     })
 
     describe('given garantiesFinancieresPastDue=true filter', () => {
       it('should return all projects that are due before today and not submitted yet', async () => {
-        const targetProjectId = uuid()
+        const projectWithoutGF = uuid()
+        const projectWithGF = uuid()
 
         const goodProperties = {
           notifiedOn: 1,
-          garantiesFinancieresSubmittedOn: 0,
           garantiesFinancieresDueOn: 1,
           classe: 'Classé',
         }
@@ -262,13 +284,12 @@ describe('projectRepo sequelize', () => {
         await Promise.all(
           [
             {
-              id: targetProjectId,
+              id: projectWithoutGF,
               ...goodProperties,
             },
             {
-              id: uuid(),
+              id: projectWithGF,
               ...goodProperties,
-              garantiesFinancieresSubmittedOn: 1,
             },
             {
               id: uuid(),
@@ -285,6 +306,18 @@ describe('projectRepo sequelize', () => {
             .map(projectRepo.save)
         )
 
+        // Add GF Step for the other project (not targetted)
+        const ProjectStepModel = sequelizeInstance.model('project_step')
+        await ProjectStepModel.create({
+          id: uuid(),
+          type: 'garantie-financiere',
+          projectId: projectWithGF,
+          stepDate: new Date(123),
+          fileId: uuid(),
+          submittedOn: new Date(345),
+          submittedBy: uuid(),
+        })
+
         const { itemCount, items } = await projectRepo.findAll({
           isNotified: true,
           garantiesFinancieres: 'pastDue',
@@ -292,7 +325,7 @@ describe('projectRepo sequelize', () => {
         })
 
         expect(itemCount).toEqual(1)
-        expect(items[0].id).toEqual(targetProjectId)
+        expect(items[0].id).toEqual(projectWithoutGF)
       })
     })
   })
@@ -1461,11 +1494,11 @@ describe('projectRepo sequelize', () => {
   })
 
   describe('findProjectsWithGarantiesFinancieresPendingBefore(beforeDate)', () => {
-    it('should return all projects with garantiesFinancieresSubmittedOn != 0 and garantiesFinancieresDueOn before beforeDate and not null', async () => {
-      const targetProjectId = uuid()
+    it('should return all projects with garantiesFinancieres and garantiesFinancieresDueOn before beforeDate and not null', async () => {
+      const projectWithoutGF = uuid()
+      const projectWithGF = uuid()
 
       const targetProjectProps = {
-        garantiesFinancieresSubmittedOn: 0,
         garantiesFinancieresRelanceOn: 0,
         garantiesFinancieresDueOn: 1000,
         notifiedOn: 1,
@@ -1475,13 +1508,12 @@ describe('projectRepo sequelize', () => {
       await Promise.all(
         [
           {
-            id: targetProjectId,
+            id: projectWithoutGF,
             ...targetProjectProps,
           },
           {
-            id: uuid(),
+            id: projectWithGF,
             ...targetProjectProps,
-            garantiesFinancieresSubmittedOn: 1,
           },
           {
             id: uuid(),
@@ -1513,9 +1545,21 @@ describe('projectRepo sequelize', () => {
           .map(projectRepo.save)
       )
 
+      // Add GF Step for the other project (not targetted)
+      const ProjectStepModel = sequelizeInstance.model('project_step')
+      await ProjectStepModel.create({
+        id: uuid(),
+        type: 'garantie-financiere',
+        projectId: projectWithGF,
+        stepDate: new Date(123),
+        fileId: uuid(),
+        submittedOn: new Date(345),
+        submittedBy: uuid(),
+      })
+
       const results = await projectRepo.findProjectsWithGarantiesFinancieresPendingBefore(1500)
       expect(results).toHaveLength(1)
-      expect(results[0].id).toEqual(targetProjectId)
+      expect(results[0].id).toEqual(projectWithoutGF)
     })
   })
 })

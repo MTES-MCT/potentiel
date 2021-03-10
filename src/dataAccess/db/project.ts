@@ -8,26 +8,48 @@ import { Err, Ok, PaginatedList, Pagination, ResultAsync } from '../../types'
 import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
 
+const getGFData = ({ steps }) => {
+  const gf = steps && steps.find((item) => item.type === 'garantie-financiere')
+  if (!gf) return { garantiesFinancieresSubmittedOn: 0 }
+
+  return {
+    garantiesFinancieresDate: gf.stepDate.getTime(),
+    garantiesFinancieresSubmittedOn: gf.submittedOn.getTime(),
+    garantiesFinancieresSubmittedBy: gf.submittedBy,
+    garantiesFinancieresFileRef: gf.file,
+  }
+}
+
+const getDCRData = ({ steps }) => {
+  if (!steps) return {}
+
+  const dcr = steps && steps.find((item) => item.type === 'dcr')
+  if (!dcr) return { dcrSubmittedOn: 0 }
+
+  return {
+    dcrDate: dcr.stepDate.getTime(),
+    dcrSubmittedOn: dcr.submittedOn.getTime(),
+    dcrSubmittedBy: dcr.submittedBy,
+    dcrFileRef: dcr.file,
+    dcrNumeroDossier: dcr.details.numeroDossier,
+  }
+}
+
 // Override these to apply serialization/deserialization on inputs/outputs
 const deserialize = (item) => ({
   ...item,
   actionnaire: item.actionnaire || '',
   territoireProjet: item.territoireProjet || undefined,
-  garantiesFinancieresDate: item.garantiesFinancieresDate || 0,
   garantiesFinancieresFile: item.garantiesFinancieresFile || '',
   garantiesFinancieresFileId: item.garantiesFinancieresFileId || '',
   garantiesFinancieresDueOn: item.garantiesFinancieresDueOn || 0,
   garantiesFinancieresRelanceOn: item.garantiesFinancieresRelanceOn || 0,
-  garantiesFinancieresSubmittedOn: item.garantiesFinancieresSubmittedOn || 0,
-  garantiesFinancieresSubmittedBy: item.garantiesFinancieresSubmittedBy || '',
-  dcrDate: item.dcrDate || 0,
   dcrFile: item.dcrFile || '',
   dcrFileId: item.dcrFileId || '',
   dcrDueOn: item.dcrDueOn || 0,
-  dcrSubmittedOn: item.dcrSubmittedOn || 0,
-  dcrSubmittedBy: item.dcrSubmittedBy || '',
-  dcrNumeroDossier: item.dcrNumeroDossier || '',
   certificateFileId: item.certificateFileId || '',
+  ...getGFData(item),
+  ...getDCRData(item),
 })
 
 export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): ProjectRepo {
@@ -247,19 +269,73 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
       timestamps: true,
     }
   )
-  ProjectModel.belongsTo(FileModel, {
-    foreignKey: 'garantiesFinancieresFileId',
-    as: 'garantiesFinancieresFileRef',
-  })
 
-  ProjectModel.belongsTo(FileModel, {
-    foreignKey: 'dcrFileId',
-    as: 'dcrFileRef',
-  })
+  // ProjectModel.belongsTo(FileModel, {
+  //   foreignKey: 'garantiesFinancieresFileId',
+  //   as: 'garantiesFinancieresFileRef',
+  // })
+
+  // ProjectModel.belongsTo(FileModel, {
+  //   foreignKey: 'dcrFileId',
+  //   as: 'dcrFileRef',
+  // })
 
   ProjectModel.belongsTo(FileModel, {
     foreignKey: 'certificateFileId',
     as: 'certificateFile',
+  })
+
+  const ProjectStep = sequelizeInstance.define(
+    'project_step',
+    {
+      id: {
+        type: DataTypes.UUID,
+        primaryKey: true,
+        allowNull: false,
+      },
+      type: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      projectId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+      },
+      stepDate: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      fileId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+      },
+      submittedOn: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      submittedBy: {
+        type: DataTypes.UUID,
+        allowNull: false,
+      },
+      details: {
+        type: DataTypes.JSON,
+        allowNull: true,
+      },
+    },
+    {
+      timestamps: true,
+    }
+  )
+
+  ProjectStep.hasOne(FileModel, {
+    foreignKey: 'id',
+    sourceKey: 'fileId',
+    as: 'file',
+  })
+
+  ProjectModel.hasMany(ProjectStep, {
+    as: 'steps',
+    foreignKey: 'projectId',
   })
 
   const _isDbReady = isDbReady({ sequelizeInstance })
@@ -309,14 +385,9 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
       const projectInDb = await ProjectModel.findByPk(id, {
         include: [
           {
-            model: FileModel,
-            as: 'garantiesFinancieresFileRef',
-            attributes: ['id', 'filename'],
-          },
-          {
-            model: FileModel,
-            as: 'dcrFileRef',
-            attributes: ['id', 'filename'],
+            model: ProjectStep,
+            as: 'steps',
+            include: FileModel,
           },
           {
             model: FileModel,
@@ -367,14 +438,9 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
 
     opts.include = [
       {
-        model: FileModel,
-        as: 'garantiesFinancieresFileRef',
-        attributes: ['id', 'filename'],
-      },
-      {
-        model: FileModel,
-        as: 'dcrFileRef',
-        attributes: ['id', 'filename'],
+        model: ProjectStep,
+        as: 'steps',
+        include: FileModel,
       },
       {
         model: FileModel,
@@ -391,18 +457,45 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
       if ('garantiesFinancieres' in query) {
         switch (query.garantiesFinancieres) {
           case 'submitted':
-            opts.where.garantiesFinancieresSubmittedOn = { [Op.ne]: 0 }
+            opts.include = [
+              ...opts.include.filter((item) => item.as !== 'steps'),
+              {
+                model: ProjectStep,
+                as: 'steps',
+                where: { type: 'garantie-financiere' },
+                required: true,
+                include: FileModel,
+              },
+            ]
             break
           case 'notSubmitted':
             opts.where.garantiesFinancieresDueOn = { [Op.ne]: 0 }
-            opts.where.garantiesFinancieresSubmittedOn = 0
+            opts.include = [
+              ...opts.include.filter((item) => item.as !== 'steps'),
+              {
+                model: ProjectStep,
+                as: 'steps',
+                where: { type: 'garantie-financiere' },
+                required: false,
+              },
+            ]
+            opts.where.$steps$ = null
             break
           case 'pastDue':
             opts.where.garantiesFinancieresDueOn = {
               [Op.lte]: Date.now(),
               [Op.ne]: 0,
             }
-            opts.where.garantiesFinancieresSubmittedOn = 0
+            opts.include = [
+              ...opts.include.filter((item) => item.as !== 'steps'),
+              {
+                model: ProjectStep,
+                as: 'steps',
+                where: { type: 'garantie-financiere' },
+                required: false,
+              },
+            ]
+            opts.where.$steps$ = null
             break
         }
       }
@@ -855,15 +948,24 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
     beforeDate: number
   ): Promise<Array<Project>> {
     await _isDbReady
+
     try {
       const projectsRaw = (
         await ProjectModel.findAll({
+          include: [
+            {
+              model: ProjectStep,
+              as: 'steps',
+              where: { type: 'garantie-financiere' },
+              required: false,
+            },
+          ],
           where: {
-            garantiesFinancieresSubmittedOn: 0,
             garantiesFinancieresRelanceOn: 0,
             garantiesFinancieresDueOn: { [Op.ne]: 0, [Op.lte]: beforeDate },
             notifiedOn: { [Op.ne]: 0 },
             classe: 'Classé',
+            $steps$: null, // With include, means "without a GF"
           },
         })
       ).map((item) => item.get())
