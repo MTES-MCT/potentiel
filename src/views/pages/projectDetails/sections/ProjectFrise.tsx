@@ -65,7 +65,10 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (
                             title: 'Annuler le dépôt',
                             confirm:
                               "Etes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?",
-                            link: ROUTES.SUPPRIMER_GARANTIES_FINANCIERES_ACTION(project.id),
+                            link: ROUTES.SUPPRIMER_ETAPE_ACTION({
+                              projectId: project.id,
+                              type: 'garantie-financiere',
+                            }),
                           },
                         ]
                       : []),
@@ -120,7 +123,10 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (
                             title: 'Annuler le dépôt',
                             confirm:
                               "Etes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?",
-                            link: ROUTES.SUPPRIMER_DCR_ACTION(project.id),
+                            link: ROUTES.SUPPRIMER_ETAPE_ACTION({
+                              projectId: project.id,
+                              type: 'dcr',
+                            }),
                           },
                         ]
                       : []),

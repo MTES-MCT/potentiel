@@ -9,8 +9,6 @@ import makeRetrievePassword from './retrievePassword'
 import makeResetPassword from './resetPassword'
 import makeShouldUserAccessProject from './shouldUserAccessProject'
 import makeInviteUserToProject from './inviteUserToProject'
-import makeRemoveGarantiesFinancieres from './removeGarantiesFinancieres'
-import makeRemoveDCR from './removeDCR'
 import makeInviteDreal from './inviteDreal'
 import makeRelanceInvitations from './relanceInvitations'
 import makeRelanceGarantiesFinancieres from './relanceGarantiesFinancieres'
@@ -105,20 +103,6 @@ const inviteUserToProject = makeInviteUserToProject({
   sendNotification,
 })
 
-const removeGarantiesFinancieres = makeRemoveGarantiesFinancieres({
-  eventBus: eventStore,
-  findProjectById: projectRepo.findById,
-  saveProject: projectRepo.save,
-  shouldUserAccessProject,
-})
-
-const removeDCR = makeRemoveDCR({
-  eventBus: eventStore,
-  findProjectById: projectRepo.findById,
-  saveProject: projectRepo.save,
-  shouldUserAccessProject,
-})
-
 const inviteDreal = makeInviteDreal({
   credentialsRepo,
   projectAdmissionKeyRepo,
@@ -153,11 +137,9 @@ const useCases = Object.freeze({
   resetPassword,
   shouldUserAccessProject,
   inviteUserToProject,
-  removeGarantiesFinancieres,
   inviteDreal,
   relanceInvitations,
   relanceGarantiesFinancieres,
-  removeDCR,
 })
 
 export default useCases
@@ -174,9 +156,7 @@ export {
   resetPassword,
   shouldUserAccessProject,
   inviteUserToProject,
-  removeGarantiesFinancieres,
   inviteDreal,
   relanceInvitations,
   relanceGarantiesFinancieres,
-  removeDCR,
 }
