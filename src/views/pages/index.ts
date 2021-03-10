@@ -17,7 +17,6 @@ import ForgottenPassword from './forgottenPassword'
 import ResetPassword from './resetPassword'
 import ProjectDetails from './projectDetails'
 import DrealList from './drealList'
-import GarantiesFinancieresList from './garantiesFinancieresList'
 import InvitationList from './invitationList'
 import NotificationList from './notificationList'
 import ModificationRequestList from './modificationRequestList'
@@ -34,7 +33,6 @@ const ForgottenPasswordPage = makePresenterPage(ForgottenPassword)
 const ResetPasswordPage = makePresenterPage(ResetPassword)
 const ProjectDetailsPage = makePresenterPage(ProjectDetails)
 const DrealListPage = makePresenterPage(DrealList)
-const GarantiesFinancieresListPage = makePresenterPage(GarantiesFinancieresList)
 const InvitationListPage = makePresenterPage(InvitationList)
 const NotificationListPage = makePresenterPage(NotificationList)
 const StatistiquesPage = makePresenterPage(Statistiques)
@@ -52,7 +50,6 @@ export {
   ResetPasswordPage,
   ProjectDetailsPage,
   DrealListPage,
-  GarantiesFinancieresListPage,
   InvitationListPage,
   NotificationListPage,
   StatistiquesPage,

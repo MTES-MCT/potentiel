@@ -14,7 +14,6 @@ import makeRemoveGarantiesFinancieres from './removeGarantiesFinancieres'
 import makeAddDCR from './addDCR'
 import makeRemoveDCR from './removeDCR'
 import makeInviteDreal from './inviteDreal'
-import makeListGarantiesFinancieres from './listGarantiesFinancieres'
 import makeRelanceInvitations from './relanceInvitations'
 import makeRelanceGarantiesFinancieres from './relanceGarantiesFinancieres'
 
@@ -147,12 +146,6 @@ const inviteDreal = makeInviteDreal({
   sendNotification,
 })
 
-const listGarantiesFinancieres = makeListGarantiesFinancieres({
-  findAllProjectsForRegions: projectRepo.findAllForRegions,
-  findAllProjects: projectRepo.findAll,
-  findDrealsForUser: userRepo.findDrealsForUser,
-})
-
 const relanceInvitations = makeRelanceInvitations({
   projectAdmissionKeyRepo,
   sendNotification,
@@ -183,7 +176,6 @@ const useCases = Object.freeze({
   addGarantiesFinancieres,
   removeGarantiesFinancieres,
   inviteDreal,
-  listGarantiesFinancieres,
   relanceInvitations,
   relanceGarantiesFinancieres,
   addDCR,
@@ -207,7 +199,6 @@ export {
   addGarantiesFinancieres,
   removeGarantiesFinancieres,
   inviteDreal,
-  listGarantiesFinancieres,
   relanceInvitations,
   relanceGarantiesFinancieres,
   addDCR,
