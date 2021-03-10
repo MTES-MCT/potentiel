@@ -119,9 +119,9 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
   'Garanties Financières': function GarantieFinanciereColumn({ project }) {
     return (
       <td valign="top">
-        {project.garantiesFinancieresFileRef ? (
-          <div>
-            <div {...dataId('gfList-item-garanties-financieres')}>
+        {project.garantiesFinancieresSubmittedOn !== 0 ? (
+          <div {...dataId('gfList-item-garanties-financieres')}>
+            {project.garantiesFinancieresFileRef ? (
               <a
                 href={ROUTES.DOWNLOAD_PROJECT_FILE(
                   project.garantiesFinancieresFileRef.id,
@@ -133,7 +133,9 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
                 <DownloadIcon />
                 Déposées le {formatDate(project.garantiesFinancieresSubmittedOn)}
               </a>
-            </div>
+            ) : (
+              <span>Déposées le {formatDate(project.garantiesFinancieresSubmittedOn)}</span>
+            )}
           </div>
         ) : (
           ''
