@@ -1,5 +1,6 @@
 import { err, errAsync, ok, wrapInfra } from '../../../core/utils'
 import { getAppelOffre } from '../../../dataAccess/inMemory'
+import { ProjectDataForProjectPage } from '../../../modules/project/dtos'
 import { GetProjectDataForProjectPage } from '../../../modules/project/queries/GetProjectDataForProjectPage'
 import { EntityNotFoundError, InfraNotAvailableError } from '../../../modules/shared'
 
@@ -17,16 +18,6 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
         {
           model: File,
           as: 'certificateFile',
-          attributes: ['id', 'filename'],
-        },
-        {
-          model: File,
-          as: 'garantiesFinancieresFileRef',
-          attributes: ['id', 'filename'],
-        },
-        {
-          model: File,
-          as: 'dcrFileRef',
           attributes: ['id', 'filename'],
         },
         {
@@ -107,15 +98,8 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
       certificateFile,
       classe,
       motifsElimination,
-      garantiesFinancieresFileRef,
       garantiesFinancieresDueOn,
-      garantiesFinancieresSubmittedOn,
-      garantiesFinancieresDate,
-      dcrFileRef,
       dcrDueOn,
-      dcrSubmittedOn,
-      dcrDate,
-      dcrNumeroDossier,
       users,
       invitations,
       invitationsForProjectEmail,
@@ -161,6 +145,7 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
       motifsElimination,
       users: users?.map(({ user }) => user),
       invitations: allInvitations,
+      garantiesFinancieres: undefined,
     }
 
     if (user.role !== 'dreal') {
@@ -174,32 +159,46 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
     }
 
     if (garantiesFinancieresDueOn) {
-      result.garantiesFinancieresDueOn = new Date(garantiesFinancieresDueOn)
-
-      if (garantiesFinancieresSubmittedOn) {
-        result.garantiesFinancieresSubmittedOn = new Date(garantiesFinancieresSubmittedOn)
-        result.garantiesFinancieresDate =
-          garantiesFinancieresDate && new Date(garantiesFinancieresDate)
-        result.garantiesFinancieresFile = garantiesFinancieresFileRef?.get()
-      }
+      result.garantiesFinancieres = { dueOn: new Date(garantiesFinancieresDueOn) }
     }
 
     if (dcrDueOn) {
-      result.dcrDueOn = new Date(dcrDueOn)
-
-      if (dcrSubmittedOn) {
-        result.dcrSubmittedOn = new Date(dcrSubmittedOn)
-        result.dcrDate = dcrDate && new Date(dcrDate)
-        result.dcrFile = dcrFileRef?.get()
-        result.dcrNumeroDossier = dcrNumeroDossier
-      }
+      result.dcr = { dueOn: new Date(dcrDueOn) }
     }
 
     if (steps) {
+      const gf = steps.find((step) => step.type === 'garantie-financiere')
+      if (gf) {
+        const { submittedOn, file, stepDate } = gf
+        result.garantiesFinancieres = {
+          ...result.garantiesFinancieres,
+          submittedOn,
+          file: file?.get(),
+          gfDate: stepDate,
+        }
+      }
+
       const ptf = steps.find((step) => step.type === 'ptf')
       if (ptf) {
         const { submittedOn, file, stepDate } = ptf
         result.ptf = { submittedOn, file: file?.get(), ptfDate: stepDate }
+      }
+
+      const dcr = steps.find((step) => step.type === 'dcr')
+      if (dcr) {
+        const {
+          submittedOn,
+          file,
+          stepDate,
+          details: { numeroDossier },
+        } = dcr
+        result.dcr = {
+          ...result.dcr,
+          submittedOn,
+          file: file?.get(),
+          dcrDate: stepDate,
+          numeroDossier,
+        }
       }
     }
 

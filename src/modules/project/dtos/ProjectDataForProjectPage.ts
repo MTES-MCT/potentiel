@@ -62,22 +62,20 @@ type IsElimine = {
   motifsElimination: string
 }
 
-type DCR = DCRSubmitted | DCRPending
+type DCR = { dcr: { dueOn: Date } & (DCRSubmitted | DCRPending) }
 
 type DCRSubmitted = {
-  dcrDueOn: Date
-  dcrSubmittedOn: Date
+  submittedOn: Date
   dcrDate: Date
-  dcrFile: {
+  file: {
     id: string
     filename: string
   }
-  dcrNumeroDossier: string
+  numeroDossier: string
 }
 
 type DCRPending = {
-  dcrDueOn: Date
-  dcrSubmittedOn: undefined
+  submittedOn: undefined
 }
 
 type PTF = PTFSubmitted | PTFPending
@@ -100,24 +98,26 @@ type PTFPending = {
 type GarantieFinanciere = RequiresGF | DoesNotRequireGF
 
 type DoesNotRequireGF = {
-  garantiesFinancieresDueOn: undefined
+  garantiesFinancieres: undefined
 }
 
 type RequiresGF = {
-  garantiesFinancieresDueOn: Date
-} & (GFSubmitted | GFPending)
+  garantiesFinancieres: {
+    dueOn: Date
+  } & (GFSubmitted | GFPending)
+}
 
 type GFSubmitted = {
-  garantiesFinancieresSubmittedOn: Date
-  garantiesFinancieresDate: Date
-  garantiesFinancieresFile: {
+  submittedOn: Date
+  gfDate: Date
+  file: {
     id: string
     filename: string
   }
 }
 
 type GFPending = {
-  garantiesFinancieresSubmittedOn: undefined
+  submittedOn: undefined
 }
 
 type Users = {
