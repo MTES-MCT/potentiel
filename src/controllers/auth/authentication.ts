@@ -80,7 +80,7 @@ const registerAuth = ({ app }: RegisterAuthProps) => {
     }
 
     if (user.role === 'dreal') {
-      res.redirect(routes.GARANTIES_FINANCIERES_LIST)
+      res.redirect(routes.ADMIN_DASHBOARD)
     }
 
     if (user.role === 'porteur-projet') {

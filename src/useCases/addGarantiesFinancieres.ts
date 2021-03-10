@@ -163,7 +163,7 @@ export default function makeAddGarantiesFinancieres({
               variables: {
                 nomProjet: project.nomProjet,
                 departementProjet: project.departementProjet,
-                invitation_link: routes.GARANTIES_FINANCIERES_LIST,
+                invitation_link: routes.ADMIN_DASHBOARD,
               },
             })
           )
