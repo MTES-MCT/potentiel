@@ -123,58 +123,10 @@ export const MakeProjectModel = (sequelize) => {
         allowNull: false,
         defaultValue: 0,
       },
-      garantiesFinancieresSubmittedOn: {
-        type: DataTypes.BIGINT,
-        allowNull: false,
-        defaultValue: 0,
-      },
-      garantiesFinancieresDate: {
-        type: DataTypes.BIGINT,
-        allowNull: false,
-        defaultValue: 0,
-      },
-      garantiesFinancieresFile: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      garantiesFinancieresFileId: {
-        type: DataTypes.UUID,
-        allowNull: true,
-      },
-      garantiesFinancieresSubmittedBy: {
-        type: DataTypes.UUID,
-        allowNull: true,
-      },
       dcrDueOn: {
         type: DataTypes.BIGINT,
         allowNull: false,
         defaultValue: 0,
-      },
-      dcrSubmittedOn: {
-        type: DataTypes.BIGINT,
-        allowNull: false,
-        defaultValue: 0,
-      },
-      dcrDate: {
-        type: DataTypes.BIGINT,
-        allowNull: false,
-        defaultValue: 0,
-      },
-      dcrFile: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      dcrFileId: {
-        type: DataTypes.UUID,
-        allowNull: true,
-      },
-      dcrNumeroDossier: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      dcrSubmittedBy: {
-        type: DataTypes.UUID,
-        allowNull: true,
       },
       details: {
         type: DataTypes.JSON,

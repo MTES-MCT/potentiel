@@ -153,58 +153,10 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
       allowNull: false,
       defaultValue: 0,
     },
-    garantiesFinancieresSubmittedOn: {
-      type: DataTypes.BIGINT,
-      allowNull: false,
-      defaultValue: 0,
-    },
-    garantiesFinancieresDate: {
-      type: DataTypes.BIGINT,
-      allowNull: false,
-      defaultValue: 0,
-    },
-    garantiesFinancieresFile: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    garantiesFinancieresFileId: {
-      type: DataTypes.UUID,
-      allowNull: true,
-    },
-    garantiesFinancieresSubmittedBy: {
-      type: DataTypes.UUID,
-      allowNull: true,
-    },
     dcrDueOn: {
       type: DataTypes.BIGINT,
       allowNull: false,
       defaultValue: 0,
-    },
-    dcrSubmittedOn: {
-      type: DataTypes.BIGINT,
-      allowNull: false,
-      defaultValue: 0,
-    },
-    dcrDate: {
-      type: DataTypes.BIGINT,
-      allowNull: false,
-      defaultValue: 0,
-    },
-    dcrFile: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    dcrFileId: {
-      type: DataTypes.UUID,
-      allowNull: true,
-    },
-    dcrNumeroDossier: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    dcrSubmittedBy: {
-      type: DataTypes.UUID,
-      allowNull: true,
     },
     details: {
       type: DataTypes.JSON,
@@ -969,9 +921,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
           include: [
             {
               model: ProjectStep,
-              as: 'steps',
-              where: { type: 'garantie-financiere' },
-              required: false,
+              as: 'gf',
             },
           ],
           where: {
@@ -979,7 +929,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
             garantiesFinancieresDueOn: { [Op.ne]: 0, [Op.lte]: beforeDate },
             notifiedOn: { [Op.ne]: 0 },
             classe: 'Classé',
-            $steps$: null, // With include, means "without a GF"
+            $gf$: null, // With include, means "without a GF"
           },
         })
       ).map((item) => item.get())
