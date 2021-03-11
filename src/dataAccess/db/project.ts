@@ -1,4 +1,4 @@
-import { DataTypes, Op } from 'sequelize'
+import { DataTypes, Op, where, col } from 'sequelize'
 import { ContextSpecificProjectListFilter, ProjectFilters, ProjectRepo } from '../'
 import { logger } from '../../core/utils'
 import { AppelOffre, DREAL, Famille, makeProject, Periode, User, Project } from '../../entities'
@@ -7,33 +7,6 @@ import { mapExceptError } from '../../helpers/results'
 import { Err, Ok, PaginatedList, Pagination, ResultAsync } from '../../types'
 import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
-
-const getGFData = ({ steps }) => {
-  const gf = steps && steps.find((item) => item.type === 'garantie-financiere')
-  if (!gf) return { garantiesFinancieresSubmittedOn: 0 }
-
-  return {
-    garantiesFinancieresDate: gf.stepDate.getTime(),
-    garantiesFinancieresSubmittedOn: gf.submittedOn.getTime(),
-    garantiesFinancieresSubmittedBy: gf.submittedBy,
-    garantiesFinancieresFileRef: gf.file,
-  }
-}
-
-const getDCRData = ({ steps }) => {
-  if (!steps) return {}
-
-  const dcr = steps && steps.find((item) => item.type === 'dcr')
-  if (!dcr) return { dcrSubmittedOn: 0 }
-
-  return {
-    dcrDate: dcr.stepDate.getTime(),
-    dcrSubmittedOn: dcr.submittedOn.getTime(),
-    dcrSubmittedBy: dcr.submittedBy,
-    dcrFileRef: dcr.file,
-    dcrNumeroDossier: dcr.details.numeroDossier,
-  }
-}
 
 // Override these to apply serialization/deserialization on inputs/outputs
 const deserialize = (item) => ({
@@ -48,8 +21,15 @@ const deserialize = (item) => ({
   dcrFileId: item.dcrFileId || '',
   dcrDueOn: item.dcrDueOn || 0,
   certificateFileId: item.certificateFileId || '',
-  ...getGFData(item),
-  ...getDCRData(item),
+  garantiesFinancieresDate: item.gf?.stepDate.getTime() || 0,
+  garantiesFinancieresSubmittedOn: item.gf?.submittedOn.getTime() || 0,
+  garantiesFinancieresSubmittedBy: item.gf?.submittedBy,
+  garantiesFinancieresFileRef: item.gf?.file,
+  dcrDate: item.dcr?.stepDate.getTime() || 0,
+  dcrSubmittedOn: item.dcr?.submittedOn.getTime() || 0,
+  dcrSubmittedBy: item.dcr?.submittedBy,
+  dcrFileRef: item.dcr?.file,
+  dcrNumeroDossier: item.dcr?.details.numeroDossier,
 })
 
 export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): ProjectRepo {
@@ -333,9 +313,28 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
     as: 'file',
   })
 
-  ProjectModel.hasMany(ProjectStep, {
-    as: 'steps',
+  ProjectModel.hasOne(ProjectStep, {
+    as: 'gf',
     foreignKey: 'projectId',
+    scope: {
+      [Op.and]: where(col('gf.type'), Op.eq, 'garantie-financiere'),
+    },
+  })
+
+  ProjectModel.hasOne(ProjectStep, {
+    as: 'dcr',
+    foreignKey: 'projectId',
+    scope: {
+      [Op.and]: where(col('dcr.type'), Op.eq, 'dcr'),
+    },
+  })
+
+  ProjectModel.hasOne(ProjectStep, {
+    as: 'ptf',
+    foreignKey: 'projectId',
+    scope: {
+      [Op.and]: where(col('ptf.type'), Op.eq, 'ptf'),
+    },
   })
 
   const _isDbReady = isDbReady({ sequelizeInstance })
@@ -386,8 +385,18 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
         include: [
           {
             model: ProjectStep,
-            as: 'steps',
-            include: FileModel,
+            as: 'gf',
+            include: [{ model: FileModel, as: 'file' }],
+          },
+          {
+            model: ProjectStep,
+            as: 'dcr',
+            include: [{ model: FileModel, as: 'file' }],
+          },
+          {
+            model: ProjectStep,
+            as: 'ptf',
+            include: [{ model: FileModel, as: 'file' }],
           },
           {
             model: FileModel,
@@ -439,8 +448,18 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
     opts.include = [
       {
         model: ProjectStep,
-        as: 'steps',
-        include: FileModel,
+        as: 'gf',
+        include: [{ model: FileModel, as: 'file' }],
+      },
+      {
+        model: ProjectStep,
+        as: 'dcr',
+        include: [{ model: FileModel, as: 'file' }],
+      },
+      {
+        model: ProjectStep,
+        as: 'ptf',
+        include: [{ model: FileModel, as: 'file' }],
       },
       {
         model: FileModel,
@@ -458,28 +477,25 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
         switch (query.garantiesFinancieres) {
           case 'submitted':
             opts.include = [
-              ...opts.include.filter((item) => item.as !== 'steps'),
+              ...opts.include.filter((item) => item.as !== 'gf'),
               {
                 model: ProjectStep,
-                as: 'steps',
-                where: { type: 'garantie-financiere' },
+                as: 'gf',
                 required: true,
-                include: FileModel,
+                include: [{ model: FileModel, as: 'file' }],
               },
             ]
             break
           case 'notSubmitted':
             opts.where.garantiesFinancieresDueOn = { [Op.ne]: 0 }
             opts.include = [
-              ...opts.include.filter((item) => item.as !== 'steps'),
+              ...opts.include.filter((item) => item.as !== 'gf'),
               {
                 model: ProjectStep,
-                as: 'steps',
-                where: { type: 'garantie-financiere' },
-                required: false,
+                as: 'gf',
               },
             ]
-            opts.where.$steps$ = null
+            opts.where.$gf$ = null
             break
           case 'pastDue':
             opts.where.garantiesFinancieresDueOn = {
@@ -487,15 +503,13 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
               [Op.ne]: 0,
             }
             opts.include = [
-              ...opts.include.filter((item) => item.as !== 'steps'),
+              ...opts.include.filter((item) => item.as !== 'gf'),
               {
                 model: ProjectStep,
-                as: 'steps',
-                where: { type: 'garantie-financiere' },
-                required: false,
+                as: 'gf',
               },
             ]
-            opts.where.$steps$ = null
+            opts.where.$gf$ = null
             break
         }
       }

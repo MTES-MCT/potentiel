@@ -54,7 +54,31 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
         },
         {
           model: ProjectStep,
-          as: 'steps',
+          as: 'gf',
+          required: false,
+          include: [
+            {
+              model: File,
+              as: 'file',
+              attributes: ['id', 'filename'],
+            },
+          ],
+        },
+        {
+          model: ProjectStep,
+          as: 'dcr',
+          required: false,
+          include: [
+            {
+              model: File,
+              as: 'file',
+              attributes: ['id', 'filename'],
+            },
+          ],
+        },
+        {
+          model: ProjectStep,
+          as: 'ptf',
           required: false,
           include: [
             {
@@ -103,7 +127,9 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
       users,
       invitations,
       invitationsForProjectEmail,
-      steps,
+      gf,
+      dcr,
+      ptf,
     } = projectRaw.get()
 
     let allInvitations: any[] = []
@@ -166,39 +192,39 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
       result.dcr = { dueOn: new Date(dcrDueOn) }
     }
 
-    if (steps) {
-      const gf = steps.find((step) => step.type === 'garantie-financiere')
-      if (gf) {
-        const { submittedOn, file, stepDate } = gf
-        result.garantiesFinancieres = {
-          ...result.garantiesFinancieres,
-          submittedOn,
-          file: file?.get(),
-          gfDate: stepDate,
-        }
+    if (gf) {
+      const { submittedOn, file, stepDate } = gf
+      result.garantiesFinancieres = {
+        ...result.garantiesFinancieres,
+        submittedOn,
+        file: file?.get(),
+        gfDate: stepDate,
       }
+    }
 
-      const ptf = steps.find((step) => step.type === 'ptf')
-      if (ptf) {
-        const { submittedOn, file, stepDate } = ptf
-        result.ptf = { submittedOn, file: file?.get(), ptfDate: stepDate }
+    if (ptf) {
+      const { submittedOn, file, stepDate } = ptf
+      result.ptf = {
+        ...result.ptf,
+        submittedOn,
+        file: file?.get(),
+        ptfDate: stepDate,
       }
+    }
 
-      const dcr = steps.find((step) => step.type === 'dcr')
-      if (dcr) {
-        const {
-          submittedOn,
-          file,
-          stepDate,
-          details: { numeroDossier },
-        } = dcr
-        result.dcr = {
-          ...result.dcr,
-          submittedOn,
-          file: file?.get(),
-          dcrDate: stepDate,
-          numeroDossier,
-        }
+    if (dcr) {
+      const {
+        submittedOn,
+        file,
+        stepDate,
+        details: { numeroDossier },
+      } = dcr
+      result.dcr = {
+        ...result.dcr,
+        submittedOn,
+        file: file?.get(),
+        dcrDate: stepDate,
+        numeroDossier,
       }
     }
 

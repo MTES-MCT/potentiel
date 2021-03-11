@@ -1,4 +1,4 @@
-import { DataTypes } from 'sequelize'
+import { DataTypes, Op, where, col } from 'sequelize'
 
 export const MakeProjectModel = (sequelize) => {
   const Project = sequelize.define(
@@ -224,9 +224,28 @@ export const MakeProjectModel = (sequelize) => {
       sourceKey: 'email',
     })
 
-    Project.hasMany(ProjectStep, {
-      as: 'steps',
+    Project.hasOne(ProjectStep, {
+      as: 'gf',
       foreignKey: 'projectId',
+      scope: {
+        [Op.and]: where(col('gf.type'), Op.eq, 'garantie-financiere'),
+      },
+    })
+
+    Project.hasOne(ProjectStep, {
+      as: 'dcr',
+      foreignKey: 'projectId',
+      scope: {
+        [Op.and]: where(col('dcr.type'), Op.eq, 'dcr'),
+      },
+    })
+
+    Project.hasOne(ProjectStep, {
+      as: 'ptf',
+      foreignKey: 'projectId',
+      scope: {
+        [Op.and]: where(col('ptf.type'), Op.eq, 'ptf'),
+      },
     })
   }
 
