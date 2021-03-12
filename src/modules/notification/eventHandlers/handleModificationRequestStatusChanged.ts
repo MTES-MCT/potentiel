@@ -4,13 +4,19 @@ import routes from '../../../routes'
 import {
   ModificationRequestAccepted,
   ModificationRequestInstructionStarted,
+  ModificationRequestRejected,
 } from '../../modificationRequest'
 import { GetModificationRequestInfoForStatusNotification } from '../../modificationRequest/queries/GetModificationRequestInfoForStatusNotification'
 
 export const handleModificationRequestStatusChanged = (deps: {
   sendNotification: NotificationService['sendNotification']
   getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification
-}) => async (event: ModificationRequestAccepted | ModificationRequestInstructionStarted) => {
+}) => async (
+  event:
+    | ModificationRequestAccepted
+    | ModificationRequestInstructionStarted
+    | ModificationRequestRejected
+) => {
   const modificationRequestId = event.payload.modificationRequestId
   let status: string = 'mise à jour' // default
   let hasDocument: boolean = false
@@ -20,6 +26,9 @@ export const handleModificationRequestStatusChanged = (deps: {
   } else if (event instanceof ModificationRequestInstructionStarted) {
     status = 'en instruction'
     hasDocument = false
+  } else if (event instanceof ModificationRequestRejected) {
+    status = 'rejetée'
+    hasDocument = true
   }
 
   await deps.getModificationRequestInfoForStatusNotification(modificationRequestId).match(
