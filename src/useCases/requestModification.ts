@@ -1,9 +1,11 @@
+import { okAsync } from 'neverthrow'
 import { Repository, UniqueEntityID } from '../core/domain'
 import { logger } from '../core/utils'
 import { Project, User } from '../entities'
 import { EventBus } from '../modules/eventStore'
 import { FileContents, FileObject, makeAndSaveFile } from '../modules/file'
 import { ModificationRequested } from '../modules/modificationRequest'
+import { NumeroGestionnaireSubmitted } from '../modules/project/events'
 import { ErrorResult, Ok, ResultAsync } from '../types'
 
 interface MakeUseCaseProps {
@@ -46,6 +48,7 @@ interface DelayRequest {
   type: 'delai'
   justification: string
   delayedServiceDate: number
+  numeroGestionnaire?: string
 }
 
 interface AbandonRequest {
@@ -126,26 +129,39 @@ export default function makeRequestModification({
       puissance,
       evaluationCarbone,
       delayedServiceDate,
+      numeroGestionnaire,
     } = props as any
 
-    const res = await eventBus.publish(
-      new ModificationRequested({
-        payload: {
-          type,
-          modificationRequestId: new UniqueEntityID().toString(),
-          projectId,
-          requestedBy: user.id,
-          fileId,
-          justification,
-          actionnaire,
-          producteur,
-          fournisseur,
-          puissance,
-          evaluationCarbone,
-          delayedServiceDate,
-        },
+    const res = await eventBus
+      .publish(
+        new ModificationRequested({
+          payload: {
+            type,
+            modificationRequestId: new UniqueEntityID().toString(),
+            projectId,
+            requestedBy: user.id,
+            fileId,
+            justification,
+            actionnaire,
+            producteur,
+            fournisseur,
+            puissance,
+            evaluationCarbone,
+            delayedServiceDate,
+          },
+        })
+      )
+      .andThen(() => {
+        if (numeroGestionnaire) {
+          return eventBus.publish(
+            new NumeroGestionnaireSubmitted({
+              payload: { projectId, submittedBy: user.id, numeroGestionnaire },
+            })
+          )
+        }
+
+        return okAsync(null)
       })
-    )
 
     if (res.isErr()) {
       return ErrorResult(SYSTEM_ERROR)

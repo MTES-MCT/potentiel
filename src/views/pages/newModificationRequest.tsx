@@ -349,7 +349,7 @@ export default function NewModificationRequestPage({ request, project }: PagePro
                   )}
                   {...dataId('modificationRequest-presentServiceDateField')}
                 />
-                <label className="required" htmlFor="delayedServiceDate">
+                <label style={{ marginTop: 5 }} className="required" htmlFor="delayedServiceDate">
                   Date souhaitée (format JJ/MM/AAAA)
                 </label>
                 <input
@@ -376,7 +376,7 @@ export default function NewModificationRequestPage({ request, project }: PagePro
                   Le format de la date saisie n’est pas conforme. Elle doit être de la forme
                   JJ/MM/AAAA soit par exemple 25/05/2022 pour 25 Mai 2022.
                 </div>
-                <label className="required" htmlFor="justification">
+                <label style={{ marginTop: 5 }} className="required" htmlFor="justification">
                   Pour la raison suivante:
                 </label>
                 <textarea
@@ -385,7 +385,25 @@ export default function NewModificationRequestPage({ request, project }: PagePro
                   defaultValue={justification || ''}
                   {...dataId('modificationRequest-justificationField')}
                 />
-                <label htmlFor="candidats">Pièce justificative (si nécessaire)</label>
+                {!(project.dcrNumeroDossier || project.numeroGestionnaire) ? (
+                  <>
+                    <label htmlFor="numeroGestionnaire" style={{ marginTop: 5 }}>
+                      Identifiant gestionnaire de réseau
+                    </label>
+                    <div style={{ fontSize: 11 }}>
+                      Cette indication permettra un traitement plus rapide de votre demande.
+                    </div>
+                    <input
+                      type="text"
+                      name="numeroGestionnaire"
+                      {...dataId('modificationRequest-numeroGestionnaireField')}
+                      id="numeroGestionnaire"
+                    />
+                  </>
+                ) : null}
+                <label htmlFor="file" style={{ marginTop: 5 }}>
+                  Pièce justificative (si nécessaire)
+                </label>
                 <input
                   type="file"
                   name="file"

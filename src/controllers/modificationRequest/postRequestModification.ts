@@ -71,6 +71,7 @@ v1Router.post(
       'projectId',
       'evaluationCarbone',
       'delayedServiceDate',
+      'numeroGestionnaire',
     ])
 
     // Convert puissance
