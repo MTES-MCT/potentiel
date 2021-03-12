@@ -3,7 +3,7 @@ import { err, ok, Result } from '../../core/utils'
 import { User } from '../../entities'
 import { EventStoreAggregate, StoredEvent } from '../eventStore'
 import { EntityNotFoundError, IllegalInitialStateForAggregateError } from '../shared'
-import { StatusPreventsAcceptingError } from './errors'
+import { StatusPreventsAcceptingError, StatusPreventsRejectingError } from './errors'
 import {
   ModificationRequested,
   ModificationRequestAccepted,
@@ -16,6 +16,7 @@ export interface ModificationRequest extends EventStoreAggregate {
     acceptedBy: User,
     params?: ModificationRequestAcceptanceParams
   ): Result<null, StatusPreventsAcceptingError>
+  reject(rejectedBy: User, responseFileId: string): Result<null, StatusPreventsRejectingError>
   readonly projectId: UniqueEntityID
   readonly status: ModificationRequestStatus
 }
@@ -75,6 +76,23 @@ export const makeModificationRequest = (args: {
             modificationRequestId: modificationRequestId.toString(),
             params,
             acceptedBy: acceptedBy.id,
+          },
+        })
+      )
+
+      return ok(null)
+    },
+    reject: function (rejectedBy, responseFileId) {
+      if (props.status !== 'envoyée') {
+        return err(new StatusPreventsRejectingError(props.status))
+      }
+
+      _publishEvent(
+        new ModificationRequestRejected({
+          payload: {
+            modificationRequestId: modificationRequestId.toString(),
+            rejectedBy: rejectedBy.id,
+            responseFileId,
           },
         })
       )

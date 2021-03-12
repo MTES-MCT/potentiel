@@ -7,6 +7,7 @@ type FileDesignation =
   | 'garantie-financiere'
   | 'dcr'
   | 'modification-request'
+  | 'modification-request-response'
   | 'attestation-designation'
   | 'ptf'
   | 'other'

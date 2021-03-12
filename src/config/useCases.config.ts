@@ -20,7 +20,10 @@ import {
 } from './repos.config'
 import { getFileProject, getProjectIdForAdmissionKey } from './queries.config'
 import { eventStore } from './eventStore.config'
-import { makeAcceptModificationRequest } from '../modules/modificationRequest'
+import {
+  makeAcceptModificationRequest,
+  makeRejectModificationRequest,
+} from '../modules/modificationRequest'
 
 export const shouldUserAccessProject = new BaseShouldUserAccessProject(
   userRepo,
@@ -48,6 +51,10 @@ export const loadFileForUser = makeLoadFileForUser({
 export const acceptModificationRequest = makeAcceptModificationRequest({
   fileRepo,
   projectRepo,
+  modificationRequestRepo,
+})
+export const rejectModificationRequest = makeRejectModificationRequest({
+  fileRepo,
   modificationRequestRepo,
 })
 
