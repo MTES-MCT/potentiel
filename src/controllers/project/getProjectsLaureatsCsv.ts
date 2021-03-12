@@ -61,6 +61,8 @@ const getProjectsLaureatsCsv = asyncHandler(async (request, response) => {
             garantiesFinancieres: undefined,
           })
 
+    if (!projects?.length) return response.send('Aucun projet lauréat sur cette période')
+
     const sortedProjects = _sortProjectsByRegionsAndDepartements(projects)
 
     const fields = projetsCandidats.map((field) => formatField(field))

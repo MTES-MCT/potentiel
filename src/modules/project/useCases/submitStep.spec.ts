@@ -8,7 +8,7 @@ import { InfraNotAvailableError } from '../../../modules/shared'
 import { UnwrapForTest } from '../../../types'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { UnauthorizedError } from '../../shared'
-import { ProjectPTFSubmitted } from '../events'
+import { ProjectDCRSubmitted, ProjectGFSubmitted, ProjectPTFSubmitted } from '../events'
 import { makeSubmitStep } from './submitStep'
 
 const projectId = new UniqueEntityID().toString()
@@ -35,6 +35,11 @@ describe('submitStep use-case', () => {
     }
 
     describe('when type is ptf', () => {
+      const fileRepo = {
+        save: jest.fn((file: FileObject) => okAsync(null)),
+        load: jest.fn(),
+      }
+
       const ptfDate = new Date(123)
 
       beforeAll(async () => {
@@ -82,6 +87,124 @@ describe('submitStep use-case', () => {
         const fakeFile = fileRepo.save.mock.calls[0][0]
 
         expect(targetEvent.payload.ptfDate).toEqual(ptfDate)
+        expect(targetEvent.payload.fileId).toEqual(fakeFile.id.toString())
+        expect(targetEvent.payload.submittedBy).toEqual(user.id)
+      })
+    })
+
+    describe('when type is garantie-financiere', () => {
+      const fileRepo = {
+        save: jest.fn((file: FileObject) => okAsync(null)),
+        load: jest.fn(),
+      }
+
+      const gfDate = new Date(123)
+
+      beforeAll(async () => {
+        const shouldUserAccessProject = jest.fn(async () => true)
+        fakePublish.mockClear()
+
+        const submitStep = makeSubmitStep({
+          eventBus: fakeEventBus,
+          fileRepo: fileRepo as Repository<FileObject>,
+          shouldUserAccessProject,
+        })
+
+        const res = await submitStep({
+          type: 'garantie-financiere',
+          file: fakeFileContents,
+          stepDate: gfDate,
+          projectId,
+          submittedBy: user,
+        })
+
+        expect(res.isOk()).toBe(true)
+
+        expect(shouldUserAccessProject).toHaveBeenCalledWith({
+          user,
+          projectId,
+        })
+      })
+
+      it('should save the attachment file', async () => {
+        expect(fileRepo.save).toHaveBeenCalled()
+        expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents.contents)
+      })
+
+      it('should trigger a ProjectGFSubmitted event', async () => {
+        expect(fakePublish).toHaveBeenCalled()
+        const targetEvent = fakePublish.mock.calls
+          .map((call) => call[0])
+          .find((event) => event.type === ProjectGFSubmitted.type) as ProjectGFSubmitted
+
+        expect(targetEvent).toBeDefined()
+        if (!targetEvent) return
+
+        expect(targetEvent.payload.projectId).toEqual(projectId)
+
+        const fakeFile = fileRepo.save.mock.calls[0][0]
+
+        expect(targetEvent.payload.gfDate).toEqual(gfDate)
+        expect(targetEvent.payload.fileId).toEqual(fakeFile.id.toString())
+        expect(targetEvent.payload.submittedBy).toEqual(user.id)
+      })
+    })
+
+    describe('when type is dcr', () => {
+      const fileRepo = {
+        save: jest.fn((file: FileObject) => okAsync(null)),
+        load: jest.fn(),
+      }
+
+      const dcrDate = new Date(123)
+
+      beforeAll(async () => {
+        const shouldUserAccessProject = jest.fn(async () => true)
+        fakePublish.mockClear()
+
+        const submitStep = makeSubmitStep({
+          eventBus: fakeEventBus,
+          fileRepo: fileRepo as Repository<FileObject>,
+          shouldUserAccessProject,
+        })
+
+        const res = await submitStep({
+          type: 'dcr',
+          file: fakeFileContents,
+          stepDate: dcrDate,
+          numeroDossier: 'dossier123',
+          projectId,
+          submittedBy: user,
+        })
+
+        expect(res.isOk()).toBe(true)
+
+        expect(shouldUserAccessProject).toHaveBeenCalledWith({
+          user,
+          projectId,
+        })
+      })
+
+      it('should save the attachment file', async () => {
+        expect(fileRepo.save).toHaveBeenCalled()
+        expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents.contents)
+      })
+
+      it('should trigger a ProjectDCRSubmitted event', async () => {
+        expect(fakePublish).toHaveBeenCalled()
+        const targetEvent = fakePublish.mock.calls
+          .map((call) => call[0])
+          .find((event) => event.type === ProjectDCRSubmitted.type) as ProjectDCRSubmitted
+
+        expect(targetEvent).toBeDefined()
+        if (!targetEvent) return
+
+        expect(targetEvent.payload.projectId).toEqual(projectId)
+
+        const fakeFile = fileRepo.save.mock.calls[0][0]
+
+        expect(targetEvent.payload.dcrDate).toEqual(dcrDate)
+        expect(targetEvent.payload.numeroDossier).toEqual('dossier123')
         expect(targetEvent.payload.fileId).toEqual(fakeFile.id.toString())
         expect(targetEvent.payload.submittedBy).toEqual(user.id)
       })

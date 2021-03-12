@@ -112,14 +112,22 @@ describe('Sequelize getFailedNotificationsForRetry', () => {
       beforeAll(async () => {
         await resetDatabase()
 
-        const ProjectModel = models.Project
-        await ProjectModel.create(
+        const { Project, ProjectStep } = models
+        await Project.create(
           makeFakeProject({
             id: projectWithGFId.toString(),
-            garantiesFinancieresSubmittedOn: new Date(123).getTime(),
           })
         )
-        await ProjectModel.create(
+        await ProjectStep.create({
+          id: new UniqueEntityID().toString(),
+          projectId: projectWithGFId.toString(),
+          type: 'garantie-financiere',
+          submittedOn: new Date(123),
+          submittedBy: new UniqueEntityID().toString(),
+          fileId: new UniqueEntityID().toString(),
+          stepDate: new Date(345),
+        })
+        await Project.create(
           makeFakeProject({
             id: projectWithoutGFId.toString(),
           })

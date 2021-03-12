@@ -1,7 +1,6 @@
 export * from './admin'
 export * from './auth'
 export * from './candidateNotification'
-export * from './dcr'
 export * from './dreal'
 export * from './garantiesFinancieres'
 export * from './modificationRequest'

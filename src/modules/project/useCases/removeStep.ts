@@ -1,8 +1,8 @@
 import { errAsync, logger, okAsync, ResultAsync, wrapInfra } from '../../../core/utils'
 import { User } from '../../../entities'
-import { EventBus } from '../../eventStore'
+import { EventBus, StoredEvent } from '../../eventStore'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
-import { ProjectPTFRemoved } from '../events'
+import { ProjectDCRRemoved, ProjectGFRemoved, ProjectPTFRemoved } from '../events'
 
 interface RemoveStepDeps {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
@@ -10,30 +10,37 @@ interface RemoveStepDeps {
 }
 
 type RemoveStepArgs = {
-  type: 'ptf'
+  type: 'ptf' | 'dcr' | 'garantie-financiere'
   projectId: string
   removedBy: User
 }
 
-export const makeRemoveStep = (deps: RemoveStepDeps) => ({
-  type,
-  projectId,
-  removedBy,
-}: RemoveStepArgs): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
+export const makeRemoveStep = (deps: RemoveStepDeps) => (
+  args: RemoveStepArgs
+): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
+  const { projectId, removedBy } = args
+
   return wrapInfra(deps.shouldUserAccessProject({ projectId, user: removedBy })).andThen(
     (userHasRightsToProject): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
       if (!userHasRightsToProject) return errAsync(new UnauthorizedError())
 
-      return type === 'ptf'
-        ? deps.eventBus.publish(
-            new ProjectPTFRemoved({
-              payload: {
-                projectId,
-                removedBy: removedBy.id,
-              },
-            })
-          )
-        : okAsync(null)
+      return deps.eventBus.publish(_makeEventForType(args))
     }
   )
+}
+
+const _makeEventForType = ({ type, projectId, removedBy }: RemoveStepArgs): StoredEvent => {
+  const payload = {
+    projectId,
+    removedBy: removedBy.id,
+  }
+
+  switch (type) {
+    case 'dcr':
+      return new ProjectDCRRemoved({ payload })
+    case 'ptf':
+      return new ProjectPTFRemoved({ payload })
+    case 'garantie-financiere':
+      return new ProjectGFRemoved({ payload })
+  }
 }

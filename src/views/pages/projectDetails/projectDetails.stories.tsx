@@ -106,6 +106,8 @@ export const forAdminsNonNotifié = () => (
   />
 )
 
+const MONTHS = 1000 * 3600 * 24 * 30
+
 export const forPorteurProjet = () => (
   <ProjectDetails
     request={makeFakeRequest({
@@ -115,8 +117,8 @@ export const forPorteurProjet = () => (
       {
         ...fakeProjectData,
         isClasse: true,
-        dcrDueOn: new Date(Date.now() + 1000 * 3600 * 24 * 30 * 2),
-        garantiesFinancieresDueOn: new Date(Date.now() + 1000 * 3600 * 24 * 30 * 2),
+        dcr: { dueOn: new Date(Date.now() + 2 * MONTHS) },
+        garantiesFinancieres: { dueOn: new Date(Date.now() + 2 * MONTHS) },
       } as ProjectDataForProjectPage
     }
   />
@@ -131,10 +133,12 @@ export const forPorteurProjetWithGarantiesFinancieres = () => (
       {
         ...fakeProjectData,
         isClasse: true,
-        dcrDueOn: new Date(Date.now() + 1000 * 3600 * 24 * 30 * 2),
-        garantiesFinancieresDueOn: new Date(Date.now() + 1000 * 3600 * 24 * 30 * 2),
-        garantiesFinancieresSubmittedOn: new Date(),
-        garantiesFinancieresFile: { id: 'fileId', filename: 'fichier' },
+        dcr: { dueOn: new Date(Date.now() + 2 * MONTHS) },
+        garantiesFinancieres: {
+          dueOn: new Date(Date.now() + 2 * MONTHS),
+          submittedOn: new Date(),
+          file: { id: 'fileId', filename: 'fichier' },
+        },
       } as ProjectDataForProjectPage
     }
   />
@@ -181,7 +185,7 @@ export const forDrealGFPassDue = () => (
       {
         ...fakeProjectData,
         isClasse: true,
-        garantiesFinancieresDueOn: new Date(Date.now() - 1000000),
+        garantiesFinancieres: { dueOn: new Date(Date.now() - 2 * MONTHS) },
       } as ProjectDataForProjectPage
     }
   />
@@ -196,7 +200,7 @@ export const forDrealGFStillDue = () => (
       {
         ...fakeProjectData,
         isClasse: true,
-        garantiesFinancieresDueOn: new Date(Date.now() + 1000000),
+        garantiesFinancieres: { dueOn: new Date(Date.now() + 2 * MONTHS) },
       } as ProjectDataForProjectPage
     }
   />

@@ -42,19 +42,19 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (
         />
         {project.isClasse ? (
           <>
-            {project.garantiesFinancieresDueOn ? (
-              project.garantiesFinancieresSubmittedOn ? (
+            {project.garantiesFinancieres ? (
+              project.garantiesFinancieres.submittedOn ? (
                 // garanties financières déjà déposées
                 <FriseItem
-                  date={formatDate(project.garantiesFinancieresDate, 'D MMM YYYY')}
+                  date={formatDate(project.garantiesFinancieres.gfDate, 'D MMM YYYY')}
                   title="Constitution des garanties financières"
                   action={[
                     {
                       title: "Télécharger l'attestation",
-                      link: project.garantiesFinancieresFile
+                      link: project.garantiesFinancieres.file
                         ? ROUTES.DOWNLOAD_PROJECT_FILE(
-                            project.garantiesFinancieresFile.id,
-                            project.garantiesFinancieresFile.filename
+                            project.garantiesFinancieres.file.id,
+                            project.garantiesFinancieres.file.filename
                           )
                         : undefined,
                       download: true,
@@ -65,7 +65,10 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (
                             title: 'Annuler le dépôt',
                             confirm:
                               "Etes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?",
-                            link: ROUTES.SUPPRIMER_GARANTIES_FINANCIERES_ACTION(project.id),
+                            link: ROUTES.SUPPRIMER_ETAPE_ACTION({
+                              projectId: project.id,
+                              type: 'garantie-financiere',
+                            }),
                           },
                         ]
                       : []),
@@ -75,11 +78,11 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (
               ) : (
                 // garanties financières non-déposées
                 <FriseItem
-                  date={formatDate(project.garantiesFinancieresDueOn, 'D MMM YYYY')}
+                  date={formatDate(project.garantiesFinancieres.dueOn, 'D MMM YYYY')}
                   title="Constitution des garanties financières"
                   action={
                     user.role === 'dreal'
-                      ? project.garantiesFinancieresDueOn.getTime() < Date.now()
+                      ? project.garantiesFinancieres.dueOn.getTime() < Date.now()
                         ? {
                             title: 'Télécharger mise en demeure',
                             link: ROUTES.TELECHARGER_MODELE_MISE_EN_DEMEURE(project),
@@ -98,19 +101,22 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (
                 />
               )
             ) : null}
-            {project.dcrDueOn ? (
-              project.dcrSubmittedOn ? (
+            {project.dcr.dueOn ? (
+              project.dcr.submittedOn ? (
                 // DCR déjà déposée
                 <FriseItem
-                  date={formatDate(project.dcrDate, 'D MMM YYYY')}
+                  date={formatDate(project.dcr.dcrDate, 'D MMM YYYY')}
                   title={`Demande complète de raccordement ${
-                    project.dcrNumeroDossier ? '(Dossier ' + project.dcrNumeroDossier + ')' : ''
+                    project.dcr.numeroDossier ? `(Dossier ${project.dcr.numeroDossier})` : ''
                   }`}
                   action={[
                     {
                       title: "Télécharger l'attestation",
-                      link: project.dcrFile
-                        ? ROUTES.DOWNLOAD_PROJECT_FILE(project.dcrFile.id, project.dcrFile.filename)
+                      link: project.dcr.file
+                        ? ROUTES.DOWNLOAD_PROJECT_FILE(
+                            project.dcr.file.id,
+                            project.dcr.file.filename
+                          )
                         : undefined,
                       download: true,
                     },
@@ -120,7 +126,10 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (
                             title: 'Annuler le dépôt',
                             confirm:
                               "Etes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?",
-                            link: ROUTES.SUPPRIMER_DCR_ACTION(project.id),
+                            link: ROUTES.SUPPRIMER_ETAPE_ACTION({
+                              projectId: project.id,
+                              type: 'dcr',
+                            }),
                           },
                         ]
                       : []),
@@ -130,7 +139,7 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (
               ) : (
                 // DCR non-déposée
                 <FriseItem
-                  date={formatDate(project.dcrDueOn, 'D MMM YYYY')}
+                  date={formatDate(project.dcr.dueOn, 'D MMM YYYY')}
                   title="Demande complète de raccordement"
                   action={
                     user.role === 'dreal'
@@ -141,7 +150,7 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (
                         }
                   }
                   status="nextup"
-                  hiddenContent={<DCRForm projectId={project.id} date={request.query.dcrDate} />}
+                  hiddenContent={<DCRForm projectId={project.id} date={request.query.stepDate} />}
                 />
               )
             ) : null}

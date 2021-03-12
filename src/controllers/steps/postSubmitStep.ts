@@ -16,13 +16,13 @@ v1Router.post(
   ensureRole(['admin', 'dgec', 'dreal', 'porteur-projet']),
   upload.single('file'),
   asyncHandler(async (request, response) => {
-    const { type, ptfDate, projectId } = request.body
+    const { type, stepDate, projectId, numeroDossier } = request.body
 
-    if (!projectId || !['ptf'].includes(type)) {
+    if (!projectId || !['ptf', 'dcr', 'garantie-financiere'].includes(type)) {
       return response.status(400).send('Requête erronée')
     }
 
-    if (type === 'ptf' && !ptfDate) {
+    if (!stepDate) {
       return response.redirect(
         addQueryParams(routes.PROJECT_DETAILS(projectId), {
           error: "Votre dépôt n'a pas pu être transmis. La date est obligatoire.",
@@ -30,7 +30,7 @@ v1Router.post(
       )
     }
 
-    if (!isDateFormatValid(ptfDate)) {
+    if (!isDateFormatValid(stepDate)) {
       return response.redirect(
         addQueryParams(routes.PROJECT_DETAILS(projectId), {
           error:
@@ -57,10 +57,11 @@ v1Router.post(
 
     ;(
       await submitStep({
-        type: 'ptf',
+        type,
         projectId,
-        stepDate: moment(ptfDate, 'DD/MM/YYYY').toDate(),
+        stepDate: moment(stepDate, 'DD/MM/YYYY').toDate(),
         file,
+        numeroDossier,
         submittedBy: request.user,
       })
     ).match(
@@ -74,7 +75,7 @@ v1Router.post(
         logger.error(e)
         return response.redirect(
           addQueryParams(routes.PROJECT_DETAILS(projectId), {
-            ptfDate,
+            stepDate,
             error: `Votre demande n'a pas pu être prise en compte: ${e.message}`,
           })
         )
