@@ -35,5 +35,6 @@ export interface ModificationRequestPageDTO {
     appelOffreId: string
     periodeId: string
     familleId: string | undefined
+    numeroGestionnaire: string | undefined
   }
 }

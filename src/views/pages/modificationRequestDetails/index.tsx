@@ -144,6 +144,9 @@ export default function AdminModificationRequestPage({ request, modificationRequ
               </span>{' '}
               <span {...dataId('modificationRequest-item-famille')}>{project.familleId}</span>
             </div>
+            {project.numeroGestionnaire ? (
+              <div>Identifiant gestionnaire de réseau: {project.numeroGestionnaire}</div>
+            ) : null}
           </div>
           {error ? (
             <div className="notification error" {...dataId('modificationRequest-errorMessage')}>

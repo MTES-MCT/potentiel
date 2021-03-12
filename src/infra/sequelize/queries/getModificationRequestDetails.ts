@@ -42,6 +42,7 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
             'appelOffreId',
             'periodeId',
             'familleId',
+            'numeroGestionnaire',
           ],
         },
         {

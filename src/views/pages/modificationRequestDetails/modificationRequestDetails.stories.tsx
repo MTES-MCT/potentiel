@@ -36,6 +36,7 @@ export const RecoursOuvertPourAdmin = () => (
         appelOffreId: 'CRE4 - Nucléaire',
         periodeId: '10',
         familleId: '1C',
+        numeroGestionnaire: 'GEFAR-P-1234',
       },
     }}
   />
@@ -72,6 +73,7 @@ export const RecoursAccepté = () => (
         appelOffreId: 'CRE4 - Nucléaire',
         periodeId: '10',
         familleId: '1C',
+        numeroGestionnaire: 'GEFAR-P-1234',
       },
     }}
   />
@@ -108,6 +110,7 @@ export const RecoursRejeté = () => (
         appelOffreId: 'CRE4 - Nucléaire',
         periodeId: '10',
         familleId: '1C',
+        numeroGestionnaire: 'GEFAR-P-1234',
       },
     }}
   />
