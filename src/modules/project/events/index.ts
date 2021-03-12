@@ -1,6 +1,7 @@
 export * from './CertificatesForPeriodeRegenerated'
 export * from './LegacyProjectEventSourced'
 export * from './LegacyProjectSourced'
+export * from './NumeroGestionnaireSubmitted'
 export * from './PeriodeNotified'
 export * from './ProjectCertificateDownloaded'
 export * from './ProjectCertificateGenerated'

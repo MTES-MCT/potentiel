@@ -136,6 +136,10 @@ export const MakeProjectModel = (sequelize) => {
         type: DataTypes.UUID,
         allowNull: true,
       },
+      numeroGestionnaire: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
     },
     {
       timestamps: true,
