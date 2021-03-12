@@ -73,6 +73,7 @@ describe('Modification.reject()', () => {
             payload: {
               modificationRequestId: modificationRequestId.toString(),
               acceptedBy: fakeUser.id,
+              responseFileId: '',
             },
           }),
         ],

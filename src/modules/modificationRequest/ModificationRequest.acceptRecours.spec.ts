@@ -14,6 +14,7 @@ import { UnwrapForTest } from '../../core/utils'
 describe('Modification.acceptRecours()', () => {
   const modificationRequestId = new UniqueEntityID()
   const projectId = new UniqueEntityID()
+  const responseFileId = new UniqueEntityID().toString()
   const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
 
   describe('when demande status is envoyée', () => {
@@ -36,7 +37,7 @@ describe('Modification.acceptRecours()', () => {
     beforeAll(() => {
       expect(fakeModificationRequest.status).toEqual('envoyée')
 
-      const res = fakeModificationRequest.accept(fakeUser)
+      const res = fakeModificationRequest.accept({ acceptedBy: fakeUser, responseFileId })
       expect(res.isOk()).toBe(true)
     })
 
@@ -50,6 +51,7 @@ describe('Modification.acceptRecours()', () => {
       if (!targetEvent) return
 
       expect(targetEvent.payload.modificationRequestId).toEqual(modificationRequestId.toString())
+      expect(targetEvent.payload.responseFileId).toEqual(responseFileId)
     })
   })
 
@@ -70,6 +72,7 @@ describe('Modification.acceptRecours()', () => {
             payload: {
               modificationRequestId: modificationRequestId.toString(),
               acceptedBy: fakeUser.id,
+              responseFileId: '',
             },
           }),
         ],
@@ -79,7 +82,7 @@ describe('Modification.acceptRecours()', () => {
     it('should return StatusPreventsAcceptingError', () => {
       expect(fakeModificationRequest.status).toEqual('acceptée')
 
-      const res = fakeModificationRequest.accept(fakeUser)
+      const res = fakeModificationRequest.accept({ acceptedBy: fakeUser, responseFileId })
       expect(res.isErr()).toBe(true)
       if (res.isOk()) return
 
@@ -114,7 +117,7 @@ describe('Modification.acceptRecours()', () => {
     it('should return StatusPreventsAcceptingError', () => {
       expect(fakeModificationRequest.status).toEqual('rejetée')
 
-      const res = fakeModificationRequest.accept(fakeUser)
+      const res = fakeModificationRequest.accept({ acceptedBy: fakeUser, responseFileId })
       expect(res.isErr()).toBe(true)
       if (res.isOk()) return
 

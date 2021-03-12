@@ -10,6 +10,7 @@ describe('modificationRequest.onModificationRequestAccepted', () => {
   const modificationRequestId = new UniqueEntityID().toString()
   const projectId = new UniqueEntityID().toString()
   const userId = new UniqueEntityID().toString()
+  const responseFileId = new UniqueEntityID().toString()
 
   beforeAll(async () => {
     // Create the tables and remove all data
@@ -32,6 +33,7 @@ describe('modificationRequest.onModificationRequestAccepted', () => {
         payload: {
           modificationRequestId,
           acceptedBy: userId,
+          responseFileId,
         },
       })
     )
@@ -40,5 +42,6 @@ describe('modificationRequest.onModificationRequestAccepted', () => {
       modificationRequestId
     )
     expect(updatedModificationRequest.status).toEqual('acceptée')
+    expect(updatedModificationRequest.responseFileId).toEqual(responseFileId)
   })
 })

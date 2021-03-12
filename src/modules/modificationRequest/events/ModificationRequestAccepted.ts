@@ -4,6 +4,7 @@ export interface ModificationRequestAcceptedPayload {
   modificationRequestId: string
   params?: any
   acceptedBy: string
+  responseFileId: string
 }
 export class ModificationRequestAccepted
   extends BaseDomainEvent<ModificationRequestAcceptedPayload>

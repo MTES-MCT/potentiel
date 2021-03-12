@@ -16,7 +16,7 @@ export const onModificationRequestAccepted = (models) => async (
 
   const {
     occurredAt,
-    payload: { acceptedBy },
+    payload: { acceptedBy, responseFileId },
   } = event
 
   Object.assign(instance, {
@@ -24,6 +24,7 @@ export const onModificationRequestAccepted = (models) => async (
     respondedOn: occurredAt.getTime(),
     respondedBy: acceptedBy,
     versionDate: occurredAt,
+    responseFileId,
   })
 
   try {

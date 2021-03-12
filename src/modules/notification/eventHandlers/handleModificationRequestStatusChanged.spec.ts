@@ -37,7 +37,7 @@ describe('notification.handleModificationRequestStatusChanged', () => {
         getModificationRequestInfoForStatusNotification,
       })(
         new ModificationRequestAccepted({
-          payload: { modificationRequestId, acceptedBy: '' },
+          payload: { modificationRequestId, acceptedBy: '', responseFileId: '' },
         })
       )
 
@@ -71,7 +71,7 @@ describe('notification.handleModificationRequestStatusChanged', () => {
         getModificationRequestInfoForStatusNotification,
       })(
         new ModificationRequestAccepted({
-          payload: { modificationRequestId, acceptedBy: '' },
+          payload: { modificationRequestId, acceptedBy: '', responseFileId: '' },
         })
       )
 

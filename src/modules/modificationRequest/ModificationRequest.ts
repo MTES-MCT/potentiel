@@ -12,18 +12,21 @@ import {
 } from './events'
 
 export interface ModificationRequest extends EventStoreAggregate {
-  accept(
-    acceptedBy: User,
+  accept(args: {
+    acceptedBy: User
+    responseFileId: string
     params?: ModificationRequestAcceptanceParams
-  ): Result<null, StatusPreventsAcceptingError>
+  }): Result<null, StatusPreventsAcceptingError>
   reject(rejectedBy: User, responseFileId: string): Result<null, StatusPreventsRejectingError>
   readonly projectId: UniqueEntityID
   readonly status: ModificationRequestStatus
 }
 
-export type ModificationRequestStatus = 'envoyée' | 'acceptée' | 'rejetée' | 'annulée'
+export interface ModificationRequestAcceptanceParams {
+  newNotificationDate: Date
+}
 
-export type ModificationRequestAcceptanceParams = { newNotificationDate: Date }
+export type ModificationRequestStatus = 'envoyée' | 'acceptée' | 'rejetée' | 'annulée'
 
 interface ModificationRequestProps {
   lastUpdatedOn: Date
@@ -65,7 +68,7 @@ export const makeModificationRequest = (args: {
 
   // public methods
   return ok({
-    accept: function (acceptedBy, params) {
+    accept: function ({ acceptedBy, responseFileId, params }) {
       if (props.status !== 'envoyée') {
         return err(new StatusPreventsAcceptingError(props.status))
       }
@@ -76,6 +79,7 @@ export const makeModificationRequest = (args: {
             modificationRequestId: modificationRequestId.toString(),
             params,
             acceptedBy: acceptedBy.id,
+            responseFileId,
           },
         })
       )
