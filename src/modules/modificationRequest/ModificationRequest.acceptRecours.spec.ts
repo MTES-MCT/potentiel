@@ -104,6 +104,7 @@ describe('Modification.acceptRecours()', () => {
             payload: {
               modificationRequestId: modificationRequestId.toString(),
               rejectedBy: fakeUser.id,
+              responseFileId: '',
             },
           }),
         ],
