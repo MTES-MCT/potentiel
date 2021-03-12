@@ -26,11 +26,8 @@ const StepDateByEvent = (event: StepSubmittedEvent): Date => {
 }
 
 const StepDetailsByEvent = (event: StepSubmittedEvent): Record<string, any> | undefined => {
-  switch (event.type) {
-    case ProjectDCRSubmitted.type:
-      return { numeroDossier: event.payload.numeroDossier }
-    default:
-      return undefined
+  if (event.type === ProjectDCRSubmitted.type) {
+    return { numeroDossier: event.payload.numeroDossier }
   }
 }
 

@@ -107,7 +107,7 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (
                 <FriseItem
                   date={formatDate(project.dcr.dcrDate, 'D MMM YYYY')}
                   title={`Demande complète de raccordement ${
-                    project.dcr.numeroDossier ? '(Dossier ' + project.dcr.numeroDossier + ')' : ''
+                    project.dcr.numeroDossier ? `(Dossier ${project.dcr.numeroDossier})` : ''
                   }`}
                   action={[
                     {

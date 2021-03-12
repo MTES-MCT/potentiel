@@ -18,37 +18,29 @@ type RemoveStepArgs = {
 export const makeRemoveStep = (deps: RemoveStepDeps) => (
   args: RemoveStepArgs
 ): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
-  const { type, projectId, removedBy } = args
+  const { projectId, removedBy } = args
 
   return wrapInfra(deps.shouldUserAccessProject({ projectId, user: removedBy })).andThen(
     (userHasRightsToProject): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
       if (!userHasRightsToProject) return errAsync(new UnauthorizedError())
 
-      return deps.eventBus.publish(EventByType[type](args))
+      return deps.eventBus.publish(_makeEventForType(args))
     }
   )
 }
 
-const EventByType: Record<RemoveStepArgs['type'], (args: RemoveStepArgs) => StoredEvent> = {
-  dcr: ({ projectId, removedBy }) =>
-    new ProjectDCRRemoved({
-      payload: {
-        projectId,
-        removedBy: removedBy.id,
-      },
-    }),
-  ptf: ({ projectId, removedBy }) =>
-    new ProjectPTFRemoved({
-      payload: {
-        projectId,
-        removedBy: removedBy.id,
-      },
-    }),
-  'garantie-financiere': ({ projectId, removedBy }) =>
-    new ProjectGFRemoved({
-      payload: {
-        projectId,
-        removedBy: removedBy.id,
-      },
-    }),
+const _makeEventForType = ({ type, projectId, removedBy }: RemoveStepArgs): StoredEvent => {
+  const payload = {
+    projectId,
+    removedBy: removedBy.id,
+  }
+
+  switch (type) {
+    case 'dcr':
+      return new ProjectDCRRemoved({ payload })
+    case 'ptf':
+      return new ProjectPTFRemoved({ payload })
+    case 'garantie-financiere':
+      return new ProjectGFRemoved({ payload })
+  }
 }

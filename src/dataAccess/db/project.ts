@@ -202,16 +202,6 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
     }
   )
 
-  // ProjectModel.belongsTo(FileModel, {
-  //   foreignKey: 'garantiesFinancieresFileId',
-  //   as: 'garantiesFinancieresFileRef',
-  // })
-
-  // ProjectModel.belongsTo(FileModel, {
-  //   foreignKey: 'dcrFileId',
-  //   as: 'dcrFileRef',
-  // })
-
   ProjectModel.belongsTo(FileModel, {
     foreignKey: 'certificateFileId',
     as: 'certificateFile',
