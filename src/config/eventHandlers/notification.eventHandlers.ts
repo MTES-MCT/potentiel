@@ -2,10 +2,12 @@ import {
   handleProjectCertificateUpdatedOrRegenerated,
   handleModificationRequestStatusChanged,
   handleModificationRequested,
+  handleProjectGFSubmitted,
 } from '../../modules/notification'
 import {
   ProjectCertificateRegenerated,
   ProjectCertificateUpdated,
+  ProjectGFSubmitted,
 } from '../../modules/project/events'
 import { projectRepo, oldProjectRepo } from '../repos.config'
 import {
@@ -19,6 +21,7 @@ import {
   ModificationRequestAccepted,
   ModificationRequestInstructionStarted,
 } from '../../modules/modificationRequest'
+import { userRepo } from '../../dataAccess'
 
 const projectCertificateChangeHandler = handleProjectCertificateUpdatedOrRegenerated({
   sendNotification,
@@ -44,6 +47,16 @@ eventStore.subscribe(
   handleModificationRequested({
     sendNotification,
     getInfoForModificationRequested,
+  })
+)
+
+eventStore.subscribe(
+  ProjectGFSubmitted.type,
+  handleProjectGFSubmitted({
+    sendNotification,
+    findUsersForDreal: userRepo.findUsersForDreal,
+    findUserById: userRepo.findById,
+    findProjectById: oldProjectRepo.findById,
   })
 )
 

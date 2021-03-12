@@ -219,24 +219,32 @@ describe('Sequelize getProjectDataForProjectPage', () => {
       await Project.create(
         makeFakeProject({
           ...projectInfo,
-          garantiesFinancieresSubmittedOn: 345,
           garantiesFinancieresDueOn: 34,
-          garantiesFinancieresDate: 45,
-          garantiesFinancieresFileId: gfFileId,
         })
       )
+      await ProjectStep.create({
+        id: new UniqueEntityID().toString(),
+        projectId,
+        type: 'garantie-financiere',
+        submittedOn: new Date(345),
+        submittedBy: new UniqueEntityID().toString(),
+        stepDate: new Date(45),
+        fileId: gfFileId,
+      })
       await File.create(makeFakeFile({ id: certificateFileId, filename: 'filename' }))
       await File.create(makeFakeFile({ id: gfFileId, filename: 'filename' }))
 
       const res = await getProjectDataForProjectPage({ projectId, user })
 
       expect(res._unsafeUnwrap()).toMatchObject({
-        garantiesFinancieresSubmittedOn: new Date(345),
-        garantiesFinancieresDueOn: new Date(34),
-        garantiesFinancieresDate: new Date(45),
-        garantiesFinancieresFile: {
-          id: gfFileId,
-          filename: 'filename',
+        garantiesFinancieres: {
+          dueOn: new Date(34),
+          gfDate: new Date(45),
+          submittedOn: new Date(345),
+          file: {
+            id: gfFileId,
+            filename: 'filename',
+          },
         },
       })
     })
@@ -258,20 +266,34 @@ describe('Sequelize getProjectDataForProjectPage', () => {
           dcrNumeroDossier: 'numeroDossier',
         })
       )
+      await ProjectStep.create({
+        id: new UniqueEntityID().toString(),
+        projectId,
+        type: 'dcr',
+        submittedOn: new Date(345),
+        submittedBy: new UniqueEntityID().toString(),
+        stepDate: new Date(45),
+        details: {
+          numeroDossier: 'numeroDossier',
+        },
+        fileId: dcrFileId,
+      })
       await File.create(makeFakeFile({ id: certificateFileId, filename: 'filename' }))
       await File.create(makeFakeFile({ id: dcrFileId, filename: 'filename' }))
 
       const res = await getProjectDataForProjectPage({ projectId, user })
 
       expect(res._unsafeUnwrap()).toMatchObject({
-        dcrSubmittedOn: new Date(345),
-        dcrDueOn: new Date(34),
-        dcrDate: new Date(45),
-        dcrFile: {
-          id: dcrFileId,
-          filename: 'filename',
+        dcr: {
+          submittedOn: new Date(345),
+          dueOn: new Date(34),
+          dcrDate: new Date(45),
+          file: {
+            id: dcrFileId,
+            filename: 'filename',
+          },
+          numeroDossier: 'numeroDossier',
         },
-        dcrNumeroDossier: 'numeroDossier',
       })
     })
   })

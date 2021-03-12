@@ -15,7 +15,7 @@ v1Router.get(
     const { user } = request
     const { projectId, type } = request.params
 
-    if (!projectId || !['ptf'].includes(type)) {
+    if (!projectId || !['ptf', 'dcr', 'garantie-financiere'].includes(type)) {
       return response.status(400).send('Requête erronnée')
     }
 

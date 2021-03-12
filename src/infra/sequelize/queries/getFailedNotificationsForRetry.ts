@@ -8,6 +8,7 @@ export const makeGetFailedNotificationsForRetry = (
 ): GetFailedNotificationsForRetry => () => {
   const NotificationModel = models.Notification
   const ProjectModel = models.Project
+  const { ProjectStep } = models
   if (!NotificationModel || !ProjectModel) return errAsync(new InfraNotAvailableError())
 
   return wrapInfra(
@@ -23,8 +24,10 @@ export const makeGetFailedNotificationsForRetry = (
         passwordResetEmails.add(notification.message.email)
       } else if (notification.type === 'relance-gf') {
         const { projectId } = notification.context
-        const project = await ProjectModel.findByPk(projectId)
-        if (!project || project.get().garantiesFinancieresSubmittedOn) {
+        const project = await ProjectModel.findByPk(projectId, {
+          include: [{ model: ProjectStep, as: 'gf', require: false }],
+        })
+        if (!project || project.get().gf?.submittedOn) {
           return true
         }
       }

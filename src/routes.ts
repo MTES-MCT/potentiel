@@ -181,14 +181,6 @@ class routes {
 
   static INVITE_USER_TO_PROJECT_ACTION = '/invite-user-to-project'
 
-  static DEPOSER_GARANTIES_FINANCIERES_ACTION = '/deposer-garanties-financieres'
-  static SUPPRIMER_GARANTIES_FINANCIERES_ACTION = (projectId?: Project['id']) => {
-    const route = '/projet/:projectId/supprimer-garanties-financieres'
-    if (projectId) {
-      return route.replace(':projectId', projectId)
-    } else return route
-  }
-
   static DEPOSER_ETAPE_ACTION = '/deposer-etape'
   static SUPPRIMER_ETAPE_ACTION = (args?: { projectId: string; type: string }) => {
     const route = '/projet/:projectId/supprimer/:type'
@@ -229,15 +221,6 @@ class routes {
             }-${now.getDate()} - Recours gracieux - ${makeProjectIdentifier(project)}.docx`
           )
         )
-    } else return route
-  }
-
-  static DEPOSER_DCR_ACTION = '/deposer-dcr'
-
-  static SUPPRIMER_DCR_ACTION = (projectId?: Project['id']) => {
-    const route = '/projet/:projectId/supprimer-dcr'
-    if (projectId) {
-      return route.replace(':projectId', projectId)
     } else return route
   }
 

@@ -7,16 +7,13 @@ interface GarantiesFinancieresFormProps {
   date?: string
 }
 export const GarantiesFinancieresForm = ({ projectId, date }: GarantiesFinancieresFormProps) => (
-  <form
-    action={ROUTES.DEPOSER_GARANTIES_FINANCIERES_ACTION}
-    method="post"
-    encType="multipart/form-data"
-  >
+  <form action={ROUTES.DEPOSER_ETAPE_ACTION} method="post" encType="multipart/form-data">
+    <input type="hidden" name="type" id="type" value="garantie-financiere" />
     <div className="form__group">
       <label htmlFor="date">Date de constitution (format JJ/MM/AAAA)</label>
       <input
         type="text"
-        name="gfDate"
+        name="stepDate"
         {...dataId('date-field')}
         defaultValue={date || ''}
         data-max-date={Date.now()}
@@ -26,14 +23,14 @@ export const GarantiesFinancieresForm = ({ projectId, date }: GarantiesFinancier
         style={{ display: 'none' }}
         {...dataId('error-message-out-of-bounds')}
       >
-        Merci de saisir une date antérieure à la date d'aujourd'hui.
+        Merci de saisir une date antérieure à la date d‘aujourd‘hui.
       </div>
       <div
         className="notification error"
         style={{ display: 'none' }}
         {...dataId('error-message-wrong-format')}
       >
-        Le format de la date saisie n'est pas conforme. Elle doit être de la forme JJ/MM/AAAA soit
+        Le format de la date saisie n‘est pas conforme. Elle doit être de la forme JJ/MM/AAAA soit
         par exemple 25/05/2022 pour 25 Mai 2022.
       </div>
       <label htmlFor="file">Attestation</label>
