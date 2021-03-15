@@ -20,15 +20,19 @@ export const handleModificationRequestStatusChanged = (deps: {
   const modificationRequestId = event.payload.modificationRequestId
   let status: string = 'mise à jour' // default
   let hasDocument: boolean = false
-  if (event instanceof ModificationRequestAccepted) {
-    status = 'acceptée'
-    hasDocument = true
-  } else if (event instanceof ModificationRequestInstructionStarted) {
-    status = 'en instruction'
-    hasDocument = false
-  } else if (event instanceof ModificationRequestRejected) {
-    status = 'rejetée'
-    hasDocument = true
+  switch (event.type) {
+    case ModificationRequestAccepted.type:
+      status = 'acceptée'
+      hasDocument = true
+      break
+    case ModificationRequestInstructionStarted.type:
+      status = 'en instruction'
+      hasDocument = false
+      break
+    case ModificationRequestRejected.type:
+      status = 'rejetée'
+      hasDocument = true
+      break
   }
 
   await deps.getModificationRequestInfoForStatusNotification(modificationRequestId).match(
