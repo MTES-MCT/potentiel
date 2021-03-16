@@ -1,28 +1,65 @@
 import { getModificationRequestListForUser } from '../../config/queries.config'
 import { makePagination } from '../../helpers/paginate'
 import routes from '../../routes'
-import { logger } from '../../core/utils'
 import { Pagination } from '../../types'
 import { ModificationRequestListPage } from '../../views/pages'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
+import { appelOffreRepo } from '../../dataAccess/inMemory'
+import { logger } from '../../core/utils'
 
 const getModificationRequestListPage = asyncHandler(async (request, response) => {
   const { user, cookies, query } = request
+
+  let {
+    appelOffreId,
+    periodeId,
+    familleId,
+    recherche,
+    modificationRequestStatus,
+    modificationRequestType,
+    pageSize,
+  } = query
 
   const defaultPagination: Pagination = {
     page: 0,
     pageSize: Number(cookies?.pageSize) || 10,
   }
-  const pagination = makePagination(query, defaultPagination)
 
-  return await getModificationRequestListForUser(user, pagination).match(
+  const pagination = makePagination(query, defaultPagination)
+  const appelsOffre = await appelOffreRepo.findAll()
+
+  if (!appelOffreId) {
+    // Reset the periodId and familleId if there is no appelOffreId
+    periodeId = undefined
+    familleId = undefined
+  }
+
+  if (pageSize) {
+    const monthSeconds = 1000 * 60 * 60 * 24 * 30
+    response.cookie('pageSize', pageSize, {
+      maxAge: monthSeconds * 3,
+      httpOnly: true,
+    })
+  }
+
+  return await getModificationRequestListForUser({
+    user,
+    pagination,
+    appelOffreId,
+    periodeId,
+    familleId,
+    recherche,
+    modificationRequestStatus,
+    modificationRequestType,
+  }).match(
     (modificationRequests) =>
       response.send(
         ModificationRequestListPage({
           request,
           modificationRequests,
+          appelsOffre,
         })
       ),
     (e) => {
