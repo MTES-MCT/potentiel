@@ -1,4 +1,6 @@
+import { Op } from 'sequelize'
 import { errAsync, ok, wrapInfra } from '../../../core/utils'
+import { getFullTextSearchOptions } from '../../../dataAccess/db/project'
 import { getAppelOffre } from '../../../dataAccess/inMemory/appelOffre'
 import { makePaginatedList, paginate } from '../../../helpers/paginate'
 import { GetModificationRequestListForUser } from '../../../modules/modificationRequest'
@@ -10,21 +12,54 @@ function _getPuissanceForAppelOffre(args: { appelOffreId; periodeId }): string {
 
 export const makeGetModificationRequestListForUser = (
   models
-): GetModificationRequestListForUser => (user, pagination) => {
+): GetModificationRequestListForUser => ({
+  user,
+  appelOffreId,
+  periodeId,
+  familleId,
+  modificationRequestType,
+  modificationRequestStatus,
+  pagination,
+  recherche,
+}) => {
   const { ModificationRequest, Project, User, File } = models
   if (!ModificationRequest || !Project || !User || !File)
     return errAsync(new InfraNotAvailableError())
 
-  // By default, restrict to the user's modification requests
-  let userClause: any = { where: { userId: user.id } }
+  const projectOpts: any = { where: {} }
 
-  if (user.role === 'admin') {
-    userClause = {}
+  if (recherche) {
+    projectOpts.where[Op.or] = { ...getFullTextSearchOptions(recherche) }
+  }
+
+  if (appelOffreId) {
+    projectOpts.where.appelOffreId = appelOffreId
+  }
+
+  if (periodeId) {
+    projectOpts.where.periodeId = periodeId
+  }
+
+  if (familleId) {
+    projectOpts.where.familleId = familleId
+  }
+
+  const opts: any = { where: {} }
+
+  // By default, restrict to the user's modification requests
+  if (user.role !== 'admin') opts.where.userId = user.id
+
+  if (modificationRequestType) {
+    opts.where.type = { [Op.eq]: modificationRequestType }
+  }
+
+  if (modificationRequestStatus) {
+    opts.where.status = { [Op.eq]: modificationRequestStatus }
   }
 
   return wrapInfra(
     ModificationRequest.findAndCountAll({
-      ...userClause,
+      ...opts,
       include: [
         {
           model: Project,
@@ -38,6 +73,7 @@ export const makeGetModificationRequestListForUser = (
             'departementProjet',
             'regionProjet',
           ],
+          ...projectOpts,
           required: true,
         },
         {
@@ -53,6 +89,7 @@ export const makeGetModificationRequestListForUser = (
           required: false,
         },
       ],
+      order: [['createdAt', 'DESC']],
       ...paginate(pagination),
     })
   ).andThen((res: any) => {
