@@ -41,6 +41,7 @@ const projectInfo = {
   },
 
   notifiedOn: new Date(321).getTime(),
+  completionDueOn: new Date(5678).getTime(),
 
   certificateFileId: certificateFileId,
 
@@ -96,6 +97,7 @@ describe('Sequelize getProjectDataForProjectPage', () => {
       },
 
       notifiedOn: new Date(321),
+      completionDueOn: new Date(5678),
 
       certificateFile: {
         id: certificateFileId,

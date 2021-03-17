@@ -209,13 +209,7 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (
               defaultHidden={true}
             />
             <FriseItem
-              date={formatDate(
-                +moment(project.notifiedOn).add(
-                  project.appelOffre?.delaiRealisationEnMois,
-                  'months'
-                ),
-                'D MMM YYYY'
-              )}
+              date={formatDate(project.completionDueOn, 'D MMM YYYY')}
               title="Attestation de conformité"
               action={{ title: "Transmettre l'attestation (bientôt disponible)" }}
               defaultHidden={true}
