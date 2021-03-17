@@ -17,12 +17,12 @@ const Footer = () => {
           </li>
           <li>
             <a href="https://docs.potentiel.beta.gouv.fr/info/cgu">
-              Mentions Légales et Conditions générales d‘utilisation{' '}
+              Mentions Légales et Conditions Générales d‘Utilisation
             </a>
           </li>
           <li>
             <a href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel">
-              Guide d“utilisation
+              Guide d‘utilisation
             </a>
           </li>
           <li>
