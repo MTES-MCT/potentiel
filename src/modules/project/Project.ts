@@ -37,6 +37,7 @@ import {
   ProjectCertificateRegenerated,
   ProjectCertificateUpdated,
   ProjectClasseGranted,
+  ProjectCompletionDueDateSet,
   ProjectDataCorrected,
   ProjectDataCorrectedPayload,
   ProjectDCRDueDateSet,
@@ -201,6 +202,7 @@ export const makeProject = (args: {
 
       _updateDCRDate()
       _updateGFDate()
+      _updateCompletionDate()
 
       return ok(null)
     },
@@ -584,6 +586,23 @@ export const makeProject = (args: {
           payload: {
             projectId: props.projectId.toString(),
             dcrDueOn: moment(props.notifiedOn).add(2, 'months').toDate().getTime(),
+          },
+        })
+      )
+    }
+  }
+
+  function _updateCompletionDate() {
+    if (props.isClasse) {
+      _removePendingEventsOfType(ProjectCompletionDueDateSet.type)
+      _publishEvent(
+        new ProjectCompletionDueDateSet({
+          payload: {
+            projectId: props.projectId.toString(),
+            completionDueOn: moment(props.notifiedOn)
+              .add(props.appelOffre.delaiRealisationEnMois, 'months')
+              .toDate()
+              .getTime(),
           },
         })
       )
