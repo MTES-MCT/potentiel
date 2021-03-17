@@ -82,6 +82,22 @@ export default function AdminModificationRequestPage({ request, modificationRequ
           ) : (
             ''
           )}
+          {modificationRequest.type === 'delai' ? (
+            <div style={{ marginTop: 5 }}>
+              La date de mise en service théorique est au{' '}
+              <b>{formatDate(project.completionDueOn)}</b>.
+              <br />
+              Par la présente, le porteur demande un délai de{' '}
+              <b>{modificationRequest.delayInMonths} mois</b>, ce qui reporterait la mise en service
+              au{' '}
+              <b>
+                {formatDate(
+                  +moment(project.completionDueOn).add(modificationRequest.delayInMonths, 'month')
+                )}
+              </b>
+              .
+            </div>
+          ) : null}
           {attachmentFile ? (
             <div style={{ marginTop: 10 }}>
               <DownloadIcon />
@@ -164,7 +180,7 @@ export default function AdminModificationRequestPage({ request, modificationRequ
           )}
         </div>
         {isAdmin ? (
-          type === 'recours' && !modificationRequest.respondedOn ? (
+          ['recours', 'delai'].includes(type) && !modificationRequest.respondedOn ? (
             <div>
               <h4>Répondre</h4>
               <div style={{ marginBottom: 10 }}>

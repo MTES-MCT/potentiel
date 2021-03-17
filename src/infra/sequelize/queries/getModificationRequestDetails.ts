@@ -7,7 +7,7 @@ import {
 import { EntityNotFoundError, InfraNotAvailableError } from '../../../modules/shared'
 
 export const makeGetModificationRequestDetails = (models): GetModificationRequestDetails => (
-  modificationRequestId: string
+  modificationRequestId
 ) => {
   const { ModificationRequest, Project, File, User } = models
   if (!ModificationRequest || !Project || !File || !User)
@@ -43,6 +43,7 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
             'periodeId',
             'familleId',
             'numeroGestionnaire',
+            'completionDueOn',
           ],
         },
         {
@@ -73,6 +74,11 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
       responseFile,
       project,
       versionDate,
+      delayInMonths,
+      puissance,
+      actionnaire,
+      fournisseur,
+      producteur,
     } = modificationRequestRaw.get()
 
     const { appelOffreId, periodeId } = project
@@ -90,9 +96,15 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
       responseFile: responseFile?.get(),
       justification,
       attachmentFile: attachmentFile?.get(),
+      delayInMonths,
+      puissance,
+      actionnaire,
+      fournisseur,
+      producteur,
       project: {
         ...project.get(),
         notifiedOn: new Date(project.notifiedOn),
+        completionDueOn: new Date(project.completionDueOn),
         unitePuissance,
       },
     } as ModificationRequestPageDTO)
