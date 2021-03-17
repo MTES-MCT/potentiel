@@ -312,7 +312,10 @@ export default function NewModificationRequestPage({ request, project }: PagePro
             {action === 'recours' ? (
               <>
                 <label className="required" htmlFor="justification">
-                  Pour la raison suivante:
+                  <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>
+                  <br />
+                  Pour faciliter le traitement de votre demande, veillez à détailler les raisons
+                  ayant conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
                 </label>
                 <textarea
                   name="justification"
