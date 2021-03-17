@@ -31,6 +31,7 @@ const deserialize = (item) => ({
   dcrSubmittedBy: item.dcr?.submittedBy,
   dcrFileRef: item.dcr?.file,
   dcrNumeroDossier: item.dcr?.details.numeroDossier,
+  completionDueOn: item.completionDueOn || 0,
 })
 
 export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): ProjectRepo {
@@ -155,6 +156,11 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
       defaultValue: 0,
     },
     dcrDueOn: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    completionDueOn: {
       type: DataTypes.BIGINT,
       allowNull: false,
       defaultValue: 0,
