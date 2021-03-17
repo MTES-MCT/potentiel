@@ -15,8 +15,21 @@ const Footer = () => {
               height="215"
             />
           </li>
-          <li><a href="https://docs.potentiel.beta.gouv.fr/info/cgu">Mentions Légales et Conditions générales d'utilisation </a></li>
-          <li><a href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel">Guide d'utilisation</a></li>
+          <li>
+            <a href="https://docs.potentiel.beta.gouv.fr/info/cgu">
+              Mentions Légales et Conditions générales d‘utilisation{' '}
+            </a>
+          </li>
+          <li>
+            <a href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel">
+              Guide d“utilisation
+            </a>
+          </li>
+          <li>
+            <a href="https://docs.potentiel.beta.gouv.fr/info/cgu#cookies">
+              Notre politique de cookies
+            </a>
+          </li>
         </ul>
         <div>{version}</div>
       </div>
