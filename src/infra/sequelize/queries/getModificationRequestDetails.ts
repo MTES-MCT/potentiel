@@ -22,6 +22,11 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
           attributes: ['id', 'filename'],
         },
         {
+          model: File,
+          as: 'responseFile',
+          attributes: ['id', 'filename'],
+        },
+        {
           model: Project,
           as: 'project',
           attributes: [
@@ -64,6 +69,7 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
       respondedByUser,
       justification,
       attachmentFile,
+      responseFile,
       project,
       versionDate,
     } = modificationRequestRaw.get()
@@ -80,6 +86,7 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
       requestedBy: requestedBy.get().fullName,
       respondedOn: respondedOn && new Date(respondedOn),
       respondedBy: respondedByUser?.get().fullName,
+      responseFile: responseFile?.get(),
       justification,
       attachmentFile: attachmentFile?.get(),
       project: {

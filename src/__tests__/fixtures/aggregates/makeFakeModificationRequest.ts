@@ -4,6 +4,7 @@ import { StoredEvent } from '../../../modules/eventStore'
 
 export const makeFakeModificationRequest = () => ({
   accept: jest.fn(() => ok<null, never>(null)),
+  reject: jest.fn(() => ok<null, never>(null)),
   projectId: new UniqueEntityID(),
   pendingEvents: [] as StoredEvent[],
   lastUpdatedOn: new Date(0),

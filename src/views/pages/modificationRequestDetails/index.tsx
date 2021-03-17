@@ -47,6 +47,7 @@ export default function AdminModificationRequestPage({ request, modificationRequ
     requestedBy,
     respondedOn,
     respondedBy,
+    responseFile,
     attachmentFile,
     justification,
     versionDate,
@@ -244,6 +245,17 @@ export default function AdminModificationRequestPage({ request, modificationRequ
               {ModificationRequestStatusTitle[status]}
             </span>{' '}
             {respondedOn && respondedBy ? `par ${respondedBy} le ${formatDate(respondedOn)}` : ''}
+            {responseFile ? (
+              <div>
+                <a
+                  href={ROUTES.DOWNLOAD_PROJECT_FILE(responseFile.id, responseFile.filename)}
+                  download={true}
+                  {...dataId('requestList-item-download-link')}
+                >
+                  Télécharger le courrier de réponse
+                </a>
+              </div>
+            ) : null}
           </div>
         ) : (
           ''

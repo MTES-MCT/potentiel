@@ -3,7 +3,7 @@ import { err, ok, Result } from '../../core/utils'
 import { User } from '../../entities'
 import { EventStoreAggregate, StoredEvent } from '../eventStore'
 import { EntityNotFoundError, IllegalInitialStateForAggregateError } from '../shared'
-import { StatusPreventsAcceptingError } from './errors'
+import { StatusPreventsAcceptingError, StatusPreventsRejectingError } from './errors'
 import {
   ModificationRequested,
   ModificationRequestAccepted,
@@ -12,17 +12,21 @@ import {
 } from './events'
 
 export interface ModificationRequest extends EventStoreAggregate {
-  accept(
-    acceptedBy: User,
+  accept(args: {
+    acceptedBy: User
+    responseFileId: string
     params?: ModificationRequestAcceptanceParams
-  ): Result<null, StatusPreventsAcceptingError>
+  }): Result<null, StatusPreventsAcceptingError>
+  reject(rejectedBy: User, responseFileId: string): Result<null, StatusPreventsRejectingError>
   readonly projectId: UniqueEntityID
   readonly status: ModificationRequestStatus
 }
 
-export type ModificationRequestStatus = 'envoyée' | 'acceptée' | 'rejetée' | 'annulée'
+export interface ModificationRequestAcceptanceParams {
+  newNotificationDate: Date
+}
 
-export type ModificationRequestAcceptanceParams = { newNotificationDate: Date }
+export type ModificationRequestStatus = 'envoyée' | 'acceptée' | 'rejetée' | 'annulée'
 
 interface ModificationRequestProps {
   lastUpdatedOn: Date
@@ -64,7 +68,7 @@ export const makeModificationRequest = (args: {
 
   // public methods
   return ok({
-    accept: function (acceptedBy, params) {
+    accept: function ({ acceptedBy, responseFileId, params }) {
       if (props.status !== 'envoyée') {
         return err(new StatusPreventsAcceptingError(props.status))
       }
@@ -75,6 +79,24 @@ export const makeModificationRequest = (args: {
             modificationRequestId: modificationRequestId.toString(),
             params,
             acceptedBy: acceptedBy.id,
+            responseFileId,
+          },
+        })
+      )
+
+      return ok(null)
+    },
+    reject: function (rejectedBy, responseFileId) {
+      if (props.status !== 'envoyée') {
+        return err(new StatusPreventsRejectingError(props.status))
+      }
+
+      _publishEvent(
+        new ModificationRequestRejected({
+          payload: {
+            modificationRequestId: modificationRequestId.toString(),
+            rejectedBy: rejectedBy.id,
+            responseFileId,
           },
         })
       )

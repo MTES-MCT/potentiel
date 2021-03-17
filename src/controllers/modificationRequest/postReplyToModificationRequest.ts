@@ -1,6 +1,6 @@
 import fs from 'fs'
 import moment from 'moment-timezone'
-import { acceptModificationRequest } from '../../config'
+import { acceptModificationRequest, rejectModificationRequest } from '../../config'
 import { logger } from '../../core/utils'
 import { pathExists } from '../../helpers/pathExists'
 import { addQueryParams } from '../../helpers/addQueryParams'
@@ -53,47 +53,56 @@ v1Router.post(
       )
     }
 
-    if (type === 'recours' && acceptedReply) {
-      await acceptModificationRequest({
-        modificationRequestId,
-        versionDate: new Date(Number(versionDate)),
-        responseFile: fs.createReadStream(request.file.path),
-        acceptanceParams: {
-          newNotificationDate: moment(newNotificationDate, FORMAT_DATE).tz('Europe/Paris').toDate(),
-        },
-        submittedBy: request.user,
-      }).match(
-        () =>
-          response.redirect(
-            addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
-              success: 'Votre réponse a bien été enregistrée.',
-            })
-          ),
-        (e) => {
-          logger.error(e)
+    if (type !== 'recours') {
+      return response.redirect(
+        addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
+          error: 'Impossible de répondre à ce type de demande pour le moment.',
+        })
+      )
+    }
 
-          if (e instanceof AggregateHasBeenUpdatedSinceError) {
-            return response.redirect(
-              addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
-                error: `Votre réponse n'a pas pu être prise en compte parce que la demande a été mise à jour entre temps. Merci de réessayer.`,
-              })
-            )
-          }
+    return await (acceptedReply
+      ? acceptModificationRequest({
+          modificationRequestId,
+          versionDate: new Date(Number(versionDate)),
+          responseFile: fs.createReadStream(request.file.path),
+          acceptanceParams: {
+            newNotificationDate: moment(newNotificationDate, FORMAT_DATE)
+              .tz('Europe/Paris')
+              .toDate(),
+          },
+          submittedBy: request.user,
+        })
+      : rejectModificationRequest({
+          modificationRequestId,
+          versionDate: new Date(Number(versionDate)),
+          responseFile: fs.createReadStream(request.file.path),
+          rejectedBy: request.user,
+        })
+    ).match(
+      () =>
+        response.redirect(
+          addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
+            success: 'Votre réponse a bien été enregistrée.',
+          })
+        ),
+      (e) => {
+        logger.error(e)
 
-          response.redirect(
+        if (e instanceof AggregateHasBeenUpdatedSinceError) {
+          return response.redirect(
             addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
-              error: `Votre réponse n'a pas pu être prise en compte.`,
+              error: `Votre réponse n'a pas pu être prise en compte parce que la demande a été mise à jour entre temps. Merci de réessayer.`,
             })
           )
         }
-      )
-      return
-    }
 
-    return response.redirect(
-      addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
-        error: 'Impossible de répondre à ce type de demande pour le moment.',
-      })
+        response.redirect(
+          addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
+            error: `Votre réponse n'a pas pu être prise en compte.`,
+          })
+        )
+      }
     )
   })
 )
