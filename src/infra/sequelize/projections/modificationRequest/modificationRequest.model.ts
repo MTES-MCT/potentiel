@@ -74,8 +74,8 @@ export const MakeModificationRequestModel = (sequelize) => {
         type: DataTypes.DOUBLE,
         allowNull: true,
       },
-      delayedServiceDate: {
-        type: DataTypes.BIGINT,
+      delayInMonths: {
+        type: DataTypes.INTEGER,
         allowNull: true,
       },
       responseFileId: {

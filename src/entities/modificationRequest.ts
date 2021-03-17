@@ -50,7 +50,7 @@ const recoursSchema = Record({
 const delaiSchema = Record({
   type: Literal('delai'),
   justification: String,
-  delayedServiceDate: Number,
+  delayInMonths: Number,
 })
 
 const modificationRequestSchema = baseModificationRequestSchema
@@ -94,7 +94,7 @@ const fields: string[] = [
   'evaluationCarbone',
   'user',
   'project',
-  'delayedServiceDate',
+  'delayInMonths',
   'status',
   ...Object.keys(baseModificationRequestSchema.fields),
 ]

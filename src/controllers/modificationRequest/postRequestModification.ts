@@ -70,7 +70,7 @@ v1Router.post(
       'justification',
       'projectId',
       'evaluationCarbone',
-      'delayedServiceDate',
+      'delayInMonths',
       'numeroGestionnaire',
     ])
 
@@ -100,21 +100,16 @@ v1Router.post(
       )
     }
 
-    // Convert delayedServiceDate
-    try {
-      if (data.delayedServiceDate) {
-        const delayedServiceDate = moment(data.delayedServiceDate, 'DD/MM/YYYY')
-        if (!delayedServiceDate.isValid()) throw new Error('invalid date format')
-        data.delayedServiceDate = delayedServiceDate.toDate().getTime()
+    if (data.type === 'delai') {
+      data.delayInMonths = Number(data.delayInMonths)
+      if (!data.delayInMonths || isNaN(data.delayInMonths) || data.delayInMonths <= 0) {
+        const { projectId, type } = data
+        return response.redirect(
+          addQueryParams(returnRoute(type, projectId), {
+            error: 'Erreur: le nombre de mois de délai doit être strictement supérieur à 0',
+          })
+        )
       }
-    } catch (error) {
-      logger.info('Could not convert delayedServiceDate to date')
-      const { projectId, type } = data
-      return response.redirect(
-        addQueryParams(returnRoute(type, projectId), {
-          error: "Erreur: la date envoyée n'est pas au bon format (JJ/MM/AAAA)",
-        })
-      )
     }
 
     let file

@@ -7,8 +7,8 @@ window.initHandlers = function () {
   addDateValidationHandler()
   addActionMenuHandlers()
   addInvitationHandlers()
+  addDelayEstimator()
   addPuissanceModificationHandler()
-  addDelayDateModificationHandler()
   addSelectorHandlers()
   addSendCopyOfNotificationButtonHandler()
   addPaginationHandler()
@@ -506,58 +506,38 @@ function getDateFromDateString(str) {
   return new Date(year, month - 1, day)
 }
 
-var dateRegex = new RegExp(/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/)
+function addDelayEstimator() {
+  const delayInMonthsField = document.querySelector('[data-testid=delayInMonthsField]')
 
-function addDelayDateModificationHandler() {
-  const delayedServiceDateField = document.querySelector(
-    '[data-testid=modificationRequest-delayedServiceDateField]'
-  )
+  const delayEstimateBox = document.querySelector('[data-testid=delayEstimateBox]')
 
-  if (delayedServiceDateField) {
-    var submitButton = '[data-testid=submit-button]'
+  console.log('delayInMonthsField', delayInMonthsField)
 
-    delayedServiceDateField.addEventListener('keyup', function (event) {
-      var oldDate = getDateFromDateString(
-        getFieldValue('[data-testid=modificationRequest-presentServiceDateField]')
-      )
+  if (delayInMonthsField) {
+    function updateProjection(event) {
+      const delayInMonths = Number(event.target.value)
+      const initialDateNbr = Number(delayInMonthsField.getAttribute('data-initial-date'))
 
-      var newDateStr = getFieldValue('[data-testid=modificationRequest-delayedServiceDateField]')
-
-      var outOfBounds = '[data-testid=modificationRequest-delay-error-message-out-of-bounds]'
-      var wrongFormat = '[data-testid=modificationRequest-delay-error-message-wrong-format]'
-
-      if (newDateStr.length < 6) {
-        // Ignore, user is still typing
-        return
-      }
-
-      if (!dateRegex.test(newDateStr)) {
-        disable(submitButton, true)
-        show(outOfBounds, false)
-        show(wrongFormat, true)
+      if (delayInMonths && delayInMonths > 0 && initialDateNbr) {
+        const initialDate = new Date(initialDateNbr)
+        const projectedDate = new Date(initialDate.setMonth(initialDate.getMonth() + delayInMonths))
+        delayEstimateBox.innerHTML = `Date de mise en service projetée: ${projectedDate.getDate()}/${
+          projectedDate.getMonth() + 1
+        }/${projectedDate.getFullYear()}`
       } else {
-        // Date is valid format
-        var newDate = getDateFromDateString(newDateStr)
-
-        if (newDate.getTime() <= oldDate.getTime()) {
-          // Date is before old date
-          disable(submitButton, true)
-          show(outOfBounds, true)
-          show(wrongFormat, false)
-        } else {
-          // all good
-          show(outOfBounds, false)
-          show(wrongFormat, false)
-          disable(submitButton, false)
-        }
+        delayEstimateBox.innerHTML = ''
       }
-    })
+    }
+
+    delayInMonthsField.addEventListener('change', updateProjection)
+    delayInMonthsField.addEventListener('keyup', updateProjection)
   }
 }
 
 //
 // Validated date fields
 //
+var dateRegex = new RegExp(/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/)
 
 function addDateValidationHandler() {
   const dateFields = document.querySelectorAll('[data-testid=date-field]')

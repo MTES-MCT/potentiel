@@ -1,15 +1,13 @@
-import makeRequestModification, { ACCESS_DENIED_ERROR } from './requestModification'
-
-import makeFakeUser from '../__tests__/fixtures/user'
 import { Readable } from 'stream'
-import { modificationRequestRepo } from '../dataAccess/inMemory'
-import { FileObject } from '../modules/file'
-import { okAsync } from '../core/utils'
 import { Repository } from '../core/domain'
+import { okAsync } from '../core/utils'
 import { StoredEvent } from '../modules/eventStore'
-import { InfraNotAvailableError } from '../modules/shared'
-import { ModificationRequestAccepted, ModificationRequested } from '../modules/modificationRequest'
+import { FileObject } from '../modules/file'
+import { ModificationRequested } from '../modules/modificationRequest'
 import { NumeroGestionnaireSubmitted } from '../modules/project/events'
+import { InfraNotAvailableError } from '../modules/shared'
+import makeFakeUser from '../__tests__/fixtures/user'
+import makeRequestModification, { ACCESS_DENIED_ERROR } from './requestModification'
 
 const fakeFileContents = {
   filename: 'fakeFile.pdf',
@@ -170,7 +168,7 @@ describe('requestModification use-case', () => {
         const requestResult = await requestModification({
           type: 'delai' as 'delai',
           justification: 'justification',
-          delayedServiceDate: 123,
+          delayInMonths: 12,
           numeroGestionnaire: 'numero gestionnaire',
           file: fakeFileContents,
           user,
@@ -194,7 +192,7 @@ describe('requestModification use-case', () => {
         expect(firstEvent).toBeInstanceOf(ModificationRequested)
         expect(firstEvent.payload).toMatchObject({
           type: 'delai',
-          delayedServiceDate: 123,
+          delayInMonths: 12,
           justification: 'justification',
           fileId: fakeFile.id.toString(),
           requestedBy: user.id,

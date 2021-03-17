@@ -47,7 +47,7 @@ interface PuissanceRequest {
 interface DelayRequest {
   type: 'delai'
   justification: string
-  delayedServiceDate: number
+  delayInMonths: number
   numeroGestionnaire?: string
 }
 
@@ -128,7 +128,7 @@ export default function makeRequestModification({
       fournisseur,
       puissance,
       evaluationCarbone,
-      delayedServiceDate,
+      delayInMonths,
       numeroGestionnaire,
     } = props as any
 
@@ -147,7 +147,7 @@ export default function makeRequestModification({
             fournisseur,
             puissance,
             evaluationCarbone,
-            delayedServiceDate,
+            delayInMonths,
           },
         })
       )
