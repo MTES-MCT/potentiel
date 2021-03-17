@@ -7,6 +7,13 @@ export type ModificationRequestVariants =
   | { type: 'abandon'; justification: string }
   | { type: 'delai'; justification: string }
 
+export type ModificationRequestStatus =
+  | 'envoyée'
+  | 'acceptée'
+  | 'rejetée'
+  | 'annulée'
+  | 'en instruction'
+
 export type ModificationRequestListItemDTO = {
   id: string
   status: string
