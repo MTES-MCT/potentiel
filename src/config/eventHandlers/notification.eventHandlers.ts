@@ -20,6 +20,7 @@ import {
   ModificationRequested,
   ModificationRequestAccepted,
   ModificationRequestInstructionStarted,
+  ModificationRequestRejected,
 } from '../../modules/modificationRequest'
 import { userRepo } from '../../dataAccess'
 
@@ -41,6 +42,7 @@ eventStore.subscribe(
   modificationRequestStatusChangeHandler
 )
 eventStore.subscribe(ModificationRequestAccepted.type, modificationRequestStatusChangeHandler)
+eventStore.subscribe(ModificationRequestRejected.type, modificationRequestStatusChangeHandler)
 
 eventStore.subscribe(
   ModificationRequested.type,

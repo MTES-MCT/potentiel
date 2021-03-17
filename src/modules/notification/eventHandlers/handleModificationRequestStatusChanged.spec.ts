@@ -8,6 +8,7 @@ import {
   GetModificationRequestInfoForStatusNotification,
   ModificationRequestAccepted,
   ModificationRequestInstructionStarted,
+  ModificationRequestRejected,
 } from '../../modificationRequest'
 import { handleModificationRequestStatusChanged } from './handleModificationRequestStatusChanged'
 
@@ -36,7 +37,7 @@ describe('notification.handleModificationRequestStatusChanged', () => {
         getModificationRequestInfoForStatusNotification,
       })(
         new ModificationRequestAccepted({
-          payload: { modificationRequestId, acceptedBy: '' },
+          payload: { modificationRequestId, acceptedBy: '', responseFileId: '' },
         })
       )
 
@@ -70,7 +71,7 @@ describe('notification.handleModificationRequestStatusChanged', () => {
         getModificationRequestInfoForStatusNotification,
       })(
         new ModificationRequestAccepted({
-          payload: { modificationRequestId, acceptedBy: '' },
+          payload: { modificationRequestId, acceptedBy: '', responseFileId: '' },
         })
       )
 
@@ -80,6 +81,31 @@ describe('notification.handleModificationRequestStatusChanged', () => {
           (notification) =>
             notification.type === 'modification-request-status-update' &&
             notification.variables.status === 'acceptée' &&
+            notification.variables.document_absent === undefined
+        )
+      ).toBe(true)
+    })
+  })
+
+  describe('when triggered with ModificationRequestRejected', () => {
+    it('should set the status in the email to acceptée and mention a document', async () => {
+      sendNotification.mockClear()
+
+      await handleModificationRequestStatusChanged({
+        sendNotification,
+        getModificationRequestInfoForStatusNotification,
+      })(
+        new ModificationRequestRejected({
+          payload: { modificationRequestId, rejectedBy: '', responseFileId: '' },
+        })
+      )
+
+      const notifications = sendNotification.mock.calls.map((call) => call[0])
+      expect(
+        notifications.every(
+          (notification) =>
+            notification.type === 'modification-request-status-update' &&
+            notification.variables.status === 'rejetée' &&
             notification.variables.document_absent === undefined
         )
       ).toBe(true)

@@ -78,6 +78,10 @@ export const MakeModificationRequestModel = (sequelize) => {
         type: DataTypes.BIGINT,
         allowNull: true,
       },
+      responseFileId: {
+        type: DataTypes.UUID,
+        allowNull: true,
+      },
     },
     {
       timestamps: true,
@@ -89,6 +93,12 @@ export const MakeModificationRequestModel = (sequelize) => {
     ModificationRequest.belongsTo(FileModel, {
       foreignKey: 'fileId',
       as: 'attachmentFile',
+      constraints: false,
+    })
+
+    ModificationRequest.belongsTo(FileModel, {
+      foreignKey: 'responseFileId',
+      as: 'responseFile',
       constraints: false,
     })
 

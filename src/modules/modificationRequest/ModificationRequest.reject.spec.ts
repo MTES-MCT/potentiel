@@ -2,20 +2,20 @@ import { UniqueEntityID } from '../../core/domain'
 import { makeUser } from '../../entities'
 import makeFakeUser from '../../__tests__/fixtures/user'
 import {
-  ModificationRequested,
   ModificationRequestAccepted,
+  ModificationRequested,
   ModificationRequestRejected,
 } from './events'
-import { StatusPreventsAcceptingError } from './errors'
+import { StatusPreventsRejectingError } from './errors'
 import { makeModificationRequest } from './ModificationRequest'
 import { UnwrapForTest as OldUnwrapForTest } from '../../types'
 import { UnwrapForTest } from '../../core/utils'
 
-describe('Modification.acceptRecours()', () => {
+describe('Modification.reject()', () => {
   const modificationRequestId = new UniqueEntityID()
   const projectId = new UniqueEntityID()
-  const responseFileId = new UniqueEntityID().toString()
   const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
+  const fakeResponseFileId = new UniqueEntityID().toString()
 
   describe('when demande status is envoyée', () => {
     const fakeModificationRequest = UnwrapForTest(
@@ -37,21 +37,22 @@ describe('Modification.acceptRecours()', () => {
     beforeAll(() => {
       expect(fakeModificationRequest.status).toEqual('envoyée')
 
-      const res = fakeModificationRequest.accept({ acceptedBy: fakeUser, responseFileId })
+      const res = fakeModificationRequest.reject(fakeUser, fakeResponseFileId)
       expect(res.isOk()).toBe(true)
     })
 
-    it('should emit ModificationRequestAccepted', () => {
+    it('should emit ModificationRequestRejected', () => {
       expect(fakeModificationRequest.pendingEvents).not.toHaveLength(0)
 
       const targetEvent = fakeModificationRequest.pendingEvents.find(
-        (item) => item.type === ModificationRequestAccepted.type
-      ) as ModificationRequestAccepted | undefined
+        (item) => item.type === ModificationRequestRejected.type
+      ) as ModificationRequestRejected | undefined
       expect(targetEvent).toBeDefined()
       if (!targetEvent) return
 
       expect(targetEvent.payload.modificationRequestId).toEqual(modificationRequestId.toString())
-      expect(targetEvent.payload.responseFileId).toEqual(responseFileId)
+      expect(targetEvent.payload.rejectedBy).toEqual(fakeUser.id)
+      expect(targetEvent.payload.responseFileId).toEqual(fakeResponseFileId)
     })
   })
 
@@ -79,14 +80,14 @@ describe('Modification.acceptRecours()', () => {
       })
     )
 
-    it('should return StatusPreventsAcceptingError', () => {
+    it('should return StatusPreventsRejectingError', () => {
       expect(fakeModificationRequest.status).toEqual('acceptée')
 
-      const res = fakeModificationRequest.accept({ acceptedBy: fakeUser, responseFileId })
+      const res = fakeModificationRequest.reject(fakeUser, fakeResponseFileId)
       expect(res.isErr()).toBe(true)
       if (res.isOk()) return
 
-      expect(res.error).toBeInstanceOf(StatusPreventsAcceptingError)
+      expect(res.error).toBeInstanceOf(StatusPreventsRejectingError)
     })
   })
 
@@ -107,21 +108,21 @@ describe('Modification.acceptRecours()', () => {
             payload: {
               modificationRequestId: modificationRequestId.toString(),
               rejectedBy: fakeUser.id,
-              responseFileId: '',
+              responseFileId: fakeResponseFileId,
             },
           }),
         ],
       })
     )
 
-    it('should return StatusPreventsAcceptingError', () => {
+    it('should return StatusPreventsRejectingError', () => {
       expect(fakeModificationRequest.status).toEqual('rejetée')
 
-      const res = fakeModificationRequest.accept({ acceptedBy: fakeUser, responseFileId })
+      const res = fakeModificationRequest.reject(fakeUser, fakeResponseFileId)
       expect(res.isErr()).toBe(true)
       if (res.isOk()) return
 
-      expect(res.error).toBeInstanceOf(StatusPreventsAcceptingError)
+      expect(res.error).toBeInstanceOf(StatusPreventsRejectingError)
     })
   })
 })

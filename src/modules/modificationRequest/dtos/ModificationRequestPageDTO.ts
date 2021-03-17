@@ -5,6 +5,10 @@ export interface ModificationRequestPageDTO {
 
   respondedBy?: string
   respondedOn?: Date
+  responseFile?: {
+    filename: string
+    id: string
+  }
 
   versionDate: Date
 

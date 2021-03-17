@@ -60,7 +60,7 @@ export const makeAcceptModificationRequest = (deps: AcceptModificationRequestDep
     .andThen(({ project, modificationRequest }) => {
       return makeAndSaveFile({
         file: {
-          designation: 'attestation-designation',
+          designation: 'modification-request-response',
           forProject: modificationRequest.projectId,
           createdBy: new UniqueEntityID(submittedBy.id),
           filename: project.certificateFilename,
@@ -68,24 +68,24 @@ export const makeAcceptModificationRequest = (deps: AcceptModificationRequestDep
         },
         fileRepo,
       })
-        .map((certificateFileId) => ({ project, modificationRequest, certificateFileId }))
+        .map((responseFileId) => ({ project, modificationRequest, responseFileId }))
         .mapErr((e: Error) => {
           logger.error(e)
           return new InfraNotAvailableError()
         })
     })
-    .andThen(({ project, modificationRequest, certificateFileId }) => {
+    .andThen(({ project, modificationRequest, responseFileId }) => {
       return project
         .grantClasse(submittedBy)
-        .andThen(() => project.updateCertificate(submittedBy, certificateFileId))
+        .andThen(() => project.updateCertificate(submittedBy, responseFileId))
         .andThen(() =>
           project.setNotificationDate(submittedBy, acceptanceParams.newNotificationDate.getTime())
         )
-        .map(() => ({ project, modificationRequest }))
+        .map(() => ({ project, modificationRequest, responseFileId }))
     })
-    .andThen(({ project, modificationRequest }) => {
+    .andThen(({ project, modificationRequest, responseFileId }) => {
       return modificationRequest
-        .accept(submittedBy, acceptanceParams)
+        .accept({ acceptedBy: submittedBy, params: acceptanceParams, responseFileId })
         .map(() => ({ project, modificationRequest }))
     })
     .andThen(({ project, modificationRequest }) => {
