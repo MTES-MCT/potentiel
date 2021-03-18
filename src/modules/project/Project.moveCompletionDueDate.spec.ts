@@ -116,6 +116,34 @@ describe('Project.moveCompletionDueDate()', () => {
     })
   })
 
+  describe('when project already had a updated completion due date', () => {
+    const fakeHistoryWithCompletionDateMoved = [
+      ...fakeHistory,
+      // Add event that corresponds to a change in completion date
+      new ProjectCompletionDueDateSet({
+        payload: { projectId: projectId.toString(), completionDueOn: 4567 },
+      }),
+    ]
+
+    const project = UnwrapForTest(
+      makeProject({ projectId, history: fakeHistoryWithCompletionDateMoved, appelsOffres })
+    )
+
+    beforeAll(() => {
+      const res = project.moveCompletionDueDate(fakeUser, 3)
+
+      if (res.isErr()) logger.error(res.error)
+      expect(res.isOk()).toBe(true)
+    })
+
+    it('should still trigger ProjectCompletionDueDateSet', () => {
+      const targetEvent = project.pendingEvents.find(
+        (item) => item.type === ProjectCompletionDueDateSet.type
+      ) as ProjectCompletionDueDateSet | undefined
+      expect(targetEvent).toBeDefined()
+    })
+  })
+
   describe('when project is éliminé', () => {
     const fakeProjectData = makeFakeProject({ notifiedOn: 123, classe: 'Eliminé' })
     const fakeHistory = makeFakeHistory(fakeProjectData)

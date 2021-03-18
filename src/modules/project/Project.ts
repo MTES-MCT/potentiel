@@ -118,6 +118,7 @@ export interface ProjectProps {
   appelOffre: ProjectAppelOffre
   notifiedOn: number
   completionDueOn: number
+  hasCompletionDueDateMoved: boolean
   lastUpdatedOn: Date
   lastCertificateUpdate: Date | undefined
   hasError: boolean
@@ -161,6 +162,7 @@ export const makeProject = (args: {
   const props: ProjectProps = {
     notifiedOn: 0,
     completionDueOn: 0,
+    hasCompletionDueDateMoved: false,
     projectId,
     appelOffre: initialAppelOffre,
     isClasse: initialClasse,
@@ -299,6 +301,7 @@ export const makeProject = (args: {
 
       _updateDCRDate()
       _updateGFDate()
+      _updateCompletionDate()
 
       return ok(null)
     },
@@ -491,6 +494,7 @@ export const makeProject = (args: {
         props.notifiedOn = event.payload.notifiedOn
         break
       case ProjectCompletionDueDateSet.type:
+        if (props.completionDueOn !== 0) props.hasCompletionDueDateMoved = true
         props.completionDueOn = event.payload.completionDueOn
         break
       case ProjectDataCorrected.type:
@@ -622,9 +626,9 @@ export const makeProject = (args: {
     }
   }
 
-  function _updateCompletionDate(args?: { setBy: string; completionDueOn: number }) {
-    if (props.isClasse) {
-      const { setBy, completionDueOn } = args || {}
+  function _updateCompletionDate(forceValue?: { setBy: string; completionDueOn: number }) {
+    if (props.isClasse && (!!forceValue || !props.hasCompletionDueDateMoved)) {
+      const { setBy, completionDueOn } = forceValue || {}
       _removePendingEventsOfType(ProjectCompletionDueDateSet.type)
       _publishEvent(
         new ProjectCompletionDueDateSet({
