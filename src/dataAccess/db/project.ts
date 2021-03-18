@@ -539,7 +539,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
     const projects = await ProjectModel.findAll({
       where: {
         id: { [Op.in]: projectIds },
-        [Op.or]: { ..._getFullTextSearchOptions(terms) },
+        [Op.or]: { ...getFullTextSearchOptions(terms) },
       },
     })
 
@@ -617,7 +617,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
       where: {
         [Op.and]: [
           {
-            [Op.or]: { ..._getFullTextSearchOptions(terms) },
+            [Op.or]: { ...getFullTextSearchOptions(terms) },
           },
           {
             regionProjet: { [Op.iRegexp]: formattedRegions },
@@ -699,7 +699,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
     try {
       const opts = _makeSelectorsForQuery(filters)
 
-      opts.where[Op.or] = { ..._getFullTextSearchOptions(terms) }
+      opts.where[Op.or] = { ...getFullTextSearchOptions(terms) }
 
       return _findAndBuildProjectList(opts, pagination)
     } catch (error) {
@@ -942,13 +942,13 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
 
 export { makeProjectRepo }
 
-function _getFullTextSearchOptions(terms: string): object {
+export function getFullTextSearchOptions(terms: string): object {
   const formattedTerms = terms
     .split(' ')
     .filter((term) => term.trim() !== '')
     .map((term) => `%${term}%`)
 
-  const searchedColumns = [
+  const searchedProjectsColumns = [
     'nomCandidat',
     'nomProjet',
     'nomRepresentantLegal',
@@ -963,7 +963,7 @@ function _getFullTextSearchOptions(terms: string): object {
     'details.Nom et prénom du contact',
   ]
 
-  const options = searchedColumns.reduce((opts, col) => {
+  const options = searchedProjectsColumns.reduce((opts, col) => {
     return {
       ...opts,
       [col]: { [Op.iLike]: { [Op.any]: [...formattedTerms] } },

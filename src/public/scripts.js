@@ -393,6 +393,8 @@ function addSelectorHandlers() {
     'beforeDate',
     'garantiesFinancieres',
     'classement',
+    'modificationRequestStatus',
+    'modificationRequestType',
   ].forEach((key) => {
     const selectField = document.querySelector('[data-testid=' + key + 'Selector]')
     if (selectField) {

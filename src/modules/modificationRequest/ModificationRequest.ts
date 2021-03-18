@@ -26,7 +26,7 @@ export interface ModificationRequestAcceptanceParams {
   newNotificationDate: Date
 }
 
-export type ModificationRequestStatus = 'envoyée' | 'acceptée' | 'rejetée' | 'annulée'
+type ModificationRequestStatus = 'envoyée' | 'acceptée' | 'rejetée' | 'annulée'
 
 interface ModificationRequestProps {
   lastUpdatedOn: Date

@@ -1,7 +1,7 @@
-import { ModificationRequestStatus } from '../../modules/modificationRequest'
+import { ModificationRequestStatusDTO } from '../../modules/modificationRequest'
 
 export const ModificationRequestColorByStatus: Record<
-  ModificationRequestStatus | 'en instruction',
+  ModificationRequestStatusDTO,
   'error' | 'success' | 'warning' | ''
 > = {
   envoyée: '',
