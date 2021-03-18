@@ -1,3 +1,4 @@
+import moment from 'moment'
 import { UniqueEntityID } from '../../core/domain'
 import { logger, UnwrapForTest } from '../../core/utils'
 import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
@@ -43,6 +44,8 @@ const makeFakeHistory = (fakeProject: any): StoredEvent[] => {
   ]
 }
 
+const initialCompletionDueOn = 123
+
 const fakeHistory: StoredEvent[] = [
   new ProjectImported({
     payload: {
@@ -74,19 +77,25 @@ const fakeHistory: StoredEvent[] = [
       version: 1,
     },
   }),
+  new ProjectCompletionDueDateSet({
+    payload: {
+      projectId: projectId.toString(),
+      completionDueOn: initialCompletionDueOn,
+    },
+    original: {
+      occurredAt: new Date(678),
+      version: 1,
+    },
+  }),
 ]
 
-describe('Project.setCompletionDueDate()', () => {
+describe('Project.moveCompletionDueDate()', () => {
   describe('when project is classé', () => {
-    const fakeProjectData = makeFakeProject({ notifiedOn: 123, classe: 'Classé' })
-    const fakeHistory = makeFakeHistory(fakeProjectData)
-
     it('should emit a ProjectCompletionDueDateSet', () => {
       const project = UnwrapForTest(makeProject({ projectId, history: fakeHistory, appelsOffres }))
 
-      const newCompletionDueOn = 12345
-
-      const res = project.setCompletionDueDate(fakeUser, newCompletionDueOn)
+      const delayInMonths = 2
+      const res = project.moveCompletionDueDate(fakeUser, delayInMonths)
 
       expect(res.isOk()).toBe(true)
       if (res.isErr()) return
@@ -99,7 +108,9 @@ describe('Project.setCompletionDueDate()', () => {
       expect(targetEvent).toBeDefined()
       if (!targetEvent) return
 
-      expect(targetEvent.payload.completionDueOn).toEqual(newCompletionDueOn)
+      expect(targetEvent.payload.completionDueOn).toEqual(
+        +moment(initialCompletionDueOn).add(delayInMonths, 'months')
+      )
       expect(targetEvent.payload.projectId).toEqual(projectId.toString())
       expect(targetEvent.payload.setBy).toEqual(fakeUser.id)
     })
@@ -111,7 +122,7 @@ describe('Project.setCompletionDueDate()', () => {
 
     it('should not trigger ProjectCompletionDueDateSet', () => {
       const project = UnwrapForTest(makeProject({ projectId, history: fakeHistory, appelsOffres }))
-      const res = project.setCompletionDueDate(fakeUser, 1234)
+      const res = project.moveCompletionDueDate(fakeUser, 1)
 
       if (res.isErr()) logger.error(res.error)
       expect(res.isOk()).toBe(true)
@@ -135,7 +146,7 @@ describe('Project.setCompletionDueDate()', () => {
         })
       )
 
-      const res = project.setCompletionDueDate(fakeUser, 1)
+      const res = project.moveCompletionDueDate(fakeUser, 1)
 
       expect(res.isErr()).toEqual(true)
       if (res.isOk()) return
@@ -149,7 +160,7 @@ describe('Project.setCompletionDueDate()', () => {
       const fakeHistory = makeFakeHistory(fakeProjectData)
       const project = UnwrapForTest(makeProject({ projectId, history: fakeHistory, appelsOffres }))
 
-      const res = project.setCompletionDueDate(fakeUser, 1000)
+      const res = project.moveCompletionDueDate(fakeUser, -1)
 
       expect(res.isErr()).toEqual(true)
       if (res.isOk()) return

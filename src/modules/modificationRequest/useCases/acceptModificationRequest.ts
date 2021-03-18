@@ -2,6 +2,10 @@ import { Repository, UniqueEntityID } from '../../../core/domain'
 import { err, errAsync, logger, ok, Result, ResultAsync } from '../../../core/utils'
 import { User } from '../../../entities'
 import { FileContents, FileObject, makeAndSaveFile } from '../../file'
+import {
+  IllegalProjectDataError,
+  ProjectCannotBeUpdatedIfUnnotifiedError,
+} from '../../project/errors'
 import { Project } from '../../project/Project'
 import {
   AggregateHasBeenUpdatedSinceError,
@@ -75,13 +79,23 @@ export const makeAcceptModificationRequest = (deps: AcceptModificationRequestDep
         })
     })
     .andThen(({ project, modificationRequest, responseFileId }) => {
-      return project
-        .grantClasse(submittedBy)
-        .andThen(() => project.updateCertificate(submittedBy, responseFileId))
-        .andThen(() =>
-          project.setNotificationDate(submittedBy, acceptanceParams.newNotificationDate.getTime())
-        )
-        .map(() => ({ project, modificationRequest, responseFileId }))
+      let action: Result<
+        null,
+        ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError
+      > = ok(null)
+
+      if (acceptanceParams.type === 'recours') {
+        action = project
+          .grantClasse(submittedBy)
+          .andThen(() => project.updateCertificate(submittedBy, responseFileId))
+          .andThen(() =>
+            project.setNotificationDate(submittedBy, acceptanceParams.newNotificationDate.getTime())
+          )
+      } else if (acceptanceParams.type === 'delai') {
+        action = project.moveCompletionDueDate(submittedBy, acceptanceParams.delayInMonths)
+      }
+
+      return action.map(() => ({ project, modificationRequest, responseFileId }))
     })
     .andThen(({ project, modificationRequest, responseFileId }) => {
       return modificationRequest

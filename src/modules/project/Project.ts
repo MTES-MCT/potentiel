@@ -61,9 +61,9 @@ export interface Project extends EventStoreAggregate {
     user: User,
     notifiedOn: number
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError>
-  setCompletionDueDate: (
+  moveCompletionDueDate: (
     user: User,
-    completionDueOn: number
+    delayInMonths: number
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError>
   updateCertificate: (
     user: User,
@@ -117,6 +117,7 @@ export interface ProjectProps {
   projectId: UniqueEntityID
   appelOffre: ProjectAppelOffre
   notifiedOn: number
+  completionDueOn: number
   lastUpdatedOn: Date
   lastCertificateUpdate: Date | undefined
   hasError: boolean
@@ -159,6 +160,7 @@ export const makeProject = (args: {
   const pendingEvents: StoredEvent[] = []
   const props: ProjectProps = {
     notifiedOn: 0,
+    completionDueOn: 0,
     projectId,
     appelOffre: initialAppelOffre,
     isClasse: initialClasse,
@@ -251,12 +253,14 @@ export const makeProject = (args: {
         return ok(null)
       })
     },
-    setCompletionDueDate: function (user, completionDueOn) {
+    moveCompletionDueDate: function (user, delayInMonths) {
       if (!_isNotified()) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
       }
 
-      if (completionDueOn <= props.notifiedOn) {
+      const newCompletionDueOn = +moment(props.completionDueOn).add(delayInMonths, 'months')
+
+      if (newCompletionDueOn <= props.notifiedOn) {
         return err(
           new IllegalProjectDataError({
             completionDueOn:
@@ -265,7 +269,7 @@ export const makeProject = (args: {
         )
       }
 
-      _updateCompletionDate({ setBy: user.id, completionDueOn })
+      _updateCompletionDate({ setBy: user.id, completionDueOn: newCompletionDueOn })
 
       return ok(null)
     },
@@ -453,6 +457,7 @@ export const makeProject = (args: {
       case ProjectReimported.type:
       case ProjectNotified.type:
       case ProjectNotificationDateSet.type:
+      case ProjectCompletionDueDateSet.type:
       case ProjectDataCorrected.type:
       case ProjectClasseGranted.type:
         props.lastUpdatedOn = event.occurredAt
@@ -484,6 +489,9 @@ export const makeProject = (args: {
       case ProjectNotified.type:
       case ProjectNotificationDateSet.type:
         props.notifiedOn = event.payload.notifiedOn
+        break
+      case ProjectCompletionDueDateSet.type:
+        props.completionDueOn = event.payload.completionDueOn
         break
       case ProjectDataCorrected.type:
         props.data = { ...props.data, ...event.payload.correctedData } as ProjectProps['data']
