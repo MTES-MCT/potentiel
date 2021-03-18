@@ -67,7 +67,7 @@ v1Router.post(
       )
     }
 
-    if (['recours', 'delai'].includes(type)) {
+    if (!['recours', 'delai'].includes(type)) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
           error: 'Impossible de répondre à ce type de demande pour le moment.',

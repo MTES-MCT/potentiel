@@ -83,19 +83,25 @@ export default function AdminModificationRequestPage({ request, modificationRequ
             ''
           )}
           {modificationRequest.type === 'delai' ? (
-            <div style={{ marginTop: 5 }}>
-              La date de mise en service théorique est au{' '}
-              <b>{formatDate(project.completionDueOn)}</b>.
-              <br />
-              Le porteur demande un délai de <b>{modificationRequest.delayInMonths} mois</b>, ce qui
-              reporterait la mise en service au{' '}
-              <b>
-                {formatDate(
-                  +moment(project.completionDueOn).add(modificationRequest.delayInMonths, 'month')
-                )}
-              </b>
-              .
-            </div>
+            status === 'envoyée' || status === 'en instruction' ? (
+              <div style={{ marginTop: 5 }}>
+                La date de mise en service théorique est au{' '}
+                <b>{formatDate(project.completionDueOn)}</b>.
+                <br />
+                Le porteur demande un délai de <b>{modificationRequest.delayInMonths} mois</b>, ce
+                qui reporterait la mise en service au{' '}
+                <b>
+                  {formatDate(
+                    +moment(project.completionDueOn).add(modificationRequest.delayInMonths, 'month')
+                  )}
+                </b>
+                .
+              </div>
+            ) : (
+              <div style={{ marginTop: 5 }}>
+                Le porteur a demandé un délai de <b>{modificationRequest.delayInMonths} mois</b>.{' '}
+              </div>
+            )
           ) : null}
           {attachmentFile ? (
             <div style={{ marginTop: 10 }}>
@@ -288,6 +294,12 @@ export default function AdminModificationRequestPage({ request, modificationRequ
               {ModificationRequestStatusTitle[status]}
             </span>{' '}
             {respondedOn && respondedBy ? `par ${respondedBy} le ${formatDate(respondedOn)}` : ''}
+            {modificationRequest.type === 'delai' && modificationRequest.status === 'acceptée' ? (
+              <div>
+                L‘administration vous accorde une nouvelle date de mise en service théorique au{' '}
+                <b>{formatDate(project.completionDueOn)}</b>.
+              </div>
+            ) : null}
             {responseFile ? (
               <div>
                 <a

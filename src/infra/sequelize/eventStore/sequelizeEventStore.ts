@@ -56,6 +56,8 @@ import {
   ProjectGFRemovedPayload,
   ProjectGFSubmitted,
   ProjectGFSubmittedPayload,
+  ProjectCompletionDueDateSet,
+  ProjectCompletionDueDateSetPayload,
   ProjectImported,
   ProjectImportedPayload,
   ProjectNotificationDateSet,
@@ -293,6 +295,15 @@ export class SequelizeEventStore extends BaseEventStore {
       case ProjectNotificationDateSet.type:
         return new ProjectNotificationDateSet({
           payload: eventRaw.payload as ProjectNotificationDateSetPayload,
+          requestId: eventRaw.requestId?.toString(),
+          original: {
+            version: eventRaw.version,
+            occurredAt: new Date(eventRaw.occurredAt),
+          },
+        })
+      case ProjectCompletionDueDateSet.type:
+        return new ProjectCompletionDueDateSet({
+          payload: eventRaw.payload as ProjectCompletionDueDateSetPayload,
           requestId: eventRaw.requestId?.toString(),
           original: {
             version: eventRaw.version,
