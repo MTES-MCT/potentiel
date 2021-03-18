@@ -50,11 +50,11 @@ export const makeGetModificationRequestListForUser = (
   if (user.role !== 'admin') opts.where.userId = user.id
 
   if (modificationRequestType) {
-    opts.where.type = { [Op.eq]: modificationRequestType }
+    opts.where.type = modificationRequestType
   }
 
   if (modificationRequestStatus) {
-    opts.where.status = { [Op.eq]: modificationRequestStatus }
+    opts.where.status = modificationRequestStatus
   }
 
   return wrapInfra(

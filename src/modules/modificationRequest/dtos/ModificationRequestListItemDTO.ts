@@ -7,7 +7,7 @@ export type ModificationRequestVariants =
   | { type: 'abandon'; justification: string }
   | { type: 'delai'; justification: string }
 
-export type ModificationRequestStatus =
+export type ModificationRequestStatusDTO =
   | 'envoyée'
   | 'acceptée'
   | 'rejetée'

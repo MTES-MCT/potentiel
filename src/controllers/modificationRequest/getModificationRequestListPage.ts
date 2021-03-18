@@ -37,9 +37,9 @@ const getModificationRequestListPage = asyncHandler(async (request, response) =>
   }
 
   if (pageSize) {
-    const monthSeconds = 1000 * 60 * 60 * 24 * 30
+    const MONTH_MILLISECONDS = 1000 * 60 * 60 * 24 * 30
     response.cookie('pageSize', pageSize, {
-      maxAge: monthSeconds * 3,
+      maxAge: MONTH_MILLISECONDS * 3,
       httpOnly: true,
     })
   }

@@ -5,7 +5,7 @@ import { InfraNotAvailableError } from '../../shared'
 import {
   ModificationRequestListItemDTO,
   ModificationRequestVariants,
-  ModificationRequestStatus,
+  ModificationRequestStatusDTO,
 } from '../dtos'
 
 interface GetModificationRequestListForUserDeps {
@@ -15,7 +15,7 @@ interface GetModificationRequestListForUserDeps {
   familleId?: Famille['id']
   pagination?: Pagination
   recherche?: string
-  modificationRequestStatus?: ModificationRequestStatus
+  modificationRequestStatus?: ModificationRequestStatusDTO
   modificationRequestType?: ModificationRequestVariants
 }
 
