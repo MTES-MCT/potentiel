@@ -87,9 +87,8 @@ export default function AdminModificationRequestPage({ request, modificationRequ
               La date de mise en service théorique est au{' '}
               <b>{formatDate(project.completionDueOn)}</b>.
               <br />
-              Par la présente, le porteur demande un délai de{' '}
-              <b>{modificationRequest.delayInMonths} mois</b>, ce qui reporterait la mise en service
-              au{' '}
+              Le porteur demande un délai de <b>{modificationRequest.delayInMonths} mois</b>, ce qui
+              reporterait la mise en service au{' '}
               <b>
                 {formatDate(
                   +moment(project.completionDueOn).add(modificationRequest.delayInMonths, 'month')
@@ -211,19 +210,44 @@ export default function AdminModificationRequestPage({ request, modificationRequ
                   <input type="file" name="file" id="file" />
                 </div>
 
-                <div className="form__group" style={{ marginTop: 5 }}>
-                  <label htmlFor="newNotificationDate">
-                    Nouvelle date de désignation (format JJ/MM/AAAA)
-                  </label>
-                  <input
-                    type="text"
-                    name="newNotificationDate"
-                    id="newNotificationDate"
-                    defaultValue={formatDate(Date.now(), 'DD/MM/YYYY')}
-                    {...dataId('modificationRequest-newNotificationDateField')}
-                    style={{ width: 'auto' }}
-                  />
-                </div>
+                {type === 'recours' ? (
+                  <div className="form__group" style={{ marginTop: 5 }}>
+                    <label htmlFor="newNotificationDate">
+                      Nouvelle date de désignation (format JJ/MM/AAAA)
+                    </label>
+                    <input
+                      type="text"
+                      name="newNotificationDate"
+                      id="newNotificationDate"
+                      defaultValue={formatDate(Date.now(), 'DD/MM/YYYY')}
+                      {...dataId('modificationRequest-newNotificationDateField')}
+                      style={{ width: 'auto' }}
+                    />
+                  </div>
+                ) : null}
+
+                {modificationRequest.type === 'delai' ? (
+                  <div className="form__group" style={{ marginTop: 5 }}>
+                    <label htmlFor="delayInMonths">Délai accordé (en mois)</label>
+                    <input
+                      type="number"
+                      name="delayInMonths"
+                      id="delayInMonths"
+                      defaultValue={modificationRequest.delayInMonths}
+                      data-initial-date={project.completionDueOn.getTime()}
+                      {...dataId('delayInMonthsField')}
+                      style={{ width: 75 }}
+                    />
+                    <span style={{ marginLeft: 10 }} {...dataId('delayEstimateBox')}>
+                      {`Date de mise en service projetée: ${formatDate(
+                        +moment(project.completionDueOn).add(
+                          modificationRequest.delayInMonths,
+                          'month'
+                        )
+                      )}`}
+                    </span>
+                  </div>
+                ) : null}
 
                 <button
                   className="button"

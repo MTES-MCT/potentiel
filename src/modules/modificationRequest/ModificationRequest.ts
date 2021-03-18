@@ -22,11 +22,10 @@ export interface ModificationRequest extends EventStoreAggregate {
   readonly status: ModificationRequestStatus
 }
 
-export interface ModificationRequestAcceptanceParams {
-  newNotificationDate: Date
-}
-
-type ModificationRequestStatus = 'envoyée' | 'acceptée' | 'rejetée' | 'annulée'
+export type ModificationRequestStatus = 'envoyée' | 'acceptée' | 'rejetée' | 'annulée'
+export type ModificationRequestAcceptanceParams =
+  | { type: 'recours'; newNotificationDate: Date }
+  | { type: 'delai'; delayInMonths: number }
 
 interface ModificationRequestProps {
   lastUpdatedOn: Date

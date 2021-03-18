@@ -511,8 +511,6 @@ function addDelayEstimator() {
 
   const delayEstimateBox = document.querySelector('[data-testid=delayEstimateBox]')
 
-  console.log('delayInMonthsField', delayInMonthsField)
-
   if (delayInMonthsField) {
     function updateProjection(event) {
       const delayInMonths = Number(event.target.value)
