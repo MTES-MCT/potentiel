@@ -3,6 +3,7 @@ import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
 export interface ProjectCompletionDueDateSetPayload {
   projectId: string
   completionDueOn: number
+  setBy?: string
 }
 export class ProjectCompletionDueDateSet
   extends BaseDomainEvent<ProjectCompletionDueDateSetPayload>

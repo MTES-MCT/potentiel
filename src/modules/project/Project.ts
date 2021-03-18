@@ -61,6 +61,10 @@ export interface Project extends EventStoreAggregate {
     user: User,
     notifiedOn: number
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError>
+  setCompletionDueDate: (
+    user: User,
+    completionDueOn: number
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError>
   updateCertificate: (
     user: User,
     certificateFileId: string
@@ -246,6 +250,24 @@ export const makeProject = (args: {
         )
         return ok(null)
       })
+    },
+    setCompletionDueDate: function (user, completionDueOn) {
+      if (!_isNotified()) {
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+      }
+
+      if (completionDueOn <= props.notifiedOn) {
+        return err(
+          new IllegalProjectDataError({
+            completionDueOn:
+              'La nouvelle date de mise en service doit postérieure à la date de notification.',
+          })
+        )
+      }
+
+      _updateCompletionDate({ setBy: user.id, completionDueOn })
+
+      return ok(null)
     },
     setNotificationDate: function (user, notifiedOn) {
       if (!_isNotified()) {
@@ -592,17 +614,21 @@ export const makeProject = (args: {
     }
   }
 
-  function _updateCompletionDate() {
+  function _updateCompletionDate(args?: { setBy: string; completionDueOn: number }) {
     if (props.isClasse) {
+      const { setBy, completionDueOn } = args || {}
       _removePendingEventsOfType(ProjectCompletionDueDateSet.type)
       _publishEvent(
         new ProjectCompletionDueDateSet({
           payload: {
             projectId: props.projectId.toString(),
-            completionDueOn: moment(props.notifiedOn)
-              .add(props.appelOffre.delaiRealisationEnMois, 'months')
-              .toDate()
-              .getTime(),
+            completionDueOn:
+              completionDueOn ||
+              moment(props.notifiedOn)
+                .add(props.appelOffre.delaiRealisationEnMois, 'months')
+                .toDate()
+                .getTime(),
+            setBy,
           },
         })
       )
