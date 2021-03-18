@@ -1,9 +1,6 @@
-import { ModificationRequestStatus } from '../../modules/modificationRequest'
+import { ModificationRequestStatusDTO } from '../../modules/modificationRequest'
 
-export const ModificationRequestStatusTitle: Record<
-  ModificationRequestStatus | 'en instruction',
-  string
-> = {
+export const ModificationRequestStatusTitle: Record<ModificationRequestStatusDTO, string> = {
   envoyée: 'Envoyée',
   'en instruction': 'En instruction',
   acceptée: 'Acceptée',

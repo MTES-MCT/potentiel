@@ -1,4 +1,4 @@
-type ModificationRequestVariants =
+export type ModificationRequestVariants =
   | { type: 'actionnaire'; actionnaire: string }
   | { type: 'fournisseur'; fournisseur: string; justification: string }
   | { type: 'producteur'; producteur: string }
@@ -6,7 +6,13 @@ type ModificationRequestVariants =
   | { type: 'recours'; justification: string }
   | { type: 'abandon'; justification: string }
   | { type: 'delai'; justification: string }
-  | { type: 'abandon'; justification: string }
+
+export type ModificationRequestStatusDTO =
+  | 'envoyée'
+  | 'acceptée'
+  | 'rejetée'
+  | 'annulée'
+  | 'en instruction'
 
 export type ModificationRequestListItemDTO = {
   id: string

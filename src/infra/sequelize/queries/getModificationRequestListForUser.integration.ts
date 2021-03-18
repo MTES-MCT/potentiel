@@ -63,7 +63,10 @@ describe('Sequelize getModificationRequestListForUser', () => {
     })
 
     it('should return a paginated list of all modification requests', async () => {
-      const res = await getModificationRequestListForUser(fakeUser, { page: 0, pageSize: 1 })
+      const res = await getModificationRequestListForUser({
+        user: fakeUser,
+        pagination: { page: 0, pageSize: 1 },
+      })
 
       expect(res.isOk()).toBe(true)
 
@@ -150,7 +153,10 @@ describe('Sequelize getModificationRequestListForUser', () => {
     })
 
     it('should return a paginated list of the user‘s modification requests', async () => {
-      const res = await getModificationRequestListForUser(fakeUser, { page: 0, pageSize: 1 })
+      const res = await getModificationRequestListForUser({
+        user: fakeUser,
+        pagination: { page: 0, pageSize: 1 },
+      })
 
       expect(res.isOk()).toBe(true)
 
