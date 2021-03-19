@@ -295,7 +295,13 @@ export default function AdminModificationRequestPage({ request, modificationRequ
           {respondedOn && respondedBy ? `par ${respondedBy} le ${formatDate(respondedOn)}` : ''}
           {modificationRequest.type === 'delai' && modificationRequest.status === 'acceptée' ? (
             <div>
-              L‘administration vous accorde une nouvelle date de mise en service théorique au{' '}
+              L‘administration vous accorde un délai{' '}
+              <b>
+                {modificationRequest.acceptanceParams?.delayInMonths
+                  ? `de ${modificationRequest.acceptanceParams?.delayInMonths} mois.`
+                  : '.'}
+              </b>{' '}
+              Votre date de mise en service théorique est actuellement au{' '}
               <b>{formatDate(project.completionDueOn)}</b>.
             </div>
           ) : null}

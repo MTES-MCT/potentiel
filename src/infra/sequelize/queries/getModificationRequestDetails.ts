@@ -79,6 +79,7 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
       actionnaire,
       fournisseur,
       producteur,
+      acceptanceParams,
     } = modificationRequestRaw.get()
 
     const { appelOffreId, periodeId } = project
@@ -94,6 +95,7 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
       respondedOn: respondedOn && new Date(respondedOn),
       respondedBy: respondedByUser?.get().fullName,
       responseFile: responseFile?.get(),
+      acceptanceParams,
       justification,
       attachmentFile: attachmentFile?.get(),
       delayInMonths,

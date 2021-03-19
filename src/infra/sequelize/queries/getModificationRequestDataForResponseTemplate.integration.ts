@@ -7,6 +7,7 @@ import { makeGetModificationRequestDataForResponseTemplate } from './getModifica
 import { UniqueEntityID } from '../../../core/domain'
 import { makeProjectIdentifier, makeUser } from '../../../entities'
 import { formatDate } from '../../../helpers/formatDate'
+import moment from 'moment'
 
 describe('Sequelize getModificationRequestDataForResponseTemplate', () => {
   const getModificationRequestDataForResponseTemplate = makeGetModificationRequestDataForResponseTemplate(
@@ -119,57 +120,132 @@ describe('Sequelize getModificationRequestDataForResponseTemplate', () => {
   })
 
   describe('when type is delai', () => {
-    beforeAll(async () => {
-      // Create the tables and remove all data
-      await resetDatabase()
+    describe('when first delai request for this project', () => {
+      beforeAll(async () => {
+        // Create the tables and remove all data
+        await resetDatabase()
 
-      const ProjectModel = models.Project
-      await ProjectModel.create(project)
+        const ProjectModel = models.Project
+        await ProjectModel.create(project)
 
-      const FileModel = models.File
-      await FileModel.create(makeFakeFile({ id: fileId, filename: 'filename' }))
+        const FileModel = models.File
+        await FileModel.create(makeFakeFile({ id: fileId, filename: 'filename' }))
 
-      const UserModel = models.User
-      await UserModel.create(makeFakeUser({ id: userId, fullName: 'John Doe' }))
+        const UserModel = models.User
+        await UserModel.create(makeFakeUser({ id: userId, fullName: 'John Doe' }))
 
-      const ModificationRequestModel = models.ModificationRequest
-      await ModificationRequestModel.create({
-        id: modificationRequestId,
-        projectId,
-        userId,
-        fileId,
-        type: 'delai',
-        requestedOn: 123,
-        respondedOn: 321,
-        respondedBy: userId2,
-        status: 'envoyée',
-        justification: 'justification',
-        versionDate,
-        delayInMonths: 2,
+        const ModificationRequestModel = models.ModificationRequest
+        await ModificationRequestModel.create({
+          id: modificationRequestId,
+          projectId,
+          userId,
+          fileId,
+          type: 'delai',
+          requestedOn: 123,
+          respondedOn: 321,
+          respondedBy: userId2,
+          status: 'envoyée',
+          justification: 'justification',
+          versionDate,
+          delayInMonths: 2,
+        })
       })
-    })
 
-    it('should return delai specific modification request info fields', async () => {
-      const modificationRequestResult = await getModificationRequestDataForResponseTemplate(
-        modificationRequestId.toString(),
-        fakeAdminUser
-      )
+      it('should return delai specific modification request info fields', async () => {
+        const modificationRequestResult = await getModificationRequestDataForResponseTemplate(
+          modificationRequestId.toString(),
+          fakeAdminUser
+        )
 
-      expect(modificationRequestResult.isOk()).toBe(true)
-      if (modificationRequestResult.isErr()) return
+        expect(modificationRequestResult.isOk()).toBe(true)
+        if (modificationRequestResult.isErr()) return
 
-      const modificationRequestDTO = modificationRequestResult.value
+        const modificationRequestDTO = modificationRequestResult.value
 
-      expect(modificationRequestDTO).toMatchObject({
-        type: 'delai',
-        referenceParagrapheAchevement: '6.4',
-        contenuParagrapheAchevement: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
+        expect(modificationRequestDTO).toMatchObject({
+          type: 'delai',
+          referenceParagrapheAchevement: '6.4',
+          contenuParagrapheAchevement: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
 - 24 mois à compter de la Date de désignation.
 - deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur puisse justifier qu’il a déposé sa demande de raccordement dans les deux (2) mois suivant la Date de désignation et mis en œuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit intervenir dans un délai de 2 mois à compter de la fin des travaux de raccordement matérialisée par la date d’envoi par le gestionnaire de réseau compétent de la facture de solde à acquitter par le producteur pour sa contribution au coût du raccordement.
 En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1.1 est réduite de la durée de dépassement.`,
-        dateLimiteAchevement: formatDate(8910),
-        dateNotification: formatDate(321),
-        dureeDelaiDemandeEnMois: '2',
+          dateLimiteAchevementInitiale: formatDate(+moment(321).add(24, 'months')),
+          dateLimiteAchevementActuelle: formatDate(8910),
+          dateNotification: formatDate(321),
+          dureeDelaiDemandeEnMois: '2',
+        })
+      })
+    })
+
+    describe('when another delai request has been granted for this project', () => {
+      beforeAll(async () => {
+        // Create the tables and remove all data
+        await resetDatabase()
+
+        const ProjectModel = models.Project
+        await ProjectModel.create(project)
+
+        const FileModel = models.File
+        await FileModel.create(makeFakeFile({ id: fileId, filename: 'filename' }))
+
+        const UserModel = models.User
+        await UserModel.create(makeFakeUser({ id: userId, fullName: 'John Doe' }))
+
+        const ModificationRequestModel = models.ModificationRequest
+        await ModificationRequestModel.create({
+          id: modificationRequestId,
+          projectId,
+          userId,
+          fileId,
+          type: 'delai',
+          requestedOn: 123,
+          respondedOn: 321,
+          respondedBy: userId2,
+          status: 'envoyée',
+          justification: 'justification',
+          versionDate,
+          delayInMonths: 2,
+        })
+
+        // Add a previous request that is accepted
+        await ModificationRequestModel.create({
+          id: new UniqueEntityID().toString(),
+          projectId,
+          userId,
+          fileId,
+          type: 'delai',
+          requestedOn: 789,
+          respondedOn: 897,
+          respondedBy: userId2,
+          status: 'acceptée',
+          justification: 'justification',
+          versionDate,
+          delayInMonths: 4,
+          acceptanceParams: {
+            delayInMonths: 3,
+          },
+        })
+      })
+
+      it('should return previous delai informations', async () => {
+        const modificationRequestResult = await getModificationRequestDataForResponseTemplate(
+          modificationRequestId.toString(),
+          fakeAdminUser
+        )
+
+        expect(modificationRequestResult.isOk()).toBe(true)
+        if (modificationRequestResult.isErr()) return
+
+        const modificationRequestDTO = modificationRequestResult.value
+
+        expect(modificationRequestDTO).toMatchObject({
+          demandePrecedente: 'yes',
+          dateDepotDemandePrecedente: formatDate(789),
+          dureeDelaiDemandePrecedenteEnMois: '4',
+          dateReponseDemandePrecedente: formatDate(897),
+          autreDelaiDemandePrecedenteAccorde: '', // asked for 4, given 3
+          delaiDemandePrecedenteAccordeEnMois: '3',
+        })
       })
     })
   })

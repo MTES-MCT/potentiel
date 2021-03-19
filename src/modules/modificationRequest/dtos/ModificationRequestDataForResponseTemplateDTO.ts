@@ -26,7 +26,8 @@ type DelaiVariant = {
   type: 'delai'
   referenceParagrapheAchevement: string
   contenuParagrapheAchevement: string
-  dateLimiteAchevement: string
+  dateLimiteAchevementInitiale: string
+  dateLimiteAchevementActuelle: string
   dateNotification: string
   dureeDelaiDemandeEnMois: string
 } & (
