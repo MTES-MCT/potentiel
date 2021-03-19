@@ -47,4 +47,3 @@ type Variant =
   | { type: 'recours' }
   | { type: 'abandon' }
   | { type: 'delai'; delayInMonths: number }
-  | { type: 'abandon' }
