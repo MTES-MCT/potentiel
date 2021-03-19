@@ -1,3 +1,4 @@
+export * from './CertificatesForPeriodeRegenerated'
 export * from './LegacyProjectEventSourced'
 export * from './LegacyProjectSourced'
 export * from './PeriodeNotified'

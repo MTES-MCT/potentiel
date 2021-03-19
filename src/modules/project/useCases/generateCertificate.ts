@@ -1,6 +1,6 @@
 import { Repository, UniqueEntityID } from '../../../core/domain'
 import { ResultAsync } from '../../../core/utils'
-import { FileObject, IllegalFileDataError, makeFileObject } from '../../file'
+import { FileObject, makeFileObject } from '../../file'
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
@@ -19,7 +19,6 @@ export type GenerateCertificate = (
   | EntityNotFoundError
   | InfraNotAvailableError
   | IncompleteDataError
-  | IllegalFileDataError
   | ProjectNotEligibleForCertificateError
   | OtherError
   | AggregateHasBeenUpdatedSinceError
@@ -71,6 +70,7 @@ export const makeGenerateCertificate = (deps: GenerateCertificateDeps): Generate
       forProject: new UniqueEntityID(projectId),
       designation: 'attestation-designation',
     })
+      .mapErr((e) => new OtherError(e.message))
       .asyncAndThen((file: FileObject) => {
         return deps.fileRepo.save(file).map(() => file.id.toString())
       })
