@@ -79,7 +79,10 @@ v1Router.post(
       ? acceptModificationRequest({
           modificationRequestId,
           versionDate: new Date(Number(versionDate)),
-          responseFile: fs.createReadStream(request.file.path),
+          responseFile: {
+            contents: fs.createReadStream(request.file.path),
+            filename: request.file.originalname,
+          },
           acceptanceParams: makeAcceptanceParams(type, {
             newNotificationDate:
               newNotificationDate &&
@@ -91,7 +94,10 @@ v1Router.post(
       : rejectModificationRequest({
           modificationRequestId,
           versionDate: new Date(Number(versionDate)),
-          responseFile: fs.createReadStream(request.file.path),
+          responseFile: {
+            contents: fs.createReadStream(request.file.path),
+            filename: request.file.originalname,
+          },
           rejectedBy: request.user,
         })
     ).match(

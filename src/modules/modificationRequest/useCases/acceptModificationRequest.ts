@@ -25,7 +25,7 @@ interface AcceptModificationRequestArgs {
   modificationRequestId: UniqueEntityID
   acceptanceParams: ModificationRequestAcceptanceParams
   versionDate: Date
-  responseFile: FileContents
+  responseFile: { contents: FileContents; filename: string }
   submittedBy: User
 }
 
@@ -40,6 +40,7 @@ export const makeAcceptModificationRequest = (deps: AcceptModificationRequestDep
 > => {
   const { fileRepo, modificationRequestRepo, projectRepo } = deps
   const { modificationRequestId, versionDate, responseFile, submittedBy, acceptanceParams } = args
+  const { contents, filename } = responseFile
 
   if (!['admin', 'dgec'].includes(submittedBy.role)) {
     return errAsync(new UnauthorizedError())
@@ -67,8 +68,8 @@ export const makeAcceptModificationRequest = (deps: AcceptModificationRequestDep
           designation: 'modification-request-response',
           forProject: modificationRequest.projectId,
           createdBy: new UniqueEntityID(submittedBy.id),
-          filename: project.certificateFilename,
-          contents: responseFile,
+          filename,
+          contents,
         },
         fileRepo,
       })

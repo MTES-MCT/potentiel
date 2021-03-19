@@ -1,28 +1,18 @@
-import { ModificationRequest } from '../ModificationRequest'
-import {
-  fakeRepo,
-  makeFakeModificationRequest,
-  makeFakeProject,
-} from '../../../__tests__/fixtures/aggregates'
-import { makeRejectModificationRequest } from './rejectModificationRequest'
-import { logger, okAsync } from '../../../core/utils'
-import { FileObject } from '../../file'
-import { Repository, UniqueEntityID } from '../../../core/domain'
 import { Readable } from 'stream'
-import makeFakeUser from '../../../__tests__/fixtures/user'
+import { Repository } from '../../../core/domain'
+import { logger, okAsync } from '../../../core/utils'
 import { makeUser } from '../../../entities'
 import { UnwrapForTest } from '../../../types'
-import { Project } from '../../project/Project'
+import { fakeRepo, makeFakeModificationRequest } from '../../../__tests__/fixtures/aggregates'
+import makeFakeUser from '../../../__tests__/fixtures/user'
+import { FileObject } from '../../file'
 import { AggregateHasBeenUpdatedSinceError, UnauthorizedError } from '../../shared'
+import { ModificationRequest } from '../ModificationRequest'
+import { makeRejectModificationRequest } from './rejectModificationRequest'
 
 describe('rejectModificationRequest use-case', () => {
   const fakeModificationRequest = {
     ...makeFakeModificationRequest(),
-  }
-
-  const fakeProject = {
-    ...makeFakeProject(),
-    id: fakeModificationRequest.projectId,
   }
 
   const modificationRequestRepo = fakeRepo(fakeModificationRequest as ModificationRequest)
@@ -31,6 +21,7 @@ describe('rejectModificationRequest use-case', () => {
     load: jest.fn(),
   }
   const fakeFileContents = Readable.from('test-content')
+  const fakeFileName = 'myfilename.pdf'
   const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
 
   const rejectModificationRequest = makeRejectModificationRequest({
@@ -46,7 +37,7 @@ describe('rejectModificationRequest use-case', () => {
         const res = await rejectModificationRequest({
           modificationRequestId: fakeModificationRequest.id,
           versionDate: fakeModificationRequest.lastUpdatedOn,
-          responseFile: fakeFileContents,
+          responseFile: { contents: fakeFileContents, filename: fakeFileName },
           rejectedBy: fakeUser,
         })
 
@@ -82,7 +73,7 @@ describe('rejectModificationRequest use-case', () => {
       const res = await rejectModificationRequest({
         modificationRequestId: fakeModificationRequest.id,
         versionDate: fakeModificationRequest.lastUpdatedOn,
-        responseFile: fakeFileContents,
+        responseFile: { contents: fakeFileContents, filename: fakeFileName },
         rejectedBy: fakeUser,
       })
 
@@ -98,7 +89,7 @@ describe('rejectModificationRequest use-case', () => {
       const res = await rejectModificationRequest({
         modificationRequestId: fakeModificationRequest.id,
         versionDate: new Date(1),
-        responseFile: fakeFileContents,
+        responseFile: { contents: fakeFileContents, filename: fakeFileName },
         rejectedBy: fakeUser,
       })
 

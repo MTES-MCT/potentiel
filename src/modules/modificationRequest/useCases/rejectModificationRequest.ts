@@ -18,7 +18,7 @@ interface RejectModificationRequestDeps {
 interface RejectModificationRequestArgs {
   modificationRequestId: UniqueEntityID
   versionDate: Date
-  responseFile: FileContents
+  responseFile: { contents: FileContents; filename: string }
   rejectedBy: User
 }
 
@@ -33,6 +33,7 @@ export const makeRejectModificationRequest = (deps: RejectModificationRequestDep
 > => {
   const { fileRepo, modificationRequestRepo } = deps
   const { modificationRequestId, versionDate, responseFile, rejectedBy } = args
+  const { contents, filename } = responseFile
 
   if (!['admin', 'dgec'].includes(rejectedBy.role)) {
     return errAsync(new UnauthorizedError())
@@ -56,8 +57,8 @@ export const makeRejectModificationRequest = (deps: RejectModificationRequestDep
             designation: 'modification-request-response',
             forProject: modificationRequest.projectId,
             createdBy: new UniqueEntityID(rejectedBy.id),
-            filename: 'Réponse à votre demande.pdf',
-            contents: responseFile,
+            filename,
+            contents,
           },
           fileRepo,
         })

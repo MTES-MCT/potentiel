@@ -17,6 +17,7 @@ import { AggregateHasBeenUpdatedSinceError, UnauthorizedError } from '../../shar
 
 describe('acceptModificationRequest use-case', () => {
   const fakeFileContents = Readable.from('test-content')
+  const fakeFileName = 'myfilename.pdf'
   const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
 
   describe('when user is admin', () => {
@@ -53,7 +54,7 @@ describe('acceptModificationRequest use-case', () => {
           modificationRequestId: fakeModificationRequest.id,
           versionDate: fakeModificationRequest.lastUpdatedOn,
           acceptanceParams,
-          responseFile: fakeFileContents,
+          responseFile: { contents: fakeFileContents, filename: fakeFileName },
           submittedBy: fakeUser,
         })
 
@@ -64,6 +65,7 @@ describe('acceptModificationRequest use-case', () => {
       it('should save the response file', () => {
         expect(fileRepo.save).toHaveBeenCalled()
         expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents)
+        expect(fileRepo.save.mock.calls[0][0].filename).toEqual(fakeFileName)
       })
 
       it('should call accept on modificationRequest', () => {
@@ -107,7 +109,7 @@ describe('acceptModificationRequest use-case', () => {
           modificationRequestId: fakeModificationRequest.id,
           versionDate: fakeModificationRequest.lastUpdatedOn,
           acceptanceParams: { type: 'recours', newNotificationDate: new Date(1234) },
-          responseFile: fakeFileContents,
+          responseFile: { contents: fakeFileContents, filename: fakeFileName },
           submittedBy: fakeUser,
         })
 
@@ -165,7 +167,7 @@ describe('acceptModificationRequest use-case', () => {
           modificationRequestId: fakeModificationRequest.id,
           versionDate: fakeModificationRequest.lastUpdatedOn,
           acceptanceParams: { type: 'delai', delayInMonths: 2 },
-          responseFile: fakeFileContents,
+          responseFile: { contents: fakeFileContents, filename: fakeFileName },
           submittedBy: fakeUser,
         })
 
@@ -213,7 +215,7 @@ describe('acceptModificationRequest use-case', () => {
         modificationRequestId: fakeModificationRequest.id,
         versionDate: fakeModificationRequest.lastUpdatedOn,
         acceptanceParams: { type: 'recours', newNotificationDate: new Date(1) },
-        responseFile: fakeFileContents,
+        responseFile: { contents: fakeFileContents, filename: fakeFileName },
         submittedBy: fakeUser,
       })
 
@@ -250,7 +252,7 @@ describe('acceptModificationRequest use-case', () => {
         modificationRequestId: fakeModificationRequest.id,
         versionDate: new Date(1),
         acceptanceParams: { type: 'recours', newNotificationDate: new Date(1) },
-        responseFile: fakeFileContents,
+        responseFile: { contents: fakeFileContents, filename: fakeFileName },
         submittedBy: fakeUser,
       })
 
