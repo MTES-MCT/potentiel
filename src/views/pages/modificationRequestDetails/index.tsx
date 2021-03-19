@@ -31,7 +31,7 @@ const TITLE_COLOR_BY_STATUS = (status: string): string => {
   if (status.includes('accepté')) return 'rgb(56, 118, 29)'
   if (status.includes('rejeté')) return 'rgb(204, 0, 0)'
   if (status.includes('en instruction')) return '#ff9947'
-
+  if (status.includes('envoyée')) return '#006be6'
   return ''
 }
 
@@ -186,7 +186,7 @@ export default function AdminModificationRequestPage({ request, modificationRequ
         </div>
         {isAdmin ? (
           ['recours', 'delai'].includes(type) && !modificationRequest.respondedOn ? (
-            <div>
+            <div className="panel__header">
               <h4>Répondre</h4>
               <div style={{ marginBottom: 10 }}>
                 <DownloadIcon />
@@ -281,40 +281,36 @@ export default function AdminModificationRequestPage({ request, modificationRequ
         ) : (
           ''
         )}
-        {status === 'en instruction' || (respondedBy && respondedOn) ? (
-          <div
-            className={'notification ' + (status ? ModificationRequestColorByStatus[status] : '')}
-            style={{ color: TITLE_COLOR_BY_STATUS(status) }}
+        <div
+          className={'notification ' + (status ? ModificationRequestColorByStatus[status] : '')}
+          style={{ color: TITLE_COLOR_BY_STATUS(status) }}
+        >
+          <span
+            style={{
+              fontWeight: 'bold',
+            }}
           >
-            <span
-              style={{
-                fontWeight: 'bold',
-              }}
-            >
-              {ModificationRequestStatusTitle[status]}
-            </span>{' '}
-            {respondedOn && respondedBy ? `par ${respondedBy} le ${formatDate(respondedOn)}` : ''}
-            {modificationRequest.type === 'delai' && modificationRequest.status === 'acceptée' ? (
-              <div>
-                L‘administration vous accorde une nouvelle date de mise en service théorique au{' '}
-                <b>{formatDate(project.completionDueOn)}</b>.
-              </div>
-            ) : null}
-            {responseFile ? (
-              <div>
-                <a
-                  href={ROUTES.DOWNLOAD_PROJECT_FILE(responseFile.id, responseFile.filename)}
-                  download={true}
-                  {...dataId('requestList-item-download-link')}
-                >
-                  Télécharger le courrier de réponse
-                </a>
-              </div>
-            ) : null}
-          </div>
-        ) : (
-          ''
-        )}
+            {ModificationRequestStatusTitle[status]}
+          </span>{' '}
+          {respondedOn && respondedBy ? `par ${respondedBy} le ${formatDate(respondedOn)}` : ''}
+          {modificationRequest.type === 'delai' && modificationRequest.status === 'acceptée' ? (
+            <div>
+              L‘administration vous accorde une nouvelle date de mise en service théorique au{' '}
+              <b>{formatDate(project.completionDueOn)}</b>.
+            </div>
+          ) : null}
+          {responseFile ? (
+            <div>
+              <a
+                href={ROUTES.DOWNLOAD_PROJECT_FILE(responseFile.id, responseFile.filename)}
+                download={true}
+                {...dataId('requestList-item-download-link')}
+              >
+                Télécharger le courrier de réponse
+              </a>
+            </div>
+          ) : null}
+        </div>
       </div>
     </Dashboard>
   )
