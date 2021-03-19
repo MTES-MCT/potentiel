@@ -1,4 +1,6 @@
 export * from './getInvitationListPage'
 export * from './getNotificationListPage'
+export * from './getRegenerateCertificatesPage'
+export * from './postRegenerateCertificates'
 export * from './postRelanceInvitations'
 export * from './postRetryNotifications'

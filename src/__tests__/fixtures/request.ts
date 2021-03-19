@@ -5,7 +5,7 @@ import { User } from '../../entities'
 export default function makeFakeRequest(
   overrides?: Partial<Request>,
   userOverrides?: Partial<User>
-) {
+): Request {
   const defaultObj = {
     body: {},
     query: {},

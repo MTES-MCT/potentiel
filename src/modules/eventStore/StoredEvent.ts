@@ -8,6 +8,7 @@ import {
   LegacyProjectEventSourced,
   LegacyProjectSourced,
   PeriodeNotified,
+  CertificatesForPeriodeRegenerated,
   ProjectCertificateGenerated,
   ProjectCertificateRegenerated,
   ProjectCertificateDownloaded,
@@ -65,6 +66,7 @@ export type StoredEvent =
   | ProjectCertificateUpdated
   | ProjectCertificateUpdateFailed
   | PeriodeNotified
+  | CertificatesForPeriodeRegenerated
   | CandidateNotificationForPeriodeFailed
   | CandidateNotifiedForPeriode
   | CandidateInformedOfCertificateUpdate

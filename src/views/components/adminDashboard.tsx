@@ -30,6 +30,7 @@ interface AdminDashboardProps {
     | 'list-garanties-financieres'
     | 'list-invitations'
     | 'list-notifications'
+    | 'regenerate-certificates'
     | undefined
 }
 
@@ -139,6 +140,15 @@ export default function AdminDashboard({ children, currentPage, role }: AdminDas
               route={ROUTES.ADMIN_DREAL_LIST}
               itemPage={'list-dreal'}
               title="Gérer les DREAL"
+              visibleForRoles={['admin']}
+              role={role}
+              currentPage={currentPage}
+            />
+
+            <MenuItem
+              route={ROUTES.ADMIN_REGENERATE_CERTIFICATES}
+              itemPage={'regenerate-certificates'}
+              title="Regénérer des attestations"
               visibleForRoles={['admin']}
               role={role}
               currentPage={currentPage}

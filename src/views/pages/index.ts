@@ -21,10 +21,12 @@ import InvitationList from './invitationList'
 import NotificationList from './notificationList'
 import ModificationRequestList from './modificationRequestList'
 import Statistiques from './statistiques'
+import AdminRegenerateCertificates from './adminRegenerateCertificates'
 import { Request } from 'express'
 
 const LoginPage = makePresenterPage(Login)
 const AdminNotifyCandidatesPage = makePresenterPage(AdminNotifyCandidates)
+const AdminRegenerateCertificatesPage = makePresenterPage(AdminRegenerateCertificates)
 const ImportCandidatesPage = makePresenterPage(ImportCandidates)
 const ListProjectsPage = makePresenterPage(ListProjects)
 const SignupPage = makePresenterPage(Signup)
@@ -46,6 +48,7 @@ export {
   SignupPage,
   NewModificationRequestPage,
   AdminNotifyCandidatesPage,
+  AdminRegenerateCertificatesPage,
   ForgottenPasswordPage,
   ResetPasswordPage,
   ProjectDetailsPage,
