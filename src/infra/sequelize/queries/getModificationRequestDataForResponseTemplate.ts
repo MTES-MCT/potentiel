@@ -65,6 +65,7 @@ export const makeGetModificationRequestDataForResponseTemplate = (
       isFinancementParticipatif,
       isInvestissementParticipatif,
       engagementFournitureDePuissanceAlaPointe,
+      notifiedOn,
     } = project
 
     const {
@@ -116,6 +117,7 @@ export const makeGetModificationRequestDataForResponseTemplate = (
           referenceParagrapheAchevement: periode.paragrapheAchevement,
           contenuParagrapheAchevement: appelOffre.contenuParagrapheAchevement,
           dateLimiteAchevement: formatDate(completionDueOn),
+          dateNotification: formatDate(notifiedOn),
           dureeDelaiDemandeEnMois: delayInMonths.toString(),
         } as ModificationRequestDateForResponseTemplateDTO)
       case 'recours':

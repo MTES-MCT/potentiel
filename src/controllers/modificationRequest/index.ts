@@ -1,5 +1,5 @@
 export * from './getDemandePage'
-export * from './getModeleReponseRecours'
+export * from './getModeleReponse'
 export * from './getModificationRequestListPage'
 export * from './getModificationRequestPage'
 export * from './postReplyToModificationRequest'

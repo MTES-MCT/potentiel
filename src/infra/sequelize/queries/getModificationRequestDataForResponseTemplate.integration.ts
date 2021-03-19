@@ -34,7 +34,7 @@ describe('Sequelize getModificationRequestDataForResponseTemplate', () => {
     email: 'email',
     regionProjet: 'regionProjet',
     puissance: 123,
-    notifiedOn: new Date(321).getTime(),
+    notifiedOn: 321,
     appelOffreId: 'Fessenheim',
     periodeId: '1',
     familleId: '1',
@@ -166,9 +166,9 @@ describe('Sequelize getModificationRequestDataForResponseTemplate', () => {
         contenuParagrapheAchevement: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
 - 24 mois à compter de la Date de désignation.
 - deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur puisse justifier qu’il a déposé sa demande de raccordement dans les deux (2) mois suivant la Date de désignation et mis en œuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit intervenir dans un délai de 2 mois à compter de la fin des travaux de raccordement matérialisée par la date d’envoi par le gestionnaire de réseau compétent de la facture de solde à acquitter par le producteur pour sa contribution au coût du raccordement.
-
 En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1.1 est réduite de la durée de dépassement.`,
         dateLimiteAchevement: formatDate(8910),
+        dateNotification: formatDate(321),
         dureeDelaiDemandeEnMois: '2',
       })
     })

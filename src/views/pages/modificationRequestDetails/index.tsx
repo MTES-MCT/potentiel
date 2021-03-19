@@ -191,7 +191,7 @@ export default function AdminModificationRequestPage({ request, modificationRequ
               <div style={{ marginBottom: 10 }}>
                 <DownloadIcon />
                 <a
-                  href={ROUTES.TELECHARGER_MODELE_REPONSE_RECOURS(
+                  href={ROUTES.TELECHARGER_MODELE_REPONSE(
                     (project as unknown) as Project,
                     modificationRequest.id
                   )}
