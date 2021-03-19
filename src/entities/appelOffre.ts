@@ -44,6 +44,7 @@ export type AppelOffre = {
   periodes: Periode[]
   familles: Famille[]
   dataFields: DataField[]
+  contenuParagrapheAchevement: string
 }
 
 export type ProjectAppelOffre = AppelOffre & {

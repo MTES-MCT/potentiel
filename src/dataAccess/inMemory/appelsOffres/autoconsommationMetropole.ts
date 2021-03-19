@@ -1,5 +1,5 @@
 import { AppelOffre } from '../../../entities'
-import { commonDataFields } from './commonDataFields'
+import { commonDataFields, makeParagrapheAchevementForDelai } from './commonDataFields'
 import toTypeLiteral from './helpers/toTypeLiteral'
 
 const autoconsommationMetropole: AppelOffre = {
@@ -10,6 +10,7 @@ const autoconsommationMetropole: AppelOffre = {
   launchDate: 'mars 2017',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,
+  contenuParagrapheAchevement: makeParagrapheAchevementForDelai(24),
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7.2',
   paragrapheDelaiDerogatoire: '6.3',
@@ -42,30 +43,37 @@ const autoconsommationMetropole: AppelOffre = {
     {
       id: '1',
       title: 'première',
+      paragrapheAchevement: '6.4',
     },
     {
       id: '2',
       title: 'deuxième',
+      paragrapheAchevement: '6.4',
     },
     {
       id: '3',
       title: 'troisième',
+      paragrapheAchevement: '6.4',
     },
     {
       id: '4',
       title: 'quatrième',
+      paragrapheAchevement: '6.3',
     },
     {
       id: '5',
       title: 'cinquième',
+      paragrapheAchevement: '6.3',
     },
     {
       id: '6',
       title: 'sixième',
+      paragrapheAchevement: '6.3',
     },
     {
       id: '7',
       title: 'septième',
+      paragrapheAchevement: '6.3',
       noteThresholdByFamily: [{ familleId: '', noteThreshold: 20.04 }],
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'v0',
@@ -73,6 +81,7 @@ const autoconsommationMetropole: AppelOffre = {
     {
       id: '8',
       title: 'huitième',
+      paragrapheAchevement: '6.3',
       noteThresholdByFamily: [{ familleId: '', noteThreshold: 32.04 }],
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'v1',
@@ -80,6 +89,7 @@ const autoconsommationMetropole: AppelOffre = {
     {
       id: '9',
       title: 'neuvième',
+      paragrapheAchevement: '6.3',
       noteThresholdByFamily: [{ familleId: '', noteThreshold: 9.9 }],
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'v1',

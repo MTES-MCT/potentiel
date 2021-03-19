@@ -1,5 +1,5 @@
 import { AppelOffre } from '../../../entities'
-import { commonDataFields } from './commonDataFields'
+import { commonDataFields, makeParagrapheAchevementForDelai } from './commonDataFields'
 import toTypeLiteral from './helpers/toTypeLiteral'
 
 const fessenheim: AppelOffre = {
@@ -10,6 +10,7 @@ const fessenheim: AppelOffre = {
   launchDate: 'janvier 2019',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,
+  contenuParagrapheAchevement: makeParagrapheAchevementForDelai(24),
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.4',
@@ -42,10 +43,12 @@ const fessenheim: AppelOffre = {
     {
       id: '1',
       title: 'première',
+      paragrapheAchevement: '6.4',
     },
     {
       id: '2',
       title: 'deuxième',
+      paragrapheAchevement: '6.4',
       noteThresholdByFamily: [
         { familleId: '1', noteThreshold: 69.34 },
         { familleId: '3', noteThreshold: 1.52 },

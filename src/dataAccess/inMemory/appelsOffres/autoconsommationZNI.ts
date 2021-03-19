@@ -1,5 +1,5 @@
 import { AppelOffre } from '../../../entities'
-import { commonDataFields } from './commonDataFields'
+import { commonDataFields, makeParagrapheAchevementForDelai } from './commonDataFields'
 import toTypeLiteral from './helpers/toTypeLiteral'
 
 const autoconsommationZNI: AppelOffre = {
@@ -10,6 +10,7 @@ const autoconsommationZNI: AppelOffre = {
   launchDate: 'juin 2019',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 30,
+  contenuParagrapheAchevement: makeParagrapheAchevementForDelai(30),
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7.2',
   paragrapheDelaiDerogatoire: '6.3',
@@ -44,12 +45,14 @@ const autoconsommationZNI: AppelOffre = {
       title: 'première',
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'v0',
+      paragrapheAchevement: '6.3',
     },
     {
       id: '2',
       title: 'deuxième',
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'v1',
+      paragrapheAchevement: '6.3',
       noteThresholdByFamily: [{ familleId: '', noteThreshold: 32.9 }],
     },
   ],
