@@ -379,7 +379,10 @@ export default function NewModificationRequestPage({ request, project }: PagePro
                       Identifiant gestionnaire de réseau
                     </label>
                     <div style={{ fontSize: 11 }}>
-                      Cette indication permettra un traitement plus rapide de votre demande.
+                      Cette indication permettra un traitement plus rapide de votre demande.{' '}
+                      <a href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel/comment-transmettre-ma-demande-complete-de-raccordement-dcr">
+                        Où trouver mon numéro ?
+                      </a>
                     </div>
                     <input
                       type="text"
