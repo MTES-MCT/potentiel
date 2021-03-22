@@ -328,7 +328,14 @@ export default function ListProjects({
   }
 
   return (
-    <AdminDashboard role={request.user?.role} currentPage="list-projects">
+    <AdminDashboard
+      role={request.user?.role}
+      currentPage={
+        request.query.garantiesFinancieres === 'submitted'
+          ? 'list-garanties-financieres'
+          : 'list-projects'
+      }
+    >
       {contents}
     </AdminDashboard>
   )
