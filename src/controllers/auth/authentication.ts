@@ -72,8 +72,24 @@ const registerAuth = ({ app }: RegisterAuthProps) => {
   v1Router.get(routes.LOGOUT_ACTION, logoutMiddleware, (req, res) => {
     res.redirect('/')
   })
-  v1Router.get(routes.REDIRECT_BASED_ON_ROLE, ensureLoggedIn(), (req, res) => {
+  v1Router.get(routes.REDIRECT_BASED_ON_ROLE, async (req, res) => {
     const user = req.user as User
+
+    if (!user) {
+      // Sometimes, the user session is not immediately available in the req object
+      // In that case, wait a bit and redirect to the same url
+
+      // Use a retry counter to avoid infinite loop
+      const retryCount = Number(req.query.retry || 0)
+      if (retryCount > 5) {
+        // Too many retries
+        return res.redirect('/')
+      }
+      setTimeout(() => {
+        res.redirect(`${routes.REDIRECT_BASED_ON_ROLE}?retry=${retryCount + 1}`)
+      }, 200)
+      return
+    }
 
     if (user.role === 'admin' || user.role === 'dgec') {
       res.redirect(routes.ADMIN_DASHBOARD)
