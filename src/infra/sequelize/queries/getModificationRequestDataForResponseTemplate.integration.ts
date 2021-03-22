@@ -243,7 +243,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1.1 e
           dateDepotDemandePrecedente: formatDate(789),
           dureeDelaiDemandePrecedenteEnMois: '4',
           dateReponseDemandePrecedente: formatDate(897),
-          autreDelaiDemandePrecedenteAccorde: '', // asked for 4, given 3
+          autreDelaiDemandePrecedenteAccorde: 'yes', // asked for 4, given 3
           delaiDemandePrecedenteAccordeEnMois: '3',
         })
       })
