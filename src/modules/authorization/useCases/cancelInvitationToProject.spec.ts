@@ -1,8 +1,7 @@
-import { UniqueEntityID } from '../../../core/domain'
+import { DomainEvent, UniqueEntityID } from '../../../core/domain'
 import { errAsync, okAsync } from '../../../core/utils'
 import { makeUser } from '../../../entities'
 import makeFakeUser from '../../../__tests__/fixtures/user'
-import { StoredEvent } from '../../eventStore'
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { InvitationToProjectCancelled } from '../events'
 import { makeCancelInvitationToProject } from './cancelInvitationToProject'
@@ -18,7 +17,7 @@ describe('cancelInvitationToProject use-case', () => {
       okAsync<string, InfraNotAvailableError | EntityNotFoundError>(projectId)
     )
     const eventBus = {
-      publish: jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null)),
+      publish: jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null)),
       subscribe: jest.fn(),
     }
 

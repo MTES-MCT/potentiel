@@ -1,7 +1,8 @@
 import moment from 'moment'
+import { DomainEvent } from '../core/domain'
 import { okAsync } from '../core/utils'
 import { makeProject, makeProjectIdentifier, makeUser, Project } from '../entities'
-import { EventBus, StoredEvent } from '../modules/eventStore'
+import { EventBus } from '../modules/eventStore'
 import { ProjectGFReminded } from '../modules/project/events'
 import { InfraNotAvailableError } from '../modules/shared'
 import routes from '../routes'
@@ -11,7 +12,7 @@ import makeFakeProject from '../__tests__/fixtures/project'
 import makeFakeUser from '../__tests__/fixtures/user'
 import makeRelanceGarantiesFinancieres from './relanceGarantiesFinancieres'
 
-const fakePublish = jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null))
+const fakePublish = jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null))
 
 const fakeEventBus: EventBus = {
   publish: fakePublish,

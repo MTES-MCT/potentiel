@@ -1,13 +1,12 @@
-import { UniqueEntityID } from '../../../core/domain'
+import { DomainEvent, UniqueEntityID } from '../../../core/domain'
 import { okAsync } from '../../../core/utils'
-import { StoredEvent } from '../../eventStore'
 import { InfraNotAvailableError } from '../../shared'
 import { ModificationRequestInstructionStarted, ResponseTemplateDownloaded } from '../events'
 import { GetModificationRequestStatus } from '../queries/GetModificationRequestStatus'
 import { handleResponseTemplateDownloaded } from './handleResponseTemplateDownloaded'
 
 const eventBus = {
-  publish: jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null)),
+  publish: jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null)),
   subscribe: jest.fn(),
 }
 

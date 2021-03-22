@@ -1,8 +1,7 @@
-import { StoredEvent } from '.'
-import { UniqueEntityID } from '../../core/domain'
+import { DomainEvent, UniqueEntityID } from '../../core/domain'
 
 export interface EventStoreAggregate {
-  pendingEvents: readonly StoredEvent[]
+  pendingEvents: readonly DomainEvent[]
   lastUpdatedOn: Date
   id: UniqueEntityID
 }

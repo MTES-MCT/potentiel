@@ -1,7 +1,6 @@
-import { UniqueEntityID } from '../../core/domain'
+import { DomainEvent, UniqueEntityID } from '../../core/domain'
 import { err, ok, Result } from '../../core/utils'
 import { AppelOffre, Periode, Project } from '../../entities'
-import { StoredEvent } from '../eventStore'
 import { EventStoreAggregate } from '../eventStore/EventStoreAggregate'
 import {
   ProjectCertificateGenerated,
@@ -30,7 +29,7 @@ interface CandidateNotificationProps {
 }
 
 export const makeCandidateNotification = (args: {
-  events: StoredEvent[]
+  events: DomainEvent[]
   id: UniqueEntityID
 }): Result<CandidateNotification, EntityNotFoundError | HeterogeneousHistoryError> => {
   const { events, id } = args
@@ -48,7 +47,7 @@ export const makeCandidateNotification = (args: {
     latestRequestId: undefined,
   }
 
-  const pendingEvents: StoredEvent[] = []
+  const pendingEvents: DomainEvent[] = []
 
   for (const event of events) {
     switch (event.type) {

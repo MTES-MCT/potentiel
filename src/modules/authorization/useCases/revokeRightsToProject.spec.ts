@@ -1,18 +1,16 @@
-import { UniqueEntityID } from '../../../core/domain'
+import { DomainEvent, UniqueEntityID } from '../../../core/domain'
 import { okAsync } from '../../../core/utils'
-import makeFakeUser from '../../../__tests__/fixtures/user'
-import { StoredEvent } from '../../eventStore'
-import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { makeUser } from '../../../entities'
-
-import { makeRevokeRightsToProject } from './revokeRightsToProject'
+import makeFakeUser from '../../../__tests__/fixtures/user'
+import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { UserRightsToProjectRevoked } from '../events'
+import { makeRevokeRightsToProject } from './revokeRightsToProject'
 
 describe('revokeRightsToProject use-case', () => {
   it('should emit UserRightsRevoked event', async () => {
     const shouldUserAccessProject = jest.fn(async ({ user, projectId }) => true)
     const eventBus = {
-      publish: jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null)),
+      publish: jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null)),
       subscribe: jest.fn(),
     }
 

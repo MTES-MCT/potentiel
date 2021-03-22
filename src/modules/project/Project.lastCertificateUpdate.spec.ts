@@ -1,11 +1,10 @@
-import { UniqueEntityID } from '../../core/domain'
+import { DomainEvent, UniqueEntityID } from '../../core/domain'
 import { UnwrapForTest } from '../../core/utils'
 import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
 import { makeUser } from '../../entities'
 import { UnwrapForTest as OldUnwrapForTest } from '../../types'
 import makeFakeProject from '../../__tests__/fixtures/project'
 import makeFakeUser from '../../__tests__/fixtures/user'
-import { StoredEvent } from '../eventStore'
 import {
   ProjectCertificateGenerated,
   ProjectCertificateRegenerated,
@@ -28,7 +27,7 @@ const appelsOffres = appelsOffreStatic.reduce((map, appelOffre) => {
   return map
 }, {})
 
-const fakeHistory: StoredEvent[] = [
+const fakeHistory: DomainEvent[] = [
   new ProjectImported({
     payload: {
       projectId: projectId.toString(),

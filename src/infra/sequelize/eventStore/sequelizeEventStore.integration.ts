@@ -1,6 +1,5 @@
 import { okAsync } from '../../../core/utils'
 import { resetDatabase } from '../helpers'
-import { StoredEvent } from '../../../modules/eventStore'
 import {
   ProjectCertificateGenerated,
   ProjectGFRemoved,
@@ -10,6 +9,7 @@ import { OtherError } from '../../../modules/shared'
 import models from '../models'
 import { SequelizeEventStore } from './sequelizeEventStore'
 import { v4 as uuid } from 'uuid'
+import { DomainEvent } from '../../../core/domain'
 
 describe('SequelizeEventStore', () => {
   const sampleProjectGFRemovedPayload = {
@@ -116,7 +116,7 @@ describe('SequelizeEventStore', () => {
       payload: sampleProjectGFRemovedPayload,
       requestId: requestId,
     })
-    let caughtEvent: StoredEvent | undefined
+    let caughtEvent: DomainEvent | undefined
 
     beforeAll(async (done) => {
       await resetDatabase()
@@ -354,7 +354,7 @@ describe('SequelizeEventStore', () => {
         })
 
         const result = await eventStore.transaction(async ({ loadHistory }) => {
-          const events = await loadHistory()
+          await loadHistory()
         })
 
         expect(result.isOk()).toBe(true)
@@ -376,7 +376,7 @@ describe('SequelizeEventStore', () => {
           })
         )
 
-        let priorEvents: StoredEvent[] = []
+        let priorEvents: DomainEvent[] = []
 
         await eventStore.transaction(async ({ loadHistory }) => {
           await loadHistory({ eventType: ProjectGFRemoved.type }).andThen((_priorEvents) => {
@@ -418,7 +418,7 @@ describe('SequelizeEventStore', () => {
           })
         )
 
-        let priorEvents: StoredEvent[] = []
+        let priorEvents: DomainEvent[] = []
 
         await eventStore.transaction(async ({ loadHistory }) => {
           await loadHistory({
@@ -457,7 +457,7 @@ describe('SequelizeEventStore', () => {
           })
         )
 
-        let priorEvents: StoredEvent[] = []
+        let priorEvents: DomainEvent[] = []
 
         await eventStore.transaction(async ({ loadHistory }) => {
           await loadHistory({ requestId: requestId }).andThen((_priorEvents) => {
@@ -499,7 +499,7 @@ describe('SequelizeEventStore', () => {
           })
         )
 
-        let priorEvents: StoredEvent[] = []
+        let priorEvents: DomainEvent[] = []
 
         await eventStore.transaction(async ({ loadHistory }) => {
           await loadHistory({ aggregateId: projectId }).andThen((_priorEvents) => {
@@ -555,7 +555,7 @@ describe('SequelizeEventStore', () => {
           })
         )
 
-        let priorEvents: StoredEvent[] = []
+        let priorEvents: DomainEvent[] = []
 
         await eventStore.transaction(async ({ loadHistory }) => {
           await loadHistory({ aggregateId: [projectId1, projectId2] }).andThen((_priorEvents) => {
@@ -588,7 +588,7 @@ describe('SequelizeEventStore', () => {
           })
         )
 
-        let priorEvents: StoredEvent[] = []
+        let priorEvents: DomainEvent[] = []
 
         await eventStore.transaction(async ({ loadHistory }) => {
           await loadHistory({ payload: { removedBy: 'A' } }).andThen((_priorEvents) => {

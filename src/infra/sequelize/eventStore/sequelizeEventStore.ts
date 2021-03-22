@@ -1,13 +1,12 @@
 import { Op } from 'sequelize'
 import { v4 as uuid } from 'uuid'
+import { DomainEvent } from '../../../core/domain'
 import { logger, ResultAsync, wrapInfra } from '../../../core/utils'
-import { BaseEventStore, EventStoreHistoryFilters, StoredEvent } from '../../../modules/eventStore'
-
-import * as ModificationRequestEvents from '../../../modules/modificationRequest/events'
-import * as CandidateNotificationEvents from '../../../modules/candidateNotification/events'
-import * as ProjectEvents from '../../../modules/project/events'
 import * as AuthorizationEvents from '../../../modules/authorization/events'
-
+import * as CandidateNotificationEvents from '../../../modules/candidateNotification/events'
+import { BaseEventStore, EventStoreHistoryFilters } from '../../../modules/eventStore'
+import * as ModificationRequestEvents from '../../../modules/modificationRequest/events'
+import * as ProjectEvents from '../../../modules/project/events'
 import { InfraNotAvailableError } from '../../../modules/shared'
 
 function isNotNullOrUndefined<T>(input: null | undefined | T): input is T {
@@ -23,7 +22,7 @@ interface EventProps {
   }
 }
 interface HasEventConstructor {
-  new (props: EventProps): StoredEvent
+  new (props: EventProps): DomainEvent
 }
 
 const EventClassByType: Record<string, HasEventConstructor> = {
@@ -42,13 +41,13 @@ export class SequelizeEventStore extends BaseEventStore {
     this.EventStoreModel = models.EventStore
   }
 
-  protected persistEvents(events: StoredEvent[]): ResultAsync<null, InfraNotAvailableError> {
+  protected persistEvents(events: DomainEvent[]): ResultAsync<null, InfraNotAvailableError> {
     return wrapInfra(this.EventStoreModel.bulkCreate(events.map(this.toPersistance)))
   }
 
   public loadHistory(
     filters?: EventStoreHistoryFilters
-  ): ResultAsync<StoredEvent[], InfraNotAvailableError> {
+  ): ResultAsync<DomainEvent[], InfraNotAvailableError> {
     return wrapInfra(this.EventStoreModel.findAll(this.toQuery(filters)))
       .map((events: any[]) => events.map((item) => item.get()))
       .map((events: any[]) => {
@@ -67,7 +66,7 @@ export class SequelizeEventStore extends BaseEventStore {
       })
   }
 
-  private toPersistance(event: StoredEvent) {
+  private toPersistance(event: DomainEvent) {
     return {
       id: uuid(),
       type: event.type,
@@ -81,7 +80,7 @@ export class SequelizeEventStore extends BaseEventStore {
     }
   }
 
-  private fromPersistance(eventRaw: any): StoredEvent | null {
+  private fromPersistance(eventRaw: any): DomainEvent | null {
     const EventClass = EventClassByType[eventRaw.type]
 
     if (!EventClass) {

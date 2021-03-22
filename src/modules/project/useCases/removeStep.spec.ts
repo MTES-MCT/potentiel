@@ -1,7 +1,7 @@
-import { UniqueEntityID } from '../../../core/domain'
+import { DomainEvent, UniqueEntityID } from '../../../core/domain'
 import { okAsync } from '../../../core/utils'
 import { makeUser } from '../../../entities'
-import { EventBus, StoredEvent } from '../../../modules/eventStore'
+import { EventBus } from '../../../modules/eventStore'
 import { InfraNotAvailableError } from '../../../modules/shared'
 import { UnwrapForTest } from '../../../types'
 import makeFakeUser from '../../../__tests__/fixtures/user'
@@ -11,7 +11,7 @@ import { makeRemoveStep } from './removeStep'
 
 const projectId = new UniqueEntityID().toString()
 
-const fakePublish = jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null))
+const fakePublish = jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null))
 
 const fakeEventBus: EventBus = {
   publish: fakePublish,

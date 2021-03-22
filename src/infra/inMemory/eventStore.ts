@@ -1,18 +1,19 @@
-import { ResultAsync, okAsync } from '../../core/utils'
-import { BaseEventStore, EventStoreHistoryFilters, StoredEvent } from '../../modules/eventStore'
+import { DomainEvent } from '../../core/domain'
+import { okAsync, ResultAsync } from '../../core/utils'
+import { BaseEventStore, EventStoreHistoryFilters } from '../../modules/eventStore'
 import { InfraNotAvailableError } from '../../modules/shared'
 
 export class InMemoryEventStore extends BaseEventStore {
-  private history: StoredEvent[] = []
+  private history: DomainEvent[] = []
 
-  protected persistEvents(events: StoredEvent[]): ResultAsync<null, InfraNotAvailableError> {
+  protected persistEvents(events: DomainEvent[]): ResultAsync<null, InfraNotAvailableError> {
     events.forEach((event) => this.history.push(event))
     return okAsync<null, InfraNotAvailableError>(null)
   }
 
   public loadHistory(
     filters?: EventStoreHistoryFilters
-  ): ResultAsync<StoredEvent[], InfraNotAvailableError> {
+  ): ResultAsync<DomainEvent[], InfraNotAvailableError> {
     let history = this.history
 
     if (filters) {
@@ -41,6 +42,6 @@ export class InMemoryEventStore extends BaseEventStore {
       }
     }
 
-    return okAsync<StoredEvent[], InfraNotAvailableError>(history)
+    return okAsync<DomainEvent[], InfraNotAvailableError>(history)
   }
 }

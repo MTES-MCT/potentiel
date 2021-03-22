@@ -1,7 +1,7 @@
-import { UniqueEntityID } from '../../core/domain'
+import { DomainEvent, UniqueEntityID } from '../../core/domain'
 import { err, ok, Result } from '../../core/utils'
 import { User } from '../../entities'
-import { EventStoreAggregate, StoredEvent } from '../eventStore'
+import { EventStoreAggregate } from '../eventStore'
 import { EntityNotFoundError, IllegalInitialStateForAggregateError } from '../shared'
 import { StatusPreventsAcceptingError, StatusPreventsRejectingError } from './errors'
 import {
@@ -36,7 +36,7 @@ interface ModificationRequestProps {
 
 export const makeModificationRequest = (args: {
   modificationRequestId: UniqueEntityID
-  history: StoredEvent[]
+  history: DomainEvent[]
 }): Result<ModificationRequest, EntityNotFoundError | IllegalInitialStateForAggregateError> => {
   const { history, modificationRequestId } = args
 
@@ -49,7 +49,7 @@ export const makeModificationRequest = (args: {
     return err(new IllegalInitialStateForAggregateError())
   }
 
-  const pendingEvents: StoredEvent[] = []
+  const pendingEvents: DomainEvent[] = []
   const props: ModificationRequestProps = {
     lastUpdatedOn: history[0].occurredAt,
     hasError: false,
@@ -119,12 +119,12 @@ export const makeModificationRequest = (args: {
     },
   })
 
-  function _publishEvent(event: StoredEvent) {
+  function _publishEvent(event: DomainEvent) {
     pendingEvents.push(event)
     _processEvent(event)
   }
 
-  function _processEvent(event: StoredEvent) {
+  function _processEvent(event: DomainEvent) {
     switch (event.type) {
       case ModificationRequested.type:
         props.status = 'envoyée'
@@ -143,13 +143,13 @@ export const makeModificationRequest = (args: {
     _updateLastUpdatedOn(event)
   }
 
-  function _updateLastUpdatedOn(event: StoredEvent) {
+  function _updateLastUpdatedOn(event: DomainEvent) {
     if (event.type !== ResponseTemplateDownloaded.type) {
       props.lastUpdatedOn = event.occurredAt
     }
   }
 
-  function _isModificationRequestedEvent(event: StoredEvent): event is ModificationRequested {
+  function _isModificationRequestedEvent(event: DomainEvent): event is ModificationRequested {
     return event.type === ModificationRequested.type
   }
 
