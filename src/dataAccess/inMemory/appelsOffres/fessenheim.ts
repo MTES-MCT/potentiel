@@ -10,7 +10,7 @@ const fessenheim: AppelOffre = {
   launchDate: 'janvier 2019',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,
-  contenuParagrapheAchevement: makeParagrapheAchevementForDelai(24),
+  contenuParagrapheAchevement: makeParagrapheAchevementForDelai(24, '7.1.1'),
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.4',

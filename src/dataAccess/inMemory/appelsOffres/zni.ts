@@ -10,7 +10,7 @@ const zni: AppelOffre = {
   launchDate: 'juin 2019',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,
-  contenuParagrapheAchevement: makeParagrapheAchevementForDelai(24),
+  contenuParagrapheAchevement: makeParagrapheAchevementForDelai(24, '7'),
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7.1',
   paragrapheDelaiDerogatoire: '6.4',

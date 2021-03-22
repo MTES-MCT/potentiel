@@ -11,7 +11,7 @@ const innovation: AppelOffre = {
   launchDate: 'mars 2017',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,
-  contenuParagrapheAchevement: makeParagrapheAchevementForDelai(24),
+  contenuParagrapheAchevement: makeParagrapheAchevementForDelai(24, '7.1'),
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7.1',
   paragrapheDelaiDerogatoire: '6.3',
