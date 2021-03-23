@@ -17,17 +17,7 @@ export const makeGetModificationRequestDataForResponseTemplate = (
   if (!ModificationRequest || !Project || !File || !User)
     return errAsync(new InfraNotAvailableError())
 
-  return wrapInfra(
-    ModificationRequest.findByPk(modificationRequestId, {
-      include: [
-        {
-          model: Project,
-          as: 'project',
-        },
-      ],
-    })
-  )
-    .map((rawData: any) => rawData?.get())
+  return _getModificationRequestById(modificationRequestId, models)
     .andThen(
       (
         modificationRequest: any
@@ -38,20 +28,11 @@ export const makeGetModificationRequestDataForResponseTemplate = (
         if (!modificationRequest) return errAsync(new EntityNotFoundError())
 
         const { type, projectId } = modificationRequest
-
         if (type === 'delai') {
-          // check for a previous request for this project that was accepted
-          return wrapInfra(
-            ModificationRequest.findOne({
-              where: {
-                projectId,
-                status: 'acceptée',
-                type: 'delai',
-              },
-            })
-          )
-            .map((rawData: any) => rawData?.get())
-            .map((previousRequest) => ({ modificationRequest, previousRequest }))
+          return _getPreviouslyAcceptedDelaiRequest(projectId, models).map((previousRequest) => ({
+            modificationRequest,
+            previousRequest,
+          }))
         }
 
         return okAsync({ modificationRequest, previousRequest: null })
@@ -62,8 +43,8 @@ export const makeGetModificationRequestDataForResponseTemplate = (
 
       const { appelOffreId, periodeId, familleId } = project
       const appelOffre = getAppelOffre({ appelOffreId, periodeId })
-      const periode = appelOffre && appelOffre.periodes.find((periode) => periode.id === periodeId)
-      const famille = appelOffre && appelOffre.familles.find((famille) => famille.id === familleId)
+      const periode = appelOffre?.periodes.find((periode) => periode.id === periodeId)
+      const famille = appelOffre?.familles.find((famille) => famille.id === familleId)
 
       if (!appelOffre || !periode) {
         logger.error(
@@ -147,7 +128,7 @@ export const makeGetModificationRequestDataForResponseTemplate = (
             dateLimiteAchevementActuelle: formatDate(completionDueOn),
             dateNotification: formatDate(notifiedOn),
             dureeDelaiDemandeEnMois: delayInMonths.toString(),
-            ...makePreviousDelaiFromPreviousRequest(previousRequest),
+            ..._makePreviousDelaiFromPreviousRequest(previousRequest),
           } as ModificationRequestDateForResponseTemplateDTO)
         case 'recours':
           return ok({
@@ -187,7 +168,36 @@ export const makeGetModificationRequestDataForResponseTemplate = (
     })
 }
 
-function makePreviousDelaiFromPreviousRequest(previousRequest) {
+function _getModificationRequestById(modificationRequestId, models) {
+  const { ModificationRequest, Project } = models
+
+  return wrapInfra(
+    ModificationRequest.findByPk(modificationRequestId, {
+      include: [
+        {
+          model: Project,
+          as: 'project',
+        },
+      ],
+    })
+  ).map((rawData: any) => rawData?.get())
+}
+
+function _getPreviouslyAcceptedDelaiRequest(projectId, models) {
+  const { ModificationRequest } = models
+
+  return wrapInfra(
+    ModificationRequest.findOne({
+      where: {
+        projectId,
+        status: 'acceptée',
+        type: 'delai',
+      },
+    })
+  ).map((rawData: any) => rawData?.get())
+}
+
+function _makePreviousDelaiFromPreviousRequest(previousRequest) {
   if (!previousRequest) return { demandePrecedente: '' }
 
   const { requestedOn, delayInMonths, acceptanceParams, respondedOn } = previousRequest

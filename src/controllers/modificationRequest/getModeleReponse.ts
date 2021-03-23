@@ -92,7 +92,8 @@ async function makeRecoursTemplate(
 
   const templatePath = path.resolve(
     __dirname,
-    '../..',
+    '..',
+    '..',
     'views',
     'template',
     TemplateByType[data.type]

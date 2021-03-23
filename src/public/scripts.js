@@ -1,7 +1,6 @@
 // All this to avoid a SPA...
 
 window.initHandlers = function () {
-  console.log('initHandlers')
   addFriseToggleHandler()
   addFriseHiddenContentToggleHandler()
   addDateValidationHandler()
@@ -434,7 +433,7 @@ function addSendCopyOfNotificationButtonHandler() {
         const link = event.target.getAttribute('href')
 
         if (!link) {
-          console.log('Cannot call send copy because missing  link', link)
+          console.error('Cannot call send copy because missing  link', link)
           return
         }
 
@@ -442,7 +441,7 @@ function addSendCopyOfNotificationButtonHandler() {
           if (response.ok) {
             alert('Une copie de la notification de ce candidat a été envoyée à votre adresse email')
           } else {
-            console.log('GET to send copy of candidate notification failed', response.error)
+            console.error('GET to send copy of candidate notification failed', response.error)
             alert("L'envoi de copie de notification a échoué.")
           }
         })
@@ -475,7 +474,6 @@ function addPuissanceModificationHandler() {
       var wrongFormat = '[data-testid=modificationRequest-puissance-error-message-wrong-format]'
 
       if (!Number.isNaN(newValue) && !Number.isNaN(oldValue)) {
-        console.log('Both are number')
         if (newValue > oldValue || newValue / oldValue < 0.9) {
           show(outOfBounds, true)
           show(wrongFormat, false)
@@ -535,18 +533,16 @@ function addDelayEstimator() {
 //
 // Validated date fields
 //
-var dateRegex = new RegExp(/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/)
+const dateRegex = new RegExp(/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/)
 
 function addDateValidationHandler() {
   const dateFields = document.querySelectorAll('[data-testid=date-field]')
 
   dateFields.forEach((dateField) => {
-    console.log('Found dateField', dateField)
     const lowerBound = dateField.getAttribute('data-min-date')
     const upperBound = dateField.getAttribute('data-max-date')
 
     if (lowerBound || upperBound) {
-      console.log('Found lower/upperBound')
       // This field needs validation
 
       const submitButton = dateField.closest('form').querySelector('[data-testid=submit-button]')
@@ -560,7 +556,6 @@ function addDateValidationHandler() {
         .querySelector('[data-testid=error-message-wrong-format]')
 
       dateField.addEventListener('keyup', function (event) {
-        console.log('dateField keyup')
         const newDateStr = dateField.value
 
         if (newDateStr.length < 6) {

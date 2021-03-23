@@ -14,7 +14,6 @@ export const onProjectCompletionDueDateSet = (models) => async (
     return
   }
 
-  // update completionDueOn
   projectInstance.completionDueOn = event.payload.completionDueOn
 
   try {

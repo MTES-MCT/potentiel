@@ -1,16 +1,17 @@
+import asyncHandler from 'express-async-handler'
 import fs from 'fs'
 import moment from 'moment-timezone'
 import { acceptModificationRequest, rejectModificationRequest } from '../../config'
 import { logger } from '../../core/utils'
-import { pathExists } from '../../helpers/pathExists'
 import { addQueryParams } from '../../helpers/addQueryParams'
+import { isDateFormatValid, isStrictlyPositiveNumber } from '../../helpers/formValidators'
+import { pathExists } from '../../helpers/pathExists'
+import { ModificationRequestAcceptanceParams } from '../../modules/modificationRequest'
 import { AggregateHasBeenUpdatedSinceError } from '../../modules/shared'
 import routes from '../../routes'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
-import asyncHandler from 'express-async-handler'
-import { ModificationRequestAcceptanceParams } from '../../modules/modificationRequest'
 
 const FORMAT_DATE = 'DD/MM/YYYY'
 
@@ -43,11 +44,7 @@ v1Router.post(
       )
     }
 
-    if (
-      type === 'recours' &&
-      (!newNotificationDate ||
-        moment(newNotificationDate, FORMAT_DATE).format(FORMAT_DATE) !== newNotificationDate)
-    ) {
+    if (type === 'recours' && !isDateFormatValid(newNotificationDate, FORMAT_DATE)) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
           error: "La réponse n'a pas pu être envoyée: la date de notification est erronnée.",
@@ -55,10 +52,7 @@ v1Router.post(
       )
     }
 
-    if (
-      type === 'delai' &&
-      (!delayInMonths || isNaN(delayInMonths) || Number(delayInMonths) <= 0)
-    ) {
+    if (type === 'delai' && !isStrictlyPositiveNumber(delayInMonths)) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
           error:
@@ -83,7 +77,7 @@ v1Router.post(
             contents: fs.createReadStream(request.file.path),
             filename: request.file.originalname,
           },
-          acceptanceParams: makeAcceptanceParams(type, {
+          acceptanceParams: _makeAcceptanceParams(type, {
             newNotificationDate:
               newNotificationDate &&
               moment(newNotificationDate, FORMAT_DATE).tz('Europe/Paris').toDate(),
@@ -128,7 +122,7 @@ v1Router.post(
   })
 )
 
-function makeAcceptanceParams(
+function _makeAcceptanceParams(
   type: string,
   params: any
 ): ModificationRequestAcceptanceParams | undefined {

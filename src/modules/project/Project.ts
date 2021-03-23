@@ -260,7 +260,10 @@ export const makeProject = (args: {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
       }
 
-      const newCompletionDueOn = +moment(props.completionDueOn).add(delayInMonths, 'months')
+      const newCompletionDueOn = moment(props.completionDueOn)
+        .add(delayInMonths, 'months')
+        .toDate()
+        .getTime()
 
       if (newCompletionDueOn <= props.notifiedOn) {
         return err(
@@ -628,24 +631,26 @@ export const makeProject = (args: {
   }
 
   function _updateCompletionDate(forceValue?: { setBy: string; completionDueOn: number }) {
-    if (props.isClasse && (!!forceValue || !props.hasCompletionDueDateMoved)) {
-      const { setBy, completionDueOn } = forceValue || {}
-      _removePendingEventsOfType(ProjectCompletionDueDateSet.type)
-      _publishEvent(
-        new ProjectCompletionDueDateSet({
-          payload: {
-            projectId: props.projectId.toString(),
-            completionDueOn:
-              completionDueOn ||
-              moment(props.notifiedOn)
-                .add(props.appelOffre.delaiRealisationEnMois, 'months')
-                .toDate()
-                .getTime(),
-            setBy,
-          },
-        })
-      )
-    }
+    if (!props.isClasse) return
+
+    if (props.hasCompletionDueDateMoved && !forceValue) return
+
+    const { setBy, completionDueOn } = forceValue || {}
+    _removePendingEventsOfType(ProjectCompletionDueDateSet.type)
+    _publishEvent(
+      new ProjectCompletionDueDateSet({
+        payload: {
+          projectId: props.projectId.toString(),
+          completionDueOn:
+            completionDueOn ||
+            moment(props.notifiedOn)
+              .add(props.appelOffre.delaiRealisationEnMois, 'months')
+              .toDate()
+              .getTime(),
+          setBy,
+        },
+      })
+    )
   }
 
   function _shouldSubmitGF() {
