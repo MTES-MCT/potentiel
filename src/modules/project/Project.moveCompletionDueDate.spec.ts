@@ -1,12 +1,11 @@
 import moment from 'moment'
-import { UniqueEntityID } from '../../core/domain'
+import { DomainEvent, UniqueEntityID } from '../../core/domain'
 import { logger, UnwrapForTest } from '../../core/utils'
 import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
 import { makeUser } from '../../entities'
 import { UnwrapForTest as OldUnwrapForTest } from '../../types'
 import makeFakeProject from '../../__tests__/fixtures/project'
 import makeFakeUser from '../../__tests__/fixtures/user'
-import { StoredEvent } from '../eventStore'
 import { IllegalProjectDataError, ProjectCannotBeUpdatedIfUnnotifiedError } from './errors'
 import {
   LegacyProjectSourced,
@@ -29,7 +28,7 @@ const appelsOffres = appelsOffreStatic.reduce((map, appelOffre) => {
   return map
 }, {})
 
-const makeFakeHistory = (fakeProject: any): StoredEvent[] => {
+const makeFakeHistory = (fakeProject: any): DomainEvent[] => {
   return [
     new LegacyProjectSourced({
       payload: {
@@ -46,7 +45,7 @@ const makeFakeHistory = (fakeProject: any): StoredEvent[] => {
 
 const initialCompletionDueOn = 123
 
-const fakeHistory: StoredEvent[] = [
+const fakeHistory: DomainEvent[] = [
   new ProjectImported({
     payload: {
       projectId: projectId.toString(),
