@@ -1,9 +1,8 @@
 import { Optional } from 'utility-types'
 
 import { Project, User, DREAL } from '../../entities'
-import { AggregateRoot, UniqueEntityID, DomainError } from '../../core/domain'
+import { AggregateRoot, UniqueEntityID, DomainError, DomainEvent } from '../../core/domain'
 import { Result, ok } from '../../core/utils'
-import { StoredEvent } from '../eventStore'
 
 type BaseNotification = {
   message: {
@@ -161,7 +160,7 @@ export type NotificationProps = BaseNotification & NotificationVariants
 // No idea why: Optional<NotificationProps, 'status'> does not work
 export type NotificationArgs = Optional<BaseNotification, 'status'> & NotificationVariants
 
-export class Notification extends AggregateRoot<NotificationProps, StoredEvent> {
+export class Notification extends AggregateRoot<NotificationProps, DomainEvent> {
   private constructor(props: NotificationProps, id?: UniqueEntityID) {
     super(props, id)
   }

@@ -2,10 +2,9 @@ import { ResultAsync } from '../../core/utils'
 import { DomainEvent } from '../../core/domain'
 import { InfraNotAvailableError } from '../shared'
 import { EventBus } from './EventBus'
-import { StoredEvent } from './StoredEvent'
 
 export interface EventStoreHistoryFilters {
-  eventType?: StoredEvent['type'] | StoredEvent['type'][]
+  eventType?: DomainEvent['type'] | DomainEvent['type'][]
   requestId?: DomainEvent['requestId']
   aggregateId?: DomainEvent['aggregateId']
   payload?: Record<string, any>
@@ -14,8 +13,8 @@ export interface EventStoreHistoryFilters {
 export type EventStoreTransactionArgs = {
   loadHistory: (
     filters?: EventStoreHistoryFilters
-  ) => ResultAsync<StoredEvent[], InfraNotAvailableError>
-  publish: (event: StoredEvent) => void
+  ) => ResultAsync<DomainEvent[], InfraNotAvailableError>
+  publish: (event: DomainEvent) => void
 }
 
 export type EventStore = EventBus & {

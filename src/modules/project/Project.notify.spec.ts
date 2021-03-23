@@ -1,10 +1,9 @@
 import moment from 'moment'
-import { UniqueEntityID } from '../../core/domain'
+import { DomainEvent, UniqueEntityID } from '../../core/domain'
 import { UnwrapForTest } from '../../core/utils'
 import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
 import { AppelOffre } from '../../entities'
 import makeFakeProject from '../../__tests__/fixtures/project'
-import { StoredEvent } from '../eventStore'
 import { ProjectAlreadyNotifiedError } from './errors'
 import {
   LegacyProjectSourced,
@@ -22,7 +21,7 @@ const appelsOffres: Record<string, AppelOffre> = appelsOffreStatic.reduce((map, 
   return map
 }, {})
 
-const makeFakeHistory = (fakeProject: any): StoredEvent[] => {
+const makeFakeHistory = (fakeProject: any): DomainEvent[] => {
   return [
     new LegacyProjectSourced({
       payload: {

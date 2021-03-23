@@ -1,15 +1,15 @@
 import _ from 'lodash'
 import moment from 'moment'
-
+import { DomainEvent } from '../core/domain'
+import { logger, okAsync } from '../core/utils'
 import { appelOffreRepo, appelsOffreStatic } from '../dataAccess/inMemory'
 import { makeProject, Project } from '../entities'
-import { UnwrapForTest, Ok } from '../types'
+import { EventBus } from '../modules/eventStore'
+import { ProjectImported, ProjectReimported } from '../modules/project/events'
+import { InfraNotAvailableError } from '../modules/shared'
+import { Ok, UnwrapForTest } from '../types'
 import makeFakeProject from '../__tests__/fixtures/project'
 import makeImportProjects, { ERREUR_AUCUNE_LIGNE, ERREUR_FORMAT_LIGNE } from './importProjects'
-import { ProjectImported, ProjectReimported } from '../modules/project/events'
-import { EventBus, StoredEvent } from '../modules/eventStore'
-import { logger, okAsync } from '../core/utils'
-import { InfraNotAvailableError } from '../modules/shared'
 
 const phonyAppelOffre = appelsOffreStatic.find((appelOffre) => appelOffre.id === 'Fessenheim')
 
@@ -52,7 +52,7 @@ const makePhonyLine = () => ({
   autreColonne: 'valeurAutreColonne',
 })
 
-const fakePublish = jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null))
+const fakePublish = jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null))
 
 const fakeEventBus: EventBus = {
   publish: fakePublish,

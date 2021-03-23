@@ -1,12 +1,11 @@
 import { ok } from 'neverthrow'
-import { UniqueEntityID } from '../../../core/domain'
-import { StoredEvent } from '../../../modules/eventStore'
+import { DomainEvent, UniqueEntityID } from '../../../core/domain'
 
 export const makeFakeModificationRequest = () => ({
   accept: jest.fn(() => ok<null, never>(null)),
   reject: jest.fn(() => ok<null, never>(null)),
   projectId: new UniqueEntityID(),
-  pendingEvents: [] as StoredEvent[],
+  pendingEvents: [] as DomainEvent[],
   lastUpdatedOn: new Date(0),
   id: new UniqueEntityID(),
   status: 'envoyée',

@@ -1,11 +1,11 @@
-import { EventStore, StoredEvent } from '.'
-import { TransactionalRepository, UniqueEntityID } from '../../core/domain'
+import { EventStore } from '.'
+import { DomainEvent, TransactionalRepository, UniqueEntityID } from '../../core/domain'
 import { Result, ResultAsync, unwrapResultOfResult } from '../../core/utils'
 import { EntityNotFoundError, HeterogeneousHistoryError, InfraNotAvailableError } from '../shared'
 import { EventStoreAggregate } from './EventStoreAggregate'
 
 type AggregateFromHistoryFn<T> = (args: {
-  events: StoredEvent[]
+  events: DomainEvent[]
   id: UniqueEntityID
 }) => Result<T, EntityNotFoundError | HeterogeneousHistoryError>
 

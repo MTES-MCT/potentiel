@@ -1,7 +1,6 @@
-import { UniqueEntityID } from '../../../core/domain'
+import { DomainEvent, UniqueEntityID } from '../../../core/domain'
 import { ok } from '../../../core/utils'
 import { ProjectAppelOffre, User } from '../../../entities'
-import { StoredEvent } from '../../../modules/eventStore'
 import { ProjectDataForCertificate } from '../../../modules/project/dtos'
 import {
   IllegalProjectDataError,
@@ -34,7 +33,7 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   certificateData: ok({ template: 'v1', data: {} as ProjectDataForCertificate }),
   certificateFilename: '',
   shouldCertificateBeGenerated: true,
-  pendingEvents: [] as StoredEvent[],
+  pendingEvents: [] as DomainEvent[],
   appelOffre: {} as ProjectAppelOffre,
   isClasse: true,
   lastUpdatedOn: new Date(0),

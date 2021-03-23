@@ -1,82 +1,35 @@
 import { Op } from 'sequelize'
 import { v4 as uuid } from 'uuid'
+import { DomainEvent } from '../../../core/domain'
 import { logger, ResultAsync, wrapInfra } from '../../../core/utils'
-import { BaseEventStore, EventStoreHistoryFilters, StoredEvent } from '../../../modules/eventStore'
-
-import {
-  ModificationRequested,
-  ModificationRequestedPayload,
-  ResponseTemplateDownloaded,
-  ResponseTemplateDownloadedPayload,
-  ModificationRequestAccepted,
-  ModificationRequestAcceptedPayload,
-  ModificationRequestInstructionStarted,
-  ModificationRequestInstructionStartedPayload,
-  ModificationRequestRejected,
-  ModificationRequestRejectedPayload,
-} from '../../../modules/modificationRequest/events'
-import {
-  CandidateInformationOfCertificateUpdateFailed,
-  CandidateInformationOfCertificateUpdateFailedPayload,
-  CandidateInformedOfCertificateUpdate,
-  CandidateInformedOfCertificateUpdatePayload,
-  CandidateNotificationForPeriodeFailed,
-  CandidateNotificationForPeriodeFailedPayload,
-  CandidateNotifiedForPeriode,
-  CandidateNotifiedForPeriodePayload,
-} from '../../../modules/candidateNotification/events'
-import {
-  LegacyProjectEventSourced,
-  LegacyProjectEventSourcedPayload,
-  LegacyProjectSourced,
-  LegacyProjectSourcedPayload,
-  PeriodeNotified,
-  PeriodeNotifiedPayload,
-  ProjectCertificateGenerated,
-  ProjectCertificateGeneratedPayload,
-  ProjectCertificateRegenerated,
-  ProjectCertificateRegeneratedPayload,
-  ProjectCertificateGenerationFailed,
-  ProjectCertificateGenerationFailedPayload,
-  ProjectCertificateDownloaded,
-  ProjectCertificateDownloadedPayload,
-  ProjectDataCorrected,
-  ProjectDataCorrectedPayload,
-  ProjectDCRDueDateSet,
-  ProjectDCRDueDateSetPayload,
-  ProjectDCRRemoved,
-  ProjectDCRRemovedPayload,
-  ProjectDCRSubmitted,
-  ProjectDCRSubmittedPayload,
-  ProjectGFDueDateSet,
-  ProjectGFDueDateSetPayload,
-  ProjectGFReminded,
-  ProjectGFRemindedPayload,
-  ProjectGFRemoved,
-  ProjectGFRemovedPayload,
-  ProjectGFSubmitted,
-  ProjectGFSubmittedPayload,
-  ProjectCompletionDueDateSet,
-  ProjectCompletionDueDateSetPayload,
-  ProjectImported,
-  ProjectImportedPayload,
-  ProjectNotificationDateSet,
-  ProjectNotificationDateSetPayload,
-  ProjectNotified,
-  ProjectNotifiedPayload,
-  ProjectReimported,
-  ProjectReimportedPayload,
-  ProjectClasseGranted,
-  ProjectClasseGrantedPayload,
-  ProjectCertificateUpdated,
-  ProjectCertificateUpdateFailed,
-  ProjectCertificateUpdatedPayload,
-  ProjectCertificateUpdateFailedPayload,
-} from '../../../modules/project/events'
+import * as AuthorizationEvents from '../../../modules/authorization/events'
+import * as CandidateNotificationEvents from '../../../modules/candidateNotification/events'
+import { BaseEventStore, EventStoreHistoryFilters } from '../../../modules/eventStore'
+import * as ModificationRequestEvents from '../../../modules/modificationRequest/events'
+import * as ProjectEvents from '../../../modules/project/events'
 import { InfraNotAvailableError } from '../../../modules/shared'
 
 function isNotNullOrUndefined<T>(input: null | undefined | T): input is T {
   return input != null
+}
+
+interface EventProps {
+  payload: any
+  requestId?: string
+  original?: {
+    occurredAt: Date
+    version: number
+  }
+}
+interface HasEventConstructor {
+  new (props: EventProps): DomainEvent
+}
+
+const EventClassByType: Record<string, HasEventConstructor> = {
+  ...ModificationRequestEvents,
+  ...CandidateNotificationEvents,
+  ...ProjectEvents,
+  ...AuthorizationEvents,
 }
 
 const AGGREGATE_ID_SEPARATOR = ' | '
@@ -88,13 +41,13 @@ export class SequelizeEventStore extends BaseEventStore {
     this.EventStoreModel = models.EventStore
   }
 
-  protected persistEvents(events: StoredEvent[]): ResultAsync<null, InfraNotAvailableError> {
+  protected persistEvents(events: DomainEvent[]): ResultAsync<null, InfraNotAvailableError> {
     return wrapInfra(this.EventStoreModel.bulkCreate(events.map(this.toPersistance)))
   }
 
   public loadHistory(
     filters?: EventStoreHistoryFilters
-  ): ResultAsync<StoredEvent[], InfraNotAvailableError> {
+  ): ResultAsync<DomainEvent[], InfraNotAvailableError> {
     return wrapInfra(this.EventStoreModel.findAll(this.toQuery(filters)))
       .map((events: any[]) => events.map((item) => item.get()))
       .map((events: any[]) => {
@@ -113,7 +66,7 @@ export class SequelizeEventStore extends BaseEventStore {
       })
   }
 
-  private toPersistance(event: StoredEvent) {
+  private toPersistance(event: DomainEvent) {
     return {
       id: uuid(),
       type: event.type,
@@ -127,304 +80,24 @@ export class SequelizeEventStore extends BaseEventStore {
     }
   }
 
-  private fromPersistance(eventRaw: any): StoredEvent | null {
-    switch (eventRaw.type) {
-      case LegacyProjectEventSourced.type:
-        return new LegacyProjectEventSourced({
-          payload: eventRaw.payload as LegacyProjectEventSourcedPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case LegacyProjectSourced.type:
-        return new LegacyProjectSourced({
-          payload: eventRaw.payload as LegacyProjectSourcedPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case PeriodeNotified.type:
-        return new PeriodeNotified({
-          payload: eventRaw.payload as PeriodeNotifiedPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case ProjectCertificateGenerated.type:
-        return new ProjectCertificateGenerated({
-          payload: eventRaw.payload as ProjectCertificateGeneratedPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case ProjectCertificateRegenerated.type:
-        return new ProjectCertificateRegenerated({
-          payload: eventRaw.payload as ProjectCertificateRegeneratedPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case ProjectCertificateGenerationFailed.type:
-        return new ProjectCertificateGenerationFailed({
-          payload: eventRaw.payload as ProjectCertificateGenerationFailedPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case ProjectCertificateUpdated.type:
-        return new ProjectCertificateUpdated({
-          payload: eventRaw.payload as ProjectCertificateUpdatedPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case ProjectCertificateUpdateFailed.type:
-        return new ProjectCertificateUpdateFailed({
-          payload: eventRaw.payload as ProjectCertificateUpdateFailedPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case ProjectCertificateDownloaded.type:
-        return new ProjectCertificateDownloaded({
-          payload: eventRaw.payload as ProjectCertificateDownloadedPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case ProjectDataCorrected.type:
-        return new ProjectDataCorrected({
-          payload: eventRaw.payload as ProjectDataCorrectedPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case ProjectDCRDueDateSet.type:
-        return new ProjectDCRDueDateSet({
-          payload: eventRaw.payload as ProjectDCRDueDateSetPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case ProjectDCRRemoved.type:
-        return new ProjectDCRRemoved({
-          payload: eventRaw.payload as ProjectDCRRemovedPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case ProjectDCRSubmitted.type:
-        return new ProjectDCRSubmitted({
-          payload: eventRaw.payload as ProjectDCRSubmittedPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
+  private fromPersistance(eventRaw: any): DomainEvent | null {
+    const EventClass = EventClassByType[eventRaw.type]
 
-      case ProjectGFDueDateSet.type:
-        return new ProjectGFDueDateSet({
-          payload: eventRaw.payload as ProjectGFDueDateSetPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case ProjectGFRemoved.type:
-        return new ProjectGFRemoved({
-          payload: eventRaw.payload as ProjectGFRemovedPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case ProjectGFReminded.type:
-        return new ProjectGFReminded({
-          payload: eventRaw.payload as ProjectGFRemindedPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case ProjectGFSubmitted.type:
-        return new ProjectGFSubmitted({
-          payload: eventRaw.payload as ProjectGFSubmittedPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case ProjectImported.type:
-        return new ProjectImported({
-          payload: eventRaw.payload as ProjectImportedPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case ProjectNotificationDateSet.type:
-        return new ProjectNotificationDateSet({
-          payload: eventRaw.payload as ProjectNotificationDateSetPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case ProjectCompletionDueDateSet.type:
-        return new ProjectCompletionDueDateSet({
-          payload: eventRaw.payload as ProjectCompletionDueDateSetPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case ProjectNotified.type:
-        return new ProjectNotified({
-          payload: eventRaw.payload as ProjectNotifiedPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case ProjectClasseGranted.type:
-        return new ProjectClasseGranted({
-          payload: eventRaw.payload as ProjectClasseGrantedPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case ProjectReimported.type:
-        return new ProjectReimported({
-          payload: eventRaw.payload as ProjectReimportedPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case CandidateNotificationForPeriodeFailed.type:
-        return new CandidateNotificationForPeriodeFailed({
-          payload: eventRaw.payload as CandidateNotificationForPeriodeFailedPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case CandidateNotifiedForPeriode.type:
-        return new CandidateNotifiedForPeriode({
-          payload: eventRaw.payload as CandidateNotifiedForPeriodePayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case CandidateInformedOfCertificateUpdate.type:
-        return new CandidateInformedOfCertificateUpdate({
-          payload: eventRaw.payload as CandidateInformedOfCertificateUpdatePayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case CandidateInformationOfCertificateUpdateFailed.type:
-        return new CandidateInformationOfCertificateUpdateFailed({
-          payload: eventRaw.payload as CandidateInformationOfCertificateUpdateFailedPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case ModificationRequested.type:
-        return new ModificationRequested({
-          payload: eventRaw.payload as ModificationRequestedPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case ModificationRequestAccepted.type:
-        return new ModificationRequestAccepted({
-          payload: eventRaw.payload as ModificationRequestAcceptedPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case ModificationRequestInstructionStarted.type:
-        return new ModificationRequestInstructionStarted({
-          payload: eventRaw.payload as ModificationRequestInstructionStartedPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case ModificationRequestRejected.type:
-        return new ModificationRequestRejected({
-          payload: eventRaw.payload as ModificationRequestRejectedPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-      case ResponseTemplateDownloaded.type:
-        return new ResponseTemplateDownloaded({
-          payload: eventRaw.payload as ResponseTemplateDownloadedPayload,
-          requestId: eventRaw.requestId?.toString(),
-          original: {
-            version: eventRaw.version,
-            occurredAt: new Date(eventRaw.occurredAt),
-          },
-        })
-
-      default:
-        logger.error(
-          `MEGA FAIL: SequelizeEventStore does not recognize this event type (see sequelizeEventStore.fromPersistance for missing type ${eventRaw.type}`
-        )
-        return null
+    if (!EventClass) {
+      logger.error(
+        `MEGA FAIL: SequelizeEventStore does not recognize this event type (see sequelizeEventStore.fromPersistance for missing type ${eventRaw.type}`
+      )
+      return null
     }
+
+    return new EventClass({
+      payload: eventRaw.payload,
+      requestId: eventRaw.requestId?.toString(),
+      original: {
+        version: eventRaw.version,
+        occurredAt: new Date(eventRaw.occurredAt),
+      },
+    })
   }
 
   private toQuery(filters?: EventStoreHistoryFilters) {
