@@ -131,6 +131,7 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
       dcr,
       ptf,
       completionDueOn,
+      updatedAt,
     } = projectRaw.get()
 
     let allInvitations: any[] = []
@@ -174,6 +175,7 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
       users: users?.map(({ user }) => user),
       invitations: allInvitations,
       garantiesFinancieres: undefined,
+      updatedAt,
     }
 
     if (user.role !== 'dreal') {
