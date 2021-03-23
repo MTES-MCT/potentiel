@@ -1,6 +1,5 @@
-export interface ModificationRequestPageDTO {
+export type ModificationRequestPageDTO = {
   id: string
-  type: string
   status: string
 
   respondedBy?: string
@@ -32,8 +31,19 @@ export interface ModificationRequestPageDTO {
     puissance: number
     unitePuissance: string
     notifiedOn: Date
+    completionDueOn: Date
     appelOffreId: string
     periodeId: string
     familleId: string | undefined
+    numeroGestionnaire: string | undefined
   }
-}
+} & Variant
+
+type Variant =
+  | { type: 'actionnaire'; actionnaire: string }
+  | { type: 'fournisseur'; fournisseur: string }
+  | { type: 'producteur'; producteur: string }
+  | { type: 'puissance'; puissance: number }
+  | { type: 'recours' }
+  | { type: 'abandon' }
+  | { type: 'delai'; delayInMonths: number; acceptanceParams?: { delayInMonths: number } }

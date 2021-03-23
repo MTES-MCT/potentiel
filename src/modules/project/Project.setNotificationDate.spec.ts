@@ -10,6 +10,7 @@ import { StoredEvent } from '../eventStore'
 import { IllegalProjectDataError, ProjectCannotBeUpdatedIfUnnotifiedError } from './errors'
 import {
   LegacyProjectSourced,
+  ProjectCompletionDueDateSet,
   ProjectDCRDueDateSet,
   ProjectGFDueDateSet,
   ProjectImported,
@@ -105,19 +106,19 @@ describe('Project.setNotificationDate()', () => {
     })
 
     describe('when project is classé', () => {
-      const fakeProjectData = makeFakeProject({ notifiedOn: 123, classe: 'Classé' })
+      const fakeProjectData = makeFakeProject({ notifiedOn: 123, classe: 'Classé', appelOffreId })
       const fakeHistory = makeFakeHistory(fakeProjectData)
 
-      it('should trigger ProjectDCRDueDateSet', () => {
-        const project = UnwrapForTest(
-          makeProject({ projectId, history: fakeHistory, appelsOffres })
-        )
+      const project = UnwrapForTest(makeProject({ projectId, history: fakeHistory, appelsOffres }))
+
+      beforeAll(() => {
         const res = project.setNotificationDate(fakeUser, newNotifiedOn)
 
         if (res.isErr()) logger.error(res.error)
         expect(res.isOk()).toBe(true)
-        if (res.isErr()) return
+      })
 
+      it('should trigger ProjectDCRDueDateSet', () => {
         const targetEvent = project.pendingEvents.find(
           (item) => item.type === ProjectDCRDueDateSet.type
         ) as ProjectDCRDueDateSet | undefined
@@ -128,6 +129,54 @@ describe('Project.setNotificationDate()', () => {
         expect(targetEvent.payload.dcrDueOn).toEqual(
           moment(newNotifiedOn).add(2, 'months').toDate().getTime()
         )
+      })
+
+      it('should trigger ProjectCompletionDueDateSet', () => {
+        const targetEvent = project.pendingEvents.find(
+          (item) => item.type === ProjectCompletionDueDateSet.type
+        ) as ProjectCompletionDueDateSet | undefined
+        expect(targetEvent).toBeDefined()
+        if (!targetEvent) return
+
+        expect(targetEvent.payload.projectId).toEqual(projectId.toString())
+        expect(targetEvent.payload.completionDueOn).toEqual(
+          moment(newNotifiedOn)
+            .add(appelsOffres[appelOffreId].delaiRealisationEnMois, 'months')
+            .toDate()
+            .getTime()
+        )
+      })
+    })
+
+    describe('when project already had a updated completion due date', () => {
+      const fakeHistoryWithCompletionDateMoved = [
+        ...fakeHistory,
+        // First event corresponds to notification
+        new ProjectCompletionDueDateSet({
+          payload: { projectId: projectId.toString(), completionDueOn: 1234 },
+        }),
+        // Second event corresponds to a change in completion date
+        new ProjectCompletionDueDateSet({
+          payload: { projectId: projectId.toString(), completionDueOn: 4567 },
+        }),
+      ]
+
+      const project = UnwrapForTest(
+        makeProject({ projectId, history: fakeHistoryWithCompletionDateMoved, appelsOffres })
+      )
+
+      beforeAll(() => {
+        const res = project.setNotificationDate(fakeUser, newNotifiedOn)
+
+        if (res.isErr()) logger.error(res.error)
+        expect(res.isOk()).toBe(true)
+      })
+
+      it('should not trigger ProjectCompletionDueDateSet', () => {
+        const targetEvent = project.pendingEvents.find(
+          (item) => item.type === ProjectCompletionDueDateSet.type
+        ) as ProjectCompletionDueDateSet | undefined
+        expect(targetEvent).not.toBeDefined()
       })
     })
 

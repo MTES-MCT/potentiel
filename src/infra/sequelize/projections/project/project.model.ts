@@ -128,12 +128,21 @@ export const MakeProjectModel = (sequelize) => {
         allowNull: false,
         defaultValue: 0,
       },
+      completionDueOn: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+        defaultValue: 0,
+      },
       details: {
         type: DataTypes.JSON,
         allowNull: true,
       },
       certificateFileId: {
         type: DataTypes.UUID,
+        allowNull: true,
+      },
+      numeroGestionnaire: {
+        type: DataTypes.STRING,
         allowNull: true,
       },
     },

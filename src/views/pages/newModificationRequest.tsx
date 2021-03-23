@@ -50,7 +50,7 @@ export default function NewModificationRequestPage({ request, project }: PagePro
     actionnaire,
     producteur,
     justification,
-    delayedServiceDate,
+    delayInMonths,
   } = request.query || {}
 
   return (
@@ -349,34 +349,22 @@ export default function NewModificationRequestPage({ request, project }: PagePro
                   )}
                   {...dataId('modificationRequest-presentServiceDateField')}
                 />
-                <label className="required" htmlFor="delayedServiceDate">
-                  Date souhaitée (format JJ/MM/AAAA)
+                <label style={{ marginTop: 5 }} className="required" htmlFor="delayedServiceDate">
+                  Durée du délai en mois
                 </label>
                 <input
-                  type="text"
-                  name="delayedServiceDate"
-                  id="delayedServiceDate"
-                  defaultValue={
-                    delayedServiceDate ? formatDate(Number(delayedServiceDate), 'DD/MM/YYYY') : ''
-                  }
-                  {...dataId('modificationRequest-delayedServiceDateField')}
+                  type="number"
+                  name="delayInMonths"
+                  id="delayInMonths"
+                  defaultValue={delayInMonths}
+                  data-initial-date={moment(project.notifiedOn)
+                    .add(getDelayForAppelOffre(project.appelOffreId), 'months')
+                    .toDate()
+                    .getTime()}
+                  {...dataId('delayInMonthsField')}
                 />
-                <div
-                  className="notification error"
-                  style={{ display: 'none' }}
-                  {...dataId('modificationRequest-delay-error-message-out-of-bounds')}
-                >
-                  Merci de saisir une date postérieure à la date théorique de mise en service.
-                </div>
-                <div
-                  className="notification error"
-                  style={{ display: 'none' }}
-                  {...dataId('modificationRequest-delay-error-message-wrong-format')}
-                >
-                  Le format de la date saisie n’est pas conforme. Elle doit être de la forme
-                  JJ/MM/AAAA soit par exemple 25/05/2022 pour 25 Mai 2022.
-                </div>
-                <label className="required" htmlFor="justification">
+                <div style={{ fontSize: 11 }} {...dataId('delayEstimateBox')}></div>
+                <label style={{ marginTop: 5 }} className="required" htmlFor="justification">
                   Pour la raison suivante:
                 </label>
                 <textarea
@@ -385,7 +373,28 @@ export default function NewModificationRequestPage({ request, project }: PagePro
                   defaultValue={justification || ''}
                   {...dataId('modificationRequest-justificationField')}
                 />
-                <label htmlFor="candidats">Pièce justificative (si nécessaire)</label>
+                {!(project.dcrNumeroDossier || project.numeroGestionnaire) ? (
+                  <>
+                    <label htmlFor="numeroGestionnaire" style={{ marginTop: 5 }}>
+                      Identifiant gestionnaire de réseau
+                    </label>
+                    <div style={{ fontSize: 11 }}>
+                      Cette indication permettra un traitement plus rapide de votre demande.{' '}
+                      <a href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel/comment-transmettre-ma-demande-complete-de-raccordement-dcr">
+                        Où trouver mon numéro ?
+                      </a>
+                    </div>
+                    <input
+                      type="text"
+                      name="numeroGestionnaire"
+                      {...dataId('modificationRequest-numeroGestionnaireField')}
+                      id="numeroGestionnaire"
+                    />
+                  </>
+                ) : null}
+                <label htmlFor="file" style={{ marginTop: 5 }}>
+                  Pièce justificative (si nécessaire)
+                </label>
                 <input
                   type="file"
                   name="file"

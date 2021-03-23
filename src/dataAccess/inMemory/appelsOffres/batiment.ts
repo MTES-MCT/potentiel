@@ -1,5 +1,5 @@
 import { AppelOffre } from '../../../entities'
-import { commonDataFields } from './commonDataFields'
+import { commonDataFields, makeParagrapheAchevementForDelai } from './commonDataFields'
 import toTypeLiteral from './helpers/toTypeLiteral'
 
 const batiment: AppelOffre = {
@@ -10,6 +10,7 @@ const batiment: AppelOffre = {
   launchDate: 'septembre 2016',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 20,
+  contenuParagrapheAchevement: makeParagrapheAchevementForDelai(20, '7.1'),
   delaiRealisationTexte: 'vingt (20) mois',
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.4',
@@ -42,42 +43,52 @@ const batiment: AppelOffre = {
     {
       id: '1',
       title: 'première',
+      paragrapheAchevement: '6.4',
     },
     {
       id: '2',
       title: 'deuxième',
+      paragrapheAchevement: '6.4',
     },
     {
       id: '3',
       title: 'troisième',
+      paragrapheAchevement: '6.4',
     },
     {
       id: '4',
       title: 'quatrième',
+      paragrapheAchevement: '6.4',
     },
     {
       id: '5',
       title: 'cinquième',
+      paragrapheAchevement: '6.4',
     },
     {
       id: '6',
       title: 'sixième',
+      paragrapheAchevement: '6.4',
     },
     {
       id: '7',
       title: 'septième',
+      paragrapheAchevement: '6.4',
     },
     {
       id: '8',
       title: 'huitième',
+      paragrapheAchevement: '6.4',
     },
     {
       id: '9',
       title: 'neuvième',
+      paragrapheAchevement: '6.4',
     },
     {
       id: '10',
       title: 'dixième',
+      paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
       noteThresholdByFamily: [
         { familleId: '1', noteThreshold: 27.91 },
@@ -88,6 +99,7 @@ const batiment: AppelOffre = {
     {
       id: '11',
       title: 'onzième',
+      paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
       noteThresholdByFamily: [
         { familleId: '1', noteThreshold: 30.82 },

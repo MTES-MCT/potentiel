@@ -1,5 +1,5 @@
 import { AppelOffre } from '../../../entities'
-import { commonDataFields } from './commonDataFields'
+import { commonDataFields, makeParagrapheAchevementForDelai } from './commonDataFields'
 
 import toTypeLiteral from './helpers/toTypeLiteral'
 
@@ -11,6 +11,7 @@ const innovation: AppelOffre = {
   launchDate: 'mars 2017',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,
+  contenuParagrapheAchevement: makeParagrapheAchevementForDelai(24, '7.1'),
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7.1',
   paragrapheDelaiDerogatoire: '6.3',
@@ -43,10 +44,12 @@ const innovation: AppelOffre = {
     {
       id: '1',
       title: 'première',
+      paragrapheAchevement: '6.3',
     },
     {
       id: '2',
       title: 'deuxième',
+      paragrapheAchevement: '6.3',
       noteThresholdByFamily: [
         { familleId: '1', noteThreshold: 71.58 },
         { familleId: '2', noteThreshold: 45.49 },
@@ -57,6 +60,7 @@ const innovation: AppelOffre = {
     {
       id: '3',
       title: 'troisième',
+      paragrapheAchevement: '6.3',
       noteThresholdByFamily: [
         { familleId: '1', noteThreshold: 64.21 },
         { familleId: '2', noteThreshold: 59.32 },

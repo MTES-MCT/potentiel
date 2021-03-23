@@ -53,6 +53,7 @@ type IsNotified = {
 
 type IsClasse = {
   isClasse: true
+  completionDueOn: Date
 } & GarantieFinanciere &
   DCR &
   PTF

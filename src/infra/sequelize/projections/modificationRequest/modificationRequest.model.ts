@@ -33,6 +33,14 @@ export const MakeModificationRequestModel = (sequelize) => {
         type: DataTypes.UUID,
         allowNull: true,
       },
+      responseFileId: {
+        type: DataTypes.UUID,
+        allowNull: true,
+      },
+      acceptanceParams: {
+        type: DataTypes.JSON,
+        allowNull: true,
+      },
       versionDate: {
         type: DataTypes.DATE,
         allowNull: false,
@@ -74,12 +82,8 @@ export const MakeModificationRequestModel = (sequelize) => {
         type: DataTypes.DOUBLE,
         allowNull: true,
       },
-      delayedServiceDate: {
-        type: DataTypes.BIGINT,
-        allowNull: true,
-      },
-      responseFileId: {
-        type: DataTypes.UUID,
+      delayInMonths: {
+        type: DataTypes.INTEGER,
         allowNull: true,
       },
     },

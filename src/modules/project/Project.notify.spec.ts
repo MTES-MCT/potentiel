@@ -1,15 +1,14 @@
 import moment from 'moment'
 import { UniqueEntityID } from '../../core/domain'
-import { logger, UnwrapForTest } from '../../core/utils'
+import { UnwrapForTest } from '../../core/utils'
 import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
-import { makeUser } from '../../entities'
-import { UnwrapForTest as OldUnwrapForTest } from '../../types'
+import { AppelOffre } from '../../entities'
 import makeFakeProject from '../../__tests__/fixtures/project'
-import makeFakeUser from '../../__tests__/fixtures/user'
 import { StoredEvent } from '../eventStore'
 import { ProjectAlreadyNotifiedError } from './errors'
 import {
   LegacyProjectSourced,
+  ProjectCompletionDueDateSet,
   ProjectDCRDueDateSet,
   ProjectGFDueDateSet,
   ProjectNotified,
@@ -18,9 +17,7 @@ import { makeProject } from './Project'
 
 const projectId = new UniqueEntityID('project1')
 
-const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
-
-const appelsOffres = appelsOffreStatic.reduce((map, appelOffre) => {
+const appelsOffres: Record<string, AppelOffre> = appelsOffreStatic.reduce((map, appelOffre) => {
   map[appelOffre.id] = appelOffre
   return map
 }, {})
@@ -66,9 +63,9 @@ describe('Project.notify()', () => {
     expect(targetEvent.payload.projectId).toEqual(projectId.toString())
   })
 
-  describe('when project is classé and family warrants a garantie financiere', () => {
+  describe('when project is classé', () => {
     const fakeProjectData = makeFakeProject({
-      notifiedOn: 123,
+      notifiedOn: 0,
       appelOffreId: 'Fessenheim',
       periodeId: '2',
       familleId: '1',
@@ -79,9 +76,9 @@ describe('Project.notify()', () => {
     const project = UnwrapForTest(makeProject({ projectId, history: fakeHistory, appelsOffres }))
 
     beforeAll(() => {
-      const res = project.setNotificationDate(fakeUser, notifiedOn)
+      const res = project.notify(notifiedOn)
 
-      if (res.isErr()) logger.error(res.error)
+      if (res.isErr()) console.error(res.error)
       expect(res.isOk()).toBe(true)
     })
 
@@ -96,6 +93,42 @@ describe('Project.notify()', () => {
       expect(targetEvent.payload.dcrDueOn).toEqual(
         moment(notifiedOn).add(2, 'months').toDate().getTime()
       )
+    })
+
+    it('should trigger ProjectCompletionDueDateSet', () => {
+      const targetEvent = project.pendingEvents.find(
+        (item) => item.type === ProjectCompletionDueDateSet.type
+      ) as ProjectCompletionDueDateSet | undefined
+      expect(targetEvent).toBeDefined()
+      if (!targetEvent) return
+
+      expect(targetEvent.payload.projectId).toEqual(projectId.toString())
+      expect(targetEvent.payload.completionDueOn).toEqual(
+        moment(notifiedOn)
+          .add(appelsOffres[fakeProjectData.appelOffreId].delaiRealisationEnMois, 'months')
+          .toDate()
+          .getTime()
+      )
+    })
+  })
+
+  describe('when project is classé and family warrants a garantie financiere', () => {
+    const fakeProjectData = makeFakeProject({
+      notifiedOn: 0,
+      appelOffreId: 'Fessenheim',
+      periodeId: '2',
+      familleId: '1',
+      classe: 'Classé',
+    })
+    const fakeHistory = makeFakeHistory(fakeProjectData)
+
+    const project = UnwrapForTest(makeProject({ projectId, history: fakeHistory, appelsOffres }))
+
+    beforeAll(() => {
+      const res = project.notify(notifiedOn)
+
+      if (res.isErr()) console.error(res.error)
+      expect(res.isOk()).toBe(true)
     })
 
     it('should trigger ProjectGFDueDateSet', () => {

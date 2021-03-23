@@ -204,12 +204,8 @@ class routes {
     } else return route
   }
 
-  static TELECHARGER_MODELE_REPONSE_RECOURS = (
-    project?: Project,
-    modificationRequestId?: string
-  ) => {
-    const route =
-      '/projet/:projectId/demande/:modificationRequestId/telecharger-reponse-recours/:filename'
+  static TELECHARGER_MODELE_REPONSE = (project?: Project, modificationRequestId?: string) => {
+    const route = '/projet/:projectId/demande/:modificationRequestId/telecharger-reponse/:filename'
     if (project && modificationRequestId) {
       const now = new Date()
       return route
@@ -220,7 +216,7 @@ class routes {
           sanitize(
             `${now.getFullYear()}-${
               now.getMonth() + 1
-            }-${now.getDate()} - Recours gracieux - ${makeProjectIdentifier(project)}.docx`
+            }-${now.getDate()} - Réponse demande - ${makeProjectIdentifier(project)}.docx`
           )
         )
     } else return route

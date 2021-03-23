@@ -130,6 +130,7 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
       gf,
       dcr,
       ptf,
+      completionDueOn,
     } = projectRaw.get()
 
     let allInvitations: any[] = []
@@ -167,6 +168,7 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
       note,
       details,
       notifiedOn: notifiedOn ? new Date(notifiedOn) : undefined,
+      completionDueOn: completionDueOn ? new Date(completionDueOn) : undefined,
       isClasse: classe === 'Classé',
       motifsElimination,
       users: users?.map(({ user }) => user),

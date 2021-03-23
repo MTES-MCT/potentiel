@@ -1,15 +1,14 @@
+import asyncHandler from 'express-async-handler'
 import fs from 'fs'
 import _ from 'lodash'
-import moment from 'moment'
-import { logger } from '../../core/utils'
-import { pathExists } from '../../helpers/pathExists'
+import { isStrictlyPositiveNumber, logger } from '../../core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
+import { pathExists } from '../../helpers/pathExists'
 import routes from '../../routes'
 import { requestModification, shouldUserAccessProject } from '../../useCases'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
-import asyncHandler from 'express-async-handler'
 
 const returnRoute = (type, projectId) => {
   let returnRoute: string
@@ -70,51 +69,41 @@ v1Router.post(
       'justification',
       'projectId',
       'evaluationCarbone',
-      'delayedServiceDate',
+      'delayInMonths',
+      'numeroGestionnaire',
     ])
 
-    // Convert puissance
-    try {
-      data.puissance = data.puissance && Number(data.puissance)
-    } catch (error) {
-      logger.info('Could not convert puissance to Number')
+    if (data.type === 'puissance' && !isStrictlyPositiveNumber(data.puissance)) {
       const { projectId, type } = data
       return response.redirect(
         addQueryParams(returnRoute(type, projectId), {
-          error: 'Erreur: la puissance doit être un nombre',
+          error: 'Erreur: la puissance n‘est pas valide.',
         })
       )
     }
+    data.puissance = data.puissance && Number(data.puissance)
 
-    // Convert evaluationCarbone
-    try {
-      data.evaluationCarbone = data.evaluationCarbone && Number(data.evaluationCarbone)
-    } catch (error) {
-      logger.info('Could not convert evaluationCarbone to Number')
+    if (data.type === 'fournisseur' && !isStrictlyPositiveNumber(data.evaluationCarbone)) {
       const { projectId, type } = data
       return response.redirect(
         addQueryParams(returnRoute(type, projectId), {
-          error: "Erreur: l'evaluationCarbone doit être un nombre",
+          error: 'Erreur: la valeur de l‘évaluation carbone n‘est pas valide.',
         })
       )
     }
+    data.evaluationCarbone = data.evaluationCarbone && Number(data.evaluationCarbone)
 
-    // Convert delayedServiceDate
-    try {
-      if (data.delayedServiceDate) {
-        const delayedServiceDate = moment(data.delayedServiceDate, 'DD/MM/YYYY')
-        if (!delayedServiceDate.isValid()) throw new Error('invalid date format')
-        data.delayedServiceDate = delayedServiceDate.toDate().getTime()
+    if (data.type === 'delai' && !isStrictlyPositiveNumber(data.delayInMonths)) {
+      if (!data.delayInMonths || isNaN(data.delayInMonths) || data.delayInMonths <= 0) {
+        const { projectId, type } = data
+        return response.redirect(
+          addQueryParams(returnRoute(type, projectId), {
+            error: 'Erreur: le nombre de mois de délai doit être strictement supérieur à 0',
+          })
+        )
       }
-    } catch (error) {
-      logger.info('Could not convert delayedServiceDate to date')
-      const { projectId, type } = data
-      return response.redirect(
-        addQueryParams(returnRoute(type, projectId), {
-          error: "Erreur: la date envoyée n'est pas au bon format (JJ/MM/AAAA)",
-        })
-      )
     }
+    data.delayInMonths = data.delayInMonths && Number(data.delayInMonths)
 
     let file
 

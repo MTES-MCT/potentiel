@@ -1,13 +1,13 @@
-import makeRequestModification, { ACCESS_DENIED_ERROR } from './requestModification'
-
-import makeFakeUser from '../__tests__/fixtures/user'
 import { Readable } from 'stream'
-import { modificationRequestRepo } from '../dataAccess/inMemory'
-import { FileObject } from '../modules/file'
-import { okAsync } from '../core/utils'
 import { Repository } from '../core/domain'
+import { okAsync } from '../core/utils'
 import { StoredEvent } from '../modules/eventStore'
+import { FileObject } from '../modules/file'
+import { ModificationRequested } from '../modules/modificationRequest'
+import { NumeroGestionnaireSubmitted } from '../modules/project/events'
 import { InfraNotAvailableError } from '../modules/shared'
+import makeFakeUser from '../__tests__/fixtures/user'
+import makeRequestModification, { ACCESS_DENIED_ERROR } from './requestModification'
 
 const fakeFileContents = {
   filename: 'fakeFile.pdf',
@@ -92,58 +92,123 @@ describe('requestModification use-case', () => {
   })
 
   describe('given user is the projects porteur-project', () => {
+    const user = makeFakeUser({ id: '1234', role: 'porteur-projet' })
     const shouldUserAccessProject = jest.fn(async () => true)
 
-    const fileRepo = {
-      save: jest.fn((file: FileObject) => okAsync(null)),
-      load: jest.fn(),
-    }
+    describe('given request is actionnaire', () => {
+      const fileRepo = {
+        save: jest.fn((file: FileObject) => okAsync(null)),
+        load: jest.fn(),
+      }
 
-    const eventBus = {
-      publish: jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null)),
-      subscribe: jest.fn(),
-    }
+      const eventBus = {
+        publish: jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null)),
+        subscribe: jest.fn(),
+      }
 
-    const requestModification = makeRequestModification({
-      fileRepo: fileRepo as Repository<FileObject>,
-      eventBus,
-      shouldUserAccessProject,
-    })
-
-    const user = makeFakeUser({ id: '1234', role: 'porteur-projet' })
-
-    beforeAll(async () => {
-      const requestResult = await requestModification({
-        type: 'actionnaire' as 'actionnaire',
-        actionnaire: 'nouvel actionnaire',
-        file: fakeFileContents,
-        user,
-        projectId: 'project1',
+      const requestModification = makeRequestModification({
+        fileRepo: fileRepo as Repository<FileObject>,
+        eventBus,
+        shouldUserAccessProject,
       })
 
-      expect(requestResult.is_ok()).toEqual(true)
-    })
-
-    it('should save the file attachment', () => {
-      // Make sure the file has been saved
-      expect(fileRepo.save).toHaveBeenCalled()
-      expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents.contents)
-      const fakeFile = fileRepo.save.mock.calls[0][0]
-      expect(fakeFile).toBeDefined()
-    })
-
-    it('should emit ModificationRequested', () => {
-      const fakeFile = fileRepo.save.mock.calls[0][0]
-      expect(eventBus.publish).toHaveBeenCalledTimes(1)
-      expect(eventBus.publish.mock.calls[0][0].payload).toEqual(
-        expect.objectContaining({
-          type: 'actionnaire',
+      beforeAll(async () => {
+        const requestResult = await requestModification({
+          type: 'actionnaire' as 'actionnaire',
           actionnaire: 'nouvel actionnaire',
+          file: fakeFileContents,
+          user,
+          projectId: 'project1',
+        })
+
+        expect(requestResult.is_ok()).toEqual(true)
+      })
+
+      it('should save the file attachment', () => {
+        // Make sure the file has been saved
+        expect(fileRepo.save).toHaveBeenCalled()
+        expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents.contents)
+        const fakeFile = fileRepo.save.mock.calls[0][0]
+        expect(fakeFile).toBeDefined()
+      })
+
+      it('should emit ModificationRequested', () => {
+        const fakeFile = fileRepo.save.mock.calls[0][0]
+        expect(eventBus.publish).toHaveBeenCalledTimes(1)
+        expect(eventBus.publish.mock.calls[0][0].payload).toEqual(
+          expect.objectContaining({
+            type: 'actionnaire',
+            actionnaire: 'nouvel actionnaire',
+            fileId: fakeFile.id.toString(),
+            requestedBy: user.id,
+            projectId: 'project1',
+          })
+        )
+      })
+    })
+
+    describe('given request is delai with numeroGestionnaire given', () => {
+      const fileRepo = {
+        save: jest.fn((file: FileObject) => okAsync(null)),
+        load: jest.fn(),
+      }
+
+      const eventBus = {
+        publish: jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null)),
+        subscribe: jest.fn(),
+      }
+
+      const requestModification = makeRequestModification({
+        fileRepo: fileRepo as Repository<FileObject>,
+        eventBus,
+        shouldUserAccessProject,
+      })
+
+      beforeAll(async () => {
+        const requestResult = await requestModification({
+          type: 'delai' as 'delai',
+          justification: 'justification',
+          delayInMonths: 12,
+          numeroGestionnaire: 'numero gestionnaire',
+          file: fakeFileContents,
+          user,
+          projectId: 'project1',
+        })
+
+        expect(requestResult.is_ok()).toEqual(true)
+      })
+
+      it('should save the file attachment', () => {
+        // Make sure the file has been saved
+        expect(fileRepo.save).toHaveBeenCalled()
+        expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents.contents)
+        const fakeFile = fileRepo.save.mock.calls[0][0]
+        expect(fakeFile).toBeDefined()
+      })
+
+      it('should emit ModificationRequested', () => {
+        const fakeFile = fileRepo.save.mock.calls[0][0]
+        const firstEvent = eventBus.publish.mock.calls[0][0]
+        expect(firstEvent).toBeInstanceOf(ModificationRequested)
+        expect(firstEvent.payload).toMatchObject({
+          type: 'delai',
+          delayInMonths: 12,
+          justification: 'justification',
           fileId: fakeFile.id.toString(),
           requestedBy: user.id,
           projectId: 'project1',
         })
-      )
+      })
+
+      it('should emit NumeroGestionnaireSubmitted', () => {
+        const secondEvent = eventBus.publish.mock.calls[1][0]
+        expect(secondEvent).toBeInstanceOf(NumeroGestionnaireSubmitted)
+        expect(secondEvent.payload).toMatchObject({
+          numeroGestionnaire: 'numero gestionnaire',
+          submittedBy: user.id,
+          projectId: 'project1',
+        })
+      })
     })
   })
 })

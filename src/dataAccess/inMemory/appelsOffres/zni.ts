@@ -1,5 +1,5 @@
 import { AppelOffre } from '../../../entities'
-import { commonDataFields } from './commonDataFields'
+import { commonDataFields, makeParagrapheAchevementForDelai } from './commonDataFields'
 import toTypeLiteral from './helpers/toTypeLiteral'
 
 const zni: AppelOffre = {
@@ -10,6 +10,7 @@ const zni: AppelOffre = {
   launchDate: 'juin 2019',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,
+  contenuParagrapheAchevement: makeParagrapheAchevementForDelai(24, '7'),
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7.1',
   paragrapheDelaiDerogatoire: '6.4',
@@ -53,6 +54,7 @@ const zni: AppelOffre = {
     {
       id: '1',
       title: 'première',
+      paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'v0',
       noteThresholdByFamily: [
@@ -77,6 +79,7 @@ const zni: AppelOffre = {
     {
       id: '2',
       title: 'deuxième',
+      paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'v0',
       noteThresholdByFamily: [
@@ -100,6 +103,7 @@ const zni: AppelOffre = {
     {
       id: '3',
       title: 'troisième',
+      paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'v1',
       noteThresholdByFamily: [
@@ -121,6 +125,7 @@ const zni: AppelOffre = {
     {
       id: '5',
       title: 'cinquième',
+      paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'v1',
       noteThresholdByFamily: [

@@ -21,6 +21,7 @@ const deserialize = (item) => ({
   dcrFileId: item.dcrFileId || '',
   dcrDueOn: item.dcrDueOn || 0,
   certificateFileId: item.certificateFileId || '',
+  numeroGestionnaire: item.numeroGestionnaire || '',
   garantiesFinancieresDate: item.gf?.stepDate.getTime() || 0,
   garantiesFinancieresSubmittedOn: item.gf?.submittedOn.getTime() || 0,
   garantiesFinancieresSubmittedBy: item.gf?.submittedBy,
@@ -30,6 +31,7 @@ const deserialize = (item) => ({
   dcrSubmittedBy: item.dcr?.submittedBy,
   dcrFileRef: item.dcr?.file,
   dcrNumeroDossier: item.dcr?.details.numeroDossier,
+  completionDueOn: item.completionDueOn || 0,
 })
 
 export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): ProjectRepo {
@@ -158,12 +160,21 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
       allowNull: false,
       defaultValue: 0,
     },
+    completionDueOn: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      defaultValue: 0,
+    },
     details: {
       type: DataTypes.JSON,
       allowNull: true,
     },
     certificateFileId: {
       type: DataTypes.UUID,
+      allowNull: true,
+    },
+    numeroGestionnaire: {
+      type: DataTypes.STRING,
       allowNull: true,
     },
   })
