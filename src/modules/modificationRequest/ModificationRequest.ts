@@ -9,6 +9,7 @@ import {
   ModificationRequestAccepted,
   ModificationRequestRejected,
   ResponseTemplateDownloaded,
+  ModificationRequestStatusUpdated,
 } from './events'
 
 export interface ModificationRequest extends EventStoreAggregate {
@@ -18,6 +19,7 @@ export interface ModificationRequest extends EventStoreAggregate {
     params?: ModificationRequestAcceptanceParams
   }): Result<null, StatusPreventsAcceptingError>
   reject(rejectedBy: User, responseFileId: string): Result<null, StatusPreventsRejectingError>
+  updateStatus(args: { updatedBy: User; newStatus: ModificationRequestStatus })
   readonly projectId: UniqueEntityID
   readonly status: ModificationRequestStatus
 }
@@ -102,6 +104,19 @@ export const makeModificationRequest = (args: {
 
       return ok(null)
     },
+    updateStatus: function ({ updatedBy, newStatus }) {
+      _publishEvent(
+        new ModificationRequestStatusUpdated({
+          payload: {
+            modificationRequestId: modificationRequestId.toString(),
+            updatedBy: updatedBy.id,
+            newStatus,
+          },
+        })
+      )
+
+      return ok(null)
+    },
     get pendingEvents() {
       return pendingEvents
     },
@@ -134,6 +149,9 @@ export const makeModificationRequest = (args: {
         break
       case ModificationRequestRejected.type:
         props.status = 'rejetée'
+        break
+      case ModificationRequestStatusUpdated.type:
+        props.status = event.payload.newStatus
         break
       default:
         // ignore other event types
