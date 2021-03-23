@@ -1,9 +1,8 @@
-import { UniqueEntityID } from '../../../core/domain'
-import { StoredEvent } from '../../../modules/eventStore'
+import { DomainEvent, UniqueEntityID } from '../../../core/domain'
 
 export const makeFakeCandidateNotification = () => ({
   notifyCandidateIfReady: jest.fn(),
   lastUpdatedOn: new Date(0),
-  pendingEvents: [] as StoredEvent[],
+  pendingEvents: [] as DomainEvent[],
   id: new UniqueEntityID(),
 })

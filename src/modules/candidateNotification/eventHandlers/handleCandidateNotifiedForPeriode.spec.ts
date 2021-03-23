@@ -1,15 +1,15 @@
+import { DomainEvent } from '../../../core/domain'
 import { okAsync } from '../../../core/utils'
 import { ProjectAdmissionKey } from '../../../entities'
 import { Ok } from '../../../types'
 import { GetPeriodeTitle } from '../../appelOffre'
-import { StoredEvent } from '../../eventStore'
 import { NotificationArgs } from '../../notification'
 import { InfraNotAvailableError } from '../../shared'
 import { CandidateNotificationForPeriodeFailed, CandidateNotifiedForPeriode } from '../events'
 import { handleCandidateNotifiedForPeriode } from './handleCandidateNotifiedForPeriode'
 
 const eventBus = {
-  publish: jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null)),
+  publish: jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null)),
   subscribe: jest.fn(),
 }
 

@@ -1,4 +1,4 @@
-import { Repository, UniqueEntityID } from '../../core/domain'
+import { DomainEvent, Repository, UniqueEntityID } from '../../core/domain'
 import { err, ok, okAsync, Result, unwrapResultOfResult } from '../../core/utils'
 import {
   AggregateHasBeenUpdatedSinceError,
@@ -7,10 +7,9 @@ import {
 } from '../shared'
 import { EventStore } from './EventStore'
 import { EventStoreAggregate } from './EventStoreAggregate'
-import { StoredEvent } from './StoredEvent'
 
 type AggregateFromHistoryFn<T> = (args: {
-  events: StoredEvent[]
+  events: DomainEvent[]
   id: UniqueEntityID
 }) => Result<T, EntityNotFoundError | HeterogeneousHistoryError>
 

@@ -1,6 +1,7 @@
-import { errAsync, logger, okAsync, ResultAsync, wrapInfra } from '../../../core/utils'
+import { DomainEvent } from '../../../core/domain'
+import { errAsync, ResultAsync, wrapInfra } from '../../../core/utils'
 import { User } from '../../../entities'
-import { EventBus, StoredEvent } from '../../eventStore'
+import { EventBus } from '../../eventStore'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { ProjectDCRRemoved, ProjectGFRemoved, ProjectPTFRemoved } from '../events'
 
@@ -29,7 +30,7 @@ export const makeRemoveStep = (deps: RemoveStepDeps) => (
   )
 }
 
-const _makeEventForType = ({ type, projectId, removedBy }: RemoveStepArgs): StoredEvent => {
+const _makeEventForType = ({ type, projectId, removedBy }: RemoveStepArgs): DomainEvent => {
   const payload = {
     projectId,
     removedBy: removedBy.id,

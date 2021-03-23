@@ -1,7 +1,7 @@
 import moment from 'moment-timezone'
 import sanitize from 'sanitize-filename'
 import _ from 'lodash'
-import { UniqueEntityID } from '../../core/domain'
+import { DomainEvent, UniqueEntityID } from '../../core/domain'
 import {
   err,
   isPositiveNumber,
@@ -17,7 +17,7 @@ import {
   ProjectAppelOffre,
   User,
 } from '../../entities'
-import { StoredEvent, EventStoreAggregate } from '../eventStore'
+import { EventStoreAggregate } from '../eventStore'
 import {
   EntityNotFoundError,
   HeterogeneousHistoryError,
@@ -135,7 +135,7 @@ const projectValidator = makePropertyValidator({
 
 export const makeProject = (args: {
   projectId: UniqueEntityID
-  history: StoredEvent[]
+  history: DomainEvent[]
   appelsOffres: Record<AppelOffre['id'], AppelOffre>
 }): Result<Project, EntityNotFoundError | HeterogeneousHistoryError> => {
   const { history, projectId, appelsOffres } = args
@@ -158,7 +158,7 @@ export const makeProject = (args: {
     return err(new IllegalInitialStateForAggregateError())
   }
 
-  const pendingEvents: StoredEvent[] = []
+  const pendingEvents: DomainEvent[] = []
   const props: ProjectProps = {
     notifiedOn: 0,
     completionDueOn: 0,
@@ -451,12 +451,12 @@ export const makeProject = (args: {
     return ok(newProps)
   }
 
-  function _publishEvent(event: StoredEvent) {
+  function _publishEvent(event: DomainEvent) {
     pendingEvents.push(event)
     _processEvent(event)
   }
 
-  function _updateLastUpdatedOn(event: StoredEvent) {
+  function _updateLastUpdatedOn(event: DomainEvent) {
     // only update lastUpdatedOn date for events that mutate the entity
     switch (event.type) {
       case LegacyProjectSourced.type:
@@ -475,7 +475,7 @@ export const makeProject = (args: {
     }
   }
 
-  function _processEvent(event: StoredEvent) {
+  function _processEvent(event: DomainEvent) {
     switch (event.type) {
       case LegacyProjectSourced.type:
         props.data = event.payload.content
@@ -582,7 +582,7 @@ export const makeProject = (args: {
     return history.every((event) => event.aggregateId?.includes(projectId.toString()))
   }
 
-  function _isLegacyOrImport(event: StoredEvent): event is LegacyProjectSourced | ProjectImported {
+  function _isLegacyOrImport(event: DomainEvent): event is LegacyProjectSourced | ProjectImported {
     return event.type === LegacyProjectSourced.type || event.type === ProjectImported.type
   }
 
@@ -608,11 +608,11 @@ export const makeProject = (args: {
     return null
   }
 
-  function _removePendingEventsOfType(type: StoredEvent['type']) {
+  function _removePendingEventsOfType(type: DomainEvent['type']) {
     _.remove(pendingEvents, (event) => event.type === type)
   }
 
-  function _hasPendingEventOfType(type: StoredEvent['type']) {
+  function _hasPendingEventOfType(type: DomainEvent['type']) {
     return pendingEvents.some((event) => event.type === type)
   }
 

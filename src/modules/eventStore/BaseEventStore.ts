@@ -1,4 +1,5 @@
 import { EventEmitter } from 'events'
+import { DomainEvent } from '../../core/domain'
 import {
   ok,
   Result,
@@ -10,7 +11,6 @@ import {
 } from '../../core/utils'
 import { InfraNotAvailableError, OtherError } from '../shared'
 import { EventStore, EventStoreHistoryFilters, EventStoreTransactionArgs } from './EventStore'
-import { StoredEvent } from './StoredEvent'
 
 export abstract class BaseEventStore implements EventStore {
   private queue: Queue
@@ -22,19 +22,19 @@ export abstract class BaseEventStore implements EventStore {
     this.eventEmitter = new EventEmitter()
   }
 
-  protected abstract persistEvents(events: StoredEvent[]): ResultAsync<null, InfraNotAvailableError>
+  protected abstract persistEvents(events: DomainEvent[]): ResultAsync<null, InfraNotAvailableError>
 
   public abstract loadHistory(
     filters?: EventStoreHistoryFilters
-  ): ResultAsync<StoredEvent[], InfraNotAvailableError>
+  ): ResultAsync<DomainEvent[], InfraNotAvailableError>
 
-  publish(event: StoredEvent): ResultAsync<null, InfraNotAvailableError> {
+  publish(event: DomainEvent): ResultAsync<null, InfraNotAvailableError> {
     const ticket = this.queue.push(async () => await this._persistAndPublish([event]))
 
     return wrapInfra(ticket).andThen(unwrapResultOfResult)
   }
 
-  subscribe<T extends StoredEvent>(eventType: T['type'], callback: (event: T) => any) {
+  subscribe<T extends DomainEvent>(eventType: T['type'], callback: (event: T) => any) {
     this.eventEmitter.on(eventType, callback)
   }
 
@@ -42,13 +42,13 @@ export abstract class BaseEventStore implements EventStore {
     fn: (args: EventStoreTransactionArgs) => T
   ): ResultAsync<T, InfraNotAvailableError | OtherError> {
     const ticket: Promise<Result<T, InfraNotAvailableError>> = this.queue.push(async () => {
-      const eventsToEmit: StoredEvent[] = []
+      const eventsToEmit: DomainEvent[] = []
 
       const callbackResult = await fn({
         loadHistory: (filters) => {
           return this.loadHistory(filters)
         },
-        publish: (event: StoredEvent) => {
+        publish: (event: DomainEvent) => {
           eventsToEmit.push(event)
         },
       })
@@ -62,12 +62,12 @@ export abstract class BaseEventStore implements EventStore {
     )
   }
 
-  private _emitEvent(event: StoredEvent) {
+  private _emitEvent(event: DomainEvent) {
     logger.info(`[${event.type}] ${event.aggregateId}`)
     this.eventEmitter.emit(event.type, event)
   }
 
-  private _persistAndPublish = (events: StoredEvent[]) => {
+  private _persistAndPublish = (events: DomainEvent[]) => {
     return this.persistEvents(events).andThen(() => {
       events.forEach(this._emitEvent.bind(this))
       return ok<null, InfraNotAvailableError>(null)

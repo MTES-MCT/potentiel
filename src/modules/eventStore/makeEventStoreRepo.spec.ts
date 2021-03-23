@@ -1,5 +1,5 @@
-import { StoredEvent, EventStoreHistoryFilters, EventStore } from '.'
-import { UniqueEntityID } from '../../core/domain'
+import { EventStoreHistoryFilters, EventStore } from '.'
+import { DomainEvent, UniqueEntityID } from '../../core/domain'
 import { ok, okAsync } from '../../core/utils'
 import { makeFakeEventStore } from '../../__tests__/fixtures/aggregates'
 import { PeriodeNotified } from '../project/events'
@@ -32,7 +32,7 @@ const fakeProducedEvent = new PeriodeNotified({
 })
 
 interface FakeAggregate {
-  pendingEvents: StoredEvent[]
+  pendingEvents: DomainEvent[]
   lastUpdatedOn: Date
   id: UniqueEntityID
 }
@@ -44,12 +44,12 @@ describe('makeEventStoreTransactionalRepo', () => {
       lastUpdatedOn: new Date(0),
       id: projectId,
     }
-    const fakeMakeAggregate = jest.fn((args: { events: StoredEvent[]; id: UniqueEntityID }) =>
+    const fakeMakeAggregate = jest.fn((args: { events: DomainEvent[]; id: UniqueEntityID }) =>
       ok<FakeAggregate, EntityNotFoundError | HeterogeneousHistoryError>(fakeAggregate)
     )
 
     const fakeLoadHistory = jest.fn((filters?: EventStoreHistoryFilters) => {
-      return okAsync<StoredEvent[], InfraNotAvailableError>([fakeHistoryEvent])
+      return okAsync<DomainEvent[], InfraNotAvailableError>([fakeHistoryEvent])
     })
     const fakeEventStore = makeFakeEventStore(fakeLoadHistory)
 
@@ -76,12 +76,12 @@ describe('makeEventStoreTransactionalRepo', () => {
         id: projectId,
         lastUpdatedOn: new Date(0),
       }
-      const fakeMakeAggregate = jest.fn((args: { events: StoredEvent[]; id: UniqueEntityID }) =>
+      const fakeMakeAggregate = jest.fn((args: { events: DomainEvent[]; id: UniqueEntityID }) =>
         ok<FakeAggregate, EntityNotFoundError | HeterogeneousHistoryError>(fakeAggregate)
       )
 
       const fakeLoadHistory = jest.fn((filters?: EventStoreHistoryFilters) => {
-        return okAsync<StoredEvent[], InfraNotAvailableError>([fakeHistoryEvent])
+        return okAsync<DomainEvent[], InfraNotAvailableError>([fakeHistoryEvent])
       })
       const fakeEventStore = makeFakeEventStore(fakeLoadHistory)
 
@@ -107,12 +107,12 @@ describe('makeEventStoreTransactionalRepo', () => {
         id: projectId,
         lastUpdatedOn: new Date(1), // notice date is 1
       }
-      const fakeMakeAggregate = jest.fn((args: { events: StoredEvent[]; id: UniqueEntityID }) =>
+      const fakeMakeAggregate = jest.fn((args: { events: DomainEvent[]; id: UniqueEntityID }) =>
         ok<FakeAggregate, EntityNotFoundError | HeterogeneousHistoryError>(fakeNewerAggregate)
       )
 
       const fakeLoadHistory = jest.fn((filters?: EventStoreHistoryFilters) => {
-        return okAsync<StoredEvent[], InfraNotAvailableError>([fakeHistoryEvent])
+        return okAsync<DomainEvent[], InfraNotAvailableError>([fakeHistoryEvent])
       })
       const fakeEventStore = makeFakeEventStore(fakeLoadHistory)
 

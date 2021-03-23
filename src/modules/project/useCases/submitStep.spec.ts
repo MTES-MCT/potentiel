@@ -1,8 +1,8 @@
 import { Readable } from 'stream'
-import { Repository, UniqueEntityID } from '../../../core/domain'
+import { DomainEvent, Repository, UniqueEntityID } from '../../../core/domain'
 import { okAsync } from '../../../core/utils'
 import { makeUser } from '../../../entities'
-import { EventBus, StoredEvent } from '../../../modules/eventStore'
+import { EventBus } from '../../../modules/eventStore'
 import { FileObject } from '../../../modules/file'
 import { InfraNotAvailableError } from '../../../modules/shared'
 import { UnwrapForTest } from '../../../types'
@@ -18,7 +18,7 @@ const fakeFileContents = {
   contents: Readable.from('test-content'),
 }
 
-const fakePublish = jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null))
+const fakePublish = jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null))
 
 const fakeEventBus: EventBus = {
   publish: fakePublish,

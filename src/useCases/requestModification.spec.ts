@@ -1,10 +1,9 @@
 import { Readable } from 'stream'
-import { Repository } from '../core/domain'
-import { okAsync } from '../core/utils'
-import { StoredEvent } from '../modules/eventStore'
-import { FileObject } from '../modules/file'
 import { ModificationRequested } from '../modules/modificationRequest'
 import { NumeroGestionnaireSubmitted } from '../modules/project/events'
+import { DomainEvent, Repository } from '../core/domain'
+import { okAsync } from '../core/utils'
+import { FileObject } from '../modules/file'
 import { InfraNotAvailableError } from '../modules/shared'
 import makeFakeUser from '../__tests__/fixtures/user'
 import makeRequestModification, { ACCESS_DENIED_ERROR } from './requestModification'
@@ -102,7 +101,7 @@ describe('requestModification use-case', () => {
       }
 
       const eventBus = {
-        publish: jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null)),
+        publish: jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null)),
         subscribe: jest.fn(),
       }
 
@@ -154,7 +153,7 @@ describe('requestModification use-case', () => {
       }
 
       const eventBus = {
-        publish: jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null)),
+        publish: jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null)),
         subscribe: jest.fn(),
       }
 

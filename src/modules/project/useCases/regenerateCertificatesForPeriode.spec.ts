@@ -1,4 +1,4 @@
-import { DomainError, UniqueEntityID } from '../../../core/domain'
+import { DomainError, DomainEvent, UniqueEntityID } from '../../../core/domain'
 import { errAsync, okAsync, ResultAsync } from '../../../core/utils'
 import { makeUser } from '../../../entities'
 import makeFakeUser from '../../../__tests__/fixtures/user'
@@ -6,7 +6,6 @@ import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtu
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { Project } from '../Project'
 import { makeRegenerateCertificatesForPeriode } from './regenerateCertificatesForPeriode'
-import { StoredEvent } from '../../eventStore'
 import { CertificatesForPeriodeRegenerated } from '../events'
 
 describe('regenerateCertificatesForPeriode', () => {
@@ -39,7 +38,7 @@ describe('regenerateCertificatesForPeriode', () => {
       }
       const eventBus = {
         subscribe: jest.fn(),
-        publish: jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null)),
+        publish: jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null)),
       }
 
       const regenerateCertificatesForPeriode = makeRegenerateCertificatesForPeriode({
@@ -95,7 +94,7 @@ describe('regenerateCertificatesForPeriode', () => {
       }
       const eventBus = {
         subscribe: jest.fn(),
-        publish: jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null)),
+        publish: jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null)),
       }
 
       const regenerateCertificatesForPeriode = makeRegenerateCertificatesForPeriode({
@@ -137,7 +136,7 @@ describe('regenerateCertificatesForPeriode', () => {
 
       const eventBus = {
         subscribe: jest.fn(),
-        publish: jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null)),
+        publish: jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null)),
       }
 
       const regenerateCertificatesForPeriode = makeRegenerateCertificatesForPeriode({
@@ -175,7 +174,7 @@ describe('regenerateCertificatesForPeriode', () => {
 
     const eventBus = {
       subscribe: jest.fn(),
-      publish: jest.fn((event: StoredEvent) => okAsync<null, InfraNotAvailableError>(null)),
+      publish: jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null)),
     }
 
     const regenerateCertificatesForPeriode = makeRegenerateCertificatesForPeriode({
