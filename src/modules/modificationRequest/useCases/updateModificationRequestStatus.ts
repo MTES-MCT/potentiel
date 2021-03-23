@@ -29,6 +29,7 @@ export const makeUpdateModificationRequestStatus = (deps: UpdateModificationRequ
   | EntityNotFoundError
   | UnauthorizedError
 > => {
+  console.log('updateModificationRequestStatus', args)
   const { modificationRequestRepo } = deps
   const { modificationRequestId, versionDate, newStatus, submittedBy } = args
 

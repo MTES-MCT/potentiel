@@ -1,7 +1,11 @@
 import asyncHandler from 'express-async-handler'
 import fs from 'fs'
 import moment from 'moment-timezone'
-import { acceptModificationRequest, rejectModificationRequest } from '../../config'
+import {
+  acceptModificationRequest,
+  rejectModificationRequest,
+  updateModificationRequestStatus,
+} from '../../config'
 import { logger } from '../../core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { isDateFormatValid, isStrictlyPositiveNumber } from '../../helpers/formValidators'
@@ -26,6 +30,7 @@ v1Router.post(
       type,
       versionDate,
       submitAccept,
+      statusUpdateOnly,
       newNotificationDate,
       delayInMonths,
     } = request.body
@@ -33,6 +38,20 @@ v1Router.post(
     // There are two submit buttons on the form, named submitAccept and submitReject
     // We know which one has been clicked when it has a string value
     const acceptedReply = typeof submitAccept === 'string'
+
+    if (statusUpdateOnly) {
+      const newStatus = acceptedReply ? 'acceptée' : 'rejetée'
+
+      return await updateModificationRequestStatus({
+        modificationRequestId,
+        versionDate: new Date(Number(versionDate)),
+        newStatus,
+        submittedBy: request.user,
+      }).match(
+        _handleSuccess(response, modificationRequestId),
+        _handleErrors(response, modificationRequestId)
+      )
+    }
 
     const courrierReponseExists: boolean = !!request.file && (await pathExists(request.file.path))
 
@@ -69,60 +88,71 @@ v1Router.post(
       )
     }
 
-    return await (acceptedReply
-      ? acceptModificationRequest({
-          modificationRequestId,
-          versionDate: new Date(Number(versionDate)),
-          responseFile: {
-            contents: fs.createReadStream(request.file.path),
-            filename: request.file.originalname,
-          },
-          acceptanceParams: _makeAcceptanceParams(type, {
-            newNotificationDate:
-              newNotificationDate &&
-              moment(newNotificationDate, FORMAT_DATE).tz('Europe/Paris').toDate(),
-            delayInMonths: delayInMonths && Number(delayInMonths),
-          })!,
-          submittedBy: request.user,
-        })
-      : rejectModificationRequest({
-          modificationRequestId,
-          versionDate: new Date(Number(versionDate)),
-          responseFile: {
-            contents: fs.createReadStream(request.file.path),
-            filename: request.file.originalname,
-          },
-          rejectedBy: request.user,
-        })
-    ).match(
-      () =>
-        response.redirect(
-          routes.SUCCESS_PAGE({
-            success: 'Votre réponse à la demande a bien été enregistrée.',
-            redirectUrl: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
-            redirectTitle: 'Retourner à la page demande',
-          })
-        ),
-      (e) => {
-        logger.error(e)
+    if (acceptedReply) {
+      return await acceptModificationRequest({
+        modificationRequestId,
+        versionDate: new Date(Number(versionDate)),
+        responseFile: {
+          contents: fs.createReadStream(request.file.path),
+          filename: request.file.originalname,
+        },
+        acceptanceParams: _makeAcceptanceParams(type, {
+          newNotificationDate:
+            newNotificationDate &&
+            moment(newNotificationDate, FORMAT_DATE).tz('Europe/Paris').toDate(),
+          delayInMonths: delayInMonths && Number(delayInMonths),
+        })!,
+        submittedBy: request.user,
+      }).match(
+        _handleSuccess(response, modificationRequestId),
+        _handleErrors(response, modificationRequestId)
+      )
+    }
 
-        if (e instanceof AggregateHasBeenUpdatedSinceError) {
-          return response.redirect(
-            addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
-              error: `Votre réponse n'a pas pu être prise en compte parce que la demande a été mise à jour entre temps. Merci de réessayer.`,
-            })
-          )
-        }
-
-        response.redirect(
-          addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
-            error: `Votre réponse n'a pas pu être prise en compte.`,
-          })
-        )
-      }
+    return rejectModificationRequest({
+      modificationRequestId,
+      versionDate: new Date(Number(versionDate)),
+      responseFile: {
+        contents: fs.createReadStream(request.file.path),
+        filename: request.file.originalname,
+      },
+      rejectedBy: request.user,
+    }).match(
+      _handleSuccess(response, modificationRequestId),
+      _handleErrors(response, modificationRequestId)
     )
   })
 )
+
+function _handleSuccess(response, modificationRequestId) {
+  return () => {
+    response.redirect(
+      addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
+        success: 'Votre réponse a bien été enregistrée.',
+      })
+    )
+  }
+}
+
+function _handleErrors(response, modificationRequestId) {
+  return (e) => {
+    logger.error(e)
+
+    if (e instanceof AggregateHasBeenUpdatedSinceError) {
+      return response.redirect(
+        addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
+          error: `Votre réponse n'a pas pu être prise en compte parce que la demande a été mise à jour entre temps. Merci de réessayer.`,
+        })
+      )
+    }
+
+    response.redirect(
+      addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
+        error: `Votre réponse n'a pas pu être prise en compte.`,
+      })
+    )
+  }
+}
 
 function _makeAcceptanceParams(
   type: string,

@@ -506,7 +506,7 @@ function addStatusOnlyHandler() {
     statusOnlyField.addEventListener('change', (event) => {
       if (event.currentTarget.checked) {
         otherFields.forEach((field) => {
-          if (field !== statusOnlyField) field.disabled = true
+          if (field !== statusOnlyField && field.type !== 'hidden') field.disabled = true
         })
       } else {
         otherFields.forEach((field) => {

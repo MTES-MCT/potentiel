@@ -309,7 +309,9 @@ export default function AdminModificationRequestPage({ request, modificationRequ
             {ModificationRequestStatusTitle[status]}
           </span>{' '}
           {respondedOn && respondedBy ? `par ${respondedBy} le ${formatDate(respondedOn)}` : ''}
-          {modificationRequest.type === 'delai' && modificationRequest.status === 'acceptée' ? (
+          {modificationRequest.type === 'delai' &&
+          modificationRequest.status === 'acceptée' &&
+          modificationRequest.acceptanceParams ? (
             <div>
               L‘administration vous accorde un délai{' '}
               <b>
