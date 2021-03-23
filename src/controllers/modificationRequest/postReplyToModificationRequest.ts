@@ -97,8 +97,10 @@ v1Router.post(
     ).match(
       () =>
         response.redirect(
-          addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
-            success: 'Votre réponse a bien été enregistrée.',
+          routes.SUCCESS_PAGE({
+            success: 'Votre réponse à la demande a bien été enregistrée.',
+            redirectUrl: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
+            redirectTitle: 'Retourner à la page demande',
           })
         ),
       (e) => {

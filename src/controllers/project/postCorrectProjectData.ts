@@ -111,9 +111,10 @@ v1Router.post(
     return await result.match(
       () => {
         response.redirect(
-          addQueryParams(routes.PROJECT_DETAILS(projectId), {
-            success:
-              'Les données du projet ont bien été mises à jour. N‘hésitez pas à rafraichir la page pour avoir les données les plus récentes.',
+          routes.SUCCESS_PAGE({
+            success: 'Les données du projet ont bien été mises à jour.',
+            redirectUrl: routes.PROJECT_DETAILS(projectId),
+            redirectTitle: 'Retourner à la page projet',
           })
         )
       },
