@@ -81,8 +81,8 @@ export default function makeModificationRequestRepo({
       type: DataTypes.DOUBLE,
       allowNull: true,
     },
-    delayedServiceDate: {
-      type: DataTypes.BIGINT,
+    delayInMonths: {
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
   })

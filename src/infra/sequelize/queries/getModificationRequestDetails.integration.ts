@@ -72,7 +72,7 @@ describe('Sequelize getModificationRequestDetails', () => {
 
     const modificationRequestDTO = modificationRequestResult.value
 
-    expect(modificationRequestDTO).toEqual({
+    expect(modificationRequestDTO).toMatchObject({
       id: modificationRequestId,
       type: 'recours',
       status: 'envoyée',

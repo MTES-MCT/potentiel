@@ -2,6 +2,10 @@ import { Repository, UniqueEntityID } from '../../../core/domain'
 import { err, errAsync, logger, ok, Result, ResultAsync } from '../../../core/utils'
 import { User } from '../../../entities'
 import { FileContents, FileObject, makeAndSaveFile } from '../../file'
+import {
+  IllegalProjectDataError,
+  ProjectCannotBeUpdatedIfUnnotifiedError,
+} from '../../project/errors'
 import { Project } from '../../project/Project'
 import {
   AggregateHasBeenUpdatedSinceError,
@@ -21,7 +25,7 @@ interface AcceptModificationRequestArgs {
   modificationRequestId: UniqueEntityID
   acceptanceParams: ModificationRequestAcceptanceParams
   versionDate: Date
-  responseFile: FileContents
+  responseFile: { contents: FileContents; filename: string }
   submittedBy: User
 }
 
@@ -36,6 +40,7 @@ export const makeAcceptModificationRequest = (deps: AcceptModificationRequestDep
 > => {
   const { fileRepo, modificationRequestRepo, projectRepo } = deps
   const { modificationRequestId, versionDate, responseFile, submittedBy, acceptanceParams } = args
+  const { contents, filename } = responseFile
 
   if (!['admin', 'dgec'].includes(submittedBy.role)) {
     return errAsync(new UnauthorizedError())
@@ -63,8 +68,8 @@ export const makeAcceptModificationRequest = (deps: AcceptModificationRequestDep
           designation: 'modification-request-response',
           forProject: modificationRequest.projectId,
           createdBy: new UniqueEntityID(submittedBy.id),
-          filename: project.certificateFilename,
-          contents: responseFile,
+          filename,
+          contents,
         },
         fileRepo,
       })
@@ -75,13 +80,23 @@ export const makeAcceptModificationRequest = (deps: AcceptModificationRequestDep
         })
     })
     .andThen(({ project, modificationRequest, responseFileId }) => {
-      return project
-        .grantClasse(submittedBy)
-        .andThen(() => project.updateCertificate(submittedBy, responseFileId))
-        .andThen(() =>
-          project.setNotificationDate(submittedBy, acceptanceParams.newNotificationDate.getTime())
-        )
-        .map(() => ({ project, modificationRequest, responseFileId }))
+      let action: Result<
+        null,
+        ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError
+      > = ok(null)
+
+      if (acceptanceParams.type === 'recours') {
+        action = project
+          .grantClasse(submittedBy)
+          .andThen(() => project.updateCertificate(submittedBy, responseFileId))
+          .andThen(() =>
+            project.setNotificationDate(submittedBy, acceptanceParams.newNotificationDate.getTime())
+          )
+      } else if (acceptanceParams.type === 'delai') {
+        action = project.moveCompletionDueDate(submittedBy, acceptanceParams.delayInMonths)
+      }
+
+      return action.map(() => ({ project, modificationRequest, responseFileId }))
     })
     .andThen(({ project, modificationRequest, responseFileId }) => {
       return modificationRequest

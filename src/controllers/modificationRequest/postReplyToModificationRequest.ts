@@ -1,15 +1,17 @@
+import asyncHandler from 'express-async-handler'
 import fs from 'fs'
 import moment from 'moment-timezone'
 import { acceptModificationRequest, rejectModificationRequest } from '../../config'
 import { logger } from '../../core/utils'
-import { pathExists } from '../../helpers/pathExists'
 import { addQueryParams } from '../../helpers/addQueryParams'
+import { isDateFormatValid, isStrictlyPositiveNumber } from '../../helpers/formValidators'
+import { pathExists } from '../../helpers/pathExists'
+import { ModificationRequestAcceptanceParams } from '../../modules/modificationRequest'
 import { AggregateHasBeenUpdatedSinceError } from '../../modules/shared'
 import routes from '../../routes'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
-import asyncHandler from 'express-async-handler'
 
 const FORMAT_DATE = 'DD/MM/YYYY'
 
@@ -25,6 +27,7 @@ v1Router.post(
       versionDate,
       submitAccept,
       newNotificationDate,
+      delayInMonths,
     } = request.body
 
     // There are two submit buttons on the form, named submitAccept and submitReject
@@ -41,19 +44,24 @@ v1Router.post(
       )
     }
 
-    if (
-      !newNotificationDate ||
-      moment(newNotificationDate, FORMAT_DATE).format(FORMAT_DATE) !== newNotificationDate
-    ) {
+    if (type === 'recours' && !isDateFormatValid(newNotificationDate, FORMAT_DATE)) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
-          error:
-            "Les notifications n'ont pas pu être envoyées: la date de notification est erronnée.",
+          error: "La réponse n'a pas pu être envoyée: la date de notification est erronnée.",
         })
       )
     }
 
-    if (type !== 'recours') {
+    if (type === 'delai' && !isStrictlyPositiveNumber(delayInMonths)) {
+      return response.redirect(
+        addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
+          error:
+            "La réponse n'a pas pu être envoyée: le délai accordé doit être un nombre supérieur à 0.",
+        })
+      )
+    }
+
+    if (!['recours', 'delai'].includes(type)) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
           error: 'Impossible de répondre à ce type de demande pour le moment.',
@@ -65,18 +73,25 @@ v1Router.post(
       ? acceptModificationRequest({
           modificationRequestId,
           versionDate: new Date(Number(versionDate)),
-          responseFile: fs.createReadStream(request.file.path),
-          acceptanceParams: {
-            newNotificationDate: moment(newNotificationDate, FORMAT_DATE)
-              .tz('Europe/Paris')
-              .toDate(),
+          responseFile: {
+            contents: fs.createReadStream(request.file.path),
+            filename: request.file.originalname,
           },
+          acceptanceParams: _makeAcceptanceParams(type, {
+            newNotificationDate:
+              newNotificationDate &&
+              moment(newNotificationDate, FORMAT_DATE).tz('Europe/Paris').toDate(),
+            delayInMonths: delayInMonths && Number(delayInMonths),
+          })!,
           submittedBy: request.user,
         })
       : rejectModificationRequest({
           modificationRequestId,
           versionDate: new Date(Number(versionDate)),
-          responseFile: fs.createReadStream(request.file.path),
+          responseFile: {
+            contents: fs.createReadStream(request.file.path),
+            filename: request.file.originalname,
+          },
           rejectedBy: request.user,
         })
     ).match(
@@ -106,3 +121,19 @@ v1Router.post(
     )
   })
 )
+
+function _makeAcceptanceParams(
+  type: string,
+  params: any
+): ModificationRequestAcceptanceParams | undefined {
+  const { newNotificationDate, delayInMonths } = params
+  switch (type) {
+    case 'recours':
+      return {
+        type,
+        newNotificationDate,
+      }
+    case 'delai':
+      return { type, delayInMonths }
+  }
+}

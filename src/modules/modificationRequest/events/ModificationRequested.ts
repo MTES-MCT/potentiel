@@ -12,7 +12,7 @@ export interface ModificationRequestedPayload {
   fournisseur?: string
   puissance?: number
   evaluationCarbone?: number
-  delayedServiceDate?: number
+  delayInMonths?: number
 }
 export class ModificationRequested
   extends BaseDomainEvent<ModificationRequestedPayload>

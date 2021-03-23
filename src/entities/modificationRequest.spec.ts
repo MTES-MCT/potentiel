@@ -135,13 +135,13 @@ describe('ModificationRequest entity', () => {
     expect(modificationRequestResult.is_err()).toBeTruthy()
   })
 
-  it("should accept an 'delai' request with justification and delayedServiceDate", () => {
+  it("should accept an 'delai' request with justification and delayInMonths", () => {
     const modificationRequestResult = makeModificationRequest({
       userId: '1',
       projectId: '1',
       type: 'delai',
       justification: 'because',
-      delayedServiceDate: 1234,
+      delayInMonths: 2,
     } as any)
 
     expect(modificationRequestResult.is_ok()).toBeTruthy()

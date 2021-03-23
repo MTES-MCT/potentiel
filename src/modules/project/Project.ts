@@ -37,6 +37,7 @@ import {
   ProjectCertificateRegenerated,
   ProjectCertificateUpdated,
   ProjectClasseGranted,
+  ProjectCompletionDueDateSet,
   ProjectDataCorrected,
   ProjectDataCorrectedPayload,
   ProjectDCRDueDateSet,
@@ -59,6 +60,10 @@ export interface Project extends EventStoreAggregate {
   setNotificationDate: (
     user: User,
     notifiedOn: number
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError>
+  moveCompletionDueDate: (
+    user: User,
+    delayInMonths: number
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError>
   updateCertificate: (
     user: User,
@@ -112,6 +117,8 @@ export interface ProjectProps {
   projectId: UniqueEntityID
   appelOffre: ProjectAppelOffre
   notifiedOn: number
+  completionDueOn: number
+  hasCompletionDueDateMoved: boolean
   lastUpdatedOn: Date
   lastCertificateUpdate: Date | undefined
   hasError: boolean
@@ -154,6 +161,8 @@ export const makeProject = (args: {
   const pendingEvents: StoredEvent[] = []
   const props: ProjectProps = {
     notifiedOn: 0,
+    completionDueOn: 0,
+    hasCompletionDueDateMoved: false,
     projectId,
     appelOffre: initialAppelOffre,
     isClasse: initialClasse,
@@ -201,6 +210,7 @@ export const makeProject = (args: {
 
       _updateDCRDate()
       _updateGFDate()
+      _updateCompletionDate()
 
       return ok(null)
     },
@@ -245,6 +255,29 @@ export const makeProject = (args: {
         return ok(null)
       })
     },
+    moveCompletionDueDate: function (user, delayInMonths) {
+      if (!_isNotified()) {
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+      }
+
+      const newCompletionDueOn = moment(props.completionDueOn)
+        .add(delayInMonths, 'months')
+        .toDate()
+        .getTime()
+
+      if (newCompletionDueOn <= props.notifiedOn) {
+        return err(
+          new IllegalProjectDataError({
+            completionDueOn:
+              'La nouvelle date de mise en service doit postérieure à la date de notification.',
+          })
+        )
+      }
+
+      _updateCompletionDate({ setBy: user.id, completionDueOn: newCompletionDueOn })
+
+      return ok(null)
+    },
     setNotificationDate: function (user, notifiedOn) {
       if (!_isNotified()) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
@@ -271,6 +304,7 @@ export const makeProject = (args: {
 
       _updateDCRDate()
       _updateGFDate()
+      _updateCompletionDate()
 
       return ok(null)
     },
@@ -304,6 +338,7 @@ export const makeProject = (args: {
 
         _updateDCRDate()
         _updateGFDate()
+        _updateCompletionDate()
       }
 
       return ok(null)
@@ -429,6 +464,7 @@ export const makeProject = (args: {
       case ProjectReimported.type:
       case ProjectNotified.type:
       case ProjectNotificationDateSet.type:
+      case ProjectCompletionDueDateSet.type:
       case ProjectDataCorrected.type:
       case ProjectClasseGranted.type:
         props.lastUpdatedOn = event.occurredAt
@@ -460,6 +496,10 @@ export const makeProject = (args: {
       case ProjectNotified.type:
       case ProjectNotificationDateSet.type:
         props.notifiedOn = event.payload.notifiedOn
+        break
+      case ProjectCompletionDueDateSet.type:
+        if (props.completionDueOn !== 0) props.hasCompletionDueDateMoved = true
+        props.completionDueOn = event.payload.completionDueOn
         break
       case ProjectDataCorrected.type:
         props.data = { ...props.data, ...event.payload.correctedData } as ProjectProps['data']
@@ -588,6 +628,29 @@ export const makeProject = (args: {
         })
       )
     }
+  }
+
+  function _updateCompletionDate(forceValue?: { setBy: string; completionDueOn: number }) {
+    if (!props.isClasse) return
+
+    if (props.hasCompletionDueDateMoved && !forceValue) return
+
+    const { setBy, completionDueOn } = forceValue || {}
+    _removePendingEventsOfType(ProjectCompletionDueDateSet.type)
+    _publishEvent(
+      new ProjectCompletionDueDateSet({
+        payload: {
+          projectId: props.projectId.toString(),
+          completionDueOn:
+            completionDueOn ||
+            moment(props.notifiedOn)
+              .add(props.appelOffre.delaiRealisationEnMois, 'months')
+              .toDate()
+              .getTime(),
+          setBy,
+        },
+      })
+    )
   }
 
   function _shouldSubmitGF() {

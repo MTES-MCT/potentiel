@@ -1,5 +1,5 @@
 import { AppelOffre } from '../../../entities'
-import { commonDataFields } from './commonDataFields'
+import { commonDataFields, makeParagrapheAchevementForDelai } from './commonDataFields'
 import toTypeLiteral from './helpers/toTypeLiteral'
 
 const sol: AppelOffre = {
@@ -10,6 +10,7 @@ const sol: AppelOffre = {
   launchDate: 'août 2016',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,
+  contenuParagrapheAchevement: makeParagrapheAchevementForDelai(24, '7.1'),
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7.2',
   paragrapheDelaiDerogatoire: '6.4',
@@ -42,30 +43,37 @@ const sol: AppelOffre = {
     {
       id: '1',
       title: 'première',
+      paragrapheAchevement: '6.4',
     },
     {
       id: '2',
       title: 'deuxième',
+      paragrapheAchevement: '6.4',
     },
     {
       id: '3',
       title: 'troisième',
+      paragrapheAchevement: '6.4',
     },
     {
       id: '4',
       title: 'quatrième',
+      paragrapheAchevement: '6.4',
     },
     {
       id: '5',
       title: 'cinquième',
+      paragrapheAchevement: '6.4',
     },
     {
       id: '6',
       title: 'sixième',
+      paragrapheAchevement: '6.4',
     },
     {
       id: '7',
       title: 'septième',
+      paragrapheAchevement: '6.4',
       noteThresholdByFamily: [
         { familleId: '1', noteThreshold: 56.6 },
         { familleId: '2', noteThreshold: 48.17 },
@@ -77,6 +85,7 @@ const sol: AppelOffre = {
     {
       id: '8',
       title: 'huitième',
+      paragrapheAchevement: '6.4',
       noteThresholdByFamily: [
         { familleId: '1', noteThreshold: 55.25 },
         { familleId: '2', noteThreshold: 52.04 },
@@ -88,6 +97,7 @@ const sol: AppelOffre = {
     {
       id: '9',
       title: 'neuvième',
+      paragrapheAchevement: '6.4',
       noteThresholdByFamily: [
         { familleId: '1', noteThreshold: 48.6 },
         { familleId: '2', noteThreshold: 45.49 },

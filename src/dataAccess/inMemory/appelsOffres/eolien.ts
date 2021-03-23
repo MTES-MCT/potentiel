@@ -1,5 +1,5 @@
 import { AppelOffre } from '../../../entities'
-import { commonDataFields } from './commonDataFields'
+import { commonDataFields, makeParagrapheAchevementForDelai } from './commonDataFields'
 import toTypeLiteral from './helpers/toTypeLiteral'
 
 const eolien: AppelOffre = {
@@ -25,6 +25,7 @@ const eolien: AppelOffre = {
   // Renvoi 4 sur l'innovation ?
   paragrapheDelaiDerogatoire: '6.4',
   delaiRealisationEnMois: 36,
+  contenuParagrapheAchevement: makeParagrapheAchevementForDelai(36, '7.1'),
   delaiRealisationTexte: 'trente-six (36) mois',
   paragrapheAttestationConformite: '6.5',
   afficherParagrapheInstallationMiseEnServiceModification: true,
@@ -49,26 +50,32 @@ const eolien: AppelOffre = {
     {
       id: '1',
       title: 'première',
+      paragrapheAchevement: '6.4',
     },
     {
       id: '2',
       title: 'deuxième',
+      paragrapheAchevement: '6.4',
     },
     {
       id: '3',
       title: 'troisième',
+      paragrapheAchevement: '6.4',
     },
     {
       id: '4',
       title: 'quatrième',
+      paragrapheAchevement: '6.4',
     },
     {
       id: '5',
       title: 'cinquième',
+      paragrapheAchevement: '6.4',
     },
     {
       id: '6',
       title: 'sixième',
+      paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'v1',
       noteThresholdByFamily: [{ familleId: '', noteThreshold: 10.19 }],
@@ -76,6 +83,7 @@ const eolien: AppelOffre = {
     {
       id: '7',
       title: 'septième',
+      paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'v1',
       noteThresholdByFamily: [{ familleId: '', noteThreshold: 13 }],

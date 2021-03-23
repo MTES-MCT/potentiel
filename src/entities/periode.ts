@@ -12,6 +12,7 @@ export type Periode = {
   id: string
   title: string
   noteThresholdByFamily?: NoteThreshold[]
+  paragrapheAchevement: string
 } & (
   | {
       isNotifiedOnPotentiel: true

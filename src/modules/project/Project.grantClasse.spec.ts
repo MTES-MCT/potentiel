@@ -8,6 +8,7 @@ import makeFakeUser from '../../__tests__/fixtures/user'
 import {
   LegacyProjectSourced,
   ProjectClasseGranted,
+  ProjectCompletionDueDateSet,
   ProjectDCRDueDateSet,
   ProjectGFDueDateSet,
 } from './events'
@@ -74,6 +75,16 @@ describe('Project.grantClasse()', () => {
       const targetEvent = project.pendingEvents.find(
         (item) => item.type === ProjectGFDueDateSet.type
       ) as ProjectGFDueDateSet | undefined
+      expect(targetEvent).toBeDefined()
+      if (!targetEvent) return
+
+      expect(targetEvent.payload.projectId).toEqual(projectId.toString())
+    })
+
+    it('should emit ProjectCompletionDueDateSet', () => {
+      const targetEvent = project.pendingEvents.find(
+        (item) => item.type === ProjectCompletionDueDateSet.type
+      ) as ProjectCompletionDueDateSet | undefined
       expect(targetEvent).toBeDefined()
       if (!targetEvent) return
 

@@ -27,13 +27,17 @@ describe('modificationRequest.onModificationRequestAccepted', () => {
     })
   })
 
-  it('should update status to accepté', async () => {
+  it('should update status to accepté and insert acceptance params', async () => {
+    const fakeAcceptanceParams = {
+      param1: 'value1',
+    }
     await onModificationRequestAccepted(models)(
       new ModificationRequestAccepted({
         payload: {
           modificationRequestId,
           acceptedBy: userId,
           responseFileId,
+          params: fakeAcceptanceParams,
         },
       })
     )
@@ -43,5 +47,6 @@ describe('modificationRequest.onModificationRequestAccepted', () => {
     )
     expect(updatedModificationRequest.status).toEqual('acceptée')
     expect(updatedModificationRequest.responseFileId).toEqual(responseFileId)
+    expect(updatedModificationRequest.acceptanceParams).toEqual(fakeAcceptanceParams)
   })
 })

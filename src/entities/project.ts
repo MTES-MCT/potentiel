@@ -64,6 +64,8 @@ const baseProjectSchema = SchemaRecord({
   dcrFile: String,
   dcrFileId: String,
   dcrDate: Number,
+  completionDueOn: Number,
+  numeroGestionnaire: String,
 })
 const projectSchema = baseProjectSchema.And(
   SchemaPartial({
@@ -280,6 +282,8 @@ export default ({ makeId }: MakeProjectDependencies) =>
     dcrFileId: '',
     dcrNumeroDossier: '',
     dcrDate: 0,
+    completionDueOn: 0,
+    numeroGestionnaire: '',
   })
 
 export {
