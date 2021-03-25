@@ -1,6 +1,7 @@
 // All this to avoid a SPA...
 
 window.initHandlers = function () {
+  addStatusOnlyHandler()
   addFriseToggleHandler()
   addFriseHiddenContentToggleHandler()
   addDateValidationHandler()
@@ -486,6 +487,31 @@ function addPuissanceModificationHandler() {
         disable(submitButton, true)
         show(outOfBounds, false)
         show(wrongFormat, true)
+      }
+    })
+  }
+}
+
+//
+// Modification request details page
+//
+
+function addStatusOnlyHandler() {
+  const statusOnlyField = document.querySelector(
+    '[data-testid=modificationRequest-statusUpdateOnlyField]'
+  )
+
+  if (statusOnlyField) {
+    const otherFields = statusOnlyField.closest('form').querySelectorAll('input')
+    statusOnlyField.addEventListener('change', (event) => {
+      if (event.currentTarget.checked) {
+        otherFields.forEach((field) => {
+          if (field !== statusOnlyField && field.type !== 'hidden') field.disabled = true
+        })
+      } else {
+        otherFields.forEach((field) => {
+          field.disabled = false
+        })
       }
     })
   }

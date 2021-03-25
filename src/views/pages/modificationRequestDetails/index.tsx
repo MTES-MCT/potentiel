@@ -188,18 +188,6 @@ export default function AdminModificationRequestPage({ request, modificationRequ
           ['recours', 'delai'].includes(type) && !modificationRequest.respondedOn ? (
             <div className="panel__header">
               <h4>Répondre</h4>
-              <div style={{ marginBottom: 10 }}>
-                <DownloadIcon />
-                <a
-                  href={ROUTES.TELECHARGER_MODELE_REPONSE(
-                    (project as unknown) as Project,
-                    modificationRequest.id
-                  )}
-                  download={true}
-                >
-                  Télécharger un modèle de réponse
-                </a>
-              </div>
 
               <form
                 action={ROUTES.ADMIN_REPLY_TO_MODIFICATION_REQUEST}
@@ -210,6 +198,34 @@ export default function AdminModificationRequestPage({ request, modificationRequ
                 <input type="hidden" name="modificationRequestId" value={modificationRequest.id} />
                 <input type="hidden" name="type" value={modificationRequest.type} />
                 <input type="hidden" name="versionDate" value={versionDate.getTime()} />
+
+                <div className="form__group" style={{ marginBottom: 20 }}>
+                  <label htmlFor="statusUpdateOnly">
+                    <input
+                      type="checkbox"
+                      name="statusUpdateOnly"
+                      {...dataId('modificationRequest-statusUpdateOnlyField')}
+                    />
+                    Demande traitée hors Potentiel
+                  </label>
+                  <div style={{ fontSize: 11, lineHeight: '1.5em', marginTop: 3 }}>
+                    En cochant cette case, seul le statut de la demande sera mise à jour. La réponse
+                    n‘aura pas d‘impact sur le projet et le porteur de projet ne sera pas notifié.
+                  </div>
+                </div>
+
+                <div style={{ marginBottom: 5 }}>
+                  <DownloadIcon />
+                  <a
+                    href={ROUTES.TELECHARGER_MODELE_REPONSE(
+                      (project as unknown) as Project,
+                      modificationRequest.id
+                    )}
+                    download={true}
+                  >
+                    Télécharger un modèle de réponse
+                  </a>
+                </div>
 
                 <div className="form__group">
                   <label htmlFor="file">Réponse signée (fichier pdf)</label>
@@ -293,7 +309,9 @@ export default function AdminModificationRequestPage({ request, modificationRequ
             {ModificationRequestStatusTitle[status]}
           </span>{' '}
           {respondedOn && respondedBy ? `par ${respondedBy} le ${formatDate(respondedOn)}` : ''}
-          {modificationRequest.type === 'delai' && modificationRequest.status === 'acceptée' ? (
+          {modificationRequest.type === 'delai' &&
+          modificationRequest.status === 'acceptée' &&
+          modificationRequest.acceptanceParams ? (
             <div>
               L‘administration vous accorde un délai{' '}
               <b>
