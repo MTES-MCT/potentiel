@@ -49,10 +49,16 @@ v1Router.post(
     ).match(
       () =>
         response.redirect(
-          addQueryParams(routes.ADMIN_REGENERATE_CERTIFICATES, {
+          routes.SUCCESS_PAGE({
             success: `Les attestations de la période ${appelOffreId} - ${periodeId}${
               familleId ? ` famille ${familleId}` : ''
             } sont en cours de regénération. Les porteurs de projets seront prévenus par email dès que leur nouvelle attestation sera prête.`,
+            redirectUrl: addQueryParams(routes.ADMIN_LIST_PROJECTS, {
+              appelOffreId,
+              periodeId,
+              familleId,
+            }),
+            redirectTitle: 'Voir le listing des projets concernés',
           })
         ),
       (e: Error) => {

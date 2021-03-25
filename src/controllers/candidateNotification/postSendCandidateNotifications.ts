@@ -51,15 +51,14 @@ v1Router.post(
     ).match(
       () =>
         response.redirect(
-          addQueryParams(
-            routes.ADMIN_NOTIFY_CANDIDATES({
+          routes.SUCCESS_PAGE({
+            success: `La période ${appelOffreId} - ${periodeId} a bien été notifiée.`,
+            redirectUrl: addQueryParams(routes.ADMIN_LIST_PROJECTS, {
               appelOffreId,
               periodeId,
             }),
-            {
-              success: 'La période a bien été notifiée.',
-            }
-          )
+            redirectTitle: 'Lister les projets de cette période',
+          })
         ),
       (e: Error) => {
         logger.error(e)
