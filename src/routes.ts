@@ -148,6 +148,12 @@ class routes {
   static ADMIN_NOTIFICATION_LIST = '/admin/notifications.html'
   static ADMIN_NOTIFICATION_RETRY_ACTION = '/admin/retryNotifications'
 
+  static SUCCESS_PAGE = withParams<{
+    success: string
+    redirectUrl: string
+    redirectTitle: string
+  }>('/confirmation.html')
+
   static USER_DASHBOARD = '/mes-projets.html'
   static USER_LIST_PROJECTS = '/mes-projets.html'
   static USER_LIST_REQUESTS = '/mes-demandes.html'

@@ -135,8 +135,10 @@ v1Router.post(
     ).match({
       ok: () =>
         response.redirect(
-          addQueryParams(routes.USER_LIST_REQUESTS, {
+          routes.SUCCESS_PAGE({
             success: 'Votre demande a bien été prise en compte.',
+            redirectUrl: routes.USER_LIST_REQUESTS,
+            redirectTitle: 'Voir mes demandes',
           })
         ),
       err: (e: Error) => {

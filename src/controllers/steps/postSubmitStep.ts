@@ -67,8 +67,10 @@ v1Router.post(
     ).match(
       () =>
         response.redirect(
-          addQueryParams(routes.PROJECT_DETAILS(projectId), {
+          routes.SUCCESS_PAGE({
             success: 'Votre dépôt a bien été enregistré.',
+            redirectUrl: routes.PROJECT_DETAILS(projectId),
+            redirectTitle: 'Retourner à la page projet',
           })
         ),
       (e) => {

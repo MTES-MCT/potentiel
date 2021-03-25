@@ -25,13 +25,16 @@ v1Router.post(
     return result.match({
       ok: (sentRelances: number) =>
         response.redirect(
-          addQueryParams(routes.ADMIN_INVITATION_LIST, {
-            appelOffreId,
-            periodeId,
-            keys,
+          routes.SUCCESS_PAGE({
             success: sentRelances
               ? `${sentRelances} relances ont été envoyées`
               : `Aucun relance n'a été envoyée. Merci de vérifier qu'il y a bien des invitations à relancer.`,
+            redirectUrl: addQueryParams(routes.ADMIN_INVITATION_LIST, {
+              appelOffreId,
+              periodeId,
+              keys,
+            }),
+            redirectTitle: 'Retourner à la liste des invitations',
           })
         ),
       err: (e: Error) => {
