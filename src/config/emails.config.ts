@@ -39,9 +39,15 @@ if (!process.env.SEND_EMAILS_FROM) {
   process.exit(1)
 }
 
+if (!process.env.SEND_EMAILS_FROM_NAME) {
+  console.error('ERROR: SEND_EMAILS_FROM_NAME is not set')
+  process.exit(1)
+}
+
 export const { sendNotification, retryFailedNotifications } = makeNotificationService({
   sendEmail,
   emailSenderAddress: process.env.SEND_EMAILS_FROM,
+  emailSenderName: process.env.SEND_EMAILS_FROM_NAME,
   notificationRepo,
   getFailedNotificationsForRetry,
 })
