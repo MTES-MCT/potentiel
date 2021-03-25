@@ -28,6 +28,7 @@ import { eventStore } from './eventStore.config'
 import {
   makeAcceptModificationRequest,
   makeRejectModificationRequest,
+  makeUpdateModificationRequestStatus,
 } from '../modules/modificationRequest'
 
 export const shouldUserAccessProject = new BaseShouldUserAccessProject(
@@ -60,6 +61,9 @@ export const acceptModificationRequest = makeAcceptModificationRequest({
 })
 export const rejectModificationRequest = makeRejectModificationRequest({
   fileRepo,
+  modificationRequestRepo,
+})
+export const updateModificationRequestStatus = makeUpdateModificationRequestStatus({
   modificationRequestRepo,
 })
 
