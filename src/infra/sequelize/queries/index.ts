@@ -39,7 +39,6 @@ export const getModificationRequestInfoForConfirmedNotification = makeGetModific
 export const getModificationRequestListForUser = makeGetModificationRequestListForUser(models)
 
 export const getFileProject = makeGetFileProject(models)
-export { getStats } from './getStats'
 export const getFailedNotificationsForRetry = makeGetFailedNotificationsForRetry(models)
 export const getFailedNotificationDetails = makeGetFailedNotificationDetails(models)
 export const getInfoForModificationRequested = makeGetInfoForModificationRequested(models)
