@@ -63,6 +63,8 @@ export default function AdminModificationRequestPage({ request, modificationRequ
 
   const Dashboard = isAdmin ? AdminDashboard : UserDashboard
 
+  const isResponsePossible = ['recours', 'delai'].includes(type)
+
   return (
     <Dashboard role={user.role} currentPage={'list-requests'}>
       <div className="panel">
@@ -185,7 +187,7 @@ export default function AdminModificationRequestPage({ request, modificationRequ
           )}
         </div>
         {isAdmin ? (
-          ['recours', 'delai'].includes(type) && !modificationRequest.respondedOn ? (
+          !modificationRequest.respondedOn ? (
             <div className="panel__header">
               <h4>Répondre</h4>
 
@@ -204,6 +206,7 @@ export default function AdminModificationRequestPage({ request, modificationRequ
                     <input
                       type="checkbox"
                       name="statusUpdateOnly"
+                      defaultChecked={!isResponsePossible}
                       {...dataId('modificationRequest-statusUpdateOnlyField')}
                     />
                     Demande traitée hors Potentiel
@@ -214,62 +217,68 @@ export default function AdminModificationRequestPage({ request, modificationRequ
                   </div>
                 </div>
 
-                <div style={{ marginBottom: 5 }}>
-                  <DownloadIcon />
-                  <a
-                    href={ROUTES.TELECHARGER_MODELE_REPONSE(
-                      (project as unknown) as Project,
-                      modificationRequest.id
-                    )}
-                    download={true}
-                  >
-                    Télécharger un modèle de réponse
-                  </a>
-                </div>
+                {isResponsePossible ? (
+                  <>
+                    <div style={{ marginBottom: 5 }}>
+                      <DownloadIcon />
+                      <a
+                        href={ROUTES.TELECHARGER_MODELE_REPONSE(
+                          (project as unknown) as Project,
+                          modificationRequest.id
+                        )}
+                        download={true}
+                      >
+                        Télécharger un modèle de réponse
+                      </a>
+                    </div>
 
-                <div className="form__group">
-                  <label htmlFor="file">Réponse signée (fichier pdf)</label>
-                  <input type="file" name="file" id="file" />
-                </div>
+                    <div className="form__group">
+                      <label htmlFor="file">Réponse signée (fichier pdf)</label>
+                      <input type="file" name="file" id="file" />
+                    </div>
 
-                {type === 'recours' ? (
-                  <div className="form__group" style={{ marginTop: 5 }}>
-                    <label htmlFor="newNotificationDate">
-                      Nouvelle date de désignation (format JJ/MM/AAAA)
-                    </label>
-                    <input
-                      type="text"
-                      name="newNotificationDate"
-                      id="newNotificationDate"
-                      defaultValue={formatDate(Date.now(), 'DD/MM/YYYY')}
-                      {...dataId('modificationRequest-newNotificationDateField')}
-                      style={{ width: 'auto' }}
-                    />
-                  </div>
-                ) : null}
+                    {type === 'recours' ? (
+                      <div className="form__group" style={{ marginTop: 5 }}>
+                        <label htmlFor="newNotificationDate">
+                          Nouvelle date de désignation (format JJ/MM/AAAA)
+                        </label>
+                        <input
+                          type="text"
+                          name="newNotificationDate"
+                          id="newNotificationDate"
+                          defaultValue={formatDate(Date.now(), 'DD/MM/YYYY')}
+                          {...dataId('modificationRequest-newNotificationDateField')}
+                          style={{ width: 'auto' }}
+                        />
+                      </div>
+                    ) : null}
 
-                {modificationRequest.type === 'delai' ? (
-                  <div className="form__group" style={{ marginTop: 5 }}>
-                    <label htmlFor="delayInMonths">Délai accordé (en mois)</label>
-                    <input
-                      type="number"
-                      name="delayInMonths"
-                      id="delayInMonths"
-                      defaultValue={modificationRequest.delayInMonths}
-                      data-initial-date={project.completionDueOn.getTime()}
-                      {...dataId('delayInMonthsField')}
-                      style={{ width: 75 }}
-                    />
-                    <span style={{ marginLeft: 10 }} {...dataId('delayEstimateBox')}>
-                      {`Date de mise en service projetée: ${formatDate(
-                        +moment(project.completionDueOn).add(
-                          modificationRequest.delayInMonths,
-                          'month'
-                        )
-                      )}`}
-                    </span>
-                  </div>
-                ) : null}
+                    {modificationRequest.type === 'delai' ? (
+                      <div className="form__group" style={{ marginTop: 5 }}>
+                        <label htmlFor="delayInMonths">Délai accordé (en mois)</label>
+                        <input
+                          type="number"
+                          name="delayInMonths"
+                          id="delayInMonths"
+                          defaultValue={modificationRequest.delayInMonths}
+                          data-initial-date={project.completionDueOn.getTime()}
+                          {...dataId('delayInMonthsField')}
+                          style={{ width: 75 }}
+                        />
+                        <span style={{ marginLeft: 10 }} {...dataId('delayEstimateBox')}>
+                          {`Date de mise en service projetée: ${formatDate(
+                            +moment(project.completionDueOn).add(
+                              modificationRequest.delayInMonths,
+                              'month'
+                            )
+                          )}`}
+                        </span>
+                      </div>
+                    ) : null}
+                  </>
+                ) : (
+                  ''
+                )}
 
                 <button
                   className="button"

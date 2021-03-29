@@ -53,16 +53,6 @@ v1Router.post(
       )
     }
 
-    const courrierReponseExists: boolean = !!request.file && (await pathExists(request.file.path))
-
-    if (!courrierReponseExists) {
-      return response.redirect(
-        addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
-          error: "La réponse n'a pas pu être envoyée car il manque le courrier de réponse.",
-        })
-      )
-    }
-
     if (type === 'recours' && !isDateFormatValid(newNotificationDate, FORMAT_DATE)) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
@@ -84,6 +74,16 @@ v1Router.post(
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
           error: 'Impossible de répondre à ce type de demande pour le moment.',
+        })
+      )
+    }
+
+    const courrierReponseExists: boolean = !!request.file && (await pathExists(request.file.path))
+
+    if (!courrierReponseExists) {
+      return response.redirect(
+        addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
+          error: "La réponse n'a pas pu être envoyée car il manque le courrier de réponse.",
         })
       )
     }
@@ -127,8 +127,10 @@ v1Router.post(
 function _handleSuccess(response, modificationRequestId) {
   return () => {
     response.redirect(
-      addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
+      routes.SUCCESS_PAGE({
         success: 'Votre réponse a bien été enregistrée.',
+        redirectUrl: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
+        redirectTitle: 'Retourner à la demande',
       })
     )
   }
