@@ -12,6 +12,7 @@ export interface NotificationService {
 interface NotificationServiceDeps {
   sendEmail: SendEmail
   emailSenderAddress: string
+  emailSenderName: string
   notificationRepo: Repository<Notification>
   getFailedNotificationsForRetry: GetFailedNotificationsForRetry
 }
@@ -91,7 +92,7 @@ export const makeNotificationService = (deps: NotificationServiceDeps): Notifica
       .sendEmail({
         id: notification.id.toString(),
         fromEmail: deps.emailSenderAddress,
-        fromName: 'Cellule PV',
+        fromName: deps.emailSenderName,
         subject: notification.message.subject,
         type: notification.type,
         variables: Object.entries(notification.variables).reduce(

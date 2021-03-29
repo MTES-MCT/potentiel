@@ -44,6 +44,7 @@ describe('NotificationService', () => {
     const notificationService = makeNotificationService({
       sendEmail,
       emailSenderAddress: 'sender@test.test',
+      emailSenderName: 'fakeName',
       notificationRepo,
       getFailedNotificationsForRetry,
     })
@@ -93,6 +94,7 @@ describe('NotificationService', () => {
       const notificationService = makeNotificationService({
         sendEmail,
         emailSenderAddress: 'sender@test.test',
+        emailSenderName: 'fakeName',
         notificationRepo,
         getFailedNotificationsForRetry,
       })
@@ -132,6 +134,7 @@ describe('NotificationService', () => {
       const notificationService = makeNotificationService({
         sendEmail,
         emailSenderAddress: 'sender@test.test',
+        emailSenderName: 'fakeName',
         notificationRepo,
         getFailedNotificationsForRetry,
       })
