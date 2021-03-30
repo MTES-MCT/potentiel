@@ -10,6 +10,8 @@ import { MakeProjectStepModel } from './projections/projectStep/projectStep.mode
 import { MakeUserProjectsModel } from './projections/userProjects/userProjects.model'
 import { MakeProjectAdmissionKeyModel } from './projections/projectAdmissionKey/projectAdmissionKey.model'
 import { MakeModificationRequestModel } from './projections/modificationRequest/modificationRequest.model'
+import { MakeAppelOffreModel } from './projections/appelOffre/appelOffre.model'
+import { MakePeriodeModel } from './projections/appelOffre/periode.model'
 
 const models = {
   File: MakeFileModel(sequelizeInstance),
@@ -21,6 +23,8 @@ const models = {
   UserProjects: MakeUserProjectsModel(sequelizeInstance),
   ProjectAdmissionKey: MakeProjectAdmissionKeyModel(sequelizeInstance),
   ProjectStep: MakeProjectStepModel(sequelizeInstance),
+  AppelOffre: MakeAppelOffreModel(sequelizeInstance),
+  Periode: MakePeriodeModel(sequelizeInstance),
 }
 
 // Create associations
