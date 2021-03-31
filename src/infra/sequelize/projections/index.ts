@@ -1,3 +1,4 @@
+export * from './appelOffre'
 export * from './file'
 export * from './modificationRequest'
 export * from './notification'

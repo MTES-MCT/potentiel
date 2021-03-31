@@ -13,6 +13,6 @@ export class AppelOffreUpdated
   currentVersion = 1
 
   aggregateIdFromPayload(payload: AppelOffreUpdatedPayload) {
-    return undefined
+    return payload.appelOffreId
   }
 }

@@ -4,7 +4,7 @@ export const MakePeriodeModel = (sequelize) => {
   const Periode = sequelize.define(
     'periode',
     {
-      id: {
+      periodeId: {
         type: DataTypes.STRING,
         primaryKey: true,
       },

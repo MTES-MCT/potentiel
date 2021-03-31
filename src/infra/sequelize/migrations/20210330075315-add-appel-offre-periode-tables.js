@@ -23,7 +23,7 @@ module.exports = {
     })
 
     await queryInterface.createTable('periodes', {
-      id: {
+      periodeId: {
         type: Sequelize.DataTypes.STRING,
         primaryKey: true,
       },
