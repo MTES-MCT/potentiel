@@ -37,6 +37,18 @@ export const MakeProjectStepModel = (sequelize) => {
         type: DataTypes.JSON,
         allowNull: true,
       },
+      status: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      statusSubmittedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      statusSubmittedBy: {
+        type: DataTypes.UUID,
+        allowNull: true,
+      },
     },
     {
       timestamps: true,

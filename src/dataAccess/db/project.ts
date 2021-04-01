@@ -35,6 +35,8 @@ const deserialize = (item) => ({
 })
 
 export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): ProjectRepo {
+  const UserModel = sequelizeInstance.model('user')
+
   const ProjectModel = sequelizeInstance.define('project', {
     id: {
       type: DataTypes.UUID,
@@ -254,6 +256,18 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
         type: DataTypes.JSON,
         allowNull: true,
       },
+      status: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      statusSubmittedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      statusSubmittedBy: {
+        type: DataTypes.UUID,
+        allowNull: true,
+      },
     },
     {
       timestamps: true,
@@ -264,6 +278,12 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
     foreignKey: 'id',
     sourceKey: 'fileId',
     as: 'file',
+  })
+
+  ProjectStep.hasOne(UserModel, {
+    foreignKey: 'id',
+    sourceKey: 'statusSubmittedBy',
+    attributes: 'fullName',
   })
 
   ProjectModel.hasOne(ProjectStep, {
@@ -402,7 +422,10 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
       {
         model: ProjectStep,
         as: 'gf',
-        include: [{ model: FileModel, as: 'file' }],
+        include: [
+          { model: FileModel, as: 'file' },
+          { model: UserModel, as: 'user' },
+        ],
       },
       {
         model: ProjectStep,
@@ -435,7 +458,10 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
                 model: ProjectStep,
                 as: 'gf',
                 required: true,
-                include: [{ model: FileModel, as: 'file' }],
+                include: [
+                  { model: FileModel, as: 'file' },
+                  { model: UserModel, as: 'user' },
+                ],
               },
             ]
             break
@@ -533,7 +559,6 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
   ): Promise<Project['id'][]> {
     await _isDbReady
 
-    const UserModel = sequelizeInstance.model('user')
     const userInstance = await UserModel.findByPk(userId)
     if (!userInstance) {
       if (CONFIG.logDbErrors) logger.error('Cannot find user to get projects from')
