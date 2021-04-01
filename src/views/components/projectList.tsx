@@ -9,6 +9,7 @@ import Pagination from './pagination'
 import ProjectActions from './projectActions'
 import ROUTES from '../../routes'
 import { DownloadIcon } from './downloadIcon'
+import moment from 'moment'
 
 type Columns =
   | 'Projet'
@@ -119,26 +120,57 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
   'Garanties Financières': function GarantieFinanciereColumn({ project }) {
     return (
       <td valign="top">
-        {project.garantiesFinancieresSubmittedOn !== 0 ? (
+        {project.garantiesFinancieresSubmittedOn !== 0 && (
           <div {...dataId('gfList-item-garanties-financieres')}>
-            {project.garantiesFinancieresFileRef ? (
-              <a
-                href={ROUTES.DOWNLOAD_PROJECT_FILE(
-                  project.garantiesFinancieresFileRef.id,
-                  project.garantiesFinancieresFileRef.filename
-                )}
-                download={true}
-                {...dataId('gfList-item-download-link')}
-              >
-                <DownloadIcon />
-                Déposées le {formatDate(project.garantiesFinancieresSubmittedOn)}
-              </a>
-            ) : (
-              <span>Déposées le {formatDate(project.garantiesFinancieresSubmittedOn)}</span>
-            )}
+            <>
+              {project.garantiesFinancieresFileRef && (
+                <>
+                  <a
+                    href={ROUTES.DOWNLOAD_PROJECT_FILE(
+                      project.garantiesFinancieresFileRef.id,
+                      project.garantiesFinancieresFileRef.filename
+                    )}
+                    download={true}
+                    {...dataId('gfList-item-download-link')}
+                  >
+                    <DownloadIcon />
+                    Déposées le {formatDate(project.garantiesFinancieresSubmittedOn)}
+                  </a>
+                  <br />
+                </>
+              )}
+              {project.gf?.status ? (
+                <>
+                  <span
+                    style={{
+                      fontSize: 14,
+                    }}
+                  >
+                    Statut : {project.gf.status}
+                  </span>
+                  <br />
+                  <span
+                    style={{
+                      fontStyle: 'italic',
+                      lineHeight: 'normal',
+                      fontSize: 12,
+                    }}
+                  >
+                    modifié par {project.gf.user.fullName} le{' '}
+                    {moment(project.gf.statusSubmittedAt).format('llll')}
+                  </span>
+                </>
+              ) : (
+                <span
+                  style={{
+                    fontSize: 14,
+                  }}
+                >
+                  Statut : à traiter
+                </span>
+              )}
+            </>
           </div>
-        ) : (
-          ''
         )}
       </td>
     )

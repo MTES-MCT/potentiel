@@ -90,6 +90,7 @@ const fields: string[] = [
   'famille',
   'createdAt',
   'updatedAt',
+  'gf',
   ...Object.keys(baseProjectSchema.fields),
 ]
 
@@ -106,6 +107,12 @@ type BaseProject = Static<typeof projectSchema> & {
   certificateFile?: {
     id: string
     filename: string
+  }
+  gf?: {
+    id: string
+    status: 'à traiter' | 'validé'
+    statusSubmittedAt: Date
+    user: { fullName: string }
   }
 }
 
