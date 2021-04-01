@@ -3,7 +3,8 @@ import React from 'react'
 
 interface Props {
   request: Request
-  iframeUrl: string
+  mainIframeUrl: string
+  mapIframeUrl: string
 }
 
 /* Pure component */
@@ -22,7 +23,19 @@ export default function StatistiquesPages(props: Props) {
           className="container"
           dangerouslySetInnerHTML={{
             __html: `<iframe
-            src="${props.iframeUrl}"
+            src="${props.mainIframeUrl}"
+            frameBorder="0"
+            width="100%"
+            allowTransparency
+            onload="iFrameResize({}, this)"
+          ></iframe>`,
+          }}
+        ></div>
+        <div
+          className="container"
+          dangerouslySetInnerHTML={{
+            __html: `<iframe
+            src="${props.mapIframeUrl}"
             frameBorder="0"
             width="100%"
             allowTransparency

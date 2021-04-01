@@ -18,19 +18,33 @@ v1Router.get(
       response.status(500).send('Service indisponible')
     }
 
-    const payload = {
-      resource: { dashboard: 2 },
-      params: {},
-      exp: Math.round(Date.now() / 1000) + 10 * 60, // 10 minute expiration
-    }
-    const token = jwt.sign(payload, METABASE_SECRET_KEY)
+    const tokenForMainDashboard = jwt.sign(
+      {
+        resource: { dashboard: 2 },
+        params: {},
+        exp: Math.round(Date.now() / 1000) + 10 * 60, // 10 minute expiration
+      },
+      METABASE_SECRET_KEY
+    )
 
-    const iframeUrl = `${METABASE_SITE_URL}/embed/dashboard/${token}#bordered=false&titled=false`
+    const mainIframeUrl = `${METABASE_SITE_URL}/embed/dashboard/${tokenForMainDashboard}#bordered=false&titled=false`
+
+    const tokenForMapDashboard = jwt.sign(
+      {
+        resource: { dashboard: 3 },
+        params: {},
+        exp: Math.round(Date.now() / 1000) + 10 * 60, // 10 minute expiration
+      },
+      METABASE_SECRET_KEY
+    )
+
+    const mapIframeUrl = `${METABASE_SITE_URL}/embed/dashboard/${tokenForMapDashboard}#bordered=false&titled=false`
 
     response.send(
       StatistiquesPage({
         request,
-        iframeUrl,
+        mainIframeUrl,
+        mapIframeUrl,
       })
     )
   })
