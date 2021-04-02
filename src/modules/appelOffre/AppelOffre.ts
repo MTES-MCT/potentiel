@@ -4,11 +4,20 @@ import { DomainEvent, UniqueEntityID } from '../../core/domain'
 import { err, ok, Result } from '../../core/utils'
 import { User } from '../../entities'
 import { EventStoreAggregate } from '../eventStore'
-import { EntityNotFoundError, IllegalInitialStateForAggregateError } from '../shared'
+import {
+  EntityNotFoundError,
+  IllegalInitialStateForAggregateError,
+  UnauthorizedError,
+} from '../shared'
 import { AppelOffreCreated, AppelOffreUpdated, PeriodeCreated, PeriodeUpdated } from './events'
 
 export interface AppelOffre extends EventStoreAggregate {
-  update: (args: { data: any; updatedBy: User }) => Result<null, never>
+  update: (args: { data: any; updatedBy: User }) => Result<null, UnauthorizedError>
+  updatePeriode: (args: {
+    periodeId: string
+    data: any
+    updatedBy: User
+  }) => Result<null, UnauthorizedError>
 }
 
 interface AppelOffreProps {
@@ -46,6 +55,10 @@ export const makeAppelOffre = (args: {
 
   return ok({
     update({ data, updatedBy }) {
+      if (updatedBy.role !== 'admin') {
+        return err(new UnauthorizedError())
+      }
+
       const delta = _.omitBy(data, (value, key) => props.data[key] === value)
 
       if (Object.keys(delta).length) {
@@ -58,6 +71,42 @@ export const makeAppelOffre = (args: {
             },
           })
         )
+      }
+
+      return ok(null)
+    },
+    updatePeriode({ periodeId, data, updatedBy }) {
+      if (updatedBy.role !== 'admin') {
+        return err(new UnauthorizedError())
+      }
+
+      const periode = props.periodes.find((periode) => periode.periodeId === periodeId)
+
+      if (!periode) {
+        _publishEvent(
+          new PeriodeCreated({
+            payload: {
+              appelOffreId: id.toString(),
+              periodeId,
+              data,
+              createdBy: updatedBy.id,
+            },
+          })
+        )
+      } else {
+        const delta = _.omitBy(data, (value, key) => periode.data[key] === value)
+        if (Object.keys(delta).length) {
+          _publishEvent(
+            new PeriodeUpdated({
+              payload: {
+                appelOffreId: id.toString(),
+                periodeId,
+                delta,
+                updatedBy: updatedBy.id,
+              },
+            })
+          )
+        }
       }
 
       return ok(null)
