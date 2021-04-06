@@ -1,4 +1,3 @@
-import bodyParser from 'body-parser'
 import makeSequelizeStore from 'connect-session-sequelize'
 import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
@@ -38,12 +37,12 @@ export async function makeServer(port: number, sessionSecret: string) {
     })
 
     app.use(
-      bodyParser.urlencoded({
+      express.urlencoded({
         extended: false,
         limit: FILE_SIZE_LIMIT_MB + 'mb',
       })
     )
-    app.use(bodyParser.json({ limit: FILE_SIZE_LIMIT_MB + 'mb' }))
+    app.use(express.json({ limit: FILE_SIZE_LIMIT_MB + 'mb' }))
 
     app.use(cookieParser())
 

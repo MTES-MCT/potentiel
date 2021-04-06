@@ -34,7 +34,6 @@
     "@types/react-dom": "^16.9.5",
     "@usefultools/monads": "^3.0.3",
     "aws-sdk": "^2.799.0",
-    "body-parser": "^1.19.0",
     "chalk": "^4.1.0",
     "concat-stream": "^2.0.0",
     "connect-ensure-login": "^0.1.1",
