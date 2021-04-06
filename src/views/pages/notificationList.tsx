@@ -14,7 +14,7 @@ interface NotificationListProps {
 
 /* Pure component */
 export default function NotificationList({ request, notifications }: NotificationListProps) {
-  const { error, success } = request.query || {}
+  const { error, success } = (request.query as any) || {}
 
   return (
     <AdminDashboard role={request.user?.role} currentPage="list-notifications">

@@ -20,7 +20,7 @@ const getModificationRequestListPage = asyncHandler(async (request, response) =>
     modificationRequestStatus,
     modificationRequestType,
     pageSize,
-  } = query
+  } = query as any
 
   const defaultPagination: Pagination = {
     page: 0,

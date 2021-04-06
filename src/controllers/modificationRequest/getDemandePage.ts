@@ -13,11 +13,13 @@ v1Router.get(
   ensureLoggedIn(),
   ensureRole('porteur-projet'),
   asyncHandler(async (request, response) => {
-    if (!request.query.projectId || !ACTIONS.includes(request.query.action)) {
+    const { action, projectId } = request.query as any
+
+    if (!projectId || !ACTIONS.includes(action)) {
       return response.redirect(routes.USER_DASHBOARD)
     }
 
-    const project = await projectRepo.findById(request.query.projectId)
+    const project = await projectRepo.findById(projectId)
 
     return project
       ? response.send(

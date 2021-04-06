@@ -10,7 +10,7 @@ const ILLEGAL_RESET_CODE_ERROR = "Le lien de récupération de mot de passe n'es
 v1Router.get(
   routes.RESET_PASSWORD_LINK(),
   asyncHandler(async (request, response) => {
-    const { resetCode } = request.query
+    const { resetCode } = request.query as any
 
     if (!resetCode) {
       return response.redirect(

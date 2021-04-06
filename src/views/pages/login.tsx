@@ -10,7 +10,7 @@ interface Props {
 
 /* Pure component */
 export default function LoginPage({ request }: Props) {
-  const { error, success, email } = request.query || {}
+  const { error, success, email } = (request.query as any) || {}
   return (
     <main role="main">
       <section className="section section-grey">

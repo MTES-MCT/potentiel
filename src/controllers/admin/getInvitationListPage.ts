@@ -17,7 +17,7 @@ v1Router.get(
   ensureLoggedIn(),
   ensureRole(['admin']),
   asyncHandler(async (request, response) => {
-    const { appelOffreId, periodeId } = request.query
+    const { appelOffreId, periodeId } = request.query as any
 
     const pagination = makePagination(request.query, defaultPagination)
 

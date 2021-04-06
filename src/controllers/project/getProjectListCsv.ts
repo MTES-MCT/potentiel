@@ -467,7 +467,7 @@ const getProjectListCsv = asyncHandler(async (request, response) => {
     recherche,
     classement,
     garantiesFinancieres,
-  } = request.query
+  } = request.query as any
 
   if (!request.user?.role) {
     return response.redirect(routes.LOGIN)

@@ -17,7 +17,7 @@ const getProjectListPage = asyncHandler(async (request, response) => {
     classement,
     garantiesFinancieres,
     pageSize,
-  } = request.query
+  } = request.query as any
   const { user } = request
 
   // Set default filter on classés for admins

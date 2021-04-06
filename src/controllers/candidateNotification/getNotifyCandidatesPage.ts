@@ -12,7 +12,7 @@ v1Router.get(
   ensureLoggedIn(),
   ensureRole(['admin', 'dgec']),
   asyncHandler(async (request, response) => {
-    let { appelOffreId, periodeId, recherche, classement, pageSize } = request.query
+    let { appelOffreId, periodeId, recherche, classement, pageSize } = request.query as any
 
     const defaultPagination: Pagination = {
       page: 0,

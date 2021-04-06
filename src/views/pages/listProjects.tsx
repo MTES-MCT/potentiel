@@ -37,7 +37,7 @@ export default function ListProjects({
     familleId,
     garantiesFinancieres,
     classement,
-  } = request.query || {}
+  } = (request.query as any) || {}
 
   const hasNonDefaultClassement =
     (request.user?.role === 'porteur-projet' && classement) ||
@@ -297,7 +297,9 @@ export default function ListProjects({
               <strong>{Array.isArray(projects) ? projects.length : projects.itemCount}</strong>{' '}
               projets
               <a
-                href={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(request.query)}`}
+                href={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(
+                  request.query as any
+                )}`}
                 download
               >
                 <DownloadIcon />

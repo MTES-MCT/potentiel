@@ -12,7 +12,7 @@ import { promises as fsPromises } from 'fs'
 import { Project } from '../../entities'
 
 const getProjectsLaureatsCsv = asyncHandler(async (request, response) => {
-  const { appelOffreId, periodeId, recherche, beforeNotification } = request.query
+  const { appelOffreId, periodeId, recherche, beforeNotification } = request.query as any
 
   if (!appelOffreId || !periodeId) {
     return response

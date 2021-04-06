@@ -12,7 +12,7 @@ v1Router.get(
   ensureLoggedIn(),
   ensureRole(['admin', 'dgec', 'dreal', 'porteur-projet']),
   asyncHandler(async (request, response) => {
-    const { projectAdmissionKeyId, projectId } = request.query
+    const { projectAdmissionKeyId, projectId } = request.query as any
     const { user } = request
 
     if (!projectAdmissionKeyId || !projectId) {

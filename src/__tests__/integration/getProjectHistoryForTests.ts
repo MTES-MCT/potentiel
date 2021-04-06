@@ -3,7 +3,7 @@ import { projectRepo } from '../../dataAccess'
 import { testRouter } from './testRouter'
 
 testRouter.get('/test/getProject', async (request, response) => {
-  const { nomProjet } = request.query
+  const { nomProjet } = request.query as any
 
   if (!nomProjet) {
     logger.error('getProjectHistoryForTests missing nomProjet')

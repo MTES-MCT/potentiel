@@ -13,7 +13,7 @@ interface SignupProps {
 
 /* Pure component */
 export default function SignupPage({ request, projectAdmissionKey }: SignupProps) {
-  const { error } = request.query || {}
+  const { error } = (request.query as any) || {}
 
   return (
     <main role="main">

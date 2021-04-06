@@ -12,7 +12,7 @@ interface EditProjectDataProps {
 }
 
 export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
-  const { query } = request
+  const { query } = request as any
 
   if (!project.notifiedOn) {
     return <div>Projet non-notifié</div>

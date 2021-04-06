@@ -12,7 +12,7 @@ type AdminRegenerateCertificatesProps = {
 /* Pure component */
 export default function AdminRegenerateCertificates({ request }: AdminRegenerateCertificatesProps) {
   const { error, success, appelOffreId, periodeId, familleId, notificationDate, reason } =
-    request.query || {}
+    (request.query as any) || {}
 
   const periodes = appelsOffreStatic.find((ao) => ao.id === appelOffreId)?.periodes
 

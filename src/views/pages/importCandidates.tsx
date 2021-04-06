@@ -10,7 +10,7 @@ interface AdminListProjectsProps {
 
 /* Pure component */
 export default function AdminListProjects({ request }: AdminListProjectsProps) {
-  const { error, success } = request.query || {}
+  const { error, success } = (request.query as any) || {}
   return (
     <AdminDashboard role={request.user?.role} currentPage="import-projects">
       <div className="panel">
