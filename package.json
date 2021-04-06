@@ -47,6 +47,7 @@
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
     "express-session": "^1.17.0",
+    "helmet": "^4.4.1",
     "iconv-lite": "^0.5.2",
     "isemail": "^3.2.0",
     "json2csv": "^5.0.5",

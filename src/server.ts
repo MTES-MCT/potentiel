@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
 import express from 'express'
 import session from 'express-session'
+import helmet from 'helmet'
 import { version } from '../package.json'
 import { registerAuth, v1Router } from './controllers'
 import { logger } from './core/utils'
@@ -21,6 +22,13 @@ const FILE_SIZE_LIMIT_MB = 50
 export async function makeServer(port: number, sessionSecret: string) {
   try {
     const app = express()
+    app.use(
+      helmet({
+        // See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
+        // Only send refererer for same origin and transport (HTTPS->HTTPS)
+        referrerPolicy: { policy: 'strict-origin' },
+      })
+    )
 
     const store = new SequelizeStore({
       db: sequelizeInstance,
