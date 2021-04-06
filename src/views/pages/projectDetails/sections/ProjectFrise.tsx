@@ -101,7 +101,7 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (
                 />
               )
             ) : null}
-            {project.dcr.dueOn ? (
+            {project.dcr?.dueOn ? (
               project.dcr.submittedOn ? (
                 // DCR déjà déposée
                 <FriseItem
