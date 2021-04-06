@@ -11,6 +11,7 @@ import { initDatabase } from './dataAccess'
 import routes from './routes'
 import { sequelizeInstance } from './sequelize.config'
 import { testRouter } from './__tests__/integration'
+import { isDevEnv } from './config'
 
 dotenv.config()
 
@@ -21,13 +22,16 @@ const FILE_SIZE_LIMIT_MB = 50
 export async function makeServer(port: number, sessionSecret: string) {
   try {
     const app = express()
-    app.use(
-      helmet({
-        // See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
-        // Only send refererer for same origin and transport (HTTPS->HTTPS)
-        referrerPolicy: { policy: 'strict-origin' },
-      })
-    )
+
+    if (!isDevEnv) {
+      app.use(
+        helmet({
+          //   // See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
+          //   // Only send refererer for same origin and transport (HTTPS->HTTPS)
+          referrerPolicy: { policy: 'strict-origin' },
+        })
+      )
+    }
 
     const store = new SequelizeStore({
       db: sequelizeInstance,

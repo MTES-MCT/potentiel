@@ -4,7 +4,7 @@
   "description": "Suivi des Projets d'Energies Renouvelables",
   "main": "index.js",
   "scripts": {
-    "build": "./node_modules/typescript/bin/tsc && cp -R src/public dist/src && cp -R src/views/template dist/src/views",
+    "build": "tsc && cp -R src/public dist/src && cp -R src/views/template dist/src/views",
     "install": "npm run build && npx sequelize-cli db:migrate",
     "test": "NODE_ENV=unit-test jest --config=jest.unit.config.js --detectOpenHandles",
     "test-e2e": "NODE_ENV=test start-server-and-test watch http://localhost:3000 cy:run",
@@ -15,7 +15,7 @@
     "storybook": "start-storybook -s ./src/public ",
     "storybook-build": "build-storybook-c .storybook -o docs",
     "start": "node ./dist/src/index.js",
-    "watch": "./node_modules/ts-node-dev/bin/ts-node-dev src/index.ts"
+    "watch": "ts-node-dev --transpile-only src/index.ts"
   },
   "repository": {
     "type": "git",
