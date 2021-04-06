@@ -41,11 +41,11 @@ export const MakeProjectStepModel = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      statusSubmittedAt: {
+      statusUpdatedOn: {
         type: DataTypes.DATE,
         allowNull: true,
       },
-      statusSubmittedBy: {
+      statusUpdatedBy: {
         type: DataTypes.UUID,
         allowNull: true,
       },

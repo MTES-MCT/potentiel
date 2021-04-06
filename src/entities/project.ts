@@ -111,7 +111,7 @@ type BaseProject = Static<typeof projectSchema> & {
   gf?: {
     id: string
     status: 'à traiter' | 'validé'
-    statusSubmittedAt: Date
+    statusUpdatedOn: Date
     user: { fullName: string }
   }
 }

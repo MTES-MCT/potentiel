@@ -8,6 +8,8 @@ describe('projectStep.onProjectStepStatusUpdated', () => {
   const { ProjectStep } = models
 
   const projectId = new UniqueEntityID().toString()
+  const statusUpdatedBy = new UniqueEntityID().toString()
+  const createdAt = new Date(1234)
 
   describe('when event is ProjectStepStatusUpdated', () => {
     beforeAll(async () => {
@@ -15,23 +17,25 @@ describe('projectStep.onProjectStepStatusUpdated', () => {
     })
 
     it(`should update the step status to 'validé' when it is set to 'à traiter`, async () => {
-      const { id: projectStepId } = await ProjectStep.create({
-        id: new UniqueEntityID().toString(),
+      const projectStepId = new UniqueEntityID().toString()
+
+      await ProjectStep.create({
+        id: projectStepId,
         projectId,
         type: 'gf',
         stepDate: new Date(123),
         fileId: new UniqueEntityID().toString(),
         submittedBy: new UniqueEntityID().toString(),
-        submittedOn: new Date(1234),
+        submittedOn: createdAt,
         status: 'à traiter',
       })
 
-      expect(await ProjectStep.findByPk(projectStepId)).toBeDefined()
+      expect(await ProjectStep.findByPk(projectStepId)).not.toBeNull()
 
       const event = new ProjectStepStatusUpdated({
         payload: {
           projectStepId,
-          updatedBy: new UniqueEntityID().toString(),
+          statusUpdatedBy,
           newStatus: 'validé',
         },
       })
@@ -40,26 +44,30 @@ describe('projectStep.onProjectStepStatusUpdated', () => {
 
       const projectStep = await ProjectStep.findByPk(projectStepId)
       expect(projectStep.status).toStrictEqual('validé')
+      expect(projectStep.statusUpdatedBy).toStrictEqual(statusUpdatedBy)
+      expect(projectStep.statusUpdatedOn).not.toEqual(createdAt)
     })
 
     it(`should update the step status to 'à traiter' when it is set to 'validé`, async () => {
-      const { id: projectStepId } = await ProjectStep.create({
-        id: new UniqueEntityID().toString(),
+      const projectStepId = new UniqueEntityID().toString()
+
+      await ProjectStep.create({
+        id: projectStepId,
         projectId,
         type: 'gf',
         stepDate: new Date(123),
         fileId: new UniqueEntityID().toString(),
         submittedBy: new UniqueEntityID().toString(),
-        submittedOn: new Date(1234),
+        submittedOn: createdAt,
         status: 'validé',
       })
 
-      expect(await ProjectStep.findByPk(projectStepId)).toBeDefined()
+      expect(await ProjectStep.findByPk(projectStepId)).not.toBeNull()
 
       const event = new ProjectStepStatusUpdated({
         payload: {
           projectStepId,
-          updatedBy: new UniqueEntityID().toString(),
+          statusUpdatedBy,
           newStatus: 'à traiter',
         },
       })
@@ -68,6 +76,8 @@ describe('projectStep.onProjectStepStatusUpdated', () => {
 
       const projectStep = await ProjectStep.findByPk(projectStepId)
       expect(projectStep.status).toStrictEqual('à traiter')
+      expect(projectStep.statusUpdatedBy).toStrictEqual(statusUpdatedBy)
+      expect(projectStep.statusUpdatedOn).not.toEqual(createdAt)
     })
   })
 })

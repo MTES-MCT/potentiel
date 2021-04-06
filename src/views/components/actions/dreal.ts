@@ -5,7 +5,7 @@ const drealActions = (project: {
   gf: { id: string; status: 'à traiter' | 'validé' }
 }) => {
   const actions: any = []
-  const gf = project.gf
+  const { gf } = project
 
   if (!gf) return actions
 

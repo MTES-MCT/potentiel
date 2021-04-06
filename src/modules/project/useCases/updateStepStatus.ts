@@ -27,7 +27,7 @@ export const makeUpdateStepStatus = (deps: UpdateStepStatusDeps) => (
 
       return deps.eventBus.publish(
         new ProjectStepStatusUpdated({
-          payload: { projectStepId, updatedBy: updatedBy.id, newStatus },
+          payload: { projectStepId, statusUpdatedBy: updatedBy.id, newStatus },
         })
       )
     }

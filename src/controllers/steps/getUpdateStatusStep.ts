@@ -11,10 +11,11 @@ v1Router.get(
   ensureLoggedIn(),
   ensureRole(['dreal']),
   asyncHandler(async (request, response) => {
+    const redirectUrl = request.header('Referer') || routes.ADMIN_DREAL_LIST
     const { user } = request
     const { projectId, newStatus, projectStepId } = request.params
 
-    if (!projectId || !['à traiter', 'validé'].includes(newStatus)) {
+    if (!projectId || !projectStepId || !['à traiter', 'validé'].includes(newStatus)) {
       return response.status(400).send('Requête erronnée')
     }
 
@@ -29,15 +30,15 @@ v1Router.get(
       () =>
         response.redirect(
           routes.SUCCESS_PAGE({
-            success: `Le statut de l'étape projet a bien été mis à jour.`,
-            redirectUrl: routes.ADMIN_DREAL_LIST,
+            success: `Cette étape projet est bien considérée comme ${newStatus}.`,
+            redirectUrl,
             redirectTitle: 'Retourner à la liste des projets',
           })
         ),
       (e: Error) => {
         logger.error(e)
         return response.redirect(
-          addQueryParams(routes.ADMIN_DREAL_LIST, {
+          addQueryParams(redirectUrl, {
             error: `Le statut de l'étape projet n'a pas pu être modifié.`,
           })
         )

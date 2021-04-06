@@ -6,7 +6,7 @@ import {
 
 export interface ProjectStepStatusUpdatedPayload {
   projectStepId: string
-  updatedBy: string
+  statusUpdatedBy: string
   newStatus: string
 }
 

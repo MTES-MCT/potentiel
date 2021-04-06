@@ -140,33 +140,20 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
                 </>
               )}
               {project.gf?.status ? (
-                <>
-                  <span
-                    style={{
-                      fontSize: 14,
-                    }}
-                  >
-                    Statut : {project.gf.status}
-                  </span>
-                  <br />
-                  <span
-                    style={{
-                      fontStyle: 'italic',
-                      lineHeight: 'normal',
-                      fontSize: 12,
-                    }}
-                  >
-                    modifié par {project.gf.user.fullName} le{' '}
-                    {moment(project.gf.statusSubmittedAt).format('llll')}
-                  </span>
-                </>
+                <span
+                  style={{
+                    fontSize: 14,
+                  }}
+                >
+                  {project.gf.status}
+                </span>
               ) : (
                 <span
                   style={{
                     fontSize: 14,
                   }}
                 >
-                  Statut : à traiter
+                  à traiter
                 </span>
               )}
             </>

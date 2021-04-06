@@ -260,11 +260,11 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
         type: DataTypes.STRING,
         allowNull: true,
       },
-      statusSubmittedAt: {
+      statusUpdatedOn: {
         type: DataTypes.DATE,
         allowNull: true,
       },
-      statusSubmittedBy: {
+      statusUpdatedBy: {
         type: DataTypes.UUID,
         allowNull: true,
       },
@@ -282,7 +282,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
 
   ProjectStep.hasOne(UserModel, {
     foreignKey: 'id',
-    sourceKey: 'statusSubmittedBy',
+    sourceKey: 'statusUpdatedBy',
     attributes: 'fullName',
   })
 

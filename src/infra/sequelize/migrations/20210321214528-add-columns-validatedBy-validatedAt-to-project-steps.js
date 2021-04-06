@@ -7,12 +7,12 @@ module.exports = {
       allowNull: true,
     })
 
-    queryInterface.addColumn('project_steps', 'statusSubmittedBy', {
+    queryInterface.addColumn('project_steps', 'statusUpdatedBy', {
       type: Sequelize.DataTypes.UUID,
       allowNull: true,
     })
 
-    queryInterface.addColumn('project_steps', 'statusSubmittedAt', {
+    queryInterface.addColumn('project_steps', 'statusUpdatedOn', {
       type: Sequelize.DataTypes.DATE,
       allowNull: true,
     })
@@ -20,7 +20,7 @@ module.exports = {
 
   down: async (queryInterface, Sequelize) => {
     queryInterface.removeColumn('project_steps', 'status')
-    queryInterface.removeColumn('project_steps', 'statusSubmittedBy')
-    queryInterface.removeColumn('project_steps', 'statusSubmittedAt')
+    queryInterface.removeColumn('project_steps', 'statusUpdatedBy')
+    queryInterface.removeColumn('project_steps', 'statusUpdatedOn')
   },
 }
