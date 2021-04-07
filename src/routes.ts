@@ -44,6 +44,11 @@ class routes {
   }>('/enregistrement.html')
 
   static ADMIN_DASHBOARD = '/admin/dashboard.html'
+
+  static ADMIN_AO_PERIODE = '/admin/appels-offres.html'
+  static IMPORT_AO_ACTION = '/admin/importAppelsOffres'
+  static IMPORT_PERIODE_ACTION = '/admin/importPeriodes'
+
   static IMPORT_PROJECTS = '/admin/importer-candidats.html' // Keep separate from ADMIN_DASHBOARD, may change
 
   static PROJECT_DETAILS = (projectId?: Project['id']) => {

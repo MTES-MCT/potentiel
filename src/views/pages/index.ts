@@ -22,6 +22,7 @@ import NotificationList from './notificationList'
 import ModificationRequestList from './modificationRequestList'
 import Statistiques from './statistiques'
 import AdminRegenerateCertificates from './adminRegenerateCertificates'
+import AdminAppelOffre from './adminAppelOffre'
 import Success from './success'
 import { Request } from 'express'
 
@@ -42,6 +43,7 @@ const StatistiquesPage = makePresenterPage(Statistiques)
 const ModificationRequestDetailsPage = makePresenterPage(ModificationRequestDetails)
 const ModificationRequestListPage = makePresenterPage(ModificationRequestList)
 const SuccessPage = makePresenterPage(Success)
+const AdminAppelOffrePage = makePresenterPage(AdminAppelOffre)
 
 export {
   LoginPage,
@@ -61,6 +63,7 @@ export {
   ModificationRequestDetailsPage,
   ModificationRequestListPage,
   SuccessPage,
+  AdminAppelOffrePage,
 }
 
 interface HasRequest {

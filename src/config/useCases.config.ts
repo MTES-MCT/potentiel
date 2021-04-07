@@ -12,6 +12,7 @@ import {
   makeRegenerateCertificatesForPeriode,
   makeUpdateStepStatus,
 } from '../modules/project/useCases'
+import { makeImportAppelOffreData, makeImportPeriodeData } from '../modules/appelOffre/useCases'
 import { buildCertificate } from '../views/certificates'
 import {
   fileRepo,
@@ -19,6 +20,7 @@ import {
   projectRepo,
   userRepo,
   modificationRequestRepo,
+  appelOffreRepo,
 } from './repos.config'
 import {
   getFileProject,
@@ -100,4 +102,14 @@ export const regenerateCertificatesForPeriode = makeRegenerateCertificatesForPer
   generateCertificate,
   projectRepo,
   getProjectIdsForPeriode,
+})
+
+export const importAppelOffreData = makeImportAppelOffreData({
+  eventBus: eventStore,
+  appelOffreRepo,
+})
+
+export const importPeriodeData = makeImportPeriodeData({
+  eventBus: eventStore,
+  appelOffreRepo,
 })

@@ -6,6 +6,7 @@ import * as AuthorizationEvents from '../../../modules/authorization/events'
 import * as CandidateNotificationEvents from '../../../modules/candidateNotification/events'
 import { BaseEventStore, EventStoreHistoryFilters } from '../../../modules/eventStore'
 import * as ModificationRequestEvents from '../../../modules/modificationRequest/events'
+import * as AppelOffreEvents from '../../../modules/appelOffre/events'
 import * as ProjectEvents from '../../../modules/project/events'
 import { InfraNotAvailableError } from '../../../modules/shared'
 
@@ -30,6 +31,7 @@ const EventClassByType: Record<string, HasEventConstructor> = {
   ...CandidateNotificationEvents,
   ...ProjectEvents,
   ...AuthorizationEvents,
+  ...AppelOffreEvents,
 }
 
 const AGGREGATE_ID_SEPARATOR = ' | '

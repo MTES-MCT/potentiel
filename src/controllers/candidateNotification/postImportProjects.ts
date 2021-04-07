@@ -1,39 +1,12 @@
-import csvParse from 'csv-parse'
-import fs from 'fs'
-import iconv from 'iconv-lite'
+import asyncHandler from 'express-async-handler'
 import { logger } from '../../core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
+import { parseCsv } from '../../helpers/parseCsv'
 import routes from '../../routes'
 import { importProjects } from '../../useCases'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
-import asyncHandler from 'express-async-handler'
-
-const parse = (file) =>
-  new Promise<Array<Record<string, string>>>((resolve, reject) => {
-    const data: Array<Record<string, string>> = []
-    const from1252 = iconv.decodeStream('win1252')
-    fs.createReadStream(file)
-      .pipe(from1252)
-      .pipe(
-        csvParse({
-          delimiter: ';',
-          columns: true,
-          skip_empty_lines: true,
-          skip_lines_with_empty_values: true,
-        })
-      )
-      .on('data', (row: Record<string, string>) => {
-        data.push(row)
-      })
-      .on('error', (e) => {
-        reject(e)
-      })
-      .on('end', () => {
-        resolve(data)
-      })
-  })
 
 v1Router.post(
   routes.IMPORT_PROJECTS_ACTION,
@@ -50,7 +23,7 @@ v1Router.post(
     }
 
     // Parse the csv file
-    const lines = await parse(request.file.path)
+    const lines = await parseCsv(request.file.path)
 
     // console.log('postProject has lines count ', lines)
     ;(

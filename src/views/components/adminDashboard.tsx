@@ -31,6 +31,7 @@ interface AdminDashboardProps {
     | 'list-invitations'
     | 'list-notifications'
     | 'regenerate-certificates'
+    | 'admin-ao'
     | undefined
 }
 
@@ -149,6 +150,15 @@ export default function AdminDashboard({ children, currentPage, role }: AdminDas
               route={ROUTES.ADMIN_REGENERATE_CERTIFICATES}
               itemPage={'regenerate-certificates'}
               title="Regénérer des attestations"
+              visibleForRoles={['admin']}
+              role={role}
+              currentPage={currentPage}
+            />
+
+            <MenuItem
+              route={ROUTES.ADMIN_AO_PERIODE}
+              itemPage={'admin-ao'}
+              title="Gérer les appels d'offre"
               visibleForRoles={['admin']}
               role={role}
               currentPage={currentPage}
