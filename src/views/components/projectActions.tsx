@@ -18,6 +18,10 @@ interface Props {
     numeroCRE: string
     email: string
     nomProjet: string
+    gf?: {
+      id: string
+      status: 'à traiter' | 'validé'
+    }
   }
   role: User['role']
 }
@@ -35,13 +39,6 @@ const ProjectActions = ({ project, role }: Props) => {
 
   return (
     <div style={{ position: 'relative' }} {...dataId('project-actions')}>
-      {/* <img
-        src="/images/icons/external/more.svg"
-        height="12"
-        width="12"
-        tabIndex={0}
-        className=""
-      /> */}
       <svg className="icon list--action-trigger" {...dataId('action-menu-trigger')}>
         <use xlinkHref="#dots-vertical"></use>
       </svg>

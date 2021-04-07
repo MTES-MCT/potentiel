@@ -198,6 +198,24 @@ class routes {
     } else return route
   }
 
+  static UPDATE_PROJECT_STEP_STATUS = (args?: {
+    projectId: string
+    newStatus: 'à traiter' | 'validé'
+    projectStepId: string
+  }) => {
+    const route = '/projet/:projectId/etape-projet/:projectStepId/statut/:newStatus'
+
+    if (args) {
+      const { newStatus, projectId, projectStepId } = args
+      return route
+        .replace(':projectId', projectId)
+        .replace(':newStatus', newStatus)
+        .replace(':projectStepId', projectStepId)
+    }
+
+    return route
+  }
+
   static TELECHARGER_MODELE_MISE_EN_DEMEURE = (project?: { id: string; nomProjet: string }) => {
     const route = '/projet/:projectId/telecharger-mise-en-demeure/:filename'
     if (project) {

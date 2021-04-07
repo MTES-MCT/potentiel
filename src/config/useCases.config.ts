@@ -10,6 +10,7 @@ import {
   makeSubmitStep,
   makeRemoveStep,
   makeRegenerateCertificatesForPeriode,
+  makeUpdateStepStatus,
 } from '../modules/project/useCases'
 import { buildCertificate } from '../views/certificates'
 import {
@@ -85,6 +86,11 @@ export const submitStep = makeSubmitStep({
 })
 
 export const removeStep = makeRemoveStep({
+  eventBus: eventStore,
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+})
+
+export const updateStepStatus = makeUpdateStepStatus({
   eventBus: eventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
 })
