@@ -12,7 +12,7 @@ v1Router.get(
   ensureLoggedIn(),
   ensureRole(['admin', 'dgec', 'dreal', 'porteur-projet']),
   asyncHandler(async (request, response) => {
-    const { userId, projectId } = request.query
+    const { userId, projectId } = request.query as any
     const { user } = request
 
     const redirectTo = routes.PROJECT_DETAILS(projectId)

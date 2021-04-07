@@ -1,9 +1,9 @@
-import bodyParser from 'body-parser'
 import makeSequelizeStore from 'connect-session-sequelize'
 import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
 import express from 'express'
 import session from 'express-session'
+import helmet from 'helmet'
 import { version } from '../package.json'
 import { registerAuth, v1Router } from './controllers'
 import { logger } from './core/utils'
@@ -11,6 +11,7 @@ import { initDatabase } from './dataAccess'
 import routes from './routes'
 import { sequelizeInstance } from './sequelize.config'
 import { testRouter } from './__tests__/integration'
+import { isDevEnv } from './config'
 
 dotenv.config()
 
@@ -22,6 +23,16 @@ export async function makeServer(port: number, sessionSecret: string) {
   try {
     const app = express()
 
+    if (!isDevEnv) {
+      app.use(
+        helmet({
+          //   // See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
+          //   // Only send refererer for same origin and transport (HTTPS->HTTPS)
+          referrerPolicy: { policy: 'strict-origin' },
+        })
+      )
+    }
+
     const store = new SequelizeStore({
       db: sequelizeInstance,
       tableName: 'sessions',
@@ -30,12 +41,12 @@ export async function makeServer(port: number, sessionSecret: string) {
     })
 
     app.use(
-      bodyParser.urlencoded({
+      express.urlencoded({
         extended: false,
         limit: FILE_SIZE_LIMIT_MB + 'mb',
       })
     )
-    app.use(bodyParser.json({ limit: FILE_SIZE_LIMIT_MB + 'mb' }))
+    app.use(express.json({ limit: FILE_SIZE_LIMIT_MB + 'mb' }))
 
     app.use(cookieParser())
 

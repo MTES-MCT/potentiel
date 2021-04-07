@@ -10,7 +10,7 @@ interface Props {
 
 /* Pure component */
 export default function ForgottenPasswordPage({ request }: Props) {
-  const { error, success } = request.query || {}
+  const { error, success } = (request.query as any) || {}
   return (
     <main role="main">
       <section className="section section-grey">

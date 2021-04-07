@@ -9,7 +9,7 @@ import asyncHandler from 'express-async-handler'
 v1Router.get(
   routes.SIGNUP,
   asyncHandler(async (request, response) => {
-    const projectAdmissionKeyId = request.query.projectAdmissionKey
+    const projectAdmissionKeyId = (request.query as any).projectAdmissionKey
     if (!projectAdmissionKeyId) {
       return response.redirect(routes.HOME)
     }

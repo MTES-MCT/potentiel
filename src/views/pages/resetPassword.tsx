@@ -10,7 +10,7 @@ interface Props {
 
 /* Pure component */
 export default function ResetPasswordPage({ request }: Props) {
-  const { error, success, resetCode } = request.query || {}
+  const { error, success, resetCode } = (request.query as any) || {}
   return (
     <main role="main">
       <section className="section section-grey">

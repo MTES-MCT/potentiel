@@ -3,10 +3,10 @@ import { projectRepo } from '../../dataAccess'
 import { testRouter } from './testRouter'
 
 testRouter.get('/test/getProjectId', async (request, response) => {
-  const { nomProjet } = request.query
+  const { nomProjet } = request.query as any
 
-  if (!nomProjet) {
-    logger.error('getProjectIdForTests missing nomProjet')
+  if (typeof nomProjet !== 'string') {
+    logger.error('getProjectIdForTests wrong/missing nomProjet')
     return response.status(500).send('missing nomProjet')
   }
 

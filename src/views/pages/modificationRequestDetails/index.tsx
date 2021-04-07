@@ -38,7 +38,7 @@ const TITLE_COLOR_BY_STATUS = (status: string): string => {
 /* Pure component */
 export default function AdminModificationRequestPage({ request, modificationRequest }: PageProps) {
   const { user } = request
-  const { error, success } = request.query
+  const { error, success } = request.query as any
   const {
     project,
     type,

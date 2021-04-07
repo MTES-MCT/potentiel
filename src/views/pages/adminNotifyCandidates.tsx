@@ -25,7 +25,7 @@ type AdminNotifyCandidatesProps = {
 
 /* Pure component */
 export default function AdminNotifyCandidates({ request, results }: AdminNotifyCandidatesProps) {
-  const { error, success, recherche, classement } = request.query || {}
+  const { error, success, recherche, classement } = (request.query as any) || {}
 
   if (!results) {
     // All projects have been notified

@@ -30,7 +30,7 @@ export default function ModificationRequestList({
     familleId,
     modificationRequestStatus,
     modificationRequestType,
-  } = request.query || {}
+  } = (request.query as any) || {}
 
   const hasFilters =
     appelOffreId || periodeId || familleId || modificationRequestStatus || modificationRequestType

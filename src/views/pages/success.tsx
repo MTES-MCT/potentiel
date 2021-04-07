@@ -10,7 +10,7 @@ interface SuccessOrErrorProps {
 
 /* Pure component */
 export default function SuccessOrError({ request }: SuccessOrErrorProps) {
-  const { success, redirectUrl, redirectTitle } = request.query || {}
+  const { success, redirectUrl, redirectTitle } = (request.query as any) || {}
 
   const contents = (
     <div className="panel">

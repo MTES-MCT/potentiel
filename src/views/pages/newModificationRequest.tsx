@@ -51,7 +51,7 @@ export default function NewModificationRequestPage({ request, project }: PagePro
     producteur,
     justification,
     delayInMonths,
-  } = request.query || {}
+  } = (request.query as any) || {}
 
   return (
     <UserDashboard currentPage={'list-requests'}>

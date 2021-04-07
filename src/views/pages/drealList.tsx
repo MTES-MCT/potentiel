@@ -14,7 +14,7 @@ interface DREALListProps {
 
 /* Pure component */
 export default function DREALList({ request, users, invitations }: DREALListProps) {
-  const { error, success } = request.query || {}
+  const { error, success } = (request.query as any) || {}
   return (
     <AdminDashboard role={request.user?.role} currentPage="list-dreal">
       <div className="panel">

@@ -15,7 +15,7 @@ interface InvitationListProps {
 
 /* Pure component */
 export default function InvitationList({ request, invitations, appelsOffre }: InvitationListProps) {
-  const { error, success, appelOffreId, periodeId } = request.query || {}
+  const { error, success, appelOffreId, periodeId } = (request.query as any) || {}
 
   return (
     <AdminDashboard role={request.user?.role} currentPage="list-invitations">

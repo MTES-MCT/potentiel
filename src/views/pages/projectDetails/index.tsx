@@ -18,7 +18,7 @@ interface ProjectDetailsProps {
 /* Pure component */
 export default function ProjectDetails({ request, project }: ProjectDetailsProps) {
   const { user } = request
-  const { error, success } = request.query || {}
+  const { error, success } = (request.query as any) || {}
 
   if (!user) {
     // Should never happen

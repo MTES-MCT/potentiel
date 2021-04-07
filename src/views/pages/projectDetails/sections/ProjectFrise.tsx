@@ -96,7 +96,10 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (
                   }
                   status="nextup"
                   hiddenContent={
-                    <GarantiesFinancieresForm projectId={project.id} date={request.query.gfDate} />
+                    <GarantiesFinancieresForm
+                      projectId={project.id}
+                      date={(request.query as any).gfDate}
+                    />
                   }
                 />
               )
@@ -150,7 +153,9 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (
                         }
                   }
                   status="nextup"
-                  hiddenContent={<DCRForm projectId={project.id} date={request.query.stepDate} />}
+                  hiddenContent={
+                    <DCRForm projectId={project.id} date={(request.query as any).stepDate} />
+                  }
                 />
               )
             ) : null}
@@ -199,7 +204,9 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => (
                           openHiddenContent: user.role === 'porteur-projet' ? true : undefined,
                         }
                   }
-                  hiddenContent={<PTFForm projectId={project.id} date={request.query.ptfDate} />}
+                  hiddenContent={
+                    <PTFForm projectId={project.id} date={(request.query as any).ptfDate} />
+                  }
                 />
               )
             ) : null}
