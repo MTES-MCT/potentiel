@@ -45,7 +45,7 @@ describe('projectStep.onProjectStepStatusUpdated', () => {
       const projectStep = await ProjectStep.findByPk(projectStepId)
       expect(projectStep.status).toStrictEqual('validé')
       expect(projectStep.statusUpdatedBy).toStrictEqual(statusUpdatedBy)
-      expect(projectStep.statusUpdatedOn).not.toEqual(createdAt)
+      expect(projectStep.statusUpdatedOn).toEqual(event.occurredAt)
     })
 
     it(`should update the step status to 'à traiter' when it is set to 'validé`, async () => {
@@ -77,7 +77,7 @@ describe('projectStep.onProjectStepStatusUpdated', () => {
       const projectStep = await ProjectStep.findByPk(projectStepId)
       expect(projectStep.status).toStrictEqual('à traiter')
       expect(projectStep.statusUpdatedBy).toStrictEqual(statusUpdatedBy)
-      expect(projectStep.statusUpdatedOn).not.toEqual(createdAt)
+      expect(projectStep.statusUpdatedOn).toEqual(event.occurredAt)
     })
   })
 })
