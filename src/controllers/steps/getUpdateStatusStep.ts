@@ -11,7 +11,8 @@ v1Router.get(
   ensureLoggedIn(),
   ensureRole(['dreal']),
   asyncHandler(async (request, response) => {
-    const redirectUrl = request.header('Referer') || routes.ADMIN_DREAL_LIST
+    const redirectUrl = request.get('Referrer') || routes.ADMIN_DREAL_LIST
+
     const { user } = request
     const { projectId, newStatus, projectStepId } = request.params
 
