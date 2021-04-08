@@ -2,6 +2,7 @@ import { Request } from 'express'
 import React from 'react'
 import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
 import { dataId } from '../../helpers/testId'
+import routes from '../../routes'
 import ROUTES from '../../routes'
 import AdminDashboard from '../components/adminDashboard'
 
@@ -43,6 +44,9 @@ export default function AdminAppelOffre({ request }: AdminAppelOffreProps) {
             style={{ maxWidth: 'auto', margin: '0 0 15px 0' }}
           >
             <h4>Mettre à jour les appels d'offre</h4>
+            <a href={routes.EXPORT_AO_CSV} download>
+              Télécharger les données actuelles
+            </a>
             <div className="form__group">
               <label htmlFor="appelsOffresFile">Fichier des appels d'offre</label>
               <input type="file" name="appelsOffresFile" id="appelsOffresFile" />
@@ -60,6 +64,9 @@ export default function AdminAppelOffre({ request }: AdminAppelOffreProps) {
           style={{ maxWidth: 'auto', margin: '0 0 15px 0' }}
         >
           <h4>Mettre à jour les périodes</h4>
+          <a href={routes.EXPORT_PERIODE_CSV} download>
+            Télécharger les données actuelles
+          </a>
           <div className="form__group">
             <label htmlFor="periodesFile">Fichier des périodes</label>
             <input type="file" name="periodesFile" id="periodesFile" />

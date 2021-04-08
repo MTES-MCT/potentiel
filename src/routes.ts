@@ -48,6 +48,8 @@ class routes {
   static ADMIN_AO_PERIODE = '/admin/appels-offres.html'
   static IMPORT_AO_ACTION = '/admin/importAppelsOffres'
   static IMPORT_PERIODE_ACTION = '/admin/importPeriodes'
+  static EXPORT_AO_CSV = '/admin/appelsOffres.csv'
+  static EXPORT_PERIODE_CSV = '/admin/periodes.csv'
 
   static IMPORT_PROJECTS = '/admin/importer-candidats.html' // Keep separate from ADMIN_DASHBOARD, may change
 
