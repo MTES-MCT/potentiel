@@ -47,6 +47,7 @@ export default function NewModificationRequestPage({ request, project }: PagePro
     error,
     success,
     puissance,
+    puissanceInitiale,
     actionnaire,
     producteur,
     justification,
@@ -127,14 +128,23 @@ export default function NewModificationRequestPage({ request, project }: PagePro
             {action === 'puissance' ? (
               <>
                 <label>
-                  Puissance actuelle (en {getunitePuissanceForAppelOffre(project.appelOffreId)})
+                  Puissance à la notification (en{' '}
+                  {getunitePuissanceForAppelOffre(project.appelOffreId)})
                 </label>
                 <input
                   type="text"
                   disabled
-                  value={project.puissance}
+                  value={puissanceInitiale}
                   {...dataId('modificationRequest-presentPuissanceField')}
                 />
+                {puissance !== puissanceInitiale && (
+                  <>
+                    <label>
+                      Puissance actuelle (en {getunitePuissanceForAppelOffre(project.appelOffreId)})
+                    </label>
+                    <input type="text" disabled value={puissance} />
+                  </>
+                )}
                 <label className="required" htmlFor="puissance">
                   Nouvelle puissance (en {getunitePuissanceForAppelOffre(project.appelOffreId)})
                 </label>
@@ -152,8 +162,8 @@ export default function NewModificationRequestPage({ request, project }: PagePro
                   style={{ display: 'none' }}
                   {...dataId('modificationRequest-puissance-error-message-out-of-bounds')}
                 >
-                  La nouvelle puissance doit être située entre 90% et 100% de la puissance actuelle
-                  pour être acceptée.
+                  Une autorisation sera nécessaire si la variation de puissance par rapport à
+                  puissance à la notification est supérieure à 10%.
                 </div>
                 <div
                   className="notification error"

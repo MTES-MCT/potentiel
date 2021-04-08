@@ -464,18 +464,18 @@ function addPuissanceModificationHandler() {
   )
 
   if (newPuissanceField) {
-    var submitButton = '[data-testid=submit-button]'
+    const submitButton = '[data-testid=submit-button]'
 
     newPuissanceField.addEventListener('keyup', function (event) {
-      var newValue = Number(event.target.value)
+      const newValue = Number(event.target.value)
 
-      var oldValue = getFieldValue('[data-testid=modificationRequest-presentPuissanceField]')
+      const oldValue = getFieldValue('[data-testid=modificationRequest-presentPuissanceField]')
 
-      var outOfBounds = '[data-testid=modificationRequest-puissance-error-message-out-of-bounds]'
-      var wrongFormat = '[data-testid=modificationRequest-puissance-error-message-wrong-format]'
+      const outOfBounds = '[data-testid=modificationRequest-puissance-error-message-out-of-bounds]'
+      const wrongFormat = '[data-testid=modificationRequest-puissance-error-message-wrong-format]'
 
       if (!Number.isNaN(newValue) && !Number.isNaN(oldValue)) {
-        if (newValue > oldValue || newValue / oldValue < 0.9) {
+        if (newValue / oldValue > 1.1 || newValue / oldValue < 0.9) {
           show(outOfBounds, true)
           show(wrongFormat, false)
         } else {
