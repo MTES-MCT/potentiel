@@ -67,6 +67,10 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
       type: DataTypes.STRING,
       allowNull: false,
     },
+    puissanceInitiale: {
+      type: DataTypes.DOUBLE,
+      allowNull: false,
+    },
     puissance: {
       type: DataTypes.DOUBLE,
       allowNull: false,

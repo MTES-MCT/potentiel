@@ -219,6 +219,8 @@ export default function makeImportProjects({
           }, {}),
         }
 
+        projectData.puissanceInitiale = projectData.puissance
+
         // Add all the other columns of the csv into the details section of the project
         projectData.details = Object.entries(line)
           .filter(([columnTitle]) => !pickedColumns.includes(columnTitle))
