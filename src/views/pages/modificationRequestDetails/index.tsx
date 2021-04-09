@@ -1,25 +1,21 @@
+import { Request } from 'express'
+import moment from 'moment'
 import React from 'react'
-
-import { dataId } from '../../../helpers/testId'
-
-import { Project } from '../../../entities'
-
+import { logger } from '../../../core/utils'
+import { ModificationRequestPageDTO } from '../../../modules/modificationRequest'
+import { ErrorBox, SuccessBox } from '../../components'
 import AdminDashboard from '../../components/adminDashboard'
 import UserDashboard from '../../components/userDashboard'
-import { Request } from 'express'
-import ROUTES from '../../../routes'
-
-import { formatDate } from '../../../helpers/formatDate'
-
-import moment from 'moment'
-import { ModificationRequestPageDTO } from '../../../modules/modificationRequest'
+import { ModificationRequestTitleByType } from '../../helpers'
 import {
-  ModificationRequestTitleByType,
-  ModificationRequestStatusTitle,
-  ModificationRequestColorByStatus,
-} from '../../helpers'
-import { DownloadIcon } from '../../components'
-import { logger } from '../../../core/utils'
+  AdminResponseForm,
+  DelaiForm,
+  DemandeDetails,
+  DemandeStatus,
+  ProjectDetails,
+  RecoursForm,
+} from './components'
+
 moment.locale('fr')
 
 interface PageProps {
@@ -27,43 +23,22 @@ interface PageProps {
   modificationRequest: ModificationRequestPageDTO
 }
 
-const TITLE_COLOR_BY_STATUS = (status: string): string => {
-  if (status.includes('accepté')) return 'rgb(56, 118, 29)'
-  if (status.includes('rejeté')) return 'rgb(204, 0, 0)'
-  if (status.includes('en instruction')) return '#ff9947'
-  if (status.includes('envoyée')) return '#006be6'
-  return ''
-}
-
 /* Pure component */
 export default function AdminModificationRequestPage({ request, modificationRequest }: PageProps) {
   const { user } = request
   const { error, success } = request.query as any
-  const {
-    project,
-    type,
-    status,
-    requestedOn,
-    requestedBy,
-    respondedOn,
-    respondedBy,
-    responseFile,
-    attachmentFile,
-    justification,
-    versionDate,
-  } = modificationRequest
+  const { type } = modificationRequest
 
   if (!user) {
     // Should never happen
     logger.error('Try to render ProjectDetails without a user')
     return <div />
   }
+  const isResponsePossible = ['recours', 'delai'].includes(type)
 
   const isAdmin = user.role !== 'porteur-projet'
 
   const Dashboard = isAdmin ? AdminDashboard : UserDashboard
-
-  const isResponsePossible = ['recours', 'delai'].includes(type)
 
   return (
     <Dashboard role={user.role} currentPage={'list-requests'}>
@@ -71,279 +46,35 @@ export default function AdminModificationRequestPage({ request, modificationRequ
         <div className="panel__header" style={{ position: 'relative' }}>
           <h3>Demande de {ModificationRequestTitleByType[type]}</h3>
         </div>
-        <div className="panel__header">
-          <div>
-            Déposée par {requestedBy} le {formatDate(requestedOn)}
-          </div>
-          {justification ? (
-            <div style={{ fontStyle: 'italic', marginTop: 5 }}>
-              {'"'}
-              {justification}
-              {'"'}
-            </div>
-          ) : (
-            ''
-          )}
-          {modificationRequest.type === 'delai' ? (
-            status === 'envoyée' || status === 'en instruction' ? (
-              <div style={{ marginTop: 5 }}>
-                La date de mise en service théorique est au{' '}
-                <b>{formatDate(project.completionDueOn)}</b>.
-                <br />
-                Le porteur demande un délai de <b>{modificationRequest.delayInMonths} mois</b>, ce
-                qui reporterait la mise en service au{' '}
-                <b>
-                  {formatDate(
-                    +moment(project.completionDueOn).add(modificationRequest.delayInMonths, 'month')
+
+        <DemandeDetails modificationRequest={modificationRequest} />
+
+        <ProjectDetails modificationRequest={modificationRequest} />
+
+        <ErrorBox error={error} />
+        <SuccessBox success={success} />
+
+        {isAdmin && !modificationRequest.respondedOn && (
+          <div className="panel__header">
+            <h4>Répondre</h4>
+
+            <AdminResponseForm modificationRequest={modificationRequest}>
+              {isResponsePossible && (
+                <>
+                  {modificationRequest.type === 'delai' && (
+                    <DelaiForm modificationRequest={modificationRequest} />
                   )}
-                </b>
-                .
-              </div>
-            ) : (
-              <div style={{ marginTop: 5 }}>
-                Le porteur a demandé un délai de <b>{modificationRequest.delayInMonths} mois</b>.{' '}
-              </div>
-            )
-          ) : null}
-          {attachmentFile ? (
-            <div style={{ marginTop: 10 }}>
-              <DownloadIcon />
-              <a
-                href={ROUTES.DOWNLOAD_PROJECT_FILE(attachmentFile.id, attachmentFile.filename)}
-                download={true}
-                {...dataId('requestList-item-download-link')}
-              >
-                Télécharger la pièce-jointe
-              </a>
-            </div>
-          ) : (
-            ''
-          )}
-        </div>
-        <div className="panel__header">
-          <div style={{ marginBottom: 5 }}>Concerant le projet:</div>
-          <div
-            className="text-quote"
-            style={{
-              paddingTop: 10,
-              paddingBottom: 10,
-              marginBottom: 10,
-            }}
-          >
-            <div {...dataId('modificationRequest-item-nomProjet')}>
-              <a href={ROUTES.PROJECT_DETAILS(project.id)}>{project.nomProjet}</a>
-            </div>
-            <div
-              style={{
-                fontStyle: 'italic',
-                lineHeight: 'normal',
-                fontSize: 12,
-              }}
-            >
-              <div {...dataId('modificationRequest-item-nomCandidat')}>{project.nomCandidat}</div>
-              <span {...dataId('modificationRequest-item-communeProjet')}>
-                {project.communeProjet}
-              </span>
-              ,{' '}
-              <span {...dataId('modificationRequest-item-departementProjet')}>
-                {project.departementProjet}
-              </span>
-              ,{' '}
-              <span {...dataId('modificationRequest-item-regionProjet')}>
-                {project.regionProjet}
-              </span>
-            </div>
-            <div {...dataId('modificationRequest-item-puissance')}>
-              {project.puissance} {project.unitePuissance}
-            </div>
-            <div>
-              Désigné le{' '}
-              <span {...dataId('modificationRequest-item-designationDate')}>
-                {formatDate(project.notifiedOn)}
-              </span>{' '}
-              pour la période{' '}
-              <span {...dataId('modificationRequest-item-periode')}>
-                {project.appelOffreId} {project.periodeId}
-              </span>{' '}
-              <span {...dataId('modificationRequest-item-famille')}>{project.familleId}</span>
-            </div>
-            {project.numeroGestionnaire ? (
-              <div>Identifiant gestionnaire de réseau: {project.numeroGestionnaire}</div>
-            ) : null}
+
+                  {modificationRequest.type === 'recours' && (
+                    <RecoursForm modificationRequest={modificationRequest} />
+                  )}
+                </>
+              )}
+            </AdminResponseForm>
           </div>
-          {error ? (
-            <div className="notification error" {...dataId('modificationRequest-errorMessage')}>
-              {error}
-            </div>
-          ) : (
-            ''
-          )}
-          {success ? (
-            <div className="notification success" {...dataId('modificationRequest-successMessage')}>
-              {success}
-            </div>
-          ) : (
-            ''
-          )}
-        </div>
-        {isAdmin ? (
-          !modificationRequest.respondedOn ? (
-            <div className="panel__header">
-              <h4>Répondre</h4>
-
-              <form
-                action={ROUTES.ADMIN_REPLY_TO_MODIFICATION_REQUEST}
-                method="post"
-                encType="multipart/form-data"
-                style={{ margin: 0 }}
-              >
-                <input type="hidden" name="modificationRequestId" value={modificationRequest.id} />
-                <input type="hidden" name="type" value={modificationRequest.type} />
-                <input type="hidden" name="versionDate" value={versionDate.getTime()} />
-
-                <div className="form__group" style={{ marginBottom: 20 }}>
-                  <label htmlFor="statusUpdateOnly">
-                    <input
-                      type="checkbox"
-                      name="statusUpdateOnly"
-                      defaultChecked={!isResponsePossible}
-                      {...dataId('modificationRequest-statusUpdateOnlyField')}
-                    />
-                    Demande traitée hors Potentiel
-                  </label>
-                  <div style={{ fontSize: 11, lineHeight: '1.5em', marginTop: 3 }}>
-                    En cochant cette case, seul le statut de la demande sera mise à jour. La réponse
-                    n‘aura pas d‘impact sur le projet et le porteur de projet ne sera pas notifié.
-                  </div>
-                </div>
-
-                {isResponsePossible ? (
-                  <>
-                    <div style={{ marginBottom: 5 }}>
-                      <DownloadIcon />
-                      <a
-                        href={ROUTES.TELECHARGER_MODELE_REPONSE(
-                          (project as unknown) as Project,
-                          modificationRequest.id
-                        )}
-                        download={true}
-                      >
-                        Télécharger un modèle de réponse
-                      </a>
-                    </div>
-
-                    <div className="form__group">
-                      <label htmlFor="file">Réponse signée (fichier pdf)</label>
-                      <input type="file" name="file" id="file" />
-                    </div>
-
-                    {type === 'recours' ? (
-                      <div className="form__group" style={{ marginTop: 5 }}>
-                        <label htmlFor="newNotificationDate">
-                          Nouvelle date de désignation (format JJ/MM/AAAA)
-                        </label>
-                        <input
-                          type="text"
-                          name="newNotificationDate"
-                          id="newNotificationDate"
-                          defaultValue={formatDate(Date.now(), 'DD/MM/YYYY')}
-                          {...dataId('modificationRequest-newNotificationDateField')}
-                          style={{ width: 'auto' }}
-                        />
-                      </div>
-                    ) : null}
-
-                    {modificationRequest.type === 'delai' ? (
-                      <div className="form__group" style={{ marginTop: 5 }}>
-                        <label htmlFor="delayInMonths">Délai accordé (en mois)</label>
-                        <input
-                          type="number"
-                          name="delayInMonths"
-                          id="delayInMonths"
-                          defaultValue={modificationRequest.delayInMonths}
-                          data-initial-date={project.completionDueOn.getTime()}
-                          {...dataId('delayInMonthsField')}
-                          style={{ width: 75 }}
-                        />
-                        <span style={{ marginLeft: 10 }} {...dataId('delayEstimateBox')}>
-                          {`Date de mise en service projetée: ${formatDate(
-                            +moment(project.completionDueOn).add(
-                              modificationRequest.delayInMonths,
-                              'month'
-                            )
-                          )}`}
-                        </span>
-                      </div>
-                    ) : null}
-                  </>
-                ) : (
-                  ''
-                )}
-
-                <button
-                  className="button"
-                  type="submit"
-                  name="submitAccept"
-                  data-confirm={`Etes-vous sur de vouloir accepter la demande de ${ModificationRequestTitleByType[type]} ?`}
-                  {...dataId('submit-button')}
-                >
-                  Accepter la demande de {ModificationRequestTitleByType[type]}
-                </button>
-                <button
-                  className="button warning"
-                  type="submit"
-                  data-confirm={`Etes-vous sur de vouloir refuser la demande de ${ModificationRequestTitleByType[type]} ?`}
-                  name="submitRefuse"
-                  {...dataId('submit-button-alt')}
-                >
-                  Refuser la demande de {ModificationRequestTitleByType[type]}
-                </button>
-              </form>
-            </div>
-          ) : (
-            ''
-          )
-        ) : (
-          ''
         )}
-        <div
-          className={'notification ' + (status ? ModificationRequestColorByStatus[status] : '')}
-          style={{ color: TITLE_COLOR_BY_STATUS(status) }}
-        >
-          <span
-            style={{
-              fontWeight: 'bold',
-            }}
-          >
-            {ModificationRequestStatusTitle[status]}
-          </span>{' '}
-          {respondedOn && respondedBy ? `par ${respondedBy} le ${formatDate(respondedOn)}` : ''}
-          {modificationRequest.type === 'delai' &&
-          modificationRequest.status === 'acceptée' &&
-          modificationRequest.acceptanceParams ? (
-            <div>
-              L‘administration vous accorde un délai{' '}
-              <b>
-                {modificationRequest.acceptanceParams?.delayInMonths
-                  ? `de ${modificationRequest.acceptanceParams?.delayInMonths} mois.`
-                  : '.'}
-              </b>{' '}
-              Votre date de mise en service théorique est actuellement au{' '}
-              <b>{formatDate(project.completionDueOn)}</b>.
-            </div>
-          ) : null}
-          {responseFile ? (
-            <div>
-              <a
-                href={ROUTES.DOWNLOAD_PROJECT_FILE(responseFile.id, responseFile.filename)}
-                download={true}
-                {...dataId('requestList-item-download-link')}
-              >
-                Télécharger le courrier de réponse
-              </a>
-            </div>
-          ) : null}
-        </div>
+
+        <DemandeStatus modificationRequest={modificationRequest} />
       </div>
     </Dashboard>
   )
