@@ -25,14 +25,12 @@ export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => 
       <div>
         Déposée par {requestedBy} le {formatDate(requestedOn)}
       </div>
-      {justification ? (
+      {justification && (
         <div style={{ fontStyle: 'italic', marginTop: 5 }}>
           {'"'}
           {justification}
           {'"'}
         </div>
-      ) : (
-        ''
       )}
       {modificationRequest.type === 'delai' ? (
         status === 'envoyée' || status === 'en instruction' ? (
@@ -55,7 +53,7 @@ export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => 
           </div>
         )
       ) : null}
-      {attachmentFile ? (
+      {attachmentFile && (
         <div style={{ marginTop: 10 }}>
           <DownloadIcon />
           <a
@@ -66,8 +64,6 @@ export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => 
             Télécharger la pièce-jointe
           </a>
         </div>
-      ) : (
-        ''
       )}
     </div>
   )
