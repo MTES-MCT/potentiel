@@ -35,6 +35,7 @@ import {
   makeAcceptModificationRequest,
   makeRejectModificationRequest,
   makeUpdateModificationRequestStatus,
+  makeRequestConfirmation,
 } from '../modules/modificationRequest'
 import { makeInviteUser } from '../modules/users'
 import { sendNotification } from './emails.config'
@@ -68,6 +69,10 @@ export const acceptModificationRequest = makeAcceptModificationRequest({
   modificationRequestRepo,
 })
 export const rejectModificationRequest = makeRejectModificationRequest({
+  fileRepo,
+  modificationRequestRepo,
+})
+export const requestConfirmation = makeRequestConfirmation({
   fileRepo,
   modificationRequestRepo,
 })
