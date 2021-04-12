@@ -8,6 +8,7 @@ import { makeCandidateNotification } from '../../../modules/candidateNotificatio
 import { makeProjectRepo } from './projectRepo'
 import { makeEventStoreRepo } from '../../../modules/eventStore'
 import { makeModificationRequest } from '../../../modules/modificationRequest'
+import { makeAppelOffre } from '../../../modules/appelOffre'
 
 export const fileRepo = makeFileRepo({ models, fileStorageService })
 export const notificationRepo = new NotificationRepo(models)
@@ -20,4 +21,8 @@ export const modificationRequestRepo = makeEventStoreRepo({
   eventStore,
   makeAggregate: ({ id, events }) =>
     makeModificationRequest({ history: events, modificationRequestId: id }),
+})
+export const appelOffreRepo = makeEventStoreRepo({
+  eventStore,
+  makeAggregate: makeAppelOffre,
 })

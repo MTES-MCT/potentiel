@@ -9,7 +9,11 @@ import {
 } from '../../modules/project/events'
 import { sendNotification } from '../emails.config'
 import { eventStore } from '../eventStore.config'
-import { appelOffreRepo, candidateNotificationRepo, projectAdmissionKeyRepo } from '../repos.config'
+import {
+  oldAppelOffreRepo,
+  candidateNotificationRepo,
+  projectAdmissionKeyRepo,
+} from '../repos.config'
 
 eventStore.subscribe(
   CandidateNotifiedForPeriode.type,
@@ -17,7 +21,7 @@ eventStore.subscribe(
     eventBus: eventStore,
     sendNotification,
     saveProjectAdmissionKey: projectAdmissionKeyRepo.save,
-    getPeriodeTitle: appelOffreRepo.getPeriodeTitle,
+    getPeriodeTitle: oldAppelOffreRepo.getPeriodeTitle,
   })
 )
 

@@ -8,7 +8,7 @@
     "install": "npm run build && npx sequelize-cli db:migrate",
     "test": "NODE_ENV=unit-test jest --config=jest.unit.config.js --detectOpenHandles",
     "test-e2e": "NODE_ENV=test start-server-and-test watch http://localhost:3000 cy:run",
-    "test-int": "NODE_ENV=test jest --config=jest.integration.config.js --detectOpenHandles --maxWorkers=1",
+    "test-int": "NODE_ENV=test jest --config=jest.integration.config.js --detectOpenHandles --runInBand",
     "test-int-init-db": "export NODE_ENV=test && docker-compose down --remove-orphans && docker-compose -f ./docker-compose-integration.yml up -d && until docker exec potentiel_db_tests_integration pg_isready -U testuser -d potentiel_test; do sleep 1; done && sleep 2 && npx sequelize-cli db:migrate",
     "test-int:watch": "NODE_ENV=test jest --config=jest.integration.config.js --detectOpenHandles --watch",
     "test:watch": "NODE_ENV=test TEST=unit jest --config=jest.unit.config.js --detectOpenHandles --watch",
