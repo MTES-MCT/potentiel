@@ -33,6 +33,9 @@ if (NODE_ENV === 'test') {
     database: 'potentiel_test',
     port: 5433,
     logging: false,
+    pool: {
+      max: 2
+    }
   }
 }
 
