@@ -31,7 +31,7 @@ export const makeAppelOffre = (args: {
 }): Result<AppelOffre, EntityNotFoundError | IllegalInitialStateForAggregateError> => {
   const { events, id } = args
 
-  if (!events || !events.length) {
+  if (!events?.length) {
     return err(new EntityNotFoundError())
   }
 
@@ -129,28 +129,24 @@ export const makeAppelOffre = (args: {
 
   function _processEvent(event: DomainEvent) {
     let existingPeriode
+    const { delta, data, periodeId } = event.payload
     switch (event.type) {
       case AppelOffreCreated.type:
-        props.data = event.payload.data
+        props.data = data
         break
       case AppelOffreUpdated.type:
-        props.data = { ...props.data, ...event.payload.delta }
+        props.data = { ...props.data, ...delta }
         break
       case PeriodeCreated.type:
-        props.periodes = [
-          ...props.periodes,
-          { periodeId: event.payload.periodeId, data: event.payload.data },
-        ]
+        props.periodes = [...props.periodes, { periodeId, data }]
         break
       case PeriodeUpdated.type:
-        existingPeriode = props.periodes.find(
-          (periode) => periode.periodeId === event.payload.periodeId
-        )
+        existingPeriode = props.periodes.find((periode) => periode.periodeId === periodeId)
         if (!existingPeriode) {
           _isError = true
           break
         }
-        existingPeriode.data = { ...existingPeriode.data, ...event.payload.delta }
+        existingPeriode.data = { ...existingPeriode.data, ...delta }
         break
       default:
         // ignore other event types

@@ -25,7 +25,6 @@ v1Router.post(
     // Parse the csv file
     const lines = await parseCsv(request.file.path)
 
-    // console.log('postProject has lines count ', lines)
     ;(
       await importProjects({
         lines,

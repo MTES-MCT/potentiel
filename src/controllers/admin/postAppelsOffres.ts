@@ -15,7 +15,7 @@ v1Router.post(
   ensureRole(['admin', 'dgec']),
   upload.single('appelsOffresFile'),
   asyncHandler(async (request, response) => {
-    if (!request.file || !request.file.path) {
+    if (!request.file?.path) {
       return response.redirect(
         addQueryParams(routes.ADMIN_AO_PERIODE, {
           error: 'Le fichier des appels d‘offre est manquant.',

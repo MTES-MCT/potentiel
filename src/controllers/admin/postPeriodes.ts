@@ -15,7 +15,7 @@ v1Router.post(
   ensureRole(['admin', 'dgec']),
   upload.single('periodesFile'),
   asyncHandler(async (request, response) => {
-    if (!request.file || !request.file.path) {
+    if (!request.file?.path) {
       return response.redirect(
         addQueryParams(routes.ADMIN_AO_PERIODE, {
           error: 'Le fichier des périodes est manquant.',
@@ -50,8 +50,10 @@ v1Router.post(
           )
         }
 
-        if (errors[0] instanceof InfraNotAvailableError) {
-          logger.error(errors[0])
+        const firstError = errors[0]
+
+        if (firstError instanceof InfraNotAvailableError) {
+          logger.error(firstError)
           return response.redirect(
             addQueryParams(routes.ADMIN_AO_PERIODE, {
               error:
@@ -60,8 +62,8 @@ v1Router.post(
           )
         }
 
-        if (errors[0] instanceof UnauthorizedError) {
-          logger.error(errors[0])
+        if (firstError instanceof UnauthorizedError) {
+          logger.error(firstError)
           return response.redirect(
             addQueryParams(routes.ADMIN_AO_PERIODE, {
               error: "Vous n'avez pas les droits suffisants pour effectuer cette action.",
