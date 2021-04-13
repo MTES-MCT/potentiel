@@ -36,6 +36,7 @@ import {
   makeRejectModificationRequest,
   makeUpdateModificationRequestStatus,
   makeRequestConfirmation,
+  makeConfirmRequest,
 } from '../modules/modificationRequest'
 import { makeInviteUser } from '../modules/users'
 import { sendNotification } from './emails.config'
@@ -78,6 +79,11 @@ export const requestConfirmation = makeRequestConfirmation({
 })
 export const updateModificationRequestStatus = makeUpdateModificationRequestStatus({
   modificationRequestRepo,
+})
+
+export const confirmRequest = makeConfirmRequest({
+  modificationRequestRepo,
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
 })
 
 export const revokeUserRightsToProject = makeRevokeRightsToProject({
