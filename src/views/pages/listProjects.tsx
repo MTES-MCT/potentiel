@@ -186,7 +186,7 @@ export default function ListProjects({
                   </select>
                 </div>
                 <div style={{ marginTop: 15 }}>
-                  <div style={{ marginLeft: 2 }}>Classés/Eliminés</div>
+                  <div style={{ marginLeft: 2 }}>Classés/Eliminés/Abandons</div>
                   <select
                     name="classement"
                     className={hasNonDefaultClassement ? 'active' : ''}
@@ -196,6 +196,7 @@ export default function ListProjects({
                     <option value="">Tous</option>
                     <option value="classés">Classés</option>
                     <option value="éliminés">Eliminés</option>
+                    <option value="abandons">Abandons</option>
                   </select>
                 </div>
 
