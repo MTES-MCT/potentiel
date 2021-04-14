@@ -26,6 +26,7 @@ import {
   getFileProject,
   getProjectIdForAdmissionKey,
   getProjectIdsForPeriode,
+  getAppelOffreList,
 } from './queries.config'
 import { eventStore } from './eventStore.config'
 import {
@@ -107,6 +108,7 @@ export const regenerateCertificatesForPeriode = makeRegenerateCertificatesForPer
 export const importAppelOffreData = makeImportAppelOffreData({
   eventBus: eventStore,
   appelOffreRepo,
+  getAppelOffreList,
 })
 
 export const importPeriodeData = makeImportPeriodeData({
