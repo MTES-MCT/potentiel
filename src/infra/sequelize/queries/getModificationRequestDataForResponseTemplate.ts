@@ -1,10 +1,10 @@
 import moment from 'moment'
-import { okAsync } from 'neverthrow'
-import { ResultAsync, errAsync, logger, ok, wrapInfra } from '../../../core/utils'
+import { ResultAsync, errAsync, logger, ok, okAsync, wrapInfra, Result } from '../../../core/utils'
 import { getAppelOffre } from '../../../dataAccess/inMemory/appelOffre'
 import { makeProjectIdentifier } from '../../../entities'
 import { formatDate } from '../../../helpers/formatDate'
 import { GetPeriode } from '../../../modules/appelOffre'
+import { PeriodeDTO } from '../../../modules/appelOffre/dtos'
 import {
   GetModificationRequestDateForResponseTemplate,
   ModificationRequestDateForResponseTemplateDTO,
@@ -49,10 +49,18 @@ export const makeGetModificationRequestDataForResponseTemplate = ({
       }
     )
     .andThen(({ modificationRequest, previousRequest }) =>
-      getPeriode(
-        modificationRequest.project.appelOffreId,
-        modificationRequest.project.periodeId
-      ).map((periodeDetails) => ({ modificationRequest, previousRequest, periodeDetails }))
+      getPeriode(modificationRequest.project.appelOffreId, modificationRequest.project.periodeId)
+        .orElse(
+          (e): ResultAsync<PeriodeDTO, InfraNotAvailableError> => {
+            if (e instanceof EntityNotFoundError) {
+              // If periode is not found, do not crash the whole query
+              return okAsync({} as PeriodeDTO)
+            }
+
+            return errAsync(e)
+          }
+        )
+        .map((periodeDetails) => ({ modificationRequest, previousRequest, periodeDetails }))
     )
     .andThen(({ modificationRequest, previousRequest, periodeDetails }) => {
       const {

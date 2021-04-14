@@ -38,6 +38,9 @@ export const makeAppelOffre = (args: {
     return err(new EntityNotFoundError())
   }
 
+  if (!events.find((event) => event.type === 'AppelOffreCreated')) {
+    return err(new EntityNotFoundError())
+  }
   const props: AppelOffreProps = {
     data: {},
     periodes: [],

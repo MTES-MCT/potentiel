@@ -23,7 +23,7 @@ v1Router.post(
       )
     }
 
-    await parseCsv(request.file.path)
+    await parseCsv(request.file.path, { delimiter: ',' })
       .andThen((dataLines) =>
         importPeriodeData({
           dataLines,
