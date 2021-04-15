@@ -63,6 +63,10 @@ export default function makeProjectAdmissionKeyRepo({
       type: DataTypes.STRING,
       allowNull: true,
     },
+    forRole: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     lastUsedAt: {
       type: DataTypes.BIGINT,
       allowNull: false,
