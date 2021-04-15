@@ -33,7 +33,7 @@ describe('importPeriodeData use-case', () => {
 
     it('should call updatePeriode on the appelOffre and save it', async () => {
       const res = await importPeriodeData({
-        dataLines: [{ appelOffreId: 'appelOffreId', periodeId: 'periodeId', other: 'param' }],
+        dataLines: [{ "Appel d'offres": 'appelOffreId', Période: 'periodeId', other: 'param' }],
         importedBy: user,
       })
 
@@ -93,7 +93,7 @@ describe('importPeriodeData use-case', () => {
 
     it('should return a AppelOffreDoesNotExistError', async () => {
       const res = await importPeriodeData({
-        dataLines: [{ appelOffreId: 'appelOffreId', other: 'param' }],
+        dataLines: [{ "Appel d'offres": 'appelOffreId', other: 'param' }],
         importedBy: user,
       })
 
@@ -119,7 +119,7 @@ describe('importPeriodeData use-case', () => {
 
     it('should return a AppelOffreDoesNotExistError', async () => {
       const res = await importPeriodeData({
-        dataLines: [{ appelOffreId: 'appelOffreId', periodeId: 'periodeId', other: 'param' }],
+        dataLines: [{ "Appel d'offres": 'appelOffreId', Période: 'periodeId', other: 'param' }],
         importedBy: user,
       })
 

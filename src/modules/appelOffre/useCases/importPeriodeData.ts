@@ -32,7 +32,7 @@ export const makeImportPeriodeData = (deps: ImportPeriodeDataDeps) => ({
     null,
     InfraNotAvailableError | UnauthorizedError | MissingAppelOffreIdError
   >[] = dataLines.map((dataLine, index) => {
-    const { appelOffreId, periodeId, ...data } = dataLine
+    const { "Appel d'offres": appelOffreId, Période: periodeId, ...data } = dataLine
 
     if (!appelOffreId) {
       return errAsync(new MissingAppelOffreIdError(index + 1))
