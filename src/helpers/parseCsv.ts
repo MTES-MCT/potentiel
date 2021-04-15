@@ -1,9 +1,10 @@
 import iconv from 'iconv-lite'
 import csvParse from 'csv-parse'
 import fs from 'fs'
+import { ResultAsync } from '../core/utils'
 
 export const parseCsv = (file) =>
-  new Promise<Array<Record<string, string>>>((resolve, reject) => {
+  ResultAsync.fromPromise(new Promise<Array<Record<string, string>>>((resolve, reject) => {
     const data: Array<Record<string, string>> = []
     const from1252 = iconv.decodeStream('win1252')
     fs.createReadStream(file)
@@ -25,4 +26,4 @@ export const parseCsv = (file) =>
       .on('end', () => {
         resolve(data)
       })
-  })
+  }), (e: Error) => e)

@@ -23,11 +23,19 @@ v1Router.post(
     }
 
     // Parse the csv file
-    const lines = await parseCsv(request.file.path)
+    const linesResult = await parseCsv(request.file.path)
+    if (linesResult.isErr()) {
+      const csvError = linesResult.error
+      return response.redirect(
+        addQueryParams(routes.IMPORT_PROJECTS, {
+          error: `Le fichier csv n'a pas pu être importé: ${csvError.message}`,
+        })
+      )
+    }
 
     ;(
       await importProjects({
-        lines,
+        lines: linesResult.value,
         userId: request.user.id,
       })
     ).match({
