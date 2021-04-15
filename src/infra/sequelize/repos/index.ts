@@ -9,6 +9,7 @@ import { makeProjectRepo } from './projectRepo'
 import { makeEventStoreRepo } from '../../../modules/eventStore'
 import { makeModificationRequest } from '../../../modules/modificationRequest'
 import { makeAppelOffre } from '../../../modules/appelOffre'
+import { makeProjectAdmissionKeyRepo } from './projectAdmissionKeyRepo'
 
 export const fileRepo = makeFileRepo({ models, fileStorageService })
 export const notificationRepo = new NotificationRepo(models)
@@ -26,3 +27,4 @@ export const appelOffreRepo = makeEventStoreRepo({
   eventStore,
   makeAggregate: makeAppelOffre,
 })
+export const projectAdmissionKeyRepo = makeProjectAdmissionKeyRepo(models)
