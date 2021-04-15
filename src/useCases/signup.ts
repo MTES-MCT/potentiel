@@ -1,4 +1,4 @@
-import { User, makeUser, makeCredentials, DREAL } from '../entities'
+import { User, makeUser, makeCredentials, DREAL, ProjectAdmissionKey } from '../entities'
 import { UserRepo, CredentialsRepo, ProjectAdmissionKeyRepo } from '../dataAccess'
 
 import { ResultAsync, ErrorResult, Ok } from '../types'
@@ -79,7 +79,7 @@ export default function makeSignup({
     const userResult = makeUser({
       fullName,
       email: emailToBeUsed,
-      role: projectAdmissionKeyInstance.dreal ? 'dreal' : 'porteur-projet',
+      role: _getRoleForKey(projectAdmissionKeyInstance),
       projectAdmissionKey: projectAdmissionKeyInstance.id,
     })
     if (userResult.is_err()) {
@@ -165,4 +165,19 @@ export default function makeSignup({
 
     return Ok(user)
   }
+}
+
+function _getRoleForKey(projectAdmissionKey: ProjectAdmissionKey): User['role'] {
+  if (projectAdmissionKey.dreal) {
+    return 'dreal'
+  }
+
+  if (
+    projectAdmissionKey.forRole &&
+    ['acheteur-obligé', 'ademe'].includes(projectAdmissionKey.forRole)
+  ) {
+    return projectAdmissionKey.forRole as User['role']
+  }
+
+  return 'porteur-projet'
 }

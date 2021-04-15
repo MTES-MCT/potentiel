@@ -142,6 +142,85 @@ describe('signup use-case', () => {
     })
   })
 
+  describe('given the invitation specifies a role', () => {
+    const addUserToProjectsWithEmail = jest.fn()
+    const addUserToProject = jest.fn()
+
+    const signup = makeSignup({
+      userRepo,
+      credentialsRepo,
+      projectAdmissionKeyRepo,
+      addUserToProjectsWithEmail,
+      addUserToProject,
+    })
+
+    const invitationEmail = 'one@address.com'
+    const invitationProject1 = 'project1'
+    const invitationProject2 = 'project2'
+    const projectAdmissionKeyId = 'projectAdmissionKey1'
+    let phonySignup
+    let newUserId
+
+    beforeAll(async () => {
+      await resetDatabase()
+
+      // Add a projectAdmissionKey
+      const [projectAdmissionKey] = (
+        await Promise.all(
+          [
+            {
+              id: projectAdmissionKeyId,
+              email: invitationEmail,
+              fullName: 'fullname',
+              forRole: 'acheteur-obligé',
+            },
+          ]
+            .map(makeProjectAdmissionKey)
+            .filter((item) => item.is_ok())
+            .map((item) => item.unwrap())
+            .map((item) => projectAdmissionKeyRepo.save(item).then((res) => res.map(() => item)))
+        )
+      )
+        .filter((item) => item.is_ok())
+        .map((item) => item.unwrap())
+
+      expect(projectAdmissionKey).toBeDefined()
+      if (!projectAdmissionKey) return
+
+      // Signup with the same email address
+      phonySignup = makePhonySignup({
+        projectAdmissionKey: projectAdmissionKey.id,
+        email: invitationEmail,
+      })
+
+      const signupResult = await signup(phonySignup)
+
+      expect(signupResult.is_ok()).toBeTruthy()
+
+      newUserId = UnwrapForTest(signupResult).id
+    })
+
+    it('should create a new user with the role in the invitation', async () => {
+      // Check if login works
+      const userResult = await login({
+        email: invitationEmail,
+        password: phonySignup.password,
+      })
+
+      expect(userResult.is_ok()).toBeTruthy()
+      if (!userResult.is_ok()) return
+
+      const user = userResult.unwrap()
+      expect(user).toMatchObject({
+        fullName: phonySignup.fullName,
+        role: 'acheteur-obligé',
+      })
+
+      // Link the user account to the projectAdmissionKey that was used
+      expect(user.projectAdmissionKey).toEqual(projectAdmissionKeyId)
+    })
+  })
+
   describe('given the user is a dreal', () => {
     const addUserToProjectsWithEmail = jest.fn()
     const addUserToProject = jest.fn()
