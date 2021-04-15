@@ -18,6 +18,10 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
     return <div>Projet non-notifié</div>
   }
 
+  if (project.isAbandoned) {
+    return <div>Projet abandonné</div>
+  }
+
   return (
     <div>
       <form
