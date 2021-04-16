@@ -52,7 +52,9 @@ export default function SignupPage({ request, projectAdmissionKey }: SignupProps
                 defaultValue={projectAdmissionKey.email}
                 disabled={!projectAdmissionKey.dreal}
               />
-              {!projectAdmissionKey.projectId && !projectAdmissionKey.dreal ? (
+              {!projectAdmissionKey.projectId &&
+              !projectAdmissionKey.dreal &&
+              !projectAdmissionKey.forRole ? (
                 // Only display this warning if it's an email notification
                 // if projectAdmissionKey has a projectId, it's an email invitation coming from another user
                 <div className="notification warning">
