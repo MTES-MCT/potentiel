@@ -9,6 +9,7 @@ import AdminDashboard from '../components/adminDashboard'
 import { DownloadIcon } from '../components/downloadIcon'
 import ProjectList from '../components/projectList'
 import UserDashboard from '../components/userDashboard'
+import PartnerDashboard from '../components/partnerDashboard'
 
 interface ListProjectsProps {
   request: Request
@@ -62,9 +63,9 @@ export default function ListProjects({
           <h3>Projets</h3>
           <form
             action={
-              request.user?.role === 'porteur-projet'
-                ? ROUTES.USER_LIST_PROJECTS
-                : ROUTES.ADMIN_LIST_PROJECTS
+              ['admin', 'dgec', 'dreal'].includes(request.user?.role)
+                ? ROUTES.ADMIN_LIST_PROJECTS
+                : ROUTES.USER_LIST_PROJECTS
             }
             method="GET"
             style={{ maxWidth: 'auto', margin: '0 0 25px 0' }}
@@ -327,6 +328,14 @@ export default function ListProjects({
 
   if (request.user?.role === 'porteur-projet') {
     return <UserDashboard currentPage="list-projects">{contents}</UserDashboard>
+  }
+
+  if (['acheteur-obligé', 'ademe'].includes(request.user?.role)) {
+    return (
+      <PartnerDashboard role={request.user?.role} currentPage="list-projects">
+        {contents}
+      </PartnerDashboard>
+    )
   }
 
   return (

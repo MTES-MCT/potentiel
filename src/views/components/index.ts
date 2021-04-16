@@ -7,6 +7,7 @@ export * from './errorBox';
 export * from './footer';
 export * from './header';
 export * from './pagination';
+export * from './partnerDashboard';
 export * from './projectActions';
 export * from './projectList';
 export * from './requestList';

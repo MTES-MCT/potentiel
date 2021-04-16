@@ -91,17 +91,12 @@ const registerAuth = ({ app }: RegisterAuthProps) => {
       return
     }
 
-    if (user.role === 'admin' || user.role === 'dgec') {
+    if (['admin', 'dgec', 'dreal'].includes(user.role)) {
       res.redirect(routes.ADMIN_DASHBOARD)
+      return
     }
 
-    if (user.role === 'dreal') {
-      res.redirect(routes.ADMIN_DASHBOARD)
-    }
-
-    if (user.role === 'porteur-projet') {
-      res.redirect(routes.USER_DASHBOARD)
-    }
+    res.redirect(routes.USER_DASHBOARD)
   })
 }
 
