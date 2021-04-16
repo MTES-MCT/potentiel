@@ -11,5 +11,6 @@ export * from './partnerDashboard';
 export * from './projectActions';
 export * from './projectList';
 export * from './requestList';
+export * from './roleBasedDashboard';
 export * from './successBox';
 export * from './userDashboard';

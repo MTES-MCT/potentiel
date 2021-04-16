@@ -3,9 +3,7 @@ import moment from 'moment'
 import React from 'react'
 import { logger } from '../../../core/utils'
 import { ModificationRequestPageDTO } from '../../../modules/modificationRequest'
-import { ErrorBox, SuccessBox } from '../../components'
-import AdminDashboard from '../../components/adminDashboard'
-import UserDashboard from '../../components/userDashboard'
+import { ErrorBox, RoleBasedDashboard, SuccessBox } from '../../components'
 import { ModificationRequestTitleByType } from '../../helpers'
 import {
   AdminResponseForm,
@@ -36,12 +34,10 @@ export default function AdminModificationRequestPage({ request, modificationRequ
   }
   const isResponsePossible = ['recours', 'delai'].includes(type)
 
-  const isAdmin = user.role !== 'porteur-projet'
-
-  const Dashboard = isAdmin ? AdminDashboard : UserDashboard
+  const isAdmin = ['admin', 'dgec', 'dreal'].includes(user.role)
 
   return (
-    <Dashboard role={user.role} currentPage={'list-requests'}>
+    <RoleBasedDashboard role={user.role} currentPage={'list-requests'}>
       <div className="panel">
         <div className="panel__header" style={{ position: 'relative' }}>
           <h3>Demande de {ModificationRequestTitleByType[type]}</h3>
@@ -76,6 +72,6 @@ export default function AdminModificationRequestPage({ request, modificationRequ
 
         <DemandeStatus modificationRequest={modificationRequest} />
       </div>
-    </Dashboard>
+    </RoleBasedDashboard>
   )
 }

@@ -5,11 +5,9 @@ import { AppelOffre, Famille, Periode, Project } from '../../entities'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '../../routes'
 import { PaginatedList } from '../../types'
-import AdminDashboard from '../components/adminDashboard'
+import { RoleBasedDashboard } from '../components'
 import { DownloadIcon } from '../components/downloadIcon'
 import ProjectList from '../components/projectList'
-import UserDashboard from '../components/userDashboard'
-import PartnerDashboard from '../components/partnerDashboard'
 
 interface ListProjectsProps {
   request: Request
@@ -56,8 +54,8 @@ export default function ListProjects({
     ?.familles.sort((a, b) => a.title.localeCompare(b.title))
     .filter((famille) => !existingFamilles || existingFamilles.includes(famille.id))
 
-  const contents = (
-    <>
+  return (
+    <RoleBasedDashboard role={request.user.role} currentPage="list-projects">
       <div className="panel">
         <div className="panel__header">
           <h3>Projets</h3>
@@ -321,31 +319,6 @@ export default function ListProjects({
           'Aucun projet à lister'
         )}
       </div>
-    </>
-  )
-
-  if (request.user?.role === 'porteur-projet') {
-    return <UserDashboard currentPage="list-projects">{contents}</UserDashboard>
-  }
-
-  if (['acheteur-obligé', 'ademe'].includes(request.user?.role)) {
-    return (
-      <PartnerDashboard role={request.user?.role} currentPage="list-projects">
-        {contents}
-      </PartnerDashboard>
-    )
-  }
-
-  return (
-    <AdminDashboard
-      role={request.user?.role}
-      currentPage={
-        request.query.garantiesFinancieres === 'submitted'
-          ? 'list-garanties-financieres'
-          : 'list-projects'
-      }
-    >
-      {contents}
-    </AdminDashboard>
+    </RoleBasedDashboard>
   )
 }
