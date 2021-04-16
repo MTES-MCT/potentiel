@@ -225,7 +225,7 @@ export default function ListProjects({
               </a>
             ) : null}
           </form>
-          {request.user?.role !== 'dreal' ? (
+          {['admin', 'dgec', 'porteur-projet'].includes(request.user?.role) && (
             <div>
               <div
                 {...dataId('projectList-invitation-form-visibility-toggle')}
@@ -274,8 +274,6 @@ export default function ListProjects({
                 </form>
               </div>
             </div>
-          ) : (
-            ''
           )}
         </div>
         {success ? (
