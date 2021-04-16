@@ -86,7 +86,7 @@ export default function makeListProjects({
 
     const result: any = {}
 
-    let userSpecificProjectListFilter: ContextSpecificProjectListFilter
+    let userSpecificProjectListFilter: ContextSpecificProjectListFilter | undefined = undefined
     let regions: DREAL[]
 
     switch (user.role) {
