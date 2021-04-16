@@ -19,7 +19,7 @@ export default function makeShouldUserAccessProject({
     projectId,
     user,
   }: CallUseCaseProps): Promise<boolean> {
-    if (['admin', 'dgec'].includes(user.role)) return true
+    if (['admin', 'dgec', 'acheteur-obligé'].includes(user.role)) return true
 
     if (user.role === 'dreal') {
       const userDreals = await userRepo.findDrealsForUser(user.id)
