@@ -1,4 +1,4 @@
-import { appelOffreRepo, projectAdmissionKeyRepo } from '../../dataAccess'
+import { projectAdmissionKeyRepo, userRepo } from '../../dataAccess'
 import { makePagination } from '../../helpers/paginate'
 import routes from '../../routes'
 import { Pagination } from '../../types'
@@ -12,6 +12,14 @@ v1Router.get(
   ensureLoggedIn(),
   ensureRole(['admin']),
   asyncHandler(async (request, response) => {
-    return response.send(AdminUsersPage({ request }))
+    const users = await userRepo.findAll({ role: ['acheteur-obligé', 'ademe'] })
+
+    // Get all invitations for dreals
+    const invitations = await projectAdmissionKeyRepo.findAll({
+      forRole: -1,
+      lastUsedAt: 0,
+    })
+
+    return response.send(AdminUsersPage({ request, users, invitations }))
   })
 )

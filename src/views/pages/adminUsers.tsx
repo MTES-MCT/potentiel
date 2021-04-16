@@ -1,15 +1,20 @@
 import { Request } from 'express'
 import React from 'react'
+import { ProjectAdmissionKey, User } from '../../entities'
+import { formatDate } from '../../helpers/formatDate'
 import { dataId } from '../../helpers/testId'
+import routes from '../../routes'
 import ROUTES from '../../routes'
 import AdminDashboard from '../components/adminDashboard'
 
 interface AdminUsersProps {
   request: Request
+  users: Array<User>
+  invitations: Array<ProjectAdmissionKey>
 }
 
 /* Pure component */
-export default function AdminUsers({ request }: AdminUsersProps) {
+export default function AdminUsers({ request, users, invitations }: AdminUsersProps) {
   const { error, success } = (request.query as any) || {}
   return (
     <AdminDashboard role={request.user?.role} currentPage="admin-users">
@@ -63,6 +68,64 @@ export default function AdminUsers({ request }: AdminUsersProps) {
             </div>
           </form>
         </div>
+        {users && users.length && (
+          <>
+            <h5>Liste des utilisateurs</h5>
+            <table className="table" {...dataId('projectList-list')}>
+              <thead>
+                <tr>
+                  <th>Nom (email)</th>
+                  <th>Role</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users.map(({ id, fullName, email, role }) => {
+                  return (
+                    <tr key={'user_' + id} {...dataId('userList-item')}>
+                      <td valign="top">
+                        {fullName} ({email})
+                      </td>
+                      <td valign="top">{role}</td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </>
+        )}
+        {invitations && invitations.length ? (
+          <>
+            <h5>Les utilisateurs invités</h5>
+            <table className="table" {...dataId('projectList-list')}>
+              <thead>
+                <tr>
+                  <th>Utilisateur</th>
+                  <th>Role</th>
+                  <th>Date</th>
+                  <th>Invitation</th>
+                </tr>
+              </thead>
+              <tbody>
+                {invitations.map(({ id, email, forRole, createdAt }) => {
+                  return (
+                    <tr key={'invitation_' + id} {...dataId('invitationList-item')}>
+                      <td valign="top">{email}</td>
+                      <td valign="top">{forRole}</td>
+                      <td valign="top">
+                        {createdAt ? formatDate(createdAt, 'DD/MM/YYYY à HH:mm') : ''}
+                      </td>
+                      <td>
+                        <a href={routes.USER_INVITATION({ projectAdmissionKey: id })}>lien</a>
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </>
+        ) : (
+          ''
+        )}
       </div>
     </AdminDashboard>
   )

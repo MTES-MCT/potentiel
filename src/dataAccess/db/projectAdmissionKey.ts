@@ -116,6 +116,11 @@ export default function makeProjectAdmissionKeyRepo({
           opts.where.dreal = { [Op.ne]: null }
         }
 
+        if (query.forRole === -1) {
+          // Special case which means not null
+          opts.where.forRole = { [Op.ne]: null }
+        }
+
         if (query.dreal === null) {
           opts.where.dreal = { [Op.eq]: null }
         }
