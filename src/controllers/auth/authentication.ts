@@ -116,14 +116,14 @@ const logoutMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
 const ensureLoggedIn = () => _ensureLoggedIn(routes.LOGIN)
 
-const ensureRole = (roles: string | Array<string>) => (req, res, next) => {
+const ensureRole = (roles: User['role'] | Array<User['role']>) => (req, res, next) => {
   const user = req.user as User
 
   if (!user) {
     return res.redirect(routes.LOGIN)
   }
 
-  if (typeof roles === 'string') {
+  if (!Array.isArray(roles)) {
     if (user.role !== roles) {
       return res.redirect(routes.REDIRECT_BASED_ON_ROLE)
     }
