@@ -50,7 +50,7 @@ v1Router.post(
           }
 
           response.redirect(
-            addQueryParams(user.role === 'dreal' ? routes.ADMIN_DASHBOARD : routes.USER_DASHBOARD, {
+            addQueryParams(routes.REDIRECT_BASED_ON_ROLE, {
               success:
                 'Votre compte a bien été créé, vous pouvez vous à présent gérer vos projets ci-dessous.',
             })
