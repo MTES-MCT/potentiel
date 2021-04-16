@@ -92,13 +92,7 @@ export default function makeProjectAdmissionKeyRepo({
 
       if (!projectAdmissionKeyInDb) return None
 
-      const projectAdmissionKeyInstance = makeProjectAdmissionKey(
-        deserialize(projectAdmissionKeyInDb.get())
-      )
-
-      if (projectAdmissionKeyInstance.is_err()) throw projectAdmissionKeyInstance.unwrap_err()
-
-      return Some(projectAdmissionKeyInstance.unwrap())
+      return Some(deserialize(projectAdmissionKeyInDb.get()))
     } catch (error) {
       if (CONFIG.logDbErrors) logger.error(error)
       return None
@@ -143,11 +137,7 @@ export default function makeProjectAdmissionKeyRepo({
         'ProjectAdmissionKey.findAll.deserialize error'
       )
 
-      return mapIfOk(
-        deserializedItems,
-        makeProjectAdmissionKey,
-        'ProjectAdmissionKey.findAll.makeProjectAdmissionKey error'
-      )
+      return deserializedItems
     } catch (error) {
       if (CONFIG.logDbErrors) logger.error(error)
       return []
