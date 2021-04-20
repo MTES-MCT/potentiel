@@ -28,7 +28,7 @@ describe('importAppelOffreData use-case', () => {
 
     it('should publish AppelOffreCreated', async () => {
       const res = await importAppelOffreData({
-        dataLines: [{ appelOffreId: 'appelOffreId', other: 'param' }],
+        dataLines: [{ "Appel d'offres": 'appelOffreId', other: 'param' }],
         importedBy: user,
       })
 
@@ -63,7 +63,7 @@ describe('importAppelOffreData use-case', () => {
 
     it('should call update on the appelOffre and save it', async () => {
       const res = await importAppelOffreData({
-        dataLines: [{ appelOffreId: 'appelOffreId', other: 'param' }],
+        dataLines: [{ "Appel d'offres": 'appelOffreId', other: 'param' }],
         importedBy: user,
       })
 

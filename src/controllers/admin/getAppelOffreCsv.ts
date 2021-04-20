@@ -13,7 +13,11 @@ v1Router.get(
   asyncHandler(async (request, response) => {
     await getAppelOffreList().match(
       async (appelOffreList) => {
-        const csv = await parseAsync(appelOffreList, { delimiter: ';' })
+        const reformatedAppelOffreList = appelOffreList.map(({ appelOffreId, ...data }) => ({
+          "Appel d'offres": appelOffreId,
+          ...data,
+        }))
+        const csv = await parseAsync(reformatedAppelOffreList, { delimiter: ';' })
         response.type('text/csv').send(csv)
         return
       },
