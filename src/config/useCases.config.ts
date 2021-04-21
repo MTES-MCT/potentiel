@@ -34,6 +34,7 @@ import { eventStore } from './eventStore.config'
 import {
   makeAcceptModificationRequest,
   makeRejectModificationRequest,
+  makeRequestPuissanceModification,
   makeUpdateModificationRequestStatus,
   makeRequestConfirmation,
   makeConfirmRequest,
@@ -112,6 +113,12 @@ export const removeStep = makeRemoveStep({
 export const updateStepStatus = makeUpdateStepStatus({
   eventBus: eventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+})
+
+export const requestPuissanceModification = makeRequestPuissanceModification({
+  eventBus: eventStore,
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+  projectRepo,
 })
 
 export const regenerateCertificatesForPeriode = makeRegenerateCertificatesForPeriode({
