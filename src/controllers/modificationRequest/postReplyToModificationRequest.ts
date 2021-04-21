@@ -35,6 +35,7 @@ v1Router.post(
       statusUpdateOnly,
       newNotificationDate,
       delayInMonths,
+      puissance,
     } = request.body
 
     // There are two submit buttons on the form, named submitAccept and submitReject
@@ -81,7 +82,16 @@ v1Router.post(
       )
     }
 
-    if (!['recours', 'delai', 'abandon'].includes(type)) {
+    if (type === 'puissance' && !isStrictlyPositiveNumber(puissance)) {
+      return response.redirect(
+        addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
+          error:
+            "La réponse n'a pas pu être envoyée: la puissance doit être un nombre supérieur à 0.",
+        })
+      )
+    }
+
+    if (!['recours', 'delai', 'puissance'].includes(type)) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
           error: 'Impossible de répondre à ce type de demande pour le moment.',
@@ -91,7 +101,7 @@ v1Router.post(
 
     const courrierReponseExists: boolean = !!request.file && (await pathExists(request.file.path))
 
-    if (!courrierReponseExists) {
+    if (type !== 'puissance' && !courrierReponseExists) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
           error: "La réponse n'a pas pu être envoyée car il manque le courrier de réponse.",
@@ -112,6 +122,7 @@ v1Router.post(
             newNotificationDate &&
             moment(newNotificationDate, FORMAT_DATE).tz('Europe/Paris').toDate(),
           delayInMonths: delayInMonths && Number(delayInMonths),
+          newPuissance: Number(puissance),
         })!,
         submittedBy: request.user,
       }).match(
@@ -186,7 +197,7 @@ function _makeAcceptanceParams(
   type: string,
   params: any
 ): ModificationRequestAcceptanceParams | undefined {
-  const { newNotificationDate, delayInMonths } = params
+  const { newNotificationDate, delayInMonths, newPuissance } = params
   switch (type) {
     case 'recours':
       return {
@@ -195,5 +206,7 @@ function _makeAcceptanceParams(
       }
     case 'delai':
       return { type, delayInMonths }
+    case 'puissance':
+      return { type, newPuissance }
   }
 }

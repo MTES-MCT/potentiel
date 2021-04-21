@@ -188,6 +188,7 @@ export default function ModificationRequestList({
                     <option value="acceptée">Acceptée</option>
                     <option value="rejetée">Rejetée</option>
                     <option value="annulée">Annulée</option>
+                    <option value="information validée">Information validée</option>
                   </select>
                 </div>
               </div>

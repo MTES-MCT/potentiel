@@ -134,15 +134,13 @@ export default function NewModificationRequestPage({ request, project }: PagePro
                 <input
                   type="text"
                   disabled
-                  value={puissanceInitiale}
+                  value={project.puissanceInitiale}
                   {...dataId('modificationRequest-presentPuissanceField')}
                 />
-                {puissance !== puissanceInitiale && (
+                {project.puissance !== project.puissanceInitiale && (
                   <>
-                    <label>
-                      Puissance actuelle (en {getunitePuissanceForAppelOffre(project.appelOffreId)})
-                    </label>
-                    <input type="text" disabled value={puissance} />
+                    <label>{getunitePuissanceForAppelOffre(project.appelOffreId)})</label>
+                    <input type="text" disabled value={project.puissance} />
                   </>
                 )}
                 <label className="required" htmlFor="puissance">

@@ -53,6 +53,28 @@ export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => 
           </div>
         )
       ) : null}
+      {modificationRequest.type === 'puissance' && (
+        <div style={{ marginTop: 5 }}>
+          <span>
+            Puissance à la notification : {modificationRequest.project.puissanceInitiale}{' '}
+            {modificationRequest.project.unitePuissance}
+          </span>
+
+          <br />
+
+          <span>
+            Puissance actuelle : {modificationRequest.project.puissance}{' '}
+            {modificationRequest.project.unitePuissance}
+          </span>
+
+          <br />
+
+          <span>
+            Nouvelle puissance demandée : {modificationRequest.puissance}{' '}
+            {modificationRequest.project.unitePuissance}
+          </span>
+        </div>
+      )}
       {attachmentFile && (
         <div style={{ marginTop: 10 }}>
           <DownloadIcon />

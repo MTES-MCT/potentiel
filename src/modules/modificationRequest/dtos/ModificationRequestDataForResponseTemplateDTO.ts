@@ -28,7 +28,7 @@ export type ModificationRequestDateForResponseTemplateDTO = {
 
   dateDemande: string
   justificationDemande: string
-} & (DelaiVariant | RecoursVariant | AbandonVariant)
+} & (DelaiVariant | RecoursVariant | AbandonVariant | PuissanceVariant)
 
 type DelaiVariant = {
   type: 'delai'
@@ -89,4 +89,8 @@ type AbandonVariant = {
 
   dateDemandeConfirmation: string
   dateConfirmation: string
+}
+
+type PuissanceVariant = {
+  type: 'puissance'
 }
