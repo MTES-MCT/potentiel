@@ -47,6 +47,7 @@ import {
   ProjectImported,
   ProjectNotificationDateSet,
   ProjectNotified,
+  ProjectPuissanceSubmitted,
   ProjectReimported,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
@@ -72,6 +73,10 @@ export interface Project extends EventStoreAggregate {
     user: User,
     certificateFileId: string
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
+  updatePuissance: (
+    user: User,
+    newPuissance: number
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
   grantClasse: (user: User) => Result<null, never>
   addGeneratedCertificate: (args: {
     projectVersionDate: Date
@@ -81,6 +86,7 @@ export interface Project extends EventStoreAggregate {
   readonly shouldCertificateBeGenerated: boolean
   readonly appelOffre: ProjectAppelOffre
   readonly isClasse: boolean
+  readonly puissanceInitiale: number
   readonly certificateData: Result<
     {
       template: CertificateTemplate
@@ -126,6 +132,7 @@ export interface ProjectProps {
   lastCertificateUpdate: Date | undefined
   hasError: boolean
   isClasse: boolean
+  puissanceInitiale: number
   data: ProjectDataProps | undefined
 }
 
@@ -169,6 +176,7 @@ export const makeProject = (args: {
     projectId,
     appelOffre: initialAppelOffre,
     isClasse: initialClasse,
+    puissanceInitiale: 0,
     data: undefined,
     hasError: false,
     lastUpdatedOn: history[0].occurredAt,
@@ -344,6 +352,23 @@ export const makeProject = (args: {
 
       return ok(null)
     },
+    updatePuissance: function (user, newPuissance) {
+      if (!_isNotified()) {
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+      }
+
+      _publishEvent(
+        new ProjectPuissanceSubmitted({
+          payload: {
+            projectId: props.projectId.toString(),
+            newPuissance,
+            submittedBy: user.id,
+          },
+        })
+      )
+
+      return ok(null)
+    },
     grantClasse: function (user) {
       if (!props.isClasse) {
         _publishEvent(
@@ -410,6 +435,9 @@ export const makeProject = (args: {
     },
     get isClasse() {
       return props.isClasse
+    },
+    get puissanceInitiale() {
+      return props.puissanceInitiale
     },
     get certificateData() {
       const { periode } = props.appelOffre
@@ -499,16 +527,19 @@ export const makeProject = (args: {
       case LegacyProjectSourced.type:
         props.data = event.payload.content
         props.notifiedOn = event.payload.content.notifiedOn
+        props.puissanceInitiale = event.payload.content.puissance
         _updateClasse(event.payload.content.classe)
         _updateAppelOffre(event.payload)
         break
       case ProjectImported.type:
         props.data = event.payload.data
+        props.puissanceInitiale = event.payload.data.puissance
         _updateClasse(event.payload.data.classe)
         _updateAppelOffre(event.payload)
         break
       case ProjectReimported.type:
         props.data = event.payload.data
+        props.puissanceInitiale = event.payload.data.puissance
         _updateClasse(event.payload.data.classe)
         _updateAppelOffre(event.payload.data)
         break

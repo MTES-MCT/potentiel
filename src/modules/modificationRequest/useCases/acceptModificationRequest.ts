@@ -85,17 +85,27 @@ export const makeAcceptModificationRequest = (deps: AcceptModificationRequestDep
         ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError
       > = ok(null)
 
-      if (modificationRequest.type === 'recours' && acceptanceParams?.type === 'recours') {
-        action = project
-          .grantClasse(submittedBy)
-          .andThen(() => project.updateCertificate(submittedBy, responseFileId))
-          .andThen(() =>
-            project.setNotificationDate(submittedBy, acceptanceParams.newNotificationDate.getTime())
-          )
-      } else if (modificationRequest.type === 'delai' && acceptanceParams?.type === 'delai') {
-        action = project.moveCompletionDueDate(submittedBy, acceptanceParams.delayInMonths)
-      } else if (modificationRequest.type === 'abandon') {
-        action = project.abandon(submittedBy)
+      switch (modificationRequest.type) {
+        case 'recours':
+          if (acceptanceParams?.type === 'recours')
+            action = project
+              .grantClasse(submittedBy)
+              .andThen(() => project.updateCertificate(submittedBy, responseFileId))
+              .andThen(() =>
+                project.setNotificationDate(
+                  submittedBy,
+                  acceptanceParams.newNotificationDate.getTime()
+                )
+              )
+          break
+        case 'delai':
+          if (acceptanceParams?.type === 'delai')
+            action = project.moveCompletionDueDate(submittedBy, acceptanceParams.delayInMonths)
+          break
+        case 'puissance':
+          if (acceptanceParams?.type === 'puissance')
+            action = project.updatePuissance(submittedBy, acceptanceParams.newPuissance)
+          break
       }
       return action.map(() => ({ project, modificationRequest, responseFileId }))
     })
