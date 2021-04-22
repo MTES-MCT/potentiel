@@ -77,7 +77,7 @@ const TemplateByType: Record<ModificationRequest['type'], string> = {
   actionnaire: '',
   fournisseur: '',
   producteur: '',
-  puissance: '',
+  puissance: 'Modèle réponse Puissance - dynamique.docx',
   recours: 'Modèle réponse Recours gracieux - dynamique.docx',
   abandon: 'Modèle réponse Abandon - dynamique.docx',
   delai: 'Modèle réponse Prolongation de délai - dynamique.docx',

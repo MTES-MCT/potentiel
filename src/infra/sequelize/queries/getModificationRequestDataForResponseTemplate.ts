@@ -8,7 +8,7 @@ import { GetPeriode } from '../../../modules/appelOffre'
 import { PeriodeDTO } from '../../../modules/appelOffre/dtos'
 import {
   GetModificationRequestDateForResponseTemplate,
-  ModificationRequestDateForResponseTemplateDTO,
+  ModificationRequestDataForResponseTemplateDTO,
 } from '../../../modules/modificationRequest'
 import { EntityNotFoundError, InfraNotAvailableError } from '../../../modules/shared'
 
@@ -246,7 +246,17 @@ export const makeGetModificationRequestDataForResponseTemplate = ({
             paragrapheEngagementIPFP,
             renvoiModification,
             delaiRealisationTexte,
-          } as ModificationRequestDateForResponseTemplateDTO)
+          } as ModificationRequestDataForResponseTemplateDTO)
+
+        case 'puissance':
+          console.log({ commonData })
+
+          return ok({
+            ...commonData,
+            nouvellePuissance: modificationRequest.puissance,
+            referenceParagraphePuissance: 'TODO',
+            contenuParagraphePuissance: 'TODO',
+          } as ModificationRequestDataForResponseTemplateDTO)
       }
 
       return errAsync(new EntityNotFoundError())
