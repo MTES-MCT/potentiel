@@ -11,22 +11,7 @@ describe('modificationRequest.onModificationReceived', () => {
   const projectId = new UniqueEntityID().toString()
   const userId = new UniqueEntityID().toString()
 
-  beforeAll(async () => {
-    // Create the tables and remove all data
-    await resetDatabase()
-
-    await ModificationRequestModel.create({
-      id: modificationRequestId,
-      projectId,
-      userId,
-      type: 'puissance',
-      status: 'envoyée',
-      requestedOn: 1,
-      requestedBy: userId,
-    })
-  })
-
-  it('should update the status to information validée', async () => {
+  it('should create a Modification Request with a status of information validée', async () => {
     await onModificationReceived(models)(
       new ModificationReceived({
         payload: {
