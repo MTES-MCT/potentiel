@@ -54,11 +54,11 @@ describe('requestActionnaireModification use-case', () => {
   })
 
   describe('when user is allowed', () => {
+    const newActionnaire = 'new actionnaire'
+
     beforeAll(async () => {
       fakePublish.mockClear()
       fileRepo.save.mockClear()
-
-      const newActionnaire = 'new actionnaire'
 
       const requestActionnaireModification = makeRequestActionnaireModification({
         projectRepo,
@@ -86,6 +86,10 @@ describe('requestActionnaireModification use-case', () => {
       expect(eventBus.publish).toHaveBeenCalledTimes(1)
       const event = eventBus.publish.mock.calls[0][0]
       expect(event).toBeInstanceOf(ModificationReceived)
+
+      const { type, actionnaire } = event.payload
+      expect(type).toEqual('actionnaire')
+      expect(actionnaire).toEqual(newActionnaire)
     })
 
     it('should update the Actionnaire', () => {

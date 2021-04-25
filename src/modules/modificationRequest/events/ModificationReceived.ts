@@ -6,6 +6,7 @@ export interface ModificationReceivedPayload {
   projectId: string
   requestedBy: string
   puissance?: number
+  actionnaire?: string
   justification?: string
   fileId?: string
 }

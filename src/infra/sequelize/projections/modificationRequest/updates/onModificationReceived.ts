@@ -10,6 +10,8 @@ export const onModificationReceived = (models) => async (event: ModificationRece
     puissance,
     justification,
     fileId,
+    type,
+    actionnaire,
   } = event.payload
 
   try {
@@ -19,11 +21,12 @@ export const onModificationReceived = (models) => async (event: ModificationRece
       requestedOn: event.occurredAt.getTime(),
       versionDate: event.occurredAt,
       status: 'information validée',
-      type: 'puissance',
+      type,
       userId: requestedBy,
       puissance,
       justification,
       fileId,
+      actionnaire,
     })
   } catch (e) {
     logger.error(e)
