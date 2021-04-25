@@ -155,6 +155,7 @@ export default function NewModificationRequestPage({ request, project }: PagePro
                   defaultValue={puissance || ''}
                   {...dataId('modificationRequest-puissanceField')}
                 />
+
                 <div
                   className="notification warning"
                   style={{ display: 'none' }}
@@ -170,6 +171,23 @@ export default function NewModificationRequestPage({ request, project }: PagePro
                 >
                   Le format saisi n’est pas conforme (penser à utiliser un nombre décimal séparé par
                   un point).
+                </div>
+
+                <div style={{ marginTop: 10 }}>
+                  <label htmlFor="candidats">Courrier explicatif ou décision de justice</label>
+                  <input
+                    type="file"
+                    name="file"
+                    {...dataId('modificationRequest-fileField')}
+                    id="file"
+                  />
+                  <label htmlFor="justification">Motif (facultatif):</label>
+                  <textarea
+                    name="justification"
+                    id="justification"
+                    defaultValue={justification || ''}
+                    {...dataId('modificationRequest-justificationField')}
+                  />
                 </div>
               </>
             ) : (

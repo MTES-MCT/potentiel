@@ -3,7 +3,14 @@ import { ModificationReceived } from '../../../../../modules/modificationRequest
 
 export const onModificationReceived = (models) => async (event: ModificationReceived) => {
   const ModificationRequestModel = models.ModificationRequest
-  const { modificationRequestId, projectId, requestedBy, puissance } = event.payload
+  const {
+    modificationRequestId,
+    projectId,
+    requestedBy,
+    puissance,
+    justification,
+    fileId,
+  } = event.payload
 
   try {
     await ModificationRequestModel.create({
@@ -15,6 +22,8 @@ export const onModificationReceived = (models) => async (event: ModificationRece
       type: 'puissance',
       userId: requestedBy,
       puissance,
+      justification,
+      fileId,
     })
   } catch (e) {
     logger.error(e)

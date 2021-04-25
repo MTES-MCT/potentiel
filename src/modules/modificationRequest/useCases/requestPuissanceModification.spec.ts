@@ -1,9 +1,11 @@
-import { DomainEvent } from '../../../core/domain'
+import { Readable } from 'stream'
+import { DomainEvent, Repository } from '../../../core/domain'
 import { okAsync } from '../../../core/utils'
 import { makeUser } from '../../../entities'
 import { UnwrapForTest } from '../../../types'
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
 import makeFakeUser from '../../../__tests__/fixtures/user'
+import { FileObject } from '../../file'
 import { Project } from '../../project'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { ModificationReceived, ModificationRequested } from '../events'
@@ -19,10 +21,17 @@ describe('requestPuissanceModification use-case', () => {
     publish: fakePublish,
     subscribe: jest.fn(),
   }
+  const fileRepo = {
+    save: jest.fn((file: FileObject) => okAsync(null)),
+    load: jest.fn(),
+  }
+  const fakeFileContents = Readable.from('test-content')
+  const fakeFileName = 'myfilename.pdf'
 
   describe('when user is not allowed', () => {
     it('should return an UnauthorizedError', async () => {
       fakePublish.mockClear()
+      fileRepo.save.mockClear()
 
       const shouldUserAccessProject = jest.fn(async () => false)
 
@@ -30,6 +39,7 @@ describe('requestPuissanceModification use-case', () => {
         projectRepo,
         eventBus,
         shouldUserAccessProject,
+        fileRepo: fileRepo as Repository<FileObject>,
       })
 
       const res = await requestPuissanceModification({
@@ -46,6 +56,7 @@ describe('requestPuissanceModification use-case', () => {
   describe('when new puissance is < 90% of puissanceInitiale', () => {
     beforeAll(async () => {
       fakePublish.mockClear()
+      fileRepo.save.mockClear()
 
       const newPuissance = 89
 
@@ -53,12 +64,15 @@ describe('requestPuissanceModification use-case', () => {
         projectRepo,
         eventBus,
         shouldUserAccessProject,
+        fileRepo: fileRepo as Repository<FileObject>,
       })
 
       const res = await requestPuissanceModification({
         projectId: fakeProject.id,
         requestedBy: fakeUser,
         newPuissance,
+        justification: 'justif',
+        file: { contents: fakeFileContents, filename: fakeFileName },
       })
 
       expect(res.isOk()).toBe(true)
@@ -78,11 +92,18 @@ describe('requestPuissanceModification use-case', () => {
     it('should not change the project', () => {
       expect(fakeProject.pendingEvents).toHaveLength(0)
     })
+
+    it('should save the file', () => {
+      expect(fileRepo.save).toHaveBeenCalledTimes(1)
+      expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents)
+      expect(fileRepo.save.mock.calls[0][0].filename).toEqual(fakeFileName)
+    })
   })
 
   describe('when new puissance is > 110% of puissanceInitiale', () => {
     beforeAll(async () => {
       fakePublish.mockClear()
+      fileRepo.save.mockClear()
 
       const newPuissance = 111
 
@@ -90,12 +111,14 @@ describe('requestPuissanceModification use-case', () => {
         projectRepo,
         eventBus,
         shouldUserAccessProject,
+        fileRepo: fileRepo as Repository<FileObject>,
       })
 
       const res = await requestPuissanceModification({
         projectId: fakeProject.id,
         requestedBy: fakeUser,
         newPuissance,
+        file: { contents: fakeFileContents, filename: fakeFileName },
       })
 
       expect(res.isOk()).toBe(true)
@@ -115,11 +138,18 @@ describe('requestPuissanceModification use-case', () => {
     it('should not change the project', () => {
       expect(fakeProject.pendingEvents).toHaveLength(0)
     })
+
+    it('should save the file', () => {
+      expect(fileRepo.save).toHaveBeenCalledTimes(1)
+      expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents)
+      expect(fileRepo.save.mock.calls[0][0].filename).toEqual(fakeFileName)
+    })
   })
 
   describe('when new puissance is between 90% and 110% of puissanceInitiale', () => {
     beforeAll(async () => {
       fakePublish.mockClear()
+      fileRepo.save.mockClear()
 
       const newPuissance = 105
 
@@ -127,12 +157,14 @@ describe('requestPuissanceModification use-case', () => {
         projectRepo,
         eventBus,
         shouldUserAccessProject,
+        fileRepo: fileRepo as Repository<FileObject>,
       })
 
       const res = await requestPuissanceModification({
         projectId: fakeProject.id,
         requestedBy: fakeUser,
         newPuissance,
+        file: { contents: fakeFileContents, filename: fakeFileName },
       })
 
       expect(res.isOk()).toBe(true)
@@ -151,6 +183,12 @@ describe('requestPuissanceModification use-case', () => {
 
     it('should update the puissance', () => {
       expect(fakeProject.updatePuissance).toHaveBeenCalledWith(fakeUser, 105)
+    })
+
+    it('should save the file', () => {
+      expect(fileRepo.save).toHaveBeenCalledTimes(1)
+      expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents)
+      expect(fileRepo.save.mock.calls[0][0].filename).toEqual(fakeFileName)
     })
   })
 })
