@@ -10,7 +10,7 @@ import { requestModification, shouldUserAccessProject } from '../../useCases'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
-import { requestPuissanceModification } from '../../config'
+import { requestPuissanceModification, requestActionnaireModification } from '../../config'
 import { PuissanceJustificationOrCourrierMissingError } from '../../modules/modificationRequest'
 
 const returnRoute = (type, projectId) => {
@@ -156,27 +156,37 @@ v1Router.post(
       )
     }
 
-    if (data.type === 'puissance') {
-      const { projectId, puissance, justification } = data
-
-      await requestPuissanceModification({
-        projectId: projectId,
-        requestedBy: request.user,
-        newPuissance: puissance,
-        justification: justification,
-        file,
-      }).match(handleSuccess, handleError)
-    } else {
-      ;(
-        await requestModification({
-          ...data,
+    switch (data.type) {
+      case 'puissance':
+        await requestPuissanceModification({
+          projectId: data.projectId,
+          requestedBy: request.user,
+          newPuissance: data.puissance,
+          justification: data.justification,
           file,
-          user: request.user,
+        }).match(handleSuccess, handleError)
+        break
+      case 'actionnaire':
+        await requestActionnaireModification({
+          projectId: data.projectId,
+          requestedBy: request.user,
+          newActionnaire: data.actionnaire,
+          justification: data.justification,
+          file,
+        }).match(handleSuccess, handleError)
+        break
+      default:
+        ;(
+          await requestModification({
+            ...data,
+            file,
+            user: request.user,
+          })
+        ).match({
+          ok: handleSuccess,
+          err: handleError,
         })
-      ).match({
-        ok: handleSuccess,
-        err: handleError,
-      })
+        break
     }
   })
 )
