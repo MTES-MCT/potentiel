@@ -154,6 +154,8 @@ v1Router.post(
         projectId: data.projectId,
         requestedBy: request.user,
         newPuissance: data.puissance,
+        justification: data.justification,
+        file,
       }).match(handleSuccess, handleError)
     } else {
       ;(

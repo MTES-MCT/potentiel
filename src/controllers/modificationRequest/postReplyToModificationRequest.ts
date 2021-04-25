@@ -36,6 +36,7 @@ v1Router.post(
       newNotificationDate,
       delayInMonths,
       puissance,
+      decisionJustice,
     } = request.body
 
     // There are two submit buttons on the form, named submitAccept and submitReject
@@ -101,7 +102,7 @@ v1Router.post(
 
     const courrierReponseExists: boolean = !!request.file && (await pathExists(request.file.path))
 
-    if (!courrierReponseExists) {
+    if (!decisionJustice && !courrierReponseExists) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
           error: "La réponse n'a pas pu être envoyée car il manque le courrier de réponse.",
@@ -109,14 +110,20 @@ v1Router.post(
       )
     }
 
+    let args: any = {}
+
+    if (request.file) {
+      args.responseFile = {
+        contents: fs.createReadStream(request.file.path),
+        filename: request.file.originalname,
+      }
+    }
+
     if (acceptedReply) {
       return await acceptModificationRequest({
+        ...args,
         modificationRequestId,
         versionDate: new Date(Number(versionDate)),
-        responseFile: {
-          contents: fs.createReadStream(request.file.path),
-          filename: request.file.originalname,
-        },
         acceptanceParams: _makeAcceptanceParams(type, {
           newNotificationDate:
             newNotificationDate &&
@@ -147,12 +154,9 @@ v1Router.post(
     }
 
     return rejectModificationRequest({
+      ...args,
       modificationRequestId,
       versionDate: new Date(Number(versionDate)),
-      responseFile: {
-        contents: fs.createReadStream(request.file.path),
-        filename: request.file.originalname,
-      },
       rejectedBy: request.user,
     }).match(
       _handleSuccess(response, modificationRequestId),

@@ -1,7 +1,7 @@
 import { Repository, UniqueEntityID } from '../../../core/domain'
-import { err, errAsync, logger, ok, Result, ResultAsync } from '../../../core/utils'
+import { err, errAsync, logger, ok, okAsync, Result, ResultAsync } from '../../../core/utils'
 import { User } from '../../../entities'
-import { FileContents, FileObject, makeAndSaveFile } from '../../file'
+import { FileContents, FileObject, IllegalFileDataError, makeAndSaveFile } from '../../file'
 import {
   IllegalProjectDataError,
   ProjectCannotBeUpdatedIfUnnotifiedError,
@@ -25,7 +25,7 @@ interface AcceptModificationRequestArgs {
   modificationRequestId: UniqueEntityID
   acceptanceParams?: ModificationRequestAcceptanceParams
   versionDate: Date
-  responseFile: { contents: FileContents; filename: string }
+  responseFile?: { contents: FileContents; filename: string }
   submittedBy: User
 }
 
@@ -40,7 +40,6 @@ export const makeAcceptModificationRequest = (deps: AcceptModificationRequestDep
 > => {
   const { fileRepo, modificationRequestRepo, projectRepo } = deps
   const { modificationRequestId, versionDate, responseFile, submittedBy, acceptanceParams } = args
-  const { contents, filename } = responseFile
 
   if (!['admin', 'dgec'].includes(submittedBy.role)) {
     return errAsync(new UnauthorizedError())
@@ -62,23 +61,30 @@ export const makeAcceptModificationRequest = (deps: AcceptModificationRequestDep
         .load(modificationRequest.projectId)
         .map((project) => ({ project, modificationRequest }))
     })
-    .andThen(({ project, modificationRequest }) => {
-      return makeAndSaveFile({
-        file: {
-          designation: 'modification-request-response',
-          forProject: modificationRequest.projectId,
-          createdBy: new UniqueEntityID(submittedBy.id),
-          filename,
-          contents,
-        },
-        fileRepo,
-      })
-        .map((responseFileId) => ({ project, modificationRequest, responseFileId }))
-        .mapErr((e: Error) => {
-          logger.error(e)
-          return new InfraNotAvailableError()
+    .andThen(
+      ({
+        project,
+        modificationRequest,
+      }): ResultAsync<{ project; modificationRequest; responseFileId?: string }, any> => {
+        if (!responseFile) return okAsync({ project, modificationRequest })
+
+        return makeAndSaveFile({
+          file: {
+            designation: 'modification-request-response',
+            forProject: modificationRequest.projectId,
+            createdBy: new UniqueEntityID(submittedBy.id),
+            filename: responseFile.filename,
+            contents: responseFile.contents,
+          },
+          fileRepo,
         })
-    })
+          .map((responseFileId) => ({ project, modificationRequest, responseFileId }))
+          .mapErr((e: Error) => {
+            logger.error(e)
+            return new InfraNotAvailableError()
+          })
+      }
+    )
     .andThen(({ project, modificationRequest, responseFileId }) => {
       let action: Result<
         null,

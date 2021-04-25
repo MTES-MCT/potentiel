@@ -6,6 +6,8 @@ export interface ModificationReceivedPayload {
   projectId: string
   requestedBy: string
   puissance?: number
+  justification?: string
+  fileId?: string
 }
 
 export class ModificationReceived

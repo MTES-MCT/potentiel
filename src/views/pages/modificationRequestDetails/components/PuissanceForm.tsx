@@ -27,5 +27,19 @@ export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => (
         {...dataId('modificationRequest-puissanceField')}
       />
     </div>
+
+    <div className="form__group" style={{ marginBottom: 20 }}>
+      <label htmlFor="statusUpdateOnly">
+        <input
+          type="checkbox"
+          name="decisionJustice"
+          {...dataId('modificationRequest-decisionJustice')}
+        />
+        La demande de changement de puissance fait suite à une décision de justice
+      </label>
+      <div style={{ fontSize: 11, lineHeight: '1.5em', marginTop: 3 }}>
+        En cochant cette case, vous n'aurez pas à joindre de courrier de réponse.
+      </div>
+    </div>
   </>
 )

@@ -119,6 +119,7 @@ export const requestPuissanceModification = makeRequestPuissanceModification({
   eventBus: eventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
+  fileRepo,
 })
 
 export const regenerateCertificatesForPeriode = makeRegenerateCertificatesForPeriode({
