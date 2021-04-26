@@ -48,7 +48,7 @@ export const makeImportAppelOffreData = (deps: ImportAppelOffreDataDeps) => ({
         null,
         InfraNotAvailableError | UnauthorizedError | MissingAppelOffreIdError
       >[] = dataLines.map((dataLine, index) => {
-        const { appelOffreId, ...data } = dataLine
+        const { "Appel d'offres": appelOffreId, ...data } = dataLine
 
         if (!appelOffreId) {
           return errAsync(new MissingAppelOffreIdError(index + 1))
