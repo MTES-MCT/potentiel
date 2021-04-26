@@ -123,14 +123,10 @@ const ensureRole = (roles: User['role'] | Array<User['role']>) => (req, res, nex
     return res.redirect(routes.LOGIN)
   }
 
-  if (!Array.isArray(roles)) {
-    if (user.role !== roles) {
-      return res.redirect(routes.REDIRECT_BASED_ON_ROLE)
-    }
-  } else {
-    if (!roles.includes(user.role)) {
-      return res.redirect(routes.REDIRECT_BASED_ON_ROLE)
-    }
+  const roleList = Array.isArray(roles) ? roles : [roles]
+
+  if (!roleList.includes(user.role)) {
+    return res.redirect(routes.REDIRECT_BASED_ON_ROLE)
   }
 
   // Ok to move forward

@@ -172,10 +172,7 @@ function _getRoleForKey(projectAdmissionKey: ProjectAdmissionKey): User['role'] 
     return 'dreal'
   }
 
-  if (
-    projectAdmissionKey.forRole &&
-    ['acheteur-obligé', 'ademe'].includes(projectAdmissionKey.forRole)
-  ) {
+  if (['acheteur-obligé', 'ademe'].includes(projectAdmissionKey.forRole!)) {
     return projectAdmissionKey.forRole as User['role']
   }
 

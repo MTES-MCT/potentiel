@@ -55,12 +55,10 @@ export default function PartnerDashboard({ children, currentPage, role }: Partne
       <div className="dashboard">
         <aside className="side-menu" role="navigation">
           <ul>
-            {typeof currentPage === 'undefined' ? (
+            {typeof currentPage === 'undefined' && (
               <li>
                 <a className="active" style={{ fontSize: '2px', cursor: 'default' }}></a>
               </li>
-            ) : (
-              ''
             )}
 
             <MenuItem

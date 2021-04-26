@@ -6,6 +6,7 @@ import { dataId } from '../../helpers/testId'
 import routes from '../../routes'
 import ROUTES from '../../routes'
 import AdminDashboard from '../components/adminDashboard'
+import { SuccessErrorBox } from '../components'
 
 interface AdminUsersProps {
   request: Request
@@ -25,20 +26,7 @@ export default function AdminUsers({ request, users, invitations }: AdminUsersPr
         <div className="panel__header">
           <h5>Ajouter un utilisateur</h5>
 
-          {success ? (
-            <div className="notification success" {...dataId('success-message')}>
-              {success}
-            </div>
-          ) : (
-            ''
-          )}
-          {error ? (
-            <div className="notification error" {...dataId('error-message')}>
-              {error}
-            </div>
-          ) : (
-            ''
-          )}
+          <SuccessErrorBox success={success} error={error} />
           <form
             action={ROUTES.ADMIN_INVITE_USER_ACTION}
             method="post"
@@ -68,7 +56,7 @@ export default function AdminUsers({ request, users, invitations }: AdminUsersPr
             </div>
           </form>
         </div>
-        {users && users.length && (
+        {users?.length && (
           <>
             <h5>Liste des utilisateurs</h5>
             <table className="table" {...dataId('projectList-list')}>
@@ -93,7 +81,7 @@ export default function AdminUsers({ request, users, invitations }: AdminUsersPr
             </table>
           </>
         )}
-        {invitations && invitations.length ? (
+        {invitations?.length && (
           <>
             <h5>Les utilisateurs invités</h5>
             <table className="table" {...dataId('projectList-list')}>
@@ -123,8 +111,6 @@ export default function AdminUsers({ request, users, invitations }: AdminUsersPr
               </tbody>
             </table>
           </>
-        ) : (
-          ''
         )}
       </div>
     </AdminDashboard>

@@ -14,7 +14,7 @@ v1Router.post(
     const { email, role } = request.body
     const { user } = request
 
-    if (!role || !['acheteur-obligé'].includes(role)) {
+    if (!['acheteur-obligé'].includes(role)) {
       return response.redirect(
         addQueryParams(routes.ADMIN_USERS, {
           error: 'Le role attendu n‘est pas reconnu.',
@@ -32,7 +32,7 @@ v1Router.post(
       () =>
         response.redirect(
           addQueryParams(routes.ADMIN_USERS, {
-            success: 'Une invitation a bien été envoyée à ' + email,
+            success: `Une invitation a bien été envoyée à ${email}`,
           })
         ),
       (error: Error) =>
