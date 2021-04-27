@@ -58,16 +58,14 @@ const StatusForDelai = ({ modificationRequest }: StatusForDelaiProps) => {
     modificationRequest.status === 'acceptée' &&
     modificationRequest.acceptanceParams
   ) {
+    const {
+      acceptanceParams: { delayInMonths },
+    } = modificationRequest
     return (
       <div>
         L‘administration vous accorde un délai{' '}
-        <b>
-          {modificationRequest.acceptanceParams?.delayInMonths
-            ? `de ${modificationRequest.acceptanceParams?.delayInMonths} mois.`
-            : '.'}
-        </b>{' '}
-        Votre date de mise en service théorique est actuellement au{' '}
-        <b>{formatDate(project.completionDueOn)}</b>.
+        <b>{delayInMonths ? `de ${delayInMonths} mois.` : '.'}</b> Votre date de mise en service
+        théorique est actuellement au <b>{formatDate(project.completionDueOn)}</b>.
       </div>
     )
   }

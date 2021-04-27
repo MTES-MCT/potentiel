@@ -15,10 +15,16 @@ export const onModificationRequestConfirmed = (models) => async (
     return
   }
 
-  instance.status = 'demande confirmée'
-  instance.confirmedBy = event.payload.confirmedBy
-  instance.confirmedOn = event.occurredAt.getTime()
-  instance.versionDate = event.occurredAt
+  const {
+    payload: { confirmedBy },
+    occurredAt,
+  } = event
+  Object.assign(instance, {
+    status: 'demande confirmée',
+    confirmedBy,
+    confirmedOn: occurredAt.getTime(),
+    versionDate: occurredAt,
+  })
 
   try {
     await instance.save()

@@ -14,11 +14,15 @@ export const onConfirmationRequested = (models) => async (event: ConfirmationReq
   }
 
   const { responseFileId, confirmationRequestedBy } = event.payload
-  instance.status = 'en attente de confirmation'
-  instance.responseFileId = responseFileId
-  instance.confirmationRequestedBy = confirmationRequestedBy
-  instance.confirmationRequestedOn = event.occurredAt.getTime()
-  instance.versionDate = event.occurredAt
+  const { occurredAt } = event
+
+  Object.assign(instance, {
+    status: 'en attente de confirmation',
+    responseFileId,
+    confirmationRequestedBy,
+    confirmationRequestedOn: occurredAt.getTime(),
+    versionDate: occurredAt,
+  })
 
   try {
     await instance.save()
