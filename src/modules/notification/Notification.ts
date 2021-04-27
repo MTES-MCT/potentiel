@@ -62,6 +62,17 @@ type DrealInvitation = {
   }
 }
 
+type UserInvitation = {
+  type: 'user-invitation'
+  context: {
+    projectAdmissionKeyId: string
+    forRole: string
+  }
+  variables: {
+    invitation_link: string
+  }
+}
+
 type PasswordReset = {
   type: 'password-reset'
   context: {
@@ -148,6 +159,7 @@ type NotificationVariants =
   | RelanceDesignation
   | ProjectInvitation
   | DrealInvitation
+  | UserInvitation
   | PasswordReset
   | PP_GF_Notification
   | DREAL_GF_Notification

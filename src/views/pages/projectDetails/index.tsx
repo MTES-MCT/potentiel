@@ -4,7 +4,7 @@ import { logger } from '../../../core/utils'
 import { dataId } from '../../../helpers/testId'
 import { ProjectDataForProjectPage } from '../../../modules/project/dtos'
 import ROUTES from '../../../routes'
-import { SuccessErrorBox } from '../../components'
+import { RoleBasedDashboard, SuccessErrorBox } from '../../components'
 import AdminDashboard from '../../components/adminDashboard'
 import UserDashboard from '../../components/userDashboard'
 import { NoteElement, Section } from './components'
@@ -26,9 +26,8 @@ export default function ProjectDetails({ request, project }: ProjectDetailsProps
     return <div />
   }
 
-  const Dashboard = user.role === 'porteur-projet' ? UserDashboard : AdminDashboard
   return (
-    <Dashboard role={user.role} currentPage="list-projects">
+    <RoleBasedDashboard role={user.role} currentPage="list-projects">
       <div className="panel" style={{ padding: 0 }}>
         <ProjectHeader project={project} user={user} />
         <div style={{ padding: '1.5em', paddingTop: 0 }}>
@@ -61,7 +60,8 @@ export default function ProjectDetails({ request, project }: ProjectDetailsProps
               <div>{project.nomRepresentantLegal}</div>
               <div>{project.email}</div>
             </div>
-            {project.notifiedOn ? (
+            {project.notifiedOn &&
+            ['admin', 'dgec', 'porteur-projet', 'dreal'].includes(user.role) ? (
               <div>
                 <h5 style={{ marginBottom: 5, marginTop: 15 }}>Comptes ayant accès à ce projet</h5>
                 <ul style={{ marginTop: 5, marginBottom: 5 }}>
@@ -216,6 +216,6 @@ export default function ProjectDetails({ request, project }: ProjectDetailsProps
           )}
         </div>
       </div>
-    </Dashboard>
+    </RoleBasedDashboard>
   )
 }

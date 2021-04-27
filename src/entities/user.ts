@@ -6,7 +6,14 @@ const baseUserSchema = Record({
   id: String,
   fullName: String,
   email: String.withConstraint(isEmail.validate),
-  role: Union(Literal('admin'), Literal('dgec'), Literal('porteur-projet'), Literal('dreal')),
+  role: Union(
+    Literal('admin'),
+    Literal('dgec'),
+    Literal('porteur-projet'),
+    Literal('dreal'),
+    Literal('acheteur-obligé'),
+    Literal('ademe')
+  ),
 })
 
 const userSchema = baseUserSchema.And(

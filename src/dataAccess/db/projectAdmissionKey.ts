@@ -63,6 +63,10 @@ export default function makeProjectAdmissionKeyRepo({
       type: DataTypes.STRING,
       allowNull: true,
     },
+    forRole: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     lastUsedAt: {
       type: DataTypes.BIGINT,
       allowNull: false,
@@ -110,6 +114,11 @@ export default function makeProjectAdmissionKeyRepo({
         if (query.dreal === -1) {
           // Special case which means not null
           opts.where.dreal = { [Op.ne]: null }
+        }
+
+        if (query.forRole === -1) {
+          // Special case which means not null
+          opts.where.forRole = { [Op.ne]: null }
         }
 
         if (query.dreal === null) {

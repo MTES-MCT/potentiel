@@ -51,6 +51,12 @@ class routes {
   static EXPORT_AO_CSV = '/admin/appelsOffres.csv'
   static EXPORT_PERIODE_CSV = '/admin/periodes.csv'
 
+  static ADMIN_USERS = '/admin/utilisateurs.html'
+  static ADMIN_INVITE_USER_ACTION = '/admin/inviterUtilisateur'
+  static USER_INVITATION = withParams<{
+    projectAdmissionKey: string
+  }>('/enregistrement.html')
+
   static IMPORT_PROJECTS = '/admin/importer-candidats.html' // Keep separate from ADMIN_DASHBOARD, may change
 
   static PROJECT_DETAILS = (projectId?: Project['id']) => {

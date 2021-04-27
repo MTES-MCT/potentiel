@@ -1,3 +1,7 @@
 export * from '../infra/sequelize/repos'
-export { projectAdmissionKeyRepo, userRepo, projectRepo as oldProjectRepo } from '../dataAccess'
+export {
+  userRepo,
+  projectRepo as oldProjectRepo,
+  projectAdmissionKeyRepo as oldProjectAdmissionKeyRepo,
+} from '../dataAccess'
 export { appelOffreRepo as oldAppelOffreRepo } from '../dataAccess/inMemory'

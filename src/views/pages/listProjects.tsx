@@ -5,10 +5,9 @@ import { AppelOffre, Famille, Periode, Project } from '../../entities'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '../../routes'
 import { PaginatedList } from '../../types'
-import AdminDashboard from '../components/adminDashboard'
+import { RoleBasedDashboard } from '../components'
 import { DownloadIcon } from '../components/downloadIcon'
 import ProjectList from '../components/projectList'
-import UserDashboard from '../components/userDashboard'
 
 interface ListProjectsProps {
   request: Request
@@ -55,16 +54,16 @@ export default function ListProjects({
     ?.familles.sort((a, b) => a.title.localeCompare(b.title))
     .filter((famille) => !existingFamilles || existingFamilles.includes(famille.id))
 
-  const contents = (
-    <>
+  return (
+    <RoleBasedDashboard role={request.user.role} currentPage="list-projects">
       <div className="panel">
         <div className="panel__header">
           <h3>Projets</h3>
           <form
             action={
-              request.user?.role === 'porteur-projet'
-                ? ROUTES.USER_LIST_PROJECTS
-                : ROUTES.ADMIN_LIST_PROJECTS
+              ['admin', 'dgec', 'dreal'].includes(request.user?.role)
+                ? ROUTES.ADMIN_LIST_PROJECTS
+                : ROUTES.USER_LIST_PROJECTS
             }
             method="GET"
             style={{ maxWidth: 'auto', margin: '0 0 25px 0' }}
@@ -224,7 +223,7 @@ export default function ListProjects({
               </a>
             ) : null}
           </form>
-          {request.user?.role !== 'dreal' ? (
+          {['admin', 'dgec', 'porteur-projet'].includes(request.user?.role) && (
             <div>
               <div
                 {...dataId('projectList-invitation-form-visibility-toggle')}
@@ -273,8 +272,6 @@ export default function ListProjects({
                 </form>
               </div>
             </div>
-          ) : (
-            ''
           )}
         </div>
         {success ? (
@@ -322,23 +319,6 @@ export default function ListProjects({
           'Aucun projet à lister'
         )}
       </div>
-    </>
-  )
-
-  if (request.user?.role === 'porteur-projet') {
-    return <UserDashboard currentPage="list-projects">{contents}</UserDashboard>
-  }
-
-  return (
-    <AdminDashboard
-      role={request.user?.role}
-      currentPage={
-        request.query.garantiesFinancieres === 'submitted'
-          ? 'list-garanties-financieres'
-          : 'list-projects'
-      }
-    >
-      {contents}
-    </AdminDashboard>
+    </RoleBasedDashboard>
   )
 }

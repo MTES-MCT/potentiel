@@ -21,12 +21,14 @@ import {
   userRepo,
   modificationRequestRepo,
   appelOffreRepo,
+  projectAdmissionKeyRepo,
 } from './repos.config'
 import {
   getFileProject,
   getProjectIdForAdmissionKey,
   getProjectIdsForPeriode,
   getAppelOffreList,
+  getUserByEmail,
 } from './queries.config'
 import { eventStore } from './eventStore.config'
 import {
@@ -34,6 +36,8 @@ import {
   makeRejectModificationRequest,
   makeUpdateModificationRequestStatus,
 } from '../modules/modificationRequest'
+import { makeInviteUser } from '../modules/users'
+import { sendNotification } from './emails.config'
 
 export const shouldUserAccessProject = new BaseShouldUserAccessProject(
   userRepo,
@@ -114,4 +118,10 @@ export const importAppelOffreData = makeImportAppelOffreData({
 export const importPeriodeData = makeImportPeriodeData({
   eventBus: eventStore,
   appelOffreRepo,
+})
+
+export const inviteUser = makeInviteUser({
+  projectAdmissionKeyRepo,
+  getUserByEmail,
+  sendNotification,
 })

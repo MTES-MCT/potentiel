@@ -12,7 +12,7 @@ import { eventStore } from '../eventStore.config'
 import {
   oldAppelOffreRepo,
   candidateNotificationRepo,
-  projectAdmissionKeyRepo,
+  oldProjectAdmissionKeyRepo,
 } from '../repos.config'
 
 eventStore.subscribe(
@@ -20,7 +20,7 @@ eventStore.subscribe(
   handleCandidateNotifiedForPeriode({
     eventBus: eventStore,
     sendNotification,
-    saveProjectAdmissionKey: projectAdmissionKeyRepo.save,
+    saveProjectAdmissionKey: oldProjectAdmissionKeyRepo.save,
     getPeriodeTitle: oldAppelOffreRepo.getPeriodeTitle,
   })
 )

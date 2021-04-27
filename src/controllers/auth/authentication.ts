@@ -91,17 +91,12 @@ const registerAuth = ({ app }: RegisterAuthProps) => {
       return
     }
 
-    if (user.role === 'admin' || user.role === 'dgec') {
+    if (['admin', 'dgec', 'dreal'].includes(user.role)) {
       res.redirect(routes.ADMIN_DASHBOARD)
+      return
     }
 
-    if (user.role === 'dreal') {
-      res.redirect(routes.ADMIN_DASHBOARD)
-    }
-
-    if (user.role === 'porteur-projet') {
-      res.redirect(routes.USER_DASHBOARD)
-    }
+    res.redirect(routes.USER_DASHBOARD)
   })
 }
 
@@ -121,21 +116,17 @@ const logoutMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
 const ensureLoggedIn = () => _ensureLoggedIn(routes.LOGIN)
 
-const ensureRole = (roles: string | Array<string>) => (req, res, next) => {
+const ensureRole = (roles: User['role'] | Array<User['role']>) => (req, res, next) => {
   const user = req.user as User
 
   if (!user) {
     return res.redirect(routes.LOGIN)
   }
 
-  if (typeof roles === 'string') {
-    if (user.role !== roles) {
-      return res.redirect(routes.REDIRECT_BASED_ON_ROLE)
-    }
-  } else {
-    if (!roles.includes(user.role)) {
-      return res.redirect(routes.REDIRECT_BASED_ON_ROLE)
-    }
+  const roleList = Array.isArray(roles) ? roles : [roles]
+
+  if (!roleList.includes(user.role)) {
+    return res.redirect(routes.REDIRECT_BASED_ON_ROLE)
   }
 
   // Ok to move forward

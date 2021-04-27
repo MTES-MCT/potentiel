@@ -86,7 +86,7 @@ export default function makeListProjects({
 
     const result: any = {}
 
-    let userSpecificProjectListFilter: ContextSpecificProjectListFilter
+    let userSpecificProjectListFilter: ContextSpecificProjectListFilter | undefined = undefined
     let regions: DREAL[]
 
     switch (user.role) {
@@ -113,6 +113,7 @@ export default function makeListProjects({
         break
       case 'admin':
       case 'dgec':
+      case 'acheteur-obligé':
         result.projects =
           recherche && recherche.length
             ? await searchAll(recherche, query, pagination)
@@ -121,6 +122,7 @@ export default function makeListProjects({
         userSpecificProjectListFilter = {
           isNotified: true,
         }
+        break
     }
 
     result.existingAppelsOffres = await findExistingAppelsOffres(userSpecificProjectListFilter)

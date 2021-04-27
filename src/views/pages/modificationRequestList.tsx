@@ -1,13 +1,12 @@
+import { Request } from 'express'
 import React from 'react'
+import { AppelOffre } from '../../entities'
 import { dataId } from '../../helpers/testId'
 import { ModificationRequestListItemDTO } from '../../modules/modificationRequest'
-import { PaginatedList } from '../../types'
-import { Request } from 'express'
-import AdminDashboard from '../components/adminDashboard'
-import RequestList from '../components/requestList'
-import UserDashboard from '../components/userDashboard'
-import { AppelOffre } from '../../entities'
 import ROUTES from '../../routes'
+import { PaginatedList } from '../../types'
+import { RoleBasedDashboard } from '../components'
+import RequestList from '../components/requestList'
 
 interface ModificationRequestListProps {
   request: Request
@@ -41,9 +40,8 @@ export default function ModificationRequestList({
     .find((ao) => ao.id === appelOffreId)
     ?.familles.sort((a, b) => a.title.localeCompare(b.title))
 
-  const Dashboard = request.user?.role === 'porteur-projet' ? UserDashboard : AdminDashboard
   return (
-    <Dashboard role={request.user?.role} currentPage="list-requests">
+    <RoleBasedDashboard role={request.user?.role} currentPage="list-requests">
       <div className="panel">
         <div className="panel__header">
           <h3>Demandes</h3>
@@ -217,6 +215,6 @@ export default function ModificationRequestList({
         )}
         <RequestList modificationRequests={modificationRequests} role={request.user?.role} />
       </div>
-    </Dashboard>
+    </RoleBasedDashboard>
   )
 }

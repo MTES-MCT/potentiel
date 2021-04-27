@@ -15,6 +15,8 @@ interface SignupProps {
 export default function SignupPage({ request, projectAdmissionKey }: SignupProps) {
   const { error } = (request.query as any) || {}
 
+  const { fullName, email, dreal, projectId, forRole } = projectAdmissionKey
+
   return (
     <main role="main">
       <section className="section section-grey">
@@ -41,7 +43,7 @@ export default function SignupPage({ request, projectAdmissionKey }: SignupProps
                 name="fullName"
                 id="fullName"
                 {...dataId('fullName-field')}
-                defaultValue={projectAdmissionKey.fullName}
+                defaultValue={fullName}
               />
               <label htmlFor="email">Courrier électronique</label>
               <input
@@ -49,10 +51,10 @@ export default function SignupPage({ request, projectAdmissionKey }: SignupProps
                 name="email"
                 id="email"
                 {...dataId('email-field')}
-                defaultValue={projectAdmissionKey.email}
-                disabled={!projectAdmissionKey.dreal}
+                defaultValue={email}
+                disabled={!dreal}
               />
-              {!projectAdmissionKey.projectId && !projectAdmissionKey.dreal ? (
+              {!projectId && !dreal && !forRole ? (
                 // Only display this warning if it's an email notification
                 // if projectAdmissionKey has a projectId, it's an email invitation coming from another user
                 <div className="notification warning">
@@ -80,9 +82,6 @@ export default function SignupPage({ request, projectAdmissionKey }: SignupProps
               >
                 Envoyer
               </button>
-              {/* <p>
-                <a href="/mot-de-passe-oublie">J'ai oublié mon mot de passe</a>
-              </p> */}
             </div>
           </form>
         </div>
