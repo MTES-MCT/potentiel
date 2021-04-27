@@ -150,11 +150,13 @@ v1Router.post(
     }
 
     if (data.type === 'puissance') {
+      const { projectId, puissance, justification } = data
+
       await requestPuissanceModification({
-        projectId: data.projectId,
+        projectId: projectId,
         requestedBy: request.user,
-        newPuissance: data.puissance,
-        justification: data.justification,
+        newPuissance: puissance,
+        justification: justification,
         file,
       }).match(handleSuccess, handleError)
     } else {

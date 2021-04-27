@@ -13,7 +13,7 @@ import {
   ProjectCompletionDueDateSet,
   NumeroGestionnaireSubmitted,
   ProjectAbandoned,
-  ProjectPuissanceSubmitted,
+  ProjectPuissanceUpdated,
 } from '../../../../../modules/project/events'
 import { onProjectCertificate } from './onProjectCertificate'
 import { onProjectDataCorrected } from './onProjectDataCorrected'
@@ -25,7 +25,7 @@ import { onProjectClasseGranted } from './onProjectClasseGranted'
 import { onNumeroGestionnaireSubmitted } from './onNumeroGestionnaireSubmitted'
 import { onProjectDCRSubmitted } from './onProjectDCRSubmitted'
 import { onProjectAbandoned } from './onProjectAbandoned'
-import { onProjectPuissanceSubmitted } from './onProjectPuissanceSubmitted'
+import { onProjectPuissanceUpdated } from './onProjectPuissanceUpdated'
 import { logger } from '../../../../../core/utils'
 
 export const initProjectProjections = (eventBus: EventBus, models) => {
@@ -45,7 +45,7 @@ export const initProjectProjections = (eventBus: EventBus, models) => {
 
   eventBus.subscribe(ProjectDCRSubmitted.type, onProjectDCRSubmitted(models))
   eventBus.subscribe(ProjectAbandoned.type, onProjectAbandoned(models))
-  eventBus.subscribe(ProjectPuissanceSubmitted.type, onProjectPuissanceSubmitted(models))
+  eventBus.subscribe(ProjectPuissanceUpdated.type, onProjectPuissanceUpdated(models))
 
   logger.info('Initialized Project projections')
 }

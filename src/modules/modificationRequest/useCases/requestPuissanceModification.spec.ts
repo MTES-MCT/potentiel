@@ -12,7 +12,6 @@ import { ModificationReceived, ModificationRequested } from '../events'
 import { makeRequestPuissanceModification } from './requestPuissanceModification'
 
 describe('requestPuissanceModification use-case', () => {
-  const shouldUserAccessProject = jest.fn(async () => true)
   const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
   const fakeProject = { ...makeFakeProject(), puissanceInitiale: 100 }
   const projectRepo = fakeTransactionalRepo(fakeProject as Project)
@@ -25,15 +24,15 @@ describe('requestPuissanceModification use-case', () => {
     save: jest.fn((file: FileObject) => okAsync(null)),
     load: jest.fn(),
   }
-  const fakeFileContents = Readable.from('test-content')
-  const fakeFileName = 'myfilename.pdf'
+  const file = { contents: Readable.from('test-content'), filename: 'myfilename.pdf' }
 
   describe('when user is not allowed', () => {
+    const shouldUserAccessProject = jest.fn(async () => false)
+    const newPuissance = 89
+
     it('should return an UnauthorizedError', async () => {
       fakePublish.mockClear()
       fileRepo.save.mockClear()
-
-      const shouldUserAccessProject = jest.fn(async () => false)
 
       const requestPuissanceModification = makeRequestPuissanceModification({
         projectRepo,
@@ -45,7 +44,7 @@ describe('requestPuissanceModification use-case', () => {
       const res = await requestPuissanceModification({
         projectId: fakeProject.id,
         requestedBy: fakeUser,
-        newPuissance: 105,
+        newPuissance,
       })
 
       expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
@@ -53,142 +52,159 @@ describe('requestPuissanceModification use-case', () => {
     })
   })
 
-  describe('when new puissance is < 90% of puissanceInitiale', () => {
-    beforeAll(async () => {
-      fakePublish.mockClear()
-      fileRepo.save.mockClear()
+  describe('when user has rights to this project', () => {
+    const shouldUserAccessProject = jest.fn(async () => true)
 
+    describe('when new puissance is < 90% of puissanceInitiale', () => {
       const newPuissance = 89
 
-      const requestPuissanceModification = makeRequestPuissanceModification({
-        projectRepo,
-        eventBus,
-        shouldUserAccessProject,
-        fileRepo: fileRepo as Repository<FileObject>,
+      beforeAll(async () => {
+        fakePublish.mockClear()
+        fileRepo.save.mockClear()
+
+        const requestPuissanceModification = makeRequestPuissanceModification({
+          projectRepo,
+          eventBus,
+          shouldUserAccessProject,
+          fileRepo: fileRepo as Repository<FileObject>,
+        })
+
+        const res = await requestPuissanceModification({
+          projectId: fakeProject.id,
+          requestedBy: fakeUser,
+          newPuissance,
+          justification: 'justif',
+          file,
+        })
+
+        expect(res.isOk()).toBe(true)
+
+        expect(shouldUserAccessProject).toHaveBeenCalledWith({
+          user: fakeUser,
+          projectId: fakeProject.id.toString(),
+        })
       })
 
-      const res = await requestPuissanceModification({
-        projectId: fakeProject.id,
-        requestedBy: fakeUser,
-        newPuissance,
-        justification: 'justif',
-        file: { contents: fakeFileContents, filename: fakeFileName },
+      it('should emit a ModificationRequested', () => {
+        expect(eventBus.publish).toHaveBeenCalledTimes(1)
+        const event = eventBus.publish.mock.calls[0][0]
+        expect(event).toBeInstanceOf(ModificationRequested)
+
+        const { type, puissance, justification } = event.payload
+        expect(type).toEqual('puissance')
+        expect(puissance).toEqual(newPuissance)
+        expect(justification).toEqual('justif')
       })
 
-      expect(res.isOk()).toBe(true)
+      it('should not change the project', () => {
+        expect(fakeProject.pendingEvents).toHaveLength(0)
+      })
 
-      expect(shouldUserAccessProject).toHaveBeenCalledWith({
-        user: fakeUser,
-        projectId: fakeProject.id.toString(),
+      it('should save the file', () => {
+        expect(fileRepo.save).toHaveBeenCalledTimes(1)
+        expect(fileRepo.save.mock.calls[0][0].contents).toEqual(file.contents)
+        expect(fileRepo.save.mock.calls[0][0].filename).toEqual(file.filename)
       })
     })
 
-    it('should emit a ModificationRequested', () => {
-      expect(eventBus.publish).toHaveBeenCalledTimes(1)
-      const event = eventBus.publish.mock.calls[0][0]
-      expect(event).toBeInstanceOf(ModificationRequested)
-    })
-
-    it('should not change the project', () => {
-      expect(fakeProject.pendingEvents).toHaveLength(0)
-    })
-
-    it('should save the file', () => {
-      expect(fileRepo.save).toHaveBeenCalledTimes(1)
-      expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents)
-      expect(fileRepo.save.mock.calls[0][0].filename).toEqual(fakeFileName)
-    })
-  })
-
-  describe('when new puissance is > 110% of puissanceInitiale', () => {
-    beforeAll(async () => {
-      fakePublish.mockClear()
-      fileRepo.save.mockClear()
-
+    describe('when new puissance is > 110% of puissanceInitiale', () => {
       const newPuissance = 111
 
-      const requestPuissanceModification = makeRequestPuissanceModification({
-        projectRepo,
-        eventBus,
-        shouldUserAccessProject,
-        fileRepo: fileRepo as Repository<FileObject>,
+      beforeAll(async () => {
+        fakePublish.mockClear()
+        fileRepo.save.mockClear()
+
+        const requestPuissanceModification = makeRequestPuissanceModification({
+          projectRepo,
+          eventBus,
+          shouldUserAccessProject,
+          fileRepo: fileRepo as Repository<FileObject>,
+        })
+
+        const res = await requestPuissanceModification({
+          projectId: fakeProject.id,
+          requestedBy: fakeUser,
+          newPuissance,
+          file,
+        })
+
+        expect(res.isOk()).toBe(true)
+
+        expect(shouldUserAccessProject).toHaveBeenCalledWith({
+          user: fakeUser,
+          projectId: fakeProject.id.toString(),
+        })
       })
 
-      const res = await requestPuissanceModification({
-        projectId: fakeProject.id,
-        requestedBy: fakeUser,
-        newPuissance,
-        file: { contents: fakeFileContents, filename: fakeFileName },
+      it('should emit a ModificationRequested', () => {
+        expect(eventBus.publish).toHaveBeenCalledTimes(1)
+        const event = eventBus.publish.mock.calls[0][0]
+        expect(event).toBeInstanceOf(ModificationRequested)
+
+        const { type, puissance } = event.payload
+        expect(type).toEqual('puissance')
+        expect(puissance).toEqual(newPuissance)
       })
 
-      expect(res.isOk()).toBe(true)
+      it('should not change the project', () => {
+        expect(fakeProject.pendingEvents).toHaveLength(0)
+      })
 
-      expect(shouldUserAccessProject).toHaveBeenCalledWith({
-        user: fakeUser,
-        projectId: fakeProject.id.toString(),
+      it('should save the file', () => {
+        expect(fileRepo.save).toHaveBeenCalledTimes(1)
+        expect(fileRepo.save.mock.calls[0][0].contents).toEqual(file.contents)
+        expect(fileRepo.save.mock.calls[0][0].filename).toEqual(file.filename)
       })
     })
 
-    it('should emit a ModificationRequested', () => {
-      expect(eventBus.publish).toHaveBeenCalledTimes(1)
-      const event = eventBus.publish.mock.calls[0][0]
-      expect(event).toBeInstanceOf(ModificationRequested)
-    })
-
-    it('should not change the project', () => {
-      expect(fakeProject.pendingEvents).toHaveLength(0)
-    })
-
-    it('should save the file', () => {
-      expect(fileRepo.save).toHaveBeenCalledTimes(1)
-      expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents)
-      expect(fileRepo.save.mock.calls[0][0].filename).toEqual(fakeFileName)
-    })
-  })
-
-  describe('when new puissance is between 90% and 110% of puissanceInitiale', () => {
-    beforeAll(async () => {
-      fakePublish.mockClear()
-      fileRepo.save.mockClear()
-
+    describe('when new puissance is between 90% and 110% of puissanceInitiale', () => {
       const newPuissance = 105
 
-      const requestPuissanceModification = makeRequestPuissanceModification({
-        projectRepo,
-        eventBus,
-        shouldUserAccessProject,
-        fileRepo: fileRepo as Repository<FileObject>,
+      beforeAll(async () => {
+        fakePublish.mockClear()
+        fileRepo.save.mockClear()
+
+        const requestPuissanceModification = makeRequestPuissanceModification({
+          projectRepo,
+          eventBus,
+          shouldUserAccessProject,
+          fileRepo: fileRepo as Repository<FileObject>,
+        })
+
+        const res = await requestPuissanceModification({
+          projectId: fakeProject.id,
+          requestedBy: fakeUser,
+          newPuissance,
+          file,
+        })
+
+        expect(res.isOk()).toBe(true)
+
+        expect(shouldUserAccessProject).toHaveBeenCalledWith({
+          user: fakeUser,
+          projectId: fakeProject.id.toString(),
+        })
       })
 
-      const res = await requestPuissanceModification({
-        projectId: fakeProject.id,
-        requestedBy: fakeUser,
-        newPuissance,
-        file: { contents: fakeFileContents, filename: fakeFileName },
+      it('should emit a ModificationReceived', async () => {
+        expect(eventBus.publish).toHaveBeenCalledTimes(1)
+        const event = eventBus.publish.mock.calls[0][0]
+        expect(event).toBeInstanceOf(ModificationReceived)
+
+        const { type, puissance } = event.payload
+        expect(type).toEqual('puissance')
+        expect(puissance).toEqual(newPuissance)
       })
 
-      expect(res.isOk()).toBe(true)
-
-      expect(shouldUserAccessProject).toHaveBeenCalledWith({
-        user: fakeUser,
-        projectId: fakeProject.id.toString(),
+      it('should update the puissance', () => {
+        expect(fakeProject.updatePuissance).toHaveBeenCalledWith(fakeUser, newPuissance)
       })
-    })
 
-    it('should emit a ModificationSubmitted', async () => {
-      expect(eventBus.publish).toHaveBeenCalledTimes(1)
-      const event = eventBus.publish.mock.calls[0][0]
-      expect(event).toBeInstanceOf(ModificationReceived)
-    })
-
-    it('should update the puissance', () => {
-      expect(fakeProject.updatePuissance).toHaveBeenCalledWith(fakeUser, 105)
-    })
-
-    it('should save the file', () => {
-      expect(fileRepo.save).toHaveBeenCalledTimes(1)
-      expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents)
-      expect(fileRepo.save.mock.calls[0][0].filename).toEqual(fakeFileName)
+      it('should save the file', () => {
+        expect(fileRepo.save).toHaveBeenCalledTimes(1)
+        expect(fileRepo.save.mock.calls[0][0].contents).toEqual(file.contents)
+        expect(fileRepo.save.mock.calls[0][0].filename).toEqual(file.filename)
+      })
     })
   })
 })

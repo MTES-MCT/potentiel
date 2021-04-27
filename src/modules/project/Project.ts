@@ -47,7 +47,7 @@ import {
   ProjectImported,
   ProjectNotificationDateSet,
   ProjectNotified,
-  ProjectPuissanceSubmitted,
+  ProjectPuissanceUpdated,
   ProjectReimported,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
@@ -358,11 +358,11 @@ export const makeProject = (args: {
       }
 
       _publishEvent(
-        new ProjectPuissanceSubmitted({
+        new ProjectPuissanceUpdated({
           payload: {
             projectId: props.projectId.toString(),
             newPuissance,
-            submittedBy: user.id,
+            updatedBy: user.id,
           },
         })
       )

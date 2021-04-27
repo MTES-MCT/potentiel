@@ -24,10 +24,18 @@ describe('modificationRequest.onModificationReceived', () => {
       })
     )
 
-    const updatedModificationRequest = await ModificationRequestModel.findByPk(
-      modificationRequestId
-    )
+    const {
+      puissance,
+      type,
+      projectId: receivedProjectId,
+      userId: receivedUserId,
+      status,
+    } = await ModificationRequestModel.findByPk(modificationRequestId)
 
-    expect(updatedModificationRequest.status).toEqual('information validée')
+    expect(puissance).toEqual(104)
+    expect(type).toEqual('puissance')
+    expect(receivedProjectId).toEqual(projectId)
+    expect(receivedUserId).toEqual(userId)
+    expect(status).toEqual('information validée')
   })
 })

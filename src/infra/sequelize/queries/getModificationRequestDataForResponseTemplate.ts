@@ -249,8 +249,6 @@ export const makeGetModificationRequestDataForResponseTemplate = ({
           } as ModificationRequestDataForResponseTemplateDTO)
 
         case 'puissance':
-          console.log({ commonData })
-
           return ok({
             ...commonData,
             nouvellePuissance: modificationRequest.puissance,

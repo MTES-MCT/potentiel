@@ -28,6 +28,9 @@ interface RequestPuissanceModificationArgs {
   file?: { contents: FileContents; filename: string }
 }
 
+const MIN_AUTO_ACCEPT_PUISSANCE_RATIO = 0.9
+const MAX_AUTO_ACCEPT_PUISSANCE_RATIO = 1.1
+
 export const makeRequestPuissanceModification = (deps: RequestPuissanceModificationDeps) => (
   args: RequestPuissanceModificationArgs
 ): ResultAsync<
@@ -83,8 +86,6 @@ export const makeRequestPuissanceModification = (deps: RequestPuissanceModificat
             { newPuissanceIsAutoAccepted: boolean; fileId: string },
             AggregateHasBeenUpdatedSinceError | ProjectCannotBeUpdatedIfUnnotifiedError
           > => {
-            const MIN_AUTO_ACCEPT_PUISSANCE_RATIO = 0.9
-            const MAX_AUTO_ACCEPT_PUISSANCE_RATIO = 1.1
             const puissanceModificationRatio = newPuissance / project.puissanceInitiale
 
             const newPuissanceIsAutoAccepted =

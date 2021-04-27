@@ -1,11 +1,11 @@
 import models from '../../../models'
 import { resetDatabase } from '../../../helpers'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
-import { onProjectPuissanceSubmitted } from './onProjectPuissanceSubmitted'
-import { ProjectPuissanceSubmitted } from '../../../../../modules/project/events'
+import { onProjectPuissanceUpdated } from './onProjectPuissanceUpdated'
+import { ProjectPuissanceUpdated } from '../../../../../modules/project/events'
 import { v4 as uuid } from 'uuid'
 
-describe('project.onProjectPuissanceSubmitted', () => {
+describe('project.onProjectPuissanceUpdated', () => {
   const ProjectModel = models.Project
   const projectId = uuid()
   const project = makeFakeProject({ id: projectId, puissanceInitiale: 100, puissance: 100 })
@@ -19,13 +19,14 @@ describe('project.onProjectPuissanceSubmitted', () => {
   it('should update the project puissance', async () => {
     const newPuissance = 109
 
-    await onProjectPuissanceSubmitted(models)(
-      new ProjectPuissanceSubmitted({
-        payload: { projectId, newPuissance, submittedBy: 'someone' },
+    await onProjectPuissanceUpdated(models)(
+      new ProjectPuissanceUpdated({
+        payload: { projectId, newPuissance, updatedBy: 'someone' },
       })
     )
 
     const updatedProject = await ProjectModel.findByPk(projectId)
     expect(updatedProject.puissance).toEqual(newPuissance)
+    expect(updatedProject.puissanceInitiale).toEqual(100)
   })
 })

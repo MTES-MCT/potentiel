@@ -110,18 +110,14 @@ v1Router.post(
       )
     }
 
-    let args: any = {}
-
-    if (request.file) {
-      args.responseFile = {
-        contents: fs.createReadStream(request.file.path),
-        filename: request.file.originalname,
-      }
+    const responseFile = request.file && {
+      contents: fs.createReadStream(request.file.path),
+      filename: request.file.originalname,
     }
 
     if (acceptedReply) {
       return await acceptModificationRequest({
-        ...args,
+        responseFile,
         modificationRequestId,
         versionDate: new Date(Number(versionDate)),
         acceptanceParams: _makeAcceptanceParams(type, {
@@ -154,7 +150,7 @@ v1Router.post(
     }
 
     return rejectModificationRequest({
-      ...args,
+      responseFile,
       modificationRequestId,
       versionDate: new Date(Number(versionDate)),
       rejectedBy: request.user,
