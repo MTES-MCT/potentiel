@@ -39,52 +39,43 @@ v1Router.post(
           )
         },
         (errors) => {
-          if (!Array.isArray(errors)) {
+          function redirectWithError(errorMessage) {
             return response.redirect(
               addQueryParams(routes.ADMIN_AO_PERIODE, {
-                error: `Le fichier csv n'a pas pu être importé: ${errors.message}`,
+                error: errorMessage,
               })
             )
           }
 
+          if (!Array.isArray(errors)) {
+            return redirectWithError(`Le fichier csv n'a pas pu être importé: ${errors.message}`)
+          }
+
           if (!errors.length) {
             logger.error(new Error('importAppelOffreData a échoué mais sans contenir d‘erreur.'))
-            return response.redirect(
-              addQueryParams(routes.ADMIN_AO_PERIODE, {
-                error:
-                  "L'import a échoué pour des raisons techniques. Merci de prévenir un administrateur.",
-              })
+            return redirectWithError(
+              "L'import a échoué pour des raisons techniques. Merci de prévenir un administrateur."
             )
           }
 
           if (errors[0] instanceof InfraNotAvailableError) {
             logger.error(errors[0])
-            return response.redirect(
-              addQueryParams(routes.ADMIN_AO_PERIODE, {
-                error:
-                  "L'import a échoué pour des raisons techniques. Merci de prévenir un administrateur.",
-              })
+            return redirectWithError(
+              "L'import a échoué pour des raisons techniques. Merci de prévenir un administrateur."
             )
           }
 
           if (errors[0] instanceof UnauthorizedError) {
             logger.error(errors[0])
-            return response.redirect(
-              addQueryParams(routes.ADMIN_AO_PERIODE, {
-                error: "Vous n'avez pas les droits suffisants pour effectuer cette action.",
-              })
+            return redirectWithError(
+              "Vous n'avez pas les droits suffisants pour effectuer cette action."
             )
           }
 
           const globalMessage = errors.map((error) => error.message).join('\n')
 
-          return response.redirect(
-            addQueryParams(routes.ADMIN_AO_PERIODE, {
-              error:
-                globalMessage.length > 1000
-                  ? globalMessage.substring(0, 1000) + '...'
-                  : globalMessage,
-            })
+          return redirectWithError(
+            globalMessage.length > 1000 ? globalMessage.substring(0, 1000) + '...' : globalMessage
           )
         }
       )
