@@ -1,38 +1,33 @@
-import models from '../../../models'
-import { resetDatabase } from '../../../helpers'
-import { onAppelOffreCreated } from './onAppelOffreCreated'
-import { AppelOffreCreated } from '../../../../../modules/appelOffre/events'
 import { UniqueEntityID } from '../../../../../core/domain'
+import { AppelOffreCreated } from '../../../../../modules/appelOffre/events'
+import { describeProjector } from '../../../helpers'
+import models from '../../../models'
+import { onAppelOffreCreated } from './onAppelOffreCreated'
 
-describe('appelOffre.onAppelOffreCreated', () => {
-  const { AppelOffre } = models
+const { AppelOffre } = models
 
-  const appelOffreId = new UniqueEntityID().toString()
+const appelOffreId = new UniqueEntityID().toString()
 
-  beforeAll(async () => {
-    // Create the tables and remove all data
-    await resetDatabase()
-  })
-
-  it('should create the appel offre', async () => {
-    await onAppelOffreCreated(models)(
-      new AppelOffreCreated({
-        payload: {
-          appelOffreId,
-          createdBy: '',
-          data: {
-            param1: 'value1',
-            param2: 'value2',
-          },
+describeProjector(onAppelOffreCreated)
+  .onEvent(
+    new AppelOffreCreated({
+      payload: {
+        appelOffreId,
+        createdBy: '',
+        data: {
+          param1: 'value1',
+          param2: 'value2',
         },
-      })
-    )
-
-    const createdAppelOffre = await AppelOffre.findByPk(appelOffreId)
-    expect(createdAppelOffre).not.toBe(null)
-    expect(createdAppelOffre.data).toEqual({
-      param1: 'value1',
-      param2: 'value2',
+      },
     })
+  )
+  .shouldCreate({
+    model: AppelOffre,
+    id: appelOffreId,
+    value: {
+      data: {
+        param1: 'value1',
+        param2: 'value2',
+      },
+    },
   })
-})
