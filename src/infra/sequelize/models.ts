@@ -12,6 +12,7 @@ import { MakeProjectAdmissionKeyModel } from './projections/projectAdmissionKey/
 import { MakeModificationRequestModel } from './projections/modificationRequest/modificationRequest.model'
 import { MakeAppelOffreModel } from './projections/appelOffre/appelOffre.model'
 import { MakePeriodeModel } from './projections/appelOffre/periode.model'
+import { EventBus } from '../../modules/eventStore'
 
 const models = {
   File: MakeFileModel(sequelizeInstance),
@@ -27,7 +28,23 @@ const models = {
   Periode: MakePeriodeModel(sequelizeInstance),
 }
 
-// Create associations
-Object.values(models).forEach((model) => model.associate(models))
+// Link projectors with the eventBus (called by the application config)
+export const initProjectors = (eventBus: EventBus) => {
+  const initializedProjectors: string[] = []
+  Object.values(models).forEach((model) => {
+    if (model.projector) {
+      model.projector.initEventBus(eventBus)
+      initializedProjectors.push(model.getTableName())
+    }
+  })
+
+  return initializedProjectors
+}
+
+// Create associations and link projectors to their model
+Object.values(models).forEach((model) => {
+  model.associate(models)
+  if (model.projector) model.projector.initModel(model)
+})
 
 export default models
