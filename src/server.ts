@@ -32,6 +32,7 @@ export async function makeServer(port: number, sessionSecret: string) {
           hsts: {
             maxAge: 63072000,
             includeSubDomains: false,
+            preload: true,
           },
         })
       )
