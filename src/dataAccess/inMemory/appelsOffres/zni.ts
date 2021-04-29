@@ -129,14 +129,14 @@ const zni: AppelOffre = {
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'v1',
       noteThresholdByFamily: [
-        { familleId: '1a', territoire: 'Mayotte', noteThreshold: 50 },
-        { familleId: '1a', territoire: 'Guyane', noteThreshold: 30.6 },
+        { familleId: '1a', territoire: 'Mayotte', noteThreshold: 49.99 },
+        { familleId: '1a', territoire: 'Guyane', noteThreshold: 30.64 },
         //
-        { familleId: '1b', territoire: 'Mayotte', noteThreshold: 55.6 },
-        { familleId: '1b', territoire: 'Guyane', noteThreshold: 34.6 },
+        { familleId: '1b', territoire: 'Mayotte', noteThreshold: 55.62 },
+        { familleId: '1b', territoire: 'Guyane', noteThreshold: 34.59 },
         //
         { familleId: '1c', territoire: 'Mayotte', noteThreshold: 21.4 },
-        { familleId: '1c', territoire: 'Guyane', noteThreshold: 65.5 },
+        { familleId: '1c', territoire: 'Guyane', noteThreshold: 65.52 },
       ],
     },
   ],
