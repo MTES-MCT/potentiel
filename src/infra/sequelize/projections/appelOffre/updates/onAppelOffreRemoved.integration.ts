@@ -1,6 +1,6 @@
 import models from '../../../models'
 import { describeProjector, resetDatabase } from '../../../helpers'
-import { onAppelOffreRemoved } from './onAppelOffreRemoved'
+import { onAppelOffreRemoved, onAppelOffreRemovedRemovePeriodes } from './onAppelOffreRemoved'
 import { AppelOffreRemoved } from '../../../../../modules/appelOffre/events'
 import { UniqueEntityID } from '../../../../../core/domain'
 
@@ -34,6 +34,38 @@ describeProjector(onAppelOffreRemoved)
     remaining: [
       {
         id: otherAppelOffreId,
+        data: {},
+      },
+    ],
+  })
+
+describeProjector(onAppelOffreRemovedRemovePeriodes)
+  .onEvent(
+    new AppelOffreRemoved({
+      payload: {
+        appelOffreId,
+        removedBy: '',
+      },
+    })
+  )
+  .shouldDelete({
+    model: Periode,
+    prior: [
+      {
+        periodeId,
+        appelOffreId,
+        data: {},
+      },
+      {
+        periodeId,
+        appelOffreId: otherAppelOffreId,
+        data: {},
+      },
+    ],
+    remaining: [
+      {
+        periodeId,
+        appelOffreId: otherAppelOffreId,
         data: {},
       },
     ],
