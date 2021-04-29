@@ -1,7 +1,7 @@
 import { DREAL } from '../../../entities'
 import { ModificationRequestStatusDTO } from './ModificationRequestListItemDTO'
 
-export type ModificationRequestDateForResponseTemplateDTO = {
+export type ModificationRequestDataForResponseTemplateDTO = {
   suiviPar: string
   suiviParEmail: string
   refPotentiel: string
@@ -93,4 +93,6 @@ type AbandonVariant = {
 
 type PuissanceVariant = {
   type: 'puissance'
+  referenceParagraphePuissance: string
+  contenuParagraphePuissance: string
 }

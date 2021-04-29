@@ -65,7 +65,7 @@ export default function NewModificationRequestPage({ request, project }: PagePro
           <input type="hidden" name="type" value={action} />
           <div className="form__group">
             <h4></h4>
-            <div style={{ marginBottom: 5 }}>Concerant le projet:</div>
+            <div style={{ marginBottom: 5 }}>Concernant le projet:</div>
             <div
               className="text-quote"
               style={{
@@ -143,7 +143,7 @@ export default function NewModificationRequestPage({ request, project }: PagePro
                     <input type="text" disabled value={project.puissance} />
                   </>
                 )}
-                <label className="required" htmlFor="puissance">
+                <label className="required" style={{ marginTop: 10 }} htmlFor="puissance">
                   Nouvelle puissance (en {getunitePuissanceForAppelOffre(project.appelOffreId)})
                 </label>
                 <input
@@ -161,8 +161,9 @@ export default function NewModificationRequestPage({ request, project }: PagePro
                   style={{ display: 'none' }}
                   {...dataId('modificationRequest-puissance-error-message-out-of-bounds')}
                 >
-                  Une autorisation sera nécessaire si la variation de puissance par rapport à
-                  puissance à la notification est supérieure à 10%.
+                  Une autorisation est nécessaire pour une variation de puissance par rapport à
+                  puissance notifiée supérieure à 10%, sauf en cas de d'obligation imposée par
+                  l'administration. Joindre un justificatif.
                 </div>
                 <div
                   className="notification error"
@@ -174,19 +175,27 @@ export default function NewModificationRequestPage({ request, project }: PagePro
                 </div>
 
                 <div style={{ marginTop: 10 }}>
-                  <label htmlFor="candidats">Courrier explicatif ou décision de justice</label>
-                  <input
-                    type="file"
-                    name="file"
-                    {...dataId('modificationRequest-fileField')}
-                    id="file"
-                  />
-                  <label htmlFor="justification">Motif (facultatif):</label>
+                  <label style={{ marginTop: 10 }} htmlFor="justification">
+                    <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>
+                    <br />
+                    Pour faciliter le traitement de votre demande, veillez à détailler les raisons
+                    ayant conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
+                  </label>
                   <textarea
                     name="justification"
                     id="justification"
                     defaultValue={justification || ''}
                     {...dataId('modificationRequest-justificationField')}
+                  />
+                  <label htmlFor="candidats" style={{ marginTop: 10 }}>
+                    Courrier explicatif ou décision administrative (obligatoire dans le cas où la
+                    variation est supérieure à 10%)
+                  </label>
+                  <input
+                    type="file"
+                    name="file"
+                    {...dataId('modificationRequest-fileField')}
+                    id="file"
                   />
                 </div>
               </>

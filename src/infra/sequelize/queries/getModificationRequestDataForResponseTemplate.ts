@@ -179,6 +179,7 @@ export const makeGetModificationRequestDataForResponseTemplate = ({
         unitePuissance,
         dateDemande: formatDate(requestedOn),
         justificationDemande: justification,
+        dateNotification: formatDate(notifiedOn),
       }
 
       const soumisAuxGarantiesFinancieres =
@@ -196,10 +197,9 @@ export const makeGetModificationRequestDataForResponseTemplate = ({
               +moment(notifiedOn).add(appelOffre.delaiRealisationEnMois, 'months')
             ),
             dateLimiteAchevementActuelle: formatDate(completionDueOn),
-            dateNotification: formatDate(notifiedOn),
             dureeDelaiDemandeEnMois: delayInMonths.toString(),
             ..._makePreviousDelaiFromPreviousRequest(previousRequest),
-          } as ModificationRequestDateForResponseTemplateDTO)
+          } as ModificationRequestDataForResponseTemplateDTO)
         case 'abandon':
           return ok({
             ...commonData,
@@ -211,10 +211,9 @@ export const makeGetModificationRequestDataForResponseTemplate = ({
               periodeDetails[
                 'Dispositions liées à l’engagement de réalisation ou aux modalités d’abandon'
               ],
-            dateNotification: formatDate(notifiedOn),
             dateDemandeConfirmation: confirmationRequestedOn && formatDate(confirmationRequestedOn),
             dateConfirmation: confirmedOn && formatDate(confirmedOn),
-          } as ModificationRequestDateForResponseTemplateDTO)
+          } as ModificationRequestDataForResponseTemplateDTO)
         case 'recours':
           return ok({
             ...commonData,
@@ -249,11 +248,18 @@ export const makeGetModificationRequestDataForResponseTemplate = ({
           } as ModificationRequestDataForResponseTemplateDTO)
 
         case 'puissance':
+          const { puissance: currentPuissance, puissanceInitiale } = modificationRequest.project
+          const puissance = currentPuissance !== puissanceInitiale ? currentPuissance : undefined
+
           return ok({
             ...commonData,
+            puissanceInitiale: modificationRequest.project.puissanceInitiale,
             nouvellePuissance: modificationRequest.puissance,
-            referenceParagraphePuissance: 'TODO',
-            contenuParagraphePuissance: 'TODO',
+            puissance,
+            referenceParagraphePuissance:
+              periodeDetails['Référence du paragraphe dédié au changement de puissance'],
+            contenuParagraphePuissance:
+              periodeDetails['Dispositions liées au changement de puissance'],
           } as ModificationRequestDataForResponseTemplateDTO)
       }
 

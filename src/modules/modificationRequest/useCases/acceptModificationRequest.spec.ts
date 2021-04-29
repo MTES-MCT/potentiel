@@ -235,6 +235,7 @@ describe('acceptModificationRequest use-case', () => {
     describe('when type is puissance', () => {
       const fakeModificationRequest = {
         ...makeFakeModificationRequest(),
+        type: 'puissance',
       }
       const fakeProject = {
         ...makeFakeProject(),

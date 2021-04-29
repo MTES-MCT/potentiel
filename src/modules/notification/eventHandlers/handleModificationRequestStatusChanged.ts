@@ -42,6 +42,7 @@ export const handleModificationRequestStatusChanged = (deps: {
     case ConfirmationRequested.type:
       status = 'en attente de confirmation'
       hasDocument = true
+      break
     case ModificationReceived.type:
       status = 'changement pris en compte'
       hasDocument = false

@@ -112,6 +112,9 @@ export const makeAcceptModificationRequest = (deps: AcceptModificationRequestDep
           if (acceptanceParams?.type === 'puissance')
             action = project.updatePuissance(submittedBy, acceptanceParams.newPuissance)
           break
+        case 'abandon':
+          action = project.abandon(submittedBy)
+          break
       }
       return action.map(() => ({ project, modificationRequest, responseFileId }))
     })

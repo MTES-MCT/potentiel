@@ -1,5 +1,5 @@
 import { Repository, UniqueEntityID } from '../../../core/domain'
-import { errAsync, logger, ResultAsync } from '../../../core/utils'
+import { errAsync, logger, okAsync, ResultAsync } from '../../../core/utils'
 import { User } from '../../../entities'
 import { FileContents, FileObject, makeAndSaveFile } from '../../file'
 import {
@@ -18,7 +18,7 @@ interface RejectModificationRequestDeps {
 interface RejectModificationRequestArgs {
   modificationRequestId: UniqueEntityID
   versionDate: Date
-  responseFile: { contents: FileContents; filename: string }
+  responseFile?: { contents: FileContents; filename: string }
   rejectedBy: User
 }
 
@@ -33,7 +33,6 @@ export const makeRejectModificationRequest = (deps: RejectModificationRequestDep
 > => {
   const { fileRepo, modificationRequestRepo } = deps
   const { modificationRequestId, versionDate, responseFile, rejectedBy } = args
-  const { contents, filename } = responseFile
 
   if (!['admin', 'dgec'].includes(rejectedBy.role)) {
     return errAsync(new UnauthorizedError())
@@ -52,13 +51,15 @@ export const makeRejectModificationRequest = (deps: RejectModificationRequestDep
           return errAsync(new AggregateHasBeenUpdatedSinceError())
         }
 
+        if (!responseFile) return okAsync({ modificationRequest, responseFileId: '' })
+
         return makeAndSaveFile({
           file: {
             designation: 'modification-request-response',
             forProject: modificationRequest.projectId,
             createdBy: new UniqueEntityID(rejectedBy.id),
-            filename,
-            contents,
+            filename: responseFile.filename,
+            contents: responseFile.contents,
           },
           fileRepo,
         })

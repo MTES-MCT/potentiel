@@ -35,6 +35,7 @@ v1Router.post(
       statusUpdateOnly,
       newNotificationDate,
       delayInMonths,
+      puissanceInitiale,
       puissance,
       decisionJustice,
     } = request.body
@@ -106,6 +107,17 @@ v1Router.post(
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
           error: "La réponse n'a pas pu être envoyée car il manque le courrier de réponse.",
+        })
+      )
+    }
+
+    const newPuissanceVariationIsForbidden = puissance / puissanceInitiale > 1.1
+
+    if (decisionJustice && acceptedReply && newPuissanceVariationIsForbidden) {
+      return response.redirect(
+        addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
+          error:
+            'Vous ne pouvez pas accepter une augmentation de puissance avec une variation de plus de 10% alors que vous avez indiqué que la demande fait suite à une demande de justice.',
         })
       )
     }

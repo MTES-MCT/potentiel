@@ -17,9 +17,15 @@ export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => (
 
     <div className="form__group" style={{ marginBottom: 20 }}>
       <label>
-        Nouvelle puissance demandée : {modificationRequest.puissance}
+        Nouvelle puissance demandée : {modificationRequest.puissance}{' '}
         {modificationRequest.project.unitePuissance}
       </label>
+      <input
+        type="hidden"
+        value={modificationRequest.project.puissanceInitiale}
+        name="puissanceInitiale"
+        {...dataId('modificationRequest-puissanceInitialeField')}
+      />
       <input
         type="hidden"
         value={modificationRequest.puissance}

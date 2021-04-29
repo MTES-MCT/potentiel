@@ -155,6 +155,7 @@ describe('notification.handleModificationRequestStatusChanged', () => {
       )
 
       const notifications = sendNotification.mock.calls.map((call) => call[0])
+
       expect(
         notifications.every(
           (notification) =>
