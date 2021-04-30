@@ -33,7 +33,7 @@ export const makeImportAppelOffreData = (deps: ImportAppelOffreDataDeps) => ({
       const removals = appelOffreList
         .filter(
           ({ appelOffreId }) =>
-            !dataLines.find((dataLine) => dataLine.appelOffreId === appelOffreId)
+            !dataLines.find((dataLine) => dataLine["Appel d'offres"] === appelOffreId)
         )
         .map(({ appelOffreId }) => {
           return deps.appelOffreRepo
@@ -56,9 +56,9 @@ export const makeImportAppelOffreData = (deps: ImportAppelOffreDataDeps) => ({
 
         return deps.appelOffreRepo
           .load(new UniqueEntityID(appelOffreId))
-          .andThen((appelOffre) =>
-            appelOffre.update({ data, updatedBy: importedBy }).map(() => appelOffre)
-          )
+          .andThen((appelOffre) => {
+            return appelOffre.update({ data, updatedBy: importedBy }).map(() => appelOffre)
+          })
           .andThen((appelOffre) => deps.appelOffreRepo.save(appelOffre))
           .orElse((e) => {
             if (e instanceof EntityNotFoundError) {
