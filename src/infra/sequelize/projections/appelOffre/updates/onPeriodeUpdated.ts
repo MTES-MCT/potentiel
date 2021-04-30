@@ -10,7 +10,12 @@ export const onPeriodeUpdated = (models) => async (event: PeriodeUpdated) => {
   const instance = await Periode.findOne({ where: { appelOffreId, periodeId } })
 
   if (!instance) {
-    logger.error(`Error: onPeriodeUpdated projection failed to retrieve project from db ${event}`)
+    logger.error(
+      `Error: onPeriodeUpdated projection failed to retrieve project from db ${{
+        appelOffreId,
+        periodeId,
+      }}`
+    )
     return
   }
 

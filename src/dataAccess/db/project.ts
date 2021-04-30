@@ -32,6 +32,7 @@ const deserialize = (item) => ({
   dcrFileRef: item.dcr?.file,
   dcrNumeroDossier: item.dcr?.details.numeroDossier,
   completionDueOn: item.completionDueOn || 0,
+  abandonedOn: item.abandonedOn || 0,
 })
 
 export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): ProjectRepo {
@@ -163,6 +164,11 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
       defaultValue: 0,
     },
     completionDueOn: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    abandonedOn: {
       type: DataTypes.BIGINT,
       allowNull: false,
       defaultValue: 0,
@@ -447,6 +453,10 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
     if (query) {
       if ('isNotified' in query) {
         opts.where.notifiedOn = query.isNotified ? { [Op.ne]: 0 } : 0
+      }
+
+      if ('isAbandoned' in query) {
+        opts.where.abandonedOn = query.isAbandoned ? { [Op.ne]: 0 } : 0
       }
 
       if ('garantiesFinancieres' in query) {

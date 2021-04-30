@@ -3,6 +3,7 @@ import {
   handleModificationRequestStatusChanged,
   handleModificationRequested,
   handleProjectGFSubmitted,
+  handleModificationRequestConfirmed,
 } from '../../modules/notification'
 import {
   ProjectCertificateRegenerated,
@@ -12,6 +13,7 @@ import {
 import { projectRepo, oldProjectRepo } from '../repos.config'
 import {
   getModificationRequestInfoForStatusNotification,
+  getModificationRequestInfoForConfirmedNotification,
   getInfoForModificationRequested,
 } from '../queries.config'
 import { eventStore } from '../eventStore.config'
@@ -21,6 +23,8 @@ import {
   ModificationRequestAccepted,
   ModificationRequestInstructionStarted,
   ModificationRequestRejected,
+  ConfirmationRequested,
+  ModificationRequestConfirmed,
 } from '../../modules/modificationRequest'
 import { userRepo } from '../../dataAccess'
 
@@ -43,12 +47,21 @@ eventStore.subscribe(
 )
 eventStore.subscribe(ModificationRequestAccepted.type, modificationRequestStatusChangeHandler)
 eventStore.subscribe(ModificationRequestRejected.type, modificationRequestStatusChangeHandler)
+eventStore.subscribe(ConfirmationRequested.type, modificationRequestStatusChangeHandler)
 
 eventStore.subscribe(
   ModificationRequested.type,
   handleModificationRequested({
     sendNotification,
     getInfoForModificationRequested,
+  })
+)
+
+eventStore.subscribe(
+  ModificationRequestConfirmed.type,
+  handleModificationRequestConfirmed({
+    sendNotification,
+    getModificationRequestInfoForConfirmedNotification,
   })
 )
 

@@ -9,6 +9,7 @@ interface DelaiFormProps {
   modificationRequest: ModificationRequestPageDTO & { type: 'delai' }
 }
 export const DelaiForm = ({ modificationRequest }: DelaiFormProps) => {
+  // @ts-ignore
   const { project, delayInMonths } = modificationRequest
   return (
     <>

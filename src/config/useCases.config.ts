@@ -35,6 +35,8 @@ import {
   makeAcceptModificationRequest,
   makeRejectModificationRequest,
   makeUpdateModificationRequestStatus,
+  makeRequestConfirmation,
+  makeConfirmRequest,
 } from '../modules/modificationRequest'
 import { makeInviteUser } from '../modules/users'
 import { sendNotification } from './emails.config'
@@ -71,8 +73,17 @@ export const rejectModificationRequest = makeRejectModificationRequest({
   fileRepo,
   modificationRequestRepo,
 })
+export const requestConfirmation = makeRequestConfirmation({
+  fileRepo,
+  modificationRequestRepo,
+})
 export const updateModificationRequestStatus = makeUpdateModificationRequestStatus({
   modificationRequestRepo,
+})
+
+export const confirmRequest = makeConfirmRequest({
+  modificationRequestRepo,
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
 })
 
 export const revokeUserRightsToProject = makeRevokeRightsToProject({

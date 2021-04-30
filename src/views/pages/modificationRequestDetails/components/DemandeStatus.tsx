@@ -1,4 +1,5 @@
 import React from 'react'
+import { User } from '../../../../entities'
 import { formatDate } from '../../../../helpers/formatDate'
 import { dataId } from '../../../../helpers/testId'
 import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest'
@@ -6,14 +7,16 @@ import ROUTES from '../../../../routes'
 import {
   ModificationRequestColorByStatus,
   ModificationRequestStatusTitle,
+  ModificationRequestTitleByType,
   ModificationRequestTitleColorByStatus,
 } from '../../../helpers'
 
 interface DemandeStatusProps {
   modificationRequest: ModificationRequestPageDTO
+  role: User['role']
 }
 
-export const DemandeStatus = ({ modificationRequest }: DemandeStatusProps) => {
+export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps) => {
   const { respondedOn, respondedBy, responseFile, project, status } = modificationRequest
   return (
     <div
@@ -27,22 +30,9 @@ export const DemandeStatus = ({ modificationRequest }: DemandeStatusProps) => {
       >
         {ModificationRequestStatusTitle[status]}
       </span>{' '}
-      {respondedOn && respondedBy ? `par ${respondedBy} le ${formatDate(respondedOn)}` : ''}
-      {modificationRequest.type === 'delai' &&
-      modificationRequest.status === 'acceptée' &&
-      modificationRequest.acceptanceParams ? (
-        <div>
-          L‘administration vous accorde un délai{' '}
-          <b>
-            {modificationRequest.acceptanceParams?.delayInMonths
-              ? `de ${modificationRequest.acceptanceParams?.delayInMonths} mois.`
-              : '.'}
-          </b>{' '}
-          Votre date de mise en service théorique est actuellement au{' '}
-          <b>{formatDate(project.completionDueOn)}</b>.
-        </div>
-      ) : null}
-      {responseFile ? (
+      {respondedOn && respondedBy && `par ${respondedBy} le ${formatDate(respondedOn)}`}
+      <StatusForDelai modificationRequest={modificationRequest} />
+      {responseFile && status !== 'demande confirmée' && (
         <div>
           <a
             href={ROUTES.DOWNLOAD_PROJECT_FILE(responseFile.id, responseFile.filename)}
@@ -52,7 +42,56 @@ export const DemandeStatus = ({ modificationRequest }: DemandeStatusProps) => {
             Télécharger le courrier de réponse
           </a>
         </div>
-      ) : null}
+      )}
+      <Confirmation role={role} modificationRequest={modificationRequest} />
     </div>
   )
+}
+
+interface StatusForDelaiProps {
+  modificationRequest: ModificationRequestPageDTO
+}
+const StatusForDelai = ({ modificationRequest }: StatusForDelaiProps) => {
+  const { project } = modificationRequest
+  if (
+    modificationRequest.type === 'delai' &&
+    modificationRequest.status === 'acceptée' &&
+    modificationRequest.acceptanceParams
+  ) {
+    const {
+      acceptanceParams: { delayInMonths },
+    } = modificationRequest
+    return (
+      <div>
+        L‘administration vous accorde un délai{' '}
+        <b>{delayInMonths ? `de ${delayInMonths} mois.` : '.'}</b> Votre date de mise en service
+        théorique est actuellement au <b>{formatDate(project.completionDueOn)}</b>.
+      </div>
+    )
+  }
+
+  return null
+}
+
+interface ConfirmationProps {
+  modificationRequest: ModificationRequestPageDTO
+  role: User['role']
+}
+const Confirmation = ({ modificationRequest, role }: ConfirmationProps) => {
+  const { versionDate, id, status } = modificationRequest
+  if (status === 'en attente de confirmation' && role === 'porteur-projet') {
+    return (
+      <div>
+        <form action={ROUTES.CONFIRMER_DEMANDE_ACTION} method="post" style={{ margin: 0 }}>
+          <input type="hidden" name="modificationRequestId" value={id} />
+          <input type="hidden" name="versionDate" value={versionDate.getTime()} />
+          <button className="button" type="submit" {...dataId('submit-button')}>
+            Je confirme ma demande
+          </button>
+        </form>
+      </div>
+    )
+  }
+
+  return null
 }
