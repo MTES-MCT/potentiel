@@ -1,6 +1,6 @@
 import { UniqueEntityID } from '../../../../../core/domain'
 import { AppelOffreUpdated } from '../../../../../modules/appelOffre/events'
-import { describeProjector } from '../../../helpers'
+import { describeProjector } from '../../../__tests__/projections'
 import models from '../../../models'
 import { onAppelOffreUpdated } from './onAppelOffreUpdated'
 

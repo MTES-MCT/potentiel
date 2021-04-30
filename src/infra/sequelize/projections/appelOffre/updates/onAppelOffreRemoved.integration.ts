@@ -1,8 +1,8 @@
-import models from '../../../models'
-import { describeProjector, resetDatabase } from '../../../helpers'
-import { onAppelOffreRemoved, onAppelOffreRemovedRemovePeriodes } from './onAppelOffreRemoved'
-import { AppelOffreRemoved } from '../../../../../modules/appelOffre/events'
 import { UniqueEntityID } from '../../../../../core/domain'
+import { AppelOffreRemoved } from '../../../../../modules/appelOffre/events'
+import { describeProjector } from '../../../__tests__/projections'
+import models from '../../../models'
+import { onAppelOffreRemoved, onAppelOffreRemovedRemovePeriodes } from './onAppelOffreRemoved'
 
 const { AppelOffre, Periode } = models
 
