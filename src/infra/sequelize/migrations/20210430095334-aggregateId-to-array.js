@@ -2,12 +2,6 @@
 
 module.exports = {
   up: async (queryInterface, { DataTypes }) => {
-    /**
-     * Add altering commands here.
-     *
-     * Example:
-     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
-     */
 
     const transaction = await queryInterface.sequelize.transaction()
     try {
@@ -40,15 +34,8 @@ module.exports = {
       await transaction.rollback()
       throw err
     }
-    // TODO: update sequelizeEventStore
   },
 
   down: async (queryInterface, Sequelize) => {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
   }
 };

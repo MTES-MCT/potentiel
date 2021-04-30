@@ -145,7 +145,7 @@ describe('SequelizeEventStore', () => {
       expect(persistedEvent.type).toEqual(ProjectGFRemoved.type)
       expect(persistedEvent.payload).toEqual(sampleProjectGFRemovedPayload)
       expect(persistedEvent.requestId).toEqual(requestId)
-      expect(persistedEvent.aggregateId).toEqual(sampleProjectGFRemovedPayload.projectId)
+      expect(persistedEvent.aggregateId).toEqual([sampleProjectGFRemovedPayload.projectId])
       expect(persistedEvent.occurredAt).toEqual(event.occurredAt)
       expect(persistedEvent.version).toEqual(event.getVersion().toString())
     })
@@ -330,7 +330,7 @@ describe('SequelizeEventStore', () => {
         expect(persistedEvent.type).toEqual(ProjectGFRemoved.type)
         expect(persistedEvent.payload).toEqual(sampleProjectGFRemovedPayload)
         expect(persistedEvent.requestId).toEqual(requestId)
-        expect(persistedEvent.aggregateId).toEqual(sampleProjectGFRemovedPayload.projectId)
+        expect(persistedEvent.aggregateId).toEqual([sampleProjectGFRemovedPayload.projectId])
         expect(persistedEvent.occurredAt).toEqual(event.occurredAt)
         expect(persistedEvent.version).toEqual(event.getVersion().toString())
       })
@@ -350,7 +350,7 @@ describe('SequelizeEventStore', () => {
           payload: {},
           occurredAt: new Date(),
           requestId: uuid(),
-          aggregateId: 'aggregate1',
+          aggregateId: ['aggregate1'],
         })
 
         const result = await eventStore.transaction(async ({ loadHistory }) => {
