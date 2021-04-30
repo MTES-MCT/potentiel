@@ -24,7 +24,7 @@
     "**/*.spec.ts",
     "**/*.integration.ts",
     "**/*.stories.tsx",
-    "src/__tests__/**/*",
+    "**/__tests__/**/*",
     "cypress",
     "cypress/**/*",
     "scripts"
