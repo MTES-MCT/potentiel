@@ -34,8 +34,6 @@ const EventClassByType: Record<string, HasEventConstructor> = {
   ...AppelOffreEvents,
 }
 
-const AGGREGATE_ID_SEPARATOR = ' | '
-
 export class SequelizeEventStore extends BaseEventStore {
   private EventStoreModel
   constructor(models) {
@@ -74,9 +72,9 @@ export class SequelizeEventStore extends BaseEventStore {
       type: event.type,
       version: event.getVersion(),
       payload: event.payload,
-      aggregateId: Array.isArray(event.aggregateId)
-        ? event.aggregateId.join(AGGREGATE_ID_SEPARATOR)
-        : event.aggregateId,
+      aggregateId:
+        event.aggregateId &&
+        (Array.isArray(event.aggregateId) ? event.aggregateId : [event.aggregateId]),
       requestId: event.requestId,
       occurredAt: event.occurredAt,
     }
@@ -114,17 +112,7 @@ export class SequelizeEventStore extends BaseEventStore {
     }
 
     if (filters?.aggregateId) {
-      if (Array.isArray(filters.aggregateId) && filters.aggregateId.length) {
-        query.aggregateId = {
-          [Op.or]: filters.aggregateId.map((aggregateId) => ({
-            [Op.substring]: aggregateId,
-          })),
-        }
-      } else {
-        query.aggregateId = {
-          [Op.substring]: filters.aggregateId,
-        }
-      }
+      query.aggregateId = { [Op.overlap]: [filters.aggregateId] }
     }
 
     return {
