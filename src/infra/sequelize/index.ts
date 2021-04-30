@@ -10,6 +10,7 @@ import {
   initAppelOffreProjections,
 } from './projections'
 
+export { initProjectors } from './models'
 export const sequelizeEventStore = new SequelizeEventStore(models)
 
 export const initProjections = (eventStore: EventStore) => {

@@ -1,4 +1,7 @@
 import { DataTypes } from 'sequelize'
+import { makeProjector } from '../../helpers'
+
+export const periodeProjector = makeProjector()
 
 export const MakePeriodeModel = (sequelize) => {
   const Periode = sequelize.define(
@@ -25,6 +28,8 @@ export const MakePeriodeModel = (sequelize) => {
   Periode.associate = (models) => {
     // Add belongsTo etc. statements here
   }
+
+  Periode.projector = periodeProjector
 
   return Periode
 }

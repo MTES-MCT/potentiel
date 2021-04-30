@@ -1,4 +1,7 @@
 import { DataTypes } from 'sequelize'
+import { makeProjector } from '../../helpers'
+
+export const appelOffreProjector = makeProjector()
 
 export const MakeAppelOffreModel = (sequelize) => {
   const AppelOffre = sequelize.define(
@@ -21,6 +24,8 @@ export const MakeAppelOffreModel = (sequelize) => {
   AppelOffre.associate = (models) => {
     // Add belongsTo etc. statements here
   }
+
+  AppelOffre.projector = appelOffreProjector
 
   return AppelOffre
 }
