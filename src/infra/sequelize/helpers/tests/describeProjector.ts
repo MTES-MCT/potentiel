@@ -69,7 +69,7 @@ export const describeProjector = <Event extends { type: string }>(
 
           const actuallyRemainingItems = await model.findAll()
 
-          expect(actuallyRemainingItems).toHaveLength(remaining ? remaining.length : 0)
+          expect(actuallyRemainingItems).toHaveLength(remaining?.length || 0)
           if (remaining) {
             for (const remainingItem of remaining) {
               expect(actuallyRemainingItems.some(matches(remainingItem))).toBe(true)

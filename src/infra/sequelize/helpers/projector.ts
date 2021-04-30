@@ -1,8 +1,10 @@
 import { merge } from 'lodash'
+import { AnyRecordWithTtl } from 'node:dns'
 
 import { BaseDomainEvent, DomainEvent } from '../../../core/domain'
 import { logger } from '../../../core/utils'
 import { EventBus } from '../../../modules/eventStore'
+import { isObject } from '../../../helpers/isObject'
 
 interface HasType {
   type: string
@@ -21,10 +23,7 @@ export const makeProjector = () => {
   let eventBus: EventBus
   let model: any
 
-  function subscribe<Event extends DomainEvent>(
-    eventType: string,
-    handler: (event: Event) => unknown
-  ) {
+  function subscribe<Event extends DomainEvent>(eventType: string, handler: Handler<Event>) {
     if (eventBus) {
       eventBus.subscribe(eventType, handler)
     } else {
@@ -105,8 +104,4 @@ export const makeProjector = () => {
     initModel,
     initEventBus,
   }
-}
-
-function isObject(obj) {
-  return Object.getPrototypeOf(obj) === Object.prototype
 }
