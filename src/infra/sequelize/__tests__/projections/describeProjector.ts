@@ -1,5 +1,5 @@
 import { matches } from 'lodash'
-import { resetDatabase } from '../resetDatabase'
+import { resetDatabase } from '../../helpers/resetDatabase'
 
 interface ShouldCreateProps {
   model: any
