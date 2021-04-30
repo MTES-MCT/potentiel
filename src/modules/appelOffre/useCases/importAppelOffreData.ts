@@ -56,9 +56,9 @@ export const makeImportAppelOffreData = (deps: ImportAppelOffreDataDeps) => ({
 
         return deps.appelOffreRepo
           .load(new UniqueEntityID(appelOffreId))
-          .andThen((appelOffre) => {
-            return appelOffre.update({ data, updatedBy: importedBy }).map(() => appelOffre)
-          })
+          .andThen((appelOffre) =>
+            appelOffre.update({ data, updatedBy: importedBy }).map(() => appelOffre)
+          )
           .andThen((appelOffre) => deps.appelOffreRepo.save(appelOffre))
           .orElse((e) => {
             if (e instanceof EntityNotFoundError) {

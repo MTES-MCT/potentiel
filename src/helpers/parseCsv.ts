@@ -3,16 +3,17 @@ import csvParse from 'csv-parse'
 import fs from 'fs'
 import { ResultAsync } from '../core/utils'
 interface parseCsvOptions {
-  delimiter: string
+  delimiter?: ',' | ';'
+  encoding?: 'win1252' | 'utf8'
 }
 
 export const parseCsv = (file, options?: parseCsvOptions) =>
   ResultAsync.fromPromise(
     new Promise<Array<Record<string, string>>>((resolve, reject) => {
       const data: Array<Record<string, string>> = []
-      const from1252 = iconv.decodeStream('win1252')
+      const decode = iconv.decodeStream(options?.encoding || 'utf8')
       fs.createReadStream(file)
-        .pipe(from1252)
+        .pipe(decode)
         .pipe(
           csvParse({
             delimiter: options?.delimiter || ';',
