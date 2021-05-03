@@ -1,6 +1,30 @@
 # Recettes pour le développeur
 
-- (Créer une nouvelle projection)[#Créer une nouvelle projection]
+- [Déclencher une nouvelle notification par mail](#déclencher-une-nouvelle-notification-par-mail)
+- [Créer une nouvelle projection](#créer-une-nouvelle-projection)
+- [Ajout d'un événement de mise à jour de projection](#ajout-dun-événement-de-mise-à-jour-de-projection)
+
+## Déclencher une nouvelle notification par mail
+
+- Créer un modèle sur [mailjet](https://app.mailjet.com/templates/transactional) (si un modèle n'existe pas)
+  - Dans la barre en haut "modèles", puis "Mes modèles transactionnels".
+  - Partir d'un modèle existant et faire "dupliquer" (en cliquant sur l'engrenage).
+  - Le modifier et publier.
+  - Copier l'identifiant à 7 chiffres du modèle.
+- Ajouter un nouveau type de notification à `src/modules/notification/Notification.ts` et l'ajouter au type union `NotificationVariants`.
+
+  Les `variables` correspondent aux variables du modèle mailjet.  
+  Le `context` permet de rajouter du contexte à une notification (comme l'identifiant du destinataire ou bien du projet concerné) mais est totalement facultatif.  
+  Donner un `type` spécifique et lisible.
+
+- Ajouter une ligne à `TEMPLATE_ID_BY_TYPE` dans `src/infra/mail/mailjet.ts` en reprenant le `type` qui a été choisi à l'étape précédente et l'identifiant à 7 chiffres du modèle mailjet.
+- Ajouter un handler (et son test unitaire) dans `src/modules/notification/eventHandlers`.
+
+  Le nom canonique est de la forme `handle{Event.type}.ts` (par exemple `handleModificationRequested.ts` pour le handler sur l'événement `ModificationRequested`).
+
+- Mettre à jour `src/modules/notification/eventHandlers/index.ts` (barrel)
+- Brancher le handler sur l'eventStore dans `src/config/eventHandlers/notification.eventHandlers.ts`
+- Tester en local
 
 ## Créer une nouvelle projection
 
