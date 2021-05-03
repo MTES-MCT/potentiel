@@ -181,7 +181,7 @@ v1Router.post(
         await requestProducteurModification({
           projectId: data.projectId,
           requestedBy: request.user,
-          newProducteur: data.actionnaire,
+          newProducteur: data.producteur,
           justification: data.justification,
           file,
         }).match(handleSuccess, handleError)

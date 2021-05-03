@@ -34,7 +34,7 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   updateActionnaire: jest.fn((user: User, newActionnaire: string) =>
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)
   ),
-  updateProducteur: jest.fn((user: User, newProducteur: number) =>
+  updateProducteur: jest.fn((user: User, newProducteur: string) =>
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)
   ),
   grantClasse: jest.fn((user: User) => ok<null, never>(null)),

@@ -12,6 +12,7 @@ export const onModificationReceived = (models) => async (event: ModificationRece
     fileId,
     type,
     actionnaire,
+    producteur,
   } = event.payload
 
   try {
@@ -23,6 +24,7 @@ export const onModificationReceived = (models) => async (event: ModificationRece
       status: 'information validée',
       type,
       userId: requestedBy,
+      producteur,
       puissance,
       justification,
       fileId,

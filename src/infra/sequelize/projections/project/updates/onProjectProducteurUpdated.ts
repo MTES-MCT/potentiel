@@ -13,7 +13,7 @@ export const onProjectProducteurUpdated = (models) => async (event: ProjectProdu
     return
   }
 
-  projectInstance.producteur = newProducteur
+  projectInstance.nomCandidat = newProducteur
 
   try {
     await projectInstance.save()

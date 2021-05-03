@@ -42,17 +42,8 @@ export { titlePerAction }
 
 /* Pure component */
 export default function NewModificationRequestPage({ request, project }: PageProps) {
-  const {
-    action,
-    error,
-    success,
-    puissance,
-    puissanceInitiale,
-    actionnaire,
-    producteur,
-    justification,
-    delayInMonths,
-  } = (request.query as any) || {}
+  const { action, error, success, puissance, actionnaire, justification, delayInMonths } =
+    (request.query as any) || {}
 
   return (
     <UserDashboard currentPage={'list-requests'}>
@@ -258,6 +249,12 @@ export default function NewModificationRequestPage({ request, project }: PagePro
               <>
                 <label>Ancien producteur</label>
                 <input type="text" disabled defaultValue={project.nomCandidat} />
+                <div style={{ marginTop: 10, marginBottom: 10 }}>
+                  <span style={{ color: 'red', fontWeight: 'bold' }}>
+                    Attention : de nouvelles garanties financières devront impérativement être
+                    déposées dans un délai d'un mois
+                  </span>
+                </div>
                 <label className="required" htmlFor="producteur">
                   Nouveau producteur
                 </label>
@@ -265,7 +262,6 @@ export default function NewModificationRequestPage({ request, project }: PagePro
                   type="text"
                   name="producteur"
                   id="producteur"
-                  defaultValue={producteur || ''}
                   {...dataId('modificationRequest-producteurField')}
                 />
                 <label htmlFor="candidats">Statuts mis à jour</label>

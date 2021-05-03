@@ -54,11 +54,11 @@ describe('requestProducteurModification use-case', () => {
   })
 
   describe('when user is allowed', () => {
+    const newProducteur = 'new producteur'
+
     beforeAll(async () => {
       fakePublish.mockClear()
       fileRepo.save.mockClear()
-
-      const newProducteur = 'new producteur'
 
       const requestProducteurModification = makeRequestProducteurModification({
         projectRepo,
@@ -86,6 +86,10 @@ describe('requestProducteurModification use-case', () => {
       expect(eventBus.publish).toHaveBeenCalledTimes(1)
       const event = eventBus.publish.mock.calls[0][0]
       expect(event).toBeInstanceOf(ModificationReceived)
+
+      const { type, producteur } = event.payload
+      expect(type).toEqual('producteur')
+      expect(producteur).toEqual(newProducteur)
     })
 
     it('should update the Producteur', () => {
