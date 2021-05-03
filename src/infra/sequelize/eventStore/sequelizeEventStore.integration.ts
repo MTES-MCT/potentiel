@@ -145,7 +145,7 @@ describe('SequelizeEventStore', () => {
       expect(persistedEvent.type).toEqual(ProjectGFRemoved.type)
       expect(persistedEvent.payload).toEqual(sampleProjectGFRemovedPayload)
       expect(persistedEvent.requestId).toEqual(requestId)
-      expect(persistedEvent.aggregateId).toEqual(sampleProjectGFRemovedPayload.projectId)
+      expect(persistedEvent.aggregateId).toEqual([sampleProjectGFRemovedPayload.projectId])
       expect(persistedEvent.occurredAt).toEqual(event.occurredAt)
       expect(persistedEvent.version).toEqual(event.getVersion().toString())
     })
@@ -330,7 +330,7 @@ describe('SequelizeEventStore', () => {
         expect(persistedEvent.type).toEqual(ProjectGFRemoved.type)
         expect(persistedEvent.payload).toEqual(sampleProjectGFRemovedPayload)
         expect(persistedEvent.requestId).toEqual(requestId)
-        expect(persistedEvent.aggregateId).toEqual(sampleProjectGFRemovedPayload.projectId)
+        expect(persistedEvent.aggregateId).toEqual([sampleProjectGFRemovedPayload.projectId])
         expect(persistedEvent.occurredAt).toEqual(event.occurredAt)
         expect(persistedEvent.version).toEqual(event.getVersion().toString())
       })
@@ -350,7 +350,7 @@ describe('SequelizeEventStore', () => {
           payload: {},
           occurredAt: new Date(),
           requestId: uuid(),
-          aggregateId: 'aggregate1',
+          aggregateId: ['aggregate1'],
         })
 
         const result = await eventStore.transaction(async ({ loadHistory }) => {
@@ -512,62 +512,6 @@ describe('SequelizeEventStore', () => {
         expect(
           priorEvents.every(
             (event) => !!event.requestId && [requestId1, requestId2].includes(event.requestId)
-          )
-        ).toEqual(true)
-      })
-
-      it('should filter history by multiple aggregateId', async () => {
-        const eventStore = new SequelizeEventStore(models)
-        await resetDatabase()
-
-        const requestId1 = uuid()
-        const requestId2 = uuid()
-        const requestId3 = uuid()
-
-        const projectId1 = uuid()
-        const projectId2 = uuid()
-
-        await eventStore.publish(
-          new ProjectGFRemoved({
-            payload: { ...sampleProjectGFRemovedPayload, projectId: projectId1 },
-            requestId: requestId1,
-          })
-        )
-
-        await eventStore.publish(
-          new ProjectGFRemoved({
-            payload: { ...sampleProjectGFRemovedPayload, projectId: projectId1 },
-            requestId: requestId2,
-          })
-        )
-
-        await eventStore.publish(
-          new ProjectGFRemoved({
-            payload: { ...sampleProjectGFRemovedPayload, projectId: projectId2 },
-            requestId: requestId3,
-          })
-        )
-
-        await eventStore.publish(
-          new ProjectGFRemoved({
-            payload: { ...sampleProjectGFRemovedPayload, projectId: uuid() },
-            requestId: uuid(),
-          })
-        )
-
-        let priorEvents: DomainEvent[] = []
-
-        await eventStore.transaction(async ({ loadHistory }) => {
-          await loadHistory({ aggregateId: [projectId1, projectId2] }).andThen((_priorEvents) => {
-            priorEvents = _priorEvents
-            return okAsync(null)
-          })
-        })
-        expect(priorEvents).toHaveLength(3)
-        expect(
-          priorEvents.every(
-            (event) =>
-              !!event.requestId && [requestId1, requestId2, requestId3].includes(event.requestId)
           )
         ).toEqual(true)
       })

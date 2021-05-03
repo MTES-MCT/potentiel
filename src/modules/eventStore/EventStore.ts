@@ -6,7 +6,7 @@ import { EventBus } from './EventBus'
 export interface EventStoreHistoryFilters {
   eventType?: DomainEvent['type'] | DomainEvent['type'][]
   requestId?: DomainEvent['requestId']
-  aggregateId?: DomainEvent['aggregateId']
+  aggregateId?: string
   payload?: Record<string, any>
 }
 

@@ -28,7 +28,7 @@ export const MakeEventStoreModel = (sequelize) => {
       allowNull: true,
     },
     aggregateId: {
-      type: DataTypes.STRING,
+      type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: true,
     },
   })
