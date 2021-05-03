@@ -23,7 +23,7 @@ v1Router.post(
       )
     }
 
-    await parseCsv(request.file.path, { delimiter: ',' })
+    await parseCsv(request.file.path, { delimiter: ',', encoding: 'utf8' })
       .andThen((dataLines) =>
         importAppelOffreData({
           dataLines,

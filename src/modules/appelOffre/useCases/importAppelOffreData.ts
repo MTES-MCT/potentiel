@@ -33,7 +33,7 @@ export const makeImportAppelOffreData = (deps: ImportAppelOffreDataDeps) => ({
       const removals = appelOffreList
         .filter(
           ({ appelOffreId }) =>
-            !dataLines.find((dataLine) => dataLine.appelOffreId === appelOffreId)
+            !dataLines.find((dataLine) => dataLine["Appel d'offres"] === appelOffreId)
         )
         .map(({ appelOffreId }) => {
           return deps.appelOffreRepo

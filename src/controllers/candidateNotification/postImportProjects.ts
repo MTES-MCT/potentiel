@@ -23,7 +23,7 @@ v1Router.post(
     }
 
     // Parse the csv file
-    const linesResult = await parseCsv(request.file.path)
+    const linesResult = await parseCsv(request.file.path, { delimiter: ';', encoding: 'win1252' })
     if (linesResult.isErr()) {
       const csvError = linesResult.error
       return response.redirect(
