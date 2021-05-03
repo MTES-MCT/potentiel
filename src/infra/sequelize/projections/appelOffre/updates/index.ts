@@ -3,6 +3,9 @@ import { PeriodeCreated, PeriodeUpdated } from '../../../../../modules/appelOffr
 import { EventBus } from '../../../../../modules/eventStore'
 import { onPeriodeCreated } from './onPeriodeCreated'
 import { onPeriodeUpdated } from './onPeriodeUpdated'
+export * from './onAppelOffreCreated'
+export * from './onAppelOffreUpdated'
+export * from './onAppelOffreRemoved'
 
 export const initAppelOffreProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(PeriodeCreated.type, onPeriodeCreated(models))
