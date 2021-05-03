@@ -10,7 +10,11 @@ import { requestModification, shouldUserAccessProject } from '../../useCases'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
-import { requestPuissanceModification, requestActionnaireModification } from '../../config'
+import {
+  requestPuissanceModification,
+  requestProducteurModification,
+  requestActionnaireModification,
+} from '../../config'
 import { PuissanceJustificationOrCourrierMissingError } from '../../modules/modificationRequest'
 
 const returnRoute = (type, projectId) => {
@@ -171,6 +175,13 @@ v1Router.post(
           projectId: data.projectId,
           requestedBy: request.user,
           newActionnaire: data.actionnaire,
+        })
+        break
+      case 'producteur':
+        await requestProducteurModification({
+          projectId: data.projectId,
+          requestedBy: request.user,
+          newProducteur: data.actionnaire,
           justification: data.justification,
           file,
         }).match(handleSuccess, handleError)

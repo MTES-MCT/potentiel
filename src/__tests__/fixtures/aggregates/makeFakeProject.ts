@@ -34,6 +34,9 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   updateActionnaire: jest.fn((user: User, newActionnaire: string) =>
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)
   ),
+  updateProducteur: jest.fn((user: User, newProducteur: number) =>
+    ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)
+  ),
   grantClasse: jest.fn((user: User) => ok<null, never>(null)),
   addGeneratedCertificate: jest.fn(
     (args: { projectVersionDate: Date; certificateFileId: string }) => ok<null, never>(null)

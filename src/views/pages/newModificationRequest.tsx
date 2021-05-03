@@ -268,9 +268,7 @@ export default function NewModificationRequestPage({ request, project }: PagePro
                   defaultValue={producteur || ''}
                   {...dataId('modificationRequest-producteurField')}
                 />
-                <label className="required" htmlFor="candidats">
-                  Statuts mis à jour
-                </label>
+                <label htmlFor="candidats">Statuts mis à jour</label>
                 <input
                   type="file"
                   name="file"

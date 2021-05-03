@@ -34,6 +34,7 @@ import {
 } from './errors'
 import {
   LegacyProjectSourced,
+  ProjectProducteurSubmitted,
   ProjectAbandoned,
   ProjectActionnaireUpdated,
   ProjectCertificateGenerated,
@@ -81,6 +82,10 @@ export interface Project extends EventStoreAggregate {
   updateActionnaire: (
     user: User,
     newActionnaire: string
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
+  updateProducteur: (
+    user: User,
+    newProducteur: string
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
   grantClasse: (user: User) => Result<null, never>
   addGeneratedCertificate: (args: {
@@ -385,6 +390,23 @@ export const makeProject = (args: {
             projectId: props.projectId.toString(),
             newActionnaire,
             updatedBy: user.id,
+          },
+        })
+      )
+
+      return ok(null)
+    },
+    updateProducteur: function (user, newProducteur) {
+      if (!_isNotified()) {
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+      }
+
+      _publishEvent(
+        new ProjectProducteurSubmitted({
+          payload: {
+            projectId: props.projectId.toString(),
+            newProducteur,
+            submittedBy: user.id,
           },
         })
       )

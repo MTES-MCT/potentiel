@@ -7,6 +7,7 @@ export interface ModificationReceivedPayload {
   requestedBy: string
   puissance?: number
   actionnaire?: string
+  producteur?: string
   justification?: string
   fileId?: string
 }
