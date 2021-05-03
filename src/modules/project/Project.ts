@@ -34,7 +34,7 @@ import {
 } from './errors'
 import {
   LegacyProjectSourced,
-  ProjectProducteurSubmitted,
+  ProjectProducteurUpdated,
   ProjectAbandoned,
   ProjectActionnaireUpdated,
   ProjectCertificateGenerated,
@@ -402,11 +402,11 @@ export const makeProject = (args: {
       }
 
       _publishEvent(
-        new ProjectProducteurSubmitted({
+        new ProjectProducteurUpdated({
           payload: {
             projectId: props.projectId.toString(),
             newProducteur,
-            submittedBy: user.id,
+            updatedBy: user.id,
           },
         })
       )
