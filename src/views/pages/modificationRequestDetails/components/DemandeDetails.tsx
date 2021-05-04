@@ -80,6 +80,11 @@ export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => 
           <span>Nouvel actionnaire : {modificationRequest.actionnaire}</span>
         </div>
       )}
+      {modificationRequest.type === 'producteur' && (
+        <div style={{ marginTop: 5 }}>
+          <span>Nouveau producteur : {modificationRequest.producteur}</span>
+        </div>
+      )}
       {attachmentFile && (
         <div style={{ marginTop: 10 }}>
           <DownloadIcon />

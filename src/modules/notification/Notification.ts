@@ -153,6 +153,37 @@ type ModificationRequestStatusUpdate = {
   }
 }
 
+type DrealModificationReceived = {
+  type: 'dreal-modification-received'
+  context: {
+    modificationRequestId: string
+    dreal: string
+    userId: string
+    projectId: string
+  }
+  variables: {
+    nom_projet: string
+    departement_projet: string
+    type_demande: string
+    modification_request_url: string
+  }
+}
+
+type PPModificationReceived = {
+  type: 'pp-modification-received'
+  context: {
+    modificationRequestId: string
+    userId: string
+    projectId: string
+  }
+  variables: {
+    nom_projet: string
+    type_demande: string
+    modification_request_url: string
+    demande_action_pp?: string
+  }
+}
+
 type ModificationRequestConfirmedByPP = {
   type: 'modification-request-confirmed'
   context: {
@@ -193,6 +224,8 @@ type NotificationVariants =
   | ModificationRequestStatusUpdate
   | ModificationRequestConfirmedByPP
   | ModificationRequestCancelled
+  | DrealModificationReceived
+  | PPModificationReceived
 
 export type NotificationProps = BaseNotification & NotificationVariants
 

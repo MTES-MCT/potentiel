@@ -26,6 +26,6 @@ describe('project.onProjectProducteurUpdated', () => {
     )
 
     const updatedProject = await ProjectModel.findByPk(projectId)
-    expect(updatedProject.producteur).toEqual(newProducteur)
+    expect(updatedProject.nomCandidat).toEqual(newProducteur)
   })
 })
