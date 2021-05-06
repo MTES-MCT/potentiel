@@ -17,7 +17,14 @@ interface DemandeStatusProps {
 }
 
 export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps) => {
-  const { respondedOn, respondedBy, responseFile, project, status } = modificationRequest
+  const {
+    respondedOn,
+    respondedBy,
+    cancelledOn,
+    cancelledBy,
+    responseFile,
+    status,
+  } = modificationRequest
   return (
     <div
       className={'notification ' + (status ? ModificationRequestColorByStatus[status] : '')}
@@ -31,6 +38,7 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
         {ModificationRequestStatusTitle[status]}
       </span>{' '}
       {respondedOn && respondedBy && `par ${respondedBy} le ${formatDate(respondedOn)}`}
+      {cancelledOn && cancelledBy && `par ${cancelledBy} le ${formatDate(cancelledOn)}`}
       <StatusForDelai modificationRequest={modificationRequest} />
       {responseFile && status !== 'demande confirmée' && (
         <div>

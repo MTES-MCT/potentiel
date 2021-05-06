@@ -10,7 +10,7 @@ export const ModificationRequestColorByStatus: Record<
   'demande confirmée': 'warning',
   acceptée: 'success',
   rejetée: 'error',
-  annulée: '',
+  annulée: 'error',
 }
 
 export const ModificationRequestTitleColorByStatus: Record<ModificationRequestStatusDTO, string> = {
@@ -20,5 +20,5 @@ export const ModificationRequestTitleColorByStatus: Record<ModificationRequestSt
   'demande confirmée': '#ff9947',
   acceptée: 'rgb(56, 118, 29)',
   rejetée: 'rgb(204, 0, 0)',
-  annulée: '',
+  annulée: 'rgb(204, 0, 0)',
 }

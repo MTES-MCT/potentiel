@@ -56,6 +56,11 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
           as: 'respondedByUser',
           attributes: ['fullName'],
         },
+        {
+          model: User,
+          as: 'cancelledByUser',
+          attributes: ['fullName'],
+        },
       ],
     })
   ).andThen((modificationRequestRaw: any) => {
@@ -69,6 +74,7 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
       requestedBy,
       respondedOn,
       respondedByUser,
+      cancelledByUser,
       justification,
       attachmentFile,
       responseFile,
@@ -80,6 +86,7 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
       fournisseur,
       producteur,
       acceptanceParams,
+      cancelledOn,
     } = modificationRequestRaw.get()
 
     const { appelOffreId, periodeId } = project
@@ -95,6 +102,8 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
       respondedOn: respondedOn && new Date(respondedOn),
       respondedBy: respondedByUser?.get().fullName,
       responseFile: responseFile?.get(),
+      cancelledOn: cancelledOn && new Date(cancelledOn),
+      cancelledBy: cancelledByUser?.get().fullName,
       acceptanceParams,
       justification,
       attachmentFile: attachmentFile?.get(),

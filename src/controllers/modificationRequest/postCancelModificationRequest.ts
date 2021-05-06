@@ -7,7 +7,7 @@ import { ensureLoggedIn, ensureRole } from '../auth'
 import { v1Router } from '../v1Router'
 
 v1Router.post(
-  routes.ADMIN_REPLY_TO_MODIFICATION_REQUEST,
+  routes.ANNULER_DEMANDE_ACTION,
   ensureLoggedIn(),
   ensureRole(['porteur-projet']),
   asyncHandler(async (request, response) => {
