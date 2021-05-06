@@ -1,14 +1,14 @@
 import makeFakeUser from './user'
 import makeFakeProject from './project'
+import { UniqueEntityID } from '../../core/domain'
 
 export default function makeFakeModificationRequest(overrides?, includeInfo?: boolean) {
   const defaultObj: any = {
     id: '1',
-    userId: 'userId',
-    projectId: 'projectId',
+    userId: new UniqueEntityID().toString(),
+    projectId: new UniqueEntityID().toString(),
     type: 'recours',
     actionnaire: 'nouvel actionnaire',
-    filePath: '/projectId/fichier.pdf',
   }
 
   if (includeInfo) {
