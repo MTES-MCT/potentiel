@@ -290,7 +290,10 @@ export default function NewModificationRequestPage({ request, project }: PagePro
             {action === 'abandon' ? (
               <>
                 <label className="required" htmlFor="justification">
-                  Pour la raison suivante:
+                  <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>
+                  <br />
+                  Pour faciliter le traitement de votre demande, veillez à détailler les raisons
+                  ayant conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
                 </label>
                 <textarea
                   name="justification"
@@ -298,7 +301,7 @@ export default function NewModificationRequestPage({ request, project }: PagePro
                   defaultValue={justification || ''}
                   {...dataId('modificationRequest-justificationField')}
                 />
-                <label htmlFor="candidats">Pièce justificative (si nécessaire)</label>
+                <label htmlFor="candidats">Pièce justificative</label>
                 <input
                   type="file"
                   name="file"
