@@ -43,6 +43,14 @@ v1Router.post(
     const confirmReply = typeof submitConfirm === 'string'
 
     if (statusUpdateOnly) {
+      if (confirmReply) {
+        return response.redirect(
+          addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
+            error: `Votre réponse n'a pas pu être prise en compte parce qu'il n'est pas possible de demander une confirmation si la demande a été traitée en dehors de Potentiel.`,
+          })
+        )
+      }
+
       const newStatus = acceptedReply ? 'acceptée' : 'rejetée'
 
       return await updateModificationRequestStatus({

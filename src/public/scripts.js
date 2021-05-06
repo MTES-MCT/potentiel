@@ -503,15 +503,18 @@ function addStatusOnlyHandler() {
 
   if (statusOnlyField) {
     const otherFields = statusOnlyField.closest('form').querySelectorAll('input')
+    const askConfirmationButton = statusOnlyField.closest('form').querySelector('[data-testid=ask-confirmation-button]')
     statusOnlyField.addEventListener('change', (event) => {
       if (event.currentTarget.checked) {
         otherFields.forEach((field) => {
           if (field !== statusOnlyField && field.type !== 'hidden') field.disabled = true
         })
+        if(askConfirmationButton) askConfirmationButton.disabled = true
       } else {
         otherFields.forEach((field) => {
           field.disabled = false
         })
+        if(askConfirmationButton) askConfirmationButton.disabled = false
       }
     })
   }
