@@ -292,10 +292,10 @@ export default function NewModificationRequestPage({ request, project }: PagePro
               <>
                 <label>Ancien actionnaire</label>
                 <input type="text" disabled defaultValue={project.actionnaire} />
-                <div style={{ marginTop: 10, marginBottom: 10 }}>
-                  <span style={{ color: 'red', fontWeight: 'bold' }}>
-                    Attention : de nouvelles garanties financières devront impérativement être
-                    déposées dans un délai d'un mois
+                <div className="notification warning" style={{ marginTop: 10, marginBottom: 10 }}>
+                  <span>
+                    Attention : de nouvelles garanties financières devront être déposées d'ici un
+                    mois
                   </span>
                 </div>
                 <label className="required" htmlFor="actionnaire">
