@@ -1,5 +1,3 @@
-import { logger } from '../../../../../core/utils'
-import { AppelOffreUpdated } from '../../../../../modules/appelOffre'
 import { ModificationRequestCancelled } from '../../../../../modules/modificationRequest'
 import { modificationRequestProjector } from '../modificationRequest.model'
 
