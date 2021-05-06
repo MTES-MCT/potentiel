@@ -2,7 +2,7 @@ import { Repository, TransactionalRepository, UniqueEntityID } from '../../../co
 import { errAsync, logger, okAsync, ResultAsync, wrapInfra } from '../../../core/utils'
 import { User } from '../../../entities'
 import { EventBus } from '../../eventStore'
-import { FileContents, FileObject, IllegalFileDataError, makeAndSaveFile } from '../../file'
+import { FileContents, FileObject, makeAndSaveFile } from '../../file'
 import { ProjectCannotBeUpdatedIfUnnotifiedError } from '../../project'
 import { Project } from '../../project/Project'
 import {
@@ -53,7 +53,7 @@ export const makeRequestProducteurModification = (deps: RequestProducteurModific
 
         return makeAndSaveFile({
           file: {
-            designation: 'producteur',
+            designation: 'modification-request',
             forProject: projectId,
             createdBy: new UniqueEntityID(requestedBy.id),
             filename: file.filename,

@@ -43,7 +43,7 @@ export const handleModificationReceived = (deps: {
       }
 
       if (['producteur', 'actionnaire'].includes(type))
-        payload.variables.demande_action_pp = `Nous attirons votre attention suite à votre demande. Vous devez impérativement déposer de nouvelles garanties financières dans un délai d'un mois maximum.`
+        payload.variables.demande_action_pp = `Suite à votre signalement de changement de type ${type}, vous devez déposer de nouvelles garanties financières dans un délai d'un mois maximum.`
 
       await deps.sendNotification(payload)
     },
