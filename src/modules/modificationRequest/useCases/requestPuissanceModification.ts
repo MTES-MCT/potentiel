@@ -56,7 +56,7 @@ export const makeRequestPuissanceModification = (deps: RequestPuissanceModificat
 
         return makeAndSaveFile({
           file: {
-            designation: 'puissance',
+            designation: 'modification-request',
             forProject: projectId,
             createdBy: new UniqueEntityID(requestedBy.id),
             filename: file.filename,

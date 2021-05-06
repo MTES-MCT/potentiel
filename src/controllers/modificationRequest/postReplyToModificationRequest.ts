@@ -12,7 +12,7 @@ import { addQueryParams } from '../../helpers/addQueryParams'
 import { isDateFormatValid, isStrictlyPositiveNumber } from '../../helpers/formValidators'
 import { pathExists } from '../../helpers/pathExists'
 import { ModificationRequestAcceptanceParams } from '../../modules/modificationRequest'
-import { AggregateHasBeenUpdatedSinceError } from '../../modules/shared'
+import { AggregateHasBeenUpdatedSinceError, OtherError } from '../../modules/shared'
 import routes from '../../routes'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { upload } from '../upload'
@@ -35,9 +35,8 @@ v1Router.post(
       statusUpdateOnly,
       newNotificationDate,
       delayInMonths,
-      puissanceInitiale,
       puissance,
-      decisionJustice,
+      isDecisionJustice,
     } = request.body
 
     // There are two submit buttons on the form, named submitAccept and submitReject
@@ -103,21 +102,10 @@ v1Router.post(
 
     const courrierReponseExists: boolean = !!request.file && (await pathExists(request.file.path))
 
-    if (!decisionJustice && !courrierReponseExists) {
+    if ((!acceptedReply || !isDecisionJustice) && !courrierReponseExists) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
           error: "La réponse n'a pas pu être envoyée car il manque le courrier de réponse.",
-        })
-      )
-    }
-
-    const newPuissanceVariationIsForbidden = puissance / puissanceInitiale > 1.1
-
-    if (decisionJustice && acceptedReply && newPuissanceVariationIsForbidden) {
-      return response.redirect(
-        addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
-          error:
-            'Vous ne pouvez pas accepter une augmentation de puissance avec une variation de plus de 10% alors que vous avez indiqué que la demande fait suite à une demande de justice.',
         })
       )
     }
@@ -138,6 +126,7 @@ v1Router.post(
             moment(newNotificationDate, FORMAT_DATE).tz('Europe/Paris').toDate(),
           delayInMonths: delayInMonths && Number(delayInMonths),
           newPuissance: Number(puissance),
+          isDecisionJustice: Boolean(isDecisionJustice),
         })!,
         submittedBy: request.user,
       }).match(
@@ -197,6 +186,14 @@ function _handleErrors(response, modificationRequestId) {
       )
     }
 
+    if (e instanceof OtherError) {
+      return response.redirect(
+        addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
+          error: e.message,
+        })
+      )
+    }
+
     response.redirect(
       addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
         error: `Votre réponse n'a pas pu être prise en compte.`,
@@ -209,7 +206,7 @@ function _makeAcceptanceParams(
   type: string,
   params: any
 ): ModificationRequestAcceptanceParams | undefined {
-  const { newNotificationDate, delayInMonths, newPuissance } = params
+  const { newNotificationDate, delayInMonths, newPuissance, isDecisionJustice } = params
   switch (type) {
     case 'recours':
       return {
@@ -219,6 +216,6 @@ function _makeAcceptanceParams(
     case 'delai':
       return { type, delayInMonths }
     case 'puissance':
-      return { type, newPuissance }
+      return { type, newPuissance, isDecisionJustice }
   }
 }

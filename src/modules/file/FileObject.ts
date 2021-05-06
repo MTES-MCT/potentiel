@@ -10,7 +10,6 @@ type FileDesignation =
   | 'modification-request-response'
   | 'attestation-designation'
   | 'ptf'
-  | 'puissance'
   | 'other'
 
 /* global NodeJS */

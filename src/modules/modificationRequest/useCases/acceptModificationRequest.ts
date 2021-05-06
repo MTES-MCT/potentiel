@@ -1,7 +1,7 @@
 import { Repository, UniqueEntityID } from '../../../core/domain'
 import { err, errAsync, logger, ok, okAsync, Result, ResultAsync } from '../../../core/utils'
 import { User } from '../../../entities'
-import { FileContents, FileObject, IllegalFileDataError, makeAndSaveFile } from '../../file'
+import { FileContents, FileObject, makeAndSaveFile } from '../../file'
 import {
   IllegalProjectDataError,
   ProjectCannotBeUpdatedIfUnnotifiedError,
@@ -11,6 +11,7 @@ import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   InfraNotAvailableError,
+  OtherError,
   UnauthorizedError,
 } from '../../shared'
 import { ModificationRequest, ModificationRequestAcceptanceParams } from '../ModificationRequest'
@@ -37,6 +38,7 @@ export const makeAcceptModificationRequest = (deps: AcceptModificationRequestDep
   | InfraNotAvailableError
   | EntityNotFoundError
   | UnauthorizedError
+  | OtherError
 > => {
   const { fileRepo, modificationRequestRepo, projectRepo } = deps
   const { modificationRequestId, versionDate, responseFile, submittedBy, acceptanceParams } = args
@@ -59,6 +61,25 @@ export const makeAcceptModificationRequest = (deps: AcceptModificationRequestDep
     .andThen((modificationRequest) => {
       return projectRepo
         .load(modificationRequest.projectId)
+        .andThen(
+          (project): ResultAsync<any, OtherError> => {
+            if (acceptanceParams?.type === 'puissance') {
+              const { isDecisionJustice, newPuissance } = acceptanceParams
+              const { puissanceInitiale } = project
+              const newPuissanceVariationIsForbidden =
+                isDecisionJustice && newPuissance / puissanceInitiale > 1.1
+
+              if (newPuissanceVariationIsForbidden) {
+                return errAsync(
+                  new OtherError(
+                    'Vous ne pouvez pas accepter une augmentation de puissance avec une variation de plus de 10% alors que vous avez indiqué que la demande fait suite à une demande de justice.'
+                  )
+                )
+              }
+            }
+            return okAsync(project)
+          }
+        )
         .map((project) => ({ project, modificationRequest }))
     })
     .andThen(

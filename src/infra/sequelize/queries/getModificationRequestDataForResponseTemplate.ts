@@ -248,14 +248,17 @@ export const makeGetModificationRequestDataForResponseTemplate = ({
           } as ModificationRequestDataForResponseTemplateDTO)
 
         case 'puissance':
-          const { puissance: currentPuissance, puissanceInitiale } = modificationRequest.project
-          const puissance = currentPuissance !== puissanceInitiale ? currentPuissance : undefined
+          const { puissance: puissanceActuelle } = modificationRequest.project
+          const {
+            project: { puissanceInitiale },
+            puissance: nouvellePuissance,
+          } = modificationRequest
 
           return ok({
             ...commonData,
-            puissanceInitiale: modificationRequest.project.puissanceInitiale,
-            nouvellePuissance: modificationRequest.puissance,
-            puissance,
+            puissanceInitiale,
+            nouvellePuissance,
+            puissanceActuelle,
             referenceParagraphePuissance:
               periodeDetails['Référence du paragraphe dédié au changement de puissance'],
             contenuParagraphePuissance:
