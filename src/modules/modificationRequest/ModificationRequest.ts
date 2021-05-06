@@ -11,6 +11,7 @@ import {
   StatusPreventsRejectingError,
   TypePreventsConfirmationError,
 } from './errors'
+import { StatusPreventsCancellingError } from './errors/StatusPreventsCancellingError'
 import {
   ModificationRequested,
   ModificationRequestAccepted,
@@ -20,6 +21,7 @@ import {
   ConfirmationRequested,
   ModificationRequestConfirmed,
 } from './events'
+import { ModificationRequestCancelled } from './events/ModificationRequestCancelled'
 
 export interface ModificationRequest extends EventStoreAggregate {
   accept(args: {
@@ -33,6 +35,7 @@ export interface ModificationRequest extends EventStoreAggregate {
     responseFileId: string
   ): Result<null, StatusPreventsConfirmationRequestError | TypePreventsConfirmationError>
   confirm(confirmedBy: User): Result<null, StatusPreventsConfirmationError>
+  cancel(cancelledBy: User): Result<null, StatusPreventsCancellingError>
   updateStatus(args: { updatedBy: User; newStatus: ModificationRequestStatus })
   readonly projectId: UniqueEntityID
   readonly status: ModificationRequestStatus
@@ -138,6 +141,22 @@ export const makeModificationRequest = (args: {
 
       return ok(null)
     },
+    cancel: function (cancelledBy) {
+      if (!['envoyée', 'en attente de confirmation', 'demande confirmée'].includes(props.status)) {
+        return err(new StatusPreventsCancellingError(props.status))
+      }
+
+      _publishEvent(
+        new ModificationRequestCancelled({
+          payload: {
+            modificationRequestId: modificationRequestId.toString(),
+            cancelledBy: cancelledBy.id,
+          },
+        })
+      )
+
+      return ok(null)
+    },
     requestConfirmation: function (confirmationRequestedBy, responseFileId) {
       if (props.status !== 'envoyée') {
         return err(new StatusPreventsConfirmationRequestError(props.status))
@@ -224,6 +243,9 @@ export const makeModificationRequest = (args: {
         break
       case ModificationRequestRejected.type:
         props.status = 'rejetée'
+        break
+      case ModificationRequestCancelled.type:
+        props.status = 'annulée'
         break
       case ModificationRequestStatusUpdated.type:
         props.status = event.payload.newStatus
