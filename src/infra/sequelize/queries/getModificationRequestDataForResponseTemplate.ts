@@ -256,7 +256,8 @@ export const makeGetModificationRequestDataForResponseTemplate = ({
 
           return ok({
             ...commonData,
-            puissanceInitiale,
+            puissanceInitiale:
+              puissanceInitiale !== puissanceActuelle ? puissanceInitiale : undefined,
             nouvellePuissance,
             puissanceActuelle,
             referenceParagraphePuissance:

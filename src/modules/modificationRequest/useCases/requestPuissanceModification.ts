@@ -1,8 +1,9 @@
+import { PuissanceJustificationOrCourrierMissingError } from '..'
 import { Repository, TransactionalRepository, UniqueEntityID } from '../../../core/domain'
 import { errAsync, logger, okAsync, ResultAsync, wrapInfra } from '../../../core/utils'
 import { User } from '../../../entities'
 import { EventBus } from '../../eventStore'
-import { FileContents, FileObject, IllegalFileDataError, makeAndSaveFile } from '../../file'
+import { FileContents, FileObject, makeAndSaveFile } from '../../file'
 import { ProjectCannotBeUpdatedIfUnnotifiedError } from '../../project'
 import { Project } from '../../project/Project'
 import {
@@ -99,6 +100,10 @@ export const makeRequestPuissanceModification = (deps: RequestPuissanceModificat
                   fileId,
                 }
               })
+            }
+
+            if ((!fileId || fileId === '') && !justification) {
+              return errAsync(new PuissanceJustificationOrCourrierMissingError())
             }
 
             return okAsync({ newPuissanceIsAutoAccepted: false, fileId })

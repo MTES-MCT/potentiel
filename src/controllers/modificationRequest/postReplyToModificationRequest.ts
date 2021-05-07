@@ -11,8 +11,11 @@ import { logger } from '../../core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { isDateFormatValid, isStrictlyPositiveNumber } from '../../helpers/formValidators'
 import { pathExists } from '../../helpers/pathExists'
-import { ModificationRequestAcceptanceParams } from '../../modules/modificationRequest'
-import { AggregateHasBeenUpdatedSinceError, OtherError } from '../../modules/shared'
+import {
+  ModificationRequestAcceptanceParams,
+  PuissanceVariationWithDecisionJusticeError,
+} from '../../modules/modificationRequest'
+import { AggregateHasBeenUpdatedSinceError } from '../../modules/shared'
 import routes from '../../routes'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { upload } from '../upload'
@@ -92,7 +95,7 @@ v1Router.post(
       )
     }
 
-    if (!['recours', 'delai', 'puissance'].includes(type)) {
+    if (!['recours', 'delai', 'puissance', 'abandon'].includes(type)) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
           error: 'Impossible de répondre à ce type de demande pour le moment.',
@@ -186,7 +189,7 @@ function _handleErrors(response, modificationRequestId) {
       )
     }
 
-    if (e instanceof OtherError) {
+    if (e instanceof PuissanceVariationWithDecisionJusticeError) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
           error: e.message,

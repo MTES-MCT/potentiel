@@ -161,8 +161,8 @@ export default function NewModificationRequestPage({ request, project }: PagePro
                   style={{ display: 'none' }}
                   {...dataId('modificationRequest-puissance-error-message-out-of-bounds')}
                 >
-                  Une autorisation est nécessaire pour une variation de puissance par rapport à
-                  puissance notifiée supérieure à 10%, sauf en cas de d'obligation imposée par
+                  Une autorisation est nécessaire pour une variation de puissance par rapport à la
+                  puissance notifiée supérieure à 10%, sauf en cas d'obligation imposée par
                   l'administration. Joindre un justificatif.
                 </div>
                 <div

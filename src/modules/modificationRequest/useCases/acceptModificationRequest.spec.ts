@@ -13,7 +13,8 @@ import makeFakeUser from '../../../__tests__/fixtures/user'
 import { makeUser } from '../../../entities'
 import { UnwrapForTest } from '../../../types'
 import { Project } from '../../project/Project'
-import { AggregateHasBeenUpdatedSinceError, OtherError, UnauthorizedError } from '../../shared'
+import { AggregateHasBeenUpdatedSinceError, UnauthorizedError } from '../../shared'
+import { PuissanceVariationWithDecisionJusticeError } from '../errors'
 
 describe('acceptModificationRequest use-case', () => {
   const fakeFileContents = Readable.from('test-content')
@@ -281,7 +282,7 @@ describe('acceptModificationRequest use-case', () => {
 
       describe('when the acceptation follows a decision de justice', () => {
         describe('when the puissance increase is > 10% of the puissance initiale', () => {
-          it('should return an instance of OtherError', async () => {
+          it('should return a PuissanceVariationWithDecisionJusticeError', async () => {
             fakeProject.updatePuissance.mockClear()
             projectRepo.save.mockClear()
             fileRepo.save.mockClear()
@@ -295,7 +296,7 @@ describe('acceptModificationRequest use-case', () => {
 
             expect(res.isErr()).toEqual(true)
             if (res.isOk()) return
-            expect(res.error).toBeInstanceOf(OtherError)
+            expect(res.error).toBeInstanceOf(PuissanceVariationWithDecisionJusticeError)
           })
         })
 

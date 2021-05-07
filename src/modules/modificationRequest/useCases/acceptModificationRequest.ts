@@ -1,3 +1,4 @@
+import { PuissanceVariationWithDecisionJusticeError } from '..'
 import { Repository, UniqueEntityID } from '../../../core/domain'
 import { err, errAsync, logger, ok, okAsync, Result, ResultAsync } from '../../../core/utils'
 import { User } from '../../../entities'
@@ -11,7 +12,6 @@ import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   InfraNotAvailableError,
-  OtherError,
   UnauthorizedError,
 } from '../../shared'
 import { ModificationRequest, ModificationRequestAcceptanceParams } from '../ModificationRequest'
@@ -38,7 +38,7 @@ export const makeAcceptModificationRequest = (deps: AcceptModificationRequestDep
   | InfraNotAvailableError
   | EntityNotFoundError
   | UnauthorizedError
-  | OtherError
+  | PuissanceVariationWithDecisionJusticeError
 > => {
   const { fileRepo, modificationRequestRepo, projectRepo } = deps
   const { modificationRequestId, versionDate, responseFile, submittedBy, acceptanceParams } = args
@@ -62,7 +62,7 @@ export const makeAcceptModificationRequest = (deps: AcceptModificationRequestDep
       return projectRepo
         .load(modificationRequest.projectId)
         .andThen(
-          (project): ResultAsync<any, OtherError> => {
+          (project): ResultAsync<Project, PuissanceVariationWithDecisionJusticeError> => {
             if (acceptanceParams?.type === 'puissance') {
               const { isDecisionJustice, newPuissance } = acceptanceParams
               const { puissanceInitiale } = project
@@ -70,11 +70,7 @@ export const makeAcceptModificationRequest = (deps: AcceptModificationRequestDep
                 isDecisionJustice && newPuissance / puissanceInitiale > 1.1
 
               if (newPuissanceVariationIsForbidden) {
-                return errAsync(
-                  new OtherError(
-                    'Vous ne pouvez pas accepter une augmentation de puissance avec une variation de plus de 10% alors que vous avez indiqué que la demande fait suite à une demande de justice.'
-                  )
-                )
+                return errAsync(new PuissanceVariationWithDecisionJusticeError())
               }
             }
             return okAsync(project)
@@ -86,8 +82,11 @@ export const makeAcceptModificationRequest = (deps: AcceptModificationRequestDep
       ({
         project,
         modificationRequest,
-      }): ResultAsync<{ project; modificationRequest; responseFileId?: string }, any> => {
-        if (!responseFile) return okAsync({ project, modificationRequest })
+      }): ResultAsync<
+        { project: Project; modificationRequest: ModificationRequest; responseFileId: string },
+        InfraNotAvailableError
+      > => {
+        if (!responseFile) return okAsync({ project, modificationRequest, responseFileId: '' })
 
         return makeAndSaveFile({
           file: {
