@@ -26,6 +26,8 @@ describe('notification.handleModificationRequestStatusChanged', () => {
     okAsync({
       porteursProjet: projectUsers.map(({ email, fullName, id }) => ({ email, fullName, id })),
       nomProjet: 'nomProjet',
+      regionProjet: 'region',
+      departementProjet: 'departement',
       type: 'recours',
     })
   ) as GetModificationRequestInfoForStatusNotification

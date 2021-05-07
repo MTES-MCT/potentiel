@@ -15,6 +15,8 @@ describe('Sequelize getModificationRequestUpdateInfo', () => {
   const projectInfo = {
     id: projectId,
     nomProjet: 'nomProjet',
+    departementProjet: 'departement',
+    regionProjet: 'region',
   }
 
   beforeAll(async () => {
@@ -51,6 +53,8 @@ describe('Sequelize getModificationRequestUpdateInfo', () => {
 
     expect(modificationRequestDTO).toEqual({
       nomProjet: 'nomProjet',
+      departementProjet: 'departement',
+      regionProjet: 'region',
       type: 'recours',
       porteursProjet: [
         {

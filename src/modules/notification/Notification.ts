@@ -166,6 +166,19 @@ type ModificationRequestConfirmedByPP = {
   }
 }
 
+type ModificationRequestCancelled = {
+  type: 'modification-request-cancelled'
+  context: {
+    modificationRequestId: string
+  }
+  variables: {
+    nom_projet: string
+    type_demande: string
+    departement_projet: string
+    modification_request_url: string
+  }
+}
+
 type NotificationVariants =
   | Designation
   | RelanceDesignation
@@ -179,6 +192,7 @@ type NotificationVariants =
   | PP_CertificateUpdated
   | ModificationRequestStatusUpdate
   | ModificationRequestConfirmedByPP
+  | ModificationRequestCancelled
 
 export type NotificationProps = BaseNotification & NotificationVariants
 

@@ -1,3 +1,4 @@
+export * from './handleModificationRequestCancelled';
 export * from './handleModificationRequestConfirmed';
 export * from './handleModificationRequestStatusChanged';
 export * from './handleModificationRequested';
