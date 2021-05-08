@@ -29,9 +29,6 @@ interface RequestPuissanceModificationArgs {
   file?: { contents: FileContents; filename: string }
 }
 
-const MIN_AUTO_ACCEPT_PUISSANCE_RATIO = 0.9
-const MAX_AUTO_ACCEPT_PUISSANCE_RATIO = 1.1
-
 export const makeRequestPuissanceModification = (deps: RequestPuissanceModificationDeps) => (
   args: RequestPuissanceModificationArgs
 ): ResultAsync<
@@ -89,9 +86,14 @@ export const makeRequestPuissanceModification = (deps: RequestPuissanceModificat
           > => {
             const puissanceModificationRatio = newPuissance / project.puissanceInitiale
 
+            const {
+              min: minAutoAcceptPuissanceRatio,
+              max: maxAutoAcceptPuissanceRatio,
+            } = getAutoAcceptRatiosForAppelOffre(project.appelOffre?.id)
+
             const newPuissanceIsAutoAccepted =
-              puissanceModificationRatio >= MIN_AUTO_ACCEPT_PUISSANCE_RATIO &&
-              puissanceModificationRatio <= MAX_AUTO_ACCEPT_PUISSANCE_RATIO
+              puissanceModificationRatio >= minAutoAcceptPuissanceRatio &&
+              puissanceModificationRatio <= maxAutoAcceptPuissanceRatio
 
             if (newPuissanceIsAutoAccepted) {
               return project.updatePuissance(requestedBy, newPuissance).asyncMap(async () => {
@@ -135,4 +137,20 @@ export const makeRequestPuissanceModification = (deps: RequestPuissanceModificat
         )
       }
     )
+}
+
+export function getAutoAcceptRatiosForAppelOffre(appelOffre: string): { min: number; max: number } {
+  const appelOffreCategories = ['autoconsommation', 'innovation']
+  const searchedAppelOffre = appelOffreCategories.find((key) =>
+    appelOffre?.toLowerCase().includes(key)
+  )
+
+  switch (searchedAppelOffre) {
+    case 'autoconsommation':
+      return { min: 0.8, max: 1 }
+    case 'innovation':
+      return { min: 0.7, max: 1 }
+    default:
+      return { min: 0.9, max: 1.1 }
+  }
 }

@@ -8,7 +8,6 @@ window.initHandlers = function () {
   addActionMenuHandlers()
   addInvitationHandlers()
   addDelayEstimator()
-  addPuissanceModificationHandler()
   addSelectorHandlers()
   addSendCopyOfNotificationButtonHandler()
   addPaginationHandler()
@@ -451,48 +450,6 @@ function addSendCopyOfNotificationButtonHandler() {
       })
     )
   } else {
-  }
-}
-
-//
-// Puissance modification Page
-//
-
-function addPuissanceModificationHandler() {
-  const newPuissanceField = document.querySelector(
-    '[data-testid=modificationRequest-puissanceField]'
-  )
-
-  if (newPuissanceField) {
-    const submitButton = '[data-testid=submit-button]'
-    const outOfBounds = '[data-testid=modificationRequest-puissance-error-message-out-of-bounds]'
-    const wrongFormat = '[data-testid=modificationRequest-puissance-error-message-wrong-format]'
-
-    newPuissanceField.addEventListener('keyup', function (event) {
-      if (!event.target.value?.trim()) {
-        show(outOfBounds, false)
-        show(wrongFormat, false)
-        return
-      }
-
-      const newValue = Number(event.target.value)
-      const oldValue = getFieldValue('[data-testid=modificationRequest-presentPuissanceField]')
-
-      if (!Number.isNaN(newValue) && !Number.isNaN(oldValue)) {
-        if (newValue / oldValue > 1.1 || newValue / oldValue < 0.9) {
-          show(outOfBounds, true)
-          show(wrongFormat, false)
-        } else {
-          show(outOfBounds, false)
-          show(wrongFormat, false)
-        }
-        disable(submitButton, false)
-      } else {
-        disable(submitButton, true)
-        show(outOfBounds, false)
-        show(wrongFormat, true)
-      }
-    })
   }
 }
 
