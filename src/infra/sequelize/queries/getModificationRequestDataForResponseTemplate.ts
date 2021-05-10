@@ -2,7 +2,7 @@ import moment from 'moment'
 import { ResultAsync, errAsync, logger, ok, okAsync, wrapInfra, Result } from '../../../core/utils'
 import { UserRepo } from '../../../dataAccess'
 import { getAppelOffre } from '../../../dataAccess/inMemory/appelOffre'
-import { makeProjectIdentifier } from '../../../entities'
+import { DREAL, makeProjectIdentifier } from '../../../entities'
 import { formatDate } from '../../../helpers/formatDate'
 import { GetPeriode } from '../../../modules/appelOffre'
 import { PeriodeDTO } from '../../../modules/appelOffre/dtos'
@@ -73,7 +73,7 @@ export const makeGetModificationRequestDataForResponseTemplate = ({
         previousRequest,
         periodeDetails,
       }): ResultAsync<
-        { dreal: string | undefined; modificationRequest; previousRequest; periodeDetails },
+        { dreal: DREAL | ''; modificationRequest; previousRequest; periodeDetails },
         InfraNotAvailableError
       > => {
         if (user.role === 'dreal') {
@@ -82,7 +82,7 @@ export const makeGetModificationRequestDataForResponseTemplate = ({
           } = modificationRequest
           return wrapInfra(findDrealsForUser(user.id)).map((userDreals) => {
             // If there are multiple, use the first to coincide with the project
-            const dreal = userDreals.find((dreal) => regionProjet.includes(dreal))
+            const dreal = userDreals.find((dreal) => regionProjet.includes(dreal)) || ''
 
             return {
               dreal,
@@ -93,7 +93,7 @@ export const makeGetModificationRequestDataForResponseTemplate = ({
           })
         }
 
-        return okAsync({ dreal: undefined, modificationRequest, previousRequest, periodeDetails })
+        return okAsync({ dreal: '', modificationRequest, previousRequest, periodeDetails })
       }
     )
     .andThen(({ dreal, modificationRequest, previousRequest, periodeDetails }) => {

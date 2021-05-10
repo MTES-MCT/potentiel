@@ -6,7 +6,7 @@ export type ModificationRequestDateForResponseTemplateDTO = {
   suiviParEmail: string
   refPotentiel: string
 
-  dreal: DREAL | undefined
+  dreal: DREAL | ''
 
   status: ModificationRequestStatusDTO
 
