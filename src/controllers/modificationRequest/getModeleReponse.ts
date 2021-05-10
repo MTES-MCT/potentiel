@@ -2,8 +2,8 @@ import asyncHandler from 'express-async-handler'
 import os from 'os'
 import path from 'path'
 import sanitize from 'sanitize-filename'
-import { eventStore, getModificationRequestDataForResponseTemplate } from '../../config'
-import { ModificationRequest } from '../../entities'
+import { eventStore, getModificationRequestDataForResponseTemplate, userRepo } from '../../config'
+import { ModificationRequest, User } from '../../entities'
 import modificationRequest from '../../entities/modificationRequest'
 import { fillDocxTemplate } from '../../helpers/fillDocxTemplate'
 import {
@@ -20,7 +20,7 @@ import { v1Router } from '../v1Router'
 v1Router.get(
   routes.TELECHARGER_MODELE_REPONSE(),
   ensureLoggedIn(),
-  ensureRole(['admin', 'dgec']),
+  ensureRole(['admin', 'dgec', 'dreal']),
   asyncHandler(async (request, response) => {
     const { projectId, modificationRequestId } = request.params
 
@@ -42,7 +42,9 @@ v1Router.get(
           )
         }
 
-        return response.sendFile(path.resolve(process.cwd(), await makeResponseTemplate(data)))
+        return response.sendFile(
+          path.resolve(process.cwd(), await makeResponseTemplate(data, request.user))
+        )
       },
       async (err): Promise<any> => {
         if (err instanceof EntityNotFoundError) {
@@ -90,7 +92,8 @@ const getTemplate = ({ type, status }: ModificationRequestDateForResponseTemplat
 }
 
 async function makeResponseTemplate(
-  data: ModificationRequestDateForResponseTemplateDTO
+  data: ModificationRequestDateForResponseTemplateDTO,
+  user: User
 ): Promise<string> {
   const now = new Date()
   const filepath = path.join(
@@ -104,9 +107,25 @@ async function makeResponseTemplate(
 
   const templatePath = path.resolve(__dirname, '..', '..', 'views', 'template', getTemplate(data))
 
+  let imageToInject = ''
+  if (user.role === 'dreal') {
+    const userDreals = await userRepo.findDrealsForUser(user.id)
+    if (userDreals.length) {
+      const dreal = userDreals[0]
+      imageToInject = path.resolve(__dirname, '../../public/images/dreals', `${dreal}.png`)
+      // @ts-ignore
+      data.suiviParEmail = user.email
+      // @ts-ignore
+      data.dreal = dreal
+    }
+  }
+
+  // If there are multiple, use the first to coincide with the project
+
   await fillDocxTemplate({
     templatePath,
     outputPath: filepath,
+    injectImage: imageToInject,
     variables: data,
   })
 
