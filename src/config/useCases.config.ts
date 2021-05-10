@@ -40,6 +40,7 @@ import {
   makeConfirmRequest,
   makeCancelModificationRequest,
 } from '../modules/modificationRequest'
+import { getAutoAcceptRatiosForAppelOffre } from '../modules/modificationRequest/helpers'
 import { makeInviteUser } from '../modules/users'
 import { sendNotification } from './emails.config'
 
@@ -118,6 +119,7 @@ export const updateStepStatus = makeUpdateStepStatus({
 export const requestPuissanceModification = makeRequestPuissanceModification({
   eventBus: eventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+  getAutoAcceptRatiosForAppelOffre,
   projectRepo,
   fileRepo,
 })

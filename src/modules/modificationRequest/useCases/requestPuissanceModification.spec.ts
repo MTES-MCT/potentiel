@@ -10,10 +10,7 @@ import { FileObject } from '../../file'
 import { Project } from '../../project'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { ModificationReceived, ModificationRequested } from '../events'
-import {
-  getAutoAcceptRatiosForAppelOffre,
-  makeRequestPuissanceModification,
-} from './requestPuissanceModification'
+import { makeRequestPuissanceModification } from './requestPuissanceModification'
 
 describe('requestPuissanceModification use-case', () => {
   const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
@@ -29,6 +26,7 @@ describe('requestPuissanceModification use-case', () => {
     load: jest.fn(),
   }
   const file = { contents: Readable.from('test-content'), filename: 'myfilename.pdf' }
+  const getAutoAcceptRatiosForAppelOffre = jest.fn((appelOffre: string) => ({ min: 90, max: 110 }))
 
   describe('when user is not allowed', () => {
     const shouldUserAccessProject = jest.fn(async () => false)
@@ -36,6 +34,7 @@ describe('requestPuissanceModification use-case', () => {
       projectRepo,
       eventBus,
       shouldUserAccessProject,
+      getAutoAcceptRatiosForAppelOffre,
       fileRepo: fileRepo as Repository<FileObject>,
     })
     const newPuissance = 89
@@ -61,6 +60,7 @@ describe('requestPuissanceModification use-case', () => {
       projectRepo,
       eventBus,
       shouldUserAccessProject,
+      getAutoAcceptRatiosForAppelOffre,
       fileRepo: fileRepo as Repository<FileObject>,
     })
 
@@ -73,7 +73,7 @@ describe('requestPuissanceModification use-case', () => {
           fileRepo.save.mockClear()
         })
 
-        it('should return a PuissanceFileMissingError', async () => {
+        it('should return a PuissanceJustificationOrCourrierMissingError', async () => {
           const res = await requestPuissanceModification({
             projectId: fakeProject.id,
             requestedBy: fakeUser,
@@ -137,7 +137,7 @@ describe('requestPuissanceModification use-case', () => {
           fileRepo.save.mockClear()
         })
 
-        it('should return a PuissanceFileMissingError', async () => {
+        it('should return a PuissanceJustificationOrCourrierMissingError', async () => {
           const res = await requestPuissanceModification({
             projectId: fakeProject.id,
             requestedBy: fakeUser,
@@ -232,29 +232,6 @@ describe('requestPuissanceModification use-case', () => {
         expect(fileRepo.save).toHaveBeenCalledTimes(1)
         expect(fileRepo.save.mock.calls[0][0].contents).toEqual(file.contents)
         expect(fileRepo.save.mock.calls[0][0].filename).toEqual(file.filename)
-      })
-    })
-  })
-
-  describe('getAutoAcceptRatios()', () => {
-    describe('when appel offre contains "innovation"', () => {
-      it('should return the ratios of the innovation appel offre', () => {
-        const res = getAutoAcceptRatiosForAppelOffre('my appel offre with Innovation in it')
-        expect(res).toEqual({ min: 0.7, max: 1 })
-      })
-    })
-
-    describe('when appel offre contains "autoconsommation"', () => {
-      it('should return the ratios of the innovation appel offre', () => {
-        const res = getAutoAcceptRatiosForAppelOffre('my appel offre with Autoconsommation in it')
-        expect(res).toEqual({ min: 0.8, max: 1 })
-      })
-    })
-
-    describe('when appel offre contains "innovation"', () => {
-      it('should return the ratios of the default appel offre', () => {
-        const res = getAutoAcceptRatiosForAppelOffre('my default appel offre')
-        expect(res).toEqual({ min: 0.9, max: 1.1 })
       })
     })
   })

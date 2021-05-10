@@ -13,9 +13,11 @@ import {
   UnauthorizedError,
 } from '../../shared'
 import { ModificationRequested, ModificationReceived } from '../events'
+import { getAutoAcceptRatiosForAppelOffre } from '../helpers'
 
 interface RequestPuissanceModificationDeps {
   eventBus: EventBus
+  getAutoAcceptRatiosForAppelOffre: (appelOffre: string) => { min: number; max: number }
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
   projectRepo: TransactionalRepository<Project>
   fileRepo: Repository<FileObject>
@@ -137,20 +139,4 @@ export const makeRequestPuissanceModification = (deps: RequestPuissanceModificat
         )
       }
     )
-}
-
-export function getAutoAcceptRatiosForAppelOffre(appelOffre: string): { min: number; max: number } {
-  const appelOffreCategories = ['autoconsommation', 'innovation']
-  const searchedAppelOffre = appelOffreCategories.find((key) =>
-    appelOffre?.toLowerCase().includes(key)
-  )
-
-  switch (searchedAppelOffre) {
-    case 'autoconsommation':
-      return { min: 0.8, max: 1 }
-    case 'innovation':
-      return { min: 0.7, max: 1 }
-    default:
-      return { min: 0.9, max: 1.1 }
-  }
 }
