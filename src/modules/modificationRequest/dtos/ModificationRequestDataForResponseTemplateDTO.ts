@@ -1,8 +1,12 @@
+import { DREAL } from '../../../entities'
 import { ModificationRequestStatusDTO } from './ModificationRequestListItemDTO'
 
 export type ModificationRequestDateForResponseTemplateDTO = {
   suiviPar: string
+  suiviParEmail: string
   refPotentiel: string
+
+  dreal: DREAL | undefined
 
   status: ModificationRequestStatusDTO
 

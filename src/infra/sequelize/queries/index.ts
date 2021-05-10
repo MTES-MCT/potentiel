@@ -1,4 +1,5 @@
 import models from '../models'
+import { userRepo } from '../../../config/repos.config'
 import { makeGetUnnotifiedProjectsForPeriode } from './getUnnotifiedProjectsForPeriode'
 import { makeGetModificationRequestDetails } from './getModificationRequestDetails'
 import { makeGetModificationRequestStatus } from './getModificationRequestStatus'
@@ -46,6 +47,11 @@ export const getProjectIdForAdmissionKey = makeGetProjectIdForAdmissionKey(model
 export const getProjectDataForProjectPage = makeGetProjectDataForProjectPage(models)
 export const getProjectIdsForPeriode = makeGetProjectIdsForPeriode(models)
 export const getModificationRequestDataForResponseTemplate = makeGetModificationRequestDataForResponseTemplate(
-  { models, getPeriode }
+  {
+    models,
+    getPeriode,
+    findDrealsForUser: userRepo['findDrealsForUser'],
+    dgecEmail: process.env.DGEC_EMAIL || '',
+  }
 )
 export const getModificationRequestRecipient = makeGetModificationRequestRecipient(models)

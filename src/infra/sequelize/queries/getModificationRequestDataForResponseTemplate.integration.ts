@@ -9,11 +9,14 @@ import { makeProjectIdentifier, makeUser } from '../../../entities'
 import { formatDate } from '../../../helpers/formatDate'
 import moment from 'moment'
 import { okAsync } from 'neverthrow'
+import { UserRepo } from '../../../dataAccess'
 
+const dgecEmail = 'dgec@test.test'
 describe('Sequelize getModificationRequestDataForResponseTemplate', () => {
   const getModificationRequestDataForResponseTemplate = makeGetModificationRequestDataForResponseTemplate(
     {
       models,
+      dgecEmail,
       getPeriode: jest.fn((appelOffreId: string, periodeId: string) =>
         okAsync({
           appelOffreId,
@@ -24,6 +27,10 @@ describe('Sequelize getModificationRequestDataForResponseTemplate', () => {
             'contenuParagrapheAbandon',
         })
       ),
+      findDrealsForUser: jest.fn((async () => [
+        'Bretagne',
+        'Corse',
+      ]) as UserRepo['findDrealsForUser']),
     }
   )
 
@@ -48,7 +55,7 @@ describe('Sequelize getModificationRequestDataForResponseTemplate', () => {
     codePostalProjet: 'codePostalProjet',
     departementProjet: 'departementProjet',
     email: 'email',
-    regionProjet: 'regionProjet',
+    regionProjet: 'Corse',
     puissance: 123,
     notifiedOn: 321,
     appelOffreId: 'Fessenheim',
@@ -75,7 +82,7 @@ describe('Sequelize getModificationRequestDataForResponseTemplate', () => {
 
       await File.create(makeFakeFile({ id: fileId, filename: 'filename' }))
 
-      await User.create(makeFakeUser({ id: userId, fullName: 'John Doe' }))
+      await User.create(makeFakeUser({ id: userId, fullName: 'John Doe', role: 'admin' }))
 
       await ModificationRequest.create({
         id: modificationRequestId,
@@ -105,6 +112,7 @@ describe('Sequelize getModificationRequestDataForResponseTemplate', () => {
 
       expect(modificationRequestDTO).toMatchObject({
         suiviPar: 'John Doe',
+        suiviParEmail: dgecEmail,
         refPotentiel: makeProjectIdentifier(project),
 
         status: 'envoyée',
@@ -128,6 +136,55 @@ describe('Sequelize getModificationRequestDataForResponseTemplate', () => {
 
         dateDemande: '01/01/1970',
         justificationDemande: 'justification',
+      })
+    })
+  })
+
+  describe('when user is dreal', () => {
+    const fakeDrealUser = makeUser(
+      makeFakeUser({ role: 'dreal', email: 'dreal@test.test', fullName: 'John Doe' })
+    ).unwrap()
+
+    beforeAll(async () => {
+      // Create the tables and remove all data
+      await resetDatabase()
+
+      await Project.create(project)
+
+      await File.create(makeFakeFile({ id: fileId, filename: 'filename' }))
+
+      await User.create(makeFakeUser({ id: userId }))
+
+      await ModificationRequest.create({
+        id: modificationRequestId,
+        projectId,
+        userId,
+        fileId,
+        type: 'recours',
+        requestedOn: 123,
+        respondedOn: 321,
+        respondedBy: userId2,
+        status: 'envoyée',
+        justification: 'justification',
+        versionDate,
+      })
+    })
+
+    it('should return the user dreal', async () => {
+      const modificationRequestResult = await getModificationRequestDataForResponseTemplate(
+        modificationRequestId.toString(),
+        fakeDrealUser
+      )
+
+      expect(modificationRequestResult.isOk()).toBe(true)
+      if (modificationRequestResult.isErr()) return
+
+      const modificationRequestDTO = modificationRequestResult.value
+
+      expect(modificationRequestDTO).toMatchObject({
+        suiviPar: 'John Doe',
+        suiviParEmail: 'dreal@test.test',
+        dreal: 'Corse',
       })
     })
   })
