@@ -12,13 +12,11 @@ import { makeModificationRequest, ModificationRequest } from '../../../modules/m
 export const makeModificationRequestRepo = (
   eventStore: EventStore
 ): Repository<ModificationRequest> & TransactionalRepository<ModificationRequest> => {
-  // Classic EventStoreRepos take a makeAggregate function that only takes events and an id, to make a project we needs to bind the appelsOffre argument as well
   const makeModificationRequestFromHistory = (args: {
     events: DomainEvent[]
     id: UniqueEntityID
   }) => makeModificationRequest({ history: args.events, modificationRequestId: args.id })
 
-  // ModificationRequestRepo is a composition of EventStoreRepo and EventStoreTransactionalRepo
   return {
     ...makeEventStoreRepo<ModificationRequest>({
       eventStore,

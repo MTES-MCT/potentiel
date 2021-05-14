@@ -24,9 +24,7 @@ export const handleModificationRequestCancelled = (deps: {
     dgecEmail,
   } = deps
 
-  const {
-    payload: { modificationRequestId },
-  } = event
+  const { modificationRequestId } = event.payload
 
   const res = await getModificationRequestInfo(modificationRequestId)
     .andThen((modificationRequest) => {
@@ -45,7 +43,7 @@ export const handleModificationRequestCancelled = (deps: {
             message: {
               email,
               name,
-              subject: `Potentiel - Annulation d'une demande de ${type} en ${departementProjet}`,
+              subject: `Annulation d'une demande de type ${type} dans le département ${departementProjet}`,
             },
             context: {
               modificationRequestId,
