@@ -1,7 +1,8 @@
 import moment from 'moment'
 import { ResultAsync, errAsync, logger, ok, okAsync, wrapInfra, Result } from '../../../core/utils'
+import { UserRepo } from '../../../dataAccess'
 import { getAppelOffre } from '../../../dataAccess/inMemory/appelOffre'
-import { makeProjectIdentifier } from '../../../entities'
+import { DREAL, makeProjectIdentifier } from '../../../entities'
 import { formatDate } from '../../../helpers/formatDate'
 import { GetPeriode } from '../../../modules/appelOffre'
 import { PeriodeDTO } from '../../../modules/appelOffre/dtos'
@@ -14,11 +15,15 @@ import { EntityNotFoundError, InfraNotAvailableError } from '../../../modules/sh
 interface GetModificationRequestDateForResponseTemplateDeps {
   models: any
   getPeriode: GetPeriode
+  findDrealsForUser: UserRepo['findDrealsForUser']
+  dgecEmail: string
 }
 
 export const makeGetModificationRequestDataForResponseTemplate = ({
   models,
   getPeriode,
+  findDrealsForUser,
+  dgecEmail,
 }: GetModificationRequestDateForResponseTemplateDeps): GetModificationRequestDateForResponseTemplate => (
   modificationRequestId,
   user
@@ -62,7 +67,36 @@ export const makeGetModificationRequestDataForResponseTemplate = ({
         )
         .map((periodeDetails) => ({ modificationRequest, previousRequest, periodeDetails }))
     )
-    .andThen(({ modificationRequest, previousRequest, periodeDetails }) => {
+    .andThen(
+      ({
+        modificationRequest,
+        previousRequest,
+        periodeDetails,
+      }): ResultAsync<
+        { dreal: DREAL | ''; modificationRequest; previousRequest; periodeDetails },
+        InfraNotAvailableError
+      > => {
+        if (user.role === 'dreal') {
+          const {
+            project: { regionProjet },
+          } = modificationRequest
+          return wrapInfra(findDrealsForUser(user.id)).map((userDreals) => {
+            // If there are multiple, use the first to coincide with the project
+            const dreal = userDreals.find((dreal) => regionProjet.includes(dreal)) || ''
+
+            return {
+              dreal,
+              modificationRequest,
+              previousRequest,
+              periodeDetails,
+            }
+          })
+        }
+
+        return okAsync({ dreal: '', modificationRequest, previousRequest, periodeDetails })
+      }
+    )
+    .andThen(({ dreal, modificationRequest, previousRequest, periodeDetails }) => {
       const {
         type,
         project,
@@ -126,6 +160,8 @@ export const makeGetModificationRequestDataForResponseTemplate = ({
       const commonData = {
         type,
         suiviPar: user.fullName,
+        suiviParEmail: user.role === 'dreal' ? user.email : dgecEmail,
+        dreal,
         refPotentiel: makeProjectIdentifier(project),
         nomRepresentantLegal,
         nomCandidat,
