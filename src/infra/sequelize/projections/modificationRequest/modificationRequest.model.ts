@@ -1,4 +1,7 @@
 import { DataTypes, NOW } from 'sequelize'
+import { makeProjector } from '../../helpers'
+
+export const modificationRequestProjector = makeProjector()
 
 export const MakeModificationRequestModel = (sequelize) => {
   const ModificationRequest = sequelize.define(
@@ -102,6 +105,14 @@ export const MakeModificationRequestModel = (sequelize) => {
         type: DataTypes.BIGINT,
         allowNull: true,
       },
+      cancelledBy: {
+        type: DataTypes.UUID,
+        allowNull: true,
+      },
+      cancelledOn: {
+        type: DataTypes.BIGINT,
+        allowNull: true,
+      },
     },
     {
       timestamps: true,
@@ -145,7 +156,14 @@ export const MakeModificationRequestModel = (sequelize) => {
       as: 'confirmationRequestedByUser',
       constraints: false,
     })
+    ModificationRequest.belongsTo(UserModel, {
+      foreignKey: 'cancelledBy',
+      as: 'cancelledByUser',
+      constraints: false,
+    })
   }
+
+  ModificationRequest.projector = modificationRequestProjector
 
   return ModificationRequest
 }

@@ -4,6 +4,7 @@ import routes from '../../../routes'
 import {
   ConfirmationRequested,
   ModificationRequestAccepted,
+  ModificationRequestCancelled,
   ModificationRequestInstructionStarted,
   ModificationRequestRejected,
 } from '../../modificationRequest'
@@ -17,6 +18,7 @@ export const handleModificationRequestStatusChanged = (deps: {
     | ModificationRequestAccepted
     | ModificationRequestInstructionStarted
     | ModificationRequestRejected
+    | ModificationRequestCancelled
     | ConfirmationRequested
 ) => {
   const modificationRequestId = event.payload.modificationRequestId
@@ -38,6 +40,10 @@ export const handleModificationRequestStatusChanged = (deps: {
     case ConfirmationRequested.type:
       status = 'en attente de confirmation'
       hasDocument = true
+      break
+    case ModificationRequestCancelled.type:
+      status = 'annulée'
+      hasDocument = false
       break
   }
 

@@ -4,6 +4,7 @@ import {
   handleModificationRequested,
   handleProjectGFSubmitted,
   handleModificationRequestConfirmed,
+  handleModificationRequestCancelled,
 } from '../../modules/notification'
 import {
   ProjectCertificateRegenerated,
@@ -15,6 +16,7 @@ import {
   getModificationRequestInfoForStatusNotification,
   getModificationRequestInfoForConfirmedNotification,
   getInfoForModificationRequested,
+  getModificationRequestRecipient,
 } from '../queries.config'
 import { eventStore } from '../eventStore.config'
 import { sendNotification } from '../emails.config'
@@ -25,6 +27,7 @@ import {
   ModificationRequestRejected,
   ConfirmationRequested,
   ModificationRequestConfirmed,
+  ModificationRequestCancelled,
 } from '../../modules/modificationRequest'
 import { userRepo } from '../../dataAccess'
 
@@ -48,6 +51,7 @@ eventStore.subscribe(
 eventStore.subscribe(ModificationRequestAccepted.type, modificationRequestStatusChangeHandler)
 eventStore.subscribe(ModificationRequestRejected.type, modificationRequestStatusChangeHandler)
 eventStore.subscribe(ConfirmationRequested.type, modificationRequestStatusChangeHandler)
+eventStore.subscribe(ModificationRequestCancelled.type, modificationRequestStatusChangeHandler)
 
 eventStore.subscribe(
   ModificationRequested.type,
@@ -72,6 +76,22 @@ eventStore.subscribe(
     findUsersForDreal: userRepo.findUsersForDreal,
     findUserById: userRepo.findById,
     findProjectById: oldProjectRepo.findById,
+  })
+)
+
+if (!process.env.DGEC_EMAIL) {
+  console.error('ERROR: DGEC_EMAIL is not set')
+  process.exit(1)
+}
+
+eventStore.subscribe(
+  ModificationRequestCancelled.type,
+  handleModificationRequestCancelled({
+    sendNotification,
+    findUsersForDreal: userRepo.findUsersForDreal,
+    getModificationRequestInfo: getModificationRequestInfoForStatusNotification,
+    getModificationRequestRecipient,
+    dgecEmail: process.env.DGEC_EMAIL,
   })
 )
 

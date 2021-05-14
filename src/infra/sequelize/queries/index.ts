@@ -18,6 +18,7 @@ import { makeGetPeriode } from './getPeriode'
 import { makeGetPeriodeList } from './getPeriodeList'
 import { makeGetAppelOffreList } from './getAppelOffreList'
 import { makeGetUserByEmail } from './getUserByEmail'
+import { makeGetModificationRequestRecipient } from './getModificationRequestRecipient'
 
 export const getAppelOffre = makeGetAppelOffre(models)
 export const getAppelOffreList = makeGetAppelOffreList(models)
@@ -47,3 +48,4 @@ export const getProjectIdsForPeriode = makeGetProjectIdsForPeriode(models)
 export const getModificationRequestDataForResponseTemplate = makeGetModificationRequestDataForResponseTemplate(
   { models, getPeriode }
 )
+export const getModificationRequestRecipient = makeGetModificationRequestRecipient(models)

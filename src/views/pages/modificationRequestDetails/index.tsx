@@ -2,6 +2,7 @@ import { Request } from 'express'
 import moment from 'moment'
 import React from 'react'
 import { logger } from '../../../core/utils'
+import ROUTES from '../../../routes'
 import { ModificationRequestPageDTO } from '../../../modules/modificationRequest'
 import { ErrorBox, RoleBasedDashboard, SuccessBox } from '../../components'
 import { ModificationRequestTitleByType } from '../../helpers'
@@ -13,6 +14,7 @@ import {
   ProjectDetails,
   RecoursForm,
   AbandonForm,
+  CancelButton,
 } from './components'
 
 moment.locale('fr')
@@ -26,7 +28,7 @@ interface PageProps {
 export default function AdminModificationRequestPage({ request, modificationRequest }: PageProps) {
   const { user } = request
   const { error, success } = request.query as any
-  const { type } = modificationRequest
+  const { type, id, status } = modificationRequest
 
   if (!user) {
     // Should never happen
@@ -51,7 +53,11 @@ export default function AdminModificationRequestPage({ request, modificationRequ
         <ErrorBox error={error} />
         <SuccessBox success={success} />
 
-        {isAdmin && !modificationRequest.respondedOn && (
+        <div className="panel__header">
+          <DemandeStatus role={user.role} modificationRequest={modificationRequest} />
+        </div>
+
+        {isAdmin && !modificationRequest.respondedOn && !modificationRequest.cancelledOn && (
           <div className="panel__header">
             <h4>Répondre</h4>
 
@@ -75,7 +81,7 @@ export default function AdminModificationRequestPage({ request, modificationRequ
           </div>
         )}
 
-        <DemandeStatus role={user.role} modificationRequest={modificationRequest} />
+        <CancelButton status={status} id={id} isAdmin={isAdmin} />
       </div>
     </RoleBasedDashboard>
   )

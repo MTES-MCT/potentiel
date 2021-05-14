@@ -34,3 +34,5 @@ export const initModificationRequestProjections = (eventBus: EventBus, models) =
 
   logger.info('Initialized ModificationRequest projections')
 }
+
+export * from './onModificationRequestCancelled'

@@ -8,6 +8,7 @@ import {
   ConfirmationRequested,
   GetModificationRequestInfoForStatusNotification,
   ModificationRequestAccepted,
+  ModificationRequestCancelled,
   ModificationRequestInstructionStarted,
   ModificationRequestRejected,
 } from '../../modificationRequest'
@@ -25,6 +26,8 @@ describe('notification.handleModificationRequestStatusChanged', () => {
     okAsync({
       porteursProjet: projectUsers.map(({ email, fullName, id }) => ({ email, fullName, id })),
       nomProjet: 'nomProjet',
+      regionProjet: 'region',
+      departementProjet: 'departement',
       type: 'recours',
     })
   ) as GetModificationRequestInfoForStatusNotification
@@ -158,6 +161,31 @@ describe('notification.handleModificationRequestStatusChanged', () => {
             notification.type === 'modification-request-status-update' &&
             notification.variables.status === 'en attente de confirmation' &&
             notification.variables.document_absent === undefined
+        )
+      ).toBe(true)
+    })
+  })
+
+  describe('when triggered with ModificationRequestCancelled', () => {
+    it('should set the status in the email to annulée and dont mention a document', async () => {
+      sendNotification.mockClear()
+
+      await handleModificationRequestStatusChanged({
+        sendNotification,
+        getModificationRequestInfoForStatusNotification,
+      })(
+        new ModificationRequestCancelled({
+          payload: { modificationRequestId, cancelledBy: '' },
+        })
+      )
+
+      const notifications = sendNotification.mock.calls.map((call) => call[0])
+      expect(
+        notifications.every(
+          (notification) =>
+            notification.type === 'modification-request-status-update' &&
+            notification.variables.status === 'annulée' &&
+            notification.variables.document_absent === ''
         )
       ).toBe(true)
     })

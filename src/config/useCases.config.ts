@@ -37,6 +37,7 @@ import {
   makeUpdateModificationRequestStatus,
   makeRequestConfirmation,
   makeConfirmRequest,
+  makeCancelModificationRequest,
 } from '../modules/modificationRequest'
 import { makeInviteUser } from '../modules/users'
 import { sendNotification } from './emails.config'
@@ -135,4 +136,9 @@ export const inviteUser = makeInviteUser({
   projectAdmissionKeyRepo,
   getUserByEmail,
   sendNotification,
+})
+
+export const cancelModificationRequest = makeCancelModificationRequest({
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+  modificationRequestRepo,
 })

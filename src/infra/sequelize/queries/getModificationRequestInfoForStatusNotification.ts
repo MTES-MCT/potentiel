@@ -17,7 +17,7 @@ export const makeGetModificationRequestUpdateInfo = (
         {
           model: Project,
           as: 'project',
-          attributes: ['nomProjet'],
+          attributes: ['nomProjet', 'departementProjet', 'regionProjet'],
         },
         {
           model: User,
@@ -32,12 +32,14 @@ export const makeGetModificationRequestUpdateInfo = (
     const {
       type,
       requestedBy: { email, fullName, id },
-      project: { nomProjet },
+      project: { nomProjet, departementProjet, regionProjet },
     } = modificationRequestRaw.get()
 
     return ok({
       type,
       nomProjet,
+      departementProjet,
+      regionProjet,
       porteursProjet: [{ id, email, fullName }],
     } as ModificationRequestInfoForStatusNotificationDTO)
   })

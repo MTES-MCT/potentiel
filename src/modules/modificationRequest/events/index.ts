@@ -1,5 +1,6 @@
 export * from './ConfirmationRequested';
 export * from './ModificationRequestAccepted';
+export * from './ModificationRequestCancelled';
 export * from './ModificationRequestConfirmed';
 export * from './ModificationRequestInstructionStarted';
 export * from './ModificationRequestRejected';
