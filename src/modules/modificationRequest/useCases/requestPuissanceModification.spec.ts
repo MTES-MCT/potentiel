@@ -26,7 +26,7 @@ describe('requestPuissanceModification use-case', () => {
     load: jest.fn(),
   }
   const file = { contents: Readable.from('test-content'), filename: 'myfilename.pdf' }
-  const getAutoAcceptRatiosForAppelOffre = jest.fn((appelOffre: string) => ({ min: 90, max: 110 }))
+  const getAutoAcceptRatiosForAppelOffre = jest.fn((appelOffre: string) => ({ min: 0.9, max: 1.1 }))
 
   describe('when user is not allowed', () => {
     const shouldUserAccessProject = jest.fn(async () => false)

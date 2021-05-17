@@ -4,7 +4,6 @@ import path from 'path'
 import sanitize from 'sanitize-filename'
 import { eventStore, getModificationRequestDataForResponseTemplate, userRepo } from '../../config'
 import { ModificationRequest, User } from '../../entities'
-import modificationRequest from '../../entities/modificationRequest'
 import { fillDocxTemplate } from '../../helpers/fillDocxTemplate'
 import {
   ModificationRequestDataForResponseTemplateDTO,

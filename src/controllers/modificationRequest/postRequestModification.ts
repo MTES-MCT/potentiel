@@ -11,6 +11,7 @@ import { ensureLoggedIn, ensureRole } from '../auth'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
 import { requestPuissanceModification } from '../../config'
+import { PuissanceJustificationOrCourrierMissingError } from '../../modules/modificationRequest'
 
 const returnRoute = (type, projectId) => {
   let returnRoute: string
@@ -141,10 +142,16 @@ v1Router.post(
       logger.error(error)
       const { projectId, type } = data
       const redirectRoute = returnRoute(type, projectId)
+
+      const errorMessage =
+        error instanceof PuissanceJustificationOrCourrierMissingError
+          ? error.message
+          : "Votre demande n'a pas pu être prise en compte. Merci de réessayer."
+
       return response.redirect(
         addQueryParams(redirectRoute, {
           ..._.omit(data, 'projectId'),
-          error: "Votre demande n'a pas pu être prise en compte. Merci de réessayer.",
+          error: errorMessage,
         })
       )
     }

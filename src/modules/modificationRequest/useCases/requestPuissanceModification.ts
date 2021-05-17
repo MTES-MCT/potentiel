@@ -13,7 +13,6 @@ import {
   UnauthorizedError,
 } from '../../shared'
 import { ModificationRequested, ModificationReceived } from '../events'
-import { getAutoAcceptRatiosForAppelOffre } from '../helpers'
 
 interface RequestPuissanceModificationDeps {
   eventBus: EventBus
@@ -41,7 +40,13 @@ export const makeRequestPuissanceModification = (deps: RequestPuissanceModificat
   | UnauthorizedError
 > => {
   const { projectId, requestedBy, newPuissance, justification, file } = args
-  const { eventBus, shouldUserAccessProject, projectRepo, fileRepo } = deps
+  const {
+    eventBus,
+    shouldUserAccessProject,
+    projectRepo,
+    fileRepo,
+    getAutoAcceptRatiosForAppelOffre,
+  } = deps
 
   return wrapInfra(shouldUserAccessProject({ projectId: projectId.toString(), user: requestedBy }))
     .andThen(
@@ -84,7 +89,9 @@ export const makeRequestPuissanceModification = (deps: RequestPuissanceModificat
             project: Project
           ): ResultAsync<
             { newPuissanceIsAutoAccepted: boolean; fileId: string },
-            AggregateHasBeenUpdatedSinceError | ProjectCannotBeUpdatedIfUnnotifiedError
+            | AggregateHasBeenUpdatedSinceError
+            | ProjectCannotBeUpdatedIfUnnotifiedError
+            | PuissanceJustificationOrCourrierMissingError
           > => {
             const puissanceModificationRatio = newPuissance / project.puissanceInitiale
 
