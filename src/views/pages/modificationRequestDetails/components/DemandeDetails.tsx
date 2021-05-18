@@ -75,6 +75,11 @@ export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => 
           </span>
         </div>
       )}
+      {modificationRequest.type === 'actionnaire' && (
+        <div style={{ marginTop: 5 }}>
+          <span>Nouvel actionnaire : {modificationRequest.actionnaire}</span>
+        </div>
+      )}
       {attachmentFile && (
         <div style={{ marginTop: 10 }}>
           <DownloadIcon />

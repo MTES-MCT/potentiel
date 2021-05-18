@@ -35,6 +35,7 @@ import {
   makeAcceptModificationRequest,
   makeRejectModificationRequest,
   makeRequestPuissanceModification,
+  makeRequestActionnaireModification,
   makeUpdateModificationRequestStatus,
   makeRequestConfirmation,
   makeConfirmRequest,
@@ -120,6 +121,13 @@ export const requestPuissanceModification = makeRequestPuissanceModification({
   eventBus: eventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   getAutoAcceptRatiosForAppelOffre,
+  projectRepo,
+  fileRepo,
+})
+
+export const requestActionnaireModification = makeRequestActionnaireModification({
+  eventBus: eventStore,
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
   fileRepo,
 })

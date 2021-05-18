@@ -292,6 +292,12 @@ export default function NewModificationRequestPage({ request, project }: PagePro
               <>
                 <label>Ancien actionnaire</label>
                 <input type="text" disabled defaultValue={project.actionnaire} />
+                <div className="notification warning" style={{ marginTop: 10, marginBottom: 10 }}>
+                  <span>
+                    Attention : de nouvelles garanties financières devront être déposées d'ici un
+                    mois
+                  </span>
+                </div>
                 <label className="required" htmlFor="actionnaire">
                   Nouvel actionnaire
                 </label>
@@ -302,9 +308,7 @@ export default function NewModificationRequestPage({ request, project }: PagePro
                   defaultValue={actionnaire || ''}
                   {...dataId('modificationRequest-actionnaireField')}
                 />
-                <label className="required" htmlFor="candidats">
-                  Statuts mis à jour
-                </label>
+                <label htmlFor="candidats">Statuts mis à jour</label>
                 <input
                   type="file"
                   name="file"
