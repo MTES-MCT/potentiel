@@ -8,7 +8,7 @@ import { GetPeriode } from '../../../modules/appelOffre'
 import { PeriodeDTO } from '../../../modules/appelOffre/dtos'
 import {
   GetModificationRequestDateForResponseTemplate,
-  ModificationRequestDateForResponseTemplateDTO,
+  ModificationRequestDataForResponseTemplateDTO,
 } from '../../../modules/modificationRequest'
 import { EntityNotFoundError, InfraNotAvailableError } from '../../../modules/shared'
 
@@ -179,6 +179,7 @@ export const makeGetModificationRequestDataForResponseTemplate = ({
         unitePuissance,
         dateDemande: formatDate(requestedOn),
         justificationDemande: justification,
+        dateNotification: formatDate(notifiedOn),
       }
 
       const soumisAuxGarantiesFinancieres =
@@ -196,10 +197,9 @@ export const makeGetModificationRequestDataForResponseTemplate = ({
               +moment(notifiedOn).add(appelOffre.delaiRealisationEnMois, 'months')
             ),
             dateLimiteAchevementActuelle: formatDate(completionDueOn),
-            dateNotification: formatDate(notifiedOn),
             dureeDelaiDemandeEnMois: delayInMonths.toString(),
             ..._makePreviousDelaiFromPreviousRequest(previousRequest),
-          } as ModificationRequestDateForResponseTemplateDTO)
+          } as ModificationRequestDataForResponseTemplateDTO)
         case 'abandon':
           return ok({
             ...commonData,
@@ -211,10 +211,9 @@ export const makeGetModificationRequestDataForResponseTemplate = ({
               periodeDetails[
                 'Dispositions liées à l’engagement de réalisation ou aux modalités d’abandon'
               ],
-            dateNotification: formatDate(notifiedOn),
             dateDemandeConfirmation: confirmationRequestedOn && formatDate(confirmationRequestedOn),
             dateConfirmation: confirmedOn && formatDate(confirmedOn),
-          } as ModificationRequestDateForResponseTemplateDTO)
+          } as ModificationRequestDataForResponseTemplateDTO)
         case 'recours':
           return ok({
             ...commonData,
@@ -246,7 +245,26 @@ export const makeGetModificationRequestDataForResponseTemplate = ({
             paragrapheEngagementIPFP,
             renvoiModification,
             delaiRealisationTexte,
-          } as ModificationRequestDateForResponseTemplateDTO)
+          } as ModificationRequestDataForResponseTemplateDTO)
+
+        case 'puissance':
+          const { puissance: puissanceActuelle } = modificationRequest.project
+          const {
+            project: { puissanceInitiale },
+            puissance: nouvellePuissance,
+          } = modificationRequest
+
+          return ok({
+            ...commonData,
+            puissanceInitiale:
+              puissanceInitiale !== puissanceActuelle ? puissanceInitiale : undefined,
+            nouvellePuissance,
+            puissanceActuelle,
+            referenceParagraphePuissance:
+              periodeDetails['Référence du paragraphe dédié au changement de puissance'],
+            contenuParagraphePuissance:
+              periodeDetails['Dispositions liées au changement de puissance'],
+          } as ModificationRequestDataForResponseTemplateDTO)
       }
 
       return errAsync(new EntityNotFoundError())

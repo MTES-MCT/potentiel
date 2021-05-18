@@ -47,6 +47,7 @@ export default function NewModificationRequestPage({ request, project }: PagePro
     error,
     success,
     puissance,
+    puissanceInitiale,
     actionnaire,
     producteur,
     justification,
@@ -64,7 +65,7 @@ export default function NewModificationRequestPage({ request, project }: PagePro
           <input type="hidden" name="type" value={action} />
           <div className="form__group">
             <h4></h4>
-            <div style={{ marginBottom: 5 }}>Concerant le projet:</div>
+            <div style={{ marginBottom: 5 }}>Concernant le projet:</div>
             <div
               className="text-quote"
               style={{
@@ -127,15 +128,22 @@ export default function NewModificationRequestPage({ request, project }: PagePro
             {action === 'puissance' ? (
               <>
                 <label>
-                  Puissance actuelle (en {getunitePuissanceForAppelOffre(project.appelOffreId)})
+                  Puissance à la notification (en{' '}
+                  {getunitePuissanceForAppelOffre(project.appelOffreId)})
                 </label>
                 <input
                   type="text"
                   disabled
-                  value={project.puissance}
+                  value={project.puissanceInitiale}
                   {...dataId('modificationRequest-presentPuissanceField')}
                 />
-                <label className="required" htmlFor="puissance">
+                {project.puissance !== project.puissanceInitiale && (
+                  <>
+                    <label>{getunitePuissanceForAppelOffre(project.appelOffreId)})</label>
+                    <input type="text" disabled value={project.puissance} />
+                  </>
+                )}
+                <label className="required" style={{ marginTop: 10 }} htmlFor="puissance">
                   Nouvelle puissance (en {getunitePuissanceForAppelOffre(project.appelOffreId)})
                 </label>
                 <input
@@ -147,13 +155,15 @@ export default function NewModificationRequestPage({ request, project }: PagePro
                   defaultValue={puissance || ''}
                   {...dataId('modificationRequest-puissanceField')}
                 />
+
                 <div
                   className="notification warning"
                   style={{ display: 'none' }}
                   {...dataId('modificationRequest-puissance-error-message-out-of-bounds')}
                 >
-                  La nouvelle puissance doit être située entre 90% et 100% de la puissance actuelle
-                  pour être acceptée.
+                  Une autorisation est nécessaire pour une variation de puissance par rapport à la
+                  puissance notifiée supérieure à 10%, sauf en cas d'obligation imposée par
+                  l'administration. Joindre un justificatif.
                 </div>
                 <div
                   className="notification error"
@@ -162,6 +172,31 @@ export default function NewModificationRequestPage({ request, project }: PagePro
                 >
                   Le format saisi n’est pas conforme (penser à utiliser un nombre décimal séparé par
                   un point).
+                </div>
+
+                <div style={{ marginTop: 10 }}>
+                  <label style={{ marginTop: 10 }} htmlFor="justification">
+                    <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>
+                    <br />
+                    Pour faciliter le traitement de votre demande, veillez à détailler les raisons
+                    ayant conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
+                  </label>
+                  <textarea
+                    name="justification"
+                    id="justification"
+                    defaultValue={justification || ''}
+                    {...dataId('modificationRequest-justificationField')}
+                  />
+                  <label htmlFor="candidats" style={{ marginTop: 10 }}>
+                    Courrier explicatif ou décision administrative (obligatoire dans le cas où la
+                    variation est supérieure à 10%)
+                  </label>
+                  <input
+                    type="file"
+                    name="file"
+                    {...dataId('modificationRequest-fileField')}
+                    id="file"
+                  />
                 </div>
               </>
             ) : (

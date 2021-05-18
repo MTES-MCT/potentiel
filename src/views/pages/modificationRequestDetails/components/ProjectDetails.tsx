@@ -11,7 +11,7 @@ interface ProjectDetailsProps {
 export const ProjectDetails = ({ modificationRequest: { project } }: ProjectDetailsProps) => {
   return (
     <div className="panel__header">
-      <div style={{ marginBottom: 5 }}>Concerant le projet:</div>
+      <div style={{ marginBottom: 5 }}>Concernant le projet:</div>
       <div
         className="text-quote"
         style={{

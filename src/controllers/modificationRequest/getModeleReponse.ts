@@ -4,11 +4,9 @@ import path from 'path'
 import sanitize from 'sanitize-filename'
 import { eventStore, getModificationRequestDataForResponseTemplate, userRepo } from '../../config'
 import { ModificationRequest, User } from '../../entities'
-import modificationRequest from '../../entities/modificationRequest'
 import { fillDocxTemplate } from '../../helpers/fillDocxTemplate'
 import {
-  ModificationRequestDateForResponseTemplateDTO,
-  ModificationRequestStatusDTO,
+  ModificationRequestDataForResponseTemplateDTO,
   ResponseTemplateDownloaded,
 } from '../../modules/modificationRequest'
 import { EntityNotFoundError } from '../../modules/shared'
@@ -77,13 +75,13 @@ const TemplateByType: Record<ModificationRequest['type'], string> = {
   actionnaire: '',
   fournisseur: '',
   producteur: '',
-  puissance: '',
+  puissance: 'Modèle réponse Puissance - dynamique.docx',
   recours: 'Modèle réponse Recours gracieux - dynamique.docx',
   abandon: 'Modèle réponse Abandon - dynamique.docx',
   delai: 'Modèle réponse Prolongation de délai - dynamique.docx',
 }
 
-const getTemplate = ({ type, status }: ModificationRequestDateForResponseTemplateDTO) => {
+const getTemplate = ({ type, status }: ModificationRequestDataForResponseTemplateDTO) => {
   if (type === 'abandon' && status === 'demande confirmée') {
     return 'Modèle réponse Abandon après confirmation - dynamique.docx'
   }
@@ -92,7 +90,7 @@ const getTemplate = ({ type, status }: ModificationRequestDateForResponseTemplat
 }
 
 async function makeResponseTemplate(
-  data: ModificationRequestDateForResponseTemplateDTO,
+  data: ModificationRequestDataForResponseTemplateDTO,
   user: User
 ): Promise<string> {
   const now = new Date()

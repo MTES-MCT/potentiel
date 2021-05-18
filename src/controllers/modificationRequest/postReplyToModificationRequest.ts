@@ -11,7 +11,10 @@ import { logger } from '../../core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { isDateFormatValid, isStrictlyPositiveNumber } from '../../helpers/formValidators'
 import { pathExists } from '../../helpers/pathExists'
-import { ModificationRequestAcceptanceParams } from '../../modules/modificationRequest'
+import {
+  ModificationRequestAcceptanceParams,
+  PuissanceVariationWithDecisionJusticeError,
+} from '../../modules/modificationRequest'
 import { AggregateHasBeenUpdatedSinceError } from '../../modules/shared'
 import routes from '../../routes'
 import { ensureLoggedIn, ensureRole } from '../auth'
@@ -35,6 +38,8 @@ v1Router.post(
       statusUpdateOnly,
       newNotificationDate,
       delayInMonths,
+      puissance,
+      isDecisionJustice,
     } = request.body
 
     // There are two submit buttons on the form, named submitAccept and submitReject
@@ -81,7 +86,16 @@ v1Router.post(
       )
     }
 
-    if (!['recours', 'delai', 'abandon'].includes(type)) {
+    if (type === 'puissance' && !isStrictlyPositiveNumber(puissance)) {
+      return response.redirect(
+        addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
+          error:
+            "La réponse n'a pas pu être envoyée: la puissance doit être un nombre supérieur à 0.",
+        })
+      )
+    }
+
+    if (!['recours', 'delai', 'puissance', 'abandon'].includes(type)) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
           error: 'Impossible de répondre à ce type de demande pour le moment.',
@@ -91,7 +105,7 @@ v1Router.post(
 
     const courrierReponseExists: boolean = !!request.file && (await pathExists(request.file.path))
 
-    if (!courrierReponseExists) {
+    if ((!acceptedReply || !isDecisionJustice) && !courrierReponseExists) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
           error: "La réponse n'a pas pu être envoyée car il manque le courrier de réponse.",
@@ -99,19 +113,23 @@ v1Router.post(
       )
     }
 
+    const responseFile = request.file && {
+      contents: fs.createReadStream(request.file.path),
+      filename: request.file.originalname,
+    }
+
     if (acceptedReply) {
       return await acceptModificationRequest({
+        responseFile,
         modificationRequestId,
         versionDate: new Date(Number(versionDate)),
-        responseFile: {
-          contents: fs.createReadStream(request.file.path),
-          filename: request.file.originalname,
-        },
         acceptanceParams: _makeAcceptanceParams(type, {
           newNotificationDate:
             newNotificationDate &&
             moment(newNotificationDate, FORMAT_DATE).tz('Europe/Paris').toDate(),
           delayInMonths: delayInMonths && Number(delayInMonths),
+          newPuissance: Number(puissance),
+          isDecisionJustice: Boolean(isDecisionJustice),
         })!,
         submittedBy: request.user,
       }).match(
@@ -136,12 +154,9 @@ v1Router.post(
     }
 
     return rejectModificationRequest({
+      responseFile,
       modificationRequestId,
       versionDate: new Date(Number(versionDate)),
-      responseFile: {
-        contents: fs.createReadStream(request.file.path),
-        filename: request.file.originalname,
-      },
       rejectedBy: request.user,
     }).match(
       _handleSuccess(response, modificationRequestId),
@@ -174,6 +189,14 @@ function _handleErrors(response, modificationRequestId) {
       )
     }
 
+    if (e instanceof PuissanceVariationWithDecisionJusticeError) {
+      return response.redirect(
+        addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
+          error: e.message,
+        })
+      )
+    }
+
     response.redirect(
       addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
         error: `Votre réponse n'a pas pu être prise en compte.`,
@@ -186,7 +209,7 @@ function _makeAcceptanceParams(
   type: string,
   params: any
 ): ModificationRequestAcceptanceParams | undefined {
-  const { newNotificationDate, delayInMonths } = params
+  const { newNotificationDate, delayInMonths, newPuissance, isDecisionJustice } = params
   switch (type) {
     case 'recours':
       return {
@@ -195,5 +218,7 @@ function _makeAcceptanceParams(
       }
     case 'delai':
       return { type, delayInMonths }
+    case 'puissance':
+      return { type, newPuissance, isDecisionJustice }
   }
 }

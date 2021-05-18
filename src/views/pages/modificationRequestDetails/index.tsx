@@ -16,6 +16,7 @@ import {
   AbandonForm,
   CancelButton,
 } from './components'
+import { PuissanceForm } from './components/PuissanceForm'
 
 moment.locale('fr')
 
@@ -35,7 +36,7 @@ export default function AdminModificationRequestPage({ request, modificationRequ
     logger.error('Try to render ProjectDetails without a user')
     return <div />
   }
-  const isResponsePossible = ['recours', 'delai', 'abandon'].includes(type)
+  const isResponsePossible = ['recours', 'delai', 'abandon', 'puissance'].includes(type)
 
   const isAdmin = ['admin', 'dgec', 'dreal'].includes(user.role)
 
@@ -57,29 +58,36 @@ export default function AdminModificationRequestPage({ request, modificationRequ
           <DemandeStatus role={user.role} modificationRequest={modificationRequest} />
         </div>
 
-        {isAdmin && !modificationRequest.respondedOn && !modificationRequest.cancelledOn && (
-          <div className="panel__header">
-            <h4>Répondre</h4>
+        {isAdmin &&
+          !modificationRequest.respondedOn &&
+          !modificationRequest.cancelledOn &&
+          modificationRequest.status !== 'information validée' && (
+            <div className="panel__header">
+              <h4>Répondre</h4>
 
-            <AdminResponseForm modificationRequest={modificationRequest}>
-              {isResponsePossible && (
-                <>
-                  {modificationRequest.type === 'delai' && (
-                    <DelaiForm modificationRequest={modificationRequest} />
-                  )}
+              <AdminResponseForm modificationRequest={modificationRequest}>
+                {isResponsePossible && (
+                  <>
+                    {modificationRequest.type === 'delai' && (
+                      <DelaiForm modificationRequest={modificationRequest} />
+                    )}
 
-                  {modificationRequest.type === 'recours' && (
-                    <RecoursForm modificationRequest={modificationRequest} />
-                  )}
+                    {modificationRequest.type === 'recours' && (
+                      <RecoursForm modificationRequest={modificationRequest} />
+                    )}
 
-                  {modificationRequest.type === 'abandon' && (
-                    <AbandonForm modificationRequest={modificationRequest} />
-                  )}
-                </>
-              )}
-            </AdminResponseForm>
-          </div>
-        )}
+                    {modificationRequest.type === 'abandon' && (
+                      <AbandonForm modificationRequest={modificationRequest} />
+                    )}
+
+                    {modificationRequest.type === 'puissance' && (
+                      <PuissanceForm modificationRequest={modificationRequest} />
+                    )}
+                  </>
+                )}
+              </AdminResponseForm>
+            </div>
+          )}
 
         <CancelButton status={status} id={id} isAdmin={isAdmin} />
       </div>

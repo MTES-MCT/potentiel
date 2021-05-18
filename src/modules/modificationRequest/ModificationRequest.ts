@@ -3,7 +3,6 @@ import { err, ok, Result } from '../../core/utils'
 import { User } from '../../entities'
 import { EventStoreAggregate } from '../eventStore'
 import { EntityNotFoundError, IllegalInitialStateForAggregateError } from '../shared'
-import { ModificationRequestVariants } from './dtos'
 import {
   StatusPreventsAcceptingError,
   StatusPreventsConfirmationError,
@@ -53,6 +52,7 @@ export type ModificationRequestStatus =
 export type ModificationRequestAcceptanceParams =
   | { type: 'recours'; newNotificationDate: Date }
   | { type: 'delai'; delayInMonths: number }
+  | { type: 'puissance'; newPuissance: number; isDecisionJustice?: boolean }
 
 export type ModifictionRequestType =
   | 'actionnaire'

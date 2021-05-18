@@ -7,6 +7,7 @@ import {
   ModificationRequestStatusUpdated,
   ConfirmationRequested,
   ModificationRequestConfirmed,
+  ModificationReceived,
 } from '../../../../../modules/modificationRequest'
 import { onModificationRequested } from './onModificationRequested'
 import { onModificationRequestAccepted } from './onModificationRequestAccepted'
@@ -16,6 +17,7 @@ import { onConfirmationRequested } from './onConfirmationRequested'
 import { onModificationRequestConfirmed } from './onModificationRequestConfirmed'
 import { onModificationRequestInstructionStarted } from './onModificationRequestInstructionStarted'
 import { logger } from '../../../../../core/utils'
+import { onModificationReceived } from './onModificationReceived'
 
 export const initModificationRequestProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ModificationRequested.type, onModificationRequested(models))
@@ -31,6 +33,8 @@ export const initModificationRequestProjections = (eventBus: EventBus, models) =
     ModificationRequestStatusUpdated.type,
     onModificationRequestStatusUpdated(models)
   )
+
+  eventBus.subscribe(ModificationReceived.type, onModificationReceived(models))
 
   logger.info('Initialized ModificationRequest projections')
 }

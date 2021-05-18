@@ -38,6 +38,7 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
             'departementProjet',
             'regionProjet',
             'puissance',
+            'puissanceInitiale',
             'notifiedOn',
             'appelOffreId',
             'periodeId',

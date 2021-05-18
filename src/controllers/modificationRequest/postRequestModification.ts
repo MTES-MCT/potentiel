@@ -10,6 +10,8 @@ import { requestModification, shouldUserAccessProject } from '../../useCases'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
+import { requestPuissanceModification } from '../../config'
+import { PuissanceJustificationOrCourrierMissingError } from '../../modules/modificationRequest'
 
 const returnRoute = (type, projectId) => {
   let returnRoute: string
@@ -82,6 +84,7 @@ v1Router.post(
         })
       )
     }
+
     data.puissance = data.puissance && Number(data.puissance)
 
     if (data.type === 'fournisseur' && !isStrictlyPositiveNumber(data.evaluationCarbone)) {
@@ -126,32 +129,54 @@ v1Router.post(
       }
     }
 
-    ;(
-      await requestModification({
-        ...data,
+    const handleSuccess = () =>
+      response.redirect(
+        routes.SUCCESS_PAGE({
+          success: 'Votre demande a bien été prise en compte.',
+          redirectUrl: routes.USER_LIST_REQUESTS,
+          redirectTitle: 'Voir mes demandes',
+        })
+      )
+
+    const handleError = (error) => {
+      logger.error(error)
+      const { projectId, type } = data
+      const redirectRoute = returnRoute(type, projectId)
+
+      const errorMessage =
+        error instanceof PuissanceJustificationOrCourrierMissingError
+          ? error.message
+          : "Votre demande n'a pas pu être prise en compte. Merci de réessayer."
+
+      return response.redirect(
+        addQueryParams(redirectRoute, {
+          ..._.omit(data, 'projectId'),
+          error: errorMessage,
+        })
+      )
+    }
+
+    if (data.type === 'puissance') {
+      const { projectId, puissance, justification } = data
+
+      await requestPuissanceModification({
+        projectId: projectId,
+        requestedBy: request.user,
+        newPuissance: puissance,
+        justification: justification,
         file,
-        user: request.user,
+      }).match(handleSuccess, handleError)
+    } else {
+      ;(
+        await requestModification({
+          ...data,
+          file,
+          user: request.user,
+        })
+      ).match({
+        ok: handleSuccess,
+        err: handleError,
       })
-    ).match({
-      ok: () =>
-        response.redirect(
-          routes.SUCCESS_PAGE({
-            success: 'Votre demande a bien été prise en compte.',
-            redirectUrl: routes.USER_LIST_REQUESTS,
-            redirectTitle: 'Voir mes demandes',
-          })
-        ),
-      err: (e: Error) => {
-        logger.error(e)
-        const { projectId, type } = data
-        const redirectRoute = returnRoute(type, projectId)
-        return response.redirect(
-          addQueryParams(redirectRoute, {
-            ..._.omit(data, 'projectId'),
-            error: "Votre demande n'a pas pu être prise en compte. Merci de réessayer.",
-          })
-        )
-      },
-    })
+    }
   })
 )

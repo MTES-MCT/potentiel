@@ -24,6 +24,7 @@ export type ModificationRequestPageDTO = {
 
   cancelledBy?: string
   cancelledOn?: Date
+  puissance: number
 
   project: {
     id: string
@@ -34,6 +35,7 @@ export type ModificationRequestPageDTO = {
     departementProjet: string
     regionProjet: string
     puissance: number
+    puissanceInitiale: number
     unitePuissance: string
     notifiedOn: Date
     completionDueOn: Date

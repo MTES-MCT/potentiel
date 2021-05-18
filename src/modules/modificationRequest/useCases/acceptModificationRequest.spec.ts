@@ -14,6 +14,7 @@ import { makeUser } from '../../../entities'
 import { UnwrapForTest } from '../../../types'
 import { Project } from '../../project/Project'
 import { AggregateHasBeenUpdatedSinceError, UnauthorizedError } from '../../shared'
+import { PuissanceVariationWithDecisionJusticeError } from '../errors'
 
 describe('acceptModificationRequest use-case', () => {
   const fakeFileContents = Readable.from('test-content')
@@ -229,6 +230,130 @@ describe('acceptModificationRequest use-case', () => {
       it('should save the project', () => {
         expect(projectRepo.save).toHaveBeenCalled()
         expect(projectRepo.save.mock.calls[0][0]).toEqual(fakeProject)
+      })
+    })
+
+    describe('when type is puissance', () => {
+      const fakeModificationRequest = {
+        ...makeFakeModificationRequest(),
+        type: 'puissance',
+      }
+      const fakeProject = {
+        ...makeFakeProject(),
+        id: fakeModificationRequest.projectId,
+        puissanceInitiale: 10,
+        puissance: 10,
+      }
+      const modificationRequestRepo = fakeRepo(fakeModificationRequest as ModificationRequest)
+      const projectRepo = fakeRepo(fakeProject as Project)
+      const fileRepo = {
+        save: jest.fn((file: FileObject) => okAsync(null)),
+        load: jest.fn(),
+      }
+
+      const acceptModificationRequest = makeAcceptModificationRequest({
+        modificationRequestRepo,
+        projectRepo,
+        fileRepo: fileRepo as Repository<FileObject>,
+      })
+
+      describe('when no response file is provided', () => {
+        beforeAll(async () => {
+          fakeProject.updatePuissance.mockClear()
+          projectRepo.save.mockClear()
+          fileRepo.save.mockClear()
+
+          const res = await acceptModificationRequest({
+            modificationRequestId: fakeModificationRequest.id,
+            versionDate: fakeModificationRequest.lastUpdatedOn,
+            acceptanceParams: { type: 'puissance', newPuissance: 11 },
+            submittedBy: fakeUser,
+          })
+
+          if (res.isErr()) logger.error(res.error)
+          expect(res.isOk()).toEqual(true)
+        })
+
+        it('should call updatePuissance on project', () => {
+          expect(fakeProject.updatePuissance).toHaveBeenCalledTimes(1)
+          expect(fakeProject.updatePuissance).toHaveBeenCalledWith(fakeUser, 11)
+        })
+      })
+
+      describe('when the acceptation follows a decision de justice', () => {
+        describe('when the puissance increase is > 10% of the puissance initiale', () => {
+          it('should return a PuissanceVariationWithDecisionJusticeError', async () => {
+            fakeProject.updatePuissance.mockClear()
+            projectRepo.save.mockClear()
+            fileRepo.save.mockClear()
+
+            const res = await acceptModificationRequest({
+              modificationRequestId: fakeModificationRequest.id,
+              versionDate: fakeModificationRequest.lastUpdatedOn,
+              acceptanceParams: { type: 'puissance', newPuissance: 1000, isDecisionJustice: true },
+              submittedBy: fakeUser,
+            })
+
+            expect(res.isErr()).toEqual(true)
+            if (res.isOk()) return
+            expect(res.error).toBeInstanceOf(PuissanceVariationWithDecisionJusticeError)
+          })
+        })
+
+        describe('when the puissance increase is <= 10% of the puissance initiale', () => {
+          it('should return an ok status', async () => {
+            fakeProject.updatePuissance.mockClear()
+            projectRepo.save.mockClear()
+            fileRepo.save.mockClear()
+
+            const res = await acceptModificationRequest({
+              modificationRequestId: fakeModificationRequest.id,
+              versionDate: fakeModificationRequest.lastUpdatedOn,
+              acceptanceParams: { type: 'puissance', newPuissance: 11, isDecisionJustice: true },
+              submittedBy: fakeUser,
+            })
+
+            expect(res.isOk()).toEqual(true)
+          })
+
+          it('should save the project', () => {
+            expect(projectRepo.save).toHaveBeenCalled()
+            expect(projectRepo.save.mock.calls[0][0]).toEqual(fakeProject)
+          })
+        })
+      })
+
+      describe('when a response file is provided', () => {
+        beforeAll(async () => {
+          fakeProject.updatePuissance.mockClear()
+          projectRepo.save.mockClear()
+          fileRepo.save.mockClear()
+
+          const res = await acceptModificationRequest({
+            modificationRequestId: fakeModificationRequest.id,
+            versionDate: fakeModificationRequest.lastUpdatedOn,
+            acceptanceParams: { type: 'puissance', newPuissance: 11 },
+            responseFile: { contents: fakeFileContents, filename: fakeFileName },
+            submittedBy: fakeUser,
+          })
+
+          if (res.isErr()) logger.error(res.error)
+          expect(res.isOk()).toEqual(true)
+        })
+
+        it('should call updatePuissance on project', () => {
+          expect(fakeProject.updatePuissance).toHaveBeenCalledTimes(1)
+          expect(fakeProject.updatePuissance).toHaveBeenCalledWith(fakeUser, 11)
+        })
+
+        it('should save the project', () => {
+          expect(projectRepo.save).toHaveBeenCalled()
+          expect(projectRepo.save.mock.calls[0][0]).toEqual(fakeProject)
+        })
+
+        it('should save the file', () => {
+          expect(fileRepo.save).toHaveBeenCalledTimes(1)
+        })
       })
     })
   })

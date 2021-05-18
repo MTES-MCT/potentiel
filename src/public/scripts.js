@@ -8,7 +8,7 @@ window.initHandlers = function () {
   addActionMenuHandlers()
   addInvitationHandlers()
   addDelayEstimator()
-  addPuissanceModificationHandler()
+  // addPuissanceModificationHandler()
   addSelectorHandlers()
   addSendCopyOfNotificationButtonHandler()
   addPaginationHandler()
@@ -464,18 +464,22 @@ function addPuissanceModificationHandler() {
   )
 
   if (newPuissanceField) {
-    var submitButton = '[data-testid=submit-button]'
+    const submitButton = '[data-testid=submit-button]'
+    const outOfBounds = '[data-testid=modificationRequest-puissance-error-message-out-of-bounds]'
+    const wrongFormat = '[data-testid=modificationRequest-puissance-error-message-wrong-format]'
 
     newPuissanceField.addEventListener('keyup', function (event) {
-      var newValue = Number(event.target.value)
+      if (!event.target.value?.trim()) {
+        show(outOfBounds, false)
+        show(wrongFormat, false)
+        return
+      }
 
-      var oldValue = getFieldValue('[data-testid=modificationRequest-presentPuissanceField]')
-
-      var outOfBounds = '[data-testid=modificationRequest-puissance-error-message-out-of-bounds]'
-      var wrongFormat = '[data-testid=modificationRequest-puissance-error-message-wrong-format]'
+      const newValue = Number(event.target.value)
+      const oldValue = getFieldValue('[data-testid=modificationRequest-presentPuissanceField]')
 
       if (!Number.isNaN(newValue) && !Number.isNaN(oldValue)) {
-        if (newValue > oldValue || newValue / oldValue < 0.9) {
+        if (newValue / oldValue > 1.1 || newValue / oldValue < 0.9) {
           show(outOfBounds, true)
           show(wrongFormat, false)
         } else {
@@ -503,18 +507,20 @@ function addStatusOnlyHandler() {
 
   if (statusOnlyField) {
     const otherFields = statusOnlyField.closest('form').querySelectorAll('input')
-    const askConfirmationButton = statusOnlyField.closest('form').querySelector('[data-testid=ask-confirmation-button]')
+    const askConfirmationButton = statusOnlyField
+      .closest('form')
+      .querySelector('[data-testid=ask-confirmation-button]')
     statusOnlyField.addEventListener('change', (event) => {
       if (event.currentTarget.checked) {
         otherFields.forEach((field) => {
           if (field !== statusOnlyField && field.type !== 'hidden') field.disabled = true
         })
-        if(askConfirmationButton) askConfirmationButton.disabled = true
+        if (askConfirmationButton) askConfirmationButton.disabled = true
       } else {
         otherFields.forEach((field) => {
           field.disabled = false
         })
-        if(askConfirmationButton) askConfirmationButton.disabled = false
+        if (askConfirmationButton) askConfirmationButton.disabled = false
       }
     })
   }

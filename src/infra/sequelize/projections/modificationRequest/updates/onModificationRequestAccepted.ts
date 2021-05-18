@@ -24,7 +24,7 @@ export const onModificationRequestAccepted = (models) => async (
     respondedOn: occurredAt.getTime(),
     respondedBy: acceptedBy,
     versionDate: occurredAt,
-    responseFileId,
+    responseFileId: responseFileId || undefined,
     acceptanceParams: params,
   })
 
