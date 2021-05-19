@@ -120,3 +120,4 @@ userData/
 # cypress test results
 cypress/screenshots
 cypress/videos
+.clever.json
