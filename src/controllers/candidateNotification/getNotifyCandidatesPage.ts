@@ -1,15 +1,14 @@
+import asyncHandler from 'express-async-handler'
 import { makePagination } from '../../helpers/paginate'
 import routes from '../../routes'
 import { Pagination } from '../../types'
 import { listUnnotifiedProjects } from '../../useCases'
 import { AdminNotifyCandidatesPage } from '../../views/legacy-pages'
-import { ensureLoggedIn, ensureRole } from '../auth'
+import { ensureRole } from '../auth'
 import { v1Router } from '../v1Router'
-import asyncHandler from 'express-async-handler'
 
 v1Router.get(
   routes.ADMIN_NOTIFY_CANDIDATES(),
-  ensureLoggedIn(),
   ensureRole(['admin', 'dgec']),
   asyncHandler(async (request, response) => {
     let { appelOffreId, periodeId, recherche, classement, pageSize } = request.query as any

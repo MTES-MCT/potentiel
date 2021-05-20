@@ -1,13 +1,13 @@
+import asyncHandler from 'express-async-handler'
 import { getModificationRequestListForUser } from '../../config/queries.config'
+import { logger } from '../../core/utils'
+import { appelOffreRepo } from '../../dataAccess/inMemory'
 import { makePagination } from '../../helpers/paginate'
 import routes from '../../routes'
 import { Pagination } from '../../types'
 import { ModificationRequestListPage } from '../../views/legacy-pages'
-import { ensureLoggedIn, ensureRole } from '../auth'
+import { ensureRole } from '../auth'
 import { v1Router } from '../v1Router'
-import asyncHandler from 'express-async-handler'
-import { appelOffreRepo } from '../../dataAccess/inMemory'
-import { logger } from '../../core/utils'
 
 const getModificationRequestListPage = asyncHandler(async (request, response) => {
   const { user, cookies, query } = request
@@ -73,14 +73,12 @@ const getModificationRequestListPage = asyncHandler(async (request, response) =>
 
 v1Router.get(
   routes.ADMIN_LIST_REQUESTS,
-  ensureLoggedIn(),
   ensureRole(['admin', 'dgec', 'dreal']),
   getModificationRequestListPage
 )
 
 v1Router.get(
   routes.USER_LIST_REQUESTS,
-  ensureLoggedIn(),
   ensureRole(['porteur-projet']),
   getModificationRequestListPage
 )
