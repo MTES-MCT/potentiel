@@ -1,16 +1,14 @@
 import asyncHandler from 'express-async-handler'
 import { getCahiersChargesURLs, getProjectDataForProjectPage } from '../../config/queries.config'
 import { shouldUserAccessProject } from '../../config/useCases.config'
-import { okAsync } from '../../core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import routes from '../../routes'
 import { ProjectDetailsPage } from '../../views/legacy-pages'
-import { ensureLoggedIn, ensureRole } from '../auth'
+import { ensureRole } from '../auth'
 import { v1Router } from '../v1Router'
 
 v1Router.get(
   routes.PROJECT_DETAILS(),
-  ensureLoggedIn(),
   ensureRole(['admin', 'dgec', 'dreal', 'porteur-projet', 'acheteur-obligé', 'ademe']),
   asyncHandler(async (request, response) => {
     const { projectId } = request.params
