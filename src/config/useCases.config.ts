@@ -36,6 +36,7 @@ import {
   makeRejectModificationRequest,
   makeRequestPuissanceModification,
   makeRequestActionnaireModification,
+  makeRequestProducteurModification,
   makeUpdateModificationRequestStatus,
   makeRequestConfirmation,
   makeConfirmRequest,
@@ -126,6 +127,13 @@ export const requestPuissanceModification = makeRequestPuissanceModification({
 })
 
 export const requestActionnaireModification = makeRequestActionnaireModification({
+  eventBus: eventStore,
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+  projectRepo,
+  fileRepo,
+})
+
+export const requestProducteurModification = makeRequestProducteurModification({
   eventBus: eventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,

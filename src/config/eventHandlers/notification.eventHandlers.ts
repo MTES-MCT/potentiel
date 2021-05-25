@@ -5,6 +5,7 @@ import {
   handleProjectGFSubmitted,
   handleModificationRequestConfirmed,
   handleModificationRequestCancelled,
+  handleModificationReceived,
 } from '../../modules/notification'
 import {
   ProjectCertificateRegenerated,
@@ -28,6 +29,7 @@ import {
   ConfirmationRequested,
   ModificationRequestConfirmed,
   ModificationRequestCancelled,
+  ModificationReceived,
 } from '../../modules/modificationRequest'
 import { userRepo } from '../../dataAccess'
 
@@ -92,6 +94,16 @@ eventStore.subscribe(
     getModificationRequestInfo: getModificationRequestInfoForStatusNotification,
     getModificationRequestRecipient,
     dgecEmail: process.env.DGEC_EMAIL,
+  })
+)
+
+eventStore.subscribe(
+  ModificationReceived.type,
+  handleModificationReceived({
+    sendNotification,
+    findUsersForDreal: userRepo.findUsersForDreal,
+    findUserById: userRepo.findById,
+    findProjectById: oldProjectRepo.findById,
   })
 )
 
