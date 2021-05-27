@@ -23,20 +23,30 @@ export async function makeServer(port: number, sessionSecret: string) {
   try {
     const app = express()
 
-    if (!isDevEnv) {
-      app.use(
-        helmet({
-          //   // See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
-          //   // Only send refererer for same origin and transport (HTTPS->HTTPS)
-          referrerPolicy: { policy: 'strict-origin' },
-          hsts: {
-            maxAge: 63072000,
-            includeSubDomains: false,
-            preload: true,
+    // if (!isDevEnv) {
+    app.use(
+      helmet({
+        //   // See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
+        //   // Only send refererer for same origin and transport (HTTPS->HTTPS)
+        referrerPolicy: { policy: 'strict-origin' },
+        hsts: {
+          maxAge: 63072000,
+          includeSubDomains: false,
+          preload: true,
+        },
+        contentSecurityPolicy: {
+          directives: {
+            'default-src': ["'self'", 'metabase.potentiel.beta.gouv.fr'],
+            'connect-src': ["'self'", "'unsafe-inline'"],
+            'img-src': ["'self'", 'data:'],
+            'style-src': ["'self'", 'data:', "'unsafe-inline'"],
+            'script-src': ["'unsafe-inline'", "'self'", 'metabase.potentiel.beta.gouv.fr'],
+            'object-src': ["'none'"],
           },
-        })
-      )
-    }
+        },
+      })
+    )
+    // }
 
     const store = new SequelizeStore({
       db: sequelizeInstance,
