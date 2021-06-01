@@ -45,12 +45,17 @@ export default function NewModificationRequestPage({ request, project }: PagePro
   const { action, error, success, puissance, actionnaire, justification, delayInMonths } =
     (request.query as any) || {}
 
+  const actionShouldBeDisabled = ['puissance', 'producteur', 'actionnaire', 'fournisseur'].includes(
+    action
+  )
+
   return (
     <UserDashboard currentPage={'list-requests'}>
       <div className="panel">
         <div className="panel__header">
           <h3>{titlePerAction[action]}</h3>
         </div>
+
         <form action={ROUTES.DEMANDE_ACTION} method="post" encType="multipart/form-data">
           <input type="hidden" name="projectId" value={project.id} />
           <input type="hidden" name="type" value={action} />
@@ -455,21 +460,24 @@ export default function NewModificationRequestPage({ request, project }: PagePro
               ''
             )}
 
+            {actionShouldBeDisabled && (
+              <div className="notification error" style={{ marginTop: 10, marginBottom: 10 }}>
+                Le dépôt de demande sera de nouveau disponible dès la mise en vigueur des nouvelles
+                règles des cahiers des charges, au plus tard le 30 juin 2021.
+              </div>
+            )}
             <button
               className="button"
               type="submit"
               name="submit"
               id="submit"
               {...dataId('submit-button')}
+              disabled={actionShouldBeDisabled}
             >
               Envoyer
             </button>
             <a
               className="button-outline primary"
-              // style={{
-              //   position: 'relative',
-              //   top: 15
-              // }}
               {...dataId('cancel-button')}
               href={ROUTES.USER_LIST_PROJECTS}
             >
