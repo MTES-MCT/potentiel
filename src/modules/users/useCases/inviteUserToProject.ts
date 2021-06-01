@@ -1,5 +1,7 @@
-import { combine, err, ok, okAsync, Result, ResultAsync, wrapInfra } from '../../../core/utils'
+import { err, ok, okAsync, Result, ResultAsync, wrapInfra } from '../../../core/utils'
 import { Project, User } from '../../../entities'
+import { UserInvitedToProject } from '../../authorization'
+import { EventBus } from '../../eventStore'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { GetUserByEmail } from '../queries'
 import { makeCreateUser } from './createUser'
@@ -8,10 +10,7 @@ interface InviteUserToProjectDeps {
   getUserByEmail: GetUserByEmail
   shouldUserAccessProject: (args: { user: User; projectId: Project['id'] }) => Promise<boolean>
   createUser: ReturnType<typeof makeCreateUser>
-  addProjectToUser: (args: {
-    userId: string
-    projectId: string
-  }) => ResultAsync<null, InfraNotAvailableError>
+  eventBus: EventBus
 }
 
 interface InviteUserToProjectArgs {
@@ -25,7 +24,7 @@ export const makeInviteUserToProject =
   (
     args: InviteUserToProjectArgs
   ): ResultAsync<null, UnauthorizedError | InfraNotAvailableError> => {
-    const { shouldUserAccessProject, getUserByEmail, createUser, addProjectToUser } = deps
+    const { shouldUserAccessProject, getUserByEmail, createUser, eventBus } = deps
     const { email, projectIds, invitedBy } = args
 
     return wrapInfra(
@@ -49,7 +48,9 @@ export const makeInviteUserToProject =
         return okAsync(userOrNull.id)
       })
       .andThen((userId) =>
-        combine(projectIds.map((projectId) => addProjectToUser({ userId, projectId })))
+        eventBus.publish(
+          new UserInvitedToProject({ payload: { userId, projectIds, invitedBy: invitedBy.id } })
+        )
       )
       .map(() => null)
   }
