@@ -1,4 +1,5 @@
 import { fromOldResultAsync } from '../core/utils'
+import { User } from '../entities'
 import { makeImportAppelOffreData, makeImportPeriodeData } from '../modules/appelOffre/useCases'
 import {
   BaseShouldUserAccessProject,
@@ -28,7 +29,7 @@ import {
   makeUpdateStepStatus,
 } from '../modules/project/useCases'
 import { InfraNotAvailableError } from '../modules/shared'
-import { makeInviteUser, makeInviteUserToProject } from '../modules/users'
+import { makeCreateUser, makeInviteUser, makeInviteUserToProject } from '../modules/users'
 import { buildCertificate } from '../views/certificates'
 import { createUserCredentials } from './credentials.config'
 import { sendNotification } from './emails.config'
@@ -169,6 +170,18 @@ export const importPeriodeData = makeImportPeriodeData({
   appelOffreRepo,
 })
 
+const saveUser = (user: User) => {
+  return fromOldResultAsync(userRepo.insert(user))
+    .map(() => null)
+    .mapErr(() => new InfraNotAvailableError())
+}
+
+const createUser = makeCreateUser({
+  getUserByEmail,
+  createUserCredentials,
+  saveUser,
+})
+
 export const inviteUser = makeInviteUser({
   projectAdmissionKeyRepo,
   getUserByEmail,
@@ -186,7 +199,7 @@ export const inviteUserToProject = makeInviteUserToProject({
   getUserByEmail,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   addProjectToUser,
-  createUserCredentials,
+  createUser,
 })
 
 export const cancelModificationRequest = makeCancelModificationRequest({
