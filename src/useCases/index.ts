@@ -8,7 +8,6 @@ import makeGetUserProject from './getUserProject'
 import makeRetrievePassword from './retrievePassword'
 import makeResetPassword from './resetPassword'
 import makeShouldUserAccessProject from './shouldUserAccessProject'
-import makeInviteUserToProject from './inviteUserToProject'
 import makeInviteDreal from './inviteDreal'
 import makeRelanceInvitations from './relanceInvitations'
 import makeRelanceGarantiesFinancieres from './relanceGarantiesFinancieres'
@@ -92,15 +91,6 @@ const resetPassword = makeResetPassword({
   passwordRetrievalRepo,
 })
 
-const inviteUserToProject = makeInviteUserToProject({
-  findProjectById: projectRepo.findById,
-  credentialsRepo,
-  userRepo,
-  projectAdmissionKeyRepo,
-  shouldUserAccessProject,
-  sendNotification,
-})
-
 const inviteDreal = makeInviteDreal({
   credentialsRepo,
   projectAdmissionKeyRepo,
@@ -134,7 +124,6 @@ const useCases = Object.freeze({
   retrievePassword,
   resetPassword,
   shouldUserAccessProject,
-  inviteUserToProject,
   inviteDreal,
   relanceInvitations,
   relanceGarantiesFinancieres,
@@ -153,7 +142,6 @@ export {
   retrievePassword,
   resetPassword,
   shouldUserAccessProject,
-  inviteUserToProject,
   inviteDreal,
   relanceInvitations,
   relanceGarantiesFinancieres,
