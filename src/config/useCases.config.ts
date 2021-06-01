@@ -14,12 +14,12 @@ import {
   makeRejectModificationRequest,
   makeRequestActionnaireModification,
   makeRequestConfirmation,
+  makeRequestFournisseursModification,
   makeRequestProducteurModification,
   makeRequestPuissanceModification,
   makeUpdateModificationRequestStatus,
 } from '../modules/modificationRequest'
 import { getAutoAcceptRatiosForAppelOffre } from '../modules/modificationRequest/helpers'
-import { makeRequestFournisseursModification } from '../modules/modificationRequest/useCases/requestFournisseursModification'
 import {
   makeCorrectProjectData,
   makeGenerateCertificate,
@@ -30,10 +30,9 @@ import {
   makeUpdateStepStatus,
 } from '../modules/project'
 import { InfraNotAvailableError } from '../modules/shared'
-import { makeCreateUser, makeInviteUser, makeInviteUserToProject } from '../modules/users'
+import { makeCreateUser, makeInviteUserToProject } from '../modules/users'
 import { buildCertificate } from '../views/certificates'
 import { createUserCredentials } from './credentials.config'
-import { sendNotification } from './emails.config'
 import { eventStore } from './eventStore.config'
 import {
   getAppelOffreList,
@@ -50,7 +49,6 @@ import {
   fileRepo,
   modificationRequestRepo,
   oldProjectRepo,
-  projectAdmissionKeyRepo,
   projectRepo,
   userRepo,
 } from './repos.config'
@@ -183,16 +181,10 @@ const saveUser = (user: User) => {
     .mapErr(() => new InfraNotAvailableError())
 }
 
-const createUser = makeCreateUser({
+export const createUser = makeCreateUser({
   getUserByEmail,
   createUserCredentials,
   saveUser,
-})
-
-export const inviteUser = makeInviteUser({
-  projectAdmissionKeyRepo,
-  getUserByEmail,
-  sendNotification,
 })
 
 const addProjectToUser = (args: { userId: string; projectId: string }) => {
