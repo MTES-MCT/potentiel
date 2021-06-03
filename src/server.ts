@@ -2,7 +2,14 @@ import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
 import express from 'express'
 import helmet from 'helmet'
+<<<<<<< HEAD
 import { registerAuth, v1Router } from './controllers'
+=======
+import morgan from 'morgan'
+import { version } from '../package.json'
+import { isDevEnv } from './config'
+import { ensureRole, keycloak, registerAuth, v1Router } from './controllers'
+>>>>>>> :wrench:  Add morgan for http logs
 import { logger } from './core/utils'
 import { testRouter } from './__tests__/e2e'
 import { isDevEnv } from './config'
@@ -39,6 +46,8 @@ export async function makeServer(port: number, sessionSecret: string) {
         })
       )
     }
+
+    app.use(morgan('tiny'))
 
     app.use(
       express.urlencoded({
