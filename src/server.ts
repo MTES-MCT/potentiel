@@ -2,10 +2,11 @@ import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
 import express from 'express'
 import helmet from 'helmet'
+import morgan from 'morgan'
+import { isDevEnv } from './config'
 import { registerAuth, v1Router } from './controllers'
 import { logger } from './core/utils'
 import { testRouter } from './__tests__/e2e'
-import { isDevEnv } from './config'
 
 dotenv.config()
 
@@ -39,6 +40,8 @@ export async function makeServer(port: number, sessionSecret: string) {
         })
       )
     }
+
+    app.use(morgan('tiny'))
 
     app.use(
       express.urlencoded({

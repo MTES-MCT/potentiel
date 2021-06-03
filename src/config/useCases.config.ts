@@ -1,5 +1,4 @@
-import { fromOldResultAsync } from '../core/utils'
-import { User } from '../entities'
+import { makeImportAppelOffreData, makeImportPeriodeData } from '../modules/appelOffre'
 import {
   BaseShouldUserAccessProject,
   makeCancelInvitationToProject,
@@ -22,15 +21,13 @@ import {
 import {
   makeCorrectProjectData,
   makeGenerateCertificate,
+  makeImportProjects,
   makeRegenerateCertificatesForPeriode,
   makeRemoveStep,
   makeSubmitStep,
   makeUpdateNewRulesOptIn,
   makeUpdateStepStatus,
-  makeImportProjects,
 } from '../modules/project'
-import { makeImportAppelOffreData, makeImportPeriodeData } from '../modules/appelOffre'
-import { InfraNotAvailableError } from '../modules/shared'
 import { makeCreateUser, makeInviteUserToProject } from '../modules/users'
 import { buildCertificate } from '../views/certificates'
 import { createUserCredentials } from './credentials.config'
@@ -42,20 +39,19 @@ import {
   userRepo,
   modificationRequestRepo,
   appelOffreRepo,
-  projectAdmissionKeyRepo,
   oldAppelOffreRepo,
   projectClaimRepo,
 } from './repos.config'
 import {
   getAppelOffreList,
   getFileProject,
+  getProjectAppelOffreId,
   getProjectIdForAdmissionKey,
   getProjectIdsForPeriode,
   getUserByEmail,
-  isProjectParticipatif,
   hasProjectGarantieFinanciere,
-  getProjectAppelOffreId,
   getProjectDataForProjectClaim,
+  isProjectParticipatif,
 } from './queries.config'
 import { makeClaimProject } from '../modules/projectClaim'
 
