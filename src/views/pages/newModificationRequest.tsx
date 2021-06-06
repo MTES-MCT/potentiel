@@ -21,9 +21,9 @@ interface PageProps {
 }
 
 const titlePerAction = {
-  // fournisseur: 'Je signale un changement de fournisseur',
   delai: 'Je demande un délai supplémentaire',
   actionnaire: "Je signale un changement d'actionnaire",
+  fournisseur: 'Je signale un changement de fournisseur',
   puissance: 'Je signale un changement de puissance',
   producteur: 'Je signale un changement de producteur',
   abandon: 'Je demande un abandon de mon projet',
@@ -198,7 +198,7 @@ export default function NewModificationRequestPage({ request, project }: PagePro
             ) : (
               ''
             )}
-            {/* {action === 'fournisseur' ? (
+            {action === 'fournisseur' ? (
               <>
                 <label>Ancien fournisseur</label>
                 <input type="text" disabled defaultValue={project.fournisseur} />
@@ -209,15 +209,10 @@ export default function NewModificationRequestPage({ request, project }: PagePro
                   type="text"
                   name="fournisseur"
                   id="fournisseur"
-                  defaultValue={fournisseur || ''}
                   {...dataId('modificationRequest-fournisseurField')}
                 />
-                <label>Ancienne évaluation carbone</label>
-                <input
-                  type="text"
-                  disabled
-                  defaultValue={project.evaluationCarbone + ' kg eq CO2/kWc'}
-                />
+                <label>Ancienne évaluation carbone (kg eq CO2/kWc)</label>
+                <input type="text" disabled defaultValue={project.evaluationCarbone} />
                 <label className="required" htmlFor="fournisseur">
                   Nouvelle évaluation carbone (kg eq CO2/kWc)
                 </label>
@@ -225,20 +220,20 @@ export default function NewModificationRequestPage({ request, project }: PagePro
                   type="text"
                   name="evaluationCarbone"
                   id="evaluationCarbone"
-                  defaultValue={evaluationCarbone || ''}
                   {...dataId('modificationRequest-evaluationCarboneField')}
                 />
-                <label className="required" htmlFor="candidats">
-                  Pièce-jointe
-                </label>
+                <label htmlFor="candidats">Pièce-jointe</label>
                 <input
                   type="file"
                   name="file"
                   {...dataId('modificationRequest-fileField')}
                   id="file"
                 />
-                <label className="required" htmlFor="justification">
-                  Pour la raison suivante:
+                <label style={{ marginTop: 10 }} className="required" htmlFor="justification">
+                  <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>
+                  <br />
+                  Pour faciliter le traitement de votre demande, veillez à détailler les raisons
+                  ayant conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
                 </label>
                 <textarea
                   name="justification"
@@ -249,7 +244,7 @@ export default function NewModificationRequestPage({ request, project }: PagePro
               </>
             ) : (
               ''
-            )} */}
+            )}
             {action === 'producteur' ? (
               <>
                 <label>Ancien producteur</label>

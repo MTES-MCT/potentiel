@@ -56,6 +56,10 @@ const porteurProjetActions = (project: {
       link: ROUTES.CHANGER_PRODUCTEUR(project.id),
     },
     {
+      title: 'Changer de fournisseur',
+      link: ROUTES.CHANGER_FOURNISSEUR(project.id),
+    },
+    {
       title: "Changer d'actionnaire",
       link: ROUTES.CHANGER_ACTIONNAIRE(project.id),
     },
