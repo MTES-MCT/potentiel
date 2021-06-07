@@ -16,7 +16,7 @@ describe('project.onProjectProducteurUpdated', () => {
     await ProjectModel.bulkCreate([project])
   })
 
-  it('should update the project puissance', async () => {
+  it('should update the project producteur', async () => {
     const newProducteur = 'new producteur'
 
     await onProjectProducteurUpdated(models)(

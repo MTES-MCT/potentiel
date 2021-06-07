@@ -4,6 +4,7 @@ import routes from '../../../routes'
 import { logger } from '../../../core/utils'
 import { ModificationReceived } from '../../modificationRequest'
 import moment from 'moment'
+import { isStrictlyPositiveNumber } from '../../../helpers/formValidators'
 
 export const handleModificationReceived = (deps: {
   sendNotification: NotificationService['sendNotification']
@@ -11,7 +12,7 @@ export const handleModificationReceived = (deps: {
   findProjectById: ProjectRepo['findById']
   findUserById: UserRepo['findById']
 }) => async (event: ModificationReceived) => {
-  const { modificationRequestId, projectId, type, requestedBy } = event.payload
+  const { modificationRequestId, projectId, type, requestedBy, evaluationCarbone } = event.payload
 
   const project = await deps.findProjectById(projectId)
 
@@ -44,6 +45,13 @@ export const handleModificationReceived = (deps: {
 
       if (['producteur', 'actionnaire'].includes(type))
         payload.variables.demande_action_pp = `Suite à votre signalement de changement de type ${type}, vous devez déposer de nouvelles garanties financières dans un délai d'un mois maximum.`
+
+      const evaluationCarboneOutOfBounds =
+        isStrictlyPositiveNumber(project.evaluationCarbone) &&
+        Math.abs(project.evaluationCarbone - Number(evaluationCarbone)) > 50
+
+      if (type === 'fournisseur' && evaluationCarboneOutOfBounds)
+        payload.variables.demande_action_pp = `Vous venez d'effectuer une demande de changement de type ${type}. Vous avez modifié l'évaluation carbone de votre projet et la nouvelle valeur induit une évolution de plus de 50 kg eq CO2/kWc. Cela remet en cause l'offre déposée et votre projet ne recevra pas d'attestation de conformité.`
 
       await deps.sendNotification(payload)
     },

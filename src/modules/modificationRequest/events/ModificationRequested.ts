@@ -1,4 +1,5 @@
 import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
+import { FournisseurKind } from '../../../entities/fournisseur'
 
 export interface ModificationRequestedPayload {
   type: string
@@ -9,7 +10,7 @@ export interface ModificationRequestedPayload {
   justification?: string
   actionnaire?: string
   producteur?: string
-  fournisseur?: string
+  fournisseurs?: FournisseurKind[]
   puissance?: number
   evaluationCarbone?: number
   delayInMonths?: number

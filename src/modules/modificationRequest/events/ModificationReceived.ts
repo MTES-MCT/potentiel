@@ -1,4 +1,5 @@
 import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
+import { Fournisseur } from '../../../entities/fournisseur'
 
 export interface ModificationReceivedPayload {
   modificationRequestId: string
@@ -8,6 +9,8 @@ export interface ModificationReceivedPayload {
   puissance?: number
   actionnaire?: string
   producteur?: string
+  fournisseurs?: Fournisseur[]
+  evaluationCarbone?: number
   justification?: string
   fileId?: string
 }

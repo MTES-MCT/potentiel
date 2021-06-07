@@ -17,6 +17,7 @@ import {
   ProjectActionnaireUpdated,
   ProjectProducteurUpdated,
   ProjectGFInvalidated,
+  ProjectFournisseursUpdated,
 } from '../../../../../modules/project/events'
 import { onProjectCertificate } from './onProjectCertificate'
 import { onProjectDataCorrected } from './onProjectDataCorrected'
@@ -32,6 +33,7 @@ import { onProjectAbandoned } from './onProjectAbandoned'
 import { onProjectPuissanceUpdated } from './onProjectPuissanceUpdated'
 import { onProjectActionnaireUpdated } from './onProjectActionnaireUpdated'
 import { onProjectProducteurUpdated } from './onProjectProducteurUpdated'
+import { onProjectFournisseursUpdated } from './onProjectFournisseursUpdated'
 import { logger } from '../../../../../core/utils'
 
 export const initProjectProjections = (eventBus: EventBus, models) => {
@@ -55,6 +57,7 @@ export const initProjectProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ProjectPuissanceUpdated.type, onProjectPuissanceUpdated(models))
   eventBus.subscribe(ProjectActionnaireUpdated.type, onProjectActionnaireUpdated(models))
   eventBus.subscribe(ProjectProducteurUpdated.type, onProjectProducteurUpdated(models))
+  eventBus.subscribe(ProjectFournisseursUpdated.type, onProjectFournisseursUpdated(models))
 
   logger.info('Initialized Project projections')
 }

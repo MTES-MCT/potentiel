@@ -84,7 +84,7 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
       delayInMonths,
       puissance,
       actionnaire,
-      fournisseur,
+      fournisseurs,
       evaluationCarbone,
       producteur,
       acceptanceParams,
@@ -112,7 +112,7 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
       delayInMonths,
       puissance,
       actionnaire,
-      fournisseur,
+      fournisseurs,
       evaluationCarbone,
       producteur,
       project: {

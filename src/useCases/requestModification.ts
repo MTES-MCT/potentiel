@@ -1,7 +1,7 @@
 import { okAsync } from 'neverthrow'
 import { Repository, UniqueEntityID } from '../core/domain'
 import { logger } from '../core/utils'
-import { Project, User } from '../entities'
+import { Project, User, Fournisseur } from '../entities'
 import { EventBus } from '../modules/eventStore'
 import { FileContents, FileObject, makeAndSaveFile } from '../modules/file'
 import { ModificationRequested } from '../modules/modificationRequest'
@@ -35,8 +35,8 @@ interface ProducteurRequest {
 
 interface FournisseurRequest {
   type: 'fournisseur'
-  fournisseur: string
-  evaluationCarbone: number
+  Fournisseurs: Fournisseur[]
+  evaluationCarbone?: number
 }
 
 interface PuissanceRequest {
@@ -125,7 +125,7 @@ export default function makeRequestModification({
       justification,
       actionnaire,
       producteur,
-      fournisseur,
+      fournisseurs,
       puissance,
       evaluationCarbone,
       delayInMonths,
@@ -144,7 +144,7 @@ export default function makeRequestModification({
             justification,
             actionnaire,
             producteur,
-            fournisseur,
+            fournisseurs,
             puissance,
             evaluationCarbone,
             delayInMonths,

@@ -27,6 +27,7 @@ export {
   makePasswordRetrieval,
   applyProjectUpdate,
 }
+
 export * from './user'
 export * from './credentials'
 export * from './project'
@@ -37,3 +38,4 @@ export * from './famille'
 export * from './periode'
 export * from './passwordRetrieval'
 export * from './dreal'
+export * from './fournisseur'

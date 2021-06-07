@@ -16,7 +16,7 @@ describe('project.onProjectActionnaireUpdated', () => {
     await Project.bulkCreate([project])
   })
 
-  it('should update the project puissance', async () => {
+  it('should update the project actionnaire', async () => {
     const newActionnaire = 'new actionnaire'
 
     await onProjectActionnaireUpdated(models)(

@@ -1,3 +1,4 @@
+import { Fournisseur } from '../../../entities'
 import { ModificationRequestStatusDTO } from './ModificationRequestListItemDTO'
 
 export type ModificationRequestPageDTO = {
@@ -49,7 +50,7 @@ export type ModificationRequestPageDTO = {
 
 type Variant =
   | { type: 'actionnaire'; actionnaire: string }
-  | { type: 'fournisseur'; fournisseur: string; evaluationCarbone?: number }
+  | { type: 'fournisseur'; fournisseurs: Fournisseur[]; evaluationCarbone?: number }
   | { type: 'producteur'; producteur: string }
   | { type: 'puissance'; puissance: number }
   | { type: 'recours' }

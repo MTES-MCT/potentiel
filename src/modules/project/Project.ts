@@ -13,6 +13,7 @@ import {
 import {
   AppelOffre,
   CertificateTemplate,
+  Fournisseur,
   makeProjectIdentifier,
   ProjectAppelOffre,
   User,
@@ -51,6 +52,7 @@ import {
   ProjectNotified,
   ProjectPuissanceUpdated,
   ProjectReimported,
+  ProjectFournisseursUpdated,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 
@@ -86,6 +88,11 @@ export interface Project extends EventStoreAggregate {
   updateProducteur: (
     user: User,
     newProducteur: string
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
+  updateFournisseurs: (
+    user: User,
+    newFournisseurs: Fournisseur[],
+    newEvaluationCarbone?: number
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
   grantClasse: (user: User) => Result<null, never>
   addGeneratedCertificate: (args: {
@@ -406,6 +413,24 @@ export const makeProject = (args: {
           payload: {
             projectId: props.projectId.toString(),
             newProducteur,
+            updatedBy: user.id,
+          },
+        })
+      )
+
+      return ok(null)
+    },
+    updateFournisseurs: function (user, newFournisseurs: Fournisseur[], newEvaluationCarbone) {
+      if (!_isNotified()) {
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+      }
+
+      _publishEvent(
+        new ProjectFournisseursUpdated({
+          payload: {
+            projectId: props.projectId.toString(),
+            newFournisseurs,
+            newEvaluationCarbone,
             updatedBy: user.id,
           },
         })
