@@ -213,9 +213,7 @@ export default function NewModificationRequestPage({ request, project }: PagePro
                 />
                 <label>Ancienne évaluation carbone (kg eq CO2/kWc)</label>
                 <input type="text" disabled defaultValue={project.evaluationCarbone} />
-                <label className="required" htmlFor="fournisseur">
-                  Nouvelle évaluation carbone (kg eq CO2/kWc)
-                </label>
+                <label htmlFor="fournisseur">Nouvelle évaluation carbone (kg eq CO2/kWc)</label>
                 <input
                   type="text"
                   name="evaluationCarbone"
@@ -461,6 +459,7 @@ export default function NewModificationRequestPage({ request, project }: PagePro
                 règles des cahiers des charges, au plus tard le 30 juin 2021.
               </div>
             )}
+
             <button
               className="button"
               type="submit"

@@ -85,6 +85,7 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
       puissance,
       actionnaire,
       fournisseur,
+      evaluationCarbone,
       producteur,
       acceptanceParams,
       cancelledOn,
@@ -112,6 +113,7 @@ export const makeGetModificationRequestDetails = (models): GetModificationReques
       puissance,
       actionnaire,
       fournisseur,
+      evaluationCarbone,
       producteur,
       project: {
         ...project.get(),
