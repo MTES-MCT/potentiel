@@ -175,6 +175,8 @@ v1Router.post(
           projectId: data.projectId,
           requestedBy: request.user,
           newActionnaire: data.actionnaire,
+          justification: data.justification,
+          file,
         })
         break
       case 'producteur':
