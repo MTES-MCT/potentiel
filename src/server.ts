@@ -2,17 +2,11 @@ import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
 import express, { Request } from 'express'
 import helmet from 'helmet'
-<<<<<<< HEAD
-import { registerAuth, v1Router } from './controllers'
-=======
 import morgan from 'morgan'
-import { version } from '../package.json'
 import { isDevEnv } from './config'
-import { ensureRole, keycloak, registerAuth, v1Router } from './controllers'
->>>>>>> :wrench:  Add morgan for http logs
+import { registerAuth, v1Router } from './controllers'
 import { logger } from './core/utils'
 import { testRouter } from './__tests__/e2e'
-import { isDevEnv } from './config'
 
 dotenv.config()
 

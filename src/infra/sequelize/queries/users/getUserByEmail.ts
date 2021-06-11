@@ -10,7 +10,10 @@ export const getUserByEmail: GetUserByEmail = (email) => {
     (userRaw: any): Result<User | null, InfraNotAvailableError> => {
       if (!userRaw) return ok(null)
 
-      return ok(userRaw.get() as User)
+      const user = userRaw.get()
+      user.isRegistered = !!user.registeredOn
+
+      return ok(user)
     }
   )
 }
