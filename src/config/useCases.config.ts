@@ -28,20 +28,14 @@ import {
   makeUpdateNewRulesOptIn,
   makeUpdateStepStatus,
 } from '../modules/project'
-import { makeCreateUser, makeInviteUserToProject } from '../modules/users'
+import {
+  makeCreateUser,
+  makeInviteUserToProject,
+  makeRegisterFirstUserLogin,
+} from '../modules/users'
 import { buildCertificate } from '../views/certificates'
 import { createUserCredentials } from './credentials.config'
 import { eventStore } from './eventStore.config'
-import {
-  fileRepo,
-  oldProjectRepo,
-  projectRepo,
-  userRepo,
-  modificationRequestRepo,
-  appelOffreRepo,
-  oldAppelOffreRepo,
-  projectClaimRepo,
-} from './repos.config'
 import {
   getAppelOffreList,
   getFileProject,
@@ -54,9 +48,20 @@ import {
   isProjectParticipatif,
 } from './queries.config'
 import { makeClaimProject } from '../modules/projectClaim'
+import {
+  appelOffreRepo,
+  fileRepo,
+  modificationRequestRepo,
+  oldAppelOffreRepo,
+  oldProjectRepo,
+  oldUserRepo,
+  projectRepo,
+  userRepo,
+  projectClaimRepo,
+} from './repos.config'
 
 export const shouldUserAccessProject = new BaseShouldUserAccessProject(
-  userRepo,
+  oldUserRepo,
   oldProjectRepo.findById
 )
 
@@ -188,6 +193,10 @@ export const inviteUserToProject = makeInviteUserToProject({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   eventBus: eventStore,
   createUser,
+})
+
+export const registerFirstUserLogin = makeRegisterFirstUserLogin({
+  userRepo,
 })
 
 export const cancelModificationRequest = makeCancelModificationRequest({
