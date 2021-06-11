@@ -1,5 +1,3 @@
-import { fromOldResultAsync } from '../core/utils'
-import { User } from '../entities'
 import { makeImportAppelOffreData, makeImportPeriodeData } from '../modules/appelOffre/useCases'
 import {
   BaseShouldUserAccessProject,
@@ -34,7 +32,7 @@ import {
   makeRegisterFirstUserLogin,
 } from '../modules/users'
 import { buildCertificate } from '../views/certificates'
-import { createUserCredentials } from './credentials.config'
+import { createUserCredentials, getUserName } from './credentials.config'
 import { eventStore } from './eventStore.config'
 import {
   getAppelOffreList,
@@ -187,6 +185,7 @@ export const inviteUserToProject = makeInviteUserToProject({
 
 export const registerFirstUserLogin = makeRegisterFirstUserLogin({
   userRepo,
+  getUserName,
 })
 
 export const cancelModificationRequest = makeCancelModificationRequest({
