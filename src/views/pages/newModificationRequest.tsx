@@ -400,7 +400,7 @@ export default function NewModificationRequestPage({ request, project }: PagePro
                   style={{ display: 'none' }}
                   {...dataId('modificationRequest-evaluationCarbone-error-message-out-of-bounds')}
                 >
-                  Cette valeur d'évaluation carbone remet en cause l'offre déposée. Votre projet ne
+                  Cette nouvelle valeur entraîne une dégradation de la note du projet, celui-ci ne
                   recevra pas d'attestation de conformité.
                 </div>
                 <div

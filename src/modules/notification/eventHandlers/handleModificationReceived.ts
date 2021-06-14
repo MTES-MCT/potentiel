@@ -47,11 +47,12 @@ export const handleModificationReceived = (deps: {
         payload.variables.demande_action_pp = `Suite à votre signalement de changement de type ${type}, vous devez déposer de nouvelles garanties financières dans un délai d'un mois maximum.`
 
       const evaluationCarboneOutOfBounds =
+        type === 'fournisseur' &&
         isStrictlyPositiveNumber(project.evaluationCarbone) &&
-        Math.abs(project.evaluationCarbone - Number(evaluationCarbone)) > 50
+        Math.round(Number(evaluationCarbone) / 50) !== Math.round(project.evaluationCarbone)
 
-      if (type === 'fournisseur' && evaluationCarboneOutOfBounds)
-        payload.variables.demande_action_pp = `Vous venez d'effectuer une demande de changement de type ${type}. Vous avez modifié l'évaluation carbone de votre projet et la nouvelle valeur induit une évolution de plus de 50 kg eq CO2/kWc. Cela remet en cause l'offre déposée et votre projet ne recevra pas d'attestation de conformité.`
+      if (evaluationCarboneOutOfBounds)
+        payload.variables.demande_action_pp = `Vous venez de signaler une augmentation de l'évaluation carbone de votre projet. Cette nouvelle valeur entraîne une dégradation de la note du projet. Celui-ci ne recevra pas d'attestation de conformité.`
 
       await deps.sendNotification(payload)
     },
