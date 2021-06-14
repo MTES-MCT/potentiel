@@ -23,22 +23,21 @@ describe('project.onProjectGFInvalidated', () => {
     beforeAll(async () => {
       await resetDatabase()
       await ProjectStep.bulkCreate([projectStep1, projectStep2])
-    })
-
-    it('should set the GF status to "invalidé" without modifying the one already with this status', async () => {
       await onProjectGFInvalidated(models)(
         new ProjectGFInvalidated({
           payload: { projectId },
         })
       )
+    })
 
-      const projectSteps = await ProjectStep.findAll({
-        where: { projectId, type: 'garantie-financiere' },
-        order: ['updatedAt'],
-      })
+    it('should set the GF status to "invalidé"', async () => {
+      const updatedProjectSteps1 = await ProjectStep.findByPk(projectStepId1)
+      expect(updatedProjectSteps1.status).toEqual('invalidé')
+    })
 
-      expect(projectSteps[0].updatedAt).toEqual(projectStep2.updatedAt)
-      expect(projectSteps[1].status).toEqual('invalidé')
+    it('should not modify the GF that already has its status set to `invalidé`', async () => {
+      const updatedProjectSteps2 = await ProjectStep.findByPk(projectStepId2)
+      expect(updatedProjectSteps2.updatedAt).toEqual(projectStep2.updatedAt)
     })
   })
 
@@ -48,22 +47,21 @@ describe('project.onProjectGFInvalidated', () => {
     beforeAll(async () => {
       await resetDatabase()
       await ProjectStep.bulkCreate([projectStep1, projectStep2])
-    })
-
-    it('should set the GF status to "invalidé" without modifying the one already with this status', async () => {
       await onProjectGFInvalidated(models)(
         new ProjectGFInvalidated({
           payload: { projectId },
         })
       )
+    })
 
-      const projectSteps = await ProjectStep.findAll({
-        where: { projectId, type: 'garantie-financiere' },
-        order: ['updatedAt'],
-      })
+    it('should set the GF status to "invalidé"', async () => {
+      const updatedProjectSteps1 = await ProjectStep.findByPk(projectStepId1)
+      expect(updatedProjectSteps1.status).toEqual('invalidé')
+    })
 
-      expect(projectSteps[0].updatedAt).toEqual(projectStep2.updatedAt)
-      expect(projectSteps[1].status).toEqual('invalidé')
+    it('should not modify the GF that already has its status set to `invalidé`', async () => {
+      const updatedProjectSteps2 = await ProjectStep.findByPk(projectStepId2)
+      expect(updatedProjectSteps2.updatedAt).toEqual(projectStep2.updatedAt)
     })
   })
 
@@ -73,22 +71,21 @@ describe('project.onProjectGFInvalidated', () => {
     beforeAll(async () => {
       await resetDatabase()
       await ProjectStep.bulkCreate([projectStep1, projectStep2])
-    })
-
-    it('should set the GF status to "invalidé" without modifying the one already with this status', async () => {
       await onProjectGFInvalidated(models)(
         new ProjectGFInvalidated({
           payload: { projectId },
         })
       )
+    })
 
-      const projectSteps = await ProjectStep.findAll({
-        where: { projectId, type: 'garantie-financiere' },
-        order: ['updatedAt'],
-      })
+    it('should set the GF status to "invalidé"', async () => {
+      const updatedProjectSteps1 = await ProjectStep.findByPk(projectStepId1)
+      expect(updatedProjectSteps1.status).toEqual('invalidé')
+    })
 
-      expect(projectSteps[0].updatedAt).toEqual(projectStep2.updatedAt)
-      expect(projectSteps[1].status).toEqual('invalidé')
+    it('should not modify the GF that already has its status set to `invalidé`', async () => {
+      const updatedProjectSteps2 = await ProjectStep.findByPk(projectStepId2)
+      expect(updatedProjectSteps2.updatedAt).toEqual(projectStep2.updatedAt)
     })
   })
 })

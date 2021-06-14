@@ -12,10 +12,11 @@ describe('projectStep.onProjectStepRemoved', () => {
   const { ProjectStep } = models
 
   const projectId = new UniqueEntityID().toString()
+  const projectStepId1 = new UniqueEntityID().toString()
+  const projectStepId2 = new UniqueEntityID().toString()
 
   describe('when event is ProjectPTFRemoved', () => {
     beforeAll(async () => {
-      // Create the tables and remove all data
       await resetDatabase()
 
       await ProjectStep.create({
@@ -46,7 +47,6 @@ describe('projectStep.onProjectStepRemoved', () => {
 
   describe('when event is ProjectDCRRemoved', () => {
     beforeAll(async () => {
-      // Create the tables and remove all data
       await resetDatabase()
 
       await ProjectStep.create({
@@ -77,11 +77,10 @@ describe('projectStep.onProjectStepRemoved', () => {
 
   describe('when event is ProjectGFRemoved', () => {
     beforeAll(async () => {
-      // Create the tables and remove all data
       await resetDatabase()
 
       await ProjectStep.create({
-        id: new UniqueEntityID().toString(),
+        id: projectStepId1,
         projectId,
         type: 'garantie-financiere',
         stepDate: new Date(123),
@@ -116,7 +115,7 @@ describe('projectStep.onProjectStepRemoved', () => {
         await resetDatabase()
 
         await ProjectStep.create({
-          id: new UniqueEntityID().toString(),
+          id: projectStepId1,
           projectId,
           type: 'garantie-financiere',
           stepDate: new Date(123),
@@ -127,7 +126,7 @@ describe('projectStep.onProjectStepRemoved', () => {
         })
 
         await ProjectStep.create({
-          id: new UniqueEntityID().toString(),
+          id: projectStepId2,
           projectId,
           type: 'garantie-financiere',
           stepDate: new Date(123),
@@ -142,7 +141,7 @@ describe('projectStep.onProjectStepRemoved', () => {
         ).toEqual(2)
       })
 
-      it('should remove the project garantie-financiere step with null status only', async () => {
+      it('should remove the project garantie-financiere step with "null" status only', async () => {
         const event = new ProjectGFRemoved({
           payload: {
             projectId,
@@ -151,12 +150,10 @@ describe('projectStep.onProjectStepRemoved', () => {
         })
         await onProjectStepRemoved(models)(event)
 
-        const steps = await ProjectStep.findAll({
-          where: { projectId, type: 'garantie-financiere' },
-        })
+        const step = await ProjectStep.findByPk(projectStepId1)
 
-        expect(steps.length).toEqual(1)
-        expect(steps[0].status).toEqual('invalidé')
+        expect(step).toBeDefined()
+        expect(step.status).toEqual('invalidé')
       })
     })
 
@@ -165,7 +162,7 @@ describe('projectStep.onProjectStepRemoved', () => {
         await resetDatabase()
 
         await ProjectStep.create({
-          id: new UniqueEntityID().toString(),
+          id: projectStepId1,
           projectId,
           type: 'garantie-financiere',
           stepDate: new Date(123),
@@ -176,7 +173,7 @@ describe('projectStep.onProjectStepRemoved', () => {
         })
 
         await ProjectStep.create({
-          id: new UniqueEntityID().toString(),
+          id: projectStepId2,
           projectId,
           type: 'garantie-financiere',
           stepDate: new Date(123),
@@ -191,7 +188,7 @@ describe('projectStep.onProjectStepRemoved', () => {
         ).toEqual(2)
       })
 
-      it('should remove the project garantie-financiere step with null status only', async () => {
+      it('should remove the project garantie-financiere step with "à traiter" status only', async () => {
         const event = new ProjectGFRemoved({
           payload: {
             projectId,
@@ -200,12 +197,10 @@ describe('projectStep.onProjectStepRemoved', () => {
         })
         await onProjectStepRemoved(models)(event)
 
-        const steps = await ProjectStep.findAll({
-          where: { projectId, type: 'garantie-financiere' },
-        })
+        const step = await ProjectStep.findByPk(projectStepId1)
 
-        expect(steps.length).toEqual(1)
-        expect(steps[0].status).toEqual('invalidé')
+        expect(step).toBeDefined()
+        expect(step.status).toEqual('invalidé')
       })
     })
   })

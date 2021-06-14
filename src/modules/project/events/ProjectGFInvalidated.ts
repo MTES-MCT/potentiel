@@ -11,6 +11,6 @@ export class ProjectGFInvalidated
   currentVersion = 1
 
   aggregateIdFromPayload(payload: ProjectGFInvalidatedPayload) {
-    return payload.projectId
+    return undefined
   }
 }
