@@ -5,11 +5,11 @@ export default function makeFakeProjectStep(overrides?) {
     id: uuid(),
     type: 'garantie-financiere',
     projectId: uuid(),
-    stepDate: new Date(),
+    stepDate: new Date(123),
     fileId: uuid(),
-    submittedOn: new Date(),
+    submittedOn: new Date(123),
     submittedBy: uuid(),
-    createdAt: new Date(),
+    createdAt: new Date(123),
     ...overrides,
   }
 }

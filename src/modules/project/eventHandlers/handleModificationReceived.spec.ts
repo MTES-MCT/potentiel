@@ -16,8 +16,8 @@ describe('handleModificationReceived', () => {
     subscribe: jest.fn(),
   }
 
-  const now = new Date()
-  const oneMonthLaterTimestamp = new Date(moment(now).add(1, 'M').unix()).getTime()
+  const date = new Date('2021-01-01')
+  const oneMonthLaterTimestamp = moment(new Date('2021-02-01')).unix()
 
   describe('when type is not actionnaire nor producteur', () => {
     eventBus.publish.mockClear()
@@ -38,7 +38,7 @@ describe('handleModificationReceived', () => {
           payload: fakePayload,
           requestId,
           original: {
-            occurredAt: now,
+            occurredAt: date,
             version: 1,
           },
         })
@@ -68,6 +68,10 @@ describe('handleModificationReceived', () => {
         new ModificationReceived({
           payload: fakePayload,
           requestId,
+          original: {
+            occurredAt: date,
+            version: 1,
+          },
         })
       )
     })
@@ -79,9 +83,9 @@ describe('handleModificationReceived', () => {
         .pop()
 
       expect(event).toBeDefined()
-      if (!event) return -1
+      if (!event) return
       expect(event.payload.projectId).toEqual(projectId.toString())
-      expect(moment(event.payload.garantiesFinancieresDueOn).unix()).toEqual(oneMonthLaterTimestamp)
+      expect(event.payload.garantiesFinancieresDueOn).toEqual(oneMonthLaterTimestamp)
       expect(event.requestId).toEqual(requestId)
     })
 
@@ -92,7 +96,7 @@ describe('handleModificationReceived', () => {
         .pop()
 
       expect(event).toBeDefined()
-      if (!event) return -1
+      if (!event) return
       expect(event.payload.projectId).toEqual(projectId.toString())
       expect(event.requestId).toEqual(requestId)
     })
@@ -116,6 +120,10 @@ describe('handleModificationReceived', () => {
         new ModificationReceived({
           payload: fakePayload,
           requestId,
+          original: {
+            occurredAt: date,
+            version: 1,
+          },
         })
       )
     })
@@ -127,9 +135,9 @@ describe('handleModificationReceived', () => {
         .pop()
 
       expect(event).toBeDefined()
-      if (!event) return -1
+      if (!event) return
       expect(event.payload.projectId).toEqual(projectId.toString())
-      expect(moment(event.payload.garantiesFinancieresDueOn).unix()).toEqual(oneMonthLaterTimestamp)
+      expect(event.payload.garantiesFinancieresDueOn).toEqual(oneMonthLaterTimestamp)
       expect(event.requestId).toEqual(requestId)
     })
 
@@ -140,7 +148,7 @@ describe('handleModificationReceived', () => {
         .pop()
 
       expect(event).toBeDefined()
-      if (!event) return -1
+      if (!event) return
       expect(event.payload.projectId).toEqual(projectId.toString())
       expect(event.requestId).toEqual(requestId)
     })
