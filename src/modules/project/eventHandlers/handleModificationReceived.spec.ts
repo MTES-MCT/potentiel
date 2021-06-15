@@ -4,7 +4,6 @@ import { InfraNotAvailableError } from '../../shared'
 import { ModificationReceived } from '../../modificationRequest/events'
 import { handleModificationReceived } from '.'
 import { ProjectGFDueDateSet, ProjectGFInvalidated } from '..'
-import moment from 'moment'
 
 describe('handleModificationReceived', () => {
   const projectId = new UniqueEntityID()
@@ -17,7 +16,7 @@ describe('handleModificationReceived', () => {
   }
 
   const date = new Date('2021-01-01')
-  const oneMonthLaterTimestamp = moment(new Date('2021-02-01')).unix()
+  const oneMonthLaterTimestamp = new Date('2021-02-01').getTime()
 
   describe('when type is not actionnaire nor producteur', () => {
     eventBus.publish.mockClear()

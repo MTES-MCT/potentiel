@@ -20,7 +20,7 @@ export const handleModificationReceived = (deps: { eventBus: EventBus }) => asyn
       new ProjectGFDueDateSet({
         payload: {
           projectId: projectId.toString(),
-          garantiesFinancieresDueOn: moment(event.occurredAt).add(1, 'months').unix(),
+          garantiesFinancieresDueOn: moment(event.occurredAt).add(1, 'months').toDate().getTime(),
         },
         requestId,
       })
