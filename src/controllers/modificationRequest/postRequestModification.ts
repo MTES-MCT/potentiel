@@ -17,7 +17,7 @@ import {
   requestFournisseurModification,
 } from '../../config'
 import { PuissanceJustificationOrCourrierMissingError } from '../../modules/modificationRequest'
-import { Fournisseur, FournisseurKind } from '../../entities'
+import { Fournisseur, FournisseurKind } from '../../modules/project'
 
 const returnRoute = (type, projectId) => {
   let returnRoute: string
@@ -231,7 +231,7 @@ v1Router.post(
             kind: 'Nom du fabricant \n(Autres technologies)' as FournisseurKind,
             name: data['Nom du fabricant \\n(Autres technologies)'],
           },
-        ].filter((fournisseur) => fournisseur.name)
+        ].filter(({ name }) => name)
 
         await requestFournisseurModification({
           projectId: data.projectId,

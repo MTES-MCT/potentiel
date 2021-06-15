@@ -1,5 +1,5 @@
 import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
-import { Fournisseur } from '../../../entities/fournisseur'
+import { Fournisseur } from '../../project/types/fournisseur'
 
 export interface ModificationReceivedPayload {
   modificationRequestId: string

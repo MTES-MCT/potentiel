@@ -1,9 +1,9 @@
 import { Repository, TransactionalRepository, UniqueEntityID } from '../../../core/domain'
 import { errAsync, logger, okAsync, ResultAsync, wrapInfra } from '../../../core/utils'
-import { Fournisseur, User } from '../../../entities'
+import { User } from '../../../entities'
 import { EventBus } from '../../eventStore'
 import { FileContents, FileObject, makeAndSaveFile } from '../../file'
-import { ProjectCannotBeUpdatedIfUnnotifiedError } from '../../project'
+import { Fournisseur, ProjectCannotBeUpdatedIfUnnotifiedError } from '../../project'
 import { Project } from '../../project/Project'
 import {
   AggregateHasBeenUpdatedSinceError,

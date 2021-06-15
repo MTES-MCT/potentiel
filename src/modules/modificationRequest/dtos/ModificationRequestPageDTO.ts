@@ -1,4 +1,4 @@
-import { Fournisseur } from '../../../entities'
+import { Fournisseur } from '../../project'
 import { ModificationRequestStatusDTO } from './ModificationRequestListItemDTO'
 
 export type ModificationRequestPageDTO = {

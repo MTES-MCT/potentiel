@@ -1,10 +1,11 @@
 import { okAsync } from 'neverthrow'
 import { Repository, UniqueEntityID } from '../core/domain'
 import { logger } from '../core/utils'
-import { Project, User, Fournisseur } from '../entities'
+import { Project, User } from '../entities'
 import { EventBus } from '../modules/eventStore'
 import { FileContents, FileObject, makeAndSaveFile } from '../modules/file'
 import { ModificationRequested } from '../modules/modificationRequest'
+import { Fournisseur } from '../modules/project'
 import { NumeroGestionnaireSubmitted } from '../modules/project/events'
 import { ErrorResult, Ok, ResultAsync } from '../types'
 
@@ -121,16 +122,7 @@ export default function makeRequestModification({
       fileId = fileIdResult.value.toString()
     }
 
-    const {
-      justification,
-      actionnaire,
-      producteur,
-      fournisseurs,
-      puissance,
-      evaluationCarbone,
-      delayInMonths,
-      numeroGestionnaire,
-    } = props as any
+    const { justification, puissance, delayInMonths, numeroGestionnaire } = props as any
 
     const res = await eventBus
       .publish(
@@ -142,11 +134,7 @@ export default function makeRequestModification({
             requestedBy: user.id,
             fileId,
             justification,
-            actionnaire,
-            producteur,
-            fournisseurs,
             puissance,
-            evaluationCarbone,
             delayInMonths,
           },
         })

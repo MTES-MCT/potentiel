@@ -649,8 +649,8 @@ function addEvaluationCarboneModificationHandler() {
       const oldValue = getFieldValue('[data-testid=modificationRequest-oldEvaluationCarboneField]')
 
       if (!Number.isNaN(newValue) && !Number.isNaN(oldValue)) {
-        const newValueIsOutOfBounds =
-          newValue > oldValue && Math.round(oldValue / 50) !== Math.round(newValue / 50)
+        const switchBracket = Math.round(oldValue / 50) !== Math.round(newValue / 50)
+        const newValueIsOutOfBounds = newValue > oldValue && switchBracket
 
         if (newValueIsOutOfBounds) {
           show(outOfBounds, true)

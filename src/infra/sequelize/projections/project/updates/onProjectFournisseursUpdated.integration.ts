@@ -3,12 +3,12 @@ import { resetDatabase } from '../../../helpers'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import { onProjectFournisseursUpdated } from './onProjectFournisseursUpdated'
 import { ProjectFournisseursUpdated } from '../../../../../modules/project/events'
-import { v4 as uuid } from 'uuid'
-import { Fournisseur } from '../../../../../entities'
+import { Fournisseur } from '../../../../../modules/project'
+import { UniqueEntityID } from '../../../../../core/domain'
 
 describe('project.onProjectFournisseursUpdated', () => {
-  const ProjectModel = models.Project
-  const projectId = uuid()
+  const { Project } = models
+  const projectId = new UniqueEntityID().toString()
   const project = makeFakeProject({
     id: projectId,
     details: {
@@ -20,7 +20,7 @@ describe('project.onProjectFournisseursUpdated', () => {
 
   beforeAll(async () => {
     await resetDatabase()
-    await ProjectModel.bulkCreate([project])
+    await Project.bulkCreate([project])
   })
 
   it('should update the project fournisseurs and evaluation carbone', async () => {
@@ -39,7 +39,7 @@ describe('project.onProjectFournisseursUpdated', () => {
       })
     )
 
-    const updatedProject = await ProjectModel.findByPk(projectId)
+    const updatedProject = await Project.findByPk(projectId)
     expect(updatedProject.details).toMatchObject({
       'Nom du fabricant \n(Postes de conversion)': 'oldFabricant2',
       'Nom du fabricant \n(Modules ou films)': 'newFabricant1',

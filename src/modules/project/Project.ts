@@ -13,7 +13,6 @@ import {
 import {
   AppelOffre,
   CertificateTemplate,
-  Fournisseur,
   makeProjectIdentifier,
   ProjectAppelOffre,
   User,
@@ -55,6 +54,7 @@ import {
   ProjectFournisseursUpdated,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
+import { Fournisseur } from '.'
 
 export interface Project extends EventStoreAggregate {
   notify: (

@@ -1,12 +1,12 @@
 import { Readable } from 'stream'
 import { DomainEvent, Repository } from '../../../core/domain'
 import { okAsync } from '../../../core/utils'
-import { FournisseurKind, makeUser } from '../../../entities'
+import { makeUser } from '../../../entities'
 import { UnwrapForTest } from '../../../types'
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { FileObject } from '../../file'
-import { Project } from '../../project'
+import { FournisseurKind, Project } from '../../project'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { ModificationReceived, ModificationRequested } from '../events'
 import { makeRequestFournisseursModification } from './requestFournisseursModification'
@@ -16,8 +16,6 @@ describe('requestFournisseurModification use-case', () => {
   const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
   const fakeProject = {
     ...makeFakeProject(),
-    fournisseur: 'initial fournisseur',
-    evaluationCarbone: 50,
   }
   const projectRepo = fakeTransactionalRepo(fakeProject as Project)
   const fakePublish = jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null))

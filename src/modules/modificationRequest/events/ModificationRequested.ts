@@ -1,5 +1,5 @@
 import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
-import { FournisseurKind } from '../../../entities/fournisseur'
+import { FournisseurKind } from '../../project/types/fournisseur'
 
 export interface ModificationRequestedPayload {
   type: string

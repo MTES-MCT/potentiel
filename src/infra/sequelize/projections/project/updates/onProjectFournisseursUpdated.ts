@@ -15,8 +15,8 @@ export const onProjectFournisseursUpdated = (models) => async (
     return
   }
 
-  newFournisseurs.forEach((fournisseur) => {
-    projectInstance.details[fournisseur.kind] = fournisseur.name
+  newFournisseurs.forEach(({ kind, name }) => {
+    projectInstance.details[kind] = name
   })
 
   if (newEvaluationCarbone) projectInstance.evaluationCarbone = newEvaluationCarbone

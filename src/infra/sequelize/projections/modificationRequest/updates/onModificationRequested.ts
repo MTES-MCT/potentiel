@@ -11,9 +11,6 @@ export const onModificationRequested = (models) => async (event: ModificationReq
     fileId,
     justification,
     requestedBy,
-    actionnaire,
-    producteur,
-    fournisseurs,
     puissance,
     delayInMonths,
   } = event.payload
@@ -28,9 +25,6 @@ export const onModificationRequested = (models) => async (event: ModificationReq
       fileId,
       userId: requestedBy,
       justification,
-      actionnaire,
-      producteur,
-      fournisseurs,
       puissance,
       delayInMonths,
     })

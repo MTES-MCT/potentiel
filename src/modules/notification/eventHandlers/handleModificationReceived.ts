@@ -46,13 +46,18 @@ export const handleModificationReceived = (deps: {
       if (['producteur', 'actionnaire'].includes(type))
         payload.variables.demande_action_pp = `Suite à votre signalement de changement de type ${type}, vous devez déposer de nouvelles garanties financières dans un délai d'un mois maximum.`
 
-      const evaluationCarboneOutOfBounds =
-        type === 'fournisseur' &&
-        isStrictlyPositiveNumber(project.evaluationCarbone) &&
-        Math.round(Number(evaluationCarbone) / 50) !== Math.round(project.evaluationCarbone)
+      if (type === 'fournisseur' && evaluationCarbone) {
+        const currentEvaluationCarbone = project.evaluationCarbone
+        const newEvaluationCarbone = Number(evaluationCarbone)
+        const switchBracket =
+          Math.round(newEvaluationCarbone / 50) !== Math.round(currentEvaluationCarbone / 50)
 
-      if (evaluationCarboneOutOfBounds)
-        payload.variables.demande_action_pp = `Vous venez de signaler une augmentation de l'évaluation carbone de votre projet. Cette nouvelle valeur entraîne une dégradation de la note du projet. Celui-ci ne recevra pas d'attestation de conformité.`
+        const evaluationCarboneIsOutOfBounds =
+          newEvaluationCarbone > currentEvaluationCarbone && switchBracket
+
+        if (evaluationCarboneIsOutOfBounds)
+          payload.variables.demande_action_pp = `Vous venez de signaler une augmentation de l'évaluation carbone de votre projet. Cette nouvelle valeur entraîne une dégradation de la note du projet. Celui-ci ne recevra pas d'attestation de conformité.`
+      }
 
       await deps.sendNotification(payload)
     },

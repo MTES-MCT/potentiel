@@ -1,6 +1,7 @@
 import { DomainEvent, UniqueEntityID } from '../../../core/domain'
 import { ok } from '../../../core/utils'
-import { Fournisseur, ProjectAppelOffre, User } from '../../../entities'
+import { ProjectAppelOffre, User } from '../../../entities'
+import { Fournisseur } from '../../../modules/project'
 import { ProjectDataForCertificate } from '../../../modules/project/dtos'
 import {
   EliminatedProjectCannotBeAbandonnedError,
