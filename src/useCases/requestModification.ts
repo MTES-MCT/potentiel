@@ -23,16 +23,6 @@ interface RequestCommon {
   projectId: Project['id']
 }
 
-interface ActionnaireRequest {
-  type: 'actionnaire'
-  actionnaire: string
-}
-
-interface ProducteurRequest {
-  type: 'producteur'
-  producteur: string
-}
-
 interface PuissanceRequest {
   type: 'puissance'
   puissance: number
@@ -56,14 +46,7 @@ interface RecoursRequest {
 }
 
 type CallUseCaseProps = RequestCommon &
-  (
-    | ActionnaireRequest
-    | ProducteurRequest
-    | PuissanceRequest
-    | DelayRequest
-    | AbandonRequest
-    | RecoursRequest
-  )
+  (PuissanceRequest | DelayRequest | AbandonRequest | RecoursRequest)
 
 export const ERREUR_FORMAT = 'Merci de remplir les champs marqués obligatoires'
 export const ACCESS_DENIED_ERROR = "Vous n'avez pas le droit de faire de demandes pour ce projet"
