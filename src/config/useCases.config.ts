@@ -41,6 +41,7 @@ import {
   getProjectAppelOffreId,
   getProjectIdForAdmissionKey,
   getProjectIdsForPeriode,
+  getProjectsByContactEmail,
   getUserByEmail,
   hasProjectGarantieFinanciere,
   isProjectParticipatif,
@@ -181,6 +182,7 @@ export const createUser = makeCreateUser({
   getUserByEmail,
   createUserCredentials,
   eventBus: eventStore,
+  getProjectsByContactEmail,
 })
 
 export const inviteUserToProject = makeInviteUserToProject({
