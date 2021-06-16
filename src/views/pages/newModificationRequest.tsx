@@ -422,7 +422,9 @@ export default function NewModificationRequestPage({ request, project }: PagePro
                   id="file"
                 />
                 <label style={{ marginTop: 10 }} className="required" htmlFor="justification">
-                  <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>
+                  <strong>
+                    Veuillez nous indiquer les raisons qui motivent cette modification
+                  </strong>
                   <br />
                   Pour faciliter le traitement de votre demande, veillez à détailler les raisons
                   ayant conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
@@ -464,7 +466,9 @@ export default function NewModificationRequestPage({ request, project }: PagePro
                   id="file"
                 />
                 <label style={{ marginTop: 10 }} className="required" htmlFor="justification">
-                  <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>
+                  <strong>
+                    Veuillez nous indiquer les raisons qui motivent cette modification
+                  </strong>
                   <br />
                   Pour faciliter le traitement de votre demande, veillez à détailler les raisons
                   ayant conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
@@ -507,7 +511,9 @@ export default function NewModificationRequestPage({ request, project }: PagePro
                   id="file"
                 />
                 <label style={{ marginTop: 10 }} className="required" htmlFor="justification">
-                  <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>
+                  <strong>
+                    Veuillez nous indiquer les raisons qui motivent cette modification
+                  </strong>
                   <br />
                   Pour faciliter le traitement de votre demande, veillez à détailler les raisons
                   ayant conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
