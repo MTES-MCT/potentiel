@@ -1,3 +1,4 @@
+import { fromOldResultAsync, logger } from '../core/utils'
 import { makeImportAppelOffreData, makeImportPeriodeData } from '../modules/appelOffre/useCases'
 import {
   BaseShouldUserAccessProject,
@@ -26,6 +27,7 @@ import {
   makeSubmitStep,
   makeUpdateStepStatus,
 } from '../modules/project/useCases'
+import { InfraNotAvailableError } from '../modules/shared'
 import {
   makeCreateUser,
   makeInviteUserToProject,
@@ -39,6 +41,7 @@ import {
   getFileProject,
   getProjectIdForAdmissionKey,
   getProjectIdsForPeriode,
+  getProjectsByContactEmail,
   getUserByEmail,
 } from './queries.config'
 import {
@@ -174,6 +177,7 @@ export const createUser = makeCreateUser({
   getUserByEmail,
   createUserCredentials,
   eventBus: eventStore,
+  getProjectsByContactEmail,
 })
 
 export const inviteUserToProject = makeInviteUserToProject({
