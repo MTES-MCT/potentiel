@@ -5,7 +5,6 @@ import { Project, User } from '../entities'
 import { EventBus } from '../modules/eventStore'
 import { FileContents, FileObject, makeAndSaveFile } from '../modules/file'
 import { ModificationRequested } from '../modules/modificationRequest'
-import { Fournisseur } from '../modules/project'
 import { NumeroGestionnaireSubmitted } from '../modules/project/events'
 import { ErrorResult, Ok, ResultAsync } from '../types'
 
@@ -34,12 +33,6 @@ interface ProducteurRequest {
   producteur: string
 }
 
-interface FournisseurRequest {
-  type: 'fournisseur'
-  Fournisseurs: Fournisseur[]
-  evaluationCarbone?: number
-}
-
 interface PuissanceRequest {
   type: 'puissance'
   puissance: number
@@ -66,7 +59,6 @@ type CallUseCaseProps = RequestCommon &
   (
     | ActionnaireRequest
     | ProducteurRequest
-    | FournisseurRequest
     | PuissanceRequest
     | DelayRequest
     | AbandonRequest
