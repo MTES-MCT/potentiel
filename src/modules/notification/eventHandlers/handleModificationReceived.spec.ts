@@ -6,6 +6,7 @@ import { None, Some } from '../../../types'
 import makeFakeProject from '../../../__tests__/fixtures/project'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { ModificationReceived } from '../../modificationRequest'
+import { FournisseurKind } from '../../project'
 
 const userId = new UniqueEntityID().toString()
 const projectId = new UniqueEntityID().toString()
@@ -36,7 +37,7 @@ describe('notification.handleModificationReceived', () => {
           modificationRequestId,
           projectId,
           requestedBy: userId,
-          puissance: 18,
+          producteur: 'test producteur',
           justification: 'justification',
         },
       })
@@ -137,5 +138,144 @@ describe('notification.handleModificationReceived', () => {
           notification.context.projectId === projectId
       )
     ).toBe(true)
+  })
+
+  describe('when event type is "fournisseur"', () => {
+    describe('when the new evaluationCarbone is below the current one', () => {
+      const sendNotification = jest.fn(async (args: NotificationArgs) => null)
+      const findProjectById = jest.fn(async (region: string) =>
+        makeProject(
+          makeFakeProject({
+            id: projectId,
+            nomProjet: 'nomProjet',
+            regionProjet: 'region',
+            evaluationCarbone: 100,
+          })
+        ).unwrap()
+      )
+      const findUserById = jest.fn(async (userId: string) =>
+        Some(makeFakeUser({ email: 'pp@test.test', fullName: 'john doe' }))
+      )
+      const findUsersForDreal = jest.fn(async (region: string) => [])
+
+      beforeAll(async () => {
+        await handleModificationReceived({
+          sendNotification,
+          findProjectById,
+          findUserById,
+          findUsersForDreal,
+        })(
+          new ModificationReceived({
+            payload: {
+              type: 'fournisseur',
+              modificationRequestId,
+              projectId,
+              requestedBy: userId,
+              fournisseurs: [
+                { kind: 'Nom du fabricant (Cellules)' as FournisseurKind, name: 'fournisseur' },
+              ],
+              evaluationCarbone: 74,
+            },
+          })
+        )
+      })
+
+      it('should NOT add a warning section in the sent email', async () => {
+        const [notification] = sendNotification.mock.calls.map((call) => call[0])
+
+        if (notification.type !== 'pp-modification-received') return
+        expect(notification.variables.demande_action_pp).toBeUndefined()
+      })
+    })
+
+    describe('when the new evaluationCarbone is higher than the current one and lower than the tolerated threshold', () => {
+      const sendNotification = jest.fn(async (args: NotificationArgs) => null)
+      const findProjectById = jest.fn(async (region: string) =>
+        makeProject(
+          makeFakeProject({
+            id: projectId,
+            nomProjet: 'nomProjet',
+            regionProjet: 'region',
+            evaluationCarbone: 100,
+          })
+        ).unwrap()
+      )
+      const findUserById = jest.fn(async (userId: string) =>
+        Some(makeFakeUser({ email: 'pp@test.test', fullName: 'john doe' }))
+      )
+      const findUsersForDreal = jest.fn(async (region: string) => [])
+
+      beforeAll(async () => {
+        await handleModificationReceived({
+          sendNotification,
+          findProjectById,
+          findUserById,
+          findUsersForDreal,
+        })(
+          new ModificationReceived({
+            payload: {
+              type: 'fournisseur',
+              modificationRequestId,
+              projectId,
+              requestedBy: userId,
+              fournisseurs: [{ kind: '' as FournisseurKind, name: '' }],
+              evaluationCarbone: 124,
+            },
+          })
+        )
+      })
+
+      it('should NOT add a warning section in the sent email', async () => {
+        const [notification] = sendNotification.mock.calls.map((call) => call[0])
+
+        if (notification.type !== 'pp-modification-received') return
+        expect(notification.variables.demande_action_pp).toBeUndefined()
+      })
+    })
+
+    describe('when the new evaluationCarbone is higher than the current one and higher than the tolerated threshold', () => {
+      const sendNotification = jest.fn(async (args: NotificationArgs) => null)
+      const findProjectById = jest.fn(async (region: string) =>
+        makeProject(
+          makeFakeProject({
+            id: projectId,
+            nomProjet: 'nomProjet',
+            regionProjet: 'region',
+            evaluationCarbone: 100,
+          })
+        ).unwrap()
+      )
+      const findUserById = jest.fn(async (userId: string) =>
+        Some(makeFakeUser({ email: 'pp@test.test', fullName: 'john doe' }))
+      )
+      const findUsersForDreal = jest.fn(async (region: string) => [])
+
+      beforeAll(async () => {
+        await handleModificationReceived({
+          sendNotification,
+          findProjectById,
+          findUserById,
+          findUsersForDreal,
+        })(
+          new ModificationReceived({
+            payload: {
+              type: 'fournisseur',
+              modificationRequestId,
+              projectId,
+              requestedBy: userId,
+              fournisseurs: [{ kind: '' as FournisseurKind, name: '' }],
+              evaluationCarbone: 125,
+            },
+          })
+        )
+      })
+
+      it('should add a warning section in the sent email', async () => {
+        const [notification] = sendNotification.mock.calls.map((call) => call[0])
+
+        if (notification.type !== 'pp-modification-received') return
+        expect(notification.variables.demande_action_pp).not.toBeUndefined()
+      })
+    })
   })
 })

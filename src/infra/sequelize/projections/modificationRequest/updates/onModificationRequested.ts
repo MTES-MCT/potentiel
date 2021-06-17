@@ -11,11 +11,7 @@ export const onModificationRequested = (models) => async (event: ModificationReq
     fileId,
     justification,
     requestedBy,
-    actionnaire,
-    producteur,
-    fournisseur,
     puissance,
-    evaluationCarbone,
     delayInMonths,
   } = event.payload
   try {
@@ -29,11 +25,7 @@ export const onModificationRequested = (models) => async (event: ModificationReq
       fileId,
       userId: requestedBy,
       justification,
-      actionnaire,
-      producteur,
-      fournisseur,
       puissance,
-      evaluationCarbone,
       delayInMonths,
     })
   } catch (e) {

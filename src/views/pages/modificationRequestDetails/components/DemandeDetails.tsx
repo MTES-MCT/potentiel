@@ -85,6 +85,26 @@ export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => 
           <span>Nouveau producteur : {modificationRequest.producteur}</span>
         </div>
       )}
+      {modificationRequest.type === 'fournisseur' && (
+        <div style={{ marginTop: 5 }}>
+          <span>Nouveau(x) fournisseur(s) : </span>
+          <ul>
+            {modificationRequest.fournisseurs?.map((fournisseur, index) => (
+              <li key={index}>
+                {fournisseur.kind} : {fournisseur.name}
+              </li>
+            ))}
+          </ul>
+          {modificationRequest.evaluationCarbone && (
+            <>
+              <br />
+              <span>
+                Nouvelle évaluation carbone : {modificationRequest.evaluationCarbone} kg eq CO2/kWc
+              </span>
+            </>
+          )}
+        </div>
+      )}
       {attachmentFile && (
         <div style={{ marginTop: 10 }}>
           <DownloadIcon />

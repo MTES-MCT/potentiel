@@ -73,8 +73,8 @@ export const MakeModificationRequestModel = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      fournisseur: {
-        type: DataTypes.STRING,
+      fournisseurs: {
+        type: DataTypes.JSON,
         allowNull: true,
       },
       puissance: {

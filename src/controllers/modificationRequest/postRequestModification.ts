@@ -14,8 +14,10 @@ import {
   requestPuissanceModification,
   requestProducteurModification,
   requestActionnaireModification,
+  requestFournisseurModification,
 } from '../../config'
 import { PuissanceJustificationOrCourrierMissingError } from '../../modules/modificationRequest'
+import { Fournisseur, FournisseurKind } from '../../modules/project'
 
 const returnRoute = (type, projectId) => {
   let returnRoute: string
@@ -71,13 +73,21 @@ v1Router.post(
       'type',
       'actionnaire',
       'producteur',
-      'fournisseur',
       'puissance',
       'justification',
       'projectId',
-      'evaluationCarbone',
       'delayInMonths',
       'numeroGestionnaire',
+      'Nom du fabricant \\n(Modules ou films)',
+      'Nom du fabricant (Cellules)',
+      'Nom du fabricant \\n(Plaquettes de silicium (wafers))',
+      'Nom du fabricant \\n(Polysilicium)',
+      'Nom du fabricant \\n(Postes de conversion)',
+      'Nom du fabricant \\n(Structure)',
+      'Nom du fabricant \\n(Dispositifs de stockage de l’énergie *)',
+      'Nom du fabricant \\n(Dispositifs de suivi de la course du soleil *)',
+      'Nom du fabricant \\n(Autres technologies)',
+      'evaluationCarbone',
     ])
 
     if (data.type === 'puissance' && !isStrictlyPositiveNumber(data.puissance)) {
@@ -91,7 +101,11 @@ v1Router.post(
 
     data.puissance = data.puissance && Number(data.puissance)
 
-    if (data.type === 'fournisseur' && !isStrictlyPositiveNumber(data.evaluationCarbone)) {
+    if (
+      data.type === 'fournisseur' &&
+      data.EvaluationCarbone &&
+      !isStrictlyPositiveNumber(data.evaluationCarbone)
+    ) {
       const { projectId, type } = data
       return response.redirect(
         addQueryParams(returnRoute(type, projectId), {
@@ -175,6 +189,55 @@ v1Router.post(
           projectId: data.projectId,
           requestedBy: request.user,
           newActionnaire: data.actionnaire,
+          justification: data.justification,
+          file,
+        })
+        break
+      case 'fournisseur':
+        const newFournisseurs: Fournisseur[] = [
+          {
+            kind: 'Nom du fabricant \n(Modules ou films)' as FournisseurKind,
+            name: data['Nom du fabricant \\n(Modules ou films)'],
+          },
+          {
+            kind: 'Nom du fabricant (Cellules)' as FournisseurKind,
+            name: data['Nom du fabricant (Cellules)'],
+          },
+          {
+            kind: 'Nom du fabricant \n(Plaquettes de silicium (wafers))' as FournisseurKind,
+            name: data['Nom du fabricant \\n(Plaquettes de silicium (wafers))'],
+          },
+          {
+            kind: 'Nom du fabricant \n(Polysilicium)' as FournisseurKind,
+            name: data['Nom du fabricant \\n(Polysilicium)'],
+          },
+          {
+            kind: 'Nom du fabricant \n(Postes de conversion)' as FournisseurKind,
+            name: data['Nom du fabricant \\n(Postes de conversion)'],
+          },
+          {
+            kind: 'Nom du fabricant \n(Structure)' as FournisseurKind,
+            name: data['Nom du fabricant \\n(Structure)'],
+          },
+          {
+            kind: 'Nom du fabricant \n(Dispositifs de stockage de l’énergie *)' as FournisseurKind,
+            name: data['Nom du fabricant \\n(Dispositifs de stockage de l’énergie *)'],
+          },
+          {
+            kind: 'Nom du fabricant \n(Dispositifs de suivi de la course du soleil *)' as FournisseurKind,
+            name: data['Nom du fabricant \\n(Dispositifs de suivi de la course du soleil *)'],
+          },
+          {
+            kind: 'Nom du fabricant \n(Autres technologies)' as FournisseurKind,
+            name: data['Nom du fabricant \\n(Autres technologies)'],
+          },
+        ].filter(({ name }) => name)
+
+        await requestFournisseurModification({
+          projectId: data.projectId,
+          requestedBy: request.user,
+          newFournisseurs,
+          newEvaluationCarbone: data.evaluationCarbone,
           justification: data.justification,
           file,
         })

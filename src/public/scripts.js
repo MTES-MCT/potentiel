@@ -9,6 +9,7 @@ window.initHandlers = function () {
   addInvitationHandlers()
   addDelayEstimator()
   // addPuissanceModificationHandler()
+  addEvaluationCarboneModificationHandler()
   addSelectorHandlers()
   addSendCopyOfNotificationButtonHandler()
   addPaginationHandler()
@@ -624,6 +625,46 @@ function addDateValidationHandler() {
       })
     }
   })
+}
+
+function addEvaluationCarboneModificationHandler() {
+  const evaluationCarbone = document.querySelector(
+    '[data-testid=modificationRequest-evaluationCarboneField]'
+  )
+
+  if (evaluationCarbone) {
+    const outOfBounds =
+      '[data-testid=modificationRequest-evaluationCarbone-error-message-out-of-bounds]'
+    const wrongFormat =
+      '[data-testid=modificationRequest-evaluationCarbone-error-message-wrong-format]'
+
+    evaluationCarbone.addEventListener('keyup', function (event) {
+      if (!event.target.value?.trim()) {
+        show(outOfBounds, false)
+        show(wrongFormat, false)
+        return
+      }
+
+      const newValue = Number(event.target.value)
+      const oldValue = getFieldValue('[data-testid=modificationRequest-oldEvaluationCarboneField]')
+
+      if (!Number.isNaN(newValue) && !Number.isNaN(oldValue)) {
+        const switchBracket = Math.round(oldValue / 50) !== Math.round(newValue / 50)
+        const newValueIsOutOfBounds = newValue > oldValue && switchBracket
+
+        if (newValueIsOutOfBounds) {
+          show(outOfBounds, true)
+          show(wrongFormat, false)
+        } else {
+          show(outOfBounds, false)
+          show(wrongFormat, false)
+        }
+      } else {
+        show(outOfBounds, false)
+        show(wrongFormat, true)
+      }
+    })
+  }
 }
 
 //

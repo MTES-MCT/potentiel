@@ -6,7 +6,15 @@ import { ensureLoggedIn, ensureRole } from '../auth'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
 
-const ACTIONS = ['delai', 'actionnaire', 'puissance', 'producteur', 'abandon', 'recours']
+const ACTIONS = [
+  'delai',
+  'actionnaire',
+  'puissance',
+  'producteur',
+  'abandon',
+  'recours',
+  'fournisseur',
+]
 
 v1Router.get(
   routes.DEMANDE_GENERIQUE,

@@ -45,6 +45,7 @@ import {
 import { getAutoAcceptRatiosForAppelOffre } from '../modules/modificationRequest/helpers'
 import { makeInviteUser } from '../modules/users'
 import { sendNotification } from './emails.config'
+import { makeRequestFournisseursModification } from '../modules/modificationRequest/useCases/requestFournisseursModification'
 
 export const shouldUserAccessProject = new BaseShouldUserAccessProject(
   userRepo,
@@ -134,6 +135,13 @@ export const requestActionnaireModification = makeRequestActionnaireModification
 })
 
 export const requestProducteurModification = makeRequestProducteurModification({
+  eventBus: eventStore,
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+  projectRepo,
+  fileRepo,
+})
+
+export const requestFournisseurModification = makeRequestFournisseursModification({
   eventBus: eventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,

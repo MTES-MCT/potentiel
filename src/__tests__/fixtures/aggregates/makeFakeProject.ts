@@ -1,6 +1,7 @@
 import { DomainEvent, UniqueEntityID } from '../../../core/domain'
 import { ok } from '../../../core/utils'
 import { ProjectAppelOffre, User } from '../../../entities'
+import { Fournisseur } from '../../../modules/project'
 import { ProjectDataForCertificate } from '../../../modules/project/dtos'
 import {
   EliminatedProjectCannotBeAbandonnedError,
@@ -36,6 +37,10 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   ),
   updateProducteur: jest.fn((user: User, newProducteur: string) =>
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)
+  ),
+  updateFournisseurs: jest.fn(
+    (user: User, newFournisseurs: Fournisseur[], newEvaluationCarbone?: number) =>
+      ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)
   ),
   grantClasse: jest.fn((user: User) => ok<null, never>(null)),
   addGeneratedCertificate: jest.fn(
