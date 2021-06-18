@@ -17,7 +17,7 @@ import { MakeCredentialsModel } from './projections/user/credentials.model'
 import { EventBus } from '../../modules/eventStore'
 import { MakeUserProjectClaimsModel } from './projections'
 
-const models = {
+export const models = {
   File: MakeFileModel(sequelizeInstance),
   Notification: MakeNotificationModel(sequelizeInstance),
   Project: MakeProjectModel(sequelizeInstance),
