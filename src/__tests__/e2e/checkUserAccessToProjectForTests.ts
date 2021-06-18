@@ -1,5 +1,6 @@
+import { getUserByEmail } from '../../config'
 import { logger } from '../../core/utils'
-import { credentialsRepo, projectRepo, userRepo } from '../../dataAccess'
+import { projectRepo, userRepo } from '../../dataAccess'
 import { testRouter } from './testRouter'
 
 testRouter.post('/test/checkUserAccessToProject', async (request, response) => {
@@ -20,13 +21,13 @@ testRouter.post('/test/checkUserAccessToProject', async (request, response) => {
     return response.status(500).send('No project with this nomProjet')
   }
 
-  const credentials = await credentialsRepo.findByEmail(email)
+  const userResult = await getUserByEmail(email)
 
-  if (credentials.is_none()) {
+  if (userResult.isErr() || userResult.value === null) {
     return response.status(500).send('No user with this email')
   }
 
-  const access = await userRepo.hasProject(credentials.unwrap().userId, project.id)
+  const access = await userRepo.hasProject(userResult.value.id, project.id)
 
   return response.send(access.toString())
 })
