@@ -13,6 +13,7 @@ import ProjectDetails from './projectDetails'
 import InvitationList from './invitationList'
 import NotificationList from './notificationList'
 import ModificationRequestList from './modificationRequestList'
+import InvitationsAreDeprecated from './invitationsAreDeprecated'
 import ListProjects from './listProjects'
 import Success from './success'
 
@@ -30,6 +31,7 @@ const ModificationRequestListPage = makePresenterPage(ModificationRequestList)
 const SuccessPage = makePresenterPage(Success)
 const AdminAppelOffrePage = makePresenterPage(AdminAppelOffre)
 const AdminUsersPage = makePresenterPage(AdminUsers)
+const InvitationsAreDeprecatedPage = makePresenterPage(InvitationsAreDeprecated)
 
 export {
   ImportCandidatesPage,
@@ -46,6 +48,7 @@ export {
   SuccessPage,
   AdminAppelOffrePage,
   AdminUsersPage,
+  InvitationsAreDeprecatedPage,
 }
 
 interface HasRequest {
