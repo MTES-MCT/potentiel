@@ -1,6 +1,5 @@
 import { Request } from 'express'
 import React from 'react'
-import { AppelOffre } from '../../entities'
 import { formatDate } from '../../helpers/formatDate'
 import { dataId } from '../../helpers/testId'
 import { PendingCandidateInvitationDTO } from '../../modules/candidateNotification'
