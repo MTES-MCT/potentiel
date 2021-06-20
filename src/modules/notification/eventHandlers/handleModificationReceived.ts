@@ -43,8 +43,8 @@ export const handleModificationReceived = (deps: {
         },
       }
 
-      if (['producteur', 'actionnaire'].includes(type))
-        payload.variables.demande_action_pp = `Suite à votre signalement de changement de type ${type}, vous devez déposer de nouvelles garanties financières dans un délai d'un mois maximum.`
+      if (type === 'producteur')
+        payload.variables.demande_action_pp = `Suite à votre signalement de changement de ${type}, vous devez déposer de nouvelles garanties financières dans un délai d'un mois maximum.`
 
       if (type === 'fournisseur' && evaluationCarbone) {
         const currentEvaluationCarbone = project.evaluationCarbone
