@@ -18,7 +18,7 @@ describe('project.onProjectNewRulesOptedIn', () => {
   it('should update the project new rules opt in', async () => {
     await onProjectNewRulesOptedIn(models)(
       new ProjectNewRulesOptedIn({
-        payload: { projectId },
+        payload: { projectId, optedInBy: 'rocky' },
       })
     )
 

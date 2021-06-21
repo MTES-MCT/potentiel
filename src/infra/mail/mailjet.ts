@@ -23,6 +23,7 @@ const TEMPLATE_ID_BY_TYPE: Record<NotificationProps['type'], number> = {
   'modification-request-cancelled': 2060611,
   'dreal-modification-received': 2857027,
   'pp-modification-received': 2859616,
+  'pp-new-rules-opted-in': 2982401,
 }
 
 interface SendEmailFromMailjetDeps {
