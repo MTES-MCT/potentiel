@@ -15,6 +15,7 @@ import {
   requestProducteurModification,
   requestActionnaireModification,
   requestFournisseurModification,
+  updateNewRulesOptIn,
 } from '../../config'
 import { PuissanceJustificationOrCourrierMissingError } from '../../modules/modificationRequest'
 import { Fournisseur, FournisseurKind } from '../../modules/project'
@@ -88,7 +89,18 @@ v1Router.post(
       'Nom du fabricant \\n(Dispositifs de suivi de la course du soleil *)',
       'Nom du fabricant \\n(Autres technologies)',
       'evaluationCarbone',
+      'newRulesOptIn',
     ])
+
+    if (!data.newRulesOptIn) {
+      const { projectId, type } = data
+      return response.redirect(
+        addQueryParams(returnRoute(type, projectId), {
+          error:
+            'Erreur: vous ne pouvez pas soumettre de demande sous Potentiel tout en ayant choisi les anciennes règles. Veuillez transmettre votre demande au format papier.',
+        })
+      )
+    }
 
     if (data.type === 'puissance' && !isStrictlyPositiveNumber(data.puissance)) {
       const { projectId, type } = data
@@ -173,6 +185,11 @@ v1Router.post(
         })
       )
     }
+
+    await updateNewRulesOptIn({
+      projectId: data.projectId,
+      optedInBy: request.user,
+    }).match(handleSuccess, handleError)
 
     switch (data.type) {
       case 'puissance':
