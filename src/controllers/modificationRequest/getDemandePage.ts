@@ -5,6 +5,8 @@ import routes from '../../routes'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
+import { getPeriodeList } from '../../config'
+import { logger } from '../../core/utils'
 
 const ACTIONS = [
   'delai',
@@ -29,11 +31,30 @@ v1Router.get(
 
     const project = await projectRepo.findById(projectId)
 
+    let cahierChargesURL
+
+    await getPeriodeList().match(
+      (periodes) => {
+        const periode = periodes.find(
+          ({ periodeId, appelOffreId }) => appelOffreId === project?.appelOffre?.id && periodeId === project.appelOffre.periode.id
+        )
+
+        cahierChargesURL = periode?.['Lien du cahier des charges']
+
+        return
+      }, async (error) => {
+        logger.error(error)
+        response.status(500).send("Impossible d'obtenir la liste des périodes")
+        return
+      }
+    )
+
     return project
       ? response.send(
           NewModificationRequestPage({
             request,
             project,
+            cahierChargesURL
           })
         )
       : response.redirect(
