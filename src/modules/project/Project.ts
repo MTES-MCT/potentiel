@@ -114,6 +114,7 @@ export interface Project extends EventStoreAggregate {
   readonly certificateFilename: string
   readonly data: ProjectDataProps | undefined
   readonly lastCertificateUpdate: Date | undefined
+  readonly newRulesOptIn: boolean | undefined
 }
 
 export interface ProjectDataProps {
@@ -151,6 +152,7 @@ export interface ProjectProps {
   isClasse: boolean
   puissanceInitiale: number
   data: ProjectDataProps | undefined
+  newRulesOptIn: boolean | undefined
 }
 
 const projectValidator = makePropertyValidator({
@@ -198,6 +200,7 @@ export const makeProject = (args: {
     hasError: false,
     lastUpdatedOn: history[0].occurredAt,
     lastCertificateUpdate: undefined,
+    newRulesOptIn: undefined,
   }
 
   // Initialize aggregate by processing each event in history
@@ -543,6 +546,9 @@ export const makeProject = (args: {
     },
     get lastCertificateUpdate() {
       return props.lastCertificateUpdate
+    },
+    get newRulesOptIn() {
+      return props.newRulesOptIn
     },
   })
 

@@ -154,6 +154,10 @@ export const MakeProjectModel = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      newRulesOptIn: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+      },
     },
     {
       timestamps: true,
