@@ -12,7 +12,8 @@ describe('project.onProjectNewRulesOptedIn', () => {
 
   beforeAll(async () => {
     await resetDatabase()
-    await ProjectModel.bulkCreate([project])
+    const [savedProject] = await ProjectModel.bulkCreate([project])
+    expect(savedProject.newRulesOptIn).toEqual(false)
   })
 
   it('should update the project new rules opt in', async () => {

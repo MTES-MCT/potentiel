@@ -156,7 +156,8 @@ export const MakeProjectModel = (sequelize) => {
       },
       newRulesOptIn: {
         type: DataTypes.BOOLEAN,
-        allowNull: true,
+        allowNull: false,
+        defaultValue: false,
       },
     },
     {

@@ -5,18 +5,21 @@ import { dataId } from '../../../helpers/testId'
 import { ProjectDataForProjectPage } from '../../../modules/project/dtos'
 import ROUTES from '../../../routes'
 import { RoleBasedDashboard, SuccessErrorBox } from '../../components'
-import AdminDashboard from '../../components/adminDashboard'
-import UserDashboard from '../../components/userDashboard'
 import { NoteElement, Section } from './components'
 import { EditProjectData, ProjectFrise, ProjectHeader } from './sections'
 
 interface ProjectDetailsProps {
   request: Request
   project: ProjectDataForProjectPage
+  cahierChargesURL?: string
 }
 
 /* Pure component */
-export default function ProjectDetails({ request, project }: ProjectDetailsProps) {
+export default function ProjectDetails({
+  request,
+  project,
+  cahierChargesURL,
+}: ProjectDetailsProps) {
   const { user } = request
   const { error, success } = (request.query as any) || {}
 
@@ -29,7 +32,7 @@ export default function ProjectDetails({ request, project }: ProjectDetailsProps
   return (
     <RoleBasedDashboard role={user.role} currentPage="list-projects">
       <div className="panel" style={{ padding: 0 }}>
-        <ProjectHeader project={project} user={user} />
+        <ProjectHeader project={project} user={user} cahierChargesURL={cahierChargesURL} />
         <div style={{ padding: '1.5em', paddingTop: 0 }}>
           <SuccessErrorBox success={success} error={error} />
           <div style={{ position: 'relative' }}>

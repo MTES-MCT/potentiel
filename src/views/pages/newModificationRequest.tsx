@@ -147,30 +147,33 @@ export default function NewModificationRequestPage({
                 </span>
               </div>
 
-              <label htmlFor="Anciennes règles">
-                Instruction selon les dispositions du cahier des charges en vigueur au moment de la
-                candidature.{' '}
-                <strong>Je dois envoyer ma demande ou mon signalement au format papier</strong>{' '}
-                <a href="#">(voir le cahier des charges)</a>
-              </label>
-              <input
-                type="radio"
-                name="newRulesOptIn"
-                value="Anciennes règles"
-                {...dataId('modificationRequest-oldRules')}
-                disabled={project.newRulesOptIn !== undefined}
-              />
-              <label htmlFor="Nouvelles règles">
-                Instruction selon les nouvelles règles{' '}
-                {cahierChargesURL && <a href={cahierChargesURL}>(voir le cahier des charges)</a>}
-              </label>
+              {!project.newRulesOptIn && (
+                <>
+                  <label htmlFor="Anciennes règles">
+                    Instruction selon les dispositions du cahier des charges en vigueur au moment de
+                    la candidature.{' '}
+                    <strong>Je dois envoyer ma demande ou mon signalement au format papier</strong>{' '}
+                    {cahierChargesURL && (
+                      <a href={cahierChargesURL}>(voir le cahier des charges)</a>
+                    )}
+                  </label>
+                  <input
+                    type="radio"
+                    name="newRulesOptIn"
+                    value="Anciennes règles"
+                    {...dataId('modificationRequest-oldRules')}
+                    disabled={project.newRulesOptIn}
+                  />
+                </>
+              )}
+              <label htmlFor="Nouvelles règles">Instruction selon les nouvelles règles</label>
               <input
                 type="radio"
                 name="newRulesOptIn"
                 value="Nouvelles règles"
                 defaultChecked={project.newRulesOptIn}
                 {...dataId('modificationRequest-newRules')}
-                disabled={project.newRulesOptIn !== undefined}
+                disabled={project.newRulesOptIn}
               />
             </div>
             <div {...dataId('modificationRequest-demandesInputs')}>
@@ -723,7 +726,7 @@ export default function NewModificationRequestPage({
                 name="submit"
                 id="submit"
                 {...dataId('submit-button')}
-                disabled={actionShouldBeDisabled}
+                // disabled={actionShouldBeDisabled}
               >
                 Envoyer
               </button>

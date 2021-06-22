@@ -51,7 +51,7 @@ describe('ProjectSteps.updateNewRulesOptIn()', () => {
       const fakeProject = {
         ...makeFakeProject(),
         id: new UniqueEntityID(projectId),
-        newRulesOptIn: undefined,
+        newRulesOptIn: false,
       }
 
       const projectRepo = fakeRepo(fakeProject as Project)

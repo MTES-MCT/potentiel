@@ -6,9 +6,10 @@ import ProjectActions from '../../../components/projectActions'
 interface ProjectHeaderProps {
   project: ProjectDataForProjectPage
   user: User
+  cahierChargesURL?: string
 }
 
-export const ProjectHeader = ({ project, user }: ProjectHeaderProps) => (
+export const ProjectHeader = ({ project, user, cahierChargesURL }: ProjectHeaderProps) => (
   <div
     className="panel__header"
     style={{
@@ -26,7 +27,21 @@ export const ProjectHeader = ({ project, user }: ProjectHeaderProps) => (
     <span style={{ marginLeft: 10 }}>
       {project.communeProjet}, {project.departementProjet}, {project.regionProjet}
     </span>
-    <div style={{ fontSize: 13 }}>{makeProjectIdentifier(project)}</div>
+    <div style={{ fontSize: 13 }}>
+      {makeProjectIdentifier(project)}{' '}
+      {cahierChargesURL && (
+        <>
+          {'('}
+          <a href={cahierChargesURL}>voir le cahier des charges</a>
+          {')'}
+        </>
+      )}
+    </div>
+    <div style={{ fontSize: 13 }}>
+      Instruction des demandes selon {project.newRulesOptIn ? 'les nouvelles' : 'les anciennes'}{' '}
+      règles
+    </div>
+
     <div
       style={{
         fontWeight: 'bold',

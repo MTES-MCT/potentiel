@@ -4,7 +4,8 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.addColumn('projects', 'newRulesOptIn', {
       type: Sequelize.DataTypes.BOOLEAN,
-      allowNull: true,
+      allowNull: false,
+      defaultValue: false
     })
   },
 

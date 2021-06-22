@@ -68,7 +68,7 @@ const baseProjectSchema = SchemaRecord({
   completionDueOn: Number,
   abandonedOn: Number,
   numeroGestionnaire: String,
-  newRulesOptIn: Boolean.Or(Undefined),
+  newRulesOptIn: Boolean,
 })
 const projectSchema = baseProjectSchema.And(
   SchemaPartial({
@@ -117,7 +117,7 @@ type BaseProject = Static<typeof projectSchema> & {
     statusUpdatedOn: Date
     user: { fullName: string }
   }
-  newRulesOptIn: boolean | undefined
+  newRulesOptIn: boolean
 }
 
 type ProjectEvent = {

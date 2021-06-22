@@ -191,7 +191,8 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
     },
     newRulesOptIn: {
       type: DataTypes.BOOLEAN,
-      allowNull: true,
+      allowNull: false,
+      defaultValue: false
     },
   })
 

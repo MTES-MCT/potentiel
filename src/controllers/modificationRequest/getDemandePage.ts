@@ -5,7 +5,7 @@ import routes from '../../routes'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
-import { getPeriodeList } from '../../config'
+import { getCahierChargesURL, getPeriode } from '../../config'
 import { logger } from '../../core/utils'
 
 const ACTIONS = [
@@ -31,36 +31,30 @@ v1Router.get(
 
     const project = await projectRepo.findById(projectId)
 
-    let cahierChargesURL
+    if (!project)
+      return response.redirect(
+        addQueryParams(routes.USER_DASHBOARD, {
+          error: "Le projet demandé n'existe pas",
+        })
+      )
 
-    await getPeriodeList().match(
-      (periodes) => {
-        const periode = periodes.find(
-          ({ periodeId, appelOffreId }) => appelOffreId === project?.appelOffre?.id && periodeId === project.appelOffre.periode.id
-        )
+    const { appelOffreId, periodeId } = project
 
-        cahierChargesURL = periode?.['Lien du cahier des charges']
-
-        return
-      }, async (error) => {
-        logger.error(error)
-        response.status(500).send("Impossible d'obtenir la liste des périodes")
-        return
-      }
-    )
-
-    return project
-      ? response.send(
+    return await getCahierChargesURL(appelOffreId, periodeId).match(
+      (cahierChargesURL) => {
+        response.send(
           NewModificationRequestPage({
             request,
             project,
-            cahierChargesURL
+            cahierChargesURL,
           })
         )
-      : response.redirect(
-          addQueryParams(routes.USER_DASHBOARD, {
-            error: "Le projet demandé n'existe pas",
-          })
-        )
+        return
+      },
+      async (error) => {
+        logger.error(error)
+        return
+      }
+    )
   })
 )
