@@ -28,6 +28,7 @@ if(NODE_ENV !== 'test'){
   }
 }
 
+const ONE_MONTH = 3600 * 24 * 30
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -88,11 +89,13 @@ module.exports = {
         }
 
         if(NODE_ENV === 'production'){
-          await keycloakAdminClient.users.sendVerifyEmail({
+          await keycloakAdminClient.users.executeActionsEmail({
             id: keycloakId,
             clientId: KEYCLOAK_USER_CLIENT_ID,
+            actions: [requiredAction.UPDATE_PASSWORD],
             realm: KEYCLOAK_REALM,
-            redirectUri: BASE_URL + '/go-to-user-dashboard'
+            redirectUri: BASE_URL + '/go-to-user-dashboard',
+            lifespan: ONE_MONTH,
           })
         }
 
