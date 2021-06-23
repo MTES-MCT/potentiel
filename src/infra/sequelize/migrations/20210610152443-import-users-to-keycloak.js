@@ -12,6 +12,7 @@ const {
   KEYCLOAK_ADMIN_CLIENT_SECRET,
   KEYCLOAK_USER_CLIENT_ID,
   KEYCLOAK_USER_CLIENT_SECRET,
+  AUTHORIZED_TEST_EMAILS
 } = process.env
 
 if(NODE_ENV !== 'test'){
@@ -27,6 +28,8 @@ if(NODE_ENV !== 'test'){
     process.exit(1)
   }
 }
+
+const authorizedTestEmails = AUTHORIZED_TEST_EMAILS?.split(',') || []
 
 const ONE_MONTH = 3600 * 24 * 30
 
@@ -88,7 +91,7 @@ module.exports = {
           // console.log(`Keycloak added role ${role} to user ${email}`)
         }
 
-        if(NODE_ENV === 'production'){
+        if(NODE_ENV === 'production' || authorizedTestEmails.includes(email)){
           await keycloakAdminClient.users.executeActionsEmail({
             id: keycloakId,
             clientId: KEYCLOAK_USER_CLIENT_ID,
@@ -97,6 +100,9 @@ module.exports = {
             redirectUri: BASE_URL + '/go-to-user-dashboard',
             lifespan: ONE_MONTH,
           })
+        }
+        else{
+          console.log(`executeActionsEmail prevented on ${email} because not in authorizedTestEmails`)
         }
 
         await queryInterface.bulkInsert(
