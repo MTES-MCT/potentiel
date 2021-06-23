@@ -1,4 +1,5 @@
 import { RequiredActionAlias } from 'keycloak-admin/lib/defs/requiredActionProviderRepresentation'
+import { authorizedTestEmails, isProdEnv } from '../../config'
 import { logger, ResultAsync } from '../../core/utils'
 import { OtherError } from '../../modules/shared'
 import routes from '../../routes'
@@ -15,7 +16,7 @@ const {
 const ONE_MONTH = 3600 * 24 * 30
 
 export const resendInvitationEmail = (email: string) => {
-  async function createKeyCloakCredentials(): Promise<null> {
+  async function sendKeycloakInvitation(): Promise<null> {
     if (!email) throw new Error('Aucune adresse mail reçue')
 
     await keycloakAdminClient.auth({
@@ -38,19 +39,25 @@ export const resendInvitationEmail = (email: string) => {
 
     if (!fullName) actions.push(RequiredActionAlias.UPDATE_PROFILE)
 
-    await keycloakAdminClient.users.executeActionsEmail({
-      id,
-      clientId: KEYCLOAK_USER_CLIENT_ID,
-      actions,
-      realm: KEYCLOAK_REALM,
-      redirectUri: BASE_URL + routes.REDIRECT_BASED_ON_ROLE,
-      lifespan: ONE_MONTH,
-    })
+    if (isProdEnv || authorizedTestEmails.includes(email)) {
+      await keycloakAdminClient.users.executeActionsEmail({
+        id,
+        clientId: KEYCLOAK_USER_CLIENT_ID,
+        actions,
+        realm: KEYCLOAK_REALM,
+        redirectUri: BASE_URL + routes.REDIRECT_BASED_ON_ROLE,
+        lifespan: ONE_MONTH,
+      })
+    } else {
+      logger.info(
+        `resendInvitationEmail prevented executeActionsEmail because ${email} is not in authorizedTestEmails (outside production).`
+      )
+    }
 
     return null
   }
 
-  return ResultAsync.fromPromise(createKeyCloakCredentials(), (e: any) => {
+  return ResultAsync.fromPromise(sendKeycloakInvitation(), (e: any) => {
     logger.error(e)
     return new OtherError(e.message)
   })

@@ -4,6 +4,7 @@ import { User } from '../../entities'
 import { OtherError } from '../../modules/shared'
 import routes from '../../routes'
 import { keycloakAdminClient } from './keycloakClient'
+import { authorizedTestEmails, isProdEnv } from '../../config'
 
 const {
   KEYCLOAK_ADMIN_CLIENT_ID,
@@ -48,14 +49,20 @@ export const createUserCredentials = (args: {
 
       if (!fullName) actions.push(RequiredActionAlias.UPDATE_PROFILE)
 
-      await keycloakAdminClient.users.executeActionsEmail({
-        id,
-        clientId: KEYCLOAK_USER_CLIENT_ID,
-        actions,
-        realm: KEYCLOAK_REALM,
-        redirectUri: BASE_URL + routes.REDIRECT_BASED_ON_ROLE,
-        lifespan: ONE_MONTH,
-      })
+      if (isProdEnv || authorizedTestEmails.includes(email)) {
+        await keycloakAdminClient.users.executeActionsEmail({
+          id,
+          clientId: KEYCLOAK_USER_CLIENT_ID,
+          actions,
+          realm: KEYCLOAK_REALM,
+          redirectUri: BASE_URL + routes.REDIRECT_BASED_ON_ROLE,
+          lifespan: ONE_MONTH,
+        })
+      } else {
+        logger.info(
+          `createKeyCloakCredentials prevented executeActionsEmail because ${email} is not in authorizedTestEmails (outside production).`
+        )
+      }
     }
 
     const realmRole = await keycloakAdminClient.roles.findOneByName({ name: role })
