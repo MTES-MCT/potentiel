@@ -1,6 +1,6 @@
 FROM jboss/keycloak
 
-COPY themes/potentiel/ /opt/jboss/keycloak/themes/potentiel/
+COPY keycloak/themes/potentiel/ /opt/jboss/keycloak/themes/potentiel/
 
 CMD /opt/jboss/keycloak/bin/add-user-keycloak.sh -u $KEYCLOAK_USER -p $KEYCLOAK_PASSWORD
 
