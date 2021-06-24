@@ -8,7 +8,6 @@ import { Project } from '../Project'
 
 interface updateNewRulesOptIn {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
-  projectRepo: Repository<Project>
   eventBus: EventBus
 }
 
@@ -26,17 +25,11 @@ export const makeUpdateNewRulesOptIn = (deps: updateNewRulesOptIn) => (
     (userHasRightsToProject): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
       if (!userHasRightsToProject) return errAsync(new UnauthorizedError())
 
-      return deps.projectRepo.load(new UniqueEntityID(projectId)).andThen((project) => {
-        if (!project.newRulesOptIn) {
-          return deps.eventBus.publish(
-            new ProjectNewRulesOptedIn({
-              payload: { projectId, optedInBy: optedInBy.id },
-            })
-          )
-        }
-
-        return ok(null)
-      })
+      return deps.eventBus.publish(
+        new ProjectNewRulesOptedIn({
+          payload: { projectId, optedInBy: optedInBy.id },
+        })
+      )
     }
   )
 }

@@ -7,6 +7,7 @@ import { pathExists } from '../../helpers/pathExists'
 import { isStrictlyPositiveNumber } from '../../helpers/formValidators'
 import routes from '../../routes'
 import { requestModification, shouldUserAccessProject } from '../../useCases'
+import { oldProjectRepo } from '../../config/'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
@@ -92,16 +93,6 @@ v1Router.post(
       'newRulesOptIn',
     ])
 
-    if (!data.newRulesOptIn) {
-      const { projectId, type } = data
-      return response.redirect(
-        addQueryParams(returnRoute(type, projectId), {
-          error:
-            'Erreur: vous ne pouvez pas soumettre de demande sous Potentiel tout en ayant choisi les anciennes règles. Veuillez transmettre votre demande au format papier.',
-        })
-      )
-    }
-
     if (data.type === 'puissance' && !isStrictlyPositiveNumber(data.puissance)) {
       const { projectId, type } = data
       return response.redirect(
@@ -186,10 +177,13 @@ v1Router.post(
       )
     }
 
-    await updateNewRulesOptIn({
-      projectId: data.projectId,
-      optedInBy: request.user,
-    }).match(handleSuccess, handleError)
+    const project = await oldProjectRepo.findById(data.projectId)
+    if (!project?.newRulesOptIn) {
+      await updateNewRulesOptIn({
+        projectId: data.projectId,
+        optedInBy: request.user,
+      }).match(handleSuccess, handleError)
+    }
 
     switch (data.type) {
       case 'puissance':

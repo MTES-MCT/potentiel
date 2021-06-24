@@ -181,5 +181,4 @@ export const cancelModificationRequest = makeCancelModificationRequest({
 export const updateNewRulesOptIn = makeUpdateNewRulesOptIn({
   eventBus: eventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  projectRepo,
 })

@@ -726,7 +726,7 @@ export default function NewModificationRequestPage({
                 name="submit"
                 id="submit"
                 {...dataId('submit-button')}
-                // disabled={actionShouldBeDisabled}
+                disabled={actionShouldBeDisabled}
               >
                 Envoyer
               </button>
