@@ -32,6 +32,7 @@
   "dependencies": {
     "@react-pdf/renderer": "1.6.11",
     "@sentry/node": "^6.2.5",
+    "@types/morgan": "^1.9.2",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
     "@usefultools/monads": "^3.0.3",
