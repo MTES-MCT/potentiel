@@ -26,7 +26,7 @@ describe('handleModificationReceived', () => {
       type: 'puissance',
       projectId: projectId.toString(),
       requestedBy: 'user1',
-      producteur: 'producteur1',
+      puissance: 8,
     }
 
     beforeAll(async () => {
