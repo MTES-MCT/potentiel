@@ -13,7 +13,7 @@ export const handleModificationReceived = (deps: { eventBus: EventBus }) => asyn
   const { projectId, type } = event.payload
   const { requestId } = event
 
-  if (!['producteur', 'actionnaire'].includes(type)) return okAsync(null)
+  if (type !== 'producteur') return okAsync(null)
 
   return eventBus
     .publish(
