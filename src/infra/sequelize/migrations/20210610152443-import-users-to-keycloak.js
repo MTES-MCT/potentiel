@@ -55,29 +55,58 @@ module.exports = {
         clientSecret: KEYCLOAK_ADMIN_CLIENT_SECRET,
       })
 
-      const nonKeycloakUsers = await queryInterface.sequelize.query(
-        'SELECT * FROM "users" WHERE "keycloakId" IS NULL',
+      const users = await queryInterface.sequelize.query(
+        'SELECT * FROM "users"',
         {
-          type: queryInterface.sequelize.QueryTypes.SELECT,
+          type: Sequelize.QueryTypes.SELECT,
           transaction,
         }
       )
 
-      for (const user of nonKeycloakUsers) {
+      for (const user of users) {
 
         const { id, email, role, fullName, createdAt, projectAdmissionKey } = user
 
-        console.log('Creating keycloak account for', email)
+        const usersWithEmail = await keycloakAdminClient.users.find({ email, realm: KEYCLOAK_REALM })
 
-        const { id: keycloakId } = await keycloakAdminClient.users.create({
-          realm: KEYCLOAK_REALM,
-          username: email,
-          enabled: true,
-          email,
-          emailVerified: true,
-          lastName: fullName,
-          requiredActions: [requiredAction.UPDATE_PASSWORD],
-        })
+        let keycloakId = usersWithEmail.length ? usersWithEmail[0].id : undefined
+
+        if(!keycloakId){
+          console.log('Creating keycloak account for', email)
+          const newUser = await keycloakAdminClient.users.create({
+            realm: KEYCLOAK_REALM,
+            username: email,
+            enabled: true,
+            email,
+            emailVerified: true,
+            lastName: fullName,
+            requiredActions: [requiredAction.UPDATE_PASSWORD],
+          })
+
+          keycloakId = newUser.id
+
+          if(NODE_ENV === 'production' || authorizedTestEmails.includes(email)){
+            try{
+              await keycloakAdminClient.users.executeActionsEmail({
+                id: keycloakId,
+                clientId: KEYCLOAK_USER_CLIENT_ID,
+                actions: [requiredAction.UPDATE_PASSWORD],
+                realm: KEYCLOAK_REALM,
+                redirectUri: BASE_URL + '/go-to-user-dashboard',
+                lifespan: ONE_MONTH,
+              })
+            }
+            catch(e){
+              console.log('Failed to send executeActions email (no email configured in realm ?')
+            }
+          }
+          else{
+            console.log(`executeActionsEmail prevented on ${email} because not in authorizedTestEmails`)
+          }
+        }
+        else{
+          console.log(`${email} already has a keycloak account.`)
+        }
 
         const realmRole = await keycloakAdminClient.roles.findOneByName({ name: role })
 
@@ -89,20 +118,6 @@ module.exports = {
             roles: [{ id: realmRole.id, name: realmRole.name }],
           })
           // console.log(`Keycloak added role ${role} to user ${email}`)
-        }
-
-        if(NODE_ENV === 'production' || authorizedTestEmails.includes(email)){
-          await keycloakAdminClient.users.executeActionsEmail({
-            id: keycloakId,
-            clientId: KEYCLOAK_USER_CLIENT_ID,
-            actions: [requiredAction.UPDATE_PASSWORD],
-            realm: KEYCLOAK_REALM,
-            redirectUri: BASE_URL + '/go-to-user-dashboard',
-            lifespan: ONE_MONTH,
-          })
-        }
-        else{
-          console.log(`executeActionsEmail prevented on ${email} because not in authorizedTestEmails`)
         }
 
         await queryInterface.bulkInsert(
