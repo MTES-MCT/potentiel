@@ -6,7 +6,7 @@ import {
   dgecEmail,
   eventStore,
   getModificationRequestDataForResponseTemplate,
-  userRepo,
+  oldUserRepo,
 } from '../../config'
 import { ModificationRequest, User } from '../../entities'
 import { fillDocxTemplate } from '../../helpers/fillDocxTemplate'
@@ -115,7 +115,7 @@ async function makeResponseTemplate(
 
   let imageToInject = ''
   if (user.role === 'dreal') {
-    const userDreals = await userRepo.findDrealsForUser(user.id)
+    const userDreals = await oldUserRepo.findDrealsForUser(user.id)
     if (userDreals.length) {
       const dreal = userDreals[0]
       imageToInject = path.resolve(__dirname, '../../public/images/dreals', `${dreal}.png`)
