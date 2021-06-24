@@ -5,7 +5,7 @@ import models from '../models'
 import { makeGetCahierChargesURL } from './getCahierChargesURL'
 
 describe('Sequelize getCahierChargesURL', () => {
-  const getPeriode = makeGetCahierChargesURL(models)
+  const getCahierChargesURL = makeGetCahierChargesURL(models)
   const { Periode } = models
 
   const appelOffreId = new UniqueEntityID().toString()
@@ -25,21 +25,21 @@ describe('Sequelize getCahierChargesURL', () => {
 
   describe('when the periode exists', () => {
     it('should return the cahierChargesURL', async () => {
-      const res = await getPeriode(appelOffreId, periodeId)
+      const res = await getCahierChargesURL(appelOffreId, periodeId)
       expect(res._unsafeUnwrap()).toEqual('url')
     })
   })
 
   describe('when the periode does not exist', () => {
     it('should return EntityNotFoundError', async () => {
-      const res = await getPeriode(appelOffreId, 'nope')
+      const res = await getCahierChargesURL(appelOffreId, 'nope')
       expect(res._unsafeUnwrapErr()).toBeInstanceOf(EntityNotFoundError)
     })
   })
 
   describe('when the appel offre does not exist', () => {
     it('should return EntityNotFoundError', async () => {
-      const res = await getPeriode('nope', periodeId)
+      const res = await getCahierChargesURL('nope', periodeId)
       expect(res._unsafeUnwrapErr()).toBeInstanceOf(EntityNotFoundError)
     })
   })

@@ -5,7 +5,7 @@ import routes from '../../routes'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
-import { getCahierChargesURL, getPeriode } from '../../config'
+import { getCahierChargesURL } from '../../config'
 import { logger } from '../../core/utils'
 
 const ACTIONS = [

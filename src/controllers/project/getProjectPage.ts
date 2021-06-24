@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler'
 import { getCahierChargesURL, getProjectDataForProjectPage } from '../../config/queries.config'
 import { shouldUserAccessProject } from '../../config/useCases.config'
 import { okAsync } from '../../core/utils'
+import { addQueryParams } from '../../helpers/addQueryParams'
 import routes from '../../routes'
 import { ProjectDetailsPage } from '../../views/pages'
 import { ensureLoggedIn, ensureRole } from '../auth'
@@ -26,16 +27,12 @@ v1Router.get(
 
     return await getProjectDataForProjectPage({ projectId, user })
       .andThen((project) => {
-        if (!project) {
-          response.status(404).send('Le projet est introuvable.')
-          return okAsync(undefined)
-        }
-
         const { appelOffreId, periodeId } = project
 
-        return getCahierChargesURL(appelOffreId, periodeId).andThen((cahierChargesURL) =>
-          okAsync({ cahierChargesURL, project } as any)
-        )
+        return getCahierChargesURL(appelOffreId, periodeId).map((cahierChargesURL) => ({
+          cahierChargesURL,
+          project,
+        }))
       })
       .match(
         ({ cahierChargesURL, project }) => {
@@ -48,9 +45,12 @@ v1Router.get(
           )
         },
         () => {
-          return response
-            .status(500)
-            .send('Une erreur est survenue. Merci de réessayer ou de contacter un administrateur.')
+          return response.redirect(
+            addQueryParams(routes.PROJECT_DETAILS(), {
+              error:
+                'Une erreur est survenue. Merci de réessayer ou de contacter un administrateur.',
+            })
+          )
         }
       )
   })

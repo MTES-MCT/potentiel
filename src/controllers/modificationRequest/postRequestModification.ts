@@ -179,10 +179,12 @@ v1Router.post(
 
     const project = await oldProjectRepo.findById(data.projectId)
     if (!project?.newRulesOptIn) {
-      await updateNewRulesOptIn({
+      const res = await updateNewRulesOptIn({
         projectId: data.projectId,
         optedInBy: request.user,
-      }).match(handleSuccess, handleError)
+      })
+
+      if (res.isErr()) return handleError(res.error)
     }
 
     switch (data.type) {

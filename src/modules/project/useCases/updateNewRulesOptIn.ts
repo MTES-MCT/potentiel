@@ -1,10 +1,8 @@
-import { Repository, UniqueEntityID } from '../../../core/domain'
-import { errAsync, ok, ResultAsync, wrapInfra } from '../../../core/utils'
+import { errAsync, ResultAsync, wrapInfra } from '../../../core/utils'
 import { User } from '../../../entities'
 import { EventBus } from '../../eventStore'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { ProjectNewRulesOptedIn } from '../events'
-import { Project } from '../Project'
 
 interface updateNewRulesOptIn {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
