@@ -43,7 +43,7 @@ export const makeAcceptModificationRequest = (deps: AcceptModificationRequestDep
   const { fileRepo, modificationRequestRepo, projectRepo } = deps
   const { modificationRequestId, versionDate, responseFile, submittedBy, acceptanceParams } = args
 
-  if (!['admin', 'dgec'].includes(submittedBy.role)) {
+  if (!['admin', 'dgec', 'dreal'].includes(submittedBy.role)) {
     return errAsync(new UnauthorizedError())
   }
 

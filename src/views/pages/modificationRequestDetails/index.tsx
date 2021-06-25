@@ -73,7 +73,7 @@ export default function AdminModificationRequestPage({ request, modificationRequ
             <div className="panel__header">
               <h4>Répondre</h4>
 
-              <AdminResponseForm modificationRequest={modificationRequest}>
+              <AdminResponseForm role={user.role} modificationRequest={modificationRequest}>
                 {isResponsePossible && (
                   <>
                     {modificationRequest.type === 'delai' && (

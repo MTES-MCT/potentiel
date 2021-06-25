@@ -1,4 +1,5 @@
 import React from 'react'
+import { User } from '../../../../entities'
 import { dataId } from '../../../../helpers/testId'
 import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest'
 import ROUTES from '../../../../routes'
@@ -6,9 +7,14 @@ import { ModificationRequestTitleByType } from '../../../helpers'
 
 interface AdminResponseFormProps {
   modificationRequest: ModificationRequestPageDTO
+  role: User['role']
   children: React.ReactNode
 }
-export const AdminResponseForm = ({ modificationRequest, children }: AdminResponseFormProps) => {
+export const AdminResponseForm = ({
+  modificationRequest,
+  role,
+  children,
+}: AdminResponseFormProps) => {
   const { type, versionDate } = modificationRequest
   const isResponsePossible = ['recours', 'delai', 'abandon', 'puissance'].includes(type)
 
@@ -23,21 +29,23 @@ export const AdminResponseForm = ({ modificationRequest, children }: AdminRespon
       <input type="hidden" name="type" value={modificationRequest.type} />
       <input type="hidden" name="versionDate" value={versionDate.getTime()} />
 
-      <div className="form__group" style={{ marginBottom: 20 }}>
-        <label htmlFor="statusUpdateOnly">
-          <input
-            type="checkbox"
-            name="statusUpdateOnly"
-            defaultChecked={!isResponsePossible}
-            {...dataId('modificationRequest-statusUpdateOnlyField')}
-          />
-          Demande traitée hors Potentiel
-        </label>
-        <div style={{ fontSize: 11, lineHeight: '1.5em', marginTop: 3 }}>
-          En cochant cette case, seul le statut de la demande sera mise à jour. La réponse n‘aura
-          pas d‘impact sur le projet et le porteur de projet ne sera pas notifié.
+      {role !== 'dreal' && (
+        <div className="form__group" style={{ marginBottom: 20 }}>
+          <label htmlFor="statusUpdateOnly">
+            <input
+              type="checkbox"
+              name="statusUpdateOnly"
+              defaultChecked={!isResponsePossible}
+              {...dataId('modificationRequest-statusUpdateOnlyField')}
+            />
+            Demande traitée hors Potentiel
+          </label>
+          <div style={{ fontSize: 11, lineHeight: '1.5em', marginTop: 3 }}>
+            En cochant cette case, seul le statut de la demande sera mise à jour. La réponse n‘aura
+            pas d‘impact sur le projet et le porteur de projet ne sera pas notifié.
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="form__group" style={{ marginBottom: 20 }}>
         <label htmlFor="replyWithoutAttachment">

@@ -27,7 +27,7 @@ v1Router.post(
   routes.ADMIN_REPLY_TO_MODIFICATION_REQUEST,
   ensureLoggedIn(),
   upload.single('file'),
-  ensureRole(['admin', 'dgec']),
+  ensureRole(['admin', 'dgec', 'dreal']),
   asyncHandler(async (request, response) => {
     const {
       modificationRequestId,
