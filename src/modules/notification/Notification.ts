@@ -169,6 +169,22 @@ type DrealModificationReceived = {
   }
 }
 
+type AdminModificationRequested = {
+  type: 'admin-modification-requested'
+  context: {
+    modificationRequestId: string
+    dreal: string
+    userId: string
+    projectId: string
+  }
+  variables: {
+    nom_projet: string
+    departement_projet: string
+    type_demande: string
+    modification_request_url: string
+  }
+}
+
 type PPModificationReceived = {
   type: 'pp-modification-received'
   context: {
@@ -239,6 +255,7 @@ type NotificationVariants =
   | DrealModificationReceived
   | PPModificationReceived
   | PPNewRulesOptedIn
+  | AdminModificationRequested
 
 export type NotificationProps = BaseNotification & NotificationVariants
 

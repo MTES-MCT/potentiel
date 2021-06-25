@@ -32,6 +32,7 @@ import {
   ModificationRequestConfirmed,
   ModificationRequestCancelled,
   ModificationReceived,
+  isRequestForDreal,
 } from '../../modules/modificationRequest'
 import { userRepo } from '../../dataAccess'
 
@@ -62,6 +63,9 @@ eventStore.subscribe(
   handleModificationRequested({
     sendNotification,
     getInfoForModificationRequested,
+    findUsersForDreal: userRepo.findUsersForDreal,
+    findProjectById: oldProjectRepo.findById,
+    isRequestForDreal,
   })
 )
 

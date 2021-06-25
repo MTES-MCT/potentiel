@@ -116,7 +116,8 @@ describe('notification.handleModificationReceived', () => {
           notification.message.name === 'drealA' &&
           notification.variables.nom_projet === 'nomProjet' &&
           notification.variables.type_demande === 'puissance' &&
-          notification.variables.modification_request_url === routes.ADMIN_LIST_REQUESTS &&
+          notification.variables.modification_request_url ===
+            routes.DEMANDE_PAGE_DETAILS(modificationRequestId) &&
           notification.variables.departement_projet === 'departement' &&
           notification.context.modificationRequestId === modificationRequestId &&
           notification.context.dreal === 'regionA' &&
@@ -131,7 +132,8 @@ describe('notification.handleModificationReceived', () => {
           notification.message.name === 'drealB' &&
           notification.variables.nom_projet === 'nomProjet' &&
           notification.variables.type_demande === 'puissance' &&
-          notification.variables.modification_request_url === routes.ADMIN_LIST_REQUESTS &&
+          notification.variables.modification_request_url ===
+            routes.DEMANDE_PAGE_DETAILS(modificationRequestId) &&
           notification.variables.departement_projet === 'departement' &&
           notification.context.modificationRequestId === modificationRequestId &&
           notification.context.dreal === 'regionB' &&

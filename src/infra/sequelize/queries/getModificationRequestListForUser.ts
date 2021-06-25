@@ -9,6 +9,7 @@ import {
   ModificationRequestListItemDTO,
 } from '../../../modules/modificationRequest'
 import { InfraNotAvailableError } from '../../../modules/shared'
+import { AuthorizedTypesForDreal } from '../../../modules/modificationRequest'
 import { PaginatedList } from '../../../types'
 
 function _getPuissanceForAppelOffre(args: { appelOffreId; periodeId }): string {
@@ -37,8 +38,7 @@ function _getDrealRegionsForUser(user: User, models) {
   ).map((items: any) => items.map((item) => item.dreal))
 }
 
-const DREAL_TYPES = ['puissance', 'fournisseur', 'producteur', 'actionnaire']
-const DGEC_TYPES = ['recours', 'delai', 'abandon']
+const DEFAULT_DGEC_TYPES = ['recours', 'delai', 'abandon']
 
 export const makeGetModificationRequestListForUser = (
   models
@@ -80,19 +80,19 @@ export const makeGetModificationRequestListForUser = (
 
       if (user.role === 'porteur-projet') opts.where.userId = user.id
       if (user.role === 'dreal') {
-        opts.where.type = DREAL_TYPES
+        opts.where.type = AuthorizedTypesForDreal
         projectOpts.where.regionProjet = drealRegions
       }
       if (user.role === 'admin' || user.role === 'dgec') {
-        opts.where.type = DGEC_TYPES
+        opts.where.type = DEFAULT_DGEC_TYPES
       }
 
       if (modificationRequestType) {
         if (user.role === 'dreal') {
-          if (DREAL_TYPES.includes(modificationRequestType.type)) {
+          if (AuthorizedTypesForDreal.includes(modificationRequestType.type)) {
             opts.where.type = modificationRequestType.type
           } else {
-            opts.where.type = DREAL_TYPES
+            opts.where.type = AuthorizedTypesForDreal
           }
         } else {
           opts.where.type = modificationRequestType.type
