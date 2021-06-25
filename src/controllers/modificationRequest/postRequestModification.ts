@@ -204,7 +204,7 @@ v1Router.post(
           newActionnaire: data.actionnaire,
           justification: data.justification,
           file,
-        })
+        }).match(handleSuccess, handleError)
         break
       case 'fournisseur':
         const newFournisseurs: Fournisseur[] = [
@@ -253,7 +253,7 @@ v1Router.post(
           newEvaluationCarbone: data.evaluationCarbone,
           justification: data.justification,
           file,
-        })
+        }).match(handleSuccess, handleError)
         break
       case 'producteur':
         await requestProducteurModification({
