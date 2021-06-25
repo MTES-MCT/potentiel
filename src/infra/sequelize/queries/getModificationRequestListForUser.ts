@@ -1,15 +1,15 @@
 import { Op } from 'sequelize'
-import { getFullTextSearchOptions } from '../../../dataAccess/db/project'
 import { errAsync, ok, okAsync, Result, ResultAsync, wrapInfra } from '../../../core/utils'
+import { getFullTextSearchOptions } from '../../../dataAccess/db/project'
+import { getAppelOffre } from '../../../dataAccess/inMemory/appelOffre'
+import { User } from '../../../entities'
 import { makePaginatedList, paginate } from '../../../helpers/paginate'
 import {
   GetModificationRequestListForUser,
   ModificationRequestListItemDTO,
 } from '../../../modules/modificationRequest'
 import { InfraNotAvailableError } from '../../../modules/shared'
-import { getAppelOffre } from '../../../dataAccess/inMemory/appelOffre'
 import { PaginatedList } from '../../../types'
-import { User } from '../../../entities'
 
 function _getPuissanceForAppelOffre(args: { appelOffreId; periodeId }): string {
   return getAppelOffre(args)?.unitePuissance || 'unité de puissance'
@@ -38,6 +38,7 @@ function _getDrealRegionsForUser(user: User, models) {
 }
 
 const DREAL_TYPES = ['puissance', 'fournisseur', 'producteur', 'actionnaire']
+const DGEC_TYPES = ['recours', 'delai', 'abandon']
 
 export const makeGetModificationRequestListForUser = (
   models
@@ -78,7 +79,13 @@ export const makeGetModificationRequestListForUser = (
       const opts: any = { where: {} }
 
       if (user.role === 'porteur-projet') opts.where.userId = user.id
-      if (user.role === 'dreal') opts.where.regionProjet = drealRegions
+      if (user.role === 'dreal') {
+        opts.where.type = DREAL_TYPES
+        projectOpts.where.regionProjet = drealRegions
+      }
+      if (user.role === 'admin' || user.role === 'dgec') {
+        opts.where.type = DGEC_TYPES
+      }
 
       if (modificationRequestType) {
         if (user.role === 'dreal') {

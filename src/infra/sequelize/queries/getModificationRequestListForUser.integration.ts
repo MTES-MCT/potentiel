@@ -255,7 +255,10 @@ describe('Sequelize getModificationRequestListForUser', () => {
     })
 
     it('should return all modification requests of types puissance, fournisseur, producteur, actionnaire and in the user‘s region', async () => {
-      const res = await getModificationRequestListForUser(drealUser, { page: 0, pageSize: 10 })
+      const res = await getModificationRequestListForUser({
+        user: drealUser,
+        pagination: { page: 0, pageSize: 10 },
+      })
 
       expect(res.isOk()).toBe(true)
 
