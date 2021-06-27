@@ -20,9 +20,11 @@ import { makeGetPeriodeList } from './getPeriodeList'
 import { makeGetAppelOffreList } from './getAppelOffreList'
 import { makeGetUserByEmail } from './getUserByEmail'
 import { makeGetModificationRequestRecipient } from './getModificationRequestRecipient'
+import { makeGetCahierChargesURL } from './getCahierChargesURL'
 
 export const getAppelOffre = makeGetAppelOffre(models)
 export const getAppelOffreList = makeGetAppelOffreList(models)
+export const getCahierChargesURL = makeGetCahierChargesURL(models)
 export const getPeriode = makeGetPeriode(models)
 export const getPeriodeList = makeGetPeriodeList(models)
 export const getUserByEmail = makeGetUserByEmail(models)

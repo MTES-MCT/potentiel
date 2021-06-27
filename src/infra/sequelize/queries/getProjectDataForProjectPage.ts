@@ -133,6 +133,7 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
       ptf,
       completionDueOn,
       updatedAt,
+      newRulesOptIn,
     } = projectRaw.get()
 
     let allInvitations: any[] = []
@@ -178,6 +179,7 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
       invitations: allInvitations,
       garantiesFinancieres: undefined,
       updatedAt,
+      newRulesOptIn,
     }
 
     if (user.role !== 'dreal') {

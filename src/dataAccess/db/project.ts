@@ -189,6 +189,11 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
       type: DataTypes.STRING,
       allowNull: true,
     },
+    newRulesOptIn: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    },
   })
 
   const FileModel = sequelizeInstance.define(

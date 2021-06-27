@@ -184,6 +184,18 @@ type PPModificationReceived = {
   }
 }
 
+type PPNewRulesOptedIn = {
+  type: 'pp-new-rules-opted-in'
+  context: {
+    modificationRequestId: string
+    userId: string
+    projectId: string
+  }
+  variables: {
+    nom_projet: string
+  }
+}
+
 type ModificationRequestConfirmedByPP = {
   type: 'modification-request-confirmed'
   context: {
@@ -226,6 +238,7 @@ type NotificationVariants =
   | ModificationRequestCancelled
   | DrealModificationReceived
   | PPModificationReceived
+  | PPNewRulesOptedIn
 
 export type NotificationProps = BaseNotification & NotificationVariants
 

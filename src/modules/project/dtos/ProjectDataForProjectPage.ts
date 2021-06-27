@@ -9,6 +9,7 @@ export type ProjectDataForProjectPage = {
   periodeId: string
   familleId: string
   numeroCRE: string
+  newRulesOptIn: boolean
 
   puissance: number
   prixReference?: number

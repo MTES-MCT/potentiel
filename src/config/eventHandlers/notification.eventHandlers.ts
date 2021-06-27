@@ -6,11 +6,13 @@ import {
   handleModificationRequestConfirmed,
   handleModificationRequestCancelled,
   handleModificationReceived,
+  handleNewRulesOptedIn,
 } from '../../modules/notification'
 import {
   ProjectCertificateRegenerated,
   ProjectCertificateUpdated,
   ProjectGFSubmitted,
+  ProjectNewRulesOptedIn,
 } from '../../modules/project/events'
 import { projectRepo, oldProjectRepo } from '../repos.config'
 import {
@@ -102,6 +104,15 @@ eventStore.subscribe(
   handleModificationReceived({
     sendNotification,
     findUsersForDreal: userRepo.findUsersForDreal,
+    findUserById: userRepo.findById,
+    findProjectById: oldProjectRepo.findById,
+  })
+)
+
+eventStore.subscribe(
+  ProjectNewRulesOptedIn.type,
+  handleNewRulesOptedIn({
+    sendNotification,
     findUserById: userRepo.findById,
     findProjectById: oldProjectRepo.findById,
   })

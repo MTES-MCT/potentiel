@@ -46,6 +46,7 @@ import { getAutoAcceptRatiosForAppelOffre } from '../modules/modificationRequest
 import { makeInviteUser } from '../modules/users'
 import { sendNotification } from './emails.config'
 import { makeRequestFournisseursModification } from '../modules/modificationRequest/useCases/requestFournisseursModification'
+import { makeUpdateNewRulesOptIn } from '../modules/project/useCases/updateNewRulesOptIn'
 
 export const shouldUserAccessProject = new BaseShouldUserAccessProject(
   userRepo,
@@ -175,4 +176,9 @@ export const inviteUser = makeInviteUser({
 export const cancelModificationRequest = makeCancelModificationRequest({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   modificationRequestRepo,
+})
+
+export const updateNewRulesOptIn = makeUpdateNewRulesOptIn({
+  eventBus: eventStore,
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
 })

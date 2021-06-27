@@ -68,6 +68,7 @@ const baseProjectSchema = SchemaRecord({
   completionDueOn: Number,
   abandonedOn: Number,
   numeroGestionnaire: String,
+  newRulesOptIn: Boolean,
 })
 const projectSchema = baseProjectSchema.And(
   SchemaPartial({
@@ -116,6 +117,7 @@ type BaseProject = Static<typeof projectSchema> & {
     statusUpdatedOn: Date
     user: { fullName: string }
   }
+  newRulesOptIn: boolean
 }
 
 type ProjectEvent = {
@@ -294,6 +296,7 @@ export default ({ makeId }: MakeProjectDependencies) =>
     completionDueOn: 0,
     abandonedOn: 0,
     numeroGestionnaire: '',
+    newRulesOptIn: false,
   })
 
 export {

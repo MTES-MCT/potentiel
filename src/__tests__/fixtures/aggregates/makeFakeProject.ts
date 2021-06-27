@@ -55,6 +55,7 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   puissanceInitiale: 0,
   lastUpdatedOn: new Date(0),
   lastCertificateUpdate: undefined,
+  newRulesOptIn: false,
   data,
   id: new UniqueEntityID('project1'),
 })

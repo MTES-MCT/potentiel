@@ -7,6 +7,7 @@ import { pathExists } from '../../helpers/pathExists'
 import { isStrictlyPositiveNumber } from '../../helpers/formValidators'
 import routes from '../../routes'
 import { requestModification, shouldUserAccessProject } from '../../useCases'
+import { oldProjectRepo } from '../../config/'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
@@ -15,6 +16,7 @@ import {
   requestProducteurModification,
   requestActionnaireModification,
   requestFournisseurModification,
+  updateNewRulesOptIn,
 } from '../../config'
 import { PuissanceJustificationOrCourrierMissingError } from '../../modules/modificationRequest'
 import { Fournisseur, FournisseurKind } from '../../modules/project'
@@ -88,6 +90,7 @@ v1Router.post(
       'Nom du fabricant \\n(Dispositifs de suivi de la course du soleil *)',
       'Nom du fabricant \\n(Autres technologies)',
       'evaluationCarbone',
+      'newRulesOptIn',
     ])
 
     if (data.type === 'puissance' && !isStrictlyPositiveNumber(data.puissance)) {
@@ -172,6 +175,16 @@ v1Router.post(
           error: errorMessage,
         })
       )
+    }
+
+    const project = await oldProjectRepo.findById(data.projectId)
+    if (!project?.newRulesOptIn) {
+      const res = await updateNewRulesOptIn({
+        projectId: data.projectId,
+        optedInBy: request.user,
+      })
+
+      if (res.isErr()) return handleError(res.error)
     }
 
     switch (data.type) {

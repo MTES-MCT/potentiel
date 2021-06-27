@@ -5,6 +5,8 @@ import routes from '../../routes'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
+import { getCahierChargesURL } from '../../config'
+import { logger } from '../../core/utils'
 
 const ACTIONS = [
   'delai',
@@ -29,17 +31,30 @@ v1Router.get(
 
     const project = await projectRepo.findById(projectId)
 
-    return project
-      ? response.send(
+    if (!project)
+      return response.redirect(
+        addQueryParams(routes.USER_DASHBOARD, {
+          error: "Le projet demandé n'existe pas",
+        })
+      )
+
+    const { appelOffreId, periodeId } = project
+
+    return await getCahierChargesURL(appelOffreId, periodeId).match(
+      (cahierChargesURL) => {
+        response.send(
           NewModificationRequestPage({
             request,
             project,
+            cahierChargesURL,
           })
         )
-      : response.redirect(
-          addQueryParams(routes.USER_DASHBOARD, {
-            error: "Le projet demandé n'existe pas",
-          })
-        )
+        return
+      },
+      async (error) => {
+        logger.error(error)
+        return
+      }
+    )
   })
 )
