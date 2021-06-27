@@ -129,23 +129,9 @@ export default function NewModificationRequestPage({
             <div>
               <label className="required">
                 <strong>
-                  Veuillez sélectionner le mode d'instruction de votre demande ou de votre
-                  signalement
+                  Veuillez saisir les modalités d'instruction à appliquer à ce changement
                 </strong>
               </label>
-              <div className="notification warning" style={{ marginTop: 10, marginBottom: 10 }}>
-                <span>
-                  Si vous choisissez les nouvelles règles, elles s'appliqueront à <u>toutes</u> les
-                  futures demandes faites sous Potentiel.
-                  <br />
-                  <br />
-                  Une demande ultérieure pourra toujours être instruite selon les anciennes règles à
-                  condition que la demande soit soumise au format papier.
-                  <br />
-                  <br />A l'inverse, tant que les anciennes règles sont sélectionnées, le choix
-                  entre anciennes et nouvelles règles sera proposé à chaque demande ou signalement.
-                </span>
-              </div>
 
               {!project.newRulesOptIn && (
                 <>
@@ -166,7 +152,10 @@ export default function NewModificationRequestPage({
                   />
                 </>
               )}
-              <label htmlFor="Nouvelles règles">Instruction selon les nouvelles règles</label>
+              <label htmlFor="Nouvelles règles">
+                Instruction selon le cahier de charges, en application du décret n° 2019-1175 du 14
+                novembre 2019
+              </label>
               <input
                 type="radio"
                 name="newRulesOptIn"
@@ -176,6 +165,23 @@ export default function NewModificationRequestPage({
                 disabled={project.newRulesOptIn}
               />
             </div>
+
+            <div className="notification warning" style={{ marginTop: 10, marginBottom: 10 }}>
+              <span>
+                Si vous choisissez une instruction selon le cahier des charges modifié, ce choix
+                s'appliquera à toutes les futures demandes faites sous Potentiel.
+                <br />
+                <br />
+                Une modification ultérieure pourra toujours être instruite selon le cahier des
+                charges en vigueur au moment du dépôt de l'offre, à condition qu'elle soit soumise
+                au format papier en précisant ce choix.
+                <br />
+                <br />A l'inverse, tant que l'instruction est demandée selon le cahier des charges
+                en vigueur au moment du dépôt de l'offre, le choix du mode d'instruction sera
+                proposé à chaque nouveau dépôt.
+              </span>
+            </div>
+
             <div {...dataId('modificationRequest-demandesInputs')}>
               {action === 'puissance' ? (
                 <>
@@ -547,12 +553,6 @@ export default function NewModificationRequestPage({
                 <>
                   <label>Ancien actionnaire</label>
                   <input type="text" disabled defaultValue={project.actionnaire} />
-                  <div className="notification warning" style={{ marginTop: 10, marginBottom: 10 }}>
-                    <span>
-                      Attention : de nouvelles garanties financières devront être déposées d'ici un
-                      mois
-                    </span>
-                  </div>
                   <label className="required" htmlFor="actionnaire">
                     Nouvel actionnaire
                   </label>
