@@ -106,7 +106,7 @@ v1Router.post(
 
     if (
       data.type === 'fournisseur' &&
-      data.EvaluationCarbone &&
+      data.evaluationCarbone &&
       !isStrictlyPositiveNumber(data.evaluationCarbone)
     ) {
       const { projectId, type } = data
@@ -116,7 +116,8 @@ v1Router.post(
         })
       )
     }
-    data.evaluationCarbone = data.evaluationCarbone && Number(data.evaluationCarbone)
+
+    data.evaluationCarbone = data.evaluationCarbone ? Number(data.evaluationCarbone) : undefined
 
     if (data.type === 'delai' && !isStrictlyPositiveNumber(data.delayInMonths)) {
       if (!data.delayInMonths || isNaN(data.delayInMonths) || data.delayInMonths <= 0) {
