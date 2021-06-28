@@ -87,14 +87,18 @@ export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => 
       )}
       {modificationRequest.type === 'fournisseur' && (
         <div style={{ marginTop: 5 }}>
-          <span>Nouveau(x) fournisseur(s) : </span>
-          <ul>
-            {modificationRequest.fournisseurs?.map((fournisseur, index) => (
-              <li key={index}>
-                {fournisseur.kind} : {fournisseur.name}
-              </li>
-            ))}
-          </ul>
+          {modificationRequest.fournisseurs?.length > 0 && (
+            <>
+              <span>Nouveau(x) fournisseur(s) : </span>
+              <ul>
+                {modificationRequest.fournisseurs?.map((fournisseur, index) => (
+                  <li key={index}>
+                    {fournisseur.kind} : {fournisseur.name}
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
           {modificationRequest.evaluationCarbone && (
             <>
               <br />
