@@ -40,7 +40,7 @@ v1Router.post(
       delayInMonths,
       puissance,
       isDecisionJustice,
-      answerWithoutAttachment,
+      replyWithoutAttachment,
     } = request.body
 
     // There are two submit buttons on the form, named submitAccept and submitReject
@@ -105,8 +105,14 @@ v1Router.post(
     }
 
     const courrierReponseExists: boolean = !!request.file && (await pathExists(request.file.path))
+
+    /*
+      When the request does not have a mail attachment,
+      1) If the reply is a refusal, the mail attachment is mandatory.
+      2) In the case of an accepted reply, the mail attachment is optional if the admin checked "Décision de justice" or "Répondre sans pièce jointe" checkbox
+    */
     const missingCourrierReponse =
-      !courrierReponseExists && (!acceptedReply || (!isDecisionJustice && !answerWithoutAttachment))
+      !courrierReponseExists && (!acceptedReply || (!isDecisionJustice && !replyWithoutAttachment))
 
     if (missingCourrierReponse) {
       return response.redirect(
