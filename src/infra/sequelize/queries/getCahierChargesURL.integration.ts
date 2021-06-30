@@ -31,16 +31,16 @@ describe('Sequelize getCahierChargesURL', () => {
   })
 
   describe('when the periode does not exist', () => {
-    it('should return EntityNotFoundError', async () => {
+    it('should return undefined', async () => {
       const res = await getCahierChargesURL(appelOffreId, 'nope')
-      expect(res._unsafeUnwrapErr()).toBeInstanceOf(EntityNotFoundError)
+      expect(res._unsafeUnwrap()).toBeUndefined()
     })
   })
 
   describe('when the appel offre does not exist', () => {
-    it('should return EntityNotFoundError', async () => {
+    it('should return undefined', async () => {
       const res = await getCahierChargesURL('nope', periodeId)
-      expect(res._unsafeUnwrapErr()).toBeInstanceOf(EntityNotFoundError)
+      expect(res._unsafeUnwrap()).toBeUndefined()
     })
   })
 })

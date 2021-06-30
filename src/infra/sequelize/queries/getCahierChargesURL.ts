@@ -5,12 +5,12 @@ import { EntityNotFoundError, InfraNotAvailableError } from '../../../modules/sh
 export const makeGetCahierChargesURL = (models): GetCahierChargesURL => (
   appelOffreId,
   periodeId
-): ResultAsync<string, EntityNotFoundError | InfraNotAvailableError> => {
+) => {
   const { Periode } = models
 
   return wrapInfra(Periode.findOne({ where: { appelOffreId, periodeId } })).andThen(
     (periodeRaw: any) => {
-      if (!periodeRaw) return err(new EntityNotFoundError())
+      if (!periodeRaw) return ok(undefined)
 
       const { data } = periodeRaw.get()
 
