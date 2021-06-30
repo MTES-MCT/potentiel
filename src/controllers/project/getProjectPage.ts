@@ -45,8 +45,11 @@ v1Router.get(
           )
         },
         () => {
+          const redirectTo = ['porteur-projet', 'acheteur-oblige'].includes(user.role)
+            ? routes.USER_DASHBOARD
+            : routes.ADMIN_DASHBOARD
           return response.redirect(
-            addQueryParams(routes.PROJECT_DETAILS(), {
+            addQueryParams(redirectTo, {
               error:
                 'Une erreur est survenue. Merci de réessayer ou de contacter un administrateur.',
             })
