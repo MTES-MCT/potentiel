@@ -40,6 +40,7 @@ v1Router.post(
       delayInMonths,
       puissance,
       isDecisionJustice,
+      answerWithoutAttachment,
     } = request.body
 
     // There are two submit buttons on the form, named submitAccept and submitReject
@@ -104,8 +105,10 @@ v1Router.post(
     }
 
     const courrierReponseExists: boolean = !!request.file && (await pathExists(request.file.path))
+    const missingCourrierReponse =
+      !courrierReponseExists && (!acceptedReply || (!isDecisionJustice && !answerWithoutAttachment))
 
-    if ((!acceptedReply || !isDecisionJustice) && !courrierReponseExists) {
+    if (missingCourrierReponse) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
           error: "La réponse n'a pas pu être envoyée car il manque le courrier de réponse.",
