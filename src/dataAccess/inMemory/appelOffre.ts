@@ -7,8 +7,11 @@ import {
   sol,
   innovation,
   zni,
+  zni2017,
   autoconsommationMetropole,
+  autoconsommationMetropole2016,
   autoconsommationZNI,
+  autoconsommationZNI2017,
   eolien,
 } from './appelsOffres'
 import { errAsync, okAsync } from '../../core/utils/Result'
@@ -21,8 +24,11 @@ const appelsOffreStatic = [
   sol,
   innovation,
   zni,
+  zni2017,
   autoconsommationMetropole,
+  autoconsommationMetropole2016,
   autoconsommationZNI,
+  autoconsommationZNI2017,
   eolien,
 ]
 

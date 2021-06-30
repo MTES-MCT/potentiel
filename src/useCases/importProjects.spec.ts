@@ -1,11 +1,12 @@
 import _ from 'lodash'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import { DomainEvent } from '../core/domain'
 import { logger, okAsync } from '../core/utils'
 import { appelOffreRepo, appelsOffreStatic } from '../dataAccess/inMemory'
 import { makeProject, Project } from '../entities'
 import { EventBus } from '../modules/eventStore'
-import { ProjectImported, ProjectReimported } from '../modules/project/events'
+import { ProjectImported, ProjectReimported } from '../modules/project'
+import { LegacyModificationImported } from '../modules/modificationRequest'
 import { InfraNotAvailableError } from '../modules/shared'
 import { Ok, UnwrapForTest } from '../types'
 import makeFakeProject from '../__tests__/fixtures/project'
@@ -402,6 +403,435 @@ describe('importProjects use-case', () => {
 
       if (result.is_err()) console.log(result.unwrap_err().message)
       expect(result.is_ok()).toBe(true)
+    })
+  })
+
+  describe('when line contains a legacy modification', () => {
+    const saveProject = jest.fn(async (project: Project) => Ok(null))
+    const removeProject = jest.fn()
+    const addProjectToUserWithEmail = jest.fn()
+
+    const importProjects = makeImportProjects({
+      eventBus: fakeEventBus as EventBus,
+      findOneProject: jest.fn(async () => undefined),
+      saveProject,
+      removeProject,
+      addProjectToUserWithEmail,
+      appelOffreRepo,
+    })
+
+    describe('when line has a single Abandon modification', () => {
+      const phonyLine = {
+        ...makePhonyLine(),
+        'Type de modification 1': 'Abandon',
+        'Date de modification 1': '25/04/2019',
+        'Colonne concernée 1': '',
+        'Ancienne valeur 1': '',
+      }
+
+      beforeAll(async () => {
+        fakePublish.mockClear()
+        saveProject.mockClear()
+
+        const result = await importProjects({
+          lines: [phonyLine],
+          userId: 'userId',
+        })
+
+        if (result.is_err()) {
+          console.log(result.unwrap_err())
+        }
+        expect(result.is_ok()).toBeTruthy()
+      })
+
+      it('should trigger a LegacyModificationImported event of type abandon', async () => {
+        const newProject = saveProject.mock.calls[0][0]
+        expect(newProject).toBeDefined()
+        const projectId = newProject.id
+
+        expect(fakePublish).toHaveBeenCalled()
+        const targetEvent = fakePublish.mock.calls
+          .map((call) => call[0])
+          .find(
+            (event) => event.type === LegacyModificationImported.type
+          ) as LegacyModificationImported
+
+        expect(targetEvent).toBeDefined()
+        if (!targetEvent) return
+        expect(targetEvent.payload).toMatchObject({
+          type: 'abandon',
+          projectId,
+          modifiedOn: 1556143200000,
+        })
+      })
+    })
+
+    describe('when line has a single Recours modification that was rejected', () => {
+      const phonyLine = {
+        ...makePhonyLine(),
+        'Type de modification 1': 'Recours gracieux',
+        'Date de modification 1': '25/04/2019',
+        'Colonne concernée 1': 'Classé ?',
+        'Ancienne valeur 1': 'Eliminé',
+      }
+
+      beforeAll(async () => {
+        fakePublish.mockClear()
+        saveProject.mockClear()
+
+        const result = await importProjects({
+          lines: [phonyLine],
+          userId: 'userId',
+        })
+
+        if (result.is_err()) {
+          console.log(result.unwrap_err())
+        }
+        expect(result.is_ok()).toBeTruthy()
+      })
+
+      it('should trigger a LegacyModificationImported event of type recours and rejected', async () => {
+        const newProject = saveProject.mock.calls[0][0]
+        expect(newProject).toBeDefined()
+        const projectId = newProject.id
+
+        expect(fakePublish).toHaveBeenCalled()
+        const targetEvent = fakePublish.mock.calls
+          .map((call) => call[0])
+          .find(
+            (event) => event.type === LegacyModificationImported.type
+          ) as LegacyModificationImported
+
+        expect(targetEvent).toBeDefined()
+        if (!targetEvent) return
+        expect(targetEvent.payload).toMatchObject({
+          type: 'recours',
+          accepted: false,
+          projectId,
+          modifiedOn: 1556143200000,
+        })
+      })
+    })
+    describe('when line has a single Recours modification that was accepted', () => {
+      const phonyLine = {
+        ...makePhonyLine(),
+        'Type de modification 1': 'Recours gracieux',
+        'Date de modification 1': '25/04/2019',
+        'Colonne concernée 1': 'Classé ?',
+        'Ancienne valeur 1': 'Classé',
+      }
+
+      beforeAll(async () => {
+        fakePublish.mockClear()
+        saveProject.mockClear()
+
+        const result = await importProjects({
+          lines: [phonyLine],
+          userId: 'userId',
+        })
+
+        if (result.is_err()) {
+          console.log(result.unwrap_err())
+        }
+        expect(result.is_ok()).toBeTruthy()
+      })
+
+      it('should trigger a LegacyModificationImported event of type recours and accepted', async () => {
+        const newProject = saveProject.mock.calls[0][0]
+        expect(newProject).toBeDefined()
+        const projectId = newProject.id
+
+        expect(fakePublish).toHaveBeenCalled()
+        const targetEvent = fakePublish.mock.calls
+          .map((call) => call[0])
+          .find(
+            (event) => event.type === LegacyModificationImported.type
+          ) as LegacyModificationImported
+
+        expect(targetEvent).toBeDefined()
+        if (!targetEvent) return
+        expect(targetEvent.payload).toMatchObject({
+          type: 'recours',
+          accepted: true,
+          projectId,
+          modifiedOn: 1556143200000,
+        })
+      })
+    })
+
+    describe('when line has a single Recours modification that was accepted and contains the previous motifElimination', () => {
+      const phonyLine = {
+        ...makePhonyLine(),
+        'Type de modification 1': 'Recours gracieux',
+        'Date de modification 1': '25/04/2019',
+        'Colonne concernée 1': 'Classé ?',
+        'Ancienne valeur 1': 'Classé',
+        'Type de modification 2': 'Recours gracieux',
+        'Date de modification 2': '25/04/2019',
+        'Colonne concernée 2': "Motif d'élimination",
+        'Ancienne valeur 2': 'Ancien motif',
+      }
+
+      beforeAll(async () => {
+        fakePublish.mockClear()
+        saveProject.mockClear()
+
+        const result = await importProjects({
+          lines: [phonyLine],
+          userId: 'userId',
+        })
+
+        if (result.is_err()) {
+          console.log(result.unwrap_err())
+        }
+        expect(result.is_ok()).toBeTruthy()
+      })
+
+      it('should trigger a LegacyModificationImported event of type recours, accepted and contain the previous motifs', async () => {
+        const newProject = saveProject.mock.calls[0][0]
+        expect(newProject).toBeDefined()
+        const projectId = newProject.id
+
+        expect(fakePublish).toHaveBeenCalled()
+        const targetEvent = fakePublish.mock.calls
+          .map((call) => call[0])
+          .find(
+            (event) => event.type === LegacyModificationImported.type
+          ) as LegacyModificationImported
+
+        expect(targetEvent).toBeDefined()
+        if (!targetEvent) return
+        expect(targetEvent.payload).toMatchObject({
+          type: 'recours',
+          accepted: true,
+          projectId,
+          motifElimination: 'Ancien motif',
+          modifiedOn: 1556143200000,
+        })
+      })
+    })
+
+    describe('when line has a single Prolongation de délai modification', () => {
+      const phonyLine = {
+        ...makePhonyLine(),
+        'Type de modification 1': 'Prolongation de délai',
+        'Date de modification 1': '25/04/2019',
+        'Colonne concernée 1': '22/12/2024',
+        'Ancienne valeur 1': '01/01/2024',
+      }
+
+      beforeAll(async () => {
+        fakePublish.mockClear()
+        saveProject.mockClear()
+
+        const result = await importProjects({
+          lines: [phonyLine],
+          userId: 'userId',
+        })
+
+        if (result.is_err()) {
+          console.log(result.unwrap_err())
+        }
+        expect(result.is_ok()).toBeTruthy()
+      })
+
+      it('should trigger a LegacyModificationImported event of type delai with the proper dates', async () => {
+        const newProject = saveProject.mock.calls[0][0]
+        expect(newProject).toBeDefined()
+        const projectId = newProject.id
+
+        expect(fakePublish).toHaveBeenCalled()
+        const targetEvent = fakePublish.mock.calls
+          .map((call) => call[0])
+          .find(
+            (event) => event.type === LegacyModificationImported.type
+          ) as LegacyModificationImported
+
+        expect(targetEvent).toBeDefined()
+        if (!targetEvent) return
+        expect(targetEvent.payload).toMatchObject({
+          type: 'delai',
+          nouvelleDateLimiteAchevement: 1734822000000,
+          ancienneDateLimiteAchevement: 1704063600000,
+          projectId,
+          modifiedOn: 1556143200000,
+        })
+      })
+    })
+
+    describe('when line has a Actionnaire modification', () => {
+      const phonyLine = {
+        ...makePhonyLine(),
+        'Type de modification 1': "Changement d'actionnaire",
+        'Date de modification 1': '25/04/2019',
+        'Colonne concernée 1': 'Candidat',
+        'Ancienne valeur 1': 'ancien candidat',
+        'Type de modification 2': "Changement d'actionnaire",
+        'Date de modification 2': '25/04/2019',
+        'Colonne concernée 2': 'Numéro SIREN ou SIRET*',
+        'Ancienne valeur 2': 'ancien siret',
+      }
+
+      beforeAll(async () => {
+        fakePublish.mockClear()
+        saveProject.mockClear()
+
+        const result = await importProjects({
+          lines: [phonyLine],
+          userId: 'userId',
+        })
+
+        if (result.is_err()) {
+          console.log(result.unwrap_err())
+        }
+        expect(result.is_ok()).toBeTruthy()
+      })
+
+      it('should trigger a LegacyModificationImported event of type actionnaire with ancien actionnaire and ancien siret', async () => {
+        const newProject = saveProject.mock.calls[0][0]
+        expect(newProject).toBeDefined()
+        const projectId = newProject.id
+
+        expect(fakePublish).toHaveBeenCalled()
+        const targetEvent = fakePublish.mock.calls
+          .map((call) => call[0])
+          .find(
+            (event) => event.type === LegacyModificationImported.type
+          ) as LegacyModificationImported
+
+        expect(targetEvent).toBeDefined()
+        if (!targetEvent) return
+        expect(targetEvent.payload).toMatchObject({
+          type: 'actionnaire',
+          actionnairePrecedent: 'ancien candidat',
+          siretPrecedent: 'ancien siret',
+          projectId,
+          modifiedOn: 1556143200000,
+        })
+      })
+    })
+
+    describe('when line has a Producteur modification', () => {
+      const phonyLine = {
+        ...makePhonyLine(),
+        'Type de modification 1': 'Changement de producteur',
+        'Date de modification 1': '25/04/2019',
+        'Colonne concernée 1': 'Nom (personne physique) ou raison sociale (personne morale) : ',
+        'Ancienne valeur 1': 'ancien producteur',
+      }
+
+      beforeAll(async () => {
+        fakePublish.mockClear()
+        saveProject.mockClear()
+
+        const result = await importProjects({
+          lines: [phonyLine],
+          userId: 'userId',
+        })
+
+        if (result.is_err()) {
+          console.log(result.unwrap_err())
+        }
+        expect(result.is_ok()).toBeTruthy()
+      })
+
+      it('should trigger a LegacyModificationImported event of type producteur with ancien producteur', async () => {
+        const newProject = saveProject.mock.calls[0][0]
+        expect(newProject).toBeDefined()
+        const projectId = newProject.id
+
+        expect(fakePublish).toHaveBeenCalled()
+        const targetEvent = fakePublish.mock.calls
+          .map((call) => call[0])
+          .find(
+            (event) => event.type === LegacyModificationImported.type
+          ) as LegacyModificationImported
+
+        expect(targetEvent).toBeDefined()
+        if (!targetEvent) return
+        expect(targetEvent.payload).toMatchObject({
+          type: 'producteur',
+          producteurPrecedent: 'ancien producteur',
+          projectId,
+          modifiedOn: 1556143200000,
+        })
+      })
+    })
+
+    describe('when line has a multiple modifications', () => {
+      const phonyLine = {
+        ...makePhonyLine(),
+        'Type de modification 1': 'Changement de producteur',
+        'Date de modification 1': '25/04/2019',
+        'Colonne concernée 1': 'Nom (personne physique) ou raison sociale (personne morale) : ',
+        'Ancienne valeur 1': 'ancien producteur',
+        'Type de modification 2': 'Prolongation de délai',
+        'Date de modification 2': '26/04/2019',
+        'Colonne concernée 2': '22/12/2024',
+        'Ancienne valeur 2': '01/01/2024',
+        'Type de modification 3': 'Recours gracieux',
+        'Date de modification 3': '27/04/2019',
+        'Colonne concernée 3': 'Classé ?',
+        'Ancienne valeur 3': 'Eliminé',
+      }
+
+      beforeAll(async () => {
+        fakePublish.mockClear()
+        saveProject.mockClear()
+
+        const result = await importProjects({
+          lines: [phonyLine],
+          userId: 'userId',
+        })
+
+        if (result.is_err()) {
+          console.log(result.unwrap_err())
+        }
+        expect(result.is_ok()).toBeTruthy()
+      })
+
+      it('should trigger a LegacyModificationImported event for each modification', async () => {
+        const newProject = saveProject.mock.calls[0][0]
+        expect(newProject).toBeDefined()
+        const projectId = newProject.id
+
+        expect(fakePublish).toHaveBeenCalled()
+        const targetEvents = fakePublish.mock.calls
+          .map((call) => call[0])
+          .filter(
+            (event) => event.type === LegacyModificationImported.type
+          ) as LegacyModificationImported[]
+
+        expect(targetEvents).toHaveLength(3)
+        expect(targetEvents.some((event) => event.payload.type === 'producteur')).toBe(true)
+        expect(targetEvents.some((event) => event.payload.type === 'delai')).toBe(true)
+        expect(targetEvents.some((event) => event.payload.type === 'recours')).toBe(true)
+      })
+    })
+
+    describe('when line has an illegal modification type', () => {
+      const phonyLine = {
+        ...makePhonyLine(),
+        'Type de modification 1': 'This does not exist',
+        'Date de modification 1': '25/04/2019',
+        'Colonne concernée 1': '',
+        'Ancienne valeur 1': '',
+      }
+
+      beforeAll(async () => {})
+
+      it('should return an error', async () => {
+        fakePublish.mockClear()
+        saveProject.mockClear()
+
+        const result = await importProjects({
+          lines: [phonyLine],
+          userId: 'userId',
+        })
+
+        expect(result.is_err()).toBeTruthy()
+        expect(result.unwrap_err().message).toContain("Type de modification 1 n'est pas reconnu")
+      })
     })
   })
 })
