@@ -99,104 +99,167 @@ const getCodePostalProperties = (properties, value) => {
   }
 }
 
+function extractRecoursType(args: {
+  modifiedOn: number
+  colonneConcernee: string
+  ancienneValeur: string
+  index: number
+  sameDateModification: LegacyModificationImportedPayload | undefined
+}): LegacyModificationImportedPayload {
+  const { colonneConcernee, modifiedOn, ancienneValeur, index, sameDateModification } = args
+  if (!['Classé ?', "Motif d'élimination"].includes(colonneConcernee)) {
+    throw new Error(
+      `Colonne concernée ${index} doit être soit "Classé ?" soit "Motif d'élimination" pour un Recours gracieux`
+    )
+  }
+
+  if (colonneConcernee === 'Classé ?') {
+    if (!['Classé', 'Eliminé'].includes(ancienneValeur)) {
+      throw new Error(
+        `Ancienne valeur ${index} doit être soit Classé soit Eliminé pour un Recours gracieux`
+      )
+    }
+
+    const accepted = ancienneValeur === 'Classé'
+    return {
+      type: 'recours',
+      projectId: '',
+      modifiedOn,
+      accepted,
+      motifElimination: '',
+    } as LegacyModificationImportedPayload
+  } else {
+    return {
+      ...sameDateModification,
+      motifElimination: ancienneValeur,
+    } as LegacyModificationImportedPayload
+  }
+}
+
+function extractDelaiType(args: {
+  modifiedOn: number
+  colonneConcernee: string
+  ancienneValeur: string
+  index: number
+}): LegacyModificationImportedPayload {
+  const { colonneConcernee, modifiedOn, ancienneValeur, index } = args
+  const nouvelleDateLimiteAchevement = moment(colonneConcernee, 'DD/MM/YYYY').toDate().getTime()
+  if (isNaN(nouvelleDateLimiteAchevement)) {
+    throw new Error(`Colonne concernée ${index} contient une date invalide`)
+  }
+  const ancienneDateLimiteAchevement = moment(ancienneValeur, 'DD/MM/YYYY').toDate().getTime()
+
+  if (isNaN(ancienneDateLimiteAchevement)) {
+    throw new Error(`Ancienne valeur ${index} contient une date invalide`)
+  }
+  return {
+    type: 'delai',
+    projectId: '',
+    modifiedOn,
+    nouvelleDateLimiteAchevement,
+    ancienneDateLimiteAchevement,
+  }
+}
+
+function extractActionnaireType(args: {
+  modifiedOn: number
+  colonneConcernee: string
+  ancienneValeur: string
+  index: number
+  sameDateModification: LegacyModificationImportedPayload | undefined
+}): LegacyModificationImportedPayload {
+  const { colonneConcernee, modifiedOn, ancienneValeur, index, sameDateModification } = args
+  if (colonneConcernee === 'Candidat') {
+    return {
+      type: 'actionnaire',
+      actionnairePrecedent: ancienneValeur,
+      siretPrecedent: '',
+      projectId: '',
+      modifiedOn,
+    }
+  } else if (colonneConcernee === 'Numéro SIREN ou SIRET*') {
+    return {
+      ...sameDateModification,
+      siretPrecedent: ancienneValeur,
+      projectId: '',
+      modifiedOn,
+    } as LegacyModificationImportedPayload
+  } else {
+    throw new Error(`Colonne concernée ${index} n'est pas reconnue`)
+  }
+}
+
+function extractProducteurType(args: {
+  modifiedOn: number
+  colonneConcernee: string
+  ancienneValeur: string
+  index: number
+}): LegacyModificationImportedPayload {
+  const { colonneConcernee, modifiedOn, ancienneValeur, index } = args
+  if (colonneConcernee === 'Nom (personne physique) ou raison sociale (personne morale) : ') {
+    return {
+      type: 'producteur',
+      producteurPrecedent: ancienneValeur,
+      projectId: '',
+      modifiedOn,
+    }
+  } else {
+    throw new Error(`Colonne concernée ${index} n'est pas reconnue`)
+  }
+}
+
 function extractModificationType(
-  line,
-  index,
-  sameDateModification
+  line: Record<string, string>,
+  index: number,
+  sameDateModification: LegacyModificationImportedPayload | undefined
 ): LegacyModificationImportedPayload {
-  const modifiedOn = moment(line[`Date de modification ${index}`], 'DD/MM/YYYY').toDate().getTime()
+  const {
+    [`Type de modification ${index}`]: type,
+    [`Colonne concernée ${index}`]: colonneConcernee,
+    [`Ancienne valeur ${index}`]: ancienneValeur,
+    [`Date de modification ${index}`]: dateModification,
+  } = line
+  const modifiedOn = moment(dateModification, 'DD/MM/YYYY').toDate().getTime()
   const projectId = ''
-  switch (line[`Type de modification ${index}`]) {
+  switch (type) {
     case 'Abandon':
       return { type: 'abandon', modifiedOn, projectId }
     case 'Recours gracieux':
-      if (!['Classé ?', "Motif d'élimination"].includes(line[`Colonne concernée ${index}`])) {
-        throw new Error(
-          `Colonne concernée ${index} doit être soit Classé ? soit Motif d'élimination pour un Recours gracieux`
-        )
-      }
-
-      if (line[`Colonne concernée ${index}`] === 'Classé ?') {
-        if (!['Classé', 'Eliminé'].includes(line[`Ancienne valeur ${index}`])) {
-          throw new Error(
-            `Ancienne valeur ${index} doit être soit Classé soit Eliminé pour un Recours gracieux`
-          )
-        }
-
-        const accepted = line[`Ancienne valeur ${index}`] === 'Classé'
-        return {
-          type: 'recours',
-          projectId,
-          modifiedOn,
-          accepted,
-          motifElimination: '',
-        }
-      } else {
-        return { ...sameDateModification, motifElimination: line[`Ancienne valeur ${index}`] }
-      }
-
-    case 'Prolongation de délai':
-      const nouvelleDateLimiteAchevement = moment(line[`Colonne concernée ${index}`], 'DD/MM/YYYY')
-        .toDate()
-        .getTime()
-      if (isNaN(nouvelleDateLimiteAchevement)) {
-        throw new Error(`Colonne concernée ${index} contient une date invalide`)
-      }
-      const ancienneDateLimiteAchevement = moment(line[`Ancienne valeur ${index}`], 'DD/MM/YYYY')
-        .toDate()
-        .getTime()
-
-      if (isNaN(ancienneDateLimiteAchevement)) {
-        throw new Error(`Ancienne valeur ${index} contient une date invalide`)
-      }
-      return {
-        type: 'delai',
-        projectId,
+      return extractRecoursType({
         modifiedOn,
-        nouvelleDateLimiteAchevement,
-        ancienneDateLimiteAchevement,
-      }
+        sameDateModification,
+        colonneConcernee,
+        ancienneValeur,
+        index,
+      })
+    case 'Prolongation de délai':
+      return extractDelaiType({
+        modifiedOn,
+        colonneConcernee,
+        ancienneValeur,
+        index,
+      })
     case "Changement d'actionnaire":
-      if (line[`Colonne concernée ${index}`] === 'Candidat') {
-        return {
-          type: 'actionnaire',
-          actionnairePrecedent: line[`Ancienne valeur ${index}`],
-          siretPrecedent: '',
-          projectId,
-          modifiedOn,
-        }
-      } else if (line[`Colonne concernée ${index}`] === 'Numéro SIREN ou SIRET*') {
-        return {
-          ...sameDateModification,
-          siretPrecedent: line[`Ancienne valeur ${index}`],
-          projectId,
-          modifiedOn,
-        }
-      } else {
-        throw new Error(`Colonne concernée ${index} n'est pas reconnue`)
-      }
+      return extractActionnaireType({
+        modifiedOn,
+        sameDateModification,
+        colonneConcernee,
+        ancienneValeur,
+        index,
+      })
     case 'Changement de producteur':
-      if (
-        line[`Colonne concernée ${index}`] ===
-        'Nom (personne physique) ou raison sociale (personne morale) : '
-      ) {
-        return {
-          type: 'producteur',
-          producteurPrecedent: line[`Ancienne valeur ${index}`],
-          projectId,
-          modifiedOn,
-        }
-      } else {
-        throw new Error(`Colonne concernée ${index} n'est pas reconnue`)
-      }
+      return extractProducteurType({
+        modifiedOn,
+        colonneConcernee,
+        ancienneValeur,
+        index,
+      })
     default:
       throw new Error(`Type de modification ${index} n'est pas reconnu`)
   }
 }
 
-function extractLegacyModifications(
-  properties: Record<typeof LegacyModificationColumns[number], string>
-) {
+function extractLegacyModifications(properties: Record<string, string>) {
   const modificationsByDate: Record<string, LegacyModificationImportedPayload> = {}
   for (const index of [1, 2, 3]) {
     if (properties[`Type de modification ${index}`]) {
@@ -225,7 +288,7 @@ const LegacyModificationColumns = [
   'Date de modification 3',
   'Colonne concernée 3',
   'Ancienne valeur 3',
-] as const
+]
 
 interface ImportReturnType {
   appelOffreId: AppelOffre['id'] | undefined
@@ -272,7 +335,7 @@ export default function makeImportProjects({
       const appelOffreId = line["Appel d'offres"]
       const appelOffre = appelsOffre.find((appelOffre) => appelOffre.id === appelOffreId)
 
-      if (!appelOffreId || !appelOffre) {
+      if (!appelOffre) {
         logger.error(`Appel offre introuvable. Id : ${appelOffreId}`)
         return makeErrorForLine(
           new Error("Appel d'offre introuvable " + appelOffreId),
@@ -285,7 +348,7 @@ export default function makeImportProjects({
       const periodeId = line['Période']
       const periode = appelOffre.periodes.find((periode) => periode.id === periodeId)
 
-      if (!periodeId || !periode) {
+      if (!periode) {
         logger.error(`Periode introuvable. Id: ${periodeId}`)
         logger.info(
           'Periode introuvable',
@@ -299,7 +362,6 @@ export default function makeImportProjects({
       if (familleId) {
         const famille = appelOffre.familles.find((famille) => famille.id === familleId)
         if (!famille) {
-          console.log('famille erronnée', familleId)
           return makeErrorForLine(
             new Error('Famille inconnue pour cet appel d‘offre'),
             lineIndex,
@@ -308,7 +370,6 @@ export default function makeImportProjects({
         }
       }
       if (appelOffre.familles.length && !familleId) {
-        console.log('famille manquante', appelOffre)
         return makeErrorForLine(
           new Error('Famille manquante (cet appel d‘offre requiert une famille)'),
           lineIndex,
@@ -374,8 +435,7 @@ export default function makeImportProjects({
       projectData.details = Object.entries(line)
         .filter(
           ([columnTitle]) =>
-            !((LegacyModificationColumns as unknown) as string[]).includes(columnTitle) &&
-            !pickedColumns.includes(columnTitle)
+            !LegacyModificationColumns.includes(columnTitle) && !pickedColumns.includes(columnTitle)
         )
         .reduce(
           (map, [columnTitle, value]) => ({
