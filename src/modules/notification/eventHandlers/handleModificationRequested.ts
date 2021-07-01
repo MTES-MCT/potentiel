@@ -10,9 +10,8 @@ export const handleModificationRequested = (deps: {
   getInfoForModificationRequested: GetInfoForModificationRequested
   findUsersForDreal: UserRepo['findUsersForDreal']
   findProjectById: ProjectRepo['findById']
-  isRequestForDreal: (type: string) => boolean
 }) => async (event: ModificationRequested) => {
-  const { modificationRequestId, projectId, type, requestedBy } = event.payload
+  const { modificationRequestId, projectId, type, requestedBy, authority } = event.payload
 
   await deps.getInfoForModificationRequested({ projectId, userId: requestedBy }).match(
     async ({ nomProjet, porteurProjet: { fullName, email } }) => {
@@ -29,7 +28,7 @@ export const handleModificationRequested = (deps: {
 
   const project = await deps.findProjectById(projectId)
 
-  if (project && deps.isRequestForDreal(type)) {
+  if (project && authority === 'dreal') {
     // Send dreal email for each dreal of each region
     const regions = project.regionProjet.split(' / ')
     await Promise.all(

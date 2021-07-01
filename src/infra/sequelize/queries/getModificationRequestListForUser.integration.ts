@@ -58,6 +58,7 @@ describe('Sequelize getModificationRequestListForUser', () => {
         requestedOn: 123,
         status: 'envoyée',
         justification: 'justification',
+        authority: 'dgec',
       })
     })
 
@@ -117,6 +118,7 @@ describe('Sequelize getModificationRequestListForUser', () => {
 
       const baseRequest = {
         projectId,
+        type: 'actionnaire',
         userId,
         fileId,
         requestedOn: 123,
@@ -127,27 +129,19 @@ describe('Sequelize getModificationRequestListForUser', () => {
         {
           ...baseRequest,
           id: new UniqueEntityID().toString(),
-          type: 'recours',
+          actionnaire: 'target',
+          authority: 'dgec',
         },
         {
           ...baseRequest,
           id: new UniqueEntityID().toString(),
-          type: 'delai',
-        },
-        {
-          ...baseRequest,
-          id: new UniqueEntityID().toString(),
-          type: 'abandon',
-        },
-        {
-          ...baseRequest,
-          id: new UniqueEntityID().toString(),
-          type: 'other',
+          actionnaire: 'nottarget',
+          authority: 'dreal',
         },
       ])
     })
 
-    it('should return all modification requests of type recours, delai and abandon', async () => {
+    it('should return all modification requests of authority dgec', async () => {
       const res = await getModificationRequestListForUser({
         user: fakeUser,
         pagination: { page: 0, pageSize: 10 },
@@ -155,15 +149,9 @@ describe('Sequelize getModificationRequestListForUser', () => {
 
       expect(res.isOk()).toBe(true)
 
-      expect(res._unsafeUnwrap().itemCount).toEqual(3)
+      expect(res._unsafeUnwrap().itemCount).toEqual(1)
 
-      expect(
-        res
-          ._unsafeUnwrap()
-          .items.every((modificationRequest) =>
-            ['recours', 'delai', 'abandon'].includes(modificationRequest.type)
-          )
-      ).toBe(true)
+      expect(res._unsafeUnwrap().items[0]).toMatchObject({ actionnaire: 'target' })
     })
   })
 
@@ -221,40 +209,28 @@ describe('Sequelize getModificationRequestListForUser', () => {
         {
           ...baseRequest,
           id: new UniqueEntityID().toString(),
-          type: 'puissance',
-        },
-        {
-          ...baseRequest,
-          id: new UniqueEntityID().toString(),
-          type: 'fournisseur',
-        },
-        {
-          ...baseRequest,
-          id: new UniqueEntityID().toString(),
           type: 'producteur',
+          authority: 'dreal',
         },
         {
-          ...baseRequest,
-          id: new UniqueEntityID().toString(),
-          type: 'actionnaire',
-        },
-        {
-          // outside of scope because of type
+          // outside of scope because of authority
           ...baseRequest,
           id: new UniqueEntityID().toString(),
           type: 'other',
+          authority: 'dgec',
         },
         {
           // outside of scope because of project region
           ...baseRequest,
           projectId: outsideRegionProjectId,
           id: new UniqueEntityID().toString(),
-          type: 'puissance',
+          type: 'actionnaire',
+          authority: 'dreal',
         },
       ])
     })
 
-    it('should return all modification requests of types puissance, fournisseur, producteur, actionnaire and in the user‘s region', async () => {
+    it('should return all modification requests with authority of dreal in the user‘s region', async () => {
       const res = await getModificationRequestListForUser({
         user: drealUser,
         pagination: { page: 0, pageSize: 10 },
@@ -262,16 +238,15 @@ describe('Sequelize getModificationRequestListForUser', () => {
 
       expect(res.isOk()).toBe(true)
 
-      expect(res._unsafeUnwrap().itemCount).toEqual(4)
+      expect(res._unsafeUnwrap().itemCount).toEqual(1)
 
       expect(
         res
           ._unsafeUnwrap()
           .items.every(
             (modificationRequest) =>
-              ['puissance', 'fournisseur', 'producteur', 'actionnaire'].includes(
-                modificationRequest.type
-              ) && modificationRequest.project.regionProjet === 'Bretagne'
+              modificationRequest.type === 'producteur' &&
+              modificationRequest.project.regionProjet === 'Bretagne'
           )
       ).toBe(true)
     })
@@ -325,6 +300,7 @@ describe('Sequelize getModificationRequestListForUser', () => {
         ...baseRequest,
         id: userModificationRequestId,
         userId,
+        authority: 'dgec',
       })
 
       // Create a modification request from otherUser
@@ -332,6 +308,7 @@ describe('Sequelize getModificationRequestListForUser', () => {
         ...baseRequest,
         id: new UniqueEntityID().toString(),
         userId: otherUserId,
+        authority: 'dgec',
       })
     })
 

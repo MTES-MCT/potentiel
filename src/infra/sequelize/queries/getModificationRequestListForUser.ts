@@ -9,7 +9,6 @@ import {
   ModificationRequestListItemDTO,
 } from '../../../modules/modificationRequest'
 import { InfraNotAvailableError } from '../../../modules/shared'
-import { AuthorizedTypesForDreal } from '../../../modules/modificationRequest'
 import { PaginatedList } from '../../../types'
 
 function _getPuissanceForAppelOffre(args: { appelOffreId; periodeId }): string {
@@ -37,8 +36,6 @@ function _getDrealRegionsForUser(user: User, models) {
     }
   ).map((items: any) => items.map((item) => item.dreal))
 }
-
-const DEFAULT_DGEC_TYPES = ['recours', 'delai', 'abandon']
 
 export const makeGetModificationRequestListForUser = (
   models
@@ -80,22 +77,19 @@ export const makeGetModificationRequestListForUser = (
 
       if (user.role === 'porteur-projet') opts.where.userId = user.id
       if (user.role === 'dreal') {
-        opts.where.type = AuthorizedTypesForDreal
+        opts.where.authority = 'dreal'
         projectOpts.where.regionProjet = drealRegions
       }
       if (user.role === 'admin' || user.role === 'dgec') {
-        opts.where.type = DEFAULT_DGEC_TYPES
+        opts.where.authority = 'dgec'
       }
 
       if (modificationRequestType) {
-        if (user.role === 'dreal') {
-          if (AuthorizedTypesForDreal.includes(modificationRequestType.type)) {
-            opts.where.type = modificationRequestType.type
-          } else {
-            opts.where.type = AuthorizedTypesForDreal
-          }
-        } else {
-          opts.where.type = modificationRequestType.type
+        opts.where.type = modificationRequestType.type
+
+        if (user.role === 'admin' || user.role === 'dgec') {
+          // Admins can see any request (even dreals) when they set the type
+          delete opts.where.authority
         }
       }
 

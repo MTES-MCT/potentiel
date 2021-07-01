@@ -24,7 +24,6 @@ describe('notification.handleModificationRequested', () => {
   const sendNotification = jest.fn(async (args: NotificationArgs) => null)
 
   describe('in general', () => {
-    const isRequestForDreal = jest.fn(() => false)
     const findProjectById = jest.fn()
     const findUsersForDreal = jest.fn()
 
@@ -34,7 +33,6 @@ describe('notification.handleModificationRequested', () => {
       await handleModificationRequested({
         sendNotification,
         getInfoForModificationRequested,
-        isRequestForDreal,
         findUsersForDreal,
         findProjectById,
       })(
@@ -69,7 +67,6 @@ describe('notification.handleModificationRequested', () => {
   })
 
   describe('when modification request type is destined to DREAL admins', () => {
-    const isRequestForDreal = jest.fn(() => true)
     it('should send an email to the DREAL users for the project region(s)', async () => {
       const sendNotification = jest.fn(async (args: NotificationArgs) => null)
       const findProjectById = jest.fn(async (region: string) =>
@@ -93,7 +90,6 @@ describe('notification.handleModificationRequested', () => {
         findProjectById,
         getInfoForModificationRequested,
         findUsersForDreal,
-        isRequestForDreal,
       })(
         new ModificationRequested({
           payload: {
