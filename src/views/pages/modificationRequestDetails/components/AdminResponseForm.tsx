@@ -39,6 +39,17 @@ export const AdminResponseForm = ({ modificationRequest, children }: AdminRespon
         </div>
       </div>
 
+      <div className="form__group" style={{ marginBottom: 20 }}>
+        <label htmlFor="replyWithoutAttachment">
+          <input
+            type="checkbox"
+            name="replyWithoutAttachment"
+            {...dataId('modificationRequest-replyWithoutAttachmentField')}
+          />
+          Répondre sans pièce jointe
+        </label>
+      </div>
+
       {children}
 
       <button
