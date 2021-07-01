@@ -28,7 +28,7 @@ export type ModificationRequestDataForResponseTemplateDTO = {
 
   dateDemande: string
   justificationDemande: string
-} & (DelaiVariant | RecoursVariant | AbandonVariant | PuissanceVariant)
+} & (DelaiVariant | RecoursVariant | AbandonVariant | PuissanceVariant | ActionnaireVariant)
 
 type DelaiVariant = {
   type: 'delai'
@@ -95,4 +95,11 @@ type PuissanceVariant = {
   type: 'puissance'
   referenceParagraphePuissance: string
   contenuParagraphePuissance: string
+}
+
+type ActionnaireVariant = {
+  type: 'actionnaire'
+  nouvelActionnaire: string
+  referenceParagrapheActionnaire: string
+  contenuParagrapheActionnaire: string
 }

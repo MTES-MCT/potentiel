@@ -21,6 +21,9 @@ describe('Sequelize getModificationRequestDataForResponseTemplate', () => {
         okAsync({
           appelOffreId,
           periodeId,
+          'Référence du paragraphe dédié au changement d’actionnariat':
+            'referenceParagrapheActionnaire',
+          'Dispositions liées au changement d’actionnariat': 'contenuParagrapheActionnaire',
           'Référence du paragraphe dédié à l’engagement de réalisation ou aux modalités d’abandon':
             'referenceParagrapheAbandon',
           'Dispositions liées à l’engagement de réalisation ou aux modalités d’abandon':
@@ -385,6 +388,53 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1.1 e
         paragrapheEngagementIPFP: '3.2.6',
         renvoiModification: '5.4',
         delaiRealisationTexte: 'vingt-quatre (24) mois',
+      })
+    })
+  })
+
+  describe('when type is actionnaire', () => {
+    beforeAll(async () => {
+      // Create the tables and remove all data
+      await resetDatabase()
+
+      await Project.create(project)
+
+      await File.create(makeFakeFile({ id: fileId, filename: 'filename' }))
+
+      await User.create(makeFakeUser({ id: userId, fullName: 'John Doe' }))
+
+      await ModificationRequest.create({
+        id: modificationRequestId,
+        projectId,
+        userId,
+        fileId,
+        type: 'actionnaire',
+        actionnaire: 'new actionnaire',
+        requestedOn: 123,
+        respondedOn: 321,
+        respondedBy: userId2,
+        status: 'envoyée',
+        justification: 'justification',
+        versionDate,
+      })
+    })
+
+    it('should return actionnaire specific modification request info fields', async () => {
+      const modificationRequestResult = await getModificationRequestDataForResponseTemplate(
+        modificationRequestId.toString(),
+        fakeAdminUser
+      )
+
+      expect(modificationRequestResult.isOk()).toBe(true)
+      if (modificationRequestResult.isErr()) return
+
+      const modificationRequestDTO = modificationRequestResult.value
+
+      expect(modificationRequestDTO).toMatchObject({
+        type: 'actionnaire',
+        nouvelActionnaire: 'new actionnaire',
+        referenceParagrapheActionnaire: 'referenceParagrapheActionnaire',
+        contenuParagrapheActionnaire: 'contenuParagrapheActionnaire',
       })
     })
   })
