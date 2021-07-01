@@ -106,15 +106,10 @@ v1Router.post(
 
     const courrierReponseExists: boolean = !!request.file && (await pathExists(request.file.path))
 
-    /*
-      When the request does not have a mail attachment,
-      1) If the reply is a refusal, the mail attachment is mandatory.
-      2) In the case of an accepted reply, the mail attachment is optional if the admin checked "Décision de justice" or "Répondre sans pièce jointe" checkbox
-    */
-    const missingCourrierReponse =
-      !courrierReponseExists && (!acceptedReply || (!isDecisionJustice && !replyWithoutAttachment))
+    const courrierReponseIsOk =
+      courrierReponseExists || (acceptedReply && (isDecisionJustice || replyWithoutAttachment))
 
-    if (missingCourrierReponse) {
+    if (!courrierReponseIsOk) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
           error: "La réponse n'a pas pu être envoyée car il manque le courrier de réponse.",
