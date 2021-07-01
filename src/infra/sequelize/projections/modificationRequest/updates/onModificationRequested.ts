@@ -14,6 +14,7 @@ export const onModificationRequested = (models) => async (event: ModificationReq
     puissance,
     delayInMonths,
     actionnaire,
+    authority,
   } = event.payload
   try {
     await ModificationRequestModel.create({
@@ -29,6 +30,7 @@ export const onModificationRequested = (models) => async (event: ModificationReq
       puissance,
       delayInMonths,
       actionnaire,
+      authority,
     })
   } catch (e) {
     logger.error(e)

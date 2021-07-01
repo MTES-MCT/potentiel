@@ -118,6 +118,7 @@ export const makeRequestActionnaireModification = (deps: RequestActionnaireModif
               actionnaire: newActionnaire,
               justification,
               fileId,
+              authority: 'dreal',
             },
           })
         )
@@ -148,6 +149,7 @@ export const makeRequestActionnaireModification = (deps: RequestActionnaireModif
                 actionnaire: newActionnaire,
                 justification,
                 fileId,
+                authority: 'dreal',
               },
             })
           )

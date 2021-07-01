@@ -49,6 +49,10 @@ export const MakeModificationRequestModel = (sequelize) => {
         allowNull: false,
         defaultValue: NOW,
       },
+      authority: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       status: {
         type: DataTypes.STRING,
         allowNull: false,

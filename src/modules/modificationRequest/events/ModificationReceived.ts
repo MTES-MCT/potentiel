@@ -6,6 +6,7 @@ export interface ModificationReceivedPayload {
   type: string
   projectId: string
   requestedBy: string
+  authority: 'dgec' | 'dreal'
   puissance?: number
   actionnaire?: string
   producteur?: string

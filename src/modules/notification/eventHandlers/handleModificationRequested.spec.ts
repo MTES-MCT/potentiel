@@ -44,6 +44,7 @@ describe('notification.handleModificationRequested', () => {
             modificationRequestId,
             projectId,
             requestedBy: userId,
+            authority: 'dgec',
           },
         })
       )
@@ -102,6 +103,7 @@ describe('notification.handleModificationRequested', () => {
             requestedBy: userId,
             puissance: 18,
             justification: 'justification',
+            authority: 'dreal',
           },
         })
       )

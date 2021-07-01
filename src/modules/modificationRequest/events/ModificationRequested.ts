@@ -5,6 +5,7 @@ export interface ModificationRequestedPayload {
   modificationRequestId: string
   projectId: string
   requestedBy: string
+  authority: 'dgec' | 'dreal'
   fileId?: string
   justification?: string
   actionnaire?: string

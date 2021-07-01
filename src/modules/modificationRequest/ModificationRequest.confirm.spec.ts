@@ -29,6 +29,7 @@ describe('Modification.confirm()', () => {
               projectId: projectId.toString(),
               type: 'abandon',
               requestedBy: fakeUser.id,
+              authority: 'dgec',
             },
           }),
           new ConfirmationRequested({
@@ -74,6 +75,7 @@ describe('Modification.confirm()', () => {
               projectId: projectId.toString(),
               type: 'abandon',
               requestedBy: fakeUser.id,
+              authority: 'dgec',
             },
           }),
           new ModificationRequestAccepted({

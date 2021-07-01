@@ -108,6 +108,7 @@ export const makeRequestFournisseursModification = (deps: RequestFournisseurModi
               evaluationCarbone: newEvaluationCarbone,
               justification,
               fileId,
+              authority: 'dreal',
             },
           })
         )

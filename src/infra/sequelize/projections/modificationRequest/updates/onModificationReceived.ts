@@ -15,6 +15,7 @@ export const onModificationReceived = (models) => async (event: ModificationRece
     producteur,
     fournisseurs,
     evaluationCarbone,
+    authority,
   } = event.payload
 
   try {
@@ -33,6 +34,7 @@ export const onModificationReceived = (models) => async (event: ModificationRece
       actionnaire,
       fournisseurs,
       evaluationCarbone,
+      authority,
     })
   } catch (e) {
     logger.error(e)

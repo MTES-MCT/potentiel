@@ -1,16 +1,18 @@
 import { okAsync } from 'neverthrow'
+import { deepStrictEqual } from 'node:assert'
 import { Repository, UniqueEntityID } from '../core/domain'
 import { logger } from '../core/utils'
 import { Project, User } from '../entities'
 import { EventBus } from '../modules/eventStore'
 import { FileContents, FileObject, makeAndSaveFile } from '../modules/file'
-import { ModificationRequested } from '../modules/modificationRequest'
+import { GetProjectAppelOffreId, ModificationRequested } from '../modules/modificationRequest'
 import { NumeroGestionnaireSubmitted } from '../modules/project/events'
 import { ErrorResult, Ok, ResultAsync } from '../types'
 
 interface MakeUseCaseProps {
   fileRepo: Repository<FileObject>
   eventBus: EventBus
+  getProjectAppelOffreId: GetProjectAppelOffreId
   shouldUserAccessProject: (args: { user: User; projectId: Project['id'] }) => Promise<boolean>
 }
 
@@ -21,11 +23,6 @@ interface RequestCommon {
     filename: string
   }
   projectId: Project['id']
-}
-
-interface PuissanceRequest {
-  type: 'puissance'
-  puissance: number
 }
 
 interface DelayRequest {
@@ -45,8 +42,7 @@ interface RecoursRequest {
   justification: string
 }
 
-type CallUseCaseProps = RequestCommon &
-  (PuissanceRequest | DelayRequest | AbandonRequest | RecoursRequest)
+type CallUseCaseProps = RequestCommon & (DelayRequest | AbandonRequest | RecoursRequest)
 
 export const ERREUR_FORMAT = 'Merci de remplir les champs marqués obligatoires'
 export const ACCESS_DENIED_ERROR = "Vous n'avez pas le droit de faire de demandes pour ce projet"
@@ -57,6 +53,7 @@ export default function makeRequestModification({
   fileRepo,
   eventBus,
   shouldUserAccessProject,
+  getProjectAppelOffreId,
 }: MakeUseCaseProps) {
   return async function requestModification(props: CallUseCaseProps): ResultAsync<null> {
     const { user, projectId, file, type } = props
@@ -99,6 +96,15 @@ export default function makeRequestModification({
 
     const { justification, puissance, delayInMonths, numeroGestionnaire } = props as any
 
+    let appelOffreId: string = ''
+    const appelOffreIdRes = await getProjectAppelOffreId(projectId)
+    if (appelOffreIdRes.isOk()) {
+      appelOffreId = appelOffreIdRes.value
+    }
+
+    const authority: 'dgec' | 'dreal' =
+      type === 'delai' && appelOffreId !== 'Eolien' ? 'dreal' : 'dgec'
+
     const res = await eventBus
       .publish(
         new ModificationRequested({
@@ -111,6 +117,7 @@ export default function makeRequestModification({
             justification,
             puissance,
             delayInMonths,
+            authority,
           },
         })
       )
