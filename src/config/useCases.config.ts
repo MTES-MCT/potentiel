@@ -29,6 +29,9 @@ import {
   getProjectIdsForPeriode,
   getAppelOffreList,
   getUserByEmail,
+  isProjectParticipatif,
+  hasProjectGarantieFinanciere,
+  getProjectAppelOffreId,
 } from './queries.config'
 import { eventStore } from './eventStore.config'
 import {
@@ -133,6 +136,9 @@ export const requestActionnaireModification = makeRequestActionnaireModification
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
   fileRepo,
+  isProjectParticipatif,
+  hasProjectGarantieFinanciere,
+  getProjectAppelOffreId,
 })
 
 export const requestProducteurModification = makeRequestProducteurModification({

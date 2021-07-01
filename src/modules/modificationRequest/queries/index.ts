@@ -5,3 +5,6 @@ export * from './GetModificationRequestInfoForStatusNotification';
 export * from './GetModificationRequestListForUser';
 export * from './GetModificationRequestRecipient';
 export * from './GetModificationRequestStatus';
+export * from './GetProjectAppelOffreId';
+export * from './HasProjectGarantieFinanciere';
+export * from './IsProjectParticipatif';

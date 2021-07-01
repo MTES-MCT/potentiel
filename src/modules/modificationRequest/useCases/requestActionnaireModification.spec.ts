@@ -7,7 +7,7 @@ import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtu
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { FileObject } from '../../file'
 import { Project } from '../../project'
-import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
+import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { ModificationReceived, ModificationRequested } from '../events'
 import { makeRequestActionnaireModification } from './requestActionnaireModification'
 
@@ -25,17 +25,249 @@ describe('requestActionnaireModification use-case', () => {
     save: jest.fn((file: FileObject) => okAsync(null)),
     load: jest.fn(),
   }
+
+  const getProjectAppelOffreId = jest.fn((projectId: string) =>
+    okAsync<string, EntityNotFoundError | InfraNotAvailableError>('appelOffreId')
+  )
+  const isProjectParticipatif = jest.fn()
+  const hasProjectGarantieFinanciere = jest.fn()
+
   const fakeFileContents = Readable.from('test-content')
   const fakeFileName = 'myfilename.pdf'
+
+  describe('when user is allowed', () => {
+    const newActionnaire = 'new actionnaire'
+
+    describe('when project is not Eolien', () => {
+      const requestActionnaireModification = makeRequestActionnaireModification({
+        isProjectParticipatif,
+        hasProjectGarantieFinanciere,
+        getProjectAppelOffreId,
+        projectRepo,
+        eventBus,
+        shouldUserAccessProject,
+        fileRepo: fileRepo as Repository<FileObject>,
+      })
+
+      beforeAll(async () => {
+        fakePublish.mockClear()
+        fakeProject.updateActionnaire.mockClear()
+        fileRepo.save.mockClear()
+
+        const res = await requestActionnaireModification({
+          projectId: fakeProject.id,
+          requestedBy: fakeUser,
+          newActionnaire,
+          file: { contents: fakeFileContents, filename: fakeFileName },
+        })
+
+        expect(res.isOk()).toBe(true)
+
+        expect(shouldUserAccessProject).toHaveBeenCalledWith({
+          user: fakeUser,
+          projectId: fakeProject.id.toString(),
+        })
+      })
+
+      it('should emit a ModificationReceived', async () => {
+        expect(eventBus.publish).toHaveBeenCalledTimes(1)
+        const event = eventBus.publish.mock.calls[0][0]
+        expect(event).toBeInstanceOf(ModificationReceived)
+
+        const { type, actionnaire } = event.payload
+        expect(type).toEqual('actionnaire')
+        expect(actionnaire).toEqual(newActionnaire)
+      })
+
+      it('should update the Actionnaire', () => {
+        expect(fakeProject.updateActionnaire).toHaveBeenCalledWith(fakeUser, 'new actionnaire')
+      })
+
+      it('should save the file', () => {
+        expect(fileRepo.save).toHaveBeenCalledTimes(1)
+        expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents)
+        expect(fileRepo.save.mock.calls[0][0].filename).toEqual(fakeFileName)
+      })
+    })
+
+    describe('when project is Eolien', () => {
+      const getProjectAppelOffreId = jest.fn((projectId: string) =>
+        okAsync<string, EntityNotFoundError | InfraNotAvailableError>('Eolien')
+      )
+
+      describe('when project does not have Garantie Financiere', () => {
+        const hasProjectGarantieFinanciere = jest.fn((projectId: string) =>
+          okAsync<boolean, EntityNotFoundError | InfraNotAvailableError>(false)
+        )
+        const isProjectParticipatif = jest.fn((projectId: string) =>
+          okAsync<boolean, EntityNotFoundError | InfraNotAvailableError>(false)
+        )
+
+        const requestActionnaireModification = makeRequestActionnaireModification({
+          isProjectParticipatif,
+          hasProjectGarantieFinanciere,
+          getProjectAppelOffreId,
+          projectRepo,
+          eventBus,
+          shouldUserAccessProject,
+          fileRepo: fileRepo as Repository<FileObject>,
+        })
+
+        beforeAll(async () => {
+          fakePublish.mockClear()
+          fakeProject.updateActionnaire.mockClear()
+          fileRepo.save.mockClear()
+
+          const res = await requestActionnaireModification({
+            projectId: fakeProject.id,
+            requestedBy: fakeUser,
+            newActionnaire,
+            file: { contents: fakeFileContents, filename: fakeFileName },
+          })
+
+          expect(res.isOk()).toBe(true)
+
+          expect(shouldUserAccessProject).toHaveBeenCalledWith({
+            user: fakeUser,
+            projectId: fakeProject.id.toString(),
+          })
+        })
+
+        it('should emit a ModificationRequested', async () => {
+          expect(eventBus.publish).toHaveBeenCalledTimes(1)
+          const event = eventBus.publish.mock.calls[0][0]
+          expect(event).toBeInstanceOf(ModificationRequested)
+
+          const { type, actionnaire } = event.payload
+          expect(type).toEqual('actionnaire')
+          expect(actionnaire).toEqual(newActionnaire)
+        })
+
+        it('should not update the Actionnaire', () => {
+          expect(fakeProject.updateActionnaire).not.toHaveBeenCalled()
+        })
+      })
+
+      describe('when project is participatif', () => {
+        const hasProjectGarantieFinanciere = jest.fn((projectId: string) =>
+          okAsync<boolean, EntityNotFoundError | InfraNotAvailableError>(true)
+        )
+        const isProjectParticipatif = jest.fn((projectId: string) =>
+          okAsync<boolean, EntityNotFoundError | InfraNotAvailableError>(true)
+        )
+
+        const requestActionnaireModification = makeRequestActionnaireModification({
+          isProjectParticipatif,
+          hasProjectGarantieFinanciere,
+          getProjectAppelOffreId,
+          projectRepo,
+          eventBus,
+          shouldUserAccessProject,
+          fileRepo: fileRepo as Repository<FileObject>,
+        })
+
+        beforeAll(async () => {
+          fakePublish.mockClear()
+          fakeProject.updateActionnaire.mockClear()
+          fileRepo.save.mockClear()
+
+          const res = await requestActionnaireModification({
+            projectId: fakeProject.id,
+            requestedBy: fakeUser,
+            newActionnaire,
+            file: { contents: fakeFileContents, filename: fakeFileName },
+          })
+
+          expect(res.isOk()).toBe(true)
+
+          expect(shouldUserAccessProject).toHaveBeenCalledWith({
+            user: fakeUser,
+            projectId: fakeProject.id.toString(),
+          })
+        })
+
+        it('should emit a ModificationRequested', async () => {
+          expect(eventBus.publish).toHaveBeenCalledTimes(1)
+          const event = eventBus.publish.mock.calls[0][0]
+          expect(event).toBeInstanceOf(ModificationRequested)
+
+          const { type, actionnaire } = event.payload
+          expect(type).toEqual('actionnaire')
+          expect(actionnaire).toEqual(newActionnaire)
+        })
+
+        it('should not update the Actionnaire', () => {
+          expect(fakeProject.updateActionnaire).not.toHaveBeenCalled()
+        })
+      })
+
+      describe('when project is not participatif and has a GF', () => {
+        const hasProjectGarantieFinanciere = jest.fn((projectId: string) =>
+          okAsync<boolean, EntityNotFoundError | InfraNotAvailableError>(true)
+        )
+        const isProjectParticipatif = jest.fn((projectId: string) =>
+          okAsync<boolean, EntityNotFoundError | InfraNotAvailableError>(false)
+        )
+
+        const requestActionnaireModification = makeRequestActionnaireModification({
+          isProjectParticipatif,
+          hasProjectGarantieFinanciere,
+          getProjectAppelOffreId,
+          projectRepo,
+          eventBus,
+          shouldUserAccessProject,
+          fileRepo: fileRepo as Repository<FileObject>,
+        })
+
+        beforeAll(async () => {
+          fakePublish.mockClear()
+          fakeProject.updateActionnaire.mockClear()
+          fileRepo.save.mockClear()
+
+          const res = await requestActionnaireModification({
+            projectId: fakeProject.id,
+            requestedBy: fakeUser,
+            newActionnaire,
+            file: { contents: fakeFileContents, filename: fakeFileName },
+          })
+
+          expect(res.isOk()).toBe(true)
+
+          expect(shouldUserAccessProject).toHaveBeenCalledWith({
+            user: fakeUser,
+            projectId: fakeProject.id.toString(),
+          })
+        })
+
+        it('should emit a ModificationReceived', async () => {
+          expect(eventBus.publish).toHaveBeenCalledTimes(1)
+          const event = eventBus.publish.mock.calls[0][0]
+          expect(event).toBeInstanceOf(ModificationReceived)
+
+          const { type, actionnaire } = event.payload
+          expect(type).toEqual('actionnaire')
+          expect(actionnaire).toEqual(newActionnaire)
+        })
+
+        it('should update the Actionnaire', () => {
+          expect(fakeProject.updateActionnaire).toHaveBeenCalledWith(fakeUser, 'new actionnaire')
+        })
+      })
+    })
+  })
 
   describe('when user is not allowed', () => {
     it('should return an UnauthorizedError', async () => {
       fakePublish.mockClear()
+      fakeProject.updateActionnaire.mockClear()
       fileRepo.save.mockClear()
 
       const shouldUserAccessProject = jest.fn(async () => false)
 
       const requestActionnaireModification = makeRequestActionnaireModification({
+        isProjectParticipatif,
+        hasProjectGarantieFinanciere,
+        getProjectAppelOffreId,
         projectRepo,
         eventBus,
         shouldUserAccessProject,
@@ -50,56 +282,6 @@ describe('requestActionnaireModification use-case', () => {
 
       expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
       expect(fakePublish).not.toHaveBeenCalled()
-    })
-  })
-
-  describe('when user is allowed', () => {
-    const newActionnaire = 'new actionnaire'
-
-    beforeAll(async () => {
-      fakePublish.mockClear()
-      fileRepo.save.mockClear()
-
-      const requestActionnaireModification = makeRequestActionnaireModification({
-        projectRepo,
-        eventBus,
-        shouldUserAccessProject,
-        fileRepo: fileRepo as Repository<FileObject>,
-      })
-
-      const res = await requestActionnaireModification({
-        projectId: fakeProject.id,
-        requestedBy: fakeUser,
-        newActionnaire,
-        file: { contents: fakeFileContents, filename: fakeFileName },
-      })
-
-      expect(res.isOk()).toBe(true)
-
-      expect(shouldUserAccessProject).toHaveBeenCalledWith({
-        user: fakeUser,
-        projectId: fakeProject.id.toString(),
-      })
-    })
-
-    it('should emit a ModificationReceived', async () => {
-      expect(eventBus.publish).toHaveBeenCalledTimes(1)
-      const event = eventBus.publish.mock.calls[0][0]
-      expect(event).toBeInstanceOf(ModificationReceived)
-
-      const { type, actionnaire } = event.payload
-      expect(type).toEqual('actionnaire')
-      expect(actionnaire).toEqual(newActionnaire)
-    })
-
-    it('should update the Actionnaire', () => {
-      expect(fakeProject.updateActionnaire).toHaveBeenCalledWith(fakeUser, 'new actionnaire')
-    })
-
-    it('should save the file', () => {
-      expect(fileRepo.save).toHaveBeenCalledTimes(1)
-      expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents)
-      expect(fileRepo.save.mock.calls[0][0].filename).toEqual(fakeFileName)
     })
   })
 })
