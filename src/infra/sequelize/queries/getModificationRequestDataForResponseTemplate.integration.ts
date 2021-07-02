@@ -98,6 +98,7 @@ describe('Sequelize getModificationRequestDataForResponseTemplate', () => {
         respondedBy: userId2,
         status: 'envoyée',
         justification: 'justification',
+        authority: 'dreal',
         versionDate,
       })
     })

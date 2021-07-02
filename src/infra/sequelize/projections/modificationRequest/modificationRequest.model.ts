@@ -51,7 +51,7 @@ export const MakeModificationRequestModel = (sequelize) => {
       },
       authority: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       status: {
         type: DataTypes.STRING,

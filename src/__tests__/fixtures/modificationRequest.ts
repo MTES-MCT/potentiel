@@ -7,8 +7,9 @@ export default function makeFakeModificationRequest(overrides?, includeInfo?: bo
     id: '1',
     userId: new UniqueEntityID().toString(),
     projectId: new UniqueEntityID().toString(),
-    type: 'recours',
+    type: 'actionnaire',
     actionnaire: 'nouvel actionnaire',
+    authority: 'dreal',
   }
 
   if (includeInfo) {
