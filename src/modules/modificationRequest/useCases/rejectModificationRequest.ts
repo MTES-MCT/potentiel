@@ -34,7 +34,7 @@ export const makeRejectModificationRequest = (deps: RejectModificationRequestDep
   const { fileRepo, modificationRequestRepo } = deps
   const { modificationRequestId, versionDate, responseFile, rejectedBy } = args
 
-  if (!['admin', 'dgec'].includes(rejectedBy.role)) {
+  if (!['admin', 'dgec', 'dreal'].includes(rejectedBy.role)) {
     return errAsync(new UnauthorizedError())
   }
 

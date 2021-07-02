@@ -4,7 +4,7 @@ import { NumeroGestionnaireSubmitted } from '../modules/project/events'
 import { DomainEvent, Repository } from '../core/domain'
 import { okAsync } from '../core/utils'
 import { FileObject } from '../modules/file'
-import { InfraNotAvailableError } from '../modules/shared'
+import { EntityNotFoundError, InfraNotAvailableError } from '../modules/shared'
 import makeFakeUser from '../__tests__/fixtures/user'
 import makeRequestModification, { ACCESS_DENIED_ERROR } from './requestModification'
 
@@ -14,6 +14,10 @@ const fakeFileContents = {
 }
 
 describe('requestModification use-case', () => {
+  const getProjectAppelOffreId = jest.fn((projectId) =>
+    okAsync<string, EntityNotFoundError | InfraNotAvailableError>('appelOffreId')
+  )
+
   describe('given user has no rights on this project', () => {
     const shouldUserAccessProject = jest.fn(async () => false)
 
@@ -31,13 +35,15 @@ describe('requestModification use-case', () => {
       fileRepo,
       eventBus,
       shouldUserAccessProject,
+      getProjectAppelOffreId,
     })
 
     it('should return ACCESS_DENIED_ERROR', async () => {
       const user = makeFakeUser({ role: 'porteur-projet' })
       const requestResult = await requestModification({
-        type: 'puissance',
-        puissance: 10,
+        type: 'delai' as 'delai',
+        justification: 'justification',
+        delayInMonths: 12,
         file: fakeFileContents,
         user,
         projectId: 'project1',
@@ -71,13 +77,15 @@ describe('requestModification use-case', () => {
       fileRepo,
       eventBus,
       shouldUserAccessProject,
+      getProjectAppelOffreId,
     })
 
     it('should return ACCESS_DENIED_ERROR', async () => {
       const user = makeFakeUser({ role: 'admin' })
       const requestResult = await requestModification({
-        type: 'puissance',
-        puissance: 10,
+        type: 'delai' as 'delai',
+        justification: 'justification',
+        delayInMonths: 12,
         file: fakeFileContents,
         user,
         projectId: 'project1',
@@ -109,12 +117,14 @@ describe('requestModification use-case', () => {
         fileRepo: fileRepo as Repository<FileObject>,
         eventBus,
         shouldUserAccessProject,
+        getProjectAppelOffreId,
       })
 
       beforeAll(async () => {
         const requestResult = await requestModification({
-          type: 'puissance',
-          puissance: 10,
+          type: 'delai' as 'delai',
+          justification: 'justification',
+          delayInMonths: 12,
           file: fakeFileContents,
           user,
           projectId: 'project1',
@@ -136,8 +146,9 @@ describe('requestModification use-case', () => {
         expect(eventBus.publish).toHaveBeenCalledTimes(1)
         expect(eventBus.publish.mock.calls[0][0].payload).toEqual(
           expect.objectContaining({
-            type: 'puissance',
-            puissance: 10,
+            type: 'delai',
+            delayInMonths: 12,
+            justification: 'justification',
             fileId: fakeFile.id.toString(),
             requestedBy: user.id,
             projectId: 'project1',
@@ -161,6 +172,7 @@ describe('requestModification use-case', () => {
         fileRepo: fileRepo as Repository<FileObject>,
         eventBus,
         shouldUserAccessProject,
+        getProjectAppelOffreId,
       })
 
       beforeAll(async () => {

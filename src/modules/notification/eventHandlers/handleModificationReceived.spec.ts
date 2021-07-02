@@ -39,6 +39,7 @@ describe('notification.handleModificationReceived', () => {
           requestedBy: userId,
           producteur: 'test producteur',
           justification: 'justification',
+          authority: 'dreal',
         },
       })
     )
@@ -97,6 +98,7 @@ describe('notification.handleModificationReceived', () => {
           requestedBy: userId,
           puissance: 18,
           justification: 'justification',
+          authority: 'dreal',
         },
       })
     )
@@ -116,7 +118,8 @@ describe('notification.handleModificationReceived', () => {
           notification.message.name === 'drealA' &&
           notification.variables.nom_projet === 'nomProjet' &&
           notification.variables.type_demande === 'puissance' &&
-          notification.variables.modification_request_url === routes.ADMIN_LIST_REQUESTS &&
+          notification.variables.modification_request_url ===
+            routes.DEMANDE_PAGE_DETAILS(modificationRequestId) &&
           notification.variables.departement_projet === 'departement' &&
           notification.context.modificationRequestId === modificationRequestId &&
           notification.context.dreal === 'regionA' &&
@@ -131,7 +134,8 @@ describe('notification.handleModificationReceived', () => {
           notification.message.name === 'drealB' &&
           notification.variables.nom_projet === 'nomProjet' &&
           notification.variables.type_demande === 'puissance' &&
-          notification.variables.modification_request_url === routes.ADMIN_LIST_REQUESTS &&
+          notification.variables.modification_request_url ===
+            routes.DEMANDE_PAGE_DETAILS(modificationRequestId) &&
           notification.variables.departement_projet === 'departement' &&
           notification.context.modificationRequestId === modificationRequestId &&
           notification.context.dreal === 'regionB' &&
@@ -175,6 +179,7 @@ describe('notification.handleModificationReceived', () => {
                 { kind: 'Nom du fabricant (Cellules)' as FournisseurKind, name: 'fournisseur' },
               ],
               evaluationCarbone: 74,
+              authority: 'dreal',
             },
           })
         )
@@ -220,6 +225,7 @@ describe('notification.handleModificationReceived', () => {
               requestedBy: userId,
               fournisseurs: [{ kind: '' as FournisseurKind, name: '' }],
               evaluationCarbone: 124,
+              authority: 'dreal',
             },
           })
         )
@@ -265,6 +271,7 @@ describe('notification.handleModificationReceived', () => {
               requestedBy: userId,
               fournisseurs: [{ kind: '' as FournisseurKind, name: '' }],
               evaluationCarbone: 125,
+              authority: 'dreal',
             },
           })
         )

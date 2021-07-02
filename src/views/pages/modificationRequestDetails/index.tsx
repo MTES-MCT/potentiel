@@ -13,6 +13,7 @@ import {
   RecoursForm,
   AbandonForm,
   CancelButton,
+  ActionnaireForm,
 } from './components'
 import { PuissanceForm } from './components/PuissanceForm'
 
@@ -34,7 +35,9 @@ export default function AdminModificationRequestPage({ request, modificationRequ
     logger.error('Try to render ProjectDetails without a user')
     return <div />
   }
-  const isResponsePossible = ['recours', 'delai', 'abandon', 'puissance'].includes(type)
+  const isResponsePossible = ['recours', 'delai', 'abandon', 'puissance', 'actionnaire'].includes(
+    type
+  )
 
   const isAdmin = ['admin', 'dgec', 'dreal'].includes(user.role)
 
@@ -73,7 +76,7 @@ export default function AdminModificationRequestPage({ request, modificationRequ
             <div className="panel__header">
               <h4>Répondre</h4>
 
-              <AdminResponseForm modificationRequest={modificationRequest}>
+              <AdminResponseForm role={user.role} modificationRequest={modificationRequest}>
                 {isResponsePossible && (
                   <>
                     {modificationRequest.type === 'delai' && (
@@ -90,6 +93,10 @@ export default function AdminModificationRequestPage({ request, modificationRequ
 
                     {modificationRequest.type === 'puissance' && (
                       <PuissanceForm modificationRequest={modificationRequest} />
+                    )}
+
+                    {modificationRequest.type === 'actionnaire' && (
+                      <ActionnaireForm modificationRequest={modificationRequest} />
                     )}
                   </>
                 )}

@@ -21,6 +21,7 @@ describe('Modification.updateStatus()', () => {
               projectId: '',
               type: 'recours',
               requestedBy: fakeUser.id,
+              authority: 'dgec',
             },
           }),
         ],

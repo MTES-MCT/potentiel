@@ -137,6 +137,7 @@ export const makeRequestPuissanceModification = (deps: RequestPuissanceModificat
           puissance: newPuissance,
           justification,
           fileId,
+          authority: 'dreal' as 'dreal',
         }
 
         return eventBus.publish(

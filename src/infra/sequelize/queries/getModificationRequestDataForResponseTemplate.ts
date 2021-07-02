@@ -103,6 +103,7 @@ export const makeGetModificationRequestDataForResponseTemplate = ({
         requestedOn,
         delayInMonths,
         justification,
+        actionnaire,
         status,
         confirmationRequestedOn,
         confirmedOn,
@@ -213,6 +214,15 @@ export const makeGetModificationRequestDataForResponseTemplate = ({
               ],
             dateDemandeConfirmation: confirmationRequestedOn && formatDate(confirmationRequestedOn),
             dateConfirmation: confirmedOn && formatDate(confirmedOn),
+          } as ModificationRequestDataForResponseTemplateDTO)
+        case 'actionnaire':
+          return ok({
+            ...commonData,
+            nouvelActionnaire: actionnaire,
+            referenceParagrapheActionnaire:
+              periodeDetails['Référence du paragraphe dédié au changement d’actionnariat'],
+            contenuParagrapheActionnaire:
+              periodeDetails['Dispositions liées au changement d’actionnariat'],
           } as ModificationRequestDataForResponseTemplateDTO)
         case 'recours':
           return ok({

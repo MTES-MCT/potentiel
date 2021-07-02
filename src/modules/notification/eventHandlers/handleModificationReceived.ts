@@ -1,10 +1,8 @@
 import { NotificationService } from '..'
+import { logger } from '../../../core/utils'
 import { ProjectRepo, UserRepo } from '../../../dataAccess'
 import routes from '../../../routes'
-import { logger } from '../../../core/utils'
 import { ModificationReceived } from '../../modificationRequest'
-import moment from 'moment'
-import { isStrictlyPositiveNumber } from '../../../helpers/formValidators'
 
 export const handleModificationReceived = (deps: {
   sendNotification: NotificationService['sendNotification']
@@ -89,7 +87,7 @@ export const handleModificationReceived = (deps: {
               nom_projet: project.nomProjet,
               departement_projet: project.departementProjet,
               type_demande: type,
-              modification_request_url: routes.ADMIN_LIST_REQUESTS,
+              modification_request_url: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
             },
           })
         )

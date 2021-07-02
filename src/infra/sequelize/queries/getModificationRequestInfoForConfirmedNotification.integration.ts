@@ -40,6 +40,7 @@ describe('Sequelize getModificationRequestInfoForConfirmedNotification', () => {
       requestedBy: userId,
       status: 'demande confirmée',
       confirmationRequestedBy: adminId,
+      authority: 'dreal',
     })
   })
 

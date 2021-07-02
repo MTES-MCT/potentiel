@@ -30,6 +30,7 @@ describe('Modification.acceptRecours()', () => {
               projectId: projectId.toString(),
               type: 'recours',
               requestedBy: fakeUser.id,
+              authority: 'dgec',
             },
           }),
         ],
@@ -68,6 +69,7 @@ describe('Modification.acceptRecours()', () => {
               projectId: projectId.toString(),
               type: 'recours',
               requestedBy: fakeUser.id,
+              authority: 'dgec',
             },
           }),
           new ModificationRequestConfirmed({
@@ -112,6 +114,7 @@ describe('Modification.acceptRecours()', () => {
               projectId: projectId.toString(),
               type: 'recours',
               requestedBy: fakeUser.id,
+              authority: 'dgec',
             },
           }),
           new ConfirmationRequested({
@@ -157,6 +160,7 @@ describe('Modification.acceptRecours()', () => {
               projectId: projectId.toString(),
               type: 'recours',
               requestedBy: fakeUser.id,
+              authority: 'dgec',
             },
           }),
           new ModificationRequestAccepted({
@@ -192,6 +196,7 @@ describe('Modification.acceptRecours()', () => {
               projectId: projectId.toString(),
               type: 'recours',
               requestedBy: fakeUser.id,
+              authority: 'dgec',
             },
           }),
           new ModificationRequestRejected({

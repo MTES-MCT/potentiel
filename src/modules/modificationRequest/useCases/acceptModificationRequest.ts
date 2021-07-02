@@ -43,7 +43,7 @@ export const makeAcceptModificationRequest = (deps: AcceptModificationRequestDep
   const { fileRepo, modificationRequestRepo, projectRepo } = deps
   const { modificationRequestId, versionDate, responseFile, submittedBy, acceptanceParams } = args
 
-  if (!['admin', 'dgec'].includes(submittedBy.role)) {
+  if (!['admin', 'dgec', 'dreal'].includes(submittedBy.role)) {
     return errAsync(new UnauthorizedError())
   }
 
@@ -131,6 +131,10 @@ export const makeAcceptModificationRequest = (deps: AcceptModificationRequestDep
         case 'puissance':
           if (acceptanceParams?.type === 'puissance')
             action = project.updatePuissance(submittedBy, acceptanceParams.newPuissance)
+          break
+        case 'actionnaire':
+          if (acceptanceParams?.type === 'actionnaire')
+            action = project.updateActionnaire(submittedBy, acceptanceParams.newActionnaire)
           break
         case 'abandon':
           action = project.abandon(submittedBy)

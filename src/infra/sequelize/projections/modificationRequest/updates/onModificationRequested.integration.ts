@@ -27,6 +27,7 @@ describe('modificationRequest.onModificationRequested', () => {
         fileId,
         justification: 'justification',
         requestedBy: userId,
+        authority: 'dgec',
       },
     })
     await onModificationRequested(models)(event)
@@ -38,17 +39,16 @@ describe('modificationRequest.onModificationRequested', () => {
 
     const { occurredAt } = event
 
-    expect(projection.get()).toEqual(
-      expect.objectContaining({
-        id: modificationRequestId,
-        projectId,
-        type: 'recours',
-        requestedOn: occurredAt.getTime(),
-        status: 'envoyée',
-        fileId,
-        justification: 'justification',
-        userId,
-      })
-    )
+    expect(projection.get()).toMatchObject({
+      id: modificationRequestId,
+      projectId,
+      type: 'recours',
+      requestedOn: occurredAt.getTime(),
+      status: 'envoyée',
+      fileId,
+      justification: 'justification',
+      userId,
+      authority: 'dgec',
+    })
   })
 })

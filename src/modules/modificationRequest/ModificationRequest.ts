@@ -53,6 +53,7 @@ export type ModificationRequestAcceptanceParams =
   | { type: 'recours'; newNotificationDate: Date }
   | { type: 'delai'; delayInMonths: number }
   | { type: 'puissance'; newPuissance: number; isDecisionJustice?: boolean }
+  | { type: 'actionnaire'; newActionnaire: string }
 
 export type ModifictionRequestType =
   | 'actionnaire'

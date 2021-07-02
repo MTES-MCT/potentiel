@@ -56,3 +56,5 @@ export const getModificationRequestDataForResponseTemplate = makeGetModification
   }
 )
 export const getModificationRequestRecipient = makeGetModificationRequestRecipient(models)
+
+export * from './modificationRequest'

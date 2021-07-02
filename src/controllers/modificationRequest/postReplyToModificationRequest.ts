@@ -27,7 +27,7 @@ v1Router.post(
   routes.ADMIN_REPLY_TO_MODIFICATION_REQUEST,
   ensureLoggedIn(),
   upload.single('file'),
-  ensureRole(['admin', 'dgec']),
+  ensureRole(['admin', 'dgec', 'dreal']),
   asyncHandler(async (request, response) => {
     const {
       modificationRequestId,
@@ -41,6 +41,7 @@ v1Router.post(
       puissance,
       isDecisionJustice,
       replyWithoutAttachment,
+      actionnaire,
     } = request.body
 
     // There are two submit buttons on the form, named submitAccept and submitReject
@@ -96,7 +97,7 @@ v1Router.post(
       )
     }
 
-    if (!['recours', 'delai', 'puissance', 'abandon'].includes(type)) {
+    if (!['recours', 'delai', 'puissance', 'abandon', 'actionnaire'].includes(type)) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
           error: 'Impossible de répondre à ce type de demande pour le moment.',
@@ -134,6 +135,7 @@ v1Router.post(
           delayInMonths: delayInMonths && Number(delayInMonths),
           newPuissance: Number(puissance),
           isDecisionJustice: Boolean(isDecisionJustice),
+          newActionnaire: actionnaire,
         })!,
         submittedBy: request.user,
       }).match(
@@ -213,7 +215,13 @@ function _makeAcceptanceParams(
   type: string,
   params: any
 ): ModificationRequestAcceptanceParams | undefined {
-  const { newNotificationDate, delayInMonths, newPuissance, isDecisionJustice } = params
+  const {
+    newNotificationDate,
+    delayInMonths,
+    newPuissance,
+    isDecisionJustice,
+    newActionnaire,
+  } = params
   switch (type) {
     case 'recours':
       return {
@@ -224,5 +232,7 @@ function _makeAcceptanceParams(
       return { type, delayInMonths }
     case 'puissance':
       return { type, newPuissance, isDecisionJustice }
+    case 'actionnaire':
+      return { type, newActionnaire }
   }
 }

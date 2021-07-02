@@ -13,7 +13,7 @@ import makeInviteDreal from './inviteDreal'
 import makeRelanceInvitations from './relanceInvitations'
 import makeRelanceGarantiesFinancieres from './relanceGarantiesFinancieres'
 
-import { fileRepo, sendNotification, eventStore } from '../config'
+import { fileRepo, sendNotification, eventStore, getProjectAppelOffreId } from '../config'
 
 import {
   credentialsRepo,
@@ -76,6 +76,7 @@ const requestModification = makeRequestModification({
   fileRepo,
   eventBus: eventStore,
   shouldUserAccessProject,
+  getProjectAppelOffreId,
 })
 
 const getUserProject = makeGetUserProject({

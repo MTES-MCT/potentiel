@@ -1,5 +1,14 @@
 import { Repository, TransactionalRepository, UniqueEntityID } from '../../../core/domain'
-import { errAsync, logger, okAsync, ResultAsync, wrapInfra } from '../../../core/utils'
+import {
+  combine,
+  errAsync,
+  logger,
+  ok,
+  okAsync,
+  Result,
+  ResultAsync,
+  wrapInfra,
+} from '../../../core/utils'
 import { User } from '../../../entities'
 import { EventBus } from '../../eventStore'
 import { FileContents, FileObject, makeAndSaveFile } from '../../file'
@@ -11,13 +20,21 @@ import {
   InfraNotAvailableError,
   UnauthorizedError,
 } from '../../shared'
-import { ModificationReceived } from '../events'
+import { ModificationReceived, ModificationRequested } from '../events'
+import {
+  GetProjectAppelOffreId,
+  HasProjectGarantieFinanciere,
+  IsProjectParticipatif,
+} from '../queries'
 
 interface RequestActionnaireModificationDeps {
   eventBus: EventBus
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
   projectRepo: TransactionalRepository<Project>
   fileRepo: Repository<FileObject>
+  isProjectParticipatif: IsProjectParticipatif
+  hasProjectGarantieFinanciere: HasProjectGarantieFinanciere
+  getProjectAppelOffreId: GetProjectAppelOffreId
 }
 
 interface RequestActionnaireModificationArgs {
@@ -69,8 +86,46 @@ export const makeRequestActionnaireModification = (deps: RequestActionnaireModif
       }
     )
     .andThen(
-      (fileId: string): ResultAsync<string, InfraNotAvailableError | UnauthorizedError> => {
-        return projectRepo.transaction(
+      (
+        fileId: string
+      ): ResultAsync<
+        { requiresAuthorization: boolean; fileId: string },
+        InfraNotAvailableError | EntityNotFoundError
+      > =>
+        deps.getProjectAppelOffreId(projectId.toString()).andThen((appelOffreId) => {
+          if (appelOffreId === 'Eolien') {
+            return combine([
+              deps.hasProjectGarantieFinanciere(projectId.toString()),
+              deps.isProjectParticipatif(projectId.toString()),
+            ]).map(([hasGarantieFinanciere, isProjectParticipatif]) => ({
+              requiresAuthorization: !hasGarantieFinanciere || isProjectParticipatif,
+              fileId,
+            }))
+          }
+
+          return okAsync({ requiresAuthorization: false, fileId })
+        })
+    )
+    .andThen(({ requiresAuthorization, fileId }) => {
+      if (requiresAuthorization) {
+        return eventBus.publish(
+          new ModificationRequested({
+            payload: {
+              modificationRequestId: new UniqueEntityID().toString(),
+              projectId: projectId.toString(),
+              requestedBy: requestedBy.id,
+              type: 'actionnaire',
+              actionnaire: newActionnaire,
+              justification,
+              fileId,
+              authority: 'dreal',
+            },
+          })
+        )
+      }
+
+      return projectRepo
+        .transaction(
           projectId,
           (
             project: Project
@@ -83,25 +138,21 @@ export const makeRequestActionnaireModification = (deps: RequestActionnaireModif
               .asyncMap(async () => fileId)
           }
         )
-      }
-    )
-    .andThen(
-      (
-        fileId: string
-      ): ResultAsync<null, AggregateHasBeenUpdatedSinceError | InfraNotAvailableError> => {
-        return eventBus.publish(
-          new ModificationReceived({
-            payload: {
-              modificationRequestId: new UniqueEntityID().toString(),
-              projectId: projectId.toString(),
-              requestedBy: requestedBy.id,
-              type: 'actionnaire',
-              actionnaire: newActionnaire,
-              justification,
-              fileId,
-            },
-          })
+        .andThen(() =>
+          eventBus.publish(
+            new ModificationReceived({
+              payload: {
+                modificationRequestId: new UniqueEntityID().toString(),
+                projectId: projectId.toString(),
+                requestedBy: requestedBy.id,
+                type: 'actionnaire',
+                actionnaire: newActionnaire,
+                justification,
+                fileId,
+                authority: 'dreal',
+              },
+            })
+          )
         )
-      }
-    )
+    })
 }

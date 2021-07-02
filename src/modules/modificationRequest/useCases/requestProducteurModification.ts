@@ -97,6 +97,7 @@ export const makeRequestProducteurModification = (deps: RequestProducteurModific
               producteur: newProducteur,
               justification,
               fileId,
+              authority: 'dreal',
             },
           })
         )

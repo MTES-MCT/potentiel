@@ -31,6 +31,7 @@ describe('Modification.cancel()', () => {
               projectId: projectId.toString(),
               type: 'recours',
               requestedBy: fakeUser.id,
+              authority: 'dgec',
             },
           }),
         ],
@@ -69,6 +70,7 @@ describe('Modification.cancel()', () => {
               projectId: projectId.toString(),
               type: 'recours',
               requestedBy: fakeUser.id,
+              authority: 'dgec',
             },
           }),
           new ModificationRequestConfirmed({
@@ -112,6 +114,7 @@ describe('Modification.cancel()', () => {
               projectId: projectId.toString(),
               type: 'recours',
               requestedBy: fakeUser.id,
+              authority: 'dgec',
             },
           }),
           new ConfirmationRequested({
@@ -156,6 +159,7 @@ describe('Modification.cancel()', () => {
               projectId: projectId.toString(),
               type: 'recours',
               requestedBy: fakeUser.id,
+              authority: 'dgec',
             },
           }),
           new ModificationRequestCancelled({
@@ -190,6 +194,7 @@ describe('Modification.cancel()', () => {
               projectId: projectId.toString(),
               type: 'recours',
               requestedBy: fakeUser.id,
+              authority: 'dgec',
             },
           }),
           new ModificationRequestRejected({
@@ -225,6 +230,7 @@ describe('Modification.cancel()', () => {
               projectId: projectId.toString(),
               type: 'recours',
               requestedBy: fakeUser.id,
+              authority: 'dgec',
             },
           }),
           new ModificationRequestAccepted({

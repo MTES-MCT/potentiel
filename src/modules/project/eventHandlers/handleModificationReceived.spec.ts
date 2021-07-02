@@ -27,6 +27,7 @@ describe('handleModificationReceived', () => {
       projectId: projectId.toString(),
       requestedBy: 'user1',
       puissance: 8,
+      authority: 'dreal' as 'dreal',
     }
 
     beforeAll(async () => {
@@ -58,6 +59,7 @@ describe('handleModificationReceived', () => {
       projectId: projectId.toString(),
       requestedBy: 'user1',
       producteur: 'producteur1',
+      authority: 'dreal' as 'dreal',
     }
 
     beforeAll(async () => {

@@ -72,7 +72,7 @@ const TitleByType: Record<ModificationRequest['type'], string> = {
 }
 
 const TemplateByType: Record<ModificationRequest['type'], string> = {
-  actionnaire: '',
+  actionnaire: 'Modèle réponse Changement Actionnaire - dynamique.docx',
   fournisseur: '',
   producteur: '',
   puissance: 'Modèle réponse Puissance - dynamique.docx',

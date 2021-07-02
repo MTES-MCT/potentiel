@@ -1,8 +1,7 @@
-import models from '../../../models'
-import { resetDatabase } from '../../../helpers'
-import { onModificationReceived } from './onModificationReceived'
-import { ModificationReceived } from '../../../../../modules/modificationRequest/events'
 import { UniqueEntityID } from '../../../../../core/domain'
+import { ModificationReceived } from '../../../../../modules/modificationRequest/events'
+import models from '../../../models'
+import { onModificationReceived } from './onModificationReceived'
 
 describe('modificationRequest.onModificationReceived', () => {
   const ModificationRequestModel = models.ModificationRequest
@@ -20,6 +19,7 @@ describe('modificationRequest.onModificationReceived', () => {
           projectId,
           requestedBy: userId,
           puissance: 104,
+          authority: 'dgec',
         },
       })
     )
@@ -30,12 +30,14 @@ describe('modificationRequest.onModificationReceived', () => {
       projectId: receivedProjectId,
       userId: receivedUserId,
       status,
+      authority,
     } = await ModificationRequestModel.findByPk(modificationRequestId)
 
     expect(puissance).toEqual(104)
     expect(type).toEqual('puissance')
     expect(receivedProjectId).toEqual(projectId)
     expect(receivedUserId).toEqual(userId)
+    expect(authority).toEqual('dgec')
     expect(status).toEqual('information validée')
   })
 })
