@@ -716,7 +716,7 @@ export default function NewModificationRequestPage({
               {actionShouldBeDisabled && (
                 <div className="notification error" style={{ marginTop: 10, marginBottom: 10 }}>
                   Le dépôt de demande sera de nouveau disponible dès la mise en vigueur des
-                  nouvelles règles des cahiers des charges, au plus tard le 30 juin 2021.
+                  nouvelles règles des cahiers des charges, au plus tard le 31 Juillet 2021.
                 </div>
               )}
 
