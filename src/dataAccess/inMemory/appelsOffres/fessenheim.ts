@@ -56,6 +56,18 @@ const fessenheim: AppelOffre = {
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'v0',
     },
+    {
+      id: '3',
+      title: 'troisième',
+      paragrapheAchevement: '6.4',
+      noteThresholdByFamily: [
+        { familleId: '1', noteThreshold: 21.15 },
+        { familleId: '2', noteThreshold: 89.09 },
+        { familleId: '3', noteThreshold: 18.43 },
+      ],
+      isNotifiedOnPotentiel: true,
+      certificateTemplate: 'v0',
+    },
   ],
   familles: [
     {
