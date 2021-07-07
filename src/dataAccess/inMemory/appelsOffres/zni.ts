@@ -123,6 +123,30 @@ const zni: AppelOffre = {
       ],
     },
     {
+      id: '4',
+      title: 'quatrième',
+      paragrapheAchevement: '6.4',
+      isNotifiedOnPotentiel: true,
+      certificateTemplate: 'v1',
+      noteThresholdByFamily: [
+        { familleId: '2a', territoire: 'Corse', noteThreshold: 33.61 },
+        { familleId: '2a', territoire: 'Guadeloupe', noteThreshold: 40.48 },
+        { familleId: '2a', territoire: 'Guyane', noteThreshold: 30.53 },
+        { familleId: '2a', territoire: 'La Réunion', noteThreshold: 41.78 },
+        { familleId: '2a', territoire: 'Martinique', noteThreshold: 29.9 },
+        { familleId: '2a', territoire: 'Mayotte', noteThreshold: 22.65 },
+        //
+        { familleId: '2b', territoire: 'Corse', noteThreshold: 32.15 },
+        { familleId: '2b', territoire: 'Guyane', noteThreshold: 31.64 },
+        { familleId: '2b', territoire: 'La Réunion', noteThreshold: 23.48 },
+        { familleId: '2b', territoire: 'Martinique', noteThreshold: 25.94 },
+        //
+        { familleId: '2c', territoire: 'Guadeloupe', noteThreshold: 44.64 },
+        { familleId: '2c', territoire: 'Guyane', noteThreshold: 62.19 },
+        { familleId: '2c', territoire: 'La Réunion', noteThreshold: 19.93 },
+      ],
+    },
+    {
       id: '5',
       title: 'cinquième',
       paragrapheAchevement: '6.4',
