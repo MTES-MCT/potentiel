@@ -52,6 +52,7 @@ import { makeInviteUser } from '../modules/users'
 import { sendNotification } from './emails.config'
 import { makeRequestFournisseursModification } from '../modules/modificationRequest/useCases/requestFournisseursModification'
 import { makeUpdateNewRulesOptIn } from '../modules/project/useCases/updateNewRulesOptIn'
+import { makeClaimProject } from '../modules/project/useCases/claimProject'
 
 export const shouldUserAccessProject = new BaseShouldUserAccessProject(
   userRepo,
@@ -194,4 +195,10 @@ export const updateNewRulesOptIn = makeUpdateNewRulesOptIn({
 export const importProjects = makeImportProjects({
   eventBus: eventStore,
   appelOffreRepo: oldAppelOffreRepo,
+})
+
+export const claimProject = makeClaimProject({
+  projectRepo,
+  userRepo,
+  fileRepo,
 })

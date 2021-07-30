@@ -54,6 +54,8 @@ import {
   ProjectFournisseursUpdated,
   ProjectReimportedPayload,
   ProjectImportedPayload,
+  ProjectClaimedByOwner,
+  ProjectClaimed,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 import { Fournisseur } from '.'
@@ -101,6 +103,8 @@ export interface Project extends EventStoreAggregate {
     newFournisseurs: Fournisseur[],
     newEvaluationCarbone?: number
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
+  claimProject: (user: User, certificateFileId: string) => Result<null, never>
+  claimProjectByOwner: (user: User) => Result<null, never>
   grantClasse: (user: User) => Result<null, never>
   addGeneratedCertificate: (args: {
     projectVersionDate: Date
@@ -471,6 +475,31 @@ export const makeProject = (args: {
             newFournisseurs,
             newEvaluationCarbone,
             updatedBy: user.id,
+          },
+        })
+      )
+
+      return ok(null)
+    },
+    claimProject: function (user, attestationDesignationFileId) {
+      _publishEvent(
+        new ProjectClaimed({
+          payload: {
+            projectId: props.projectId.toString(),
+            claimedBy: user.id,
+            attestationDesignationFileId,
+          },
+        })
+      )
+
+      return ok(null)
+    },
+    claimProjectByOwner: function (user) {
+      _publishEvent(
+        new ProjectClaimedByOwner({
+          payload: {
+            projectId: props.projectId.toString(),
+            claimedBy: user.id,
           },
         })
       )

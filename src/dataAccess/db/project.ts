@@ -1,4 +1,4 @@
-import { DataTypes, Op, where, col } from 'sequelize'
+import { DataTypes, Op, where, col, literal } from 'sequelize'
 import { ContextSpecificProjectListFilter, ProjectFilters, ProjectRepo } from '../'
 import { logger } from '../../core/utils'
 import {
@@ -336,6 +336,14 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
     },
   })
 
+  ProjectModel.hasOne(ProjectStep, {
+    as: 'attestationDesignationProof',
+    foreignKey: 'projectId',
+    scope: {
+      type: 'attestation-designation-proof',
+    },
+  })
+
   const _isDbReady = isDbReady({ sequelizeInstance })
 
   return Object.freeze({
@@ -353,6 +361,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
     searchForRegions,
     findAllForRegions,
     searchAll,
+    searchAllMissingOwner,
     countUnnotifiedProjects,
     findProjectsWithGarantiesFinancieresPendingBefore,
   })
@@ -461,6 +470,11 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
       {
         model: ProjectStep,
         as: 'ptf',
+        include: [{ model: FileModel, as: 'file' }],
+      },
+      {
+        model: ProjectStep,
+        as: 'attestationDesignationProof',
         include: [{ model: FileModel, as: 'file' }],
       },
       {
@@ -766,6 +780,33 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
       const opts = _makeSelectorsForQuery(filters)
 
       opts.where[Op.or] = { ...getFullTextSearchOptions(terms) }
+
+      return _findAndBuildProjectList(opts, pagination)
+    } catch (error) {
+      if (CONFIG.logDbErrors) logger.error(error)
+      return makePaginatedList([], 0, pagination)
+    }
+  }
+
+  async function searchAllMissingOwner(
+    email: string,
+    terms?: string,
+    filters?: ProjectFilters,
+    pagination?: Pagination
+  ): Promise<PaginatedList<Project>> {
+    await _isDbReady
+    try {
+      const opts = _makeSelectorsForQuery(filters)
+
+      opts.where.id = { [Op.notIn]: literal(`(SELECT "projectId" FROM "UserProjects")`) }
+
+      // Order by Projets alloués then the rest ordered by nomProjet
+      opts.order = [
+        [literal(`CASE "project"."email" WHEN '${email}' THEN 1 ELSE 2 END`)],
+        ['nomProjet'],
+      ]
+
+      if (terms) opts.where[Op.or] = { ...getFullTextSearchOptions(terms) }
 
       return _findAndBuildProjectList(opts, pagination)
     } catch (error) {

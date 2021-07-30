@@ -58,6 +58,13 @@ export type ProjectRepo = {
     pagination?: Pagination
   ): Promise<PaginatedList<Project>>
 
+  searchAllMissingOwner(
+    email: string,
+    terms?: string,
+    filters?: ProjectFilters,
+    pagination?: Pagination
+  ): Promise<PaginatedList<Project>>
+
   findAll(query?: ProjectFilters, pagination?: Pagination): Promise<PaginatedList<Project>>
 
   findExistingAppelsOffres(
