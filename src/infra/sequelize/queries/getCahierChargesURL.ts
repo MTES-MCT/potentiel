@@ -1,8 +1,7 @@
-import { err, ok, ResultAsync, wrapInfra } from '../../../core/utils'
-import { GetCahierChargesURL } from '../../../modules/appelOffre'
-import { EntityNotFoundError, InfraNotAvailableError } from '../../../modules/shared'
+import { ok, wrapInfra } from '../../../core/utils'
+import { GetCahiersChargesURLs } from '../../../modules/appelOffre'
 
-export const makeGetCahierChargesURL = (models): GetCahierChargesURL => (
+export const makeGetCahiersChargesURLs = (models): GetCahiersChargesURLs => (
   appelOffreId,
   periodeId
 ) => {
@@ -14,9 +13,10 @@ export const makeGetCahierChargesURL = (models): GetCahierChargesURL => (
 
       const { data } = periodeRaw.get()
 
-      const cahierChargesURL: string = data?.['Lien du cahier des charges']
+      const oldCahierChargesURL: string = data?.["Lien de l'ancien cahier des charges"]
+      const newCahierChargesURL: string = data?.['Lien du nouveau cahier des charges']
 
-      return ok(cahierChargesURL)
+      return ok({ oldCahierChargesURL, newCahierChargesURL })
     }
   )
 }
