@@ -14,6 +14,7 @@ const adminActions = (project: {
   email: string
   nomProjet: string
   potentielIdentifier: string
+  attestationDesignationProof: { file: { id: string; filename: string } }
 }) => {
   const canDownloadCertificate = !!project.certificateFile
 
@@ -33,6 +34,19 @@ const adminActions = (project: {
       isDownload: true,
     })
   }
+
+  const { attestationDesignationProof } = project
+
+  if (attestationDesignationProof)
+    actions.push({
+      title: "Voir l'attestation de désignation fournie par le candidat",
+      link: ROUTES.DOWNLOAD_PROJECT_FILE(
+        attestationDesignationProof.file.id,
+        attestationDesignationProof.file.filename
+      ),
+      isDownload: true,
+    })
+
   return actions
 }
 
