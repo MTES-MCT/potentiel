@@ -22,4 +22,9 @@ export const upload = {
 
     return uploadWithMulter.single(filename)(req, res, next)
   },
+  multiple: (filename?: string) => (req, res, next) => {
+    return filename
+      ? uploadWithMulter.array(filename)(req, res, next)
+      : uploadWithMulter.any()(req, res, next)
+  },
 }
