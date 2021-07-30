@@ -18,7 +18,7 @@ moment.locale('fr')
 interface PageProps {
   request: Request
   project: Project
-  cahierChargesURL?: string
+  cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
 }
 
 const titlePerAction = {
@@ -45,14 +45,10 @@ export { titlePerAction }
 export default function NewModificationRequestPage({
   request,
   project,
-  cahierChargesURL,
+  cahiersChargesURLs,
 }: PageProps) {
   const { action, error, success, puissance, actionnaire, justification, delayInMonths } =
     (request.query as any) || {}
-
-  const actionShouldBeDisabled = ['puissance', 'producteur', 'actionnaire', 'fournisseur'].includes(
-    action
-  )
 
   return (
     <UserDashboard currentPage={'list-requests'}>
@@ -139,8 +135,10 @@ export default function NewModificationRequestPage({
                     Instruction selon les dispositions du cahier des charges en vigueur au moment de
                     la candidature.{' '}
                     <strong>Je dois envoyer ma demande ou mon signalement au format papier</strong>{' '}
-                    {cahierChargesURL && (
-                      <a href={cahierChargesURL}>(voir le cahier des charges)</a>
+                    {cahiersChargesURLs?.oldCahierChargesURL && (
+                      <a href={cahiersChargesURLs?.oldCahierChargesURL}>
+                        (voir le cahier des charges)
+                      </a>
                     )}
                   </label>
                   <input
@@ -154,7 +152,10 @@ export default function NewModificationRequestPage({
               )}
               <label htmlFor="Nouvelles règles">
                 Instruction selon le cahier de charges, en application du décret n° 2019-1175 du 14
-                novembre 2019
+                novembre 2019{' '}
+                {cahiersChargesURLs?.newCahierChargesURL && (
+                  <a href={cahiersChargesURLs?.newCahierChargesURL}>(voir le cahier des charges)</a>
+                )}
               </label>
               <input
                 type="radio"
@@ -713,20 +714,12 @@ export default function NewModificationRequestPage({
                 ''
               )}
 
-              {actionShouldBeDisabled && (
-                <div className="notification error" style={{ marginTop: 10, marginBottom: 10 }}>
-                  Le dépôt de demande sera de nouveau disponible dès la mise en vigueur des
-                  nouvelles règles des cahiers des charges, au plus tard le 31 Juillet 2021.
-                </div>
-              )}
-
               <button
                 className="button"
                 type="submit"
                 name="submit"
                 id="submit"
                 {...dataId('submit-button')}
-                disabled={actionShouldBeDisabled}
               >
                 Envoyer
               </button>

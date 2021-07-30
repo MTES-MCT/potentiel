@@ -1,5 +1,5 @@
 import asyncHandler from 'express-async-handler'
-import { getCahierChargesURL, getProjectDataForProjectPage } from '../../config/queries.config'
+import { getCahiersChargesURLs, getProjectDataForProjectPage } from '../../config/queries.config'
 import { shouldUserAccessProject } from '../../config/useCases.config'
 import { okAsync } from '../../core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
@@ -29,18 +29,18 @@ v1Router.get(
       .andThen((project) => {
         const { appelOffreId, periodeId } = project
 
-        return getCahierChargesURL(appelOffreId, periodeId).map((cahierChargesURL) => ({
-          cahierChargesURL,
+        return getCahiersChargesURLs(appelOffreId, periodeId).map((cahiersChargesURLs) => ({
+          cahiersChargesURLs,
           project,
         }))
       })
       .match(
-        ({ cahierChargesURL, project }) => {
+        ({ cahiersChargesURLs, project }) => {
           return response.send(
             ProjectDetailsPage({
               request,
               project,
-              cahierChargesURL,
+              cahiersChargesURLs,
             })
           )
         },

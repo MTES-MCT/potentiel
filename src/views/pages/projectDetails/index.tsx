@@ -11,14 +11,14 @@ import { EditProjectData, ProjectFrise, ProjectHeader } from './sections'
 interface ProjectDetailsProps {
   request: Request
   project: ProjectDataForProjectPage
-  cahierChargesURL?: string
+  cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
 }
 
 /* Pure component */
 export default function ProjectDetails({
   request,
   project,
-  cahierChargesURL,
+  cahiersChargesURLs,
 }: ProjectDetailsProps) {
   const { user } = request
   const { error, success } = (request.query as any) || {}
@@ -32,7 +32,7 @@ export default function ProjectDetails({
   return (
     <RoleBasedDashboard role={user.role} currentPage="list-projects">
       <div className="panel" style={{ padding: 0 }}>
-        <ProjectHeader project={project} user={user} cahierChargesURL={cahierChargesURL} />
+        <ProjectHeader project={project} user={user} cahiersChargesURLs={cahiersChargesURLs} />
         <div style={{ padding: '1.5em', paddingTop: 0 }}>
           <SuccessErrorBox success={success} error={error} />
           <div style={{ position: 'relative' }}>

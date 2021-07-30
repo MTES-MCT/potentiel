@@ -5,7 +5,7 @@ import routes from '../../routes'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
-import { getCahierChargesURL } from '../../config'
+import { getCahiersChargesURLs } from '../../config'
 import { logger } from '../../core/utils'
 
 const ACTIONS = [
@@ -40,13 +40,13 @@ v1Router.get(
 
     const { appelOffreId, periodeId } = project
 
-    return await getCahierChargesURL(appelOffreId, periodeId).match(
-      (cahierChargesURL) => {
+    return await getCahiersChargesURLs(appelOffreId, periodeId).match(
+      (cahiersChargesURLs) => {
         response.send(
           NewModificationRequestPage({
             request,
             project,
-            cahierChargesURL,
+            cahiersChargesURLs,
           })
         )
         return

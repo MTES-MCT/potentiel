@@ -1,7 +1,10 @@
 import { ResultAsync } from '../../../core/utils'
-import { EntityNotFoundError, InfraNotAvailableError } from '../../shared'
+import { InfraNotAvailableError } from '../../shared'
 
-export type GetCahierChargesURL = (
+export type GetCahiersChargesURLs = (
   appelOffreId: string,
   periodeId: string
-) => ResultAsync<string | undefined, InfraNotAvailableError>
+) => ResultAsync<
+  { oldCahierChargesURL?: string; newCahierChargesURL?: string } | undefined,
+  InfraNotAvailableError
+>
