@@ -1,31 +1,25 @@
-import fs from 'fs'
-import path from 'path'
-
-import ReactDOMServer from 'react-dom/server'
-
-import Header from '../components/header'
-import Footer from '../components/footer'
-
-import Login from './login'
-import ListProjects from './listProjects'
+import { Request } from 'express'
+import { PageLayout } from '../components'
+import { makeHtml } from '../index.html'
+import AdminAppelOffre from './adminAppelOffre'
 import AdminNotifyCandidates from './adminNotifyCandidates'
+import AdminRegenerateCertificates from './adminRegenerateCertificates'
+import AdminUsers from './adminUsers'
+import DrealList from './drealList'
+import ForgottenPassword from './forgottenPassword'
 import ImportCandidates from './importCandidates'
 import Signup from './signup'
 import NewModificationRequest from './newModificationRequest'
 import ModificationRequestDetails from './modificationRequestDetails'
-import ForgottenPassword from './forgottenPassword'
 import ResetPassword from './resetPassword'
 import ProjectDetails from './projectDetails'
-import DrealList from './drealList'
 import InvitationList from './invitationList'
 import NotificationList from './notificationList'
 import ModificationRequestList from './modificationRequestList'
 import Statistiques from './statistiques'
-import AdminRegenerateCertificates from './adminRegenerateCertificates'
-import AdminAppelOffre from './adminAppelOffre'
-import AdminUsers from './adminUsers'
+import Login from './login'
+import ListProjects from './listProjects'
 import Success from './success'
-import { Request } from 'express'
 
 const LoginPage = makePresenterPage(Login)
 const AdminNotifyCandidatesPage = makePresenterPage(AdminNotifyCandidates)
@@ -80,20 +74,5 @@ interface HasRequest {
 /* global JSX */
 function makePresenterPage<T extends HasRequest>(pageComponent: (pageProps: T) => JSX.Element) {
   return (props: T): string =>
-    insertIntoHTMLTemplate(
-      ReactDOMServer.renderToStaticMarkup(Header(props)) +
-        ReactDOMServer.renderToStaticMarkup(pageComponent(props)) +
-        ReactDOMServer.renderToStaticMarkup(Footer())
-    )
-}
-
-const headerPartial = fs.readFileSync(path.resolve(__dirname, '../template/header.html.partial'))
-const footerPartial = fs.readFileSync(path.resolve(__dirname, '../template/footer.html.partial'))
-
-/**
- * Insert html contents into the full template
- * @param htmlContents
- */
-function insertIntoHTMLTemplate(htmlContents: string): string {
-  return headerPartial + htmlContents + footerPartial
+    makeHtml({ Component: PageLayout(pageComponent), props, hydrate: false })
 }
