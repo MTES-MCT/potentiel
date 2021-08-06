@@ -2,7 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const fs = require('fs')
 
-const pageDir = path.join(__dirname, 'src', 'views', 'pages2')
+const pageDir = path.join(__dirname, 'src', 'views', 'pages')
 
 const pageEntries = fs.readdirSync(pageDir)
                 .filter(name => name.endsWith('Page.tsx') || name.endsWith('Page'))
@@ -23,7 +23,7 @@ const pageEntries = fs.readdirSync(pageDir)
                 }), {})
 
 module.exports = {
-  mode: 'development', // TODO: use NODE_ENV
+  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   entry: {
     ...pageEntries,
     shared: ['react', 'react-dom']
@@ -51,7 +51,7 @@ module.exports = {
     ],
   },
   output: {
-    filename: '[name].[contenthash].js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'src', 'public', 'js'),
   },
 }
