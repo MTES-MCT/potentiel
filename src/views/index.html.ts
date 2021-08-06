@@ -37,7 +37,7 @@ export const makeHtml = <T extends HasRequest>(args: PageProps<T>) => {
         ${args.hydrate &&
         html`
           <script src="/js/shared.js"></script>
-          <script src="/js/${args.pageName}.js?${new Date().getTime()}"></script>
+          <script src="/js/${args.pageName}.js?${process.env.npm_package_version}"></script>
         `}
 
         <!-- Favicons -->

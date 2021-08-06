@@ -1,4 +1,5 @@
 const path = require('path')
+const webpack = require('webpack')
 const fs = require('fs')
 
 const pageDir = path.join(__dirname, 'src', 'views', 'pages2')
@@ -31,6 +32,11 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.npm_package_version': JSON.stringify(process.env.npm_package_version),
+    })
+  ],
   module: {
     rules: [
       {

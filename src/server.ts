@@ -4,7 +4,6 @@ import dotenv from 'dotenv'
 import express from 'express'
 import session from 'express-session'
 import helmet from 'helmet'
-import { version } from '../package.json'
 import { registerAuth, v1Router } from './controllers'
 import { logger } from './core/utils'
 import { initDatabase } from './dataAccess'
@@ -105,7 +104,7 @@ export async function makeServer(port: number, sessionSecret: string) {
       const server = app.listen(port, () => {
         logger.info(`Server listening on port ${port}!`)
         logger.info(`NODE_ENV is ${process.env.NODE_ENV}`)
-        logger.info(`Version ${version}`)
+        logger.info(`Version ${process.env.npm_package_version}`)
         resolve(server)
       })
     })
