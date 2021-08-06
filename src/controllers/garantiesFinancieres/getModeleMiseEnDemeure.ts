@@ -1,16 +1,15 @@
+import asyncHandler from 'express-async-handler'
 import moment from 'moment'
 import os from 'os'
 import path from 'path'
 import sanitize from 'sanitize-filename'
 import { userRepo } from '../../dataAccess'
-import { makeProjectIdentifier } from '../../entities/project'
 import { fillDocxTemplate } from '../../helpers/fillDocxTemplate'
 import { formatDate } from '../../helpers/formatDate'
 import routes from '../../routes'
 import { getUserProject } from '../../useCases'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { v1Router } from '../v1Router'
-import asyncHandler from 'express-async-handler'
 
 v1Router.get(
   routes.TELECHARGER_MODELE_MISE_EN_DEMEURE(),
@@ -59,7 +58,7 @@ v1Router.get(
         dreal,
         dateMiseEnDemeure: formatDate(Date.now()),
         contactDreal: request.user.email,
-        referenceProjet: makeProjectIdentifier(project),
+        referenceProjet: project.potentielIdentifier,
         titreAppelOffre: project.appelOffre?.title || '!!!AO NON DISPONIBLE!!!',
         dateLancementAppelOffre: project.appelOffre?.launchDate || '!!!AO NON DISPONIBLE!!!',
         nomProjet: project.nomProjet,

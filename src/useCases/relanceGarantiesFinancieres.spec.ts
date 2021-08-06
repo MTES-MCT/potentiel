@@ -1,7 +1,7 @@
 import moment from 'moment'
 import { DomainEvent } from '../core/domain'
 import { okAsync } from '../core/utils'
-import { makeProject, makeProjectIdentifier, makeUser, Project } from '../entities'
+import { makeProject, makeUser, Project } from '../entities'
 import { EventBus } from '../modules/eventStore'
 import { ProjectGFReminded } from '../modules/project/events'
 import { InfraNotAvailableError } from '../modules/shared'
@@ -77,7 +77,7 @@ describe('relanceGarantiesFinancieres use-case', () => {
       },
       variables: {
         nom_projet: fakeProject.nomProjet,
-        code_projet: makeProjectIdentifier(fakeProject),
+        code_projet: fakeProject.potentielIdentifier,
         date_designation: '28/07/2020',
         paragraphe_cdc: '5.3 et 6.2', // Cf AO Fessenheim
         duree_garanties: '42', // Cf AO Fessenheim

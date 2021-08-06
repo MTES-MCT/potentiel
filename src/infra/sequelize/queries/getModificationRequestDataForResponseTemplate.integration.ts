@@ -5,7 +5,7 @@ import makeFakeFile from '../../../__tests__/fixtures/file'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { makeGetModificationRequestDataForResponseTemplate } from './getModificationRequestDataForResponseTemplate'
 import { UniqueEntityID } from '../../../core/domain'
-import { makeProjectIdentifier, makeUser } from '../../../entities'
+import { makeUser } from '../../../entities'
 import { formatDate } from '../../../helpers/formatDate'
 import moment from 'moment'
 import { okAsync } from 'neverthrow'
@@ -117,7 +117,7 @@ describe('Sequelize getModificationRequestDataForResponseTemplate', () => {
       expect(modificationRequestDTO).toMatchObject({
         suiviPar: 'John Doe',
         suiviParEmail: dgecEmail,
-        refPotentiel: makeProjectIdentifier(project),
+        refPotentiel: project.potentielIdentifier,
 
         status: 'envoyée',
 

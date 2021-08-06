@@ -1,15 +1,14 @@
 import React from 'react'
 import { logger } from '../../core/utils'
-import { makeProjectIdentifier, Project, User } from '../../entities'
+import { Project, User } from '../../entities'
 import { formatDate } from '../../helpers/formatDate'
 import { dataId } from '../../helpers/testId'
+import ROUTES from '../../routes'
 import { PaginatedList } from '../../types'
 import { ACTION_BY_ROLE } from './actions'
+import { DownloadIcon } from './downloadIcon'
 import Pagination from './pagination'
 import ProjectActions from './projectActions'
-import ROUTES from '../../routes'
-import { DownloadIcon } from './downloadIcon'
-import moment from 'moment'
 
 type Columns =
   | 'Projet'
@@ -37,7 +36,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
           <span {...dataId('projectList-item-communeProjet')}>{project.communeProjet}</span>,{' '}
           <span {...dataId('projectList-item-departementProjet')}>{project.departementProjet}</span>
           , <span {...dataId('projectList-item-regionProjet')}>{project.regionProjet}</span>
-          <div style={{ marginTop: 5, fontStyle: 'normal' }}>{makeProjectIdentifier(project)}</div>
+          <div style={{ marginTop: 5, fontStyle: 'normal' }}>{project.potentielIdentifier}</div>
         </div>
       </td>
     )

@@ -69,6 +69,7 @@ const baseProjectSchema = SchemaRecord({
   abandonedOn: Number,
   numeroGestionnaire: String,
   newRulesOptIn: Boolean,
+  potentielIdentifier: String,
 })
 const projectSchema = baseProjectSchema.And(
   SchemaPartial({
@@ -94,6 +95,8 @@ const fields: string[] = [
   'createdAt',
   'updatedAt',
   'gf',
+  'newRulesOptIn',
+  'potentielIdentifier',
   ...Object.keys(baseProjectSchema.fields),
 ]
 
@@ -118,6 +121,7 @@ type BaseProject = Static<typeof projectSchema> & {
     user: { fullName: string }
   }
   newRulesOptIn: boolean
+  readonly potentielIdentifier: string
 }
 
 type ProjectEvent = {

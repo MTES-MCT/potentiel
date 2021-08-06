@@ -1,5 +1,6 @@
 import { err, errAsync, ok, wrapInfra } from '../../../core/utils'
 import { getAppelOffre } from '../../../dataAccess/inMemory'
+import { makeProjectIdentifier } from '../../../entities'
 import { ProjectDataForProjectPage } from '../../../modules/project/dtos'
 import { GetProjectDataForProjectPage } from '../../../modules/project/queries/GetProjectDataForProjectPage'
 import { EntityNotFoundError, InfraNotAvailableError } from '../../../modules/shared'
@@ -147,6 +148,7 @@ export const makeGetProjectDataForProjectPage = (models): GetProjectDataForProje
 
     const result: any = {
       id,
+      potentielIdentifier: makeProjectIdentifier(projectRaw.get()),
       appelOffreId,
       periodeId,
       familleId,

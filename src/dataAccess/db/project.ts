@@ -1,7 +1,16 @@
 import { DataTypes, Op, where, col } from 'sequelize'
 import { ContextSpecificProjectListFilter, ProjectFilters, ProjectRepo } from '../'
 import { logger } from '../../core/utils'
-import { AppelOffre, DREAL, Famille, makeProject, Periode, User, Project } from '../../entities'
+import {
+  AppelOffre,
+  DREAL,
+  Famille,
+  makeProject,
+  Periode,
+  User,
+  Project,
+  makeProjectIdentifier,
+} from '../../entities'
 import { makePaginatedList, paginate } from '../../helpers/paginate'
 import { mapExceptError } from '../../helpers/results'
 import { Err, Ok, PaginatedList, Pagination, ResultAsync } from '../../types'
@@ -33,6 +42,7 @@ const deserialize = (item) => ({
   dcrNumeroDossier: item.dcr?.details.numeroDossier,
   completionDueOn: item.completionDueOn || 0,
   abandonedOn: item.abandonedOn || 0,
+  potentielIdentifier: makeProjectIdentifier(item),
 })
 
 export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): ProjectRepo {
@@ -192,7 +202,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
     newRulesOptIn: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: false
+      defaultValue: false,
     },
   })
 

@@ -1,7 +1,7 @@
 import moment from 'moment'
 import { logger } from '../core/utils'
 import { ProjectRepo } from '../dataAccess'
-import { applyProjectUpdate, makeProjectIdentifier } from '../entities'
+import { applyProjectUpdate } from '../entities'
 import { EventBus } from '../modules/eventStore'
 import { NotificationService } from '../modules/notification'
 import { ProjectGFReminded } from '../modules/project/events'
@@ -64,7 +64,7 @@ export default function makeRelanceGarantiesFinancieres({
               },
               variables: {
                 nom_projet: project.nomProjet,
-                code_projet: makeProjectIdentifier(project),
+                code_projet: project.potentielIdentifier,
                 date_designation: moment(project.notifiedOn).format('DD/MM/YYYY'),
                 paragraphe_cdc:
                   project.appelOffre?.renvoiRetraitDesignationGarantieFinancieres || '',

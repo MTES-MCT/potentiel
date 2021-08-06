@@ -28,6 +28,7 @@ export default function makeFakeProject(overrides?) {
     isFinancementParticipatif: false,
     engagementFournitureDePuissanceAlaPointe: false,
     newRulesOptIn: false,
+    potentielIdentifier: 'ref-potentiel',
   }
 
   return {

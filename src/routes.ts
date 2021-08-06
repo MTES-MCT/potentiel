@@ -1,4 +1,4 @@
-import { Project, makeProjectIdentifier } from './entities'
+import { Project } from './entities'
 import querystring from 'querystring'
 import sanitize from 'sanitize-filename'
 import { makeCertificateFilename } from './modules/project/utils'
@@ -57,7 +57,8 @@ class routes {
     projectAdmissionKey: string
   }>('/enregistrement.html')
 
-  static IMPORT_PROJECTS = '/admin/importer-candidats.html' // Keep separate from ADMIN_DASHBOARD, may change
+  static IMPORT_PROJECTS_ACTION = '/admin/importer-candidats.html'
+  static IMPORT_PROJECTS = '/admin/importer-candidats.html'
 
   static PROJECT_DETAILS = (projectId?: Project['id']) => {
     const route = '/projet/:projectId/details.html'
@@ -68,7 +69,6 @@ class routes {
 
   static DOWNLOAD_PROJECTS_CSV = '/export-projets.csv'
   static ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV = '/export-projets-laureats.csv'
-  static IMPORT_PROJECTS_ACTION = '/admin/importProjects'
   static ADMIN_LIST_PROJECTS = '/admin/dashboard.html'
   static ADMIN_LIST_REQUESTS = '/admin/demandes.html'
   static ADMIN_REGENERATE_CERTIFICATES = '/admin/regenerer-attestations.html'
@@ -90,6 +90,7 @@ class routes {
     numeroCRE: string
     email: string
     nomProjet: string
+    potentielIdentifier: string
   }) => {
     const route = '/previsualiser-attestation/:projectId/*'
     if (project) {
@@ -121,6 +122,7 @@ class routes {
     numeroCRE: string
     email: string
     nomProjet: string
+    potentielIdentifier: string
   }) =>
     routes.DOWNLOAD_CERTIFICATE_FILE(
       project.id,
@@ -140,6 +142,7 @@ class routes {
     numeroCRE: string
     email: string
     nomProjet: string
+    potentielIdentifier: string
   }) =>
     routes.DOWNLOAD_CERTIFICATE_FILE(
       project.id,
@@ -256,9 +259,9 @@ class routes {
         .replace(
           ':filename',
           sanitize(
-            `${now.getFullYear()}-${
-              now.getMonth() + 1
-            }-${now.getDate()} - Réponse demande - ${makeProjectIdentifier(project)}.docx`
+            `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()} - Réponse demande - ${
+              project.potentielIdentifier
+            }.docx`
           )
         )
     } else return route

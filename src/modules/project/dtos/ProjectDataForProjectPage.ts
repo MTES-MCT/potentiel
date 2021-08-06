@@ -2,6 +2,7 @@ import { ProjectAppelOffre } from '../../../entities'
 
 export type ProjectDataForProjectPage = {
   id: string
+  potentielIdentifier: string
 
   appelOffre: ProjectAppelOffre
 
