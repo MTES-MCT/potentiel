@@ -1,20 +1,10 @@
-import Statistiques from './pages/statistiques'
+import { makeHtml } from './index.html'
+import { Statistiques } from './pages'
 
-import Header from './components/header'
-import Footer from './components/footer'
-import { makeIndexHtml } from './index.html'
-
-import ReactDOMServer from 'react-dom/server'
-
-function wrapComponent(Page, pageName) {
-  return (props) =>
-    makeIndexHtml({
-      header: ReactDOMServer.renderToStaticMarkup(Header(props)),
-      footer: ReactDOMServer.renderToStaticMarkup(Footer()),
-      main: ReactDOMServer.renderToStaticMarkup(Page(props)),
-      pageName,
-      props,
-    })
-}
-
-export const StatistiquesPage = wrapComponent(Statistiques, 'statistiques')
+export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
+  makeHtml({
+    Component: Statistiques,
+    props,
+    hydrate: true,
+    pageName: 'statistiques', // This must match the Component name
+  })

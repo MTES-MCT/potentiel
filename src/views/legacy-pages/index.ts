@@ -16,7 +16,6 @@ import ProjectDetails from './projectDetails'
 import InvitationList from './invitationList'
 import NotificationList from './notificationList'
 import ModificationRequestList from './modificationRequestList'
-import Statistiques from './statistiques'
 import Login from './login'
 import ListProjects from './listProjects'
 import Success from './success'
@@ -34,7 +33,6 @@ const ProjectDetailsPage = makePresenterPage(ProjectDetails)
 const DrealListPage = makePresenterPage(DrealList)
 const InvitationListPage = makePresenterPage(InvitationList)
 const NotificationListPage = makePresenterPage(NotificationList)
-const StatistiquesPage = makePresenterPage(Statistiques)
 const ModificationRequestDetailsPage = makePresenterPage(ModificationRequestDetails)
 const ModificationRequestListPage = makePresenterPage(ModificationRequestList)
 const SuccessPage = makePresenterPage(Success)
@@ -55,7 +53,6 @@ export {
   DrealListPage,
   InvitationListPage,
   NotificationListPage,
-  StatistiquesPage,
   ModificationRequestDetailsPage,
   ModificationRequestListPage,
   SuccessPage,
