@@ -1,4 +1,4 @@
-import { Project } from './entities'
+import type { Project } from './entities'
 import querystring from 'querystring'
 import sanitize from 'sanitize-filename'
 import { makeCertificateFilename } from './modules/project/utils'
