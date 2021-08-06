@@ -11,6 +11,7 @@ on:
       - '.github/**'
       - '.storybook/**'
       - '.vscode/**'
+      - 'devtools/**'
       - 'legacy-features/**'
       - 'scripts/**'
       - '.env.template'

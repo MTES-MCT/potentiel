@@ -17,6 +17,21 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "Debug devtools",
+      "skipFiles": [
+        "${workspaceFolder}/node_modules/**/*.js, <node_internals>/**/*.js, ${workspaceFolder}/devtools/node_modules/**/*.js"
+      ],
+      // "smartStep": false,
+      "sourceMaps": false,
+      "program": "${workspaceFolder}/devtools/bin/index.js",
+      "args": [
+        "usecase"
+      ],
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Jest All",
       "program": "${workspaceFolder}/node_modules/.bin/jest",
       "args": ["--runInBand"],
