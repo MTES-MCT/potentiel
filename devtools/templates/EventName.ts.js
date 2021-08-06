@@ -1,3 +1,5 @@
+const { pascalCase } = require('change-case')
+
 module.exports = function(args){
 
   const { eventName } = args
@@ -5,16 +7,16 @@ module.exports = function(args){
   return `
 import { DomainEvent, BaseDomainEvent } from '../../../core/domain/DomainEvent'
 
-export interface ${eventName}Payload {
+export interface ${pascalCase(eventName)}Payload {
   itemId: string
 }
 
-export class ${eventName} extends BaseDomainEvent<${eventName}Payload> implements DomainEvent {
-  public static type: '${eventName}' = '${eventName}'
-  public type = ${eventName}.type
+export class ${pascalCase(eventName)} extends BaseDomainEvent<${pascalCase(eventName)}Payload> implements DomainEvent {
+  public static type: '${pascalCase(eventName)}' = '${pascalCase(eventName)}'
+  public type = ${pascalCase(eventName)}.type
   currentVersion = 1
 
-  aggregateIdFromPayload(payload: ${eventName}Payload) {
+  aggregateIdFromPayload(payload: ${pascalCase(eventName)}Payload) {
     return payload.itemId
   }
 }`

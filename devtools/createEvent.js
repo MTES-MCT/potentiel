@@ -9,22 +9,26 @@ const getEvents = require('./helpers/getEvents')
 const { MODULES_DIR } = require('./constants')
 const pathExists = require('./helpers/pathExists')
 const getModules = require('./helpers/getModules')
+const createFileAndBarrel = require('./helpers/createFileAndBarrel')
 
 const eventTemplate = require('./templates/EventName.ts')
 const { resolve } = require('path')
+const { noCase } = require('no-case')
+const { pascalCase } = require('pascal-case')
 
 const createEvent = async () => {
-  const { eventName } = await prompts({
+  const { eventNameRaw } = await prompts({
     type: 'text',
-    name: 'eventName',
+    name: 'eventNameRaw',
     message: 'Quel est le nom de cet événement ?'
   })
-  if(!eventName) return
-  console.log('Chosen eventName: ', eventName)
+  if(!eventNameRaw) return
+  const eventName = noCase(eventNameRaw)
+  console.log('Chosen eventName: ', pascalCase(eventName))
 
   const existingEvents = await getEvents()
 
-  if(existingEvents.map(event => event.toLowerCase()).includes(eventName.toLowerCase())){
+  if(existingEvents.includes(pascalCase(eventName))){
     console.log(`Il y a déjà un événement avec ce nom`)
     return
   }
@@ -42,23 +46,11 @@ const createEvent = async () => {
   console.log('Chosen module: ', module)
 
   const modulePath = path.resolve(MODULES_DIR, module)
-  const moduleIndexPath = path.resolve(modulePath, 'index.ts')
-
-  // Create events folder if it does not exist
   const eventsPath = path.resolve(modulePath, 'events')
-  const eventsIndexPath = path.resolve(eventsPath, 'index.ts')
-  if(!await pathExists(eventsPath)){
-    await fs.mkdir(eventsPath)
-    await fs.appendFile(moduleIndexPath, `export * from './events';`)
-    await fs.writeFile(eventsIndexPath, `export * from './${eventName}';`)
-  }
-  else{
-    await fs.appendFile(eventsIndexPath, `export * from './${eventName}';`)
-  }
 
   // Create events/EventName.ts
-  const newEventPath = path.resolve(eventsPath, `${eventName}.ts`)
-  await fs.writeFile(newEventPath, eventTemplate({ eventName }))
+  const newEventPath = path.resolve(eventsPath, `${pascalCase(eventName)}.ts`)
+  await createFileAndBarrel(newEventPath, eventTemplate({ eventName }))
 
   console.log(`New event : ${newEventPath}`)
 
