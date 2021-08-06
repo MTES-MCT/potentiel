@@ -2,7 +2,7 @@ import { logger } from '../../core/utils'
 import { credentialsRepo, projectAdmissionKeyRepo } from '../../dataAccess'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import routes from '../../routes'
-import { SignupPage } from '../../views/pages'
+import { SignupPage } from '../../views/legacy-pages'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
 

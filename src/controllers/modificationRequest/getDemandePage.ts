@@ -1,6 +1,6 @@
 import { projectRepo } from '../../dataAccess'
 import { addQueryParams } from '../../helpers/addQueryParams'
-import { NewModificationRequestPage } from '../../views/pages'
+import { NewModificationRequestPage } from '../../views/legacy-pages'
 import routes from '../../routes'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { v1Router } from '../v1Router'

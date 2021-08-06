@@ -1,7 +1,7 @@
 import { passwordRetrievalRepo } from '../../dataAccess'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import routes from '../../routes'
-import { ResetPasswordPage } from '../../views/pages'
+import { ResetPasswordPage } from '../../views/legacy-pages'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
 

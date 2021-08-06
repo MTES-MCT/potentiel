@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import routes from '../routes'
-import { SuccessPage } from '../views/pages'
+import { SuccessPage } from '../views/legacy-pages'
 import { v1Router } from './v1Router'
 
 v1Router.get(
