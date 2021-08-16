@@ -1,9 +1,8 @@
+import ReactPDF, { Document, Font, Image, Page, Text, View } from '@react-pdf/renderer'
 import React from 'react'
-import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/renderer'
-import ReactPDF from '@react-pdf/renderer'
-import { Project, AppelOffre, Periode, makeProjectIdentifier } from '../../entities'
-import { formatDate } from '../../helpers/formatDate'
 import { logger } from '../../core/utils'
+import { AppelOffre, Periode, Project } from '../../entities'
+import { formatDate } from '../../helpers/formatDate'
 
 Font.register({
   family: 'Arial',
@@ -456,7 +455,7 @@ const Certificate = ({
             left: 65,
           }}
         >
-          <Text style={{ fontSize: 8 }}>Code Potentiel: {makeProjectIdentifier(project)}</Text>
+          <Text style={{ fontSize: 8 }}>Code Potentiel: {project.potentielIdentifier}</Text>
           <Text style={{ fontSize: 8 }}>
             Dossier suivi par : aopv.dgec@developpement-durable.gouv.fr
           </Text>

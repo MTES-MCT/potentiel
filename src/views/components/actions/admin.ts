@@ -13,6 +13,7 @@ const adminActions = (project: {
   numeroCRE: string
   email: string
   nomProjet: string
+  potentielIdentifier: string
 }) => {
   const canDownloadCertificate = !!project.certificateFile
 

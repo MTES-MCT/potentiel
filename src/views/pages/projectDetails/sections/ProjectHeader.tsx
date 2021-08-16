@@ -1,5 +1,5 @@
 import React from 'react'
-import { makeProjectIdentifier, User } from '../../../../entities'
+import { User } from '../../../../entities'
 import { ProjectDataForProjectPage } from '../../../../modules/project/dtos'
 import ProjectActions from '../../../components/projectActions'
 
@@ -28,7 +28,7 @@ export const ProjectHeader = ({ project, user, cahiersChargesURLs }: ProjectHead
       {project.communeProjet}, {project.departementProjet}, {project.regionProjet}
     </span>
     <div style={{ fontSize: 13 }}>
-      {makeProjectIdentifier(project)}{' '}
+      {project.potentielIdentifier}{' '}
       {cahiersChargesURLs && (
         <>
           {'('}

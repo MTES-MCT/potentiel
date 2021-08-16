@@ -1,7 +1,5 @@
 import sanitize from 'sanitize-filename'
 
-import { makeProjectIdentifier } from '../../../entities'
-
 export const makeCertificateFilename = (
   project: {
     email: string
@@ -11,10 +9,11 @@ export const makeCertificateFilename = (
     familleId: string | undefined
     numeroCRE: string
     id: string
+    potentielIdentifier: string
   },
   forAdmin?: true
 ) => {
   return sanitize(
-    makeProjectIdentifier(project) + '-' + (forAdmin ? project.email : project.nomProjet) + '.pdf'
+    project.potentielIdentifier + '-' + (forAdmin ? project.email : project.nomProjet) + '.pdf'
   )
 }
