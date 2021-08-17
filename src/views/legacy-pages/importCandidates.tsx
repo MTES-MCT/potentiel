@@ -6,10 +6,11 @@ import AdminDashboard from '../components/adminDashboard'
 
 interface AdminListProjectsProps {
   request: Request
+  importErrors?: string
 }
 
 /* Pure component */
-export default function AdminListProjects({ request }: AdminListProjectsProps) {
+export default function AdminListProjects({ request, importErrors }: AdminListProjectsProps) {
   const { error, success } = (request.query as any) || {}
   return (
     <AdminDashboard role={request.user?.role} currentPage="import-projects">
@@ -38,6 +39,12 @@ export default function AdminListProjects({ request }: AdminListProjectsProps) {
             </div>
           ) : (
             ''
+          )}
+
+          {!!importErrors && (
+            <div className="notification error" {...dataId('error-message')}>
+              {importErrors}
+            </div>
           )}
 
           <div className="form__group">

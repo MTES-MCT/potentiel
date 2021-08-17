@@ -1,5 +1,4 @@
 import React from 'react'
-import { version } from '../../../package.json'
 
 const Footer = () => {
   return (
@@ -31,7 +30,7 @@ const Footer = () => {
             </a>
           </li>
         </ul>
-        <div>{version}</div>
+        <div>{process.env.npm_package_version}</div>
       </div>
     </footer>
   )

@@ -1,5 +1,5 @@
 import routes from '../../routes'
-import { ImportCandidatesPage } from '../../views/pages'
+import { ImportCandidatesPage } from '../../views/legacy-pages'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'

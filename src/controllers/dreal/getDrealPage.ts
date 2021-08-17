@@ -1,6 +1,6 @@
 import { projectAdmissionKeyRepo, userRepo } from '../../dataAccess'
 import routes from '../../routes'
-import { DrealListPage } from '../../views/pages'
+import { DrealListPage } from '../../views/legacy-pages'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'

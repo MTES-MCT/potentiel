@@ -1,4 +1,5 @@
 export * from './actions';
+export * from './PageLayout';
 export * from './SuccessErrorBox';
 export * from './adminDashboard';
 export * from './component';

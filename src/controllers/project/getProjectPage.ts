@@ -4,7 +4,7 @@ import { shouldUserAccessProject } from '../../config/useCases.config'
 import { okAsync } from '../../core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import routes from '../../routes'
-import { ProjectDetailsPage } from '../../views/pages'
+import { ProjectDetailsPage } from '../../views/legacy-pages'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { v1Router } from '../v1Router'
 

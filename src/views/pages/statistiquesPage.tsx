@@ -1,5 +1,7 @@
-import { Request } from 'express'
+import type { Request } from 'express'
 import React from 'react'
+import { PageLayout } from '../components/PageLayout'
+import { hydrateOnClient } from '../helpers/hydrateOnClient'
 
 interface Props {
   request: Request
@@ -8,7 +10,7 @@ interface Props {
 }
 
 /* Pure component */
-export default function StatistiquesPages(props: Props) {
+export const Statistiques = PageLayout(function (props: Props) {
   return (
     <main role="main">
       <section className="section section-color">
@@ -46,4 +48,6 @@ export default function StatistiquesPages(props: Props) {
       </section>
     </main>
   )
-}
+})
+
+hydrateOnClient(Statistiques)
