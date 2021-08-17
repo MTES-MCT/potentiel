@@ -1,6 +1,6 @@
 {
   "name": "potentiel.beta.gouv.fr",
-  "version": "2.51.2",
+  "version": "2.51.3",
   "description": "Suivi des Projets d'Energies Renouvelables",
   "main": "index.js",
   "scripts": {
@@ -20,7 +20,6 @@
     "watch": "concurrently \"npm run watch:back\" \"npm run watch:front\"",
     "watch:back": "ts-node-dev --transpile-only src/index.ts",
     "watch:front": "webpack --config=webpack.config.js --watch"
-
   },
   "repository": {
     "type": "git",
