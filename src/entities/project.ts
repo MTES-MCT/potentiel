@@ -301,6 +301,7 @@ export default ({ makeId }: MakeProjectDependencies) =>
     abandonedOn: 0,
     numeroGestionnaire: '',
     newRulesOptIn: false,
+    potentielIdentifier: '',
   })
 
 export {
