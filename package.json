@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc && cp -R src/public dist/src && cp -R src/views/template dist/src/views",
-    "install": "npm run build && npx sequelize-cli db:migrate",
+    "build:front": "webpack --config=webpack.config.js",
+    "install": "npm run build:front && npm run build && npx sequelize-cli db:migrate",
     "test": "NODE_ENV=unit-test jest --config=jest.unit.config.js --detectOpenHandles",
     "test-e2e": "NODE_ENV=test start-server-and-test watch http://localhost:3000 cy:run",
     "test-int": "NODE_ENV=test jest --config=jest.integration.config.js --detectOpenHandles --runInBand",
@@ -16,7 +17,7 @@
     "storybook": "start-storybook -s ./src/public ",
     "storybook-build": "build-storybook-c .storybook -o docs",
     "start": "node ./dist/src/index.js",
-    "watch": "ts-node-dev --transpile-only src/index.ts"
+    "watch": "concurrently \"ts-node-dev --transpile-only src/index.ts\" \"webpack --config=webpack.config.js --watch\""
   },
   "repository": {
     "type": "git",
@@ -100,6 +101,7 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^24.3.4",
     "eslint-plugin-node": "^11.1.0",
+    "concurrently": "^5.3.0",
     "eslint-plugin-promise": "^4.3.1",
     "eslint-plugin-react": "^7.23.1",
     "eslint-plugin-standard": "^5.0.0",
@@ -111,7 +113,9 @@
     "start-server-and-test": "^1.12.1",
     "ts-jest": "^26.5.4",
     "ts-loader": "^8.1.0",
-    "ts-node-dev": "^1.1.6"
+    "ts-node-dev": "^1.1.6",
+    "webpack": "^5.19.0",
+    "webpack-cli": "^4.4.0"
   },
   "cypress-cucumber-preprocessor": {
     "nonGlobalStepDefinitions": true
