@@ -34,11 +34,12 @@ export const makeHtml = <T extends HasRequest>(args: PageProps<T>) => {
         <link href="/main.min.css" rel="stylesheet" />
         <link href="/css/potentiel.css" rel="stylesheet" />
         <script src="/scripts.js"></script>
-        ${args.hydrate &&
-        html`
-          <script src="/js/shared.js"></script>
-          <script src="/js/${args.pageName}.js?${process.env.npm_package_version}"></script>
-        `}
+        ${args.hydrate
+          ? html`
+              <script src="/js/shared.js"></script>
+              <script src="/js/${args.pageName}.js?${process.env.npm_package_version}"></script>
+            `
+          : ''}
 
         <!-- Favicons -->
         <meta name="theme-color" content="#ffffff" />
@@ -144,10 +145,11 @@ export const makeHtml = <T extends HasRequest>(args: PageProps<T>) => {
           </defs>
         </svg>
         <div id="root">${ReactDOMServer.renderToString(Component(props))}</div>
-        ${args.hydrate &&
-        html`<script>
-          window.__INITIAL_PROPS__ = ${props ? JSON.stringify(stripRequest(props)) : '{}'}
-        </script>`}
+        ${args.hydrate
+          ? html`<script>
+              window.__INITIAL_PROPS__ = ${props ? JSON.stringify(stripRequest(props)) : '{}'}
+            </script>`
+          : ''}
       </body>
     </html>
   `
