@@ -1,8 +1,10 @@
 import { logger } from '../../core/utils'
 import { projectRepo, userRepo } from '../../dataAccess'
+import { eventStore } from '../../config'
 import { makeProject } from '../../entities'
 import makeFakeProject from '../fixtures/project'
 import { testRouter } from './testRouter'
+import { LegacyProjectSourced, ProjectImported } from '../../modules/project'
 
 testRouter.post('/test/addProjects', async (request, response) => {
   const { projects, userId } = request.body
@@ -76,6 +78,23 @@ testRouter.post('/test/addProjects', async (request, response) => {
       })
   }
   await Promise.all(builtProjects.map(projectRepo.save))
+
+  await Promise.all(
+    builtProjects.map((project) => {
+      return eventStore.publish(
+        new LegacyProjectSourced({
+          payload: {
+            projectId: project.id,
+            periodeId: project.periodeId,
+            appelOffreId: project.appelOffreId,
+            familleId: project.familleId,
+            numeroCRE: project.numeroCRE,
+            content: project,
+          },
+        })
+      )
+    })
+  )
 
   if (user) {
     await Promise.all(builtProjects.map((project) => userRepo.addProject(user.id, project.id)))

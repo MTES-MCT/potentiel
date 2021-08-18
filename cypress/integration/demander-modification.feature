@@ -11,9 +11,9 @@ Fonctionnalité: Demande de modification
     Alors je suis dirigé vers la page de demande de modification de "puissance"
     Lorsque je saisis la valeur "12700" dans le champ "puissance"
     Et que je valide le formulaire
-    Alors je suis redirigé vers la page qui liste mes demandes
-    Et me notifie la réussite par "Votre demande a bien été prise en compte"
-    Et je vois ma demande de modification "puissance" pour mon projet "projet 1"
+    Alors on me notifie la réussite par "Votre demande a bien été prise en compte"
+    Lorsque je me rends sur la page qui liste mes demandes
+    Alors je vois ma demande de modification "puissance" pour mon projet "projet 1"
 
   @porteur-projet
   Scénario: Déposer un recours
@@ -26,7 +26,7 @@ Fonctionnalité: Demande de modification
     Lorsque je saisis la valeur "Ceci est un test" dans le champ "justification"
     Lorsque je choisis un fichier dans le champ pièce-jointe
     Et que je valide le formulaire
-    Alors je suis redirigé vers la page qui liste mes demandes
-    Et me notifie la réussite par "Votre demande a bien été prise en compte"
-    Et je vois ma demande de modification "recours" pour mon projet "projet 1"
+    Alors on me notifie la réussite par "Votre demande a bien été prise en compte"
+    Lorsque je me rends sur la page qui liste mes demandes
+    Alors je vois ma demande de modification "recours" pour mon projet "projet 1"
     Et je vois un lien pour "Télécharger la pièce-jointe" pour mon projet "projet 1"
