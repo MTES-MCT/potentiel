@@ -61,16 +61,6 @@ const initDatabase = async () => {
     logger.error(error)
   }
 
-  if (process.env.NODE_ENV === 'test') {
-    try {
-      // only need to sync when test (in-memory) database
-      // The db tables are created using migration scripts eitherwise
-      await sequelizeInstance.sync({ force: true })
-    } catch (error) {
-      logger.error(error)
-    }
-  }
-
   _isDatabaseInitialized = true
 }
 

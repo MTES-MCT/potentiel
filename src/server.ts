@@ -97,9 +97,6 @@ export async function makeServer(port: number, sessionSecret: string) {
         )
     })
 
-    // wait for the database to initialize
-    await initDatabase()
-
     return new Promise((resolve) => {
       const server = app.listen(port, () => {
         logger.info(`Server listening on port ${port}!`)
