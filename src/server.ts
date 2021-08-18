@@ -9,7 +9,7 @@ import { logger } from './core/utils'
 import { initDatabase } from './dataAccess'
 import routes from './routes'
 import { sequelizeInstance } from './sequelize.config'
-import { testRouter } from './__tests__/integration'
+import { testRouter } from './__tests__/e2e'
 import { isDevEnv } from './config'
 
 dotenv.config()
