@@ -28,4 +28,6 @@ jobs:
       - run: npm test
       - run: npm run test-db
       - run: npm run test-int
+      - run: npm run test-e2e
+      - run: npm run test-e2e-legacy
       - run: npm run build
