@@ -127,7 +127,9 @@
     "webpack-cli": "^4.7.2"
   },
   "cypress-cucumber-preprocessor": {
-    "nonGlobalStepDefinitions": true
+    "nonGlobalStepDefinitions": true,
+    "stepDefinitions": "e2e-legacy/integration",
+    "commonPath": "e2e-legacy/integration/common"
   },
   "husky": {
     "hooks": {
