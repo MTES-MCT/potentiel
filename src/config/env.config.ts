@@ -11,6 +11,8 @@ export const isDevEnv = process.env.NODE_ENV === 'development'
 export const isStagingEnv = process.env.NODE_ENV === 'staging'
 export const isProdEnv = process.env.NODE_ENV === 'production'
 
+export const dgecEmail: string = process.env.DGEC_EMAIL!
+
 console.log(
   'Environment is ' +
     (isTestEnv

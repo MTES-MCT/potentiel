@@ -4,7 +4,7 @@ import { EntityNotFoundError, InfraNotAvailableError } from '../../shared'
 import { ModificationRequestDataForResponseTemplateDTO } from '../dtos'
 
 export interface GetModificationRequestDateForResponseTemplate {
-  (modificationRequestId: string, user: User): ResultAsync<
+  (modificationRequestId: string, user: User, dgecEmail: string): ResultAsync<
     ModificationRequestDataForResponseTemplateDTO,
     EntityNotFoundError | InfraNotAvailableError
   >
