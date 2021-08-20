@@ -19,6 +19,11 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NODE_ENV: test
+      DGEC_EMAIL: admin@test.test
+      SEND_EMAILS_FROM: admin@test.test
+      SEND_EMAILS_FROM_NAME: admin
+      SESSION_SECRET: 1234
+      BASE_URL: http://localhost:3000
 
     steps:
       - uses: actions/checkout@v2
