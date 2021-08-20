@@ -2,22 +2,33 @@
 
 # Setup
 
-1.  Dupliquer et renommer `.test-users.ts.template` en `.test-users.ts`
-2.  Dupliquer le fichier `.env.template` et le renommer en `.env` en remplaçant les valeurs par celles voulues
-3.  Lancer la base de données qui est dans un conteneur Docker
+1.  Dupliquer le fichier `.env.template` et le renommer en `.env` en remplaçant les valeurs par celles voulues
+2.  Lancer la base de données qui est dans un conteneur Docker
 
     ```
-    docker-compose up -d
+    npm run dev-db
+    ```
+
+3.  Installer les scripts npm
+
+    ```
+    npm install
     ```
 
 4.  Lancer la migration de données avec la ligne de commande suivante
 
     ```shell
-    npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all
+    npm run migrate && npm run seed
     ```
 
-5.  Se connecter avec une persona dont les credentials sont situés dans `src/infra/sequelize/seeds/`
-6.  Installer `commitizen` en global pour formatter les messages de commit
+5.  Lancer le serveur en mode "watch" (redémarrage à chaque changement de fichier)
+
+    ```shell
+    npm run watch
+    ```
+
+6.  Se connecter avec une persona dont les credentials sont situés dans `src/infra/sequelize/seeds/`
+7.  Installer `commitizen` en global pour formatter les messages de commit
 
     ```
     npm i -g commitizen
@@ -27,7 +38,7 @@
 
 # Developpement
 
-### Déployer sur une instance dev
+### Déployer sur une instance dev ou staging
 
 Nécessite l'installation de clever-tools
 
@@ -39,24 +50,62 @@ clever login
 Puis une fois l'identification faite:
 
 ```
-# link app
+# link app (dev1/dev2, demo ou staging, jamais prod)
 clever link app_123456
 
 # deploy
 clever deploy
 ```
 
-### Déployer sur l'instance de staging
-
-L'instance de staging est déployée continuellement à partir de la branche `staging`, qui n'est pas protégée.
-Il suffit donc de faire un push sur la branche `staging` et l'instance sera déployée.
-
 ### Obtenir une base de données vierge
 
 ```
-docker-compose down --remove-orphans && docker-compose up -d
-npx sequelize-cli db:migrate
-npx sequelize-cli db:seed:all
+npm run dev-db
+npm run migrate
+npm run seed
+```
+
+### Lancer les tests
+
+```
+
+# Tests Unitaires
+
+# tous les tests unitaires
+npm run test
+
+# en mode 'watch'
+npm run test -- --watch
+
+# un fichier de test seulement (glisser déposer l'adresse du fichier pour aller plus vite)
+npm run test -- --watch /path/to/file.spec.ts
+
+# Tests d'integration
+
+# Au préalable, lancer la base de données pour les tests
+npm run test-db
+
+# lancer tous les tests
+npm run test-int
+
+# idem que pour les tests unitaires
+npm run test -- --watch /path/to/file.integration.ts
+
+# Tests end-to-end
+
+# Au préalable, lancer la base
+npm run test-db
+
+# lancer les tests
+npm run test-e2e
+
+# lancer les tests 'legacy' (ils doivent toujours passer, même s'ils seront remplacés graduellement)
+npm run test-e2e-legacy
+
+# debugger avec le studio cypress (en lançant au préalable un serveur en env test)
+NODE_ENV=test npm run watch
+npm run cy:open
+npm run cy:open:legacy
 ```
 
 ### Se connecter à la db via psql
