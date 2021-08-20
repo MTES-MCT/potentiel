@@ -1,8 +1,61 @@
 # Recettes pour le développeur
 
+- [Ecrire des tests](#écrire-des-tests)
 - [Déclencher une nouvelle notification par mail](#déclencher-une-nouvelle-notification-par-mail)
 - [Créer une nouvelle projection](#créer-une-nouvelle-projection)
 - [Ajout d'un événement de mise à jour de projection](#ajout-dun-événement-de-mise-à-jour-de-projection)
+
+## Écrire des tests
+
+Il y a trois catégories de tests qui ont leur utilité propre.
+
+### Les tests unitaires
+
+Les tests unitaires sont les premiers tests à être écrits lors de la création d'un nouveau use-case. Leur rôle principal est d'aider au développement (en mode TDD).
+On crée un test-case super simple (juste un tout petit aspect de ce qui est attendu), on écrit l'implémentation minimale pour faire passer le test, on refactore puis on passe au test-case suivant.
+Il est tentant de penser directement à l'implémentation finale (nommer toutes les dépendances et arguments) mais c'est contre-productif, parce qu'on finit par prendre une grande complexité d'un seul coup.
+Il est préférable de se forcer à rester très incrémental. Un cycle écriture de test + implémentation doit durer quelques minutes, pas plus.
+
+Les tests unitaires se situent dans le même dossier que le module testé et possède un suffixe `.spec.ts` (ie `/path/module.ts` est testé par `/path/module.spec.ts`). On les trouve en général dans les dossiers `modules` car ils testent du code métier. On peut aussi les trouver dans des helpers.
+
+Ces tests n'ont aucune dépendance réelle, seulement des dépendances fausses créées via `jest.fn()` et injectée dans le constructeur du use-case (`makeMyUseCase`). Le seul `import` est donc le constructeur de use-case (et éventuellement d'autres éléments issus du domaine, ie d'un dossier `modules`). Jamais il ne doit y avoir de code d'infrastructure, comme une base de données ou un service tiers.
+
+On injecte uniquement les comportement attendu dans ce test-case particulier. Une méthode qui doit respecter une interface de la forme `(userId: string) => Result<string, SomeError>` par exemple, sera injectée dans un cas avec `jest.fn((userId: string) => ok('John Doe')` et dans un autre cas avec `jest.fn((userId: string) => err(new SomeError()))`. On ne crée par de mock des dépendances avec un comportement "générique" qui serait réutilisé pour tous les test-case.
+Si la dépendance injectée ne nous intéresse pas dans un test-case, on peut injecter `jest.fn()` qui n'aura aucun comportement mais suffira à appeler le constructeur.
+
+Les tests unitaire pourront également servir pour détecter des régressions mais c'est secondaire. Les régressions détectées sont souvent liées à un changement d'interface/type partagée.
+
+Les tests unitaires ne sont pas de grande utilité si le module est très simple.
+
+### Les tests d'intégration
+
+Les tests d'intégration servent à vérifier que la manière que nous avons d'appeler un service tiers (api, base de données, lib) est correcte. Dans ce cas, nous ne pouvons pas utiliser de faux et devons appeler une version réelle du service tiers.
+
+Les tests unitaires se situent dans le même dossier que le module testé et possède un suffixe `.integration.ts` (ie `/path/module.ts` est testé par `/path/module.integration.ts`). On les trouve avant-tout dans les dossiers `infra` et jamais dans les `modules` (car le code métier ne dépend jamais de service tiers).
+
+Le plus courant est d'écrire des tests d'intégration pour les query et les mises à jour de base de données. En général, notre code est simple mais le doute subsiste sur sa compatibilité avec le schéma de la base de données. Les tests d'intégration sont donc la seule manière de voir si c'est bon (sans lancer l'application elle-même).
+
+Toujours dans l'esprit TDD, nous écrivons le test (simple) avant l'implémentation. Ici, nous avons besoin d'une vraie base de données, avec le vrai schéma (mais sans données). C'est pourquoi, nous lançons (via Docker) une instance de base de données.
+Chaque test doit nettoyer la base au début de son lancement, pour être sur qu'il n'y a pas de pollution possible par les autres tests. Pour cette raison, les tests doivent être lancés de manière séquentielle et non parallèle.
+Si notre test a besoin de données préalablement au test (par exemple, si on veut tester une mise à jour), alors on crée ces fausses données au début du test.
+
+Les tests d'intégration permettent également de détecter des régressions. Si par exemple, le schéma de base de données change, il est possible que ça casse des requêtes sur celle-ci. Ce sont les tests d'intégration qui le réveleront.
+
+### Les tests end-to-end (e2e)
+
+Les différentes briques de l'application (use-case, queries, updates) sont testées via des tests unitaires ou d'intégration. Les tests end-to-end sont effectués sur l'application lancée en mode réel et permettent donc de voir que tout est bien branché ensemble (notamment les routes sur les use-case, etc.).
+
+Les tests end-to-end utilisent `cypress`. Ils se situent dans les dossier racines `e2e/tests` ou `e2e-legacy/integration` et terminent en `.test.js`.
+La raison pour ces deux dossiers est historique. Nous avons commencé par écrire des tests en mode BDD avec cucumber mais ce mode d'écriture a rendu les choses plus compliquées et n'a pas apporté beaucoup de valeur (le support n'a pas obtenu d'intérêt de la part de l'équipe métier). Ces tests historiques sont situés dans le dossier `e2e-legacy`. Ils ne sont pas obsolètes et doivent donc passer mais nous n'écrirons pas de nouveaux tests dans ce style et ce dossier.
+Les nouveaux tests e2e doivent être créés dans le dossier `e2e` et utiliser le style normal de cypress.
+
+Ce sont des tests qui ouvrent un navigateur et simulent un comportement humain (click sur des boutons voire appel à une API publique). C'est pourquoi, il faut lancer l'application en local pour lancer les tests.
+
+Comme les différents cas de figure métier sont testés dans les tests unitaires, il n'est pas nécessaire de les reprendre tous dans les tests end-to-end. On ne reprendra que les "grands" cas, ce qui souvent signifie un "happy-path" (ou succès) et un cas d'erreur. Si le point d'entrée est complexe, on pourra ajouter des tests pour vérifier les zones d'ombre (à l'appréciation du développeur). Encore un fois, on veut surtout vérifier que tout est bien cablé.
+
+Les tests e2e utilisent une vraie db mais doivent être indépendants les uns des autres. Il est donc impératif de vider la base au début de chaque test-case.
+Pour rajouter des données de test, on fait appel à des point d'API spécialement ajoutés. Ceux-ci se situent dans le dossier `src/__tests__/e2e`. Ils ne sont rajoutés au serveur que si `NODE_ENV=test`.
+Pour appeler ces points d'API, on peut utiliser `cy.request` ou bien, pour éviter les répétitions, rajouter une commande cypress dans `e2e/support/commands.js`.
 
 ## Déclencher une nouvelle notification par mail
 
