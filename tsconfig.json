@@ -25,8 +25,10 @@
     "**/*.integration.ts",
     "**/*.stories.tsx",
     "**/__tests__/**/*",
-    "cypress",
-    "cypress/**/*",
+    "e2e-legacy",
+    "e2e-legacy/**/*",
+    "e2e",
+    "e2e/**/*",
     "scripts"
   ]
 }

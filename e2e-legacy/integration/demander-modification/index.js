@@ -12,15 +12,15 @@ When('je me rends sur la page qui liste mes projets', () => {
   cy.visit('/mes-projets.html')
 })
 
-When('je click sur le bouton {string} au niveau de mon projet {string}', async function (
-  intituleBouton,
-  nomProjet
-) {
-  cy.findContaining(testid('projectList-item'), nomProjet)
-    .get(testid('item-action'))
-    .contains(intituleBouton)
-    .click({ force: true })
-})
+When(
+  'je click sur le bouton {string} au niveau de mon projet {string}',
+  async function (intituleBouton, nomProjet) {
+    cy.findContaining(testid('projectList-item'), nomProjet)
+      .get(testid('item-action'))
+      .contains(intituleBouton)
+      .click({ force: true })
+  }
+)
 
 Then('je suis dirigé vers la page de demande de modification de {string}', (typeModification) => {
   cy.url().should('include', 'demande-modification.html')
@@ -33,7 +33,7 @@ When('je saisis la valeur {string} dans le champ {string}', async function (valu
 
 When('je choisis un fichier dans le champ pièce-jointe', function () {
   cy.fixture('example.json').then((fileContent) => {
-    cy.get(testid('modificationRequest-fileField')).upload({
+    cy.get(testid('modificationRequest-fileField')).attachFile({
       fileContent,
       fileName: 'example.json',
       mimeType: 'application/json',
@@ -45,12 +45,12 @@ When('je valide le formulaire', () => {
   cy.get(testid('submit-button')).click()
 })
 
-Then('je suis redirigé vers la page qui liste mes demandes', () => {
-  cy.url().should('include', '/mes-demandes.html')
+Then('on me notifie la réussite par {string}', (successMessage) => {
+  cy.get(testid('success-message')).should('contain', successMessage)
 })
 
-Then('me notifie la réussite par {string}', (successMessage) => {
-  cy.get(testid('success-message')).should('contain', successMessage)
+When('je me rends sur la page qui liste mes demandes', () => {
+  cy.visit('/mes-demandes.html')
 })
 
 Then(

@@ -15,8 +15,15 @@ on:
       - 'LICENSE'
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
+    env:
+      NODE_ENV: test
+      DGEC_EMAIL: admin@test.test
+      SEND_EMAILS_FROM: admin@test.test
+      SEND_EMAILS_FROM_NAME: admin
+      SESSION_SECRET: 1234
+      BASE_URL: http://localhost:3000
 
     steps:
       - uses: actions/checkout@v2
@@ -24,8 +31,9 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 14.x
-      - run: npm ci --ignore-scripts
+      - run: npm run launch-test-db
+      - run: npm ci
       - run: npm test
-      - run: npm run test-db
       - run: npm run test-int
-      - run: npm run build
+      - run: npm run ci:test-e2e
+      - run: npm run ci:test-e2e:legacy

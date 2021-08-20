@@ -9,7 +9,7 @@ import { logger } from './core/utils'
 import { initDatabase } from './dataAccess'
 import routes from './routes'
 import { sequelizeInstance } from './sequelize.config'
-import { testRouter } from './__tests__/integration'
+import { testRouter } from './__tests__/e2e'
 import { isDevEnv } from './config'
 
 dotenv.config()
@@ -96,9 +96,6 @@ export async function makeServer(port: number, sessionSecret: string) {
           'Une erreur inattendue est survenue. Veuillez nous excuser pour la gêne occasionée. Merci de réessayer et de contacter l‘équipe si le problème persiste.'
         )
     })
-
-    // wait for the database to initialize
-    await initDatabase()
 
     return new Promise((resolve) => {
       const server = app.listen(port, () => {
