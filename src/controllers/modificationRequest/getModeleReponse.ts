@@ -2,7 +2,12 @@ import asyncHandler from 'express-async-handler'
 import os from 'os'
 import path from 'path'
 import sanitize from 'sanitize-filename'
-import { eventStore, getModificationRequestDataForResponseTemplate, userRepo } from '../../config'
+import {
+  dgecEmail,
+  eventStore,
+  getModificationRequestDataForResponseTemplate,
+  userRepo,
+} from '../../config'
 import { ModificationRequest, User } from '../../entities'
 import { fillDocxTemplate } from '../../helpers/fillDocxTemplate'
 import {
@@ -27,7 +32,11 @@ v1Router.get(
       return response.status(403).send('Impossible de générer le fichier demandé.')
     }
 
-    await getModificationRequestDataForResponseTemplate(modificationRequestId, request.user).match(
+    await getModificationRequestDataForResponseTemplate(
+      modificationRequestId,
+      request.user,
+      dgecEmail
+    ).match(
       async (data) => {
         if (data.status === 'envoyée') {
           await eventStore.publish(
