@@ -20,7 +20,7 @@
     "launch-test-db": "export NODE_ENV=test && export COMPOSE_PROJECT_NAME=potentiel_tests && docker-compose down --remove-orphans && docker-compose -f ./docker-compose-integration.yml up -d && until docker exec potentiel_db_tests_integration pg_isready -U testuser -d potentiel_test; do sleep 1; done",
     "migrate": "npx sequelize-cli db:migrate",
     "seed": "npx sequelize-cli db:seed:all",
-    "test-db": "npm run launch-test-db && sleep 2 && npm run migrate",
+    "test-db": "export NODE_ENV=test && npm run launch-test-db && sleep 2 && npm run migrate",
     "dev-db": "docker-compose down --remove-orphans && docker-compose up -d",
     "test-int:watch": "NODE_ENV=test jest --config=jest.integration.config.js --detectOpenHandles --watch",
     "test:watch": "NODE_ENV=test TEST=unit jest --config=jest.unit.config.js --detectOpenHandles --watch",
