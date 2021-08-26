@@ -24,5 +24,5 @@ else
 fi
 
 echo "Backing up files..."
-./rclone-v1.56.0-linux-amd64/rclone copy CCFILES:potentiel-production SW:potentiel-files
+./rclone-v1.56.0-linux-amd64/rclone copy --s3-storage-class=GLACIER CCFILES:potentiel-production SW:potentiel-files
 echo "Done backing up files!"
