@@ -12,7 +12,6 @@ on:
       - '.storybook/**'
       - '.vscode/**'
       - 'legacy-features/**'
-      - 'scripts/**'
       - '.env.template'
       - '.eslint**'
       - '.prettier**'
