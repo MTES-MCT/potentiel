@@ -16,6 +16,7 @@ import ModificationRequestList from './modificationRequestList'
 import InvitationsAreDeprecated from './invitationsAreDeprecated'
 import ListProjects from './listProjects'
 import Success from './success'
+import FakeLogin from './fakeLogin'
 
 const AdminNotifyCandidatesPage = makePresenterPage(AdminNotifyCandidates)
 const AdminRegenerateCertificatesPage = makePresenterPage(AdminRegenerateCertificates)
@@ -32,6 +33,7 @@ const SuccessPage = makePresenterPage(Success)
 const AdminAppelOffrePage = makePresenterPage(AdminAppelOffre)
 const AdminUsersPage = makePresenterPage(AdminUsers)
 const InvitationsAreDeprecatedPage = makePresenterPage(InvitationsAreDeprecated)
+const FakeLoginPage = makePresenterPage(FakeLogin)
 
 export {
   ImportCandidatesPage,
@@ -49,6 +51,7 @@ export {
   AdminAppelOffrePage,
   AdminUsersPage,
   InvitationsAreDeprecatedPage,
+  FakeLoginPage,
 }
 
 interface HasRequest {

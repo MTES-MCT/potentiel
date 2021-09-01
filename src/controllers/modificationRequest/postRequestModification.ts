@@ -17,7 +17,7 @@ import { PuissanceJustificationOrCourrierMissingError } from '../../modules/modi
 import { Fournisseur, FournisseurKind } from '../../modules/project'
 import routes from '../../routes'
 import { requestModification, shouldUserAccessProject } from '../../useCases'
-import { ensureRole } from '../auth'
+import { ensureRole } from '../../config'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
 

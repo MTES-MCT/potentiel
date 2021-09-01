@@ -5,6 +5,7 @@ import { OtherError } from '../../modules/shared'
 import routes from '../../routes'
 import { keycloakAdminClient } from './keycloakClient'
 import { authorizedTestEmails, isProdEnv } from '../../config'
+import { CreateUserCredentials } from '../../modules/users'
 
 const {
   KEYCLOAK_ADMIN_CLIENT_ID,
@@ -16,11 +17,7 @@ const {
 
 const ONE_MONTH = 3600 * 24 * 30
 
-export const createUserCredentials = (args: {
-  role: User['role']
-  email: string
-  fullName?: string
-}) => {
+export const createUserCredentials: CreateUserCredentials = (args) => {
   const { email, role, fullName } = args
 
   async function createKeyCloakCredentials(): Promise<string> {

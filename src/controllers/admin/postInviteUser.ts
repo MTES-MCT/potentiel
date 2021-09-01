@@ -5,7 +5,7 @@ import { addQueryParams } from '../../helpers/addQueryParams'
 import { DrealUserInvited } from '../../modules/authorization'
 import { PartnerUserInvited } from '../../modules/authorization/events/PartnerUserInvited'
 import routes from '../../routes'
-import { ensureRole } from '../auth'
+import { ensureRole } from '../../config'
 import { v1Router } from '../v1Router'
 
 v1Router.post(

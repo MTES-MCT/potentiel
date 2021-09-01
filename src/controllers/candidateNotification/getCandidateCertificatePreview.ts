@@ -6,7 +6,7 @@ import { IncompleteDataError } from '../../modules/shared'
 import routes from '../../routes'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
-import { ensureRole } from '../auth'
+import { ensureRole } from '../../config'
 import { getUserProject } from '../../useCases'
 import { buildCertificate } from '../../views/certificates'
 
