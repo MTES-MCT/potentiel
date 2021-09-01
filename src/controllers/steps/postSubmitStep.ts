@@ -6,7 +6,7 @@ import { logger } from '../../core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { pathExists } from '../../helpers/pathExists'
 import routes from '../../routes'
-import { ensureRole } from '../auth'
+import { ensureRole } from '../../config'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
 

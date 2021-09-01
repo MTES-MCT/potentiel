@@ -2,7 +2,7 @@ import asyncHandler from 'express-async-handler'
 import { userRepo } from '../../dataAccess'
 import routes from '../../routes'
 import { AdminUsersPage } from '../../views/legacy-pages'
-import { ensureRole } from '../auth'
+import { ensureRole } from '../../config'
 import { v1Router } from '../v1Router'
 
 v1Router.get(

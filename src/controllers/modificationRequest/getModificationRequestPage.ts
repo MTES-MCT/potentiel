@@ -4,7 +4,7 @@ import { logger } from '../../core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import routes from '../../routes'
 import { ModificationRequestDetailsPage } from '../../views/legacy-pages'
-import { ensureRole } from '../auth'
+import { ensureRole } from '../../config'
 import { v1Router } from '../v1Router'
 
 v1Router.get(

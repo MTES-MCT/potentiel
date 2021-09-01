@@ -3,8 +3,8 @@ import dotenv from 'dotenv'
 import express, { Request } from 'express'
 import helmet from 'helmet'
 import morgan from 'morgan'
-import { isDevEnv } from './config'
-import { registerAuth, v1Router } from './controllers'
+import { isDevEnv, registerAuth } from './config'
+import { v1Router } from './controllers'
 import { logger } from './core/utils'
 import { testRouter } from './__tests__/e2e'
 
@@ -63,7 +63,7 @@ export async function makeServer(port: number, sessionSecret: string) {
 
     app.use(cookieParser())
 
-    registerAuth({ app, sessionSecret })
+    registerAuth({ app, sessionSecret, router: v1Router })
 
     app.use(v1Router)
 

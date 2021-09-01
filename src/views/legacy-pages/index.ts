@@ -17,6 +17,7 @@ import InvitationsAreDeprecated from './invitationsAreDeprecated'
 import ListProjects from './listProjects'
 import Success from './success'
 import ListMissingOwnerProjects from './listMissingOwnerProjects'
+import FakeLogin from './fakeLogin'
 
 const AdminNotifyCandidatesPage = makePresenterPage(AdminNotifyCandidates)
 const AdminRegenerateCertificatesPage = makePresenterPage(AdminRegenerateCertificates)
@@ -34,6 +35,7 @@ const AdminAppelOffrePage = makePresenterPage(AdminAppelOffre)
 const AdminUsersPage = makePresenterPage(AdminUsers)
 const ListMissingOwnerProjectsPage = makePresenterPage(ListMissingOwnerProjects)
 const InvitationsAreDeprecatedPage = makePresenterPage(InvitationsAreDeprecated)
+const FakeLoginPage = makePresenterPage(FakeLogin)
 
 export {
   ImportCandidatesPage,
@@ -52,6 +54,7 @@ export {
   AdminUsersPage,
   ListMissingOwnerProjectsPage,
   InvitationsAreDeprecatedPage,
+  FakeLoginPage,
 }
 
 interface HasRequest {

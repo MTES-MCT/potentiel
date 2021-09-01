@@ -2,7 +2,7 @@ import { logger } from '../../core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import routes from '../../routes'
 import { updateStepStatus } from '../../config/useCases.config'
-import { ensureRole } from '../auth'
+import { ensureRole } from '../../config'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
 

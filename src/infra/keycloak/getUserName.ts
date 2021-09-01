@@ -1,10 +1,11 @@
 import { logger, ResultAsync } from '../../core/utils'
 import { OtherError } from '../../modules/shared'
+import { GetUserName } from '../../modules/users'
 import { keycloakAdminClient } from './keycloakClient'
 
 const { KEYCLOAK_ADMIN_CLIENT_ID, KEYCLOAK_ADMIN_CLIENT_SECRET, KEYCLOAK_REALM } = process.env
 
-export const getUserName = (id): ResultAsync<string, OtherError> => {
+export const getUserName: GetUserName = (id) => {
   async function getKeycloakUsername(): Promise<string> {
     await keycloakAdminClient.auth({
       grantType: 'client_credentials',
