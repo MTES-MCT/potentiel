@@ -9,6 +9,7 @@ on:
       - '.vscode/**'
       - 'legacy-features/**'
       - 'scripts/**'
+      - 'devtools/**'
       - '.env.template'
       - '.eslint**'
       - '.prettier**'
