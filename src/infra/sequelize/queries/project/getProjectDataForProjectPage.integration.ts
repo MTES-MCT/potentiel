@@ -183,6 +183,15 @@ describe('Sequelize getProjectDataForProjectPage', () => {
         cancelled: false,
       },
       {
+        // Invitation for project email but for a specific project
+        id: new UniqueEntityID().toString(),
+        email: 'test@test.test',
+        fullName: '',
+        projectId: new UniqueEntityID().toString(),
+        lastUsedAt: 0,
+        cancelled: false,
+      },
+      {
         // Invitation for project email but already used
         id: new UniqueEntityID().toString(),
         email: 'test@test.test',

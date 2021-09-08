@@ -192,11 +192,14 @@ export const MakeProjectModel = (sequelize) => {
       foreignKey: 'projectId',
     })
 
-    // All invitations for same email
+    // All generic invitations for same email
     Project.hasMany(ProjectAdmissionKey, {
       as: 'invitationsForProjectEmail',
       foreignKey: 'email',
       sourceKey: 'email',
+      scope: {
+        projectId: null,
+      },
     })
 
     Project.hasOne(ProjectStep, {
