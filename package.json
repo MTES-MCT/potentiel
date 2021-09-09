@@ -29,7 +29,14 @@
     "start": "node ./dist/src/index.js",
     "watch": "concurrently \"npm run watch:back\" \"npm run watch:front\"",
     "watch:back": "ts-node-dev --transpile-only src/index.ts",
-    "watch:front": "webpack --config=webpack.config.js --watch"
+    "watch:front": "webpack --config=webpack.config.js --watch",
+    "generate": "./devtools/bin/index.js",
+    "add:event": "npm run generate -- event",
+    "add:e": "npm run add:event",
+    "add:usecase": "npm run generate -- usecase",
+    "add:u": "npm run add:usecase",
+    "add:projection": "npm run generate -- projection",
+    "add:p": "npm run add:projection"
   },
   "repository": {
     "type": "git",
