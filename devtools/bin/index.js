@@ -6,7 +6,6 @@ const base = require('../base')
 require('../createEvent')
 require('../createUsecase')
 require('../createProjection')
+require('../createQuery')
 
-base
-  .help()
-  .argv
+base.help().argv
