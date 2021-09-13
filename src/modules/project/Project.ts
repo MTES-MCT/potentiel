@@ -866,19 +866,41 @@ export const makeProject = (args: {
   }
 
   function _computeDelta(data) {
-    return Object.entries(data).reduce((modifiedData, [correctionKey, correctionValue]) => {
-      // If the specific property is missing from props.data
+    const mainChanges = !!data && _lowLevelDelta(props.data || {}, { ...data, details: undefined })
+
+    const detailsChanges =
+      !!data?.details && _lowLevelDelta(props.data?.details || {}, data.details)
+
+    const changes = { ...mainChanges, details: detailsChanges } as Partial<ProjectDataProps>
+
+    for (const key of Object.keys(changes)) {
+      if (typeof changes[key] === 'undefined') {
+        delete changes[key]
+      }
+    }
+
+    return changes
+  }
+
+  function _lowLevelDelta(previousData, newData) {
+    const changes = Object.entries(newData).reduce((delta, [correctionKey, correctionValue]) => {
+      // If the specific property is missing from previousData
       // or it's value has changed, add it to the delta
-      if (
-        typeof correctionValue !== 'undefined' &&
-        props.data &&
-        (typeof props.data[correctionKey] === 'undefined' ||
-          props.data[correctionKey] !== correctionValue)
-      ) {
-        modifiedData[correctionKey] = correctionValue
+      if (_isValueChanged(correctionKey, correctionValue, previousData)) {
+        delta[correctionKey] = correctionValue
       }
 
-      return modifiedData
-    }, {}) as Partial<ProjectDataProps>
+      return delta
+    }, {})
+
+    return Object.keys(changes).length ? changes : undefined
+  }
+
+  function _isValueChanged(key, newValue, data) {
+    return (
+      typeof newValue !== 'undefined' &&
+      data &&
+      (typeof data[key] === 'undefined' || data[key] !== newValue)
+    )
   }
 }

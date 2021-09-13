@@ -108,6 +108,47 @@ describe('Project.reimport()', () => {
     })
   })
 
+  describe('when the project data details field has changed', () => {
+    const project = UnwrapForTest(
+      makeProject({
+        projectId,
+        history: [
+          new LegacyProjectSourced({
+            payload: {
+              projectId: projectId.toString(),
+              periodeId,
+              appelOffreId,
+              familleId,
+              numeroCRE,
+              content: { ...fakeProject, details: { param1: 'value1', param2: 'value2' } },
+            },
+          }),
+        ],
+        appelsOffres,
+      })
+    )
+    it('should emit ProjectReimported with the changes in the payload', () => {
+      project.reimport({
+        data: {
+          ...fakeProject,
+          details: { param1: 'value1', param2: 'value2 changed', param3: 'value3' },
+        },
+        importId,
+      })
+
+      const targetEvent = project.pendingEvents.find(
+        (item) => item.type === ProjectReimported.type
+      ) as ProjectReimported | undefined
+      expect(targetEvent).toBeDefined()
+      if (!targetEvent) return
+
+      expect(targetEvent.payload.projectId).toEqual(projectId.toString())
+      expect(targetEvent.payload.data).toEqual({
+        details: { param2: 'value2 changed', param3: 'value3' },
+      })
+    })
+  })
+
   describe('when project had a previous ProjectActionnaireUpdated', () => {
     const project = UnwrapForTest(
       makeProject({
