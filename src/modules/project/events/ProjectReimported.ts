@@ -2,9 +2,10 @@ import { DomainEvent, BaseDomainEvent } from '../../../core/domain/DomainEvent'
 
 export interface ProjectReimportedPayload {
   projectId: string
-  notifiedOn: number
-  importedBy: string
-  data: {
+  // notifiedOn: number
+  // importedBy: string
+  importId: string // This field was added later
+  data: Partial<{
     periodeId: string
     appelOffreId: string
     familleId: string
@@ -32,7 +33,7 @@ export interface ProjectReimportedPayload {
     motifsElimination: string
     notifiedOn: number
     details: any
-  }
+  }>
 }
 export class ProjectReimported
   extends BaseDomainEvent<ProjectReimportedPayload>

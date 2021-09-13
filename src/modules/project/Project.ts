@@ -61,6 +61,10 @@ export interface Project extends EventStoreAggregate {
     notifiedOn: number
   ) => Result<null, IllegalProjectDataError | ProjectAlreadyNotifiedError>
   abandon: (user: User) => Result<null, EliminatedProjectCannotBeAbandonnedError>
+  reimport: (args: {
+    data: ProjectReimportedPayload['data']
+    importId: string
+  }) => Result<null, never>
   correctData: (
     user: User,
     data: ProjectDataCorrectedPayload['correctedData']
@@ -261,41 +265,43 @@ export const makeProject = (args: {
 
       return ok(null)
     },
+    reimport: function ({ data, importId }) {
+      const changes = _computeDelta(data)
+
+      if (!changes || !Object.keys(changes).length) {
+        return ok(null)
+      }
+
+      _publishEvent(
+        new ProjectReimported({
+          payload: {
+            projectId: props.projectId.toString(),
+            importId,
+            data: changes,
+          },
+        })
+      )
+
+      return ok(null)
+    },
     correctData: function (user, corrections) {
       if (!_isNotified() || !props.data) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
       }
 
-      // Compute delta with what has changed
-      const delta = Object.entries(corrections).reduce(
-        (modifiedData, [correctionKey, correctionValue]) => {
-          // If the specific property is missing from props.data
-          // or it's value has changed, add it to the delta
-          if (
-            typeof correctionValue !== 'undefined' &&
-            props.data &&
-            (typeof props.data[correctionKey] === 'undefined' ||
-              props.data[correctionKey] !== correctionValue)
-          ) {
-            modifiedData[correctionKey] = correctionValue
-          }
+      const changes = _computeDelta(corrections)
 
-          return modifiedData
-        },
-        {}
-      ) as Partial<ProjectDataProps>
-
-      if (!delta || !Object.keys(delta).length) {
+      if (!changes || !Object.keys(changes).length) {
         return ok(null)
       }
 
-      return _validateProjectFields(delta).andThen(() => {
+      return _validateProjectFields(changes).andThen(() => {
         _publishEvent(
           new ProjectDataCorrected({
             payload: {
               projectId: props.projectId.toString(),
               correctedBy: user.id,
-              correctedData: delta,
+              correctedData: changes,
             },
           })
         )
@@ -798,5 +804,22 @@ export const makeProject = (args: {
         })
       )
     }
+  }
+
+  function _computeDelta(data) {
+    return Object.entries(data).reduce((modifiedData, [correctionKey, correctionValue]) => {
+      // If the specific property is missing from props.data
+      // or it's value has changed, add it to the delta
+      if (
+        typeof correctionValue !== 'undefined' &&
+        props.data &&
+        (typeof props.data[correctionKey] === 'undefined' ||
+          props.data[correctionKey] !== correctionValue)
+      ) {
+        modifiedData[correctionKey] = correctionValue
+      }
+
+      return modifiedData
+    }, {}) as Partial<ProjectDataProps>
   }
 }
