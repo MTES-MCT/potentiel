@@ -2,6 +2,7 @@ import { okAsync, ResultAsync } from 'neverthrow'
 import { DomainEvent } from '../../../core/domain'
 import { EventStoreTransactionArgs, EventStoreHistoryFilters } from '../../../modules/eventStore'
 import { InfraNotAvailableError } from '../../../modules/shared'
+import { makeFakeEventBus } from './fakeEventBus'
 
 export const makeFakeEventStore = (
   fakeLoadHistory: (
@@ -10,10 +11,7 @@ export const makeFakeEventStore = (
 ) => {
   const fakePublish = jest.fn((event: DomainEvent) => {})
   return {
-    publish: jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null)),
-    subscribe: jest.fn(
-      <T extends DomainEvent>(eventType: T['type'], callback: (event: T) => any) => {}
-    ),
+    ...makeFakeEventBus(),
     fakePublish,
     transaction: <T>(fn: (args: EventStoreTransactionArgs) => T) => {
       return ResultAsync.fromPromise(

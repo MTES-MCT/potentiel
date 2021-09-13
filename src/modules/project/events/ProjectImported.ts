@@ -6,7 +6,7 @@ export interface ProjectImportedPayload {
   appelOffreId: string
   familleId: string
   numeroCRE: string
-  importedBy: string
+  importId: string // added later
   data: {
     periodeId: string
     appelOffreId: string
@@ -29,8 +29,6 @@ export interface ProjectImportedPayload {
     communeProjet: string
     departementProjet: string
     regionProjet: string
-    fournisseur: string
-    actionnaire: string
     classe: string
     motifsElimination: string
     notifiedOn: number
