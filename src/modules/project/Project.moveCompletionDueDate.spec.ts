@@ -6,7 +6,7 @@ import { makeUser } from '../../entities'
 import { UnwrapForTest as OldUnwrapForTest } from '../../types'
 import makeFakeProject from '../../__tests__/fixtures/project'
 import makeFakeUser from '../../__tests__/fixtures/user'
-import { IllegalProjectDataError, ProjectCannotBeUpdatedIfUnnotifiedError } from './errors'
+import { IllegalProjectStateError, ProjectCannotBeUpdatedIfUnnotifiedError } from './errors'
 import {
   LegacyProjectSourced,
   ProjectCompletionDueDateSet,
@@ -182,7 +182,7 @@ describe('Project.moveCompletionDueDate()', () => {
   })
 
   describe('when new completion due date is before notification date', () => {
-    it('should return a IllegalProjectDataError', () => {
+    it('should return a IllegalProjectStateError', () => {
       const fakeProjectData = makeFakeProject({ notifiedOn: 1001, classe: 'Classé' })
       const fakeHistory = makeFakeHistory(fakeProjectData)
       const project = UnwrapForTest(makeProject({ projectId, history: fakeHistory, appelsOffres }))
@@ -191,7 +191,7 @@ describe('Project.moveCompletionDueDate()', () => {
 
       expect(res.isErr()).toEqual(true)
       if (res.isOk()) return
-      expect(res.error).toBeInstanceOf(IllegalProjectDataError)
+      expect(res.error).toBeInstanceOf(IllegalProjectStateError)
     })
   })
 })

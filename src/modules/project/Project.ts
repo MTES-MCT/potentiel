@@ -27,7 +27,7 @@ import {
 import { ProjectDataForCertificate } from './dtos'
 import {
   EliminatedProjectCannotBeAbandonnedError,
-  IllegalProjectDataError,
+  IllegalProjectStateError,
   ProjectAlreadyNotifiedError,
   ProjectCannotBeUpdatedIfUnnotifiedError,
   ProjectNotEligibleForCertificateError,
@@ -52,6 +52,7 @@ import {
   ProjectPuissanceUpdated,
   ProjectReimported,
   ProjectFournisseursUpdated,
+  ProjectReimportedPayload,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 import { Fournisseur } from '.'
@@ -59,7 +60,7 @@ import { Fournisseur } from '.'
 export interface Project extends EventStoreAggregate {
   notify: (
     notifiedOn: number
-  ) => Result<null, IllegalProjectDataError | ProjectAlreadyNotifiedError>
+  ) => Result<null, IllegalProjectStateError | ProjectAlreadyNotifiedError>
   abandon: (user: User) => Result<null, EliminatedProjectCannotBeAbandonnedError>
   reimport: (args: {
     data: ProjectReimportedPayload['data']
@@ -68,15 +69,15 @@ export interface Project extends EventStoreAggregate {
   correctData: (
     user: User,
     data: ProjectDataCorrectedPayload['correctedData']
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError>
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectStateError>
   setNotificationDate: (
     user: User,
     notifiedOn: number
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError>
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectStateError>
   moveCompletionDueDate: (
     user: User,
     delayInMonths: number
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError>
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectStateError>
   updateCertificate: (
     user: User,
     certificateFileId: string
@@ -225,10 +226,6 @@ export const makeProject = (args: {
         return err(new ProjectAlreadyNotifiedError())
       }
 
-      if (!data || !data.email) {
-        return err(new IllegalProjectDataError({ email: "le projet n'a pas d'email de contact" }))
-      }
-
       _publishEvent(
         new ProjectNotified({
           payload: {
@@ -236,8 +233,8 @@ export const makeProject = (args: {
             appelOffreId: appelOffre.id,
             periodeId: appelOffre.periode.id,
             familleId: appelOffre.famille?.id,
-            candidateEmail: data.email,
-            candidateName: data.nomRepresentantLegal || '',
+            candidateEmail: data?.email || '',
+            candidateName: data?.nomRepresentantLegal || '',
             notifiedOn,
           },
         })
@@ -320,7 +317,7 @@ export const makeProject = (args: {
 
       if (newCompletionDueOn <= props.notifiedOn) {
         return err(
-          new IllegalProjectDataError({
+          new IllegalProjectStateError({
             completionDueOn:
               'La nouvelle date de mise en service doit postérieure à la date de notification.',
           })
@@ -339,7 +336,7 @@ export const makeProject = (args: {
       try {
         isStrictlyPositiveNumber(notifiedOn)
       } catch (e) {
-        return err(new IllegalProjectDataError({ notifiedOn: e.message }))
+        return err(new IllegalProjectStateError({ notifiedOn: e.message }))
       }
 
       // If it's the same day, ignore small differences in timestamp
@@ -561,7 +558,7 @@ export const makeProject = (args: {
   // private methods
   function _validateProjectFields(
     newProps: Partial<ProjectDataProps>
-  ): Result<Partial<ProjectDataProps>, IllegalProjectDataError> {
+  ): Result<Partial<ProjectDataProps>, IllegalProjectStateError> {
     const errorsInFields = projectValidator(newProps)
 
     if ('familleId' in newProps) {
@@ -573,7 +570,7 @@ export const makeProject = (args: {
     }
 
     if (Object.keys(errorsInFields).length) {
-      return err(new IllegalProjectDataError(errorsInFields))
+      return err(new IllegalProjectStateError(errorsInFields))
     }
 
     return ok(newProps)

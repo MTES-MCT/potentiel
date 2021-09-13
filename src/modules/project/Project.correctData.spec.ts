@@ -5,7 +5,7 @@ import { makeUser } from '../../entities'
 import { UnwrapForTest as OldUnwrapForTest } from '../../types'
 import makeFakeProject from '../../__tests__/fixtures/project'
 import makeFakeUser from '../../__tests__/fixtures/user'
-import { IllegalProjectDataError, ProjectCannotBeUpdatedIfUnnotifiedError } from './errors'
+import { IllegalProjectStateError, ProjectCannotBeUpdatedIfUnnotifiedError } from './errors'
 import {
   LegacyProjectSourced,
   ProjectDataCorrected,
@@ -126,16 +126,16 @@ describe('Project.correctData()', () => {
   describe('when passed erroneous data', () => {
     const project = UnwrapForTest(makeProject({ projectId, history: fakeHistory, appelsOffres }))
 
-    it('should return an IllegalProjectDataError', () => {
+    it('should return an IllegalProjectStateError', () => {
       const res = project.correctData(fakeUser, {
         puissance: -1,
       })
       expect(res.isErr()).toBe(true)
       if (res.isOk()) return
 
-      expect(res.error).toBeInstanceOf(IllegalProjectDataError)
+      expect(res.error).toBeInstanceOf(IllegalProjectStateError)
 
-      const error = res.error as IllegalProjectDataError
+      const error = res.error as IllegalProjectStateError
       expect(error.errorsInFields).toHaveProperty('puissance')
     })
   })
@@ -145,16 +145,16 @@ describe('Project.correctData()', () => {
     const fakeHistory = makeFakeHistory(fakeProjectData)
     const project = UnwrapForTest(makeProject({ projectId, history: fakeHistory, appelsOffres }))
 
-    it('should return an IllegalProjectDataError', () => {
+    it('should return an IllegalProjectStateError', () => {
       const res = project.correctData(fakeUser, {
         familleId: 'abc',
       })
       expect(res.isErr()).toBe(true)
       if (res.isOk()) return
 
-      expect(res.error).toBeInstanceOf(IllegalProjectDataError)
+      expect(res.error).toBeInstanceOf(IllegalProjectStateError)
 
-      const error = res.error as IllegalProjectDataError
+      const error = res.error as IllegalProjectStateError
       expect(error.errorsInFields).toHaveProperty('familleId')
     })
   })
