@@ -2,8 +2,6 @@ import { DomainEvent, BaseDomainEvent } from '../../../core/domain/DomainEvent'
 
 export interface ProjectReimportedPayload {
   projectId: string
-  // notifiedOn: number
-  // importedBy: string
   importId: string // This field was added later
   data: Partial<{
     periodeId: string

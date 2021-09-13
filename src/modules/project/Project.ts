@@ -143,6 +143,7 @@ export interface ProjectDataProps {
   isFinancementParticipatif: boolean
   isInvestissementParticipatif: boolean
   motifsElimination: string
+  details: Record<string, string>
 }
 
 export interface ProjectProps {
@@ -158,6 +159,7 @@ export interface ProjectProps {
   puissanceInitiale: number
   data: ProjectDataProps | undefined
   newRulesOptIn: boolean
+  fieldsUpdatedAfterImport: Set<string>
 }
 
 const projectValidator = makePropertyValidator({
@@ -206,6 +208,7 @@ export const makeProject = (args: {
     lastUpdatedOn: history[0].occurredAt,
     lastCertificateUpdate: undefined,
     newRulesOptIn: false,
+    fieldsUpdatedAfterImport: new Set<string>(),
   }
 
   // Initialize aggregate by processing each event in history
@@ -264,6 +267,14 @@ export const makeProject = (args: {
     },
     reimport: function ({ data, importId }) {
       const changes = _computeDelta(data)
+
+      for (const updatedField of props.fieldsUpdatedAfterImport) {
+        if (updatedField.startsWith('details.') && changes.details) {
+          delete changes.details[updatedField.substring('details.'.length)]
+          continue
+        }
+        delete changes[updatedField]
+      }
 
       if (!changes || !Object.keys(changes).length) {
         return ok(null)
@@ -616,14 +627,19 @@ export const makeProject = (args: {
         _updateAppelOffre(event.payload)
         break
       case ProjectReimported.type:
-        props.data = event.payload.data
-        props.puissanceInitiale = event.payload.data.puissance
-        _updateClasse(event.payload.data.classe)
+        props.data = { ...props.data, ...event.payload.data }
+        if (event.payload.data.puissance) {
+          props.puissanceInitiale = event.payload.data.puissance
+        }
+        if (event.payload.data.classe) {
+          _updateClasse(event.payload.data.classe)
+        }
         _updateAppelOffre(event.payload.data)
         break
       case ProjectNotified.type:
       case ProjectNotificationDateSet.type:
         props.notifiedOn = event.payload.notifiedOn
+        props.fieldsUpdatedAfterImport.add('notifiedOn')
         break
       case ProjectCompletionDueDateSet.type:
         if (props.completionDueOn !== 0) props.hasCompletionDueDateMoved = true
@@ -631,6 +647,9 @@ export const makeProject = (args: {
         break
       case ProjectDataCorrected.type:
         props.data = { ...props.data, ...event.payload.correctedData } as ProjectProps['data']
+        for (const updatedField of Object.keys(event.payload.correctedData)) {
+          props.fieldsUpdatedAfterImport.add(updatedField)
+        }
         _updateAppelOffre(event.payload.correctedData)
         break
       case ProjectCertificateUpdated.type:
@@ -642,6 +661,49 @@ export const makeProject = (args: {
         break
       case ProjectClasseGranted.type:
         props.isClasse = true
+        props.data = {
+          ...props.data,
+          classe: 'Classé',
+        } as ProjectProps['data']
+        props.fieldsUpdatedAfterImport.add('classe')
+        break
+      case ProjectActionnaireUpdated.type:
+        props.data = {
+          ...props.data,
+          actionnaire: event.payload.newActionnaire,
+        } as ProjectProps['data']
+        props.fieldsUpdatedAfterImport.add('actionnaire')
+        break
+      case ProjectProducteurUpdated.type:
+        props.data = {
+          ...props.data,
+          nomCandidat: event.payload.newProducteur,
+        } as ProjectProps['data']
+        props.fieldsUpdatedAfterImport.add('nomCandidat')
+        break
+      case ProjectPuissanceUpdated.type:
+        props.data = {
+          ...props.data,
+          puissance: event.payload.puissance,
+        } as ProjectProps['data']
+        props.fieldsUpdatedAfterImport.add('puissance')
+        break
+      case ProjectFournisseursUpdated.type:
+        props.data = {
+          ...props.data,
+          details: {
+            ...props.data?.details,
+            ...event.payload.newFournisseurs.reduce(
+              (fournisseurs, { kind, name }) => ({ ...fournisseurs, [kind]: name }),
+              {}
+            ),
+          },
+        } as ProjectProps['data']
+
+        for (const { kind } of event.payload.newFournisseurs) {
+          props.fieldsUpdatedAfterImport.add(`details.${kind}`)
+        }
+
         break
       default:
         // ignore other event types
