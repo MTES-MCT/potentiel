@@ -14,7 +14,7 @@ v1Router.post(
     const { email, role } = request.body
     const { user } = request
 
-    if (!['acheteur-obligé'].includes(role)) {
+    if (!['acheteur-obligé', 'ademe'].includes(role)) {
       return response.redirect(
         addQueryParams(routes.ADMIN_USERS, {
           error: 'Le role attendu n‘est pas reconnu.',

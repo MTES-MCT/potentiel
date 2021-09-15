@@ -83,6 +83,6 @@ v1Router.get(
 v1Router.get(
   routes.USER_DASHBOARD,
   ensureLoggedIn(),
-  ensureRole(['porteur-projet', 'acheteur-obligé']),
+  ensureRole(['porteur-projet', 'acheteur-obligé', 'ademe']),
   getProjectListPage
 )
