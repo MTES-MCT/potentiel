@@ -146,7 +146,6 @@ describe('importProjects use-case', () => {
       expect(targetEvent.payload.periodeId).toEqual(phonyPeriodId)
       expect(targetEvent.payload.familleId).toEqual(phonyFamilleId)
       expect(targetEvent.payload.numeroCRE).toEqual(phonyNumeroCRE)
-      expect(targetEvent.payload.importedBy).toEqual('userId')
       expect(targetEvent.payload.projectId).toEqual(targetEvent.aggregateId)
     })
 
@@ -237,7 +236,6 @@ describe('importProjects use-case', () => {
 
       expect(targetEvent).toBeDefined()
       if (!targetEvent) return
-      expect(targetEvent.payload.importedBy).toEqual('userId')
       expect(targetEvent.payload.projectId).toEqual(existingProject.id)
       expect(targetEvent.aggregateId).toEqual(existingProject.id)
     })

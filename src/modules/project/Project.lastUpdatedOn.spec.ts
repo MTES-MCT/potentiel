@@ -29,7 +29,7 @@ const fakeHistory: DomainEvent[] = [
       appelOffreId,
       familleId,
       numeroCRE,
-      importedBy: fakeUser.id,
+      importId: '',
       data: fakeProject,
     },
     original: {

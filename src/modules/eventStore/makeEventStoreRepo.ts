@@ -33,7 +33,11 @@ export const makeEventStoreRepo = <T extends EventStoreAggregate>(deps: {
           .andThen((events) => deps.makeAggregate({ events, id: aggregate.id }))
           .andThen(
             (newestAggregate: T): Result<null, AggregateHasBeenUpdatedSinceError> => {
-              if (newestAggregate.lastUpdatedOn > aggregate.lastUpdatedOn) {
+              if (
+                newestAggregate.lastUpdatedOn &&
+                aggregate.lastUpdatedOn &&
+                newestAggregate.lastUpdatedOn > aggregate.lastUpdatedOn
+              ) {
                 // Return error if aggregate has a newer version
                 return err(new AggregateHasBeenUpdatedSinceError())
               }

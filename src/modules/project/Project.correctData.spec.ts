@@ -50,7 +50,7 @@ const fakeHistory: DomainEvent[] = [
       appelOffreId,
       familleId,
       numeroCRE,
-      importedBy: fakeUser.id,
+      importId: '',
       data: fakeProject,
     },
     original: {
@@ -136,7 +136,7 @@ describe('Project.correctData()', () => {
       expect(res.error).toBeInstanceOf(IllegalProjectStateError)
 
       const error = res.error as IllegalProjectStateError
-      expect(error.errorsInFields).toHaveProperty('puissance')
+      expect(error.error).toHaveProperty('puissance')
     })
   })
 
@@ -155,7 +155,7 @@ describe('Project.correctData()', () => {
       expect(res.error).toBeInstanceOf(IllegalProjectStateError)
 
       const error = res.error as IllegalProjectStateError
-      expect(error.errorsInFields).toHaveProperty('familleId')
+      expect(error.error).toHaveProperty('familleId')
     })
   })
 })

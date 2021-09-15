@@ -104,17 +104,19 @@ export interface Project extends EventStoreAggregate {
     projectVersionDate: Date
     certificateFileId: string
     reason?: string
-  }) => Result<null, never>
+  }) => Result<null, IllegalInitialStateForAggregateError>
   readonly shouldCertificateBeGenerated: boolean
-  readonly appelOffre: ProjectAppelOffre
-  readonly isClasse: boolean
+  readonly appelOffre?: ProjectAppelOffre
+  readonly isClasse?: boolean
   readonly puissanceInitiale: number
   readonly certificateData: Result<
     {
       template: CertificateTemplate
       data: ProjectDataForCertificate
     },
-    IncompleteDataError | ProjectNotEligibleForCertificateError
+    | IncompleteDataError
+    | ProjectNotEligibleForCertificateError
+    | IllegalInitialStateForAggregateError
   >
   readonly certificateFilename: string
   readonly data: ProjectDataProps | undefined
@@ -148,14 +150,14 @@ export interface ProjectDataProps {
 
 export interface ProjectProps {
   projectId: UniqueEntityID
-  appelOffre: ProjectAppelOffre
+  appelOffre?: ProjectAppelOffre
   notifiedOn: number
   completionDueOn: number
   hasCompletionDueDateMoved: boolean
-  lastUpdatedOn: Date
+  lastUpdatedOn?: Date
   lastCertificateUpdate: Date | undefined
   hasError: boolean
-  isClasse: boolean
+  isClasse?: boolean
   puissanceInitiale: number
   data: ProjectDataProps | undefined
   newRulesOptIn: boolean
@@ -171,27 +173,13 @@ const projectValidator = makePropertyValidator({
 
 export const makeProject = (args: {
   projectId: UniqueEntityID
-  history: DomainEvent[]
+  history?: DomainEvent[]
   appelsOffres: Record<AppelOffre['id'], AppelOffre>
 }): Result<Project, EntityNotFoundError | HeterogeneousHistoryError> => {
   const { history, projectId, appelsOffres } = args
 
-  if (!history || !history.length) {
-    return err(new EntityNotFoundError())
-  }
-
   if (!_allEventsHaveSameAggregateId()) {
     return err(new HeterogeneousHistoryError())
-  }
-
-  const initialAppelOffre = _getInitialAppelOffreFromHistory()
-  if (!initialAppelOffre) {
-    return err(new IllegalInitialStateForAggregateError())
-  }
-
-  const initialClasse = _getInitialClasse()
-  if (initialClasse === null) {
-    return err(new IllegalInitialStateForAggregateError())
   }
 
   const pendingEvents: DomainEvent[] = []
@@ -200,23 +188,26 @@ export const makeProject = (args: {
     completionDueOn: 0,
     hasCompletionDueDateMoved: false,
     projectId,
-    appelOffre: initialAppelOffre,
-    isClasse: initialClasse,
     puissanceInitiale: 0,
     data: undefined,
     hasError: false,
-    lastUpdatedOn: history[0].occurredAt,
     lastCertificateUpdate: undefined,
     newRulesOptIn: false,
     fieldsUpdatedAfterImport: new Set<string>(),
   }
 
   // Initialize aggregate by processing each event in history
-  for (const event of history) {
-    _processEvent(event)
+  if (history) {
+    if (history.length === 0) {
+      return err(new EntityNotFoundError())
+    }
 
-    if (props.hasError) {
-      return err(new IllegalInitialStateForAggregateError())
+    for (const event of history) {
+      _processEvent(event)
+
+      if (props.hasError) {
+        return err(new IllegalInitialStateForAggregateError())
+      }
     }
   }
 
@@ -224,6 +215,10 @@ export const makeProject = (args: {
   return ok({
     notify: function (notifiedOn) {
       const { appelOffre, data, projectId } = props
+
+      if (!appelOffre) {
+        return err(new IllegalInitialStateForAggregateError())
+      }
 
       if (props.notifiedOn) {
         return err(new ProjectAlreadyNotifiedError())
@@ -474,6 +469,10 @@ export const makeProject = (args: {
       return ok(null)
     },
     addGeneratedCertificate: function ({ projectVersionDate, certificateFileId, reason }) {
+      if (!props.appelOffre) {
+        return err(new IllegalInitialStateForAggregateError())
+      }
+
       if (props.lastCertificateUpdate) {
         _publishEvent(
           new ProjectCertificateRegenerated({
@@ -510,7 +509,8 @@ export const makeProject = (args: {
         _isNotified() &&
         _periodeHasCertificate() &&
         !_hasPendingEventOfType(ProjectCertificateUpdated.type) &&
-        (!props.lastCertificateUpdate || props.lastCertificateUpdate < props.lastUpdatedOn)
+        (!props.lastCertificateUpdate ||
+          (!!props.lastUpdatedOn && props.lastCertificateUpdate < props.lastUpdatedOn))
       )
     },
     get appelOffre() {
@@ -526,6 +526,10 @@ export const makeProject = (args: {
       return props.puissanceInitiale
     },
     get certificateData() {
+      if (!props.appelOffre) {
+        return err(new IllegalInitialStateForAggregateError()) as Project['certificateData']
+      }
+
       const { periode } = props.appelOffre
       if (!periode.isNotifiedOnPotentiel || !periode.certificateTemplate || !props.notifiedOn) {
         return err(new ProjectNotEligibleForCertificateError()) as Project['certificateData']
@@ -537,9 +541,10 @@ export const makeProject = (args: {
       }))
     },
     get certificateFilename() {
-      if (!props.data) return 'attestation.pdf'
-
       const { appelOffre, data, projectId } = props
+
+      if (!appelOffre || !data) return 'attestation.pdf'
+
       const { familleId, numeroCRE, nomProjet } = data
 
       const potentielId = makeProjectIdentifier({
@@ -574,9 +579,14 @@ export const makeProject = (args: {
 
     if ('familleId' in newProps) {
       const { appelOffreId, periodeId } = { ...props.data, ...newProps }
-      if (!_getAppelOffreById(appelOffreId, periodeId, newProps.familleId)) {
-        // Can't find family in appelOffre
-        errorsInFields.familleId = "Cette famille n'existe pas pour cet appel d'offre"
+
+      if (!appelOffreId || !periodeId) {
+        errorsInFields.appelOffre = "Ce projet n'est associé à aucun appel d'offre"
+      } else {
+        if (!_getAppelOffreById(appelOffreId, periodeId, newProps.familleId)) {
+          // Can't find family in appelOffre
+          errorsInFields.familleId = "Cette famille n'existe pas pour cet appel d'offre"
+        }
       }
     }
 
@@ -718,7 +728,7 @@ export const makeProject = (args: {
   }
 
   function _periodeHasCertificate() {
-    return !!props.appelOffre.periode.isNotifiedOnPotentiel
+    return !!props.appelOffre?.periode.isNotifiedOnPotentiel
   }
 
   function _updateAppelOffre(args: {
@@ -728,9 +738,11 @@ export const makeProject = (args: {
   }) {
     const { appelOffre: currentAppelOffre } = props
 
-    const appelOffreId = args.appelOffreId || currentAppelOffre.id
-    const periodeId = args.periodeId || currentAppelOffre.periode.id
-    const familleId = args.familleId || currentAppelOffre.famille?.id
+    const appelOffreId = args.appelOffreId || currentAppelOffre?.id
+    const periodeId = args.periodeId || currentAppelOffre?.periode.id
+    const familleId = args.familleId || currentAppelOffre?.famille?.id
+
+    if (!appelOffreId || !periodeId) return
 
     const newAppelOffre = _getAppelOffreById(appelOffreId, periodeId, familleId)
 
@@ -746,8 +758,8 @@ export const makeProject = (args: {
   }
 
   function _getAppelOffreById(
-    appelOffreId,
-    periodeId,
+    appelOffreId: string,
+    periodeId: string,
     familleId?: string
   ): ProjectAppelOffre | null {
     const appelOffre = appelsOffres[appelOffreId]
@@ -769,33 +781,13 @@ export const makeProject = (args: {
   }
 
   function _allEventsHaveSameAggregateId() {
-    return history.every((event) => event.aggregateId?.includes(projectId.toString()))
+    return history
+      ? history.every((event) => event.aggregateId?.includes(projectId.toString()))
+      : true
   }
 
   function _isLegacyOrImport(event: DomainEvent): event is LegacyProjectSourced | ProjectImported {
     return event.type === LegacyProjectSourced.type || event.type === ProjectImported.type
-  }
-
-  function _getInitialAppelOffreFromHistory(): ProjectAppelOffre | null {
-    const foundingEvent = history.find(_isLegacyOrImport)
-    if (!foundingEvent) return null
-
-    return _getAppelOffreById(foundingEvent.payload.appelOffreId, foundingEvent.payload.periodeId)
-  }
-
-  function _getInitialClasse(): boolean | null {
-    const foundingEvent = history.find(_isLegacyOrImport)
-    if (!foundingEvent) return null
-
-    const classe =
-      foundingEvent.type === LegacyProjectSourced.type
-        ? foundingEvent.payload.content.classe
-        : foundingEvent.payload.data.classe
-
-    if (classe === 'Classé') return true
-    else if (classe === 'Eliminé') return false
-
-    return null
   }
 
   function _removePendingEventsOfType(type: DomainEvent['type']) {
@@ -825,6 +817,8 @@ export const makeProject = (args: {
 
     if (props.hasCompletionDueDateMoved && !forceValue) return
 
+    if (!props.appelOffre) return
+
     const { setBy, completionDueOn } = forceValue || {}
     _removePendingEventsOfType(ProjectCompletionDueDateSet.type)
     _publishEvent(
@@ -846,8 +840,8 @@ export const makeProject = (args: {
   function _shouldSubmitGF() {
     return (
       props.isClasse &&
-      (!!props.appelOffre.famille?.soumisAuxGarantiesFinancieres ||
-        props.appelOffre.id === 'Eolien')
+      (!!props.appelOffre?.famille?.soumisAuxGarantiesFinancieres ||
+        props.appelOffre?.id === 'Eolien')
     )
   }
 
@@ -868,10 +862,14 @@ export const makeProject = (args: {
   function _computeDelta(data) {
     const mainChanges = !!data && _lowLevelDelta(props.data || {}, { ...data, details: undefined })
 
+    const changes = { ...mainChanges } as Partial<ProjectDataProps>
+
     const detailsChanges =
       !!data?.details && _lowLevelDelta(props.data?.details || {}, data.details)
 
-    const changes = { ...mainChanges, details: detailsChanges } as Partial<ProjectDataProps>
+    if (detailsChanges) {
+      changes.details = detailsChanges
+    }
 
     for (const key of Object.keys(changes)) {
       if (typeof changes[key] === 'undefined') {
