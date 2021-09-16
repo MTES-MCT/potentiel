@@ -5,7 +5,7 @@ import React from 'react'
 import { errAsync, logger, Queue, ResultAsync } from '../../core/utils'
 import { formatDate } from '../../helpers/formatDate'
 import { ProjectDataForCertificate } from '../../modules/project/dtos'
-import { IllegalProjectDataError } from '../../modules/project/errors'
+import { IllegalProjectStateError } from '../../modules/project/errors'
 import { OtherError } from '../../modules/shared'
 
 dotenv.config()
@@ -563,13 +563,13 @@ const queue = new Queue()
 /* global NodeJS */
 const makeCertificate = (
   project: ProjectDataForCertificate
-): ResultAsync<NodeJS.ReadableStream, IllegalProjectDataError | OtherError> => {
+): ResultAsync<NodeJS.ReadableStream, IllegalProjectStateError | OtherError> => {
   const { appelOffre } = project
   const { periode } = appelOffre || {}
 
   if (!appelOffre || !periode) {
     return errAsync(
-      new IllegalProjectDataError({ appelOffre: 'appelOffre et/ou periode manquantes' })
+      new IllegalProjectStateError({ appelOffre: 'appelOffre et/ou periode manquantes' })
     )
   }
 

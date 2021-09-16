@@ -51,8 +51,8 @@ v1Router.post(
     }
 
     const file = {
-      contents: fs.createReadStream(request.file.path),
-      filename: `${Date.now()}-${request.file.originalname}`,
+      contents: fs.createReadStream(request.file!.path),
+      filename: `${Date.now()}-${request.file!.originalname}`,
     }
 
     ;(
