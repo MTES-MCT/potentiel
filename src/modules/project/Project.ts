@@ -73,7 +73,7 @@ export interface Project extends EventStoreAggregate {
     data: ProjectDataCorrectedPayload['correctedData']
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectStateError>
   setNotificationDate: (
-    user: User,
+    user: User | null,
     notifiedOn: number
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectStateError>
   moveCompletionDueDate: (
@@ -355,10 +355,9 @@ export const makeProject = (args: {
       return ok(null)
     },
     setNotificationDate: function (user, notifiedOn) {
-      if (!_isNotified()) {
+      if (!_isNew() && !_isNotified()) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
       }
-
       try {
         isStrictlyPositiveNumber(notifiedOn)
       } catch (e) {
@@ -373,7 +372,7 @@ export const makeProject = (args: {
           payload: {
             projectId: props.projectId.toString(),
             notifiedOn,
-            setBy: user.id,
+            setBy: user?.id || '',
           },
         })
       )
@@ -655,9 +654,6 @@ export const makeProject = (args: {
         props.puissanceInitiale = event.payload.data.puissance
         _updateClasse(event.payload.data.classe)
         _updateAppelOffre(event.payload)
-        if (event.payload.data.notifiedOn) {
-          props.notifiedOn = event.payload.data.notifiedOn
-        }
         break
       case ProjectReimported.type:
         props.data = { ...props.data, ...event.payload.data }
@@ -744,6 +740,10 @@ export const makeProject = (args: {
     }
 
     _updateLastUpdatedOn(event)
+  }
+
+  function _isNew() {
+    return !history
   }
 
   function _isNotified() {

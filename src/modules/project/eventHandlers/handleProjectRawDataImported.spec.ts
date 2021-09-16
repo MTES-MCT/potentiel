@@ -1,18 +1,14 @@
-import { DomainEvent, TransactionalRepository, UniqueEntityID } from '../../../core/domain'
+import { FindProjectByIdentifiers, ProjectImported, ProjectNotificationDateSet } from '..'
+import { UniqueEntityID } from '../../../core/domain'
 import { okAsync } from '../../../core/utils'
-import { InfraNotAvailableError } from '../../shared'
-import { ProjectRawDataImported } from '../events'
-import { handleProjectRawDataImported } from './handleProjectRawDataImported'
 import {
-  ProjectReimported,
-  ProjectGFInvalidated,
-  FindProjectByIdentifiers,
-  ProjectImported,
-} from '..'
-import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
+  fakeRepo,
+  fakeTransactionalRepo,
+  makeFakeProject,
+} from '../../../__tests__/fixtures/aggregates'
+import { ProjectRawDataImported } from '../events'
 import { Project } from '../Project'
-import { makeFakeEventBus } from '../../../__tests__/fixtures/aggregates/fakeEventBus'
-import { EventBus } from '../../eventStore'
+import { handleProjectRawDataImported } from './handleProjectRawDataImported'
 
 const fakeProjectData = {
   appelOffreId: 'appelOffreId',
@@ -53,14 +49,15 @@ describe('handleProjectRawDataImported', () => {
       okAsync(projectId.toString())
     )
     const fakeProject = { ...makeFakeProject(), id: projectId }
-    const projectRepo = fakeTransactionalRepo(fakeProject as Project)
-    const eventBus = makeFakeEventBus() as EventBus
+    const projectRepo = {
+      ...fakeTransactionalRepo(fakeProject as Project),
+      ...fakeRepo(fakeProject as Project),
+    }
 
     beforeAll(async () => {
       await handleProjectRawDataImported({
         findProjectByIdentifiers,
         projectRepo,
-        eventBus,
       })(
         new ProjectRawDataImported({
           payload: {
@@ -78,14 +75,13 @@ describe('handleProjectRawDataImported', () => {
 
   describe('when the project does not exist yet', () => {
     const findProjectByIdentifiers: FindProjectByIdentifiers = jest.fn((args) => okAsync(null))
-    const projectRepo = fakeTransactionalRepo(null)
-    const eventBus = makeFakeEventBus()
+
+    const projectRepo = { ...fakeTransactionalRepo<Project>(null), ...fakeRepo<Project>() }
 
     beforeAll(async () => {
       await handleProjectRawDataImported({
         findProjectByIdentifiers,
         projectRepo,
-        eventBus: eventBus as EventBus,
       })(
         new ProjectRawDataImported({
           payload: {
@@ -96,20 +92,61 @@ describe('handleProjectRawDataImported', () => {
       )
     })
 
-    it('should emit ProjectImported', () => {
-      expect(eventBus.publish).toHaveBeenCalledTimes(1)
-      const targetEvent = eventBus.publish.mock.calls[0][0]
-
+    it('should call Project.import on a new Project aggregate', () => {
       const { appelOffreId, periodeId, familleId, numeroCRE } = fakeProjectData
 
-      expect(targetEvent).toBeInstanceOf(ProjectImported)
-      expect(targetEvent.payload).toMatchObject({
+      expect(projectRepo.save).toHaveBeenCalled()
+
+      const savedProject = projectRepo.save.mock.calls[0][0]
+      expect(savedProject.pendingEvents).toHaveLength(1)
+      expect(savedProject.pendingEvents[0]).toBeInstanceOf(ProjectImported)
+      expect(savedProject.pendingEvents[0].payload).toMatchObject({
         periodeId,
         appelOffreId,
         familleId,
         numeroCRE,
         importId,
         data: fakeProjectData,
+      })
+    })
+
+    describe('when the project is already notified', () => {
+      const projectRepo = { ...fakeTransactionalRepo<Project>(), ...fakeRepo<Project>() }
+
+      const notifiedOn = 1631786848940
+
+      beforeAll(async () => {
+        await handleProjectRawDataImported({
+          findProjectByIdentifiers,
+          projectRepo,
+        })(
+          new ProjectRawDataImported({
+            payload: {
+              importId,
+              data: { ...fakeProjectData, notifiedOn },
+            },
+          })
+        )
+      })
+
+      it('should also call Project.setNotificationDate', () => {
+        expect(projectRepo.save).toHaveBeenCalled()
+
+        const savedProject = projectRepo.save.mock.calls[0][0]
+
+        const targetEvent = savedProject.pendingEvents.find(
+          (item) => item.type === ProjectNotificationDateSet.type
+        ) as ProjectNotificationDateSet | undefined
+        expect(targetEvent).toBeDefined()
+        if (!targetEvent) return
+        expect(targetEvent.payload.notifiedOn).toEqual(notifiedOn)
+      })
+
+      it('should still call Project.import', () => {
+        const savedProject = projectRepo.save.mock.calls[0][0]
+        expect(
+          savedProject.pendingEvents.find((item) => item.type === ProjectImported.type)
+        ).toBeDefined()
       })
     })
   })
