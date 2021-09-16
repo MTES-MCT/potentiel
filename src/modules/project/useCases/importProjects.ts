@@ -1,5 +1,6 @@
 import { IllegalProjectDataError, ImportExecuted, ProjectRawDataImported } from '..'
 import { AppelOffreRepo } from '../../../dataAccess'
+import { User } from '../../../entities'
 import { EventBus } from '../../eventStore'
 import { parseProjectLine } from '../utils/parseProjectLine'
 
@@ -11,11 +12,13 @@ interface ImportProjectsDeps {
 interface ImportProjectsArgs {
   lines: Record<string, string>[]
   importId: string
+  importedBy: User
 }
 
 export const makeImportProjects = ({ eventBus, appelOffreRepo }: ImportProjectsDeps) => async ({
   lines,
   importId,
+  importedBy,
 }: ImportProjectsArgs): Promise<void> => {
   const errors: Record<number, string> = {}
   const projects: any[] = []
@@ -74,7 +77,7 @@ export const makeImportProjects = ({ eventBus, appelOffreRepo }: ImportProjectsD
     throw new IllegalProjectDataError(errors)
   }
 
-  await eventBus.publish(new ImportExecuted({ payload: { importId, importedBy: '' } }))
+  await eventBus.publish(new ImportExecuted({ payload: { importId, importedBy: importedBy.id } }))
 
   for (const projectData of projects) {
     await eventBus.publish(

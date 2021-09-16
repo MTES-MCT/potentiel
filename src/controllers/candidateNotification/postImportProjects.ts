@@ -3,11 +3,13 @@ import { logger } from '../../core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { parseCsv } from '../../helpers/parseCsv'
 import routes from '../../routes'
-import { importProjects } from '../../useCases'
+import { importProjects } from '../../config'
 import { ImportCandidatesPage } from '../../views/legacy-pages'
 import { ensureLoggedIn, ensureRole } from '../auth'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
+import { UniqueEntityID } from '../../core/domain'
+import { IllegalProjectDataError } from '../../modules/project'
 
 v1Router.post(
   routes.IMPORT_PROJECTS_ACTION,
@@ -34,32 +36,22 @@ v1Router.post(
       )
     }
 
-    ;(
+    const importId = new UniqueEntityID().toString()
+
+    try {
       await importProjects({
         lines: linesResult.value,
-        userId: request.user.id,
+        importedBy: request.user,
+        importId,
       })
-    ).match({
-      ok: (result) => {
-        const { unnotifiedProjects, savedProjects } = result || {}
-        return response.redirect(
-          addQueryParams(routes.IMPORT_PROJECTS, {
-            success: savedProjects
-              ? `${savedProjects} projet(s) ont bien été importé(s) ou mis à jour${
-                  unnotifiedProjects ? ` dont ${unnotifiedProjects} à notifier` : ''
-                }.`
-              : "L'import est un succès mais le fichier importé n'a pas donné lieu à des changements dans la base de projets.",
-          })
-        )
-      },
-      err: (e: Error) => {
-        logger.error(e)
-        return response.redirect(
-          addQueryParams(routes.IMPORT_PROJECTS, {
-            error: e.message.length > 1000 ? e.message.substring(0, 1000) + '...' : e.message,
-          })
-        )
-      },
-    })
+
+      return response.send(ImportCandidatesPage({ request, isSuccess: true }))
+    } catch (e) {
+      if (e instanceof IllegalProjectDataError) {
+        return response.send(ImportCandidatesPage({ request, importErrors: e.errors }))
+      }
+
+      return response.send(ImportCandidatesPage({ request, otherError: e.message }))
+    }
   })
 )

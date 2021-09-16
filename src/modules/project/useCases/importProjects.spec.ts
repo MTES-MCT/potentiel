@@ -6,6 +6,7 @@ import { InfraNotAvailableError } from '../../shared'
 import { ImportExecuted, ProjectImported, ProjectRawDataImported } from '../events'
 import { IllegalProjectDataError } from '..'
 import { AppelOffreRepo } from '../../../dataAccess'
+import makeFakeUser from '../../../__tests__/fixtures/user'
 
 const validLine = {
   "Appel d'offres": 'appelOffreId',
@@ -45,6 +46,8 @@ const appelOffreRepo = {
   ],
 } as AppelOffreRepo
 
+const user = makeFakeUser()
+
 describe('importProjects', () => {
   describe('when given only valid lines', () => {
     const lines = [validLine]
@@ -62,7 +65,7 @@ describe('importProjects', () => {
 
     beforeAll(async () => {
       try {
-        await importProjects({ lines, importId })
+        await importProjects({ lines, importId, importedBy: user })
       } catch (error) {
         console.log(error)
       }
@@ -78,6 +81,7 @@ describe('importProjects', () => {
       expect(targetEvent).toBeDefined()
 
       expect(targetEvent.payload.importId).toEqual(importId)
+      expect(targetEvent.payload.importedBy).toEqual(user.id)
     })
 
     it('should trigger a ProjectRawDataImported event for each line', async () => {
@@ -143,7 +147,7 @@ describe('importProjects', () => {
     it('should throw an error', async () => {
       expect.assertions(4)
       try {
-        await importProjects({ lines, importId })
+        await importProjects({ lines, importId, importedBy: user })
       } catch (error) {
         expect(error).toBeDefined()
         expect(error).toBeInstanceOf(IllegalProjectDataError)
@@ -174,7 +178,7 @@ describe('importProjects', () => {
     it('should throw an error', async () => {
       expect.assertions(4)
       try {
-        await importProjects({ lines, importId })
+        await importProjects({ lines, importId, importedBy: user })
       } catch (error) {
         expect(error).toBeDefined()
         expect(error).toBeInstanceOf(IllegalProjectDataError)
@@ -205,7 +209,7 @@ describe('importProjects', () => {
     it('should throw an error', async () => {
       expect.assertions(4)
       try {
-        await importProjects({ lines, importId })
+        await importProjects({ lines, importId, importedBy: user })
       } catch (error) {
         expect(error).toBeDefined()
         expect(error).toBeInstanceOf(IllegalProjectDataError)
@@ -246,7 +250,7 @@ describe('importProjects', () => {
     it('should throw an error', async () => {
       expect.assertions(4)
       try {
-        await importProjects({ lines, importId })
+        await importProjects({ lines, importId, importedBy: user })
       } catch (error) {
         expect(error).toBeDefined()
         expect(error).toBeInstanceOf(IllegalProjectDataError)
@@ -277,7 +281,7 @@ describe('importProjects', () => {
     it('should throw an error', async () => {
       expect.assertions(4)
       try {
-        await importProjects({ lines, importId })
+        await importProjects({ lines, importId, importedBy: user })
       } catch (error) {
         expect(error).toBeDefined()
         expect(error).toBeInstanceOf(IllegalProjectDataError)
@@ -308,7 +312,7 @@ describe('importProjects', () => {
     it('should throw an error', async () => {
       expect.assertions(4)
       try {
-        await importProjects({ lines, importId })
+        await importProjects({ lines, importId, importedBy: user })
       } catch (error) {
         expect(error).toBeDefined()
         expect(error).toBeInstanceOf(IllegalProjectDataError)
