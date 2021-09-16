@@ -53,6 +53,7 @@ import {
   ProjectReimported,
   ProjectFournisseursUpdated,
   ProjectReimportedPayload,
+  ProjectImportedPayload,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 import { Fournisseur } from '.'
@@ -66,6 +67,7 @@ export interface Project extends EventStoreAggregate {
     data: ProjectReimportedPayload['data']
     importId: string
   }) => Result<null, never>
+  import: (args: { data: ProjectImportedPayload['data']; importId: string }) => Result<null, never>
   correctData: (
     user: User,
     data: ProjectDataCorrectedPayload['correctedData']
@@ -281,6 +283,24 @@ export const makeProject = (args: {
             projectId: props.projectId.toString(),
             importId,
             data: changes,
+          },
+        })
+      )
+
+      return ok(null)
+    },
+    import: function ({ data, importId }) {
+      const { appelOffreId, periodeId, familleId, numeroCRE } = data
+      _publishEvent(
+        new ProjectImported({
+          payload: {
+            projectId: projectId.toString(),
+            appelOffreId,
+            periodeId,
+            familleId,
+            numeroCRE,
+            importId,
+            data,
           },
         })
       )
@@ -635,6 +655,9 @@ export const makeProject = (args: {
         props.puissanceInitiale = event.payload.data.puissance
         _updateClasse(event.payload.data.classe)
         _updateAppelOffre(event.payload)
+        if (event.payload.data.notifiedOn) {
+          props.notifiedOn = event.payload.data.notifiedOn
+        }
         break
       case ProjectReimported.type:
         props.data = { ...props.data, ...event.payload.data }
@@ -818,6 +841,8 @@ export const makeProject = (args: {
     if (props.hasCompletionDueDateMoved && !forceValue) return
 
     if (!props.appelOffre) return
+
+    if (!props.notifiedOn) return
 
     const { setBy, completionDueOn } = forceValue || {}
     _removePendingEventsOfType(ProjectCompletionDueDateSet.type)
