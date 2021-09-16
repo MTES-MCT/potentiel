@@ -19,7 +19,9 @@ import {
   ProjectGFInvalidated,
   ProjectFournisseursUpdated,
   ProjectNewRulesOptedIn,
+  ProjectImported,
 } from '../../../../../modules/project/events'
+import { onProjectImported } from './onProjectImported'
 import { onProjectCertificate } from './onProjectCertificate'
 import { onProjectDataCorrected } from './onProjectDataCorrected'
 import { onProjectDCRDueDateSet } from './onProjectDCRDueDateSet'
@@ -39,6 +41,7 @@ import { onProjectNewRulesOptedIn } from './onProjectNewRulesOptedIn'
 import { logger } from '../../../../../core/utils'
 
 export const initProjectProjections = (eventBus: EventBus, models) => {
+  eventBus.subscribe(ProjectImported.type, onProjectImported(models))
   eventBus.subscribe(ProjectDataCorrected.type, onProjectDataCorrected(models))
   eventBus.subscribe(ProjectDCRDueDateSet.type, onProjectDCRDueDateSet(models))
   eventBus.subscribe(ProjectGFDueDateSet.type, onProjectGFDueDateSet(models))
