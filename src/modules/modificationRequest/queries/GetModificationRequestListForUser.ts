@@ -16,7 +16,7 @@ interface GetModificationRequestListForUserDeps {
   pagination?: Pagination
   recherche?: string
   modificationRequestStatus?: ModificationRequestStatusDTO
-  modificationRequestType?: ModificationRequestVariants
+  modificationRequestType?: ModificationRequestVariants['type']
 }
 
 export interface GetModificationRequestListForUser {
