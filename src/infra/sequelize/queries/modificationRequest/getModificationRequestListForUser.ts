@@ -81,7 +81,7 @@ export const getModificationRequestListForUser: GetModificationRequestListForUse
       }
 
       if (modificationRequestType) {
-        opts.where.type = modificationRequestType.type
+        opts.where.type = modificationRequestType
 
         if (user.role === 'admin' || user.role === 'dgec') {
           // Admins can see any request (even dreals) when they set the type
