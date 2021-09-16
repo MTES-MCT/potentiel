@@ -3,9 +3,10 @@ import {
   handleModificationReceived,
   handlePeriodeNotified,
 } from '../../modules/project/eventHandlers'
-import { PeriodeNotified } from '../../modules/project/events'
+import { handleProjectRawDataImported } from '../../modules/project/eventHandlers/handleProjectRawDataImported'
+import { PeriodeNotified, ProjectRawDataImported } from '../../modules/project/events'
 import { eventStore } from '../eventStore.config'
-import { getUnnotifiedProjectsForPeriode } from '../queries.config'
+import { getUnnotifiedProjectsForPeriode, findProjectByIdentifiers } from '../queries.config'
 import { projectRepo } from '../repos.config'
 import { generateCertificate } from '../useCases.config'
 
@@ -22,6 +23,14 @@ eventStore.subscribe(
   ModificationReceived.type,
   handleModificationReceived({
     eventBus: eventStore,
+  })
+)
+
+eventStore.subscribe(
+  ProjectRawDataImported.type,
+  handleProjectRawDataImported({
+    findProjectByIdentifiers,
+    projectRepo,
   })
 )
 

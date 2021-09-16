@@ -1,11 +1,7 @@
-import { FindProjectByIdentifiers, ProjectImported, ProjectNotificationDateSet } from '..'
+import { FindProjectByIdentifiers } from '..'
 import { UniqueEntityID } from '../../../core/domain'
 import { okAsync } from '../../../core/utils'
-import {
-  fakeRepo,
-  fakeTransactionalRepo,
-  makeFakeProject,
-} from '../../../__tests__/fixtures/aggregates'
+import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
 import { ProjectRawDataImported } from '../events'
 import { Project } from '../Project'
 import { handleProjectRawDataImported } from './handleProjectRawDataImported'
@@ -49,10 +45,7 @@ describe('handleProjectRawDataImported', () => {
       okAsync(projectId.toString())
     )
     const fakeProject = { ...makeFakeProject(), id: projectId }
-    const projectRepo = {
-      ...fakeTransactionalRepo(fakeProject as Project),
-      ...fakeRepo(fakeProject as Project),
-    }
+    const projectRepo = fakeTransactionalRepo(fakeProject as Project)
 
     beforeAll(async () => {
       await handleProjectRawDataImported({
@@ -74,9 +67,11 @@ describe('handleProjectRawDataImported', () => {
   })
 
   describe('when the project does not exist yet', () => {
+    const projectId = new UniqueEntityID()
     const findProjectByIdentifiers: FindProjectByIdentifiers = jest.fn((args) => okAsync(null))
 
-    const projectRepo = { ...fakeTransactionalRepo<Project>(null), ...fakeRepo<Project>() }
+    const fakeProject = { ...makeFakeProject(), id: projectId }
+    const projectRepo = fakeTransactionalRepo(fakeProject as Project)
 
     beforeAll(async () => {
       await handleProjectRawDataImported({
@@ -92,28 +87,19 @@ describe('handleProjectRawDataImported', () => {
       )
     })
 
-    it('should call Project.import on a new Project aggregate', () => {
-      const { appelOffreId, periodeId, familleId, numeroCRE } = fakeProjectData
-
-      expect(projectRepo.save).toHaveBeenCalled()
-
-      const savedProject = projectRepo.save.mock.calls[0][0]
-      expect(savedProject.pendingEvents).toHaveLength(1)
-      expect(savedProject.pendingEvents[0]).toBeInstanceOf(ProjectImported)
-      expect(savedProject.pendingEvents[0].payload).toMatchObject({
-        periodeId,
-        appelOffreId,
-        familleId,
-        numeroCRE,
-        importId,
-        data: fakeProjectData,
-      })
+    it('should call Project.import with the data', () => {
+      expect(fakeProject.import).toHaveBeenCalledWith({ data: fakeProjectData, importId })
     })
 
     describe('when the project is already notified', () => {
-      const projectRepo = { ...fakeTransactionalRepo<Project>(), ...fakeRepo<Project>() }
+      const projectId = new UniqueEntityID()
+
+      const fakeProject = { ...makeFakeProject(), id: projectId }
+      const projectRepo = fakeTransactionalRepo(fakeProject as Project)
 
       const notifiedOn = 1631786848940
+
+      const fakeNotifiedProjectData = { ...fakeProjectData, notifiedOn }
 
       beforeAll(async () => {
         await handleProjectRawDataImported({
@@ -123,30 +109,18 @@ describe('handleProjectRawDataImported', () => {
           new ProjectRawDataImported({
             payload: {
               importId,
-              data: { ...fakeProjectData, notifiedOn },
+              data: fakeNotifiedProjectData,
             },
           })
         )
       })
 
-      it('should also call Project.setNotificationDate', () => {
-        expect(projectRepo.save).toHaveBeenCalled()
-
-        const savedProject = projectRepo.save.mock.calls[0][0]
-
-        const targetEvent = savedProject.pendingEvents.find(
-          (item) => item.type === ProjectNotificationDateSet.type
-        ) as ProjectNotificationDateSet | undefined
-        expect(targetEvent).toBeDefined()
-        if (!targetEvent) return
-        expect(targetEvent.payload.notifiedOn).toEqual(notifiedOn)
+      it('should call Project.setNotificationDate', () => {
+        expect(fakeProject.setNotificationDate).toHaveBeenCalledWith(null, notifiedOn)
       })
 
-      it('should still call Project.import', () => {
-        const savedProject = projectRepo.save.mock.calls[0][0]
-        expect(
-          savedProject.pendingEvents.find((item) => item.type === ProjectImported.type)
-        ).toBeDefined()
+      it('should still call Project.import with the data', () => {
+        expect(fakeProject.import).toHaveBeenCalledWith({ data: fakeNotifiedProjectData, importId })
       })
     })
   })
