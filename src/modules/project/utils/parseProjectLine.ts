@@ -28,7 +28,7 @@ const mappedColumns = [
   'Notification',
   'Engagement de fourniture de puissance à la pointe\n(AO ZNI)',
   'Territoire\n(AO ZNI)',
-  'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie ,(kg eq CO2/kWc)',
+  'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)',
   'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)',
 ]
 
@@ -78,7 +78,8 @@ const extractRawDataFromColumns = (line: any) => {
   )
 }
 
-const EMPTY_STRING_OR_DATE_REGEX = /^$|(^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)((19)|(20))\d{2}$)/ // Corresponds to DD/MM/YYYY
+const EMPTY_STRING_OR_DATE_REGEX =
+  /^$|(^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)((19)|(20))\d{2}$)/ // Corresponds to DD/MM/YYYY
 const DATE_FORMAT = 'DD/MM/YYYY'
 
 const stringToNumber = (fieldName) =>
@@ -228,7 +229,7 @@ export const parseProjectLine = (line) => {
       puissanceInitiale: rawProjectData.puissance,
       details: Object.entries(line)
         .filter(([key, value]) => !mappedColumns.includes(key) && !!value)
-        .reduce((details, [key, value]) => ({ ...details, [key]: value })),
+        .reduce((details, [key, value]) => ({ ...details, [key]: value }), {}),
     }
   } catch (e) {
     throw new Error(e.errors.map((err) => err.message).join(', '))
