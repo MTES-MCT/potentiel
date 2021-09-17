@@ -87,17 +87,20 @@ const stringToNumber = (fieldName) =>
     .string()
     .nonempty(`${fieldName} est manquant`)
     .transform((nbrStr) => toNumber(nbrStr) as number)
-    .refine((val) => typeof val === 'number')
+    .refine(
+      (val) => typeof val === 'number',
+      () => ({ message: `${fieldName} doit être un nombre` })
+    )
 
 const strictPositiveNumber = (fieldName) =>
   stringToNumber(fieldName).refine(
     (val) => val > 0,
-    (val) => ({ message: `${fieldName} doit être strictement positif (${val})` })
+    () => ({ message: `${fieldName} doit être strictement positif` })
   )
 const positiveNumber = (fieldName) =>
   stringToNumber(fieldName).refine(
     (val) => val >= 0,
-    (val) => ({ message: `${fieldName} doit être positif (${val})` })
+    () => ({ message: `${fieldName} doit être positif` })
   )
 
 // Parse and validate the rawData of a project
@@ -125,8 +128,8 @@ const projectParser = z.object({
   communeProjet: z.string(),
   classe: z.string().refine(
     (val) => ['Eliminé', 'Classé'].includes(val),
-    (val) => ({
-      message: `Le champ 'Classé ?' doit être soit 'Eliminé' soit 'Classé' (ici '${val}')`,
+    () => ({
+      message: `Le champ 'Classé ?' doit être soit 'Eliminé' soit 'Classé'`,
     })
   ),
   motifsElimination: z.string(),
@@ -135,8 +138,8 @@ const projectParser = z.object({
     .refine(
       (val) =>
         ['', 'Investissement participatif (T1)', 'Financement participatif (T2)'].includes(val),
-      (val) => ({
-        message: `Le champ 'Investissement ou financement participatif ?' a une valeur erronnée (${val})`,
+      () => ({
+        message: `Le champ 'Investissement ou financement participatif ?' a une valeur erronnée`,
       })
     )
     .transform((str) => str === 'Investissement participatif (T1)'),
@@ -152,8 +155,8 @@ const projectParser = z.object({
     .string()
     .refine(
       (val) => ['', 'Oui'].includes(val),
-      (val) => ({
-        message: `Le champ 'Engagement de fourniture de puissance à la pointe (AO ZNI)' doit être vide ou 'Oui' (ici '${val}')`,
+      () => ({
+        message: `Le champ 'Engagement de fourniture de puissance à la pointe (AO ZNI)' doit être vide ou 'Oui'`,
       })
     )
     .transform((val) => val === 'Oui'),
@@ -171,8 +174,8 @@ const projectParser = z.object({
           'Mayotte',
           'Martinique',
         ].includes(val),
-      (val) => ({
-        message: `Le champ 'Territoire (AO ZNI)' a une valeur erronnée ('${val}')`,
+      () => ({
+        message: `Le champ 'Territoire (AO ZNI)' a une valeur erronnée`,
       })
     )
     .transform((val) => (val === 'NON-APPLICABLE' ? '' : val)),
