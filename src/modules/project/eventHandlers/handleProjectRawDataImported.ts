@@ -1,19 +1,8 @@
-import { FindProjectByIdentifiers, makeProject } from '..'
-import { Repository, TransactionalRepository, UniqueEntityID } from '../../../core/domain'
-import { ok, ResultAsync } from '../../../core/utils'
-import { appelsOffreStatic } from '../../../dataAccess/inMemory'
-import { AppelOffre } from '../../../entities'
-import { InfraNotAvailableError } from '../../shared'
+import { FindProjectByIdentifiers } from '..'
+import { TransactionalRepository, UniqueEntityID } from '../../../core/domain'
+import { ok } from '../../../core/utils'
 import { ProjectRawDataImported } from '../events'
 import { Project } from '../Project'
-
-const appelsOffres: Record<AppelOffre['id'], AppelOffre> = appelsOffreStatic.reduce(
-  (map, appelOffre) => {
-    map[appelOffre.id] = appelOffre
-    return map
-  },
-  {}
-)
 
 export const handleProjectRawDataImported =
   (deps: {
