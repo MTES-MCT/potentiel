@@ -22,59 +22,64 @@ interface RequestConfirmationArgs {
   confirmationRequestedBy: User
 }
 
-export const makeRequestConfirmation = (deps: RequestConfirmationDeps) => (
-  args: RequestConfirmationArgs
-): ResultAsync<
-  null,
-  | AggregateHasBeenUpdatedSinceError
-  | InfraNotAvailableError
-  | EntityNotFoundError
-  | UnauthorizedError
-> => {
-  const { fileRepo, modificationRequestRepo } = deps
-  const { modificationRequestId, versionDate, responseFile, confirmationRequestedBy } = args
-  const { contents, filename } = responseFile
+export const makeRequestConfirmation =
+  (deps: RequestConfirmationDeps) =>
+  (
+    args: RequestConfirmationArgs
+  ): ResultAsync<
+    null,
+    | AggregateHasBeenUpdatedSinceError
+    | InfraNotAvailableError
+    | EntityNotFoundError
+    | UnauthorizedError
+  > => {
+    const { fileRepo, modificationRequestRepo } = deps
+    const { modificationRequestId, versionDate, responseFile, confirmationRequestedBy } = args
+    const { contents, filename } = responseFile
 
-  if (!['admin', 'dgec'].includes(confirmationRequestedBy.role)) {
-    return errAsync(new UnauthorizedError())
-  }
+    if (!['admin', 'dgec'].includes(confirmationRequestedBy.role)) {
+      return errAsync(new UnauthorizedError())
+    }
 
-  return modificationRequestRepo
-    .load(modificationRequestId)
-    .andThen(
-      (
-        modificationRequest
-      ): ResultAsync<
-        { modificationRequest: ModificationRequest; responseFileId: string },
-        AggregateHasBeenUpdatedSinceError | InfraNotAvailableError
-      > => {
-        if (modificationRequest.lastUpdatedOn.getTime() !== versionDate.getTime()) {
-          return errAsync(new AggregateHasBeenUpdatedSinceError())
-        }
+    return modificationRequestRepo
+      .load(modificationRequestId)
+      .andThen(
+        (
+          modificationRequest
+        ): ResultAsync<
+          { modificationRequest: ModificationRequest; responseFileId: string },
+          AggregateHasBeenUpdatedSinceError | InfraNotAvailableError
+        > => {
+          if (
+            modificationRequest.lastUpdatedOn &&
+            modificationRequest.lastUpdatedOn.getTime() !== versionDate.getTime()
+          ) {
+            return errAsync(new AggregateHasBeenUpdatedSinceError())
+          }
 
-        return makeAndSaveFile({
-          file: {
-            designation: 'modification-request-response',
-            forProject: modificationRequest.projectId,
-            createdBy: new UniqueEntityID(confirmationRequestedBy.id),
-            filename,
-            contents,
-          },
-          fileRepo,
-        })
-          .map((responseFileId) => ({ modificationRequest, responseFileId }))
-          .mapErr((e: Error) => {
-            logger.error(e)
-            return new InfraNotAvailableError()
+          return makeAndSaveFile({
+            file: {
+              designation: 'modification-request-response',
+              forProject: modificationRequest.projectId,
+              createdBy: new UniqueEntityID(confirmationRequestedBy.id),
+              filename,
+              contents,
+            },
+            fileRepo,
           })
-      }
-    )
-    .andThen(({ modificationRequest, responseFileId }) => {
-      return modificationRequest
-        .requestConfirmation(confirmationRequestedBy, responseFileId)
-        .map(() => modificationRequest)
-    })
-    .andThen((modificationRequest) => {
-      return modificationRequestRepo.save(modificationRequest)
-    })
-}
+            .map((responseFileId) => ({ modificationRequest, responseFileId }))
+            .mapErr((e: Error) => {
+              logger.error(e)
+              return new InfraNotAvailableError()
+            })
+        }
+      )
+      .andThen(({ modificationRequest, responseFileId }) => {
+        return modificationRequest
+          .requestConfirmation(confirmationRequestedBy, responseFileId)
+          .map(() => modificationRequest)
+      })
+      .andThen((modificationRequest) => {
+        return modificationRequestRepo.save(modificationRequest)
+      })
+  }

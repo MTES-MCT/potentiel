@@ -100,7 +100,7 @@ describe('Project.reimport()', () => {
       if (!targetEvent) return
 
       expect(targetEvent.payload.projectId).toEqual(projectId.toString())
-      expect(targetEvent.payload.data).toMatchObject({
+      expect(targetEvent.payload.data).toEqual({
         prixReference: 3,
         evaluationCarbone: 4,
         details: { detail1: 'changé' },

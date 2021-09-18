@@ -1,5 +1,4 @@
 import { okAsync } from 'neverthrow'
-import { deepStrictEqual } from 'node:assert'
 import { Repository, UniqueEntityID } from '../core/domain'
 import { logger } from '../core/utils'
 import { Project, User } from '../entities'

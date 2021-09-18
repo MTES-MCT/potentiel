@@ -17,6 +17,22 @@ export const toProjectDataForCertificate = (
     return err(new IncompleteDataError())
   }
 
+  if (!appelOffre) {
+    logger.error(
+      'toProjectDataForCertificate failed to create DTO because project has no appelOffre prop'
+    )
+
+    return err(new IncompleteDataError())
+  }
+
+  if (!props.isClasse || !props.notifiedOn) {
+    logger.error(
+      'toProjectDataForCertificate failed to create DTO because project has missing props'
+    )
+
+    return err(new IncompleteDataError())
+  }
+
   const {
     familleId,
     prixReference,

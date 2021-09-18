@@ -20,36 +20,41 @@ interface UpdateModificationRequestStatusArgs {
   newStatus: ModificationRequestStatus
 }
 
-export const makeUpdateModificationRequestStatus = (deps: UpdateModificationRequestStatusDeps) => (
-  args: UpdateModificationRequestStatusArgs
-): ResultAsync<
-  null,
-  | AggregateHasBeenUpdatedSinceError
-  | InfraNotAvailableError
-  | EntityNotFoundError
-  | UnauthorizedError
-> => {
-  const { modificationRequestRepo } = deps
-  const { modificationRequestId, versionDate, newStatus, submittedBy } = args
+export const makeUpdateModificationRequestStatus =
+  (deps: UpdateModificationRequestStatusDeps) =>
+  (
+    args: UpdateModificationRequestStatusArgs
+  ): ResultAsync<
+    null,
+    | AggregateHasBeenUpdatedSinceError
+    | InfraNotAvailableError
+    | EntityNotFoundError
+    | UnauthorizedError
+  > => {
+    const { modificationRequestRepo } = deps
+    const { modificationRequestId, versionDate, newStatus, submittedBy } = args
 
-  if (!['admin', 'dgec'].includes(submittedBy.role)) {
-    return errAsync(new UnauthorizedError())
-  }
+    if (!['admin', 'dgec'].includes(submittedBy.role)) {
+      return errAsync(new UnauthorizedError())
+    }
 
-  return modificationRequestRepo
-    .load(modificationRequestId)
-    .andThen(
-      (modificationRequest): Result<ModificationRequest, AggregateHasBeenUpdatedSinceError> => {
-        if (modificationRequest.lastUpdatedOn.getTime() !== versionDate.getTime()) {
-          return err(new AggregateHasBeenUpdatedSinceError())
+    return modificationRequestRepo
+      .load(modificationRequestId)
+      .andThen(
+        (modificationRequest): Result<ModificationRequest, AggregateHasBeenUpdatedSinceError> => {
+          if (
+            modificationRequest.lastUpdatedOn &&
+            modificationRequest.lastUpdatedOn.getTime() !== versionDate.getTime()
+          ) {
+            return err(new AggregateHasBeenUpdatedSinceError())
+          }
+
+          return modificationRequest
+            .updateStatus({ updatedBy: submittedBy, newStatus })
+            .map(() => modificationRequest)
         }
-
-        return modificationRequest
-          .updateStatus({ updatedBy: submittedBy, newStatus })
-          .map(() => modificationRequest)
-      }
-    )
-    .andThen((modificationRequest) => {
-      return modificationRequestRepo.save(modificationRequest)
-    })
-}
+      )
+      .andThen((modificationRequest) => {
+        return modificationRequestRepo.save(modificationRequest)
+      })
+  }
