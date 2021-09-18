@@ -1,19 +1,21 @@
 import { handleProjectImported } from '../../modules/authorization'
 import { ProjectImported, ProjectReimported } from '../../modules/project/events'
 import { eventStore } from '../eventStore.config'
-import { userRepo } from '../repos.config'
+import { getUserByEmail } from '../queries.config'
 
 eventStore.subscribe(
   ProjectImported.type,
   handleProjectImported({
-    addProjectToUserWithEmail: userRepo.addProjectToUserWithEmail,
+    eventBus: eventStore,
+    getUserByEmail,
   })
 )
 
 eventStore.subscribe(
   ProjectReimported.type,
   handleProjectImported({
-    addProjectToUserWithEmail: userRepo.addProjectToUserWithEmail,
+    eventBus: eventStore,
+    getUserByEmail,
   })
 )
 
