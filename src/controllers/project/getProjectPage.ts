@@ -11,7 +11,7 @@ import { v1Router } from '../v1Router'
 v1Router.get(
   routes.PROJECT_DETAILS(),
   ensureLoggedIn(),
-  ensureRole(['admin', 'dgec', 'dreal', 'porteur-projet', 'acheteur-obligé']),
+  ensureRole(['admin', 'dgec', 'dreal', 'porteur-projet', 'acheteur-obligé', 'ademe']),
   asyncHandler(async (request, response) => {
     const { projectId } = request.params
     const { user } = request

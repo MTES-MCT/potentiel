@@ -43,6 +43,7 @@ export default function AdminUsers({ request, users, invitations }: AdminUsersPr
               />
               <select name="role" {...dataId('role-field')}>
                 <option value="acheteur-obligé">Acheteur obligé</option>
+                <option value="ademe">ADEME</option>
               </select>
               <button
                 className="button"

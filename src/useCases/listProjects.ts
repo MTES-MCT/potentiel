@@ -124,6 +124,7 @@ export default function makeListProjects({
       case 'admin':
       case 'dgec':
       case 'acheteur-obligé':
+      case 'ademe':
         result.projects =
           recherche && recherche.length
             ? await searchAll(recherche, query, pagination)

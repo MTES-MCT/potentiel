@@ -11,7 +11,7 @@ import asyncHandler from 'express-async-handler'
 v1Router.get(
   routes.DOWNLOAD_CERTIFICATE_FILE(),
   ensureLoggedIn(),
-  ensureRole(['admin', 'dgec', 'porteur-projet', 'acheteur-obligé']),
+  ensureRole(['admin', 'dgec', 'porteur-projet', 'acheteur-obligé', 'ademe']),
   asyncHandler(async (request, response) => {
     const { projectId, fileId } = request.params
     const { user } = request
