@@ -15,7 +15,8 @@
     "rootDir": "./",
     "sourceMap": true,
     "inlineSources": true,
-    "sourceRoot": "/"
+    "sourceRoot": "/",
+    "skipLibCheck": true
   },
   "include": ["src/**/*"],
   "exclude": [
