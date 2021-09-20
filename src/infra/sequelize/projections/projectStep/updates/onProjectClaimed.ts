@@ -1,21 +1,27 @@
 import { UniqueEntityID } from '../../../../../core/domain'
 import { logger } from '../../../../../core/utils'
-import { ProjectClaimed } from '../../../../../modules/project/events'
+import { ProjectClaimed, ProjectClaimedByOwner } from '../../../../../modules/project/events'
+import { UserRepo } from '../../../../../dataAccess'
 
-export const onProjectClaimed = (models) => async (event: ProjectClaimed) => {
+export const onProjectClaimed = (models, userRepos: UserRepo) => async (
+  event: ProjectClaimed | ProjectClaimedByOwner
+) => {
   const { ProjectStep } = models
-  const { projectId, attestationDesignationFileId, claimedBy } = event.payload
+  const { projectId, claimedBy } = event.payload
 
   try {
-    await ProjectStep.create({
-      id: new UniqueEntityID().toString(),
-      type: 'attestation-designation-proof',
-      projectId,
-      stepDate: event.occurredAt,
-      fileId: attestationDesignationFileId,
-      submittedBy: claimedBy,
-      submittedOn: event.occurredAt,
-    })
+    if (event.type === 'ProjectClaimed')
+      await ProjectStep.create({
+        id: new UniqueEntityID().toString(),
+        type: 'attestation-designation-proof',
+        projectId,
+        stepDate: event.occurredAt,
+        fileId: event.payload.attestationDesignationFileId,
+        submittedBy: claimedBy,
+        submittedOn: event.occurredAt,
+      })
+
+    await userRepos.addProject(claimedBy, projectId)
   } catch (e) {
     logger.error(e)
   }

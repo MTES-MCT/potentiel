@@ -60,6 +60,7 @@ export type ProjectRepo = {
 
   searchAllMissingOwner(
     email: string,
+    id: string,
     terms?: string,
     filters?: ProjectFilters,
     pagination?: Pagination

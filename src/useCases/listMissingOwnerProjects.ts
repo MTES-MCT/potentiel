@@ -61,7 +61,7 @@ export default function makeListMissingOwnerProjects({
 
     let userSpecificProjectListFilter: ContextSpecificProjectListFilter | undefined = undefined
 
-    const projects = await searchAllMissingOwner(user.email, recherche, query, pagination)
+    const projects = await searchAllMissingOwner(user.email, user.id, recherche, query, pagination)
 
     result.projects = projects
 

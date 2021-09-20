@@ -789,7 +789,8 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
   }
 
   async function searchAllMissingOwner(
-    email: string,
+    userEmail: string,
+    userId: string,
     terms?: string,
     filters?: ProjectFilters,
     pagination?: Pagination
@@ -798,11 +799,20 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
     try {
       const opts = _makeSelectorsForQuery(filters)
 
-      opts.where.id = { [Op.notIn]: literal(`(SELECT "projectId" FROM "UserProjects")`) }
+      opts.where.id = {
+        [Op.and]: [
+          { [Op.notIn]: literal(`(SELECT "projectId" FROM "UserProjects")`) },
+          {
+            [Op.notIn]: literal(
+              `(SELECT "projectId" FROM "userProjectClaims" WHERE "userId" = '${userId}' and "tryCounter" >= 3)`
+            ),
+          },
+        ],
+      }
 
       // Order by Projets alloués then the rest ordered by nomProjet
       opts.order = [
-        [literal(`CASE "project"."email" WHEN '${email}' THEN 1 ELSE 2 END`)],
+        [literal(`CASE "project"."email" WHEN '${userEmail}' THEN 1 ELSE 2 END`)],
         ['nomProjet'],
       ]
 

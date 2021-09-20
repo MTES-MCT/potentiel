@@ -54,8 +54,6 @@ import {
   ProjectFournisseursUpdated,
   ProjectReimportedPayload,
   ProjectImportedPayload,
-  ProjectClaimedByOwner,
-  ProjectClaimed,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 import { Fournisseur } from '.'
@@ -103,8 +101,9 @@ export interface Project extends EventStoreAggregate {
     newFournisseurs: Fournisseur[],
     newEvaluationCarbone?: number
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
-  claimProject: (user: User, certificateFileId: string) => Result<null, never>
-  claimProjectByOwner: (user: User) => Result<null, never>
+  // claimProject: (user: User, certificateFileId: string) => Result<null, never>
+  // claimProjectByOwner: (user: User) => Result<null, never>
+  // claimProjectFailed: (user: User) => Result<null, never>
   grantClasse: (user: User) => Result<null, never>
   addGeneratedCertificate: (args: {
     projectVersionDate: Date
@@ -481,31 +480,45 @@ export const makeProject = (args: {
 
       return ok(null)
     },
-    claimProject: function (user, attestationDesignationFileId) {
-      _publishEvent(
-        new ProjectClaimed({
-          payload: {
-            projectId: props.projectId.toString(),
-            claimedBy: user.id,
-            attestationDesignationFileId,
-          },
-        })
-      )
+    // claim: function (user, attestationDesignationFileId) {
+    //   // Verifs ..
 
-      return ok(null)
-    },
-    claimProjectByOwner: function (user) {
-      _publishEvent(
-        new ProjectClaimedByOwner({
-          payload: {
-            projectId: props.projectId.toString(),
-            claimedBy: user.id,
-          },
-        })
-      )
+    //   _publishEvent(
+    //     new ProjectClaimed({
+    //       payload: {
+    //         projectId: props.projectId.toString(),
+    //         claimedBy: user.id,
+    //         attestationDesignationFileId,
+    //       },
+    //     })
+    //   )
 
-      return ok(null)
-    },
+    //   return ok(null)
+    // },
+    // claimProjectByOwner: function (user) {
+    //   _publishEvent(
+    //     new ProjectClaimedByOwner({
+    //       payload: {
+    //         projectId: props.projectId.toString(),
+    //         claimedBy: user.id,
+    //       },
+    //     })
+    //   )
+
+    //   return ok(null)
+    // },
+    // claimProjectFailed: function (user) {
+    //   _publishEvent(
+    //     new ProjectClaimFailed({
+    //       payload: {
+    //         projectId: props.projectId.toString(),
+    //         claimedBy: user.id,
+    //       },
+    //     })
+    //   )
+
+    //   return ok(null)
+    // },
     grantClasse: function (user) {
       if (!props.isClasse) {
         _publishEvent(

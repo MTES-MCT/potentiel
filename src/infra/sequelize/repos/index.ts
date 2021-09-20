@@ -10,6 +10,7 @@ import { makeModificationRequestRepo } from './modificationRequestRepo'
 import { NotificationRepo } from './notificationRepo'
 import { makeProjectAdmissionKeyRepo } from './projectAdmissionKeyRepo'
 import { makeProjectRepo } from './projectRepo'
+import { makeProjectClaimRepo } from './projectClaimRepo'
 
 export const fileRepo = makeFileRepo({ models, fileStorageService })
 export const notificationRepo = new NotificationRepo(models)
@@ -18,6 +19,7 @@ export const candidateNotificationRepo = makeEventStoreTransactionalRepo({
   makeAggregate: makeCandidateNotification,
 })
 export const projectRepo = makeProjectRepo(eventStore)
+export const projectClaimRepo = makeProjectClaimRepo(eventStore)
 export const modificationRequestRepo = makeModificationRequestRepo(eventStore)
 export const appelOffreRepo = makeEventStoreRepo({
   eventStore,
