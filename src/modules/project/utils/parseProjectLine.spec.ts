@@ -1,3 +1,4 @@
+import moment from 'moment'
 import { parseProjectLine } from './parseProjectLine'
 
 const fakeLine = {
@@ -89,9 +90,7 @@ describe('parseProjectLine', () => {
         ...fakeLine,
         'Investissement ou financement participatif ?': 'autre',
       })
-    ).toThrowError(
-      "Le champ 'Investissement ou financement participatif ?' a une valeur erronnée (autre)"
-    )
+    ).toThrowError("Le champ 'Investissement ou financement participatif ?' a une valeur erronnée")
   })
 
   it("should parse the 'Notification' column", () => {
@@ -119,8 +118,24 @@ describe('parseProjectLine', () => {
         Notification: 'autre',
       })
     ).toThrowError(
-      'Le champ Notification est erronné (devrait être vide ou une date de la forme 25/12/2020)'
+      "Le champ 'Notification' est erronné (devrait être vide ou une date de la forme 25/12/2020)"
     )
+
+    expect(() =>
+      parseProjectLine({
+        ...fakeLine,
+        Notification: moment().add(1, 'day').format('DD/MM/YYYY'),
+      })
+    ).toThrowError(
+      "Le champ 'Notification' est erronné (devrait être vide ou une date antérieure à aujourd'hui)"
+    )
+
+    expect(() =>
+      parseProjectLine({
+        ...fakeLine,
+        Notification: '01/01/1999',
+      })
+    ).toThrowError("Le champ 'Notification' est erronné (la date parait trop ancienne)")
   })
 
   describe("when the Appel d'offres is missing", () => {
@@ -173,7 +188,7 @@ describe('parseProjectLine', () => {
           ...fakeLine,
           'Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)': '-32',
         })
-      ).toThrowError('Le champ Puissance doit être strictement positif (-32)')
+      ).toThrowError('Le champ Puissance doit être strictement positif')
     })
   })
 
@@ -184,7 +199,7 @@ describe('parseProjectLine', () => {
           ...fakeLine,
           'Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)': '0',
         })
-      ).toThrowError('Le champ Puissance doit être strictement positif (0)')
+      ).toThrowError('Le champ Puissance doit être strictement positif')
     })
   })
 
@@ -207,7 +222,7 @@ describe('parseProjectLine', () => {
           'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)':
             '-32',
         })
-      ).toThrowError('Le Prix doit être strictement positif (-32)')
+      ).toThrowError('Le Prix doit être strictement positif')
     })
   })
 
@@ -218,7 +233,7 @@ describe('parseProjectLine', () => {
           ...fakeLine,
           'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)': '0',
         })
-      ).toThrowError('Le Prix doit être strictement positif (0)')
+      ).toThrowError('Le Prix doit être strictement positif')
     })
   })
 
@@ -284,7 +299,7 @@ describe('parseProjectLine', () => {
           ...fakeLine,
           'Classé ?': 'pas bon',
         })
-      ).toThrowError("Le champ 'Classé ?' doit être soit 'Eliminé' soit 'Classé' (ici 'pas bon')")
+      ).toThrowError("Le champ 'Classé ?' doit être soit 'Eliminé' soit 'Classé'")
     })
   })
 
@@ -313,7 +328,7 @@ describe('parseProjectLine', () => {
         'Engagement de fourniture de puissance à la pointe\n(AO ZNI)': 'pas bon',
       })
     ).toThrowError(
-      "Le champ Engagement de fourniture de puissance à la pointe (AO ZNI) doit être vide ou 'Oui' (ici 'pas bon')"
+      "Le champ 'Engagement de fourniture de puissance à la pointe (AO ZNI)' doit être vide ou 'Oui'"
     )
   })
 
@@ -344,7 +359,7 @@ describe('parseProjectLine', () => {
         "Appel d'offres": 'CRE4 - ZNI',
         'Territoire\n(AO ZNI)': 'Autre',
       })
-    ).toThrowError("Le champ Territoire (AO ZNI) a une valeur erronnée ('Autre')")
+    ).toThrowError("Le champ 'Territoire (AO ZNI)' a une valeur erronnée")
 
     expect(() =>
       parseProjectLine({
@@ -352,6 +367,6 @@ describe('parseProjectLine', () => {
         "Appel d'offres": 'CRE4 - ZNI',
         'Territoire\n(AO ZNI)': '',
       })
-    ).toThrowError("Le champ Territoire (AO ZNI) est requis pour cet Appel d'offres")
+    ).toThrowError("Le champ 'Territoire (AO ZNI)' est requis pour cet Appel d'offres")
   })
 })

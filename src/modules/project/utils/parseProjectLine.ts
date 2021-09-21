@@ -150,7 +150,20 @@ const projectParser = z.object({
       EMPTY_STRING_OR_DATE_REGEX,
       `Le champ 'Notification' est erronné (devrait être vide ou une date de la forme 25/12/2020)`
     )
-    .transform((dateStr) => (dateStr ? moment(dateStr, DATE_FORMAT).toDate().getTime() : 0)),
+    .transform((dateStr) => (dateStr ? moment(dateStr, DATE_FORMAT).toDate().getTime() : 0))
+    .refine(
+      (timestamp) => timestamp < Date.now(),
+      () => ({
+        message: `Le champ 'Notification' est erronné (devrait être vide ou une date antérieure à aujourd'hui)`,
+      })
+    )
+    .refine(
+      (timestamp) =>
+        timestamp === 0 || timestamp > moment('01/01/2000', 'DD/MM/YYYY').toDate().getTime(),
+      () => ({
+        message: "Le champ 'Notification' est erronné (la date parait trop ancienne)",
+      })
+    ),
   engagementFournitureDePuissanceAlaPointe: z
     .string()
     .refine(
