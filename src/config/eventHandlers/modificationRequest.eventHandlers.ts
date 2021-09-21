@@ -1,13 +1,25 @@
-import { ResponseTemplateDownloaded } from '../../modules/modificationRequest'
-import { handleResponseTemplateDownloaded } from '../../modules/modificationRequest/eventHandlers/handleResponseTemplateDownloaded'
+import {
+  LegacyModificationRawDataImported,
+  ResponseTemplateDownloaded,
+  handleResponseTemplateDownloaded,
+  handleLegacyModificationRawDataImported,
+} from '../../modules/modificationRequest'
 import { eventStore } from '../eventStore.config'
-import { getModificationRequestStatus } from '../queries.config'
+import { getModificationRequestStatus, findProjectByIdentifiers } from '../queries.config'
 
 eventStore.subscribe(
   ResponseTemplateDownloaded.type,
   handleResponseTemplateDownloaded({
     eventBus: eventStore,
     getModificationRequestStatus,
+  })
+)
+
+eventStore.subscribe(
+  LegacyModificationRawDataImported.type,
+  handleLegacyModificationRawDataImported({
+    eventBus: eventStore,
+    findProjectByIdentifiers,
   })
 )
 

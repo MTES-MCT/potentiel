@@ -1,1 +1,2 @@
-export * from './handleResponseTemplateDownloaded'
+export * from './handleLegacyModificationRawDataImported';
+export * from './handleResponseTemplateDownloaded';
