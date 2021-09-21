@@ -1,0 +1,185 @@
+import { LegacyModificationDTO } from '../../modificationRequest'
+import moment from 'moment-timezone'
+moment.tz.setDefault('Europe/Paris')
+
+const LegacyModificationColumns = [
+  'Type de modification 1',
+  'Date de modification 1',
+  'Colonne concernée 1',
+  'Ancienne valeur 1',
+  'Type de modification 2',
+  'Date de modification 2',
+  'Colonne concernée 2',
+  'Ancienne valeur 2',
+  'Type de modification 3',
+  'Date de modification 3',
+  'Colonne concernée 3',
+  'Ancienne valeur 3',
+]
+
+export const parseProjectModifications = (line: Record<string, string>) => {
+  const modificationsByDate: Record<string, LegacyModificationDTO> = {}
+  for (const index of [1, 2, 3]) {
+    if (line[`Type de modification ${index}`]) {
+      const date = line[`Date de modification ${index}`]
+      modificationsByDate[date] = extractModificationType(line, index, modificationsByDate[date])
+    }
+  }
+
+  return Object.values(modificationsByDate)
+}
+
+function extractRecoursType(args: {
+  modifiedOn: number
+  colonneConcernee: string
+  ancienneValeur: string
+  index: number
+  sameDateModification: LegacyModificationDTO | undefined
+}): LegacyModificationDTO {
+  const { colonneConcernee, modifiedOn, ancienneValeur, index, sameDateModification } = args
+  if (!['Classé ?', "Motif d'élimination"].includes(colonneConcernee)) {
+    throw new Error(
+      `Colonne concernée ${index} doit être soit "Classé ?" soit "Motif d'élimination" pour un Recours gracieux`
+    )
+  }
+
+  if (colonneConcernee === 'Classé ?') {
+    if (!['Classé', 'Eliminé'].includes(ancienneValeur)) {
+      throw new Error(
+        `Ancienne valeur ${index} doit être soit Classé soit Eliminé pour un Recours gracieux`
+      )
+    }
+
+    const accepted = ancienneValeur === 'Classé'
+    return {
+      type: 'recours',
+      projectId: '',
+      modifiedOn,
+      accepted,
+      motifElimination: '',
+    } as LegacyModificationDTO
+  } else {
+    return {
+      ...sameDateModification,
+      motifElimination: ancienneValeur,
+    } as LegacyModificationDTO
+  }
+}
+
+function extractDelaiType(args: {
+  modifiedOn: number
+  colonneConcernee: string
+  ancienneValeur: string
+  index: number
+}): LegacyModificationDTO {
+  const { colonneConcernee, modifiedOn, ancienneValeur, index } = args
+  const nouvelleDateLimiteAchevement = moment(colonneConcernee, 'DD/MM/YYYY').toDate().getTime()
+  if (isNaN(nouvelleDateLimiteAchevement)) {
+    throw new Error(`Colonne concernée ${index} contient une date invalide`)
+  }
+  const ancienneDateLimiteAchevement = moment(ancienneValeur, 'DD/MM/YYYY').toDate().getTime()
+
+  if (isNaN(ancienneDateLimiteAchevement)) {
+    throw new Error(`Ancienne valeur ${index} contient une date invalide`)
+  }
+  return {
+    type: 'delai',
+    modifiedOn,
+    nouvelleDateLimiteAchevement,
+    ancienneDateLimiteAchevement,
+  }
+}
+
+function extractActionnaireType(args: {
+  modifiedOn: number
+  colonneConcernee: string
+  ancienneValeur: string
+  index: number
+  sameDateModification: LegacyModificationDTO | undefined
+}): LegacyModificationDTO {
+  const { colonneConcernee, modifiedOn, ancienneValeur, index, sameDateModification } = args
+  if (colonneConcernee === 'Candidat') {
+    return {
+      type: 'actionnaire',
+      actionnairePrecedent: ancienneValeur,
+      siretPrecedent: '',
+      modifiedOn,
+    }
+  } else if (colonneConcernee === 'Numéro SIREN ou SIRET*') {
+    return {
+      ...sameDateModification,
+      siretPrecedent: ancienneValeur,
+      modifiedOn,
+    } as LegacyModificationDTO
+  } else {
+    throw new Error(`Colonne concernée ${index} n'est pas reconnue`)
+  }
+}
+
+function extractProducteurType(args: {
+  modifiedOn: number
+  colonneConcernee: string
+  ancienneValeur: string
+  index: number
+}): LegacyModificationDTO {
+  const { colonneConcernee, modifiedOn, ancienneValeur, index } = args
+  if (colonneConcernee === 'Nom (personne physique) ou raison sociale (personne morale) : ') {
+    return {
+      type: 'producteur',
+      producteurPrecedent: ancienneValeur,
+      modifiedOn,
+    }
+  } else {
+    throw new Error(`Colonne concernée ${index} n'est pas reconnue`)
+  }
+}
+
+function extractModificationType(
+  line: Record<string, string>,
+  index: number,
+  sameDateModification: LegacyModificationDTO | undefined
+): LegacyModificationDTO {
+  const {
+    [`Type de modification ${index}`]: type,
+    [`Colonne concernée ${index}`]: colonneConcernee,
+    [`Ancienne valeur ${index}`]: ancienneValeur,
+    [`Date de modification ${index}`]: dateModification,
+  } = line
+  const modifiedOn = moment(dateModification, 'DD/MM/YYYY').toDate().getTime()
+  switch (type) {
+    case 'Abandon':
+      return { type: 'abandon', modifiedOn }
+    case 'Recours gracieux':
+      return extractRecoursType({
+        modifiedOn,
+        sameDateModification,
+        colonneConcernee,
+        ancienneValeur,
+        index,
+      })
+    case 'Prolongation de délai':
+      return extractDelaiType({
+        modifiedOn,
+        colonneConcernee,
+        ancienneValeur,
+        index,
+      })
+    case "Changement d'actionnaire":
+      return extractActionnaireType({
+        modifiedOn,
+        sameDateModification,
+        colonneConcernee,
+        ancienneValeur,
+        index,
+      })
+    case 'Changement de producteur':
+      return extractProducteurType({
+        modifiedOn,
+        colonneConcernee,
+        ancienneValeur,
+        index,
+      })
+    default:
+      throw new Error(`Type de modification ${index} n'est pas reconnu`)
+  }
+}
