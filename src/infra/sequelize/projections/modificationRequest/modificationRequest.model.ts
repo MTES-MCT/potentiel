@@ -117,6 +117,11 @@ export const MakeModificationRequestModel = (sequelize) => {
         type: DataTypes.BIGINT,
         allowNull: true,
       },
+      isLegacy: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        default: false,
+      },
     },
     {
       timestamps: true,
