@@ -1,5 +1,4 @@
 import makeLogin from './login'
-import makeImportProjects from './importProjects'
 import makeListProjects from './listProjects'
 import makeSignup from './signup'
 import makeRequestModification from './requestModification'
@@ -27,15 +26,6 @@ import {
 const login = makeLogin({
   credentialsRepo,
   userRepo,
-})
-
-const importProjects = makeImportProjects({
-  eventBus: eventStore,
-  findOneProject: projectRepo.findOne,
-  saveProject: projectRepo.save,
-  removeProject: projectRepo.remove,
-  addProjectToUserWithEmail: userRepo.addProjectToUserWithEmail,
-  appelOffreRepo,
 })
 
 const listProjects = makeListProjects({
@@ -127,7 +117,6 @@ const relanceGarantiesFinancieres = makeRelanceGarantiesFinancieres({
 
 const useCases = Object.freeze({
   login,
-  importProjects,
   listProjects,
   sendNotification,
   signup,
@@ -146,7 +135,6 @@ const useCases = Object.freeze({
 export default useCases
 export {
   login,
-  importProjects,
   listProjects,
   sendNotification,
   signup,
