@@ -60,36 +60,6 @@ describe('Project.grantClasse()', () => {
       expect(targetEvent.payload.projectId).toEqual(projectId.toString())
       expect(targetEvent.payload.grantedBy).toEqual(fakeUser.id)
     })
-
-    it('should emit ProjectDCRDueDateSet', () => {
-      const targetEvent = project.pendingEvents.find(
-        (item) => item.type === ProjectDCRDueDateSet.type
-      ) as ProjectDCRDueDateSet | undefined
-      expect(targetEvent).toBeDefined()
-      if (!targetEvent) return
-
-      expect(targetEvent.payload.projectId).toEqual(projectId.toString())
-    })
-
-    it('should emit ProjectGFDueDateSet', () => {
-      const targetEvent = project.pendingEvents.find(
-        (item) => item.type === ProjectGFDueDateSet.type
-      ) as ProjectGFDueDateSet | undefined
-      expect(targetEvent).toBeDefined()
-      if (!targetEvent) return
-
-      expect(targetEvent.payload.projectId).toEqual(projectId.toString())
-    })
-
-    it('should emit ProjectCompletionDueDateSet', () => {
-      const targetEvent = project.pendingEvents.find(
-        (item) => item.type === ProjectCompletionDueDateSet.type
-      ) as ProjectCompletionDueDateSet | undefined
-      expect(targetEvent).toBeDefined()
-      if (!targetEvent) return
-
-      expect(targetEvent.payload.projectId).toEqual(projectId.toString())
-    })
   })
 
   describe('when project is Classé', () => {

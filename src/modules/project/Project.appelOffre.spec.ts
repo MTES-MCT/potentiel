@@ -143,8 +143,8 @@ describe('Project.appelOffre', () => {
     )
 
     it('should return the appel offre of the reimport event', () => {
-      expect(project.appelOffre.id).toEqual('CRE4 - Bâtiment')
-      expect(project.appelOffre.periode.id).toEqual('10')
+      expect(project.appelOffre?.id).toEqual('CRE4 - Bâtiment')
+      expect(project.appelOffre?.periode.id).toEqual('10')
     })
   })
 

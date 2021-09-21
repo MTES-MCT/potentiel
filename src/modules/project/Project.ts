@@ -479,10 +479,6 @@ export const makeProject = (args: {
             },
           })
         )
-
-        _updateDCRDate()
-        _updateGFDate()
-        _updateCompletionDate()
       }
 
       return ok(null)
