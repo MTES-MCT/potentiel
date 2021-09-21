@@ -1,12 +1,11 @@
+import { IllegalProjectDataError } from '..'
 import { DomainEvent, UniqueEntityID } from '../../../core/domain'
 import { okAsync } from '../../../core/utils'
-import { makeImportProjects } from './importProjects'
-import { EventBus } from '../../eventStore'
-import { InfraNotAvailableError } from '../../shared'
-import { ImportExecuted, ProjectImported, ProjectRawDataImported } from '../events'
-import { IllegalProjectDataError } from '..'
 import { AppelOffreRepo } from '../../../dataAccess'
 import makeFakeUser from '../../../__tests__/fixtures/user'
+import { InfraNotAvailableError } from '../../shared'
+import { ImportExecuted, ProjectRawDataImported } from '../events'
+import { makeImportProjects } from './importProjects'
 
 const validLine = {
   "Appel d'offres": 'appelOffreId',
@@ -362,6 +361,52 @@ describe('importProjects', () => {
         expect(error).toBeInstanceOf(IllegalProjectDataError)
         expect(error.errors[1]).toContain(
           'historique (non notifiée sur Potentiel) et requiert donc une date de notification'
+        )
+        expect(eventBus.publish).not.toHaveBeenCalled()
+      }
+    })
+  })
+
+  describe('when a line is from a non-legacy periode and has a notification date', () => {
+    const invalidLine = {
+      ...validLine,
+      "Appel d'offres": 'appelOffreId',
+      Période: 'periodeId',
+      Notification: '12/12/2020',
+    }
+
+    const appelOffreRepo = {
+      findAll: async () => [
+        {
+          id: 'appelOffreId',
+          periodes: [{ id: 'periodeId', isNotifiedOnPotentiel: true }],
+          familles: [{ id: 'familleId' }],
+        },
+      ],
+    } as AppelOffreRepo
+
+    const lines = [invalidLine]
+    const importId = new UniqueEntityID().toString()
+
+    const eventBus = {
+      publish: jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null)),
+      subscribe: jest.fn(),
+    }
+
+    const importProjects = makeImportProjects({
+      eventBus,
+      appelOffreRepo,
+    })
+
+    it('should throw an error', async () => {
+      expect.assertions(4)
+      try {
+        await importProjects({ lines, importId, importedBy: user })
+      } catch (error) {
+        expect(error).toBeDefined()
+        expect(error).toBeInstanceOf(IllegalProjectDataError)
+        expect(error.errors[1]).toContain(
+          'notifiée sur Potentiel. Le projet concerné ne doit pas comporter de date de notification.'
         )
         expect(eventBus.publish).not.toHaveBeenCalled()
       }

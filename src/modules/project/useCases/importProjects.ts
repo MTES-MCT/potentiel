@@ -68,6 +68,12 @@ export const makeImportProjects =
           )
         }
 
+        if (periode.isNotifiedOnPotentiel && projectData.notifiedOn) {
+          throw new Error(
+            `La période ${appelOffreId}-${periodeId} est notifiée sur Potentiel. Le projet concerné ne doit pas comporter de date de notification.`
+          )
+        }
+
         projects.push(projectData)
       } catch (e) {
         errors[i] = e.message
