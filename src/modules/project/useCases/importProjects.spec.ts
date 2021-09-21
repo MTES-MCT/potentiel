@@ -40,7 +40,7 @@ const appelOffreRepo = {
   findAll: async () => [
     {
       id: 'appelOffreId',
-      periodes: [{ id: 'periodeId' }],
+      periodes: [{ id: 'periodeId', isNotifiedOnPotentiel: true }],
       familles: [{ id: 'familleId' }],
     },
   ],
@@ -317,6 +317,52 @@ describe('importProjects', () => {
         expect(error).toBeDefined()
         expect(error).toBeInstanceOf(IllegalProjectDataError)
         expect(error.errors[1]).toContain('requiert une famille')
+        expect(eventBus.publish).not.toHaveBeenCalled()
+      }
+    })
+  })
+
+  describe('when a line is from a legacy periode but has no notification date', () => {
+    const invalidLine = {
+      ...validLine,
+      "Appel d'offres": 'appelOffreId',
+      Période: 'periodeId',
+      Notification: '',
+    }
+
+    const appelOffreRepo = {
+      findAll: async () => [
+        {
+          id: 'appelOffreId',
+          periodes: [{ id: 'periodeId', isNotifiedOnPotentiel: false }],
+          familles: [{ id: 'familleId' }],
+        },
+      ],
+    } as AppelOffreRepo
+
+    const lines = [invalidLine]
+    const importId = new UniqueEntityID().toString()
+
+    const eventBus = {
+      publish: jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null)),
+      subscribe: jest.fn(),
+    }
+
+    const importProjects = makeImportProjects({
+      eventBus,
+      appelOffreRepo,
+    })
+
+    it('should throw an error', async () => {
+      expect.assertions(4)
+      try {
+        await importProjects({ lines, importId, importedBy: user })
+      } catch (error) {
+        expect(error).toBeDefined()
+        expect(error).toBeInstanceOf(IllegalProjectDataError)
+        expect(error.errors[1]).toContain(
+          'historique (non notifiée sur Potentiel) et requiert donc une date de notification'
+        )
         expect(eventBus.publish).not.toHaveBeenCalled()
       }
     })
