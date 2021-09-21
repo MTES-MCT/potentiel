@@ -33,6 +33,8 @@ export type LegacyVariant =
   | LegacyActionnaire
   | LegacyProducteur
 
+// TODO: accept an array of modifications instead of single
+
 export type LegacyModificationImportedPayload = {
   projectId: string
   modifiedOn: number
@@ -40,7 +42,8 @@ export type LegacyModificationImportedPayload = {
 
 export class LegacyModificationImported
   extends BaseDomainEvent<LegacyModificationImportedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'LegacyModificationImported' = 'LegacyModificationImported'
   public type = LegacyModificationImported.type
   currentVersion = 1

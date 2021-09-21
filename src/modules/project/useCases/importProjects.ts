@@ -1,8 +1,11 @@
-import { IllegalProjectDataError, ImportExecuted, ProjectRawDataImported } from '..'
+import { ImportExecuted, ProjectRawDataImported } from '../events'
+import { IllegalProjectDataError } from '../errors'
+import { parseProjectModifications } from '../utils'
 import { AppelOffreRepo } from '../../../dataAccess'
 import { User } from '../../../entities'
 import { EventBus } from '../../eventStore'
 import { parseProjectLine } from '../utils/parseProjectLine'
+import { LegacyModificationRawDataImported } from '../../modificationRequest'
 
 interface ImportProjectsDeps {
   eventBus: EventBus
@@ -19,7 +22,10 @@ export const makeImportProjects =
   ({ eventBus, appelOffreRepo }: ImportProjectsDeps) =>
   async ({ lines, importId, importedBy }: ImportProjectsArgs): Promise<void> => {
     const errors: Record<number, string> = {}
-    const projects: any[] = []
+    const projects: {
+      projectData: ReturnType<typeof parseProjectLine>
+      legacyModifications: ReturnType<typeof parseProjectModifications>
+    }[] = []
 
     const appelsOffre = await appelOffreRepo.findAll()
 
@@ -62,19 +68,31 @@ export const makeImportProjects =
           }
         }
 
-        if (!periode.isNotifiedOnPotentiel && !projectData.notifiedOn) {
-          throw new Error(
-            `La période ${appelOffreId}-${periodeId} est historique (non notifiée sur Potentiel) et requiert donc une date de notification`
-          )
+        const legacyModifications = parseProjectModifications(line)
+
+        const isLegacyProject = !periode.isNotifiedOnPotentiel
+
+        if (isLegacyProject) {
+          if (!projectData.notifiedOn) {
+            throw new Error(
+              `La période ${appelOffreId}-${periodeId} est historique (non notifiée sur Potentiel) et requiert donc une date de notification`
+            )
+          }
+        } else {
+          if (projectData.notifiedOn) {
+            throw new Error(
+              `La période ${appelOffreId}-${periodeId} est notifiée sur Potentiel. Le projet concerné ne doit pas comporter de date de notification.`
+            )
+          }
+
+          if (legacyModifications.length) {
+            throw new Error(
+              `La période ${appelOffreId}-${periodeId} est notifiée sur Potentiel. Le projet concerné ne doit pas comporter de modifications.`
+            )
+          }
         }
 
-        if (periode.isNotifiedOnPotentiel && projectData.notifiedOn) {
-          throw new Error(
-            `La période ${appelOffreId}-${periodeId} est notifiée sur Potentiel. Le projet concerné ne doit pas comporter de date de notification.`
-          )
-        }
-
-        projects.push(projectData)
+        projects.push({ projectData, legacyModifications })
       } catch (e) {
         errors[i] = e.message
         if (Object.keys(errors).length > 100) {
@@ -89,7 +107,7 @@ export const makeImportProjects =
 
     await eventBus.publish(new ImportExecuted({ payload: { importId, importedBy: importedBy.id } }))
 
-    for (const projectData of projects) {
+    for (const { projectData, legacyModifications } of projects) {
       await eventBus.publish(
         new ProjectRawDataImported({
           payload: {
@@ -98,5 +116,22 @@ export const makeImportProjects =
           },
         })
       )
+
+      const { appelOffreId, periodeId, familleId, numeroCRE } = projectData
+
+      if (legacyModifications.length) {
+        await eventBus.publish(
+          new LegacyModificationRawDataImported({
+            payload: {
+              appelOffreId,
+              periodeId,
+              familleId,
+              numeroCRE,
+              importId,
+              modifications: legacyModifications,
+            },
+          })
+        )
+      }
     }
   }
