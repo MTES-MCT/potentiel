@@ -48,8 +48,8 @@ describe('Project.appelOffre', () => {
     )
 
     it('should return the appel offre of the source event', () => {
-      expect(project.appelOffre.id).toEqual(appelOffreId)
-      expect(project.appelOffre.periode.id).toEqual(periodeId)
+      expect(project.appelOffre?.id).toEqual(appelOffreId)
+      expect(project.appelOffre?.periode.id).toEqual(periodeId)
     })
   })
 
@@ -75,8 +75,8 @@ describe('Project.appelOffre', () => {
     )
 
     it('should return the appel offre of the import event', () => {
-      expect(project.appelOffre.id).toEqual(appelOffreId)
-      expect(project.appelOffre.periode.id).toEqual(periodeId)
+      expect(project.appelOffre?.id).toEqual(appelOffreId)
+      expect(project.appelOffre?.periode.id).toEqual(periodeId)
     })
   })
 
@@ -109,8 +109,8 @@ describe('Project.appelOffre', () => {
     )
 
     it('should return the appel offre of the reimport event', () => {
-      expect(project.appelOffre.id).toEqual(appelOffreId)
-      expect(project.appelOffre.periode.id).toEqual('1')
+      expect(project.appelOffre?.id).toEqual(appelOffreId)
+      expect(project.appelOffre?.periode.id).toEqual('1')
     })
   })
 
@@ -177,8 +177,8 @@ describe('Project.appelOffre', () => {
     )
 
     it('should return the appel offre of the correctData event', () => {
-      expect(project.appelOffre.id).toEqual('CRE4 - Bâtiment')
-      expect(project.appelOffre.periode.id).toEqual('10')
+      expect(project.appelOffre?.id).toEqual('CRE4 - Bâtiment')
+      expect(project.appelOffre?.periode.id).toEqual('10')
     })
   })
 })

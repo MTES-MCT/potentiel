@@ -34,7 +34,7 @@ const validLine = {
     '230.50',
   'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)': '',
   Autre: 'valeur',
-}
+} as Record<string, string>
 
 const appelOffreRepo = {
   findAll: async () => [
@@ -44,13 +44,13 @@ const appelOffreRepo = {
       familles: [{ id: 'familleId' }],
     },
   ],
-} as AppelOffreRepo
+} as unknown as AppelOffreRepo
 
 const user = makeFakeUser()
 
 describe('importProjects', () => {
   describe('when given only valid lines', () => {
-    const lines = [validLine]
+    const lines = [validLine] as Record<string, string>[]
     const importId = new UniqueEntityID().toString()
 
     const eventBus = {
@@ -142,7 +142,7 @@ describe('importProjects', () => {
         'Colonne concernée 2': '22/12/2024',
         'Ancienne valeur 2': '01/01/2024',
       },
-    ]
+    ] as Record<string, string>[]
     const appelOffreRepo = {
       findAll: async () => [
         {
@@ -151,7 +151,7 @@ describe('importProjects', () => {
           familles: [{ id: 'familleId' }],
         },
       ],
-    } as AppelOffreRepo
+    } as unknown as AppelOffreRepo
     const importId = new UniqueEntityID().toString()
 
     const eventBus = {
@@ -183,7 +183,7 @@ describe('importProjects', () => {
 
       expect(targetEvent).toBeDefined()
       if (!targetEvent) return
-      expect(targetEvent.payload).toEqual({
+      expect(targetEvent.payload).toMatchObject({
         importId,
         appelOffreId: 'appelOffreId',
         periodeId: 'periodeId',
@@ -211,7 +211,7 @@ describe('importProjects', () => {
       ...validLine,
       'Classé ?': 'illegal value',
     }
-    const lines = [validLine, invalidLine]
+    const lines = [validLine, invalidLine] as Record<string, string>[]
     const importId = new UniqueEntityID().toString()
 
     const eventBus = {
@@ -242,7 +242,7 @@ describe('importProjects', () => {
       ...validLine,
       "Appel d'offres": 'illegal appelOffreId',
     }
-    const lines = [invalidLine]
+    const lines = [invalidLine] as Record<string, string>[]
     const importId = new UniqueEntityID().toString()
 
     const eventBus = {
@@ -273,7 +273,7 @@ describe('importProjects', () => {
       ...validLine,
       Période: 'illegal periodeId',
     }
-    const lines = [invalidLine]
+    const lines = [invalidLine] as Record<string, string>[]
     const importId = new UniqueEntityID().toString()
 
     const eventBus = {
@@ -308,13 +308,13 @@ describe('importProjects', () => {
           familles: [],
         },
       ],
-    } as AppelOffreRepo
+    } as unknown as AppelOffreRepo
 
     const invalidLine = {
       ...validLine,
       Famille: 'familleId',
     }
-    const lines = [invalidLine]
+    const lines = [invalidLine] as Record<string, string>[]
     const importId = new UniqueEntityID().toString()
 
     const eventBus = {
@@ -345,7 +345,7 @@ describe('importProjects', () => {
       ...validLine,
       Famille: 'illegal familleId',
     }
-    const lines = [invalidLine]
+    const lines = [invalidLine] as Record<string, string>[]
     const importId = new UniqueEntityID().toString()
 
     const eventBus = {
@@ -374,9 +374,9 @@ describe('importProjects', () => {
   describe('when a line has no familleId but the appel d’offre requires a famille', () => {
     const invalidLine = {
       ...validLine,
-      Famille: undefined,
+      Famille: '',
     }
-    const lines = [invalidLine]
+    const lines = [invalidLine] as Record<string, string>[]
     const importId = new UniqueEntityID().toString()
 
     const eventBus = {
@@ -418,9 +418,9 @@ describe('importProjects', () => {
           familles: [{ id: 'familleId' }],
         },
       ],
-    } as AppelOffreRepo
+    } as unknown as AppelOffreRepo
 
-    const lines = [invalidLine]
+    const lines = [invalidLine] as Record<string, string>[]
     const importId = new UniqueEntityID().toString()
 
     const eventBus = {
@@ -464,9 +464,9 @@ describe('importProjects', () => {
           familles: [{ id: 'familleId' }],
         },
       ],
-    } as AppelOffreRepo
+    } as unknown as AppelOffreRepo
 
-    const lines = [invalidLine]
+    const lines = [invalidLine] as Record<string, string>[]
     const importId = new UniqueEntityID().toString()
 
     const eventBus = {
@@ -513,9 +513,9 @@ describe('importProjects', () => {
           familles: [{ id: 'familleId' }],
         },
       ],
-    } as AppelOffreRepo
+    } as unknown as AppelOffreRepo
 
-    const lines = [invalidLine]
+    const lines = [invalidLine] as Record<string, string>[]
     const importId = new UniqueEntityID().toString()
 
     const eventBus = {
