@@ -17,7 +17,7 @@ export const MakeModificationRequestModel = (sequelize) => {
       },
       userId: {
         type: DataTypes.UUID,
-        allowNull: false,
+        allowNull: true,
       },
       type: {
         type: DataTypes.STRING,

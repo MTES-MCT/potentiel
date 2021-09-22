@@ -1,5 +1,6 @@
 import { LegacyModificationDTO } from '../../modificationRequest'
 import moment from 'moment-timezone'
+import { UniqueEntityID } from '../../../core/domain'
 moment.tz.setDefault('Europe/Paris')
 
 const LegacyModificationColumns = [
@@ -57,6 +58,7 @@ function extractRecoursType(args: {
       modifiedOn,
       accepted,
       motifElimination: '',
+      modificationId: new UniqueEntityID().toString(),
     } as LegacyModificationDTO
   } else {
     return {
@@ -87,6 +89,7 @@ function extractDelaiType(args: {
     modifiedOn,
     nouvelleDateLimiteAchevement,
     ancienneDateLimiteAchevement,
+    modificationId: new UniqueEntityID().toString(),
   }
 }
 
@@ -104,6 +107,7 @@ function extractActionnaireType(args: {
       actionnairePrecedent: ancienneValeur,
       siretPrecedent: '',
       modifiedOn,
+      modificationId: new UniqueEntityID().toString(),
     }
   } else if (colonneConcernee === 'Numéro SIREN ou SIRET*') {
     return {
@@ -128,6 +132,7 @@ function extractProducteurType(args: {
       type: 'producteur',
       producteurPrecedent: ancienneValeur,
       modifiedOn,
+      modificationId: new UniqueEntityID().toString(),
     }
   } else {
     throw new Error(`Colonne concernée ${index} n'est pas reconnue`)
@@ -148,7 +153,7 @@ function extractModificationType(
   const modifiedOn = moment(dateModification, 'DD/MM/YYYY').toDate().getTime()
   switch (type) {
     case 'Abandon':
-      return { type: 'abandon', modifiedOn }
+      return { type: 'abandon', modifiedOn, modificationId: new UniqueEntityID().toString() }
     case 'Recours gracieux':
       return extractRecoursType({
         modifiedOn,
