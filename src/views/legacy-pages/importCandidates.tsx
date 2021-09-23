@@ -33,11 +33,13 @@ export default function ImportProjects({
           {!!importErrors && (
             <div className="notification error" {...dataId('error-message')}>
               Le fichier n'a pas pu être importé à cause des erreurs suivantes:
-              {Object.entries(importErrors).map(([lineNumber, message]) => (
-                <div>
-                  Ligne {lineNumber}: {message}
-                </div>
-              ))}
+              <ul>
+                {Object.entries(importErrors).map(([lineNumber, message]) => (
+                  <li key={`error_line_${lineNumber}`}>
+                    Ligne <b>{lineNumber}</b>: {message}
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
 

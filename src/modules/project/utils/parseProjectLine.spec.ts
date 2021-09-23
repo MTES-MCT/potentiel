@@ -127,7 +127,7 @@ describe('parseProjectLine', () => {
         Notification: moment().add(1, 'day').format('DD/MM/YYYY'),
       })
     ).toThrowError(
-      "Le champ 'Notification' est erronné (devrait être vide ou une date antérieure à aujourd'hui)"
+      "Le champ 'Notification' est erronné (devrait une date antérieure à aujourd'hui)"
     )
 
     expect(() =>
@@ -222,7 +222,7 @@ describe('parseProjectLine', () => {
           'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)':
             '-32',
         })
-      ).toThrowError('Le Prix doit être strictement positif')
+      ).toThrowError('Le champ Prix doit être strictement positif')
     })
   })
 
@@ -233,7 +233,7 @@ describe('parseProjectLine', () => {
           ...fakeLine,
           'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)': '0',
         })
-      ).toThrowError('Le Prix doit être strictement positif')
+      ).toThrowError('Le champ Prix doit être strictement positif')
     })
   })
 
