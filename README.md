@@ -53,18 +53,16 @@ La suite de ce document explique comment lancer l'application sur sa machine et 
 
    ```shell
    npm run dev-db
-
-   # Créer les tables (à relancer à chaque nouvelle migration de schéma)
-   npm run migrate
-
-   # Insérer les utilisateurs test
-   npm run seed
    ```
 
 2. Lancer la migration de données (création des tables et insertion des utilisateurs de test)
 
    ```shell
-   npm run migrate && npm run seed
+   # Créer les tables (à relancer à chaque nouvelle migration de schéma)
+   npm run migrate
+
+   # Insérer les utilisateurs test
+   npm run seed
    ```
 
 3. Lancer le serveur en mode "watch" (redémarrage à chaque changement de fichier)
