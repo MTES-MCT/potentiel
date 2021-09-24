@@ -1,18 +1,18 @@
 import { logger } from '../../../../../core/utils'
-import { ProjectClaimFailed } from '../../../../../modules/project'
+import { ProjectClaimFailed } from '../../../../../modules/projectClaim/events'
 
 export const onProjectClaimFailed = (models) => async (event: ProjectClaimFailed) => {
-  const { UserProjectClaimCounters } = models
+  const { UserProjectClaims } = models
   const { claimedBy, projectId } = event.payload
 
   try {
-    const [userProjectClaim, created] = await UserProjectClaimCounters.findOrCreate({
+    const [userProjectClaim, created] = await UserProjectClaims.findOrCreate({
       where: { userId: claimedBy, projectId },
-      defaults: { claimTryCounter: 1 },
+      defaults: { tryCounter: 1 },
     })
 
     if (!created) {
-      userProjectClaim.claimTryCounter++
+      userProjectClaim.tryCounter++
       await userProjectClaim.save()
     }
   } catch (e) {

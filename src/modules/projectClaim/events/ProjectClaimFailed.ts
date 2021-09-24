@@ -1,9 +1,11 @@
 import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
+import { makeClaimProjectAggregateId } from '../ProjectClaim'
 
 export interface ProjectClaimFailedPayload {
   projectId: string
   claimedBy: string
 }
+
 export class ProjectClaimFailed
   extends BaseDomainEvent<ProjectClaimFailedPayload>
   implements DomainEvent {
@@ -12,6 +14,7 @@ export class ProjectClaimFailed
   currentVersion = 1
 
   aggregateIdFromPayload(payload: ProjectClaimFailedPayload) {
-    return payload.projectId
+    const { projectId, claimedBy } = payload
+    return makeClaimProjectAggregateId({ projectId, claimedBy })
   }
 }

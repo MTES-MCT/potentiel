@@ -1,18 +1,19 @@
-import { errAsync, logger, okAsync, ResultAsync } from '../../../core/utils'
+import { err, ok, Result, ResultAsync } from '../../../core/utils'
 import { User } from '../../../entities'
-import { AggregateHasBeenUpdatedSinceError, InfraNotAvailableError } from '../../shared'
+import { AggregateHasBeenUpdatedSinceError } from '../../shared'
 import { Repository, TransactionalRepository, UniqueEntityID } from '../../../core/domain'
-import { UserRepo } from '../../../dataAccess'
-import { FileContents, FileObject, makeFileObject } from '../../file'
-import { ProjectClaim } from '../ProjectClaim'
+import { FileContents, FileObject, IllegalFileDataError, makeFileObject } from '../../file'
+import { makeClaimProjectAggregateId, ProjectClaim } from '../ProjectClaim'
 import { GetProjectDataForProjectClaim } from '../../project/queries/GetProjectDataForProjectClaim'
-import { ProjectDataForProjectClaim } from '../../project/dtos'
+import { EventBus } from '../../eventStore'
+import { ProjectClaimFailed } from '../events'
+import { ClaimerIdentityCheckHasFailed } from '..'
 
 interface ClaimProjectDeps {
   projectClaimRepo: TransactionalRepository<ProjectClaim>
-  userRepo: UserRepo
   fileRepo: Repository<FileObject>
   getProjectDataForProjectClaim: GetProjectDataForProjectClaim
+  eventBus: EventBus
 }
 
 interface ClaimProjectArgs {
@@ -28,75 +29,68 @@ interface ClaimProjectArgs {
 
 export const makeClaimProject = (deps: ClaimProjectDeps) => async (args: ClaimProjectArgs) => {
   const { projectId, prix, codePostal, claimedBy, attestationDesignationProofFile } = args
-  const { projectClaimRepo, getProjectDataForProjectClaim } = deps
+  const { projectClaimRepo, getProjectDataForProjectClaim, fileRepo, eventBus } = deps
 
-  return projectClaimRepo.transaction(
-    new UniqueEntityID(projectId),
-    (projectClaim): ResultAsync<string, Error | AggregateHasBeenUpdatedSinceError> => {
-      return getProjectDataForProjectClaim(projectId).andThen((project) => {
-        const { nomProjet: projectName } = project
+  const fileObject: Result<
+    FileObject | null,
+    IllegalFileDataError
+  > = attestationDesignationProofFile
+    ? makeFileObject({
+        designation: 'attestation-designation-proof',
+        forProject: new UniqueEntityID(projectId),
+        createdBy: new UniqueEntityID(claimedBy.id),
+        filename: attestationDesignationProofFile.filename,
+        contents: attestationDesignationProofFile.contents,
+      })
+    : ok(null)
 
-        if (project.email === claimedBy.email) {
-          return projectClaim.claim({ claimerIsTheOwner: true }).andThen(() => okAsync(projectName))
+  const projectClaimAggregateId = new UniqueEntityID(
+    makeClaimProjectAggregateId({ projectId, claimedBy: claimedBy.id })
+  )
+
+  return fileObject.andThen((fileObj): any => {
+    // todo : change 'any'
+    return projectClaimRepo
+      .transaction(
+        projectClaimAggregateId,
+        (
+          projectClaim
+        ): ResultAsync<
+          string,
+          Error | AggregateHasBeenUpdatedSinceError | ClaimerIdentityCheckHasFailed
+        > => {
+          return getProjectDataForProjectClaim(projectId).andThen((project) =>
+            projectClaim.claim({
+              projectEmail: project.email,
+              claimerEmail: claimedBy.email,
+              userInputs: {
+                prix,
+                codePostal,
+              },
+              projectData: project,
+              attestationDesignationFileId: fileObj?.id.toString(),
+            })
+          )
         }
-
-        if (!attestationDesignationProofFile) {
-          logger.info(`([${projectId}] ${projectName}) L'attestation de désignation est manquante.`)
-          return errAsync(
-            new Error(`[Projet ${projectName}] - L'attestation de désignation est manquante.`)
+      )
+      .orElse((error) => {
+        if (error instanceof ClaimerIdentityCheckHasFailed) {
+          eventBus.publish(
+            new ProjectClaimFailed({
+              payload: {
+                projectId,
+                claimedBy: claimedBy.id,
+              },
+            })
           )
         }
 
-        if (!prix || !codePostal) return
-
-        const claimerInputsAreCorrect = _checkClaimerInputsAreCorrect({ prix, codePostal }, project)
-
-        if (!claimerInputsAreCorrect) {
-          return projectClaim.claim({ claimerInputsAreCorrect: false }).map(() => {})
-        }
-
-        if (!attestationDesignationProofFile) return errAsync(new Error('Attestation manquante')) // TODO
-        const { filename, contents } = attestationDesignationProofFile
-
-        return makeFileObject({
-          designation: 'attestation-designation-proof',
-          forProject: new UniqueEntityID(projectId),
-          createdBy: new UniqueEntityID(claimedBy.id),
-          filename,
-          contents,
-        })
-          .asyncAndThen((file) => {
-            return deps.fileRepo.save(file).map(() => file.id.toString())
-          })
-          .mapErr((e: Error) => {
-            logger.error(e)
-            return new InfraNotAvailableError()
-          })
-          .andThen((certificateFileId) => {
-            return projectClaim
-              .claim({ attestationDesignationFileId: certificateFileId })
-              .andThen(() => okAsync(projectName))
-          })
+        return err(error.message)
       })
-    }
-  )
-}
+      .andThen(() => {
+        if (fileObj) return fileRepo.save(fileObj)
 
-function _checkClaimerInputsAreCorrect(
-  userInputs: { prix: number; codePostal: string },
-  project: ProjectDataForProjectClaim
-): boolean {
-  const projectInfo = `[${project.id}] ${project.nomProjet}`
-
-  if (userInputs.prix !== project.prixReference) {
-    logger.info(`(${projectInfo}) Le prix renseigné ne correspond pas à celui du projet.`)
-    return false
-  }
-
-  if (userInputs.codePostal !== project.codePostalProjet) {
-    logger.info(`(${projectInfo}) Le prix renseigné ne correspond pas à celui du projet.`)
-    return false
-  }
-
-  return true
+        return ok(null)
+      })
+  })
 }

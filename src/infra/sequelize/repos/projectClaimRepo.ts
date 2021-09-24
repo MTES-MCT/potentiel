@@ -12,13 +12,10 @@ import { makeProjectClaim, ProjectClaim } from '../../../modules/projectClaim'
 export const makeProjectClaimRepo = (
   eventStore: EventStore
 ): Repository<ProjectClaim> & TransactionalRepository<ProjectClaim> => {
-  const makeProjectClaimFromHistory = (args: {
-    events: DomainEvent[]
-    projectId: UniqueEntityID
-  }) =>
+  const makeProjectClaimFromHistory = (args: { events: DomainEvent[]; id: UniqueEntityID }) =>
     makeProjectClaim({
       events: args.events,
-      id: args.projectId,
+      id: args.id,
     })
 
   return {

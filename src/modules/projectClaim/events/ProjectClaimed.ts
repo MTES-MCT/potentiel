@@ -1,3 +1,4 @@
+import { makeClaimProjectAggregateId } from '..'
 import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
 
 export interface ProjectClaimedPayload {
@@ -11,6 +12,7 @@ export class ProjectClaimed extends BaseDomainEvent<ProjectClaimedPayload> imple
   currentVersion = 1
 
   aggregateIdFromPayload(payload: ProjectClaimedPayload) {
-    return payload.projectId
+    const { projectId, claimedBy } = payload
+    return makeClaimProjectAggregateId({ projectId, claimedBy })
   }
 }

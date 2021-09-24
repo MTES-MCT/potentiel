@@ -43,7 +43,7 @@ v1Router.post(
         if (promise.status === 'fulfilled') {
           if (promise.value?.isErr()) {
             // @ts-ignore
-            errors.push(promise.value.error?.message)
+            errors.push(promise.value.error)
           }
 
           promise.value?.map((projectName: string) => successes.push(projectName))

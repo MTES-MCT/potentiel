@@ -1,19 +1,33 @@
 import { DomainEvent, UniqueEntityID } from '../../core/domain'
-import { err, ok, Result } from '../../core/utils'
+import { err, logger, ok, Result } from '../../core/utils'
 import { EventStoreAggregate } from '../eventStore/EventStoreAggregate'
-import { ProjectClaimed, ProjectClaimedByOwner, ProjectClaimFailed } from '../project/events'
+import { ProjectDataForProjectClaim } from '../project'
+import { ProjectClaimed } from '../project/events'
 import { EntityNotFoundError } from '../shared'
-import { ProjectCannotBeClaimedByUserAnymore } from './errors/ProjectCantBeClaimedAnymoreByUser'
-import { ProjectHasAlreadyBeenClaimed } from './errors/ProjectHasAlreadyBeenClaimed'
+import {
+  ClaimerIdentityCheckHasFailed,
+  MissingAttestationDesignation,
+  ProjectHasAlreadyBeenClaimed,
+} from './errors'
+import { ProjectCannotBeClaimedByUserAnymore } from './errors'
+import { ProjectClaimedByOwner, ProjectClaimFailed } from './events'
 
 export interface ProjectClaim extends EventStoreAggregate {
   claim: (args: {
-    claimerIsTheOwner?: boolean
-    claimerInputsAreCorrect?: boolean
+    projectEmail: string
+    claimerEmail: string
+    userInputs: {
+      prix?: number
+      codePostal?: string
+    }
+    projectData: ProjectDataForProjectClaim
     attestationDesignationFileId?: string
   }) => Result<
     any,
-    EntityNotFoundError | ProjectHasAlreadyBeenClaimed | ProjectCannotBeClaimedByUserAnymore
+    | EntityNotFoundError
+    | ProjectHasAlreadyBeenClaimed
+    | ProjectCannotBeClaimedByUserAnymore
+    | ClaimerIdentityCheckHasFailed
   >
 }
 
@@ -24,19 +38,21 @@ interface ProjectClaimProps {
 
 export const makeProjectClaim = (args: {
   events: DomainEvent[]
-  projectId: UniqueEntityID
-  userId: UniqueEntityID
+  id: UniqueEntityID
 }): Result<
   ProjectClaim,
-  EntityNotFoundError | ProjectHasAlreadyBeenClaimed | ProjectCannotBeClaimedByUserAnymore
+  | EntityNotFoundError
+  | ProjectHasAlreadyBeenClaimed
+  | ProjectCannotBeClaimedByUserAnymore
+  | ClaimerIdentityCheckHasFailed
 > => {
-  const { events, projectId, userId } = args
+  const { events, id } = args
 
   let lastUpdatedOn = new Date(0)
-
-  if (!events?.length) {
-    return err(new EntityNotFoundError())
-  }
+  // ASK PA : events = []
+  // if (!events?.length) {
+  //   return err(new EntityNotFoundError())
+  // }
 
   const props: ProjectClaimProps = {
     hasBeenClaimed: false,
@@ -55,7 +71,7 @@ export const makeProjectClaim = (args: {
       return pendingEvents
     },
     get id() {
-      return projectId
+      return id
     },
     get lastUpdatedOn() {
       return lastUpdatedOn
@@ -85,20 +101,38 @@ export const makeProjectClaim = (args: {
   }
 
   function claim(args: {
-    claimerIsTheOwner?: boolean
-    claimerInputsAreCorrect?: boolean
+    projectEmail: string
+    claimerEmail: string
+    userInputs: {
+      prix?: number
+      codePostal?: string
+    }
+    projectData: ProjectDataForProjectClaim
     attestationDesignationFileId?: string
-  }) {
+  }): ReturnType<ProjectClaim['claim']> {
+    const MAX_ALLOWED_ATTEMPTS = 3
+
+    const {
+      projectEmail,
+      claimerEmail,
+      userInputs,
+      projectData,
+      attestationDesignationFileId,
+    } = args
+
+    const { projectId, claimedBy } = JSON.parse(id.toString())
+
     const payload: any = {
-      projectId: projectId.toString(),
-      claimedBy: userId.toString(),
+      projectId,
+      claimedBy,
     }
 
-    const { claimerIsTheOwner, claimerInputsAreCorrect, attestationDesignationFileId } = args
-
-    if (props.failedClaimsCounter >= 3) return err(new ProjectCannotBeClaimedByUserAnymore())
+    if (props.failedClaimsCounter >= MAX_ALLOWED_ATTEMPTS)
+      return err(new ProjectCannotBeClaimedByUserAnymore())
 
     if (props.hasBeenClaimed) return err(new ProjectHasAlreadyBeenClaimed())
+
+    const claimerIsTheOwner = projectEmail === claimerEmail
 
     if (claimerIsTheOwner) {
       _publishEvent(
@@ -110,13 +144,13 @@ export const makeProjectClaim = (args: {
       return ok(null)
     }
 
+    if (!attestationDesignationFileId) return err(new MissingAttestationDesignation())
+
+    const claimerInputsAreCorrect = _checkClaimerInputsAreCorrect(userInputs, projectData)
+
     if (!claimerInputsAreCorrect) {
-      _publishEvent(
-        new ProjectClaimFailed({
-          payload,
-        })
-      )
-      return ok(null)
+      const remainingAttempts = MAX_ALLOWED_ATTEMPTS - (props.failedClaimsCounter + 1)
+      return err(new ClaimerIdentityCheckHasFailed(remainingAttempts))
     }
 
     _publishEvent(
@@ -130,4 +164,21 @@ export const makeProjectClaim = (args: {
 
     return ok(null)
   }
+
+  function _checkClaimerInputsAreCorrect(
+    userInputs: { prix?: number; codePostal?: string },
+    project: ProjectDataForProjectClaim
+  ): boolean {
+    return (
+      userInputs.prix === project.prixReference &&
+      userInputs.codePostal === project.codePostalProjet
+    )
+  }
+}
+
+export const makeClaimProjectAggregateId = (args: { projectId: string; claimedBy: string }) => {
+  const { projectId, claimedBy } = args
+  const key = { projectId, claimedBy }
+
+  return JSON.stringify(key, Object.keys(key).sort()) // This makes the stringify stable (key order)
 }
