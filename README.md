@@ -15,6 +15,7 @@ La suite de ce document explique comment lancer l'application sur sa machine et 
 
 ## Autre ressources
 
+- [Guide d'utilisation](https://docs.potentiel.beta.gouv.fr)
 - [Documentation de l'architecture](./docs/ARCHITECTURE.md)
 - [Les grandes 'recettes' pour le développeur](./docs/RECIPES.md)
 
