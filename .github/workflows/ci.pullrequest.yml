@@ -10,6 +10,7 @@ on:
       - 'legacy-features/**'
       - 'scripts/**'
       - 'devtools/**'
+      - 'docs/**'
       - '.env.template'
       - '.eslint**'
       - '.prettier**'
