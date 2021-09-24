@@ -1,6 +1,7 @@
 # Recettes pour le développeur
 
 - [Ecrire des tests](#écrire-des-tests)
+- [Ecrire une query](#ecrire-une-query)
 - [Déclencher une nouvelle notification par mail](#déclencher-une-nouvelle-notification-par-mail)
 - [Créer une nouvelle projection](#créer-une-nouvelle-projection)
 - [Ajout d'un événement de mise à jour de projection](#ajout-dun-événement-de-mise-à-jour-de-projection)
@@ -56,6 +57,27 @@ Comme les différents cas de figure métier sont testés dans les tests unitaire
 Les tests e2e utilisent une vraie db mais doivent être indépendants les uns des autres. Il est donc impératif de vider la base au début de chaque test-case.
 Pour rajouter des données de test, on fait appel à des point d'API spécialement ajoutés. Ceux-ci se situent dans le dossier `src/__tests__/e2e`. Ils ne sont rajoutés au serveur que si `NODE_ENV=test`.
 Pour appeler ces points d'API, on peut utiliser `cy.request` ou bien, pour éviter les répétitions, rajouter une commande cypress dans `e2e/support/commands.js`.
+
+## Ecrire une query
+
+1. Ecrire l'interface de cette query dans le sous-dossier `modules` correspondant au context (ex: `src/modules/project/queries/GetProjectData.ts`)
+
+- Il s'agit d'exporter un type qui décrit la méthode avec ses arguments et son résultat
+  Ex:
+
+```ts
+export type GetProjectData = (args: {
+  projectId: string
+}) => ResultAsync<ProjectDataDTO, EntityNotFoundError>
+```
+
+2. Si le type de retour n'est pas trivial (ex: `string`, `number`,...) créer un DTO dans le sous-dossier correspondant (ex: `src/modules/project/dtos/ProjectDataDTO.ts`). Encore une fois, il s'agit d'exporter un type.
+3. Ecrire l'implémentation de la query pour l'infra visée, en commençant par le test d'intégration:
+
+- `src/infra/sequelize/queries/project/getProjectData.integration.ts`
+- `src/infra/sequelize/queries/project/getProjectData.ts`
+
+  _NB: Parfois l'implémentation peut paraitre triviale mais l'intérêt d'un test d'intégration est aussi de vérifier la validité des requêtes que nous faisons sur la table. Même si l'api est évidente, le schéma de base de données a pu changer et casser la requête._
 
 ## Déclencher une nouvelle notification par mail
 
