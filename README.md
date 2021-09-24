@@ -80,6 +80,10 @@ La suite de ce document explique comment lancer l'application sur sa machine et 
 
 ### Accès à la base de données locale
 
+Vous pouvez utiliser une UI telle que [`pgAdmin`](https://www.pgadmin.org) pour accéder à la base de données ou la ligne de commande.
+
+Voici les instructions pour la ligne de commande:
+
 _NB: Nécessite d'installer `psql` et `dotenv` (`npm install -g dotenv`) sur sa machine._
 
 Pour la base de données de dev (celle créée par `npm run dev-db`), les credentials sont présents dans le fichier `.env`. Celui-ci peut donc être utilisé pour injecter ces valeurs dans la commande `psql`, de la façon suivante:
