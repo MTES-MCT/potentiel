@@ -122,15 +122,17 @@ export const makeProjectClaim = (args: {
 
     const { projectId, claimedBy } = JSON.parse(id.toString())
 
+    const { nomProjet: projectName } = projectData
+
     const payload: any = {
       projectId,
       claimedBy,
     }
 
     if (props.failedClaimsCounter >= MAX_ALLOWED_ATTEMPTS)
-      return err(new ProjectCannotBeClaimedByUserAnymore())
+      return err(new ProjectCannotBeClaimedByUserAnymore(projectName))
 
-    if (props.hasBeenClaimed) return err(new ProjectHasAlreadyBeenClaimed())
+    if (props.hasBeenClaimed) return err(new ProjectHasAlreadyBeenClaimed(projectName))
 
     const claimerIsTheOwner = projectEmail === claimerEmail
 
@@ -141,16 +143,16 @@ export const makeProjectClaim = (args: {
         })
       )
 
-      return ok(null)
+      return ok(projectName)
     }
 
-    if (!attestationDesignationFileId) return err(new MissingAttestationDesignation())
+    if (!attestationDesignationFileId) return err(new MissingAttestationDesignation(projectName))
 
     const claimerInputsAreCorrect = _checkClaimerInputsAreCorrect(userInputs, projectData)
 
     if (!claimerInputsAreCorrect) {
       const remainingAttempts = MAX_ALLOWED_ATTEMPTS - (props.failedClaimsCounter + 1)
-      return err(new ClaimerIdentityCheckHasFailed(remainingAttempts))
+      return err(new ClaimerIdentityCheckHasFailed(projectName, remainingAttempts))
     }
 
     _publishEvent(
@@ -162,7 +164,7 @@ export const makeProjectClaim = (args: {
       })
     )
 
-    return ok(null)
+    return ok(projectName)
   }
 
   function _checkClaimerInputsAreCorrect(

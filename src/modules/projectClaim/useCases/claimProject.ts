@@ -1,4 +1,4 @@
-import { err, ok, Result, ResultAsync } from '../../../core/utils'
+import { err, logger, ok, Result, ResultAsync } from '../../../core/utils'
 import { User } from '../../../entities'
 import { AggregateHasBeenUpdatedSinceError } from '../../shared'
 import { Repository, TransactionalRepository, UniqueEntityID } from '../../../core/domain'
@@ -49,7 +49,6 @@ export const makeClaimProject = (deps: ClaimProjectDeps) => async (args: ClaimPr
   )
 
   return fileObject.andThen((fileObj): any => {
-    // todo : change 'any'
     return projectClaimRepo
       .transaction(
         projectClaimAggregateId,
@@ -59,21 +58,25 @@ export const makeClaimProject = (deps: ClaimProjectDeps) => async (args: ClaimPr
           string,
           Error | AggregateHasBeenUpdatedSinceError | ClaimerIdentityCheckHasFailed
         > => {
-          return getProjectDataForProjectClaim(projectId).andThen((project) =>
-            projectClaim.claim({
-              projectEmail: project.email,
-              claimerEmail: claimedBy.email,
-              userInputs: {
-                prix,
-                codePostal,
-              },
-              projectData: project,
-              attestationDesignationFileId: fileObj?.id.toString(),
-            })
-          )
+          return getProjectDataForProjectClaim(projectId)
+            .andThen((project) =>
+              projectClaim.claim({
+                projectEmail: project.email,
+                claimerEmail: claimedBy.email,
+                userInputs: {
+                  prix,
+                  codePostal,
+                },
+                projectData: project,
+                attestationDesignationFileId: fileObj?.id.toString(),
+              })
+            )
+            .map((projectName) => projectName)
         }
       )
       .orElse((error) => {
+        logger.info(error.message)
+
         if (error instanceof ClaimerIdentityCheckHasFailed) {
           eventBus.publish(
             new ProjectClaimFailed({
@@ -87,10 +90,12 @@ export const makeClaimProject = (deps: ClaimProjectDeps) => async (args: ClaimPr
 
         return err(error.message)
       })
-      .andThen(() => {
-        if (fileObj) return fileRepo.save(fileObj)
+      .andThen((projectName: string) => {
+        if (fileObj) {
+          return fileRepo.save(fileObj).map(() => projectName)
+        }
 
-        return ok(null)
+        return ok(projectName)
       })
   })
 }
