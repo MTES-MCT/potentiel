@@ -177,7 +177,7 @@ describe('parseProjectLine', () => {
           ...fakeLine,
           'Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)': '',
         })
-      ).toThrowError('Le champ Puissance est manquant')
+      ).toThrowError('Le champ Puissance doit être un nombre')
     })
   })
 
@@ -210,7 +210,7 @@ describe('parseProjectLine', () => {
           ...fakeLine,
           'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)': '',
         })
-      ).toThrowError('Le Prix est manquant')
+      ).toThrowError('Le Prix doit être un nombre')
     })
   })
 
@@ -368,5 +368,67 @@ describe('parseProjectLine', () => {
         'Territoire\n(AO ZNI)': '',
       })
     ).toThrowError("Le champ 'Territoire (AO ZNI)' est requis pour cet Appel d'offres")
+  })
+
+  describe('concerning the evaluation carbone column', () => {
+    it('should accept a positive number as a value', () => {
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)':
+            '350',
+        })
+      ).toMatchObject({
+        evaluationCarbone: 350,
+      })
+    })
+
+    it('should accept N/A as a value', () => {
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)':
+            'N/A',
+        })
+      ).toMatchObject({
+        evaluationCarbone: 0,
+      })
+    })
+
+    it('should throw an error if ecs is not strictly positive', () => {
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)':
+            '0',
+        })
+      ).toThrowError('Le champ Evaluation Carbone doit contenir un nombre strictement positif')
+
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)':
+            '-10',
+        })
+      ).toThrowError('Le champ Evaluation Carbone doit contenir un nombre strictement positif')
+    })
+
+    it('should throw an error if ecs is not a number', () => {
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)':
+            'abcd',
+        })
+      ).toThrowError('Le champ Evaluation carbone doit contenir un nombre')
+
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)':
+            '',
+        })
+      ).toThrowError('Le champ Evaluation carbone doit contenir un nombre')
+    })
   })
 })

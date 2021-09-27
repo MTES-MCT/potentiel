@@ -79,12 +79,21 @@ const columnMapper = {
 
     return line['Territoire\n(AO ZNI)']
   },
-  evaluationCarbone: (line: any) =>
-    prepareNumber(
+  evaluationCarbone: (line: any) => {
+    const ecs = prepareNumber(
       line[
         'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)'
       ] || line['Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)']
-    ),
+    )
+
+    if (ecs === '') return null
+
+    if (ecs === 'N/A') return 0
+
+    if (Number(ecs) === 0) return -1
+
+    return ecs
+  },
 } as const
 
 // Extract raw project data from the columns in a csv line
@@ -209,7 +218,7 @@ const projectSchema = yup.object().shape({
   evaluationCarbone: yup
     .number()
     .typeError('Le champ Evaluation carbone doit contenir un nombre')
-    .positive('Le champ Evaluation Carbone doit contenir un nombre strictement positif')
+    .min(0, 'Le champ Evaluation Carbone doit contenir un nombre strictement positif')
     .required(),
 })
 
