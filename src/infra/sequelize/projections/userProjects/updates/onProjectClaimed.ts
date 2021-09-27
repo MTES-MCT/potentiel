@@ -5,22 +5,14 @@ import { ProjectClaimedByOwner } from '../../../../../modules/projectClaim/event
 export const onProjectClaimed = (models) => async (
   event: ProjectClaimed | ProjectClaimedByOwner
 ) => {
-  const { projectId, claimedBy } = event.payload
-  const { UserProjects } = models
+  const { projectId, claimedBy, claimerEmail } = event.payload
+  const { UserProjects, Project } = models
 
   try {
-    // if (event.type === 'ProjectClaimed')
-    //   await ProjectStep.create({
-    //     id: new UniqueEntityID().toString(),
-    //     type: 'attestation-designation-proof',
-    //     projectId,
-    //     stepDate: event.occurredAt,
-    //     fileId: event.payload.attestationDesignationFileId,
-    //     submittedBy: claimedBy,
-    //     submittedOn: event.occurredAt,
-    //   })
-
-    await UserProjects.create({ userId: claimedBy, projectId })
+    await Promise.all([
+      Project.update({ email: claimerEmail }, { where: { id: projectId } }),
+      UserProjects.create({ userId: claimedBy, projectId }),
+    ])
   } catch (e) {
     logger.error(e)
   }

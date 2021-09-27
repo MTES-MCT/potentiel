@@ -127,6 +127,7 @@ export const makeProjectClaim = (args: {
     const payload: any = {
       projectId,
       claimedBy,
+      claimerEmail,
     }
 
     if (props.failedClaimsCounter >= MAX_ALLOWED_ATTEMPTS)

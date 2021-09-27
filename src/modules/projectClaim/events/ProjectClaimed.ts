@@ -4,6 +4,7 @@ import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
 export interface ProjectClaimedPayload {
   projectId: string
   claimedBy: string
+  claimerEmail: string
   attestationDesignationFileId: string
 }
 export class ProjectClaimed extends BaseDomainEvent<ProjectClaimedPayload> implements DomainEvent {

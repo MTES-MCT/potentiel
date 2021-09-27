@@ -49,11 +49,12 @@ export default function ListMissingOwnerProjects({
           <h3>Projets en attente de réclamation de la part de leur propriétaire</h3>
           <div>
             <span>
-              Sélectionnez les projets que vous suivez (qu’ils vous soient alloués ou non), puis
-              validez.
+              Pour ajouter un projet à votre suivi de projet (onglet "Mes projets"),
+              sélectionner-le, qu’il vous soit pré-affecté ou non.
               <br />
-              Pour ajouter des projets qui ne vous sont pas alloués, veuillez remplir les champs
-              code postal et prix et téléverser l’attestation de désignation.
+              Pour les projets qui ne vous sont pas pré-affectés, veuillez saisir le prix de
+              référence tel qu'il figure dans votre attestation de désignation, ainsi que le code
+              postal puis téléverser l’attestation de désignation.
             </span>
           </div>
           <form
@@ -192,10 +193,9 @@ export default function ListMissingOwnerProjects({
             <MissingOwnerProjectList
               displayColumns={[
                 'Projet',
-                'Candidat',
                 'Puissance',
                 'Region',
-                'Projet alloue',
+                'Projet pre-affecte',
                 'Prix',
                 'Code postal',
                 'Attestation',

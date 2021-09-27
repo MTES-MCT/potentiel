@@ -13,7 +13,7 @@ type Columns =
   | 'Puissance'
   | 'Region'
   | 'Code postal'
-  | 'Projet alloue'
+  | 'Projet pre-affecte'
   | 'Prix'
   | 'Attestation'
 
@@ -39,7 +39,6 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
             {project.departementProjet}
           </span>
           , <span {...dataId('projectList-item-regionProjet')}>{project.regionProjet}</span>
-          <div style={{ marginTop: 5, fontStyle: 'normal' }}>{makeProjectIdentifier(project)}</div>
         </div>
       </td>
     )
@@ -86,10 +85,10 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
       </td>
     )
   } as ColumnRenderer,
-  'Projet alloue': function ProjectAlloueColumn({ project, email }) {
+  'Projet pre-affecte': function ProjectPreAffecteColumn({ project, email }) {
     return (
-      <td valign="top" className="projectList-projet-alloue-column">
-        <span {...dataId('projectList-item-alloue')}>
+      <td valign="top" className="projectList-projet-pre-affecte-column">
+        <span {...dataId('projectList-item-pre-affecte')}>
           {project.email === email ? 'Oui' : 'Non'}
         </span>
       </td>

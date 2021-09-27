@@ -56,7 +56,7 @@ v1Router.post(
 
       if (errors.length) {
         const redirectErrorParams: any = {
-          error: `Les projets suivants n'ont pas pu être ajoutés car la vérification du prix ou du code postal sont erronés. Pensez également à vérifier que vous avez bien joint votre attestation de désignation pour tous les projets qui ne vous sont pas alloués.\n${errors.join(
+          error: `Les projets suivants n'ont pas pu être ajoutés car le prix ou le code postal est erroné. Pensez également à vérifier que vous avez bien joint votre attestation de désignation.\n${errors.join(
             '\n'
           )}`,
           success: successes.length ? successMessage : undefined,
