@@ -277,10 +277,17 @@ export const makeProject = (args: {
         return ok(null)
       }
 
+      const { appelOffre } = props
+
+      if (!appelOffre) return ok(null)
+
       _publishEvent(
         new ProjectReimported({
           payload: {
             projectId: props.projectId.toString(),
+            appelOffreId: appelOffre.id,
+            periodeId: appelOffre.periode.id,
+            familleId: appelOffre.famille?.id,
             importId,
             data: changes,
           },

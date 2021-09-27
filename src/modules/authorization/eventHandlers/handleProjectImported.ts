@@ -4,13 +4,22 @@ import { EventBus } from '../../eventStore'
 import { ProjectImported, ProjectReimported } from '../../project'
 import { GetUserByEmail } from '../../users/queries'
 
+interface HandleProjectImportedDeps {
+  eventBus: EventBus
+  getUserByEmail: GetUserByEmail
+  isPeriodeLegacy: (args: { appelOffreId: string; periodeId: string }) => Promise<boolean>
+}
+
 export const handleProjectImported =
-  (deps: { eventBus: EventBus; getUserByEmail: GetUserByEmail }) =>
-  async (event: ProjectImported | ProjectReimported) => {
-    const { projectId, data } = event.payload
+  (deps: HandleProjectImportedDeps) => async (event: ProjectImported | ProjectReimported) => {
+    const { projectId, data, appelOffreId, periodeId } = event.payload
     const { email } = data
 
     try {
+      const isLegacy = await deps.isPeriodeLegacy({ appelOffreId, periodeId })
+
+      if (isLegacy) return
+
       if (email && email.length) {
         await deps.getUserByEmail(email).andThen((userOrNull) => {
           if (!!userOrNull) {

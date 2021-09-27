@@ -297,3 +297,4 @@ export {
   resetDatabase,
 }
 export * from './appelOffre'
+export * from './isPeriodeLegacy'

@@ -1,13 +1,14 @@
 import { handleProjectImported } from '../../modules/authorization'
 import { ProjectImported, ProjectReimported } from '../../modules/project/events'
 import { eventStore } from '../eventStore.config'
-import { getUserByEmail } from '../queries.config'
+import { getUserByEmail, isPeriodeLegacy } from '../queries.config'
 
 eventStore.subscribe(
   ProjectImported.type,
   handleProjectImported({
     eventBus: eventStore,
     getUserByEmail,
+    isPeriodeLegacy,
   })
 )
 
@@ -16,6 +17,7 @@ eventStore.subscribe(
   handleProjectImported({
     eventBus: eventStore,
     getUserByEmail,
+    isPeriodeLegacy,
   })
 )
 
