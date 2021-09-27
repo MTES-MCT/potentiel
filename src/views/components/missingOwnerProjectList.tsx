@@ -245,7 +245,7 @@ const MissingOwnerProjectList = ({ projects, displayColumns, user }: Props) => {
             {...dataId('sworn-statement')}
           />
           <label
-            style={{ display: 'inline' }}
+            style={{ verticalAlign: 'middle', display: 'inline-block' }}
             htmlFor="swornStatement"
             className="notification error"
           >
