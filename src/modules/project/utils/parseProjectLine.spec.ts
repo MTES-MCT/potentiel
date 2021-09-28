@@ -229,13 +229,30 @@ describe('parseProjectLine', () => {
   })
 
   describe('when the prix is 0', () => {
-    it('should throw an error', () => {
-      expect(() =>
-        parseProjectLine({
-          ...fakeLine,
-          'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)': '0',
-        })
-      ).toThrowError('Le champ Prix doit être strictement positif')
+    describe('when the appelOffreId contains autoconsommation', () => {
+      it('should accept 0 as the value', () => {
+        expect(
+          parseProjectLine({
+            ...fakeLine,
+            "Appel d'offres": 'blabla Autoconsommation blabla',
+            'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)':
+              '0',
+          })
+        ).toMatchObject({ prixReference: 0 })
+      })
+    })
+
+    describe('when the appelOffreId does not contain autoconsommation', () => {
+      it('should throw an error', () => {
+        expect(() =>
+          parseProjectLine({
+            ...fakeLine,
+            "Appel d'offres": 'other',
+            'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)':
+              '0',
+          })
+        ).toThrowError('Le champ Prix doit être strictement positif')
+      })
     })
   })
 

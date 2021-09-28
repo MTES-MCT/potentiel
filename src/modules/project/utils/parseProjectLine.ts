@@ -47,10 +47,17 @@ const columnMapper = {
     prepareNumber(
       line['Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)']
     ),
-  prixReference: (line: any) =>
-    prepareNumber(
+  prixReference: (line: any) => {
+    const prix = prepareNumber(
       line['Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)']
-    ),
+    )
+
+    if (prix === '') return null
+
+    if (Number(prix) === 0 && !appelOffreId(line).includes('Autoconsommation')) return -1
+
+    return prix
+  },
   note: (line: any) => prepareNumber(line['Note totale']),
   nomRepresentantLegal: (line: any) => line['Nom et prénom du représentant légal'],
   email: (line: any) => line['Adresse électronique du contact'],
@@ -124,7 +131,7 @@ const projectSchema = yup.object().shape({
   prixReference: yup
     .number()
     .typeError('Le Prix doit être un nombre')
-    .positive('Le champ Prix doit être strictement positif')
+    .min(0, 'Le champ Prix doit être strictement positif')
     .required(),
   note: yup
     .number()
