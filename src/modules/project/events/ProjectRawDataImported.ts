@@ -9,6 +9,7 @@ export interface ProjectRawDataImportedPayload {
     territoireProjet: string
     numeroCRE: string
     nomCandidat: string
+    actionnaire: string
     nomProjet: string
     puissance: number
     prixReference: number
@@ -32,7 +33,8 @@ export interface ProjectRawDataImportedPayload {
 }
 export class ProjectRawDataImported
   extends BaseDomainEvent<ProjectRawDataImportedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ProjectRawDataImported' = 'ProjectRawDataImported'
   public type = ProjectRawDataImported.type
   currentVersion = 1
