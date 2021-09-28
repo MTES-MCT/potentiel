@@ -14,6 +14,7 @@ export interface ProjectImportedPayload {
     territoireProjet: string
     numeroCRE: string
     nomCandidat: string
+    actionnaire: string
     nomProjet: string
     puissance: number
     prixReference: number
@@ -37,7 +38,8 @@ export interface ProjectImportedPayload {
 }
 export class ProjectImported
   extends BaseDomainEvent<ProjectImportedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ProjectImported' = 'ProjectImported'
   public type = ProjectImported.type
   currentVersion = 1

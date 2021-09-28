@@ -28,7 +28,6 @@ export interface ProjectReimportedPayload {
     communeProjet: string
     departementProjet: string
     regionProjet: string
-    fournisseur: string
     actionnaire: string
     classe: string
     motifsElimination: string

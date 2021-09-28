@@ -12,6 +12,7 @@ const mappedColumns = [
   'N°CRE',
   'Nom (personne physique) ou raison sociale (personne morale) :',
   'Nom projet',
+  'Société mère',
   'Candidat',
   'Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)',
   'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)',
@@ -39,6 +40,7 @@ const columnMapper = {
   familleId: (line: any) => line.Famille,
   numeroCRE: (line: any) => line['N°CRE'],
   nomProjet: (line: any) => line['Nom projet'],
+  actionnaire: (line: any) => line['Société mère'],
   nomCandidat: (line: any) =>
     line['Nom (personne physique) ou raison sociale (personne morale) :'] || line['Candidat'],
   puissance: (line: any) =>
@@ -112,6 +114,7 @@ const projectSchema = yup.object().shape({
   familleId: yup.string().default(''),
   numeroCRE: yup.string().required('N°CRE manquant'),
   nomCandidat: yup.string().required('Candidat manquant'),
+  actionnaire: yup.string().required('Société mère manquante'),
   nomProjet: yup.string().required('Nom projet manquant'),
   puissance: yup
     .number()
