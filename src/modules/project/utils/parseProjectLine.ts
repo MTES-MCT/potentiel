@@ -121,7 +121,7 @@ const projectSchema = yup.object().shape({
   familleId: yup.string().default(''),
   numeroCRE: yup.string().required('N°CRE manquant'),
   nomCandidat: yup.string().required('Candidat manquant'),
-  actionnaire: yup.string(),
+  actionnaire: yup.string().ensure(),
   nomProjet: yup.string().required('Nom projet manquant'),
   puissance: yup
     .number()
