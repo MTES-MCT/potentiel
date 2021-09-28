@@ -10,7 +10,7 @@ Ceci est un document à destination des développeurs de Potentiel et qui traite
   - [Command](#command)
 - [Event Sourcing: architecture orientée événements](#event-sourcing)
 - [Transactions et Agrégats](#agrégats)
-- [Result/ResultAsync: encapsulation des erreurs](#result/resultasync)
+- [Result/ResultAsync: encapsulation des erreurs](#result--resultasync)
 
 ## Principe fondamental: le découplage
 
