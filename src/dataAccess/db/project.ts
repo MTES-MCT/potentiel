@@ -810,13 +810,24 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
         ],
       }
 
-      // Order by Projets alloués then the rest ordered by nomProjet
+      // Order by Projets pré-affectés then the rest ordered by nomProjet
       opts.order = [
         [literal(`CASE "project"."email" WHEN '${userEmail}' THEN 1 ELSE 2 END`)],
         ['nomProjet'],
       ]
 
-      if (terms) opts.where[Op.or] = { ...getFullTextSearchOptions(terms) }
+      const customSearchedProjectsColumns = [
+        'nomCandidat',
+        'nomProjet',
+        'email',
+        'regionProjet',
+        'numeroCRE',
+        'details.Nom et prénom du signataire du formulaire',
+        'details.Nom et prénom du contact',
+      ]
+
+      if (terms)
+        opts.where[Op.or] = { ...getFullTextSearchOptions(terms, customSearchedProjectsColumns) }
 
       return _findAndBuildProjectList(opts, pagination)
     } catch (error) {
@@ -1059,13 +1070,11 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
 
 export { makeProjectRepo }
 
-export function getFullTextSearchOptions(terms: string): object {
-  const formattedTerms = terms
-    .split(' ')
-    .filter((term) => term.trim() !== '')
-    .map((term) => `%${term}%`)
-
-  const searchedProjectsColumns = [
+export function getFullTextSearchOptions(
+  terms: string,
+  customSearchedProjectsColumns?: string[]
+): object {
+  const defaultSearchedProjectsColumns = [
     'nomCandidat',
     'nomProjet',
     'nomRepresentantLegal',
@@ -1079,6 +1088,13 @@ export function getFullTextSearchOptions(terms: string): object {
     'details.Nom et prénom du signataire du formulaire',
     'details.Nom et prénom du contact',
   ]
+
+  const searchedProjectsColumns = customSearchedProjectsColumns || defaultSearchedProjectsColumns
+
+  const formattedTerms = terms
+    .split(' ')
+    .filter((term) => term.trim() !== '')
+    .map((term) => `%${term}%`)
 
   const options = searchedProjectsColumns.reduce((opts, col) => {
     return {

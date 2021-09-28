@@ -31,14 +31,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
             fontSize: 12,
           }}
         >
-          <span {...dataId('missingOwnerProjectList-item-communeProjet')}>
-            {project.communeProjet}
-          </span>
-          ,{' '}
-          <span {...dataId('missingOwnerProjectList-item-departementProjet')}>
-            {project.departementProjet}
-          </span>
-          , <span {...dataId('projectList-item-regionProjet')}>{project.regionProjet}</span>
+          <span {...dataId('projectList-item-regionProjet')}>{project.regionProjet}</span>
         </div>
       </td>
     )

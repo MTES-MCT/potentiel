@@ -46,10 +46,10 @@ export default function ListMissingOwnerProjects({
     <RoleBasedDashboard role={request.user.role} currentPage="list-missing-owner-projects">
       <div className="panel">
         <div className="panel__header">
-          <h3>Projets en attente de réclamation de la part de leur propriétaire</h3>
+          <h3>Projets en attente d'affectation</h3>
           <div>
             <span>
-              Pour ajouter un projet à votre suivi de projet (onglet "Mes projets"),
+              Pour ajouter un projet à votre suivi de projets (onglet "Mes projets"),
               sélectionner-le, qu’il vous soit pré-affecté ou non.
               <br />
               Pour les projets qui ne vous sont pas pré-affectés, veuillez saisir le prix de
@@ -69,7 +69,7 @@ export default function ListMissingOwnerProjects({
                 {...dataId('recherche-field')}
                 style={{ paddingRight: 40 }}
                 defaultValue={recherche || ''}
-                placeholder="Nom projet, AO, etc."
+                placeholder="Nom projet, nom candidat, email, numéro CRE, période, région"
               />
               <button
                 className="overlay-button"
