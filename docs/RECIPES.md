@@ -1,10 +1,67 @@
 # Recettes pour le développeur
 
+- [Arborescence des fichiers](#arborescence)
 - [Ecrire des tests](#écrire-des-tests)
 - [Ecrire une query](#ecrire-une-query)
 - [Déclencher une nouvelle notification par mail](#déclencher-une-nouvelle-notification-par-mail)
 - [Créer une nouvelle projection](#créer-une-nouvelle-projection)
 - [Ajout d'un événement de mise à jour de projection](#ajout-dun-événement-de-mise-à-jour-de-projection)
+
+## Arborescence
+
+```
+.github/                      # github actions
+.storybook/                   # configuration de storybook
+.vscode/                      # configuration de vscode
+clevercloud/                  # CRON à déclencher sur clever cloud
+devtools/                     # scripts de génération de code (experimental)
+docs/                         # documentation
+e2e/                          # tests end-to-end
+e2e-legacy/                   # tests end-to-end legacy (sont toujours valides mais ont vocation être remplacés)
+scripts/                      # scripts qui sont executés soit manuellement, soit par CRON
+src/                          # code source de l'application
+  __tests__/                  # utilitaires pour les tests
+  config/                     # configuration (injection de dépendances au lancement de l'application)
+  controllers/                # controlleurs http (routes express)
+  core/                       # types, définitions et utilitaires d'archi
+  dataAccess/                 # anciens points d'accès à la donnée (legacy)
+  entities/                   # anciens modèles de données (legacy)
+  helpers/                    # utilitaires
+  infra/                      # couche infrastructure de l'app
+    file/                     # implémentations du FileService (S3, local, ...)
+    inMemory/                 # implémentation in-memory de l'event store
+    mail/                     # implémentations du mail service
+    sequelize/                # implémentation sequelize de l'accès aux données
+      __tests__/              # utilitaires pour les tests d'intégration sequelize
+      eventStore/             # implémentation db de l'event store
+      helpers/                # utilitaires
+      migrations/             # scripts de migration (permet de mettre à jour les schémas de db via npm run migrate)
+      projections/            # définitions de tables de projections et de leurs mises à jour
+      queries/                # implémentation des queries
+      repos/                  # implémentation des repositories
+      seeds/                  # données de tests (permet de charger des données via npm run seed)
+      models.ts               # instantiation des modèles sequelize
+  modules/                    # briques métier
+    [contextName]/            # contexte métier
+      dtos/                   # définitions des DTOS
+      errors/                 # définitions des erreurs
+      events/                 # définitions des événements
+      queries/                # définitions des queries
+      eventHandlers/          # implémentation des handlers événementiels
+      useCases/               # implémentations des commandes métier
+      [Context].ts            # Implémentation de l'agrégat
+  public/                     # fichiers statiques (css, images, polices, ...)
+  types/                      # définition de types globaux (override des libs)
+  useCases/                   # ancienne implémentation de commandes métier (legacy)
+  views/                      # Vues (React)
+    [...]
+    legacy-pages/             # pages qui ont encore une dépendance à public/scripts.js pour leur comportement
+    pages/                    # pages qui ont du comportement front géré par React + Webpack
+  routes.ts                   # déclaration de toutes les routes de l'application
+  sequelize.config.ts         # configuration de sequelize
+  sequelize.legacy.config.ts  # configuration de sequelize (legacy)
+  server.ts                   # point de lancement de l'application (serveur express + middlewares)
+```
 
 ## Écrire des tests
 
