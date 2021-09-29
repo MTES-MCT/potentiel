@@ -59,27 +59,15 @@ export default function makeListMissingOwnerProjects({
 
     const result: any = {}
 
-    let userSpecificProjectListFilter: ContextSpecificProjectListFilter | undefined = undefined
-
     const projects = await searchAllMissingOwner(user.email, user.id, recherche, query, pagination)
 
     result.projects = projects
 
-    userSpecificProjectListFilter = {
-      userId: user.id,
-    }
+    result.existingAppelsOffres = await findExistingAppelsOffres()
 
-    result.existingAppelsOffres = await findExistingAppelsOffres(userSpecificProjectListFilter)
-
-    if (appelOffreId && userSpecificProjectListFilter) {
-      result.existingPeriodes = await findExistingPeriodesForAppelOffre(
-        appelOffreId,
-        userSpecificProjectListFilter
-      )
-      result.existingFamilles = await findExistingFamillesForAppelOffre(
-        appelOffreId,
-        userSpecificProjectListFilter
-      )
+    if (appelOffreId) {
+      result.existingPeriodes = await findExistingPeriodesForAppelOffre(appelOffreId)
+      result.existingFamilles = await findExistingFamillesForAppelOffre(appelOffreId)
     }
 
     return result as ListMissingOwnerProjectsResult
