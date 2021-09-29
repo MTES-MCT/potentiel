@@ -1,9 +1,67 @@
 # Recettes pour le développeur
 
+- [Arborescence des fichiers](#arborescence)
 - [Ecrire des tests](#écrire-des-tests)
+- [Ecrire une query](#ecrire-une-query)
 - [Déclencher une nouvelle notification par mail](#déclencher-une-nouvelle-notification-par-mail)
 - [Créer une nouvelle projection](#créer-une-nouvelle-projection)
 - [Ajout d'un événement de mise à jour de projection](#ajout-dun-événement-de-mise-à-jour-de-projection)
+
+## Arborescence
+
+```
+.github/                      # github actions
+.storybook/                   # configuration de storybook
+.vscode/                      # configuration de vscode
+clevercloud/                  # CRON à déclencher sur clever cloud
+devtools/                     # scripts de génération de code (experimental)
+docs/                         # documentation
+e2e/                          # tests end-to-end
+e2e-legacy/                   # tests end-to-end legacy (sont toujours valides mais ont vocation être remplacés)
+scripts/                      # scripts qui sont executés soit manuellement, soit par CRON
+src/                          # code source de l'application
+  __tests__/                  # utilitaires pour les tests
+  config/                     # configuration (injection de dépendances au lancement de l'application)
+  controllers/                # controlleurs http (routes express)
+  core/                       # types, définitions et utilitaires d'archi
+  dataAccess/                 # anciens points d'accès à la donnée (legacy)
+  entities/                   # anciens modèles de données (legacy)
+  helpers/                    # utilitaires
+  infra/                      # couche infrastructure de l'app
+    file/                     # implémentations du FileService (S3, local, ...)
+    inMemory/                 # implémentation in-memory de l'event store
+    mail/                     # implémentations du mail service
+    sequelize/                # implémentation sequelize de l'accès aux données
+      __tests__/              # utilitaires pour les tests d'intégration sequelize
+      eventStore/             # implémentation db de l'event store
+      helpers/                # utilitaires
+      migrations/             # scripts de migration (permet de mettre à jour les schémas de db via npm run migrate)
+      projections/            # définitions de tables de projections et de leurs mises à jour
+      queries/                # implémentation des queries
+      repos/                  # implémentation des repositories
+      seeds/                  # données de tests (permet de charger des données via npm run seed)
+      models.ts               # instantiation des modèles sequelize
+  modules/                    # briques métier
+    [contextName]/            # contexte métier
+      dtos/                   # définitions des DTOS
+      errors/                 # définitions des erreurs
+      events/                 # définitions des événements
+      queries/                # définitions des queries
+      eventHandlers/          # implémentation des handlers événementiels
+      useCases/               # implémentations des commandes métier
+      [Context].ts            # Implémentation de l'agrégat
+  public/                     # fichiers statiques (css, images, polices, ...)
+  types/                      # définition de types globaux (override des libs)
+  useCases/                   # ancienne implémentation de commandes métier (legacy)
+  views/                      # Vues (React)
+    [...]
+    legacy-pages/             # pages qui ont encore une dépendance à public/scripts.js pour leur comportement
+    pages/                    # pages qui ont du comportement front géré par React + Webpack
+  routes.ts                   # déclaration de toutes les routes de l'application
+  sequelize.config.ts         # configuration de sequelize
+  sequelize.legacy.config.ts  # configuration de sequelize (legacy)
+  server.ts                   # point de lancement de l'application (serveur express + middlewares)
+```
 
 ## Écrire des tests
 
@@ -56,6 +114,27 @@ Comme les différents cas de figure métier sont testés dans les tests unitaire
 Les tests e2e utilisent une vraie db mais doivent être indépendants les uns des autres. Il est donc impératif de vider la base au début de chaque test-case.
 Pour rajouter des données de test, on fait appel à des point d'API spécialement ajoutés. Ceux-ci se situent dans le dossier `src/__tests__/e2e`. Ils ne sont rajoutés au serveur que si `NODE_ENV=test`.
 Pour appeler ces points d'API, on peut utiliser `cy.request` ou bien, pour éviter les répétitions, rajouter une commande cypress dans `e2e/support/commands.js`.
+
+## Ecrire une query
+
+1. Ecrire l'interface de cette query dans le sous-dossier `modules` correspondant au context (ex: `src/modules/project/queries/GetProjectData.ts`)
+
+- Il s'agit d'exporter un type qui décrit la méthode avec ses arguments et son résultat
+  Ex:
+
+```ts
+export type GetProjectData = (args: {
+  projectId: string
+}) => ResultAsync<ProjectDataDTO, EntityNotFoundError>
+```
+
+2. Si le type de retour n'est pas trivial (ex: `string`, `number`,...) créer un DTO dans le sous-dossier correspondant (ex: `src/modules/project/dtos/ProjectDataDTO.ts`). Encore une fois, il s'agit d'exporter un type.
+3. Ecrire l'implémentation de la query pour l'infra visée, en commençant par le test d'intégration:
+
+- `src/infra/sequelize/queries/project/getProjectData.integration.ts`
+- `src/infra/sequelize/queries/project/getProjectData.ts`
+
+  _NB: Parfois l'implémentation peut paraitre triviale mais l'intérêt d'un test d'intégration est aussi de vérifier la validité des requêtes que nous faisons sur la table. Même si l'api est évidente, le schéma de base de données a pu changer et casser la requête._
 
 ## Déclencher une nouvelle notification par mail
 
