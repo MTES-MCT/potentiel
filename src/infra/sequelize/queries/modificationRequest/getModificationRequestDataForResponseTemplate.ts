@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { userRepo } from '../../../../config/repos.config'
+import { oldUserRepo } from '../../../../config/repos.config'
 import { errAsync, logger, ok, okAsync, ResultAsync, wrapInfra } from '../../../../core/utils'
 import { getAppelOffre } from '../../../../dataAccess/inMemory/appelOffre'
 import { DREAL, makeProjectIdentifier } from '../../../../entities'
@@ -15,262 +15,258 @@ import { getPeriode } from '../appelOffre'
 
 const { ModificationRequest, Project, File, User } = models
 
-export const getModificationRequestDataForResponseTemplate: GetModificationRequestDateForResponseTemplate = (
-  modificationRequestId,
-  user,
-  dgecEmail
-) => {
-  if (!ModificationRequest || !Project || !File || !User)
-    return errAsync(new InfraNotAvailableError())
+export const getModificationRequestDataForResponseTemplate: GetModificationRequestDateForResponseTemplate =
+  (modificationRequestId, user, dgecEmail) => {
+    if (!ModificationRequest || !Project || !File || !User)
+      return errAsync(new InfraNotAvailableError())
 
-  return _getModificationRequestById(modificationRequestId, models)
-    .andThen(
-      (
-        modificationRequest: any
-      ): ResultAsync<
-        { modificationRequest: any; previousRequest: any },
-        EntityNotFoundError | InfraNotAvailableError
-      > => {
-        if (!modificationRequest) return errAsync(new EntityNotFoundError())
+    return _getModificationRequestById(modificationRequestId, models)
+      .andThen(
+        (
+          modificationRequest: any
+        ): ResultAsync<
+          { modificationRequest: any; previousRequest: any },
+          EntityNotFoundError | InfraNotAvailableError
+        > => {
+          if (!modificationRequest) return errAsync(new EntityNotFoundError())
 
-        const { type, projectId } = modificationRequest
-        if (type === 'delai') {
-          return _getPreviouslyAcceptedDelaiRequest(projectId, models).map((previousRequest) => ({
-            modificationRequest,
-            previousRequest,
-          }))
+          const { type, projectId } = modificationRequest
+          if (type === 'delai') {
+            return _getPreviouslyAcceptedDelaiRequest(projectId, models).map((previousRequest) => ({
+              modificationRequest,
+              previousRequest,
+            }))
+          }
+
+          return okAsync({ modificationRequest, previousRequest: null })
         }
-
-        return okAsync({ modificationRequest, previousRequest: null })
-      }
-    )
-    .andThen(({ modificationRequest, previousRequest }) =>
-      getPeriode(modificationRequest.project.appelOffreId, modificationRequest.project.periodeId)
-        .orElse(
-          (e): ResultAsync<PeriodeDTO, InfraNotAvailableError> => {
+      )
+      .andThen(({ modificationRequest, previousRequest }) =>
+        getPeriode(modificationRequest.project.appelOffreId, modificationRequest.project.periodeId)
+          .orElse((e): ResultAsync<PeriodeDTO, InfraNotAvailableError> => {
             if (e instanceof EntityNotFoundError) {
               // If periode is not found, do not crash the whole query
               return okAsync({} as PeriodeDTO)
             }
 
             return errAsync(e)
-          }
-        )
-        .map((periodeDetails) => ({ modificationRequest, previousRequest, periodeDetails }))
-    )
-    .andThen(
-      ({
-        modificationRequest,
-        previousRequest,
-        periodeDetails,
-      }): ResultAsync<
-        { dreal: DREAL | ''; modificationRequest; previousRequest; periodeDetails },
-        InfraNotAvailableError
-      > => {
-        if (user.role === 'dreal') {
-          const {
-            project: { regionProjet },
-          } = modificationRequest
-          return wrapInfra(userRepo.findDrealsForUser(user.id)).map((userDreals) => {
-            // If there are multiple, use the first to coincide with the project
-            const dreal = userDreals.find((dreal) => regionProjet.includes(dreal)) || ''
-
-            return {
-              dreal,
-              modificationRequest,
-              previousRequest,
-              periodeDetails,
-            }
           })
+          .map((periodeDetails) => ({ modificationRequest, previousRequest, periodeDetails }))
+      )
+      .andThen(
+        ({
+          modificationRequest,
+          previousRequest,
+          periodeDetails,
+        }): ResultAsync<
+          { dreal: DREAL | ''; modificationRequest; previousRequest; periodeDetails },
+          InfraNotAvailableError
+        > => {
+          if (user.role === 'dreal') {
+            const {
+              project: { regionProjet },
+            } = modificationRequest
+            return wrapInfra(oldUserRepo.findDrealsForUser(user.id)).map((userDreals) => {
+              // If there are multiple, use the first to coincide with the project
+              const dreal = userDreals.find((dreal) => regionProjet.includes(dreal)) || ''
+
+              return {
+                dreal,
+                modificationRequest,
+                previousRequest,
+                periodeDetails,
+              }
+            })
+          }
+
+          return okAsync({ dreal: '', modificationRequest, previousRequest, periodeDetails })
+        }
+      )
+      .andThen(({ dreal, modificationRequest, previousRequest, periodeDetails }) => {
+        const {
+          type,
+          project,
+          requestedOn,
+          delayInMonths,
+          justification,
+          actionnaire,
+          status,
+          confirmationRequestedOn,
+          confirmedOn,
+        } = modificationRequest
+
+        const { appelOffreId, periodeId, familleId } = project
+        const appelOffre = getAppelOffre({ appelOffreId, periodeId })
+        const periode = appelOffre?.periodes.find((periode) => periode.id === periodeId)
+        const famille = appelOffre?.familles.find((famille) => famille.id === familleId)
+
+        if (!appelOffre || !periode) {
+          logger.error(
+            new Error(
+              `getModificationRequestDataForResponseTemplate failed to find the appelOffre for this id ${appelOffreId}`
+            )
+          )
+          return errAsync(new InfraNotAvailableError())
         }
 
-        return okAsync({ dreal: '', modificationRequest, previousRequest, periodeDetails })
-      }
-    )
-    .andThen(({ dreal, modificationRequest, previousRequest, periodeDetails }) => {
-      const {
-        type,
-        project,
-        requestedOn,
-        delayInMonths,
-        justification,
-        actionnaire,
-        status,
-        confirmationRequestedOn,
-        confirmedOn,
-      } = modificationRequest
+        const {
+          nomRepresentantLegal,
+          nomCandidat,
+          details,
+          email,
+          nomProjet,
+          puissance,
+          codePostalProjet,
+          communeProjet,
+          completionDueOn,
+          motifsElimination,
+          prixReference,
+          evaluationCarbone,
+          isFinancementParticipatif,
+          isInvestissementParticipatif,
+          engagementFournitureDePuissanceAlaPointe,
+          notifiedOn,
+        } = project
 
-      const { appelOffreId, periodeId, familleId } = project
-      const appelOffre = getAppelOffre({ appelOffreId, periodeId })
-      const periode = appelOffre?.periodes.find((periode) => periode.id === periodeId)
-      const famille = appelOffre?.familles.find((famille) => famille.id === familleId)
+        const {
+          tarifOuPrimeRetenue,
+          tarifOuPrimeRetenueAlt,
+          paragraphePrixReference,
+          affichageParagrapheECS,
+          unitePuissance,
+          renvoiDemandeCompleteRaccordement,
+          renvoiRetraitDesignationGarantieFinancieres,
+          paragrapheDelaiDerogatoire,
+          paragrapheAttestationConformite,
+          paragrapheEngagementIPFP,
+          renvoiModification,
+          delaiRealisationTexte,
+          renvoiSoumisAuxGarantiesFinancieres,
+        } = appelOffre
 
-      if (!appelOffre || !periode) {
-        logger.error(
-          new Error(
-            `getModificationRequestDataForResponseTemplate failed to find the appelOffre for this id ${appelOffreId}`
-          )
-        )
-        return errAsync(new InfraNotAvailableError())
-      }
+        const commonData = {
+          type,
+          suiviPar: user.fullName,
+          suiviParEmail: user.role === 'dreal' ? user.email : dgecEmail,
+          dreal,
+          refPotentiel: makeProjectIdentifier(project),
+          nomRepresentantLegal,
+          nomCandidat,
+          status,
+          adresseCandidat: details['Adresse postale du contact'],
+          email,
+          titrePeriode: periode.title,
+          titreAppelOffre: appelOffre.title,
+          familles: appelOffre.familles.length ? 'yes' : '',
+          titreFamille: familleId,
+          nomProjet,
+          puissance: puissance.toString(),
+          codePostalProjet,
+          communeProjet,
+          unitePuissance,
+          dateDemande: formatDate(requestedOn),
+          justificationDemande: justification,
+          dateNotification: formatDate(notifiedOn),
+        }
 
-      const {
-        nomRepresentantLegal,
-        nomCandidat,
-        details,
-        email,
-        nomProjet,
-        puissance,
-        codePostalProjet,
-        communeProjet,
-        completionDueOn,
-        motifsElimination,
-        prixReference,
-        evaluationCarbone,
-        isFinancementParticipatif,
-        isInvestissementParticipatif,
-        engagementFournitureDePuissanceAlaPointe,
-        notifiedOn,
-      } = project
+        const soumisAuxGarantiesFinancieres =
+          project.appelOffreId === 'Eolien' ||
+          famille?.garantieFinanciereEnMois ||
+          famille?.soumisAuxGarantiesFinancieres
 
-      const {
-        tarifOuPrimeRetenue,
-        tarifOuPrimeRetenueAlt,
-        paragraphePrixReference,
-        affichageParagrapheECS,
-        unitePuissance,
-        renvoiDemandeCompleteRaccordement,
-        renvoiRetraitDesignationGarantieFinancieres,
-        paragrapheDelaiDerogatoire,
-        paragrapheAttestationConformite,
-        paragrapheEngagementIPFP,
-        renvoiModification,
-        delaiRealisationTexte,
-        renvoiSoumisAuxGarantiesFinancieres,
-      } = appelOffre
+        switch (type) {
+          case 'delai':
+            return ok({
+              ...commonData,
+              referenceParagrapheAchevement: periode.paragrapheAchevement,
+              contenuParagrapheAchevement: appelOffre.contenuParagrapheAchevement,
+              dateLimiteAchevementInitiale: formatDate(
+                +moment(notifiedOn).add(appelOffre.delaiRealisationEnMois, 'months')
+              ),
+              dateLimiteAchevementActuelle: formatDate(completionDueOn),
+              dureeDelaiDemandeEnMois: delayInMonths.toString(),
+              ..._makePreviousDelaiFromPreviousRequest(previousRequest),
+            } as ModificationRequestDataForResponseTemplateDTO)
+          case 'abandon':
+            return ok({
+              ...commonData,
+              referenceParagrapheAbandon:
+                periodeDetails[
+                  'Référence du paragraphe dédié à l’engagement de réalisation ou aux modalités d’abandon'
+                ],
+              contenuParagrapheAbandon:
+                periodeDetails[
+                  'Dispositions liées à l’engagement de réalisation ou aux modalités d’abandon'
+                ],
+              dateDemandeConfirmation:
+                confirmationRequestedOn && formatDate(confirmationRequestedOn),
+              dateConfirmation: confirmedOn && formatDate(confirmedOn),
+            } as ModificationRequestDataForResponseTemplateDTO)
+          case 'actionnaire':
+            return ok({
+              ...commonData,
+              nouvelActionnaire: actionnaire,
+              referenceParagrapheActionnaire:
+                periodeDetails['Référence du paragraphe dédié au changement d’actionnariat'],
+              contenuParagrapheActionnaire:
+                periodeDetails['Dispositions liées au changement d’actionnariat'],
+            } as ModificationRequestDataForResponseTemplateDTO)
+          case 'recours':
+            return ok({
+              ...commonData,
+              prixReference: prixReference.toString(),
+              evaluationCarbone: evaluationCarbone.toString(),
+              isFinancementParticipatif: isFinancementParticipatif ? 'yes' : '',
+              isInvestissementParticipatif: isInvestissementParticipatif ? 'yes' : '',
+              isEngagementParticipatif:
+                isFinancementParticipatif || isInvestissementParticipatif ? 'yes' : '',
+              engagementFournitureDePuissanceAlaPointe: engagementFournitureDePuissanceAlaPointe
+                ? 'yes'
+                : '',
 
-      const commonData = {
-        type,
-        suiviPar: user.fullName,
-        suiviParEmail: user.role === 'dreal' ? user.email : dgecEmail,
-        dreal,
-        refPotentiel: makeProjectIdentifier(project),
-        nomRepresentantLegal,
-        nomCandidat,
-        status,
-        adresseCandidat: details['Adresse postale du contact'],
-        email,
-        titrePeriode: periode.title,
-        titreAppelOffre: appelOffre.title,
-        familles: appelOffre.familles.length ? 'yes' : '',
-        titreFamille: familleId,
-        nomProjet,
-        puissance: puissance.toString(),
-        codePostalProjet,
-        communeProjet,
-        unitePuissance,
-        dateDemande: formatDate(requestedOn),
-        justificationDemande: justification,
-        dateNotification: formatDate(notifiedOn),
-      }
+              nonInstruit: motifsElimination.toLowerCase().includes('non instruit') ? 'yes' : '',
+              motifsElimination,
+              tarifOuPrimeRetenue,
+              tarifOuPrimeRetenueAlt,
+              paragraphePrixReference,
+              affichageParagrapheECS: affichageParagrapheECS ? 'yes' : '',
+              unitePuissance,
+              eolien: appelOffreId === 'Eolien' ? 'yes' : '',
+              AOInnovation: appelOffreId === 'CRE4 - Innovation' ? 'yes' : '',
+              soumisGF: soumisAuxGarantiesFinancieres ? 'yes' : '',
+              renvoiSoumisAuxGarantiesFinancieres,
+              renvoiDemandeCompleteRaccordement,
+              renvoiRetraitDesignationGarantieFinancieres,
+              paragrapheDelaiDerogatoire,
+              paragrapheAttestationConformite,
+              paragrapheEngagementIPFP,
+              renvoiModification,
+              delaiRealisationTexte,
+            } as ModificationRequestDataForResponseTemplateDTO)
 
-      const soumisAuxGarantiesFinancieres =
-        project.appelOffreId === 'Eolien' ||
-        famille?.garantieFinanciereEnMois ||
-        famille?.soumisAuxGarantiesFinancieres
+          case 'puissance':
+            const { puissance: puissanceActuelle } = modificationRequest.project
+            const {
+              project: { puissanceInitiale },
+              puissance: nouvellePuissance,
+            } = modificationRequest
 
-      switch (type) {
-        case 'delai':
-          return ok({
-            ...commonData,
-            referenceParagrapheAchevement: periode.paragrapheAchevement,
-            contenuParagrapheAchevement: appelOffre.contenuParagrapheAchevement,
-            dateLimiteAchevementInitiale: formatDate(
-              +moment(notifiedOn).add(appelOffre.delaiRealisationEnMois, 'months')
-            ),
-            dateLimiteAchevementActuelle: formatDate(completionDueOn),
-            dureeDelaiDemandeEnMois: delayInMonths.toString(),
-            ..._makePreviousDelaiFromPreviousRequest(previousRequest),
-          } as ModificationRequestDataForResponseTemplateDTO)
-        case 'abandon':
-          return ok({
-            ...commonData,
-            referenceParagrapheAbandon:
-              periodeDetails[
-                'Référence du paragraphe dédié à l’engagement de réalisation ou aux modalités d’abandon'
-              ],
-            contenuParagrapheAbandon:
-              periodeDetails[
-                'Dispositions liées à l’engagement de réalisation ou aux modalités d’abandon'
-              ],
-            dateDemandeConfirmation: confirmationRequestedOn && formatDate(confirmationRequestedOn),
-            dateConfirmation: confirmedOn && formatDate(confirmedOn),
-          } as ModificationRequestDataForResponseTemplateDTO)
-        case 'actionnaire':
-          return ok({
-            ...commonData,
-            nouvelActionnaire: actionnaire,
-            referenceParagrapheActionnaire:
-              periodeDetails['Référence du paragraphe dédié au changement d’actionnariat'],
-            contenuParagrapheActionnaire:
-              periodeDetails['Dispositions liées au changement d’actionnariat'],
-          } as ModificationRequestDataForResponseTemplateDTO)
-        case 'recours':
-          return ok({
-            ...commonData,
-            prixReference: prixReference.toString(),
-            evaluationCarbone: evaluationCarbone.toString(),
-            isFinancementParticipatif: isFinancementParticipatif ? 'yes' : '',
-            isInvestissementParticipatif: isInvestissementParticipatif ? 'yes' : '',
-            isEngagementParticipatif:
-              isFinancementParticipatif || isInvestissementParticipatif ? 'yes' : '',
-            engagementFournitureDePuissanceAlaPointe: engagementFournitureDePuissanceAlaPointe
-              ? 'yes'
-              : '',
+            return ok({
+              ...commonData,
+              puissanceInitiale:
+                puissanceInitiale !== puissanceActuelle ? puissanceInitiale : undefined,
+              nouvellePuissance,
+              puissanceActuelle,
+              referenceParagraphePuissance:
+                periodeDetails['Référence du paragraphe dédié au changement de puissance'],
+              contenuParagraphePuissance:
+                periodeDetails['Dispositions liées au changement de puissance'],
+            } as ModificationRequestDataForResponseTemplateDTO)
+        }
 
-            nonInstruit: motifsElimination.toLowerCase().includes('non instruit') ? 'yes' : '',
-            motifsElimination,
-            tarifOuPrimeRetenue,
-            tarifOuPrimeRetenueAlt,
-            paragraphePrixReference,
-            affichageParagrapheECS: affichageParagrapheECS ? 'yes' : '',
-            unitePuissance,
-            eolien: appelOffreId === 'Eolien' ? 'yes' : '',
-            AOInnovation: appelOffreId === 'CRE4 - Innovation' ? 'yes' : '',
-            soumisGF: soumisAuxGarantiesFinancieres ? 'yes' : '',
-            renvoiSoumisAuxGarantiesFinancieres,
-            renvoiDemandeCompleteRaccordement,
-            renvoiRetraitDesignationGarantieFinancieres,
-            paragrapheDelaiDerogatoire,
-            paragrapheAttestationConformite,
-            paragrapheEngagementIPFP,
-            renvoiModification,
-            delaiRealisationTexte,
-          } as ModificationRequestDataForResponseTemplateDTO)
-
-        case 'puissance':
-          const { puissance: puissanceActuelle } = modificationRequest.project
-          const {
-            project: { puissanceInitiale },
-            puissance: nouvellePuissance,
-          } = modificationRequest
-
-          return ok({
-            ...commonData,
-            puissanceInitiale:
-              puissanceInitiale !== puissanceActuelle ? puissanceInitiale : undefined,
-            nouvellePuissance,
-            puissanceActuelle,
-            referenceParagraphePuissance:
-              periodeDetails['Référence du paragraphe dédié au changement de puissance'],
-            contenuParagraphePuissance:
-              periodeDetails['Dispositions liées au changement de puissance'],
-          } as ModificationRequestDataForResponseTemplateDTO)
-      }
-
-      return errAsync(new EntityNotFoundError())
-    })
-}
+        return errAsync(new EntityNotFoundError())
+      })
+  }
 
 function _getModificationRequestById(modificationRequestId, models) {
   const { ModificationRequest, Project } = models
