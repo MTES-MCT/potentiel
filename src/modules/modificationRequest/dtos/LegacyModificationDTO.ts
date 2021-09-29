@@ -24,12 +24,19 @@ export interface LegacyProducteur {
   producteurPrecedent: string
 }
 
+export interface LegacyAutre {
+  type: 'autre'
+  column: string
+  value: string
+}
+
 export type LegacyVariant =
   | LegacyAbandon
   | LegacyRecours
   | LegacyDelai
   | LegacyActionnaire
   | LegacyProducteur
+  | LegacyAutre
 
 export type LegacyModificationDTO = {
   modifiedOn: number

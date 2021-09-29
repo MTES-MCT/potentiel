@@ -152,6 +152,14 @@ function extractModificationType(
   } = line
   const modifiedOn = moment(dateModification, 'DD/MM/YYYY').toDate().getTime()
   switch (type) {
+    case 'Autre':
+      return {
+        type: 'autre',
+        column: colonneConcernee,
+        value: ancienneValeur,
+        modifiedOn,
+        modificationId: new UniqueEntityID().toString(),
+      }
     case 'Abandon':
       return { type: 'abandon', modifiedOn, modificationId: new UniqueEntityID().toString() }
     case 'Recours gracieux':

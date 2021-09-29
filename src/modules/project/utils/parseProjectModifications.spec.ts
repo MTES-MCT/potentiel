@@ -20,6 +20,27 @@ describe('parseProjectModifications', () => {
     })
   })
 
+  describe('when line has a single Autre modification', () => {
+    const phonyLine = {
+      'Type de modification 1': 'Autre',
+      'Date de modification 1': '25/04/2019',
+      'Colonne concernée 1': 'column',
+      'Ancienne valeur 1': 'value',
+    }
+
+    it('should return a modification of type autre', async () => {
+      const modifications = parseProjectModifications(phonyLine)
+
+      expect(modifications).toHaveLength(1)
+      expect(modifications[0]).toMatchObject({
+        type: 'autre',
+        modifiedOn: 1556143200000,
+        column: 'column',
+        value: 'value',
+      })
+    })
+  })
+
   describe('when line has a single Recours modification that was rejected', () => {
     const phonyLine = {
       'Type de modification 1': 'Recours gracieux',
