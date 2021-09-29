@@ -69,7 +69,7 @@ export default function ListMissingOwnerProjects({
                 {...dataId('recherche-field')}
                 style={{ paddingRight: 40 }}
                 defaultValue={recherche || ''}
-                placeholder="Nom projet, nom candidat, email, numéro CRE, période, région"
+                placeholder="Nom projet, nom candidat, appel d'offres, période, région"
               />
               <button
                 className="overlay-button"

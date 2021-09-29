@@ -819,11 +819,9 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
       const customSearchedProjectsColumns = [
         'nomCandidat',
         'nomProjet',
-        'email',
         'regionProjet',
-        'numeroCRE',
-        'details.Nom et prénom du signataire du formulaire',
-        'details.Nom et prénom du contact',
+        'appelOffreId',
+        'periodeId',
       ]
 
       if (terms)
