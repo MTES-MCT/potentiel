@@ -311,6 +311,17 @@ describe('parseProjectLine', () => {
     })
   })
 
+  describe('when the Code Postal corresponds to no departement/region', () => {
+    it('should throw an error', () => {
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          CP: '96000',
+        })
+      ).toThrowError(`Le Code Postal ne correspond à aucun département`)
+    })
+  })
+
   describe('when Classé? is malformed', () => {
     it('should throw an error', () => {
       expect(() =>

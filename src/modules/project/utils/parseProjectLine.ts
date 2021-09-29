@@ -150,7 +150,7 @@ const projectSchema = yup.object().shape({
     yup
       .string()
       .required('Code Postal manquant')
-      .matches(/[0-9]{4,5}/, 'Code Postal mal formé')
+      .matches(/^(([0-8][0-9])|(9[0-7]))[0-9]{3}$/, 'Code Postal mal formé')
   ),
   communeProjet: yup.string().required(),
   classe: yup
@@ -274,6 +274,10 @@ export const parseProjectLine = (line) => {
     const { codePostalProjet, departementProjet, regionProjet } = getGeoPropertiesFromCodePostal(
       rawProjectData.codePostalProjet
     )
+
+    if (!departementProjet || !regionProjet) {
+      throw new yup.ValidationError('Le Code Postal ne correspond à aucun département')
+    }
 
     return {
       ...rawProjectData,
