@@ -11,7 +11,7 @@ module.exports = {
         type: Sequelize.DataTypes.UUID,
         primaryKey: true,
       },
-      tryCounter: {
+      failedAttempts: {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 0,

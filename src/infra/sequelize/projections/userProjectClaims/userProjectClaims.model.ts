@@ -12,7 +12,7 @@ export const MakeUserProjectClaimsModel = (sequelize) => {
         type: DataTypes.UUID,
         primaryKey: true,
       },
-      tryCounter: {
+      failedAttempts: {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 0,

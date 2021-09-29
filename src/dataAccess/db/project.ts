@@ -804,7 +804,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
           { [Op.notIn]: literal(`(SELECT "projectId" FROM "UserProjects")`) },
           {
             [Op.notIn]: literal(
-              `(SELECT "projectId" FROM "userProjectClaims" WHERE "userId" = '${userId}' and "tryCounter" >= 3)`
+              `(SELECT "projectId" FROM "userProjectClaims" WHERE "userId" = '${userId}' and "failedAttempts" >= 3)`
             ),
           },
         ],

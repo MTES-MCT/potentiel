@@ -8,11 +8,11 @@ export const onProjectClaimFailed = (models) => async (event: ProjectClaimFailed
   try {
     const [userProjectClaim, created] = await UserProjectClaims.findOrCreate({
       where: { userId: claimedBy, projectId },
-      defaults: { tryCounter: 1 },
+      defaults: { failedAttempts: 1 },
     })
 
     if (!created) {
-      userProjectClaim.tryCounter++
+      userProjectClaim.failedAttempts++
       await userProjectClaim.save()
     }
   } catch (e) {
