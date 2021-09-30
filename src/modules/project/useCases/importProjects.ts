@@ -42,7 +42,7 @@ export const makeImportProjects =
 
         projects.push({ projectData, legacyModifications })
       } catch (e) {
-        errors[i] = e.message
+        errors[i + 1] = e.message
         if (Object.keys(errors).length > 100) {
           break
         }

@@ -13,6 +13,7 @@ const fakeProjectData = {
   numeroCRE: 'numeroCRE',
   nomProjet: 'nomProjet',
   nomCandidat: 'nomCandidat',
+  actionnaire: 'actionnaire',
   puissance: 1.234,
   prixReference: 3.456,
   note: 10.1,
