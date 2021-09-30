@@ -31,24 +31,22 @@ export const makeEventStoreRepo = <T extends EventStoreAggregate>(deps: {
       .transaction(({ loadHistory, publish }) => {
         return loadHistory({ aggregateId: aggregate.id.toString() })
           .andThen((events) => deps.makeAggregate({ events, id: aggregate.id }))
-          .andThen(
-            (newestAggregate: T): Result<null, AggregateHasBeenUpdatedSinceError> => {
-              if (
-                newestAggregate.lastUpdatedOn &&
-                aggregate.lastUpdatedOn &&
-                newestAggregate.lastUpdatedOn > aggregate.lastUpdatedOn
-              ) {
-                // Return error if aggregate has a newer version
-                return err(new AggregateHasBeenUpdatedSinceError())
-              }
-
-              for (const event of aggregate.pendingEvents) {
-                publish(event)
-              }
-
-              return ok(null)
+          .andThen((newestAggregate: T): Result<null, AggregateHasBeenUpdatedSinceError> => {
+            const aggregateHasBeenUpdated =
+              newestAggregate.lastUpdatedOn &&
+              aggregate.lastUpdatedOn &&
+              newestAggregate.lastUpdatedOn > aggregate.lastUpdatedOn
+            if (aggregateHasBeenUpdated) {
+              // Return error if aggregate has a newer version
+              return err(new AggregateHasBeenUpdatedSinceError())
             }
-          )
+
+            for (const event of aggregate.pendingEvents) {
+              publish(event)
+            }
+
+            return ok(null)
+          })
       })
       .andThen(unwrapResultOfResult)
       .map(() => null)

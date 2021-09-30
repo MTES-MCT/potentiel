@@ -289,7 +289,6 @@ export const parseProjectLine = (line) => {
         .reduce((details, [key, value]) => ({ ...details, [key]: value }), {}),
     }
   } catch (e) {
-    // console.log(e.errors)
     throw new Error(e.errors.join(', '))
   }
 }

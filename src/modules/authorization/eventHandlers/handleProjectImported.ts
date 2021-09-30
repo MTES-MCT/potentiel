@@ -20,7 +20,7 @@ export const handleProjectImported =
 
       if (isLegacy) return
 
-      if (email && email.length) {
+      if (email?.length) {
         await deps.getUserByEmail(email).andThen((userOrNull) => {
           if (!!userOrNull) {
             return deps.eventBus.publish(

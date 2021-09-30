@@ -20,6 +20,7 @@ export const handleProjectRawDataImported =
     // The effect would be to have two projects with the same identifiers
     // To avoid this, we could use the appelOffreId/periodeId/familleId/numeroCRE as the aggregate id for projects and open a transaction
     // Or, avoid doing multiple imports simultaneously (recommended for now)
+    // Trello card: https://trello.com/c/5ip9c3Ht/584-revoir-laggregateid-pour-lagrégat-projet
     const res = await findProjectByIdentifiers({
       appelOffreId,
       periodeId,
