@@ -41,7 +41,7 @@ Cypress.Commands.add('logout', (parentSelector, searchTerm) => {
 Cypress.Commands.add('login', (email, password) => {
   return cy.request({
     method: 'POST',
-    url: '/login',
+    url: '/login.html',
     body: {
       email,
       password,
