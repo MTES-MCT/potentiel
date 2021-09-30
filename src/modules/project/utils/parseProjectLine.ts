@@ -268,7 +268,6 @@ const getGeoPropertiesFromCodePostal = (codePostalValues) => {
 
 export const parseProjectLine = (line) => {
   try {
-    // const rawProjectData = projectParser.parse(extractRawDataFromColumns(line))
     const rawProjectData = projectSchema.validateSync(extractRawDataFromColumns(line))
 
     const { codePostalProjet, departementProjet, regionProjet } = getGeoPropertiesFromCodePostal(

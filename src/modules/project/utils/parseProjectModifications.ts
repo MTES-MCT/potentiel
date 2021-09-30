@@ -3,21 +3,6 @@ import moment from 'moment-timezone'
 import { UniqueEntityID } from '../../../core/domain'
 moment.tz.setDefault('Europe/Paris')
 
-const LegacyModificationColumns = [
-  'Type de modification 1',
-  'Date de modification 1',
-  'Colonne concernée 1',
-  'Ancienne valeur 1',
-  'Type de modification 2',
-  'Date de modification 2',
-  'Colonne concernée 2',
-  'Ancienne valeur 2',
-  'Type de modification 3',
-  'Date de modification 3',
-  'Colonne concernée 3',
-  'Ancienne valeur 3',
-]
-
 export const parseProjectModifications = (line: Record<string, string>) => {
   const modificationsByDate: Record<string, LegacyModificationDTO> = {}
   for (const index of [1, 2, 3]) {

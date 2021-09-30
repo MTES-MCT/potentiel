@@ -29,68 +29,16 @@ export const makeImportProjects =
 
     const appelsOffre = await appelOffreRepo.findAll()
 
-    let i = 0
-    for (const line of lines) {
-      i++
+    for (const [i, line] of lines.entries()) {
       try {
         const projectData = parseProjectLine(line)
 
-        const { appelOffreId, periodeId, familleId } = projectData
-        const appelOffre = appelsOffre.find((appelOffre) => appelOffre.id === appelOffreId)
-        if (!appelOffre) {
-          throw new Error(`Appel d’offre inconnu: ${appelOffreId}`)
-        }
-        // Check the periode
-        const periode = appelOffre.periodes.find((periode) => periode.id === periodeId)
-        if (!periode) {
-          throw new Error(`Période inconnue pour cet appel d'offre ${periodeId}`)
-        }
-
-        // Check the famille
-        if (familleId) {
-          if (!appelOffre.familles.length) {
-            throw new Error(
-              `L'appel d'offre ${appelOffreId} n'a pas de familles, mais la ligne en comporte une: ${familleId}`
-            )
-          }
-
-          const famille = appelOffre.familles.find((famille) => famille.id === familleId)
-          if (!famille) {
-            throw new Error(
-              `La famille ${familleId} n’existe pas dans l'appel d'offre ${appelOffreId}`
-            )
-          }
-        } else {
-          if (appelOffre.familles.length) {
-            throw new Error(
-              `L'appel d'offre ${appelOffreId} requiert une famille et aucune n'est présente`
-            )
-          }
-        }
+        const { isLegacyProject } = checkAppelOffrePeriode(projectData, appelsOffre)
 
         const legacyModifications = parseProjectModifications(line)
 
-        const isLegacyProject = !periode.isNotifiedOnPotentiel
-
-        if (isLegacyProject) {
-          if (!projectData.notifiedOn) {
-            throw new Error(
-              `La période ${appelOffreId}-${periodeId} est historique (non notifiée sur Potentiel) et requiert donc une date de notification`
-            )
-          }
-        } else {
-          if (projectData.notifiedOn) {
-            throw new Error(
-              `La période ${appelOffreId}-${periodeId} est notifiée sur Potentiel. Le projet concerné ne doit pas comporter de date de notification.`
-            )
-          }
-
-          if (legacyModifications.length) {
-            throw new Error(
-              `La période ${appelOffreId}-${periodeId} est notifiée sur Potentiel. Le projet concerné ne doit pas comporter de modifications.`
-            )
-          }
-        }
+        const hasLegacyModifications = !!legacyModifications.length
+        checkLegacyRules({ projectData, isLegacyProject, hasLegacyModifications })
 
         projects.push({ projectData, legacyModifications })
       } catch (e) {
@@ -135,3 +83,67 @@ export const makeImportProjects =
       }
     }
   }
+
+const checkAppelOffrePeriode = (projectData, appelsOffre) => {
+  const { appelOffreId, periodeId, familleId } = projectData
+  const appelOffre = appelsOffre.find((appelOffre) => appelOffre.id === appelOffreId)
+  if (!appelOffre) {
+    throw new Error(`Appel d’offre inconnu: ${appelOffreId}`)
+  }
+  // Check the periode
+  const periode = appelOffre.periodes.find((periode) => periode.id === periodeId)
+  if (!periode) {
+    throw new Error(`Période inconnue pour cet appel d'offre ${periodeId}`)
+  }
+
+  // Check the famille
+  if (familleId) {
+    if (!appelOffre.familles.length) {
+      throw new Error(
+        `L'appel d'offre ${appelOffreId} n'a pas de familles, mais la ligne en comporte une: ${familleId}`
+      )
+    }
+
+    const famille = appelOffre.familles.find((famille) => famille.id === familleId)
+    if (!famille) {
+      throw new Error(`La famille ${familleId} n’existe pas dans l'appel d'offre ${appelOffreId}`)
+    }
+  } else {
+    if (appelOffre.familles.length) {
+      throw new Error(
+        `L'appel d'offre ${appelOffreId} requiert une famille et aucune n'est présente`
+      )
+    }
+  }
+
+  return { isLegacyProject: !periode.isNotifiedOnPotentiel }
+}
+
+const checkLegacyRules = (args: {
+  projectData
+  isLegacyProject: boolean
+  hasLegacyModifications: boolean
+}) => {
+  const { projectData, isLegacyProject, hasLegacyModifications } = args
+  const { appelOffreId, periodeId } = projectData
+
+  if (isLegacyProject) {
+    if (!projectData.notifiedOn) {
+      throw new Error(
+        `La période ${appelOffreId}-${periodeId} est historique (non notifiée sur Potentiel) et requiert donc une date de notification`
+      )
+    }
+  } else {
+    if (projectData.notifiedOn) {
+      throw new Error(
+        `La période ${appelOffreId}-${periodeId} est notifiée sur Potentiel. Le projet concerné ne doit pas comporter de date de notification.`
+      )
+    }
+
+    if (hasLegacyModifications) {
+      throw new Error(
+        `La période ${appelOffreId}-${periodeId} est notifiée sur Potentiel. Le projet concerné ne doit pas comporter de modifications.`
+      )
+    }
+  }
+}

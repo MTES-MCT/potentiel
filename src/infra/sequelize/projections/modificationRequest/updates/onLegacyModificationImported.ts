@@ -1,4 +1,3 @@
-import { UniqueEntityID } from '../../../../../core/domain'
 import { logger } from '../../../../../core/utils'
 import { LegacyModificationImported } from '../../../../../modules/modificationRequest/events'
 
