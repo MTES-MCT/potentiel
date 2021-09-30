@@ -150,7 +150,22 @@ function extractModificationType(
     [`Ancienne valeur ${index}`]: ancienneValeur,
     [`Date de modification ${index}`]: dateModification,
   } = line
-  const modifiedOn = moment(dateModification, 'DD/MM/YYYY').toDate().getTime()
+  const modifiedOnDate = moment(dateModification, 'DD/MM/YYYY')
+
+  if (!modifiedOnDate.isValid()) {
+    throw new Error(`Date de modification ${index} n'est pas une date valide`)
+  }
+
+  if (modifiedOnDate.isAfter(moment())) {
+    throw new Error(`Date de modification ${index} est une date dans le futur.`)
+  }
+
+  if (modifiedOnDate.isBefore(moment('01/01/2010', 'DD/MM/YYYY'))) {
+    throw new Error(`Date de modification ${index} est une date trop loin dans le passé.`)
+  }
+
+  const modifiedOn = modifiedOnDate.toDate().getTime()
+
   switch (type) {
     case 'Autre':
       return {

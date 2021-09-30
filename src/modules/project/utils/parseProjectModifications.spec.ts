@@ -1,3 +1,4 @@
+import moment from 'moment'
 import { parseProjectModifications } from './parseProjectModifications'
 
 describe('parseProjectModifications', () => {
@@ -227,6 +228,59 @@ describe('parseProjectModifications', () => {
       } catch (error) {
         expect(error).toBeDefined()
         expect(error.message).toContain("Type de modification 1 n'est pas reconnu")
+      }
+    })
+  })
+
+  describe('when line has an illegal modification date', () => {
+    it('should throw an error', async () => {
+      expect.assertions(2)
+      try {
+        parseProjectModifications({
+          'Type de modification 1': 'This does not exist',
+          'Date de modification 1': 'abcd',
+          'Colonne concernée 1': '',
+          'Ancienne valeur 1': '',
+        })
+      } catch (error) {
+        expect(error).toBeDefined()
+        expect(error.message).toContain("Date de modification 1 n'est pas une date valide")
+      }
+    })
+  })
+
+  describe('when line has a modification date in the future', () => {
+    it('should throw an error', async () => {
+      expect.assertions(2)
+      try {
+        parseProjectModifications({
+          'Type de modification 1': 'This does not exist',
+          'Date de modification 1': moment().add(1, 'day').format('DD/MM/YYYY'),
+          'Colonne concernée 1': '',
+          'Ancienne valeur 1': '',
+        })
+      } catch (error) {
+        expect(error).toBeDefined()
+        expect(error.message).toContain('Date de modification 1 est une date dans le futur')
+      }
+    })
+  })
+
+  describe('when line has a modification date in the distant past (before 01/01/2010)', () => {
+    it('should throw an error', async () => {
+      expect.assertions(2)
+      try {
+        parseProjectModifications({
+          'Type de modification 1': 'This does not exist',
+          'Date de modification 1': '01/01/2009',
+          'Colonne concernée 1': '',
+          'Ancienne valeur 1': '',
+        })
+      } catch (error) {
+        expect(error).toBeDefined()
+        expect(error.message).toContain(
+          'Date de modification 1 est une date trop loin dans le passé'
+        )
       }
     })
   })
