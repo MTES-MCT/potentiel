@@ -124,7 +124,7 @@ v1Router.post(
             addQueryParams(routes.PROJECT_DETAILS(projectId), {
               error:
                 "Votre demande n'a pas pu être prise en compte: " +
-                Object.entries(e.errorsInFields)
+                Object.entries(e.errors)
                   .map(([key, value]) => `${key} (${value})`)
                   .join(', '),
               ...request.body,

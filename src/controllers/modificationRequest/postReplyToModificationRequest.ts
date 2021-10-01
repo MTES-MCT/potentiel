@@ -149,8 +149,8 @@ v1Router.post(
         modificationRequestId,
         versionDate: new Date(Number(versionDate)),
         responseFile: {
-          contents: fs.createReadStream(request.file.path),
-          filename: request.file.originalname,
+          contents: fs.createReadStream(request.file!.path),
+          filename: request.file!.originalname,
         },
         confirmationRequestedBy: request.user,
       }).match(

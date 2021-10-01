@@ -13,12 +13,14 @@ import { InfraNotAvailableError, OtherError } from '../shared'
 import { EventStore, EventStoreHistoryFilters, EventStoreTransactionArgs } from './EventStore'
 
 export abstract class BaseEventStore implements EventStore {
-  private queue: Queue
+  private publishQueue: Queue
+  private handleQueue: Queue
 
   private eventEmitter: EventEmitter
 
   constructor() {
-    this.queue = new Queue()
+    this.publishQueue = new Queue()
+    this.handleQueue = new Queue()
     this.eventEmitter = new EventEmitter()
   }
 
@@ -29,19 +31,21 @@ export abstract class BaseEventStore implements EventStore {
   ): ResultAsync<DomainEvent[], InfraNotAvailableError>
 
   publish(event: DomainEvent): ResultAsync<null, InfraNotAvailableError> {
-    const ticket = this.queue.push(async () => await this._persistAndPublish([event]))
+    const ticket = this.publishQueue.push(async () => await this._persistAndPublish([event]))
 
     return wrapInfra(ticket).andThen(unwrapResultOfResult)
   }
 
   subscribe<T extends DomainEvent>(eventType: T['type'], callback: (event: T) => any) {
-    this.eventEmitter.on(eventType, callback)
+    this.eventEmitter.on(eventType, (event: T) => {
+      this.handleQueue.push(async () => await callback(event))
+    })
   }
 
   transaction<T>(
     fn: (args: EventStoreTransactionArgs) => T
   ): ResultAsync<T, InfraNotAvailableError | OtherError> {
-    const ticket: Promise<Result<T, InfraNotAvailableError>> = this.queue.push(async () => {
+    const ticket: Promise<Result<T, InfraNotAvailableError>> = this.publishQueue.push(async () => {
       const eventsToEmit: DomainEvent[] = []
 
       const callbackResult = await fn({

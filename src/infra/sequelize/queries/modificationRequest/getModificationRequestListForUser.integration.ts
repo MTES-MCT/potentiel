@@ -58,9 +58,22 @@ describe('Sequelize getModificationRequestListForUser', () => {
         justification: 'justification',
         authority: 'dgec',
       })
+
+      await ModificationRequest.create({
+        id: new UniqueEntityID().toString(),
+        projectId,
+        userId,
+        fileId,
+        type: 'abandon',
+        requestedOn: 123,
+        status: 'envoyée',
+        justification: 'justification',
+        authority: 'dgec',
+        isLegacy: true, // should be ignored because of this
+      })
     })
 
-    it('should return a paginated list of all modification requests', async () => {
+    it('should return a paginated list of all non-legacy modification requests', async () => {
       const res = await getModificationRequestListForUser({
         user: fakeUser,
         pagination: { page: 0, pageSize: 1 },

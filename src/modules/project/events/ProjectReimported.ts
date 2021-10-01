@@ -2,9 +2,11 @@ import { DomainEvent, BaseDomainEvent } from '../../../core/domain/DomainEvent'
 
 export interface ProjectReimportedPayload {
   projectId: string
-  notifiedOn: number
-  importedBy: string
-  data: {
+  periodeId: string
+  appelOffreId: string
+  familleId?: string
+  importId: string // This field was added later
+  data: Partial<{
     periodeId: string
     appelOffreId: string
     familleId: string
@@ -26,17 +28,17 @@ export interface ProjectReimportedPayload {
     communeProjet: string
     departementProjet: string
     regionProjet: string
-    fournisseur: string
     actionnaire: string
     classe: string
     motifsElimination: string
     notifiedOn: number
     details: any
-  }
+  }>
 }
 export class ProjectReimported
   extends BaseDomainEvent<ProjectReimportedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ProjectReimported' = 'ProjectReimported'
   public type = ProjectReimported.type
   currentVersion = 1

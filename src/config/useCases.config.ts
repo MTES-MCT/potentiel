@@ -11,6 +11,7 @@ import {
   makeRemoveStep,
   makeRegenerateCertificatesForPeriode,
   makeUpdateStepStatus,
+  makeImportProjects,
 } from '../modules/project/useCases'
 import { makeImportAppelOffreData, makeImportPeriodeData } from '../modules/appelOffre/useCases'
 import { buildCertificate } from '../views/certificates'
@@ -22,6 +23,7 @@ import {
   modificationRequestRepo,
   appelOffreRepo,
   projectAdmissionKeyRepo,
+  oldAppelOffreRepo,
 } from './repos.config'
 import {
   getFileProject,
@@ -187,4 +189,9 @@ export const cancelModificationRequest = makeCancelModificationRequest({
 export const updateNewRulesOptIn = makeUpdateNewRulesOptIn({
   eventBus: eventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+})
+
+export const importProjects = makeImportProjects({
+  eventBus: eventStore,
+  appelOffreRepo: oldAppelOffreRepo,
 })

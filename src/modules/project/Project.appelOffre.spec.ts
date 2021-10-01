@@ -48,8 +48,8 @@ describe('Project.appelOffre', () => {
     )
 
     it('should return the appel offre of the source event', () => {
-      expect(project.appelOffre.id).toEqual(appelOffreId)
-      expect(project.appelOffre.periode.id).toEqual(periodeId)
+      expect(project.appelOffre?.id).toEqual(appelOffreId)
+      expect(project.appelOffre?.periode.id).toEqual(periodeId)
     })
   })
 
@@ -65,7 +65,7 @@ describe('Project.appelOffre', () => {
               appelOffreId,
               familleId,
               numeroCRE,
-              importedBy: fakeUser.id,
+              importId: '',
               data: fakeProject,
             },
           }),
@@ -75,8 +75,8 @@ describe('Project.appelOffre', () => {
     )
 
     it('should return the appel offre of the import event', () => {
-      expect(project.appelOffre.id).toEqual(appelOffreId)
-      expect(project.appelOffre.periode.id).toEqual(periodeId)
+      expect(project.appelOffre?.id).toEqual(appelOffreId)
+      expect(project.appelOffre?.periode.id).toEqual(periodeId)
     })
   })
 
@@ -92,15 +92,14 @@ describe('Project.appelOffre', () => {
               appelOffreId,
               familleId,
               numeroCRE,
-              importedBy: fakeUser.id,
+              importId: '',
               data: fakeProject,
             },
           }),
           new ProjectReimported({
             payload: {
               projectId: projectId.toString(),
-              notifiedOn: 0,
-              importedBy: fakeUser.id,
+              importId: '',
               data: { ...fakeProject, periodeId: '1' },
             },
           }),
@@ -110,8 +109,8 @@ describe('Project.appelOffre', () => {
     )
 
     it('should return the appel offre of the reimport event', () => {
-      expect(project.appelOffre.id).toEqual(appelOffreId)
-      expect(project.appelOffre.periode.id).toEqual('1')
+      expect(project.appelOffre?.id).toEqual(appelOffreId)
+      expect(project.appelOffre?.periode.id).toEqual('1')
     })
   })
 
@@ -127,15 +126,14 @@ describe('Project.appelOffre', () => {
               appelOffreId,
               familleId,
               numeroCRE,
-              importedBy: fakeUser.id,
+              importId: '',
               data: fakeProject,
             },
           }),
           new ProjectReimported({
             payload: {
               projectId: projectId.toString(),
-              notifiedOn: 0,
-              importedBy: fakeUser.id,
+              importId: '',
               data: { ...fakeProject, appelOffreId: 'CRE4 - Bâtiment', periodeId: '10' },
             },
           }),
@@ -145,8 +143,8 @@ describe('Project.appelOffre', () => {
     )
 
     it('should return the appel offre of the reimport event', () => {
-      expect(project.appelOffre.id).toEqual('CRE4 - Bâtiment')
-      expect(project.appelOffre.periode.id).toEqual('10')
+      expect(project.appelOffre?.id).toEqual('CRE4 - Bâtiment')
+      expect(project.appelOffre?.periode.id).toEqual('10')
     })
   })
 
@@ -162,7 +160,7 @@ describe('Project.appelOffre', () => {
               appelOffreId,
               familleId,
               numeroCRE,
-              importedBy: fakeUser.id,
+              importId: '',
               data: fakeProject,
             },
           }),
@@ -179,8 +177,8 @@ describe('Project.appelOffre', () => {
     )
 
     it('should return the appel offre of the correctData event', () => {
-      expect(project.appelOffre.id).toEqual('CRE4 - Bâtiment')
-      expect(project.appelOffre.periode.id).toEqual('10')
+      expect(project.appelOffre?.id).toEqual('CRE4 - Bâtiment')
+      expect(project.appelOffre?.periode.id).toEqual('10')
     })
   })
 })

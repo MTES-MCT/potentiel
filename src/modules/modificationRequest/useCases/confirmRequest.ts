@@ -23,59 +23,62 @@ interface ConfirmRequestArgs {
   confirmedBy: User
 }
 
-export const makeConfirmRequest = (deps: ConfirmRequestDeps) => (
-  args: ConfirmRequestArgs
-): ResultAsync<
-  null,
-  | AggregateHasBeenUpdatedSinceError
-  | InfraNotAvailableError
-  | EntityNotFoundError
-  | UnauthorizedError
-> => {
-  const { modificationRequestRepo } = deps
-  const { modificationRequestId, versionDate, confirmedBy } = args
+export const makeConfirmRequest =
+  (deps: ConfirmRequestDeps) =>
+  (
+    args: ConfirmRequestArgs
+  ): ResultAsync<
+    null,
+    | AggregateHasBeenUpdatedSinceError
+    | InfraNotAvailableError
+    | EntityNotFoundError
+    | UnauthorizedError
+  > => {
+    const { modificationRequestRepo } = deps
+    const { modificationRequestId, versionDate, confirmedBy } = args
 
-  if (confirmedBy.role !== 'porteur-projet') {
-    return errAsync(new UnauthorizedError())
-  }
+    if (confirmedBy.role !== 'porteur-projet') {
+      return errAsync(new UnauthorizedError())
+    }
 
-  return modificationRequestRepo
-    .load(modificationRequestId)
-    .andThen(
-      (
-        modificationRequest
-      ): ResultAsync<
-        ModificationRequest,
-        AggregateHasBeenUpdatedSinceError | InfraNotAvailableError
-      > => {
-        if (modificationRequest.lastUpdatedOn.getTime() !== versionDate.getTime()) {
-          return errAsync(new AggregateHasBeenUpdatedSinceError())
-        }
+    return modificationRequestRepo
+      .load(modificationRequestId)
+      .andThen(
+        (
+          modificationRequest
+        ): ResultAsync<
+          ModificationRequest,
+          AggregateHasBeenUpdatedSinceError | InfraNotAvailableError
+        > => {
+          if (
+            modificationRequest.lastUpdatedOn &&
+            modificationRequest.lastUpdatedOn.getTime() !== versionDate.getTime()
+          ) {
+            return errAsync(new AggregateHasBeenUpdatedSinceError())
+          }
 
-        return wrapInfra(
-          deps.shouldUserAccessProject({
-            projectId: modificationRequest.projectId.toString(),
-            user: confirmedBy,
-          })
-        ).andThen(
-          (userHasRightsToProject): Result<ModificationRequest, UnauthorizedError> => {
+          return wrapInfra(
+            deps.shouldUserAccessProject({
+              projectId: modificationRequest.projectId.toString(),
+              user: confirmedBy,
+            })
+          ).andThen((userHasRightsToProject): Result<ModificationRequest, UnauthorizedError> => {
             if (!userHasRightsToProject) {
               return err(new UnauthorizedError())
             }
 
             return ok(modificationRequest)
-          }
-        )
-      }
-    )
-    .andThen(
-      (
-        modificationRequest
-      ): Result<ModificationRequest, UnauthorizedError | StatusPreventsConfirmationError> => {
-        return modificationRequest.confirm(confirmedBy).map(() => modificationRequest)
-      }
-    )
-    .andThen((modificationRequest) => {
-      return modificationRequestRepo.save(modificationRequest)
-    })
-}
+          })
+        }
+      )
+      .andThen(
+        (
+          modificationRequest
+        ): Result<ModificationRequest, UnauthorizedError | StatusPreventsConfirmationError> => {
+          return modificationRequest.confirm(confirmedBy).map(() => modificationRequest)
+        }
+      )
+      .andThen((modificationRequest) => {
+        return modificationRequestRepo.save(modificationRequest)
+      })
+  }

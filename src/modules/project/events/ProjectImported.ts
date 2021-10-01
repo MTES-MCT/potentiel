@@ -6,7 +6,7 @@ export interface ProjectImportedPayload {
   appelOffreId: string
   familleId: string
   numeroCRE: string
-  importedBy: string
+  importId: string // added later
   data: {
     periodeId: string
     appelOffreId: string
@@ -14,6 +14,7 @@ export interface ProjectImportedPayload {
     territoireProjet: string
     numeroCRE: string
     nomCandidat: string
+    actionnaire: string
     nomProjet: string
     puissance: number
     prixReference: number
@@ -29,8 +30,6 @@ export interface ProjectImportedPayload {
     communeProjet: string
     departementProjet: string
     regionProjet: string
-    fournisseur: string
-    actionnaire: string
     classe: string
     motifsElimination: string
     notifiedOn: number
@@ -39,7 +38,8 @@ export interface ProjectImportedPayload {
 }
 export class ProjectImported
   extends BaseDomainEvent<ProjectImportedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ProjectImported' = 'ProjectImported'
   public type = ProjectImported.type
   currentVersion = 1

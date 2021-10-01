@@ -4,14 +4,20 @@ import ROUTES from '../../routes'
 import { Request } from 'express'
 import AdminDashboard from '../components/adminDashboard'
 
-interface AdminListProjectsProps {
+type ImportProjectsProps = {
   request: Request
-  importErrors?: string
+  importErrors?: Record<number, string>
+  otherError?: string
+  isSuccess?: boolean
 }
 
 /* Pure component */
-export default function AdminListProjects({ request, importErrors }: AdminListProjectsProps) {
-  const { error, success } = (request.query as any) || {}
+export default function ImportProjects({
+  request,
+  importErrors,
+  isSuccess,
+  otherError,
+}: ImportProjectsProps) {
   return (
     <AdminDashboard role={request.user?.role} currentPage="import-projects">
       <div className="panel">
@@ -19,31 +25,27 @@ export default function AdminListProjects({ request, importErrors }: AdminListPr
           <h3>Importer des candidats</h3>
         </div>
         <form action={ROUTES.IMPORT_PROJECTS_ACTION} method="post" encType="multipart/form-data">
-          {success ? (
-            <>
-              <div className="notification success" {...dataId('success-message')}>
-                {success}
-              </div>
-            </>
-          ) : (
-            ''
-          )}
-          {error ? (
-            <div className="notification error" {...dataId('error-message')}>
-              {error.split('\n').map((piece) => (
-                <>
-                  {piece}
-                  <br />
-                </>
-              ))}
+          {isSuccess && (
+            <div className="notification success" {...dataId('success-message')}>
+              Les projets ont bien été importés.
             </div>
-          ) : (
-            ''
           )}
-
           {!!importErrors && (
             <div className="notification error" {...dataId('error-message')}>
-              {importErrors}
+              Le fichier n'a pas pu être importé à cause des erreurs suivantes:
+              <ul>
+                {Object.entries(importErrors).map(([lineNumber, message]) => (
+                  <li key={`error_line_${lineNumber}`}>
+                    Ligne <b>{lineNumber}</b>: {message}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {!!otherError && (
+            <div className="notification error" {...dataId('error-message')}>
+              {otherError}
             </div>
           )}
 

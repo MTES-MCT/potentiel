@@ -6,7 +6,7 @@ import { makeUser } from '../../entities'
 import { UnwrapForTest as OldUnwrapForTest } from '../../types'
 import makeFakeProject from '../../__tests__/fixtures/project'
 import makeFakeUser from '../../__tests__/fixtures/user'
-import { IllegalProjectDataError, ProjectCannotBeUpdatedIfUnnotifiedError } from './errors'
+import { IllegalProjectStateError, ProjectCannotBeUpdatedIfUnnotifiedError } from './errors'
 import {
   LegacyProjectSourced,
   ProjectCompletionDueDateSet,
@@ -54,7 +54,7 @@ const fakeHistory: DomainEvent[] = [
       appelOffreId,
       familleId,
       numeroCRE,
-      importedBy: fakeUser.id,
+      importId: '',
       data: fakeProject,
     },
     original: {
@@ -294,7 +294,7 @@ describe('Project.setNotificationDate()', () => {
   })
 
   describe('when new notifiedOn is 0', () => {
-    it('should return a IllegalProjectDataError', () => {
+    it('should return a IllegalProjectStateError', () => {
       // Create a project that has not been notified
       const project = UnwrapForTest(makeProject({ projectId, history: fakeHistory, appelsOffres }))
 
@@ -302,7 +302,7 @@ describe('Project.setNotificationDate()', () => {
 
       expect(res.isErr()).toEqual(true)
       if (res.isOk()) return
-      expect(res.error).toBeInstanceOf(IllegalProjectDataError)
+      expect(res.error).toBeInstanceOf(IllegalProjectStateError)
     })
   })
 })

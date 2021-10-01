@@ -1,12 +1,7 @@
 import { DomainError } from '../../../core/domain'
 
 export class IllegalProjectDataError extends DomainError {
-  constructor(public errorsInFields: Record<string, string>) {
-    super(
-      'Champs erronés: ' +
-        Object.entries(errorsInFields)
-          .map(([key, value]) => `${key} (${value})`)
-          .join(', ')
-    )
+  constructor(public errors: Record<number, string>) {
+    super('Les données importées présentent des valeurs illégales.')
   }
 }

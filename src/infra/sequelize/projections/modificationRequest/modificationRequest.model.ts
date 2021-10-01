@@ -17,7 +17,7 @@ export const MakeModificationRequestModel = (sequelize) => {
       },
       userId: {
         type: DataTypes.UUID,
-        allowNull: false,
+        allowNull: true,
       },
       type: {
         type: DataTypes.STRING,
@@ -116,6 +116,11 @@ export const MakeModificationRequestModel = (sequelize) => {
       cancelledOn: {
         type: DataTypes.BIGINT,
         allowNull: true,
+      },
+      isLegacy: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        default: false,
       },
     },
     {

@@ -42,49 +42,48 @@ interface GenerateCertificateDeps {
     | InfraNotAvailableError
   >
 }
-export const makeGenerateCertificate = (deps: GenerateCertificateDeps): GenerateCertificate => (
-  projectId,
-  reason
-) => {
-  return deps.projectRepo
-    .load(new UniqueEntityID(projectId))
-    .andThen(_buildCertificateForProject)
-    .andThen(_saveCertificateToStorage)
-    .andThen(_addCertificateFileIdToProject)
-    .andThen((project) => deps.projectRepo.save(project))
+export const makeGenerateCertificate =
+  (deps: GenerateCertificateDeps): GenerateCertificate =>
+  (projectId, reason) => {
+    return deps.projectRepo
+      .load(new UniqueEntityID(projectId))
+      .andThen(_buildCertificateForProject)
+      .andThen(_saveCertificateToStorage)
+      .andThen(_addCertificateFileIdToProject)
+      .andThen((project) => deps.projectRepo.save(project))
 
-  function _buildCertificateForProject(project: Project) {
-    return project.certificateData
-      .asyncAndThen((certificateData) => deps.buildCertificate(certificateData))
-      .map((fileStream) => ({ fileStream, project }))
-  }
+    function _buildCertificateForProject(project: Project) {
+      return project.certificateData
+        .asyncAndThen((certificateData) => deps.buildCertificate(certificateData))
+        .map((fileStream) => ({ fileStream, project }))
+    }
 
-  function _saveCertificateToStorage(args: {
-    fileStream: NodeJS.ReadableStream
-    project: Project
-  }) {
-    const { fileStream, project } = args
-    return makeFileObject({
-      filename: project.certificateFilename,
-      contents: fileStream,
-      forProject: new UniqueEntityID(projectId),
-      designation: 'attestation-designation',
-    })
-      .mapErr((e) => new OtherError(e.message))
-      .asyncAndThen((file: FileObject) => {
-        return deps.fileRepo.save(file).map(() => file.id.toString())
+    function _saveCertificateToStorage(args: {
+      fileStream: NodeJS.ReadableStream
+      project: Project
+    }) {
+      const { fileStream, project } = args
+      return makeFileObject({
+        filename: project.certificateFilename,
+        contents: fileStream,
+        forProject: new UniqueEntityID(projectId),
+        designation: 'attestation-designation',
       })
-      .map((certificateFileId) => ({ certificateFileId, project }))
-  }
+        .mapErr((e) => new OtherError(e.message))
+        .asyncAndThen((file: FileObject) => {
+          return deps.fileRepo.save(file).map(() => file.id.toString())
+        })
+        .map((certificateFileId) => ({ certificateFileId, project }))
+    }
 
-  function _addCertificateFileIdToProject(args: { certificateFileId: string; project: Project }) {
-    const { certificateFileId, project } = args
-    return project
-      .addGeneratedCertificate({
-        projectVersionDate: project.lastUpdatedOn,
-        certificateFileId,
-        reason,
-      })
-      .map(() => project)
+    function _addCertificateFileIdToProject(args: { certificateFileId: string; project: Project }) {
+      const { certificateFileId, project } = args
+      return project
+        .addGeneratedCertificate({
+          projectVersionDate: project.lastUpdatedOn || new Date(),
+          certificateFileId,
+          reason,
+        })
+        .map(() => project)
+    }
   }
-}

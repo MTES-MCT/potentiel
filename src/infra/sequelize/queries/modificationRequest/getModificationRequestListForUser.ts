@@ -69,7 +69,7 @@ export const getModificationRequestListForUser: GetModificationRequestListForUse
         projectOpts.where.familleId = familleId
       }
 
-      const opts: any = { where: {} }
+      const opts: any = { where: { isLegacy: { [Op.or]: [false, null] } } }
 
       if (user.role === 'porteur-projet') opts.where.userId = user.id
       if (user.role === 'dreal') {

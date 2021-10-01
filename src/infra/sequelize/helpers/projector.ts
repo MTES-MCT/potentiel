@@ -1,5 +1,4 @@
 import { merge } from 'lodash'
-import { AnyRecordWithTtl } from 'node:dns'
 
 import { BaseDomainEvent, DomainEvent } from '../../../core/domain'
 import { logger } from '../../../core/utils'

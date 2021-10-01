@@ -27,7 +27,7 @@ import {
 import { ProjectDataForCertificate } from './dtos'
 import {
   EliminatedProjectCannotBeAbandonnedError,
-  IllegalProjectDataError,
+  IllegalProjectStateError,
   ProjectAlreadyNotifiedError,
   ProjectCannotBeUpdatedIfUnnotifiedError,
   ProjectNotEligibleForCertificateError,
@@ -52,6 +52,8 @@ import {
   ProjectPuissanceUpdated,
   ProjectReimported,
   ProjectFournisseursUpdated,
+  ProjectReimportedPayload,
+  ProjectImportedPayload,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 import { Fournisseur } from '.'
@@ -59,20 +61,25 @@ import { Fournisseur } from '.'
 export interface Project extends EventStoreAggregate {
   notify: (
     notifiedOn: number
-  ) => Result<null, IllegalProjectDataError | ProjectAlreadyNotifiedError>
+  ) => Result<null, IllegalProjectStateError | ProjectAlreadyNotifiedError>
   abandon: (user: User) => Result<null, EliminatedProjectCannotBeAbandonnedError>
+  reimport: (args: {
+    data: ProjectReimportedPayload['data']
+    importId: string
+  }) => Result<null, never>
+  import: (args: { data: ProjectImportedPayload['data']; importId: string }) => Result<null, never>
   correctData: (
     user: User,
     data: ProjectDataCorrectedPayload['correctedData']
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError>
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectStateError>
   setNotificationDate: (
-    user: User,
+    user: User | null,
     notifiedOn: number
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError>
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectStateError>
   moveCompletionDueDate: (
     user: User,
     delayInMonths: number
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError>
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectStateError>
   updateCertificate: (
     user: User,
     certificateFileId: string
@@ -99,17 +106,19 @@ export interface Project extends EventStoreAggregate {
     projectVersionDate: Date
     certificateFileId: string
     reason?: string
-  }) => Result<null, never>
+  }) => Result<null, IllegalInitialStateForAggregateError>
   readonly shouldCertificateBeGenerated: boolean
-  readonly appelOffre: ProjectAppelOffre
-  readonly isClasse: boolean
+  readonly appelOffre?: ProjectAppelOffre
+  readonly isClasse?: boolean
   readonly puissanceInitiale: number
   readonly certificateData: Result<
     {
       template: CertificateTemplate
       data: ProjectDataForCertificate
     },
-    IncompleteDataError | ProjectNotEligibleForCertificateError
+    | IncompleteDataError
+    | ProjectNotEligibleForCertificateError
+    | IllegalInitialStateForAggregateError
   >
   readonly certificateFilename: string
   readonly data: ProjectDataProps | undefined
@@ -138,21 +147,23 @@ export interface ProjectDataProps {
   isFinancementParticipatif: boolean
   isInvestissementParticipatif: boolean
   motifsElimination: string
+  details: Record<string, string>
 }
 
 export interface ProjectProps {
   projectId: UniqueEntityID
-  appelOffre: ProjectAppelOffre
+  appelOffre?: ProjectAppelOffre
   notifiedOn: number
   completionDueOn: number
   hasCompletionDueDateMoved: boolean
-  lastUpdatedOn: Date
+  lastUpdatedOn?: Date
   lastCertificateUpdate: Date | undefined
   hasError: boolean
-  isClasse: boolean
+  isClasse?: boolean
   puissanceInitiale: number
   data: ProjectDataProps | undefined
   newRulesOptIn: boolean
+  fieldsUpdatedAfterImport: Set<string>
 }
 
 const projectValidator = makePropertyValidator({
@@ -164,27 +175,13 @@ const projectValidator = makePropertyValidator({
 
 export const makeProject = (args: {
   projectId: UniqueEntityID
-  history: DomainEvent[]
+  history?: DomainEvent[]
   appelsOffres: Record<AppelOffre['id'], AppelOffre>
 }): Result<Project, EntityNotFoundError | HeterogeneousHistoryError> => {
   const { history, projectId, appelsOffres } = args
 
-  if (!history || !history.length) {
-    return err(new EntityNotFoundError())
-  }
-
   if (!_allEventsHaveSameAggregateId()) {
     return err(new HeterogeneousHistoryError())
-  }
-
-  const initialAppelOffre = _getInitialAppelOffreFromHistory()
-  if (!initialAppelOffre) {
-    return err(new IllegalInitialStateForAggregateError())
-  }
-
-  const initialClasse = _getInitialClasse()
-  if (initialClasse === null) {
-    return err(new IllegalInitialStateForAggregateError())
   }
 
   const pendingEvents: DomainEvent[] = []
@@ -193,22 +190,26 @@ export const makeProject = (args: {
     completionDueOn: 0,
     hasCompletionDueDateMoved: false,
     projectId,
-    appelOffre: initialAppelOffre,
-    isClasse: initialClasse,
     puissanceInitiale: 0,
     data: undefined,
     hasError: false,
-    lastUpdatedOn: history[0].occurredAt,
     lastCertificateUpdate: undefined,
     newRulesOptIn: false,
+    fieldsUpdatedAfterImport: new Set<string>(),
   }
 
   // Initialize aggregate by processing each event in history
-  for (const event of history) {
-    _processEvent(event)
+  if (history) {
+    if (history.length === 0) {
+      return err(new EntityNotFoundError())
+    }
 
-    if (props.hasError) {
-      return err(new IllegalInitialStateForAggregateError())
+    for (const event of history) {
+      _processEvent(event)
+
+      if (props.hasError) {
+        return err(new IllegalInitialStateForAggregateError())
+      }
     }
   }
 
@@ -217,12 +218,12 @@ export const makeProject = (args: {
     notify: function (notifiedOn) {
       const { appelOffre, data, projectId } = props
 
-      if (props.notifiedOn) {
-        return err(new ProjectAlreadyNotifiedError())
+      if (!appelOffre) {
+        return err(new IllegalInitialStateForAggregateError())
       }
 
-      if (!data || !data.email) {
-        return err(new IllegalProjectDataError({ email: "le projet n'a pas d'email de contact" }))
+      if (props.notifiedOn) {
+        return err(new ProjectAlreadyNotifiedError())
       }
 
       _publishEvent(
@@ -232,8 +233,8 @@ export const makeProject = (args: {
             appelOffreId: appelOffre.id,
             periodeId: appelOffre.periode.id,
             familleId: appelOffre.famille?.id,
-            candidateEmail: data.email,
-            candidateName: data.nomRepresentantLegal || '',
+            candidateEmail: data?.email || '',
+            candidateName: data?.nomRepresentantLegal || '',
             notifiedOn,
           },
         })
@@ -261,41 +262,85 @@ export const makeProject = (args: {
 
       return ok(null)
     },
+    reimport: function ({ data, importId }) {
+      const { appelOffre } = props
+
+      if (!appelOffre) return ok(null)
+
+      const changes = _computeDelta(data)
+
+      for (const updatedField of props.fieldsUpdatedAfterImport) {
+        if (updatedField.startsWith('details.') && changes.details) {
+          delete changes.details[updatedField.substring('details.'.length)]
+          continue
+        }
+        delete changes[updatedField]
+      }
+
+      const newNotifiedOn = changes['notifiedOn']
+      delete changes['notifiedOn']
+
+      if (changes && Object.keys(changes).length) {
+        _publishEvent(
+          new ProjectReimported({
+            payload: {
+              projectId: props.projectId.toString(),
+              appelOffreId: appelOffre.id,
+              periodeId: appelOffre.periode.id,
+              familleId: appelOffre.famille?.id,
+              importId,
+              data: changes,
+            },
+          })
+        )
+      }
+
+      if (!appelOffre.periode.isNotifiedOnPotentiel && newNotifiedOn) {
+        _publishNewNotificationDate({
+          projectId: props.projectId.toString(),
+          notifiedOn: newNotifiedOn,
+          setBy: '',
+        })
+      }
+
+      return ok(null)
+    },
+    import: function ({ data, importId }) {
+      const { appelOffreId, periodeId, familleId, numeroCRE } = data
+      _publishEvent(
+        new ProjectImported({
+          payload: {
+            projectId: projectId.toString(),
+            appelOffreId,
+            periodeId,
+            familleId,
+            numeroCRE,
+            importId,
+            data,
+          },
+        })
+      )
+
+      return ok(null)
+    },
     correctData: function (user, corrections) {
       if (!_isNotified() || !props.data) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
       }
 
-      // Compute delta with what has changed
-      const delta = Object.entries(corrections).reduce(
-        (modifiedData, [correctionKey, correctionValue]) => {
-          // If the specific property is missing from props.data
-          // or it's value has changed, add it to the delta
-          if (
-            typeof correctionValue !== 'undefined' &&
-            props.data &&
-            (typeof props.data[correctionKey] === 'undefined' ||
-              props.data[correctionKey] !== correctionValue)
-          ) {
-            modifiedData[correctionKey] = correctionValue
-          }
+      const changes = _computeDelta(corrections)
 
-          return modifiedData
-        },
-        {}
-      ) as Partial<ProjectDataProps>
-
-      if (!delta || !Object.keys(delta).length) {
+      if (!changes || !Object.keys(changes).length) {
         return ok(null)
       }
 
-      return _validateProjectFields(delta).andThen(() => {
+      return _validateProjectFields(changes).andThen(() => {
         _publishEvent(
           new ProjectDataCorrected({
             payload: {
               projectId: props.projectId.toString(),
               correctedBy: user.id,
-              correctedData: delta,
+              correctedData: changes,
             },
           })
         )
@@ -314,7 +359,7 @@ export const makeProject = (args: {
 
       if (newCompletionDueOn <= props.notifiedOn) {
         return err(
-          new IllegalProjectDataError({
+          new IllegalProjectStateError({
             completionDueOn:
               'La nouvelle date de mise en service doit postérieure à la date de notification.',
           })
@@ -326,32 +371,23 @@ export const makeProject = (args: {
       return ok(null)
     },
     setNotificationDate: function (user, notifiedOn) {
-      if (!_isNotified()) {
+      if (!_isNew() && !_isNotified()) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
       }
-
       try {
         isStrictlyPositiveNumber(notifiedOn)
       } catch (e) {
-        return err(new IllegalProjectDataError({ notifiedOn: e.message }))
+        return err(new IllegalProjectStateError({ notifiedOn: e.message }))
       }
 
       // If it's the same day, ignore small differences in timestamp
       if (moment(notifiedOn).tz('Europe/Paris').isSame(props.notifiedOn, 'day')) return ok(null)
 
-      _publishEvent(
-        new ProjectNotificationDateSet({
-          payload: {
-            projectId: props.projectId.toString(),
-            notifiedOn,
-            setBy: user.id,
-          },
-        })
-      )
-
-      _updateDCRDate()
-      _updateGFDate()
-      _updateCompletionDate()
+      _publishNewNotificationDate({
+        projectId: props.projectId.toString(),
+        notifiedOn,
+        setBy: user?.id || '',
+      })
 
       return ok(null)
     },
@@ -451,15 +487,15 @@ export const makeProject = (args: {
             },
           })
         )
-
-        _updateDCRDate()
-        _updateGFDate()
-        _updateCompletionDate()
       }
 
       return ok(null)
     },
     addGeneratedCertificate: function ({ projectVersionDate, certificateFileId, reason }) {
+      if (!props.appelOffre) {
+        return err(new IllegalInitialStateForAggregateError())
+      }
+
       if (props.lastCertificateUpdate) {
         _publishEvent(
           new ProjectCertificateRegenerated({
@@ -496,7 +532,8 @@ export const makeProject = (args: {
         _isNotified() &&
         _periodeHasCertificate() &&
         !_hasPendingEventOfType(ProjectCertificateUpdated.type) &&
-        (!props.lastCertificateUpdate || props.lastCertificateUpdate < props.lastUpdatedOn)
+        (!props.lastCertificateUpdate ||
+          (!!props.lastUpdatedOn && props.lastCertificateUpdate < props.lastUpdatedOn))
       )
     },
     get appelOffre() {
@@ -512,6 +549,10 @@ export const makeProject = (args: {
       return props.puissanceInitiale
     },
     get certificateData() {
+      if (!props.appelOffre) {
+        return err(new IllegalInitialStateForAggregateError()) as Project['certificateData']
+      }
+
       const { periode } = props.appelOffre
       if (!periode.isNotifiedOnPotentiel || !periode.certificateTemplate || !props.notifiedOn) {
         return err(new ProjectNotEligibleForCertificateError()) as Project['certificateData']
@@ -523,9 +564,10 @@ export const makeProject = (args: {
       }))
     },
     get certificateFilename() {
-      if (!props.data) return 'attestation.pdf'
-
       const { appelOffre, data, projectId } = props
+
+      if (!appelOffre || !data) return 'attestation.pdf'
+
       const { familleId, numeroCRE, nomProjet } = data
 
       const potentielId = makeProjectIdentifier({
@@ -555,19 +597,24 @@ export const makeProject = (args: {
   // private methods
   function _validateProjectFields(
     newProps: Partial<ProjectDataProps>
-  ): Result<Partial<ProjectDataProps>, IllegalProjectDataError> {
+  ): Result<Partial<ProjectDataProps>, IllegalProjectStateError> {
     const errorsInFields = projectValidator(newProps)
 
     if ('familleId' in newProps) {
       const { appelOffreId, periodeId } = { ...props.data, ...newProps }
-      if (!_getAppelOffreById(appelOffreId, periodeId, newProps.familleId)) {
-        // Can't find family in appelOffre
-        errorsInFields.familleId = "Cette famille n'existe pas pour cet appel d'offre"
+
+      if (!appelOffreId || !periodeId) {
+        errorsInFields.appelOffre = "Ce projet n'est associé à aucun appel d'offre"
+      } else {
+        if (!_getAppelOffreById(appelOffreId, periodeId, newProps.familleId)) {
+          // Can't find family in appelOffre
+          errorsInFields.familleId = "Cette famille n'existe pas pour cet appel d'offre"
+        }
       }
     }
 
     if (Object.keys(errorsInFields).length) {
-      return err(new IllegalProjectDataError(errorsInFields))
+      return err(new IllegalProjectStateError(errorsInFields))
     }
 
     return ok(newProps)
@@ -613,14 +660,19 @@ export const makeProject = (args: {
         _updateAppelOffre(event.payload)
         break
       case ProjectReimported.type:
-        props.data = event.payload.data
-        props.puissanceInitiale = event.payload.data.puissance
-        _updateClasse(event.payload.data.classe)
+        props.data = { ...props.data, ...event.payload.data }
+        if (event.payload.data.puissance) {
+          props.puissanceInitiale = event.payload.data.puissance
+        }
+        if (event.payload.data.classe) {
+          _updateClasse(event.payload.data.classe)
+        }
         _updateAppelOffre(event.payload.data)
         break
       case ProjectNotified.type:
       case ProjectNotificationDateSet.type:
         props.notifiedOn = event.payload.notifiedOn
+        props.fieldsUpdatedAfterImport.add('notifiedOn')
         break
       case ProjectCompletionDueDateSet.type:
         if (props.completionDueOn !== 0) props.hasCompletionDueDateMoved = true
@@ -628,6 +680,9 @@ export const makeProject = (args: {
         break
       case ProjectDataCorrected.type:
         props.data = { ...props.data, ...event.payload.correctedData } as ProjectProps['data']
+        for (const updatedField of Object.keys(event.payload.correctedData)) {
+          props.fieldsUpdatedAfterImport.add(updatedField)
+        }
         _updateAppelOffre(event.payload.correctedData)
         break
       case ProjectCertificateUpdated.type:
@@ -639,6 +694,49 @@ export const makeProject = (args: {
         break
       case ProjectClasseGranted.type:
         props.isClasse = true
+        props.data = {
+          ...props.data,
+          classe: 'Classé',
+        } as ProjectProps['data']
+        props.fieldsUpdatedAfterImport.add('classe')
+        break
+      case ProjectActionnaireUpdated.type:
+        props.data = {
+          ...props.data,
+          actionnaire: event.payload.newActionnaire,
+        } as ProjectProps['data']
+        props.fieldsUpdatedAfterImport.add('actionnaire')
+        break
+      case ProjectProducteurUpdated.type:
+        props.data = {
+          ...props.data,
+          nomCandidat: event.payload.newProducteur,
+        } as ProjectProps['data']
+        props.fieldsUpdatedAfterImport.add('nomCandidat')
+        break
+      case ProjectPuissanceUpdated.type:
+        props.data = {
+          ...props.data,
+          puissance: event.payload.puissance,
+        } as ProjectProps['data']
+        props.fieldsUpdatedAfterImport.add('puissance')
+        break
+      case ProjectFournisseursUpdated.type:
+        props.data = {
+          ...props.data,
+          details: {
+            ...props.data?.details,
+            ...event.payload.newFournisseurs.reduce(
+              (fournisseurs, { kind, name }) => ({ ...fournisseurs, [kind]: name }),
+              {}
+            ),
+          },
+        } as ProjectProps['data']
+
+        for (const { kind } of event.payload.newFournisseurs) {
+          props.fieldsUpdatedAfterImport.add(`details.${kind}`)
+        }
+
         break
       default:
         // ignore other event types
@@ -648,12 +746,16 @@ export const makeProject = (args: {
     _updateLastUpdatedOn(event)
   }
 
+  function _isNew() {
+    return !history
+  }
+
   function _isNotified() {
     return !!props.notifiedOn
   }
 
   function _periodeHasCertificate() {
-    return !!props.appelOffre.periode.isNotifiedOnPotentiel
+    return !!props.appelOffre?.periode.isNotifiedOnPotentiel
   }
 
   function _updateAppelOffre(args: {
@@ -663,9 +765,11 @@ export const makeProject = (args: {
   }) {
     const { appelOffre: currentAppelOffre } = props
 
-    const appelOffreId = args.appelOffreId || currentAppelOffre.id
-    const periodeId = args.periodeId || currentAppelOffre.periode.id
-    const familleId = args.familleId || currentAppelOffre.famille?.id
+    const appelOffreId = args.appelOffreId || currentAppelOffre?.id
+    const periodeId = args.periodeId || currentAppelOffre?.periode.id
+    const familleId = args.familleId || currentAppelOffre?.famille?.id
+
+    if (!appelOffreId || !periodeId) return
 
     const newAppelOffre = _getAppelOffreById(appelOffreId, periodeId, familleId)
 
@@ -681,8 +785,8 @@ export const makeProject = (args: {
   }
 
   function _getAppelOffreById(
-    appelOffreId,
-    periodeId,
+    appelOffreId: string,
+    periodeId: string,
     familleId?: string
   ): ProjectAppelOffre | null {
     const appelOffre = appelsOffres[appelOffreId]
@@ -704,33 +808,13 @@ export const makeProject = (args: {
   }
 
   function _allEventsHaveSameAggregateId() {
-    return history.every((event) => event.aggregateId?.includes(projectId.toString()))
+    return history
+      ? history.every((event) => event.aggregateId?.includes(projectId.toString()))
+      : true
   }
 
   function _isLegacyOrImport(event: DomainEvent): event is LegacyProjectSourced | ProjectImported {
     return event.type === LegacyProjectSourced.type || event.type === ProjectImported.type
-  }
-
-  function _getInitialAppelOffreFromHistory(): ProjectAppelOffre | null {
-    const foundingEvent = history.find(_isLegacyOrImport)
-    if (!foundingEvent) return null
-
-    return _getAppelOffreById(foundingEvent.payload.appelOffreId, foundingEvent.payload.periodeId)
-  }
-
-  function _getInitialClasse(): boolean | null {
-    const foundingEvent = history.find(_isLegacyOrImport)
-    if (!foundingEvent) return null
-
-    const classe =
-      foundingEvent.type === LegacyProjectSourced.type
-        ? foundingEvent.payload.content.classe
-        : foundingEvent.payload.data.classe
-
-    if (classe === 'Classé') return true
-    else if (classe === 'Eliminé') return false
-
-    return null
   }
 
   function _removePendingEventsOfType(type: DomainEvent['type']) {
@@ -760,6 +844,10 @@ export const makeProject = (args: {
 
     if (props.hasCompletionDueDateMoved && !forceValue) return
 
+    if (!props.appelOffre) return
+
+    if (!props.notifiedOn) return
+
     const { setBy, completionDueOn } = forceValue || {}
     _removePendingEventsOfType(ProjectCompletionDueDateSet.type)
     _publishEvent(
@@ -781,8 +869,8 @@ export const makeProject = (args: {
   function _shouldSubmitGF() {
     return (
       props.isClasse &&
-      (!!props.appelOffre.famille?.soumisAuxGarantiesFinancieres ||
-        props.appelOffre.id === 'Eolien')
+      (!!props.appelOffre?.famille?.soumisAuxGarantiesFinancieres ||
+        props.appelOffre?.id === 'Eolien')
     )
   }
 
@@ -798,5 +886,60 @@ export const makeProject = (args: {
         })
       )
     }
+  }
+
+  function _computeDelta(data) {
+    const mainChanges = !!data && _lowLevelDelta(props.data || {}, { ...data, details: undefined })
+
+    const changes = { ...mainChanges } as Partial<ProjectDataProps>
+
+    const detailsChanges =
+      !!data?.details && _lowLevelDelta(props.data?.details || {}, data.details)
+
+    if (detailsChanges) {
+      changes.details = detailsChanges
+    }
+
+    for (const key of Object.keys(changes)) {
+      if (typeof changes[key] === 'undefined') {
+        delete changes[key]
+      }
+    }
+
+    return changes
+  }
+
+  function _lowLevelDelta(previousData, newData) {
+    const changes = Object.entries(newData).reduce((delta, [correctionKey, correctionValue]) => {
+      // If the specific property is missing from previousData
+      // or it's value has changed, add it to the delta
+      if (_isValueChanged(correctionKey, correctionValue, previousData)) {
+        delta[correctionKey] = correctionValue
+      }
+
+      return delta
+    }, {})
+
+    return Object.keys(changes).length ? changes : undefined
+  }
+
+  function _isValueChanged(key, newValue, data) {
+    return (
+      typeof newValue !== 'undefined' &&
+      data &&
+      (typeof data[key] === 'undefined' || data[key] !== newValue)
+    )
+  }
+
+  function _publishNewNotificationDate(payload: ProjectNotificationDateSet['payload']) {
+    _publishEvent(
+      new ProjectNotificationDateSet({
+        payload,
+      })
+    )
+
+    _updateDCRDate()
+    _updateGFDate()
+    _updateCompletionDate()
   }
 }
