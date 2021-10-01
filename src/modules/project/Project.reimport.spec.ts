@@ -8,6 +8,7 @@ import {
   ProjectClasseGranted,
   ProjectDataCorrected,
   ProjectFournisseursUpdated,
+  ProjectImported,
   ProjectNotificationDateSet,
   ProjectProducteurUpdated,
   ProjectPuissanceUpdated,
@@ -468,7 +469,7 @@ describe('Project.reimport()', () => {
     })
   })
 
-  describe('when the project has been notified on Potentiel (non-legacy)', () => {
+  describe('when the project has been notified on Potentiel', () => {
     const project = UnwrapForTest(
       makeProject({
         projectId,
@@ -556,6 +557,46 @@ describe('Project.reimport()', () => {
       expect(targetEvent.payload.data).toEqual({
         prixReference: 3,
       })
+    })
+  })
+
+  describe('when a legacy project has a new notification date', () => {
+    const project = UnwrapForTest(
+      makeProject({
+        projectId,
+        history: [
+          new ProjectImported({
+            payload: {
+              projectId: projectId.toString(),
+              appelOffreId: 'Fessenheim',
+              periodeId: '1',
+              familleId,
+              numeroCRE,
+              data: { ...fakeProject, notifiedOn: 1234 },
+              importedBy: '',
+            },
+          }),
+        ],
+        appelsOffres,
+      })
+    )
+    it('should emit ProjectNotificationDateSet with the new date', () => {
+      project.reimport({
+        data: {
+          ...fakeProject,
+          notifiedOn: 4567,
+        },
+        importId,
+      })
+
+      const targetEvent = project.pendingEvents.find(
+        (item) => item.type === ProjectNotificationDateSet.type
+      ) as ProjectNotificationDateSet | undefined
+      expect(targetEvent).toBeDefined()
+      if (!targetEvent) return
+
+      expect(targetEvent.payload.projectId).toEqual(projectId.toString())
+      expect(targetEvent.payload.notifiedOn).toEqual(4567)
     })
   })
 })

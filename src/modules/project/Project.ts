@@ -277,26 +277,31 @@ export const makeProject = (args: {
         delete changes[updatedField]
       }
 
-      if (appelOffre.periode.isNotifiedOnPotentiel) {
-        delete changes['notifiedOn']
+      const newNotifiedOn = changes['notifiedOn']
+      delete changes['notifiedOn']
+
+      if (changes && Object.keys(changes).length) {
+        _publishEvent(
+          new ProjectReimported({
+            payload: {
+              projectId: props.projectId.toString(),
+              appelOffreId: appelOffre.id,
+              periodeId: appelOffre.periode.id,
+              familleId: appelOffre.famille?.id,
+              importId,
+              data: changes,
+            },
+          })
+        )
       }
 
-      if (!changes || !Object.keys(changes).length) {
-        return ok(null)
-      }
-
-      _publishEvent(
-        new ProjectReimported({
-          payload: {
-            projectId: props.projectId.toString(),
-            appelOffreId: appelOffre.id,
-            periodeId: appelOffre.periode.id,
-            familleId: appelOffre.famille?.id,
-            importId,
-            data: changes,
-          },
+      if (!appelOffre.periode.isNotifiedOnPotentiel && newNotifiedOn) {
+        _publishNewNotificationDate({
+          projectId: props.projectId.toString(),
+          notifiedOn: newNotifiedOn,
+          setBy: '',
         })
-      )
+      }
 
       return ok(null)
     },
@@ -378,19 +383,11 @@ export const makeProject = (args: {
       // If it's the same day, ignore small differences in timestamp
       if (moment(notifiedOn).tz('Europe/Paris').isSame(props.notifiedOn, 'day')) return ok(null)
 
-      _publishEvent(
-        new ProjectNotificationDateSet({
-          payload: {
-            projectId: props.projectId.toString(),
-            notifiedOn,
-            setBy: user?.id || '',
-          },
-        })
-      )
-
-      _updateDCRDate()
-      _updateGFDate()
-      _updateCompletionDate()
+      _publishNewNotificationDate({
+        projectId: props.projectId.toString(),
+        notifiedOn,
+        setBy: user?.id || '',
+      })
 
       return ok(null)
     },
@@ -932,5 +929,17 @@ export const makeProject = (args: {
       data &&
       (typeof data[key] === 'undefined' || data[key] !== newValue)
     )
+  }
+
+  function _publishNewNotificationDate(payload: ProjectNotificationDateSet['payload']) {
+    _publishEvent(
+      new ProjectNotificationDateSet({
+        payload,
+      })
+    )
+
+    _updateDCRDate()
+    _updateGFDate()
+    _updateCompletionDate()
   }
 }
