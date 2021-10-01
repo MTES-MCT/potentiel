@@ -322,6 +322,17 @@ describe('parseProjectLine', () => {
     })
   })
 
+  describe('when the Code Postal is only 4 numbers', () => {
+    it('should parse it', () => {
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          CP: '1390',
+        })
+      ).toMatchObject({ codePostalProjet: '01390' })
+    })
+  })
+
   describe('when Classé? is malformed', () => {
     it('should throw an error', () => {
       expect(() =>

@@ -34,6 +34,14 @@ const mappedColumns = [
 
 const prepareNumber = (str) => str.replace(/,/g, '.')
 
+const padCodePostalWithleft0 = (codePostalProjet) => {
+  if (codePostalProjet.length === 4) {
+    return `0${codePostalProjet}`
+  }
+
+  return codePostalProjet
+}
+
 const columnMapper = {
   appelOffreId,
   periodeId: (line: any) => line['Période'],
@@ -62,7 +70,8 @@ const columnMapper = {
   nomRepresentantLegal: (line: any) => line['Nom et prénom du représentant légal'],
   email: (line: any) => line['Adresse électronique du contact'],
   adresseProjet: (line: any) => line['N°, voie, lieu-dit'],
-  codePostalProjet: (line: any) => line['CP'].split('/').map((item) => item.trim()),
+  codePostalProjet: (line: any) =>
+    line['CP'].split('/').map((item) => padCodePostalWithleft0(item.trim())),
   communeProjet: (line: any) => line['Commune'],
   classe: (line: any) => line['Classé ?'],
   motifsElimination: (line: any) => line["Motif d'élimination"],
