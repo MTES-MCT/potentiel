@@ -263,6 +263,10 @@ export const makeProject = (args: {
       return ok(null)
     },
     reimport: function ({ data, importId }) {
+      const { appelOffre } = props
+
+      if (!appelOffre) return ok(null)
+
       const changes = _computeDelta(data)
 
       for (const updatedField of props.fieldsUpdatedAfterImport) {
@@ -273,13 +277,13 @@ export const makeProject = (args: {
         delete changes[updatedField]
       }
 
+      if (appelOffre.periode.isNotifiedOnPotentiel) {
+        delete changes['notifiedOn']
+      }
+
       if (!changes || !Object.keys(changes).length) {
         return ok(null)
       }
-
-      const { appelOffre } = props
-
-      if (!appelOffre) return ok(null)
 
       _publishEvent(
         new ProjectReimported({

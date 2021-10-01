@@ -467,4 +467,95 @@ describe('Project.reimport()', () => {
       })
     })
   })
+
+  describe('when the project has been notified on Potentiel (non-legacy)', () => {
+    const project = UnwrapForTest(
+      makeProject({
+        projectId,
+        history: [
+          new LegacyProjectSourced({
+            payload: {
+              projectId: projectId.toString(),
+              periodeId,
+              appelOffreId,
+              familleId,
+              numeroCRE,
+              content: fakeProject,
+            },
+          }),
+          new ProjectNotificationDateSet({
+            payload: {
+              projectId: projectId.toString(),
+              notifiedOn: 1234,
+              setBy: '',
+            },
+          }),
+        ],
+        appelsOffres,
+      })
+    )
+    it('should emit ProjectReimported without the change in notifiedOn in the payload', () => {
+      project.reimport({
+        data: {
+          ...fakeProject,
+          prixReference: 3,
+          notifiedOn: 4567,
+        },
+        importId,
+      })
+
+      const targetEvent = project.pendingEvents.find(
+        (item) => item.type === ProjectReimported.type
+      ) as ProjectReimported | undefined
+      expect(targetEvent).toBeDefined()
+      if (!targetEvent) return
+
+      expect(targetEvent.payload.projectId).toEqual(projectId.toString())
+      expect(targetEvent.payload.data).toEqual({
+        prixReference: 3,
+      })
+    })
+  })
+
+  describe('when the unnotified project is in a periode that should be notified on Potentiel (non-legacy)', () => {
+    const project = UnwrapForTest(
+      makeProject({
+        projectId,
+        history: [
+          new LegacyProjectSourced({
+            payload: {
+              projectId: projectId.toString(),
+              periodeId,
+              appelOffreId,
+              familleId,
+              numeroCRE,
+              content: fakeProject,
+            },
+          }),
+        ],
+        appelsOffres,
+      })
+    )
+    it('should emit ProjectReimported without the change in notifiedOn in the payload', () => {
+      project.reimport({
+        data: {
+          ...fakeProject,
+          prixReference: 3,
+          notifiedOn: 4567,
+        },
+        importId,
+      })
+
+      const targetEvent = project.pendingEvents.find(
+        (item) => item.type === ProjectReimported.type
+      ) as ProjectReimported | undefined
+      expect(targetEvent).toBeDefined()
+      if (!targetEvent) return
+
+      expect(targetEvent.payload.projectId).toEqual(projectId.toString())
+      expect(targetEvent.payload.data).toEqual({
+        prixReference: 3,
+      })
+    })
+  })
 })
