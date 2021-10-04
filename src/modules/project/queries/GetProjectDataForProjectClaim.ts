@@ -1,5 +1,5 @@
-import { ProjectDataForProjectClaim } from '..'
 import { ResultAsync } from '../../../core/utils'
+import { ProjectDataForProjectClaim } from '../../projectClaim'
 import { InfraNotAvailableError, EntityNotFoundError } from '../../shared'
 
 export type GetProjectDataForProjectClaim = (

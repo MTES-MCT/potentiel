@@ -7,7 +7,7 @@ import { makeClaimProjectAggregateId, ProjectClaim } from '../ProjectClaim'
 import { GetProjectDataForProjectClaim } from '../../project/queries/GetProjectDataForProjectClaim'
 import { EventBus } from '../../eventStore'
 import { ProjectClaimFailed } from '../events'
-import { ClaimerIdentityCheckHasFailed } from '..'
+import { ClaimerIdentityCheckHasFailedError } from '..'
 
 interface ClaimProjectDeps {
   projectClaimRepo: TransactionalRepository<ProjectClaim>
@@ -56,28 +56,26 @@ export const makeClaimProject = (deps: ClaimProjectDeps) => async (args: ClaimPr
           projectClaim
         ): ResultAsync<
           string,
-          Error | AggregateHasBeenUpdatedSinceError | ClaimerIdentityCheckHasFailed
+          Error | AggregateHasBeenUpdatedSinceError | ClaimerIdentityCheckHasFailedError
         > => {
-          return getProjectDataForProjectClaim(projectId)
-            .andThen((project) =>
-              projectClaim.claim({
-                projectEmail: project.email,
-                claimerEmail: claimedBy.email,
-                userInputs: {
-                  prix,
-                  codePostal,
-                },
-                projectData: project,
-                attestationDesignationFileId: fileObj?.id.toString(),
-              })
-            )
-            .map((projectName) => projectName)
+          return getProjectDataForProjectClaim(projectId).andThen((project) =>
+            projectClaim.claim({
+              projectEmail: project.email,
+              claimerEmail: claimedBy.email,
+              userInputs: {
+                prix,
+                codePostal,
+              },
+              projectData: project,
+              attestationDesignationFileId: fileObj?.id.toString(),
+            })
+          )
         }
       )
       .orElse((error) => {
         logger.info(error.message)
 
-        if (error instanceof ClaimerIdentityCheckHasFailed) {
+        if (error instanceof ClaimerIdentityCheckHasFailedError) {
           eventBus.publish(
             new ProjectClaimFailed({
               payload: {

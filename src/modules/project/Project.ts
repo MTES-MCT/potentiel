@@ -101,9 +101,6 @@ export interface Project extends EventStoreAggregate {
     newFournisseurs: Fournisseur[],
     newEvaluationCarbone?: number
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
-  // claimProject: (user: User, certificateFileId: string) => Result<null, never>
-  // claimProjectByOwner: (user: User) => Result<null, never>
-  // claimProjectFailed: (user: User) => Result<null, never>
   grantClasse: (user: User) => Result<null, never>
   addGeneratedCertificate: (args: {
     projectVersionDate: Date
@@ -480,45 +477,6 @@ export const makeProject = (args: {
 
       return ok(null)
     },
-    // claim: function (user, attestationDesignationFileId) {
-    //   // Verifs ..
-
-    //   _publishEvent(
-    //     new ProjectClaimed({
-    //       payload: {
-    //         projectId: props.projectId.toString(),
-    //         claimedBy: user.id,
-    //         attestationDesignationFileId,
-    //       },
-    //     })
-    //   )
-
-    //   return ok(null)
-    // },
-    // claimProjectByOwner: function (user) {
-    //   _publishEvent(
-    //     new ProjectClaimedByOwner({
-    //       payload: {
-    //         projectId: props.projectId.toString(),
-    //         claimedBy: user.id,
-    //       },
-    //     })
-    //   )
-
-    //   return ok(null)
-    // },
-    // claimProjectFailed: function (user) {
-    //   _publishEvent(
-    //     new ProjectClaimFailed({
-    //       payload: {
-    //         projectId: props.projectId.toString(),
-    //         claimedBy: user.id,
-    //       },
-    //     })
-    //   )
-
-    //   return ok(null)
-    // },
     grantClasse: function (user) {
       if (!props.isClasse) {
         _publishEvent(

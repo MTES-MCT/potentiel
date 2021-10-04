@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '../../../../../core/domain'
-import { ProjectClaimed } from '../../../../../modules/project/events'
+import { ProjectClaimed } from '../../../../../modules/projectClaim'
 import { resetDatabase } from '../../../helpers'
 import models from '../../../models'
 import { onProjectClaimed } from './onProjectClaimed'

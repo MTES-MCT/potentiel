@@ -1,6 +1,5 @@
 import { logger } from '../../../../../core/utils'
-import { ProjectClaimed } from '../../../../../modules/project/events'
-import { ProjectClaimedByOwner } from '../../../../../modules/projectClaim/events'
+import { ProjectClaimed, ProjectClaimedByOwner } from '../../../../../modules/projectClaim/events'
 
 export const onProjectClaimed = (models) => async (
   event: ProjectClaimed | ProjectClaimedByOwner
