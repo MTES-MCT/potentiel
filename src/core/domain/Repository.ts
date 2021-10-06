@@ -18,6 +18,6 @@ export type TransactionalRepository<T> = {
   transaction: <K, E>(
     id: UniqueEntityID,
     fn: (aggregate: T) => ResultAsync<K, E> | Result<K, E>,
-    opts?: { isNew: boolean }
+    opts?: { isNew?: boolean; acceptNew?: boolean }
   ) => ResultAsync<K, E | EntityNotFoundError | InfraNotAvailableError | HeterogeneousHistoryError>
 }

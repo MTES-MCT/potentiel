@@ -91,7 +91,33 @@ describe('makeEventStoreTransactionalRepo', () => {
       })
     })
 
-    describe('when called for a new aggregate that has no history', () => {
+    describe('when called for an existing aggregate that has no history', () => {
+      const fakeMakeAggregate: AggregateFromHistoryFn<FakeAggregate> = jest.fn()
+
+      const fakeLoadHistory = jest.fn((filters?: EventStoreHistoryFilters) => {
+        return okAsync<DomainEvent[], InfraNotAvailableError>([])
+      })
+      const fakeEventStore = makeFakeEventStore(fakeLoadHistory)
+
+      it('should return a EntityNotFoundError', async () => {
+        const repo = makeEventStoreTransactionalRepo({
+          eventStore: fakeEventStore as EventStore,
+          makeAggregate: fakeMakeAggregate,
+        })
+
+        const res = await repo.transaction(
+          new UniqueEntityID('test'),
+          (aggregate: FakeAggregate): Result<string, never> => {
+            aggregate.testFn()
+            return ok('correct')
+          }
+        )
+
+        expect(res._unsafeUnwrapErr()).toBeInstanceOf(EntityNotFoundError)
+      })
+    })
+
+    describe('when called with isNew=true on an aggregate that has no history', () => {
       const fakeAggregate: FakeAggregate = {
         pendingEvents: [fakeProducedEvent],
         id: new UniqueEntityID(''),
@@ -143,33 +169,7 @@ describe('makeEventStoreTransactionalRepo', () => {
       })
     })
 
-    describe('when called for an existing aggregate that has no history', () => {
-      const fakeMakeAggregate: AggregateFromHistoryFn<FakeAggregate> = jest.fn()
-
-      const fakeLoadHistory = jest.fn((filters?: EventStoreHistoryFilters) => {
-        return okAsync<DomainEvent[], InfraNotAvailableError>([])
-      })
-      const fakeEventStore = makeFakeEventStore(fakeLoadHistory)
-
-      it('should return a EntityNotFoundError', async () => {
-        const repo = makeEventStoreTransactionalRepo({
-          eventStore: fakeEventStore as EventStore,
-          makeAggregate: fakeMakeAggregate,
-        })
-
-        const res = await repo.transaction(
-          new UniqueEntityID('test'),
-          (aggregate: FakeAggregate): Result<string, never> => {
-            aggregate.testFn()
-            return ok('correct')
-          }
-        )
-
-        expect(res._unsafeUnwrapErr()).toBeInstanceOf(EntityNotFoundError)
-      })
-    })
-
-    describe('when called for a new aggregate that has a history', () => {
+    describe('when called with isNew=true on an aggregate that has a history', () => {
       const fakeMakeAggregate: AggregateFromHistoryFn<FakeAggregate> = jest.fn()
 
       const fakeLoadHistory = jest.fn((filters?: EventStoreHistoryFilters) => {
@@ -177,7 +177,7 @@ describe('makeEventStoreTransactionalRepo', () => {
       })
       const fakeEventStore = makeFakeEventStore(fakeLoadHistory)
 
-      it('should return a EntityAlreadyExistsError', async () => {
+      it('should return a EntityAlreadyExistsError', async () => {
         const repo = makeEventStoreTransactionalRepo({
           eventStore: fakeEventStore as EventStore,
           makeAggregate: fakeMakeAggregate,
@@ -193,6 +193,81 @@ describe('makeEventStoreTransactionalRepo', () => {
         )
 
         expect(res._unsafeUnwrapErr()).toBeInstanceOf(EntityAlreadyExistsError)
+      })
+    })
+
+    describe('when called with acceptNew=true', () => {
+      it('should accept an aggregate with no history', async () => {
+        const fakeAggregate: FakeAggregate = {
+          pendingEvents: [fakeProducedEvent],
+          id: new UniqueEntityID(''),
+          lastUpdatedOn: new Date(0),
+          testFn: jest.fn(),
+        }
+        const fakeMakeAggregate = jest.fn((args: { events?: DomainEvent[]; id: UniqueEntityID }) =>
+          ok<FakeAggregate, EntityNotFoundError | HeterogeneousHistoryError>(fakeAggregate)
+        )
+        const fakeLoadHistory = jest.fn((filters?: EventStoreHistoryFilters) => {
+          return okAsync<DomainEvent[], InfraNotAvailableError>([])
+        })
+        const fakeEventStore = makeFakeEventStore(fakeLoadHistory)
+
+        const repo = makeEventStoreTransactionalRepo({
+          eventStore: fakeEventStore as EventStore,
+          makeAggregate: fakeMakeAggregate,
+        })
+
+        await repo.transaction(
+          new UniqueEntityID('test'),
+          (aggregate: FakeAggregate): Result<string, never> => {
+            aggregate.testFn()
+            return ok('correct')
+          },
+          { acceptNew: true }
+        )
+
+        expect(fakeMakeAggregate).toHaveBeenCalledWith({
+          id: new UniqueEntityID('test'),
+        })
+
+        expect(fakeAggregate.testFn).toHaveBeenCalled()
+      })
+
+      it('should accept an aggregate that has a history', async () => {
+        const fakeAggregate: FakeAggregate = {
+          pendingEvents: [fakeProducedEvent],
+          id: new UniqueEntityID(''),
+          lastUpdatedOn: new Date(0),
+          testFn: jest.fn(),
+        }
+        const fakeMakeAggregate = jest.fn((args: { events?: DomainEvent[]; id: UniqueEntityID }) =>
+          ok<FakeAggregate, EntityNotFoundError | HeterogeneousHistoryError>(fakeAggregate)
+        )
+        const fakeLoadHistory = jest.fn((filters?: EventStoreHistoryFilters) => {
+          return okAsync<DomainEvent[], InfraNotAvailableError>([fakeHistoryEvent])
+        })
+        const fakeEventStore = makeFakeEventStore(fakeLoadHistory)
+
+        const repo = makeEventStoreTransactionalRepo({
+          eventStore: fakeEventStore as EventStore,
+          makeAggregate: fakeMakeAggregate,
+        })
+
+        await repo.transaction(
+          new UniqueEntityID('test'),
+          (aggregate: FakeAggregate): Result<string, never> => {
+            aggregate.testFn()
+            return ok('correct')
+          },
+          { acceptNew: true }
+        )
+
+        expect(fakeMakeAggregate).toHaveBeenCalledWith({
+          events: [fakeHistoryEvent],
+          id: new UniqueEntityID('test'),
+        })
+
+        expect(fakeAggregate.testFn).toHaveBeenCalled()
       })
     })
   })
