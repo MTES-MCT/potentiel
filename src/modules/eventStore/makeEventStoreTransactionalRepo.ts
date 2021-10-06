@@ -21,7 +21,7 @@ export const makeEventStoreTransactionalRepo = <T extends EventStoreAggregate>(d
   transaction<K, E>(
     id: UniqueEntityID,
     fn: (aggregate: T) => ResultAsync<K, E> | Result<K, E>,
-    opts?: { isNew: boolean }
+    opts?: { isNew?: boolean; acceptNew?: boolean }
   ): ResultAsync<
     K,
     | E
@@ -42,16 +42,19 @@ export const makeEventStoreTransactionalRepo = <T extends EventStoreAggregate>(d
               T,
               EntityNotFoundError | HeterogeneousHistoryError | EntityAlreadyExistsError
             > => {
-              if (opts?.isNew) {
-                if (events.length) {
+              if (events.length) {
+                if (opts?.isNew) {
                   return err(new EntityAlreadyExistsError())
                 }
-                return deps.makeAggregate({ id })
+
+                return deps.makeAggregate({ events, id })
               }
 
-              if (!events.length) return err(new EntityNotFoundError())
+              if (!opts?.isNew && !opts?.acceptNew) {
+                return err(new EntityNotFoundError())
+              }
 
-              return deps.makeAggregate({ events, id })
+              return deps.makeAggregate({ id })
             }
           )
           .andThen((aggregate) => {
