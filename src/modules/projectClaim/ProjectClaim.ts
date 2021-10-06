@@ -1,4 +1,4 @@
-import { ProjectClaimed, ProjectDataForProjectClaim } from '.'
+import { ProjectDataForProjectClaim } from '.'
 import { DomainEvent, UniqueEntityID } from '../../core/domain'
 import { err, ok, Result } from '../../core/utils'
 import { EventStoreAggregate } from '../eventStore/EventStoreAggregate'
@@ -9,7 +9,7 @@ import {
   ProjectHasAlreadyBeenClaimedError,
 } from './errors'
 import { ProjectCannotBeClaimedByUserAnymoreError } from './errors'
-import { ProjectClaimedByOwner, ProjectClaimFailed } from './events'
+import { ProjectClaimedByOwner, ProjectClaimFailed, ProjectClaimed } from './events'
 
 export interface ProjectClaim extends EventStoreAggregate {
   claim: (args: {
@@ -36,7 +36,7 @@ interface ProjectClaimProps {
 }
 
 export const makeProjectClaim = (args: {
-  events: DomainEvent[]
+  events?: DomainEvent[]
   id: UniqueEntityID
 }): Result<
   ProjectClaim,
@@ -56,8 +56,10 @@ export const makeProjectClaim = (args: {
 
   const pendingEvents: DomainEvent[] = []
 
-  for (const event of events) {
-    _processEvent(event)
+  if (events) {
+    for (const event of events) {
+      _processEvent(event)
+    }
   }
 
   return ok({
@@ -168,10 +170,18 @@ export const makeProjectClaim = (args: {
     userInputs: { prix?: number; codePostal?: string },
     project: ProjectDataForProjectClaim
   ): boolean {
-    return (
-      userInputs.prix === project.prixReference &&
-      userInputs.codePostal === project.codePostalProjet
-    )
+    const prixReferenceIsCorrect = userInputs.prix === project.prixReference
+    const codePostalIsCorrect =
+      userInputs.codePostal?.length === 5 &&
+      project.codePostalProjet.includes(userInputs.codePostal)
+
+    console.log({
+      codePostalIsCorrect,
+      projectCP: project.codePostalProjet,
+      userCP: userInputs.codePostal,
+    })
+
+    return prixReferenceIsCorrect && codePostalIsCorrect
   }
 }
 

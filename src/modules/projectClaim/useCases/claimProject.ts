@@ -70,7 +70,8 @@ export const makeClaimProject = (deps: ClaimProjectDeps) => async (args: ClaimPr
               attestationDesignationFileId: fileObj?.id.toString(),
             })
           )
-        }
+        },
+        { acceptNew: true }
       )
       .orElse((error) => {
         logger.info(error.message)

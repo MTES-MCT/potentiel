@@ -1,50 +1,55 @@
 import { UniqueEntityID } from '../../../../../core/domain'
-import { ProjectClaimed } from '../../../../../modules/projectClaim'
+import { ProjectClaimed, ProjectClaimedByOwner } from '../../../../../modules/projectClaim'
 import { resetDatabase } from '../../../helpers'
 import models from '../../../models'
 import { onProjectClaimed } from './onProjectClaimed'
 
-describe('projectStep.onProjectClaimed', () => {
-  const { ProjectStep } = models
+describe('userProjects.onProjectClaimed', () => {
+  const { UserProjects } = models
 
   const projectId = new UniqueEntityID().toString()
-  const userId = new UniqueEntityID().toString()
-  const certificateFileId = new UniqueEntityID().toString()
+  const claimedBy = new UniqueEntityID().toString()
 
-  beforeEach(async () => {
-    await resetDatabase()
+  describe('on ProjectClaimed', () => {
+    beforeAll(async () => {
+      // Create the tables and remove all data
+      await resetDatabase()
+
+      await onProjectClaimed(models)(
+        new ProjectClaimed({
+          payload: {
+            projectId,
+            claimedBy,
+            claimerEmail: 'test@test.test',
+            attestationDesignationFileId: new UniqueEntityID().toString(),
+          },
+        })
+      )
+    })
+
+    it('should create a record for the specified userId and projectId', async () => {
+      expect(await UserProjects.count({ where: { userId: claimedBy, projectId } })).toEqual(1)
+    })
   })
 
-  describe('when event is ProjectClaimed', () => {
-    it('should create a new attestation-designation-proof step', async () => {
-      const event = new ProjectClaimed({
-        payload: {
-          projectId,
-          certificateFileId,
-          claimedBy: userId,
-        },
-        original: {
-          version: 1,
-          occurredAt: new Date(456),
-        },
-      })
+  describe('on ProjectClaimedByOwner', () => {
+    beforeAll(async () => {
+      // Create the tables and remove all data
+      await resetDatabase()
 
-      await onProjectClaimed(models)(event)
+      await onProjectClaimed(models)(
+        new ProjectClaimedByOwner({
+          payload: {
+            projectId,
+            claimedBy,
+            claimerEmail: 'test@test.test',
+          },
+        })
+      )
+    })
 
-      const projection = await ProjectStep.findOne({ where: { projectId } })
-
-      expect(projection).toBeTruthy()
-      if (!projection) return
-
-      expect(projection.get()).toMatchObject({
-        type: 'attestation-designation-proof',
-        projectId,
-        stepDate: new Date(123),
-        fileId: certificateFileId,
-        submittedBy: userId,
-        submittedOn: new Date(456),
-        details: null,
-      })
+    it('should create a record for the specified userId and projectId', async () => {
+      expect(await UserProjects.count({ where: { userId: claimedBy, projectId } })).toEqual(1)
     })
   })
 })

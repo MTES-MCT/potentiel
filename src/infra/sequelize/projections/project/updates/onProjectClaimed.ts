@@ -4,11 +4,11 @@ import { ProjectClaimed, ProjectClaimedByOwner } from '../../../../../modules/pr
 export const onProjectClaimed = (models) => async (
   event: ProjectClaimed | ProjectClaimedByOwner
 ) => {
-  const { projectId, claimedBy } = event.payload
-  const { UserProjects } = models
+  const { projectId, claimerEmail } = event.payload
+  const { Project } = models
 
   try {
-    await UserProjects.create({ userId: claimedBy, projectId })
+    await Project.update({ email: claimerEmail }, { where: { id: projectId } })
   } catch (e) {
     logger.error(e)
   }
