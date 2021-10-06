@@ -132,6 +132,7 @@
 
 <#--  <#nested "header">  -->
 <#nested "form">
+<#nested "info">
 
 </div></section></main><footer class="footer" role="contentinfo"><div class="container"><ul class="footer__links"><li><img style="max-width:100%" src="${url.resourcesPath}/img/MIN_Transition_Ecologique_RVB_petit.png" alt="Logo du ministère de la transition énergétique" width="300" height="215"/></li><li><a href="https://docs.potentiel.beta.gouv.fr/info/cgu">Mentions Légales et Conditions Générales d‘Utilisation</a></li><li><a href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel">Guide d‘utilisation</a></li><li><a href="https://docs.potentiel.beta.gouv.fr/info/cgu#cookies">Notre politique de cookies</a></li></ul><div>2.34.0</div></div></footer>
   </body>
