@@ -25,12 +25,14 @@ describeProjector(onUserRegistered)
     model: User,
     id: userId,
     before: {
+      id: userId,
       fullName: '',
       email: 'test@test.test',
       role: 'porteur-projet',
       registeredOn: null,
     },
     after: {
+      id: userId,
       fullName: 'John Doe',
       email: 'test@test.test',
       role: 'porteur-projet',

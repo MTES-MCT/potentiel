@@ -4,7 +4,7 @@ import routes from '../../routes'
 import { Pagination } from '../../types'
 import { listMissingOwnerProjects } from '../../useCases'
 import { ListMissingOwnerProjectsPage } from '../../views/legacy-pages'
-import { ensureLoggedIn, ensureRole } from '../auth'
+import { ensureRole } from '../../config'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
 
@@ -75,7 +75,6 @@ const getMissingOwnerProjectListPage = asyncHandler(async (request, response) =>
 
 v1Router.get(
   routes.USER_LIST_MISSING_OWNER_PROJECTS,
-  ensureLoggedIn(),
   ensureRole(['porteur-projet']),
   getMissingOwnerProjectListPage
 )

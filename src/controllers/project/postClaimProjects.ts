@@ -1,15 +1,13 @@
 import { addQueryParams } from '../../helpers/addQueryParams'
 import routes from '../../routes'
-import { ensureLoggedIn, ensureRole } from '../auth'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
-import { claimProject } from '../../config'
+import { claimProject, ensureRole } from '../../config'
 import { createReadStream } from 'fs'
 import { upload } from '../upload'
 
 v1Router.post(
   routes.USER_CLAIM_PROJECTS,
-  ensureLoggedIn(),
   ensureRole('porteur-projet'),
   upload.multiple(),
   asyncHandler(async (request, response) => {
