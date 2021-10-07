@@ -1,25 +1,25 @@
 import asyncHandler from 'express-async-handler'
 import fs from 'fs'
 import _ from 'lodash'
-import { logger } from '../../core/utils'
-import { addQueryParams } from '../../helpers/addQueryParams'
-import { pathExists } from '../../helpers/pathExists'
-import { isStrictlyPositiveNumber } from '../../helpers/formValidators'
-import routes from '../../routes'
-import { requestModification, shouldUserAccessProject } from '../../useCases'
-import { oldProjectRepo } from '../../config/'
-import { ensureLoggedIn, ensureRole } from '../auth'
-import { upload } from '../upload'
-import { v1Router } from '../v1Router'
 import {
-  requestPuissanceModification,
-  requestProducteurModification,
   requestActionnaireModification,
   requestFournisseurModification,
+  requestProducteurModification,
+  requestPuissanceModification,
   updateNewRulesOptIn,
 } from '../../config'
+import { oldProjectRepo } from '../../config/'
+import { logger } from '../../core/utils'
+import { addQueryParams } from '../../helpers/addQueryParams'
+import { isStrictlyPositiveNumber } from '../../helpers/formValidators'
+import { pathExists } from '../../helpers/pathExists'
 import { PuissanceJustificationOrCourrierMissingError } from '../../modules/modificationRequest'
 import { Fournisseur, FournisseurKind } from '../../modules/project'
+import routes from '../../routes'
+import { requestModification, shouldUserAccessProject } from '../../useCases'
+import { ensureRole } from '../../config'
+import { upload } from '../upload'
+import { v1Router } from '../v1Router'
 
 const returnRoute = (type, projectId) => {
   let returnRoute: string
@@ -54,7 +54,6 @@ const returnRoute = (type, projectId) => {
 
 v1Router.post(
   routes.DEMANDE_ACTION,
-  ensureLoggedIn(),
   ensureRole('porteur-projet'),
   upload.single('file'),
   asyncHandler(async (request, response) => {

@@ -1,7 +1,10 @@
 import { DataTypes } from 'sequelize'
+import { makeProjector } from '../../helpers'
+
+export const userDrealProjector = makeProjector()
 
 export const MakeUserDrealModel = (sequelize) => {
-  const Model = sequelize.define(
+  const UserDreal = sequelize.define(
     'userDreal',
     {
       id: {
@@ -24,9 +27,13 @@ export const MakeUserDrealModel = (sequelize) => {
     }
   )
 
-  Model.associate = (models) => {
-    // Add belongsTo etc. statements here
+  UserDreal.associate = (models) => {
+    const { User } = models
+
+    UserDreal.belongsTo(User, { foreignKey: 'userId' })
   }
 
-  return Model
+  UserDreal.projector = userDrealProjector
+
+  return UserDreal
 }

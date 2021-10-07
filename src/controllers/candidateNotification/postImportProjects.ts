@@ -1,19 +1,16 @@
 import asyncHandler from 'express-async-handler'
-import { logger } from '../../core/utils'
+import { ensureRole, importProjects } from '../../config'
+import { UniqueEntityID } from '../../core/domain'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { parseCsv } from '../../helpers/parseCsv'
+import { IllegalProjectDataError } from '../../modules/project'
 import routes from '../../routes'
-import { importProjects } from '../../config'
 import { ImportCandidatesPage } from '../../views/legacy-pages'
-import { ensureLoggedIn, ensureRole } from '../auth'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
-import { UniqueEntityID } from '../../core/domain'
-import { IllegalProjectDataError } from '../../modules/project'
 
 v1Router.post(
   routes.IMPORT_PROJECTS_ACTION,
-  ensureLoggedIn(),
   ensureRole(['admin', 'dgec']),
   upload.single('candidats'),
   asyncHandler(async (request, response) => {

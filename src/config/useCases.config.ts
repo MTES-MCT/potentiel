@@ -1,63 +1,64 @@
-import {
-  BaseShouldUserAccessProject,
-  makeRevokeRightsToProject,
-  makeCancelInvitationToProject,
-} from '../modules/authorization'
+import { makeImportAppelOffreData, makeImportPeriodeData } from '../modules/appelOffre/useCases'
+import { BaseShouldUserAccessProject, makeRevokeRightsToProject } from '../modules/authorization'
 import { makeLoadFileForUser } from '../modules/file'
+import {
+  makeAcceptModificationRequest,
+  makeCancelModificationRequest,
+  makeConfirmRequest,
+  makeRejectModificationRequest,
+  makeRequestActionnaireModification,
+  makeRequestConfirmation,
+  makeRequestFournisseursModification,
+  makeRequestProducteurModification,
+  makeRequestPuissanceModification,
+  makeUpdateModificationRequestStatus,
+  getAutoAcceptRatiosForAppelOffre,
+} from '../modules/modificationRequest'
 import {
   makeCorrectProjectData,
   makeGenerateCertificate,
-  makeSubmitStep,
-  makeRemoveStep,
-  makeRegenerateCertificatesForPeriode,
-  makeUpdateStepStatus,
   makeImportProjects,
-} from '../modules/project/useCases'
-import { makeImportAppelOffreData, makeImportPeriodeData } from '../modules/appelOffre/useCases'
+  makeRegenerateCertificatesForPeriode,
+  makeRemoveStep,
+  makeSubmitStep,
+  makeUpdateNewRulesOptIn,
+  makeUpdateStepStatus,
+} from '../modules/project'
+import {
+  makeCreateUser,
+  makeInviteUserToProject,
+  makeRegisterFirstUserLogin,
+  makeRelanceInvitation,
+} from '../modules/users'
 import { buildCertificate } from '../views/certificates'
-import {
-  fileRepo,
-  oldProjectRepo,
-  projectRepo,
-  userRepo,
-  modificationRequestRepo,
-  appelOffreRepo,
-  projectAdmissionKeyRepo,
-  oldAppelOffreRepo,
-  projectClaimRepo,
-} from './repos.config'
-import {
-  getFileProject,
-  getProjectIdForAdmissionKey,
-  getProjectIdsForPeriode,
-  getAppelOffreList,
-  getUserByEmail,
-  isProjectParticipatif,
-  hasProjectGarantieFinanciere,
-  getProjectAppelOffreId,
-  getProjectDataForProjectClaim,
-} from './queries.config'
+import { createUserCredentials, getUserName, resendInvitationEmail } from './credentials.config'
 import { eventStore } from './eventStore.config'
 import {
-  makeAcceptModificationRequest,
-  makeRejectModificationRequest,
-  makeRequestPuissanceModification,
-  makeRequestActionnaireModification,
-  makeRequestProducteurModification,
-  makeUpdateModificationRequestStatus,
-  makeRequestConfirmation,
-  makeConfirmRequest,
-  makeCancelModificationRequest,
-} from '../modules/modificationRequest'
-import { getAutoAcceptRatiosForAppelOffre } from '../modules/modificationRequest/helpers'
-import { makeInviteUser } from '../modules/users'
-import { sendNotification } from './emails.config'
-import { makeRequestFournisseursModification } from '../modules/modificationRequest/useCases/requestFournisseursModification'
-import { makeUpdateNewRulesOptIn } from '../modules/project/useCases/updateNewRulesOptIn'
+  getAppelOffreList,
+  getFileProject,
+  getProjectAppelOffreId,
+  getProjectIdsForPeriode,
+  getProjectsByContactEmail,
+  getUserByEmail,
+  hasProjectGarantieFinanciere,
+  getProjectDataForProjectClaim,
+  isProjectParticipatif,
+} from './queries.config'
 import { makeClaimProject } from '../modules/projectClaim'
+import {
+  appelOffreRepo,
+  fileRepo,
+  modificationRequestRepo,
+  oldAppelOffreRepo,
+  oldProjectRepo,
+  oldUserRepo,
+  projectRepo,
+  userRepo,
+  projectClaimRepo,
+} from './repos.config'
 
 export const shouldUserAccessProject = new BaseShouldUserAccessProject(
-  userRepo,
+  oldUserRepo,
   oldProjectRepo.findById
 )
 
@@ -104,12 +105,6 @@ export const confirmRequest = makeConfirmRequest({
 export const revokeUserRightsToProject = makeRevokeRightsToProject({
   eventBus: eventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-})
-
-export const cancelInvitationToProject = makeCancelInvitationToProject({
-  eventBus: eventStore,
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  getProjectIdForAdmissionKey,
 })
 
 export const submitStep = makeSubmitStep({
@@ -178,10 +173,28 @@ export const importPeriodeData = makeImportPeriodeData({
   appelOffreRepo,
 })
 
-export const inviteUser = makeInviteUser({
-  projectAdmissionKeyRepo,
+export const createUser = makeCreateUser({
   getUserByEmail,
-  sendNotification,
+  createUserCredentials,
+  eventBus: eventStore,
+  getProjectsByContactEmail,
+})
+
+export const inviteUserToProject = makeInviteUserToProject({
+  getUserByEmail,
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+  eventBus: eventStore,
+  createUser,
+})
+
+export const registerFirstUserLogin = makeRegisterFirstUserLogin({
+  userRepo,
+  getUserName,
+})
+
+export const relanceInvitation = makeRelanceInvitation({
+  eventBus: eventStore,
+  resendInvitationEmail,
 })
 
 export const cancelModificationRequest = makeCancelModificationRequest({

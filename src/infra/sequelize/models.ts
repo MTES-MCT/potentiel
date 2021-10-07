@@ -8,7 +8,6 @@ import { MakeUserModel } from './projections/user/user.model'
 import { MakeProjectStepModel } from './projections/projectStep/projectStep.model'
 
 import { MakeUserProjectsModel } from './projections/userProjects/userProjects.model'
-import { MakeProjectAdmissionKeyModel } from './projections/projectAdmissionKey/projectAdmissionKey.model'
 import { MakeUserDrealModel } from './projections/userDreal/userDreal.model'
 import { MakeModificationRequestModel } from './projections/modificationRequest/modificationRequest.model'
 import { MakeAppelOffreModel } from './projections/appelOffre/appelOffre.model'
@@ -17,7 +16,7 @@ import { MakeCredentialsModel } from './projections/user/credentials.model'
 import { EventBus } from '../../modules/eventStore'
 import { MakeUserProjectClaimsModel } from './projections'
 
-const models = {
+export const models = {
   File: MakeFileModel(sequelizeInstance),
   Notification: MakeNotificationModel(sequelizeInstance),
   Project: MakeProjectModel(sequelizeInstance),
@@ -25,7 +24,6 @@ const models = {
   ModificationRequest: MakeModificationRequestModel(sequelizeInstance),
   User: MakeUserModel(sequelizeInstance),
   UserProjects: MakeUserProjectsModel(sequelizeInstance),
-  ProjectAdmissionKey: MakeProjectAdmissionKeyModel(sequelizeInstance),
   ProjectStep: MakeProjectStepModel(sequelizeInstance),
   AppelOffre: MakeAppelOffreModel(sequelizeInstance),
   Periode: MakePeriodeModel(sequelizeInstance),

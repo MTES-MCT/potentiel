@@ -1,12 +1,12 @@
+import asyncHandler from 'express-async-handler'
 import { appelOffreRepo } from '../../dataAccess'
 import { makePagination } from '../../helpers/paginate'
 import routes from '../../routes'
 import { Pagination } from '../../types'
 import { listProjects } from '../../useCases'
 import { ListProjectsPage } from '../../views/legacy-pages'
-import { ensureLoggedIn, ensureRole } from '../auth'
+import { ensureRole } from '../../config'
 import { v1Router } from '../v1Router'
-import asyncHandler from 'express-async-handler'
 
 const getProjectListPage = asyncHandler(async (request, response) => {
   let {
@@ -73,16 +73,10 @@ const getProjectListPage = asyncHandler(async (request, response) => {
   )
 })
 
-v1Router.get(
-  routes.ADMIN_DASHBOARD,
-  ensureLoggedIn(),
-  ensureRole(['admin', 'dgec', 'dreal']),
-  getProjectListPage
-)
+v1Router.get(routes.ADMIN_DASHBOARD, ensureRole(['admin', 'dgec', 'dreal']), getProjectListPage)
 
 v1Router.get(
   routes.USER_DASHBOARD,
-  ensureLoggedIn(),
   ensureRole(['porteur-projet', 'acheteur-obligé', 'ademe']),
   getProjectListPage
 )

@@ -1,5 +1,5 @@
 export * from './appelOffre';
-export * from './authorization';
+export * from './candidateNotification';
 export * from './file';
 export * from './modificationRequest';
 export * from './notification';

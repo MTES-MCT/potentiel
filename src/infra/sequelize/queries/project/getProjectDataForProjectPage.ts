@@ -5,7 +5,7 @@ import { GetProjectDataForProjectPage } from '../../../../modules/project/querie
 import { EntityNotFoundError } from '../../../../modules/shared'
 import models from '../../models'
 
-const { Project, File, User, UserProjects, ProjectAdmissionKey, ProjectStep } = models
+const { Project, File, User, UserProjects, ProjectStep } = models
 export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ projectId, user }) => {
   return wrapInfra(
     Project.findByPk(projectId, {
@@ -23,29 +23,9 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           include: [
             {
               model: User,
-              attributes: ['id', 'fullName', 'email'],
+              attributes: ['id', 'fullName', 'email', 'registeredOn'],
             },
           ],
-        },
-        {
-          model: ProjectAdmissionKey,
-          as: 'invitations',
-          where: {
-            cancelled: false,
-            lastUsedAt: 0,
-          },
-          attributes: ['id', 'email'],
-          required: false,
-        },
-        {
-          model: ProjectAdmissionKey,
-          as: 'invitationsForProjectEmail',
-          where: {
-            cancelled: false,
-            lastUsedAt: 0,
-          },
-          attributes: ['id', 'email'],
-          required: false,
         },
         {
           model: ProjectStep,
@@ -121,8 +101,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
       garantiesFinancieresDueOn,
       dcrDueOn,
       users,
-      invitations,
-      invitationsForProjectEmail,
       gf,
       dcr,
       ptf,
@@ -130,15 +108,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
       updatedAt,
       newRulesOptIn,
     } = projectRaw.get()
-
-    let allInvitations: any[] = []
-    if (invitations) {
-      allInvitations = [...allInvitations, ...invitations.map((item) => item.get())]
-    }
-
-    if (invitationsForProjectEmail) {
-      allInvitations = [...allInvitations, ...invitationsForProjectEmail.map((item) => item.get())]
-    }
 
     const result: any = {
       id,
@@ -171,8 +140,14 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
       isClasse: classe === 'Classé',
       isAbandoned: abandonedOn !== 0,
       motifsElimination,
-      users: users?.map(({ user }) => user),
-      invitations: allInvitations,
+      users: users
+        ?.map(({ user }) => user.get())
+        .map(({ id, email, fullName, registeredOn }) => ({
+          id,
+          email,
+          fullName,
+          isRegistered: !!registeredOn,
+        })),
       garantiesFinancieres: undefined,
       updatedAt,
       newRulesOptIn,
