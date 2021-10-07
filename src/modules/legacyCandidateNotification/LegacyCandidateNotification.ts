@@ -6,7 +6,7 @@ import { EntityNotFoundError } from '../shared'
 import { HeterogeneousHistoryError } from '../shared/errors'
 
 export interface LegacyCandidateNotification extends EventStoreAggregate {
-  notify: () => void
+  notify: () => Result<null, never>
 }
 
 interface LegacyCandidateNotificationProps {
@@ -42,16 +42,18 @@ export const makeLegacyCandidateNotification = (args: {
 
   return ok({
     notify: () => {
-      if (props.isAlreadyNotified) return
+      if (!props.isAlreadyNotified) {
+        pendingEvents.push(
+          new LegacyCandidateNotified({
+            payload: {
+              importId,
+              email,
+            },
+          })
+        )
+      }
 
-      pendingEvents.push(
-        new LegacyCandidateNotified({
-          payload: {
-            importId,
-            email,
-          },
-        })
-      )
+      return ok(null)
     },
     get pendingEvents() {
       return pendingEvents
