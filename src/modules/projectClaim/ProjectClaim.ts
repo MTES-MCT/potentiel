@@ -109,13 +109,8 @@ export const makeProjectClaim = (args: {
   }): ReturnType<ProjectClaim['claim']> {
     const MAX_ALLOWED_ATTEMPTS = 3
 
-    const {
-      projectEmail,
-      claimerEmail,
-      userInputs,
-      projectData,
-      attestationDesignationFileId,
-    } = args
+    const { projectEmail, claimerEmail, userInputs, projectData, attestationDesignationFileId } =
+      args
 
     const { projectId, claimedBy } = JSON.parse(id.toString())
 
@@ -174,12 +169,6 @@ export const makeProjectClaim = (args: {
     const codePostalIsCorrect =
       userInputs.codePostal?.length === 5 &&
       project.codePostalProjet.includes(userInputs.codePostal)
-
-    console.log({
-      codePostalIsCorrect,
-      projectCP: project.codePostalProjet,
-      userCP: userInputs.codePostal,
-    })
 
     return prixReferenceIsCorrect && codePostalIsCorrect
   }
