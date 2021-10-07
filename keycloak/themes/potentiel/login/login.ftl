@@ -10,6 +10,7 @@
                 <#if message?has_content>
                     <#if message.type == 'error'>
                     <div class="notification error">${kcSanitize(message.summary)?no_esc}</div>
+                    <div class="notification warning" style="margin-top: 20px">Pour des raisons de sécurité, les mots de passes ont été remis à zéro le 7 octobre. Si vous n'avez pas mis à jour votre mot de passe depuis cette date, merci d'utiliser le lien "Mot de passe oublié".</div>
                     <#elseif message.type == 'warning'>
                     <div class="notification warning">${kcSanitize(message.summary)?no_esc}</div>
                     <#else>
