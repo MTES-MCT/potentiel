@@ -9,6 +9,7 @@ type FileDesignation =
   | 'modification-request'
   | 'modification-request-response'
   | 'attestation-designation'
+  | 'attestation-designation-proof' // attestation uploaded by user when he claims a project ownership
   | 'ptf'
   | 'other'
 

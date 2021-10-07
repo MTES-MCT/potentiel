@@ -3,6 +3,7 @@ import makeListProjects from './listProjects'
 import makeSignup from './signup'
 import makeRequestModification from './requestModification'
 import makeListUnnotifiedProjects from './listUnnotifiedProjects'
+import makeListMissingOwnerProjects from './listMissingOwnerProjects'
 import makeGetUserProject from './getUserProject'
 import makeRetrievePassword from './retrievePassword'
 import makeResetPassword from './resetPassword'
@@ -47,6 +48,12 @@ const listUnnotifiedProjects = makeListUnnotifiedProjects({
   countUnnotifiedProjects: projectRepo.countUnnotifiedProjects,
   searchAllProjects: projectRepo.searchAll,
   appelOffreRepo,
+})
+const listMissingOwnerProjects = makeListMissingOwnerProjects({
+  searchAllMissingOwner: projectRepo.searchAllMissingOwner,
+  findExistingAppelsOffres: projectRepo.findExistingAppelsOffres,
+  findExistingPeriodesForAppelOffre: projectRepo.findExistingPeriodesForAppelOffre,
+  findExistingFamillesForAppelOffre: projectRepo.findExistingFamillesForAppelOffre,
 })
 
 const shouldUserAccessProject = makeShouldUserAccessProject({
@@ -122,6 +129,7 @@ const useCases = Object.freeze({
   signup,
   requestModification,
   listUnnotifiedProjects,
+  listMissingOwnerProjects,
   getUserProject,
   retrievePassword,
   resetPassword,
@@ -140,6 +148,7 @@ export {
   signup,
   requestModification,
   listUnnotifiedProjects,
+  listMissingOwnerProjects,
   getUserProject,
   retrievePassword,
   resetPassword,

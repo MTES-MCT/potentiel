@@ -226,6 +226,14 @@ export const MakeProjectModel = (sequelize) => {
         [Op.and]: where(col('ptf.type'), Op.eq, 'ptf'),
       },
     })
+
+    Project.hasOne(ProjectStep, {
+      as: 'attestationDesignationProof',
+      foreignKey: 'projectId',
+      scope: {
+        type: 'attestation-designation-proof',
+      },
+    })
   }
 
   return Project

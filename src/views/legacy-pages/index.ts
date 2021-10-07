@@ -19,6 +19,7 @@ import ModificationRequestList from './modificationRequestList'
 import Login from './login'
 import ListProjects from './listProjects'
 import Success from './success'
+import ListMissingOwnerProjects from './listMissingOwnerProjects'
 
 const LoginPage = makePresenterPage(Login)
 const AdminNotifyCandidatesPage = makePresenterPage(AdminNotifyCandidates)
@@ -38,6 +39,7 @@ const ModificationRequestListPage = makePresenterPage(ModificationRequestList)
 const SuccessPage = makePresenterPage(Success)
 const AdminAppelOffrePage = makePresenterPage(AdminAppelOffre)
 const AdminUsersPage = makePresenterPage(AdminUsers)
+const ListMissingOwnerProjectsPage = makePresenterPage(ListMissingOwnerProjects)
 
 export {
   LoginPage,
@@ -58,6 +60,7 @@ export {
   SuccessPage,
   AdminAppelOffrePage,
   AdminUsersPage,
+  ListMissingOwnerProjectsPage,
 }
 
 interface HasRequest {

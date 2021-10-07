@@ -1,4 +1,4 @@
-import { DataTypes, Op, where, col } from 'sequelize'
+import { DataTypes, Op, where, col, literal } from 'sequelize'
 import { ContextSpecificProjectListFilter, ProjectFilters, ProjectRepo } from '../'
 import { logger } from '../../core/utils'
 import {
@@ -336,6 +336,14 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
     },
   })
 
+  ProjectModel.hasOne(ProjectStep, {
+    as: 'attestationDesignationProof',
+    foreignKey: 'projectId',
+    scope: {
+      type: 'attestation-designation-proof',
+    },
+  })
+
   const _isDbReady = isDbReady({ sequelizeInstance })
 
   return Object.freeze({
@@ -353,6 +361,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
     searchForRegions,
     findAllForRegions,
     searchAll,
+    searchAllMissingOwner,
     countUnnotifiedProjects,
     findProjectsWithGarantiesFinancieresPendingBefore,
   })
@@ -461,6 +470,11 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
       {
         model: ProjectStep,
         as: 'ptf',
+        include: [{ model: FileModel, as: 'file' }],
+      },
+      {
+        model: ProjectStep,
+        as: 'attestationDesignationProof',
         include: [{ model: FileModel, as: 'file' }],
       },
       {
@@ -774,6 +788,52 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
     }
   }
 
+  async function searchAllMissingOwner(
+    userEmail: string,
+    userId: string,
+    terms?: string,
+    filters?: ProjectFilters,
+    pagination?: Pagination
+  ): Promise<PaginatedList<Project>> {
+    await _isDbReady
+    try {
+      const opts = _makeSelectorsForQuery(filters)
+
+      opts.where.id = {
+        [Op.and]: [
+          { [Op.notIn]: literal(`(SELECT "projectId" FROM "UserProjects")`) },
+          {
+            [Op.notIn]: literal(
+              `(SELECT "projectId" FROM "userProjectClaims" WHERE "userId" = '${userId}' and "failedAttempts" >= 3)`
+            ),
+          },
+        ],
+      }
+
+      // Order by Projets pré-affectés then the rest ordered by nomProjet
+      opts.order = [
+        [literal(`CASE "project"."email" WHEN '${userEmail}' THEN 1 ELSE 2 END`)],
+        ['nomProjet'],
+      ]
+
+      const customSearchedProjectsColumns = [
+        'nomCandidat',
+        'nomProjet',
+        'regionProjet',
+        'appelOffreId',
+        'periodeId',
+      ]
+
+      if (terms)
+        opts.where[Op.or] = { ...getFullTextSearchOptions(terms, customSearchedProjectsColumns) }
+
+      return _findAndBuildProjectList(opts, pagination)
+    } catch (error) {
+      if (CONFIG.logDbErrors) logger.error(error)
+      return makePaginatedList([], 0, pagination)
+    }
+  }
+
   async function findAll(
     query?: ProjectFilters,
     pagination?: Pagination
@@ -1008,13 +1068,11 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
 
 export { makeProjectRepo }
 
-export function getFullTextSearchOptions(terms: string): object {
-  const formattedTerms = terms
-    .split(' ')
-    .filter((term) => term.trim() !== '')
-    .map((term) => `%${term}%`)
-
-  const searchedProjectsColumns = [
+export function getFullTextSearchOptions(
+  terms: string,
+  customSearchedProjectsColumns?: string[]
+): object {
+  const defaultSearchedProjectsColumns = [
     'nomCandidat',
     'nomProjet',
     'nomRepresentantLegal',
@@ -1028,6 +1086,13 @@ export function getFullTextSearchOptions(terms: string): object {
     'details.Nom et prénom du signataire du formulaire',
     'details.Nom et prénom du contact',
   ]
+
+  const searchedProjectsColumns = customSearchedProjectsColumns || defaultSearchedProjectsColumns
+
+  const formattedTerms = terms
+    .split(' ')
+    .filter((term) => term.trim() !== '')
+    .map((term) => `%${term}%`)
 
   const options = searchedProjectsColumns.reduce((opts, col) => {
     return {

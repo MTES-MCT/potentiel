@@ -41,6 +41,8 @@ import { onProjectFournisseursUpdated } from './onProjectFournisseursUpdated'
 import { onProjectNewRulesOptedIn } from './onProjectNewRulesOptedIn'
 import { logger } from '../../../../../core/utils'
 import { onProjectReimported } from './onProjectReimported'
+import { onProjectClaimed } from './onProjectClaimed'
+import { ProjectClaimed, ProjectClaimedByOwner } from '../../../../../modules/projectClaim'
 
 export const initProjectProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ProjectImported.type, onProjectImported(models))
@@ -67,6 +69,8 @@ export const initProjectProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ProjectProducteurUpdated.type, onProjectProducteurUpdated(models))
   eventBus.subscribe(ProjectFournisseursUpdated.type, onProjectFournisseursUpdated(models))
   eventBus.subscribe(ProjectNewRulesOptedIn.type, onProjectNewRulesOptedIn(models))
+  eventBus.subscribe(ProjectClaimed.type, onProjectClaimed(models))
+  eventBus.subscribe(ProjectClaimedByOwner.type, onProjectClaimed(models))
 
   logger.info('Initialized Project projections')
 }

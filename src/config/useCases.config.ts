@@ -24,6 +24,7 @@ import {
   appelOffreRepo,
   projectAdmissionKeyRepo,
   oldAppelOffreRepo,
+  projectClaimRepo,
 } from './repos.config'
 import {
   getFileProject,
@@ -34,6 +35,7 @@ import {
   isProjectParticipatif,
   hasProjectGarantieFinanciere,
   getProjectAppelOffreId,
+  getProjectDataForProjectClaim,
 } from './queries.config'
 import { eventStore } from './eventStore.config'
 import {
@@ -52,6 +54,7 @@ import { makeInviteUser } from '../modules/users'
 import { sendNotification } from './emails.config'
 import { makeRequestFournisseursModification } from '../modules/modificationRequest/useCases/requestFournisseursModification'
 import { makeUpdateNewRulesOptIn } from '../modules/project/useCases/updateNewRulesOptIn'
+import { makeClaimProject } from '../modules/projectClaim'
 
 export const shouldUserAccessProject = new BaseShouldUserAccessProject(
   userRepo,
@@ -194,4 +197,11 @@ export const updateNewRulesOptIn = makeUpdateNewRulesOptIn({
 export const importProjects = makeImportProjects({
   eventBus: eventStore,
   appelOffreRepo: oldAppelOffreRepo,
+})
+
+export const claimProject = makeClaimProject({
+  projectClaimRepo,
+  fileRepo,
+  getProjectDataForProjectClaim,
+  eventBus: eventStore,
 })
