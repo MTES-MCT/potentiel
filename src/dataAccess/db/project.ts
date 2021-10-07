@@ -1,15 +1,14 @@
-import { DataTypes, Op, where, col, literal } from 'sequelize'
+import { col, DataTypes, literal, Op, where } from 'sequelize'
 import { ContextSpecificProjectListFilter, ProjectFilters, ProjectRepo } from '../'
 import { logger } from '../../core/utils'
 import {
   AppelOffre,
   DREAL,
   Famille,
-  makeProject,
-  Periode,
-  User,
-  Project,
   makeProjectIdentifier,
+  Periode,
+  Project,
+  User,
 } from '../../entities'
 import { makePaginatedList, paginate } from '../../helpers/paginate'
 import { mapExceptError } from '../../helpers/results'
@@ -415,13 +414,9 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
       })
       if (!projectInDb) return
 
-      const projectInstance = makeProject(deserialize(projectInDb.get({ plain: true })))
-
-      if (projectInstance.is_err()) {
-        throw projectInstance.unwrap_err()
-      }
-
-      const projectWithAppelOffre = await addAppelOffreToProject(projectInstance.unwrap())
+      const projectWithAppelOffre = await addAppelOffreToProject(
+        deserialize(projectInDb.get({ plain: true }))
+      )
 
       return projectWithAppelOffre
     } catch (error) {
@@ -439,11 +434,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
 
       if (!projectInDb) return
 
-      const projectInstance = makeProject(deserialize(projectInDb.get()))
-
-      if (projectInstance.is_err()) throw projectInstance.unwrap_err()
-
-      const projectWithAppelOffre = await addAppelOffreToProject(projectInstance.unwrap())
+      const projectWithAppelOffre = await addAppelOffreToProject(deserialize(projectInDb.get()))
       return projectWithAppelOffre
     } catch (error) {
       if (CONFIG.logDbErrors) logger.error(error)
