@@ -48,7 +48,7 @@ v1Router.post(
         }
       })
 
-      const successMessage = `Les projets suivants ont été ajoutés à votre suivi de projets :\n${successes.join(
+      const successMessage = `Les projets suivants ont été ajoutés à l'onglet 'Mes projets' :\n${successes.join(
         '\n'
       )}`
 

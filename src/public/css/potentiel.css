@@ -71,6 +71,13 @@ select {
   max-width: 100%;
 }
 
+table th {
+  background: #f2f5f5 !important;
+  top: 0;
+  position: sticky;
+  z-index: 10;
+}
+
 .motif-popover {
   position: absolute;
   right: 0;
