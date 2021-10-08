@@ -36,6 +36,7 @@ export default function ListProjects({
     familleId,
     garantiesFinancieres,
     classement,
+    reclames,
   } = (request.query as any) || {}
 
   const hasNonDefaultClassement =
@@ -197,6 +198,19 @@ export default function ListProjects({
                     <option value="classés">Classés</option>
                     <option value="éliminés">Eliminés</option>
                     <option value="abandons">Abandons</option>
+                  </select>
+                </div>
+
+                <div style={{ marginTop: 15 }}>
+                  <div style={{ marginLeft: 2 }}>Réclamés/Non réclamés</div>
+                  <select
+                    name="reclames"
+                    {...dataId('reclamesSelector')}
+                    defaultValue={reclames || ''}
+                  >
+                    <option value="">Tous</option>
+                    <option value="réclamés">Réclamés</option>
+                    <option value="non-réclamés">Non réclamés</option>
                   </select>
                 </div>
 

@@ -471,6 +471,7 @@ function addSelectorHandlers() {
     'classement',
     'modificationRequestStatus',
     'modificationRequestType',
+    'reclames',
   ].forEach((key) => {
     const selectField = document.querySelector('[data-testid=' + key + 'Selector]')
     if (selectField) {

@@ -28,6 +28,7 @@ interface ListProjectsDeps {
   pagination?: Pagination
   recherche?: string
   classement?: 'classés' | 'éliminés' | 'abandons'
+  reclames?: 'réclamés' | 'non-réclamés'
   garantiesFinancieres?: 'submitted' | 'notSubmitted' | 'pastDue'
 }
 
@@ -58,6 +59,7 @@ export default function makeListProjects({
     pagination,
     recherche,
     classement,
+    reclames,
     garantiesFinancieres,
   }: ListProjectsDeps): Promise<ListProjectsResult> {
     const query: ProjectFilters = {
@@ -88,6 +90,10 @@ export default function makeListProjects({
       case 'abandons':
         query.isAbandoned = true
         break
+    }
+
+    if (reclames) {
+      query.isClaimed = reclames === 'réclamés'
     }
 
     if (garantiesFinancieres) {
