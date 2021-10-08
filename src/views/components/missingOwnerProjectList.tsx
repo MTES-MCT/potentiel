@@ -230,32 +230,32 @@ const MissingOwnerProjectList = ({ projects, displayColumns, user }: Props) => {
             marginBottom: 20,
           }}
         >
-          <input
-            type="checkbox"
-            name="swornStatement"
-            id="swornStatement"
-            {...dataId('sworn-statement')}
-          />
           <label
-            style={{ verticalAlign: 'middle', display: 'inline-block', background: '#f2cc8a' }}
+            className="notification"
+            style={{ verticalAlign: 'middle', display: 'inline-block' }}
             htmlFor="swornStatement"
           >
+            <input
+              type="checkbox"
+              name="swornStatement"
+              id="swornStatement"
+              {...dataId('sworn-statement')}
+            />
             J'atteste sur l'honneur que je suis bien la personne désignée pour suivre le/les
             projet(s) sélectionné(s). En cas de fausse déclaration, je m'expose à un risque de
             poursuites judiciaires.
+            <button
+              className="button"
+              type="submit"
+              name="submit"
+              id="submit"
+              disabled
+              {...dataId('claim-projects-submit-button')}
+            >
+              Réclamer la propriété des projets sélectionnés
+            </button>
           </label>
         </div>
-
-        <button
-          className="button"
-          type="submit"
-          name="submit"
-          id="submit"
-          disabled
-          {...dataId('claim-projects-submit-button')}
-        >
-          Réclamer la propriété des projets sélectionnés
-        </button>
       </form>
 
       {!Array.isArray(projects) && (

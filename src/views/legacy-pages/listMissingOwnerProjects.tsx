@@ -47,7 +47,7 @@ export default function ListMissingOwnerProjects({
       <div className="panel">
         <div className="panel__header">
           <h3>Projets en attente d'affectation</h3>
-          <div style={{ background: '#f2cc8a' }}>
+          <div className="notification">
             <span>
               Pour ajouter un projet à votre suivi de projets (onglet "Mes projets"),
               sélectionner-le, qu’il vous soit pré-affecté ou non.
