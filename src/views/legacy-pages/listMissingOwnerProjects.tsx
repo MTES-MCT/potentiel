@@ -198,7 +198,7 @@ export default function ListMissingOwnerProjects({
                 'Projet pre-affecte',
                 'Prix',
                 'Code postal',
-                'Attestation',
+                'Attestation de designation',
               ]}
               projects={projects}
               user={request.user}

@@ -15,7 +15,7 @@ type Columns =
   | 'Code postal'
   | 'Projet pre-affecte'
   | 'Prix'
-  | 'Attestation'
+  | 'Attestation de designation'
 
 type ColumnRenderer = (props: { project: Project; email: User['email'] }) => React.ReactNode
 
@@ -117,11 +117,11 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
       </td>
     )
   } as ColumnRenderer,
-  Attestation: function AttestationColumn({ project, email }) {
+  'Attestation de designation': function AttestationDesignationColumn({ project, email }) {
     return email === project.email ? (
       ''
     ) : (
-      <td valign="top" className="projectList-attestation-column">
+      <td valign="top" className="projectList-attestation-designation-column">
         <span>
           <input
             type="file"
