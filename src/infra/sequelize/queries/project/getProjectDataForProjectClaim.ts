@@ -8,9 +8,9 @@ export const getProjectDataForProjectClaim: GetProjectDataForProjectClaim = (pro
   return wrapInfra(Project.findByPk(projectId)).andThen((projectRaw: any) => {
     if (!projectRaw) return err(new EntityNotFoundError())
 
-    const { id, prixReference, nomProjet, codePostalProjet, email } = projectRaw.get()
+    const { id, prixReference, nomProjet, numeroCRE, email } = projectRaw.get()
 
-    const result: any = { id, prixReference, nomProjet, codePostalProjet, email }
+    const result: any = { id, prixReference, nomProjet, numeroCRE, email }
 
     return ok(result)
   })

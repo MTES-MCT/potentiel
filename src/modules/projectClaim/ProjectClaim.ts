@@ -17,7 +17,7 @@ export interface ProjectClaim extends EventStoreAggregate {
     claimerEmail: string
     userInputs: {
       prix?: number
-      codePostal?: string
+      numCRE?: string
     }
     projectData: ProjectDataForProjectClaim
     attestationDesignationFileId?: string
@@ -102,15 +102,20 @@ export const makeProjectClaim = (args: {
     claimerEmail: string
     userInputs: {
       prix?: number
-      codePostal?: string
+      numCRE?: string
     }
     projectData: ProjectDataForProjectClaim
     attestationDesignationFileId?: string
   }): ReturnType<ProjectClaim['claim']> {
     const MAX_ALLOWED_ATTEMPTS = 3
 
-    const { projectEmail, claimerEmail, userInputs, projectData, attestationDesignationFileId } =
-      args
+    const {
+      projectEmail,
+      claimerEmail,
+      userInputs,
+      projectData,
+      attestationDesignationFileId,
+    } = args
 
     const { projectId, claimedBy } = JSON.parse(id.toString())
 
@@ -162,15 +167,13 @@ export const makeProjectClaim = (args: {
   }
 
   function _checkClaimerInputsAreCorrect(
-    userInputs: { prix?: number; codePostal?: string },
+    userInputs: { prix?: number; numCRE?: string },
     project: ProjectDataForProjectClaim
   ): boolean {
     const prixReferenceIsCorrect = userInputs.prix === project.prixReference
-    const codePostalIsCorrect =
-      userInputs.codePostal?.length === 5 &&
-      project.codePostalProjet.includes(userInputs.codePostal)
+    const numCREIsCorrect = userInputs.numCRE === project.numeroCRE
 
-    return prixReferenceIsCorrect && codePostalIsCorrect
+    return prixReferenceIsCorrect && numCREIsCorrect
   }
 }
 

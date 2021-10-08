@@ -27,7 +27,7 @@ v1Router.post(
           return await claimProject({
             projectId,
             prix: Number(projectParams.prix?.trim()),
-            codePostal: projectParams.codePostal?.trim(),
+            numCRE: projectParams.numCRE?.trim(),
             claimedBy: user,
             attestationDesignationProofFile: projectParams.attestationDesignationFile,
           })
@@ -54,7 +54,7 @@ v1Router.post(
 
       if (errors.length) {
         const redirectErrorParams: any = {
-          error: `Les projets suivants n'ont pas pu être ajoutés car le prix ou le code postal est erroné. Pensez également à vérifier que vous avez bien joint votre attestation de désignation.\n${errors.join(
+          error: `Les projets suivants n'ont pas pu être ajoutés car le prix ou le numéro CRE est erroné. Pensez également à vérifier que vous avez bien joint votre attestation de désignation.\n${errors.join(
             '\n'
           )}`,
           success: successes.length ? successMessage : undefined,

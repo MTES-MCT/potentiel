@@ -12,7 +12,7 @@ type Columns =
   | 'Candidat'
   | 'Puissance'
   | 'Region'
-  | 'Code postal'
+  | 'N° CRE'
   | 'Projet pre-affecte'
   | 'Prix'
   | 'Attestation de designation'
@@ -31,7 +31,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
             fontSize: 12,
           }}
         >
-          <div>{project.regionProjet}</div>
+          <div>{project.departementProjet}</div>
           <div>{project.nomCandidat}</div>
           <div>
             {project.appelOffreId} - {project.periodeId}
@@ -91,15 +91,15 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
       </td>
     )
   } as ColumnRenderer,
-  'Code postal': function CodePostalColumn({ project, email }) {
+  'N° CRE': function NumeroCREColumn({ project, email }) {
     return email === project.email ? (
       ''
     ) : (
-      <td valign="top" className="projectList-code-postal-column">
+      <td valign="top" className="projectList-num-cre-column">
         <input
           type="number"
-          name={`codePostal|${project.id}`}
-          placeholder="Code postal"
+          name={`numCRE|${project.id}`}
+          placeholder="N° CRE"
           style={{ minWidth: 110 }}
         />
       </td>
