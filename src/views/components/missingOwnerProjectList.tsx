@@ -1,6 +1,6 @@
 import React from 'react'
 import { logger } from '../../core/utils'
-import { makeProjectIdentifier, Project, User } from '../../entities'
+import { Project, User } from '../../entities'
 import { dataId } from '../../helpers/testId'
 import routes from '../../routes'
 import { PaginatedList } from '../../types'
@@ -31,7 +31,11 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
             fontSize: 12,
           }}
         >
-          <span {...dataId('projectList-item-regionProjet')}>{project.regionProjet}</span>
+          <div>{project.regionProjet}</div>
+          <div>{project.nomCandidat}</div>
+          <div>
+            {project.appelOffreId} - {project.periodeId}
+          </div>
         </div>
       </td>
     )
