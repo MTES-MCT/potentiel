@@ -237,9 +237,8 @@ const MissingOwnerProjectList = ({ projects, displayColumns, user }: Props) => {
             {...dataId('sworn-statement')}
           />
           <label
-            style={{ verticalAlign: 'middle', display: 'inline-block' }}
+            style={{ verticalAlign: 'middle', display: 'inline-block', background: '#f2cc8a' }}
             htmlFor="swornStatement"
-            className="notification error"
           >
             J'atteste sur l'honneur que je suis bien la personne désignée pour suivre le/les
             projet(s) sélectionné(s). En cas de fausse déclaration, je m'expose à un risque de
