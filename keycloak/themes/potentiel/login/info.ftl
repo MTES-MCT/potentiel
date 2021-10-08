@@ -17,7 +17,7 @@
         <#elseif (client.baseUrl)?has_content>
             <a href="${client.baseUrl}">Poursuivre sur Potentiel</a>
         <#else>
-            <a class="button" href="${properties.potentielUrl}/go-to-user-dashboard">Poursuivre sur Potentiel}</a>
+            <a class="button" href="${properties.potentielUrl}/go-to-user-dashboard">Poursuivre sur Potentiel</a>
         </#if>
     </div>
     </#if>
