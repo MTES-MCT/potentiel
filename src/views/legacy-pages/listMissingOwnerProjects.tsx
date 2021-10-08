@@ -53,8 +53,8 @@ export default function ListMissingOwnerProjects({
               sélectionner-le, qu’il vous soit pré-affecté ou non.
               <br />
               Pour les projets qui ne vous sont pas pré-affectés, veuillez saisir le prix de
-              référence tel qu'il figure dans votre attestation de désignation, ainsi que le code
-              postal puis téléverser l’attestation de désignation.
+              référence tel qu'il figure dans votre attestation de désignation, ainsi que le numéro
+              CRE puis téléverser l’attestation de désignation.
             </span>
           </div>
           <form
@@ -197,7 +197,7 @@ export default function ListMissingOwnerProjects({
                 'Region',
                 'Projet pre-affecte',
                 'Prix',
-                'Code postal',
+                'N° CRE',
                 'Attestation de designation',
               ]}
               projects={projects}

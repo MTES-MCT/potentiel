@@ -2,6 +2,6 @@ export type ProjectDataForProjectClaim = {
   id: string
   prixReference?: number
   nomProjet: string
-  codePostalProjet: string
+  numeroCRE: string
   email: string
 }

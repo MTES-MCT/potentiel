@@ -12,7 +12,7 @@ describe('Sequelize getProjectDataForProjectClaim', () => {
       id: projectId,
       prixReference: 90,
       nomProjet: 'nomProjet1',
-      codePostalProjet: '91940',
+      numeroCRE: '007',
       email: 'candidate@test.test',
     },
   ].map(makeFakeProject)
@@ -36,7 +36,7 @@ describe('Sequelize getProjectDataForProjectClaim', () => {
       id: projectId,
       prixReference: 90,
       nomProjet: 'nomProjet1',
-      codePostalProjet: '91940',
+      numeroCRE: '007',
       email: 'candidate@test.test',
     })
   })
