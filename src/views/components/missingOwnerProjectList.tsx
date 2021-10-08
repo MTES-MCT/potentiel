@@ -185,11 +185,7 @@ const MissingOwnerProjectList = ({ projects, displayColumns, user }: Props) => {
           <tbody>
             {items.map((project) => {
               return (
-                <tr
-                  key={'project_' + project.id}
-                  {...dataId('missingOwnerProjectList-item')}
-                  style={{ cursor: 'pointer' }}
-                >
+                <tr key={'project_' + project.id} {...dataId('missingOwnerProjectList-item')}>
                   <td {...dataId('missingOwnerProjectList-checkbox')}>
                     <input
                       type="checkbox"
