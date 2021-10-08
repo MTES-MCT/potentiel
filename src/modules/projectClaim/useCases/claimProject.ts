@@ -20,7 +20,7 @@ interface ClaimProjectArgs {
   projectId: string
   claimedBy: User
   prix?: number
-  numCRE?: string
+  numeroCRE?: string
   attestationDesignationProofFile?: {
     contents: FileContents
     filename: string
@@ -28,7 +28,7 @@ interface ClaimProjectArgs {
 }
 
 export const makeClaimProject = (deps: ClaimProjectDeps) => async (args: ClaimProjectArgs) => {
-  const { projectId, prix, numCRE, claimedBy, attestationDesignationProofFile } = args
+  const { projectId, prix, numeroCRE, claimedBy, attestationDesignationProofFile } = args
   const { projectClaimRepo, getProjectDataForProjectClaim, fileRepo, eventBus } = deps
 
   const fileObject: Result<
@@ -64,7 +64,7 @@ export const makeClaimProject = (deps: ClaimProjectDeps) => async (args: ClaimPr
               claimerEmail: claimedBy.email,
               userInputs: {
                 prix,
-                numCRE,
+                numeroCRE,
               },
               projectData: project,
               attestationDesignationFileId: fileObj?.id.toString(),

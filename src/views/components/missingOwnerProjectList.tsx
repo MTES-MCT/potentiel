@@ -95,10 +95,10 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
     return email === project.email ? (
       ''
     ) : (
-      <td valign="top" className="projectList-num-cre-column">
+      <td valign="top" className="projectList-numero-cre-column">
         <input
-          type="number"
-          name={`numCRE|${project.id}`}
+          type="text"
+          name={`numeroCRE|${project.id}`}
           placeholder="N° CRE"
           style={{ minWidth: 110 }}
         />

@@ -27,7 +27,7 @@ v1Router.post(
           return await claimProject({
             projectId,
             prix: Number(projectParams.prix?.trim()),
-            numCRE: projectParams.numCRE?.trim(),
+            numeroCRE: projectParams.numeroCRE?.trim(),
             claimedBy: user,
             attestationDesignationProofFile: projectParams.attestationDesignationFile,
           })
