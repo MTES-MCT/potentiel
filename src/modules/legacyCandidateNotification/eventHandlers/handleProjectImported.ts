@@ -23,16 +23,19 @@ export const handleProjectImported = (deps: {
   const isLegacy = await isPeriodeLegacy({ appelOffreId, periodeId })
 
   if (email && isLegacy) {
-    const res = await legacyCandidateNotificationRepo.transaction(
-      new UniqueEntityID(makeLegacyCandidateNotificationId({ email, importId })),
-      (legacyCandidateNotification) => {
-        return legacyCandidateNotification.notify()
-      },
-      { acceptNew: true }
+    ;(
+      await legacyCandidateNotificationRepo.transaction(
+        new UniqueEntityID(makeLegacyCandidateNotificationId({ email, importId })),
+        (legacyCandidateNotification) => {
+          return legacyCandidateNotification.notify()
+        },
+        { acceptNew: true }
+      )
+    ).match(
+      () => {},
+      (err) => {
+        logger.error(err)
+      }
     )
-
-    if (res.isErr()) {
-      logger.error(res.error)
-    }
   }
 }

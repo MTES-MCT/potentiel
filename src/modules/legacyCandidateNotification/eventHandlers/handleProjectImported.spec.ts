@@ -15,7 +15,7 @@ const email = 'test@test.tests'
 
 describe('legacyCandidateNotification.handleProjectImported', () => {
   describe('when receiving a ProjectImported event', () => {
-    const data = { email } as unknown as ProjectImported['payload']['data']
+    const data = ({ email } as unknown) as ProjectImported['payload']['data']
     const event = new ProjectImported({
       payload: {
         appelOffreId,
