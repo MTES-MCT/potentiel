@@ -1,6 +1,6 @@
 import { LegacyCandidateNotified } from '.'
 import { DomainEvent, UniqueEntityID } from '../../core/domain'
-import { err, ok, Result } from '../../core/utils'
+import { ok, Result } from '../../core/utils'
 import { EventStoreAggregate } from '../eventStore/EventStoreAggregate'
 import { EntityNotFoundError } from '../shared'
 import { HeterogeneousHistoryError } from '../shared/errors'
@@ -66,13 +66,6 @@ export const makeLegacyCandidateNotification = (args: {
       return new Date(0)
     },
   })
-}
-
-export const makeLegacyCandidateNotificationId = (args: { email: string; importId: string }) => {
-  const { email, importId } = args
-  const key = { email, importId }
-
-  return JSON.stringify(key, Object.keys(key).sort()) // This makes the stringify stable (key order)
 }
 
 export const parseLegacyCandidateNotificationId = (

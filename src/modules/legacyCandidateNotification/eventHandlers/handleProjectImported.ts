@@ -1,7 +1,7 @@
-import { makeLegacyCandidateNotificationId } from '..'
 import { TransactionalRepository, UniqueEntityID } from '../../../core/domain'
 import { IsPeriodeLegacy } from '../../appelOffre'
 import { ProjectImported, ProjectReimported } from '../../project'
+import { makeLegacyCandidateNotificationId } from '../helpers'
 import { LegacyCandidateNotification } from '../LegacyCandidateNotification'
 
 export const handleProjectImported = (deps: {

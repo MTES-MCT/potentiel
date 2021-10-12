@@ -15,7 +15,7 @@ import {
   ProjectCertificateUpdated,
   ProjectGFSubmitted,
   ProjectNewRulesOptedIn,
-} from '../../modules/project/events'
+} from '../../modules/project'
 import { projectRepo, oldProjectRepo, oldUserRepo } from '../repos.config'
 import {
   getModificationRequestInfoForStatusNotification,

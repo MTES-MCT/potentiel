@@ -1,5 +1,5 @@
 import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
-import { makeLegacyCandidateNotificationId } from '../LegacyCandidateNotification'
+import { makeLegacyCandidateNotificationId } from '../helpers'
 
 export interface LegacyCandidateNotifiedPayload {
   email: string
@@ -7,8 +7,7 @@ export interface LegacyCandidateNotifiedPayload {
 }
 export class LegacyCandidateNotified
   extends BaseDomainEvent<LegacyCandidateNotifiedPayload>
-  implements DomainEvent
-{
+  implements DomainEvent {
   public static type: 'LegacyCandidateNotified' = 'LegacyCandidateNotified'
 
   public type = LegacyCandidateNotified.type
