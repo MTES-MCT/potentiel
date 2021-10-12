@@ -3,14 +3,14 @@ import { UserRepo } from '../../../dataAccess'
 import { User } from '../../../entities'
 import { UserProjectsLinkedByContactEmail } from '../../authorization'
 import { EventBus } from '../../eventStore'
-import { GetProjectsByContactEmail } from '../../project'
+import { GetNonLegacyProjectsByContactEmail } from '../../project'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { UserCreated } from '../events'
 import { GetUserByEmail } from '../queries'
 
 interface CreateUserDeps {
   getUserByEmail: GetUserByEmail
-  getProjectsByContactEmail: GetProjectsByContactEmail
+  getNonLegacyProjectsByContactEmail: GetNonLegacyProjectsByContactEmail
   createUserCredentials: (args: {
     role: User['role']
     email: string
@@ -29,7 +29,12 @@ interface CreateUserArgs {
 export const makeCreateUser = (deps: CreateUserDeps) => (
   args: CreateUserArgs
 ): ResultAsync<string, UnauthorizedError | InfraNotAvailableError> => {
-  const { getUserByEmail, createUserCredentials, getProjectsByContactEmail, eventBus } = deps
+  const {
+    getUserByEmail,
+    createUserCredentials,
+    getNonLegacyProjectsByContactEmail,
+    eventBus,
+  } = deps
   const { email, role, createdBy, fullName } = args
 
   if (role === 'admin' || role === 'dgec') {
@@ -53,7 +58,7 @@ export const makeCreateUser = (deps: CreateUserDeps) => (
             .map(() => userId)
         )
         .andThen((userId) => {
-          return getProjectsByContactEmail(email)
+          return getNonLegacyProjectsByContactEmail(email)
             .andThen((projectIds) =>
               eventBus.publish(
                 new UserProjectsLinkedByContactEmail({
