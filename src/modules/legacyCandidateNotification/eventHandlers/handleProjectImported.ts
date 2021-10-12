@@ -1,4 +1,5 @@
 import { TransactionalRepository, UniqueEntityID } from '../../../core/domain'
+import { logger } from '../../../core/utils'
 import { IsPeriodeLegacy } from '../../appelOffre'
 import { ProjectImported, ProjectReimported } from '../../project'
 import { makeLegacyCandidateNotificationId } from '../helpers'
@@ -19,12 +20,19 @@ export const handleProjectImported = (deps: {
     email = event.payload.data.email || null
   }
 
-  if (email && (await isPeriodeLegacy({ appelOffreId, periodeId }))) {
-    await legacyCandidateNotificationRepo.transaction(
+  const isLegacy = await isPeriodeLegacy({ appelOffreId, periodeId })
+
+  if (email && isLegacy) {
+    const res = await legacyCandidateNotificationRepo.transaction(
       new UniqueEntityID(makeLegacyCandidateNotificationId({ email, importId })),
       (legacyCandidateNotification) => {
         return legacyCandidateNotification.notify()
-      }
+      },
+      { acceptNew: true }
     )
+
+    if (res.isErr()) {
+      logger.error(res.error)
+    }
   }
 }
