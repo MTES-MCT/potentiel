@@ -11,31 +11,25 @@ export const handleProjectImported = (deps: {
 }) => async (event: ProjectImported | ProjectReimported) => {
   const { isPeriodeLegacy, legacyCandidateNotificationRepo } = deps
 
-  const { appelOffreId, periodeId, importId } = event.payload
+  const { appelOffreId, periodeId, importId, data } = event.payload
 
-  let email: string | null = null
-  if (event instanceof ProjectImported) {
-    email = event.payload.data.email
-  } else {
-    email = event.payload.data.email || null
-  }
+  const { email } = data
 
   const isLegacy = await isPeriodeLegacy({ appelOffreId, periodeId })
 
-  if (email && isLegacy) {
-    ;(
-      await legacyCandidateNotificationRepo.transaction(
-        new UniqueEntityID(makeLegacyCandidateNotificationId({ email, importId })),
-        (legacyCandidateNotification) => {
-          return legacyCandidateNotification.notify()
-        },
-        { acceptNew: true }
-      )
-    ).match(
-      () => {},
-      (err) => {
-        logger.error(err)
-      }
+  if (!email || !isLegacy) return
+  ;(
+    await legacyCandidateNotificationRepo.transaction(
+      new UniqueEntityID(makeLegacyCandidateNotificationId({ email, importId })),
+      (legacyCandidateNotification) => {
+        return legacyCandidateNotification.notify()
+      },
+      { acceptNew: true }
     )
-  }
+  ).match(
+    () => {},
+    (err) => {
+      logger.error(err)
+    }
+  )
 }

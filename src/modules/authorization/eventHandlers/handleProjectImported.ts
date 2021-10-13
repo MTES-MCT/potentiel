@@ -20,24 +20,22 @@ export const handleProjectImported = (deps: HandleProjectImportedDeps) => async 
   try {
     const isLegacy = await deps.isPeriodeLegacy({ appelOffreId, periodeId })
 
-    if (isLegacy) return
+    if (isLegacy || !email?.length) return
 
-    if (email?.length) {
-      await deps.getUserByEmail(email).andThen((userOrNull) => {
-        if (!!userOrNull) {
-          return deps.eventBus.publish(
-            new UserRightsToProjectGranted({
-              payload: {
-                userId: userOrNull.id,
-                projectId,
-                grantedBy: '',
-              },
-            })
-          )
-        }
-        return okAsync(null)
-      })
-    }
+    await deps.getUserByEmail(email).andThen((userOrNull) => {
+      if (!!userOrNull) {
+        return deps.eventBus.publish(
+          new UserRightsToProjectGranted({
+            payload: {
+              userId: userOrNull.id,
+              projectId,
+              grantedBy: '',
+            },
+          })
+        )
+      }
+      return okAsync(null)
+    })
   } catch (error) {
     logger.error(error)
   }
