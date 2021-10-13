@@ -26,9 +26,10 @@ v1Router.post(
     const linesResult = await parseCsv(request.file.path, { delimiter: ';', encoding: 'win1252' })
     if (linesResult.isErr()) {
       const csvError = linesResult.error
-      return response.redirect(
-        addQueryParams(routes.IMPORT_PROJECTS, {
-          error: `Le fichier csv n'a pas pu être importé: ${csvError.message}`,
+      return response.send(
+        ImportCandidatesPage({
+          request,
+          otherError: `Le fichier csv n'a pas pu être importé: ${csvError.message}`,
         })
       )
     }

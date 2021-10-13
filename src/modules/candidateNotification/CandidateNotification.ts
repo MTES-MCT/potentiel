@@ -1,5 +1,5 @@
 import { DomainEvent, UniqueEntityID } from '../../core/domain'
-import { err, ok, Result } from '../../core/utils'
+import { err, ok, Result, stableStringify } from '../../core/utils'
 import { AppelOffre, Periode, Project } from '../../entities'
 import { EventStoreAggregate } from '../eventStore/EventStoreAggregate'
 import {
@@ -175,5 +175,5 @@ export const makeCandidateNotificationId = (args: {
   const { appelOffreId, periodeId, candidateEmail } = args
   const key = { appelOffreId, periodeId, candidateEmail }
 
-  return JSON.stringify(key, Object.keys(key).sort()) // This makes the stringify stable (key order)
+  return stableStringify(key)
 }

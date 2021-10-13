@@ -23,6 +23,7 @@ const TEMPLATE_ID_BY_TYPE: Record<NotificationProps['type'], number> = {
   'pp-modification-received': 2859616,
   'pp-new-rules-opted-in': 2982401,
   'admin-modification-requested': 2047347,
+  'legacy-candidate-notification': 3075029,
 }
 
 interface SendEmailFromMailjetDeps {

@@ -3,14 +3,16 @@ import { okAsync, Result, ResultAsync } from '../../../core/utils'
 import { EntityNotFoundError, InfraNotAvailableError } from '../../../modules/shared'
 import makeFakeProject from '../project'
 
-export const fakeTransactionalRepo = <T>(aggregate?: T) => ({
-  transaction<K, E>(
+export const fakeTransactionalRepo = <AggregateType>(aggregate?: AggregateType) => ({
+  transaction<CallbackResult, CallbackError>(
     _: UniqueEntityID,
-    cb: (aggregate: T) => ResultAsync<K, E> | Result<K, E>,
-    opts?: { isNew: boolean }
+    cb: (
+      aggregate: AggregateType
+    ) => ResultAsync<CallbackResult, CallbackError> | Result<CallbackResult, CallbackError>,
+    opts?: { isNew?: boolean; acceptNew?: boolean }
   ) {
-    return okAsync<null, E | EntityNotFoundError | InfraNotAvailableError>(null).andThen(() =>
-      cb(aggregate || makeFakeProject())
-    )
+    return okAsync<null, CallbackError | EntityNotFoundError | InfraNotAvailableError>(
+      null
+    ).andThen(() => cb(aggregate || makeFakeProject()))
   },
 })

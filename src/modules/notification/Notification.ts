@@ -215,6 +215,14 @@ type ModificationRequestCancelled = {
   }
 }
 
+type LegacyCandidateNotification = {
+  type: 'legacy-candidate-notification'
+  context: {
+    importId: string
+  }
+  variables: {}
+}
+
 type NotificationVariants =
   | Designation
   | ProjectInvitation
@@ -231,6 +239,7 @@ type NotificationVariants =
   | PPModificationReceived
   | PPNewRulesOptedIn
   | AdminModificationRequested
+  | LegacyCandidateNotification
 
 export type NotificationProps = BaseNotification & NotificationVariants
 

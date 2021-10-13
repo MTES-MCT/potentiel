@@ -19,7 +19,7 @@ describe('createUser use-case', () => {
     const createUserCredentials = jest.fn((args: { role: User['role']; email: string }) =>
       okAsync<string, InfraNotAvailableError>(newUserId)
     )
-    const getProjectsByContactEmail = jest.fn((email: string) =>
+    const getNonLegacyProjectsByContactEmail = jest.fn((email: string) =>
       okAsync<string[], InfraNotAvailableError>([projectWithSameEmailId])
     )
 
@@ -31,7 +31,7 @@ describe('createUser use-case', () => {
     const createUser = makeCreateUser({
       getUserByEmail,
       createUserCredentials,
-      getProjectsByContactEmail,
+      getNonLegacyProjectsByContactEmail,
       eventBus,
     })
 
@@ -81,7 +81,7 @@ describe('createUser use-case', () => {
       okAsync<User | null, InfraNotAvailableError>(userWithEmail)
     )
     const createUserCredentials = jest.fn()
-    const getProjectsByContactEmail = jest.fn()
+    const getNonLegacyProjectsByContactEmail = jest.fn()
 
     const eventBus = {
       publish: jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null)),
@@ -91,7 +91,7 @@ describe('createUser use-case', () => {
     const createUser = makeCreateUser({
       getUserByEmail,
       createUserCredentials,
-      getProjectsByContactEmail,
+      getNonLegacyProjectsByContactEmail,
       eventBus,
     })
 
@@ -104,7 +104,7 @@ describe('createUser use-case', () => {
       expect(res._unsafeUnwrap()).toEqual(userWithEmail.id)
 
       expect(createUserCredentials).not.toHaveBeenCalled()
-      expect(getProjectsByContactEmail).not.toHaveBeenCalled()
+      expect(getNonLegacyProjectsByContactEmail).not.toHaveBeenCalled()
       expect(eventBus.publish).not.toHaveBeenCalled()
     })
   })
@@ -112,7 +112,7 @@ describe('createUser use-case', () => {
   describe('when new user role is admin', () => {
     const getUserByEmail = jest.fn()
     const createUserCredentials = jest.fn()
-    const getProjectsByContactEmail = jest.fn()
+    const getNonLegacyProjectsByContactEmail = jest.fn()
     const eventBus = {
       publish: jest.fn(),
       subscribe: jest.fn(),
@@ -121,7 +121,7 @@ describe('createUser use-case', () => {
     const createUser = makeCreateUser({
       getUserByEmail,
       createUserCredentials,
-      getProjectsByContactEmail,
+      getNonLegacyProjectsByContactEmail,
       eventBus,
     })
 
@@ -134,7 +134,7 @@ describe('createUser use-case', () => {
       expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
 
       expect(createUserCredentials).not.toHaveBeenCalled()
-      expect(getProjectsByContactEmail).not.toHaveBeenCalled()
+      expect(getNonLegacyProjectsByContactEmail).not.toHaveBeenCalled()
       expect(eventBus.publish).not.toHaveBeenCalled()
     })
   })
@@ -142,7 +142,7 @@ describe('createUser use-case', () => {
   describe('when new user role is dgec', () => {
     const getUserByEmail = jest.fn()
     const createUserCredentials = jest.fn()
-    const getProjectsByContactEmail = jest.fn()
+    const getNonLegacyProjectsByContactEmail = jest.fn()
     const eventBus = {
       publish: jest.fn(),
       subscribe: jest.fn(),
@@ -151,7 +151,7 @@ describe('createUser use-case', () => {
     const createUser = makeCreateUser({
       getUserByEmail,
       createUserCredentials,
-      getProjectsByContactEmail,
+      getNonLegacyProjectsByContactEmail,
       eventBus,
     })
 
@@ -164,7 +164,7 @@ describe('createUser use-case', () => {
       expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
 
       expect(createUserCredentials).not.toHaveBeenCalled()
-      expect(getProjectsByContactEmail).not.toHaveBeenCalled()
+      expect(getNonLegacyProjectsByContactEmail).not.toHaveBeenCalled()
       expect(eventBus.publish).not.toHaveBeenCalled()
     })
   })

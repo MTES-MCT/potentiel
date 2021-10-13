@@ -19,9 +19,12 @@ if (isProdEnv || isStagingEnv) {
   resendInvitationEmail = kcResendInvitationEmail
 } else {
   getUserName = (id) => okAsync('Utilisateur Test')
-  createUserCredentials = () => okAsync(new UniqueEntityID().toString())
+  createUserCredentials = (args) => {
+    logger.info(`FAKE createUserCredentials(${JSON.stringify(args)})`)
+    return okAsync(new UniqueEntityID().toString())
+  }
   resendInvitationEmail = (email) => {
-    logger.info(`Fake resend invitation email to ${email}`)
+    logger.info(`FAKE resend invitation email to ${email}`)
     return okAsync(null)
   }
 }

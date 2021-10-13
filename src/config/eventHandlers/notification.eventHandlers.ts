@@ -8,13 +8,14 @@ import {
   handleModificationReceived,
   handleNewRulesOptedIn,
   handleUserInvitedToProject,
+  handleLegacyCandidateNotified,
 } from '../../modules/notification'
 import {
   ProjectCertificateRegenerated,
   ProjectCertificateUpdated,
   ProjectGFSubmitted,
   ProjectNewRulesOptedIn,
-} from '../../modules/project/events'
+} from '../../modules/project'
 import { projectRepo, oldProjectRepo, oldUserRepo } from '../repos.config'
 import {
   getModificationRequestInfoForStatusNotification,
@@ -35,6 +36,7 @@ import {
   ModificationReceived,
 } from '../../modules/modificationRequest'
 import { UserInvitedToProject } from '../../modules/authorization'
+import { LegacyCandidateNotified } from '../../modules/legacyCandidateNotification'
 
 const projectCertificateChangeHandler = handleProjectCertificateUpdatedOrRegenerated({
   sendNotification,
@@ -127,6 +129,13 @@ eventStore.subscribe(
     sendNotification,
     findUserById: oldUserRepo.findById,
     findProjectById: oldProjectRepo.findById,
+  })
+)
+
+eventStore.subscribe(
+  LegacyCandidateNotified.type,
+  handleLegacyCandidateNotified({
+    sendNotification,
   })
 )
 

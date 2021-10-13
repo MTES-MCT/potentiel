@@ -10,6 +10,7 @@ import * as AppelOffreEvents from '../../../modules/appelOffre/events'
 import * as ProjectEvents from '../../../modules/project/events'
 import * as ProjectClaimEvents from '../../../modules/projectClaim/events'
 import * as UserEvents from '../../../modules/users/events'
+import * as LegacyCandidateNotificationEvents from '../../../modules/legacyCandidateNotification/events'
 import { InfraNotAvailableError } from '../../../modules/shared'
 
 function isNotNullOrUndefined<T>(input: null | undefined | T): input is T {
@@ -36,6 +37,7 @@ const EventClassByType: Record<string, HasEventConstructor> = {
   ...AppelOffreEvents,
   ...ProjectClaimEvents,
   ...UserEvents,
+  ...LegacyCandidateNotificationEvents,
 }
 
 export class SequelizeEventStore extends BaseEventStore {
