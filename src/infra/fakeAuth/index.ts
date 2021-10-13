@@ -19,7 +19,7 @@ export interface FakeAuthDeps {
 const FAKE_AUTH_COOKIE = 'fake_auth_cookie'
 
 export const makeFakeAuth = (deps) => {
-  const { getUserByEmail, registerFirstUserLogin } = deps
+  const { getUserByEmail } = deps
 
   const registerAuth: RegisterAuth = ({ app, router }) => {
     // Add middleware that looks for test_auth cookie and loads user with getUserByEmail
@@ -42,13 +42,6 @@ export const makeFakeAuth = (deps) => {
         return getUserByEmail(userEmail).then((userResult) => {
           if (userResult.isOk() && userResult.value !== null) {
             request.user = userResult.value
-
-            if (!request.user.isRegistered) {
-              registerFirstUserLogin({
-                userId: userResult.value.id,
-                keycloakId: 'fakeKeycloakId',
-              })
-            }
           } else {
             logger.error(
               new Error(
@@ -80,8 +73,22 @@ export const makeFakeAuth = (deps) => {
     router.post(routes.LOGIN_ACTION, async (request, response) => {
       const { email } = request.body
 
-      response.cookie(FAKE_AUTH_COOKIE, email, { maxAge: 3600000, httpOnly: true })
-      response.redirect(routes.REDIRECT_BASED_ON_ROLE)
+      await getUserByEmail(email).match(
+        (user) => {
+          if (user === null) {
+            return response.redirect(`${routes.LOGIN}?error=Utilisateur inconnu`)
+          }
+
+          request.user = user
+          response.cookie(FAKE_AUTH_COOKIE, email, { maxAge: 3600000, httpOnly: true })
+          return response.redirect(routes.REDIRECT_BASED_ON_ROLE)
+        },
+        (err) => {
+          return response.redirect(
+            `${routes.LOGIN}?error=Erreur lors de la récupération de l'utilisateur`
+          )
+        }
+      )
     })
 
     router.get(routes.LOGOUT_ACTION, (request, response) => {
