@@ -1,4 +1,5 @@
 import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
+import { stableStringify } from '../../../core/utils'
 
 export interface PeriodeNotifiedPayload {
   periodeId: string
@@ -16,6 +17,6 @@ export class PeriodeNotified
   aggregateIdFromPayload(payload: PeriodeNotifiedPayload) {
     const { periodeId, appelOffreId } = payload
     const key = { appelOffreId, periodeId }
-    return JSON.stringify(key, Object.keys(key).sort()) // This make the stringify stable (key order)
+    return stableStringify(key)
   }
 }

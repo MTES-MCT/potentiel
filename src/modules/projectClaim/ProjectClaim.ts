@@ -1,6 +1,6 @@
 import { ProjectDataForProjectClaim } from '.'
 import { DomainEvent, UniqueEntityID } from '../../core/domain'
-import { err, ok, Result } from '../../core/utils'
+import { err, ok, Result, stableStringify } from '../../core/utils'
 import { EventStoreAggregate } from '../eventStore/EventStoreAggregate'
 import { EntityNotFoundError } from '../shared'
 import {
@@ -181,5 +181,5 @@ export const makeClaimProjectAggregateId = (args: { projectId: string; claimedBy
   const { projectId, claimedBy } = args
   const key = { projectId, claimedBy }
 
-  return JSON.stringify(key, Object.keys(key).sort()) // This makes the stringify stable (key order)
+  return stableStringify(key)
 }
