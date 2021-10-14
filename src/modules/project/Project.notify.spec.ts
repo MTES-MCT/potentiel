@@ -105,6 +105,7 @@ describe('Project.notify()', () => {
       expect(targetEvent.payload.completionDueOn).toEqual(
         moment(notifiedOn)
           .add(appelsOffres[fakeProjectData.appelOffreId].delaiRealisationEnMois, 'months')
+          .subtract(1, 'day')
           .toDate()
           .getTime()
       )

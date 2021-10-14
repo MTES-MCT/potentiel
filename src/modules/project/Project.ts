@@ -858,6 +858,7 @@ export const makeProject = (args: {
             completionDueOn ||
             moment(props.notifiedOn)
               .add(props.appelOffre.delaiRealisationEnMois, 'months')
+              .subtract(1, 'day')
               .toDate()
               .getTime(),
           setBy,
