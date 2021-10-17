@@ -1,4 +1,3 @@
-import { addQueryParams } from '../../helpers/addQueryParams'
 import routes from '../../routes'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
@@ -48,31 +47,37 @@ v1Router.post(
         }
       })
 
-      const successMessage = `Les projets suivants ont été ajoutés à l'onglet 'Mes projets' :\n${successes.join(
-        '\n'
-      )}`
+      const successMessages = successes.length
+        ? `Les projets suivants ont été ajoutés à l'onglet 'Mes projets' :\n${successes.join('\n')}`
+        : undefined
 
       if (errors.length) {
-        const redirectErrorParams: any = {
-          error: `Les projets suivants n'ont pas pu être ajoutés car le prix ou le numéro CRE est erroné. Pensez également à vérifier que vous avez bien joint votre attestation de désignation.\n${errors.join(
-            '\n'
-          )}`,
-          success: successes.length ? successMessage : undefined,
-        }
+        const errorMessages = `Les projets suivants n'ont pas pu être ajoutés car le prix ou le numéro CRE est erroné. Pensez également à vérifier que vous avez bien joint votre attestation de désignation.\n${errors.join(
+          '\n'
+        )}`
 
         return response.redirect(
-          addQueryParams(routes.USER_LIST_MISSING_OWNER_PROJECTS, redirectErrorParams)
+          routes.SUCCESS_OR_ERROR_PAGE({
+            redirectUrl: routes.USER_LIST_MISSING_OWNER_PROJECTS,
+            redirectTitle: 'Retour vers la liste des projets à réclamer',
+            success: successMessages,
+            error: errorMessages,
+          })
         )
       }
 
       return response.redirect(
-        addQueryParams(routes.USER_LIST_MISSING_OWNER_PROJECTS, {
-          success: successMessage,
+        routes.SUCCESS_OR_ERROR_PAGE({
+          redirectUrl: routes.USER_LIST_MISSING_OWNER_PROJECTS,
+          redirectTitle: 'Retour vers la liste des projets à réclamer',
+          success: successMessages,
         })
       )
     } catch (error) {
       return response.redirect(
-        addQueryParams(routes.USER_LIST_MISSING_OWNER_PROJECTS, {
+        routes.SUCCESS_OR_ERROR_PAGE({
+          redirectUrl: routes.USER_LIST_MISSING_OWNER_PROJECTS,
+          redirectTitle: 'Retour vers la liste des projets à réclamer',
           error: error.message,
         })
       )
