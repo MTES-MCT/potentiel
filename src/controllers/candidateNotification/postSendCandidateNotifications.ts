@@ -50,7 +50,7 @@ v1Router.post(
     ).match(
       () =>
         response.redirect(
-          routes.SUCCESS_PAGE({
+          routes.SUCCESS_OR_ERROR_PAGE({
             success: `La période ${appelOffreId} - ${periodeId} a bien été notifiée.`,
             redirectUrl: addQueryParams(routes.ADMIN_LIST_PROJECTS, {
               appelOffreId,

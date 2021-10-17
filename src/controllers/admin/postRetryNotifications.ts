@@ -11,7 +11,7 @@ v1Router.post(
     const notificationsRetried = await retryFailedNotifications()
 
     return response.redirect(
-      routes.SUCCESS_PAGE({
+      routes.SUCCESS_OR_ERROR_PAGE({
         success: notificationsRetried
           ? `${notificationsRetried} notifications ont été renvoyées`
           : `Aucun notification n'a été renvoyée. Merci de vérifier qu'il y a bien des notifications en erreur.`,

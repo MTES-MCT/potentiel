@@ -29,7 +29,7 @@ v1Router.get(
     ).match(
       () =>
         response.redirect(
-          routes.SUCCESS_PAGE({
+          routes.SUCCESS_OR_ERROR_PAGE({
             success: `Cette étape projet est bien considérée comme ${newStatus}.`,
             redirectUrl,
             redirectTitle: 'Retourner à la liste des projets',

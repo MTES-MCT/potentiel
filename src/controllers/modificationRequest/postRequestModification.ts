@@ -152,7 +152,7 @@ v1Router.post(
 
     const handleSuccess = () =>
       response.redirect(
-        routes.SUCCESS_PAGE({
+        routes.SUCCESS_OR_ERROR_PAGE({
           success: 'Votre demande a bien été prise en compte.',
           redirectUrl: routes.USER_LIST_REQUESTS,
           redirectTitle: 'Voir mes demandes',

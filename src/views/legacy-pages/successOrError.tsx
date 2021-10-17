@@ -10,13 +10,32 @@ interface SuccessOrErrorProps {
 
 /* Pure component */
 export default function SuccessOrError({ request }: SuccessOrErrorProps) {
-  const { success, redirectUrl, redirectTitle } = (request.query as any) || {}
+  const {
+    success,
+    error,
+    redirectUrl,
+    redirectTitle,
+  }: {
+    success?: string
+    error?: string
+    redirectUrl: string
+    redirectTitle: string
+  } = (request.query as any) || {}
 
   const contents = (
     <div className="panel">
-      <div className="notification success" {...dataId('success-message')}>
-        {success}
-      </div>
+      {success && (
+        <pre className="notification success" {...dataId('success-message')}>
+          {success}
+        </pre>
+      )}
+
+      {error && (
+        <pre className="notification error" {...dataId('error-message')}>
+          {error}
+        </pre>
+      )}
+
       <a className="button" href={redirectUrl}>
         {redirectTitle}
       </a>

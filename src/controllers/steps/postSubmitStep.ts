@@ -66,7 +66,7 @@ v1Router.post(
     ).match(
       () =>
         response.redirect(
-          routes.SUCCESS_PAGE({
+          routes.SUCCESS_OR_ERROR_PAGE({
             success: 'Votre dépôt a bien été enregistré.',
             redirectUrl: routes.PROJECT_DETAILS(projectId),
             redirectTitle: 'Retourner à la page projet',

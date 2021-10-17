@@ -4,7 +4,7 @@ import { SuccessPage } from '../views/legacy-pages'
 import { v1Router } from './v1Router'
 
 v1Router.get(
-  routes.SUCCESS_PAGE(),
+  routes.SUCCESS_OR_ERROR_PAGE(),
   asyncHandler(async (request, response) => {
     response.send(SuccessPage({ request }))
   })
