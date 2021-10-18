@@ -48,7 +48,7 @@ v1Router.post(
     ).match(
       () =>
         response.redirect(
-          routes.SUCCESS_PAGE({
+          routes.SUCCESS_OR_ERROR_PAGE({
             success: `Les attestations de la période ${appelOffreId} - ${periodeId}${
               familleId ? ` famille ${familleId}` : ''
             } sont en cours de regénération. Les porteurs de projets seront prévenus par email dès que leur nouvelle attestation sera prête.`,

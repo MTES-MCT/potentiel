@@ -244,3 +244,7 @@ a.button-outline {
   background-color: var(--theme-primary);
   color: var(--theme-light-text);
 }
+
+pre {
+  font-family: inherit;
+}

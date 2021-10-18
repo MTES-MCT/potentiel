@@ -15,7 +15,7 @@ import NotificationList from './notificationList'
 import ModificationRequestList from './modificationRequestList'
 import InvitationsAreDeprecated from './invitationsAreDeprecated'
 import ListProjects from './listProjects'
-import Success from './success'
+import SuccessOrError from './successOrError'
 import ListMissingOwnerProjects from './listMissingOwnerProjects'
 import FakeLogin from './fakeLogin'
 
@@ -30,7 +30,7 @@ const InvitationListPage = makePresenterPage(InvitationList)
 const NotificationListPage = makePresenterPage(NotificationList)
 const ModificationRequestDetailsPage = makePresenterPage(ModificationRequestDetails)
 const ModificationRequestListPage = makePresenterPage(ModificationRequestList)
-const SuccessPage = makePresenterPage(Success)
+const SuccessOrErrorPage = makePresenterPage(SuccessOrError)
 const AdminAppelOffrePage = makePresenterPage(AdminAppelOffre)
 const AdminUsersPage = makePresenterPage(AdminUsers)
 const ListMissingOwnerProjectsPage = makePresenterPage(ListMissingOwnerProjects)
@@ -49,7 +49,7 @@ export {
   NotificationListPage,
   ModificationRequestDetailsPage,
   ModificationRequestListPage,
-  SuccessPage,
+  SuccessOrErrorPage as SuccessPage,
   AdminAppelOffrePage,
   AdminUsersPage,
   ListMissingOwnerProjectsPage,

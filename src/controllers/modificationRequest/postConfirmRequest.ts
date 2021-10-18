@@ -27,7 +27,7 @@ v1Router.post(
 function _handleSuccess(response, modificationRequestId) {
   return () => {
     response.redirect(
-      routes.SUCCESS_PAGE({
+      routes.SUCCESS_OR_ERROR_PAGE({
         success: 'Votre demande a bien été confirmée.',
         redirectUrl: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
         redirectTitle: 'Retourner à la demande',

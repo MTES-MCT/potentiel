@@ -6,7 +6,7 @@ L’Etat français met en œuvre une politique volontariste de soutien au dével
 
 Potentiel permet de faciliter la gestion de ces projets, de gagner en traçabilité et en efficacité en fluidifiant les échanges entre porteurs de projets et administration (centrale et déconcentrée) et, à terme entre les divers opérateurs (acheteurs, gestionnaires de réseau, organismes de contrôle).
 
-Le site est accessible sur [potentiel.beta.gouv.fr](https://potentiel.beta.gouv.fr).  
+Le site est accessible sur [potentiel.beta.gouv.fr](https://potentiel.beta.gouv.fr).
 Vous pouvez également consulter [les statistiques d'usage](https://potentiel.beta.gouv.fr/stats.html).
 
 N'hésitez pas à regarder également la [fiche betagouv](https://beta.gouv.fr/startups/potentiel.html) du projet.
@@ -84,7 +84,7 @@ Vous pouvez utiliser une UI telle que [`pgAdmin`](https://www.pgadmin.org) pour 
 
 Voici les instructions pour la ligne de commande:
 
-_NB: Nécessite d'installer `psql` et `dotenv` (`npm install -g dotenv`) sur sa machine._
+_NB: Nécessite d'installer `psql` et `dotenv` (`npm install -g dotenv-cli`) sur sa machine._
 
 Pour la base de données de dev (celle créée par `npm run dev-db`), les credentials sont présents dans le fichier `.env`. Celui-ci peut donc être utilisé pour injecter ces valeurs dans la commande `psql`, de la façon suivante:
 

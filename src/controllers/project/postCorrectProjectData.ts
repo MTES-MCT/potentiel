@@ -111,7 +111,7 @@ v1Router.post(
     return await result.match(
       () => {
         response.redirect(
-          routes.SUCCESS_PAGE({
+          routes.SUCCESS_OR_ERROR_PAGE({
             success: 'Les données du projet ont bien été mises à jour.',
             redirectUrl: routes.PROJECT_DETAILS(projectId),
             redirectTitle: 'Retourner à la page projet',
