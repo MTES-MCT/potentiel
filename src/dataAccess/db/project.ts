@@ -532,6 +532,12 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
         opts.where.classe = query.isClasse ? 'Classé' : 'Eliminé'
       }
 
+      if ('isClaimed' in query) {
+        opts.where.id = {
+          [query.isClaimed ? Op.in : Op.notIn]: literal(`(SELECT "projectId" FROM "UserProjects")`),
+        }
+      }
+
       if ('appelOffreId' in query) {
         opts.where.appelOffreId = query.appelOffreId
       }

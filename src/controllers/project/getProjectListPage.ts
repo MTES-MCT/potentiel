@@ -15,6 +15,7 @@ const getProjectListPage = asyncHandler(async (request, response) => {
     familleId,
     recherche,
     classement,
+    reclames,
     garantiesFinancieres,
     pageSize,
   } = request.query as any
@@ -48,6 +49,7 @@ const getProjectListPage = asyncHandler(async (request, response) => {
     pagination,
     recherche,
     classement,
+    reclames,
     garantiesFinancieres,
   })
 
