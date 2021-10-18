@@ -6,6 +6,7 @@ import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
 
 export interface UserRegisteredPayload {
   userId: string
+  email: string
   fullName: string
 }
 export class UserRegistered extends BaseDomainEvent<UserRegisteredPayload> implements DomainEvent {
@@ -14,6 +15,6 @@ export class UserRegistered extends BaseDomainEvent<UserRegisteredPayload> imple
   currentVersion = 1
 
   aggregateIdFromPayload(payload: UserRegisteredPayload) {
-    return payload.userId
+    return payload.email
   }
 }
