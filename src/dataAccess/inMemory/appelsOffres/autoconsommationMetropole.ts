@@ -94,6 +94,14 @@ const autoconsommationMetropole: AppelOffre = {
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'v1',
     },
+    {
+      id: '10',
+      title: 'dixième',
+      paragrapheAchevement: '6.3',
+      noteThresholdByFamily: [{ familleId: '', noteThreshold: 44.9 }],
+      isNotifiedOnPotentiel: true,
+      certificateTemplate: 'v1',
+    },
   ],
   familles: [],
 }
