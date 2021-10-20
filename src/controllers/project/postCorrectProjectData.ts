@@ -42,8 +42,8 @@ v1Router.post(
       isClasse,
       motifsElimination,
       appelOffreAndPeriode,
-      forceCertificateGeneration,
       reason,
+      attestation,
     } = request.body
 
     const [appelOffreId, periodeId] = appelOffreAndPeriode?.split('|')
@@ -104,8 +104,8 @@ v1Router.post(
       newNotifiedOn: moment(notificationDate, FORMAT_DATE).tz('Europe/London').toDate().getTime(),
       user: request.user,
       shouldGrantClasse: Number(isClasse) === 1,
-      forceCertificateGeneration: Boolean(forceCertificateGeneration),
       reason,
+      attestation,
     })
 
     return await result.match(

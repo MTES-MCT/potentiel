@@ -236,21 +236,29 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             soit par exemple 25/05/2022 pour 25 Mai 2022.
           </div>
         </div>
+
         <div className="form__group">
-          <label htmlFor="file">
-            Attestation (facultatif, elle sera générée à partir des données ci-dessus)
-          </label>
-          <input type="file" name="file" id="file" />
-        </div>
-        <div className="form__group">
-          <label htmlFor="forceCertificateGeneration">
-            Forcer la regénération de l‘attestation
-          </label>
-          <input
-            type="checkbox"
-            name="forceCertificateGeneration"
-            id="forceCertificateGeneration"
-          />
+          <div>
+            <input
+              type="radio"
+              name="attestation"
+              id="regenerate"
+              value="regenerate"
+              defaultChecked
+            />
+            <label htmlFor="regenerate">
+              Regénérer l'attestation (si les données du projet ont changé)
+            </label>
+          </div>
+          <div>
+            <input type="radio" name="attestation" id="donotregenerate" value="donotregenerate" />
+            <label htmlFor="donotregenerate">Ne pas regénérer l'attestation</label>
+          </div>
+          <div>
+            <input type="radio" name="attestation" id="custom" value="custom" />
+            <label htmlFor="custom">Uploader une attestation</label>
+            <input type="file" name="file" id="file" />
+          </div>
         </div>
         <div className="form__group">
           <label htmlFor="forceCertificateGeneration">
