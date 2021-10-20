@@ -106,6 +106,13 @@ const sol: AppelOffre = {
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'v1',
     },
+    {
+      id: '10',
+      title: 'dixième',
+      paragrapheAchevement: '6.4',
+      isNotifiedOnPotentiel: true,
+      certificateTemplate: 'v1',
+    },
   ],
   familles: [
     {

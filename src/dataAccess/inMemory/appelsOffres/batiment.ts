@@ -118,6 +118,13 @@ const batiment: AppelOffre = {
       ],
       certificateTemplate: 'v1',
     },
+    {
+      id: '13',
+      title: 'treizième',
+      paragrapheAchevement: '6.4',
+      isNotifiedOnPotentiel: true,
+      certificateTemplate: 'v1',
+    },
   ],
   familles: [
     {
