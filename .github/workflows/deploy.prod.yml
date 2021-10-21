@@ -12,6 +12,7 @@ on:
       - '.storybook/**'
       - '.vscode/**'
       - 'devtools/**'
+      - 'docs/**'
       - 'legacy-features/**'
       - 'keycloak/**'
       - '.env.template'
