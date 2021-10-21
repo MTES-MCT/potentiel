@@ -80,7 +80,7 @@ export const makeFakeAuth = (deps) => {
           }
 
           request.user = user
-          response.cookie(FAKE_AUTH_COOKIE, email, { maxAge: 3600000, httpOnly: true })
+          response.cookie(FAKE_AUTH_COOKIE, email, { httpOnly: true })
           return response.redirect(routes.REDIRECT_BASED_ON_ROLE)
         },
         (err) => {
