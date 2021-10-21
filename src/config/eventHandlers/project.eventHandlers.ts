@@ -1,10 +1,12 @@
-import { ModificationReceived } from '../../modules/modificationRequest'
+import { LegacyModificationImported, ModificationReceived } from '../../modules/modificationRequest'
 import {
   handleModificationReceived,
   handlePeriodeNotified,
-} from '../../modules/project/eventHandlers'
-import { handleProjectRawDataImported } from '../../modules/project/eventHandlers/handleProjectRawDataImported'
-import { PeriodeNotified, ProjectRawDataImported } from '../../modules/project/events'
+  handleProjectRawDataImported,
+  handleLegacyModificationImported,
+  PeriodeNotified,
+  ProjectRawDataImported,
+} from '../../modules/project'
 import { eventStore } from '../eventStore.config'
 import { getUnnotifiedProjectsForPeriode, findProjectByIdentifiers } from '../queries.config'
 import { projectRepo } from '../repos.config'
@@ -30,6 +32,13 @@ eventStore.subscribe(
   ProjectRawDataImported.type,
   handleProjectRawDataImported({
     findProjectByIdentifiers,
+    projectRepo,
+  })
+)
+
+eventStore.subscribe(
+  LegacyModificationImported.type,
+  handleLegacyModificationImported({
     projectRepo,
   })
 )
