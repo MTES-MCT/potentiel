@@ -272,7 +272,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
           <textarea name="reason" defaultValue={query.reason} />
         </div>
         <button className="button" type="submit" name="submit" {...dataId('submit-button')}>
-          Remplacer l’attestation
+          Modifier
         </button>
       </form>
     </div>
