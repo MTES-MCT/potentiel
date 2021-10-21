@@ -80,6 +80,7 @@ export interface Project extends EventStoreAggregate {
     user: User,
     delayInMonths: number
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectStateError>
+  setCompletionDueDate: (completionDueOn: number) => Result<null, never>
   updateCertificate: (
     user: User,
     certificateFileId: string
@@ -346,6 +347,11 @@ export const makeProject = (args: {
         )
         return ok(null)
       })
+    },
+    setCompletionDueDate: function (newCompletionDueOn) {
+      _updateCompletionDate({ completionDueOn: newCompletionDueOn })
+
+      return ok(null)
     },
     moveCompletionDueDate: function (user, delayInMonths) {
       if (!_isNotified()) {
@@ -839,7 +845,7 @@ export const makeProject = (args: {
     }
   }
 
-  function _updateCompletionDate(forceValue?: { setBy: string; completionDueOn: number }) {
+  function _updateCompletionDate(forceValue?: { setBy?: string; completionDueOn: number }) {
     if (!props.isClasse) return
 
     if (props.hasCompletionDueDateMoved && !forceValue) return
@@ -861,7 +867,7 @@ export const makeProject = (args: {
               .subtract(1, 'day')
               .toDate()
               .getTime(),
-          setBy,
+          setBy: setBy || '',
         },
       })
     )
