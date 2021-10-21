@@ -1,0 +1,89 @@
+N°CRE;Appel d'offres;Période;Famille;Candidat;Société mère;Nom projet;"Territoire
+(AO ZNI)";Puissance installé du projet indiquée au B. du formulaire de candidature (MWc);Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh);"Taux d'autoconsommation 
+(AO autoconsommation)";Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc);Note prix;Note carbone;Note environnementale;"Note innovation
+(AO innovation)";Note totale;;Nom (personne physique) ou raison sociale (personne morale) :;Nature du candidat;Numéro SIREN ou SIRET*;Code NACE;Type entreprise;Région d'implantation;Adresse;Nom et prénom du représentant légal;Titre du représentant légal;Nom et prénom du signataire du formulaire;Nom et prénom du contact;Titre du contact;Adresse postale du contact;Adresse électronique du contact;Téléphone;Nom du projet;Famille de candidature;Puissance installée (MWc);"Type de consommateur associé
+(AO autoconsommation)";"Nature et nombre du ou des consommateur(s)
+(AO autoconsommation)";Typologie de projet;N°, voie, lieu-dit;CP;Commune;Département;Région;Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (degrés);Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (minutes);Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (secondes);Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (cardinal);"Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude
+(degrés)";"Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude
+(minutes)";"Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude
+(secondes)";"Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude
+(cardinal)";"Taux occupation toiture
+(AO autoconsommation)";Surface projetée au sol de l’ensemble des Capteurs solaires (ha);Surface du Terrain d’implantation (ha);Référence du dossier de raccordement*;Dépôt 1ère périodes précédentes ?;Prix de référence (€/MWh);Valeur de l’évaluation carbone des modules (kg eq CO2/kWc);"Engagement de fourniture de puissance à la pointe
+(AO ZNI)";Terrain d’implantation est dégradé au sens du cas 3 du 2.6;Terrain d’implantation bénéficie de la dérogation sur le c) du Cas 2 du 2.6;Détention de l’Autorisation d’Urbanisme;Technologie (Modules ou films);"Référence commerciale 
+(Modules ou films)";"Nom du fabricant 
+(Modules ou films)";"Lieu(x) de fabrication 
+(Modules ou films)";"Puissance crête (Wc) 
+(Modules ou films)";"Rendement nominal 
+(Modules ou films)";Nom du fabricant (Cellules);Lieu(x) de fabrication (Cellules);"Nom du fabricant 
+(Plaquettes de silicium (wafers))";"Lieu(x) de fabrication 
+(Plaquettes de silicium (wafers))";"Nom du fabricant 
+(Polysilicium)";"Lieu(x) de fabrication 
+(Polysilicium)";"Nom du fabricant 
+(Postes de conversion)";"Lieu(x) de fabrication 
+(Postes de conversion)";"Technologie 
+(Dispositifs de stockage de l’énergie *)";"Nom du fabricant 
+(Dispositifs de stockage de l’énergie *)";"Lieu(x) de fabrication 
+(Dispositifs de stockage de l’énergie *)";"Technologie 
+(Dispositifs de suivi de la course du soleil *)";"Nom du fabricant 
+(Dispositifs de suivi de la course du soleil *)";"Lieu(x) de fabrication 
+(Dispositifs de suivi de la course du soleil *)";"Référence commerciale 
+(Autres technologies)";"Nom du fabricant 
+(Autres technologies)";"Lieu(x) de fabrication 
+(Autres technologies)";Ensoleillement de référence (kWh/m²/an);Productible annuel (MWh/an);Facteur de charges (kWh/kWc);Date de mise en service du raccordement attendue (mm/aaaa);Capacité du raccordement (kW);Montant estimé du raccordement (k€);Raccordement € / kWc; Investissement total (k€) ;dont quantité de fonds propres (k€);dont quantité d'endettement  (k€);dont quantité de subventions à l'investissement  (k€);dont quantité d'autres avantages financiers  (k€);Location (€/an/MWc);"CAPEX Moyen
+(k€ / MWc)";"date
+(candidature)";"heure
+(candidature)";"Reference Pli
+(candidature)";Typologie de projet;Type d'utorisation d'Urbanisme (pièce n°3);"Investissement ou financement participatif
+(Oui/non) ?";Investissement ou financement participatif ?;"Note degré d’innovation (/20pt)
+(AO innovation)";"Commentaire final sur note degré d’innovation
+(AO innovation)";"Nom de l'innovation (ADEME)
+(AO innovation)";"Type de l'innovation (ADEME)
+(AO innovation)";"Note positionnement sur le marché (/10pt)
+(AO innovation)";"Commentaire final sur note positionnement sur le marché 
+(AO innovation)";"Note qualité technique (/5pt)
+(AO innovation)";"Commentaire final sur note qualité technique
+(AO innovation)";"Note adéquation du projet avec les ambitions industrielles (/5pt)
+(AO innovation)";"Commentaire final sur note adéquation du projet avec les ambitions industrielles
+(AO innovation)";"Note aspects environnementaux et sociaux (/5pt)
+(AO innovation)";"Commentaire final sur note aspects environnementaux et sociaux
+(AO innovation)";Respect de toutes les conditions d'admissibilité ?;Suspicion de doublon ? ;Oui projet ;Suspicion de 500m inter-famille ? ;Avis admissibilité;"Comm 1 
+(pièce n°1)";"Comm 2 
+(pièce n°1)";"Avis 
+(pièce n°1)";"Comm 1 
+(pièce n°2)";"Comm 2 
+(pièce n°2)";"Avis 
+(pièce n°2)";"Type de terrain d'implantation 
+(pièce n°3)";"Période visée par certificat d'éligibilité du terrain 
+(pièce n°3)";"Comm 1 
+(pièce n°3)";"Comm 2
+(pièce n°3)";"Types Cas 3 
+(pièce n°3)";"Avis 
+(pièce n°3)";"Comm 1
+(pièce n°4 AO innovation)";"Comm 2
+(pièce n°4 AO innovation)";"Avis
+(pièce n°4 AO innovation)";"Comm 1
+(pièce n°5 AO innovation)";"Comm 2
+(pièce n°5 AO innovation)";"Avis
+(pièce n°5 AO innovation)";"Type d'AU 
+(pièce n°4)";"Date 
+(pièce n°4)";"Comm 2 
+(pièce n°4)";"Avis 
+(pièce n°4)";"Comm 1 
+(pièce n°6)";"Comm 2 
+(pièce n°6)";"Avis 
+(pièce n°6)";"Oui/non ? 
+(pièce n°7)";"Comm 1 
+(pièce n°7)";"Comm 2 
+(pièce n°7)";"Avis 
+(pièce n°7)";"Comm 1 
+(Délégation de signature)";"Comm 2 
+(Délégation de signature)";"Avis 
+(Délégation de signature)";Commentaire final;Avis final;Avis final CRE + ADEME;;Puissance cumulée;Classé ?;Prix Majoré;"Codes cas
+(AO sol)";"Codes cas
+(AO sol)";"Codes cas
+(AO sol)";Motif d'élimination;Nom projet (doublon);CP (doublon);Commune (doublon);Modifications;Statut;Notification;Commentaires;;;;;;;;;;;;;;;;;;
+9;CRE4 - Bâtiment;1;2;HISTORIQUE1;;HISTORIQUE1;;0,5;1,0;;300;1,0;2,00;3;;6,0;;SD3B;Personne morale;;;PME;;;Valentin COGNITO;Gérant;;Valentin Cognito;Directeur du développement;1 place carpeaux;porteur@test.test;;Centrale Solaire;2;0,5;;;;2 rue de l'avenue;92055;PUTEAUX;;Ile-de-France;;;;;;;;;;;;N/A;;1,0;300;;;;;Silicium polycristallin;123;MODULE PV;France;360;18,26%;CELLULE PV;France;PLAQUETTE PV;France;POLYSI PV;France;CONVERT PV;France;;;;;;;;;;1820;6342;1469;01/11/2021;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Classé;;;;;;;;;;;21/10/2020;;;;;;;;;;;;;;;;;;;
+91;CRE4 - Bâtiment;1;2;HISTORIQUE2;;HISTORIQUE2;;0,5;1,0;;300;1,0;2,00;3;;6,0;;SD3B;Personne morale;;;PME;;;Valentin COGNITO;Gérant;;Valentin Cognito;Directeur du développement;1 place carpeaux;porteur@test.test;;Centrale Solaire;2;0,5;;;;2 rue de l'avenue;92055;PUTEAUX;;Ile-de-France;;;;;;;;;;;;N/A;;1,0;300;;;;;Silicium polycristallin;123;MODULE PV;France;360;18,26%;CELLULE PV;France;PLAQUETTE PV;France;POLYSI PV;France;CONVERT PV;France;;;;;;;;;;1820;6342;1469;01/11/2021;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Classé;;;;;;;;;;;21/10/2020;;;;;;;;;;;;;;;;;;;
+10;CRE4 - Bâtiment;10;2;NON-HISTORIQUE1;;NON-HISTORIQUE1;;1,2;1,0;;400;4,0;5,00;6;;15,0;;SD3C;Personne morale;;;Grande entreprise;;;Valentin COGNITO;Gérant;;Valentin Cognito;Directeur du développement;1 place carpeaux;porteur@test.test;;Face Nord;2;1,2;;;;2 rue de l'avenue;92055;PUTEAUX;;Ile-de-France;;;;;;;;;;;;;;1,0;400;;Oui;;;Silicium monocristallin;456;MODULE PV;Chine;400;19,70%;CELLULE PV;Chine;PLAQUETTE PV;Chine;POLYSI PV;Chine;CONVERT PV;Chine;;;;;;;;;;2055;5200;1585;01/12/2021;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Favorable;;;;Classé;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+101;CRE4 - Bâtiment;10;2;NON-HISTORIQUE2;;NON-HISTORIQUE2;;1,2;1,0;;400;4,0;5,00;6;;15,0;;SD3C;Personne morale;;;Grande entreprise;;;Valentin COGNITO;Gérant;;Valentin Cognito;Directeur du développement;1 place carpeaux;porteur@test.test;;Face Nord;2;1,2;;;;2 rue de l'avenue;92055;PUTEAUX;;Ile-de-France;;;;;;;;;;;;;;1,0;400;;Oui;;;Silicium monocristallin;456;MODULE PV;Chine;400;19,70%;CELLULE PV;Chine;PLAQUETTE PV;Chine;POLYSI PV;Chine;CONVERT PV;Chine;;;;;;;;;;2055;5200;1585;01/12/2021;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Favorable;;;;Classé;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+101;CRE4 - Bâtiment;10;2;NON-HISTORIQUE3;;NON-HISTORIQUE3;;1,2;1,0;;400;4,0;5,00;6;;15,0;;SD3C;Personne morale;;;Grande entreprise;;;Valentin COGNITO;Gérant;;Valentin Cognito;Directeur du développement;1 place carpeaux;porteur@test.test;;Face Nord;2;1,2;;;;2 rue de l'avenue;92055;PUTEAUX;;Ile-de-France;;;;;;;;;;;;;;1,0;400;;Oui;;;Silicium monocristallin;456;MODULE PV;Chine;400;19,70%;CELLULE PV;Chine;PLAQUETTE PV;Chine;POLYSI PV;Chine;CONVERT PV;Chine;;;;;;;;;;2055;5200;1585;01/12/2021;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Favorable;;;;Eliminé;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
