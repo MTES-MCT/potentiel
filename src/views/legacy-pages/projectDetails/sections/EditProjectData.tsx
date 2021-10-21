@@ -242,7 +242,8 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
 
         {!project.isLegacy && (
           <div className="form__group">
-            <div>
+            Attestation de désignation
+            <div className="inline-radio-option">
               <input
                 type="radio"
                 name="attestation"
@@ -254,15 +255,15 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
                 Regénérer l'attestation (si les données du projet ont changé)
               </label>
             </div>
-            <div>
+            <div className="inline-radio-option">
               <input type="radio" name="attestation" id="donotregenerate" value="donotregenerate" />
               <label htmlFor="donotregenerate">Ne pas regénérer l'attestation</label>
             </div>
-            <div>
+            <div className="inline-radio-option">
               <input type="radio" name="attestation" id="custom" value="custom" />
               <label htmlFor="custom">Uploader une attestation</label>
-              <input type="file" name="file" id="file" />
             </div>
+            <input type="file" name="file" id="file" />
           </div>
         )}
         <div className="form__group">
