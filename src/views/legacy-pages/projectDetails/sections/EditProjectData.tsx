@@ -214,28 +214,31 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             <b>Classé</b>
           </div>
         )}
-        <div className="form__group">
-          <label htmlFor="notificationDate">Date désignation (format JJ/MM/AAAA)</label>
-          <input
-            type="text"
-            name="notificationDate"
-            id="notificationDate"
-            {...dataId('date-field')}
-            defaultValue={
-              query.notificationDate ||
-              (project.notifiedOn && formatDate(project.notifiedOn, 'DD/MM/YYYY'))
-            }
-            style={{ width: 'auto' }}
-          />
-          <div
-            className="notification error"
-            style={{ display: 'none' }}
-            {...dataId('error-message-wrong-format')}
-          >
-            Le format de la date saisie n’est pas conforme. Elle doit être de la forme JJ/MM/AAAA
-            soit par exemple 25/05/2022 pour 25 Mai 2022.
+
+        {!project.isLegacy && (
+          <div className="form__group">
+            <label htmlFor="notificationDate">Date désignation (format JJ/MM/AAAA)</label>
+            <input
+              type="text"
+              name="notificationDate"
+              id="notificationDate"
+              {...dataId('date-field')}
+              defaultValue={
+                query.notificationDate ||
+                (project.notifiedOn && formatDate(project.notifiedOn, 'DD/MM/YYYY'))
+              }
+              style={{ width: 'auto' }}
+            />
+            <div
+              className="notification error"
+              style={{ display: 'none' }}
+              {...dataId('error-message-wrong-format')}
+            >
+              Le format de la date saisie n’est pas conforme. Elle doit être de la forme JJ/MM/AAAA
+              soit par exemple 25/05/2022 pour 25 Mai 2022.
+            </div>
           </div>
-        </div>
+        )}
 
         {!project.isLegacy && (
           <div className="form__group">
