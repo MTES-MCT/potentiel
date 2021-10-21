@@ -12,6 +12,8 @@ export type ProjectDataForProjectPage = {
   numeroCRE: string
   newRulesOptIn: boolean
 
+  isLegacy: boolean
+
   puissance: number
   prixReference?: number
 

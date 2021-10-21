@@ -237,29 +237,31 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
           </div>
         </div>
 
-        <div className="form__group">
-          <div>
-            <input
-              type="radio"
-              name="attestation"
-              id="regenerate"
-              value="regenerate"
-              defaultChecked
-            />
-            <label htmlFor="regenerate">
-              Regénérer l'attestation (si les données du projet ont changé)
-            </label>
+        {!project.isLegacy && (
+          <div className="form__group">
+            <div>
+              <input
+                type="radio"
+                name="attestation"
+                id="regenerate"
+                value="regenerate"
+                defaultChecked
+              />
+              <label htmlFor="regenerate">
+                Regénérer l'attestation (si les données du projet ont changé)
+              </label>
+            </div>
+            <div>
+              <input type="radio" name="attestation" id="donotregenerate" value="donotregenerate" />
+              <label htmlFor="donotregenerate">Ne pas regénérer l'attestation</label>
+            </div>
+            <div>
+              <input type="radio" name="attestation" id="custom" value="custom" />
+              <label htmlFor="custom">Uploader une attestation</label>
+              <input type="file" name="file" id="file" />
+            </div>
           </div>
-          <div>
-            <input type="radio" name="attestation" id="donotregenerate" value="donotregenerate" />
-            <label htmlFor="donotregenerate">Ne pas regénérer l'attestation</label>
-          </div>
-          <div>
-            <input type="radio" name="attestation" id="custom" value="custom" />
-            <label htmlFor="custom">Uploader une attestation</label>
-            <input type="file" name="file" id="file" />
-          </div>
-        </div>
+        )}
         <div className="form__group">
           <label htmlFor="forceCertificateGeneration">
             Message justificatif du changement (facultatif)

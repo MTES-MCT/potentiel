@@ -1,6 +1,7 @@
-import { err, ok, wrapInfra } from '../../../../core/utils'
-import { getAppelOffre } from '../../../../dataAccess/inMemory'
+import { err, ok, Result, wrapInfra } from '../../../../core/utils'
+import { getAppelOffre, isPeriodeLegacy } from '../../../../dataAccess/inMemory'
 import { makeProjectIdentifier } from '../../../../entities'
+import { ProjectDataForProjectPage } from '../../../../modules/project'
 import { GetProjectDataForProjectPage } from '../../../../modules/project/queries/GetProjectDataForProjectPage'
 import { EntityNotFoundError } from '../../../../modules/shared'
 import models from '../../models'
@@ -65,150 +66,164 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
         },
       ],
     })
-  ).andThen((projectRaw: any) => {
-    if (!projectRaw) return err(new EntityNotFoundError())
+  )
+    .andThen(
+      (
+        projectRaw: any
+      ): Result<Omit<ProjectDataForProjectPage, 'isLegacy'>, EntityNotFoundError> => {
+        if (!projectRaw) return err(new EntityNotFoundError())
 
-    const {
-      id,
-      appelOffreId,
-      periodeId,
-      familleId,
-      numeroCRE,
-      puissance,
-      prixReference,
-      engagementFournitureDePuissanceAlaPointe,
-      isFinancementParticipatif,
-      isInvestissementParticipatif,
-      adresseProjet,
-      codePostalProjet,
-      communeProjet,
-      departementProjet,
-      regionProjet,
-      territoireProjet,
-      nomProjet,
-      nomCandidat,
-      nomRepresentantLegal,
-      email,
-      fournisseur,
-      evaluationCarbone,
-      note,
-      details,
-      notifiedOn,
-      abandonedOn,
-      certificateFile,
-      classe,
-      motifsElimination,
-      garantiesFinancieresDueOn,
-      dcrDueOn,
-      users,
-      gf,
-      dcr,
-      ptf,
-      completionDueOn,
-      updatedAt,
-      newRulesOptIn,
-    } = projectRaw.get()
-
-    const result: any = {
-      id,
-      potentielIdentifier: makeProjectIdentifier(projectRaw.get()),
-      appelOffreId,
-      periodeId,
-      familleId,
-      appelOffre: getAppelOffre({ appelOffreId, periodeId, familleId }),
-      numeroCRE,
-      puissance,
-      engagementFournitureDePuissanceAlaPointe,
-      isFinancementParticipatif,
-      isInvestissementParticipatif,
-      adresseProjet,
-      codePostalProjet,
-      communeProjet,
-      departementProjet,
-      regionProjet,
-      territoireProjet,
-      nomProjet,
-      nomCandidat,
-      nomRepresentantLegal,
-      email,
-      fournisseur,
-      evaluationCarbone,
-      note,
-      details,
-      notifiedOn: notifiedOn ? new Date(notifiedOn) : undefined,
-      completionDueOn: completionDueOn ? new Date(completionDueOn) : undefined,
-      isClasse: classe === 'Classé',
-      isAbandoned: abandonedOn !== 0,
-      motifsElimination,
-      users: users
-        ?.map(({ user }) => user.get())
-        .map(({ id, email, fullName, registeredOn }) => ({
+        const {
           id,
+          appelOffreId,
+          periodeId,
+          familleId,
+          numeroCRE,
+          puissance,
+          prixReference,
+          engagementFournitureDePuissanceAlaPointe,
+          isFinancementParticipatif,
+          isInvestissementParticipatif,
+          adresseProjet,
+          codePostalProjet,
+          communeProjet,
+          departementProjet,
+          regionProjet,
+          territoireProjet,
+          nomProjet,
+          nomCandidat,
+          nomRepresentantLegal,
           email,
-          fullName,
-          isRegistered: !!registeredOn,
-        })),
-      garantiesFinancieres: undefined,
-      updatedAt,
-      newRulesOptIn,
-    }
+          fournisseur,
+          evaluationCarbone,
+          note,
+          details,
+          notifiedOn,
+          abandonedOn,
+          certificateFile,
+          classe,
+          motifsElimination,
+          garantiesFinancieresDueOn,
+          dcrDueOn,
+          users,
+          gf,
+          dcr,
+          ptf,
+          completionDueOn,
+          updatedAt,
+          newRulesOptIn,
+        } = projectRaw.get()
 
-    if (user.role !== 'dreal') {
-      result.prixReference = prixReference
-    }
+        const result: any = {
+          id,
+          potentielIdentifier: makeProjectIdentifier(projectRaw.get()),
+          appelOffreId,
+          periodeId,
+          familleId,
+          appelOffre: getAppelOffre({ appelOffreId, periodeId, familleId }),
+          numeroCRE,
+          puissance,
+          engagementFournitureDePuissanceAlaPointe,
+          isFinancementParticipatif,
+          isInvestissementParticipatif,
+          adresseProjet,
+          codePostalProjet,
+          communeProjet,
+          departementProjet,
+          regionProjet,
+          territoireProjet,
+          nomProjet,
+          nomCandidat,
+          nomRepresentantLegal,
+          email,
+          fournisseur,
+          evaluationCarbone,
+          note,
+          details,
+          notifiedOn: notifiedOn ? new Date(notifiedOn) : undefined,
+          completionDueOn: completionDueOn ? new Date(completionDueOn) : undefined,
+          isClasse: classe === 'Classé',
+          isAbandoned: abandonedOn !== 0,
+          motifsElimination,
+          users: users
+            ?.map(({ user }) => user.get())
+            .map(({ id, email, fullName, registeredOn }) => ({
+              id,
+              email,
+              fullName,
+              isRegistered: !!registeredOn,
+            })),
+          garantiesFinancieres: undefined,
+          updatedAt,
+          newRulesOptIn,
+        }
 
-    if (!notifiedOn) return ok(result)
+        if (user.role !== 'dreal') {
+          result.prixReference = prixReference
+        }
 
-    if (user.role !== 'dreal') {
-      result.certificateFile = certificateFile?.get()
-    }
+        if (!notifiedOn) return ok(result)
 
-    if (garantiesFinancieresDueOn) {
-      result.garantiesFinancieres = { dueOn: new Date(garantiesFinancieresDueOn) }
-    }
+        if (user.role !== 'dreal') {
+          result.certificateFile = certificateFile?.get()
+        }
 
-    if (dcrDueOn) {
-      result.dcr = { dueOn: new Date(dcrDueOn) }
-    }
+        if (garantiesFinancieresDueOn) {
+          result.garantiesFinancieres = { dueOn: new Date(garantiesFinancieresDueOn) }
+        }
 
-    if (gf) {
-      const { submittedOn, status, file, stepDate } = gf
+        if (dcrDueOn) {
+          result.dcr = { dueOn: new Date(dcrDueOn) }
+        }
 
-      result.garantiesFinancieres = {
-        ...result.garantiesFinancieres,
-        submittedOn,
-        file: file?.get(),
-        gfDate: stepDate,
-        gfStatus: status,
+        if (gf) {
+          const { submittedOn, status, file, stepDate } = gf
+
+          result.garantiesFinancieres = {
+            ...result.garantiesFinancieres,
+            submittedOn,
+            file: file?.get(),
+            gfDate: stepDate,
+            gfStatus: status,
+          }
+        }
+
+        if (ptf) {
+          const { submittedOn, file, stepDate } = ptf
+          result.ptf = {
+            ...result.ptf,
+            submittedOn,
+            file: file?.get(),
+            ptfDate: stepDate,
+          }
+        }
+
+        if (dcr) {
+          const {
+            submittedOn,
+            file,
+            stepDate,
+            details: { numeroDossier },
+          } = dcr
+          result.dcr = {
+            ...result.dcr,
+            submittedOn,
+            file: file?.get(),
+            dcrDate: stepDate,
+            numeroDossier,
+          }
+        }
+        return ok(result)
       }
-    }
-
-    if (ptf) {
-      const { submittedOn, file, stepDate } = ptf
-      result.ptf = {
-        ...result.ptf,
-        submittedOn,
-        file: file?.get(),
-        ptfDate: stepDate,
-      }
-    }
-
-    if (dcr) {
-      const {
-        submittedOn,
-        file,
-        stepDate,
-        details: { numeroDossier },
-      } = dcr
-      result.dcr = {
-        ...result.dcr,
-        submittedOn,
-        file: file?.get(),
-        dcrDate: stepDate,
-        numeroDossier,
-      }
-    }
-
-    return ok(result)
-  })
+    )
+    .andThen((dto) => {
+      const { appelOffreId, periodeId } = dto
+      return wrapInfra(isPeriodeLegacy({ appelOffreId, periodeId })).map(
+        (isLegacy) =>
+          ({
+            ...dto,
+            isLegacy,
+          } as ProjectDataForProjectPage)
+      )
+    })
 }
