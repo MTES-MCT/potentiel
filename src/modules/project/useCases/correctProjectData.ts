@@ -84,7 +84,7 @@ export const makeCorrectProjectData = (deps: CorrectProjectDataDeps): CorrectPro
   reason,
   attestation,
 }) => {
-  if (!user || !['admin', 'dgec'].includes(user.role)) {
+  if (!['admin', 'dgec'].includes(user.role)) {
     return errAsync(new UnauthorizedError())
   }
 
@@ -113,7 +113,6 @@ export const makeCorrectProjectData = (deps: CorrectProjectDataDeps): CorrectPro
       }
     )
 
-    // If shouldCertificateBeGenerated, generate a new certificate
     return projectTransaction.andThen((shouldCertificateBeGenerated) => {
       return shouldCertificateBeGenerated && attestation === 'regenerate'
         ? deps.generateCertificate(projectId, reason).map(() => null)
