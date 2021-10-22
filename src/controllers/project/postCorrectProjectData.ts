@@ -89,7 +89,7 @@ v1Router.post(
       motifsElimination,
     }
 
-    const certificateFile = request.file
+    const certificateFile = request.file && attestation === 'custom'
       ? {
           contents: fs.createReadStream(request.file.path),
           filename: sanitize(`${Date.now()}-${request.file.originalname}`),

@@ -93,81 +93,141 @@ describe('correctProjectData', () => {
 
     describe('when project has not been updated since', () => {
       describe('when a certificate is provided', () => {
-        const fakeProject = {
-          ...makeFakeProject(),
-          id: new UniqueEntityID(projectId),
-          lastUpdatedOn: new Date(0),
-          shouldCertificateBeGenerated: false,
-        }
-        const projectRepo = fakeTransactionalRepo(fakeProject as Project)
-        const fileRepo = {
-          save: jest.fn((file: FileObject) => okAsync(null)),
-          load: jest.fn(),
-        }
-
-        const correctProjectData = makeCorrectProjectData({
-          generateCertificate: fakeGenerateCertificate,
-          projectRepo,
-          fileRepo: fileRepo as Repository<FileObject>,
-        })
-
-        const fakeFileContents = Readable.from('test-content')
-        const fakeFilename = 'filename'
-
-        beforeAll(async () => {
-          fakeProject.updateCertificate.mockClear()
-          fakeGenerateCertificate.mockClear()
-
-          const res = await correctProjectData({
-            projectId: projectId,
-            projectVersionDate: new Date(0),
-            certificateFile: {
-              contents: fakeFileContents,
-              filename: fakeFilename,
-            },
-            newNotifiedOn: 1234,
-            user,
-            shouldGrantClasse: true,
-            correctedData: {
+        describe('when certificate mode is custom', () => {
+          const fakeProject = {
+            ...makeFakeProject(),
+            id: new UniqueEntityID(projectId),
+            lastUpdatedOn: new Date(0),
+            shouldCertificateBeGenerated: true,
+          }
+          const projectRepo = fakeTransactionalRepo(fakeProject as Project)
+          const fileRepo = {
+            save: jest.fn((file: FileObject) => okAsync(null)),
+            load: jest.fn(),
+          }
+  
+          const correctProjectData = makeCorrectProjectData({
+            generateCertificate: fakeGenerateCertificate,
+            projectRepo,
+            fileRepo: fileRepo as Repository<FileObject>,
+          })
+  
+          const fakeFileContents = Readable.from('test-content')
+          const fakeFilename = 'filename'
+  
+          beforeAll(async () => {
+            fakeProject.updateCertificate.mockClear()
+            fakeGenerateCertificate.mockClear()
+  
+            const res = await correctProjectData({
+              projectId: projectId,
+              projectVersionDate: new Date(0),
+              certificateFile: {
+                contents: fakeFileContents,
+                filename: fakeFilename,
+              },
+              newNotifiedOn: 1234,
+              user,
+              shouldGrantClasse: true,
+              correctedData: {
+                numeroCRE: 'nouveauNumero',
+              },
+              attestation: 'custom',
+            })
+  
+            if (res.isErr()) logger.error(res.error as Error)
+            expect(res.isOk()).toEqual(true)
+          })
+  
+          it('should save the file', () => {
+            expect(fileRepo.save).toHaveBeenCalled()
+            expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents)
+            expect(fileRepo.save.mock.calls[0][0].filename).toEqual(fakeFilename)
+          })
+  
+          it('should call project.updateCertificate()', () => {
+            expect(fakeProject.updateCertificate).toHaveBeenCalledTimes(1)
+            expect(fakeProject.updateCertificate.mock.calls[0][0]).toEqual(user)
+          })
+  
+          it('should call project.correctData()', async () => {
+            expect(fakeProject.correctData).toHaveBeenCalledTimes(1)
+            expect(fakeProject.correctData).toHaveBeenCalledWith(user, {
               numeroCRE: 'nouveauNumero',
-            },
-            attestation: 'custom',
+            })
           })
-
-          if (res.isErr()) logger.error(res.error as Error)
-          expect(res.isOk()).toEqual(true)
-        })
-
-        it('should save the file', () => {
-          expect(fileRepo.save).toHaveBeenCalled()
-          expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents)
-          expect(fileRepo.save.mock.calls[0][0].filename).toEqual(fakeFilename)
-        })
-
-        it('should call project.updateCertificate()', () => {
-          expect(fakeProject.updateCertificate).toHaveBeenCalledTimes(1)
-          expect(fakeProject.updateCertificate.mock.calls[0][0]).toEqual(user)
-        })
-
-        it('should call project.correctData()', async () => {
-          expect(fakeProject.correctData).toHaveBeenCalledTimes(1)
-          expect(fakeProject.correctData).toHaveBeenCalledWith(user, {
-            numeroCRE: 'nouveauNumero',
+  
+          it('should call project.grantClasse()', async () => {
+            expect(fakeProject.grantClasse).toHaveBeenCalledTimes(1)
+            expect(fakeProject.grantClasse).toHaveBeenCalledWith(user)
+          })
+  
+          it('should call project.setNotificationDate()', async () => {
+            expect(fakeProject.setNotificationDate).toHaveBeenCalledTimes(1)
+            expect(fakeProject.setNotificationDate).toHaveBeenCalledWith(user, 1234)
+          })
+  
+          it('should not call generateCertificate', () => {
+            expect(fakeGenerateCertificate).not.toHaveBeenCalled()
           })
         })
-
-        it('should call project.grantClasse()', async () => {
-          expect(fakeProject.grantClasse).toHaveBeenCalledTimes(1)
-          expect(fakeProject.grantClasse).toHaveBeenCalledWith(user)
-        })
-
-        it('should call project.setNotificationDate()', async () => {
-          expect(fakeProject.setNotificationDate).toHaveBeenCalledTimes(1)
-          expect(fakeProject.setNotificationDate).toHaveBeenCalledWith(user, 1234)
-        })
-
-        it('should not call generateCertificate', () => {
-          expect(fakeGenerateCertificate).not.toHaveBeenCalled()
+        describe('when certificate mode is not custom', () => {
+          const fakeProject = {
+            ...makeFakeProject(),
+            id: new UniqueEntityID(projectId),
+            lastUpdatedOn: new Date(0),
+            shouldCertificateBeGenerated: true,
+          }
+          const projectRepo = fakeTransactionalRepo(fakeProject as Project)
+          const fileRepo = {
+            save: jest.fn((file: FileObject) => okAsync(null)),
+            load: jest.fn(),
+          }
+  
+          const correctProjectData = makeCorrectProjectData({
+            generateCertificate: fakeGenerateCertificate,
+            projectRepo,
+            fileRepo: fileRepo as Repository<FileObject>,
+          })
+  
+          const fakeFileContents = Readable.from('test-content')
+          const fakeFilename = 'filename'
+  
+          beforeAll(async () => {
+            fakeProject.updateCertificate.mockClear()
+            fakeGenerateCertificate.mockClear()
+  
+            const res = await correctProjectData({
+              projectId: projectId,
+              projectVersionDate: new Date(0),
+              certificateFile: {
+                contents: fakeFileContents,
+                filename: fakeFilename,
+              },
+              newNotifiedOn: 1234,
+              user,
+              shouldGrantClasse: true,
+              correctedData: {
+                numeroCRE: 'nouveauNumero',
+              },
+              attestation: 'regenerate',
+            })
+  
+            if (res.isErr()) logger.error(res.error as Error)
+            expect(res.isOk()).toEqual(true)
+          })
+  
+          it('should not save the file', () => {
+            expect(fileRepo.save).not.toHaveBeenCalled()
+          })
+  
+          it('should not call project.updateCertificate()', () => {
+            expect(fakeProject.updateCertificate).not.toHaveBeenCalled()
+          })
+  
+          it('should call generateCertificate', () => {
+            expect(fakeGenerateCertificate).toHaveBeenCalled()
+          })
         })
       })
 

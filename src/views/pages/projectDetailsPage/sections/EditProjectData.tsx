@@ -1,5 +1,5 @@
 import { Request } from 'express'
-import React from 'react'
+import React, { useState } from 'react'
 import { appelsOffreStatic } from '../../../../dataAccess/inMemory/appelOffre'
 import { formatDate } from '../../../../helpers/formatDate'
 import { dataId } from '../../../../helpers/testId'
@@ -22,6 +22,12 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
     return <div>Projet abandonné</div>
   }
 
+  const[uploadIsDisabled, disableUpload] = useState(true)
+
+  const handleCertificateTypeChange = (e) => {
+    disableUpload(e.target.value !== "custom")
+  }
+
   return (
     <div>
       <form
@@ -30,7 +36,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
         encType="multipart/form-data"
       >
         <input type="hidden" name="projectId" value={project.id} />
-        <input type="hidden" name="projectVersionDate" value={project.updatedAt?.getTime()} />
+        <input type="hidden" name="projectVersionDate" value={new Date(project.updatedAt || 0).getTime()} />
         <div className="form__group">
           <label>Période</label>
           <select
@@ -250,20 +256,21 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
                 id="regenerate"
                 value="regenerate"
                 defaultChecked
+                onChange={handleCertificateTypeChange}
               />
               <label htmlFor="regenerate">
                 Regénérer l'attestation (si les données du projet ont changé)
               </label>
             </div>
             <div className="inline-radio-option">
-              <input type="radio" name="attestation" id="donotregenerate" value="donotregenerate" />
+              <input type="radio" name="attestation" id="donotregenerate" value="donotregenerate" onChange={handleCertificateTypeChange}/>
               <label htmlFor="donotregenerate">Ne pas regénérer l'attestation</label>
             </div>
             <div className="inline-radio-option">
-              <input type="radio" name="attestation" id="custom" value="custom" />
+              <input type="radio" name="attestation" id="custom" value="custom" onChange={handleCertificateTypeChange}/>
               <label htmlFor="custom">Uploader une attestation</label>
             </div>
-            <input type="file" name="file" id="file" />
+            <input type="file" name="file" id="file" disabled={uploadIsDisabled}/>
           </div>
         )}
         <div className="form__group">

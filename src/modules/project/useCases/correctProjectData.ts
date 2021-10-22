@@ -131,7 +131,7 @@ export const makeCorrectProjectData = (deps: CorrectProjectDataDeps): CorrectPro
     string | null,
     IllegalFileDataError | InfraNotAvailableError
   > {
-    if (!certificateFile) return okAsync(null)
+    if (!certificateFile || attestation !=='custom') return okAsync(null)
 
     const { filename, contents } = certificateFile
 
