@@ -20,7 +20,10 @@ export const handleLegacyModificationRawDataImported = (deps: {
     .andThen(
       (projectIdOrNull): ReturnType<typeof findProject> => {
         if (projectIdOrNull !== null) return okAsync(projectIdOrNull)
-
+        
+        // findProject is a query on an eventually consistent database
+        // the project id might not be available at the moment
+        // try again later
         return withDelay(5000, () => findProject())
       }
     )
