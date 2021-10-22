@@ -8,7 +8,11 @@ import {
   OtherError,
   UnauthorizedError,
 } from '../../shared'
-import { IllegalProjectDataError, ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors'
+import {
+  CertificateFileIsMissingError,
+  IllegalProjectDataError,
+  ProjectCannotBeUpdatedIfUnnotifiedError,
+} from '../errors'
 import { ProjectHasBeenUpdatedSinceError } from '../errors/ProjectHasBeenUpdatedSinceError'
 import { Project } from '../Project'
 import { GenerateCertificate } from './generateCertificate'
@@ -131,7 +135,13 @@ export const makeCorrectProjectData = (deps: CorrectProjectDataDeps): CorrectPro
     string | null,
     IllegalFileDataError | InfraNotAvailableError
   > {
-    if (!certificateFile || attestation !=='custom') return okAsync(null)
+    if (!certificateFile && attestation === 'custom') {
+      return errAsync(new CertificateFileIsMissingError())
+    }
+
+    if (!certificateFile || attestation !== 'custom') {
+      return okAsync(null)
+    }
 
     const { filename, contents } = certificateFile
 
