@@ -7,6 +7,8 @@ import ROUTES from '../../../routes'
 import { RoleBasedDashboard, SuccessErrorBox } from '../../components'
 import { NoteElement, Section } from './components'
 import { EditProjectData, ProjectFrise, ProjectHeader } from './sections'
+import { PageLayout } from '../../components/PageLayout';
+import { hydrateOnClient } from '../../helpers'
 
 interface ProjectDetailsProps {
   request: Request
@@ -15,11 +17,11 @@ interface ProjectDetailsProps {
 }
 
 /* Pure component */
-export default function ProjectDetails({
+export const ProjectDetails = PageLayout(({
   request,
   project,
   cahiersChargesURLs,
-}: ProjectDetailsProps) {
+}: ProjectDetailsProps) => {
   const { user } = request
   const { error, success } = (request.query as any) || {}
 
@@ -196,4 +198,6 @@ export default function ProjectDetails({
       </div>
     </RoleBasedDashboard>
   )
-}
+})
+
+hydrateOnClient(ProjectDetails)
