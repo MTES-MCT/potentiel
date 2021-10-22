@@ -48,6 +48,7 @@ export {
   SuccessOrErrorPage as SuccessPage,
   AdminAppelOffrePage,
   AdminUsersPage,
+  AdminRegenerateCertificatesPage,
   ListMissingOwnerProjectsPage,
   InvitationsAreDeprecatedPage,
   FakeLoginPage,
