@@ -1,6 +1,6 @@
 import { DomainEvent, UniqueEntityID } from '../../../core/domain'
 import { ok } from '../../../core/utils'
-import { ProjectAppelOffre, User } from '../../../entities'
+import { CertificateTemplate, ProjectAppelOffre, User } from '../../../entities'
 import { Fournisseur } from '../../../modules/project'
 import { ProjectDataForCertificate } from '../../../modules/project/dtos'
 import {
@@ -25,6 +25,7 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   setNotificationDate: jest.fn((user: User, notifiedOn: number) =>
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError>(null)
   ),
+  setCompletionDueDate: jest.fn((completionDueOn: number) => ok<null, never>(null)),
   moveCompletionDueDate: jest.fn((user: User, delayInMonths: number) =>
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError>(null)
   ),
@@ -48,7 +49,10 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   addGeneratedCertificate: jest.fn(
     (args: { projectVersionDate: Date; certificateFileId: string }) => ok<null, never>(null)
   ),
-  certificateData: ok({ template: 'v1', data: {} as ProjectDataForCertificate }),
+  certificateData: ok({
+    template: 'v1' as CertificateTemplate,
+    data: {} as ProjectDataForCertificate,
+  }),
   certificateFilename: '',
   shouldCertificateBeGenerated: true,
   pendingEvents: [] as DomainEvent[],
