@@ -10,7 +10,7 @@ import { DownloadIcon } from '../../components/downloadIcon'
 import ProjectList from '../../components/projectList'
 import { hydrateOnClient } from '../../helpers'
 
-interface ListProjectsProps {
+interface GarantiesFinancieresProps {
   request: Request
   projects?: PaginatedList<Project>
   appelsOffre: Array<AppelOffre>
@@ -27,7 +27,7 @@ export const GarantiesFinancieres = PageLayout(({
   existingAppelsOffres,
   existingPeriodes,
   existingFamilles,
-}: ListProjectsProps) => {
+}: GarantiesFinancieresProps) => {
   const {
     error,
     success,
@@ -36,16 +36,10 @@ export const GarantiesFinancieres = PageLayout(({
     periodeId,
     familleId,
     garantiesFinancieres,
-    classement,
-    reclames,
   } = (request.query as any) || {}
 
-  const hasNonDefaultClassement =
-    (request.user?.role === 'porteur-projet' && classement) ||
-    (request.user && ['admin', 'dreal'].includes(request.user?.role) && classement !== 'classés')
-
   const hasFilters =
-    appelOffreId || periodeId || familleId || garantiesFinancieres || hasNonDefaultClassement
+    appelOffreId || periodeId || familleId || garantiesFinancieres
 
   const periodes = appelsOffre
     .find((ao) => ao.id === appelOffreId)
@@ -60,13 +54,9 @@ export const GarantiesFinancieres = PageLayout(({
     <RoleBasedDashboard role={request.user.role} currentPage="list-garanties-financieres">
       <div className="panel">
         <div className="panel__header">
-          <h3>Projets</h3>
+          <h3>Garanties financières</h3>
           <form
-            action={
-              ['admin', 'dgec', 'dreal'].includes(request.user?.role)
-                ? ROUTES.ADMIN_LIST_PROJECTS
-                : ROUTES.USER_LIST_PROJECTS
-            }
+            action={ROUTES.ADMIN_GARANTIES_FINANCIERES}
             method="GET"
             style={{ maxWidth: 'auto', margin: '0 0 25px 0' }}
           >
@@ -187,50 +177,6 @@ export const GarantiesFinancieres = PageLayout(({
                     <option value="pastDue">En retard</option>
                   </select>
                 </div>
-                <div style={{ marginTop: 15 }}>
-                  <div style={{ marginLeft: 2 }}>Classés/Eliminés/Abandons</div>
-                  <select
-                    name="classement"
-                    className={hasNonDefaultClassement ? 'active' : ''}
-                    {...dataId('classementSelector')}
-                    defaultValue={classement || ''}
-                  >
-                    <option value="">Tous</option>
-                    <option value="classés">Classés</option>
-                    <option value="éliminés">Eliminés</option>
-                    <option value="abandons">Abandons</option>
-                  </select>
-                </div>
-
-                <div style={{ marginTop: 15 }}>
-                  <div style={{ marginLeft: 2 }}>Réclamés/Non réclamés</div>
-                  <select
-                    name="reclames"
-                    {...dataId('reclamesSelector')}
-                    defaultValue={reclames || ''}
-                  >
-                    <option value="">Tous</option>
-                    <option value="réclamés">Réclamés</option>
-                    <option value="non-réclamés">Non réclamés</option>
-                  </select>
-                </div>
-
-                {request.user.role === 'admin' && appelOffreId && periodeId && (
-                  <div style={{ marginTop: 15 }}>
-                    <a
-                      href={`${ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV}?${querystring.stringify(
-                        {
-                          ...request.query,
-                          beforeNotification: false,
-                        }
-                      )}`}
-                      download
-                    >
-                      Liste des lauréats
-                      <DownloadIcon color="red" />
-                    </a>
-                  </div>
-                )}
               </div>
             </div>
             {hasFilters ? (
@@ -239,56 +185,6 @@ export const GarantiesFinancieres = PageLayout(({
               </a>
             ) : null}
           </form>
-          {['admin', 'dgec', 'porteur-projet'].includes(request.user?.role) && (
-            <div>
-              <div
-                {...dataId('projectList-invitation-form-visibility-toggle')}
-                className={'filter-toggle'}
-              >
-                <span
-                  style={{
-                    borderBottom: '1px solid var(--light-grey)',
-                    paddingBottom: 5,
-                  }}
-                >
-                  Donner accès à un utilisateur
-                </span>
-                <svg className="icon filter-icon">
-                  <use xlinkHref="#expand"></use>
-                </svg>
-              </div>
-              <div className="filter-panel">
-                <form
-                  action={ROUTES.INVITE_USER_TO_PROJECT_ACTION}
-                  method="POST"
-                  name="form"
-                  style={{ margin: '15px 0 0 0' }}
-                >
-                  <select
-                    name="projectId"
-                    multiple
-                    {...dataId('invitation-form-project-list')}
-                    style={{ display: 'none' }}
-                  ></select>
-                  <label htmlFor="email">
-                    Courrier électronique de la personne habilitée à suivre les projets selectionnés
-                    ci-dessous:
-                  </label>
-                  <input type="email" name="email" id="email" {...dataId('email-field')} />
-                  <button
-                    className="button"
-                    type="submit"
-                    name="submit"
-                    id="submit"
-                    disabled
-                    {...dataId('invitation-submit-button')}
-                  >
-                    Accorder les droits sur ces projets
-                  </button>
-                </form>
-              </div>
-            </div>
-          )}
         </div>
         {success ? (
           <div className="notification success" {...dataId('success-message')}>
@@ -323,7 +219,7 @@ export const GarantiesFinancieres = PageLayout(({
                 'Projet',
                 'Candidat',
                 'Puissance',
-                ...(request.user?.role === 'dreal' ? ['Garanties Financières'] : ['Prix']),
+                'Garanties Financières',
                 'Evaluation Carbone',
                 'Classé',
               ]}
