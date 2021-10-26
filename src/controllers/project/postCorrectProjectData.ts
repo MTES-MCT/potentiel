@@ -10,6 +10,7 @@ import { ensureRole } from '../../config'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
+import { CertificateFileIsMissingError } from '../../modules/project/errors/CertificateFileIsMissingError';
 
 const FORMAT_DATE = 'DD/MM/YYYY'
 
@@ -127,6 +128,14 @@ v1Router.post(
                 Object.entries(e.errors)
                   .map(([key, value]) => `${key} (${value})`)
                   .join(', '),
+              ...request.body,
+            })
+          )
+        }
+        if (e instanceof CertificateFileIsMissingError) {
+          return response.redirect(
+            addQueryParams(routes.PROJECT_DETAILS(projectId), {
+              error: e.message,
               ...request.body,
             })
           )
