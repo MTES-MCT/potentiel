@@ -8,7 +8,11 @@ import {
   OtherError,
   UnauthorizedError,
 } from '../../shared'
-import { IllegalProjectDataError, ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors'
+import {
+  CertificateFileIsMissingError,
+  IllegalProjectDataError,
+  ProjectCannotBeUpdatedIfUnnotifiedError,
+} from '../errors'
 import { ProjectHasBeenUpdatedSinceError } from '../errors/ProjectHasBeenUpdatedSinceError'
 import { Project } from '../Project'
 import { GenerateCertificate } from './generateCertificate'
@@ -29,7 +33,7 @@ interface CorrectProjectDataArgs {
   newNotifiedOn: number
   user: User
   shouldGrantClasse: boolean
-  forceCertificateGeneration: boolean
+  attestation: 'regenerate' | 'donotregenerate' | 'custom'
   reason?: string
   correctedData: Partial<{
     numeroCRE: string
@@ -69,88 +73,91 @@ export type CorrectProjectData = (
   args: CorrectProjectDataArgs
 ) => ResultAsync<null, CorrectProjectDataError>
 
-export const makeCorrectProjectData =
-  (deps: CorrectProjectDataDeps): CorrectProjectData =>
-  ({
-    projectId,
-    certificateFile,
-    projectVersionDate,
-    newNotifiedOn,
-    user,
-    correctedData,
-    shouldGrantClasse,
-    forceCertificateGeneration,
-    reason,
-  }) => {
-    if (!user || !['admin', 'dgec'].includes(user.role)) {
-      return errAsync(new UnauthorizedError())
-    }
-
-    return _uploadFileIfExists().andThen((certificateFileId) => {
-      // open a transaction on the project to update it
-      // the transaction will return a boolean for shouldCertificateBeGenerated
-      const projectTransaction = deps.projectRepo.transaction(
-        new UniqueEntityID(projectId),
-        (
-          project: Project
-        ): Result<
-          boolean,
-          | ProjectHasBeenUpdatedSinceError
-          | ProjectCannotBeUpdatedIfUnnotifiedError
-          | IllegalProjectDataError
-        > => {
-          if (project.lastUpdatedOn && project.lastUpdatedOn > projectVersionDate) {
-            return err(new ProjectHasBeenUpdatedSinceError())
-          }
-
-          return _addCertificateToProjectIfExists(certificateFileId, project)
-            .andThen(() => _grantClasseIfNecessary(project))
-            .andThen(() => project.correctData(user, correctedData))
-            .andThen(() => project.setNotificationDate(user, newNotifiedOn))
-            .map((): boolean => project.shouldCertificateBeGenerated)
-        }
-      )
-
-      // If shouldCertificateBeGenerated, generate a new certificate
-      return projectTransaction.andThen((shouldCertificateBeGenerated) => {
-        return shouldCertificateBeGenerated || forceCertificateGeneration
-          ? deps.generateCertificate(projectId, reason).map(() => null)
-          : okAsync<null, CorrectProjectDataError>(null)
-      })
-    })
-
-    function _grantClasseIfNecessary(project: Project): Result<null, never> {
-      return shouldGrantClasse ? project.grantClasse(user) : ok(null)
-    }
-    function _addCertificateToProjectIfExists(
-      certificateFileId: string | null,
-      project: Project
-    ): Result<null, ProjectCannotBeUpdatedIfUnnotifiedError> {
-      return certificateFileId ? project.updateCertificate(user, certificateFileId) : ok(null)
-    }
-
-    function _uploadFileIfExists(): ResultAsync<
-      string | null,
-      IllegalFileDataError | InfraNotAvailableError
-    > {
-      if (!certificateFile) return okAsync(null)
-
-      const { filename, contents } = certificateFile
-
-      return makeFileObject({
-        designation: 'garantie-financiere',
-        forProject: new UniqueEntityID(projectId),
-        createdBy: new UniqueEntityID(user.id),
-        filename,
-        contents,
-      }).asyncAndThen((file) =>
-        deps.fileRepo
-          .save(file)
-          .map(() => file.id.toString())
-          .mapErr((e: Error) => {
-            logger.error(e)
-            return new InfraNotAvailableError()
-          })
-      )
-    }
+export const makeCorrectProjectData = (deps: CorrectProjectDataDeps): CorrectProjectData => ({
+  projectId,
+  certificateFile,
+  projectVersionDate,
+  newNotifiedOn,
+  user,
+  correctedData,
+  shouldGrantClasse,
+  reason,
+  attestation,
+}) => {
+  if (!['admin', 'dgec'].includes(user.role)) {
+    return errAsync(new UnauthorizedError())
   }
+
+  return _uploadFileIfExists().andThen((certificateFileId) => {
+    // open a transaction on the project to update it
+    // the transaction will return a boolean for shouldCertificateBeGenerated
+    const projectTransaction = deps.projectRepo.transaction(
+      new UniqueEntityID(projectId),
+      (
+        project: Project
+      ): Result<
+        boolean,
+        | ProjectHasBeenUpdatedSinceError
+        | ProjectCannotBeUpdatedIfUnnotifiedError
+        | IllegalProjectDataError
+      > => {
+        if (project.lastUpdatedOn && project.lastUpdatedOn > projectVersionDate) {
+          return err(new ProjectHasBeenUpdatedSinceError())
+        }
+
+        return _addCertificateToProjectIfExists(certificateFileId, project)
+          .andThen(() => _grantClasseIfNecessary(project))
+          .andThen(() => project.correctData(user, correctedData))
+          .andThen(() => project.setNotificationDate(user, newNotifiedOn))
+          .map((): boolean => project.shouldCertificateBeGenerated)
+      }
+    )
+
+    return projectTransaction.andThen((shouldCertificateBeGenerated) => {
+      return shouldCertificateBeGenerated && attestation === 'regenerate'
+        ? deps.generateCertificate(projectId, reason).map(() => null)
+        : okAsync<null, CorrectProjectDataError>(null)
+    })
+  })
+
+  function _grantClasseIfNecessary(project: Project): Result<null, never> {
+    return shouldGrantClasse ? project.grantClasse(user) : ok(null)
+  }
+  function _addCertificateToProjectIfExists(
+    certificateFileId: string | null,
+    project: Project
+  ): Result<null, ProjectCannotBeUpdatedIfUnnotifiedError> {
+    return certificateFileId ? project.updateCertificate(user, certificateFileId) : ok(null)
+  }
+
+  function _uploadFileIfExists(): ResultAsync<
+    string | null,
+    IllegalFileDataError | InfraNotAvailableError
+  > {
+    if (!certificateFile && attestation === 'custom') {
+      return errAsync(new CertificateFileIsMissingError())
+    }
+
+    if (!certificateFile || attestation !== 'custom') {
+      return okAsync(null)
+    }
+
+    const { filename, contents } = certificateFile
+
+    return makeFileObject({
+      designation: 'attestation-designation',
+      forProject: new UniqueEntityID(projectId),
+      createdBy: new UniqueEntityID(user.id),
+      filename,
+      contents,
+    }).asyncAndThen((file) =>
+      deps.fileRepo
+        .save(file)
+        .map(() => file.id.toString())
+        .mapErr((e: Error) => {
+          logger.error(e)
+          return new InfraNotAvailableError()
+        })
+    )
+  }
+}

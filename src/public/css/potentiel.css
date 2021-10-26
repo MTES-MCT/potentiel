@@ -51,6 +51,12 @@
   background-color: var(--lighter-grey);
 }
 
+.inline-radio-option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
 /* Project List */
 
 @media only screen and (max-width: 750px) {

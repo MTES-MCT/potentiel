@@ -306,4 +306,38 @@ describe('Sequelize getProjectDataForProjectPage', () => {
       expect(res).not.toHaveProperty('certificateFile')
     })
   })
+
+  describe('when project is legacy', () => {
+    it('should include isLegacy: true', async () => {
+      await resetDatabase()
+
+      await Project.create(
+        makeFakeProject({ ...projectInfo, appelOffreId: 'Fessenheim', periodeId: '1' })
+      )
+      await File.create(makeFakeFile({ id: certificateFileId, filename: 'filename' }))
+
+      const res = (await getProjectDataForProjectPage({ projectId, user }))._unsafeUnwrap()
+
+      expect(res).toMatchObject({
+        isLegacy: true,
+      })
+    })
+  })
+
+  describe('when project is not legacy', () => {
+    it('should include isLegacy: false', async () => {
+      await resetDatabase()
+
+      await Project.create(
+        makeFakeProject({ ...projectInfo, appelOffreId: 'Fessenheim', periodeId: '3' })
+      )
+      await File.create(makeFakeFile({ id: certificateFileId, filename: 'filename' }))
+
+      const res = (await getProjectDataForProjectPage({ projectId, user }))._unsafeUnwrap()
+
+      expect(res).toMatchObject({
+        isLegacy: false,
+      })
+    })
+  })
 })

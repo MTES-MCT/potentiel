@@ -9,7 +9,6 @@ import DrealList from './drealList'
 import ImportCandidates from './importCandidates'
 import NewModificationRequest from './newModificationRequest'
 import ModificationRequestDetails from './modificationRequestDetails'
-import ProjectDetails from './projectDetails'
 import InvitationList from './invitationList'
 import NotificationList from './notificationList'
 import ModificationRequestList from './modificationRequestList'
@@ -24,7 +23,6 @@ const AdminRegenerateCertificatesPage = makePresenterPage(AdminRegenerateCertifi
 const ImportCandidatesPage = makePresenterPage(ImportCandidates)
 const ListProjectsPage = makePresenterPage(ListProjects)
 const NewModificationRequestPage = makePresenterPage(NewModificationRequest)
-const ProjectDetailsPage = makePresenterPage(ProjectDetails)
 const DrealListPage = makePresenterPage(DrealList)
 const InvitationListPage = makePresenterPage(InvitationList)
 const NotificationListPage = makePresenterPage(NotificationList)
@@ -42,8 +40,6 @@ export {
   ListProjectsPage,
   NewModificationRequestPage,
   AdminNotifyCandidatesPage,
-  AdminRegenerateCertificatesPage,
-  ProjectDetailsPage,
   DrealListPage,
   InvitationListPage,
   NotificationListPage,
@@ -52,6 +48,7 @@ export {
   SuccessOrErrorPage as SuccessPage,
   AdminAppelOffrePage,
   AdminUsersPage,
+  AdminRegenerateCertificatesPage,
   ListMissingOwnerProjectsPage,
   InvitationsAreDeprecatedPage,
   FakeLoginPage,

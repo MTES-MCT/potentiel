@@ -1,5 +1,5 @@
 import { Request } from 'express'
-import React from 'react'
+import React, { useState } from 'react'
 import { appelsOffreStatic } from '../../../../dataAccess/inMemory/appelOffre'
 import { formatDate } from '../../../../helpers/formatDate'
 import { dataId } from '../../../../helpers/testId'
@@ -22,6 +22,12 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
     return <div>Projet abandonné</div>
   }
 
+  const[uploadIsDisabled, disableUpload] = useState(true)
+
+  const handleCertificateTypeChange = (e) => {
+    disableUpload(e.target.value !== "custom")
+  }
+
   return (
     <div>
       <form
@@ -30,7 +36,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
         encType="multipart/form-data"
       >
         <input type="hidden" name="projectId" value={project.id} />
-        <input type="hidden" name="projectVersionDate" value={project.updatedAt?.getTime()} />
+        <input type="hidden" name="projectVersionDate" value={new Date(project.updatedAt || 0).getTime()} />
         <div className="form__group">
           <label>Période</label>
           <select
@@ -214,44 +220,59 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             <b>Classé</b>
           </div>
         )}
-        <div className="form__group">
-          <label htmlFor="notificationDate">Date désignation (format JJ/MM/AAAA)</label>
-          <input
-            type="text"
-            name="notificationDate"
-            id="notificationDate"
-            {...dataId('date-field')}
-            defaultValue={
-              query.notificationDate ||
-              (project.notifiedOn && formatDate(project.notifiedOn, 'DD/MM/YYYY'))
-            }
-            style={{ width: 'auto' }}
-          />
-          <div
-            className="notification error"
-            style={{ display: 'none' }}
-            {...dataId('error-message-wrong-format')}
-          >
-            Le format de la date saisie n’est pas conforme. Elle doit être de la forme JJ/MM/AAAA
-            soit par exemple 25/05/2022 pour 25 Mai 2022.
+
+        {!project.isLegacy && (
+          <div className="form__group">
+            <label htmlFor="notificationDate">Date désignation (format JJ/MM/AAAA)</label>
+            <input
+              type="text"
+              name="notificationDate"
+              id="notificationDate"
+              {...dataId('date-field')}
+              defaultValue={
+                query.notificationDate ||
+                (project.notifiedOn && formatDate(project.notifiedOn, 'DD/MM/YYYY'))
+              }
+              style={{ width: 'auto' }}
+            />
+            <div
+              className="notification error"
+              style={{ display: 'none' }}
+              {...dataId('error-message-wrong-format')}
+            >
+              Le format de la date saisie n’est pas conforme. Elle doit être de la forme JJ/MM/AAAA
+              soit par exemple 25/05/2022 pour 25 Mai 2022.
+            </div>
           </div>
-        </div>
-        <div className="form__group">
-          <label htmlFor="file">
-            Attestation (facultatif, elle sera générée à partir des données ci-dessus)
-          </label>
-          <input type="file" name="file" id="file" />
-        </div>
-        <div className="form__group">
-          <label htmlFor="forceCertificateGeneration">
-            Forcer la regénération de l‘attestation
-          </label>
-          <input
-            type="checkbox"
-            name="forceCertificateGeneration"
-            id="forceCertificateGeneration"
-          />
-        </div>
+        )}
+
+        {!project.isLegacy && (
+          <div className="form__group">
+            Attestation de désignation
+            <div className="inline-radio-option">
+              <input
+                type="radio"
+                name="attestation"
+                id="regenerate"
+                value="regenerate"
+                defaultChecked
+                onChange={handleCertificateTypeChange}
+              />
+              <label htmlFor="regenerate">
+                Regénérer l'attestation (si les données du projet ont changé)
+              </label>
+            </div>
+            <div className="inline-radio-option">
+              <input type="radio" name="attestation" id="donotregenerate" value="donotregenerate" onChange={handleCertificateTypeChange}/>
+              <label htmlFor="donotregenerate">Ne pas regénérer l'attestation</label>
+            </div>
+            <div className="inline-radio-option">
+              <input type="radio" name="attestation" id="custom" value="custom" onChange={handleCertificateTypeChange}/>
+              <label htmlFor="custom">Uploader une attestation</label>
+            </div>
+            <input type="file" name="file" id="file" disabled={uploadIsDisabled}/>
+          </div>
+        )}
         <div className="form__group">
           <label htmlFor="forceCertificateGeneration">
             Message justificatif du changement (facultatif)
@@ -259,7 +280,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
           <textarea name="reason" defaultValue={query.reason} />
         </div>
         <button className="button" type="submit" name="submit" {...dataId('submit-button')}>
-          Remplacer l’attestation
+          Modifier
         </button>
       </form>
     </div>

@@ -10,6 +10,7 @@ import { ensureRole } from '../../config'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
+import { CertificateFileIsMissingError } from '../../modules/project/errors/CertificateFileIsMissingError';
 
 const FORMAT_DATE = 'DD/MM/YYYY'
 
@@ -42,8 +43,8 @@ v1Router.post(
       isClasse,
       motifsElimination,
       appelOffreAndPeriode,
-      forceCertificateGeneration,
       reason,
+      attestation,
     } = request.body
 
     const [appelOffreId, periodeId] = appelOffreAndPeriode?.split('|')
@@ -89,7 +90,7 @@ v1Router.post(
       motifsElimination,
     }
 
-    const certificateFile = request.file
+    const certificateFile = request.file && attestation === 'custom'
       ? {
           contents: fs.createReadStream(request.file.path),
           filename: sanitize(`${Date.now()}-${request.file.originalname}`),
@@ -104,8 +105,8 @@ v1Router.post(
       newNotifiedOn: moment(notificationDate, FORMAT_DATE).tz('Europe/London').toDate().getTime(),
       user: request.user,
       shouldGrantClasse: Number(isClasse) === 1,
-      forceCertificateGeneration: Boolean(forceCertificateGeneration),
       reason,
+      attestation,
     })
 
     return await result.match(
@@ -127,6 +128,14 @@ v1Router.post(
                 Object.entries(e.errors)
                   .map(([key, value]) => `${key} (${value})`)
                   .join(', '),
+              ...request.body,
+            })
+          )
+        }
+        if (e instanceof CertificateFileIsMissingError) {
+          return response.redirect(
+            addQueryParams(routes.PROJECT_DETAILS(projectId), {
+              error: e.message,
               ...request.body,
             })
           )

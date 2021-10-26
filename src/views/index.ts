@@ -1,5 +1,5 @@
 import { makeHtml } from './index.html'
-import { Statistiques } from './pages'
+import { Statistiques, ProjectDetails } from './pages'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
   makeHtml({
@@ -7,4 +7,12 @@ export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
     props,
     hydrate: true,
     pageName: 'statistiques', // This must match the Component name
+  })
+
+export const ProjectDetailsPage = (props: Parameters<typeof ProjectDetails>[0]) =>
+  makeHtml({
+    Component: ProjectDetails,
+    props,
+    hydrate: true,
+    pageName: 'projectDetails', // This must match the Component name
   })
