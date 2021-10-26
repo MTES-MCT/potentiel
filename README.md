@@ -118,6 +118,26 @@ dotenv -- bash -c 'pg_restore -h $POSTGRESQL_ADDON_HOST -p $POSTGRESQL_ADDON_POR
 
 _NB: Si le dump contient un schéma de données qui est en retard avec l'application dans son état actuel, il faut jouer le script de migration: `npm run migrate`._
 
+### Avoir un aperçu des pages ou composants visuels avec Storybook
+
+[Storybook](https://storybook.js.org) est un service qui permet d'afficher un catalogue des pages ou des composants React sans avoir à lancer de serveur backend.
+Pour le rendu, des données fictives sont injectées en tant que props de nos composants.
+
+Pour lancer storybook:
+
+```bash
+npm run storybook
+
+# Si c'est le premier lancement de l'application, il faut aussi construire le fichier css de l'application
+npm run build:css
+```
+
+En cas de modification de la vue, storybook rafraichit automatiquement le rendu, ce qui permet d'avoir une boucle de travail fluide.
+
+Pour ajouter un composant au storybook ou bien modifier les données fictives injectées, il faut créer/éditer un fichier `.stories.tsx` dans le même dossier que le composant (se référer à un fichier existant pour le format).
+
+Storybook est configuré pour inclure tous les fichiers avec ce suffixe dans le dossier `src/views` (cf config dans `.storybook/main.js`).
+
 ## Lancer les tests automatisés
 
 1. Préparer une base de données de test (lance un conteneur docker)
