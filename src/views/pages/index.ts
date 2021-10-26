@@ -1,3 +1,3 @@
-export * from './garantiesFinancieresPage'
-export * from './projectDetailsPage'
-export * from './statistiquesPage'
+export * from './garantiesFinancieresPage';
+export * from './projectDetailsPage';
+export * from './statistiques';
