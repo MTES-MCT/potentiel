@@ -15,17 +15,10 @@ const getGarantiesFinancieresPage = asyncHandler(async (request, response) => {
     familleId,
     recherche,
     classement,
-    reclames,
     garantiesFinancieres,
     pageSize,
   } = request.query as any
   const { user } = request
-
-  // Set default filter on classés for admins
-  if (['admin', 'dgec', 'dreal'].includes(user.role) && typeof classement === 'undefined') {
-    classement = 'classés'
-    request.query.classement = 'classés'
-  }
 
   const defaultPagination: Pagination = {
     page: 0,
@@ -48,8 +41,8 @@ const getGarantiesFinancieresPage = asyncHandler(async (request, response) => {
     familleId,
     pagination,
     recherche,
-    classement,
-    reclames,
+    classement: 'classés',
+    reclames: undefined,
     garantiesFinancieres,
   })
 
