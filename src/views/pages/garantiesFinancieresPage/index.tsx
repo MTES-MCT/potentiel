@@ -57,7 +57,7 @@ export const GarantiesFinancieres = PageLayout(({
     .filter((famille) => !existingFamilles || existingFamilles.includes(famille.id))
 
   return (
-    <RoleBasedDashboard role={request.user.role} currentPage="list-projects">
+    <RoleBasedDashboard role={request.user.role} currentPage="list-garanties-financieres">
       <div className="panel">
         <div className="panel__header">
           <h3>Projets</h3>
