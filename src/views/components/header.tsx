@@ -29,6 +29,7 @@ const Header = ({ request }: HeaderProps) => {
             <li className="nav__item">
               {user ? (
                 <>
+                  <a href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel" target="_blank">Aide</a>
                   <span>{user.fullName}</span>
                   <a href={routes.LOGOUT_ACTION}>Me déconnecter</a>
                 </>
