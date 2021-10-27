@@ -1,14 +1,13 @@
 import React from 'react'
 
-import makeFakeProject from '../../__tests__/fixtures/project'
-import makeFakeRequest from '../../__tests__/fixtures/request'
-import makeFakeUser from '../../__tests__/fixtures/user'
+import makeFakeProject from '../../../__tests__/fixtures/project'
+import makeFakeRequest from '../../../__tests__/fixtures/request'
 
-import ListProjects from './listProjects'
+import ListProjects from '../../legacy-pages/listProjects'
 
 export default { title: 'List Projects' }
 
-import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
+import { appelsOffreStatic } from '../../../dataAccess/inMemory/appelOffre'
 
 export const withFilters = () => (
   <ListProjects
