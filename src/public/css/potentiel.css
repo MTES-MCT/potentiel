@@ -292,3 +292,27 @@ pre {
   visibility: visible;
   opacity: 1;
 }
+
+.navigation-tabs {
+  border-bottom: 1px solid #c9d3df;
+}
+
+.navigation-tabs div {
+  display: inline-flex;
+}
+
+.navigation-tabs div input {
+  filter: blur(100px);
+  display: none;
+}
+
+.navigation-tabs div label {
+  display: flex;
+  padding: 15px;
+  color: #aaa;
+  cursor: pointer;
+}
+.navigation-tabs div input:checked + label {
+  border-bottom: 2px solid #0053b3;
+  color: #000;
+}
