@@ -8,7 +8,8 @@ import { PaginatedList } from '../../../types'
 import { PageLayout, RoleBasedDashboard } from '../../components'
 import { DownloadIcon } from '../../components/downloadIcon'
 import ProjectList from '../../components/projectList'
-import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers'
+import { hydrateOnClient } from '../../helpers'
+import { GarantiesFinancieresFilter } from './components'
 
 interface GarantiesFinancieresProps {
   request: Request
@@ -42,13 +43,6 @@ export const GarantiesFinancieres = PageLayout(
       .find((ao) => ao.id === appelOffreId)
       ?.familles.sort((a, b) => a.title.localeCompare(b.title))
       .filter((famille) => !existingFamilles || existingFamilles.includes(famille.id))
-
-    const handleOnGarantiesFinancieresChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-      const {
-        target: { value: newValue },
-      } = e
-      refreshPageWithNewSearchParamValue('garantiesFinancieres', newValue)
-    }
 
     return (
       <RoleBasedDashboard role={request.user.role} currentPage="list-garanties-financieres">
@@ -173,52 +167,7 @@ export const GarantiesFinancieres = PageLayout(
               ) : null}
             </form>
 
-            <div className="navigation-tabs">
-              <div className="tab">
-                <input
-                  type="radio"
-                  name="garantiesFinancieres"
-                  id="garantiesFinancieres-toutes"
-                  value=""
-                  checked={garantiesFinancieres === ''}
-                  onChange={handleOnGarantiesFinancieresChange}
-                />
-                <label htmlFor="garantiesFinancieres-toutes">Toutes</label>
-              </div>
-              <div className="tab">
-                <input
-                  type="radio"
-                  name="garantiesFinancieres"
-                  id="garantiesFinancieres-deposees"
-                  value="submitted"
-                  checked={garantiesFinancieres === 'submitted'}
-                  onChange={handleOnGarantiesFinancieresChange}
-                />
-                <label htmlFor="garantiesFinancieres-deposees">Déposées</label>
-              </div>
-              <div className="tab">
-                <input
-                  type="radio"
-                  name="garantiesFinancieres"
-                  id="garantiesFinancieres-non-deposees"
-                  value="notSubmitted"
-                  checked={garantiesFinancieres === 'notSubmitted'}
-                  onChange={handleOnGarantiesFinancieresChange}
-                />
-                <label htmlFor="garantiesFinancieres-non-deposees">Non-déposées</label>
-              </div>
-              <div className="tab">
-                <input
-                  type="radio"
-                  name="garantiesFinancieres"
-                  id="garantiesFinancieres-en-retard"
-                  value="pastDue"
-                  checked={garantiesFinancieres === 'pastDue'}
-                  onChange={handleOnGarantiesFinancieresChange}
-                />
-                <label htmlFor="garantiesFinancieres-en-retard">En retard</label>
-              </div>
-            </div>
+            <GarantiesFinancieresFilter selectedValue={garantiesFinancieres} />
           </div>
           {success ? (
             <div className="notification success" {...dataId('success-message')}>
