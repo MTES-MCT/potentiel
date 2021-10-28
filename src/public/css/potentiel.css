@@ -294,7 +294,7 @@ pre {
 }
 
 .navigation-tabs {
-  border-bottom: 1px solid #c9d3df;
+  margin-bottom: -1em;
 }
 
 .navigation-tabs div {
@@ -308,11 +308,11 @@ pre {
 
 .navigation-tabs div label {
   display: flex;
-  padding: 15px;
-  color: #aaa;
+  padding: 1em;
+  color: var(--dark-grey);
   cursor: pointer;
 }
 .navigation-tabs div input:checked + label {
-  border-bottom: 2px solid #0053b3;
+  border-bottom: 4px solid var(--theme-primary);
   color: #000;
 }

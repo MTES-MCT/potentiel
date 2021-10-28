@@ -56,53 +56,6 @@ export const GarantiesFinancieres = PageLayout(
           <div className="panel__header">
             <h3>Garanties financières</h3>
 
-            <div className="navigation-tabs">
-              <div className="tab">
-                <input
-                  type="radio"
-                  name="garantiesFinancieres"
-                  id="garantiesFinancieres-toutes"
-                  value=""
-                  checked={garantiesFinancieres === ''}
-                  onChange={handleOnGarantiesFinancieresChange}
-                />
-                <label htmlFor="garantiesFinancieres-toutes">Toutes</label>
-              </div>
-              <div className="tab">
-                <input
-                  type="radio"
-                  name="garantiesFinancieres"
-                  id="garantiesFinancieres-deposees"
-                  value="submitted"
-                  checked={garantiesFinancieres === 'submitted'}
-                  onChange={handleOnGarantiesFinancieresChange}
-                />
-                <label htmlFor="garantiesFinancieres-deposees">Déposées</label>
-              </div>
-              <div className="tab">
-                <input
-                  type="radio"
-                  name="garantiesFinancieres"
-                  id="garantiesFinancieres-non-deposees"
-                  value="notSubmitted"
-                  checked={garantiesFinancieres === 'notSubmitted'}
-                  onChange={handleOnGarantiesFinancieresChange}
-                />
-                <label htmlFor="garantiesFinancieres-non-deposees">Non-déposées</label>
-              </div>
-              <div className="tab">
-                <input
-                  type="radio"
-                  name="garantiesFinancieres"
-                  id="garantiesFinancieres-en-retard"
-                  value="pastDue"
-                  checked={garantiesFinancieres === 'pastDue'}
-                  onChange={handleOnGarantiesFinancieresChange}
-                />
-                <label htmlFor="garantiesFinancieres-en-retard">En retard</label>
-              </div>
-            </div>
-
             <form
               action={ROUTES.ADMIN_GARANTIES_FINANCIERES}
               method="GET"
@@ -219,6 +172,53 @@ export const GarantiesFinancieres = PageLayout(
                 </a>
               ) : null}
             </form>
+
+            <div className="navigation-tabs">
+              <div className="tab">
+                <input
+                  type="radio"
+                  name="garantiesFinancieres"
+                  id="garantiesFinancieres-toutes"
+                  value=""
+                  checked={garantiesFinancieres === ''}
+                  onChange={handleOnGarantiesFinancieresChange}
+                />
+                <label htmlFor="garantiesFinancieres-toutes">Toutes</label>
+              </div>
+              <div className="tab">
+                <input
+                  type="radio"
+                  name="garantiesFinancieres"
+                  id="garantiesFinancieres-deposees"
+                  value="submitted"
+                  checked={garantiesFinancieres === 'submitted'}
+                  onChange={handleOnGarantiesFinancieresChange}
+                />
+                <label htmlFor="garantiesFinancieres-deposees">Déposées</label>
+              </div>
+              <div className="tab">
+                <input
+                  type="radio"
+                  name="garantiesFinancieres"
+                  id="garantiesFinancieres-non-deposees"
+                  value="notSubmitted"
+                  checked={garantiesFinancieres === 'notSubmitted'}
+                  onChange={handleOnGarantiesFinancieresChange}
+                />
+                <label htmlFor="garantiesFinancieres-non-deposees">Non-déposées</label>
+              </div>
+              <div className="tab">
+                <input
+                  type="radio"
+                  name="garantiesFinancieres"
+                  id="garantiesFinancieres-en-retard"
+                  value="pastDue"
+                  checked={garantiesFinancieres === 'pastDue'}
+                  onChange={handleOnGarantiesFinancieresChange}
+                />
+                <label htmlFor="garantiesFinancieres-en-retard">En retard</label>
+              </div>
+            </div>
           </div>
           {success ? (
             <div className="notification success" {...dataId('success-message')}>
