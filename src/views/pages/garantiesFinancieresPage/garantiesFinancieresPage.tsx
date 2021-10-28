@@ -8,7 +8,7 @@ import { PaginatedList } from '../../../types'
 import { PageLayout, RoleBasedDashboard } from '../../components'
 import { DownloadIcon } from '../../components/downloadIcon'
 import ProjectList from '../../components/projectList'
-import { hydrateOnClient } from '../../helpers'
+import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers'
 import { GarantiesFinancieresFilter } from './components'
 
 interface GarantiesFinancieresProps {
@@ -44,6 +44,10 @@ export const GarantiesFinancieres = PageLayout(
       ?.familles.sort((a, b) => a.title.localeCompare(b.title))
       .filter((famille) => !existingFamilles || existingFamilles.includes(famille.id))
 
+    const handleGarantiesFinancieresFilterOnChange = (newValue: string) => {
+      refreshPageWithNewSearchParamValue('garantiesFinancieres', newValue)
+    }
+
     return (
       <RoleBasedDashboard role={request.user.role} currentPage="list-garanties-financieres">
         <div className="panel">
@@ -53,7 +57,7 @@ export const GarantiesFinancieres = PageLayout(
             <form
               action={ROUTES.ADMIN_GARANTIES_FINANCIERES}
               method="GET"
-              style={{ maxWidth: 'auto', margin: '0 0 25px 0' }}
+              style={{ maxWidth: 'auto', margin: '0 0 15px 0' }}
             >
               <div className="form__group" style={{ marginTop: 20 }}>
                 <input
@@ -152,9 +156,12 @@ export const GarantiesFinancieres = PageLayout(
                   Retirer tous les filtres
                 </a>
               ) : null}
-            </form>
 
-            <GarantiesFinancieresFilter selectedValue={garantiesFinancieres} />
+              <GarantiesFinancieresFilter
+                defaultValue={garantiesFinancieres}
+                onChange={handleGarantiesFinancieresFilterOnChange}
+              />
+            </form>
           </div>
           {success ? (
             <div className="notification success" {...dataId('success-message')}>

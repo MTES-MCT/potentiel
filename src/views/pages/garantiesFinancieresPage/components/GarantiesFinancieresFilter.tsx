@@ -1,15 +1,21 @@
-import React from 'react'
-import { refreshPageWithNewSearchParamValue } from '../../../helpers'
+import { String } from 'aws-sdk/clients/cloudwatchevents'
+import React, { useState } from 'react'
 
-type GarantiesFinancieresFilterProps = { selectedValue: string }
+type GarantiesFinancieresFilterProps = {
+  defaultValue: string
+  onChange: (value: String) => void
+}
 
 export const GarantiesFinancieresFilter = (props: GarantiesFinancieresFilterProps) => {
-  const { selectedValue = '' } = props
+  const { defaultValue = '', onChange } = props
+  const [selectedValue, selectValue] = useState(defaultValue)
+
   const handleGarantiesFinancieresOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const {
       target: { value: newValue },
     } = e
-    refreshPageWithNewSearchParamValue('garantiesFinancieres', newValue)
+    selectValue(newValue)
+    onChange(newValue)
   }
 
   return (
