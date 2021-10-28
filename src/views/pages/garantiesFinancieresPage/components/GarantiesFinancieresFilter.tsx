@@ -1,5 +1,7 @@
 import { String } from 'aws-sdk/clients/cloudwatchevents'
 import React, { useState } from 'react'
+import { Tab } from './Tab'
+import { Tabs } from './Tabs'
 
 type GarantiesFinancieresFilterProps = {
   defaultValue: string
@@ -10,61 +12,17 @@ export const GarantiesFinancieresFilter = (props: GarantiesFinancieresFilterProp
   const { defaultValue = '', onChange } = props
   const [selectedValue, selectValue] = useState(defaultValue)
 
-  const handleGarantiesFinancieresOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const {
-      target: { value: newValue },
-    } = e
+  const handleTabsOnSelect = (newValue: string): void => {
     selectValue(newValue)
     onChange(newValue)
   }
 
   return (
-    <div className="navigation-tabs">
-      <div className="tab">
-        <input
-          type="radio"
-          name="garantiesFinancieres"
-          id="garantiesFinancieres-toutes"
-          value=""
-          checked={selectedValue === ''}
-          defaultChecked
-          onChange={handleGarantiesFinancieresOnChange}
-        />
-        <label htmlFor="garantiesFinancieres-toutes">Toutes</label>
-      </div>
-      <div className="tab">
-        <input
-          type="radio"
-          name="garantiesFinancieres"
-          id="garantiesFinancieres-deposees"
-          value="submitted"
-          checked={selectedValue === 'submitted'}
-          onChange={handleGarantiesFinancieresOnChange}
-        />
-        <label htmlFor="garantiesFinancieres-deposees">Déposées</label>
-      </div>
-      <div className="tab">
-        <input
-          type="radio"
-          name="garantiesFinancieres"
-          id="garantiesFinancieres-non-deposees"
-          value="notSubmitted"
-          checked={selectedValue === 'notSubmitted'}
-          onChange={handleGarantiesFinancieresOnChange}
-        />
-        <label htmlFor="garantiesFinancieres-non-deposees">Non-déposées</label>
-      </div>
-      <div className="tab">
-        <input
-          type="radio"
-          name="garantiesFinancieres"
-          id="garantiesFinancieres-en-retard"
-          value="pastDue"
-          checked={selectedValue === 'pastDue'}
-          onChange={handleGarantiesFinancieresOnChange}
-        />
-        <label htmlFor="garantiesFinancieres-en-retard">En retard</label>
-      </div>
-    </div>
+    <Tabs name="garantiesFinancieres" activeKey={selectedValue} onSelect={handleTabsOnSelect}>
+      <Tab tabKey="">Toutes</Tab>
+      <Tab tabKey="submitted">Déposées</Tab>
+      <Tab tabKey="notSubmitted">Non-déposées</Tab>
+      <Tab tabKey="pastDue">En retard</Tab>
+    </Tabs>
   )
 }
