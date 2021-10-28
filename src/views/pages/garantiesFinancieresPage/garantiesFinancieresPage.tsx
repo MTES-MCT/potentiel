@@ -91,25 +91,12 @@ export const GarantiesFinancieres = PageLayout(
               </div>
 
               <div className="form__group">
-                <div
-                  {...dataId('visibility-toggle')}
-                  className={'filter-toggle' + (hasFilters ? ' open' : '')}
-                >
-                  <span
-                    style={{
-                      borderBottom: '1px solid var(--light-grey)',
-                      paddingBottom: 5,
-                    }}
-                  >
-                    Filtrer
-                  </span>
-                  <svg className="icon filter-icon">
-                    <use xlinkHref="#expand"></use>
-                  </svg>
-                </div>
+                <div {...dataId('visibility-toggle')} className={'filter-toggle open'}></div>
                 <div className="filter-panel">
                   <div className="periode-panel">
-                    <div style={{ marginLeft: 2 }}>Par appel d'offre, période et famille</div>
+                    <div style={{ marginLeft: 2 }}>
+                      Filtrer par appel d'offre, période et famille
+                    </div>
                     <select
                       name="appelOffreId"
                       className={'appelOffre ' + (appelOffreId ? 'active' : '')}
