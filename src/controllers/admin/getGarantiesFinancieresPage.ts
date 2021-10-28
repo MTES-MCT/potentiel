@@ -9,12 +9,11 @@ import { v1Router } from '../v1Router'
 import { GarantiesFinancieresPage } from '../../views'
 
 const getGarantiesFinancieresPage = asyncHandler(async (request, response) => {
-  let {
+  const {
     appelOffreId,
     periodeId,
     familleId,
     recherche,
-    classement,
     garantiesFinancieres,
     pageSize,
   } = request.query as any
@@ -28,17 +27,11 @@ const getGarantiesFinancieresPage = asyncHandler(async (request, response) => {
 
   const appelsOffre = await appelOffreRepo.findAll()
 
-  if (!appelOffreId) {
-    // Reset the periodId and familleId if there is no appelOffreId
-    periodeId = undefined
-    familleId = undefined
-  }
-
   const results = await listProjects({
     user,
     appelOffreId,
-    periodeId,
-    familleId,
+    periodeId: appelOffreId ? periodeId : undefined,
+    familleId: appelOffreId ? familleId : undefined,
     pagination,
     recherche,
     classement: 'classés',
