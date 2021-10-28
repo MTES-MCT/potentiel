@@ -4,8 +4,8 @@ import { refreshPageWithNewSearchParamValue } from '../../../helpers'
 type GarantiesFinancieresFilterProps = { selectedValue: string }
 
 export const GarantiesFinancieresFilter = (props: GarantiesFinancieresFilterProps) => {
-  const { selectedValue } = props
-  const handleOnGarantiesFinancieresChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const { selectedValue = '' } = props
+  const handleGarantiesFinancieresOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const {
       target: { value: newValue },
     } = e
@@ -21,7 +21,8 @@ export const GarantiesFinancieresFilter = (props: GarantiesFinancieresFilterProp
           id="garantiesFinancieres-toutes"
           value=""
           checked={selectedValue === ''}
-          onChange={handleOnGarantiesFinancieresChange}
+          defaultChecked
+          onChange={handleGarantiesFinancieresOnChange}
         />
         <label htmlFor="garantiesFinancieres-toutes">Toutes</label>
       </div>
@@ -32,7 +33,7 @@ export const GarantiesFinancieresFilter = (props: GarantiesFinancieresFilterProp
           id="garantiesFinancieres-deposees"
           value="submitted"
           checked={selectedValue === 'submitted'}
-          onChange={handleOnGarantiesFinancieresChange}
+          onChange={handleGarantiesFinancieresOnChange}
         />
         <label htmlFor="garantiesFinancieres-deposees">Déposées</label>
       </div>
@@ -43,7 +44,7 @@ export const GarantiesFinancieresFilter = (props: GarantiesFinancieresFilterProp
           id="garantiesFinancieres-non-deposees"
           value="notSubmitted"
           checked={selectedValue === 'notSubmitted'}
-          onChange={handleOnGarantiesFinancieresChange}
+          onChange={handleGarantiesFinancieresOnChange}
         />
         <label htmlFor="garantiesFinancieres-non-deposees">Non-déposées</label>
       </div>
@@ -54,7 +55,7 @@ export const GarantiesFinancieresFilter = (props: GarantiesFinancieresFilterProp
           id="garantiesFinancieres-en-retard"
           value="pastDue"
           checked={selectedValue === 'pastDue'}
-          onChange={handleOnGarantiesFinancieresChange}
+          onChange={handleGarantiesFinancieresOnChange}
         />
         <label htmlFor="garantiesFinancieres-en-retard">En retard</label>
       </div>
