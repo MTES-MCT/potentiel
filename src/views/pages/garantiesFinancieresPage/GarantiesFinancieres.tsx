@@ -11,7 +11,7 @@ import ProjectList from '../../components/projectList'
 import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers'
 import { GarantiesFinancieresFilter } from './components'
 
-interface GarantiesFinancieresProps {
+export type GarantiesFinancieresProps = {
   request: Request
   projects?: PaginatedList<Project>
   appelsOffre: Array<AppelOffre>
