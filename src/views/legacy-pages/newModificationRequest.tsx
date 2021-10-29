@@ -141,13 +141,12 @@ export default function NewModificationRequestPage({
                     />
                     <label htmlFor="Anciennes règles" style={{flex: 1}}>
                       Instruction selon les dispositions du cahier des charges en vigueur au moment de
-                      la candidature.{' '}
-                      <strong>Je dois envoyer ma demande ou mon signalement au format papier.</strong>{' '}
+                      la candidature. <strong>Je dois envoyer ma demande ou mon signalement au format papier </strong>
                       {cahiersChargesURLs?.oldCahierChargesURL && (
                         <a href={cahiersChargesURLs?.oldCahierChargesURL}>
                           (voir le cahier des charges)
                         </a>
-                      )}
+                      )}.
                     </label>
                   </div>
                 </>
@@ -162,10 +161,11 @@ export default function NewModificationRequestPage({
                     disabled={project.newRulesOptIn}
                 />
                 <label htmlFor="Nouvelles règles" style={{flex: 1}}>
-                Instruction selon le cahier de charges modifié rétroactivement et publié le 30/07/2021, pris en application du décret n° 2019-1175 du 14 novembre 2019.{' '}
+                Instruction selon le cahier des charges modifié rétroactivement et publié le 30/07/2021, 
+                pris en application du décret n° 2019-1175 du 14 novembre 2019
                   {cahiersChargesURLs?.newCahierChargesURL && (
-                    <a href={cahiersChargesURLs?.newCahierChargesURL}>(voir le cahier des charges)</a>
-                  )}
+                    <a href={cahiersChargesURLs?.newCahierChargesURL}> (voir le cahier des charges)</a>
+                  )}.
                 </label>
               </div>
             </div>
