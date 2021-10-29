@@ -302,7 +302,6 @@ pre {
 }
 
 .navigation-tabs div input {
-  filter: blur(100px);
   display: none;
 }
 
@@ -314,5 +313,5 @@ pre {
 }
 .navigation-tabs div input:checked + label {
   border-bottom: 4px solid var(--theme-primary);
-  color: #000;
+  color: var(--black);
 }
