@@ -4,16 +4,14 @@ const Footer = () => {
   return (
     <footer className="footer" role="contentinfo">
       <div className="container">
+        <img
+          style={{ maxWidth: '100%' }}
+          src="/images/MIN_Transition_Ecologique_RVB_petit.png"
+          alt="Logo du ministère de la transition énergétique"
+          width="300"
+          height="215"
+        />
         <ul className="footer__links">
-          <li>
-            <img
-              style={{ maxWidth: '100%' }}
-              src="/images/MIN_Transition_Ecologique_RVB_petit.png"
-              alt="Logo du ministère de la transition énergétique"
-              width="300"
-              height="215"
-            />
-          </li>
           <li>
             <a href="https://docs.potentiel.beta.gouv.fr/info/cgu">
               Mentions Légales et Conditions Générales d‘Utilisation
