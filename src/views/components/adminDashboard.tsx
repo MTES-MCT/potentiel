@@ -92,10 +92,10 @@ export default function AdminDashboard({ children, currentPage, role }: AdminDas
               currentPage={currentPage}
             />
             <MenuItem
-              route={`${ROUTES.ADMIN_LIST_PROJECTS}?garantiesFinancieres=submitted`}
+              route={`${ROUTES.ADMIN_GARANTIES_FINANCIERES}?garantiesFinancieres=submitted`}
               itemPage={'list-garanties-financieres'}
               title="Garanties Financières"
-              visibleForRoles={['admin', 'dreal']}
+              visibleForRoles={['dreal']}
               role={role}
               currentPage={currentPage}
             />

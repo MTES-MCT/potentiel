@@ -1,6 +1,6 @@
 import React from 'react'
-import { Statistiques } from './statistiquesPage'
-import makeFakeRequest from '../../__tests__/fixtures/request'
+import { Statistiques } from '.'
+import makeFakeRequest from '../../../__tests__/fixtures/request'
 
 export default { title: 'Statistiques' }
 

@@ -1,5 +1,6 @@
 export * from './getAppelOffreAdminPage';
 export * from './getAppelOffreCsv';
+export * from './getGarantiesFinancieresPage';
 export * from './getInvitationListPage';
 export * from './getNotificationListPage';
 export * from './getPeriodesCsv';

@@ -1,7 +1,7 @@
 import type { Request } from 'express'
 import React from 'react'
-import { PageLayout } from '../components/PageLayout'
-import { hydrateOnClient } from '../helpers/hydrateOnClient'
+import { PageLayout } from '../../components/PageLayout'
+import { hydrateOnClient } from '../../helpers/hydrateOnClient'
 
 interface Props {
   request: Request
