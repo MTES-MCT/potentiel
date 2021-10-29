@@ -25,6 +25,9 @@ const Footer = () => {
             </a>
           </li>
           <li>
+            <a href="https://potentiel.beta.gouv.fr/stats.html">Statistiques</a>
+          </li>
+          <li>
             <a href="https://docs.potentiel.beta.gouv.fr/info/cgu#cookies">
               Notre politique de cookies
             </a>
