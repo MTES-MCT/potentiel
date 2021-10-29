@@ -131,40 +131,43 @@ export default function NewModificationRequestPage({
 
               {!project.newRulesOptIn && (
                 <>
-                  <label htmlFor="Anciennes règles">
-                    Instruction selon les dispositions du cahier des charges en vigueur au moment de
-                    la candidature.{' '}
-                    <strong>Je dois envoyer ma demande ou mon signalement au format papier</strong>{' '}
-                    {cahiersChargesURLs?.oldCahierChargesURL && (
-                      <a href={cahiersChargesURLs?.oldCahierChargesURL}>
-                        (voir le cahier des charges)
-                      </a>
-                    )}
-                  </label>
-                  <input
-                    type="radio"
-                    name="newRulesOptIn"
-                    value="Anciennes règles"
-                    {...dataId('modificationRequest-oldRules')}
-                    disabled={project.newRulesOptIn}
-                  />
+                  <div className="inline-radio-option">
+                    <input
+                        type="radio"
+                        name="newRulesOptIn"
+                        value="Anciennes règles"
+                        {...dataId('modificationRequest-oldRules')}
+                        disabled={project.newRulesOptIn}
+                    />
+                    <label htmlFor="Anciennes règles" style={{flex: 1}}>
+                      Instruction selon les dispositions du cahier des charges en vigueur au moment de
+                      la candidature. <strong>Je dois envoyer ma demande ou mon signalement au format papier </strong>
+                      {cahiersChargesURLs?.oldCahierChargesURL && (
+                        <a href={cahiersChargesURLs?.oldCahierChargesURL}>
+                          (voir le cahier des charges)
+                        </a>
+                      )}.
+                    </label>
+                  </div>
                 </>
               )}
-              <label htmlFor="Nouvelles règles">
-                Instruction selon le cahier de charges, en application du décret n° 2019-1175 du 14
-                novembre 2019{' '}
-                {cahiersChargesURLs?.newCahierChargesURL && (
-                  <a href={cahiersChargesURLs?.newCahierChargesURL}>(voir le cahier des charges)</a>
-                )}
-              </label>
-              <input
-                type="radio"
-                name="newRulesOptIn"
-                value="Nouvelles règles"
-                defaultChecked={project.newRulesOptIn}
-                {...dataId('modificationRequest-newRules')}
-                disabled={project.newRulesOptIn}
-              />
+              <div className="inline-radio-option">
+                <input
+                    type="radio"
+                    name="newRulesOptIn"
+                    value="Nouvelles règles"
+                    defaultChecked={project.newRulesOptIn}
+                    {...dataId('modificationRequest-newRules')}
+                    disabled={project.newRulesOptIn}
+                />
+                <label htmlFor="Nouvelles règles" style={{flex: 1}}>
+                Instruction selon le cahier des charges modifié rétroactivement et publié le 30/07/2021, 
+                pris en application du décret n° 2019-1175 du 14 novembre 2019
+                  {cahiersChargesURLs?.newCahierChargesURL && (
+                    <a href={cahiersChargesURLs?.newCahierChargesURL}> (voir le cahier des charges)</a>
+                  )}.
+                </label>
+              </div>
             </div>
 
             <div className="notification warning" style={{ marginTop: 10, marginBottom: 10 }}>
