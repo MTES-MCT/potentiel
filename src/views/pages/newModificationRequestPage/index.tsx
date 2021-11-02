@@ -50,6 +50,7 @@ export const NewModificationRequest = PageLayout(({
     (request.query as any) || {}
 
   const [displayAlertOnPower, handleDisplayAlertOnPower] = useState(false)
+  const [fileRequiredforPowerModification, setFileRequiredforPowerModification] = useState(false)
 
   const { min: minAutoAcceptPuissanceRatio, max: maxAutoAcceptPuissanceRatio } =
   getAutoAcceptRatiosForAppelOffre(project.appelOffreId)
@@ -57,6 +58,7 @@ export const NewModificationRequest = PageLayout(({
   const infoOnPowerModificationValidation = (e) => {
     const puissanceModificationRatio = e.target.value / project.puissanceInitiale
     handleDisplayAlertOnPower(puissanceModificationRatio < minAutoAcceptPuissanceRatio || puissanceModificationRatio > maxAutoAcceptPuissanceRatio)
+    setFileRequiredforPowerModification(puissanceModificationRatio < minAutoAcceptPuissanceRatio || puissanceModificationRatio > maxAutoAcceptPuissanceRatio)
   }
 
   return (
@@ -266,14 +268,14 @@ export const NewModificationRequest = PageLayout(({
                       {...dataId('modificationRequest-justificationField')}
                     />
                     <label htmlFor="candidats" style={{ marginTop: 10 }}>
-                      Courrier explicatif ou décision administrative (obligatoire dans le cas où la
-                      variation est supérieure à 10%)
+                      Courrier explicatif ou décision administrative.
                     </label>
                     <input
                       type="file"
                       name="file"
                       {...dataId('modificationRequest-fileField')}
                       id="file"
+                      required={fileRequiredforPowerModification}
                     />
                   </div>
                 </>
