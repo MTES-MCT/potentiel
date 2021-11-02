@@ -10,7 +10,6 @@ import {
   makeRegisterFirstUserLogin,
   RegisterAuth,
 } from '../../modules/users'
-import { EnsureLoggedIn } from '../../modules/users/queries/EnsureLoggedIn'
 import routes from '../../routes'
 
 export interface KeycloakAuthDeps {
@@ -79,8 +78,6 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
     })
   }
 
-  const ensureLoggedIn: EnsureLoggedIn = keycloak.protect.bind(keycloak)
-
   const registerAuth: RegisterAuth = ({ app, sessionSecret, router }) => {
     app.use(
       session({
@@ -109,7 +106,6 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
         return
       }
 
-      // @ts-ignore
       const token = request.kauth?.grant?.access_token
       const userEmail = token?.content?.email
       const kRole = token && USER_ROLES.find((role) => token.hasRealmRole(role))
@@ -151,7 +147,6 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
         // Sometimes, the user session is not immediately available in the req object
         // In that case, wait a bit and redirect to the same url
 
-        // @ts-ignore
         if (req.kauth && Object.keys(req.kauth).length) {
           // This user has a session but no user was found, log him out
           // res.send('Found kauth but not req.user')
@@ -168,6 +163,7 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
           // Too many retries
           return res.redirect('/')
         }
+
         setTimeout(() => {
           res.redirect(`${routes.REDIRECT_BASED_ON_ROLE}?retry=${retryCount + 1}`)
         }, 200)
@@ -188,7 +184,6 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
 
   return {
     registerAuth,
-    ensureLoggedIn,
     ensureRole,
   }
 }

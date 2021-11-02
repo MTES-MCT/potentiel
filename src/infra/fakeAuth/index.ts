@@ -1,7 +1,6 @@
 import { logger } from '../../core/utils'
 import { User } from '../../entities'
 import {
-  EnsureLoggedIn,
   EnsureRole,
   GetUserByEmail,
   makeRegisterFirstUserLogin,
@@ -124,15 +123,6 @@ export const makeFakeAuth = (deps) => {
     })
   }
 
-  const ensureLoggedIn: EnsureLoggedIn = (req, res, next) => {
-    if (!req.user) {
-      res.redirect(routes.LOGIN)
-      return
-    }
-
-    next()
-  }
-
   const ensureRole: EnsureRole = (roles) => {
     const roleList = Array.isArray(roles) ? roles : [roles]
 
@@ -151,5 +141,5 @@ export const makeFakeAuth = (deps) => {
     }
   }
 
-  return { registerAuth, ensureLoggedIn, ensureRole }
+  return { registerAuth, ensureRole }
 }
