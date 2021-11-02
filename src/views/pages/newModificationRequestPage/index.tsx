@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Project } from '../../../entities'
 import ROUTES from '../../../routes'
 import { dataId } from '../../../helpers/testId'
@@ -8,8 +8,10 @@ import { formatDate } from '../../../helpers/formatDate'
 import { appelsOffreStatic } from '../../../dataAccess/inMemory'
 import { PageLayout } from '../../components/PageLayout'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
+import { getAutoAcceptRatiosForAppelOffre } from '../../../modules/modificationRequest/helpers/getAutoAcceptRatiosForAppelOffre'
 
 import moment from 'moment'
+import { Puissance } from './newModificationRequest.stories';
 moment.locale('fr')
 
 interface PageProps {
@@ -46,6 +48,16 @@ export const NewModificationRequest = PageLayout(({
 }: PageProps) => {
   const { action, error, success, puissance, actionnaire, justification, delayInMonths } =
     (request.query as any) || {}
+
+  const [displayAlertOnPower, handleDisplayAlertOnPower] = useState(false)
+
+  const { min: minAutoAcceptPuissanceRatio, max: maxAutoAcceptPuissanceRatio } =
+  getAutoAcceptRatiosForAppelOffre(project.appelOffreId)
+    
+  const infoOnPowerModificationValidation = (e) => {
+    const puissanceModificationRatio = e.target.value / project.puissanceInitiale
+    handleDisplayAlertOnPower(puissanceModificationRatio < minAutoAcceptPuissanceRatio || puissanceModificationRatio > maxAutoAcceptPuissanceRatio)
+  }
 
   return (
     <UserDashboard currentPage={'list-requests'}>
@@ -213,17 +225,24 @@ export const NewModificationRequest = PageLayout(({
                     id="puissance"
                     defaultValue={puissance || ''}
                     {...dataId('modificationRequest-puissanceField')}
+                    onChange={infoOnPowerModificationValidation}
                   />
 
-                  <div
-                    className="notification warning"
-                    style={{ display: 'none' }}
-                    {...dataId('modificationRequest-puissance-error-message-out-of-bounds')}
-                  >
-                    Une autorisation est nécessaire pour une variation de puissance par rapport à la
-                    puissance notifiée supérieure à 10%, sauf en cas d'obligation imposée par
-                    l'administration. Joindre un justificatif.
-                  </div>
+                  {displayAlertOnPower && (
+                    <div
+                      className="notification warning"
+                      style={{marginTop: 15}}
+                      {...dataId('modificationRequest-puissance-error-message-out-of-bounds')}
+                    >
+                      Une autorisation est nécessaire si la modification de puissance 
+                      est inférieure à {Math.round(minAutoAcceptPuissanceRatio *100)}% 
+                      de la puissance initiale 
+                      ou supérieure à {Math.round(maxAutoAcceptPuissanceRatio *100)}%.
+                      Dans ces cas <strong>il est nécessaire de joindre un justificatif à votre demande</strong>. 
+                    </div>
+                  )}
+                  
+
                   <div
                     className="notification error"
                     style={{ display: 'none' }}
