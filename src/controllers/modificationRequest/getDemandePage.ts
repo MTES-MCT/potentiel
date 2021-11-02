@@ -1,12 +1,12 @@
 import { projectRepo } from '../../dataAccess'
 import { addQueryParams } from '../../helpers/addQueryParams'
-import { NewModificationRequest } from '../../views/pages'
 import routes from '../../routes'
 import { ensureRole } from '../../config'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
 import { getCahiersChargesURLs } from '../../config'
 import { logger } from '../../core/utils'
+import { NewModificationRequestPage } from '../../views/index'
 
 const ACTIONS = [
   'delai',
@@ -42,7 +42,7 @@ v1Router.get(
     return await getCahiersChargesURLs(appelOffreId, periodeId).match(
       (cahiersChargesURLs) => {
         response.send(
-          NewModificationRequest({
+          NewModificationRequestPage({
             request,
             project,
             cahiersChargesURLs,
