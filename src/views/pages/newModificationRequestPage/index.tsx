@@ -1,16 +1,13 @@
 import React from 'react'
-
-import { Project } from '../../entities'
-
-import ROUTES from '../../routes'
-import { dataId } from '../../helpers/testId'
-
-import UserDashboard from '../components/userDashboard'
+import { Project } from '../../../entities'
+import ROUTES from '../../../routes'
+import { dataId } from '../../../helpers/testId'
+import UserDashboard from '../../components/userDashboard'
 import { Request } from 'express'
-
-import { formatDate } from '../../helpers/formatDate'
-
-import { appelsOffreStatic } from '../../dataAccess/inMemory'
+import { formatDate } from '../../../helpers/formatDate'
+import { appelsOffreStatic } from '../../../dataAccess/inMemory'
+import { PageLayout } from '../../components/PageLayout'
+import { hydrateOnClient } from '../../helpers/hydrateOnClient'
 
 import moment from 'moment'
 moment.locale('fr')
@@ -42,11 +39,11 @@ const getDelayForAppelOffre = (appelOffreId) => {
 export { titlePerAction }
 
 /* Pure component */
-export default function NewModificationRequestPage({
+export const NewModificationRequest = PageLayout(({
   request,
   project,
   cahiersChargesURLs,
-}: PageProps) {
+}: PageProps) => {
   const { action, error, success, puissance, actionnaire, justification, delayInMonths } =
     (request.query as any) || {}
 
@@ -739,4 +736,6 @@ export default function NewModificationRequestPage({
       </div>
     </UserDashboard>
   )
-}
+})
+
+hydrateOnClient(NewModificationRequest)

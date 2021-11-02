@@ -6,7 +6,7 @@ import { ModificationRequestListItemDTO } from '../../modules/modificationReques
 import ROUTES from '../../routes'
 import { PaginatedList } from '../../types'
 import { ModificationRequestColorByStatus, ModificationRequestStatusTitle } from '../helpers'
-import { titlePerAction } from '../legacy-pages/newModificationRequest'
+import { titlePerAction } from '../pages/newModificationRequestPage/index'
 import Pagination from './pagination'
 
 interface Props {

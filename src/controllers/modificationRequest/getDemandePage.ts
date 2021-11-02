@@ -1,6 +1,6 @@
 import { projectRepo } from '../../dataAccess'
 import { addQueryParams } from '../../helpers/addQueryParams'
-import { NewModificationRequestPage } from '../../views/legacy-pages'
+import { NewModificationRequest } from '../../views/pages'
 import routes from '../../routes'
 import { ensureRole } from '../../config'
 import { v1Router } from '../v1Router'
@@ -42,7 +42,7 @@ v1Router.get(
     return await getCahiersChargesURLs(appelOffreId, periodeId).match(
       (cahiersChargesURLs) => {
         response.send(
-          NewModificationRequestPage({
+          NewModificationRequest({
             request,
             project,
             cahiersChargesURLs,
