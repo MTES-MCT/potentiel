@@ -9,6 +9,7 @@ import { appelsOffreStatic } from '../../../dataAccess/inMemory'
 import { PageLayout } from '../../components/PageLayout'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
 import { getAutoAcceptRatiosForAppelOffre } from '../../../modules/modificationRequest/helpers/getAutoAcceptRatiosForAppelOffre'
+import { titlePerAction } from '../../helpers'
 
 import moment from 'moment'
 
@@ -20,16 +21,6 @@ interface PageProps {
   cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
 }
 
-const titlePerAction = {
-  delai: 'Je demande un délai supplémentaire',
-  actionnaire: "Je signale un changement d'actionnaire",
-  fournisseur: 'Je signale un changement de fournisseur',
-  puissance: 'Je signale un changement de puissance',
-  producteur: 'Je signale un changement de producteur',
-  abandon: 'Je demande un abandon de mon projet',
-  recours: 'Je demande un recours',
-}
-
 const getunitePuissanceForAppelOffre = (appelOffreId) => {
   return appelsOffreStatic.find((item) => item.id === appelOffreId)?.unitePuissance
 }
@@ -37,8 +28,6 @@ const getunitePuissanceForAppelOffre = (appelOffreId) => {
 const getDelayForAppelOffre = (appelOffreId) => {
   return appelsOffreStatic.find((item) => item.id === appelOffreId)?.delaiRealisationEnMois
 }
-
-export { titlePerAction }
 
 /* Pure component */
 export const NewModificationRequest = PageLayout(({
