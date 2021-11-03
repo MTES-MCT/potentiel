@@ -11,7 +11,7 @@ import { hydrateOnClient } from '../../helpers/hydrateOnClient'
 import { getAutoAcceptRatiosForAppelOffre } from '../../../modules/modificationRequest/helpers/getAutoAcceptRatiosForAppelOffre'
 
 import moment from 'moment'
-import { Puissance } from './newModificationRequest.stories';
+
 moment.locale('fr')
 
 interface PageProps {
@@ -49,16 +49,19 @@ export const NewModificationRequest = PageLayout(({
   const { action, error, success, puissance, actionnaire, justification, delayInMonths } =
     (request.query as any) || {}
 
-  const [displayAlertOnPower, handleDisplayAlertOnPower] = useState(false)
-  const [fileRequiredforPowerModification, setFileRequiredforPowerModification] = useState(false)
+  const [displayAlertOnPuissance, setDisplayAlertOnPuissance] = useState(false)
+  const [fileRequiredforPuissanceModification, setFileRequiredforPuissanceModification] = useState(false)
 
   const { min: minAutoAcceptPuissanceRatio, max: maxAutoAcceptPuissanceRatio } =
   getAutoAcceptRatiosForAppelOffre(project.appelOffreId)
     
-  const infoOnPowerModificationValidation = (e) => {
+  const handlePuissanceOnChange = (e) => {
     const puissanceModificationRatio = e.target.value / project.puissanceInitiale
-    handleDisplayAlertOnPower(puissanceModificationRatio < minAutoAcceptPuissanceRatio || puissanceModificationRatio > maxAutoAcceptPuissanceRatio)
-    setFileRequiredforPowerModification(puissanceModificationRatio < minAutoAcceptPuissanceRatio || puissanceModificationRatio > maxAutoAcceptPuissanceRatio)
+    const newPuissanceIsAutoAccepted =
+                puissanceModificationRatio >= minAutoAcceptPuissanceRatio &&
+                puissanceModificationRatio <= maxAutoAcceptPuissanceRatio
+    setDisplayAlertOnPuissance(!newPuissanceIsAutoAccepted)
+    setFileRequiredforPuissanceModification(!newPuissanceIsAutoAccepted)
   }
 
   return (
@@ -227,10 +230,10 @@ export const NewModificationRequest = PageLayout(({
                     id="puissance"
                     defaultValue={puissance || ''}
                     {...dataId('modificationRequest-puissanceField')}
-                    onChange={infoOnPowerModificationValidation}
+                    onChange={handlePuissanceOnChange}
                   />
 
-                  {displayAlertOnPower && (
+                  {displayAlertOnPuissance && (
                     <div
                       className="notification warning"
                       style={{marginTop: 15}}
@@ -275,7 +278,7 @@ export const NewModificationRequest = PageLayout(({
                       name="file"
                       {...dataId('modificationRequest-fileField')}
                       id="file"
-                      required={fileRequiredforPowerModification}
+                      required={fileRequiredforPuissanceModification}
                     />
                   </div>
                 </>
