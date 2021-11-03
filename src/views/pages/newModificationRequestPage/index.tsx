@@ -215,7 +215,7 @@ export const NewModificationRequest = PageLayout(({
                   />
                   {project.puissance !== project.puissanceInitiale && (
                     <>
-                      <label>{getunitePuissanceForAppelOffre(project.appelOffreId)})</label>
+                      <label>Puissance actuelle ({getunitePuissanceForAppelOffre(project.appelOffreId)})</label>
                       <input type="text" disabled value={project.puissance} />
                     </>
                   )}
