@@ -1,6 +1,11 @@
 import { Result, ResultAsync } from './Result'
 
-export const withDelay = <T, E>(
+export type WithDelay = <T, E>(
+  delayInMs: number,
+  callback: () => Result<T, E> | ResultAsync<T, E>
+) => ResultAsync<T, E>
+
+export const withDelay: WithDelay = <T, E>(
   delayInMs: number,
   callback: () => Result<T, E> | ResultAsync<T, E>
 ): ResultAsync<T, E> => {

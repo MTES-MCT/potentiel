@@ -1,3 +1,4 @@
+import { withDelay } from '../../core/utils'
 import {
   LegacyModificationRawDataImported,
   ResponseTemplateDownloaded,
@@ -20,6 +21,7 @@ eventStore.subscribe(
   handleLegacyModificationRawDataImported({
     eventBus: eventStore,
     findProjectByIdentifiers,
+    withDelay,
   })
 )
 

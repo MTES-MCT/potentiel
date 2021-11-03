@@ -1,6 +1,6 @@
 import { LegacyModificationDTO } from '..'
 import { DomainEvent, UniqueEntityID } from '../../../core/domain'
-import { okAsync } from '../../../core/utils'
+import { okAsync, Result, ResultAsync, WithDelay } from '../../../core/utils'
 import { InfraNotAvailableError } from '../../shared'
 import { LegacyModificationImported, LegacyModificationRawDataImported } from '../events'
 import { handleLegacyModificationRawDataImported } from './handleLegacyModificationRawDataImported'
@@ -24,6 +24,15 @@ const modifications = [
 ]
 
 describe('handleLegacyModificationRawDataImported', () => {
+  const fakeWithDelay: WithDelay = <T, E>(delayInMs, callback) => {
+    return ResultAsync.fromPromise(
+      new Promise(async (resolve, reject) => {
+        await callback().match(resolve, reject)
+      }),
+      (e) => e as E
+    )
+  }
+
   describe('when the project exists', () => {
     const findProjectByIdentifiers = jest.fn().mockReturnValue(okAsync(projectId))
 
@@ -33,6 +42,7 @@ describe('handleLegacyModificationRawDataImported', () => {
       await handleLegacyModificationRawDataImported({
         eventBus,
         findProjectByIdentifiers,
+        withDelay: fakeWithDelay,
       })(
         new LegacyModificationRawDataImported({
           payload: { importId, appelOffreId, periodeId, familleId, numeroCRE, modifications },
@@ -67,18 +77,16 @@ describe('handleLegacyModificationRawDataImported', () => {
 
     beforeAll(async () => {
       eventBus.publish.mockClear()
-      jest.useFakeTimers()
 
       await handleLegacyModificationRawDataImported({
         eventBus,
         findProjectByIdentifiers,
+        withDelay: fakeWithDelay,
       })(
         new LegacyModificationRawDataImported({
           payload: { importId, appelOffreId, periodeId, familleId, numeroCRE, modifications },
         })
       )
-
-      jest.runAllTimers()
     })
 
     it('should trigger LegacyModificationImported with the projectId', () => {
@@ -105,17 +113,16 @@ describe('handleLegacyModificationRawDataImported', () => {
 
     beforeAll(async () => {
       eventBus.publish.mockClear()
-      jest.useFakeTimers()
 
       await handleLegacyModificationRawDataImported({
         eventBus,
         findProjectByIdentifiers,
+        withDelay: fakeWithDelay,
       })(
         new LegacyModificationRawDataImported({
           payload: { importId, appelOffreId, periodeId, familleId, numeroCRE, modifications },
         })
       )
-      jest.runAllTimers()
     })
     it('should not trigger', () => {
       expect(eventBus.publish).not.toHaveBeenCalled()
