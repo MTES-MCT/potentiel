@@ -36,6 +36,48 @@ describe('getAutoAcceptRatios()', () => {
     })
   })
 
+  describe('when appel offre is "CRE4 - Bâtiment"', () => {
+    it('should return ratios 90-110%', () => {
+      const res = getAutoAcceptRatiosForAppelOffre('CRE4 - Bâtiment')
+      expect(res).toEqual({ min: 0.9, max: 1.1 })
+    })
+  })
+
+  describe('when appel offre is "CRE4 - Sol"', () => {
+    it('should return ratios 90-110%', () => {
+      const res = getAutoAcceptRatiosForAppelOffre('CRE4 - Sol')
+      expect(res).toEqual({ min: 0.9, max: 1.1 })
+    })
+  })
+
+  describe('when appel offre is "Fessenheim"', () => {
+    it('should return ratios 90-110%', () => {
+      const res = getAutoAcceptRatiosForAppelOffre('Fessenheim')
+      expect(res).toEqual({ min: 0.9, max: 1.1 })
+    })
+  })
+
+  describe('when appel offre is "CRE4 - Eolien"', () => {
+    it('should return ratios 90-110%', () => {
+      const res = getAutoAcceptRatiosForAppelOffre('CRE4 - Eolien')
+      expect(res).toEqual({ min: 0.9, max: 1.1 })
+    })
+  })
+
+  describe('when appel offre is "CRE4 - ZNI 2017"', () => {
+    it('should return ratios 90-110%', () => {
+      const res = getAutoAcceptRatiosForAppelOffre('CRE4 - ZNI 2017')
+      expect(res).toEqual({ min: 0.9, max: 1.1 })
+    })
+  })
+
+  describe('when appel offre is "CRE4 - ZNI"', () => {
+    it('should return ratios 90-110%', () => {
+      const res = getAutoAcceptRatiosForAppelOffre('CRE4 - ZNI')
+      expect(res).toEqual({ min: 0.9, max: 1.1 })
+    })
+  })
+
   describe('when appel offre is anything else', () => {
     it('should return ratios 90-110%', () => {
       const res = getAutoAcceptRatiosForAppelOffre('my default appel offre')
@@ -43,3 +85,5 @@ describe('getAutoAcceptRatios()', () => {
     })
   })
 })
+
+
