@@ -4,6 +4,7 @@ import React from 'react'
 import { logger } from '../../../core/utils'
 import { ModificationRequestPageDTO } from '../../../modules/modificationRequest'
 import { ErrorBox, RoleBasedDashboard, SuccessBox } from '../../components'
+import ModificationRequestActionTitles from '../../components/ModificationRequestActionTitles'
 import {
   AdminResponseForm,
   DelaiForm,
@@ -16,6 +17,7 @@ import {
   ActionnaireForm,
 } from './components'
 import { PuissanceForm } from './components/PuissanceForm'
+
 
 moment.locale('fr')
 
@@ -41,21 +43,11 @@ export default function AdminModificationRequestPage({ request, modificationRequ
 
   const isAdmin = ['admin', 'dgec', 'dreal'].includes(user.role)
 
-  const titlePerAction = {
-    delai: 'Je demande un délai supplémentaire',
-    actionnaire: "Je signale un changement d'actionnaire",
-    fournisseur: 'Je signale un changement de fournisseur',
-    puissance: 'Je signale un changement de puissance',
-    producteur: 'Je signale un changement de producteur',
-    abandon: 'Je demande un abandon de mon projet',
-    recours: 'Je demande un recours',
-  }
-
   return (
     <RoleBasedDashboard role={user.role} currentPage={'list-requests'}>
       <div className="panel">
         <div className="panel__header" style={{ position: 'relative' }}>
-          <h3>{titlePerAction[type]}</h3>
+          <h3><ModificationRequestActionTitles action={type}/></h3>
         </div>
 
         <DemandeDetails modificationRequest={modificationRequest} />

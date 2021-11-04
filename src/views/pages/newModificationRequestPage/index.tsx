@@ -1,34 +1,24 @@
-import React from 'react'
-
-import { Project } from '../../entities'
-
-import ROUTES from '../../routes'
-import { dataId } from '../../helpers/testId'
-
-import UserDashboard from '../components/userDashboard'
+import React, { useState } from 'react'
+import { Project } from '../../../entities'
+import ROUTES from '../../../routes'
+import { dataId } from '../../../helpers/testId'
+import UserDashboard from '../../components/userDashboard'
 import { Request } from 'express'
-
-import { formatDate } from '../../helpers/formatDate'
-
-import { appelsOffreStatic } from '../../dataAccess/inMemory'
+import { formatDate } from '../../../helpers/formatDate'
+import { appelsOffreStatic } from '../../../dataAccess/inMemory'
+import { PageLayout } from '../../components/PageLayout'
+import { hydrateOnClient } from '../../helpers/hydrateOnClient'
+import { getAutoAcceptRatiosForAppelOffre } from '../../../modules/modificationRequest/helpers/getAutoAcceptRatiosForAppelOffre'
 
 import moment from 'moment'
+import ModificationRequestActionTitles from '../../components/ModificationRequestActionTitles'
+
 moment.locale('fr')
 
 interface PageProps {
   request: Request
   project: Project
   cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
-}
-
-const titlePerAction = {
-  delai: 'Je demande un délai supplémentaire',
-  actionnaire: "Je signale un changement d'actionnaire",
-  fournisseur: 'Je signale un changement de fournisseur',
-  puissance: 'Je signale un changement de puissance',
-  producteur: 'Je signale un changement de producteur',
-  abandon: 'Je demande un abandon de mon projet',
-  recours: 'Je demande un recours',
 }
 
 const getunitePuissanceForAppelOffre = (appelOffreId) => {
@@ -39,22 +29,35 @@ const getDelayForAppelOffre = (appelOffreId) => {
   return appelsOffreStatic.find((item) => item.id === appelOffreId)?.delaiRealisationEnMois
 }
 
-export { titlePerAction }
-
 /* Pure component */
-export default function NewModificationRequestPage({
+export const NewModificationRequest = PageLayout(({
   request,
   project,
   cahiersChargesURLs,
-}: PageProps) {
+}: PageProps) => {
   const { action, error, success, puissance, actionnaire, justification, delayInMonths } =
     (request.query as any) || {}
+
+  const [displayAlertOnPuissance, setDisplayAlertOnPuissance] = useState(false)
+  const [fileRequiredforPuissanceModification, setFileRequiredforPuissanceModification] = useState(false)
+
+  const { min: minAutoAcceptPuissanceRatio, max: maxAutoAcceptPuissanceRatio } =
+  getAutoAcceptRatiosForAppelOffre(project.appelOffreId)
+    
+  const handlePuissanceOnChange = (e) => {
+    const puissanceModificationRatio = e.target.value / project.puissanceInitiale
+    const newPuissanceIsAutoAccepted =
+                puissanceModificationRatio >= minAutoAcceptPuissanceRatio &&
+                puissanceModificationRatio <= maxAutoAcceptPuissanceRatio
+    setDisplayAlertOnPuissance(!newPuissanceIsAutoAccepted)
+    setFileRequiredforPuissanceModification(!newPuissanceIsAutoAccepted)
+  }
 
   return (
     <UserDashboard currentPage={'list-requests'}>
       <div className="panel">
         <div className="panel__header">
-          <h3>{titlePerAction[action]}</h3>
+          <h3><ModificationRequestActionTitles action={action}/></h3>
         </div>
 
         <form action={ROUTES.DEMANDE_ACTION} method="post" encType="multipart/form-data">
@@ -201,7 +204,7 @@ export default function NewModificationRequestPage({
                   />
                   {project.puissance !== project.puissanceInitiale && (
                     <>
-                      <label>{getunitePuissanceForAppelOffre(project.appelOffreId)})</label>
+                      <label>Puissance actuelle ({getunitePuissanceForAppelOffre(project.appelOffreId)})</label>
                       <input type="text" disabled value={project.puissance} />
                     </>
                   )}
@@ -216,17 +219,24 @@ export default function NewModificationRequestPage({
                     id="puissance"
                     defaultValue={puissance || ''}
                     {...dataId('modificationRequest-puissanceField')}
+                    onChange={handlePuissanceOnChange}
                   />
 
-                  <div
-                    className="notification warning"
-                    style={{ display: 'none' }}
-                    {...dataId('modificationRequest-puissance-error-message-out-of-bounds')}
-                  >
-                    Une autorisation est nécessaire pour une variation de puissance par rapport à la
-                    puissance notifiée supérieure à 10%, sauf en cas d'obligation imposée par
-                    l'administration. Joindre un justificatif.
-                  </div>
+                  {displayAlertOnPuissance && (
+                    <div
+                      className="notification warning"
+                      style={{marginTop: 15}}
+                      {...dataId('modificationRequest-puissance-error-message-out-of-bounds')}
+                    >
+                      Une autorisation est nécessaire si la modification de puissance 
+                      est inférieure à {Math.round(minAutoAcceptPuissanceRatio *100)}% 
+                      de la puissance initiale 
+                      ou supérieure à {Math.round(maxAutoAcceptPuissanceRatio *100)}%.
+                      Dans ces cas <strong>il est nécessaire de joindre un justificatif à votre demande</strong>. 
+                    </div>
+                  )}
+                  
+
                   <div
                     className="notification error"
                     style={{ display: 'none' }}
@@ -250,14 +260,14 @@ export default function NewModificationRequestPage({
                       {...dataId('modificationRequest-justificationField')}
                     />
                     <label htmlFor="candidats" style={{ marginTop: 10 }}>
-                      Courrier explicatif ou décision administrative (obligatoire dans le cas où la
-                      variation est supérieure à 10%)
+                      Courrier explicatif ou décision administrative.
                     </label>
                     <input
                       type="file"
                       name="file"
                       {...dataId('modificationRequest-fileField')}
                       id="file"
+                      required={fileRequiredforPuissanceModification}
                     />
                   </div>
                 </>
@@ -739,4 +749,6 @@ export default function NewModificationRequestPage({
       </div>
     </UserDashboard>
   )
-}
+})
+
+hydrateOnClient(NewModificationRequest)

@@ -1,12 +1,12 @@
 import { projectRepo } from '../../dataAccess'
 import { addQueryParams } from '../../helpers/addQueryParams'
-import { NewModificationRequestPage } from '../../views/legacy-pages'
 import routes from '../../routes'
 import { ensureRole } from '../../config'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
 import { getCahiersChargesURLs } from '../../config'
 import { logger } from '../../core/utils'
+import { NewModificationRequestPage } from '../../views'
 
 const ACTIONS = [
   'delai',
