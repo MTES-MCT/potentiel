@@ -6,7 +6,6 @@ import { logger } from '../../core/utils'
 import { User, USER_ROLES } from '../../entities'
 import { EnsureRole, RegisterAuth } from '../../modules/authN'
 import { GetUserByEmail, makeRegisterFirstUserLogin } from '../../modules/users'
-import { EnsureLoggedIn } from '../../modules/users/queries/EnsureLoggedIn'
 import routes from '../../routes'
 
 export interface KeycloakAuthDeps {
@@ -74,8 +73,6 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
       return roleList.some((role) => token.hasRealmRole(role))
     })
   }
-
-  const ensureLoggedIn: EnsureLoggedIn = keycloak.protect.bind(keycloak)
 
   const registerAuth: RegisterAuth = ({ app, sessionSecret, router }) => {
     app.use(
@@ -184,7 +181,6 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
 
   return {
     registerAuth,
-    ensureLoggedIn,
     ensureRole,
   }
 }

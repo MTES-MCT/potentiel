@@ -1,10 +1,10 @@
+import QueryString from 'querystring'
 import { logger } from '../../core/utils'
 import { User } from '../../entities'
-import { EnsureLoggedIn, GetUserByEmail, makeRegisterFirstUserLogin } from '../../modules/users'
-import QueryString from 'querystring'
+import { EnsureRole, RegisterAuth } from '../../modules/authN'
+import { GetUserByEmail, makeRegisterFirstUserLogin } from '../../modules/users'
 import routes from '../../routes'
 import { FakeLoginPage } from '../../views/legacy-pages'
-import { RegisterAuth, EnsureRole } from '../../modules/authN'
 
 export interface FakeAuthDeps {
   getUserByEmail: GetUserByEmail
@@ -119,15 +119,6 @@ export const makeFakeAuth = (deps) => {
     })
   }
 
-  const ensureLoggedIn: EnsureLoggedIn = (req, res, next) => {
-    if (!req.user) {
-      res.redirect(routes.LOGIN)
-      return
-    }
-
-    next()
-  }
-
   const ensureRole: EnsureRole = (roles) => {
     const roleList = Array.isArray(roles) ? roles : [roles]
 
@@ -146,5 +137,5 @@ export const makeFakeAuth = (deps) => {
     }
   }
 
-  return { registerAuth, ensureLoggedIn, ensureRole }
+  return { registerAuth, ensureRole }
 }
