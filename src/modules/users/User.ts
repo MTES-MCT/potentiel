@@ -3,15 +3,22 @@ import { err, ok, Result } from '../../core/utils'
 import { EventStoreAggregate } from '../eventStore'
 import { EntityNotFoundError } from '../shared'
 import { UserCreated, UserRegistered } from './events'
+import { User as OldUser } from '../../entities'
 
 export interface User extends EventStoreAggregate {
   registerFirstLogin(args: { fullName: string; email: string }): Result<null, never>
   getUserId: () => Result<string, EntityNotFoundError>
+  create: (args: {
+    fullName: string
+    role: OldUser['role']
+    createdBy?: string
+  }) => Result<null, never>
 }
 
-interface UserProps {
+type UserProps = {
   isRegistered: boolean
-  userId: string | null
+  email: string
+  userId: string | undefined
   lastUpdatedOn?: Date
 }
 
@@ -25,7 +32,8 @@ export const makeUser = (args: {
 
   const props: UserProps = {
     isRegistered: false,
-    userId: null,
+    userId: undefined,
+    email: id.toString(),
   }
 
   if (events) {
@@ -60,7 +68,7 @@ export const makeUser = (args: {
 
   return ok({
     registerFirstLogin: function ({ fullName, email }) {
-      if (!props.isRegistered && props.userId)
+      if (!props.isRegistered && props.userId) {
         _publishEvent(
           new UserRegistered({
             payload: {
@@ -70,6 +78,7 @@ export const makeUser = (args: {
             },
           })
         )
+      }
 
       return ok(null)
     },
@@ -79,6 +88,23 @@ export const makeUser = (args: {
       }
 
       return ok(props.userId)
+    },
+    create: function ({ fullName, role, createdBy }) {
+      if (!props.userId) {
+        _publishEvent(
+          new UserCreated({
+            payload: {
+              email: props.email,
+              userId: new UniqueEntityID().toString(),
+              fullName,
+              role,
+              createdBy,
+            },
+          })
+        )
+      }
+
+      return ok(null)
     },
     get pendingEvents() {
       return pendingEvents
