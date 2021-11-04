@@ -117,6 +117,7 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
               registerFirstUserLogin({
                 userId: userResult.value.id,
                 keycloakId: token?.content?.sub,
+                email: userEmail,
               })
             }
           } else {
