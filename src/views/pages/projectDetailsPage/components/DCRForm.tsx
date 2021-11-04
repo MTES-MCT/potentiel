@@ -1,44 +1,42 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { dataId } from '../../../../helpers/testId'
 import ROUTES from '../../../../routes'
+import DateInput from '../../../components/dateInput'
 
 interface DCRFormProps {
   projectId: string
   date?: string
 }
-export const DCRForm = ({ projectId, date }: DCRFormProps) => (
+export const DCRForm = ({ projectId, date }: DCRFormProps) => {
+  const [errorMessage, setErrorMessage] = useState('')
+  const [disableSubmit, setDisableSubmit]= useState(true)
+  const maxDate = new Date()
+
+  return (
   <form action={ROUTES.DEPOSER_ETAPE_ACTION} method="post" encType="multipart/form-data">
     <input type="hidden" name="type" id="type" value="dcr" />
     <div className="form__group">
       <label htmlFor="date">Date d‘attestation de DCR (format JJ/MM/AAAA)</label>
-      <input
-        type="text"
-        name="stepDate"
-        {...dataId('date-field')}
-        defaultValue={date || ''}
-        data-max-date={Date.now()}
+      <DateInput 
+        setErrorMessage={setErrorMessage}
+        setDisableSubmit={setDisableSubmit}
+        maxDate={maxDate}
       />
-      <div
+      {errorMessage && (
+      <p 
         className="notification error"
-        style={{ display: 'none' }}
-        {...dataId('error-message-out-of-bounds')}
-      >
-        Merci de saisir une date antérieure à la date d‘aujourd‘hui.
-      </div>
-      <div
-        className="notification error"
-        style={{ display: 'none' }}
         {...dataId('error-message-wrong-format')}
       >
-        Le format de la date saisie n‘est pas conforme. Elle doit être de la forme JJ/MM/AAAA soit
-        par exemple 25/05/2022 pour 25 Mai 2022.
-      </div>
+        {errorMessage}
+      </p>)
+      }
+
       <label htmlFor="numero-dossier">Identifiant gestionnaire de réseau (ex: GEFAR-P)</label>
-      <input type="numero-dossier" name="numeroDossier" {...dataId('numero-dossier-field')} />
+      <input type="numero-dossier" name="numeroDossier" {...dataId('numero-dossier-field')} required />
       <label htmlFor="file">Attestation</label>
-      <input type="file" name="file" {...dataId('file-field')} id="file" />
+      <input type="file" name="file" {...dataId('file-field')} id="file" required/>
       <input type="hidden" name="projectId" value={projectId} />
-      <button className="button" type="submit" {...dataId('submit-dcr-button')}>
+      <button className="button" type="submit" {...dataId('submit-dcr-button')} disabled={disableSubmit}>
         Envoyer
       </button>
       <button className="button-outline primary" {...dataId('frise-hide-content')}>
@@ -46,4 +44,5 @@ export const DCRForm = ({ projectId, date }: DCRFormProps) => (
       </button>
     </div>
   </form>
-)
+  )
+}
