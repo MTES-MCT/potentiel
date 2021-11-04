@@ -5,8 +5,8 @@ import {
   getUserName as kcGetUserName,
   resendInvitationEmail as kcResendInvitationEmail,
 } from '../infra/keycloak'
-import { CreateUserCredentials, GetUserName } from '../modules/users'
-import { ResendInvitationEmail } from '../modules/users/queries/ResendInvitationEmail'
+import { GetUserName, ResendInvitationEmail } from '../modules/users'
+import { CreateUserCredentials } from '../modules/authN'
 import { isProdEnv, isStagingEnv } from './env.config'
 
 let getUserName: GetUserName

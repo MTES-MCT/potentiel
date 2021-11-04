@@ -5,7 +5,7 @@ import { OtherError } from '../../modules/shared'
 import routes from '../../routes'
 import { keycloakAdminClient } from './keycloakClient'
 import { authorizedTestEmails, isProdEnv } from '../../config'
-import { CreateUserCredentials } from '../../modules/users'
+import { CreateUserCredentials } from '../../modules/authN'
 
 const {
   KEYCLOAK_ADMIN_CLIENT_ID,
