@@ -11,7 +11,7 @@
     <title>Potentiel - Suivi des Projets d'Energies Renouvelables</title>
 
     <link href="${url.resourcesPath}/css/main.min.css" rel="stylesheet" />
-    <link href="${url.resourcesPath}/css/potentiel.css" rel="stylesheet" />
+    <link href="${url.resourcesPath}/css/index.css" rel="stylesheet" />
 
     <!-- Favicons -->
     <meta name="theme-color" content="#ffffff" />

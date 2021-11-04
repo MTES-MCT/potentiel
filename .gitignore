@@ -114,7 +114,7 @@ dist
 uploads/
 
 # Generated frontend scripts
-src/public/js/*.js
+src/public/js
 
 # temp files
 temp/
@@ -124,3 +124,6 @@ userData/
 cypress/screenshots
 cypress/videos
 .clever.json
+
+# Generated css file
+src/public/css/index.css

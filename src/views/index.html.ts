@@ -32,7 +32,7 @@ export const makeHtml = <T extends HasRequest>(args: PageProps<T>) => {
         <title>Potentiel - Suivi des Projets d'Energies Renouvelables</title>
 
         <link href="/main.min.css" rel="stylesheet" />
-        <link href="/css/potentiel.css" rel="stylesheet" />
+        <link href="/css/index.css" rel="stylesheet" />
         <script src="/scripts.js"></script>
         ${args.hydrate
           ? html`
