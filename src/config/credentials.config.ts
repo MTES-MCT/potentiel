@@ -21,7 +21,7 @@ if (isProdEnv || isStagingEnv) {
   getUserName = (id) => okAsync('Utilisateur Test')
   createUserCredentials = (args) => {
     logger.info(`FAKE createUserCredentials(${JSON.stringify(args)})`)
-    return okAsync(new UniqueEntityID().toString())
+    return okAsync(null)
   }
   resendInvitationEmail = (email) => {
     logger.info(`FAKE resend invitation email to ${email}`)

@@ -20,7 +20,7 @@ const ONE_MONTH = 3600 * 24 * 30
 export const createUserCredentials: CreateUserCredentials = (args) => {
   const { email, role, fullName } = args
 
-  async function createKeyCloakCredentials(): Promise<string> {
+  async function createKeyCloakCredentials(): Promise<null> {
     await keycloakAdminClient.auth({
       grantType: 'client_credentials',
       clientId: KEYCLOAK_ADMIN_CLIENT_ID!,
@@ -72,7 +72,7 @@ export const createUserCredentials: CreateUserCredentials = (args) => {
       roles: [{ id: realmRole.id, name: realmRole.name! }],
     })
 
-    return id
+    return null
   }
 
   return ResultAsync.fromPromise(createKeyCloakCredentials(), (e: any) => {
