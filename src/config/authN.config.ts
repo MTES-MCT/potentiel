@@ -1,6 +1,7 @@
 import { makeFakeAuth } from '../infra/fakeAuth'
 import { makeKeycloakAuth } from '../infra/keycloak'
-import { EnsureLoggedIn, EnsureRole, RegisterAuth } from '../modules/users'
+import { EnsureLoggedIn } from '../modules/users'
+import { EnsureRole, RegisterAuth } from '../modules/authN'
 import { sequelizeInstance } from '../sequelize.config'
 import { isProdEnv, isStagingEnv } from './env.config'
 import { getUserByEmail } from './queries.config'

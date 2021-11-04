@@ -1,15 +1,10 @@
 import { logger } from '../../core/utils'
 import { User } from '../../entities'
-import {
-  EnsureLoggedIn,
-  EnsureRole,
-  GetUserByEmail,
-  makeRegisterFirstUserLogin,
-  RegisterAuth,
-} from '../../modules/users'
+import { EnsureLoggedIn, GetUserByEmail, makeRegisterFirstUserLogin } from '../../modules/users'
 import QueryString from 'querystring'
 import routes from '../../routes'
 import { FakeLoginPage } from '../../views/legacy-pages'
+import { RegisterAuth, EnsureRole } from '../../modules/authN'
 
 export interface FakeAuthDeps {
   getUserByEmail: GetUserByEmail

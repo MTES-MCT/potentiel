@@ -4,12 +4,8 @@ import Keycloak from 'keycloak-connect'
 import QueryString from 'querystring'
 import { logger } from '../../core/utils'
 import { User, USER_ROLES } from '../../entities'
-import {
-  EnsureRole,
-  GetUserByEmail,
-  makeRegisterFirstUserLogin,
-  RegisterAuth,
-} from '../../modules/users'
+import { EnsureRole, RegisterAuth } from '../../modules/authN'
+import { GetUserByEmail, makeRegisterFirstUserLogin } from '../../modules/users'
 import { EnsureLoggedIn } from '../../modules/users/queries/EnsureLoggedIn'
 import routes from '../../routes'
 
