@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '../../../../../core/domain'
-import { UserRightsToProjectGranted } from '../../../../../modules/authorization'
+import { UserRightsToProjectGranted } from '../../../../../modules/authZ'
 import { resetDatabase } from '../../../helpers'
 import models from '../../../models'
 import { onUserRightsToProjectGranted } from './onUserRightsToProjectGranted'

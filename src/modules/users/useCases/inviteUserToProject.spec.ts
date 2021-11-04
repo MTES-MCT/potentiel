@@ -4,7 +4,7 @@ import { User } from '../../../entities'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { InfraNotAvailableError } from '../../shared'
 import { makeInviteUserToProject } from './inviteUserToProject'
-import { UserInvitedToProject } from '../../authorization'
+import { UserInvitedToProject } from '../../authZ'
 
 describe('inviteUserToProject use-case', () => {
   const fakeUser: User = makeFakeUser()

@@ -1,8 +1,5 @@
 import { UniqueEntityID } from '../../../../../core/domain'
-import {
-  UserInvitedToProject,
-  UserRightsToProjectRevoked,
-} from '../../../../../modules/authorization'
+import { UserInvitedToProject, UserRightsToProjectRevoked } from '../../../../../modules/authZ'
 import { resetDatabase } from '../../../helpers'
 import models from '../../../models'
 import { onUserInvitedToProject } from './onUserInvitedToProject'

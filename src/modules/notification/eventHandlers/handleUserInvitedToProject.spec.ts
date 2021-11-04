@@ -4,7 +4,7 @@ import { makeProject } from '../../../entities'
 import { None, Some } from '../../../types'
 import makeFakeProject from '../../../__tests__/fixtures/project'
 import makeFakeUser from '../../../__tests__/fixtures/user'
-import { UserInvitedToProject } from '../../authorization'
+import { UserInvitedToProject } from '../../authZ'
 import { handleUserInvitedToProject } from './handleUserInvitedToProject'
 
 const userId = new UniqueEntityID().toString()

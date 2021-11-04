@@ -1,7 +1,7 @@
 import { errAsync, okAsync, ResultAsync, wrapInfra } from '../../core/utils'
 import { Repository, UniqueEntityID } from '../../core/domain'
 import { User } from '../../entities'
-import { ShouldUserAccessProject } from '../authorization'
+import { ShouldUserAccessProject } from '../authZ'
 import { EntityNotFoundError, InfraNotAvailableError } from '../shared'
 import { FileAccessDeniedError, FileNotFoundError } from './errors'
 import { FileObject } from './FileObject'

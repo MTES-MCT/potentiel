@@ -1,7 +1,7 @@
 import { combine, errAsync, fromOldResultAsync, okAsync, ResultAsync } from '../../../core/utils'
 import { UserRepo } from '../../../dataAccess'
 import { User } from '../../../entities'
-import { UserProjectsLinkedByContactEmail } from '../../authorization'
+import { UserProjectsLinkedByContactEmail } from '../../authZ'
 import { EventBus } from '../../eventStore'
 import { GetNonLegacyProjectsByContactEmail } from '../../project'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'

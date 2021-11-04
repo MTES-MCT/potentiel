@@ -1,4 +1,4 @@
-import { handleProjectImported } from '../../modules/authorization'
+import { handleProjectImported } from '../../modules/authZ'
 import { ProjectImported, ProjectReimported } from '../../modules/project/events'
 import { eventStore } from '../eventStore.config'
 import { getUserByEmail, isPeriodeLegacy } from '../queries.config'
@@ -21,5 +21,5 @@ eventStore.subscribe(
   })
 )
 
-console.log('Authorization Event Handlers Initialized')
-export const authorizationHandlersOk = true
+console.log('AuthZ Event Handlers Initialized')
+export const authZHandlersOk = true

@@ -5,7 +5,7 @@ import makeFakeUser from '../../../__tests__/fixtures/user'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { UserCreated } from '../events'
 import { makeCreateUser } from './createUser'
-import { UserProjectsLinkedByContactEmail } from '../../authorization'
+import { UserProjectsLinkedByContactEmail } from '../../authZ'
 
 describe('createUser use-case', () => {
   const fakeEmail = 'test@test.test'
