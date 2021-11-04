@@ -7,6 +7,7 @@ export * from './errorBox';
 export * from './footer';
 export * from './header';
 export * from './missingOwnerProjectList';
+export * from './ModificationRequestActionTitles';
 export * from './PageLayout';
 export * from './pagination';
 export * from './partnerDashboard';

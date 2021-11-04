@@ -9,9 +9,9 @@ import { appelsOffreStatic } from '../../../dataAccess/inMemory'
 import { PageLayout } from '../../components/PageLayout'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
 import { getAutoAcceptRatiosForAppelOffre } from '../../../modules/modificationRequest/helpers/getAutoAcceptRatiosForAppelOffre'
-import { titlePerAction } from '../../helpers'
 
 import moment from 'moment'
+import ModificationRequestActionTitles from '../../components/ModificationRequestActionTitles'
 
 moment.locale('fr')
 
@@ -57,7 +57,7 @@ export const NewModificationRequest = PageLayout(({
     <UserDashboard currentPage={'list-requests'}>
       <div className="panel">
         <div className="panel__header">
-          <h3>{titlePerAction[action]}</h3>
+          <h3><ModificationRequestActionTitles action={action}/></h3>
         </div>
 
         <form action={ROUTES.DEMANDE_ACTION} method="post" encType="multipart/form-data">

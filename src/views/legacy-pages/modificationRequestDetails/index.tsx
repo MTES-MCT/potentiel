@@ -4,6 +4,7 @@ import React from 'react'
 import { logger } from '../../../core/utils'
 import { ModificationRequestPageDTO } from '../../../modules/modificationRequest'
 import { ErrorBox, RoleBasedDashboard, SuccessBox } from '../../components'
+import ModificationRequestActionTitles from '../../components/ModificationRequestActionTitles'
 import {
   AdminResponseForm,
   DelaiForm,
@@ -16,7 +17,6 @@ import {
   ActionnaireForm,
 } from './components'
 import { PuissanceForm } from './components/PuissanceForm'
-import { titlePerAction } from '../../helpers';
 
 
 moment.locale('fr')
@@ -47,7 +47,7 @@ export default function AdminModificationRequestPage({ request, modificationRequ
     <RoleBasedDashboard role={user.role} currentPage={'list-requests'}>
       <div className="panel">
         <div className="panel__header" style={{ position: 'relative' }}>
-          <h3>{titlePerAction[type]}</h3>
+          <h3><ModificationRequestActionTitles action={type}/></h3>
         </div>
 
         <DemandeDetails modificationRequest={modificationRequest} />

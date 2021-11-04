@@ -3,4 +3,3 @@ export * from './ModificationRequestColorByStatus';
 export * from './ModificationRequestStatusTitle';
 export * from './ModificationRequestTitleByType';
 export * from './refreshPageWithNewSearchParamValue';
-export * from './titlePerAction';

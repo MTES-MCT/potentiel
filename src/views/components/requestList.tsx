@@ -6,8 +6,8 @@ import { ModificationRequestListItemDTO } from '../../modules/modificationReques
 import ROUTES from '../../routes'
 import { PaginatedList } from '../../types'
 import { ModificationRequestColorByStatus, ModificationRequestStatusTitle } from '../helpers'
-import { titlePerAction } from '../helpers'
 import Pagination from './pagination'
+import ModificationRequestActionTitles from './ModificationRequestActionTitles'
 
 interface Props {
   modificationRequests?: PaginatedList<ModificationRequestListItemDTO>
@@ -105,7 +105,7 @@ const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
                 </td>
                 <td valign="top">
                   <div {...dataId('requestList-item-type')}>
-                    {titlePerAction[modificationRequest.type]}
+                    <ModificationRequestActionTitles action={modificationRequest.type}/>
                   </div>
                   <div
                     style={{
