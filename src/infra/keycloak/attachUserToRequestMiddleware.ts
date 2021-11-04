@@ -1,3 +1,4 @@
+import { NextFunction, Request, Response } from 'express'
 import { logger } from '../../core/utils'
 import { USER_ROLES } from '../../entities'
 import { GetUserByEmail, makeRegisterFirstUserLogin } from '../../modules/users'
@@ -10,7 +11,11 @@ type AttachUserToRequestMiddlewareDependencies = {
 const makeAttachUserToRequestMiddleware = ({
   getUserByEmail,
   registerFirstUserLogin,
-}: AttachUserToRequestMiddlewareDependencies) => (request, response, next) => {
+}: AttachUserToRequestMiddlewareDependencies) => (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
   if (
     // Theses paths should be prefixed with /static in the future
     request.path.startsWith('/fonts') ||
@@ -24,7 +29,6 @@ const makeAttachUserToRequestMiddleware = ({
     return
   }
 
-  // @ts-ignore
   const token = request.kauth?.grant?.access_token
   const userEmail = token?.content?.email
   const kRole = token && USER_ROLES.find((role) => token.hasRealmRole(role))
