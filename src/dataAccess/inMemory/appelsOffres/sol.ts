@@ -111,6 +111,11 @@ const sol: AppelOffre = {
       title: 'dixième',
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
+      noteThresholdByFamily: [
+        { familleId: '1', noteThreshold: 46.86 },
+        { familleId: '2', noteThreshold: 43.96 },
+        { familleId: '3', noteThreshold: 23.94 },
+      ],
       certificateTemplate: 'v1',
     },
   ],
