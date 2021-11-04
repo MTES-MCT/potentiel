@@ -25,12 +25,8 @@ const modifications = [
 
 describe('handleLegacyModificationRawDataImported', () => {
   const fakeWithDelay: WithDelay = <T, E>(delayInMs, callback) => {
-    return ResultAsync.fromPromise(
-      new Promise(async (resolve, reject) => {
-        await callback().match(resolve, reject)
-      }),
-      (e) => e as E
-    )
+    const result = callback()
+    return result instanceof ResultAsync ? result : result.asyncMap(async (value) => value)
   }
 
   describe('when the project exists', () => {
