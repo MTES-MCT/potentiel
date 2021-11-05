@@ -4,6 +4,22 @@ import { dataId } from '../../helpers/testId'
 const CDCChoiceForm = ({project, cahiersChargesURLs}) => {
     return (
         <div>
+            <p>
+                Pour plus d'informations sur les modalités d'instruction veuillez consulter cette &nbsp;
+                <a 
+                  href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel/comment-faire-une-demande-de-modification-ou-informer-le-prefet-dun-changement"
+                  target='_blank'
+                >
+                  page d'aide &nbsp;
+                  <img 
+                    src="/images/icons/external/external-link-alt-solid.svg"
+                    style={{width: 12, height: 12}}
+                    alt="Ouvrir dans un nouvel onglet"
+                  >
+                  </img>
+                </a>
+                .
+            </p>
             {!project.newRulesOptIn && (
                 <>
                     <div style={{border: "1px solid #adb9c9", padding: 20, borderRadius: 3, marginBottom: 15}}>

@@ -9,6 +9,7 @@ import { NoteElement, Section } from './components'
 import { EditProjectData, ProjectFrise, ProjectHeader } from './sections'
 import { PageLayout } from '../../components/PageLayout';
 import { hydrateOnClient } from '../../helpers'
+import CDCChoiceForm from '../../components/CDCChoiceForm'
 
 interface ProjectDetailsProps {
   request: Request
@@ -190,6 +191,26 @@ export const ProjectDetails = PageLayout(({
           {['admin', 'dgec'].includes(user.role) && project.notifiedOn ? (
             <Section title="Modifier le projet" icon="building">
               <EditProjectData project={project} request={request} />
+            </Section>
+          ) : (
+            ''
+          )}
+          {user.role == 'porteur-projet' ? (
+            <Section title="Cahier des charges" icon="clipboard-check">
+              <form>
+                <CDCChoiceForm project={project} cahiersChargesURLs={cahiersChargesURLs}/>
+                <input type="hidden" name="projectId" value={project.id} />
+                {!project.newRulesOptIn && (
+                  <button 
+                    className="button" 
+                    type="submit"
+                    style={{margin: 'auto', width: 260, display: 'block'}}
+                  >
+                    Enregistrer mon changement
+                </button>
+                )}
+
+              </form>
             </Section>
           ) : (
             ''

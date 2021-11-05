@@ -141,22 +141,6 @@ export const NewModificationRequest = PageLayout(({
                   Veuillez saisir les modalités d'instruction à appliquer à ce changement
                 </strong>
               </label>
-              <p>
-                Pour plus d'informations sur les modalités d'instruction veuillez consulter cette &nbsp;
-                <a 
-                  href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel/comment-faire-une-demande-de-modification-ou-informer-le-prefet-dun-changement"
-                  target='_blank'
-                >
-                  page d'aide &nbsp;
-                  <img 
-                    src="/images/icons/external/external-link-alt-solid.svg"
-                    style={{width: 12, height: 12}}
-                    alt="Ouvrir dans un nouvel onglet"
-                  >
-                  </img>
-                </a>
-                .
-              </p>
               <CDCChoiceForm project={project} cahiersChargesURLs={cahiersChargesURLs}/>
             </div>
 
