@@ -68,7 +68,7 @@ const columnMapper = {
   },
   note: (line: any) => prepareNumber(line['Note totale']),
   nomRepresentantLegal: (line: any) => line['Nom et prénom du représentant légal'],
-  email: (line: any) => line['Adresse électronique du contact'],
+  email: (line: any) => line['Adresse électronique du contact'].toLowerCase(),
   adresseProjet: (line: any) => line['N°, voie, lieu-dit'],
   codePostalProjet: (line: any) =>
     line['CP'].split('/').map((item) => padCodePostalWithleft0(item.trim())),
