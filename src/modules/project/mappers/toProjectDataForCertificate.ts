@@ -25,7 +25,7 @@ export const toProjectDataForCertificate = (
     return err(new IncompleteDataError())
   }
 
-  if (!props.isClasse || !props.notifiedOn) {
+  if (typeof props.isClasse === 'undefined' || !props.notifiedOn) {
     logger.error(
       'toProjectDataForCertificate failed to create DTO because project has missing props'
     )
