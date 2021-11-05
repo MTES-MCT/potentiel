@@ -1,73 +1,27 @@
-import { combine, errAsync, fromOldResultAsync, okAsync, ResultAsync } from '../../../core/utils'
-import { UserRepo } from '../../../dataAccess'
-import { User } from '../../../entities'
-import { UserProjectsLinkedByContactEmail } from '../../authZ'
-import { EventBus } from '../../eventStore'
-import { GetNonLegacyProjectsByContactEmail } from '../../project'
+import { TransactionalRepository, UniqueEntityID } from '../../../core/domain'
+import { ResultAsync } from '../../../core/utils'
+import { User as OldUser } from '../../../entities'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
-import { UserCreated } from '../events'
-import { GetUserByEmail } from '../queries'
+import { User } from '../User'
 
 interface CreateUserDeps {
-  getUserByEmail: GetUserByEmail
-  getNonLegacyProjectsByContactEmail: GetNonLegacyProjectsByContactEmail
-  createUserCredentials: (args: {
-    role: User['role']
-    email: string
-    fullName?: string
-  }) => ResultAsync<string, InfraNotAvailableError>
-  eventBus: EventBus
+  userRepo: TransactionalRepository<User>
 }
 
 interface CreateUserArgs {
   email: string
   fullName?: string
-  role: User['role']
-  createdBy?: User
+  role: OldUser['role']
+  createdBy?: OldUser
 }
 
 export const makeCreateUser = (deps: CreateUserDeps) => (
   args: CreateUserArgs
 ): ResultAsync<string, UnauthorizedError | InfraNotAvailableError> => {
-  const {
-    getUserByEmail,
-    createUserCredentials,
-    getNonLegacyProjectsByContactEmail,
-    eventBus,
-  } = deps
+  const { userRepo } = deps
   const { email, role, createdBy, fullName } = args
 
-  if (role === 'admin' || role === 'dgec') {
-    return errAsync(new UnauthorizedError())
-  }
-
-  return getUserByEmail(email).andThen(
-    (userOrNull): ResultAsync<string, InfraNotAvailableError> => {
-      if (userOrNull !== null) {
-        return okAsync(userOrNull.id)
-      }
-
-      return createUserCredentials({ role, email, fullName })
-        .andThen((userId) =>
-          eventBus
-            .publish(
-              new UserCreated({
-                payload: { userId, email, fullName, role, createdBy: createdBy?.id },
-              })
-            )
-            .map(() => userId)
-        )
-        .andThen((userId) => {
-          return getNonLegacyProjectsByContactEmail(email)
-            .andThen((projectIds) =>
-              eventBus.publish(
-                new UserProjectsLinkedByContactEmail({
-                  payload: { userId, projectIds },
-                })
-              )
-            )
-            .map(() => userId)
-        })
-    }
-  )
+  return userRepo.transaction(new UniqueEntityID(email), (user) => {
+    return user.create({ role, createdBy: createdBy?.id, fullName }).andThen(() => user.getUserId())
+  })
 }

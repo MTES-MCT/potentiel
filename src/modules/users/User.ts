@@ -9,7 +9,7 @@ export interface User extends EventStoreAggregate {
   registerFirstLogin(args: { fullName: string; email: string }): Result<null, never>
   getUserId: () => Result<string, EntityNotFoundError>
   create: (args: {
-    fullName: string
+    fullName?: string
     role: OldUser['role']
     createdBy?: string
   }) => Result<null, never>

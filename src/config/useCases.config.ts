@@ -31,7 +31,7 @@ import {
   makeRelanceInvitation,
 } from '../modules/users'
 import { buildCertificate } from '../views/certificates'
-import { createUserCredentials, getUserName, resendInvitationEmail } from './credentials.config'
+import { getUserName, resendInvitationEmail } from './credentials.config'
 import { eventStore } from './eventStore.config'
 import {
   getAppelOffreList,
@@ -174,10 +174,7 @@ export const importPeriodeData = makeImportPeriodeData({
 })
 
 export const createUser = makeCreateUser({
-  getUserByEmail,
-  createUserCredentials,
-  eventBus: eventStore,
-  getNonLegacyProjectsByContactEmail,
+  userRepo,
 })
 
 export const inviteUserToProject = makeInviteUserToProject({
