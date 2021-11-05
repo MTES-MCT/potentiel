@@ -30,6 +30,7 @@ const CDCChoiceForm = ({project, cahiersChargesURLs}) => {
                                 value="Anciennes règles"
                                 {...dataId('modificationRequest-oldRules')}
                                 disabled={project.newRulesOptIn}
+                                defaultChecked={!project.newRulesOptIn}
                             />
                             <label htmlFor="Anciennes règles" style={{flex: 1}}>
                                 <strong>Instruction selon les dispositions du cahier des charges en vigueur au moment de
@@ -52,14 +53,17 @@ const CDCChoiceForm = ({project, cahiersChargesURLs}) => {
             )}
             <div style={{border: "1px solid #adb9c9", padding: 20, borderRadius: 3, marginBottom: 15}}>
                 <div className="inline-radio-option">
-                    <input
-                        type="radio"
-                        name="newRulesOptIn"
-                        value="Nouvelles règles"
-                        defaultChecked={project.newRulesOptIn}
-                        {...dataId('modificationRequest-newRules')}
-                        disabled={project.newRulesOptIn}
-                    />
+                    {!project.newRulesOptIn && (
+                        <input
+                            type="radio"
+                            name="newRulesOptIn"
+                            value="Nouvelles règles"
+                            defaultChecked={project.newRulesOptIn}
+                            {...dataId('modificationRequest-newRules')}
+                            disabled={project.newRulesOptIn}
+                        />
+                    )}
+
                     <label htmlFor="Nouvelles règles" style={{flex: 1}}>
                     <strong>Instruction selon le cahier des charges modifié rétroactivement et publié le 30/07/2021, 
                     pris en application du décret n° 2019-1175 du 14 novembre 2019&nbsp;</strong>
