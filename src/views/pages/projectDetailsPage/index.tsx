@@ -1,5 +1,5 @@
 import { Request } from 'express'
-import React from 'react'
+import React, { useState } from 'react'
 import { logger } from '../../../core/utils'
 import { dataId } from '../../../helpers/testId'
 import { ProjectDataForProjectPage } from '../../../modules/project/dtos'
@@ -25,6 +25,8 @@ export const ProjectDetails = PageLayout(({
 }: ProjectDetailsProps) => {
   const { user } = request
   const { error, success } = (request.query as any) || {}
+
+  const [submitBtnState, setSubmitBtnState] = useState(true)
 
   if (!user) {
     // Should never happen
@@ -198,13 +200,14 @@ export const ProjectDetails = PageLayout(({
           {user.role == 'porteur-projet' ? (
             <Section title="Cahier des charges" icon="clipboard-check">
               <form>
-                <CDCChoiceForm project={project} cahiersChargesURLs={cahiersChargesURLs}/>
+                <CDCChoiceForm project={project} cahiersChargesURLs={cahiersChargesURLs} setSubmitBtnState={setSubmitBtnState}/>
                 <input type="hidden" name="projectId" value={project.id} />
                 {!project.newRulesOptIn && (
                   <button 
                     className="button" 
                     type="submit"
                     style={{margin: 'auto', width: 260, display: 'block'}}
+                    disabled={submitBtnState}
                   >
                     Enregistrer mon changement
                 </button>

@@ -141,7 +141,7 @@ export const NewModificationRequest = PageLayout(({
                   Veuillez saisir les modalités d'instruction à appliquer à ce changement
                 </strong>
               </label>
-              <CDCChoiceForm project={project} cahiersChargesURLs={cahiersChargesURLs}/>
+              <CDCChoiceForm project={project} cahiersChargesURLs={cahiersChargesURLs} setSubmitBtnState={null}/>
             </div>
 
             <div {...dataId('modificationRequest-demandesInputs')}>

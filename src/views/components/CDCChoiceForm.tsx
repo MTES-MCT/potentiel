@@ -1,7 +1,12 @@
 import React from 'react'
 import { dataId } from '../../helpers/testId'
 
-const CDCChoiceForm = ({project, cahiersChargesURLs}) => {
+const CDCChoiceForm = ({project, cahiersChargesURLs, setSubmitBtnState}) => {
+    const handleCDCChange = (event :any) => {
+        if(setSubmitBtnState) {
+            setSubmitBtnState(event?.target.value !== "Nouvelles règles")
+        }
+    }
     return (
         <div>
             <p>
@@ -31,6 +36,7 @@ const CDCChoiceForm = ({project, cahiersChargesURLs}) => {
                                 {...dataId('modificationRequest-oldRules')}
                                 disabled={project.newRulesOptIn}
                                 defaultChecked={!project.newRulesOptIn}
+                                onChange={handleCDCChange}
                             />
                             <label htmlFor="Anciennes règles" style={{flex: 1}}>
                                 <strong>Instruction selon les dispositions du cahier des charges en vigueur au moment de
@@ -61,6 +67,7 @@ const CDCChoiceForm = ({project, cahiersChargesURLs}) => {
                             defaultChecked={project.newRulesOptIn}
                             {...dataId('modificationRequest-newRules')}
                             disabled={project.newRulesOptIn}
+                            onChange={handleCDCChange}
                         />
                     )}
 
