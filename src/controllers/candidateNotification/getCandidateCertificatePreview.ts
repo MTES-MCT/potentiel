@@ -40,7 +40,7 @@ v1Router.get(
     await toProjectDataForCertificate({
       appelOffre: project.appelOffre,
       isClasse: project.classe === 'Classé',
-      notifiedOn: project.notifiedOn,
+      notifiedOn: Date.now(),
       projectId: new UniqueEntityID(project.id),
       data: project as unknown,
     } as ProjectProps)
