@@ -171,7 +171,7 @@ export const NewModificationRequest = PageLayout(({
                     <div>
                       <ul>
                         <li style={{listStyleImage: 'URL(/images/icons/external/arrow-right.svg)'}}>Je dois envoyer ma demande ou mon signalement au format papier.</li>
-                        <li style={{listStyleImage: 'URL(/images/icons/external/arrow-right.svg)'}}>Le choix du mode d'instruction sera proposé à chaque nouveau dépôt.</li>
+                        <li style={{listStyleImage: 'URL(/images/icons/external/arrow-right.svg)'}}>Je pourrai changer de mode d'instruction lors de ma prochaine demande si je le souhaite.</li>
                       </ul>
                     </div>
                   </div>
