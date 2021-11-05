@@ -1,11 +1,10 @@
 import { RequiredActionAlias } from 'keycloak-admin/lib/defs/requiredActionProviderRepresentation'
-import { logger, ResultAsync, wrapInfra } from '../../core/utils'
-import { User } from '../../entities'
-import { OtherError } from '../../modules/shared'
+import { authorizedTestEmails, isProdEnv } from '../../config'
+import { errAsync, logger, ResultAsync } from '../../core/utils'
+import { CreateUserCredentials } from '../../modules/authN'
+import { OtherError, UnauthorizedError } from '../../modules/shared'
 import routes from '../../routes'
 import { keycloakAdminClient } from './keycloakClient'
-import { authorizedTestEmails, isProdEnv } from '../../config'
-import { CreateUserCredentials } from '../../modules/authN'
 
 const {
   KEYCLOAK_ADMIN_CLIENT_ID,
@@ -19,6 +18,10 @@ const ONE_MONTH = 3600 * 24 * 30
 
 export const createUserCredentials: CreateUserCredentials = (args) => {
   const { email, role, fullName } = args
+
+  if (['admin', 'dgec'].includes(role)) {
+    return errAsync(new UnauthorizedError())
+  }
 
   async function createKeyCloakCredentials(): Promise<null> {
     await keycloakAdminClient.auth({
