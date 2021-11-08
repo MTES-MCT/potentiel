@@ -2,11 +2,10 @@ import { DomainEvent, UniqueEntityID } from '../../core/domain'
 import { err, ok, Result } from '../../core/utils'
 import { EventStoreAggregate } from '../eventStore'
 import { EntityNotFoundError } from '../shared'
-import { UserCreated, UserRegistered } from './events'
+import { UserCreated } from './events'
 import { UserRole } from './UserRoles'
 
 export interface User extends EventStoreAggregate {
-  registerFirstLogin(args: { fullName: string; email: string }): Result<null, never>
   getUserId: () => Result<string, EntityNotFoundError>
   create: (args: { fullName?: string; role: UserRole; createdBy?: string }) => Result<null, never>
 }
@@ -40,9 +39,6 @@ export const makeUser = (args: {
 
   function _processEvent(event: DomainEvent) {
     switch (event.type) {
-      case UserRegistered.type:
-        props.isRegistered = true
-        break
       case UserCreated.type:
         props.userId = event.payload.userId
       default:
@@ -63,21 +59,6 @@ export const makeUser = (args: {
   }
 
   return ok({
-    registerFirstLogin: function ({ fullName, email }) {
-      if (!props.isRegistered && props.userId) {
-        _publishEvent(
-          new UserRegistered({
-            payload: {
-              userId: props.userId,
-              fullName,
-              email,
-            },
-          })
-        )
-      }
-
-      return ok(null)
-    },
     getUserId: function () {
       if (!props.userId) {
         return err(new EntityNotFoundError())
