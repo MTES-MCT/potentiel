@@ -9,7 +9,6 @@ window.initHandlers = function () {
   addInvitationHandlers()
   addDelayEstimator()
   // addPuissanceModificationHandler()
-  addModificationRulesHandler()
   addEvaluationCarboneModificationHandler()
   addSelectorHandlers()
   addSendCopyOfNotificationButtonHandler()
@@ -570,30 +569,6 @@ function addPuissanceModificationHandler() {
         show(wrongFormat, true)
       }
     })
-  }
-}
-
-function addModificationRulesHandler() {
-  const oldRules = document.querySelector('[data-testid=modificationRequest-oldRules]')
-  const newRules = document.querySelector('[data-testid=modificationRequest-newRules]')
-  const demandeInputs = document.querySelector('[data-testid=modificationRequest-demandesInputs]')
-
-  if (oldRules && newRules && demandeInputs) {
-    oldRules.addEventListener('change', updateDemandeFormVisibility)
-    newRules.addEventListener('change', updateDemandeFormVisibility)
-
-    // Needed on page load
-    showElement(demandeInputs, !oldRules.checked)
-  }
-
-  function updateDemandeFormVisibility(event) {
-    const anciennesReglesIsSelected = event.target.value === 'Anciennes règles'
-
-    if (anciennesReglesIsSelected) {
-      showElement(demandeInputs, false)
-    } else {
-      showElement(demandeInputs, true)
-    }
   }
 }
 
