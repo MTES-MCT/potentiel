@@ -12,6 +12,7 @@ type AttachUserToRequestMiddlewareDependencies = {
 const makeAttachUserToRequestMiddleware = ({
   getUserByEmail,
   registerFirstUserLogin,
+  createUser,
 }: AttachUserToRequestMiddlewareDependencies) => (
   request: Request,
   response: Response,
@@ -47,9 +48,20 @@ const makeAttachUserToRequestMiddleware = ({
           })
         }
       } else {
-        logger.error(
-          new Error(`Keycloak session open but could not find user in db with email ${userEmail}`)
-        )
+        const fullName = token?.content?.name
+        const createUserArgs = { email: userEmail, role: kRole, fullName }
+
+        createUser(createUserArgs).then((userIdResult) => {
+          const userId = userIdResult.isOk() ? userIdResult.value : null
+
+          if (userId) {
+            request.user = {
+              ...createUserArgs,
+              id: userId,
+              isRegistered: true,
+            }
+          }
+        })
       }
       next()
     })
