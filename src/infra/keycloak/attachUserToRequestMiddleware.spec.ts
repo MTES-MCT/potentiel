@@ -5,12 +5,10 @@ import { makeAttachUserToRequestMiddleware } from './attachUserToRequestMiddlewa
 
 describe(`attachUserToRequestMiddleware`, () => {
   const getUserByEmail = jest.fn()
-  const registerFirstUserLogin = jest.fn()
   const createUser = jest.fn()
 
   const middleware = makeAttachUserToRequestMiddleware({
     getUserByEmail,
-    registerFirstUserLogin,
     createUser,
   })
 

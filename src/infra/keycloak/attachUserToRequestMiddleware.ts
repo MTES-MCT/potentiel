@@ -1,17 +1,14 @@
 import { NextFunction, Request, Response } from 'express'
-import { logger } from '../../core/utils'
 import { USER_ROLES } from '../../entities'
-import { GetUserByEmail, makeCreateUser, makeRegisterFirstUserLogin } from '../../modules/users'
+import { GetUserByEmail, makeCreateUser } from '../../modules/users'
 
 type AttachUserToRequestMiddlewareDependencies = {
   getUserByEmail: GetUserByEmail
-  registerFirstUserLogin: ReturnType<typeof makeRegisterFirstUserLogin>
   createUser: ReturnType<typeof makeCreateUser>
 }
 
 const makeAttachUserToRequestMiddleware = ({
   getUserByEmail,
-  registerFirstUserLogin,
   createUser,
 }: AttachUserToRequestMiddlewareDependencies) => (
   request: Request,
@@ -40,13 +37,6 @@ const makeAttachUserToRequestMiddleware = ({
       if (userResult.isOk() && userResult.value !== null) {
         request.user = userResult.value
         request.user.role = kRole
-
-        if (!request.user.isRegistered) {
-          registerFirstUserLogin({
-            userId: userResult.value.id,
-            keycloakId: token?.content?.sub,
-          })
-        }
       } else {
         const fullName = token?.content?.name
         const createUserArgs = { email: userEmail, role: kRole, fullName }

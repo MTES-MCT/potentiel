@@ -2,13 +2,13 @@ import QueryString from 'querystring'
 import { logger } from '../../core/utils'
 import { User } from '../../entities'
 import { EnsureRole, RegisterAuth } from '../../modules/authN'
-import { GetUserByEmail, makeRegisterFirstUserLogin } from '../../modules/users'
+import { GetUserByEmail, makeCreateUser } from '../../modules/users'
 import routes from '../../routes'
 import { FakeLoginPage } from '../../views/legacy-pages'
 
 export interface FakeAuthDeps {
   getUserByEmail: GetUserByEmail
-  registerFirstUserLogin: ReturnType<typeof makeRegisterFirstUserLogin>
+  createUser: ReturnType<typeof makeCreateUser>
 }
 
 const FAKE_AUTH_COOKIE = 'fake_auth_cookie'

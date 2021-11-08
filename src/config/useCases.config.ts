@@ -24,21 +24,15 @@ import {
   makeUpdateNewRulesOptIn,
   makeUpdateStepStatus,
 } from '../modules/project'
-import {
-  makeCreateUser,
-  makeInviteUserToProject,
-  makeRegisterFirstUserLogin,
-  makeRelanceInvitation,
-} from '../modules/users'
+import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '../modules/users'
 import { buildCertificate } from '../views/certificates'
-import { getUserName, resendInvitationEmail } from './credentials.config'
+import { resendInvitationEmail } from './credentials.config'
 import { eventStore } from './eventStore.config'
 import {
   getAppelOffreList,
   getFileProject,
   getProjectAppelOffreId,
   getProjectIdsForPeriode,
-  getNonLegacyProjectsByContactEmail,
   getUserByEmail,
   hasProjectGarantieFinanciere,
   getProjectDataForProjectClaim,
@@ -52,8 +46,8 @@ import {
   oldAppelOffreRepo,
   oldProjectRepo,
   oldUserRepo,
-  projectRepo,
   userRepo,
+  projectRepo,
   projectClaimRepo,
 } from './repos.config'
 
@@ -182,11 +176,6 @@ export const inviteUserToProject = makeInviteUserToProject({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   eventBus: eventStore,
   createUser,
-})
-
-export const registerFirstUserLogin = makeRegisterFirstUserLogin({
-  userRepo,
-  getUserName,
 })
 
 export const relanceInvitation = makeRelanceInvitation({

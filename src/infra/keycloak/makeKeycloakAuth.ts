@@ -5,7 +5,7 @@ import QueryString from 'querystring'
 import { logger } from '../../core/utils'
 import { User } from '../../entities'
 import { EnsureRole, RegisterAuth } from '../../modules/authN'
-import { GetUserByEmail, USER_ROLES, makeRegisterFirstUserLogin } from '../../modules/users'
+import { GetUserByEmail, makeCreateUser } from '../../modules/users'
 import routes from '../../routes'
 import { makeAttachUserToRequestMiddleware } from './attachUserToRequestMiddleware'
 
@@ -16,7 +16,7 @@ export interface KeycloakAuthDeps {
   KEYCLOAK_USER_CLIENT_ID: string | undefined
   KEYCLOAK_USER_CLIENT_SECRET: string | undefined
   getUserByEmail: GetUserByEmail
-  registerFirstUserLogin: ReturnType<typeof makeRegisterFirstUserLogin>
+  createUser: ReturnType<typeof makeCreateUser>
 }
 
 export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
@@ -27,7 +27,7 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
     KEYCLOAK_USER_CLIENT_ID,
     KEYCLOAK_USER_CLIENT_SECRET,
     getUserByEmail,
-    registerFirstUserLogin,
+    createUser,
   } = deps
 
   if (
@@ -91,7 +91,7 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
     app.use(
       makeAttachUserToRequestMiddleware({
         getUserByEmail,
-        registerFirstUserLogin,
+        createUser,
       })
     )
 
