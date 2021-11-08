@@ -197,7 +197,7 @@ export const ProjectDetails = PageLayout(({
           ) : (
             ''
           )}
-          {user.role == 'porteur-projet' ? (
+          {user.role == 'porteur-projet' && project.isClasse ? (
             <Section title="Cahier des charges" icon="clipboard-check">
               <form
                 action={ROUTES.CHANGER_CDC}
