@@ -6,10 +6,12 @@ import { makeAttachUserToRequestMiddleware } from './attachUserToRequestMiddlewa
 describe(`attachUserToRequestMiddleware`, () => {
   const getUserByEmail = jest.fn()
   const registerFirstUserLogin = jest.fn()
+  const createUser = jest.fn()
 
   const middleware = makeAttachUserToRequestMiddleware({
     getUserByEmail,
     registerFirstUserLogin,
+    createUser,
   })
 
   const staticPaths = ['/fonts', '/css', '/images', '/scripts', '/main', '/']
@@ -82,7 +84,9 @@ describe(`attachUserToRequestMiddleware`, () => {
 
       describe(`when a user role is in the keycloak access token`, () => {
         describe(`when the user exists in Potentiel`, () => {
+          const userRole = 'admin'
           const hasRealmRole = jest.fn()
+          hasRealmRole.mockImplementation((role) => (role === userRole ? true : false))
 
           const request = {
             path: '/a-protected-path',
@@ -94,27 +98,68 @@ describe(`attachUserToRequestMiddleware`, () => {
           }
           request['kauth'] = { grant: { access_token: token } }
 
+          const userEmail = 'user@email.com'
+
+          token.content['email'] = userEmail
+
           const user: User = {
-            email: 'user@email.com',
+            email: userEmail,
             fullName: 'User',
             id: 'user-id',
             isRegistered: true,
-            role: 'admin',
+            role: userRole,
           }
-          const { email: userEmail } = user
 
-          token.content['email'] = userEmail
           getUserByEmail.mockImplementation((email) =>
             email === userEmail ? okAsync(user) : okAsync(null)
           )
 
-          hasRealmRole.mockReturnValue(true)
           const nextFunction = jest.fn()
-
           middleware(request, {} as express.Response, nextFunction)
 
           it('should attach the user to the request and execute the next function', () => {
             expect(request.user).toMatchObject(user)
+            expect(nextFunction).toHaveBeenCalled()
+          })
+        })
+
+        describe(`when the user does not exist in Potentiel`, () => {
+          const userRole = 'admin'
+          const hasRealmRole = jest.fn()
+          hasRealmRole.mockImplementation((role) => (role === userRole ? true : false))
+
+          const request = {
+            path: '/a-protected-path',
+          } as express.Request
+
+          const token = {
+            content: {},
+            hasRealmRole,
+          }
+          request['kauth'] = { grant: { access_token: token } }
+
+          const userEmail = 'user@email.com'
+          const userName = 'User'
+
+          token.content['email'] = userEmail
+          token.content['name'] = userName
+          getUserByEmail.mockReturnValue(okAsync(null))
+
+          const userId = 'user-id'
+          createUser.mockReturnValue(okAsync(userId))
+
+          const nextFunction = jest.fn()
+          middleware(request, {} as express.Response, nextFunction)
+
+          it('should attach the user to the request and execute the next function', () => {
+            const expectedUser: User = {
+              email: userEmail,
+              fullName: userName,
+              id: userId,
+              role: userRole,
+              isRegistered: true,
+            }
+            expect(request.user).toMatchObject(expectedUser)
             expect(nextFunction).toHaveBeenCalled()
           })
         })

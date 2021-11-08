@@ -1,11 +1,12 @@
 import { NextFunction, Request, Response } from 'express'
 import { logger } from '../../core/utils'
 import { USER_ROLES } from '../../entities'
-import { GetUserByEmail, makeRegisterFirstUserLogin } from '../../modules/users'
+import { GetUserByEmail, makeCreateUser, makeRegisterFirstUserLogin } from '../../modules/users'
 
 type AttachUserToRequestMiddlewareDependencies = {
   getUserByEmail: GetUserByEmail
   registerFirstUserLogin: ReturnType<typeof makeRegisterFirstUserLogin>
+  createUser: ReturnType<typeof makeCreateUser>
 }
 
 const makeAttachUserToRequestMiddleware = ({
