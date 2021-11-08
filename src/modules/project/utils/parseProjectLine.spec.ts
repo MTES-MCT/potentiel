@@ -278,6 +278,17 @@ describe('parseProjectLine', () => {
     })
   })
 
+  describe('when the email is not lowercase', () => {
+    it('should lowercase it', () => {
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          'Adresse électronique du contact': 'Test@Test.test',
+        })
+      ).toMatchObject({ email: 'test@test.test' })
+    })
+  })
+
   describe('when the Code Postal is missing', () => {
     it('should throw an error', () => {
       expect(() =>
