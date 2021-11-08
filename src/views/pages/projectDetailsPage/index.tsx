@@ -199,7 +199,10 @@ export const ProjectDetails = PageLayout(({
           )}
           {user.role == 'porteur-projet' ? (
             <Section title="Cahier des charges" icon="clipboard-check">
-              <form>
+              <form
+                action={ROUTES.CHANGER_CDC}
+                method='post'
+              >
                 <CDCChoiceForm project={project} cahiersChargesURLs={cahiersChargesURLs} setSubmitBtnState={setSubmitBtnState}/>
                 <input type="hidden" name="projectId" value={project.id} />
                 {!project.newRulesOptIn && (

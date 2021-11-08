@@ -8,3 +8,4 @@ export * from './postClaimProjects';
 export * from './postCorrectProjectData';
 export * from './postInviteUserToProject';
 export * from './postRevokeUserRightsToProject';
+export * from './postUpdateNewRulesOptIn';
