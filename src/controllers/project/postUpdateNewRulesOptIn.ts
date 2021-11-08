@@ -13,10 +13,6 @@ v1Router.post(
 
     asyncHandler(async (request, response) => {
         const {body: {projectId}, user: optedInBy} = request
-        
-        if (!optedInBy) {
-            return response.status(500).send('User must be logged in')
-        }
 
         const result = updateNewRulesOptIn({
             projectId,

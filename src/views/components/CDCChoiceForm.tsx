@@ -1,11 +1,9 @@
 import React from 'react'
 import { dataId } from '../../helpers/testId'
 
-const CDCChoiceForm = ({project, cahiersChargesURLs, setSubmitBtnState}) => {
+const CDCChoiceForm = ({project, cahiersChargesURLs, onChoiceChange}) => {
     const handleCDCChange = (event :any) => {
-        if(setSubmitBtnState) {
-            setSubmitBtnState(event?.target.value !== "Nouvelles règles")
-        }
+        onChoiceChange(event.target.value !== "Nouvelles règles")
     }
     return (
         <div>
@@ -57,7 +55,7 @@ const CDCChoiceForm = ({project, cahiersChargesURLs, setSubmitBtnState}) => {
                     </div>
                 </>
             )}
-            <div style={{border: "1px solid #adb9c9", padding: 20, borderRadius: 3, marginBottom: 15}}>
+            <div style={{border: "1px solid #adb9c9", borderRadius: 3, padding: 20, marginBottom: 15}}>
                 <div className="inline-radio-option">
                     {!project.newRulesOptIn && (
                         <input

@@ -7,7 +7,7 @@ import ROUTES from '../../../routes'
 import { RoleBasedDashboard, SuccessErrorBox } from '../../components'
 import { NoteElement, Section } from './components'
 import { EditProjectData, ProjectFrise, ProjectHeader } from './sections'
-import { PageLayout } from '../../components/PageLayout';
+import { PageLayout } from '../../components/PageLayout'
 import { hydrateOnClient } from '../../helpers'
 import CDCChoiceForm from '../../components/CDCChoiceForm'
 
@@ -26,7 +26,7 @@ export const ProjectDetails = PageLayout(({
   const { user } = request
   const { error, success } = (request.query as any) || {}
 
-  const [submitBtnState, setSubmitBtnState] = useState(true)
+  const [displaySubmitButton, setDisplaySubmitButton] = useState(true)
 
   if (!user) {
     // Should never happen
@@ -203,14 +203,18 @@ export const ProjectDetails = PageLayout(({
                 action={ROUTES.CHANGER_CDC}
                 method='post'
               >
-                <CDCChoiceForm project={project} cahiersChargesURLs={cahiersChargesURLs} setSubmitBtnState={setSubmitBtnState}/>
+                <CDCChoiceForm 
+                  project={project} 
+                  cahiersChargesURLs={cahiersChargesURLs} 
+                  onChoiceChange={(isNewRule:boolean) => setDisplaySubmitButton(isNewRule)}
+                />
                 <input type="hidden" name="projectId" value={project.id} />
                 {!project.newRulesOptIn && (
                   <button 
                     className="button" 
                     type="submit"
                     style={{margin: 'auto', width: 260, display: 'block'}}
-                    disabled={submitBtnState}
+                    disabled={displaySubmitButton}
                   >
                     Enregistrer mon changement
                 </button>
