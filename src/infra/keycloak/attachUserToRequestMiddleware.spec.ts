@@ -52,5 +52,33 @@ describe(`attachUserToRequestMiddleware`, () => {
         expect(nextFunction).toHaveBeenCalled()
       })
     })
+
+    describe(`when there is a user email in the keycloak access token`, () => {
+      const user: User = {
+        email: 'user@email.com',
+        fullName: 'User',
+        id: 'user-id',
+        isRegistered: true,
+        role: 'admin',
+      }
+      const { email: userEmail } = user
+
+      token.content['email'] = userEmail
+      getUserByEmail.mockImplementation((email) =>
+        email === userEmail ? okAsync(user) : okAsync(null)
+      )
+
+      describe(`when no role in the keycloak access token`, () => {
+        hasRealmRole.mockReturnValue(false)
+        const nextFunction = jest.fn()
+
+        middleware(request, {} as express.Response, nextFunction)
+
+        it('should not attach the user to the request and execute the next function', () => {
+          expect(request.user).toBeUndefined()
+          expect(nextFunction).toHaveBeenCalled()
+        })
+      })
+    })
   })
 })
