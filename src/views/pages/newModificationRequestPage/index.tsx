@@ -38,20 +38,27 @@ export const NewModificationRequest = PageLayout(({
   const { action, error, success, puissance, actionnaire, justification, delayInMonths } =
     (request.query as any) || {}
 
+  const [displayAlertOnPuissanceType, setdisplayAlertOnPuissanceType] = useState(false)
   const [displayAlertOnPuissance, setDisplayAlertOnPuissance] = useState(false)
+  const [disableSubmitButton, setDisableSubmitButton] = useState(false)
   const [fileRequiredforPuissanceModification, setFileRequiredforPuissanceModification] = useState(false)
 
   const { min: minAutoAcceptPuissanceRatio, max: maxAutoAcceptPuissanceRatio } =
   getAutoAcceptRatiosForAppelOffre(project.appelOffreId)
     
   const handlePuissanceOnChange = (e) => {
+    const newValue = Number(e.target.value)
     const puissanceModificationRatio = e.target.value / project.puissanceInitiale
     const newPuissanceIsAutoAccepted =
                 puissanceModificationRatio >= minAutoAcceptPuissanceRatio &&
                 puissanceModificationRatio <= maxAutoAcceptPuissanceRatio
+            
+    setdisplayAlertOnPuissanceType(Number.isNaN(newValue))
+    setDisableSubmitButton(Number.isNaN(newValue))
     setDisplayAlertOnPuissance(!newPuissanceIsAutoAccepted)
     setFileRequiredforPuissanceModification(!newPuissanceIsAutoAccepted)
   }
+
 
   return (
     <UserDashboard currentPage={'list-requests'}>
@@ -237,6 +244,7 @@ export const NewModificationRequest = PageLayout(({
                     defaultValue={puissance || ''}
                     {...dataId('modificationRequest-puissanceField')}
                     onChange={handlePuissanceOnChange}
+                    required={true}
                   />
 
                   {displayAlertOnPuissance && (
@@ -253,15 +261,15 @@ export const NewModificationRequest = PageLayout(({
                     </div>
                   )}
                   
-
-                  <div
-                    className="notification error"
-                    style={{ display: 'none' }}
-                    {...dataId('modificationRequest-puissance-error-message-wrong-format')}
-                  >
-                    Le format saisi n’est pas conforme (penser à utiliser un nombre décimal séparé
-                    par un point).
-                  </div>
+                  {displayAlertOnPuissanceType && (
+                    <div
+                      className="notification error"
+                      {...dataId('modificationRequest-puissance-error-message-wrong-format')}
+                    >
+                      Le format saisi n’est pas conforme (penser à utiliser un nombre décimal séparé
+                      par un point).
+                    </div>
+                  )}
 
                   <div style={{ marginTop: 10 }}>
                     <label style={{ marginTop: 10 }} className="required" htmlFor="justification">
@@ -750,6 +758,7 @@ export const NewModificationRequest = PageLayout(({
                 name="submit"
                 id="submit"
                 {...dataId('submit-button')}
+                disabled={disableSubmitButton}
               >
                 Envoyer
               </button>
