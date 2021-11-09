@@ -42,7 +42,7 @@ export const NewModificationRequest = PageLayout(({
     (request.query as any) || {}
 
   const [displayAlertOnPuissanceType, setdisplayAlertOnPuissanceType] = useState(false)
-  const[displayForm, setDisplayForm] = useState(false)
+  const[displayForm, setDisplayForm] = useState(project.newRulesOptIn)
   const [displayAlertOnPuissance, setDisplayAlertOnPuissance] = useState(false)
   const [disableSubmitButton, setDisableSubmitButton] = useState(false)
   const [fileRequiredforPuissanceModification, setFileRequiredforPuissanceModification] = useState(false)
