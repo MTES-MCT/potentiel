@@ -202,6 +202,7 @@ export const ProjectDetails = PageLayout(({
               <form
                 action={ROUTES.CHANGER_CDC}
                 method='post'
+                className={'m-0 max-w-full'}
               >
                 <CDCChoiceForm 
                   project={project} 

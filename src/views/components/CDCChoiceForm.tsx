@@ -25,7 +25,7 @@ const CDCChoiceForm = ({project, cahiersChargesURLs, onChoiceChange}) => {
             </p>
             {!project.newRulesOptIn && (
                 <>
-                    <div style={{border: "1px solid #adb9c9", padding: 20, borderRadius: 3, marginBottom: 15}}>
+                    <div className={'border border-gray-400 border-solid rounded p-5 mb-5'}>
                         <div className="inline-radio-option">
                             <input
                                 type="radio"
@@ -55,7 +55,7 @@ const CDCChoiceForm = ({project, cahiersChargesURLs, onChoiceChange}) => {
                     </div>
                 </>
             )}
-            <div style={{border: "1px solid #adb9c9", borderRadius: 3, padding: 20, marginBottom: 15}}>
+            <div className={'border border-gray-400 border-solid rounded p-5 mb-5'}>
                 <div className="inline-radio-option">
                     {!project.newRulesOptIn && (
                         <input
