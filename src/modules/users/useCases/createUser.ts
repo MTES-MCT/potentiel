@@ -19,9 +19,16 @@ export const makeCreateUser = (deps: CreateUserDeps) => (
   args: CreateUserArgs
 ): ResultAsync<string, UnauthorizedError | InfraNotAvailableError> => {
   const { userRepo } = deps
+
   const { email, role, createdBy, fullName } = args
 
-  return userRepo.transaction(new UniqueEntityID(email), (user) => {
-    return user.create({ role, createdBy: createdBy?.id, fullName }).andThen(() => user.getUserId())
-  })
+  return userRepo.transaction(
+    new UniqueEntityID(email),
+    (user) => {
+      return user
+        .create({ role, createdBy: createdBy?.id, fullName })
+        .andThen(() => user.getUserId())
+    },
+    { acceptNew: true }
+  )
 }
