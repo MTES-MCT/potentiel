@@ -23,7 +23,6 @@ describe('registerFirstUserLogin use-case', () => {
       const res = await registerFirstUserLogin({
         userId: fakeUser.id.toString(),
         keycloakId,
-        email: '',
       })
 
       if (res.isErr()) logger.error(res.error)
