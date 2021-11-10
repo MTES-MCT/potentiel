@@ -12,6 +12,8 @@ import { getAutoAcceptRatiosForAppelOffre } from '../../../modules/modificationR
 
 import moment from 'moment'
 import ModificationRequestActionTitles from '../../components/ModificationRequestActionTitles'
+import toNumber from '../../../helpers/toNumber';
+import { isStrictlyPositiveNumber } from '../../../helpers/formValidators'
 
 moment.locale('fr')
 
@@ -47,14 +49,14 @@ export const NewModificationRequest = PageLayout(({
   getAutoAcceptRatiosForAppelOffre(project.appelOffreId)
     
   const handlePuissanceOnChange = (e) => {
-    const newValue = Number(e.target.value)
-    const puissanceModificationRatio = e.target.value / project.puissanceInitiale
+    const isNewValueCorrect = isStrictlyPositiveNumber(e.target.value)
+    const puissanceModificationRatio = toNumber(e.target.value) / project.puissanceInitiale
     const newPuissanceIsAutoAccepted =
                 puissanceModificationRatio >= minAutoAcceptPuissanceRatio &&
                 puissanceModificationRatio <= maxAutoAcceptPuissanceRatio
             
-    setdisplayAlertOnPuissanceType(Number.isNaN(newValue))
-    setDisableSubmitButton(Number.isNaN(newValue))
+    setdisplayAlertOnPuissanceType(!isNewValueCorrect)
+    setDisableSubmitButton(!isNewValueCorrect)
     setDisplayAlertOnPuissance(!newPuissanceIsAutoAccepted)
     setFileRequiredforPuissanceModification(!newPuissanceIsAutoAccepted)
   }
@@ -266,8 +268,7 @@ export const NewModificationRequest = PageLayout(({
                       className="notification error"
                       {...dataId('modificationRequest-puissance-error-message-wrong-format')}
                     >
-                      Le format saisi n’est pas conforme (penser à utiliser un nombre décimal séparé
-                      par un point).
+                      Le format saisi n’est pas conforme, veuillez renseigner un nombre décimal.
                     </div>
                   )}
 
