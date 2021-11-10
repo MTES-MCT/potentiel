@@ -9,7 +9,7 @@ import { NoteElement, Section } from './components'
 import { EditProjectData, ProjectFrise, ProjectHeader } from './sections'
 import { PageLayout } from '../../components/PageLayout'
 import { hydrateOnClient } from '../../helpers'
-import CDCChoiceForm from '../../components/CDCChoiceForm'
+import { CDCChoiceForm } from '../../components/'
 
 interface ProjectDetailsProps {
   request: Request
@@ -205,7 +205,7 @@ export const ProjectDetails = PageLayout(({
                 className={'m-0 max-w-full'}
               >
                 <CDCChoiceForm 
-                  project={project} 
+                  newRulesOptIn={project.newRulesOptIn} 
                   cahiersChargesURLs={cahiersChargesURLs} 
                   onChoiceChange={(isNewRule:boolean) => setDisplaySubmitButton(isNewRule)}
                 />

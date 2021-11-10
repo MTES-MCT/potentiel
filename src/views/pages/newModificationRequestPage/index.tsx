@@ -143,7 +143,7 @@ export const NewModificationRequest = PageLayout(({
                 </strong>
               </label>
               <CDCChoiceForm 
-                project={project} 
+                newRulesOptIn={project.newRulesOptIn} 
                 cahiersChargesURLs={cahiersChargesURLs} 
                 onChoiceChange={(isNewRule:boolean) => setDisplayForm(!isNewRule)}
               />

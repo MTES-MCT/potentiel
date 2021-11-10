@@ -1,10 +1,17 @@
 import React from 'react'
 import { dataId } from '../../helpers/testId'
 
-const CDCChoiceForm = ({project, cahiersChargesURLs, onChoiceChange}) => {
-    const handleCDCChange = (event :any) => {
+interface CDCFormProps {
+    newRulesOptIn: boolean
+    cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
+    onChoiceChange: (isNewRule: boolean) => void
+  }
+
+export const CDCChoiceForm = ({newRulesOptIn, cahiersChargesURLs, onChoiceChange}: CDCFormProps) => {
+    const handleCDCChange = (event: any) => {
         onChoiceChange(event.target.value !== "Nouvelles règles")
     }
+    
     return (
         <div>
             <p>
@@ -23,7 +30,7 @@ const CDCChoiceForm = ({project, cahiersChargesURLs, onChoiceChange}) => {
                 </a>
                 .
             </p>
-            {!project.newRulesOptIn && (
+            {!newRulesOptIn && (
                 <>
                     <div className={'border border-gray-400 border-solid rounded p-5 mb-5'}>
                         <div className="inline-radio-option">
@@ -32,8 +39,8 @@ const CDCChoiceForm = ({project, cahiersChargesURLs, onChoiceChange}) => {
                                 name="newRulesOptIn"
                                 value="Anciennes règles"
                                 {...dataId('modificationRequest-oldRules')}
-                                disabled={project.newRulesOptIn}
-                                defaultChecked={!project.newRulesOptIn}
+                                disabled={newRulesOptIn}
+                                defaultChecked={!newRulesOptIn}
                                 onChange={handleCDCChange}
                             />
                             <label htmlFor="Anciennes règles" style={{flex: 1}}>
@@ -57,14 +64,14 @@ const CDCChoiceForm = ({project, cahiersChargesURLs, onChoiceChange}) => {
             )}
             <div className={'border border-gray-400 border-solid rounded p-5 mb-5'}>
                 <div className="inline-radio-option">
-                    {!project.newRulesOptIn && (
+                    {!newRulesOptIn && (
                         <input
                             type="radio"
                             name="newRulesOptIn"
                             value="Nouvelles règles"
-                            defaultChecked={project.newRulesOptIn}
+                            defaultChecked={newRulesOptIn}
                             {...dataId('modificationRequest-newRules')}
-                            disabled={project.newRulesOptIn}
+                            disabled={newRulesOptIn}
                             onChange={handleCDCChange}
                         />
                     )}
@@ -90,4 +97,3 @@ const CDCChoiceForm = ({project, cahiersChargesURLs, onChoiceChange}) => {
     )
 }
 
-export default CDCChoiceForm
