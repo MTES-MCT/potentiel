@@ -92,7 +92,7 @@ v1Router.post(
       'evaluationCarbone',
       'newRulesOptIn',
     ])
-    console.log(data.puissance)
+
     if (data.type === 'puissance' && !isStrictlyPositiveNumber(data.puissance)) {
       const { projectId, type } = data
       return response.redirect(
@@ -101,8 +101,6 @@ v1Router.post(
         })
       )
     }
-
-    data.puissance = data.puissance && toNumber(data.puissance)
 
     if (
       data.type === 'fournisseur' &&
@@ -193,7 +191,7 @@ v1Router.post(
         await requestPuissanceModification({
           projectId: data.projectId,
           requestedBy: request.user,
-          newPuissance: data.puissance,
+          newPuissance: data.puissance && toNumber(data.puissance),
           justification: data.justification,
           file,
         }).match(handleSuccess, handleError)
