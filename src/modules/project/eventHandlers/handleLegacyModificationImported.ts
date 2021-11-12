@@ -1,6 +1,10 @@
 import { Project } from '..'
 import { TransactionalRepository, UniqueEntityID } from '../../../core/domain'
-import { LegacyDelai, LegacyModificationImported } from '../../modificationRequest'
+import {
+  LegacyDelai,
+  LegacyModificationDTO,
+  LegacyModificationImported,
+} from '../../modificationRequest'
 
 export const handleLegacyModificationImported = (deps: {
   projectRepo: TransactionalRepository<Project>
@@ -10,11 +14,22 @@ export const handleLegacyModificationImported = (deps: {
 
   const delaiModifications = modifications.filter(({ type }) => type === 'delai') as LegacyDelai[]
 
-  if (!delaiModifications.length) return
+  if (delaiModifications.length) {
+    for (const { nouvelleDateLimiteAchevement } of delaiModifications) {
+      await projectRepo.transaction(new UniqueEntityID(projectId), (project) => {
+        return project.setCompletionDueDate(nouvelleDateLimiteAchevement)
+      })
+    }
+  }
 
-  for (const { nouvelleDateLimiteAchevement } of delaiModifications) {
+  const abandonModification = modifications.filter(({ type }) => type === 'abandon').pop() as
+    | LegacyModificationDTO
+    | undefined
+
+  // Keep the latest
+  if (abandonModification) {
     await projectRepo.transaction(new UniqueEntityID(projectId), (project) => {
-      return project.setCompletionDueDate(nouvelleDateLimiteAchevement)
+      return project.abandonLegacy(abandonModification.modifiedOn)
     })
   }
 }
