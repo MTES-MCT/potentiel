@@ -6,6 +6,7 @@ import routes from '../../routes'
 import { ensureRole } from '../../config'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
+import path from 'path'
 
 v1Router.get(
   routes.DOWNLOAD_PROJECT_FILE(),
@@ -19,6 +20,7 @@ v1Router.get(
       user,
     }).match(
       async (fileStream) => {
+        response.type(path.extname(request.path))
         fileStream.contents.pipe(response)
       },
       async (e) => {
