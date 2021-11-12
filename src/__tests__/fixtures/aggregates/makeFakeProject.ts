@@ -19,6 +19,7 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   reimport: jest.fn((args) => ok<null, never>(null)),
   import: jest.fn((args) => ok<null, never>(null)),
   abandon: jest.fn((user: User) => ok<null, EliminatedProjectCannotBeAbandonnedError>(null)),
+  abandonLegacy: jest.fn((abandonnedOn: number) => ok<null, never>(null)),
   correctData: jest.fn((user: User, data: ProjectDataCorrectedPayload['correctedData']) =>
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError>(null)
   ),
