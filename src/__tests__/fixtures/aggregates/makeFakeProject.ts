@@ -58,6 +58,7 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   pendingEvents: [] as DomainEvent[],
   appelOffre: {} as ProjectAppelOffre,
   isClasse: true,
+  isLegacy: false,
   puissanceInitiale: 0,
   lastUpdatedOn: new Date(0),
   lastCertificateUpdate: undefined,

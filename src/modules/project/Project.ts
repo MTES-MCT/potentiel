@@ -111,6 +111,7 @@ export interface Project extends EventStoreAggregate {
   readonly shouldCertificateBeGenerated: boolean
   readonly appelOffre?: ProjectAppelOffre
   readonly isClasse?: boolean
+  readonly isLegacy?: boolean
   readonly puissanceInitiale: number
   readonly certificateData: Result<
     {
@@ -550,6 +551,9 @@ export const makeProject = (args: {
     },
     get isClasse() {
       return props.isClasse
+    },
+    get isLegacy() {
+      return props.appelOffre && !props.appelOffre.periode.isNotifiedOnPotentiel
     },
     get puissanceInitiale() {
       return props.puissanceInitiale
