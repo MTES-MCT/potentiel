@@ -10,7 +10,7 @@ import { ensureRole } from '../../config'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
-import { CertificateFileIsMissingError } from '../../modules/project/errors/CertificateFileIsMissingError';
+import { CertificateFileIsMissingError } from '../../modules/project/errors/CertificateFileIsMissingError'
 
 const FORMAT_DATE = 'DD/MM/YYYY'
 
@@ -56,7 +56,7 @@ v1Router.post(
         : { isFinancementParticipatif: false, isInvestissementParticipatif: false }
 
     if (
-      !notificationDate ||
+      notificationDate &&
       moment(notificationDate, FORMAT_DATE).format(FORMAT_DATE) !== notificationDate
     ) {
       return response.redirect(
@@ -90,19 +90,22 @@ v1Router.post(
       motifsElimination,
     }
 
-    const certificateFile = request.file && attestation === 'custom'
-      ? {
-          contents: fs.createReadStream(request.file.path),
-          filename: sanitize(`${Date.now()}-${request.file.originalname}`),
-        }
-      : undefined
+    const certificateFile =
+      request.file && attestation === 'custom'
+        ? {
+            contents: fs.createReadStream(request.file.path),
+            filename: sanitize(`${Date.now()}-${request.file.originalname}`),
+          }
+        : undefined
 
     const result = await correctProjectData({
       projectId,
       projectVersionDate: new Date(Number(projectVersionDate)),
       correctedData,
       certificateFile,
-      newNotifiedOn: moment(notificationDate, FORMAT_DATE).tz('Europe/London').toDate().getTime(),
+      newNotifiedOn:
+        notificationDate &&
+        moment(notificationDate, FORMAT_DATE).tz('Europe/London').toDate().getTime(),
       user: request.user,
       shouldGrantClasse: Number(isClasse) === 1,
       reason,
