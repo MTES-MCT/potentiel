@@ -558,4 +558,41 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1.1 e
       })
     })
   })
+
+  describe('when the project has no details', () => {
+    beforeAll(async () => {
+      // Create the tables and remove all data
+      await resetDatabase()
+
+      await Project.create({ ...project, details: undefined })
+      await File.create(makeFakeFile({ id: fileId, filename: 'filename' }))
+      await User.create(makeFakeUser({ id: userId, fullName: 'John Doe' }))
+      await Periode.create(periodeData)
+
+      await ModificationRequest.create({
+        id: modificationRequestId,
+        projectId,
+        userId,
+        fileId,
+        type: 'abandon',
+        requestedOn: 123,
+        respondedOn: 321,
+        respondedBy: userId2,
+        status: 'envoyée',
+        justification: 'justification',
+        versionDate,
+        delayInMonths: 2,
+      })
+    })
+
+    it('should return an empty adresseCandidat', async () => {
+      const modificationRequestResult = await getModificationRequestDataForResponseTemplate(
+        modificationRequestId.toString(),
+        fakeAdminUser,
+        dgecEmail
+      )
+
+      expect(modificationRequestResult._unsafeUnwrap().adresseCandidat).toEqual('')
+    })
+  })
 })
