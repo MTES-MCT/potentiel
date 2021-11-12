@@ -3,14 +3,9 @@ import session from 'express-session'
 import Keycloak from 'keycloak-connect'
 import QueryString from 'querystring'
 import { logger } from '../../core/utils'
-import { User, USER_ROLES } from '../../entities'
-import {
-  EnsureRole,
-  GetUserByEmail,
-  makeRegisterFirstUserLogin,
-  RegisterAuth,
-} from '../../modules/users'
-import { EnsureLoggedIn } from '../../modules/users/queries/EnsureLoggedIn'
+import { User } from '../../entities'
+import { EnsureRole, RegisterAuth } from '../../modules/authN'
+import { GetUserByEmail, USER_ROLES, makeRegisterFirstUserLogin } from '../../modules/users'
 import routes from '../../routes'
 
 export interface KeycloakAuthDeps {
@@ -79,8 +74,6 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
     })
   }
 
-  const ensureLoggedIn: EnsureLoggedIn = keycloak.protect.bind(keycloak)
-
   const registerAuth: RegisterAuth = ({ app, sessionSecret, router }) => {
     app.use(
       session({
@@ -124,6 +117,7 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
               registerFirstUserLogin({
                 userId: userResult.value.id,
                 keycloakId: token?.content?.sub,
+                email: userEmail,
               })
             }
           } else {
@@ -188,7 +182,6 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
 
   return {
     registerAuth,
-    ensureLoggedIn,
     ensureRole,
   }
 }

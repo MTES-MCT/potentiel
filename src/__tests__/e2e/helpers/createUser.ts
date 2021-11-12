@@ -1,12 +1,13 @@
 import { logger } from '../../../core/utils'
 import { userRepo } from '../../../dataAccess'
 import { makeUser, User } from '../../../entities'
+import { UserRole } from '../../../modules/users'
 
 interface CreateUserProps {
   email: User['email']
   fullName: User['fullName']
   password: string
-  role: User['role']
+  role: UserRole
 }
 
 async function createUser({ email, fullName, password, role }: CreateUserProps) {

@@ -10,7 +10,7 @@ import { User } from '../../../entities'
 import { UserRightsToProjectGranted } from '..'
 import { InfraNotAvailableError } from '../../shared'
 
-describe('authorization handleProjectImported', () => {
+describe('authZ handleProjectImported', () => {
   describe('when receiving a ProjectImported event', () => {
     it('should trigger UserRightsToProjectGranted', async () => {
       const projectId = new UniqueEntityID().toString()

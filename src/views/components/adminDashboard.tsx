@@ -1,10 +1,11 @@
 import React from 'react'
 import ROUTES from '../../routes'
 import { User } from '../../entities'
+import { UserRole } from '../../modules/users'
 
 interface SeparatorItemProps {
-  visibleForRoles: Array<User['role']>
-  role: User['role'] | undefined
+  visibleForRoles: Array<UserRole>
+  role: UserRole | undefined
 }
 const SeparatorItem = ({ visibleForRoles, role }: SeparatorItemProps) =>
   role && visibleForRoles.includes(role) ? (
@@ -20,7 +21,7 @@ const SeparatorItem = ({ visibleForRoles, role }: SeparatorItemProps) =>
 
 interface AdminDashboardProps {
   children: React.ReactNode
-  role: User['role'] | undefined
+  role: UserRole | undefined
   currentPage:
     | 'list-projects'
     | 'import-projects'
@@ -41,8 +42,8 @@ interface MenuItemProps {
   currentPage: AdminDashboardProps['currentPage']
   itemPage: AdminDashboardProps['currentPage']
   title: string
-  visibleForRoles: Array<User['role']>
-  role: User['role'] | undefined
+  visibleForRoles: Array<UserRole>
+  role: UserRole | undefined
 }
 const MenuItem = ({ route, title, currentPage, itemPage, visibleForRoles, role }: MenuItemProps) =>
   role && visibleForRoles.includes(role) ? (

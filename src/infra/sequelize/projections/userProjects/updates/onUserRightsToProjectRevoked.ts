@@ -1,5 +1,5 @@
 import { logger } from '../../../../../core/utils'
-import { UserRightsToProjectRevoked } from '../../../../../modules/authorization'
+import { UserRightsToProjectRevoked } from '../../../../../modules/authZ'
 
 export const onUserRightsToProjectRevoked = (models) => async (
   event: UserRightsToProjectRevoked

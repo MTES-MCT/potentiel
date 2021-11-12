@@ -10,7 +10,7 @@ import {
   UserProjectsLinkedByContactEmail,
   UserRightsToProjectRevoked,
   UserRightsToProjectGranted,
-} from '../../../../../modules/authorization'
+} from '../../../../../modules/authZ'
 import { ProjectClaimed, ProjectClaimedByOwner } from '../../../../../modules/projectClaim/events'
 import { onProjectClaimed } from './onProjectClaimed'
 

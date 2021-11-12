@@ -5,8 +5,8 @@ import {
   getUserName as kcGetUserName,
   resendInvitationEmail as kcResendInvitationEmail,
 } from '../infra/keycloak'
-import { CreateUserCredentials, GetUserName } from '../modules/users'
-import { ResendInvitationEmail } from '../modules/users/queries/ResendInvitationEmail'
+import { GetUserName, ResendInvitationEmail } from '../modules/users'
+import { CreateUserCredentials } from '../modules/authN'
 import { isProdEnv, isStagingEnv } from './env.config'
 
 let getUserName: GetUserName
@@ -21,7 +21,7 @@ if (isProdEnv || isStagingEnv) {
   getUserName = (id) => okAsync('Utilisateur Test')
   createUserCredentials = (args) => {
     logger.info(`FAKE createUserCredentials(${JSON.stringify(args)})`)
-    return okAsync(new UniqueEntityID().toString())
+    return okAsync(null)
   }
   resendInvitationEmail = (email) => {
     logger.info(`FAKE resend invitation email to ${email}`)

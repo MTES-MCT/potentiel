@@ -2,36 +2,40 @@ import { DomainEvent, UniqueEntityID } from '../../core/domain'
 import { err, ok, Result } from '../../core/utils'
 import { EventStoreAggregate } from '../eventStore'
 import { EntityNotFoundError } from '../shared'
-import { UserRegistered } from './events'
+import { UserCreated, UserRegistered } from './events'
+import { UserRole } from './UserRoles'
 
 export interface User extends EventStoreAggregate {
-  registerFirstLogin(args: { fullName: string }): Result<null, never>
+  registerFirstLogin(args: { fullName: string; email: string }): Result<null, never>
+  getUserId: () => Result<string, EntityNotFoundError>
+  create: (args: { fullName?: string; role: UserRole; createdBy?: string }) => Result<null, never>
 }
 
-interface UserProps {
+type UserProps = {
   isRegistered: boolean
-  lastUpdatedOn: Date
+  email: string
+  userId: string | undefined
+  lastUpdatedOn?: Date
 }
 
 export const makeUser = (args: {
   id: UniqueEntityID
-  events: DomainEvent[]
+  events?: DomainEvent[]
 }): Result<User, EntityNotFoundError> => {
   const { events, id } = args
-
-  if (!events?.length) {
-    return err(new EntityNotFoundError())
-  }
 
   const pendingEvents: DomainEvent[] = []
 
   const props: UserProps = {
     isRegistered: false,
-    lastUpdatedOn: events[0].occurredAt,
+    userId: undefined,
+    email: id.toString(),
   }
 
-  for (const event of events) {
-    _processEvent(event)
+  if (events) {
+    for (const event of events) {
+      _processEvent(event)
+    }
   }
 
   function _processEvent(event: DomainEvent) {
@@ -39,6 +43,8 @@ export const makeUser = (args: {
       case UserRegistered.type:
         props.isRegistered = true
         break
+      case UserCreated.type:
+        props.userId = event.payload.userId
       default:
         // ignore other event types
         break
@@ -57,16 +63,42 @@ export const makeUser = (args: {
   }
 
   return ok({
-    registerFirstLogin: function ({ fullName }) {
-      if (!props.isRegistered)
+    registerFirstLogin: function ({ fullName, email }) {
+      if (!props.isRegistered && props.userId) {
         _publishEvent(
           new UserRegistered({
             payload: {
-              userId: id.toString(),
-              fullName: fullName,
+              userId: props.userId,
+              fullName,
+              email,
             },
           })
         )
+      }
+
+      return ok(null)
+    },
+    getUserId: function () {
+      if (!props.userId) {
+        return err(new EntityNotFoundError())
+      }
+
+      return ok(props.userId)
+    },
+    create: function ({ fullName, role, createdBy }) {
+      if (!props.userId) {
+        _publishEvent(
+          new UserCreated({
+            payload: {
+              email: props.email,
+              userId: new UniqueEntityID().toString(),
+              fullName,
+              role,
+              createdBy,
+            },
+          })
+        )
+      }
 
       return ok(null)
     },
@@ -77,6 +109,7 @@ export const makeUser = (args: {
       return props.lastUpdatedOn
     },
     get id() {
+      // NB: the id of this User aggregate is the email
       return id
     },
   })

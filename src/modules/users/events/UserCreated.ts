@@ -17,6 +17,6 @@ export class UserCreated extends BaseDomainEvent<UserCreatedPayload> implements 
   currentVersion = 1
 
   aggregateIdFromPayload(payload: UserCreatedPayload) {
-    return payload.userId
+    return payload.email
   }
 }

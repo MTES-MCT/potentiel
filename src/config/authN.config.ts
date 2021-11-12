@@ -1,13 +1,12 @@
 import { makeFakeAuth } from '../infra/fakeAuth'
 import { makeKeycloakAuth } from '../infra/keycloak'
-import { EnsureLoggedIn, EnsureRole, RegisterAuth } from '../modules/users'
+import { EnsureRole, RegisterAuth } from '../modules/authN'
 import { sequelizeInstance } from '../sequelize.config'
 import { isProdEnv, isStagingEnv } from './env.config'
 import { getUserByEmail } from './queries.config'
 import { registerFirstUserLogin } from './useCases.config'
 
 let registerAuth: RegisterAuth
-let ensureLoggedIn: EnsureLoggedIn
 let ensureRole: EnsureRole
 
 if (isProdEnv || isStagingEnv) {
@@ -31,7 +30,6 @@ if (isProdEnv || isStagingEnv) {
   })
 
   registerAuth = keycloakAuth.registerAuth
-  ensureLoggedIn = keycloakAuth.ensureLoggedIn
   ensureRole = keycloakAuth.ensureRole
 } else {
   console.log(`Authentication using Fake Auth`)
@@ -42,8 +40,7 @@ if (isProdEnv || isStagingEnv) {
   })
 
   registerAuth = fakeAuth.registerAuth
-  ensureLoggedIn = fakeAuth.ensureLoggedIn
   ensureRole = fakeAuth.ensureRole
 }
 
-export { registerAuth, ensureRole, ensureLoggedIn }
+export { registerAuth, ensureRole }

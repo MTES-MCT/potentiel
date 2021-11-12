@@ -2,15 +2,6 @@ import isEmail from 'isemail'
 import buildMakeEntity from '../helpers/buildMakeEntity'
 import { Boolean, Literal, Record, Static, String, Union } from '../types/schemaTypes'
 
-export const USER_ROLES = [
-  'admin',
-  'dgec',
-  'porteur-projet',
-  'dreal',
-  'acheteur-obligé',
-  'ademe',
-] as const
-
 const userSchema = Record({
   id: String,
   fullName: String,

@@ -1,5 +1,5 @@
 import { makeImportAppelOffreData, makeImportPeriodeData } from '../modules/appelOffre/useCases'
-import { BaseShouldUserAccessProject, makeRevokeRightsToProject } from '../modules/authorization'
+import { BaseShouldUserAccessProject, makeRevokeRightsToProject } from '../modules/authZ'
 import { makeLoadFileForUser } from '../modules/file'
 import {
   makeAcceptModificationRequest,
@@ -31,7 +31,7 @@ import {
   makeRelanceInvitation,
 } from '../modules/users'
 import { buildCertificate } from '../views/certificates'
-import { createUserCredentials, getUserName, resendInvitationEmail } from './credentials.config'
+import { getUserName, resendInvitationEmail } from './credentials.config'
 import { eventStore } from './eventStore.config'
 import {
   getAppelOffreList,
@@ -174,10 +174,7 @@ export const importPeriodeData = makeImportPeriodeData({
 })
 
 export const createUser = makeCreateUser({
-  getUserByEmail,
-  createUserCredentials,
-  eventBus: eventStore,
-  getNonLegacyProjectsByContactEmail,
+  userRepo,
 })
 
 export const inviteUserToProject = makeInviteUserToProject({

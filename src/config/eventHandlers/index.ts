@@ -1,4 +1,5 @@
-export * from './authorization.eventHandlers';
+export * from './authN.eventHandlers';
+export * from './authZ.eventHandlers';
 export * from './candidateNotification.eventHandlers';
 export * from './legacyCandidateNotification.eventHandlers';
 export * from './modificationRequest.eventHandlers';

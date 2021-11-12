@@ -1,17 +1,17 @@
 import React from 'react'
-import { User } from '../../entities'
-import { dataId } from '../../helpers/testId'
 import { formatDate } from '../../helpers/formatDate'
+import { dataId } from '../../helpers/testId'
 import { ModificationRequestListItemDTO } from '../../modules/modificationRequest'
+import { UserRole } from '../../modules/users'
 import ROUTES from '../../routes'
 import { PaginatedList } from '../../types'
 import { ModificationRequestColorByStatus, ModificationRequestStatusTitle } from '../helpers'
-import Pagination from './pagination'
 import ModificationRequestActionTitles from './ModificationRequestActionTitles'
+import Pagination from './pagination'
 
 interface Props {
   modificationRequests?: PaginatedList<ModificationRequestListItemDTO>
-  role?: User['role']
+  role?: UserRole
   requestActions?: (
     modificationRequest: ModificationRequestListItemDTO
   ) => Array<{ title: string; link: string; disabled?: boolean }> | null
@@ -105,7 +105,7 @@ const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
                 </td>
                 <td valign="top">
                   <div {...dataId('requestList-item-type')}>
-                    <ModificationRequestActionTitles action={modificationRequest.type}/>
+                    <ModificationRequestActionTitles action={modificationRequest.type} />
                   </div>
                   <div
                     style={{

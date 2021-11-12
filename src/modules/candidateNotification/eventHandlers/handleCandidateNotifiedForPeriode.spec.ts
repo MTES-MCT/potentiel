@@ -5,6 +5,7 @@ import makeFakeUser from '../../../__tests__/fixtures/user'
 import { GetPeriodeTitle } from '../../appelOffre'
 import { NotificationArgs } from '../../notification'
 import { InfraNotAvailableError } from '../../shared'
+import { UserRole } from '../../users'
 import { CandidateNotifiedForPeriode } from '../events'
 import { handleCandidateNotifiedForPeriode } from './handleCandidateNotifiedForPeriode'
 
@@ -69,7 +70,7 @@ describe('handleCandidateNotifiedForPeriode', () => {
     )
 
     const newUserId = new UniqueEntityID().toString()
-    const createUser = jest.fn((args: { role: User['role']; email: string }) =>
+    const createUser = jest.fn((args: { role: UserRole; email: string }) =>
       okAsync<string, InfraNotAvailableError>(newUserId)
     )
 
