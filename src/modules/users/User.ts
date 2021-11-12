@@ -11,7 +11,6 @@ export interface User extends EventStoreAggregate {
 }
 
 type UserProps = {
-  isRegistered: boolean
   email: string
   userId: string | undefined
   lastUpdatedOn?: Date
@@ -26,7 +25,6 @@ export const makeUser = (args: {
   const pendingEvents: DomainEvent[] = []
 
   const props: UserProps = {
-    isRegistered: false,
     userId: undefined,
     email: id.toString(),
   }

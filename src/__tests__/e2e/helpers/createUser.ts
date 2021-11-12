@@ -16,7 +16,6 @@ async function createUser({ email, fullName, password, role }: CreateUserProps) 
     fullName,
     email,
     role,
-    isRegistered: true,
   })
   if (userResult.is_err()) {
     logger.error(userResult.unwrap_err())

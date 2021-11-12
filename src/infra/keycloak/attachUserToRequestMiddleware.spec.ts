@@ -107,7 +107,6 @@ describe(`attachUserToRequestMiddleware`, () => {
             email: userEmail,
             fullName: 'User',
             id: 'user-id',
-            isRegistered: true,
             role: userRole,
           }
 
@@ -167,7 +166,6 @@ describe(`attachUserToRequestMiddleware`, () => {
               fullName: userName,
               id: userId,
               role: userRole,
-              isRegistered: true,
             }
             expect(request.user).toMatchObject(expectedUser)
             expect(nextFunction).toHaveBeenCalled()

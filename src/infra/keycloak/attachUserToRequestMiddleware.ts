@@ -45,9 +45,7 @@ const makeAttachUserToRequestMiddleware = ({
       const fullName = token?.content?.name
       const createUserArgs = { email: userEmail, role: kRole, fullName }
 
-      return createUser(createUserArgs).andThen((userId) =>
-        ok({ ...createUserArgs, id: userId, isRegistered: true })
-      )
+      return createUser(createUserArgs).andThen((userId) => ok({ ...createUserArgs, id: userId }))
     })
 
     if (userResult.isOk()) {

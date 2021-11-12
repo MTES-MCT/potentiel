@@ -14,7 +14,6 @@ const userSchema = Record({
     Literal('acheteur-obligé'),
     Literal('ademe')
   ),
-  isRegistered: Boolean,
 })
 
 const fields: string[] = [...Object.keys(userSchema.fields)]

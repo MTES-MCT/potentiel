@@ -11,7 +11,6 @@ import isDbReady from './helpers/isDbReady'
 const deserialize = (item) => ({
   ...item,
   fullName: item.fullName || '',
-  isRegistered: !!item.registeredOn,
 })
 const serialize = (item) => item
 

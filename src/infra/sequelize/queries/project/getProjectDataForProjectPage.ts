@@ -147,11 +147,10 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           motifsElimination,
           users: users
             ?.map(({ user }) => user.get())
-            .map(({ id, email, fullName, registeredOn }) => ({
+            .map(({ id, email, fullName }) => ({
               id,
               email,
               fullName,
-              isRegistered: !!registeredOn,
             })),
           garantiesFinancieres: undefined,
           updatedAt,
