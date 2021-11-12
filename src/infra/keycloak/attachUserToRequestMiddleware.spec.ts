@@ -1,17 +1,10 @@
 import express from 'express'
 import { okAsync } from '../../core/utils'
 import { User } from '../../entities'
+import { GetUserByEmail, makeCreateUser } from '../../modules/users'
 import { makeAttachUserToRequestMiddleware } from './attachUserToRequestMiddleware'
 
 describe(`attachUserToRequestMiddleware`, () => {
-  const getUserByEmail = jest.fn()
-  const createUser = jest.fn()
-
-  const middleware = makeAttachUserToRequestMiddleware({
-    getUserByEmail,
-    createUser,
-  })
-
   const staticPaths = ['/fonts', '/css', '/images', '/scripts', '/main', '/']
   staticPaths.forEach((path) => {
     describe(`when the path starts with ${path}`, () => {
@@ -20,6 +13,10 @@ describe(`attachUserToRequestMiddleware`, () => {
       } as express.Request
       const nextFunction = jest.fn()
 
+      const middleware = makeAttachUserToRequestMiddleware({
+        getUserByEmail: jest.fn(),
+        createUser: jest.fn(),
+      })
       middleware(request, {} as express.Response, nextFunction)
 
       it('should not attach the user to the request and execute the next function', () => {
@@ -45,6 +42,10 @@ describe(`attachUserToRequestMiddleware`, () => {
       token.content['email'] = undefined
       const nextFunction = jest.fn()
 
+      const middleware = makeAttachUserToRequestMiddleware({
+        getUserByEmail: jest.fn(),
+        createUser: jest.fn(),
+      })
       middleware(request, {} as express.Response, nextFunction)
 
       it('should not attach the user to the request and execute the next function', () => {
@@ -55,7 +56,7 @@ describe(`attachUserToRequestMiddleware`, () => {
 
     describe(`when there is a user email in the keycloak access token`, () => {
       describe(`when no role in the keycloak access token`, () => {
-        const hasRealmRole = jest.fn()
+        const hasRealmRole = jest.fn(() => false)
 
         const request = {
           path: '/a-protected-path',
@@ -69,9 +70,12 @@ describe(`attachUserToRequestMiddleware`, () => {
 
         token.content['email'] = 'user@email.com'
 
-        hasRealmRole.mockReturnValue(false)
         const nextFunction = jest.fn()
 
+        const middleware = makeAttachUserToRequestMiddleware({
+          getUserByEmail: jest.fn(),
+          createUser: jest.fn(),
+        })
         middleware(request, {} as express.Response, nextFunction)
 
         it('should not attach the user to the request and execute the next function', () => {
@@ -83,8 +87,7 @@ describe(`attachUserToRequestMiddleware`, () => {
       describe(`when a user role is in the keycloak access token`, () => {
         describe(`when the user exists in Potentiel`, () => {
           const userRole = 'admin'
-          const hasRealmRole = jest.fn()
-          hasRealmRole.mockImplementation((role) => (role === userRole ? true : false))
+          const hasRealmRole = jest.fn((role) => (role === userRole ? true : false))
 
           const request = {
             path: '/a-protected-path',
@@ -108,11 +111,16 @@ describe(`attachUserToRequestMiddleware`, () => {
             role: userRole,
           }
 
-          getUserByEmail.mockImplementation((email) =>
+          const getUserByEmail: GetUserByEmail = jest.fn((email) =>
             email === userEmail ? okAsync(user) : okAsync(null)
           )
 
           const nextFunction = jest.fn()
+
+          const middleware = makeAttachUserToRequestMiddleware({
+            getUserByEmail,
+            createUser: jest.fn(),
+          })
           middleware(request, {} as express.Response, nextFunction)
 
           it('should attach the user to the request and execute the next function', () => {
@@ -123,8 +131,7 @@ describe(`attachUserToRequestMiddleware`, () => {
 
         describe(`when the user does not exist in Potentiel`, () => {
           const userRole = 'admin'
-          const hasRealmRole = jest.fn()
-          hasRealmRole.mockImplementation((role) => (role === userRole ? true : false))
+          const hasRealmRole = jest.fn((role) => (role === userRole ? true : false))
 
           const request = {
             path: '/a-protected-path',
@@ -141,12 +148,17 @@ describe(`attachUserToRequestMiddleware`, () => {
 
           token.content['email'] = userEmail
           token.content['name'] = userName
-          getUserByEmail.mockReturnValue(okAsync(null))
+          const getUserByEmail: GetUserByEmail = jest.fn(() => okAsync(null))
 
           const userId = 'user-id'
-          createUser.mockReturnValue(okAsync(userId))
+          const createUser: ReturnType<typeof makeCreateUser> = jest.fn(() => okAsync(userId))
 
           const nextFunction = jest.fn()
+
+          const middleware = makeAttachUserToRequestMiddleware({
+            getUserByEmail,
+            createUser,
+          })
           middleware(request, {} as express.Response, nextFunction)
 
           it('should attach the user to the request and execute the next function', () => {
