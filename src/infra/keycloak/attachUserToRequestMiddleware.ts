@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import { USER_ROLES } from '../../entities'
-import { GetUserByEmail, makeCreateUser } from '../../modules/users'
+import { GetUserByEmail, makeCreateUser, USER_ROLES } from '../../modules/users'
 
 type AttachUserToRequestMiddlewareDependencies = {
   getUserByEmail: GetUserByEmail
