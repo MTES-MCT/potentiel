@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "exclude": [
+    "node_modules",
+    "features",
+    "**/*.spec.ts",
+    "**/*.integration.ts",
+    "**/*.stories.tsx",
+    "**/__tests__/**/*",
+    "e2e-legacy",
+    "e2e-legacy/**/*",
+    "e2e",
+    "e2e/**/*",
+    "scripts"
+  ]
+}

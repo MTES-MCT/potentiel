@@ -4,7 +4,7 @@
   "description": "Suivi des Projets d'Energies Renouvelables",
   "main": "index.js",
   "scripts": {
-    "build": "tsc && cp -R src/public dist/src && cp -R src/views/template dist/src/views",
+    "build": "tsc --build tsconfig.build.json && cp -R src/public dist/src && cp -R src/views/template dist/src/views",
     "build:front": "webpack --config=webpack.config.js",
     "build:css": "npx tailwindcss -i ./src/views/index.css -o ./src/public/css/index.css",
     "install": "npm run build:front && npm run build:css && npm run build && npm run migrate",
