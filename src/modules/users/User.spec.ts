@@ -1,6 +1,6 @@
 import { UniqueEntityID } from '../../core/domain'
 import { EntityNotFoundError } from '../shared'
-import { UserCreated, UserRegistered } from './events'
+import { UserCreated } from './events'
 import { makeUser } from './User'
 
 const userId = new UniqueEntityID().toString()
