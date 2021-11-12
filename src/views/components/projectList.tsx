@@ -1,8 +1,9 @@
 import React from 'react'
 import { logger } from '../../core/utils'
-import { Project, User } from '../../entities'
+import { Project } from '../../entities'
 import { formatDate } from '../../helpers/formatDate'
 import { dataId } from '../../helpers/testId'
+import { UserRole } from '../../modules/users'
 import ROUTES from '../../routes'
 import { PaginatedList } from '../../types'
 import { ACTION_BY_ROLE } from './actions'
@@ -255,7 +256,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
 interface Props {
   projects: PaginatedList<Project> | Array<Project>
   displayColumns: Array<string>
-  role: User['role']
+  role: UserRole
 }
 
 const ProjectList = ({ projects, displayColumns, role }: Props) => {

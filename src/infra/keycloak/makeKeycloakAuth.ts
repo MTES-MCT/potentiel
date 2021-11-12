@@ -3,9 +3,9 @@ import session from 'express-session'
 import Keycloak from 'keycloak-connect'
 import QueryString from 'querystring'
 import { logger } from '../../core/utils'
-import { User, USER_ROLES } from '../../entities'
+import { User } from '../../entities'
 import { EnsureRole, RegisterAuth } from '../../modules/authN'
-import { GetUserByEmail, makeRegisterFirstUserLogin } from '../../modules/users'
+import { GetUserByEmail, USER_ROLES, makeRegisterFirstUserLogin } from '../../modules/users'
 import routes from '../../routes'
 
 export interface KeycloakAuthDeps {

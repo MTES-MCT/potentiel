@@ -1,6 +1,6 @@
 import type { RequestHandler } from 'express'
-import { User } from '../../../entities'
+import { UserRole } from '../../users'
 
 export interface EnsureRole {
-  (roles: User['role'] | User['role'][]): RequestHandler
+  (roles: UserRole | UserRole[]): RequestHandler
 }

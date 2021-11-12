@@ -1,13 +1,13 @@
 import React from 'react'
-import { User } from '../../../../entities'
 import { dataId } from '../../../../helpers/testId'
 import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest'
+import { UserRole } from '../../../../modules/users'
 import ROUTES from '../../../../routes'
 import { ModificationRequestTitleByType } from '../../../helpers'
 
 interface AdminResponseFormProps {
   modificationRequest: ModificationRequestPageDTO
-  role: User['role']
+  role: UserRole
   children: React.ReactNode
 }
 export const AdminResponseForm = ({

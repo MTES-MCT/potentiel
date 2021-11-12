@@ -1,6 +1,5 @@
 import { logger } from '../../../core/utils'
-import { User } from '../../../entities'
-import { UserCreated } from '../../users'
+import { UserCreated, UserRole } from '../../users'
 import { CreateUserCredentials } from '../queries'
 
 interface HandleUserCreatedDeps {
@@ -13,7 +12,7 @@ export const handleUserCreated = (deps: HandleUserCreatedDeps) => async (event: 
   try {
     const res = await deps.createUserCredentials({
       email,
-      role: role as User['role'],
+      role: role as UserRole,
       fullName,
     })
     if (res.isErr()) {

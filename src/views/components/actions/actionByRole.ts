@@ -1,9 +1,9 @@
+import { UserRole } from '../../../modules/users'
 import { adminActions } from './admin'
-import { porteurProjetActions } from './porteurProjet'
 import { drealActions } from './dreal'
-import { User } from '../../../entities'
+import { porteurProjetActions } from './porteurProjet'
 
-export const ACTION_BY_ROLE: Record<User['role'], (project: any) => any[]> = {
+export const ACTION_BY_ROLE: Record<UserRole, (project: any) => any[]> = {
   admin: adminActions,
   dgec: adminActions,
   'porteur-projet': porteurProjetActions,

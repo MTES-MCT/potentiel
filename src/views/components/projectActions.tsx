@@ -1,7 +1,7 @@
 import React from 'react'
-import { User } from '../../entities'
-import { ACTION_BY_ROLE } from '../components/actions'
 import { dataId } from '../../helpers/testId'
+import { UserRole } from '../../modules/users'
+import { ACTION_BY_ROLE } from '../components/actions'
 
 interface Props {
   project: {
@@ -24,7 +24,7 @@ interface Props {
       status: 'à traiter' | 'validé'
     }
   }
-  role: User['role']
+  role: UserRole
 }
 
 const ProjectActions = ({ project, role }: Props) => {

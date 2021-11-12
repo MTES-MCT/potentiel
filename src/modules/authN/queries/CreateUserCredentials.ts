@@ -1,9 +1,9 @@
 import { ResultAsync } from '../../../core/utils'
-import { User } from '../../../entities'
 import { OtherError, UnauthorizedError } from '../../shared'
+import { UserRole } from '../../users'
 
 export interface CreateUserCredentials {
-  (args: { role: User['role']; email: string; fullName?: string }): ResultAsync<
+  (args: { role: UserRole; email: string; fullName?: string }): ResultAsync<
     null,
     UnauthorizedError | OtherError
   >

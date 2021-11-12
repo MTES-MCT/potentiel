@@ -1,12 +1,12 @@
 import * as React from 'react'
-import { User } from '../../entities'
+import { UserRole } from '../../modules/users'
 import AdminDashboard from './adminDashboard'
 import PartnerDashboard from './partnerDashboard'
 import UserDashboard from './userDashboard'
 
 type RoleBasedDashboardProps = {
   children: React.ReactNode
-  role: User['role']
+  role: UserRole
   currentPage: Parameters<
     typeof AdminDashboard | typeof UserDashboard | typeof PartnerDashboard
   >[0]['currentPage']

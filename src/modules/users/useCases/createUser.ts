@@ -1,3 +1,4 @@
+import { UserRole } from '..'
 import { TransactionalRepository, UniqueEntityID } from '../../../core/domain'
 import { ResultAsync } from '../../../core/utils'
 import { User as OldUser } from '../../../entities'
@@ -11,7 +12,7 @@ interface CreateUserDeps {
 interface CreateUserArgs {
   email: string
   fullName?: string
-  role: OldUser['role']
+  role: UserRole
   createdBy?: OldUser
 }
 

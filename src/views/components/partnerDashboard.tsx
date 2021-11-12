@@ -1,10 +1,10 @@
 import React from 'react'
+import { UserRole } from '../../modules/users'
 import ROUTES from '../../routes'
-import { User } from '../../entities'
 
 interface SeparatorItemProps {
-  visibleForRoles: Array<User['role']>
-  role: User['role'] | undefined
+  visibleForRoles: Array<UserRole>
+  role: UserRole | undefined
 }
 const SeparatorItem = ({ visibleForRoles, role }: SeparatorItemProps) =>
   role && visibleForRoles.includes(role) ? (
@@ -20,7 +20,7 @@ const SeparatorItem = ({ visibleForRoles, role }: SeparatorItemProps) =>
 
 interface PartnerDashboardProps {
   children: React.ReactNode
-  role: User['role'] | undefined
+  role: UserRole | undefined
   currentPage: 'list-projects' | undefined
 }
 
@@ -29,8 +29,8 @@ interface MenuItemProps {
   currentPage: PartnerDashboardProps['currentPage']
   itemPage: PartnerDashboardProps['currentPage']
   title: string
-  visibleForRoles: Array<User['role']>
-  role: User['role'] | undefined
+  visibleForRoles: Array<UserRole>
+  role: UserRole | undefined
 }
 const MenuItem = ({ route, title, currentPage, itemPage, visibleForRoles, role }: MenuItemProps) =>
   role && visibleForRoles.includes(role) ? (

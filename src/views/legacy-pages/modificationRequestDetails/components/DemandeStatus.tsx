@@ -1,19 +1,18 @@
 import React from 'react'
-import { User } from '../../../../entities'
 import { formatDate } from '../../../../helpers/formatDate'
 import { dataId } from '../../../../helpers/testId'
 import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest'
+import { UserRole } from '../../../../modules/users'
 import ROUTES from '../../../../routes'
 import {
   ModificationRequestColorByStatus,
   ModificationRequestStatusTitle,
-  ModificationRequestTitleByType,
   ModificationRequestTitleColorByStatus,
 } from '../../../helpers'
 
 interface DemandeStatusProps {
   modificationRequest: ModificationRequestPageDTO
-  role: User['role']
+  role: UserRole
 }
 
 export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps) => {
@@ -83,7 +82,7 @@ const StatusForDelai = ({ modificationRequest }: StatusForDelaiProps) => {
 
 interface ConfirmationProps {
   modificationRequest: ModificationRequestPageDTO
-  role: User['role']
+  role: UserRole
 }
 const Confirmation = ({ modificationRequest, role }: ConfirmationProps) => {
   const { versionDate, id, status } = modificationRequest

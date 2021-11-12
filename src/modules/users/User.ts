@@ -3,16 +3,12 @@ import { err, ok, Result } from '../../core/utils'
 import { EventStoreAggregate } from '../eventStore'
 import { EntityNotFoundError } from '../shared'
 import { UserCreated, UserRegistered } from './events'
-import { User as OldUser } from '../../entities'
+import { UserRole } from './UserRoles'
 
 export interface User extends EventStoreAggregate {
   registerFirstLogin(args: { fullName: string; email: string }): Result<null, never>
   getUserId: () => Result<string, EntityNotFoundError>
-  create: (args: {
-    fullName?: string
-    role: OldUser['role']
-    createdBy?: string
-  }) => Result<null, never>
+  create: (args: { fullName?: string; role: UserRole; createdBy?: string }) => Result<null, never>
 }
 
 type UserProps = {
