@@ -1,7 +1,7 @@
 import express from 'express'
 import { okAsync } from '../../core/utils'
 import { User } from '../../entities'
-import { GetUserByEmail, makeCreateUser } from '../../modules/users'
+import { CreateUser, GetUserByEmail } from '../../modules/users'
 import { makeAttachUserToRequestMiddleware } from './attachUserToRequestMiddleware'
 
 describe(`attachUserToRequestMiddleware`, () => {
@@ -151,7 +151,7 @@ describe(`attachUserToRequestMiddleware`, () => {
           const getUserByEmail: GetUserByEmail = jest.fn(() => okAsync(null))
 
           const userId = 'user-id'
-          const createUser: ReturnType<typeof makeCreateUser> = jest.fn(() => okAsync(userId))
+          const createUser: CreateUser = jest.fn(() => okAsync(userId))
 
           const nextFunction = jest.fn()
 

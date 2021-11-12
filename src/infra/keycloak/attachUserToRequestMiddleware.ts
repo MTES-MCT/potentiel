@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express'
-import { GetUserByEmail, makeCreateUser, USER_ROLES } from '../../modules/users'
+import { CreateUser, GetUserByEmail, USER_ROLES } from '../../modules/users'
 
 type AttachUserToRequestMiddlewareDependencies = {
   getUserByEmail: GetUserByEmail
-  createUser: ReturnType<typeof makeCreateUser>
+  createUser: CreateUser
 }
 
 const makeAttachUserToRequestMiddleware = ({

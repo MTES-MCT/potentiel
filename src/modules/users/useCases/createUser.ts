@@ -5,6 +5,8 @@ import { User as OldUser } from '../../../entities'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { User } from '../User'
 
+export type CreateUser = ReturnType<typeof makeCreateUser>
+
 interface CreateUserDeps {
   userRepo: TransactionalRepository<User>
 }

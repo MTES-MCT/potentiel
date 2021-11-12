@@ -4,12 +4,12 @@ import { UserInvitedToProject } from '../../authZ'
 import { EventBus } from '../../eventStore'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { GetUserByEmail } from '../queries'
-import { makeCreateUser } from './createUser'
+import { CreateUser } from './createUser'
 
 interface InviteUserToProjectDeps {
   getUserByEmail: GetUserByEmail
   shouldUserAccessProject: (args: { user: User; projectId: Project['id'] }) => Promise<boolean>
-  createUser: ReturnType<typeof makeCreateUser>
+  createUser: CreateUser
   eventBus: EventBus
 }
 
