@@ -1,5 +1,4 @@
 import models from './models'
-import { EventStore } from '../../modules/eventStore'
 import { SequelizeEventStore } from './eventStore/sequelizeEventStore'
 import {
   initModificationRequestProjections,
@@ -9,6 +8,7 @@ import {
   initAppelOffreProjections,
 } from './projections'
 import { initUserProjectClaimsProjections } from './projections/userProjectClaims/updates'
+import { EventStore } from '../../core/domain'
 
 export { initProjectors } from './models'
 export const sequelizeEventStore = new SequelizeEventStore(models)

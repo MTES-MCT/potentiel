@@ -1,13 +1,17 @@
-import { EventStore } from '.'
-import { DomainEvent, TransactionalRepository, UniqueEntityID } from '../../core/domain'
+import {
+  DomainEvent,
+  TransactionalRepository,
+  UniqueEntityID,
+  EventStore,
+  EventStoreAggregate,
+} from '../../core/domain'
 import { err, Result, ResultAsync, unwrapResultOfResult } from '../../core/utils'
 import {
   EntityNotFoundError,
   EntityAlreadyExistsError,
   HeterogeneousHistoryError,
   InfraNotAvailableError,
-} from '../shared'
-import { EventStoreAggregate } from './EventStoreAggregate'
+} from '../../modules/shared'
 
 export type AggregateFromHistoryFn<T> = (args: {
   events?: DomainEvent[]

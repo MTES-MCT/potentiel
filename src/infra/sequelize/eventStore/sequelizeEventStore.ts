@@ -1,10 +1,9 @@
 import { Op } from 'sequelize'
 import { v4 as uuid } from 'uuid'
-import { DomainEvent } from '../../../core/domain'
+import { DomainEvent, EventStoreHistoryFilters } from '../../../core/domain'
 import { logger, ResultAsync, wrapInfra } from '../../../core/utils'
 import * as AuthorizationEvents from '../../../modules/authZ/events'
 import * as CandidateNotificationEvents from '../../../modules/candidateNotification/events'
-import { BaseEventStore, EventStoreHistoryFilters } from '../../../modules/eventStore'
 import * as ModificationRequestEvents from '../../../modules/modificationRequest/events'
 import * as AppelOffreEvents from '../../../modules/appelOffre/events'
 import * as ProjectEvents from '../../../modules/project/events'
@@ -12,6 +11,7 @@ import * as ProjectClaimEvents from '../../../modules/projectClaim/events'
 import * as UserEvents from '../../../modules/users/events'
 import * as LegacyCandidateNotificationEvents from '../../../modules/legacyCandidateNotification/events'
 import { InfraNotAvailableError } from '../../../modules/shared'
+import { BaseEventStore } from '../../eventStore'
 
 function isNotNullOrUndefined<T>(input: null | undefined | T): input is T {
   return input != null

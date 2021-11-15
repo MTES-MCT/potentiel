@@ -1,33 +1,44 @@
-import { EventStoreHistoryFilters, EventStore } from '.'
-import { DomainEvent, UniqueEntityID } from '../../core/domain'
+import {
+  DomainEvent,
+  UniqueEntityID,
+  EventStoreHistoryFilters,
+  EventStore,
+  BaseDomainEvent,
+} from '../../core/domain'
 import { ok, okAsync } from '../../core/utils'
 import { makeFakeEventStore } from '../../__tests__/fixtures/aggregates'
-import { PeriodeNotified } from '../project/events'
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   HeterogeneousHistoryError,
   InfraNotAvailableError,
-} from '../shared'
+} from '../../modules/shared'
 import { makeEventStoreRepo } from './makeEventStoreRepo'
+
+interface DummyEventPayload {
+  testId: string
+}
+class DummyEvent extends BaseDomainEvent<DummyEventPayload> implements DomainEvent {
+  public static type: 'DummyEvent' = 'DummyEvent'
+  public type = DummyEvent.type
+  currentVersion = 1
+
+  aggregateIdFromPayload(payload: DummyEventPayload) {
+    return payload.testId
+  }
+}
 
 const projectId = new UniqueEntityID('project1')
 
-const fakeHistoryEvent = new PeriodeNotified({
+const fakeHistoryEvent = new DummyEvent({
   payload: {
-    periodeId: 'periode',
-    appelOffreId: 'appelOffre',
-    notifiedOn: 123,
-    requestedBy: 'user1',
+    testId: '123',
   },
 })
 
-const fakeProducedEvent = new PeriodeNotified({
+const fakeProducedEvent = new DummyEvent({
   payload: {
-    periodeId: 'periode',
-    appelOffreId: 'appelOffre',
-    notifiedOn: 123,
-    requestedBy: 'user1',
+    testId: '123',
   },
 })
 
@@ -37,7 +48,7 @@ interface FakeAggregate {
   id: UniqueEntityID
 }
 
-describe('makeEventStoreTransactionalRepo', () => {
+describe('makeEventStoreRepo', () => {
   describe('load(id)', () => {
     const fakeAggregate: FakeAggregate = {
       pendingEvents: [fakeProducedEvent],

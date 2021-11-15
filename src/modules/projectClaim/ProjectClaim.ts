@@ -1,7 +1,7 @@
 import { ProjectDataForProjectClaim } from '.'
 import { DomainEvent, UniqueEntityID } from '../../core/domain'
 import { err, ok, Result, stableStringify } from '../../core/utils'
-import { EventStoreAggregate } from '../eventStore/EventStoreAggregate'
+import { EventStoreAggregate } from '../../core/domain/EventStoreAggregate'
 import { EntityNotFoundError } from '../shared'
 import {
   ClaimerIdentityCheckHasFailedError,

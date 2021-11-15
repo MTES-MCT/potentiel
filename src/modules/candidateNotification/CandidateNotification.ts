@@ -1,7 +1,7 @@
 import { DomainEvent, UniqueEntityID } from '../../core/domain'
 import { err, ok, Result, stableStringify } from '../../core/utils'
 import { AppelOffre, Periode, Project } from '../../entities'
-import { EventStoreAggregate } from '../eventStore/EventStoreAggregate'
+import { EventStoreAggregate } from '../../core/domain/EventStoreAggregate'
 import {
   ProjectCertificateGenerated,
   ProjectCertificateGenerationFailed,

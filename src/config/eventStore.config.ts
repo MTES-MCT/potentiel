@@ -1,6 +1,6 @@
+import { EventStore } from '../core/domain'
 import { InMemoryEventStore } from '../infra/inMemory'
 import { sequelizeEventStore } from '../infra/sequelize'
-import { EventStore } from '../modules/eventStore'
 import { isTestEnv } from './env.config'
 
 console.log(`EventStore will be using ${isTestEnv ? 'InMemoryEventStore' : 'SequelizeEventStore'}`)

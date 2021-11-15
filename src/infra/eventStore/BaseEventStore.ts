@@ -9,8 +9,12 @@ import {
   logger,
   wrapInfra,
 } from '../../core/utils'
-import { InfraNotAvailableError, OtherError } from '../shared'
-import { EventStore, EventStoreHistoryFilters, EventStoreTransactionArgs } from './EventStore'
+import { InfraNotAvailableError, OtherError } from '../../modules/shared'
+import {
+  EventStore,
+  EventStoreHistoryFilters,
+  EventStoreTransactionArgs,
+} from '../../core/domain/EventStore'
 
 export abstract class BaseEventStore implements EventStore {
   private publishQueue: Queue

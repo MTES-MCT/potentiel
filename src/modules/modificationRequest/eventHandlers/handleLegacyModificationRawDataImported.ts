@@ -1,5 +1,5 @@
+import { EventBus } from '../../../core/domain'
 import { logger, errAsync, okAsync, WithDelay } from '../../../core/utils'
-import { EventBus } from '../../eventStore'
 import { FindProjectByIdentifiers } from '../../project'
 import { EntityNotFoundError } from '../../shared'
 import { LegacyModificationImported, LegacyModificationRawDataImported } from '../events'

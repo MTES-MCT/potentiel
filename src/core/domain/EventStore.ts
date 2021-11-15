@@ -1,6 +1,6 @@
-import { ResultAsync } from '../../core/utils'
-import { DomainEvent } from '../../core/domain'
-import { InfraNotAvailableError } from '../shared'
+import { ResultAsync } from '../utils'
+import { DomainEvent } from './DomainEvent'
+import { InfraNotAvailableError } from '../../modules/shared'
 import { EventBus } from './EventBus'
 
 export interface EventStoreHistoryFilters {

@@ -1,16 +1,14 @@
 import {
   DomainEvent,
+  EventStore,
   Repository,
   TransactionalRepository,
   UniqueEntityID,
 } from '../../../core/domain'
 import { appelsOffreStatic } from '../../../dataAccess/inMemory'
 import { AppelOffre } from '../../../entities'
-import { EventStore } from '../../../modules/eventStore'
-import { makeEventStoreRepo } from '../../../modules/eventStore/makeEventStoreRepo'
-import { makeEventStoreTransactionalRepo } from '../../../modules/eventStore/makeEventStoreTransactionalRepo'
-import { BuildProjectIdentifier } from '../../../modules/project'
-import { makeProject, Project } from '../../../modules/project/Project'
+import { BuildProjectIdentifier, makeProject, Project } from '../../../modules/project'
+import { makeEventStoreRepo, makeEventStoreTransactionalRepo } from '../../eventStore'
 
 const appelsOffres: Record<AppelOffre['id'], AppelOffre> = appelsOffreStatic.reduce(
   (map, appelOffre) => {

@@ -1,7 +1,7 @@
+import { EventBus } from '../../../core/domain'
 import { err, ok, okAsync, Result, ResultAsync, wrapInfra } from '../../../core/utils'
 import { Project, User } from '../../../entities'
 import { UserInvitedToProject } from '../../authZ'
-import { EventBus } from '../../eventStore'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { GetUserByEmail } from '../queries'
 import { CreateUser } from './createUser'

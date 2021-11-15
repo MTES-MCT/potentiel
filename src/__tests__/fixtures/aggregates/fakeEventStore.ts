@@ -1,6 +1,9 @@
-import { okAsync, ResultAsync } from 'neverthrow'
-import { DomainEvent } from '../../../core/domain'
-import { EventStoreTransactionArgs, EventStoreHistoryFilters } from '../../../modules/eventStore'
+import { ResultAsync } from 'neverthrow'
+import {
+  DomainEvent,
+  EventStoreHistoryFilters,
+  EventStoreTransactionArgs,
+} from '../../../core/domain'
 import { InfraNotAvailableError } from '../../../modules/shared'
 import { makeFakeEventBus } from './fakeEventBus'
 

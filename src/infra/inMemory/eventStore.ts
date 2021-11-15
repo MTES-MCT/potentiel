@@ -1,7 +1,7 @@
-import { DomainEvent } from '../../core/domain'
+import { DomainEvent, EventStoreHistoryFilters } from '../../core/domain'
 import { okAsync, ResultAsync } from '../../core/utils'
-import { BaseEventStore, EventStoreHistoryFilters } from '../../modules/eventStore'
 import { InfraNotAvailableError } from '../../modules/shared'
+import { BaseEventStore } from '../eventStore'
 
 export class InMemoryEventStore extends BaseEventStore {
   private history: DomainEvent[] = []

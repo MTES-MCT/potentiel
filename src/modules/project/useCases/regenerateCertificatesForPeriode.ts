@@ -1,7 +1,6 @@
-import { TransactionalRepository, UniqueEntityID } from '../../../core/domain'
+import { EventBus, TransactionalRepository, UniqueEntityID } from '../../../core/domain'
 import { errAsync, logger, okAsync, Result, ResultAsync } from '../../../core/utils'
 import { User } from '../../../entities'
-import { EventBus } from '../../eventStore'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { IllegalProjectDataError, ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors'
 import { CertificatesForPeriodeRegenerated } from '../events'

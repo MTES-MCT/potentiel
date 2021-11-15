@@ -1,7 +1,6 @@
-import { DomainEvent } from '../../../core/domain'
+import { DomainEvent, EventBus } from '../../../core/domain'
 import { errAsync, ResultAsync, wrapInfra } from '../../../core/utils'
 import { User } from '../../../entities'
-import { EventBus } from '../../eventStore'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { ProjectDCRRemoved, ProjectGFRemoved, ProjectPTFRemoved } from '../events'
 

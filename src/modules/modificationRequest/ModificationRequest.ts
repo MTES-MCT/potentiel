@@ -1,7 +1,6 @@
-import { DomainEvent, UniqueEntityID } from '../../core/domain'
+import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '../../core/domain'
 import { err, ok, Result } from '../../core/utils'
 import { User } from '../../entities'
-import { EventStoreAggregate } from '../eventStore'
 import { EntityNotFoundError, IllegalInitialStateForAggregateError } from '../shared'
 import {
   StatusPreventsAcceptingError,

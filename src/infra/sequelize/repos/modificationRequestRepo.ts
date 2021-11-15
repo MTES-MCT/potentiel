@@ -1,13 +1,12 @@
 import {
   DomainEvent,
+  EventStore,
   Repository,
   TransactionalRepository,
   UniqueEntityID,
 } from '../../../core/domain'
-import { EventStore } from '../../../modules/eventStore'
-import { makeEventStoreRepo } from '../../../modules/eventStore/makeEventStoreRepo'
-import { makeEventStoreTransactionalRepo } from '../../../modules/eventStore/makeEventStoreTransactionalRepo'
 import { makeModificationRequest, ModificationRequest } from '../../../modules/modificationRequest'
+import { makeEventStoreRepo, makeEventStoreTransactionalRepo } from '../../eventStore'
 
 export const makeModificationRequestRepo = (
   eventStore: EventStore
