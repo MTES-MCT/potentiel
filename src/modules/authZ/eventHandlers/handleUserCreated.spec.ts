@@ -31,12 +31,8 @@ describe('authN.handleUserCreated', () => {
       })
     )
 
-    const userProjectLinkedEvents = eventBus.publish.mock.calls
-      .filter((call) => call[0].type === 'UserProjectsLinkedByContactEmail')
-      .map((call) => call[0] as UserProjectsLinkedByContactEmail)
-
-    expect(userProjectLinkedEvents).toHaveLength(1)
-    expect(userProjectLinkedEvents[0].payload).toMatchObject({
+    expect(eventBus).toHavePublishedTimes(1)
+    expect(eventBus).toHavePublishedWithPayload(UserProjectsLinkedByContactEmail, {
       userId: 'userId',
       projectIds: [projectWithSameEmailId],
     })
