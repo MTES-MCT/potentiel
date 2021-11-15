@@ -101,4 +101,41 @@ describe('handleLegacyModificationImported', () => {
       expect(fakeProject.abandonLegacy).toHaveBeenCalledWith(modifiedOn)
     })
   })
+
+  describe('when several of the modifications are of type abandon', () => {
+    const fakeProject = makeFakeProject()
+    const projectRepo = fakeTransactionalRepo<Project>(fakeProject as Project)
+    const earlierModifiedOn = 1
+    const latterModifiedOn = 2
+
+    beforeAll(async () => {
+      await handleLegacyModificationImported({
+        projectRepo,
+      })(
+        new LegacyModificationImported({
+          payload: {
+            projectId,
+            importId,
+            modifications: [
+              {
+                type: 'abandon',
+                modifiedOn: latterModifiedOn,
+                modificationId,
+              },
+              {
+                type: 'abandon',
+                modifiedOn: earlierModifiedOn,
+                modificationId,
+              },
+            ],
+          },
+        })
+      )
+    })
+
+    it('should call Project.abandonLegacy() on the latter of the modifications of type abandon', () => {
+      expect(fakeProject.abandonLegacy).toHaveBeenCalledTimes(1)
+      expect(fakeProject.abandonLegacy).toHaveBeenCalledWith(latterModifiedOn)
+    })
+  })
 })

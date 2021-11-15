@@ -12,24 +12,28 @@ export const handleLegacyModificationImported = (deps: {
   const { projectRepo } = deps
   const { projectId, modifications } = event.payload
 
-  const delaiModifications = modifications.filter(({ type }) => type === 'delai') as LegacyDelai[]
+  const modificationsDescDate = modifications.sort((a, b) => b.modifiedOn - a.modifiedOn)
 
-  if (delaiModifications.length) {
-    for (const { nouvelleDateLimiteAchevement } of delaiModifications) {
-      await projectRepo.transaction(new UniqueEntityID(projectId), (project) => {
-        return project.setCompletionDueDate(nouvelleDateLimiteAchevement)
-      })
+  let delayApplied = false
+  let abandonApplied = false
+  for (const modification of modificationsDescDate) {
+    switch (modification.type) {
+      case 'delai':
+        if (delayApplied) continue
+        await projectRepo.transaction(new UniqueEntityID(projectId), (project) => {
+          return project.setCompletionDueDate(modification.nouvelleDateLimiteAchevement)
+        })
+        delayApplied = true
+        break
+      case 'abandon':
+        if (abandonApplied) continue
+        await projectRepo.transaction(new UniqueEntityID(projectId), (project) => {
+          return project.abandonLegacy(modification.modifiedOn)
+        })
+        abandonApplied = true
+        break
+      default:
+        break
     }
-  }
-
-  const abandonModification = modifications.filter(({ type }) => type === 'abandon').pop() as
-    | LegacyModificationDTO
-    | undefined
-
-  // Keep the latest
-  if (abandonModification) {
-    await projectRepo.transaction(new UniqueEntityID(projectId), (project) => {
-      return project.abandonLegacy(abandonModification.modifiedOn)
-    })
   }
 }
