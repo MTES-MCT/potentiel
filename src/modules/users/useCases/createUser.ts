@@ -18,7 +18,7 @@ interface CreateUserArgs {
   createdBy?: OldUser
 }
 
-interface CreateUserResult {
+export interface CreateUserResult {
   id: string
   role: UserRole
 }

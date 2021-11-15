@@ -43,7 +43,7 @@ export const makeInviteUserToProject = (deps: InviteUserToProjectDeps) => (
     .andThen(
       (userOrNull): ResultAsync<string, InfraNotAvailableError> => {
         if (userOrNull === null) {
-          return createUser({ role: 'porteur-projet', email })
+          return createUser({ role: 'porteur-projet', email }).map(({ id }) => id)
         }
 
         return okAsync(userOrNull.id)
