@@ -12,7 +12,7 @@ expect.extend({
     const pass = eventBus.publish.mock.calls.length === times
 
     return {
-      message: () => `expected eventBus to have published at least one event of type ${times}`,
+      message: () => `expected eventBus to have published ${times} events`,
       pass,
     }
   },

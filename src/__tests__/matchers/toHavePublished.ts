@@ -14,7 +14,8 @@ expect.extend({
       .some((event) => event.type === eventClass.type)
 
     return {
-      message: () => `expected eventBus to have published at least one event of type ${eventClass}`,
+      message: () =>
+        `expected eventBus to have published at least one event of type ${eventClass.type}`,
       pass,
     }
   },
