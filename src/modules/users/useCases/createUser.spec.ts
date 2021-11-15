@@ -54,7 +54,7 @@ describe('createUser use-case', () => {
       } as OldUser,
     })
 
-    expect(res._unsafeUnwrap()).toEqual({ userId: 'userId', role: 'admin' })
+    expect(res._unsafeUnwrap()).toEqual({ id: 'userId', role: 'admin' })
   })
 
   describe(`when no role is given for the creation`, () => {
