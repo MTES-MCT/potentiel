@@ -19,7 +19,7 @@ interface CreateUserArgs {
 }
 
 interface CreateUserResult {
-  userId: string
+  id: string
   role: UserRole
 }
 

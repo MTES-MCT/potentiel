@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import { ok } from '../../core/utils'
-import { User } from '../../entities'
-import { CreateUser, GetUserByEmail, UserRole, USER_ROLES } from '../../modules/users'
+import { CreateUser, GetUserByEmail, USER_ROLES } from '../../modules/users'
 
 type AttachUserToRequestMiddlewareDependencies = {
   getUserByEmail: GetUserByEmail
@@ -33,19 +32,20 @@ const makeAttachUserToRequestMiddleware = ({
   const userEmail = token?.content?.email
   const kRole = USER_ROLES.find((role) => token?.hasRealmRole(role))
 
-  if (userEmail && kRole) {
+  if (userEmail) {
     const userResult = await getUserByEmail(userEmail).andThen((user) => {
       if (user) {
         return ok({
           ...user,
-          role: kRole,
         })
       }
 
       const fullName = token?.content?.name
       const createUserArgs = { email: userEmail, role: kRole, fullName }
 
-      return createUser(createUserArgs).andThen((userId) => ok({ ...createUserArgs, id: userId }))
+      return createUser(createUserArgs).andThen(({ id, role }) =>
+        ok({ ...createUserArgs, id, role })
+      )
     })
 
     if (userResult.isOk()) {
