@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import { ok } from '../../core/utils'
+import { logger, ok } from '../../core/utils'
 import { CreateUser, GetUserByEmail, USER_ROLES } from '../../modules/users'
 
 type AttachUserToRequestMiddlewareDependencies = {
@@ -33,24 +33,29 @@ const makeAttachUserToRequestMiddleware = ({
   const kRole = USER_ROLES.find((role) => token?.hasRealmRole(role))
 
   if (userEmail) {
-    const userResult = await getUserByEmail(userEmail).andThen((user) => {
-      if (user) {
-        return ok({
-          ...user,
-        })
-      }
+    await getUserByEmail(userEmail)
+      .andThen((user) => {
+        if (user) {
+          return ok({
+            ...user,
+          })
+        }
 
-      const fullName = token?.content?.name
-      const createUserArgs = { email: userEmail, role: kRole, fullName }
+        const fullName = token?.content?.name
+        const createUserArgs = { email: userEmail, role: kRole, fullName }
 
-      return createUser(createUserArgs).andThen(({ id, role }) =>
-        ok({ ...createUserArgs, id, role })
+        return createUser(createUserArgs).andThen(({ id, role }) =>
+          ok({ ...createUserArgs, id, role })
+        )
+      })
+      .match(
+        (user) => {
+          request.user = user
+        },
+        (e: Error) => {
+          logger.error(e)
+        }
       )
-    })
-
-    if (userResult.isOk()) {
-      request.user = userResult.value
-    }
   }
 
   next()
