@@ -34,7 +34,7 @@ const makeAttachUserToRequestMiddleware = ({
   const kRole = USER_ROLES.find((role) => token?.hasRealmRole(role))
 
   if (userEmail && kRole) {
-    const userResult = await getUserByEmail(userEmail).andThen((user: User | null) => {
+    const userResult = await getUserByEmail(userEmail).andThen((user) => {
       if (user) {
         return ok({
           ...user,
