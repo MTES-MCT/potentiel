@@ -52,6 +52,7 @@ v1Router.get(
       )
       .match(
         (certificateStream) => {
+          response.type('pdf')
           certificateStream.pipe(response)
         },
         (e: Error) => {

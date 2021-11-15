@@ -1,12 +1,11 @@
-import { eventStore, loadFileForUser } from '../../config'
+import asyncHandler from 'express-async-handler'
+import { ensureRole, eventStore, loadFileForUser } from '../../config'
 import { UniqueEntityID } from '../../core/domain'
 import { FileAccessDeniedError, FileNotFoundError } from '../../modules/file'
 import { ProjectCertificateDownloaded } from '../../modules/project/events'
 import { InfraNotAvailableError } from '../../modules/shared'
 import routes from '../../routes'
-import { ensureRole } from '../../config'
 import { v1Router } from '../v1Router'
-import asyncHandler from 'express-async-handler'
 
 v1Router.get(
   routes.DOWNLOAD_CERTIFICATE_FILE(),
@@ -32,6 +31,7 @@ v1Router.get(
           )
         }
 
+        response.type('pdf')
         fileStream.contents.pipe(response)
       },
       async (e) => {

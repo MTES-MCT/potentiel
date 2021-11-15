@@ -76,7 +76,7 @@ const getProjectsLaureatsCsv = asyncHandler(async (request, response) => {
       await fsPromises.unlink(csvFilePath)
     })
 
-    return response.sendFile(csvFilePath)
+    return response.type('text/csv').sendFile(csvFilePath)
   } catch (e) {
     logger.error(e)
     response
