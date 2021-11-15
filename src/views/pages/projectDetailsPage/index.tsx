@@ -207,7 +207,7 @@ export const ProjectDetails = PageLayout(({
                 <CDCChoiceForm 
                   newRulesOptIn={project.newRulesOptIn} 
                   cahiersChargesURLs={cahiersChargesURLs} 
-                  onChoiceChange={(isNewRule:boolean) => setDisplaySubmitButton(isNewRule)}
+                  onChoiceChange={(isNewRule) => setDisplaySubmitButton(isNewRule)}
                 />
                 <input type="hidden" name="projectId" value={project.id} />
                 {!project.newRulesOptIn && (
