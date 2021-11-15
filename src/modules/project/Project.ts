@@ -63,6 +63,7 @@ export interface Project extends EventStoreAggregate {
     notifiedOn: number
   ) => Result<null, IllegalProjectStateError | ProjectAlreadyNotifiedError>
   abandon: (user: User) => Result<null, EliminatedProjectCannotBeAbandonnedError>
+  abandonLegacy: (abandonnedOn: number) => Result<null, never>
   reimport: (args: {
     data: ProjectReimportedPayload['data']
     importId: string
@@ -260,6 +261,24 @@ export const makeProject = (args: {
           },
         })
       )
+
+      return ok(null)
+    },
+    abandonLegacy: function (abandonnedOn) {
+      if (props.isClasse) {
+        _publishEvent(
+          new ProjectAbandoned({
+            payload: {
+              projectId: projectId.toString(),
+              abandonAcceptedBy: '',
+            },
+            original: {
+              version: 1,
+              occurredAt: new Date(abandonnedOn),
+            },
+          })
+        )
+      }
 
       return ok(null)
     },
