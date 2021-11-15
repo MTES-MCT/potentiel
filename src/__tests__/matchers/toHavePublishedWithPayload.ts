@@ -19,8 +19,14 @@ expect.extend({
 
     if (!eventsOfClass.length) {
       return {
-        message: () =>
-          `expected eventBus to have published at least one event of type ${eventClass.type}`,
+        message: () => {
+          const emittedEventTypes = eventBus.publish.mock.calls.map((call) => call[0].type)
+          return `
+Expected the eventBus to have published an event of type ${this.utils.printExpected(
+            eventClass.type
+          )}
+Instead, the eventBus triggered ${this.utils.printReceived(emittedEventTypes.join(', '))}`
+        },
         pass: false,
       }
     }
