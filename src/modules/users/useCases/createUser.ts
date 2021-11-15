@@ -33,11 +33,9 @@ export const makeCreateUser = (deps: CreateUserDeps) => (
   return userRepo.transaction(
     new UniqueEntityID(email),
     (user) => {
-      return user.create({ role, createdBy: createdBy?.id, fullName }).andThen(() =>
-        user.getUserId().andThen((id) => {
-          return ok({ id, role })
-        })
-      )
+      return user
+        .create({ role, createdBy: createdBy?.id, fullName })
+        .andThen(() => user.getUserId().map((id) => ({ id, role })))
     },
     { acceptNew: true }
   )
