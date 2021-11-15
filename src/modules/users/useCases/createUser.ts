@@ -35,7 +35,8 @@ export const makeCreateUser = (deps: CreateUserDeps) => (
     (user) => {
       return user
         .create({ role, createdBy: createdBy?.id, fullName })
-        .andThen(() => user.getUserId().map((id) => ({ id, role })))
+        .andThen(user.getUserId)
+        .map((id) => ({ id, role }))
     },
     { acceptNew: true }
   )
