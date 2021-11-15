@@ -20,6 +20,7 @@ import { requestModification, shouldUserAccessProject } from '../../useCases'
 import { ensureRole } from '../../config'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
+import toNumber from '../../helpers/toNumber';
 
 const returnRoute = (type, projectId) => {
   let returnRoute: string
@@ -100,8 +101,6 @@ v1Router.post(
         })
       )
     }
-
-    data.puissance = data.puissance && Number(data.puissance)
 
     if (
       data.type === 'fournisseur' &&
@@ -192,7 +191,7 @@ v1Router.post(
         await requestPuissanceModification({
           projectId: data.projectId,
           requestedBy: request.user,
-          newPuissance: data.puissance,
+          newPuissance: data.puissance && toNumber(data.puissance),
           justification: data.justification,
           file,
         }).match(handleSuccess, handleError)
