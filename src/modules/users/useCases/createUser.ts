@@ -34,8 +34,8 @@ export const makeCreateUser = (deps: CreateUserDeps) => (
     new UniqueEntityID(email),
     (user) => {
       return user.create({ role, createdBy: createdBy?.id, fullName }).andThen(() =>
-        user.getUserId().andThen((userId) => {
-          return ok({ userId, role })
+        user.getUserId().andThen((id) => {
+          return ok({ id, role })
         })
       )
     },
