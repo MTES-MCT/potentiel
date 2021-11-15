@@ -1,10 +1,4 @@
-import {
-  DomainEvent,
-  UniqueEntityID,
-  EventStoreHistoryFilters,
-  EventStore,
-  BaseDomainEvent,
-} from '../../core/domain'
+import { DomainEvent, UniqueEntityID, EventStore, BaseDomainEvent } from '../../core/domain'
 import { ok, okAsync } from '../../core/utils'
 import { makeFakeEventStore } from '../../__tests__/fixtures/aggregates'
 import {
@@ -59,7 +53,7 @@ describe('makeEventStoreRepo', () => {
       ok<FakeAggregate, EntityNotFoundError | HeterogeneousHistoryError>(fakeAggregate)
     )
 
-    const fakeLoadHistory = jest.fn((filters?: EventStoreHistoryFilters) => {
+    const fakeLoadHistory = jest.fn((aggregateId: string) => {
       return okAsync<DomainEvent[], InfraNotAvailableError>([fakeHistoryEvent])
     })
     const fakeEventStore = makeFakeEventStore(fakeLoadHistory)
@@ -75,7 +69,7 @@ describe('makeEventStoreRepo', () => {
       expect(res.isOk()).toBe(true)
       if (res.isErr()) return
 
-      expect(fakeLoadHistory).toHaveBeenCalledWith({ aggregateId: projectId.toString() })
+      expect(fakeLoadHistory).toHaveBeenCalledWith(projectId.toString())
       expect(fakeMakeAggregate).toHaveBeenCalledWith({ events: [fakeHistoryEvent], id: projectId })
     })
   })
@@ -91,7 +85,7 @@ describe('makeEventStoreRepo', () => {
         ok<FakeAggregate, EntityNotFoundError | HeterogeneousHistoryError>(fakeAggregate)
       )
 
-      const fakeLoadHistory = jest.fn((filters?: EventStoreHistoryFilters) => {
+      const fakeLoadHistory = jest.fn((aggregateId: string) => {
         return okAsync<DomainEvent[], InfraNotAvailableError>([fakeHistoryEvent])
       })
       const fakeEventStore = makeFakeEventStore(fakeLoadHistory)
@@ -122,7 +116,7 @@ describe('makeEventStoreRepo', () => {
         ok<FakeAggregate, EntityNotFoundError | HeterogeneousHistoryError>(fakeNewerAggregate)
       )
 
-      const fakeLoadHistory = jest.fn((filters?: EventStoreHistoryFilters) => {
+      const fakeLoadHistory = jest.fn((aggregateId: string) => {
         return okAsync<DomainEvent[], InfraNotAvailableError>([fakeHistoryEvent])
       })
       const fakeEventStore = makeFakeEventStore(fakeLoadHistory)

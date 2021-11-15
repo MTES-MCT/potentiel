@@ -23,7 +23,7 @@ export const makeEventStoreRepo = <T extends EventStoreAggregate>(deps: {
 }): Repository<T> => ({
   load(id: UniqueEntityID) {
     return deps.eventStore
-      .transaction(({ loadHistory }) => loadHistory({ aggregateId: id.toString() }))
+      .transaction(({ loadHistory }) => loadHistory(id.toString()))
       .andThen(unwrapResultOfResult)
       .andThen((events) => deps.makeAggregate({ events, id }))
   },
@@ -33,7 +33,7 @@ export const makeEventStoreRepo = <T extends EventStoreAggregate>(deps: {
 
     return deps.eventStore
       .transaction(({ loadHistory, publish }) => {
-        return loadHistory({ aggregateId: aggregate.id.toString() })
+        return loadHistory(aggregate.id.toString())
           .andThen((events) => deps.makeAggregate({ events, id: aggregate.id }))
           .andThen(
             (newestAggregate: T): Result<null, AggregateHasBeenUpdatedSinceError> => {

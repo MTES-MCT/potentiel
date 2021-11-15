@@ -1,11 +1,5 @@
 import { AggregateFromHistoryFn } from '.'
-import {
-  BaseDomainEvent,
-  DomainEvent,
-  EventStore,
-  EventStoreHistoryFilters,
-  UniqueEntityID,
-} from '../../core/domain'
+import { BaseDomainEvent, DomainEvent, EventStore, UniqueEntityID } from '../../core/domain'
 import { ok, okAsync, Result } from '../../core/utils'
 import {
   EntityAlreadyExistsError,
@@ -61,7 +55,7 @@ describe('makeEventStoreTransactionalRepo', () => {
         ok<FakeAggregate, EntityNotFoundError | HeterogeneousHistoryError>(fakeAggregate)
       )
 
-      const fakeLoadHistory = jest.fn((filters?: EventStoreHistoryFilters) => {
+      const fakeLoadHistory = jest.fn((aggregateId: string) => {
         return okAsync<DomainEvent[], InfraNotAvailableError>([fakeHistoryEvent])
       })
       const fakeEventStore = makeFakeEventStore(fakeLoadHistory)
@@ -84,7 +78,7 @@ describe('makeEventStoreTransactionalRepo', () => {
       })
 
       it('should create an aggregate from the eventStore history', async () => {
-        expect(fakeLoadHistory).toHaveBeenCalledWith({ aggregateId: 'test' })
+        expect(fakeLoadHistory).toHaveBeenCalledWith('test')
 
         expect(fakeMakeAggregate).toHaveBeenCalledWith({
           events: [fakeHistoryEvent],
@@ -105,7 +99,7 @@ describe('makeEventStoreTransactionalRepo', () => {
     describe('when called for an existing aggregate that has no history', () => {
       const fakeMakeAggregate: AggregateFromHistoryFn<FakeAggregate> = jest.fn()
 
-      const fakeLoadHistory = jest.fn((filters?: EventStoreHistoryFilters) => {
+      const fakeLoadHistory = jest.fn((aggregateId: string) => {
         return okAsync<DomainEvent[], InfraNotAvailableError>([])
       })
       const fakeEventStore = makeFakeEventStore(fakeLoadHistory)
@@ -139,7 +133,7 @@ describe('makeEventStoreTransactionalRepo', () => {
         ok<FakeAggregate, EntityNotFoundError | HeterogeneousHistoryError>(fakeAggregate)
       )
 
-      const fakeLoadHistory = jest.fn((filters?: EventStoreHistoryFilters) => {
+      const fakeLoadHistory = jest.fn((aggregateId: string) => {
         return okAsync<DomainEvent[], InfraNotAvailableError>([])
       })
       const fakeEventStore = makeFakeEventStore(fakeLoadHistory)
@@ -163,7 +157,7 @@ describe('makeEventStoreTransactionalRepo', () => {
       })
 
       it('should create an aggregate without passing events', async () => {
-        expect(fakeLoadHistory).toHaveBeenCalledWith({ aggregateId: 'test' })
+        expect(fakeLoadHistory).toHaveBeenCalledWith('test')
 
         expect(fakeMakeAggregate).toHaveBeenCalledWith({
           id: new UniqueEntityID('test'),
@@ -183,7 +177,7 @@ describe('makeEventStoreTransactionalRepo', () => {
     describe('when called with isNew=true on an aggregate that has a history', () => {
       const fakeMakeAggregate: AggregateFromHistoryFn<FakeAggregate> = jest.fn()
 
-      const fakeLoadHistory = jest.fn((filters?: EventStoreHistoryFilters) => {
+      const fakeLoadHistory = jest.fn((aggregateId: string) => {
         return okAsync<DomainEvent[], InfraNotAvailableError>([fakeHistoryEvent])
       })
       const fakeEventStore = makeFakeEventStore(fakeLoadHistory)
@@ -218,7 +212,7 @@ describe('makeEventStoreTransactionalRepo', () => {
         const fakeMakeAggregate = jest.fn((args: { events?: DomainEvent[]; id: UniqueEntityID }) =>
           ok<FakeAggregate, EntityNotFoundError | HeterogeneousHistoryError>(fakeAggregate)
         )
-        const fakeLoadHistory = jest.fn((filters?: EventStoreHistoryFilters) => {
+        const fakeLoadHistory = jest.fn((aggregateId: string) => {
           return okAsync<DomainEvent[], InfraNotAvailableError>([])
         })
         const fakeEventStore = makeFakeEventStore(fakeLoadHistory)
@@ -254,7 +248,7 @@ describe('makeEventStoreTransactionalRepo', () => {
         const fakeMakeAggregate = jest.fn((args: { events?: DomainEvent[]; id: UniqueEntityID }) =>
           ok<FakeAggregate, EntityNotFoundError | HeterogeneousHistoryError>(fakeAggregate)
         )
-        const fakeLoadHistory = jest.fn((filters?: EventStoreHistoryFilters) => {
+        const fakeLoadHistory = jest.fn((aggregateId: string) => {
           return okAsync<DomainEvent[], InfraNotAvailableError>([fakeHistoryEvent])
         })
         const fakeEventStore = makeFakeEventStore(fakeLoadHistory)

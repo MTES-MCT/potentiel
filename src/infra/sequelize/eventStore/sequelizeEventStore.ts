@@ -1,6 +1,6 @@
 import { Op } from 'sequelize'
 import { v4 as uuid } from 'uuid'
-import { DomainEvent, EventStoreHistoryFilters } from '../../../core/domain'
+import { DomainEvent } from '../../../core/domain'
 import { logger, ResultAsync, wrapInfra } from '../../../core/utils'
 import * as AuthorizationEvents from '../../../modules/authZ/events'
 import * as CandidateNotificationEvents from '../../../modules/candidateNotification/events'
@@ -51,22 +51,9 @@ export class SequelizeEventStore extends BaseEventStore {
     return wrapInfra(this.EventStoreModel.bulkCreate(events.map(this.toPersistance)))
   }
 
-  public loadHistory(
-    filters?: EventStoreHistoryFilters
-  ): ResultAsync<DomainEvent[], InfraNotAvailableError> {
-    return wrapInfra(this.EventStoreModel.findAll(this.toQuery(filters)))
+  public loadHistory(aggregateId: string): ResultAsync<DomainEvent[], InfraNotAvailableError> {
+    return wrapInfra(this.EventStoreModel.findAll(this.toQuery(aggregateId)))
       .map((events: any[]) => events.map((item) => item.get()))
-      .map((events: any[]) => {
-        const payload = filters?.payload
-
-        // Do this in memory for now
-        // TODO: create proper sequelize query for payload search
-        return payload
-          ? events.filter((event) =>
-              Object.entries(payload).every(([key, value]) => event.payload[key] === value)
-            )
-          : events
-      })
       .map((events: any[]) => {
         return events.map(this.fromPersistance).filter(isNotNullOrUndefined)
       })
@@ -106,23 +93,13 @@ export class SequelizeEventStore extends BaseEventStore {
     })
   }
 
-  private toQuery(filters?: EventStoreHistoryFilters) {
-    const query: any = {}
-
-    if (filters?.eventType) {
-      query.type = filters.eventType
-    }
-
-    if (filters?.requestId) {
-      query.requestId = filters.requestId
-    }
-
-    if (filters?.aggregateId) {
-      query.aggregateId = { [Op.overlap]: [filters.aggregateId] }
-    }
-
+  private toQuery(aggregateId) {
     return {
-      where: query,
+      where: {
+        aggregateId: {
+          [Op.overlap]: [aggregateId],
+        },
+      },
     }
   }
 }

@@ -1,4 +1,4 @@
-import { DomainEvent, EventStoreHistoryFilters } from '../../core/domain'
+import { DomainEvent } from '../../core/domain'
 import { okAsync, ResultAsync } from '../../core/utils'
 import { InfraNotAvailableError } from '../../modules/shared'
 import { BaseEventStore } from '../eventStore'
@@ -11,37 +11,9 @@ export class InMemoryEventStore extends BaseEventStore {
     return okAsync<null, InfraNotAvailableError>(null)
   }
 
-  public loadHistory(
-    filters?: EventStoreHistoryFilters
-  ): ResultAsync<DomainEvent[], InfraNotAvailableError> {
-    let history = this.history
-
-    if (filters) {
-      const { eventType, requestId, payload, aggregateId } = filters
-
-      if (eventType) {
-        if (Array.isArray(eventType)) {
-          history = history.filter((event) => eventType.includes(event.type))
-        } else {
-          history = history.filter((event) => event.type === eventType)
-        }
-      }
-
-      if (requestId) {
-        history = history.filter((event) => event.requestId === requestId)
-      }
-
-      if (aggregateId) {
-        history = history.filter((event) => event.aggregateId === aggregateId)
-      }
-
-      if (payload) {
-        history = history.filter((event) =>
-          Object.entries(payload).every(([key, value]) => event.payload[key] === value)
-        )
-      }
-    }
-
-    return okAsync<DomainEvent[], InfraNotAvailableError>(history)
+  public loadHistory(aggregateId: string): ResultAsync<DomainEvent[], InfraNotAvailableError> {
+    return okAsync<DomainEvent[], InfraNotAvailableError>(
+      this.history.filter((event) => event.aggregateId === aggregateId)
+    )
   }
 }

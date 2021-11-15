@@ -10,11 +10,7 @@ import {
   wrapInfra,
 } from '../../core/utils'
 import { InfraNotAvailableError, OtherError } from '../../modules/shared'
-import {
-  EventStore,
-  EventStoreHistoryFilters,
-  EventStoreTransactionArgs,
-} from '../../core/domain/EventStore'
+import { EventStore, EventStoreTransactionArgs } from '../../core/domain/EventStore'
 
 export abstract class BaseEventStore implements EventStore {
   private publishQueue: Queue
@@ -31,7 +27,7 @@ export abstract class BaseEventStore implements EventStore {
   protected abstract persistEvents(events: DomainEvent[]): ResultAsync<null, InfraNotAvailableError>
 
   public abstract loadHistory(
-    filters?: EventStoreHistoryFilters
+    aggregateId: string
   ): ResultAsync<DomainEvent[], InfraNotAvailableError>
 
   publish(event: DomainEvent): ResultAsync<null, InfraNotAvailableError> {
@@ -53,8 +49,8 @@ export abstract class BaseEventStore implements EventStore {
       const eventsToEmit: DomainEvent[] = []
 
       const callbackResult = await fn({
-        loadHistory: (filters) => {
-          return this.loadHistory(filters)
+        loadHistory: (aggregateId) => {
+          return this.loadHistory(aggregateId)
         },
         publish: (event: DomainEvent) => {
           eventsToEmit.push(event)

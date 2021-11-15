@@ -38,7 +38,7 @@ export const makeEventStoreTransactionalRepo = <T extends EventStoreAggregate>(d
       .transaction(({ loadHistory, publish }) => {
         let _aggregate: T
 
-        return loadHistory({ aggregateId: id.toString() })
+        return loadHistory(id.toString())
           .andThen(
             (
               events
