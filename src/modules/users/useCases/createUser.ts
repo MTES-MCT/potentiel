@@ -14,7 +14,7 @@ interface CreateUserDeps {
 interface CreateUserArgs {
   email: string
   fullName?: string
-  role: UserRole
+  role?: UserRole
   createdBy?: OldUser
 }
 
@@ -28,7 +28,7 @@ export const makeCreateUser = (deps: CreateUserDeps) => (
 ): ResultAsync<CreateUserResult, UnauthorizedError | InfraNotAvailableError> => {
   const { userRepo } = deps
 
-  const { email, role, createdBy, fullName } = args
+  const { email, role = 'porteur-projet', createdBy, fullName } = args
 
   return userRepo.transaction(
     new UniqueEntityID(email),
