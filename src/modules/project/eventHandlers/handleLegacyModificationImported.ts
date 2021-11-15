@@ -1,10 +1,6 @@
 import { Project } from '..'
 import { TransactionalRepository, UniqueEntityID } from '../../../core/domain'
-import {
-  LegacyDelai,
-  LegacyModificationDTO,
-  LegacyModificationImported,
-} from '../../modificationRequest'
+import { LegacyModificationImported } from '../../modificationRequest'
 
 export const handleLegacyModificationImported = (deps: {
   projectRepo: TransactionalRepository<Project>
