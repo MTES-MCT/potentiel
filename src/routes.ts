@@ -173,6 +173,8 @@ class routes {
 
   static CHANGER_PRODUCTEUR = withProjectId('/demande-modification.html?action=producteur')
 
+  static CHANGER_CDC = '/changer-CDC'
+
   static DEMANDER_ABANDON = withProjectId('/demande-modification.html?action=abandon')
 
   static DEMANDE_ACTION = '/soumettre-demande'

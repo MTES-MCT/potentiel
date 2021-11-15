@@ -1,5 +1,5 @@
 import { Request } from 'express'
-import React from 'react'
+import React, { useState } from 'react'
 import { logger } from '../../../core/utils'
 import { dataId } from '../../../helpers/testId'
 import { ProjectDataForProjectPage } from '../../../modules/project/dtos'
@@ -7,8 +7,9 @@ import ROUTES from '../../../routes'
 import { RoleBasedDashboard, SuccessErrorBox } from '../../components'
 import { NoteElement, Section } from './components'
 import { EditProjectData, ProjectFrise, ProjectHeader } from './sections'
-import { PageLayout } from '../../components/PageLayout';
+import { PageLayout } from '../../components/PageLayout'
 import { hydrateOnClient } from '../../helpers'
+import { CDCChoiceForm } from '../../components/'
 
 interface ProjectDetailsProps {
   request: Request
@@ -24,6 +25,8 @@ export const ProjectDetails = PageLayout(({
 }: ProjectDetailsProps) => {
   const { user } = request
   const { error, success } = (request.query as any) || {}
+
+  const [displaySubmitButton, setDisplaySubmitButton] = useState(true)
 
   if (!user) {
     // Should never happen
@@ -190,6 +193,35 @@ export const ProjectDetails = PageLayout(({
           {['admin', 'dgec'].includes(user.role) && project.notifiedOn ? (
             <Section title="Modifier le projet" icon="building">
               <EditProjectData project={project} request={request} />
+            </Section>
+          ) : (
+            ''
+          )}
+          {user.role == 'porteur-projet' && project.isClasse ? (
+            <Section title="Cahier des charges" icon="clipboard-check">
+              <form
+                action={ROUTES.CHANGER_CDC}
+                method='post'
+                className={'m-0 max-w-full'}
+              >
+                <CDCChoiceForm 
+                  newRulesOptIn={project.newRulesOptIn} 
+                  cahiersChargesURLs={cahiersChargesURLs} 
+                  onChoiceChange={(isNewRule) => setDisplaySubmitButton(isNewRule)}
+                />
+                <input type="hidden" name="projectId" value={project.id} />
+                {!project.newRulesOptIn && (
+                  <button 
+                    className="button" 
+                    type="submit"
+                    style={{margin: 'auto', width: 260, display: 'block'}}
+                    disabled={displaySubmitButton}
+                  >
+                    Enregistrer mon changement
+                </button>
+                )}
+
+              </form>
             </Section>
           ) : (
             ''
