@@ -34,7 +34,7 @@ describe('createUser use-case', () => {
     })
   })
 
-  it('should return the userId', async () => {
+  it('should return the userId and the role', async () => {
     const fakeUser = {
       ...makeFakeUser(),
       getUserId: jest.fn(() => ok<string, EntityNotFoundError>('userId')),
@@ -47,13 +47,13 @@ describe('createUser use-case', () => {
 
     const res = await createUser({
       email: fakeEmail,
-      role: 'porteur-projet',
+      role: 'admin',
       fullName: 'fullName',
       createdBy: {
         id: 'createdBy',
       } as OldUser,
     })
 
-    expect(res._unsafeUnwrap()).toEqual('userId')
+    expect(res._unsafeUnwrap()).toEqual({ userId: 'userId', role: 'admin' })
   })
 })

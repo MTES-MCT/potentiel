@@ -1,6 +1,6 @@
 import { UserRole } from '..'
 import { TransactionalRepository, UniqueEntityID } from '../../../core/domain'
-import { ResultAsync } from '../../../core/utils'
+import { ok, ResultAsync } from '../../../core/utils'
 import { User as OldUser } from '../../../entities'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { User } from '../User'
@@ -18,9 +18,14 @@ interface CreateUserArgs {
   createdBy?: OldUser
 }
 
+interface CreateUserResult {
+  userId: string
+  role: UserRole
+}
+
 export const makeCreateUser = (deps: CreateUserDeps) => (
   args: CreateUserArgs
-): ResultAsync<string, UnauthorizedError | InfraNotAvailableError> => {
+): ResultAsync<CreateUserResult, UnauthorizedError | InfraNotAvailableError> => {
   const { userRepo } = deps
 
   const { email, role, createdBy, fullName } = args
@@ -28,9 +33,11 @@ export const makeCreateUser = (deps: CreateUserDeps) => (
   return userRepo.transaction(
     new UniqueEntityID(email),
     (user) => {
-      return user
-        .create({ role, createdBy: createdBy?.id, fullName })
-        .andThen(() => user.getUserId())
+      return user.create({ role, createdBy: createdBy?.id, fullName }).andThen(() =>
+        user.getUserId().andThen((userId) => {
+          return ok({ userId, role })
+        })
+      )
     },
     { acceptNew: true }
   )
