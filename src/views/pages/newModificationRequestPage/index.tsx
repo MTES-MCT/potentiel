@@ -42,7 +42,7 @@ export const NewModificationRequest = PageLayout(({
     (request.query as any) || {}
 
   const [displayAlertOnPuissanceType, setdisplayAlertOnPuissanceType] = useState(false)
-  const[displayForm, setDisplayForm] = useState(project.newRulesOptIn)
+  const [displayForm, setDisplayForm] = useState(project.newRulesOptIn)
   const [displayAlertOnPuissance, setDisplayAlertOnPuissance] = useState(false)
   const [disableSubmitButton, setDisableSubmitButton] = useState(false)
   const [fileRequiredforPuissanceModification, setFileRequiredforPuissanceModification] = useState(false)
@@ -181,6 +181,7 @@ export const NewModificationRequest = PageLayout(({
                       defaultValue={puissance || ''}
                       {...dataId('modificationRequest-puissanceField')}
                       onChange={handlePuissanceOnChange}
+                      required={true}
                     />
 
                     {displayAlertOnPuissance && (
@@ -197,15 +198,14 @@ export const NewModificationRequest = PageLayout(({
                       </div>
                     )}
                     
-
-                    <div
-                      className="notification error"
-                      style={{ display: 'none' }}
-                      {...dataId('modificationRequest-puissance-error-message-wrong-format')}
-                    >
-                      Le format saisi n’est pas conforme (penser à utiliser un nombre décimal séparé
-                      par un point).
-                    </div>
+                    {displayAlertOnPuissanceType && (
+                      <div
+                        className="notification error"
+                        {...dataId('modificationRequest-puissance-error-message-wrong-format')}
+                      >
+                        Le format saisi n’est pas conforme, veuillez renseigner un nombre décimal.
+                      </div>
+                    )}
 
                     <div style={{ marginTop: 10 }}>
                       <label style={{ marginTop: 10 }} className="required" htmlFor="justification">
@@ -694,6 +694,7 @@ export const NewModificationRequest = PageLayout(({
                   name="submit"
                   id="submit"
                   {...dataId('submit-button')}
+                  disabled={disableSubmitButton}
                 >
                   Envoyer
                 </button>
