@@ -1,6 +1,7 @@
 import { okAsync } from 'neverthrow'
 import { InfraNotAvailableError } from '../../modules/shared'
 import { BaseDomainEvent, DomainEvent } from '../domain'
+
 import { makeEventStore } from './makeEventStore'
 
 interface DummyEventPayload {}
@@ -16,9 +17,7 @@ class DummyEvent extends BaseDomainEvent<DummyEventPayload> implements DomainEve
 
 describe('makeEventStore', () => {
   describe('publish', () => {
-    const loadAggregateEventsFromStore = jest.fn((aggregateId: string) =>
-      okAsync<DomainEvent[], InfraNotAvailableError>([])
-    )
+    const loadAggregateEventsFromStore = jest.fn()
     const persistEventsToStore = jest.fn((events: DomainEvent[]) =>
       okAsync<null, InfraNotAvailableError>(null)
     )
@@ -44,6 +43,34 @@ describe('makeEventStore', () => {
     it('should emit the event', () => {
       expect(emitEvent).toHaveBeenCalledTimes(1)
       expect(emitEvent).toHaveBeenCalledWith(targetEvent)
+    })
+  })
+
+  describe('subscribe', () => {
+    const loadAggregateEventsFromStore = jest.fn()
+    const persistEventsToStore = jest.fn()
+    const emitEvent = jest.fn()
+    const listenToEvents = jest.fn((eventClass, cb: (event: DomainEvent) => unknown) =>
+      okAsync<null, InfraNotAvailableError>(null)
+    )
+
+    const eventStore = makeEventStore({
+      loadAggregateEventsFromStore,
+      persistEventsToStore,
+      emitEvent,
+      listenToEvents,
+    })
+
+    const targetEvent = new DummyEvent({ payload: {} })
+
+    const callback = (event: DomainEvent) => {}
+
+    beforeAll(async () => {
+      await eventStore.subscribe(DummyEvent.type, callback)
+    })
+    it('hook the callback to listenToEvents', () => {
+      expect(listenToEvents).toHaveBeenCalledTimes(1)
+      expect(listenToEvents).toHaveBeenCalledWith(DummyEvent.type, callback)
     })
   })
 })

@@ -22,7 +22,9 @@ export const makeEventStore = (deps: MakeEventStoreDeps): EventStore => {
   const publish = (event: DomainEvent) => {
     return persistEventsToStore([event]).andThen(() => emitEvent(event))
   }
-  const subscribe = (eventType, callback) => {}
+  const subscribe = (eventType, callback) => {
+    return listenToEvents(eventType, callback)
+  }
   const transaction = <T>(fn: (args: EventStoreTransactionArgs) => T) =>
     okAsync<T, InfraNotAvailableError>(
       fn({
