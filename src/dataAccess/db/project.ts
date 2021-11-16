@@ -41,7 +41,7 @@ const deserialize = (item) => ({
   dcrNumeroDossier: item.dcr?.details.numeroDossier,
   completionDueOn: item.completionDueOn || 0,
   abandonedOn: item.abandonedOn || 0,
-  potentielIdentifier: makeProjectIdentifier(item),
+  potentielIdentifier: item.potentielIdentifier || '',
 })
 
 export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): ProjectRepo {
@@ -202,6 +202,10 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
+    },
+    potentielIdentifier: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
   })
 
@@ -1082,6 +1086,7 @@ export function getFullTextSearchOptions(
     'numeroCRE',
     'details.Nom et prénom du signataire du formulaire',
     'details.Nom et prénom du contact',
+    'potentielIdentifier'
   ]
 
   const searchedProjectsColumns = customSearchedProjectsColumns || defaultSearchedProjectsColumns
