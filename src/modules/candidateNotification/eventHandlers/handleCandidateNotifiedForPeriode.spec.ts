@@ -2,10 +2,10 @@ import { UniqueEntityID } from '../../../core/domain'
 import { okAsync } from '../../../core/utils'
 import { User } from '../../../entities'
 import makeFakeUser from '../../../__tests__/fixtures/user'
+import { makeFakeCreateUser } from '../../../__tests__/fakes'
 import { GetPeriodeTitle } from '../../appelOffre'
 import { NotificationArgs } from '../../notification'
 import { InfraNotAvailableError } from '../../shared'
-import { UserRole } from '../../users'
 import { CandidateNotifiedForPeriode } from '../events'
 import { handleCandidateNotifiedForPeriode } from './handleCandidateNotifiedForPeriode'
 
@@ -31,7 +31,7 @@ describe('handleCandidateNotifiedForPeriode', () => {
       okAsync<User | null, InfraNotAvailableError>(userWithEmail)
     )
 
-    const createUser = jest.fn()
+    const createUser = makeFakeCreateUser()
 
     beforeAll(async () => {
       await handleCandidateNotifiedForPeriode({
@@ -69,10 +69,7 @@ describe('handleCandidateNotifiedForPeriode', () => {
       okAsync<User | null, InfraNotAvailableError>(null)
     )
 
-    const newUserId = new UniqueEntityID().toString()
-    const createUser = jest.fn((args: { role: UserRole; email: string }) =>
-      okAsync<string, InfraNotAvailableError>(newUserId)
-    )
+    const createUser = makeFakeCreateUser()
 
     beforeAll(async () => {
       await handleCandidateNotifiedForPeriode({

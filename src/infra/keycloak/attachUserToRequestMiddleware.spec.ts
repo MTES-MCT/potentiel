@@ -1,7 +1,8 @@
 import express from 'express'
 import { okAsync } from '../../core/utils'
 import { User } from '../../entities'
-import { CreateUser, GetUserByEmail } from '../../modules/users'
+import { GetUserByEmail } from '../../modules/users'
+import { makeFakeCreateUser } from '../../__tests__/fakes'
 import { makeAttachUserToRequestMiddleware } from './attachUserToRequestMiddleware'
 
 describe(`attachUserToRequestMiddleware`, () => {
@@ -15,7 +16,7 @@ describe(`attachUserToRequestMiddleware`, () => {
 
       const middleware = makeAttachUserToRequestMiddleware({
         getUserByEmail: jest.fn(),
-        createUser: jest.fn(),
+        createUser: makeFakeCreateUser(),
       })
       middleware(request, {} as express.Response, nextFunction)
 
@@ -44,7 +45,7 @@ describe(`attachUserToRequestMiddleware`, () => {
 
       const middleware = makeAttachUserToRequestMiddleware({
         getUserByEmail: jest.fn(),
-        createUser: jest.fn(),
+        createUser: makeFakeCreateUser(),
       })
       middleware(request, {} as express.Response, nextFunction)
 
@@ -88,7 +89,7 @@ describe(`attachUserToRequestMiddleware`, () => {
 
         const middleware = makeAttachUserToRequestMiddleware({
           getUserByEmail,
-          createUser: jest.fn(),
+          createUser: makeFakeCreateUser(),
         })
         middleware(request, {} as express.Response, nextFunction)
 
@@ -120,9 +121,7 @@ describe(`attachUserToRequestMiddleware`, () => {
           const getUserByEmail: GetUserByEmail = jest.fn(() => okAsync(null))
 
           const userId = 'user-id'
-          const createUser: CreateUser = jest.fn(() =>
-            okAsync({ id: userId, role: 'porteur-projet' })
-          )
+          const createUser = makeFakeCreateUser({ id: userId, role: 'porteur-projet' })
 
           const nextFunction = jest.fn()
 
@@ -169,7 +168,7 @@ describe(`attachUserToRequestMiddleware`, () => {
           const getUserByEmail: GetUserByEmail = jest.fn(() => okAsync(null))
 
           const userId = 'user-id'
-          const createUser: CreateUser = jest.fn(() => okAsync({ id: userId, role: userRole }))
+          const createUser = makeFakeCreateUser({ id: userId, role: userRole })
 
           const nextFunction = jest.fn()
 

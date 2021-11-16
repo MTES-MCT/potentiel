@@ -5,7 +5,7 @@ import makeFakeUser from '../../../__tests__/fixtures/user'
 import { InfraNotAvailableError } from '../../shared'
 import { makeInviteUserToProject } from './inviteUserToProject'
 import { UserInvitedToProject } from '../../authZ'
-import { CreateUserResult, UserRole } from '..'
+import { makeFakeCreateUser } from '../../../__tests__/fakes'
 
 describe('inviteUserToProject use-case', () => {
   const fakeUser: User = makeFakeUser()
@@ -20,9 +20,8 @@ describe('inviteUserToProject use-case', () => {
       const getUserByEmail = jest.fn((email: string) =>
         okAsync<User | null, InfraNotAvailableError>(null)
       )
-      const createUser = jest.fn((args: { role?: UserRole; email: string }) =>
-        okAsync<CreateUserResult, InfraNotAvailableError>({ id: newUserId, role: args.role })
-      )
+      const createUser = makeFakeCreateUser({ id: newUserId })
+
       const eventBus = {
         publish: jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null)),
         subscribe: jest.fn(),
@@ -69,7 +68,7 @@ describe('inviteUserToProject use-case', () => {
       const getUserByEmail = jest.fn((email: string) =>
         okAsync<User | null, InfraNotAvailableError>(userWithEmail)
       )
-      const createUser = jest.fn()
+      const createUser = makeFakeCreateUser()
       const addProjectToUser = jest.fn((args: { userId: string; projectId: string }) =>
         okAsync<null, InfraNotAvailableError>(null)
       )
@@ -120,7 +119,7 @@ describe('inviteUserToProject use-case', () => {
     )
 
     const getUserByEmail = jest.fn()
-    const createUser = jest.fn()
+    const createUser = makeFakeCreateUser()
     const eventBus = {
       publish: jest.fn(),
       subscribe: jest.fn(),
