@@ -162,6 +162,7 @@ export const MakeProjectModel = (sequelize) => {
       potentielIdentifier: {
         type: DataTypes.STRING,
         allowNull: false,
+        defaultValue: 'potId',
       }
     },
     {
