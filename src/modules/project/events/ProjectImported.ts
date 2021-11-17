@@ -7,6 +7,7 @@ export interface ProjectImportedPayload {
   familleId: string
   numeroCRE: string
   importId: string // added later
+  potentielIdentifier: string
   data: {
     periodeId: string
     appelOffreId: string

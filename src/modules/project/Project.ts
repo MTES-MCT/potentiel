@@ -328,16 +328,24 @@ export const makeProject = (args: {
     },
     import: function ({ data, importId }) {
       const { appelOffreId, periodeId, familleId, numeroCRE } = data
+      const id = projectId.toString()
       _publishEvent(
         new ProjectImported({
           payload: {
-            projectId: projectId.toString(),
+            projectId: id,
             appelOffreId,
             periodeId,
             familleId,
             numeroCRE,
             importId,
             data,
+            potentielIdentifier: makeProjectIdentifier({
+              appelOffreId,
+              periodeId,
+              familleId,
+              numeroCRE,
+              id,
+            })
           },
         })
       )
