@@ -107,6 +107,9 @@ describe(`attachUserToRequestMiddleware`, () => {
             path: '/a-protected-path',
           } as express.Request
 
+          const response = {} as express.Response
+          response.clearCookie = jest.fn()
+
           const token = {
             content: {},
             hasRealmRole,
@@ -129,7 +132,7 @@ describe(`attachUserToRequestMiddleware`, () => {
             getUserByEmail,
             createUser,
           })
-          middleware(request, {} as express.Response, nextFunction)
+          middleware(request, response, nextFunction)
 
           it('should attach a new user to the request', () => {
             const expectedUser: User = {
@@ -139,6 +142,10 @@ describe(`attachUserToRequestMiddleware`, () => {
               role: 'porteur-projet',
             }
             expect(request.user).toMatchObject(expectedUser)
+          })
+
+          it('should clear cookie', () => {
+            expect(response.clearCookie).toHaveBeenCalledWith('connect.sid', { path: '/' })
           })
 
           it('should execute the next function', () => {

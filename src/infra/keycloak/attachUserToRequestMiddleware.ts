@@ -36,6 +36,8 @@ const makeAttachUserToRequestMiddleware = ({
     await getUserByEmail(userEmail)
       .andThen((user) => {
         if (user) {
+          logger.info(`Known user:`)
+          logger.info(JSON.stringify(user))
           return ok({
             ...user,
           })
@@ -50,6 +52,10 @@ const makeAttachUserToRequestMiddleware = ({
       })
       .match(
         (user) => {
+          if (!kRole) {
+            response.clearCookie('connect.sid', { path: '/' })
+          }
+
           request.user = user
         },
         (e: Error) => {
