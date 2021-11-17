@@ -36,8 +36,6 @@ const makeAttachUserToRequestMiddleware = ({
     await getUserByEmail(userEmail)
       .andThen((user) => {
         if (user) {
-          logger.info(`Known user:`)
-          logger.info(JSON.stringify(user))
           return ok({
             ...user,
           })
@@ -46,16 +44,16 @@ const makeAttachUserToRequestMiddleware = ({
         const fullName = token?.content?.name
         const createUserArgs = { email: userEmail, role: kRole, fullName }
 
-        return createUser(createUserArgs).andThen(({ id, role }) =>
-          ok({ ...createUserArgs, id, role })
-        )
+        return createUser(createUserArgs).andThen(({ id, role }) => {
+          if (!kRole) {
+            request.session.destroy(() => {})
+          }
+
+          return ok({ ...createUserArgs, id, role })
+        })
       })
       .match(
         (user) => {
-          if (!kRole) {
-            response.clearCookie('connect.sid', { path: '/' })
-          }
-
           request.user = user
         },
         (e: Error) => {

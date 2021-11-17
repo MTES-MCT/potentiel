@@ -105,10 +105,9 @@ describe(`attachUserToRequestMiddleware`, () => {
 
           const request = {
             path: '/a-protected-path',
+            session: {},
           } as express.Request
-
-          const response = {} as express.Response
-          response.clearCookie = jest.fn()
+          request.session.destroy = jest.fn()
 
           const token = {
             content: {},
@@ -132,7 +131,7 @@ describe(`attachUserToRequestMiddleware`, () => {
             getUserByEmail,
             createUser,
           })
-          middleware(request, response, nextFunction)
+          middleware(request, {} as express.Response, nextFunction)
 
           it('should attach a new user to the request', () => {
             const expectedUser: User = {
@@ -144,8 +143,8 @@ describe(`attachUserToRequestMiddleware`, () => {
             expect(request.user).toMatchObject(expectedUser)
           })
 
-          it('should clear cookie', () => {
-            expect(response.clearCookie).toHaveBeenCalledWith('connect.sid', { path: '/' })
+          it('should destroy the request session', () => {
+            expect(request.session.destroy).toHaveBeenCalled()
           })
 
           it('should execute the next function', () => {
