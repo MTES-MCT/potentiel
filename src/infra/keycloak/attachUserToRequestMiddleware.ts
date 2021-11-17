@@ -38,6 +38,7 @@ const makeAttachUserToRequestMiddleware = ({
         if (user) {
           return ok({
             ...user,
+            role: kRole!,
           })
         }
 

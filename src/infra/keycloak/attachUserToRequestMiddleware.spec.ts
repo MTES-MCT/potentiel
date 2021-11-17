@@ -57,45 +57,89 @@ describe(`attachUserToRequestMiddleware`, () => {
 
     describe(`when there is a user email in the keycloak access token`, () => {
       describe(`when the user exists in Potentiel`, () => {
-        const userRole = 'admin'
-        const hasRealmRole = jest.fn((role) => (role === userRole ? true : false))
+        describe(`when no role in the keycloak access token`, () => {
+          const hasRealmRole = jest.fn((role) => false)
 
-        const request = {
-          path: '/a-protected-path',
-        } as express.Request
+          const request = {
+            path: '/a-protected-path',
+          } as express.Request
 
-        const token = {
-          content: {},
-          hasRealmRole,
-        }
-        request['kauth'] = { grant: { access_token: token } }
+          const token = {
+            content: {},
+            hasRealmRole,
+          }
+          request['kauth'] = { grant: { access_token: token } }
 
-        const userEmail = 'user@email.com'
+          const userEmail = 'user@email.com'
 
-        token.content['email'] = userEmail
+          token.content['email'] = userEmail
 
-        const user: User = {
-          email: userEmail,
-          fullName: 'User',
-          id: 'user-id',
-          role: userRole,
-        }
+          const user: User = {
+            email: userEmail,
+            fullName: 'User',
+            id: 'user-id',
+            role: undefined,
+          }
 
-        const getUserByEmail: GetUserByEmail = jest.fn((email) =>
-          email === userEmail ? okAsync(user) : okAsync(null)
-        )
+          const getUserByEmail: GetUserByEmail = jest.fn((email) =>
+            email === userEmail ? okAsync({ ...user, role: 'porteur-projet' }) : okAsync(null)
+          )
 
-        const nextFunction = jest.fn()
+          const nextFunction = jest.fn()
 
-        const middleware = makeAttachUserToRequestMiddleware({
-          getUserByEmail,
-          createUser: makeFakeCreateUser(),
+          const middleware = makeAttachUserToRequestMiddleware({
+            getUserByEmail,
+            createUser: makeFakeCreateUser(),
+          })
+          middleware(request, {} as express.Response, nextFunction)
+
+          it('should attach the user to the request with no role and execute the next function', () => {
+            expect(request.user).toMatchObject(user)
+            expect(nextFunction).toHaveBeenCalled()
+          })
         })
-        middleware(request, {} as express.Response, nextFunction)
 
-        it('should attach the user to the request and execute the next function', () => {
-          expect(request.user).toMatchObject(user)
-          expect(nextFunction).toHaveBeenCalled()
+        describe(`when there is a role in the keycloak access token`, () => {
+          const userRole = 'admin'
+          const hasRealmRole = jest.fn((role) => (role === userRole ? true : false))
+
+          const request = {
+            path: '/a-protected-path',
+          } as express.Request
+
+          const token = {
+            content: {},
+            hasRealmRole,
+          }
+          request['kauth'] = { grant: { access_token: token } }
+
+          const userEmail = 'user@email.com'
+
+          token.content['email'] = userEmail
+
+          const user: User = {
+            email: userEmail,
+            fullName: 'User',
+            id: 'user-id',
+            role: userRole,
+          }
+
+          const getUserByEmail: GetUserByEmail = jest.fn((email) =>
+            email === userEmail ? okAsync(user) : okAsync(null)
+          )
+
+          const nextFunction = jest.fn()
+
+          const middleware = makeAttachUserToRequestMiddleware({
+            getUserByEmail,
+            createUser: makeFakeCreateUser(),
+          })
+          middleware(request, {} as express.Response, nextFunction)
+
+          it('should attach the user to the request and execute the next function', () => {
+            expect(request.user).toMatchObject(user)
+            expect(nextFunction).toHaveBeenCalled()
+          })
         })
       })
 
