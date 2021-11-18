@@ -136,12 +136,15 @@ describe(`attachUserToRequestMiddleware`, () => {
           })
           middleware(request, {} as express.Response, nextFunction)
 
-          it('should attach the user to the request with role and execute the next function', () => {
+          it('should attach the user to the request with role from token', () => {
             const expectedUser = {
               ...user,
               role: tokenUserRole,
             }
             expect(request.user).toMatchObject(expectedUser)
+          })
+
+          it('should execute the next function', () => {
             expect(nextFunction).toHaveBeenCalled()
           })
         })
