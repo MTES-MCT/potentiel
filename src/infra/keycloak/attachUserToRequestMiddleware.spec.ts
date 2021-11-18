@@ -100,8 +100,8 @@ describe(`attachUserToRequestMiddleware`, () => {
         })
 
         describe(`when there is a role in the keycloak access token`, () => {
-          const userRole = 'admin'
-          const hasRealmRole = jest.fn((role) => (role === userRole ? true : false))
+          const tokenUserRole = 'admin'
+          const hasRealmRole = jest.fn((role) => (role === tokenUserRole ? true : false))
 
           const request = {
             path: '/a-protected-path',
@@ -121,7 +121,7 @@ describe(`attachUserToRequestMiddleware`, () => {
             email: userEmail,
             fullName: 'User',
             id: 'user-id',
-            role: userRole,
+            role: 'porteur-projet',
           }
 
           const getUserByEmail: GetUserByEmail = jest.fn((email) =>
@@ -136,8 +136,12 @@ describe(`attachUserToRequestMiddleware`, () => {
           })
           middleware(request, {} as express.Response, nextFunction)
 
-          it('should attach the user to the request and execute the next function', () => {
-            expect(request.user).toMatchObject(user)
+          it('should attach the user to the request with role and execute the next function', () => {
+            const expectedUser = {
+              ...user,
+              role: tokenUserRole,
+            }
+            expect(request.user).toMatchObject(expectedUser)
             expect(nextFunction).toHaveBeenCalled()
           })
         })
