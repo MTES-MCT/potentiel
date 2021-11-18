@@ -4,12 +4,12 @@ import { UserInvitedToProject } from '../../authZ'
 import { EventBus } from '../../eventStore'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { GetUserByEmail } from '../queries'
-import { makeCreateUser } from './createUser'
+import { CreateUser } from './createUser'
 
 interface InviteUserToProjectDeps {
   getUserByEmail: GetUserByEmail
   shouldUserAccessProject: (args: { user: User; projectId: Project['id'] }) => Promise<boolean>
-  createUser: ReturnType<typeof makeCreateUser>
+  createUser: CreateUser
   eventBus: EventBus
 }
 
@@ -43,7 +43,7 @@ export const makeInviteUserToProject = (deps: InviteUserToProjectDeps) => (
     .andThen(
       (userOrNull): ResultAsync<string, InfraNotAvailableError> => {
         if (userOrNull === null) {
-          return createUser({ role: 'porteur-projet', email })
+          return createUser({ role: 'porteur-projet', email }).map(({ id }) => id)
         }
 
         return okAsync(userOrNull.id)

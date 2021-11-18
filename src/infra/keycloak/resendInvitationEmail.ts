@@ -3,7 +3,7 @@ import { authorizedTestEmails, isProdEnv } from '../../config'
 import { logger, ResultAsync } from '../../core/utils'
 import { OtherError } from '../../modules/shared'
 import routes from '../../routes'
-import { keycloakAdminClient } from './keycloakClient'
+import { makeKeycloakClient } from './keycloakClient'
 
 const {
   KEYCLOAK_ADMIN_CLIENT_ID,
@@ -19,6 +19,7 @@ export const resendInvitationEmail = (email: string) => {
   async function sendKeycloakInvitation(): Promise<null> {
     if (!email) throw new Error('Aucune adresse mail reçue')
 
+    const keycloakAdminClient = makeKeycloakClient()
     await keycloakAdminClient.auth({
       grantType: 'client_credentials',
       clientId: KEYCLOAK_ADMIN_CLIENT_ID!,

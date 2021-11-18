@@ -1,10 +1,10 @@
-import { makeCreateUser } from '..'
+import { CreateUser } from '..'
 import { logger } from '../../../core/utils'
 import { LegacyCandidateNotified } from '../../legacyCandidateNotification'
 
-export const handleLegacyCandidateNotified = (deps: {
-  createUser: ReturnType<typeof makeCreateUser>
-}) => async (event: LegacyCandidateNotified) => {
+export const handleLegacyCandidateNotified = (deps: { createUser: CreateUser }) => async (
+  event: LegacyCandidateNotified
+) => {
   console.log('users.handleLegacyCandidateNotified')
   const { createUser } = deps
   const { email } = event.payload

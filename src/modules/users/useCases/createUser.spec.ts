@@ -34,7 +34,7 @@ describe('createUser use-case', () => {
     })
   })
 
-  it('should return the userId', async () => {
+  it('should return the userId and the role', async () => {
     const fakeUser = {
       ...makeFakeUser(),
       getUserId: jest.fn(() => ok<string, EntityNotFoundError>('userId')),
@@ -47,13 +47,41 @@ describe('createUser use-case', () => {
 
     const res = await createUser({
       email: fakeEmail,
-      role: 'porteur-projet',
+      role: 'admin',
       fullName: 'fullName',
       createdBy: {
         id: 'createdBy',
       } as OldUser,
     })
 
-    expect(res._unsafeUnwrap()).toEqual('userId')
+    expect(res._unsafeUnwrap()).toEqual({ id: 'userId', role: 'admin' })
+  })
+
+  describe(`when no role is given for the creation`, () => {
+    it(`should call create with the role 'porteur-projet'`, async () => {
+      const fakeUser = {
+        ...makeFakeUser(),
+        getUserId: jest.fn(() => ok<string, EntityNotFoundError>('userId')),
+      }
+      const userRepo = fakeTransactionalRepo(fakeUser as User)
+
+      const createUser = makeCreateUser({
+        userRepo,
+      })
+
+      await createUser({
+        email: fakeEmail,
+        fullName: 'fullName',
+        createdBy: {
+          id: 'createdBy',
+        } as OldUser,
+      })
+
+      expect(fakeUser.create).toHaveBeenCalledWith({
+        role: 'porteur-projet',
+        fullName: 'fullName',
+        createdBy: 'createdBy',
+      })
+    })
   })
 })

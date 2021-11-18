@@ -137,6 +137,5 @@ type Users = {
     id: string
     fullName: string
     email: string
-    isRegistered: boolean
   }>
 }

@@ -36,7 +36,7 @@ v1Router.post(
         email: email.toLowerCase(),
         role,
         createdBy: request.user,
-      }).andThen((userId) => {
+      }).andThen(({ id: userId }) => {
         if (role === 'dreal') {
           return eventStore.publish(
             new DrealUserInvited({

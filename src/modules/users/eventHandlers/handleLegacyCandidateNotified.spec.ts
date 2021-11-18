@@ -1,5 +1,5 @@
-import { okAsync } from 'neverthrow'
 import { UniqueEntityID } from '../../../core/domain'
+import { makeFakeCreateUser } from '../../../__tests__/fakes'
 import { LegacyCandidateNotified } from '../../legacyCandidateNotification'
 import { handleLegacyCandidateNotified } from './handleLegacyCandidateNotified'
 
@@ -9,7 +9,7 @@ const importId = new UniqueEntityID().toString()
 describe('handleLegacyCandidateNotified', () => {
   describe('when receiving LegacyCandidateNotified', () => {
     it('should call createUser', async () => {
-      const createUser = jest.fn(() => okAsync<null, never>(null))
+      const createUser = makeFakeCreateUser()
       await handleLegacyCandidateNotified({ createUser })(
         new LegacyCandidateNotified({
           payload: {

@@ -157,8 +157,8 @@ describe('Sequelize getProjectDataForProjectPage', () => {
 
     expect(res._unsafeUnwrap()).toMatchObject({
       users: [
-        { id: userId, fullName: 'username', email: 'user@test.test', isRegistered: true },
-        { id: userId2, fullName: 'username', email: 'user2@test.test', isRegistered: false },
+        { id: userId, fullName: 'username', email: 'user@test.test' },
+        { id: userId2, fullName: 'username', email: 'user2@test.test' },
       ],
     })
   })

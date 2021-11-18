@@ -2,12 +2,12 @@ import { logger, wrapInfra } from '../../../core/utils'
 import routes from '../../../routes'
 import { GetPeriodeTitle } from '../../appelOffre'
 import { NotificationService } from '../../notification'
-import { GetUserByEmail, makeCreateUser } from '../../users'
+import { GetUserByEmail, CreateUser } from '../../users'
 import { CandidateNotifiedForPeriode } from '../events/CandidateNotifiedForPeriode'
 
 export const handleCandidateNotifiedForPeriode = (deps: {
   sendNotification: NotificationService['sendNotification']
-  createUser: ReturnType<typeof makeCreateUser>
+  createUser: CreateUser
   getUserByEmail: GetUserByEmail
   getPeriodeTitle: GetPeriodeTitle
 }) => async (event: CandidateNotifiedForPeriode) => {

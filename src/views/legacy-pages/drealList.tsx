@@ -14,9 +14,6 @@ interface DREALListProps {
 export default function DREALList({ request, users }: DREALListProps) {
   const { error, success } = (request.query as any) || {}
 
-  const currentDrealUsers = users.filter(({ user }) => !!user.isRegistered)
-  const invitations = users.filter(({ user }) => !user.isRegistered)
-
   return (
     <AdminDashboard role={request.user?.role} currentPage="list-dreal">
       <div className="panel">
@@ -76,7 +73,7 @@ export default function DREALList({ request, users }: DREALListProps) {
             </div>
           </form>
         </div>
-        {currentDrealUsers && currentDrealUsers.length ? (
+        {users && users.length && (
           <>
             <h5>Les utilisateurs rattachés à une DREAL</h5>
             <table className="table" {...dataId('projectList-list')}>
@@ -87,7 +84,7 @@ export default function DREALList({ request, users }: DREALListProps) {
                 </tr>
               </thead>
               <tbody>
-                {currentDrealUsers.map(({ user, dreals }) => {
+                {users.map(({ user, dreals }) => {
                   return (
                     <tr key={'user_' + user.id} {...dataId('drealList-item')}>
                       <td valign="top">
@@ -100,33 +97,6 @@ export default function DREALList({ request, users }: DREALListProps) {
               </tbody>
             </table>
           </>
-        ) : (
-          ''
-        )}
-        {invitations && invitations.length ? (
-          <>
-            <h5>Les utilisateurs invités</h5>
-            <table className="table" {...dataId('projectList-list')}>
-              <thead>
-                <tr>
-                  <th>Utilisateur</th>
-                  <th>DREAL(s)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {invitations.map(({ user, dreals }) => {
-                  return (
-                    <tr key={'user_' + user.id} {...dataId('drealList-item')}>
-                      <td valign="top">{user.email}</td>
-                      <td valign="top">{dreals.join(', ')}</td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-          </>
-        ) : (
-          ''
         )}
       </div>
     </AdminDashboard>

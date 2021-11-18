@@ -1,8 +1,18 @@
 import KeycloakAdmin from 'keycloak-admin'
 
-const { KEYCLOAK_SERVER, KEYCLOAK_REALM } = process.env
+let keycloakAdmin: KeycloakAdmin | undefined = undefined
 
-export const keycloakAdminClient = new KeycloakAdmin({
-  baseUrl: KEYCLOAK_SERVER,
-  realmName: KEYCLOAK_REALM,
-})
+const makeKeycloakClient = (): KeycloakAdmin => {
+  if (!keycloakAdmin) {
+    const { KEYCLOAK_SERVER, KEYCLOAK_REALM } = process.env
+
+    keycloakAdmin = new KeycloakAdmin({
+      baseUrl: KEYCLOAK_SERVER,
+      realmName: KEYCLOAK_REALM,
+    })
+  }
+
+  return keycloakAdmin
+}
+
+export { makeKeycloakClient }

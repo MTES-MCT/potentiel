@@ -4,7 +4,7 @@ import { EnsureRole, RegisterAuth } from '../modules/authN'
 import { sequelizeInstance } from '../sequelize.config'
 import { isProdEnv, isStagingEnv } from './env.config'
 import { getUserByEmail } from './queries.config'
-import { registerFirstUserLogin } from './useCases.config'
+import { createUser } from './useCases.config'
 
 let registerAuth: RegisterAuth
 let ensureRole: EnsureRole
@@ -26,7 +26,7 @@ if (isProdEnv || isStagingEnv) {
     KEYCLOAK_USER_CLIENT_ID,
     KEYCLOAK_USER_CLIENT_SECRET,
     getUserByEmail,
-    registerFirstUserLogin,
+    createUser,
   })
 
   registerAuth = keycloakAuth.registerAuth
@@ -36,7 +36,7 @@ if (isProdEnv || isStagingEnv) {
 
   const fakeAuth = makeFakeAuth({
     getUserByEmail,
-    registerFirstUserLogin,
+    createUser,
   })
 
   registerAuth = fakeAuth.registerAuth

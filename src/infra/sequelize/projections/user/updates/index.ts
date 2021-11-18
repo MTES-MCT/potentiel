@@ -1,2 +1,1 @@
-export * from './onUserCreated';
-export * from './onUserRegistered';
+export * from './onUserCreated'

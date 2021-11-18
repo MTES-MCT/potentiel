@@ -7,13 +7,7 @@ import models from '../../models'
 const { User } = models
 export const getUserByEmail: GetUserByEmail = (email) => {
   return wrapInfra(User.findOne({ where: { email } })).andThen(
-    (userRaw: any): Result<User | null, InfraNotAvailableError> => {
-      if (!userRaw) return ok(null)
-
-      const user = userRaw.get()
-      user.isRegistered = !!user.registeredOn
-
-      return ok(user)
-    }
+    (userRaw: any): Result<User | null, InfraNotAvailableError> =>
+      userRaw ? ok(userRaw.get()) : ok(null)
   )
 }

@@ -5,8 +5,9 @@ import QueryString from 'querystring'
 import { logger } from '../../core/utils'
 import { User } from '../../entities'
 import { EnsureRole, RegisterAuth } from '../../modules/authN'
-import { GetUserByEmail, USER_ROLES, makeRegisterFirstUserLogin } from '../../modules/users'
+import { CreateUser, GetUserByEmail } from '../../modules/users'
 import routes from '../../routes'
+import { makeAttachUserToRequestMiddleware } from './attachUserToRequestMiddleware'
 
 export interface KeycloakAuthDeps {
   sequelizeInstance: any
@@ -15,7 +16,7 @@ export interface KeycloakAuthDeps {
   KEYCLOAK_USER_CLIENT_ID: string | undefined
   KEYCLOAK_USER_CLIENT_SECRET: string | undefined
   getUserByEmail: GetUserByEmail
-  registerFirstUserLogin: ReturnType<typeof makeRegisterFirstUserLogin>
+  createUser: CreateUser
 }
 
 export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
@@ -26,7 +27,7 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
     KEYCLOAK_USER_CLIENT_ID,
     KEYCLOAK_USER_CLIENT_SECRET,
     getUserByEmail,
-    registerFirstUserLogin,
+    createUser,
   } = deps
 
   if (
@@ -87,52 +88,12 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
 
     app.use(keycloak.middleware())
 
-    // Add a middleware to attach the User object on the request (if logged-in)
-    app.use((request, response, next) => {
-      if (
-        // Theses paths should be prefixed with /static in the future
-        request.path.startsWith('/fonts') ||
-        request.path.startsWith('/css') ||
-        request.path.startsWith('/images') ||
-        request.path.startsWith('/scripts') ||
-        request.path.startsWith('/main') ||
-        request.path === '/'
-      ) {
-        next()
-        return
-      }
-
-      // @ts-ignore
-      const token = request.kauth?.grant?.access_token
-      const userEmail = token?.content?.email
-      const kRole = token && USER_ROLES.find((role) => token.hasRealmRole(role))
-
-      if (userEmail && kRole) {
-        return getUserByEmail(userEmail).then((userResult) => {
-          if (userResult.isOk() && userResult.value !== null) {
-            request.user = userResult.value
-            request.user.role = kRole
-
-            if (!request.user.isRegistered) {
-              registerFirstUserLogin({
-                userId: userResult.value.id,
-                keycloakId: token?.content?.sub,
-                email: userEmail,
-              })
-            }
-          } else {
-            logger.error(
-              new Error(
-                `Keycloak session open but could not find user in db with email ${userEmail}`
-              )
-            )
-          }
-          next()
-        })
-      }
-
-      next()
-    })
+    app.use(
+      makeAttachUserToRequestMiddleware({
+        getUserByEmail,
+        createUser,
+      })
+    )
 
     router.get(routes.LOGIN, keycloak.protect(), (req, res) => {
       res.redirect(routes.REDIRECT_BASED_ON_ROLE)
