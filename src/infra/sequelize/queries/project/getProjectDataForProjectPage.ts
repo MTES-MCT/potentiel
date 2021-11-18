@@ -1,6 +1,5 @@
 import { err, ok, Result, wrapInfra } from '../../../../core/utils'
 import { getAppelOffre, isPeriodeLegacy } from '../../../../dataAccess/inMemory'
-import { makeProjectIdentifier } from '../../../../entities'
 import { ProjectDataForProjectPage } from '../../../../modules/project'
 import { GetProjectDataForProjectPage } from '../../../../modules/project/queries/GetProjectDataForProjectPage'
 import { EntityNotFoundError } from '../../../../modules/shared'
@@ -112,11 +111,12 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           completionDueOn,
           updatedAt,
           newRulesOptIn,
+          potentielIdentifier
         } = projectRaw.get()
 
         const result: any = {
           id,
-          potentielIdentifier: makeProjectIdentifier(projectRaw.get()),
+          potentielIdentifier,
           appelOffreId,
           periodeId,
           familleId,
