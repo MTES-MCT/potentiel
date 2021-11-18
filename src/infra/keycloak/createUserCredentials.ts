@@ -1,6 +1,6 @@
 import { RequiredActionAlias } from 'keycloak-admin/lib/defs/requiredActionProviderRepresentation'
 import { authorizedTestEmails, isProdEnv } from '../../config'
-import { errAsync, logger, ResultAsync } from '../../core/utils'
+import { logger, ResultAsync } from '../../core/utils'
 import { CreateUserCredentials } from '../../modules/authN'
 import { OtherError, UnauthorizedError } from '../../modules/shared'
 import routes from '../../routes'
@@ -19,10 +19,6 @@ export const createUserCredentials: CreateUserCredentials = (args) => {
 
   const { email, role, fullName } = args
 
-  if (['admin', 'dgec'].includes(role)) {
-    return errAsync(new UnauthorizedError())
-  }
-
   async function createKeyCloakCredentials(): Promise<null> {
     const keycloakAdminClient = makeKeycloakClient()
 
@@ -35,6 +31,14 @@ export const createUserCredentials: CreateUserCredentials = (args) => {
     const usersWithEmail = await keycloakAdminClient.users.find({ email, realm: KEYCLOAK_REALM })
 
     let id = usersWithEmail.length ? usersWithEmail[0].id : undefined
+
+    if (id) {
+      const roles = await keycloakAdminClient.users.listRealmRoleMappings({ id })
+
+      if (!roles.map((r) => r.name).includes(role) && ['admin', 'dgec'].includes(role)) {
+        throw new UnauthorizedError()
+      }
+    }
 
     if (!id) {
       const newUser = await keycloakAdminClient.users.create({
@@ -82,6 +86,11 @@ export const createUserCredentials: CreateUserCredentials = (args) => {
 
   return ResultAsync.fromPromise(createKeyCloakCredentials(), (e: any) => {
     logger.error(e)
+
+    if (e instanceof UnauthorizedError) {
+      return e
+    }
+
     return new OtherError(e.message)
   })
 }
