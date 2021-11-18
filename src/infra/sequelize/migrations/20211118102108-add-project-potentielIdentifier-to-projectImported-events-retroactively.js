@@ -2,25 +2,25 @@
 
 const crypto = require('crypto')
 
-const makeProjectIdentifier = (project) => {
+const makeProjectIdentifier = (appelOffreId, periodeId, familleId, numeroCRE, projectId) => {
   const nakedIdentifier =
-    project.appelOffreId.replace(/ /g, '') +
+    appelOffreId.replace(/ /g, '') +
     '-P' +
-    project.periodeId +
-    (project.familleId ? '-F' + project.familleId : '') +
+    periodeId +
+    (familleId ? '-F' + familleId : '') +
     '-' +
-    project.numeroCRE
+    numeroCRE
 
   return (
     nakedIdentifier +
     '-' +
-    crypto.createHash('md5').update(project.id).digest('hex').substring(0, 3).toUpperCase()
+    crypto.createHash('md5').update(projectId).digest('hex').substring(0, 3).toUpperCase()
   )
 }
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    const transaction = queryInterface.sequelize.transaction()
+    const transaction = await queryInterface.sequelize.transaction()
     try {
       const projectImportedEvents = await queryInterface.sequelize.query(
         'SELECT * FROM "eventStores" WHERE type = ?',
@@ -30,9 +30,16 @@ module.exports = {
           transaction,
         }
       )
+
       for(const event of projectImportedEvents) {
         const { id, payload } = event
-        const potentielIdentifier = makeProjectIdentifier(payload)
+        const potentielIdentifier = makeProjectIdentifier(
+          payload.appelOffreId, 
+          payload.periodeId, 
+          payload.familleId, 
+          payload.numeroCRE, 
+          payload.projectId
+        )
         payload.potentielIdentifier = potentielIdentifier
         await queryInterface.sequelize.query(
           'UPDATE "eventStores" SET payload = ? WHERE id = ?',
