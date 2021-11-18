@@ -17,7 +17,7 @@ const projectId = new UniqueEntityID('project1')
 const appelOffreId = 'Fessenheim'
 const periodeId = '2'
 const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' })
-const { familleId, numeroCRE } = fakeProject
+const { familleId, numeroCRE, potentielIdentifier } = fakeProject
 
 const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
 
@@ -67,6 +67,7 @@ describe('Project.appelOffre', () => {
               numeroCRE,
               importId: '',
               data: fakeProject,
+              potentielIdentifier,
             },
           }),
         ],
@@ -94,12 +95,15 @@ describe('Project.appelOffre', () => {
               numeroCRE,
               importId: '',
               data: fakeProject,
+              potentielIdentifier,
             },
           }),
           new ProjectReimported({
             payload: {
               projectId: projectId.toString(),
               importId: '',
+              periodeId: '1',
+              appelOffreId,
               data: { ...fakeProject, periodeId: '1' },
             },
           }),
@@ -128,12 +132,15 @@ describe('Project.appelOffre', () => {
               numeroCRE,
               importId: '',
               data: fakeProject,
+              potentielIdentifier,
             },
           }),
           new ProjectReimported({
             payload: {
               projectId: projectId.toString(),
               importId: '',
+              appelOffreId: 'CRE4 - Bâtiment', 
+              periodeId: '10',
               data: { ...fakeProject, appelOffreId: 'CRE4 - Bâtiment', periodeId: '10' },
             },
           }),
@@ -162,6 +169,7 @@ describe('Project.appelOffre', () => {
               numeroCRE,
               importId: '',
               data: fakeProject,
+              potentielIdentifier,
             },
           }),
           new ProjectDataCorrected({

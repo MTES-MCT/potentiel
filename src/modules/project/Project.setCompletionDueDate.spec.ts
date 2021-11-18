@@ -17,7 +17,7 @@ const projectId = new UniqueEntityID('project1')
 const appelOffreId = 'Fessenheim'
 const periodeId = '2'
 const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' })
-const { familleId, numeroCRE } = fakeProject
+const { familleId, numeroCRE, potentielIdentifier } = fakeProject
 
 const appelsOffres = appelsOffreStatic.reduce((map, appelOffre) => {
   map[appelOffre.id] = appelOffre
@@ -34,6 +34,7 @@ const fakeHistory: DomainEvent[] = [
       numeroCRE,
       importId: '',
       data: fakeProject,
+      potentielIdentifier
     },
     original: {
       occurredAt: new Date(123),

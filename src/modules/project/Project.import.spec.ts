@@ -22,7 +22,7 @@ const fakeProject = makeFakeProject({
     detail2: 'detail2',
   },
 })
-const { periodeId, appelOffreId, familleId, numeroCRE } = fakeProject
+const { periodeId, appelOffreId, familleId, numeroCRE, potentielIdentifier } = fakeProject
 
 const importId = new UniqueEntityID().toString()
 
@@ -52,5 +52,6 @@ describe('Project.import()', () => {
     expect(targetEvent.payload.familleId).toEqual(familleId)
     expect(targetEvent.payload.numeroCRE).toEqual(numeroCRE)
     expect(targetEvent.payload.data).toMatchObject(fakeProject)
+    expect(targetEvent.payload.potentielIdentifier).toEqual(potentielIdentifier)
   })
 })

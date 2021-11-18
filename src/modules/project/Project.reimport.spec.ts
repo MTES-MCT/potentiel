@@ -32,7 +32,7 @@ const fakeProject = makeFakeProject({
     detail2: 'detail2',
   },
 })
-const { periodeId, appelOffreId, familleId, numeroCRE } = fakeProject
+const { periodeId, appelOffreId, familleId, numeroCRE, potentielIdentifier } = fakeProject
 
 const importId = new UniqueEntityID().toString()
 
@@ -573,7 +573,8 @@ describe('Project.reimport()', () => {
               familleId,
               numeroCRE,
               data: { ...fakeProject, notifiedOn: 1234 },
-              importedBy: '',
+              potentielIdentifier,
+              importId,
             },
           }),
         ],
