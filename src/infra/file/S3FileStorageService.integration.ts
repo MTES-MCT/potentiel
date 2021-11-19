@@ -13,10 +13,12 @@ describe.skip('S3FileStorageService', () => {
     let uploadedFileId: string
 
     describe('given a proper bucket', () => {
-      expect(bucket).toBeDefined()
-      if (!bucket) return
+      it('bucket and endpoint should not be undefined', () => {
+        expect(bucket).toBeDefined()
+        expect(endpoint).toBeDefined()
+      })
 
-      expect(endpoint).toBeDefined()
+      if (!bucket) return
       if (!endpoint) return
 
       const fileStorageService = makeS3FileStorageService({ endpoint, bucket })
@@ -58,10 +60,12 @@ describe.skip('S3FileStorageService', () => {
   })
 
   describe('download', () => {
-    expect(bucket).toBeDefined()
-    if (!bucket) return
+    it('bucket and endpoint should not be undefined', () => {
+      expect(bucket).toBeDefined()
+      expect(endpoint).toBeDefined()
+    })
 
-    expect(endpoint).toBeDefined()
+    if (!bucket) return
     if (!endpoint) return
 
     const fileStorageService = makeS3FileStorageService({ endpoint, bucket })

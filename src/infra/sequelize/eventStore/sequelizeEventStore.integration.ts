@@ -118,12 +118,11 @@ describe('SequelizeEventStore', () => {
     })
     let caughtEvent: DomainEvent | undefined
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await resetDatabase()
 
       eventStore.subscribe(ProjectGFRemoved.type, (event) => {
         caughtEvent = event
-        done()
       })
 
       const result = await eventStore.publish(event)
@@ -132,9 +131,10 @@ describe('SequelizeEventStore', () => {
 
     it('should publish an event of a specific type', () => {
       expect(caughtEvent).toBeDefined()
-      if (!caughtEvent) return
-      expect(caughtEvent.type).toEqual(ProjectGFRemoved.type)
-      expect(caughtEvent.payload).toEqual(sampleProjectGFRemovedPayload)
+      if (caughtEvent) {
+        expect(caughtEvent.type).toEqual(ProjectGFRemoved.type)
+        expect(caughtEvent.payload).toEqual(sampleProjectGFRemovedPayload)
+      }
     })
 
     it('should perist the event', async () => {
@@ -176,7 +176,7 @@ describe('SequelizeEventStore', () => {
         await resetDatabase()
       })
 
-      it('should be executed entirely before any other transaction is started', async (done) => {
+      it('should be executed entirely before any other transaction is started', async () => {
         const eventStore = new SequelizeEventStore(models)
 
         eventStore.subscribe(ProjectGFRemoved.type, () => {})
@@ -194,7 +194,6 @@ describe('SequelizeEventStore', () => {
 
         eventStore.transaction(async () => {
           expect(transactionADone).toBe(true)
-          done()
         })
 
         expect((await result).isOk()).toBe(true)
@@ -226,7 +225,7 @@ describe('SequelizeEventStore', () => {
         )
       })
 
-      it('should have its published events before other publish commands', async (done) => {
+      it('should have its published events before other publish commands', async () => {
         await resetDatabase()
 
         const requestId1 = uuid()
@@ -238,7 +237,6 @@ describe('SequelizeEventStore', () => {
         eventStore.subscribe(ProjectGFRemoved.type, (event) => {
           if (!firstRequest) firstRequest = event.requestId
           expect(firstRequest).toEqual(requestId1)
-          done()
         })
 
         eventStore.transaction(async ({ publish }) => {
