@@ -674,6 +674,7 @@ export const makeProject = (args: {
         props.data = event.payload.content
         props.notifiedOn = event.payload.content.notifiedOn
         props.puissanceInitiale = event.payload.content.puissance
+        props.potentielIdentifier = event.payload.potentielIdentifier
         _updateClasse(event.payload.content.classe)
         _updateAppelOffre(event.payload)
         break

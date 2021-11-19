@@ -6,10 +6,11 @@ import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
 
 export interface LegacyProjectSourcedPayload {
   projectId: string
-  numeroCRE: string
-  periodeId: string
   appelOffreId: string
+  periodeId: string
   familleId: string
+  numeroCRE: string
+  potentielIdentifier: string
   content: {
     periodeId: string
     appelOffreId: string

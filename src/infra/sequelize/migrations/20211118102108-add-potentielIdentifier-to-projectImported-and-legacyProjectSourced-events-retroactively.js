@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 const crypto = require('crypto')
 
@@ -23,32 +23,32 @@ module.exports = {
     const transaction = await queryInterface.sequelize.transaction()
     try {
       const projectImportedEvents = await queryInterface.sequelize.query(
-        'SELECT * FROM "eventStores" WHERE type = ?',
+        'SELECT * FROM "eventStores" WHERE type = ? OR type = ?',
         {
           type: queryInterface.sequelize.QueryTypes.SELECT,
-          replacements: ['ProjectImported'],
+          replacements: ['ProjectImported', 'LegacyProjectSourced'],
           transaction,
         }
       )
 
-      for(const event of projectImportedEvents) {
+      for (const event of projectImportedEvents) {
         const { id, payload } = event
+
+        const { appelOffreId, periodeId, familleId, numeroCRE, projectId } = payload
+
         const potentielIdentifier = makeProjectIdentifier(
-          payload.appelOffreId, 
-          payload.periodeId, 
-          payload.familleId, 
-          payload.numeroCRE, 
-          payload.projectId
+          appelOffreId,
+          periodeId,
+          familleId,
+          numeroCRE,
+          projectId
         )
         payload.potentielIdentifier = potentielIdentifier
-        await queryInterface.sequelize.query(
-          'UPDATE "eventStores" SET payload = ? WHERE id = ?',
-          {
-            type: queryInterface.sequelize.UPDATE,
-            replacements: [JSON.stringify(payload), id],
-            transaction,
-          }
-        ) 
+        await queryInterface.sequelize.query('UPDATE "eventStores" SET payload = ? WHERE id = ?', {
+          type: queryInterface.sequelize.UPDATE,
+          replacements: [JSON.stringify(payload), id],
+          transaction,
+        })
       }
       await transaction.commit()
     } catch (error) {
@@ -57,5 +57,5 @@ module.exports = {
     }
   },
 
-  down: async (queryInterface, Sequelize) => {}
-};
+  down: async (queryInterface, Sequelize) => {},
+}
