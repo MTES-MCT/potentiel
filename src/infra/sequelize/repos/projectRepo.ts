@@ -9,6 +9,7 @@ import { AppelOffre } from '../../../entities'
 import { EventStore } from '../../../modules/eventStore'
 import { makeEventStoreRepo } from '../../../modules/eventStore/makeEventStoreRepo'
 import { makeEventStoreTransactionalRepo } from '../../../modules/eventStore/makeEventStoreTransactionalRepo'
+import { BuildProjectIdentifier } from '../../../modules/project'
 import { makeProject, Project } from '../../../modules/project/Project'
 
 const appelsOffres: Record<AppelOffre['id'], AppelOffre> = appelsOffreStatic.reduce(
@@ -20,11 +21,12 @@ const appelsOffres: Record<AppelOffre['id'], AppelOffre> = appelsOffreStatic.red
 )
 
 export const makeProjectRepo = (
-  eventStore: EventStore
+  eventStore: EventStore,
+  buildProjectIdentifier: BuildProjectIdentifier
 ): Repository<Project> & TransactionalRepository<Project> => {
   // Classic EventStoreRepos take a makeAggregate function that only takes events and an id, to make a project we needs to bind the appelsOffre argument as well
   const makeProjectFromHistory = (args: { events: DomainEvent[]; id: UniqueEntityID }) =>
-    makeProject({ history: args.events, projectId: args.id, appelsOffres })
+    makeProject({ history: args.events, projectId: args.id, appelsOffres, buildProjectIdentifier })
 
   // ProjectRepo is a composition of EventStoreRepo and EventStoreTransactionalRepo
   return {

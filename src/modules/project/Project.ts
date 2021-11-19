@@ -56,7 +56,7 @@ import {
   ProjectImportedPayload,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
-import { Fournisseur } from '.'
+import { BuildProjectIdentifier, Fournisseur } from '.'
 
 export interface Project extends EventStoreAggregate {
   notify: (
@@ -180,8 +180,9 @@ export const makeProject = (args: {
   projectId: UniqueEntityID
   history?: DomainEvent[]
   appelsOffres: Record<AppelOffre['id'], AppelOffre>
+  buildProjectIdentifier: BuildProjectIdentifier
 }): Result<Project, EntityNotFoundError | HeterogeneousHistoryError> => {
-  const { history, projectId, appelsOffres } = args
+  const { history, projectId, appelsOffres, buildProjectIdentifier } = args
 
   if (!_allEventsHaveSameAggregateId()) {
     return err(new HeterogeneousHistoryError())
@@ -339,13 +340,12 @@ export const makeProject = (args: {
             numeroCRE,
             importId,
             data,
-            potentielIdentifier: makeProjectIdentifier({
+            potentielIdentifier: buildProjectIdentifier({
               appelOffreId,
               periodeId,
               familleId,
               numeroCRE,
-              id,
-            })
+            }),
           },
         })
       )
