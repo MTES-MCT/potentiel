@@ -398,6 +398,41 @@ describe('correctProjectData', () => {
           })
         })
       })
+
+      describe('when project is legacy and newNotifiedOn is defined', () => {
+        const fakeProject = { ...makeFakeProject(), isLegacy: true }
+
+        const projectRepo = fakeTransactionalRepo(fakeProject as Project)
+
+        const fileRepo: Repository<FileObject> = {
+          save: jest.fn(),
+          load: jest.fn(),
+        }
+
+        const correctProjectData = makeCorrectProjectData({
+          generateCertificate: fakeGenerateCertificate,
+          projectRepo,
+          fileRepo,
+        })
+
+        it('should return an UnauthorizedError', async () => {
+          const res = await correctProjectData({
+            projectId,
+            projectVersionDate: new Date(),
+            newNotifiedOn: 123,
+            user,
+            shouldGrantClasse: false,
+            correctedData: {
+              numeroCRE: '1',
+            },
+            attestation: 'regenerate',
+          })
+
+          expect(res.isErr()).toEqual(true)
+          if (res.isOk()) return
+          expect(res.error).toBeInstanceOf(UnauthorizedError)
+        })
+      })
     })
   })
 })

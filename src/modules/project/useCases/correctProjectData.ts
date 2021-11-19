@@ -105,10 +105,16 @@ export const makeCorrectProjectData = (deps: CorrectProjectDataDeps): CorrectPro
           return err(new ProjectHasBeenUpdatedSinceError())
         }
 
+        if (newNotifiedOn && project.isLegacy) {
+          return err(new UnauthorizedError())
+        }
+
         return _addCertificateToProjectIfExists(certificateFileId, project)
           .andThen(() => _grantClasseIfNecessary(project))
           .andThen(() => project.correctData(user, correctedData))
-          .andThen(() => project.setNotificationDate(user, newNotifiedOn))
+          .andThen(() =>
+            newNotifiedOn ? project.setNotificationDate(user, newNotifiedOn) : ok<null, never>(null)
+          )
           .map((): boolean => project.shouldCertificateBeGenerated)
       }
     )
