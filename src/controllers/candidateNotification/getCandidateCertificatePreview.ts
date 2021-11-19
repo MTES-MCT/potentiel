@@ -43,6 +43,7 @@ v1Router.get(
       notifiedOn: Date.now(),
       projectId: new UniqueEntityID(project.id),
       data: project as unknown,
+      potentielIdentifier: project.potentielIdentifier,
     } as ProjectProps)
       .asyncAndThen((data) =>
         buildCertificate({

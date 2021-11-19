@@ -2,7 +2,7 @@ import moment from 'moment'
 import { oldUserRepo } from '../../../../config/repos.config'
 import { errAsync, logger, ok, okAsync, ResultAsync, wrapInfra } from '../../../../core/utils'
 import { getAppelOffre } from '../../../../dataAccess/inMemory/appelOffre'
-import { DREAL, makeProjectIdentifier } from '../../../../entities'
+import { DREAL } from '../../../../entities'
 import { formatDate } from '../../../../helpers/formatDate'
 import { PeriodeDTO } from '../../../../modules/appelOffre/dtos'
 import {
@@ -131,6 +131,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
         isInvestissementParticipatif,
         engagementFournitureDePuissanceAlaPointe,
         notifiedOn,
+        potentielIdentifier,
       } = project
 
       const {
@@ -154,7 +155,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
         suiviPar: user.fullName,
         suiviParEmail: user.role === 'dreal' ? user.email : dgecEmail,
         dreal,
-        refPotentiel: makeProjectIdentifier(project),
+        refPotentiel: potentielIdentifier,
         nomRepresentantLegal,
         nomCandidat,
         status,

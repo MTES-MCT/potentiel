@@ -1,15 +1,7 @@
 import { col, DataTypes, literal, Op, where } from 'sequelize'
 import { ContextSpecificProjectListFilter, ProjectFilters, ProjectRepo } from '../'
 import { logger } from '../../core/utils'
-import {
-  AppelOffre,
-  DREAL,
-  Famille,
-  makeProjectIdentifier,
-  Periode,
-  Project,
-  User,
-} from '../../entities'
+import { AppelOffre, DREAL, Famille, Periode, Project, User } from '../../entities'
 import { makePaginatedList, paginate } from '../../helpers/paginate'
 import { mapExceptError } from '../../helpers/results'
 import { Err, Ok, PaginatedList, Pagination, ResultAsync } from '../../types'
@@ -1086,7 +1078,7 @@ export function getFullTextSearchOptions(
     'numeroCRE',
     'details.Nom et prénom du signataire du formulaire',
     'details.Nom et prénom du contact',
-    'potentielIdentifier'
+    'potentielIdentifier',
   ]
 
   const searchedProjectsColumns = customSearchedProjectsColumns || defaultSearchedProjectsColumns

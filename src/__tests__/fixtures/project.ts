@@ -1,5 +1,4 @@
 import { v4 as uuid } from 'uuid'
-import { makeProjectIdentifier } from '../../entities'
 
 export default function makeFakeProject(overrides?) {
   const defaultObj = {
@@ -38,6 +37,6 @@ export default function makeFakeProject(overrides?) {
 
   return {
     ...project,
-    potentielIdentifier: makeProjectIdentifier(project),
+    potentielIdentifier: 'potentielIdentifer',
   }
 }

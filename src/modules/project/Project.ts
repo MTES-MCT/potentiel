@@ -1,6 +1,7 @@
+import _ from 'lodash'
 import moment from 'moment-timezone'
 import sanitize from 'sanitize-filename'
-import _ from 'lodash'
+import { BuildProjectIdentifier, Fournisseur } from '.'
 import { DomainEvent, UniqueEntityID } from '../../core/domain'
 import {
   err,
@@ -10,13 +11,7 @@ import {
   ok,
   Result,
 } from '../../core/utils'
-import {
-  AppelOffre,
-  CertificateTemplate,
-  makeProjectIdentifier,
-  ProjectAppelOffre,
-  User,
-} from '../../entities'
+import { AppelOffre, CertificateTemplate, ProjectAppelOffre, User } from '../../entities'
 import { EventStoreAggregate } from '../eventStore'
 import {
   EntityNotFoundError,
@@ -34,7 +29,6 @@ import {
 } from './errors'
 import {
   LegacyProjectSourced,
-  ProjectProducteurUpdated,
   ProjectAbandoned,
   ProjectActionnaireUpdated,
   ProjectCertificateGenerated,
@@ -45,18 +39,18 @@ import {
   ProjectDataCorrected,
   ProjectDataCorrectedPayload,
   ProjectDCRDueDateSet,
+  ProjectFournisseursUpdated,
   ProjectGFDueDateSet,
   ProjectImported,
+  ProjectImportedPayload,
   ProjectNotificationDateSet,
   ProjectNotified,
+  ProjectProducteurUpdated,
   ProjectPuissanceUpdated,
   ProjectReimported,
-  ProjectFournisseursUpdated,
   ProjectReimportedPayload,
-  ProjectImportedPayload,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
-import { BuildProjectIdentifier, Fournisseur } from '.'
 
 export interface Project extends EventStoreAggregate {
   notify: (
@@ -167,6 +161,7 @@ export interface ProjectProps {
   data: ProjectDataProps | undefined
   newRulesOptIn: boolean
   fieldsUpdatedAfterImport: Set<string>
+  potentielIdentifier?: string
 }
 
 const projectValidator = makePropertyValidator({
@@ -601,21 +596,13 @@ export const makeProject = (args: {
       }))
     },
     get certificateFilename() {
-      const { appelOffre, data, projectId } = props
+      const { appelOffre, data, potentielIdentifier } = props
 
-      if (!appelOffre || !data) return 'attestation.pdf'
+      if (!appelOffre || !data || !potentielIdentifier) return 'attestation.pdf'
 
-      const { familleId, numeroCRE, nomProjet } = data
+      const { nomProjet } = data
 
-      const potentielId = makeProjectIdentifier({
-        appelOffreId: appelOffre.id,
-        periodeId: appelOffre.periode.id,
-        familleId,
-        id: projectId.toString(),
-        numeroCRE,
-      })
-
-      return sanitize(`${potentielId}-${nomProjet}.pdf`)
+      return sanitize(`${potentielIdentifier}-${nomProjet}.pdf`)
     },
     get id() {
       return projectId
@@ -693,6 +680,7 @@ export const makeProject = (args: {
       case ProjectImported.type:
         props.data = event.payload.data
         props.puissanceInitiale = event.payload.data.puissance
+        props.potentielIdentifier = event.payload.potentielIdentifier
         _updateClasse(event.payload.data.classe)
         _updateAppelOffre(event.payload)
         break
