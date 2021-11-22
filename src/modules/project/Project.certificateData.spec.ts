@@ -31,10 +31,12 @@ describe('certificateData', () => {
               familleId,
               numeroCRE,
               content: { ...fakeProject, notifiedOn: 123 },
+              potentielIdentifier: '',
             },
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
 
@@ -60,10 +62,12 @@ describe('certificateData', () => {
               familleId,
               numeroCRE,
               content: { ...fakeProject, notifiedOn: 123 },
+              potentielIdentifier: '',
             },
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
 
@@ -87,10 +91,12 @@ describe('certificateData', () => {
               familleId,
               numeroCRE,
               content: { ...fakeProject, notifiedOn: 0 },
+              potentielIdentifier: '',
             },
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
 

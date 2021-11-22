@@ -1,23 +1,15 @@
 import { DomainEvent, UniqueEntityID } from '../../core/domain'
 import { UnwrapForTest } from '../../core/utils'
 import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
-import { makeUser } from '../../entities'
-import { UnwrapForTest as OldUnwrapForTest } from '../../types'
 import makeFakeProject from '../../__tests__/fixtures/project'
-import makeFakeUser from '../../__tests__/fixtures/user'
-import {
-  LegacyProjectSourced,
-  ProjectCompletionDueDateSet,
-  ProjectImported,
-  ProjectNotified,
-} from './events'
+import { ProjectCompletionDueDateSet, ProjectImported, ProjectNotified } from './events'
 import { makeProject } from './Project'
 
 const projectId = new UniqueEntityID('project1')
 const appelOffreId = 'Fessenheim'
 const periodeId = '2'
 const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' })
-const { familleId, numeroCRE } = fakeProject
+const { familleId, numeroCRE, potentielIdentifier } = fakeProject
 
 const appelsOffres = appelsOffreStatic.reduce((map, appelOffre) => {
   map[appelOffre.id] = appelOffre
@@ -34,6 +26,7 @@ const fakeHistory: DomainEvent[] = [
       numeroCRE,
       importId: '',
       data: fakeProject,
+      potentielIdentifier,
     },
     original: {
       occurredAt: new Date(123),
@@ -59,7 +52,14 @@ const fakeHistory: DomainEvent[] = [
 
 describe('Project.setCompletionDueDate()', () => {
   it('should emit a ProjectCompletionDueDateSet', () => {
-    const project = UnwrapForTest(makeProject({ projectId, history: fakeHistory, appelsOffres }))
+    const project = UnwrapForTest(
+      makeProject({
+        projectId,
+        history: fakeHistory,
+        appelsOffres,
+        buildProjectIdentifier: () => '',
+      })
+    )
 
     const newCompletionDueOn = 12345
     const res = project.setCompletionDueDate(newCompletionDueOn)

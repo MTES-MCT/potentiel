@@ -36,6 +36,7 @@ describe('Project.updateProducteur()', () => {
           new LegacyProjectSourced({
             payload: {
               projectId: projectId.toString(),
+              potentielIdentifier: '',
               periodeId,
               appelOffreId,
               familleId,
@@ -45,6 +46,7 @@ describe('Project.updateProducteur()', () => {
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
 
@@ -71,6 +73,7 @@ describe('Project.updateProducteur()', () => {
           new LegacyProjectSourced({
             payload: {
               projectId: projectId.toString(),
+              potentielIdentifier: '',
               periodeId,
               appelOffreId,
               familleId,
@@ -80,6 +83,7 @@ describe('Project.updateProducteur()', () => {
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
 

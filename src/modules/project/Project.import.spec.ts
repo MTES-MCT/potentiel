@@ -1,10 +1,10 @@
-import moment from 'moment'
 import { UniqueEntityID } from '../../core/domain'
 import { UnwrapForTest } from '../../core/utils'
 import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
 import makeFakeProject from '../../__tests__/fixtures/project'
-import { ProjectCompletionDueDateSet, ProjectImported } from './events'
+import { ProjectImported } from './events'
 import { makeProject } from './Project'
+import type { BuildProjectIdentifier } from './queries'
 
 const appelsOffres = appelsOffreStatic.reduce((map, appelOffre) => {
   map[appelOffre.id] = appelOffre
@@ -27,10 +27,15 @@ const { periodeId, appelOffreId, familleId, numeroCRE } = fakeProject
 const importId = new UniqueEntityID().toString()
 
 describe('Project.import()', () => {
+  const fakePotentielIdentifier = 'fakePotentielIdentifier'
+  const buildProjectIdentifier = jest.fn(
+    (args: Parameters<BuildProjectIdentifier>[0]) => fakePotentielIdentifier
+  )
   const project = UnwrapForTest(
     makeProject({
       projectId,
       appelsOffres,
+      buildProjectIdentifier,
     })
   )
 
@@ -52,5 +57,13 @@ describe('Project.import()', () => {
     expect(targetEvent.payload.familleId).toEqual(familleId)
     expect(targetEvent.payload.numeroCRE).toEqual(numeroCRE)
     expect(targetEvent.payload.data).toMatchObject(fakeProject)
+    expect(targetEvent.payload.potentielIdentifier).toEqual(fakePotentielIdentifier)
+
+    expect(buildProjectIdentifier).toHaveBeenCalledWith({
+      appelOffreId,
+      periodeId,
+      familleId,
+      numeroCRE,
+    })
   })
 })

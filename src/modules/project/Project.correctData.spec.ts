@@ -18,7 +18,7 @@ const projectId = new UniqueEntityID('project1')
 const appelOffreId = 'Fessenheim'
 const periodeId = '2'
 const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' })
-const { familleId, numeroCRE } = fakeProject
+const { familleId, numeroCRE, potentielIdentifier } = fakeProject
 
 const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
 
@@ -37,6 +37,7 @@ const makeFakeHistory = (fakeProject: any): DomainEvent[] => {
         familleId: fakeProject.familleId,
         numeroCRE: fakeProject.numeroCRE,
         content: fakeProject,
+        potentielIdentifier: '',
       },
     }),
   ]
@@ -52,6 +53,7 @@ const fakeHistory: DomainEvent[] = [
       numeroCRE,
       importId: '',
       data: fakeProject,
+      potentielIdentifier,
     },
     original: {
       occurredAt: new Date(123),
@@ -77,7 +79,14 @@ const fakeHistory: DomainEvent[] = [
 
 describe('Project.correctData()', () => {
   it('should emit ProjectDataCorrected with the delta between present Project and passed data', () => {
-    const project = UnwrapForTest(makeProject({ projectId, history: fakeHistory, appelsOffres }))
+    const project = UnwrapForTest(
+      makeProject({
+        projectId,
+        history: fakeHistory,
+        appelsOffres,
+        buildProjectIdentifier: () => '',
+      })
+    )
 
     const res = project.correctData(fakeUser, {
       numeroCRE: '1',
@@ -110,6 +119,7 @@ describe('Project.correctData()', () => {
           projectId,
           appelsOffres,
           history: fakeHistory.filter((event) => event.type !== ProjectNotified.type),
+          buildProjectIdentifier: () => '',
         })
       )
 
@@ -124,7 +134,14 @@ describe('Project.correctData()', () => {
   })
 
   describe('when passed erroneous data', () => {
-    const project = UnwrapForTest(makeProject({ projectId, history: fakeHistory, appelsOffres }))
+    const project = UnwrapForTest(
+      makeProject({
+        projectId,
+        history: fakeHistory,
+        appelsOffres,
+        buildProjectIdentifier: () => '',
+      })
+    )
 
     it('should return an IllegalProjectStateError', () => {
       const res = project.correctData(fakeUser, {
@@ -143,7 +160,14 @@ describe('Project.correctData()', () => {
   describe('when passed a familleId that does not exist in the appelOffre', () => {
     const fakeProjectData = makeFakeProject({ notifiedOn: 123, appelOffreId: 'Fessenheim' })
     const fakeHistory = makeFakeHistory(fakeProjectData)
-    const project = UnwrapForTest(makeProject({ projectId, history: fakeHistory, appelsOffres }))
+    const project = UnwrapForTest(
+      makeProject({
+        projectId,
+        history: fakeHistory,
+        appelsOffres,
+        buildProjectIdentifier: () => '',
+      })
+    )
 
     it('should return an IllegalProjectStateError', () => {
       const res = project.correctData(fakeUser, {

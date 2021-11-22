@@ -31,6 +31,7 @@ const makeFakeHistory = (fakeProject: any): DomainEvent[] => {
         familleId: fakeProject.familleId,
         numeroCRE: fakeProject.numeroCRE,
         content: fakeProject,
+        potentielIdentifier: '',
       },
     }),
   ]
@@ -43,7 +44,14 @@ describe('Project.notify()', () => {
     const fakeProjectData = makeFakeProject({ notifiedOn: 0 })
     const fakeHistory = makeFakeHistory(fakeProjectData)
 
-    const project = UnwrapForTest(makeProject({ projectId, history: fakeHistory, appelsOffres }))
+    const project = UnwrapForTest(
+      makeProject({
+        projectId,
+        history: fakeHistory,
+        appelsOffres,
+        buildProjectIdentifier: () => '',
+      })
+    )
 
     const res = project.notify(notifiedOn)
 
@@ -72,7 +80,14 @@ describe('Project.notify()', () => {
     })
     const fakeHistory = makeFakeHistory(fakeProjectData)
 
-    const project = UnwrapForTest(makeProject({ projectId, history: fakeHistory, appelsOffres }))
+    const project = UnwrapForTest(
+      makeProject({
+        projectId,
+        history: fakeHistory,
+        appelsOffres,
+        buildProjectIdentifier: () => '',
+      })
+    )
 
     beforeAll(() => {
       const res = project.notify(notifiedOn)
@@ -122,7 +137,14 @@ describe('Project.notify()', () => {
     })
     const fakeHistory = makeFakeHistory(fakeProjectData)
 
-    const project = UnwrapForTest(makeProject({ projectId, history: fakeHistory, appelsOffres }))
+    const project = UnwrapForTest(
+      makeProject({
+        projectId,
+        history: fakeHistory,
+        appelsOffres,
+        buildProjectIdentifier: () => '',
+      })
+    )
 
     beforeAll(() => {
       const res = project.notify(notifiedOn)
@@ -150,7 +172,14 @@ describe('Project.notify()', () => {
       const fakeProjectData = makeFakeProject({ notifiedOn: 1 })
       const fakeHistory = makeFakeHistory(fakeProjectData)
 
-      const project = UnwrapForTest(makeProject({ projectId, history: fakeHistory, appelsOffres }))
+      const project = UnwrapForTest(
+        makeProject({
+          projectId,
+          history: fakeHistory,
+          appelsOffres,
+          buildProjectIdentifier: () => '',
+        })
+      )
 
       const res = project.notify(notifiedOn)
 

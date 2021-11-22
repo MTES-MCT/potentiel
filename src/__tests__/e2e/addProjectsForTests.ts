@@ -90,6 +90,7 @@ testRouter.post('/test/addProjects', async (request, response) => {
             familleId: project.familleId,
             numeroCRE: project.numeroCRE,
             content: project,
+            potentielIdentifier: '',
           },
         })
       )

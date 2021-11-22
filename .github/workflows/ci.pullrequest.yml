@@ -25,6 +25,7 @@ jobs:
       SEND_EMAILS_FROM: admin@test.test
       SEND_EMAILS_FROM_NAME: admin
       SESSION_SECRET: 1234
+      POTENTIEL_IDENTIFIER_SECRET: abcd
       BASE_URL: http://localhost:3000
 
     steps:

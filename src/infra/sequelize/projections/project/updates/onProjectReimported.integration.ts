@@ -27,6 +27,8 @@ describe('project.onProjectReimported', () => {
       new ProjectReimported({
         payload: {
           projectId: projectId,
+          appelOffreId: '',
+          periodeId: '',
           importId: '',
           data: {
             email: 'email2',

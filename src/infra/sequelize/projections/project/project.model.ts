@@ -159,6 +159,11 @@ export const MakeProjectModel = (sequelize) => {
         allowNull: false,
         defaultValue: false,
       },
+      potentielIdentifier: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: 'potId',
+      }
     },
     {
       timestamps: true,

@@ -1,15 +1,7 @@
 import { col, DataTypes, literal, Op, where } from 'sequelize'
 import { ContextSpecificProjectListFilter, ProjectFilters, ProjectRepo } from '../'
 import { logger } from '../../core/utils'
-import {
-  AppelOffre,
-  DREAL,
-  Famille,
-  makeProjectIdentifier,
-  Periode,
-  Project,
-  User,
-} from '../../entities'
+import { AppelOffre, DREAL, Famille, Periode, Project, User } from '../../entities'
 import { makePaginatedList, paginate } from '../../helpers/paginate'
 import { mapExceptError } from '../../helpers/results'
 import { Err, Ok, PaginatedList, Pagination, ResultAsync } from '../../types'
@@ -41,7 +33,7 @@ const deserialize = (item) => ({
   dcrNumeroDossier: item.dcr?.details.numeroDossier,
   completionDueOn: item.completionDueOn || 0,
   abandonedOn: item.abandonedOn || 0,
-  potentielIdentifier: makeProjectIdentifier(item),
+  potentielIdentifier: item.potentielIdentifier || '',
 })
 
 export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): ProjectRepo {
@@ -202,6 +194,10 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
+    },
+    potentielIdentifier: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
   })
 
@@ -1082,6 +1078,7 @@ export function getFullTextSearchOptions(
     'numeroCRE',
     'details.Nom et prénom du signataire du formulaire',
     'details.Nom et prénom du contact',
+    'potentielIdentifier',
   ]
 
   const searchedProjectsColumns = customSearchedProjectsColumns || defaultSearchedProjectsColumns

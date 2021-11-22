@@ -1,6 +1,7 @@
+import _ from 'lodash'
 import moment from 'moment-timezone'
 import sanitize from 'sanitize-filename'
-import _ from 'lodash'
+import { BuildProjectIdentifier, Fournisseur } from '.'
 import { DomainEvent, UniqueEntityID } from '../../core/domain'
 import {
   err,
@@ -10,13 +11,7 @@ import {
   ok,
   Result,
 } from '../../core/utils'
-import {
-  AppelOffre,
-  CertificateTemplate,
-  makeProjectIdentifier,
-  ProjectAppelOffre,
-  User,
-} from '../../entities'
+import { AppelOffre, CertificateTemplate, ProjectAppelOffre, User } from '../../entities'
 import { EventStoreAggregate } from '../eventStore'
 import {
   EntityNotFoundError,
@@ -34,7 +29,6 @@ import {
 } from './errors'
 import {
   LegacyProjectSourced,
-  ProjectProducteurUpdated,
   ProjectAbandoned,
   ProjectActionnaireUpdated,
   ProjectCertificateGenerated,
@@ -45,18 +39,18 @@ import {
   ProjectDataCorrected,
   ProjectDataCorrectedPayload,
   ProjectDCRDueDateSet,
+  ProjectFournisseursUpdated,
   ProjectGFDueDateSet,
   ProjectImported,
+  ProjectImportedPayload,
   ProjectNotificationDateSet,
   ProjectNotified,
+  ProjectProducteurUpdated,
   ProjectPuissanceUpdated,
   ProjectReimported,
-  ProjectFournisseursUpdated,
   ProjectReimportedPayload,
-  ProjectImportedPayload,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
-import { Fournisseur } from '.'
 
 export interface Project extends EventStoreAggregate {
   notify: (
@@ -167,6 +161,7 @@ export interface ProjectProps {
   data: ProjectDataProps | undefined
   newRulesOptIn: boolean
   fieldsUpdatedAfterImport: Set<string>
+  potentielIdentifier?: string
 }
 
 const projectValidator = makePropertyValidator({
@@ -180,8 +175,9 @@ export const makeProject = (args: {
   projectId: UniqueEntityID
   history?: DomainEvent[]
   appelsOffres: Record<AppelOffre['id'], AppelOffre>
+  buildProjectIdentifier: BuildProjectIdentifier
 }): Result<Project, EntityNotFoundError | HeterogeneousHistoryError> => {
-  const { history, projectId, appelsOffres } = args
+  const { history, projectId, appelsOffres, buildProjectIdentifier } = args
 
   if (!_allEventsHaveSameAggregateId()) {
     return err(new HeterogeneousHistoryError())
@@ -328,16 +324,23 @@ export const makeProject = (args: {
     },
     import: function ({ data, importId }) {
       const { appelOffreId, periodeId, familleId, numeroCRE } = data
+      const id = projectId.toString()
       _publishEvent(
         new ProjectImported({
           payload: {
-            projectId: projectId.toString(),
+            projectId: id,
             appelOffreId,
             periodeId,
             familleId,
             numeroCRE,
             importId,
             data,
+            potentielIdentifier: buildProjectIdentifier({
+              appelOffreId,
+              periodeId,
+              familleId,
+              numeroCRE,
+            }),
           },
         })
       )
@@ -593,21 +596,13 @@ export const makeProject = (args: {
       }))
     },
     get certificateFilename() {
-      const { appelOffre, data, projectId } = props
+      const { appelOffre, data, potentielIdentifier } = props
 
-      if (!appelOffre || !data) return 'attestation.pdf'
+      if (!appelOffre || !data || !potentielIdentifier) return 'attestation.pdf'
 
-      const { familleId, numeroCRE, nomProjet } = data
+      const { nomProjet } = data
 
-      const potentielId = makeProjectIdentifier({
-        appelOffreId: appelOffre.id,
-        periodeId: appelOffre.periode.id,
-        familleId,
-        id: projectId.toString(),
-        numeroCRE,
-      })
-
-      return sanitize(`${potentielId}-${nomProjet}.pdf`)
+      return sanitize(`${potentielIdentifier}-${nomProjet}.pdf`)
     },
     get id() {
       return projectId
@@ -679,12 +674,14 @@ export const makeProject = (args: {
         props.data = event.payload.content
         props.notifiedOn = event.payload.content.notifiedOn
         props.puissanceInitiale = event.payload.content.puissance
+        props.potentielIdentifier = event.payload.potentielIdentifier
         _updateClasse(event.payload.content.classe)
         _updateAppelOffre(event.payload)
         break
       case ProjectImported.type:
         props.data = event.payload.data
         props.puissanceInitiale = event.payload.data.puissance
+        props.potentielIdentifier = event.payload.potentielIdentifier
         _updateClasse(event.payload.data.classe)
         _updateAppelOffre(event.payload)
         break

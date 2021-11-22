@@ -1,5 +1,4 @@
 import { err, logger, ok, Result } from '../../../core/utils'
-import { makeProjectIdentifier } from '../../../entities'
 import { IncompleteDataError } from '../../shared'
 import { ProjectDataForCertificate } from '../dtos'
 import { ProjectProps } from '../Project'
@@ -7,7 +6,7 @@ import { ProjectProps } from '../Project'
 export const toProjectDataForCertificate = (
   props: ProjectProps
 ): Result<ProjectDataForCertificate, IncompleteDataError> => {
-  const { data, appelOffre } = props
+  const { data, appelOffre, potentielIdentifier } = props
 
   if (!data) {
     logger.error(
@@ -59,13 +58,7 @@ export const toProjectDataForCertificate = (
     isClasse: props.isClasse,
     notifiedOn: props.notifiedOn,
     familleId,
-    potentielId: makeProjectIdentifier({
-      appelOffreId: appelOffre.id,
-      periodeId: appelOffre.periode.id,
-      familleId,
-      id: props.projectId.toString(),
-      numeroCRE,
-    }),
+    potentielId: potentielIdentifier || '',
     prixReference,
     evaluationCarbone,
     isFinancementParticipatif,

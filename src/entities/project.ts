@@ -226,28 +226,6 @@ const buildApplyProjectUpdate = (makeId: () => string) => {
   }
 }
 
-const makeProjectIdentifier = (project: {
-  appelOffreId: string
-  periodeId: string
-  familleId: string | undefined
-  numeroCRE: string
-  id: string
-}): string => {
-  const nakedIdentifier =
-    project.appelOffreId.replace(/ /g, '') +
-    '-P' +
-    project.periodeId +
-    (project.familleId ? '-F' + project.familleId : '') +
-    '-' +
-    project.numeroCRE
-
-  return (
-    nakedIdentifier +
-    '-' +
-    crypto.createHash('md5').update(project.id).digest('hex').substring(0, 3).toUpperCase()
-  )
-}
-
 const getCertificateIfProjectEligible = (
   project: Project,
   ignoreNotifiedOn?: boolean
@@ -310,6 +288,5 @@ export {
   projectSchema,
   territoireSchema,
   buildApplyProjectUpdate,
-  makeProjectIdentifier,
   getCertificateIfProjectEligible,
 }
