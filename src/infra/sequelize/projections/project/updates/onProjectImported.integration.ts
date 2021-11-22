@@ -27,6 +27,7 @@ describe('project.onProjectImported', () => {
           periodeId,
           familleId,
           numeroCRE,
+          potentielIdentifier: '',
           importId: '',
           data: fakeProject,
         },

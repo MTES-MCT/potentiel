@@ -49,11 +49,13 @@ describe('Project.reimport()', () => {
               appelOffreId,
               familleId,
               numeroCRE,
+              potentielIdentifier: '',
               content: fakeProject,
             },
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
 
@@ -76,11 +78,13 @@ describe('Project.reimport()', () => {
               appelOffreId,
               familleId,
               numeroCRE,
+              potentielIdentifier: '',
               content: fakeProject,
             },
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
     it('should emit ProjectReimported with the changes in the payload', () => {
@@ -121,11 +125,13 @@ describe('Project.reimport()', () => {
               appelOffreId,
               familleId,
               numeroCRE,
+              potentielIdentifier: '',
               content: { ...fakeProject, details: { param1: 'value1', param2: 'value2' } },
             },
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
     it('should emit ProjectReimported with the changes in the payload', () => {
@@ -162,6 +168,7 @@ describe('Project.reimport()', () => {
               appelOffreId,
               familleId,
               numeroCRE,
+              potentielIdentifier: '',
               content: { ...fakeProject, actionnaire: 'old' },
             },
           }),
@@ -174,6 +181,7 @@ describe('Project.reimport()', () => {
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
 
@@ -202,6 +210,7 @@ describe('Project.reimport()', () => {
               appelOffreId,
               familleId,
               numeroCRE,
+              potentielIdentifier: '',
               content: { ...fakeProject, nomCandidat: 'old' },
             },
           }),
@@ -214,6 +223,7 @@ describe('Project.reimport()', () => {
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
 
@@ -242,6 +252,7 @@ describe('Project.reimport()', () => {
               appelOffreId,
               familleId,
               numeroCRE,
+              potentielIdentifier: '',
               content: { ...fakeProject, puissance: 123 },
             },
           }),
@@ -254,6 +265,7 @@ describe('Project.reimport()', () => {
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
 
@@ -282,6 +294,7 @@ describe('Project.reimport()', () => {
               appelOffreId,
               familleId,
               numeroCRE,
+              potentielIdentifier: '',
               content: {
                 ...fakeProject,
                 details: {
@@ -306,6 +319,7 @@ describe('Project.reimport()', () => {
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
 
@@ -346,6 +360,7 @@ describe('Project.reimport()', () => {
               appelOffreId,
               familleId,
               numeroCRE,
+              potentielIdentifier: '',
               content: { ...fakeProject, classe: 'Eliminé' },
             },
           }),
@@ -357,6 +372,7 @@ describe('Project.reimport()', () => {
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
 
@@ -385,6 +401,7 @@ describe('Project.reimport()', () => {
               appelOffreId,
               familleId,
               numeroCRE,
+              potentielIdentifier: '',
               content: { ...fakeProject, notifiedOn: new Date(123).getTime() },
             },
           }),
@@ -397,6 +414,7 @@ describe('Project.reimport()', () => {
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
 
@@ -425,6 +443,7 @@ describe('Project.reimport()', () => {
               appelOffreId,
               familleId,
               numeroCRE,
+              potentielIdentifier: '',
               content: {
                 ...fakeProject,
                 numeroCRE: '123',
@@ -443,6 +462,7 @@ describe('Project.reimport()', () => {
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
 
@@ -481,6 +501,7 @@ describe('Project.reimport()', () => {
               appelOffreId,
               familleId,
               numeroCRE,
+              potentielIdentifier: '',
               content: fakeProject,
             },
           }),
@@ -493,6 +514,7 @@ describe('Project.reimport()', () => {
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
     it('should emit ProjectReimported without the change in notifiedOn in the payload', () => {
@@ -530,11 +552,13 @@ describe('Project.reimport()', () => {
               appelOffreId,
               familleId,
               numeroCRE,
+              potentielIdentifier: '',
               content: fakeProject,
             },
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
     it('should emit ProjectReimported without the change in notifiedOn in the payload', () => {
@@ -572,13 +596,14 @@ describe('Project.reimport()', () => {
               periodeId: '1',
               familleId,
               numeroCRE,
+              potentielIdentifier: '',
               data: { ...fakeProject, notifiedOn: 1234 },
-              potentielIdentifier,
               importId,
             },
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
     it('should emit ProjectNotificationDateSet with the new date', () => {

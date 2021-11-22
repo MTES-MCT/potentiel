@@ -5,13 +5,7 @@ import { makeUser } from '../../entities'
 import { UnwrapForTest as OldUnwrapForTest } from '../../types'
 import makeFakeProject from '../../__tests__/fixtures/project'
 import makeFakeUser from '../../__tests__/fixtures/user'
-import {
-  LegacyProjectSourced,
-  ProjectClasseGranted,
-  ProjectCompletionDueDateSet,
-  ProjectDCRDueDateSet,
-  ProjectGFDueDateSet,
-} from './events'
+import { LegacyProjectSourced, ProjectClasseGranted } from './events'
 import { makeProject } from './Project'
 
 const projectId = new UniqueEntityID('project1')
@@ -41,10 +35,12 @@ describe('Project.grantClasse()', () => {
               familleId,
               numeroCRE,
               content: { ...fakeProject, classe: 'Eliminé' },
+              potentielIdentifier: '',
             },
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
 
@@ -75,10 +71,12 @@ describe('Project.grantClasse()', () => {
               familleId,
               numeroCRE,
               content: { ...fakeProject, classe: 'Classé' },
+              potentielIdentifier: '',
             },
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
 

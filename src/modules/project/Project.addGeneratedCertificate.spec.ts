@@ -36,7 +36,7 @@ const fakeHistory: DomainEvent[] = [
       numeroCRE,
       importId: '',
       data: fakeProject,
-      potentielIdentifier
+      potentielIdentifier,
     },
     original: {
       occurredAt: new Date(123),
@@ -67,6 +67,7 @@ describe('Project.addGeneratedCertificate()', () => {
         projectId,
         history: fakeHistory,
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
 
@@ -107,6 +108,7 @@ describe('Project.addGeneratedCertificate()', () => {
           }),
         ]),
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
 

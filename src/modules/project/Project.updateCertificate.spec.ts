@@ -26,6 +26,7 @@ const fakeHistory: DomainEvent[] = [
   new ProjectImported({
     payload: {
       projectId: projectId.toString(),
+      potentielIdentifier: '',
       periodeId,
       appelOffreId,
       familleId,
@@ -57,7 +58,14 @@ const fakeHistory: DomainEvent[] = [
 
 describe('Project.updateCertificate()', () => {
   it('should emit ProjectCertificateUpdated', () => {
-    const project = UnwrapForTest(makeProject({ projectId, history: fakeHistory, appelsOffres }))
+    const project = UnwrapForTest(
+      makeProject({
+        projectId,
+        history: fakeHistory,
+        appelsOffres,
+        buildProjectIdentifier: () => '',
+      })
+    )
 
     const res = project.updateCertificate(fakeUser, 'fakeFileId')
 
@@ -85,6 +93,7 @@ describe('Project.updateCertificate()', () => {
           projectId,
           appelsOffres,
           history: fakeHistory.filter((event) => event.type !== ProjectNotified.type),
+          buildProjectIdentifier: () => '',
         })
       )
 

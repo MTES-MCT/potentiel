@@ -1,7 +1,7 @@
 import express from 'express'
 import { okAsync } from '../../core/utils'
 import { User } from '../../entities'
-import { GetUserByEmail } from '../../modules/users'
+import { GetUserByEmail, UserRole } from '../../modules/users'
 import { makeFakeCreateUser } from '../../__tests__/fakes'
 import { makeAttachUserToRequestMiddleware } from './attachUserToRequestMiddleware'
 
@@ -78,7 +78,7 @@ describe(`attachUserToRequestMiddleware`, () => {
             email: userEmail,
             fullName: 'User',
             id: 'user-id',
-            role: undefined,
+            role: (undefined as unknown) as UserRole,
           }
 
           const getUserByEmail: GetUserByEmail = jest.fn((email) =>

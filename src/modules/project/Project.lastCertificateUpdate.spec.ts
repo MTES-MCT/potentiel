@@ -37,7 +37,7 @@ const fakeHistory: DomainEvent[] = [
       numeroCRE,
       importId: '',
       data: fakeProject,
-      potentielIdentifier
+      potentielIdentifier,
     },
     original: {
       occurredAt: new Date(123),
@@ -67,6 +67,7 @@ describe('Project.lastCertificateUpdate', () => {
         makeProject({
           projectId,
           appelsOffres,
+          buildProjectIdentifier: () => '',
           history: fakeHistory.filter(
             (event) =>
               event.type !== ProjectCertificateGenerated.type &&
@@ -86,6 +87,7 @@ describe('Project.lastCertificateUpdate', () => {
         makeProject({
           projectId,
           appelsOffres,
+          buildProjectIdentifier: () => '',
           history: fakeHistory.concat([
             new ProjectCertificateGenerated({
               payload: {
@@ -112,6 +114,7 @@ describe('Project.lastCertificateUpdate', () => {
         makeProject({
           projectId,
           appelsOffres,
+          buildProjectIdentifier: () => '',
           history: fakeHistory.concat([
             new ProjectCertificateUpdated({
               payload: {
@@ -139,6 +142,7 @@ describe('Project.lastCertificateUpdate', () => {
         makeProject({
           projectId,
           appelsOffres,
+          buildProjectIdentifier: () => '',
           history: fakeHistory.concat([
             new ProjectCertificateGenerated({
               payload: {

@@ -40,10 +40,12 @@ describe('Project.appelOffre', () => {
               familleId,
               numeroCRE,
               content: fakeProject,
+              potentielIdentifier: '',
             },
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
 
@@ -72,6 +74,7 @@ describe('Project.appelOffre', () => {
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
 
@@ -109,6 +112,7 @@ describe('Project.appelOffre', () => {
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
 
@@ -139,13 +143,14 @@ describe('Project.appelOffre', () => {
             payload: {
               projectId: projectId.toString(),
               importId: '',
-              appelOffreId: 'CRE4 - Bâtiment', 
+              appelOffreId: 'CRE4 - Bâtiment',
               periodeId: '10',
               data: { ...fakeProject, appelOffreId: 'CRE4 - Bâtiment', periodeId: '10' },
             },
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
 
@@ -181,6 +186,7 @@ describe('Project.appelOffre', () => {
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
 

@@ -22,13 +22,13 @@ describe('Sequelize NotificationRepo', () => {
           name: 'testname',
           subject: 'testsubject',
         },
-        type: 'password-reset',
+        type: 'designation',
         context: {
-          passwordRetrievalId: 'passwordRetrievalId',
-          userId: 'userId',
+          appelOffreId: 'appelOffreId',
+          periodeId: 'periodeId',
         },
         variables: {
-          password_reset_link: 'resetLink',
+          invitation_link: 'invitation_link',
         },
       })
 
@@ -49,7 +49,7 @@ describe('Sequelize NotificationRepo', () => {
       const retrievedNotification = await NotificationModel.findByPk(notification.id.toString())
 
       expect(retrievedNotification).toBeDefined()
-      expect(retrievedNotification.type).toEqual('password-reset')
+      expect(retrievedNotification.type).toEqual('designation')
     })
   })
 
@@ -66,13 +66,13 @@ describe('Sequelize NotificationRepo', () => {
             name: 'testname',
             subject: 'testsubject',
           },
-          type: 'password-reset',
+          type: 'designation',
           context: {
-            passwordRetrievalId: 'passwordRetrievalId',
-            userId: 'userId',
+            appelOffreId: 'appelOffreId',
+            periodeId: 'periodeId',
           },
           variables: {
-            password_reset_link: 'resetLink',
+            invitation_link: 'invitation_link',
           },
           createdAt: Date.now(),
           status: 'sent',

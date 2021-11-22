@@ -35,10 +35,12 @@ describe('Project.isClasse', () => {
               familleId,
               numeroCRE,
               content: { ...fakeProject, classe: 'Eliminé' },
+              potentielIdentifier: '',
             },
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
 
@@ -61,11 +63,12 @@ describe('Project.isClasse', () => {
               numeroCRE,
               importId: '',
               data: { ...fakeProject, classe: 'Classé' },
-              potentielIdentifier
+              potentielIdentifier,
             },
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
 
@@ -88,7 +91,7 @@ describe('Project.isClasse', () => {
               numeroCRE,
               importId: '',
               data: { ...fakeProject, classe: 'Classé' },
-              potentielIdentifier
+              potentielIdentifier,
             },
           }),
           new ProjectReimported({
@@ -102,6 +105,7 @@ describe('Project.isClasse', () => {
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
 

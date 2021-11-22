@@ -38,6 +38,7 @@ const makeFakeHistory = (fakeProject: any): DomainEvent[] => {
         familleId: fakeProject.familleId,
         numeroCRE: fakeProject.numeroCRE,
         content: fakeProject,
+        potentielIdentifier: '',
       },
     }),
   ]
@@ -55,7 +56,7 @@ const fakeHistory: DomainEvent[] = [
       numeroCRE,
       importId: '',
       data: fakeProject,
-      potentielIdentifier
+      potentielIdentifier,
     },
     original: {
       occurredAt: new Date(123),
@@ -92,8 +93,14 @@ const fakeHistory: DomainEvent[] = [
 describe('Project.moveCompletionDueDate()', () => {
   describe('when project is classé', () => {
     it('should emit a ProjectCompletionDueDateSet', () => {
-      const project = UnwrapForTest(makeProject({ projectId, history: fakeHistory, appelsOffres }))
-
+      const project = UnwrapForTest(
+        makeProject({
+          projectId,
+          history: fakeHistory,
+          appelsOffres,
+          buildProjectIdentifier: () => '',
+        })
+      )
       const delayInMonths = 2
       const res = project.moveCompletionDueDate(fakeUser, delayInMonths)
 
@@ -126,7 +133,12 @@ describe('Project.moveCompletionDueDate()', () => {
     ]
 
     const project = UnwrapForTest(
-      makeProject({ projectId, history: fakeHistoryWithCompletionDateMoved, appelsOffres })
+      makeProject({
+        projectId,
+        history: fakeHistoryWithCompletionDateMoved,
+        appelsOffres,
+        buildProjectIdentifier: () => '',
+      })
     )
 
     beforeAll(() => {
@@ -149,7 +161,14 @@ describe('Project.moveCompletionDueDate()', () => {
     const fakeHistory = makeFakeHistory(fakeProjectData)
 
     it('should not trigger ProjectCompletionDueDateSet', () => {
-      const project = UnwrapForTest(makeProject({ projectId, history: fakeHistory, appelsOffres }))
+      const project = UnwrapForTest(
+        makeProject({
+          projectId,
+          history: fakeHistory,
+          appelsOffres,
+          buildProjectIdentifier: () => '',
+        })
+      )
       const res = project.moveCompletionDueDate(fakeUser, 1)
 
       if (res.isErr()) logger.error(res.error)
@@ -171,6 +190,7 @@ describe('Project.moveCompletionDueDate()', () => {
           projectId,
           appelsOffres,
           history: fakeHistory.filter((event) => event.type !== ProjectNotified.type),
+          buildProjectIdentifier: () => '',
         })
       )
 
@@ -186,7 +206,14 @@ describe('Project.moveCompletionDueDate()', () => {
     it('should return a IllegalProjectStateError', () => {
       const fakeProjectData = makeFakeProject({ notifiedOn: 1001, classe: 'Classé' })
       const fakeHistory = makeFakeHistory(fakeProjectData)
-      const project = UnwrapForTest(makeProject({ projectId, history: fakeHistory, appelsOffres }))
+      const project = UnwrapForTest(
+        makeProject({
+          projectId,
+          history: fakeHistory,
+          appelsOffres,
+          buildProjectIdentifier: () => '',
+        })
+      )
 
       const res = project.moveCompletionDueDate(fakeUser, -1)
 

@@ -69,6 +69,7 @@ describe('Project.shouldCertificateBeGenerated', () => {
         makeProject({
           projectId,
           appelsOffres,
+          buildProjectIdentifier: () => '',
           history: fakeHistory.filter((event) => event.type !== ProjectNotified.type),
         })
       )
@@ -84,6 +85,7 @@ describe('Project.shouldCertificateBeGenerated', () => {
         makeProject({
           projectId,
           appelsOffres,
+          buildProjectIdentifier: () => '',
           // Switch to Fessenheim periode 1 which does not have certificate
           history: fakeHistory.map((event: any) => ({
             ...event,
@@ -102,6 +104,7 @@ describe('Project.shouldCertificateBeGenerated', () => {
         makeProject({
           projectId,
           appelsOffres,
+          buildProjectIdentifier: () => '',
           history: fakeHistory.concat([
             new ProjectCertificateGenerated({
               payload: {
@@ -127,6 +130,7 @@ describe('Project.shouldCertificateBeGenerated', () => {
         makeProject({
           projectId,
           appelsOffres,
+          buildProjectIdentifier: () => '',
           history: fakeHistory.concat([
             new ProjectCertificateGenerated({
               payload: {
@@ -152,6 +156,7 @@ describe('Project.shouldCertificateBeGenerated', () => {
         makeProject({
           projectId,
           appelsOffres,
+          buildProjectIdentifier: () => '',
           history: fakeHistory.concat([
             new ProjectCertificateGenerated({
               payload: {
@@ -192,6 +197,7 @@ describe('Project.shouldCertificateBeGenerated', () => {
         makeProject({
           projectId,
           appelsOffres,
+          buildProjectIdentifier: () => '',
           history: fakeHistory.concat([
             new ProjectCertificateUpdated({
               payload: {
@@ -218,6 +224,7 @@ describe('Project.shouldCertificateBeGenerated', () => {
         makeProject({
           projectId,
           appelsOffres,
+          buildProjectIdentifier: () => '',
           history: fakeHistory,
         })
       )
@@ -230,7 +237,14 @@ describe('Project.shouldCertificateBeGenerated', () => {
     })
 
     describe('when no certificate has been uploaded or generated since last update', () => {
-      const project = UnwrapForTest(makeProject({ projectId, history: fakeHistory, appelsOffres }))
+      const project = UnwrapForTest(
+        makeProject({
+          projectId,
+          history: fakeHistory,
+          appelsOffres,
+          buildProjectIdentifier: () => '',
+        })
+      )
 
       it('should return true', () => {
         expect(project.shouldCertificateBeGenerated).toBe(true)

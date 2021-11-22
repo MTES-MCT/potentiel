@@ -37,10 +37,12 @@ describe('Project.abandonLegacy()', () => {
               familleId,
               numeroCRE,
               content: { ...fakeProject, classe: 'Classé' },
+              potentielIdentifier: '',
             },
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
 
@@ -71,10 +73,12 @@ describe('Project.abandonLegacy()', () => {
               familleId,
               numeroCRE,
               content: { ...fakeProject, classe: 'Eliminé' },
+              potentielIdentifier: '',
             },
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
 

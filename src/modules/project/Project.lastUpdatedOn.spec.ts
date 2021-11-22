@@ -31,7 +31,7 @@ const fakeHistory: DomainEvent[] = [
       numeroCRE,
       importId: '',
       data: fakeProject,
-      potentielIdentifier
+      potentielIdentifier,
     },
     original: {
       occurredAt: new Date(123),
@@ -57,7 +57,14 @@ const fakeHistory: DomainEvent[] = [
 
 describe('Project.lastUpdatedOn', () => {
   it('should return the date of the last project event', () => {
-    const project = UnwrapForTest(makeProject({ projectId, history: fakeHistory, appelsOffres }))
+    const project = UnwrapForTest(
+      makeProject({
+        projectId,
+        history: fakeHistory,
+        appelsOffres,
+        buildProjectIdentifier: () => '',
+      })
+    )
 
     expect(project.lastUpdatedOn).toEqual(new Date(456))
   })

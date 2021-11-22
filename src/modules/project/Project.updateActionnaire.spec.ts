@@ -38,10 +38,12 @@ describe('Project.updateActionnaire()', () => {
               familleId,
               numeroCRE,
               content: { ...fakeProject, notifiedOn: 1 },
+              potentielIdentifier: '',
             },
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
 
@@ -73,10 +75,12 @@ describe('Project.updateActionnaire()', () => {
               familleId,
               numeroCRE,
               content: { ...fakeProject, notifiedOn: 0 },
+              potentielIdentifier: '',
             },
           }),
         ],
         appelsOffres,
+        buildProjectIdentifier: () => '',
       })
     )
 

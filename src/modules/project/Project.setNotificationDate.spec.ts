@@ -41,6 +41,7 @@ const makeFakeHistory = (fakeProject: any): DomainEvent[] => {
         familleId: fakeProject.familleId,
         numeroCRE: fakeProject.numeroCRE,
         content: fakeProject,
+        potentielIdentifier: '',
       },
     }),
   ]
@@ -85,7 +86,14 @@ describe('Project.setNotificationDate()', () => {
     const newNotifiedOn = 123 + 24 * 60 * 60 * 1000
 
     it('should emit a ProjectNotificationDateSet', () => {
-      const project = UnwrapForTest(makeProject({ projectId, history: fakeHistory, appelsOffres }))
+      const project = UnwrapForTest(
+        makeProject({
+          projectId,
+          history: fakeHistory,
+          appelsOffres,
+          buildProjectIdentifier: () => '',
+        })
+      )
 
       const res = project.setNotificationDate(fakeUser, newNotifiedOn)
 
@@ -109,7 +117,14 @@ describe('Project.setNotificationDate()', () => {
       const fakeProjectData = makeFakeProject({ notifiedOn: 123, classe: 'Classé', appelOffreId })
       const fakeHistory = makeFakeHistory(fakeProjectData)
 
-      const project = UnwrapForTest(makeProject({ projectId, history: fakeHistory, appelsOffres }))
+      const project = UnwrapForTest(
+        makeProject({
+          projectId,
+          history: fakeHistory,
+          appelsOffres,
+          buildProjectIdentifier: () => '',
+        })
+      )
 
       beforeAll(() => {
         const res = project.setNotificationDate(fakeUser, newNotifiedOn)
@@ -163,7 +178,12 @@ describe('Project.setNotificationDate()', () => {
       ]
 
       const project = UnwrapForTest(
-        makeProject({ projectId, history: fakeHistoryWithCompletionDateMoved, appelsOffres })
+        makeProject({
+          projectId,
+          history: fakeHistoryWithCompletionDateMoved,
+          appelsOffres,
+          buildProjectIdentifier: () => '',
+        })
       )
 
       beforeAll(() => {
@@ -187,7 +207,12 @@ describe('Project.setNotificationDate()', () => {
 
       it('should not trigger ProjectDCRDueDateSet', () => {
         const project = UnwrapForTest(
-          makeProject({ projectId, history: fakeHistory, appelsOffres })
+          makeProject({
+            projectId,
+            history: fakeHistory,
+            appelsOffres,
+            buildProjectIdentifier: () => '',
+          })
         )
         const res = project.setNotificationDate(fakeUser, newNotifiedOn)
 
@@ -214,7 +239,12 @@ describe('Project.setNotificationDate()', () => {
 
       it('should trigger ProjectGFDueDateSet', () => {
         const project = UnwrapForTest(
-          makeProject({ projectId, history: fakeHistory, appelsOffres })
+          makeProject({
+            projectId,
+            history: fakeHistory,
+            appelsOffres,
+            buildProjectIdentifier: () => '',
+          })
         )
         const res = project.setNotificationDate(fakeUser, newNotifiedOn)
 
@@ -247,7 +277,12 @@ describe('Project.setNotificationDate()', () => {
 
       it('should not trigger ProjectGFDueDateSet', () => {
         const project = UnwrapForTest(
-          makeProject({ projectId, history: fakeHistory, appelsOffres })
+          makeProject({
+            projectId,
+            history: fakeHistory,
+            appelsOffres,
+            buildProjectIdentifier: () => '',
+          })
         )
         const res = project.setNotificationDate(fakeUser, newNotifiedOn)
 
@@ -265,7 +300,14 @@ describe('Project.setNotificationDate()', () => {
 
   describe('when the given date is the same as the current date', () => {
     it('should not emit', () => {
-      const project = UnwrapForTest(makeProject({ projectId, history: fakeHistory, appelsOffres }))
+      const project = UnwrapForTest(
+        makeProject({
+          projectId,
+          history: fakeHistory,
+          appelsOffres,
+          buildProjectIdentifier: () => '',
+        })
+      )
 
       const res = project.setNotificationDate(fakeUser, 123)
 
@@ -284,6 +326,7 @@ describe('Project.setNotificationDate()', () => {
           projectId,
           appelsOffres,
           history: fakeHistory.filter((event) => event.type !== ProjectNotified.type),
+          buildProjectIdentifier: () => '',
         })
       )
 
@@ -298,7 +341,14 @@ describe('Project.setNotificationDate()', () => {
   describe('when new notifiedOn is 0', () => {
     it('should return a IllegalProjectStateError', () => {
       // Create a project that has not been notified
-      const project = UnwrapForTest(makeProject({ projectId, history: fakeHistory, appelsOffres }))
+      const project = UnwrapForTest(
+        makeProject({
+          projectId,
+          history: fakeHistory,
+          appelsOffres,
+          buildProjectIdentifier: () => '',
+        })
+      )
 
       const res = project.setNotificationDate(fakeUser, 0)
 

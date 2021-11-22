@@ -21,6 +21,7 @@ describe('legacyCandidateNotification.handleProjectImported', () => {
         appelOffreId,
         periodeId,
         familleId,
+        potentielIdentifier: '',
         numeroCRE,
         projectId,
         importId,

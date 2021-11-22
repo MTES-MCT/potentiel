@@ -14,13 +14,13 @@ describe('NotificationService', () => {
       name: 'testname',
       subject: 'testsubject',
     },
-    type: 'password-reset',
+    type: 'designation',
     context: {
-      passwordRetrievalId: 'passwordRetrievalId',
-      userId: 'userId',
+      appelOffreId: '',
+      periodeId: '',
     },
     variables: {
-      password_reset_link: 'resetLink',
+      invitation_link: 'resetLink',
     },
   }
 
