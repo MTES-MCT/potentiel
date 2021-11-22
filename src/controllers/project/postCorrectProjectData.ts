@@ -20,12 +20,21 @@ v1Router.post(
   upload.single('file'),
   ensureRole(['admin', 'dgec']),
   asyncHandler(async (request, response) => {
+    if(request.body.numeroCRE || request.body.familleId || request.body.appelOffreAndPeriode) {
+      return response.redirect(
+        addQueryParams(routes.PROJECT_DETAILS(request.body.projectId), {
+          error: 'Vous tentez de changer une donnée non-modifiable, votre demande ne peut être prise en compte.',
+          ...request.body,
+        })
+      )
+    }
+    
     const {
       projectId,
       projectVersionDate,
       notificationDate,
-      numeroCRE,
-      familleId,
+      //numeroCRE,
+      //familleId,
       nomProjet,
       territoireProjet,
       puissance,
@@ -42,12 +51,12 @@ v1Router.post(
       participatif,
       isClasse,
       motifsElimination,
-      appelOffreAndPeriode,
+      //appelOffreAndPeriode,
       reason,
       attestation,
     } = request.body
 
-    const [appelOffreId, periodeId] = appelOffreAndPeriode?.split('|')
+    //const [appelOffreId, periodeId] = appelOffreAndPeriode?.split('|')
     const { isFinancementParticipatif, isInvestissementParticipatif } =
       participatif === 'investissement'
         ? { isFinancementParticipatif: false, isInvestissementParticipatif: true }
@@ -68,10 +77,10 @@ v1Router.post(
     }
 
     const correctedData = {
-      numeroCRE,
-      appelOffreId,
-      periodeId,
-      familleId: familleId.length ? familleId : undefined,
+      //numeroCRE,
+      //appelOffreId,
+      //periodeId,
+      //familleId: familleId.length ? familleId : undefined,
       territoireProjet: territoireProjet.length ? territoireProjet : undefined,
       nomProjet,
       puissance: Number(puissance),
