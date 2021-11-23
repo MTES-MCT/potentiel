@@ -1,1 +1,1 @@
-export * from './makeSequelizeProjection';
+export * from './makeSequelizeProjector'
