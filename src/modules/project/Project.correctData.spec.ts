@@ -156,31 +156,4 @@ describe('Project.correctData()', () => {
       expect(error.error).toHaveProperty('puissance')
     })
   })
-
-  /*
-  describe('when passed a familleId that does not exist in the appelOffre', () => {
-    const fakeProjectData = makeFakeProject({ notifiedOn: 123, appelOffreId: 'Fessenheim' })
-    const fakeHistory = makeFakeHistory(fakeProjectData)
-    const project = UnwrapForTest(
-      makeProject({
-        projectId,
-        history: fakeHistory,
-        appelsOffres,
-        buildProjectIdentifier: () => '',
-      })
-    )
-
-    it('should return an IllegalProjectStateError', () => {
-      const res = project.correctData(fakeUser, {
-        familleId: 'abc',
-      })
-      expect(res.isErr()).toBe(true)
-      if (res.isOk()) return
-
-      expect(res.error).toBeInstanceOf(IllegalProjectStateError)
-
-      const error = res.error as IllegalProjectStateError
-      expect(error.error).toHaveProperty('familleId')
-    })
-  })*/
 })

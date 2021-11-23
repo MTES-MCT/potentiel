@@ -4,10 +4,6 @@ export interface ProjectDataCorrectedPayload {
   projectId: string
   correctedBy: string
   correctedData: Partial<{
-    //numeroCRE: string
-    //appelOffreId: string
-    //periodeId: string
-    //familleId: string
     nomProjet: string
     territoireProjet: string
     puissance: number

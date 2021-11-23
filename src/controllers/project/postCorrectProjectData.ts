@@ -33,8 +33,6 @@ v1Router.post(
       projectId,
       projectVersionDate,
       notificationDate,
-      //numeroCRE,
-      //familleId,
       nomProjet,
       territoireProjet,
       puissance,
@@ -51,12 +49,10 @@ v1Router.post(
       participatif,
       isClasse,
       motifsElimination,
-      //appelOffreAndPeriode,
       reason,
       attestation,
     } = request.body
 
-    //const [appelOffreId, periodeId] = appelOffreAndPeriode?.split('|')
     const { isFinancementParticipatif, isInvestissementParticipatif } =
       participatif === 'investissement'
         ? { isFinancementParticipatif: false, isInvestissementParticipatif: true }
@@ -77,10 +73,6 @@ v1Router.post(
     }
 
     const correctedData = {
-      //numeroCRE,
-      //appelOffreId,
-      //periodeId,
-      //familleId: familleId.length ? familleId : undefined,
       territoireProjet: territoireProjet.length ? territoireProjet : undefined,
       nomProjet,
       puissance: Number(puissance),
