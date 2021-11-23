@@ -36,10 +36,6 @@ interface CorrectProjectDataArgs {
   attestation: 'regenerate' | 'donotregenerate' | 'custom'
   reason?: string
   correctedData: Partial<{
-    numeroCRE: string
-    appelOffreId: string
-    periodeId: string
-    familleId: string
     nomProjet: string
     territoireProjet: string
     puissance: number
@@ -89,8 +85,6 @@ export const makeCorrectProjectData = (deps: CorrectProjectDataDeps): CorrectPro
   }
 
   return _uploadFileIfExists().andThen((certificateFileId) => {
-    // open a transaction on the project to update it
-    // the transaction will return a boolean for shouldCertificateBeGenerated
     const projectTransaction = deps.projectRepo.transaction(
       new UniqueEntityID(projectId),
       (

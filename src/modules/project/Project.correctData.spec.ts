@@ -89,7 +89,7 @@ describe('Project.correctData()', () => {
     )
 
     const res = project.correctData(fakeUser, {
-      numeroCRE: '1',
+      nomProjet: 'test',
       nomCandidat: fakeProject.nomCandidat, // Unchanged, should be ignored
     })
 
@@ -105,7 +105,7 @@ describe('Project.correctData()', () => {
     if (!targetEvent) return
 
     expect(targetEvent.payload.correctedData).toEqual({
-      numeroCRE: '1',
+      nomProjet: 'test',
     })
     expect(targetEvent.payload.projectId).toEqual(projectId.toString())
     expect(targetEvent.payload.correctedBy).toEqual(fakeUser.id)
@@ -124,7 +124,7 @@ describe('Project.correctData()', () => {
       )
 
       const res = project.correctData(fakeUser, {
-        numeroCRE: '1',
+        nomProjet: 'test',
       })
 
       expect(res.isErr()).toEqual(true)
@@ -154,32 +154,6 @@ describe('Project.correctData()', () => {
 
       const error = res.error as IllegalProjectStateError
       expect(error.error).toHaveProperty('puissance')
-    })
-  })
-
-  describe('when passed a familleId that does not exist in the appelOffre', () => {
-    const fakeProjectData = makeFakeProject({ notifiedOn: 123, appelOffreId: 'Fessenheim' })
-    const fakeHistory = makeFakeHistory(fakeProjectData)
-    const project = UnwrapForTest(
-      makeProject({
-        projectId,
-        history: fakeHistory,
-        appelsOffres,
-        buildProjectIdentifier: () => '',
-      })
-    )
-
-    it('should return an IllegalProjectStateError', () => {
-      const res = project.correctData(fakeUser, {
-        familleId: 'abc',
-      })
-      expect(res.isErr()).toBe(true)
-      if (res.isOk()) return
-
-      expect(res.error).toBeInstanceOf(IllegalProjectStateError)
-
-      const error = res.error as IllegalProjectStateError
-      expect(error.error).toHaveProperty('familleId')
     })
   })
 })

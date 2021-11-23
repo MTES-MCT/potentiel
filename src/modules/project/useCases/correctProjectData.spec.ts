@@ -42,7 +42,7 @@ describe('correctProjectData', () => {
         user,
         shouldGrantClasse: false,
         correctedData: {
-          numeroCRE: '1',
+          nomProjet: "test",
         },
         attestation: 'regenerate',
       })
@@ -130,7 +130,7 @@ describe('correctProjectData', () => {
               user,
               shouldGrantClasse: true,
               correctedData: {
-                numeroCRE: 'nouveauNumero',
+                nomProjet: 'test',
               },
               attestation: 'custom',
             })
@@ -153,7 +153,7 @@ describe('correctProjectData', () => {
           it('should call project.correctData()', async () => {
             expect(fakeProject.correctData).toHaveBeenCalledTimes(1)
             expect(fakeProject.correctData).toHaveBeenCalledWith(user, {
-              numeroCRE: 'nouveauNumero',
+              nomProjet: 'test',
             })
           })
 
@@ -208,7 +208,7 @@ describe('correctProjectData', () => {
               user,
               shouldGrantClasse: true,
               correctedData: {
-                numeroCRE: 'nouveauNumero',
+                nomProjet: 'test',
               },
               attestation: 'regenerate',
             })
@@ -295,7 +295,7 @@ describe('correctProjectData', () => {
                 user,
                 shouldGrantClasse: true,
                 correctedData: {
-                  numeroCRE: 'nouveauNumero',
+                  nomProjet: 'test',
                 },
                 attestation: 'regenerate',
               })
@@ -338,9 +338,7 @@ describe('correctProjectData', () => {
                 newNotifiedOn: 1234,
                 user,
                 shouldGrantClasse: true,
-                correctedData: {
-                  numeroCRE: 'nouveauNumero',
-                },
+                correctedData: {},
                 attestation: 'regenerate',
               })
 
@@ -384,7 +382,7 @@ describe('correctProjectData', () => {
               user,
               shouldGrantClasse: true,
               correctedData: {
-                numeroCRE: 'nouveauNumero',
+                nomProjet: 'test',
               },
               attestation: 'donotregenerate',
             })
@@ -423,7 +421,7 @@ describe('correctProjectData', () => {
             user,
             shouldGrantClasse: false,
             correctedData: {
-              numeroCRE: '1',
+              nomProjet: 'test',
             },
             attestation: 'regenerate',
           })

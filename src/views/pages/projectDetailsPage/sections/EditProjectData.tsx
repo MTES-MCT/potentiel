@@ -44,6 +44,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             defaultValue={
               query.appelOffreAndPeriode || `${project.appelOffreId}|${project.periodeId}`
             }
+            disabled
           >
             {appelsOffreStatic.reduce((periodes: React.ReactNode[], appelOffre) => {
               return periodes?.concat(
@@ -65,6 +66,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             type="text"
             name="familleId"
             defaultValue={query.familleId || project.familleId || ''}
+            disabled
           />
         </div>
         <div className="form__group">
@@ -77,7 +79,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
         </div>
         <div className="form__group">
           <label>Numéro CRE</label>
-          <input type="text" name="numeroCRE" defaultValue={query.numeroCRE || project.numeroCRE} />
+          <input type="text" name="numeroCRE" defaultValue={query.numeroCRE || project.numeroCRE} disabled/>
         </div>
         <div className="form__group">
           <label>Nom Projet</label>
