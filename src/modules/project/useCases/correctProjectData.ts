@@ -36,10 +36,10 @@ interface CorrectProjectDataArgs {
   attestation: 'regenerate' | 'donotregenerate' | 'custom'
   reason?: string
   correctedData: Partial<{
-    numeroCRE: string
-    appelOffreId: string
-    periodeId: string
-    familleId: string
+    //numeroCRE: string
+    //appelOffreId: string
+    //periodeId: string
+    //familleId: string
     nomProjet: string
     territoireProjet: string
     puissance: number

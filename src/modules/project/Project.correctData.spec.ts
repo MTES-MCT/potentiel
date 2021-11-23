@@ -89,7 +89,7 @@ describe('Project.correctData()', () => {
     )
 
     const res = project.correctData(fakeUser, {
-      numeroCRE: '1',
+      nomProjet: 'test',
       nomCandidat: fakeProject.nomCandidat, // Unchanged, should be ignored
     })
 
@@ -105,7 +105,7 @@ describe('Project.correctData()', () => {
     if (!targetEvent) return
 
     expect(targetEvent.payload.correctedData).toEqual({
-      numeroCRE: '1',
+      nomProjet: 'test',
     })
     expect(targetEvent.payload.projectId).toEqual(projectId.toString())
     expect(targetEvent.payload.correctedBy).toEqual(fakeUser.id)
@@ -124,7 +124,7 @@ describe('Project.correctData()', () => {
       )
 
       const res = project.correctData(fakeUser, {
-        numeroCRE: '1',
+        nomProjet: 'test',
       })
 
       expect(res.isErr()).toEqual(true)
@@ -157,6 +157,7 @@ describe('Project.correctData()', () => {
     })
   })
 
+  /*
   describe('when passed a familleId that does not exist in the appelOffre', () => {
     const fakeProjectData = makeFakeProject({ notifiedOn: 123, appelOffreId: 'Fessenheim' })
     const fakeHistory = makeFakeHistory(fakeProjectData)
@@ -181,5 +182,5 @@ describe('Project.correctData()', () => {
       const error = res.error as IllegalProjectStateError
       expect(error.error).toHaveProperty('familleId')
     })
-  })
+  })*/
 })
