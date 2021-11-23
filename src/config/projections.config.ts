@@ -11,7 +11,7 @@ console.log(`Initialized projectors: ${projectors.join(', ')}`)
 
 const projectors2 = initProjections2((streamName) => {
   return {
-    on: (eventType, cb) => {
+    handle: (eventType, cb) => {
       console.log(`EventStream '${streamName}' is listening to ${eventType}`)
       eventStore.subscribe(eventType, (event) => {
         console.log('EventStream emitting event', event)

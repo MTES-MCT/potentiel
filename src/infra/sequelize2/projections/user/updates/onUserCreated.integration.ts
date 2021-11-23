@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '../../../../../core/domain'
 import { UserCreated } from '../../../../../modules/users'
 import { resetDatabase } from '../../../../sequelize/helpers'
-import { usersProjection } from '../users'
+import { User } from '../user.model'
 import onUserCreated from './onUserCreated'
 
 describe('onUserCreated', () => {
@@ -19,7 +19,7 @@ describe('onUserCreated', () => {
       })
     )
 
-    const user = await usersProjection.model.findByPk(userId)
+    const user = await User.findByPk(userId)
     expect(user).not.toBe(null)
   })
 })

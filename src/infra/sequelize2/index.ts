@@ -1,18 +1,19 @@
+import * as models from './projections'
 import { EventStreamFactory } from '../../core/utils'
-import * as projections from './projections'
-
-// // Useless if we import * as projections from './projections' ?
 
 export const initProjections2 = (makeEventStream: EventStreamFactory) => {
   const initializedProjections: string[] = []
 
-  Object.values(projections).forEach((projection) => {
-    projection.initEventStream(makeEventStream)
-
-    initializedProjections.push(projection.name)
+  Object.values(models).forEach((model) => {
+    model.projector?.initEventStream(makeEventStream(model.name))
+    initializedProjections.push(model.name)
   })
 
   return initializedProjections
 }
+
+Object.values(models).forEach((model) => {
+  model.associate && model.associate(models)
+})
 
 export * from './helpers'

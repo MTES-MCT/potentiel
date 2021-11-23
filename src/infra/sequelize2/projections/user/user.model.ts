@@ -1,8 +1,8 @@
 import { DataTypes } from 'sequelize'
 import { sequelizeInstance } from '../../../../sequelize.config'
-import { makeSequelizeProjection, SequelizeModel } from '../../helpers'
+import { makeSequelizeProjector, SequelizeModel } from '../../helpers'
 
-const UserModel = sequelizeInstance.define(
+export const User = sequelizeInstance.define(
   'user',
   {
     id: {
@@ -33,8 +33,8 @@ const UserModel = sequelizeInstance.define(
   {
     timestamps: true,
   }
-) as SequelizeModel
+) as SequelizeModel // Use a special type definition so that sequelize.define always returns a SequelizeModel ?
 
-UserModel.associate = (models) => {}
+User.associate = (models) => {}
 
-export const usersProjection = makeSequelizeProjection(UserModel)
+User.projector = makeSequelizeProjector(User)

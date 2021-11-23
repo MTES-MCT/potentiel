@@ -1,61 +1,38 @@
 import { Model as SModel, ModelCtor } from 'sequelize'
-import { EventStream, EventStreamFactory, HandlerFactory, Projection } from '../../../core/utils'
+import type { EventHandler, EventStream, Projector } from '../../../core/utils'
 
 export type SequelizeModel = ModelCtor<SModel<any, any>> & {
-  associate: (models: Record<string, SequelizeModel>) => void
+  associate?: (models: Record<string, SequelizeModel>) => void
+  projector?: Projector
 }
 
-export type SequelizeProjection<
-  ProjectionModel extends SequelizeModel
-> = Projection<ProjectionModel> & { model: ProjectionModel }
-
-export const makeSequelizeProjection = <ProjectionModel extends SequelizeModel>(
+export const makeSequelizeProjector = <ProjectionModel extends SequelizeModel>(
   model: ProjectionModel
-): SequelizeProjection<ProjectionModel> => {
+): Projector => {
   let eventStream: EventStream | undefined
 
-  // we can surely find a better type for handlers it's actually Record<Event['type'], HandlerFactor<Event>>
-  // Store a list of handlers instead, to be able to have multiple handlers for the same event
-  const handlers: { type: string; handler: HandlerFactory<any, any> }[] = []
+  const handlers: { type: string; handler: EventHandler<any> }[] = []
 
-  const projection: SequelizeProjection<ProjectionModel> = {
+  return {
     handle: (eventClass, handler) => {
       if (eventStream) {
-        eventStream.on(eventClass.type, handler(model))
+        eventStream.handle(eventClass.type, handler)
       }
 
       handlers.push({ type: eventClass.type, handler })
 
-      return handler(model)
+      return handler
     },
-    lock: async () => {
-      if (!eventStream) {
-        throw new Error('Cannot lock before init event stream')
-      }
-      eventStream.lock()
+    rebuild: async () => {
+      // TODO
     },
-    unlock: async () => {
-      if (!eventStream) {
-        throw new Error('Cannot unlock before init event stream')
-      }
-      eventStream.unlock()
-    },
-    transaction: async (callback) => {
-      // TODO: call model.sequelize.transaction ?
-    },
-    initEventStream: (makeEventStream: EventStreamFactory) => {
-      eventStream = makeEventStream(model.name)
+    initEventStream: (_eventStream) => {
+      eventStream = _eventStream
 
       handlers.forEach(({ type, handler }) => {
         // Weird, eventStream can't be undefined, we just set it...
-        eventStream!.on(type, handler(model))
+        eventStream!.handle(type, handler)
       })
     },
-    model,
-    get name() {
-      return model.name
-    },
   }
-
-  return projection
 }

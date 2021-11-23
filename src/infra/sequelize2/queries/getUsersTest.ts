@@ -1,5 +1,5 @@
-import { usersProjection } from '../projections'
+import { User } from '../projections'
 
 export const getUsersTest = () => {
-  return usersProjection.model.findAll({})
+  return User.findAll({})
 }
