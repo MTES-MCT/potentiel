@@ -1,7 +1,6 @@
 import React from 'react'
 import makeFakeRequest from '../../__tests__/fixtures/request'
 import makeFakeUser from '../../__tests__/fixtures/user'
-import LoginPage from './login'
 
 import { PDFViewer } from '@react-pdf/renderer'
 
