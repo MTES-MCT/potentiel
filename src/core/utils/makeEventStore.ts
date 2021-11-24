@@ -1,6 +1,8 @@
-import { InfraNotAvailableError } from '../../modules/shared'
+import { Queue } from './Queue'
+import { wrapInfra } from './wrapInfra'
+import { InfraNotAvailableError, OtherError } from '../../modules/shared'
 import { DomainEvent, EventBus, EventStore } from '../domain'
-import { combine, ResultAsync } from './Result'
+import { combine, ResultAsync, Result, unwrapResultOfResult, ok } from './Result'
 
 export interface MakeEventStoreDeps {
   loadAggregateEventsFromStore: (
@@ -13,6 +15,9 @@ export interface MakeEventStoreDeps {
 
 export const makeEventStore = (deps: MakeEventStoreDeps): EventStore => {
   const { loadAggregateEventsFromStore, persistEventsToStore, publishToEventBus, subscribe } = deps
+
+  // Temporary solution to concurrency (ie global lock, to be replaced with aggregateId-level lock)
+  const publishQueue = new Queue()
 
   const publishEventsBatch = (events: DomainEvent[]) => {
     return persistEventsToStore(events)
@@ -27,18 +32,22 @@ export const makeEventStore = (deps: MakeEventStoreDeps): EventStore => {
   return {
     publish,
     subscribe,
-    transaction: (callback) => {
-      const eventsToEmit: DomainEvent[] = []
-      return callback({
-        loadHistory: (aggregateId: string) => {
-          return loadAggregateEventsFromStore(aggregateId)
-        },
-        publish: (event: DomainEvent) => {
-          eventsToEmit.push(event)
-        },
-      }).andThen((res) => {
-        return publishEventsBatch(eventsToEmit).map(() => res)
+    transaction: <T>(callback): ResultAsync<T, InfraNotAvailableError> => {
+      const ticket: Promise<Result<T, InfraNotAvailableError>> = publishQueue.push(async () => {
+        const eventsToEmit: DomainEvent[] = []
+        return callback({
+          loadHistory: (aggregateId: string) => {
+            return loadAggregateEventsFromStore(aggregateId)
+          },
+          publish: (event: DomainEvent) => {
+            eventsToEmit.push(event)
+          },
+        }).andThen((res) => {
+          return (eventsToEmit.length ? publishEventsBatch(eventsToEmit) : ok(null)).map(() => res)
+        })
       })
+
+      return wrapInfra(ticket).andThen(unwrapResultOfResult)
     },
   }
 }

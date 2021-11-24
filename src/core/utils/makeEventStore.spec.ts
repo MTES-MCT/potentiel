@@ -1,4 +1,5 @@
 import { errAsync, okAsync, ResultAsync } from 'neverthrow'
+import { wrapInfra } from '.'
 import { InfraNotAvailableError } from '../../modules/shared'
 import { BaseDomainEvent, DomainEvent, UniqueEntityID } from '../domain'
 
@@ -204,5 +205,62 @@ describe('makeEventStore', () => {
         expect(publishToEventBus).not.toHaveBeenCalled()
       })
     })
+
+    describe('when multiple calls are made at the same time', () => {
+      const loadAggregateEventsFromStore = jest.fn((aggregateId: string) =>
+        okAsync<DomainEvent[], InfraNotAvailableError>([])
+      )
+      const persistEventsToStore = jest.fn((events: DomainEvent[]) =>
+        okAsync<null, InfraNotAvailableError>(null)
+      )
+      const publishToEventBus = jest.fn((event: DomainEvent) =>
+        okAsync<null, InfraNotAvailableError>(null)
+      )
+      const subscribe = jest.fn()
+
+      const eventStore = makeEventStore({
+        loadAggregateEventsFromStore,
+        persistEventsToStore,
+        publishToEventBus,
+        subscribe,
+      })
+
+      it('should wait for the first to finish before handling the second (concurrency lock)', async () => {
+        const { promise: promise1, resolve: resolve1 } = makeFakePromise()
+        const callback1 = jest.fn(() => {
+          return wrapInfra(promise1) // This will hang until resolve1 has been called
+        })
+        const callback2 = jest.fn(() => okAsync(null))
+        const transaction1 = eventStore.transaction(callback1)
+        eventStore.transaction(callback2)
+
+        expect(callback2).not.toHaveBeenCalled()
+
+        resolve1()
+        await transaction1
+
+        expect(callback1).toHaveBeenCalled()
+        expect(callback2).toHaveBeenCalled()
+      })
+    })
   })
 })
+
+const makeFakePromise = () => {
+  let greenLight = false
+  const promise = new Promise((resolve) => {
+    const interval = setInterval(() => {
+      if (greenLight) {
+        resolve(null)
+        clearInterval(interval)
+      }
+    }, 100)
+  })
+
+  return {
+    promise,
+    resolve: () => {
+      greenLight = true
+    },
+  }
+}
