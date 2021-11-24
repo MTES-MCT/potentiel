@@ -1,8 +1,8 @@
 import { InfraNotAvailableError } from '../../modules/shared'
 import { DomainEvent, EventBus, EventStore } from '../domain'
-import { combine, okAsync, ResultAsync } from './Result'
+import { combine, ResultAsync } from './Result'
 
-interface MakeEventStoreDeps {
+export interface MakeEventStoreDeps {
   loadAggregateEventsFromStore: (
     aggregateId: string
   ) => ResultAsync<DomainEvent[], InfraNotAvailableError>
