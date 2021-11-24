@@ -32,7 +32,7 @@ const mappedColumns = [
   'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)',
 ]
 
-const prepareNumber = (str) => str.replace(/,/g, '.')
+const prepareNumber = (str) => str && str.replace(/,/g, '.')
 
 const padCodePostalWithleft0 = (codePostalProjet) => {
   if (codePostalProjet.length === 4) {
@@ -104,7 +104,7 @@ const columnMapper = {
       ] || line['Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)']
     )
 
-    if (ecs === '') return null
+    if (ecs === '' || typeof ecs === 'undefined') return null
 
     if (ecs === 'N/A') return 0
 
@@ -298,6 +298,10 @@ export const parseProjectLine = (line) => {
         .reduce((details, [key, value]) => ({ ...details, [key]: value }), {}),
     }
   } catch (e) {
-    throw new Error(e.errors.join(', '))
+    if (e.errors) {
+      throw new Error(e.errors.join(', '))
+    }
+
+    throw e
   }
 }

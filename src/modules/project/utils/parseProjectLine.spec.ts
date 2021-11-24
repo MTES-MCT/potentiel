@@ -481,6 +481,14 @@ describe('parseProjectLine', () => {
             '',
         })
       ).toThrowError('Le champ Evaluation carbone doit contenir un nombre')
+
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)': undefined,
+          'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)': undefined,
+        })
+      ).toThrowError('Le champ Evaluation carbone doit contenir un nombre')
     })
   })
 })
