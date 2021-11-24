@@ -9,7 +9,7 @@ export type EventStoreTransactionArgs = {
 }
 
 export type EventStore = EventBus & {
-  transaction: <T>(
-    fn: (args: EventStoreTransactionArgs) => T
-  ) => ResultAsync<T, InfraNotAvailableError>
+  transaction: <T, E>(
+    fn: (args: EventStoreTransactionArgs) => ResultAsync<T, E>
+  ) => ResultAsync<T, InfraNotAvailableError | E>
 }

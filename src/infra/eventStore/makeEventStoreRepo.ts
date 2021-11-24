@@ -24,7 +24,6 @@ export const makeEventStoreRepo = <T extends EventStoreAggregate>(deps: {
   load(id: UniqueEntityID) {
     return deps.eventStore
       .transaction(({ loadHistory }) => loadHistory(id.toString()))
-      .andThen(unwrapResultOfResult)
       .andThen((events) => deps.makeAggregate({ events, id }))
   },
 
@@ -54,7 +53,6 @@ export const makeEventStoreRepo = <T extends EventStoreAggregate>(deps: {
             }
           )
       })
-      .andThen(unwrapResultOfResult)
       .map(() => null)
   },
 })

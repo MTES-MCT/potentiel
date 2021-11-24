@@ -34,43 +34,41 @@ export const makeEventStoreTransactionalRepo = <T extends EventStoreAggregate>(d
     | HeterogeneousHistoryError
     | EntityAlreadyExistsError
   > {
-    return deps.eventStore
-      .transaction(({ loadHistory, publish }) => {
-        let _aggregate: T
+    return deps.eventStore.transaction(({ loadHistory, publish }) => {
+      let _aggregate: T
 
-        return loadHistory(id.toString())
-          .andThen(
-            (
-              events
-            ): Result<
-              T,
-              EntityNotFoundError | HeterogeneousHistoryError | EntityAlreadyExistsError
-            > => {
-              if (events.length) {
-                if (opts?.isNew) {
-                  return err(new EntityAlreadyExistsError())
-                }
-
-                return deps.makeAggregate({ events, id })
+      return loadHistory(id.toString())
+        .andThen(
+          (
+            events
+          ): Result<
+            T,
+            EntityNotFoundError | HeterogeneousHistoryError | EntityAlreadyExistsError
+          > => {
+            if (events.length) {
+              if (opts?.isNew) {
+                return err(new EntityAlreadyExistsError())
               }
 
-              if (!opts?.isNew && !opts?.acceptNew) {
-                return err(new EntityNotFoundError())
-              }
-
-              return deps.makeAggregate({ id })
+              return deps.makeAggregate({ events, id })
             }
-          )
-          .andThen((aggregate) => {
-            _aggregate = aggregate
-            return fn(aggregate)
-          })
-          .map((fnResult) => {
-            // Save the effects one the aggregate by publishing pendingEvents
-            _aggregate.pendingEvents.forEach(publish)
-            return fnResult
-          })
-      })
-      .andThen(unwrapResultOfResult)
+
+            if (!opts?.isNew && !opts?.acceptNew) {
+              return err(new EntityNotFoundError())
+            }
+
+            return deps.makeAggregate({ id })
+          }
+        )
+        .andThen((aggregate) => {
+          _aggregate = aggregate
+          return fn(aggregate)
+        })
+        .map((fnResult) => {
+          // Save the effects one the aggregate by publishing pendingEvents
+          _aggregate.pendingEvents.forEach(publish)
+          return fnResult
+        })
+    })
   },
 })

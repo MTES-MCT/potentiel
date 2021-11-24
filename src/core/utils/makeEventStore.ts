@@ -1,37 +1,44 @@
-import { okAsync } from 'neverthrow'
-import { Constructor } from 'runtypes/lib/types/instanceof'
 import { InfraNotAvailableError } from '../../modules/shared'
-import { DomainEvent, EventStore, EventStoreTransactionArgs } from '../domain'
-import { ResultAsync } from './Result'
+import { DomainEvent, EventBus, EventStore } from '../domain'
+import { combine, okAsync, ResultAsync } from './Result'
 
 interface MakeEventStoreDeps {
   loadAggregateEventsFromStore: (
     aggregateId: string
   ) => ResultAsync<DomainEvent[], InfraNotAvailableError>
   persistEventsToStore: (events: DomainEvent[]) => ResultAsync<null, InfraNotAvailableError>
-  emitEvent: (event: DomainEvent) => ResultAsync<null, InfraNotAvailableError>
-  listenToEvents: (
-    eventClass: Constructor<DomainEvent>,
-    cb: (event: DomainEvent) => unknown
-  ) => ResultAsync<null, InfraNotAvailableError>
+  publishToEventBus: EventBus['publish']
+  subscribe: EventBus['subscribe']
 }
 
 export const makeEventStore = (deps: MakeEventStoreDeps): EventStore => {
-  const { loadAggregateEventsFromStore, persistEventsToStore, emitEvent, listenToEvents } = deps
+  const { loadAggregateEventsFromStore, persistEventsToStore, publishToEventBus, subscribe } = deps
+
+  const publishEventsBatch = (events: DomainEvent[]) => {
+    return persistEventsToStore(events)
+      .andThen(() => combine(events.map((event) => publishToEventBus(event))))
+      .map(() => null)
+  }
 
   const publish = (event: DomainEvent) => {
-    return persistEventsToStore([event]).andThen(() => emitEvent(event))
+    return publishEventsBatch([event])
   }
-  const subscribe = (eventType, callback) => {
-    return listenToEvents(eventType, callback)
-  }
-  const transaction = <T>(fn: (args: EventStoreTransactionArgs) => T) =>
-    okAsync<T, InfraNotAvailableError>(
-      fn({
-        loadHistory: (aggregateId: string) => okAsync<DomainEvent[], InfraNotAvailableError>([]),
-        publish: (event: DomainEvent) => {},
-      })
-    )
 
-  return { publish, subscribe, transaction }
+  return {
+    publish,
+    subscribe,
+    transaction: (callback) => {
+      const eventsToEmit: DomainEvent[] = []
+      return callback({
+        loadHistory: (aggregateId: string) => {
+          return loadAggregateEventsFromStore(aggregateId)
+        },
+        publish: (event: DomainEvent) => {
+          eventsToEmit.push(event)
+        },
+      }).andThen((res) => {
+        return publishEventsBatch(eventsToEmit).map(() => res)
+      })
+    },
+  }
 }
