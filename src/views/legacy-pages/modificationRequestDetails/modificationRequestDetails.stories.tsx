@@ -22,6 +22,7 @@ export const RecoursOuvertPourAdmin = () => (
         filename: 'attachment.pdf',
         id: 'file123',
       },
+      puissance: 123,
       project: {
         id: 'projectId',
         numeroCRE: 'CRE123',
@@ -37,6 +38,9 @@ export const RecoursOuvertPourAdmin = () => (
         periodeId: '10',
         familleId: '1C',
         numeroGestionnaire: 'GEFAR-P-1234',
+        actionnaire: 'Mr Actionnaire',
+        completionDueOn: new Date(),
+        puissanceInitiale: 123,
       },
     }}
   />
@@ -59,6 +63,7 @@ export const RecoursAccepté = () => (
         filename: 'attachment.pdf',
         id: 'file123',
       },
+      puissance: 123,
       project: {
         id: 'projectId',
         numeroCRE: 'CRE123',
@@ -74,6 +79,9 @@ export const RecoursAccepté = () => (
         periodeId: '10',
         familleId: '1C',
         numeroGestionnaire: 'GEFAR-P-1234',
+        actionnaire: 'Mr Actionnaire',
+        completionDueOn: new Date(),
+        puissanceInitiale: 123,
       },
     }}
   />
@@ -96,6 +104,7 @@ export const RecoursRejeté = () => (
         filename: 'attachment.pdf',
         id: 'file123',
       },
+      puissance: 123,
       project: {
         id: 'projectId',
         numeroCRE: 'CRE123',
@@ -111,6 +120,9 @@ export const RecoursRejeté = () => (
         periodeId: '10',
         familleId: '1C',
         numeroGestionnaire: 'GEFAR-P-1234',
+        actionnaire: 'Mr Actionnaire',
+        completionDueOn: new Date(),
+        puissanceInitiale: 123,
       },
     }}
   />

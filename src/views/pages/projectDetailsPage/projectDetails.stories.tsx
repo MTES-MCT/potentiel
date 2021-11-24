@@ -1,5 +1,5 @@
 import React from 'react'
-import ProjectDetails from '.'
+import { ProjectDetails } from '.'
 import { appelsOffreStatic } from '../../../dataAccess/inMemory/appelOffre'
 import { ProjectAppelOffre } from '../../../entities'
 import { ProjectDataForProjectPage } from '../../../modules/project/dtos'
@@ -206,11 +206,14 @@ export const forDrealGFStillDue = () => (
   />
 )
 
-const appelOffreInnovation: ProjectAppelOffre | undefined = appelsOffreStatic.find(
+const appelOffreInnovation: ProjectAppelOffre = appelsOffreStatic.find(
   (appelOffre) => appelOffre.id === 'CRE4 - Innovation'
-) as ProjectAppelOffre | undefined
+) as ProjectAppelOffre
 
-if (appelOffreInnovation) appelOffreInnovation.periode = appelOffreInnovation.periodes[1]
+if (appelOffreInnovation) {
+  appelOffreInnovation.periode = appelOffreInnovation.periodes[1]
+}
+
 export const forAOInnovation = () => (
   <ProjectDetails
     request={makeFakeRequest({
