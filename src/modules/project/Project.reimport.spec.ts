@@ -446,7 +446,7 @@ describe('Project.reimport()', () => {
               potentielIdentifier: '',
               content: {
                 ...fakeProject,
-                numeroCRE: '123',
+                nomCandidat: '123',
                 prixReference: 1,
               },
             },
@@ -455,7 +455,7 @@ describe('Project.reimport()', () => {
             payload: {
               projectId: projectId.toString(),
               correctedData: {
-                numeroCRE: '456',
+                nomCandidat: '456',
               },
               correctedBy: '',
             },
@@ -470,7 +470,7 @@ describe('Project.reimport()', () => {
       project.reimport({
         data: {
           ...fakeProject,
-          numeroCRE: '678',
+          nomCandidat: '678',
           prixReference: 4,
         },
         importId,
