@@ -1,5 +1,5 @@
-import { DomainEvent, UniqueEntityID, EventStore, BaseDomainEvent } from '../../core/domain'
-import { ok, okAsync } from '../../core/utils'
+import { DomainEvent, UniqueEntityID, EventStore, BaseDomainEvent } from '../domain'
+import { ok, okAsync } from '.'
 import { makeFakeEventStore } from '../../__tests__/fixtures/aggregates'
 import {
   AggregateHasBeenUpdatedSinceError,

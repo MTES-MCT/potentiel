@@ -1,11 +1,5 @@
-import {
-  DomainEvent,
-  Repository,
-  UniqueEntityID,
-  EventStore,
-  EventStoreAggregate,
-} from '../../core/domain'
-import { err, ok, okAsync, Result, unwrapResultOfResult } from '../../core/utils'
+import { DomainEvent, EventStore, EventStoreAggregate, Repository, UniqueEntityID } from '../domain'
+import { err, ok, okAsync, Result } from '../utils'
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,

@@ -5,8 +5,8 @@ import {
   TransactionalRepository,
   UniqueEntityID,
 } from '../../../core/domain'
+import { makeEventStoreRepo, makeEventStoreTransactionalRepo } from '../../../core/utils'
 import { makeModificationRequest, ModificationRequest } from '../../../modules/modificationRequest'
-import { makeEventStoreRepo, makeEventStoreTransactionalRepo } from '../../eventStore'
 
 export const makeModificationRequestRepo = (
   eventStore: EventStore

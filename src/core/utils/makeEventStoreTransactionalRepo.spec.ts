@@ -1,6 +1,6 @@
 import { AggregateFromHistoryFn } from '.'
-import { BaseDomainEvent, DomainEvent, EventStore, UniqueEntityID } from '../../core/domain'
-import { ok, okAsync, Result } from '../../core/utils'
+import { BaseDomainEvent, DomainEvent, EventStore, UniqueEntityID } from '../domain'
+import { ok, okAsync, Result } from '../utils'
 import {
   EntityAlreadyExistsError,
   EntityNotFoundError,
