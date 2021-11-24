@@ -693,7 +693,6 @@ export const makeProject = (args: {
         if (event.payload.data.classe) {
           _updateClasse(event.payload.data.classe)
         }
-        _updateAppelOffre(event.payload.data)
         break
       case ProjectNotified.type:
       case ProjectNotificationDateSet.type:
@@ -709,7 +708,6 @@ export const makeProject = (args: {
         for (const updatedField of Object.keys(event.payload.correctedData)) {
           props.fieldsUpdatedAfterImport.add(updatedField)
         }
-        _updateAppelOffre(event.payload.correctedData)
         break
       case ProjectCertificateUpdated.type:
         props.lastCertificateUpdate = event.occurredAt
