@@ -110,7 +110,7 @@ describe('makeEventStoreRepo', () => {
       const fakeNewerAggregate: FakeAggregate = {
         pendingEvents: [],
         id: projectId,
-        lastUpdatedOn: new Date(1), // notice date is 1
+        lastUpdatedOn: new Date(2), // notice date is 2
       }
       const fakeMakeAggregate = jest.fn((args: { events: DomainEvent[]; id: UniqueEntityID }) =>
         ok<FakeAggregate, EntityNotFoundError | HeterogeneousHistoryError>(fakeNewerAggregate)
@@ -130,7 +130,7 @@ describe('makeEventStoreRepo', () => {
         const fakeAggregate: FakeAggregate = {
           pendingEvents: [fakeProducedEvent],
           id: projectId,
-          lastUpdatedOn: new Date(0), // saved aggregate date is 0 (earlier that fakeNewerAggregate)
+          lastUpdatedOn: new Date(1), // saved aggregate date is 1 (earlier that fakeNewerAggregate)
         }
 
         const res = await repo.save(fakeAggregate)

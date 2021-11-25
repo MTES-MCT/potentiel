@@ -11,10 +11,7 @@ export const makeFakeEventStore = (
     ...makeFakeEventBus(),
     fakePublish,
     transaction: <T>(fn: (args: EventStoreTransactionArgs) => T) => {
-      return ResultAsync.fromPromise(
-        Promise.resolve(fn({ loadHistory: fakeLoadHistory, publish: fakePublish })),
-        () => new InfraNotAvailableError()
-      )
+      return fn({ loadHistory: fakeLoadHistory, publish: fakePublish })
     },
   }
 }
