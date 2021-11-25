@@ -1,5 +1,5 @@
 import { DomainEvent, EventStore, EventStoreAggregate, Repository, UniqueEntityID } from '../domain'
-import { err, ok, okAsync, Result } from '../utils'
+import { err, errAsync, ok, okAsync, Result, ResultAsync } from '../utils'
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
@@ -16,37 +16,35 @@ export const makeEventStoreRepo = <T extends EventStoreAggregate>(deps: {
   makeAggregate: AggregateFromHistoryFn<T>
 }): Repository<T> => ({
   load(id: UniqueEntityID) {
+    let events: DomainEvent[] = []
     return deps.eventStore
-      .transaction(({ loadHistory }) => loadHistory(id.toString()))
-      .andThen((events) => deps.makeAggregate({ events, id }))
+      .transaction(id, (aggregateEvents) => {
+        events = aggregateEvents
+        return okAsync<DomainEvent[], never>([])
+      })
+      .andThen(() => deps.makeAggregate({ events, id }))
   },
 
   save(aggregate: T) {
     if (!aggregate.pendingEvents.length) return okAsync(null)
 
-    return deps.eventStore
-      .transaction(({ loadHistory, publish }) => {
-        return loadHistory(aggregate.id.toString())
-          .andThen((events) => deps.makeAggregate({ events, id: aggregate.id }))
-          .andThen(
-            (newestAggregate: T): Result<null, AggregateHasBeenUpdatedSinceError> => {
-              const aggregateHasBeenUpdated =
-                newestAggregate.lastUpdatedOn &&
-                aggregate.lastUpdatedOn &&
-                newestAggregate.lastUpdatedOn > aggregate.lastUpdatedOn
-              if (aggregateHasBeenUpdated) {
-                // Return error if aggregate has a newer version
-                return err(new AggregateHasBeenUpdatedSinceError())
-              }
+    return deps.eventStore.transaction(aggregate.id, (events) => {
+      return deps.makeAggregate({ events, id: aggregate.id }).asyncAndThen(
+        (
+          newestAggregate: T
+        ): ResultAsync<readonly DomainEvent[], AggregateHasBeenUpdatedSinceError> => {
+          const aggregateHasBeenUpdated =
+            newestAggregate.lastUpdatedOn &&
+            aggregate.lastUpdatedOn &&
+            newestAggregate.lastUpdatedOn > aggregate.lastUpdatedOn
+          if (aggregateHasBeenUpdated) {
+            // Return error if aggregate has a newer version
+            return errAsync(new AggregateHasBeenUpdatedSinceError())
+          }
 
-              for (const event of aggregate.pendingEvents) {
-                publish(event)
-              }
-
-              return ok(null)
-            }
-          )
-      })
-      .map(() => null)
+          return okAsync(aggregate.pendingEvents)
+        }
+      )
+    })
   },
 })

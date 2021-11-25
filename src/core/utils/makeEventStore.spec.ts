@@ -93,32 +93,29 @@ describe('makeEventStore', () => {
         subscribe,
       })
 
-      const targetId = new UniqueEntityID().toString()
+      const targetId = new UniqueEntityID()
       const targetEvent = new DummyEvent({ payload: {} })
 
-      const loadHistoryCallback = jest.fn((events: DomainEvent[]) => okAsync<null, never>(null))
+      const transactionCallback = jest.fn((aggregateEvents: DomainEvent[]) =>
+        okAsync<DomainEvent[], never>([targetEvent])
+      )
 
       beforeAll(async () => {
-        const res = await eventStore.transaction(({ loadHistory, publish }) => {
-          return loadHistory(targetId)
-            .andThen(loadHistoryCallback)
-            .map(() => publish(targetEvent))
-            .map(() => 'hello')
-        })
+        const res = await eventStore.transaction(targetId, transactionCallback)
 
-        expect(res._unsafeUnwrap()).toEqual('hello')
+        expect(res.isOk()).toBe(true)
       })
 
       it('should load aggregate events from the store', () => {
         expect(loadAggregateEventsFromStore).toHaveBeenCalledTimes(1)
-        expect(loadAggregateEventsFromStore).toHaveBeenCalledWith(targetId)
+        expect(loadAggregateEventsFromStore).toHaveBeenCalledWith(targetId.toString())
       })
 
-      it('should persist the event in the store', () => {
+      it('should persist the returned events in the store', () => {
         expect(persistEventsToStore).toHaveBeenCalledTimes(1)
         expect(persistEventsToStore).toHaveBeenCalledWith([targetEvent])
       })
-      it('should publish the event on the event bus', () => {
+      it('should publish the returned events on the event bus', () => {
         expect(publishToEventBus).toHaveBeenCalledTimes(1)
         expect(publishToEventBus).toHaveBeenCalledWith(targetEvent)
       })
@@ -143,17 +140,15 @@ describe('makeEventStore', () => {
         subscribe,
       })
 
-      const targetId = new UniqueEntityID().toString()
+      const targetId = new UniqueEntityID()
       const targetEvent = new DummyEvent({ payload: {} })
 
-      const loadHistoryCallback = jest.fn((events: DomainEvent[]) => okAsync<null, never>(null))
+      const transactionCallback = jest.fn((aggregateEvents: DomainEvent[]) =>
+        okAsync<DomainEvent[], never>([targetEvent])
+      )
 
       beforeAll(async () => {
-        const res = await eventStore.transaction(({ loadHistory, publish }) => {
-          return loadHistory(targetId)
-            .andThen(loadHistoryCallback)
-            .map(() => publish(targetEvent))
-        })
+        const res = await eventStore.transaction(targetId, transactionCallback)
 
         expect(res._unsafeUnwrapErr()).toBeInstanceOf(InfraNotAvailableError)
       })
@@ -186,17 +181,14 @@ describe('makeEventStore', () => {
         subscribe,
       })
 
-      const targetId = new UniqueEntityID().toString()
+      const targetId = new UniqueEntityID()
       const targetEvent = new DummyEvent({ payload: {} })
 
-      const loadHistoryCallback = jest.fn((events: DomainEvent[]) => okAsync<null, never>(null))
-
+      const transactionCallback = jest.fn((aggregateEvents: DomainEvent[]) =>
+        okAsync<DomainEvent[], never>([targetEvent])
+      )
       beforeAll(async () => {
-        const res = await eventStore.transaction(({ loadHistory, publish }) => {
-          return loadHistory(targetId)
-            .andThen(loadHistoryCallback)
-            .map(() => publish(targetEvent))
-        })
+        const res = await eventStore.transaction(targetId, transactionCallback)
 
         expect(res._unsafeUnwrapErr()).toBeInstanceOf(InfraNotAvailableError)
       })
@@ -218,6 +210,8 @@ describe('makeEventStore', () => {
       )
       const subscribe = jest.fn()
 
+      const targetId = new UniqueEntityID()
+
       const eventStore = makeEventStore({
         loadAggregateEventsFromStore,
         persistEventsToStore,
@@ -228,11 +222,11 @@ describe('makeEventStore', () => {
       it('should wait for the first to finish before handling the second (concurrency lock)', async () => {
         const { promise: promise1, resolve: resolve1 } = makeFakePromise()
         const callback1 = jest.fn(() => {
-          return wrapInfra(promise1) // This will hang until resolve1 has been called
+          return wrapInfra(promise1).map(() => []) // This will hang until resolve1 has been called
         })
-        const callback2 = jest.fn(() => okAsync(null))
-        const transaction1 = eventStore.transaction(callback1)
-        eventStore.transaction(callback2)
+        const callback2 = jest.fn(() => okAsync([]))
+        const transaction1 = eventStore.transaction(targetId, callback1)
+        eventStore.transaction(targetId, callback2)
 
         expect(callback2).not.toHaveBeenCalled()
 

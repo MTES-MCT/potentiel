@@ -53,10 +53,7 @@ describe('makeEventStoreRepo', () => {
       ok<FakeAggregate, EntityNotFoundError | HeterogeneousHistoryError>(fakeAggregate)
     )
 
-    const fakeLoadHistory = jest.fn((aggregateId: string) => {
-      return okAsync<DomainEvent[], InfraNotAvailableError>([fakeHistoryEvent])
-    })
-    const fakeEventStore = makeFakeEventStore(fakeLoadHistory)
+    const fakeEventStore = makeFakeEventStore([fakeHistoryEvent])
 
     it('call the aggregate function with the loaded history', async () => {
       const repo = makeEventStoreRepo({
@@ -69,7 +66,7 @@ describe('makeEventStoreRepo', () => {
       expect(res.isOk()).toBe(true)
       if (res.isErr()) return
 
-      expect(fakeLoadHistory).toHaveBeenCalledWith(projectId.toString())
+      expect(fakeEventStore.transaction).toHaveBeenCalledWith(projectId, expect.anything())
       expect(fakeMakeAggregate).toHaveBeenCalledWith({ events: [fakeHistoryEvent], id: projectId })
     })
   })
@@ -85,10 +82,7 @@ describe('makeEventStoreRepo', () => {
         ok<FakeAggregate, EntityNotFoundError | HeterogeneousHistoryError>(fakeAggregate)
       )
 
-      const fakeLoadHistory = jest.fn((aggregateId: string) => {
-        return okAsync<DomainEvent[], InfraNotAvailableError>([fakeHistoryEvent])
-      })
-      const fakeEventStore = makeFakeEventStore(fakeLoadHistory)
+      const fakeEventStore = makeFakeEventStore()
 
       it('should publish any events that are pending in the aggregate', async () => {
         const repo = makeEventStoreRepo({
@@ -101,8 +95,8 @@ describe('makeEventStoreRepo', () => {
         expect(res.isOk()).toBe(true)
         if (res.isErr()) return
 
-        expect(fakeEventStore.fakePublish).toHaveBeenCalledTimes(1)
-        expect(fakeEventStore.fakePublish.mock.calls[0][0]).toEqual(fakeProducedEvent)
+        expect(fakeEventStore._innerPublishEvents).toHaveBeenCalledTimes(1)
+        expect(fakeEventStore._innerPublishEvents.mock.calls[0][0]).toEqual([fakeProducedEvent])
       })
     })
 
@@ -116,10 +110,7 @@ describe('makeEventStoreRepo', () => {
         ok<FakeAggregate, EntityNotFoundError | HeterogeneousHistoryError>(fakeNewerAggregate)
       )
 
-      const fakeLoadHistory = jest.fn((aggregateId: string) => {
-        return okAsync<DomainEvent[], InfraNotAvailableError>([fakeHistoryEvent])
-      })
-      const fakeEventStore = makeFakeEventStore(fakeLoadHistory)
+      const fakeEventStore = makeFakeEventStore([fakeHistoryEvent])
 
       it('should return AggregateHasBeenUpdatedSinceError', async () => {
         const repo = makeEventStoreRepo({
@@ -140,7 +131,7 @@ describe('makeEventStoreRepo', () => {
 
         expect(res.error).toBeInstanceOf(AggregateHasBeenUpdatedSinceError)
 
-        expect(fakeEventStore.fakePublish).not.toHaveBeenCalled()
+        expect(fakeEventStore._innerPublishEvents).not.toHaveBeenCalled()
       })
     })
   })

@@ -1,7 +1,7 @@
 import { Queue } from './Queue'
 import { wrapInfra } from './wrapInfra'
 import { InfraNotAvailableError, OtherError } from '../../modules/shared'
-import { DomainEvent, EventBus, EventStore } from '../domain'
+import { DomainEvent, EventBus, EventStore, UniqueEntityID } from '../domain'
 import { combine, ResultAsync, Result, unwrapResultOfResult, ok } from './Result'
 
 export interface MakeEventStoreDeps {
@@ -32,19 +32,14 @@ export const makeEventStore = (deps: MakeEventStoreDeps): EventStore => {
   return {
     publish,
     subscribe,
-    transaction: <T>(callback): ResultAsync<T, InfraNotAvailableError> => {
-      const ticket: Promise<Result<T, InfraNotAvailableError>> = publishQueue.push(async () => {
-        const eventsToEmit: DomainEvent[] = []
-        return callback({
-          loadHistory: (aggregateId: string) => {
-            return loadAggregateEventsFromStore(aggregateId)
-          },
-          publish: (event: DomainEvent) => {
-            eventsToEmit.push(event)
-          },
-        }).andThen((res) => {
-          return (eventsToEmit.length ? publishEventsBatch(eventsToEmit) : ok(null)).map(() => res)
-        })
+    transaction: <E>(
+      aggregateId: UniqueEntityID,
+      callback: (aggregateEvents: DomainEvent[]) => ResultAsync<DomainEvent[], E>
+    ) => {
+      const ticket = publishQueue.push(async () => {
+        return loadAggregateEventsFromStore(aggregateId.toString())
+          .andThen(callback)
+          .andThen(publishEventsBatch)
       })
 
       return wrapInfra(ticket).andThen(unwrapResultOfResult)

@@ -2,14 +2,11 @@ import { ResultAsync } from '../utils'
 import { DomainEvent } from './DomainEvent'
 import { InfraNotAvailableError } from '../../modules/shared'
 import { EventBus } from './EventBus'
-
-export type EventStoreTransactionArgs = {
-  loadHistory: (aggregateId: string) => ResultAsync<DomainEvent[], InfraNotAvailableError>
-  publish: (event: DomainEvent) => void
-}
+import { UniqueEntityID } from './UniqueEntityID'
 
 export type EventStore = EventBus & {
-  transaction: <T, E>(
-    fn: (args: EventStoreTransactionArgs) => ResultAsync<T, E>
-  ) => ResultAsync<T, InfraNotAvailableError | E>
+  transaction: <E>(
+    aggregateId: UniqueEntityID,
+    fn: (aggregateEvents: DomainEvent[]) => ResultAsync<readonly DomainEvent[], E>
+  ) => ResultAsync<null, InfraNotAvailableError | E>
 }
