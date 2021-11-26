@@ -1,7 +1,8 @@
 import { BaseDomainEvent, DomainEvent } from '../../core/domain'
 import { makeRedisEventBus } from './redisEventBus'
 import { toRedisMessage } from './helpers/toRedisMessage'
-import Redis from 'ioredis'
+import RedisClient from 'ioredis'
+import { Redis } from 'ioredis'
 
 interface DummyEventPayload {}
 class DummyEvent extends BaseDomainEvent<DummyEventPayload> implements DomainEvent {
@@ -15,13 +16,14 @@ class DummyEvent extends BaseDomainEvent<DummyEventPayload> implements DomainEve
 }
 
 describe('redisEventBus', () => {
-  const redisClient = new Redis()
+  let redisClient: Redis
 
   beforeEach(async () => {
+    redisClient = new RedisClient()
     await redisClient.del('potentiel_event_bus')
   })
 
-  afterEach(async () => {
+  afterAll(async () => {
     await redisClient.quit()
   })
 
