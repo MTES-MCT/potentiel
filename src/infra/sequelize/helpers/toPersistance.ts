@@ -1,7 +1,7 @@
 import { DomainEvent, UniqueEntityID } from '../../../core/domain'
 
 export const toPersistance = (event: DomainEvent) => ({
-  id: new UniqueEntityID().toString(),
+  id: event.id,
   type: event.type,
   version: event.getVersion(),
   payload: event.payload,

@@ -8,8 +8,8 @@ export const rollbackEventsFromStore: MakeEventStoreDeps['rollbackEventsFromStor
   const rollbackEvents = async () => {
     const transaction = await sequelizeInstance.transaction()
     try {
-      for (const event of events) {
-        await EventStore.destroy({ where: { id: event.payload.eventId } }, { transaction })
+      for (const { id } of events) {
+        await EventStore.destroy({ where: { id } }, { transaction })
       }
 
       await transaction.commit()

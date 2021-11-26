@@ -15,6 +15,7 @@ interface EventProps {
   original?: {
     occurredAt: Date
     version: number
+    eventId: string
   }
 }
 interface HasEventConstructor {
@@ -48,6 +49,7 @@ export const fromPersistance = (eventRaw: any): DomainEvent | null => {
     original: {
       version: eventRaw.version,
       occurredAt: new Date(eventRaw.occurredAt),
+      eventId: eventRaw.id,
     },
   })
 }
