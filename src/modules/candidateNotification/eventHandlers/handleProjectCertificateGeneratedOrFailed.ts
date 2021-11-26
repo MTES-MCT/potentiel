@@ -4,7 +4,8 @@ import {
   ProjectCertificateGenerated,
   ProjectCertificateGenerationFailed,
 } from '../../project/events'
-import { makeCandidateNotificationId, CandidateNotification } from '../CandidateNotification'
+import { CandidateNotification } from '../CandidateNotification'
+import { makeCandidateNotificationId } from '../helpers'
 
 export const handleProjectCertificateGeneratedOrFailed = (deps: {
   candidateNotificationRepo: TransactionalRepository<CandidateNotification>

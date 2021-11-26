@@ -6,8 +6,9 @@ import {
   ProjectNotified,
 } from '../project/events'
 import { EntityNotFoundError, HeterogeneousHistoryError } from '../shared'
-import { makeCandidateNotificationId, makeCandidateNotification } from './CandidateNotification'
+import { makeCandidateNotification } from './CandidateNotification'
 import { CandidateNotifiedForPeriode } from './events'
+import { makeCandidateNotificationId } from './helpers'
 
 const appelOffreId = 'appelOffre'
 const periodeId = 'periode'

@@ -1,6 +1,6 @@
 import { ProjectDataForProjectClaim } from '.'
 import { DomainEvent, UniqueEntityID } from '../../core/domain'
-import { err, ok, Result, stableStringify } from '../../core/utils'
+import { err, ok, Result } from '../../core/utils'
 import { EventStoreAggregate } from '../../core/domain/EventStoreAggregate'
 import { EntityNotFoundError } from '../shared'
 import {
@@ -175,11 +175,4 @@ export const makeProjectClaim = (args: {
 
     return isPrixReferenceCorrect && isNumeroCRECorrect
   }
-}
-
-export const makeClaimProjectAggregateId = (args: { projectId: string; claimedBy: string }) => {
-  const { projectId, claimedBy } = args
-  const key = { projectId, claimedBy }
-
-  return stableStringify(key)
 }

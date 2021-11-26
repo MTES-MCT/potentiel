@@ -1,5 +1,5 @@
 import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
-import { makeCandidateNotificationId } from '../CandidateNotification'
+import { makeCandidateNotificationId } from '../helpers'
 
 export interface CandidateNotifiedForPeriodePayload {
   candidateEmail: string

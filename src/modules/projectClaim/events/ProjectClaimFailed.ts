@@ -1,5 +1,5 @@
 import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
-import { makeClaimProjectAggregateId } from '../ProjectClaim'
+import { makeClaimProjectAggregateId } from '../helpers'
 
 export interface ProjectClaimFailedPayload {
   projectId: string
