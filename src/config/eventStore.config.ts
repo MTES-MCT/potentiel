@@ -12,8 +12,10 @@ import Redis from 'ioredis'
 
 console.log(`EventStore will be using Sequelize for the event store and an in-memory event bus`)
 
-const eventBuses = [makeInMemoryEventBus(), makeRedisEventBus({ redisClient: new Redis() })]
-const eventBus = makeDualEventBus({ eventBuses })
+const eventBus = makeDualEventBus({
+  inMemoryEventBus: makeInMemoryEventBus(),
+  redisEventBus: makeRedisEventBus({ redisClient: new Redis() }),
+})
 
 export const eventStore: EventStore = makeEventStore({
   loadAggregateEventsFromStore,

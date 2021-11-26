@@ -23,7 +23,10 @@ describe('dualEventBus', () => {
       subscribe: jest.fn(),
     } as EventBus
 
-    const dualEventBus: EventBus = makeDualEventBus({ eventBuses: [firstEventBus, secondEventBus] })
+    const dualEventBus: EventBus = makeDualEventBus({
+      inMemoryEventBus: firstEventBus,
+      redisEventBus: secondEventBus,
+    })
     const eventToPublish = new DummyEvent({ payload: {} })
 
     dualEventBus.publish(eventToPublish)
