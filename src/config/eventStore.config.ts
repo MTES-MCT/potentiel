@@ -1,15 +1,19 @@
 import { EventStore } from '../core/domain'
 import { makeEventStore } from '../core/utils'
+import { makeDualEventBus } from '../infra/dualEventBus'
 import { makeInMemoryEventBus } from '../infra/inMemoryEventBus'
 import {
   loadAggregateEventsFromStore,
   persistEventsToStore,
   rollbackEventsFromStore,
 } from '../infra/sequelize'
+import { makeRedisEventBus } from '../infra/redis'
+import Redis from 'ioredis'
 
 console.log(`EventStore will be using Sequelize for the event store and an in-memory event bus`)
 
-const eventBus = makeInMemoryEventBus()
+const eventBuses = [makeInMemoryEventBus(), makeRedisEventBus({ redisClient: new Redis() })]
+const eventBus = makeDualEventBus({ eventBuses })
 
 export const eventStore: EventStore = makeEventStore({
   loadAggregateEventsFromStore,
