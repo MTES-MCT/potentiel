@@ -14,7 +14,7 @@ console.log(`EventStore will be using Sequelize for the event store and an in-me
 
 const eventBus = makeDualEventBus({
   inMemoryEventBus: makeInMemoryEventBus(),
-  redisEventBus: makeRedisEventBus({ redisClient: new Redis() }),
+  redisEventBus: makeRedisEventBus(),
 })
 
 export const eventStore: EventStore = makeEventStore({

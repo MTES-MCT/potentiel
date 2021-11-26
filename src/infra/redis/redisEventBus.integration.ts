@@ -1,8 +1,7 @@
 import { BaseDomainEvent, DomainEvent } from '../../core/domain'
 import { makeRedisEventBus } from './redisEventBus'
 import { toRedisMessage } from './helpers/toRedisMessage'
-import RedisClient from 'ioredis'
-import { Redis } from 'ioredis'
+import Redis from 'ioredis'
 
 interface DummyEventPayload {}
 class DummyEvent extends BaseDomainEvent<DummyEventPayload> implements DomainEvent {
@@ -16,24 +15,25 @@ class DummyEvent extends BaseDomainEvent<DummyEventPayload> implements DomainEve
 }
 
 describe('redisEventBus', () => {
-  let redisClient: Redis
-
   beforeEach(async () => {
-    redisClient = new RedisClient()
+    const redisClient = new Redis()
     await redisClient.del('potentiel_event_bus')
+    await redisClient.disconnect()
   })
 
   afterAll(async () => {
-    await redisClient.quit()
+    const redisClient = new Redis()
+    await redisClient.disconnect()
   })
 
   describe('when publishing an event', () => {
     it('the puslihed event should be in the stream', async () => {
-      const eventBus = makeRedisEventBus({ redisClient })
+      const eventBus = makeRedisEventBus()
 
       const targetEvent = new DummyEvent({ payload: {} })
       await eventBus.publish(targetEvent)
 
+      const redisClient = new Redis()
       const results = await redisClient.xread('STREAMS', 'potentiel_event_bus', '0')
 
       const [key, messages] = results[0]
