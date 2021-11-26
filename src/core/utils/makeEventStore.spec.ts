@@ -17,6 +17,8 @@ class DummyEvent extends BaseDomainEvent<DummyEventPayload> implements DomainEve
 }
 
 describe('makeEventStore', () => {
+  const rollbackEventsFromStore = jest.fn()
+
   describe('publish', () => {
     const loadAggregateEventsFromStore = jest.fn()
     const persistEventsToStore = jest.fn((events: DomainEvent[]) =>
@@ -30,6 +32,7 @@ describe('makeEventStore', () => {
     const eventStore = makeEventStore({
       loadAggregateEventsFromStore,
       persistEventsToStore,
+      rollbackEventsFromStore,
       publishToEventBus,
       subscribe,
     })
@@ -58,6 +61,7 @@ describe('makeEventStore', () => {
     const eventStore = makeEventStore({
       loadAggregateEventsFromStore,
       persistEventsToStore,
+      rollbackEventsFromStore,
       publishToEventBus,
       subscribe,
     })
@@ -89,6 +93,7 @@ describe('makeEventStore', () => {
       const eventStore = makeEventStore({
         loadAggregateEventsFromStore,
         persistEventsToStore,
+        rollbackEventsFromStore,
         publishToEventBus,
         subscribe,
       })
@@ -136,6 +141,7 @@ describe('makeEventStore', () => {
       const eventStore = makeEventStore({
         loadAggregateEventsFromStore,
         persistEventsToStore,
+        rollbackEventsFromStore,
         publishToEventBus,
         subscribe,
       })
@@ -177,6 +183,7 @@ describe('makeEventStore', () => {
       const eventStore = makeEventStore({
         loadAggregateEventsFromStore,
         persistEventsToStore,
+        rollbackEventsFromStore,
         publishToEventBus,
         subscribe,
       })
@@ -198,6 +205,44 @@ describe('makeEventStore', () => {
       })
     })
 
+    describe('when publishToEventBus fails', () => {
+      const loadAggregateEventsFromStore = jest.fn((aggregateId: string) =>
+        okAsync<DomainEvent[], InfraNotAvailableError>([])
+      )
+      const persistEventsToStore = jest.fn((events: DomainEvent[]) =>
+        okAsync<null, InfraNotAvailableError>(null)
+      )
+      const publishToEventBus = jest.fn((event: DomainEvent) =>
+        errAsync<null, InfraNotAvailableError>(new InfraNotAvailableError())
+      )
+      const subscribe = jest.fn()
+
+      const eventStore = makeEventStore({
+        loadAggregateEventsFromStore,
+        persistEventsToStore,
+        rollbackEventsFromStore,
+        publishToEventBus,
+        subscribe,
+      })
+
+      const targetId = new UniqueEntityID()
+      const targetEvent = new DummyEvent({ payload: {} })
+
+      const transactionCallback = jest.fn((aggregateEvents: DomainEvent[]) =>
+        okAsync<DomainEvent[], never>([targetEvent])
+      )
+      beforeAll(async () => {
+        const res = await eventStore.transaction(targetId, transactionCallback)
+
+        expect(res._unsafeUnwrapErr()).toBeInstanceOf(InfraNotAvailableError)
+      })
+
+      it('should rollback the persisted events from the store', () => {
+        expect(persistEventsToStore).toHaveBeenCalledWith([targetEvent])
+        expect(rollbackEventsFromStore).toHaveBeenCalledWith([targetEvent])
+      })
+    })
+
     describe('when multiple calls are made at the same time', () => {
       const loadAggregateEventsFromStore = jest.fn((aggregateId: string) =>
         okAsync<DomainEvent[], InfraNotAvailableError>([])
@@ -215,6 +260,7 @@ describe('makeEventStore', () => {
       const eventStore = makeEventStore({
         loadAggregateEventsFromStore,
         persistEventsToStore,
+        rollbackEventsFromStore,
         publishToEventBus,
         subscribe,
       })

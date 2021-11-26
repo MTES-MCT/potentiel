@@ -10,7 +10,11 @@ import { initUserProjectClaimsProjections } from './projections/userProjectClaim
 import { EventStore } from '../../core/domain'
 
 export { initProjectors } from './models'
-export { persistEventsToStore, loadAggregateEventsFromStore } from './eventStore'
+export {
+  persistEventsToStore,
+  loadAggregateEventsFromStore,
+  rollbackEventsFromStore,
+} from './eventStore'
 
 export const initProjections = (eventStore: EventStore) => {
   initProjectProjections(eventStore, models)
