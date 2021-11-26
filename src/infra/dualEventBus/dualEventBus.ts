@@ -13,8 +13,7 @@ export const makeDualEventBus = ({
   return {
     publish: (event) => {
       redisEventBus.publish(event)
-      inMemoryEventBus.publish(event)
-      return okAsync(null)
+      return inMemoryEventBus.publish(event)
     },
     subscribe: <T extends DomainEvent>(eventType: T['type'], callback: (event: T) => any) => {},
   }

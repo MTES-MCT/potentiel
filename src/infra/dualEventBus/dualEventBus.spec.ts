@@ -1,4 +1,5 @@
 import { BaseDomainEvent, DomainEvent, EventBus } from '../../core/domain'
+import { errAsync } from '../../core/utils'
 import { makeDualEventBus } from './dualEventBus'
 
 interface DummyEventPayload {}
@@ -33,5 +34,28 @@ describe('dualEventBus', () => {
 
     expect(firstEventBus.publish).toHaveBeenCalledTimes(1)
     expect(secondEventBus.publish).toHaveBeenCalledTimes(1)
+  })
+
+  describe(`when an error is returned by the inMemoryEventBus`, () => {
+    it(`should return the error`, async () => {
+      const inMemoryEventBus = {
+        publish: () => errAsync(new Error('In memory error')),
+        subscribe: jest.fn(),
+      } as EventBus
+      const redisEventBus = {
+        publish: jest.fn(),
+        subscribe: jest.fn(),
+      } as EventBus
+
+      const dualEventBus: EventBus = makeDualEventBus({
+        inMemoryEventBus: inMemoryEventBus,
+        redisEventBus: redisEventBus,
+      })
+      const eventToPublish = new DummyEvent({ payload: {} })
+
+      const result = await dualEventBus.publish(eventToPublish)
+
+      expect(result.isErr()).toBe(true)
+    })
   })
 })
