@@ -1,7 +1,7 @@
-import { createClient } from 'redis'
 import { BaseDomainEvent, DomainEvent } from '../../core/domain'
 import { makeRedisEventBus } from './redisEventBus'
-import { toRedisTuple } from './helpers/toRedisTuple'
+import { toRedisMessage } from './helpers/toRedisMessage'
+import Redis from 'ioredis'
 
 interface DummyEventPayload {}
 class DummyEvent extends BaseDomainEvent<DummyEventPayload> implements DomainEvent {
@@ -15,15 +15,13 @@ class DummyEvent extends BaseDomainEvent<DummyEventPayload> implements DomainEve
 }
 
 describe('redisEventBus', () => {
-  let redisClient: RedisClient
+  const redisClient = new Redis()
 
-  beforeAll(async () => {
-    redisClient = createClient()
-    await redisClient.connect()
+  beforeEach(async () => {
     await redisClient.del('potentiel_event_bus')
   })
 
-  afterAll(async () => {
+  afterEach(async () => {
     await redisClient.quit()
   })
 
@@ -34,11 +32,20 @@ describe('redisEventBus', () => {
       const targetEvent = new DummyEvent({ payload: {} })
       await eventBus.publish(targetEvent)
 
-      const streamsMessages = await redisClient.xRead({ key: 'potentiel_event_bus', id: '0' })
-      expect(streamsMessages).not.toBeNull()
-      expect(streamsMessages).toHaveLength(1)
-      expect(streamsMessages[0].messages).toHaveLength(1)
-      expect(streamsMessages[0].messages[0].message).toMatchObject(toRedisTuple(targetEvent))
+      const results = await redisClient.xread('STREAMS', 'potentiel_event_bus', '0')
+
+      const [key, messages] = results[0]
+      expect(key).toEqual('potentiel_event_bus')
+      expect(messages).toHaveLength(1)
+
+      const [messageKey, messageValue] = messages[0]
+      expect(messageKey).not.toBeNull()
+
+      const [eventType, eventValue] = messageValue
+      expect(eventType).toEqual(targetEvent.constructor.name)
+
+      const actualEventValue = JSON.parse(eventValue)
+      expect(actualEventValue).toMatchObject(toRedisMessage(targetEvent))
     })
   })
 })

@@ -1,4 +1,4 @@
-import { toRedisTuple } from './toRedisTuple'
+import { toRedisMessage } from './toRedisMessage'
 import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
 
 interface DummyEventPayload {
@@ -17,8 +17,8 @@ class DummyEvent extends BaseDomainEvent<DummyEventPayload> implements DomainEve
   }
 }
 
-describe('toRedisTuple', () => {
-  it('should serialize a domain event into a redis tuple', () => {
+describe('toRedisMessage', () => {
+  it('should convert a domain event into a redis message', () => {
     const payload = {
       projectId: '2',
       nombre: 4,
@@ -26,7 +26,7 @@ describe('toRedisTuple', () => {
       tableau: ['10', '11'],
     }
     const occurredAt = new Date(1234)
-    const result = toRedisTuple(
+    const result = toRedisMessage(
       new DummyEvent({
         payload,
         original: { occurredAt, version: 1 },
@@ -34,8 +34,8 @@ describe('toRedisTuple', () => {
     )
     expect(result).toMatchObject({
       type: DummyEvent.type,
-      payload: '{"projectId":"2","nombre":4,"bouleen":true,"tableau":["10","11"]}',
-      occurredAt: '1234',
+      payload,
+      occurredAt: 1234,
     })
   })
 })
