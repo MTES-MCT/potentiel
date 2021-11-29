@@ -9,10 +9,9 @@ const projectors = initProjectors(eventStore)
 console.log(`Initialized projectors: ${projectors.join(', ')}`)
 
 const projectorsNExt = initProjectionsNext({
-  subscribe: (eventType, cb, consumerName) => {
-    console.log(`${eventType} will update ${consumerName}`)
-    // Here we can call the stream interface instead (and pass the consumer name)
-    eventStore.subscribe(eventType, cb)
+  subscribe: (cb, consumerName) => {
+    console.log(`${consumerName} is listening to incoming events`)
+    // TODO: send ALL events to the callback
   },
 })
 console.log(`Initialized nextgen projectors: ${projectorsNExt.join(', ')}`)

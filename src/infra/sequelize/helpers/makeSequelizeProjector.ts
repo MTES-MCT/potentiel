@@ -9,27 +9,22 @@ export type SequelizeModel = ModelCtor<SModel<any, any>> & {
 export const makeSequelizeProjector = <ProjectionModel extends SequelizeModel>(
   model: ProjectionModel
 ): Projector => {
-  let eventStream: HasSubscribe | undefined
-
-  const handlers: { type: string; handler: EventHandler<any> }[] = []
+  const handlersByType: Record<string, EventHandler<any>[]> = {}
 
   return {
     on: (eventClass, handler) => {
-      if (eventStream) {
-        eventStream.subscribe(eventClass.type, handler, model.name)
-      }
+      const type = eventClass.type
 
-      handlers.push({ type: eventClass.type, handler })
+      if (!handlersByType[type]) handlersByType[type] = []
+      handlersByType[type].push(handler)
 
       return handler
     },
-    initEventStream: (_eventStream) => {
-      eventStream = _eventStream
-
-      handlers.forEach(({ type, handler }) => {
-        // Weird, eventStream can't be undefined, we just set it...
-        eventStream!.subscribe(type, handler, model.name)
-      })
+    initEventStream: (eventStream) => {
+      eventStream.subscribe((event) => {
+        const { type } = event
+        handlersByType[type] && handlersByType[type].forEach((handler) => handler(event))
+      }, model.name)
     },
   }
 }

@@ -13,9 +13,5 @@ export interface Projector {
   ) => EventHandler<Event>
 }
 export interface HasSubscribe {
-  subscribe: <Event extends DomainEvent>(
-    event: Event['type'],
-    cb: (event: Event) => unknown,
-    consumerName?: string
-  ) => void
+  subscribe: (cb: (event: DomainEvent) => unknown, consumerName: string) => void
 }
