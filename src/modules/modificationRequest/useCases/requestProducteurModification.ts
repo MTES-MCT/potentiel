@@ -1,7 +1,6 @@
-import { Repository, TransactionalRepository, UniqueEntityID } from '../../../core/domain'
+import { EventBus, Repository, TransactionalRepository, UniqueEntityID } from '../../../core/domain'
 import { errAsync, logger, okAsync, ResultAsync, wrapInfra } from '../../../core/utils'
 import { User } from '../../../entities'
-import { EventBus } from '../../eventStore'
 import { FileContents, FileObject, makeAndSaveFile } from '../../file'
 import { ProjectCannotBeUpdatedIfUnnotifiedError } from '../../project'
 import { Project } from '../../project/Project'

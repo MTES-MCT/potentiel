@@ -1,12 +1,11 @@
 import {
   DomainEvent,
+  EventStore,
   Repository,
   TransactionalRepository,
   UniqueEntityID,
 } from '../../../core/domain'
-import { EventStore } from '../../../modules/eventStore'
-import { makeEventStoreRepo } from '../../../modules/eventStore/makeEventStoreRepo'
-import { makeEventStoreTransactionalRepo } from '../../../modules/eventStore/makeEventStoreTransactionalRepo'
+import { makeEventStoreRepo, makeEventStoreTransactionalRepo } from '../../../core/utils'
 import { makeProjectClaim, ProjectClaim } from '../../../modules/projectClaim'
 
 export const makeProjectClaimRepo = (

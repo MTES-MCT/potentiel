@@ -1,4 +1,4 @@
-import { makeClaimProjectAggregateId } from '..'
+import { makeClaimProjectAggregateId } from '../helpers'
 import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
 
 export interface ProjectClaimedPayload {

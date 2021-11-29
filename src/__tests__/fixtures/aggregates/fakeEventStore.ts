@@ -1,23 +1,16 @@
-import { okAsync, ResultAsync } from 'neverthrow'
 import { DomainEvent } from '../../../core/domain'
-import { EventStoreTransactionArgs, EventStoreHistoryFilters } from '../../../modules/eventStore'
-import { InfraNotAvailableError } from '../../../modules/shared'
+import { okAsync } from '../../../core/utils'
 import { makeFakeEventBus } from './fakeEventBus'
 
-export const makeFakeEventStore = (
-  fakeLoadHistory: (
-    filters?: EventStoreHistoryFilters
-  ) => ResultAsync<DomainEvent[], InfraNotAvailableError>
-) => {
-  const fakePublish = jest.fn((event: DomainEvent) => {})
+export const makeFakeEventStore = (fakeEvents?: DomainEvent[]) => {
+  const { publish, subscribe } = makeFakeEventBus()
+  const _innerPublishEvents = jest.fn((events: DomainEvent[]) => okAsync(null))
   return {
-    ...makeFakeEventBus(),
-    fakePublish,
-    transaction: <T>(fn: (args: EventStoreTransactionArgs) => T) => {
-      return ResultAsync.fromPromise(
-        Promise.resolve(fn({ loadHistory: fakeLoadHistory, publish: fakePublish })),
-        () => new InfraNotAvailableError()
-      )
-    },
+    publish,
+    subscribe,
+    _innerPublishEvents,
+    transaction: jest.fn((aggregateId, fn) => {
+      return fn(fakeEvents || []).andThen(_innerPublishEvents)
+    }),
   }
 }

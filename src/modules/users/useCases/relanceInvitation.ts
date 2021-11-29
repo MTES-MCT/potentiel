@@ -1,6 +1,6 @@
+import { EventBus } from '../../../core/domain'
 import { ResultAsync } from '../../../core/utils'
 import { User } from '../../../entities'
-import { EventBus } from '../../eventStore'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { InvitationRelanceSent } from '../events'
 

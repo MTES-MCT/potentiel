@@ -1,7 +1,7 @@
 import moment from 'moment'
 import { ProjectGFDueDateSet } from '..'
+import { EventBus } from '../../../core/domain'
 import { logger, okAsync, ResultAsync } from '../../../core/utils'
-import { EventBus } from '../../eventStore'
 import { ModificationReceived } from '../../modificationRequest'
 import { InfraNotAvailableError } from '../../shared'
 import { ProjectGFInvalidated } from '../events'

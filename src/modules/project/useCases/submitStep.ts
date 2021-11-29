@@ -1,7 +1,6 @@
-import { DomainEvent, Repository, UniqueEntityID } from '../../../core/domain'
+import { DomainEvent, EventBus, Repository, UniqueEntityID } from '../../../core/domain'
 import { errAsync, logger, ResultAsync, wrapInfra } from '../../../core/utils'
 import { User } from '../../../entities'
-import { EventBus } from '../../eventStore'
 import { FileContents, FileObject, makeFileObject } from '../../file'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { ProjectDCRSubmitted, ProjectGFSubmitted, ProjectPTFSubmitted } from '../events'

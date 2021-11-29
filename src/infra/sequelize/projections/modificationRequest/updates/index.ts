@@ -1,4 +1,3 @@
-import { EventBus } from '../../../../../modules/eventStore'
 import {
   ModificationRequested,
   ModificationRequestAccepted,
@@ -20,6 +19,7 @@ import { onModificationRequestInstructionStarted } from './onModificationRequest
 import { logger } from '../../../../../core/utils'
 import { onModificationReceived } from './onModificationReceived'
 import { onLegacyModificationImported } from './onLegacyModificationImported'
+import { EventBus } from '../../../../../core/domain'
 
 export const initModificationRequestProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ModificationRequested.type, onModificationRequested(models))

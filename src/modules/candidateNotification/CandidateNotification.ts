@@ -1,7 +1,6 @@
 import { DomainEvent, UniqueEntityID } from '../../core/domain'
-import { err, ok, Result, stableStringify } from '../../core/utils'
-import { AppelOffre, Periode, Project } from '../../entities'
-import { EventStoreAggregate } from '../eventStore/EventStoreAggregate'
+import { EventStoreAggregate } from '../../core/domain/EventStoreAggregate'
+import { err, ok, Result } from '../../core/utils'
 import {
   ProjectCertificateGenerated,
   ProjectCertificateGenerationFailed,
@@ -165,15 +164,4 @@ export const makeCandidateNotification = (args: {
       Object.values(props.candidateProjectsWithCertificate).every((item) => item)
     )
   }
-}
-
-export const makeCandidateNotificationId = (args: {
-  appelOffreId: AppelOffre['id']
-  periodeId: Periode['id']
-  candidateEmail: Project['email']
-}) => {
-  const { appelOffreId, periodeId, candidateEmail } = args
-  const key = { appelOffreId, periodeId, candidateEmail }
-
-  return stableStringify(key)
 }

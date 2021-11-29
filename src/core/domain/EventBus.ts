@@ -1,6 +1,6 @@
-import { DomainEvent } from '../../core/domain'
-import { ResultAsync } from '../../core/utils'
-import { InfraNotAvailableError } from '../shared'
+import { DomainEvent } from './DomainEvent'
+import { ResultAsync } from '../utils'
+import { InfraNotAvailableError } from '../../modules/shared'
 
 export type EventBus = {
   publish: (event: DomainEvent) => ResultAsync<null, InfraNotAvailableError>

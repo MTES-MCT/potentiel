@@ -1,13 +1,18 @@
-import { EventStore } from '.'
-import { DomainEvent, TransactionalRepository, UniqueEntityID } from '../../core/domain'
-import { err, Result, ResultAsync, unwrapResultOfResult } from '../../core/utils'
+import {
+  DomainEvent,
+  TransactionalRepository,
+  UniqueEntityID,
+  EventStore,
+  EventStoreAggregate,
+} from '..//domain'
+import { err, Result, ResultAsync, unwrapResultOfResult } from '..//utils'
 import {
   EntityNotFoundError,
   EntityAlreadyExistsError,
   HeterogeneousHistoryError,
   InfraNotAvailableError,
-} from '../shared'
-import { EventStoreAggregate } from './EventStoreAggregate'
+} from '../../modules/shared'
+import { okAsync } from 'neverthrow'
 
 export type AggregateFromHistoryFn<T> = (args: {
   events?: DomainEvent[]
@@ -30,15 +35,14 @@ export const makeEventStoreTransactionalRepo = <T extends EventStoreAggregate>(d
     | HeterogeneousHistoryError
     | EntityAlreadyExistsError
   > {
+    let result: K
     return deps.eventStore
-      .transaction(({ loadHistory, publish }) => {
+      .transaction(id, (events) => {
         let _aggregate: T
 
-        return loadHistory({ aggregateId: id.toString() })
+        return okAsync<null, never>(null)
           .andThen(
-            (
-              events
-            ): Result<
+            (): Result<
               T,
               EntityNotFoundError | HeterogeneousHistoryError | EntityAlreadyExistsError
             > => {
@@ -62,11 +66,11 @@ export const makeEventStoreTransactionalRepo = <T extends EventStoreAggregate>(d
             return fn(aggregate)
           })
           .map((fnResult) => {
+            result = fnResult
             // Save the effects one the aggregate by publishing pendingEvents
-            _aggregate.pendingEvents.forEach(publish)
-            return fnResult
+            return _aggregate.pendingEvents
           })
       })
-      .andThen(unwrapResultOfResult)
+      .map(() => result)
   },
 })

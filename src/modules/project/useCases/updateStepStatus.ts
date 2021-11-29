@@ -1,6 +1,6 @@
+import { EventBus } from '../../../core/domain'
 import { errAsync, ResultAsync, wrapInfra } from '../../../core/utils'
 import { User } from '../../../entities'
-import { EventBus } from '../../eventStore'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { ProjectStepStatusUpdated } from '../events'
 

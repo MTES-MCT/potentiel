@@ -3,8 +3,6 @@ import { fileStorageService } from '../../../config/fileStorage.config'
 import { buildProjectIdentifier } from '../../../config/crypto.config'
 import { makeAppelOffre } from '../../../modules/appelOffre'
 import { makeCandidateNotification } from '../../../modules/candidateNotification'
-import { makeEventStoreRepo } from '../../../modules/eventStore'
-import { makeEventStoreTransactionalRepo } from '../../../modules/eventStore/makeEventStoreTransactionalRepo'
 import { makeUser } from '../../../modules/users'
 import models from '../models'
 import { makeFileRepo } from './fileRepo'
@@ -13,6 +11,7 @@ import { NotificationRepo } from './notificationRepo'
 import { makeProjectRepo } from './projectRepo'
 import { makeProjectClaimRepo } from './projectClaimRepo'
 import { makeLegacyCandidateNotification } from '../../../modules/legacyCandidateNotification'
+import { makeEventStoreRepo, makeEventStoreTransactionalRepo } from '../../../core/utils'
 
 export const fileRepo = makeFileRepo({ models, fileStorageService })
 export const notificationRepo = new NotificationRepo(models)

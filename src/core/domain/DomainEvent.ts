@@ -1,4 +1,7 @@
+import { UniqueEntityID } from '.'
+
 export interface DomainEvent {
+  id: string
   occurredAt: Date
   type: string
   getVersion: () => number
@@ -13,10 +16,12 @@ export interface BaseDomainEventProps<P> {
   original?: {
     occurredAt: DomainEvent['occurredAt']
     version: ReturnType<DomainEvent['getVersion']>
+    eventId?: string
   }
 }
 export abstract class BaseDomainEvent<P> {
   public readonly payload: P
+  public readonly id: DomainEvent['id']
   public readonly requestId: DomainEvent['requestId']
   public readonly aggregateId: DomainEvent['aggregateId']
   public readonly occurredAt: DomainEvent['occurredAt']
@@ -27,6 +32,7 @@ export abstract class BaseDomainEvent<P> {
   constructor({ payload, requestId, original }: BaseDomainEventProps<P>) {
     this.payload = payload
     this.occurredAt = original?.occurredAt || new Date()
+    this.id = original?.eventId || new UniqueEntityID().toString()
     this.requestId = requestId
     this.aggregateId = this.aggregateIdFromPayload(payload)
 

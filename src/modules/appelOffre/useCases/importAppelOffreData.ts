@@ -1,7 +1,6 @@
-import { Repository, UniqueEntityID } from '../../../core/domain'
+import { EventBus, Repository, UniqueEntityID } from '../../../core/domain'
 import { combineWithAllErrors, errAsync, ResultAsync } from '../../../core/utils'
 import { User } from '../../../entities'
-import { EventBus } from '../../eventStore'
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { AppelOffre } from '../AppelOffre'
 import { MissingAppelOffreIdError } from '../errors'

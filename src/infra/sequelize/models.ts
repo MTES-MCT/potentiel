@@ -13,8 +13,8 @@ import { MakeModificationRequestModel } from './projections/modificationRequest/
 import { MakeAppelOffreModel } from './projections/appelOffre/appelOffre.model'
 import { MakePeriodeModel } from './projections/appelOffre/periode.model'
 import { MakeCredentialsModel } from './projections/user/credentials.model'
-import { EventBus } from '../../modules/eventStore'
 import { MakeUserProjectClaimsModel } from './projections'
+import { EventBus } from '../../core/domain'
 
 export const models = {
   File: MakeFileModel(sequelizeInstance),

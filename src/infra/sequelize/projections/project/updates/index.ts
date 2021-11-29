@@ -1,4 +1,3 @@
-import { EventBus } from '../../../../../modules/eventStore'
 import {
   ProjectCertificateGenerated,
   ProjectCertificateRegenerated,
@@ -43,6 +42,7 @@ import { logger } from '../../../../../core/utils'
 import { onProjectReimported } from './onProjectReimported'
 import { onProjectClaimed } from './onProjectClaimed'
 import { ProjectClaimed, ProjectClaimedByOwner } from '../../../../../modules/projectClaim'
+import { EventBus } from '../../../../../core/domain'
 
 export const initProjectProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ProjectImported.type, onProjectImported(models))
