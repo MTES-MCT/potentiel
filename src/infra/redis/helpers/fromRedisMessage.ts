@@ -35,7 +35,7 @@ const EventClassByType: Record<string, HasEventConstructor> = {
   ...LegacyCandidateNotificationEvents,
 }
 
-export const fromRedisMessage = (message: RedisMessage) => {
+export const fromRedisMessage = (message: RedisMessage): DomainEvent | null => {
   const EventClass = EventClassByType[message.type]
 
   try {
