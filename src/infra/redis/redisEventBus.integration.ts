@@ -15,26 +15,20 @@ class DummyEvent extends BaseDomainEvent<DummyEventPayload> implements DomainEve
 }
 
 describe('redisEventBus', () => {
-  process.env.REDIS_PORT = '6380'
   beforeEach(async () => {
     const redisClient = new Redis(6380)
     await redisClient.del('potentiel_event_bus')
     await redisClient.disconnect()
   })
 
-  afterAll(async () => {
-    const redisClient = new Redis(6380)
-    await redisClient.disconnect()
-  })
-
   describe('when publishing an event', () => {
     it('the puslihed event should be in the stream', async () => {
-      const eventBus = makeRedisEventBus()
+      const redisClient = new Redis(6380)
+      const eventBus = makeRedisEventBus({ redis: redisClient })
 
       const targetEvent = new DummyEvent({ payload: {} })
       await eventBus.publish(targetEvent)
 
-      const redisClient = new Redis(6380)
       const results = await redisClient.xread('STREAMS', 'potentiel_event_bus', '0')
 
       const [key, messages] = results[0]
@@ -49,6 +43,8 @@ describe('redisEventBus', () => {
 
       const actualEventValue = JSON.parse(eventValue)
       expect(actualEventValue).toMatchObject(toRedisMessage(targetEvent))
+
+      redisClient.disconnect()
     })
   })
 })

@@ -1,12 +1,16 @@
 import { DomainEvent, EventBus } from '../../core/domain'
 import { wrapInfra } from '../../core/utils'
 import { toRedisMessage } from './helpers/toRedisMessage'
-import Redis from 'ioredis'
+import { Redis } from 'ioredis'
 
-export const makeRedisEventBus = (): EventBus => {
+type MakeRedisEventBusDeps = {
+  redis: Redis
+}
+
+export const makeRedisEventBus = (deps: MakeRedisEventBusDeps): EventBus => {
   return {
     publish: (event) => {
-      const redisClient = new Redis(process.env.REDIS_PORT)
+      const redisClient = deps.redis.duplicate()
       const message = toRedisMessage(event)
 
       return wrapInfra(
