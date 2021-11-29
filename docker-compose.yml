@@ -11,3 +11,9 @@ services:
     container_name: potentiel_db_dev
     ports:
       - 5432:5432
+  eventBus:
+    image: redis:alpine
+    restart: always
+    container_name: potentiel_eventBus_dev
+    ports:
+      - 6379:6379

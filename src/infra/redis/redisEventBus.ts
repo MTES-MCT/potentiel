@@ -6,7 +6,7 @@ import Redis from 'ioredis'
 export const makeRedisEventBus = (): EventBus => {
   return {
     publish: (event) => {
-      const redisClient = new Redis()
+      const redisClient = new Redis(process.env.REDIS_PORT)
       const message = toRedisMessage(event)
 
       return wrapInfra(
