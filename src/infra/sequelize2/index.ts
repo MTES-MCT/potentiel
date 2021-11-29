@@ -1,11 +1,11 @@
 import * as models from './projections'
-import { EventStreamFactory } from '../../core/utils'
+import { HasSubscribe } from '../../core/utils'
 
-export const initProjections2 = (makeEventStream: EventStreamFactory) => {
+export const initProjections2 = (eventStream: HasSubscribe) => {
   const initializedProjections: string[] = []
 
   Object.values(models).forEach((model) => {
-    model.projector?.initEventStream(makeEventStream(model.name))
+    model.projector?.initEventStream(eventStream)
     initializedProjections.push(model.name)
   })
 

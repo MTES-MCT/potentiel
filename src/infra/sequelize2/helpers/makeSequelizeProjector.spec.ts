@@ -15,48 +15,48 @@ class DummyEvent extends BaseDomainEvent<DummyEventPayload> implements DomainEve
 }
 
 describe('makeSequelizeProjector', () => {
-  describe('handle(Event, handler)', () => {
-    describe('when called before initEventStream', () => {
-      it('should register the handler on the eventStream', () => {
-        const fakeModel = {} as SequelizeModel
+  const fakeModel = {
+    name: 'modelName',
+  } as SequelizeModel
 
+  describe('on(Event, handler)', () => {
+    describe('when called before initEventStream', () => {
+      it('should register the handler on the eventStream with a consumer name', () => {
         const handler = jest.fn((event: DummyEvent) => Promise.resolve())
 
         const projector = makeSequelizeProjector(fakeModel)
 
-        projector.handle(DummyEvent, handler)
+        projector.on(DummyEvent, handler)
 
-        const eventStreamHandler = jest.fn((eventType: string, eventHandler) => {})
+        const eventStreamSubscribe = jest.fn(
+          (eventType: string, eventHandler, consumerName: string) => {}
+        )
 
         projector.initEventStream({
-          lock: async () => {},
-          unlock: async () => {},
-          handle: eventStreamHandler,
+          subscribe: eventStreamSubscribe,
         })
 
-        expect(eventStreamHandler).toHaveBeenCalledWith('DummyEvent', handler)
+        expect(eventStreamSubscribe).toHaveBeenCalledWith('DummyEvent', handler, 'modelName')
       })
     })
 
     describe('when called after initEventStream', () => {
-      it('should register the handler on the eventStream', () => {
-        const fakeModel = {} as SequelizeModel
-
+      it('should register the handler on the eventStream with a consumer name', () => {
         const handler = jest.fn((event: DummyEvent) => Promise.resolve())
 
         const projector = makeSequelizeProjector(fakeModel)
 
-        const eventStreamHandler = jest.fn((eventType: string, eventHandler) => {})
+        const eventStreamSubscribe = jest.fn(
+          (eventType: string, eventHandler, consumerName: string) => {}
+        )
 
         projector.initEventStream({
-          lock: async () => {},
-          unlock: async () => {},
-          handle: eventStreamHandler,
+          subscribe: eventStreamSubscribe,
         })
 
-        projector.handle(DummyEvent, handler)
+        projector.on(DummyEvent, handler)
 
-        expect(eventStreamHandler).toHaveBeenCalledWith('DummyEvent', handler)
+        expect(eventStreamSubscribe).toHaveBeenCalledWith('DummyEvent', handler, 'modelName')
       })
     })
   })

@@ -5,21 +5,17 @@ export interface EventHandler<Event> {
 }
 
 export interface Projector {
-  initEventStream: (eventStream: EventStream) => void
+  initEventStream: (eventStream: HasSubscribe) => void
 
-  handle: <Event extends DomainEvent>(
+  on: <Event extends DomainEvent>(
     eventClass: Constructor<Event> & HasType,
     eventHandler: EventHandler<Event>
   ) => EventHandler<Event>
-
-  rebuild: () => Promise<void>
 }
-export interface EventStream {
-  handle: <Event extends DomainEvent>(event: Event['type'], cb: (event: Event) => unknown) => void
-  lock: () => Promise<void>
-  unlock: () => Promise<void>
-}
-
-export interface EventStreamFactory {
-  (streamName: string): EventStream
+export interface HasSubscribe {
+  subscribe: <Event extends DomainEvent>(
+    event: Event['type'],
+    cb: (event: Event) => unknown,
+    consumerName?: string
+  ) => void
 }
