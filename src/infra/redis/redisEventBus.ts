@@ -15,8 +15,8 @@ export const makeRedisEventBus = (deps: MakeRedisEventBusDeps): EventBus => {
 
       return wrapInfra(
         redisClient.xadd('potentiel_event_bus', '*', event.type, JSON.stringify(message))
-      ).map(() => {
-        redisClient.disconnect()
+      ).map(async () => {
+        await redisClient.quit()
         return null
       })
     },
