@@ -1,5 +1,4 @@
-import { initProjections, initProjectors } from '../infra/sequelize'
-import { initProjections2 } from '../infra/sequelize2'
+import { initProjections, initProjectors, initProjectionsNext } from '../infra/sequelize'
 import { eventStore } from './eventStore.config'
 
 // This is legacy
@@ -9,19 +8,13 @@ initProjections(eventStore)
 const projectors = initProjectors(eventStore)
 console.log(`Initialized projectors: ${projectors.join(', ')}`)
 
-const projectors2 = initProjections2((streamName) => {
-  return {
-    handle: (eventType, cb) => {
-      console.log(`EventStream '${streamName}' is listening to ${eventType}`)
-      eventStore.subscribe(eventType, (event) => {
-        console.log('EventStream emitting event', event)
-        cb(event)
-      })
-    },
-    lock: async () => {},
-    unlock: async () => {},
-  }
+const projectorsNExt = initProjectionsNext({
+  subscribe: (eventType, cb, consumerName) => {
+    console.log(`${eventType} will update ${consumerName}`)
+    // Here we can call the stream interface instead (and pass the consumer name)
+    eventStore.subscribe(eventType, cb)
+  },
 })
-console.log(`Initialized projectors2: ${projectors2.join(', ')}`)
+console.log(`Initialized nextgen projectors: ${projectorsNExt.join(', ')}`)
 
 console.log('Projections initialized')
