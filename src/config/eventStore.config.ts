@@ -8,7 +8,6 @@ import {
   rollbackEventsFromStore,
 } from '../infra/sequelize'
 import { makeRedisEventBus } from '../infra/redis'
-import Redis from 'ioredis'
 
 console.log(`EventStore will be using Sequelize for the event store and an in-memory event bus`)
 
