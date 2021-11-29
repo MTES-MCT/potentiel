@@ -5,20 +5,22 @@ import { Redis } from 'ioredis'
 
 type MakeRedisEventBusDeps = {
   redis: Redis
+  streamName: string
 }
 
 export const makeRedisEventBus = (deps: MakeRedisEventBusDeps): EventBus => {
   return {
     publish: (event) => {
-      const redisClient = deps.redis.duplicate()
+      const { redis, streamName } = deps
+      const redisClient = redis.duplicate()
       const message = toRedisMessage(event)
 
-      return wrapInfra(
-        redisClient.xadd('potentiel_event_bus', '*', event.type, JSON.stringify(message))
-      ).map(async () => {
-        await redisClient.quit()
-        return null
-      })
+      return wrapInfra(redisClient.xadd(streamName, '*', event.type, JSON.stringify(message))).map(
+        async () => {
+          await redisClient.quit()
+          return null
+        }
+      )
     },
     subscribe: <T extends DomainEvent>(eventType: T['type'], callback: (event: T) => any) => {},
   }

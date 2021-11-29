@@ -14,11 +14,12 @@ class DummyEvent extends BaseDomainEvent<DummyEventPayload> implements DomainEve
   }
 }
 
+const streamName = 'potentiel_event_bus'
 const redis = new Redis(6380)
 
 describe('redisEventBus', () => {
   beforeEach(async () => {
-    await redis.del('potentiel_event_bus')
+    await redis.del(streamName)
   })
 
   afterAll(async () => {
@@ -27,15 +28,15 @@ describe('redisEventBus', () => {
 
   describe('when publishing an event', () => {
     it('the puslihed event should be in the stream', async () => {
-      const eventBus = makeRedisEventBus({ redis })
+      const eventBus = makeRedisEventBus({ redis, streamName })
 
       const targetEvent = new DummyEvent({ payload: {} })
       await eventBus.publish(targetEvent)
 
-      const results = await redis.xread('STREAMS', 'potentiel_event_bus', '0')
+      const results = await redis.xread('STREAMS', streamName, '0')
 
       const [key, messages] = results[0]
-      expect(key).toEqual('potentiel_event_bus')
+      expect(key).toEqual(streamName)
       expect(messages).toHaveLength(1)
 
       const [messageKey, messageValue] = messages[0]
