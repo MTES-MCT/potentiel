@@ -16,6 +16,10 @@ import { MakeCredentialsModel } from './projections/user/credentials.model'
 import { MakeUserProjectClaimsModel } from './projections'
 import { EventBus } from '../../core/domain'
 
+//
+// Legacy projections
+//
+
 export const models = {
   File: MakeFileModel(sequelizeInstance),
   Notification: MakeNotificationModel(sequelizeInstance),

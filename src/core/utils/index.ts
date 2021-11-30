@@ -1,3 +1,4 @@
+export * from './Projection';
 export * from './Queue';
 export * from './Result';
 export * from './logger';
