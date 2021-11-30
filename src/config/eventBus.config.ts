@@ -18,8 +18,17 @@ if (isTestEnv) {
     process.exit(1)
   }
 
-  const port = Number(REDIS_PORT)
-  const redis = new Redis({ port, host: REDIS_HOST, password: REDIS_PASSWORD })
+  const redis = new Redis({
+    port: Number(REDIS_PORT),
+    host: REDIS_HOST,
+    password: 'REDIS_PASSWORD',
+    showFriendlyErrorStack: true,
+    lazyConnect: true,
+  })
+  redis.connect().catch((error) => {
+    console.error(`Can not connect to Redis server.`)
+    throw error
+  })
 
   console.log(`EventBus will be using both in-memory and redis for the eventbus`)
 
