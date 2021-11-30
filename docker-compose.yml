@@ -13,6 +13,7 @@ services:
       - 5432:5432
   eventBus:
     image: redis:alpine
+    command: redis-server --requirepass localpwd
     restart: always
     container_name: potentiel_eventBus_dev
     ports:
