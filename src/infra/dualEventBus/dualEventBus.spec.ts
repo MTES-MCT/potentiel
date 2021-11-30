@@ -14,6 +14,27 @@ class DummyEvent extends BaseDomainEvent<DummyEventPayload> implements DomainEve
 }
 
 describe('dualEventBus', () => {
+  it(`should subscribe to event only with the in-memory one`, () => {
+    const inMemoryEventBus = {
+      publish: jest.fn(),
+      subscribe: jest.fn(),
+    } as EventBus
+    const redisEventBus = {
+      publish: jest.fn(),
+      subscribe: jest.fn(),
+    } as EventBus
+
+    const dualEventBus: EventBus = makeDualEventBus({
+      inMemoryEventBus,
+      redisEventBus,
+    })
+
+    dualEventBus.subscribe('DummyEvent', jest.fn())
+
+    expect(inMemoryEventBus.subscribe).toHaveBeenCalledTimes(1)
+    expect(redisEventBus.subscribe).not.toHaveBeenCalled()
+  })
+
   it(`should publish event with all eventBus`, () => {
     const firstEventBus = {
       publish: jest.fn(),

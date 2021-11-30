@@ -1,5 +1,4 @@
-import { okAsync } from 'neverthrow'
-import { DomainEvent, EventBus } from '../../core/domain'
+import { EventBus } from '../../core/domain'
 
 type MakeDualEventBusDeps = {
   inMemoryEventBus: EventBus
@@ -15,6 +14,6 @@ export const makeDualEventBus = ({
       redisEventBus.publish(event)
       return inMemoryEventBus.publish(event)
     },
-    subscribe: <T extends DomainEvent>(eventType: T['type'], callback: (event: T) => any) => {},
+    subscribe: inMemoryEventBus.subscribe,
   }
 }
