@@ -7,7 +7,7 @@ import {
 } from '../infra/sequelize'
 import { eventBus } from './eventBus.config'
 
-console.log(`EventStore will be using Sequelize for the event store and an in-memory event bus`)
+console.log(`EventStore will be using Sequelize for the event store`)
 
 export const eventStore: EventStore = makeEventStore({
   loadAggregateEventsFromStore,
