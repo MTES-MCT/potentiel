@@ -9,7 +9,7 @@ import {
 import { initUserProjectClaimsProjections } from './projections/userProjectClaims/updates'
 import { EventStore } from '../../core/domain'
 
-export { initProjectors } from './models'
+export { initProjectors, initProjectionsNext } from './models'
 export {
   persistEventsToStore,
   loadAggregateEventsFromStore,

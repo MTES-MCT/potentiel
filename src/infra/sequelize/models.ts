@@ -16,6 +16,9 @@ import { MakeCredentialsModel } from './projections/user/credentials.model'
 import { MakeUserProjectClaimsModel } from './projections'
 import { EventBus } from '../../core/domain'
 
+import * as projectionsNextModels from './projectionsNext'
+import { HasSubscribe } from '../../core/utils'
+
 //
 // Legacy projections
 //
@@ -51,8 +54,29 @@ export const initProjectors = (eventBus: EventBus) => {
 
 // Create associations and link projectors to their model
 Object.values(models).forEach((model) => {
-  model.associate(models)
+  model.associate({ ...models, ...projectionsNextModels })
   if (model.projector) model.projector.initModel(model)
 })
 
-export default models
+export default { ...models, ...projectionsNextModels }
+
+//
+// Next-gen projections
+//
+
+// Give the projections an access to the event stream
+export const initProjectionsNext = (eventStream: HasSubscribe) => {
+  const initializedProjections: string[] = []
+
+  Object.values(projectionsNextModels).forEach((model) => {
+    model.projector?.initEventStream(eventStream)
+    initializedProjections.push(model.name)
+  })
+
+  return initializedProjections
+}
+
+// Initialize associations between models (HasOne, BelongsTo, ...)
+Object.values(projectionsNextModels).forEach((model) => {
+  model.associate && model.associate({ ...models, ...projectionsNextModels })
+})
