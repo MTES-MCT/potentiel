@@ -1,5 +1,5 @@
 import { BaseDomainEvent, DomainEvent } from '../../core/domain'
-import { makeRedisEventBus } from './redisEventBus'
+import { makePublishInRedisEventBus } from './redisEventBus'
 import { toRedisMessage } from './helpers/toRedisMessage'
 import Redis from 'ioredis'
 
@@ -28,10 +28,10 @@ describe('redisEventBus', () => {
 
   describe('when publishing an event', () => {
     it('the puslihed event should be in the stream', async () => {
-      const eventBus = makeRedisEventBus({ redis, streamName })
+      const publishInRedisEventBus = makePublishInRedisEventBus({ redis, streamName })
 
       const targetEvent = new DummyEvent({ payload: {} })
-      await eventBus.publish(targetEvent)
+      await publishInRedisEventBus(targetEvent)
 
       const results = await redis.xread('STREAMS', streamName, '0')
 

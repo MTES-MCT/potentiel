@@ -3,25 +3,22 @@ import { wrapInfra } from '../../core/utils'
 import { toRedisMessage } from './helpers/toRedisMessage'
 import { Redis } from 'ioredis'
 
-type MakeRedisEventBusDeps = {
+type MakePublishInRedisEventBusDeps = {
   redis: Redis
   streamName: string
 }
 
-export const makeRedisEventBus = (deps: MakeRedisEventBusDeps): EventBus => {
-  return {
-    publish: (event) => {
-      const { redis, streamName } = deps
-      const redisClient = redis.duplicate()
-      const message = toRedisMessage(event)
+export const makePublishInRedisEventBus = (deps: MakePublishInRedisEventBusDeps) => (
+  event: DomainEvent
+) => {
+  const { redis, streamName } = deps
+  const redisClient = redis.duplicate()
+  const message = toRedisMessage(event)
 
-      return wrapInfra(redisClient.xadd(streamName, '*', event.type, JSON.stringify(message))).map(
-        async () => {
-          await redisClient.quit()
-          return null
-        }
-      )
-    },
-    subscribe: <T extends DomainEvent>(eventType: T['type'], callback: (event: T) => any) => {},
-  }
+  return wrapInfra(redisClient.xadd(streamName, '*', event.type, JSON.stringify(message))).map(
+    async () => {
+      await redisClient.quit()
+      return null
+    }
+  )
 }
