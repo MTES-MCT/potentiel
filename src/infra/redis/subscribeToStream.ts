@@ -14,27 +14,43 @@ const makeSubscribeToStream = ({
   redis,
   streamName,
 }: MakeSubscribeToStreamDeps): SubscribeToStream => {
-  return (callback, coonsumerName) => {
+  return (callback, consumerName) => {
     const listenForMessage = async () => {
       const redisClient = redis.duplicate()
+      const groupName = `${consumerName}-group`
 
       try {
-        const results = await redisClient.xread('block', 0, 'STREAMS', streamName, '$')
-        const [key, messages] = results[0]
-        const [messageKey, messageValue] = messages[0]
-        const [eventType, eventValue] = messageValue
-        const actualEventValue = JSON.parse(eventValue)
-        const event = fromRedisMessage(actualEventValue)
+        await redisClient.xgroup('CREATE', streamName, groupName, '0', 'MKSTREAM')
+      } catch (error) {}
 
-        if (event) {
-          await callback(event)
+      try {
+        const results = await redisClient.xreadgroup(
+          'GROUP',
+          groupName,
+          consumerName,
+          'block',
+          0,
+          'STREAMS',
+          streamName,
+          '>'
+        )
+
+        const [key, messages] = results[0]
+
+        for (const message of messages) {
+          const [messageKey, messageValue] = message
+          const [eventType, eventValue] = messageValue
+          const actualEventValue = JSON.parse(eventValue)
+          const event = fromRedisMessage(actualEventValue)
+
+          if (event) {
+            await callback(event)
+          }
         }
 
-        redisClient.quit()
+        await redisClient.quit()
         await listenForMessage()
-      } catch (error) {
-        logger.error(error)
-      }
+      } catch (error) {}
     }
 
     listenForMessage()
