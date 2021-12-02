@@ -1,12 +1,14 @@
 import { makePublishEvent } from '../infra/dualEventBus'
-import { makePublishInMemory } from '../infra/inMemoryEventBus'
+import { makePublishInMemory, makeSubscribeToMemory } from '../infra/inMemoryEventBus'
 import { makePublishInRedisEventBus } from '../infra/redis'
 import Redis from 'ioredis'
 import { isTestEnv } from './env.config'
 import { EventEmitter } from 'stream'
 
-let publishToEventBus
 const eventEmitter = new EventEmitter()
+let publishToEventBus
+
+const subscribe = makeSubscribeToMemory({ eventEmitter })
 
 if (isTestEnv) {
   publishToEventBus = () => makePublishInMemory({ eventEmitter })
@@ -43,4 +45,4 @@ if (isTestEnv) {
     })
 }
 
-export { publishToEventBus }
+export { publishToEventBus, subscribe }
