@@ -1,19 +1,13 @@
 import { EventBus } from '../../core/domain'
+import { DomainEvent } from '../../core/domain/DomainEvent'
 
-type MakeDualEventBusDeps = {
-  inMemoryEventBus: EventBus
-  redisEventBus: EventBus
+type MakePublishEventDeps = {
+  publishInRedisEventBus: EventBus['publish']
+  publishInMemory: EventBus['publish']
 }
 
-export const makeDualEventBus = ({
-  inMemoryEventBus,
-  redisEventBus,
-}: MakeDualEventBusDeps): EventBus => {
-  return {
-    publish: (event) => {
-      redisEventBus.publish(event)
-      return inMemoryEventBus.publish(event)
-    },
-    subscribe: inMemoryEventBus.subscribe,
-  }
+export const makePublishEvent = (deps: MakePublishEventDeps) => (event: DomainEvent) => {
+  const { publishInRedisEventBus, publishInMemory } = deps
+  publishInRedisEventBus(event)
+  return publishInMemory(event)
 }
