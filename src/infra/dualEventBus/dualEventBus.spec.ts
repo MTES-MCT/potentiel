@@ -1,5 +1,6 @@
 import { BaseDomainEvent, DomainEvent, EventBus } from '../../core/domain'
 import { errAsync, okAsync } from '../../core/utils'
+import { InfraNotAvailableError } from '../../modules/shared'
 import { makePublishEvent } from './dualEventBus'
 
 interface DummyEventPayload {}
@@ -33,8 +34,8 @@ describe('dualEventBus', () => {
 
   describe(`when an error is returned by both EventBus`, () => {
     it(`should return only the error of the inMemoryEventBus`, async () => {
-      const publishInMemory = () => errAsync(new Error('In memory error'))
-      const publishInRedisEventBus = () => errAsync(new Error('Redis error'))
+      const publishInMemory = () => errAsync<null, Error>(new Error('In memory error'))
+      const publishInRedisEventBus = () => errAsync<null, Error>(new Error('Redis error'))
 
       const publishEvent = makePublishEvent({
         publishInRedisEventBus,
@@ -52,8 +53,9 @@ describe('dualEventBus', () => {
 
   describe(`when an error is returned only by the redisEventBus`, () => {
     it(`should not return the error`, async () => {
-      const publishInMemory = () => okAsync(null)
-      const publishInRedisEventBus = () => errAsync(new Error('Redis error'))
+      const publishInMemory = () => okAsync<null, InfraNotAvailableError>(null)
+      const publishInRedisEventBus = () =>
+        errAsync<null, InfraNotAvailableError>(new Error('Redis error'))
 
       const publishEvent = makePublishEvent({
         publishInRedisEventBus,
