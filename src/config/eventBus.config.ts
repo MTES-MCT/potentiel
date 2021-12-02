@@ -1,4 +1,4 @@
-import { makePublishEvent } from '../infra/dualEventBus'
+import { makePublishToEventBus } from '../infra/dualEventBus'
 import { makePublishInMemory, makeSubscribeToMemory } from '../infra/inMemoryEventBus'
 import { makePublishInRedisEventBus } from '../infra/redis'
 import Redis from 'ioredis'
@@ -36,7 +36,7 @@ if (isTestEnv) {
 
   console.log(`EventBus will be using both in-memory and redis for the eventbus`)
 
-  publishToEventBus = makePublishEvent({
+  publishToEventBus = makePublishToEventBus({
     publishInRedisEventBus: makePublishInRedisEventBus({
       redis,
       streamName: REDIS_EVENT_BUS_STREAM_NAME,

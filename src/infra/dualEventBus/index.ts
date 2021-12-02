@@ -1,1 +1,1 @@
-export * from './dualEventBus';
+export * from './dualPublish'

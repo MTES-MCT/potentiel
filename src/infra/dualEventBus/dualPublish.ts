@@ -6,7 +6,7 @@ type MakePublishEventDeps = {
   publishInMemory: EventBus['publish']
 }
 
-export const makePublishEvent = (deps: MakePublishEventDeps) => (event: DomainEvent) => {
+export const makePublishToEventBus = (deps: MakePublishEventDeps) => (event: DomainEvent) => {
   const { publishInRedisEventBus, publishInMemory } = deps
   publishInRedisEventBus(event)
   return publishInMemory(event)

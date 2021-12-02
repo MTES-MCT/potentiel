@@ -1,7 +1,7 @@
 import { BaseDomainEvent, DomainEvent, EventBus } from '../../core/domain'
 import { errAsync, okAsync } from '../../core/utils'
 import { InfraNotAvailableError } from '../../modules/shared'
-import { makePublishEvent } from './dualEventBus'
+import { makePublishToEventBus } from './dualPublish'
 
 interface DummyEventPayload {}
 class DummyEvent extends BaseDomainEvent<DummyEventPayload> implements DomainEvent {
@@ -14,12 +14,12 @@ class DummyEvent extends BaseDomainEvent<DummyEventPayload> implements DomainEve
   }
 }
 
-describe('dualEventBus', () => {
+describe('dualPublish', () => {
   it(`should publish event with both Memory and Redis EventBuses`, () => {
     const firstEventBus = jest.fn() as EventBus['publish']
     const secondEventBus = jest.fn() as EventBus['publish']
 
-    const publishEvent = makePublishEvent({
+    const publishEvent = makePublishToEventBus({
       publishInRedisEventBus: firstEventBus,
       publishInMemory: secondEventBus,
     })
@@ -37,7 +37,7 @@ describe('dualEventBus', () => {
       const publishInMemory = () => errAsync<null, Error>(new Error('In memory error'))
       const publishInRedisEventBus = () => errAsync<null, Error>(new Error('Redis error'))
 
-      const publishEvent = makePublishEvent({
+      const publishEvent = makePublishToEventBus({
         publishInRedisEventBus,
         publishInMemory,
       })
@@ -57,7 +57,7 @@ describe('dualEventBus', () => {
       const publishInRedisEventBus = () =>
         errAsync<null, InfraNotAvailableError>(new Error('Redis error'))
 
-      const publishEvent = makePublishEvent({
+      const publishEvent = makePublishToEventBus({
         publishInRedisEventBus,
         publishInMemory,
       })
