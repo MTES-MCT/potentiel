@@ -2,7 +2,7 @@ import EventEmitter from 'events'
 import { okAsync } from 'neverthrow'
 import { DomainEvent } from '../../core/domain'
 import { EventBus } from '../../core/domain/EventBus'
-import { logger, Queue, unwrapResultOfResult, wrapInfra } from '../../core/utils'
+import { logger, Queue } from '../../core/utils'
 
 type MakePublishInMemoryDeps = {
   eventEmitter: EventEmitter
