@@ -19,7 +19,7 @@
     "cy:run:legacy": "cypress run --config-file=cypress.legacy.json",
     "cy:open:legacy": "cypress open --config-file=cypress.legacy.json",
     "launch-test-db": "export NODE_ENV=test && export COMPOSE_PROJECT_NAME=potentiel_tests && docker-compose down --remove-orphans && docker-compose -f ./docker-compose-integration.yml up -d && until docker exec potentiel_db_tests_integration pg_isready -U testuser -d potentiel_test; do sleep 1; done",
-    "migrate": "npx sequelize-cli db:migrate",
+    "migrate": "tsc --build tsconfig.migrations.json && npx sequelize-cli db:migrate --migrations-path=dist/migrations/src/infra/sequelize/migrations",
     "seed": "npx sequelize-cli db:seed:all",
     "test-db": "export NODE_ENV=test && npm run launch-test-db && sleep 2 && npm run migrate",
     "dev-db": "docker-compose down --remove-orphans && docker-compose up -d",
