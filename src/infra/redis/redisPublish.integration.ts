@@ -1,5 +1,5 @@
 import { BaseDomainEvent, DomainEvent } from '../../core/domain'
-import { makePublishInRedisEventBus } from './redisEventBus'
+import { makePublishInRedisEventBus } from './redisPublish'
 import { toRedisMessage } from './helpers/toRedisMessage'
 import Redis from 'ioredis'
 
@@ -17,7 +17,7 @@ class DummyEvent extends BaseDomainEvent<DummyEventPayload> implements DomainEve
 const streamName = 'potentiel_event_bus'
 const redis = new Redis(6380)
 
-describe('redisEventBus', () => {
+describe('redisPublish', () => {
   beforeEach(async () => {
     await redis.del(streamName)
   })

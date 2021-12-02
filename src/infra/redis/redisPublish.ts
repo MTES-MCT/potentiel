@@ -1,4 +1,4 @@
-import { DomainEvent, EventBus } from '../../core/domain'
+import { DomainEvent } from '../../core/domain'
 import { wrapInfra } from '../../core/utils'
 import { toRedisMessage } from './helpers/toRedisMessage'
 import { Redis } from 'ioredis'

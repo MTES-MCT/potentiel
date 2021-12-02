@@ -1,1 +1,1 @@
-export * from './redisEventBus'
+export * from './redisPublish'
