@@ -1,5 +1,5 @@
 import { BaseDomainEvent, DomainEvent } from '../../core/domain'
-import { makePublishInMemory, makeSubscribeToMemory } from './inMemoryEventBus'
+import { makeInMemoryPublish, makeInMemorySubscribe } from './inMemoryEventBus'
 import EventEmitter from 'events'
 
 interface DummyEventPayload {}
@@ -15,16 +15,16 @@ class DummyEvent extends BaseDomainEvent<DummyEventPayload> implements DomainEve
 
 describe('inMemoryEventBus', () => {
   const eventEmitter = new EventEmitter()
-  const publishInMemory = makePublishInMemory({ eventEmitter })
-  const subscribeToMemory = makeSubscribeToMemory({ eventEmitter })
-  describe('publish', () => {
+  const inMemoryPublish = makeInMemoryPublish({ eventEmitter })
+  const inMemorySubscribe = makeInMemorySubscribe({ eventEmitter })
+  describe('inMemoryPublish', () => {
     it('should publish an event on the bus', async () => {
       const subscriber = jest.fn((event: DomainEvent) => {})
 
-      await subscribeToMemory('DummyEvent', subscriber)
+      await inMemorySubscribe('DummyEvent', subscriber)
 
       const targetEvent = new DummyEvent({ payload: {} })
-      await publishInMemory(targetEvent)
+      await inMemoryPublish(targetEvent)
 
       expect(subscriber).toHaveBeenCalledTimes(1)
       expect(subscriber).toHaveBeenCalledWith(targetEvent)

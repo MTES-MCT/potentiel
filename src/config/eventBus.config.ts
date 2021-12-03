@@ -1,6 +1,6 @@
-import { makePublishToEventBus } from '../infra/dualEventBus'
-import { makePublishInMemory, makeSubscribeToMemory } from '../infra/inMemoryEventBus'
-import { makePublishInRedisEventBus } from '../infra/redis'
+import { makeDualPublish } from '../infra/dualEventBus'
+import { makeInMemoryPublish, makeInMemorySubscribe } from '../infra/inMemoryEventBus'
+import { makeRedisPublish } from '../infra/redis'
 import Redis from 'ioredis'
 import { isTestEnv } from './env.config'
 import { EventEmitter } from 'stream'
@@ -9,10 +9,10 @@ import { EventBus } from '../core/domain'
 const eventEmitter = new EventEmitter()
 let publishToEventBus: EventBus['publish']
 
-const subscribe = makeSubscribeToMemory({ eventEmitter })
+const subscribe = makeInMemorySubscribe({ eventEmitter })
 
 if (isTestEnv) {
-  publishToEventBus = makePublishInMemory({ eventEmitter })
+  publishToEventBus = makeInMemoryPublish({ eventEmitter })
   console.log(`EventBus will be using in-memory for the eventbus`)
 } else {
   const { REDIS_PORT, REDIS_HOST, REDIS_PASSWORD, REDIS_EVENT_BUS_STREAM_NAME } = process.env
@@ -36,12 +36,12 @@ if (isTestEnv) {
 
   console.log(`EventBus will be using both in-memory and redis for the eventbus`)
 
-  publishToEventBus = makePublishToEventBus({
-    publishInRedisEventBus: makePublishInRedisEventBus({
+  publishToEventBus = makeDualPublish({
+    redisPublish: makeRedisPublish({
       redis,
       streamName: REDIS_EVENT_BUS_STREAM_NAME,
     }),
-    publishInMemory: makePublishInMemory({ eventEmitter }),
+    inMemoryPublish: makeInMemoryPublish({ eventEmitter }),
   })
 }
 

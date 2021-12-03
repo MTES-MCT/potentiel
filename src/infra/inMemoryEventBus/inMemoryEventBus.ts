@@ -4,23 +4,23 @@ import { DomainEvent } from '../../core/domain'
 import { EventBus } from '../../core/domain/EventBus'
 import { logger, Queue } from '../../core/utils'
 
-type MakePublishInMemoryDeps = {
+type MakeInMemoryPublishDeps = {
   eventEmitter: EventEmitter
 }
-type MakeSubscribeInMemoryDeps = {
+type MakeInMemorySubscribeDeps = {
   eventEmitter: EventEmitter
 }
-export const makePublishInMemory = ({
+export const makeInMemoryPublish = ({
   eventEmitter,
-}: MakePublishInMemoryDeps): EventBus['publish'] => (event: DomainEvent) => {
+}: MakeInMemoryPublishDeps): EventBus['publish'] => (event: DomainEvent) => {
   logger.info(`[${event.type}] ${event.aggregateId}`)
   eventEmitter.emit(event.type, event)
   return okAsync(null)
 }
 
-export const makeSubscribeToMemory = ({
+export const makeInMemorySubscribe = ({
   eventEmitter,
-}: MakeSubscribeInMemoryDeps): EventBus['subscribe'] => {
+}: MakeInMemorySubscribeDeps): EventBus['subscribe'] => {
   const handleQueue = new Queue()
   return <T extends DomainEvent>(eventType: T['type'], callback: (event: T) => any) => {
     eventEmitter.on(eventType, (event: T) => {

@@ -3,14 +3,12 @@ import { wrapInfra } from '../../core/utils'
 import { toRedisMessage } from './helpers/toRedisMessage'
 import { Redis } from 'ioredis'
 
-type MakePublishInRedisEventBusDeps = {
+type MakeRedisPublishDeps = {
   redis: Redis
   streamName: string
 }
 
-export const makePublishInRedisEventBus = (deps: MakePublishInRedisEventBusDeps) => (
-  event: DomainEvent
-) => {
+export const makeRedisPublish = (deps: MakeRedisPublishDeps) => (event: DomainEvent) => {
   const { redis, streamName } = deps
   const redisClient = redis.duplicate()
   const message = toRedisMessage(event)
