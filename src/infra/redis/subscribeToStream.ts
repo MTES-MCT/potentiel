@@ -18,6 +18,15 @@ const makeSubscribeToStream = ({
     const listenForMessage = async () => {
       const redisClient = redis.duplicate()
 
+      async function createConsumerGroup() {
+        const groupName = `${consumerName}-group`
+
+        try {
+          await redisClient.xgroup('CREATE', streamName, groupName, '0', 'MKSTREAM')
+        } catch (error) {}
+        return groupName
+      }
+
       const handleEvent = async (message: [string, string[]]): Promise<void> => {
         const [messageId, messageValue] = message
         const [eventType, eventValue] = messageValue
@@ -34,11 +43,7 @@ const makeSubscribeToStream = ({
         }
       }
 
-      const groupName = `${consumerName}-group`
-
-      try {
-        await redisClient.xgroup('CREATE', streamName, groupName, '0', 'MKSTREAM')
-      } catch (error) {}
+      const groupName = await createConsumerGroup()
 
       const pendingStreamMessages = await redisClient.xreadgroup(
         'GROUP',
