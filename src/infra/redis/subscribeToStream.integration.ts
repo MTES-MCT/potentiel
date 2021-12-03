@@ -76,6 +76,64 @@ describe('subscribeToStream', () => {
       expect(consumer).toHaveBeenCalledTimes(2)
     })
   })
+
+  describe('when the consumer failed to handle the event', () => {
+    it('should be notified again with the event on which failed first time', async () => {
+      const subscribeToStream = makeSubscribeToStream({
+        redis: redisDependency,
+        streamName,
+      })
+
+      const consumer = jest.fn().mockImplementationOnce(() => {
+        throw new Error()
+      })
+      subscribeToStream(consumer, 'MyConsumer')
+      await waitFor(50)
+
+      const event = {
+        type: UserProjectsLinkedByContactEmail.type,
+        payload: { userId: '2', projectIds: ['1', '2', '3'] },
+        occurredAt: 1234,
+      }
+      await redis.xadd(streamName, '*', event.type, JSON.stringify(event))
+      await waitFor(50)
+
+      expect(consumer).toHaveBeenCalledTimes(2)
+    })
+  })
+
+  describe('when subscribing to the stream after being disconnected', () => {
+    it('should not be notified with events that were already managed by the consumer', async () => {
+      const subscribeToStream = makeSubscribeToStream({
+        redis: redisDependency,
+        streamName,
+      })
+
+      subscribeToStream(() => console.log('the unwanted consumer'), 'MyConsumer')
+      await waitFor(50)
+
+      const event = {
+        type: UserProjectsLinkedByContactEmail.type,
+        payload: { userId: '2', projectIds: ['1', '2', '3'] },
+        occurredAt: 1234,
+      }
+      await redis.xadd(streamName, '*', event.type, JSON.stringify(event))
+      await waitFor(50)
+
+      const lastRedisSubscription = duplicatedRedisClients[duplicatedRedisClients.length - 1]
+      lastRedisSubscription.disconnect()
+      await waitFor(50)
+
+      const consumer = jest.fn()
+      subscribeToStream(consumer, 'MyConsumer')
+      await waitFor(50)
+
+      await redis.xadd(streamName, '*', event.type, JSON.stringify(event))
+      await waitFor(50)
+
+      expect(consumer).toHaveBeenCalledTimes(1)
+    })
+  })
 })
 
 const waitFor = (ms) => new Promise((res) => setTimeout(res, ms))
