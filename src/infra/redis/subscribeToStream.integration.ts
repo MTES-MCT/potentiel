@@ -2,7 +2,7 @@ import Redis from 'ioredis'
 import { Redis as RedisType } from 'ioredis'
 import { makeSubscribeToStream } from './subscribeToStream'
 import { UserProjectsLinkedByContactEmail } from '../../modules/authZ'
-import { Stream } from 'stream'
+import { fromRedisMessage } from './helpers/fromRedisMessage'
 
 describe('subscribeToStream', () => {
   const streamName = 'potentiel-event-bus-subscribe-tests'
@@ -49,6 +49,10 @@ describe('subscribeToStream', () => {
       await waitFor(50)
 
       expect(consumer).toHaveBeenCalledTimes(2)
+      expect(consumer).toHaveBeenNthCalledWith(2, {
+        ...fromRedisMessage(event),
+        id: expect.anything(),
+      })
     })
   })
 
@@ -74,6 +78,10 @@ describe('subscribeToStream', () => {
       await waitFor(1000)
 
       expect(consumer).toHaveBeenCalledTimes(2)
+      expect(consumer).toHaveBeenNthCalledWith(2, {
+        ...fromRedisMessage(event),
+        id: expect.anything(),
+      })
     })
   })
 
@@ -99,6 +107,10 @@ describe('subscribeToStream', () => {
       await waitFor(50)
 
       expect(consumer).toHaveBeenCalledTimes(2)
+      expect(consumer).toHaveBeenNthCalledWith(2, {
+        ...fromRedisMessage(event),
+        id: expect.anything(),
+      })
     })
   })
 
@@ -109,7 +121,7 @@ describe('subscribeToStream', () => {
         streamName,
       })
 
-      subscribeToStream(() => console.log('the unwanted consumer'), 'MyConsumer')
+      subscribeToStream(jest.fn(), 'MyConsumer')
       await waitFor(50)
 
       const event = {
@@ -132,6 +144,10 @@ describe('subscribeToStream', () => {
       await waitFor(50)
 
       expect(consumer).toHaveBeenCalledTimes(1)
+      expect(consumer).toHaveBeenNthCalledWith(1, {
+        ...fromRedisMessage(event),
+        id: expect.anything(),
+      })
     })
   })
 })
