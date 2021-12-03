@@ -17,38 +17,45 @@ const makeSubscribeToStream = ({
   return (callback, consumerName) => {
     const listenForMessage = async () => {
       const redisClient = redis.duplicate()
+
+      const handleEvent = async (message: [string, string[]]): Promise<void> => {
+        const [messageId, messageValue] = message
+        const [eventType, eventValue] = messageValue
+        const actualEventValue = JSON.parse(eventValue)
+        const event = fromRedisMessage(actualEventValue)
+
+        if (event) {
+          try {
+            await callback(event)
+            redisClient.xack(streamName, groupName, messageId)
+          } finally {
+            await listenForMessage()
+          }
+        }
+      }
+
       const groupName = `${consumerName}-group`
 
       try {
         await redisClient.xgroup('CREATE', streamName, groupName, '0', 'MKSTREAM')
       } catch (error) {}
 
-      try {
-        const pendingStreamMessages = await redisClient.xreadgroup(
-          'GROUP',
-          groupName,
-          consumerName,
-          'COUNT',
-          '1',
-          'STREAMS',
-          streamName,
-          '0'
-        )
-        const [key, pendingMessages] = pendingStreamMessages[0]
+      const pendingStreamMessages = await redisClient.xreadgroup(
+        'GROUP',
+        groupName,
+        consumerName,
+        'COUNT',
+        '1',
+        'STREAMS',
+        streamName,
+        '0'
+      )
+      const [key, pendingMessages] = pendingStreamMessages[0]
 
-        if (pendingMessages.length) {
-          const [messageId, messageValue] = pendingMessages[0]
-          const [eventType, eventValue] = messageValue
-          const actualEventValue = JSON.parse(eventValue)
-          const event = fromRedisMessage(actualEventValue)
-
-          if (event) {
-            try {
-              await callback(event)
-              redisClient.xack(streamName, groupName, messageId)
-            } catch (error) {}
-          }
-        } else {
+      if (pendingMessages.length) {
+        await handleEvent(pendingMessages[0])
+      } else {
+        try {
           const newStreamMessages = await redisClient.xreadgroup(
             'GROUP',
             groupName,
@@ -63,22 +70,9 @@ const makeSubscribeToStream = ({
           )
 
           const [key, newMessages] = newStreamMessages[0]
-          const [messageId, messageValue] = newMessages[0]
-          const [eventType, eventValue] = messageValue
-          const actualEventValue = JSON.parse(eventValue)
-          const event = fromRedisMessage(actualEventValue)
-
-          if (event) {
-            try {
-              await callback(event)
-              redisClient.xack(streamName, groupName, messageId)
-            } catch (error) {}
-          }
-        }
-
-        await redisClient.quit()
-        await listenForMessage()
-      } catch (error) {}
+          await handleEvent(newMessages[0])
+        } catch (error) {}
+      }
     }
 
     listenForMessage()
