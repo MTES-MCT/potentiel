@@ -54,6 +54,7 @@
   },
   "homepage": "https://github.com/MTES-MCT/potentiel#readme",
   "dependencies": {
+    "@heroicons/react": "^1.0.5",
     "@react-pdf/renderer": "2.0.19",
     "@sentry/node": "^6.2.5",
     "@types/morgan": "^1.9.2",
