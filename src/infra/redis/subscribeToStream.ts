@@ -18,12 +18,12 @@ const makeSubscribeToStream = ({
     const listenForMessage = async () => {
       const redisClient = redis.duplicate()
 
-      async function createConsumerGroup() {
+      const createConsumerGroup = async () => {
         const groupName = `${consumerName}-group`
 
         try {
           await redisClient.xgroup('CREATE', streamName, groupName, '0', 'MKSTREAM')
-        } catch (error) {}
+        } catch {}
         return groupName
       }
 
@@ -37,33 +37,39 @@ const makeSubscribeToStream = ({
           try {
             await callback(event)
             redisClient.xack(streamName, groupName, messageId)
-          } finally {
-            await listenForMessage()
-          }
+          } catch {}
         }
       }
 
-      const groupName = await createConsumerGroup()
+      const getNextPendingMessage = async (
+        streamName: string,
+        consumerGroupName: string,
+        consumerName: string
+      ) => {
+        const pendingStreamMessages = await redisClient.xreadgroup(
+          'GROUP',
+          consumerGroupName,
+          consumerName,
+          'COUNT',
+          '1',
+          'STREAMS',
+          streamName,
+          '0'
+        )
+        const [key, pendingMessages] = pendingStreamMessages[0]
 
-      const pendingStreamMessages = await redisClient.xreadgroup(
-        'GROUP',
-        groupName,
-        consumerName,
-        'COUNT',
-        '1',
-        'STREAMS',
-        streamName,
-        '0'
-      )
-      const [key, pendingMessages] = pendingStreamMessages[0]
+        return pendingMessages.length ? pendingMessages[0] : null
+      }
 
-      if (pendingMessages.length) {
-        await handleEvent(pendingMessages[0])
-      } else {
+      const getNewMessage = async (
+        streamName: string,
+        consumerGroupName: string,
+        consumerName: string
+      ) => {
         try {
           const newStreamMessages = await redisClient.xreadgroup(
             'GROUP',
-            groupName,
+            consumerGroupName,
             consumerName,
             'BLOCK',
             0,
@@ -75,8 +81,21 @@ const makeSubscribeToStream = ({
           )
 
           const [key, newMessages] = newStreamMessages[0]
-          await handleEvent(newMessages[0])
-        } catch (error) {}
+
+          return newMessages.length ? newMessages[0] : null
+        } catch {
+          return null
+        }
+      }
+
+      const groupName = await createConsumerGroup()
+      const pendingMessage = await getNextPendingMessage(streamName, groupName, consumerName)
+      const messageToHandle =
+        pendingMessage ?? (await getNewMessage(streamName, groupName, consumerName))
+
+      if (messageToHandle) {
+        await handleEvent(messageToHandle)
+        await listenForMessage()
       }
     }
 
