@@ -10,18 +10,9 @@ type MakeRedisSubscribeDeps = {
 type RedisSubscribe = HasSubscribe['subscribe']
 
 const makeRedisSubscribe = ({ redis, streamName }: MakeRedisSubscribeDeps): RedisSubscribe => {
-  return (callback, consumerName) => {
+  return async (callback, consumerName) => {
     const listenForMessage = async () => {
       const redisClient = redis.duplicate()
-
-      const createConsumerGroup = async () => {
-        const groupName = `${consumerName}-group`
-
-        try {
-          await redisClient.xgroup('CREATE', streamName, groupName, '0', 'MKSTREAM')
-        } catch {}
-        return groupName
-      }
 
       const handleEvent = async (message: [string, string[]]): Promise<void> => {
         const [messageId, messageValue] = message
@@ -84,7 +75,7 @@ const makeRedisSubscribe = ({ redis, streamName }: MakeRedisSubscribeDeps): Redi
         }
       }
 
-      const groupName = await createConsumerGroup()
+      const groupName = await createConsumerGroup(redisClient, streamName, consumerName)
       const pendingMessage = await getNextPendingMessage(streamName, groupName, consumerName)
       const messageToHandle =
         pendingMessage ?? (await getNewMessage(streamName, groupName, consumerName))
@@ -97,6 +88,16 @@ const makeRedisSubscribe = ({ redis, streamName }: MakeRedisSubscribeDeps): Redi
 
     listenForMessage()
   }
+}
+
+const createConsumerGroup = async (redis: Redis, streamName: string, consumerName: string) => {
+  const groupName = `${consumerName}-group`
+
+  try {
+    await redis.xgroup('CREATE', streamName, groupName, '0', 'MKSTREAM')
+  } catch {}
+
+  return groupName
 }
 
 export { makeRedisSubscribe as makeSubscribeToStream }
