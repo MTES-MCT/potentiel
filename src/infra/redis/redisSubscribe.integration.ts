@@ -3,6 +3,7 @@ import { Redis as RedisType } from 'ioredis'
 import { makeSubscribeToStream } from './redisSubscribe'
 import { UserProjectsLinkedByContactEmail } from '../../modules/authZ'
 import { fromRedisMessage } from './helpers/fromRedisMessage'
+import waitForExpect from 'wait-for-expect'
 
 describe('redisSubscribe', () => {
   const streamName = 'potentiel-event-bus-subscribe-tests'
@@ -36,7 +37,6 @@ describe('redisSubscribe', () => {
       const consumer = jest.fn()
 
       await redisSubscribe(consumer, 'MyConsumer')
-      await waitFor(50)
 
       const event = {
         type: UserProjectsLinkedByContactEmail.type,
@@ -44,14 +44,14 @@ describe('redisSubscribe', () => {
         occurredAt: 1234,
       }
       await redis.xadd(streamName, '*', event.type, JSON.stringify(event))
-      await waitFor(50)
       await redis.xadd(streamName, '*', event.type, JSON.stringify(event))
-      await waitFor(50)
 
-      expect(consumer).toHaveBeenCalledTimes(2)
-      expect(consumer).toHaveBeenNthCalledWith(2, {
-        ...fromRedisMessage(event),
-        id: expect.anything(),
+      await waitForExpect(() => {
+        expect(consumer).toHaveBeenCalledTimes(2)
+        expect(consumer).toHaveBeenNthCalledWith(2, {
+          ...fromRedisMessage(event),
+          id: expect.anything(),
+        })
       })
     })
   })
@@ -69,18 +69,17 @@ describe('redisSubscribe', () => {
         occurredAt: 1234,
       }
       await redis.xadd(streamName, '*', event.type, JSON.stringify(event))
-      await waitFor(50)
       await redis.xadd(streamName, '*', event.type, JSON.stringify(event))
-      await waitFor(50)
 
       const consumer = jest.fn()
       redisSubscribe(consumer, 'MyConsumer')
-      await waitFor(1000)
 
-      expect(consumer).toHaveBeenCalledTimes(2)
-      expect(consumer).toHaveBeenNthCalledWith(2, {
-        ...fromRedisMessage(event),
-        id: expect.anything(),
+      await waitForExpect(() => {
+        expect(consumer).toHaveBeenCalledTimes(2)
+        expect(consumer).toHaveBeenNthCalledWith(2, {
+          ...fromRedisMessage(event),
+          id: expect.anything(),
+        })
       })
     })
   })
@@ -96,7 +95,6 @@ describe('redisSubscribe', () => {
         throw new Error()
       })
       redisSubscribe(consumer, 'MyConsumer')
-      await waitFor(50)
 
       const event = {
         type: UserProjectsLinkedByContactEmail.type,
@@ -104,52 +102,70 @@ describe('redisSubscribe', () => {
         occurredAt: 1234,
       }
       await redis.xadd(streamName, '*', event.type, JSON.stringify(event))
-      await waitFor(50)
 
-      expect(consumer).toHaveBeenCalledTimes(2)
-      expect(consumer).toHaveBeenNthCalledWith(2, {
-        ...fromRedisMessage(event),
-        id: expect.anything(),
+      await waitForExpect(() => {
+        expect(consumer).toHaveBeenCalledTimes(2)
+        expect(consumer).toHaveBeenNthCalledWith(2, {
+          ...fromRedisMessage(event),
+          id: expect.anything(),
+        })
       })
     })
   })
 
   describe('when subscribing to the stream after being disconnected', () => {
-    it('should not be notified with events that were already managed by the consumer', async () => {
+    it('should not be notified with events that were already managed by the same consumer', async () => {
       const redisSubscribe = makeSubscribeToStream({
         redis: redisDependency,
         streamName,
       })
 
-      redisSubscribe(jest.fn(), 'MyConsumer')
-      await waitFor(50)
+      const firstConsumer = jest.fn()
+      redisSubscribe(firstConsumer, 'MyConsumer')
 
-      const event = {
+      const event1 = {
         type: UserProjectsLinkedByContactEmail.type,
         payload: { userId: '2', projectIds: ['1', '2', '3'] },
         occurredAt: 1234,
       }
-      await redis.xadd(streamName, '*', event.type, JSON.stringify(event))
-      await waitFor(50)
+      await redis.xadd(streamName, '*', event1.type, JSON.stringify(event1))
+
+      await waitForExpect(() => {
+        expect(firstConsumer).toHaveBeenCalledTimes(1)
+        expect(firstConsumer).toHaveBeenCalledWith({
+          ...fromRedisMessage(event1),
+          id: expect.anything(),
+        })
+      })
 
       const lastRedisSubscription = duplicatedRedisClients[duplicatedRedisClients.length - 1]
-      lastRedisSubscription.disconnect()
-      await waitFor(50)
+      lastRedisSubscription.disconnect(false)
 
-      const consumer = jest.fn()
-      redisSubscribe(consumer, 'MyConsumer')
-      await waitFor(50)
+      await waitForExpect(() => {
+        expect(lastRedisSubscription.status).toBe('end')
+      })
 
-      await redis.xadd(streamName, '*', event.type, JSON.stringify(event))
-      await waitFor(50)
+      const secondConsumer = jest.fn()
+      redisSubscribe(secondConsumer, 'MyConsumer')
 
-      expect(consumer).toHaveBeenCalledTimes(1)
-      expect(consumer).toHaveBeenNthCalledWith(1, {
-        ...fromRedisMessage(event),
-        id: expect.anything(),
+      const event2 = {
+        type: UserProjectsLinkedByContactEmail.type,
+        payload: { userId: '3', projectIds: ['4', '5', '6'] },
+        occurredAt: 5678,
+      }
+      await redis.xadd(streamName, '*', event1.type, JSON.stringify(event2))
+
+      await waitForExpect(() => {
+        expect(secondConsumer).toHaveBeenCalledTimes(1)
+        expect(secondConsumer).not.toHaveBeenCalledWith({
+          ...fromRedisMessage(event1),
+          id: expect.anything(),
+        })
+        expect(secondConsumer).toHaveBeenCalledWith({
+          ...fromRedisMessage(event2),
+          id: expect.anything(),
+        })
       })
     })
   })
 })
-
-const waitFor = (ms) => new Promise((res) => setTimeout(res, ms))
