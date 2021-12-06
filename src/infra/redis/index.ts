@@ -1,2 +1,2 @@
 export * from './redisPublish'
-export * from './subscribeToStream'
+export * from './redisSubscribe'

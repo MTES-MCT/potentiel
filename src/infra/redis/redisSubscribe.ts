@@ -1,19 +1,15 @@
 import { Redis } from 'ioredis'
-import { DomainEvent } from '../../core/domain'
-import { logger } from '../../core/utils'
+import { HasSubscribe } from '../../core/utils'
 import { fromRedisMessage } from './helpers/fromRedisMessage'
 
-type MakeSubscribeToStreamDeps = {
+type MakeRedisSubscribeDeps = {
   redis: Redis
   streamName: string
 }
 
-type SubscribeToStream = (callback: (event: DomainEvent) => unknown, consumerName: string) => void
+type RedisSubscribe = HasSubscribe['subscribe']
 
-const makeSubscribeToStream = ({
-  redis,
-  streamName,
-}: MakeSubscribeToStreamDeps): SubscribeToStream => {
+const makeRedisSubscribe = ({ redis, streamName }: MakeRedisSubscribeDeps): RedisSubscribe => {
   return (callback, consumerName) => {
     const listenForMessage = async () => {
       const redisClient = redis.duplicate()
@@ -103,4 +99,4 @@ const makeSubscribeToStream = ({
   }
 }
 
-export { makeSubscribeToStream }
+export { makeRedisSubscribe as makeSubscribeToStream }

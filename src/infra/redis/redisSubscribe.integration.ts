@@ -1,10 +1,10 @@
 import Redis from 'ioredis'
 import { Redis as RedisType } from 'ioredis'
-import { makeSubscribeToStream } from './subscribeToStream'
+import { makeSubscribeToStream } from './redisSubscribe'
 import { UserProjectsLinkedByContactEmail } from '../../modules/authZ'
 import { fromRedisMessage } from './helpers/fromRedisMessage'
 
-describe('subscribeToStream', () => {
+describe('redisSubscribe', () => {
   const streamName = 'potentiel-event-bus-subscribe-tests'
   const redis = new Redis({ port: 6380, lazyConnect: true, showFriendlyErrorStack: true })
   const duplicatedRedisClients: RedisType[] = []
@@ -28,14 +28,14 @@ describe('subscribeToStream', () => {
 
   describe('when subscribing before some messages were added to the stream', () => {
     it('should be notified with all events added to it', async () => {
-      const subscribeToStream = makeSubscribeToStream({
+      const redisSubscribe = makeSubscribeToStream({
         redis: redisDependency,
         streamName,
       })
 
       const consumer = jest.fn()
 
-      await subscribeToStream(consumer, 'MyConsumer')
+      await redisSubscribe(consumer, 'MyConsumer')
       await waitFor(50)
 
       const event = {
@@ -58,7 +58,7 @@ describe('subscribeToStream', () => {
 
   describe('when subscribing after some messages were added to the stream', () => {
     it('should be notified with all events added to it', async () => {
-      const subscribeToStream = makeSubscribeToStream({
+      const redisSubscribe = makeSubscribeToStream({
         redis: redisDependency,
         streamName,
       })
@@ -74,7 +74,7 @@ describe('subscribeToStream', () => {
       await waitFor(50)
 
       const consumer = jest.fn()
-      subscribeToStream(consumer, 'MyConsumer')
+      redisSubscribe(consumer, 'MyConsumer')
       await waitFor(1000)
 
       expect(consumer).toHaveBeenCalledTimes(2)
@@ -87,7 +87,7 @@ describe('subscribeToStream', () => {
 
   describe('when the consumer failed to handle the event', () => {
     it('should be notified again with the event on which failed first time', async () => {
-      const subscribeToStream = makeSubscribeToStream({
+      const redisSubscribe = makeSubscribeToStream({
         redis: redisDependency,
         streamName,
       })
@@ -95,7 +95,7 @@ describe('subscribeToStream', () => {
       const consumer = jest.fn().mockImplementationOnce(() => {
         throw new Error()
       })
-      subscribeToStream(consumer, 'MyConsumer')
+      redisSubscribe(consumer, 'MyConsumer')
       await waitFor(50)
 
       const event = {
@@ -116,12 +116,12 @@ describe('subscribeToStream', () => {
 
   describe('when subscribing to the stream after being disconnected', () => {
     it('should not be notified with events that were already managed by the consumer', async () => {
-      const subscribeToStream = makeSubscribeToStream({
+      const redisSubscribe = makeSubscribeToStream({
         redis: redisDependency,
         streamName,
       })
 
-      subscribeToStream(jest.fn(), 'MyConsumer')
+      redisSubscribe(jest.fn(), 'MyConsumer')
       await waitFor(50)
 
       const event = {
@@ -137,7 +137,7 @@ describe('subscribeToStream', () => {
       await waitFor(50)
 
       const consumer = jest.fn()
-      subscribeToStream(consumer, 'MyConsumer')
+      redisSubscribe(consumer, 'MyConsumer')
       await waitFor(50)
 
       await redis.xadd(streamName, '*', event.type, JSON.stringify(event))
