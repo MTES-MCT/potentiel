@@ -14,7 +14,7 @@ const makeRedisSubscribe = ({ redis, streamName }: MakeRedisSubscribeDeps): Redi
     const redisClient = redis.duplicate()
     const groupName = await createConsumerGroup(redisClient, streamName, consumerName)
 
-    const handleEvent = async (message: [string, string[]]): Promise<void> => {
+    const handleMessage = async (message: [string, string[]]): Promise<void> => {
       const [messageId, messageValue] = message
       const [eventType, eventValue] = messageValue
       const actualEventValue = JSON.parse(eventValue)
@@ -43,7 +43,7 @@ const makeRedisSubscribe = ({ redis, streamName }: MakeRedisSubscribeDeps): Redi
         pendingMessage ?? (await getNewMessage(redisClient, streamName, groupName, consumerName))
 
       if (messageToHandle) {
-        await handleEvent(messageToHandle)
+        await handleMessage(messageToHandle)
         await listenForMessage()
       }
     }
