@@ -28,26 +28,6 @@ const makeRedisSubscribe = ({ redis, streamName }: MakeRedisSubscribeDeps): Redi
         }
       }
 
-      const getNextPendingMessage = async (
-        streamName: string,
-        consumerGroupName: string,
-        consumerName: string
-      ) => {
-        const pendingStreamMessages = await redisClient.xreadgroup(
-          'GROUP',
-          consumerGroupName,
-          consumerName,
-          'COUNT',
-          '1',
-          'STREAMS',
-          streamName,
-          '0'
-        )
-        const [key, pendingMessages] = pendingStreamMessages[0]
-
-        return pendingMessages.length ? pendingMessages[0] : null
-      }
-
       const getNewMessage = async (
         streamName: string,
         consumerGroupName: string,
@@ -76,7 +56,12 @@ const makeRedisSubscribe = ({ redis, streamName }: MakeRedisSubscribeDeps): Redi
       }
 
       const groupName = await createConsumerGroup(redisClient, streamName, consumerName)
-      const pendingMessage = await getNextPendingMessage(streamName, groupName, consumerName)
+      const pendingMessage = await getNextPendingMessage(
+        redisClient,
+        streamName,
+        groupName,
+        consumerName
+      )
       const messageToHandle =
         pendingMessage ?? (await getNewMessage(streamName, groupName, consumerName))
 
@@ -98,6 +83,26 @@ const createConsumerGroup = async (redis: Redis, streamName: string, consumerNam
   } catch {}
 
   return groupName
+}
+
+const getNextPendingMessage = async (
+  redis: Redis,
+  streamName: string,
+  consumerGroupName: string,
+  consumerName: string
+) => {
+  const pendingStreamMessages = await redis.xreadgroup(
+    'GROUP',
+    consumerGroupName,
+    consumerName,
+    'COUNT',
+    '1',
+    'STREAMS',
+    streamName,
+    '0'
+  )
+  const [, pendingMessages] = pendingStreamMessages[0]
+  return pendingMessages.length ? pendingMessages[0] : null
 }
 
 export { makeRedisSubscribe as makeSubscribeToStream }
