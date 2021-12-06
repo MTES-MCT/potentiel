@@ -28,33 +28,6 @@ const makeRedisSubscribe = ({ redis, streamName }: MakeRedisSubscribeDeps): Redi
         }
       }
 
-      const getNewMessage = async (
-        streamName: string,
-        consumerGroupName: string,
-        consumerName: string
-      ) => {
-        try {
-          const newStreamMessages = await redisClient.xreadgroup(
-            'GROUP',
-            consumerGroupName,
-            consumerName,
-            'BLOCK',
-            0,
-            'COUNT',
-            '1',
-            'STREAMS',
-            streamName,
-            '>'
-          )
-
-          const [key, newMessages] = newStreamMessages[0]
-
-          return newMessages.length ? newMessages[0] : null
-        } catch {
-          return null
-        }
-      }
-
       const groupName = await createConsumerGroup(redisClient, streamName, consumerName)
       const pendingMessage = await getNextPendingMessage(
         redisClient,
@@ -63,7 +36,7 @@ const makeRedisSubscribe = ({ redis, streamName }: MakeRedisSubscribeDeps): Redi
         consumerName
       )
       const messageToHandle =
-        pendingMessage ?? (await getNewMessage(streamName, groupName, consumerName))
+        pendingMessage ?? (await getNewMessage(redisClient, streamName, groupName, consumerName))
 
       if (messageToHandle) {
         await handleEvent(messageToHandle)
@@ -103,6 +76,33 @@ const getNextPendingMessage = async (
   )
   const [, pendingMessages] = pendingStreamMessages[0]
   return pendingMessages.length ? pendingMessages[0] : null
+}
+
+const getNewMessage = async (
+  redis: Redis,
+  streamName: string,
+  consumerGroupName: string,
+  consumerName: string
+) => {
+  try {
+    const newStreamMessages = await redis.xreadgroup(
+      'GROUP',
+      consumerGroupName,
+      consumerName,
+      'BLOCK',
+      0,
+      'COUNT',
+      '1',
+      'STREAMS',
+      streamName,
+      '>'
+    )
+
+    const [, newMessages] = newStreamMessages[0]
+    return newMessages.length ? newMessages[0] : null
+  } catch {
+    return null
+  }
 }
 
 export { makeRedisSubscribe as makeSubscribeToStream }
