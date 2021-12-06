@@ -1,6 +1,6 @@
 import Redis from 'ioredis'
 import { Redis as RedisType } from 'ioredis'
-import { makeSubscribeToStream } from './redisSubscribe'
+import { makeRedisSubscribe } from './redisSubscribe'
 import { UserProjectsLinkedByContactEmail } from '../../modules/authZ'
 import { fromRedisMessage } from './helpers/fromRedisMessage'
 import waitForExpect from 'wait-for-expect'
@@ -29,7 +29,7 @@ describe('redisSubscribe', () => {
 
   describe('when subscribing before some messages were added to the stream', () => {
     it('should be notified with all events added to it', async () => {
-      const redisSubscribe = makeSubscribeToStream({
+      const redisSubscribe = makeRedisSubscribe({
         redis: redisDependency,
         streamName,
       })
@@ -58,7 +58,7 @@ describe('redisSubscribe', () => {
 
   describe('when subscribing after some messages were added to the stream', () => {
     it('should be notified with all events added to it', async () => {
-      const redisSubscribe = makeSubscribeToStream({
+      const redisSubscribe = makeRedisSubscribe({
         redis: redisDependency,
         streamName,
       })
@@ -86,7 +86,7 @@ describe('redisSubscribe', () => {
 
   describe('when the consumer failed to handle the event', () => {
     it('should be notified again with the event on which failed first time', async () => {
-      const redisSubscribe = makeSubscribeToStream({
+      const redisSubscribe = makeRedisSubscribe({
         redis: redisDependency,
         streamName,
       })
@@ -115,7 +115,7 @@ describe('redisSubscribe', () => {
 
   describe('when subscribing to the stream after being disconnected', () => {
     it('should not be notified with events that were already managed by the same consumer', async () => {
-      const redisSubscribe = makeSubscribeToStream({
+      const redisSubscribe = makeRedisSubscribe({
         redis: redisDependency,
         streamName,
       })

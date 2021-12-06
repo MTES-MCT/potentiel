@@ -1,5 +1,5 @@
 import { Redis } from 'ioredis'
-import { HasSubscribe } from '../../core/utils'
+import { HasSubscribe, logger } from '../../core/utils'
 import { fromRedisMessage } from './helpers/fromRedisMessage'
 
 type MakeRedisSubscribeDeps = {
@@ -24,7 +24,11 @@ const makeRedisSubscribe = ({ redis, streamName }: MakeRedisSubscribeDeps): Redi
         try {
           await callback(event)
           redisClient.xack(streamName, groupName, messageId)
-        } catch {}
+        } catch {
+          logger.error(
+            `An error occured while handling the event ${eventType} with consumer ${consumerName}`
+          )
+        }
       }
     }
 
@@ -105,4 +109,4 @@ const getNewMessage = async (
   }
 }
 
-export { makeRedisSubscribe as makeSubscribeToStream }
+export { makeRedisSubscribe }
