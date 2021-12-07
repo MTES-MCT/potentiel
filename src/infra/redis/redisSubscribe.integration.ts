@@ -168,4 +168,35 @@ describe('redisSubscribe', () => {
       })
     })
   })
+
+  describe('when subscribing twice with the same consumer name', () => {
+    it('should notify only first consumer', async () => {
+      const redisSubscribe = makeRedisSubscribe({
+        redis: redisDependency,
+        streamName,
+      })
+
+      const firstConsumer = jest.fn()
+      redisSubscribe(firstConsumer, 'MyConsumer')
+
+      const secondConsumer = jest.fn()
+      redisSubscribe(secondConsumer, 'MyConsumer')
+
+      const event = {
+        type: UserProjectsLinkedByContactEmail.type,
+        payload: { userId: '2', projectIds: ['1', '2', '3'] },
+        occurredAt: 1234,
+      }
+      await redis.xadd(streamName, '*', event.type, JSON.stringify(event))
+      await redis.xadd(streamName, '*', event.type, JSON.stringify(event))
+      await redis.xadd(streamName, '*', event.type, JSON.stringify(event))
+      await redis.xadd(streamName, '*', event.type, JSON.stringify(event))
+      await redis.xadd(streamName, '*', event.type, JSON.stringify(event))
+
+      await waitForExpect(() => {
+        expect(secondConsumer).not.toHaveBeenCalled()
+        expect(firstConsumer).toHaveBeenCalledTimes(5)
+      })
+    })
+  })
 })

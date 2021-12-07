@@ -10,7 +10,20 @@ type MakeRedisSubscribeDeps = {
 type RedisSubscribe = HasSubscribe['subscribe']
 
 const makeRedisSubscribe = ({ redis, streamName }: MakeRedisSubscribeDeps): RedisSubscribe => {
+  const subscribedConsumers: string[] = []
+
+  const removeConsumerFromSubscribed = (consumerName: string) => {
+    const index = subscribedConsumers.indexOf(consumerName)
+    index > -1 && subscribedConsumers.splice(index, 1)
+  }
+
   return async (callback, consumerName) => {
+    if (subscribedConsumers.find((c) => c === consumerName)) {
+      return
+    } else {
+      subscribedConsumers.push(consumerName)
+    }
+
     const redisClient = redis.duplicate()
     const groupName = await createConsumerGroup(redisClient, streamName, consumerName)
 
@@ -33,14 +46,17 @@ const makeRedisSubscribe = ({ redis, streamName }: MakeRedisSubscribeDeps): Redi
     }
 
     const listenForMessage = async () => {
-      const pendingMessage = await getNextPendingMessage(
+      const messageToHandle = await getNextMessageToHandle(
         redisClient,
         streamName,
         groupName,
         consumerName
       )
-      const messageToHandle =
-        pendingMessage ?? (await getNewMessage(redisClient, streamName, groupName, consumerName))
+
+      if (isDisconnected(redisClient)) {
+        removeConsumerFromSubscribed(consumerName)
+        return
+      }
 
       if (messageToHandle) {
         await handleMessage(messageToHandle)
@@ -60,6 +76,23 @@ const createConsumerGroup = async (redis: Redis, streamName: string, consumerNam
   } catch {}
 
   return groupName
+}
+
+const getNextMessageToHandle = async (
+  redisClient: Redis,
+  streamName: string,
+  groupName: string,
+  consumerName: string
+) => {
+  const pendingMessage = await getNextPendingMessage(
+    redisClient,
+    streamName,
+    groupName,
+    consumerName
+  )
+  const messageToHandle =
+    pendingMessage ?? (await getNewMessage(redisClient, streamName, groupName, consumerName))
+  return messageToHandle
 }
 
 const getNextPendingMessage = async (
@@ -104,9 +137,13 @@ const getNewMessage = async (
 
     const [, newMessages] = newStreamMessages[0]
     return newMessages.length ? newMessages[0] : null
-  } catch {
+  } catch (error) {
     return null
   }
+}
+
+const isDisconnected = (redis: Redis) => {
+  return redis.status === 'end'
 }
 
 export { makeRedisSubscribe }
