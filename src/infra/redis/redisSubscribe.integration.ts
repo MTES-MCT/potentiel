@@ -1,5 +1,4 @@
 import Redis from 'ioredis'
-import { Redis as RedisType } from 'ioredis'
 import { makeRedisSubscribe } from './redisSubscribe'
 import { UserProjectsLinkedByContactEmail } from '../../modules/authZ'
 import { fromRedisMessage } from './helpers/fromRedisMessage'
@@ -8,16 +7,14 @@ import waitForExpect from 'wait-for-expect'
 describe('redisSubscribe', () => {
   const streamName = 'potentiel-event-bus-subscribe-tests'
   const redis = new Redis({ port: 6380, lazyConnect: true, showFriendlyErrorStack: true })
-  const duplicatedRedisClients: RedisType[] = []
+  const duplicatedRedisClients: Redis.Redis[] = []
 
-  const redisDependency = {
-    ...redis.duplicate(),
-    duplicate: () => {
-      const newRedis = redis.duplicate()
-      duplicatedRedisClients.push(newRedis)
-      return newRedis
-    },
-  } as RedisType
+  const redisDependency = redis.duplicate()
+  redisDependency.duplicate = () => {
+    const newRedis = redis.duplicate()
+    duplicatedRedisClients.push(newRedis)
+    return newRedis
+  }
 
   afterEach(async () => {
     await redis.del(streamName)
@@ -26,6 +23,7 @@ describe('redisSubscribe', () => {
 
   afterAll(async () => {
     await redis.quit()
+    await redisDependency.quit()
   })
 
   describe('when subscribing before some messages were added to the stream', () => {
@@ -116,13 +114,13 @@ describe('redisSubscribe', () => {
 
   describe('when subscribing to the stream after being disconnected', () => {
     it('should not be notified with events that were already managed by the same consumer', async () => {
-      const redisSubscribe = makeRedisSubscribe({
+      const redisFirstSubscribe = makeRedisSubscribe({
         redis: redisDependency,
         streamName,
       })
 
       const firstConsumer = jest.fn()
-      redisSubscribe(firstConsumer, 'MyConsumer')
+      redisFirstSubscribe(firstConsumer, 'MyConsumer')
 
       const event1 = {
         type: UserProjectsLinkedByContactEmail.type,
@@ -141,13 +139,16 @@ describe('redisSubscribe', () => {
 
       const lastRedisSubscription = duplicatedRedisClients[duplicatedRedisClients.length - 1]
       lastRedisSubscription.disconnect(false)
-
       await waitForExpect(() => {
         expect(lastRedisSubscription.status).toBe('end')
       })
 
+      const redisSecondSubscribe = makeRedisSubscribe({
+        redis: redisDependency,
+        streamName,
+      })
       const secondConsumer = jest.fn()
-      redisSubscribe(secondConsumer, 'MyConsumer')
+      redisSecondSubscribe(secondConsumer, 'MyConsumer')
 
       const event2 = {
         type: UserProjectsLinkedByContactEmail.type,

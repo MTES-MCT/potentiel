@@ -12,11 +12,6 @@ type RedisSubscribe = HasSubscribe['subscribe']
 const makeRedisSubscribe = ({ redis, streamName }: MakeRedisSubscribeDeps): RedisSubscribe => {
   const subscribedConsumers: string[] = []
 
-  const removeConsumerFromSubscribed = (consumerName: string) => {
-    const index = subscribedConsumers.indexOf(consumerName)
-    index > -1 && subscribedConsumers.splice(index, 1)
-  }
-
   return async (callback, consumerName) => {
     if (subscribedConsumers.find((c) => c === consumerName)) {
       return
@@ -46,18 +41,12 @@ const makeRedisSubscribe = ({ redis, streamName }: MakeRedisSubscribeDeps): Redi
     }
 
     const listenForMessage = async () => {
-      const newRedis = redis.duplicate()
       const messageToHandle = await getNextMessageToHandle(
-        newRedis,
+        redis,
         streamName,
         groupName,
         consumerName
       )
-
-      if (isDisconnected(newRedis)) {
-        removeConsumerFromSubscribed(consumerName)
-        return
-      }
 
       if (messageToHandle) {
         handleMessage(messageToHandle)
@@ -118,7 +107,8 @@ const getNewMessage = async (
   consumerName: string
 ) => {
   try {
-    const newStreamMessages = await redis.xreadgroup(
+    const newRedis = redis.duplicate()
+    const newStreamMessages = await newRedis.xreadgroup(
       'GROUP',
       consumerGroupName,
       consumerName,
@@ -131,15 +121,13 @@ const getNewMessage = async (
       '>'
     )
 
+    newRedis.disconnect()
+
     const [, newMessages] = newStreamMessages[0]
     return newMessages.length ? newMessages[0] : null
   } catch (error) {
     return null
   }
-}
-
-const isDisconnected = (redis: Redis) => {
-  return redis.status === 'end'
 }
 
 export { makeRedisSubscribe }
