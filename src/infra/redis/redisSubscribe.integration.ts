@@ -11,6 +11,7 @@ describe('redisSubscribe', () => {
   const duplicatedRedisClients: RedisType[] = []
 
   const redisDependency = {
+    ...redis.duplicate(),
     duplicate: () => {
       const newRedis = redis.duplicate()
       duplicatedRedisClients.push(newRedis)

@@ -27,7 +27,7 @@ const makeRedisSubscribe = ({ redis, streamName }: MakeRedisSubscribeDeps): Redi
     const redisClient = redis.duplicate()
     const groupName = await createConsumerGroup(redisClient, streamName, consumerName)
 
-    const handleMessage = async (message: [string, string[]]): Promise<void> => {
+    const handleMessage = async (message: [string, string[]]) => {
       const [messageId, messageValue] = message
       const [eventType, eventValue] = messageValue
       const actualEventValue = JSON.parse(eventValue)
@@ -35,7 +35,7 @@ const makeRedisSubscribe = ({ redis, streamName }: MakeRedisSubscribeDeps): Redi
 
       if (event) {
         try {
-          await callback(event)
+          callback(event)
           redisClient.xack(streamName, groupName, messageId)
         } catch {
           logger.error(
@@ -46,21 +46,22 @@ const makeRedisSubscribe = ({ redis, streamName }: MakeRedisSubscribeDeps): Redi
     }
 
     const listenForMessage = async () => {
+      const newRedis = redis.duplicate()
       const messageToHandle = await getNextMessageToHandle(
-        redisClient,
+        newRedis,
         streamName,
         groupName,
         consumerName
       )
 
-      if (isDisconnected(redisClient)) {
+      if (isDisconnected(newRedis)) {
         removeConsumerFromSubscribed(consumerName)
         return
       }
 
       if (messageToHandle) {
-        await handleMessage(messageToHandle)
-        await listenForMessage()
+        handleMessage(messageToHandle)
+        listenForMessage()
       }
     }
 
@@ -79,19 +80,14 @@ const createConsumerGroup = async (redis: Redis, streamName: string, consumerNam
 }
 
 const getNextMessageToHandle = async (
-  redisClient: Redis,
+  redis: Redis,
   streamName: string,
   groupName: string,
   consumerName: string
 ) => {
-  const pendingMessage = await getNextPendingMessage(
-    redisClient,
-    streamName,
-    groupName,
-    consumerName
-  )
+  const pendingMessage = await getNextPendingMessage(redis, streamName, groupName, consumerName)
   const messageToHandle =
-    pendingMessage ?? (await getNewMessage(redisClient, streamName, groupName, consumerName))
+    pendingMessage ?? (await getNewMessage(redis, streamName, groupName, consumerName))
   return messageToHandle
 }
 
