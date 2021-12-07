@@ -28,7 +28,7 @@ describe('redisSubscribe', () => {
   })
 
   describe('when subscribing before some messages were added to the stream', () => {
-    it('should be notified with all events added to it', async () => {
+    it('should be called with the events that were published after subscription', async () => {
       const redisSubscribe = makeRedisSubscribe({
         redis: redisDependency,
         streamName,
@@ -36,7 +36,7 @@ describe('redisSubscribe', () => {
 
       const consumer = jest.fn()
 
-      await redisSubscribe(consumer, 'MyConsumer')
+      redisSubscribe(consumer, 'MyConsumer')
 
       const event = {
         type: UserProjectsLinkedByContactEmail.type,
@@ -57,7 +57,7 @@ describe('redisSubscribe', () => {
   })
 
   describe('when subscribing after some messages were added to the stream', () => {
-    it('should be notified with all events added to it', async () => {
+    it('should be called with the events the were in the stream before the subscription', async () => {
       const redisSubscribe = makeRedisSubscribe({
         redis: redisDependency,
         streamName,
