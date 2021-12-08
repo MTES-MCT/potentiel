@@ -20,4 +20,18 @@ const projectEventList = {
   ],
 }
 
-export const timeline = () => <Timeline projectEventList={projectEventList} />
+const dgec = {
+  id: '1',
+  fullName: 'nom prénom',
+  email: 'email',
+  role: 'dgec' as 'dgec',
+}
+
+const ademe = {
+  id: '1',
+  fullName: 'nom prénom',
+  email: 'email',
+  role: 'ademe' as 'ademe',
+}
+
+export const timeline = () => <Timeline projectEventList={projectEventList} user={dgec} />
