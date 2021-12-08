@@ -8,7 +8,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
       events: rawEvents
         .map((item) => item.get())
         .reduce((events, { type, valueDate }) => {
-          if (['admin', 'dgec'].includes(user.role)) {
+          if (['admin', 'dgec', 'dreal', 'porteur-projet', 'acheteur-obligé'].includes(user.role)) {
             events.push({
               type,
               date: valueDate,

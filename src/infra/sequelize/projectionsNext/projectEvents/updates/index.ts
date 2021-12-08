@@ -1,1 +1,1 @@
-export * from './onProjectImported'
+export * from './onProjectNotified';
