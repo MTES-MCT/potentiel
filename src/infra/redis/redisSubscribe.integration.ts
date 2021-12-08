@@ -3,6 +3,7 @@ import { makeRedisSubscribe } from './redisSubscribe'
 import { UserProjectsLinkedByContactEmail } from '../../modules/authZ'
 import { fromRedisMessage } from './helpers/fromRedisMessage'
 import waitForExpect from 'wait-for-expect'
+import { errAsync, okAsync } from 'neverthrow'
 
 describe('redisSubscribe', () => {
   const streamName = 'potentiel-event-bus-subscribe-tests'
@@ -33,7 +34,7 @@ describe('redisSubscribe', () => {
         streamName,
       })
 
-      const consumer = jest.fn()
+      const consumer = jest.fn().mockImplementation(() => Promise.resolve())
 
       redisSubscribe(consumer, 'MyConsumer')
 
@@ -70,7 +71,7 @@ describe('redisSubscribe', () => {
       await redis.xadd(streamName, '*', event.type, JSON.stringify(event))
       await redis.xadd(streamName, '*', event.type, JSON.stringify(event))
 
-      const consumer = jest.fn()
+      const consumer = jest.fn().mockImplementation(() => Promise.resolve())
       redisSubscribe(consumer, 'MyConsumer')
 
       await waitForExpect(() => {
@@ -90,9 +91,10 @@ describe('redisSubscribe', () => {
         streamName,
       })
 
-      const consumer = jest.fn().mockImplementationOnce(() => {
-        throw new Error()
-      })
+      const consumer = jest
+        .fn()
+        .mockImplementationOnce(() => Promise.reject('An error occured'))
+        .mockImplementation(() => Promise.resolve())
       redisSubscribe(consumer, 'MyConsumer')
 
       const event = {
@@ -119,7 +121,7 @@ describe('redisSubscribe', () => {
         streamName,
       })
 
-      const firstConsumer = jest.fn()
+      const firstConsumer = jest.fn().mockImplementation(() => Promise.resolve())
       redisFirstSubscribe(firstConsumer, 'MyConsumer')
 
       const event1 = {
@@ -147,7 +149,7 @@ describe('redisSubscribe', () => {
         redis: redisDependency,
         streamName,
       })
-      const secondConsumer = jest.fn()
+      const secondConsumer = jest.fn().mockImplementation(() => Promise.resolve())
       redisSecondSubscribe(secondConsumer, 'MyConsumer')
 
       const event2 = {
@@ -178,10 +180,10 @@ describe('redisSubscribe', () => {
         streamName,
       })
 
-      const firstConsumer = jest.fn()
+      const firstConsumer = jest.fn().mockImplementation(() => Promise.resolve())
       redisSubscribe(firstConsumer, 'MyConsumer')
 
-      const secondConsumer = jest.fn()
+      const secondConsumer = jest.fn().mockImplementation(() => Promise.resolve())
       redisSubscribe(secondConsumer, 'MyConsumer')
 
       const event = {
