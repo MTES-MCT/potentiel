@@ -15,15 +15,19 @@ describe('onProjectImported', () => {
         payload: {
           projectId,
         } as ProjectImportedPayload,
+        original: {
+          occurredAt: new Date(1234),
+          version: 1,
+        },
       })
     )
   })
 
-  it('should create a new project event of type creation', async () => {
+  it('should create a new project event of type ProjectImported', async () => {
     const projectEvent = await ProjectEvent.findOne({ where: { projectId } })
 
     expect(projectEvent).not.toBeNull()
 
-    expect(projectEvent).toMatchObject({ type: 'creation' })
+    expect(projectEvent).toMatchObject({ type: 'ProjectImported', valueDate: 1234 })
   })
 })
