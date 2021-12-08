@@ -1,7 +1,7 @@
 import { UserRole } from '../../users'
 
 export type ProjectEventDTO = {
-  type: 'creation'
+  type: 'ProjectImported'
   variant: UserRole
   payload: undefined
   date: number
