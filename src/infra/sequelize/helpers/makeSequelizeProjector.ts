@@ -23,7 +23,9 @@ export const makeSequelizeProjector = <ProjectionModel extends SequelizeModel>(
     initEventStream: (eventStream) => {
       eventStream.subscribe(async (event) => {
         const { type } = event
-        await Promise.all(handlersByType[type]?.map((handler) => handler(event)))
+        if (handlersByType[type]) {
+          await Promise.all(handlersByType[type].map((handler) => handler(event)))
+        }
       }, model.name)
     },
   }
