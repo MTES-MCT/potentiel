@@ -1,5 +1,8 @@
 import React from 'react'
-import { ProjectEventListDTO } from '../../../../modules/frise/dtos/ProjectEventListDTO'
+import {
+  ProjectEventListDTO,
+  ProjectImportedDTO,
+} from '../../../../modules/frise/dtos/ProjectEventListDTO'
 import { User } from '../../../../entities'
 import { TimelineNotificationItem } from './timelineNotificationItem'
 import { TimelineProjectImportedItem } from './timelineProjectImportedItem'
