@@ -1,6 +1,6 @@
 import { UserRole } from '../../users'
 
-export type ProjectEventDTO = ProjectNotifiedDTO
+export type ProjectEventDTO = ProjectNotifiedDTO | ProjectImportedDTO
 
 export type ProjectNotifiedDTO =
   | {

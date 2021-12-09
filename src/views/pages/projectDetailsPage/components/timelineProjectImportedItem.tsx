@@ -1,11 +1,11 @@
 import React from 'react'
 import { formatDate } from '../../../../helpers/formatDate'
-import { ProjectNotifiedDTO } from '../../../../modules/frise/dtos/ProjectEventListDTO'
+import { ProjectImportedDTO } from '../../../../modules/frise/dtos/ProjectEventListDTO'
 import { TimelineItem } from './timelineItem'
 
 export const TimelineProjectImportedItem = (props: {
   isLastItem: boolean
-  event: ProjectNotifiedDTO
+  event: ProjectImportedDTO
 }) => {
   return (
     <TimelineItem isLastItem={props.isLastItem}>
