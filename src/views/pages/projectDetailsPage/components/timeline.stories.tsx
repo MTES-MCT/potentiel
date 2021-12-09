@@ -6,6 +6,11 @@ export default { title: 'Nouvelle frise' }
 const projectEventList = {
   events: [
     {
+      type: 'ProjectImported' as 'ProjectImported',
+      variant: 'admin' as 'admin',
+      date: 11,
+    },
+    {
       type: 'ProjectNotified' as 'ProjectNotified',
       variant: 'admin' as 'admin',
       payload: undefined,
@@ -32,6 +37,13 @@ const ademe = {
   fullName: 'nom prénom',
   email: 'email',
   role: 'ademe' as 'ademe',
+}
+
+const porteurProjet = {
+  id: '1',
+  fullName: 'nom prénom',
+  email: 'email',
+  role: 'porteur-projet' as 'porteur-projet',
 }
 
 export const timeline = () => <Timeline projectEventList={projectEventList} user={dgec} />
