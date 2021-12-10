@@ -95,7 +95,7 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => {
                     title="Constitution des garanties financières"
                     action={
                       user.role === 'dreal'
-                        ? project.garantiesFinancieres.dueOn.getTime() < Date.now()
+                        ? new Date(project.garantiesFinancieres.dueOn).getTime() < Date.now()
                           ? {
                               title: 'Télécharger mise en demeure',
                               link: ROUTES.TELECHARGER_MODELE_MISE_EN_DEMEURE(project),
