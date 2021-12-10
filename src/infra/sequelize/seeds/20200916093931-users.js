@@ -1,5 +1,7 @@
 'use strict'
 
+const uuid = require('uuid')
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     /**
@@ -13,67 +15,66 @@ module.exports = {
      */
 
     try {
+      const drealUserId = '5c3c3cd0-95f1-11ea-b350-bb5aa5faa992'
+      const users = [
+        {
+          id: '5c3bc7a0-95f1-11ea-b350-bb5aa5faa992',
+          fullName: 'Admin Test',
+          email: 'admin@test.test',
+          role: 'admin',
+        },
+        {
+          id: drealUserId,
+          fullName: 'Dreal Test',
+          email: 'dreal@test.test',
+          role: 'dreal',
+        },
+        {
+          id: '5c3c3cd4-95f1-11ea-b350-bb5aa5faa992',
+          fullName: 'Porteur Projet Test',
+          email: 'porteur@test.test',
+          role: 'porteur-projet',
+        },
+      ]
+
       await queryInterface.bulkInsert(
         'users',
-        [
-          {
-            id: '5c3bc7a0-95f1-11ea-b350-bb5aa5faa992',
-            fullName: 'Admin Test',
-            email: 'admin@test.test',
-            role: 'admin',
-            createdAt: new Date(),
-            updatedAt: new Date(),
-          },
-          {
-            id: '5c3c3cd0-95f1-11ea-b350-bb5aa5faa992',
-            fullName: 'Dreal Test',
-            email: 'dreal@test.test',
-            role: 'dreal',
-            createdAt: new Date(),
-            updatedAt: new Date(),
-          },
-          {
-            id: '5c3c3cd4-95f1-11ea-b350-bb5aa5faa992',
-            fullName: 'Porteur Projet Test',
-            email: 'porteur@test.test',
-            role: 'porteur-projet',
-            createdAt: new Date(),
-            updatedAt: new Date(),
-          },
-        ],
+        users.map(({ id, fullName, email, role }) => ({
+          id,
+          fullName,
+          email,
+          role,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        })),
         {}
       )
 
       await queryInterface.bulkInsert(
-        'credentials',
-        [
-          {
-            id: '5c3c15c0-95f1-11ea-b350-bb5aa5faa992',
-            userId: '5c3bc7a0-95f1-11ea-b350-bb5aa5faa992',
-            email: 'admin@test.test',
-            hash: '098f6bcd4621d373cade4e832627b4f6',
-            createdAt: new Date(),
-            updatedAt: new Date(),
-          },
-          {
-            id: '5c3c3cd1-95f1-11ea-b350-bb5aa5faa992',
-            userId: '5c3c3cd0-95f1-11ea-b350-bb5aa5faa992',
-            email: 'dreal@test.test',
-            hash: '098f6bcd4621d373cade4e832627b4f6',
-            createdAt: new Date(),
-            updatedAt: new Date(),
-          },
-          {
-            id: '5c3c3cd5-95f1-11ea-b350-bb5aa5faa992',
-            userId: '5c3c3cd4-95f1-11ea-b350-bb5aa5faa992',
-            email: 'porteur@test.test',
-            hash: '098f6bcd4621d373cade4e832627b4f6',
-            createdAt: new Date(),
-            updatedAt: new Date(),
-          },
-        ],
-        {}
+        'eventStores',
+        users.map(({ id, fullName, email, role }) => ({
+          id: uuid.v4(),
+          type: 'UserCreated',
+          payload: JSON.stringify({
+            userId: id,
+            email,
+            role,
+            fullName,
+          }),
+          version: 1,
+          aggregateId: [id],
+          occurredAt: new Date(),
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }))
       )
+
+      await queryInterface.bulkInsert('userDreals', [
+        {
+          userId: drealUserId,
+          dreal: 'Île-de-France',
+        },
+      ])
     } catch (error) {
       console.error(error)
     }
@@ -86,25 +87,5 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-
-    await queryInterface.bulkDelete('users', {
-      id: {
-        [Sequelize.Op.in]: [
-          '5c3bc7a0-95f1-11ea-b350-bb5aa5faa992',
-          '5c3c3cd0-95f1-11ea-b350-bb5aa5faa992',
-          '5c3c3cd4-95f1-11ea-b350-bb5aa5faa992',
-        ],
-      },
-    })
-
-    await queryInterface.bulkDelete('credentials', {
-      id: {
-        [Sequelize.Op.in]: [
-          '5c3c15c0-95f1-11ea-b350-bb5aa5faa992',
-          '5c3c3cd1-95f1-11ea-b350-bb5aa5faa992',
-          '5c3c3cd5-95f1-11ea-b350-bb5aa5faa992',
-        ],
-      },
-    })
   },
 }
