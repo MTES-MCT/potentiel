@@ -3,9 +3,7 @@ import { CheckIcon } from '@heroicons/react/solid'
 
 export const TimelineItem = (props: { children; isLastItem: boolean }) => {
   const mainColor = 'green'
-  function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-  }
+
   return (
     <li className={classNames(props.isLastItem ? '' : 'pb-10', 'relative')}>
       {props.isLastItem ? null : (
@@ -32,4 +30,8 @@ export const TimelineItem = (props: { children; isLastItem: boolean }) => {
       </div>
     </li>
   )
+}
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
 }
