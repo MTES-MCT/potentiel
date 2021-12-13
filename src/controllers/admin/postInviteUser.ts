@@ -13,7 +13,7 @@ v1Router.post(
   asyncHandler(async (request, response) => {
     const { email, role, region } = request.body
 
-    const redirectTo = request.get('Referrer')
+    const redirectTo = role === 'dreal' ? routes.ADMIN_DREAL_LIST : routes.ADMIN_USERS
 
     if (!['acheteur-obligé', 'dreal', 'ademe'].includes(role)) {
       return response.redirect(

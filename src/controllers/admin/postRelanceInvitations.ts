@@ -11,7 +11,7 @@ v1Router.post(
   asyncHandler(async (request, response) => {
     const { email } = request.body
 
-    const redirectTo = request.get('Referrer') || routes.ADMIN_INVITATION_LIST
+    const redirectTo = routes.ADMIN_INVITATION_LIST
 
     await relanceInvitation({ email, relanceBy: request.user }).match(
       () => {

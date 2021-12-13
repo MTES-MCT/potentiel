@@ -14,7 +14,9 @@ v1Router.post(
 
     const projectIds = Array.isArray(projectId) ? projectId : [projectId]
 
-    const redirectTo = request.get('Referrer') || routes.REDIRECT_BASED_ON_ROLE
+    const redirectTo = Array.isArray(projectId)
+      ? routes.USER_LIST_PROJECTS
+      : routes.PROJECT_DETAILS(projectId)
     ;(
       await inviteUserToProject({
         email: email.toLowerCase(),
