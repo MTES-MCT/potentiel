@@ -48,7 +48,7 @@ describe('redisSubscribe', () => {
 
       await waitForExpect(() => {
         expect(consumer).toHaveBeenCalledTimes(2)
-        expect(consumer).toHaveBeenNthCalledWith(2, {
+        expect(consumer).toHaveBeenCalledWith({
           ...fromRedisMessage(event),
           id: expect.anything(),
         })
@@ -76,7 +76,7 @@ describe('redisSubscribe', () => {
 
       await waitForExpect(() => {
         expect(consumer).toHaveBeenCalledTimes(2)
-        expect(consumer).toHaveBeenNthCalledWith(2, {
+        expect(consumer).toHaveBeenCalledWith({
           ...fromRedisMessage(event),
           id: expect.anything(),
         })
@@ -85,7 +85,7 @@ describe('redisSubscribe', () => {
   })
 
   describe('when the consumer failed to handle the event', () => {
-    it('should be notified again with the event on which failed first time', async () => {
+    it('should not call the consumer with the message that failed before', async () => {
       const redisSubscribe = makeRedisSubscribe({
         redis: redisDependency,
         streamName,
@@ -95,19 +95,30 @@ describe('redisSubscribe', () => {
         .fn()
         .mockImplementationOnce(() => Promise.reject('An error occured'))
         .mockImplementation(() => Promise.resolve())
+
       redisSubscribe(consumer, 'MyConsumer')
 
-      const event = {
+      const failedEvent = {
         type: UserProjectsLinkedByContactEmail.type,
         payload: { userId: '2', projectIds: ['1', '2', '3'] },
         occurredAt: 1234,
       }
-      await redis.xadd(streamName, '*', event.type, JSON.stringify(event))
+      const successfulEvent = {
+        type: UserProjectsLinkedByContactEmail.type,
+        payload: { userId: '3', projectIds: ['4', '5', '6'] },
+        occurredAt: 5678,
+      }
+      await redis.xadd(streamName, '*', failedEvent.type, JSON.stringify(failedEvent))
+      await redis.xadd(streamName, '*', successfulEvent.type, JSON.stringify(successfulEvent))
 
       await waitForExpect(() => {
         expect(consumer).toHaveBeenCalledTimes(2)
-        expect(consumer).toHaveBeenNthCalledWith(2, {
-          ...fromRedisMessage(event),
+        expect(consumer).toHaveBeenCalledWith({
+          ...fromRedisMessage(failedEvent),
+          id: expect.anything(),
+        })
+        expect(consumer).toHaveBeenCalledWith({
+          ...fromRedisMessage(successfulEvent),
           id: expect.anything(),
         })
       })

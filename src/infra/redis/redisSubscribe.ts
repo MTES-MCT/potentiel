@@ -23,20 +23,13 @@ const makeRedisSubscribe = ({ redis, streamName }: MakeRedisSubscribeDeps): Redi
     const groupName = await createConsumerGroup(redisClient, streamName, consumerName)
 
     const handleMessage = async (message: [string, string[]]) => {
-      const [messageId, messageValue] = message
-      const [eventType, eventValue] = messageValue
+      const [, messageValue] = message
+      const [, eventValue] = messageValue
       const actualEventValue = JSON.parse(eventValue)
       const event = fromRedisMessage(actualEventValue)
 
       if (event) {
-        try {
-          await callback(event)
-          await redisClient.xack(streamName, groupName, messageId)
-        } catch (error) {
-          logger.error(
-            `An error occured while handling the event ${eventType} with consumer ${consumerName}`
-          )
-        }
+        await callback(event)
       }
     }
 
@@ -49,7 +42,13 @@ const makeRedisSubscribe = ({ redis, streamName }: MakeRedisSubscribeDeps): Redi
       )
 
       if (messageToHandle) {
-        await handleMessage(messageToHandle)
+        try {
+          await handleMessage(messageToHandle)
+        } catch (error) {}
+
+        const [messageId] = messageToHandle
+        await redisClient.xack(streamName, groupName, messageId)
+
         listenForMessage()
       }
     }
