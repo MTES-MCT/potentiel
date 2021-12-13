@@ -19,6 +19,7 @@ describe('redisSubscribe', () => {
 
   afterEach(async () => {
     await redis.del(streamName)
+    await redis.del('MyConsumer-DLQ')
     duplicatedRedisClients.map((r) => r.status !== 'end' && r.disconnect())
   })
 
@@ -121,6 +122,44 @@ describe('redisSubscribe', () => {
           ...fromRedisMessage(successfulEvent),
           id: expect.anything(),
         })
+      })
+    })
+    it('should add the failed event to the consumer dead letter queue', async () => {
+      const redisSubscribe = makeRedisSubscribe({
+        redis: redisDependency,
+        streamName,
+      })
+
+      const consumer = jest
+        .fn()
+        .mockImplementationOnce(() => Promise.reject('An error occured'))
+        .mockImplementation(() => Promise.resolve())
+
+      redisSubscribe(consumer, 'MyConsumer')
+
+      const failedEvent = {
+        type: UserProjectsLinkedByContactEmail.type,
+        payload: { userId: '2', projectIds: ['1', '2', '3'] },
+        occurredAt: 1234,
+      }
+      const successfulEvent = {
+        type: UserProjectsLinkedByContactEmail.type,
+        payload: { userId: '3', projectIds: ['4', '5', '6'] },
+        occurredAt: 5678,
+      }
+      await redis.xadd(streamName, '*', failedEvent.type, JSON.stringify(failedEvent))
+      await redis.xadd(streamName, '*', successfulEvent.type, JSON.stringify(successfulEvent))
+
+      await waitForExpect(async () => {
+        const dlqStreamMessages = await redis.xread('COUNT', 1, 'STREAMS', 'MyConsumer-DLQ', 0)
+        const [, dlqMessages] = dlqStreamMessages[0]
+        const dlqMessage = dlqMessages[0]
+        const [, messageValue] = dlqMessage
+        const [eventType, eventValue] = messageValue
+        const failedEventInDlq = JSON.parse(eventValue)
+
+        expect(eventType).toEqual(failedEvent.type)
+        expect(failedEventInDlq).toEqual(failedEvent)
       })
     })
   })

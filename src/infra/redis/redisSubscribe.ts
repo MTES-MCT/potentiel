@@ -44,7 +44,14 @@ const makeRedisSubscribe = ({ redis, streamName }: MakeRedisSubscribeDeps): Redi
       if (messageToHandle) {
         try {
           await handleMessage(messageToHandle)
-        } catch (error) {}
+        } catch (error) {
+          const [, messageValue] = messageToHandle
+          const [eventType] = messageValue
+          logger.error(
+            `An error occured while handling the event ${eventType} with consumer ${consumerName}`
+          )
+          await redis.xadd(`${consumerName}-DLQ`, '*', messageValue)
+        }
 
         const [messageId] = messageToHandle
         await redisClient.xack(streamName, groupName, messageId)
