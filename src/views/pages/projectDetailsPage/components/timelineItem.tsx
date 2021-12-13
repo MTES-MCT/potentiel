@@ -1,7 +1,13 @@
 import React from 'react'
 import { CheckIcon } from '@heroicons/react/solid'
+import { formatDate } from '../../../../helpers/formatDate'
+import { ProjectEventDTO } from '../../../../modules/frise/dtos/ProjectEventListDTO'
 
-export const TimelineItem = (props: { children; isLastItem: boolean }) => {
+export const TimelineItem = (props: {
+  isLastItem: boolean
+  event: ProjectEventDTO
+  title: string
+}) => {
   const mainColor = 'green'
 
   return (
@@ -13,7 +19,7 @@ export const TimelineItem = (props: { children; isLastItem: boolean }) => {
         />
       )}
       <div className="relative flex items-start group">
-        <span className="h-9 flex items-center">
+        <span className="h-9 flex items-center" aria-hidden="true">
           <span
             className={
               'relative z-10 w-8 h-8 flex items-center justify-center bg-' +
@@ -23,10 +29,15 @@ export const TimelineItem = (props: { children; isLastItem: boolean }) => {
               '-900'
             }
           >
-            <CheckIcon className="w-5 h-5 text-white" aria-hidden="true" />
+            <CheckIcon className="w-5 h-5 text-white" />
           </span>
         </span>
-        <span className="ml-4 min-w-0 flex flex-col">{props.children}</span>
+        <div className="ml-4 min-w-0 flex flex-col">
+          <span className="text-sm font-semibold tracking-wide uppercase">
+            {formatDate(props.event.date)}
+          </span>
+          <span className="text-sm font-semibold tracking-wide uppercase">{props.title}</span>
+        </div>
       </div>
     </li>
   )
