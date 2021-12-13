@@ -8,12 +8,12 @@ initProjections(eventStore)
 const projectors = initProjectors(eventStore)
 console.log(`Initialized projectors: ${projectors.join(', ')}`)
 
-const projectorsNExt = initProjectionsNext({
+const projectorsNext = initProjectionsNext({
   subscribe: (cb, consumerName) => {
     console.log(`${consumerName} is listening to incoming events`)
     // TODO: send ALL events to the callback
   },
 })
-console.log(`Initialized nextgen projectors: ${projectorsNExt.join(', ')}`)
+console.log(`Initialized nextgen projectors: ${projectorsNext.join(', ')}`)
 
 console.log('Projections initialized')
