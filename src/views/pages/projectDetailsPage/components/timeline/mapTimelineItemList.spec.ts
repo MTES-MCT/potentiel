@@ -41,6 +41,11 @@ describe('mapTimelineItemList', () => {
             variant: 'admin' as 'admin',
             date: 13,
           },
+          {
+            type: 'ProjectCertificateUpdated' as 'ProjectCertificateUpdated',
+            variant: 'admin' as 'admin',
+            date: 13,
+          },
         ],
       }
       const result = mapTimelineItemList(projectEventList)
@@ -49,17 +54,59 @@ describe('mapTimelineItemList', () => {
       expect(result[0].type).toEqual('designation')
       expect(result[0].date).toEqual(12)
 
-      const imported = {
-        type: 'ProjectImported' as 'ProjectImported',
-        variant: 'admin' as 'admin',
-        date: 11,
+      // const imported = {
+      //   type: 'ProjectImported' as 'ProjectImported',
+      //   variant: 'admin' as 'admin',
+      //   date: 11,
+      // }
+
+      // const result2 = mapTimelineItemList({
+      //   ...projectEventList,
+      //   events: [...projectEventList.events, imported],
+      // })
+      // expect(result2).toHaveLength(2)
+    })
+  })
+
+  describe('Import', () => {
+    it('should create a group with the ProjectImported event', () => {
+      const projectEventList = {
+        events: [
+          {
+            type: 'ProjectImported' as 'ProjectImported',
+            variant: 'admin' as 'admin',
+            date: 11,
+          },
+        ],
+      }
+      const result = mapTimelineItemList(projectEventList)
+      expect(result).toHaveLength(1)
+      expect(result[0].events).toEqual(projectEventList.events)
+      expect(result[0].type).toEqual('import')
+      expect(result[0].date).toEqual(11)
+    })
+
+    describe('when there is a ProjectNotified event', () => {
+      const projectEventList = {
+        events: [
+          {
+            type: 'ProjectNotified' as 'ProjectNotified',
+            variant: 'admin' as 'admin',
+            date: 12,
+          },
+          {
+            type: 'ProjectImported' as 'ProjectImported',
+            variant: 'admin' as 'admin',
+            date: 11,
+          },
+        ],
       }
 
-      const result2 = mapTimelineItemList({
-        ...projectEventList,
-        events: [...projectEventList.events, imported],
+      it('should ignore the ProjectImported event', () => {
+        const result = mapTimelineItemList(projectEventList)
+        expect(result).toHaveLength(1)
+        expect(result[0].type).toEqual('designation')
       })
-      expect(result2).toHaveLength(2)
     })
   })
 })

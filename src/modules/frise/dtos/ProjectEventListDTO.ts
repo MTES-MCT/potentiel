@@ -5,6 +5,7 @@ export type ProjectEventDTO =
   | ProjectImportedDTO
   | ProjectCertificateGeneratedDTO
   | ProjectCertificateRegeneratedDTO
+  | ProjectCertificateUpdatedDTO
 
 export type ProjectNotifiedDTO = {
   type: 'ProjectNotified'
@@ -26,6 +27,12 @@ export type ProjectCertificateGeneratedDTO = {
 
 export type ProjectCertificateRegeneratedDTO = {
   type: 'ProjectCertificateRegenerated'
+  variant: Exclude<UserRole, 'ademe' | 'dreal'>
+  date: number
+}
+
+export type ProjectCertificateUpdatedDTO = {
+  type: 'ProjectCertificateUpdated'
   variant: Exclude<UserRole, 'ademe' | 'dreal'>
   date: number
 }
