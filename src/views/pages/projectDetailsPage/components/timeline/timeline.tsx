@@ -1,52 +1,34 @@
-import React, { useState } from 'react'
-import {
-  ProjectEventDTO,
-  ProjectEventListDTO,
-} from '../../../../../modules/frise/dtos/ProjectEventListDTO'
+import React from 'react'
 import { User } from '../../../../../entities'
+import { ProjectEventListDTO } from '../../../../../modules/frise/dtos/ProjectEventListDTO'
+import { mapTimelineItemList } from './mapTimelineItemList'
 import { TimelineNotificationItem } from './timelineNotificationItem'
 import { TimelineProjectImportedItem } from './timelineProjectImportedItem'
 
 export const Timeline = (props: { projectEventList: ProjectEventListDTO; user: User }) => {
-  const userHasRightsToSeeProjectImported = ['dgec', 'admin'].includes(props.user.role)
-  const userHasRightsToSeeProjectNotified = !['ademe'].includes(props.user.role)
-  const userHasRightsToDownloadCertificate = !['ademe', 'dreal'].includes(props.user.role)
-  const eventCount = props.projectEventList.events.length
-  let isCertificateAvailable = true
-  console.log('isCertificateAvailable BEFORE event processed : ', isCertificateAvailable)
+  const { projectEventList } = props
+
+  const timelineItemList = mapTimelineItemList(projectEventList).sort((a, b) => a.date - b.date)
+
+  const groupCount = timelineItemList.length
 
   return (
     <nav aria-label="Progress">
       <ol role="list" className="overflow-hidden list-none">
-        {props.projectEventList.events.map((event, eventIndex) => {
-          switch (event.type) {
-            case 'ProjectImported':
+        {timelineItemList.map((timelineItem, groupIndex) => {
+          const isLastItem = groupIndex === groupCount - 1
+          switch (timelineItem.type) {
+            case 'designation':
               return (
-                userHasRightsToSeeProjectImported && (
-                  <TimelineProjectImportedItem
-                    event={event}
-                    isLastItem={eventIndex === eventCount - 1}
-                  />
-                )
+                <TimelineNotificationItem events={timelineItem.events} isLastItem={isLastItem} />
               )
-            case 'ProjectNotified':
+            case 'import':
               return (
-                userHasRightsToSeeProjectNotified && (
-                  <TimelineNotificationItem
-                    event={event}
-                    isLastItem={eventIndex === eventCount - 1}
-                    user={props.user}
-                    isCertificateAvailable={isCertificateAvailable}
-                  />
-                )
+                <TimelineProjectImportedItem
+                  event={timelineItem.events[0]}
+                  isLastItem={isLastItem}
+                />
               )
-            case 'ProjectCertificateGenerated':
-              isCertificateAvailable = userHasRightsToDownloadCertificate ? true : false
-              console.log('isCertificateAvailable AFTER event processed : ', isCertificateAvailable)
-              return null
-
-            default:
-              return null
           }
         })}
       </ol>
