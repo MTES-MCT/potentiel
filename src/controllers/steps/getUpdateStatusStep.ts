@@ -10,7 +10,7 @@ v1Router.get(
   routes.UPDATE_PROJECT_STEP_STATUS(),
   ensureRole(['dreal']),
   asyncHandler(async (request, response) => {
-    const redirectUrl = request.get('Referrer') || routes.ADMIN_DREAL_LIST
+    const redirectUrl = routes.ADMIN_GARANTIES_FINANCIERES
 
     const { user } = request
     const { projectId, newStatus, projectStepId } = request.params
@@ -32,7 +32,7 @@ v1Router.get(
           routes.SUCCESS_OR_ERROR_PAGE({
             success: `Cette étape projet est bien considérée comme ${newStatus}.`,
             redirectUrl,
-            redirectTitle: 'Retourner à la liste des projets',
+            redirectTitle: 'Retourner à la liste des garantes financières',
           })
         ),
       (e: Error) => {
