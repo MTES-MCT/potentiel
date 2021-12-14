@@ -35,7 +35,7 @@ const EventClassByType: Record<string, HasEventConstructor> = {
   ...LegacyCandidateNotificationEvents,
 }
 
-export const fromRedisMessage = (message: RedisMessage): DomainEvent | null => {
+export const fromRedisMessage = (message: RedisMessage): DomainEvent => {
   const EventClass = EventClassByType[message.type]
 
   try {
@@ -56,6 +56,6 @@ export const fromRedisMessage = (message: RedisMessage): DomainEvent | null => {
   } catch (error) {
     logger.error(`fromRedisTuple failed to parse ${JSON.stringify(message)}`)
     logger.error(error)
-    return null
+    throw error
   }
 }

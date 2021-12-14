@@ -28,9 +28,7 @@ const makeRedisSubscribe = ({ redis, streamName }: MakeRedisSubscribeDeps): Redi
       const actualEventValue = JSON.parse(eventValue)
       const event = fromRedisMessage(actualEventValue)
 
-      if (event) {
-        await callback(event)
-      }
+      await callback(event)
     }
 
     const listenForMessage = async () => {
@@ -50,6 +48,8 @@ const makeRedisSubscribe = ({ redis, streamName }: MakeRedisSubscribeDeps): Redi
           logger.error(
             `An error occured while handling the event ${eventType} with consumer ${consumerName}`
           )
+          logger.error(error)
+
           await redis.xadd(`${consumerName}-DLQ`, '*', messageValue)
         }
 
