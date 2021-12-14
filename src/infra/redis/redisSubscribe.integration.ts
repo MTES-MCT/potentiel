@@ -86,29 +86,32 @@ describe('redisSubscribe', () => {
   })
 
   describe('when the consumer failed to handle the event', () => {
-    it('should not call the consumer with the message that failed before', async () => {
+    const failedEvent = {
+      type: UserProjectsLinkedByContactEmail.type,
+      payload: { userId: 'failed', projectIds: ['1', '2', '3'] },
+      occurredAt: 1234,
+    }
+    const successfulEvent = {
+      type: UserProjectsLinkedByContactEmail.type,
+      payload: { userId: '3', projectIds: ['4', '5', '6'] },
+      occurredAt: 5678,
+    }
+
+    const consumer = jest.fn().mockImplementation((event) => {
+      if (event.payload.userId === 'failed') {
+        return Promise.reject('An error occured')
+      }
+
+      return Promise.resolve()
+    })
+
+    it('should send the failed message to the consumer only once', async () => {
       const redisSubscribe = makeRedisSubscribe({
         redis: redisDependency,
         streamName,
       })
-
-      const consumer = jest
-        .fn()
-        .mockImplementationOnce(() => Promise.reject('An error occured'))
-        .mockImplementation(() => Promise.resolve())
-
       redisSubscribe(consumer, 'MyConsumer')
 
-      const failedEvent = {
-        type: UserProjectsLinkedByContactEmail.type,
-        payload: { userId: '2', projectIds: ['1', '2', '3'] },
-        occurredAt: 1234,
-      }
-      const successfulEvent = {
-        type: UserProjectsLinkedByContactEmail.type,
-        payload: { userId: '3', projectIds: ['4', '5', '6'] },
-        occurredAt: 5678,
-      }
       await redis.xadd(streamName, '*', failedEvent.type, JSON.stringify(failedEvent))
       await redis.xadd(streamName, '*', successfulEvent.type, JSON.stringify(successfulEvent))
 
@@ -129,24 +132,8 @@ describe('redisSubscribe', () => {
         redis: redisDependency,
         streamName,
       })
-
-      const consumer = jest
-        .fn()
-        .mockImplementationOnce(() => Promise.reject('An error occured'))
-        .mockImplementation(() => Promise.resolve())
-
       redisSubscribe(consumer, 'MyConsumer')
 
-      const failedEvent = {
-        type: UserProjectsLinkedByContactEmail.type,
-        payload: { userId: '2', projectIds: ['1', '2', '3'] },
-        occurredAt: 1234,
-      }
-      const successfulEvent = {
-        type: UserProjectsLinkedByContactEmail.type,
-        payload: { userId: '3', projectIds: ['4', '5', '6'] },
-        occurredAt: 5678,
-      }
       await redis.xadd(streamName, '*', failedEvent.type, JSON.stringify(failedEvent))
       await redis.xadd(streamName, '*', successfulEvent.type, JSON.stringify(successfulEvent))
 
