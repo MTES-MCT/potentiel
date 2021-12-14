@@ -1,4 +1,5 @@
 import { initProjections, initProjectors, initProjectionsNext } from '../infra/sequelize'
+import { subscribeToRedis } from './eventBus.config'
 import { eventStore } from './eventStore.config'
 
 // This is legacy
@@ -9,10 +10,7 @@ const projectors = initProjectors(eventStore)
 console.log(`Initialized projectors: ${projectors.join(', ')}`)
 
 const projectorsNExt = initProjectionsNext({
-  subscribe: (cb, consumerName) => {
-    console.log(`${consumerName} is listening to incoming events`)
-    // TODO: send ALL events to the callback
-  },
+  subscribe: subscribeToRedis,
 })
 console.log(`Initialized nextgen projectors: ${projectorsNExt.join(', ')}`)
 
