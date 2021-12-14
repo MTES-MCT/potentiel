@@ -13,10 +13,15 @@ type TimelineItemList = TimelineItem[]
 type MapTimelineItemList = (projectEventList: ProjectEventListDTO) => TimelineItemList
 
 export const mapTimelineItemList: MapTimelineItemList = (projectEventList) => {
-  return [
-    {
-      events: projectEventList.events,
-      date: projectEventList.events.find((event) => (event.type = 'ProjectNotified'))?.date,
-    },
-  ]
+  const projectNotifiedEvent = projectEventList.events.find(
+    (event) => event.type === 'ProjectNotified'
+  )
+  return projectNotifiedEvent
+    ? [
+        {
+          events: projectEventList.events,
+          date: projectNotifiedEvent.date,
+        },
+      ]
+    : []
 }
