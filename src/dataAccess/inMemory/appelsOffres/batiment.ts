@@ -123,7 +123,10 @@ const batiment: AppelOffre = {
       title: 'treizième',
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
-      noteThresholdByFamily: [{ familleId: '2', noteThreshold: 26.91 }],
+      noteThresholdByFamily: [
+        { familleId: '1', noteThreshold: 22.59 },
+        { familleId: '2', noteThreshold: 26.91 },
+      ],
       certificateTemplate: 'v1',
     },
   ],
