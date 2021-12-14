@@ -3,7 +3,6 @@ import { makeRedisSubscribe } from './redisSubscribe'
 import { UserProjectsLinkedByContactEmail } from '../../modules/authZ'
 import { fromRedisMessage } from './helpers/fromRedisMessage'
 import waitForExpect from 'wait-for-expect'
-import { errAsync, okAsync } from 'neverthrow'
 
 describe('redisSubscribe', () => {
   const streamName = 'potentiel-event-bus-subscribe-tests'
@@ -19,13 +18,12 @@ describe('redisSubscribe', () => {
 
   afterEach(async () => {
     await redis.del(streamName)
-    await redis.del('MyConsumer-DLQ')
-    duplicatedRedisClients.map((r) => r.status !== 'end' && r.disconnect())
   })
 
   afterAll(async () => {
-    await redis.quit()
+    duplicatedRedisClients.map((r) => r.status !== 'end' && r.disconnect())
     await redisDependency.quit()
+    await redis.quit()
   })
 
   describe('when subscribing before some messages were added to the stream', () => {
@@ -106,6 +104,8 @@ describe('redisSubscribe', () => {
     })
 
     it('should send the failed message to the consumer only once', async () => {
+      await redis.del('MyConsumer-DLQ')
+
       const redisSubscribe = makeRedisSubscribe({
         redis: redisDependency,
         streamName,
@@ -128,6 +128,8 @@ describe('redisSubscribe', () => {
       })
     })
     it('should add the failed event to the consumer dead letter queue', async () => {
+      await redis.del('MyConsumer-DLQ')
+
       const redisSubscribe = makeRedisSubscribe({
         redis: redisDependency,
         streamName,
