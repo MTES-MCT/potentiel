@@ -13,16 +13,21 @@ const projectEventList = {
     {
       type: 'ProjectNotified' as 'ProjectNotified',
       variant: 'admin' as 'admin',
-      payload: undefined,
       date: 12,
     },
     {
-      type: 'ProjectNotified' as 'ProjectNotified',
+      type: 'ProjectCertificateGenerated' as 'ProjectCertificateGenerated',
       variant: 'admin' as 'admin',
-      payload: undefined,
-      date: 12,
+      date: 13,
     },
   ],
+}
+
+const admin = {
+  id: '1',
+  fullName: 'nom prénom',
+  email: 'email',
+  role: 'admin' as 'admin',
 }
 
 const dgec = {
@@ -46,4 +51,4 @@ const porteurProjet = {
   role: 'porteur-projet' as 'porteur-projet',
 }
 
-export const timeline = () => <Timeline projectEventList={projectEventList} user={dgec} />
+export const timeline = () => <Timeline projectEventList={projectEventList} user={admin} />

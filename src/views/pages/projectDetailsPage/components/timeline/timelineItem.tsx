@@ -1,12 +1,14 @@
 import React from 'react'
 import { CheckIcon } from '@heroicons/react/solid'
-import { formatDate } from '../../../../helpers/formatDate'
-import { ProjectEventDTO } from '../../../../modules/frise/dtos/ProjectEventListDTO'
+import { formatDate } from '../../../../../helpers/formatDate'
+import { ProjectEventDTO } from '../../../../../modules/frise/dtos/ProjectEventListDTO'
 
 export const TimelineItem = (props: {
   isLastItem: boolean
   event: ProjectEventDTO
   title: string
+  documentAvailable?: boolean
+  documentTitle?: string
 }) => {
   const mainColor = 'green'
 
@@ -37,6 +39,7 @@ export const TimelineItem = (props: {
             {formatDate(props.event.date)}
           </span>
           <span className="text-sm font-semibold tracking-wide uppercase">{props.title}</span>
+          {props.documentAvailable && <a href="#">{props.documentTitle}</a>}
         </div>
       </div>
     </li>
