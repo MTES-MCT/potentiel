@@ -35,7 +35,6 @@ describe('notification.handleUserInvitedToProject', () => {
           invitedBy: userId,
         },
         original: {
-          version: 1,
           occurredAt: new Date(1),
         },
       })

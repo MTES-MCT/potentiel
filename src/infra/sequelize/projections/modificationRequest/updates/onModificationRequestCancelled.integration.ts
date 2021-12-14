@@ -20,7 +20,6 @@ describeProjector(onModificationRequestCancelled)
         cancelledBy: userId,
       },
       original: {
-        version: 1,
         occurredAt: new Date(123),
       },
     })

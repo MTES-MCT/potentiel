@@ -34,7 +34,6 @@ describe('modificationRequest.onConfirmationRequested', () => {
           responseFileId: fileId,
         },
         original: {
-          version: 1,
           occurredAt: new Date(123),
         },
       })

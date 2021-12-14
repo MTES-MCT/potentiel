@@ -20,7 +20,6 @@ describe('sequelize.persistEventsToStore', () => {
       },
       original: {
         occurredAt: new Date(1234),
-        version: 1,
       },
       requestId,
     })
@@ -34,7 +33,6 @@ describe('sequelize.persistEventsToStore', () => {
       },
       original: {
         occurredAt: new Date(3456),
-        version: 2,
       },
     })
     expect(eventWithMultipleAggregateIds.aggregateId).toHaveLength(2)

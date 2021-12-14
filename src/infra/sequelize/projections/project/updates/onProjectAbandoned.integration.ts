@@ -33,7 +33,6 @@ describe('project.onProjectAbandoned', () => {
           abandonAcceptedBy: new UniqueEntityID().toString(),
         },
         original: {
-          version: 1,
           occurredAt: new Date(1234),
         },
       })

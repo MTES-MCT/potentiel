@@ -31,7 +31,7 @@ describe('rollbackEventsFromStore', () => {
       (eventId) =>
         new DummyEvent({
           payload: {},
-          original: { occurredAt: new Date(123), version: 1, eventId },
+          original: { occurredAt: new Date(123), eventId },
         })
     )
 

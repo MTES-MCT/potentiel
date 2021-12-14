@@ -39,7 +39,6 @@ describe('handleModificationReceived', () => {
           requestId,
           original: {
             occurredAt: date,
-            version: 1,
           },
         })
       )
@@ -71,7 +70,6 @@ describe('handleModificationReceived', () => {
           requestId,
           original: {
             occurredAt: date,
-            version: 1,
           },
         })
       )

@@ -269,7 +269,6 @@ export const makeProject = (args: {
               abandonAcceptedBy: '',
             },
             original: {
-              version: 1,
               occurredAt: new Date(abandonnedOn),
             },
           })

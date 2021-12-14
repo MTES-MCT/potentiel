@@ -41,7 +41,6 @@ const fakeHistory: DomainEvent[] = [
     },
     original: {
       occurredAt: new Date(123),
-      version: 1,
     },
   }),
   new ProjectNotified({
@@ -56,7 +55,6 @@ const fakeHistory: DomainEvent[] = [
     },
     original: {
       occurredAt: new Date(456),
-      version: 1,
     },
   }),
 ]
@@ -169,7 +167,6 @@ describe('Project.shouldCertificateBeGenerated', () => {
               },
               original: {
                 occurredAt: new Date(1000),
-                version: 1,
               },
             }),
             new ProjectNotificationDateSet({
@@ -180,7 +177,6 @@ describe('Project.shouldCertificateBeGenerated', () => {
               },
               original: {
                 occurredAt: new Date(1001),
-                version: 1,
               },
             }),
           ]),
@@ -207,7 +203,6 @@ describe('Project.shouldCertificateBeGenerated', () => {
               },
               original: {
                 occurredAt: new Date(456),
-                version: 1,
               },
             }),
           ]),

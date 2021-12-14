@@ -60,7 +60,6 @@ const fakeHistory: DomainEvent[] = [
     },
     original: {
       occurredAt: new Date(123),
-      version: 1,
     },
   }),
   new ProjectNotified({
@@ -75,7 +74,6 @@ const fakeHistory: DomainEvent[] = [
     },
     original: {
       occurredAt: new Date(456),
-      version: 1,
     },
   }),
   new ProjectCompletionDueDateSet({
@@ -85,7 +83,6 @@ const fakeHistory: DomainEvent[] = [
     },
     original: {
       occurredAt: new Date(678),
-      version: 1,
     },
   }),
 ]

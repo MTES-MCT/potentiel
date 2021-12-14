@@ -36,7 +36,6 @@ describe('modificationRequest.onModificationRequestStatusUpdated', () => {
         },
         original: {
           occurredAt: new Date(123),
-          version: 1,
         },
       })
     )

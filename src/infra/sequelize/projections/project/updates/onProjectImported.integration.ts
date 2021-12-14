@@ -32,7 +32,6 @@ describe('project.onProjectImported', () => {
           data: fakeProject,
         },
         original: {
-          version: 1,
           occurredAt: new Date(1234),
         },
       })

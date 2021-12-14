@@ -38,7 +38,6 @@ describe('project.onProjectReimported', () => {
           },
         },
         original: {
-          version: 1,
           occurredAt: new Date(1234),
         },
       })

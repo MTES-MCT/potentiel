@@ -36,7 +36,6 @@ const fakeHistory: DomainEvent[] = [
     },
     original: {
       occurredAt: new Date(123),
-      version: 1,
     },
   }),
   new ProjectNotified({
@@ -51,7 +50,6 @@ const fakeHistory: DomainEvent[] = [
     },
     original: {
       occurredAt: new Date(456),
-      version: 1,
     },
   }),
 ]

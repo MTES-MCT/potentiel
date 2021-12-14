@@ -30,7 +30,6 @@ describe('projectStep.onProjectStepSubmitted', () => {
           submittedBy: userId,
         },
         original: {
-          version: 1,
           occurredAt: new Date(345),
         },
       })
@@ -64,7 +63,6 @@ describe('projectStep.onProjectStepSubmitted', () => {
           submittedBy: userId,
         },
         original: {
-          version: 1,
           occurredAt: new Date(456),
         },
       })
@@ -99,7 +97,6 @@ describe('projectStep.onProjectStepSubmitted', () => {
           submittedBy: userId,
         },
         original: {
-          version: 1,
           occurredAt: new Date(456),
         },
       })
