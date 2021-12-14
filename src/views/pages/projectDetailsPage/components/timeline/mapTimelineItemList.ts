@@ -1,13 +1,33 @@
 import {
+  ProjectCertificateGeneratedDTO,
+  ProjectCertificateRegeneratedDTO,
+  ProjectCertificateUpdatedDTO,
   ProjectEventDTO,
   ProjectEventListDTO,
+  ProjectImportedDTO,
+  ProjectNotifiedDTO,
 } from '../../../../../modules/frise/dtos/ProjectEventListDTO'
 
-type TimelineItem = {
-  events: ProjectEventDTO[]
-  date?: number
-  type: 'designation' | 'import'
+type TimelineItem = DesignationItem | ImportItem
+
+type DesignationItem = {
+  type: 'designation'
+  events: (
+    | ProjectNotifiedDTO
+    | ProjectCertificateGeneratedDTO
+    | ProjectCertificateRegeneratedDTO
+    | ProjectCertificateUpdatedDTO
+  )[]
+  date: number
 }
+
+type ImportItem = {
+  type: 'import'
+  events: ProjectImportedDTO[]
+  date: number
+}
+
+const isDesignation = (item: TimelineItem): item is DesignationItem => item.type === 'designation'
 
 type TimelineItemList = TimelineItem[]
 
@@ -33,11 +53,11 @@ export const mapTimelineItemList: MapTimelineItemList = (projectEventList) => {
       case 'ProjectCertificateGenerated':
       case 'ProjectCertificateRegenerated':
       case 'ProjectCertificateUpdated':
-        const designation = timelineItemList.find((item) => item.type === 'designation')
+        const designation = timelineItemList.find(isDesignation)
         designation?.events.push(event)
         break
       case 'ProjectImported':
-        const hasDesignation = timelineItemList.some((item) => item.type === 'designation')
+        const hasDesignation = timelineItemList.some(isDesignation)
         if (!hasDesignation) {
           timelineItemList.push({
             events: [event],

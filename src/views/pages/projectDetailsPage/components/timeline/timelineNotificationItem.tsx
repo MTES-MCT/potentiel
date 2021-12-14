@@ -1,13 +1,21 @@
 import React from 'react'
-import { ProjectNotifiedDTO } from '../../../../../modules/frise/dtos/ProjectEventListDTO'
+import {
+  ProjectCertificateGeneratedDTO,
+  ProjectCertificateRegeneratedDTO,
+  ProjectCertificateUpdatedDTO,
+  ProjectNotifiedDTO,
+} from '../../../../../modules/frise/dtos'
 import { TimelineItem } from './timelineItem'
 import { User } from '../../../../../entities'
 
 export const TimelineNotificationItem = (props: {
-  event: ProjectNotifiedDTO
+  events: (
+    | ProjectNotifiedDTO
+    | ProjectCertificateGeneratedDTO
+    | ProjectCertificateRegeneratedDTO
+    | ProjectCertificateUpdatedDTO
+  )[]
   isLastItem: boolean
-  isCertificateAvailable: boolean
-  user: User
 }) => {
   const itemTitle = 'Notification de résultat'
   const documentTitle = "Télécharger l'attestation de désignation"
