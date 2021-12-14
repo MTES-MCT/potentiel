@@ -38,24 +38,18 @@ const EventClassByType: Record<string, HasEventConstructor> = {
 export const fromRedisMessage = (message: RedisMessage): DomainEvent => {
   const EventClass = EventClassByType[message.type]
 
-  try {
-    if (!EventClass) {
-      throw new Error('Event class not recognized')
-    }
-    const occurredAt = new Date(Number(message.occurredAt))
-    if (isNaN(occurredAt.getTime())) {
-      throw new Error('message occurredAt is not a valid timestamp')
-    }
-    return new EventClass({
-      payload: message.payload,
-      original: {
-        version: 1,
-        occurredAt,
-      },
-    })
-  } catch (error) {
-    logger.error(`fromRedisTuple failed to parse ${JSON.stringify(message)}`)
-    logger.error(error)
-    throw error
+  if (!EventClass) {
+    throw new Error('Event class not recognized')
   }
+  const occurredAt = new Date(Number(message.occurredAt))
+  if (isNaN(occurredAt.getTime())) {
+    throw new Error('message occurredAt is not a valid timestamp')
+  }
+  return new EventClass({
+    payload: message.payload,
+    original: {
+      version: 1,
+      occurredAt,
+    },
+  })
 }
