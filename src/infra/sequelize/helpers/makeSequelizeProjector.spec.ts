@@ -31,15 +31,25 @@ describe('makeSequelizeProjector', () => {
   } as SequelizeModel
 
   describe('on(Event, handler)', () => {
-    describe('when called before initEventStream', () => {
+    describe('when called for the same event type', () => {
       const handler = jest.fn((event: DummyEvent) => Promise.resolve())
       const handler2 = jest.fn((event: DummyEvent) => Promise.resolve())
-      const handler3 = jest.fn((event: OtherDummyEvent) => Promise.resolve())
 
       const projector = makeSequelizeProjector(fakeModel)
       projector.on(DummyEvent, handler)
-      projector.on(DummyEvent, handler2)
-      projector.on(OtherDummyEvent, handler3)
+
+      it('should throw an error', () => {
+        expect(() => projector.on(DummyEvent, handler2)).toThrow()
+      })
+    })
+
+    describe('when called before initEventStream', () => {
+      const handler = jest.fn((event: DummyEvent) => Promise.resolve())
+      const handler2 = jest.fn((event: OtherDummyEvent) => Promise.resolve())
+
+      const projector = makeSequelizeProjector(fakeModel)
+      projector.on(DummyEvent, handler)
+      projector.on(OtherDummyEvent, handler2)
 
       const eventStreamSubscribe = jest.fn((eventHandler, consumerName: string) => {})
 
@@ -58,15 +68,13 @@ describe('makeSequelizeProjector', () => {
         innerDummyEventHandler(fakeDummyEvent)
 
         expect(handler).toHaveBeenCalledWith(fakeDummyEvent)
-        expect(handler2).toHaveBeenCalledWith(fakeDummyEvent)
-        expect(handler3).not.toHaveBeenCalled()
+        expect(handler2).not.toHaveBeenCalled()
       })
     })
 
     describe('when called after initEventStream', () => {
       const handler = jest.fn((event: DummyEvent) => Promise.resolve())
-      const handler2 = jest.fn((event: DummyEvent) => Promise.resolve())
-      const handler3 = jest.fn((event: OtherDummyEvent) => Promise.resolve())
+      const handler2 = jest.fn((event: OtherDummyEvent) => Promise.resolve())
 
       const projector = makeSequelizeProjector(fakeModel)
       const eventStreamSubscribe = jest.fn((eventHandler, consumerName: string) => {})
@@ -76,8 +84,7 @@ describe('makeSequelizeProjector', () => {
       })
 
       projector.on(DummyEvent, handler)
-      projector.on(DummyEvent, handler2)
-      projector.on(OtherDummyEvent, handler3)
+      projector.on(OtherDummyEvent, handler2)
 
       it('should register a single handler on the eventStream, with the model as consumerName', () => {
         expect(eventStreamSubscribe).toHaveBeenCalledTimes(1)
@@ -90,8 +97,7 @@ describe('makeSequelizeProjector', () => {
         innerDummyEventHandler(fakeDummyEvent)
 
         expect(handler).toHaveBeenCalledWith(fakeDummyEvent)
-        expect(handler2).toHaveBeenCalledWith(fakeDummyEvent)
-        expect(handler3).not.toHaveBeenCalled()
+        expect(handler2).not.toHaveBeenCalled()
       })
     })
   })
