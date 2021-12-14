@@ -38,6 +38,11 @@ export const mapTimelineItemList: MapTimelineItemList = (projectEventList) => {
   const { events } = projectEventList
 
   for (const event of events) {
+    makeDesignationPackage(event)
+    makeImportPackage(event)
+  }
+
+  function makeDesignationPackage(event: ProjectEventDTO) {
     switch (event.type) {
       case 'ProjectNotified':
         timelineItemList.push({
@@ -56,6 +61,11 @@ export const mapTimelineItemList: MapTimelineItemList = (projectEventList) => {
         const designation = timelineItemList.find(isDesignation)
         designation?.events.push(event)
         break
+    }
+  }
+
+  function makeImportPackage(event: ProjectEventDTO) {
+    switch (event.type) {
       case 'ProjectImported':
         const hasDesignation = timelineItemList.some(isDesignation)
         if (!hasDesignation) {
