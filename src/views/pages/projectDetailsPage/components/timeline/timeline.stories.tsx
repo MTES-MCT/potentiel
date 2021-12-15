@@ -1,7 +1,10 @@
 import React from 'react'
+import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import { Timeline } from './Timeline'
 
 export default { title: 'Nouvelle frise' }
+
+const project = { ...makeFakeProject() }
 
 const projectEventList = {
   events: [
@@ -51,4 +54,6 @@ const porteurProjet = {
   role: 'porteur-projet' as 'porteur-projet',
 }
 
-export const timeline = () => <Timeline projectEventList={projectEventList} user={admin} />
+export const timeline = () => (
+  <Timeline projectEventList={projectEventList} user={admin} project={project} />
+)
