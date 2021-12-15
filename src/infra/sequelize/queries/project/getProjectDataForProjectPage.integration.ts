@@ -1,4 +1,5 @@
 import { UniqueEntityID } from '../../../../core/domain'
+import { EntityNotFoundError } from '../../../../modules/shared'
 import makeFakeFile from '../../../../__tests__/fixtures/file'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
 import makeFakeUser from '../../../../__tests__/fixtures/user'
@@ -338,6 +339,56 @@ describe('Sequelize getProjectDataForProjectPage', () => {
       expect(res).toMatchObject({
         isLegacy: false,
       })
+    })
+  })
+
+  describe('when project is not notified', () => {
+    beforeAll(async () => {
+      await resetDatabase()
+
+      await Project.create(makeFakeProject({ ...projectInfo, notifiedOn: 0 }))
+    })
+
+    it('should return EntityNotFoundError for porteur-projet', async () => {
+      const user = makeFakeUser({ role: 'porteur-projet' })
+
+      const res = await getProjectDataForProjectPage({ projectId, user })
+      expect(res._unsafeUnwrapErr()).toBeInstanceOf(EntityNotFoundError)
+    })
+
+    it('should return EntityNotFoundError for ademe', async () => {
+      const user = makeFakeUser({ role: 'ademe' })
+
+      const res = await getProjectDataForProjectPage({ projectId, user })
+      expect(res._unsafeUnwrapErr()).toBeInstanceOf(EntityNotFoundError)
+    })
+
+    it('should return EntityNotFoundError for acheteur-obligé', async () => {
+      const user = makeFakeUser({ role: 'acheteur-obligé' })
+
+      const res = await getProjectDataForProjectPage({ projectId, user })
+      expect(res._unsafeUnwrapErr()).toBeInstanceOf(EntityNotFoundError)
+    })
+
+    it('should return EntityNotFoundError for dreal', async () => {
+      const user = makeFakeUser({ role: 'dreal' })
+
+      const res = await getProjectDataForProjectPage({ projectId, user })
+      expect(res._unsafeUnwrapErr()).toBeInstanceOf(EntityNotFoundError)
+    })
+
+    it('should return DTO for admin', async () => {
+      const user = makeFakeUser({ role: 'admin' })
+
+      const res = await getProjectDataForProjectPage({ projectId, user })
+      expect(res.isOk()).toBe(true)
+    })
+
+    it('should return DTO for dgec', async () => {
+      const user = makeFakeUser({ role: 'dgec' })
+
+      const res = await getProjectDataForProjectPage({ projectId, user })
+      expect(res.isOk()).toBe(true)
     })
   })
 })
