@@ -7,6 +7,8 @@ import asyncHandler from 'express-async-handler'
 import { getCahiersChargesURLs } from '../../config'
 import { logger } from '../../core/utils'
 import { NewModificationRequestPage } from '../../views'
+import { validateUniqueId } from '../../helpers/validateUniqueId'
+import { errorResponse, notFoundResponse } from '../helpers'
 
 const ACTIONS = [
   'delai',
@@ -24,35 +26,35 @@ v1Router.get(
   asyncHandler(async (request, response) => {
     const { action, projectId } = request.query as any
 
-    if (!projectId || !ACTIONS.includes(action)) {
-      return response.redirect(routes.USER_DASHBOARD)
+    if (!validateUniqueId(projectId)) {
+      return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
+    }
+
+    if (!ACTIONS.includes(action)) {
+      return errorResponse({ request, response, customMessage: 'Le type de demande est erronné.' })
     }
 
     const project = await projectRepo.findById(projectId)
 
-    if (!project)
-      return response.redirect(
-        addQueryParams(routes.USER_DASHBOARD, {
-          error: "Le projet demandé n'existe pas",
-        })
-      )
+    if (!project) {
+      return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
+    }
 
     const { appelOffreId, periodeId } = project
 
     return await getCahiersChargesURLs(appelOffreId, periodeId).match(
       (cahiersChargesURLs) => {
-        response.send(
+        return response.send(
           NewModificationRequestPage({
             request,
             project,
             cahiersChargesURLs,
           })
         )
-        return
       },
-      async (error) => {
+      (error) => {
         logger.error(error)
-        return
+        return errorResponse({ request, response })
       }
     )
   })

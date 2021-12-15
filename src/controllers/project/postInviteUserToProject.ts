@@ -4,6 +4,10 @@ import { inviteUserToProject } from '../../config'
 import { ensureRole } from '../../config'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
+import { validateUniqueId } from '../../helpers/validateUniqueId'
+import { errorResponse, unauthorizedResponse } from '../helpers'
+import { UnauthorizedError } from '../../modules/shared'
+import { logger } from '../../core/utils'
 
 v1Router.post(
   routes.INVITE_USER_TO_PROJECT_ACTION,
@@ -13,6 +17,15 @@ v1Router.post(
     const { user } = request
 
     const projectIds = Array.isArray(projectId) ? projectId : [projectId]
+
+    if (!projectIds.every((projectId) => validateUniqueId(projectId))) {
+      return errorResponse({
+        request,
+        response,
+        customMessage:
+          'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
+      })
+    }
 
     const redirectTo = Array.isArray(projectId)
       ? routes.USER_LIST_PROJECTS
@@ -30,12 +43,15 @@ v1Router.post(
             success: 'Une invitation a bien été envoyée à ' + email,
           })
         ),
-      (error: Error) =>
-        response.redirect(
-          addQueryParams(redirectTo, {
-            error: error.message,
-          })
-        )
+      (error) => {
+        if (error instanceof UnauthorizedError) {
+          return unauthorizedResponse({ response, request })
+        }
+
+        logger.error(error)
+
+        return errorResponse({ request, response })
+      }
     )
   })
 )

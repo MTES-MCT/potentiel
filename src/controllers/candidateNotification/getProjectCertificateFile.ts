@@ -1,10 +1,12 @@
 import asyncHandler from 'express-async-handler'
 import { ensureRole, eventStore, loadFileForUser } from '../../config'
 import { UniqueEntityID } from '../../core/domain'
+import { validateUniqueId } from '../../helpers/validateUniqueId'
 import { FileAccessDeniedError, FileNotFoundError } from '../../modules/file'
 import { ProjectCertificateDownloaded } from '../../modules/project/events'
 import { InfraNotAvailableError } from '../../modules/shared'
 import routes from '../../routes'
+import { notFoundResponse, unauthorizedResponse, errorResponse } from '../helpers'
 import { v1Router } from '../v1Router'
 
 v1Router.get(
@@ -13,6 +15,10 @@ v1Router.get(
   asyncHandler(async (request, response) => {
     const { projectId, fileId } = request.params
     const { user } = request
+
+    if (!validateUniqueId(fileId) || !validateUniqueId(projectId)) {
+      return notFoundResponse({ request, response, ressourceTitle: 'Fichier' })
+    }
 
     await loadFileForUser({
       fileId: new UniqueEntityID(fileId),
@@ -33,14 +39,15 @@ v1Router.get(
 
         response.type('pdf')
         fileStream.contents.pipe(response)
+        return response.status(200)
       },
       async (e) => {
         if (e instanceof FileNotFoundError) {
-          response.status(404).send('Fichier introuvable.')
+          return notFoundResponse({ request, response, ressourceTitle: 'Fichier' })
         } else if (e instanceof FileAccessDeniedError) {
-          response.status(403).send('Accès interdit.')
+          return unauthorizedResponse({ request, response })
         } else if (e instanceof InfraNotAvailableError) {
-          response.status(500).send('Service indisponible. Merci de réessayer.')
+          return errorResponse({ request, response })
         }
       }
     )

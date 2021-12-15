@@ -6,6 +6,9 @@ import { ensureRole } from '../../config'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
 import { asLiteral } from '../../helpers/asLiteral'
+import { validateUniqueId } from '../../helpers/validateUniqueId'
+import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
+import { UnauthorizedError } from '../../modules/shared'
 
 v1Router.get(
   routes.SUPPRIMER_ETAPE_ACTION(),
@@ -14,8 +17,12 @@ v1Router.get(
     const { user } = request
     const { projectId, type } = request.params
 
-    if (!projectId || !['ptf', 'dcr', 'garantie-financiere'].includes(type)) {
-      return response.status(400).send('Requête erronnée')
+    if (!validateUniqueId(projectId)) {
+      return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
+    }
+
+    if (!['ptf', 'dcr', 'garantie-financiere'].includes(type)) {
+      return errorResponse({ request, response })
     }
 
     ;(
@@ -31,13 +38,13 @@ v1Router.get(
             success: 'Le dépôt été annulé avec succès',
           })
         ),
-      (e: Error) => {
+      (e) => {
+        if (e instanceof UnauthorizedError) {
+          return unauthorizedResponse({ request, response })
+        }
+
         logger.error(e)
-        return response.redirect(
-          addQueryParams(routes.PROJECT_DETAILS(projectId), {
-            error: `Le dépôt n'a pas pu être annulé.`,
-          })
-        )
+        return errorResponse({ request, response })
       }
     )
   })

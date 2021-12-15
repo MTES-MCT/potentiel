@@ -1,10 +1,12 @@
-import { logger } from '../../core/utils'
-import { addQueryParams } from '../../helpers/addQueryParams'
-import routes from '../../routes'
-import { updateStepStatus } from '../../config/useCases.config'
-import { ensureRole } from '../../config'
-import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
+import { ensureRole } from '../../config'
+import { updateStepStatus } from '../../config/useCases.config'
+import { logger } from '../../core/utils'
+import { validateUniqueId } from '../../helpers/validateUniqueId'
+import { UnauthorizedError } from '../../modules/shared'
+import routes from '../../routes'
+import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
+import { v1Router } from '../v1Router'
 
 v1Router.get(
   routes.UPDATE_PROJECT_STEP_STATUS(),
@@ -15,8 +17,12 @@ v1Router.get(
     const { user } = request
     const { projectId, newStatus, projectStepId } = request.params
 
-    if (!projectId || !projectStepId || !['à traiter', 'validé'].includes(newStatus)) {
-      return response.status(400).send('Requête erronnée')
+    if (!validateUniqueId(projectId) || !validateUniqueId(projectStepId)) {
+      return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
+    }
+
+    if (!['à traiter', 'validé'].includes(newStatus)) {
+      return errorResponse({ request, response, customStatus: 400 })
     }
 
     ;(
@@ -35,13 +41,13 @@ v1Router.get(
             redirectTitle: 'Retourner à la liste des garantes financières',
           })
         ),
-      (e: Error) => {
+      (e) => {
+        if (e instanceof UnauthorizedError) {
+          return unauthorizedResponse({ request, response })
+        }
+
         logger.error(e)
-        return response.redirect(
-          addQueryParams(redirectUrl, {
-            error: `Le statut de l'étape projet n'a pas pu être modifié.`,
-          })
-        )
+        return errorResponse({ request, response })
       }
     )
   })

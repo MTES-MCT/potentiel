@@ -1,23 +1,30 @@
+import { request } from 'express'
 import asyncHandler from 'express-async-handler'
 import fs from 'fs'
 import moment from 'moment-timezone'
 import {
   acceptModificationRequest,
+  ensureRole,
   rejectModificationRequest,
-  updateModificationRequestStatus,
   requestConfirmation,
+  updateModificationRequestStatus,
 } from '../../config'
 import { logger } from '../../core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { isDateFormatValid, isStrictlyPositiveNumber } from '../../helpers/formValidators'
 import { pathExists } from '../../helpers/pathExists'
+import { validateUniqueId } from '../../helpers/validateUniqueId'
 import {
   ModificationRequestAcceptanceParams,
   PuissanceVariationWithDecisionJusticeError,
 } from '../../modules/modificationRequest'
-import { AggregateHasBeenUpdatedSinceError } from '../../modules/shared'
+import {
+  AggregateHasBeenUpdatedSinceError,
+  EntityNotFoundError,
+  UnauthorizedError,
+} from '../../modules/shared'
 import routes from '../../routes'
-import { ensureRole } from '../../config'
+import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
 
@@ -44,6 +51,10 @@ v1Router.post(
       actionnaire,
     } = request.body
 
+    if (!validateUniqueId(modificationRequestId)) {
+      return notFoundResponse({ request, response, ressourceTitle: 'Demande' })
+    }
+
     // There are two submit buttons on the form, named submitAccept and submitReject
     // We know which one has been clicked when it has a string value
     const acceptedReply = typeof submitAccept === 'string'
@@ -67,7 +78,7 @@ v1Router.post(
         submittedBy: request.user,
       }).match(
         _handleSuccess(response, modificationRequestId),
-        _handleErrors(response, modificationRequestId)
+        _handleErrors(request, response, modificationRequestId)
       )
     }
 
@@ -140,7 +151,7 @@ v1Router.post(
         submittedBy: request.user,
       }).match(
         _handleSuccess(response, modificationRequestId),
-        _handleErrors(response, modificationRequestId)
+        _handleErrors(request, response, modificationRequestId)
       )
     }
 
@@ -155,7 +166,7 @@ v1Router.post(
         confirmationRequestedBy: request.user,
       }).match(
         _handleSuccess(response, modificationRequestId),
-        _handleErrors(response, modificationRequestId)
+        _handleErrors(request, response, modificationRequestId)
       )
     }
 
@@ -166,7 +177,7 @@ v1Router.post(
       rejectedBy: request.user,
     }).match(
       _handleSuccess(response, modificationRequestId),
-      _handleErrors(response, modificationRequestId)
+      _handleErrors(request, response, modificationRequestId)
     )
   })
 )
@@ -183,10 +194,8 @@ function _handleSuccess(response, modificationRequestId) {
   }
 }
 
-function _handleErrors(response, modificationRequestId) {
+function _handleErrors(request, response, modificationRequestId) {
   return (e) => {
-    logger.error(e)
-
     if (e instanceof AggregateHasBeenUpdatedSinceError) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
@@ -203,11 +212,17 @@ function _handleErrors(response, modificationRequestId) {
       )
     }
 
-    response.redirect(
-      addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
-        error: `Votre réponse n'a pas pu être prise en compte.`,
-      })
-    )
+    if (e instanceof EntityNotFoundError) {
+      return notFoundResponse({ request, response })
+    }
+
+    if (e instanceof UnauthorizedError) {
+      return unauthorizedResponse({ request, response })
+    }
+
+    logger.error(e)
+
+    return errorResponse({ request, response })
   }
 }
 

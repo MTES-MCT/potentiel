@@ -11,6 +11,8 @@ import { upload } from '../upload'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
 import { CertificateFileIsMissingError } from '../../modules/project/errors/CertificateFileIsMissingError'
+import { validateUniqueId } from '../../helpers/validateUniqueId'
+import { notFoundResponse } from '../helpers'
 
 const FORMAT_DATE = 'DD/MM/YYYY'
 
@@ -20,15 +22,16 @@ v1Router.post(
   upload.single('file'),
   ensureRole(['admin', 'dgec']),
   asyncHandler(async (request, response) => {
-    if(request.body.numeroCRE || request.body.familleId || request.body.appelOffreAndPeriode) {
+    if (request.body.numeroCRE || request.body.familleId || request.body.appelOffreAndPeriode) {
       return response.redirect(
         addQueryParams(routes.PROJECT_DETAILS(request.body.projectId), {
-          error: 'Vous tentez de changer une donnée non-modifiable, votre demande ne peut être prise en compte.',
+          error:
+            'Vous tentez de changer une donnée non-modifiable, votre demande ne peut être prise en compte.',
           ...request.body,
         })
       )
     }
-    
+
     const {
       projectId,
       projectVersionDate,
@@ -52,6 +55,10 @@ v1Router.post(
       reason,
       attestation,
     } = request.body
+
+    if (!validateUniqueId(projectId)) {
+      return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
+    }
 
     const { isFinancementParticipatif, isInvestissementParticipatif } =
       participatif === 'investissement'
@@ -113,7 +120,7 @@ v1Router.post(
       attestation,
     })
 
-    return await result.match(
+    return result.match(
       () => {
         response.redirect(
           routes.SUCCESS_OR_ERROR_PAGE({

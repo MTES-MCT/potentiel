@@ -19,6 +19,8 @@ import routes from '../../routes'
 import { shouldUserAccessProject } from '../../useCases'
 import { ensureRole } from '../../config'
 import { v1Router } from '../v1Router'
+import { validateUniqueId } from '../../helpers/validateUniqueId'
+import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
 
 v1Router.get(
   routes.TELECHARGER_MODELE_REPONSE(),
@@ -26,9 +28,13 @@ v1Router.get(
   asyncHandler(async (request, response) => {
     const { projectId, modificationRequestId } = request.params
 
+    if (!validateUniqueId(projectId) || !validateUniqueId(modificationRequestId)) {
+      return notFoundResponse({ request, response, ressourceTitle: 'Demande' })
+    }
+
     // Verify that the current user has the rights to check this out
     if (!(await shouldUserAccessProject({ user: request.user, projectId }))) {
-      return response.status(403).send('Impossible de générer le fichier demandé.')
+      return unauthorizedResponse({ request, response })
     }
 
     await getModificationRequestDataForResponseTemplate(
@@ -54,15 +60,9 @@ v1Router.get(
       },
       async (err): Promise<any> => {
         if (err instanceof EntityNotFoundError) {
-          return response
-            .status(404)
-            .send('Impossible de générer le fichier demandé. La demande est introuvable.')
+          return notFoundResponse({ request, response, ressourceTitle: 'Demande' })
         } else {
-          return response
-            .status(500)
-            .send(
-              'Impossible de générer le fichier demandé suite à une erreur système. Merci de contacter un administrateur.'
-            )
+          return errorResponse({ request, response })
         }
       }
     )
