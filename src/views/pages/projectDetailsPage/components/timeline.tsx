@@ -12,7 +12,11 @@ export const Timeline = (props: { projectEventList: ProjectEventListDTO; user: U
         {props.projectEventList.events.map(
           (event, eventIndex) =>
             userCanVisualizeNotificationDate && (
-              <TimelineNotificationItem event={event} isLastItem={eventIndex === eventCount - 1} />
+              <TimelineNotificationItem
+                key={eventIndex}
+                event={event}
+                isLastItem={eventIndex === eventCount - 1}
+              />
             )
         )}
       </ol>

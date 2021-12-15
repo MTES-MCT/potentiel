@@ -1,6 +1,10 @@
 import asyncHandler from 'express-async-handler'
 import { ensureRole } from '../../config'
-import { getCahiersChargesURLs, getProjectDataForProjectPage } from '../../config/queries.config'
+import {
+  getCahiersChargesURLs,
+  getProjectDataForProjectPage,
+  getProjectEvents,
+} from '../../config/queries.config'
 import { shouldUserAccessProject } from '../../config/useCases.config'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import { EntityNotFoundError } from '../../modules/shared'
@@ -42,13 +46,21 @@ v1Router.get(
           project,
         }))
       })
+      .andThen(({ cahiersChargesURLs, project }) =>
+        getProjectEvents({ projectId, user }).map((projectEventList) => ({
+          cahiersChargesURLs,
+          project,
+          projectEventList,
+        }))
+      )
       .match(
-        ({ cahiersChargesURLs, project }) => {
+        ({ cahiersChargesURLs, project, projectEventList }) => {
           return response.send(
             ProjectDetailsPage({
               request,
               project,
               cahiersChargesURLs,
+              projectEventList,
             })
           )
         },
