@@ -1,10 +1,6 @@
 import React from 'react'
 import { ProjectImportedDTO } from '../../../../../modules/frise/dtos/ProjectEventListDTO'
-import { ContentArea } from './ContentArea'
-import { ItemTitle } from './ItemTitle'
-import { PassedIcon } from './stateIcons'
-import { TimelineItem } from './TimelineItem'
-import { Date } from './Date'
+import { Date, TimelineItem, PassedIcon, ItemTitle, ContentArea } from './components'
 
 export const ImportItem = (props: { isLastItem: boolean; event: ProjectImportedDTO }) => {
   const title = 'Projet importé'

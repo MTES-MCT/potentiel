@@ -1,7 +1,7 @@
 import React from 'react'
 import { User } from '../../../../../entities'
 import { ProjectEventListDTO } from '../../../../../modules/frise/dtos/ProjectEventListDTO'
-import { mapTimelineItemList } from './mapTimelineItemList'
+import { mapTimelineItemList } from './helpers'
 import { DesignationItem } from './DesignationItem'
 import { ImportItem } from './ImportItem'
 

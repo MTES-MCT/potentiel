@@ -1,4 +1,5 @@
 import React from 'react'
+import { formatDate } from '../../../../../helpers/formatDate'
 import {
   ProjectCertificateGeneratedDTO,
   ProjectCertificateRegeneratedDTO,
@@ -6,12 +7,7 @@ import {
   ProjectEventDTO,
   ProjectNotifiedDTO,
 } from '../../../../../modules/frise/dtos'
-import { TimelineItem } from './TimelineItem'
-import { PassedIcon } from './stateIcons'
-import { ContentArea } from './ContentArea'
-import { Date } from './Date'
-import { ItemTitle } from './ItemTitle'
-import { formatDate } from '../../../../../helpers/formatDate'
+import { Date, TimelineItem, PassedIcon, ItemTitle, ContentArea } from './components'
 
 export const DesignationItem = (props: {
   events: (
