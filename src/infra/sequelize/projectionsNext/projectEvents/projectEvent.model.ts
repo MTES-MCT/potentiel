@@ -22,7 +22,7 @@ export const ProjectEvent = withSequelizeProjector(() => {
         type: DataTypes.JSON,
       },
       valueDate: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         allowNull: true,
       },
     },
