@@ -1,5 +1,5 @@
 import React from 'react'
-import { Timeline } from './timeline'
+import { Timeline } from './Timeline'
 
 export default { title: 'Nouvelle frise' }
 

@@ -6,11 +6,11 @@ import {
   ProjectEventDTO,
   ProjectNotifiedDTO,
 } from '../../../../../modules/frise/dtos'
-import { TimelineItem } from './timelineItem'
+import { TimelineItem } from './TimelineItem'
 import { PassedIcon } from './stateIcons'
-import { ContentArea } from './contentArea'
-import { Date } from './date'
-import { ItemTitle } from './itemTitle'
+import { ContentArea } from './ContentArea'
+import { Date } from './Date'
+import { ItemTitle } from './ItemTitle'
 import { formatDate } from '../../../../../helpers/formatDate'
 
 export const DesignationItem = (props: {

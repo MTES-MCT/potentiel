@@ -2,8 +2,8 @@ import React from 'react'
 import { User } from '../../../../../entities'
 import { ProjectEventListDTO } from '../../../../../modules/frise/dtos/ProjectEventListDTO'
 import { mapTimelineItemList } from './mapTimelineItemList'
-import { DesignationItem } from './designationItem'
-import { ImportItem } from './importItem'
+import { DesignationItem } from './DesignationItem'
+import { ImportItem } from './ImportItem'
 
 export const Timeline = (props: { projectEventList: ProjectEventListDTO; user: User }) => {
   const { projectEventList } = props
