@@ -111,8 +111,12 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           completionDueOn,
           updatedAt,
           newRulesOptIn,
-          potentielIdentifier
+          potentielIdentifier,
         } = projectRaw.get()
+
+        if (!notifiedOn && !['admin', 'dgec'].includes(user.role)) {
+          return err(new EntityNotFoundError())
+        }
 
         const result: any = {
           id,
