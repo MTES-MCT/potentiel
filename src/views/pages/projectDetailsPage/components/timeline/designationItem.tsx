@@ -4,10 +4,10 @@ import {
   ProjectCertificateGeneratedDTO,
   ProjectCertificateRegeneratedDTO,
   ProjectCertificateUpdatedDTO,
-  ProjectEventDTO,
   ProjectNotifiedDTO,
 } from '../../../../../modules/frise/dtos'
 import { Date, TimelineItem, PassedIcon, ItemTitle, ContentArea } from './components'
+import { getLatestCertificateEvent } from './helpers'
 
 export const DesignationItem = (props: {
   events: (
@@ -18,34 +18,19 @@ export const DesignationItem = (props: {
   )[]
   isLastItem: boolean
 }) => {
-  const notification = props.events.find((event) => event.type === 'ProjectNotified')
-
-  const getLatestCertificateEvent = (events: ProjectEventDTO[]) => {
-    const certificateEvents: ProjectEventDTO[] = []
-    for (const event of events) {
-      if (
-        [
-          'ProjectCertificateGenerated',
-          'ProjectCertificateRegenerated',
-          'ProjectCertificateUpdated',
-        ].includes(event.type)
-      ) {
-        certificateEvents.push(event)
-      }
-    }
-    return certificateEvents[certificateEvents.length - 1]
-  }
+  const notificationEvent = props.events.find((event) => event.type === 'ProjectNotified')
+  const certificateEvent = getLatestCertificateEvent(props.events)
 
   return (
     <TimelineItem isLastItem={props.isLastItem}>
       <PassedIcon />
       <ContentArea>
-        {notification?.date && <Date date={notification?.date} />}
+        {notificationEvent?.date && <Date date={notificationEvent?.date} />}
         <ItemTitle title="Notification de résultat" />
-        {getLatestCertificateEvent(props.events) && (
+        {certificateEvent && (
           <a>
             Télécharger l'attestation de désignation (éditée le{' '}
-            <span>{formatDate(getLatestCertificateEvent(props.events).date)})</span>
+            <span>{formatDate(certificateEvent.date)})</span>
           </a>
         )}
       </ContentArea>
