@@ -1,6 +1,5 @@
 import React from 'react'
-import { formatDate } from '../../../../../helpers/formatDate'
-import { ProjectEventDTO } from '../../../../../modules/frise/dtos/ProjectEventListDTO'
+import { formatDate } from '../../../../../../helpers/formatDate'
 
 export const Date = (props: { date: number }) => {
   return (
