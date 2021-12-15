@@ -2,8 +2,8 @@ import React from 'react'
 import { User } from '../../../../../entities'
 import { ProjectEventListDTO } from '../../../../../modules/frise/dtos/ProjectEventListDTO'
 import { mapTimelineItemList } from './mapTimelineItemList'
-import { TimelineNotificationItem } from './timelineNotificationItem'
-import { TimelineProjectImportedItem } from './timelineProjectImportedItem'
+import { DesignationItem } from './designationItem'
+import { ImportItem } from './importItem'
 
 export const Timeline = (props: { projectEventList: ProjectEventListDTO; user: User }) => {
   const { projectEventList } = props
@@ -19,16 +19,9 @@ export const Timeline = (props: { projectEventList: ProjectEventListDTO; user: U
           const isLastItem = groupIndex === groupCount - 1
           switch (timelineItem.type) {
             case 'designation':
-              return (
-                <TimelineNotificationItem events={timelineItem.events} isLastItem={isLastItem} />
-              )
+              return <DesignationItem events={timelineItem.events} isLastItem={isLastItem} />
             case 'import':
-              return (
-                <TimelineProjectImportedItem
-                  event={timelineItem.events[0]}
-                  isLastItem={isLastItem}
-                />
-              )
+              return <ImportItem event={timelineItem.events[0]} isLastItem={isLastItem} />
           }
         })}
       </ol>
