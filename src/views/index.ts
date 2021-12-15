@@ -1,5 +1,11 @@
 import { makeHtml } from './index.html'
-import { Statistiques, ProjectDetails, GarantiesFinancieres, NewModificationRequest } from './pages'
+import {
+  Statistiques,
+  ProjectDetails,
+  GarantiesFinancieres,
+  NewModificationRequest,
+  Error,
+} from './pages'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
   makeHtml({
@@ -25,7 +31,7 @@ export const GarantiesFinancieresPage = (props: Parameters<typeof GarantiesFinan
     pageName: 'garantiesFinancieres', // This must match the Component name
   })
 
-  export const NewModificationRequestPage = (props: Parameters<typeof NewModificationRequest>[0]) =>
+export const NewModificationRequestPage = (props: Parameters<typeof NewModificationRequest>[0]) =>
   makeHtml({
     Component: NewModificationRequest,
     props,
@@ -33,3 +39,9 @@ export const GarantiesFinancieresPage = (props: Parameters<typeof GarantiesFinan
     pageName: 'newModificationRequest', // This must match the Component name
   })
 
+export const ErrorPage = (props: Parameters<typeof Error>[0]) =>
+  makeHtml({
+    Component: Error,
+    props,
+    hydrate: false,
+  })
