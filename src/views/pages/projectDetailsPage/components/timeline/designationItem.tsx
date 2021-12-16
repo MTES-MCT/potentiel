@@ -1,6 +1,7 @@
 import React from 'react'
 import { formatDate } from '../../../../../helpers/formatDate'
 import {
+  ProjectCertificateDTO,
   ProjectCertificateGeneratedDTO,
   ProjectCertificateRegeneratedDTO,
   ProjectCertificateUpdatedDTO,
@@ -8,43 +9,41 @@ import {
 } from '../../../../../modules/frise/dtos'
 import { Date, TimelineItem, PassedIcon, ItemTitle, ContentArea } from './components'
 import { getLatestCertificateEvent } from './helpers'
-import ROUTES from '../../../../../routes'
-import { ProjectDataForProjectPage } from '../../../../../modules/project/dtos'
-import { User } from '../../../../../entities'
+import { Project, User } from '../../../../../entities'
+import { makeCertificateLink } from './helpers/makeCertificateLink'
 
 export const DesignationItem = (props: {
   events: (
     | ProjectNotifiedDTO
+    | ProjectCertificateDTO
     | ProjectCertificateGeneratedDTO
     | ProjectCertificateRegeneratedDTO
     | ProjectCertificateUpdatedDTO
   )[]
   isLastItem: boolean
-  project: ProjectDataForProjectPage
   user: User
+  projectId: Project['id']
 }) => {
-  const notificationEvent = props.events.find((event) => event.type === 'ProjectNotified')
-  const certificateEvent = getLatestCertificateEvent(props.events)
-  const certificateLink =
-    props.user.role === 'porteur-projet'
-      ? ROUTES.CANDIDATE_CERTIFICATE_FOR_CANDIDATES(props.project)
-      : props.user.role === 'admin' || 'dgec'
-      ? ROUTES.CANDIDATE_CERTIFICATE_FOR_ADMINS(props.project)
-      : null
+  const projectId = props.projectId
+  const notificationEvent = props.events.find(
+    (event): event is ProjectNotifiedDTO => event.type === 'ProjectNotified'
+  )
+  const latestCertificateEvent = getLatestCertificateEvent(props.events)
+  const certificateLink = makeCertificateLink(latestCertificateEvent, projectId)
 
-  return (
+  return notificationEvent ? (
     <TimelineItem isLastItem={props.isLastItem}>
       <PassedIcon />
       <ContentArea>
-        {notificationEvent?.date && <Date date={notificationEvent?.date} />}
+        <Date date={notificationEvent.date} />
         <ItemTitle title="Notification de résultat" />
-        {certificateEvent && certificateLink && (
+        {latestCertificateEvent && certificateLink && (
           <a href={certificateLink}>
             Télécharger l'attestation de désignation (éditée le{' '}
-            <span>{formatDate(certificateEvent.date)})</span>
+            <span>{formatDate(latestCertificateEvent.date)})</span>
           </a>
         )}
       </ContentArea>
     </TimelineItem>
-  )
+  ) : null
 }

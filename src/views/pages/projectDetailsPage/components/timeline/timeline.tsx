@@ -1,15 +1,14 @@
 import React from 'react'
-import { User } from '../../../../../entities'
+import { Project, User } from '../../../../../entities'
 import { ProjectEventListDTO } from '../../../../../modules/frise/dtos/ProjectEventListDTO'
 import { mapTimelineItemList } from './helpers'
 import { DesignationItem } from './DesignationItem'
 import { ImportItem } from './ImportItem'
-import { ProjectDataForProjectPage } from '../../../../../modules/project/dtos'
 
 export const Timeline = (props: {
   projectEventList: ProjectEventListDTO
   user: User
-  project: ProjectDataForProjectPage
+  projectId: Project['id']
 }) => {
   const { projectEventList } = props
 
@@ -28,8 +27,8 @@ export const Timeline = (props: {
                 <DesignationItem
                   events={timelineItem.events}
                   isLastItem={isLastItem}
-                  project={props.project}
                   user={props.user}
+                  projectId={props.projectId}
                 />
               )
             case 'import':

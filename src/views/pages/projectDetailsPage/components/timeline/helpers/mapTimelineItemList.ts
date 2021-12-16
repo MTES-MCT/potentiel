@@ -6,7 +6,7 @@ import {
   ProjectEventListDTO,
   ProjectImportedDTO,
   ProjectNotifiedDTO,
-} from '../../../../../modules/frise/dtos/ProjectEventListDTO'
+} from '../../../../../../modules/frise/dtos/ProjectEventListDTO'
 
 type TimelineItem = DesignationItem | ImportItem
 

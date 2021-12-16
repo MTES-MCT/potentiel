@@ -6,7 +6,6 @@ export type ProjectEventDTO =
   | ProjectCertificateGeneratedDTO
   | ProjectCertificateRegeneratedDTO
   | ProjectCertificateUpdatedDTO
-  | ProjectCertificateDTO
 
 export type ProjectNotifiedDTO = {
   type: 'ProjectNotified'
@@ -20,8 +19,7 @@ export type ProjectImportedDTO = {
   date: number
 }
 
-export type ProjectCertificateDTO = {
-  type: 'ProjectCertificate'
+type ProjectCertificateBase = {
   date: number
   potentielIdentifier: string
   certificateFileId: string
@@ -31,36 +29,28 @@ export type ProjectCertificateDTO = {
   | { variant: 'porteur-projet' | 'acheteur-obligé'; email: undefined }
 )
 
-export type ProjectCertificateGeneratedDTO = {
+export type ProjectCertificateGeneratedDTO = ProjectCertificateBase & {
   type: 'ProjectCertificateGenerated'
-  date: number
-  potentielIdentifier: string
-  certificateFileId: string
-  nomProjet: string
-} & (
-  | { variant: 'admin' | 'dgec'; email: string }
-  | { variant: 'porteur-projet' | 'acheteur-obligé'; email: undefined }
-)
+}
 
-export type ProjectCertificateRegeneratedDTO = {
+export type ProjectCertificateRegeneratedDTO = ProjectCertificateBase & {
   type: 'ProjectCertificateRegenerated'
-  date: number
-  potentielIdentifier: string
-  certificateFileId: string
-  nomProjet: string
-} & (
-  | { variant: 'admin' | 'dgec'; email: string }
-  | { variant: 'porteur-projet' | 'acheteur-obligé'; email: undefined }
-)
-export type ProjectCertificateUpdatedDTO = {
+}
+
+export type ProjectCertificateUpdatedDTO = ProjectCertificateBase & {
   type: 'ProjectCertificateUpdated'
-  date: number
-  potentielIdentifier: string
-  certificateFileId: string
-  nomProjet: string
-} & (
-  | { variant: 'admin' | 'dgec'; email: string }
-  | { variant: 'porteur-projet' | 'acheteur-obligé'; email: undefined }
-)
+}
+
+export type ProjectCertificateDTO =
+  | ProjectCertificateGeneratedDTO
+  | ProjectCertificateRegeneratedDTO
+  | ProjectCertificateUpdatedDTO
+
+export const isCertificateDTO = (event: ProjectEventDTO): event is ProjectCertificateDTO =>
+  [
+    'ProjectCertificateGenerated',
+    'ProjectCertificateRegenerated',
+    'ProjectCertificateUpdated',
+  ].includes(event.type)
 
 export type ProjectEventListDTO = { events: ProjectEventDTO[] }
