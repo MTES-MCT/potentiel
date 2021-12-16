@@ -14,7 +14,7 @@ describe('onProjectNotified', () => {
       new ProjectNotified({
         payload: {
           projectId,
-          notifiedOn: 1234,
+          notifiedOn: new Date('2021-12-15').getTime(),
         } as ProjectNotifiedPayload,
       })
     )
@@ -25,6 +25,9 @@ describe('onProjectNotified', () => {
 
     expect(projectEvent).not.toBeNull()
 
-    expect(projectEvent).toMatchObject({ type: 'ProjectNotified', valueDate: 1234 })
+    expect(projectEvent).toMatchObject({
+      type: 'ProjectNotified',
+      valueDate: new Date('2021-12-15').getTime(),
+    })
   })
 })
