@@ -105,4 +105,92 @@ describe('frise.getProjectEvents', () => {
       })
     })
   })
+
+  for (const role of USER_ROLES.filter((role) => role !== 'ademe' && role !== 'dreal')) {
+    describe(`when the user is ${role}`, () => {
+      const fakeUser = { role } as User
+      it('should return ProjectCertificateGenerated, ProjectCertificateRegenerated and ProjectCertificateUpdated events', async () => {
+        await resetDatabase()
+
+        await ProjectEvent.create({
+          id: new UniqueEntityID().toString(),
+          projectId,
+          type: 'ProjectCertificateGenerated',
+          valueDate: 1234,
+        })
+
+        await ProjectEvent.create({
+          id: new UniqueEntityID().toString(),
+          projectId,
+          type: 'ProjectCertificateRegenerated',
+          valueDate: 1234,
+        })
+
+        await ProjectEvent.create({
+          id: new UniqueEntityID().toString(),
+          projectId,
+          type: 'ProjectCertificateUpdated',
+          valueDate: 1234,
+        })
+
+        const res = await getProjectEvents({ projectId, user: fakeUser })
+
+        expect(res._unsafeUnwrap()).toMatchObject({
+          events: [
+            {
+              type: 'ProjectCertificateGenerated',
+              date: 1234,
+              variant: role,
+            },
+            {
+              type: 'ProjectCertificateRegenerated',
+              date: 1234,
+              variant: role,
+            },
+            {
+              type: 'ProjectCertificateUpdated',
+              date: 1234,
+              variant: role,
+            },
+          ],
+        })
+      })
+    })
+  }
+
+  for (const role of USER_ROLES.filter((role) => role === 'ademe' || role === 'dreal')) {
+    describe(`when the user is ${role}`, () => {
+      const fakeUser = { role } as User
+      it('should NOT return ProjectCertificateGenerated, ProjectCertificateRegenerated and ProjectCertificateUpdated events', async () => {
+        await resetDatabase()
+
+        await ProjectEvent.create({
+          id: new UniqueEntityID().toString(),
+          projectId,
+          type: 'ProjectCertificateGenerated',
+          valueDate: 1234,
+        })
+
+        await ProjectEvent.create({
+          id: new UniqueEntityID().toString(),
+          projectId,
+          type: 'ProjectCertificateRegenerated',
+          valueDate: 1234,
+        })
+
+        await ProjectEvent.create({
+          id: new UniqueEntityID().toString(),
+          projectId,
+          type: 'ProjectCertificateUpdated',
+          valueDate: 1234,
+        })
+
+        const res = await getProjectEvents({ projectId, user: fakeUser })
+
+        expect(res._unsafeUnwrap()).toMatchObject({
+          events: [],
+        })
+      })
+    })
+  }
 })

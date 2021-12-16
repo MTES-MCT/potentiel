@@ -11,7 +11,13 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
           if (
             (['admin', 'dgec', 'dreal', 'porteur-projet', 'acheteur-obligé'].includes(user.role) &&
               type === 'ProjectNotified') ||
-            (['dgec', 'admin'].includes(user.role) && type === 'ProjectImported')
+            (['dgec', 'admin'].includes(user.role) && type === 'ProjectImported') ||
+            (['admin', 'dgec', 'porteur-projet', 'acheteur-obligé'].includes(user.role) &&
+              [
+                'ProjectCertificateGenerated',
+                'ProjectCertificateRegenerated',
+                'ProjectCertificateUpdated',
+              ].includes(type))
           ) {
             events.push({
               type,
