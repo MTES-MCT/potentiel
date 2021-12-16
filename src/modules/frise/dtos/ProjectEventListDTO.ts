@@ -21,20 +21,34 @@ export type ProjectImportedDTO = {
 
 export type ProjectCertificateGeneratedDTO = {
   type: 'ProjectCertificateGenerated'
-  variant: Exclude<UserRole, 'ademe' | 'dreal'>
   date: number
-}
+  potentielIdentifier: string
+  certificateFileId: string
+  nomProjet: string
+} & (
+  | { variant: 'admin' | 'dgec'; email: string }
+  | { variant: 'porteur-projet' | 'acheteur-obligé'; email: undefined }
+)
 
 export type ProjectCertificateRegeneratedDTO = {
   type: 'ProjectCertificateRegenerated'
-  variant: Exclude<UserRole, 'ademe' | 'dreal'>
   date: number
-}
-
+  potentielIdentifier: string
+  certificateFileId: string
+  nomProjet: string
+} & (
+  | { variant: 'admin' | 'dgec'; email: string }
+  | { variant: 'porteur-projet' | 'acheteur-obligé'; email: undefined }
+)
 export type ProjectCertificateUpdatedDTO = {
   type: 'ProjectCertificateUpdated'
-  variant: Exclude<UserRole, 'ademe' | 'dreal'>
   date: number
-}
+  potentielIdentifier: string
+  certificateFileId: string
+  nomProjet: string
+} & (
+  | { variant: 'admin' | 'dgec'; email: string }
+  | { variant: 'porteur-projet' | 'acheteur-obligé'; email: undefined }
+)
 
 export type ProjectEventListDTO = { events: ProjectEventDTO[] }

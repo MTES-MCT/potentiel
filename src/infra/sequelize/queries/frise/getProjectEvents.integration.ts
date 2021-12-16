@@ -4,16 +4,23 @@ import { USER_ROLES } from '../../../../modules/users'
 import { resetDatabase } from '../../helpers'
 import { ProjectEvent } from '../../projectionsNext'
 import { getProjectEvents } from './getProjectEvents'
+import { models } from '../../models'
+import makeFakeProject from '../../../../__tests__/fixtures/project'
 
 describe('frise.getProjectEvents', () => {
+  const { Project } = models
   const projectId = new UniqueEntityID().toString()
+  const fakeProject = makeFakeProject({ id: projectId, potentielIdentifier: 'pot-id' })
+
+  beforeEach(async () => {
+    await resetDatabase()
+    await Project.create(fakeProject)
+  })
 
   for (const role of USER_ROLES.filter((role) => role === 'dgec' || role === 'admin')) {
     describe(`when the user is ${role}`, () => {
       it('should return the ProjectImported event', async () => {
         const fakeUser = { role } as User
-        await resetDatabase()
-
         await ProjectEvent.create({
           id: new UniqueEntityID().toString(),
           projectId,
@@ -40,8 +47,6 @@ describe('frise.getProjectEvents', () => {
     describe(`when the user is ${role}`, () => {
       it('should NOT return the ProjectImported event', async () => {
         const fakeUser = { role } as User
-        await resetDatabase()
-
         await ProjectEvent.create({
           id: new UniqueEntityID().toString(),
           projectId,
@@ -62,8 +67,6 @@ describe('frise.getProjectEvents', () => {
     describe(`when the user is ${role}`, () => {
       const fakeUser = { role } as User
       it('should return the ProjectNotified event', async () => {
-        await resetDatabase()
-
         await ProjectEvent.create({
           id: new UniqueEntityID().toString(),
           projectId,
@@ -89,8 +92,6 @@ describe('frise.getProjectEvents', () => {
   describe(`when the user is ademe`, () => {
     const fakeUser = { role: 'ademe' } as User
     it('should not return the ProjectNotified event', async () => {
-      await resetDatabase()
-
       await ProjectEvent.create({
         id: new UniqueEntityID().toString(),
         projectId,
@@ -110,13 +111,12 @@ describe('frise.getProjectEvents', () => {
     describe(`when the user is ${role}`, () => {
       const fakeUser = { role } as User
       it('should return ProjectCertificateGenerated, ProjectCertificateRegenerated and ProjectCertificateUpdated events', async () => {
-        await resetDatabase()
-
         await ProjectEvent.create({
           id: new UniqueEntityID().toString(),
           projectId,
           type: 'ProjectCertificateGenerated',
           valueDate: 1234,
+          payload: { certificateFileId: 'fileId' },
         })
 
         await ProjectEvent.create({
@@ -124,6 +124,7 @@ describe('frise.getProjectEvents', () => {
           projectId,
           type: 'ProjectCertificateRegenerated',
           valueDate: 1234,
+          payload: { certificateFileId: 'fileId' },
         })
 
         await ProjectEvent.create({
@@ -131,6 +132,7 @@ describe('frise.getProjectEvents', () => {
           projectId,
           type: 'ProjectCertificateUpdated',
           valueDate: 1234,
+          payload: { certificateFileId: 'fileId' },
         })
 
         const res = await getProjectEvents({ projectId, user: fakeUser })
@@ -139,18 +141,30 @@ describe('frise.getProjectEvents', () => {
           events: [
             {
               type: 'ProjectCertificateGenerated',
+              potentielIdentifier: fakeProject.potentielIdentifier,
+              email: ['admin', 'dgec'].includes(role) ? fakeProject.email : undefined,
+              nomProjet: fakeProject.nomProjet,
               date: 1234,
               variant: role,
+              certificateFileId: 'fileId',
             },
             {
               type: 'ProjectCertificateRegenerated',
+              potentielIdentifier: fakeProject.potentielIdentifier,
+              email: ['admin', 'dgec'].includes(role) ? fakeProject.email : undefined,
+              nomProjet: fakeProject.nomProjet,
               date: 1234,
               variant: role,
+              certificateFileId: 'fileId',
             },
             {
               type: 'ProjectCertificateUpdated',
+              potentielIdentifier: fakeProject.potentielIdentifier,
+              email: ['admin', 'dgec'].includes(role) ? fakeProject.email : undefined,
+              nomProjet: fakeProject.nomProjet,
               date: 1234,
               variant: role,
+              certificateFileId: 'fileId',
             },
           ],
         })
@@ -162,8 +176,6 @@ describe('frise.getProjectEvents', () => {
     describe(`when the user is ${role}`, () => {
       const fakeUser = { role } as User
       it('should NOT return ProjectCertificateGenerated, ProjectCertificateRegenerated and ProjectCertificateUpdated events', async () => {
-        await resetDatabase()
-
         await ProjectEvent.create({
           id: new UniqueEntityID().toString(),
           projectId,
