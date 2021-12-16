@@ -1,9 +1,12 @@
-import { ProjectEventDTO } from '../../../../../../modules/frise/dtos/ProjectEventListDTO'
+import {
+  ProjectCertificateDTO,
+  ProjectEventDTO,
+} from '../../../../../../modules/frise/dtos/ProjectEventListDTO'
 
 export const getLatestCertificateEvent = (
   events: ProjectEventDTO[]
-): ProjectEventDTO | undefined => {
-  const certificateEvents: ProjectEventDTO[] = []
+): ProjectCertificateDTO | undefined => {
+  const certificateEvents: ProjectCertificateDTO[] = []
   for (const event of events) {
     if (
       [
@@ -12,7 +15,7 @@ export const getLatestCertificateEvent = (
         'ProjectCertificateUpdated',
       ].includes(event.type)
     ) {
-      certificateEvents.push(event)
+      certificateEvents.push(event as ProjectCertificateDTO)
     }
   }
   if (certificateEvents) {
