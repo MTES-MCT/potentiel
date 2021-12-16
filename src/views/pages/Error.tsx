@@ -12,7 +12,7 @@ interface Props {
 export const Error = PageLayout(function (props: Props) {
   return (
     <main role="main">
-      <section className="section section-grey" style={{ paddingTop: 40 }}>
+      <section className="section section-grey pt-10">
         <div className="container">
           <h2>{props.errorTitle}</h2>
           {props.errorMessage}
