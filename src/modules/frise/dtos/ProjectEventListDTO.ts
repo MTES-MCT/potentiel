@@ -6,6 +6,7 @@ export type ProjectEventDTO =
   | ProjectCertificateGeneratedDTO
   | ProjectCertificateRegeneratedDTO
   | ProjectCertificateUpdatedDTO
+  | ProjectCertificateDTO
 
 export type ProjectNotifiedDTO = {
   type: 'ProjectNotified'
@@ -18,6 +19,17 @@ export type ProjectImportedDTO = {
   variant: 'dgec' | 'admin'
   date: number
 }
+
+export type ProjectCertificateDTO = {
+  type: 'ProjectCertificate'
+  date: number
+  potentielIdentifier: string
+  certificateFileId: string
+  nomProjet: string
+} & (
+  | { variant: 'admin' | 'dgec'; email: string }
+  | { variant: 'porteur-projet' | 'acheteur-obligé'; email: undefined }
+)
 
 export type ProjectCertificateGeneratedDTO = {
   type: 'ProjectCertificateGenerated'
