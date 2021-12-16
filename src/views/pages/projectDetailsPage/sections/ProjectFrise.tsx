@@ -33,8 +33,18 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => {
                       title: "Télécharger l'attestation",
                       link:
                         user.role === 'porteur-projet'
-                          ? ROUTES.CANDIDATE_CERTIFICATE_FOR_CANDIDATES(project)
-                          : ROUTES.CANDIDATE_CERTIFICATE_FOR_ADMINS(project),
+                          ? ROUTES.CANDIDATE_CERTIFICATE_FOR_CANDIDATES({
+                              id: project.id,
+                              certificateFileId: project.certificateFile.id,
+                              nomProjet: project.nomProjet,
+                              potentielIdentifier: project.potentielIdentifier,
+                            })
+                          : ROUTES.CANDIDATE_CERTIFICATE_FOR_ADMINS({
+                              id: project.id,
+                              certificateFileId: project.certificateFile.id,
+                              email: project.email,
+                              potentielIdentifier: project.potentielIdentifier,
+                            }),
                       download: true,
                     }
                   : user.role === 'dreal'

@@ -22,27 +22,46 @@ const porteurProjetActions = (project: {
   if (project.isAbandoned) return []
 
   if (!project.isClasse) {
-    return [
-      {
+    const actions: any[] = []
+
+    if (project.certificateFile) {
+      actions.push({
         title: 'Télécharger mon attestation',
-        link: ROUTES.CANDIDATE_CERTIFICATE_FOR_CANDIDATES(project),
+        link: ROUTES.CANDIDATE_CERTIFICATE_FOR_CANDIDATES({
+          id: project.id,
+          certificateFileId: project.certificateFile.id,
+          nomProjet: project.nomProjet,
+          potentielIdentifier: project.potentielIdentifier,
+        }),
         isDownload: true,
         disabled: !canDownloadCertificate,
-      },
-      {
-        title: 'Faire une demande de recours',
-        link: ROUTES.DEPOSER_RECOURS(project.id),
-      },
-    ]
+      })
+    }
+
+    actions.push({
+      title: 'Faire une demande de recours',
+      link: ROUTES.DEPOSER_RECOURS(project.id),
+    })
+
+    return actions
   }
 
-  return [
-    {
+  const actions: any[] = []
+
+  if (project.certificateFile) {
+    actions.push({
       title: 'Télécharger mon attestation',
-      link: ROUTES.CANDIDATE_CERTIFICATE_FOR_CANDIDATES(project),
+      link: ROUTES.CANDIDATE_CERTIFICATE_FOR_CANDIDATES({
+        id: project.id,
+        certificateFileId: project.certificateFile.id,
+        nomProjet: project.nomProjet,
+        potentielIdentifier: project.potentielIdentifier,
+      }),
       isDownload: true,
       disabled: !canDownloadCertificate,
-    },
+    })
+  }
+  actions.push([
     {
       title: 'Télécharger le récapitulatif',
       link: '#',
@@ -72,7 +91,9 @@ const porteurProjetActions = (project: {
       title: 'Demander un abandon',
       link: ROUTES.DEMANDER_ABANDON(project.id),
     },
-  ]
+  ])
+
+  return actions
 }
 
 export { porteurProjetActions }
