@@ -12,13 +12,11 @@ import { hydrateOnClient } from '../../helpers'
 import { CDCChoiceForm } from '../../components/'
 import { ProjectEventListDTO } from '../../../modules/frise'
 
-const displayNewFrise = process.env.DISPLAY_NEW_FRISE === 'true'
-
 interface ProjectDetailsProps {
   request: Request
   project: ProjectDataForProjectPage
   cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
-  projectEventList: ProjectEventListDTO
+  projectEventList?: ProjectEventListDTO
 }
 
 /* Pure component */
@@ -42,7 +40,7 @@ export const ProjectDetails = PageLayout(
           <div style={{ padding: '1.5em', paddingTop: 0 }}>
             <SuccessErrorBox success={success} error={error} />
             <div style={{ position: 'relative' }}>
-              {displayNewFrise && <Timeline {...{ projectEventList, user }} />}
+              {projectEventList && <Timeline {...{ projectEventList, user }} />}
               <ProjectFrise {...{ project, request, user }} />
             </div>
             <Section title="Projet" icon="building">

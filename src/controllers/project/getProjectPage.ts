@@ -12,6 +12,9 @@ import routes from '../../routes'
 import { ProjectDetailsPage } from '../../views'
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
 import { v1Router } from '../v1Router'
+import { okAsync } from '../../core/utils'
+
+const displayFrise = process.env.DISPLAY_NEW_FRISE === 'true'
 
 v1Router.get(
   routes.PROJECT_DETAILS(),
@@ -47,11 +50,17 @@ v1Router.get(
         }))
       })
       .andThen(({ cahiersChargesURLs, project }) =>
-        getProjectEvents({ projectId, user }).map((projectEventList) => ({
-          cahiersChargesURLs,
-          project,
-          projectEventList,
-        }))
+        displayFrise
+          ? getProjectEvents({ projectId, user }).map((projectEventList) => ({
+              cahiersChargesURLs,
+              project,
+              projectEventList,
+            }))
+          : okAsync({
+              cahiersChargesURLs,
+              project,
+              projectEventList: undefined,
+            })
       )
       .match(
         ({ cahiersChargesURLs, project, projectEventList }) => {
