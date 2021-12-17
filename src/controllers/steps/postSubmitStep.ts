@@ -1,12 +1,15 @@
 import asyncHandler from 'express-async-handler'
 import fs from 'fs'
 import moment from 'moment'
+import { ensureRole } from '../../config'
 import { submitStep } from '../../config/useCases.config'
 import { logger } from '../../core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { pathExists } from '../../helpers/pathExists'
+import { validateUniqueId } from '../../helpers/validateUniqueId'
+import { UnauthorizedError } from '../../modules/shared'
 import routes from '../../routes'
-import { ensureRole } from '../../config'
+import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
 
@@ -17,8 +20,17 @@ v1Router.post(
   asyncHandler(async (request, response) => {
     const { type, stepDate, projectId, numeroDossier } = request.body
 
-    if (!projectId || !['ptf', 'dcr', 'garantie-financiere'].includes(type)) {
-      return response.status(400).send('Requête erronée')
+    if (!validateUniqueId(projectId)) {
+      return errorResponse({
+        request,
+        response,
+        customMessage:
+          'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
+      })
+    }
+
+    if (!['ptf', 'dcr', 'garantie-financiere'].includes(type)) {
+      return errorResponse({ request, response, customStatus: 400 })
     }
 
     if (!stepDate) {
@@ -73,13 +85,12 @@ v1Router.post(
           })
         ),
       (e) => {
+        if (e instanceof UnauthorizedError) {
+          return unauthorizedResponse({ request, response })
+        }
+
         logger.error(e)
-        return response.redirect(
-          addQueryParams(routes.PROJECT_DETAILS(projectId), {
-            stepDate,
-            error: `Votre demande n'a pas pu être prise en compte: ${e.message}`,
-          })
-        )
+        return errorResponse({ request, response })
       }
     )
   })

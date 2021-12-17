@@ -6,28 +6,33 @@ import routes from '../../routes'
 import { ModificationRequestDetailsPage } from '../../views/legacy-pages'
 import { ensureRole } from '../../config'
 import { v1Router } from '../v1Router'
+import { errorResponse, notFoundResponse } from '../helpers'
+import { EntityNotFoundError } from '../../modules/shared'
+import { validateUniqueId } from '../../helpers/validateUniqueId'
 
 v1Router.get(
   routes.DEMANDE_PAGE_DETAILS(),
   ensureRole(['admin', 'dgec', 'dreal', 'porteur-projet']),
   asyncHandler(async (request, response) => {
-    const isAdmin = ['admin', 'dgec'].includes(request.user.role)
+    const { modificationRequestId } = request.params
 
-    const modificationRequestResult = await getModificationRequestDetails(
-      request.params.modificationRequestId
-    )
+    if (!validateUniqueId(modificationRequestId)) {
+      return notFoundResponse({ request, response, ressourceTitle: 'Demande' })
+    }
+
+    const modificationRequestResult = await getModificationRequestDetails(modificationRequestId)
 
     return modificationRequestResult.match(
       (modificationRequest) => {
-        response.send(ModificationRequestDetailsPage({ request, modificationRequest }))
+        return response.send(ModificationRequestDetailsPage({ request, modificationRequest }))
       },
       (e) => {
+        if (e instanceof EntityNotFoundError) {
+          return notFoundResponse({ request, response, ressourceTitle: 'Demande' })
+        }
+
         logger.error(e)
-        response.redirect(
-          addQueryParams(isAdmin ? routes.ADMIN_LIST_REQUESTS : routes.USER_LIST_REQUESTS, {
-            error: e.message,
-          })
-        )
+        return errorResponse({ request, response })
       }
     )
   })

@@ -9,6 +9,8 @@ import asyncHandler from 'express-async-handler'
 import { ensureRole } from '../../config'
 import { getUserProject } from '../../useCases'
 import { buildCertificate } from '../../views/certificates'
+import { validateUniqueId } from '../../helpers/validateUniqueId'
+import { errorResponse, notFoundResponse } from '../helpers'
 
 v1Router.get(
   routes.PREVIEW_CANDIDATE_CERTIFICATE(),
@@ -16,23 +18,26 @@ v1Router.get(
   asyncHandler(async (request, response) => {
     const { projectId } = request.params
 
+    if (!validateUniqueId(projectId)) {
+      return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
+    }
+
     // Verify that the current user has the rights to check this out
     const project = await getUserProject({ user: request.user, projectId })
 
     if (!project) {
-      return response
-        .status(404)
-        .send(
-          'Impossible de trouver cette attestation. Etes-vous connecté avec le bon compte de porteur de projet ?'
-        )
+      return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
     }
 
     const periode = project.appelOffre?.periode
 
     if (!periode || !periode.isNotifiedOnPotentiel || !periode.certificateTemplate) {
-      return response
-        .status(404)
-        .send("Impossible de trouver le modèle d'attestation pour ce projet")
+      logger.error(new Error("Impossible de trouver le modèle d'attestation pour ce projet"))
+      return errorResponse({
+        request,
+        response,
+        customMessage: "Impossible de trouver le modèle d'attestation pour ce projet",
+      })
     }
 
     const { certificateTemplate } = periode
@@ -55,16 +60,23 @@ v1Router.get(
         (certificateStream) => {
           response.type('pdf')
           certificateStream.pipe(response)
+          return response.status(200)
         },
         (e: Error) => {
           logger.error(e)
 
           if (e instanceof IncompleteDataError) {
-            response
-              .status(400)
-              .send("Impossible de générer l'attestion parce qu'il manque des données.")
+            return errorResponse({
+              request,
+              response,
+              customStatus: 400,
+              customMessage: "Impossible de générer l'attestion parce qu'il manque des données.",
+            })
           } else {
-            response.status(500).send("Erreur lors de la génération de l'attestation: " + e.message)
+            return errorResponse({
+              request,
+              response,
+            })
           }
         }
       )

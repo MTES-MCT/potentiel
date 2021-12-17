@@ -1,10 +1,12 @@
 import asyncHandler from 'express-async-handler'
+import { ensureRole } from '../../config'
 import { getCahiersChargesURLs, getProjectDataForProjectPage } from '../../config/queries.config'
 import { shouldUserAccessProject } from '../../config/useCases.config'
-import { addQueryParams } from '../../helpers/addQueryParams'
+import { validateUniqueId } from '../../helpers/validateUniqueId'
+import { EntityNotFoundError } from '../../modules/shared'
 import routes from '../../routes'
 import { ProjectDetailsPage } from '../../views'
-import { ensureRole } from '../../config'
+import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
 import { v1Router } from '../v1Router'
 
 v1Router.get(
@@ -14,16 +16,24 @@ v1Router.get(
     const { projectId } = request.params
     const { user } = request
 
+    if (!validateUniqueId(projectId)) {
+      return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
+    }
+
     const userHasRightsToProject = await shouldUserAccessProject.check({
       user,
       projectId,
     })
 
     if (!userHasRightsToProject) {
-      return response.status(403).send('Vous n‘êtes pas autorisé à consulter ce projet.')
+      return unauthorizedResponse({
+        request,
+        response,
+        customMessage: `Votre compte ne vous permet pas d'à accéder à ce projet.`,
+      })
     }
 
-    return await getProjectDataForProjectPage({ projectId, user })
+    await getProjectDataForProjectPage({ projectId, user })
       .andThen((project) => {
         const { appelOffreId, periodeId } = project
 
@@ -42,16 +52,12 @@ v1Router.get(
             })
           )
         },
-        () => {
-          const redirectTo = ['porteur-projet', 'acheteur-oblige'].includes(user.role)
-            ? routes.USER_DASHBOARD
-            : routes.ADMIN_DASHBOARD
-          return response.redirect(
-            addQueryParams(redirectTo, {
-              error:
-                'Une erreur est survenue. Merci de réessayer ou de contacter un administrateur.',
-            })
-          )
+        (e) => {
+          if (e instanceof EntityNotFoundError) {
+            return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
+          }
+
+          return errorResponse({ request, response })
         }
       )
   })

@@ -20,7 +20,15 @@ import { requestModification, shouldUserAccessProject } from '../../useCases'
 import { ensureRole } from '../../config'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
-import toNumber from '../../helpers/toNumber';
+import toNumber from '../../helpers/toNumber'
+import { validateUniqueId } from '../../helpers/validateUniqueId'
+import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
+import {
+  AggregateHasBeenUpdatedSinceError,
+  EntityNotFoundError,
+  UnauthorizedError,
+} from '../../modules/shared'
+import e from 'express'
 
 const returnRoute = (type, projectId) => {
   let returnRoute: string
@@ -58,17 +66,19 @@ v1Router.post(
   ensureRole('porteur-projet'),
   upload.single('file'),
   asyncHandler(async (request, response) => {
-    if (!request.user) {
-      return response.status(500).send('User must be logged in')
+    const { projectId } = request.body
+
+    if (!validateUniqueId(projectId)) {
+      return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
     }
 
     const userAccess = await shouldUserAccessProject({
-      projectId: request.body.projectId,
+      projectId,
       user: request.user,
     })
 
     if (!userAccess) {
-      return response.redirect(routes.USER_DASHBOARD)
+      return unauthorizedResponse({ request, response })
     }
 
     const data = _.pick(request.body, [
@@ -159,21 +169,37 @@ v1Router.post(
       )
 
     const handleError = (error) => {
-      logger.error(error)
       const { projectId, type } = data
       const redirectRoute = returnRoute(type, projectId)
 
-      const errorMessage =
-        error instanceof PuissanceJustificationOrCourrierMissingError
-          ? error.message
-          : "Votre demande n'a pas pu être prise en compte. Merci de réessayer."
+      if (error instanceof PuissanceJustificationOrCourrierMissingError) {
+        return response.redirect(
+          addQueryParams(redirectRoute, {
+            ..._.omit(data, 'projectId'),
+            error: error.message,
+          })
+        )
+      }
 
-      return response.redirect(
-        addQueryParams(redirectRoute, {
-          ..._.omit(data, 'projectId'),
-          error: errorMessage,
-        })
-      )
+      if (error instanceof AggregateHasBeenUpdatedSinceError) {
+        return response.redirect(
+          addQueryParams(redirectRoute, {
+            ..._.omit(data, 'projectId'),
+            error:
+              'Le projet a été modifié entre le moment où vous avez ouvert cette page et le moment où vous avez validé la demande. Merci de prendre en compte le changement et refaire votre demande si nécessaire.',
+          })
+        )
+      }
+
+      if (error instanceof EntityNotFoundError) {
+        return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
+      } else if (error instanceof UnauthorizedError) {
+        return unauthorizedResponse({ request, response })
+      }
+
+      logger.error(error)
+
+      return errorResponse({ request, response })
     }
 
     const project = await oldProjectRepo.findById(data.projectId)

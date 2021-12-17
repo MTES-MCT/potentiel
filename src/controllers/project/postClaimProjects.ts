@@ -4,6 +4,8 @@ import asyncHandler from 'express-async-handler'
 import { claimProject, ensureRole } from '../../config'
 import { createReadStream } from 'fs'
 import { upload } from '../upload'
+import { validateUniqueId } from '../../helpers/validateUniqueId'
+import { errorResponse } from '../helpers'
 
 v1Router.post(
   routes.USER_CLAIM_PROJECTS,
@@ -14,6 +16,15 @@ v1Router.post(
     const { user, files } = request
 
     const projectsIdsArr = Array.isArray(projectIds) ? projectIds : [projectIds]
+
+    if (!projectsIdsArr.every((projectId) => validateUniqueId(projectId))) {
+      return errorResponse({
+        request,
+        response,
+        customMessage:
+          'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
+      })
+    }
 
     const params = convertBodyParamsToFormattedJSON(request.body, projectsIdsArr, files)
 

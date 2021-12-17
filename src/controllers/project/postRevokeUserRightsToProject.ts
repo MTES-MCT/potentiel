@@ -6,6 +6,8 @@ import { UnauthorizedError } from '../../modules/shared'
 import routes from '../../routes'
 import { ensureRole } from '../../config'
 import { v1Router } from '../v1Router'
+import { validateUniqueId } from '../../helpers/validateUniqueId'
+import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
 
 v1Router.get(
   routes.REVOKE_USER_RIGHTS_TO_PROJECT_ACTION(),
@@ -16,8 +18,8 @@ v1Router.get(
 
     const redirectTo = routes.PROJECT_DETAILS(projectId)
 
-    if (!userId || !projectId) {
-      return response.status(404).send('Action impossible.')
+    if (!validateUniqueId(userId) || !validateUniqueId(projectId)) {
+      return notFoundResponse({ request, response })
     }
 
     ;(
@@ -34,20 +36,12 @@ v1Router.get(
           })
         ),
       (error) => {
-        let errorMessage = ''
-
         if (error instanceof UnauthorizedError) {
-          errorMessage = "Vous n'avez pas les droits suffisants pour cette action."
-        } else {
-          logger.error(error)
-          errorMessage = 'Un problème technique est survenu, merci de réessayer.'
+          return unauthorizedResponse({ request, response })
         }
 
-        response.redirect(
-          addQueryParams(redirectTo, {
-            error: errorMessage,
-          })
-        )
+        logger.error(error)
+        return errorResponse({ request, response })
       }
     )
   })
