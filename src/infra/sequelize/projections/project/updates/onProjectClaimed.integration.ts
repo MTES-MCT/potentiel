@@ -8,19 +8,19 @@ import { ProjectClaimed, ProjectClaimedByOwner } from '../../../../../modules/pr
 describe('project.onProjectClaimed', () => {
   const projectId = new UniqueEntityID().toString()
 
-  const fakeProjects = [
-    {
-      id: projectId,
-      email: 'old@test.test',
-    },
-  ].map(makeFakeProject)
+  const fakeProject = makeFakeProject({
+    id: projectId,
+    email: 'old@test.test',
+  })
 
   const { Project } = models
 
   describe('on ProjectClaimed', () => {
+    const attestationDesignationFileId = new UniqueEntityID().toString()
+
     beforeAll(async () => {
       await resetDatabase()
-      await Project.bulkCreate(fakeProjects)
+      await Project.create(fakeProject)
 
       const originalProject = await Project.findByPk(projectId)
       expect(originalProject.email).toEqual('old@test.test')
@@ -31,7 +31,7 @@ describe('project.onProjectClaimed', () => {
             projectId: projectId,
             claimedBy: new UniqueEntityID().toString(),
             claimerEmail: 'new@test.test',
-            attestationDesignationFileId: new UniqueEntityID().toString(),
+            attestationDesignationFileId,
           },
         })
       )
@@ -41,12 +41,45 @@ describe('project.onProjectClaimed', () => {
       const updatedProject = await Project.findByPk(projectId)
       expect(updatedProject.email).toEqual('new@test.test')
     })
+
+    it('should udpdate the project certificateFile', async () => {
+      const updatedProject = await Project.findByPk(projectId)
+      expect(updatedProject.certificateFileId).toEqual(attestationDesignationFileId)
+    })
+
+    describe('when the project already has a certificate', () => {
+      const originalCertificateFileId = new UniqueEntityID().toString()
+      const attestationDesignationFileId = new UniqueEntityID().toString()
+      beforeAll(async () => {
+        await resetDatabase()
+        await Project.create({ ...fakeProject, certificateFileId: originalCertificateFileId })
+
+        const originalProject = await Project.findByPk(projectId)
+        expect(originalProject.certificateFileId).toEqual(originalCertificateFileId)
+
+        await onProjectClaimed(models)(
+          new ProjectClaimed({
+            payload: {
+              projectId: projectId,
+              claimedBy: new UniqueEntityID().toString(),
+              claimerEmail: 'new@test.test',
+              attestationDesignationFileId,
+            },
+          })
+        )
+      })
+
+      it('should not udpdate the project certificateFile', async () => {
+        const updatedProject = await Project.findByPk(projectId)
+        expect(updatedProject.certificateFileId).toEqual(originalCertificateFileId)
+      })
+    })
   })
 
   describe('on ProjectClaimedByOwner', () => {
     beforeAll(async () => {
       await resetDatabase()
-      await Project.bulkCreate(fakeProjects)
+      await Project.create(fakeProject)
 
       const originalProject = await Project.findByPk(projectId)
       expect(originalProject.email).toEqual('old@test.test')
