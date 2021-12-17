@@ -1,35 +1,42 @@
+import {
+  ProjectCertificateGeneratedDTO,
+  ProjectCertificateRegeneratedDTO,
+  ProjectCertificateUpdatedDTO,
+  ProjectEventDTO,
+  ProjectNotifiedDTO,
+} from '../../../../../../modules/frise/dtos/ProjectEventListDTO'
 import { getLatestCertificateEvent } from './getLatestCertificateEvent'
 
 describe('getLatestCertificateEvent', () => {
-  const events1 = [
+  const events1: ProjectEventDTO[] = [
     {
       type: 'ProjectNotified' as 'ProjectNotified',
       variant: 'admin' as 'admin',
       date: 14,
     },
     {
-      type: 'ProjectCertificateUpdated' as 'ProjectCertificateUpdated',
-      variant: 'admin' as 'admin',
+      type: 'ProjectCertificateUpdated',
+      variant: 'admin',
       date: 10,
-    },
+    } as ProjectCertificateUpdatedDTO,
     {
-      type: 'ProjectCertificateGenerated' as 'ProjectCertificateGenerated',
-      variant: 'admin' as 'admin',
+      type: 'ProjectCertificateGenerated',
+      variant: 'admin',
       date: 13,
-    },
+    } as ProjectCertificateGeneratedDTO,
     {
-      type: 'ProjectCertificateRegenerated' as 'ProjectCertificateRegenerated',
-      variant: 'admin' as 'admin',
+      type: 'ProjectCertificateRegenerated',
+      variant: 'admin',
       date: 12,
-    },
+    } as ProjectCertificateRegeneratedDTO,
   ]
 
   const events2 = [
     {
-      type: 'ProjectNotified' as 'ProjectNotified',
-      variant: 'admin' as 'admin',
+      type: 'ProjectNotified',
+      variant: 'admin',
       date: 14,
-    },
+    } as ProjectNotifiedDTO,
   ]
 
   describe('when "events" contains events of types ProjectCertificateGenerated, ProjectCertificateRegenerated or ProjectCertificateUpdated', () => {
