@@ -13,9 +13,9 @@ module.exports = {
       )
 
       for (const event of projectClaimedEvents) {
-        const { id, payload } = event
-
-        const { projectId, attestationDesignationFileId } = payload
+        const {
+          payload: { projectId, attestationDesignationFileId },
+        } = event
 
         const project = await queryInterface.sequelize.query(
           `SELECT "certificateFileId" FROM "projects" WHERE id = ?`,

@@ -20,7 +20,7 @@ describe('project.onProjectClaimed', () => {
 
     beforeAll(async () => {
       await resetDatabase()
-      await Project.bulkCreate([fakeProject])
+      await Project.create(fakeProject)
 
       const originalProject = await Project.findByPk(projectId)
       expect(originalProject.email).toEqual('old@test.test')
@@ -52,7 +52,7 @@ describe('project.onProjectClaimed', () => {
       const attestationDesignationFileId = new UniqueEntityID().toString()
       beforeAll(async () => {
         await resetDatabase()
-        await Project.bulkCreate([{ ...fakeProject, certificateFileId: originalCertificateFileId }])
+        await Project.create({ ...fakeProject, certificateFileId: originalCertificateFileId })
 
         const originalProject = await Project.findByPk(projectId)
         expect(originalProject.certificateFileId).toEqual(originalCertificateFileId)
@@ -79,7 +79,7 @@ describe('project.onProjectClaimed', () => {
   describe('on ProjectClaimedByOwner', () => {
     beforeAll(async () => {
       await resetDatabase()
-      await Project.bulkCreate([fakeProject])
+      await Project.create(fakeProject)
 
       const originalProject = await Project.findByPk(projectId)
       expect(originalProject.email).toEqual('old@test.test')
