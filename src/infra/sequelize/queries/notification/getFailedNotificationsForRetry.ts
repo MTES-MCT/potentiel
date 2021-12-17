@@ -1,11 +1,14 @@
 import { UniqueEntityID } from '../../../../core/domain'
 import { wrapInfra } from '../../../../core/utils'
-import { GetFailedNotificationsForRetry } from '../../../../modules/notification/queries'
+import {
+  FailedNotification,
+  GetFailedNotificationsForRetry,
+} from '../../../../modules/notification/queries'
 import models from '../../models'
 
 const { ProjectStep, Notification, Project } = models
 export const getFailedNotificationsForRetry: GetFailedNotificationsForRetry = () => {
-  return wrapInfra(
+  return wrapInfra<FailedNotification[]>(
     Notification.findAll({ where: { status: 'error' }, order: [['createdAt', 'DESC']] })
   ).andThen((notifications: any) => {
     const passwordResetEmails: Set<string> = new Set()
@@ -28,7 +31,7 @@ export const getFailedNotificationsForRetry: GetFailedNotificationsForRetry = ()
       return false
     }
 
-    return wrapInfra(
+    return wrapInfra<FailedNotification[]>(
       Promise.all(
         notifications
           .map((notification) => notification.get())

@@ -14,7 +14,9 @@ export const getNonLegacyProjectsByContactEmail: GetNonLegacyProjectsByContactEm
       attributes: ['id', 'appelOffreId', 'periodeId'],
     }),
     () => new InfraNotAvailableError()
-  ).andThen((projects: any[]) => ResultAsync.fromSafePromise(filterOutLegacyProjects(projects)))
+  ).andThen((projects: any[]) =>
+    ResultAsync.fromSafePromise<string[], InfraNotAvailableError>(filterOutLegacyProjects(projects))
+  )
 }
 
 async function filterOutLegacyProjects(projects: any[]): Promise<string[]> {

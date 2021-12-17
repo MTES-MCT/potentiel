@@ -5,21 +5,23 @@ import { dataId } from '../../../helpers/testId'
 import { ProjectDataForProjectPage } from '../../../modules/project/dtos'
 import ROUTES from '../../../routes'
 import { RoleBasedDashboard, SuccessErrorBox } from '../../components'
-import { NoteElement, Section } from './components'
+import { NoteElement, Section, Timeline } from './components'
 import { EditProjectData, ProjectFrise, ProjectHeader } from './sections'
 import { PageLayout } from '../../components/PageLayout'
 import { hydrateOnClient } from '../../helpers'
 import { CDCChoiceForm } from '../../components/'
+import { ProjectEventListDTO } from '../../../modules/frise'
 
 interface ProjectDetailsProps {
   request: Request
   project: ProjectDataForProjectPage
   cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
+  projectEventList?: ProjectEventListDTO
 }
 
 /* Pure component */
 export const ProjectDetails = PageLayout(
-  ({ request, project, cahiersChargesURLs }: ProjectDetailsProps) => {
+  ({ request, project, cahiersChargesURLs, projectEventList }: ProjectDetailsProps) => {
     const { user } = request
     const { error, success } = (request.query as any) || {}
 
@@ -38,6 +40,7 @@ export const ProjectDetails = PageLayout(
           <div style={{ padding: '1.5em', paddingTop: 0 }}>
             <SuccessErrorBox success={success} error={error} />
             <div style={{ position: 'relative' }}>
+              {projectEventList && <Timeline {...{ projectEventList, user }} />}
               <ProjectFrise {...{ project, request, user }} />
             </div>
             <Section title="Projet" icon="building">

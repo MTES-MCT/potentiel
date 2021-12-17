@@ -3,6 +3,7 @@ import { GetCahiersChargesURLs } from '../../../../modules/appelOffre'
 import models from '../../models'
 
 const { Periode } = models
+
 export const getCahiersChargesURLs: GetCahiersChargesURLs = (appelOffreId, periodeId) => {
   return wrapInfra(Periode.findOne({ where: { appelOffreId, periodeId } })).andThen(
     (periodeRaw: any) => {

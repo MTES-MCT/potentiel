@@ -1,6 +1,10 @@
 import asyncHandler from 'express-async-handler'
 import { ensureRole } from '../../config'
-import { getCahiersChargesURLs, getProjectDataForProjectPage } from '../../config/queries.config'
+import {
+  getCahiersChargesURLs,
+  getProjectDataForProjectPage,
+  getProjectEvents,
+} from '../../config/queries.config'
 import { shouldUserAccessProject } from '../../config/useCases.config'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import { EntityNotFoundError } from '../../modules/shared'
@@ -8,6 +12,9 @@ import routes from '../../routes'
 import { ProjectDetailsPage } from '../../views'
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
 import { v1Router } from '../v1Router'
+import { okAsync } from '../../core/utils'
+
+const displayFrise = process.env.DISPLAY_NEW_FRISE === 'true'
 
 v1Router.get(
   routes.PROJECT_DETAILS(),
@@ -42,13 +49,27 @@ v1Router.get(
           project,
         }))
       })
+      .andThen(({ cahiersChargesURLs, project }) =>
+        displayFrise
+          ? getProjectEvents({ projectId, user }).map((projectEventList) => ({
+              cahiersChargesURLs,
+              project,
+              projectEventList,
+            }))
+          : okAsync({
+              cahiersChargesURLs,
+              project,
+              projectEventList: undefined,
+            })
+      )
       .match(
-        ({ cahiersChargesURLs, project }) => {
+        ({ cahiersChargesURLs, project, projectEventList }) => {
           return response.send(
             ProjectDetailsPage({
               request,
               project,
               cahiersChargesURLs,
+              projectEventList,
             })
           )
         },
