@@ -1,24 +1,22 @@
+import asyncHandler from 'express-async-handler'
 import fs from 'fs'
 import moment from 'moment-timezone'
 import sanitize from 'sanitize-filename'
-import { correctProjectData } from '../../config'
+import { correctProjectData, ensureRole } from '../../config'
 import { logger } from '../../core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
+import { validateUniqueId } from '../../helpers/validateUniqueId'
 import { IllegalProjectDataError } from '../../modules/project/errors'
+import { CertificateFileIsMissingError } from '../../modules/project/errors/CertificateFileIsMissingError'
 import routes from '../../routes'
-import { ensureRole } from '../../config'
+import { errorResponse } from '../helpers'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
-import asyncHandler from 'express-async-handler'
-import { CertificateFileIsMissingError } from '../../modules/project/errors/CertificateFileIsMissingError'
-import { validateUniqueId } from '../../helpers/validateUniqueId'
-import { notFoundResponse } from '../helpers'
 
 const FORMAT_DATE = 'DD/MM/YYYY'
 
 v1Router.post(
   routes.ADMIN_CORRECT_PROJECT_DATA_ACTION,
-
   upload.single('file'),
   ensureRole(['admin', 'dgec']),
   asyncHandler(async (request, response) => {
@@ -57,7 +55,12 @@ v1Router.post(
     } = request.body
 
     if (!validateUniqueId(projectId)) {
-      return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
+      return errorResponse({
+        request,
+        response,
+        customMessage:
+          'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
+      })
     }
 
     const { isFinancementParticipatif, isInvestissementParticipatif } =

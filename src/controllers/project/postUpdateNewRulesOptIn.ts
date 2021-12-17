@@ -17,7 +17,12 @@ v1Router.post(
     } = request
 
     if (!validateUniqueId(projectId)) {
-      return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
+      return errorResponse({
+        request,
+        response,
+        customMessage:
+          'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
+      })
     }
 
     const result = updateNewRulesOptIn({

@@ -21,7 +21,12 @@ v1Router.post(
     const { type, stepDate, projectId, numeroDossier } = request.body
 
     if (!validateUniqueId(projectId)) {
-      return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
+      return errorResponse({
+        request,
+        response,
+        customMessage:
+          'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
+      })
     }
 
     if (!['ptf', 'dcr', 'garantie-financiere'].includes(type)) {

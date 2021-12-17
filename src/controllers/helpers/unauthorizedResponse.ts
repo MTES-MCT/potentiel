@@ -12,7 +12,7 @@ export const unauthorizedResponse = (args: {
   return errorResponse({
     request,
     response,
-    customStatus: 404,
+    customStatus: 403,
     customTitle: customTitle || 'Accès restreint',
     customMessage: customMessage || `Votre compte ne permet pas d'accèder à cette ressource.`,
   })
