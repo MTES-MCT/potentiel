@@ -2,7 +2,7 @@ import { ResultAsync } from '../../../core/utils'
 import { InfraNotAvailableError } from '../../shared'
 import { Notification } from '../Notification'
 
-interface FailedNotification {
+export interface FailedNotification {
   id: Notification['id']
   isObsolete: boolean
 }

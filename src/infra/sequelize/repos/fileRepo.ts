@@ -17,7 +17,7 @@ export const makeFileRepo = (deps: FileRepoDeps): Repository<FileObject> => {
 
       const { contents, path } = file
       return deps.fileStorageService.upload({ contents, path }).andThen((storedAt) => {
-        return wrapInfra(FileModel.create(_toPersistence(file, storedAt)))
+        return wrapInfra(FileModel.create(_toPersistence(file, storedAt))).map(() => null)
       })
     },
 
