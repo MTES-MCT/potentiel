@@ -9,7 +9,7 @@ export default ProjectEvent.projector.on(
       id: new UniqueEntityID().toString(),
       projectId,
       type: ProjectImported.type,
-      occurredAt,
+      valueDate: occurredAt.getTime(),
     })
   }
 )
