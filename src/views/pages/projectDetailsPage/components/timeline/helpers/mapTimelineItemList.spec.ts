@@ -1,21 +1,38 @@
+import {
+  ProjectCertificateGeneratedDTO,
+  ProjectCertificateRegeneratedDTO,
+  ProjectEventListDTO,
+} from '../../../../../../modules/frise'
 import { mapTimelineItemList } from './mapTimelineItemList'
+import {
+  ProjectNotifiedDTO,
+  ProjectCertificateUpdatedDTO,
+} from '../../../../../../modules/frise/dtos/ProjectEventListDTO'
 
 describe('mapTimelineItemList', () => {
   describe('Désignation', () => {
     describe(`when there isn't and event ProjectNotified`, () => {
       it('should not return group for ProjectCertificateGenerated, ProjectCertificateRegenerated, ProjectCertificateUpdated events', () => {
-        const projectEventList = {
+        const projectEventList: ProjectEventListDTO = {
           events: [
             {
-              type: 'ProjectCertificateGenerated' as 'ProjectCertificateGenerated',
-              variant: 'admin' as 'admin',
+              type: 'ProjectCertificateGenerated',
+              variant: 'admin',
+              potentielIdentifier: 'pot-id',
+              certificateFileId: 'certif-if',
+              nomProjet: 'nom-projet',
+              email: 'email',
               date: 13,
-            },
+            } as ProjectCertificateGeneratedDTO,
             {
-              type: 'ProjectCertificateRegenerated' as 'ProjectCertificateRegenerated',
-              variant: 'admin' as 'admin',
+              type: 'ProjectCertificateRegenerated',
+              variant: 'admin',
+              potentielIdentifier: 'pot-id',
+              certificateFileId: 'certif-if',
+              nomProjet: 'nom-projet',
+              email: 'email',
               date: 13,
-            },
+            } as ProjectCertificateRegeneratedDTO,
           ],
         }
         const result = mapTimelineItemList(projectEventList)
@@ -27,25 +44,41 @@ describe('mapTimelineItemList', () => {
       const projectEventList = {
         events: [
           {
-            type: 'ProjectNotified' as 'ProjectNotified',
-            variant: 'admin' as 'admin',
+            type: 'ProjectNotified',
+            variant: 'admin',
+            potentielIdentifier: 'pot-id',
+            certificateFileId: 'certif-if',
+            nomProjet: 'nom-projet',
+            email: 'email',
             date: 12,
-          },
+          } as ProjectNotifiedDTO,
           {
-            type: 'ProjectCertificateGenerated' as 'ProjectCertificateGenerated',
-            variant: 'admin' as 'admin',
+            type: 'ProjectCertificateGenerated',
+            variant: 'admin',
+            potentielIdentifier: 'pot-id',
+            certificateFileId: 'certif-if',
+            nomProjet: 'nom-projet',
+            email: 'email',
             date: 13,
-          },
+          } as ProjectCertificateGeneratedDTO,
           {
-            type: 'ProjectCertificateRegenerated' as 'ProjectCertificateRegenerated',
-            variant: 'admin' as 'admin',
+            type: 'ProjectCertificateRegenerated',
+            variant: 'admin',
+            potentielIdentifier: 'pot-id',
+            certificateFileId: 'certif-if',
+            nomProjet: 'nom-projet',
+            email: 'email',
             date: 13,
-          },
+          } as ProjectCertificateRegeneratedDTO,
           {
-            type: 'ProjectCertificateUpdated' as 'ProjectCertificateUpdated',
-            variant: 'admin' as 'admin',
+            type: 'ProjectCertificateUpdated',
+            variant: 'admin',
+            potentielIdentifier: 'pot-id',
+            certificateFileId: 'certif-if',
+            nomProjet: 'nom-projet',
+            email: 'email',
             date: 13,
-          },
+          } as ProjectCertificateUpdatedDTO,
         ],
       }
       const result = mapTimelineItemList(projectEventList)
@@ -53,18 +86,6 @@ describe('mapTimelineItemList', () => {
       expect(result[0].events).toEqual(projectEventList.events)
       expect(result[0].type).toEqual('designation')
       expect(result[0].date).toEqual(12)
-
-      // const imported = {
-      //   type: 'ProjectImported' as 'ProjectImported',
-      //   variant: 'admin' as 'admin',
-      //   date: 11,
-      // }
-
-      // const result2 = mapTimelineItemList({
-      //   ...projectEventList,
-      //   events: [...projectEventList.events, imported],
-      // })
-      // expect(result2).toHaveLength(2)
     })
   })
 
@@ -75,6 +96,10 @@ describe('mapTimelineItemList', () => {
           {
             type: 'ProjectImported' as 'ProjectImported',
             variant: 'admin' as 'admin',
+            potentielIdentifier: 'pot-id',
+            certificateFileId: 'certif-if',
+            nomProjet: 'nom-projet',
+            email: 'email',
             date: 11,
           },
         ],
@@ -92,11 +117,19 @@ describe('mapTimelineItemList', () => {
           {
             type: 'ProjectNotified' as 'ProjectNotified',
             variant: 'admin' as 'admin',
+            potentielIdentifier: 'pot-id',
+            certificateFileId: 'certif-if',
+            nomProjet: 'nom-projet',
+            email: 'email',
             date: 12,
           },
           {
             type: 'ProjectImported' as 'ProjectImported',
             variant: 'admin' as 'admin',
+            potentielIdentifier: 'pot-id',
+            certificateFileId: 'certif-if',
+            nomProjet: 'nom-projet',
+            email: 'email',
             date: 11,
           },
         ],

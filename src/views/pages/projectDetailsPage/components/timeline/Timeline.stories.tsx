@@ -1,4 +1,9 @@
 import React from 'react'
+import {
+  ProjectImportedDTO,
+  ProjectNotifiedDTO,
+  ProjectCertificateGeneratedDTO,
+} from '../../../../../modules/frise/dtos/ProjectEventListDTO'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import { Timeline } from './Timeline'
 
@@ -9,20 +14,20 @@ const project = { ...makeFakeProject() }
 const projectEventList = {
   events: [
     {
-      type: 'ProjectImported' as 'ProjectImported',
-      variant: 'admin' as 'admin',
+      type: 'ProjectImported',
+      variant: 'admin',
       date: 11,
-    },
+    } as ProjectImportedDTO,
     {
-      type: 'ProjectNotified' as 'ProjectNotified',
-      variant: 'admin' as 'admin',
+      type: 'ProjectNotified',
+      variant: 'admin',
       date: 12,
-    },
+    } as ProjectNotifiedDTO,
     {
-      type: 'ProjectCertificateGenerated' as 'ProjectCertificateGenerated',
-      variant: 'admin' as 'admin',
+      type: 'ProjectCertificateGenerated',
+      variant: 'admin',
       date: 13,
-    },
+    } as ProjectCertificateGeneratedDTO,
   ],
 }
 
@@ -33,6 +38,7 @@ const admin = {
   role: 'admin' as 'admin',
 }
 
+/*
 const dgec = {
   id: '1',
   fullName: 'nom prénom',
@@ -53,7 +59,7 @@ const porteurProjet = {
   email: 'email',
   role: 'porteur-projet' as 'porteur-projet',
 }
-
+*/
 export const timeline = () => (
-  <Timeline projectEventList={projectEventList} user={admin} project={project} />
+  <Timeline projectEventList={projectEventList} user={admin} projectId={project.id} />
 )
