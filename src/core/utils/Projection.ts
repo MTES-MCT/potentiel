@@ -1,5 +1,4 @@
 import { Constructor, DomainEvent, HasType } from '../domain'
-import { ResultAsync } from '../../core/utils'
 
 export interface EventHandler<Event> {
   (event: Event): Promise<void>
@@ -12,6 +11,8 @@ export interface Projector {
     eventClass: Constructor<Event> & HasType,
     eventHandler: EventHandler<Event>
   ) => EventHandler<Event>
+
+  handleEvent: <Event extends DomainEvent>(event: Event) => Promise<void>
 }
 export interface HasSubscribe {
   subscribe: (cb: (event: DomainEvent) => Promise<void>, consumerName: string) => void
