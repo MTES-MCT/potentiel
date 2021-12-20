@@ -9,9 +9,11 @@ describe('onProjectClaimed', () => {
   const claimedBy = new UniqueEntityID().toString()
   const attestationDesignationFileId = new UniqueEntityID().toString()
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     await resetDatabase()
+  })
 
+  it('should create a new project event of type ProjectClaimed', async () => {
     await onProjectClaimed(
       new ProjectClaimed({
         payload: {
@@ -26,9 +28,7 @@ describe('onProjectClaimed', () => {
         },
       })
     )
-  })
 
-  it('should create a new project event of type ProjectClaimed', async () => {
     const projectEvent = await ProjectEvent.findOne({ where: { projectId } })
 
     expect(projectEvent).not.toBeNull()
@@ -37,6 +37,43 @@ describe('onProjectClaimed', () => {
       type: 'ProjectClaimed',
       valueDate: 1234,
       payload: { claimedBy, attestationDesignationFileId },
+    })
+  })
+
+  describe(`when the event already exists in the projection`, () => {
+    it('should not create a new project event of type ProjectClaimed', async () => {
+      await ProjectEvent.create({
+        id: new UniqueEntityID().toString(),
+        projectId,
+        type: 'ProjectClaimed',
+        valueDate: 1234,
+        payload: { claimedBy, attestationDesignationFileId },
+      })
+
+      await onProjectClaimed(
+        new ProjectClaimed({
+          payload: {
+            projectId,
+            claimedBy,
+            attestationDesignationFileId,
+            claimerEmail: '',
+          },
+          original: {
+            version: 1,
+            occurredAt: new Date(1234),
+          },
+        })
+      )
+
+      const projectEvents = await ProjectEvent.findAll({
+        where: { projectId, type: 'ProjectClaimed', valueDate: 1234 },
+      })
+
+      expect(projectEvents).toHaveLength(1)
+
+      expect(projectEvents[0]).toMatchObject({
+        payload: { claimedBy, attestationDesignationFileId },
+      })
     })
   })
 })
