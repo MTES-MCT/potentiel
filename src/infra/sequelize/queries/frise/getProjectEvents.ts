@@ -51,6 +51,20 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   })
                 }
                 break
+              case 'ProjectClaimed':
+                if (user.role !== 'ademe' && user.role !== 'dreal') {
+                  events.push({
+                    type,
+                    potentielIdentifier,
+                    email: ['admin', 'dgec'].includes(user.role) ? email : undefined,
+                    nomProjet,
+                    date: valueDate,
+                    variant: user.role,
+                    certificateFileId: payload.attestationDesignationFileId,
+                    claimedBy: payload.claimedBy,
+                  })
+                }
+                break
             }
 
             return events

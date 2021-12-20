@@ -110,7 +110,7 @@ describe('frise.getProjectEvents', () => {
   for (const role of USER_ROLES.filter((role) => role !== 'ademe' && role !== 'dreal')) {
     describe(`when the user is ${role}`, () => {
       const fakeUser = { role } as User
-      it('should return ProjectCertificateGenerated, ProjectCertificateRegenerated and ProjectCertificateUpdated events', async () => {
+      it('should return ProjectCertificateGenerated, ProjectCertificateRegenerated, ProjectCertificateUpdated and ProjectClaimed events', async () => {
         await ProjectEvent.create({
           id: new UniqueEntityID().toString(),
           projectId,
@@ -133,6 +133,17 @@ describe('frise.getProjectEvents', () => {
           type: 'ProjectCertificateUpdated',
           valueDate: 1234,
           payload: { certificateFileId: 'fileId' },
+        })
+
+        await ProjectEvent.create({
+          id: new UniqueEntityID().toString(),
+          projectId,
+          type: 'ProjectClaimed',
+          valueDate: 1234,
+          payload: {
+            attestationDesignationFileId: 'file-id',
+            claimedBy: 'someone',
+          },
         })
 
         const res = await getProjectEvents({ projectId, user: fakeUser })
@@ -166,6 +177,15 @@ describe('frise.getProjectEvents', () => {
               variant: role,
               certificateFileId: 'fileId',
             },
+            {
+              type: 'ProjectClaimed',
+              potentielIdentifier: fakeProject.potentielIdentifier,
+              nomProjet: fakeProject.nomProjet,
+              date: 1234,
+              variant: role,
+              certificateFileId: 'file-id',
+              claimedBy: 'someone',
+            },
           ],
         })
       })
@@ -175,12 +195,13 @@ describe('frise.getProjectEvents', () => {
   for (const role of USER_ROLES.filter((role) => role === 'ademe' || role === 'dreal')) {
     describe(`when the user is ${role}`, () => {
       const fakeUser = { role } as User
-      it('should NOT return ProjectCertificateGenerated, ProjectCertificateRegenerated and ProjectCertificateUpdated events', async () => {
+      it('should NOT return ProjectCertificateGenerated, ProjectCertificateRegenerated, ProjectCertificateUpdated and ProjectClaimed events', async () => {
         await ProjectEvent.create({
           id: new UniqueEntityID().toString(),
           projectId,
           type: 'ProjectCertificateGenerated',
           valueDate: 1234,
+          payload: { certificateFileId: 'fileId' },
         })
 
         await ProjectEvent.create({
@@ -188,6 +209,7 @@ describe('frise.getProjectEvents', () => {
           projectId,
           type: 'ProjectCertificateRegenerated',
           valueDate: 1234,
+          payload: { certificateFileId: 'fileId' },
         })
 
         await ProjectEvent.create({
@@ -195,6 +217,18 @@ describe('frise.getProjectEvents', () => {
           projectId,
           type: 'ProjectCertificateUpdated',
           valueDate: 1234,
+          payload: { certificateFileId: 'fileId' },
+        })
+
+        await ProjectEvent.create({
+          id: new UniqueEntityID().toString(),
+          projectId,
+          type: 'ProjectClaimed',
+          valueDate: 1234,
+          payload: {
+            attestationDesignationFileId: 'file-id',
+            claimedBy: 'someone',
+          },
         })
 
         const res = await getProjectEvents({ projectId, user: fakeUser })
