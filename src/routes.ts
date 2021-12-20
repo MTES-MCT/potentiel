@@ -71,11 +71,11 @@ class routes {
     email: string
     potentielIdentifier: string
   }) => {
-    const route = '/previsualiser-attestation/:projectId/*'
+    const route = '/previsualiser-attestation/:projectId/:document'
     if (project) {
       return route
         .replace(':projectId', project.id)
-        .replace('*', 'aperçu-' + makeCertificateFilename({ ...project, forAdmin: true }))
+        .replace(':document', 'aperçu-' + makeCertificateFilename({ ...project, forAdmin: true }))
     } else return route
   }
 
