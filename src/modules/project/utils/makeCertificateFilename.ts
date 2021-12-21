@@ -1,19 +1,20 @@
 import sanitize from 'sanitize-filename'
 
 export const makeCertificateFilename = (
-  project: {
-    email: string
-    nomProjet: string
-    appelOffreId: string
-    periodeId: string
-    familleId: string | undefined
-    numeroCRE: string
-    id: string
+  projectData: {
     potentielIdentifier: string
-  },
-  forAdmin?: true
+  } & (
+    | {
+        forAdmin: true
+        email: string
+      }
+    | { forAdmin: false; nomProjet: string }
+  )
 ) => {
   return sanitize(
-    project.potentielIdentifier + '-' + (forAdmin ? project.email : project.nomProjet) + '.pdf'
+    projectData.potentielIdentifier +
+      '-' +
+      (projectData.forAdmin ? projectData.email : projectData.nomProjet) +
+      '.pdf'
   )
 }

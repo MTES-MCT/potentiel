@@ -68,23 +68,14 @@ class routes {
 
   static PREVIEW_CANDIDATE_CERTIFICATE = (project?: {
     id: string
-    certificateFile?: {
-      id: string
-      filename: string
-    }
-    appelOffreId: string
-    periodeId: string
-    familleId: string | undefined
-    numeroCRE: string
     email: string
-    nomProjet: string
     potentielIdentifier: string
   }) => {
-    const route = '/previsualiser-attestation/:projectId/*'
+    const route = '/previsualiser-attestation/:projectId/:document'
     if (project) {
       return route
         .replace(':projectId', project.id)
-        .replace('*', 'aperçu-' + makeCertificateFilename(project, true))
+        .replace(':document', 'aperçu-' + makeCertificateFilename({ ...project, forAdmin: true }))
     } else return route
   }
 
@@ -100,42 +91,26 @@ class routes {
 
   static CANDIDATE_CERTIFICATE_FOR_ADMINS = (project: {
     id: string
-    certificateFile?: {
-      id: string
-      filename: string
-    }
-    appelOffreId: string
-    periodeId: string
-    familleId: string | undefined
-    numeroCRE: string
+    certificateFileId: string
     email: string
-    nomProjet: string
     potentielIdentifier: string
   }) =>
     routes.DOWNLOAD_CERTIFICATE_FILE(
       project.id,
-      project.certificateFile?.id,
-      makeCertificateFilename(project, true)
+      project.certificateFileId,
+      makeCertificateFilename({ ...project, forAdmin: true })
     )
 
   static CANDIDATE_CERTIFICATE_FOR_CANDIDATES = (project: {
     id: string
-    certificateFile?: {
-      id: string
-      filename: string
-    }
-    appelOffreId: string
-    periodeId: string
-    familleId: string | undefined
-    numeroCRE: string
-    email: string
+    certificateFileId: string
     nomProjet: string
     potentielIdentifier: string
   }) =>
     routes.DOWNLOAD_CERTIFICATE_FILE(
       project.id,
-      project.certificateFile?.id,
-      makeCertificateFilename(project)
+      project.certificateFileId,
+      makeCertificateFilename({ ...project, forAdmin: false })
     )
 
   static ADMIN_NOTIFY_CANDIDATES_ACTION = '/admin/sendCandidateNotifications'

@@ -9,9 +9,9 @@ initProjections(eventStore)
 const projectors = initProjectors(eventStore)
 console.log(`Initialized projectors: ${projectors.join(', ')}`)
 
-const projectorsNExt = initProjectionsNext({
+const projectorsNext = initProjectionsNext({
   subscribe: subscribeToRedis,
 })
-console.log(`Initialized nextgen projectors: ${projectorsNExt.join(', ')}`)
+console.log(`Initialized nextgen projectors: ${projectorsNext.join(', ')}`)
 
 console.log('Projections initialized')

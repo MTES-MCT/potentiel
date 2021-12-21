@@ -20,10 +20,15 @@ const adminActions = (project: {
 
   const actions: any = []
 
-  if (project.notifiedOn) {
+  if (project.notifiedOn && project.certificateFile) {
     actions.push({
       title: 'Voir attestation',
-      link: ROUTES.CANDIDATE_CERTIFICATE_FOR_ADMINS(project),
+      link: ROUTES.CANDIDATE_CERTIFICATE_FOR_ADMINS({
+        id: project.id,
+        certificateFileId: project.certificateFile.id,
+        email: project.email,
+        potentielIdentifier: project.potentielIdentifier,
+      }),
       isDownload: true,
       disabled: !canDownloadCertificate,
     })
