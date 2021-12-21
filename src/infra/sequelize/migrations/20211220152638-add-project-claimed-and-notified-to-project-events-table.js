@@ -6,17 +6,19 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      const projectClaimedOrNotifiedEvents = await queryInterface.sequelize.query(
-        `SELECT * FROM "eventStores" WHERE type in ('ProjectClaimed', 'ProjectNotified')`,
+      const projectClaimedOrNotifiedOrImportedEvents = await queryInterface.sequelize.query(
+        `SELECT * FROM "eventStores" WHERE type in ('ProjectClaimed', 'ProjectNotified', 'ProjectImported')`,
         {
           type: queryInterface.sequelize.QueryTypes.SELECT,
           transaction,
         }
       )
 
-      for (const event of projectClaimedOrNotifiedEvents) {
-        await ProjectEvent.projector.handleEvent(event)
-      }
+      await Promise.all(
+        projectClaimedOrNotifiedOrImportedEvents.map((event) =>
+          ProjectEvent.projector.handleEvent(event)
+        )
+      )
 
       await transaction.commit()
     } catch (error) {
