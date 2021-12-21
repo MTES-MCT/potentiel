@@ -7,6 +7,7 @@ import { mapTimelineItemList } from './mapTimelineItemList'
 import {
   ProjectNotifiedDTO,
   ProjectCertificateUpdatedDTO,
+  ProjectClaimedDTO,
 } from '../../../../../../modules/frise/dtos/ProjectEventListDTO'
 
 describe('mapTimelineItemList', () => {
@@ -79,6 +80,15 @@ describe('mapTimelineItemList', () => {
             email: 'email',
             date: 13,
           } as ProjectCertificateUpdatedDTO,
+          {
+            type: 'ProjectClaimed',
+            variant: 'admin',
+            potentielIdentifier: 'pot-id',
+            certificateFileId: 'certif-if',
+            nomProjet: 'nom-projet',
+            email: 'email',
+            date: 13,
+          } as ProjectClaimedDTO,
         ],
       }
       const result = mapTimelineItemList(projectEventList)

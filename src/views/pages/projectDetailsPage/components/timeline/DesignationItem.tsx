@@ -39,8 +39,17 @@ export const DesignationItem = (props: {
         <ItemTitle title="Notification de résultat" />
         {latestCertificateEvent && certificateLink && (
           <a href={certificateLink}>
-            Télécharger l'attestation de désignation (éditée le{' '}
-            <span>{formatDate(latestCertificateEvent.date)})</span>
+            {latestCertificateEvent.type === 'ProjectClaimed' ? (
+              <span>
+                Télécharger l'attestation de désignation (transmise le{' '}
+                {formatDate(latestCertificateEvent.date)} par {latestCertificateEvent.claimedBy})
+              </span>
+            ) : (
+              <span>
+                Télécharger l'attestation de désignation (éditée le{' '}
+                {formatDate(latestCertificateEvent.date)})
+              </span>
+            )}
           </a>
         )}
       </ContentArea>
