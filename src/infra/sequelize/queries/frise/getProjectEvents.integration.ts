@@ -239,4 +239,36 @@ describe('frise.getProjectEvents', () => {
       })
     })
   }
+
+  for (const role of USER_ROLES.filter(
+    (role) => role === 'porteur-projet' || role === 'admin' || role === 'dgec' || role === 'dreal'
+  )) {
+    const fakeUser = { role } as User
+    describe(`when user is ${role}`, () => {
+      it('should return ProjectGFSubmitted events', async () => {
+        await ProjectEvent.create({
+          id: new UniqueEntityID().toString(),
+          projectId,
+          type: 'ProjectGFSubmitted',
+          valueDate: 1234,
+          payload: {
+            fileId: 'file-id',
+            submittedBy: 'someone',
+          },
+        })
+        const res = await getProjectEvents({ projectId, user: fakeUser })
+        expect(res._unsafeUnwrap()).toMatchObject({
+          events: [
+            {
+              type: 'ProjectGFSubmitted',
+              date: 1234,
+              variant: role,
+              fileId: 'file-id',
+              submittedBy: 'someone',
+            },
+          ],
+        })
+      })
+    })
+  }
 })
