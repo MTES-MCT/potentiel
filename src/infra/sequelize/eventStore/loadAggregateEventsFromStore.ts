@@ -14,6 +14,7 @@ export const loadAggregateEventsFromStore: MakeEventStoreDeps['loadAggregateEven
         [Op.overlap]: [aggregateId],
       },
     },
+    order: [['occurredAt', 'ASC']],
   }
 
   return wrapInfra(EventStore.findAll(query))
