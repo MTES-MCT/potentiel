@@ -1,7 +1,7 @@
 import React from 'react'
 import { ProjectGFSubmittedDTO } from '../../../../../modules/frise/dtos/ProjectEventListDTO'
 import routes from '../../../../../routes'
-import { TimelineItem, ItemTitle, Date, ContentArea, PassedIcon } from './components'
+import { TimelineItem, ItemTitle, ItemDate, ContentArea, PassedIcon } from './components'
 
 export const GarantieFinanciereItem = (props: {
   isLastItem: boolean
@@ -12,7 +12,7 @@ export const GarantieFinanciereItem = (props: {
       <PassedIcon />
       <ContentArea>
         <ItemTitle title="Garantie Financière" />
-        <Date date={props.events[0].date} />
+        <ItemDate date={props.events[0].date} />
         <a>Télécharger l'attestation (déposée par {props.events[0].submittedBy})</a>
       </ContentArea>
     </TimelineItem>
