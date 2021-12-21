@@ -11,8 +11,8 @@ export const GarantieFinanciereItem = (props: {
     <TimelineItem isLastItem={props.isLastItem}>
       <PassedIcon />
       <ContentArea>
-        <ItemTitle title="Garantie Financière" />
         <ItemDate date={props.events[0].date} />
+        <ItemTitle title="Garantie Financière" />
         <a>Télécharger l'attestation (déposée par {props.events[0].submittedBy})</a>
       </ContentArea>
     </TimelineItem>

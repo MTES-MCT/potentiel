@@ -4,7 +4,7 @@ import { ProjectEventListDTO } from '../../../../../modules/frise/dtos/ProjectEv
 import { mapTimelineItemList } from './helpers'
 import { DesignationItem } from './DesignationItem'
 import { ImportItem } from './ImportItem'
-import { GarantieFinanciereItem } from './GarantieFinanciereItem'
+import { GarantieFinanciereItem } from './GarantiesFinancieresItem'
 
 export const Timeline = (props: {
   projectEventList: ProjectEventListDTO
