@@ -7,6 +7,7 @@ export type ProjectEventDTO =
   | ProjectCertificateRegeneratedDTO
   | ProjectCertificateUpdatedDTO
   | ProjectClaimedDTO
+  | ProjectGFSubmittedDTO
 
 export type ProjectNotifiedDTO = {
   type: 'ProjectNotified'
@@ -60,5 +61,14 @@ export const isCertificateDTO = (event: ProjectEventDTO): event is ProjectCertif
     'ProjectCertificateUpdated',
     'ProjectClaimed',
   ].includes(event.type)
+
+export type ProjectGFSubmittedDTO = {
+  type: 'ProjectGFSubmitted'
+  date: number
+  variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
+  fileId: string
+  filename: string
+  submittedBy: string
+}
 
 export type ProjectEventListDTO = { events: ProjectEventDTO[] }
