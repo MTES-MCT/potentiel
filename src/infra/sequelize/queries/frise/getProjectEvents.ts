@@ -3,7 +3,7 @@ import { GetProjectEvents, ProjectEventDTO } from '../../../../modules/frise'
 import { ProjectEvent } from '../../projectionsNext'
 import { models } from '../../models'
 
-const { Project } = models
+const { Project, File } = models
 
 export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
   return wrapInfra(Project.findByPk(projectId))
@@ -63,12 +63,16 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   user.role === 'dgec' ||
                   user.role === 'dreal'
                 ) {
+                  const fileId = payload.fileId
+                  const file = File.findOne({ attributes: ['filename'], where: { id: fileId } })
+                  const filename = file.filename
                   events.push({
                     type,
                     date: valueDate,
                     variant: user.role,
-                    fileId: payload.fileId,
+                    fileId,
                     submittedBy: payload.submittedBy,
+                    filename,
                   })
                 }
             }

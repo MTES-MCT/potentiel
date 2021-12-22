@@ -8,7 +8,7 @@ import { models } from '../../models'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
 
 describe('frise.getProjectEvents', () => {
-  const { Project } = models
+  const { Project, File } = models
   const projectId = new UniqueEntityID().toString()
   const fakeProject = makeFakeProject({ id: projectId, potentielIdentifier: 'pot-id' })
 
@@ -246,15 +246,21 @@ describe('frise.getProjectEvents', () => {
     const fakeUser = { role } as User
     describe(`when user is ${role}`, () => {
       it('should return ProjectGFSubmitted events', async () => {
+        const fileId = new UniqueEntityID().toString()
         await ProjectEvent.create({
           id: new UniqueEntityID().toString(),
           projectId,
           type: 'ProjectGFSubmitted',
           valueDate: 1234,
           payload: {
-            fileId: 'file-id',
+            fileId: fileId,
             submittedBy: 'someone',
           },
+        })
+        await File.create({
+          id: fileId,
+          filename: 'my-file-name',
+          designation: 'designation',
         })
         const res = await getProjectEvents({ projectId, user: fakeUser })
         expect(res._unsafeUnwrap()).toMatchObject({
@@ -263,8 +269,9 @@ describe('frise.getProjectEvents', () => {
               type: 'ProjectGFSubmitted',
               date: 1234,
               variant: role,
-              fileId: 'file-id',
+              fileId: fileId,
               submittedBy: 'someone',
+              filename: 'my-file-name',
             },
           ],
         })
