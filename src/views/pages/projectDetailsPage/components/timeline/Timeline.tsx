@@ -10,7 +10,7 @@ export const Timeline = (props: {
   user: User
   projectId: Project['id']
 }) => {
-  const { projectEventList } = props
+  const { projectEventList, user, projectId } = props
 
   const timelineItemList = mapTimelineItemList(projectEventList).sort((a, b) => a.date - b.date)
 
@@ -27,8 +27,8 @@ export const Timeline = (props: {
                 <DesignationItem
                   events={timelineItem.events}
                   isLastItem={isLastItem}
-                  user={props.user}
-                  projectId={props.projectId}
+                  user={user}
+                  projectId={projectId}
                 />
               )
             case 'import':

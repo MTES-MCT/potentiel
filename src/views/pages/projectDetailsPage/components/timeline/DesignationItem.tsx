@@ -12,15 +12,15 @@ export const DesignationItem = (props: {
   user: User
   projectId: Project['id']
 }) => {
-  const projectId = props.projectId
-  const notificationEvent = props.events.find(
+  const { events, isLastItem, user, projectId } = props
+  const notificationEvent = events.find(
     (event): event is ProjectNotifiedDTO => event.type === 'ProjectNotified'
   )
-  const latestCertificateEvent = getLatestCertificateEvent(props.events)
+  const latestCertificateEvent = getLatestCertificateEvent(events)
   const certificateLink = makeCertificateLink(latestCertificateEvent, projectId)
 
   return notificationEvent ? (
-    <TimelineItem isLastItem={props.isLastItem}>
+    <TimelineItem isLastItem={isLastItem}>
       <PassedIcon />
       <ContentArea>
         <Date date={notificationEvent.date} />
