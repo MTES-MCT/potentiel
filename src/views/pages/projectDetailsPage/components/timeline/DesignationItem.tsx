@@ -1,25 +1,13 @@
 import React from 'react'
 import { formatDate } from '../../../../../helpers/formatDate'
-import {
-  ProjectCertificateDTO,
-  ProjectCertificateGeneratedDTO,
-  ProjectCertificateRegeneratedDTO,
-  ProjectCertificateUpdatedDTO,
-  ProjectNotifiedDTO,
-} from '../../../../../modules/frise/dtos'
+import { ProjectCertificateDTO, ProjectNotifiedDTO } from '../../../../../modules/frise/dtos'
 import { Date, TimelineItem, PassedIcon, ItemTitle, ContentArea } from './components'
 import { getLatestCertificateEvent } from './helpers'
 import { Project, User } from '../../../../../entities'
 import { makeCertificateLink } from './helpers/makeCertificateLink'
 
 export const DesignationItem = (props: {
-  events: (
-    | ProjectNotifiedDTO
-    | ProjectCertificateDTO
-    | ProjectCertificateGeneratedDTO
-    | ProjectCertificateRegeneratedDTO
-    | ProjectCertificateUpdatedDTO
-  )[]
+  events: (ProjectNotifiedDTO | ProjectCertificateDTO)[]
   isLastItem: boolean
   user: User
   projectId: Project['id']
