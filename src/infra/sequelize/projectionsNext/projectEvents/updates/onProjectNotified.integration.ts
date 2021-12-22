@@ -33,24 +33,26 @@ describe('onProjectNotified', () => {
 
   describe(`when the event already exists in the projection`, () => {
     it('should not create a new project event of type ProjectNotified', async () => {
+      const eventDate = new Date('2021-12-15')
+
       await ProjectEvent.create({
         id: new UniqueEntityID().toString(),
         projectId,
         type: 'ProjectNotified',
-        valueDate: new Date('2021-12-15').getTime(),
+        valueDate: eventDate.getTime(),
       })
 
       await onProjectNotified(
         new ProjectNotified({
           payload: {
             projectId,
-            notifiedOn: new Date('2021-12-15').getTime(),
+            notifiedOn: eventDate.getTime(),
           } as ProjectNotifiedPayload,
         })
       )
 
       const projectEvents = await ProjectEvent.findAll({
-        where: { projectId, type: 'ProjectNotified', valueDate: new Date('2021-12-15').getTime() },
+        where: { projectId, type: 'ProjectNotified', valueDate: eventDate.getTime() },
       })
 
       expect(projectEvents).toHaveLength(1)
