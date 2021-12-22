@@ -7,7 +7,7 @@ module.exports = {
     const transaction = await queryInterface.sequelize.transaction()
     try {
       const projectClaimedOrNotifiedOrImportedEvents = await queryInterface.sequelize.query(
-        `SELECT * FROM "eventStores" WHERE type in ('ProjectClaimed', 'ProjectNotified', 'ProjectImported')`,
+        `SELECT * FROM "eventStores" WHERE type in ('ProjectClaimed', 'ProjectNotified', 'ProjectImported') ORDER BY "occurredAt" ASC`,
         {
           type: queryInterface.sequelize.QueryTypes.SELECT,
           transaction,
