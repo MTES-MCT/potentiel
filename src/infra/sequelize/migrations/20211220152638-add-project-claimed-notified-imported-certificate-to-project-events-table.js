@@ -6,7 +6,7 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      const projectClaimedOrNotifiedOrImportedEvents = await queryInterface.sequelize.query(
+      const projectEvents = await queryInterface.sequelize.query(
         `SELECT * FROM "eventStores" 
          WHERE type in ('ProjectClaimed', 
                         'ProjectNotified', 
@@ -21,11 +21,7 @@ module.exports = {
         }
       )
 
-      await Promise.all(
-        projectClaimedOrNotifiedOrImportedEvents.map((event) =>
-          ProjectEvent.projector.handleEvent(event)
-        )
-      )
+      await Promise.all(projectEvents.map((event) => ProjectEvent.projector.handleEvent(event)))
 
       await transaction.commit()
     } catch (error) {
