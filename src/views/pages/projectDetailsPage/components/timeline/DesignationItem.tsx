@@ -2,16 +2,15 @@ import React from 'react'
 import { ProjectCertificateDTO, ProjectNotifiedDTO } from '../../../../../modules/frise/dtos'
 import { Date, TimelineItem, PassedIcon, ItemTitle, ContentArea } from './components'
 import { getLatestCertificateEvent } from './helpers'
-import { Project, User } from '../../../../../entities'
+import { Project } from '../../../../../entities'
 import { AttestationDesignationItem } from '.'
 
 export const DesignationItem = (props: {
   events: (ProjectNotifiedDTO | ProjectCertificateDTO)[]
   isLastItem: boolean
-  user: User
   projectId: Project['id']
 }) => {
-  const { events, isLastItem, user, projectId } = props
+  const { events, isLastItem, projectId } = props
   const notificationEvent = events.find(
     (event): event is ProjectNotifiedDTO => event.type === 'ProjectNotified'
   )
