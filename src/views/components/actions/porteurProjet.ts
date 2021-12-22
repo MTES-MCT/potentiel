@@ -61,37 +61,39 @@ const porteurProjetActions = (project: {
       disabled: !canDownloadCertificate,
     })
   }
-  actions.push([
-    {
-      title: 'Télécharger le récapitulatif',
-      link: '#',
-      disabled: true,
-    },
-    {
-      title: 'Demander un délai',
-      link: ROUTES.DEMANDE_DELAIS(project.id),
-    },
-    {
-      title: 'Changer de producteur',
-      link: ROUTES.CHANGER_PRODUCTEUR(project.id),
-    },
-    {
-      title: 'Changer de fournisseur',
-      link: ROUTES.CHANGER_FOURNISSEUR(project.id),
-    },
-    {
-      title: "Changer d'actionnaire",
-      link: ROUTES.CHANGER_ACTIONNAIRE(project.id),
-    },
-    {
-      title: 'Changer de puissance',
-      link: ROUTES.CHANGER_PUISSANCE(project.id),
-    },
-    {
-      title: 'Demander un abandon',
-      link: ROUTES.DEMANDER_ABANDON(project.id),
-    },
-  ])
+  actions.push(
+    ...[
+      {
+        title: 'Télécharger le récapitulatif',
+        link: '#',
+        disabled: true,
+      },
+      {
+        title: 'Demander un délai',
+        link: ROUTES.DEMANDE_DELAIS(project.id),
+      },
+      {
+        title: 'Changer de producteur',
+        link: ROUTES.CHANGER_PRODUCTEUR(project.id),
+      },
+      {
+        title: 'Changer de fournisseur',
+        link: ROUTES.CHANGER_FOURNISSEUR(project.id),
+      },
+      {
+        title: "Changer d'actionnaire",
+        link: ROUTES.CHANGER_ACTIONNAIRE(project.id),
+      },
+      {
+        title: 'Changer de puissance',
+        link: ROUTES.CHANGER_PUISSANCE(project.id),
+      },
+      {
+        title: 'Demander un abandon',
+        link: ROUTES.DEMANDER_ABANDON(project.id),
+      },
+    ]
+  )
 
   return actions
 }
