@@ -11,9 +11,7 @@ export const DesignationItem = (props: {
   projectId: Project['id']
 }) => {
   const { events, isLastItem, projectId } = props
-  const notificationEvent = events.find(
-    (event): event is ProjectNotifiedDTO => event.type === 'ProjectNotified'
-  )
+  const notificationEvent = events.find(isProjectNotified)
   const latestCertificateEvent = getLatestCertificateEvent(events)
 
   return notificationEvent ? (
@@ -24,7 +22,7 @@ export const DesignationItem = (props: {
         <ItemTitle title="Notification de résultat" />
         {latestCertificateEvent && (
           <AttestationDesignationItem
-            latestCertificateEvent={latestCertificateEvent}
+            certificateEvent={latestCertificateEvent}
             projectId={projectId}
           />
         )}
@@ -32,3 +30,7 @@ export const DesignationItem = (props: {
     </TimelineItem>
   ) : null
 }
+
+const isProjectNotified = (
+  event: ProjectCertificateDTO | ProjectNotifiedDTO
+): event is ProjectNotifiedDTO => event.type === 'ProjectNotified'
