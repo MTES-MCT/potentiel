@@ -9,13 +9,14 @@ export const DesignationItem = (props: {
   events: (ProjectNotifiedDTO | ProjectCertificateDTO)[]
   isLastItem: boolean
   projectId: Project['id']
+  groupIndex: number
 }) => {
-  const { events, isLastItem, projectId } = props
+  const { events, isLastItem, projectId, groupIndex } = props
   const notificationEvent = events.find(isProjectNotified)
   const latestCertificateEvent = getLatestCertificateEvent(events)
 
   return notificationEvent ? (
-    <TimelineItem isLastItem={isLastItem}>
+    <TimelineItem isLastItem={isLastItem} groupIndex={groupIndex}>
       <PassedIcon />
       <ContentArea>
         <ItemDate date={notificationEvent.date} />

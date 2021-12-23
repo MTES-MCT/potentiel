@@ -6,9 +6,10 @@ import { TimelineItem, ItemTitle, ItemDate, ContentArea, PassedIcon } from './co
 export const GarantieFinanciereItem = (props: {
   isLastItem: boolean
   events: ProjectGFSubmittedDTO[]
+  groupIndex: number
 }) => {
   return (
-    <TimelineItem isLastItem={props.isLastItem}>
+    <TimelineItem isLastItem={props.isLastItem} groupIndex={props.groupIndex}>
       <PassedIcon />
       <ContentArea>
         <ItemDate date={props.events[0].date} />
