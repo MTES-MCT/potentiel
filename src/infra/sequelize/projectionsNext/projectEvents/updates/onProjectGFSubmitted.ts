@@ -5,12 +5,16 @@ import { ProjectEvent } from '../projectEvent.model'
 export default ProjectEvent.projector.on(
   ProjectGFSubmitted,
   async ({ payload: { projectId, fileId, submittedBy }, occurredAt }) => {
-    await ProjectEvent.create({
-      id: new UniqueEntityID().toString(),
-      projectId,
-      type: ProjectGFSubmitted.type,
-      payload: { fileId, submittedBy },
-      valueDate: occurredAt.getTime(),
+    await ProjectEvent.findOrCreate({
+      where: {
+        projectId,
+        type: ProjectGFSubmitted.type,
+        valueDate: occurredAt.getTime(),
+      },
+      defaults: {
+        id: new UniqueEntityID().toString(),
+        payload: { fileId, submittedBy },
+      },
     })
   }
 )
