@@ -5,14 +5,18 @@ import { ProjectEvent } from '../projectEvent.model'
 export default ProjectEvent.projector.on(
   ProjectClaimed,
   async ({ payload: { projectId, attestationDesignationFileId, claimedBy }, occurredAt }) => {
-    await ProjectEvent.create({
-      id: new UniqueEntityID().toString(),
-      projectId,
-      type: ProjectClaimed.type,
-      valueDate: occurredAt.getTime(),
-      payload: {
-        attestationDesignationFileId,
-        claimedBy,
+    await ProjectEvent.findOrCreate({
+      where: {
+        projectId,
+        type: ProjectClaimed.type,
+        valueDate: occurredAt.getTime(),
+      },
+      defaults: {
+        id: new UniqueEntityID().toString(),
+        payload: {
+          attestationDesignationFileId,
+          claimedBy,
+        },
       },
     })
   }

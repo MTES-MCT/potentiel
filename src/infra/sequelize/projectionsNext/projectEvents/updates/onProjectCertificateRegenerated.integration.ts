@@ -10,9 +10,11 @@ import onProjectCertificateRegenerated from './onProjectCertificateRegenerated'
 describe('onProjectCertificateRegenerated', () => {
   const projectId = new UniqueEntityID().toString()
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     await resetDatabase()
+  })
 
+  it('should create a new project event of type ProjectCertificateRegenerated', async () => {
     await onProjectCertificateRegenerated(
       new ProjectCertificateRegenerated({
         payload: {
@@ -21,9 +23,7 @@ describe('onProjectCertificateRegenerated', () => {
         } as ProjectCertificateRegeneratedPayload,
       })
     )
-  })
 
-  it('should create a new project event of type ProjectCertificateRegenerated', async () => {
     const projectEvent = await ProjectEvent.findOne({ where: { projectId } })
 
     expect(projectEvent).not.toBeNull()
@@ -31,6 +31,37 @@ describe('onProjectCertificateRegenerated', () => {
     expect(projectEvent).toMatchObject({
       type: 'ProjectCertificateRegenerated',
       payload: { certificateFileId: 'file-id' },
+    })
+  })
+
+  describe(`when the event already exists in the projection`, () => {
+    it('should not create a new project event of type ProjectCertificateRegenerated', async () => {
+      const eventDate = new Date('2021-12-15')
+
+      await ProjectEvent.create({
+        id: new UniqueEntityID().toString(),
+        projectId,
+        type: 'ProjectCertificateRegenerated',
+        valueDate: eventDate.getTime(),
+      })
+
+      await onProjectCertificateRegenerated(
+        new ProjectCertificateRegenerated({
+          payload: {
+            projectId,
+          } as ProjectCertificateRegeneratedPayload,
+          original: {
+            occurredAt: eventDate,
+            version: 1,
+          },
+        })
+      )
+
+      const projectEvents = await ProjectEvent.findAll({
+        where: { projectId, type: 'ProjectCertificateRegenerated', valueDate: eventDate.getTime() },
+      })
+
+      expect(projectEvents).toHaveLength(1)
     })
   })
 })

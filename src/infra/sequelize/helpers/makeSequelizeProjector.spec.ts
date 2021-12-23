@@ -101,4 +101,22 @@ describe('makeSequelizeProjector', () => {
       })
     })
   })
+
+  describe('handleEvent(Event)', () => {
+    const handler = jest.fn((event: DummyEvent) => Promise.resolve())
+    const handler2 = jest.fn((event: OtherDummyEvent) => Promise.resolve())
+
+    const projector = makeSequelizeProjector(fakeModel)
+    projector.on(DummyEvent, handler)
+    projector.on(OtherDummyEvent, handler2)
+
+    it(`should call the handler for the event to handle`, async () => {
+      const fakeDummyEvent = new DummyEvent({ payload: {} })
+
+      await projector.handleEvent(fakeDummyEvent)
+
+      expect(handler).toHaveBeenCalled()
+      expect(handler2).not.toHaveBeenCalled()
+    })
+  })
 })

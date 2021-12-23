@@ -1,5 +1,5 @@
 import { Model as SModel, ModelCtor } from 'sequelize'
-import type { EventHandler, HasSubscribe, Projector } from '../../../core/utils'
+import type { EventHandler, Projector } from '../../../core/utils'
 
 export type SequelizeModel = ModelCtor<SModel<any, any>> & {
   associate?: (models: Record<string, SequelizeModel>) => void
@@ -10,6 +10,13 @@ export const makeSequelizeProjector = <ProjectionModel extends SequelizeModel>(
   model: ProjectionModel
 ): Projector => {
   const handlersByType: Record<string, EventHandler<any>> = {}
+
+  const handleEvent = async (event) => {
+    const { type } = event
+    if (handlersByType[type]) {
+      await handlersByType[type](event)
+    }
+  }
 
   return {
     on: (eventClass, handler) => {
@@ -24,11 +31,9 @@ export const makeSequelizeProjector = <ProjectionModel extends SequelizeModel>(
     },
     initEventStream: (eventStream) => {
       eventStream.subscribe(async (event) => {
-        const { type } = event
-        if (handlersByType[type]) {
-          await handlersByType[type](event)
-        }
+        await handleEvent(event)
       }, model.name)
     },
+    handleEvent,
   }
 }
