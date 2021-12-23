@@ -76,5 +76,5 @@ const porteurProjet = {
 }
 */
 export const timeline = () => (
-  <Timeline projectEventList={projectEventList} user={admin} projectId={project.id} />
+  <Timeline projectEventList={projectEventList} projectId={project.id} />
 )
