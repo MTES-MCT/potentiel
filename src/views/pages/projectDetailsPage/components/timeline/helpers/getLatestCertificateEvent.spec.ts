@@ -11,7 +11,7 @@ import { getLatestCertificateEvent } from './getLatestCertificateEvent'
 
 describe('getLatestCertificateEvent', () => {
   describe('when "events" contains events of many different types', () => {
-    const events1: ProjectEventDTO[] = [
+    const events: ProjectEventDTO[] = [
       {
         type: 'ProjectNotified',
         variant: 'admin',
@@ -40,7 +40,7 @@ describe('getLatestCertificateEvent', () => {
     ]
 
     it('should return the latest event of type ProjectCertificateRegenerated', () => {
-      const result1 = getLatestCertificateEvent(events1)
+      const result1 = getLatestCertificateEvent(events)
       expect(result1).not.toBeNull
       expect(result1?.date).toEqual(15)
       expect(result1?.type).toEqual('ProjectCertificateRegenerated')
@@ -67,25 +67,29 @@ describe('getLatestCertificateEvent', () => {
       ]
 
       for (const certificateEvent of fixtures) {
-        it(`should return the latest event of type ${certificateEvent.type}`, () => {
-          const result1 = getLatestCertificateEvent([
+        const { type } = certificateEvent
+        it(`should return the latest event of type ${type}`, () => {
+          const date = 14
+
+          const result = getLatestCertificateEvent([
             {
               type: 'ProjectNotified',
               variant: 'admin',
-              date: 14,
+              date,
             } as ProjectNotifiedDTO,
-            { ...certificateEvent, date: 14 },
+            { ...certificateEvent, date },
           ])
-          expect(result1).not.toBeNull
-          expect(result1?.date).toEqual(14)
-          expect(result1?.type).toEqual(certificateEvent.type)
+
+          expect(result).not.toBeNull
+          expect(result?.date).toEqual(14)
+          expect(result?.type).toEqual(type)
         })
       }
     })
   })
 
   describe('when "events" does not contain events of type ProjectCertificateGenerated, ProjectCertificateRegenerated, ProjectCertificateUpdated or ProjectClaimed', () => {
-    const events2 = [
+    const events = [
       {
         type: 'ProjectNotified',
         variant: 'admin',
@@ -94,8 +98,8 @@ describe('getLatestCertificateEvent', () => {
     ]
 
     it('should return null', () => {
-      const result2 = getLatestCertificateEvent(events2)
-      expect(result2).toEqual(undefined)
+      const result = getLatestCertificateEvent(events)
+      expect(result).toEqual(undefined)
     })
   })
 })
