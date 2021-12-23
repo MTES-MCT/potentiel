@@ -11,7 +11,7 @@ import {
 } from '../../../../../../modules/frise/dtos/ProjectEventListDTO'
 
 describe('mapTimelineItemList', () => {
-  describe('darantiesFinancières', () => {
+  describe('garantiesFinancières', () => {
     it('should create a groupe with ProjectFGSubmitted events', () => {
       const projectEventList: ProjectEventListDTO = {
         events: [

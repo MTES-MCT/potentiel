@@ -1,12 +1,9 @@
 import React from 'react'
+import { ProjectGFSubmittedDTO } from '../../../../../modules/frise/dtos/ProjectEventListDTO'
 import ROUTES from '../../../../../routes'
 
-export const GFDocumentLinkItem = (props: {
-  submittedBy: string
-  fileId: string
-  filename: string
-}) => {
-  const { submittedBy, fileId, filename } = props
+export const GFDocumentLinkItem = (props: { event: ProjectGFSubmittedDTO }) => {
+  const { submittedBy, fileId, filename } = props.event
   const GFDocumentLink = makeGFDocumentLink(fileId, filename)
   return (
     <a href={GFDocumentLink}>

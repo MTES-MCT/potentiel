@@ -45,6 +45,7 @@ export const Timeline = (props: {
                   isLastItem={isLastItem}
                   events={timelineItem.events}
                   groupIndex={groupIndex}
+                  date={timelineItem.date}
                 />
               )
           }
