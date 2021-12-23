@@ -39,18 +39,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
               case 'ProjectCertificateGenerated':
               case 'ProjectCertificateRegenerated':
               case 'ProjectCertificateUpdated':
-                if (user.role !== 'ademe' && user.role !== 'dreal') {
-                  events.push({
-                    type,
-                    potentielIdentifier,
-                    email: ['admin', 'dgec'].includes(user.role) ? email : undefined,
-                    nomProjet,
-                    date: valueDate,
-                    variant: user.role,
-                    certificateFileId: payload.certificateFileId,
-                  })
-                }
-                break
               case 'ProjectClaimed':
                 if (user.role !== 'ademe' && user.role !== 'dreal') {
                   events.push({
@@ -60,8 +48,11 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                     nomProjet,
                     date: valueDate,
                     variant: user.role,
-                    certificateFileId: payload.attestationDesignationFileId,
-                    claimedBy: payload.claimedBy,
+                    certificateFileId:
+                      type === 'ProjectClaimed'
+                        ? payload.attestationDesignationFileId
+                        : payload.certificateFileId,
+                    ...(type === 'ProjectClaimed' && { claimedBy: payload.claimedBy }),
                   })
                 }
                 break
