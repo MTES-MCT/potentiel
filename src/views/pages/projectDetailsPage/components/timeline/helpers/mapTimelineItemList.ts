@@ -1,7 +1,5 @@
 import {
-  ProjectCertificateGeneratedDTO,
-  ProjectCertificateRegeneratedDTO,
-  ProjectCertificateUpdatedDTO,
+  ProjectCertificateDTO,
   ProjectEventDTO,
   ProjectEventListDTO,
   ProjectImportedDTO,
@@ -12,12 +10,7 @@ type TimelineItem = DesignationItem | ImportItem
 
 type DesignationItem = {
   type: 'designation'
-  events: (
-    | ProjectNotifiedDTO
-    | ProjectCertificateGeneratedDTO
-    | ProjectCertificateRegeneratedDTO
-    | ProjectCertificateUpdatedDTO
-  )[]
+  events: (ProjectNotifiedDTO | ProjectCertificateDTO)[]
   date: number
 }
 
@@ -58,6 +51,7 @@ export const mapTimelineItemList: MapTimelineItemList = (projectEventList) => {
       case 'ProjectCertificateGenerated':
       case 'ProjectCertificateRegenerated':
       case 'ProjectCertificateUpdated':
+      case 'ProjectClaimed':
         const designation = timelineItemList.find(isDesignation)
         designation?.events.push(event)
         break

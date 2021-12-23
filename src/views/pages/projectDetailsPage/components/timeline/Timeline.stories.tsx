@@ -3,6 +3,7 @@ import {
   ProjectImportedDTO,
   ProjectNotifiedDTO,
   ProjectCertificateGeneratedDTO,
+  ProjectClaimedDTO,
 } from '../../../../../modules/frise/dtos/ProjectEventListDTO'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import { Timeline } from './Timeline'
@@ -27,7 +28,21 @@ const projectEventList = {
       type: 'ProjectCertificateGenerated',
       variant: 'admin',
       date: 13,
+      certificateFileId: 'file-id',
+      nomProjet: 'mon projet pv',
+      email: 'porteur@test.test',
+      potentielIdentifier: 'pot-id',
     } as ProjectCertificateGeneratedDTO,
+    {
+      type: 'ProjectClaimed',
+      variant: 'admin',
+      date: 14,
+      potentielIdentifier: 'pot-id',
+      certificateFileId: 'file-id',
+      nomProjet: 'nom-projet',
+      email: 'email',
+      claimedBy: 'someone',
+    } as ProjectClaimedDTO,
   ],
 }
 
@@ -61,5 +76,5 @@ const porteurProjet = {
 }
 */
 export const timeline = () => (
-  <Timeline projectEventList={projectEventList} user={admin} projectId={project.id} />
+  <Timeline projectEventList={projectEventList} projectId={project.id} />
 )

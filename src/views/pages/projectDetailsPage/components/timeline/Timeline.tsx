@@ -1,5 +1,5 @@
 import React from 'react'
-import { Project, User } from '../../../../../entities'
+import { Project } from '../../../../../entities'
 import { ProjectEventListDTO } from '../../../../../modules/frise/dtos/ProjectEventListDTO'
 import { mapTimelineItemList } from './helpers'
 import { DesignationItem } from './DesignationItem'
@@ -7,10 +7,9 @@ import { ImportItem } from './ImportItem'
 
 export const Timeline = (props: {
   projectEventList: ProjectEventListDTO
-  user: User
   projectId: Project['id']
 }) => {
-  const { projectEventList } = props
+  const { projectEventList, projectId } = props
 
   const timelineItemList = mapTimelineItemList(projectEventList).sort((a, b) => a.date - b.date)
 
@@ -27,8 +26,7 @@ export const Timeline = (props: {
                 <DesignationItem
                   events={timelineItem.events}
                   isLastItem={isLastItem}
-                  user={props.user}
-                  projectId={props.projectId}
+                  projectId={projectId}
                 />
               )
             case 'import':

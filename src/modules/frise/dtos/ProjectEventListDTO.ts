@@ -6,6 +6,7 @@ export type ProjectEventDTO =
   | ProjectCertificateGeneratedDTO
   | ProjectCertificateRegeneratedDTO
   | ProjectCertificateUpdatedDTO
+  | ProjectClaimedDTO
 
 export type ProjectNotifiedDTO = {
   type: 'ProjectNotified'
@@ -41,16 +42,23 @@ export type ProjectCertificateUpdatedDTO = ProjectCertificateBase & {
   type: 'ProjectCertificateUpdated'
 }
 
+export type ProjectClaimedDTO = ProjectCertificateBase & {
+  type: 'ProjectClaimed'
+  claimedBy: string
+}
+
 export type ProjectCertificateDTO =
   | ProjectCertificateGeneratedDTO
   | ProjectCertificateRegeneratedDTO
   | ProjectCertificateUpdatedDTO
+  | ProjectClaimedDTO
 
 export const isCertificateDTO = (event: ProjectEventDTO): event is ProjectCertificateDTO =>
   [
     'ProjectCertificateGenerated',
     'ProjectCertificateRegenerated',
     'ProjectCertificateUpdated',
+    'ProjectClaimed',
   ].includes(event.type)
 
 export type ProjectEventListDTO = { events: ProjectEventDTO[] }
