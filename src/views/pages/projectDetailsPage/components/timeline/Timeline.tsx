@@ -4,6 +4,7 @@ import { ProjectEventListDTO } from '../../../../../modules/frise/dtos/ProjectEv
 import { mapTimelineItemList } from './helpers'
 import { DesignationItem } from './DesignationItem'
 import { ImportItem } from './ImportItem'
+import { GarantieFinanciereItem } from './GarantiesFinancieresItem'
 
 export const Timeline = (props: {
   projectEventList: ProjectEventListDTO
@@ -27,10 +28,26 @@ export const Timeline = (props: {
                   events={timelineItem.events}
                   isLastItem={isLastItem}
                   projectId={projectId}
+                  groupIndex={groupIndex}
                 />
               )
             case 'import':
-              return <ImportItem event={timelineItem.events[0]} isLastItem={isLastItem} />
+              return (
+                <ImportItem
+                  event={timelineItem.events[0]}
+                  isLastItem={isLastItem}
+                  groupIndex={groupIndex}
+                />
+              )
+            case 'garantiesFinancieres':
+              return (
+                <GarantieFinanciereItem
+                  isLastItem={isLastItem}
+                  events={timelineItem.events}
+                  groupIndex={groupIndex}
+                  date={timelineItem.date}
+                />
+              )
           }
         })}
       </ol>

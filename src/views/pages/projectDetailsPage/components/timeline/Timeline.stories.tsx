@@ -4,6 +4,7 @@ import {
   ProjectNotifiedDTO,
   ProjectCertificateGeneratedDTO,
   ProjectClaimedDTO,
+  ProjectGFSubmittedDTO,
 } from '../../../../../modules/frise/dtos/ProjectEventListDTO'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import { Timeline } from './Timeline'
@@ -43,6 +44,14 @@ const projectEventList = {
       email: 'email',
       claimedBy: 'someone',
     } as ProjectClaimedDTO,
+    {
+      type: 'ProjectGFSubmitted',
+      variant: 'admin',
+      date: 17,
+      fileId: 'file-id',
+      filename: 'file-name',
+      submittedBy: 'someone',
+    } as ProjectGFSubmittedDTO,
   ],
 }
 

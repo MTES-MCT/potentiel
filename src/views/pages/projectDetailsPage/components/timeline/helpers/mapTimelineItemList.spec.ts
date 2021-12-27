@@ -7,9 +7,31 @@ import {
   ProjectCertificateRegeneratedDTO,
   ProjectEventListDTO,
   ProjectImportedDTO,
+  ProjectGFSubmittedDTO,
 } from '../../../../../../modules/frise/dtos/ProjectEventListDTO'
 
 describe('mapTimelineItemList', () => {
+  describe('garantiesFinancières', () => {
+    it('should create a groupe with ProjectFGSubmitted events', () => {
+      const projectEventList: ProjectEventListDTO = {
+        events: [
+          {
+            type: 'ProjectGFSubmitted',
+            variant: 'admin',
+            fileId: 'certif-if',
+            filename: 'file-name',
+            submittedBy: 'someone',
+            date: 13,
+          } as ProjectGFSubmittedDTO,
+        ],
+      }
+      const result = mapTimelineItemList(projectEventList)
+      expect(result).toHaveLength(1)
+      expect(result[0].events).toEqual(projectEventList.events)
+      expect(result[0].type).toEqual('garantiesFinancieres')
+      expect(result[0].date).toEqual(13)
+    })
+  })
   describe('Désignation', () => {
     describe(`when there is NOT a ProjectNotified event`, () => {
       it('should not return a group for ProjectCertificateGenerated, ProjectCertificateRegenerated, ProjectCertificateUpdated, ProjectClaimed events', () => {

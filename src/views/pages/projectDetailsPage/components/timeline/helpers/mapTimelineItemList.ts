@@ -2,11 +2,12 @@ import {
   ProjectCertificateDTO,
   ProjectEventDTO,
   ProjectEventListDTO,
+  ProjectGFSubmittedDTO,
   ProjectImportedDTO,
   ProjectNotifiedDTO,
 } from '../../../../../../modules/frise/dtos/ProjectEventListDTO'
 
-type TimelineItem = DesignationItem | ImportItem
+type TimelineItem = DesignationItem | ImportItem | GarantieFinanciereItem
 
 type DesignationItem = {
   type: 'designation'
@@ -17,6 +18,12 @@ type DesignationItem = {
 type ImportItem = {
   type: 'import'
   events: ProjectImportedDTO[]
+  date: number
+}
+
+type GarantieFinanciereItem = {
+  type: 'garantiesFinancieres'
+  events: ProjectGFSubmittedDTO[]
   date: number
 }
 
@@ -33,6 +40,7 @@ export const mapTimelineItemList: MapTimelineItemList = (projectEventList) => {
   for (const event of events) {
     makeDesignationPackage(event)
     makeImportPackage(event)
+    makeGarantiesFinancieresPackage(event)
   }
 
   function makeDesignationPackage(event: ProjectEventDTO) {
@@ -69,6 +77,18 @@ export const mapTimelineItemList: MapTimelineItemList = (projectEventList) => {
             type: 'import',
           })
         }
+        break
+    }
+  }
+
+  function makeGarantiesFinancieresPackage(event: ProjectEventDTO) {
+    switch (event.type) {
+      case 'ProjectGFSubmitted':
+        timelineItemList.push({
+          events: [event],
+          date: event.date,
+          type: 'garantiesFinancieres',
+        })
         break
     }
   }
