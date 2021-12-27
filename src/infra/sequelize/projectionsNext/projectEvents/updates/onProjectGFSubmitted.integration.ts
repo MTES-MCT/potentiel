@@ -7,7 +7,9 @@ import onProjectGFSubmitted from './onProjectGFSubmitted'
 describe('onProjectGFSubmitted', () => {
   const projectId = new UniqueEntityID().toString()
   const fileId = 'file-id'
-  const submittedBy = 'someone'
+  const submittedBy = 'user-id'
+  const gfDate = new Date(26 / 12 / 2021)
+  const submissionDate = new Date(27 / 12 / 2021)
 
   beforeEach(async () => {
     await resetDatabase()
@@ -20,6 +22,7 @@ describe('onProjectGFSubmitted', () => {
           projectId,
           fileId,
           submittedBy,
+          gfDate,
         } as ProjectGFSubmittedPayload,
       })
     )
@@ -39,7 +42,7 @@ describe('onProjectGFSubmitted', () => {
         projectId,
         type: 'ProjectGFSubmitted',
         payload: { fileId, submittedBy },
-        valueDate: 1234,
+        valueDate: Number(submissionDate),
       })
 
       await onProjectGFSubmitted(
@@ -51,13 +54,13 @@ describe('onProjectGFSubmitted', () => {
           } as ProjectGFSubmittedPayload,
           original: {
             version: 1,
-            occurredAt: new Date(1234),
+            occurredAt: submissionDate,
           },
         })
       )
 
       const projectEvents = await ProjectEvent.findAll({
-        where: { projectId, type: 'ProjectGFSubmitted', valueDate: 1234 },
+        where: { projectId, type: 'ProjectGFSubmitted', valueDate: Number(submissionDate) },
       })
 
       expect(projectEvents).toHaveLength(1)

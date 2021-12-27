@@ -247,14 +247,17 @@ describe('frise.getProjectEvents', () => {
     describe(`when user is ${role}`, () => {
       it('should return ProjectGFSubmitted events', async () => {
         const fileId = new UniqueEntityID().toString()
+        const gfDate = new Date(26 / 12 / 2021)
+        const submissionDate = new Date(27 / 12 / 2021)
         await ProjectEvent.create({
           id: new UniqueEntityID().toString(),
           projectId,
           type: 'ProjectGFSubmitted',
-          valueDate: 1234,
+          valueDate: Number(submissionDate),
           payload: {
             fileId: fileId,
-            submittedBy: 'someone',
+            submittedBy: 'user-id',
+            gfDate: Number(gfDate),
           },
         })
         await File.create({
@@ -267,10 +270,10 @@ describe('frise.getProjectEvents', () => {
           events: [
             {
               type: 'ProjectGFSubmitted',
-              date: 1234,
+              date: Number(gfDate),
               variant: role,
               fileId: fileId,
-              submittedBy: 'someone',
+              submittedBy: 'user-id',
               filename: 'my-file-name',
             },
           ],
