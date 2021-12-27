@@ -36,6 +36,7 @@ type MapTimelineItemList = (projectEventList: ProjectEventListDTO) => TimelineIt
 export const mapTimelineItemList: MapTimelineItemList = (projectEventList) => {
   const timelineItemList: TimelineItemList = []
   const { events } = projectEventList
+  events.sort((a, b) => a.date - b.date)
 
   for (const event of events) {
     makeDesignationPackage(event)
@@ -84,6 +85,12 @@ export const mapTimelineItemList: MapTimelineItemList = (projectEventList) => {
   function makeGarantiesFinancieresPackage(event: ProjectEventDTO) {
     switch (event.type) {
       case 'ProjectGFSubmitted':
+        const groupIndex = timelineItemList.findIndex(
+          (group) => group.type === 'garantiesFinancieres'
+        )
+        if (groupIndex !== -1) {
+          timelineItemList.splice(groupIndex, 1)
+        }
         timelineItemList.push({
           events: [event],
           date: event.date,
