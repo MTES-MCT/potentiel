@@ -73,11 +73,12 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                     const filename = rawFilename.filename
                     events.push({
                       type,
-                      date: payload.gfDate,
+                      date: valueDate,
                       variant: user.role,
                       fileId,
                       submittedBy: payload.submittedBy,
                       filename,
+                      gfDate: payload.gfDate,
                     })
                   }
                   break
