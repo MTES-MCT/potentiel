@@ -99,12 +99,19 @@ describe('frise.getProjectEvents', () => {
   for (const role of USER_ROLES.filter((role) => role !== 'ademe')) {
     describe(`when the user is ${role}`, () => {
       const fakeUser = { role } as User
-      it('should return the ProjectNotified event', async () => {
+      it('should return the ProjectNotified and ProjectGFDueDateSet events', async () => {
         await ProjectEvent.create({
           id: new UniqueEntityID().toString(),
           projectId,
           type: 'ProjectNotified',
           valueDate: 1234,
+        })
+        await ProjectEvent.create({
+          id: new UniqueEntityID().toString(),
+          projectId,
+          type: 'ProjectGFDueDateSet',
+          valueDate: 1234,
+          payload: { garantiesFinancieresDueOn: 5678 },
         })
 
         const res = await getProjectEvents({ projectId, user: fakeUser })
@@ -116,6 +123,12 @@ describe('frise.getProjectEvents', () => {
               date: 1234,
               variant: role,
             },
+            {
+              type: 'ProjectGFDueDateSet',
+              date: 1234,
+              variant: role,
+              garantiesFinancieresDueOn: 5678,
+            },
           ],
         })
       })
@@ -124,12 +137,19 @@ describe('frise.getProjectEvents', () => {
 
   describe(`when the user is ademe`, () => {
     const fakeUser = { role: 'ademe' } as User
-    it('should not return the ProjectNotified event', async () => {
+    it('should not return the ProjectNotified and ProjectGFDueDateSet events', async () => {
       await ProjectEvent.create({
         id: new UniqueEntityID().toString(),
         projectId,
         type: 'ProjectNotified',
         valueDate: 1234,
+      })
+      await ProjectEvent.create({
+        id: new UniqueEntityID().toString(),
+        projectId,
+        type: 'ProjectGFDueDateSet',
+        valueDate: 1234,
+        payload: { garantiesFinancieresDueOn: 5678 },
       })
 
       const res = await getProjectEvents({ projectId, user: fakeUser })
