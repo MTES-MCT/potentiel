@@ -8,11 +8,12 @@ import {
   ProjectEventListDTO,
   ProjectImportedDTO,
   ProjectGFSubmittedDTO,
+  ProjectGFDueDateSetDTO,
 } from '../../../../../../modules/frise/dtos/ProjectEventListDTO'
 
 describe('mapTimelineItemList', () => {
   describe('garantiesFinancières', () => {
-    it('should create a groupe with the latest ProjectGFSubmitted event', () => {
+    it('should create a groupe with the latest event of type ProjectGFDueDateSet or ProjectGFSubmitted', () => {
       const projectEventList: ProjectEventListDTO = {
         events: [
           {
@@ -20,24 +21,68 @@ describe('mapTimelineItemList', () => {
             variant: 'admin',
             fileId: 'certif-if',
             filename: 'file-name',
-            submittedBy: 'someone',
-            date: 14,
+            submittedBy: 'user-id',
+            date: 15,
+            gfDate: 12,
           } as ProjectGFSubmittedDTO,
           {
-            type: 'ProjectGFSubmitted',
-            variant: 'admin',
-            fileId: 'certif-if',
-            filename: 'file-name',
-            submittedBy: 'someone',
-            date: 13,
-          } as ProjectGFSubmittedDTO,
+            type: 'ProjectGFDueDateSet',
+            variant: 'porteur-projet',
+            garantiesFinancieresDueOn: 16,
+            date: 14,
+          } as ProjectGFDueDateSetDTO,
         ],
       }
       const result = mapTimelineItemList(projectEventList)
       expect(result).toHaveLength(1)
       expect(result[0].events).toHaveLength(1)
       expect(result[0].type).toEqual('garantiesFinancieres')
-      expect(result[0].date).toEqual(14)
+      expect(result[0].events).toEqual([
+        {
+          type: 'ProjectGFSubmitted',
+          variant: 'admin',
+          fileId: 'certif-if',
+          filename: 'file-name',
+          submittedBy: 'user-id',
+          date: 15,
+          gfDate: 12,
+        },
+      ])
+    })
+    describe('when the event to be returned is ProjectGFDueDateSet', () => {
+      it('should return a group whose date is the event garantiesFinancieresDueOn', async () => {
+        const projectEventList: ProjectEventListDTO = {
+          events: [
+            {
+              type: 'ProjectGFDueDateSet',
+              variant: 'porteur-projet',
+              garantiesFinancieresDueOn: 16,
+              date: 14,
+            } as ProjectGFDueDateSetDTO,
+          ],
+        }
+        const result = mapTimelineItemList(projectEventList)
+        expect(result[0].date).toEqual(16)
+      })
+    })
+    describe('when the event to be returned is ProjectGFSubmitted', () => {
+      it('should return a group whose date is the event gfDate', async () => {
+        const projectEventList: ProjectEventListDTO = {
+          events: [
+            {
+              type: 'ProjectGFSubmitted',
+              variant: 'admin',
+              fileId: 'certif-if',
+              filename: 'file-name',
+              submittedBy: 'user-id',
+              date: 15,
+              gfDate: 12,
+            } as ProjectGFSubmittedDTO,
+          ],
+        }
+        const result = mapTimelineItemList(projectEventList)
+        expect(result[0].date).toEqual(12)
+      })
     })
   })
   describe('Désignation', () => {
