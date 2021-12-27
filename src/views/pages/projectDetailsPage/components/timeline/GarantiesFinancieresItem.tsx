@@ -20,7 +20,7 @@ export const GarantieFinanciereItem = (props: {
       <PassedIcon />
       <ContentArea>
         <ItemDate date={date} />
-        <ItemTitle title="Garanties Financières" />
+        <ItemTitle title="Constitution des garanties Financières" />
         {projectGFSubmittedEvent && <GFDocumentLinkItem event={projectGFSubmittedEvent} />}
       </ContentArea>
     </TimelineItem>
