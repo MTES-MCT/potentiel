@@ -91,6 +91,16 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       garantiesFinancieresDueOn: payload.garantiesFinancieresDueOn,
                     })
                   }
+                  break
+                case 'ProjectGFDueDateSet':
+                  if (user.role === 'porteur-projet') {
+                    events.push({
+                      type,
+                      date: valueDate,
+                      variant: user.role,
+                      garantiesFinancieresDueOn: payload.garantiesFinancieresDueOn,
+                    })
+                  }
               }
 
               return Promise.resolve(events)
