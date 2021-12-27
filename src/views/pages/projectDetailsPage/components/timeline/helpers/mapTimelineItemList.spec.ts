@@ -12,9 +12,17 @@ import {
 
 describe('mapTimelineItemList', () => {
   describe('garantiesFinancières', () => {
-    it('should create a groupe with ProjectFGSubmitted events', () => {
+    it('should create a groupe with the latest ProjectGFSubmitted event', () => {
       const projectEventList: ProjectEventListDTO = {
         events: [
+          {
+            type: 'ProjectGFSubmitted',
+            variant: 'admin',
+            fileId: 'certif-if',
+            filename: 'file-name',
+            submittedBy: 'someone',
+            date: 14,
+          } as ProjectGFSubmittedDTO,
           {
             type: 'ProjectGFSubmitted',
             variant: 'admin',
@@ -27,9 +35,9 @@ describe('mapTimelineItemList', () => {
       }
       const result = mapTimelineItemList(projectEventList)
       expect(result).toHaveLength(1)
-      expect(result[0].events).toEqual(projectEventList.events)
+      expect(result[0].events).toHaveLength(1)
       expect(result[0].type).toEqual('garantiesFinancieres')
-      expect(result[0].date).toEqual(13)
+      expect(result[0].date).toEqual(14)
     })
   })
   describe('Désignation', () => {
