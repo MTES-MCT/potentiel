@@ -89,6 +89,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
       }
     })
 }
-function getEvents(projectId) {
-  return wrapInfra(ProjectEvent.findAll({ where: { projectId } }))
+function getEvents(projectId: string) {
+  return wrapInfra(ProjectEvent.findAll({ where: { projectId }, order: [['valueDate', 'ASC']] }))
 }

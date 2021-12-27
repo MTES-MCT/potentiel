@@ -17,6 +17,39 @@ describe('frise.getProjectEvents', () => {
     await Project.create(fakeProject)
   })
 
+  it('should return events orderedby date', async () => {
+    const user = { role: 'admin' } as User
+    const date1 = 1
+    const date2 = 10
+
+    await ProjectEvent.create({
+      id: new UniqueEntityID().toString(),
+      projectId,
+      type: 'ProjectImported',
+      valueDate: date2,
+    })
+    await ProjectEvent.create({
+      id: new UniqueEntityID().toString(),
+      projectId,
+      type: 'ProjectImported',
+      valueDate: date1,
+    })
+
+    const res = await getProjectEvents({ projectId, user })
+
+    expect(res._unsafeUnwrap().events).toHaveLength(2)
+    expect(res._unsafeUnwrap().events).toMatchObject([
+      {
+        type: 'ProjectImported',
+        date: date1,
+      },
+      {
+        type: 'ProjectImported',
+        date: date2,
+      },
+    ])
+  })
+
   for (const role of USER_ROLES.filter((role) => role === 'dgec' || role === 'admin')) {
     describe(`when the user is ${role}`, () => {
       it('should return the ProjectImported event', async () => {
