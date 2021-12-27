@@ -80,4 +80,11 @@ export type ProjectGFDueDateSetDTO = {
   garantiesFinancieresDueOn: number
 }
 
+export type ProjectGFDueDateSetDTO = {
+  type: 'ProjectGFDueDateSet'
+  date: number
+  variant: 'porteur-projet'
+  garantiesFinancieresDueOn: number
+}
+
 export type ProjectEventListDTO = { events: ProjectEventDTO[] }
