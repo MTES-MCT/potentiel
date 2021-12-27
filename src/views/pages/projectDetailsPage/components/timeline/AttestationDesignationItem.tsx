@@ -14,7 +14,7 @@ export const AttestationDesignationItem = (props: {
 
   const certificateLink = makeCertificateLink(certificateEvent, projectId)
   return (
-    <a href={certificateLink}>
+    <a href={certificateLink} download>
       {claimedBy ? (
         <span>
           Télécharger l'attestation de désignation (transmise le {formatDate(date)} par {claimedBy})
