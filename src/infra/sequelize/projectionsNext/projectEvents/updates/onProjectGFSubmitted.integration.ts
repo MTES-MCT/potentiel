@@ -7,7 +7,9 @@ import onProjectGFSubmitted from './onProjectGFSubmitted'
 describe('onProjectGFSubmitted', () => {
   const projectId = new UniqueEntityID().toString()
   const fileId = 'file-id'
-  const submittedBy = 'someone'
+  const submittedBy = 'user-id'
+  const gfDate = new Date(26 / 12 / 2021)
+  const submissionDate = new Date(27 / 12 / 2021)
 
   beforeEach(async () => {
     await resetDatabase()
@@ -22,6 +24,7 @@ describe('onProjectGFSubmitted', () => {
           projectId,
           fileId,
           submittedBy,
+          gfDate,
         } as ProjectGFSubmittedPayload,
         original: {
           version: 1,

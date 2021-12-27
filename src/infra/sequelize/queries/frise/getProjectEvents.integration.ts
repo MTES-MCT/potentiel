@@ -264,6 +264,8 @@ describe('frise.getProjectEvents', () => {
         const gfTimestamp = new Date('2022-01-06').getTime()
 
         const fileId = new UniqueEntityID().toString()
+        const gfDate = new Date(26 / 12 / 2021)
+        const submissionDate = new Date(27 / 12 / 2021)
         await ProjectEvent.create({
           id: new UniqueEntityID().toString(),
           projectId,
@@ -272,7 +274,8 @@ describe('frise.getProjectEvents', () => {
           eventPublishedAt: eventTimestamp,
           payload: {
             fileId: fileId,
-            submittedBy: 'someone',
+            submittedBy: 'user-id',
+            gfDate: Number(gfDate),
           },
         })
         await File.create({
@@ -288,7 +291,7 @@ describe('frise.getProjectEvents', () => {
               date: gfTimestamp,
               variant: role,
               fileId: fileId,
-              submittedBy: 'someone',
+              submittedBy: 'user-id',
               filename: 'my-file-name',
             },
           ],
