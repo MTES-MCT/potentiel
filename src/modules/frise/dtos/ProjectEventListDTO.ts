@@ -8,6 +8,7 @@ export type ProjectEventDTO =
   | ProjectCertificateUpdatedDTO
   | ProjectClaimedDTO
   | ProjectGFSubmittedDTO
+  | ProjectGFDueDateSetDTO
 
 export type ProjectNotifiedDTO = {
   type: 'ProjectNotified'
@@ -69,6 +70,13 @@ export type ProjectGFSubmittedDTO = {
   fileId: string
   filename: string
   submittedBy: string
+}
+
+export type ProjectGFDueDateSetDTO = {
+  type: 'ProjectGFDueDateSet'
+  date: number
+  variant: Exclude<UserRole, 'ademe'>
+  garantiesFinancieresDueOn: number
 }
 
 export type ProjectEventListDTO = { events: ProjectEventDTO[] }
