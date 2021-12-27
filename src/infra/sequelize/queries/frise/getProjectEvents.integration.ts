@@ -346,6 +346,7 @@ describe('frise.getProjectEvents', () => {
               fileId: fileId,
               submittedBy: 'user-id',
               filename: 'my-file-name',
+              gfDate: Number(gfDate),
             },
           ],
         })
