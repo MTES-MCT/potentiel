@@ -30,13 +30,17 @@ export const GarantieFinanciereItem = (props: {
         {projectGFDueDateSet && (
           <div>
             <p className="mt-0 mb-0">Garanties financières en attente</p>
-            <a onClick={() => setIsHiddenForm(!isHiddenForm)}>Transmettre l'attestation</a>
-            {isHiddenForm && (
-              <GFForm
-                projectId={projectId}
-                isHiddenForm={isHiddenForm}
-                setIsHiddenForm={setIsHiddenForm}
-              />
+            {projectGFDueDateSet.variant === 'porteur-projet' && (
+              <>
+                <a onClick={() => setIsHiddenForm(!isHiddenForm)}>Transmettre l'attestation</a>
+                {isHiddenForm && (
+                  <GFForm
+                    projectId={projectId}
+                    isHiddenForm={isHiddenForm}
+                    setIsHiddenForm={setIsHiddenForm}
+                  />
+                )}
+              </>
             )}
           </div>
         )}
