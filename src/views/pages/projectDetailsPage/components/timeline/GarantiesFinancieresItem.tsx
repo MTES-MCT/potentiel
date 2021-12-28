@@ -6,6 +6,7 @@ import {
 } from '../../../../../modules/frise/dtos/ProjectEventListDTO'
 import { TimelineItem, ItemTitle, ItemDate, ContentArea, PassedIcon } from './components'
 import { GFDocumentLinkItem } from './GFDocumentLinkItem'
+import { CurrentIcon } from './components/StateIcons'
 
 export const GarantieFinanciereItem = (props: {
   isLastItem: boolean
@@ -19,7 +20,7 @@ export const GarantieFinanciereItem = (props: {
 
   return (
     <TimelineItem isLastItem={isLastItem} groupIndex={groupIndex}>
-      <PassedIcon />
+      {projectGFSubmittedEvent ? <PassedIcon /> : <CurrentIcon />}
       <ContentArea>
         <ItemDate date={date} />
         <ItemTitle title="Constitution des garanties Financières" />
