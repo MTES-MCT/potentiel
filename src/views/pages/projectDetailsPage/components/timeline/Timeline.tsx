@@ -46,6 +46,7 @@ export const Timeline = (props: {
                   events={timelineItem.events}
                   groupIndex={groupIndex}
                   date={timelineItem.date}
+                  projectId={projectId}
                 />
               )
           }
