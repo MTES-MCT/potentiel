@@ -8,6 +8,7 @@ import { TimelineItem, ItemTitle, ItemDate, ContentArea, PassedIcon } from './co
 import { GFDocumentLinkItem } from './GFDocumentLinkItem'
 import { CurrentIcon } from './components/StateIcons'
 import { GFForm } from '.'
+import { WarningItem } from './components/WarningItem'
 
 export const GarantieFinanciereItem = (props: {
   projectId: string
@@ -18,6 +19,8 @@ export const GarantieFinanciereItem = (props: {
 }) => {
   const { isLastItem, events, groupIndex, date, projectId } = props
   const projectGFDueDateSet = events.find(isProjectGFDueDateSet)
+  const dueDate = projectGFDueDateSet?.garantiesFinancieresDueOn
+  const today = new Date().getTime()
   const projectGFSubmittedEvent = events.find(isProjectGFSubmitted)
   const [isHiddenForm, setIsHiddenForm] = useState(false)
 
@@ -29,7 +32,10 @@ export const GarantieFinanciereItem = (props: {
         <ItemTitle title="Constitution des garanties Financières" />
         {projectGFDueDateSet && (
           <div>
-            <p className="mt-0 mb-0">Garanties financières en attente</p>
+            <div className="flex">
+              <p className="mt-0 mb-0">Garanties financières en attente</p>
+              {dueDate && today >= dueDate && <WarningItem message="date dépassée" />}
+            </div>
             {projectGFDueDateSet.variant === 'porteur-projet' && (
               <>
                 <a onClick={() => setIsHiddenForm(!isHiddenForm)}>Transmettre l'attestation</a>
