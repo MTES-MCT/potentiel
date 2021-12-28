@@ -50,53 +50,6 @@ describe('frise.getProjectEvents', () => {
     ])
   })
 
-  describe('when user is porteur-projet', () => {
-    it('should return the ProjectGFDueDateSet event', async () => {
-      const user = { role: 'porteur-projet' } as User
-      await ProjectEvent.create({
-        id: new UniqueEntityID().toString(),
-        projectId,
-        type: 'ProjectGFDueDateSet',
-        valueDate: 1234,
-        payload: { garantiesFinancieresDueOn: 5678 },
-      })
-
-      const res = await getProjectEvents({ projectId, user })
-
-      expect(res._unsafeUnwrap()).toMatchObject({
-        events: [
-          {
-            type: 'ProjectGFDueDateSet',
-            date: 1234,
-            variant: 'porteur-projet',
-            garantiesFinancieresDueOn: 5678,
-          },
-        ],
-      })
-    })
-  })
-
-  for (const role of USER_ROLES.filter((role) => role !== 'porteur-projet')) {
-    describe(`when user is ${role}`, () => {
-      it('should NOT return the ProjectGFDueDateSet event', async () => {
-        const user = { role } as User
-        await ProjectEvent.create({
-          id: new UniqueEntityID().toString(),
-          projectId,
-          type: 'ProjectGFDueDateSet',
-          valueDate: 1234,
-          payload: { garantiesFinancieresDueOn: 5678 },
-        })
-
-        const res = await getProjectEvents({ projectId, user })
-
-        expect(res._unsafeUnwrap()).toMatchObject({
-          events: [],
-        })
-      })
-    })
-  }
-
   for (const role of USER_ROLES.filter((role) => role === 'dgec' || role === 'admin')) {
     describe(`when the user is ${role}`, () => {
       it('should return the ProjectImported event', async () => {
