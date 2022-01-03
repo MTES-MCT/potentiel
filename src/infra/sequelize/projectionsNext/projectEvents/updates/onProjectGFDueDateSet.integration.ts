@@ -1,4 +1,3 @@
-import { date } from 'yup/lib/locale'
 import { UniqueEntityID } from '../../../../../core/domain'
 import { ProjectGFDueDateSet, ProjectGFDueDateSetPayload } from '../../../../../modules/project'
 import { resetDatabase } from '../../../helpers'
@@ -7,8 +6,8 @@ import onProjectGFDueDateSet from './onProjectGFDueDateSet'
 
 describe('onProjectGFDueDateSet', () => {
   const projectId = new UniqueEntityID().toString()
-  const garantiesFinancieresDueOn = new Date(27 / 1 / 2022).getTime()
-  const valueDate = new Date(27 / 11 / 2021)
+  const garantiesFinancieresDueOn = new Date('2022-01-27').getTime()
+  const occurredAt = new Date('2021-11-27')
 
   beforeEach(async () => {
     await resetDatabase()
@@ -21,6 +20,10 @@ describe('onProjectGFDueDateSet', () => {
           projectId,
           garantiesFinancieresDueOn,
         } as ProjectGFDueDateSetPayload,
+        original: {
+          version: 1,
+          occurredAt,
+        },
       })
     )
 
@@ -28,7 +31,10 @@ describe('onProjectGFDueDateSet', () => {
 
     expect(projectEvent).not.toBeNull()
     expect(projectEvent).toMatchObject({
+      projectId,
       type: 'ProjectGFDueDateSet',
+      valueDate: occurredAt.getTime(),
+      payload: {garantiesFinancieresDueOn},
     })
   })
 
@@ -39,7 +45,7 @@ describe('onProjectGFDueDateSet', () => {
         projectId,
         type: 'ProjectGFDueDateSet',
         payload: { garantiesFinancieresDueOn },
-        valueDate: valueDate.getTime(),
+        valueDate: occurredAt.getTime(),
       })
 
       await onProjectGFDueDateSet(
@@ -50,13 +56,13 @@ describe('onProjectGFDueDateSet', () => {
           } as ProjectGFDueDateSetPayload,
           original: {
             version: 1,
-            occurredAt: valueDate,
+            occurredAt,
           },
         })
       )
 
       const projectEvents = await ProjectEvent.findAll({
-        where: { projectId, type: 'ProjectGFDueDateSet', valueDate: valueDate.getTime() },
+        where: { projectId, type: 'ProjectGFDueDateSet', valueDate: occurredAt.getTime() },
       })
 
       expect(projectEvents).toHaveLength(1)
