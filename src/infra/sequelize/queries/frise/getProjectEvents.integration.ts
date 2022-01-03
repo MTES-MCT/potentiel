@@ -19,7 +19,7 @@ describe('frise.getProjectEvents', () => {
     await Project.create(fakeProject)
   })
 
-  it('should return events orderedby date', async () => {
+  it('should return events ordered by date in ascending order', async () => {
     const user = { role: 'admin' } as User
     const date1 = 1
     const date2 = 10
@@ -317,8 +317,8 @@ describe('frise.getProjectEvents', () => {
         const gfTimestamp = new Date('2022-01-06').getTime()
 
         const fileId = new UniqueEntityID().toString()
-        const gfDate = new Date(26 / 12 / 2021)
-        const submissionDate = new Date(27 / 12 / 2021)
+        const gfDate = new Date('2021-12-26')
+        const submissionDate = new Date('2021-12-27')
         await ProjectEvent.create({
           id: new UniqueEntityID().toString(),
           projectId,
@@ -328,7 +328,7 @@ describe('frise.getProjectEvents', () => {
           payload: {
             fileId: fileId,
             submittedBy: 'user-id',
-            gfDate: Number(gfDate),
+            gfDate: gfDate.getTime(),
           },
         })
         await File.create({
@@ -346,7 +346,7 @@ describe('frise.getProjectEvents', () => {
               fileId: fileId,
               submittedBy: 'user-id',
               filename: 'my-file-name',
-              gfDate: Number(gfDate),
+              gfDate: gfDate.getTime(),
             },
           ],
         })
