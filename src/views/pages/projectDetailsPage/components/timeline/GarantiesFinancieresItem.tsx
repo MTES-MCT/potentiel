@@ -21,6 +21,7 @@ export const GarantieFinanciereItem = (props: {
   const projectGFDueDateSet = events.find(isProjectGFDueDateSet)
   const dueDate = projectGFDueDateSet?.garantiesFinancieresDueOn
   const today = new Date().getTime()
+  const displayWarning = projectGFDueDateSet?.variant === 'porteur-projet' && dueDate && today >= dueDate ? true : false
   const projectGFSubmittedEvent = events.find(isProjectGFSubmitted)
   const [isHiddenForm, setIsHiddenForm] = useState(false)
 
@@ -34,7 +35,7 @@ export const GarantieFinanciereItem = (props: {
           <div>
             <div className="flex">
               <p className="mt-0 mb-0">Garanties financières en attente</p>
-              {dueDate && today >= dueDate && <WarningItem message="date dépassée" />}
+              {displayWarning && <WarningItem message="date dépassée" />}
             </div>
             {projectGFDueDateSet.variant === 'porteur-projet' && (
               <>
