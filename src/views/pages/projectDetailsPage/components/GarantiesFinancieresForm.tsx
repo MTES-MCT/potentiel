@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { dataId } from '../../../../helpers/testId'
 import ROUTES from '../../../../routes'
-import DateInput from '../../../components/dateInput'
+import DateInput from '../../../components/DateInput'
 
 interface GarantiesFinancieresFormProps {
   projectId: string
