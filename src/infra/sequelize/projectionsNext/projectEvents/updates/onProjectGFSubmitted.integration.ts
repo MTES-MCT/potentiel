@@ -8,8 +8,8 @@ describe('onProjectGFSubmitted', () => {
   const projectId = new UniqueEntityID().toString()
   const fileId = 'file-id'
   const submittedBy = 'user-id'
-  const gfDate = new Date(26 / 12 / 2021)
-  const submissionDate = new Date(27 / 12 / 2021)
+  const gfDate = new Date('2021-12-26')
+  const submissionDate = new Date('2021-12-27')
 
   beforeEach(async () => {
     await resetDatabase()
