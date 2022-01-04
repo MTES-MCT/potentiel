@@ -10,6 +10,7 @@ export default ProjectEvent.projector.on(
         projectId,
         type: ProjectCertificateGenerated.type,
         valueDate: occurredAt.getTime(),
+        eventPublishedAt: occurredAt.getTime(),
       },
       defaults: {
         id: new UniqueEntityID().toString(),
