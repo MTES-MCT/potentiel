@@ -80,7 +80,7 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => {
                                 : undefined,
                               download: true,
                             },
-                            ...(user.role === 'porteur-projet'
+                            ...(user.role === 'porteur-projet' && project.garantiesFinancieres.gfStatus !== "validé"
                               ? [
                                   {
                                     title: 'Annuler le dépôt',
