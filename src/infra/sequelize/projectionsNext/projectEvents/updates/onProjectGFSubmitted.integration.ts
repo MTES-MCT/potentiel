@@ -14,6 +14,8 @@ describe('onProjectGFSubmitted', () => {
   })
 
   it('should create a new project event of type ProjectGFSubmitted', async () => {
+    const occurredAt = new Date('04-01-2022')
+
     await onProjectGFSubmitted(
       new ProjectGFSubmitted({
         payload: {
@@ -21,6 +23,10 @@ describe('onProjectGFSubmitted', () => {
           fileId,
           submittedBy,
         } as ProjectGFSubmittedPayload,
+        original: {
+          version: 1,
+          occurredAt,
+        },
       })
     )
 
@@ -29,17 +35,22 @@ describe('onProjectGFSubmitted', () => {
     expect(projectEvent).not.toBeNull()
     expect(projectEvent).toMatchObject({
       type: 'ProjectGFSubmitted',
+      valueDate: occurredAt.getTime(),
+      eventPublishedAt: occurredAt.getTime(),
     })
   })
 
   describe('when the event already exists in the projection ProjectEvent', () => {
     it('should not create a new project event of type ProjectGFSubmitted', async () => {
+      const occurredAt = new Date('04-01-2022')
+
       await ProjectEvent.create({
         id: new UniqueEntityID().toString(),
         projectId,
         type: 'ProjectGFSubmitted',
         payload: { fileId, submittedBy },
-        valueDate: 1234,
+        valueDate: occurredAt.getTime(),
+        eventPublishedAt: occurredAt.getTime(),
       })
 
       await onProjectGFSubmitted(
@@ -51,13 +62,18 @@ describe('onProjectGFSubmitted', () => {
           } as ProjectGFSubmittedPayload,
           original: {
             version: 1,
-            occurredAt: new Date(1234),
+            occurredAt,
           },
         })
       )
 
       const projectEvents = await ProjectEvent.findAll({
-        where: { projectId, type: 'ProjectGFSubmitted', valueDate: 1234 },
+        where: {
+          projectId,
+          type: 'ProjectGFSubmitted',
+          valueDate: occurredAt.getTime(),
+          eventPublishedAt: occurredAt.getTime(),
+        },
       })
 
       expect(projectEvents).toHaveLength(1)
