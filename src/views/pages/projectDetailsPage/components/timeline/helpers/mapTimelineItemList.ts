@@ -24,7 +24,7 @@ type ImportItem = {
 
 type GarantieFinanciereItem = {
   type: 'garantiesFinancieres'
-  events: (ProjectGFSubmittedDTO | ProjectGFDueDateSetDTO)[]
+  event: ProjectGFSubmittedDTO | ProjectGFDueDateSetDTO
   date: number
 }
 
@@ -102,7 +102,7 @@ export const mapTimelineItemList: MapTimelineItemList = (projectEventList) => {
             : defaultDate
 
         timelineItemList.push({
-          events: [event],
+          event: event,
           date: groupDate,
           type: 'garantiesFinancieres',
         })
