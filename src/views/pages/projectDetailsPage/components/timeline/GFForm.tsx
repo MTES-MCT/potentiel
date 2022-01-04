@@ -4,9 +4,8 @@ import DateInput from '../../../../components/DateInput'
 
 export const GFForm = (props: { projectId: string; isHiddenForm: boolean; setIsHiddenForm }) => {
   const { projectId, isHiddenForm, setIsHiddenForm } = props
-  const [errorMessage, setErrorMessage] = useState('')
   const [disableSubmit, setDisableSubmit] = useState(true)
-  const maxDate = new Date()
+
   return (
     <form
       action={ROUTES.DEPOSER_ETAPE_ACTION}
@@ -18,12 +17,7 @@ export const GFForm = (props: { projectId: string; isHiddenForm: boolean; setIsH
       <input type="hidden" name="projectId" value={projectId} />
       <div>
         <label htmlFor="date">Date de constitution (format JJ/MM/AAAA)</label>
-        <DateInput
-          setErrorMessage={setErrorMessage}
-          setDisableSubmit={setDisableSubmit}
-          maxDate={maxDate}
-        />
-        {errorMessage && <p className="notification error">{errorMessage}</p>}
+        <DateInput onError={(isError: boolean) => setDisableSubmit(isError)} />
       </div>
       <div className="mt-2">
         <label htmlFor="file">Attestation</label>
