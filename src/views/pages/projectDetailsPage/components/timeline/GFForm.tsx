@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import ROUTES from '../../../../../routes'
 import DateInput from '../../../../components/DateInput'
 
-export const GFForm = (props: { projectId: string; isHiddenForm: boolean; setIsHiddenForm }) => {
-  const { projectId, isHiddenForm, setIsHiddenForm } = props
+export const GFForm = (props: { projectId: string; toggleForm: boolean; setToggleForm: any }) => {
+  const { projectId, toggleForm: isHiddenForm, setToggleForm: setIsHiddenForm } = props
   const [disableSubmit, setDisableSubmit] = useState(true)
 
   return (

@@ -21,9 +21,10 @@ export const GarantieFinanciereItem = (props: {
   const projectGFDueDateSet = events.find(isProjectGFDueDateSet)
   const dueDate = projectGFDueDateSet?.garantiesFinancieresDueOn
   const today = new Date().getTime()
-  const displayWarning = projectGFDueDateSet?.variant === 'porteur-projet' && dueDate && today >= dueDate ? true : false
+  const displayWarning =
+    projectGFDueDateSet?.variant === 'porteur-projet' && dueDate && today >= dueDate ? true : false
   const projectGFSubmittedEvent = events.find(isProjectGFSubmitted)
-  const [isHiddenForm, setIsHiddenForm] = useState(false)
+  const [toggleForm, setToggleForm] = useState(false)
 
   return (
     <TimelineItem isLastItem={isLastItem} groupIndex={groupIndex}>
@@ -39,12 +40,12 @@ export const GarantieFinanciereItem = (props: {
             </div>
             {projectGFDueDateSet.variant === 'porteur-projet' && (
               <>
-                <a onClick={() => setIsHiddenForm(!isHiddenForm)}>Transmettre l'attestation</a>
-                {isHiddenForm && (
+                <a onClick={() => setToggleForm(!toggleForm)}>Transmettre l'attestation</a>
+                {toggleForm && (
                   <GFForm
                     projectId={projectId}
-                    isHiddenForm={isHiddenForm}
-                    setIsHiddenForm={setIsHiddenForm}
+                    toggleForm={toggleForm}
+                    setToggleForm={setToggleForm}
                   />
                 )}
               </>
