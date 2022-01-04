@@ -293,4 +293,66 @@ describe('frise.getProjectEvents', () => {
       })
     })
   }
+
+  it('should return events sorted by eventPublishedAt date', async () => {
+    const fakeUser = { role: 'porteur-projet' } as User
+
+    await ProjectEvent.create({
+      id: new UniqueEntityID().toString(),
+      projectId,
+      type: 'ProjectCertificateGenerated',
+      valueDate: eventTimestamp,
+      eventPublishedAt: new Date('2022-01-01').getTime(),
+      payload: { certificateFileId: 'fileId' },
+    })
+
+    await ProjectEvent.create({
+      id: new UniqueEntityID().toString(),
+      projectId,
+      type: 'ProjectCertificateRegenerated',
+      valueDate: eventTimestamp,
+      eventPublishedAt: new Date('2022-01-03').getTime(),
+      payload: { certificateFileId: 'fileId' },
+    })
+
+    await ProjectEvent.create({
+      id: new UniqueEntityID().toString(),
+      projectId,
+      type: 'ProjectCertificateUpdated',
+      valueDate: eventTimestamp,
+      eventPublishedAt: new Date('2022-01-04').getTime(),
+      payload: { certificateFileId: 'fileId' },
+    })
+
+    await ProjectEvent.create({
+      id: new UniqueEntityID().toString(),
+      projectId,
+      type: 'ProjectClaimed',
+      valueDate: eventTimestamp,
+      eventPublishedAt: new Date('2022-01-02').getTime(),
+      payload: {
+        attestationDesignationFileId: 'file-id',
+        claimedBy: 'someone',
+      },
+    })
+
+    const res = await getProjectEvents({ projectId, user: fakeUser })
+
+    expect(res._unsafeUnwrap()).toMatchObject({
+      events: [
+        {
+          type: 'ProjectCertificateGenerated',
+        },
+        {
+          type: 'ProjectClaimed',
+        },
+        {
+          type: 'ProjectCertificateRegenerated',
+        },
+        {
+          type: 'ProjectCertificateUpdated',
+        },
+      ],
+    })
+  })
 })
