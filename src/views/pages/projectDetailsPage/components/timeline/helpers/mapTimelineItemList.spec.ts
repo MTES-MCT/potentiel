@@ -13,7 +13,7 @@ import {
 
 describe('mapTimelineItemList', () => {
   describe('garantiesFinancières', () => {
-    it('should create a group with the latest event of type ProjectGFDueDateSet or ProjectGFSubmitted', () => {
+    it('should return an object whose event value is the latest event of type ProjectGFDueDateSet or ProjectGFSubmitted', () => {
       const projectEventList: ProjectEventListDTO = {
         events: [
           {
@@ -35,10 +35,8 @@ describe('mapTimelineItemList', () => {
       }
       const result = mapTimelineItemList(projectEventList)
       expect(result).toHaveLength(1)
-      expect(result[0].events).toHaveLength(1)
-      expect(result[0].type).toEqual('garantiesFinancieres')
-      expect(result[0].events).toEqual([
-        {
+      expect(result[0]).toMatchObject({
+        event: {
           type: 'ProjectGFSubmitted',
           variant: 'admin',
           fileId: 'certif-if',
@@ -47,7 +45,9 @@ describe('mapTimelineItemList', () => {
           date: 15,
           gfDate: 12,
         },
-      ])
+        date: 12,
+        type: 'garantiesFinancieres',
+      })
     })
     describe('when the event to be returned is ProjectGFDueDateSet', () => {
       it('should return a group whose date is the event garantiesFinancieresDueOn', async () => {
