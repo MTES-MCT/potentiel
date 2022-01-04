@@ -17,6 +17,7 @@ La suite de ce document explique comment lancer l'application sur sa machine et 
 - [Guide d'utilisation](https://docs.potentiel.beta.gouv.fr)
 - [Documentation de l'architecture](./docs/ARCHITECTURE.md)
 - [Les grandes 'recettes' pour le développeur](./docs/RECIPES.md)
+- [L'authentification avec Keycloak](./docs/KEYCLOAK.md)
 
 ## Sommaire
 - [Développement en local](#développement-en-local)
@@ -206,6 +207,16 @@ Storybook est configuré pour inclure tous les fichiers avec ce suffixe dans le 
    ```
 
    _NB: L'application doit être en route (`npm run watch`)._
+
+## Keycloak
+
+L'authentification de Potentiel se fait via un service autonome, sous la forme d'une instance [Keycloak](https://www.keycloak.org). Cette instance est déployée sur Clever Cloud et est partagée entre les environnements de `staging` et `production`.
+
+Dans les autres environnements (ex: `development`), l'authentification est géré par un servie `fakeAuth`. Il n'est donc pas nécessaire d'avoir une instance keycloak en local ou en démo.
+
+Une documentation plus poussée de keycloak est disponible dans [`docs/KEYCLOAK.md`](/docs/KEYCLOAK.md).
+
+
 
 # Déploiement
 
