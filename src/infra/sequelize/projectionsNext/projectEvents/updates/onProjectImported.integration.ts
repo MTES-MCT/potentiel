@@ -34,6 +34,7 @@ describe('onProjectImported', () => {
     expect(projectEvent).not.toBeNull()
     expect(projectEvent).toMatchObject({
       type: 'ProjectImported',
+      valueDate: eventDate.getTime(),
       eventPublishedAt: eventDate.getTime(),
     })
   })
