@@ -13,7 +13,7 @@ import {
 
 describe('mapTimelineItemList', () => {
   describe('garantiesFinancières', () => {
-    it('should create a groupe with the latest event of type ProjectGFDueDateSet or ProjectGFSubmitted', () => {
+    it('should create a group with the latest event of type ProjectGFDueDateSet or ProjectGFSubmitted', () => {
       const projectEventList: ProjectEventListDTO = {
         events: [
           {
