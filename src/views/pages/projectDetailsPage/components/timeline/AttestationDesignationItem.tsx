@@ -5,14 +5,12 @@ import { Project } from '../../../../../entities'
 import ROUTES from '../../../../../routes'
 
 export const AttestationDesignationItem = (props: {
-  certificateEvent: ProjectCertificateDTO
-  projectId: Project['id']
+  date: number
+  certificateLink: string
+  claimedBy?: string
 }) => {
-  const { certificateEvent, projectId } = props
-  const { date } = certificateEvent
-  const claimedBy = isProjectClaimed(certificateEvent) ? certificateEvent.claimedBy : undefined
+  const { date, claimedBy, certificateLink } = props
 
-  const certificateLink = makeCertificateLink(certificateEvent, projectId)
   return (
     <a href={certificateLink} download>
       {claimedBy ? (
