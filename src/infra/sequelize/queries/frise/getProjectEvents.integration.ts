@@ -71,11 +71,12 @@ describe('frise.getProjectEvents', () => {
     describe(`when the user is ${role}`, () => {
       const fakeUser = { role } as User
       it('should return the ProjectNotified event', async () => {
+        const notifiedOnTimestamp = new Date('2022-01-05').getTime()
         await ProjectEvent.create({
           id: new UniqueEntityID().toString(),
           projectId,
           type: 'ProjectNotified',
-          valueDate: eventTimestamp,
+          valueDate: notifiedOnTimestamp,
           eventPublishedAt: eventTimestamp,
         })
 
@@ -85,7 +86,7 @@ describe('frise.getProjectEvents', () => {
           events: [
             {
               type: 'ProjectNotified',
-              date: eventTimestamp,
+              date: notifiedOnTimestamp,
               variant: role,
             },
           ],
