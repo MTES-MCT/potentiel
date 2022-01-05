@@ -15,7 +15,7 @@ describe('onProjectCertificateUpdated', () => {
   })
 
   it('should create a new project event of type ProjectCertificateUpdated', async () => {
-    const occurredAt = new Date('04-01-2022')
+    const occurredAt = new Date('2022-01-04')
 
     await onProjectCertificateUpdated(
       new ProjectCertificateUpdated({

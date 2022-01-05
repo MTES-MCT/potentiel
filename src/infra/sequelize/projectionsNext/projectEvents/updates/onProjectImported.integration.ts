@@ -15,7 +15,7 @@ describe('onProjectImported', () => {
   })
 
   it('should create a new project event of type ProjectImported', async () => {
-    const eventDate = new Date('04-01-2022')
+    const eventDate = new Date('2022-01-04')
 
     await onProjectImported(
       new ProjectImported({

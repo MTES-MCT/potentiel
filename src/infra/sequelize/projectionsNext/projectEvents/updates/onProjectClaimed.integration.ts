@@ -14,7 +14,7 @@ describe('onProjectClaimed', () => {
   })
 
   it('should create a new project event of type ProjectClaimed', async () => {
-    const occurredAt = new Date('04-01-2022')
+    const occurredAt = new Date('2022-01-04')
 
     await onProjectClaimed(
       new ProjectClaimed({
@@ -45,7 +45,7 @@ describe('onProjectClaimed', () => {
 
   describe(`when the event already exists in the projection`, () => {
     it('should not create a new project event of type ProjectClaimed', async () => {
-      const occurredAt = new Date('04-01-2022')
+      const occurredAt = new Date('2022-01-04')
 
       await ProjectEvent.create({
         id: new UniqueEntityID().toString(),
