@@ -27,7 +27,7 @@ export const ProjectEvent = withSequelizeProjector(() => {
       },
       eventPublishedAt: {
         type: DataTypes.BIGINT,
-        allowNull: true,
+        allowNull: false,
       },
     },
     {
