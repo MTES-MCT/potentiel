@@ -50,11 +50,11 @@ export default function ListMissingOwnerProjects({
           <div className="notification">
             <span>
               Pour ajouter un projet à votre suivi de projets (onglet "Mes projets"),
-              sélectionner-le, qu’il vous soit pré-affecté ou non.
+              sélectionnez-le, qu’il vous soit pré-affecté ou non.
               <br />
               Pour les projets qui ne vous sont pas pré-affectés, veuillez saisir le prix de
               référence tel qu'il figure dans votre attestation de désignation, ainsi que le numéro
-              CRE puis téléverser l’attestation de désignation.
+              CRE puis téléversez l’attestation de désignation.
             </span>
           </div>
           <form
