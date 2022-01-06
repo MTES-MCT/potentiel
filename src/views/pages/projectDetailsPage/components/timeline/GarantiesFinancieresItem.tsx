@@ -17,9 +17,9 @@ export const GarantieFinanciereItem = (props: {
 }) => {
   const { isLastItem, event, groupIndex, date, projectId } = props
   const dueDate = event.type === 'ProjectGFDueDateSet' ? event.garantiesFinancieresDueOn : null
-  const deadlineHaspassed = dueDate && new Date().getTime() > dueDate ? true : false
-  const displayWarning = deadlineHaspassed && event.variant === 'porteur-projet' ? true : false
-  const [toggleForm, setToggleForm] = useState(false)
+  const deadlineHaspassed = dueDate && new Date().getTime() > dueDate
+  const displayWarning = deadlineHaspassed && event.variant === 'porteur-projet'
+  const [isFormVisible, showForm] = useState(false)
 
   return (
     <TimelineItem isLastItem={isLastItem} groupIndex={groupIndex}>
@@ -35,12 +35,12 @@ export const GarantieFinanciereItem = (props: {
             </div>
             {event.variant === 'porteur-projet' && (
               <>
-                <a onClick={() => setToggleForm(!toggleForm)}>Transmettre l'attestation</a>
-                {toggleForm && (
+                <a onClick={() => showForm(!isFormVisible)}>Transmettre l'attestation</a>
+                {isFormVisible && (
                   <GFForm
                     projectId={projectId}
-                    toggleForm={toggleForm}
-                    setToggleForm={setToggleForm}
+                    toggleForm={isFormVisible}
+                    setToggleForm={showForm}
                   />
                 )}
               </>
