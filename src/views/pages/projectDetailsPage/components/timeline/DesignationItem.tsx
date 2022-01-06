@@ -12,17 +12,19 @@ export type DesignationItemProps = {
     claimedBy?: string
   }
 }
-export const DesignationItem = (props: DesignationItemProps) => {
-  const { date, isLastItem, attestation, groupIndex } = props
 
-  return (
-    <TimelineItem isLastItem={isLastItem} groupIndex={groupIndex}>
-      <PastIcon />
-      <ContentArea>
-        <ItemDate date={date} />
-        <ItemTitle title="Notification de résultat" />
-        {attestation && <AttestationDesignationItem {...attestation} />}
-      </ContentArea>
-    </TimelineItem>
-  )
-}
+export const DesignationItem = ({
+  date,
+  isLastItem,
+  attestation,
+  groupIndex,
+}: DesignationItemProps) => (
+  <TimelineItem isLastItem={isLastItem} groupIndex={groupIndex}>
+    <PastIcon />
+    <ContentArea>
+      <ItemDate date={date} />
+      <ItemTitle title="Notification de résultat" />
+      {attestation && <AttestationDesignationItem {...attestation} />}
+    </ContentArea>
+  </TimelineItem>
+)
