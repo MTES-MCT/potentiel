@@ -37,6 +37,7 @@ describe('mapTimelineItemList', () => {
       }
       const result = mapTimelineItemList(projectEventList)
       expect(result).toHaveLength(1)
+
       expect(result[0]).toMatchObject({
         event: {
           type: 'ProjectGFSubmitted',
@@ -49,6 +50,9 @@ describe('mapTimelineItemList', () => {
         date: gfDate,
         type: 'garantiesFinancieres',
       })
+
+      expect(result[0].type).toEqual('garantiesFinancieres')
+      expect(result[0].date).toEqual(13)
     })
   })
   describe('Désignation', () => {
@@ -115,42 +119,49 @@ describe('mapTimelineItemList', () => {
       }
       const result = mapTimelineItemList(projectEventList)
       expect(result).toHaveLength(1)
-      expect(result[0].events).toEqual(projectEventList.events)
+
       expect(result[0].type).toEqual('designation')
       expect(result[0].date).toEqual(12)
+
+      if (result[0].type === 'designation') {
+        expect(result[0].events).toEqual(projectEventList.events)
+      }
     })
   })
 
   describe('Import', () => {
-    it('should create a group with the ProjectImported event', () => {
+    it('should create a group with the Import timeline item props', () => {
+      const importedTimestamp = new Date('2022-01-06').getTime()
       const projectEventList = {
         events: [
           {
             type: 'ProjectImported',
             variant: 'admin',
-            date: 11,
+            date: importedTimestamp,
           } as ProjectImportedDTO,
         ],
       }
       const result = mapTimelineItemList(projectEventList)
       expect(result).toHaveLength(1)
-      expect(result[0].events).toEqual(projectEventList.events)
       expect(result[0].type).toEqual('import')
-      expect(result[0].date).toEqual(11)
+      expect(result[0].date).toEqual(importedTimestamp)
     })
 
     describe('when there is a ProjectNotified event', () => {
+      const importedTimestamp = new Date('2022-01-06').getTime()
+      const notifiedTimestamp = new Date('2022-01-07').getTime()
+
       const projectEventList = {
         events: [
           {
             type: 'ProjectNotified',
             variant: 'admin',
-            date: 12,
+            date: notifiedTimestamp,
           } as ProjectNotifiedDTO,
           {
             type: 'ProjectImported',
             variant: 'admin',
-            date: 11,
+            date: importedTimestamp,
           } as ProjectImportedDTO,
         ],
       }

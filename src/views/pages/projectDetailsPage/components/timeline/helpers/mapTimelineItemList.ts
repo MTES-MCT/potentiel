@@ -4,9 +4,9 @@ import {
   ProjectEventListDTO,
   ProjectGFDueDateSetDTO,
   ProjectGFSubmittedDTO,
-  ProjectImportedDTO,
   ProjectNotifiedDTO,
 } from '../../../../../../modules/frise/dtos/ProjectEventListDTO'
+import { ImportItemProps } from '../ImportItem'
 
 type TimelineItem = DesignationItem | ImportItem | GarantieFinanciereItem
 
@@ -18,9 +18,7 @@ type DesignationItem = {
 
 type ImportItem = {
   type: 'import'
-  events: ProjectImportedDTO[]
-  date: number
-}
+} & ImportItemProps
 
 type GarantieFinanciereItem = {
   type: 'garantiesFinancieres'
@@ -73,7 +71,6 @@ export const mapTimelineItemList: MapTimelineItemList = (projectEventList) => {
         const hasDesignation = timelineItemList.some(isDesignation)
         if (!hasDesignation) {
           timelineItemList.push({
-            events: [event],
             date: event.date,
             type: 'import',
           })
