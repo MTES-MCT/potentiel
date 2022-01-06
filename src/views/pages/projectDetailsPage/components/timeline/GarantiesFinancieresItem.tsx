@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
-import { TimelineItem, ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from './components'
+import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from './components'
 import { GFForm } from '.'
 import { WarningItem } from './components/WarningItem'
 import { UserRole } from '../../../../../modules/users'
 
 type GarantieFinanciereItemProps = {
-  isLastItem: boolean
-  groupIndex: number
   userRole: UserRole
   projectId: string
   date: number
@@ -16,8 +14,6 @@ type GarantieFinanciereItemProps = {
 }
 
 export const GarantieFinanciereItem = ({
-  isLastItem,
-  groupIndex,
   userRole,
   projectId,
   date,
@@ -30,7 +26,7 @@ export const GarantieFinanciereItem = ({
   const displayWarning = deadlineHaspassed && isPorteurProjet
 
   return (
-    <TimelineItem isLastItem={isLastItem} groupIndex={groupIndex}>
+    <>
       {dueDate ? <CurrentIcon /> : <PastIcon />}
       <ContentArea>
         <ItemDate date={date} />
@@ -57,6 +53,6 @@ export const GarantieFinanciereItem = ({
           </a>
         )}
       </ContentArea>
-    </TimelineItem>
+    </>
   )
 }

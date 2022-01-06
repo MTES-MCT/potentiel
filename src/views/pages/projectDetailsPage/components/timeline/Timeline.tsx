@@ -13,11 +13,14 @@ import { DesignationItem, DesignationItemProps } from './DesignationItem'
 import { ImportItem } from './ImportItem'
 import { GarantieFinanciereItem } from './GarantiesFinancieresItem'
 import ROUTES from '../../../../../routes'
+import { TimelineItem } from './components'
 
-export const Timeline = (props: {
+export type TimelineProps = {
   projectEventList: ProjectEventListDTO
   projectId: Project['id']
-}) => {
+}
+
+export const Timeline = (props: TimelineProps) => {
   const { projectEventList, projectId } = props
 
   const timelineItemList = mapTimelineItemList(projectEventList).sort((a, b) => a.date - b.date)
@@ -35,17 +38,18 @@ export const Timeline = (props: {
             case 'designation':
               const { events: notifiedOrCertificateEvents } = timelineItem
               const props = getDesignationItemProps(projectId, notifiedOrCertificateEvents)
-              return props ? <DesignationItem {...{ ...props, isLastItem, groupIndex }} /> : null
+              return props ? (
+                <TimelineItem key={groupIndex} isLastItem={isLastItem}>
+                  <DesignationItem {...props} />
+                </TimelineItem>
+              ) : null
 
             case 'import':
               const { events: importedEvents } = timelineItem
-
               return importedEvents.length > 0 ? (
-                <ImportItem
-                  date={importedEvents[0].date}
-                  isLastItem={isLastItem}
-                  groupIndex={groupIndex}
-                />
+                <TimelineItem key={groupIndex} isLastItem={isLastItem}>
+                  <ImportItem {...importedEvents[0]} />
+                </TimelineItem>
               ) : null
 
             case 'garantiesFinancieres':
@@ -59,16 +63,16 @@ export const Timeline = (props: {
               const deadlineHaspassed = dueDate ? new Date().getTime() > dueDate : undefined
 
               return (
-                <GarantieFinanciereItem
-                  isLastItem={isLastItem}
-                  userRole={gfSubmittedEvent.variant}
-                  projectId={projectId}
-                  groupIndex={groupIndex}
-                  date={date}
-                  dueDate={dueDate}
-                  deadlineHaspassed={deadlineHaspassed}
-                  documentLink={documentLink}
-                />
+                <TimelineItem key={groupIndex} isLastItem={isLastItem}>
+                  <GarantieFinanciereItem
+                    userRole={gfSubmittedEvent.variant}
+                    projectId={projectId}
+                    date={date}
+                    dueDate={dueDate}
+                    deadlineHaspassed={deadlineHaspassed}
+                    documentLink={documentLink}
+                  />
+                </TimelineItem>
               )
           }
         })}
@@ -87,10 +91,7 @@ const makeGFDocumentLink = (fileId: string, filename: string): string => {
 const getDesignationItemProps: (
   projectId: string,
   notifiedOrCertificateEvents: (ProjectCertificateDTO | ProjectNotifiedDTO)[]
-) => Omit<Omit<DesignationItemProps, 'isLastItem'>, 'groupIndex'> | undefined = (
-  projectId,
-  notifiedOrCertificateEvents
-) => {
+) => DesignationItemProps | undefined = (projectId, notifiedOrCertificateEvents) => {
   const notificationEvent = notifiedOrCertificateEvents.find(isProjectNotified)
 
   if (notificationEvent) {

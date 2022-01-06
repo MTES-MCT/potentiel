@@ -1,18 +1,16 @@
 import React from 'react'
-import { ItemDate, TimelineItem, PastIcon, ItemTitle, ContentArea } from './components'
+import { ItemDate, PastIcon, ItemTitle, ContentArea } from './components'
 
 export type ImportItemProps = {
-  isLastItem: boolean
-  groupIndex: number
   date: number
 }
 
-export const ImportItem = ({ isLastItem, date, groupIndex }: ImportItemProps) => (
-  <TimelineItem isLastItem={isLastItem} groupIndex={groupIndex}>
+export const ImportItem = ({ date }: ImportItemProps) => (
+  <>
     <PastIcon />
     <ContentArea>
       {date && <ItemDate date={date} />}
       <ItemTitle title="Projet Importé" />
     </ContentArea>
-  </TimelineItem>
+  </>
 )
