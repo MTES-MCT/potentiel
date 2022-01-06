@@ -12,9 +12,9 @@ export const DateInput = ({ onError }: DateInputProps) => {
   const handleDateInput = (e: any) => {
     const isFormatValid = dateRegex.test(e.target.value)
     const isPast = getDateFromDateString(e.target.value) <= new Date()
-    setFormatError(isFormatValid ? false : true)
-    setIsNotPassedError(isPast ? false : true)
-    onError(isFormatValid && isPast ? false : true)
+    setFormatError(!isFormatValid)
+    setIsNotPassedError(!isPast)
+    onError(!isFormatValid || !isPast)
   }
 
   return (
