@@ -14,7 +14,7 @@ module.exports = {
 
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.sequelize.query(`DELETE FROM "project_events"`, {
+      await queryInterface.truncate(`TRUNCATE TABLE "project_events"`, {
         type: queryInterface.sequelize.QueryTypes.DELETE,
       })
 
