@@ -37,7 +37,6 @@ type MapTimelineItemList = (projectEventList: ProjectEventListDTO) => TimelineIt
 export const mapTimelineItemList: MapTimelineItemList = (projectEventList) => {
   const timelineItemList: TimelineItemList = []
   const { events } = projectEventList
-  events.sort((a, b) => a.date - b.date)
 
   for (const event of events) {
     makeDesignationPackage(event)
