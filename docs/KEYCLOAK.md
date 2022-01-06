@@ -99,3 +99,13 @@ cd keycloak && node cloneRealm.js realm-export.json > realm-export2.json
 ```
 
 Celui-ci pourra être importé pour faire un realm clone.
+
+## Déployer keycloak en production
+
+Keycloak est déployé comme une application Docker sur Clever Cloud. Son déploiement est manuel:
+```bash
+clever deploy -a keycloak-vanilla --force
+```
+
+C'est la variable d'environnement `CC_DOCKERFILE` qui pointe sur `keycloak/Dockerfile` (coté clever cloud, pas en local) et permet de bien déployer la bonne partie du repo.
+
