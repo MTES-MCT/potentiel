@@ -70,14 +70,12 @@ export type ProjectGFSubmittedDTO = {
   fileId: string
   filename: string
   submittedBy: string
-  gfDate: number
 }
 
 export type ProjectGFDueDateSetDTO = {
   type: 'ProjectGFDueDateSet'
   date: number
   variant: Exclude<UserRole, 'ademe'>
-  garantiesFinancieresDueOn: number
 }
 
 export type ProjectEventListDTO = { events: ProjectEventDTO[] }
