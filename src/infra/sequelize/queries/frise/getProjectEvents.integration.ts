@@ -9,6 +9,8 @@ import makeFakeProject from '../../../../__tests__/fixtures/project'
 
 describe('frise.getProjectEvents', () => {
   const eventTimestamp = new Date('2022-01-04').getTime()
+  const notifiedOnTimestamp = new Date('2022-01-05').getTime()
+  const GFDueDateTimestamp = new Date('2022-03-05').getTime()
 
   const { Project, File } = models
   const projectId = new UniqueEntityID().toString()
@@ -17,39 +19,6 @@ describe('frise.getProjectEvents', () => {
   beforeEach(async () => {
     await resetDatabase()
     await Project.create(fakeProject)
-  })
-
-  it('should return events ordered by date in ascending order', async () => {
-    const user = { role: 'admin' } as User
-    const date1 = 1
-    const date2 = 10
-
-    await ProjectEvent.create({
-      id: new UniqueEntityID().toString(),
-      projectId,
-      type: 'ProjectImported',
-      valueDate: date2,
-    })
-    await ProjectEvent.create({
-      id: new UniqueEntityID().toString(),
-      projectId,
-      type: 'ProjectImported',
-      valueDate: date1,
-    })
-
-    const res = await getProjectEvents({ projectId, user })
-
-    expect(res._unsafeUnwrap().events).toHaveLength(2)
-    expect(res._unsafeUnwrap().events).toMatchObject([
-      {
-        type: 'ProjectImported',
-        date: date1,
-      },
-      {
-        type: 'ProjectImported',
-        date: date2,
-      },
-    ])
   })
 
   for (const role of USER_ROLES.filter((role) => role === 'dgec' || role === 'admin')) {
@@ -104,7 +73,6 @@ describe('frise.getProjectEvents', () => {
     describe(`when the user is ${role}`, () => {
       const fakeUser = { role } as User
       it('should return the ProjectNotified and ProjectGFDueDateSet events', async () => {
-        const notifiedOnTimestamp = new Date('2022-01-05').getTime()
         await ProjectEvent.create({
           id: new UniqueEntityID().toString(),
           projectId,
@@ -116,8 +84,8 @@ describe('frise.getProjectEvents', () => {
           id: new UniqueEntityID().toString(),
           projectId,
           type: 'ProjectGFDueDateSet',
-          valueDate: 1234,
-          payload: { garantiesFinancieresDueOn: 5678 },
+          valueDate: GFDueDateTimestamp,
+          eventPublishedAt: eventTimestamp,
         })
 
         const res = await getProjectEvents({ projectId, user: fakeUser })
@@ -131,9 +99,8 @@ describe('frise.getProjectEvents', () => {
             },
             {
               type: 'ProjectGFDueDateSet',
-              date: 1234,
+              date: GFDueDateTimestamp,
               variant: role,
-              garantiesFinancieresDueOn: 5678,
             },
           ],
         })
@@ -155,8 +122,8 @@ describe('frise.getProjectEvents', () => {
         id: new UniqueEntityID().toString(),
         projectId,
         type: 'ProjectGFDueDateSet',
-        valueDate: 1234,
-        payload: { garantiesFinancieresDueOn: 5678 },
+        valueDate: GFDueDateTimestamp,
+        eventPublishedAt: eventTimestamp,
       })
 
       const res = await getProjectEvents({ projectId, user: fakeUser })
@@ -314,21 +281,17 @@ describe('frise.getProjectEvents', () => {
     const fakeUser = { role } as User
     describe(`when user is ${role}`, () => {
       it('should return ProjectGFSubmitted events', async () => {
-        const gfTimestamp = new Date('2022-01-06').getTime()
-
         const fileId = new UniqueEntityID().toString()
-        const gfDate = new Date('2021-12-26')
-        const submissionDate = new Date('2021-12-27')
+        const gfDate = new Date('2021-12-26').getTime()
         await ProjectEvent.create({
           id: new UniqueEntityID().toString(),
           projectId,
           type: 'ProjectGFSubmitted',
-          valueDate: gfTimestamp,
+          valueDate: gfDate,
           eventPublishedAt: eventTimestamp,
           payload: {
             fileId: fileId,
             submittedBy: 'user-id',
-            gfDate: gfDate.getTime(),
           },
         })
         await File.create({
@@ -341,12 +304,11 @@ describe('frise.getProjectEvents', () => {
           events: [
             {
               type: 'ProjectGFSubmitted',
-              date: gfTimestamp,
+              date: gfDate,
               variant: role,
               fileId: fileId,
               submittedBy: 'user-id',
               filename: 'my-file-name',
-              gfDate: gfDate.getTime(),
             },
           ],
         })

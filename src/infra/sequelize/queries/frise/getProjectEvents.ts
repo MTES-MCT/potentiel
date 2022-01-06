@@ -78,7 +78,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       fileId,
                       submittedBy: payload.submittedBy,
                       filename,
-                      gfDate: payload.gfDate,
                     })
                   }
                   break
@@ -88,7 +87,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       type,
                       date: valueDate,
                       variant: user.role,
-                      garantiesFinancieresDueOn: payload.garantiesFinancieresDueOn,
                     })
                   }
                   break
