@@ -92,17 +92,9 @@ export const mapTimelineItemList: MapTimelineItemList = (projectEventList) => {
         if (groupIndex !== -1) {
           timelineItemList.splice(groupIndex, 1)
         }
-        const defaultDate = event.date
-        const groupDate =
-          event.type === 'ProjectGFSubmitted'
-            ? event.gfDate
-            : event.type === 'ProjectGFDueDateSet'
-            ? event.garantiesFinancieresDueOn
-            : defaultDate
-
         timelineItemList.push({
-          event: event,
-          date: groupDate,
+          event,
+          date: event.date,
           type: 'garantiesFinancieres',
         })
         break
