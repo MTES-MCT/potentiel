@@ -16,7 +16,7 @@ export const GarantieFinanciereItem = (props: {
   date: number
 }) => {
   const { isLastItem, event, groupIndex, date, projectId } = props
-  const dueDate = event.type === 'ProjectGFDueDateSet' ? event.garantiesFinancieresDueOn : null
+  const dueDate = event.type === 'ProjectGFDueDateSet' ? date : null
   const deadlineHaspassed = dueDate && new Date().getTime() > dueDate
   const displayWarning = deadlineHaspassed && event.variant === 'porteur-projet'
   const [isFormVisible, showForm] = useState(false)
