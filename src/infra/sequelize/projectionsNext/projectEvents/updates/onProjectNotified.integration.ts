@@ -12,12 +12,13 @@ describe('onProjectNotified', () => {
   })
 
   it('should create a new project event of type ProjectNotified', async () => {
+    const notifiedOnTimestamp = new Date('2022-01-06').getTime()
     const eventDate = new Date('2021-12-15')
     await onProjectNotified(
       new ProjectNotified({
         payload: {
           projectId,
-          notifiedOn: eventDate.getTime(),
+          notifiedOn: notifiedOnTimestamp,
         } as ProjectNotifiedPayload,
         original: {
           version: 1,
@@ -32,7 +33,7 @@ describe('onProjectNotified', () => {
 
     expect(projectEvent).toMatchObject({
       type: 'ProjectNotified',
-      valueDate: eventDate.getTime(),
+      valueDate: notifiedOnTimestamp,
       eventPublishedAt: eventDate.getTime(),
     })
   })
