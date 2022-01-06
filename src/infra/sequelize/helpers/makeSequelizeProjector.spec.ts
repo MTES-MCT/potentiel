@@ -119,4 +119,23 @@ describe('makeSequelizeProjector', () => {
       expect(handler2).not.toHaveBeenCalled()
     })
   })
+
+  describe('getListenedEvents()', () => {
+    const handler = jest.fn((event: DummyEvent) => Promise.resolve())
+    const handler2 = jest.fn((event: OtherDummyEvent) => Promise.resolve())
+
+    const projector = makeSequelizeProjector(fakeModel)
+    projector.on(DummyEvent, handler)
+    projector.on(OtherDummyEvent, handler2)
+
+    it(`should return all listened events type`, async () => {
+      const fakeDummyEvent = new DummyEvent({ payload: {} })
+
+      const actualListenedEvents = projector.getListenedEvents()
+
+      expect(actualListenedEvents).toHaveLength(2)
+      expect(actualListenedEvents).toContain(DummyEvent.type)
+      expect(actualListenedEvents).toContain(OtherDummyEvent.type)
+    })
+  })
 })

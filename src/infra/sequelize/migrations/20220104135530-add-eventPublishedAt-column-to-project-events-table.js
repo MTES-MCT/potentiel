@@ -1,5 +1,7 @@
 'use strict'
 
+const { ProjectEvent } = require('../projectionsNext')
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const tableDefinition = await queryInterface.describeTable('project_events')
@@ -18,23 +20,21 @@ module.exports = {
         type: queryInterface.sequelize.QueryTypes.DELETE,
       })
 
-      const projectEvents = await queryInterface.sequelize.query(
-        `SELECT * FROM "eventStores" 
-         WHERE type in ('ProjectClaimed', 
-                        'ProjectNotified', 
-                        'ProjectImported', 
-                        'ProjectCertificateGenerated', 
-                        'ProjectCertificateRegenerated', 
-                        'ProjectCertificateUpdated',
-                        'ProjectGFSubmitted') 
-          ORDER BY "occurredAt" ASC`,
-        {
-          type: queryInterface.sequelize.QueryTypes.SELECT,
-          transaction,
-        }
-      )
+      const events = ProjectEvent.projector.getListenedEvents()
 
-      await Promise.all(projectEvents.map((event) => ProjectEvent.projector.handleEvent(event)))
+      if (events.length > 0) {
+        const projectEvents = await queryInterface.sequelize.query(
+          `SELECT * FROM "eventStores" 
+           WHERE type in (${events.map((event) => `'${event}'`).join(',')}) 
+           ORDER BY "occurredAt" ASC`,
+          {
+            type: queryInterface.sequelize.QueryTypes.SELECT,
+            transaction,
+          }
+        )
+
+        await Promise.all(projectEvents.map((event) => ProjectEvent.projector.handleEvent(event)))
+      }
 
       await transaction.commit()
     } catch (error) {

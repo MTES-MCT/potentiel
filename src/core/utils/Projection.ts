@@ -13,6 +13,7 @@ export interface Projector {
   ) => EventHandler<Event>
 
   handleEvent: <Event extends DomainEvent>(event: Event) => Promise<void>
+  getListenedEvents: () => DomainEvent['type'][]
 }
 export interface HasSubscribe {
   subscribe: (cb: (event: DomainEvent) => Promise<void>, consumerName: string) => void

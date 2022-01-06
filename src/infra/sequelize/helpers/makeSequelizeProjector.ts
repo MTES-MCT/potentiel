@@ -35,5 +35,6 @@ export const makeSequelizeProjector = <ProjectionModel extends SequelizeModel>(
       }, model.name)
     },
     handleEvent,
+    getListenedEvents: () => Object.keys(handlersByType),
   }
 }
