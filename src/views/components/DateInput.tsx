@@ -4,7 +4,7 @@ interface DateInputProps {
   onError: (isError: boolean) => void
 }
 
-const DateInput = ({ onError }: DateInputProps) => {
+export const DateInput = ({ onError }: DateInputProps) => {
   const dateRegex = new RegExp(/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/)
   const [formatError, setFormatError] = useState(false)
   const [isNotPassedError, setIsNotPassedError] = useState(false)
@@ -34,5 +34,3 @@ const DateInput = ({ onError }: DateInputProps) => {
     </div>
   )
 }
-
-export default DateInput

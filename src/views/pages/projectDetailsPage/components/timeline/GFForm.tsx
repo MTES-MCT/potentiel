@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import ROUTES from '../../../../../routes'
-import DateInput from '../../../../components/DateInput'
+import { DateInput } from '../../../../components'
 
 export const GFForm = (props: { projectId: string; toggleForm: boolean; setToggleForm: any }) => {
   const { projectId, toggleForm: isHiddenForm, setToggleForm: setIsHiddenForm } = props
