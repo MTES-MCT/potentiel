@@ -3,7 +3,9 @@ import { Project } from '../../../../../entities'
 import {
   ProjectCertificateDTO,
   ProjectClaimedDTO,
+  ProjectEventDTO,
   ProjectEventListDTO,
+  ProjectGFSubmittedDTO,
   ProjectNotifiedDTO,
 } from '../../../../../modules/frise/dtos/ProjectEventListDTO'
 import { getLatestCertificateEvent, mapTimelineItemList } from './helpers'
@@ -49,13 +51,23 @@ export const Timeline = (props: {
             case 'garantiesFinancieres':
               const { event: gfSubmittedEvent, date } = timelineItem
 
+              const documentLink = isProjectGFSubmitted(gfSubmittedEvent)
+                ? makeGFDocumentLink(gfSubmittedEvent.fileId, gfSubmittedEvent.filename)
+                : undefined
+
+              const dueDate = gfSubmittedEvent.type === 'ProjectGFDueDateSet' ? date : undefined
+              const deadlineHaspassed = dueDate ? new Date().getTime() > dueDate : undefined
+
               return (
                 <GarantieFinanciereItem
                   isLastItem={isLastItem}
+                  userRole={gfSubmittedEvent.variant}
                   projectId={projectId}
-                  event={gfSubmittedEvent}
                   groupIndex={groupIndex}
                   date={date}
+                  dueDate={dueDate}
+                  deadlineHaspassed={deadlineHaspassed}
+                  documentLink={documentLink}
                 />
               )
           }
@@ -63,6 +75,13 @@ export const Timeline = (props: {
       </ol>
     </nav>
   )
+}
+
+const isProjectGFSubmitted = (event: ProjectEventDTO): event is ProjectGFSubmittedDTO =>
+  event.type === 'ProjectGFSubmitted'
+
+const makeGFDocumentLink = (fileId: string, filename: string): string => {
+  return ROUTES.DOWNLOAD_PROJECT_FILE(fileId, filename)
 }
 
 const getDesignationItemProps: (

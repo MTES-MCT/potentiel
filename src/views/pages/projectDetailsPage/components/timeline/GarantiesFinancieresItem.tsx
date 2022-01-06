@@ -1,25 +1,33 @@
 import React, { useState } from 'react'
-import {
-  ProjectGFDueDateSetDTO,
-  ProjectGFSubmittedDTO,
-} from '../../../../../modules/frise/dtos/ProjectEventListDTO'
 import { TimelineItem, ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from './components'
-import { GFDocumentLinkItem } from './GFDocumentLinkItem'
 import { GFForm } from '.'
 import { WarningItem } from './components/WarningItem'
+import { UserRole } from '../../../../../modules/users'
 
-export const GarantieFinanciereItem = (props: {
-  projectId: string
+type GarantieFinanciereItemProps = {
   isLastItem: boolean
-  event: ProjectGFSubmittedDTO | ProjectGFDueDateSetDTO
   groupIndex: number
+  userRole: UserRole
+  projectId: string
   date: number
-}) => {
-  const { isLastItem, event, groupIndex, date, projectId } = props
-  const dueDate = event.type === 'ProjectGFDueDateSet' ? date : null
-  const deadlineHaspassed = dueDate && new Date().getTime() > dueDate
-  const displayWarning = deadlineHaspassed && event.variant === 'porteur-projet'
+  dueDate?: number
+  deadlineHaspassed?: boolean
+  documentLink?: string
+}
+
+export const GarantieFinanciereItem = ({
+  isLastItem,
+  groupIndex,
+  userRole,
+  projectId,
+  date,
+  dueDate,
+  deadlineHaspassed,
+  documentLink,
+}: GarantieFinanciereItemProps) => {
   const [isFormVisible, showForm] = useState(false)
+  const isPorteurProjet = userRole === 'porteur-projet'
+  const displayWarning = deadlineHaspassed && isPorteurProjet
 
   return (
     <TimelineItem isLastItem={isLastItem} groupIndex={groupIndex}>
@@ -33,7 +41,7 @@ export const GarantieFinanciereItem = (props: {
               <p className="mt-0 mb-0">Garanties financières en attente</p>
               {displayWarning && <WarningItem message="date dépassée" />}
             </div>
-            {event.variant === 'porteur-projet' && (
+            {isPorteurProjet && (
               <>
                 <a onClick={() => showForm(!isFormVisible)}>Transmettre l'attestation</a>
                 {isFormVisible && (
@@ -43,7 +51,11 @@ export const GarantieFinanciereItem = (props: {
             )}
           </div>
         )}
-        {event.type === 'ProjectGFSubmitted' && <GFDocumentLinkItem event={event} />}
+        {documentLink && (
+          <a href={documentLink} download>
+            Télécharger l'attestation de garanties financières
+          </a>
+        )}
       </ContentArea>
     </TimelineItem>
   )
