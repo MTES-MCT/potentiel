@@ -33,8 +33,8 @@ describe('onProjectGFDueDateSet', () => {
     expect(projectEvent).toMatchObject({
       projectId,
       type: 'ProjectGFDueDateSet',
-      valueDate: occurredAt.getTime(),
-      payload: {garantiesFinancieresDueOn},
+      eventPublishedAt: occurredAt.getTime(),
+      valueDate: garantiesFinancieresDueOn,
     })
   })
 
@@ -44,8 +44,8 @@ describe('onProjectGFDueDateSet', () => {
         id: new UniqueEntityID().toString(),
         projectId,
         type: 'ProjectGFDueDateSet',
-        payload: { garantiesFinancieresDueOn },
         valueDate: occurredAt.getTime(),
+        eventPublishedAt: garantiesFinancieresDueOn,
       })
 
       await onProjectGFDueDateSet(
@@ -62,12 +62,17 @@ describe('onProjectGFDueDateSet', () => {
       )
 
       const projectEvents = await ProjectEvent.findAll({
-        where: { projectId, type: 'ProjectGFDueDateSet', valueDate: occurredAt.getTime() },
+        where: {
+          projectId,
+          type: 'ProjectGFDueDateSet',
+          valueDate: garantiesFinancieresDueOn,
+          eventPublishedAt: occurredAt.getTime(),
+        },
       })
 
       expect(projectEvents).toHaveLength(1)
       expect(projectEvents[0]).toMatchObject({
-        payload: { garantiesFinancieresDueOn },
+        type: 'ProjectGFDueDateSet',
       })
     })
   })

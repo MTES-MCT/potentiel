@@ -9,11 +9,11 @@ export default ProjectEvent.projector.on(
       where: {
         projectId,
         type: ProjectGFDueDateSet.type,
-        valueDate: occurredAt.getTime(),
+        eventPublishedAt: occurredAt.getTime(),
+        valueDate: garantiesFinancieresDueOn,
       },
       defaults: {
         id: new UniqueEntityID().toString(),
-        payload: { garantiesFinancieresDueOn },
       },
     })
   }
