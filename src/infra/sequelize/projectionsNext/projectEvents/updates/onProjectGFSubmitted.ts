@@ -9,12 +9,12 @@ export default ProjectEvent.projector.on(
       where: {
         projectId,
         type: ProjectGFSubmitted.type,
-        valueDate: occurredAt.getTime(),
+        valueDate: gfDate.getTime(),
         eventPublishedAt: occurredAt.getTime(),
       },
       defaults: {
         id: new UniqueEntityID().toString(),
-        payload: { fileId, submittedBy, gfDate: gfDate.getTime() },
+        payload: { fileId, submittedBy },
       },
     })
   }

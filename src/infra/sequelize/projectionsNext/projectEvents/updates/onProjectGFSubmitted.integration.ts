@@ -7,17 +7,15 @@ import onProjectGFSubmitted from './onProjectGFSubmitted'
 describe('onProjectGFSubmitted', () => {
   const projectId = new UniqueEntityID().toString()
   const fileId = 'file-id'
+  const occurredAt = new Date('2022-01-04')
   const submittedBy = 'user-id'
   const gfDate = new Date('2021-12-26')
-  const submissionDate = new Date('2021-12-27')
 
   beforeEach(async () => {
     await resetDatabase()
   })
 
   it('should create a new project event of type ProjectGFSubmitted', async () => {
-    const occurredAt = new Date('2022-01-04')
-
     await onProjectGFSubmitted(
       new ProjectGFSubmitted({
         payload: {
@@ -38,21 +36,19 @@ describe('onProjectGFSubmitted', () => {
     expect(projectEvent).not.toBeNull()
     expect(projectEvent).toMatchObject({
       type: 'ProjectGFSubmitted',
-      valueDate: occurredAt.getTime(),
+      valueDate: gfDate.getTime(),
       eventPublishedAt: occurredAt.getTime(),
     })
   })
 
   describe('when the event already exists in the projection ProjectEvent', () => {
     it('should not create a new project event of type ProjectGFSubmitted', async () => {
-      const occurredAt = new Date('2022-01-04')
-
       await ProjectEvent.create({
         id: new UniqueEntityID().toString(),
         projectId,
         type: 'ProjectGFSubmitted',
         payload: { fileId, submittedBy },
-        valueDate: occurredAt.getTime(),
+        valueDate: gfDate.getTime(),
         eventPublishedAt: occurredAt.getTime(),
       })
 
@@ -62,6 +58,7 @@ describe('onProjectGFSubmitted', () => {
             projectId,
             fileId,
             submittedBy,
+            gfDate,
           } as ProjectGFSubmittedPayload,
           original: {
             version: 1,
@@ -74,7 +71,7 @@ describe('onProjectGFSubmitted', () => {
         where: {
           projectId,
           type: 'ProjectGFSubmitted',
-          valueDate: occurredAt.getTime(),
+          valueDate: gfDate.getTime(),
           eventPublishedAt: occurredAt.getTime(),
         },
       })
