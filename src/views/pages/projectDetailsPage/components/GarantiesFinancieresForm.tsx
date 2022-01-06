@@ -7,7 +7,7 @@ interface GarantiesFinancieresFormProps {
   projectId: string
 }
 export const GarantiesFinancieresForm = ({ projectId }: GarantiesFinancieresFormProps) => {
-  const [disableSubmit, setDisableSubmit] = useState(true)
+  const [isSubmitDisabled, disableSubmit] = useState(true)
   return (
     <form action={ROUTES.DEPOSER_ETAPE_ACTION} method="post" encType="multipart/form-data">
       <input type="hidden" name="type" id="type" value="garantie-financiere" />
@@ -15,7 +15,7 @@ export const GarantiesFinancieresForm = ({ projectId }: GarantiesFinancieresForm
         <label className="required" htmlFor="date">
           Date de constitution (format JJ/MM/AAAA)
         </label>
-        <DateInput onError={(isError: boolean) => setDisableSubmit(isError)} />
+        <DateInput onError={(isError) => disableSubmit(isError)} />
         <label htmlFor="file" className="required">
           Attestation
         </label>
@@ -27,7 +27,7 @@ export const GarantiesFinancieresForm = ({ projectId }: GarantiesFinancieresForm
           name="submit"
           id="submit"
           {...dataId('submit-gf-button')}
-          disabled={disableSubmit}
+          disabled={isSubmitDisabled}
         >
           Envoyer
         </button>

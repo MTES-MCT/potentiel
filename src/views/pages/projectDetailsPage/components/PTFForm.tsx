@@ -7,13 +7,13 @@ interface PTFFormProps {
   projectId: string
 }
 export const PTFForm = ({ projectId }: PTFFormProps) => {
-  const [disableSubmit, setDisableSubmit] = useState(true)
+  const [isSubmitDisabled, disableSubmit] = useState(true)
   return (
     <form action={ROUTES.DEPOSER_ETAPE_ACTION} method="post" encType="multipart/form-data">
       <input type="hidden" name="type" id="type" value="ptf" />
       <div className="form__group">
         <label htmlFor="date">Date de signature du PTF (format JJ/MM/AAAA)</label>
-        <DateInput onError={(isError: boolean) => setDisableSubmit(isError)} />
+        <DateInput onError={(isError) => disableSubmit(isError)} />
         <label htmlFor="file">Document</label>
         <input type="file" name="file" {...dataId('file-field')} id="file" required />
         <input type="hidden" name="projectId" value={projectId} />
@@ -21,7 +21,7 @@ export const PTFForm = ({ projectId }: PTFFormProps) => {
           className="button"
           type="submit"
           {...dataId('submit-ptf-button')}
-          disabled={disableSubmit}
+          disabled={isSubmitDisabled}
         >
           Envoyer
         </button>

@@ -7,22 +7,17 @@ interface DCRFormProps {
   projectId: string
 }
 export const DCRForm = ({ projectId }: DCRFormProps) => {
-  const [disableSubmit, setDisableSubmit] = useState(true)
+  const [isSubmitDisabled, disableSubmit] = useState(true)
 
   return (
     <form action={ROUTES.DEPOSER_ETAPE_ACTION} method="post" encType="multipart/form-data">
       <input type="hidden" name="type" id="type" value="dcr" />
       <div className="form__group">
         <label htmlFor="date">Date d‘attestation de DCR (format JJ/MM/AAAA)</label>
-        <DateInput onError={(isError: boolean) => setDisableSubmit(isError)} />
+        <DateInput onError={(isError) => disableSubmit(isError)} />
 
         <label htmlFor="numero-dossier">Identifiant gestionnaire de réseau (ex: GEFAR-P)</label>
-        <input
-          type="numero-dossier"
-          name="numeroDossier"
-          {...dataId('numero-dossier-field')}
-          required
-        />
+        <input type="text" name="numeroDossier" {...dataId('numero-dossier-field')} required />
         <label htmlFor="file">Attestation</label>
         <input type="file" name="file" {...dataId('file-field')} id="file" required />
         <input type="hidden" name="projectId" value={projectId} />
@@ -30,7 +25,7 @@ export const DCRForm = ({ projectId }: DCRFormProps) => {
           className="button"
           type="submit"
           {...dataId('submit-dcr-button')}
-          disabled={disableSubmit}
+          disabled={isSubmitDisabled}
         >
           Envoyer
         </button>
