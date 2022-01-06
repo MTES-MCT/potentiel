@@ -15,12 +15,18 @@ describe('onProjectCertificateUpdated', () => {
   })
 
   it('should create a new project event of type ProjectCertificateUpdated', async () => {
+    const occurredAt = new Date('2022-01-04')
+
     await onProjectCertificateUpdated(
       new ProjectCertificateUpdated({
         payload: {
           projectId,
           certificateFileId: 'file-id',
         } as ProjectCertificateUpdatedPayload,
+        original: {
+          version: 1,
+          occurredAt,
+        },
       })
     )
 
@@ -29,19 +35,22 @@ describe('onProjectCertificateUpdated', () => {
     expect(projectEvent).not.toBeNull()
     expect(projectEvent).toMatchObject({
       type: 'ProjectCertificateUpdated',
+      valueDate: occurredAt.getTime(),
+      eventPublishedAt: occurredAt.getTime(),
       payload: { certificateFileId: 'file-id' },
     })
   })
 
   describe(`when the event already exists in the projection`, () => {
     it('should not create a new project event of type ProjectCertificateUpdated', async () => {
-      const eventDate = new Date('2021-12-15')
+      const occurredAt = new Date('2021-12-15')
 
       await ProjectEvent.create({
         id: new UniqueEntityID().toString(),
         projectId,
         type: 'ProjectCertificateUpdated',
-        valueDate: eventDate.getTime(),
+        valueDate: occurredAt.getTime(),
+        eventPublishedAt: occurredAt.getTime(),
       })
 
       await onProjectCertificateUpdated(
@@ -50,14 +59,19 @@ describe('onProjectCertificateUpdated', () => {
             projectId,
           } as ProjectCertificateUpdatedPayload,
           original: {
-            occurredAt: eventDate,
+            occurredAt,
             version: 1,
           },
         })
       )
 
       const projectEvents = await ProjectEvent.findAll({
-        where: { projectId, type: 'ProjectCertificateUpdated', valueDate: eventDate.getTime() },
+        where: {
+          projectId,
+          type: 'ProjectCertificateUpdated',
+          valueDate: occurredAt.getTime(),
+          eventPublishedAt: occurredAt.getTime(),
+        },
       })
 
       expect(projectEvents).toHaveLength(1)

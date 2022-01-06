@@ -14,6 +14,8 @@ describe('onProjectClaimed', () => {
   })
 
   it('should create a new project event of type ProjectClaimed', async () => {
+    const occurredAt = new Date('2022-01-04')
+
     await onProjectClaimed(
       new ProjectClaimed({
         payload: {
@@ -24,7 +26,7 @@ describe('onProjectClaimed', () => {
         },
         original: {
           version: 1,
-          occurredAt: new Date(1234),
+          occurredAt,
         },
       })
     )
@@ -35,18 +37,22 @@ describe('onProjectClaimed', () => {
 
     expect(projectEvent).toMatchObject({
       type: 'ProjectClaimed',
-      valueDate: 1234,
+      valueDate: occurredAt.getTime(),
+      eventPublishedAt: occurredAt.getTime(),
       payload: { claimedBy, attestationDesignationFileId },
     })
   })
 
   describe(`when the event already exists in the projection`, () => {
     it('should not create a new project event of type ProjectClaimed', async () => {
+      const occurredAt = new Date('2022-01-04')
+
       await ProjectEvent.create({
         id: new UniqueEntityID().toString(),
         projectId,
         type: 'ProjectClaimed',
-        valueDate: 1234,
+        valueDate: occurredAt.getTime(),
+        eventPublishedAt: occurredAt.getTime(),
         payload: { claimedBy, attestationDesignationFileId },
       })
 
@@ -60,13 +66,18 @@ describe('onProjectClaimed', () => {
           },
           original: {
             version: 1,
-            occurredAt: new Date(1234),
+            occurredAt,
           },
         })
       )
 
       const projectEvents = await ProjectEvent.findAll({
-        where: { projectId, type: 'ProjectClaimed', valueDate: 1234 },
+        where: {
+          projectId,
+          type: 'ProjectClaimed',
+          valueDate: occurredAt.getTime(),
+          eventPublishedAt: occurredAt.getTime(),
+        },
       })
 
       expect(projectEvents).toHaveLength(1)

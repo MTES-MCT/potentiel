@@ -8,6 +8,8 @@ import { models } from '../../models'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
 
 describe('frise.getProjectEvents', () => {
+  const eventTimestamp = new Date('2022-01-04').getTime()
+
   const { Project, File } = models
   const projectId = new UniqueEntityID().toString()
   const fakeProject = makeFakeProject({ id: projectId, potentielIdentifier: 'pot-id' })
@@ -25,7 +27,8 @@ describe('frise.getProjectEvents', () => {
           id: new UniqueEntityID().toString(),
           projectId,
           type: 'ProjectImported',
-          valueDate: 1234,
+          valueDate: eventTimestamp,
+          eventPublishedAt: eventTimestamp,
         })
 
         const res = await getProjectEvents({ projectId, user: fakeUser })
@@ -34,7 +37,7 @@ describe('frise.getProjectEvents', () => {
           events: [
             {
               type: 'ProjectImported',
-              date: 1234,
+              date: eventTimestamp,
               variant: role,
             },
           ],
@@ -51,7 +54,8 @@ describe('frise.getProjectEvents', () => {
           id: new UniqueEntityID().toString(),
           projectId,
           type: 'ProjectImported',
-          valueDate: 1234,
+          valueDate: eventTimestamp,
+          eventPublishedAt: eventTimestamp,
         })
 
         const res = await getProjectEvents({ projectId, user: fakeUser })
@@ -67,11 +71,13 @@ describe('frise.getProjectEvents', () => {
     describe(`when the user is ${role}`, () => {
       const fakeUser = { role } as User
       it('should return the ProjectNotified event', async () => {
+        const notifiedOnTimestamp = new Date('2022-01-05').getTime()
         await ProjectEvent.create({
           id: new UniqueEntityID().toString(),
           projectId,
           type: 'ProjectNotified',
-          valueDate: 1234,
+          valueDate: notifiedOnTimestamp,
+          eventPublishedAt: eventTimestamp,
         })
 
         const res = await getProjectEvents({ projectId, user: fakeUser })
@@ -80,7 +86,7 @@ describe('frise.getProjectEvents', () => {
           events: [
             {
               type: 'ProjectNotified',
-              date: 1234,
+              date: notifiedOnTimestamp,
               variant: role,
             },
           ],
@@ -96,7 +102,8 @@ describe('frise.getProjectEvents', () => {
         id: new UniqueEntityID().toString(),
         projectId,
         type: 'ProjectNotified',
-        valueDate: 1234,
+        valueDate: eventTimestamp,
+        eventPublishedAt: eventTimestamp,
       })
 
       const res = await getProjectEvents({ projectId, user: fakeUser })
@@ -115,7 +122,8 @@ describe('frise.getProjectEvents', () => {
           id: new UniqueEntityID().toString(),
           projectId,
           type: 'ProjectCertificateGenerated',
-          valueDate: 1234,
+          valueDate: eventTimestamp,
+          eventPublishedAt: eventTimestamp,
           payload: { certificateFileId: 'fileId' },
         })
 
@@ -123,7 +131,8 @@ describe('frise.getProjectEvents', () => {
           id: new UniqueEntityID().toString(),
           projectId,
           type: 'ProjectCertificateRegenerated',
-          valueDate: 1234,
+          valueDate: eventTimestamp,
+          eventPublishedAt: eventTimestamp,
           payload: { certificateFileId: 'fileId' },
         })
 
@@ -131,7 +140,8 @@ describe('frise.getProjectEvents', () => {
           id: new UniqueEntityID().toString(),
           projectId,
           type: 'ProjectCertificateUpdated',
-          valueDate: 1234,
+          valueDate: eventTimestamp,
+          eventPublishedAt: eventTimestamp,
           payload: { certificateFileId: 'fileId' },
         })
 
@@ -139,7 +149,8 @@ describe('frise.getProjectEvents', () => {
           id: new UniqueEntityID().toString(),
           projectId,
           type: 'ProjectClaimed',
-          valueDate: 1234,
+          valueDate: eventTimestamp,
+          eventPublishedAt: eventTimestamp,
           payload: {
             attestationDesignationFileId: 'file-id',
             claimedBy: 'someone',
@@ -155,7 +166,7 @@ describe('frise.getProjectEvents', () => {
               potentielIdentifier: fakeProject.potentielIdentifier,
               email: ['admin', 'dgec'].includes(role) ? fakeProject.email : undefined,
               nomProjet: fakeProject.nomProjet,
-              date: 1234,
+              date: eventTimestamp,
               variant: role,
               certificateFileId: 'fileId',
             },
@@ -164,7 +175,7 @@ describe('frise.getProjectEvents', () => {
               potentielIdentifier: fakeProject.potentielIdentifier,
               email: ['admin', 'dgec'].includes(role) ? fakeProject.email : undefined,
               nomProjet: fakeProject.nomProjet,
-              date: 1234,
+              date: eventTimestamp,
               variant: role,
               certificateFileId: 'fileId',
             },
@@ -173,7 +184,7 @@ describe('frise.getProjectEvents', () => {
               potentielIdentifier: fakeProject.potentielIdentifier,
               email: ['admin', 'dgec'].includes(role) ? fakeProject.email : undefined,
               nomProjet: fakeProject.nomProjet,
-              date: 1234,
+              date: eventTimestamp,
               variant: role,
               certificateFileId: 'fileId',
             },
@@ -181,7 +192,7 @@ describe('frise.getProjectEvents', () => {
               type: 'ProjectClaimed',
               potentielIdentifier: fakeProject.potentielIdentifier,
               nomProjet: fakeProject.nomProjet,
-              date: 1234,
+              date: eventTimestamp,
               variant: role,
               certificateFileId: 'file-id',
               claimedBy: 'someone',
@@ -200,7 +211,8 @@ describe('frise.getProjectEvents', () => {
           id: new UniqueEntityID().toString(),
           projectId,
           type: 'ProjectCertificateGenerated',
-          valueDate: 1234,
+          valueDate: eventTimestamp,
+          eventPublishedAt: eventTimestamp,
           payload: { certificateFileId: 'fileId' },
         })
 
@@ -208,7 +220,8 @@ describe('frise.getProjectEvents', () => {
           id: new UniqueEntityID().toString(),
           projectId,
           type: 'ProjectCertificateRegenerated',
-          valueDate: 1234,
+          valueDate: eventTimestamp,
+          eventPublishedAt: eventTimestamp,
           payload: { certificateFileId: 'fileId' },
         })
 
@@ -216,7 +229,8 @@ describe('frise.getProjectEvents', () => {
           id: new UniqueEntityID().toString(),
           projectId,
           type: 'ProjectCertificateUpdated',
-          valueDate: 1234,
+          valueDate: eventTimestamp,
+          eventPublishedAt: eventTimestamp,
           payload: { certificateFileId: 'fileId' },
         })
 
@@ -224,7 +238,8 @@ describe('frise.getProjectEvents', () => {
           id: new UniqueEntityID().toString(),
           projectId,
           type: 'ProjectClaimed',
-          valueDate: 1234,
+          valueDate: eventTimestamp,
+          eventPublishedAt: eventTimestamp,
           payload: {
             attestationDesignationFileId: 'file-id',
             claimedBy: 'someone',
@@ -246,12 +261,15 @@ describe('frise.getProjectEvents', () => {
     const fakeUser = { role } as User
     describe(`when user is ${role}`, () => {
       it('should return ProjectGFSubmitted events', async () => {
+        const gfTimestamp = new Date('2022-01-06').getTime()
+
         const fileId = new UniqueEntityID().toString()
         await ProjectEvent.create({
           id: new UniqueEntityID().toString(),
           projectId,
           type: 'ProjectGFSubmitted',
-          valueDate: 1234,
+          valueDate: gfTimestamp,
+          eventPublishedAt: eventTimestamp,
           payload: {
             fileId: fileId,
             submittedBy: 'someone',
@@ -267,7 +285,7 @@ describe('frise.getProjectEvents', () => {
           events: [
             {
               type: 'ProjectGFSubmitted',
-              date: 1234,
+              date: gfTimestamp,
               variant: role,
               fileId: fileId,
               submittedBy: 'someone',
@@ -278,4 +296,66 @@ describe('frise.getProjectEvents', () => {
       })
     })
   }
+
+  it('should return events sorted by eventPublishedAt date', async () => {
+    const fakeUser = { role: 'porteur-projet' } as User
+
+    await ProjectEvent.create({
+      id: new UniqueEntityID().toString(),
+      projectId,
+      type: 'ProjectCertificateGenerated',
+      valueDate: eventTimestamp,
+      eventPublishedAt: new Date('2022-01-01').getTime(),
+      payload: { certificateFileId: 'fileId' },
+    })
+
+    await ProjectEvent.create({
+      id: new UniqueEntityID().toString(),
+      projectId,
+      type: 'ProjectCertificateRegenerated',
+      valueDate: eventTimestamp,
+      eventPublishedAt: new Date('2022-01-03').getTime(),
+      payload: { certificateFileId: 'fileId' },
+    })
+
+    await ProjectEvent.create({
+      id: new UniqueEntityID().toString(),
+      projectId,
+      type: 'ProjectCertificateUpdated',
+      valueDate: eventTimestamp,
+      eventPublishedAt: new Date('2022-01-04').getTime(),
+      payload: { certificateFileId: 'fileId' },
+    })
+
+    await ProjectEvent.create({
+      id: new UniqueEntityID().toString(),
+      projectId,
+      type: 'ProjectClaimed',
+      valueDate: eventTimestamp,
+      eventPublishedAt: new Date('2022-01-02').getTime(),
+      payload: {
+        attestationDesignationFileId: 'file-id',
+        claimedBy: 'someone',
+      },
+    })
+
+    const res = await getProjectEvents({ projectId, user: fakeUser })
+
+    expect(res._unsafeUnwrap()).toMatchObject({
+      events: [
+        {
+          type: 'ProjectCertificateGenerated',
+        },
+        {
+          type: 'ProjectClaimed',
+        },
+        {
+          type: 'ProjectCertificateRegenerated',
+        },
+        {
+          type: 'ProjectCertificateUpdated',
+        },
+      ],
+    })
+  })
 })
