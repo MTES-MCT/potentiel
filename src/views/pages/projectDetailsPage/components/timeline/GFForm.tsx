@@ -4,11 +4,10 @@ import { DateInput } from '../../../../components'
 
 interface GFFormProps {
   projectId: string
-  isFormVisible: boolean
-  showForm: any
+  onCancel: () => void
 }
 
-export const GFForm = ({ projectId, isFormVisible, showForm }: GFFormProps) => {
+export const GFForm = ({ projectId, onCancel }: GFFormProps) => {
   const [disableSubmit, setDisableSubmit] = useState(true)
 
   return (
@@ -31,7 +30,7 @@ export const GFForm = ({ projectId, isFormVisible, showForm }: GFFormProps) => {
       <button className="button" type="submit" name="submit" disabled={disableSubmit}>
         Envoyer
       </button>
-      <a onClick={() => showForm(!isFormVisible)}>Annuler</a>
+      <a onClick={() => onCancel()}>Annuler</a>
     </form>
   )
 }

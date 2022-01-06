@@ -37,7 +37,7 @@ export const GarantieFinanciereItem = (props: {
               <>
                 <a onClick={() => showForm(!isFormVisible)}>Transmettre l'attestation</a>
                 {isFormVisible && (
-                  <GFForm projectId={projectId} isFormVisible={isFormVisible} showForm={showForm} />
+                  <GFForm projectId={projectId} onCancel={() => showForm(!isFormVisible)} />
                 )}
               </>
             )}
