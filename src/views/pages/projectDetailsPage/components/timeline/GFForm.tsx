@@ -2,8 +2,13 @@ import React, { useState } from 'react'
 import ROUTES from '../../../../../routes'
 import { DateInput } from '../../../../components'
 
-export const GFForm = (props: { projectId: string; toggleForm: boolean; setToggleForm: any }) => {
-  const { projectId, toggleForm: isHiddenForm, setToggleForm: setIsHiddenForm } = props
+interface GFFormProps {
+  projectId: string
+  isFormVisible: boolean
+  showForm: any
+}
+
+export const GFForm = ({ projectId, isFormVisible, showForm }: GFFormProps) => {
   const [disableSubmit, setDisableSubmit] = useState(true)
 
   return (
@@ -17,7 +22,7 @@ export const GFForm = (props: { projectId: string; toggleForm: boolean; setToggl
       <input type="hidden" name="projectId" value={projectId} />
       <div>
         <label htmlFor="date">Date de constitution (format JJ/MM/AAAA)</label>
-        <DateInput onError={(isError: boolean) => setDisableSubmit(isError)} />
+        <DateInput onError={(isError) => setDisableSubmit(isError)} />
       </div>
       <div className="mt-2">
         <label htmlFor="file">Attestation</label>
@@ -26,7 +31,7 @@ export const GFForm = (props: { projectId: string; toggleForm: boolean; setToggl
       <button className="button" type="submit" name="submit" disabled={disableSubmit}>
         Envoyer
       </button>
-      <a onClick={() => setIsHiddenForm(!isHiddenForm)}>Annuler</a>
+      <a onClick={() => showForm(!isFormVisible)}>Annuler</a>
     </form>
   )
 }
