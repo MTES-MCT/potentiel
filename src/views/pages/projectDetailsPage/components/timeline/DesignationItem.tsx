@@ -1,12 +1,8 @@
 import React from 'react'
-import { ProjectCertificateDTO, ProjectNotifiedDTO } from '../../../../../modules/frise/dtos'
 import { ItemDate, TimelineItem, PastIcon, ItemTitle, ContentArea } from './components'
-import { getLatestCertificateEvent } from './helpers'
-import { Project } from '../../../../../entities'
 import { AttestationDesignationItem } from '.'
-import { Certificate } from 'crypto'
 
-export const DesignationItem = (props: {
+export type DesignationItemProps = {
   isLastItem: boolean
   groupIndex: number
   date: number
@@ -15,7 +11,8 @@ export const DesignationItem = (props: {
     certificateLink: string
     claimedBy?: string
   }
-}) => {
+}
+export const DesignationItem = (props: DesignationItemProps) => {
   const { date, isLastItem, attestation, groupIndex } = props
 
   return (
@@ -29,7 +26,3 @@ export const DesignationItem = (props: {
     </TimelineItem>
   )
 }
-
-const isProjectNotified = (
-  event: ProjectCertificateDTO | ProjectNotifiedDTO
-): event is ProjectNotifiedDTO => event.type === 'ProjectNotified'

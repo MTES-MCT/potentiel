@@ -4,11 +4,13 @@ import { ProjectCertificateDTO, ProjectClaimedDTO } from '../../../../../modules
 import { Project } from '../../../../../entities'
 import ROUTES from '../../../../../routes'
 
-export const AttestationDesignationItem = (props: {
+type AttestationDesignationItemProps = {
   date: number
   certificateLink: string
   claimedBy?: string
-}) => {
+}
+
+export const AttestationDesignationItem = (props: AttestationDesignationItemProps) => {
   const { date, claimedBy, certificateLink } = props
 
   return (
