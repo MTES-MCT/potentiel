@@ -1,20 +1,19 @@
 import { UniqueEntityID } from '../../../../../core/domain'
-import { ProjectGFSubmitted } from '../../../../../modules/project'
+import { ProjectGFDueDateSet } from '../../../../../modules/project'
 import { ProjectEvent } from '../projectEvent.model'
 
 export default ProjectEvent.projector.on(
-  ProjectGFSubmitted,
-  async ({ payload: { projectId, fileId, submittedBy, gfDate }, occurredAt }) => {
+  ProjectGFDueDateSet,
+  async ({ payload: { projectId, garantiesFinancieresDueOn }, occurredAt }) => {
     await ProjectEvent.findOrCreate({
       where: {
         projectId,
-        type: ProjectGFSubmitted.type,
-        valueDate: gfDate.getTime(),
+        type: ProjectGFDueDateSet.type,
         eventPublishedAt: occurredAt.getTime(),
+        valueDate: garantiesFinancieresDueOn,
       },
       defaults: {
         id: new UniqueEntityID().toString(),
-        payload: { fileId, submittedBy },
       },
     })
   }

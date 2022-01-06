@@ -1,29 +1,25 @@
 import { UniqueEntityID } from '../../../../../core/domain'
-import { ProjectGFSubmitted, ProjectGFSubmittedPayload } from '../../../../../modules/project'
+import { ProjectGFDueDateSet, ProjectGFDueDateSetPayload } from '../../../../../modules/project'
 import { resetDatabase } from '../../../helpers'
 import { ProjectEvent } from '../projectEvent.model'
-import onProjectGFSubmitted from './onProjectGFSubmitted'
+import onProjectGFDueDateSet from './onProjectGFDueDateSet'
 
-describe('onProjectGFSubmitted', () => {
+describe('onProjectGFDueDateSet', () => {
   const projectId = new UniqueEntityID().toString()
-  const fileId = 'file-id'
-  const occurredAt = new Date('2022-01-04')
-  const submittedBy = 'user-id'
-  const gfDate = new Date('2021-12-26')
+  const garantiesFinancieresDueOn = new Date('2022-01-27').getTime()
+  const occurredAt = new Date('2021-11-27')
 
   beforeEach(async () => {
     await resetDatabase()
   })
 
-  it('should create a new project event of type ProjectGFSubmitted', async () => {
-    await onProjectGFSubmitted(
-      new ProjectGFSubmitted({
+  it('should create a new project event of type ProjectGFDueDateSet', async () => {
+    await onProjectGFDueDateSet(
+      new ProjectGFDueDateSet({
         payload: {
           projectId,
-          fileId,
-          submittedBy,
-          gfDate,
-        } as ProjectGFSubmittedPayload,
+          garantiesFinancieresDueOn,
+        } as ProjectGFDueDateSetPayload,
         original: {
           version: 1,
           occurredAt,
@@ -35,31 +31,29 @@ describe('onProjectGFSubmitted', () => {
 
     expect(projectEvent).not.toBeNull()
     expect(projectEvent).toMatchObject({
-      type: 'ProjectGFSubmitted',
-      valueDate: gfDate.getTime(),
+      projectId,
+      type: 'ProjectGFDueDateSet',
       eventPublishedAt: occurredAt.getTime(),
+      valueDate: garantiesFinancieresDueOn,
     })
   })
 
   describe('when the event already exists in the projection ProjectEvent', () => {
-    it('should not create a new project event of type ProjectGFSubmitted', async () => {
+    it('should not create a new project event of type ProjectGFDueDateSet', async () => {
       await ProjectEvent.create({
         id: new UniqueEntityID().toString(),
         projectId,
-        type: 'ProjectGFSubmitted',
-        payload: { fileId, submittedBy },
-        valueDate: gfDate.getTime(),
-        eventPublishedAt: occurredAt.getTime(),
+        type: 'ProjectGFDueDateSet',
+        valueDate: occurredAt.getTime(),
+        eventPublishedAt: garantiesFinancieresDueOn,
       })
 
-      await onProjectGFSubmitted(
-        new ProjectGFSubmitted({
+      await onProjectGFDueDateSet(
+        new ProjectGFDueDateSet({
           payload: {
             projectId,
-            fileId,
-            submittedBy,
-            gfDate,
-          } as ProjectGFSubmittedPayload,
+            garantiesFinancieresDueOn,
+          } as ProjectGFDueDateSetPayload,
           original: {
             version: 1,
             occurredAt,
@@ -70,15 +64,15 @@ describe('onProjectGFSubmitted', () => {
       const projectEvents = await ProjectEvent.findAll({
         where: {
           projectId,
-          type: 'ProjectGFSubmitted',
-          valueDate: gfDate.getTime(),
+          type: 'ProjectGFDueDateSet',
+          valueDate: garantiesFinancieresDueOn,
           eventPublishedAt: occurredAt.getTime(),
         },
       })
 
       expect(projectEvents).toHaveLength(1)
       expect(projectEvents[0]).toMatchObject({
-        payload: { fileId, submittedBy },
+        type: 'ProjectGFDueDateSet',
       })
     })
   })

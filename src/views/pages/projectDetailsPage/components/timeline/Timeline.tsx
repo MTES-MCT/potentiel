@@ -43,9 +43,10 @@ export const Timeline = (props: {
               return (
                 <GarantieFinanciereItem
                   isLastItem={isLastItem}
-                  events={timelineItem.events}
+                  event={timelineItem.event}
                   groupIndex={groupIndex}
                   date={timelineItem.date}
+                  projectId={projectId}
                 />
               )
           }

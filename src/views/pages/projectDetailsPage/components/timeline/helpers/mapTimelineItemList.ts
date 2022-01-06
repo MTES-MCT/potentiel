@@ -2,6 +2,7 @@ import {
   ProjectCertificateDTO,
   ProjectEventDTO,
   ProjectEventListDTO,
+  ProjectGFDueDateSetDTO,
   ProjectGFSubmittedDTO,
   ProjectImportedDTO,
   ProjectNotifiedDTO,
@@ -23,7 +24,7 @@ type ImportItem = {
 
 type GarantieFinanciereItem = {
   type: 'garantiesFinancieres'
-  events: ProjectGFSubmittedDTO[]
+  event: ProjectGFSubmittedDTO | ProjectGFDueDateSetDTO
   date: number
 }
 
@@ -84,8 +85,15 @@ export const mapTimelineItemList: MapTimelineItemList = (projectEventList) => {
   function makeGarantiesFinancieresPackage(event: ProjectEventDTO) {
     switch (event.type) {
       case 'ProjectGFSubmitted':
+      case 'ProjectGFDueDateSet':
+        const groupIndex = timelineItemList.findIndex(
+          (group) => group.type === 'garantiesFinancieres'
+        )
+        if (groupIndex !== -1) {
+          timelineItemList.splice(groupIndex, 1)
+        }
         timelineItemList.push({
-          events: [event],
+          event,
           date: event.date,
           type: 'garantiesFinancieres',
         })

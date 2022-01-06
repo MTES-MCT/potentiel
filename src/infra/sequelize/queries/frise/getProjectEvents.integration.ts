@@ -9,6 +9,8 @@ import makeFakeProject from '../../../../__tests__/fixtures/project'
 
 describe('frise.getProjectEvents', () => {
   const eventTimestamp = new Date('2022-01-04').getTime()
+  const notifiedOnTimestamp = new Date('2022-01-05').getTime()
+  const GFDueDateTimestamp = new Date('2022-03-05').getTime()
 
   const { Project, File } = models
   const projectId = new UniqueEntityID().toString()
@@ -70,13 +72,19 @@ describe('frise.getProjectEvents', () => {
   for (const role of USER_ROLES.filter((role) => role !== 'ademe')) {
     describe(`when the user is ${role}`, () => {
       const fakeUser = { role } as User
-      it('should return the ProjectNotified event', async () => {
-        const notifiedOnTimestamp = new Date('2022-01-05').getTime()
+      it('should return the ProjectNotified and ProjectGFDueDateSet events', async () => {
         await ProjectEvent.create({
           id: new UniqueEntityID().toString(),
           projectId,
           type: 'ProjectNotified',
           valueDate: notifiedOnTimestamp,
+          eventPublishedAt: eventTimestamp,
+        })
+        await ProjectEvent.create({
+          id: new UniqueEntityID().toString(),
+          projectId,
+          type: 'ProjectGFDueDateSet',
+          valueDate: GFDueDateTimestamp,
           eventPublishedAt: eventTimestamp,
         })
 
@@ -89,6 +97,11 @@ describe('frise.getProjectEvents', () => {
               date: notifiedOnTimestamp,
               variant: role,
             },
+            {
+              type: 'ProjectGFDueDateSet',
+              date: GFDueDateTimestamp,
+              variant: role,
+            },
           ],
         })
       })
@@ -97,12 +110,19 @@ describe('frise.getProjectEvents', () => {
 
   describe(`when the user is ademe`, () => {
     const fakeUser = { role: 'ademe' } as User
-    it('should not return the ProjectNotified event', async () => {
+    it('should not return the ProjectNotified and ProjectGFDueDateSet events', async () => {
       await ProjectEvent.create({
         id: new UniqueEntityID().toString(),
         projectId,
         type: 'ProjectNotified',
         valueDate: eventTimestamp,
+        eventPublishedAt: eventTimestamp,
+      })
+      await ProjectEvent.create({
+        id: new UniqueEntityID().toString(),
+        projectId,
+        type: 'ProjectGFDueDateSet',
+        valueDate: GFDueDateTimestamp,
         eventPublishedAt: eventTimestamp,
       })
 
@@ -261,18 +281,17 @@ describe('frise.getProjectEvents', () => {
     const fakeUser = { role } as User
     describe(`when user is ${role}`, () => {
       it('should return ProjectGFSubmitted events', async () => {
-        const gfTimestamp = new Date('2022-01-06').getTime()
-
         const fileId = new UniqueEntityID().toString()
+        const gfDate = new Date('2021-12-26').getTime()
         await ProjectEvent.create({
           id: new UniqueEntityID().toString(),
           projectId,
           type: 'ProjectGFSubmitted',
-          valueDate: gfTimestamp,
+          valueDate: gfDate,
           eventPublishedAt: eventTimestamp,
           payload: {
             fileId: fileId,
-            submittedBy: 'someone',
+            submittedBy: 'user-id',
           },
         })
         await File.create({
@@ -285,10 +304,10 @@ describe('frise.getProjectEvents', () => {
           events: [
             {
               type: 'ProjectGFSubmitted',
-              date: gfTimestamp,
+              date: gfDate,
               variant: role,
               fileId: fileId,
-              submittedBy: 'someone',
+              submittedBy: 'user-id',
               filename: 'my-file-name',
             },
           ],

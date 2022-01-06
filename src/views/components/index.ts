@@ -2,7 +2,7 @@ export * from './actions';
 export * from './adminDashboard';
 export * from './CDCChoiceForm';
 export * from './component';
-export * from './dateInput';
+export * from './DateInput';
 export * from './downloadIcon';
 export * from './errorBox';
 export * from './footer';

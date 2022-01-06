@@ -80,6 +80,16 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       filename,
                     })
                   }
+                  break
+                case 'ProjectGFDueDateSet':
+                  if (user.role !== 'ademe') {
+                    events.push({
+                      type,
+                      date: valueDate,
+                      variant: user.role,
+                    })
+                  }
+                  break
               }
 
               return Promise.resolve(events)

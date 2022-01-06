@@ -1,31 +1,50 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
-  ProjectEventDTO,
+  ProjectGFDueDateSetDTO,
   ProjectGFSubmittedDTO,
 } from '../../../../../modules/frise/dtos/ProjectEventListDTO'
-import { TimelineItem, ItemTitle, ItemDate, ContentArea, PassedIcon } from './components'
+import { TimelineItem, ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from './components'
 import { GFDocumentLinkItem } from './GFDocumentLinkItem'
+import { GFForm } from '.'
+import { WarningItem } from './components/WarningItem'
 
 export const GarantieFinanciereItem = (props: {
+  projectId: string
   isLastItem: boolean
-  events: ProjectGFSubmittedDTO[]
+  event: ProjectGFSubmittedDTO | ProjectGFDueDateSetDTO
   groupIndex: number
   date: number
 }) => {
-  const { isLastItem, events, groupIndex, date } = props
-  const projectGFSubmittedEvent = events.find(isProjectGFSubmitted)
+  const { isLastItem, event, groupIndex, date, projectId } = props
+  const dueDate = event.type === 'ProjectGFDueDateSet' ? date : null
+  const deadlineHaspassed = dueDate && new Date().getTime() > dueDate
+  const displayWarning = deadlineHaspassed && event.variant === 'porteur-projet'
+  const [isFormVisible, showForm] = useState(false)
 
   return (
     <TimelineItem isLastItem={isLastItem} groupIndex={groupIndex}>
-      <PassedIcon />
+      {dueDate ? <CurrentIcon /> : <PastIcon />}
       <ContentArea>
         <ItemDate date={date} />
-        <ItemTitle title="Garanties Financières" />
-        {projectGFSubmittedEvent && <GFDocumentLinkItem event={projectGFSubmittedEvent} />}
+        <ItemTitle title="Constitution des garanties Financières" />
+        {dueDate && (
+          <div>
+            <div className="flex">
+              <p className="mt-0 mb-0">Garanties financières en attente</p>
+              {displayWarning && <WarningItem message="date dépassée" />}
+            </div>
+            {event.variant === 'porteur-projet' && (
+              <>
+                <a onClick={() => showForm(!isFormVisible)}>Transmettre l'attestation</a>
+                {isFormVisible && (
+                  <GFForm projectId={projectId} onCancel={() => showForm(!isFormVisible)} />
+                )}
+              </>
+            )}
+          </div>
+        )}
+        {event.type === 'ProjectGFSubmitted' && <GFDocumentLinkItem event={event} />}
       </ContentArea>
     </TimelineItem>
   )
 }
-
-const isProjectGFSubmitted = (event: ProjectEventDTO): event is ProjectGFSubmittedDTO =>
-  event.type === 'ProjectGFSubmitted'
