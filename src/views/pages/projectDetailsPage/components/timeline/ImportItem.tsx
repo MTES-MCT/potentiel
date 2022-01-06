@@ -1,20 +1,18 @@
 import React from 'react'
-import { ProjectImportedDTO } from '../../../../../modules/frise/dtos/ProjectEventListDTO'
 import { ItemDate, TimelineItem, PastIcon, ItemTitle, ContentArea } from './components'
 
-export const ImportItem = (props: {
+export type ImportItemProps = {
   isLastItem: boolean
-  event: ProjectImportedDTO
   groupIndex: number
-}) => {
-  const { isLastItem, event, groupIndex } = props
-  return (
-    <TimelineItem isLastItem={isLastItem} groupIndex={groupIndex}>
-      <PastIcon />
-      <ContentArea>
-        {event.date && <ItemDate date={event.date} />}
-        <ItemTitle title="Projet Importé" />
-      </ContentArea>
-    </TimelineItem>
-  )
+  date: number
 }
+
+export const ImportItem = ({ isLastItem, date, groupIndex }: ImportItemProps) => (
+  <TimelineItem isLastItem={isLastItem} groupIndex={groupIndex}>
+    <PastIcon />
+    <ContentArea>
+      {date && <ItemDate date={date} />}
+      <ItemTitle title="Projet Importé" />
+    </ContentArea>
+  </TimelineItem>
+)

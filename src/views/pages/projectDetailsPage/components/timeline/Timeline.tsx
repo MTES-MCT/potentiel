@@ -37,13 +37,15 @@ export const Timeline = (props: {
 
             case 'import':
               const { events: importedEvents } = timelineItem
-              return (
+
+              return importedEvents.length > 0 ? (
                 <ImportItem
-                  event={importedEvents[0]}
+                  date={importedEvents[0].date}
                   isLastItem={isLastItem}
                   groupIndex={groupIndex}
                 />
-              )
+              ) : null
+
             case 'garantiesFinancieres':
               const { event: gfSubmittedEvent, date } = timelineItem
 
