@@ -37,43 +37,4 @@ describe('onProjectGFDueDateSet', () => {
       valueDate: garantiesFinancieresDueOn,
     })
   })
-
-  describe('when the event already exists in the projection ProjectEvent', () => {
-    it('should not create a new project event of type ProjectGFDueDateSet', async () => {
-      await ProjectEvent.create({
-        id: new UniqueEntityID().toString(),
-        projectId,
-        type: 'ProjectGFDueDateSet',
-        valueDate: occurredAt.getTime(),
-        eventPublishedAt: garantiesFinancieresDueOn,
-      })
-
-      await onProjectGFDueDateSet(
-        new ProjectGFDueDateSet({
-          payload: {
-            projectId,
-            garantiesFinancieresDueOn,
-          } as ProjectGFDueDateSetPayload,
-          original: {
-            version: 1,
-            occurredAt,
-          },
-        })
-      )
-
-      const projectEvents = await ProjectEvent.findAll({
-        where: {
-          projectId,
-          type: 'ProjectGFDueDateSet',
-          valueDate: garantiesFinancieresDueOn,
-          eventPublishedAt: occurredAt.getTime(),
-        },
-      })
-
-      expect(projectEvents).toHaveLength(1)
-      expect(projectEvents[0]).toMatchObject({
-        type: 'ProjectGFDueDateSet',
-      })
-    })
-  })
 })

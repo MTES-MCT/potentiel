@@ -8,21 +8,19 @@ export default ProjectEvent.projector.on(
     { payload: { projectId, attestationDesignationFileId, claimedBy }, occurredAt },
     transaction
   ) => {
-    await ProjectEvent.findOrCreate({
-      where: {
+    await ProjectEvent.create(
+      {
         projectId,
         type: ProjectClaimed.type,
         valueDate: occurredAt.getTime(),
         eventPublishedAt: occurredAt.getTime(),
-      },
-      defaults: {
         id: new UniqueEntityID().toString(),
         payload: {
           attestationDesignationFileId,
           claimedBy,
         },
       },
-      transaction,
-    })
+      { transaction }
+    )
   }
 )

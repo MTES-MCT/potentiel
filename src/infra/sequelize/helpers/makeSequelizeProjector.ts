@@ -3,6 +3,7 @@ import { fromPersistance } from '.'
 import { DomainEvent } from '../../../core/domain'
 import { sequelizeInstance } from '../../../sequelize.config'
 import { EventHandler, Projector } from './Projection'
+import * as readline from 'readline'
 
 export type SequelizeModel = ModelCtor<Model<any, any>> & {
   associate?: (models: Record<string, SequelizeModel>) => void
@@ -54,10 +55,17 @@ export const makeSequelizeProjector = <ProjectionModel extends SequelizeModel>(
         }
       )
 
-      for (const event of events) {
+      const total = events.length
+      for (const [index, event] of events.entries()) {
+        printProgress(`${index + 1}/${total}`)
         const eventToHandle = fromPersistance(event)
         eventToHandle && (await handleEvent(eventToHandle, transaction))
       }
     },
   }
+}
+
+const printProgress = (progress) => {
+  readline.cursorTo(process.stdout, 0)
+  process.stdout.write(progress)
 }

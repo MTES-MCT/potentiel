@@ -5,17 +5,15 @@ import { ProjectEvent } from '../projectEvent.model'
 export default ProjectEvent.projector.on(
   ProjectGFDueDateSet,
   async ({ payload: { projectId, garantiesFinancieresDueOn }, occurredAt }, transaction) => {
-    await ProjectEvent.findOrCreate({
-      where: {
+    await ProjectEvent.create(
+      {
         projectId,
         type: ProjectGFDueDateSet.type,
         eventPublishedAt: occurredAt.getTime(),
         valueDate: garantiesFinancieresDueOn,
-      },
-      defaults: {
         id: new UniqueEntityID().toString(),
       },
-      transaction,
-    })
+      { transaction }
+    )
   }
 )

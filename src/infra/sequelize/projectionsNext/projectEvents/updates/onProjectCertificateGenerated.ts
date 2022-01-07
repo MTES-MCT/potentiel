@@ -5,18 +5,16 @@ import { ProjectEvent } from '../projectEvent.model'
 export default ProjectEvent.projector.on(
   ProjectCertificateGenerated,
   async ({ payload: { projectId, certificateFileId }, occurredAt }, transaction) => {
-    await ProjectEvent.findOrCreate({
-      where: {
+    await ProjectEvent.create(
+      {
         projectId,
         type: ProjectCertificateGenerated.type,
         valueDate: occurredAt.getTime(),
         eventPublishedAt: occurredAt.getTime(),
-      },
-      defaults: {
         id: new UniqueEntityID().toString(),
         payload: { certificateFileId },
       },
-      transaction,
-    })
+      { transaction }
+    )
   }
 )
