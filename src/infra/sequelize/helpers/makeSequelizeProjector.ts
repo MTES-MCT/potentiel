@@ -1,9 +1,8 @@
 import { Model, ModelCtor, Transaction } from 'sequelize'
 import { fromPersistance } from '.'
 import { DomainEvent } from '../../../core/domain'
-import type { EventHandler, Projector } from '../../../core/utils'
 import { sequelizeInstance } from '../../../sequelize.config'
-import models from '../models'
+import { EventHandler, Projector } from './Projection'
 
 export type SequelizeModel = ModelCtor<Model<any, any>> & {
   associate?: (models: Record<string, SequelizeModel>) => void
