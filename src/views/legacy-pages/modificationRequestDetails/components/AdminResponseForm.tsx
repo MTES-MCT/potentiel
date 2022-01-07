@@ -16,7 +16,6 @@ export const AdminResponseForm = ({
   children,
 }: AdminResponseFormProps) => {
   const { type, versionDate } = modificationRequest
-  const isResponsePossible = ['recours', 'delai', 'abandon', 'puissance'].includes(type)
 
   return (
     <form
@@ -35,7 +34,7 @@ export const AdminResponseForm = ({
             <input
               type="checkbox"
               name="statusUpdateOnly"
-              defaultChecked={!isResponsePossible}
+              defaultChecked={false}
               {...dataId('modificationRequest-statusUpdateOnlyField')}
             />
             Demande traitée hors Potentiel
