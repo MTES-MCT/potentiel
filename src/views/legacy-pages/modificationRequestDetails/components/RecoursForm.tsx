@@ -1,22 +1,10 @@
 import React from 'react'
 import { formatDate } from '../../../../helpers/formatDate'
 import { dataId } from '../../../../helpers/testId'
-import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest'
-import { DownloadResponseTemplate } from './DownloadResponseTemplate'
 
-interface RecoursFormProps {
-  modificationRequest: ModificationRequestPageDTO & { type: 'recours' }
-}
-export const RecoursForm = ({ modificationRequest }: RecoursFormProps) => (
+export const RecoursForm = () => (
   <>
-    <DownloadResponseTemplate modificationRequest={modificationRequest} />
-
-    <div className="form__group">
-      <label htmlFor="file">Réponse signée (fichier pdf)</label>
-      <input type="file" name="file" id="file" />
-    </div>
-
-    <div className="form__group" style={{ marginTop: 5 }}>
+    <div className="form__group mt-4 mb-4">
       <label htmlFor="newNotificationDate">Nouvelle date de désignation (format JJ/MM/AAAA)</label>
       <input
         type="text"

@@ -15,9 +15,8 @@ import {
   AbandonForm,
   CancelButton,
   ActionnaireForm,
+  PuissanceForm,
 } from './components'
-import { PuissanceForm } from './components/PuissanceForm'
-
 
 moment.locale('fr')
 
@@ -37,9 +36,6 @@ export default function AdminModificationRequestPage({ request, modificationRequ
     logger.error('Try to render ProjectDetails without a user')
     return <div />
   }
-  const isResponsePossible = ['recours', 'delai', 'abandon', 'puissance', 'actionnaire'].includes(
-    type
-  )
 
   const isAdmin = ['admin', 'dgec', 'dreal'].includes(user.role)
 
@@ -47,7 +43,9 @@ export default function AdminModificationRequestPage({ request, modificationRequ
     <RoleBasedDashboard role={user.role} currentPage={'list-requests'}>
       <div className="panel">
         <div className="panel__header" style={{ position: 'relative' }}>
-          <h3><ModificationRequestActionTitles action={type}/></h3>
+          <h3>
+            <ModificationRequestActionTitles action={type} />
+          </h3>
         </div>
 
         <DemandeDetails modificationRequest={modificationRequest} />
@@ -69,28 +67,22 @@ export default function AdminModificationRequestPage({ request, modificationRequ
               <h4>Répondre</h4>
 
               <AdminResponseForm role={user.role} modificationRequest={modificationRequest}>
-                {isResponsePossible && (
-                  <>
-                    {modificationRequest.type === 'delai' && (
-                      <DelaiForm modificationRequest={modificationRequest} />
-                    )}
+                {modificationRequest.type === 'delai' && (
+                  <DelaiForm modificationRequest={modificationRequest} />
+                )}
 
-                    {modificationRequest.type === 'recours' && (
-                      <RecoursForm modificationRequest={modificationRequest} />
-                    )}
+                {modificationRequest.type === 'recours' && <RecoursForm />}
 
-                    {modificationRequest.type === 'abandon' && (
-                      <AbandonForm modificationRequest={modificationRequest} />
-                    )}
+                {modificationRequest.type === 'abandon' && (
+                  <AbandonForm modificationRequest={modificationRequest} />
+                )}
 
-                    {modificationRequest.type === 'puissance' && (
-                      <PuissanceForm modificationRequest={modificationRequest} />
-                    )}
+                {modificationRequest.type === 'puissance' && (
+                  <PuissanceForm modificationRequest={modificationRequest} />
+                )}
 
-                    {modificationRequest.type === 'actionnaire' && (
-                      <ActionnaireForm modificationRequest={modificationRequest} />
-                    )}
-                  </>
+                {modificationRequest.type === 'actionnaire' && (
+                  <ActionnaireForm modificationRequest={modificationRequest} />
                 )}
               </AdminResponseForm>
             </div>
