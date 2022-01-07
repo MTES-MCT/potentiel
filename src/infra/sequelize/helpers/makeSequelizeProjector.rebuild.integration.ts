@@ -46,8 +46,8 @@ describe('rebuild', () => {
   let transaction: Transaction
 
   beforeAll(async () => {
-    await resetDatabase()
     await FakeProjection.sync({ force: true })
+    await resetDatabase()
 
     await models.EventStore.bulkCreate(
       [
