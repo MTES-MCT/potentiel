@@ -1,4 +1,4 @@
-import { Model, ModelCtor, Transaction } from 'sequelize'
+import { Model, ModelCtor, QueryTypes, Transaction } from 'sequelize'
 import { fromPersistance } from '.'
 import { DomainEvent } from '../../../core/domain'
 import { sequelizeInstance } from '../../../sequelize.config'
@@ -42,13 +42,17 @@ export const makeSequelizeProjector = <ProjectionModel extends SequelizeModel>(
     },
     rebuild: async (transaction) => {
       await model.destroy({ truncate: true, transaction })
-      const events = await sequelizeInstance.model('eventStore').findAll({
-        where: {
-          type: Object.keys(handlersByType),
-        },
-        order: [['occurredAt', 'ASC']],
-        transaction,
-      })
+      const events = await sequelizeInstance.query(
+        `SELECT * FROM "eventStores" 
+         WHERE type in (${Object.keys(handlersByType)
+           .map((event) => `'${event}'`)
+           .join(',')}) 
+         ORDER BY "occurredAt" ASC`,
+        {
+          type: QueryTypes.SELECT,
+          transaction,
+        }
+      )
 
       for (const event of events) {
         const eventToHandle = fromPersistance(event)
