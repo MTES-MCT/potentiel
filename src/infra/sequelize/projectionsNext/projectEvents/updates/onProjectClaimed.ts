@@ -4,7 +4,10 @@ import { ProjectEvent } from '../projectEvent.model'
 
 export default ProjectEvent.projector.on(
   ProjectClaimed,
-  async ({ payload: { projectId, attestationDesignationFileId, claimedBy }, occurredAt }) => {
+  async (
+    { payload: { projectId, attestationDesignationFileId, claimedBy }, occurredAt },
+    transaction
+  ) => {
     await ProjectEvent.findOrCreate({
       where: {
         projectId,
@@ -19,6 +22,7 @@ export default ProjectEvent.projector.on(
           claimedBy,
         },
       },
+      transaction,
     })
   }
 )

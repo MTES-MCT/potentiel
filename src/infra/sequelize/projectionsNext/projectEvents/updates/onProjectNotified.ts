@@ -4,7 +4,7 @@ import { ProjectEvent } from '../projectEvent.model'
 
 export default ProjectEvent.projector.on(
   ProjectNotified,
-  async ({ payload: { projectId, notifiedOn }, occurredAt }) => {
+  async ({ payload: { projectId, notifiedOn }, occurredAt }, transaction) => {
     await ProjectEvent.findOrCreate({
       where: {
         projectId,
@@ -15,6 +15,7 @@ export default ProjectEvent.projector.on(
       defaults: {
         id: new UniqueEntityID().toString(),
       },
+      transaction,
     })
   }
 )
