@@ -9,3 +9,4 @@ export * from './DownloadResponseTemplate';
 export * from './ProjectDetails';
 export * from './PuissanceForm';
 export * from './RecoursForm';
+export * from './UploadResponseFile';
