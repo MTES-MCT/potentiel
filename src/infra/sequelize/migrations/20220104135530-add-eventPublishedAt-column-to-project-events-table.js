@@ -10,19 +10,17 @@ module.exports = {
       const tableDefinition = await queryInterface.describeTable('project_events')
 
       if (!tableDefinition.eventPublishedAt) {
+        await ProjectEvent.destroy({ truncate: true })
+
         await queryInterface.addColumn('project_events', 'eventPublishedAt', {
           type: Sequelize.DataTypes.BIGINT,
+          allowNull: false,
+          default: 0,
           transaction,
         })
       }
 
       await ProjectEvent.projector.rebuild(transaction)
-
-      await queryInterface.changeColumn('project_events', 'eventPublishedAt', {
-        type: Sequelize.DataTypes.BIGINT,
-        allowNull: false,
-        default: 0,
-      })
 
       await transaction.commit()
     } catch (error) {
