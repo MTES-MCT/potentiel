@@ -108,14 +108,6 @@ v1Router.post(
       )
     }
 
-    if (!['recours', 'delai', 'puissance', 'abandon', 'actionnaire'].includes(type)) {
-      return response.redirect(
-        addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
-          error: 'Impossible de répondre à ce type de demande pour le moment.',
-        })
-      )
-    }
-
     const courrierReponseExists: boolean = !!request.file && (await pathExists(request.file.path))
 
     const courrierReponseIsOk =
@@ -236,6 +228,7 @@ function _makeAcceptanceParams(
     newPuissance,
     isDecisionJustice,
     newActionnaire,
+    newProducteur,
   } = params
   switch (type) {
     case 'recours':
@@ -249,5 +242,7 @@ function _makeAcceptanceParams(
       return { type, newPuissance, isDecisionJustice }
     case 'actionnaire':
       return { type, newActionnaire }
+    case 'producteur':
+      return { type, newProducteur }
   }
 }
