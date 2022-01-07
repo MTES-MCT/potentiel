@@ -23,11 +23,6 @@ module.exports = {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: true,
       },
-      eventPublishedAt: {
-        type: Sequelize.DataTypes.BIGINT,
-        allowNull: false,
-        default: 0,
-      },
       createdAt: Sequelize.DATE,
       updatedAt: Sequelize.DATE,
     })

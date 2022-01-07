@@ -40,46 +40,4 @@ describe('onProjectGFSubmitted', () => {
       eventPublishedAt: occurredAt.getTime(),
     })
   })
-
-  describe('when the event already exists in the projection ProjectEvent', () => {
-    it('should not create a new project event of type ProjectGFSubmitted', async () => {
-      await ProjectEvent.create({
-        id: new UniqueEntityID().toString(),
-        projectId,
-        type: 'ProjectGFSubmitted',
-        payload: { fileId, submittedBy },
-        valueDate: gfDate.getTime(),
-        eventPublishedAt: occurredAt.getTime(),
-      })
-
-      await onProjectGFSubmitted(
-        new ProjectGFSubmitted({
-          payload: {
-            projectId,
-            fileId,
-            submittedBy,
-            gfDate,
-          } as ProjectGFSubmittedPayload,
-          original: {
-            version: 1,
-            occurredAt,
-          },
-        })
-      )
-
-      const projectEvents = await ProjectEvent.findAll({
-        where: {
-          projectId,
-          type: 'ProjectGFSubmitted',
-          valueDate: gfDate.getTime(),
-          eventPublishedAt: occurredAt.getTime(),
-        },
-      })
-
-      expect(projectEvents).toHaveLength(1)
-      expect(projectEvents[0]).toMatchObject({
-        payload: { fileId, submittedBy },
-      })
-    })
-  })
 })

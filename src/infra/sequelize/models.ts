@@ -17,7 +17,7 @@ import { MakeUserProjectClaimsModel } from './projections'
 import { EventBus } from '../../core/domain'
 
 import * as projectionsNextModels from './projectionsNext'
-import { HasSubscribe } from '../../core/utils'
+import { HasSubscribe } from './helpers/Projection'
 
 //
 // Legacy projections

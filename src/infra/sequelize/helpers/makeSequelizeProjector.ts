@@ -1,7 +1,11 @@
-import { Model as SModel, ModelCtor } from 'sequelize'
-import type { EventHandler, Projector } from '../../../core/utils'
+import { Model, ModelCtor, QueryTypes, Transaction } from 'sequelize'
+import { fromPersistance } from '.'
+import { DomainEvent } from '../../../core/domain'
+import { sequelizeInstance } from '../../../sequelize.config'
+import { EventHandler, Projector } from './Projection'
+import * as readline from 'readline'
 
-export type SequelizeModel = ModelCtor<SModel<any, any>> & {
+export type SequelizeModel = ModelCtor<Model<any, any>> & {
   associate?: (models: Record<string, SequelizeModel>) => void
   projector: Projector
 }
@@ -11,10 +15,13 @@ export const makeSequelizeProjector = <ProjectionModel extends SequelizeModel>(
 ): Projector => {
   const handlersByType: Record<string, EventHandler<any>> = {}
 
-  const handleEvent = async (event) => {
+  const handleEvent = async <Event extends DomainEvent>(
+    event: Event,
+    transaction?: Transaction
+  ) => {
     const { type } = event
     if (handlersByType[type]) {
-      await handlersByType[type](event)
+      await handlersByType[type](event, transaction)
     }
   }
 
@@ -34,7 +41,31 @@ export const makeSequelizeProjector = <ProjectionModel extends SequelizeModel>(
         await handleEvent(event)
       }, model.name)
     },
-    handleEvent,
-    getListenedEvents: () => Object.keys(handlersByType),
+    rebuild: async (transaction) => {
+      await model.destroy({ truncate: true, transaction })
+      const events = await sequelizeInstance.query(
+        `SELECT * FROM "eventStores" 
+         WHERE type in (${Object.keys(handlersByType)
+           .map((event) => `'${event}'`)
+           .join(',')}) 
+         ORDER BY "occurredAt" ASC`,
+        {
+          type: QueryTypes.SELECT,
+          transaction,
+        }
+      )
+
+      const total = events.length
+      for (const [index, event] of events.entries()) {
+        printProgress(`${index + 1}/${total}`)
+        const eventToHandle = fromPersistance(event)
+        eventToHandle && (await handleEvent(eventToHandle, transaction))
+      }
+    },
   }
+}
+
+const printProgress = (progress) => {
+  readline.cursorTo(process.stdout, 0)
+  process.stdout.write(progress)
 }

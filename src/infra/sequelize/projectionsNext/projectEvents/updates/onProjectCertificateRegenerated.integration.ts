@@ -41,41 +41,4 @@ describe('onProjectCertificateRegenerated', () => {
       payload: { certificateFileId: 'file-id' },
     })
   })
-
-  describe(`when the event already exists in the projection`, () => {
-    it('should not create a new project event of type ProjectCertificateRegenerated', async () => {
-      const occurredAt = new Date('2021-12-15')
-
-      await ProjectEvent.create({
-        id: new UniqueEntityID().toString(),
-        projectId,
-        type: 'ProjectCertificateRegenerated',
-        valueDate: occurredAt.getTime(),
-        eventPublishedAt: occurredAt.getTime(),
-      })
-
-      await onProjectCertificateRegenerated(
-        new ProjectCertificateRegenerated({
-          payload: {
-            projectId,
-          } as ProjectCertificateRegeneratedPayload,
-          original: {
-            occurredAt,
-            version: 1,
-          },
-        })
-      )
-
-      const projectEvents = await ProjectEvent.findAll({
-        where: {
-          projectId,
-          type: 'ProjectCertificateRegenerated',
-          valueDate: occurredAt.getTime(),
-          eventPublishedAt: occurredAt.getTime(),
-        },
-      })
-
-      expect(projectEvents).toHaveLength(1)
-    })
-  })
 })

@@ -4,17 +4,16 @@ import { ProjectEvent } from '../projectEvent.model'
 
 export default ProjectEvent.projector.on(
   ProjectImported,
-  async ({ payload: { projectId }, occurredAt }) => {
-    await ProjectEvent.findOrCreate({
-      where: {
+  async ({ payload: { projectId }, occurredAt }, transaction) => {
+    await ProjectEvent.create(
+      {
         projectId,
         type: ProjectImported.type,
         valueDate: occurredAt.getTime(),
         eventPublishedAt: occurredAt.getTime(),
-      },
-      defaults: {
         id: new UniqueEntityID().toString(),
       },
-    })
+      { transaction }
+    )
   }
 )

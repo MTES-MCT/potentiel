@@ -5,7 +5,7 @@ import Redis from 'ioredis'
 import { isTestEnv } from './env.config'
 import { EventEmitter } from 'stream'
 import { EventBus } from '../core/domain'
-import { HasSubscribe } from '../core/utils'
+import { HasSubscribe } from '../infra/sequelize/helpers/Projection'
 
 const eventEmitter = new EventEmitter()
 let publishToEventBus: EventBus['publish']
