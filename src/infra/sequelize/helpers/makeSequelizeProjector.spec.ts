@@ -67,7 +67,7 @@ describe('makeSequelizeProjector', () => {
         const fakeDummyEvent = new DummyEvent({ payload: {} })
         innerDummyEventHandler(fakeDummyEvent)
 
-        expect(handler).toHaveBeenCalledWith(fakeDummyEvent)
+        expect(handler).toHaveBeenCalledWith(fakeDummyEvent, undefined)
         expect(handler2).not.toHaveBeenCalled()
       })
     })
@@ -96,46 +96,9 @@ describe('makeSequelizeProjector', () => {
         const fakeDummyEvent = new DummyEvent({ payload: {} })
         innerDummyEventHandler(fakeDummyEvent)
 
-        expect(handler).toHaveBeenCalledWith(fakeDummyEvent)
+        expect(handler).toHaveBeenCalledWith(fakeDummyEvent, undefined)
         expect(handler2).not.toHaveBeenCalled()
       })
-    })
-  })
-
-  describe('handleEvent(Event)', () => {
-    const handler = jest.fn((event: DummyEvent) => Promise.resolve())
-    const handler2 = jest.fn((event: OtherDummyEvent) => Promise.resolve())
-
-    const projector = makeSequelizeProjector(fakeModel)
-    projector.on(DummyEvent, handler)
-    projector.on(OtherDummyEvent, handler2)
-
-    it(`should call the handler for the event to handle`, async () => {
-      const fakeDummyEvent = new DummyEvent({ payload: {} })
-
-      await projector.handleEvent(fakeDummyEvent)
-
-      expect(handler).toHaveBeenCalled()
-      expect(handler2).not.toHaveBeenCalled()
-    })
-  })
-
-  describe('getListenedEvents()', () => {
-    const handler = jest.fn((event: DummyEvent) => Promise.resolve())
-    const handler2 = jest.fn((event: OtherDummyEvent) => Promise.resolve())
-
-    const projector = makeSequelizeProjector(fakeModel)
-    projector.on(DummyEvent, handler)
-    projector.on(OtherDummyEvent, handler2)
-
-    it(`should return all listened events type`, async () => {
-      const fakeDummyEvent = new DummyEvent({ payload: {} })
-
-      const actualListenedEvents = projector.getListenedEvents()
-
-      expect(actualListenedEvents).toHaveLength(2)
-      expect(actualListenedEvents).toContain(DummyEvent.type)
-      expect(actualListenedEvents).toContain(OtherDummyEvent.type)
     })
   })
 })

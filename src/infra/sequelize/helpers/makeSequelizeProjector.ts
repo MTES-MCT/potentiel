@@ -1,7 +1,11 @@
-import { Model as SModel, ModelCtor } from 'sequelize'
+import { Model, ModelCtor, Transaction } from 'sequelize'
+import { fromPersistance } from '.'
+import { DomainEvent } from '../../../core/domain'
 import type { EventHandler, Projector } from '../../../core/utils'
+import { sequelizeInstance } from '../../../sequelize.config'
+import models from '../models'
 
-export type SequelizeModel = ModelCtor<SModel<any, any>> & {
+export type SequelizeModel = ModelCtor<Model<any, any>> & {
   associate?: (models: Record<string, SequelizeModel>) => void
   projector: Projector
 }
@@ -11,10 +15,13 @@ export const makeSequelizeProjector = <ProjectionModel extends SequelizeModel>(
 ): Projector => {
   const handlersByType: Record<string, EventHandler<any>> = {}
 
-  const handleEvent = async (event) => {
+  const handleEvent = async <Event extends DomainEvent>(
+    event: Event,
+    transaction?: Transaction
+  ) => {
     const { type } = event
     if (handlersByType[type]) {
-      await handlersByType[type](event)
+      await handlersByType[type](event, transaction)
     }
   }
 
@@ -34,7 +41,20 @@ export const makeSequelizeProjector = <ProjectionModel extends SequelizeModel>(
         await handleEvent(event)
       }, model.name)
     },
-    handleEvent,
-    getListenedEvents: () => Object.keys(handlersByType),
+    rebuild: async (transaction) => {
+      await model.destroy({ truncate: true, transaction })
+      const events = await sequelizeInstance.model('eventStore').findAll({
+        where: {
+          type: Object.keys(handlersByType),
+        },
+        order: [['occurredAt', 'ASC']],
+        transaction,
+      })
+
+      for (const event of events) {
+        const eventToHandle = fromPersistance(event)
+        eventToHandle && (await handleEvent(eventToHandle, transaction))
+      }
+    },
   }
 }

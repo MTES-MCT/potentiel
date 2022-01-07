@@ -1,7 +1,8 @@
-import { Constructor, DomainEvent, HasType } from '../domain'
+import type { Transaction } from 'sequelize/types';
+import { Constructor, DomainEvent, HasType } from '../../../core/domain'
 
 export interface EventHandler<Event> {
-  (event: Event): Promise<void>
+  (event: Event, transaction?: Transaction): Promise<void>
 }
 
 export interface Projector {
@@ -12,8 +13,7 @@ export interface Projector {
     eventHandler: EventHandler<Event>
   ) => EventHandler<Event>
 
-  handleEvent: <Event extends DomainEvent>(event: Event) => Promise<void>
-  getListenedEvents: () => DomainEvent['type'][]
+  rebuild: (transaction: Transaction) => Promise<void>
 }
 export interface HasSubscribe {
   subscribe: (cb: (event: DomainEvent) => Promise<void>, consumerName: string) => void
