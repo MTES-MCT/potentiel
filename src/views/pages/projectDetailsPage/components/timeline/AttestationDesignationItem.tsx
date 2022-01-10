@@ -1,21 +1,16 @@
 import React from 'react'
 import { formatDate } from '../../../../../helpers/formatDate'
-
-type AttestationDesignationItemProps = {
-  date: number
-  certificateLink: string
-  claimedBy?: string
-}
+import { AttestationDesignationItemProps } from './helpers/extractDesignationItemProps'
 
 export const AttestationDesignationItem = ({
   date,
-  claimedBy,
-  certificateLink,
+  source,
+  url: certificateLink,
 }: AttestationDesignationItemProps) => (
   <a href={certificateLink} download>
-    {claimedBy ? (
+    {source === 'uploaded' ? (
       <span>
-        Télécharger l'attestation de désignation (transmise le {formatDate(date)} par {claimedBy})
+        Télécharger l'attestation de désignation (transmise le {formatDate(date)})
       </span>
     ) : (
       <span>Télécharger l'attestation de désignation (éditée le {formatDate(date)})</span>

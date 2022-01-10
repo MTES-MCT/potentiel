@@ -1,16 +1,9 @@
 import React from 'react'
 import { ItemDate, PastIcon, ItemTitle, ContentArea } from './components'
 import { AttestationDesignationItem } from '.'
+import { DesignationItemProps } from './helpers/extractDesignationItemProps'
 
-export type DesignationItemProps = {
-  date: number
-  attestation?: {
-    date: number
-    certificateLink: string
-    claimedBy?: string
-  }
-}
-export const DesignationItem = ({ date, attestation }: DesignationItemProps) => (
+export const DesignationItem = ({ date, certificate: attestation }: DesignationItemProps) => (
   <>
     <PastIcon />
     <ContentArea>
