@@ -98,6 +98,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
         status,
         confirmationRequestedOn,
         confirmedOn,
+        producteur,
       } = modificationRequest
 
       const { appelOffreId, periodeId, familleId } = project
@@ -266,6 +267,20 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
               periodeDetails['Référence du paragraphe dédié au changement de puissance'],
             contenuParagraphePuissance:
               periodeDetails['Dispositions liées au changement de puissance'],
+          } as ModificationRequestDataForResponseTemplateDTO)
+
+        case 'producteur':
+          return ok({
+            ...commonData,
+            nouveauProdcteur: producteur,
+            referenceParagrapheIdentiteProducteur:
+              periodeDetails["Référence du paragraphe dédié à l'identité du producteur"],
+            contenuParagrapheIdentiteProducteur:
+              periodeDetails['Dispositions liées à l’identité du producteur'],
+            referenceParagrapheChangementProducteur:
+              periodeDetails['Référence du paragraphe dédié au changement de producteur'],
+            contenuParagrapheChangementProducteur:
+              periodeDetails['Dispositions liées au changement de producteur'],
           } as ModificationRequestDataForResponseTemplateDTO)
       }
 
