@@ -13,7 +13,7 @@ describe('extractDesignationItemProps.spec', () => {
   const projectId = new UniqueEntityID().toString()
 
   describe(`when there is NOT a ProjectNotified event`, () => {
-    it('should return an empty array', () => {
+    it('should return null', () => {
       const projectEventList: ProjectEventDTO[] = [
         {
           type: 'ProjectCertificateGenerated',

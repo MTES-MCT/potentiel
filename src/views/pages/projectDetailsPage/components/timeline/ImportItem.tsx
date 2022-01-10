@@ -1,9 +1,6 @@
 import React from 'react'
 import { ItemDate, PastIcon, ItemTitle, ContentArea } from './components'
-
-export type ImportItemProps = {
-  date: number
-}
+import { ImportItemProps } from './helpers/extractImportItemProps'
 
 export const ImportItem = ({ date }: ImportItemProps) => (
   <>
