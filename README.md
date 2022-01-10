@@ -1,5 +1,4 @@
 # Suivi des Projets d'Energies Renouvelables
-
 ## Introduction
 
 L’Etat français met en œuvre une politique volontariste de soutien au développement des énergies renouvelables (EnR) électriques. L’objectif est d’atteindre une part de 40% de ces énergies sur le total de l’électricité produite à l’horizon 2030. Chaque année, environ 1500 projets d’EnR électrique sont d’ores et déjà désignés lauréats d’un appel d’offre pour la production d’électricité renouvelable.
@@ -18,7 +17,27 @@ La suite de ce document explique comment lancer l'application sur sa machine et 
 - [Guide d'utilisation](https://docs.potentiel.beta.gouv.fr)
 - [Documentation de l'architecture](./docs/ARCHITECTURE.md)
 - [Les grandes 'recettes' pour le développeur](./docs/RECIPES.md)
+- [L'authentification avec Keycloak](./docs/KEYCLOAK.md)
 
+## Sommaire
+- [Développement en local](#développement-en-local)
+  - [Mise en place initiale](#mise-en-place-initiale)
+    - [Pré-requis](#pré-requis)
+    - [Installation](#installation)
+  - [Lancement de l'application locale](#lancement-de-lapplication-locale)
+    - [Accès à la base de données locale](#accès-à-la-base-de-données-locale)
+    - [Produire un dump de la base de données locale](#produire-un-dump-de-la-base-de-données-locale)
+    - [Restaurer un dump de la base de données locale](#restaurer-un-dump-de-la-base-de-données-locale)
+    - [Avoir un aperçu des pages ou composants visuels avec Storybook](#avoir-un-aperçu-des-pages-ou-composants-visuels-avec-storybook)
+  - [Lancer les tests automatisés](#lancer-les-tests-automatisés)
+- [Déploiement](#déploiement)
+  - [Production](#production)
+  - [Staging / dev / démo](#staging--dev--démo)
+    - [Installation des clever-tools](#installation-des-clever-tools)
+    - [Déploiement](#déploiement-1)
+  - [Accès à la base de données distantes](#accès-à-la-base-de-données-distantes)
+  - [Créer un dump de base de données](#créer-un-dump-de-base-de-données)
+  - [Restaurer un dump de base de données](#restaurer-un-dump-de-base-de-données)
 # Développement en local
 
 ## Mise en place initiale
@@ -189,19 +208,29 @@ Storybook est configuré pour inclure tous les fichiers avec ce suffixe dans le 
 
    _NB: L'application doit être en route (`npm run watch`)._
 
-## Déploiement
+## Keycloak
+
+L'authentification de Potentiel se fait via un service autonome, sous la forme d'une instance [Keycloak](https://www.keycloak.org). Cette instance est déployée sur Clever Cloud et est partagée entre les environnements de `staging` et `production`.
+
+Dans les autres environnements (ex: `development`), l'authentification est géré par un servie `fakeAuth`. Il n'est donc pas nécessaire d'avoir une instance keycloak en local ou en démo.
+
+Une documentation plus poussée de keycloak est disponible dans [`docs/KEYCLOAK.md`](/docs/KEYCLOAK.md).
+
+
+
+# Déploiement
 
 L'application est actuellement déployée chez [Clever Cloud](https://www.clever-cloud.com), qui est un [PaaS](https://fr.wikipedia.org/wiki/Platform_as_a_service).
 
-### Production
+## Production
 
 Pour la production, le déploiement se fait de manière automatisée à chaque push de la branche `master`, grace à l'execution d'une [Github Action](.github/workflows/deploy.prod.yml). Il s'agit d'une branche protégée. Il faut donc obligatoirement passer par une PR pour y contribuer.
 
-### Staging / dev / démo
+## Staging / dev / démo
 
 Pour les environnements de `staging` (recette), de `demo` ou de `dev`, le déploiement est manuel et se fait via l'outil de cli `clever-tools`.
 
-#### Installation des clever-tools
+### Installation des clever-tools
 
 ```
 npm install -g clever-tools
@@ -210,7 +239,7 @@ clever login
 
 _NB: il faut avoir créé un compte sur clever cloud et avoir les droits d'accès à l'orga._
 
-#### Déploiement
+### Déploiement
 
 Il faut se rendre sur la console Clever Cloud, se rendre sur la page de l'application qui nous intéresse (par exemple `potentiel-staging` et copier l'identifiant de l'application situé en haut de page (ex: app_ed751dc6-8ede-4c00-aa44-8f82a7f51efa)).
 
@@ -232,7 +261,7 @@ clever deploy -a staging
 clever deploy -a staging --force
 ```
 
-### Accès à la base de données distantes
+## Accès à la base de données distantes
 
 De la même façon qu'en local, nous pouvons utiliser `psql` pour accèder aux bases distantes. Pour celà, nous créons un autre fichier `.env` (ex: `.env.staging`) spécifique à l'environnement cible, dans lequel nous mettons les credentials de la base distante (récupérée dans la console clever cloud). **Ne jamais avoir les credentials de la prod en local.**
 
@@ -242,11 +271,11 @@ dotenv -e .env.staging -- bash -c 'psql -h $POSTGRESQL_ADDON_HOST -p $POSTGRESQL
 
 Il est également possible d'accèder aux données via PG Studio dans la console clever cloud.
 
-### Créer un dump de base de données
+## Créer un dump de base de données
 
 Clever cloud produit des dump quotidiens de toutes les bases. Ils sont téléchargeables dans la console.
 
-### Restaurer un dump de base de données
+## Restaurer un dump de base de données
 
 **Attention**: la ligne ci-dessous écrase toutes les données présentes sur la base distante.
 
