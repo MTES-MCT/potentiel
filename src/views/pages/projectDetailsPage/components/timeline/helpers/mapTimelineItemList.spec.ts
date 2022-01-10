@@ -50,9 +50,6 @@ describe('mapTimelineItemList', () => {
         date: gfDate,
         type: 'garantiesFinancieres',
       })
-
-      expect(result[0].type).toEqual('garantiesFinancieres')
-      expect(result[0].date).toEqual(13)
     })
   })
   describe('Désignation', () => {
