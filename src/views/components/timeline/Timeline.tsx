@@ -1,11 +1,8 @@
 import React from 'react'
 import { Project } from '../../../entities'
 import { ProjectEventListDTO } from '../../../modules/frise/dtos/ProjectEventListDTO'
-import { TimelineItem } from './components'
-import { DesignationItem } from './DesignationItem'
-import { GarantieFinanciereItem } from './GarantiesFinancieresItem'
+import { TimelineItem, DesignationItem, GarantieFinanciereItem, ImportItem  } from './components'
 import { extractDesignationItemProps, extractGFItemProps, extractImportItemProps } from './helpers'
-import { ImportItem } from './ImportItem'
 
 export type TimelineProps = {
   projectEventList: ProjectEventListDTO
