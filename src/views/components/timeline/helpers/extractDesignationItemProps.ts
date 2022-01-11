@@ -10,13 +10,11 @@ import {
 export type DesignationItemProps = {
   type: 'designation'
   date: number
-  certificate?: AttestationDesignationItemProps
-}
-
-export type AttestationDesignationItemProps = {
-  date: number
-  url: string
-  source: 'uploaded' | 'generated'
+  certificate?: {
+    date: number
+    url: string
+    source: 'uploaded' | 'generated'
+  }
 }
 
 export const extractDesignationItemProps = (
@@ -28,7 +26,7 @@ export const extractDesignationItemProps = (
 
   const certificateEvent = events.filter(isCertificateDTO).pop()
 
-  const certificate: AttestationDesignationItemProps | undefined = certificateEvent && {
+  const certificate: DesignationItemProps['certificate'] = certificateEvent && {
     date: certificateEvent.date,
     source: ['ProjectClaimed', 'ProjectCertificateUpdated'].includes(certificateEvent.type)
       ? 'uploaded'

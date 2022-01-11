@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from './components'
-import { GFForm } from '.'
-import { WarningItem } from './components/WarningItem'
-import { GarantieFinanciereItemProps } from './helpers/extractGFItemProps'
+import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '../components'
+import { GFForm } from './GFForm'
+import { WarningItem } from '../components/WarningItem'
+import { GarantieFinanciereItemProps } from '../helpers/extractGFItemProps'
 
 export const GarantieFinanciereItem = ({
   role,
