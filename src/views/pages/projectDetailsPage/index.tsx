@@ -17,11 +17,12 @@ interface ProjectDetailsProps {
   project: ProjectDataForProjectPage
   cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
   projectEventList?: ProjectEventListDTO
+  now: number
 }
 
 /* Pure component */
 export const ProjectDetails = PageLayout(
-  ({ request, project, cahiersChargesURLs, projectEventList }: ProjectDetailsProps) => {
+  ({ request, project, cahiersChargesURLs, projectEventList, now }: ProjectDetailsProps) => {
     const { user } = request
     const { error, success } = (request.query as any) || {}
 
@@ -40,7 +41,9 @@ export const ProjectDetails = PageLayout(
           <div style={{ padding: '1.5em', paddingTop: 0 }}>
             <SuccessErrorBox success={success} error={error} />
             <div style={{ position: 'relative' }}>
-              {projectEventList && <Timeline {...{ projectEventList, projectId: project.id }} />}
+              {projectEventList && (
+                <Timeline {...{ projectEventList, projectId: project.id, now }} />
+              )}
               <ProjectFrise {...{ project, request, user }} />
             </div>
             <Section title="Projet" icon="building">
