@@ -3,7 +3,7 @@ import React from 'react'
 import { User } from '../../entities'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '../../routes'
-import AdminDashboard from '../components/adminDashboard'
+import AdminDashboard from '../components/AdminDashboard'
 import { SuccessErrorBox } from '../components'
 
 interface AdminUsersProps {

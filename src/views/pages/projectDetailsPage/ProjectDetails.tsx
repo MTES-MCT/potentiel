@@ -9,7 +9,7 @@ import { NoteElement, Section, Timeline } from './components'
 import { EditProjectData, ProjectFrise, ProjectHeader } from './sections'
 import { PageLayout } from '../../components/PageLayout'
 import { hydrateOnClient } from '../../helpers'
-import { CDCChoiceForm } from '../../components/'
+import { CDCChoiceForm } from '../../components'
 import { ProjectEventListDTO } from '../../../modules/frise'
 
 interface ProjectDetailsProps {

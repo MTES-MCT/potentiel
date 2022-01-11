@@ -1,5 +1,5 @@
 import React from 'react'
-import { ProjectDetails } from '.'
+import { ProjectDetails } from './ProjectDetails'
 import { appelsOffreStatic } from '../../../dataAccess/inMemory/appelOffre'
 import { ProjectAppelOffre } from '../../../entities'
 import { ProjectDataForProjectPage } from '../../../modules/project/dtos'
@@ -71,6 +71,7 @@ const fakeProjectData = ({
 
 export const forAdminsLaureat = () => (
   <ProjectDetails
+    now={new Date().getTime()}
     request={makeFakeRequest({ user: makeFakeUser({ role: 'admin' }) })}
     project={
       {
@@ -83,6 +84,7 @@ export const forAdminsLaureat = () => (
 
 export const forAdminsElimine = () => (
   <ProjectDetails
+    now={new Date().getTime()}
     request={makeFakeRequest({ user: makeFakeUser({ role: 'admin' }) })}
     project={
       {
@@ -95,6 +97,7 @@ export const forAdminsElimine = () => (
 
 export const forAdminsNonNotifié = () => (
   <ProjectDetails
+    now={new Date().getTime()}
     request={makeFakeRequest({ user: makeFakeUser({ role: 'admin' }) })}
     project={
       {
@@ -110,6 +113,7 @@ const MONTHS = 1000 * 3600 * 24 * 30
 
 export const forPorteurProjet = () => (
   <ProjectDetails
+    now={new Date().getTime()}
     request={makeFakeRequest({
       user: makeFakeUser({ role: 'porteur-projet' }),
     })}
@@ -126,6 +130,7 @@ export const forPorteurProjet = () => (
 
 export const forPorteurProjetWithGarantiesFinancieres = () => (
   <ProjectDetails
+    now={new Date().getTime()}
     request={makeFakeRequest({
       user: makeFakeUser({ role: 'porteur-projet' }),
     })}
@@ -146,6 +151,7 @@ export const forPorteurProjetWithGarantiesFinancieres = () => (
 
 export const forPorteurProjetWithPTF = () => (
   <ProjectDetails
+    now={new Date().getTime()}
     request={makeFakeRequest({
       user: makeFakeUser({ role: 'porteur-projet' }),
     })}
@@ -168,6 +174,7 @@ export const forPorteurProjetWithPTF = () => (
 
 export const forPorteurProjetWithSuccess = () => (
   <ProjectDetails
+    now={new Date().getTime()}
     request={makeFakeRequest({
       user: makeFakeUser({ role: 'porteur-projet' }),
       query: { success: 'Une invitation a bien été envoyée' },
@@ -178,6 +185,7 @@ export const forPorteurProjetWithSuccess = () => (
 
 export const forDrealGFPassDue = () => (
   <ProjectDetails
+    now={new Date().getTime()}
     request={makeFakeRequest({
       user: makeFakeUser({ role: 'dreal' }),
     })}
@@ -193,6 +201,7 @@ export const forDrealGFPassDue = () => (
 
 export const forDrealGFStillDue = () => (
   <ProjectDetails
+    now={new Date().getTime()}
     request={makeFakeRequest({
       user: makeFakeUser({ role: 'dreal' }),
     })}
@@ -216,6 +225,7 @@ if (appelOffreInnovation) {
 
 export const forAOInnovation = () => (
   <ProjectDetails
+    now={new Date().getTime()}
     request={makeFakeRequest({
       user: makeFakeUser({ role: 'porteur-projet' }),
     })}

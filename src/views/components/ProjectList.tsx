@@ -7,9 +7,9 @@ import { UserRole } from '../../modules/users'
 import ROUTES from '../../routes'
 import { PaginatedList } from '../../types'
 import { ACTION_BY_ROLE } from './actions'
-import { DownloadIcon } from './downloadIcon'
-import Pagination from './pagination'
-import ProjectActions from './projectActions'
+import { DownloadIcon } from './DownloadIcon'
+import Pagination from './Pagination'
+import ProjectActions from './ProjectActions'
 
 type Columns =
   | 'Projet'

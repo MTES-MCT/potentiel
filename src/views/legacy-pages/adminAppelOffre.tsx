@@ -4,7 +4,7 @@ import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
 import { dataId } from '../../helpers/testId'
 import routes from '../../routes'
 import ROUTES from '../../routes'
-import AdminDashboard from '../components/adminDashboard'
+import AdminDashboard from '../components/AdminDashboard'
 
 type AdminAppelOffreProps = {
   request: Request
