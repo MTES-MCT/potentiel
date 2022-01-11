@@ -18,17 +18,17 @@ const projectEventList = {
     {
       type: 'ProjectImported',
       variant: 'admin',
-      date: 11,
+      date: new Date('2022-01-11').getTime(),
     } as ProjectImportedDTO,
     {
       type: 'ProjectNotified',
       variant: 'admin',
-      date: 12,
+      date: new Date('2022-01-12').getTime(),
     } as ProjectNotifiedDTO,
     {
       type: 'ProjectCertificateGenerated',
       variant: 'admin',
-      date: 13,
+      date: new Date('2022-01-13').getTime(),
       certificateFileId: 'file-id',
       nomProjet: 'mon projet pv',
       email: 'porteur@test.test',
@@ -37,7 +37,7 @@ const projectEventList = {
     {
       type: 'ProjectClaimed',
       variant: 'admin',
-      date: 14,
+      date: new Date('2022-01-14').getTime(),
       potentielIdentifier: 'pot-id',
       certificateFileId: 'file-id',
       nomProjet: 'nom-projet',
@@ -47,7 +47,7 @@ const projectEventList = {
     {
       type: 'ProjectGFSubmitted',
       variant: 'admin',
-      date: 17,
+      date: new Date('2022-01-17').getTime(),
       fileId: 'file-id',
       filename: 'file-name',
       submittedBy: 'someone',
