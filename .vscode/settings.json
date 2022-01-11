@@ -15,4 +15,7 @@
   "prettier.configPath": ".prettierrc.json",
   "barrelr.excludeFileRegex": "(\\.spec\\.|\\.test\\.|\\.e2e\\.|\\.integration\\.|\\.stories\\.)",
   "tailwindCSS.emmetCompletions": true,
+  "gitpod.openInStable.neverPrompt": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "git.autofetch": false
 }
