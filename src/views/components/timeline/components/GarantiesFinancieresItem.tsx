@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { Children, useState } from 'react'
 import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '../components'
-import { GFForm } from './GFForm'
+import ROUTES from '../../../../routes'
+import { DateInput } from '../../'
 import { WarningItem } from '../components/WarningItem'
 import { GarantieFinanciereItemProps } from '../helpers/extractGFItemProps'
+import { WarningIcon } from './WarningIcon'
 
 export const GarantieFinanciereItem = ({
   role,
@@ -11,30 +13,30 @@ export const GarantieFinanciereItem = ({
   status,
   url,
 }: GarantieFinanciereItemProps & { projectId: string }) => {
-  const [isFormVisible, showForm] = useState(false)
   const isPorteurProjet = role === 'porteur-projet'
   const displayWarning = status === 'past-due' && isPorteurProjet
 
   return (
     <>
-      {status === 'submitted' ? <PastIcon /> : <CurrentIcon />}
+      {status === 'submitted' ? <PastIcon /> : displayWarning ? <WarningIcon /> : <CurrentIcon />}
       <ContentArea>
-        <ItemDate date={date} />
+        <div className="flex">
+          <div className="align-middle">
+            <ItemDate date={date} />
+          </div>
+          {displayWarning && (
+            <div className="align-middle mb-1">
+              <WarningItem message="date dépassée" />
+            </div>
+          )}
+        </div>
         <ItemTitle title="Constitution des garanties Financières" />
         {status !== 'submitted' ? (
           <div>
             <div className="flex">
               <p className="mt-0 mb-0">Garanties financières en attente</p>
-              {displayWarning && <WarningItem message="date dépassée" />}
             </div>
-            {isPorteurProjet && (
-              <>
-                <a onClick={() => showForm(!isFormVisible)}>Transmettre l'attestation</a>
-                {isFormVisible && (
-                  <GFForm projectId={projectId} onCancel={() => showForm(!isFormVisible)} />
-                )}
-              </>
-            )}
+            {isPorteurProjet && <UploadForm projectId={projectId} />}
           </div>
         ) : (
           <a href={url} download>
@@ -42,6 +44,45 @@ export const GarantieFinanciereItem = ({
           </a>
         )}
       </ContentArea>
+    </>
+  )
+}
+
+interface UploadFormProps {
+  projectId: string
+}
+
+const UploadForm = ({ projectId }: UploadFormProps) => {
+  const [isFormVisible, showForm] = useState(false)
+
+  const [disableSubmit, setDisableSubmit] = useState(true)
+
+  return (
+    <>
+      <a onClick={() => showForm(!isFormVisible)}>Transmettre l'attestation</a>
+      {isFormVisible && (
+        <form
+          action={ROUTES.DEPOSER_ETAPE_ACTION}
+          method="post"
+          encType="multipart/form-data"
+          className="mt-2 border border-solid border-gray-300 rounded-md p-5"
+        >
+          <input type="hidden" name="type" id="type" value="garantie-financiere" />
+          <input type="hidden" name="projectId" value={projectId} />
+          <div>
+            <label htmlFor="date">Date de constitution (format JJ/MM/AAAA)</label>
+            <DateInput onError={(isError) => setDisableSubmit(isError)} />
+          </div>
+          <div className="mt-2">
+            <label htmlFor="file">Attestation</label>
+            <input type="file" name="file" id="file" required />
+          </div>
+          <button className="button" type="submit" name="submit" disabled={disableSubmit}>
+            Envoyer
+          </button>
+          <a onClick={() => showForm(false)}>Annuler</a>
+        </form>
+      )}
     </>
   )
 }
