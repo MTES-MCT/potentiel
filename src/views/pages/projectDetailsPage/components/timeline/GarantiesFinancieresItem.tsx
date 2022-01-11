@@ -2,36 +2,26 @@ import React, { useState } from 'react'
 import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from './components'
 import { GFForm } from '.'
 import { WarningItem } from './components/WarningItem'
-import { UserRole } from '../../../../../modules/users'
-
-type GarantieFinanciereItemProps = {
-  userRole: UserRole
-  projectId: string
-  date: number
-  dueDate?: number
-  deadlineHaspassed?: boolean
-  documentLink?: string
-}
+import { GarantieFinanciereItemProps } from './helpers/extractGFItemProps'
 
 export const GarantieFinanciereItem = ({
-  userRole,
+  role,
   projectId,
   date,
-  dueDate,
-  deadlineHaspassed,
-  documentLink,
-}: GarantieFinanciereItemProps) => {
+  status,
+  url,
+}: GarantieFinanciereItemProps & { projectId: string }) => {
   const [isFormVisible, showForm] = useState(false)
-  const isPorteurProjet = userRole === 'porteur-projet'
-  const displayWarning = deadlineHaspassed && isPorteurProjet
+  const isPorteurProjet = role === 'porteur-projet'
+  const displayWarning = status === 'past-due' && isPorteurProjet
 
   return (
     <>
-      {dueDate ? <CurrentIcon /> : <PastIcon />}
+      {status === 'submitted' ? <PastIcon /> : <CurrentIcon />}
       <ContentArea>
         <ItemDate date={date} />
         <ItemTitle title="Constitution des garanties Financières" />
-        {dueDate && (
+        {status !== 'submitted' ? (
           <div>
             <div className="flex">
               <p className="mt-0 mb-0">Garanties financières en attente</p>
@@ -46,9 +36,8 @@ export const GarantieFinanciereItem = ({
               </>
             )}
           </div>
-        )}
-        {documentLink && (
-          <a href={documentLink} download>
+        ) : (
+          <a href={url} download>
             Télécharger l'attestation de garanties financières
           </a>
         )}

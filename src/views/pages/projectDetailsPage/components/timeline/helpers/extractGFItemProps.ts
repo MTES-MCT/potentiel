@@ -3,30 +3,51 @@ import {
   ProjectGFDueDateSetDTO,
   ProjectGFSubmittedDTO,
 } from '../../../../../../modules/frise'
+import { or } from '../../../../../../core/utils'
 
 import ROUTES from '../../../../../../routes'
+import { UserRole } from '../../../../../../modules/users'
 
-export const extractGFItemProps = (events: ProjectEventDTO[], now: number) => {
-  const projectGFSubmitted = events.find(isProjectGFSubmitted)
-  if (projectGFSubmitted) {
-    const { date, variant: role, fileId, filename } = projectGFSubmitted
-    return {
-      type: 'garantiesFinancieres',
-      date,
-      status: 'submitted',
-      role,
-      url: makeGFDocumentLink(fileId, filename),
+export type GarantieFinanciereItemProps = {
+  type: 'garantiesFinancieres'
+  role: UserRole
+  date: number
+} & (
+  | {
+      status: 'due' | 'past-due'
+      url: undefined
     }
+  | {
+      status: 'submitted'
+      url: string
+    }
+)
+
+export const extractGFItemProps = (
+  events: ProjectEventDTO[],
+  now: number
+): GarantieFinanciereItemProps | null => {
+  const latestProjectGF = events.filter(isProjectGF).pop()
+
+  if (!latestProjectGF) {
+    return null
   }
-  const projectGFDueDateSet = events.find(isProjectGFDueDateSet)
-  return projectGFDueDateSet
+
+  const { date, variant: role, type } = latestProjectGF
+
+  const props = {
+    type: 'garantiesFinancieres' as 'garantiesFinancieres',
+    date,
+    role,
+  }
+
+  return type === 'ProjectGFSubmitted'
     ? {
-        type: 'garantiesFinancieres',
-        date: projectGFDueDateSet.date,
-        status: projectGFDueDateSet.date < now ? 'hasPassed' : 'due',
-        role: projectGFDueDateSet.variant,
+        ...props,
+        url: makeGFDocumentLink(latestProjectGF.fileId, latestProjectGF.filename),
+        status: 'submitted',
       }
-    : null
+    : { ...props, status: date < now ? 'past-due' : 'due', url: undefined }
 }
 
 const isProjectGFDueDateSet = (event: ProjectEventDTO): event is ProjectGFDueDateSetDTO =>
@@ -34,6 +55,8 @@ const isProjectGFDueDateSet = (event: ProjectEventDTO): event is ProjectGFDueDat
 
 const isProjectGFSubmitted = (event: ProjectEventDTO): event is ProjectGFSubmittedDTO =>
   event.type === 'ProjectGFSubmitted'
+
+const isProjectGF = or(isProjectGFDueDateSet, isProjectGFSubmitted)
 
 const makeGFDocumentLink = (fileId: string, filename: string): string => {
   return ROUTES.DOWNLOAD_PROJECT_FILE(fileId, filename)

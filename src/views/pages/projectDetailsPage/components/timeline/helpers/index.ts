@@ -1,3 +1,4 @@
 export * from './getLatestCertificateEvent'
-export * from './mapTimelineItemList'
+export * from './extractGFItemProps'
+export * from './extractImportItemProps'
 export * from './extractDesignationItemProps'
