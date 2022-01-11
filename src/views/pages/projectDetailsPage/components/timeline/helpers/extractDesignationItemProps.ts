@@ -1,7 +1,7 @@
 import { Project } from '../../../../../../entities'
 import ROUTES from '../../../../../../routes'
-import { getLatestCertificateEvent } from '.'
 import {
+  isCertificateDTO,
   ProjectCertificateDTO,
   ProjectEventDTO,
   ProjectNotifiedDTO,
@@ -26,7 +26,7 @@ export const extractDesignationItemProps = (
   const projectNotifiedEvent = events.find(isProjectNotified)
   if (!projectNotifiedEvent) return null
 
-  const certificateEvent = getLatestCertificateEvent(events)
+  const certificateEvent = events.filter(isCertificateDTO).pop()
 
   const certificate: AttestationDesignationItemProps | undefined = certificateEvent && {
     date: certificateEvent.date,
