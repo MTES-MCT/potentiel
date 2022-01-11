@@ -14,6 +14,7 @@ export type ProjectNotifiedDTO = {
   type: 'ProjectNotified'
   variant: Exclude<UserRole, 'ademe'>
   date: number
+  isLegacy?: true
 }
 
 export type ProjectImportedDTO = {
