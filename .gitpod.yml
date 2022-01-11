@@ -1,4 +1,3 @@
-# Commands to start on workspace startup
 tasks:
   - before: cp .env.template .env
   - init: npm install
@@ -10,3 +9,8 @@ ports:
   - port: 3000 # npm run watch
     onOpen: open-preview
     visibility: public
+vscode:
+  extensions:
+    - esbenp.prettier-vscode
+    - hediet.vscode-drawio
+    - bradlc.vscode-tailwindcss
