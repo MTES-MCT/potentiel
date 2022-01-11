@@ -37,11 +37,7 @@ export const extractDesignationItemProps = (
           : 'generated',
         url: makeCertificateLink(certificateEvent, projectId),
       }
-    : projectNotifiedEvent.isLegacy
-    ? { status: 'not-applicable' }
-    : {
-        status: 'pending',
-      }
+    : { status: projectNotifiedEvent.isLegacy ? 'not-applicable' : 'pending' }
 
   return { type: 'designation', date: projectNotifiedEvent.date, certificate }
 }
