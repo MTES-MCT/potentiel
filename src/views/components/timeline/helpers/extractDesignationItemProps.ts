@@ -10,11 +10,14 @@ import {
 export type DesignationItemProps = {
   type: 'designation'
   date: number
-  certificate?: {
-    date: number
-    url: string
-    source: 'uploaded' | 'generated'
-  }
+  certificate:
+    | {
+        date: number
+        url: string
+        status: 'uploaded' | 'generated'
+      }
+    | { status: 'pending' }
+    | { status: 'not-applicable' }
 }
 
 export const extractDesignationItemProps = (
@@ -26,13 +29,19 @@ export const extractDesignationItemProps = (
 
   const certificateEvent = events.filter(isCertificateDTO).pop()
 
-  const certificate: DesignationItemProps['certificate'] = certificateEvent && {
-    date: certificateEvent.date,
-    source: ['ProjectClaimed', 'ProjectCertificateUpdated'].includes(certificateEvent.type)
-      ? 'uploaded'
-      : 'generated',
-    url: makeCertificateLink(certificateEvent, projectId),
-  }
+  const certificate: DesignationItemProps['certificate'] = certificateEvent
+    ? {
+        date: certificateEvent.date,
+        status: ['ProjectClaimed', 'ProjectCertificateUpdated'].includes(certificateEvent.type)
+          ? 'uploaded'
+          : 'generated',
+        url: makeCertificateLink(certificateEvent, projectId),
+      }
+    : projectNotifiedEvent.isLegacy
+    ? { status: 'not-applicable' }
+    : {
+        status: 'pending',
+      }
 
   return { type: 'designation', date: projectNotifiedEvent.date, certificate }
 }

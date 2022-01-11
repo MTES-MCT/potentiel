@@ -5,6 +5,7 @@ import {
   ProjectCertificateUpdatedDTO,
   ProjectClaimedDTO,
   ProjectEventDTO,
+  ProjectImportedDTO,
   ProjectNotifiedDTO,
 } from '../../../../modules/frise'
 import { extractDesignationItemProps } from './extractDesignationItemProps'
@@ -12,9 +13,14 @@ import { extractDesignationItemProps } from './extractDesignationItemProps'
 describe('extractDesignationItemProps.spec', () => {
   const projectId = new UniqueEntityID().toString()
 
-  describe(`when there is NOT a ProjectNotified event`, () => {
+  describe(`when there is neither a ProjectImported with a notification date nor a ProjectNotified`, () => {
     it('should return null', () => {
       const projectEventList: ProjectEventDTO[] = [
+        {
+          type: 'ProjectImported',
+          variant: 'admin',
+          date: 11,
+        } as ProjectImportedDTO,
         {
           type: 'ProjectCertificateGenerated',
           variant: 'admin',
@@ -50,7 +56,19 @@ describe('extractDesignationItemProps.spec', () => {
 
     it('should return the notification date', () => {
       const result = extractDesignationItemProps([projectNotifiedEvent], projectId)
-      expect(result).toEqual({ type: 'designation', date: 12 })
+      expect(result).toEqual({ type: 'designation', date: 12, certificate: { status: 'pending' } })
+    })
+
+    describe('when isLegacy is true', () => {
+      it('should return a not applicable certificate status', () => {
+        const withLegacy: ProjectNotifiedDTO = { ...projectNotifiedEvent, isLegacy: true }
+        const projectEventList = [withLegacy]
+
+        const result = extractDesignationItemProps(projectEventList, projectId)
+        expect(result).toMatchObject({
+          certificate: { status: 'not-applicable' },
+        })
+      })
     })
 
     describe('when there is a ProjectCertificateGenerated event', () => {
@@ -66,7 +84,7 @@ describe('extractDesignationItemProps.spec', () => {
 
         const result = extractDesignationItemProps(projectEventList, projectId)
         expect(result).toMatchObject({
-          certificate: { date: 13, source: 'generated', url: expect.anything() },
+          certificate: { date: 13, status: 'generated', url: expect.anything() },
         })
       })
     })
@@ -89,7 +107,7 @@ describe('extractDesignationItemProps.spec', () => {
 
         const result = extractDesignationItemProps(projectEventList, projectId)
         expect(result).toMatchObject({
-          certificate: { date: 14, source: 'generated', url: expect.anything() },
+          certificate: { date: 14, status: 'generated', url: expect.anything() },
         })
       })
     })
@@ -107,7 +125,7 @@ describe('extractDesignationItemProps.spec', () => {
 
         const result = extractDesignationItemProps(projectEventList, projectId)
         expect(result).toMatchObject({
-          certificate: { date: 13, source: 'uploaded', url: expect.anything() },
+          certificate: { date: 13, status: 'uploaded', url: expect.anything() },
         })
       })
     })
@@ -125,7 +143,7 @@ describe('extractDesignationItemProps.spec', () => {
 
         const result = extractDesignationItemProps(projectEventList, projectId)
         expect(result).toMatchObject({
-          certificate: { date: 13, source: 'uploaded', url: expect.anything() },
+          certificate: { date: 13, status: 'uploaded', url: expect.anything() },
         })
       })
     })
@@ -148,7 +166,7 @@ describe('extractDesignationItemProps.spec', () => {
 
         const result = extractDesignationItemProps(projectEventList, projectId)
         expect(result).toMatchObject({
-          certificate: { date: 14, source: 'uploaded', url: expect.anything() },
+          certificate: { date: 14, status: 'uploaded', url: expect.anything() },
         })
       })
     })
