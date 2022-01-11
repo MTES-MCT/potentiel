@@ -1,11 +1,11 @@
-import { Project } from '../../../../../../entities'
-import ROUTES from '../../../../../../routes'
+import { Project } from '../../../../entities'
+import ROUTES from '../../../../routes'
 import {
   isCertificateDTO,
   ProjectCertificateDTO,
   ProjectEventDTO,
   ProjectNotifiedDTO,
-} from '../../../../../../modules/frise'
+} from '../../../../modules/frise'
 
 export type DesignationItemProps = {
   type: 'designation'

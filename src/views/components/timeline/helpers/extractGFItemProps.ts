@@ -2,11 +2,11 @@ import {
   ProjectEventDTO,
   ProjectGFDueDateSetDTO,
   ProjectGFSubmittedDTO,
-} from '../../../../../../modules/frise'
-import { or } from '../../../../../../core/utils'
+} from '../../../../modules/frise'
+import { or } from '../../../../core/utils'
 
-import ROUTES from '../../../../../../routes'
-import { UserRole } from '../../../../../../modules/users'
+import ROUTES from '../../../../routes'
+import { UserRole } from '../../../../modules/users'
 
 export type GarantieFinanciereItemProps = {
   type: 'garantiesFinancieres'

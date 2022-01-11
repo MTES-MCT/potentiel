@@ -1,4 +1,4 @@
-import { UniqueEntityID } from '../../../../../../core/domain'
+import { UniqueEntityID } from '../../../../core/domain'
 import {
   ProjectCertificateGeneratedDTO,
   ProjectCertificateRegeneratedDTO,
@@ -6,7 +6,7 @@ import {
   ProjectClaimedDTO,
   ProjectEventDTO,
   ProjectNotifiedDTO,
-} from '../../../../../../modules/frise'
+} from '../../../../modules/frise'
 import { extractDesignationItemProps } from './extractDesignationItemProps'
 
 describe('extractDesignationItemProps.spec', () => {

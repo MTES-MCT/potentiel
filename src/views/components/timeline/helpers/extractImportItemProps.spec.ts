@@ -1,4 +1,4 @@
-import { ProjectNotifiedDTO, ProjectImportedDTO } from '../../../../../../modules/frise'
+import { ProjectNotifiedDTO, ProjectImportedDTO } from '../../../../modules/frise'
 import { extractImportItemProps } from './extractImportItemProps'
 
 describe('extractImportItemProps', () => {

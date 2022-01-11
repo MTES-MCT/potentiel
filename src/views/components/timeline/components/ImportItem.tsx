@@ -1,6 +1,6 @@
 import React from 'react'
-import { ItemDate, PastIcon, ItemTitle, ContentArea } from './components'
-import { ImportItemProps } from './helpers/extractImportItemProps'
+import { ItemDate, PastIcon, ItemTitle, ContentArea } from './'
+import { ImportItemProps } from '../helpers/extractImportItemProps'
 
 export const ImportItem = ({ date }: ImportItemProps) => (
   <>

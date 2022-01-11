@@ -1,6 +1,6 @@
 import React from 'react'
-import { formatDate } from '../../../../../helpers/formatDate'
-import { AttestationDesignationItemProps } from './helpers/extractDesignationItemProps'
+import { formatDate } from '../../../../helpers/formatDate'
+import { AttestationDesignationItemProps } from '../helpers/extractDesignationItemProps'
 
 export const AttestationDesignationItem = ({
   date,

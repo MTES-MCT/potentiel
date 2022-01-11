@@ -5,8 +5,8 @@ import {
   ProjectCertificateGeneratedDTO,
   ProjectClaimedDTO,
   ProjectGFSubmittedDTO,
-} from '../../../../../modules/frise/dtos/ProjectEventListDTO'
-import makeFakeProject from '../../../../../__tests__/fixtures/project'
+} from '../../../modules/frise/dtos/ProjectEventListDTO'
+import makeFakeProject from '../../../__tests__/fixtures/project'
 import { Timeline } from './Timeline'
 
 export default { title: 'Nouvelle frise' }

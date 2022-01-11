@@ -1,6 +1,6 @@
 import React from 'react'
-import { Project } from '../../../../../entities'
-import { ProjectEventListDTO } from '../../../../../modules/frise/dtos/ProjectEventListDTO'
+import { Project } from '../../../entities'
+import { ProjectEventListDTO } from '../../../modules/frise/dtos/ProjectEventListDTO'
 import { TimelineItem } from './components'
 import { DesignationItem } from './DesignationItem'
 import { GarantieFinanciereItem } from './GarantiesFinancieresItem'

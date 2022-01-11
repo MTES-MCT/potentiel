@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import ROUTES from '../../../../../routes'
-import { DateInput } from '../../../../components'
+import ROUTES from '../../../routes'
+import { DateInput } from '..'
 
 interface GFFormProps {
   projectId: string

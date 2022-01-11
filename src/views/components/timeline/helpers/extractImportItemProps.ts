@@ -2,7 +2,7 @@ import {
   ProjectEventDTO,
   ProjectImportedDTO,
   ProjectNotifiedDTO,
-} from '../../../../../../modules/frise'
+} from '../../../../modules/frise'
 
 export type ImportItemProps = {
   type: 'import'
