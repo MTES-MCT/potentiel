@@ -1,5 +1,6 @@
 # Commands to start on workspace startup
 tasks:
+  - before: cp .env.template .env
   - init: npm install
 # Ports to expose on workspace startup
 ports:
