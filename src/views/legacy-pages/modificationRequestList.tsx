@@ -6,7 +6,7 @@ import { ModificationRequestListItemDTO } from '../../modules/modificationReques
 import ROUTES from '../../routes'
 import { PaginatedList } from '../../types'
 import { RoleBasedDashboard } from '../components'
-import RequestList from '../components/requestList'
+import RequestList from '../components/RequestList'
 
 interface ModificationRequestListProps {
   request: Request

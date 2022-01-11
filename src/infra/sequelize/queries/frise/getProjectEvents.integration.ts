@@ -105,6 +105,34 @@ describe('frise.getProjectEvents', () => {
           ],
         })
       })
+
+      describe(`when there is a ProjectImported with a notification date`, () => {
+        it('should return a ProjectNotified with isLegacy "true"', async () => {
+          await ProjectEvent.create({
+            id: new UniqueEntityID().toString(),
+            projectId,
+            type: 'ProjectImported',
+            valueDate: eventTimestamp,
+            eventPublishedAt: eventTimestamp,
+            payload: {
+              notifiedOn: notifiedOnTimestamp,
+            },
+          })
+
+          const res = await getProjectEvents({ projectId, user: fakeUser })
+
+          expect(res._unsafeUnwrap()).toMatchObject({
+            events: expect.arrayContaining([
+              {
+                type: 'ProjectNotified',
+                date: notifiedOnTimestamp,
+                variant: role,
+                isLegacy: true,
+              },
+            ]),
+          })
+        })
+      })
     })
   }
 

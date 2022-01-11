@@ -5,7 +5,7 @@ import { dataId } from '../../helpers/testId'
 import ROUTES from '../../routes'
 import { PaginatedList } from '../../types'
 import { RoleBasedDashboard } from '../components'
-import MissingOwnerProjectList from '../components/missingOwnerProjectList'
+import MissingOwnerProjectList from '../components/MissingOwnerProjectList'
 
 interface ListMissingOwnerProjectsProps {
   request: Request

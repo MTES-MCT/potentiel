@@ -6,8 +6,8 @@ import { dataId } from '../../helpers/testId'
 import ROUTES from '../../routes'
 import { PaginatedList } from '../../types'
 import { RoleBasedDashboard } from '../components'
-import { DownloadIcon } from '../components/downloadIcon'
-import ProjectList from '../components/projectList'
+import { DownloadIcon } from '../components/DownloadIcon'
+import ProjectList from '../components/ProjectList'
 
 interface ListProjectsProps {
   request: Request

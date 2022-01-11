@@ -70,6 +70,7 @@ v1Router.get(
               project,
               cahiersChargesURLs,
               projectEventList,
+              now: new Date().getTime(),
             })
           )
         },

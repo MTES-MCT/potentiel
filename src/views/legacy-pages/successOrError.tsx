@@ -1,8 +1,8 @@
 import { Request } from 'express'
 import React from 'react'
 import { dataId } from '../../helpers/testId'
-import AdminDashboard from '../components/adminDashboard'
-import UserDashboard from '../components/userDashboard'
+import AdminDashboard from '../components/AdminDashboard'
+import UserDashboard from '../components/UserDashboard'
 
 interface SuccessOrErrorProps {
   request: Request

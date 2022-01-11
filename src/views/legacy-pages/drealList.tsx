@@ -3,7 +3,7 @@ import React from 'react'
 import { DREAL, REGIONS, User } from '../../entities'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '../../routes'
-import AdminDashboard from '../components/adminDashboard'
+import AdminDashboard from '../components/AdminDashboard'
 
 interface DREALListProps {
   request: Request

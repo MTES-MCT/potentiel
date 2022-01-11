@@ -1,32 +1,46 @@
 const path = require('path')
 const webpack = require('webpack')
 const fs = require('fs')
+const _ = require('lodash')
 
 const pageDir = path.join(__dirname, 'src', 'views', 'pages')
 
-const pageEntries = fs.readdirSync(pageDir)
-                .filter(name => name.endsWith('Page.tsx') || name.endsWith('Page'))
-                .map(name => {
-                  if(name.endsWith('.tsx')){
-                    return { name: path.basename(name, 'Page.tsx'), path: path.join(pageDir, name) }
-                  }
-                  else{
-                    return { name: path.basename(name, 'Page'), path: path.join(pageDir, name, 'index.tsx') }
-                  }
-                })
-                .reduce((entries, { name, path }) => ({
-                  ...entries,
-                  [name]: {
-                    import: path,
-                    dependOn: 'shared'
-                  }
-                }), {})
+const pageEntries = fs
+  .readdirSync(pageDir)
+  .filter((name) => name.endsWith('Page.tsx') || name.endsWith('Page'))
+  .map((name) => {
+    if (name.endsWith('.tsx')) {
+      return { name: path.basename(name, 'Page.tsx'), path: path.join(pageDir, name) }
+    } else {
+      return {
+        name: path.basename(name, 'Page'),
+        path: path.join(
+          pageDir,
+          name,
+          _.startCase(path.basename(name, 'Page')).replace(/ /g, '') + '.tsx'
+        ),
+      }
+    }
+  })
+  .reduce(
+    (entries, { name, path }) => ({
+      ...entries,
+      [name]: {
+        import: path,
+        dependOn: 'shared',
+      },
+    }),
+    {}
+  )
 
 module.exports = {
-  mode: process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging' ? 'production' : 'development',
+  mode:
+    process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging'
+      ? 'production'
+      : 'development',
   entry: {
     ...pageEntries,
-    shared: ['react', 'react-dom']
+    shared: ['react', 'react-dom'],
   },
   target: 'web',
   resolve: {
@@ -35,7 +49,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.npm_package_version': JSON.stringify(process.env.npm_package_version),
-    })
+    }),
   ],
   module: {
     rules: [
@@ -45,8 +59,8 @@ module.exports = {
         exclude: '/node_modules/',
         options: {
           loader: 'tsx',
-          target: 'es2015'
-        }
+          target: 'es2015',
+        },
       },
     ],
   },

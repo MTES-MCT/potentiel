@@ -28,6 +28,15 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       variant: user.role,
                     })
                   }
+                  if (user.role !== 'ademe' && payload?.notifiedOn) {
+                    events.push({
+                      type: 'ProjectNotified',
+                      date: payload.notifiedOn,
+                      variant: user.role,
+                      isLegacy: true,
+                    })
+                  }
+
                   break
                 case 'ProjectNotified':
                   if (user.role !== 'ademe') {

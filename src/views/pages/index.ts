@@ -1,5 +1,5 @@
 export * from './garantiesFinancieresPage'
-export * from './newModificationRequestPage'
+export * from './newModificationRequestPage/NewModificationRequest'
 export * from './projectDetailsPage'
-export * from './statistiques'
+export * from './statistiques/Statistiques'
 export * from './Error'
