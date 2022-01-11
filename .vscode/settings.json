@@ -6,4 +6,5 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "editor.formatOnSave": true,
+  "barrelr.excludeFileRegex": "(\\.spec\\.|\\.test\\.|\\.e2e\\.|\\.integration\\.|\\.stories\\.)",
 }
