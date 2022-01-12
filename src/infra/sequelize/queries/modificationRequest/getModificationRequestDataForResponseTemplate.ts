@@ -272,7 +272,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
         case 'producteur':
           return ok({
             ...commonData,
-            nouveauProdcteur: producteur,
+            nouveauProducteur: producteur,
             referenceParagrapheIdentiteProducteur:
               periodeDetails["Référence du paragraphe dédié à l'identité du producteur"],
             contenuParagrapheIdentiteProducteur:

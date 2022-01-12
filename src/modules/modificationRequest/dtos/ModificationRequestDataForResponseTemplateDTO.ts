@@ -113,7 +113,7 @@ type ActionnaireVariant = {
 
 type ProducteurVariant = {
   type: 'producteur'
-  nouveauProdcteur: string
+  nouveauProducteur: string
   referenceParagrapheIdentiteProducteur: string
   contenuParagrapheIdentiteProducteur: string
   referenceParagrapheChangementProducteur: string
