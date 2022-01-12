@@ -111,6 +111,20 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                     })
                   }
                   break
+                case 'ProjectGFRemoved':
+                  if (
+                    user.role === 'porteur-projet' ||
+                    user.role === 'admin' ||
+                    user.role === 'dgec' ||
+                    user.role === 'dreal'
+                  ) {
+                    events.push({
+                      type,
+                      date: valueDate,
+                      variant: user.role,
+                    })
+                  }
+                  break
               }
 
               return Promise.resolve(events)

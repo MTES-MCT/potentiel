@@ -9,6 +9,7 @@ export type ProjectEventDTO =
   | ProjectCertificateUpdatedDTO
   | ProjectClaimedDTO
   | ProjectGFSubmittedDTO
+  | ProjectGFRemovedDTO
   | ProjectGFDueDateSetDTO
   | ProjectDCRSubmittedDTO
   | ProjectDCRRemovedDTO
@@ -88,6 +89,12 @@ export type ProjectGFDueDateSetDTO = {
   type: 'ProjectGFDueDateSet'
   date: number
   variant: Exclude<UserRole, 'ademe'>
+}
+
+export type ProjectGFRemovedDTO = {
+  type: 'ProjectGFRemoved'
+  date: number
+  variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
 }
 
 export type ProjectDCRSubmittedDTO = {
