@@ -1,4 +1,4 @@
-import React, { Children, useState } from 'react'
+import React, { useState } from 'react'
 import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '../components'
 import ROUTES from '../../../../routes'
 import { DateInput } from '../../'
@@ -39,9 +39,15 @@ export const GarantieFinanciereItem = ({
             {isPorteurProjet && <UploadForm projectId={projectId} />}
           </div>
         ) : (
-          <a href={url} download>
-            Télécharger l'attestation de garanties financières
-          </a>
+          <div className="flex">
+            <a href={url} download>
+              Télécharger l'attestation de garanties financières
+            </a>
+            <span aria-hidden>&nbsp;|&nbsp;</span>
+            {(role === 'porteur-projet' || role === 'admin' || role === 'dgec') && (
+              <RemoveDocument projectId={projectId} />
+            )}
+          </div>
         )}
       </ContentArea>
     </>
@@ -84,5 +90,23 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
         </form>
       )}
     </>
+  )
+}
+
+interface RemoveDocumentProps {
+  projectId: string
+}
+
+const RemoveDocument = ({ projectId }: RemoveDocumentProps) => {
+  return (
+    <a
+      href={ROUTES.SUPPRIMER_ETAPE_ACTION({
+        projectId,
+        type: 'garantie-financiere',
+      })}
+      data-confirm="Êtes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?"
+    >
+      Annuler le dépôt
+    </a>
   )
 }
