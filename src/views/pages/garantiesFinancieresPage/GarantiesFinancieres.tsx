@@ -1,4 +1,5 @@
 import { Request } from 'express'
+import querystring from 'querystring'
 import React from 'react'
 import { AppelOffre, Famille, Periode, Project } from '../../../entities'
 import { dataId } from '../../../helpers/testId'
@@ -182,9 +183,9 @@ export const GarantiesFinancieres = PageLayout(
                 <strong>{Array.isArray(projects) ? projects.length : projects.itemCount}</strong>{' '}
                 projets
                 <a
-                  href={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${new URLSearchParams(
+                  href={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(
                     request.query as any
-                  ).toString()}`}
+                  )}`}
                   download
                 >
                   <DownloadIcon />

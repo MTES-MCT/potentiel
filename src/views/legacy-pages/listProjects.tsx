@@ -1,4 +1,5 @@
 import { Request } from 'express'
+import querystring from 'querystring'
 import React from 'react'
 import { AppelOffre, Famille, Periode, Project } from '../../entities'
 import { dataId } from '../../helpers/testId'
@@ -216,10 +217,12 @@ export default function ListProjects({
                 {request.user.role === 'admin' && appelOffreId && periodeId && (
                   <div style={{ marginTop: 15 }}>
                     <a
-                      href={`${ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV}?${new URLSearchParams({
-                        ...request.query,
-                        beforeNotification: 'false',
-                      }).toString()}`}
+                      href={`${ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV}?${querystring.stringify(
+                        {
+                          ...request.query,
+                          beforeNotification: false,
+                        }
+                      )}`}
                       download
                     >
                       Liste des lauréats
@@ -306,9 +309,9 @@ export default function ListProjects({
               <strong>{Array.isArray(projects) ? projects.length : projects.itemCount}</strong>{' '}
               projets
               <a
-                href={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${new URLSearchParams(
+                href={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(
                   request.query as any
-                ).toString()}`}
+                )}`}
                 download
               >
                 <DownloadIcon />
