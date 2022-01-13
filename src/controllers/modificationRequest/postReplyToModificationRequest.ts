@@ -49,6 +49,7 @@ v1Router.post(
       isDecisionJustice,
       replyWithoutAttachment,
       actionnaire,
+      producteur,
     } = request.body
 
     if (!validateUniqueId(modificationRequestId)) {
@@ -126,20 +127,33 @@ v1Router.post(
       filename: request.file.originalname,
     }
 
+    let acceptanceParams: ModificationRequestAcceptanceParams | undefined
+    switch (type) {
+      case 'recours':
+        acceptanceParams = {
+          type,
+          newNotificationDate,
+        }
+      case 'delai':
+        acceptanceParams = { type, delayInMonths }
+      case 'puissance':
+        acceptanceParams = { type, newPuissance: puissance, isDecisionJustice }
+      case 'actionnaire':
+        acceptanceParams = { type, newActionnaire: actionnaire }
+      case 'producteur':
+        acceptanceParams = { type, newProducteur: producteur }
+    }
+
+    if(!acceptanceParams){
+      return errorResponse({ request, response })
+    }
+
     if (acceptedReply) {
       return await acceptModificationRequest({
         responseFile,
         modificationRequestId,
         versionDate: new Date(Number(versionDate)),
-        acceptanceParams: _makeAcceptanceParams(type, {
-          newNotificationDate:
-            newNotificationDate &&
-            moment(newNotificationDate, FORMAT_DATE).tz('Europe/Paris').toDate(),
-          delayInMonths: delayInMonths && Number(delayInMonths),
-          newPuissance: Number(puissance),
-          isDecisionJustice: Boolean(isDecisionJustice),
-          newActionnaire: actionnaire,
-        })!,
+        acceptanceParams,
         submittedBy: request.user,
       }).match(
         _handleSuccess(response, modificationRequestId),
@@ -215,34 +229,5 @@ function _handleErrors(request, response, modificationRequestId) {
     logger.error(e)
 
     return errorResponse({ request, response })
-  }
-}
-
-function _makeAcceptanceParams(
-  type: string,
-  params: any
-): ModificationRequestAcceptanceParams | undefined {
-  const {
-    newNotificationDate,
-    delayInMonths,
-    newPuissance,
-    isDecisionJustice,
-    newActionnaire,
-    newProducteur,
-  } = params
-  switch (type) {
-    case 'recours':
-      return {
-        type,
-        newNotificationDate,
-      }
-    case 'delai':
-      return { type, delayInMonths }
-    case 'puissance':
-      return { type, newPuissance, isDecisionJustice }
-    case 'actionnaire':
-      return { type, newActionnaire }
-    case 'producteur':
-      return { type, newProducteur }
   }
 }

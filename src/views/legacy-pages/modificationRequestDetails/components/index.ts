@@ -1,5 +1,6 @@
 export * from './AbandonForm';
 export * from './ActionnaireForm';
+export * from './ProducteurForm';
 export * from './AdminResponseForm';
 export * from './CancelButton';
 export * from './DelaiForm';

@@ -16,6 +16,7 @@ import {
   CancelButton,
   ActionnaireForm,
   PuissanceForm,
+  ProducteurForm,
 } from './components'
 
 moment.locale('fr')
@@ -83,6 +84,9 @@ export default function AdminModificationRequestPage({ request, modificationRequ
 
                 {modificationRequest.type === 'actionnaire' && (
                   <ActionnaireForm modificationRequest={modificationRequest} />
+                )}
+                {modificationRequest.type === 'producteur' && (
+                  <ProducteurForm modificationRequest={modificationRequest} />
                 )}
               </AdminResponseForm>
             </div>
