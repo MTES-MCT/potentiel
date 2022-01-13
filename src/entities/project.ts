@@ -1,6 +1,6 @@
-import crypto from 'crypto'
 import isEmail from 'isemail'
 import _ from 'lodash'
+import { logger } from '../core/utils'
 import buildMakeEntity from '../helpers/buildMakeEntity'
 import {
   Boolean,
@@ -14,14 +14,12 @@ import {
   Union,
   Unknown,
 } from '../types/schemaTypes'
-import { ModificationRequest } from './modificationRequest'
-import { User } from './user'
 import { ProjectAppelOffre } from './appelOffre'
 import { Famille } from './famille'
+import { ModificationRequest } from './modificationRequest'
 import { CertificateTemplate } from './periode'
-
 import { territoireSchema } from './territoire'
-import { logger } from '../core/utils'
+import { User } from './user'
 
 const baseProjectSchema = SchemaRecord({
   id: String,

@@ -69,7 +69,6 @@
     "connect-ensure-login": "^0.1.1",
     "connect-session-sequelize": "^7.1.1",
     "cookie-parser": "^1.4.5",
-    "crypto": "^1.0.1",
     "csv-parse": "^4.15.3",
     "docxtemplater": "^3.21.1",
     "dotenv": "^8.2.0",
