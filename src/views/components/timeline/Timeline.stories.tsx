@@ -207,6 +207,34 @@ export const PPDCRSupprimée = () => (
     now={new Date('2022-01-03').getTime()}
   />
 )
+export const PPDCRConstituée = () => (
+  <Timeline
+    projectEventList={{
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-01').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectDCRDueDateSet',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-03').getTime(),
+        } as ProjectDCRDueDateSetDTO,
+        {
+          type: 'ProjectDCRSubmitted',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-17').getTime(),
+          fileId: 'file-id',
+          filename: 'file-name',
+          submittedBy: 'someone',
+        } as ProjectDCRSubmittedDTO,
+      ],
+    }}
+    projectId={project.id}
+    now={new Date('2022-01-03').getTime()}
+  />
+)
 
 export const projetHistorique = () => (
   <Timeline
