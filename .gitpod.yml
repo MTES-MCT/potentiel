@@ -6,6 +6,7 @@ tasks:
       npm run dev-db
       npm install
       npm run test-db
+      npm run seed
 github:
   prebuilds:
     # enable for the default branch (defaults to true)
