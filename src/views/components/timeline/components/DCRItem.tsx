@@ -45,14 +45,16 @@ export const DCRItem = ({
                 Télécharger la demande complète de raccordement
               </a>
             </div>
-            <div className="flex">
-              <a
-                className="text-red"
-                href={ROUTES.SUPPRIMER_ETAPE_ACTION({ projectId, type: 'dcr' })}
-              >
-                Annuler le dépôt
-              </a>
-            </div>
+            {isPorteurProjet && (
+              <div className="flex">
+                <a
+                  className="text-red"
+                  href={ROUTES.SUPPRIMER_ETAPE_ACTION({ projectId, type: 'dcr' })}
+                >
+                  Annuler le dépôt
+                </a>
+              </div>
+            )}
           </>
         )}
       </ContentArea>
