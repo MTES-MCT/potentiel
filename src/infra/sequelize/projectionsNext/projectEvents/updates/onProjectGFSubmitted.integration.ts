@@ -1,21 +1,30 @@
 import { UniqueEntityID } from '../../../../../core/domain'
 import { ProjectGFSubmitted, ProjectGFSubmittedPayload } from '../../../../../modules/project'
 import { resetDatabase } from '../../../helpers'
+import models from '../../../models'
 import { ProjectEvent } from '../projectEvent.model'
 import onProjectGFSubmitted from './onProjectGFSubmitted'
 
 describe('onProjectGFSubmitted', () => {
   const projectId = new UniqueEntityID().toString()
-  const fileId = 'file-id'
+  const fileId = new UniqueEntityID().toString()
   const occurredAt = new Date('2022-01-04')
   const submittedBy = 'user-id'
   const gfDate = new Date('2021-12-26')
+  const { File } = models
+  const filename = 'my-file'
 
   beforeEach(async () => {
     await resetDatabase()
   })
 
   it('should create a new project event of type ProjectGFSubmitted', async () => {
+    await File.create({
+      id: fileId,
+      filename,
+      designation: 'designation',
+    })
+
     await onProjectGFSubmitted(
       new ProjectGFSubmitted({
         payload: {
@@ -38,6 +47,7 @@ describe('onProjectGFSubmitted', () => {
       type: 'ProjectGFSubmitted',
       valueDate: gfDate.getTime(),
       eventPublishedAt: occurredAt.getTime(),
+      payload: { fileId, filename },
     })
   })
 })

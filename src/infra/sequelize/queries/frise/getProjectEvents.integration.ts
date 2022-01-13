@@ -320,15 +320,9 @@ describe('frise.getProjectEvents', () => {
           valueDate: gfDate,
           eventPublishedAt: new Date('2021-12-27').getTime(),
           payload: {
-            fileId: 'file-id',
-            filename: 'my-file-name',
+            fileId: fileId,
+            filename: 'my-file',
           },
-        })
-
-        await File.create({
-          id: fileId,
-          filename: 'my-file-name',
-          designation: 'designation',
         })
 
         await ProjectEvent.create({
@@ -349,7 +343,7 @@ describe('frise.getProjectEvents', () => {
               date: gfDate,
               variant: role,
               fileId: fileId,
-              filename: 'my-file-name',
+              filename: 'my-file',
             },
             {
               type: 'ProjectGFRemoved',
@@ -368,34 +362,24 @@ describe('frise.getProjectEvents', () => {
     const fakeUser = { role } as User
     describe(`when user is ${role}`, () => {
       it('should NOT return ProjectGFSubmitted and ProjectGFRemoved events', async () => {
-        const fileId = new UniqueEntityID().toString()
-        const gfDate = new Date('2021-12-26').getTime()
-        const removedAt = new Date('2021-12-30').getTime()
-
         await ProjectEvent.create({
           id: new UniqueEntityID().toString(),
           projectId,
           type: 'ProjectGFSubmitted',
-          valueDate: gfDate,
+          valueDate: new Date('2021-12-26').getTime(),
           eventPublishedAt: new Date('2021-12-27').getTime(),
           payload: {
-            fileId: fileId,
-            submittedBy: 'user-id',
+            fileId: new UniqueEntityID().toString(),
+            filename: 'my-file',
           },
-        })
-
-        await File.create({
-          id: fileId,
-          filename: 'my-file-name',
-          designation: 'designation',
         })
 
         await ProjectEvent.create({
           id: new UniqueEntityID().toString(),
           projectId,
           type: 'ProjectGFRemoved',
-          valueDate: removedAt,
-          eventPublishedAt: removedAt,
+          valueDate: new Date('2021-12-30').getTime(),
+          eventPublishedAt: new Date('2021-12-30').getTime(),
         })
 
         const res = await getProjectEvents({ projectId, user: fakeUser })
