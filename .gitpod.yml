@@ -4,8 +4,8 @@ tasks:
       npm i -g commitizen
   - init: |
       npm run dev-db
-      npm run test-db
       npm install
+      npm run test-db
 github:
   prebuilds:
     # enable for the default branch (defaults to true)
