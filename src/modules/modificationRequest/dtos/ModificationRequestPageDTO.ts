@@ -45,6 +45,7 @@ export type ModificationRequestPageDTO = {
     familleId: string | undefined
     numeroGestionnaire: string | undefined
     actionnaire: string
+    potentielIdentifier: string
   }
 } & Variant
 
