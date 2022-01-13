@@ -19,7 +19,6 @@ export type ProjectNotifiedDTO = {
   date: number
   isLegacy?: true
 }
-
 export const isProjectNotified = (event: ProjectEventDTO): event is ProjectNotifiedDTO =>
   event.type === 'ProjectNotified'
 
@@ -28,6 +27,8 @@ export type ProjectImportedDTO = {
   variant: 'dgec' | 'admin'
   date: number
 }
+export const isProjectImported = (event: ProjectEventDTO): event is ProjectImportedDTO =>
+  event.type === 'ProjectImported'
 
 type ProjectCertificateBase = {
   date: number
@@ -78,12 +79,16 @@ export type ProjectGFSubmittedDTO = {
   filename: string
   submittedBy: string
 }
+export const isProjectGFSubmitted = (event: ProjectEventDTO): event is ProjectGFSubmittedDTO =>
+  event.type === 'ProjectGFSubmitted'
 
 export type ProjectGFDueDateSetDTO = {
   type: 'ProjectGFDueDateSet'
   date: number
   variant: Exclude<UserRole, 'ademe'>
 }
+export const isProjectGFDueDateSet = (event: ProjectEventDTO): event is ProjectGFDueDateSetDTO =>
+  event.type === 'ProjectGFDueDateSet'
 
 export type ProjectDCRSubmittedDTO = {
   type: 'ProjectDCRSubmitted'
@@ -93,6 +98,8 @@ export type ProjectDCRSubmittedDTO = {
   filename: string
   submittedBy: string
 }
+export const isProjectDCRSubmitted = (event: ProjectEventDTO): event is ProjectDCRSubmittedDTO =>
+  event.type === 'ProjectDCRSubmitted'
 
 export type ProjectDCRRemovedDTO = {
   type: 'ProjectDCRRemoved'
@@ -100,11 +107,15 @@ export type ProjectDCRRemovedDTO = {
   variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
   removedBy: string
 }
+export const isProjectDCRRemoved = (event: ProjectEventDTO): event is ProjectDCRRemovedDTO =>
+  event.type === 'ProjectDCRRemoved'
 
 export type ProjectDCRDueDateSetDTO = {
   type: 'ProjectDCRDueDateSet'
   date: number
   variant: Exclude<UserRole, 'ademe'>
 }
+export const isProjectDCRDueDateSet = (event: ProjectEventDTO): event is ProjectDCRDueDateSetDTO =>
+  event.type === 'ProjectDCRDueDateSet'
 
 export type ProjectEventListDTO = { events: ProjectEventDTO[] }
