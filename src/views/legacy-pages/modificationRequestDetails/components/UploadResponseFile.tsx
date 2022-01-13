@@ -17,7 +17,7 @@ export const UploadResponseFile = ({ modificationRequest }: UploadResponseFilePr
             name="replyWithoutAttachment"
             {...dataId('modificationRequest-replyWithoutAttachmentField')}
           />
-          Répondre sans pièce jointe
+          Répondre sans pièce jointe (uniquement pour accepter)
         </label>
       </div>
       <DownloadResponseTemplate modificationRequest={modificationRequest} />

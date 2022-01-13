@@ -109,22 +109,20 @@ v1Router.post(
       )
     }
 
-    const courrierReponseExists: boolean = !!request.file && (await pathExists(request.file.path))
+    const responseFile = request.file && {
+      contents: fs.createReadStream(request.file.path),
+      filename: request.file.originalname,
+    }
 
     const courrierReponseIsOk =
-      courrierReponseExists || (acceptedReply && (isDecisionJustice || replyWithoutAttachment))
+      responseFile || (acceptedReply && (isDecisionJustice || replyWithoutAttachment))
 
     if (!courrierReponseIsOk) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
-          error: "La réponse n'a pas pu être envoyée car il manque le courrier de réponse.",
+          error: "La réponse n'a pas pu être envoyée car il manque le courrier de réponse (obligatoire pour cette réponse).",
         })
       )
-    }
-
-    const responseFile = request.file && {
-      contents: fs.createReadStream(request.file.path),
-      filename: request.file.originalname,
     }
 
     let acceptanceParams: ModificationRequestAcceptanceParams | undefined
@@ -165,10 +163,7 @@ v1Router.post(
       return await requestConfirmation({
         modificationRequestId,
         versionDate: new Date(Number(versionDate)),
-        responseFile: {
-          contents: fs.createReadStream(request.file!.path),
-          filename: request.file!.originalname,
-        },
+        responseFile,
         confirmationRequestedBy: request.user,
       }).match(
         _handleSuccess(response, modificationRequestId),
