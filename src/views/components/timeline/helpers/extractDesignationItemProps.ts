@@ -2,9 +2,9 @@ import { Project } from '../../../../entities'
 import ROUTES from '../../../../routes'
 import {
   isCertificateDTO,
+  isProjectNotified,
   ProjectCertificateDTO,
   ProjectEventDTO,
-  ProjectNotifiedDTO,
 } from '../../../../modules/frise'
 
 export type DesignationItemProps = {
@@ -41,9 +41,6 @@ export const extractDesignationItemProps = (
 
   return { type: 'designation', date: projectNotifiedEvent.date, certificate }
 }
-
-export const isProjectNotified = (event: ProjectEventDTO): event is ProjectNotifiedDTO =>
-  event.type === 'ProjectNotified'
 
 const makeCertificateLink = (
   latestCertificateEvent: ProjectCertificateDTO,

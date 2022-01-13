@@ -1,5 +1,4 @@
-import { ProjectEventDTO, ProjectImportedDTO } from '../../../../modules/frise'
-import { isProjectNotified } from './extractDesignationItemProps'
+import { isProjectNotified, ProjectEventDTO, ProjectImportedDTO } from '../../../../modules/frise'
 
 export type ImportItemProps = {
   type: 'import'

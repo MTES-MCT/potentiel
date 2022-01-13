@@ -20,6 +20,9 @@ export type ProjectNotifiedDTO = {
   isLegacy?: true
 }
 
+export const isProjectNotified = (event: ProjectEventDTO): event is ProjectNotifiedDTO =>
+  event.type === 'ProjectNotified'
+
 export type ProjectImportedDTO = {
   type: 'ProjectImported'
   variant: 'dgec' | 'admin'
