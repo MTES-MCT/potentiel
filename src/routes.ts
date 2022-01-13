@@ -1,21 +1,21 @@
-import type { Project } from './entities'
-import querystring from 'querystring'
 import sanitize from 'sanitize-filename'
+import type { Project } from './entities'
 import { makeCertificateFilename } from './modules/project/utils'
 
 const withParams = <T extends Record<string, any>>(url: string) => (params?: T) => {
   if (!params) return url
 
-  let priorQuery = {}
-  if (url.indexOf('?') > -1) {
-    priorQuery = querystring.parse(url.substring(url.indexOf('?') + 1))
-  }
+  const searchParams = new URLSearchParams(
+    url.indexOf('?') > -1 ? url.substring(url.indexOf('?') + 1) : ''
+  )
 
-  const newQueryString = querystring.stringify({ ...priorQuery, ...params })
+  for (const [key, value] of Object.entries(params)) {
+    searchParams.set(key, value)
+  }
 
   return (
     (url.indexOf('?') === -1 ? url : url.substring(0, url.indexOf('?'))) +
-    (newQueryString.length ? '?' + newQueryString.toString() : '')
+    (searchParams.toString().length ? '?' + searchParams.toString() : '')
   )
 }
 
@@ -213,9 +213,10 @@ class routes {
     } else return route
   }
 
-
-
-  static TELECHARGER_MODELE_REPONSE = (project?: { potentielIdentifier: string, id: string }, modificationRequestId?: string) => {
+  static TELECHARGER_MODELE_REPONSE = (
+    project?: { potentielIdentifier: string; id: string },
+    modificationRequestId?: string
+  ) => {
     const route = '/projet/:projectId/demande/:modificationRequestId/telecharger-reponse/:filename'
     if (project && modificationRequestId) {
       const now = new Date()

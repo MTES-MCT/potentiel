@@ -1,7 +1,6 @@
 import makeSequelizeStore from 'connect-session-sequelize'
 import session from 'express-session'
 import Keycloak from 'keycloak-connect'
-import QueryString from 'querystring'
 import { logger } from '../../core/utils'
 import { User } from '../../entities'
 import { EnsureRole, RegisterAuth } from '../../modules/authN'
@@ -130,7 +129,7 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
       }
 
       // @ts-ignore
-      const queryString = QueryString.stringify(req.query)
+      const queryString = new URLSearchParams(req.query).toString()
 
       if (['admin', 'dgec', 'dreal'].includes(user.role)) {
         res.redirect(routes.ADMIN_DASHBOARD + '?' + queryString)

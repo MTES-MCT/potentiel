@@ -1,4 +1,3 @@
-import QueryString from 'querystring'
 import { logger } from '../../core/utils'
 import { User } from '../../entities'
 import { EnsureRole, RegisterAuth } from '../../modules/authN'
@@ -108,7 +107,7 @@ export const makeFakeAuth = (deps) => {
       }
 
       // @ts-ignore
-      const queryString = QueryString.stringify(req.query)
+      const queryString = new URLSearchParams(req.query).toString()
 
       if (['admin', 'dgec', 'dreal'].includes(user.role)) {
         res.redirect(routes.ADMIN_DASHBOARD + '?' + queryString)
