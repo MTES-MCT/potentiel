@@ -8,7 +8,7 @@ import { extractDCRItemProps } from './extractDCRItemProps'
 
 describe('extractDCRitemProps', () => {
   describe('when there is no ProjectDCR* events', () => {
-    it('should return the DCR date', () => {
+    it('should return null', () => {
       const events = [
         {
           type: 'ProjectNotified',
@@ -128,6 +128,55 @@ describe('extractDCRitemProps', () => {
         type: 'demande-complete-de-raccordement',
         status: 'due',
         role: 'porteur-projet',
+      })
+    })
+  })
+  describe('when there is a ProjectDCRSubmitted event after a ProjectDCRRemoved event', () => {
+    it('should return the latest submitted date', () => {
+      const events = [
+        {
+          type: 'ProjectDCRDueDateSet',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-01').getTime(),
+        } as ProjectDCRDueDateSetDTO,
+        {
+          type: 'ProjectDCRSubmitted',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-03').getTime(),
+        } as ProjectDCRSubmittedDTO,
+        {
+          type: 'ProjectDCRDueDateSet',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-05').getTime(),
+        } as ProjectDCRDueDateSetDTO,
+        {
+          type: 'ProjectDCRSubmitted',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-07').getTime(),
+          fileId: 'old-fileId',
+          filename: 'old-filename',
+        } as ProjectDCRSubmittedDTO,
+        {
+          type: 'ProjectDCRRemoved',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-08').getTime(),
+        } as ProjectDCRRemovedDTO,
+        {
+          type: 'ProjectDCRSubmitted',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-09').getTime(),
+          fileId: 'fileId',
+          filename: 'filename',
+        } as ProjectDCRSubmittedDTO,
+      ]
+      const result = extractDCRItemProps(events, new Date('2022-01-01').getTime())
+
+      expect(result).toEqual({
+        date: new Date('2022-01-09').getTime(),
+        type: 'demande-complete-de-raccordement',
+        status: 'submitted',
+        role: 'porteur-projet',
+        url: '/telechargement/fileId/fichier/filename',
       })
     })
   })
