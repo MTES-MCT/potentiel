@@ -2,7 +2,7 @@ import { UniqueEntityID } from '../../../../../core/domain'
 import { ProjectDCRSubmitted, ProjectDCRSubmittedPayload } from '../../../../../modules/project'
 import { resetDatabase } from '../../../helpers'
 import { ProjectEvent } from '../projectEvent.model'
-import { onProjectDCRSubmitted } from './onProjectDCRSubmitted'
+import onProjectDCRSubmitted from './onProjectDCRSubmitted'
 
 describe('onProjectDCRSubmitted', () => {
   const projectId = new UniqueEntityID().toString()

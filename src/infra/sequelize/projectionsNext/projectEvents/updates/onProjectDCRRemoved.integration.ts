@@ -2,7 +2,7 @@ import { UniqueEntityID } from '../../../../../core/domain'
 import { ProjectDCRRemoved, ProjectDCRRemovedPayload } from '../../../../../modules/project'
 import { resetDatabase } from '../../../helpers'
 import { ProjectEvent } from '../projectEvent.model'
-import { onProjectDCRRemoved } from './onProjectDCRRemoved'
+import onProjectDCRRemoved from './onProjectDCRRemoved'
 
 describe('onProjectDCRRemoved', () => {
   const projectId = new UniqueEntityID().toString()
