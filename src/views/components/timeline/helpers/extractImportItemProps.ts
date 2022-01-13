@@ -1,8 +1,5 @@
-import {
-  ProjectEventDTO,
-  ProjectImportedDTO,
-  ProjectNotifiedDTO,
-} from '../../../../modules/frise'
+import { ProjectEventDTO, ProjectImportedDTO } from '../../../../modules/frise'
+import { isProjectNotified } from './extractDesignationItemProps'
 
 export type ImportItemProps = {
   type: 'import'
@@ -26,6 +23,3 @@ export const extractImportItemProps = (events: ProjectEventDTO[]): ImportItemPro
 
 const isProjectImported = (event: ProjectEventDTO): event is ProjectImportedDTO =>
   event.type === 'ProjectImported'
-
-const isProjectNotified = (event: ProjectEventDTO): event is ProjectNotifiedDTO =>
-  event.type === 'ProjectNotified'

@@ -42,7 +42,7 @@ export const extractDesignationItemProps = (
   return { type: 'designation', date: projectNotifiedEvent.date, certificate }
 }
 
-const isProjectNotified = (event: ProjectEventDTO): event is ProjectNotifiedDTO =>
+export const isProjectNotified = (event: ProjectEventDTO): event is ProjectNotifiedDTO =>
   event.type === 'ProjectNotified'
 
 const makeCertificateLink = (
