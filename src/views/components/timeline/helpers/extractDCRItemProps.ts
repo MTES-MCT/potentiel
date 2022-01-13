@@ -28,6 +28,11 @@ export const extractDCRItemProps = (
   now: number
 ): DCRItemProps | null => {
   const projectDCREvents = events.filter(isProjectDCR)
+
+  if (!projectDCREvents.length) {
+    return null
+  }
+
   const lastProjectDCREvent = projectDCREvents.slice(-1)[0]
 
   const projectDCRDueDateSetOrSubmitted =

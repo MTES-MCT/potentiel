@@ -7,6 +7,34 @@ import {
 import { extractDCRItemProps } from './extractDCRItemProps'
 
 describe('extractDCRitemProps', () => {
+  describe('when there is no ProjectDCR* events', () => {
+    it('should return the DCR date', () => {
+      const events = [
+        {
+          type: 'ProjectNotified',
+          variant: 'admin',
+          date: new Date('2022-01-09').getTime(),
+        } as ProjectNotifiedDTO,
+      ]
+      const result = extractDCRItemProps(events, new Date('2022-01-08').getTime())
+      expect(result).toBeNull()
+    })
+    describe('when the date has passed', () => {
+      it('should return a "past-due" status', () => {
+        const events = [
+          {
+            type: 'ProjectDCRDueDateSet',
+            variant: 'porteur-projet',
+            date: new Date('2022-01-09').getTime(),
+          } as ProjectDCRDueDateSetDTO,
+        ]
+        const result = extractDCRItemProps(events, new Date('2022-01-10').getTime())
+        expect(result).toMatchObject({
+          status: 'past-due',
+        })
+      })
+    })
+  })
   describe('when there are several ProjectDCRDueDateSet events', () => {
     it('should return the DCR date', () => {
       const events = [
