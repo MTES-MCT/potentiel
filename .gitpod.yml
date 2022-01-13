@@ -1,0 +1,16 @@
+tasks:
+  - before: cp .env.template .env
+  - init: npm install
+# Ports to expose on workspace startup
+ports:
+  - port: 6006 # Storybook
+    onOpen: open-preview
+    visibility: public
+  - port: 3000 # npm run watch
+    onOpen: open-preview
+    visibility: public
+vscode:
+  extensions:
+    - esbenp.prettier-vscode
+    - hediet.vscode-drawio
+    - bradlc.vscode-tailwindcss
