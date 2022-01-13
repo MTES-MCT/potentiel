@@ -13,7 +13,7 @@ export const DownloadResponseTemplate = ({
   <div style={{ marginBottom: 5 }}>
     <DownloadIcon />
     <a
-      href={ROUTES.TELECHARGER_MODELE_REPONSE((project as unknown) as Project, id)}
+      href={ROUTES.TELECHARGER_MODELE_REPONSE(project, id)}
       download={true}
     >
       Télécharger un modèle de réponse

@@ -401,6 +401,45 @@ describe('acceptModificationRequest use-case', () => {
         })
       })
     })
+    describe('when type is producteur', () => {
+      const fakeModificationRequest = { ...makeFakeModificationRequest(), type: 'producteur' }
+      const fakeProject = {
+        ...makeFakeProject(),
+        id: fakeModificationRequest.projectId,
+      }
+      const modificationRequestRepo = fakeRepo(fakeModificationRequest as ModificationRequest)
+      const projectRepo = fakeRepo(fakeProject as Project)
+      const fileRepo = {
+        save: jest.fn((file: FileObject) => okAsync(null)),
+        load: jest.fn(),
+      }
+
+      const acceptModificationRequest = makeAcceptModificationRequest({
+        modificationRequestRepo,
+        projectRepo,
+        fileRepo: fileRepo as Repository<FileObject>,
+      })
+      beforeAll(async () => {
+        const res = await acceptModificationRequest({
+          modificationRequestId: fakeModificationRequest.id,
+          versionDate: fakeModificationRequest.lastUpdatedOn,
+          responseFile: { contents: fakeFileContents, filename: fakeFileName },
+          acceptanceParams: { type: 'producteur', newProducteur: 'new producteur' },
+          submittedBy: fakeUser,
+        })
+
+        if (res.isErr()) logger.error(res.error)
+        expect(res.isOk()).toEqual(true)
+      })
+      it('should call updateProducteur on project', () => {
+        expect(fakeProject.updateProducteur).toHaveBeenCalledTimes(1)
+        expect(fakeProject.updateProducteur).toHaveBeenCalledWith(fakeUser, 'new producteur')
+      })
+      it('should save the project', () => {
+        expect(projectRepo.save).toHaveBeenCalled()
+        expect(projectRepo.save.mock.calls[0][0]).toEqual(fakeProject)
+      })
+    })
   })
 
   describe('when user is not admin', () => {

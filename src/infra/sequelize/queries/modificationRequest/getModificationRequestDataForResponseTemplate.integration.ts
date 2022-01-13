@@ -64,6 +64,12 @@ describe('Sequelize getModificationRequestDataForResponseTemplate', () => {
         'referenceParagrapheAbandon',
       'Dispositions liées à l’engagement de réalisation ou aux modalités d’abandon':
         'contenuParagrapheAbandon',
+      "Référence du paragraphe dédié à l'identité du producteur":
+        'referenceParagrapheIdentiteProducteur',
+      'Dispositions liées à l’identité du producteur': 'contenuParagrapheIdentiteProducteur',
+      'Référence du paragraphe dédié au changement de producteur':
+        'referenceParagrapheChangementProducteur',
+      'Dispositions liées au changement de producteur': 'contenuParagrapheChangementProducteur',
     },
   }
 
@@ -555,6 +561,57 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1.1 e
           dateDemandeConfirmation: formatDate(6780000000),
           dateConfirmation: formatDate(7890000000),
         })
+      })
+    })
+  })
+
+  describe('when type is producteur', () => {
+    beforeAll(async () => {
+      // Create the tables and remove all data
+      await resetDatabase()
+
+      await Project.create(project)
+
+      await File.create(makeFakeFile({ id: fileId, filename: 'filename' }))
+
+      await User.create(makeFakeUser({ id: userId, fullName: 'John Doe' }))
+      await Periode.create(periodeData)
+
+      await ModificationRequest.create({
+        id: modificationRequestId,
+        projectId,
+        userId,
+        fileId,
+        type: 'producteur',
+        producteur: 'new producteur',
+        requestedOn: 123,
+        respondedOn: 321,
+        respondedBy: userId2,
+        status: 'envoyée',
+        justification: 'justification',
+        versionDate,
+      })
+    })
+
+    it('should return producteur specific modification request info fields', async () => {
+      const modificationRequestResult = await getModificationRequestDataForResponseTemplate(
+        modificationRequestId.toString(),
+        fakeAdminUser,
+        dgecEmail
+      )
+
+      expect(modificationRequestResult.isOk()).toBe(true)
+      if (modificationRequestResult.isErr()) return
+
+      const modificationRequestDTO = modificationRequestResult.value
+
+      expect(modificationRequestDTO).toMatchObject({
+        type: 'producteur',
+        nouveauProducteur: 'new producteur',
+        referenceParagrapheIdentiteProducteur: 'referenceParagrapheIdentiteProducteur',
+        contenuParagrapheIdentiteProducteur: 'contenuParagrapheIdentiteProducteur',
+        referenceParagrapheChangementProducteur: 'referenceParagrapheChangementProducteur',
+        contenuParagrapheChangementProducteur: 'contenuParagrapheChangementProducteur',
       })
     })
   })
