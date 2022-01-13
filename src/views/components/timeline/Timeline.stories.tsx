@@ -7,6 +7,8 @@ import {
   ProjectGFSubmittedDTO,
   ProjectGFDueDateSetDTO,
   ProjectDCRDueDateSetDTO,
+  ProjectDCRSubmittedDTO,
+  ProjectDCRRemovedDTO,
 } from '../../../modules/frise/dtos/ProjectEventListDTO'
 import makeFakeProject from '../../../__tests__/fixtures/project'
 import { Timeline } from './Timeline'
@@ -123,7 +125,6 @@ export const PPGarantiesFinancieresEtDCREnRetard = () => (
     now={new Date('2022-02-12').getTime()}
   />
 )
-
 export const garantiesFinancieresConstituees = () => (
   <Timeline
     projectEventList={{
@@ -169,6 +170,41 @@ export const garantiesFinancieresConstituees = () => (
     }}
     projectId={project.id}
     now={new Date().getTime()}
+  />
+)
+
+export const PPDCRSupprimée = () => (
+  <Timeline
+    projectEventList={{
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-01').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectDCRDueDateSet',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-03').getTime(),
+        } as ProjectDCRDueDateSetDTO,
+        {
+          type: 'ProjectDCRSubmitted',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-17').getTime(),
+          fileId: 'file-id',
+          filename: 'file-name',
+          submittedBy: 'someone',
+        } as ProjectDCRSubmittedDTO,
+        {
+          type: 'ProjectDCRRemoved',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-17').getTime(),
+          removedBy: 'someone',
+        } as ProjectDCRRemovedDTO,
+      ],
+    }}
+    projectId={project.id}
+    now={new Date('2022-01-03').getTime()}
   />
 )
 

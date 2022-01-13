@@ -1,5 +1,6 @@
 import {
   ProjectDCRDueDateSetDTO,
+  ProjectDCRRemovedDTO,
   ProjectDCRSubmittedDTO,
   ProjectNotifiedDTO,
 } from '../../../../modules/frise'
@@ -96,6 +97,44 @@ describe('extractDCRitemProps', () => {
       const result = extractDCRItemProps(events, new Date('2022-01-10').getTime())
       expect(result).toEqual({
         date: new Date('2022-02-10').getTime(),
+        type: 'demande-complete-de-raccordement',
+        status: 'due',
+        role: 'porteur-projet',
+      })
+    })
+  })
+  describe('when there is a ProjectDCRRemoved event after a ProjectDCRSubmitted event', () => {
+    it('should return the latest due date', () => {
+      const events = [
+        {
+          type: 'ProjectDCRDueDateSet',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-01').getTime(),
+        } as ProjectDCRDueDateSetDTO,
+        {
+          type: 'ProjectDCRSubmitted',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-03').getTime(),
+        } as ProjectDCRSubmittedDTO,
+        {
+          type: 'ProjectDCRDueDateSet',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-05').getTime(),
+        } as ProjectDCRDueDateSetDTO,
+        {
+          type: 'ProjectDCRSubmitted',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-07').getTime(),
+        } as ProjectDCRSubmittedDTO,
+        {
+          type: 'ProjectDCRRemoved',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-08').getTime(),
+        } as ProjectDCRRemovedDTO,
+      ]
+      const result = extractDCRItemProps(events, new Date('2022-01-01').getTime())
+      expect(result).toEqual({
+        date: new Date('2022-01-05').getTime(),
         type: 'demande-complete-de-raccordement',
         status: 'due',
         role: 'porteur-projet',

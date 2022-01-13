@@ -2,6 +2,7 @@ import {
   ProjectEventDTO,
   ProjectDCRDueDateSetDTO,
   ProjectDCRSubmittedDTO,
+  ProjectDCRRemovedDTO,
 } from '../../../../modules/frise'
 import { or } from '../../../../core/utils'
 import { UserRole } from '../../../../modules/users'
@@ -26,13 +27,19 @@ export const extractDCRItemProps = (
   events: ProjectEventDTO[],
   now: number
 ): DCRItemProps | null => {
-  const latestProjectDCR = events.filter(isProjectDCR).pop()
+  const projectDCREvents = events.filter(isProjectDCR)
+  const lastProjectDCREvent = projectDCREvents.slice(-1)[0]
 
-  if (!latestProjectDCR) {
+  const projectDCRDueDateSetOrSubmitted =
+    lastProjectDCREvent.type !== 'ProjectDCRRemoved'
+      ? projectDCREvents.pop()
+      : projectDCREvents.filter(isProjectDCRDueDateSet).pop()
+
+  if (!projectDCRDueDateSetOrSubmitted) {
     return null
   }
 
-  const { date, variant: role, type } = latestProjectDCR
+  const { date, variant: role, type } = projectDCRDueDateSetOrSubmitted
 
   const props = {
     type: 'demande-complete-de-raccordement' as 'demande-complete-de-raccordement',
@@ -43,7 +50,10 @@ export const extractDCRItemProps = (
   return type === 'ProjectDCRSubmitted'
     ? {
         ...props,
-        url: makeDocumentUrl(latestProjectDCR.fileId, latestProjectDCR.filename),
+        url: makeDocumentUrl(
+          projectDCRDueDateSetOrSubmitted.fileId,
+          projectDCRDueDateSetOrSubmitted.filename
+        ),
         status: 'submitted',
       }
     : { ...props, status: date < now ? 'past-due' : 'due', url: undefined }
@@ -55,4 +65,7 @@ const isProjectDCRDueDateSet = (event: ProjectEventDTO): event is ProjectDCRDueD
 const isProjectDCRSubmitted = (event: ProjectEventDTO): event is ProjectDCRSubmittedDTO =>
   event.type === 'ProjectDCRSubmitted'
 
-const isProjectDCR = or(isProjectDCRDueDateSet, isProjectDCRSubmitted)
+const isProjectDCRRemoved = (event: ProjectEventDTO): event is ProjectDCRRemovedDTO =>
+  event.type === 'ProjectDCRRemoved'
+
+const isProjectDCR = or(or(isProjectDCRDueDateSet, isProjectDCRSubmitted), isProjectDCRRemoved)
