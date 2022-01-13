@@ -135,21 +135,6 @@ describe('extractDCRitemProps', () => {
     it('should return the latest submitted date', () => {
       const events = [
         {
-          type: 'ProjectDCRDueDateSet',
-          variant: 'porteur-projet',
-          date: new Date('2022-01-01').getTime(),
-        } as ProjectDCRDueDateSetDTO,
-        {
-          type: 'ProjectDCRSubmitted',
-          variant: 'porteur-projet',
-          date: new Date('2022-01-03').getTime(),
-        } as ProjectDCRSubmittedDTO,
-        {
-          type: 'ProjectDCRDueDateSet',
-          variant: 'porteur-projet',
-          date: new Date('2022-01-05').getTime(),
-        } as ProjectDCRDueDateSetDTO,
-        {
           type: 'ProjectDCRSubmitted',
           variant: 'porteur-projet',
           date: new Date('2022-01-07').getTime(),
