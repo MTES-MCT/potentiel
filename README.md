@@ -40,6 +40,7 @@ La suite de ce document explique comment lancer l'application sur sa machine et 
   - [Restaurer un dump de base de données](#restaurer-un-dump-de-base-de-données)
 # Développement en local
 
+[Ouvrir dans conteneur Gitpod](https://gitpod.io/#https://github.com/MTES-MCT/potentiel)
 ## Mise en place initiale
 
 ### Pré-requis
