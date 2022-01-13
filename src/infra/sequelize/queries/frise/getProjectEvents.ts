@@ -91,6 +91,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   }
                   break
                 case 'ProjectGFDueDateSet':
+                case 'ProjectDCRDueDateSet':
                   if (user.role !== 'ademe') {
                     events.push({
                       type,
