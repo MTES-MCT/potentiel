@@ -1,6 +1,27 @@
 tasks:
-  - before: cp .env.template .env
-  - init: npm install
+  - before: |
+      cp .env.template .env
+      npm i -g commitizen
+  - init: |
+      npm run dev-db
+      npm run test-db
+      npm install
+github:
+  prebuilds:
+    # enable for the default branch (defaults to true)
+    master: true
+    # enable for all branches in this repo (defaults to false)
+    branches: false
+    # enable for pull requests coming from this repo (defaults to true)
+    pullRequests: true
+    # enable for pull requests coming from forks (defaults to false)
+    pullRequestsFromForks: false
+    # add a check to pull requests (defaults to true)
+    addCheck: true
+    # add a "Review in Gitpod" button as a comment to pull requests (defaults to false)
+    addComment: false
+    # add a "Review in Gitpod" button to the pull request's description (defaults to false)
+    addBadge: true
 # Ports to expose on workspace startup
 ports:
   - port: 6006 # Storybook
@@ -9,6 +30,10 @@ ports:
   - port: 3000 # npm run watch
     onOpen: open-preview
     visibility: public
+  - port: 5432 # postgres
+    visibility: private
+  - port: 6379 # redis
+    visibility: private
 vscode:
   extensions:
     - esbenp.prettier-vscode
