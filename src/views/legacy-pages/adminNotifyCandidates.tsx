@@ -8,7 +8,6 @@ import { PaginatedList } from '../../types'
 import { AppelOffreDTO, PeriodeDTO } from '../../useCases/listUnnotifiedProjects'
 import AdminDashboard from '../components/AdminDashboard'
 import ProjectList from '../components/ProjectList'
-import querystring from 'querystring'
 import { DownloadIcon } from '../components'
 
 type AdminNotifyCandidatesProps = {
@@ -174,12 +173,12 @@ export default function AdminNotifyCandidates({ request, results }: AdminNotifyC
               <div style={{ marginTop: '15px' }}>
                 <a
                   href={`
-                ${ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV}?${querystring.stringify({
+                ${ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV}?${new URLSearchParams({
                     ...request.query,
                     appelOffreId: selectedAppelOffreId,
                     periodeId: selectedPeriodeId,
-                    beforeNotification: true,
-                  })}`}
+                    beforeNotification: 'true',
+                  }).toString()}`}
                   download
                 >
                   Liste des lauréats
