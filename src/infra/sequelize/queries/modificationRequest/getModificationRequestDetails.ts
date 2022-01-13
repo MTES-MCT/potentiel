@@ -44,6 +44,7 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
             'familleId',
             'numeroGestionnaire',
             'completionDueOn',
+            'potentielIdentifier'
           ],
         },
         {

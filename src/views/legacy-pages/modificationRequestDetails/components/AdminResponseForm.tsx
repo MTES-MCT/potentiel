@@ -1,4 +1,5 @@
 import React from 'react'
+import { UploadResponseFile } from '.'
 import { dataId } from '../../../../helpers/testId'
 import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest'
 import { UserRole } from '../../../../modules/users'
@@ -16,7 +17,6 @@ export const AdminResponseForm = ({
   children,
 }: AdminResponseFormProps) => {
   const { type, versionDate } = modificationRequest
-  const isResponsePossible = ['recours', 'delai', 'abandon', 'puissance'].includes(type)
 
   return (
     <form
@@ -35,7 +35,7 @@ export const AdminResponseForm = ({
             <input
               type="checkbox"
               name="statusUpdateOnly"
-              defaultChecked={!isResponsePossible}
+              defaultChecked={false}
               {...dataId('modificationRequest-statusUpdateOnlyField')}
             />
             Demande traitée hors Potentiel
@@ -47,21 +47,12 @@ export const AdminResponseForm = ({
         </div>
       )}
 
-      <div className="form__group" style={{ marginBottom: 20 }}>
-        <label htmlFor="replyWithoutAttachment">
-          <input
-            type="checkbox"
-            name="replyWithoutAttachment"
-            {...dataId('modificationRequest-replyWithoutAttachmentField')}
-          />
-          Répondre sans pièce jointe
-        </label>
-      </div>
+      <UploadResponseFile modificationRequest={modificationRequest} />
 
       {children}
 
       <button
-        className="button"
+        className="button flex-1"
         type="submit"
         name="submitAccept"
         data-confirm={`Etes-vous sur de vouloir accepter la demande ${ModificationRequestTitleByType[type]} ?`}
@@ -70,7 +61,7 @@ export const AdminResponseForm = ({
         Accepter la demande {ModificationRequestTitleByType[type]}
       </button>
       <button
-        className="button warning"
+        className="button warning flex-1"
         type="submit"
         data-confirm={`Etes-vous sur de vouloir refuser la demande ${ModificationRequestTitleByType[type]} ?`}
         name="submitRefuse"

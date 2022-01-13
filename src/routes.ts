@@ -213,7 +213,9 @@ class routes {
     } else return route
   }
 
-  static TELECHARGER_MODELE_REPONSE = (project?: Project, modificationRequestId?: string) => {
+
+
+  static TELECHARGER_MODELE_REPONSE = (project?: { potentielIdentifier: string, id: string }, modificationRequestId?: string) => {
     const route = '/projet/:projectId/demande/:modificationRequestId/telecharger-reponse/:filename'
     if (project && modificationRequestId) {
       const now = new Date()
