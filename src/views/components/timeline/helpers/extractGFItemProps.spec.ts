@@ -2,6 +2,7 @@ import {
   ProjectGFDueDateSetDTO,
   ProjectGFSubmittedDTO,
   ProjectNotifiedDTO,
+  ProjectGFRemovedDTO,
 } from '../../../../modules/frise'
 import { extractGFItemProps } from './extractGFItemProps'
 
@@ -96,6 +97,39 @@ describe('extractGFitemProps', () => {
       const result = extractGFItemProps(events, new Date('2022-01-10').getTime())
       expect(result).toEqual({
         date: new Date('2022-02-10').getTime(),
+        type: 'garantiesFinancieres',
+        status: 'due',
+        role: 'porteur-projet',
+      })
+    })
+  })
+  describe('when there is a ProjectGFRemoved event', () => {
+    it('should return the latest due date', () => {
+      const events = [
+        {
+          type: 'ProjectGFDueDateSet',
+          variant: 'porteur-projet',
+          date: new Date('2022-02-10').getTime(),
+        } as ProjectGFDueDateSetDTO,
+        {
+          type: 'ProjectGFSubmitted',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-01').getTime(),
+        } as ProjectGFSubmittedDTO,
+        {
+          type: 'ProjectGFDueDateSet',
+          variant: 'porteur-projet',
+          date: new Date('2022-03-10').getTime(),
+        } as ProjectGFDueDateSetDTO,
+        {
+          type: 'ProjectGFRemoved',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-02').getTime(),
+        } as ProjectGFRemovedDTO,
+      ]
+      const result = extractGFItemProps(events, new Date('2022-01-11').getTime())
+      expect(result).toEqual({
+        date: new Date('2022-03-10').getTime(),
         type: 'garantiesFinancieres',
         status: 'due',
         role: 'porteur-projet',
