@@ -82,7 +82,6 @@ export type ProjectGFSubmittedDTO = {
   variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
   fileId: string
   filename: string
-  submittedBy: string
 }
 
 export type ProjectGFDueDateSetDTO = {

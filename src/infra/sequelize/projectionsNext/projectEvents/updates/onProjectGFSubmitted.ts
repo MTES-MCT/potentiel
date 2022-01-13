@@ -4,7 +4,7 @@ import { ProjectEvent } from '../projectEvent.model'
 
 export default ProjectEvent.projector.on(
   ProjectGFSubmitted,
-  async ({ payload: { projectId, fileId, submittedBy, gfDate }, occurredAt }, transaction) => {
+  async ({ payload: { projectId, fileId, gfDate }, occurredAt }, transaction) => {
     await ProjectEvent.create(
       {
         projectId,
@@ -12,7 +12,7 @@ export default ProjectEvent.projector.on(
         valueDate: gfDate.getTime(),
         eventPublishedAt: occurredAt.getTime(),
         id: new UniqueEntityID().toString(),
-        payload: { fileId, submittedBy },
+        payload: { fileId },
       },
       { transaction }
     )
