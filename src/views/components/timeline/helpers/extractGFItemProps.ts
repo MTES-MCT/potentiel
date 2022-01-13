@@ -5,6 +5,7 @@ import {
 } from '../../../../modules/frise'
 import { or } from '../../../../core/utils'
 import { UserRole } from '../../../../modules/users'
+import { makeDocumentUrl } from './makeDocumentUrl'
 
 export type GarantieFinanciereItemProps = {
   type: 'garantiesFinancieres'
@@ -42,7 +43,7 @@ export const extractGFItemProps = (
   return type === 'ProjectGFSubmitted'
     ? {
         ...props,
-        url: makeGFDocumentUrl(latestProjectGF.fileId, latestProjectGF.filename),
+        url: makeDocumentUrl(latestProjectGF.fileId, latestProjectGF.filename),
         status: 'submitted',
       }
     : { ...props, status: date < now ? 'past-due' : 'due', url: undefined }
