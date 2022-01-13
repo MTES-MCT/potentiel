@@ -103,7 +103,7 @@ describe('extractGFitemProps', () => {
       })
     })
   })
-  describe('when there is a ProjectGFRemoved event', () => {
+  describe('when there is a ProjectGFRemoved event after two ProjectGFDueDateSet events', () => {
     it('should return the latest due date', () => {
       const events = [
         {
@@ -133,6 +133,40 @@ describe('extractGFitemProps', () => {
         type: 'garantiesFinancieres',
         status: 'due',
         role: 'porteur-projet',
+      })
+    })
+  })
+  describe('when there is a ProjectGFRemoved event followed by a ProjectFGSubmitted', () => {
+    it('should return the latest submitted', () => {
+      const events = [
+        {
+          type: 'ProjectGFDueDateSet',
+          variant: 'porteur-projet',
+          date: new Date('2022-02-10').getTime(),
+        } as ProjectGFDueDateSetDTO,
+        {
+          type: 'ProjectGFSubmitted',
+          variant: 'porteur-projet',
+          date: new Date('2021-12-01').getTime(),
+        } as ProjectGFSubmittedDTO,
+        {
+          type: 'ProjectGFRemoved',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-02').getTime(),
+        } as ProjectGFRemovedDTO,
+        {
+          type: 'ProjectGFSubmitted',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-01').getTime(),
+        } as ProjectGFSubmittedDTO,
+      ]
+      const result = extractGFItemProps(events, new Date('2022-01-11').getTime())
+      expect(result).toEqual({
+        date: new Date('2022-01-01').getTime(),
+        type: 'garantiesFinancieres',
+        status: 'submitted',
+        role: 'porteur-projet',
+        url: expect.anything(),
       })
     })
   })
