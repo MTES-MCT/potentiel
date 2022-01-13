@@ -9,6 +9,9 @@ export type ProjectEventDTO =
   | ProjectClaimedDTO
   | ProjectGFSubmittedDTO
   | ProjectGFDueDateSetDTO
+  | ProjectDCRSubmittedDTO
+  | ProjectDCRRemovedDTO
+  | ProjectDCRDueDateSetDTO
 
 export type ProjectNotifiedDTO = {
   type: 'ProjectNotified'
@@ -75,6 +78,28 @@ export type ProjectGFSubmittedDTO = {
 
 export type ProjectGFDueDateSetDTO = {
   type: 'ProjectGFDueDateSet'
+  date: number
+  variant: Exclude<UserRole, 'ademe'>
+}
+
+export type ProjectDCRSubmittedDTO = {
+  type: 'ProjectDCRSubmitted'
+  date: number
+  variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
+  fileId: string
+  filename: string
+  submittedBy: string
+}
+
+export type ProjectDCRRemovedDTO = {
+  type: 'ProjectDCRRemoved'
+  date: number
+  variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
+  removedBy: string
+}
+
+export type ProjectDCRDueDateSetDTO = {
+  type: 'ProjectDCRDueDateSet'
   date: number
   variant: Exclude<UserRole, 'ademe'>
 }
