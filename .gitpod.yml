@@ -30,9 +30,13 @@ ports:
   - port: 3000 # npm run watch
     onOpen: open-preview
     visibility: public
-  - port: 5432 # postgres
-    visibility: private
+  - port: 5432 # postgres dev
+    visibility: public
   - port: 6379 # redis
+    visibility: public
+  - port: 5433 # postgres test
+    visibility: private
+  - port: 6380 # postgres test
     visibility: private
 vscode:
   extensions:
