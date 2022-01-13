@@ -4,9 +4,8 @@ import {
   ProjectDCRSubmittedDTO,
 } from '../../../../modules/frise'
 import { or } from '../../../../core/utils'
-
-import ROUTES from '../../../../routes'
 import { UserRole } from '../../../../modules/users'
+import { makeDocumentUrl } from './makeDocumentUrl'
 
 export type DCRItemProps = {
   type: 'demande-complete-de-raccordement'
@@ -57,7 +56,3 @@ const isProjectDCRSubmitted = (event: ProjectEventDTO): event is ProjectDCRSubmi
   event.type === 'ProjectDCRSubmitted'
 
 const isProjectDCR = or(isProjectDCRDueDateSet, isProjectDCRSubmitted)
-
-const makeDocumentUrl = (fileId: string, filename: string): string => {
-  return ROUTES.DOWNLOAD_PROJECT_FILE(fileId, filename)
-}

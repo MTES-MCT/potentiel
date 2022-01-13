@@ -6,6 +6,7 @@ import {
   ProjectClaimedDTO,
   ProjectGFSubmittedDTO,
   ProjectGFDueDateSetDTO,
+  ProjectDCRDueDateSetDTO,
 } from '../../../modules/frise/dtos/ProjectEventListDTO'
 import makeFakeProject from '../../../__tests__/fixtures/project'
 import { Timeline } from './Timeline'
@@ -13,36 +14,6 @@ import { Timeline } from './Timeline'
 export default { title: 'Nouvelle frise' }
 
 const project = { ...makeFakeProject() }
-
-const admin = {
-  id: '1',
-  fullName: 'nom prénom',
-  email: 'email',
-  role: 'admin' as 'admin',
-}
-
-/*
-const dgec = {
-  id: '1',
-  fullName: 'nom prénom',
-  email: 'email',
-  role: 'dgec' as 'dgec',
-}
-
-const ademe = {
-  id: '1',
-  fullName: 'nom prénom',
-  email: 'email',
-  role: 'ademe' as 'ademe',
-}
-
-const porteurProjet = {
-  id: '1',
-  fullName: 'nom prénom',
-  email: 'email',
-  role: 'porteur-projet' as 'porteur-projet',
-}
-*/
 
 export const adminGarantiesFinancieresDues = () => (
   <Timeline
@@ -63,6 +34,11 @@ export const adminGarantiesFinancieresDues = () => (
           variant: 'admin',
           date: new Date('2022-01-13').getTime(),
         } as ProjectGFDueDateSetDTO,
+        {
+          type: 'ProjectDCRDueDateSet',
+          variant: 'admin',
+          date: new Date('2022-02-13').getTime(),
+        } as ProjectDCRDueDateSetDTO,
       ],
     }}
     projectId={project.id}
@@ -84,6 +60,11 @@ export const PPGarantiesFinancieresDues = () => (
           variant: 'porteur-projet',
           date: new Date('2022-01-13').getTime(),
         } as ProjectGFDueDateSetDTO,
+        {
+          type: 'ProjectDCRDueDateSet',
+          variant: 'porteur-projet',
+          date: new Date('2022-02-13').getTime(),
+        } as ProjectDCRDueDateSetDTO,
       ],
     }}
     projectId={project.id}
@@ -105,10 +86,41 @@ export const PPGarantiesFinancieresEnRetard = () => (
           variant: 'porteur-projet',
           date: new Date('2022-01-03').getTime(),
         } as ProjectGFDueDateSetDTO,
+        {
+          type: 'ProjectDCRDueDateSet',
+          variant: 'porteur-projet',
+          date: new Date('2022-02-03').getTime(),
+        } as ProjectDCRDueDateSetDTO,
       ],
     }}
     projectId={project.id}
     now={new Date('2022-01-12').getTime()}
+  />
+)
+
+export const PPGarantiesFinancieresEtDCREnRetard = () => (
+  <Timeline
+    projectEventList={{
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-01').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectGFDueDateSet',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-03').getTime(),
+        } as ProjectGFDueDateSetDTO,
+        {
+          type: 'ProjectDCRDueDateSet',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-03').getTime(),
+        } as ProjectDCRDueDateSetDTO,
+      ],
+    }}
+    projectId={project.id}
+    now={new Date('2022-02-12').getTime()}
   />
 )
 
