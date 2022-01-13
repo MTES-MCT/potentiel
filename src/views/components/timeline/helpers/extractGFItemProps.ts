@@ -56,6 +56,3 @@ const isProjectGFSubmitted = (event: ProjectEventDTO): event is ProjectGFSubmitt
   event.type === 'ProjectGFSubmitted'
 
 const isProjectGF = or(isProjectGFDueDateSet, isProjectGFSubmitted)
-function makeGFDocumentUrl(fileId: string, filename: string): string {
-  throw new Error('Function not implemented.')
-}
