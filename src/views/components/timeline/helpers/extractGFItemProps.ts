@@ -1,8 +1,4 @@
-import {
-  isProjectGFDueDateSet,
-  isProjectGFSubmitted,
-  ProjectEventDTO,
-} from '../../../../modules/frise'
+import { is, ProjectEventDTO } from '../../../../modules/frise'
 import { or } from '../../../../core/utils'
 import { UserRole } from '../../../../modules/users'
 import { makeDocumentUrl } from './makeDocumentUrl'
@@ -49,4 +45,4 @@ export const extractGFItemProps = (
     : { ...props, status: date < now ? 'past-due' : 'due', url: undefined }
 }
 
-const isProjectGF = or(isProjectGFDueDateSet, isProjectGFSubmitted)
+const isProjectGF = or(is('ProjectGFDueDateSet'), is('ProjectGFSubmitted'))
