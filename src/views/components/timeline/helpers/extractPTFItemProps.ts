@@ -1,4 +1,4 @@
-import { ProjectEventDTO } from '../../../../modules/frise'
+import { is, ProjectEventDTO } from '../../../../modules/frise'
 import { or } from '../../../../core/utils'
 import { UserRole } from '../../../../modules/users'
 import { makeDocumentUrl } from './makeDocumentUrl'
@@ -47,11 +47,5 @@ export const extractPTFItemProps = (events: ProjectEventDTO[]): PTFItemProps | n
     status: 'submitted',
   }
 }
-
-type NarrowDTOType<T, N> = T extends { type: N } ? T : never
-
-const is = <T extends ProjectEventDTO, K extends T['type']>(type: K) => (
-  event: ProjectEventDTO
-): event is NarrowDTOType<T, K> => event.type === type
 
 const isProjectPTF = or(is('ProjectPTFSubmitted'), is('ProjectPTFRemoved'))
