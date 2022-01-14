@@ -37,6 +37,7 @@ jobs:
       - run: npm run launch-test-db
       - run: npm ci
       - run: npm test
+      - run: npm run migrate
       - run: npm run test-int
       # - run: npm run ci:test-e2e
       # - run: npm run ci:test-e2e:legacy
