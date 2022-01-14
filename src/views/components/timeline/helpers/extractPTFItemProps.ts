@@ -9,6 +9,8 @@ export type PTFItemProps = {
 } & (
   | {
       status: 'not-submitted'
+      date: undefined
+      url: undefined
     }
   | {
       status: 'submitted'
@@ -30,6 +32,8 @@ export const extractPTFItemProps = (events: ProjectEventDTO[]): PTFItemProps | n
       type: 'proposition-technique-et-financiere',
       role: latestProjectPTF ? latestProjectPTF.variant : events.slice(-1)[0].variant,
       status: 'not-submitted',
+      date: undefined,
+      url: undefined,
     }
   }
 

@@ -1,13 +1,20 @@
 import React from 'react'
 import { Project } from '../../../entities'
 import { ProjectEventListDTO } from '../../../modules/frise/dtos/ProjectEventListDTO'
-import { TimelineItem, DesignationItem, GarantieFinanciereItem, ImportItem } from './components'
-import { DCRItem } from './components/DCRItem'
+import {
+  TimelineItem,
+  DesignationItem,
+  DCRItem,
+  GarantieFinanciereItem,
+  ImportItem,
+  PTFItem,
+} from './components'
 import {
   extractDCRItemProps,
   extractDesignationItemProps,
   extractGFItemProps,
   extractImportItemProps,
+  extractPTFItemProps,
 } from './helpers'
 
 export type TimelineProps = {
@@ -30,9 +37,19 @@ export const Timeline = (props: TimelineProps) => {
     extractImportItemProps(events),
     extractGFItemProps(events, now),
     extractDCRItemProps(events, now),
+    extractPTFItemProps(events),
   ]
     .filter(isNotNull)
-    .sort((a, b) => a.date - b.date)
+    .sort((a, b) => {
+      if (a.type === 'proposition-technique-et-financiere' && a.status === 'not-submitted') {
+        return 1
+      }
+      if (b.type === 'proposition-technique-et-financiere' && b.status === 'not-submitted') {
+        return -1
+      }
+
+      return a.date - b.date
+    })
 
   const groupCount = itemProps.length
 
@@ -55,6 +72,9 @@ export const Timeline = (props: TimelineProps) => {
 
               case 'demande-complete-de-raccordement':
                 return <DCRItem {...{ ...props, projectId }} />
+
+              case 'proposition-technique-et-financiere':
+                return <PTFItem {...{ ...props, projectId }} />
             }
           })
           .map((component, groupIndex) => (
