@@ -233,7 +233,7 @@ export const PPDCRConstituée = () => (
         {
           type: 'ProjectPTFSubmitted',
           variant: 'porteur-projet',
-          date: new Date('2022-01-17').getTime(),
+          date: new Date('2022-01-16').getTime(),
           fileId: 'file-id',
           filename: 'file-name',
           submittedBy: 'someone',

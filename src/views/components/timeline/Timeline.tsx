@@ -40,16 +40,7 @@ export const Timeline = (props: TimelineProps) => {
     extractPTFItemProps(events),
   ]
     .filter(isNotNull)
-    .sort((a, b) => {
-      if (a.type === 'proposition-technique-et-financiere' && a.status === 'not-submitted') {
-        return 1
-      }
-      if (b.type === 'proposition-technique-et-financiere' && b.status === 'not-submitted') {
-        return -1
-      }
-
-      return a.date - b.date
-    })
+    .sort((a, b) => (!a.date ? 1 : !b.date ? -1 : a.date - b.date))
 
   const groupCount = itemProps.length
 
