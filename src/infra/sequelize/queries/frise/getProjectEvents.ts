@@ -69,6 +69,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   break
                 case 'ProjectGFSubmitted':
                 case 'ProjectDCRSubmitted':
+                case 'ProjectPTFSubmitted':
                   if (
                     user.role === 'porteur-projet' ||
                     user.role === 'admin' ||
@@ -92,6 +93,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   }
                   break
                 case 'ProjectDCRRemoved':
+                case 'ProjectPTFRemoved':
                   if (
                     user.role === 'porteur-projet' ||
                     user.role === 'admin' ||

@@ -13,6 +13,8 @@ export type ProjectEventDTO =
   | ProjectDCRSubmittedDTO
   | ProjectDCRRemovedDTO
   | ProjectDCRDueDateSetDTO
+  | ProjectPTFSubmittedDTO
+  | ProjectPTFRemovedDTO
 
 type NarrowDTOType<T, N> = T extends { type: N } ? T : never
 
@@ -108,6 +110,22 @@ export type ProjectDCRDueDateSetDTO = {
   type: 'ProjectDCRDueDateSet'
   date: number
   variant: Exclude<UserRole, 'ademe'>
+}
+
+export type ProjectPTFSubmittedDTO = {
+  type: 'ProjectPTFSubmitted'
+  date: number
+  variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
+  fileId: string
+  filename: string
+  submittedBy: string
+}
+
+export type ProjectPTFRemovedDTO = {
+  type: 'ProjectPTFRemoved'
+  date: number
+  variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
+  removedBy: string
 }
 
 export type ProjectEventListDTO = { events: ProjectEventDTO[] }
