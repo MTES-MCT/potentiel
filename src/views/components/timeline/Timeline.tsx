@@ -1,8 +1,14 @@
 import React from 'react'
 import { Project } from '../../../entities'
 import { ProjectEventListDTO } from '../../../modules/frise/dtos/ProjectEventListDTO'
-import { TimelineItem, DesignationItem, GarantieFinanciereItem, ImportItem  } from './components'
-import { extractDesignationItemProps, extractGFItemProps, extractImportItemProps } from './helpers'
+import { TimelineItem, DesignationItem, GarantieFinanciereItem, ImportItem } from './components'
+import { DCRItem } from './components/DCRItem'
+import {
+  extractDCRItemProps,
+  extractDesignationItemProps,
+  extractGFItemProps,
+  extractImportItemProps,
+} from './helpers'
 
 export type TimelineProps = {
   projectEventList: ProjectEventListDTO
@@ -23,6 +29,7 @@ export const Timeline = (props: TimelineProps) => {
     extractDesignationItemProps(events, projectId),
     extractImportItemProps(events),
     extractGFItemProps(events, now),
+    extractDCRItemProps(events, now),
   ]
     .filter(isNotNull)
     .sort((a, b) => a.date - b.date)
@@ -45,6 +52,9 @@ export const Timeline = (props: TimelineProps) => {
 
               case 'garantiesFinancieres':
                 return <GarantieFinanciereItem {...{ ...props, projectId }} />
+
+              case 'demande-complete-de-raccordement':
+                return <DCRItem {...{ ...props, projectId }} />
             }
           })
           .map((component, groupIndex) => (
