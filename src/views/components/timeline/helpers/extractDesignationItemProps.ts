@@ -2,7 +2,7 @@ import { Project } from '../../../../entities'
 import ROUTES from '../../../../routes'
 import {
   isCertificateDTO,
-  isProjectNotified,
+  is,
   ProjectCertificateDTO,
   ProjectEventDTO,
 } from '../../../../modules/frise'
@@ -24,7 +24,7 @@ export const extractDesignationItemProps = (
   events: ProjectEventDTO[],
   projectId: Project['id']
 ): DesignationItemProps | null => {
-  const projectNotifiedEvent = events.find(isProjectNotified)
+  const projectNotifiedEvent = events.find(is('ProjectNotified'))
   if (!projectNotifiedEvent) return null
 
   const certificateEvent = events.filter(isCertificateDTO).pop()

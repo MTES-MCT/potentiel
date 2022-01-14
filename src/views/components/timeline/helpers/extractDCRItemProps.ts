@@ -1,9 +1,4 @@
-import {
-  ProjectEventDTO,
-  isProjectDCRDueDateSet,
-  isProjectDCRRemoved,
-  isProjectDCRSubmitted,
-} from '../../../../modules/frise'
+import { ProjectEventDTO, is } from '../../../../modules/frise'
 import { or } from '../../../../core/utils'
 import { UserRole } from '../../../../modules/users'
 import { makeDocumentUrl } from './makeDocumentUrl'
@@ -35,10 +30,9 @@ export const extractDCRItemProps = (
 
   const lastProjectDCREvent = projectDCREvents.slice(-1)[0]
 
-  const projectDCRDueDateSetOrSubmitted =
-    lastProjectDCREvent.type !== 'ProjectDCRRemoved'
-      ? projectDCREvents.pop()
-      : projectDCREvents.filter(isProjectDCRDueDateSet).pop()
+  const projectDCRDueDateSetOrSubmitted = is('ProjectDCRRemoved')(lastProjectDCREvent)
+    ? projectDCREvents.filter(is('ProjectDCRDueDateSet')).pop()
+    : projectDCREvents.pop()
 
   if (!projectDCRDueDateSetOrSubmitted) {
     return null
@@ -64,4 +58,7 @@ export const extractDCRItemProps = (
     : { ...props, status: date < now ? 'past-due' : 'due', url: undefined }
 }
 
-const isProjectDCR = or(or(isProjectDCRDueDateSet, isProjectDCRSubmitted), isProjectDCRRemoved)
+const isProjectDCR = or(
+  or(is('ProjectDCRDueDateSet'), is('ProjectDCRSubmitted')),
+  is('ProjectDCRRemoved')
+)
