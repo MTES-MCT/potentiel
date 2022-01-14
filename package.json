@@ -55,6 +55,7 @@
   "homepage": "https://github.com/MTES-MCT/potentiel#readme",
   "dependencies": {
     "@heroicons/react": "^1.0.5",
+    "@keycloak/keycloak-admin-client": "^16.1.0",
     "@react-pdf/renderer": "2.0.19",
     "@sentry/node": "^6.2.5",
     "@types/morgan": "^1.9.2",
@@ -83,7 +84,6 @@
     "isemail": "^3.2.0",
     "json2csv": "^5.0.6",
     "jsonwebtoken": "^8.5.1",
-    "keycloak-admin": "^1.14.17",
     "keycloak-connect": "^13.0.0",
     "mkdirp": "^1.0.4",
     "moment": "^2.29.1",
