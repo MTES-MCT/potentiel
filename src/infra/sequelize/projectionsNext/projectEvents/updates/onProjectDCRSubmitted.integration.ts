@@ -39,7 +39,7 @@ describe('onProjectDCRSubmitted', () => {
       type: 'ProjectDCRSubmitted',
       valueDate: dcrDate.getTime(),
       eventPublishedAt: occurredAt.getTime(),
-      payload: { fileId, submittedBy },
+      payload: { fileId },
     })
   })
 })

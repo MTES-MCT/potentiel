@@ -4,7 +4,7 @@ import { ProjectEvent } from '../projectEvent.model'
 
 export default ProjectEvent.projector.on(
   ProjectDCRRemoved,
-  async ({ payload: { projectId, removedBy }, occurredAt }, transaction) => {
+  async ({ payload: { projectId }, occurredAt }, transaction) => {
     await ProjectEvent.create(
       {
         projectId,
@@ -12,7 +12,6 @@ export default ProjectEvent.projector.on(
         valueDate: occurredAt.getTime(),
         eventPublishedAt: occurredAt.getTime(),
         id: new UniqueEntityID().toString(),
-        payload: { removedBy },
       },
       { transaction }
     )

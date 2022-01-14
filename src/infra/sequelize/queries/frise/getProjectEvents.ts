@@ -102,7 +102,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       type,
                       date: valueDate,
                       variant: user.role,
-                      removedBy: payload.removedBy,
                     })
                   }
                   break

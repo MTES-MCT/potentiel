@@ -89,7 +89,6 @@ describe('getProjectEvents for DCR events', () => {
               eventPublishedAt: eventTimestamp,
               payload: {
                 fileId: fileId,
-                submittedBy: 'user-id',
               },
             })
             await File.create({
@@ -105,7 +104,6 @@ describe('getProjectEvents for DCR events', () => {
                   date: dcrDate,
                   variant: role,
                   fileId: fileId,
-                  submittedBy: 'user-id',
                   filename: 'my-file-name',
                 },
               ],
@@ -132,9 +130,6 @@ describe('getProjectEvents for DCR events', () => {
               type: 'ProjectDCRRemoved',
               valueDate: dcrDate,
               eventPublishedAt: eventTimestamp,
-              payload: {
-                removedBy: 'user-id',
-              },
             })
 
             const res = await getProjectEvents({ projectId, user: fakeUser })
@@ -145,7 +140,6 @@ describe('getProjectEvents for DCR events', () => {
                   type: 'ProjectDCRRemoved',
                   date: dcrDate,
                   variant: role,
-                  removedBy: 'user-id',
                 },
               ],
             })

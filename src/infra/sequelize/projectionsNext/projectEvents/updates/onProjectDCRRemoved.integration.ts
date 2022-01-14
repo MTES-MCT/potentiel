@@ -35,7 +35,6 @@ describe('onProjectDCRRemoved', () => {
       type: 'ProjectDCRRemoved',
       valueDate: occurredAt.getTime(),
       eventPublishedAt: occurredAt.getTime(),
-      payload: { removedBy },
     })
   })
 })
