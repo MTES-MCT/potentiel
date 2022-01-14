@@ -47,18 +47,32 @@ export const DCRItem = ({
             </div>
             {isPorteurProjet && (
               <div className="flex">
-                <a
-                  className="text-red"
-                  href={ROUTES.SUPPRIMER_ETAPE_ACTION({ projectId, type: 'dcr' })}
-                >
-                  Annuler le dépôt
-                </a>
+                <CancelDeposit {...{ projectId }} />
               </div>
             )}
           </>
         )}
       </ContentArea>
     </>
+  )
+}
+
+type CancelDepositProps = { projectId: string }
+const CancelDeposit = ({ projectId }: CancelDepositProps) => {
+  return (
+    <a
+      href={ROUTES.SUPPRIMER_ETAPE_ACTION({ projectId, type: 'dcr' })}
+      onClick={(event) => {
+        const confirmBox = confirm(
+          `Êtes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?`
+        )
+        if (!confirmBox) {
+          event.preventDefault()
+        }
+      }}
+    >
+      Annuler le dépôt
+    </a>
   )
 }
 
