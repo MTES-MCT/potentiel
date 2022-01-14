@@ -3,6 +3,7 @@ import {
   ProjectGFSubmittedDTO,
   ProjectNotifiedDTO,
   ProjectGFRemovedDTO,
+  ProjectStepStatusUpdatedDTO,
 } from '../../../../modules/frise'
 import { extractGFItemProps } from './extractGFItemProps'
 
@@ -77,6 +78,7 @@ describe('extractGFitemProps', () => {
         status: 'submitted',
         url: expect.anything(),
         role: 'porteur-projet',
+        validated: expect.anything(),
       })
     })
   })
@@ -167,6 +169,41 @@ describe('extractGFitemProps', () => {
         status: 'submitted',
         role: 'porteur-projet',
         url: expect.anything(),
+        validated: expect.anything(),
+      })
+    })
+  })
+
+  describe('when there is a ProjectStepStatusUpdated event for a GF validated', () => {
+    it('should return latest ProjectGFSubmitted props with a validated status', () => {
+      const events = [
+        {
+          type: 'ProjectGFSubmitted',
+          variant: 'porteur-projet',
+          date: new Date('2021-12-10').getTime(),
+        } as ProjectGFSubmittedDTO,
+        {
+          type: 'ProjectGFSubmitted',
+          variant: 'porteur-projet',
+          date: new Date('2021-12-01').getTime(),
+        } as ProjectGFSubmittedDTO,
+        {
+          type: 'ProjectStepStatusUpdated',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-14').getTime(),
+          newStatus: 'validé',
+          stepType: 'garantiesFinancieres',
+        } as ProjectStepStatusUpdatedDTO,
+      ]
+      const result = extractGFItemProps(events, new Date('2022-01-11').getTime())
+      expect(result).not.toBeNull()
+      expect(result).toEqual({
+        date: new Date('2021-12-01').getTime(),
+        type: 'garantiesFinancieres',
+        status: 'submitted',
+        role: 'porteur-projet',
+        url: expect.anything(),
+        validated: true,
       })
     })
   })

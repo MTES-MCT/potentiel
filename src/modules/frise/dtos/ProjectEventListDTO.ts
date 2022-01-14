@@ -11,6 +11,7 @@ export type ProjectEventDTO =
   | ProjectGFSubmittedDTO
   | ProjectGFRemovedDTO
   | ProjectGFDueDateSetDTO
+  | ProjectStepStatusUpdatedDTO
   | ProjectDCRSubmittedDTO
   | ProjectDCRRemovedDTO
   | ProjectDCRDueDateSetDTO
@@ -94,6 +95,14 @@ export type ProjectGFRemovedDTO = {
   type: 'ProjectGFRemoved'
   date: number
   variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
+}
+
+export type ProjectStepStatusUpdatedDTO = {
+  type: 'ProjectStepStatusUpdated'
+  date: number
+  variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
+  newStatus: 'validé'
+  stepType: 'garantiesFinancieres'
 }
 
 export type ProjectDCRSubmittedDTO = {

@@ -353,6 +353,31 @@ describe('frise.getProjectEvents', () => {
           ],
         })
       })
+      describe('when there is a ProjectStepStatusUpdated for GF that is validé', () => {
+        it('should return this ProjectStepStatusUpdated', async () => {
+          const date = new Date('2022-01-14').getTime()
+          await ProjectEvent.create({
+            type: 'ProjectStepStatusUpdated',
+            projectId,
+            valueDate: date,
+            eventPublishedAt: date,
+            payload: { newStatus: 'validé', type: 'garantiesFinancieres' },
+            id: new UniqueEntityID().toString(),
+          })
+
+          const res = await getProjectEvents({ projectId, user: fakeUser })
+          expect(res._unsafeUnwrap().events).toHaveLength(1)
+          expect(res._unsafeUnwrap().events).toMatchObject([
+            {
+              type: 'ProjectStepStatusUpdated',
+              date: date,
+              variant: fakeUser.role,
+              newStatus: 'validé',
+              stepType: 'garantiesFinancieres',
+            },
+          ])
+        })
+      })
     })
   }
 
@@ -361,7 +386,7 @@ describe('frise.getProjectEvents', () => {
   )) {
     const fakeUser = { role } as User
     describe(`when user is ${role}`, () => {
-      it('should NOT return ProjectGFSubmitted and ProjectGFRemoved events', async () => {
+      it('should NOT return ProjectGFSubmitted, ProjectGFRemoved and ProjectStepStatusUpdated for GF events', async () => {
         await ProjectEvent.create({
           id: new UniqueEntityID().toString(),
           projectId,
@@ -380,6 +405,15 @@ describe('frise.getProjectEvents', () => {
           type: 'ProjectGFRemoved',
           valueDate: new Date('2021-12-30').getTime(),
           eventPublishedAt: new Date('2021-12-30').getTime(),
+        })
+
+        await ProjectEvent.create({
+          type: 'ProjectStepStatusUpdated',
+          projectId,
+          valueDate: new Date('2022-01-14').getTime(),
+          eventPublishedAt: new Date('2022-01-14').getTime(),
+          payload: { newStatus: 'validé', type: 'garantiesFinancieres' },
+          id: new UniqueEntityID().toString(),
         })
 
         const res = await getProjectEvents({ projectId, user: fakeUser })

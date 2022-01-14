@@ -125,6 +125,24 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                     })
                   }
                   break
+                case 'ProjectStepStatusUpdated':
+                  if (
+                    (user.role === 'porteur-projet' ||
+                      user.role === 'admin' ||
+                      user.role === 'dgec' ||
+                      user.role === 'dreal') &&
+                    payload.type === 'garantiesFinancieres' &&
+                    payload.newStatus === 'validé'
+                  ) {
+                    events.push({
+                      type,
+                      date: valueDate,
+                      variant: user.role,
+                      newStatus: 'validé',
+                      stepType: 'garantiesFinancieres',
+                    })
+                  }
+                  break
               }
 
               return Promise.resolve(events)

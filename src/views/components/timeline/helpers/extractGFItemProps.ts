@@ -11,10 +11,12 @@ export type GarantieFinanciereItemProps = {
   | {
       status: 'due' | 'past-due'
       url: undefined
+      validated: undefined
     }
   | {
       status: 'submitted'
       url: string
+      validated: boolean
     }
 )
 
@@ -24,6 +26,8 @@ export const extractGFItemProps = (
 ): GarantieFinanciereItemProps | null => {
   const latestProjectGF = events.filter(isProjectGF).pop()
   const latestDueDateSetEvent = events.filter(isProjectGFDueDateSet).pop()
+  const latestSubmittedEvent = events.filter(isProjectGFSubmitted).pop()
+  const latestProjectStepStatusUpdatedEvent = events.filter(isProjectStepStatusUpdated).pop()
 
   if (!latestProjectGF) {
     return null
@@ -32,6 +36,8 @@ export const extractGFItemProps = (
   const eventToHandle =
     latestDueDateSetEvent && latestProjectGF.type === 'ProjectGFRemoved'
       ? latestDueDateSetEvent
+      : latestSubmittedEvent && latestProjectGF.type === 'ProjectStepStatusUpdated'
+      ? latestSubmittedEvent
       : latestProjectGF
 
   const { date, variant: role, type } = eventToHandle
@@ -47,11 +53,17 @@ export const extractGFItemProps = (
         ...props,
         url: makeDocumentUrl(eventToHandle.fileId, eventToHandle.filename),
         status: 'submitted',
+        validated: latestProjectGF.type === 'ProjectStepStatusUpdated',
       }
-    : { ...props, status: date < now ? 'past-due' : 'due', url: undefined }
+    : { ...props, status: date < now ? 'past-due' : 'due', url: undefined, validated: undefined }
 }
 
-const isProjectGF = or(is('ProjectGFDueDateSet'), is('ProjectGFSubmitted'), is('ProjectGFRemoved'))
+const isProjectGF = or(
+  is('ProjectGFDueDateSet'),
+  is('ProjectGFSubmitted'),
+  is('ProjectGFRemoved'),
+  is('ProjectStepStatusUpdated')
+)
 
 const isProjectGFDueDateSet = (event: ProjectEventDTO): event is ProjectGFDueDateSetDTO =>
   event.type === 'ProjectGFDueDateSet'
@@ -61,3 +73,6 @@ const isProjectGFSubmitted = (event: ProjectEventDTO): event is ProjectGFSubmitt
 
 const isProjectGFRemoved = (event: ProjectEventDTO): event is ProjectGFRemovedDTO =>
   event.type === 'ProjectGFRemoved'
+
+const isProjectStepStatusUpdated = (event: ProjectEventDTO): event is ProjectStepStatusUpdatedDTO =>
+  event.type === 'ProjectStepStatusUpdated'
