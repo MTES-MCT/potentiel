@@ -44,9 +44,7 @@ export const GarantieFinanciereItem = ({
               Télécharger l'attestation de garanties financières
             </a>
             <span aria-hidden>&nbsp;|&nbsp;</span>
-            {(role === 'porteur-projet' || role === 'admin' || role === 'dgec') && (
-              <RemoveDocument projectId={projectId} />
-            )}
+            {role === 'porteur-projet' && <RemoveDocument projectId={projectId} />}
           </div>
         )}
       </ContentArea>
