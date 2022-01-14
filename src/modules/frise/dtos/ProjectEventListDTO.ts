@@ -67,10 +67,9 @@ export type ProjectCertificateDTO =
   | ProjectClaimedDTO
 
 export const isCertificateDTO = or(
-  or(
-    or(is('ProjectCertificateGenerated'), is('ProjectCertificateRegenerated')),
-    is('ProjectCertificateUpdated')
-  ),
+  is('ProjectCertificateGenerated'),
+  is('ProjectCertificateRegenerated'),
+  is('ProjectCertificateUpdated'),
   is('ProjectClaimed')
 )
 

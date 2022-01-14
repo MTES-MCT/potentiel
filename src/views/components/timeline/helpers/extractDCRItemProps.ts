@@ -59,6 +59,7 @@ export const extractDCRItemProps = (
 }
 
 const isProjectDCR = or(
-  or(is('ProjectDCRDueDateSet'), is('ProjectDCRSubmitted')),
+  is('ProjectDCRDueDateSet'),
+  is('ProjectDCRSubmitted'),
   is('ProjectDCRRemoved')
 )
