@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '../../../../../core/domain'
-import { ProjectGFSubmitted } from '../../../../../modules/project'
+import { ProjectGFSubmitted } from '@modules/project'
 import { ProjectEvent } from '../projectEvent.model'
 import models from '../../../models'
 import { logger } from '../../../../../core/utils'

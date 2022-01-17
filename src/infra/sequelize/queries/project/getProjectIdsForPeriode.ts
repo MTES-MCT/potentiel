@@ -1,6 +1,6 @@
 import { Op } from 'sequelize'
 import { ResultAsync } from '../../../../core/utils'
-import { GetProjectIdsForPeriode } from '../../../../modules/project/queries'
+import { GetProjectIdsForPeriode } from '@modules/project'
 import { InfraNotAvailableError } from '../../../../modules/shared'
 import models from '../../models'
 

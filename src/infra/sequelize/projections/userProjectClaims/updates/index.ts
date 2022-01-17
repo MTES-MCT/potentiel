@@ -1,6 +1,6 @@
 import { EventBus } from '../../../../../core/domain'
 import { logger } from '../../../../../core/utils'
-import { ProjectClaimFailed } from '../../../../../modules/projectClaim/events'
+import { ProjectClaimFailed } from '@modules/projectClaim/events'
 import { onProjectClaimFailed } from './onProjectClaimFailed'
 
 export const initUserProjectClaimsProjections = (eventBus: EventBus, models) => {

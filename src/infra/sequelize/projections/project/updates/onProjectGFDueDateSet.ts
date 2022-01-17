@@ -1,5 +1,5 @@
 import { logger } from '../../../../../core/utils'
-import { ProjectGFDueDateSet } from '../../../../../modules/project/events'
+import { ProjectGFDueDateSet } from '@modules/project'
 
 export const onProjectGFDueDateSet = (models) => async (event: ProjectGFDueDateSet) => {
   const ProjectModel = models.Project

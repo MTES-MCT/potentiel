@@ -4,7 +4,7 @@ import { logger } from '../core/utils'
 import { ProjectRepo } from '../dataAccess'
 import { applyProjectUpdate } from '../entities'
 import { NotificationService } from '@modules/notification'
-import { ProjectGFReminded } from '../modules/project/events'
+import { ProjectGFReminded } from '@modules/project'
 import routes from '../routes'
 import { Ok, ResultAsync } from '../types'
 

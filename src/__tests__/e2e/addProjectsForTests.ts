@@ -4,7 +4,7 @@ import { eventStore } from '../../config'
 import { makeProject } from '../../entities'
 import makeFakeProject from '../fixtures/project'
 import { testRouter } from './testRouter'
-import { LegacyProjectSourced, ProjectImported } from '../../modules/project'
+import { LegacyProjectSourced, ProjectImported } from '@modules/project'
 
 testRouter.post('/test/addProjects', async (request, response) => {
   const { projects, userId } = request.body

@@ -1,7 +1,7 @@
 import models from '../../../models'
 import { resetDatabase } from '../../../helpers'
 import { onProjectGFInvalidated } from './onProjectGFInvalidated'
-import { ProjectGFInvalidated } from '../../../../../modules/project/events'
+import { ProjectGFInvalidated } from '@modules/project'
 import { v4 as uuid } from 'uuid'
 import makeFakeProjectStep from '../../../../../__tests__/fixtures/projectStep'
 

@@ -1,5 +1,5 @@
 import { ResultAsync } from '../../../../core/utils'
-import { GetNonLegacyProjectsByContactEmail } from '../../../../modules/project'
+import { GetNonLegacyProjectsByContactEmail } from '@modules/project'
 import { InfraNotAvailableError } from '../../../../modules/shared'
 import { isPeriodeLegacy } from '../../../../dataAccess/inMemory'
 

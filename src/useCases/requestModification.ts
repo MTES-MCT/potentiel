@@ -4,7 +4,7 @@ import { logger } from '../core/utils'
 import { Project, User } from '../entities'
 import { FileContents, FileObject, makeAndSaveFile } from '@modules/file'
 import { GetProjectAppelOffreId, ModificationRequested } from '@modules/modificationRequest'
-import { NumeroGestionnaireSubmitted } from '../modules/project/events'
+import { NumeroGestionnaireSubmitted } from '@modules/project'
 import { ErrorResult, Ok, ResultAsync } from '../types'
 
 interface MakeUseCaseProps {

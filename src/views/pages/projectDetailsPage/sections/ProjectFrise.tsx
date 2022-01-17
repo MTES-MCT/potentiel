@@ -3,7 +3,7 @@ import moment from 'moment'
 import React from 'react'
 import { User } from '../../../../entities'
 import { formatDate } from '../../../../helpers/formatDate'
-import { ProjectDataForProjectPage } from '../../../../modules/project/dtos'
+import { ProjectDataForProjectPage } from '@modules/project/dtos'
 import { DCRForm, PTFForm, Frise, FriseItem, GarantiesFinancieresForm } from '../components'
 import ROUTES from '../../../../routes'
 
@@ -80,7 +80,8 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => {
                                 : undefined,
                               download: true,
                             },
-                            ...(user.role === 'porteur-projet' && project.garantiesFinancieres.gfStatus !== "validé"
+                            ...(user.role === 'porteur-projet' &&
+                            project.garantiesFinancieres.gfStatus !== 'validé'
                               ? [
                                   {
                                     title: 'Annuler le dépôt',

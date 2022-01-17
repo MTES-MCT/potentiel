@@ -23,7 +23,7 @@ import {
   makeSubmitStep,
   makeUpdateNewRulesOptIn,
   makeUpdateStepStatus,
-} from '../modules/project'
+} from '@modules/project'
 import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '../modules/users'
 import { buildCertificate } from '../views/certificates'
 import { resendInvitationEmail } from './credentials.config'
@@ -38,7 +38,7 @@ import {
   getProjectDataForProjectClaim,
   isProjectParticipatif,
 } from './queries.config'
-import { makeClaimProject } from '../modules/projectClaim'
+import { makeClaimProject } from '@modules/projectClaim'
 import {
   appelOffreRepo,
   fileRepo,

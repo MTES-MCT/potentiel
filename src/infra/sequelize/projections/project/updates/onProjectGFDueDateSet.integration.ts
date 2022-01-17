@@ -1,5 +1,5 @@
 import { resetDatabase } from '../../../helpers'
-import { ProjectGFDueDateSet } from '../../../../../modules/project/events'
+import { ProjectGFDueDateSet } from '@modules/project'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import models from '../../../models'
 import { onProjectGFDueDateSet } from './onProjectGFDueDateSet'

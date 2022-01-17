@@ -1,5 +1,5 @@
 import { logger } from '../../../../../core/utils'
-import { NumeroGestionnaireSubmitted } from '../../../../../modules/project/events'
+import { NumeroGestionnaireSubmitted } from '@modules/project'
 
 export const onNumeroGestionnaireSubmitted = (models) => async (
   event: NumeroGestionnaireSubmitted

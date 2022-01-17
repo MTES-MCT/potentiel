@@ -4,8 +4,8 @@ import dotenv from 'dotenv'
 import React from 'react'
 import { errAsync, logger, Queue, ResultAsync } from '../../core/utils'
 import { formatDate } from '../../helpers/formatDate'
-import { ProjectDataForCertificate } from '../../modules/project/dtos'
-import { IllegalProjectStateError } from '../../modules/project/errors'
+import { ProjectDataForCertificate } from '@modules/project/dtos'
+import { IllegalProjectStateError } from '@modules/project/errors'
 import { OtherError } from '../../modules/shared'
 
 dotenv.config()

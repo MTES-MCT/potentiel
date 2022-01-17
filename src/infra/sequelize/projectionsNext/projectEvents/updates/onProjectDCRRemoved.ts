@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '../../../../../core/domain'
-import { ProjectDCRRemoved } from '../../../../../modules/project'
+import { ProjectDCRRemoved } from '@modules/project'
 import { ProjectEvent } from '../projectEvent.model'
 
 export default ProjectEvent.projector.on(

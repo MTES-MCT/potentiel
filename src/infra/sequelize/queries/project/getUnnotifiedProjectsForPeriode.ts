@@ -1,6 +1,6 @@
 import { wrapInfra } from '../../../../core/utils'
 import { AppelOffre, Periode } from '../../../../entities'
-import { GetUnnotifiedProjectsForPeriode } from '../../../../modules/project/queries'
+import { GetUnnotifiedProjectsForPeriode } from '@modules/project'
 import models from '../../models'
 
 const { Project } = models

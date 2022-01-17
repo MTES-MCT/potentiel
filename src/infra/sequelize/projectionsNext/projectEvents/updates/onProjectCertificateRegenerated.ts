@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '../../../../../core/domain'
-import { ProjectCertificateRegenerated } from '../../../../../modules/project'
+import { ProjectCertificateRegenerated } from '@modules/project'
 import { ProjectEvent } from '../projectEvent.model'
 
 export default ProjectEvent.projector.on(

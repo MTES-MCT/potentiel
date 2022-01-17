@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { appelsOffreStatic } from '../../../../dataAccess/inMemory/appelOffre'
 import { formatDate } from '../../../../helpers/formatDate'
 import { dataId } from '../../../../helpers/testId'
-import { ProjectDataForProjectPage } from '../../../../modules/project/dtos'
+import { ProjectDataForProjectPage } from '@modules/project/dtos'
 import ROUTES from '../../../../routes'
 
 interface EditProjectDataProps {
@@ -22,10 +22,10 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
     return <div>Projet abandonné</div>
   }
 
-  const[uploadIsDisabled, disableUpload] = useState(true)
+  const [uploadIsDisabled, disableUpload] = useState(true)
 
   const handleCertificateTypeChange = (e) => {
-    disableUpload(e.target.value !== "custom")
+    disableUpload(e.target.value !== 'custom')
   }
 
   return (
@@ -36,7 +36,11 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
         encType="multipart/form-data"
       >
         <input type="hidden" name="projectId" value={project.id} />
-        <input type="hidden" name="projectVersionDate" value={new Date(project.updatedAt || 0).getTime()} />
+        <input
+          type="hidden"
+          name="projectVersionDate"
+          value={new Date(project.updatedAt || 0).getTime()}
+        />
         <div className="form__group">
           <label>Période</label>
           <select
@@ -79,7 +83,12 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
         </div>
         <div className="form__group">
           <label>Numéro CRE</label>
-          <input type="text" name="numeroCRE" defaultValue={query.numeroCRE || project.numeroCRE} disabled/>
+          <input
+            type="text"
+            name="numeroCRE"
+            defaultValue={query.numeroCRE || project.numeroCRE}
+            disabled
+          />
         </div>
         <div className="form__group">
           <label>Nom Projet</label>
@@ -265,14 +274,26 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
               </label>
             </div>
             <div className="inline-radio-option">
-              <input type="radio" name="attestation" id="donotregenerate" value="donotregenerate" onChange={handleCertificateTypeChange}/>
+              <input
+                type="radio"
+                name="attestation"
+                id="donotregenerate"
+                value="donotregenerate"
+                onChange={handleCertificateTypeChange}
+              />
               <label htmlFor="donotregenerate">Ne pas regénérer l'attestation</label>
             </div>
             <div className="inline-radio-option">
-              <input type="radio" name="attestation" id="custom" value="custom" onChange={handleCertificateTypeChange}/>
+              <input
+                type="radio"
+                name="attestation"
+                id="custom"
+                value="custom"
+                onChange={handleCertificateTypeChange}
+              />
               <label htmlFor="custom">Uploader une attestation</label>
             </div>
-            <input type="file" name="file" id="file" disabled={uploadIsDisabled}/>
+            <input type="file" name="file" id="file" disabled={uploadIsDisabled} />
           </div>
         )}
         <div className="form__group">

@@ -3,10 +3,7 @@ import {
   handleCandidateNotifiedForPeriode,
   handleProjectCertificateGeneratedOrFailed,
 } from '@modules/candidateNotification'
-import {
-  ProjectCertificateGenerated,
-  ProjectCertificateGenerationFailed,
-} from '../../modules/project/events'
+import { ProjectCertificateGenerated, ProjectCertificateGenerationFailed } from '@modules/project'
 import { sendNotification } from '../emails.config'
 import { eventStore } from '../eventStore.config'
 import { getUserByEmail } from '../queries.config'

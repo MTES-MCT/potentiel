@@ -1,5 +1,5 @@
 import { resetDatabase } from '../../../helpers'
-import { ProjectDCRSubmitted } from '../../../../../modules/project/events'
+import { ProjectDCRSubmitted } from '@modules/project'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import models from '../../../models'
 import { onProjectDCRSubmitted } from './onProjectDCRSubmitted'

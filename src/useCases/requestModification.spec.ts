@@ -1,6 +1,6 @@
 import { Readable } from 'stream'
 import { ModificationRequested } from '@modules/modificationRequest'
-import { NumeroGestionnaireSubmitted } from '../modules/project/events'
+import { NumeroGestionnaireSubmitted } from '@modules/project'
 import { DomainEvent, Repository } from '../core/domain'
 import { okAsync } from '../core/utils'
 import { FileObject } from '@modules/file'

@@ -2,7 +2,7 @@ import models from '../../../models'
 import { resetDatabase } from '../../../helpers'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import { onProjectPuissanceUpdated } from './onProjectPuissanceUpdated'
-import { ProjectPuissanceUpdated } from '../../../../../modules/project/events'
+import { ProjectPuissanceUpdated } from '@modules/project'
 import { v4 as uuid } from 'uuid'
 
 describe('project.onProjectPuissanceUpdated', () => {

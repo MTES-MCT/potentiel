@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '../../../../../core/domain'
-import { ProjectDCRSubmitted } from '../../../../../modules/project'
+import { ProjectDCRSubmitted } from '@modules/project'
 import { ProjectEvent } from '../projectEvent.model'
 import models from '../../../models'
 import { logger } from '../../../../../core/utils'

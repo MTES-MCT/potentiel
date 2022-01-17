@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '../../../../../core/domain'
-import { ProjectGFDueDateSet, ProjectGFDueDateSetPayload } from '../../../../../modules/project'
+import { ProjectGFDueDateSet, ProjectGFDueDateSetPayload } from '@modules/project'
 import { resetDatabase } from '../../../helpers'
 import { ProjectEvent } from '../projectEvent.model'
 import onProjectGFDueDateSet from './onProjectGFDueDateSet'

@@ -1,5 +1,5 @@
 import { logger } from '../../../../../core/utils'
-import { ProjectStepStatusUpdated } from '../../../../../modules/project/events'
+import { ProjectStepStatusUpdated } from '@modules/project'
 
 export const onProjectStepStatusUpdated = (models) => async (event: ProjectStepStatusUpdated) => {
   const { ProjectStep } = models

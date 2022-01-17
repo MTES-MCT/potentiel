@@ -1,5 +1,5 @@
 import { resetDatabase } from '../../../helpers'
-import { ProjectReimported } from '../../../../../modules/project/events'
+import { ProjectReimported } from '@modules/project'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import models from '../../../models'
 import { onProjectReimported } from './onProjectReimported'

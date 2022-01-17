@@ -3,7 +3,7 @@ import {
   ProjectCertificateGenerated,
   ProjectCertificateRegenerated,
   ProjectCertificateUpdated,
-} from '../../../../../modules/project/events'
+} from '@modules/project'
 
 export const onProjectCertificate = (models) => async (
   event: ProjectCertificateGenerated | ProjectCertificateUpdated | ProjectCertificateRegenerated

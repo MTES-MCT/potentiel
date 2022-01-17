@@ -1,5 +1,5 @@
 import { err, ok, wrapInfra } from '../../../../core/utils'
-import { GetProjectDataForProjectClaim } from '../../../../modules/project/queries/GetProjectDataForProjectClaim'
+import { GetProjectDataForProjectClaim } from '@modules/project'
 import { EntityNotFoundError } from '../../../../modules/shared'
 import models from '../../models'
 

@@ -7,7 +7,7 @@ import {
   ProjectGFSubmitted,
   ProjectPTFRemoved,
   ProjectPTFSubmitted,
-} from '../../../../../modules/project/events'
+} from '@modules/project'
 import { onProjectStepSubmitted } from './onProjectStepSubmitted'
 import { onProjectStepRemoved } from './onProjectStepRemoved'
 import { onProjectStepStatusUpdated } from './onProjectStepStatusUpdated'

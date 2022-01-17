@@ -2,7 +2,7 @@ import { UniqueEntityID } from '../../../../../core/domain'
 import {
   ProjectCertificateRegenerated,
   ProjectCertificateRegeneratedPayload,
-} from '../../../../../modules/project'
+} from '@modules/project'
 import { resetDatabase } from '../../../helpers'
 import { ProjectEvent } from '../projectEvent.model'
 import onProjectCertificateRegenerated from './onProjectCertificateRegenerated'

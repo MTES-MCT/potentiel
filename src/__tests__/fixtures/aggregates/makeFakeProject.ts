@@ -1,16 +1,16 @@
 import { DomainEvent, UniqueEntityID } from '../../../core/domain'
 import { ok } from '../../../core/utils'
 import { CertificateTemplate, ProjectAppelOffre, User } from '../../../entities'
-import { Fournisseur } from '../../../modules/project'
-import { ProjectDataForCertificate } from '../../../modules/project/dtos'
 import {
+  Fournisseur,
+  ProjectDataForCertificate,
   EliminatedProjectCannotBeAbandonnedError,
   IllegalProjectDataError,
   ProjectAlreadyNotifiedError,
   ProjectCannotBeUpdatedIfUnnotifiedError,
-} from '../../../modules/project/errors'
-import { ProjectDataCorrectedPayload } from '../../../modules/project/events'
-import { ProjectDataProps } from '../../../modules/project/Project'
+  ProjectDataCorrectedPayload,
+  ProjectDataProps,
+} from '@modules/project'
 
 export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   notify: jest.fn((notifiedOn: number) =>

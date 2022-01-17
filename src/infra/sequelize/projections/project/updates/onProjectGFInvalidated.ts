@@ -1,6 +1,6 @@
 import { Op } from 'sequelize'
 import { logger } from '../../../../../core/utils'
-import { ProjectGFInvalidated } from '../../../../../modules/project/events'
+import { ProjectGFInvalidated } from '@modules/project'
 
 export const onProjectGFInvalidated = (models) => async (event: ProjectGFInvalidated) => {
   const { ProjectStep } = models

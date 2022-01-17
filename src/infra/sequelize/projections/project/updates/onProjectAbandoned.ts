@@ -1,5 +1,5 @@
 import { logger } from '../../../../../core/utils'
-import { ProjectAbandoned } from '../../../../../modules/project/events'
+import { ProjectAbandoned } from '@modules/project'
 
 export const onProjectAbandoned = (models) => async (event: ProjectAbandoned) => {
   const { Project } = models

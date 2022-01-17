@@ -1,10 +1,7 @@
 import { UniqueEntityID } from '../../../../../core/domain'
 import { resetDatabase } from '../../../helpers'
 import { ProjectEvent } from '../projectEvent.model'
-import {
-  ProjectImported,
-  ProjectImportedPayload,
-} from '../../../../../modules/project/events/ProjectImported'
+import { ProjectImported, ProjectImportedPayload } from '@modules/project'
 import onProjectImported from './onProjectImported'
 
 describe('onProjectImported', () => {
@@ -22,7 +19,7 @@ describe('onProjectImported', () => {
       new ProjectImported({
         payload: {
           projectId,
-          data: {notifiedOn}
+          data: { notifiedOn },
         } as ProjectImportedPayload,
         original: {
           version: 1,
@@ -38,7 +35,7 @@ describe('onProjectImported', () => {
       type: 'ProjectImported',
       valueDate: eventDate.getTime(),
       eventPublishedAt: eventDate.getTime(),
-      payload: {notifiedOn}
+      payload: { notifiedOn },
     })
   })
 })
