@@ -3,7 +3,7 @@ import { DomainEvent, EventBus, Repository, UniqueEntityID } from '../../../core
 import { okAsync } from '../../../core/utils'
 import { makeUser } from '../../../entities'
 import { FileObject } from '@modules/file'
-import { InfraNotAvailableError } from '../../../modules/shared'
+import { InfraNotAvailableError } from '@modules/shared'
 import { UnwrapForTest } from '../../../types'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { UnauthorizedError } from '../../shared'

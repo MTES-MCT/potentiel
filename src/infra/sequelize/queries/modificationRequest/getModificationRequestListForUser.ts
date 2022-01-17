@@ -8,7 +8,7 @@ import {
   GetModificationRequestListForUser,
   ModificationRequestListItemDTO,
 } from '@modules/modificationRequest'
-import { InfraNotAvailableError } from '../../../../modules/shared'
+import { InfraNotAvailableError } from '@modules/shared'
 import { PaginatedList } from '../../../../types'
 import models from '../../models'
 

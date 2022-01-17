@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '../../../../core/domain'
-import { EntityNotFoundError } from '../../../../modules/shared'
+import { EntityNotFoundError } from '@modules/shared'
 import { resetDatabase } from '../../helpers'
 import models from '../../models'
 import { getAppelOffre } from './getAppelOffre'

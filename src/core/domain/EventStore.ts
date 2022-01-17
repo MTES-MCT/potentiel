@@ -1,6 +1,6 @@
 import { ResultAsync } from '../utils'
 import { DomainEvent } from './DomainEvent'
-import { InfraNotAvailableError } from '../../modules/shared'
+import { InfraNotAvailableError } from '@modules/shared'
 import { EventBus } from './EventBus'
 import { UniqueEntityID } from './UniqueEntityID'
 

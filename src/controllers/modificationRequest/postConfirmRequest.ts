@@ -6,7 +6,7 @@ import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   UnauthorizedError,
-} from '../../modules/shared'
+} from '@modules/shared'
 import routes from '../../routes'
 import { ensureRole } from '../../config'
 import { v1Router } from '../v1Router'

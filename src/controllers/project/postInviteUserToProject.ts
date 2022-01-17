@@ -6,7 +6,7 @@ import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import { errorResponse, unauthorizedResponse } from '../helpers'
-import { UnauthorizedError } from '../../modules/shared'
+import { UnauthorizedError } from '@modules/shared'
 import { logger } from '../../core/utils'
 
 v1Router.post(

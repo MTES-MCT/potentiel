@@ -22,7 +22,7 @@ import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   UnauthorizedError,
-} from '../../modules/shared'
+} from '@modules/shared'
 import routes from '../../routes'
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
 import { upload } from '../upload'

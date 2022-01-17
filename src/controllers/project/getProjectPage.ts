@@ -7,7 +7,7 @@ import {
 } from '../../config/queries.config'
 import { shouldUserAccessProject } from '../../config/useCases.config'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
-import { EntityNotFoundError } from '../../modules/shared'
+import { EntityNotFoundError } from '@modules/shared'
 import routes from '../../routes'
 import { ProjectDetailsPage } from '../../views'
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'

@@ -9,7 +9,7 @@ import {
   GetModificationRequestDateForResponseTemplate,
   ModificationRequestDataForResponseTemplateDTO,
 } from '@modules/modificationRequest'
-import { EntityNotFoundError, InfraNotAvailableError } from '../../../../modules/shared'
+import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared'
 import models from '../../models'
 import { getPeriode } from '../appelOffre'
 

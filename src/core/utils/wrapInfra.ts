@@ -1,4 +1,4 @@
-import { InfraNotAvailableError } from '../../modules/shared'
+import { InfraNotAvailableError } from '@modules/shared'
 import { ResultAsync } from './Result'
 import { logger } from './logger'
 

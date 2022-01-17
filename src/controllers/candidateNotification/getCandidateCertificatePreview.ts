@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '../../core/domain'
 import { logger } from '../../core/utils'
 import { toProjectDataForCertificate, ProjectProps } from '@modules/project'
-import { IncompleteDataError } from '../../modules/shared'
+import { IncompleteDataError } from '@modules/shared'
 import routes from '../../routes'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'

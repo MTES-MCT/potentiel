@@ -1,7 +1,7 @@
 import { loadFileForUser } from '../../config'
 import { UniqueEntityID } from '../../core/domain'
 import { FileAccessDeniedError, FileNotFoundError } from '@modules/file'
-import { InfraNotAvailableError } from '../../modules/shared'
+import { InfraNotAvailableError } from '@modules/shared'
 import routes from '../../routes'
 import { ensureRole } from '../../config'
 import { v1Router } from '../v1Router'

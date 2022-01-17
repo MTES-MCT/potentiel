@@ -4,7 +4,7 @@ import { NumeroGestionnaireSubmitted } from '@modules/project'
 import { DomainEvent, Repository } from '../core/domain'
 import { okAsync } from '../core/utils'
 import { FileObject } from '@modules/file'
-import { EntityNotFoundError, InfraNotAvailableError } from '../modules/shared'
+import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared'
 import makeFakeUser from '../__tests__/fixtures/user'
 import makeRequestModification, { ACCESS_DENIED_ERROR } from './requestModification'
 

@@ -7,7 +7,7 @@ import { ModificationRequestDetailsPage } from '../../views/legacy-pages'
 import { ensureRole } from '../../config'
 import { v1Router } from '../v1Router'
 import { errorResponse, notFoundResponse } from '../helpers'
-import { EntityNotFoundError } from '../../modules/shared'
+import { EntityNotFoundError } from '@modules/shared'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 
 v1Router.get(

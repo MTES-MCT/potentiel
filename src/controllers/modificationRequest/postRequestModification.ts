@@ -27,7 +27,7 @@ import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   UnauthorizedError,
-} from '../../modules/shared'
+} from '@modules/shared'
 import e from 'express'
 
 const returnRoute = (type, projectId) => {

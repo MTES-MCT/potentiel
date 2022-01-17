@@ -8,7 +8,7 @@ import asyncHandler from 'express-async-handler'
 import { asLiteral } from '../../helpers/asLiteral'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
-import { UnauthorizedError } from '../../modules/shared'
+import { UnauthorizedError } from '@modules/shared'
 
 v1Router.get(
   routes.SUPPRIMER_ETAPE_ACTION(),
