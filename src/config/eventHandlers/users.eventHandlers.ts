@@ -1,5 +1,5 @@
 import { LegacyCandidateNotified } from '@modules/legacyCandidateNotification'
-import { handleLegacyCandidateNotified } from '../../modules/users'
+import { handleLegacyCandidateNotified } from '@modules/users'
 import { eventStore } from '../eventStore.config'
 import { createUser } from '../useCases.config'
 

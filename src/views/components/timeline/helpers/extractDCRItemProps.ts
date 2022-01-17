@@ -1,6 +1,6 @@
 import { ProjectEventDTO, is } from '@modules/frise'
 import { or } from '../../../../core/utils'
-import { UserRole } from '../../../../modules/users'
+import { UserRole } from '@modules/users'
 import { makeDocumentUrl } from './makeDocumentUrl'
 
 export type DCRItemProps = {

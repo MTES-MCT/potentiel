@@ -1,4 +1,4 @@
-import { UserCreated } from '../../../../../modules/users'
+import { UserCreated } from '@modules/users'
 import { userProjector } from '../user.model'
 
 export const onUserCreated = userProjector

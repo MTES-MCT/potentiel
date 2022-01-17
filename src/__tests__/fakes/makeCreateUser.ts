@@ -1,4 +1,4 @@
-import { CreateUser, UserRole } from '../../modules/users'
+import { CreateUser, UserRole } from '@modules/users'
 import { okAsync } from '../../core/utils'
 
 type FakeCreateUserArgs = {
