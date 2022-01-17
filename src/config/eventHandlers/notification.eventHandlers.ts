@@ -35,7 +35,7 @@ import {
   ModificationRequestCancelled,
   ModificationReceived,
 } from '../../modules/modificationRequest'
-import { UserInvitedToProject } from '../../modules/authZ'
+import { UserInvitedToProject } from '@modules/authZ'
 import { LegacyCandidateNotified } from '../../modules/legacyCandidateNotification'
 
 const projectCertificateChangeHandler = handleProjectCertificateUpdatedOrRegenerated({

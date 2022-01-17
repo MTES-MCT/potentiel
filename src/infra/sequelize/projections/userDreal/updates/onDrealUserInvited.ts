@@ -1,4 +1,4 @@
-import { DrealUserInvited } from '../../../../../modules/authZ'
+import { DrealUserInvited } from '@modules/authZ'
 import { userDrealProjector } from '../userDreal.model'
 
 export const onDrealUserInvited = userDrealProjector

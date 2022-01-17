@@ -8,7 +8,7 @@ import {
   UserProjectsLinkedByContactEmail,
   UserRightsToProjectRevoked,
   UserRightsToProjectGranted,
-} from '../../../../../modules/authZ'
+} from '@modules/authZ'
 import { ProjectClaimed, ProjectClaimedByOwner } from '../../../../../modules/projectClaim/events'
 import { onProjectClaimed } from './onProjectClaimed'
 import { EventBus } from '../../../../../core/domain'

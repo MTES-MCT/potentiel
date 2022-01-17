@@ -1,6 +1,6 @@
 import Redis from 'ioredis'
 import { makeRedisSubscribe } from './redisSubscribe'
-import { UserProjectsLinkedByContactEmail } from '../../modules/authZ'
+import { UserProjectsLinkedByContactEmail } from '@modules/authZ'
 import { fromRedisMessage } from './helpers/fromRedisMessage'
 import waitForExpect from 'wait-for-expect'
 

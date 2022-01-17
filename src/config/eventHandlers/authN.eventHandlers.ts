@@ -1,4 +1,4 @@
-import { handleUserCreated } from '../@modules/authN'
+import { handleUserCreated } from '@modules/authN'
 import { UserCreated } from '../../modules/users'
 import { createUserCredentials } from '../credentials.config'
 import { eventStore } from '../eventStore.config'

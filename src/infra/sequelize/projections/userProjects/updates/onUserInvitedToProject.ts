@@ -1,5 +1,5 @@
 import { logger } from '../../../../../core/utils'
-import { UserInvitedToProject } from '../../../../../modules/authZ'
+import { UserInvitedToProject } from '@modules/authZ'
 
 export const onUserInvitedToProject = (models) => async (event: UserInvitedToProject) => {
   const { UserProjects } = models

@@ -1,5 +1,5 @@
 import { fromRedisMessage } from './fromRedisMessage'
-import { UserProjectsLinkedByContactEmail } from '../../../modules/authZ/events/UserProjectsLinkedByContactEmail'
+import { UserProjectsLinkedByContactEmail } from '@modules/authZ'
 import { RedisMessage } from './RedisMessage'
 
 describe('fromRedisMessage', () => {

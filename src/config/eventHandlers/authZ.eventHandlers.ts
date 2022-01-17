@@ -1,4 +1,4 @@
-import { handleProjectImported, handleUserCreated } from '../../modules/authZ'
+import { handleProjectImported, handleUserCreated } from '@modules/authZ'
 import { ProjectImported, ProjectReimported } from '../../modules/project/events'
 import { UserCreated } from '../../modules/users'
 import { eventStore } from '../eventStore.config'

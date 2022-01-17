@@ -1,8 +1,5 @@
 import { UniqueEntityID } from '../../../../../core/domain'
-import {
-  UserProjectsLinkedByContactEmail,
-  UserRightsToProjectRevoked,
-} from '../../../../../modules/authZ'
+import { UserProjectsLinkedByContactEmail, UserRightsToProjectRevoked } from '@modules/authZ'
 import { resetDatabase } from '../../../helpers'
 import models from '../../../models'
 import { onUserProjectsLinkedByContactEmail } from './onUserProjectsLinkedByContactEmail'
