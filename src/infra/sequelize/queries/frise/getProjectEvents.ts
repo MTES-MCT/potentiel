@@ -86,6 +86,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                     })
                   }
                   break
+                case 'ProjectGFRemoved':
+                case 'ProjectGFValidated':
+                case 'ProjectGFInvalidated':
                 case 'ProjectDCRRemoved':
                 case 'ProjectPTFRemoved':
                   if (
@@ -108,38 +111,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       type,
                       date: valueDate,
                       variant: user.role,
-                    })
-                  }
-                  break
-                case 'ProjectGFRemoved':
-                  if (
-                    user.role === 'porteur-projet' ||
-                    user.role === 'admin' ||
-                    user.role === 'dgec' ||
-                    user.role === 'dreal'
-                  ) {
-                    events.push({
-                      type,
-                      date: valueDate,
-                      variant: user.role,
-                    })
-                  }
-                  break
-                case 'ProjectStepStatusUpdated':
-                  if (
-                    (user.role === 'porteur-projet' ||
-                      user.role === 'admin' ||
-                      user.role === 'dgec' ||
-                      user.role === 'dreal') &&
-                    payload.type === 'garantie-financiere' &&
-                    payload.newStatus === 'validé'
-                  ) {
-                    events.push({
-                      type,
-                      date: valueDate,
-                      variant: user.role,
-                      newStatus: 'validé',
-                      stepType: 'garantie-financiere',
                     })
                   }
                   break

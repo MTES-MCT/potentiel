@@ -18,38 +18,78 @@ describe('onProjectStepStatusUpdated', () => {
     await resetDatabase()
   })
 
-  it('should create a new ProjectStepStatusUpdated event on ProjectEvents projection', async () => {
-    await ProjectStep.create({
-      id: projectStepId,
-      type: 'garantie-financiere',
-      projectId,
-      stepDate: new Date('2022-01-14'),
-      fileId: new UniqueEntityID().toString(),
-      submittedOn: new Date('2022-01-14'),
-      submittedBy: new UniqueEntityID().toString(),
-    })
+  describe('when type is "garantie-financiere"', () => {
+    describe('when status is "validé"', () => {
+      it('should create a new ProjectGFValidated event on ProjectEvents projection', async () => {
+        await ProjectStep.create({
+          id: projectStepId,
+          type: 'garantie-financiere',
+          projectId,
+          stepDate: new Date('2022-01-14'),
+          fileId: new UniqueEntityID().toString(),
+          submittedOn: new Date('2022-01-14'),
+          submittedBy: new UniqueEntityID().toString(),
+        })
 
-    await onProjectStepStatusUpdated(
-      new ProjectStepStatusUpdated({
-        payload: {
-          projectStepId,
-          newStatus: 'validé',
-          statusUpdatedBy: 'user-id',
-        } as ProjectStepStatusUpdatedPayload,
-        original: {
-          version: 1,
-          occurredAt,
-        },
+        await onProjectStepStatusUpdated(
+          new ProjectStepStatusUpdated({
+            payload: {
+              projectStepId,
+              newStatus: 'validé',
+              statusUpdatedBy: 'user-id',
+            } as ProjectStepStatusUpdatedPayload,
+            original: {
+              version: 1,
+              occurredAt,
+            },
+          })
+        )
+
+        const projectEvent = await ProjectEvent.findOne({ where: { projectId } })
+        expect(projectEvent).not.toBeNull()
+        expect(projectEvent).toMatchObject({
+          type: 'ProjectGFValidated',
+          projectId,
+          valueDate: occurredAt.getTime(),
+          eventPublishedAt: occurredAt.getTime(),
+        })
       })
-    )
+    })
+    describe('when status is "à traiter"', () => {
+      it('should create a new ProjectGFInvalidated event on ProjectEvents projection', async () => {
+        await ProjectStep.create({
+          id: projectStepId,
+          type: 'garantie-financiere',
+          projectId,
+          stepDate: new Date('2022-01-14'),
+          fileId: new UniqueEntityID().toString(),
+          submittedOn: new Date('2022-01-14'),
+          submittedBy: new UniqueEntityID().toString(),
+        })
 
-    const projectEvent = await ProjectEvent.findOne({ where: { projectId } })
-    expect(projectEvent).not.toBeNull()
-    expect(projectEvent).toMatchObject({
-      type: 'ProjectStepStatusUpdated',
-      valueDate: occurredAt.getTime(),
-      eventPublishedAt: occurredAt.getTime(),
-      payload: { newStatus: 'validé', type: 'garantie-financiere' },
+        await onProjectStepStatusUpdated(
+          new ProjectStepStatusUpdated({
+            payload: {
+              projectStepId,
+              newStatus: 'à traiter',
+              statusUpdatedBy: 'user-id',
+            } as ProjectStepStatusUpdatedPayload,
+            original: {
+              version: 1,
+              occurredAt,
+            },
+          })
+        )
+
+        const projectEvent = await ProjectEvent.findOne({ where: { projectId } })
+        expect(projectEvent).not.toBeNull()
+        expect(projectEvent).toMatchObject({
+          type: 'ProjectGFInvalidated',
+          projectId,
+          valueDate: occurredAt.getTime(),
+          eventPublishedAt: occurredAt.getTime(),
+        })
+      })
     })
   })
 })
