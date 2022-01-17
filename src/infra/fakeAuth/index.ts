@@ -43,7 +43,8 @@ export const makeFakeAuth = (deps) => {
                 `FakeAuth session open but could not find user in db with email ${userEmail}`
               )
             )
-            response.redirect(routes.LOGOUT_ACTION)
+
+            logOut(response)
             return
           }
           next()
@@ -87,8 +88,7 @@ export const makeFakeAuth = (deps) => {
     })
 
     router.get(routes.LOGOUT_ACTION, (request, response) => {
-      response.clearCookie(FAKE_AUTH_COOKIE)
-      response.redirect(routes.LOGIN)
+      logOut(response)
     })
 
     router.get(routes.REDIRECT_BASED_ON_ROLE, async (req, res) => {
@@ -138,4 +138,9 @@ export const makeFakeAuth = (deps) => {
   }
 
   return { registerAuth, ensureRole }
+}
+
+function logOut(response) {
+  response.clearCookie(FAKE_AUTH_COOKIE)
+  response.redirect(routes.LOGIN)
 }
