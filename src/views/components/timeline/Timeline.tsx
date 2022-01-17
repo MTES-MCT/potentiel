@@ -40,7 +40,7 @@ export const Timeline = (props: TimelineProps) => {
     extractPTFItemProps(events),
   ]
     .filter(isNotNull)
-    .sort((a, b) => (!a.date ? 1 : !b.date ? -1 : a.date - b.date))
+    .sort(sortItemProps)
 
   const groupCount = itemProps.length
 
@@ -76,4 +76,22 @@ export const Timeline = (props: TimelineProps) => {
       </ol>
     </nav>
   )
+}
+
+const sortItemProps = (a: unknown, b: unknown) => {
+  const hasDateProperty = (props: unknown): props is { date: any } =>
+    props && typeof props === 'object' ? props.hasOwnProperty('date') : false
+
+  const A_IS_GREATER_THAN_B = 1
+  const A_IS_LESS_THAN_B = -1
+
+  if (!hasDateProperty(a)) {
+    return A_IS_GREATER_THAN_B
+  }
+
+  if (!hasDateProperty(b)) {
+    return A_IS_LESS_THAN_B
+  }
+
+  return a.date - b.date
 }
