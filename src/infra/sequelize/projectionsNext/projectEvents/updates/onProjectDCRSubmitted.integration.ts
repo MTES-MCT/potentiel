@@ -18,36 +18,60 @@ describe('onProjectDCRSubmitted', () => {
     await resetDatabase()
   })
 
-  it('should create a new project event of type ProjectDCRSubmitted', async () => {
-    await File.create({
-      id: fileId,
-      filename,
-      designation: 'designation',
-    })
-    await onProjectDCRSubmitted(
-      new ProjectDCRSubmitted({
-        payload: {
-          projectId,
-          fileId,
-          submittedBy,
-          dcrDate,
-        } as ProjectDCRSubmittedPayload,
-        original: {
-          version: 1,
-          occurredAt,
-        },
+  describe('when there is a corresponding file in File projection', () => {
+    it('should create a new project event of type ProjectDCRSubmitted', async () => {
+      await File.create({
+        id: fileId,
+        filename,
+        designation: 'designation',
       })
-    )
+      await onProjectDCRSubmitted(
+        new ProjectDCRSubmitted({
+          payload: {
+            projectId,
+            fileId,
+            submittedBy,
+            dcrDate,
+          } as ProjectDCRSubmittedPayload,
+          original: {
+            version: 1,
+            occurredAt,
+          },
+        })
+      )
 
-    const projectEvent = await ProjectEvent.findOne({ where: { projectId } })
+      const projectEvent = await ProjectEvent.findOne({ where: { projectId } })
 
-    expect(projectEvent).not.toBeNull()
-    expect(projectEvent).toMatchObject({
-      projectId,
-      type: 'ProjectDCRSubmitted',
-      valueDate: dcrDate.getTime(),
-      eventPublishedAt: occurredAt.getTime(),
-      payload: { fileId, filename },
+      expect(projectEvent).not.toBeNull()
+      expect(projectEvent).toMatchObject({
+        projectId,
+        type: 'ProjectDCRSubmitted',
+        valueDate: dcrDate.getTime(),
+        eventPublishedAt: occurredAt.getTime(),
+        payload: { fileId, filename },
+      })
+    })
+    describe('when there is no corresponding file in File projection', () => {
+      it('should not add a new event in ProjectEvent', async () => {
+        await onProjectDCRSubmitted(
+          new ProjectDCRSubmitted({
+            payload: {
+              projectId,
+              fileId,
+              submittedBy,
+              dcrDate,
+            } as ProjectDCRSubmittedPayload,
+            original: {
+              version: 1,
+              occurredAt,
+            },
+          })
+        )
+
+        const projectEvent = await ProjectEvent.findOne({ where: { projectId } })
+
+        expect(projectEvent).toBeNull()
+      })
     })
   })
 })
