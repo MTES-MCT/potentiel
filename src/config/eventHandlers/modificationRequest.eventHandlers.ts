@@ -4,7 +4,7 @@ import {
   ResponseTemplateDownloaded,
   handleResponseTemplateDownloaded,
   handleLegacyModificationRawDataImported,
-} from '../../modules/modificationRequest'
+} from '@modules/modificationRequest'
 import { eventStore } from '../eventStore.config'
 import { getModificationRequestStatus, findProjectByIdentifiers } from '../queries.config'
 

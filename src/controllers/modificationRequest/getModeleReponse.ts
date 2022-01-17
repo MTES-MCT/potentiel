@@ -13,7 +13,7 @@ import { fillDocxTemplate } from '../../helpers/fillDocxTemplate'
 import {
   ModificationRequestDataForResponseTemplateDTO,
   ResponseTemplateDownloaded,
-} from '../../modules/modificationRequest'
+} from '@modules/modificationRequest'
 import { EntityNotFoundError } from '../../modules/shared'
 import routes from '../../routes'
 import { shouldUserAccessProject } from '../../useCases'

@@ -34,7 +34,7 @@ import {
   ModificationRequestConfirmed,
   ModificationRequestCancelled,
   ModificationReceived,
-} from '../../modules/modificationRequest'
+} from '@modules/modificationRequest'
 import { UserInvitedToProject } from '@modules/authZ'
 import { LegacyCandidateNotified } from '@modules/legacyCandidateNotification'
 

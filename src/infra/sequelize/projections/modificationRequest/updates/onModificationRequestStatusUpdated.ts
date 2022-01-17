@@ -1,5 +1,5 @@
 import { logger } from '../../../../../core/utils'
-import { ModificationRequestStatusUpdated } from '../../../../../modules/modificationRequest/events'
+import { ModificationRequestStatusUpdated } from '@modules/modificationRequest'
 
 export const onModificationRequestStatusUpdated = (models) => async (
   event: ModificationRequestStatusUpdated

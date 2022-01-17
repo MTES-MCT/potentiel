@@ -2,7 +2,7 @@ import { err, ok, wrapInfra } from '../../../../core/utils'
 import {
   GetModificationRequestInfoForStatusNotification,
   ModificationRequestInfoForStatusNotificationDTO,
-} from '../../../../modules/modificationRequest'
+} from '@modules/modificationRequest'
 import { EntityNotFoundError } from '../../../../modules/shared'
 import models from '../../models'
 

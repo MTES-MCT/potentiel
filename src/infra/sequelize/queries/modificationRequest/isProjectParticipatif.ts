@@ -1,5 +1,5 @@
 import { err, ok, wrapInfra } from '../../../../core/utils'
-import { IsProjectParticipatif } from '../../../../modules/modificationRequest'
+import { IsProjectParticipatif } from '@modules/modificationRequest'
 import { EntityNotFoundError } from '../../../../modules/shared'
 import models from '../../models'
 

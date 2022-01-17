@@ -1,7 +1,7 @@
 import { DomainEvent } from '../../../core/domain'
 import * as AuthorizationEvents from '@modules/authZ/events'
 import * as CandidateNotificationEvents from '@modules/candidateNotification/events'
-import * as ModificationRequestEvents from '../../../modules/modificationRequest/events'
+import * as ModificationRequestEvents from '@modules/modificationRequest/events'
 import * as AppelOffreEvents from '@modules/appelOffre/events'
 import * as ProjectEvents from '../../../modules/project/events'
 import * as ProjectClaimEvents from '../../../modules/projectClaim/events'

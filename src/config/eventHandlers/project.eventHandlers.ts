@@ -1,4 +1,4 @@
-import { LegacyModificationImported, ModificationReceived } from '../../modules/modificationRequest'
+import { LegacyModificationImported, ModificationReceived } from '@modules/modificationRequest'
 import {
   handleModificationReceived,
   handlePeriodeNotified,

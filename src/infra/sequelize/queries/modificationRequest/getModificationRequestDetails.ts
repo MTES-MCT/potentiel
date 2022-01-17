@@ -3,7 +3,7 @@ import { getAppelOffre } from '../../../../dataAccess/inMemory/appelOffre'
 import {
   GetModificationRequestDetails,
   ModificationRequestPageDTO,
-} from '../../../../modules/modificationRequest'
+} from '@modules/modificationRequest'
 import { EntityNotFoundError, InfraNotAvailableError } from '../../../../modules/shared'
 import models from '../../models'
 
@@ -44,7 +44,7 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
             'familleId',
             'numeroGestionnaire',
             'completionDueOn',
-            'potentielIdentifier'
+            'potentielIdentifier',
           ],
         },
         {

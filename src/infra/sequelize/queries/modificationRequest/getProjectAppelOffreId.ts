@@ -1,5 +1,5 @@
 import { err, ok, wrapInfra } from '../../../../core/utils'
-import { GetProjectAppelOffreId } from '../../../../modules/modificationRequest'
+import { GetProjectAppelOffreId } from '@modules/modificationRequest'
 import { EntityNotFoundError } from '../../../../modules/shared'
 import models from '../../models'
 

@@ -13,7 +13,7 @@ import {
   makeRequestPuissanceModification,
   makeUpdateModificationRequestStatus,
   getAutoAcceptRatiosForAppelOffre,
-} from '../modules/modificationRequest'
+} from '@modules/modificationRequest'
 import {
   makeCorrectProjectData,
   makeGenerateCertificate,

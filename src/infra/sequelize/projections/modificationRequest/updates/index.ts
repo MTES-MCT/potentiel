@@ -8,7 +8,7 @@ import {
   ModificationRequestConfirmed,
   ModificationReceived,
   LegacyModificationImported,
-} from '../../../../../modules/modificationRequest'
+} from '@modules/modificationRequest'
 import { onModificationRequested } from './onModificationRequested'
 import { onModificationRequestAccepted } from './onModificationRequestAccepted'
 import { onModificationRequestRejected } from './onModificationRequestRejected'

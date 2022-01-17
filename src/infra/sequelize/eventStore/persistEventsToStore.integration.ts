@@ -3,7 +3,7 @@ import { resetDatabase, fromPersistance } from '../helpers'
 import { ProjectAbandoned } from '../../../modules/project'
 import { UniqueEntityID } from '../../../core/domain'
 import models from '../models'
-import { LegacyModificationImported } from '../../../modules/modificationRequest'
+import { LegacyModificationImported } from '@modules/modificationRequest'
 const { EventStore } = models
 
 describe('sequelize.persistEventsToStore', () => {

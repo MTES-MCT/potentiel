@@ -1,7 +1,7 @@
 import models from '../../../models'
 import { resetDatabase } from '../../../helpers'
 import { onModificationRequestConfirmed } from './onModificationRequestConfirmed'
-import { ModificationRequestConfirmed } from '../../../../../modules/modificationRequest/events'
+import { ModificationRequestConfirmed } from '@modules/modificationRequest'
 import { UniqueEntityID } from '../../../../../core/domain'
 
 describe('modificationRequest.onModificationRequestConfirmed', () => {

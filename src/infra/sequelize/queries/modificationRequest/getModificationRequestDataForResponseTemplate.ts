@@ -8,7 +8,7 @@ import { PeriodeDTO } from '@modules/appelOffre'
 import {
   GetModificationRequestDateForResponseTemplate,
   ModificationRequestDataForResponseTemplateDTO,
-} from '../../../../modules/modificationRequest'
+} from '@modules/modificationRequest'
 import { EntityNotFoundError, InfraNotAvailableError } from '../../../../modules/shared'
 import models from '../../models'
 import { getPeriode } from '../appelOffre'

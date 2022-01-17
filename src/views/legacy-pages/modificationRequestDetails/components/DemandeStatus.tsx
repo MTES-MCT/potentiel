@@ -1,7 +1,7 @@
 import React from 'react'
 import { formatDate } from '../../../../helpers/formatDate'
 import { dataId } from '../../../../helpers/testId'
-import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest'
+import { ModificationRequestPageDTO } from '@modules/modificationRequest'
 import { UserRole } from '../../../../modules/users'
 import ROUTES from '../../../../routes'
 import {

@@ -1,5 +1,5 @@
 import { wrapInfra } from '../../../../core/utils'
-import { GetModificationRequestRecipient } from '../../../../modules/modificationRequest'
+import { GetModificationRequestRecipient } from '@modules/modificationRequest'
 import models from '../../models'
 
 const { ModificationRequest } = models

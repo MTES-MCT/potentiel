@@ -2,7 +2,7 @@ import { UniqueEntityID } from '../../../../../core/domain'
 import { describeProjector } from '../../../__tests__/projections'
 import models from '../../../models'
 import { onModificationRequestCancelled } from './onModificationRequestCancelled'
-import { ModificationRequestCancelled } from '../../../../../modules/modificationRequest/events'
+import { ModificationRequestCancelled } from '@modules/modificationRequest'
 import makeFakeModificationRequest from '../../../../../__tests__/fixtures/modificationRequest'
 
 const { ModificationRequest } = models

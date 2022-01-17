@@ -1,7 +1,7 @@
 import models from '../../../models'
 import { resetDatabase } from '../../../helpers'
 import { onModificationRequestRejected } from './onModificationRequestRejected'
-import { ModificationRequestRejected } from '../../../../../modules/modificationRequest/events'
+import { ModificationRequestRejected } from '@modules/modificationRequest'
 import { UniqueEntityID } from '../../../../../core/domain'
 
 describe('modificationRequest.onModificationRequestRejected', () => {

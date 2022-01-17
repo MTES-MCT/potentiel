@@ -7,7 +7,7 @@ import { makePaginatedList, paginate } from '../../../../helpers/paginate'
 import {
   GetModificationRequestListForUser,
   ModificationRequestListItemDTO,
-} from '../../../../modules/modificationRequest'
+} from '@modules/modificationRequest'
 import { InfraNotAvailableError } from '../../../../modules/shared'
 import { PaginatedList } from '../../../../types'
 import models from '../../models'

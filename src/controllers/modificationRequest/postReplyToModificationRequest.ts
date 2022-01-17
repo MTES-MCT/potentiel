@@ -17,7 +17,7 @@ import { validateUniqueId } from '../../helpers/validateUniqueId'
 import {
   ModificationRequestAcceptanceParams,
   PuissanceVariationWithDecisionJusticeError,
-} from '../../modules/modificationRequest'
+} from '@modules/modificationRequest'
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
@@ -120,7 +120,8 @@ v1Router.post(
     if (!courrierReponseIsOk) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
-          error: "La réponse n'a pas pu être envoyée car il manque le courrier de réponse (obligatoire pour cette réponse).",
+          error:
+            "La réponse n'a pas pu être envoyée car il manque le courrier de réponse (obligatoire pour cette réponse).",
         })
       )
     }
@@ -142,7 +143,7 @@ v1Router.post(
         acceptanceParams = { type, newProducteur: producteur }
     }
 
-    if(!acceptanceParams){
+    if (!acceptanceParams) {
       return errorResponse({ request, response })
     }
 

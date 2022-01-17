@@ -1,4 +1,4 @@
-import { ModificationRequestCancelled } from '../../../../../modules/modificationRequest'
+import { ModificationRequestCancelled } from '@modules/modificationRequest'
 import { modificationRequestProjector } from '../modificationRequest.model'
 
 export const onModificationRequestCancelled = modificationRequestProjector
