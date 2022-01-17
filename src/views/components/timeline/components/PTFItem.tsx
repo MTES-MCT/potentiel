@@ -3,53 +3,47 @@ import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '.'
 import ROUTES from '../../../../routes'
 import { DateInput } from '../..'
 import { PTFItemProps } from '../helpers/extractPTFItemProps'
+import { UserRole } from '../../../../modules/users'
 
-export const PTFItem = ({
-  role,
-  projectId,
-  date,
-  status,
-  url,
-}: PTFItemProps & { projectId: string }) => {
-  const isPorteurProjet = role === 'porteur-projet'
+export const PTFItem = (props: PTFItemProps & { projectId: string }) => {
+  const { projectId, status } = props
 
-  return (
-    <>
-      {status === 'submitted' ? <PastIcon /> : <CurrentIcon />}
-      <ContentArea>
-        <div className="flex">
-          {date && (
-            <div className="align-middle">
-              <ItemDate date={date} />
-            </div>
-          )}
-        </div>
-        <ItemTitle title="Proposition technique et financière" />
-        {status !== 'submitted' ? (
-          <div>
-            <div className="flex">
-              <p className="mt-0 mb-0">Proposition technique et financière en attente</p>
-            </div>
-            {isPorteurProjet && <UploadForm projectId={projectId} />}
-          </div>
-        ) : (
-          <>
-            <div className="flex">
-              <a href={url} download>
-                Télécharger la proposition technique et financière
-              </a>
-            </div>
-            {isPorteurProjet && (
-              <div className="flex">
-                <CancelDeposit {...{ projectId }} />
-              </div>
-            )}
-          </>
-        )}
-      </ContentArea>
-    </>
+  return status === 'submitted' ? (
+    <Submitted {...{ ...props, projectId }} />
+  ) : (
+    <NotSubmitted {...{ ...props, projectId }} />
   )
 }
+
+type SubmittedProps = {
+  role: UserRole
+  date: number
+  url: string
+  projectId: string
+}
+const Submitted = ({ role, date, url, projectId }: SubmittedProps) => (
+  <>
+    <PastIcon />
+    <ContentArea>
+      <div className="flex">
+        <div className="align-middle">
+          <ItemDate date={date} />
+        </div>
+      </div>
+      <ItemTitle title="Proposition technique et financière" />
+      <div className="flex">
+        <a href={url} download>
+          Télécharger la proposition technique et financière
+        </a>
+      </div>
+      {isPorteurProjet(role) && (
+        <div className="flex">
+          <CancelDeposit {...{ projectId }} />
+        </div>
+      )}
+    </ContentArea>
+  </>
+)
 
 type CancelDepositProps = { projectId: string }
 const CancelDeposit = ({ projectId }: CancelDepositProps) => {
@@ -66,10 +60,28 @@ const CancelDeposit = ({ projectId }: CancelDepositProps) => {
   )
 }
 
+type NotSubmittedProps = {
+  role: UserRole
+  projectId: string
+}
+const NotSubmitted = ({ role, projectId }: NotSubmittedProps) => (
+  <>
+    <CurrentIcon />
+    <ContentArea>
+      <ItemTitle title="Proposition technique et financière" />
+      <div>
+        <div className="flex">
+          <p className="mt-0 mb-0">Proposition technique et financière en attente</p>
+        </div>
+        {isPorteurProjet(role) && <UploadForm projectId={projectId} />}
+      </div>
+    </ContentArea>
+  </>
+)
+
 type UploadFormProps = {
   projectId: string
 }
-
 const UploadForm = ({ projectId }: UploadFormProps) => {
   const [isFormVisible, showForm] = useState(false)
 
@@ -104,3 +116,4 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
     </>
   )
 }
+const isPorteurProjet = (role: UserRole) => role === 'porteur-projet'
