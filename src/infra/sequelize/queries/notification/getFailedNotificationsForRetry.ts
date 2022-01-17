@@ -1,9 +1,6 @@
 import { UniqueEntityID } from '../../../../core/domain'
 import { wrapInfra } from '../../../../core/utils'
-import {
-  FailedNotification,
-  GetFailedNotificationsForRetry,
-} from '../../../../modules/notification/queries'
+import { FailedNotification, GetFailedNotificationsForRetry } from '@modules/notification'
 import models from '../../models'
 
 const { ProjectStep, Notification, Project } = models

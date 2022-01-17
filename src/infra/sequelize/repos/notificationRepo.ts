@@ -1,6 +1,6 @@
 import { DomainError, Repository, UniqueEntityID } from '../../../core/domain'
 import { err, errAsync, Result, ResultAsync, wrapInfra } from '../../../core/utils'
-import { Notification } from '../../../modules/notification'
+import { Notification } from '@modules/notification'
 import { EntityNotFoundError, InfraNotAvailableError } from '../../../modules/shared'
 
 export class NotificationRepo implements Repository<Notification> {

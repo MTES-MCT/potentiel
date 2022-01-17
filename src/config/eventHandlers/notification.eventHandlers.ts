@@ -9,7 +9,7 @@ import {
   handleNewRulesOptedIn,
   handleUserInvitedToProject,
   handleLegacyCandidateNotified,
-} from '../../modules/notification'
+} from '@modules/notification'
 import {
   ProjectCertificateRegenerated,
   ProjectCertificateUpdated,

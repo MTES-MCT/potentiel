@@ -1,5 +1,5 @@
 import { err, ok, wrapInfra } from '../../../../core/utils'
-import { GetInfoForModificationRequested } from '../../../../modules/notification'
+import { GetInfoForModificationRequested } from '@modules/notification'
 import { EntityNotFoundError } from '../../../../modules/shared'
 import models from '../../models'
 

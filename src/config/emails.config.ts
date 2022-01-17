@@ -1,7 +1,7 @@
 import { fakeSendEmail } from '../infra/mail/fakeEmailService'
 import { makeSendEmailFromMailjet } from '../infra/mail/mailjet'
 
-import { makeNotificationService, SendEmail } from '../modules/notification'
+import { makeNotificationService, SendEmail } from '@modules/notification'
 import { isProdEnv, isStagingEnv } from './env.config'
 import { notificationRepo } from './repos.config'
 import { getFailedNotificationsForRetry } from './queries.config'
