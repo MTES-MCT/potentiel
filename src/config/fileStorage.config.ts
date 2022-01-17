@@ -1,5 +1,5 @@
 import { makeLocalFileStorageService, makeS3FileStorageService } from '../infra/file'
-import { FileStorageService } from '../modules/file'
+import { FileStorageService } from '@modules/file'
 import { isProdEnv, isStagingEnv } from './env.config'
 
 let fileStorageService: FileStorageService

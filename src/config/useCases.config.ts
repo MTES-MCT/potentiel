@@ -1,6 +1,6 @@
 import { makeImportAppelOffreData, makeImportPeriodeData } from '@modules/appelOffre'
 import { BaseShouldUserAccessProject, makeRevokeRightsToProject } from '@modules/authZ'
-import { makeLoadFileForUser } from '../modules/file'
+import { makeLoadFileForUser } from '@modules/file'
 import {
   makeAcceptModificationRequest,
   makeCancelModificationRequest,

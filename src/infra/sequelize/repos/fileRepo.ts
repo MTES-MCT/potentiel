@@ -1,6 +1,6 @@
 import { Repository, UniqueEntityID } from '../../../core/domain'
 import { errAsync, logger, wrapInfra } from '../../../core/utils'
-import { FileContents, FileObject, FileStorageService, makeFileObject } from '../../../modules/file'
+import { FileContents, FileObject, FileStorageService, makeFileObject } from '@modules/file'
 import { EntityNotFoundError, InfraNotAvailableError } from '../../../modules/shared'
 
 interface FileRepoDeps {

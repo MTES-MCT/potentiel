@@ -6,7 +6,7 @@ import util from 'util'
 import { logger } from '../../core/utils'
 import { pathExists } from '../../helpers/pathExists'
 import { err, ok, Result, ResultAsync } from '../../core/utils/Result'
-import { FileContents, FileNotFoundError, FileStorageService } from '../../modules/file'
+import { FileContents, FileNotFoundError, FileStorageService } from '@modules/file'
 import { InfraNotAvailableError } from '../../modules/shared'
 
 const buildDirectoryStructure = (filePath: string) =>
