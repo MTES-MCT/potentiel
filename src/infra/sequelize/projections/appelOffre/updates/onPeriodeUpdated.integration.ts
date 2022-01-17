@@ -1,7 +1,7 @@
 import models from '../../../models'
 import { resetDatabase } from '../../../helpers'
 import { onPeriodeUpdated } from './onPeriodeUpdated'
-import { PeriodeUpdated } from '../../../../../modules/appelOffre/events'
+import { PeriodeUpdated } from '@modules/appelOffre'
 import { UniqueEntityID } from '../../../../../core/domain'
 
 describe('appelOffre.onPeriodeUpdated', () => {

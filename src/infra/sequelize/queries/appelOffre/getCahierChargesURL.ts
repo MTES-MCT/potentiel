@@ -1,5 +1,5 @@
 import { ok, wrapInfra } from '../../../../core/utils'
-import { GetCahiersChargesURLs } from '../../../../modules/appelOffre'
+import { GetCahiersChargesURLs } from '@modules/appelOffre'
 import models from '../../models'
 
 const { Periode } = models

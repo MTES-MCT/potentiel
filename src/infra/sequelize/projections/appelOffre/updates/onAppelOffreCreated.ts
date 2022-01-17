@@ -1,4 +1,4 @@
-import { AppelOffreCreated } from '../../../../../modules/appelOffre'
+import { AppelOffreCreated } from '@modules/appelOffre'
 import { appelOffreProjector } from '../appelOffre.model'
 
 export const onAppelOffreCreated = appelOffreProjector

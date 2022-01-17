@@ -1,5 +1,5 @@
 import { err, ok, wrapInfra } from '../../../../core/utils'
-import { GetAppelOffre } from '../../../../modules/appelOffre'
+import { GetAppelOffre } from '@modules/appelOffre'
 import { EntityNotFoundError } from '../../../../modules/shared'
 import models from '../../models'
 

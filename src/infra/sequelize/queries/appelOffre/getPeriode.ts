@@ -1,5 +1,5 @@
 import { err, ok, wrapInfra } from '../../../../core/utils'
-import { GetPeriode } from '../../../../modules/appelOffre'
+import { GetPeriode } from '@modules/appelOffre'
 import { EntityNotFoundError } from '../../../../modules/shared'
 import models from '../../models'
 

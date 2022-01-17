@@ -1,6 +1,6 @@
 import { EventBus } from '../../../../../core/domain'
 import { logger } from '../../../../../core/utils'
-import { PeriodeCreated, PeriodeUpdated } from '../../../../../modules/appelOffre'
+import { PeriodeCreated, PeriodeUpdated } from '@modules/appelOffre'
 import { onPeriodeCreated } from './onPeriodeCreated'
 import { onPeriodeUpdated } from './onPeriodeUpdated'
 export * from './onAppelOffreCreated'

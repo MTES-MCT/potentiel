@@ -4,7 +4,7 @@ import { errAsync, logger, ok, okAsync, ResultAsync, wrapInfra } from '../../../
 import { getAppelOffre } from '../../../../dataAccess/inMemory/appelOffre'
 import { DREAL } from '../../../../entities'
 import { formatDate } from '../../../../helpers/formatDate'
-import { PeriodeDTO } from '../../../../modules/appelOffre/dtos'
+import { PeriodeDTO } from '@modules/appelOffre'
 import {
   GetModificationRequestDateForResponseTemplate,
   ModificationRequestDataForResponseTemplateDTO,

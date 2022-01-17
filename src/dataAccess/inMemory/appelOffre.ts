@@ -16,7 +16,7 @@ import {
 } from './appelsOffres'
 import { errAsync, okAsync } from '../../core/utils/Result'
 import { EntityNotFoundError } from '../../modules/shared'
-import { GetPeriodeTitle, GetFamille } from '../../modules/appelOffre'
+import { GetPeriodeTitle, GetFamille } from '@modules/appelOffre'
 
 const appelsOffreStatic = [
   batiment,

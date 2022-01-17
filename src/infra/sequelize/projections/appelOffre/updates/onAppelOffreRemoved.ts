@@ -1,5 +1,5 @@
 import { logger } from '../../../../../core/utils'
-import { AppelOffreRemoved } from '../../../../../modules/appelOffre'
+import { AppelOffreRemoved } from '@modules/appelOffre'
 import { appelOffreProjector } from '../appelOffre.model'
 import { periodeProjector } from '../periode.model'
 
