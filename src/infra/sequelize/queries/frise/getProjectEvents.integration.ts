@@ -361,7 +361,7 @@ describe('frise.getProjectEvents', () => {
             projectId,
             valueDate: date,
             eventPublishedAt: date,
-            payload: { newStatus: 'validé', type: 'garantiesFinancieres' },
+            payload: { newStatus: 'validé', type: 'garantie-financiere' },
             id: new UniqueEntityID().toString(),
           })
 
@@ -373,7 +373,7 @@ describe('frise.getProjectEvents', () => {
               date: date,
               variant: fakeUser.role,
               newStatus: 'validé',
-              stepType: 'garantiesFinancieres',
+              stepType: 'garantie-financiere',
             },
           ])
         })

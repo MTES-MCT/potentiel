@@ -131,7 +131,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       user.role === 'admin' ||
                       user.role === 'dgec' ||
                       user.role === 'dreal') &&
-                    payload.type === 'garantiesFinancieres' &&
+                    payload.type === 'garantie-financiere' &&
                     payload.newStatus === 'validé'
                   ) {
                     events.push({
@@ -139,7 +139,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       date: valueDate,
                       variant: user.role,
                       newStatus: 'validé',
-                      stepType: 'garantiesFinancieres',
+                      stepType: 'garantie-financiere',
                     })
                   }
                   break

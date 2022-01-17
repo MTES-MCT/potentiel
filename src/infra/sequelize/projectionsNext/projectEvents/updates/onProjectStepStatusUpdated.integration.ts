@@ -21,7 +21,7 @@ describe('onProjectStepStatusUpdated', () => {
   it('should create a new ProjectStepStatusUpdated event on ProjectEvents projection', async () => {
     await ProjectStep.create({
       id: projectStepId,
-      type: 'garantiesfinancieres',
+      type: 'garantie-financiere',
       projectId,
       stepDate: new Date('2022-01-14'),
       fileId: new UniqueEntityID().toString(),
@@ -49,7 +49,7 @@ describe('onProjectStepStatusUpdated', () => {
       type: 'ProjectStepStatusUpdated',
       valueDate: occurredAt.getTime(),
       eventPublishedAt: occurredAt.getTime(),
-      payload: { newStatus: 'validé', type: 'garantiesfinancieres' },
+      payload: { newStatus: 'validé', type: 'garantie-financiere' },
     })
   })
 })

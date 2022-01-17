@@ -102,7 +102,7 @@ export type ProjectStepStatusUpdatedDTO = {
   date: number
   variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
   newStatus: 'validé'
-  stepType: 'garantiesFinancieres'
+  stepType: 'garantie-financiere'
 }
 
 export type ProjectDCRSubmittedDTO = {
