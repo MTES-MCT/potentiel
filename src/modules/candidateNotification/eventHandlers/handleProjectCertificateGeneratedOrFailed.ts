@@ -1,5 +1,5 @@
-import { logger, okAsync } from '../../../core/utils'
-import { TransactionalRepository, UniqueEntityID } from '../../../core/domain'
+import { logger, okAsync } from '@core/utils'
+import { TransactionalRepository, UniqueEntityID } from '@core/domain'
 import {
   ProjectCertificateGenerated,
   ProjectCertificateGenerationFailed,

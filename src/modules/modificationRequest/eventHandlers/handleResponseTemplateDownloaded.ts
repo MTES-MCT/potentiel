@@ -1,6 +1,6 @@
 import { okAsync } from 'neverthrow'
-import { EventBus } from '../../../core/domain'
-import { logger } from '../../../core/utils'
+import { EventBus } from '@core/domain'
+import { logger } from '@core/utils'
 import { ResponseTemplateDownloaded } from '../events'
 import { ModificationRequestInstructionStarted } from '../events/ModificationRequestInstructionStarted'
 import { GetModificationRequestStatus } from '../queries/GetModificationRequestStatus'

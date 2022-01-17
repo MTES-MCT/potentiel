@@ -1,4 +1,4 @@
-import { wrapInfra } from '../../../../core/utils'
+import { wrapInfra } from '@core/utils'
 import { GetModificationRequestStatus } from '@modules/modificationRequest'
 import models from '../../models'
 

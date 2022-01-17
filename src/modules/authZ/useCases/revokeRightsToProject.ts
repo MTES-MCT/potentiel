@@ -1,6 +1,6 @@
 import { errAsync } from 'neverthrow'
-import { EventBus } from '../../../core/domain'
-import { ResultAsync, wrapInfra } from '../../../core/utils'
+import { EventBus } from '@core/domain'
+import { ResultAsync, wrapInfra } from '@core/utils'
 import { User } from '../../../entities'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { UserRightsToProjectRevoked } from '../events'

@@ -1,5 +1,5 @@
-import { DomainError, DomainEvent, UniqueEntityID } from '../../../core/domain'
-import { errAsync, okAsync, ResultAsync } from '../../../core/utils'
+import { DomainError, DomainEvent, UniqueEntityID } from '@core/domain'
+import { errAsync, okAsync, ResultAsync } from '@core/utils'
 import { makeUser } from '../../../entities'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'

@@ -1,5 +1,5 @@
-import { DomainEvent, Constructor, HasType } from '../../core/domain'
-import { ResultAsync } from '../../core/utils'
+import { DomainEvent, Constructor, HasType } from '@core/domain'
+import { ResultAsync } from '@core/utils'
 import { InfraNotAvailableError } from '@modules/shared'
 import _ from 'lodash'
 import { diffLinesUnified2 } from 'jest-diff'

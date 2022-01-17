@@ -1,4 +1,4 @@
-import { MakeEventStoreDeps, okAsync, wrapInfra } from '../../../core/utils'
+import { MakeEventStoreDeps, okAsync, wrapInfra } from '@core/utils'
 import { toPersistance } from '../helpers'
 import models from '../models'
 const { EventStore } = models

@@ -1,6 +1,6 @@
 import { Readable } from 'stream'
-import { Repository } from '../../../core/domain'
-import { logger, okAsync } from '../../../core/utils'
+import { Repository } from '@core/domain'
+import { logger, okAsync } from '@core/utils'
 import { makeUser } from '../../../entities'
 import { UnwrapForTest } from '../../../types'
 import { fakeRepo, makeFakeModificationRequest } from '../../../__tests__/fixtures/aggregates'

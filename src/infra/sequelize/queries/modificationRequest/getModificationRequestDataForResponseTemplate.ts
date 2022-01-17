@@ -1,6 +1,6 @@
 import moment from 'moment'
 import { oldUserRepo } from '../../../../config/repos.config'
-import { errAsync, logger, ok, okAsync, ResultAsync, wrapInfra } from '../../../../core/utils'
+import { errAsync, logger, ok, okAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { getAppelOffre } from '../../../../dataAccess/inMemory/appelOffre'
 import { DREAL } from '../../../../entities'
 import { formatDate } from '../../../../helpers/formatDate'

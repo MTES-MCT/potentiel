@@ -1,4 +1,4 @@
-import { UniqueEntityID } from '../../../../../core/domain'
+import { UniqueEntityID } from '@core/domain'
 import { ProjectGFDueDateSet } from '@modules/project'
 import { ProjectEvent } from '../projectEvent.model'
 

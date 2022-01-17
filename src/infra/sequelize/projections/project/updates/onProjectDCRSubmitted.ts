@@ -1,4 +1,4 @@
-import { logger } from '../../../../../core/utils'
+import { logger } from '@core/utils'
 import { ProjectDCRSubmitted } from '@modules/project'
 
 export const onProjectDCRSubmitted = (models) => async (event: ProjectDCRSubmitted) => {

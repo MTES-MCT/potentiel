@@ -1,4 +1,4 @@
-import { logger } from '../../core/utils'
+import { logger } from '@core/utils'
 import { testRouter } from './testRouter'
 
 testRouter.post('/test/addNotifications', async (request, response) => {

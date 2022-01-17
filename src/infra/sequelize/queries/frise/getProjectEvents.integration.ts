@@ -1,4 +1,4 @@
-import { UniqueEntityID } from '../../../../core/domain'
+import { UniqueEntityID } from '@core/domain'
 import { User } from '../../../../entities'
 import { USER_ROLES } from '@modules/users'
 import { resetDatabase } from '../../helpers'

@@ -5,7 +5,7 @@ import { mapExceptError } from '../../helpers/results'
 import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types'
 import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
-import { logger } from '../../core/utils'
+import { logger } from '@core/utils'
 
 // Override these to apply serialization/deserialization on inputs/outputs
 const deserialize = (item) => ({

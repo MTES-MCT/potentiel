@@ -1,4 +1,4 @@
-import { err, ok, Result, wrapInfra } from '../../../../core/utils'
+import { err, ok, Result, wrapInfra } from '@core/utils'
 import { getAppelOffre, isPeriodeLegacy } from '../../../../dataAccess/inMemory'
 import { ProjectDataForProjectPage, GetProjectDataForProjectPage } from '@modules/project'
 import { EntityNotFoundError } from '@modules/shared'

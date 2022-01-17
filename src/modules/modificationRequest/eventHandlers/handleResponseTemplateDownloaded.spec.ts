@@ -1,5 +1,5 @@
-import { DomainEvent, UniqueEntityID } from '../../../core/domain'
-import { okAsync } from '../../../core/utils'
+import { DomainEvent, UniqueEntityID } from '@core/domain'
+import { okAsync } from '@core/utils'
 import { InfraNotAvailableError } from '../../shared'
 import { ModificationRequestInstructionStarted, ResponseTemplateDownloaded } from '../events'
 import { GetModificationRequestStatus } from '../queries/GetModificationRequestStatus'

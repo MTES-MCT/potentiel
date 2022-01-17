@@ -1,5 +1,5 @@
 import { toRedisMessage } from './toRedisMessage'
-import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
+import { BaseDomainEvent, DomainEvent } from '@core/domain'
 
 interface DummyEventPayload {
   projectId: string

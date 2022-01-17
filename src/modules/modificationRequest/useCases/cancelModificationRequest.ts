@@ -1,5 +1,5 @@
-import { TransactionalRepository, UniqueEntityID } from '../../../core/domain'
-import { err, ResultAsync, wrapInfra } from '../../../core/utils'
+import { TransactionalRepository, UniqueEntityID } from '@core/domain'
+import { err, ResultAsync, wrapInfra } from '@core/utils'
 import { User } from '../../../entities'
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { ModificationRequest } from '../ModificationRequest'

@@ -1,5 +1,5 @@
-import { UniqueEntityID } from '../../core/domain'
-import { logger } from '../../core/utils'
+import { UniqueEntityID } from '@core/domain'
+import { logger } from '@core/utils'
 import { toProjectDataForCertificate, ProjectProps } from '@modules/project'
 import { IncompleteDataError } from '@modules/shared'
 import routes from '../../routes'

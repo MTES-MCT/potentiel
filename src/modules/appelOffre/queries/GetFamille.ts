@@ -1,4 +1,4 @@
-import { ResultAsync } from '../../../core/utils'
+import { ResultAsync } from '@core/utils'
 import { AppelOffre, Famille } from '../../../entities'
 import { EntityNotFoundError, InfraNotAvailableError } from '../../shared'
 

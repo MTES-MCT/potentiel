@@ -1,4 +1,4 @@
-import { UniqueEntityID } from '../../../../../core/domain'
+import { UniqueEntityID } from '@core/domain'
 import { ProjectGFSubmitted, ProjectGFSubmittedPayload } from '@modules/project'
 import { resetDatabase } from '../../../helpers'
 import models from '../../../models'

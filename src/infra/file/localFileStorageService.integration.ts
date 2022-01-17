@@ -5,7 +5,7 @@ import path from 'path'
 import util from 'util'
 import mkdirp from 'mkdirp'
 import { makeLocalFileStorageService } from './localFileStorageService'
-import { logger } from '../../core/utils'
+import { logger } from '@core/utils'
 import { pathExists } from '../../helpers/pathExists'
 import { FileNotFoundError } from '@modules/file'
 

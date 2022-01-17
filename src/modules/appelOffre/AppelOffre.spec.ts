@@ -1,4 +1,4 @@
-import { UniqueEntityID } from '../../core/domain'
+import { UniqueEntityID } from '@core/domain'
 import { makeUser } from '../../entities'
 import { UnwrapForTest } from '../../types'
 import makeFakeUser from '../../__tests__/fixtures/user'

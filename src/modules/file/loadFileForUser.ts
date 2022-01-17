@@ -1,5 +1,5 @@
-import { errAsync, okAsync, ResultAsync, wrapInfra } from '../../core/utils'
-import { Repository, UniqueEntityID } from '../../core/domain'
+import { errAsync, okAsync, ResultAsync, wrapInfra } from '@core/utils'
+import { Repository, UniqueEntityID } from '@core/domain'
 import { User } from '../../entities'
 import { ShouldUserAccessProject } from '../authZ'
 import { EntityNotFoundError, InfraNotAvailableError } from '../shared'

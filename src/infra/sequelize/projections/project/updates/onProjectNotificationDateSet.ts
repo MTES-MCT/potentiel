@@ -1,4 +1,4 @@
-import { logger } from '../../../../../core/utils'
+import { logger } from '@core/utils'
 import { ProjectNotificationDateSet, ProjectNotified } from '@modules/project'
 
 export const onProjectNotificationDateSet = (models) => async (

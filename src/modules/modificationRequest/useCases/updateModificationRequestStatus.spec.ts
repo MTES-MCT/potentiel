@@ -1,4 +1,4 @@
-import { logger } from '../../../core/utils'
+import { logger } from '@core/utils'
 import { makeUser } from '../../../entities'
 import { UnwrapForTest } from '../../../types'
 import { fakeRepo, makeFakeModificationRequest } from '../../../__tests__/fixtures/aggregates'

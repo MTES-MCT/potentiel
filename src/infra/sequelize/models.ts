@@ -14,7 +14,7 @@ import { MakeAppelOffreModel } from './projections/appelOffre/appelOffre.model'
 import { MakePeriodeModel } from './projections/appelOffre/periode.model'
 import { MakeCredentialsModel } from './projections/user/credentials.model'
 import { MakeUserProjectClaimsModel } from './projections'
-import { EventBus } from '../../core/domain'
+import { EventBus } from '@core/domain'
 
 import * as projectionsNextModels from './projectionsNext'
 import { HasSubscribe } from './helpers/Projection'

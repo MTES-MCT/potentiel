@@ -1,6 +1,6 @@
 import { NotificationService } from '..'
-import { Repository, UniqueEntityID } from '../../../core/domain'
-import { wrapInfra } from '../../../core/utils'
+import { Repository, UniqueEntityID } from '@core/domain'
+import { wrapInfra } from '@core/utils'
 import { ProjectRepo } from '../../../dataAccess'
 import { User } from '../../../entities'
 import { ProjectCertificateRegenerated, ProjectCertificateUpdated } from '../../project/events'

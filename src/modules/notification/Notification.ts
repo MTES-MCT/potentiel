@@ -1,6 +1,6 @@
 import { Optional } from 'utility-types'
-import { AggregateRoot, DomainError, DomainEvent, UniqueEntityID } from '../../core/domain'
-import { ok, Result } from '../../core/utils'
+import { AggregateRoot, DomainError, DomainEvent, UniqueEntityID } from '@core/domain'
+import { ok, Result } from '@core/utils'
 import { DREAL, Project, User } from '../../entities'
 
 type BaseNotification = {

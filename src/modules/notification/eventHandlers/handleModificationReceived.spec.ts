@@ -1,5 +1,5 @@
 import { handleModificationReceived, NotificationArgs } from '..'
-import { UniqueEntityID } from '../../../core/domain'
+import { UniqueEntityID } from '@core/domain'
 import { makeProject } from '../../../entities'
 import routes from '../../../routes'
 import { None, Some } from '../../../types'

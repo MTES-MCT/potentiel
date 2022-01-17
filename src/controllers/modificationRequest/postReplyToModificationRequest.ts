@@ -9,7 +9,7 @@ import {
   requestConfirmation,
   updateModificationRequestStatus,
 } from '../../config'
-import { logger } from '../../core/utils'
+import { logger } from '@core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { isDateFormatValid, isStrictlyPositiveNumber } from '../../helpers/formValidators'
 import { pathExists } from '../../helpers/pathExists'

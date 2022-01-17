@@ -1,5 +1,5 @@
 import express from 'express'
-import { okAsync } from '../../core/utils'
+import { okAsync } from '@core/utils'
 import { User } from '../../entities'
 import { GetUserByEmail, UserRole } from '@modules/users'
 import { makeFakeCreateUser } from '../../__tests__/fakes'

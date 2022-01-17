@@ -1,6 +1,6 @@
 import { getFailedNotificationDetails } from './getFailedNotificationDetails'
 import { resetDatabase } from '../../helpers'
-import { UniqueEntityID } from '../../../../core/domain'
+import { UniqueEntityID } from '@core/domain'
 import models from '../../models'
 
 const fakeNotificationArgs = {

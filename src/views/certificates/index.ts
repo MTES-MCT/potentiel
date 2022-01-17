@@ -1,4 +1,4 @@
-import { ResultAsync } from '../../core/utils'
+import { ResultAsync } from '@core/utils'
 import { CertificateTemplate } from '../../entities'
 import { ProjectDataForCertificate, IllegalProjectStateError } from '@modules/project'
 import { OtherError } from '@modules/shared'

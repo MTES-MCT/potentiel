@@ -3,7 +3,7 @@ import moment from 'moment'
 import { ProjectRepo, UserRepo } from '../../../dataAccess'
 import routes from '../../../routes'
 import { UserInvitedToProject } from '../../authZ'
-import { logger } from '../../../core/utils'
+import { logger } from '@core/utils'
 
 export const handleUserInvitedToProject = (deps: {
   sendNotification: NotificationService['sendNotification']

@@ -1,6 +1,6 @@
 import moment from 'moment'
-import { EventBus } from '../core/domain'
-import { logger } from '../core/utils'
+import { EventBus } from '@core/domain'
+import { logger } from '@core/utils'
 import { ProjectRepo } from '../dataAccess'
 import { applyProjectUpdate } from '../entities'
 import { NotificationService } from '@modules/notification'

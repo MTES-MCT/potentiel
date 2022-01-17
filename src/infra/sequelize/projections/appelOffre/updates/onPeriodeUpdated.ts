@@ -1,4 +1,4 @@
-import { logger } from '../../../../../core/utils'
+import { logger } from '@core/utils'
 import { PeriodeUpdated } from '@modules/appelOffre'
 
 export const onPeriodeUpdated = (models) => async (event: PeriodeUpdated) => {

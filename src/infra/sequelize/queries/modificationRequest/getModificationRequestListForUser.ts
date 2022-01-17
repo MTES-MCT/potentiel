@@ -1,5 +1,5 @@
 import { Op } from 'sequelize'
-import { errAsync, ok, okAsync, Result, ResultAsync, wrapInfra } from '../../../../core/utils'
+import { errAsync, ok, okAsync, Result, ResultAsync, wrapInfra } from '@core/utils'
 import { getFullTextSearchOptions } from '../../../../dataAccess/db/project'
 import { getAppelOffre } from '../../../../dataAccess/inMemory/appelOffre'
 import { User } from '../../../../entities'

@@ -1,4 +1,4 @@
-import { ok, wrapInfra } from '../../../../core/utils'
+import { ok, wrapInfra } from '@core/utils'
 import { GetAppelOffreList } from '@modules/appelOffre'
 import models from '../../models'
 

@@ -1,6 +1,6 @@
 import { FindProjectByIdentifiers } from '..'
-import { UniqueEntityID } from '../../../core/domain'
-import { okAsync } from '../../../core/utils'
+import { UniqueEntityID } from '@core/domain'
+import { okAsync } from '@core/utils'
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
 import { ProjectRawDataImported } from '../events'
 import { Project } from '../Project'

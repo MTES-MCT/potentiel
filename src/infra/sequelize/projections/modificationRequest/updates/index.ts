@@ -16,10 +16,10 @@ import { onModificationRequestStatusUpdated } from './onModificationRequestStatu
 import { onConfirmationRequested } from './onConfirmationRequested'
 import { onModificationRequestConfirmed } from './onModificationRequestConfirmed'
 import { onModificationRequestInstructionStarted } from './onModificationRequestInstructionStarted'
-import { logger } from '../../../../../core/utils'
+import { logger } from '@core/utils'
 import { onModificationReceived } from './onModificationReceived'
 import { onLegacyModificationImported } from './onLegacyModificationImported'
-import { EventBus } from '../../../../../core/domain'
+import { EventBus } from '@core/domain'
 
 export const initModificationRequestProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ModificationRequested.type, onModificationRequested(models))

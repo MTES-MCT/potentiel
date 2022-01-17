@@ -3,7 +3,7 @@ import { resetDatabase } from '../../helpers'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
 
 import { getProjectIdsForPeriode } from './getProjectIdsForPeriode'
-import { UniqueEntityID } from '../../../../core/domain'
+import { UniqueEntityID } from '@core/domain'
 
 describe('Sequelize getProjectIdsForPeriode', () => {
   const projectId = new UniqueEntityID().toString()

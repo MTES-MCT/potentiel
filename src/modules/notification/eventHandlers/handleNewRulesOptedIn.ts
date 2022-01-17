@@ -1,6 +1,6 @@
 import { NotificationService } from '..'
 import { ProjectRepo, UserRepo } from '../../../dataAccess'
-import { logger } from '../../../core/utils'
+import { logger } from '@core/utils'
 import { ProjectNewRulesOptedIn } from '../../project'
 
 export const handleNewRulesOptedIn = (deps: {

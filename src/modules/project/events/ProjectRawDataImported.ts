@@ -1,4 +1,4 @@
-import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
+import { BaseDomainEvent, DomainEvent } from '@core/domain'
 
 export interface ProjectRawDataImportedPayload {
   importId: string
@@ -33,8 +33,7 @@ export interface ProjectRawDataImportedPayload {
 }
 export class ProjectRawDataImported
   extends BaseDomainEvent<ProjectRawDataImportedPayload>
-  implements DomainEvent
-{
+  implements DomainEvent {
   public static type: 'ProjectRawDataImported' = 'ProjectRawDataImported'
   public type = ProjectRawDataImported.type
   currentVersion = 1

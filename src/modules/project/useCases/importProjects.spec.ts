@@ -1,6 +1,6 @@
 import { IllegalProjectDataError } from '..'
-import { DomainEvent, UniqueEntityID } from '../../../core/domain'
-import { okAsync } from '../../../core/utils'
+import { DomainEvent, UniqueEntityID } from '@core/domain'
+import { okAsync } from '@core/utils'
 import { AppelOffreRepo } from '../../../dataAccess'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { LegacyModificationRawDataImported } from '../../modificationRequest'
@@ -36,7 +36,7 @@ const validLine = {
   Autre: 'valeur',
 } as Record<string, string>
 
-const appelOffreRepo = {
+const appelOffreRepo = ({
   findAll: async () => [
     {
       id: 'appelOffreId',
@@ -44,7 +44,7 @@ const appelOffreRepo = {
       familles: [{ id: 'familleId' }],
     },
   ],
-} as unknown as AppelOffreRepo
+} as unknown) as AppelOffreRepo
 
 const user = makeFakeUser()
 
@@ -143,7 +143,7 @@ describe('importProjects', () => {
         'Ancienne valeur 2': '01/01/2024',
       },
     ] as Record<string, string>[]
-    const appelOffreRepo = {
+    const appelOffreRepo = ({
       findAll: async () => [
         {
           id: 'appelOffreId',
@@ -151,7 +151,7 @@ describe('importProjects', () => {
           familles: [{ id: 'familleId' }],
         },
       ],
-    } as unknown as AppelOffreRepo
+    } as unknown) as AppelOffreRepo
     const importId = new UniqueEntityID().toString()
 
     const eventBus = {
@@ -300,7 +300,7 @@ describe('importProjects', () => {
   })
 
   describe('when a line has a familleId but the appel d’offre doesn’t have familles', () => {
-    const appelOffreRepo = {
+    const appelOffreRepo = ({
       findAll: async () => [
         {
           id: 'appelOffreId',
@@ -308,7 +308,7 @@ describe('importProjects', () => {
           familles: [],
         },
       ],
-    } as unknown as AppelOffreRepo
+    } as unknown) as AppelOffreRepo
 
     const invalidLine = {
       ...validLine,
@@ -410,7 +410,7 @@ describe('importProjects', () => {
       Notification: '',
     }
 
-    const appelOffreRepo = {
+    const appelOffreRepo = ({
       findAll: async () => [
         {
           id: 'appelOffreId',
@@ -418,7 +418,7 @@ describe('importProjects', () => {
           familles: [{ id: 'familleId' }],
         },
       ],
-    } as unknown as AppelOffreRepo
+    } as unknown) as AppelOffreRepo
 
     const lines = [invalidLine] as Record<string, string>[]
     const importId = new UniqueEntityID().toString()
@@ -456,7 +456,7 @@ describe('importProjects', () => {
       Notification: '12/12/2020',
     }
 
-    const appelOffreRepo = {
+    const appelOffreRepo = ({
       findAll: async () => [
         {
           id: 'appelOffreId',
@@ -464,7 +464,7 @@ describe('importProjects', () => {
           familles: [{ id: 'familleId' }],
         },
       ],
-    } as unknown as AppelOffreRepo
+    } as unknown) as AppelOffreRepo
 
     const lines = [invalidLine] as Record<string, string>[]
     const importId = new UniqueEntityID().toString()
@@ -505,7 +505,7 @@ describe('importProjects', () => {
       'Ancienne valeur 1': 'ancien producteur',
     }
 
-    const appelOffreRepo = {
+    const appelOffreRepo = ({
       findAll: async () => [
         {
           id: 'appelOffreId',
@@ -513,7 +513,7 @@ describe('importProjects', () => {
           familles: [{ id: 'familleId' }],
         },
       ],
-    } as unknown as AppelOffreRepo
+    } as unknown) as AppelOffreRepo
 
     const lines = [invalidLine] as Record<string, string>[]
     const importId = new UniqueEntityID().toString()

@@ -1,5 +1,5 @@
-import { DomainEvent } from '../../../core/domain'
-import { logger } from '../../../core/utils'
+import { DomainEvent } from '@core/domain'
+import { logger } from '@core/utils'
 import * as AuthorizationEvents from '@modules/authZ/events'
 import * as CandidateNotificationEvents from '@modules/candidateNotification/events'
 import * as ModificationRequestEvents from '@modules/modificationRequest/events'

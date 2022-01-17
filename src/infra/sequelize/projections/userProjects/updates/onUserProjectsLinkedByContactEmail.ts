@@ -1,4 +1,4 @@
-import { logger } from '../../../../../core/utils'
+import { logger } from '@core/utils'
 import { UserProjectsLinkedByContactEmail } from '@modules/authZ'
 
 export const onUserProjectsLinkedByContactEmail = (models) => async (

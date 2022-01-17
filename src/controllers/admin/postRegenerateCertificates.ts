@@ -1,7 +1,7 @@
 import asyncHandler from 'express-async-handler'
 import moment from 'moment-timezone'
 import { regenerateCertificatesForPeriode } from '../../config/useCases.config'
-import { logger } from '../../core/utils'
+import { logger } from '@core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import routes from '../../routes'
 import { ensureRole } from '../../config'

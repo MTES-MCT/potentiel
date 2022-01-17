@@ -1,5 +1,5 @@
 import { NotificationArgs } from '..'
-import { UniqueEntityID } from '../../../core/domain'
+import { UniqueEntityID } from '@core/domain'
 import { makeUser } from '../../../entities'
 import { Some, UnwrapForTest } from '../../../types'
 import { ProjectNewRulesOptedIn } from '../../project'

@@ -1,4 +1,4 @@
-import { err, ok, wrapInfra } from '../../../../core/utils'
+import { err, ok, wrapInfra } from '@core/utils'
 import {
   GetModificationRequestInfoForStatusNotification,
   ModificationRequestInfoForStatusNotificationDTO,

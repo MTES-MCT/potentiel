@@ -1,4 +1,4 @@
-import { logger } from '../../core/utils'
+import { logger } from '@core/utils'
 import { createUser } from './helpers/createUser'
 import { testRouter } from './testRouter'
 

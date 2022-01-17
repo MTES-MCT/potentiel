@@ -1,4 +1,4 @@
-import { or } from '../../../core/utils'
+import { or } from '@core/utils'
 import { UserRole } from '../../users'
 
 export type ProjectEventDTO =

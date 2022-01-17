@@ -1,4 +1,4 @@
-import { ResultAsync } from '../../../core/utils'
+import { ResultAsync } from '@core/utils'
 import { User } from '../../../entities'
 import { InfraNotAvailableError } from '../../shared'
 

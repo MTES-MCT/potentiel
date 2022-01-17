@@ -1,4 +1,4 @@
-import { DomainError } from '../../../core/domain/DomainError'
+import { DomainError } from '@core/domain'
 
 export class EntityNotFoundError extends DomainError {
   constructor() {

@@ -3,7 +3,7 @@ import { resetDatabase } from '../../../helpers'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import { onProjectNewRulesOptedIn } from './onProjectNewRulesOptedIn'
 import { ProjectNewRulesOptedIn } from '@modules/project'
-import { UniqueEntityID } from '../../../../../core/domain'
+import { UniqueEntityID } from '@core/domain'
 
 describe('project.onProjectNewRulesOptedIn', () => {
   const ProjectModel = models.Project

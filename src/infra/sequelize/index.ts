@@ -7,7 +7,7 @@ import {
   initAppelOffreProjections,
 } from './projections'
 import { initUserProjectClaimsProjections } from './projections/userProjectClaims/updates'
-import { EventStore } from '../../core/domain'
+import { EventStore } from '@core/domain'
 
 export { initProjectors, initProjectionsNext } from './models'
 export {

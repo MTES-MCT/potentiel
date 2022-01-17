@@ -1,5 +1,5 @@
-import { EventBus } from '../../../core/domain'
-import { logger } from '../../../core/utils'
+import { EventBus } from '@core/domain'
+import { logger } from '@core/utils'
 import { GetNonLegacyProjectsByContactEmail } from '../../project'
 import { UserCreated } from '../../users'
 import { UserProjectsLinkedByContactEmail } from '../events'

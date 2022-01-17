@@ -1,4 +1,4 @@
-import { ResultAsync } from '../../../core/utils'
+import { ResultAsync } from '@core/utils'
 import { PaginatedList, Pagination } from '../../../types'
 import { InfraNotAvailableError } from '../../shared'
 import { FailedNotificationDTO } from '../dtos'

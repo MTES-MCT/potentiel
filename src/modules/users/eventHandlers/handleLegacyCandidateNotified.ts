@@ -1,5 +1,5 @@
 import { CreateUser } from '..'
-import { logger } from '../../../core/utils'
+import { logger } from '@core/utils'
 import { LegacyCandidateNotified } from '../../legacyCandidateNotification'
 
 export const handleLegacyCandidateNotified = (deps: { createUser: CreateUser }) => async (

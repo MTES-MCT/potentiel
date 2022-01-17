@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize'
 import { UserRepo } from '../'
-import { logger } from '../../core/utils/logger'
+import { logger } from '@core/utils'
 import { DREAL, makeUser, Project, User } from '../../entities'
 import { mapExceptError, mapIfOk } from '../../helpers/results'
 import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types'

@@ -1,4 +1,4 @@
-import { logger } from '../../core/utils'
+import { logger } from '@core/utils'
 import { projectRepo, userRepo } from '../../dataAccess'
 import { eventStore } from '../../config'
 import { makeProject } from '../../entities'

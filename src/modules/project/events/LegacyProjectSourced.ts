@@ -1,4 +1,4 @@
-import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
+import { BaseDomainEvent, DomainEvent } from '@core/domain'
 
 //
 // This event is a value dump for items that were in the projects database table before the switch to event sourcing

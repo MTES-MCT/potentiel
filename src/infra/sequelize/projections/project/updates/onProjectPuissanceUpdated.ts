@@ -1,4 +1,4 @@
-import { logger } from '../../../../../core/utils'
+import { logger } from '@core/utils'
 import { ProjectPuissanceUpdated } from '@modules/project'
 
 export const onProjectPuissanceUpdated = (models) => async (event: ProjectPuissanceUpdated) => {

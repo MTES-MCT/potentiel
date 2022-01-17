@@ -1,4 +1,4 @@
-import { logger } from '../../../../../core/utils'
+import { logger } from '@core/utils'
 import { ModificationRequested } from '@modules/modificationRequest'
 
 export const onModificationRequested = (models) => async (event: ModificationRequested) => {

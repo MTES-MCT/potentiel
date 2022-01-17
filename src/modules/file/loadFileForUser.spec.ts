@@ -1,6 +1,6 @@
 import makeFakeUser from '../../__tests__/fixtures/user'
-import { okAsync } from '../../core/utils'
-import { Repository, UniqueEntityID } from '../../core/domain'
+import { okAsync } from '@core/utils'
+import { Repository, UniqueEntityID } from '@core/domain'
 import { makeUser, User } from '../../entities'
 import { FileAccessDeniedError } from './errors'
 import { FileObject } from './FileObject'

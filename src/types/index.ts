@@ -1,5 +1,5 @@
 import { Result, Option, Err } from '@usefultools/monads'
-import { logger } from '../core/utils'
+import { logger } from '@core/utils'
 
 // For monads
 

@@ -4,7 +4,7 @@ import { makeRedisPublish, makeRedisSubscribe } from '../infra/redis'
 import Redis from 'ioredis'
 import { isTestEnv } from './env.config'
 import { EventEmitter } from 'stream'
-import { EventBus } from '../core/domain'
+import { EventBus } from '@core/domain'
 import { HasSubscribe } from '../infra/sequelize/helpers/Projection'
 
 const eventEmitter = new EventEmitter()

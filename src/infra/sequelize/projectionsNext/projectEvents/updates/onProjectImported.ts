@@ -1,4 +1,4 @@
-import { UniqueEntityID } from '../../../../../core/domain'
+import { UniqueEntityID } from '@core/domain'
 import { ProjectImported } from '@modules/project'
 import { ProjectEvent } from '../projectEvent.model'
 

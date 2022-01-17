@@ -1,4 +1,4 @@
-import { wrapInfra } from '../../../../core/utils'
+import { wrapInfra } from '@core/utils'
 import { makePaginatedList, paginate } from '../../../../helpers/paginate'
 import { FailedNotificationDTO, GetFailedNotificationDetails } from '@modules/notification'
 import models from '../../models'

@@ -1,4 +1,4 @@
-import { DomainError } from '../../../core/domain'
+import { DomainError } from '@core/domain'
 
 export class AppelOffreDoesNotExistError extends DomainError {
   constructor(public appelOffreId: string, public lineNumber: number) {

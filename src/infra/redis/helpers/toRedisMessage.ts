@@ -1,4 +1,4 @@
-import { DomainEvent } from '../../../core/domain/DomainEvent'
+import { DomainEvent } from '@core/domain'
 
 export const toRedisMessage = (event: DomainEvent) => ({
   type: event.type,

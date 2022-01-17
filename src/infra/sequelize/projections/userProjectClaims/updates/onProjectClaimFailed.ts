@@ -1,4 +1,4 @@
-import { logger } from '../../../../../core/utils'
+import { logger } from '@core/utils'
 import { ProjectClaimFailed } from '@modules/projectClaim/events'
 
 export const onProjectClaimFailed = (models) => async (event: ProjectClaimFailed) => {

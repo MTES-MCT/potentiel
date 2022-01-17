@@ -1,5 +1,5 @@
 import { LegacyModificationDTO } from '../dtos'
-import { DomainEvent, BaseDomainEvent } from '../../../core/domain/DomainEvent'
+import { DomainEvent, BaseDomainEvent } from '@core/domain'
 
 export interface LegacyModificationRawDataImportedPayload {
   periodeId: string
@@ -12,8 +12,7 @@ export interface LegacyModificationRawDataImportedPayload {
 
 export class LegacyModificationRawDataImported
   extends BaseDomainEvent<LegacyModificationRawDataImportedPayload>
-  implements DomainEvent
-{
+  implements DomainEvent {
   public static type: 'LegacyModificationRawDataImported' = 'LegacyModificationRawDataImported'
   public type = LegacyModificationRawDataImported.type
   currentVersion = 1

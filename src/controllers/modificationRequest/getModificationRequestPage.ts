@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import { getModificationRequestDetails } from '../../config'
-import { logger } from '../../core/utils'
+import { logger } from '@core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import routes from '../../routes'
 import { ModificationRequestDetailsPage } from '../../views/legacy-pages'

@@ -1,4 +1,4 @@
-import { ResultAsync } from '../../../core/utils'
+import { ResultAsync } from '@core/utils'
 import { EntityNotFoundError, InfraNotAvailableError } from '../../shared'
 
 interface ModificationRequestedInfo {

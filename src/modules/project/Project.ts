@@ -2,7 +2,7 @@ import _ from 'lodash'
 import moment from 'moment-timezone'
 import sanitize from 'sanitize-filename'
 import { BuildProjectIdentifier, Fournisseur } from '.'
-import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '../../core/domain'
+import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '@core/domain'
 import {
   err,
   isPositiveNumber,
@@ -10,7 +10,7 @@ import {
   makePropertyValidator,
   ok,
   Result,
-} from '../../core/utils'
+} from '@core/utils'
 import { AppelOffre, CertificateTemplate, ProjectAppelOffre, User } from '../../entities'
 import {
   EntityNotFoundError,

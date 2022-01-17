@@ -1,6 +1,6 @@
 import { Readable } from 'stream'
-import { Repository, UniqueEntityID } from '../../../core/domain'
-import { ok, okAsync } from '../../../core/utils'
+import { Repository, UniqueEntityID } from '@core/domain'
+import { ok, okAsync } from '@core/utils'
 import { CertificateTemplate } from '../../../entities'
 import { fakeRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
 import { FileObject } from '../../file'

@@ -9,7 +9,7 @@ import {
   updateNewRulesOptIn,
 } from '../../config'
 import { oldProjectRepo } from '../../config/'
-import { logger } from '../../core/utils'
+import { logger } from '@core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { isStrictlyPositiveNumber } from '../../helpers/formValidators'
 import { pathExists } from '../../helpers/pathExists'

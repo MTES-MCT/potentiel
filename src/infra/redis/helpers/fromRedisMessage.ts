@@ -1,4 +1,4 @@
-import { DomainEvent } from '../../../core/domain'
+import { DomainEvent } from '@core/domain'
 import * as AuthorizationEvents from '@modules/authZ/events'
 import * as CandidateNotificationEvents from '@modules/candidateNotification/events'
 import * as ModificationRequestEvents from '@modules/modificationRequest/events'

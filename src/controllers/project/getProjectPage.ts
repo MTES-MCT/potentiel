@@ -12,7 +12,7 @@ import routes from '../../routes'
 import { ProjectDetailsPage } from '../../views'
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
 import { v1Router } from '../v1Router'
-import { okAsync } from '../../core/utils'
+import { okAsync } from '@core/utils'
 
 const displayFrise = process.env.DISPLAY_NEW_FRISE === 'true'
 

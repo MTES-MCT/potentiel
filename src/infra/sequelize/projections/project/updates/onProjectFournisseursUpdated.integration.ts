@@ -3,7 +3,7 @@ import { resetDatabase } from '../../../helpers'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import { onProjectFournisseursUpdated } from './onProjectFournisseursUpdated'
 import { ProjectFournisseursUpdated, Fournisseur } from '@modules/project'
-import { UniqueEntityID } from '../../../../../core/domain'
+import { UniqueEntityID } from '@core/domain'
 
 describe('project.onProjectFournisseursUpdated', () => {
   const { Project } = models

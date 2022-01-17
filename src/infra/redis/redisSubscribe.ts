@@ -1,5 +1,5 @@
 import { Redis } from 'ioredis'
-import { logger } from '../../core/utils'
+import { logger } from '@core/utils'
 import { HasSubscribe } from '../sequelize/helpers/Projection'
 import { fromRedisMessage } from './helpers/fromRedisMessage'
 

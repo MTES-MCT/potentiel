@@ -14,7 +14,7 @@ import {
   autoconsommationZNI2017,
   eolien,
 } from './appelsOffres'
-import { errAsync, okAsync } from '../../core/utils/Result'
+import { errAsync, okAsync } from '@core/utils'
 import { EntityNotFoundError } from '@modules/shared'
 import { GetPeriodeTitle, GetFamille } from '@modules/appelOffre'
 

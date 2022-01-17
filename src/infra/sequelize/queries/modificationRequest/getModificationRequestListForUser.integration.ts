@@ -4,7 +4,7 @@ import makeFakeProject from '../../../../__tests__/fixtures/project'
 import makeFakeFile from '../../../../__tests__/fixtures/file'
 import makeFakeUser from '../../../../__tests__/fixtures/user'
 import { getModificationRequestListForUser } from './getModificationRequestListForUser'
-import { UniqueEntityID } from '../../../../core/domain'
+import { UniqueEntityID } from '@core/domain'
 import { UnwrapForTest as OldUnwrapForTest } from '../../../../types'
 import { makeUser } from '../../../../entities'
 

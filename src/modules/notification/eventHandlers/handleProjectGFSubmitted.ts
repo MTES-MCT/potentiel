@@ -3,7 +3,7 @@ import moment from 'moment'
 import { ProjectRepo, UserRepo } from '../../../dataAccess'
 import routes from '../../../routes'
 import { ProjectGFSubmitted } from '../../project/events'
-import { logger } from '../../../core/utils'
+import { logger } from '@core/utils'
 
 export const handleProjectGFSubmitted = (deps: {
   sendNotification: NotificationService['sendNotification']

@@ -3,7 +3,7 @@ import { listProjects } from '../../useCases'
 import { makePagination } from '../../helpers/paginate'
 import routes from '../../routes'
 import { parseAsync } from 'json2csv'
-import { logger } from '../../core/utils'
+import { logger } from '@core/utils'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
 import { ensureRole } from '../../config'
@@ -577,8 +577,14 @@ const orderedFields = [
 ]
 
 const getProjectListCsv = asyncHandler(async (request, response) => {
-  let { appelOffreId, periodeId, familleId, recherche, classement, garantiesFinancieres } =
-    request.query as any
+  let {
+    appelOffreId,
+    periodeId,
+    familleId,
+    recherche,
+    classement,
+    garantiesFinancieres,
+  } = request.query as any
 
   if (!request.user?.role) {
     return response.redirect(routes.LOGIN)

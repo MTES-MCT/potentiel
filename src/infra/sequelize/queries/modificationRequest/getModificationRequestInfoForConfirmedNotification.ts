@@ -1,4 +1,4 @@
-import { err, errAsync, ok, wrapInfra } from '../../../../core/utils'
+import { err, errAsync, ok, wrapInfra } from '@core/utils'
 import {
   GetModificationRequestInfoForConfirmedNotification,
   ModificationRequestInfoForConfirmedNotificationDTO,

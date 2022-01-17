@@ -1,6 +1,6 @@
 import { Readable } from 'stream'
-import { DomainEvent, Repository } from '../../../core/domain'
-import { okAsync } from '../../../core/utils'
+import { DomainEvent, Repository } from '@core/domain'
+import { okAsync } from '@core/utils'
 import { makeUser } from '../../../entities'
 import { UnwrapForTest } from '../../../types'
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'

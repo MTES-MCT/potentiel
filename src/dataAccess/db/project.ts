@@ -1,6 +1,6 @@
 import { col, DataTypes, literal, Op, where } from 'sequelize'
 import { ContextSpecificProjectListFilter, ProjectFilters, ProjectRepo } from '../'
-import { logger } from '../../core/utils'
+import { logger } from '@core/utils'
 import { AppelOffre, DREAL, Famille, Periode, Project, User } from '../../entities'
 import { makePaginatedList, paginate } from '../../helpers/paginate'
 import { mapExceptError } from '../../helpers/results'

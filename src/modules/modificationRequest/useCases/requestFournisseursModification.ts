@@ -1,5 +1,5 @@
-import { EventBus, Repository, TransactionalRepository, UniqueEntityID } from '../../../core/domain'
-import { errAsync, logger, okAsync, ResultAsync, wrapInfra } from '../../../core/utils'
+import { EventBus, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
+import { errAsync, logger, okAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { User } from '../../../entities'
 import { FileContents, FileObject, makeAndSaveFile } from '../../file'
 import { Fournisseur, ProjectCannotBeUpdatedIfUnnotifiedError } from '../../project'

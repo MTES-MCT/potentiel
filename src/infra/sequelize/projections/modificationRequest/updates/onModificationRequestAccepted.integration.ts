@@ -2,7 +2,7 @@ import models from '../../../models'
 import { resetDatabase } from '../../../helpers'
 import { onModificationRequestAccepted } from './onModificationRequestAccepted'
 import { ModificationRequestAccepted } from '@modules/modificationRequest'
-import { UniqueEntityID } from '../../../../../core/domain'
+import { UniqueEntityID } from '@core/domain'
 
 describe('modificationRequest.onModificationRequestAccepted', () => {
   const ModificationRequestModel = models.ModificationRequest

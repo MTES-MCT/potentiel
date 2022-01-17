@@ -1,4 +1,4 @@
-import { wrapInfra } from '../../../../core/utils'
+import { wrapInfra } from '@core/utils'
 import { AppelOffre, Periode } from '../../../../entities'
 import { GetUnnotifiedProjectsForPeriode } from '@modules/project'
 import models from '../../models'

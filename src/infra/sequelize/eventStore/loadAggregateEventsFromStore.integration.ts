@@ -1,7 +1,7 @@
 import { loadAggregateEventsFromStore } from './loadAggregateEventsFromStore'
 import { resetDatabase, toPersistance } from '../helpers'
 import models from '../models'
-import { UniqueEntityID } from '../../../core/domain'
+import { UniqueEntityID } from '@core/domain'
 import { ProjectAbandoned } from '@modules/project'
 import { LegacyModificationImported } from '@modules/modificationRequest'
 

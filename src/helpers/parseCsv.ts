@@ -1,7 +1,7 @@
 import iconv from 'iconv-lite'
 import csvParse from 'csv-parse'
 import fs from 'fs'
-import { ResultAsync } from '../core/utils'
+import { ResultAsync } from '@core/utils'
 interface parseCsvOptions {
   delimiter?: ',' | ';'
   encoding?: 'win1252' | 'utf8'

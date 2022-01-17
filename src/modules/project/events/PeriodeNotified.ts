@@ -1,5 +1,5 @@
-import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
-import { stableStringify } from '../../../core/utils'
+import { BaseDomainEvent, DomainEvent } from '@core/domain'
+import { stableStringify } from '@core/utils'
 
 export interface PeriodeNotifiedPayload {
   periodeId: string

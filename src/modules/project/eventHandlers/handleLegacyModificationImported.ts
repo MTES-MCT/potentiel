@@ -1,5 +1,5 @@
 import { Project } from '..'
-import { TransactionalRepository, UniqueEntityID } from '../../../core/domain'
+import { TransactionalRepository, UniqueEntityID } from '@core/domain'
 import { LegacyModificationImported } from '../../modificationRequest'
 
 export const handleLegacyModificationImported = (deps: {

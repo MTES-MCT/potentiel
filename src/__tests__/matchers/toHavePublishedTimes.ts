@@ -1,5 +1,5 @@
-import { DomainEvent, Constructor, HasType } from '../../core/domain'
-import { ResultAsync } from '../../core/utils'
+import { DomainEvent, Constructor, HasType } from '@core/domain'
+import { ResultAsync } from '@core/utils'
 import { InfraNotAvailableError } from '@modules/shared'
 
 expect.extend({

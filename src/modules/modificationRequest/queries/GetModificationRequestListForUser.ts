@@ -1,4 +1,4 @@
-import { ResultAsync } from '../../../core/utils'
+import { ResultAsync } from '@core/utils'
 import { AppelOffre, Famille, Periode, User } from '../../../entities'
 import { PaginatedList, Pagination } from '../../../types'
 import { InfraNotAvailableError } from '../../shared'

@@ -1,4 +1,4 @@
-import { UniqueEntityID } from '../../../../../core/domain'
+import { UniqueEntityID } from '@core/domain'
 import { UserProjectsLinkedByContactEmail, UserRightsToProjectRevoked } from '@modules/authZ'
 import { resetDatabase } from '../../../helpers'
 import models from '../../../models'

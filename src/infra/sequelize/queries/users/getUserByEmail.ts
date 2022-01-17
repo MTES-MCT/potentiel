@@ -1,4 +1,4 @@
-import { ok, Result, wrapInfra } from '../../../../core/utils'
+import { ok, Result, wrapInfra } from '@core/utils'
 import { User } from '../../../../entities'
 import { InfraNotAvailableError } from '@modules/shared'
 import { GetUserByEmail } from '@modules/users'

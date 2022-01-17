@@ -1,5 +1,5 @@
-import { ok } from '../../../core/utils'
-import { DomainEvent, UniqueEntityID } from '../../../core/domain'
+import { ok } from '@core/utils'
+import { DomainEvent, UniqueEntityID } from '@core/domain'
 import { UnauthorizedError } from '@modules/shared'
 
 export const makeFakeAppelOffre = () => ({

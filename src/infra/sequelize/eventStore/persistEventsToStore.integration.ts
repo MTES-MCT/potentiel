@@ -1,7 +1,7 @@
 import { persistEventsToStore } from './persistEventsToStore'
 import { resetDatabase } from '../helpers'
 import { ProjectAbandoned } from '@modules/project'
-import { UniqueEntityID } from '../../../core/domain'
+import { UniqueEntityID } from '@core/domain'
 import models from '../models'
 import { LegacyModificationImported } from '@modules/modificationRequest'
 const { EventStore } = models

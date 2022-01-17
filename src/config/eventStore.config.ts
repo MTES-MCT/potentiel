@@ -1,5 +1,5 @@
-import { EventStore } from '../core/domain'
-import { makeEventStore } from '../core/utils'
+import { EventStore } from '@core/domain'
+import { makeEventStore } from '@core/utils'
 import {
   loadAggregateEventsFromStore,
   persistEventsToStore,

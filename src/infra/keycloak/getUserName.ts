@@ -1,5 +1,5 @@
 import { makeKeycloakClient } from './keycloakClient'
-import { logger, ResultAsync } from '../../core/utils'
+import { logger, ResultAsync } from '@core/utils'
 import { OtherError } from '@modules/shared'
 import { GetUserName } from '@modules/users'
 

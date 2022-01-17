@@ -1,4 +1,4 @@
-import { logger } from '../../../../../core/utils'
+import { logger } from '@core/utils'
 import { ProjectClaimed, ProjectClaimedByOwner } from '@modules/projectClaim/events'
 import { EntityNotFoundError } from '@modules/shared'
 

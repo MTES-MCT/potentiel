@@ -1,4 +1,4 @@
-import { logger } from '../../../../../core/utils'
+import { logger } from '@core/utils'
 import { UserRightsToProjectGranted } from '@modules/authZ'
 
 export const onUserRightsToProjectGranted = (models) => async (

@@ -1,4 +1,4 @@
-import { UniqueEntityID } from '../../../../../core/domain'
+import { UniqueEntityID } from '@core/domain'
 import { ModificationReceived } from '@modules/modificationRequest'
 import models from '../../../models'
 import { onModificationReceived } from './onModificationReceived'

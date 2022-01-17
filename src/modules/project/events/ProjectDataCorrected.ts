@@ -1,4 +1,4 @@
-import { DomainEvent, BaseDomainEvent } from '../../../core/domain/DomainEvent'
+import { DomainEvent, BaseDomainEvent } from '@core/domain'
 
 export interface ProjectDataCorrectedPayload {
   projectId: string

@@ -1,5 +1,5 @@
-import { DomainEvent, EventBus, UniqueEntityID } from '../../../core/domain'
-import { okAsync } from '../../../core/utils'
+import { DomainEvent, EventBus, UniqueEntityID } from '@core/domain'
+import { okAsync } from '@core/utils'
 import { makeUser } from '../../../entities'
 import { InfraNotAvailableError } from '@modules/shared'
 import { UnwrapForTest } from '../../../types'

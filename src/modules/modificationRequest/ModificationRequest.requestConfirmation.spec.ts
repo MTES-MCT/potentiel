@@ -1,11 +1,11 @@
-import { UniqueEntityID } from '../../core/domain'
+import { UniqueEntityID } from '@core/domain'
 import { makeUser } from '../../entities'
 import makeFakeUser from '../../__tests__/fixtures/user'
 import { ModificationRequestAccepted, ModificationRequested, ConfirmationRequested } from './events'
 import { StatusPreventsConfirmationRequestError, TypePreventsConfirmationError } from './errors'
 import { makeModificationRequest } from './ModificationRequest'
 import { UnwrapForTest as OldUnwrapForTest } from '../../types'
-import { UnwrapForTest } from '../../core/utils'
+import { UnwrapForTest } from '@core/utils'
 
 describe('Modification.requestConfirmation()', () => {
   const modificationRequestId = new UniqueEntityID()

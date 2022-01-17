@@ -1,5 +1,5 @@
 import { NotificationService } from '..'
-import { logger } from '../../../core/utils'
+import { logger } from '@core/utils'
 import { ProjectRepo, UserRepo } from '../../../dataAccess'
 import routes from '../../../routes'
 import { ModificationRequested } from '../../modificationRequest'

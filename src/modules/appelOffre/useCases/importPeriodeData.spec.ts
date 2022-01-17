@@ -1,5 +1,5 @@
-import { DomainEvent, Repository, UniqueEntityID } from '../../../core/domain'
-import { errAsync, okAsync } from '../../../core/utils'
+import { DomainEvent, Repository, UniqueEntityID } from '@core/domain'
+import { errAsync, okAsync } from '@core/utils'
 import { makeUser } from '../../../entities'
 import { UnwrapForTest } from '../../../types'
 import { makeFakeAppelOffre } from '../../../__tests__/fixtures/aggregates'

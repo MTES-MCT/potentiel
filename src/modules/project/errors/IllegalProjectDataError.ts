@@ -1,4 +1,4 @@
-import { DomainError } from '../../../core/domain'
+import { DomainError } from '@core/domain'
 
 export class IllegalProjectDataError extends DomainError {
   constructor(public errors: Record<number, string>) {

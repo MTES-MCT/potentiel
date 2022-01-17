@@ -1,4 +1,4 @@
-import { ResultAsync, okAsync, logger } from '../../core/utils'
+import { ResultAsync, okAsync, logger } from '@core/utils'
 import { SendEmailProps } from '@modules/notification'
 /**
  *

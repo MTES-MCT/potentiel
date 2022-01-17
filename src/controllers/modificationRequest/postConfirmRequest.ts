@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import { confirmRequest } from '../../config'
-import { logger } from '../../core/utils'
+import { logger } from '@core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import {
   AggregateHasBeenUpdatedSinceError,

@@ -1,4 +1,4 @@
-import { withDelay } from '../../core/utils'
+import { withDelay } from '@core/utils'
 import {
   LegacyModificationRawDataImported,
   ResponseTemplateDownloaded,

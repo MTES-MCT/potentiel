@@ -1,5 +1,5 @@
-import { DomainEvent, UniqueEntityID } from '../../../core/domain'
-import { okAsync } from '../../../core/utils'
+import { DomainEvent, UniqueEntityID } from '@core/domain'
+import { okAsync } from '@core/utils'
 import { makeUser } from '../../../entities'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'

@@ -21,6 +21,9 @@
     "paths": {
       "@modules/*": [
         "src/modules/*/index.ts"
+      ],
+      "@core/*": [
+        "src/core/*/index.ts"
       ]
     }
   },

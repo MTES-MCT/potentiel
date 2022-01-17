@@ -1,4 +1,4 @@
-import { wrapInfra } from '../../../../core/utils'
+import { wrapInfra } from '@core/utils'
 import { HasProjectGarantieFinanciere } from '@modules/modificationRequest'
 import models from '../../models'
 

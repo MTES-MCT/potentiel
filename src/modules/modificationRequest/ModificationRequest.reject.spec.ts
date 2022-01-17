@@ -1,4 +1,4 @@
-import { UniqueEntityID } from '../../core/domain'
+import { UniqueEntityID } from '@core/domain'
 import { makeUser } from '../../entities'
 import makeFakeUser from '../../__tests__/fixtures/user'
 import {
@@ -11,7 +11,7 @@ import {
 import { StatusPreventsRejectingError } from './errors'
 import { makeModificationRequest } from './ModificationRequest'
 import { UnwrapForTest as OldUnwrapForTest } from '../../types'
-import { UnwrapForTest } from '../../core/utils'
+import { UnwrapForTest } from '@core/utils'
 
 describe('Modification.reject()', () => {
   const modificationRequestId = new UniqueEntityID()

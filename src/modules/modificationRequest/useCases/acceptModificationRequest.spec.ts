@@ -5,9 +5,9 @@ import {
   makeFakeProject,
 } from '../../../__tests__/fixtures/aggregates'
 import { makeAcceptModificationRequest } from './acceptModificationRequest'
-import { logger, okAsync } from '../../../core/utils'
+import { logger, okAsync } from '@core/utils'
 import { FileObject } from '../../file'
-import { Repository, UniqueEntityID } from '../../../core/domain'
+import { Repository, UniqueEntityID } from '@core/domain'
 import { Readable } from 'stream'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { makeUser } from '../../../entities'

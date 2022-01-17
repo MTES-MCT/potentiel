@@ -1,4 +1,4 @@
-import { logger } from '../../core/utils'
+import { logger } from '@core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import routes from '../../routes'
 import { removeStep } from '../../config/useCases.config'

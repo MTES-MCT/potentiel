@@ -1,6 +1,6 @@
 import { Readable } from 'stream'
-import { UniqueEntityID } from '../../../core/domain'
-import { logger, okAsync, UnwrapForTest } from '../../../core/utils'
+import { UniqueEntityID } from '@core/domain'
+import { logger, okAsync, UnwrapForTest } from '@core/utils'
 import { resetDatabase } from '../helpers'
 import { FileContents, FileObject, FileStorageService, makeFileObject } from '@modules/file'
 import { EntityNotFoundError } from '@modules/shared'

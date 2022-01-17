@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import { getModificationRequestListForUser } from '../../config/queries.config'
-import { logger } from '../../core/utils'
+import { logger } from '@core/utils'
 import { appelOffreRepo } from '../../dataAccess/inMemory'
 import { makePagination } from '../../helpers/paginate'
 import routes from '../../routes'

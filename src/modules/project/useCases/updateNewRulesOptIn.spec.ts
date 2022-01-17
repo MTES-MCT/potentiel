@@ -1,5 +1,5 @@
-import { DomainEvent, EventBus, UniqueEntityID } from '../../../core/domain'
-import { okAsync } from '../../../core/utils'
+import { DomainEvent, EventBus, UniqueEntityID } from '@core/domain'
+import { okAsync } from '@core/utils'
 import { UnwrapForTest } from '../../../types'
 import { makeUser } from '../../../entities'
 import makeFakeUser from '../../../__tests__/fixtures/user'

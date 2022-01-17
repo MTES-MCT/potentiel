@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import { revokeUserRightsToProject } from '../../config/useCases.config'
-import { logger } from '../../core/utils'
+import { logger } from '@core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { UnauthorizedError } from '@modules/shared'
 import routes from '../../routes'

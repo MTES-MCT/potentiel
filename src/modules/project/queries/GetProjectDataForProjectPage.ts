@@ -1,4 +1,4 @@
-import { ResultAsync } from '../../../core/utils'
+import { ResultAsync } from '@core/utils'
 import { InfraNotAvailableError, EntityNotFoundError } from '../../shared'
 import { ProjectDataForProjectPage } from '../dtos'
 

@@ -3,7 +3,7 @@ import { ProjectImported } from '@modules/project'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import models from '../../../models'
 import { onProjectImported } from './onProjectImported'
-import { UniqueEntityID } from '../../../../../core/domain'
+import { UniqueEntityID } from '@core/domain'
 
 describe('project.onProjectImported', () => {
   const projectId = new UniqueEntityID().toString()

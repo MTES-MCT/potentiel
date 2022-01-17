@@ -1,5 +1,5 @@
 import { ProjectEventListDTO } from '..'
-import { ResultAsync } from '../../../core/utils'
+import { ResultAsync } from '@core/utils'
 import { User } from '../../../entities'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 

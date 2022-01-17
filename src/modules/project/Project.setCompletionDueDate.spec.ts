@@ -1,5 +1,5 @@
-import { DomainEvent, UniqueEntityID } from '../../core/domain'
-import { UnwrapForTest } from '../../core/utils'
+import { DomainEvent, UniqueEntityID } from '@core/domain'
+import { UnwrapForTest } from '@core/utils'
 import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
 import makeFakeProject from '../../__tests__/fixtures/project'
 import { ProjectCompletionDueDateSet, ProjectImported, ProjectNotified } from './events'

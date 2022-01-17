@@ -1,5 +1,5 @@
 import { getUserByEmail } from '../../config'
-import { logger } from '../../core/utils'
+import { logger } from '@core/utils'
 import { projectRepo, userRepo } from '../../dataAccess'
 import { testRouter } from './testRouter'
 

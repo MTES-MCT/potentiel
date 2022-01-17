@@ -1,8 +1,8 @@
 import { makeNotificationService } from './NotificationService'
 import { SendEmailProps } from './SendEmail'
-import { okAsync, errAsync, UnwrapForTest } from '../../core/utils'
+import { okAsync, errAsync, UnwrapForTest } from '@core/utils'
 import { Notification, NotificationArgs } from './Notification'
-import { DomainError, UniqueEntityID } from '../../core/domain'
+import { DomainError, UniqueEntityID } from '@core/domain'
 import { InfraNotAvailableError } from '../shared'
 
 describe('NotificationService', () => {

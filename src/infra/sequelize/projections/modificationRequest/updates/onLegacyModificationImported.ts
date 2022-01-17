@@ -1,4 +1,4 @@
-import { logger } from '../../../../../core/utils'
+import { logger } from '@core/utils'
 import { LegacyModificationImported } from '@modules/modificationRequest'
 
 export const onLegacyModificationImported = (models) => async (

@@ -1,5 +1,5 @@
-import { Repository, TransactionalRepository, UniqueEntityID } from '../../../core/domain'
-import { err, errAsync, logger, ok, okAsync, Result, ResultAsync } from '../../../core/utils'
+import { Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
+import { err, errAsync, logger, ok, okAsync, Result, ResultAsync } from '@core/utils'
 import { User } from '../../../entities'
 import { FileContents, FileObject, IllegalFileDataError, makeFileObject } from '../../file'
 import {

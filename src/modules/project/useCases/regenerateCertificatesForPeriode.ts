@@ -1,5 +1,5 @@
-import { EventBus, TransactionalRepository, UniqueEntityID } from '../../../core/domain'
-import { errAsync, logger, okAsync, Result, ResultAsync } from '../../../core/utils'
+import { EventBus, TransactionalRepository, UniqueEntityID } from '@core/domain'
+import { errAsync, logger, okAsync, Result, ResultAsync } from '@core/utils'
 import { User } from '../../../entities'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { IllegalProjectDataError, ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors'

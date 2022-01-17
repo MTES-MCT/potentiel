@@ -1,4 +1,4 @@
-import { ResultAsync } from '../../core/utils'
+import { ResultAsync } from '@core/utils'
 import { NotificationProps } from './Notification'
 
 export type SendEmailProps = {

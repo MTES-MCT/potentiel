@@ -1,4 +1,4 @@
-import { logger } from '../../../../../core/utils'
+import { logger } from '@core/utils'
 import { AppelOffreUpdated } from '@modules/appelOffre'
 import { appelOffreProjector } from '../appelOffre.model'
 

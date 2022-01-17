@@ -1,5 +1,5 @@
-import { EventBus } from '../../../core/domain'
-import { err, ok, okAsync, Result, ResultAsync, wrapInfra } from '../../../core/utils'
+import { EventBus } from '@core/domain'
+import { err, ok, okAsync, Result, ResultAsync, wrapInfra } from '@core/utils'
 import { Project, User } from '../../../entities'
 import { UserInvitedToProject } from '../../authZ'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'

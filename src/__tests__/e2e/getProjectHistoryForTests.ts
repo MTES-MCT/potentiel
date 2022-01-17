@@ -1,4 +1,4 @@
-import { logger } from '../../core/utils'
+import { logger } from '@core/utils'
 import { projectRepo } from '../../dataAccess'
 import { testRouter } from './testRouter'
 

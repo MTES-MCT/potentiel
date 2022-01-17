@@ -1,5 +1,5 @@
 import { Op } from 'sequelize'
-import { logger } from '../../../../../core/utils'
+import { logger } from '@core/utils'
 import { ProjectDCRRemoved, ProjectGFRemoved, ProjectPTFRemoved } from '@modules/project'
 
 type StepRemovedEvent = ProjectPTFRemoved | ProjectDCRRemoved | ProjectGFRemoved

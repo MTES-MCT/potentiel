@@ -1,6 +1,6 @@
 import multer from 'multer'
 import { promises as fs } from 'fs'
-import { logger } from '../core/utils'
+import { logger } from '@core/utils'
 
 const FILE_SIZE_LIMIT_MB = 50
 const uploadWithMulter = multer({

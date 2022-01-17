@@ -1,4 +1,4 @@
-import { UniqueEntityID } from '../../../../../core/domain'
+import { UniqueEntityID } from '@core/domain'
 import { UserCreated } from '@modules/users'
 import { describeProjector } from '../../../__tests__/projections'
 import models from '../../../models'

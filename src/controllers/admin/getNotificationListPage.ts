@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import { getFailedNotificationDetails } from '../../config'
-import { logger } from '../../core/utils'
+import { logger } from '@core/utils'
 import { makePagination } from '../../helpers/paginate'
 import routes from '../../routes'
 import { Pagination } from '../../types'

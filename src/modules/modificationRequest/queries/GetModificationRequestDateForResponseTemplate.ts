@@ -1,4 +1,4 @@
-import { ResultAsync } from '../../../core/utils'
+import { ResultAsync } from '@core/utils'
 import { User } from '../../../entities'
 import { EntityNotFoundError, InfraNotAvailableError } from '../../shared'
 import { ModificationRequestDataForResponseTemplateDTO } from '../dtos'

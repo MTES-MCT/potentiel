@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import { logger, ok } from '../../core/utils'
+import { logger, ok } from '@core/utils'
 import { CreateUser, GetUserByEmail, USER_ROLES } from '@modules/users'
 
 type AttachUserToRequestMiddlewareDependencies = {

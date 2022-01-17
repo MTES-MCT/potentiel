@@ -11,7 +11,7 @@ import { NotificationRepo } from './notificationRepo'
 import { makeProjectRepo } from './projectRepo'
 import { makeProjectClaimRepo } from './projectClaimRepo'
 import { makeLegacyCandidateNotification } from '@modules/legacyCandidateNotification'
-import { makeEventStoreRepo, makeEventStoreTransactionalRepo } from '../../../core/utils'
+import { makeEventStoreRepo, makeEventStoreTransactionalRepo } from '@core/utils'
 
 export const fileRepo = makeFileRepo({ models, fileStorageService })
 export const notificationRepo = new NotificationRepo(models)

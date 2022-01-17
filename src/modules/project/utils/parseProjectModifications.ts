@@ -1,6 +1,6 @@
 import { LegacyModificationDTO } from '../../modificationRequest'
 import moment from 'moment-timezone'
-import { UniqueEntityID } from '../../../core/domain'
+import { UniqueEntityID } from '@core/domain'
 moment.tz.setDefault('Europe/Paris')
 
 export const parseProjectModifications = (line: Record<string, string>) => {

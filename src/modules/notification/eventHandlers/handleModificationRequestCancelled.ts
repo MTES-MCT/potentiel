@@ -1,5 +1,5 @@
 import { NotificationService } from '..'
-import { logger, okAsync, ResultAsync, wrapInfra } from '../../../core/utils'
+import { logger, okAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { UserRepo } from '../../../dataAccess'
 import routes from '../../../routes'
 import {
