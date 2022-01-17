@@ -78,10 +78,10 @@ export const Timeline = (props: TimelineProps) => {
   )
 }
 
-const sortItemProps = (a: unknown, b: unknown) => {
-  const hasDateProperty = (props: unknown): props is { date: any } =>
-    props && typeof props === 'object' ? props.hasOwnProperty('date') : false
+const hasDateProperty = (props: unknown): props is { date: any } =>
+  props && typeof props === 'object' ? props.hasOwnProperty('date') : false
 
+const sortItemProps = (a: unknown, b: unknown) => {
   const A_IS_GREATER_THAN_B = 1
   const A_IS_LESS_THAN_B = -1
 
