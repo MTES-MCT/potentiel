@@ -3,19 +3,27 @@ import { ProjectDCRSubmitted, ProjectDCRSubmittedPayload } from '../../../../../
 import { resetDatabase } from '../../../helpers'
 import { ProjectEvent } from '../projectEvent.model'
 import onProjectDCRSubmitted from './onProjectDCRSubmitted'
+import models from '../../../models'
 
 describe('onProjectDCRSubmitted', () => {
   const projectId = new UniqueEntityID().toString()
-  const fileId = 'file-id'
+  const fileId = new UniqueEntityID().toString()
   const occurredAt = new Date('2022-01-04')
   const submittedBy = 'user-id'
   const dcrDate = new Date('2021-12-26')
+  const filename = 'my-file'
+  const { File } = models
 
   beforeEach(async () => {
     await resetDatabase()
   })
 
   it('should create a new project event of type ProjectDCRSubmitted', async () => {
+    await File.create({
+      id: fileId,
+      filename,
+      designation: 'designation',
+    })
     await onProjectDCRSubmitted(
       new ProjectDCRSubmitted({
         payload: {
@@ -39,7 +47,7 @@ describe('onProjectDCRSubmitted', () => {
       type: 'ProjectDCRSubmitted',
       valueDate: dcrDate.getTime(),
       eventPublishedAt: occurredAt.getTime(),
-      payload: { fileId },
+      payload: { fileId, filename },
     })
   })
 })
