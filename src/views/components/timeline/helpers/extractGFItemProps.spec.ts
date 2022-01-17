@@ -192,7 +192,7 @@ describe('extractGFitemProps', () => {
           variant: 'porteur-projet',
           date: new Date('2022-01-14').getTime(),
           newStatus: 'validé',
-          stepType: 'garantiesFinancieres',
+          stepType: 'garantie-financiere',
         } as ProjectStepStatusUpdatedDTO,
       ]
       const result = extractGFItemProps(events, new Date('2022-01-11').getTime())
