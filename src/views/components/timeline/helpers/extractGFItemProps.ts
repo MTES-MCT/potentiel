@@ -25,9 +25,8 @@ export const extractGFItemProps = (
   now: number
 ): GarantieFinanciereItemProps | null => {
   const latestProjectGF = events.filter(isProjectGF).pop()
-  const latestDueDateSetEvent = events.filter(isProjectGFDueDateSet).pop()
-  const latestSubmittedEvent = events.filter(isProjectGFSubmitted).pop()
-  const latestProjectStepStatusUpdatedEvent = events.filter(isProjectStepStatusUpdated).pop()
+  const latestDueDateSetEvent = events.filter(is('ProjectGFDueDateSet')).pop()
+  const latestSubmittedEvent = events.filter(is('ProjectGFSubmitted')).pop()
 
   if (!latestProjectGF) {
     return null
@@ -64,15 +63,3 @@ const isProjectGF = or(
   is('ProjectGFRemoved'),
   is('ProjectStepStatusUpdated')
 )
-
-const isProjectGFDueDateSet = (event: ProjectEventDTO): event is ProjectGFDueDateSetDTO =>
-  event.type === 'ProjectGFDueDateSet'
-
-const isProjectGFSubmitted = (event: ProjectEventDTO): event is ProjectGFSubmittedDTO =>
-  event.type === 'ProjectGFSubmitted'
-
-const isProjectGFRemoved = (event: ProjectEventDTO): event is ProjectGFRemovedDTO =>
-  event.type === 'ProjectGFRemoved'
-
-const isProjectStepStatusUpdated = (event: ProjectEventDTO): event is ProjectStepStatusUpdatedDTO =>
-  event.type === 'ProjectStepStatusUpdated'
