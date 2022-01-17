@@ -1,6 +1,6 @@
 import { legacyCandidateNotificationRepo } from '../repos.config'
 import { isPeriodeLegacy } from '../queries.config'
-import { handleProjectImported } from '../../modules/legacyCandidateNotification'
+import { handleProjectImported } from '@modules/legacyCandidateNotification'
 import { eventStore } from '../eventStore.config'
 import { ProjectImported, ProjectReimported } from '../../modules/project'
 

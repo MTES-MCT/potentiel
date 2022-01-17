@@ -6,7 +6,7 @@ import * as AppelOffreEvents from '@modules/appelOffre/events'
 import * as ProjectEvents from '../../../modules/project/events'
 import * as ProjectClaimEvents from '../../../modules/projectClaim/events'
 import * as UserEvents from '../../../modules/users/events'
-import * as LegacyCandidateNotificationEvents from '../../../modules/legacyCandidateNotification/events'
+import * as LegacyCandidateNotificationEvents from '@modules/legacyCandidateNotification/events'
 import { RedisMessage } from './RedisMessage'
 
 interface EventProps {
