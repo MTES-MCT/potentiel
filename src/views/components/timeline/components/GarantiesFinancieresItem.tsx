@@ -12,6 +12,7 @@ export const GarantieFinanciereItem = ({
   date,
   status,
   url,
+  validated,
 }: GarantieFinanciereItemProps & { projectId: string }) => {
   const isPorteurProjet = role === 'porteur-projet'
   const displayWarning = status === 'past-due' && isPorteurProjet
@@ -43,8 +44,12 @@ export const GarantieFinanciereItem = ({
             <a href={url} download>
               Télécharger l'attestation de garanties financières
             </a>
-            <span aria-hidden>&nbsp;|&nbsp;</span>
-            {role === 'porteur-projet' && <RemoveDocument projectId={projectId} />}
+            {isPorteurProjet && !validated && (
+              <>
+                <span aria-hidden>&nbsp;|&nbsp;</span>
+                <RemoveDocument projectId={projectId} />
+              </>
+            )}
           </div>
         )}
       </ContentArea>
