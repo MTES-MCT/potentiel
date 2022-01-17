@@ -1,7 +1,8 @@
 import { UniqueEntityID } from '../../../../../core/domain'
 import { ProjectGFSubmitted } from '../../../../../modules/project'
-import models from '../../../models'
 import { ProjectEvent } from '../projectEvent.model'
+import models from '../../../models'
+import { logger } from '../../../../../core/utils'
 
 export default ProjectEvent.projector.on(
   ProjectGFSubmitted,
@@ -11,8 +12,12 @@ export default ProjectEvent.projector.on(
       attributes: ['filename'],
       where: { id: fileId },
     })
-    const filename = rawFilename.filename
-
+    if (!rawFilename) {
+      logger.error(
+        `Error: onProjectGFSubmitted projection failed to retrieve filename from db File`
+      )
+      return
+    }
     await ProjectEvent.create(
       {
         projectId,
@@ -20,7 +25,7 @@ export default ProjectEvent.projector.on(
         valueDate: gfDate.getTime(),
         eventPublishedAt: occurredAt.getTime(),
         id: new UniqueEntityID().toString(),
-        payload: { fileId, filename },
+        payload: { fileId, filename: rawFilename.filename },
       },
       { transaction }
     )
