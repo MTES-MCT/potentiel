@@ -27,7 +27,7 @@ export const extractPTFItemProps = (events: ProjectEventDTO[]): PTFItemProps | n
   const projectPTFEvents = events.filter(isProjectPTF)
   const latestProjectPTF = projectPTFEvents.pop()
 
-  if (!latestProjectPTF || latestProjectPTF.type === 'ProjectPTFRemoved') {
+  if (!latestProjectPTF || is('ProjectPTFRemoved')(latestProjectPTF)) {
     return {
       type: 'proposition-technique-et-financiere',
       role: latestProjectPTF ? latestProjectPTF.variant : events.slice(-1)[0].variant,
