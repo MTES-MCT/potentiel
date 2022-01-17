@@ -1,8 +1,8 @@
 import {
+  CandidateNotifiedForPeriode,
   handleCandidateNotifiedForPeriode,
   handleProjectCertificateGeneratedOrFailed,
-} from '../../modules/candidateNotification/eventHandlers'
-import { CandidateNotifiedForPeriode } from '../../modules/candidateNotification/events'
+} from '@modules/candidateNotification'
 import {
   ProjectCertificateGenerated,
   ProjectCertificateGenerationFailed,
