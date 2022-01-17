@@ -11,7 +11,7 @@ import {
   ProjectDCRRemovedDTO,
   ProjectPTFSubmittedDTO,
   ProjectGFValidatedDTO,
-} from '../../../modules/frise'
+} from '@modules/frise'
 import makeFakeProject from '../../../__tests__/fixtures/project'
 import { Timeline } from './Timeline'
 

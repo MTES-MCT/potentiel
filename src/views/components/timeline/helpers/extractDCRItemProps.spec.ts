@@ -3,7 +3,7 @@ import {
   ProjectDCRRemovedDTO,
   ProjectDCRSubmittedDTO,
   ProjectNotifiedDTO,
-} from '../../../../modules/frise'
+} from '@modules/frise'
 import { extractDCRItemProps } from './extractDCRItemProps'
 
 describe('extractDCRitemProps', () => {

@@ -1,4 +1,4 @@
-import { ProjectEventDTO, is } from '../../../../modules/frise'
+import { ProjectEventDTO, is } from '@modules/frise'
 import { or } from '../../../../core/utils'
 import { UserRole } from '../../../../modules/users'
 import { makeDocumentUrl } from './makeDocumentUrl'

@@ -7,7 +7,7 @@ import {
   ProjectEventDTO,
   ProjectImportedDTO,
   ProjectNotifiedDTO,
-} from '../../../../modules/frise'
+} from '@modules/frise'
 import { extractDesignationItemProps } from './extractDesignationItemProps'
 
 describe('extractDesignationItemProps.spec', () => {

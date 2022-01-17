@@ -1,4 +1,4 @@
-import { is, ProjectEventDTO } from '../../../../modules/frise'
+import { is, ProjectEventDTO } from '@modules/frise'
 
 export type ImportItemProps = {
   type: 'import'

@@ -1,11 +1,11 @@
 import {
   ProjectGFDueDateSetDTO,
-  ProjectGFSubmittedDTO,
-  ProjectNotifiedDTO,
-  ProjectGFRemovedDTO,
-  ProjectGFValidatedDTO,
   ProjectGFInvalidatedDTO,
-} from '../../../../modules/frise'
+  ProjectGFRemovedDTO,
+  ProjectGFSubmittedDTO,
+  ProjectGFValidatedDTO,
+  ProjectNotifiedDTO,
+} from '@modules/frise'
 import { extractGFItemProps } from './extractGFItemProps'
 
 describe('extractGFitemProps', () => {

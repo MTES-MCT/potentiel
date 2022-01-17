@@ -16,7 +16,13 @@
     "sourceMap": true,
     "inlineSources": true,
     "sourceRoot": "/",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@modules/*": [
+        "src/modules/*/index.ts"
+      ]
+    }
   },
   "include": ["src/**/*"],
   "exclude": [
