@@ -1,7 +1,4 @@
-import { request } from 'express'
-import asyncHandler from 'express-async-handler'
 import fs from 'fs'
-import moment from 'moment-timezone'
 import {
   acceptModificationRequest,
   ensureRole,
@@ -12,7 +9,6 @@ import {
 import { logger } from '@core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { isDateFormatValid, isStrictlyPositiveNumber } from '../../helpers/formValidators'
-import { pathExists } from '../../helpers/pathExists'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import {
   ModificationRequestAcceptanceParams,
@@ -25,6 +21,7 @@ import {
 } from '@modules/shared'
 import routes from '../../routes'
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
+import asyncHandler from '../helpers/asyncHandler'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
 
@@ -164,7 +161,7 @@ v1Router.post(
       return await requestConfirmation({
         modificationRequestId,
         versionDate: new Date(Number(versionDate)),
-        responseFile,
+        responseFile: responseFile!,
         confirmationRequestedBy: request.user,
       }).match(
         _handleSuccess(response, modificationRequestId),

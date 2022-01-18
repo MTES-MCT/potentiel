@@ -1,6 +1,6 @@
-import asyncHandler from 'express-async-handler'
 import { ensureRole, importProjects } from '@config'
 import { UniqueEntityID } from '@core/domain'
+import asyncHandler from '../helpers/asyncHandler'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { parseCsv } from '../../helpers/parseCsv'
 import { IllegalProjectDataError } from '@modules/project'

@@ -1,5 +1,5 @@
-import asyncHandler from 'express-async-handler'
 import { getPendingCandidateInvitations } from '@config'
+import asyncHandler from '../helpers/asyncHandler'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { makePagination } from '../../helpers/paginate'
 import routes from '../../routes'

@@ -1,4 +1,4 @@
-import asyncHandler from 'express-async-handler'
+import asyncHandler from '../helpers/asyncHandler'
 import os from 'os'
 import path from 'path'
 import sanitize from 'sanitize-filename'

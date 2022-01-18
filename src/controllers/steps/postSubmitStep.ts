@@ -1,4 +1,4 @@
-import asyncHandler from 'express-async-handler'
+import asyncHandler from '../helpers/asyncHandler'
 import fs from 'fs'
 import moment from 'moment'
 import { ensureRole } from '@config'

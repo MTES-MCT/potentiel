@@ -1,5 +1,5 @@
-import asyncHandler from 'express-async-handler'
 import { retryFailedNotifications } from '@config'
+import asyncHandler from '../helpers/asyncHandler'
 import routes from '../../routes'
 import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'

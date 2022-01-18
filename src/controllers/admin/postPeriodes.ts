@@ -1,6 +1,6 @@
-import asyncHandler from 'express-async-handler'
 import { importPeriodeData } from '@config'
 import { logger } from '@core/utils'
+import asyncHandler from '../helpers/asyncHandler'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { parseCsv } from '../../helpers/parseCsv'
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'

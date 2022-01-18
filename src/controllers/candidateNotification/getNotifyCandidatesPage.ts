@@ -1,4 +1,4 @@
-import asyncHandler from 'express-async-handler'
+import asyncHandler from '../helpers/asyncHandler'
 import { makePagination } from '../../helpers/paginate'
 import routes from '../../routes'
 import { Pagination } from '../../types'

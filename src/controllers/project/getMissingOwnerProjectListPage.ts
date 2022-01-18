@@ -6,7 +6,7 @@ import { listMissingOwnerProjects } from '@useCases'
 import { ListMissingOwnerProjectsPage } from '@views/legacy-pages'
 import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'
-import asyncHandler from 'express-async-handler'
+import asyncHandler from '../helpers/asyncHandler'
 
 const getMissingOwnerProjectListPage = asyncHandler(async (request, response) => {
   let {

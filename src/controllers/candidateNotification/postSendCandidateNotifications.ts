@@ -7,7 +7,7 @@ import { PeriodeNotified } from '@modules/project'
 import routes from '../../routes'
 import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'
-import asyncHandler from 'express-async-handler'
+import asyncHandler from '../helpers/asyncHandler'
 
 const FORMAT_DATE = 'DD/MM/YYYY'
 

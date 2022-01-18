@@ -1,4 +1,4 @@
-import asyncHandler from 'express-async-handler'
+import asyncHandler from '../helpers/asyncHandler'
 import moment from 'moment-timezone'
 import { regenerateCertificatesForPeriode } from '@config/useCases.config'
 import { logger } from '@core/utils'

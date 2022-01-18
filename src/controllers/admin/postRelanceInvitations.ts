@@ -1,5 +1,5 @@
-import asyncHandler from 'express-async-handler'
 import { relanceInvitation } from '@config'
+import asyncHandler from '../helpers/asyncHandler'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import routes from '../../routes'
 import { ensureRole } from '@config'
