@@ -3,7 +3,7 @@ import { GetProjectEvents, ProjectEventDTO } from '../../../../modules/frise'
 import { ProjectEvent } from '../../projectionsNext'
 import { models } from '../../models'
 
-const { Project, File } = models
+const { Project } = models
 
 export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
   return wrapInfra(Project.findByPk(projectId))
@@ -69,29 +69,25 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   break
                 case 'ProjectGFSubmitted':
                 case 'ProjectDCRSubmitted':
+                case 'ProjectPTFSubmitted':
                   if (
                     user.role === 'porteur-projet' ||
                     user.role === 'admin' ||
                     user.role === 'dgec' ||
                     user.role === 'dreal'
                   ) {
-                    const fileId = payload.fileId
-                    const rawFilename = await File.findOne({
-                      attributes: ['filename'],
-                      where: { id: fileId },
-                    })
-                    const filename = rawFilename.filename
+                    const { fileId, filename } = payload
                     events.push({
                       type,
                       date: valueDate,
                       variant: user.role,
                       fileId,
-                      submittedBy: payload.submittedBy,
                       filename,
                     })
                   }
                   break
                 case 'ProjectDCRRemoved':
+                case 'ProjectPTFRemoved':
                   if (
                     user.role === 'porteur-projet' ||
                     user.role === 'admin' ||

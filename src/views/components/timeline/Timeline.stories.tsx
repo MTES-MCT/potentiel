@@ -9,7 +9,8 @@ import {
   ProjectDCRDueDateSetDTO,
   ProjectDCRSubmittedDTO,
   ProjectDCRRemovedDTO,
-} from '../../../modules/frise/dtos/ProjectEventListDTO'
+  ProjectPTFSubmittedDTO,
+} from '../../../modules/frise'
 import makeFakeProject from '../../../__tests__/fixtures/project'
 import { Timeline } from './Timeline'
 
@@ -229,6 +230,14 @@ export const PPDCRConstituée = () => (
           filename: 'file-name',
           submittedBy: 'someone',
         } as ProjectDCRSubmittedDTO,
+        {
+          type: 'ProjectPTFSubmitted',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-16').getTime(),
+          fileId: 'file-id',
+          // filename: 'file-name',
+          submittedBy: 'someone',
+        } as ProjectPTFSubmittedDTO,
       ],
     }}
     projectId={project.id}
