@@ -71,6 +71,7 @@ describe('extractGFitemProps', () => {
           type: 'ProjectGFSubmitted',
           variant: 'porteur-projet',
           date: submittedDate,
+          filename: 'file-name',
         } as ProjectGFSubmittedDTO,
       ]
       const result = extractGFItemProps(events, new Date('2022-01-10').getTime())
@@ -83,6 +84,32 @@ describe('extractGFitemProps', () => {
         validationStatus: 'à traiter',
       })
     })
+    describe('when there is no filename', () => {
+      it('should return undefined for the url prop', () => {
+        const submittedDate = new Date('2022-01-01').getTime()
+        const events = [
+          {
+            type: 'ProjectGFDueDateSet',
+            variant: 'porteur-projet',
+            date: new Date('2022-03-10').getTime(),
+          } as ProjectGFDueDateSetDTO,
+          {
+            type: 'ProjectGFSubmitted',
+            variant: 'porteur-projet',
+            date: submittedDate,
+          } as ProjectGFSubmittedDTO,
+        ]
+        const result = extractGFItemProps(events, new Date('2022-01-10').getTime())
+        expect(result).toEqual({
+          date: submittedDate,
+          type: 'garantiesFinancieres',
+          status: 'submitted',
+          url: undefined,
+          role: 'porteur-projet',
+          validationStatus: 'à traiter',
+        })
+      })
+    })
   })
   describe('when there is a ProjectGFDueDateSet event after a ProjectGFSubmitted event', () => {
     it('should return the due status', () => {
@@ -90,6 +117,7 @@ describe('extractGFitemProps', () => {
         {
           type: 'ProjectGFSubmitted',
           variant: 'porteur-projet',
+          filename: 'file-name',
           date: new Date('2022-01-01').getTime(),
         } as ProjectGFSubmittedDTO,
         {
@@ -163,6 +191,7 @@ describe('extractGFitemProps', () => {
         {
           type: 'ProjectGFSubmitted',
           variant: 'porteur-projet',
+          filename: 'file-name',
           date: new Date('2022-01-01').getTime(),
         } as ProjectGFSubmittedDTO,
       ]
@@ -190,6 +219,7 @@ describe('extractGFitemProps', () => {
           type: 'ProjectGFSubmitted',
           variant: 'porteur-projet',
           date: new Date('2021-12-01').getTime(),
+          filename: 'file-name',
         } as ProjectGFSubmittedDTO,
         {
           type: 'ProjectGFValidated',
@@ -217,11 +247,13 @@ describe('extractGFitemProps', () => {
         {
           type: 'ProjectGFSubmitted',
           variant: 'porteur-projet',
+          filename: 'file-name',
           date: new Date('2021-12-10').getTime(),
         } as ProjectGFSubmittedDTO,
         {
           type: 'ProjectGFSubmitted',
           variant: 'porteur-projet',
+          filename: 'file-name',
           date: new Date('2021-12-01').getTime(),
         } as ProjectGFSubmittedDTO,
         {

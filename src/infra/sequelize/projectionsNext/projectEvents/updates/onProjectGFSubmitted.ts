@@ -12,12 +12,15 @@ export default ProjectEvent.projector.on(
       attributes: ['filename'],
       where: { id: fileId },
     })
+
     if (!rawFilename) {
       logger.error(
         `Error: onProjectGFSubmitted projection failed to retrieve filename from db File`
       )
-      return
     }
+
+    const filename: string | undefined = rawFilename?.filename
+
     await ProjectEvent.create(
       {
         projectId,
@@ -25,7 +28,7 @@ export default ProjectEvent.projector.on(
         valueDate: gfDate.getTime(),
         eventPublishedAt: occurredAt.getTime(),
         id: new UniqueEntityID().toString(),
-        payload: { fileId, filename: rawFilename.filename },
+        payload: { fileId, filename },
       },
       { transaction }
     )

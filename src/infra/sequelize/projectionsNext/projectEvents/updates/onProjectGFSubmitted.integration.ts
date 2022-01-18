@@ -53,7 +53,7 @@ describe('onProjectGFSubmitted', () => {
     })
   })
   describe('when there is a corresponding file is the File projection', () => {
-    it('should not add a new event in ProjectEvent', async () => {
+    it('should still add a new event in ProjectEvent', async () => {
       await onProjectGFSubmitted(
         new ProjectGFSubmitted({
           payload: {
@@ -71,7 +71,13 @@ describe('onProjectGFSubmitted', () => {
 
       const projectEvent = await ProjectEvent.findOne({ where: { projectId } })
 
-      expect(projectEvent).toBeNull()
+      expect(projectEvent).not.toBeNull()
+      expect(projectEvent).toMatchObject({
+        type: 'ProjectGFSubmitted',
+        valueDate: gfDate.getTime(),
+        eventPublishedAt: occurredAt.getTime(),
+        payload: { fileId },
+      })
     })
   })
 })

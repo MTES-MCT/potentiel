@@ -44,9 +44,13 @@ export const GarantieFinanciereItem = ({
         ) : (
           <>
             <div>
-              <a href={url} download>
-                Télécharger l'attestation de garanties financières
-              </a>
+              {url ? (
+                <a href={url} download>
+                  Télécharger l'attestation de garanties financières
+                </a>
+              ) : (
+                <span>Attestation indisponible actuellement</span>
+              )}
               <span>&nbsp;({validationStatus})</span>
             </div>
             {isPorteurProjet && !isValidated && <RemoveDocument projectId={projectId} />}

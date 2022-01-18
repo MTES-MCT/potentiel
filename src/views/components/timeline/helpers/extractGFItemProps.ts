@@ -15,7 +15,7 @@ export type GarantieFinanciereItemProps = {
     }
   | {
       status: 'submitted'
-      url: string
+      url: string | undefined
     }
 )
 
@@ -51,7 +51,8 @@ export const extractGFItemProps = (
   return type === 'ProjectGFSubmitted'
     ? {
         ...props,
-        url: makeDocumentUrl(eventToHandle.fileId, eventToHandle.filename),
+        url:
+          eventToHandle.filename && makeDocumentUrl(eventToHandle.fileId, eventToHandle.filename),
         status: 'submitted',
         validationStatus: latestProjectGF.type === 'ProjectGFValidated' ? 'validée' : 'à traiter',
       }
