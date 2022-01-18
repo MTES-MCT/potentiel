@@ -117,7 +117,7 @@ export type ProjectPTFSubmittedDTO = {
   date: number
   variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
   fileId: string
-  filename: string
+  filename?: string
   submittedBy: string
 }
 

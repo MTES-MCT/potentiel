@@ -18,7 +18,7 @@ export const PTFItem = (props: PTFItemProps & { projectId: string }) => {
 type SubmittedProps = {
   role: UserRole
   date: number
-  url: string
+  url?: string
   projectId: string
 }
 const Submitted = ({ role, date, url, projectId }: SubmittedProps) => (
@@ -31,11 +31,15 @@ const Submitted = ({ role, date, url, projectId }: SubmittedProps) => (
         </div>
       </div>
       <ItemTitle title="Proposition technique et financière" />
-      <div className="flex">
-        <a href={url} download>
-          Télécharger la proposition technique et financière
-        </a>
-      </div>
+      {url ? (
+        <div className="flex">
+          <a href={url} download>
+            Télécharger la proposition technique et financière
+          </a>
+        </div>
+      ) : (
+        <div className="flex">Fichier indisponible actuellement</div>
+      )}
       {isPorteurProjet(role) && (
         <div className="flex">
           <CancelDeposit {...{ projectId }} />
@@ -44,21 +48,6 @@ const Submitted = ({ role, date, url, projectId }: SubmittedProps) => (
     </ContentArea>
   </>
 )
-
-type CancelDepositProps = { projectId: string }
-const CancelDeposit = ({ projectId }: CancelDepositProps) => {
-  return (
-    <a
-      href={ROUTES.SUPPRIMER_ETAPE_ACTION({ projectId, type: 'ptf' })}
-      onClick={(event) =>
-        confirm(`Êtes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?`) ||
-        event.preventDefault()
-      }
-    >
-      Annuler le dépôt
-    </a>
-  )
-}
 
 type NotSubmittedProps = {
   role: UserRole
@@ -78,6 +67,21 @@ const NotSubmitted = ({ role, projectId }: NotSubmittedProps) => (
     </ContentArea>
   </>
 )
+
+type CancelDepositProps = { projectId: string }
+const CancelDeposit = ({ projectId }: CancelDepositProps) => {
+  return (
+    <a
+      href={ROUTES.SUPPRIMER_ETAPE_ACTION({ projectId, type: 'ptf' })}
+      onClick={(event) =>
+        confirm(`Êtes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?`) ||
+        event.preventDefault()
+      }
+    >
+      Annuler le dépôt
+    </a>
+  )
+}
 
 type UploadFormProps = {
   projectId: string

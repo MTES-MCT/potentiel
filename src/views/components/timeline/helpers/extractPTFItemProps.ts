@@ -13,7 +13,7 @@ export type PTFItemProps = {
   | {
       status: 'submitted'
       date: number
-      url: string
+      url?: string
     }
 )
 
@@ -39,7 +39,7 @@ export const extractPTFItemProps = (events: ProjectEventDTO[]): PTFItemProps | n
     type: 'proposition-technique-et-financiere',
     role,
     date,
-    url: makeDocumentUrl(fileId, filename),
+    url: filename && makeDocumentUrl(fileId, filename),
     status: 'submitted',
   }
 }

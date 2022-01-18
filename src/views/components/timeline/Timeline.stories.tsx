@@ -235,7 +235,7 @@ export const PPDCRConstituée = () => (
           variant: 'porteur-projet',
           date: new Date('2022-01-16').getTime(),
           fileId: 'file-id',
-          filename: 'file-name',
+          // filename: 'file-name',
           submittedBy: 'someone',
         } as ProjectPTFSubmittedDTO,
       ],

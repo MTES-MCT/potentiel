@@ -87,4 +87,24 @@ describe('extractPTFitemProps', () => {
       })
     })
   })
+  describe('when there is a ProjectPTFSubmitted event with no filename', () => {
+    it('should return a submitted PTFItemProps with no url', () => {
+      const events = [
+        {
+          type: 'ProjectPTFSubmitted',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-09').getTime(),
+          fileId: 'fileId',
+        } as ProjectPTFSubmittedDTO,
+      ]
+      const result = extractPTFItemProps(events)
+
+      expect(result).toEqual({
+        date: new Date('2022-01-09').getTime(),
+        type: 'proposition-technique-et-financiere',
+        status: 'submitted',
+        role: 'porteur-projet',
+      })
+    })
+  })
 })
