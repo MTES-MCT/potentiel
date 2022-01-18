@@ -1,6 +1,6 @@
 import { ProjectEvent } from '../projectEvent.model'
-import { ProjectGFRemoved } from '../../../../../modules/project'
-import { UniqueEntityID } from '../../../../../core/domain'
+import { ProjectGFRemoved } from '@modules/project'
+import { UniqueEntityID } from '@core/domain'
 
 export default ProjectEvent.projector.on(
   ProjectGFRemoved,

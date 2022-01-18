@@ -1,6 +1,6 @@
 import { ProjectEvent } from '..'
-import { UniqueEntityID } from '../../../../../core/domain'
-import { ProjectGFRemoved, ProjectGFRemovedPayload } from '../../../../../modules/project'
+import { UniqueEntityID } from '@core/domain'
+import { ProjectGFRemoved, ProjectGFRemovedPayload } from '@modules/project'
 import { resetDatabase } from '../../../helpers'
 import onProjectGFRemoved from './onProjectGFRemoved'
 

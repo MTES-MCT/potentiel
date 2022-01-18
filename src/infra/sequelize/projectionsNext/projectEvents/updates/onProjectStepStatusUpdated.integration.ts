@@ -1,9 +1,6 @@
 import { ProjectEvent } from '../projectEvent.model'
-import { UniqueEntityID } from '../../../../../core/domain'
-import {
-  ProjectStepStatusUpdated,
-  ProjectStepStatusUpdatedPayload,
-} from '../../../../../modules/project'
+import { UniqueEntityID } from '@core/domain'
+import { ProjectStepStatusUpdated, ProjectStepStatusUpdatedPayload } from '@modules/project'
 import { resetDatabase } from '../../../helpers'
 import onProjectStepStatusUpdated from './onProjectStepStatusUpdated'
 import models from '../../../models'
