@@ -12,6 +12,7 @@ export const DCRItem = ({
   date,
   status,
   url,
+  numeroDossier,
 }: DCRItemProps & { projectId: string }) => {
   const isPorteurProjet = role === 'porteur-projet'
   const displayWarning = status === 'past-due' && isPorteurProjet
@@ -44,6 +45,7 @@ export const DCRItem = ({
               <a href={url} download>
                 Télécharger la demande complète de raccordement
               </a>
+              <span>&nbsp;(dossier {numeroDossier})</span>
             </div>
             {isPorteurProjet && (
               <div className="flex">
