@@ -25,26 +25,20 @@ const Submitted = ({ role, date, url, projectId }: SubmittedProps) => (
   <>
     <PastIcon />
     <ContentArea>
-      <div className="flex">
-        <div className="align-middle">
-          <ItemDate date={date} />
-        </div>
+      <div className="align-middle">
+        <ItemDate date={date} />
       </div>
       <ItemTitle title="Proposition technique et financière" />
       {url ? (
-        <div className="flex">
+        <div>
           <a href={url} download>
             Télécharger la proposition technique et financière
           </a>
         </div>
       ) : (
-        <div className="flex">Fichier indisponible actuellement</div>
+        <div>Fichier indisponible actuellement</div>
       )}
-      {isPorteurProjet(role) && (
-        <div className="flex">
-          <CancelDeposit {...{ projectId }} />
-        </div>
-      )}
+      {isPorteurProjet(role) && <CancelDeposit {...{ projectId }} />}
     </ContentArea>
   </>
 )
@@ -59,9 +53,7 @@ const NotSubmitted = ({ role, projectId }: NotSubmittedProps) => (
     <ContentArea>
       <ItemTitle title="Proposition technique et financière" />
       <div>
-        <div className="flex">
-          <p className="mt-0 mb-0">Proposition technique et financière en attente</p>
-        </div>
+        <p className="mt-0 mb-0">Proposition technique et financière en attente</p>
         {isPorteurProjet(role) && <UploadForm projectId={projectId} />}
       </div>
     </ContentArea>
@@ -104,7 +96,7 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
           <input type="hidden" name="type" id="type" value="ptf" />
           <input type="hidden" name="projectId" value={projectId} />
           <div>
-            <label htmlFor="date">Date de la demande (format JJ/MM/AAAA)</label>
+            <label htmlFor="date">Date de la proposition (format JJ/MM/AAAA)</label>
             <DateInput onError={(isError) => setDisableSubmit(isError)} />
           </div>
           <div className="mt-2">
