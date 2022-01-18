@@ -98,6 +98,12 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
             <DateInput onError={(isError) => setDisableSubmit(isError)} />
           </div>
           <div className="mt-2">
+            <label htmlFor="numero-dossier">
+              Identifiant gestionnaire de réseau (ex : GEFAR-P)
+            </label>
+            <input type="text" name="numeroDossier" id="numero-dossier" required />
+          </div>
+          <div className="mt-2">
             <label htmlFor="file">Attestation</label>
             <input type="file" name="file" id="file" required />
           </div>
