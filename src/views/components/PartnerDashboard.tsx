@@ -1,5 +1,5 @@
 import React from 'react'
-import { UserRole } from '../../modules/users'
+import { UserRole } from '@modules/users'
 import ROUTES from '../../routes'
 
 interface SeparatorItemProps {

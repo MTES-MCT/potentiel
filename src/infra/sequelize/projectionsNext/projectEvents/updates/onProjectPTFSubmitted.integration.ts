@@ -1,6 +1,6 @@
 import models from '../../../models'
-import { UniqueEntityID } from '../../../../../core/domain'
-import { ProjectPTFSubmitted, ProjectPTFSubmittedPayload } from '../../../../../modules/project'
+import { UniqueEntityID } from '@core/domain'
+import { ProjectPTFSubmitted, ProjectPTFSubmittedPayload } from '@modules/project'
 import { resetDatabase } from '../../../helpers'
 import { ProjectEvent } from '../projectEvent.model'
 import onProjectPTFSubmitted from './onProjectPTFSubmitted'

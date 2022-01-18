@@ -1,6 +1,6 @@
 import { Request } from 'express'
 import React, { useState } from 'react'
-import { logger } from '../../../core/utils'
+import { logger } from '@core/utils'
 import { dataId } from '../../../helpers/testId'
 import { ProjectDataForProjectPage } from '@modules/project/dtos'
 import ROUTES from '../../../routes'

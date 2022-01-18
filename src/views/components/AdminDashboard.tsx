@@ -1,7 +1,7 @@
 import React from 'react'
 import ROUTES from '../../routes'
 import { User } from '../../entities'
-import { UserRole } from '../../modules/users'
+import { UserRole } from '@modules/users'
 
 interface SeparatorItemProps {
   visibleForRoles: Array<UserRole>

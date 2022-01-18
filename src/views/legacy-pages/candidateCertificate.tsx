@@ -1,6 +1,6 @@
 import ReactPDF, { Document, Font, Image, Page, Text, View } from '@react-pdf/renderer'
 import React from 'react'
-import { logger } from '../../core/utils'
+import { logger } from '@core/utils'
 import { AppelOffre, Periode, Project } from '../../entities'
 import { formatDate } from '../../helpers/formatDate'
 

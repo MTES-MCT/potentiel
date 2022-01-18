@@ -1,6 +1,6 @@
 import React from 'react'
 import { dataId } from '../../helpers/testId'
-import { UserRole } from '../../modules/users'
+import { UserRole } from '@modules/users'
 import { ACTION_BY_ROLE } from '../components/actions'
 
 interface Props {

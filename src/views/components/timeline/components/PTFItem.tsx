@@ -3,7 +3,7 @@ import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '.'
 import ROUTES from '../../../../routes'
 import { DateInput } from '../..'
 import { PTFItemProps } from '../helpers/extractPTFItemProps'
-import { UserRole } from '../../../../modules/users'
+import { UserRole } from '@modules/users'
 
 export const PTFItem = (props: PTFItemProps & { projectId: string }) => {
   const { projectId, status } = props

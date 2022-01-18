@@ -2,7 +2,7 @@ import React from 'react'
 import { UploadResponseFile } from '.'
 import { dataId } from '../../../../helpers/testId'
 import { ModificationRequestPageDTO } from '@modules/modificationRequest'
-import { UserRole } from '../../../../modules/users'
+import { UserRole } from '@modules/users'
 import ROUTES from '../../../../routes'
 import { ModificationRequestTitleByType } from '../../../helpers'
 

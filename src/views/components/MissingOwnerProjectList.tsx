@@ -1,5 +1,5 @@
 import React from 'react'
-import { logger } from '../../core/utils'
+import { logger } from '@core/utils'
 import { Project, User } from '../../entities'
 import { dataId } from '../../helpers/testId'
 import routes from '../../routes'

@@ -1,8 +1,4 @@
-import {
-  ProjectPTFRemovedDTO,
-  ProjectPTFSubmittedDTO,
-  ProjectNotifiedDTO,
-} from '../../../../modules/frise'
+import { ProjectPTFRemovedDTO, ProjectPTFSubmittedDTO, ProjectNotifiedDTO } from '@modules/frise'
 import { extractPTFItemProps } from './extractPTFItemProps'
 
 describe('extractPTFitemProps', () => {

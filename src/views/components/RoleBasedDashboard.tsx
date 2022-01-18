@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { UserRole } from '../../modules/users'
+import { UserRole } from '@modules/users'
 import AdminDashboard from './AdminDashboard'
 import PartnerDashboard from './PartnerDashboard'
 import UserDashboard from './UserDashboard'
