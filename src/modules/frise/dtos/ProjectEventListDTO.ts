@@ -117,6 +117,7 @@ export type ProjectDCRSubmittedDTO = {
   fileId: string
   filename: string
   submittedBy: string
+  numeroDossier: string
 }
 
 export type ProjectDCRRemovedDTO = {
