@@ -11,7 +11,7 @@ describe('getProjectEvents for DCR events', () => {
   const eventTimestamp = new Date('2022-01-04').getTime()
   const dcrDateTimestamp = new Date('2022-03-05').getTime()
 
-  const { Project, File } = models
+  const { Project } = models
   const projectId = new UniqueEntityID().toString()
   const fakeProject = makeFakeProject({ id: projectId, potentielIdentifier: 'pot-id' })
 
@@ -79,7 +79,6 @@ describe('getProjectEvents for DCR events', () => {
         const fakeUser = { role } as User
         describe(`when user is ${role}`, () => {
           it('should return ProjectDCRSubmitted events', async () => {
-            const fileId = new UniqueEntityID().toString()
             const dcrDate = new Date('2021-12-26').getTime()
             await ProjectEvent.create({
               id: new UniqueEntityID().toString(),
@@ -88,13 +87,9 @@ describe('getProjectEvents for DCR events', () => {
               valueDate: dcrDate,
               eventPublishedAt: eventTimestamp,
               payload: {
-                fileId: fileId,
+                fileId: 'file-id',
+                filename: 'my-file-name',
               },
-            })
-            await File.create({
-              id: fileId,
-              filename: 'my-file-name',
-              designation: 'designation',
             })
             const res = await getProjectEvents({ projectId, user: fakeUser })
             expect(res._unsafeUnwrap()).toMatchObject({
@@ -103,7 +98,7 @@ describe('getProjectEvents for DCR events', () => {
                   type: 'ProjectDCRSubmitted',
                   date: dcrDate,
                   variant: role,
-                  fileId: fileId,
+                  fileId: 'file-id',
                   filename: 'my-file-name',
                 },
               ],
