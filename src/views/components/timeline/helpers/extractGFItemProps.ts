@@ -7,16 +7,15 @@ export type GarantieFinanciereItemProps = {
   type: 'garantiesFinancieres'
   role: UserRole
   date: number
+  validationStatus: 'validée' | 'à traiter' | 'non-applicable'
 } & (
   | {
       status: 'due' | 'past-due'
       url: undefined
-      validated: undefined
     }
   | {
       status: 'submitted'
       url: string
-      validated: boolean
     }
 )
 
@@ -33,9 +32,11 @@ export const extractGFItemProps = (
   }
 
   const eventToHandle =
-    latestDueDateSetEvent && latestProjectGF.type === 'ProjectGFRemoved'
+    latestProjectGF.type === 'ProjectGFRemoved' && latestDueDateSetEvent
       ? latestDueDateSetEvent
-      : latestSubmittedEvent && latestProjectGF.type === 'ProjectStepStatusUpdated'
+      : latestProjectGF.type === 'ProjectGFValidated' && latestSubmittedEvent
+      ? latestSubmittedEvent
+      : latestProjectGF.type === 'ProjectGFInvalidated' && latestSubmittedEvent
       ? latestSubmittedEvent
       : latestProjectGF
 
@@ -52,14 +53,20 @@ export const extractGFItemProps = (
         ...props,
         url: makeDocumentUrl(eventToHandle.fileId, eventToHandle.filename),
         status: 'submitted',
-        validated: latestProjectGF.type === 'ProjectStepStatusUpdated',
+        validationStatus: latestProjectGF.type === 'ProjectGFValidated' ? 'validée' : 'à traiter',
       }
-    : { ...props, status: date < now ? 'past-due' : 'due', url: undefined, validated: undefined }
+    : {
+        ...props,
+        status: date < now ? 'past-due' : 'due',
+        url: undefined,
+        validationStatus: 'non-applicable',
+      }
 }
 
 const isProjectGF = or(
   is('ProjectGFDueDateSet'),
   is('ProjectGFSubmitted'),
   is('ProjectGFRemoved'),
-  is('ProjectStepStatusUpdated')
+  is('ProjectGFValidated'),
+  is('ProjectGFInvalidated')
 )

@@ -3,7 +3,8 @@ import {
   ProjectGFSubmittedDTO,
   ProjectNotifiedDTO,
   ProjectGFRemovedDTO,
-  ProjectStepStatusUpdatedDTO,
+  ProjectGFValidatedDTO,
+  ProjectGFInvalidatedDTO,
 } from '../../../../modules/frise'
 import { extractGFItemProps } from './extractGFItemProps'
 
@@ -38,6 +39,7 @@ describe('extractGFitemProps', () => {
         type: 'garantiesFinancieres',
         status: 'due',
         role: 'porteur-projet',
+        validationStatus: 'non-applicable',
       })
     })
     describe('when the due date has passed', () => {
@@ -78,7 +80,7 @@ describe('extractGFitemProps', () => {
         status: 'submitted',
         url: expect.anything(),
         role: 'porteur-projet',
-        validated: expect.anything(),
+        validationStatus: 'à traiter',
       })
     })
   })
@@ -102,6 +104,7 @@ describe('extractGFitemProps', () => {
         type: 'garantiesFinancieres',
         status: 'due',
         role: 'porteur-projet',
+        validationStatus: 'non-applicable',
       })
     })
   })
@@ -135,6 +138,7 @@ describe('extractGFitemProps', () => {
         type: 'garantiesFinancieres',
         status: 'due',
         role: 'porteur-projet',
+        validationStatus: 'non-applicable',
       })
     })
   })
@@ -169,13 +173,13 @@ describe('extractGFitemProps', () => {
         status: 'submitted',
         role: 'porteur-projet',
         url: expect.anything(),
-        validated: expect.anything(),
+        validationStatus: 'à traiter',
       })
     })
   })
 
-  describe('when there is a ProjectStepStatusUpdated event for a GF validated', () => {
-    it('should return latest ProjectGFSubmitted props with a validated status', () => {
+  describe('when there is a ProjectGFValidated', () => {
+    it('should return latest ProjectGFSubmitted props with a "validé" validation status', () => {
       const events = [
         {
           type: 'ProjectGFSubmitted',
@@ -188,14 +192,14 @@ describe('extractGFitemProps', () => {
           date: new Date('2021-12-01').getTime(),
         } as ProjectGFSubmittedDTO,
         {
-          type: 'ProjectStepStatusUpdated',
+          type: 'ProjectGFValidated',
           variant: 'porteur-projet',
           date: new Date('2022-01-14').getTime(),
           newStatus: 'validé',
           stepType: 'garantie-financiere',
-        } as ProjectStepStatusUpdatedDTO,
+        } as ProjectGFValidatedDTO,
       ]
-      const result = extractGFItemProps(events, new Date('2022-01-11').getTime())
+      const result = extractGFItemProps(events, new Date('2022-01-20').getTime())
       expect(result).not.toBeNull()
       expect(result).toEqual({
         date: new Date('2021-12-01').getTime(),
@@ -203,7 +207,43 @@ describe('extractGFitemProps', () => {
         status: 'submitted',
         role: 'porteur-projet',
         url: expect.anything(),
-        validated: true,
+        validationStatus: 'validée',
+      })
+    })
+  })
+  describe('when there is a ProjectGFInvalidated', () => {
+    it('should return latest ProjectGFSubmitted props with a "à traiter" validation status', () => {
+      const events = [
+        {
+          type: 'ProjectGFSubmitted',
+          variant: 'porteur-projet',
+          date: new Date('2021-12-10').getTime(),
+        } as ProjectGFSubmittedDTO,
+        {
+          type: 'ProjectGFSubmitted',
+          variant: 'porteur-projet',
+          date: new Date('2021-12-01').getTime(),
+        } as ProjectGFSubmittedDTO,
+        {
+          type: 'ProjectGFValidated',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-14').getTime(),
+        } as ProjectGFValidatedDTO,
+        {
+          type: 'ProjectGFInvalidated',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-15').getTime(),
+        } as ProjectGFInvalidatedDTO,
+      ]
+      const result = extractGFItemProps(events, new Date('2022-01-20').getTime())
+      expect(result).not.toBeNull()
+      expect(result).toEqual({
+        date: new Date('2021-12-01').getTime(),
+        type: 'garantiesFinancieres',
+        status: 'submitted',
+        role: 'porteur-projet',
+        url: expect.anything(),
+        validationStatus: 'à traiter',
       })
     })
   })
