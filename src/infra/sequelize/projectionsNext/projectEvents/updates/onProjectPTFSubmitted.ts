@@ -2,6 +2,7 @@ import { UniqueEntityID } from '../../../../../core/domain'
 import { ProjectPTFSubmitted } from '../../../../../modules/project'
 import { ProjectEvent } from '../projectEvent.model'
 import models from '../../../models'
+import { logger } from '../../../../../core/utils'
 
 export default ProjectEvent.projector.on(
   ProjectPTFSubmitted,
@@ -11,6 +12,14 @@ export default ProjectEvent.projector.on(
       attributes: ['filename'],
       where: { id: fileId },
     })
+
+    if (!rawFilename) {
+      logger.error(
+        new Error(
+          `Impossible de trouver le fichier (id = ${fileId}) d'attestation PTF pour le project ${projectId})`
+        )
+      )
+    }
     const filename = rawFilename?.filename
 
     await ProjectEvent.create(
