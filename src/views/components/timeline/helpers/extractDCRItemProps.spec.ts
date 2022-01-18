@@ -96,6 +96,7 @@ describe('extractDCRitemProps', () => {
           type: 'ProjectDCRSubmitted',
           variant: 'porteur-projet',
           date: submittedDate,
+          numeroDossier: 'DOSSIER-1',
         } as ProjectDCRSubmittedDTO,
       ]
       const result = extractDCRItemProps(events, new Date('2022-01-10').getTime())
@@ -105,6 +106,7 @@ describe('extractDCRitemProps', () => {
         status: 'submitted',
         url: expect.anything(),
         role: 'porteur-projet',
+        numeroDossier: 'DOSSIER-1',
       })
     })
   })
