@@ -4,7 +4,7 @@
   "description": "Suivi des Projets d'Energies Renouvelables",
   "main": "index.js",
   "scripts": {
-    "build": "tsc --build tsconfig.build.json && cp -R src/public dist/src && cp -R src/views/template dist/src/views",
+    "build": "ttsc --build tsconfig.build.json && cp -R src/public dist/src && cp -R src/views/template dist/src/views",
     "build:front": "webpack --config=webpack.config.js",
     "build:css": "npx tailwindcss -i ./src/views/index.css -o ./src/public/css/index.css",
     "install": "npm run build:front && npm run build:css && npm run build && npm run migrate",
@@ -162,6 +162,8 @@
     "start-server-and-test": "^1.12.1",
     "ts-jest": "^27.0.7",
     "tsconfig-paths-webpack-plugin": "^3.5.2",
+    "ttypescript": "^1.5.13",
+    "typescript-transform-paths": "^3.3.1",
     "wait-for-expect": "^3.0.2"
   },
   "cypress-cucumber-preprocessor": {

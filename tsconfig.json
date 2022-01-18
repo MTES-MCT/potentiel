@@ -25,7 +25,12 @@
       "@core/*": [
         "src/core/*/index.ts"
       ]
-    }
+    },
+    "plugins": [
+      {
+        "transform": "typescript-transform-paths"
+      }
+    ]
   },
   "include": ["src/**/*"],
   "exclude": [
