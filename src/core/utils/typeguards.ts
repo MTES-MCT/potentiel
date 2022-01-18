@@ -49,3 +49,5 @@ type GuardedType<T> = T extends (x: any) => x is infer T ? T : never
 
 // Returns the input type of a TypeGuard (type of first parameter)
 type InputType<T extends (...args: any) => any> = Parameters<T>[0]
+
+export type ForceArrayType<T extends any[] | any> = T extends any[] ? T : T[]
