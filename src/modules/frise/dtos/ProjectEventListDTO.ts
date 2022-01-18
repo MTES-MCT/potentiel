@@ -9,7 +9,10 @@ export type ProjectEventDTO =
   | ProjectCertificateUpdatedDTO
   | ProjectClaimedDTO
   | ProjectGFSubmittedDTO
+  | ProjectGFRemovedDTO
   | ProjectGFDueDateSetDTO
+  | ProjectGFValidatedDTO
+  | ProjectGFInvalidatedDTO
   | ProjectDCRSubmittedDTO
   | ProjectDCRRemovedDTO
   | ProjectDCRDueDateSetDTO
@@ -80,14 +83,31 @@ export type ProjectGFSubmittedDTO = {
   date: number
   variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
   fileId: string
-  filename: string
-  submittedBy: string
+  filename?: string
 }
 
 export type ProjectGFDueDateSetDTO = {
   type: 'ProjectGFDueDateSet'
   date: number
   variant: Exclude<UserRole, 'ademe'>
+}
+
+export type ProjectGFRemovedDTO = {
+  type: 'ProjectGFRemoved'
+  date: number
+  variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
+}
+
+export type ProjectGFValidatedDTO = {
+  type: 'ProjectGFValidated'
+  date: number
+  variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
+}
+
+export type ProjectGFInvalidatedDTO = {
+  type: 'ProjectGFInvalidated'
+  date: number
+  variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
 }
 
 export type ProjectDCRSubmittedDTO = {

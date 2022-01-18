@@ -86,6 +86,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                     })
                   }
                   break
+                case 'ProjectGFRemoved':
+                case 'ProjectGFValidated':
+                case 'ProjectGFInvalidated':
                 case 'ProjectDCRRemoved':
                 case 'ProjectPTFRemoved':
                   if (

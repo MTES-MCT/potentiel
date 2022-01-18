@@ -1,4 +1,4 @@
-import React, { Children, useState } from 'react'
+import React, { useState } from 'react'
 import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '../components'
 import ROUTES from '../../../../routes'
 import { DateInput } from '../../'
@@ -12,13 +12,16 @@ export const GarantieFinanciereItem = ({
   date,
   status,
   url,
+  validationStatus,
 }: GarantieFinanciereItemProps & { projectId: string }) => {
   const isPorteurProjet = role === 'porteur-projet'
   const displayWarning = status === 'past-due' && isPorteurProjet
+  const isSubmitted = status === 'submitted'
+  const isValidated = validationStatus === 'validée'
 
   return (
     <>
-      {status === 'submitted' ? <PastIcon /> : displayWarning ? <WarningIcon /> : <CurrentIcon />}
+      {isSubmitted ? <PastIcon /> : displayWarning ? <WarningIcon /> : <CurrentIcon />}
       <ContentArea>
         <div className="flex">
           <div className="align-middle">
@@ -30,8 +33,8 @@ export const GarantieFinanciereItem = ({
             </div>
           )}
         </div>
-        <ItemTitle title="Constitution des garanties Financières" />
-        {status !== 'submitted' ? (
+        <ItemTitle title={'Constitution des garanties Financières'} />
+        {!isSubmitted ? (
           <div>
             <div className="flex">
               <p className="mt-0 mb-0">Garanties financières en attente</p>
@@ -39,9 +42,19 @@ export const GarantieFinanciereItem = ({
             {isPorteurProjet && <UploadForm projectId={projectId} />}
           </div>
         ) : (
-          <a href={url} download>
-            Télécharger l'attestation de garanties financières
-          </a>
+          <>
+            <div>
+              {url ? (
+                <a href={url} download>
+                  Télécharger l'attestation de garanties financières
+                </a>
+              ) : (
+                <span>Attestation indisponible actuellement</span>
+              )}
+              <span>&nbsp;({validationStatus})</span>
+            </div>
+            {isPorteurProjet && !isValidated && <RemoveDocument projectId={projectId} />}
+          </>
         )}
       </ContentArea>
     </>
@@ -84,5 +97,23 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
         </form>
       )}
     </>
+  )
+}
+
+interface RemoveDocumentProps {
+  projectId: string
+}
+
+const RemoveDocument = ({ projectId }: RemoveDocumentProps) => {
+  return (
+    <a
+      href={ROUTES.SUPPRIMER_ETAPE_ACTION({
+        projectId,
+        type: 'garantie-financiere',
+      })}
+      data-confirm="Êtes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?"
+    >
+      Annuler le dépôt
+    </a>
   )
 }
