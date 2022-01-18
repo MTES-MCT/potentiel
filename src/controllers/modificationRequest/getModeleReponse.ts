@@ -8,7 +8,7 @@ import {
   getModificationRequestDataForResponseTemplate,
   oldUserRepo,
 } from '../../config'
-import { ModificationRequest, User } from '../../entities'
+import { ModificationRequest, User } from '@entities'
 import { fillDocxTemplate } from '../../helpers/fillDocxTemplate'
 import {
   ModificationRequestDataForResponseTemplateDTO,

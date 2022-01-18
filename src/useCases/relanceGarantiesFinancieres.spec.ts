@@ -1,7 +1,7 @@
 import moment from 'moment'
 import { DomainEvent, EventBus } from '@core/domain'
 import { okAsync } from '@core/utils'
-import { makeProject, makeUser, Project } from '../entities'
+import { makeProject, makeUser, Project } from '@entities'
 import { ProjectGFReminded } from '@modules/project'
 import { InfraNotAvailableError } from '@modules/shared'
 import routes from '../routes'

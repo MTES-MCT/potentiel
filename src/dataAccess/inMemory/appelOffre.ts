@@ -1,4 +1,4 @@
-import { AppelOffre, Famille, Periode, ProjectAppelOffre } from '../../entities'
+import { AppelOffre, Famille, Periode, ProjectAppelOffre } from '@entities'
 import _ from 'lodash'
 
 import {

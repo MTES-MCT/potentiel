@@ -1,4 +1,4 @@
-import { Project, AppelOffre, Periode } from '../entities'
+import { Project, AppelOffre, Periode } from '@entities'
 import { Pagination, PaginatedList } from '../types'
 import { ProjectRepo, AppelOffreRepo, ProjectFilters } from '../dataAccess'
 

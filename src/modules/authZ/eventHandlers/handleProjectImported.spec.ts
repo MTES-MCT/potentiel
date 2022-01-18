@@ -5,7 +5,7 @@ import { EventBus, UniqueEntityID } from '@core/domain'
 import { okAsync } from '@core/utils'
 import { makeFakeEventBus } from '../../../__tests__/fixtures/aggregates/fakeEventBus'
 import makeFakeUser from '../../../__tests__/fixtures/user'
-import { User } from '../../../entities'
+import { User } from '@entities'
 import { UserRightsToProjectGranted } from '..'
 import { InfraNotAvailableError } from '../../shared'
 

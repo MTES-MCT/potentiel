@@ -1,5 +1,5 @@
 import { err, logger, ok, Result, ResultAsync } from '@core/utils'
-import { User } from '../../../entities'
+import { User } from '@entities'
 import { AggregateHasBeenUpdatedSinceError } from '../../shared'
 import { EventBus, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
 import { FileContents, FileObject, IllegalFileDataError, makeFileObject } from '../../file'

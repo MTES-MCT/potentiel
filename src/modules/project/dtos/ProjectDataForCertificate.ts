@@ -1,4 +1,4 @@
-import { ProjectAppelOffre } from '../../../entities'
+import { ProjectAppelOffre } from '@entities'
 
 export interface ProjectDataForCertificate {
   appelOffre: ProjectAppelOffre

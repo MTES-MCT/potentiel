@@ -1,6 +1,6 @@
 import { Repository, UniqueEntityID } from '@core/domain'
 import { err, errAsync, Result, ResultAsync } from '@core/utils'
-import { User } from '../../../entities'
+import { User } from '@entities'
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,

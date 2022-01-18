@@ -1,6 +1,6 @@
 import { Repository, UniqueEntityID } from '@core/domain'
 import { errAsync, logger, okAsync, ResultAsync } from '@core/utils'
-import { User } from '../../../entities'
+import { User } from '@entities'
 import { FileContents, FileObject, makeAndSaveFile } from '../../file'
 import {
   AggregateHasBeenUpdatedSinceError,

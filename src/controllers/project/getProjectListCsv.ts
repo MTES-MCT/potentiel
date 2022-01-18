@@ -9,7 +9,7 @@ import asyncHandler from 'express-async-handler'
 import { ensureRole } from '../../config'
 import { promises as fsPromises } from 'fs'
 import moment from 'moment'
-import { Project } from '../../entities'
+import { Project } from '@entities'
 import { formatField, writeCsvOnDisk } from '../../helpers/csv'
 
 const orderedFields = [

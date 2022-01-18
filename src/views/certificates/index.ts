@@ -1,5 +1,5 @@
 import { ResultAsync } from '@core/utils'
-import { CertificateTemplate } from '../../entities'
+import { CertificateTemplate } from '@entities'
 import { ProjectDataForCertificate, IllegalProjectStateError } from '@modules/project'
 import { OtherError } from '@modules/shared'
 import { makeCertificate as makeV0Certificate } from './v0'

@@ -1,6 +1,6 @@
 import { logger } from '@core/utils'
 import { userRepo } from '../../dataAccess'
-import { DREAL } from '../../entities'
+import { DREAL } from '@entities'
 import { testRouter } from './testRouter'
 
 testRouter.post('/test/addUserToDreal', async (request, response) => {

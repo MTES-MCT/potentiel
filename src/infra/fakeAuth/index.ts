@@ -1,6 +1,6 @@
 import QueryString from 'querystring'
 import { logger } from '@core/utils'
-import { User } from '../../entities'
+import { User } from '@entities'
 import { EnsureRole, RegisterAuth } from '@modules/authN'
 import { CreateUser, GetUserByEmail } from '@modules/users'
 import routes from '../../routes'

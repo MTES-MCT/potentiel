@@ -1,6 +1,6 @@
 import { Request } from 'express'
 import makeFakeUser from './user'
-import { User } from '../../entities'
+import { User } from '@entities'
 
 export default function makeFakeRequest(
   overrides?: Partial<Request>,

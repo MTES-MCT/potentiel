@@ -9,7 +9,7 @@ import asyncHandler from 'express-async-handler'
 import { ensureRole } from '../../config'
 import { formatField, writeCsvOnDisk } from '../../helpers/csv'
 import { promises as fsPromises } from 'fs'
-import { Project } from '../../entities'
+import { Project } from '@entities'
 
 const getProjectsLaureatsCsv = asyncHandler(async (request, response) => {
   const { appelOffreId, periodeId, recherche, beforeNotification } = request.query as any

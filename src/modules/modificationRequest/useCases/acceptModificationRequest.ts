@@ -1,7 +1,7 @@
 import { PuissanceVariationWithDecisionJusticeError } from '..'
 import { Repository, UniqueEntityID } from '@core/domain'
 import { err, errAsync, logger, ok, okAsync, Result, ResultAsync } from '@core/utils'
-import { User } from '../../../entities'
+import { User } from '@entities'
 import { FileContents, FileObject, makeAndSaveFile } from '../../file'
 import {
   IllegalProjectDataError,

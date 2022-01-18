@@ -2,7 +2,7 @@ import moment from 'moment'
 import { DomainEvent, UniqueEntityID } from '@core/domain'
 import { UnwrapForTest } from '@core/utils'
 import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
-import { AppelOffre } from '../../entities'
+import { AppelOffre } from '@entities'
 import makeFakeProject from '../../__tests__/fixtures/project'
 import { ProjectAlreadyNotifiedError } from './errors'
 import {

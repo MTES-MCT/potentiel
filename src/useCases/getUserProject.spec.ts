@@ -1,4 +1,4 @@
-import { makeProject, User } from '../entities'
+import { makeProject, User } from '@entities'
 import { UnwrapForTest } from '../types'
 import makeFakeProject from '../__tests__/fixtures/project'
 import makeGetUserProject from './getUserProject'

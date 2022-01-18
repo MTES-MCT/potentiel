@@ -1,5 +1,5 @@
 import { logger } from '@core/utils'
-import { makeUser } from '../../../entities'
+import { makeUser } from '@entities'
 import { UnwrapForTest } from '../../../types'
 import { fakeRepo, makeFakeModificationRequest } from '../../../__tests__/fixtures/aggregates'
 import makeFakeUser from '../../../__tests__/fixtures/user'

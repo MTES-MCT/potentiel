@@ -1,7 +1,7 @@
 import { Readable } from 'stream'
 import { DomainEvent, EventBus, Repository, UniqueEntityID } from '@core/domain'
 import { okAsync } from '@core/utils'
-import { makeUser } from '../../../entities'
+import { makeUser } from '@entities'
 import { FileObject } from '@modules/file'
 import { InfraNotAvailableError } from '@modules/shared'
 import { UnwrapForTest } from '../../../types'

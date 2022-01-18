@@ -1,8 +1,6 @@
 import { Repository, UniqueEntityID } from '@core/domain'
-import { err, errAsync, logger, ok, Result, ResultAsync, wrapInfra } from '@core/utils'
-import { User } from '../../../entities'
-import modificationRequest from '../../../entities/modificationRequest'
-import { FileContents, FileObject, makeAndSaveFile } from '../../file'
+import { err, errAsync, ok, Result, ResultAsync, wrapInfra } from '@core/utils'
+import { User } from '@entities'
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,

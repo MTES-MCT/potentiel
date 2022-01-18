@@ -1,7 +1,7 @@
 import { UserRole } from '..'
 import { TransactionalRepository, UniqueEntityID } from '@core/domain'
 import { ok, ResultAsync } from '@core/utils'
-import { User as OldUser } from '../../../entities'
+import { User as OldUser } from '@entities'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { User } from '../User'
 

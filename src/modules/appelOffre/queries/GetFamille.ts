@@ -1,5 +1,5 @@
 import { ResultAsync } from '@core/utils'
-import { AppelOffre, Famille } from '../../../entities'
+import { AppelOffre, Famille } from '@entities'
 import { EntityNotFoundError, InfraNotAvailableError } from '../../shared'
 
 export type GetFamille = (

@@ -1,4 +1,4 @@
-import { Project } from '../../../entities'
+import { Project } from '@entities'
 import { GarantiesFinancieresListDTO } from '../dtos/GarantiesFinancieresList'
 
 export const toGarantiesFinancieresList = (projects: Project[]): GarantiesFinancieresListDTO => ({

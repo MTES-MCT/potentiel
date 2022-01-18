@@ -1,5 +1,5 @@
 import React from 'react'
-import { Project } from '../../../../entities'
+import { Project } from '@entities'
 import { ModificationRequestPageDTO } from '@modules/modificationRequest'
 import { DownloadIcon } from '../../../components'
 import ROUTES from '../../../../routes'

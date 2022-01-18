@@ -1,7 +1,7 @@
 import { logger } from '@core/utils'
 import { projectRepo, userRepo } from '../../dataAccess'
 import { eventStore } from '../../config'
-import { makeProject } from '../../entities'
+import { makeProject } from '@entities'
 import makeFakeProject from '../fixtures/project'
 import { testRouter } from './testRouter'
 import { LegacyProjectSourced, ProjectImported } from '@modules/project'

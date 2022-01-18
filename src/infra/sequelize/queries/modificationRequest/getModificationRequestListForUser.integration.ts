@@ -6,7 +6,7 @@ import makeFakeUser from '../../../../__tests__/fixtures/user'
 import { getModificationRequestListForUser } from './getModificationRequestListForUser'
 import { UniqueEntityID } from '@core/domain'
 import { UnwrapForTest as OldUnwrapForTest } from '../../../../types'
-import { makeUser } from '../../../../entities'
+import { makeUser } from '@entities'
 
 const { Project, User, File, ModificationRequest } = models
 

@@ -1,7 +1,7 @@
 import { Request } from 'express'
 import querystring from 'querystring'
 import React from 'react'
-import { AppelOffre, Famille, Periode, Project } from '../../entities'
+import { AppelOffre, Famille, Periode, Project } from '@entities'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '../../routes'
 import { PaginatedList } from '../../types'

@@ -1,4 +1,4 @@
-import { ProjectAppelOffre } from '../../../entities'
+import { ProjectAppelOffre } from '@entities'
 
 export type ProjectDataForProjectPage = {
   id: string

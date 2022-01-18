@@ -1,4 +1,4 @@
-import { AppelOffre } from '../entities'
+import { AppelOffre } from '@entities'
 
 export type AppelOffreRepo = {
   findAll: () => Promise<Array<AppelOffre>>

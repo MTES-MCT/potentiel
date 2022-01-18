@@ -1,6 +1,6 @@
 import moment from 'moment'
 import { UniqueEntityID } from '@core/domain'
-import { makeUser } from '../../../../entities'
+import { makeUser } from '@entities'
 import { formatDate } from '../../../../helpers/formatDate'
 import makeFakeFile from '../../../../__tests__/fixtures/file'
 import makeFakeProject from '../../../../__tests__/fixtures/project'

@@ -1,4 +1,4 @@
-import { User, Project, DREAL } from '../entities'
+import { User, Project, DREAL } from '@entities'
 import { ResultAsync, OptionAsync } from '../types'
 
 export type UserRepo = {

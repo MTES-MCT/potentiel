@@ -1,4 +1,4 @@
-import { AppelOffre } from '../../../entities'
+import { AppelOffre } from '@entities'
 import { commonDataFields, makeParagrapheAchevementForDelai } from './commonDataFields'
 
 import toTypeLiteral from './helpers/toTypeLiteral'

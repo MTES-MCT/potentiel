@@ -24,6 +24,9 @@
       ],
       "@core/*": [
         "src/core/*/index.ts"
+      ],
+      "@entities": [
+        "src/entities/index.ts"
       ]
     },
     "plugins": [

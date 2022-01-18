@@ -1,6 +1,6 @@
 import { logger } from '@core/utils'
 import { userRepo } from '../../../dataAccess'
-import { makeUser, User } from '../../../entities'
+import { makeUser, User } from '@entities'
 import { UserRole } from '@modules/users'
 
 interface CreateUserProps {

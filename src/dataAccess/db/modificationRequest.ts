@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize'
 import { ModificationRequestRepo } from '../'
-import { ModificationRequest, makeModificationRequest } from '../../entities'
+import { ModificationRequest, makeModificationRequest } from '@entities'
 import { mapExceptError } from '../../helpers/results'
 import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types'
 import CONFIG from '../config'

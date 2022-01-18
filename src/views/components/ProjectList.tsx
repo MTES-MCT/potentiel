@@ -1,6 +1,6 @@
 import React from 'react'
 import { logger } from '@core/utils'
-import { Project } from '../../entities'
+import { Project } from '@entities'
 import { formatDate } from '../../helpers/formatDate'
 import { dataId } from '../../helpers/testId'
 import { UserRole } from '@modules/users'

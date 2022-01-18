@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '@core/domain'
-import { User } from '../../../../entities'
+import { User } from '@entities'
 import { USER_ROLES } from '@modules/users'
 import { resetDatabase } from '../../helpers'
 import { ProjectEvent } from '../../projectionsNext'

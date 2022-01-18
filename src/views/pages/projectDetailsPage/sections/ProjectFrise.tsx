@@ -1,7 +1,7 @@
 import { Request } from 'express'
 import moment from 'moment'
 import React from 'react'
-import { User } from '../../../../entities'
+import { User } from '@entities'
 import { formatDate } from '../../../../helpers/formatDate'
 import { ProjectDataForProjectPage } from '@modules/project/dtos'
 import { DCRForm, PTFForm, Frise, FriseItem, GarantiesFinancieresForm } from '../components'

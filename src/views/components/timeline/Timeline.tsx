@@ -1,5 +1,5 @@
 import React from 'react'
-import { Project } from '../../../entities'
+import { Project } from '@entities'
 import { ProjectEventListDTO } from '@modules/frise'
 import {
   TimelineItem,

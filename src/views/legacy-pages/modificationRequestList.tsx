@@ -1,6 +1,6 @@
 import { Request } from 'express'
 import React from 'react'
-import { AppelOffre } from '../../entities'
+import { AppelOffre } from '@entities'
 import { dataId } from '../../helpers/testId'
 import { ModificationRequestListItemDTO } from '@modules/modificationRequest'
 import ROUTES from '../../routes'

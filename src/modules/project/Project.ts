@@ -11,7 +11,7 @@ import {
   ok,
   Result,
 } from '@core/utils'
-import { AppelOffre, CertificateTemplate, ProjectAppelOffre, User } from '../../entities'
+import { AppelOffre, CertificateTemplate, ProjectAppelOffre, User } from '@entities'
 import {
   EntityNotFoundError,
   HeterogeneousHistoryError,

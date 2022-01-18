@@ -1,4 +1,4 @@
-import { Project, AppelOffre, Periode, Famille, User, DREAL } from '../entities'
+import { Project, AppelOffre, Periode, Famille, User, DREAL } from '@entities'
 import {
   ProjectRepo,
   UserRepo,
