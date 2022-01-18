@@ -12,14 +12,16 @@ export const GarantieFinanciereItem = ({
   date,
   status,
   url,
-  validated,
+  validationStatus,
 }: GarantieFinanciereItemProps & { projectId: string }) => {
   const isPorteurProjet = role === 'porteur-projet'
   const displayWarning = status === 'past-due' && isPorteurProjet
+  const isSubmitted = status === 'submitted'
+  const isValidated = validationStatus === 'validée'
 
   return (
     <>
-      {status === 'submitted' ? <PastIcon /> : displayWarning ? <WarningIcon /> : <CurrentIcon />}
+      {isSubmitted ? <PastIcon /> : displayWarning ? <WarningIcon /> : <CurrentIcon />}
       <ContentArea>
         <div className="flex">
           <div className="align-middle">
@@ -31,8 +33,8 @@ export const GarantieFinanciereItem = ({
             </div>
           )}
         </div>
-        <ItemTitle title="Constitution des garanties Financières" />
-        {status !== 'submitted' ? (
+        <ItemTitle title={'Constitution des garanties Financières'} />
+        {!isSubmitted ? (
           <div>
             <div className="flex">
               <p className="mt-0 mb-0">Garanties financières en attente</p>
@@ -40,17 +42,15 @@ export const GarantieFinanciereItem = ({
             {isPorteurProjet && <UploadForm projectId={projectId} />}
           </div>
         ) : (
-          <div className="flex">
-            <a href={url} download>
-              Télécharger l'attestation de garanties financières
-            </a>
-            {isPorteurProjet && !validated && (
-              <>
-                <span aria-hidden>&nbsp;|&nbsp;</span>
-                <RemoveDocument projectId={projectId} />
-              </>
-            )}
-          </div>
+          <>
+            <div>
+              <a href={url} download>
+                Télécharger l'attestation de garanties financières
+              </a>
+              <span>&nbsp;({validationStatus})</span>
+            </div>
+            {isPorteurProjet && !isValidated && <RemoveDocument projectId={projectId} />}
+          </>
         )}
       </ContentArea>
     </>
