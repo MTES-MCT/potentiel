@@ -34,24 +34,18 @@ export const DCRItem = ({
         <ItemTitle title="Demande complète de raccordement" />
         {status !== 'submitted' ? (
           <div>
-            <div className="flex">
-              <p className="mt-0 mb-0">Demande complète de raccordement en attente</p>
-            </div>
+            <p className="mt-0 mb-0">Demande complète de raccordement en attente</p>
             {isPorteurProjet && <UploadForm projectId={projectId} />}
           </div>
         ) : (
           <>
-            <div className="flex">
+            <div>
               <a href={url} download>
                 Télécharger la demande complète de raccordement
               </a>
               <span>&nbsp;(dossier {numeroDossier})</span>
             </div>
-            {isPorteurProjet && (
-              <div className="flex">
-                <CancelDeposit {...{ projectId }} />
-              </div>
-            )}
+            {isPorteurProjet && <CancelDeposit {...{ projectId }} />}
           </>
         )}
       </ContentArea>
