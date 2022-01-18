@@ -71,9 +71,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                 case 'ProjectGFSubmitted':
                 case 'ProjectDCRSubmitted':
                 case 'ProjectPTFSubmitted':
-                  if (
-                    userIs(['porteur-projet', 'admin', 'dgec', 'dreal'])(user)
-                  ) {
+                  if (userIs(['porteur-projet', 'admin', 'dgec', 'dreal'])(user)) {
                     const { fileId, filename } = payload
                     events.push({
                       type,
@@ -89,9 +87,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                 case 'ProjectGFInvalidated':
                 case 'ProjectDCRRemoved':
                 case 'ProjectPTFRemoved':
-                  if (
-                    userIs(['porteur-projet', 'admin', 'dgec', 'dreal'])(user)
-                  ) {
+                  if (userIs(['porteur-projet', 'admin', 'dgec', 'dreal'])(user)) {
                     events.push({
                       type,
                       date: valueDate,
