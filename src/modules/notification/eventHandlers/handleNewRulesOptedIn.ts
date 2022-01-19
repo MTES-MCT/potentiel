@@ -1,5 +1,5 @@
 import { NotificationService } from '..'
-import { ProjectRepo, UserRepo } from '../../../dataAccess'
+import { ProjectRepo, UserRepo } from '@dataAccess'
 import { logger } from '@core/utils'
 import { ProjectNewRulesOptedIn } from '../../project'
 

@@ -1,4 +1,4 @@
-import { appelsOffreStatic } from '../../dataAccess/inMemory'
+import { appelsOffreStatic } from '@dataAccess/inMemory'
 import { Project, ProjectAppelOffre } from '@entities'
 
 export default function addAppelOffreToProject(project: Project) {

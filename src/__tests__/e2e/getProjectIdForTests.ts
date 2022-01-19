@@ -1,5 +1,5 @@
 import { logger } from '@core/utils'
-import { projectRepo } from '../../dataAccess'
+import { projectRepo } from '@dataAccess'
 import { testRouter } from './testRouter'
 
 testRouter.get('/test/getProjectId', async (request, response) => {

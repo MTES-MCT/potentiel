@@ -1,5 +1,5 @@
 import { logger } from '@core/utils'
-import { userRepo } from '../../dataAccess'
+import { userRepo } from '@dataAccess'
 import { DREAL } from '@entities'
 import { testRouter } from './testRouter'
 

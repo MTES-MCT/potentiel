@@ -1,4 +1,4 @@
-import { appelsOffreStatic } from '../dataAccess/inMemory'
+import { appelsOffreStatic } from '@dataAccess/inMemory'
 import { DREAL, makeProject, makeUser, Project } from '@entities'
 import { UnwrapForTest } from '../types'
 import makeFakeProject from '../__tests__/fixtures/project'

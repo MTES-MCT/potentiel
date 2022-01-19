@@ -1,7 +1,7 @@
 import { sequelizeInstance } from '../../sequelize.legacy.config'
 
 import { makeUserRepo } from './user'
-import { makeProjectRepo } from './project'
+import { makeProjectRepo, getFullTextSearchOptions } from './project'
 import { makeModificationRequestRepo } from './modificationRequest'
 import { logger } from '@core/utils'
 
@@ -75,4 +75,5 @@ export {
   appelOffreRepo,
   initDatabase,
   resetDatabase,
+  getFullTextSearchOptions,
 }

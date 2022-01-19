@@ -1,6 +1,6 @@
 import { Request } from 'express'
 import React, { useState } from 'react'
-import { appelsOffreStatic } from '../../../../dataAccess/inMemory/appelOffre'
+import { appelsOffreStatic } from '@dataAccess/inMemory'
 import { formatDate } from '../../../../helpers/formatDate'
 import { dataId } from '../../../../helpers/testId'
 import { ProjectDataForProjectPage } from '@modules/project/dtos'

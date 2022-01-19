@@ -40,6 +40,12 @@
       "@views/*": [
         "src/views/*/index.ts"
       ],
+      "@dataAccess": [
+        "src/dataAccess/index.ts"
+      ],
+      "@dataAccess/*": [
+        "src/dataAccess/*/index.ts"
+      ],
       "@config": [
         "src/config/index.ts"
       ],

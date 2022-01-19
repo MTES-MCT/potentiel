@@ -1,5 +1,5 @@
 import { logger } from '@core/utils'
-import { projectRepo, userRepo } from '../../dataAccess'
+import { projectRepo, userRepo } from '@dataAccess'
 import { eventStore } from '@config'
 import { makeProject } from '@entities'
 import makeFakeProject from '../fixtures/project'

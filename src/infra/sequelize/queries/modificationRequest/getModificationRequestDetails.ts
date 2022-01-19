@@ -1,5 +1,5 @@
 import { err, errAsync, ok, wrapInfra } from '@core/utils'
-import { getAppelOffre } from '../../../../dataAccess/inMemory/appelOffre'
+import { getAppelOffre } from '@dataAccess/inMemory'
 import {
   GetModificationRequestDetails,
   ModificationRequestPageDTO,

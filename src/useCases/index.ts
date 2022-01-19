@@ -1,5 +1,5 @@
 import { eventStore, fileRepo, getProjectAppelOffreId, sendNotification } from '@config'
-import { appelOffreRepo, projectRepo, userRepo } from '../dataAccess'
+import { appelOffreRepo, projectRepo, userRepo } from '@dataAccess'
 import makeGetUserProject from './getUserProject'
 import makeListProjects from './listProjects'
 import makeListUnnotifiedProjects from './listUnnotifiedProjects'

@@ -8,7 +8,7 @@ import ListProjects from './listProjects'
 
 export default { title: 'List Projects' }
 
-import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
+import { appelsOffreStatic } from '@dataAccess/inMemory'
 
 export const withFilters = () => (
   <ListProjects

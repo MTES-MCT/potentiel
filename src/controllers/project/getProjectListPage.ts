@@ -1,5 +1,5 @@
 import asyncHandler from 'express-async-handler'
-import { appelOffreRepo } from '../../dataAccess'
+import { appelOffreRepo } from '@dataAccess'
 import { makePagination } from '../../helpers/paginate'
 import routes from '../../routes'
 import { Pagination } from '../../types'

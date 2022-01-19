@@ -3,7 +3,7 @@ import makeFakeRequest from '../../__tests__/fixtures/request'
 import ImportCandidates from './importCandidates'
 
 // This is static
-import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
+import { appelsOffreStatic } from '@dataAccess/inMemory'
 
 export default { title: 'Import Candidates' }
 

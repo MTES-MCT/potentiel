@@ -4,7 +4,7 @@ import {
   UserRepo,
   ProjectFilters,
   ContextSpecificProjectListFilter,
-} from '../dataAccess'
+} from '@dataAccess'
 import { Pagination, PaginatedList } from '../types'
 
 interface MakeUseCaseProps {

@@ -1,7 +1,7 @@
 import moment from 'moment'
 import { EventBus } from '@core/domain'
 import { logger } from '@core/utils'
-import { ProjectRepo } from '../dataAccess'
+import { ProjectRepo } from '@dataAccess'
 import { applyProjectUpdate } from '@entities'
 import { NotificationService } from '@modules/notification'
 import { ProjectGFReminded } from '@modules/project'

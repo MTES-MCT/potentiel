@@ -1,4 +1,4 @@
-import { projectRepo } from '../../dataAccess'
+import { projectRepo } from '@dataAccess'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import routes from '../../routes'
 import { ensureRole } from '@config'

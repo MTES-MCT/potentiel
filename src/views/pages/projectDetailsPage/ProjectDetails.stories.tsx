@@ -1,6 +1,6 @@
 import React from 'react'
 import { ProjectDetails } from './ProjectDetails'
-import { appelsOffreStatic } from '../../../dataAccess/inMemory/appelOffre'
+import { appelsOffreStatic } from '@dataAccess/inMemory'
 import { ProjectAppelOffre } from '@entities'
 import { ProjectDataForProjectPage } from '@modules/project/dtos'
 import makeFakeRequest from '../../../__tests__/fixtures/request'

@@ -4,7 +4,7 @@ import makeFakeProject from '../__tests__/fixtures/project'
 
 import { UnwrapForTest } from '../types'
 
-import { appelOffreRepo, appelsOffreStatic } from '../dataAccess/inMemory'
+import { appelOffreRepo, appelsOffreStatic } from '@dataAccess/inMemory'
 import { makeProject, Project } from '@entities'
 
 const pagination = {

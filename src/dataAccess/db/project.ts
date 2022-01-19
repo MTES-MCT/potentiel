@@ -1059,12 +1059,10 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
   }
 }
 
-export { makeProjectRepo }
-
-export function getFullTextSearchOptions(
+const getFullTextSearchOptions = (
   terms: string,
   customSearchedProjectsColumns?: string[]
-): object {
+): object => {
   const defaultSearchedProjectsColumns = [
     'nomCandidat',
     'nomProjet',
@@ -1097,3 +1095,5 @@ export function getFullTextSearchOptions(
 
   return options
 }
+
+export { makeProjectRepo, getFullTextSearchOptions }

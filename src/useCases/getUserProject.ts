@@ -1,4 +1,4 @@
-import { ProjectRepo } from '../dataAccess'
+import { ProjectRepo } from '@dataAccess'
 import { Project, User } from '@entities'
 
 interface MakeUseCaseProps {

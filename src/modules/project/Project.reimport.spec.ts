@@ -1,6 +1,6 @@
 import { UniqueEntityID } from '@core/domain'
 import { UnwrapForTest } from '@core/utils'
-import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
+import { appelsOffreStatic } from '@dataAccess/inMemory'
 import makeFakeProject from '../../__tests__/fixtures/project'
 import {
   LegacyProjectSourced,

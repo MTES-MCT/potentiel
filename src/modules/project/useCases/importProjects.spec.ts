@@ -1,7 +1,7 @@
 import { IllegalProjectDataError } from '..'
 import { DomainEvent, UniqueEntityID } from '@core/domain'
 import { okAsync } from '@core/utils'
-import { AppelOffreRepo } from '../../../dataAccess'
+import { AppelOffreRepo } from '@dataAccess'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { LegacyModificationRawDataImported } from '../../modificationRequest'
 import { InfraNotAvailableError } from '../../shared'

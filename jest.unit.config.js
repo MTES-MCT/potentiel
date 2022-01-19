@@ -23,5 +23,7 @@ module.exports = {
     '^@views/(.*)$': '<rootDir>/src/views/$1/index.ts',
     '^@config$': '<rootDir>/src/config/index.ts',
     '^@config/(.*)$': '<rootDir>/src/config/$1.ts',
+    '^@dataAccess$': '<rootDir>/src/dataAccess/index.ts',
+    '^@dataAccess/(.*)$': '<rootDir>/src/dataAccess/$1/index.ts',
   },
 }

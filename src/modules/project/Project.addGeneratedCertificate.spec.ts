@@ -1,6 +1,6 @@
 import { DomainEvent, UniqueEntityID } from '@core/domain'
 import { UnwrapForTest } from '@core/utils'
-import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
+import { appelsOffreStatic } from '@dataAccess/inMemory'
 import { makeUser } from '@entities'
 import { UnwrapForTest as OldUnwrapForTest } from '../../types'
 import makeFakeProject from '../../__tests__/fixtures/project'

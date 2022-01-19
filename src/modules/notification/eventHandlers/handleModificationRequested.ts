@@ -1,6 +1,6 @@
 import { NotificationService } from '..'
 import { logger } from '@core/utils'
-import { ProjectRepo, UserRepo } from '../../../dataAccess'
+import { ProjectRepo, UserRepo } from '@dataAccess'
 import routes from '../../../routes'
 import { ModificationRequested } from '../../modificationRequest'
 import { GetInfoForModificationRequested } from '../queries'
