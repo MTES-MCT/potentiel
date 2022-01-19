@@ -1,5 +1,5 @@
 import { Pagination } from '../../types'
-import { listProjects } from '../../useCases'
+import { listProjects } from '@useCases'
 import { makePagination } from '../../helpers/paginate'
 import routes from '../../routes'
 import { parseAsync } from 'json2csv'

@@ -30,6 +30,9 @@
       ],
       "@infra/*": [
         "src/infra/*/index.ts"
+      ],
+      "@useCases": [
+        "src/useCases/index.ts"
       ]
     },
     "plugins": [
