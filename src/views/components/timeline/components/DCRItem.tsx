@@ -6,48 +6,73 @@ import { WarningItem } from '../components/WarningItem'
 import { DCRItemProps } from '../helpers/extractDCRItemProps'
 import { WarningIcon } from './WarningIcon'
 
-export const DCRItem = ({
-  role,
-  projectId,
-  date,
-  status,
-  url,
-  numeroDossier,
-}: DCRItemProps & { projectId: string }) => {
-  const isPorteurProjet = role === 'porteur-projet'
-  const displayWarning = status === 'past-due' && isPorteurProjet
+export const DCRItem = (props: DCRItemProps & { projectId: string }) => {
+  const { status, projectId } = props
 
   return (
     <>
-      {status === 'submitted' ? <PastIcon /> : displayWarning ? <WarningIcon /> : <CurrentIcon />}
+      {status === 'submitted' ? (
+        <Submitted {...{ ...props, projectId }} />
+      ) : (
+        <NotSubmitted {...{ ...props, projectId }} />
+      )}
+    </>
+  )
+}
+
+type SubmittedProps = {
+  role: string
+  date: number
+  url: string
+  numeroDossier: string
+  projectId: string
+}
+
+const Submitted = ({ role, date, url, numeroDossier, projectId }: SubmittedProps) => {
+  return (
+    <>
+      <PastIcon />
+      <ContentArea>
+        <ItemDate date={date} />
+        <ItemTitle title="Demande complète de raccordement" />
+        <div>
+          <a href={url} download>
+            Télécharger la demande complète de raccordement
+          </a>
+          <span>&nbsp;(dossier {numeroDossier})</span>
+        </div>
+        {role === 'porteur-projet' && <CancelDeposit {...{ projectId }} />}
+      </ContentArea>
+    </>
+  )
+}
+
+type NotSubmittedProps = {
+  role: string
+  date: number
+  projectId: string
+  status: 'due' | 'past-due'
+}
+
+const NotSubmitted = ({ role, date, projectId, status }: NotSubmittedProps) => {
+  return (
+    <>
+      {status === 'due' && <CurrentIcon />}
+      {status === 'past-due' && <WarningIcon />}
       <ContentArea>
         <div className="flex">
           <div className="align-middle">
             <ItemDate date={date} />
           </div>
-          {displayWarning && (
+          {status === 'past-due' && (
             <div className="align-middle mb-1">
               <WarningItem message="date dépassée" />
             </div>
           )}
         </div>
         <ItemTitle title="Demande complète de raccordement" />
-        {status !== 'submitted' ? (
-          <div>
-            <p className="mt-0 mb-0">Demande complète de raccordement en attente</p>
-            {isPorteurProjet && <UploadForm projectId={projectId} />}
-          </div>
-        ) : (
-          <>
-            <div>
-              <a href={url} download>
-                Télécharger la demande complète de raccordement
-              </a>
-              <span>&nbsp;(dossier {numeroDossier})</span>
-            </div>
-            {isPorteurProjet && <CancelDeposit {...{ projectId }} />}
-          </>
-        )}
+        <p className="mt-0 mb-0">Demande complète de raccordement en attente</p>
+        {role === 'porteur-projet' && <UploadForm projectId={projectId} />}
       </ContentArea>
     </>
   )

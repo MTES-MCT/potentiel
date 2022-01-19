@@ -10,8 +10,6 @@ export type DCRItemProps = {
 } & (
   | {
       status: 'due' | 'past-due'
-      url: undefined
-      numeroDossier: undefined
     }
   | {
       status: 'submitted'
@@ -61,8 +59,6 @@ export const extractDCRItemProps = (
     : {
         ...props,
         status: date < now ? 'past-due' : 'due',
-        url: undefined,
-        numeroDossier: undefined,
       }
 }
 
