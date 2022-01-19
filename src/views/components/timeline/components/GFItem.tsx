@@ -5,7 +5,7 @@ import { DateInput } from '../..'
 import { WarningItem } from './WarningItem'
 import { GFItemProps } from '../helpers/extractGFItemProps'
 import { WarningIcon } from './WarningIcon'
-import { UserRole } from 'src/modules/users'
+import { UserRole } from '../../../../modules/users'
 
 export const GFItem = (props: GFItemProps & { projectId: string }) => {
   const { status, projectId } = props
