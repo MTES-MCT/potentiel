@@ -3,18 +3,26 @@ import { ItemDate, PastIcon, ItemTitle, ContentArea } from '.'
 import { DesignationItemProps } from '../helpers/extractDesignationItemProps'
 import { formatDate } from '../../../../helpers/formatDate'
 
-export const DesignationItem = ({ date, certificate, role }: DesignationItemProps) => (
-  <>
-    <PastIcon />
-    <ContentArea>
-      <ItemDate date={date} />
-      <ItemTitle title="Notification de résultat" />
-      <Certificate certificate={certificate} role={role} />
-    </ContentArea>
-  </>
-)
+export const DesignationItem = (props: DesignationItemProps & { projectId: string }) => {
+  const { certificate, role, date } = props
+  return (
+    <>
+      <PastIcon />
+      <ContentArea>
+        <ItemDate date={date} />
+        <ItemTitle title="Notification de résultat" />
+        <Certificate certificate={certificate} role={role} />
+      </ContentArea>
+    </>
+  )
+}
 
-const Certificate = ({ certificate, role }: DesignationItemProps) => {
+type CertificateProps = {
+  certificate: DesignationItemProps['certificate']
+  role: DesignationItemProps['role']
+}
+
+const Certificate = ({ certificate, role }: CertificateProps) => {
   const { status } = certificate
 
   const message =
