@@ -19,7 +19,7 @@ export const DCRItem = (props: DCRItemProps & { projectId: string }) => {
 type SubmittedProps = {
   role: string
   date: number
-  url: string
+  url: string | undefined
   numeroDossier: string
   projectId: string
 }
