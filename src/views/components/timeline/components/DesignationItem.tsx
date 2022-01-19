@@ -3,7 +3,7 @@ import { ItemDate, PastIcon, ItemTitle, ContentArea } from '.'
 import { DesignationItemProps } from '../helpers/extractDesignationItemProps'
 import { formatDate } from '../../../../helpers/formatDate'
 
-export const DesignationItem = (props: DesignationItemProps & { projectId: string }) => {
+export const DesignationItem = (props: DesignationItemProps) => {
   const { certificate, role, date } = props
   return (
     <>
