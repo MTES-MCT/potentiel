@@ -204,10 +204,10 @@ export const garantiesFinancieresConstituees = () => (
           filename: 'file-name',
         } as ProjectGFSubmittedDTO,
         {
-          type: 'ProjectGFValidated',
+          type: 'ProjectGFInvalidated',
           variant: 'admin',
           date: new Date('2022-01-18').getTime(),
-        } as ProjectGFValidatedDTO,
+        } as ProjectGFInvalidatedDTO,
       ],
     }}
     projectId={project.id}
@@ -239,21 +239,16 @@ export const GFConstitueesFichierManquant = () => (
           potentielIdentifier: 'pot-id',
         } as ProjectCertificateGeneratedDTO,
         {
-          type: 'ProjectClaimed',
-          variant: 'admin',
-          date: new Date('2022-01-14').getTime(),
-          potentielIdentifier: 'pot-id',
-          certificateFileId: 'file-id',
-          nomProjet: 'nom-projet',
-          email: 'email',
-          claimedBy: 'someone',
-        } as ProjectClaimedDTO,
-        {
           type: 'ProjectGFSubmitted',
           variant: 'admin',
           date: new Date('2022-01-17').getTime(),
           fileId: 'file-id',
         } as ProjectGFSubmittedDTO,
+        {
+          type: 'ProjectGFInvalidated',
+          variant: 'admin',
+          date: new Date('2022-01-18').getTime(),
+        } as ProjectGFInvalidatedDTO,
       ],
     }}
     projectId={project.id}
