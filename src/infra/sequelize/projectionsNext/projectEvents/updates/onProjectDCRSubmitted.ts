@@ -14,10 +14,11 @@ export default ProjectEvent.projector.on(
     })
     if (!rawFilename) {
       logger.error(
-        `Error: onProjectDCRSubmitted projection failed to retrieve filename from db File`
+        `Error : impossible de trouver le fichier (id = ${fileId}) d'attestation DCR pour le project ${projectId})`
       )
-      return
     }
+    const filename: string | undefined = rawFilename?.filename
+
     await ProjectEvent.create(
       {
         projectId,
@@ -25,7 +26,7 @@ export default ProjectEvent.projector.on(
         valueDate: dcrDate.getTime(),
         eventPublishedAt: occurredAt.getTime(),
         id: new UniqueEntityID().toString(),
-        payload: { fileId, filename: rawFilename.filename, numeroDossier },
+        payload: { fileId, filename, numeroDossier },
       },
       { transaction }
     )
