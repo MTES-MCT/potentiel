@@ -83,7 +83,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       variant: user.role,
                       fileId,
                       filename,
-                      numeroDossier: type === 'ProjectDCRSubmitted' && payload.numeroDossier,
+                      ...(type === 'ProjectDCRSubmitted' && {
+                        numeroDossier: payload.numeroDossier,
+                      }),
                     })
                   }
                   break
