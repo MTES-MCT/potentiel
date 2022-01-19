@@ -115,8 +115,7 @@ export type ProjectDCRSubmittedDTO = {
   date: number
   variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
   fileId: string
-  filename: string
-  submittedBy: string
+  filename?: string
   numeroDossier: string
 }
 

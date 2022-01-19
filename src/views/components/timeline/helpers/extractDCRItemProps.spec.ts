@@ -97,6 +97,7 @@ describe('extractDCRitemProps', () => {
           variant: 'porteur-projet',
           date: submittedDate,
           numeroDossier: 'DOSSIER-1',
+          filename: 'file-name',
         } as ProjectDCRSubmittedDTO,
       ]
       const result = extractDCRItemProps(events, new Date('2022-01-10').getTime())
