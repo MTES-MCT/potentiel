@@ -3,7 +3,7 @@ import { or } from '@core/utils'
 import { UserRole } from '@modules/users'
 import { makeDocumentUrl } from './makeDocumentUrl'
 
-export type GarantieFinanciereItemProps = {
+export type GFItemProps = {
   type: 'garantiesFinancieres'
   role: UserRole
   date: number
@@ -19,10 +19,7 @@ export type GarantieFinanciereItemProps = {
     }
 )
 
-export const extractGFItemProps = (
-  events: ProjectEventDTO[],
-  now: number
-): GarantieFinanciereItemProps | null => {
+export const extractGFItemProps = (events: ProjectEventDTO[], now: number): GFItemProps | null => {
   const latestProjectGF = events.filter(isProjectGF).pop()
   const latestDueDateSetEvent = events.filter(is('ProjectGFDueDateSet')).pop()
   const latestSubmittedEvent = events.filter(is('ProjectGFSubmitted')).pop()

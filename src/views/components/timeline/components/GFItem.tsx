@@ -1,19 +1,19 @@
 import React, { useState } from 'react'
-import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '../components'
+import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '.'
 import ROUTES from '../../../../routes'
-import { DateInput } from '../../'
-import { WarningItem } from '../components/WarningItem'
-import { GarantieFinanciereItemProps } from '../helpers/extractGFItemProps'
+import { DateInput } from '../..'
+import { WarningItem } from './WarningItem'
+import { GFItemProps } from '../helpers/extractGFItemProps'
 import { WarningIcon } from './WarningIcon'
 
-export const GarantieFinanciereItem = ({
+export const GFItem = ({
   role,
   projectId,
   date,
   status,
   url,
   validationStatus,
-}: GarantieFinanciereItemProps & { projectId: string }) => {
+}: GFItemProps & { projectId: string }) => {
   const isPorteurProjet = role === 'porteur-projet'
   const displayWarning = status === 'past-due' && isPorteurProjet
   const isSubmitted = status === 'submitted'
