@@ -36,7 +36,7 @@ describe('extractGFitemProps', () => {
       const result = extractGFItemProps(events, new Date('2022-01-08').getTime())
       expect(result).toEqual({
         date: new Date('2022-01-12').getTime(),
-        type: 'garantiesFinancieres',
+        type: 'garanties-financieres',
         status: 'due',
         role: 'porteur-projet',
         validationStatus: 'non-applicable',
@@ -77,7 +77,7 @@ describe('extractGFitemProps', () => {
       const result = extractGFItemProps(events, new Date('2022-01-10').getTime())
       expect(result).toEqual({
         date: submittedDate,
-        type: 'garantiesFinancieres',
+        type: 'garanties-financieres',
         status: 'submitted',
         url: expect.anything(),
         role: 'porteur-projet',
@@ -102,7 +102,7 @@ describe('extractGFitemProps', () => {
         const result = extractGFItemProps(events, new Date('2022-01-10').getTime())
         expect(result).toEqual({
           date: submittedDate,
-          type: 'garantiesFinancieres',
+          type: 'garanties-financieres',
           status: 'submitted',
           url: undefined,
           role: 'porteur-projet',
@@ -129,7 +129,7 @@ describe('extractGFitemProps', () => {
       const result = extractGFItemProps(events, new Date('2022-01-10').getTime())
       expect(result).toEqual({
         date: new Date('2022-02-10').getTime(),
-        type: 'garantiesFinancieres',
+        type: 'garanties-financieres',
         status: 'due',
         role: 'porteur-projet',
         validationStatus: 'non-applicable',
@@ -163,7 +163,7 @@ describe('extractGFitemProps', () => {
       const result = extractGFItemProps(events, new Date('2022-01-11').getTime())
       expect(result).toEqual({
         date: new Date('2022-03-10').getTime(),
-        type: 'garantiesFinancieres',
+        type: 'garanties-financieres',
         status: 'due',
         role: 'porteur-projet',
         validationStatus: 'non-applicable',
@@ -198,7 +198,7 @@ describe('extractGFitemProps', () => {
       const result = extractGFItemProps(events, new Date('2022-01-11').getTime())
       expect(result).toEqual({
         date: new Date('2022-01-01').getTime(),
-        type: 'garantiesFinancieres',
+        type: 'garanties-financieres',
         status: 'submitted',
         role: 'porteur-projet',
         url: expect.anything(),
@@ -233,7 +233,7 @@ describe('extractGFitemProps', () => {
       expect(result).not.toBeNull()
       expect(result).toEqual({
         date: new Date('2021-12-01').getTime(),
-        type: 'garantiesFinancieres',
+        type: 'garanties-financieres',
         status: 'submitted',
         role: 'porteur-projet',
         url: expect.anything(),
@@ -271,7 +271,7 @@ describe('extractGFitemProps', () => {
       expect(result).not.toBeNull()
       expect(result).toEqual({
         date: new Date('2021-12-01').getTime(),
-        type: 'garantiesFinancieres',
+        type: 'garanties-financieres',
         status: 'submitted',
         role: 'porteur-projet',
         url: expect.anything(),

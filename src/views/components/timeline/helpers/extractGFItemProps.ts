@@ -4,7 +4,7 @@ import { UserRole } from '@modules/users'
 import { makeDocumentUrl } from './makeDocumentUrl'
 
 export type GFItemProps = {
-  type: 'garantiesFinancieres'
+  type: 'garanties-financieres'
   role: UserRole
   date: number
   validationStatus: 'validée' | 'à traiter' | 'non-applicable'
@@ -40,7 +40,7 @@ export const extractGFItemProps = (events: ProjectEventDTO[], now: number): GFIt
   const { date, variant: role, type } = eventToHandle
 
   const props = {
-    type: 'garantiesFinancieres' as 'garantiesFinancieres',
+    type: 'garanties-financieres' as 'garanties-financieres',
     date,
     role,
   }

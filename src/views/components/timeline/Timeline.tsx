@@ -51,7 +51,7 @@ export const Timeline = (props: TimelineProps) => {
               case 'import':
                 return <ImportItem {...props} />
 
-              case 'garantiesFinancieres':
+              case 'garanties-financieres':
                 return <GFItem {...{ ...props, projectId }} />
 
               case 'demande-complete-de-raccordement':
