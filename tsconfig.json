@@ -27,6 +27,9 @@
       ],
       "@entities": [
         "src/entities/index.ts"
+      ],
+      "@infra/*": [
+        "src/infra/*/index.ts"
       ]
     },
     "plugins": [

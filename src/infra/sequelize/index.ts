@@ -24,3 +24,5 @@ export const initProjections = (eventStore: EventStore) => {
   initAppelOffreProjections(eventStore, models)
   initUserProjectClaimsProjections(eventStore, models)
 }
+
+export { HasSubscribe } from './helpers/Projection'

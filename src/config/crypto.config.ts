@@ -1,4 +1,4 @@
-import { makeBuildProjectIdentifier } from '../infra/crypto'
+import { makeBuildProjectIdentifier } from '@infra/crypto'
 
 if (!process.env.POTENTIEL_IDENTIFIER_SECRET) {
   console.error('ERROR: POTENTIEL_IDENTIFIER_SECRET not recognized')

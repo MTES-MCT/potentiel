@@ -1,4 +1,4 @@
-import { getSentEmails } from '../../infra/mail/fakeEmailService'
+import { getSentEmails } from '@infra/mail'
 import { testRouter } from './testRouter'
 
 testRouter.get('/test/getSentEmails', async (request, response) => {

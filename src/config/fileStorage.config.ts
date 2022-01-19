@@ -1,4 +1,4 @@
-import { makeLocalFileStorageService, makeS3FileStorageService } from '../infra/file'
+import { makeLocalFileStorageService, makeS3FileStorageService } from '@infra/file'
 import { FileStorageService } from '@modules/file'
 import { isProdEnv, isStagingEnv } from './env.config'
 

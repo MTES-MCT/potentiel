@@ -1,5 +1,5 @@
-import { makeFakeAuth } from '../infra/fakeAuth'
-import { makeKeycloakAuth } from '../infra/keycloak'
+import { makeFakeAuth } from '@infra/fakeAuth'
+import { makeKeycloakAuth } from '@infra/keycloak'
 import { EnsureRole, RegisterAuth } from '@modules/authN'
 import { sequelizeInstance } from '../sequelize.config'
 import { isProdEnv, isStagingEnv } from './env.config'
