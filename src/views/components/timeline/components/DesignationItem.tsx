@@ -3,29 +3,32 @@ import { ItemDate, PastIcon, ItemTitle, ContentArea } from '.'
 import { DesignationItemProps } from '../helpers/extractDesignationItemProps'
 import { formatDate } from '../../../../helpers/formatDate'
 
-export const DesignationItem = ({ date, certificate }: DesignationItemProps) => (
+export const DesignationItem = ({ date, certificate, role }: DesignationItemProps) => (
   <>
     <PastIcon />
     <ContentArea>
       <ItemDate date={date} />
       <ItemTitle title="Notification de résultat" />
-      <Certificate {...certificate} />
+      <Certificate certificate={certificate} role={role} />
     </ContentArea>
   </>
 )
 
-const Certificate = (props: DesignationItemProps['certificate']) => {
-  const { status } = props
+const Certificate = ({ certificate, role }: DesignationItemProps) => {
+  const { status } = certificate
 
-  if (status === 'not-applicable') {
-    return <span>Attestation non disponible pour cette période</span>
+  const message =
+    status === 'not-applicable'
+      ? 'Attestation non disponible pour cette période'
+      : role === 'admin'
+      ? 'Document non disponible actuellement'
+      : 'Votre attestation sera disponible sous 24h'
+
+  if (status === 'not-applicable' || status === 'pending') {
+    return <span>{message}</span>
   }
 
-  if (status === 'pending') {
-    return <span>Votre attestation sera disponible sous 24h</span>
-  }
-
-  const { url, date } = props
+  const { url, date } = certificate
 
   return (
     <a href={url} download>
