@@ -6,7 +6,7 @@ import { Pagination } from '../../types'
 import { listProjects } from '@useCases'
 import { ensureRole } from '../../config'
 import { v1Router } from '../v1Router'
-import { GarantiesFinancieresPage } from '../../views'
+import { GarantiesFinancieresPage } from '@views'
 
 const getGarantiesFinancieresPage = asyncHandler(async (request, response) => {
   const {

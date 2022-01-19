@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import routes from '../../routes'
-import { AdminRegenerateCertificatesPage } from '../../views/legacy-pages'
+import { AdminRegenerateCertificatesPage } from '@views/legacy-pages'
 import { ensureRole } from '../../config'
 import { v1Router } from '../v1Router'
 

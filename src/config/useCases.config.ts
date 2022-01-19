@@ -25,7 +25,7 @@ import {
   makeUpdateStepStatus,
 } from '@modules/project'
 import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '@modules/users'
-import { buildCertificate } from '../views/certificates'
+import { buildCertificate } from '@views/certificates'
 import { resendInvitationEmail } from './credentials.config'
 import { eventStore } from './eventStore.config'
 import {

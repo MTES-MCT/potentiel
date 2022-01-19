@@ -6,7 +6,7 @@ import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
 import { getCahiersChargesURLs } from '../../config'
 import { logger } from '@core/utils'
-import { NewModificationRequestPage } from '../../views'
+import { NewModificationRequestPage } from '@views'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import { errorResponse, notFoundResponse } from '../helpers'
 

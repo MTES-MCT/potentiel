@@ -1,7 +1,7 @@
 import asyncHandler from 'express-async-handler'
 import { userRepo } from '../../dataAccess'
 import routes from '../../routes'
-import { DrealListPage } from '../../views/legacy-pages'
+import { DrealListPage } from '@views/legacy-pages'
 import { ensureRole } from '../../config'
 import { v1Router } from '../v1Router'
 

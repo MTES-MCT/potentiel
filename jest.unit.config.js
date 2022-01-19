@@ -19,5 +19,7 @@ module.exports = {
     '^@entities$': '<rootDir>/src/entities/index.ts',
     '^@infra/(.*)$': '<rootDir>/src/infra/$1/index.ts',
     '^@useCases$': '<rootDir>/src/useCases/index.ts',
+    '^@views$': '<rootDir>/src/views/index.ts',
+    '^@views/(.*)$': '<rootDir>/src/views/$1/index.ts',
   },
 }

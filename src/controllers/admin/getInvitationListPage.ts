@@ -4,7 +4,7 @@ import { addQueryParams } from '../../helpers/addQueryParams'
 import { makePagination } from '../../helpers/paginate'
 import routes from '../../routes'
 import { Pagination } from '../../types'
-import { InvitationListPage } from '../../views/legacy-pages'
+import { InvitationListPage } from '@views/legacy-pages'
 import { ensureRole } from '../../config'
 import { v1Router } from '../v1Router'
 

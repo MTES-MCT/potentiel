@@ -33,6 +33,12 @@
       ],
       "@useCases": [
         "src/useCases/index.ts"
+      ],
+      "@views": [
+        "src/views/index.ts"
+      ],
+      "@views/*": [
+        "src/views/*/index.ts"
       ]
     },
     "plugins": [

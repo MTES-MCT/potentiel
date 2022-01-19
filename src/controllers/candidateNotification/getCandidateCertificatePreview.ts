@@ -7,7 +7,7 @@ import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
 import { ensureRole } from '../../config'
 import { getUserProject } from '@useCases'
-import { buildCertificate } from '../../views/certificates'
+import { buildCertificate } from '@views/certificates'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import { errorResponse, notFoundResponse } from '../helpers'
 
