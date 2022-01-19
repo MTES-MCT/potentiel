@@ -1,7 +1,8 @@
 import { wrapInfra } from '../../../../core/utils'
 import { GetProjectEvents, ProjectEventDTO } from '../../../../modules/frise'
-import { ProjectEvent } from '../../projectionsNext'
+import { userIs, userIsNot } from '../../../../modules/users'
 import { models } from '../../models'
+import { ProjectEvent } from '../../projectionsNext'
 
 const { Project } = models
 
@@ -21,14 +22,14 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
               const events: ProjectEventDTO[] = await eventsPromise
               switch (type) {
                 case 'ProjectImported':
-                  if (user.role === 'dgec' || user.role === 'admin') {
+                  if (userIs(['admin', 'dgec'])(user)) {
                     events.push({
                       type,
                       date: valueDate,
                       variant: user.role,
                     })
                   }
-                  if (user.role !== 'ademe' && payload?.notifiedOn) {
+                  if (userIsNot('ademe')(user) && payload?.notifiedOn) {
                     events.push({
                       type: 'ProjectNotified',
                       date: payload.notifiedOn,
@@ -39,7 +40,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
 
                   break
                 case 'ProjectNotified':
-                  if (user.role !== 'ademe') {
+                  if (userIsNot('ademe')(user)) {
                     events.push({
                       type,
                       date: valueDate,
@@ -51,7 +52,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                 case 'ProjectCertificateRegenerated':
                 case 'ProjectCertificateUpdated':
                 case 'ProjectClaimed':
-                  if (user.role !== 'ademe' && user.role !== 'dreal') {
+                  if (userIsNot(['ademe', 'dreal'])(user)) {
                     events.push({
                       type,
                       potentielIdentifier,
@@ -70,12 +71,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                 case 'ProjectGFSubmitted':
                 case 'ProjectDCRSubmitted':
                 case 'ProjectPTFSubmitted':
-                  if (
-                    user.role === 'porteur-projet' ||
-                    user.role === 'admin' ||
-                    user.role === 'dgec' ||
-                    user.role === 'dreal'
-                  ) {
+                  if (userIs(['porteur-projet', 'admin', 'dgec', 'dreal'])(user)) {
                     const { fileId, filename } = payload
                     events.push({
                       type,
@@ -91,12 +87,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                 case 'ProjectGFInvalidated':
                 case 'ProjectDCRRemoved':
                 case 'ProjectPTFRemoved':
-                  if (
-                    user.role === 'porteur-projet' ||
-                    user.role === 'admin' ||
-                    user.role === 'dgec' ||
-                    user.role === 'dreal'
-                  ) {
+                  if (userIs(['porteur-projet', 'admin', 'dgec', 'dreal'])(user)) {
                     events.push({
                       type,
                       date: valueDate,
@@ -106,7 +97,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   break
                 case 'ProjectGFDueDateSet':
                 case 'ProjectDCRDueDateSet':
-                  if (user.role !== 'ademe') {
+                  if (userIsNot('ademe')(user)) {
                     events.push({
                       type,
                       date: valueDate,
