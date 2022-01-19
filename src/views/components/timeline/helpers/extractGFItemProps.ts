@@ -7,15 +7,14 @@ export type GFItemProps = {
   type: 'garanties-financieres'
   role: UserRole
   date: number
-  validationStatus: 'validée' | 'à traiter' | 'non-applicable'
 } & (
   | {
       status: 'due' | 'past-due'
-      url: undefined
     }
   | {
       status: 'submitted'
       url: string | undefined
+      isValidated: boolean
     }
 )
 
@@ -51,13 +50,11 @@ export const extractGFItemProps = (events: ProjectEventDTO[], now: number): GFIt
         url:
           eventToHandle.filename && makeDocumentUrl(eventToHandle.fileId, eventToHandle.filename),
         status: 'submitted',
-        validationStatus: latestProjectGF.type === 'ProjectGFValidated' ? 'validée' : 'à traiter',
+        isValidated: latestProjectGF.type === 'ProjectGFValidated',
       }
     : {
         ...props,
         status: date < now ? 'past-due' : 'due',
-        url: undefined,
-        validationStatus: 'non-applicable',
       }
 }
 

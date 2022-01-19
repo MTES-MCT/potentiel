@@ -39,7 +39,6 @@ describe('extractGFitemProps', () => {
         type: 'garanties-financieres',
         status: 'due',
         role: 'porteur-projet',
-        validationStatus: 'non-applicable',
       })
     })
     describe('when the due date has passed', () => {
@@ -81,7 +80,7 @@ describe('extractGFitemProps', () => {
         status: 'submitted',
         url: expect.anything(),
         role: 'porteur-projet',
-        validationStatus: 'à traiter',
+        isValidated: false,
       })
     })
     describe('when there is no filename', () => {
@@ -106,7 +105,7 @@ describe('extractGFitemProps', () => {
           status: 'submitted',
           url: undefined,
           role: 'porteur-projet',
-          validationStatus: 'à traiter',
+          isValidated: false,
         })
       })
     })
@@ -132,7 +131,6 @@ describe('extractGFitemProps', () => {
         type: 'garanties-financieres',
         status: 'due',
         role: 'porteur-projet',
-        validationStatus: 'non-applicable',
       })
     })
   })
@@ -166,7 +164,6 @@ describe('extractGFitemProps', () => {
         type: 'garanties-financieres',
         status: 'due',
         role: 'porteur-projet',
-        validationStatus: 'non-applicable',
       })
     })
   })
@@ -202,7 +199,7 @@ describe('extractGFitemProps', () => {
         status: 'submitted',
         role: 'porteur-projet',
         url: expect.anything(),
-        validationStatus: 'à traiter',
+        isValidated: false,
       })
     })
   })
@@ -237,7 +234,7 @@ describe('extractGFitemProps', () => {
         status: 'submitted',
         role: 'porteur-projet',
         url: expect.anything(),
-        validationStatus: 'validée',
+        isValidated: true,
       })
     })
   })
@@ -275,7 +272,7 @@ describe('extractGFitemProps', () => {
         status: 'submitted',
         role: 'porteur-projet',
         url: expect.anything(),
-        validationStatus: 'à traiter',
+        isValidated: false,
       })
     })
   })

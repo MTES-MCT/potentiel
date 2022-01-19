@@ -5,23 +5,68 @@ import { DateInput } from '../..'
 import { WarningItem } from './WarningItem'
 import { GFItemProps } from '../helpers/extractGFItemProps'
 import { WarningIcon } from './WarningIcon'
+import { UserRole } from 'src/modules/users'
 
-export const GFItem = ({
-  role,
-  projectId,
-  date,
-  status,
-  url,
-  validationStatus,
-}: GFItemProps & { projectId: string }) => {
-  const isPorteurProjet = role === 'porteur-projet'
-  const displayWarning = status === 'past-due' && isPorteurProjet
-  const isSubmitted = status === 'submitted'
-  const isValidated = validationStatus === 'validée'
+export const GFItem = (props: GFItemProps & { projectId: string }) => {
+  const { status, projectId } = props
 
   return (
     <>
-      {isSubmitted ? <PastIcon /> : displayWarning ? <WarningIcon /> : <CurrentIcon />}
+      {status === 'submitted' ? (
+        <Submitted {...{ ...props, projectId }} />
+      ) : (
+        <NotSubmitted {...{ ...props, projectId }} />
+      )}
+    </>
+  )
+}
+
+type SubmittedProps = {
+  date: number
+  url: string | undefined
+  isValidated: boolean
+  role: UserRole
+  projectId: string
+}
+
+const Submitted = ({ date, url, isValidated, role, projectId }: SubmittedProps) => {
+  const isPorteurProjet = role === 'porteur-projet'
+  const validationMessage = isValidated ? 'validée' : 'à traiter'
+  return (
+    <>
+      <PastIcon />
+      <ContentArea>
+        <ItemDate date={date} />
+        <ItemTitle title={'Constitution des garanties financières'} />
+        <div className="flex">
+          {url ? (
+            <a href={url} download>
+              Télécharger l'attestation de garanties financières
+            </a>
+          ) : (
+            <span>Attestation indisponible actuellement</span>
+          )}
+          <span>&nbsp;({validationMessage})</span>
+        </div>
+        {isPorteurProjet && !isValidated && <RemoveDocument projectId={projectId} />}
+      </ContentArea>
+    </>
+  )
+}
+
+type NotSubmittedProps = {
+  date: number
+  status: 'due' | 'past-due'
+  role: UserRole
+  projectId: string
+}
+
+const NotSubmitted = ({ date, status, role, projectId }: NotSubmittedProps) => {
+  const isPorteurProjet = role === 'porteur-projet'
+  const displayWarning = status === 'past-due' && isPorteurProjet
+  return (
+    <>
+      {displayWarning ? <WarningIcon /> : <CurrentIcon />}
       <ContentArea>
         <div className="flex">
           <div className="align-middle">
@@ -33,35 +78,19 @@ export const GFItem = ({
             </div>
           )}
         </div>
-        <ItemTitle title={'Constitution des garanties Financières'} />
-        {!isSubmitted ? (
-          <div>
-            <div className="flex">
-              <p className="mt-0 mb-0">Garanties financières en attente</p>
-            </div>
-            {isPorteurProjet && <UploadForm projectId={projectId} />}
+        <ItemTitle title={'Constitution des garanties financières'} />
+        <div>
+          <div className="flex">
+            <p className="mt-0 mb-0">Garanties financières en attente</p>
           </div>
-        ) : (
-          <>
-            <div>
-              {url ? (
-                <a href={url} download>
-                  Télécharger l'attestation de garanties financières
-                </a>
-              ) : (
-                <span>Attestation indisponible actuellement</span>
-              )}
-              <span>&nbsp;({validationStatus})</span>
-            </div>
-            {isPorteurProjet && !isValidated && <RemoveDocument projectId={projectId} />}
-          </>
-        )}
+          {isPorteurProjet && <UploadForm projectId={projectId} />}
+        </div>
       </ContentArea>
     </>
   )
 }
 
-interface UploadFormProps {
+type UploadFormProps = {
   projectId: string
 }
 
@@ -100,7 +129,7 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
   )
 }
 
-interface RemoveDocumentProps {
+type RemoveDocumentProps = {
   projectId: string
 }
 
