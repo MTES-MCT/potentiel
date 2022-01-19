@@ -1,10 +1,12 @@
 import { Project } from '@entities'
 import ROUTES from '../../../../routes'
 import { isCertificateDTO, is, ProjectCertificateDTO, ProjectEventDTO } from '@modules/frise'
+import { UserRole } from '@modules/users'
 
 export type DesignationItemProps = {
   type: 'designation'
   date: number
+  role: UserRole
   certificate:
     | {
         date: number
@@ -34,7 +36,11 @@ export const extractDesignationItemProps = (
       }
     : { status: projectNotifiedEvent.isLegacy ? 'not-applicable' : 'pending' }
 
-  return { type: 'designation', date: projectNotifiedEvent.date, certificate }
+  const role: DesignationItemProps['role'] = certificateEvent
+    ? certificateEvent.variant
+    : projectNotifiedEvent.variant
+
+  return { type: 'designation', date: projectNotifiedEvent.date, certificate, role }
 }
 
 const makeCertificateLink = (

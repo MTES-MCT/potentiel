@@ -56,7 +56,12 @@ describe('extractDesignationItemProps.spec', () => {
 
     it('should return the notification date', () => {
       const result = extractDesignationItemProps([projectNotifiedEvent], projectId)
-      expect(result).toEqual({ type: 'designation', date: 12, certificate: { status: 'pending' } })
+      expect(result).toEqual({
+        type: 'designation',
+        date: 12,
+        certificate: { status: 'pending' },
+        role: 'admin',
+      })
     })
 
     describe('when isLegacy is true', () => {
