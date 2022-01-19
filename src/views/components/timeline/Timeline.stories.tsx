@@ -281,7 +281,6 @@ export const PPDCRSupprimée = () => (
           date: new Date('2022-01-17').getTime(),
           fileId: 'file-id',
           filename: 'file-name',
-          submittedBy: 'someone',
         } as ProjectDCRSubmittedDTO,
         {
           type: 'ProjectDCRRemoved',
@@ -315,7 +314,7 @@ export const PPDCRConstituée = () => (
           date: new Date('2022-01-17').getTime(),
           fileId: 'file-id',
           filename: 'file-name',
-          submittedBy: 'someone',
+          numeroDossier: 'DOSSIER-1',
         } as ProjectDCRSubmittedDTO,
         {
           type: 'ProjectPTFSubmitted',
@@ -323,7 +322,6 @@ export const PPDCRConstituée = () => (
           date: new Date('2022-01-16').getTime(),
           fileId: 'file-id',
           // filename: 'file-name',
-          submittedBy: 'someone',
         } as ProjectPTFSubmittedDTO,
       ],
     }}

@@ -32,9 +32,13 @@ const Submitted = ({ role, date, url, numeroDossier, projectId }: SubmittedProps
         <ItemDate date={date} />
         <ItemTitle title="Demande complète de raccordement" />
         <div>
-          <a href={url} download>
-            Télécharger la demande complète de raccordement
-          </a>
+          {url ? (
+            <a href={url} download>
+              Télécharger la demande complète de raccordement
+            </a>
+          ) : (
+            <span>Attestation indisponible actuellement</span>
+          )}
           <span>&nbsp;(dossier {numeroDossier})</span>
         </div>
         {role === 'porteur-projet' && <CancelDeposit {...{ projectId }} />}
@@ -66,8 +70,10 @@ const NotSubmitted = ({ role, date, projectId, status }: NotSubmittedProps) => {
           )}
         </div>
         <ItemTitle title="Demande complète de raccordement" />
-        <p className="mt-0 mb-0">Demande complète de raccordement en attente</p>
-        {role === 'porteur-projet' && <UploadForm projectId={projectId} />}
+        <div>
+          <p className="mt-0 mb-0">Demande complète de raccordement en attente</p>
+          {role === 'porteur-projet' && <UploadForm projectId={projectId} />}
+        </div>
       </ContentArea>
     </>
   )
