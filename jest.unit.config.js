@@ -21,5 +21,7 @@ module.exports = {
     '^@useCases$': '<rootDir>/src/useCases/index.ts',
     '^@views$': '<rootDir>/src/views/index.ts',
     '^@views/(.*)$': '<rootDir>/src/views/$1/index.ts',
+    '^@config$': '<rootDir>/src/config/index.ts',
+    '^@config/(.*)$': '<rootDir>/src/config/$1.ts',
   },
 }

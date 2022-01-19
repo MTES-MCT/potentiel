@@ -1,11 +1,11 @@
 import asyncHandler from 'express-async-handler'
-import { ensureRole } from '../../config'
+import { ensureRole } from '@config'
 import {
   getCahiersChargesURLs,
   getProjectDataForProjectPage,
   getProjectEvents,
-} from '../../config/queries.config'
-import { shouldUserAccessProject } from '../../config/useCases.config'
+} from '@config/queries.config'
+import { shouldUserAccessProject } from '@config/useCases.config'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import { EntityNotFoundError } from '@modules/shared'
 import routes from '../../routes'

@@ -1,4 +1,4 @@
-import { eventStore, fileRepo, getProjectAppelOffreId, sendNotification } from '../config'
+import { eventStore, fileRepo, getProjectAppelOffreId, sendNotification } from '@config'
 import { appelOffreRepo, projectRepo, userRepo } from '../dataAccess'
 import makeGetUserProject from './getUserProject'
 import makeListProjects from './listProjects'

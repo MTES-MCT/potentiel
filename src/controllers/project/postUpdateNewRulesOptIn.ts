@@ -1,5 +1,5 @@
 import asyncHandler from 'express-async-handler'
-import { ensureRole, updateNewRulesOptIn } from '../../config'
+import { ensureRole, updateNewRulesOptIn } from '@config'
 import { logger } from '@core/utils'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import { UnauthorizedError } from '@modules/shared'

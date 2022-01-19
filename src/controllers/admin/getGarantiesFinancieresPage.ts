@@ -4,7 +4,7 @@ import { makePagination } from '../../helpers/paginate'
 import routes from '../../routes'
 import { Pagination } from '../../types'
 import { listProjects } from '@useCases'
-import { ensureRole } from '../../config'
+import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'
 import { GarantiesFinancieresPage } from '@views'
 

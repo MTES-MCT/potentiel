@@ -1,5 +1,5 @@
 import { RequiredActionAlias } from 'keycloak-admin/lib/defs/requiredActionProviderRepresentation'
-import { authorizedTestEmails, isProdEnv } from '../../config'
+import { authorizedTestEmails, isProdEnv } from '@config'
 import { logger, ResultAsync } from '@core/utils'
 import { CreateUserCredentials } from '@modules/authN'
 import { OtherError, UnauthorizedError } from '@modules/shared'

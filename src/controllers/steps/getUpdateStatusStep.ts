@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler'
-import { ensureRole } from '../../config'
-import { updateStepStatus } from '../../config/useCases.config'
+import { ensureRole } from '@config'
+import { updateStepStatus } from '@config/useCases.config'
 import { logger } from '@core/utils'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import { UnauthorizedError } from '@modules/shared'

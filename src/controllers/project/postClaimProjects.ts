@@ -1,7 +1,7 @@
 import routes from '../../routes'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
-import { claimProject, ensureRole } from '../../config'
+import { claimProject, ensureRole } from '@config'
 import { createReadStream } from 'fs'
 import { upload } from '../upload'
 import { validateUniqueId } from '../../helpers/validateUniqueId'

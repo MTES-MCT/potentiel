@@ -1,11 +1,11 @@
 import asyncHandler from 'express-async-handler'
-import { importPeriodeData } from '../../config'
+import { importPeriodeData } from '@config'
 import { logger } from '@core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { parseCsv } from '../../helpers/parseCsv'
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import routes from '../../routes'
-import { ensureRole } from '../../config'
+import { ensureRole } from '@config'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
 

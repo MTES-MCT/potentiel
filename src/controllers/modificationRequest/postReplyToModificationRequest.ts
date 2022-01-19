@@ -8,7 +8,7 @@ import {
   rejectModificationRequest,
   requestConfirmation,
   updateModificationRequestStatus,
-} from '../../config'
+} from '@config'
 import { logger } from '@core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { isDateFormatValid, isStrictlyPositiveNumber } from '../../helpers/formValidators'

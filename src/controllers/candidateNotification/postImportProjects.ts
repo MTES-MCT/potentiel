@@ -1,5 +1,5 @@
 import asyncHandler from 'express-async-handler'
-import { ensureRole, importProjects } from '../../config'
+import { ensureRole, importProjects } from '@config'
 import { UniqueEntityID } from '@core/domain'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { parseCsv } from '../../helpers/parseCsv'
