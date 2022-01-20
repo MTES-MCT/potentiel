@@ -2,6 +2,7 @@ import { Project } from '@entities'
 import ROUTES from '../../../../routes'
 import { isCertificateDTO, is, ProjectCertificateDTO, ProjectEventDTO } from '@modules/frise'
 import { UserRole } from '@modules/users'
+import { or } from '../../../../core/utils/typeguards'
 
 export type DesignationItemProps = {
   type: 'designation'
@@ -24,6 +25,11 @@ export const extractDesignationItemProps = (
   const projectNotifiedEvent = events.find(is('ProjectNotified'))
   if (!projectNotifiedEvent) return null
 
+  const latestProjectNotificationDateSet = events.filter(is('ProjectNotificationDateSet')).pop()
+  const date = latestProjectNotificationDateSet
+    ? latestProjectNotificationDateSet.date
+    : projectNotifiedEvent.date
+
   const certificateEvent = events.filter(isCertificateDTO).pop()
 
   const certificate: DesignationItemProps['certificate'] = certificateEvent
@@ -40,7 +46,7 @@ export const extractDesignationItemProps = (
     ? certificateEvent.variant
     : projectNotifiedEvent.variant
 
-  return { type: 'designation', date: projectNotifiedEvent.date, certificate, role }
+  return { type: 'designation', date, certificate, role }
 }
 
 const makeCertificateLink = (
@@ -64,3 +70,5 @@ const makeCertificateLink = (
     potentielIdentifier,
   })
 }
+
+const isNotificationEvent = or(is('ProjectNotified'), is('ProjectNotificationDateSet'))

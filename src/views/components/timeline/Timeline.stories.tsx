@@ -374,3 +374,24 @@ export const AdminAttestationEnCoursDeGeneration = () => (
     now={new Date().getTime()}
   />
 )
+
+export const RecoursAccepte = () => (
+  <Timeline
+    projectEventList={{
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'admin',
+          date: new Date('2022-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectNotificationDateSet',
+          variant: 'admin',
+          date: new Date('2022-01-20').getTime(),
+        } as ProjectNotificationDateSetDTO,
+      ],
+    }}
+    projectId={project.id}
+    now={new Date().getTime()}
+  />
+)
