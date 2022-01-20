@@ -1,0 +1,43 @@
+name: Deploy production on push
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - 'README.md'
+      - '.github/**'
+      - '.storybook/**'
+      - '.vscode/**'
+      - 'devtools/**'
+      - 'docs/**'
+      - 'legacy-features/**'
+      - 'keycloak/**'
+      - '.env.template'
+      - '.eslint**'
+      - '.prettier**'
+      - 'LICENSE'
+
+jobs:
+  bump-version:
+    if: "!contains(github.event.commits[0].message, 'ci: version bump to')"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          # SPECIAL_GH_ACTIONS_TOKEN is a personal access token for an admin user
+          # It is required to have write rights when increasing version number
+          token: ${{ secrets.SPECIAL_GH_ACTIONS_TOKEN }}
+
+      - run: git fetch --prune --unshallow
+
+      - name: Increase version number
+        uses: 'phips28/gh-action-bump-version@master'
+        env:
+          GITHUB_TOKEN: ${{ secrets.SPECIAL_GH_ACTIONS_TOKEN }}
+        with:
+          tag-prefix: ''
+          minor-wording: ':star2:,:revert:'
+          major-wording: 'BREAKING'
