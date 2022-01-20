@@ -10,11 +10,11 @@ export type DCRItemProps = {
 } & (
   | {
       status: 'due' | 'past-due'
-      url: undefined
     }
   | {
       status: 'submitted'
       url: string
+      numeroDossier: string
     }
 )
 
@@ -54,8 +54,12 @@ export const extractDCRItemProps = (
           projectDCRDueDateSetOrSubmitted.filename
         ),
         status: 'submitted',
+        numeroDossier: projectDCRDueDateSetOrSubmitted.numeroDossier,
       }
-    : { ...props, status: date < now ? 'past-due' : 'due', url: undefined }
+    : {
+        ...props,
+        status: date < now ? 'past-due' : 'due',
+      }
 }
 
 const isProjectDCR = or(

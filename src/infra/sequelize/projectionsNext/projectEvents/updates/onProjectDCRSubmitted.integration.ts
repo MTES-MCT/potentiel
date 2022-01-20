@@ -13,6 +13,7 @@ describe('onProjectDCRSubmitted', () => {
   const dcrDate = new Date('2021-12-26')
   const filename = 'my-file'
   const { File } = models
+  const numeroDossier = 'DOSSIER-1'
 
   beforeEach(async () => {
     await resetDatabase()
@@ -25,6 +26,7 @@ describe('onProjectDCRSubmitted', () => {
         filename,
         designation: 'designation',
       })
+
       await onProjectDCRSubmitted(
         new ProjectDCRSubmitted({
           payload: {
@@ -32,6 +34,7 @@ describe('onProjectDCRSubmitted', () => {
             fileId,
             submittedBy,
             dcrDate,
+            numeroDossier,
           } as ProjectDCRSubmittedPayload,
           original: {
             version: 1,
@@ -48,9 +51,10 @@ describe('onProjectDCRSubmitted', () => {
         type: 'ProjectDCRSubmitted',
         valueDate: dcrDate.getTime(),
         eventPublishedAt: occurredAt.getTime(),
-        payload: { fileId, filename },
+        payload: { fileId, filename, numeroDossier },
       })
     })
+
     describe('when there is no corresponding file in File projection', () => {
       it('should not add a new event in ProjectEvent', async () => {
         await onProjectDCRSubmitted(
