@@ -3,35 +3,66 @@ import { ItemDate, PastIcon, ItemTitle, ContentArea } from '.'
 import { DesignationItemProps } from '../helpers/extractDesignationItemProps'
 import { formatDate } from '../../../../helpers/formatDate'
 
-export const DesignationItem = ({ date, certificate }: DesignationItemProps) => (
+export const DesignationItem = ({ certificate, role, date }: DesignationItemProps) => (
   <>
     <PastIcon />
     <ContentArea>
       <ItemDate date={date} />
       <ItemTitle title="Notification de résultat" />
-      <Certificate {...certificate} />
+      <Certificate {...{ certificate, role }} />
     </ContentArea>
   </>
 )
 
-const Certificate = (props: DesignationItemProps['certificate']) => {
-  const { status } = props
-
-  if (status === 'not-applicable') {
-    return <span>Attestation non disponible pour cette période</span>
-  }
-
-  if (status === 'pending') {
-    return <span>Votre attestation sera disponible sous 24h</span>
-  }
-
-  const { url, date } = props
-
-  return (
-    <a href={url} download>
-      {status === 'uploaded'
-        ? `Télécharger l'attestation de désignation (transmise le ${formatDate(date)})`
-        : `Télécharger l'attestation de désignation (éditée le ${formatDate(date)})`}
-    </a>
-  )
+type CertificateProps = {
+  certificate: DesignationItemProps['certificate']
+  role: DesignationItemProps['role']
 }
+
+const Certificate = ({ certificate, role }: CertificateProps) => {
+  const { status } = certificate
+
+  switch (status) {
+    case 'not-applicable':
+      return <NotApplicable />
+    case 'pending':
+      return <Pending role={role} />
+    case 'generated':
+      return <Generated {...certificate} />
+    case 'uploaded':
+      return <Uploaded {...certificate} />
+  }
+}
+
+const NotApplicable = () => <span>Attestation non disponible pour cette période</span>
+
+type PendingProps = {
+  role: DesignationItemProps['role']
+}
+const Pending = ({ role }: PendingProps) => (
+  <span>
+    {role === 'admin'
+      ? 'Document non disponible actuellement'
+      : 'Votre attestation sera disponible sous 24h'}
+  </span>
+)
+
+type GeneratedProps = {
+  url: string
+  date: number
+}
+const Generated = ({ url, date }: GeneratedProps) => (
+  <a href={url} download>
+    Télécharger l'attestation de désignation (éditée le {formatDate(date)})
+  </a>
+)
+
+type UploadedProps = {
+  url: string
+  date: number
+}
+const Uploaded = ({ url, date }: UploadedProps) => (
+  <a href={url} download>
+    Télécharger l'attestation de désignation (transmise le {formatDate(date)})
+  </a>
+)

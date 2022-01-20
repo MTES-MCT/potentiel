@@ -34,6 +34,15 @@ export const adminGarantiesFinancieresDues = () => (
           date: new Date('2022-01-12').getTime(),
         } as ProjectNotifiedDTO,
         {
+          type: 'ProjectCertificateGenerated',
+          variant: 'admin',
+          date: new Date('2022-01-13').getTime(),
+          certificateFileId: 'file-id',
+          nomProjet: 'mon projet pv',
+          email: 'porteur@test.test',
+          potentielIdentifier: 'pot-id',
+        } as ProjectCertificateGeneratedDTO,
+        {
           type: 'ProjectGFDueDateSet',
           variant: 'admin',
           date: new Date('2022-01-13').getTime(),
@@ -59,6 +68,15 @@ export const PPGarantiesFinancieresDues = () => (
           variant: 'porteur-projet',
           date: new Date('2022-01-12').getTime(),
         } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectCertificateGenerated',
+          variant: 'admin',
+          date: new Date('2022-01-13').getTime(),
+          certificateFileId: 'file-id',
+          nomProjet: 'mon projet pv',
+          email: 'porteur@test.test',
+          potentielIdentifier: 'pot-id',
+        } as ProjectCertificateGeneratedDTO,
         {
           type: 'ProjectGFDueDateSet',
           variant: 'porteur-projet',
@@ -86,6 +104,15 @@ export const PPGarantiesFinancieresEnRetard = () => (
           date: new Date('2022-01-01').getTime(),
         } as ProjectNotifiedDTO,
         {
+          type: 'ProjectCertificateGenerated',
+          variant: 'admin',
+          date: new Date('2022-01-13').getTime(),
+          certificateFileId: 'file-id',
+          nomProjet: 'mon projet pv',
+          email: 'porteur@test.test',
+          potentielIdentifier: 'pot-id',
+        } as ProjectCertificateGeneratedDTO,
+        {
           type: 'ProjectGFDueDateSet',
           variant: 'porteur-projet',
           date: new Date('2022-01-03').getTime(),
@@ -111,6 +138,15 @@ export const PPGarantiesFinancieresEtDCREnRetard = () => (
           variant: 'porteur-projet',
           date: new Date('2022-01-01').getTime(),
         } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectCertificateGenerated',
+          variant: 'admin',
+          date: new Date('2022-01-13').getTime(),
+          certificateFileId: 'file-id',
+          nomProjet: 'mon projet pv',
+          email: 'porteur@test.test',
+          potentielIdentifier: 'pot-id',
+        } as ProjectCertificateGeneratedDTO,
         {
           type: 'ProjectGFDueDateSet',
           variant: 'porteur-projet',
@@ -313,7 +349,23 @@ export const projetHistorique = () => (
   />
 )
 
-export const attestationEnCoursDeGeneration = () => (
+export const PPAttestationEnCoursDeGeneration = () => (
+  <Timeline
+    projectEventList={{
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+      ],
+    }}
+    projectId={project.id}
+    now={new Date().getTime()}
+  />
+)
+
+export const AdminAttestationEnCoursDeGeneration = () => (
   <Timeline
     projectEventList={{
       events: [
