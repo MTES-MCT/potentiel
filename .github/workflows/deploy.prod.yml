@@ -3,7 +3,7 @@ name: Deploy production on push (tag)
 on:
   push:
     tags:
-      - *.*.*
+      - '*'
 
 jobs:
   deploy:
