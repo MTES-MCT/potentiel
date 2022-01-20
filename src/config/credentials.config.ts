@@ -1,12 +1,12 @@
-import { UniqueEntityID } from '../core/domain'
-import { logger, okAsync } from '../core/utils'
+import { UniqueEntityID } from '@core/domain'
+import { logger, okAsync } from '@core/utils'
 import {
   createUserCredentials as kcCreateUserCredentials,
   getUserName as kcGetUserName,
   resendInvitationEmail as kcResendInvitationEmail,
-} from '../infra/keycloak'
-import { GetUserName, ResendInvitationEmail } from '../modules/users'
-import { CreateUserCredentials } from '../modules/authN'
+} from '@infra/keycloak'
+import { GetUserName, ResendInvitationEmail } from '@modules/users'
+import { CreateUserCredentials } from '@modules/authN'
 import { isProdEnv, isStagingEnv } from './env.config'
 
 let getUserName: GetUserName

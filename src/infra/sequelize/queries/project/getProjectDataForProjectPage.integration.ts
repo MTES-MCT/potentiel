@@ -1,5 +1,5 @@
-import { UniqueEntityID } from '../../../../core/domain'
-import { EntityNotFoundError } from '../../../../modules/shared'
+import { UniqueEntityID } from '@core/domain'
+import { EntityNotFoundError } from '@modules/shared'
 import makeFakeFile from '../../../../__tests__/fixtures/file'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
 import makeFakeUser from '../../../../__tests__/fixtures/user'

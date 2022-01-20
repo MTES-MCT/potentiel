@@ -1,15 +1,6 @@
+const unitTestsConfig = require('./jest.unit.config')
+
 module.exports = {
-  globals: {
-    'ts-jest': {
-      tsconfig: 'tsconfig.json',
-      isolatedModules: true,
-    },
-  },
-  moduleFileExtensions: ['ts', 'js', 'tsx'],
-  transform: {
-    '^.+\\.(ts|tsx)$': 'ts-jest',
-  },
+  ...unitTestsConfig,
   testMatch: ['**/*.integration.(ts|js)'],
-  testPathIgnorePatterns: ['/node_modules/', '/dist/'],
-  testEnvironment: 'node',
 }

@@ -1,4 +1,4 @@
-import { DomainError } from '../../../core/domain'
+import { DomainError } from '@core/domain'
 
 export class StatusPreventsRejectingError extends DomainError {
   constructor(currentStatus: string) {

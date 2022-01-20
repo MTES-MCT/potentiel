@@ -1,5 +1,5 @@
-import { ok, wrapInfra } from '../../../../core/utils'
-import { GetAppelOffreList } from '../../../../modules/appelOffre'
+import { ok, wrapInfra } from '@core/utils'
+import { GetAppelOffreList } from '@modules/appelOffre'
 import models from '../../models'
 
 const { AppelOffre } = models

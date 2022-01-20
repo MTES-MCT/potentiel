@@ -1,5 +1,5 @@
-import { UniqueEntityID } from '../../../../../core/domain'
-import { ProjectDCRRemoved, ProjectDCRRemovedPayload } from '../../../../../modules/project'
+import { UniqueEntityID } from '@core/domain'
+import { ProjectDCRRemoved, ProjectDCRRemovedPayload } from '@modules/project'
 import { resetDatabase } from '../../../helpers'
 import { ProjectEvent } from '../projectEvent.model'
 import onProjectDCRRemoved from './onProjectDCRRemoved'

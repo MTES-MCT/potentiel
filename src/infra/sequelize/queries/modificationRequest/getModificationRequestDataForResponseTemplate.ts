@@ -1,15 +1,15 @@
 import moment from 'moment'
-import { oldUserRepo } from '../../../../config/repos.config'
-import { errAsync, logger, ok, okAsync, ResultAsync, wrapInfra } from '../../../../core/utils'
-import { getAppelOffre } from '../../../../dataAccess/inMemory/appelOffre'
-import { DREAL } from '../../../../entities'
+import { oldUserRepo } from '@config/repos.config'
+import { errAsync, logger, ok, okAsync, ResultAsync, wrapInfra } from '@core/utils'
+import { getAppelOffre } from '@dataAccess/inMemory'
+import { DREAL } from '@entities'
 import { formatDate } from '../../../../helpers/formatDate'
-import { PeriodeDTO } from '../../../../modules/appelOffre/dtos'
+import { PeriodeDTO } from '@modules/appelOffre'
 import {
   GetModificationRequestDateForResponseTemplate,
   ModificationRequestDataForResponseTemplateDTO,
-} from '../../../../modules/modificationRequest'
-import { EntityNotFoundError, InfraNotAvailableError } from '../../../../modules/shared'
+} from '@modules/modificationRequest'
+import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared'
 import models from '../../models'
 import { getPeriode } from '../appelOffre'
 

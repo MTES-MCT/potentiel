@@ -6,7 +6,7 @@ import {
   EntityNotFoundError,
   HeterogeneousHistoryError,
   InfraNotAvailableError,
-} from '../../modules/shared'
+} from '@modules/shared'
 import { makeFakeEventStore } from '../../__tests__/fixtures/aggregates'
 import { makeEventStoreTransactionalRepo } from './makeEventStoreTransactionalRepo'
 

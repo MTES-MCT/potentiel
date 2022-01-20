@@ -1,5 +1,5 @@
-import { ResultAsync } from '../../../core/utils'
-import { User } from '../../../entities'
+import { ResultAsync } from '@core/utils'
+import { User } from '@entities'
 import { InfraNotAvailableError } from '../../shared'
 
 export interface GetUserByEmail {

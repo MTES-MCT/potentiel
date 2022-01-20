@@ -1,10 +1,10 @@
 import { sequelizeInstance } from '../../../sequelize.config'
 import { resetDatabase, withSequelizeProjector } from '../helpers'
 import { DataTypes, Transaction } from 'sequelize'
-import { BaseDomainEvent, DomainEvent } from '../../../core/domain'
+import { BaseDomainEvent, DomainEvent } from '@core/domain'
 import { models } from '../models'
 import { toPersistance } from './toPersistance'
-import { ProjectNotified, ProjectNotifiedPayload } from '../../../modules/project'
+import { ProjectNotified, ProjectNotifiedPayload } from '@modules/project'
 
 const FakeProjection = withSequelizeProjector(() => {
   const model = sequelizeInstance.define(

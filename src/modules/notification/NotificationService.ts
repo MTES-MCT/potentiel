@@ -1,5 +1,5 @@
-import { Repository } from '../../core/domain'
-import { logger } from '../../core/utils'
+import { Repository } from '@core/domain'
+import { logger } from '@core/utils'
 import { Notification, NotificationArgs } from './Notification'
 import { GetFailedNotificationsForRetry } from './queries'
 import { SendEmail } from './SendEmail'

@@ -1,5 +1,5 @@
-import { UniqueEntityID } from '../../core/domain'
-import { isDefined, makeValidator, ok, Result } from '../../core/utils'
+import { UniqueEntityID } from '@core/domain'
+import { isDefined, makeValidator, ok, Result } from '@core/utils'
 import { makeProjectFilePath } from '../../helpers/makeProjectFilePath'
 import { IllegalFileDataError } from './errors'
 

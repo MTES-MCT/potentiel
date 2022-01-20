@@ -1,5 +1,5 @@
-import { resetDatabase } from '../../infra/sequelize/helpers'
-import { resetSentEmails } from '../../infra/mail/fakeEmailService'
+import { resetDatabase } from '@infra/sequelize/helpers'
+import { resetSentEmails } from '@infra/mail'
 import { createUser } from './helpers/createUser'
 import { testRouter } from './testRouter'
 

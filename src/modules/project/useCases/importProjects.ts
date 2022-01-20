@@ -1,11 +1,11 @@
 import { ImportExecuted, ProjectRawDataImported } from '../events'
 import { IllegalProjectDataError } from '../errors'
 import { parseProjectModifications } from '../utils'
-import { AppelOffreRepo } from '../../../dataAccess'
-import { User } from '../../../entities'
+import { AppelOffreRepo } from '@dataAccess'
+import { User } from '@entities'
 import { parseProjectLine } from '../utils/parseProjectLine'
 import { LegacyModificationRawDataImported } from '../../modificationRequest'
-import { EventBus } from '../../../core/domain'
+import { EventBus } from '@core/domain'
 
 interface ImportProjectsDeps {
   eventBus: EventBus

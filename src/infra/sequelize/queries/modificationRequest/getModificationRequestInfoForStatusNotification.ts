@@ -1,9 +1,9 @@
-import { err, ok, wrapInfra } from '../../../../core/utils'
+import { err, ok, wrapInfra } from '@core/utils'
 import {
   GetModificationRequestInfoForStatusNotification,
   ModificationRequestInfoForStatusNotificationDTO,
-} from '../../../../modules/modificationRequest'
-import { EntityNotFoundError } from '../../../../modules/shared'
+} from '@modules/modificationRequest'
+import { EntityNotFoundError } from '@modules/shared'
 import models from '../../models'
 
 const { ModificationRequest, Project, User } = models

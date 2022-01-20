@@ -1,8 +1,8 @@
 import models from '../../../models'
 import { resetDatabase } from '../../../helpers'
 import { onPeriodeCreated } from './onPeriodeCreated'
-import { PeriodeCreated } from '../../../../../modules/appelOffre/events'
-import { UniqueEntityID } from '../../../../../core/domain'
+import { PeriodeCreated } from '@modules/appelOffre'
+import { UniqueEntityID } from '@core/domain'
 
 describe('appelOffre.onPeriodeCreated', () => {
   const { Periode } = models

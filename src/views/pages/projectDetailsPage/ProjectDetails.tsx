@@ -1,8 +1,8 @@
 import { Request } from 'express'
 import React, { useState } from 'react'
-import { logger } from '../../../core/utils'
+import { logger } from '@core/utils'
 import { dataId } from '../../../helpers/testId'
-import { ProjectDataForProjectPage } from '../../../modules/project/dtos'
+import { ProjectDataForProjectPage } from '@modules/project/dtos'
 import ROUTES from '../../../routes'
 import { RoleBasedDashboard, SuccessErrorBox, Timeline } from '../../components'
 import { NoteElement, Section } from './components'
@@ -10,7 +10,7 @@ import { EditProjectData, ProjectFrise, ProjectHeader } from './sections'
 import { PageLayout } from '../../components/PageLayout'
 import { hydrateOnClient } from '../../helpers'
 import { CDCChoiceForm } from '../../components'
-import { ProjectEventListDTO } from '../../../modules/frise'
+import { ProjectEventListDTO } from '@modules/frise'
 
 interface ProjectDetailsProps {
   request: Request

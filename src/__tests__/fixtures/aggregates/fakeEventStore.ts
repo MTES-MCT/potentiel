@@ -1,5 +1,5 @@
-import { DomainEvent } from '../../../core/domain'
-import { okAsync } from '../../../core/utils'
+import { DomainEvent } from '@core/domain'
+import { okAsync } from '@core/utils'
 import { makeFakeEventBus } from './fakeEventBus'
 
 export const makeFakeEventStore = (fakeEvents?: DomainEvent[]) => {

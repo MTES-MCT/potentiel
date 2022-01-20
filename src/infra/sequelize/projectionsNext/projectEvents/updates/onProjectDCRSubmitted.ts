@@ -1,8 +1,8 @@
-import { UniqueEntityID } from '../../../../../core/domain'
-import { ProjectDCRSubmitted } from '../../../../../modules/project'
+import { UniqueEntityID } from '@core/domain'
+import { ProjectDCRSubmitted } from '@modules/project'
 import { ProjectEvent } from '../projectEvent.model'
 import models from '../../../models'
-import { logger } from '../../../../../core/utils'
+import { logger } from '@core/utils'
 
 export default ProjectEvent.projector.on(
   ProjectDCRSubmitted,

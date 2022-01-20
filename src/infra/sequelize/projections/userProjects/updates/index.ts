@@ -2,16 +2,16 @@ import { onUserRightsToProjectRevoked } from './onUserRightsToProjectRevoked'
 import { onUserRightsToProjectGranted } from './onUserRightsToProjectGranted'
 import { onUserInvitedToProject } from './onUserInvitedToProject'
 import { onUserProjectsLinkedByContactEmail } from './onUserProjectsLinkedByContactEmail'
-import { logger } from '../../../../../core/utils'
+import { logger } from '@core/utils'
 import {
   UserInvitedToProject,
   UserProjectsLinkedByContactEmail,
   UserRightsToProjectRevoked,
   UserRightsToProjectGranted,
-} from '../../../../../modules/authZ'
-import { ProjectClaimed, ProjectClaimedByOwner } from '../../../../../modules/projectClaim/events'
+} from '@modules/authZ'
+import { ProjectClaimed, ProjectClaimedByOwner } from '@modules/projectClaim/events'
 import { onProjectClaimed } from './onProjectClaimed'
-import { EventBus } from '../../../../../core/domain'
+import { EventBus } from '@core/domain'
 
 export const initUserProjectsProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(UserRightsToProjectRevoked.type, onUserRightsToProjectRevoked(models))

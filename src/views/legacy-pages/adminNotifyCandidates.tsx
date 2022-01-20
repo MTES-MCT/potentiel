@@ -1,6 +1,6 @@
 import { Request } from 'express'
 import React from 'react'
-import { AppelOffre, Periode, Project } from '../../entities'
+import { AppelOffre, Periode, Project } from '@entities'
 import { formatDate } from '../../helpers/formatDate'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '../../routes'

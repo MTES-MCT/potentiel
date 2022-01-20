@@ -1,4 +1,4 @@
-import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
+import { BaseDomainEvent, DomainEvent } from '@core/domain'
 import { LegacyModificationDTO } from '../dtos'
 
 export type LegacyModificationImportedPayload = {
@@ -9,8 +9,7 @@ export type LegacyModificationImportedPayload = {
 
 export class LegacyModificationImported
   extends BaseDomainEvent<LegacyModificationImportedPayload>
-  implements DomainEvent
-{
+  implements DomainEvent {
   public static type: 'LegacyModificationImported' = 'LegacyModificationImported'
   public type = LegacyModificationImported.type
   currentVersion = 1

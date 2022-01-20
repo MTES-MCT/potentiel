@@ -1,4 +1,4 @@
-import { logger } from '../../../core/utils'
+import { logger } from '@core/utils'
 import { UserCreated, UserRole } from '../../users'
 import { CreateUserCredentials } from '../queries'
 

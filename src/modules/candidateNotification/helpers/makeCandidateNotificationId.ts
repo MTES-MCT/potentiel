@@ -1,5 +1,5 @@
-import { stableStringify } from '../../../core/utils'
-import { Periode, Project, AppelOffre } from '../../../entities'
+import { stableStringify } from '@core/utils'
+import { Periode, Project, AppelOffre } from '@entities'
 
 export const makeCandidateNotificationId = (args: {
   appelOffreId: AppelOffre['id']

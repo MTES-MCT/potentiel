@@ -1,4 +1,4 @@
-import { UniqueEntityID } from '../../core/domain'
+import { UniqueEntityID } from '@core/domain'
 import { EntityNotFoundError } from '../shared'
 import { UserCreated } from './events'
 import { makeUser } from './User'

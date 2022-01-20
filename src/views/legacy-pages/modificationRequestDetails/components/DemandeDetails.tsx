@@ -2,7 +2,7 @@ import React from 'react'
 import moment from 'moment'
 
 import { formatDate } from '../../../../helpers/formatDate'
-import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest'
+import { ModificationRequestPageDTO } from '@modules/modificationRequest'
 import { DownloadIcon } from '../../../components'
 import ROUTES from '../../../../routes'
 import { dataId } from '../../../../helpers/testId'

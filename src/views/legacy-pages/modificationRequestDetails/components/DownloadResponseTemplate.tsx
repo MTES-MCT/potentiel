@@ -1,6 +1,6 @@
 import React from 'react'
-import { Project } from '../../../../entities'
-import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest'
+import { Project } from '@entities'
+import { ModificationRequestPageDTO } from '@modules/modificationRequest'
 import { DownloadIcon } from '../../../components'
 import ROUTES from '../../../../routes'
 
@@ -12,10 +12,7 @@ export const DownloadResponseTemplate = ({
 }: DownloadResponseTemplateProps) => (
   <div style={{ marginBottom: 5 }}>
     <DownloadIcon />
-    <a
-      href={ROUTES.TELECHARGER_MODELE_REPONSE(project, id)}
-      download={true}
-    >
+    <a href={ROUTES.TELECHARGER_MODELE_REPONSE(project, id)} download={true}>
       Télécharger un modèle de réponse
     </a>
   </div>

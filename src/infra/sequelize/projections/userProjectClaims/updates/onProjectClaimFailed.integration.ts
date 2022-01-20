@@ -1,9 +1,5 @@
-import { UniqueEntityID } from '../../../../../core/domain'
-import {
-  ProjectClaimed,
-  ProjectClaimedByOwner,
-  ProjectClaimFailed,
-} from '../../../../../modules/projectClaim'
+import { UniqueEntityID } from '@core/domain'
+import { ProjectClaimFailed } from '@modules/projectClaim'
 import { resetDatabase } from '../../../helpers'
 import models from '../../../models'
 import { onProjectClaimFailed } from './onProjectClaimFailed'

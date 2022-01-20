@@ -1,5 +1,5 @@
-import { logger } from '../../../../../core/utils'
-import { ProjectClasseGranted } from '../../../../../modules/project/events'
+import { logger } from '@core/utils'
+import { ProjectClasseGranted } from '@modules/project'
 
 export const onProjectClasseGranted = (models) => async (event: ProjectClasseGranted) => {
   const ProjectModel = models.Project

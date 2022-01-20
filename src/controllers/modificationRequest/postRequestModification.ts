@@ -7,17 +7,17 @@ import {
   requestProducteurModification,
   requestPuissanceModification,
   updateNewRulesOptIn,
-} from '../../config'
-import { oldProjectRepo } from '../../config/'
-import { logger } from '../../core/utils'
+} from '@config'
+import { oldProjectRepo } from '@config'
+import { logger } from '@core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { isStrictlyPositiveNumber } from '../../helpers/formValidators'
 import { pathExists } from '../../helpers/pathExists'
-import { PuissanceJustificationOrCourrierMissingError } from '../../modules/modificationRequest'
-import { Fournisseur, FournisseurKind } from '../../modules/project'
+import { PuissanceJustificationOrCourrierMissingError } from '@modules/modificationRequest'
+import { Fournisseur, FournisseurKind } from '@modules/project'
 import routes from '../../routes'
-import { requestModification, shouldUserAccessProject } from '../../useCases'
-import { ensureRole } from '../../config'
+import { requestModification, shouldUserAccessProject } from '@useCases'
+import { ensureRole } from '@config'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
 import toNumber from '../../helpers/toNumber'
@@ -27,7 +27,7 @@ import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   UnauthorizedError,
-} from '../../modules/shared'
+} from '@modules/shared'
 import e from 'express'
 
 const returnRoute = (type, projectId) => {

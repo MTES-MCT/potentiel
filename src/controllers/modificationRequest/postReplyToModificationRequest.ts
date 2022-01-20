@@ -8,8 +8,8 @@ import {
   rejectModificationRequest,
   requestConfirmation,
   updateModificationRequestStatus,
-} from '../../config'
-import { logger } from '../../core/utils'
+} from '@config'
+import { logger } from '@core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { isDateFormatValid, isStrictlyPositiveNumber } from '../../helpers/formValidators'
 import { pathExists } from '../../helpers/pathExists'
@@ -17,12 +17,12 @@ import { validateUniqueId } from '../../helpers/validateUniqueId'
 import {
   ModificationRequestAcceptanceParams,
   PuissanceVariationWithDecisionJusticeError,
-} from '../../modules/modificationRequest'
+} from '@modules/modificationRequest'
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   UnauthorizedError,
-} from '../../modules/shared'
+} from '@modules/shared'
 import routes from '../../routes'
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
 import { upload } from '../upload'
@@ -120,7 +120,8 @@ v1Router.post(
     if (!courrierReponseIsOk) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
-          error: "La réponse n'a pas pu être envoyée car il manque le courrier de réponse (obligatoire pour cette réponse).",
+          error:
+            "La réponse n'a pas pu être envoyée car il manque le courrier de réponse (obligatoire pour cette réponse).",
         })
       )
     }
@@ -142,7 +143,7 @@ v1Router.post(
         acceptanceParams = { type, newProducteur: producteur }
     }
 
-    if(!acceptanceParams){
+    if (!acceptanceParams) {
       return errorResponse({ request, response })
     }
 

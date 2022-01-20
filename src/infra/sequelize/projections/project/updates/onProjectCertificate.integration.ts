@@ -3,7 +3,7 @@ import {
   ProjectCertificateGenerated,
   ProjectCertificateRegenerated,
   ProjectCertificateUpdated,
-} from '../../../../../modules/project/events'
+} from '@modules/project'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import models from '../../../models'
 import { onProjectCertificate } from './onProjectCertificate'

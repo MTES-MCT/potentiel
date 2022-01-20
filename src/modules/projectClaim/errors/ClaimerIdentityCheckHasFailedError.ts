@@ -1,4 +1,4 @@
-import { DomainError } from '../../../core/domain'
+import { DomainError } from '@core/domain'
 
 export class ClaimerIdentityCheckHasFailedError extends DomainError {
   constructor(projectName: string, remainingAttempts: number) {

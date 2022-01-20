@@ -1,7 +1,7 @@
 import { getFailedNotificationsForRetry } from './getFailedNotificationsForRetry'
 import models from '../../models'
 import { resetDatabase } from '../../helpers'
-import { UniqueEntityID } from '../../../../core/domain'
+import { UniqueEntityID } from '@core/domain'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
 
 const fakeNotificationArgs = {

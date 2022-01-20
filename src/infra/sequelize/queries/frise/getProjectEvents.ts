@@ -1,6 +1,6 @@
-import { wrapInfra } from '../../../../core/utils'
-import { GetProjectEvents, ProjectEventDTO } from '../../../../modules/frise'
-import { userIs, userIsNot } from '../../../../modules/users'
+import { userIs, userIsNot } from '@modules/users'
+import { wrapInfra } from '@core/utils'
+import { GetProjectEvents, ProjectEventDTO } from '@modules/frise'
 import { models } from '../../models'
 import { ProjectEvent } from '../../projectionsNext'
 

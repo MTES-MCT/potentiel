@@ -1,4 +1,4 @@
-import { IsPeriodeLegacy } from '../../modules/appelOffre'
+import { IsPeriodeLegacy } from '@modules/appelOffre'
 import { appelsOffreStatic } from './appelOffre'
 
 export const isPeriodeLegacy: IsPeriodeLegacy = async ({ appelOffreId, periodeId }) => {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { dataId } from '../../../../helpers/testId'
-import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest'
+import { ModificationRequestPageDTO } from '@modules/modificationRequest'
 interface PuissanceFormProps {
   modificationRequest: ModificationRequestPageDTO & { type: 'puissance' }
 }

@@ -1,6 +1,6 @@
 import { UserRightsToProjectGranted } from '..'
-import { EventBus } from '../../../core/domain'
-import { logger, okAsync } from '../../../core/utils'
+import { EventBus } from '@core/domain'
+import { logger, okAsync } from '@core/utils'
 import { IsPeriodeLegacy } from '../../appelOffre'
 import { ProjectImported, ProjectReimported } from '../../project'
 import { GetUserByEmail } from '../../users/queries'

@@ -1,5 +1,5 @@
-import { ResultAsync, ok, err, errAsync, okAsync, logger } from '../../core/utils'
-import { SendEmailProps, NotificationProps, SendEmail } from '../../modules/notification'
+import { ResultAsync, ok, err, errAsync, okAsync, logger } from '@core/utils'
+import { SendEmailProps, NotificationProps, SendEmail } from '@modules/notification'
 import Mailjet from 'node-mailjet'
 /**
  *

@@ -1,4 +1,4 @@
-import { DomainEvent, UniqueEntityID } from '../../../core/domain'
+import { DomainEvent, UniqueEntityID } from '@core/domain'
 
 export const makeFakeCandidateNotification = () => ({
   notifyCandidateIfReady: jest.fn(),

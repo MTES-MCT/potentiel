@@ -1,13 +1,13 @@
 import { addQueryParams } from '../../helpers/addQueryParams'
 import routes from '../../routes'
-import { inviteUserToProject } from '../../config'
-import { ensureRole } from '../../config'
+import { inviteUserToProject } from '@config'
+import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import { errorResponse, unauthorizedResponse } from '../helpers'
-import { UnauthorizedError } from '../../modules/shared'
-import { logger } from '../../core/utils'
+import { UnauthorizedError } from '@modules/shared'
+import { logger } from '@core/utils'
 
 v1Router.post(
   routes.INVITE_USER_TO_PROJECT_ACTION,

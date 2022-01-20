@@ -1,6 +1,6 @@
 import { Model, ModelCtor, QueryTypes, Transaction } from 'sequelize'
 import { fromPersistance } from '.'
-import { DomainEvent } from '../../../core/domain'
+import { DomainEvent } from '@core/domain'
 import { sequelizeInstance } from '../../../sequelize.config'
 import { EventHandler, Projector } from './Projection'
 import * as readline from 'readline'

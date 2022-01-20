@@ -1,5 +1,5 @@
-import type { Transaction } from 'sequelize/types';
-import { Constructor, DomainEvent, HasType } from '../../../core/domain'
+import type { Transaction } from 'sequelize/types'
+import { Constructor, DomainEvent, HasType } from '@core/domain'
 
 export interface EventHandler<Event> {
   (event: Event, transaction?: Transaction): Promise<void>

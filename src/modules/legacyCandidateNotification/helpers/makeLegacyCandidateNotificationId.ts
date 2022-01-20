@@ -1,4 +1,4 @@
-import { stableStringify } from '../../../core/utils'
+import { stableStringify } from '@core/utils'
 
 export const makeLegacyCandidateNotificationId = (args: { email: string; importId: string }) => {
   const { email, importId } = args

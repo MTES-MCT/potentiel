@@ -1,5 +1,5 @@
-import { logger } from '../../../../../core/utils'
-import { AppelOffreUpdated } from '../../../../../modules/appelOffre'
+import { logger } from '@core/utils'
+import { AppelOffreUpdated } from '@modules/appelOffre'
 import { appelOffreProjector } from '../appelOffre.model'
 
 export const onAppelOffreUpdated = appelOffreProjector.on(AppelOffreUpdated).update({

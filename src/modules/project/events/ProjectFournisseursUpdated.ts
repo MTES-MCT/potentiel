@@ -1,5 +1,5 @@
 import { Fournisseur } from '..'
-import { DomainEvent, BaseDomainEvent } from '../../../core/domain/DomainEvent'
+import { DomainEvent, BaseDomainEvent } from '@core/domain'
 
 export interface ProjectFournisseursUpdatedPayload {
   projectId: string

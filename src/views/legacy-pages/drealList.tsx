@@ -1,6 +1,6 @@
 import { Request } from 'express'
 import React from 'react'
-import { DREAL, REGIONS, User } from '../../entities'
+import { DREAL, REGIONS, User } from '@entities'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '../../routes'
 import AdminDashboard from '../components/AdminDashboard'

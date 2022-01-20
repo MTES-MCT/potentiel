@@ -1,6 +1,6 @@
-import { makeImportAppelOffreData, makeImportPeriodeData } from '../modules/appelOffre/useCases'
-import { BaseShouldUserAccessProject, makeRevokeRightsToProject } from '../modules/authZ'
-import { makeLoadFileForUser } from '../modules/file'
+import { makeImportAppelOffreData, makeImportPeriodeData } from '@modules/appelOffre'
+import { BaseShouldUserAccessProject, makeRevokeRightsToProject } from '@modules/authZ'
+import { makeLoadFileForUser } from '@modules/file'
 import {
   makeAcceptModificationRequest,
   makeCancelModificationRequest,
@@ -13,7 +13,7 @@ import {
   makeRequestPuissanceModification,
   makeUpdateModificationRequestStatus,
   getAutoAcceptRatiosForAppelOffre,
-} from '../modules/modificationRequest'
+} from '@modules/modificationRequest'
 import {
   makeCorrectProjectData,
   makeGenerateCertificate,
@@ -23,9 +23,9 @@ import {
   makeSubmitStep,
   makeUpdateNewRulesOptIn,
   makeUpdateStepStatus,
-} from '../modules/project'
-import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '../modules/users'
-import { buildCertificate } from '../views/certificates'
+} from '@modules/project'
+import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '@modules/users'
+import { buildCertificate } from '@views/certificates'
 import { resendInvitationEmail } from './credentials.config'
 import { eventStore } from './eventStore.config'
 import {
@@ -38,7 +38,7 @@ import {
   getProjectDataForProjectClaim,
   isProjectParticipatif,
 } from './queries.config'
-import { makeClaimProject } from '../modules/projectClaim'
+import { makeClaimProject } from '@modules/projectClaim'
 import {
   appelOffreRepo,
   fileRepo,

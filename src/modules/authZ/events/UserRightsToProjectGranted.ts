@@ -1,4 +1,4 @@
-import { BaseDomainEvent, DomainEvent } from '../../../core/domain/DomainEvent'
+import { BaseDomainEvent, DomainEvent } from '@core/domain'
 
 export interface UserRightsToProjectGrantedPayload {
   projectId: string
@@ -7,8 +7,7 @@ export interface UserRightsToProjectGrantedPayload {
 }
 export class UserRightsToProjectGranted
   extends BaseDomainEvent<UserRightsToProjectGrantedPayload>
-  implements DomainEvent
-{
+  implements DomainEvent {
   public static type: 'UserRightsToProjectGranted' = 'UserRightsToProjectGranted'
   public type = UserRightsToProjectGranted.type
   currentVersion = 1

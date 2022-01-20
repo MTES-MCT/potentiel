@@ -1,4 +1,4 @@
-import { UniqueEntityID } from '../../../../core/domain'
+import { UniqueEntityID } from '@core/domain'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
 import makeFakeUser from '../../../../__tests__/fixtures/user'
 import { resetDatabase } from '../../helpers'

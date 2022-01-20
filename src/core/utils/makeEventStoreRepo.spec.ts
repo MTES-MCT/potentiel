@@ -6,7 +6,7 @@ import {
   EntityNotFoundError,
   HeterogeneousHistoryError,
   InfraNotAvailableError,
-} from '../../modules/shared'
+} from '@modules/shared'
 import { makeEventStoreRepo } from './makeEventStoreRepo'
 
 interface DummyEventPayload {

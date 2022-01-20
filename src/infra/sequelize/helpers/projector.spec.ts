@@ -1,4 +1,4 @@
-import { BaseDomainEvent, DomainEvent } from '../../../core/domain'
+import { BaseDomainEvent, DomainEvent } from '@core/domain'
 import { makeProjector } from './projector'
 
 export interface FakeEventPayload {

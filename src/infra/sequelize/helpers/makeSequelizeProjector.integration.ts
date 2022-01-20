@@ -1,4 +1,4 @@
-import { BaseDomainEvent, DomainEvent } from '../../../core/domain'
+import { BaseDomainEvent, DomainEvent } from '@core/domain'
 import { makeSequelizeProjector, SequelizeModel } from './makeSequelizeProjector'
 
 interface DummyEventPayload {}

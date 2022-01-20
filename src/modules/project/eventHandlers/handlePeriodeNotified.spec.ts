@@ -1,5 +1,5 @@
-import { DomainError, UniqueEntityID } from '../../../core/domain'
-import { okAsync } from '../../../core/utils'
+import { DomainError, UniqueEntityID } from '@core/domain'
+import { okAsync } from '@core/utils'
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
 import { InfraNotAvailableError } from '../../shared'
 import { PeriodeNotified } from '../events'

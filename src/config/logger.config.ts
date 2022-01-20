@@ -1,4 +1,4 @@
-import { logger } from '../core/utils'
+import { logger } from '@core/utils'
 import { isProdEnv } from './env.config'
 import * as Sentry from '@sentry/node'
 

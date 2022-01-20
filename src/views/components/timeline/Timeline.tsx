@@ -1,13 +1,13 @@
 import React from 'react'
-import { Project } from '../../../entities'
-import { ProjectEventListDTO } from '../../../modules/frise/dtos/ProjectEventListDTO'
+import { Project } from '@entities'
+import { ProjectEventListDTO } from '@modules/frise'
 import {
   TimelineItem,
   DesignationItem,
-  DCRItem,
   GarantieFinanciereItem,
   ImportItem,
   PTFItem,
+  DCRItem,
 } from './components'
 import {
   extractDCRItemProps,

@@ -1,11 +1,11 @@
 import { DataTypes } from 'sequelize'
 import { ModificationRequestRepo } from '../'
-import { ModificationRequest, makeModificationRequest } from '../../entities'
+import { ModificationRequest, makeModificationRequest } from '@entities'
 import { mapExceptError } from '../../helpers/results'
 import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types'
 import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
-import { logger } from '../../core/utils'
+import { logger } from '@core/utils'
 
 // Override these to apply serialization/deserialization on inputs/outputs
 const deserialize = (item) => ({

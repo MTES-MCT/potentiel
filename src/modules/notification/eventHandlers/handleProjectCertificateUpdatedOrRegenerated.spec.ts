@@ -1,5 +1,5 @@
-import { UniqueEntityID } from '../../../core/domain'
-import { makeUser } from '../../../entities'
+import { UniqueEntityID } from '@core/domain'
+import { makeUser } from '@entities'
 import { UnwrapForTest } from '../../../types'
 import { fakeRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
 import makeFakeUser from '../../../__tests__/fixtures/user'

@@ -1,6 +1,6 @@
 import React from 'react'
 import { dataId } from '../../../../helpers/testId'
-import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest'
+import { ModificationRequestPageDTO } from '@modules/modificationRequest'
 
 interface ActionnaireFormProps {
   modificationRequest: ModificationRequestPageDTO & { type: 'actionnaire' }

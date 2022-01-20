@@ -1,8 +1,7 @@
-import { err, ok, Result, wrapInfra } from '../../../../core/utils'
-import { getAppelOffre, isPeriodeLegacy } from '../../../../dataAccess/inMemory'
-import { ProjectDataForProjectPage } from '../../../../modules/project'
-import { GetProjectDataForProjectPage } from '../../../../modules/project/queries/GetProjectDataForProjectPage'
-import { EntityNotFoundError } from '../../../../modules/shared'
+import { err, ok, Result, wrapInfra } from '@core/utils'
+import { getAppelOffre, isPeriodeLegacy } from '@dataAccess/inMemory'
+import { ProjectDataForProjectPage, GetProjectDataForProjectPage } from '@modules/project'
+import { EntityNotFoundError } from '@modules/shared'
 import models from '../../models'
 
 const { Project, File, User, UserProjects, ProjectStep } = models

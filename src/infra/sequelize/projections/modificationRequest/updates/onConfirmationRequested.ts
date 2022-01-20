@@ -1,5 +1,5 @@
-import { logger } from '../../../../../core/utils'
-import { ConfirmationRequested } from '../../../../../modules/modificationRequest/events'
+import { logger } from '@core/utils'
+import { ConfirmationRequested } from '@modules/modificationRequest'
 
 export const onConfirmationRequested = (models) => async (event: ConfirmationRequested) => {
   const { ModificationRequest } = models

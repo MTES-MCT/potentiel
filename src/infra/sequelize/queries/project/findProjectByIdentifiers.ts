@@ -1,5 +1,5 @@
-import { wrapInfra } from '../../../../core/utils'
-import { FindProjectByIdentifiers } from '../../../../modules/project'
+import { wrapInfra } from '@core/utils'
+import { FindProjectByIdentifiers } from '@modules/project'
 import models from '../../models'
 const { Project } = models
 

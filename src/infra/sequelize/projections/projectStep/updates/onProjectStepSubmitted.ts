@@ -1,10 +1,6 @@
-import { UniqueEntityID } from '../../../../../core/domain'
-import { logger } from '../../../../../core/utils'
-import {
-  ProjectDCRSubmitted,
-  ProjectGFSubmitted,
-  ProjectPTFSubmitted,
-} from '../../../../../modules/project/events'
+import { UniqueEntityID } from '@core/domain'
+import { logger } from '@core/utils'
+import { ProjectDCRSubmitted, ProjectGFSubmitted, ProjectPTFSubmitted } from '@modules/project'
 
 type StepSubmittedEvent = ProjectPTFSubmitted | ProjectDCRSubmitted | ProjectGFSubmitted
 

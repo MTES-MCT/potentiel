@@ -1,14 +1,14 @@
 import { Op } from 'sequelize'
-import { errAsync, ok, okAsync, Result, ResultAsync, wrapInfra } from '../../../../core/utils'
-import { getFullTextSearchOptions } from '../../../../dataAccess/db/project'
-import { getAppelOffre } from '../../../../dataAccess/inMemory/appelOffre'
-import { User } from '../../../../entities'
+import { errAsync, ok, okAsync, Result, ResultAsync, wrapInfra } from '@core/utils'
+import { getFullTextSearchOptions } from '@dataAccess/db'
+import { getAppelOffre } from '@dataAccess/inMemory'
+import { User } from '@entities'
 import { makePaginatedList, paginate } from '../../../../helpers/paginate'
 import {
   GetModificationRequestListForUser,
   ModificationRequestListItemDTO,
-} from '../../../../modules/modificationRequest'
-import { InfraNotAvailableError } from '../../../../modules/shared'
+} from '@modules/modificationRequest'
+import { InfraNotAvailableError } from '@modules/shared'
 import { PaginatedList } from '../../../../types'
 import models from '../../models'
 

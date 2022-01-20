@@ -2,7 +2,7 @@ import moment from 'moment'
 import React from 'react'
 import { formatDate } from '../../../../helpers/formatDate'
 import { dataId } from '../../../../helpers/testId'
-import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest'
+import { ModificationRequestPageDTO } from '@modules/modificationRequest'
 interface DelaiFormProps {
   modificationRequest: ModificationRequestPageDTO & { type: 'delai' }
 }

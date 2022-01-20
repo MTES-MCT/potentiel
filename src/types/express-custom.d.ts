@@ -1,4 +1,4 @@
-import { User } from '../entities'
+import { User } from '@entities'
 
 declare module 'express-serve-static-core' {
   // eslint-disable-next-line

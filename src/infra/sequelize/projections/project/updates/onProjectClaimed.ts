@@ -1,6 +1,6 @@
-import { logger } from '../../../../../core/utils'
-import { ProjectClaimed, ProjectClaimedByOwner } from '../../../../../modules/projectClaim/events'
-import { EntityNotFoundError } from '../../../../../modules/shared'
+import { logger } from '@core/utils'
+import { ProjectClaimed, ProjectClaimedByOwner } from '@modules/projectClaim/events'
+import { EntityNotFoundError } from '@modules/shared'
 
 export const onProjectClaimed = (models) => async (
   event: ProjectClaimed | ProjectClaimedByOwner

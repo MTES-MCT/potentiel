@@ -1,10 +1,10 @@
-import { Project, AppelOffre, Periode, Famille, User, DREAL } from '../entities'
+import { Project, AppelOffre, Periode, Famille, User, DREAL } from '@entities'
 import {
   ProjectRepo,
   UserRepo,
   ProjectFilters,
   ContextSpecificProjectListFilter,
-} from '../dataAccess'
+} from '@dataAccess'
 import { Pagination, PaginatedList } from '../types'
 
 interface MakeUseCaseProps {

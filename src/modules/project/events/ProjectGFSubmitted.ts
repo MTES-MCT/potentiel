@@ -1,8 +1,4 @@
-import {
-  BaseDomainEvent,
-  BaseDomainEventProps,
-  DomainEvent,
-} from '../../../core/domain/DomainEvent'
+import { BaseDomainEvent, BaseDomainEventProps, DomainEvent } from '@core/domain'
 
 export interface ProjectGFSubmittedPayload {
   projectId: string

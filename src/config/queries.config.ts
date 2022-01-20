@@ -1,2 +1,2 @@
-export { isPeriodeLegacy } from '../dataAccess/inMemory'
-export * from '../infra/sequelize/queries'
+export { isPeriodeLegacy } from '@dataAccess/inMemory'
+export * from '@infra/sequelize/queries'

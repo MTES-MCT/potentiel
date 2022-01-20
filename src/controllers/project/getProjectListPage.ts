@@ -1,11 +1,11 @@
 import asyncHandler from 'express-async-handler'
-import { appelOffreRepo } from '../../dataAccess'
+import { appelOffreRepo } from '@dataAccess'
 import { makePagination } from '../../helpers/paginate'
 import routes from '../../routes'
 import { Pagination } from '../../types'
-import { listProjects } from '../../useCases'
-import { ListProjectsPage } from '../../views/legacy-pages'
-import { ensureRole } from '../../config'
+import { listProjects } from '@useCases'
+import { ListProjectsPage } from '@views/legacy-pages'
+import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'
 
 const getProjectListPage = asyncHandler(async (request, response) => {

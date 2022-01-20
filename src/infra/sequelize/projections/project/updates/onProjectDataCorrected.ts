@@ -1,5 +1,5 @@
-import { logger } from '../../../../../core/utils'
-import { ProjectDataCorrected } from '../../../../../modules/project/events'
+import { logger } from '@core/utils'
+import { ProjectDataCorrected } from '@modules/project'
 
 export const onProjectDataCorrected = (models) => async (event: ProjectDataCorrected) => {
   const ProjectModel = models.Project

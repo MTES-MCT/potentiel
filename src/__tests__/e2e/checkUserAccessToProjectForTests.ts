@@ -1,6 +1,6 @@
-import { getUserByEmail } from '../../config'
-import { logger } from '../../core/utils'
-import { projectRepo, userRepo } from '../../dataAccess'
+import { getUserByEmail } from '@config'
+import { logger } from '@core/utils'
+import { projectRepo, userRepo } from '@dataAccess'
 import { testRouter } from './testRouter'
 
 testRouter.post('/test/checkUserAccessToProject', async (request, response) => {

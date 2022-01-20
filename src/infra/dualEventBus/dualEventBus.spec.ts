@@ -1,6 +1,6 @@
-import { BaseDomainEvent, DomainEvent, EventBus } from '../../core/domain'
-import { errAsync, okAsync } from '../../core/utils'
-import { InfraNotAvailableError } from '../../modules/shared'
+import { BaseDomainEvent, DomainEvent, EventBus } from '@core/domain'
+import { errAsync, okAsync } from '@core/utils'
+import { InfraNotAvailableError } from '@modules/shared'
 import { makeDualPublish } from './dualPublish'
 
 interface DummyEventPayload {}

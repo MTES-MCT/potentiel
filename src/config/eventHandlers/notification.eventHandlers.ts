@@ -9,13 +9,13 @@ import {
   handleNewRulesOptedIn,
   handleUserInvitedToProject,
   handleLegacyCandidateNotified,
-} from '../../modules/notification'
+} from '@modules/notification'
 import {
   ProjectCertificateRegenerated,
   ProjectCertificateUpdated,
   ProjectGFSubmitted,
   ProjectNewRulesOptedIn,
-} from '../../modules/project'
+} from '@modules/project'
 import { projectRepo, oldProjectRepo, oldUserRepo } from '../repos.config'
 import {
   getModificationRequestInfoForStatusNotification,
@@ -34,9 +34,9 @@ import {
   ModificationRequestConfirmed,
   ModificationRequestCancelled,
   ModificationReceived,
-} from '../../modules/modificationRequest'
-import { UserInvitedToProject } from '../../modules/authZ'
-import { LegacyCandidateNotified } from '../../modules/legacyCandidateNotification'
+} from '@modules/modificationRequest'
+import { UserInvitedToProject } from '@modules/authZ'
+import { LegacyCandidateNotified } from '@modules/legacyCandidateNotification'
 
 const projectCertificateChangeHandler = handleProjectCertificateUpdatedOrRegenerated({
   sendNotification,

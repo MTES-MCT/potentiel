@@ -1,5 +1,5 @@
-import { ResultAsync } from '../../../core/utils'
-import { AppelOffre, Periode, Project } from '../../../entities'
+import { ResultAsync } from '@core/utils'
+import { AppelOffre, Periode, Project } from '@entities'
 import { InfraNotAvailableError } from '../../shared'
 
 export interface UnnotifiedProjectDTO {

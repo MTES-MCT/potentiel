@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const fs = require('fs')
 const _ = require('lodash')
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 
 const pageDir = path.join(__dirname, 'src', 'views', 'pages')
 
@@ -45,6 +46,8 @@ module.exports = {
   target: 'web',
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
+    plugins: [new TsconfigPathsPlugin()],
+    fallback: { path: require.resolve('path-browserify') },
   },
   plugins: [
     new webpack.DefinePlugin({

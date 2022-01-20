@@ -1,7 +1,7 @@
 import { merge } from 'lodash'
 
-import { BaseDomainEvent, DomainEvent, EventBus } from '../../../core/domain'
-import { logger } from '../../../core/utils'
+import { BaseDomainEvent, DomainEvent, EventBus } from '@core/domain'
+import { logger } from '@core/utils'
 import { isObject } from '../../../helpers/isObject'
 
 interface HasType {

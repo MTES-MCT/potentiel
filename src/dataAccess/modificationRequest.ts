@@ -1,4 +1,4 @@
-import { ModificationRequest } from '../entities'
+import { ModificationRequest } from '@entities'
 import { ResultAsync, OptionAsync } from '../types'
 
 export type ModificationRequestRepo = {

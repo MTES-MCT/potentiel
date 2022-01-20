@@ -1,7 +1,7 @@
 import React from 'react'
 import { formatDate } from '../../helpers/formatDate'
 import { dataId } from '../../helpers/testId'
-import { FailedNotificationDTO } from '../../modules/notification'
+import { FailedNotificationDTO } from '@modules/notification'
 import ROUTES from '../../routes'
 import { PaginatedList } from '../../types'
 import { Request } from 'express'

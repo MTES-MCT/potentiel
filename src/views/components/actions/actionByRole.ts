@@ -1,4 +1,4 @@
-import { UserRole } from '../../../modules/users'
+import { UserRole } from '@modules/users'
 import { adminActions } from './admin'
 import { drealActions } from './dreal'
 import { porteurProjetActions } from './porteurProjet'

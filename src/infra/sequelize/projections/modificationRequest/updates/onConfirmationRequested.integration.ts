@@ -1,8 +1,8 @@
 import models from '../../../models'
 import { resetDatabase } from '../../../helpers'
 import { onConfirmationRequested } from './onConfirmationRequested'
-import { ConfirmationRequested } from '../../../../../modules/modificationRequest/events'
-import { UniqueEntityID } from '../../../../../core/domain'
+import { ConfirmationRequested } from '@modules/modificationRequest'
+import { UniqueEntityID } from '@core/domain'
 
 describe('modificationRequest.onConfirmationRequested', () => {
   const { ModificationRequest } = models

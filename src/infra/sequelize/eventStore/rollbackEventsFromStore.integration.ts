@@ -1,9 +1,7 @@
 import { rollbackEventsFromStore } from './rollbackEventsFromStore'
-import { resetDatabase, fromPersistance, toPersistance } from '../helpers'
-import { ProjectAbandoned } from '../../../modules/project'
-import { BaseDomainEvent, DomainEvent, UniqueEntityID } from '../../../core/domain'
+import { resetDatabase, toPersistance } from '../helpers'
+import { BaseDomainEvent, DomainEvent, UniqueEntityID } from '@core/domain'
 import models from '../models'
-import { LegacyModificationImported } from '../../../modules/modificationRequest'
 const { EventStore } = models
 
 interface DummyEventPayload {}

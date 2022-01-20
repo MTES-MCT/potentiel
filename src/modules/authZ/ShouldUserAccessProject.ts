@@ -1,5 +1,5 @@
-import { User, Project } from '../../entities'
-import { UserRepo, ProjectRepo } from '../../dataAccess'
+import { User, Project } from '@entities'
+import { UserRepo, ProjectRepo } from '@dataAccess'
 
 interface CheckProps {
   projectId: Project['id']

@@ -20,7 +20,7 @@ import {
   ProjectNewRulesOptedIn,
   ProjectImported,
   ProjectReimported,
-} from '../../../../../modules/project/events'
+} from '@modules/project'
 import { onProjectImported } from './onProjectImported'
 import { onProjectCertificate } from './onProjectCertificate'
 import { onProjectDataCorrected } from './onProjectDataCorrected'
@@ -38,11 +38,11 @@ import { onProjectActionnaireUpdated } from './onProjectActionnaireUpdated'
 import { onProjectProducteurUpdated } from './onProjectProducteurUpdated'
 import { onProjectFournisseursUpdated } from './onProjectFournisseursUpdated'
 import { onProjectNewRulesOptedIn } from './onProjectNewRulesOptedIn'
-import { logger } from '../../../../../core/utils'
+import { logger } from '@core/utils'
 import { onProjectReimported } from './onProjectReimported'
 import { onProjectClaimed } from './onProjectClaimed'
-import { ProjectClaimed, ProjectClaimedByOwner } from '../../../../../modules/projectClaim'
-import { EventBus } from '../../../../../core/domain'
+import { ProjectClaimed, ProjectClaimedByOwner } from '@modules/projectClaim'
+import { EventBus } from '@core/domain'
 
 export const initProjectProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ProjectImported.type, onProjectImported(models))

@@ -4,9 +4,9 @@ import {
   Repository,
   TransactionalRepository,
   UniqueEntityID,
-} from '../../../core/domain'
-import { makeEventStoreRepo, makeEventStoreTransactionalRepo } from '../../../core/utils'
-import { makeProjectClaim, ProjectClaim } from '../../../modules/projectClaim'
+} from '@core/domain'
+import { makeEventStoreRepo, makeEventStoreTransactionalRepo } from '@core/utils'
+import { makeProjectClaim, ProjectClaim } from '@modules/projectClaim'
 
 export const makeProjectClaimRepo = (
   eventStore: EventStore

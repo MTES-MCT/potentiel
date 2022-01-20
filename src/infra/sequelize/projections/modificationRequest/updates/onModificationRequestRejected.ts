@@ -1,5 +1,5 @@
-import { logger } from '../../../../../core/utils'
-import { ModificationRequestRejected } from '../../../../../modules/modificationRequest/events'
+import { logger } from '@core/utils'
+import { ModificationRequestRejected } from '@modules/modificationRequest'
 
 export const onModificationRequestRejected = (models) => async (
   event: ModificationRequestRejected

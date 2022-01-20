@@ -1,6 +1,6 @@
-import { Project, AppelOffre, Periode } from '../entities'
+import { Project, AppelOffre, Periode } from '@entities'
 import { Pagination, PaginatedList } from '../types'
-import { ProjectRepo, AppelOffreRepo, ProjectFilters } from '../dataAccess'
+import { ProjectRepo, AppelOffreRepo, ProjectFilters } from '@dataAccess'
 
 interface MakeUseCaseProps {
   findExistingAppelsOffres: ProjectRepo['findExistingAppelsOffres']

@@ -1,5 +1,5 @@
-import { UniqueEntityID } from '../../../core/domain'
-import { ResultAsync } from '../../../core/utils'
+import { UniqueEntityID } from '@core/domain'
+import { ResultAsync } from '@core/utils'
 import { InfraNotAvailableError } from '../../shared'
 import { FileNotFoundError } from '../errors'
 

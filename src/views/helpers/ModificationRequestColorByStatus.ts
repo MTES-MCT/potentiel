@@ -1,4 +1,4 @@
-import { ModificationRequestStatusDTO } from '../../modules/modificationRequest'
+import { ModificationRequestStatusDTO } from '@modules/modificationRequest'
 
 export const ModificationRequestColorByStatus: Record<
   ModificationRequestStatusDTO,

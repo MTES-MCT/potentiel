@@ -1,15 +1,15 @@
 import { Pagination } from '../../types'
-import { listProjects } from '../../useCases'
+import { listProjects } from '@useCases'
 import { makePagination } from '../../helpers/paginate'
 import routes from '../../routes'
 import { parseAsync } from 'json2csv'
-import { logger } from '../../core/utils'
+import { logger } from '@core/utils'
 import { v1Router } from '../v1Router'
 import asyncHandler from 'express-async-handler'
-import { ensureRole } from '../../config'
+import { ensureRole } from '@config'
 import { promises as fsPromises } from 'fs'
 import moment from 'moment'
-import { Project } from '../../entities'
+import { Project } from '@entities'
 import { formatField, writeCsvOnDisk } from '../../helpers/csv'
 
 const orderedFields = [
@@ -577,8 +577,14 @@ const orderedFields = [
 ]
 
 const getProjectListCsv = asyncHandler(async (request, response) => {
-  let { appelOffreId, periodeId, familleId, recherche, classement, garantiesFinancieres } =
-    request.query as any
+  let {
+    appelOffreId,
+    periodeId,
+    familleId,
+    recherche,
+    classement,
+    garantiesFinancieres,
+  } = request.query as any
 
   if (!request.user?.role) {
     return response.redirect(routes.LOGIN)

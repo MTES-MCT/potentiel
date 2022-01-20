@@ -1,7 +1,7 @@
 import models from '../../../models'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import { onProjectDataCorrected } from './onProjectDataCorrected'
-import { ProjectDataCorrected } from '../../../../../modules/project/events'
+import { ProjectDataCorrected } from '@modules/project'
 import { resetDatabase } from '../../../helpers'
 import { v4 as uuid } from 'uuid'
 

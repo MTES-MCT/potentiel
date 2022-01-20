@@ -1,6 +1,6 @@
 import { UserProjectsLinkedByContactEmail } from '..'
-import { DomainEvent, UniqueEntityID } from '../../../core/domain'
-import { okAsync } from '../../../core/utils'
+import { DomainEvent, UniqueEntityID } from '@core/domain'
+import { okAsync } from '@core/utils'
 import { InfraNotAvailableError } from '../../shared'
 import { UserCreated } from '../../users'
 import { handleUserCreated } from './handleUserCreated'

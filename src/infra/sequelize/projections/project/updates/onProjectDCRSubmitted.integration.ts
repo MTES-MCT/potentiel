@@ -1,9 +1,9 @@
 import { resetDatabase } from '../../../helpers'
-import { ProjectDCRSubmitted } from '../../../../../modules/project/events'
+import { ProjectDCRSubmitted } from '@modules/project'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import models from '../../../models'
 import { onProjectDCRSubmitted } from './onProjectDCRSubmitted'
-import { UniqueEntityID } from '../../../../../core/domain'
+import { UniqueEntityID } from '@core/domain'
 
 describe('project.onProjectDCRSubmitted', () => {
   const projectId = new UniqueEntityID().toString()

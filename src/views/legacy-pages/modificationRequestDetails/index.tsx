@@ -1,8 +1,8 @@
 import { Request } from 'express'
 import moment from 'moment'
 import React from 'react'
-import { logger } from '../../../core/utils'
-import { ModificationRequestPageDTO } from '../../../modules/modificationRequest'
+import { logger } from '@core/utils'
+import { ModificationRequestPageDTO } from '@modules/modificationRequest'
 import { ErrorBox, RoleBasedDashboard, SuccessBox } from '../../components'
 import ModificationRequestActionTitles from '../../components/ModificationRequestActionTitles'
 import {

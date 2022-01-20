@@ -1,5 +1,5 @@
-import { logger } from '../../../../../core/utils'
-import { ProjectDCRDueDateSet } from '../../../../../modules/project/events'
+import { logger } from '@core/utils'
+import { ProjectDCRDueDateSet } from '@modules/project'
 
 export const onProjectDCRDueDateSet = (models) => async (event: ProjectDCRDueDateSet) => {
   const ProjectModel = models.Project

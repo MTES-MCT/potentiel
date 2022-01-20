@@ -1,5 +1,5 @@
-import { logger } from '../../../../../core/utils'
-import { ProjectCompletionDueDateSet } from '../../../../../modules/project/events'
+import { logger } from '@core/utils'
+import { ProjectCompletionDueDateSet } from '@modules/project'
 
 export const onProjectCompletionDueDateSet = (models) => async (
   event: ProjectCompletionDueDateSet

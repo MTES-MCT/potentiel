@@ -1,9 +1,9 @@
 import asyncHandler from 'express-async-handler'
 import { parseAsync } from 'json2csv'
-import { getAppelOffreList } from '../../config/queries.config'
-import { logger } from '../../core/utils'
+import { getAppelOffreList } from '@config/queries.config'
+import { logger } from '@core/utils'
 import routes from '../../routes'
-import { ensureRole } from '../../config'
+import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'
 
 v1Router.get(

@@ -1,4 +1,4 @@
-import { DREAL } from '../../../entities'
+import { DREAL } from '@entities'
 import { ModificationRequestStatusDTO } from './ModificationRequestListItemDTO'
 
 export type ModificationRequestDataForResponseTemplateDTO = {

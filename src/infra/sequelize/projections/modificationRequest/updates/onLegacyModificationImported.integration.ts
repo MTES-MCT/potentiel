@@ -1,5 +1,5 @@
-import { UniqueEntityID } from '../../../../../core/domain'
-import { LegacyModificationImported } from '../../../../../modules/modificationRequest/events'
+import { UniqueEntityID } from '@core/domain'
+import { LegacyModificationImported } from '@modules/modificationRequest'
 import { resetDatabase } from '../../../helpers'
 import models from '../../../models'
 import { onLegacyModificationImported } from './onLegacyModificationImported'

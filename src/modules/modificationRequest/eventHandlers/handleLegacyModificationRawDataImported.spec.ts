@@ -1,6 +1,6 @@
 import { LegacyModificationDTO } from '..'
-import { DomainEvent, UniqueEntityID } from '../../../core/domain'
-import { okAsync, Result, ResultAsync, WithDelay } from '../../../core/utils'
+import { DomainEvent, UniqueEntityID } from '@core/domain'
+import { okAsync, Result, ResultAsync, WithDelay } from '@core/utils'
 import { InfraNotAvailableError } from '../../shared'
 import { LegacyModificationImported, LegacyModificationRawDataImported } from '../events'
 import { handleLegacyModificationRawDataImported } from './handleLegacyModificationRawDataImported'

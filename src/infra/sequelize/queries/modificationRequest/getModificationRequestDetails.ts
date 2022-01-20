@@ -1,10 +1,10 @@
-import { err, errAsync, ok, wrapInfra } from '../../../../core/utils'
-import { getAppelOffre } from '../../../../dataAccess/inMemory/appelOffre'
+import { err, errAsync, ok, wrapInfra } from '@core/utils'
+import { getAppelOffre } from '@dataAccess/inMemory'
 import {
   GetModificationRequestDetails,
   ModificationRequestPageDTO,
-} from '../../../../modules/modificationRequest'
-import { EntityNotFoundError, InfraNotAvailableError } from '../../../../modules/shared'
+} from '@modules/modificationRequest'
+import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared'
 import models from '../../models'
 
 const { ModificationRequest, Project, File, User } = models
@@ -44,7 +44,7 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
             'familleId',
             'numeroGestionnaire',
             'completionDueOn',
-            'potentielIdentifier'
+            'potentielIdentifier',
           ],
         },
         {

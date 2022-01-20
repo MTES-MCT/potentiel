@@ -1,8 +1,8 @@
-import { UniqueEntityID } from '../../../../../core/domain'
+import { UniqueEntityID } from '@core/domain'
 import { describeProjector } from '../../../__tests__/projections'
 import models from '../../../models'
 import { onDrealUserInvited } from './onDrealUserInvited'
-import { DrealUserInvited } from '../../../../../modules/authZ'
+import { DrealUserInvited } from '@modules/authZ'
 import { resetDatabase } from '../../../helpers'
 
 const { UserDreal } = models

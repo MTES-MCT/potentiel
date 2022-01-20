@@ -1,5 +1,5 @@
-import { wrapInfra } from '../../../../core/utils'
-import { HasProjectGarantieFinanciere } from '../../../../modules/modificationRequest'
+import { wrapInfra } from '@core/utils'
+import { HasProjectGarantieFinanciere } from '@modules/modificationRequest'
 import models from '../../models'
 
 const { ProjectStep } = models

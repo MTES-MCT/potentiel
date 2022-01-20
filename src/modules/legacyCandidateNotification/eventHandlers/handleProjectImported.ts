@@ -1,5 +1,5 @@
-import { TransactionalRepository, UniqueEntityID } from '../../../core/domain'
-import { logger } from '../../../core/utils'
+import { TransactionalRepository, UniqueEntityID } from '@core/domain'
+import { logger } from '@core/utils'
 import { IsPeriodeLegacy } from '../../appelOffre'
 import { ProjectImported, ProjectReimported } from '../../project'
 import { makeLegacyCandidateNotificationId } from '../helpers'

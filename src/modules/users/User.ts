@@ -1,5 +1,5 @@
-import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '../../core/domain'
-import { err, ok, Result } from '../../core/utils'
+import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '@core/domain'
+import { err, ok, Result } from '@core/utils'
 import { EntityNotFoundError } from '../shared'
 import { UserCreated } from './events'
 import { UserRole } from './UserRoles'

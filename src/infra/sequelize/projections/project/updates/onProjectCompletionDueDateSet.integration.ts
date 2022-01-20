@@ -1,5 +1,5 @@
 import { resetDatabase } from '../../../helpers'
-import { ProjectCompletionDueDateSet } from '../../../../../modules/project/events'
+import { ProjectCompletionDueDateSet } from '@modules/project'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import models from '../../../models'
 import { onProjectCompletionDueDateSet } from './onProjectCompletionDueDateSet'

@@ -1,4 +1,4 @@
-import { LegacyModificationImported, ModificationReceived } from '../../modules/modificationRequest'
+import { LegacyModificationImported, ModificationReceived } from '@modules/modificationRequest'
 import {
   handleModificationReceived,
   handlePeriodeNotified,
@@ -6,7 +6,7 @@ import {
   handleLegacyModificationImported,
   PeriodeNotified,
   ProjectRawDataImported,
-} from '../../modules/project'
+} from '@modules/project'
 import { eventStore } from '../eventStore.config'
 import { getUnnotifiedProjectsForPeriode, findProjectByIdentifiers } from '../queries.config'
 import { projectRepo } from '../repos.config'

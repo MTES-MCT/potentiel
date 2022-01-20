@@ -21,7 +21,7 @@ import { Famille } from './famille'
 import { CertificateTemplate } from './periode'
 
 import { territoireSchema } from './territoire'
-import { logger } from '../core/utils'
+import { logger } from '@core/utils'
 
 const baseProjectSchema = SchemaRecord({
   id: String,

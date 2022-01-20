@@ -1,4 +1,4 @@
-import { BuildProjectIdentifier } from '../../modules/project/queries/BuildProjectIdentifier'
+import { BuildProjectIdentifier } from '@modules/project'
 import { createHmac } from 'crypto'
 
 export const makeBuildProjectIdentifier: (string) => BuildProjectIdentifier = (

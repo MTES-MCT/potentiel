@@ -4,7 +4,7 @@ import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   HeterogeneousHistoryError,
-} from '../../modules/shared'
+} from '@modules/shared'
 
 type AggregateFromHistoryFn<T> = (args: {
   events: DomainEvent[]

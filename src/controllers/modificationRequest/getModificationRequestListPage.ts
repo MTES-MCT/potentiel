@@ -1,12 +1,12 @@
 import asyncHandler from 'express-async-handler'
-import { getModificationRequestListForUser } from '../../config/queries.config'
-import { logger } from '../../core/utils'
-import { appelOffreRepo } from '../../dataAccess/inMemory'
+import { getModificationRequestListForUser } from '@config/queries.config'
+import { logger } from '@core/utils'
+import { appelOffreRepo } from '@dataAccess/inMemory'
 import { makePagination } from '../../helpers/paginate'
 import routes from '../../routes'
 import { Pagination } from '../../types'
-import { ModificationRequestListPage } from '../../views/legacy-pages'
-import { ensureRole } from '../../config'
+import { ModificationRequestListPage } from '@views/legacy-pages'
+import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'
 
 const getModificationRequestListPage = asyncHandler(async (request, response) => {

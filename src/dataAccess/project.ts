@@ -1,4 +1,4 @@
-import { Project, User, AppelOffre, Famille, Periode, DREAL } from '../entities'
+import { Project, User, AppelOffre, Famille, Periode, DREAL } from '@entities'
 import { ResultAsync, Pagination, PaginatedList } from '../types'
 
 export interface ProjectFilters {

@@ -1,4 +1,4 @@
-import { logger } from '../../../../../core/utils'
+import { logger } from '@core/utils'
 import {
   ProjectDCRRemoved,
   ProjectDCRSubmitted,
@@ -7,11 +7,11 @@ import {
   ProjectGFSubmitted,
   ProjectPTFRemoved,
   ProjectPTFSubmitted,
-} from '../../../../../modules/project/events'
+} from '@modules/project'
 import { onProjectStepSubmitted } from './onProjectStepSubmitted'
 import { onProjectStepRemoved } from './onProjectStepRemoved'
 import { onProjectStepStatusUpdated } from './onProjectStepStatusUpdated'
-import { EventBus } from '../../../../../core/domain'
+import { EventBus } from '@core/domain'
 
 export const initProjectPTFProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ProjectPTFSubmitted.type, onProjectStepSubmitted(models))

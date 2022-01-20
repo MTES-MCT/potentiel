@@ -1,4 +1,4 @@
-import { Repository } from '../../../core/domain'
+import { Repository } from '@core/domain'
 import { FileObject, FileObjectArgs, makeFileObject } from '../FileObject'
 
 /**

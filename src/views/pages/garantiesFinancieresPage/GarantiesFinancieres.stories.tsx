@@ -1,6 +1,6 @@
 import React from 'react'
 import { GarantiesFinancieres, GarantiesFinancieresProps } from '.'
-import { appelsOffreStatic } from '../../../dataAccess/inMemory'
+import { appelsOffreStatic } from '@dataAccess/inMemory'
 import makeFakeProject from '../../../__tests__/fixtures/project'
 import makeFakeRequest from '../../../__tests__/fixtures/request'
 

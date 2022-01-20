@@ -1,4 +1,4 @@
-import { AppelOffre, Famille, Periode, ProjectAppelOffre } from '../../entities'
+import { AppelOffre, Famille, Periode, ProjectAppelOffre } from '@entities'
 import _ from 'lodash'
 
 import {
@@ -14,9 +14,9 @@ import {
   autoconsommationZNI2017,
   eolien,
 } from './appelsOffres'
-import { errAsync, okAsync } from '../../core/utils/Result'
-import { EntityNotFoundError } from '../../modules/shared'
-import { GetPeriodeTitle, GetFamille } from '../../modules/appelOffre'
+import { errAsync, okAsync } from '@core/utils'
+import { EntityNotFoundError } from '@modules/shared'
+import { GetPeriodeTitle, GetFamille } from '@modules/appelOffre'
 
 const appelsOffreStatic = [
   batiment,

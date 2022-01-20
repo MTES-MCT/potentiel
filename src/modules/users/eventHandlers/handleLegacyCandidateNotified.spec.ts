@@ -1,4 +1,4 @@
-import { UniqueEntityID } from '../../../core/domain'
+import { UniqueEntityID } from '@core/domain'
 import { makeFakeCreateUser } from '../../../__tests__/fakes'
 import { LegacyCandidateNotified } from '../../legacyCandidateNotification'
 import { handleLegacyCandidateNotified } from './handleLegacyCandidateNotified'

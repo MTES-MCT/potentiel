@@ -1,9 +1,9 @@
 import { NotificationRepo } from './notificationRepo'
-import { Notification } from '../../../modules/notification'
+import { Notification } from '@modules/notification'
 import models from '../models'
 import { resetDatabase } from '../helpers'
-import { UniqueEntityID } from '../../../core/domain'
-import { logger } from '../../../core/utils'
+import { UniqueEntityID } from '@core/domain'
+import { logger } from '@core/utils'
 
 describe('Sequelize NotificationRepo', () => {
   const notificationRepo = new NotificationRepo(models)

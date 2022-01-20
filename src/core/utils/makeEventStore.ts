@@ -1,6 +1,6 @@
 import { Queue } from './Queue'
 import { wrapInfra } from './wrapInfra'
-import { InfraNotAvailableError, OtherError } from '../../modules/shared'
+import { InfraNotAvailableError, OtherError } from '@modules/shared'
 import { DomainEvent, EventBus, EventStore, UniqueEntityID } from '../domain'
 import { combine, ResultAsync, Result, unwrapResultOfResult, ok } from './Result'
 import { logger } from '.'

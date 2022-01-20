@@ -7,7 +7,7 @@ import makeFakeUser from '../../__tests__/fixtures/user'
 import AdminNotifyCandidates from './adminNotifyCandidates'
 
 // This is static
-import { appelsOffreStatic } from '../../dataAccess/inMemory/appelOffre'
+import { appelsOffreStatic } from '@dataAccess/inMemory'
 
 export default { title: 'Notifier les candidats' }
 

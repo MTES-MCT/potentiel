@@ -1,4 +1,4 @@
-import { initProjections, initProjectors, initProjectionsNext } from '../infra/sequelize'
+import { initProjections, initProjectors, initProjectionsNext } from '@infra/sequelize'
 import { subscribeToRedis } from './eventBus.config'
 import { eventStore } from './eventStore.config'
 

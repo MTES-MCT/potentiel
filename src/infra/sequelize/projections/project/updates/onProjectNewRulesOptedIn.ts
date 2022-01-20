@@ -1,5 +1,5 @@
-import { logger } from '../../../../../core/utils'
-import { ProjectNewRulesOptedIn } from '../../../../../modules/project/events'
+import { logger } from '@core/utils'
+import { ProjectNewRulesOptedIn } from '@modules/project'
 
 export const onProjectNewRulesOptedIn = (models) => async (event: ProjectNewRulesOptedIn) => {
   const { projectId } = event.payload

@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express'
-import { ErrorPage } from '../../views'
+import { ErrorPage } from '@views'
 
 export const errorResponse = (args: {
   response: Response

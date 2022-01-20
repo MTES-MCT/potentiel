@@ -1,5 +1,5 @@
 import { resetDatabase } from '../../../helpers'
-import { ProjectNotificationDateSet, ProjectNotified } from '../../../../../modules/project/events'
+import { ProjectNotificationDateSet, ProjectNotified } from '@modules/project'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import models from '../../../models'
 import { onProjectNotificationDateSet } from './onProjectNotificationDateSet'

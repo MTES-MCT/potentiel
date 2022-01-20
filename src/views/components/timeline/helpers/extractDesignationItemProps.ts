@@ -1,11 +1,6 @@
-import { Project } from '../../../../entities'
+import { Project } from '@entities'
 import ROUTES from '../../../../routes'
-import {
-  isCertificateDTO,
-  is,
-  ProjectCertificateDTO,
-  ProjectEventDTO,
-} from '../../../../modules/frise'
+import { isCertificateDTO, is, ProjectCertificateDTO, ProjectEventDTO } from '@modules/frise'
 
 export type DesignationItemProps = {
   type: 'designation'

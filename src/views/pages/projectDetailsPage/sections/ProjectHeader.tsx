@@ -1,6 +1,6 @@
 import React from 'react'
-import { User } from '../../../../entities'
-import { ProjectDataForProjectPage } from '../../../../modules/project/dtos'
+import { User } from '@entities'
+import { ProjectDataForProjectPage } from '@modules/project/dtos'
 import ProjectActions from '../../../components/ProjectActions'
 
 interface ProjectHeaderProps {

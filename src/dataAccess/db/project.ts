@@ -1,7 +1,7 @@
 import { col, DataTypes, literal, Op, where } from 'sequelize'
 import { ContextSpecificProjectListFilter, ProjectFilters, ProjectRepo } from '../'
-import { logger } from '../../core/utils'
-import { AppelOffre, DREAL, Famille, Periode, Project, User } from '../../entities'
+import { logger } from '@core/utils'
+import { AppelOffre, DREAL, Famille, Periode, Project, User } from '@entities'
 import { makePaginatedList, paginate } from '../../helpers/paginate'
 import { mapExceptError } from '../../helpers/results'
 import { Err, Ok, PaginatedList, Pagination, ResultAsync } from '../../types'
@@ -1059,12 +1059,10 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
   }
 }
 
-export { makeProjectRepo }
-
-export function getFullTextSearchOptions(
+const getFullTextSearchOptions = (
   terms: string,
   customSearchedProjectsColumns?: string[]
-): object {
+): object => {
   const defaultSearchedProjectsColumns = [
     'nomCandidat',
     'nomProjet',
@@ -1097,3 +1095,5 @@ export function getFullTextSearchOptions(
 
   return options
 }
+
+export { makeProjectRepo, getFullTextSearchOptions }

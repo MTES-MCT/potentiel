@@ -3,7 +3,7 @@ import { resetDatabase } from '../../helpers'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
 
 import { getNonLegacyProjectsByContactEmail } from './getNonLegacyProjectsByContactEmail'
-import { UniqueEntityID } from '../../../../core/domain'
+import { UniqueEntityID } from '@core/domain'
 
 const { Project } = models
 

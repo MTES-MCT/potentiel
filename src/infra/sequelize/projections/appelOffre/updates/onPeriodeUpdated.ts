@@ -1,5 +1,5 @@
-import { logger } from '../../../../../core/utils'
-import { PeriodeUpdated } from '../../../../../modules/appelOffre'
+import { logger } from '@core/utils'
+import { PeriodeUpdated } from '@modules/appelOffre'
 
 export const onPeriodeUpdated = (models) => async (event: PeriodeUpdated) => {
   const { Periode } = models

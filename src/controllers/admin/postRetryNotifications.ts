@@ -1,7 +1,7 @@
 import asyncHandler from 'express-async-handler'
-import { retryFailedNotifications } from '../../config'
+import { retryFailedNotifications } from '@config'
 import routes from '../../routes'
-import { ensureRole } from '../../config'
+import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'
 
 v1Router.post(

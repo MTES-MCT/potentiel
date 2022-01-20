@@ -1,5 +1,5 @@
 import { Result } from '@usefultools/monads'
-import { logger } from '../core/utils'
+import { logger } from '@core/utils'
 
 const mapExceptError = <T, K>(arr: Array<T>, fn: (T) => K, errorMessage: string): Array<K> =>
   arr.reduce((validItems: Array<K>, item: T) => {

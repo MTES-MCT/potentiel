@@ -3,7 +3,7 @@ import {
   EntityNotFoundError,
   HeterogeneousHistoryError,
   InfraNotAvailableError,
-} from '../../modules/shared'
+} from '@modules/shared'
 import { Result, ResultAsync } from '../utils'
 import { UniqueEntityID } from './UniqueEntityID'
 

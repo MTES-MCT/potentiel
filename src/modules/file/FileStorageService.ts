@@ -1,4 +1,4 @@
-import { ResultAsync } from '../../core/utils/Result'
+import { ResultAsync } from '@core/utils'
 import { InfraNotAvailableError } from '../shared'
 import { FileAccessDeniedError, FileNotFoundError } from './errors'
 import { FileContents } from './FileObject'

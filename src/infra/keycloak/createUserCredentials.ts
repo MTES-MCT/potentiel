@@ -1,8 +1,8 @@
 import { RequiredActionAlias } from 'keycloak-admin/lib/defs/requiredActionProviderRepresentation'
-import { authorizedTestEmails, isProdEnv } from '../../config'
-import { logger, ResultAsync } from '../../core/utils'
-import { CreateUserCredentials } from '../../modules/authN'
-import { OtherError, UnauthorizedError } from '../../modules/shared'
+import { authorizedTestEmails, isProdEnv } from '@config'
+import { logger, ResultAsync } from '@core/utils'
+import { CreateUserCredentials } from '@modules/authN'
+import { OtherError, UnauthorizedError } from '@modules/shared'
 import routes from '../../routes'
 import { makeKeycloakClient } from './keycloakClient'
 

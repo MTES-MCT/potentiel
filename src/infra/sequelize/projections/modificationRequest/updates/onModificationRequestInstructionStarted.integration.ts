@@ -1,8 +1,8 @@
 import models from '../../../models'
 import { resetDatabase } from '../../../helpers'
 import { onModificationRequestInstructionStarted } from './onModificationRequestInstructionStarted'
-import { ModificationRequestInstructionStarted } from '../../../../../modules/modificationRequest/events'
-import { UniqueEntityID } from '../../../../../core/domain'
+import { ModificationRequestInstructionStarted } from '@modules/modificationRequest'
+import { UniqueEntityID } from '@core/domain'
 
 describe('modificationRequest.onModificationRequestInstructionStarted', () => {
   const ModificationRequestModel = models.ModificationRequest

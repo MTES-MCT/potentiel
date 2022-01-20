@@ -1,6 +1,6 @@
 import { errAsync, okAsync, ResultAsync } from 'neverthrow'
 import { wrapInfra } from '.'
-import { InfraNotAvailableError } from '../../modules/shared'
+import { InfraNotAvailableError } from '@modules/shared'
 import { BaseDomainEvent, DomainEvent, UniqueEntityID } from '../domain'
 
 import { makeEventStore } from './makeEventStore'

@@ -1,5 +1,5 @@
-import { ProjectRepo } from '../dataAccess'
-import { Project, User } from '../entities'
+import { ProjectRepo } from '@dataAccess'
+import { Project, User } from '@entities'
 
 interface MakeUseCaseProps {
   findProjectById: ProjectRepo['findById']

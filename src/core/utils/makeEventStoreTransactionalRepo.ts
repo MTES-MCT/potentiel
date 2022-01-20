@@ -11,7 +11,7 @@ import {
   EntityAlreadyExistsError,
   HeterogeneousHistoryError,
   InfraNotAvailableError,
-} from '../../modules/shared'
+} from '@modules/shared'
 import { okAsync } from 'neverthrow'
 
 export type AggregateFromHistoryFn<T> = (args: {

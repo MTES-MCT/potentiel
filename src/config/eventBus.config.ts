@@ -1,11 +1,11 @@
-import { makeDualPublish } from '../infra/dualEventBus'
-import { makeInMemoryPublish, makeInMemorySubscribe } from '../infra/inMemoryEventBus'
-import { makeRedisPublish, makeRedisSubscribe } from '../infra/redis'
+import { makeDualPublish } from '@infra/dualEventBus'
+import { makeInMemoryPublish, makeInMemorySubscribe } from '@infra/inMemoryEventBus'
+import { makeRedisPublish, makeRedisSubscribe } from '@infra/redis'
 import Redis from 'ioredis'
 import { isTestEnv } from './env.config'
 import { EventEmitter } from 'stream'
-import { EventBus } from '../core/domain'
-import { HasSubscribe } from '../infra/sequelize/helpers/Projection'
+import { EventBus } from '@core/domain'
+import { HasSubscribe } from '@infra/sequelize'
 
 const eventEmitter = new EventEmitter()
 let publishToEventBus: EventBus['publish']

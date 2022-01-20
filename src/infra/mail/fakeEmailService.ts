@@ -1,5 +1,5 @@
-import { ResultAsync, okAsync, logger } from '../../core/utils'
-import { SendEmailProps } from '../../modules/notification'
+import { ResultAsync, okAsync, logger } from '@core/utils'
+import { SendEmailProps } from '@modules/notification'
 /**
  *
  * This call sends a message to the given recipient with vars and custom vars.

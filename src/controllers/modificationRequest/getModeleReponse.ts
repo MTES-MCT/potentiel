@@ -7,17 +7,17 @@ import {
   eventStore,
   getModificationRequestDataForResponseTemplate,
   oldUserRepo,
-} from '../../config'
-import { ModificationRequest, User } from '../../entities'
+} from '@config'
+import { ModificationRequest, User } from '@entities'
 import { fillDocxTemplate } from '../../helpers/fillDocxTemplate'
 import {
   ModificationRequestDataForResponseTemplateDTO,
   ResponseTemplateDownloaded,
-} from '../../modules/modificationRequest'
-import { EntityNotFoundError } from '../../modules/shared'
+} from '@modules/modificationRequest'
+import { EntityNotFoundError } from '@modules/shared'
 import routes from '../../routes'
-import { shouldUserAccessProject } from '../../useCases'
-import { ensureRole } from '../../config'
+import { shouldUserAccessProject } from '@useCases'
+import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'

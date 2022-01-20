@@ -1,7 +1,7 @@
 import { makeKeycloakClient } from './keycloakClient'
-import { logger, ResultAsync } from '../../core/utils'
-import { OtherError } from '../../modules/shared'
-import { GetUserName } from '../../modules/users'
+import { logger, ResultAsync } from '@core/utils'
+import { OtherError } from '@modules/shared'
+import { GetUserName } from '@modules/users'
 
 const { KEYCLOAK_ADMIN_CLIENT_ID, KEYCLOAK_ADMIN_CLIENT_SECRET, KEYCLOAK_REALM } = process.env
 

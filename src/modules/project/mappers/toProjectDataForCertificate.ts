@@ -1,4 +1,4 @@
-import { err, logger, ok, Result } from '../../../core/utils'
+import { err, logger, ok, Result } from '@core/utils'
 import { IncompleteDataError } from '../../shared'
 import { ProjectDataForCertificate } from '../dtos'
 import { ProjectProps } from '../Project'
