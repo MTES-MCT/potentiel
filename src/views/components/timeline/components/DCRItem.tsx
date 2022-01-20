@@ -9,14 +9,10 @@ import { WarningIcon } from './WarningIcon'
 export const DCRItem = (props: DCRItemProps & { projectId: string }) => {
   const { status, projectId } = props
 
-  return (
-    <>
-      {status === 'submitted' ? (
-        <Submitted {...{ ...props, projectId }} />
-      ) : (
-        <NotSubmitted {...{ ...props, projectId }} />
-      )}
-    </>
+  return status === 'submitted' ? (
+    <Submitted {...{ ...props, projectId }} />
+  ) : (
+    <NotSubmitted {...{ ...props, projectId }} />
   )
 }
 
@@ -57,8 +53,7 @@ type NotSubmittedProps = {
 const NotSubmitted = ({ role, date, projectId, status }: NotSubmittedProps) => {
   return (
     <>
-      {status === 'due' && <CurrentIcon />}
-      {status === 'past-due' && <WarningIcon />}
+      {status === 'due' ? <CurrentIcon /> : <WarningIcon />}
       <ContentArea>
         <div className="flex">
           <div className="align-middle">
