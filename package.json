@@ -7,7 +7,7 @@
     "build": "ttsc --build tsconfig.build.json && cp -R src/public dist/src && cp -R src/views/template dist/src/views",
     "build:front": "webpack --config=webpack.config.js",
     "build:css": "npx tailwindcss -i ./src/views/index.css -o ./src/public/css/index.css",
-    "install": "npm run build:front && npm run build:css && npm run build && npm run migrate",
+    "install": "if test \"$NODE_ENV\" = \"production\" || test \"$NODE_ENV\" = \"staging\" ; then npm run build:front && npm run build:css && npm run build && npm run migrate; fi",
     "test": "NODE_ENV=unit-test jest --config=jest.unit.config.js --detectOpenHandles",
     "test-int": "NODE_ENV=test jest --config=jest.integration.config.js --detectOpenHandles --runInBand",
     "ci:test-e2e": "NODE_ENV=test start-server-and-test start http://localhost:3000 cy:run",
