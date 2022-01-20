@@ -3,19 +3,16 @@ import { ItemDate, PastIcon, ItemTitle, ContentArea } from '.'
 import { DesignationItemProps } from '../helpers/extractDesignationItemProps'
 import { formatDate } from '../../../../helpers/formatDate'
 
-export const DesignationItem = (props: DesignationItemProps) => {
-  const { certificate, role, date } = props
-  return (
-    <>
-      <PastIcon />
-      <ContentArea>
-        <ItemDate date={date} />
-        <ItemTitle title="Notification de résultat" />
-        <Certificate certificate={certificate} role={role} />
-      </ContentArea>
-    </>
-  )
-}
+export const DesignationItem = ({ certificate, role, date }: DesignationItemProps) => (
+  <>
+    <PastIcon />
+    <ContentArea>
+      <ItemDate date={date} />
+      <ItemTitle title="Notification de résultat" />
+      <Certificate {...{ certificate, role }} />
+    </ContentArea>
+  </>
+)
 
 type CertificateProps = {
   certificate: DesignationItemProps['certificate']
@@ -25,24 +22,47 @@ type CertificateProps = {
 const Certificate = ({ certificate, role }: CertificateProps) => {
   const { status } = certificate
 
-  const message =
-    status === 'not-applicable'
-      ? 'Attestation non disponible pour cette période'
-      : role === 'admin'
-      ? 'Document non disponible actuellement'
-      : 'Votre attestation sera disponible sous 24h'
-
-  if (status === 'not-applicable' || status === 'pending') {
-    return <span>{message}</span>
+  switch (status) {
+    case 'not-applicable':
+      return <NotApplicable />
+    case 'pending':
+      return <Pending role={role} />
+    case 'generated':
+      return <Generated {...certificate} />
+    case 'uploaded':
+      return <Uploaded {...certificate} />
   }
-
-  const { url, date } = certificate
-
-  return (
-    <a href={url} download>
-      {status === 'uploaded'
-        ? `Télécharger l'attestation de désignation (transmise le ${formatDate(date)})`
-        : `Télécharger l'attestation de désignation (éditée le ${formatDate(date)})`}
-    </a>
-  )
 }
+
+const NotApplicable = () => <span>Attestation non disponible pour cette période</span>
+
+type PendingProps = {
+  role: DesignationItemProps['role']
+}
+const Pending = ({ role }: PendingProps) => (
+  <span>
+    {role === 'admin'
+      ? 'Document non disponible actuellement'
+      : 'Votre attestation sera disponible sous 24h'}
+  </span>
+)
+
+type GeneratedProps = {
+  url: string
+  date: number
+}
+const Generated = ({ url, date }: GeneratedProps) => (
+  <a href={url} download>
+    Télécharger l'attestation de désignation (éditée le {formatDate(date)})
+  </a>
+)
+
+type UploadedProps = {
+  url: string
+  date: number
+}
+const Uploaded = ({ url, date }: UploadedProps) => (
+  <a href={url} download>
+    Télécharger l'attestation de désignation (transmise le {formatDate(date)})
+  </a>
+)
