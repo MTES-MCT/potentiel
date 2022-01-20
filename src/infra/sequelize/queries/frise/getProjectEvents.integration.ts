@@ -71,13 +71,20 @@ describe('frise.getProjectEvents', () => {
   for (const role of USER_ROLES.filter((role) => role !== 'ademe')) {
     describe(`when the user is ${role}`, () => {
       const fakeUser = { role } as User
-      it('should return the ProjectNotified events', async () => {
+      it('should return the ProjectNotified and ProjectNotificationDateSet events', async () => {
         await ProjectEvent.create({
           id: new UniqueEntityID().toString(),
           projectId,
           type: 'ProjectNotified',
           valueDate: notifiedOnTimestamp,
           eventPublishedAt: eventTimestamp,
+        })
+        await ProjectEvent.create({
+          id: new UniqueEntityID().toString(),
+          projectId,
+          type: 'ProjectNotificationDateSet',
+          valueDate: new Date('2022-01-19').getTime(),
+          eventPublishedAt: new Date('2022-01-20').getTime(),
         })
         const res = await getProjectEvents({ projectId, user: fakeUser })
 
@@ -86,6 +93,11 @@ describe('frise.getProjectEvents', () => {
             {
               type: 'ProjectNotified',
               date: notifiedOnTimestamp,
+              variant: role,
+            },
+            {
+              type: 'ProjectNotificationDateSet',
+              date: new Date('2022-01-19').getTime(),
               variant: role,
             },
           ],
