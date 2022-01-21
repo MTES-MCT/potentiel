@@ -143,7 +143,7 @@ v1Router.post(
         acceptanceParams = { type, newProducteur: producteur }
     }
 
-    if (!acceptanceParams) {
+    if (type !== 'abandon' && !acceptanceParams) {
       return errorResponse({ request, response })
     }
 
