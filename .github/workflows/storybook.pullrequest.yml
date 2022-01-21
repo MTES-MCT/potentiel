@@ -3,6 +3,9 @@ name: Build storybook on PR
 on:
   pull_request:
     paths-ignore:
+      - '**/*.spec.ts'
+      - '**/*.integration.ts'
+      - 'src/__tests__'
       - 'README.md'
       - '.github/**'
       - '.vscode/**'
