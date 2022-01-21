@@ -34,8 +34,7 @@ describe('extractPTFitemProps', () => {
           type: 'ProjectPTFSubmitted',
           variant: 'porteur-projet',
           date: new Date('2022-01-07').getTime(),
-          fileId: 'old-fileId',
-          filename: 'old-filename',
+          file: { id: 'file-id', name: 'file-name' },
         } as ProjectPTFSubmittedDTO,
         {
           type: 'ProjectPTFRemoved',
@@ -46,8 +45,7 @@ describe('extractPTFitemProps', () => {
           type: 'ProjectPTFSubmitted',
           variant: 'porteur-projet',
           date: new Date('2022-01-09').getTime(),
-          fileId: 'fileId',
-          filename: 'filename',
+          file: { id: 'file-id', name: 'file-name' },
         } as ProjectPTFSubmittedDTO,
       ]
       const result = extractPTFItemProps(events)
@@ -57,7 +55,7 @@ describe('extractPTFitemProps', () => {
         type: 'proposition-technique-et-financiere',
         status: 'submitted',
         role: 'porteur-projet',
-        url: '/telechargement/fileId/fichier/filename',
+        url: '/telechargement/file-id/fichier/file-name',
       })
     })
   })
@@ -90,7 +88,6 @@ describe('extractPTFitemProps', () => {
           type: 'ProjectPTFSubmitted',
           variant: 'porteur-projet',
           date: new Date('2022-01-09').getTime(),
-          fileId: 'fileId',
         } as ProjectPTFSubmittedDTO,
       ]
       const result = extractPTFItemProps(events)
