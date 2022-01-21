@@ -8,7 +8,7 @@ Metabase est connecté à la base de données de production via un utilisateur r
 
 ## Déploiement / Mise à jour
 
-Metabase tourne dans un conteneur de type Java. Le déploiement consiste simple à déployer un fichier `metabase.jar`. L'instance clever cloud pointe sur ce fichier via la variable d'environnement `CC_JAR_PATH=./metabase.jar`.
+Metabase tourne dans un conteneur de type Java. Le déploiement consiste simplement à déployer un fichier `metabase.jar`. L'instance clever cloud pointe sur ce fichier via la variable d'environnement `CC_JAR_PATH=./metabase.jar`.
 
 1) Télécharger la dernière release sur https://github.com/metabase/metabase/releases
 2) La placer dans un repo git vide et faire un commit
