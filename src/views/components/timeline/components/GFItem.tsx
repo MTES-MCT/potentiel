@@ -44,9 +44,9 @@ const Submitted = ({ date, status, url, role, projectId }: SubmittedProps) => {
               Télécharger l'attestation de garanties financières
             </a>
           ) : (
-            <span>Attestation indisponible actuellement</span>
+            <span>Pièce-jointe introuvable</span>
           )}
-          <span>{isValidated ? 'validée' : 'à traiter'}</span>
+          <span>&nbsp;- {isValidated ? 'validée' : 'à traiter'}</span>
         </div>
         {isPorteurProjet && !isValidated && <CancelDeposit projectId={projectId} />}
       </ContentArea>
