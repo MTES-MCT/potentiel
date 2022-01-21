@@ -10,28 +10,28 @@ import { UserRole } from '../../../../modules/users'
 export const GFItem = (props: GFItemProps & { projectId: string }) => {
   const { status, projectId } = props
 
-  return (
-    <>
-      {status === 'submitted' ? (
-        <Submitted {...{ ...props, projectId }} />
-      ) : (
-        <NotSubmitted {...{ ...props, projectId }} />
-      )}
-    </>
-  )
+  switch (status) {
+    case 'pending-validation':
+    case 'validated':
+      return <Submitted {...{ ...props, projectId }} />
+
+    case 'due':
+    case 'past-due':
+      return <NotSubmitted {...{ ...props, projectId }} />
+  }
 }
 
 type SubmittedProps = {
   date: number
+  status: 'pending-validation' | 'validated'
   url: string | undefined
-  isValidated: boolean
   role: UserRole
   projectId: string
 }
-
-const Submitted = ({ date, url, isValidated, role, projectId }: SubmittedProps) => {
+const Submitted = ({ date, status, url, role, projectId }: SubmittedProps) => {
   const isPorteurProjet = role === 'porteur-projet'
-  const validationMessage = isValidated ? 'validée' : 'à traiter'
+  const isValidated = status === 'validated'
+
   return (
     <>
       <PastIcon />
@@ -46,9 +46,9 @@ const Submitted = ({ date, url, isValidated, role, projectId }: SubmittedProps) 
           ) : (
             <span>Attestation indisponible actuellement</span>
           )}
-          <span>&nbsp;({validationMessage})</span>
+          <span>{isValidated ? 'validée' : 'à traiter'}</span>
         </div>
-        {isPorteurProjet && !isValidated && <RemoveDocument projectId={projectId} />}
+        {isPorteurProjet && !isValidated && <CancelDeposit projectId={projectId} />}
       </ContentArea>
     </>
   )
@@ -60,7 +60,6 @@ type NotSubmittedProps = {
   role: UserRole
   projectId: string
 }
-
 const NotSubmitted = ({ date, status, role, projectId }: NotSubmittedProps) => {
   const isPorteurProjet = role === 'porteur-projet'
   const displayWarning = status === 'past-due' && isPorteurProjet
@@ -93,10 +92,8 @@ const NotSubmitted = ({ date, status, role, projectId }: NotSubmittedProps) => {
 type UploadFormProps = {
   projectId: string
 }
-
 const UploadForm = ({ projectId }: UploadFormProps) => {
   const [isFormVisible, showForm] = useState(false)
-
   const [disableSubmit, setDisableSubmit] = useState(true)
 
   return (
@@ -129,20 +126,17 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
   )
 }
 
-type RemoveDocumentProps = {
+type CancelDepositProps = {
   projectId: string
 }
-
-const RemoveDocument = ({ projectId }: RemoveDocumentProps) => {
-  return (
-    <a
-      href={ROUTES.SUPPRIMER_ETAPE_ACTION({
-        projectId,
-        type: 'garantie-financiere',
-      })}
-      data-confirm="Êtes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?"
-    >
-      Annuler le dépôt
-    </a>
-  )
-}
+const CancelDeposit = ({ projectId }: CancelDepositProps) => (
+  <a
+    href={ROUTES.SUPPRIMER_ETAPE_ACTION({
+      projectId,
+      type: 'garantie-financiere',
+    })}
+    data-confirm="Êtes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?"
+  >
+    Annuler le dépôt
+  </a>
+)

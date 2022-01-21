@@ -12,9 +12,8 @@ export type GFItemProps = {
       status: 'due' | 'past-due'
     }
   | {
-      status: 'submitted'
+      status: 'pending-validation' | 'validated'
       url: string | undefined
-      isValidated: boolean
     }
 )
 
@@ -49,8 +48,7 @@ export const extractGFItemProps = (events: ProjectEventDTO[], now: number): GFIt
         ...props,
         url:
           eventToHandle.filename && makeDocumentUrl(eventToHandle.fileId, eventToHandle.filename),
-        status: 'submitted',
-        isValidated: latestProjectGF.type === 'ProjectGFValidated',
+        status: latestProjectGF.type === 'ProjectGFValidated' ? 'validated' : 'pending-validation',
       }
     : {
         ...props,

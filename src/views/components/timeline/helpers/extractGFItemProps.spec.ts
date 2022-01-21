@@ -58,7 +58,7 @@ describe('extractGFitemProps', () => {
     })
   })
   describe('when there is a ProjectGFSubmitted event after a ProjectGFDueDateSet event', () => {
-    it('should return the GF submitted', () => {
+    it('should return the GF pending for validation', () => {
       const submittedDate = new Date('2022-01-01').getTime()
       const events = [
         {
@@ -77,10 +77,9 @@ describe('extractGFitemProps', () => {
       expect(result).toEqual({
         date: submittedDate,
         type: 'garanties-financieres',
-        status: 'submitted',
+        status: 'pending-validation',
         url: expect.anything(),
         role: 'porteur-projet',
-        isValidated: false,
       })
     })
     describe('when there is no filename', () => {
@@ -102,10 +101,9 @@ describe('extractGFitemProps', () => {
         expect(result).toEqual({
           date: submittedDate,
           type: 'garanties-financieres',
-          status: 'submitted',
+          status: 'pending-validation',
           url: undefined,
           role: 'porteur-projet',
-          isValidated: false,
         })
       })
     })
@@ -168,7 +166,7 @@ describe('extractGFitemProps', () => {
     })
   })
   describe('when there is a ProjectGFRemoved event followed by a ProjectFGSubmitted', () => {
-    it('should return the latest submitted', () => {
+    it('should return the latest submitted as pending for validation', () => {
       const events = [
         {
           type: 'ProjectGFDueDateSet',
@@ -196,16 +194,15 @@ describe('extractGFitemProps', () => {
       expect(result).toEqual({
         date: new Date('2022-01-01').getTime(),
         type: 'garanties-financieres',
-        status: 'submitted',
+        status: 'pending-validation',
         role: 'porteur-projet',
         url: expect.anything(),
-        isValidated: false,
       })
     })
   })
 
   describe('when there is a ProjectGFValidated', () => {
-    it('should return latest ProjectGFSubmitted props with a "validé" validation status', () => {
+    it('should return latest ProjectGFSubmitted props as validated', () => {
       const events = [
         {
           type: 'ProjectGFSubmitted',
@@ -231,15 +228,14 @@ describe('extractGFitemProps', () => {
       expect(result).toEqual({
         date: new Date('2021-12-01').getTime(),
         type: 'garanties-financieres',
-        status: 'submitted',
+        status: 'validated',
         role: 'porteur-projet',
         url: expect.anything(),
-        isValidated: true,
       })
     })
   })
   describe('when there is a ProjectGFInvalidated', () => {
-    it('should return latest ProjectGFSubmitted props with a "à traiter" validation status', () => {
+    it('should return latest ProjectGFSubmitted props as pending for validation', () => {
       const events = [
         {
           type: 'ProjectGFSubmitted',
@@ -269,10 +265,9 @@ describe('extractGFitemProps', () => {
       expect(result).toEqual({
         date: new Date('2021-12-01').getTime(),
         type: 'garanties-financieres',
-        status: 'submitted',
+        status: 'pending-validation',
         role: 'porteur-projet',
         url: expect.anything(),
-        isValidated: false,
       })
     })
   })
