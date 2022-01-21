@@ -131,19 +131,24 @@ v1Router.post(
       case 'recours':
         acceptanceParams = {
           type,
-          newNotificationDate,
+          newNotificationDate: moment(newNotificationDate, 'DD/MM/YYYY').toDate(),
         }
+        break
       case 'delai':
         acceptanceParams = { type, delayInMonths }
+        break
       case 'puissance':
         acceptanceParams = { type, newPuissance: puissance, isDecisionJustice }
+        break
       case 'actionnaire':
         acceptanceParams = { type, newActionnaire: actionnaire }
+        break
       case 'producteur':
         acceptanceParams = { type, newProducteur: producteur }
+        break
     }
 
-    if (!acceptanceParams) {
+    if (type !== 'abandon' && !acceptanceParams) {
       return errorResponse({ request, response })
     }
 
