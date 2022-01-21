@@ -46,8 +46,7 @@ export const extractGFItemProps = (events: ProjectEventDTO[], now: number): GFIt
   return type === 'ProjectGFSubmitted'
     ? {
         ...props,
-        url:
-          eventToHandle.filename && makeDocumentUrl(eventToHandle.fileId, eventToHandle.filename),
+        url: eventToHandle.file && makeDocumentUrl(eventToHandle.file.id, eventToHandle.file.name),
         status: latestProjectGF.type === 'ProjectGFValidated' ? 'validated' : 'pending-validation',
       }
     : {
