@@ -131,7 +131,7 @@ v1Router.post(
       case 'recours':
         acceptanceParams = {
           type,
-          newNotificationDate,
+          newNotificationDate: moment(newNotificationDate, 'DD/MM/YYYY').toDate(),
         }
         break
       case 'delai':

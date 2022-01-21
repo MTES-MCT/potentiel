@@ -124,7 +124,7 @@ export const makeAcceptModificationRequest = (deps: AcceptModificationRequestDep
               .andThen(() =>
                 project.setNotificationDate(
                   submittedBy,
-                  moment(acceptanceParams.newNotificationDate, 'DD/MM/YYYY').toDate().getTime()
+                  acceptanceParams.newNotificationDate.getTime()
                 )
               )
           break
