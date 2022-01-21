@@ -50,10 +50,10 @@ export const extractDCRItemProps = (
     ? {
         ...props,
         url:
-          projectDCRDueDateSetOrSubmitted.filename &&
+          projectDCRDueDateSetOrSubmitted.file &&
           makeDocumentUrl(
-            projectDCRDueDateSetOrSubmitted.fileId,
-            projectDCRDueDateSetOrSubmitted.filename
+            projectDCRDueDateSetOrSubmitted.file.id,
+            projectDCRDueDateSetOrSubmitted.file.name
           ),
         status: 'submitted',
         numeroDossier: projectDCRDueDateSetOrSubmitted.numeroDossier,

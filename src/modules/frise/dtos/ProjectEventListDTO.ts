@@ -82,7 +82,7 @@ export type ProjectGFSubmittedDTO = {
   type: 'ProjectGFSubmitted'
   date: number
   variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
-  file?: { id: string; name: string | undefined }
+  file?: { id: string; name: string }
 }
 
 export type ProjectGFDueDateSetDTO = {
@@ -113,7 +113,7 @@ export type ProjectDCRSubmittedDTO = {
   type: 'ProjectDCRSubmitted'
   date: number
   variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
-  file?: { id: string; name: string | undefined }
+  file?: { id: string; name: string }
   numeroDossier: string
 }
 
@@ -134,7 +134,7 @@ export type ProjectPTFSubmittedDTO = {
   type: 'ProjectPTFSubmitted'
   date: number
   variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
-  file?: { id: string; name: string | undefined }
+  file?: { id: string; name: string }
 }
 
 export type ProjectPTFRemovedDTO = {
