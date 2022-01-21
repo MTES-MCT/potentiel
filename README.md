@@ -18,6 +18,7 @@ La suite de ce document explique comment lancer l'application sur sa machine et 
 - [Documentation de l'architecture](./docs/ARCHITECTURE.md)
 - [Les grandes 'recettes' pour le développeur](./docs/RECIPES.md)
 - [L'authentification avec Keycloak](./docs/KEYCLOAK.md)
+- [L'analyse de données avec Metabase](./docs/METABASE.md)
 
 ## Sommaire
 - [Développement en local](#développement-en-local)
