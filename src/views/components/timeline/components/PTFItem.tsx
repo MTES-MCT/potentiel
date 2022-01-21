@@ -36,7 +36,7 @@ const Submitted = ({ role, date, url, projectId }: SubmittedProps) => (
           </a>
         </div>
       ) : (
-        <div>Fichier indisponible actuellement</div>
+        <div>Pièce-jointe introuvable</div>
       )}
       {isPorteurProjet(role) && <CancelDeposit {...{ projectId }} />}
     </ContentArea>

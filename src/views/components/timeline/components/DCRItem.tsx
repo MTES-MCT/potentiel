@@ -37,7 +37,7 @@ const Submitted = ({ role, date, url, numeroDossier, projectId }: SubmittedProps
               Télécharger la demande complète de raccordement
             </a>
           ) : (
-            <span>Attestation indisponible actuellement</span>
+            <span>Pièce-jointe introuvable</span>
           )}
           <span>&nbsp;(dossier {numeroDossier})</span>
         </div>
