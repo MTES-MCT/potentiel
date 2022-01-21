@@ -2,7 +2,6 @@ import { Project } from '@entities'
 import ROUTES from '../../../../routes'
 import { isCertificateDTO, is, ProjectCertificateDTO, ProjectEventDTO } from '@modules/frise'
 import { UserRole } from '@modules/users'
-import { or } from '../../../../core/utils/typeguards'
 
 export type DesignationItemProps = {
   type: 'designation'
@@ -70,5 +69,3 @@ const makeCertificateLink = (
     potentielIdentifier,
   })
 }
-
-const isNotificationEvent = or(is('ProjectNotified'), is('ProjectNotificationDateSet'))
