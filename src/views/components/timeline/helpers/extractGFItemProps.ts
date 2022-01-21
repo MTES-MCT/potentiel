@@ -3,26 +3,21 @@ import { or } from '@core/utils'
 import { UserRole } from '@modules/users'
 import { makeDocumentUrl } from './makeDocumentUrl'
 
-export type GarantieFinanciereItemProps = {
-  type: 'garantiesFinancieres'
+export type GFItemProps = {
+  type: 'garanties-financieres'
   role: UserRole
   date: number
-  validationStatus: 'validée' | 'à traiter' | 'non-applicable'
 } & (
   | {
       status: 'due' | 'past-due'
-      url: undefined
     }
   | {
-      status: 'submitted'
+      status: 'pending-validation' | 'validated'
       url: string | undefined
     }
 )
 
-export const extractGFItemProps = (
-  events: ProjectEventDTO[],
-  now: number
-): GarantieFinanciereItemProps | null => {
+export const extractGFItemProps = (events: ProjectEventDTO[], now: number): GFItemProps | null => {
   const latestProjectGF = events.filter(isProjectGF).pop()
   const latestDueDateSetEvent = events.filter(is('ProjectGFDueDateSet')).pop()
   const latestSubmittedEvent = events.filter(is('ProjectGFSubmitted')).pop()
@@ -43,7 +38,7 @@ export const extractGFItemProps = (
   const { date, variant: role, type } = eventToHandle
 
   const props = {
-    type: 'garantiesFinancieres' as 'garantiesFinancieres',
+    type: 'garanties-financieres' as 'garanties-financieres',
     date,
     role,
   }
@@ -53,14 +48,11 @@ export const extractGFItemProps = (
         ...props,
         url:
           eventToHandle.filename && makeDocumentUrl(eventToHandle.fileId, eventToHandle.filename),
-        status: 'submitted',
-        validationStatus: latestProjectGF.type === 'ProjectGFValidated' ? 'validée' : 'à traiter',
+        status: latestProjectGF.type === 'ProjectGFValidated' ? 'validated' : 'pending-validation',
       }
     : {
         ...props,
         status: date < now ? 'past-due' : 'due',
-        url: undefined,
-        validationStatus: 'non-applicable',
       }
 }
 

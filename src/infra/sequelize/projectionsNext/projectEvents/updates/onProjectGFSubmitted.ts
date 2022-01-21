@@ -15,7 +15,9 @@ export default ProjectEvent.projector.on(
 
     if (!rawFilename) {
       logger.error(
-        `Error: onProjectGFSubmitted projection failed to retrieve filename from db File`
+        new Error(
+          `Impossible de trouver le fichier (id = ${fileId}) d'attestation GF pour le project ${projectId})`
+        )
       )
     }
 

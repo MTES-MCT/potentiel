@@ -1,14 +1,7 @@
 import React from 'react'
 import { Project } from '@entities'
 import { ProjectEventListDTO } from '@modules/frise'
-import {
-  TimelineItem,
-  DesignationItem,
-  GarantieFinanciereItem,
-  ImportItem,
-  PTFItem,
-  DCRItem,
-} from './components'
+import { TimelineItem, DesignationItem, GFItem, ImportItem, PTFItem, DCRItem } from './components'
 import {
   extractDCRItemProps,
   extractDesignationItemProps,
@@ -58,8 +51,8 @@ export const Timeline = (props: TimelineProps) => {
               case 'import':
                 return <ImportItem {...props} />
 
-              case 'garantiesFinancieres':
-                return <GarantieFinanciereItem {...{ ...props, projectId }} />
+              case 'garanties-financieres':
+                return <GFItem {...{ ...props, projectId }} />
 
               case 'demande-complete-de-raccordement':
                 return <DCRItem {...{ ...props, projectId }} />
