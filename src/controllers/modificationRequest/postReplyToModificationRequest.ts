@@ -133,14 +133,19 @@ v1Router.post(
           type,
           newNotificationDate,
         }
+        break
       case 'delai':
         acceptanceParams = { type, delayInMonths }
+        break
       case 'puissance':
         acceptanceParams = { type, newPuissance: puissance, isDecisionJustice }
+        break
       case 'actionnaire':
         acceptanceParams = { type, newActionnaire: actionnaire }
+        break
       case 'producteur':
         acceptanceParams = { type, newProducteur: producteur }
+        break
     }
 
     if (type !== 'abandon' && !acceptanceParams) {
