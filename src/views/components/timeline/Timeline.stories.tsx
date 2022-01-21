@@ -1,20 +1,21 @@
 import React from 'react'
 import {
-  ProjectImportedDTO,
-  ProjectNotifiedDTO,
-  ProjectCertificateGeneratedDTO,
-  ProjectClaimedDTO,
-  ProjectGFSubmittedDTO,
-  ProjectGFDueDateSetDTO,
-  ProjectDCRDueDateSetDTO,
-  ProjectDCRSubmittedDTO,
-  ProjectDCRRemovedDTO,
-  ProjectPTFSubmittedDTO,
-  ProjectGFValidatedDTO,
-  ProjectGFInvalidatedDTO,
+  value ProjectImportedDTO,
+  value ProjectNotifiedDTO,
+  value ProjectCertificateGeneratedDTO,
+  value ProjectClaimedDTO,
+  value ProjectGFSubmittedDTO,
+  value ProjectGFDueDateSetDTO,
+  value ProjectDCRDueDateSetDTO,
+  value ProjectDCRSubmittedDTO,
+  value ProjectDCRRemovedDTO,
+  value ProjectPTFSubmittedDTO,
+  value ProjectGFValidatedDTO,
+  value ProjectGFInvalidatedDTO,
+  value ProjectNotificationDateSetDTO,
 } from '@modules/frise'
 import makeFakeProject from '../../../__tests__/fixtures/project'
-import { Timeline } from './Timeline'
+import { value Timeline } from './Timeline'
 
 export default { title: 'Nouvelle frise' }
 
@@ -277,6 +278,8 @@ export const PPDCRSupprimée = () => (
           date: new Date('2022-01-17').getTime(),
           fileId: 'file-id',
           filename: 'file-name',
+          submittedBy: 'someone',
+          numeroDossier: 'DOSSIER-1',
         } as ProjectDCRSubmittedDTO,
         {
           type: 'ProjectDCRRemoved',
@@ -310,6 +313,7 @@ export const PPDCRConstituée = () => (
           date: new Date('2022-01-17').getTime(),
           fileId: 'file-id',
           filename: 'file-name',
+          submittedBy: 'someone',
           numeroDossier: 'DOSSIER-1',
         } as ProjectDCRSubmittedDTO,
         {
