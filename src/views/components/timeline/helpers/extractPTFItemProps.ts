@@ -33,13 +33,13 @@ export const extractPTFItemProps = (events: ProjectEventDTO[]): PTFItemProps | n
     }
   }
 
-  const { variant: role, date, fileId, filename } = latestProjectPTF
+  const { variant: role, date, file } = latestProjectPTF
 
   return {
     type: 'proposition-technique-et-financiere',
     role,
     date,
-    url: filename && makeDocumentUrl(fileId, filename),
+    url: file && makeDocumentUrl(file.id, file.name),
     status: 'submitted',
   }
 }

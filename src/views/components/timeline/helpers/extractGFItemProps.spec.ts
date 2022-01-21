@@ -70,7 +70,7 @@ describe('extractGFitemProps', () => {
           type: 'ProjectGFSubmitted',
           variant: 'porteur-projet',
           date: submittedDate,
-          filename: 'file-name',
+          file: { id: 'file-id', name: 'file-name' },
         } as ProjectGFSubmittedDTO,
       ]
       const result = extractGFItemProps(events, new Date('2022-01-10').getTime())
@@ -78,11 +78,11 @@ describe('extractGFitemProps', () => {
         date: submittedDate,
         type: 'garanties-financieres',
         status: 'pending-validation',
-        url: expect.anything(),
+        url: '/telechargement/file-id/fichier/file-name',
         role: 'porteur-projet',
       })
     })
-    describe('when there is no filename', () => {
+    describe('when there is no file', () => {
       it('should return undefined for the url prop', () => {
         const submittedDate = new Date('2022-01-01').getTime()
         const events = [
@@ -114,7 +114,7 @@ describe('extractGFitemProps', () => {
         {
           type: 'ProjectGFSubmitted',
           variant: 'porteur-projet',
-          filename: 'file-name',
+          file: { id: 'file-id', name: 'file-name' },
           date: new Date('2022-01-01').getTime(),
         } as ProjectGFSubmittedDTO,
         {
@@ -176,6 +176,7 @@ describe('extractGFitemProps', () => {
         {
           type: 'ProjectGFSubmitted',
           variant: 'porteur-projet',
+          file: { id: 'file-id', name: 'file-name' },
           date: new Date('2021-12-01').getTime(),
         } as ProjectGFSubmittedDTO,
         {
@@ -186,7 +187,7 @@ describe('extractGFitemProps', () => {
         {
           type: 'ProjectGFSubmitted',
           variant: 'porteur-projet',
-          filename: 'file-name',
+          file: { id: 'file-id', name: 'file-name' },
           date: new Date('2022-01-01').getTime(),
         } as ProjectGFSubmittedDTO,
       ]
@@ -196,7 +197,7 @@ describe('extractGFitemProps', () => {
         type: 'garanties-financieres',
         status: 'pending-validation',
         role: 'porteur-projet',
-        url: expect.anything(),
+        url: '/telechargement/file-id/fichier/file-name',
       })
     })
   })
@@ -208,12 +209,13 @@ describe('extractGFitemProps', () => {
           type: 'ProjectGFSubmitted',
           variant: 'porteur-projet',
           date: new Date('2021-12-10').getTime(),
+          file: { id: 'file-id', name: 'file-name' },
         } as ProjectGFSubmittedDTO,
         {
           type: 'ProjectGFSubmitted',
           variant: 'porteur-projet',
           date: new Date('2021-12-01').getTime(),
-          filename: 'file-name',
+          file: { id: 'file-id', name: 'file-name' },
         } as ProjectGFSubmittedDTO,
         {
           type: 'ProjectGFValidated',
@@ -230,7 +232,7 @@ describe('extractGFitemProps', () => {
         type: 'garanties-financieres',
         status: 'validated',
         role: 'porteur-projet',
-        url: expect.anything(),
+        url: '/telechargement/file-id/fichier/file-name',
       })
     })
   })
@@ -240,13 +242,13 @@ describe('extractGFitemProps', () => {
         {
           type: 'ProjectGFSubmitted',
           variant: 'porteur-projet',
-          filename: 'file-name',
+          file: { id: 'file-id', name: 'file-name' },
           date: new Date('2021-12-10').getTime(),
         } as ProjectGFSubmittedDTO,
         {
           type: 'ProjectGFSubmitted',
           variant: 'porteur-projet',
-          filename: 'file-name',
+          file: { id: 'file-id', name: 'file-name' },
           date: new Date('2021-12-01').getTime(),
         } as ProjectGFSubmittedDTO,
         {

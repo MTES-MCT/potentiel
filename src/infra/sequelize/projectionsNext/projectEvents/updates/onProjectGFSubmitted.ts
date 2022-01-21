@@ -22,6 +22,7 @@ export default ProjectEvent.projector.on(
     }
 
     const filename: string | undefined = rawFilename?.filename
+    const file = filename && { id: fileId, name: filename }
 
     await ProjectEvent.create(
       {
@@ -30,7 +31,7 @@ export default ProjectEvent.projector.on(
         valueDate: gfDate.getTime(),
         eventPublishedAt: occurredAt.getTime(),
         id: new UniqueEntityID().toString(),
-        payload: { fileId, filename },
+        payload: { file },
       },
       { transaction }
     )

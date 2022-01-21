@@ -85,8 +85,7 @@ describe('getProjectEvents for GF events', () => {
           valueDate: gfDate,
           eventPublishedAt: new Date('2021-12-27').getTime(),
           payload: {
-            fileId: fileId,
-            filename: 'my-file',
+            file: { id: fileId, name: 'my-file' },
           },
         })
 
@@ -123,8 +122,7 @@ describe('getProjectEvents for GF events', () => {
               type: 'ProjectGFSubmitted',
               date: gfDate,
               variant: role,
-              fileId: fileId,
-              filename: 'my-file',
+              file: { id: fileId, name: 'my-file' },
             },
             {
               type: 'ProjectGFRemoved',

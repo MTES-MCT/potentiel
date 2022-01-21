@@ -97,6 +97,7 @@ describe('extractDCRitemProps', () => {
           variant: 'porteur-projet',
           date: submittedDate,
           numeroDossier: 'DOSSIER-1',
+          file: { id: 'file-id', name: 'file-name' },
         } as ProjectDCRSubmittedDTO,
       ]
       const result = extractDCRItemProps(events, new Date('2022-01-10').getTime())
@@ -140,8 +141,7 @@ describe('extractDCRitemProps', () => {
           type: 'ProjectDCRSubmitted',
           variant: 'porteur-projet',
           date: new Date('2022-01-07').getTime(),
-          fileId: 'old-fileId',
-          filename: 'old-filename',
+          file: { id: 'old-fileId', name: 'old-filename' },
         } as ProjectDCRSubmittedDTO,
         {
           type: 'ProjectDCRRemoved',
@@ -152,8 +152,7 @@ describe('extractDCRitemProps', () => {
           type: 'ProjectDCRSubmitted',
           variant: 'porteur-projet',
           date: new Date('2022-01-09').getTime(),
-          fileId: 'fileId',
-          filename: 'filename',
+          file: { id: 'fileId', name: 'filename' },
         } as ProjectDCRSubmittedDTO,
       ]
       const result = extractDCRItemProps(events, new Date('2022-01-01').getTime())

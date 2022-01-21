@@ -13,7 +13,7 @@ export type DCRItemProps = {
     }
   | {
       status: 'submitted'
-      url: string
+      url: string | undefined
       numeroDossier: string
     }
 )
@@ -49,10 +49,12 @@ export const extractDCRItemProps = (
   return type === 'ProjectDCRSubmitted'
     ? {
         ...props,
-        url: makeDocumentUrl(
-          projectDCRDueDateSetOrSubmitted.fileId,
-          projectDCRDueDateSetOrSubmitted.filename
-        ),
+        url:
+          projectDCRDueDateSetOrSubmitted.file &&
+          makeDocumentUrl(
+            projectDCRDueDateSetOrSubmitted.file.id,
+            projectDCRDueDateSetOrSubmitted.file.name
+          ),
         status: 'submitted',
         numeroDossier: projectDCRDueDateSetOrSubmitted.numeroDossier,
       }

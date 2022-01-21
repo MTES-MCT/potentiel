@@ -20,7 +20,7 @@ describe('onProjectPTFSubmitted', () => {
   })
 
   describe(`when the file does not exists`, () => {
-    it('should create a new project event of type ProjectPTFSubmitted', async () => {
+    it('should still create a new project event of type ProjectPTFSubmitted', async () => {
       await onProjectPTFSubmitted(
         new ProjectPTFSubmitted({
           payload: {
@@ -44,12 +44,11 @@ describe('onProjectPTFSubmitted', () => {
         type: 'ProjectPTFSubmitted',
         valueDate: ptfDate.getTime(),
         eventPublishedAt: occurredAt.getTime(),
-        payload: { fileId },
       })
     })
   })
 
-  describe(`when the file does not exists`, () => {
+  describe(`when the file does exists`, () => {
     it('should create a new project event of type ProjectPTFSubmitted', async () => {
       await File.create({
         id: fileId,
@@ -80,7 +79,7 @@ describe('onProjectPTFSubmitted', () => {
         type: 'ProjectPTFSubmitted',
         valueDate: ptfDate.getTime(),
         eventPublishedAt: occurredAt.getTime(),
-        payload: { fileId, filename },
+        payload: { file: { id: fileId, name: filename } },
       })
     })
   })

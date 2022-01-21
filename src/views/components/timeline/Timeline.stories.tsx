@@ -11,6 +11,7 @@ import {
   ProjectDCRRemovedDTO,
   ProjectPTFSubmittedDTO,
   ProjectGFValidatedDTO,
+  ProjectGFInvalidatedDTO,
 } from '@modules/frise'
 import makeFakeProject from '../../../__tests__/fixtures/project'
 import { Timeline } from './Timeline'
@@ -204,10 +205,10 @@ export const garantiesFinancieresConstituees = () => (
           filename: 'file-name',
         } as ProjectGFSubmittedDTO,
         {
-          type: 'ProjectGFValidated',
+          type: 'ProjectGFInvalidated',
           variant: 'admin',
           date: new Date('2022-01-18').getTime(),
-        } as ProjectGFValidatedDTO,
+        } as ProjectGFInvalidatedDTO,
       ],
     }}
     projectId={project.id}
@@ -239,21 +240,16 @@ export const GFConstitueesFichierManquant = () => (
           potentielIdentifier: 'pot-id',
         } as ProjectCertificateGeneratedDTO,
         {
-          type: 'ProjectClaimed',
-          variant: 'admin',
-          date: new Date('2022-01-14').getTime(),
-          potentielIdentifier: 'pot-id',
-          certificateFileId: 'file-id',
-          nomProjet: 'nom-projet',
-          email: 'email',
-          claimedBy: 'someone',
-        } as ProjectClaimedDTO,
-        {
           type: 'ProjectGFSubmitted',
           variant: 'admin',
           date: new Date('2022-01-17').getTime(),
           fileId: 'file-id',
         } as ProjectGFSubmittedDTO,
+        {
+          type: 'ProjectGFInvalidated',
+          variant: 'admin',
+          date: new Date('2022-01-18').getTime(),
+        } as ProjectGFInvalidatedDTO,
       ],
     }}
     projectId={project.id}
@@ -281,7 +277,6 @@ export const PPDCRSupprimée = () => (
           date: new Date('2022-01-17').getTime(),
           fileId: 'file-id',
           filename: 'file-name',
-          submittedBy: 'someone',
         } as ProjectDCRSubmittedDTO,
         {
           type: 'ProjectDCRRemoved',
@@ -315,7 +310,7 @@ export const PPDCRConstituée = () => (
           date: new Date('2022-01-17').getTime(),
           fileId: 'file-id',
           filename: 'file-name',
-          submittedBy: 'someone',
+          numeroDossier: 'DOSSIER-1',
         } as ProjectDCRSubmittedDTO,
         {
           type: 'ProjectPTFSubmitted',
@@ -323,7 +318,6 @@ export const PPDCRConstituée = () => (
           date: new Date('2022-01-16').getTime(),
           fileId: 'file-id',
           // filename: 'file-name',
-          submittedBy: 'someone',
         } as ProjectPTFSubmittedDTO,
       ],
     }}

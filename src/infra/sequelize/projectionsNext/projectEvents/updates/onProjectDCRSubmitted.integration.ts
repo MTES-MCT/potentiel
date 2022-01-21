@@ -51,12 +51,12 @@ describe('onProjectDCRSubmitted', () => {
         type: 'ProjectDCRSubmitted',
         valueDate: dcrDate.getTime(),
         eventPublishedAt: occurredAt.getTime(),
-        payload: { fileId, filename, numeroDossier },
+        payload: { file: { id: fileId, name: filename }, numeroDossier },
       })
     })
 
     describe('when there is no corresponding file in File projection', () => {
-      it('should not add a new event in ProjectEvent', async () => {
+      it('should still add a new event in ProjectEvent without file data', async () => {
         await onProjectDCRSubmitted(
           new ProjectDCRSubmitted({
             payload: {
@@ -64,6 +64,7 @@ describe('onProjectDCRSubmitted', () => {
               fileId,
               submittedBy,
               dcrDate,
+              numeroDossier,
             } as ProjectDCRSubmittedPayload,
             original: {
               version: 1,
@@ -74,7 +75,14 @@ describe('onProjectDCRSubmitted', () => {
 
         const projectEvent = await ProjectEvent.findOne({ where: { projectId } })
 
-        expect(projectEvent).toBeNull()
+        expect(projectEvent).not.toBeNull()
+        expect(projectEvent).toMatchObject({
+          projectId,
+          type: 'ProjectDCRSubmitted',
+          valueDate: dcrDate.getTime(),
+          eventPublishedAt: occurredAt.getTime(),
+          payload: { numeroDossier },
+        })
       })
     })
   })
