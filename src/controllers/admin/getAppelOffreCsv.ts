@@ -1,4 +1,4 @@
-import asyncHandler from 'express-async-handler'
+import asyncHandler from '../helpers/asyncHandler'
 import { parseAsync } from 'json2csv'
 import { getAppelOffreList } from '@config/queries.config'
 import { logger } from '@core/utils'

@@ -1,4 +1,4 @@
-import KeycloakAdmin from 'keycloak-admin'
+import KeycloakAdmin from '@keycloak/keycloak-admin-client'
 
 let keycloakAdmin: KeycloakAdmin | undefined = undefined
 

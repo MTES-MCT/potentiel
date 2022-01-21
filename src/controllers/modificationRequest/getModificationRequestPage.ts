@@ -1,14 +1,12 @@
-import asyncHandler from 'express-async-handler'
-import { getModificationRequestDetails } from '@config'
+import { ensureRole, getModificationRequestDetails } from '@config'
 import { logger } from '@core/utils'
-import { addQueryParams } from '../../helpers/addQueryParams'
-import routes from '../../routes'
-import { ModificationRequestDetailsPage } from '@views/legacy-pages'
-import { ensureRole } from '@config'
-import { v1Router } from '../v1Router'
-import { errorResponse, notFoundResponse } from '../helpers'
 import { EntityNotFoundError } from '@modules/shared'
+import { ModificationRequestDetailsPage } from '@views/legacy-pages'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
+import routes from '../../routes'
+import { errorResponse, notFoundResponse } from '../helpers'
+import asyncHandler from '../helpers/asyncHandler'
+import { v1Router } from '../v1Router'
 
 v1Router.get(
   routes.DEMANDE_PAGE_DETAILS(),

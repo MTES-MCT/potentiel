@@ -1,5 +1,5 @@
-import asyncHandler from 'express-async-handler'
 import { ensureRole } from '@config'
+import asyncHandler from '../helpers/asyncHandler'
 import {
   getCahiersChargesURLs,
   getProjectDataForProjectPage,

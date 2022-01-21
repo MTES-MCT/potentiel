@@ -1,4 +1,4 @@
-import asyncHandler from 'express-async-handler'
+import asyncHandler from './helpers/asyncHandler'
 import jwt from 'jsonwebtoken'
 import { logger } from '@core/utils'
 import routes from '../routes'

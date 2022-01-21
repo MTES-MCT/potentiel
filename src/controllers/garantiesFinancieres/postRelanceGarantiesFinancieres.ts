@@ -1,7 +1,7 @@
 import { logger } from '@core/utils'
 import { relanceGarantiesFinancieres } from '@useCases'
 import { v1Router } from '../v1Router'
-import asyncHandler from 'express-async-handler'
+import asyncHandler from '../helpers/asyncHandler'
 
 v1Router.post(
   '/cron/relanceGarantiesFinancieres',

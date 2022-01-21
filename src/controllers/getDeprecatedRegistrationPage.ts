@@ -1,4 +1,4 @@
-import asyncHandler from 'express-async-handler'
+import asyncHandler from './helpers/asyncHandler'
 import routes from '../routes'
 import { InvitationsAreDeprecatedPage } from '@views/legacy-pages'
 import { v1Router } from './v1Router'

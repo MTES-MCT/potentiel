@@ -1,6 +1,6 @@
-import asyncHandler from 'express-async-handler'
 import { ensureRole, eventStore, loadFileForUser } from '@config'
 import { UniqueEntityID } from '@core/domain'
+import asyncHandler from '../helpers/asyncHandler'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import { FileAccessDeniedError, FileNotFoundError } from '@modules/file'
 import { ProjectCertificateDownloaded } from '@modules/project'

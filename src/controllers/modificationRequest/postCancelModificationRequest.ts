@@ -1,6 +1,6 @@
-import asyncHandler from 'express-async-handler'
 import { cancelModificationRequest, ensureRole } from '@config'
 import { logger } from '@core/utils'
+import asyncHandler from '../helpers/asyncHandler'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import { EntityNotFoundError, UnauthorizedError } from '@modules/shared'
 import routes from '../../routes'

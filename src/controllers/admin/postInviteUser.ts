@@ -1,6 +1,6 @@
-import asyncHandler from 'express-async-handler'
 import { createUser, eventStore } from '@config'
 import { REGIONS } from '@entities'
+import asyncHandler from '../helpers/asyncHandler'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { DrealUserInvited, PartnerUserInvited } from '@modules/authZ'
 import routes from '../../routes'
