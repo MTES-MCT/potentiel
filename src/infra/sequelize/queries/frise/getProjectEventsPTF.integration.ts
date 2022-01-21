@@ -19,7 +19,7 @@ describe('getProjectEvents for PTF events', () => {
     await Project.create(fakeProject)
   })
 
-  describe(`when there is some ProjectPTFSubmitted events`, () => {
+  describe(`when there are some ProjectPTFSubmitted events`, () => {
     describe(`when the user is NOT ademe or acheteur-obligé`, () => {
       for (const role of USER_ROLES.filter(
         (role) =>
@@ -36,8 +36,7 @@ describe('getProjectEvents for PTF events', () => {
               valueDate: dcrDate,
               eventPublishedAt: eventTimestamp,
               payload: {
-                fileId: 'file-id',
-                filename: 'my-file-name',
+                file: { id: 'file-id', name: 'my-file-name' },
               },
             })
             const res = await getProjectEvents({ projectId, user: fakeUser })
@@ -47,8 +46,7 @@ describe('getProjectEvents for PTF events', () => {
                   type: 'ProjectPTFSubmitted',
                   date: dcrDate,
                   variant: role,
-                  fileId: 'file-id',
-                  filename: 'my-file-name',
+                  file: { id: 'file-id', name: 'my-file-name' },
                 },
               ],
             })
@@ -58,7 +56,7 @@ describe('getProjectEvents for PTF events', () => {
     })
   })
 
-  describe(`when there is some ProjectPTFRemoved events`, () => {
+  describe(`when there are some ProjectPTFRemoved events`, () => {
     describe(`when the user is NOT ademe or acheteur-obligé`, () => {
       for (const role of USER_ROLES.filter(
         (role) =>

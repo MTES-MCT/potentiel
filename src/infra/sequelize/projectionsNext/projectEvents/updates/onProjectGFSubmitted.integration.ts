@@ -48,11 +48,11 @@ describe('onProjectGFSubmitted', () => {
         type: 'ProjectGFSubmitted',
         valueDate: gfDate.getTime(),
         eventPublishedAt: occurredAt.getTime(),
-        payload: { fileId, filename },
+        payload: { file: { id: fileId, name: filename } },
       })
     })
   })
-  describe('when there is a corresponding file is the File projection', () => {
+  describe('when there is no corresponding file is the File projection', () => {
     it('should still add a new event in ProjectEvent', async () => {
       await onProjectGFSubmitted(
         new ProjectGFSubmitted({
@@ -76,7 +76,6 @@ describe('onProjectGFSubmitted', () => {
         type: 'ProjectGFSubmitted',
         valueDate: gfDate.getTime(),
         eventPublishedAt: occurredAt.getTime(),
-        payload: { fileId },
       })
     })
   })

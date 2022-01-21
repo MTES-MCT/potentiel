@@ -20,12 +20,12 @@ describe('getProjectEvents for DCR events', () => {
     await Project.create(fakeProject)
   })
 
-  describe(`when there is some ProjectDCRDueDateSet events`, () => {
+  describe(`when there are some ProjectDCRDueDateSet events`, () => {
     describe(`when the user is NOT ademe`, () => {
       for (const role of USER_ROLES.filter((role) => role !== 'ademe')) {
         describe(`when the user is ${role}`, () => {
           const fakeUser = { role } as User
-          it('should return the ProjectDCRDueDateSet event', async () => {
+          it('should return the ProjectDCRDueDateSet events', async () => {
             await ProjectEvent.create({
               id: new UniqueEntityID().toString(),
               projectId,
@@ -70,7 +70,7 @@ describe('getProjectEvents for DCR events', () => {
     })
   })
 
-  describe(`when there is some ProjectDCRSubmitted events`, () => {
+  describe(`when there are some ProjectDCRSubmitted events`, () => {
     describe(`when the user is NOT ademe or acheteur-obligé`, () => {
       for (const role of USER_ROLES.filter(
         (role) =>
@@ -87,8 +87,8 @@ describe('getProjectEvents for DCR events', () => {
               valueDate: dcrDate,
               eventPublishedAt: eventTimestamp,
               payload: {
-                fileId: 'file-id',
-                filename: 'my-file-name',
+                file: { id: 'file-id', name: 'my-file-name' },
+                numeroDossier: 'DOSSIER-1',
               },
             })
             const res = await getProjectEvents({ projectId, user: fakeUser })
@@ -98,10 +98,36 @@ describe('getProjectEvents for DCR events', () => {
                   type: 'ProjectDCRSubmitted',
                   date: dcrDate,
                   variant: role,
-                  fileId: 'file-id',
-                  filename: 'my-file-name',
+                  file: { id: 'file-id', name: 'my-file-name' },
+                  numeroDossier: 'DOSSIER-1',
                 },
               ],
+            })
+          })
+          describe('when the payload has no file', () => {
+            it('should return a new ProjectDCRSubmitted event without file property', async () => {
+              const dcrDate = new Date('2021-12-26').getTime()
+              await ProjectEvent.create({
+                id: new UniqueEntityID().toString(),
+                projectId,
+                type: 'ProjectDCRSubmitted',
+                valueDate: dcrDate,
+                eventPublishedAt: eventTimestamp,
+                payload: {
+                  numeroDossier: 'DOSSIER-1',
+                },
+              })
+              const res = await getProjectEvents({ projectId, user: fakeUser })
+              expect(res._unsafeUnwrap()).toMatchObject({
+                events: [
+                  {
+                    type: 'ProjectDCRSubmitted',
+                    date: dcrDate,
+                    variant: role,
+                    numeroDossier: 'DOSSIER-1',
+                  },
+                ],
+              })
             })
           })
         })
@@ -109,7 +135,7 @@ describe('getProjectEvents for DCR events', () => {
     })
   })
 
-  describe(`when there is some ProjectDCRRemoved events`, () => {
+  describe(`when there are some ProjectDCRRemoved events`, () => {
     describe(`when the user is NOT ademe or acheteur-obligé`, () => {
       for (const role of USER_ROLES.filter(
         (role) =>
