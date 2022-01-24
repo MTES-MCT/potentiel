@@ -34,7 +34,7 @@ const Submitted = ({ role, date, url, numeroDossier, projectId }: SubmittedProps
         <div>
           {url ? (
             <a href={url} download>
-              Télécharger la demande complète de raccordement
+              Télécharger l'accusé de réception
             </a>
           ) : (
             <span>Pièce-jointe introuvable</span>
@@ -71,7 +71,7 @@ const NotSubmitted = ({ role, date, projectId, status }: NotSubmittedProps) => {
         </div>
         <ItemTitle title="Demande complète de raccordement" />
         <div>
-          <p className="mt-0 mb-0">Demande complète de raccordement en attente</p>
+          <p className="mt-0 mb-0">Accusé de réception de la demande en attente</p>
           {role === 'porteur-projet' && <UploadForm projectId={projectId} />}
         </div>
       </ContentArea>
@@ -85,7 +85,7 @@ const CancelDeposit = ({ projectId }: CancelDepositProps) => {
     <a
       href={ROUTES.SUPPRIMER_ETAPE_ACTION({ projectId, type: 'dcr' })}
       onClick={(event) =>
-        confirm(`Êtes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?`) ||
+        confirm(`Êtes-vous sur de vouloir annuler le dépôt et supprimer le document joint ?`) ||
         event.preventDefault()
       }
     >
@@ -105,7 +105,9 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
 
   return (
     <>
-      <a onClick={() => showForm(!isFormVisible)}>Transmettre l'attestation</a>
+      <a onClick={() => showForm(!isFormVisible)}>
+        Transmettre l'accusé de réception reçu suite au dépôt auprès du gestionnaire
+      </a>
       {isFormVisible && (
         <form
           action={ROUTES.DEPOSER_ETAPE_ACTION}
@@ -116,7 +118,7 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
           <input type="hidden" name="type" id="type" value="dcr" />
           <input type="hidden" name="projectId" value={projectId} />
           <div>
-            <label htmlFor="date">Date de la demande (format JJ/MM/AAAA)</label>
+            <label htmlFor="date">Date de l'accusé de réception (format JJ/MM/AAAA)</label>
             <DateInput onError={(isError) => setDisableSubmit(isError)} />
           </div>
           <div className="mt-2">
@@ -126,7 +128,7 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
             <input type="text" name="numeroDossier" id="numero-dossier" required />
           </div>
           <div className="mt-2">
-            <label htmlFor="file">Attestation</label>
+            <label htmlFor="file">Accusé de réception</label>
             <input type="file" name="file" id="file" required />
           </div>
           <button className="button" type="submit" name="submit" disabled={disableSubmit}>
