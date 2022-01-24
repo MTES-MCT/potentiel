@@ -9,7 +9,7 @@ export const DesignationItem = ({ certificate, role, date }: DesignationItemProp
     <ContentArea>
       <ItemDate date={date} />
       <ItemTitle title="Notification de résultat" />
-      <Certificate {...{ certificate, role }} />
+      {role !== 'dreal' && <Certificate {...{ certificate, role }} />}
     </ContentArea>
   </>
 )
