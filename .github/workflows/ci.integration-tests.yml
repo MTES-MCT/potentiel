@@ -3,6 +3,7 @@ name: Integration tests on PR
 on:
   pull_request:
     paths-ignore:
+      - 'src/**/*.spec.ts'
       - 'README.md'
       - '.github/**'
       - '.storybook/**'

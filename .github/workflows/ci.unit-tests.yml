@@ -3,6 +3,7 @@ name: Unit tests on PR
 on:
   pull_request:
     paths-ignore:
+      - 'src/**/*.integration.ts'
       - 'README.md'
       - '.github/**'
       - '.storybook/**'
