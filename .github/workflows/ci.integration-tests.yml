@@ -21,6 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NODE_ENV: test
+      POTENTIEL_IDENTIFIER_SECRET: test
 
     steps:
       - uses: actions/checkout@v2
