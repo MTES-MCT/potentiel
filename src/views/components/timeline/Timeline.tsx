@@ -1,8 +1,17 @@
 import React from 'react'
 import { Project } from '@entities'
 import { ProjectEventListDTO } from '@modules/frise'
-import { TimelineItem, DesignationItem, GFItem, ImportItem, PTFItem, DCRItem } from './components'
 import {
+  TimelineItem,
+  DesignationItem,
+  GFItem,
+  ImportItem,
+  PTFItem,
+  DCRItem,
+  ACItem,
+} from './components'
+import {
+  extractACItemProps,
   extractDCRItemProps,
   extractDesignationItemProps,
   extractGFItemProps,
@@ -31,6 +40,7 @@ export const Timeline = (props: TimelineProps) => {
     extractGFItemProps(events, now),
     extractDCRItemProps(events, now),
     extractPTFItemProps(events),
+    extractACItemProps(events),
   ]
     .filter(isNotNull)
     .sort(sortItemProps)
@@ -59,6 +69,9 @@ export const Timeline = (props: TimelineProps) => {
 
               case 'proposition-technique-et-financiere':
                 return <PTFItem {...{ ...props, projectId }} />
+
+              case 'attestation-de-conformite':
+                return <ACItem {...props} />
             }
           })
           .map((component, groupIndex) => (
