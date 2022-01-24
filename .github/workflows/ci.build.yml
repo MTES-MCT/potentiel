@@ -31,8 +31,6 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - name: 'Build the front, css, and back'
-        run: npm run build:front
-        run: npm run build:css
-        run: npm run build
+        run: npm run build:front && npm run build:css && npm run build
         env:
           NODE_ENV: production
