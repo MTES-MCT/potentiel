@@ -10,7 +10,6 @@ import {
   ProjectDCRSubmittedDTO,
   ProjectDCRRemovedDTO,
   ProjectPTFSubmittedDTO,
-  ProjectGFValidatedDTO,
   ProjectGFInvalidatedDTO,
   ProjectNotificationDateSetDTO,
 } from '@modules/frise'
@@ -19,7 +18,7 @@ import { Timeline } from './Timeline'
 
 export default { title: 'Nouvelle frise' }
 
-const project = { ...makeFakeProject() }
+const project = { ...makeFakeProject({ classe: 'Classé' }) }
 
 export const adminGarantiesFinancieresDues = () => (
   <Timeline
@@ -56,7 +55,7 @@ export const adminGarantiesFinancieresDues = () => (
         } as ProjectDCRDueDateSetDTO,
       ],
     }}
-    projectId={project.id}
+    project={project}
     now={new Date().getTime()}
   />
 )
@@ -91,7 +90,7 @@ export const PPGarantiesFinancieresDues = () => (
         } as ProjectDCRDueDateSetDTO,
       ],
     }}
-    projectId={project.id}
+    project={project}
     now={new Date().getTime()}
   />
 )
@@ -126,7 +125,7 @@ export const PPGarantiesFinancieresEnRetard = () => (
         } as ProjectDCRDueDateSetDTO,
       ],
     }}
-    projectId={project.id}
+    project={project}
     now={new Date('2022-01-12').getTime()}
   />
 )
@@ -161,7 +160,7 @@ export const PPGarantiesFinancieresEtDCREnRetard = () => (
         } as ProjectDCRDueDateSetDTO,
       ],
     }}
-    projectId={project.id}
+    project={project}
     now={new Date('2022-02-12').getTime()}
   />
 )
@@ -212,7 +211,7 @@ export const garantiesFinancieresConstituees = () => (
         } as ProjectGFInvalidatedDTO,
       ],
     }}
-    projectId={project.id}
+    project={project}
     now={new Date().getTime()}
   />
 )
@@ -253,7 +252,7 @@ export const GFConstitueesFichierManquant = () => (
         } as ProjectGFInvalidatedDTO,
       ],
     }}
-    projectId={project.id}
+    project={project}
     now={new Date().getTime()}
   />
 )
@@ -276,10 +275,7 @@ export const PPDCRSupprimée = () => (
           type: 'ProjectDCRSubmitted',
           variant: 'porteur-projet',
           date: new Date('2022-01-17').getTime(),
-          fileId: 'file-id',
-          filename: 'file-name',
-          submittedBy: 'someone',
-          numeroDossier: 'DOSSIER-1',
+          file: { id: 'file-id', name: 'file-name' },
         } as ProjectDCRSubmittedDTO,
         {
           type: 'ProjectDCRRemoved',
@@ -289,7 +285,7 @@ export const PPDCRSupprimée = () => (
         } as ProjectDCRRemovedDTO,
       ],
     }}
-    projectId={project.id}
+    project={project}
     now={new Date('2022-01-03').getTime()}
   />
 )
@@ -325,7 +321,7 @@ export const PPDCRConstituée = () => (
         } as ProjectPTFSubmittedDTO,
       ],
     }}
-    projectId={project.id}
+    project={project}
     now={new Date('2022-01-03').getTime()}
   />
 )
@@ -342,7 +338,7 @@ export const projetHistorique = () => (
         } as ProjectNotifiedDTO,
       ],
     }}
-    projectId={project.id}
+    project={project}
     now={new Date().getTime()}
   />
 )
@@ -358,7 +354,7 @@ export const PPAttestationEnCoursDeGeneration = () => (
         } as ProjectNotifiedDTO,
       ],
     }}
-    projectId={project.id}
+    project={project}
     now={new Date().getTime()}
   />
 )
@@ -374,7 +370,23 @@ export const AdminAttestationEnCoursDeGeneration = () => (
         } as ProjectNotifiedDTO,
       ],
     }}
-    projectId={project.id}
+    project={project}
+    now={new Date().getTime()}
+  />
+)
+
+export const projetEliminé = () => (
+  <Timeline
+    projectEventList={{
+      events: [
+        {
+          type: 'ProjectImported',
+          variant: 'admin',
+          date: new Date('2022-01-11').getTime(),
+        } as ProjectImportedDTO,
+      ],
+    }}
+    project={{ ...project, classe: 'Eliminé' }}
     now={new Date().getTime()}
   />
 )

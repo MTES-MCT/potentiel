@@ -2,6 +2,7 @@ import { is, ProjectEventDTO } from '@modules/frise'
 import { or } from '@core/utils'
 import { UserRole } from '@modules/users'
 import { makeDocumentUrl } from './makeDocumentUrl'
+import { Project } from '@entities'
 
 export type PTFItemProps = {
   type: 'proposition-technique-et-financiere'
@@ -17,8 +18,11 @@ export type PTFItemProps = {
     }
 )
 
-export const extractPTFItemProps = (events: ProjectEventDTO[]): PTFItemProps | null => {
-  if (!events.length) {
+export const extractPTFItemProps = (
+  events: ProjectEventDTO[],
+  project: Project
+): PTFItemProps | null => {
+  if (!events.length || project.classe === 'Eliminé') {
     return null
   }
 

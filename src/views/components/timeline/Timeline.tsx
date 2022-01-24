@@ -21,7 +21,7 @@ import {
 
 export type TimelineProps = {
   projectEventList: ProjectEventListDTO
-  projectId: Project['id']
+  project: Project
   now: number
 }
 
@@ -30,7 +30,8 @@ function isNotNull<T>(arg: T): arg is Exclude<T, null> {
 }
 
 export const Timeline = (props: TimelineProps) => {
-  const { projectEventList, projectId, now } = props
+  const { projectEventList, project, now } = props
+  const { id: projectId } = project
 
   const { events } = projectEventList
 
@@ -39,8 +40,8 @@ export const Timeline = (props: TimelineProps) => {
     extractImportItemProps(events),
     extractGFItemProps(events, now),
     extractDCRItemProps(events, now),
-    extractPTFItemProps(events),
     extractACItemProps(events),
+    extractPTFItemProps(events, project),
   ]
     .filter(isNotNull)
     .sort(sortItemProps)
