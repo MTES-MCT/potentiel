@@ -3,9 +3,11 @@ name: Build on PR
 on:
   pull_request:
     paths-ignore:
+      - 'src/**/*.spec.ts'
+      - 'src/**/*.integration.ts'
+      - 'src/__tests_/**'
       - 'README.md'
       - '.github/**'
-      - '.storybook/**'
       - '.vscode/**'
       - 'legacy-features/**'
       - 'scripts/**'
@@ -15,15 +17,10 @@ on:
       - '.eslint**'
       - '.prettier**'
       - 'LICENSE'
-      - 'src/**/*.spec.ts'
-      - 'src/**/*.integration.ts'
-      - 'src/__tests_/**'
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    env:
-      NODE_ENV: production
 
     steps:
       - uses: actions/checkout@v2
@@ -33,6 +30,9 @@ jobs:
           node-version: 16.x
           cache: 'npm'
       - run: npm ci
-      - run: npm run build:front
-      - run: npm run build:css
-      - run: npm run build
+      - name: 'Build the front, css, and back'
+        run: npm run build:front
+        run: npm run build:css
+        run: npm run build
+        env:
+          NODE_ENV: production
