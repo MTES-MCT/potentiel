@@ -1,4 +1,4 @@
-name: Build storybook on PR
+name: Build Storybook on PR
 
 on:
   pull_request:
