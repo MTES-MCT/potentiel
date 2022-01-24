@@ -1,0 +1,35 @@
+name: Integration tests on PR
+
+on:
+  pull_request:
+    paths-ignore:
+      - 'README.md'
+      - '.github/**'
+      - '.storybook/**'
+      - '.vscode/**'
+      - 'legacy-features/**'
+      - 'scripts/**'
+      - 'devtools/**'
+      - 'docs/**'
+      - '.env.template'
+      - '.eslint**'
+      - '.prettier**'
+      - 'LICENSE'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      NODE_ENV: test
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run launch-test-db
+      - run: npm run migrate
+      - run: npm run test-int
