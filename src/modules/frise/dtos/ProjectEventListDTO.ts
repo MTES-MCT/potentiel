@@ -19,12 +19,14 @@ export type ProjectEventDTO =
   | ProjectPTFSubmittedDTO
   | ProjectPTFRemovedDTO
   | ProjectNotificationDateSetDTO
+  | ProjectCompletionDueDateSetDTO
 
 type NarrowDTOType<T, N> = T extends { type: N } ? T : never
 
-export const is = <T extends ProjectEventDTO, K extends T['type']>(type: K) => (
-  event: ProjectEventDTO
-): event is NarrowDTOType<T, K> => event.type === type
+export const is =
+  <T extends ProjectEventDTO, K extends T['type']>(type: K) =>
+  (event: ProjectEventDTO): event is NarrowDTOType<T, K> =>
+    event.type === type
 
 export type ProjectNotifiedDTO = {
   type: 'ProjectNotified'
@@ -149,6 +151,12 @@ export type ProjectPTFRemovedDTO = {
   date: number
   variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
   removedBy: string
+}
+
+export type ProjectCompletionDueDateSetDTO = {
+  type: 'ProjectCompletionDueDateSet'
+  date: number
+  variant: Exclude<UserRole, 'ademe'>
 }
 
 export type ProjectEventListDTO = { events: ProjectEventDTO[] }
