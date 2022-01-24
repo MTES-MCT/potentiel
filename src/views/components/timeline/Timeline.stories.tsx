@@ -1,21 +1,21 @@
 import React from 'react'
 import {
-  value ProjectImportedDTO,
-  value ProjectNotifiedDTO,
-  value ProjectCertificateGeneratedDTO,
-  value ProjectClaimedDTO,
-  value ProjectGFSubmittedDTO,
-  value ProjectGFDueDateSetDTO,
-  value ProjectDCRDueDateSetDTO,
-  value ProjectDCRSubmittedDTO,
-  value ProjectDCRRemovedDTO,
-  value ProjectPTFSubmittedDTO,
-  value ProjectGFValidatedDTO,
-  value ProjectGFInvalidatedDTO,
-  value ProjectNotificationDateSetDTO,
+  ProjectImportedDTO,
+  ProjectNotifiedDTO,
+  ProjectCertificateGeneratedDTO,
+  ProjectClaimedDTO,
+  ProjectGFSubmittedDTO,
+  ProjectGFDueDateSetDTO,
+  ProjectDCRDueDateSetDTO,
+  ProjectDCRSubmittedDTO,
+  ProjectDCRRemovedDTO,
+  ProjectPTFSubmittedDTO,
+  ProjectGFValidatedDTO,
+  ProjectGFInvalidatedDTO,
+  ProjectNotificationDateSetDTO,
 } from '@modules/frise'
 import makeFakeProject from '../../../__tests__/fixtures/project'
-import { value Timeline } from './Timeline'
+import { Timeline } from './Timeline'
 
 export default { title: 'Nouvelle frise' }
 
