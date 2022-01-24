@@ -41,15 +41,16 @@ export const ProjectDetails = PageLayout(
           <div style={{ padding: '1.5em', paddingTop: 0 }}>
             <SuccessErrorBox success={success} error={error} />
             <div style={{ position: 'relative' }}>
-              {projectEventList && (
+              {projectEventList ? (
                 <Timeline
                   {...{
                     projectEventList,
                     now,
                   }}
                 />
+              ) : (
+                <ProjectFrise {...{ project, request, user }} />
               )}
-              <ProjectFrise {...{ project, request, user }} />
             </div>
             <Section title="Projet" icon="building">
               <div>
