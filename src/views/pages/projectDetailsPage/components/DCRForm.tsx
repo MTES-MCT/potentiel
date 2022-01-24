@@ -13,12 +13,12 @@ export const DCRForm = ({ projectId }: DCRFormProps) => {
     <form action={ROUTES.DEPOSER_ETAPE_ACTION} method="post" encType="multipart/form-data">
       <input type="hidden" name="type" id="type" value="dcr" />
       <div className="form__group">
-        <label htmlFor="date">Date d‘attestation de DCR (format JJ/MM/AAAA)</label>
+        <label htmlFor="date">Date de l'accusé de réception (format JJ/MM/AAAA)</label>
         <DateInput onError={(isError) => disableSubmit(isError)} />
 
         <label htmlFor="numero-dossier">Identifiant gestionnaire de réseau (ex: GEFAR-P)</label>
         <input type="text" name="numeroDossier" {...dataId('numero-dossier-field')} required />
-        <label htmlFor="file">Attestation</label>
+        <label htmlFor="file">Accusé de réception</label>
         <input type="file" name="file" {...dataId('file-field')} id="file" required />
         <input type="hidden" name="projectId" value={projectId} />
         <button
