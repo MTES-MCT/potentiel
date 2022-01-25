@@ -45,7 +45,6 @@ export const ProjectDetails = PageLayout(
                 <Timeline
                   {...{
                     projectEventList,
-                    project,
                     now,
                   }}
                 />

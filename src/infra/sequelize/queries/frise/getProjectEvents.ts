@@ -12,9 +12,11 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
       getEvents(projectId).map((rawEvents) => ({ rawProject, rawEvents }))
     )
     .map(async ({ rawProject, rawEvents }) => {
-      const { email, nomProjet, potentielIdentifier } = rawProject.get()
+      const { email, nomProjet, potentielIdentifier, classe, abandonedOn } = rawProject.get()
+      const isLaureat = classe === 'Classé' && !abandonedOn
 
       return {
+        project: { id: projectId, isLaureat },
         events: await rawEvents
           .map((item) => item.get())
           .reduce<Promise<ProjectEventDTO[]>>(

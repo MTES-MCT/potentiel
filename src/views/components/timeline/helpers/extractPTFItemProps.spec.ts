@@ -3,33 +3,28 @@ import { ProjectDataForProjectPage } from '@modules/project'
 import { extractPTFItemProps } from './extractPTFItemProps'
 
 describe('extractPTFitemProps', () => {
-  describe(`when the project is eliminated and/or abandoned`, () => {
-    ;[
-      { testCase: 'eliminated', isClasse: false, isAbandoned: false },
-      { testCase: 'eliminated and abandoned', isClasse: false, isAbandoned: true },
-      { testCase: 'classe but abandoned', isClasse: true, isAbandoned: true },
-    ].forEach((project) => {
-      const { testCase } = project
+  describe(`when the project is not lauréat`, () => {
+    const project = {
+      isLaureat: false,
+    }
 
-      it(`when project is ${testCase} should return null`, () => {
-        const events = [
-          {
-            type: 'ProjectNotified',
-            variant: 'porteur-projet',
-            date: new Date('2022-01-09').getTime(),
-          } as ProjectNotifiedDTO,
-        ]
-        const result = extractPTFItemProps(events, project)
-        expect(result).toEqual(null)
-      })
+    it(`should return null`, () => {
+      const events = [
+        {
+          type: 'ProjectNotified',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-09').getTime(),
+        } as ProjectNotifiedDTO,
+      ]
+      const result = extractPTFItemProps(events, project)
+      expect(result).toEqual(null)
     })
   })
 
   describe(`when the project is classed`, () => {
-    const project: ProjectDataForProjectPage = {
-      isClasse: true,
-      isAbandoned: false,
-    } as ProjectDataForProjectPage
+    const project = {
+      isLaureat: true,
+    }
 
     describe('when there is no events', () => {
       it('should return null', () => {

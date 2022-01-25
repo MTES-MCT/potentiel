@@ -20,12 +20,10 @@ export type PTFItemProps = {
 export const extractPTFItemProps = (
   events: ProjectEventDTO[],
   project: {
-    isClasse: boolean
-    isAbandoned: boolean
+    isLaureat: boolean
   }
 ): PTFItemProps | null => {
-  const { isClasse, isAbandoned } = project
-  if (!events.length || !isClasse || isAbandoned) {
+  if (!events.length || !project.isLaureat) {
     return null
   }
 
