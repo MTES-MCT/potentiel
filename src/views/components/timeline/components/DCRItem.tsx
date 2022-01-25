@@ -72,7 +72,8 @@ const NotSubmitted = ({ role, date, projectId, status }: NotSubmittedProps) => {
         <ItemTitle title="Demande complète de raccordement" />
         <div>
           <p className="mt-0 mb-0">
-            Accusé de réception de la demande déposée auprès du gestionnaire de réseau à transmettre
+            Après avoir effectué cette démarche auprès votre gestionnaire de réseau, vous pouvez
+            nous transmettre l'accusé de réception.
           </p>
           {role === 'porteur-projet' && <UploadForm projectId={projectId} />}
         </div>
@@ -107,9 +108,7 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
 
   return (
     <>
-      <a onClick={() => showForm(!isFormVisible)}>
-        Transmettre l'accusé de réception reçu suite au dépôt auprès du gestionnaire
-      </a>
+      <a onClick={() => showForm(!isFormVisible)}>Transmettre l'accusé de réception</a>
       {isFormVisible && (
         <form
           action={ROUTES.DEPOSER_ETAPE_ACTION}
