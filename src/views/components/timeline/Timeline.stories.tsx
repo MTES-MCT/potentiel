@@ -13,12 +13,11 @@ import {
   ProjectGFInvalidatedDTO,
   ProjectNotificationDateSetDTO,
 } from '@modules/frise'
-import makeFakeProject from '../../../__tests__/fixtures/project'
 import { Timeline } from './Timeline'
 
 export default { title: 'Nouvelle frise' }
 
-const project = { ...makeFakeProject(), isLaureat: true }
+const project = { id: 'fake-project-id', isLaureat: true }
 
 export const adminGarantiesFinancieresDues = () => (
   <Timeline
