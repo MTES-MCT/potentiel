@@ -100,8 +100,11 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
             <DateInput onError={(isError) => setDisableSubmit(isError)} />
           </div>
           <div className="mt-2">
-            <label htmlFor="file">Attestation</label>
+            <label htmlFor="file">Document*</label>
             <input type="file" name="file" id="file" required />
+            <span className="italic">
+              * Le dépôt est informatif, il ne remplace pas la transmission à votre gestionnaire
+            </span>
           </div>
           <button className="button" type="submit" name="submit" disabled={disableSubmit}>
             Envoyer
