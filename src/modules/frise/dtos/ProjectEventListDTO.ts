@@ -1,4 +1,5 @@
 import { or } from '@core/utils'
+import { Project } from '@entities'
 import { UserRole } from '../../users'
 
 export type ProjectEventDTO =
@@ -159,4 +160,7 @@ export type ProjectCompletionDueDateSetDTO = {
   variant: Exclude<UserRole, 'ademe'>
 }
 
-export type ProjectEventListDTO = { events: ProjectEventDTO[] }
+export type ProjectEventListDTO = {
+  project: { id: Project['id']; isLaureat: boolean }
+  events: ProjectEventDTO[]
+}

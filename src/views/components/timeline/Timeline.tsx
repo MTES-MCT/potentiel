@@ -1,5 +1,4 @@
 import React from 'react'
-import { Project } from '@entities'
 import { ProjectEventListDTO } from '@modules/frise'
 import {
   TimelineItem,
@@ -21,7 +20,6 @@ import {
 
 export type TimelineProps = {
   projectEventList: ProjectEventListDTO
-  projectId: Project['id']
   now: number
 }
 
@@ -29,17 +27,19 @@ function isNotNull<T>(arg: T): arg is Exclude<T, null> {
   return arg !== null
 }
 
-export const Timeline = (props: TimelineProps) => {
-  const { projectEventList, projectId, now } = props
-
-  const { events } = projectEventList
-
+export const Timeline = ({
+  projectEventList: {
+    events,
+    project: { id: projectId, isLaureat },
+  },
+  now,
+}: TimelineProps) => {
   const itemProps = [
     extractDesignationItemProps(events, projectId),
     extractImportItemProps(events),
     extractGFItemProps(events, now),
     extractDCRItemProps(events, now),
-    extractPTFItemProps(events),
+    extractPTFItemProps(events, { isLaureat }),
     extractACItemProps(events),
   ]
     .filter(isNotNull)

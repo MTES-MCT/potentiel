@@ -42,7 +42,12 @@ export const ProjectDetails = PageLayout(
             <SuccessErrorBox success={success} error={error} />
             <div style={{ position: 'relative' }}>
               {projectEventList && (
-                <Timeline {...{ projectEventList, projectId: project.id, now }} />
+                <Timeline
+                  {...{
+                    projectEventList,
+                    now,
+                  }}
+                />
               )}
               <ProjectFrise {...{ project, request, user }} />
             </div>

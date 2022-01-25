@@ -10,20 +10,19 @@ import {
   ProjectDCRSubmittedDTO,
   ProjectDCRRemovedDTO,
   ProjectPTFSubmittedDTO,
-  ProjectGFValidatedDTO,
   ProjectGFInvalidatedDTO,
   ProjectNotificationDateSetDTO,
 } from '@modules/frise'
-import makeFakeProject from '../../../__tests__/fixtures/project'
 import { Timeline } from './Timeline'
 
 export default { title: 'Nouvelle frise' }
 
-const project = { ...makeFakeProject() }
+const project = { id: 'fake-project-id', isLaureat: true }
 
 export const adminGarantiesFinancieresDues = () => (
   <Timeline
     projectEventList={{
+      project,
       events: [
         {
           type: 'ProjectImported',
@@ -56,7 +55,6 @@ export const adminGarantiesFinancieresDues = () => (
         } as ProjectDCRDueDateSetDTO,
       ],
     }}
-    projectId={project.id}
     now={new Date().getTime()}
   />
 )
@@ -64,6 +62,7 @@ export const adminGarantiesFinancieresDues = () => (
 export const PPGarantiesFinancieresDues = () => (
   <Timeline
     projectEventList={{
+      project,
       events: [
         {
           type: 'ProjectNotified',
@@ -91,7 +90,6 @@ export const PPGarantiesFinancieresDues = () => (
         } as ProjectDCRDueDateSetDTO,
       ],
     }}
-    projectId={project.id}
     now={new Date().getTime()}
   />
 )
@@ -99,6 +97,7 @@ export const PPGarantiesFinancieresDues = () => (
 export const PPGarantiesFinancieresEnRetard = () => (
   <Timeline
     projectEventList={{
+      project,
       events: [
         {
           type: 'ProjectNotified',
@@ -126,7 +125,6 @@ export const PPGarantiesFinancieresEnRetard = () => (
         } as ProjectDCRDueDateSetDTO,
       ],
     }}
-    projectId={project.id}
     now={new Date('2022-01-12').getTime()}
   />
 )
@@ -134,6 +132,7 @@ export const PPGarantiesFinancieresEnRetard = () => (
 export const PPGarantiesFinancieresEtDCREnRetard = () => (
   <Timeline
     projectEventList={{
+      project,
       events: [
         {
           type: 'ProjectNotified',
@@ -161,13 +160,13 @@ export const PPGarantiesFinancieresEtDCREnRetard = () => (
         } as ProjectDCRDueDateSetDTO,
       ],
     }}
-    projectId={project.id}
     now={new Date('2022-02-12').getTime()}
   />
 )
 export const garantiesFinancieresConstituees = () => (
   <Timeline
     projectEventList={{
+      project,
       events: [
         {
           type: 'ProjectImported',
@@ -212,7 +211,6 @@ export const garantiesFinancieresConstituees = () => (
         } as ProjectGFInvalidatedDTO,
       ],
     }}
-    projectId={project.id}
     now={new Date().getTime()}
   />
 )
@@ -220,6 +218,7 @@ export const garantiesFinancieresConstituees = () => (
 export const GFConstitueesFichierManquant = () => (
   <Timeline
     projectEventList={{
+      project,
       events: [
         {
           type: 'ProjectImported',
@@ -253,7 +252,6 @@ export const GFConstitueesFichierManquant = () => (
         } as ProjectGFInvalidatedDTO,
       ],
     }}
-    projectId={project.id}
     now={new Date().getTime()}
   />
 )
@@ -261,6 +259,7 @@ export const GFConstitueesFichierManquant = () => (
 export const PPDCRSupprimée = () => (
   <Timeline
     projectEventList={{
+      project,
       events: [
         {
           type: 'ProjectNotified',
@@ -276,10 +275,7 @@ export const PPDCRSupprimée = () => (
           type: 'ProjectDCRSubmitted',
           variant: 'porteur-projet',
           date: new Date('2022-01-17').getTime(),
-          fileId: 'file-id',
-          filename: 'file-name',
-          submittedBy: 'someone',
-          numeroDossier: 'DOSSIER-1',
+          file: { id: 'file-id', name: 'file-name' },
         } as ProjectDCRSubmittedDTO,
         {
           type: 'ProjectDCRRemoved',
@@ -289,13 +285,13 @@ export const PPDCRSupprimée = () => (
         } as ProjectDCRRemovedDTO,
       ],
     }}
-    projectId={project.id}
     now={new Date('2022-01-03').getTime()}
   />
 )
 export const PPDCRConstituée = () => (
   <Timeline
     projectEventList={{
+      project,
       events: [
         {
           type: 'ProjectNotified',
@@ -325,7 +321,6 @@ export const PPDCRConstituée = () => (
         } as ProjectPTFSubmittedDTO,
       ],
     }}
-    projectId={project.id}
     now={new Date('2022-01-03').getTime()}
   />
 )
@@ -333,6 +328,7 @@ export const PPDCRConstituée = () => (
 export const projetHistorique = () => (
   <Timeline
     projectEventList={{
+      project,
       events: [
         {
           type: 'ProjectNotified',
@@ -342,7 +338,6 @@ export const projetHistorique = () => (
         } as ProjectNotifiedDTO,
       ],
     }}
-    projectId={project.id}
     now={new Date().getTime()}
   />
 )
@@ -350,6 +345,7 @@ export const projetHistorique = () => (
 export const PPAttestationEnCoursDeGeneration = () => (
   <Timeline
     projectEventList={{
+      project,
       events: [
         {
           type: 'ProjectNotified',
@@ -358,7 +354,6 @@ export const PPAttestationEnCoursDeGeneration = () => (
         } as ProjectNotifiedDTO,
       ],
     }}
-    projectId={project.id}
     now={new Date().getTime()}
   />
 )
@@ -366,6 +361,7 @@ export const PPAttestationEnCoursDeGeneration = () => (
 export const AdminAttestationEnCoursDeGeneration = () => (
   <Timeline
     projectEventList={{
+      project,
       events: [
         {
           type: 'ProjectNotified',
@@ -374,7 +370,22 @@ export const AdminAttestationEnCoursDeGeneration = () => (
         } as ProjectNotifiedDTO,
       ],
     }}
-    projectId={project.id}
+    now={new Date().getTime()}
+  />
+)
+
+export const projetEliminé = () => (
+  <Timeline
+    projectEventList={{
+      project: { ...project, isLaureat: false },
+      events: [
+        {
+          type: 'ProjectImported',
+          variant: 'admin',
+          date: new Date('2022-01-11').getTime(),
+        } as ProjectImportedDTO,
+      ],
+    }}
     now={new Date().getTime()}
   />
 )
@@ -382,6 +393,7 @@ export const AdminAttestationEnCoursDeGeneration = () => (
 export const RecoursAccepte = () => (
   <Timeline
     projectEventList={{
+      project,
       events: [
         {
           type: 'ProjectNotified',
@@ -395,7 +407,6 @@ export const RecoursAccepte = () => (
         } as ProjectNotificationDateSetDTO,
       ],
     }}
-    projectId={project.id}
     now={new Date().getTime()}
   />
 )
