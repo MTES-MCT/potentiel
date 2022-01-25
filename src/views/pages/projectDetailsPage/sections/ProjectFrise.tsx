@@ -135,7 +135,7 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => {
                       userCanDownloadDocument
                         ? [
                             {
-                              title: "Télécharger l'attestation",
+                              title: "Télécharger l'accusé de réception",
                               link: project.dcr.file
                                 ? ROUTES.DOWNLOAD_PROJECT_FILE(
                                     project.dcr.file.id,
@@ -171,7 +171,7 @@ export const ProjectFrise = ({ project, user, request }: ProjectFriseProps) => {
                       user.role === 'dreal'
                         ? undefined
                         : {
-                            title: 'Indiquer la date de demande',
+                            title: "Indiquer la date de l'accusé de réception",
                             openHiddenContent: user.role === 'porteur-projet' ? true : undefined,
                           }
                     }
