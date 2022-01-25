@@ -1,5 +1,4 @@
 import { ProjectPTFRemovedDTO, ProjectPTFSubmittedDTO, ProjectNotifiedDTO } from '@modules/frise'
-import { ProjectDataForProjectPage } from '@modules/project'
 import { extractPTFItemProps } from './extractPTFItemProps'
 
 describe('extractPTFitemProps', () => {
@@ -21,7 +20,7 @@ describe('extractPTFitemProps', () => {
     })
   })
 
-  describe(`when the project is classed`, () => {
+  describe(`when the project is lauréat`, () => {
     const project = {
       isLaureat: true,
     }

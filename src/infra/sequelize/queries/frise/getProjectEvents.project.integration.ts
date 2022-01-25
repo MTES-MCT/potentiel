@@ -30,7 +30,7 @@ describe('getProjectEvents project property', () => {
       })
     })
 
-    describe(`when the project the date abandonedOn is set`, () => {
+    describe(`when the project abandonedOn date is set`, () => {
       it('should return a project which is not lauréat', async () => {
         await Project.create({ ...fakeProject, abandonedOn: '1234' })
 
