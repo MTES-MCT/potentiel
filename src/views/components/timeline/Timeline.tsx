@@ -1,6 +1,6 @@
 import React from 'react'
-import { Project } from '@entities'
 import { ProjectEventListDTO } from '@modules/frise'
+import { ProjectDataForProjectPage } from '@modules/project'
 import {
   TimelineItem,
   DesignationItem,
@@ -21,7 +21,7 @@ import {
 
 export type TimelineProps = {
   projectEventList: ProjectEventListDTO
-  project: Project
+  project: ProjectDataForProjectPage
   now: number
 }
 
@@ -40,8 +40,8 @@ export const Timeline = (props: TimelineProps) => {
     extractImportItemProps(events),
     extractGFItemProps(events, now),
     extractDCRItemProps(events, now),
-    extractACItemProps(events),
     extractPTFItemProps(events, project),
+    extractACItemProps(events),
   ]
     .filter(isNotNull)
     .sort(sortItemProps)
