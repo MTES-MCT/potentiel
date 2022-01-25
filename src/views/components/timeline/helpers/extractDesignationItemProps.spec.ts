@@ -11,7 +11,7 @@ import {
 } from '@modules/frise'
 import { extractDesignationItemProps } from './extractDesignationItemProps'
 
-describe('extractDesignationItemProps.spec', () => {
+describe('extractDesignationItemProps', () => {
   const projectId = new UniqueEntityID().toString()
 
   describe(`when there is neither a ProjectImported with a notification date nor a ProjectNotified`, () => {
@@ -201,6 +201,24 @@ describe('extractDesignationItemProps.spec', () => {
           type: 'designation',
           date: new Date('2022-01-20').getTime(),
         })
+      })
+    })
+  })
+  describe('when user is DREAL', () => {
+    it('should return certificate as undefined', () => {
+      const projectEventList = [
+        {
+          type: 'ProjectNotified',
+          variant: 'dreal',
+          date: 12,
+        } as ProjectNotifiedDTO,
+      ]
+      const result = extractDesignationItemProps(projectEventList, projectId)
+      expect(result).toEqual({
+        type: 'designation',
+        date: 12,
+        role: 'dreal',
+        certificate: undefined,
       })
     })
   })
