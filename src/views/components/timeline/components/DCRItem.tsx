@@ -71,7 +71,9 @@ const NotSubmitted = ({ role, date, projectId, status }: NotSubmittedProps) => {
         </div>
         <ItemTitle title="Demande complète de raccordement" />
         <div>
-          <p className="mt-0 mb-0">Accusé de réception de la demande en attente</p>
+          <p className="mt-0 mb-0">
+            Accusé de réception de la demande déposée auprès du gestionnaire de réseau à transmettre
+          </p>
           {role === 'porteur-projet' && <UploadForm projectId={projectId} />}
         </div>
       </ContentArea>
