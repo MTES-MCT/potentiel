@@ -1,4 +1,4 @@
-name: Bump version on push
+name: Bump version on PR merge
 
 on:
   push:

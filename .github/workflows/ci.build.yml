@@ -1,11 +1,11 @@
-name: Build storybook on PR
+name: Build on PR
 
 on:
   pull_request:
     paths-ignore:
-      - '**/*.spec.ts'
-      - '**/*.integration.ts'
-      - 'src/__tests__'
+      - 'src/**/*.spec.ts'
+      - 'src/**/*.integration.ts'
+      - 'src/__tests_/**'
       - 'README.md'
       - '.github/**'
       - '.vscode/**'
@@ -19,7 +19,7 @@ on:
       - 'LICENSE'
 
 jobs:
-  storybook:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,4 +30,7 @@ jobs:
           node-version: 16.x
           cache: 'npm'
       - run: npm ci
-      - run: npm run build-storybook
+      - name: 'Build the front, css, and back'
+        run: npm run build:front && npm run build:css && npm run build
+        env:
+          NODE_ENV: production

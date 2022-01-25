@@ -1,4 +1,4 @@
-name: Deploy production on push (tag)
+name: Deploy to Production on Version Bump
 
 on:
   push:
