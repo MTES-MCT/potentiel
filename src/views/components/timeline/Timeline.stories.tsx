@@ -12,6 +12,7 @@ import {
   ProjectPTFSubmittedDTO,
   ProjectGFValidatedDTO,
   ProjectGFInvalidatedDTO,
+  ProjectNotificationDateSetDTO,
 } from '@modules/frise'
 import makeFakeProject from '../../../__tests__/fixtures/project'
 import { Timeline } from './Timeline'
@@ -277,6 +278,8 @@ export const PPDCRSupprimée = () => (
           date: new Date('2022-01-17').getTime(),
           fileId: 'file-id',
           filename: 'file-name',
+          submittedBy: 'someone',
+          numeroDossier: 'DOSSIER-1',
         } as ProjectDCRSubmittedDTO,
         {
           type: 'ProjectDCRRemoved',
@@ -310,6 +313,7 @@ export const PPDCRConstituée = () => (
           date: new Date('2022-01-17').getTime(),
           fileId: 'file-id',
           filename: 'file-name',
+          submittedBy: 'someone',
           numeroDossier: 'DOSSIER-1',
         } as ProjectDCRSubmittedDTO,
         {
@@ -368,6 +372,27 @@ export const AdminAttestationEnCoursDeGeneration = () => (
           variant: 'admin',
           date: new Date('2022-01-12').getTime(),
         } as ProjectNotifiedDTO,
+      ],
+    }}
+    projectId={project.id}
+    now={new Date().getTime()}
+  />
+)
+
+export const RecoursAccepte = () => (
+  <Timeline
+    projectEventList={{
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'admin',
+          date: new Date('2022-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectNotificationDateSet',
+          variant: 'admin',
+          date: new Date('2022-01-20').getTime(),
+        } as ProjectNotificationDateSetDTO,
       ],
     }}
     projectId={project.id}

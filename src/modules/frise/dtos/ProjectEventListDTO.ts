@@ -18,6 +18,7 @@ export type ProjectEventDTO =
   | ProjectDCRDueDateSetDTO
   | ProjectPTFSubmittedDTO
   | ProjectPTFRemovedDTO
+  | ProjectNotificationDateSetDTO
 
 type NarrowDTOType<T, N> = T extends { type: N } ? T : never
 
@@ -35,6 +36,12 @@ export type ProjectNotifiedDTO = {
 export type ProjectImportedDTO = {
   type: 'ProjectImported'
   variant: 'dgec' | 'admin'
+  date: number
+}
+
+export type ProjectNotificationDateSetDTO = {
+  type: 'ProjectNotificationDateSet'
+  variant: Exclude<UserRole, 'ademe'>
   date: number
 }
 
