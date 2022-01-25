@@ -18,7 +18,7 @@ import { Timeline } from './Timeline'
 
 export default { title: 'Nouvelle frise' }
 
-const project = { ...makeFakeProject({ classe: 'Classé' }) }
+const project = { ...makeFakeProject(), isLaureat: true }
 
 export const adminGarantiesFinancieresDues = () => (
   <Timeline
@@ -378,7 +378,7 @@ export const AdminAttestationEnCoursDeGeneration = () => (
 export const projetEliminé = () => (
   <Timeline
     projectEventList={{
-      project: { ...project, classe: 'Eliminé' },
+      project: { ...project, isLaureat: false },
       events: [
         {
           type: 'ProjectImported',
