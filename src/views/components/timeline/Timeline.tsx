@@ -8,13 +8,19 @@ import {
   PTFItem,
   DCRItem,
   ACItem,
+  CAItem,
+  CRItem,
+  MeSItem,
 } from './components'
 import {
   extractACItemProps,
+  extractCAItemProps,
+  extractCRItemProps,
   extractDCRItemProps,
   extractDesignationItemProps,
   extractGFItemProps,
   extractImportItemProps,
+  extractMeSItemProps,
   extractPTFItemProps,
 } from './helpers'
 
@@ -34,18 +40,26 @@ export const Timeline = ({
   },
   now,
 }: TimelineProps) => {
-  const itemProps = [
+  const itemPropsGroup1 = [
     extractDesignationItemProps(events, projectId),
     extractImportItemProps(events),
     extractGFItemProps(events, now),
     extractDCRItemProps(events, now),
     extractPTFItemProps(events, { isLaureat }),
-    extractACItemProps(events),
+    extractCRItemProps(events, { isLaureat }),
   ]
     .filter(isNotNull)
     .sort(sortItemProps)
 
-  const groupCount = itemProps.length
+  const group1Count = itemPropsGroup1.length
+
+  const itemPropsGroup2 = [
+    extractACItemProps(events),
+    extractMeSItemProps(events, { isLaureat }),
+    extractCAItemProps(events, { isLaureat }),
+  ]
+    .filter(isNotNull)
+    .sort(sortItemProps)
 
   return (
     <nav aria-label="Progress">
@@ -70,17 +84,39 @@ export const Timeline = ({
               case 'proposition-technique-et-financiere':
                 return <PTFItem {...{ ...props, projectId }} />
 
-              case 'attestation-de-conformite':
-                return <ACItem {...props} />
+              case 'convention-de-raccordement':
+                return <CRItem />
             }
           })
           .map((component, groupIndex) => (
-            <TimelineItem key={groupIndex} isLastItem={groupIndex === groupCount - 1}>
+            <TimelineItem key={groupIndex} isLastItem={groupIndex === group1Count}>
               {component}
             </TimelineItem>
           ))}
       </ol>
-    </nav>
+      <ol role="list" className="pl-0 overflow-hidden list-none -mt-0.5">
+        {itemPropsGroup2
+          .map((props) => {
+            const { type } = props
+
+            switch (type) {
+              case 'attestation-de-conformite':
+                return <ACItem {...props} />
+
+              case 'mise-en-service':
+                return <MeSItem />
+
+              case 'contrat-achat':
+                return <CAItem />
+            }
+          })
+          .map((component, groupIndex) => (
+            <TimelineItem key={groupIndex} isLastItem={groupIndex === 2}>
+              {component}
+            </TimelineItem>
+          ))}
+      </ol>
+    </aside>
   )
 }
 
