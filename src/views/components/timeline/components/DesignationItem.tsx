@@ -12,7 +12,7 @@ export const DesignationItem = ({ certificate, role, date }: DesignationItemProp
       {certificate ? (
         <Certificate {...{ certificate, role }} />
       ) : (
-        role === 'porteur-projet' && <Pending />
+        role === 'porteur-projet' && <span>Votre attestation sera disponible sous 24h</span>
       )}
     </ContentArea>
   </>
@@ -20,25 +20,20 @@ export const DesignationItem = ({ certificate, role, date }: DesignationItemProp
 
 type CertificateProps = {
   certificate: Exclude<DesignationItemProps['certificate'], undefined>
-  role: DesignationItemProps['role']
 }
 
-const Certificate = ({ certificate, role }: CertificateProps) => {
+const Certificate = ({ certificate }: CertificateProps) => {
   const { status } = certificate
 
   switch (status) {
     case 'not-applicable':
-      return <NotApplicable />
+      return <span>Attestation non disponible pour cette période</span>
     case 'generated':
       return <Generated {...certificate} />
     case 'uploaded':
       return <Uploaded {...certificate} />
   }
 }
-
-const NotApplicable = () => <span>Attestation non disponible pour cette période</span>
-
-const Pending = () => <span>Votre attestation sera disponible sous 24h</span>
 
 type GeneratedProps = {
   url: string
