@@ -15,6 +15,7 @@ export type DesignationItemProps = {
       }
     | { status: 'pending' }
     | { status: 'not-applicable' }
+    | undefined
 }
 
 export const extractDesignationItemProps = (
@@ -23,6 +24,7 @@ export const extractDesignationItemProps = (
 ): DesignationItemProps | null => {
   const projectNotifiedEvent = events.find(is('ProjectNotified'))
   if (!projectNotifiedEvent) return null
+  const userRole = projectNotifiedEvent.variant
 
   const latestProjectNotificationDateSet = events.filter(is('ProjectNotificationDateSet')).pop()
   const date = latestProjectNotificationDateSet
@@ -31,15 +33,18 @@ export const extractDesignationItemProps = (
 
   const certificateEvent = events.filter(isCertificateDTO).pop()
 
-  const certificate: DesignationItemProps['certificate'] = certificateEvent
-    ? {
-        date: certificateEvent.date,
-        status: ['ProjectClaimed', 'ProjectCertificateUpdated'].includes(certificateEvent.type)
-          ? 'uploaded'
-          : 'generated',
-        url: makeCertificateLink(certificateEvent, projectId),
-      }
-    : { status: projectNotifiedEvent.isLegacy ? 'not-applicable' : 'pending' }
+  const certificate: DesignationItemProps['certificate'] =
+    userRole === 'dreal'
+      ? undefined
+      : certificateEvent
+      ? {
+          date: certificateEvent.date,
+          status: ['ProjectClaimed', 'ProjectCertificateUpdated'].includes(certificateEvent.type)
+            ? 'uploaded'
+            : 'generated',
+          url: makeCertificateLink(certificateEvent, projectId),
+        }
+      : { status: projectNotifiedEvent.isLegacy ? 'not-applicable' : 'pending' }
 
   const role: DesignationItemProps['role'] = certificateEvent
     ? certificateEvent.variant
