@@ -13,8 +13,9 @@ export type DesignationItemProps = {
         url: string
         status: 'uploaded' | 'generated'
       }
-    | { status: 'pending' }
-    | { status: 'not-applicable' }
+    | {
+        status: 'not-applicable'
+      }
     | undefined
 }
 
@@ -24,33 +25,39 @@ export const extractDesignationItemProps = (
 ): DesignationItemProps | null => {
   const projectNotifiedEvent = events.find(is('ProjectNotified'))
   if (!projectNotifiedEvent) return null
-  const userRole = projectNotifiedEvent.variant
+  const role = projectNotifiedEvent.variant
 
   const latestProjectNotificationDateSet = events.filter(is('ProjectNotificationDateSet')).pop()
   const date = latestProjectNotificationDateSet
     ? latestProjectNotificationDateSet.date
     : projectNotifiedEvent.date
 
+  if (role === 'dreal') {
+    return {
+      type: 'designation',
+      date,
+      certificate: undefined,
+      role,
+    }
+  }
+
   const certificateEvent = events.filter(isCertificateDTO).pop()
 
-  const certificate: DesignationItemProps['certificate'] =
-    userRole === 'dreal'
-      ? undefined
-      : certificateEvent
-      ? {
-          date: certificateEvent.date,
-          status: ['ProjectClaimed', 'ProjectCertificateUpdated'].includes(certificateEvent.type)
-            ? 'uploaded'
-            : 'generated',
-          url: makeCertificateLink(certificateEvent, projectId),
-        }
-      : { status: projectNotifiedEvent.isLegacy ? 'not-applicable' : 'pending' }
+  if (certificateEvent) {
+    return {
+      type: 'designation',
+      date,
+      certificate: makeCertificateProps(certificateEvent, projectId),
+      role: certificateEvent.variant,
+    }
+  }
 
-  const role: DesignationItemProps['role'] = certificateEvent
-    ? certificateEvent.variant
-    : projectNotifiedEvent.variant
-
-  return { type: 'designation', date, certificate, role }
+  return {
+    type: 'designation',
+    date,
+    certificate: projectNotifiedEvent.isLegacy ? { status: 'not-applicable' } : undefined,
+    role,
+  }
 }
 
 const makeCertificateLink = (
@@ -73,4 +80,17 @@ const makeCertificateLink = (
     nomProjet,
     potentielIdentifier,
   })
+}
+
+const makeCertificateProps = (
+  certificateEvent: ProjectCertificateDTO,
+  projectId: Project['id']
+): DesignationItemProps['certificate'] => {
+  return {
+    date: certificateEvent.date,
+    status: ['ProjectClaimed', 'ProjectCertificateUpdated'].includes(certificateEvent.type)
+      ? 'uploaded'
+      : 'generated',
+    url: makeCertificateLink(certificateEvent, projectId),
+  }
 }
