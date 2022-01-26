@@ -9,6 +9,7 @@ import {
   ProjectNotificationDateSetDTO,
   ProjectNotifiedDTO,
 } from '@modules/frise'
+import { USER_ROLES } from '@modules/users'
 import { extractDesignationItemProps } from './extractDesignationItemProps'
 
 describe('extractDesignationItemProps', () => {
@@ -48,31 +49,58 @@ describe('extractDesignationItemProps', () => {
     })
   })
 
-  describe('when there is a ProjectNotified event', () => {
+  describe('when the project is notified but there is no certificate event', () => {
     const projectNotifiedEvent = {
       type: 'ProjectNotified',
       variant: 'admin',
       date: 12,
     } as ProjectNotifiedDTO
 
-    it('should return the notification date', () => {
+    it('should return the notification date and a certificate undefined', () => {
       const result = extractDesignationItemProps([projectNotifiedEvent], projectId)
       expect(result).toEqual({
         type: 'designation',
         date: 12,
-        certificate: { status: 'pending' },
+        certificate: undefined,
         role: 'admin',
       })
     })
 
     describe('when isLegacy is true', () => {
-      it('should return a not applicable certificate status', () => {
-        const withLegacy: ProjectNotifiedDTO = { ...projectNotifiedEvent, isLegacy: true }
-        const projectEventList = [withLegacy]
+      describe('when user is not dreal', () => {
+        for (const role of USER_ROLES.filter((role) => role !== 'dreal')) {
+          it('should return a not applicable certificate status', () => {
+            const projectEventList = [
+              {
+                type: 'ProjectNotified',
+                variant: role,
+                date: 12,
+                isLegacy: true,
+              } as ProjectNotifiedDTO,
+            ]
 
-        const result = extractDesignationItemProps(projectEventList, projectId)
-        expect(result).toMatchObject({
-          certificate: { status: 'not-applicable' },
+            const result = extractDesignationItemProps(projectEventList, projectId)
+            expect(result).toMatchObject({
+              certificate: { status: 'not-applicable' },
+            })
+          })
+        }
+      })
+      describe('when user is dreal', () => {
+        it('should return an undefined certificate', () => {
+          const projectEventList = [
+            {
+              type: 'ProjectNotified',
+              variant: 'dreal',
+              date: 12,
+              isLegacy: true,
+            } as ProjectNotifiedDTO,
+          ]
+
+          const result = extractDesignationItemProps(projectEventList, projectId)
+          expect(result).toMatchObject({
+            certificate: undefined,
+          })
         })
       })
     })
@@ -201,24 +229,6 @@ describe('extractDesignationItemProps', () => {
           type: 'designation',
           date: new Date('2022-01-20').getTime(),
         })
-      })
-    })
-  })
-  describe('when user is DREAL', () => {
-    it('should return certificate as undefined', () => {
-      const projectEventList = [
-        {
-          type: 'ProjectNotified',
-          variant: 'dreal',
-          date: 12,
-        } as ProjectNotifiedDTO,
-      ]
-      const result = extractDesignationItemProps(projectEventList, projectId)
-      expect(result).toEqual({
-        type: 'designation',
-        date: 12,
-        role: 'dreal',
-        certificate: undefined,
       })
     })
   })
