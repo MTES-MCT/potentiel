@@ -5,6 +5,13 @@ import { ProjectAppelOffre } from '@entities'
 import { ProjectDataForProjectPage } from '@modules/project/dtos'
 import makeFakeRequest from '../../../__tests__/fixtures/request'
 import makeFakeUser from '../../../__tests__/fixtures/user'
+import {
+  ProjectImportedDTO,
+  ProjectNotifiedDTO,
+  ProjectCertificateGeneratedDTO,
+  ProjectGFDueDateSetDTO,
+  ProjectDCRDueDateSetDTO,
+} from 'src/modules/frise'
 
 export default { title: 'Project page' }
 
@@ -13,8 +20,44 @@ const appelOffre: ProjectAppelOffre | undefined = appelsOffreStatic.find(
 ) as ProjectAppelOffre
 if (appelOffre) appelOffre.periode = appelOffre.periodes[1]
 
-const fakeProjectData = ({
+const projectEventList = {
+  project: { id: 'fake-project-id', isLaureat: true },
+  events: [
+    {
+      type: 'ProjectImported',
+      variant: 'admin',
+      date: new Date('2022-01-11').getTime(),
+    } as ProjectImportedDTO,
+    {
+      type: 'ProjectNotified',
+      variant: 'admin',
+      date: new Date('2022-01-12').getTime(),
+    } as ProjectNotifiedDTO,
+    {
+      type: 'ProjectCertificateGenerated',
+      variant: 'admin',
+      date: new Date('2022-01-13').getTime(),
+      certificateFileId: 'file-id',
+      nomProjet: 'mon projet pv',
+      email: 'porteur@test.test',
+      potentielIdentifier: 'pot-id',
+    } as ProjectCertificateGeneratedDTO,
+    {
+      type: 'ProjectGFDueDateSet',
+      variant: 'admin',
+      date: new Date('2022-01-13').getTime(),
+    } as ProjectGFDueDateSetDTO,
+    {
+      type: 'ProjectDCRDueDateSet',
+      variant: 'admin',
+      date: new Date('2022-02-13').getTime(),
+    } as ProjectDCRDueDateSetDTO,
+  ],
+}
+
+const fakeProjectData = {
   id: 'projectId',
+  potentielIdentifier: 'potentielIdentifier',
 
   appelOffreId: 'Fessenheim',
   periodeId: '1',
@@ -67,7 +110,7 @@ const fakeProjectData = ({
 
   users: [],
   invitations: [],
-} as unknown) as ProjectDataForProjectPage
+} as unknown as ProjectDataForProjectPage
 
 export const forAdminsLaureat = () => (
   <ProjectDetails
@@ -79,6 +122,7 @@ export const forAdminsLaureat = () => (
         isClasse: true,
       } as ProjectDataForProjectPage
     }
+    projectEventList={projectEventList}
   />
 )
 
@@ -109,10 +153,26 @@ export const forAdminsNonNotifié = () => (
   />
 )
 
+export const forAdminsAbandonné = () => (
+  <ProjectDetails
+    now={new Date().getTime()}
+    request={makeFakeRequest({ user: makeFakeUser({ role: 'admin' }) })}
+    project={
+      {
+        ...fakeProjectData,
+        isClasse: false,
+        isAbandoned: true
+      } as ProjectDataForProjectPage
+    }
+  />
+)
+
 const MONTHS = 1000 * 3600 * 24 * 30
 
 export const forPorteurProjet = () => (
   <ProjectDetails
+    projectEventList={projectEventList}
+    cahiersChargesURLs={{ oldCahierChargesURL: 'string', newCahierChargesURL: 'string' }}
     now={new Date().getTime()}
     request={makeFakeRequest({
       user: makeFakeUser({ role: 'porteur-projet' }),

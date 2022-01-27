@@ -37,12 +37,12 @@ export const ProjectDetails = PageLayout(
 
     return (
       <RoleBasedDashboard role={user.role} currentPage="list-projects">
+        <ProjectHeader project={project} user={user} cahiersChargesURLs={cahiersChargesURLs} />
         <div className={projectEventList ? 'grid grid-cols-1 lg:grid-cols-3' : ''}>
           <div
             className={projectEventList ? 'panel w-full lg:col-span-2' : 'panel'}
             style={{ padding: 0 }}
           >
-            <ProjectHeader project={project} user={user} cahiersChargesURLs={cahiersChargesURLs} />
             <div style={{ padding: '1.5em', paddingTop: 0 }}>
               <SuccessErrorBox success={success} error={error} />
               <div style={{ position: 'relative' }}>
