@@ -40,81 +40,53 @@ export const Timeline = ({
   },
   now,
 }: TimelineProps) => {
-  const itemPropsGroup1 = [
+  const itemProps = [
     extractDesignationItemProps(events, projectId),
     extractImportItemProps(events),
     extractGFItemProps(events, now),
     extractDCRItemProps(events, now),
     extractPTFItemProps(events, { isLaureat }),
-    extractCRItemProps(events, { isLaureat }),
   ]
     .filter(isNotNull)
     .sort(sortItemProps)
 
-  const group1Count = itemPropsGroup1.length
+  const acItemProps = extractACItemProps(events)
+  const timelineItems = itemProps
+    .map((props) => {
+      const { type } = props
 
-  const itemPropsGroup2 = [
-    extractACItemProps(events),
-    extractMeSItemProps(events, { isLaureat }),
-    extractCAItemProps(events, { isLaureat }),
-  ]
-    .filter(isNotNull)
-    .sort(sortItemProps)
+      switch (type) {
+        case 'designation':
+          return <DesignationItem {...props} />
+
+        case 'import':
+          return <ImportItem {...props} />
+
+        case 'garanties-financieres':
+          return <GFItem {...{ ...props, projectId }} />
+
+        case 'demande-complete-de-raccordement':
+          return <DCRItem {...{ ...props, projectId }} />
+
+        case 'proposition-technique-et-financiere':
+          return <PTFItem {...{ ...props, projectId }} />
+      }
+    })
+    .concat([
+      <CRItem />,
+      ...(acItemProps ? [<ACItem {...acItemProps} />] : []),
+      <MeSItem />,
+      <CAItem />,
+    ])
 
   return (
-    <nav aria-label="Progress">
-      <ol role="list" className="overflow-hidden list-none">
-        {itemProps
-          .map((props) => {
-            const { type } = props
-
-            switch (type) {
-              case 'designation':
-                return <DesignationItem {...props} />
-
-              case 'import':
-                return <ImportItem {...props} />
-
-              case 'garanties-financieres':
-                return <GFItem {...{ ...props, projectId }} />
-
-              case 'demande-complete-de-raccordement':
-                return <DCRItem {...{ ...props, projectId }} />
-
-              case 'proposition-technique-et-financiere':
-                return <PTFItem {...{ ...props, projectId }} />
-
-              case 'convention-de-raccordement':
-                return <CRItem />
-            }
-          })
-          .map((component, groupIndex) => (
-            <TimelineItem key={groupIndex} isLastItem={groupIndex === group1Count}>
-              {component}
-            </TimelineItem>
-          ))}
-      </ol>
-      <ol role="list" className="pl-0 overflow-hidden list-none -mt-0.5">
-        {itemPropsGroup2
-          .map((props) => {
-            const { type } = props
-
-            switch (type) {
-              case 'attestation-de-conformite':
-                return <ACItem {...props} />
-
-              case 'mise-en-service':
-                return <MeSItem />
-
-              case 'contrat-achat':
-                return <CAItem />
-            }
-          })
-          .map((component, groupIndex) => (
-            <TimelineItem key={groupIndex} isLastItem={groupIndex === 2}>
-              {component}
-            </TimelineItem>
-          ))}
+    <aside aria-label="Progress">
+      <ol role="list" className="pl-0 overflow-hidden list-none mb-0">
+        {timelineItems.map((component, groupIndex) => (
+          <TimelineItem key={groupIndex} isLastItem={groupIndex === timelineItems.length - 1}>
+            {component}
+          </TimelineItem>
+        ))}
       </ol>
     </aside>
   )
