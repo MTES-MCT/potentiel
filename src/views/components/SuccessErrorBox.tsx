@@ -15,20 +15,17 @@ export const SuccessErrorBox = ({ error, success }: SuccessErrorBoxProps) => {
   }, [5000])
 
   return (
-    <div className={`${!visible && 'hidden'} max-w-sm w-full fixed top-3 inset-x-0 mx-auto`}>
+    <div className={`${!visible ? 'hidden' : 'block'} max-w-2xl fixed top-3 inset-x-0 mx-auto`}>
       <div
         className={`${
           success
             ? 'bg-green-100 border border-green-400 text-green-700'
             : 'bg-red-100 border border-red-400 text-red-700'
-        } px-4 py-3 rounded relative`}
+        } px-4 py-3 rounded flex justify-between`}
         role="alert"
       >
-        <span className="block sm:inline">{success ?? error}</span>
-        <span
-          className="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer"
-          onClick={() => setVisible(false)}
-        >
+        <span>{success ?? error}</span>
+        <span className="cursor-pointer" onClick={() => setVisible(false)}>
           <svg
             className={`fill-current h-6 w-6 ${success ? 'text-green-500' : 'text-red-500'}`}
             role="button"
