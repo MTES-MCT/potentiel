@@ -40,6 +40,9 @@ import {
   ProjectDCRDueDateSet,
   ProjectFournisseursUpdated,
   ProjectGFDueDateSet,
+  ProjectGFInvalidated,
+  ProjectGFRemoved,
+  ProjectGFSubmitted,
   ProjectImported,
   ProjectImportedPayload,
   ProjectNotificationDateSet,
@@ -161,6 +164,7 @@ export interface ProjectProps {
   newRulesOptIn: boolean
   fieldsUpdatedAfterImport: Set<string>
   potentielIdentifier?: string
+  hasCurrentGf: boolean
 }
 
 const projectValidator = makePropertyValidator({
@@ -194,6 +198,7 @@ export const makeProject = (args: {
     lastCertificateUpdate: undefined,
     newRulesOptIn: false,
     fieldsUpdatedAfterImport: new Set<string>(),
+    hasCurrentGf: false,
   }
 
   // Initialize aggregate by processing each event in history
@@ -485,6 +490,27 @@ export const makeProject = (args: {
         })
       )
 
+      if (_shouldSubmitGF()) {
+        _publishEvent(
+          new ProjectGFDueDateSet({
+            payload: {
+              projectId: props.projectId.toString(),
+              garantiesFinancieresDueOn: moment().add(1, 'months').toDate().getTime(),
+            },
+          })
+        )
+
+        if (props.hasCurrentGf) {
+          _publishEvent(
+            new ProjectGFInvalidated({
+              payload: {
+                projectId: props.projectId.toString(),
+              },
+            })
+          )
+        }
+      }
+
       return ok(null)
     },
     updateFournisseurs: function (user, newFournisseurs: Fournisseur[], newEvaluationCarbone) {
@@ -659,6 +685,9 @@ export const makeProject = (args: {
       case ProjectCompletionDueDateSet.type:
       case ProjectDataCorrected.type:
       case ProjectClasseGranted.type:
+      case ProjectGFSubmitted.type:
+      case ProjectGFRemoved.type:
+      case ProjectGFInvalidated.type:
         props.lastUpdatedOn = event.occurredAt
         break
       default:
@@ -760,6 +789,13 @@ export const makeProject = (args: {
           props.fieldsUpdatedAfterImport.add(`details.${kind}`)
         }
 
+        break
+      case ProjectGFSubmitted.type:
+        props.hasCurrentGf = true
+        break
+      case ProjectGFRemoved.type:
+      case ProjectGFInvalidated.type:
+        props.hasCurrentGf = false
         break
       default:
         // ignore other event types
