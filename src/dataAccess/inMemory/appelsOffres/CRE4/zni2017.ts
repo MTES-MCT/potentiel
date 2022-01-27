@@ -1,5 +1,5 @@
 import { AppelOffre } from '@entities'
-import { makeParagrapheAchevementForDelai } from './commonDataFields'
+import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 export const zni2017: AppelOffre = {
   id: 'CRE4 - ZNI 2017',

@@ -1,5 +1,5 @@
 import { AppelOffre } from '@entities'
-import { makeParagrapheAchevementForDelai } from './commonDataFields'
+import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 export const autoconsommationZNI2017: AppelOffre = {
   id: 'CRE4 - Autoconsommation ZNI 2017',

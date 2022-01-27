@@ -1,5 +1,5 @@
 import { AppelOffre } from '@entities'
-import { makeParagrapheAchevementForDelai } from './commonDataFields'
+import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 const fessenheim: AppelOffre = {
   id: 'Fessenheim',

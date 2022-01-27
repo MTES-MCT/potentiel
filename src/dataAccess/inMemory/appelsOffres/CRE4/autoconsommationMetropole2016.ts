@@ -1,5 +1,5 @@
 import { AppelOffre } from '@entities'
-import { makeParagrapheAchevementForDelai } from './commonDataFields'
+import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 export const autoconsommationMetropole2016: AppelOffre = {
   id: 'CRE4 - Autoconsommation métropole 2016',
