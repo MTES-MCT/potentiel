@@ -1,6 +1,5 @@
 import { AppelOffre } from '@entities'
-import { commonDataFields, makeParagrapheAchevementForDelai } from './commonDataFields'
-import toTypeLiteral from './helpers/toTypeLiteral'
+import { makeParagrapheAchevementForDelai } from './commonDataFields'
 
 const sol: AppelOffre = {
   id: 'CRE4 - Sol',
@@ -29,16 +28,6 @@ const sol: AppelOffre = {
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   renvoiSoumisAuxGarantiesFinancieres: 'doit être au minimum de 42 mois',
-  dataFields: [
-    ...commonDataFields,
-    {
-      // This field is mandatory
-      field: 'evaluationCarbone',
-      type: toTypeLiteral('number'),
-      column:
-        'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)',
-    },
-  ],
   periodes: [
     {
       id: '1',

@@ -1,6 +1,5 @@
 import { AppelOffre } from '@entities'
-import { commonDataFields, makeParagrapheAchevementForDelai } from './commonDataFields'
-import toTypeLiteral from './helpers/toTypeLiteral'
+import { makeParagrapheAchevementForDelai } from './commonDataFields'
 
 const zni: AppelOffre = {
   id: 'CRE4 - ZNI',
@@ -29,27 +28,6 @@ const zni: AppelOffre = {
   afficherPhraseRegionImplantation: true,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   renvoiSoumisAuxGarantiesFinancieres: 'doit être au minimum de 36 mois',
-  dataFields: [
-    ...commonDataFields,
-    {
-      field: 'engagementFournitureDePuissanceAlaPointe',
-      type: toTypeLiteral('stringEquals'),
-      column: 'Engagement de fourniture de puissance à la pointe\n(AO ZNI)',
-      value: 'Oui',
-    },
-    {
-      field: 'territoireProjet',
-      type: toTypeLiteral('string'),
-      column: 'Territoire\n(AO ZNI)',
-    },
-    {
-      // This field is mandatory
-      field: 'evaluationCarbone',
-      type: toTypeLiteral('number'),
-      column:
-        'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)',
-    },
-  ],
   periodes: [
     {
       id: '1',

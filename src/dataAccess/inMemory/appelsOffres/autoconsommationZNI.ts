@@ -1,6 +1,5 @@
 import { AppelOffre } from '@entities'
-import { commonDataFields, makeParagrapheAchevementForDelai } from './commonDataFields'
-import toTypeLiteral from './helpers/toTypeLiteral'
+import { makeParagrapheAchevementForDelai } from './commonDataFields'
 
 const autoconsommationZNI: AppelOffre = {
   id: 'CRE4 - Autoconsommation ZNI',
@@ -28,17 +27,6 @@ const autoconsommationZNI: AppelOffre = {
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
-  dataFields: [
-    ...commonDataFields,
-    {
-      field: 'evaluationCarbone',
-      type: toTypeLiteral('orNumberInColumn'),
-      defaultValue: 0,
-      column:
-        'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)',
-      value: 'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)',
-    },
-  ],
   periodes: [
     {
       id: '1',

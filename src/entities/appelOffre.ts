@@ -1,21 +1,6 @@
 import { Periode } from './periode'
 import { Famille } from './famille'
 
-type DataField = {
-  field: string
-  column: string
-  type:
-    | 'string'
-    | 'number'
-    | 'date'
-    | 'stringEquals' // column should equals value
-    | 'orNumberInColumn' // if column is empty, check try column
-    | 'orStringInColumn' // if column is empty, check try column
-    | 'codePostal' // Special case where we want to extend departement / région from codePostal
-  value?: string
-  defaultValue?: unknown
-}
-
 export type AppelOffre = {
   id: string
   title: string
@@ -43,7 +28,6 @@ export type AppelOffre = {
   renvoiSoumisAuxGarantiesFinancieres?: string
   periodes: Periode[]
   familles: Famille[]
-  dataFields: DataField[]
   contenuParagrapheAchevement: string
 }
 
