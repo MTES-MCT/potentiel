@@ -4,8 +4,9 @@ import asyncHandler from '../helpers/asyncHandler'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import { UnauthorizedError } from '@modules/shared'
 import routes from '../../routes'
-import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
+import { errorResponse, unauthorizedResponse } from '../helpers'
 import { v1Router } from '../v1Router'
+import { addQueryParams } from '../../helpers/addQueryParams'
 
 v1Router.post(
   routes.CHANGER_CDC,
@@ -33,11 +34,9 @@ v1Router.post(
     await result.match(
       () => {
         response.redirect(
-          routes.SUCCESS_OR_ERROR_PAGE({
+          addQueryParams(routes.PROJECT_DETAILS(projectId), {
             success:
               "Votre demande de changement de modalités d'instructions a bien été enregistrée.",
-            redirectUrl: routes.PROJECT_DETAILS(projectId),
-            redirectTitle: 'Retourner à la page projet',
           })
         )
       },
