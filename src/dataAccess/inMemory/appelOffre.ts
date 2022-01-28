@@ -13,6 +13,12 @@ import {
   autoconsommationZNI,
   autoconsommationZNI2017,
   eolien,
+  solPPE2,
+  eolienPPE2,
+  batimentPPE2,
+  neutrePPE2,
+  innovationPPE2,
+  autoconsommationMetropolePPE2,
 } from './appelsOffres'
 import { errAsync, okAsync } from '@core/utils'
 import { EntityNotFoundError } from '@modules/shared'
@@ -30,6 +36,12 @@ const appelsOffreStatic = [
   autoconsommationZNI,
   autoconsommationZNI2017,
   eolien,
+  solPPE2,
+  eolienPPE2,
+  batimentPPE2,
+  neutrePPE2,
+  innovationPPE2,
+  autoconsommationMetropolePPE2,
 ]
 
 const appelOffreRepo = {
