@@ -91,4 +91,16 @@ const getAppelOffre = (args: {
   return appelOffre
 }
 
-export { appelOffreRepo, appelsOffreStatic, getAppelOffre }
+const isSoumisAuxGarantiesFinancieres = (appelOffreId: string, familleId: string): boolean => {
+  if (appelOffreId === 'Eolien') return true
+
+  const famille = appelsOffreStatic
+    .find((item) => item.id === appelOffreId)
+    ?.familles.find((item) => item.id === familleId)
+
+  if (!famille) return false
+
+  return Boolean(famille.garantieFinanciereEnMois || famille.soumisAuxGarantiesFinancieres)
+}
+
+export { appelOffreRepo, appelsOffreStatic, getAppelOffre, isSoumisAuxGarantiesFinancieres }

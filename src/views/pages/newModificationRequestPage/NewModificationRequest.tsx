@@ -5,7 +5,7 @@ import { dataId } from '../../../helpers/testId'
 import UserDashboard from '../../components/UserDashboard'
 import { Request } from 'express'
 import { formatDate } from '../../../helpers/formatDate'
-import { appelsOffreStatic } from '@dataAccess/inMemory'
+import { appelsOffreStatic, isSoumisAuxGarantiesFinancieres } from '@dataAccess/inMemory'
 import { PageLayout } from '../../components/PageLayout'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
 import { getAutoAcceptRatiosForAppelOffre } from '@modules/modificationRequest'
@@ -42,15 +42,11 @@ export const NewModificationRequest = PageLayout(
     const [displayForm, setDisplayForm] = useState(project.newRulesOptIn)
     const [displayAlertOnPuissance, setDisplayAlertOnPuissance] = useState(false)
     const [disableSubmitButton, setDisableSubmitButton] = useState(false)
-    const [
-      fileRequiredforPuissanceModification,
-      setFileRequiredforPuissanceModification,
-    ] = useState(false)
+    const [fileRequiredforPuissanceModification, setFileRequiredforPuissanceModification] =
+      useState(false)
 
-    const {
-      min: minAutoAcceptPuissanceRatio,
-      max: maxAutoAcceptPuissanceRatio,
-    } = getAutoAcceptRatiosForAppelOffre(project.appelOffreId)
+    const { min: minAutoAcceptPuissanceRatio, max: maxAutoAcceptPuissanceRatio } =
+      getAutoAcceptRatiosForAppelOffre(project.appelOffreId)
 
     const handlePuissanceOnChange = (e) => {
       const isNewValueCorrect = isStrictlyPositiveNumber(e.target.value)
@@ -520,15 +516,17 @@ export const NewModificationRequest = PageLayout(
                     <>
                       <label>Ancien producteur</label>
                       <input type="text" disabled defaultValue={project.nomCandidat} />
-                      <div
-                        className="notification warning"
-                        style={{ marginTop: 10, marginBottom: 10 }}
-                      >
-                        <span>
-                          Attention : de nouvelles garanties financières devront être déposées d'ici
-                          un mois
-                        </span>
-                      </div>
+                      {isSoumisAuxGarantiesFinancieres(project.appelOffreId, project.familleId) && (
+                        <div
+                          className="notification warning"
+                          style={{ marginTop: 10, marginBottom: 10 }}
+                        >
+                          <span>
+                            Attention : de nouvelles garanties financières devront être déposées
+                            d'ici un mois
+                          </span>
+                        </div>
+                      )}
                       <label className="required" htmlFor="producteur">
                         Nouveau producteur
                       </label>
