@@ -13,6 +13,10 @@ const {
 
 module.exports = {
   async up(queryInterface, Sequelize) {
+    if (process.env.NODE_ENV !== 'production') {
+      return
+    }
+
     try {
       const projectIds = [
         '0d78c388-b723-4485-b190-611f53d779f2',
