@@ -1,16 +1,16 @@
 import { Text } from '@react-pdf/renderer'
 import React from 'react'
 import { ProjectDataForCertificate } from '@modules/project/dtos'
-import { formatNumber } from './formatNumber'
+import { formatNumber } from '../helpers/formatNumber'
 
-export const Laureat = (project: ProjectDataForCertificate) => {
+type MakeLaureat = (project: ProjectDataForCertificate) => {
+  content: React.ReactNode
+  footnotes: Array<Footnote>
+}
+
+export const makeLaureat: MakeLaureat = (project) => {
   const { appelOffre } = project
   const { periode } = appelOffre || {}
-  const objet =
-    'Désignation des lauréats de la ' +
-    periode.title +
-    " période de l'appel offres " +
-    appelOffre.title
 
   const famille = appelOffre.familles.find((famille) => famille.id === project.familleId)
   const soumisAuxGarantiesFinancieres =
@@ -18,10 +18,10 @@ export const Laureat = (project: ProjectDataForCertificate) => {
     famille?.garantieFinanciereEnMois ||
     famille?.soumisAuxGarantiesFinancieres
 
-  const footNotes: Array<{ footNote: string; indice: number }> = []
-  const addFootNote = makeAddFootnote(footNotes)
+  const footnotes: Array<Footnote> = []
+  const addFootNote = makeAddFootnote(footnotes)
 
-  const body = (
+  const content = (
     <>
       <Text
         style={{
@@ -238,29 +238,26 @@ export const Laureat = (project: ProjectDataForCertificate) => {
     </>
   )
 
-  // We have to jugle a bit with String.fromCharCode to have the actual indices and not literaly &sup1; or other
-  // Also we replace the spaces in the footnote text with non-breaking spaces because of a bug in React-PDF that wraps way too early
-  const footnotes = footNotes.map(({ footNote, indice }, index) => (
-    <Text key={'foot_note_' + index}>
-      {String.fromCharCode(indice)} Paragraphe(s){' '}
-      {footNote.replace(/\s/gi, String.fromCharCode(160))} du cahier des charges
-    </Text>
-  ))
-  return { project, appelOffre, periode, objet, body, footnotes }
+  return { content, footnotes }
 }
 
 const FOOTNOTE_INDICES = [185, 178, 179, 186, 9824, 9827, 9829, 9830]
 
-const makeAddFootnote = (footNotes: Array<any>) => {
-  return (footNote: string) => {
-    if (!footNote) return '' // ignore if there is no footnote
+type Footnote = {
+  footnote: string
+  indice: number
+}
 
-    const indice = FOOTNOTE_INDICES[footNotes.length % FOOTNOTE_INDICES.length]
-    footNotes.push({
-      footNote,
-      indice,
-    })
-
-    return String.fromCharCode(indice)
+export const makeAddFootnote = (footnotes: Array<Footnote>) => (footnote: string) => {
+  if (!footnote) {
+    return ''
   }
+
+  const indice = FOOTNOTE_INDICES[footnotes.length % FOOTNOTE_INDICES.length]
+  footnotes.push({
+    footnote,
+    indice,
+  })
+
+  return String.fromCharCode(indice)
 }

@@ -4,9 +4,9 @@ import { errAsync, Queue, ResultAsync } from '@core/utils'
 import { ProjectDataForCertificate } from '@modules/project/dtos'
 import { IllegalProjectStateError } from '@modules/project/errors'
 import { OtherError } from '@modules/shared'
-import { Certificate } from './Certificate'
-import { Laureat } from './Laureat'
-import { Elimine } from './Elimine'
+import { Certificate, CertificateProps } from './Certificate'
+import { makeLaureat } from './components/Laureat'
+import { Elimine } from './components/Elimine'
 
 dotenv.config()
 
@@ -25,7 +25,6 @@ Font.register({
 
 const queue = new Queue()
 
-/* global NodeJS */
 const makeCertificate = (
   project: ProjectDataForCertificate
 ): ResultAsync<NodeJS.ReadableStream, IllegalProjectStateError | OtherError> => {
@@ -38,16 +37,11 @@ const makeCertificate = (
     )
   }
 
-  let content
+  const certificateProps: CertificateProps = project.isClasse
+    ? { project, type: 'laureat', ...makeLaureat(project) }
+    : { project, type: 'elimine', content: Elimine({ project }) }
 
-  if (project.isClasse) {
-    content = Laureat(project)
-  } else {
-    content = Elimine(project)
-  }
-
-  const certificate = Certificate({ ...content })
-
+  const certificate = Certificate(certificateProps)
   const ticket = queue.push(() => ReactPDF.renderToStream(certificate))
 
   return ResultAsync.fromPromise(ticket, (e: any) => new OtherError(e.message))

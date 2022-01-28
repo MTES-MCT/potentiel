@@ -2,18 +2,13 @@ import { Text } from '@react-pdf/renderer'
 import React from 'react'
 import { logger } from '@core/utils'
 import { ProjectDataForCertificate } from '@modules/project/dtos'
-import { formatNumber } from './formatNumber'
+import { formatNumber } from '../helpers/formatNumber'
 
-export const Elimine = (project: ProjectDataForCertificate) => {
+type ElimineProps = { project: ProjectDataForCertificate }
+export const Elimine = ({ project }: ElimineProps) => {
   const { appelOffre } = project
-  const { periode } = appelOffre || {}
-  const objet =
-    'Avis de rejet à l’issue de la ' +
-    periode.title +
-    " période de l'appel offres " +
-    appelOffre.title
 
-  const body = (
+  return (
     <>
       <Text
         style={{
@@ -61,8 +56,6 @@ export const Elimine = (project: ProjectDataForCertificate) => {
       </Text>
     </>
   )
-
-  return { project, appelOffre, periode, objet, body }
 }
 
 const getNoteThreshold = (project: ProjectDataForCertificate) => {

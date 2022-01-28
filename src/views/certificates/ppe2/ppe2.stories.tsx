@@ -1,11 +1,11 @@
 import React from 'react'
-import { Font, PDFDownloadLink, PDFViewer } from '@react-pdf/renderer'
+import { Font, PDFViewer } from '@react-pdf/renderer'
 import { ProjectAppelOffre } from '@entities'
 import { ProjectDataForCertificate } from '@modules/project'
-import { Laureat } from './Laureat'
+import { makeLaureat } from './components/Laureat'
 import { Certificate } from './Certificate'
 import { batiment } from '@dataAccess/inMemory/appelsOffres'
-import { Elimine } from './Elimine'
+import { Elimine } from './components/Elimine'
 
 export default { title: 'Attestations PDF' }
 
@@ -51,21 +51,22 @@ const project: ProjectDataForCertificate = {
 }
 
 export const LaureatPPE2 = () => {
-  const laureat: any = Laureat(project)
-
+  const { content, footnotes } = makeLaureat(project)
   return (
     <PDFViewer width="100%" height="900px">
-      <Certificate {...laureat} />
+      <Certificate {...{ project, type: 'laureat', content, footnotes }} />
     </PDFViewer>
   )
 }
 
-export const EliminePPE2 = () => {
-  const elimine: any = Elimine({ ...project, isClasse: false })
-
-  return (
-    <PDFViewer width="100%" height="900px">
-      <Certificate {...elimine} />
-    </PDFViewer>
-  )
-}
+export const EliminePPE2 = () => (
+  <PDFViewer width="100%" height="900px">
+    <Certificate
+      {...{
+        project: { ...project, isClasse: false },
+        type: 'elimine',
+        content: Elimine({ project }),
+      }}
+    />
+  </PDFViewer>
+)
