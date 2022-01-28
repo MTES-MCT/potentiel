@@ -3,7 +3,7 @@
 const {
   UserRightsToProjectGranted,
 } = require('../../../modules/authZ/events/UserRightsToProjectGranted')
-const { toPersistance } = require('../helpers')
+const { toPersistance } = require('../helpers/toPersistance')
 
 module.exports = {
   async up(queryInterface, Sequelize) {
