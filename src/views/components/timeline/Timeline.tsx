@@ -38,7 +38,7 @@ export type TimelineProps = {
   now: number
 }
 
-type ItemProps = (
+type ItemProps =
   | ImportItemProps
   | DesignationItemProps
   | GFItemProps
@@ -48,7 +48,8 @@ type ItemProps = (
   | CRItemProps
   | MeSItemProps
   | CAItemProps
-)[]
+
+type UndatedItemProps = ItemProps & { date: undefined }
 
 export const Timeline = ({
   projectEventList: {
@@ -57,7 +58,7 @@ export const Timeline = ({
   },
   now,
 }: TimelineProps) => {
-  const itemProps: ItemProps = [
+  const itemProps: ItemProps[] = [
     extractDesignationItemProps(events, projectId),
     extractImportItemProps(events),
     extractGFItemProps(events, now),
@@ -122,9 +123,11 @@ function isNotNull<T>(arg: T): arg is Exclude<T, null> {
   return arg !== null
 }
 
-type ExtractUndatedProps = PTFItemProps | CRItemProps | MeSItemProps | CAItemProps | null
-
-function insertBefore(itemProps: ItemProps, referenceType: string, item: ExtractUndatedProps) {
+function insertBefore(
+  itemProps: ItemProps[],
+  referenceType: ItemProps['type'],
+  item: UndatedItemProps | null
+) {
   if (itemProps.findIndex((props) => props.type === referenceType) !== -1) {
     if (item) {
       itemProps.splice(
@@ -136,7 +139,11 @@ function insertBefore(itemProps: ItemProps, referenceType: string, item: Extract
   }
 }
 
-function insertAfter(itemProps: ItemProps, referenceType: string, item: ExtractUndatedProps) {
+function insertAfter(
+  itemProps: ItemProps[],
+  referenceType: ItemProps['type'],
+  item: UndatedItemProps | null
+) {
   if (itemProps.findIndex((props) => props.type === referenceType) !== -1) {
     if (item) {
       itemProps.splice(itemProps.findIndex((props) => props.type === referenceType) + 1, 0, item)
