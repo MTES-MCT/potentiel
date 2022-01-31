@@ -14,7 +14,7 @@ interface ProjectHeaderProps {
 
 export const ProjectHeader = ({ project, user, cahiersChargesURLs }: ProjectHeaderProps) => (
   <div className="w-full lg:flex justify-between">
-    <div className="">
+    <div className="pl-3">
       <div className="flex justify-start items-center">
         <h1 className="text-2xl font-bold text-gray-900 mb-0 pb-0">{project.nomProjet}</h1>
         <ProjectStatusLabel

@@ -136,6 +136,7 @@ export const forAdminsElimine = () => (
         isClasse: false,
       } as ProjectDataForProjectPage
     }
+    projectEventList={projectEventList}
   />
 )
 
@@ -150,6 +151,7 @@ export const forAdminsNonNotifié = () => (
         notifiedOn: undefined,
       } as ProjectDataForProjectPage
     }
+    projectEventList={projectEventList}
   />
 )
 
@@ -161,9 +163,10 @@ export const forAdminsAbandonné = () => (
       {
         ...fakeProjectData,
         isClasse: false,
-        isAbandoned: true
+        isAbandoned: true,
       } as ProjectDataForProjectPage
     }
+    projectEventList={projectEventList}
   />
 )
 
@@ -206,6 +209,7 @@ export const forPorteurProjetWithGarantiesFinancieres = () => (
         },
       } as ProjectDataForProjectPage
     }
+    projectEventList={projectEventList}
   />
 )
 
@@ -229,6 +233,7 @@ export const forPorteurProjetWithPTF = () => (
         },
       } as ProjectDataForProjectPage
     }
+    projectEventList={projectEventList}
   />
 )
 
@@ -240,6 +245,7 @@ export const forPorteurProjetWithSuccess = () => (
       query: { success: 'Une invitation a bien été envoyée' },
     })}
     project={fakeProjectData}
+    projectEventList={projectEventList}
   />
 )
 
@@ -256,6 +262,7 @@ export const forDrealGFPassDue = () => (
         garantiesFinancieres: { dueOn: new Date(Date.now() - 2 * MONTHS) },
       } as ProjectDataForProjectPage
     }
+    projectEventList={projectEventList}
   />
 )
 
@@ -272,6 +279,7 @@ export const forDrealGFStillDue = () => (
         garantiesFinancieres: { dueOn: new Date(Date.now() + 2 * MONTHS) },
       } as ProjectDataForProjectPage
     }
+    projectEventList={projectEventList}
   />
 )
 
@@ -304,5 +312,6 @@ export const forAOInnovation = () => (
         'Note aspects environnementaux et sociaux (/5pt)\n(AO innovation)': '2,56',
       },
     }}
+    projectEventList={projectEventList}
   />
 )
