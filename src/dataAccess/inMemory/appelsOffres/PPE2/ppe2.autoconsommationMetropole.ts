@@ -21,6 +21,7 @@ const autoconsommationMetropolePPE2: AppelOffre = {
   affichageParagrapheECS: false,
   renvoiDemandeCompleteRaccordement: '6.1',
   renvoiRetraitDesignationGarantieFinancieres: '5.1',
+  soumisAuxGarantiesFinancieres: true,
   renvoiEngagementIPFP: '',
   paragrapheClauseCompetitivite: '2.15',
   tarifOuPrimeRetenue: 'la prime retenue',

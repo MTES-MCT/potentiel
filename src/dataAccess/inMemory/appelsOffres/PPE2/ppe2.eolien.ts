@@ -17,6 +17,7 @@ const eolienPPE2: AppelOffre = {
   renvoiEngagementIPFP: '3.3.7',
   renvoiDemandeCompleteRaccordement: '6.1',
   renvoiRetraitDesignationGarantieFinancieres: '5.1',
+  soumisAuxGarantiesFinancieres: true,
   paragrapheDelaiDerogatoire: '6.3',
   delaiRealisationEnMois: 36,
   contenuParagrapheAchevement: makeParagrapheAchevementForDelai(36, '7.1'),

@@ -25,6 +25,7 @@ export type AppelOffre = {
   afficherValeurEvaluationCarbone: boolean
   afficherPhraseRegionImplantation: boolean
   dossierSuiviPar: string
+  soumisAuxGarantiesFinancieres: boolean
   renvoiSoumisAuxGarantiesFinancieres?: string
   periodes: Periode[]
   familles: Famille[]

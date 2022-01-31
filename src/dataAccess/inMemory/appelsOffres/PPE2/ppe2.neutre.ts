@@ -17,6 +17,7 @@ const neutrePPE2: AppelOffre = {
   renvoiEngagementIPFP: '3.3.8',
   renvoiDemandeCompleteRaccordement: '6.1',
   renvoiRetraitDesignationGarantieFinancieres: '5.1',
+  soumisAuxGarantiesFinancieres: true,
   paragrapheDelaiDerogatoire: '6.3',
   delaiRealisationEnMois: 30 | 36,
   contenuParagrapheAchevement: makeParagrapheAchevementForDelai(30 | 36, '7.1'),
