@@ -6,7 +6,7 @@ import { IllegalProjectStateError } from '@modules/project/errors'
 import { OtherError } from '@modules/shared'
 import { Certificate, CertificateProps } from './Certificate'
 import { makeLaureat } from './components/Laureat'
-import { Elimine } from './components/Elimine'
+import { Elimine } from './components/elimine'
 
 dotenv.config()
 

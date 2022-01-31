@@ -5,7 +5,7 @@ import { ProjectDataForCertificate } from '@modules/project'
 import { makeLaureat } from './components/Laureat'
 import { Certificate } from './Certificate'
 import { batiment, eolien } from '@dataAccess/inMemory/appelsOffres'
-import { Elimine } from './components/Elimine'
+import { Elimine } from './components/elimine/Elimine'
 
 export default { title: 'Attestations PDF' }
 
