@@ -13,6 +13,11 @@ import {
   MeSItem,
 } from './components'
 import {
+  ACItemProps,
+  CAItemProps,
+  CRItemProps,
+  DCRItemProps,
+  DesignationItemProps,
   extractACItemProps,
   extractCAItemProps,
   extractCRItemProps,
@@ -22,6 +27,10 @@ import {
   extractImportItemProps,
   extractMeSItemProps,
   extractPTFItemProps,
+  GFItemProps,
+  ImportItemProps,
+  MeSItemProps,
+  PTFItemProps,
 } from './helpers'
 
 export type TimelineProps = {
@@ -29,9 +38,17 @@ export type TimelineProps = {
   now: number
 }
 
-function isNotNull<T>(arg: T): arg is Exclude<T, null> {
-  return arg !== null
-}
+type ItemProps = (
+  | ImportItemProps
+  | DesignationItemProps
+  | GFItemProps
+  | DCRItemProps
+  | ACItemProps
+  | PTFItemProps
+  | CRItemProps
+  | MeSItemProps
+  | CAItemProps
+)[]
 
 export const Timeline = ({
   projectEventList: {
@@ -40,44 +57,53 @@ export const Timeline = ({
   },
   now,
 }: TimelineProps) => {
-  const itemProps = [
+  const itemProps: ItemProps = [
     extractDesignationItemProps(events, projectId),
     extractImportItemProps(events),
     extractGFItemProps(events, now),
     extractDCRItemProps(events, now),
-    extractPTFItemProps(events, { isLaureat }),
+    extractACItemProps(events),
   ]
     .filter(isNotNull)
-    .sort(sortItemProps)
+    .sort((a, b) => a.date - b.date)
 
-  const acItemProps = extractACItemProps(events)
-  const timelineItems = itemProps
-    .map((props) => {
-      const { type } = props
+  insertBefore(itemProps, 'attestation-de-conformite', extractPTFItemProps(events, { isLaureat }))
+  insertBefore(itemProps, 'attestation-de-conformite', extractCRItemProps(events, { isLaureat }))
+  insertAfter(itemProps, 'attestation-de-conformite', extractCAItemProps(events, { isLaureat }))
+  insertAfter(itemProps, 'attestation-de-conformite', extractMeSItemProps(events, { isLaureat }))
 
-      switch (type) {
-        case 'designation':
-          return <DesignationItem {...props} />
+  const timelineItems = itemProps.map((props) => {
+    const { type } = props
 
-        case 'import':
-          return <ImportItem {...props} />
+    switch (type) {
+      case 'designation':
+        return <DesignationItem {...props} />
 
-        case 'garanties-financieres':
-          return <GFItem {...{ ...props, projectId }} />
+      case 'import':
+        return <ImportItem {...props} />
 
-        case 'demande-complete-de-raccordement':
-          return <DCRItem {...{ ...props, projectId }} />
+      case 'garanties-financieres':
+        return <GFItem {...{ ...props, projectId }} />
 
-        case 'proposition-technique-et-financiere':
-          return <PTFItem {...{ ...props, projectId }} />
-      }
-    })
-    .concat([
-      <CRItem />,
-      ...(acItemProps ? [<ACItem {...acItemProps} />] : []),
-      <MeSItem />,
-      <CAItem />,
-    ])
+      case 'demande-complete-de-raccordement':
+        return <DCRItem {...{ ...props, projectId }} />
+
+      case 'proposition-technique-et-financiere':
+        return <PTFItem {...{ ...props, projectId }} />
+
+      case 'convention-de-raccordement':
+        return <CRItem />
+
+      case 'attestation-de-conformite':
+        return <ACItem {...props} />
+
+      case 'mise-en-service':
+        return <MeSItem />
+
+      case 'contrat-achat':
+        return <CAItem />
+    }
+  })
 
   return (
     <aside aria-label="Progress">
@@ -92,20 +118,28 @@ export const Timeline = ({
   )
 }
 
-const hasDateProperty = (props: unknown): props is { date: any } =>
-  props && typeof props === 'object' ? props.hasOwnProperty('date') : false
+function isNotNull<T>(arg: T): arg is Exclude<T, null> {
+  return arg !== null
+}
 
-const sortItemProps = (a: unknown, b: unknown) => {
-  const A_IS_GREATER_THAN_B = 1
-  const A_IS_LESS_THAN_B = -1
+type ExtractUndatedProps = PTFItemProps | CRItemProps | MeSItemProps | CAItemProps | null
 
-  if (!hasDateProperty(a)) {
-    return A_IS_GREATER_THAN_B
+function insertBefore(itemProps: ItemProps, referenceType: string, item: ExtractUndatedProps) {
+  if (itemProps.findIndex((props) => props.type === referenceType) !== -1) {
+    if (item) {
+      itemProps.splice(
+        itemProps.findIndex((props) => props.type === referenceType),
+        0,
+        item
+      )
+    }
   }
+}
 
-  if (!hasDateProperty(b)) {
-    return A_IS_LESS_THAN_B
+function insertAfter(itemProps: ItemProps, referenceType: string, item: ExtractUndatedProps) {
+  if (itemProps.findIndex((props) => props.type === referenceType) !== -1) {
+    if (item) {
+      itemProps.splice(itemProps.findIndex((props) => props.type === referenceType) + 1, 0, item)
+    }
   }
-
-  return a.date - b.date
 }
