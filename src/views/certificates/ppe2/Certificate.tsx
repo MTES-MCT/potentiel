@@ -39,7 +39,7 @@ export const Certificate = (props: CertificateProps) => {
           fontFamily: 'Arial',
           fontSize: 10,
           padding: 40,
-          paddingBottom: 60,
+          paddingBottom: 70,
         }}
       >
         <Header {...{ project }} />
