@@ -49,7 +49,7 @@ type ItemProps =
   | MeSItemProps
   | CAItemProps
 
-type UndatedItemProps = ItemProps & { date: undefined }
+type UndatedItemProps = ItemProps & { date: undefined }
 
 export const Timeline = ({
   projectEventList: {
@@ -58,17 +58,21 @@ export const Timeline = ({
   },
   now,
 }: TimelineProps) => {
+  const PTFItemProps = extractPTFItemProps(events, { isLaureat })
+
   const itemProps: ItemProps[] = [
     extractDesignationItemProps(events, projectId),
     extractImportItemProps(events),
     extractGFItemProps(events, now),
     extractDCRItemProps(events, now),
     extractACItemProps(events),
+    PTFItemProps?.status === 'submitted' ? PTFItemProps : null,
   ]
     .filter(isNotNull)
     .sort((a, b) => a.date - b.date)
 
-  insertBefore(itemProps, 'attestation-de-conformite', extractPTFItemProps(events, { isLaureat }))
+  PTFItemProps?.status === 'not-submitted' &&
+    insertBefore(itemProps, 'attestation-de-conformite', PTFItemProps)
   insertBefore(itemProps, 'attestation-de-conformite', extractCRItemProps(events, { isLaureat }))
   insertAfter(itemProps, 'attestation-de-conformite', extractCAItemProps(events, { isLaureat }))
   insertAfter(itemProps, 'attestation-de-conformite', extractMeSItemProps(events, { isLaureat }))
