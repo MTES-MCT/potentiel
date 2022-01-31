@@ -1,6 +1,5 @@
 import { LegacyModificationImported, ModificationReceived } from '@modules/modificationRequest'
 import {
-  handleModificationReceived,
   handlePeriodeNotified,
   handleProjectRawDataImported,
   handleLegacyModificationImported,
@@ -18,13 +17,6 @@ eventStore.subscribe(
     projectRepo,
     generateCertificate,
     getUnnotifiedProjectsForPeriode,
-  })
-)
-
-eventStore.subscribe(
-  ModificationReceived.type,
-  handleModificationReceived({
-    eventBus: eventStore,
   })
 )
 
