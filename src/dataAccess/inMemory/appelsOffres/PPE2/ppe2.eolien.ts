@@ -28,7 +28,15 @@ const eolienPPE2: AppelOffre = {
   paragrapheClauseCompetitivite: '2.11',
   afficherPhraseRegionImplantation: false,
   afficherValeurEvaluationCarbone: true,
-  periodes: [],
+  periodes: [
+    {
+      id: '1',
+      title: 'première',
+      paragrapheAchevement,
+      isNotifiedOnPotentiel: true,
+      certificateTemplate: 'ppe2',
+    },
+  ],
   familles: [],
 }
 
