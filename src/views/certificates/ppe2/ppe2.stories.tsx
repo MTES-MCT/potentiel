@@ -4,7 +4,7 @@ import { ProjectAppelOffre } from '@entities'
 import { ProjectDataForCertificate } from '@modules/project'
 import { makeLaureat } from './components/Laureat'
 import { Certificate } from './Certificate'
-import { batiment } from '@dataAccess/inMemory/appelsOffres'
+import { batiment, eolien } from '@dataAccess/inMemory/appelsOffres'
 import { Elimine } from './components/Elimine'
 
 export default { title: 'Attestations PDF' }
@@ -22,11 +22,10 @@ Font.register({
   ],
 })
 
-const project: ProjectDataForCertificate = {
+const fakeProject: ProjectDataForCertificate = {
   appelOffre: {
-    ...batiment,
+    ...eolien,
     periode: { id: 'periodeId', title: 'periodeTitle' },
-    famille: {},
   } as ProjectAppelOffre,
   isClasse: true,
   familleId: 'famille',
@@ -51,22 +50,106 @@ const project: ProjectDataForCertificate = {
 }
 
 export const LaureatPPE2 = () => {
-  const { content, footnotes } = makeLaureat(project)
+  const { content, footnotes } = makeLaureat(fakeProject)
   return (
     <PDFViewer width="100%" height="900px">
-      <Certificate {...{ project, type: 'laureat', content, footnotes }} />
+      <Certificate {...{ project: fakeProject, type: 'laureat', content, footnotes }} />
     </PDFViewer>
   )
 }
 
-export const EliminePPE2 = () => (
-  <PDFViewer width="100%" height="900px">
-    <Certificate
-      {...{
-        project: { ...project, isClasse: false },
-        type: 'elimine',
-        content: Elimine({ project }),
-      }}
-    />
-  </PDFViewer>
-)
+export const EliminePPE2AuDessusDePcible = () => {
+  const project: ProjectDataForCertificate = {
+    ...fakeProject,
+    isClasse: false,
+    motifsElimination: 'Au-dessus de Pcible',
+  }
+  return (
+    <PDFViewer width="100%" height="900px">
+      <Certificate
+        {...{
+          project,
+          type: 'elimine',
+          content: Elimine({ project }),
+        }}
+      />
+    </PDFViewer>
+  )
+}
+
+export const EliminePPE2DéjàLauréatNonInstruit = () => {
+  const project: ProjectDataForCertificate = {
+    ...fakeProject,
+    isClasse: false,
+    motifsElimination: 'Déjà lauréat - Non instruit',
+  }
+  return (
+    <PDFViewer width="100%" height="900px">
+      <Certificate
+        {...{
+          project,
+          type: 'elimine',
+          content: Elimine({ project }),
+        }}
+      />
+    </PDFViewer>
+  )
+}
+
+export const EliminePPE2Competitivite = () => {
+  const project: ProjectDataForCertificate = {
+    ...fakeProject,
+    isClasse: false,
+    motifsElimination: '20% compétitivité',
+  }
+  return (
+    <PDFViewer width="100%" height="900px">
+      <Certificate
+        {...{
+          project,
+          type: 'elimine',
+          content: Elimine({ project }),
+        }}
+      />
+    </PDFViewer>
+  )
+}
+
+export const EliminePPE2AutreMotif = () => {
+  const project: ProjectDataForCertificate = {
+    ...fakeProject,
+    isClasse: false,
+    motifsElimination: 'Autre motif',
+  }
+  return (
+    <PDFViewer width="100%" height="900px">
+      <Certificate
+        {...{
+          project,
+          type: 'elimine',
+          content: Elimine({ project }),
+        }}
+      />
+    </PDFViewer>
+  )
+}
+
+export const EliminePPE2AutreMotifNonSoumisAuxGF = () => {
+  const project: ProjectDataForCertificate = {
+    ...fakeProject,
+    isClasse: false,
+    motifsElimination: 'Autre motif',
+    appelOffre: { ...fakeProject.appelOffre, ...batiment },
+  }
+  return (
+    <PDFViewer width="100%" height="900px">
+      <Certificate
+        {...{
+          project,
+          type: 'elimine',
+          content: Elimine({ project }),
+        }}
+      />
+    </PDFViewer>
+  )
+}
