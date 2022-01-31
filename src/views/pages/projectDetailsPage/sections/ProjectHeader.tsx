@@ -13,59 +13,32 @@ interface ProjectHeaderProps {
 }
 
 export const ProjectHeader = ({ project, user, cahiersChargesURLs }: ProjectHeaderProps) => (
-  <div className="max-w-3xl mx-auto md:flex md:items-center md:justify-between md:space-x-5 lg:max-w-7xl">
-    <div className="flex items-center space-x-5">
-      <div>
-        <div className="flex items-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-0 pb-0">{project.nomProjet}</h1>
-          <ProjectStatusLabel
-            status={
-              !project.notifiedOn
-                ? 'non-notifié'
-                : project.isAbandoned
-                ? 'abandonné'
-                : project.isClasse
-                ? 'lauréat'
-                : 'éliminé'
-            }
-          />
-        </div>
-        <p className="text-sm font-medium text-gray-500 p-0 m-0">
-          {project.communeProjet}, {project.departementProjet}, {project.regionProjet}
-        </p>
-        <div style={{ fontSize: 13 }}>
-          {project.potentielIdentifier}{' '}
-          {cahiersChargesURLs && (
-            <>
-              {'('}
-              {cahiersChargesURLs.oldCahierChargesURL && (
-                <a href={cahiersChargesURLs.oldCahierChargesURL}>ancien cahier des charges</a>
-              )}
-
-              {cahiersChargesURLs.newCahierChargesURL && (
-                <>
-                  {' | '}
-                  <a href={cahiersChargesURLs.newCahierChargesURL}>nouveau cahier des charges</a>
-                </>
-              )}
-              {')'}
-            </>
-          )}
-        </div>
-        <div style={{ fontSize: 13 }}>
-          Instruction des demandes selon {project.newRulesOptIn ? 'les nouvelles' : 'les anciennes'}{' '}
-          règles
-        </div>
+  <div className="w-full lg:flex justify-between">
+    <div className="">
+      <div className="flex justify-start items-center">
+        <h1 className="text-2xl font-bold text-gray-900 mb-0 pb-0">{project.nomProjet}</h1>
+        <ProjectStatusLabel
+          status={
+            !project.notifiedOn
+              ? 'non-notifié'
+              : project.isAbandoned
+              ? 'abandonné'
+              : project.isClasse
+              ? 'lauréat'
+              : 'éliminé'
+          }
+        />
       </div>
+      <p className="text-sm font-medium text-gray-500 p-0 m-0">
+        {project.communeProjet}, {project.departementProjet}, {project.regionProjet}
+      </p>
+      <div style={{ fontSize: 13 }}>{project.potentielIdentifier}</div>
     </div>
-    <div className="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3">
-      <button
-        type="button"
-        className="inline-flex items-center justify-center button-outline primary"
-      >
+    <div className="ml-auto flex items-center mt-2 lg:mt-0">
+      <button type="button" className="button-outline primary mr-3">
         Faire une demande
       </button>
-      <button type="button" className="inline-flex items-center justify-center button pl-1">
+      <button type="button" className="button pl-1" style={{ margin: 0 }}>
         <PaperClipIcon className="h-5 w-5 align-middle mr-2" />
         Attestation
       </button>
