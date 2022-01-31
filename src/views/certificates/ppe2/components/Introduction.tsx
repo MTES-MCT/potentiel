@@ -26,7 +26,7 @@ export const Introduction = ({ project }: IntroductionProps) => {
       <Text style={{ fontSize: 10 }}>
         En application des dispositions de l’article L. 311-10 du code de l’énergie relatif à la
         procédure de mise en concurrence pour les installations de production d’électricité, le
-        ministre chargé de l’énergie a lancé en ${appelOffre.launchDate} l’appel d’offres cité en
+        ministre chargé de l’énergie a lancé en {appelOffre.launchDate} l’appel d’offres cité en
         objet.
       </Text>
 
