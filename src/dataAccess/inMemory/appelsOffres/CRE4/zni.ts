@@ -35,7 +35,7 @@ const zni: AppelOffre = {
       title: 'première',
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v0',
+      certificateTemplate: 'cre4.v0',
       noteThresholdByFamily: [
         { familleId: '1a', territoire: 'Corse', noteThreshold: 53.4 },
         { familleId: '1a', territoire: 'Guadeloupe', noteThreshold: 56.3 },
@@ -60,7 +60,7 @@ const zni: AppelOffre = {
       title: 'deuxième',
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v0',
+      certificateTemplate: 'cre4.v0',
       noteThresholdByFamily: [
         { familleId: '2a', territoire: 'Corse', noteThreshold: 42.1 },
         { familleId: '2a', territoire: 'Guadeloupe', noteThreshold: 47.2 },
@@ -84,7 +84,7 @@ const zni: AppelOffre = {
       title: 'troisième',
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
       noteThresholdByFamily: [
         { familleId: '1a', territoire: 'Corse', noteThreshold: 52.7 },
         { familleId: '1a', territoire: 'Guadeloupe', noteThreshold: 30.6 },
@@ -106,7 +106,7 @@ const zni: AppelOffre = {
       title: 'quatrième',
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
       noteThresholdByFamily: [
         { familleId: '2a', territoire: 'Corse', noteThreshold: 33.61 },
         { familleId: '2a', territoire: 'Guadeloupe', noteThreshold: 40.48 },
@@ -130,7 +130,7 @@ const zni: AppelOffre = {
       title: 'cinquième',
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
       noteThresholdByFamily: [
         { familleId: '1a', territoire: 'Mayotte', noteThreshold: 49.99 },
         { familleId: '1a', territoire: 'Guyane', noteThreshold: 30.64 },

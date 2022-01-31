@@ -84,7 +84,7 @@ const batiment: AppelOffre = {
         { familleId: '1', noteThreshold: 27.91 },
         { familleId: '2', noteThreshold: 25.62 },
       ],
-      certificateTemplate: 'v0',
+      certificateTemplate: 'cre4.v0',
     },
     {
       id: '11',
@@ -95,7 +95,7 @@ const batiment: AppelOffre = {
         { familleId: '1', noteThreshold: 30.82 },
         { familleId: '2', noteThreshold: 29.85 },
       ],
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
     },
     {
       id: '12',
@@ -106,7 +106,7 @@ const batiment: AppelOffre = {
         { familleId: '1', noteThreshold: 33.77 },
         { familleId: '2', noteThreshold: 32.8 },
       ],
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
     },
     {
       id: '13',
@@ -117,7 +117,7 @@ const batiment: AppelOffre = {
         { familleId: '1', noteThreshold: 22.59 },
         { familleId: '2', noteThreshold: 26.91 },
       ],
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
     },
   ],
   familles: [

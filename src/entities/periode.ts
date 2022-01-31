@@ -16,7 +16,7 @@ type NoteThresholdByCategory = {
   }
 }
 
-export type CertificateTemplate = 'v0' | 'v1' | 'ppe2.v1'
+export type CertificateTemplate = 'cre4.v0' | 'cre4.v1' | 'ppe2.v1'
 
 export type Periode = {
   id: string
