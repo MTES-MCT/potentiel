@@ -11,6 +11,7 @@ export const Signature = () => (
       marginLeft: 'auto',
       textAlign: 'center',
     }}
+    wrap={false}
   >
     <Text style={{ fontWeight: 'bold' }}>
       L’adjoint au sous-directeur du système électrique et des énergies renouvelables
