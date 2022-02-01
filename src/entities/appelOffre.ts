@@ -7,7 +7,6 @@ export type AppelOffre = {
   shortTitle: string
   launchDate: string
   unitePuissance: string
-  delaiRealisationEnMois: number
   delaiRealisationTexte: string
   paragraphePrixReference: string
   paragrapheDelaiDerogatoire: string
@@ -25,12 +24,18 @@ export type AppelOffre = {
   afficherValeurEvaluationCarbone: boolean
   afficherPhraseRegionImplantation: boolean
   dossierSuiviPar: string
-  soumisAuxGarantiesFinancieres: boolean
+  soumisAuxGarantiesFinancieres?: boolean
   renvoiSoumisAuxGarantiesFinancieres?: string
   periodes: Periode[]
   familles: Famille[]
   contenuParagrapheAchevement: string
-}
+} & (
+  | { delaiRealisationEnMois: number; decoupageParTechnologie: false }
+  | {
+      delaiRealisationEnMoisParTechnologie: { pv: number; eolien: number; hydraulique: number }
+      decoupageParTechnologie: true
+    }
+)
 
 export type ProjectAppelOffre = AppelOffre & {
   periode: Periode

@@ -11,6 +11,7 @@ const innovationPPE2: AppelOffre = {
   delaiRealisationEnMois: 30,
   contenuParagrapheAchevement: makeParagrapheAchevementForDelai(30, '7.1'),
   delaiRealisationTexte: 'trente (30) mois',
+  decoupageParTechnologie: false,
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.3',
   paragrapheAttestationConformite: '6.5',
@@ -34,7 +35,7 @@ const innovationPPE2: AppelOffre = {
       title: 'première',
       paragrapheAchevement,
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'ppe2',
+      certificateTemplate: 'ppe2.v0',
     },
   ],
   familles: [

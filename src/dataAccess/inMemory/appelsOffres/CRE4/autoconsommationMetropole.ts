@@ -11,6 +11,7 @@ const autoconsommationMetropole: AppelOffre = {
   delaiRealisationEnMois: 24,
   contenuParagrapheAchevement: makeParagrapheAchevementForDelai(24, '7.1'),
   delaiRealisationTexte: 'vingt-quatre (24) mois',
+  decoupageParTechnologie: false,
   paragraphePrixReference: '7.2',
   paragrapheDelaiDerogatoire: '6.3',
   paragrapheAttestationConformite: '6.5',

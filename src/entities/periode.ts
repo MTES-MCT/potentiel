@@ -6,7 +6,7 @@ type NoteThreshold = {
   territoire?: Territoire
 }
 
-export type CertificateTemplate = 'v0' | 'v1' | 'ppe2'
+export type CertificateTemplate = 'v0' | 'v1' | 'ppe2.v0'
 
 export type Periode = {
   id: string

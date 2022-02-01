@@ -24,6 +24,7 @@ const eolien: AppelOffre = {
   // Renvoi 4 sur l'innovation ?
   paragrapheDelaiDerogatoire: '6.4',
   delaiRealisationEnMois: 36,
+  decoupageParTechnologie: false,
   contenuParagrapheAchevement: makeParagrapheAchevementForDelai(36, '7.1'),
   delaiRealisationTexte: 'trente-six (36) mois',
   paragrapheAttestationConformite: '6.5',

@@ -1,5 +1,4 @@
 import { AppelOffre } from '@entities'
-import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 const neutrePPE2: AppelOffre = {
   id: 'PPE2 - Neutre',
@@ -19,8 +18,12 @@ const neutrePPE2: AppelOffre = {
   renvoiRetraitDesignationGarantieFinancieres: '5.1',
   soumisAuxGarantiesFinancieres: true,
   paragrapheDelaiDerogatoire: '6.3',
-  delaiRealisationEnMois: 30 | 36,
-  contenuParagrapheAchevement: makeParagrapheAchevementForDelai(30 | 36, '7.1'),
+  delaiRealisationEnMoisParTechnologie: { eolien: 36, pv: 30, hydraulique: 36 },
+  decoupageParTechnologie: true,
+  contenuParagrapheAchevement: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
+- trente (30) mois pour les installations photovoltaïques ou trente-six (36) mois pour les installations éoliennes ou hydroélectriques à compter de la Date de désignation.
+- deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur puisse justifier qu’il a déposé sa demande de raccordement dans les deux (2) mois suivant la Date de désignation et mis en œuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit intervenir dans un délai de 2 mois à compter de la fin des travaux de raccordement matérialisée par la date d’envoi par le gestionnaire de réseau compétent de la facture de solde à acquitter par le producteur pour sa contribution au coût du raccordement.
+En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est réduite de la durée de dépassement.`,
   delaiRealisationTexte:
     'trente (30) mois pour les installations photovoltaïques ou trente-six (36) mois pour les installations éoliennes ou hydroélectriques',
   paragrapheAttestationConformite: '6.6',
@@ -35,7 +38,7 @@ const neutrePPE2: AppelOffre = {
       title: 'première',
       paragrapheAchevement,
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'ppe2',
+      certificateTemplate: 'ppe2.v0',
     },
   ],
   familles: [

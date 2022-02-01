@@ -9,6 +9,7 @@ export const autoconsommationMetropole2016: AppelOffre = {
   launchDate: 'juillet 2016',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 30,
+  decoupageParTechnologie: false,
   contenuParagrapheAchevement: makeParagrapheAchevementForDelai(24, '7.1'),
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7.2',

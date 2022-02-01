@@ -9,6 +9,7 @@ export const zni2017: AppelOffre = {
   launchDate: 'mai 2015',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 36,
+  decoupageParTechnologie: false,
   contenuParagrapheAchevement: makeParagrapheAchevementForDelai(36, '7'),
   delaiRealisationTexte: 'trente-six (36) mois',
   paragraphePrixReference: '4.4',
