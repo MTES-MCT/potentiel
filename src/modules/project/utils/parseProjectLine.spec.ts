@@ -27,6 +27,7 @@ const fakeLine = {
   'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)':
     '230.50',
   'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)': '',
+  'Technologie\n(dispositif de production)': 'Hydraulique',
   Autre: 'valeur',
 }
 
@@ -60,10 +61,43 @@ describe('parseProjectLine', () => {
       engagementFournitureDePuissanceAlaPointe: false,
       territoireProjet: '',
       evaluationCarbone: 230.5,
+      technologie: 'hydraulique',
       details: {
         Autre: 'valeur',
       },
     })
+  })
+
+  it('should parse the "Technologie\n(dispositif de production)" column', () => {
+    expect(
+      parseProjectLine({
+        ...fakeLine,
+        'Technologie\n(dispositif de production)': 'Hydraulique',
+      })
+    ).toMatchObject({ technologie: 'hydraulique' })
+
+    expect(
+      parseProjectLine({
+        ...fakeLine,
+        'Technologie\n(dispositif de production)': 'Eolien',
+      })
+    ).toMatchObject({ technologie: 'eolien' })
+
+    expect(
+      parseProjectLine({
+        ...fakeLine,
+        'Technologie\n(dispositif de production)': '',
+      })
+    ).toMatchObject({ technologie: 'pv' })
+
+    expect(() =>
+      parseProjectLine({
+        ...fakeLine,
+        'Technologie\n(dispositif de production)': 'bad value',
+      })
+    ).toThrowError(
+      'Le champ "Technologie" peut contenir les valeurs "hydraulique", "Eolien" ou rester vide pour la technologie PV'
+    )
   })
 
   it("should parse the 'Investissement ou financement participatif ?' column", () => {
@@ -485,7 +519,8 @@ describe('parseProjectLine', () => {
       expect(() =>
         parseProjectLine({
           ...fakeLine,
-          'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)': undefined,
+          'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)':
+            undefined,
           'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)': undefined,
         })
       ).toThrowError('Le champ Evaluation carbone doit contenir un nombre')
