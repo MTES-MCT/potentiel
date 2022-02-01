@@ -104,7 +104,17 @@ const getAppelOffre = (args: {
 }
 
 const isSoumisAuxGarantiesFinancieres = (appelOffreId: string, familleId: string): boolean => {
-  if (appelOffreId === 'Eolien') return true
+  if (
+    [
+      'Eolien',
+      'PPE2 - Sol',
+      'PPE2 - Bâtiment',
+      'PPE2 - Autoconsommation métropole',
+      'PPE2 - Eolien',
+      'PPE2 - Neutre',
+    ].includes(appelOffreId)
+  )
+    return true
 
   const famille = appelsOffreStatic
     .find((item) => item.id === appelOffreId)
