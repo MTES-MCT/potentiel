@@ -86,7 +86,7 @@ export const makeLaureat: MakeLaureat = (project) => {
           - si ce n’est déjà fait, déposer une demande complète de raccordement dans les deux (2)
           mois à compter de la présente notification
           {addFootNote(appelOffre.renvoiDemandeCompleteRaccordement)}
-          {appelOffre.id === 'Eolien' &&
+          {appelOffre.id === 'PPE2 - Eolien' &&
             ' ou dans les deux mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale'}
           ;
         </Text>
@@ -168,21 +168,33 @@ export const makeLaureat: MakeLaureat = (project) => {
           certains éléments de l’offre postérieurement à la désignation des lauréats est possible,
           selon les conditions et modalités précisées au {appelOffre.renvoiModification} du cahier
           des charges
-          <Text
-            style={{
-              textDecoration: 'underline',
-            }}
-          >
-            {appelOffre.affichageParagrapheECS &&
-              (appelOffre.id === 'Eolien'
-                ? '. Les changements conduisant à une remise en cause de l’autorisation mentionnée au 3.3.3 ne seront pas acceptés'
-                : '. Les changements conduisant à une diminution de la notation d’un ou plusieurs critères d’évaluations de l’offre, notamment par un bilan carbone moins performant, ne seront pas acceptés')}
-
-            {appelOffre.id === 'PPE2 - Innovation' &&
-              `. Toute demande de modification substantielle de l’innovation sera notamment refusée ${addFootNote(
-                '5.4.4'
-              )}`}
-          </Text>
+          {appelOffre.affichageParagrapheECS && (
+            <>
+              {'. '}
+              <Text
+                style={{
+                  textDecoration: 'underline',
+                }}
+              >
+                {appelOffre.id === 'PPE2 - Eolien'
+                  ? ' Les changements conduisant à une remise en cause de l’autorisation mentionnée au 3.3.3 ne seront pas acceptés'
+                  : ' Les changements conduisant à une diminution de la notation d’un ou plusieurs critères d’évaluations de l’offre, notamment par un bilan carbone moins performant, ne seront pas acceptés'}
+              </Text>
+            </>
+          )}
+          {appelOffre.id === 'PPE2 - Innovation' && (
+            <>
+              {'. '}
+              <Text
+                style={{
+                  textDecoration: 'underline',
+                }}
+              >
+                Toute demande de modification substantielle de l’innovation sera notamment refusée{' '}
+                {addFootNote('5.4.4')}
+              </Text>
+            </>
+          )}
           ;
         </Text>
       )}
