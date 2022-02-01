@@ -1,10 +1,11 @@
 import React from 'react'
 import { User } from '@entities'
 import { ProjectDataForProjectPage } from '@modules/project/dtos'
-import ProjectActions from '../../../components/ProjectActions'
+import NewProjectActions from '../../projectDetailsPage/components/ProjectActions'
 import { ProjectStatusLabel } from 'src/views/components/ProjectStatusLabel'
 
 import { PaperClipIcon } from '@heroicons/react/outline'
+import ProjectActions from '../../../components/ProjectActions'
 
 interface ProjectHeaderProps {
   project: ProjectDataForProjectPage
@@ -34,7 +35,8 @@ export const ProjectHeader = ({ project, user, cahiersChargesURLs }: ProjectHead
       </p>
       <div style={{ fontSize: 13 }}>{project.potentielIdentifier}</div>
     </div>
-    <div className="ml-auto flex items-center mt-2 lg:mt-0">
+    <div className="ml-auto flex items-center mt-2 lg:mt-0 relative">
+      <NewProjectActions project={project} role={user.role} />
       <button type="button" className="button-outline primary mr-3">
         Faire une demande
       </button>

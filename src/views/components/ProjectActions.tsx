@@ -43,7 +43,7 @@ const ProjectActions = ({ project, role }: Props) => {
       <svg className="icon list--action-trigger" {...dataId('action-menu-trigger')}>
         <use xlinkHref="#dots-vertical"></use>
       </svg>
-      <ul className="list--action-menu" {...dataId('action-menu')}>
+      <ul className="list--action-menu open" {...dataId('action-menu')}>
         {actions.map(({ title, actionId, projectId, link, disabled, isDownload }, actionIndex) => (
           <li key={'notif_' + projectId + '_' + actionIndex}>
             {disabled ? (
