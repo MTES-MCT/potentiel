@@ -1,8 +1,17 @@
 import { ProjectDataForCertificate } from '@modules/project'
 import { logger } from '@core/utils'
 
-export const getNoteThreshold = (project: ProjectDataForCertificate) => {
+export const getNoteThreshold = (project: ProjectDataForCertificate): number | 'N/A' => {
   const periode = project.appelOffre.periode
+
+  if (periode.noteThresholdByCategory) {
+    const { volumesReserves, autres } = periode.noteThresholdByCategory
+    if (project.puissance <= volumesReserves.puissanceMax) {
+      return volumesReserves.noteThreshold
+    }
+
+    return autres.noteThreshold
+  }
 
   if (!periode.noteThresholdByFamily) {
     logger.error(
