@@ -5,7 +5,11 @@ import { dataId } from '../../../helpers/testId'
 import UserDashboard from '../../components/UserDashboard'
 import { Request } from 'express'
 import { formatDate } from '../../../helpers/formatDate'
-import { appelsOffreStatic, isSoumisAuxGarantiesFinancieres } from '@dataAccess/inMemory'
+import {
+  appelsOffreStatic,
+  isSoumisAuxGarantiesFinancieres,
+  getDelaiDeRealisation,
+} from '@dataAccess/inMemory'
 import { PageLayout } from '../../components/PageLayout'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
 import { getAutoAcceptRatiosForAppelOffre } from '@modules/modificationRequest'
@@ -28,8 +32,11 @@ const getunitePuissanceForAppelOffre = (appelOffreId) => {
   return appelsOffreStatic.find((item) => item.id === appelOffreId)?.unitePuissance
 }
 
-const getDelayForAppelOffre = (appelOffreId) => {
-  return appelsOffreStatic.find((item) => item.id === appelOffreId)?.delaiRealisationEnMois
+const getDelayForAppelOffre = (appelOffreId, technologie) => {
+  return (
+    appelsOffreStatic.find((item) => item.id === appelOffreId) &&
+    getDelaiDeRealisation(appelOffreId, technologie)
+  )
 }
 
 /* Pure component */
@@ -666,7 +673,7 @@ export const NewModificationRequest = PageLayout(
                         disabled
                         defaultValue={formatDate(
                           +moment(project.notifiedOn).add(
-                            getDelayForAppelOffre(project.appelOffreId),
+                            getDelayForAppelOffre(project.appelOffreId, project.technologie),
                             'months'
                           ),
                           'DD/MM/YYYY'
@@ -686,7 +693,10 @@ export const NewModificationRequest = PageLayout(
                         id="delayInMonths"
                         defaultValue={delayInMonths}
                         data-initial-date={moment(project.notifiedOn)
-                          .add(getDelayForAppelOffre(project.appelOffreId), 'months')
+                          .add(
+                            getDelayForAppelOffre(project.appelOffreId, project.technologie),
+                            'months'
+                          )
                           .toDate()
                           .getTime()}
                         {...dataId('delayInMonthsField')}
