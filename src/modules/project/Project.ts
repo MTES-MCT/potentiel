@@ -53,6 +53,7 @@ import {
   ProjectReimportedPayload,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
+import { getDelaiDeRealisation } from '@dataAccess/inMemory'
 
 export interface Project extends EventStoreAggregate {
   notify: (
@@ -147,6 +148,7 @@ export interface ProjectDataProps {
   isInvestissementParticipatif: boolean
   motifsElimination: string
   details: Record<string, string>
+  technologie: string
 }
 
 export interface ProjectProps {
@@ -916,7 +918,7 @@ export const makeProject = (args: {
           completionDueOn:
             completionDueOn ||
             moment(props.notifiedOn)
-              .add(props.appelOffre.delaiRealisationEnMois, 'months')
+              .add(getDelaiDeRealisation(props.appelOffre.id, props.data?.technologie), 'months')
               .subtract(1, 'day')
               .toDate()
               .getTime(),
