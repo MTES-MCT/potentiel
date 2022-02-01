@@ -36,7 +36,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
     {
       id: '1',
       title: 'première',
-      paragrapheAchevement,
+      paragrapheAchevement: 'A COMPLETER',
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'ppe2.v0',
     },

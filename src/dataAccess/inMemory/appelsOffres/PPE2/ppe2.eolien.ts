@@ -33,7 +33,7 @@ const eolienPPE2: AppelOffre = {
     {
       id: '1',
       title: 'première',
-      paragrapheAchevement,
+      paragrapheAchevement: 'A COMPLETER',
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'ppe2.v0',
     },
