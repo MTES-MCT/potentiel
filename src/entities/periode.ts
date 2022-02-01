@@ -7,8 +7,13 @@ type NoteThreshold = {
 }
 
 type NoteThresholdByCategory = {
-  volumesReserves: number
-  autres: number
+  volumesReserves: {
+    noteThreshold: number
+    puissanceMax: number
+  }
+  autres: {
+    noteThreshold: number
+  }
 }
 
 export type CertificateTemplate = 'v0' | 'v1' | 'ppe2.v0'
