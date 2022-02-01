@@ -7,6 +7,7 @@ import { formatDate } from '../../helpers/formatDate'
 import { ProjectDataForCertificate } from '@modules/project/dtos'
 import { IllegalProjectStateError } from '@modules/project/errors'
 import { OtherError } from '@modules/shared'
+import { getDelaiDeRealisation } from 'src/dataAccess/inMemory'
 
 dotenv.config()
 
@@ -45,7 +46,7 @@ const makeAddFootnote = (footNotes: Array<any>) => {
 }
 
 const Laureat = (project: ProjectDataForCertificate) => {
-  const { appelOffre } = project
+  const { appelOffre, technologie } = project
   const { periode } = appelOffre || {}
 
   const objet =
@@ -191,8 +192,9 @@ const Laureat = (project: ProjectDataForCertificate) => {
         }}
       >
         - sauf délais dérogatoires prévus au {appelOffre.paragrapheDelaiDerogatoire} du cahier des
-        charges, achever l’installation dans un délai de {appelOffre.delaiRealisationEnMois} mois à
-        compter de la présente notification.
+        charges, achever l’installation dans un délai de{' '}
+        {getDelaiDeRealisation(appelOffre.id, technologie)} mois à compter de la présente
+        notification.
       </Text>
       <Text
         style={{
@@ -308,8 +310,9 @@ const getNoteThreshold = (project: ProjectDataForCertificate) => {
     return note
   }
 
-  const note = periode.noteThresholdByFamily.find((item) => item.familleId === project.familleId)
-    ?.noteThreshold
+  const note = periode.noteThresholdByFamily.find(
+    (item) => item.familleId === project.familleId
+  )?.noteThreshold
 
   if (!note) {
     logger.error(

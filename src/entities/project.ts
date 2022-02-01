@@ -70,6 +70,7 @@ const baseProjectSchema = SchemaRecord({
   numeroGestionnaire: String,
   newRulesOptIn: Boolean,
   potentielIdentifier: String,
+  technologie: String,
 })
 const projectSchema = baseProjectSchema.And(
   SchemaPartial({

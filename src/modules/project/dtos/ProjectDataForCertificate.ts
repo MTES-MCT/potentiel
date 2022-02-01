@@ -22,4 +22,5 @@ export interface ProjectDataForCertificate {
   puissance: number
   potentielId: string
   territoireProjet: string
+  technologie?: string
 }
