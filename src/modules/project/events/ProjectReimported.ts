@@ -33,11 +33,13 @@ export interface ProjectReimportedPayload {
     motifsElimination: string
     notifiedOn: number
     details: any
+    technologie: string
   }>
 }
 export class ProjectReimported
   extends BaseDomainEvent<ProjectReimportedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ProjectReimported' = 'ProjectReimported'
   public type = ProjectReimported.type
   currentVersion = 1

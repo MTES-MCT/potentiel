@@ -30,6 +30,7 @@ const mappedColumns = [
   'Territoire\n(AO ZNI)',
   'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)',
   'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)',
+  'Technologie\n(dispositif de production)',
 ]
 
 const prepareNumber = (str) => str && str.replace(/,/g, '.')
@@ -111,6 +112,12 @@ const columnMapper = {
     if (Number(ecs) === 0) return -1
 
     return ecs
+  },
+  technologie: (line: any) => {
+    const technologie = line['Technologie\n(dispositif de production)']
+    if (technologie === 'Eolien') return 'eolien'
+    if (technologie === 'Hydraulique') return 'hydraulique'
+    return 'pv'
   },
 } as const
 
@@ -238,6 +245,13 @@ const projectSchema = yup.object().shape({
     .number()
     .typeError('Le champ Evaluation carbone doit contenir un nombre')
     .min(0, 'Le champ Evaluation Carbone doit contenir un nombre strictement positif')
+    .required(),
+  technologie: yup
+    .mixed()
+    .oneOf(
+      ['pv', 'hydraulique', 'eolien'],
+      'Le champ Technologie doit être vide (pour PV) ou contenir "Hydraulique" ou "Eolien".'
+    )
     .required(),
 })
 
