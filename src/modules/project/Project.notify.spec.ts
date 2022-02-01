@@ -1,7 +1,7 @@
 import moment from 'moment'
 import { DomainEvent, UniqueEntityID } from '@core/domain'
 import { UnwrapForTest } from '@core/utils'
-import { appelsOffreStatic } from '@dataAccess/inMemory'
+import { appelsOffreStatic, getDelaiDeRealisation } from '@dataAccess/inMemory'
 import { AppelOffre } from '@entities'
 import makeFakeProject from '../../__tests__/fixtures/project'
 import { ProjectAlreadyNotifiedError } from './errors'
@@ -119,7 +119,7 @@ describe('Project.notify()', () => {
       expect(targetEvent.payload.projectId).toEqual(projectId.toString())
       expect(targetEvent.payload.completionDueOn).toEqual(
         moment(notifiedOn)
-          .add(appelsOffres[fakeProjectData.appelOffreId].delaiRealisationEnMois, 'months')
+          .add(getDelaiDeRealisation(fakeProjectData.appelOffreId, ''), 'months')
           .subtract(1, 'day')
           .toDate()
           .getTime()
