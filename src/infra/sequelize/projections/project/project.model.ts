@@ -163,7 +163,11 @@ export const MakeProjectModel = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
         defaultValue: 'potId',
-      }
+      },
+      technologie: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
     },
     {
       timestamps: true,
