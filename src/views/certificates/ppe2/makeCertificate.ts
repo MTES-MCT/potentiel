@@ -11,14 +11,18 @@ import { Elimine } from './components/elimine'
 dotenv.config()
 
 Font.register({
-  family: 'Arial',
+  family: 'Arimo',
   fonts: [
     {
-      src: process.env.BASE_URL + '/fonts/arial.ttf',
+      src: '/fonts/arimo/Arimo-Regular.ttf',
     },
     {
-      src: process.env.BASE_URL + '/fonts/arial-bold.ttf',
+      src: '/fonts/arimo/Arimo-Bold.ttf',
       fontWeight: 'bold',
+    },
+    {
+      src: '/fonts/arimo/Arimo-Italic.ttf',
+      fontStyle: 'italic',
     },
   ],
 })

@@ -31,7 +31,7 @@ export const Header = ({ project }: HeaderProps) => {
           Paris, le {project.notifiedOn ? formatDate(project.notifiedOn, 'D MMMM YYYY') : '[N/A]'}
         </Text>
 
-        <View style={{ width: 165, paddingBottom: 10 }}>
+        <View style={{ width: 165, paddingBottom: 10, fontStyle: 'italic' }}>
           <Text>Direction de l’énergie</Text>
           <Text>Sous-direction du système électrique et des énergies renouvelables</Text>
           <Text>Bureau de la production électrique et des énergies renouvelables</Text>
