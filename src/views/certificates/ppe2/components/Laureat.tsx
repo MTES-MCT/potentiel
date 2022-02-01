@@ -91,7 +91,7 @@ export const makeLaureat: MakeLaureat = (project) => {
           ;
         </Text>
 
-        {soumisAuxGarantiesFinancieres && appelOffre.renvoiSoumisAuxGarantiesFinancieres && (
+        {soumisAuxGarantiesFinancieres && appelOffre.renvoiRetraitDesignationGarantieFinancieres && (
           <Text
             style={{
               marginTop: 10,
