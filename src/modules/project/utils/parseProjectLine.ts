@@ -114,6 +114,7 @@ const columnMapper = {
     return ecs
   },
   technologie: (line: any) => {
+    if (!line.hasOwnProperty('Technologie\n(dispositif de production)')) return 'N/A'
     const technologie = line['Technologie\n(dispositif de production)']
     if (technologie === 'Eolien') return 'eolien'
     if (technologie === 'Hydraulique') return 'hydraulique'
@@ -250,8 +251,8 @@ const projectSchema = yup.object().shape({
   technologie: yup
     .mixed()
     .oneOf(
-      ['pv', 'hydraulique', 'eolien'],
-      'Le champ "Technologie" peut contenir les valeurs "hydraulique", "Eolien" ou rester vide pour la technologie PV'
+      ['pv', 'hydraulique', 'eolien', 'N/A'],
+      'Le champ "Technologie" peut contenir les valeurs "Hydraulique", "Eolien" ou rester vide pour la technologie PV'
     ),
 })
 
