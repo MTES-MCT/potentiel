@@ -6,7 +6,7 @@ import { Objet } from './components/Objet'
 import { Introduction } from './components/Introduction'
 import { Signature } from './components/Signature'
 import { PageFooter } from './components/PageFooter'
-import { Footnote } from './components/Footnote'
+import { Footnote, FootnoteProps } from './components/Footnote'
 
 export type CertificateProps = {
   project: ProjectDataForCertificate
@@ -14,17 +14,12 @@ export type CertificateProps = {
 } & (
   | {
       type: 'laureat'
-      footnotes: Array<Footnote>
+      footnotes: Array<FootnoteProps>
     }
   | {
       type: 'elimine'
     }
 )
-
-type Footnote = {
-  footnote: string
-  indice: number
-}
 
 export const Certificate = (props: CertificateProps) => {
   const { type, project, content } = props

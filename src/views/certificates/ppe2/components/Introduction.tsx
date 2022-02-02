@@ -32,7 +32,7 @@ export const Introduction = ({ project }: IntroductionProps) => {
 
       <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
         En réponse à la {periode.title} tranche de cet appel d’offres, vous avez déposé{' '}
-        {appelOffre.familles.length && project.familleId
+        {appelOffre.familles.length > 0 && project.familleId
           ? `dans la famille ${project.familleId} `
           : ''}{' '}
         le projet « {project.nomProjet} », situé {project.adresseProjet} {project.codePostalProjet}{' '}

@@ -1,10 +1,17 @@
 import React from 'react'
 import { Font, PDFViewer } from '@react-pdf/renderer'
-import { Famille, Periode, ProjectAppelOffre } from '@entities'
+import { Periode, ProjectAppelOffre } from '@entities'
 import { ProjectDataForCertificate } from '@modules/project'
 import { makeLaureat } from './components/Laureat'
 import { Certificate } from './Certificate'
-import { makeParagrapheAchevementForDelai } from '@dataAccess/inMemory/appelsOffres'
+import {
+  autoconsommationMetropolePPE2,
+  batimentPPE2,
+  eolienPPE2,
+  innovationPPE2,
+  neutrePPE2,
+  solPPE2,
+} from '@dataAccess/inMemory/appelsOffres'
 
 export default { title: 'Attestations PDF' }
 
@@ -25,40 +32,8 @@ Font.register({
   ],
 })
 
-const fakeAoEolienPPE2 = {
-  id: 'PPE2 - Eolien',
-  title:
-    '2021/S 146-386083 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie mécanique du vent implantées à terre',
-  shortTitle: 'PPE2 - Eolien 2021/S 146-386083',
-  dossierSuiviPar: 'violaine.tarizzo@developpement-durable.gouv.fr',
-  launchDate: 'Août 2021',
-  unitePuissance: 'MW',
-  tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
-  tarifOuPrimeRetenueAlt: 'ce prix de référence',
-  paragraphePrixReference: '7',
-  affichageParagrapheECS: true,
-  paragrapheEngagementIPFP: '3.3.7, 4.3 et 6.5.2',
-  renvoiEngagementIPFP: '3.3.7',
-  renvoiDemandeCompleteRaccordement: '6.1',
-  renvoiRetraitDesignationGarantieFinancieres: '5.1',
-  soumisAuxGarantiesFinancieres: true,
-  paragrapheDelaiDerogatoire: '6.3',
-  delaiRealisationEnMois: 36,
-  contenuParagrapheAchevement: makeParagrapheAchevementForDelai(36, '7.1'),
-  delaiRealisationTexte: 'trente-six (36) mois',
-  paragrapheAttestationConformite: '6.5',
-  afficherParagrapheInstallationMiseEnServiceModification: true,
-  renvoiModification: '5.2',
-  paragrapheClauseCompetitivite: '2.11',
-  afficherPhraseRegionImplantation: false,
-  afficherValeurEvaluationCarbone: true,
-  periodes: [] as Periode[],
-  familles: [] as Famille[],
-  periode: { id: 'periodeId', title: 'periodeTitle' } as Periode,
-} as ProjectAppelOffre
-
 const fakeProject: ProjectDataForCertificate = {
-  appelOffre: fakeAoEolienPPE2,
+  appelOffre: {} as ProjectAppelOffre,
   isClasse: true,
   familleId: 'famille',
   prixReference: 42,
@@ -81,11 +56,98 @@ const fakeProject: ProjectDataForCertificate = {
   territoireProjet: 'territoireProjet',
 }
 
-export const LaureatPPE2 = () => {
-  const { content, footnotes } = makeLaureat(fakeProject)
+export const LaureatPPE2AutoconsommationMétropole = () => {
+  const project = {
+    ...fakeProject,
+    appelOffre: {
+      ...autoconsommationMetropolePPE2,
+      periode: autoconsommationMetropolePPE2.periodes[0],
+    } as ProjectAppelOffre,
+  }
+  const { content, footnotes } = makeLaureat(project)
   return (
     <PDFViewer width="100%" height="900px">
-      <Certificate {...{ project: fakeProject, type: 'laureat', content, footnotes }} />
+      <Certificate {...{ project, type: 'laureat', content, footnotes }} />
+    </PDFViewer>
+  )
+}
+
+export const LaureatPPE2Batiment = () => {
+  const project = {
+    ...fakeProject,
+    appelOffre: {
+      ...batimentPPE2,
+      periode: batimentPPE2.periodes[0],
+    } as ProjectAppelOffre,
+  }
+  const { content, footnotes } = makeLaureat(project)
+  return (
+    <PDFViewer width="100%" height="900px">
+      <Certificate {...{ project, type: 'laureat', content, footnotes }} />
+    </PDFViewer>
+  )
+}
+
+export const LaureatPPE2Eolien = () => {
+  const project = {
+    ...fakeProject,
+    appelOffre: {
+      ...eolienPPE2,
+      periode: eolienPPE2.periodes[0],
+    } as ProjectAppelOffre,
+  }
+  const { content, footnotes } = makeLaureat(project)
+  return (
+    <PDFViewer width="100%" height="900px">
+      <Certificate {...{ project, type: 'laureat', content, footnotes }} />
+    </PDFViewer>
+  )
+}
+
+export const LaureatPPE2Innovation = () => {
+  const project = {
+    ...fakeProject,
+    appelOffre: {
+      ...innovationPPE2,
+      periode: innovationPPE2.periodes[0],
+    } as ProjectAppelOffre,
+  }
+  const { content, footnotes } = makeLaureat(project)
+  return (
+    <PDFViewer width="100%" height="900px">
+      <Certificate {...{ project, type: 'laureat', content, footnotes }} />
+    </PDFViewer>
+  )
+}
+
+export const LaureatPPE2Neutre = () => {
+  const project = {
+    ...fakeProject,
+    appelOffre: {
+      ...neutrePPE2,
+      periode: neutrePPE2.periodes[0],
+    } as ProjectAppelOffre,
+  }
+  const { content, footnotes } = makeLaureat(project)
+  return (
+    <PDFViewer width="100%" height="900px">
+      <Certificate {...{ project, type: 'laureat', content, footnotes }} />
+    </PDFViewer>
+  )
+}
+
+export const LaureatPPE2Sol = () => {
+  const project = {
+    ...fakeProject,
+    appelOffre: {
+      ...solPPE2,
+      periode: solPPE2.periodes[0],
+    } as ProjectAppelOffre,
+  }
+  const { content, footnotes } = makeLaureat(project)
+  return (
+    <PDFViewer width="100%" height="900px">
+      <Certificate {...{ project, type: 'laureat', content, footnotes }} />
     </PDFViewer>
   )
 }

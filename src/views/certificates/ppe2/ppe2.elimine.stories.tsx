@@ -3,7 +3,7 @@ import { Font, PDFViewer } from '@react-pdf/renderer'
 import { ProjectAppelOffre } from '@entities'
 import { ProjectDataForCertificate } from '@modules/project'
 import { Certificate } from './Certificate'
-import { batiment, eolien } from '@dataAccess/inMemory/appelsOffres'
+import { batimentPPE2, eolienPPE2 } from '@dataAccess/inMemory/appelsOffres'
 import { Elimine } from './components/elimine/Elimine'
 
 export default { title: 'Attestations PDF' }
@@ -27,9 +27,9 @@ Font.register({
 
 const fakeProject: ProjectDataForCertificate = {
   appelOffre: {
-    ...eolien,
+    ...eolienPPE2,
     soumisAuxGarantiesFinancieres: true,
-    periode: { id: 'periodeId', title: 'periodeTitle' },
+    periode: eolienPPE2.periodes[0],
   } as ProjectAppelOffre,
   isClasse: true,
   familleId: 'famille',
@@ -91,11 +91,62 @@ export const EliminePPE2DéjàLauréatNonInstruit = () => {
   )
 }
 
-export const EliminePPE2Competitivite = () => {
+export const EliminePPE2CompetitiviteBatimentPuissanceInferieureVolumeReserves = () => {
   const project: ProjectDataForCertificate = {
     ...fakeProject,
     isClasse: false,
     motifsElimination: '20% compétitivité',
+    puissance: 0.5,
+    appelOffre: {
+      ...batimentPPE2,
+      periode: {
+        ...batimentPPE2.periodes[0],
+        noteThresholdByCategory: {
+          volumesReserves: {
+            noteThreshold: 99,
+            puissanceMax: 1,
+          },
+          autres: {
+            noteThreshold: 89,
+          },
+        },
+      },
+    } as ProjectAppelOffre,
+  }
+  return (
+    <PDFViewer width="100%" height="900px">
+      <Certificate
+        {...{
+          project,
+          type: 'elimine',
+          content: Elimine({ project }),
+        }}
+      />
+    </PDFViewer>
+  )
+}
+
+export const EliminePPE2CompetitiviteBatimentPuissanceSuperieureVolumeReserves = () => {
+  const project: ProjectDataForCertificate = {
+    ...fakeProject,
+    isClasse: false,
+    motifsElimination: '20% compétitivité',
+    puissance: 3,
+    appelOffre: {
+      ...batimentPPE2,
+      periode: {
+        ...batimentPPE2.periodes[0],
+        noteThresholdByCategory: {
+          volumesReserves: {
+            noteThreshold: 99,
+            puissanceMax: 1,
+          },
+          autres: {
+            noteThreshold: 89,
+          },
+        },
+      },
+    } as ProjectAppelOffre,
   }
   return (
     <PDFViewer width="100%" height="900px">
