@@ -10,7 +10,7 @@ const batimentPPE2: AppelOffre = {
   unitePuissance: 'MW',
   delaiRealisationEnMois: 30,
   decoupageParTechnologie: false,
-  contenuParagrapheAchevement: makeParagrapheAchevementForDelai(30, '7.1'),
+  contenuParagrapheAchevement: makeParagrapheAchevementForDelai(30, '7.1.1'),
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.3',
@@ -33,7 +33,7 @@ const batimentPPE2: AppelOffre = {
     {
       id: '1',
       title: 'première',
-      paragrapheAchevement: 'A COMPLETER',
+      paragrapheAchevement: '6.3',
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'ppe2.v1',
     },

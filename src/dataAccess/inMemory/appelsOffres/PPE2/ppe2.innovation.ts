@@ -9,7 +9,7 @@ const innovationPPE2: AppelOffre = {
   launchDate: 'Août 2021',
   unitePuissance: 'MW',
   delaiRealisationEnMois: 30,
-  contenuParagrapheAchevement: makeParagrapheAchevementForDelai(30, '7.1'),
+  contenuParagrapheAchevement: makeParagrapheAchevementForDelai(30, '7.1.1'),
   delaiRealisationTexte: 'trente (30) mois',
   decoupageParTechnologie: false,
   paragraphePrixReference: '7',
@@ -33,7 +33,7 @@ const innovationPPE2: AppelOffre = {
     {
       id: '1',
       title: 'première',
-      paragrapheAchevement: 'A COMPLETER',
+      paragrapheAchevement: '6.3',
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'ppe2.v1',
     },
