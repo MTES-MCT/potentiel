@@ -35,7 +35,7 @@ const batimentPPE2: AppelOffre = {
       title: 'première',
       paragrapheAchevement: 'A COMPLETER',
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'ppe2.v0',
+      certificateTemplate: 'ppe2.v1',
     },
   ],
   familles: [],
