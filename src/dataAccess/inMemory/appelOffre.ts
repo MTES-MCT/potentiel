@@ -103,11 +103,9 @@ const getAppelOffre = (args: {
   return appelOffre
 }
 
-const isSoumisAuxGarantiesFinancieres = (
-  appelOffreId: string,
-  familleId: string,
-  soumisAuxGarantiesFinancieres?: boolean
-): boolean => {
+const isSoumisAuxGarantiesFinancieres = (appelOffreId: string, familleId: string): boolean => {
+  const appelOffre = appelsOffreStatic.find((item) => item.id === appelOffreId)
+  const soumisAuxGarantiesFinancieres = appelOffre?.soumisAuxGarantiesFinancieres
   if (soumisAuxGarantiesFinancieres) return soumisAuxGarantiesFinancieres
 
   const famille = appelsOffreStatic

@@ -21,7 +21,6 @@ const innovationPPE2: AppelOffre = {
   affichageParagrapheECS: false,
   renvoiDemandeCompleteRaccordement: '6.1',
   renvoiRetraitDesignationGarantieFinancieres: '',
-  soumisAuxGarantiesFinancieres: false,
   renvoiEngagementIPFP: '',
   paragrapheClauseCompetitivite: '',
   tarifOuPrimeRetenue: "le prix de référence T de l'électricité retenu",

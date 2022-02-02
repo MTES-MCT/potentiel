@@ -37,14 +37,7 @@ const getIsSoumisAuxGarantiesFinancieres = (
   familleId: Project['familleId']
 ) => {
   const appelOffre = appelsOffreStatic.find((item) => item.id === appelOffreId)
-  return (
-    appelOffre &&
-    isSoumisAuxGarantiesFinancieres(
-      appelOffreId,
-      familleId,
-      appelOffre.soumisAuxGarantiesFinancieres
-    )
-  )
+  return appelOffre && isSoumisAuxGarantiesFinancieres(appelOffreId, familleId)
 }
 
 /* Pure component */

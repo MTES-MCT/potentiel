@@ -14,7 +14,7 @@ describe('appelOffre.isSoumisAuxGarantiesFinancieres', () => {
     ]) {
       describe(`when appelOffreId is ${appelOffre}`, () => {
         it('should return true', () => {
-          expect(isSoumisAuxGarantiesFinancieres(appelOffre, '', true)).toEqual(true)
+          expect(isSoumisAuxGarantiesFinancieres(appelOffre, '')).toEqual(true)
         })
       })
     }
@@ -30,7 +30,7 @@ describe('appelOffre.isSoumisAuxGarantiesFinancieres', () => {
     ]) {
       describe(`when appelOffreId is ${appelOffre}`, () => {
         it('should return false', () => {
-          expect(isSoumisAuxGarantiesFinancieres(appelOffre, '', false)).toEqual(false)
+          expect(isSoumisAuxGarantiesFinancieres(appelOffre, '')).toEqual(false)
         })
       })
     }
