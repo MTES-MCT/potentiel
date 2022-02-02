@@ -28,14 +28,22 @@ interface PageProps {
   cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
 }
 
-const getunitePuissanceForAppelOffre = (appelOffreId) => {
+const getunitePuissanceForAppelOffre = (appelOffreId: Project['appelOffreId']) => {
   return appelsOffreStatic.find((item) => item.id === appelOffreId)?.unitePuissance
 }
 
-const getDelayForAppelOffre = (appelOffreId, technologie) => {
+const getIsSoumisAuxGarantiesFinancieres = (
+  appelOffreId: Project['appelOffreId'],
+  familleId: Project['familleId']
+) => {
+  const appelOffre = appelsOffreStatic.find((item) => item.id === appelOffreId)
   return (
-    appelsOffreStatic.find((item) => item.id === appelOffreId) &&
-    getDelaiDeRealisation(appelOffreId, technologie)
+    appelOffre &&
+    isSoumisAuxGarantiesFinancieres(
+      appelOffreId,
+      familleId,
+      appelOffre.soumisAuxGarantiesFinancieres
+    )
   )
 }
 
@@ -523,7 +531,10 @@ export const NewModificationRequest = PageLayout(
                     <>
                       <label>Ancien producteur</label>
                       <input type="text" disabled defaultValue={project.nomCandidat} />
-                      {isSoumisAuxGarantiesFinancieres(project.appelOffreId, project.familleId) && (
+                      {getIsSoumisAuxGarantiesFinancieres(
+                        project.appelOffreId,
+                        project.familleId
+                      ) && (
                         <div
                           className="notification warning"
                           style={{ marginTop: 10, marginBottom: 10 }}
@@ -672,10 +683,12 @@ export const NewModificationRequest = PageLayout(
                         type="text"
                         disabled
                         defaultValue={formatDate(
-                          +moment(project.notifiedOn).add(
-                            getDelayForAppelOffre(project.appelOffreId, project.technologie),
-                            'months'
-                          ),
+                          +moment(project.notifiedOn)
+                            .add(
+                              getDelaiDeRealisation(project.appelOffreId, project.technologie),
+                              'months'
+                            )
+                            .subtract(1, 'day'),
                           'DD/MM/YYYY'
                         )}
                         {...dataId('modificationRequest-presentServiceDateField')}
@@ -694,7 +707,7 @@ export const NewModificationRequest = PageLayout(
                         defaultValue={delayInMonths}
                         data-initial-date={moment(project.notifiedOn)
                           .add(
-                            getDelayForAppelOffre(project.appelOffreId, project.technologie),
+                            getDelaiDeRealisation(project.appelOffreId, project.technologie),
                             'months'
                           )
                           .toDate()
