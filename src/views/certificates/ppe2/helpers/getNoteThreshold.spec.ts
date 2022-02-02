@@ -8,7 +8,7 @@ describe(`getNoteThreshold`, () => {
       appelOffre: {
         periode: {
           noteThresholdByCategory: {
-            volumesReserves: {
+            volumeReserve: {
               noteThreshold: 99,
               puissanceMax: 15,
             },

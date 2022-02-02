@@ -5,9 +5,9 @@ export const getNoteThreshold = (project: ProjectDataForCertificate): number | '
   const periode = project.appelOffre.periode
 
   if (periode.noteThresholdByCategory) {
-    const { volumesReserves, autres } = periode.noteThresholdByCategory
-    if (project.puissance <= volumesReserves.puissanceMax) {
-      return volumesReserves.noteThreshold
+    const { volumeReserve, autres } = periode.noteThresholdByCategory
+    if (project.puissance <= volumeReserve.puissanceMax) {
+      return volumeReserve.noteThreshold
     }
 
     return autres.noteThreshold
