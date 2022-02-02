@@ -7,7 +7,7 @@ type NoteThreshold = {
 }
 
 type NoteThresholdByCategory = {
-  volumesReserves: {
+  volumeReserve: {
     noteThreshold: number
     puissanceMax: number
   }
