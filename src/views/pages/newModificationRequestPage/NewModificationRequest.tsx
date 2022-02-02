@@ -34,7 +34,7 @@ const getunitePuissanceForAppelOffre = (appelOffreId: Project['appelOffreId']) =
 
 const getIsSoumisAuxGarantiesFinancieres = (
   appelOffreId: Project['appelOffreId'],
-  familleId: Project['familleId']
+  familleId?: Project['familleId']
 ) => {
   const appelOffre = appelsOffreStatic.find((item) => item.id === appelOffreId)
   return appelOffre && isSoumisAuxGarantiesFinancieres(appelOffreId, familleId)

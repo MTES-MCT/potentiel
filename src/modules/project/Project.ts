@@ -53,7 +53,7 @@ import {
   ProjectReimportedPayload,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
-import { getDelaiDeRealisation } from '@dataAccess/inMemory'
+import { getDelaiDeRealisation, isSoumisAuxGarantiesFinancieres } from '@dataAccess/inMemory'
 
 export interface Project extends EventStoreAggregate {
   notify: (
@@ -929,10 +929,10 @@ export const makeProject = (args: {
   }
 
   function _shouldSubmitGF() {
+    const appelOffreId = props.appelOffre?.id
+    const familleId = props.appelOffre?.famille?.id
     return (
-      props.isClasse &&
-      (!!props.appelOffre?.famille?.soumisAuxGarantiesFinancieres ||
-        props.appelOffre?.id === 'Eolien')
+      props.isClasse && appelOffreId && isSoumisAuxGarantiesFinancieres(appelOffreId, familleId)
     )
   }
 

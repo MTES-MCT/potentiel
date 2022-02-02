@@ -1,7 +1,11 @@
 import moment from 'moment'
 import { oldUserRepo } from '@config/repos.config'
 import { errAsync, logger, ok, okAsync, ResultAsync, wrapInfra } from '@core/utils'
-import { getAppelOffre, getDelaiDeRealisation } from '@dataAccess/inMemory'
+import {
+  getAppelOffre,
+  getDelaiDeRealisation,
+  isSoumisAuxGarantiesFinancieres,
+} from '@dataAccess/inMemory'
 import { DREAL } from '@entities'
 import { formatDate } from '../../../../helpers/formatDate'
 import { PeriodeDTO } from '@modules/appelOffre'
@@ -171,10 +175,10 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           dateNotification: formatDate(notifiedOn),
         }
 
-        const soumisAuxGarantiesFinancieres =
-          project.appelOffreId === 'Eolien' ||
-          famille?.garantieFinanciereEnMois ||
-          famille?.soumisAuxGarantiesFinancieres
+        const soumisAuxGarantiesFinancieres = isSoumisAuxGarantiesFinancieres(
+          project.appelOffreId,
+          famille?.id
+        )
 
         switch (type) {
           case 'delai':
