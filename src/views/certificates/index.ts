@@ -16,5 +16,7 @@ export const buildCertificate = (args: {
       return makeV0Certificate(data)
     case 'v1':
       return makeV1Certificate(data)
+    case 'ppe2.v1':
+      return makeV1Certificate(data)
   }
 }
