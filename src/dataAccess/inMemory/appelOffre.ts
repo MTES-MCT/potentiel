@@ -103,26 +103,21 @@ const getAppelOffre = (args: {
   return appelOffre
 }
 
-const isSoumisAuxGarantiesFinancieres = (appelOffreId: string, familleId: string): boolean => {
-  if (
-    [
-      'Eolien',
-      'PPE2 - Sol',
-      'PPE2 - Bâtiment',
-      'PPE2 - Autoconsommation métropole',
-      'PPE2 - Eolien',
-      'PPE2 - Neutre',
-    ].includes(appelOffreId)
-  )
-    return true
+const isSoumisAuxGarantiesFinancieres = (
+  appelOffreId: string,
+  familleId: string,
+  soumisAuxGarantiesFinancieres?: boolean
+): boolean => {
+  if (soumisAuxGarantiesFinancieres) return soumisAuxGarantiesFinancieres
 
   const famille = appelsOffreStatic
     .find((item) => item.id === appelOffreId)
     ?.familles.find((item) => item.id === familleId)
 
-  if (!famille) return false
+  if (famille)
+    return Boolean(famille.garantieFinanciereEnMois || famille.soumisAuxGarantiesFinancieres)
 
-  return Boolean(famille.garantieFinanciereEnMois || famille.soumisAuxGarantiesFinancieres)
+  return false
 }
 
 const getDelaiDeRealisation = (

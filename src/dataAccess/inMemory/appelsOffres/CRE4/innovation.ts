@@ -28,6 +28,7 @@ const innovation: AppelOffre = {
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
+  soumisAuxGarantiesFinancieres: false,
   periodes: [
     {
       id: '1',

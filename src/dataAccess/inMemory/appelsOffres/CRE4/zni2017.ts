@@ -29,6 +29,7 @@ export const zni2017: AppelOffre = {
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   renvoiSoumisAuxGarantiesFinancieres: 'doit être au minimum de 36 mois',
+  soumisAuxGarantiesFinancieres: true,
   periodes: [
     {
       id: '1',

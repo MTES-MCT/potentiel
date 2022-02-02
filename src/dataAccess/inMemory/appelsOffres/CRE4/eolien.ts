@@ -33,8 +33,8 @@ const eolien: AppelOffre = {
   // Paragraphe diminution de l'offre ?
   paragrapheClauseCompetitivite: '2.7',
   afficherPhraseRegionImplantation: false,
-
   afficherValeurEvaluationCarbone: false,
+  soumisAuxGarantiesFinancieres: true,
   periodes: [
     {
       id: '1',
