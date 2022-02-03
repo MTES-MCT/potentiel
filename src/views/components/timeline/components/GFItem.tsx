@@ -21,17 +21,26 @@ export const GFItem = (props: GFItemProps & { projectId: string }) => {
       return <NotSubmitted {...{ ...props, projectId }} />
 
     case 'submitted-with-application':
-      return <SubmittedWithApplication />
+      return <SubmittedWithApplication {...{ ...props, projectId }} />
   }
 }
 
-const SubmittedWithApplication = () => {
+type SubmittedWithApplicationProps = {
+  role: UserRole
+  projectId: string
+}
+
+const SubmittedWithApplication = ({ role, projectId }: SubmittedWithApplicationProps) => {
+  const isPorteurProjet = role === 'porteur-projet'
   return (
     <>
       <PastIcon />
       <ContentArea>
         <ItemTitle title={'Constitution des garanties financières'} />
         <span>Garanties financières soumises à la candidature</span>
+        {isPorteurProjet && (
+          <UploadForm projectId={projectId} URLTitle="Enregistrer mon attestation dans Potentiel" />
+        )}
       </ContentArea>
     </>
   )
@@ -108,7 +117,9 @@ const NotSubmitted = ({ date, status, role, projectId }: NotSubmittedProps) => {
               Attestation de constitution de garanties financières en attente
             </p>
           </div>
-          {isPorteurProjet && <UploadForm projectId={projectId} />}
+          {isPorteurProjet && (
+            <UploadForm projectId={projectId} URLTitle="Transmettre l'attestation" />
+          )}
         </div>
       </ContentArea>
     </>
@@ -117,14 +128,15 @@ const NotSubmitted = ({ date, status, role, projectId }: NotSubmittedProps) => {
 
 type UploadFormProps = {
   projectId: string
+  URLTitle: string
 }
-const UploadForm = ({ projectId }: UploadFormProps) => {
+const UploadForm = ({ projectId, URLTitle }: UploadFormProps) => {
   const [isFormVisible, showForm] = useState(false)
   const [disableSubmit, setDisableSubmit] = useState(true)
 
   return (
     <>
-      <a onClick={() => showForm(!isFormVisible)}>Transmettre l'attestation</a>
+      <a onClick={() => showForm(!isFormVisible)}>{URLTitle}</a>
       {isFormVisible && (
         <form
           action={ROUTES.DEPOSER_ETAPE_ACTION}
