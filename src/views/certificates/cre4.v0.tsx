@@ -7,7 +7,7 @@ import { formatDate } from '../../helpers/formatDate'
 import { ProjectDataForCertificate } from '@modules/project/dtos'
 import { IllegalProjectStateError } from '@modules/project/errors'
 import { OtherError } from '@modules/shared'
-import { getDelaiDeRealisation } from 'src/dataAccess/inMemory'
+import { getDelaiDeRealisation } from '@dataAccess/inMemory'
 
 dotenv.config()
 
