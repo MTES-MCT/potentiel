@@ -37,10 +37,7 @@ export const ProjectHeader = ({ project, user, cahiersChargesURLs }: ProjectHead
     </div>
     <div className="ml-auto flex items-center mt-2 lg:mt-0 relative">
       <NewProjectActions project={project} role={user.role} />
-      <button type="button" className="button-outline primary mr-3">
-        Faire une demande
-      </button>
-      <button type="button" className="button pl-1" style={{ margin: 0 }}>
+      <button type="button" className="button inline-block ml-3 pl-1" style={{ marginTop: 0 }}>
         <PaperClipIcon className="h-5 w-5 align-middle mr-2" />
         Attestation
       </button>

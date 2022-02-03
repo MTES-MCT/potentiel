@@ -11,6 +11,8 @@ import {
   ProjectCertificateGeneratedDTO,
   ProjectGFDueDateSetDTO,
   ProjectDCRDueDateSetDTO,
+  ProjectPTFSubmittedDTO,
+  ProjectCompletionDueDateSetDTO,
 } from 'src/modules/frise'
 
 export default { title: 'Project page' }
@@ -33,6 +35,11 @@ const projectEventList = {
       variant: 'admin',
       date: new Date('2022-01-12').getTime(),
     } as ProjectNotifiedDTO,
+    {
+      type: 'ProjectCompletionDueDateSet',
+      variant: 'admin',
+      date: new Date('2024-01-12').getTime(),
+    } as ProjectCompletionDueDateSetDTO,
     {
       type: 'ProjectCertificateGenerated',
       variant: 'admin',
@@ -233,7 +240,17 @@ export const forPorteurProjetWithPTF = () => (
         },
       } as ProjectDataForProjectPage
     }
-    projectEventList={projectEventList}
+    projectEventList={{
+      ...projectEventList,
+      events: [
+        ...projectEventList.events,
+        {
+          type: 'ProjectPTFSubmitted',
+          variant: 'porteur-projet',
+          date: new Date('2022-02-13').getTime(),
+        } as ProjectPTFSubmittedDTO,
+      ],
+    }}
   />
 )
 
