@@ -10,7 +10,7 @@ interface SectionProps {
 
 export const Section = ({ title, defaultOpen, children, icon }: SectionProps) => {
   return (
-    <div className="panel p-4 flex-1 min-w-fit" {...dataId('projectDetails-section')}>
+    <div className="panel p-4 flex-1 xs:w-full min-w-fit" {...dataId('projectDetails-section')}>
       <h3 className={'section--title'} {...dataId('visibility-toggle')}>
         {icon ? (
           <svg className="icon section-icon">

@@ -198,6 +198,23 @@ export const forPorteurProjet = () => (
   />
 )
 
+export const forPorteurProjetElimine = () => (
+  <ProjectDetails
+    projectEventList={projectEventList}
+    cahiersChargesURLs={{ oldCahierChargesURL: 'string', newCahierChargesURL: 'string' }}
+    now={new Date().getTime()}
+    request={makeFakeRequest({
+      user: makeFakeUser({ role: 'porteur-projet' }),
+    })}
+    project={
+      {
+        ...fakeProjectData,
+        isClasse: false,
+      } as ProjectDataForProjectPage
+    }
+  />
+)
+
 export const forPorteurProjetWithGarantiesFinancieres = () => (
   <ProjectDetails
     now={new Date().getTime()}
