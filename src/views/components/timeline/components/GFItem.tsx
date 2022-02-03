@@ -19,7 +19,22 @@ export const GFItem = (props: GFItemProps & { projectId: string }) => {
     case 'due':
     case 'past-due':
       return <NotSubmitted {...{ ...props, projectId }} />
+
+    case 'submitted-with-application':
+      return <SubmittedWithApplication />
   }
+}
+
+const SubmittedWithApplication = () => {
+  return (
+    <>
+      <PastIcon />
+      <ContentArea>
+        <ItemTitle title={'Constitution des garanties financières'} />
+        <span>Garanties financières soumises à la candidature</span>
+      </ContentArea>
+    </>
+  )
 }
 
 type SubmittedProps = {

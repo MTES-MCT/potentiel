@@ -6,24 +6,44 @@ import { makeDocumentUrl } from './makeDocumentUrl'
 export type GFItemProps = {
   type: 'garanties-financieres'
   role: UserRole
-  date: number
 } & (
   | {
       status: 'due' | 'past-due'
+      date: number
     }
   | {
       status: 'pending-validation' | 'validated'
       url: string | undefined
+      date: number
+    }
+  | {
+      status: 'submitted-with-application'
+      date: undefined
     }
 )
 
-export const extractGFItemProps = (events: ProjectEventDTO[], now: number): GFItemProps | null => {
+export const extractGFItemProps = (
+  events: ProjectEventDTO[],
+  now: number,
+  project: {
+    isLaureat: boolean
+  }
+): GFItemProps | null => {
+  if (!events.length || !project.isLaureat) {
+    return null
+  }
+
   const latestProjectGF = events.filter(isProjectGF).pop()
   const latestDueDateSetEvent = events.filter(is('ProjectGFDueDateSet')).pop()
   const latestSubmittedEvent = events.filter(is('ProjectGFSubmitted')).pop()
 
   if (!latestProjectGF) {
-    return null
+    return {
+      type: 'garanties-financieres',
+      role: events.slice(-1)[0].variant,
+      status: 'submitted-with-application',
+      date: undefined,
+    }
   }
 
   const eventToHandle =

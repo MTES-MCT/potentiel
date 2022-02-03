@@ -67,11 +67,12 @@ export const Timeline = ({
   now,
 }: TimelineProps) => {
   const PTFItemProps = extractPTFItemProps(events, { isLaureat })
+  const GFItemProps = extractGFItemProps(events, now, { isLaureat })
 
   const itemProps: ItemProps[] = [
     extractDesignationItemProps(events, projectId),
     extractImportItemProps(events),
-    extractGFItemProps(events, now),
+    GFItemProps?.date ? GFItemProps : null,
     extractDCRItemProps(events, now),
     extractACItemProps(events),
     PTFItemProps?.status === 'submitted' ? PTFItemProps : null,
@@ -86,6 +87,8 @@ export const Timeline = ({
   insertBefore(itemProps, 'attestation-de-conformite', extractCRItemProps(events, { isLaureat }))
   insertAfter(itemProps, 'attestation-de-conformite', extractCAItemProps(events, { isLaureat }))
   insertAfter(itemProps, 'attestation-de-conformite', extractMeSItemProps(events, { isLaureat }))
+  GFItemProps?.status === 'submitted-with-application' &&
+    insertAfter(itemProps, 'designation', GFItemProps)
 
   const timelineItems = itemProps.map((props) => {
     const { type } = props
