@@ -12,16 +12,16 @@ type MotifProps = {
 export const MotifElimination = ({ project }: MotifProps) => {
   const { motifsElimination } = project
 
+  if (motifsElimination.includes('compétitivité')) {
+    return <Competitivite {...{ project }} />
+  }
+
   if (motifsElimination.includes('note obtenue')) {
     return <AuDessusDePcible {...{ project }} />
   }
 
   if (motifsElimination === 'Déjà lauréat - Non instruit') {
     return <DejaLaureatNonInstruit />
-  }
-
-  if (motifsElimination.includes('compétitivité')) {
-    return <Competitivite {...{ project }} />
   }
 
   return <AutreMotif {...{ motifsElimination }} />
