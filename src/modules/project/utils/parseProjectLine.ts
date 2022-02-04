@@ -20,6 +20,8 @@ const mappedColumns = [
   'Nom et prénom du représentant légal',
   'Adresse électronique du contact',
   'N°, voie, lieu-dit',
+  'N°, voie, lieu-dit 1',
+  'N°, voie, lieu-dit 2',
   'CP',
   'Commune',
   'Classé ?',
@@ -72,7 +74,21 @@ const columnMapper = {
   note: (line: any) => prepareNumber(line['Note totale']),
   nomRepresentantLegal: (line: any) => line['Nom et prénom du représentant légal'],
   email: (line: any) => line['Adresse électronique du contact'].toLowerCase(),
-  adresseProjet: (line: any) => line['N°, voie, lieu-dit'],
+  adresseProjet: (line: any) => {
+    if (line['N°, voie, lieu-dit 1'] && line['N°, voie, lieu-dit 2']) {
+      return `${line['N°, voie, lieu-dit 1']}\n${line['N°, voie, lieu-dit 2']}`
+    }
+
+    if (line['N°, voie, lieu-dit 1']) {
+      return line['N°, voie, lieu-dit 1']
+    }
+
+    if (line['N°, voie, lieu-dit 2']) {
+      return line['N°, voie, lieu-dit 2']
+    }
+
+    return line['N°, voie, lieu-dit']
+  },
   codePostalProjet: (line: any) =>
     line['CP'].split('/').map((item) => padCodePostalWithleft0(item.trim())),
   communeProjet: (line: any) => line['Commune'],
@@ -188,7 +204,7 @@ const projectSchema = yup.object().shape({
     .string()
     .email(`L'adresse email n'est pas valide`)
     .required(`L'adresse email est manquante`),
-  adresseProjet: yup.string().required(),
+  adresseProjet: yup.string().required(`L'adresse du projet est manquante`),
   codePostalProjet: yup.array().of(
     yup
       .string()

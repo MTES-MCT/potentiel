@@ -16,6 +16,8 @@ const fakeLine = {
   'Nom et prénom du représentant légal': 'nomRepresentantLegal',
   'Adresse électronique du contact': 'test@test.test',
   'N°, voie, lieu-dit': 'adresseProjet',
+  'N°, voie, lieu-dit 1': '',
+  'N°, voie, lieu-dit 2': '',
   CP: '69100 / 01390',
   Commune: 'communeProjet',
   'Classé ?': 'Eliminé',
@@ -67,7 +69,7 @@ describe('parseProjectLine', () => {
     })
   })
 
-  it('should parse the N°, voie, lieu-dit" column', () => {
+  it('should parse the N°, voie, lieu-dit" columns', () => {
     expect(
       parseProjectLine({
         ...fakeLine,
@@ -79,9 +81,34 @@ describe('parseProjectLine', () => {
       parseProjectLine({
         ...fakeLine,
         'N°, voie, lieu-dit 1': 'adresseProjetPart1',
-        'N°, voie, lieu-dit 2': 'adresseProjetPart1',
+        'N°, voie, lieu-dit 2': 'adresseProjetPart2',
       })
-    ).toMatchObject({ adresseProjet: 'adresseProjetPart1 adresseProjetPart2' })
+    ).toMatchObject({ adresseProjet: 'adresseProjetPart1\nadresseProjetPart2' })
+
+    expect(
+      parseProjectLine({
+        ...fakeLine,
+        'N°, voie, lieu-dit 1': 'adresseProjetPart1',
+        'N°, voie, lieu-dit 2': '',
+      })
+    ).toMatchObject({ adresseProjet: 'adresseProjetPart1' })
+
+    expect(
+      parseProjectLine({
+        ...fakeLine,
+        'N°, voie, lieu-dit 1': '',
+        'N°, voie, lieu-dit 2': 'adresseProjetPart2',
+      })
+    ).toMatchObject({ adresseProjet: 'adresseProjetPart2' })
+
+    expect(() =>
+      parseProjectLine({
+        ...fakeLine,
+        'N°, voie, lieu-dit': '',
+        'N°, voie, lieu-dit 1': '',
+        'N°, voie, lieu-dit 2': '',
+      })
+    ).toThrowError(`L'adresse du projet est manquante`)
   })
 
   it('should parse the "Technologie\n(dispositif de production)" column', () => {
