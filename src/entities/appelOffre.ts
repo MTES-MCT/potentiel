@@ -11,13 +11,13 @@ export type AppelOffre = {
   paragraphePrixReference: string
   paragrapheDelaiDerogatoire: string
   paragrapheAttestationConformite: string
-  paragrapheEngagementIPFP: string
+  paragrapheEngagementIPFPGPFC: string
   afficherParagrapheInstallationMiseEnServiceModification: boolean
   renvoiModification: string
   affichageParagrapheECS: boolean
   renvoiDemandeCompleteRaccordement: string
   renvoiRetraitDesignationGarantieFinancieres: string
-  renvoiEngagementIPFP: string
+  renvoiEngagementIPFPGPFC: string
   paragrapheClauseCompetitivite: string
   tarifOuPrimeRetenue: string
   tarifOuPrimeRetenueAlt: string

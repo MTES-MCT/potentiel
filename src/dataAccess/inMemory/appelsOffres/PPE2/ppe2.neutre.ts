@@ -3,8 +3,8 @@ import { AppelOffre } from '@entities'
 const neutrePPE2: AppelOffre = {
   id: 'PPE2 - Neutre',
   title:
-    '2021/S 146-386079 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergie solaire photovoltaïque, hydroélectrique ou éolienne situées en métropole continentale',
-  shortTitle: 'PPE2 - Neutre 2021/S 146-386079',
+    '2021 S 176-457521 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergie solaire photovoltaïque, hydroélectrique ou éolienne situées en métropole continentale',
+  shortTitle: 'PPE2 - Neutre 2021 S 176-457521',
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   launchDate: 'Août 2021',
   unitePuissance: 'MW',
@@ -12,8 +12,8 @@ const neutrePPE2: AppelOffre = {
   tarifOuPrimeRetenueAlt: 'ce prix de référence',
   paragraphePrixReference: '7',
   affichageParagrapheECS: false,
-  paragrapheEngagementIPFP: '3.3.8, 4.6 et 6.6.2',
-  renvoiEngagementIPFP: '3.3.8',
+  paragrapheEngagementIPFPGPFC: '3.3.8, 4.6 et 6.6.2',
+  renvoiEngagementIPFPGPFC: '3.3.8',
   renvoiDemandeCompleteRaccordement: '6.1',
   renvoiRetraitDesignationGarantieFinancieres: '5.1',
   soumisAuxGarantiesFinancieres: true,
