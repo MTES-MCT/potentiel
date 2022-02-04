@@ -246,6 +246,10 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
             ? 'FP'
             : project.isInvestissementParticipatif
             ? 'IP'
+            : project.actionnariat === 'financement-collectif'
+            ? 'FC'
+            : project.actionnariat === 'gouvernance-partagee'
+            ? 'GP'
             : ''}
         </div>
       </td>
