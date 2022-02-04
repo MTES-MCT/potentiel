@@ -91,7 +91,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
             En raison de votre engagement à l’investissement participatif, la valeur de ce prix de
             référence est majorée pendant toute la durée du contrat de 3 €/MWh sous réserve du
             respect de cet engagement
-            {addFootNote(appelOffre.renvoiEngagementIPFP)}.
+            {addFootNote(appelOffre.renvoiEngagementIPFPGPFC)}.
           </Text>
         ) : (
           <Text />
@@ -101,7 +101,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
             En raison de votre engagement au financement participatif, la valeur de ce prix de
             référence est majorée pendant toute la durée du contrat de 1 €/MWh sous réserve du
             respect de cet engagement
-            {addFootNote(appelOffre.renvoiEngagementIPFP)}.
+            {addFootNote(appelOffre.renvoiEngagementIPFPGPFC)}.
           </Text>
         ) : (
           <Text />
@@ -217,7 +217,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
           }}
         >
           - respecter les engagements pris conformément aux paragraphes{' '}
-          {appelOffre.paragrapheEngagementIPFP} concernant l’investissement participatif.
+          {appelOffre.paragrapheEngagementIPFPGPFC} concernant l’investissement participatif.
         </Text>
       ) : (
         <Text />
@@ -232,7 +232,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
           }}
         >
           - respecter les engagements pris conformément aux paragraphes{' '}
-          {appelOffre.paragrapheEngagementIPFP} concernant le financement participatif.
+          {appelOffre.paragrapheEngagementIPFPGPFC} concernant le financement participatif.
         </Text>
       ) : (
         <Text />
