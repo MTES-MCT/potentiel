@@ -36,6 +36,15 @@ const batimentPPE2: AppelOffre = {
       paragrapheAchevement: '6.3',
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'ppe2.v1',
+      noteThresholdByCategory: {
+        volumeReserve: {
+          noteThreshold: 18.79,
+          puissanceMax: 1,
+        },
+        autres: {
+          noteThreshold: 26.46,
+        },
+      },
     },
   ],
   familles: [],
