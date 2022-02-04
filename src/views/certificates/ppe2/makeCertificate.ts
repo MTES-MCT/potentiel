@@ -14,14 +14,14 @@ Font.register({
   family: 'Arimo',
   fonts: [
     {
-      src: '/fonts/arimo/Arimo-Regular.ttf',
+      src: process.env.BASE_URL + '/fonts/arimo/Arimo-Regular.ttf',
     },
     {
-      src: '/fonts/arimo/Arimo-Bold.ttf',
+      src: process.env.BASE_URL + '/fonts/arimo/Arimo-Bold.ttf',
       fontWeight: 'bold',
     },
     {
-      src: '/fonts/arimo/Arimo-Italic.ttf',
+      src: process.env.BASE_URL + '/fonts/arimo/Arimo-Italic.ttf',
       fontStyle: 'italic',
     },
   ],
