@@ -67,6 +67,23 @@ describe('parseProjectLine', () => {
     })
   })
 
+  it('should parse the N°, voie, lieu-dit" column', () => {
+    expect(
+      parseProjectLine({
+        ...fakeLine,
+        'N°, voie, lieu-dit': 'adresseProjet',
+      })
+    ).toMatchObject({ adresseProjet: 'adresseProjet' })
+
+    expect(
+      parseProjectLine({
+        ...fakeLine,
+        'N°, voie, lieu-dit 1': 'adresseProjetPart1',
+        'N°, voie, lieu-dit 2': 'adresseProjetPart1',
+      })
+    ).toMatchObject({ adresseProjet: 'adresseProjetPart1 adresseProjetPart2' })
+  })
+
   it('should parse the "Technologie\n(dispositif de production)" column', () => {
     expect(
       parseProjectLine({
