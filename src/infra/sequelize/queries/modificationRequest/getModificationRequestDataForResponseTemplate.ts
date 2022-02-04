@@ -144,7 +144,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           renvoiRetraitDesignationGarantieFinancieres,
           paragrapheDelaiDerogatoire,
           paragrapheAttestationConformite,
-          paragrapheEngagementIPFP,
+          paragrapheEngagementIPFPGPFC,
           renvoiModification,
           delaiRealisationTexte,
           renvoiSoumisAuxGarantiesFinancieres,
@@ -245,7 +245,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
               renvoiRetraitDesignationGarantieFinancieres,
               paragrapheDelaiDerogatoire,
               paragrapheAttestationConformite,
-              paragrapheEngagementIPFP,
+              paragrapheEngagementIPFPGPFC,
               renvoiModification,
               delaiRealisationTexte,
             } as ModificationRequestDataForResponseTemplateDTO)
