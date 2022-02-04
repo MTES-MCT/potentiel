@@ -12,7 +12,7 @@ type MotifProps = {
 export const MotifElimination = ({ project }: MotifProps) => {
   const { motifsElimination } = project
 
-  if (motifsElimination === 'Au-dessus de Pcible') {
+  if (motifsElimination.includes('note obtenue')) {
     return <AuDessusDePcible {...{ project }} />
   }
 
