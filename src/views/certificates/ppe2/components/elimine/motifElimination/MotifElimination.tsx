@@ -20,7 +20,7 @@ export const MotifElimination = ({ project }: MotifProps) => {
     return <DejaLaureatNonInstruit />
   }
 
-  if (motifsElimination.includes('20%') && motifsElimination.includes('compétitivité')) {
+  if (motifsElimination.includes('compétitivité')) {
     return <Competitivite {...{ project }} />
   }
 
