@@ -27,7 +27,6 @@ const fakeLine = {
   'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)':
     '230.50',
   'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)': '',
-  'Technologie\n(dispositif de production)': 'Hydraulique',
   Autre: 'valeur',
 }
 
@@ -61,7 +60,7 @@ describe('parseProjectLine', () => {
       engagementFournitureDePuissanceAlaPointe: false,
       territoireProjet: '',
       evaluationCarbone: 230.5,
-      technologie: 'hydraulique',
+      technologie: 'N/A',
       details: {
         Autre: 'valeur',
       },
@@ -98,41 +97,6 @@ describe('parseProjectLine', () => {
     ).toThrowError(
       'Le champ "Technologie" peut contenir les valeurs "Hydraulique", "Eolien" ou rester vide pour la technologie PV'
     )
-  })
-
-  describe('when there is no , "Technologie\n(dispositif de production)" column', () => {
-    it('should technologie as "N/A""', () => {
-      const fakeLineWithoutTechnologie = {
-        "Appel d'offres": 'appelOffreId',
-        Période: 'periodeId',
-        Famille: 'familleId',
-        'Nom (personne physique) ou raison sociale (personne morale) :': 'nomCandidat',
-        Candidat: '',
-        'Nom projet': 'nomProjet',
-        'Société mère': 'actionnaire',
-        'N°CRE': 'numeroCRE',
-        'Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)': '1.234',
-        'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)':
-          '3.456',
-        'Note totale': '10.10',
-        'Nom et prénom du représentant légal': 'nomRepresentantLegal',
-        'Adresse électronique du contact': 'test@test.test',
-        'N°, voie, lieu-dit': 'adresseProjet',
-        CP: '69100 / 01390',
-        Commune: 'communeProjet',
-        'Classé ?': 'Eliminé',
-        "Motif d'élimination": 'motifsElimination',
-        'Investissement ou financement participatif ?': '',
-        Notification: '',
-        'Engagement de fourniture de puissance à la pointe\n(AO ZNI)': '',
-        'Territoire\n(AO ZNI)': '',
-        'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)':
-          '230.50',
-        'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)': '',
-        Autre: 'valeur',
-      }
-      expect(parseProjectLine(fakeLineWithoutTechnologie)).toMatchObject({ technologie: 'N/A' })
-    })
   })
 
   it("should parse the 'actionnariat' column", () => {
