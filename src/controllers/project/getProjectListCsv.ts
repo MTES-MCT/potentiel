@@ -584,6 +584,10 @@ const orderedFields = [
     dataField: 'garantiesFinancieresSubmittedOn',
     visibility: ['admin', 'dreal', 'porteur-projet', 'acheteur-obligé'],
   },
+  {
+    dataField: 'Technologie\n(dispositif de production)',
+    visibility: ['admin', 'dreal', 'porteur-projet', 'acheteur-obligé', 'ademe'],
+  },
 ]
 
 const getProjectListCsv = asyncHandler(async (request, response) => {
