@@ -1,6 +1,5 @@
 import { AppelOffre } from '@entities'
-import { commonDataFields, makeParagrapheAchevementForDelai } from './commonDataFields'
-import toTypeLiteral from './helpers/toTypeLiteral'
+import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 const zni: AppelOffre = {
   id: 'CRE4 - ZNI',
@@ -10,18 +9,19 @@ const zni: AppelOffre = {
   launchDate: 'juin 2019',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,
+  decoupageParTechnologie: false,
   contenuParagrapheAchevement: makeParagrapheAchevementForDelai(24, '7'),
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7.1',
   paragrapheDelaiDerogatoire: '6.4',
   paragrapheAttestationConformite: '6.6',
-  paragrapheEngagementIPFP: '3.3.6',
+  paragrapheEngagementIPFPGPFC: '3.3.6',
   afficherParagrapheInstallationMiseEnServiceModification: true,
   renvoiModification: '5.4',
   affichageParagrapheECS: true,
   renvoiDemandeCompleteRaccordement: '6.1',
   renvoiRetraitDesignationGarantieFinancieres: '5.2 et 6.2',
-  renvoiEngagementIPFP: '3.3.6 et 7.1',
+  renvoiEngagementIPFPGPFC: '3.3.6 et 7.1',
   paragrapheClauseCompetitivite: '2.8',
   tarifOuPrimeRetenue: "le prix de référence T de l'électricité retenu",
   tarifOuPrimeRetenueAlt: 'ce prix de référence',
@@ -29,34 +29,13 @@ const zni: AppelOffre = {
   afficherPhraseRegionImplantation: true,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   renvoiSoumisAuxGarantiesFinancieres: 'doit être au minimum de 36 mois',
-  dataFields: [
-    ...commonDataFields,
-    {
-      field: 'engagementFournitureDePuissanceAlaPointe',
-      type: toTypeLiteral('stringEquals'),
-      column: 'Engagement de fourniture de puissance à la pointe\n(AO ZNI)',
-      value: 'Oui',
-    },
-    {
-      field: 'territoireProjet',
-      type: toTypeLiteral('string'),
-      column: 'Territoire\n(AO ZNI)',
-    },
-    {
-      // This field is mandatory
-      field: 'evaluationCarbone',
-      type: toTypeLiteral('number'),
-      column:
-        'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)',
-    },
-  ],
   periodes: [
     {
       id: '1',
       title: 'première',
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v0',
+      certificateTemplate: 'cre4.v0',
       noteThresholdByFamily: [
         { familleId: '1a', territoire: 'Corse', noteThreshold: 53.4 },
         { familleId: '1a', territoire: 'Guadeloupe', noteThreshold: 56.3 },
@@ -81,7 +60,7 @@ const zni: AppelOffre = {
       title: 'deuxième',
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v0',
+      certificateTemplate: 'cre4.v0',
       noteThresholdByFamily: [
         { familleId: '2a', territoire: 'Corse', noteThreshold: 42.1 },
         { familleId: '2a', territoire: 'Guadeloupe', noteThreshold: 47.2 },
@@ -105,7 +84,7 @@ const zni: AppelOffre = {
       title: 'troisième',
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
       noteThresholdByFamily: [
         { familleId: '1a', territoire: 'Corse', noteThreshold: 52.7 },
         { familleId: '1a', territoire: 'Guadeloupe', noteThreshold: 30.6 },
@@ -127,7 +106,7 @@ const zni: AppelOffre = {
       title: 'quatrième',
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
       noteThresholdByFamily: [
         { familleId: '2a', territoire: 'Corse', noteThreshold: 33.61 },
         { familleId: '2a', territoire: 'Guadeloupe', noteThreshold: 40.48 },
@@ -151,7 +130,7 @@ const zni: AppelOffre = {
       title: 'cinquième',
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
       noteThresholdByFamily: [
         { familleId: '1a', territoire: 'Mayotte', noteThreshold: 49.99 },
         { familleId: '1a', territoire: 'Guyane', noteThreshold: 30.64 },

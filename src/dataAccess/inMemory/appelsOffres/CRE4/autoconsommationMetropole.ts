@@ -1,6 +1,5 @@
 import { AppelOffre } from '@entities'
-import { commonDataFields, makeParagrapheAchevementForDelai } from './commonDataFields'
-import toTypeLiteral from './helpers/toTypeLiteral'
+import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 const autoconsommationMetropole: AppelOffre = {
   id: 'CRE4 - Autoconsommation métropole',
@@ -12,33 +11,23 @@ const autoconsommationMetropole: AppelOffre = {
   delaiRealisationEnMois: 24,
   contenuParagrapheAchevement: makeParagrapheAchevementForDelai(24, '7.1'),
   delaiRealisationTexte: 'vingt-quatre (24) mois',
+  decoupageParTechnologie: false,
   paragraphePrixReference: '7.2',
   paragrapheDelaiDerogatoire: '6.3',
   paragrapheAttestationConformite: '6.5',
-  paragrapheEngagementIPFP: '',
+  paragrapheEngagementIPFPGPFC: '',
   afficherParagrapheInstallationMiseEnServiceModification: true,
   renvoiModification: '5.3',
   affichageParagrapheECS: false,
   renvoiDemandeCompleteRaccordement: '6.1',
   renvoiRetraitDesignationGarantieFinancieres: '',
-  renvoiEngagementIPFP: '',
+  renvoiEngagementIPFPGPFC: '',
   paragrapheClauseCompetitivite: '2.10',
   tarifOuPrimeRetenue: 'la prime retenue',
   tarifOuPrimeRetenueAlt: 'cette prime',
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
-  dataFields: [
-    ...commonDataFields,
-    {
-      field: 'evaluationCarbone',
-      type: toTypeLiteral('orNumberInColumn'),
-      defaultValue: 0,
-      column:
-        'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)',
-      value: 'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)',
-    },
-  ],
   periodes: [
     {
       id: '1',
@@ -76,7 +65,7 @@ const autoconsommationMetropole: AppelOffre = {
       paragrapheAchevement: '6.3',
       noteThresholdByFamily: [{ familleId: '', noteThreshold: 20.04 }],
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v0',
+      certificateTemplate: 'cre4.v0',
     },
     {
       id: '8',
@@ -84,7 +73,7 @@ const autoconsommationMetropole: AppelOffre = {
       paragrapheAchevement: '6.3',
       noteThresholdByFamily: [{ familleId: '', noteThreshold: 32.04 }],
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
     },
     {
       id: '9',
@@ -92,7 +81,7 @@ const autoconsommationMetropole: AppelOffre = {
       paragrapheAchevement: '6.3',
       noteThresholdByFamily: [{ familleId: '', noteThreshold: 9.9 }],
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
     },
     {
       id: '10',
@@ -100,7 +89,7 @@ const autoconsommationMetropole: AppelOffre = {
       paragrapheAchevement: '6.3',
       noteThresholdByFamily: [{ familleId: '', noteThreshold: 44.9 }],
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
     },
   ],
   familles: [],

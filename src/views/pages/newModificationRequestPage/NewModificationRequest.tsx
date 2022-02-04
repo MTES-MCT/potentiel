@@ -5,7 +5,11 @@ import { dataId } from '../../../helpers/testId'
 import UserDashboard from '../../components/UserDashboard'
 import { Request } from 'express'
 import { formatDate } from '../../../helpers/formatDate'
-import { appelsOffreStatic, isSoumisAuxGarantiesFinancieres } from '@dataAccess/inMemory'
+import {
+  appelsOffreStatic,
+  isSoumisAuxGarantiesFinancieres,
+  getDelaiDeRealisation,
+} from '@dataAccess/inMemory'
 import { PageLayout } from '../../components/PageLayout'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
 import { getAutoAcceptRatiosForAppelOffre } from '@modules/modificationRequest'
@@ -24,12 +28,16 @@ interface PageProps {
   cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
 }
 
-const getunitePuissanceForAppelOffre = (appelOffreId) => {
+const getunitePuissanceForAppelOffre = (appelOffreId: Project['appelOffreId']) => {
   return appelsOffreStatic.find((item) => item.id === appelOffreId)?.unitePuissance
 }
 
-const getDelayForAppelOffre = (appelOffreId) => {
-  return appelsOffreStatic.find((item) => item.id === appelOffreId)?.delaiRealisationEnMois
+const getIsSoumisAuxGarantiesFinancieres = (
+  appelOffreId: Project['appelOffreId'],
+  familleId?: Project['familleId']
+) => {
+  const appelOffre = appelsOffreStatic.find((item) => item.id === appelOffreId)
+  return appelOffre && isSoumisAuxGarantiesFinancieres(appelOffreId, familleId)
 }
 
 /* Pure component */
@@ -516,7 +524,10 @@ export const NewModificationRequest = PageLayout(
                     <>
                       <label>Ancien producteur</label>
                       <input type="text" disabled defaultValue={project.nomCandidat} />
-                      {isSoumisAuxGarantiesFinancieres(project.appelOffreId, project.familleId) && (
+                      {getIsSoumisAuxGarantiesFinancieres(
+                        project.appelOffreId,
+                        project.familleId
+                      ) && (
                         <div
                           className="notification warning"
                           style={{ marginTop: 10, marginBottom: 10 }}
@@ -665,10 +676,12 @@ export const NewModificationRequest = PageLayout(
                         type="text"
                         disabled
                         defaultValue={formatDate(
-                          +moment(project.notifiedOn).add(
-                            getDelayForAppelOffre(project.appelOffreId),
-                            'months'
-                          ),
+                          +moment(project.notifiedOn)
+                            .add(
+                              getDelaiDeRealisation(project.appelOffreId, project.technologie),
+                              'months'
+                            )
+                            .subtract(1, 'day'),
                           'DD/MM/YYYY'
                         )}
                         {...dataId('modificationRequest-presentServiceDateField')}
@@ -686,7 +699,10 @@ export const NewModificationRequest = PageLayout(
                         id="delayInMonths"
                         defaultValue={delayInMonths}
                         data-initial-date={moment(project.notifiedOn)
-                          .add(getDelayForAppelOffre(project.appelOffreId), 'months')
+                          .add(
+                            getDelaiDeRealisation(project.appelOffreId, project.technologie),
+                            'months'
+                          )
                           .toDate()
                           .getTime()}
                         {...dataId('delayInMonthsField')}

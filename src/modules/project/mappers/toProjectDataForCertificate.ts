@@ -50,7 +50,8 @@ export const toProjectDataForCertificate = (
     communeProjet,
     puissance,
     territoireProjet,
-    numeroCRE,
+    technologie,
+    actionnariat,
   } = data
 
   return ok({
@@ -75,5 +76,7 @@ export const toProjectDataForCertificate = (
     communeProjet,
     puissance,
     territoireProjet,
+    technologie,
+    actionnariat,
   })
 }

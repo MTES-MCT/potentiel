@@ -1,6 +1,7 @@
 import { ProjectAppelOffre } from '@entities'
+import { ProjectDataProps } from '..'
 
-export interface ProjectDataForCertificate {
+export type ProjectDataForCertificate = {
   appelOffre: ProjectAppelOffre
   isClasse: boolean
   familleId: string | undefined
@@ -22,4 +23,6 @@ export interface ProjectDataForCertificate {
   puissance: number
   potentielId: string
   territoireProjet: string
+  technologie?: string
+  actionnariat?: 'financement-collectif' | 'gouvernance-partagee'
 }

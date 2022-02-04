@@ -7,6 +7,7 @@ import { formatDate } from '../../helpers/formatDate'
 import { ProjectDataForCertificate } from '@modules/project/dtos'
 import { IllegalProjectStateError } from '@modules/project/errors'
 import { OtherError } from '@modules/shared'
+import { getDelaiDeRealisation } from '@dataAccess/inMemory'
 
 dotenv.config()
 
@@ -45,7 +46,7 @@ const makeAddFootnote = (footNotes: Array<any>) => {
 }
 
 const Laureat = (project: ProjectDataForCertificate) => {
-  const { appelOffre } = project
+  const { appelOffre, technologie } = project
   const { periode } = appelOffre || {}
 
   const objet =
@@ -90,7 +91,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
             En raison de votre engagement à l’investissement participatif, la valeur de ce prix de
             référence est majorée pendant toute la durée du contrat de 3 €/MWh sous réserve du
             respect de cet engagement
-            {addFootNote(appelOffre.renvoiEngagementIPFP)}.
+            {addFootNote(appelOffre.renvoiEngagementIPFPGPFC)}.
           </Text>
         ) : (
           <Text />
@@ -100,7 +101,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
             En raison de votre engagement au financement participatif, la valeur de ce prix de
             référence est majorée pendant toute la durée du contrat de 1 €/MWh sous réserve du
             respect de cet engagement
-            {addFootNote(appelOffre.renvoiEngagementIPFP)}.
+            {addFootNote(appelOffre.renvoiEngagementIPFPGPFC)}.
           </Text>
         ) : (
           <Text />
@@ -191,7 +192,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
         }}
       >
         - sauf délais dérogatoires prévus au {appelOffre.paragrapheDelaiDerogatoire} du cahier des
-        charges, achever l’installation dans un délai de {appelOffre.delaiRealisationEnMois} mois à
+        charges, achever l’installation dans un délai de {appelOffre.delaiRealisationTexte} mois à
         compter de la présente notification.
       </Text>
       <Text
@@ -215,7 +216,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
           }}
         >
           - respecter les engagements pris conformément aux paragraphes{' '}
-          {appelOffre.paragrapheEngagementIPFP} concernant l’investissement participatif.
+          {appelOffre.paragrapheEngagementIPFPGPFC} concernant l’investissement participatif.
         </Text>
       ) : (
         <Text />
@@ -230,7 +231,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
           }}
         >
           - respecter les engagements pris conformément aux paragraphes{' '}
-          {appelOffre.paragrapheEngagementIPFP} concernant le financement participatif.
+          {appelOffre.paragrapheEngagementIPFPGPFC} concernant le financement participatif.
         </Text>
       ) : (
         <Text />
@@ -308,8 +309,9 @@ const getNoteThreshold = (project: ProjectDataForCertificate) => {
     return note
   }
 
-  const note = periode.noteThresholdByFamily.find((item) => item.familleId === project.familleId)
-    ?.noteThreshold
+  const note = periode.noteThresholdByFamily.find(
+    (item) => item.familleId === project.familleId
+  )?.noteThreshold
 
   if (!note) {
     logger.error(

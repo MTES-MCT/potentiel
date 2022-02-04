@@ -1,6 +1,5 @@
 import { AppelOffre } from '@entities'
-import { commonDataFields, makeParagrapheAchevementForDelai } from './commonDataFields'
-import toTypeLiteral from './helpers/toTypeLiteral'
+import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 const batiment: AppelOffre = {
   id: 'CRE4 - Bâtiment',
@@ -10,18 +9,19 @@ const batiment: AppelOffre = {
   launchDate: 'septembre 2016',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 20,
+  decoupageParTechnologie: false,
   contenuParagrapheAchevement: makeParagrapheAchevementForDelai(20, '7.1'),
   delaiRealisationTexte: 'vingt (20) mois',
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.4',
   paragrapheAttestationConformite: '6.6',
-  paragrapheEngagementIPFP: '3.2.5',
+  paragrapheEngagementIPFPGPFC: '3.2.5',
   afficherParagrapheInstallationMiseEnServiceModification: true,
   renvoiModification: '5.4',
   affichageParagrapheECS: true,
   renvoiDemandeCompleteRaccordement: '6.1',
   renvoiRetraitDesignationGarantieFinancieres: '5.3 et 6.2',
-  renvoiEngagementIPFP: '3.2.5 et 7.1.2',
+  renvoiEngagementIPFPGPFC: '3.2.5 et 7.1.2',
   paragrapheClauseCompetitivite: '2.6',
   tarifOuPrimeRetenue: "le prix de référence T de l'électricité retenu",
   tarifOuPrimeRetenueAlt: 'ce prix de référence',
@@ -29,16 +29,6 @@ const batiment: AppelOffre = {
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   renvoiSoumisAuxGarantiesFinancieres: 'doit être au minimum de 36 mois',
-  dataFields: [
-    ...commonDataFields,
-    {
-      // This field is mandatory
-      field: 'evaluationCarbone',
-      type: toTypeLiteral('number'),
-      column:
-        'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)',
-    },
-  ],
   periodes: [
     {
       id: '1',
@@ -94,7 +84,7 @@ const batiment: AppelOffre = {
         { familleId: '1', noteThreshold: 27.91 },
         { familleId: '2', noteThreshold: 25.62 },
       ],
-      certificateTemplate: 'v0',
+      certificateTemplate: 'cre4.v0',
     },
     {
       id: '11',
@@ -105,7 +95,7 @@ const batiment: AppelOffre = {
         { familleId: '1', noteThreshold: 30.82 },
         { familleId: '2', noteThreshold: 29.85 },
       ],
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
     },
     {
       id: '12',
@@ -116,7 +106,7 @@ const batiment: AppelOffre = {
         { familleId: '1', noteThreshold: 33.77 },
         { familleId: '2', noteThreshold: 32.8 },
       ],
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
     },
     {
       id: '13',
@@ -127,7 +117,7 @@ const batiment: AppelOffre = {
         { familleId: '1', noteThreshold: 22.59 },
         { familleId: '2', noteThreshold: 26.91 },
       ],
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
     },
   ],
   familles: [

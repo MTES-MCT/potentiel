@@ -81,7 +81,7 @@ type RecoursVariant = {
   renvoiRetraitDesignationGarantieFinancieres: string
   paragrapheDelaiDerogatoire: string
   paragrapheAttestationConformite: string
-  paragrapheEngagementIPFP: string
+  paragrapheEngagementIPFPGPFC: string
   renvoiModification: string
   delaiRealisationTexte: string
 }

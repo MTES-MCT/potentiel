@@ -35,11 +35,14 @@ export interface ProjectImportedPayload {
     motifsElimination: string
     notifiedOn: number
     details: any
+    technologie?: string
+    actionnariat?: string
   }
 }
 export class ProjectImported
   extends BaseDomainEvent<ProjectImportedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ProjectImported' = 'ProjectImported'
   public type = ProjectImported.type
   currentVersion = 1

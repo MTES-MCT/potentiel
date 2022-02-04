@@ -1,4 +1,3 @@
-import crypto from 'crypto'
 import isEmail from 'isemail'
 import _ from 'lodash'
 import buildMakeEntity from '../helpers/buildMakeEntity'
@@ -70,6 +69,7 @@ const baseProjectSchema = SchemaRecord({
   numeroGestionnaire: String,
   newRulesOptIn: Boolean,
   potentielIdentifier: String,
+  technologie: String,
 })
 const projectSchema = baseProjectSchema.And(
   SchemaPartial({
@@ -122,6 +122,7 @@ type BaseProject = Static<typeof projectSchema> & {
   }
   newRulesOptIn: boolean
   readonly potentielIdentifier: string
+  actionnariat?: '' | 'financement-collectif' | 'gouvernance-partagee'
 }
 
 type ProjectEvent = {

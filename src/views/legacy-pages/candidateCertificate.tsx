@@ -3,6 +3,7 @@ import React from 'react'
 import { logger } from '@core/utils'
 import { AppelOffre, Periode, Project } from '@entities'
 import { formatDate } from '../../helpers/formatDate'
+import { getDelaiDeRealisation } from 'src/dataAccess/inMemory'
 
 Font.register({
   family: 'Arial',
@@ -86,7 +87,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
             En raison de votre engagement à l’investissement participatif, la valeur de ce prix de
             référence est majorée pendant toute la durée du contrat de 3 €/MWh sous réserve du
             respect de cet engagement
-            {addFootNote(appelOffre.renvoiEngagementIPFP)}.
+            {addFootNote(appelOffre.renvoiEngagementIPFPGPFC)}.
           </Text>
         ) : (
           <Text />
@@ -96,7 +97,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
             En raison de votre engagement au financement participatif, la valeur de ce prix de
             référence est majorée pendant toute la durée du contrat de 1 €/MWh sous réserve du
             respect de cet engagement
-            {addFootNote(appelOffre.renvoiEngagementIPFP)}.
+            {addFootNote(appelOffre.renvoiEngagementIPFPGPFC)}.
           </Text>
         ) : (
           <Text />
@@ -187,8 +188,9 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
         }}
       >
         - sauf délais dérogatoires prévus au {appelOffre.paragrapheDelaiDerogatoire} du cahier des
-        charges, achever l’installation dans un délai de {appelOffre.delaiRealisationEnMois} mois à
-        compter de la présente notification.
+        charges, achever l’installation dans un délai de{' '}
+        {getDelaiDeRealisation(appelOffre.id, project.technologie)} mois à compter de la présente
+        notification.
       </Text>
       <Text
         style={{
@@ -211,7 +213,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
           }}
         >
           - respecter les engagements pris conformément aux paragraphes{' '}
-          {appelOffre.paragrapheEngagementIPFP} concernant l’investissement participatif.
+          {appelOffre.paragrapheEngagementIPFPGPFC} concernant l’investissement participatif.
         </Text>
       ) : (
         <Text />
@@ -226,7 +228,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
           }}
         >
           - respecter les engagements pris conformément aux paragraphes{' '}
-          {appelOffre.paragrapheEngagementIPFP} concernant le financement participatif.
+          {appelOffre.paragrapheEngagementIPFPGPFC} concernant le financement participatif.
         </Text>
       ) : (
         <Text />
@@ -302,8 +304,9 @@ const getNoteThreshold = (periode: Periode, project: Project) => {
     return note
   }
 
-  const note = periode.noteThresholdByFamily.find((item) => item.familleId === project.familleId)
-    ?.noteThreshold
+  const note = periode.noteThresholdByFamily.find(
+    (item) => item.familleId === project.familleId
+  )?.noteThreshold
 
   if (!note) {
     logger.error(

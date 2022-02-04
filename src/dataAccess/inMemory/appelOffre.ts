@@ -13,6 +13,12 @@ import {
   autoconsommationZNI,
   autoconsommationZNI2017,
   eolien,
+  solPPE2,
+  eolienPPE2,
+  batimentPPE2,
+  neutrePPE2,
+  innovationPPE2,
+  autoconsommationMetropolePPE2,
 } from './appelsOffres'
 import { errAsync, okAsync } from '@core/utils'
 import { EntityNotFoundError } from '@modules/shared'
@@ -30,6 +36,12 @@ const appelsOffreStatic = [
   autoconsommationZNI,
   autoconsommationZNI2017,
   eolien,
+  solPPE2,
+  eolienPPE2,
+  batimentPPE2,
+  neutrePPE2,
+  innovationPPE2,
+  autoconsommationMetropolePPE2,
 ]
 
 const appelOffreRepo = {
@@ -91,16 +103,44 @@ const getAppelOffre = (args: {
   return appelOffre
 }
 
-const isSoumisAuxGarantiesFinancieres = (appelOffreId: string, familleId: string): boolean => {
-  if (appelOffreId === 'Eolien') return true
+const isSoumisAuxGarantiesFinancieres = (appelOffreId: string, familleId?: string): boolean => {
+  const appelOffre = appelsOffreStatic.find((item) => item.id === appelOffreId)
+  const soumisAuxGarantiesFinancieres = appelOffre?.soumisAuxGarantiesFinancieres
+  if (soumisAuxGarantiesFinancieres) return soumisAuxGarantiesFinancieres
 
   const famille = appelsOffreStatic
     .find((item) => item.id === appelOffreId)
     ?.familles.find((item) => item.id === familleId)
 
-  if (!famille) return false
+  if (famille)
+    return Boolean(famille.garantieFinanciereEnMois || famille.soumisAuxGarantiesFinancieres)
 
-  return Boolean(famille.garantieFinanciereEnMois || famille.soumisAuxGarantiesFinancieres)
+  return false
 }
 
-export { appelOffreRepo, appelsOffreStatic, getAppelOffre, isSoumisAuxGarantiesFinancieres }
+const getDelaiDeRealisation = (
+  appelOffreId: string,
+  technologie: string | undefined
+): number | null => {
+  const appelOffre = appelsOffreStatic.find((ao) => ao.id === appelOffreId)
+  if (!appelOffre) return null
+  if (appelOffre.decoupageParTechnologie) {
+    if (!isValidTechnologie(technologie)) return null
+    return appelOffre.delaiRealisationEnMoisParTechnologie[technologie]
+  }
+  return appelOffre.delaiRealisationEnMois
+}
+
+const isValidTechnologie = (
+  technologie: string | undefined
+): technologie is 'pv' | 'eolien' | 'hydraulique' => {
+  return !!technologie && ['pv', 'eolien', 'hydraulique'].includes(technologie)
+}
+
+export {
+  appelOffreRepo,
+  appelsOffreStatic,
+  getAppelOffre,
+  isSoumisAuxGarantiesFinancieres,
+  getDelaiDeRealisation,
+}

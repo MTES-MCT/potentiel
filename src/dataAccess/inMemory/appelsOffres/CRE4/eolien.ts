@@ -1,6 +1,5 @@
 import { AppelOffre } from '@entities'
-import { commonDataFields, makeParagrapheAchevementForDelai } from './commonDataFields'
-import toTypeLiteral from './helpers/toTypeLiteral'
+import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 const eolien: AppelOffre = {
   id: 'Eolien',
@@ -14,8 +13,8 @@ const eolien: AppelOffre = {
   tarifOuPrimeRetenueAlt: 'ce prix de référence',
   paragraphePrixReference: '7.2',
   affichageParagrapheECS: false,
-  paragrapheEngagementIPFP: '3.3.6',
-  renvoiEngagementIPFP: '3.3.6 et 7.2.2',
+  paragrapheEngagementIPFPGPFC: '3.3.6',
+  renvoiEngagementIPFPGPFC: '3.3.6 et 7.2.2',
   // Fourniture puissance à la pointe ?
   renvoiDemandeCompleteRaccordement: '6.1',
   renvoiSoumisAuxGarantiesFinancieres: 'est précisée au 6.2 du cahier des charges',
@@ -25,6 +24,7 @@ const eolien: AppelOffre = {
   // Renvoi 4 sur l'innovation ?
   paragrapheDelaiDerogatoire: '6.4',
   delaiRealisationEnMois: 36,
+  decoupageParTechnologie: false,
   contenuParagrapheAchevement: makeParagrapheAchevementForDelai(36, '7.1'),
   delaiRealisationTexte: 'trente-six (36) mois',
   paragrapheAttestationConformite: '6.5',
@@ -33,19 +33,8 @@ const eolien: AppelOffre = {
   // Paragraphe diminution de l'offre ?
   paragrapheClauseCompetitivite: '2.7',
   afficherPhraseRegionImplantation: false,
-
   afficherValeurEvaluationCarbone: false,
-  dataFields: [
-    ...commonDataFields,
-    {
-      field: 'evaluationCarbone',
-      type: toTypeLiteral('orNumberInColumn'),
-      defaultValue: 0,
-      column:
-        'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)',
-      value: 'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)',
-    },
-  ],
+  soumisAuxGarantiesFinancieres: true,
   periodes: [
     {
       id: '1',
@@ -77,7 +66,7 @@ const eolien: AppelOffre = {
       title: 'sixième',
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
       noteThresholdByFamily: [{ familleId: '', noteThreshold: 10.19 }],
     },
     {
@@ -85,7 +74,7 @@ const eolien: AppelOffre = {
       title: 'septième',
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
       noteThresholdByFamily: [{ familleId: '', noteThreshold: 13 }],
     },
     {
@@ -93,7 +82,7 @@ const eolien: AppelOffre = {
       title: 'huitième',
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
       noteThresholdByFamily: [{ familleId: '', noteThreshold: 9.8 }],
     },
   ],

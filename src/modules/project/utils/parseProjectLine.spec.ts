@@ -16,6 +16,8 @@ const fakeLine = {
   'Nom et prénom du représentant légal': 'nomRepresentantLegal',
   'Adresse électronique du contact': 'test@test.test',
   'N°, voie, lieu-dit': 'adresseProjet',
+  'N°, voie, lieu-dit 1': '',
+  'N°, voie, lieu-dit 2': '',
   CP: '69100 / 01390',
   Commune: 'communeProjet',
   'Classé ?': 'Eliminé',
@@ -60,10 +62,155 @@ describe('parseProjectLine', () => {
       engagementFournitureDePuissanceAlaPointe: false,
       territoireProjet: '',
       evaluationCarbone: 230.5,
+      technologie: 'N/A',
       details: {
         Autre: 'valeur',
       },
     })
+  })
+
+  it('should parse the N°, voie, lieu-dit" columns', () => {
+    expect(
+      parseProjectLine({
+        ...fakeLine,
+        'N°, voie, lieu-dit': 'adresseProjet',
+      })
+    ).toMatchObject({ adresseProjet: 'adresseProjet' })
+
+    expect(
+      parseProjectLine({
+        ...fakeLine,
+        'N°, voie, lieu-dit 1': 'adresseProjetPart1',
+        'N°, voie, lieu-dit 2': 'adresseProjetPart2',
+      })
+    ).toMatchObject({ adresseProjet: 'adresseProjetPart1\nadresseProjetPart2' })
+
+    expect(
+      parseProjectLine({
+        ...fakeLine,
+        'N°, voie, lieu-dit 1': 'adresseProjetPart1',
+        'N°, voie, lieu-dit 2': '',
+      })
+    ).toMatchObject({ adresseProjet: 'adresseProjetPart1' })
+
+    expect(
+      parseProjectLine({
+        ...fakeLine,
+        'N°, voie, lieu-dit 1': '',
+        'N°, voie, lieu-dit 2': 'adresseProjetPart2',
+      })
+    ).toMatchObject({ adresseProjet: 'adresseProjetPart2' })
+
+    expect(() =>
+      parseProjectLine({
+        ...fakeLine,
+        'N°, voie, lieu-dit': '',
+        'N°, voie, lieu-dit 1': '',
+        'N°, voie, lieu-dit 2': '',
+      })
+    ).toThrowError(`L'adresse du projet est manquante`)
+  })
+
+  it('should parse the "Technologie\n(dispositif de production)" column', () => {
+    expect(
+      parseProjectLine({
+        ...fakeLine,
+        'Technologie\n(dispositif de production)': 'Hydraulique',
+      })
+    ).toMatchObject({ technologie: 'hydraulique' })
+
+    expect(
+      parseProjectLine({
+        ...fakeLine,
+        'Technologie\n(dispositif de production)': 'Eolien',
+      })
+    ).toMatchObject({ technologie: 'eolien' })
+
+    expect(
+      parseProjectLine({
+        ...fakeLine,
+        'Technologie\n(dispositif de production)': '',
+      })
+    ).toMatchObject({ technologie: 'pv' })
+
+    expect(() =>
+      parseProjectLine({
+        ...fakeLine,
+        'Technologie\n(dispositif de production)': 'bad value',
+      })
+    ).toThrowError(
+      'Le champ "Technologie" peut contenir les valeurs "Hydraulique", "Eolien" ou rester vide pour la technologie PV'
+    )
+  })
+
+  it("should parse the 'actionnariat' column", () => {
+    expect(
+      parseProjectLine({
+        ...fakeLine,
+        'Financement collectif (Oui/Non)': 'Oui',
+        'Gouvernance partagée (Oui/Non)': 'Non',
+      })
+    ).toMatchObject({
+      actionnariat: 'financement-collectif',
+    })
+
+    expect(
+      parseProjectLine({
+        ...fakeLine,
+        'Financement collectif (Oui/Non)': 'Non',
+        'Gouvernance partagée (Oui/Non)': 'Oui',
+      })
+    ).toMatchObject({
+      actionnariat: 'gouvernance-partagee',
+    })
+
+    expect(
+      parseProjectLine({
+        ...fakeLine,
+        'Financement collectif (Oui/Non)': 'Non',
+        'Gouvernance partagée (Oui/Non)': 'Non',
+      })
+    ).toMatchObject({
+      actionnariat: null,
+    })
+
+    expect(
+      parseProjectLine({
+        ...fakeLine,
+        'Financement collectif (Oui/Non)': '',
+        'Gouvernance partagée (Oui/Non)': '',
+      })
+    ).toMatchObject({
+      actionnariat: null,
+    })
+
+    expect(() =>
+      parseProjectLine({
+        ...fakeLine,
+        'Financement collectif (Oui/Non)': 'Oui',
+        'Gouvernance partagée (Oui/Non)': 'Oui',
+      })
+    ).toThrowError(
+      'Les deux champs Financement collectif et Gouvernance partagée ne peuvent pas être tous les deux à "Oui"'
+    )
+
+    expect(() =>
+      parseProjectLine({
+        ...fakeLine,
+        'Financement collectif (Oui/Non)': 'abcd',
+      })
+    ).toThrowError(
+      `Les champs Financement collectif et Gouvernance partagée doivent être soit 'Oui' soit 'Non'`
+    )
+
+    expect(() =>
+      parseProjectLine({
+        ...fakeLine,
+        'Gouvernance partagée (Oui/Non)': 'abcd',
+      })
+    ).toThrowError(
+      `Les champs Financement collectif et Gouvernance partagée doivent être soit 'Oui' soit 'Non'`
+    )
   })
 
   it("should parse the 'Investissement ou financement participatif ?' column", () => {
@@ -485,7 +632,8 @@ describe('parseProjectLine', () => {
       expect(() =>
         parseProjectLine({
           ...fakeLine,
-          'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)': undefined,
+          'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)':
+            undefined,
           'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)': undefined,
         })
       ).toThrowError('Le champ Evaluation carbone doit contenir un nombre')

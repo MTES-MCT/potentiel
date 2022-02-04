@@ -53,6 +53,7 @@ import {
   ProjectReimportedPayload,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
+import { getDelaiDeRealisation, isSoumisAuxGarantiesFinancieres } from '@dataAccess/inMemory'
 
 export interface Project extends EventStoreAggregate {
   notify: (
@@ -147,6 +148,8 @@ export interface ProjectDataProps {
   isInvestissementParticipatif: boolean
   motifsElimination: string
   details: Record<string, string>
+  technologie: string
+  actionnariat?: 'financement-collectif' | 'gouvernance-partagee'
 }
 
 export interface ProjectProps {
@@ -916,7 +919,7 @@ export const makeProject = (args: {
           completionDueOn:
             completionDueOn ||
             moment(props.notifiedOn)
-              .add(props.appelOffre.delaiRealisationEnMois, 'months')
+              .add(getDelaiDeRealisation(props.appelOffre.id, props.data?.technologie), 'months')
               .subtract(1, 'day')
               .toDate()
               .getTime(),
@@ -927,10 +930,10 @@ export const makeProject = (args: {
   }
 
   function _shouldSubmitGF() {
+    const appelOffreId = props.appelOffre?.id
+    const familleId = props.appelOffre?.famille?.id
     return (
-      props.isClasse &&
-      (!!props.appelOffre?.famille?.soumisAuxGarantiesFinancieres ||
-        props.appelOffre?.id === 'Eolien')
+      props.isClasse && appelOffreId && isSoumisAuxGarantiesFinancieres(appelOffreId, familleId)
     )
   }
 

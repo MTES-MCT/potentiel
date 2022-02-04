@@ -20,6 +20,8 @@ const mappedColumns = [
   'Nom et prénom du représentant légal',
   'Adresse électronique du contact',
   'N°, voie, lieu-dit',
+  'N°, voie, lieu-dit 1',
+  'N°, voie, lieu-dit 2',
   'CP',
   'Commune',
   'Classé ?',
@@ -30,6 +32,9 @@ const mappedColumns = [
   'Territoire\n(AO ZNI)',
   'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)',
   'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)',
+  'Technologie\n(dispositif de production)',
+  'Financement collectif (Oui/Non)',
+  'Gouvernance partagée (Oui/Non)',
 ]
 
 const prepareNumber = (str) => str && str.replace(/,/g, '.')
@@ -69,7 +74,21 @@ const columnMapper = {
   note: (line: any) => prepareNumber(line['Note totale']),
   nomRepresentantLegal: (line: any) => line['Nom et prénom du représentant légal'],
   email: (line: any) => line['Adresse électronique du contact'].toLowerCase(),
-  adresseProjet: (line: any) => line['N°, voie, lieu-dit'],
+  adresseProjet: (line: any) => {
+    if (line['N°, voie, lieu-dit 1'] && line['N°, voie, lieu-dit 2']) {
+      return `${line['N°, voie, lieu-dit 1']}\n${line['N°, voie, lieu-dit 2']}`
+    }
+
+    if (line['N°, voie, lieu-dit 1']) {
+      return line['N°, voie, lieu-dit 1']
+    }
+
+    if (line['N°, voie, lieu-dit 2']) {
+      return line['N°, voie, lieu-dit 2']
+    }
+
+    return line['N°, voie, lieu-dit']
+  },
   codePostalProjet: (line: any) =>
     line['CP'].split('/').map((item) => padCodePostalWithleft0(item.trim())),
   communeProjet: (line: any) => line['Commune'],
@@ -111,6 +130,37 @@ const columnMapper = {
     if (Number(ecs) === 0) return -1
 
     return ecs
+  },
+  technologie: (line: any) => {
+    if (!line.hasOwnProperty('Technologie\n(dispositif de production)')) return 'N/A'
+    const technologie = line['Technologie\n(dispositif de production)']
+    if (technologie === 'Eolien') return 'eolien'
+    if (technologie === 'Hydraulique') return 'hydraulique'
+    if (technologie === '') return 'pv'
+    return null
+  },
+  actionnariat: (line: any) => {
+    if (
+      !['Oui', 'Non', '', undefined].includes(line['Financement collectif (Oui/Non)']) ||
+      !['Oui', 'Non', '', undefined].includes(line['Gouvernance partagée (Oui/Non)'])
+    ) {
+      return 'wrong-value'
+    }
+
+    if (
+      line['Financement collectif (Oui/Non)'] === 'Oui' &&
+      line['Gouvernance partagée (Oui/Non)'] === 'Oui'
+    ) {
+      return 'not-possible'
+    }
+
+    if (line['Financement collectif (Oui/Non)'] === 'Oui') {
+      return 'financement-collectif'
+    }
+    if (line['Gouvernance partagée (Oui/Non)'] === 'Oui') {
+      return 'gouvernance-partagee'
+    }
+    return null
   },
 } as const
 
@@ -154,7 +204,7 @@ const projectSchema = yup.object().shape({
     .string()
     .email(`L'adresse email n'est pas valide`)
     .required(`L'adresse email est manquante`),
-  adresseProjet: yup.string().required(),
+  adresseProjet: yup.string().required(`L'adresse du projet est manquante`),
   codePostalProjet: yup.array().of(
     yup
       .string()
@@ -239,6 +289,29 @@ const projectSchema = yup.object().shape({
     .typeError('Le champ Evaluation carbone doit contenir un nombre')
     .min(0, 'Le champ Evaluation Carbone doit contenir un nombre strictement positif')
     .required(),
+  technologie: yup
+    .mixed()
+    .oneOf(
+      ['pv', 'hydraulique', 'eolien', 'N/A'],
+      'Le champ "Technologie" peut contenir les valeurs "Hydraulique", "Eolien" ou rester vide pour la technologie PV'
+    ),
+  actionnariat: yup.lazy((str) => {
+    if (str === 'wrong-value') {
+      return yup
+        .boolean()
+        .typeError(
+          `Les champs Financement collectif et Gouvernance partagée doivent être soit 'Oui' soit 'Non'`
+        )
+    }
+
+    return yup
+      .mixed()
+      .nullable()
+      .oneOf(
+        ['gouvernance-partagee', 'financement-collectif', null],
+        'Les deux champs Financement collectif et Gouvernance partagée ne peuvent pas être tous les deux à "Oui"'
+      )
+  }),
 })
 
 const appendInfo = (obj, key, value) => {

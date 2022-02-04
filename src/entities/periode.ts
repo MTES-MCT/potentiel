@@ -6,12 +6,23 @@ type NoteThreshold = {
   territoire?: Territoire
 }
 
-export type CertificateTemplate = 'v0' | 'v1'
+type NoteThresholdByCategory = {
+  volumeReserve: {
+    noteThreshold: number
+    puissanceMax: number
+  }
+  autres: {
+    noteThreshold: number
+  }
+}
+
+export type CertificateTemplate = 'cre4.v0' | 'cre4.v1' | 'ppe2.v1'
 
 export type Periode = {
   id: string
   title: string
   noteThresholdByFamily?: NoteThreshold[]
+  noteThresholdByCategory?: NoteThresholdByCategory
   paragrapheAchevement: string
 } & (
   | {

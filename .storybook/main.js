@@ -1,4 +1,5 @@
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 
 module.exports = {
   stories: ['../src/views/**/*.stories.tsx'],
@@ -6,6 +7,7 @@ module.exports = {
   core: {
     builder: 'webpack5',
   },
+  staticDirs: ['../src/public'],
   webpackFinal: async (config) => {
     return {
       ...config,
@@ -13,6 +15,7 @@ module.exports = {
         ...config.resolve,
         plugins: [new TsconfigPathsPlugin()],
       },
+      plugins: [...config.plugins, new NodePolyfillPlugin()],
     }
   },
 }

@@ -438,6 +438,16 @@ const orderedFields = [
     visibility: ['admin', 'dreal', 'acheteur-obligé', 'ademe'],
   },
   {
+    dataField: 'Financement collectif (Oui/Non)',
+    fn: (row) => row.actionnariat === 'financement-collectif',
+    visibility: ['admin', 'dreal', 'acheteur-obligé', 'ademe'],
+  },
+  {
+    dataField: 'Gouvernance partagée (Oui/Non)',
+    fn: (row) => row.actionnariat === 'gouvernance-partagee',
+    visibility: ['admin', 'dreal', 'acheteur-obligé', 'ademe'],
+  },
+  {
     dataField: '€/MWh bonus participatif',
     visibility: ['admin', 'porteur-projet', 'acheteur-obligé'],
   },
@@ -574,17 +584,15 @@ const orderedFields = [
     dataField: 'garantiesFinancieresSubmittedOn',
     visibility: ['admin', 'dreal', 'porteur-projet', 'acheteur-obligé'],
   },
+  {
+    dataField: 'Technologie\n(dispositif de production)',
+    visibility: ['admin', 'dreal', 'porteur-projet', 'acheteur-obligé', 'ademe'],
+  },
 ]
 
 const getProjectListCsv = asyncHandler(async (request, response) => {
-  let {
-    appelOffreId,
-    periodeId,
-    familleId,
-    recherche,
-    classement,
-    garantiesFinancieres,
-  } = request.query as any
+  let { appelOffreId, periodeId, familleId, recherche, classement, garantiesFinancieres } =
+    request.query as any
 
   if (!request.user?.role) {
     return response.redirect(routes.LOGIN)

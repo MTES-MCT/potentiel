@@ -1,6 +1,5 @@
 import { AppelOffre } from '@entities'
-import { commonDataFields, makeParagrapheAchevementForDelai } from './commonDataFields'
-import toTypeLiteral from './helpers/toTypeLiteral'
+import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 const autoconsommationZNI: AppelOffre = {
   id: 'CRE4 - Autoconsommation ZNI',
@@ -10,48 +9,38 @@ const autoconsommationZNI: AppelOffre = {
   launchDate: 'juin 2019',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 30,
+  decoupageParTechnologie: false,
   contenuParagrapheAchevement: makeParagrapheAchevementForDelai(30, '7.1'),
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7.2',
   paragrapheDelaiDerogatoire: '6.3',
   paragrapheAttestationConformite: '6.4',
-  paragrapheEngagementIPFP: '',
+  paragrapheEngagementIPFPGPFC: '',
   afficherParagrapheInstallationMiseEnServiceModification: true,
   renvoiModification: '5.3',
   affichageParagrapheECS: false,
   renvoiDemandeCompleteRaccordement: '6.1',
   renvoiRetraitDesignationGarantieFinancieres: '',
-  renvoiEngagementIPFP: '',
+  renvoiEngagementIPFPGPFC: '',
   paragrapheClauseCompetitivite: '2.10',
   tarifOuPrimeRetenue: 'la prime retenue',
   tarifOuPrimeRetenueAlt: 'cette prime',
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
-  dataFields: [
-    ...commonDataFields,
-    {
-      field: 'evaluationCarbone',
-      type: toTypeLiteral('orNumberInColumn'),
-      defaultValue: 0,
-      column:
-        'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)',
-      value: 'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)',
-    },
-  ],
   periodes: [
     {
       id: '1',
       title: 'première',
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v0',
+      certificateTemplate: 'cre4.v0',
       paragrapheAchevement: '6.3',
     },
     {
       id: '2',
       title: 'deuxième',
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
       paragrapheAchevement: '6.3',
       noteThresholdByFamily: [{ familleId: '', noteThreshold: 32.9 }],
     },

@@ -1,7 +1,5 @@
 import { AppelOffre } from '@entities'
-import { commonDataFields, makeParagrapheAchevementForDelai } from './commonDataFields'
-
-import toTypeLiteral from './helpers/toTypeLiteral'
+import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 const innovation: AppelOffre = {
   id: 'CRE4 - Innovation',
@@ -11,35 +9,25 @@ const innovation: AppelOffre = {
   launchDate: 'mars 2017',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,
+  decoupageParTechnologie: false,
   contenuParagrapheAchevement: makeParagrapheAchevementForDelai(24, '7.1'),
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7.1',
   paragrapheDelaiDerogatoire: '6.3',
   paragrapheAttestationConformite: '6.5',
-  paragrapheEngagementIPFP: '',
+  paragrapheEngagementIPFPGPFC: '',
   afficherParagrapheInstallationMiseEnServiceModification: true,
   renvoiModification: '5.4',
   affichageParagrapheECS: false,
   renvoiDemandeCompleteRaccordement: '6.1',
   renvoiRetraitDesignationGarantieFinancieres: '5.3',
-  renvoiEngagementIPFP: '',
+  renvoiEngagementIPFPGPFC: '',
   paragrapheClauseCompetitivite: '',
   tarifOuPrimeRetenue: "le prix de référence T de l'électricité retenu",
   tarifOuPrimeRetenueAlt: 'ce prix de référence',
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
-  dataFields: [
-    ...commonDataFields,
-    {
-      field: 'evaluationCarbone',
-      type: toTypeLiteral('orNumberInColumn'),
-      defaultValue: 0,
-      column:
-        'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)',
-      value: 'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)',
-    },
-  ],
   periodes: [
     {
       id: '1',
@@ -55,7 +43,7 @@ const innovation: AppelOffre = {
         { familleId: '2', noteThreshold: 45.49 },
       ],
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v0',
+      certificateTemplate: 'cre4.v0',
     },
     {
       id: '3',
@@ -66,7 +54,7 @@ const innovation: AppelOffre = {
         { familleId: '2', noteThreshold: 59.32 },
       ],
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
     },
   ],
   familles: [

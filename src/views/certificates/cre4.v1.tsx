@@ -91,7 +91,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
             En raison de votre engagement à l’investissement participatif, la valeur de{' '}
             {appelOffre.tarifOuPrimeRetenueAlt} est majorée pendant toute la durée du contrat de 3
             €/MWh sous réserve du respect de cet engagement
-            {addFootNote(appelOffre.renvoiEngagementIPFP)}.
+            {addFootNote(appelOffre.renvoiEngagementIPFPGPFC)}.
           </Text>
         ) : (
           <Text />
@@ -101,7 +101,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
             En raison de votre engagement au financement participatif, la valeur de{' '}
             {appelOffre.tarifOuPrimeRetenueAlt} est majorée pendant toute la durée du contrat de 1
             €/MWh sous réserve du respect de cet engagement
-            {addFootNote(appelOffre.renvoiEngagementIPFP)}.
+            {addFootNote(appelOffre.renvoiEngagementIPFPGPFC)}.
           </Text>
         ) : (
           <Text />
@@ -222,7 +222,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
           }}
         >
           - respecter les engagements pris conformément au(x) paragraphe(s){' '}
-          {appelOffre.paragrapheEngagementIPFP} concernant l’investissement participatif.
+          {appelOffre.paragrapheEngagementIPFPGPFC} concernant l’investissement participatif.
         </Text>
       ) : (
         <Text />
@@ -237,7 +237,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
           }}
         >
           - respecter les engagements pris conformément au(x) paragraphe(s){' '}
-          {appelOffre.paragrapheEngagementIPFP} concernant le financement participatif.
+          {appelOffre.paragrapheEngagementIPFPGPFC} concernant le financement participatif.
         </Text>
       ) : (
         <Text />
@@ -315,8 +315,9 @@ const getNoteThreshold = (project: ProjectDataForCertificate) => {
     return note
   }
 
-  const note = periode.noteThresholdByFamily.find((item) => item.familleId === project.familleId)
-    ?.noteThreshold
+  const note = periode.noteThresholdByFamily.find(
+    (item) => item.familleId === project.familleId
+  )?.noteThreshold
 
   if (!note) {
     logger.error(

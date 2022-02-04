@@ -1,6 +1,5 @@
 import { AppelOffre } from '@entities'
-import { commonDataFields, makeParagrapheAchevementForDelai } from './commonDataFields'
-import toTypeLiteral from './helpers/toTypeLiteral'
+import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 const fessenheim: AppelOffre = {
   id: 'Fessenheim',
@@ -10,18 +9,19 @@ const fessenheim: AppelOffre = {
   launchDate: 'janvier 2019',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,
+  decoupageParTechnologie: false,
   contenuParagrapheAchevement: makeParagrapheAchevementForDelai(24, '7.1.1'),
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.4',
   paragrapheAttestationConformite: '6.6',
-  paragrapheEngagementIPFP: '3.2.6',
+  paragrapheEngagementIPFPGPFC: '3.2.6',
   afficherParagrapheInstallationMiseEnServiceModification: true,
   renvoiModification: '5.4',
   affichageParagrapheECS: true,
   renvoiDemandeCompleteRaccordement: '6.1',
   renvoiRetraitDesignationGarantieFinancieres: '5.3 et 6.2',
-  renvoiEngagementIPFP: '3.2.6 et 7.1.2',
+  renvoiEngagementIPFPGPFC: '3.2.6 et 7.1.2',
   paragrapheClauseCompetitivite: '2.8',
   tarifOuPrimeRetenue: "le prix de référence T de l'électricité retenu",
   tarifOuPrimeRetenueAlt: 'ce prix de référence',
@@ -29,16 +29,6 @@ const fessenheim: AppelOffre = {
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   renvoiSoumisAuxGarantiesFinancieres: 'doit être au minimum de 42 mois',
-  dataFields: [
-    ...commonDataFields,
-    {
-      // This field is mandatory
-      field: 'evaluationCarbone',
-      type: toTypeLiteral('number'),
-      column:
-        'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)',
-    },
-  ],
   periodes: [
     {
       id: '1',
@@ -54,7 +44,7 @@ const fessenheim: AppelOffre = {
         { familleId: '3', noteThreshold: 1.52 },
       ],
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v0',
+      certificateTemplate: 'cre4.v0',
     },
     {
       id: '3',
@@ -66,7 +56,7 @@ const fessenheim: AppelOffre = {
         { familleId: '3', noteThreshold: 18.43 },
       ],
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v0',
+      certificateTemplate: 'cre4.v0',
     },
   ],
   familles: [
