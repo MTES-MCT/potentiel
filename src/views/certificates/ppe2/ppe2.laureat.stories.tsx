@@ -38,8 +38,8 @@ const fakeProject: ProjectDataForCertificate = {
   familleId: 'famille',
   prixReference: 42,
   evaluationCarbone: 42,
-  isFinancementParticipatif: true,
-  isInvestissementParticipatif: true,
+  isFinancementParticipatif: false,
+  isInvestissementParticipatif: false,
   engagementFournitureDePuissanceAlaPointe: true,
   motifsElimination: 'motifsElimination',
   note: 42,
@@ -54,11 +54,13 @@ const fakeProject: ProjectDataForCertificate = {
   puissance: 42,
   potentielId: 'potentielId',
   territoireProjet: 'territoireProjet',
+  technologie: 'pv',
 }
 
-export const LaureatPPE2AutoconsommationMétropole = () => {
-  const project = {
+export const LaureatPPE2AutoconsommationMétropoleFinancementCollectif = () => {
+  const project: ProjectDataForCertificate = {
     ...fakeProject,
+    actionnariat: 'financement-collectif',
     appelOffre: {
       ...autoconsommationMetropolePPE2,
       periode: autoconsommationMetropolePPE2.periodes[0],
@@ -72,9 +74,10 @@ export const LaureatPPE2AutoconsommationMétropole = () => {
   )
 }
 
-export const LaureatPPE2Batiment = () => {
-  const project = {
+export const LaureatPPE2BatimentGouvernancePartagee = () => {
+  const project: ProjectDataForCertificate = {
     ...fakeProject,
+    actionnariat: 'gouvernance-partagee',
     appelOffre: {
       ...batimentPPE2,
       periode: batimentPPE2.periodes[0],

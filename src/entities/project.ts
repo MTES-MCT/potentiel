@@ -1,4 +1,3 @@
-import crypto from 'crypto'
 import isEmail from 'isemail'
 import _ from 'lodash'
 import buildMakeEntity from '../helpers/buildMakeEntity'

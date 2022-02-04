@@ -149,6 +149,7 @@ export interface ProjectDataProps {
   motifsElimination: string
   details: Record<string, string>
   technologie: string
+  actionnariat?: 'financement-collectif' | 'gouvernance-partagee'
 }
 
 export interface ProjectProps {

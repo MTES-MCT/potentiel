@@ -6,7 +6,6 @@ import { makeCertificate as makeCre4V0Certificate } from './cre4.v0'
 import { makeCertificate as makeCre4V1Certificate } from './cre4.v1'
 import { makeCertificate as makePpe2V1Certificate } from './ppe2'
 
-/* global NodeJS */
 export const buildCertificate = (args: {
   template: CertificateTemplate
   data: ProjectDataForCertificate

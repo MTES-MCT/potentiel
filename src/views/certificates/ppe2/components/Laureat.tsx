@@ -3,6 +3,7 @@ import React from 'react'
 import { ProjectDataForCertificate } from '@modules/project/dtos'
 import { formatNumber } from '../helpers/formatNumber'
 import { estSoumisAuxGFs } from '../helpers/estSoumisAuxGFs'
+import { getDelaiDeRealisation } from '@dataAccess/inMemory'
 
 type MakeLaureat = (project: ProjectDataForCertificate) => {
   content: React.ReactNode
@@ -10,7 +11,7 @@ type MakeLaureat = (project: ProjectDataForCertificate) => {
 }
 
 export const makeLaureat: MakeLaureat = (project) => {
-  const { appelOffre } = project
+  const { appelOffre, technologie } = project
   const { periode } = appelOffre || {}
 
   const soumisAuxGarantiesFinancieres = estSoumisAuxGFs(project)
@@ -41,14 +42,14 @@ export const makeLaureat: MakeLaureat = (project) => {
             formatNumber(project.evaluationCarbone) +
             ' kg eq CO2/kWc. '
           : ' '}
-        {project.isInvestissementParticipatif && (
+        {project.actionnariat === 'gouvernance-partagee' && (
           <Text>
             Vous vous êtes engagés{addFootNote(appelOffre.renvoiEngagementIPFP)} à la gouvernance
             partagée pendant toute la durée du contrat et jusqu’à dix ans minimum après la Date
             d’Achèvement de l’Installation.
           </Text>
         )}
-        {project.isFinancementParticipatif && (
+        {project.actionnariat === 'financement-collectif' && (
           <Text>
             Vous vous êtes engagés{addFootNote(appelOffre.renvoiEngagementIPFP)} au financement
             collectif pendant toute la durée du contrat et jusqu’à trois ans minimum après la Date
@@ -125,8 +126,9 @@ export const makeLaureat: MakeLaureat = (project) => {
           }}
         >
           - sauf délais dérogatoires prévus au {appelOffre.paragrapheDelaiDerogatoire} du cahier des
-          charges, achever l’installation dans un délai de {appelOffre.delaiRealisationTexte} à
-          compter de la présente notification;
+          charges, achever l’installation dans un délai de{' '}
+          {getDelaiDeRealisation(appelOffre.id, technologie)} mois à compter de la présente
+          notification;
         </Text>
 
         <Text
@@ -138,7 +140,7 @@ export const makeLaureat: MakeLaureat = (project) => {
           {appelOffre.paragrapheAttestationConformite} du cahier des charges;
         </Text>
 
-        {project.isInvestissementParticipatif && (
+        {project.actionnariat === 'gouvernance-partagee' && (
           <Text
             style={{
               marginTop: 10,
@@ -149,7 +151,7 @@ export const makeLaureat: MakeLaureat = (project) => {
           </Text>
         )}
 
-        {project.isFinancementParticipatif && (
+        {project.actionnariat === 'financement-collectif' && (
           <Text
             style={{
               marginTop: 10,

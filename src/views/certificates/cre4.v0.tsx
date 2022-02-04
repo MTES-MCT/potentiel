@@ -192,9 +192,8 @@ const Laureat = (project: ProjectDataForCertificate) => {
         }}
       >
         - sauf délais dérogatoires prévus au {appelOffre.paragrapheDelaiDerogatoire} du cahier des
-        charges, achever l’installation dans un délai de{' '}
-        {getDelaiDeRealisation(appelOffre.id, technologie)} mois à compter de la présente
-        notification.
+        charges, achever l’installation dans un délai de {appelOffre.delaiRealisationTexte} mois à
+        compter de la présente notification.
       </Text>
       <Text
         style={{
