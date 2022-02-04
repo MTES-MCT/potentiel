@@ -123,6 +123,7 @@ type BaseProject = Static<typeof projectSchema> & {
   }
   newRulesOptIn: boolean
   readonly potentielIdentifier: string
+  actionnariat?: '' | 'financement-collectif' | 'gouvernance-partagee'
 }
 
 type ProjectEvent = {

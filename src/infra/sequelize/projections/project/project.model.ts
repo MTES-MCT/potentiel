@@ -168,6 +168,10 @@ export const MakeProjectModel = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      actionnariat: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
     },
     {
       timestamps: true,

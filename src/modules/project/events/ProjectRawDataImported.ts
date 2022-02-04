@@ -30,6 +30,7 @@ export interface ProjectRawDataImportedPayload {
     notifiedOn: number
     details: any
     technologie?: string
+    actionnariat?: string
   }
 }
 export class ProjectRawDataImported

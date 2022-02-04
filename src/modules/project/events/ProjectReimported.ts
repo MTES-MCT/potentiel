@@ -34,6 +34,7 @@ export interface ProjectReimportedPayload {
     notifiedOn: number
     details: any
     technologie: string
+    actionnariat: string
   }>
 }
 export class ProjectReimported

@@ -35,6 +35,7 @@ const deserialize = (item) => ({
   abandonedOn: item.abandonedOn || 0,
   potentielIdentifier: item.potentielIdentifier || '',
   technologie: item.technologie || '',
+  actionnariat: item.actionnariat || '',
 })
 
 export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): ProjectRepo {
@@ -201,6 +202,10 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
       allowNull: false,
     },
     technologie: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    actionnariat: {
       type: DataTypes.STRING,
       allowNull: true,
     },
