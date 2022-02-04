@@ -135,6 +135,76 @@ describe('parseProjectLine', () => {
     })
   })
 
+  it("should parse the 'actionnariat' column", () => {
+    expect(
+      parseProjectLine({
+        ...fakeLine,
+        'Financement collectif (Oui/Non)': 'Oui',
+        'Gouvernance partagée (Oui/Non)': 'Non',
+      })
+    ).toMatchObject({
+      actionnariat: 'financement-collectif',
+    })
+
+    expect(
+      parseProjectLine({
+        ...fakeLine,
+        'Financement collectif (Oui/Non)': 'Non',
+        'Gouvernance partagée (Oui/Non)': 'Oui',
+      })
+    ).toMatchObject({
+      actionnariat: 'gouvernance-partagee',
+    })
+
+    expect(
+      parseProjectLine({
+        ...fakeLine,
+        'Financement collectif (Oui/Non)': 'Non',
+        'Gouvernance partagée (Oui/Non)': 'Non',
+      })
+    ).toMatchObject({
+      actionnariat: null,
+    })
+
+    expect(
+      parseProjectLine({
+        ...fakeLine,
+        'Financement collectif (Oui/Non)': '',
+        'Gouvernance partagée (Oui/Non)': '',
+      })
+    ).toMatchObject({
+      actionnariat: null,
+    })
+
+    expect(() =>
+      parseProjectLine({
+        ...fakeLine,
+        'Financement collectif (Oui/Non)': 'Oui',
+        'Gouvernance partagée (Oui/Non)': 'Oui',
+      })
+    ).toThrowError(
+      'Les deux champs Financement collectif et Gouvernance partagée ne peuvent pas être tous les deux à "Oui"'
+    )
+
+    expect(() =>
+      parseProjectLine({
+        ...fakeLine,
+        'Financement collectif (Oui/Non)': 'abcd',
+      })
+    ).toThrowError(
+      `Les champs Financement collectif et Gouvernance partagée doivent être soit 'Oui' soit 'Non'`
+    )
+
+    expect(() =>
+      parseProjectLine({
+        ...fakeLine,
+        'Gouvernance partagée (Oui/Non)': 'abcd',
+      })
+    ).toThrowError(
+      `Les champs Financement collectif et Gouvernance partagée doivent être soit 'Oui' soit 'Non'`
+    )
+  })
+
   it("should parse the 'Investissement ou financement participatif ?' column", () => {
     expect(
       parseProjectLine({
