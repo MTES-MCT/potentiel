@@ -71,7 +71,7 @@ const sol: AppelOffre = {
         { familleId: '3', noteThreshold: 54.15 },
       ],
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v0',
+      certificateTemplate: 'cre4.v0',
     },
     {
       id: '8',
@@ -83,7 +83,7 @@ const sol: AppelOffre = {
         { familleId: '3', noteThreshold: 54.35 },
       ],
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
     },
     {
       id: '9',
@@ -95,7 +95,7 @@ const sol: AppelOffre = {
         { familleId: '3', noteThreshold: 36.02 },
       ],
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
     },
     {
       id: '10',
@@ -107,7 +107,7 @@ const sol: AppelOffre = {
         { familleId: '2', noteThreshold: 43.96 },
         { familleId: '3', noteThreshold: 23.94 },
       ],
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
     },
   ],
   familles: [

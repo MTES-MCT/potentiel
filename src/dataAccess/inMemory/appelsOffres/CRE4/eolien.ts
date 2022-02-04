@@ -66,7 +66,7 @@ const eolien: AppelOffre = {
       title: 'sixième',
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
       noteThresholdByFamily: [{ familleId: '', noteThreshold: 10.19 }],
     },
     {
@@ -74,7 +74,7 @@ const eolien: AppelOffre = {
       title: 'septième',
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
       noteThresholdByFamily: [{ familleId: '', noteThreshold: 13 }],
     },
     {
@@ -82,7 +82,7 @@ const eolien: AppelOffre = {
       title: 'huitième',
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
       noteThresholdByFamily: [{ familleId: '', noteThreshold: 9.8 }],
     },
   ],

@@ -65,7 +65,7 @@ const autoconsommationMetropole: AppelOffre = {
       paragrapheAchevement: '6.3',
       noteThresholdByFamily: [{ familleId: '', noteThreshold: 20.04 }],
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v0',
+      certificateTemplate: 'cre4.v0',
     },
     {
       id: '8',
@@ -73,7 +73,7 @@ const autoconsommationMetropole: AppelOffre = {
       paragrapheAchevement: '6.3',
       noteThresholdByFamily: [{ familleId: '', noteThreshold: 32.04 }],
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
     },
     {
       id: '9',
@@ -81,7 +81,7 @@ const autoconsommationMetropole: AppelOffre = {
       paragrapheAchevement: '6.3',
       noteThresholdByFamily: [{ familleId: '', noteThreshold: 9.9 }],
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
     },
     {
       id: '10',
@@ -89,7 +89,7 @@ const autoconsommationMetropole: AppelOffre = {
       paragrapheAchevement: '6.3',
       noteThresholdByFamily: [{ familleId: '', noteThreshold: 44.9 }],
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
     },
   ],
   familles: [],

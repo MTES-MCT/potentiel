@@ -43,7 +43,7 @@ const innovation: AppelOffre = {
         { familleId: '2', noteThreshold: 45.49 },
       ],
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v0',
+      certificateTemplate: 'cre4.v0',
     },
     {
       id: '3',
@@ -54,7 +54,7 @@ const innovation: AppelOffre = {
         { familleId: '2', noteThreshold: 59.32 },
       ],
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v1',
+      certificateTemplate: 'cre4.v1',
     },
   ],
   familles: [

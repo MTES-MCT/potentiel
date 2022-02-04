@@ -44,7 +44,7 @@ const fessenheim: AppelOffre = {
         { familleId: '3', noteThreshold: 1.52 },
       ],
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v0',
+      certificateTemplate: 'cre4.v0',
     },
     {
       id: '3',
@@ -56,7 +56,7 @@ const fessenheim: AppelOffre = {
         { familleId: '3', noteThreshold: 18.43 },
       ],
       isNotifiedOnPotentiel: true,
-      certificateTemplate: 'v0',
+      certificateTemplate: 'cre4.v0',
     },
   ],
   familles: [
