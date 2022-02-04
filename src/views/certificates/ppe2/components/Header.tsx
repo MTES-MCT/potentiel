@@ -22,7 +22,7 @@ export const Header = ({ project }: HeaderProps) => {
           style={{ width: 165, height: 118 }}
           src={process.env.BASE_URL + '/images/Logo MTE.png'}
         />
-        <Text style={{ fontSize: 12, fontWeight: 'bold', width: 200, paddingTop: 10 }}>
+        <Text style={{ fontSize: 12, fontWeight: 'bold', width: 190, paddingTop: 10 }}>
           Direction générale de l’énergie et du climat
         </Text>
       </View>

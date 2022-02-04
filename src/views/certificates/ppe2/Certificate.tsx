@@ -46,11 +46,14 @@ export const Certificate = (props: CertificateProps) => {
 
             {content}
 
-            <Text style={{ marginTop: 30 }}>
-              Je vous prie d’agréer, Madame, Monsieur, l’expression de mes salutations distinguées.
-            </Text>
+            <View wrap={false}>
+              <Text style={{ marginTop: 30 }}>
+                Je vous prie d’agréer, Madame, Monsieur, l’expression de mes salutations
+                distinguées.
+              </Text>
 
-            <Signature />
+              <Signature />
+            </View>
           </View>
 
           {footnotes && (
