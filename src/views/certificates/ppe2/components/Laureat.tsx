@@ -44,14 +44,14 @@ export const makeLaureat: MakeLaureat = (project) => {
           : ' '}
         {project.actionnariat === 'gouvernance-partagee' && (
           <Text>
-            Vous vous êtes engagés{addFootNote(appelOffre.renvoiEngagementIPFP)} à la gouvernance
-            partagée pendant toute la durée du contrat et jusqu’à dix ans minimum après la Date
-            d’Achèvement de l’Installation.
+            Vous vous êtes engagés{addFootNote(appelOffre.renvoiEngagementIPFPGPFC)} à la
+            gouvernance partagée pendant toute la durée du contrat et jusqu’à dix ans minimum après
+            la Date d’Achèvement de l’Installation.
           </Text>
         )}
         {project.actionnariat === 'financement-collectif' && (
           <Text>
-            Vous vous êtes engagés{addFootNote(appelOffre.renvoiEngagementIPFP)} au financement
+            Vous vous êtes engagés{addFootNote(appelOffre.renvoiEngagementIPFPGPFC)} au financement
             collectif pendant toute la durée du contrat et jusqu’à trois ans minimum après la Date
             d’Achèvement de l’Installation.
           </Text>
@@ -147,7 +147,7 @@ export const makeLaureat: MakeLaureat = (project) => {
             }}
           >
             - respecter les engagements pris conformément aux paragraphes{' '}
-            {appelOffre.paragrapheEngagementIPFP} concernant la gouvernance partagée;
+            {appelOffre.paragrapheEngagementIPFPGPFC} concernant la gouvernance partagée;
           </Text>
         )}
 
@@ -158,7 +158,7 @@ export const makeLaureat: MakeLaureat = (project) => {
             }}
           >
             - respecter les engagements pris conformément aux paragraphes{' '}
-            {appelOffre.paragrapheEngagementIPFP} concernant le financement collectif;
+            {appelOffre.paragrapheEngagementIPFPGPFC} concernant le financement collectif;
           </Text>
         )}
       </View>
