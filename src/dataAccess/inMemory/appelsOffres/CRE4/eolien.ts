@@ -13,8 +13,8 @@ const eolien: AppelOffre = {
   tarifOuPrimeRetenueAlt: 'ce prix de référence',
   paragraphePrixReference: '7.2',
   affichageParagrapheECS: false,
-  paragrapheEngagementIPFP: '3.3.6',
-  renvoiEngagementIPFP: '3.3.6 et 7.2.2',
+  paragrapheEngagementIPFPGPFC: '3.3.6',
+  renvoiEngagementIPFPGPFC: '3.3.6 et 7.2.2',
   // Fourniture puissance à la pointe ?
   renvoiDemandeCompleteRaccordement: '6.1',
   renvoiSoumisAuxGarantiesFinancieres: 'est précisée au 6.2 du cahier des charges',
