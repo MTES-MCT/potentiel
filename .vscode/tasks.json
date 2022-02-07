@@ -1,0 +1,13 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Test - Run test on this file",
+      "type": "shell",
+      "command": "if [[ ${file} == *\".spec.ts\" ]]; then npm run test:watch -- ${file} ; else if [[ ${file} == *\".integration.ts\" ]]; then npm run test-int:watch -- ${file} ; fi ; fi",
+      "problemMatcher": []
+    }
+  ]
+}
