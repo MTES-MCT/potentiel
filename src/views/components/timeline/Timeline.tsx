@@ -67,7 +67,7 @@ export const Timeline = ({
   now,
 }: TimelineProps) => {
   const PTFItemProps = extractPTFItemProps(events, { isLaureat })
-  const GFItemProps = extractGFItemProps(events, now, { isLaureat })
+  const GFItemProps = extractGFItemProps(events, now, { isLaureat, isSoumisAuxGF })
 
   const itemProps: ItemProps[] = [
     extractDesignationItemProps(events, projectId),

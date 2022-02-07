@@ -27,9 +27,10 @@ export const extractGFItemProps = (
   now: number,
   project: {
     isLaureat: boolean
+    isSoumisAuxGF: boolean
   }
 ): GFItemProps | null => {
-  if (!events.length || !project.isLaureat) {
+  if (!events.length || !project.isLaureat || !project.isSoumisAuxGF) {
     return null
   }
 

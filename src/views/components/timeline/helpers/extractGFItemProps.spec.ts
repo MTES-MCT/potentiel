@@ -12,6 +12,7 @@ describe('extractGFitemProps', () => {
   describe(`when the project is not lauréat`, () => {
     const project = {
       isLaureat: false,
+      isSoumisAuxGF: true,
     }
 
     it(`should return null`, () => {
@@ -29,6 +30,7 @@ describe('extractGFitemProps', () => {
   describe('when the project is lauréat', () => {
     const project = {
       isLaureat: true,
+      isSoumisAuxGF: true,
     }
     describe('when there is no event', () => {
       it('should return null', () => {
@@ -38,19 +40,42 @@ describe('extractGFitemProps', () => {
       })
     })
     describe('when there is no ProjectGF* event', () => {
-      it('should return a "submitted-with-application" GFItemProps with no date', () => {
-        const events = [
-          {
-            type: 'ProjectNotified',
-            variant: 'porteur-projet',
-            date: new Date('2022-01-09').getTime(),
-          } as ProjectNotifiedDTO,
-        ]
-        const result = extractGFItemProps(events, new Date('2022-01-08').getTime(), project)
-        expect(result).toEqual({
-          type: 'garanties-financieres',
-          status: 'submitted-with-application',
-          role: 'porteur-projet',
+      describe('when the project is subject to "garanties financières"', () => {
+        it('should return a "submitted-with-application" GFItemProps with no date', () => {
+          const project = {
+            isLaureat: true,
+            isSoumisAuxGF: true,
+          }
+          const events = [
+            {
+              type: 'ProjectNotified',
+              variant: 'porteur-projet',
+              date: new Date('2022-01-09').getTime(),
+            } as ProjectNotifiedDTO,
+          ]
+          const result = extractGFItemProps(events, new Date('2022-01-08').getTime(), project)
+          expect(result).toEqual({
+            type: 'garanties-financieres',
+            status: 'submitted-with-application',
+            role: 'porteur-projet',
+          })
+        })
+      })
+      describe('when the project is not subject to GF', () => {
+        it('should return a null', () => {
+          const project = {
+            isLaureat: true,
+            isSoumisAuxGF: false,
+          }
+          const events = [
+            {
+              type: 'ProjectNotified',
+              variant: 'porteur-projet',
+              date: new Date('2022-01-09').getTime(),
+            } as ProjectNotifiedDTO,
+          ]
+          const result = extractGFItemProps(events, new Date('2022-01-08').getTime(), project)
+          expect(result).toEqual(null)
         })
       })
     })
