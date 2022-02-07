@@ -22,6 +22,8 @@ module.exports = {
       }
     )
 
+    if (!rightFullProjectOwners.length) return
+
     console.log('Inserting ' + rightFullProjectOwners.length + ' UserRightsToProjectGranted events')
 
     await queryInterface.bulkInsert(

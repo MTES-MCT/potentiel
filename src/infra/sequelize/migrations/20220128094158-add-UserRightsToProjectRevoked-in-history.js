@@ -56,6 +56,8 @@ module.exports = {
       ...rightsToRevokeFromUserProjectsLinkedByContactEmail,
     ]
 
+    if (!rightsToRevoke.length) return
+
     console.log('Inserting ' + rightsToRevoke.length + ' UserRightsToProjectRevoked events')
 
     await queryInterface.bulkInsert(
