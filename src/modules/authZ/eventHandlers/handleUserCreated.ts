@@ -1,5 +1,5 @@
 import { EventBus } from '@core/domain'
-import { logger } from '@core/utils'
+import { logger, okAsync } from '@core/utils'
 import { GetNonLegacyProjectsByContactEmail } from '../../project'
 import { UserCreated } from '../../users'
 import { UserProjectsLinkedByContactEmail } from '../events'
@@ -15,11 +15,13 @@ export const handleUserCreated = (deps: HandleUserCreatedDeps) => async (event: 
 
   try {
     const res = await getNonLegacyProjectsByContactEmail(email).andThen((projectIds) =>
-      eventBus.publish(
-        new UserProjectsLinkedByContactEmail({
-          payload: { userId, projectIds },
-        })
-      )
+      projectIds.length
+        ? eventBus.publish(
+            new UserProjectsLinkedByContactEmail({
+              payload: { userId, projectIds },
+            })
+          )
+        : okAsync(null)
     )
     if (res.isErr()) {
       throw res.error
