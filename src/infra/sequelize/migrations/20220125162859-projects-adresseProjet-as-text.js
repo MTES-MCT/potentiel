@@ -1,15 +1,4 @@
 'use strict'
-const { models } = require('../models')
-const { fromPersistance } = require('../helpers/fromPersistance')
-const { onProjectImported } = require('../projections/project/updates/onProjectImported')
-const {
-  onProjectNotificationDateSet,
-} = require('../projections/project/updates/onProjectNotificationDateSet')
-const { onProjectDCRDueDateSet } = require('../projections/project/updates/onProjectDCRDueDateSet')
-const { onProjectGFDueDateSet } = require('../projections/project/updates/onProjectGFDueDateSet')
-const {
-  onProjectCompletionDueDateSet,
-} = require('../projections/project/updates/onProjectCompletionDueDateSet')
 
 module.exports = {
   async up(queryInterface, Sequelize) {
