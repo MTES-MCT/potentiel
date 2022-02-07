@@ -27,7 +27,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
       const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
 
       return {
-        project: { id: projectId, isLaureat },
+        project: { id: projectId, isLaureat, isSoumisAuxGF },
         events: await rawEvents
           .map((item) => item.get())
           .reduce<Promise<ProjectEventDTO[]>>(

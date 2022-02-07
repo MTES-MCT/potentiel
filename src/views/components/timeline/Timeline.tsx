@@ -62,7 +62,7 @@ type UndatedItemProps = ItemProps & { date: undefined }
 export const Timeline = ({
   projectEventList: {
     events,
-    project: { id: projectId, isLaureat },
+    project: { id: projectId, isLaureat, isSoumisAuxGF },
   },
   now,
 }: TimelineProps) => {
