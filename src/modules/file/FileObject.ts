@@ -12,6 +12,7 @@ type FileDesignation =
   | 'attestation-designation-proof' // attestation uploaded by user when he claims a project ownership
   | 'ptf'
   | 'other'
+  | 'garantie-financiere-ppe2'
 
 /* global NodeJS */
 export type FileContents = NodeJS.ReadableStream

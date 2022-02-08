@@ -29,7 +29,7 @@ v1Router.post(
       })
     }
 
-    if (!['ptf', 'dcr', 'garantie-financiere'].includes(type)) {
+    if (!['ptf', 'dcr', 'garantie-financiere', 'garantie-financiere-ppe2'].includes(type)) {
       return errorResponse({ request, response, customStatus: 400 })
     }
 
