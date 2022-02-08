@@ -112,7 +112,7 @@ export const Timeline = ({
 
   return (
     <aside aria-label="Progress">
-      <ol role="list" className="pl-0 overflow-hidden list-none">
+      <ol role="list" className="pl-0 overflow-hidden list-none max-w-lg">
         {timelineItems.map((component, groupIndex) => (
           <TimelineItem key={groupIndex} isLastItem={groupIndex === timelineItems.length - 1}>
             {component}
