@@ -1,16 +1,15 @@
 import { User } from '@entities'
 import { ProjectDataForProjectPage } from '@modules/project/dtos'
 import React from 'react'
-import { ProjectStatusLabel } from 'src/views/components/ProjectStatusLabel'
+import { ProjectStatusLabel } from '../../../components/ProjectStatusLabel'
 import NewProjectActions from '../../projectDetailsPage/components/ProjectActions'
 
 interface ProjectHeaderProps {
   project: ProjectDataForProjectPage
   user: User
-  cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
 }
 
-export const ProjectHeader = ({ project, user, cahiersChargesURLs }: ProjectHeaderProps) => (
+export const ProjectHeader = ({ project, user }: ProjectHeaderProps) => (
   <div className="w-full pt-3 md:pt-0 lg:flex justify-between gap-2">
     <div className="pl-3 mb-3">
       <div className="flex justify-start items-center">

@@ -37,7 +37,7 @@ export const ProjectDetails = PageLayout(
 
     return (
       <RoleBasedDashboard role={user.role} currentPage="list-projects">
-        <ProjectHeader project={project} user={user} cahiersChargesURLs={cahiersChargesURLs} />
+        <ProjectHeader project={project} user={user} />
         <SuccessErrorBox success={success} error={error} />
         <div className={'flex flex-row flex-wrap gap-3 justify-start items-stretch mt-5'}>
           {projectEventList && (
