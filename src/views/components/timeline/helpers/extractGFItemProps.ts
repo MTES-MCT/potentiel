@@ -12,7 +12,7 @@ export type GFItemProps = {
       date: number
     }
   | {
-      status: 'pending-validation' | 'validated'
+      status: 'pending-validation' | 'validated' | 'submitted-with-application-and-uploaded'
       url: string | undefined
       date: number
     }
@@ -64,11 +64,16 @@ export const extractGFItemProps = (
     role,
   }
 
-  return type === 'ProjectGFSubmitted'
+  return type === 'ProjectGFSubmitted' || type === 'ProjectGFUploaded'
     ? {
         ...props,
         url: eventToHandle.file && makeDocumentUrl(eventToHandle.file.id, eventToHandle.file.name),
-        status: latestProjectGF.type === 'ProjectGFValidated' ? 'validated' : 'pending-validation',
+        status:
+          latestProjectGF.type === 'ProjectGFUploaded'
+            ? 'submitted-with-application-and-uploaded'
+            : latestProjectGF.type === 'ProjectGFValidated'
+            ? 'validated'
+            : 'pending-validation',
       }
     : {
         ...props,
@@ -81,5 +86,6 @@ const isProjectGF = or(
   is('ProjectGFSubmitted'),
   is('ProjectGFRemoved'),
   is('ProjectGFValidated'),
-  is('ProjectGFInvalidated')
+  is('ProjectGFInvalidated'),
+  is('ProjectGFUploaded')
 )

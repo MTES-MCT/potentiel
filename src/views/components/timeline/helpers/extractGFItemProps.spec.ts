@@ -3,6 +3,7 @@ import {
   ProjectGFInvalidatedDTO,
   ProjectGFRemovedDTO,
   ProjectGFSubmittedDTO,
+  ProjectGFUploadedDTO,
   ProjectGFValidatedDTO,
   ProjectNotifiedDTO,
 } from '@modules/frise'
@@ -76,6 +77,30 @@ describe('extractGFitemProps', () => {
           ]
           const result = extractGFItemProps(events, new Date('2022-01-08').getTime(), project)
           expect(result).toEqual(null)
+        })
+      })
+    })
+    describe('when there is a ProjectGFUploaded event', () => {
+      it('should return a "submitted-with-application-and-uploaded" status', () => {
+        const project = {
+          isLaureat: true,
+          isSoumisAuxGF: true,
+        }
+        const events = [
+          {
+            type: 'ProjectGFUploaded',
+            variant: 'porteur-projet',
+            date: new Date('2022-01-09').getTime(),
+            file: { id: 'file-id', name: 'file-name' },
+          } as ProjectGFUploadedDTO,
+        ]
+        const result = extractGFItemProps(events, new Date('2022-01-08').getTime(), project)
+        expect(result).toEqual({
+          date: new Date('2022-01-09').getTime(),
+          type: 'garanties-financieres',
+          status: 'submitted-with-application-and-uploaded',
+          role: 'porteur-projet',
+          url: '/telechargement/file-id/fichier/file-name',
         })
       })
     })

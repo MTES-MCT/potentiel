@@ -14,6 +14,7 @@ export const GFItem = (props: GFItemProps & { projectId: string }) => {
   switch (status) {
     case 'pending-validation':
     case 'validated':
+    case 'submitted-with-application-and-uploaded':
       return <Submitted {...{ ...props, projectId }} />
 
     case 'due':
@@ -28,9 +29,10 @@ export const GFItem = (props: GFItemProps & { projectId: string }) => {
 type SubmittedWithApplicationProps = {
   role: UserRole
   projectId: string
+  status: 'submitted-with-application'
 }
 
-const SubmittedWithApplication = ({ role, projectId }: SubmittedWithApplicationProps) => {
+const SubmittedWithApplication = ({ role, projectId, status }: SubmittedWithApplicationProps) => {
   const isPorteurProjet = role === 'porteur-projet'
   return (
     <>
@@ -39,7 +41,11 @@ const SubmittedWithApplication = ({ role, projectId }: SubmittedWithApplicationP
         <ItemTitle title={'Constitution des garanties financières'} />
         <span>Garanties financières soumises à la candidature</span>
         {isPorteurProjet && (
-          <UploadForm projectId={projectId} URLTitle="Enregistrer mon attestation dans Potentiel" />
+          <UploadForm
+            projectId={projectId}
+            URLTitle="Enregistrer mon attestation dans Potentiel"
+            status={status}
+          />
         )}
       </ContentArea>
     </>
@@ -48,7 +54,7 @@ const SubmittedWithApplication = ({ role, projectId }: SubmittedWithApplicationP
 
 type SubmittedProps = {
   date: number
-  status: 'pending-validation' | 'validated'
+  status: 'pending-validation' | 'validated' | 'submitted-with-application-and-uploaded'
   url: string | undefined
   role: UserRole
   projectId: string
@@ -79,6 +85,11 @@ const Submitted = ({ date, status, url, role, projectId }: SubmittedProps) => {
             </a>
           ) : (
             <span>Pièce-jointe introuvable</span>
+          )}
+          {isValidated && <span>validé</span>}
+          {status === 'pending-validation' && <span>en attente de validation</span>}
+          {status === 'submitted-with-application-and-uploaded' && (
+            <span>validé à la candidature</span>
           )}
         </div>
         {isPorteurProjet && !isValidated && <CancelDeposit projectId={projectId} />}
@@ -118,7 +129,11 @@ const NotSubmitted = ({ date, status, role, projectId }: NotSubmittedProps) => {
             </p>
           </div>
           {isPorteurProjet && (
-            <UploadForm projectId={projectId} URLTitle="Transmettre l'attestation" />
+            <UploadForm
+              projectId={projectId}
+              URLTitle="Transmettre l'attestation"
+              status={status}
+            />
           )}
         </div>
       </ContentArea>
@@ -129,8 +144,9 @@ const NotSubmitted = ({ date, status, role, projectId }: NotSubmittedProps) => {
 type UploadFormProps = {
   projectId: string
   URLTitle: string
+  status: 'submitted-with-application' | 'due' | 'past-due'
 }
-const UploadForm = ({ projectId, URLTitle }: UploadFormProps) => {
+const UploadForm = ({ projectId, URLTitle, status }: UploadFormProps) => {
   const [isFormVisible, showForm] = useState(false)
   const [disableSubmit, setDisableSubmit] = useState(true)
 
@@ -144,7 +160,16 @@ const UploadForm = ({ projectId, URLTitle }: UploadFormProps) => {
           encType="multipart/form-data"
           className="mt-2 border border-solid border-gray-300 rounded-md p-5"
         >
-          <input type="hidden" name="type" id="type" value="garantie-financiere" />
+          <input
+            type="hidden"
+            name="type"
+            id="type"
+            value={
+              status === 'submitted-with-application'
+                ? 'garantie-financiere-ppe2'
+                : 'garantie-financiere'
+            }
+          />
           <input type="hidden" name="projectId" value={projectId} />
           <div>
             <label htmlFor="date">Date de constitution (format JJ/MM/AAAA)</label>
