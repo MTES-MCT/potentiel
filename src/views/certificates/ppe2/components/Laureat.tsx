@@ -45,15 +45,14 @@ export const makeLaureat: MakeLaureat = (project) => {
         {project.actionnariat === 'gouvernance-partagee' && (
           <Text>
             Vous vous êtes engagés{addFootNote(appelOffre.renvoiEngagementIPFPGPFC)} à la
-            gouvernance partagée pendant toute la durée du contrat et jusqu’à dix ans minimum après
-            la Date d’Achèvement de l’Installation.
+            gouvernance partagée jusqu’à dix ans minimum après la Date d’Achèvement de
+            l’Installation.
           </Text>
         )}
         {project.actionnariat === 'financement-collectif' && (
           <Text>
             Vous vous êtes engagés{addFootNote(appelOffre.renvoiEngagementIPFPGPFC)} au financement
-            collectif pendant toute la durée du contrat et jusqu’à trois ans minimum après la Date
-            d’Achèvement de l’Installation.
+            collectif jusqu’à trois ans minimum après la Date d’Achèvement de l’Installation.
           </Text>
         )}
       </Text>
