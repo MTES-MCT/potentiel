@@ -74,7 +74,7 @@ export default function ProjectActions({ project, role }: Props) {
               <div className="">
                 {displayedActions.map(
                   ({ title, actionId, projectId, link, disabled, isDownload }, actionIndex) => (
-                    <Menu.Item>
+                    <Menu.Item key={`action_${actionIndex}`}>
                       {({ active }) => (
                         <a
                           href={link}
