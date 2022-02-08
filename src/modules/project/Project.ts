@@ -407,6 +407,14 @@ export const makeProject = (args: {
       return ok(null)
     },
     setNotificationDate: function (user, notifiedOn) {
+      if (notifiedOn === -1) {
+        // Special Batiment 13 (to be removed)
+        _updateDCRDate()
+        _updateGFDate()
+        _updateCompletionDate()
+        return ok(null)
+      }
+
       if (!_isNew() && !_isNotified()) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
       }
