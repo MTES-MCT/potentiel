@@ -1,13 +1,23 @@
 import { UniqueEntityID } from '@core/domain'
 import { logger } from '@core/utils'
-import { ProjectDCRSubmitted, ProjectGFSubmitted, ProjectPTFSubmitted } from '@modules/project'
+import {
+  ProjectDCRSubmitted,
+  ProjectGFSubmitted,
+  ProjectGFUploaded,
+  ProjectPTFSubmitted,
+} from '@modules/project'
 
-type StepSubmittedEvent = ProjectPTFSubmitted | ProjectDCRSubmitted | ProjectGFSubmitted
+type StepSubmittedEvent =
+  | ProjectPTFSubmitted
+  | ProjectDCRSubmitted
+  | ProjectGFSubmitted
+  | ProjectGFUploaded
 
 const StepTypeByEventType: Record<StepSubmittedEvent['type'], string> = {
   [ProjectPTFSubmitted.type]: 'ptf',
   [ProjectDCRSubmitted.type]: 'dcr',
   [ProjectGFSubmitted.type]: 'garantie-financiere',
+  [ProjectGFUploaded.type]: 'garantie-financiere-ppe2',
 }
 
 const StepDateByEvent = (event: StepSubmittedEvent): Date => {
@@ -17,6 +27,8 @@ const StepDateByEvent = (event: StepSubmittedEvent): Date => {
     case ProjectDCRSubmitted.type:
       return event.payload.dcrDate
     case ProjectGFSubmitted.type:
+      return event.payload.gfDate
+    case ProjectGFUploaded.type:
       return event.payload.gfDate
   }
 }
@@ -31,6 +43,9 @@ export const onProjectStepSubmitted = (models) => async (event: StepSubmittedEve
   const { ProjectStep } = models
 
   const { projectId, fileId, submittedBy } = event.payload
+
+  const status = event.type === ProjectGFUploaded.type ? 'validé' : null
+
   try {
     await ProjectStep.create({
       id: new UniqueEntityID().toString(),
@@ -41,6 +56,7 @@ export const onProjectStepSubmitted = (models) => async (event: StepSubmittedEve
       submittedBy,
       submittedOn: event.occurredAt,
       details: StepDetailsByEvent(event),
+      status,
     })
   } catch (e) {
     logger.error(e)

@@ -1,5 +1,10 @@
 import { UniqueEntityID } from '@core/domain'
-import { ProjectDCRSubmitted, ProjectGFSubmitted, ProjectPTFSubmitted } from '@modules/project'
+import {
+  ProjectDCRSubmitted,
+  ProjectGFSubmitted,
+  ProjectGFUploaded,
+  ProjectPTFSubmitted,
+} from '@modules/project'
 import { resetDatabase } from '../../../helpers'
 import models from '../../../models'
 import { onProjectStepSubmitted } from './onProjectStepSubmitted'
@@ -114,6 +119,39 @@ describe('projectStep.onProjectStepSubmitted', () => {
         submittedBy: userId,
         submittedOn: new Date(456),
         details: null,
+      })
+    })
+  })
+  describe('when event is ProjectGFUploaded', () => {
+    it('should create a new garantie-financiere-ppe2 step with a "validé" status', async () => {
+      const event = new ProjectGFUploaded({
+        payload: {
+          projectId,
+          gfDate: new Date(123),
+          fileId,
+          submittedBy: userId,
+        },
+        original: {
+          version: 1,
+          occurredAt: new Date(456),
+        },
+      })
+      await onProjectStepSubmitted(models)(event)
+
+      const projection = await ProjectStep.findOne({ where: { projectId } })
+
+      expect(projection).toBeTruthy()
+      if (!projection) return
+
+      expect(projection.get()).toMatchObject({
+        type: 'garantie-financiere-ppe2',
+        projectId,
+        stepDate: new Date(123),
+        fileId,
+        submittedBy: userId,
+        submittedOn: new Date(456),
+        details: null,
+        status: 'validé',
       })
     })
   })
