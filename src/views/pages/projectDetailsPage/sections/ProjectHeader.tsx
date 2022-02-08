@@ -1,11 +1,8 @@
-import React from 'react'
 import { User } from '@entities'
 import { ProjectDataForProjectPage } from '@modules/project/dtos'
-import NewProjectActions from '../../projectDetailsPage/components/ProjectActions'
+import React from 'react'
 import { ProjectStatusLabel } from 'src/views/components/ProjectStatusLabel'
-
-import { PaperClipIcon } from '@heroicons/react/outline'
-import ProjectActions from '../../../components/ProjectActions'
+import NewProjectActions from '../../projectDetailsPage/components/ProjectActions'
 
 interface ProjectHeaderProps {
   project: ProjectDataForProjectPage
