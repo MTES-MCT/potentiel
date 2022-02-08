@@ -45,19 +45,19 @@ export default function ProjectActions({ project, role }: Props) {
 
   const displayedActions = actions.filter((item) => !item.disabled && !item.isDownload)
   return (
-    <div className="flex flex-wrap grow-0 justify-end gap-3">
+    <div className="flex flex-wrap grow-0 content-start justify-end gap-2">
       {displayedActions.length === 1 ? (
         <a
           href={displayedActions[0].link}
-          className="button-outline primary text-center inline-block pl-0 grow self-start lg:max-w-fit"
+          className="button-outline primary text-center inline-block pl-0 grow whitespace-nowrap self-start lg:max-w-fit"
         >
           {displayedActions[0].title}
         </a>
       ) : null}
       {displayedActions.length > 1 ? (
-        <Menu as="div" className="relative inline-block text-left ">
+        <Menu as="div" className="self-stretch relative grow md:grow-0 text-left">
           <div>
-            <Menu.Button className="w-full button-outline primary grow lg:max-w-fit self-start">
+            <Menu.Button className="w-full button-outline primary whitespace-nowrap lg:max-w-fit">
               Faire une demande
             </Menu.Button>
           </div>
@@ -100,7 +100,7 @@ export default function ProjectActions({ project, role }: Props) {
       {downloadAction ? (
         <a
           href={downloadAction.link}
-          className="button inline-block pl-1 grow text-center lg:max-w-fit self-start"
+          className="button inline-block pl-1 grow whitespace-nowrap text-center lg:max-w-fit self-start"
           style={{ marginTop: 0, marginRight: 0 }}
         >
           <PaperClipIcon className="h-5 w-5 align-middle mr-2" />
