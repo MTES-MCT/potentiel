@@ -146,6 +146,43 @@ describe('getProjectEvents for GF events', () => {
   }
 
   for (const role of USER_ROLES.filter(
+    (role) => role === 'porteur-projet' || role === 'admin' || role === 'dgec' || role === 'dreal'
+  )) {
+    const fakeUser = { role } as User
+    describe(`when user is ${role}`, () => {
+      it('should return ProjectGFUploaded events', async () => {
+        const fileId = new UniqueEntityID().toString()
+        const gfDate = new Date('2021-12-26').getTime()
+
+        await ProjectEvent.create({
+          id: new UniqueEntityID().toString(),
+          projectId,
+          type: 'ProjectGFUploaded',
+          valueDate: gfDate,
+          eventPublishedAt: new Date('2021-12-27').getTime(),
+          payload: {
+            file: { id: fileId, name: 'my-file' },
+          },
+        })
+
+        const res = await getProjectEvents({ projectId, user: fakeUser })
+
+        expect(res._unsafeUnwrap().events).toHaveLength(1)
+        expect(res._unsafeUnwrap()).toMatchObject({
+          events: [
+            {
+              type: 'ProjectGFUploaded',
+              date: gfDate,
+              variant: role,
+              file: { id: fileId, name: 'my-file' },
+            },
+          ],
+        })
+      })
+    })
+  }
+
+  for (const role of USER_ROLES.filter(
     (role) => role !== 'porteur-projet' && role !== 'admin' && role !== 'dgec' && role !== 'dreal'
   )) {
     const fakeUser = { role } as User

@@ -11,6 +11,7 @@ export type ProjectEventDTO =
   | ProjectCertificateUpdatedDTO
   | ProjectClaimedDTO
   | ProjectGFSubmittedDTO
+  | ProjectGFUploadedDTO
   | ProjectGFRemovedDTO
   | ProjectGFDueDateSetDTO
   | ProjectGFValidatedDTO
@@ -107,6 +108,13 @@ export type ProjectGFSubmittedDTO = {
   date: number
   variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
   file?: File
+}
+
+export type ProjectGFUploadedDTO = {
+  type: 'ProjectGFUploaded'
+  date: number
+  variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
+  file?: { id: string; name: string }
 }
 
 export type ProjectGFDueDateSetDTO = {

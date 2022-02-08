@@ -85,6 +85,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                 case 'ProjectGFSubmitted':
                 case 'ProjectDCRSubmitted':
                 case 'ProjectPTFSubmitted':
+                case 'ProjectGFUploaded':
                   if (userIs(['porteur-projet', 'admin', 'dgec', 'dreal'])(user)) {
                     const { file } = payload
                     events.push({
