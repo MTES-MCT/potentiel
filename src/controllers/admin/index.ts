@@ -12,4 +12,3 @@ export * from './postPeriodes';
 export * from './postRegenerateCertificates';
 export * from './postRelanceInvitations';
 export * from './postRetryNotifications';
-export * from './specialBatiment13';
