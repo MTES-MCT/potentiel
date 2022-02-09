@@ -92,7 +92,12 @@ const Submitted = ({ date, status, url, role, projectId }: SubmittedProps) => {
             <span>validé à la candidature</span>
           )}
         </div>
-        {isPorteurProjet && !isValidated && <CancelDeposit projectId={projectId} />}
+        {isPorteurProjet && status === 'pending-validation' && (
+          <CancelDeposit projectId={projectId} />
+        )}
+        {isPorteurProjet && status === 'submitted-with-application-and-uploaded' && (
+          <RemoveDocument projectId={projectId} />
+        )}
       </ContentArea>
     </>
   )
@@ -201,5 +206,21 @@ const CancelDeposit = ({ projectId }: CancelDepositProps) => (
     data-confirm="Êtes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?"
   >
     Annuler le dépôt
+  </a>
+)
+
+type RemoveDocumentProps = {
+  projectId: string
+}
+const RemoveDocument = ({ projectId }: RemoveDocumentProps) => (
+  <a
+    href={ROUTES.SUPPRIMER_ETAPE_ACTION({
+      projectId,
+      type: 'garantie-financiere-ppe2',
+    })}
+    data-confirm="Êtes-vous sur de vouloir retirer l'attestion jointe ?"
+  >
+    Retirer le document de Potentiel (cela n'annule pas les garanties financières soumises à la
+    candidature)
   </a>
 )

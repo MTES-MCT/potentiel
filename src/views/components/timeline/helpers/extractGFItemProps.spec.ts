@@ -5,6 +5,7 @@ import {
   ProjectGFSubmittedDTO,
   ProjectGFUploadedDTO,
   ProjectGFValidatedDTO,
+  ProjectGFWithdrawnDTO,
   ProjectNotifiedDTO,
 } from '@modules/frise'
 import { extractGFItemProps } from './extractGFItemProps'
@@ -101,6 +102,28 @@ describe('extractGFitemProps', () => {
           status: 'submitted-with-application-and-uploaded',
           role: 'porteur-projet',
           url: '/telechargement/file-id/fichier/file-name',
+        })
+      })
+    })
+    describe('when there is a ProjectGFWithdrawn event', () => {
+      it('should return a "submitted-with-application" status', () => {
+        const project = {
+          isLaureat: true,
+          isSoumisAuxGF: true,
+        }
+        const events = [
+          {
+            type: 'ProjectGFWithdrawn',
+            variant: 'porteur-projet',
+            date: new Date('2022-01-10').getTime(),
+          } as ProjectGFWithdrawnDTO,
+        ]
+        const result = extractGFItemProps(events, new Date('2022-01-08').getTime(), project)
+        expect(result).toEqual({
+          date: undefined,
+          type: 'garanties-financieres',
+          status: 'submitted-with-application',
+          role: 'porteur-projet',
         })
       })
     })

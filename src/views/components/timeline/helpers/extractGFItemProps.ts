@@ -38,7 +38,7 @@ export const extractGFItemProps = (
   const latestDueDateSetEvent = events.filter(is('ProjectGFDueDateSet')).pop()
   const latestSubmittedEvent = events.filter(is('ProjectGFSubmitted')).pop()
 
-  if (!latestProjectGF) {
+  if (!latestProjectGF || latestProjectGF.type === 'ProjectGFWithdrawn') {
     return {
       type: 'garanties-financieres',
       role: events.slice(-1)[0].variant,
@@ -87,5 +87,6 @@ const isProjectGF = or(
   is('ProjectGFRemoved'),
   is('ProjectGFValidated'),
   is('ProjectGFInvalidated'),
-  is('ProjectGFUploaded')
+  is('ProjectGFUploaded'),
+  is('ProjectGFWithdrawn')
 )
