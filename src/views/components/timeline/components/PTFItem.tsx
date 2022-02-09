@@ -85,7 +85,7 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
 
   return (
     <>
-      <a onClick={() => showForm(!isFormVisible)}>Transmettre l'attestation</a>
+      <a onClick={() => showForm(!isFormVisible)}>Indiquer la date de la signature</a>
       {isFormVisible && (
         <form
           action={ROUTES.DEPOSER_ETAPE_ACTION}

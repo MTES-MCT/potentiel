@@ -77,10 +77,12 @@ const NotSubmitted = ({ date, status, role, projectId }: NotSubmittedProps) => {
             </div>
           )}
         </div>
-        <ItemTitle title={'Constitution des garanties financières'} />
+        <ItemTitle title={'Garanties financières'} />
         <div>
           <div className="flex">
-            <p className="mt-0 mb-0">Garanties financières en attente</p>
+            <p className="mt-0 mb-0">
+              Attestation de constitution de garanties financières en attente
+            </p>
           </div>
           {isPorteurProjet && <UploadForm projectId={projectId} />}
         </div>
