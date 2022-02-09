@@ -42,6 +42,10 @@ export const ProjectDetails = PageLayout(
         <div className={'flex flex-row flex-wrap gap-3 justify-start items-stretch mt-5'}>
           {projectEventList && (
             <div className="panel p-4 mt-0 flex-auto">
+              <h3 className="section--title">
+                <LocationMarkerIcon className="w-5 h-5 mr-2" />
+                Étapes du projet
+              </h3>
               <Timeline
                 {...{
                   projectEventList,
