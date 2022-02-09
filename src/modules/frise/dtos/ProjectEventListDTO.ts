@@ -13,6 +13,7 @@ export type ProjectEventDTO =
   | ProjectGFSubmittedDTO
   | ProjectGFUploadedDTO
   | ProjectGFRemovedDTO
+  | ProjectGFWithdrawnDTO
   | ProjectGFDueDateSetDTO
   | ProjectGFValidatedDTO
   | ProjectGFInvalidatedDTO
@@ -125,6 +126,12 @@ export type ProjectGFDueDateSetDTO = {
 
 export type ProjectGFRemovedDTO = {
   type: 'ProjectGFRemoved'
+  date: number
+  variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
+}
+
+export type ProjectGFWithdrawnDTO = {
+  type: 'ProjectGFWithdrawn'
   date: number
   variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
 }

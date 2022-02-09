@@ -150,7 +150,7 @@ describe('getProjectEvents for GF events', () => {
   )) {
     const fakeUser = { role } as User
     describe(`when user is ${role}`, () => {
-      it('should return ProjectGFUploaded events', async () => {
+      it('should return ProjectGFUploaded and ProjectGFWithdrawn events', async () => {
         const fileId = new UniqueEntityID().toString()
         const gfDate = new Date('2021-12-26').getTime()
 
@@ -165,9 +165,17 @@ describe('getProjectEvents for GF events', () => {
           },
         })
 
+        await ProjectEvent.create({
+          id: new UniqueEntityID().toString(),
+          projectId,
+          type: 'ProjectGFWithdrawn',
+          valueDate: new Date('2021-12-28').getTime(),
+          eventPublishedAt: new Date('2021-12-28').getTime(),
+        })
+
         const res = await getProjectEvents({ projectId, user: fakeUser })
 
-        expect(res._unsafeUnwrap().events).toHaveLength(1)
+        expect(res._unsafeUnwrap().events).toHaveLength(2)
         expect(res._unsafeUnwrap()).toMatchObject({
           events: [
             {
@@ -175,6 +183,11 @@ describe('getProjectEvents for GF events', () => {
               date: gfDate,
               variant: role,
               file: { id: fileId, name: 'my-file' },
+            },
+            {
+              type: 'ProjectGFWithdrawn',
+              date: new Date('2021-12-28').getTime(),
+              variant: role,
             },
           ],
         })

@@ -104,6 +104,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                 case 'ProjectGFInvalidated':
                 case 'ProjectDCRRemoved':
                 case 'ProjectPTFRemoved':
+                case 'ProjectGFWithdrawn':
                   if (userIs(['porteur-projet', 'admin', 'dgec', 'dreal'])(user)) {
                     events.push({
                       type,
