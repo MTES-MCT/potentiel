@@ -25,6 +25,7 @@ export const RecoursOuvertPourAdmin = () => (
       puissance: 123,
       project: {
         id: 'projectId',
+        potentielIdentifier: 'potentielIdentifier',
         numeroCRE: 'CRE123',
         nomProjet: 'Project ABC',
         nomCandidat: 'Mr John Doe',
@@ -66,6 +67,7 @@ export const RecoursAccepté = () => (
       puissance: 123,
       project: {
         id: 'projectId',
+        potentielIdentifier: 'potentielIdentifier',
         numeroCRE: 'CRE123',
         nomProjet: 'Project ABC',
         nomCandidat: 'Mr John Doe',
@@ -107,6 +109,7 @@ export const RecoursRejeté = () => (
       puissance: 123,
       project: {
         id: 'projectId',
+        potentielIdentifier: 'potentielIdentifier',
         numeroCRE: 'CRE123',
         nomProjet: 'Project ABC',
         nomCandidat: 'Mr John Doe',

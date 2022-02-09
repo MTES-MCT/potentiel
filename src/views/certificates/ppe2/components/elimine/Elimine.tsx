@@ -1,19 +1,18 @@
 import { Text } from '@react-pdf/renderer'
 import React from 'react'
 import { ProjectDataForCertificate } from '@modules/project/dtos'
-import { estSoumisAuxGFs } from '../../helpers/estSoumisAuxGFs'
 import { MotifElimination } from './motifElimination'
+import { isSoumisAuxGFs } from '@modules/projectAppelOffre'
 
 type ElimineProps = {
   project: ProjectDataForCertificate
 }
 
 export const Elimine = ({ project }: ElimineProps) => {
-  const {
-    appelOffre: { renvoiRetraitDesignationGarantieFinancieres },
-  } = project
+  const { appelOffre } = project
+  const { renvoiRetraitDesignationGarantieFinancieres } = appelOffre
 
-  const soumisAuxGarantiesFinancieres = estSoumisAuxGFs(project)
+  const soumisAuxGarantiesFinancieres = isSoumisAuxGFs(appelOffre)
 
   return (
     <>

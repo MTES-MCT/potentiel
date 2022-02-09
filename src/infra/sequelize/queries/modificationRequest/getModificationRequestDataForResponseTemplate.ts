@@ -1,11 +1,7 @@
 import moment from 'moment'
 import { oldUserRepo } from '@config/repos.config'
 import { errAsync, logger, ok, okAsync, ResultAsync, wrapInfra } from '@core/utils'
-import {
-  getAppelOffre,
-  getDelaiDeRealisation,
-  isSoumisAuxGarantiesFinancieres,
-} from '@dataAccess/inMemory'
+import { getAppelOffre, getDelaiDeRealisation } from '@dataAccess/inMemory'
 import { DREAL } from '@entities'
 import { formatDate } from '../../../../helpers/formatDate'
 import { PeriodeDTO } from '@modules/appelOffre'
@@ -16,6 +12,7 @@ import {
 import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared'
 import models from '../../models'
 import { getPeriode } from '../appelOffre'
+import { isSoumisAuxGFs } from '@modules/projectAppelOffre'
 
 const { ModificationRequest, Project, File, User } = models
 
@@ -175,10 +172,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           dateNotification: formatDate(notifiedOn),
         }
 
-        const soumisAuxGarantiesFinancieres = isSoumisAuxGarantiesFinancieres(
-          project.appelOffreId,
-          famille?.id
-        )
+        const soumisAuxGarantiesFinancieres = isSoumisAuxGFs(appelOffre)
 
         switch (type) {
           case 'delai':

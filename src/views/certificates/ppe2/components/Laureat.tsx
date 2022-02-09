@@ -2,8 +2,8 @@ import { Text, View } from '@react-pdf/renderer'
 import React from 'react'
 import { ProjectDataForCertificate } from '@modules/project/dtos'
 import { formatNumber } from '../helpers/formatNumber'
-import { estSoumisAuxGFs } from '../helpers/estSoumisAuxGFs'
 import { getDelaiDeRealisation } from '@dataAccess/inMemory'
+import { isSoumisAuxGFs } from '@modules/projectAppelOffre'
 
 type MakeLaureat = (project: ProjectDataForCertificate) => {
   content: React.ReactNode
@@ -14,7 +14,7 @@ export const makeLaureat: MakeLaureat = (project) => {
   const { appelOffre, technologie } = project
   const { periode } = appelOffre || {}
 
-  const soumisAuxGarantiesFinancieres = estSoumisAuxGFs(project)
+  const soumisAuxGarantiesFinancieres = isSoumisAuxGFs(appelOffre)
 
   const footnotes: Array<Footnote> = []
   const addFootNote = makeAddFootnote(footnotes)

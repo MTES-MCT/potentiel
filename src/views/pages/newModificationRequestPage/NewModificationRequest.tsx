@@ -5,11 +5,7 @@ import { dataId } from '../../../helpers/testId'
 import UserDashboard from '../../components/UserDashboard'
 import { Request } from 'express'
 import { formatDate } from '../../../helpers/formatDate'
-import {
-  appelsOffreStatic,
-  isSoumisAuxGarantiesFinancieres,
-  getDelaiDeRealisation,
-} from '@dataAccess/inMemory'
+import { appelsOffreStatic, getDelaiDeRealisation } from '@dataAccess/inMemory'
 import { PageLayout } from '../../components/PageLayout'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
 import { getAutoAcceptRatiosForAppelOffre } from '@modules/modificationRequest'
@@ -22,9 +18,10 @@ import { isStrictlyPositiveNumber } from '../../../helpers/formValidators'
 
 moment.locale('fr')
 
-interface PageProps {
+type PageProps = {
   request: Request
   project: Project
+  soumisAuxGarantiesFinancieres: boolean
   cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
 }
 
@@ -32,17 +29,8 @@ const getunitePuissanceForAppelOffre = (appelOffreId: Project['appelOffreId']) =
   return appelsOffreStatic.find((item) => item.id === appelOffreId)?.unitePuissance
 }
 
-const getIsSoumisAuxGarantiesFinancieres = (
-  appelOffreId: Project['appelOffreId'],
-  familleId?: Project['familleId']
-) => {
-  const appelOffre = appelsOffreStatic.find((item) => item.id === appelOffreId)
-  return appelOffre && isSoumisAuxGarantiesFinancieres(appelOffreId, familleId)
-}
-
-/* Pure component */
 export const NewModificationRequest = PageLayout(
-  ({ request, project, cahiersChargesURLs }: PageProps) => {
+  ({ request, project, cahiersChargesURLs, soumisAuxGarantiesFinancieres }: PageProps) => {
     const { action, error, success, puissance, actionnaire, justification, delayInMonths } =
       (request.query as any) || {}
 
@@ -524,10 +512,7 @@ export const NewModificationRequest = PageLayout(
                     <>
                       <label>Ancien producteur</label>
                       <input type="text" disabled defaultValue={project.nomCandidat} />
-                      {getIsSoumisAuxGarantiesFinancieres(
-                        project.appelOffreId,
-                        project.familleId
-                      ) && (
+                      {soumisAuxGarantiesFinancieres && (
                         <div
                           className="notification warning"
                           style={{ marginTop: 10, marginBottom: 10 }}

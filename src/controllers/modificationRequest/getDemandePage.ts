@@ -2,11 +2,13 @@ import { ensureRole, getCahiersChargesURLs } from '@config'
 import { logger } from '@core/utils'
 import { projectRepo } from '@dataAccess'
 import { NewModificationRequestPage } from '@views'
+import { getAppelOffre } from '@dataAccess/inMemory'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import routes from '../../routes'
 import { errorResponse, notFoundResponse } from '../helpers'
 import asyncHandler from '../helpers/asyncHandler'
 import { v1Router } from '../v1Router'
+import { isSoumisAuxGFs } from '@modules/projectAppelOffre'
 
 const ACTIONS = [
   'delai',
@@ -38,7 +40,10 @@ v1Router.get(
       return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
     }
 
-    const { appelOffreId, periodeId } = project
+    const { appelOffreId, periodeId, familleId } = project
+
+    const appelOffre = getAppelOffre({ appelOffreId, periodeId, familleId })
+    const soumisAuxGarantiesFinancieres = appelOffre ? isSoumisAuxGFs(appelOffre) : false
 
     return await getCahiersChargesURLs(appelOffreId, periodeId).match(
       (cahiersChargesURLs) => {
@@ -47,6 +52,7 @@ v1Router.get(
             request,
             project,
             cahiersChargesURLs,
+            soumisAuxGarantiesFinancieres,
           })
         )
       },

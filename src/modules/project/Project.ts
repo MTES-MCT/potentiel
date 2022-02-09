@@ -53,7 +53,8 @@ import {
   ProjectReimportedPayload,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
-import { getDelaiDeRealisation, isSoumisAuxGarantiesFinancieres } from '@dataAccess/inMemory'
+import { getDelaiDeRealisation } from '@dataAccess/inMemory'
+import { isSoumisAuxGFs } from '@modules/projectAppelOffre'
 
 export interface Project extends EventStoreAggregate {
   notify: (
@@ -930,11 +931,9 @@ export const makeProject = (args: {
   }
 
   function _shouldSubmitGF() {
-    const appelOffreId = props.appelOffre?.id
-    const familleId = props.appelOffre?.famille?.id
-    return (
-      props.isClasse && appelOffreId && isSoumisAuxGarantiesFinancieres(appelOffreId, familleId)
-    )
+    const { appelOffre } = props
+
+    return appelOffre && isSoumisAuxGFs(appelOffre)
   }
 
   function _updateGFDate() {
