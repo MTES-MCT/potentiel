@@ -21,7 +21,7 @@ v1Router.get(
       return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
     }
 
-    if (!['ptf', 'dcr', 'garantie-financiere'].includes(type)) {
+    if (!['ptf', 'dcr', 'garantie-financiere', 'garantie-financiere-ppe2'].includes(type)) {
       return errorResponse({ request, response })
     }
 
