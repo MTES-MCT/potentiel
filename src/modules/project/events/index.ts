@@ -25,6 +25,7 @@ export * from './ProjectGFReminded';
 export * from './ProjectGFRemoved';
 export * from './ProjectGFSubmitted';
 export * from './ProjectGFUploaded';
+export * from './ProjectGFWithdrawn';
 export * from './ProjectImported';
 export * from './ProjectNewRulesOptedIn';
 export * from './ProjectNotificationDateSet';
