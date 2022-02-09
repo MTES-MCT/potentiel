@@ -1,7 +1,7 @@
 import moment from 'moment'
 import { oldUserRepo } from '@config/repos.config'
 import { errAsync, logger, ok, okAsync, ResultAsync, wrapInfra } from '@core/utils'
-import { getAppelOffre, getDelaiDeRealisation } from '@dataAccess/inMemory'
+import { getAppelOffre } from '@dataAccess/inMemory'
 import { DREAL } from '@entities'
 import { formatDate } from '../../../../helpers/formatDate'
 import { PeriodeDTO } from '@modules/appelOffre'
@@ -12,7 +12,7 @@ import {
 import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared'
 import models from '../../models'
 import { getPeriode } from '../appelOffre'
-import { isSoumisAuxGFs } from '@modules/projectAppelOffre'
+import { getDelaiDeRealisation, isSoumisAuxGFs } from '@modules/projectAppelOffre'
 
 const { ModificationRequest, Project, File, User } = models
 
@@ -98,9 +98,8 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
         } = modificationRequest
 
         const { appelOffreId, periodeId, familleId, technologie } = project
-        const appelOffre = getAppelOffre({ appelOffreId, periodeId })
+        const appelOffre = getAppelOffre({ appelOffreId, periodeId, familleId })
         const periode = appelOffre?.periodes.find((periode) => periode.id === periodeId)
-        const famille = appelOffre?.familles.find((famille) => famille.id === familleId)
 
         if (!appelOffre || !periode) {
           logger.error(
@@ -181,7 +180,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
               referenceParagrapheAchevement: periode.paragrapheAchevement,
               contenuParagrapheAchevement: appelOffre.contenuParagrapheAchevement,
               dateLimiteAchevementInitiale: formatDate(
-                +moment(notifiedOn).add(getDelaiDeRealisation(appelOffreId, technologie), 'months')
+                +moment(notifiedOn).add(getDelaiDeRealisation(appelOffre, technologie), 'months')
               ),
               dateLimiteAchevementActuelle: formatDate(completionDueOn),
               dureeDelaiDemandeEnMois: delayInMonths.toString(),

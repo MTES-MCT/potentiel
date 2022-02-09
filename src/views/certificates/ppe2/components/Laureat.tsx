@@ -2,8 +2,7 @@ import { Text, View } from '@react-pdf/renderer'
 import React from 'react'
 import { ProjectDataForCertificate } from '@modules/project/dtos'
 import { formatNumber } from '../helpers/formatNumber'
-import { getDelaiDeRealisation } from '@dataAccess/inMemory'
-import { isSoumisAuxGFs } from '@modules/projectAppelOffre'
+import { getDelaiDeRealisation, isSoumisAuxGFs } from '@modules/projectAppelOffre'
 
 type MakeLaureat = (project: ProjectDataForCertificate) => {
   content: React.ReactNode
@@ -126,7 +125,7 @@ export const makeLaureat: MakeLaureat = (project) => {
         >
           - sauf délais dérogatoires prévus au {appelOffre.paragrapheDelaiDerogatoire} du cahier des
           charges, achever l’installation dans un délai de{' '}
-          {getDelaiDeRealisation(appelOffre.id, technologie)} mois à compter de la présente
+          {getDelaiDeRealisation(appelOffre, technologie)} mois à compter de la présente
           notification;
         </Text>
 

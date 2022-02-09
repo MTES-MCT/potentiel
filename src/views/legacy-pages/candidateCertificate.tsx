@@ -1,9 +1,9 @@
 import ReactPDF, { Document, Font, Image, Page, Text, View } from '@react-pdf/renderer'
 import React from 'react'
 import { logger } from '@core/utils'
-import { AppelOffre, Periode, Project } from '@entities'
+import { AppelOffre, Periode, Project, ProjectAppelOffre } from '@entities'
 import { formatDate } from '../../helpers/formatDate'
-import { getDelaiDeRealisation } from 'src/dataAccess/inMemory'
+import { getDelaiDeRealisation } from '@modules/projectAppelOffre'
 
 Font.register({
   family: 'Arial',
@@ -41,7 +41,7 @@ const makeAddFootnote = (footNotes: Array<any>) => {
 
 interface LaureatProps {
   project: Project
-  appelOffre: AppelOffre
+  appelOffre: ProjectAppelOffre
   periode: Periode
 }
 const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
@@ -189,7 +189,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
       >
         - sauf délais dérogatoires prévus au {appelOffre.paragrapheDelaiDerogatoire} du cahier des
         charges, achever l’installation dans un délai de{' '}
-        {getDelaiDeRealisation(appelOffre.id, project.technologie)} mois à compter de la présente
+        {getDelaiDeRealisation(appelOffre, project.technologie)} mois à compter de la présente
         notification.
       </Text>
       <Text
@@ -320,7 +320,7 @@ const getNoteThreshold = (periode: Periode, project: Project) => {
 
 interface ElimineProps {
   project: Project
-  appelOffre: AppelOffre
+  appelOffre: ProjectAppelOffre
   periode: Periode
 }
 const Elimine = ({ project, appelOffre, periode }: ElimineProps) => {

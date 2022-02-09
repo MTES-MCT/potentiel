@@ -7,7 +7,6 @@ import { formatDate } from '../../helpers/formatDate'
 import { ProjectDataForCertificate } from '@modules/project/dtos'
 import { IllegalProjectStateError } from '@modules/project/errors'
 import { OtherError } from '@modules/shared'
-import { getDelaiDeRealisation } from '@dataAccess/inMemory'
 
 dotenv.config()
 
@@ -46,7 +45,7 @@ const makeAddFootnote = (footNotes: Array<any>) => {
 }
 
 const Laureat = (project: ProjectDataForCertificate) => {
-  const { appelOffre, technologie } = project
+  const { appelOffre } = project
   const { periode } = appelOffre || {}
 
   const objet =

@@ -5,16 +5,16 @@ import { dataId } from '../../../helpers/testId'
 import UserDashboard from '../../components/UserDashboard'
 import { Request } from 'express'
 import { formatDate } from '../../../helpers/formatDate'
-import { appelsOffreStatic, getDelaiDeRealisation } from '@dataAccess/inMemory'
+import { appelsOffreStatic } from '@dataAccess/inMemory'
 import { PageLayout } from '../../components/PageLayout'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
 import { getAutoAcceptRatiosForAppelOffre } from '@modules/modificationRequest'
-
 import moment from 'moment'
 import ModificationRequestActionTitles from '../../components/ModificationRequestActionTitles'
 import { CDCChoiceForm } from '../../components/CDCChoiceForm'
 import toNumber from '../../../helpers/toNumber'
 import { isStrictlyPositiveNumber } from '../../../helpers/formValidators'
+import { getDelaiDeRealisation } from '@modules/projectAppelOffre'
 
 moment.locale('fr')
 
@@ -663,7 +663,8 @@ export const NewModificationRequest = PageLayout(
                         defaultValue={formatDate(
                           +moment(project.notifiedOn)
                             .add(
-                              getDelaiDeRealisation(project.appelOffreId, project.technologie),
+                              project.appelOffre &&
+                                getDelaiDeRealisation(project.appelOffre, project.technologie),
                               'months'
                             )
                             .subtract(1, 'day'),
@@ -685,7 +686,8 @@ export const NewModificationRequest = PageLayout(
                         defaultValue={delayInMonths}
                         data-initial-date={moment(project.notifiedOn)
                           .add(
-                            getDelaiDeRealisation(project.appelOffreId, project.technologie),
+                            project.appelOffre &&
+                              getDelaiDeRealisation(project.appelOffre, project.technologie),
                             'months'
                           )
                           .toDate()
