@@ -1,7 +1,7 @@
 import moment from 'moment'
 import { oldUserRepo } from '@config/repos.config'
 import { errAsync, logger, ok, okAsync, ResultAsync, wrapInfra } from '@core/utils'
-import { getAppelOffre } from '@dataAccess/inMemory'
+import { getProjectAppelOffre } from '@config/queries.config'
 import { DREAL } from '@entities'
 import { formatDate } from '../../../../helpers/formatDate'
 import { PeriodeDTO } from '@modules/appelOffre'
@@ -98,7 +98,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
         } = modificationRequest
 
         const { appelOffreId, periodeId, familleId, technologie } = project
-        const appelOffre = getAppelOffre({ appelOffreId, periodeId, familleId })
+        const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
         const periode = appelOffre?.periodes.find((periode) => periode.id === periodeId)
 
         if (!appelOffre || !periode) {

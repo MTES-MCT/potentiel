@@ -1,4 +1,4 @@
-import { AppelOffre, Famille, Periode, ProjectAppelOffre } from '@entities'
+import { AppelOffre, Famille, Periode } from '@entities'
 import _ from 'lodash'
 
 import {
@@ -78,29 +78,4 @@ const appelOffreRepo = {
   }) as GetPeriodeTitle,
 }
 
-const getAppelOffre = (args: {
-  appelOffreId: string
-  periodeId: string
-  familleId?: string
-}): ProjectAppelOffre | null => {
-  const { appelOffreId, periodeId, familleId } = args
-  const appelOffre = appelsOffreStatic.find((ao) => ao.id === appelOffreId) as
-    | ProjectAppelOffre
-    | undefined
-
-  if (!appelOffre) return null
-
-  const periode = appelOffre.periodes.find((periode) => periode.id === periodeId)
-
-  if (!periode) return null
-
-  appelOffre.periode = periode
-
-  if (familleId) {
-    appelOffre.famille = appelOffre.familles.find((famille) => famille.id === familleId)
-  }
-
-  return appelOffre
-}
-
-export { appelOffreRepo, appelsOffreStatic, getAppelOffre }
+export { appelOffreRepo, appelsOffreStatic }

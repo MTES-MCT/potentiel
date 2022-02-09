@@ -1,7 +1,7 @@
 import { Op } from 'sequelize'
 import { errAsync, ok, okAsync, Result, ResultAsync, wrapInfra } from '@core/utils'
 import { getFullTextSearchOptions } from '@dataAccess/db'
-import { getAppelOffre } from '@dataAccess/inMemory'
+import { getProjectAppelOffre } from '@config/queries.config'
 import { User } from '@entities'
 import { makePaginatedList, paginate } from '../../../../helpers/paginate'
 import {
@@ -13,7 +13,7 @@ import { PaginatedList } from '../../../../types'
 import models from '../../models'
 
 function _getPuissanceForAppelOffre(args: { appelOffreId; periodeId }): string {
-  return getAppelOffre(args)?.unitePuissance || 'unité de puissance'
+  return getProjectAppelOffre(args)?.unitePuissance || 'unité de puissance'
 }
 
 function _getDrealRegionsForUser(user: User, models) {

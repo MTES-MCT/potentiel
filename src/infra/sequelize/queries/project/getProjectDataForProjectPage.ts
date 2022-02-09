@@ -1,5 +1,6 @@
 import { err, ok, Result, wrapInfra } from '@core/utils'
-import { getAppelOffre, isPeriodeLegacy } from '@dataAccess/inMemory'
+import { isPeriodeLegacy } from '@dataAccess/inMemory'
+import { getProjectAppelOffre } from '@config/queries.config'
 import { ProjectDataForProjectPage, GetProjectDataForProjectPage } from '@modules/project'
 import { EntityNotFoundError } from '@modules/shared'
 import models from '../../models'
@@ -123,7 +124,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           appelOffreId,
           periodeId,
           familleId,
-          appelOffre: getAppelOffre({ appelOffreId, periodeId, familleId }),
+          appelOffre: getProjectAppelOffre({ appelOffreId, periodeId, familleId }),
           numeroCRE,
           puissance,
           engagementFournitureDePuissanceAlaPointe,

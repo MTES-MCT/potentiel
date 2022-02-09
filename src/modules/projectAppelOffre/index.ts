@@ -1,2 +1,3 @@
-export * from './getDelaiDeRealisation'
-export * from './isSoumisAuxGFs'
+export * from './getDelaiDeRealisation';
+export * from './getProjectAppelOffre';
+export * from './isSoumisAuxGFs';

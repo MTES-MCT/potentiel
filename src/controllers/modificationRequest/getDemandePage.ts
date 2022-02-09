@@ -2,7 +2,7 @@ import { ensureRole, getCahiersChargesURLs } from '@config'
 import { logger } from '@core/utils'
 import { projectRepo } from '@dataAccess'
 import { NewModificationRequestPage } from '@views'
-import { getAppelOffre } from '@dataAccess/inMemory'
+import { getProjectAppelOffre } from '@config/queries.config'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import routes from '../../routes'
 import { errorResponse, notFoundResponse } from '../helpers'
@@ -42,7 +42,7 @@ v1Router.get(
 
     const { appelOffreId, periodeId, familleId } = project
 
-    const appelOffre = getAppelOffre({ appelOffreId, periodeId, familleId })
+    const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
     const soumisAuxGarantiesFinancieres = appelOffre ? isSoumisAuxGFs(appelOffre) : false
 
     return await getCahiersChargesURLs(appelOffreId, periodeId).match(
