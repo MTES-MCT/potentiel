@@ -1,13 +1,23 @@
 import { Op } from 'sequelize'
 import { logger } from '@core/utils'
-import { ProjectDCRRemoved, ProjectGFRemoved, ProjectPTFRemoved } from '@modules/project'
+import {
+  ProjectDCRRemoved,
+  ProjectGFRemoved,
+  ProjectGFWithdrawn,
+  ProjectPTFRemoved,
+} from '@modules/project'
 
-type StepRemovedEvent = ProjectPTFRemoved | ProjectDCRRemoved | ProjectGFRemoved
+type StepRemovedEvent =
+  | ProjectPTFRemoved
+  | ProjectDCRRemoved
+  | ProjectGFRemoved
+  | ProjectGFWithdrawn
 
 const StepTypeByEventType: Record<StepRemovedEvent['type'], string> = {
   [ProjectPTFRemoved.type]: 'ptf',
   [ProjectDCRRemoved.type]: 'dcr',
   [ProjectGFRemoved.type]: 'garantie-financiere',
+  [ProjectGFWithdrawn.type]: 'garantie-financiere-ppe2',
 }
 
 export const onProjectStepRemoved = (models) => async (event: StepRemovedEvent) => {
