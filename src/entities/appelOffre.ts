@@ -64,6 +64,7 @@ export type AppelOffre = {
   afficherPhraseRegionImplantation: boolean
   dossierSuiviPar: string
   soumisAuxGarantiesFinancieres?: boolean
+  garantiesFinancieresDeposeesALaCandidature?: boolean
   renvoiSoumisAuxGarantiesFinancieres?: string
   periodes: Periode[]
   familles: Famille[]

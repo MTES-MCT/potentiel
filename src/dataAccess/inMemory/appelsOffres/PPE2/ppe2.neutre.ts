@@ -18,6 +18,7 @@ const neutrePPE2: AppelOffre = {
   renvoiDemandeCompleteRaccordement: '6.1',
   renvoiRetraitDesignationGarantieFinancieres: '5.1',
   soumisAuxGarantiesFinancieres: true,
+  garantiesFinancieresDeposeesALaCandidature: true,
   paragrapheDelaiDerogatoire: '6.3',
   delaiRealisationEnMoisParTechnologie: { eolien: 36, pv: 30, hydraulique: 36 },
   decoupageParTechnologie: true,
