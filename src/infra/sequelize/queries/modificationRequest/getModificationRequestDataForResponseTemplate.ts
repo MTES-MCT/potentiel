@@ -99,9 +99,8 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
 
         const { appelOffreId, periodeId, familleId, technologie } = project
         const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
-        const periode = appelOffre?.periodes.find((periode) => periode.id === periodeId)
 
-        if (!appelOffre || !periode) {
+        if (!appelOffre || !appelOffre?.periode) {
           logger.error(
             new Error(
               `getModificationRequestDataForResponseTemplate failed to find the appelOffre for this id ${appelOffreId}`
@@ -131,6 +130,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
         } = project
 
         const {
+          periode,
           tarifOuPrimeRetenue,
           tarifOuPrimeRetenueAlt,
           paragraphePrixReference,
