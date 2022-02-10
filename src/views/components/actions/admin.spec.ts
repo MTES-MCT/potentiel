@@ -35,21 +35,4 @@ describe('adminActions', () => {
       })
     })
   })
-  describe('when project has an attestation designation proof file', () => {
-    it('should return the link to get the attestation uploaded by the candidate', () => {
-      const fakeProject = makeFakeProject({
-        attestationDesignationProof: { file: { id: '1', filename: 'file-name' } },
-      })
-      const result = adminActions(fakeProject)
-      expect(result).toHaveLength(2)
-      expect(result[1]).toMatchObject({
-        title: "Voir l'attestation de désignation fournie par le candidat",
-        link: ROUTES.DOWNLOAD_PROJECT_FILE(
-          fakeProject.attestationDesignationProof.file.id,
-          fakeProject.attestationDesignationProof.file.filename
-        ),
-        isDownload: true,
-      })
-    })
-  })
 })

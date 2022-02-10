@@ -30,4 +30,5 @@ jobs:
           node-version: 16.x
           cache: 'npm'
       - run: npm ci
+      - run: npm run build:css
       - run: npm run build-storybook

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '.'
 import ROUTES from '../../../../routes'
 import { DateInput } from '../..'
+import { InfoItem } from './InfoItem'
 import { WarningItem } from './WarningItem'
 import { GFItemProps } from '../helpers/extractGFItemProps'
 import { WarningIcon } from './WarningIcon'
@@ -34,9 +35,18 @@ const Submitted = ({ date, status, url, role, projectId }: SubmittedProps) => {
 
   return (
     <>
-      <PastIcon />
+      {isValidated ? <PastIcon /> : <CurrentIcon />}
       <ContentArea>
-        <ItemDate date={date} />
+        <div className="flex">
+          <div className="align-middle">
+            <ItemDate date={date} />
+          </div>
+          {!isValidated && (
+            <div className="align-middle mb-1">
+              <InfoItem message={role === 'dreal' ? 'à traiter' : 'validation en attente'} />
+            </div>
+          )}
+        </div>
         <ItemTitle title={'Constitution des garanties financières'} />
         <div className="flex">
           {url ? (
@@ -46,7 +56,6 @@ const Submitted = ({ date, status, url, role, projectId }: SubmittedProps) => {
           ) : (
             <span>Pièce-jointe introuvable</span>
           )}
-          <span>&nbsp;- {isValidated ? 'validée' : 'à traiter'}</span>
         </div>
         {isPorteurProjet && !isValidated && <CancelDeposit projectId={projectId} />}
       </ContentArea>

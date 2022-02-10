@@ -203,12 +203,8 @@ a:visited {
   color: var(--theme-primary);
 }
 a:hover {
-  border-radius: 3px;
-  border-radius: var(--theme-border-radius);
   color: #003b80;
   color: var(--dark-blue);
-  background-color: #ebeff3;
-  background-color: var(--lighter-grey);
   text-decoration: none;
 }
 small {
@@ -1890,6 +1886,13 @@ a.article__link {
   background: #ebeff3;
   background: var(--lighter-grey);
 }
+
+@media (max-width: 749px) {
+  .dashboard .main {
+    padding: 0;
+  }
+}
+
 .dashboard .main > :first-child {
   margin-top: 0;
 }

@@ -113,9 +113,12 @@ table th {
 }
 
 .section--title {
-  cursor: pointer;
   border-bottom: 1px solid var(--grey);
   position: relative;
+}
+
+.panel + * {
+  margin-top: 0;
 }
 
 .section--expand {

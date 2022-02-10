@@ -17,5 +17,8 @@
   "tailwindCSS.emmetCompletions": true,
   "gitpod.openInStable.neverPrompt": true,
   "typescript.updateImportsOnFileMove.enabled": "always",
-  "git.autofetch": false
+  "git.autofetch": false,
+  "search.exclude": {
+    "src/public": true,
+  }
 }
