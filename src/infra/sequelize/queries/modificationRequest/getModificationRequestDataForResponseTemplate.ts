@@ -12,7 +12,7 @@ import {
 import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared'
 import models from '../../models'
 import { getPeriode } from '../appelOffre'
-import { getDelaiDeRealisation, isSoumisAuxGFs } from '@modules/projectAppelOffre'
+import { getDelaiDeRealisation } from '@modules/projectAppelOffre'
 
 const { ModificationRequest, Project, File, User } = models
 
@@ -144,6 +144,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           renvoiModification,
           delaiRealisationTexte,
           renvoiSoumisAuxGarantiesFinancieres,
+          isSoumisAuxGFs,
         } = appelOffre
 
         const commonData = {
@@ -170,8 +171,6 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           justificationDemande: justification,
           dateNotification: formatDate(notifiedOn),
         }
-
-        const soumisAuxGarantiesFinancieres = isSoumisAuxGFs(appelOffre)
 
         switch (type) {
           case 'delai':
@@ -232,7 +231,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
               unitePuissance,
               eolien: appelOffreId === 'Eolien' ? 'yes' : '',
               AOInnovation: appelOffre.innovation ? 'yes' : '',
-              soumisGF: soumisAuxGarantiesFinancieres ? 'yes' : '',
+              soumisGF: isSoumisAuxGFs ? 'yes' : '',
               renvoiSoumisAuxGarantiesFinancieres,
               renvoiDemandeCompleteRaccordement,
               renvoiRetraitDesignationGarantieFinancieres,

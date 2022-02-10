@@ -13,13 +13,11 @@ import {
   ProjectNotified,
 } from './events'
 import { makeProject } from './Project'
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
 
 const projectId = new UniqueEntityID('project1')
 
-const appelsOffres: Record<string, AppelOffre> = appelsOffreStatic.reduce((map, appelOffre) => {
-  map[appelOffre.id] = appelOffre
-  return map
-}, {})
+const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
 
 const makeFakeHistory = (fakeProject: any): DomainEvent[] => {
   return [
@@ -48,7 +46,7 @@ describe('Project.notify()', () => {
       makeProject({
         projectId,
         history: fakeHistory,
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )
@@ -84,7 +82,7 @@ describe('Project.notify()', () => {
       makeProject({
         projectId,
         history: fakeHistory,
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )
@@ -138,7 +136,7 @@ describe('Project.notify()', () => {
       makeProject({
         projectId,
         history: fakeHistory,
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )
@@ -173,7 +171,7 @@ describe('Project.notify()', () => {
         makeProject({
           projectId,
           history: fakeHistory,
-          appelsOffres,
+          getProjectAppelOffre,
           buildProjectIdentifier: () => '',
         })
       )

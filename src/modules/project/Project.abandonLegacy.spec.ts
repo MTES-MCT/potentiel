@@ -1,13 +1,10 @@
 import { UniqueEntityID } from '@core/domain'
 import { UnwrapForTest } from '@core/utils'
 import { appelsOffreStatic } from '@dataAccess/inMemory'
-import { makeUser } from '@entities'
-import { UnwrapForTest as OldUnwrapForTest } from '../../types'
 import makeFakeProject from '../../__tests__/fixtures/project'
-import makeFakeUser from '../../__tests__/fixtures/user'
-import { EliminatedProjectCannotBeAbandonnedError } from './errors'
 import { LegacyProjectSourced, ProjectAbandoned } from './events'
 import { makeProject } from './Project'
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
 
 const projectId = new UniqueEntityID('project1')
 const appelOffreId = 'Fessenheim'
@@ -16,12 +13,7 @@ const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé'
 const { familleId, numeroCRE } = fakeProject
 const originallyAbandonnedOn = 1234
 
-const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
-
-const appelsOffres = appelsOffreStatic.reduce((map, appelOffre) => {
-  map[appelOffre.id] = appelOffre
-  return map
-}, {})
+const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
 
 describe('Project.abandonLegacy()', () => {
   describe('when project is Classé', () => {
@@ -41,7 +33,7 @@ describe('Project.abandonLegacy()', () => {
             },
           }),
         ],
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )
@@ -77,7 +69,7 @@ describe('Project.abandonLegacy()', () => {
             },
           }),
         ],
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )

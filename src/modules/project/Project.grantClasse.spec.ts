@@ -7,6 +7,7 @@ import makeFakeProject from '../../__tests__/fixtures/project'
 import makeFakeUser from '../../__tests__/fixtures/user'
 import { LegacyProjectSourced, ProjectClasseGranted } from './events'
 import { makeProject } from './Project'
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
 
 const projectId = new UniqueEntityID('project1')
 const appelOffreId = 'Fessenheim'
@@ -16,10 +17,7 @@ const { familleId, numeroCRE } = fakeProject
 
 const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
 
-const appelsOffres = appelsOffreStatic.reduce((map, appelOffre) => {
-  map[appelOffre.id] = appelOffre
-  return map
-}, {})
+const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
 
 describe('Project.grantClasse()', () => {
   describe('when project is Eliminé', () => {
@@ -39,7 +37,7 @@ describe('Project.grantClasse()', () => {
             },
           }),
         ],
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )
@@ -75,7 +73,7 @@ describe('Project.grantClasse()', () => {
             },
           }),
         ],
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )

@@ -2,6 +2,7 @@ import { UniqueEntityID } from '@core/domain'
 import { UnwrapForTest } from '@core/utils'
 import { appelsOffreStatic } from '@dataAccess/inMemory'
 import makeFakeProject from '../../__tests__/fixtures/project'
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
 import {
   LegacyProjectSourced,
   ProjectActionnaireUpdated,
@@ -16,10 +17,7 @@ import {
 } from './events'
 import { makeProject } from './Project'
 
-const appelsOffres = appelsOffreStatic.reduce((map, appelOffre) => {
-  map[appelOffre.id] = appelOffre
-  return map
-}, {})
+const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
 
 const projectId = new UniqueEntityID('project1')
 const fakeProject = makeFakeProject({
@@ -54,7 +52,7 @@ describe('Project.reimport()', () => {
             },
           }),
         ],
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )
@@ -83,7 +81,7 @@ describe('Project.reimport()', () => {
             },
           }),
         ],
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )
@@ -130,7 +128,7 @@ describe('Project.reimport()', () => {
             },
           }),
         ],
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )
@@ -180,7 +178,7 @@ describe('Project.reimport()', () => {
             },
           }),
         ],
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )
@@ -222,7 +220,7 @@ describe('Project.reimport()', () => {
             },
           }),
         ],
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )
@@ -264,7 +262,7 @@ describe('Project.reimport()', () => {
             },
           }),
         ],
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )
@@ -318,7 +316,7 @@ describe('Project.reimport()', () => {
             },
           }),
         ],
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )
@@ -371,7 +369,7 @@ describe('Project.reimport()', () => {
             },
           }),
         ],
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )
@@ -413,7 +411,7 @@ describe('Project.reimport()', () => {
             },
           }),
         ],
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )
@@ -461,7 +459,7 @@ describe('Project.reimport()', () => {
             },
           }),
         ],
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )
@@ -513,7 +511,7 @@ describe('Project.reimport()', () => {
             },
           }),
         ],
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )
@@ -557,7 +555,7 @@ describe('Project.reimport()', () => {
             },
           }),
         ],
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )
@@ -602,7 +600,7 @@ describe('Project.reimport()', () => {
             },
           }),
         ],
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )

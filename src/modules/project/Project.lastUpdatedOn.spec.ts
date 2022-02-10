@@ -1,12 +1,10 @@
 import { DomainEvent, UniqueEntityID } from '@core/domain'
 import { UnwrapForTest } from '@core/utils'
 import { appelsOffreStatic } from '@dataAccess/inMemory'
-import { makeUser } from '@entities'
-import { UnwrapForTest as OldUnwrapForTest } from '../../types'
 import makeFakeProject from '../../__tests__/fixtures/project'
-import makeFakeUser from '../../__tests__/fixtures/user'
 import { ProjectImported, ProjectNotified } from './events'
 import { makeProject } from './Project'
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
 
 const projectId = new UniqueEntityID('project1')
 const appelOffreId = 'Fessenheim'
@@ -14,12 +12,7 @@ const periodeId = '2'
 const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' })
 const { familleId, numeroCRE, potentielIdentifier } = fakeProject
 
-const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
-
-const appelsOffres = appelsOffreStatic.reduce((map, appelOffre) => {
-  map[appelOffre.id] = appelOffre
-  return map
-}, {})
+const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
 
 const fakeHistory: DomainEvent[] = [
   new ProjectImported({
@@ -61,7 +54,7 @@ describe('Project.lastUpdatedOn', () => {
       makeProject({
         projectId,
         history: fakeHistory,
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )

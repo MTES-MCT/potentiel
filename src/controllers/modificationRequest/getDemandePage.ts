@@ -8,7 +8,6 @@ import routes from '../../routes'
 import { errorResponse, notFoundResponse } from '../helpers'
 import asyncHandler from '../helpers/asyncHandler'
 import { v1Router } from '../v1Router'
-import { isSoumisAuxGFs } from '@modules/projectAppelOffre'
 
 const ACTIONS = [
   'delai',
@@ -43,7 +42,7 @@ v1Router.get(
     const { appelOffreId, periodeId, familleId } = project
 
     const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
-    const soumisAuxGarantiesFinancieres = appelOffre ? isSoumisAuxGFs(appelOffre) : false
+    const soumisAuxGarantiesFinancieres = appelOffre ? appelOffre.isSoumisAuxGFs : false
 
     return await getCahiersChargesURLs(appelOffreId, periodeId).match(
       (cahiersChargesURLs) => {

@@ -41,4 +41,5 @@ export type AppelOffre = {
 export type ProjectAppelOffre = AppelOffre & {
   periode: Periode
   famille: Famille | undefined
+  isSoumisAuxGFs: boolean
 }

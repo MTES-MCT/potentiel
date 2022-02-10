@@ -1,3 +1,4 @@
+import { getProjectAppelOffre } from '@config/queries.config'
 import {
   DomainEvent,
   EventStore,
@@ -24,7 +25,12 @@ export const makeProjectRepo = (
 ): Repository<Project> & TransactionalRepository<Project> => {
   // Classic EventStoreRepos take a makeAggregate function that only takes events and an id, to make a project we needs to bind the appelsOffre argument as well
   const makeProjectFromHistory = (args: { events: DomainEvent[]; id: UniqueEntityID }) =>
-    makeProject({ history: args.events, projectId: args.id, appelsOffres, buildProjectIdentifier })
+    makeProject({
+      history: args.events,
+      projectId: args.id,
+      getProjectAppelOffre,
+      buildProjectIdentifier,
+    })
 
   // ProjectRepo is a composition of EventStoreRepo and EventStoreTransactionalRepo
   return {

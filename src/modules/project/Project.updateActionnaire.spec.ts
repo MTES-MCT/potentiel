@@ -8,6 +8,7 @@ import makeFakeUser from '../../__tests__/fixtures/user'
 import { ProjectCannotBeUpdatedIfUnnotifiedError } from './errors'
 import { LegacyProjectSourced, ProjectActionnaireUpdated } from './events'
 import { makeProject } from './Project'
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
 
 const projectId = new UniqueEntityID('project1')
 const appelOffreId = 'Fessenheim'
@@ -17,10 +18,7 @@ const { familleId, numeroCRE } = fakeProject
 
 const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
 
-const appelsOffres = appelsOffreStatic.reduce((map, appelOffre) => {
-  map[appelOffre.id] = appelOffre
-  return map
-}, {})
+const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
 
 const newActionnaire = 'newActionnaire'
 
@@ -42,7 +40,7 @@ describe('Project.updateActionnaire()', () => {
             },
           }),
         ],
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )
@@ -79,7 +77,7 @@ describe('Project.updateActionnaire()', () => {
             },
           }),
         ],
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )

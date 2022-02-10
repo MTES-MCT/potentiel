@@ -1,3 +1,2 @@
-export * from './getDelaiDeRealisation';
-export * from './getProjectAppelOffre';
-export * from './isSoumisAuxGFs';
+export { getDelaiDeRealisation } from './helpers'
+export * from './queries'
