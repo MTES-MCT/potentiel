@@ -11,7 +11,7 @@ import { PageLayout } from '../../components/PageLayout'
 import { hydrateOnClient } from '../../helpers'
 import { CDCChoiceForm } from '../../components'
 import { ProjectEventListDTO } from '@modules/frise'
-import { LocationMarkerIcon } from '@heroicons/react/solid'
+import { CalendarIcon } from '@heroicons/react/outline'
 
 interface ProjectDetailsProps {
   request: Request
@@ -43,7 +43,7 @@ export const ProjectDetails = PageLayout(
           {projectEventList && (
             <div className="panel p-4 mt-0 flex-auto">
               <h3 className="section--title">
-                <LocationMarkerIcon className="w-5 h-5 mr-2" />
+                <CalendarIcon className="w-5 h-5 mr-2" />
                 Étapes du projet
               </h3>
               <Timeline
