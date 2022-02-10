@@ -14,8 +14,6 @@ import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helper
 import { v1Router } from '../v1Router'
 import { okAsync } from '@core/utils'
 
-const displayFrise = process.env.DISPLAY_NEW_FRISE === 'true'
-
 v1Router.get(
   routes.PROJECT_DETAILS(),
   ensureRole(['admin', 'dgec', 'dreal', 'porteur-projet', 'acheteur-obligé', 'ademe']),
@@ -50,17 +48,11 @@ v1Router.get(
         }))
       })
       .andThen(({ cahiersChargesURLs, project }) =>
-        displayFrise
-          ? getProjectEvents({ projectId, user }).map((projectEventList) => ({
-              cahiersChargesURLs,
-              project,
-              projectEventList,
-            }))
-          : okAsync({
-              cahiersChargesURLs,
-              project,
-              projectEventList: undefined,
-            })
+        getProjectEvents({ projectId, user }).map((projectEventList) => ({
+          cahiersChargesURLs,
+          project,
+          projectEventList,
+        }))
       )
       .match(
         ({ cahiersChargesURLs, project, projectEventList }) => {

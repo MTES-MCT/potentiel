@@ -6,7 +6,7 @@ import { ProjectDataForProjectPage } from '@modules/project/dtos'
 import ROUTES from '../../../routes'
 import { RoleBasedDashboard, SuccessErrorBox, Timeline } from '../../components'
 import { NoteElement, Section } from './components'
-import { EditProjectData, ProjectFrise, ProjectHeader } from './sections'
+import { EditProjectData, ProjectHeader } from './sections'
 import { PageLayout } from '../../components/PageLayout'
 import { hydrateOnClient } from '../../helpers'
 import { CDCChoiceForm } from '../../components'
@@ -17,7 +17,7 @@ interface ProjectDetailsProps {
   request: Request
   project: ProjectDataForProjectPage
   cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
-  projectEventList?: ProjectEventListDTO
+  projectEventList: ProjectEventListDTO
   now: number
 }
 
@@ -40,20 +40,18 @@ export const ProjectDetails = PageLayout(
         <ProjectHeader project={project} user={user} />
         <SuccessErrorBox success={success} error={error} />
         <div className={'flex flex-row flex-wrap gap-3 justify-start items-stretch mt-5'}>
-          {projectEventList && (
-            <div className="panel p-4 mt-0 flex-auto">
-              <h3 className="section--title">
-                <CalendarIcon className="w-5 h-5 mr-2" />
-                Étapes du projet
-              </h3>
-              <Timeline
-                {...{
-                  projectEventList,
-                  now,
-                }}
-              />
-            </div>
-          )}
+          <div className="panel p-4 mt-0 flex-auto">
+            <h3 className="section--title">
+              <CalendarIcon className="w-5 h-5 mr-2" />
+              Étapes du projet
+            </h3>
+            <Timeline
+              {...{
+                projectEventList,
+                now,
+              }}
+            />
+          </div>
           <Section title="Projet" icon="building">
             <div>
               <h5 style={{ marginBottom: 5 }}>Performances</h5>
