@@ -111,6 +111,18 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                     })
                   }
                   break
+                case 'ModificationRequested':
+                  if (userIsNot('ademe')(user)) {
+                    events.push({
+                      type,
+                      date: valueDate,
+                      variant: user.role,
+                      modificationType: payload.modificationType,
+                      modificationRequestId: payload.modificationRequestId,
+                      delayInMonths: payload.delayInMonths,
+                    })
+                  }
+                  break
               }
 
               return Promise.resolve(events)

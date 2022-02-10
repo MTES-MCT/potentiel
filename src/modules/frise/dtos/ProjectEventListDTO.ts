@@ -21,6 +21,7 @@ export type ProjectEventDTO =
   | ProjectPTFRemovedDTO
   | ProjectNotificationDateSetDTO
   | ProjectCompletionDueDateSetDTO
+  | ModificationRequestedDTO
 
 type NarrowDTOType<T, N> = T extends { type: N } ? T : never
 
@@ -160,6 +161,15 @@ export type ProjectCompletionDueDateSetDTO = {
   variant: Exclude<UserRole, 'ademe'>
 }
 
+export type ModificationRequestedDTO = {
+  type: 'ModificationRequested'
+  date: number
+  variant: Exclude<UserRole, 'ademe'>
+  modificationRequestId: string
+} & {
+  modificationType: 'delai'
+  delayInMonths: number
+}
 export type ProjectEventListDTO = {
   project: { id: Project['id']; isLaureat: boolean }
   events: ProjectEventDTO[]
