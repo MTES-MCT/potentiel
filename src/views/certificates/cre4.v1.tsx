@@ -171,7 +171,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
       ) : (
         <Text />
       )}
-      {appelOffre.id === 'CRE4 - Innovation' ? (
+      {appelOffre.innovation ? (
         <Text
           style={{
             fontSize: 10,
@@ -263,7 +263,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
             ) : (
               <Text />
             )}
-            {appelOffre.id === 'CRE4 - Innovation' ? (
+            {appelOffre.innovation ? (
               <>
                 Toute demande de modification substantielle de l’innovation sera notamment refusée
                 <Text>{addFootNote('5.4.4')}</Text>.

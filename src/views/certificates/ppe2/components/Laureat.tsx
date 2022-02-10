@@ -106,7 +106,7 @@ export const makeLaureat: MakeLaureat = (project) => {
           </Text>
         )}
 
-        {appelOffre.id === 'PPE2 - Innovation' && (
+        {appelOffre.innovation && (
           <Text
             style={{
               marginTop: 10,
@@ -183,7 +183,7 @@ export const makeLaureat: MakeLaureat = (project) => {
               </Text>
             </>
           )}
-          {appelOffre.id === 'PPE2 - Innovation' && (
+          {appelOffre.innovation && (
             <>
               {'. '}
               <Text
