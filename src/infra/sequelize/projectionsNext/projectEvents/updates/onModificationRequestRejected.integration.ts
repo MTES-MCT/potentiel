@@ -1,16 +1,16 @@
 import { resetDatabase } from '@dataAccess'
 import { UniqueEntityID } from '@core/domain'
-import { ModificationRequestAccepted } from '@modules/modificationRequest'
+import { ModificationRequestRejected } from '@modules/modificationRequest'
 import { ProjectEvent } from '..'
 import models from '../../../models'
-import onModificationRequestAccepted from './onModificationRequestAccepted'
+import onModificationRequestRejected from './onModificationRequestRejected'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import makeFakeModificationRequest from '../../../../../__tests__/fixtures/modificationRequest'
 import makeFakeFile from '../../../../../__tests__/fixtures/file'
 
 const { ModificationRequest, Project, File } = models
 
-describe('onModificationRequestAccepted', () => {
+describe('onModificationRequestRejected', () => {
   const projectId = new UniqueEntityID().toString()
   const modificationRequestId = new UniqueEntityID().toString()
   const fileId = new UniqueEntityID().toString()
@@ -19,18 +19,18 @@ describe('onModificationRequestAccepted', () => {
     await resetDatabase()
   })
 
-  it('should create a new project event of ModificationAccepted type', async () => {
+  it('should create a new project event of ModificationRejected type', async () => {
     await Project.create(makeFakeProject({ id: projectId }))
     await ModificationRequest.create(
       makeFakeModificationRequest({ id: modificationRequestId, projectId })
     )
     await File.create(makeFakeFile({ id: fileId, filename: 'filename' }))
 
-    await onModificationRequestAccepted(
-      new ModificationRequestAccepted({
+    await onModificationRequestRejected(
+      new ModificationRequestRejected({
         payload: {
           modificationRequestId,
-          acceptedBy: adminId,
+          rejectedBy: adminId,
           responseFileId: fileId,
         },
         original: {
@@ -41,7 +41,7 @@ describe('onModificationRequestAccepted', () => {
     )
     const projectEvent = await ProjectEvent.findOne({ where: { projectId } })
     expect(projectEvent).toMatchObject({
-      type: 'ModificationRequestAccepted',
+      type: 'ModificationRequestRejected',
       projectId,
       payload: { modificationRequestId, file: { name: 'filename', id: fileId } },
     })
