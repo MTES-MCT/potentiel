@@ -11,7 +11,7 @@ describe('onModificationRequested', () => {
     await resetDatabase()
   })
   describe('when modification type is "delay"', () => {
-    it('should create a new project event of type "DelayRequested"', async () => {
+    it('should create a new project event of modificationType delai', async () => {
       await onModificationRequested(
         new ModificationRequested({
           payload: {
@@ -34,7 +34,12 @@ describe('onModificationRequested', () => {
       expect(projectEvent).toMatchObject({
         type: 'ModificationRequested',
         projectId,
-        payload: { modificationType: 'delai', modificationRequestId, delayInMonths: 10 },
+        payload: {
+          modificationType: 'delai',
+          modificationRequestId,
+          delayInMonths: 10,
+          authority: 'dgec',
+        },
       })
     })
   })

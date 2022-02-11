@@ -5,7 +5,7 @@ import { ProjectEvent } from '../projectEvent.model'
 export default ProjectEvent.projector.on(
   ModificationRequested,
   async (
-    { payload: { projectId, type, delayInMonths, modificationRequestId }, occurredAt },
+    { payload: { projectId, type, delayInMonths, modificationRequestId, authority }, occurredAt },
     transaction
   ) => {
     if (type !== 'delai') {
@@ -19,7 +19,7 @@ export default ProjectEvent.projector.on(
         valueDate: occurredAt.getTime(),
         eventPublishedAt: occurredAt.getTime(),
         id: new UniqueEntityID().toString(),
-        payload: { modificationType: type, modificationRequestId, delayInMonths },
+        payload: { modificationType: type, modificationRequestId, delayInMonths, authority },
       },
       { transaction }
     )
