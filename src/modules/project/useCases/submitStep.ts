@@ -14,10 +14,11 @@ interface SubmitStepDeps {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
   fileRepo: Repository<FileObject>
   eventBus: EventBus
+  isGarantiesFinancieresDeposeesALaCandidature: (projectId: string) => Promise<boolean>
 }
 
 type SubmitStepArgs = {
-  type: 'ptf' | 'dcr' | 'garantie-financiere' | 'garantie-financiere-ppe2'
+  type: 'ptf' | 'dcr' | 'garantie-financiere'
   projectId: string
   stepDate: Date
   numeroDossier?: string
@@ -57,11 +58,37 @@ export const makeSubmitStep =
           return res
         }
       )
-      .andThen((fileId) => deps.eventBus.publish(EventByType[type](args, fileId)))
+      .andThen((fileId) => {
+        if (type === 'garantie-financiere') {
+          return wrapInfra(deps.isGarantiesFinancieresDeposeesALaCandidature(projectId))
+            .map((isGarantiesFinancieresDeposeesALaCandidature) => {
+              if (isGarantiesFinancieresDeposeesALaCandidature) {
+                return new ProjectGFUploaded({
+                  payload: {
+                    projectId,
+                    gfDate: args.stepDate,
+                    fileId,
+                    submittedBy: submittedBy.id,
+                  },
+                })
+              }
+              return new ProjectGFSubmitted({
+                payload: {
+                  projectId,
+                  gfDate: args.stepDate,
+                  fileId,
+                  submittedBy: submittedBy.id,
+                },
+              })
+            })
+            .andThen((event) => deps.eventBus.publish(event))
+        }
+        return deps.eventBus.publish(EventByType[type](args, fileId))
+      })
   }
 
 const EventByType: Record<
-  SubmitStepArgs['type'],
+  Exclude<SubmitStepArgs['type'], 'garantie-financiere'>,
   (args: SubmitStepArgs, fileId: string) => DomainEvent
 > = {
   dcr: ({ projectId, stepDate, submittedBy, numeroDossier }, fileId) =>
@@ -79,24 +106,6 @@ const EventByType: Record<
       payload: {
         projectId,
         ptfDate: stepDate,
-        fileId,
-        submittedBy: submittedBy.id,
-      },
-    }),
-  'garantie-financiere': ({ projectId, stepDate, submittedBy }, fileId) =>
-    new ProjectGFSubmitted({
-      payload: {
-        projectId,
-        gfDate: stepDate,
-        fileId,
-        submittedBy: submittedBy.id,
-      },
-    }),
-  'garantie-financiere-ppe2': ({ projectId, stepDate, submittedBy }, fileId) =>
-    new ProjectGFUploaded({
-      payload: {
-        projectId,
-        gfDate: stepDate,
         fileId,
         submittedBy: submittedBy.id,
       },

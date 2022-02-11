@@ -54,6 +54,7 @@ describe('submitStep use-case', () => {
           eventBus: fakeEventBus,
           fileRepo: fileRepo as Repository<FileObject>,
           shouldUserAccessProject,
+          isGarantiesFinancieresDeposeesALaCandidature: jest.fn(),
         })
 
         const res = await submitStep({
@@ -96,7 +97,7 @@ describe('submitStep use-case', () => {
       })
     })
 
-    describe('when type is garantie-financiere', () => {
+    describe('when type is garantie-financiere and isGarantiesFinancieresDeposeesALaCandidature is false', () => {
       const fileRepo = {
         save: jest.fn((file: FileObject) => okAsync(null)),
         load: jest.fn(),
@@ -106,12 +107,16 @@ describe('submitStep use-case', () => {
 
       beforeAll(async () => {
         const shouldUserAccessProject = jest.fn(async () => true)
+        const isGarantiesFinancieresDeposeesALaCandidature = jest.fn((projectId: string) =>
+          Promise.resolve(false)
+        )
         fakePublish.mockClear()
 
         const submitStep = makeSubmitStep({
           eventBus: fakeEventBus,
           fileRepo: fileRepo as Repository<FileObject>,
           shouldUserAccessProject,
+          isGarantiesFinancieresDeposeesALaCandidature,
         })
 
         const res = await submitStep({
@@ -123,6 +128,8 @@ describe('submitStep use-case', () => {
         })
 
         expect(res.isOk()).toBe(true)
+
+        expect(isGarantiesFinancieresDeposeesALaCandidature).toHaveBeenCalledWith(projectId)
 
         expect(shouldUserAccessProject).toHaveBeenCalledWith({
           user,
@@ -154,7 +161,7 @@ describe('submitStep use-case', () => {
       })
     })
 
-    describe('when type is garantie-financiere-ppe2', () => {
+    describe('when type is "garantie-fianciere" and isGarantiesFinancieresDeposeesALaCandidature is "true"', () => {
       const fileRepo = {
         save: jest.fn((file: FileObject) => okAsync(null)),
         load: jest.fn(),
@@ -164,16 +171,20 @@ describe('submitStep use-case', () => {
 
       beforeAll(async () => {
         const shouldUserAccessProject = jest.fn(async () => true)
+        const isGarantiesFinancieresDeposeesALaCandidature = jest.fn((projectId: string) =>
+          Promise.resolve(true)
+        )
         fakePublish.mockClear()
 
         const submitStep = makeSubmitStep({
           eventBus: fakeEventBus,
           fileRepo: fileRepo as Repository<FileObject>,
           shouldUserAccessProject,
+          isGarantiesFinancieresDeposeesALaCandidature,
         })
 
         const res = await submitStep({
-          type: 'garantie-financiere-ppe2',
+          type: 'garantie-financiere',
           file: fakeFileContents,
           stepDate: gfDate,
           projectId,
@@ -181,6 +192,8 @@ describe('submitStep use-case', () => {
         })
 
         expect(res.isOk()).toBe(true)
+
+        expect(isGarantiesFinancieresDeposeesALaCandidature).toHaveBeenCalledWith(projectId)
 
         expect(shouldUserAccessProject).toHaveBeenCalledWith({
           user,
@@ -228,6 +241,7 @@ describe('submitStep use-case', () => {
           eventBus: fakeEventBus,
           fileRepo: fileRepo as Repository<FileObject>,
           shouldUserAccessProject,
+          isGarantiesFinancieresDeposeesALaCandidature: jest.fn(),
         })
 
         const res = await submitStep({
@@ -290,6 +304,7 @@ describe('submitStep use-case', () => {
         eventBus: fakeEventBus,
         fileRepo,
         shouldUserAccessProject,
+        isGarantiesFinancieresDeposeesALaCandidature: jest.fn(),
       })
 
       const res = await submitStep({
