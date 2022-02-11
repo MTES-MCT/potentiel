@@ -4,6 +4,7 @@ export * from './CRItem';
 export * from './ContentArea';
 export * from './CurrentIcon';
 export * from './DCRItem';
+export * from './DelaiItem';
 export * from './DesignationItem';
 export * from './GFItem';
 export * from './ImportItem';
