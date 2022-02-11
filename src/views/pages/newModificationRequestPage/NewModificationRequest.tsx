@@ -21,7 +21,6 @@ moment.locale('fr')
 type PageProps = {
   request: Request
   project: Project
-  soumisAuxGarantiesFinancieres: boolean
   cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
 }
 
@@ -30,7 +29,7 @@ const getunitePuissanceForAppelOffre = (appelOffreId: Project['appelOffreId']) =
 }
 
 export const NewModificationRequest = PageLayout(
-  ({ request, project, cahiersChargesURLs, soumisAuxGarantiesFinancieres }: PageProps) => {
+  ({ request, project, cahiersChargesURLs }: PageProps) => {
     const { action, error, success, puissance, actionnaire, justification, delayInMonths } =
       (request.query as any) || {}
 
@@ -56,6 +55,8 @@ export const NewModificationRequest = PageLayout(
       setDisplayAlertOnPuissance(!newPuissanceIsAutoAccepted)
       setFileRequiredforPuissanceModification(!newPuissanceIsAutoAccepted)
     }
+
+    const { appelOffre } = project
 
     return (
       <UserDashboard currentPage={'list-requests'}>
@@ -512,7 +513,7 @@ export const NewModificationRequest = PageLayout(
                     <>
                       <label>Ancien producteur</label>
                       <input type="text" disabled defaultValue={project.nomCandidat} />
-                      {soumisAuxGarantiesFinancieres && (
+                      {appelOffre?.isSoumisAuxGFs && (
                         <div
                           className="notification warning"
                           style={{ marginTop: 10, marginBottom: 10 }}

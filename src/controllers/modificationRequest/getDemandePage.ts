@@ -42,16 +42,17 @@ v1Router.get(
     const { appelOffreId, periodeId, familleId } = project
 
     const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
-    const soumisAuxGarantiesFinancieres = appelOffre ? appelOffre.isSoumisAuxGFs : false
 
     return await getCahiersChargesURLs(appelOffreId, periodeId).match(
       (cahiersChargesURLs) => {
         return response.send(
           NewModificationRequestPage({
             request,
-            project,
+            project: {
+              ...project,
+              ...(appelOffre && { appelOffre }),
+            },
             cahiersChargesURLs,
-            soumisAuxGarantiesFinancieres,
           })
         )
       },
