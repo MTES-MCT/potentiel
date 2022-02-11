@@ -165,16 +165,7 @@ const UploadForm = ({ projectId, URLTitle, status }: UploadFormProps) => {
           encType="multipart/form-data"
           className="mt-2 border border-solid border-gray-300 rounded-md p-5"
         >
-          <input
-            type="hidden"
-            name="type"
-            id="type"
-            value={
-              status === 'submitted-with-application'
-                ? 'garantie-financiere-ppe2'
-                : 'garantie-financiere'
-            }
-          />
+          <input type="hidden" name="type" id="type" value="garantie-financiere" />
           <input type="hidden" name="projectId" value={projectId} />
           <div>
             <label htmlFor="date">Date de constitution (format JJ/MM/AAAA)</label>
@@ -216,7 +207,7 @@ const RemoveDocument = ({ projectId }: RemoveDocumentProps) => (
   <a
     href={ROUTES.SUPPRIMER_ETAPE_ACTION({
       projectId,
-      type: 'garantie-financiere-ppe2',
+      type: 'garantie-financiere',
     })}
     data-confirm="Êtes-vous sur de vouloir retirer l'attestion jointe ?"
   >
