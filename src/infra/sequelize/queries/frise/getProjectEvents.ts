@@ -120,6 +120,30 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       modificationType: payload.modificationType,
                       modificationRequestId: payload.modificationRequestId,
                       delayInMonths: payload.delayInMonths,
+                      authority: payload.authority,
+                    })
+                  }
+                  break
+                case 'ModificationRequestAccepted':
+                case 'ModificationRequestRejected':
+                  if (userIsNot('ademe')(user)) {
+                    events.push({
+                      type,
+                      date: valueDate,
+                      variant: user.role,
+                      modificationRequestId: payload.modificationRequestId,
+                      file: payload.file,
+                    })
+                  }
+                  break
+                case 'ModificationRequestCancelled':
+                case 'ModificationRequestInstructionStarted':
+                  if (userIsNot('ademe')(user)) {
+                    events.push({
+                      type,
+                      date: valueDate,
+                      variant: user.role,
+                      modificationRequestId: payload.modificationRequestId,
                     })
                   }
                   break
