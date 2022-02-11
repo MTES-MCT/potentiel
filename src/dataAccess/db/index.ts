@@ -6,13 +6,16 @@ import { makeModificationRequestRepo } from './modificationRequest'
 import { logger } from '@core/utils'
 
 import { appelOffreRepo } from '../inMemory/appelOffre'
+import { appelsOffreStatic } from '../inMemory/appelOffre'
 import truncateAllTables from './helpers/truncateTables'
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
 
 // Create repo implementations
 
 const userRepo = makeUserRepo({ sequelizeInstance })
 
-const projectRepo = makeProjectRepo({ sequelizeInstance, appelOffreRepo })
+const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
+const projectRepo = makeProjectRepo({ sequelizeInstance, getProjectAppelOffre })
 
 const modificationRequestRepo = makeModificationRequestRepo({ sequelizeInstance })
 

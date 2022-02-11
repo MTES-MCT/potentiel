@@ -1,7 +1,6 @@
 import { Text } from '@react-pdf/renderer'
 import React from 'react'
 import { ProjectDataForCertificate } from '@modules/project/dtos'
-import { estSoumisAuxGFs } from '../../helpers/estSoumisAuxGFs'
 import { MotifElimination } from './motifElimination'
 
 type ElimineProps = {
@@ -9,11 +8,8 @@ type ElimineProps = {
 }
 
 export const Elimine = ({ project }: ElimineProps) => {
-  const {
-    appelOffre: { renvoiRetraitDesignationGarantieFinancieres },
-  } = project
-
-  const soumisAuxGarantiesFinancieres = estSoumisAuxGFs(project)
+  const { appelOffre } = project
+  const { renvoiRetraitDesignationGarantieFinancieres, isSoumisAuxGFs } = appelOffre
 
   return (
     <>
@@ -21,7 +17,7 @@ export const Elimine = ({ project }: ElimineProps) => {
         <MotifElimination {...{ project }} />
       </Text>
 
-      {soumisAuxGarantiesFinancieres && (
+      {isSoumisAuxGFs && (
         <Text style={{ marginTop: 10 }}>
           Conformément au paragraphe {renvoiRetraitDesignationGarantieFinancieres} la garantie
           financière est annulée automatiquement.

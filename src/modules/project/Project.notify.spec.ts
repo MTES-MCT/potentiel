@@ -1,7 +1,7 @@
 import moment from 'moment'
 import { DomainEvent, UniqueEntityID } from '@core/domain'
 import { UnwrapForTest } from '@core/utils'
-import { appelsOffreStatic, getDelaiDeRealisation } from '@dataAccess/inMemory'
+import { appelsOffreStatic } from '@dataAccess/inMemory'
 import { AppelOffre } from '@entities'
 import makeFakeProject from '../../__tests__/fixtures/project'
 import { ProjectAlreadyNotifiedError } from './errors'
@@ -13,13 +13,11 @@ import {
   ProjectNotified,
 } from './events'
 import { makeProject } from './Project'
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
 
 const projectId = new UniqueEntityID('project1')
 
-const appelsOffres: Record<string, AppelOffre> = appelsOffreStatic.reduce((map, appelOffre) => {
-  map[appelOffre.id] = appelOffre
-  return map
-}, {})
+const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
 
 const makeFakeHistory = (fakeProject: any): DomainEvent[] => {
   return [
@@ -48,7 +46,7 @@ describe('Project.notify()', () => {
       makeProject({
         projectId,
         history: fakeHistory,
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )
@@ -84,7 +82,7 @@ describe('Project.notify()', () => {
       makeProject({
         projectId,
         history: fakeHistory,
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )
@@ -117,12 +115,9 @@ describe('Project.notify()', () => {
       if (!targetEvent) return
 
       expect(targetEvent.payload.projectId).toEqual(projectId.toString())
+
       expect(targetEvent.payload.completionDueOn).toEqual(
-        moment(notifiedOn)
-          .add(getDelaiDeRealisation(fakeProjectData.appelOffreId, ''), 'months')
-          .subtract(1, 'day')
-          .toDate()
-          .getTime()
+        moment(notifiedOn).add(24, 'months').subtract(1, 'day').toDate().getTime()
       )
     })
   })
@@ -141,7 +136,7 @@ describe('Project.notify()', () => {
       makeProject({
         projectId,
         history: fakeHistory,
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )
@@ -167,6 +162,41 @@ describe('Project.notify()', () => {
     })
   })
 
+  describe('when project is éliminé and family warrants a garantie financiere', () => {
+    const fakeProjectData = makeFakeProject({
+      notifiedOn: 0,
+      appelOffreId: 'Fessenheim',
+      periodeId: '2',
+      familleId: '1',
+      classe: 'Eliminé',
+    })
+    const fakeHistory = makeFakeHistory(fakeProjectData)
+
+    const project = UnwrapForTest(
+      makeProject({
+        projectId,
+        history: fakeHistory,
+        getProjectAppelOffre,
+        buildProjectIdentifier: () => '',
+      })
+    )
+
+    beforeAll(() => {
+      const res = project.notify(notifiedOn)
+
+      if (res.isErr()) console.error(res.error)
+      expect(res.isOk()).toBe(true)
+    })
+
+    it('should not trigger ProjectGFDueDateSet', () => {
+      const targetEvent = project.pendingEvents.find(
+        (item) => item.type === ProjectGFDueDateSet.type
+      ) as ProjectGFDueDateSet | undefined
+
+      expect(targetEvent).toBeUndefined()
+    })
+  })
+
   describe('when project is already notified', () => {
     it('should return a ProjectAlreadyNotifiedError', () => {
       const fakeProjectData = makeFakeProject({ notifiedOn: 1 })
@@ -176,7 +206,7 @@ describe('Project.notify()', () => {
         makeProject({
           projectId,
           history: fakeHistory,
-          appelsOffres,
+          getProjectAppelOffre,
           buildProjectIdentifier: () => '',
         })
       )

@@ -5,11 +5,9 @@ import makeFakeProject from '../../__tests__/fixtures/project'
 import { ProjectImported } from './events'
 import { makeProject } from './Project'
 import type { BuildProjectIdentifier } from './queries'
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
 
-const appelsOffres = appelsOffreStatic.reduce((map, appelOffre) => {
-  map[appelOffre.id] = appelOffre
-  return map
-}, {})
+const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
 
 const projectId = new UniqueEntityID('project1')
 const fakeProject = makeFakeProject({
@@ -34,7 +32,7 @@ describe('Project.import()', () => {
   const project = UnwrapForTest(
     makeProject({
       projectId,
-      appelsOffres,
+      getProjectAppelOffre,
       buildProjectIdentifier,
     })
   )

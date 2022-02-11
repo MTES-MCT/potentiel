@@ -2,8 +2,7 @@ import { Text, View } from '@react-pdf/renderer'
 import React from 'react'
 import { ProjectDataForCertificate } from '@modules/project/dtos'
 import { formatNumber } from '../helpers/formatNumber'
-import { estSoumisAuxGFs } from '../helpers/estSoumisAuxGFs'
-import { getDelaiDeRealisation } from '@dataAccess/inMemory'
+import { getDelaiDeRealisation } from '@modules/projectAppelOffre'
 
 type MakeLaureat = (project: ProjectDataForCertificate) => {
   content: React.ReactNode
@@ -12,9 +11,7 @@ type MakeLaureat = (project: ProjectDataForCertificate) => {
 
 export const makeLaureat: MakeLaureat = (project) => {
   const { appelOffre, technologie } = project
-  const { periode } = appelOffre || {}
-
-  const soumisAuxGarantiesFinancieres = estSoumisAuxGFs(project)
+  const { periode, isSoumisAuxGFs } = appelOffre || {}
 
   const footnotes: Array<Footnote> = []
   const addFootNote = makeAddFootnote(footnotes)
@@ -91,7 +88,7 @@ export const makeLaureat: MakeLaureat = (project) => {
           ;
         </Text>
 
-        {soumisAuxGarantiesFinancieres && appelOffre.renvoiRetraitDesignationGarantieFinancieres && (
+        {isSoumisAuxGFs && appelOffre.renvoiRetraitDesignationGarantieFinancieres && (
           <Text
             style={{
               marginTop: 10,
@@ -126,7 +123,7 @@ export const makeLaureat: MakeLaureat = (project) => {
         >
           - sauf délais dérogatoires prévus au {appelOffre.paragrapheDelaiDerogatoire} du cahier des
           charges, achever l’installation dans un délai de{' '}
-          {getDelaiDeRealisation(appelOffre.id, technologie)} mois à compter de la présente
+          {getDelaiDeRealisation(appelOffre, technologie)} mois à compter de la présente
           notification;
         </Text>
 

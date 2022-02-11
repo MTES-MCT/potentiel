@@ -5,24 +5,20 @@ import { dataId } from '../../../helpers/testId'
 import UserDashboard from '../../components/UserDashboard'
 import { Request } from 'express'
 import { formatDate } from '../../../helpers/formatDate'
-import {
-  appelsOffreStatic,
-  isSoumisAuxGarantiesFinancieres,
-  getDelaiDeRealisation,
-} from '@dataAccess/inMemory'
+import { appelsOffreStatic } from '@dataAccess/inMemory'
 import { PageLayout } from '../../components/PageLayout'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
 import { getAutoAcceptRatiosForAppelOffre } from '@modules/modificationRequest'
-
 import moment from 'moment'
 import ModificationRequestActionTitles from '../../components/ModificationRequestActionTitles'
 import { CDCChoiceForm } from '../../components/CDCChoiceForm'
 import toNumber from '../../../helpers/toNumber'
 import { isStrictlyPositiveNumber } from '../../../helpers/formValidators'
+import { getDelaiDeRealisation } from '@modules/projectAppelOffre'
 
 moment.locale('fr')
 
-interface PageProps {
+type PageProps = {
   request: Request
   project: Project
   cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
@@ -32,15 +28,6 @@ const getunitePuissanceForAppelOffre = (appelOffreId: Project['appelOffreId']) =
   return appelsOffreStatic.find((item) => item.id === appelOffreId)?.unitePuissance
 }
 
-const getIsSoumisAuxGarantiesFinancieres = (
-  appelOffreId: Project['appelOffreId'],
-  familleId?: Project['familleId']
-) => {
-  const appelOffre = appelsOffreStatic.find((item) => item.id === appelOffreId)
-  return appelOffre && isSoumisAuxGarantiesFinancieres(appelOffreId, familleId)
-}
-
-/* Pure component */
 export const NewModificationRequest = PageLayout(
   ({ request, project, cahiersChargesURLs }: PageProps) => {
     const { action, error, success, puissance, actionnaire, justification, delayInMonths } =
@@ -68,6 +55,8 @@ export const NewModificationRequest = PageLayout(
       setDisplayAlertOnPuissance(!newPuissanceIsAutoAccepted)
       setFileRequiredforPuissanceModification(!newPuissanceIsAutoAccepted)
     }
+
+    const { appelOffre } = project
 
     return (
       <UserDashboard currentPage={'list-requests'}>
@@ -524,10 +513,7 @@ export const NewModificationRequest = PageLayout(
                     <>
                       <label>Ancien producteur</label>
                       <input type="text" disabled defaultValue={project.nomCandidat} />
-                      {getIsSoumisAuxGarantiesFinancieres(
-                        project.appelOffreId,
-                        project.familleId
-                      ) && (
+                      {appelOffre?.isSoumisAuxGFs && (
                         <div
                           className="notification warning"
                           style={{ marginTop: 10, marginBottom: 10 }}
@@ -678,7 +664,8 @@ export const NewModificationRequest = PageLayout(
                         defaultValue={formatDate(
                           +moment(project.notifiedOn)
                             .add(
-                              getDelaiDeRealisation(project.appelOffreId, project.technologie),
+                              project.appelOffre &&
+                                getDelaiDeRealisation(project.appelOffre, project.technologie),
                               'months'
                             )
                             .subtract(1, 'day'),
@@ -700,7 +687,8 @@ export const NewModificationRequest = PageLayout(
                         defaultValue={delayInMonths}
                         data-initial-date={moment(project.notifiedOn)
                           .add(
-                            getDelaiDeRealisation(project.appelOffreId, project.technologie),
+                            project.appelOffre &&
+                              getDelaiDeRealisation(project.appelOffre, project.technologie),
                             'months'
                           )
                           .toDate()

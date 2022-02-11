@@ -1,10 +1,7 @@
 import { DomainEvent, UniqueEntityID } from '@core/domain'
 import { UnwrapForTest } from '@core/utils'
 import { appelsOffreStatic } from '@dataAccess/inMemory'
-import { makeUser } from '@entities'
-import { UnwrapForTest as OldUnwrapForTest } from '../../types'
 import makeFakeProject from '../../__tests__/fixtures/project'
-import makeFakeUser from '../../__tests__/fixtures/user'
 import {
   ProjectCertificateGenerated,
   ProjectCertificateRegenerated,
@@ -13,6 +10,7 @@ import {
   ProjectNotified,
 } from './events'
 import { makeProject } from './Project'
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
 
 const projectId = new UniqueEntityID('project1')
 const appelOffreId = 'Fessenheim'
@@ -20,12 +18,7 @@ const periodeId = '2'
 const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' })
 const { familleId, numeroCRE, potentielIdentifier } = fakeProject
 
-const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
-
-const appelsOffres = appelsOffreStatic.reduce((map, appelOffre) => {
-  map[appelOffre.id] = appelOffre
-  return map
-}, {})
+const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
 
 const fakeHistory: DomainEvent[] = [
   new ProjectImported({
@@ -66,7 +59,7 @@ describe('Project.lastCertificateUpdate', () => {
       const project = UnwrapForTest(
         makeProject({
           projectId,
-          appelsOffres,
+          getProjectAppelOffre,
           buildProjectIdentifier: () => '',
           history: fakeHistory.filter(
             (event) =>
@@ -86,7 +79,7 @@ describe('Project.lastCertificateUpdate', () => {
       const project = UnwrapForTest(
         makeProject({
           projectId,
-          appelsOffres,
+          getProjectAppelOffre,
           buildProjectIdentifier: () => '',
           history: fakeHistory.concat([
             new ProjectCertificateGenerated({
@@ -113,7 +106,7 @@ describe('Project.lastCertificateUpdate', () => {
       const project = UnwrapForTest(
         makeProject({
           projectId,
-          appelsOffres,
+          getProjectAppelOffre,
           buildProjectIdentifier: () => '',
           history: fakeHistory.concat([
             new ProjectCertificateUpdated({
@@ -141,7 +134,7 @@ describe('Project.lastCertificateUpdate', () => {
       const project = UnwrapForTest(
         makeProject({
           projectId,
-          appelsOffres,
+          getProjectAppelOffre,
           buildProjectIdentifier: () => '',
           history: fakeHistory.concat([
             new ProjectCertificateGenerated({

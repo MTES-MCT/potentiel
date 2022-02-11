@@ -13,6 +13,7 @@ import {
   ProjectNotified,
 } from './events'
 import { makeProject } from './Project'
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
 
 const projectId = new UniqueEntityID('project1')
 const appelOffreId = 'Fessenheim'
@@ -22,10 +23,7 @@ const { familleId, numeroCRE, potentielIdentifier } = fakeProject
 
 const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
 
-const appelsOffres = appelsOffreStatic.reduce((map, appelOffre) => {
-  map[appelOffre.id] = appelOffre
-  return map
-}, {})
+const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
 
 const makeFakeHistory = (fakeProject: any): DomainEvent[] => {
   return [
@@ -83,7 +81,7 @@ describe('Project.correctData()', () => {
       makeProject({
         projectId,
         history: fakeHistory,
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )
@@ -117,7 +115,7 @@ describe('Project.correctData()', () => {
       const project = UnwrapForTest(
         makeProject({
           projectId,
-          appelsOffres,
+          getProjectAppelOffre,
           history: fakeHistory.filter((event) => event.type !== ProjectNotified.type),
           buildProjectIdentifier: () => '',
         })
@@ -138,7 +136,7 @@ describe('Project.correctData()', () => {
       makeProject({
         projectId,
         history: fakeHistory,
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )

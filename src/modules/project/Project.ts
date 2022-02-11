@@ -53,7 +53,7 @@ import {
   ProjectReimportedPayload,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
-import { getDelaiDeRealisation, isSoumisAuxGarantiesFinancieres } from '@dataAccess/inMemory'
+import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre'
 
 export interface Project extends EventStoreAggregate {
   notify: (
@@ -180,10 +180,10 @@ const projectValidator = makePropertyValidator({
 export const makeProject = (args: {
   projectId: UniqueEntityID
   history?: DomainEvent[]
-  appelsOffres: Record<AppelOffre['id'], AppelOffre>
+  getProjectAppelOffre: GetProjectAppelOffre
   buildProjectIdentifier: BuildProjectIdentifier
 }): Result<Project, EntityNotFoundError | HeterogeneousHistoryError> => {
-  const { history, projectId, appelsOffres, buildProjectIdentifier } = args
+  const { history, projectId, getProjectAppelOffre, buildProjectIdentifier } = args
 
   if (!_allEventsHaveSameAggregateId()) {
     return err(new HeterogeneousHistoryError())
@@ -493,7 +493,9 @@ export const makeProject = (args: {
         })
       )
 
-      if (_shouldSubmitGF()) {
+      const { appelOffre, isClasse } = props
+
+      if (isClasse && appelOffre?.isSoumisAuxGFs) {
         _publishEvent(
           new ProjectGFDueDateSet({
             payload: {
@@ -658,7 +660,7 @@ export const makeProject = (args: {
       if (!appelOffreId || !periodeId) {
         errorsInFields.appelOffre = "Ce projet n'est associé à aucun appel d'offre"
       } else {
-        if (!_getAppelOffreById(appelOffreId, periodeId, newProps.familleId)) {
+        if (!getProjectAppelOffre({ appelOffreId, periodeId, familleId: newProps.familleId })) {
           // Can't find family in appelOffre
           errorsInFields.familleId = "Cette famille n'existe pas pour cet appel d'offre"
         }
@@ -833,7 +835,7 @@ export const makeProject = (args: {
 
     if (!appelOffreId || !periodeId) return
 
-    const newAppelOffre = _getAppelOffreById(appelOffreId, periodeId, familleId)
+    const newAppelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
 
     if (!newAppelOffre) {
       props.hasError = true
@@ -844,29 +846,6 @@ export const makeProject = (args: {
 
   function _updateClasse(classe: string) {
     props.isClasse = classe === 'Classé'
-  }
-
-  function _getAppelOffreById(
-    appelOffreId: string,
-    periodeId: string,
-    familleId?: string
-  ): ProjectAppelOffre | null {
-    const appelOffre = appelsOffres[appelOffreId]
-
-    if (!appelOffre) return null
-
-    const periode = appelOffre.periodes.find((periode) => periode.id === periodeId)
-
-    if (!periode) return null
-
-    let famille
-    if (familleId) {
-      famille = appelOffre.familles.find((famille) => famille.id === familleId)
-
-      if (!famille) return null
-    }
-
-    return { ...appelOffre, periode, famille } as ProjectAppelOffre
   }
 
   function _allEventsHaveSameAggregateId() {
@@ -919,7 +898,7 @@ export const makeProject = (args: {
           completionDueOn:
             completionDueOn ||
             moment(props.notifiedOn)
-              .add(getDelaiDeRealisation(props.appelOffre.id, props.data?.technologie), 'months')
+              .add(getDelaiDeRealisation(props.appelOffre, props.data?.technologie), 'months')
               .subtract(1, 'day')
               .toDate()
               .getTime(),
@@ -929,16 +908,9 @@ export const makeProject = (args: {
     )
   }
 
-  function _shouldSubmitGF() {
-    const appelOffreId = props.appelOffre?.id
-    const familleId = props.appelOffre?.famille?.id
-    return (
-      props.isClasse && appelOffreId && isSoumisAuxGarantiesFinancieres(appelOffreId, familleId)
-    )
-  }
-
   function _updateGFDate() {
-    if (_shouldSubmitGF()) {
+    const { appelOffre, isClasse } = props
+    if (isClasse && appelOffre?.isSoumisAuxGFs) {
       _removePendingEventsOfType(ProjectGFDueDateSet.type)
       _publishEvent(
         new ProjectGFDueDateSet({

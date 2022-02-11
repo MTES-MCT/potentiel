@@ -13,6 +13,7 @@ import {
   ProjectNotified,
 } from './events'
 import { makeProject } from './Project'
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
 
 const projectId = new UniqueEntityID('project1')
 const appelOffreId = 'Fessenheim'
@@ -22,10 +23,7 @@ const { familleId, numeroCRE, potentielIdentifier } = fakeProject
 
 const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
 
-const appelsOffres = appelsOffreStatic.reduce((map, appelOffre) => {
-  map[appelOffre.id] = appelOffre
-  return map
-}, {})
+const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
 
 const fakeHistory: DomainEvent[] = [
   new ProjectImported({
@@ -68,7 +66,7 @@ describe('Project.shouldCertificateBeGenerated', () => {
       const project = UnwrapForTest(
         makeProject({
           projectId,
-          appelsOffres,
+          getProjectAppelOffre,
           buildProjectIdentifier: () => '',
           history: fakeHistory.filter((event) => event.type !== ProjectNotified.type),
         })
@@ -84,7 +82,7 @@ describe('Project.shouldCertificateBeGenerated', () => {
       const project = UnwrapForTest(
         makeProject({
           projectId,
-          appelsOffres,
+          getProjectAppelOffre,
           buildProjectIdentifier: () => '',
           // Switch to Fessenheim periode 1 which does not have certificate
           history: fakeHistory.map((event: any) => ({
@@ -103,7 +101,7 @@ describe('Project.shouldCertificateBeGenerated', () => {
       const project = UnwrapForTest(
         makeProject({
           projectId,
-          appelsOffres,
+          getProjectAppelOffre,
           buildProjectIdentifier: () => '',
           history: fakeHistory.concat([
             new ProjectCertificateGenerated({
@@ -129,7 +127,7 @@ describe('Project.shouldCertificateBeGenerated', () => {
       const project = UnwrapForTest(
         makeProject({
           projectId,
-          appelsOffres,
+          getProjectAppelOffre,
           buildProjectIdentifier: () => '',
           history: fakeHistory.concat([
             new ProjectCertificateGenerated({
@@ -155,7 +153,7 @@ describe('Project.shouldCertificateBeGenerated', () => {
       const project = UnwrapForTest(
         makeProject({
           projectId,
-          appelsOffres,
+          getProjectAppelOffre,
           buildProjectIdentifier: () => '',
           history: fakeHistory.concat([
             new ProjectCertificateGenerated({
@@ -196,7 +194,7 @@ describe('Project.shouldCertificateBeGenerated', () => {
       const project = UnwrapForTest(
         makeProject({
           projectId,
-          appelsOffres,
+          getProjectAppelOffre,
           buildProjectIdentifier: () => '',
           history: fakeHistory.concat([
             new ProjectCertificateUpdated({
@@ -223,7 +221,7 @@ describe('Project.shouldCertificateBeGenerated', () => {
       const project = UnwrapForTest(
         makeProject({
           projectId,
-          appelsOffres,
+          getProjectAppelOffre,
           buildProjectIdentifier: () => '',
           history: fakeHistory,
         })
@@ -241,7 +239,7 @@ describe('Project.shouldCertificateBeGenerated', () => {
         makeProject({
           projectId,
           history: fakeHistory,
-          appelsOffres,
+          getProjectAppelOffre,
           buildProjectIdentifier: () => '',
         })
       )

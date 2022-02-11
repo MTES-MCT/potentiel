@@ -1,4 +1,4 @@
-import { AppelOffre, Famille, Periode, ProjectAppelOffre } from '@entities'
+import { AppelOffre, Famille, Periode } from '@entities'
 import _ from 'lodash'
 
 import {
@@ -78,69 +78,4 @@ const appelOffreRepo = {
   }) as GetPeriodeTitle,
 }
 
-const getAppelOffre = (args: {
-  appelOffreId: string
-  periodeId: string
-  familleId?: string
-}): ProjectAppelOffre | null => {
-  const { appelOffreId, periodeId, familleId } = args
-  const appelOffre = appelsOffreStatic.find((ao) => ao.id === appelOffreId) as
-    | ProjectAppelOffre
-    | undefined
-
-  if (!appelOffre) return null
-
-  const periode = appelOffre.periodes.find((periode) => periode.id === periodeId)
-
-  if (!periode) return null
-
-  appelOffre.periode = periode
-
-  if (familleId) {
-    appelOffre.famille = appelOffre.familles.find((famille) => famille.id === familleId)
-  }
-
-  return appelOffre
-}
-
-const isSoumisAuxGarantiesFinancieres = (appelOffreId: string, familleId?: string): boolean => {
-  const appelOffre = appelsOffreStatic.find((item) => item.id === appelOffreId)
-  const soumisAuxGarantiesFinancieres = appelOffre?.soumisAuxGarantiesFinancieres
-  if (soumisAuxGarantiesFinancieres) return soumisAuxGarantiesFinancieres
-
-  const famille = appelsOffreStatic
-    .find((item) => item.id === appelOffreId)
-    ?.familles.find((item) => item.id === familleId)
-
-  if (famille)
-    return Boolean(famille.garantieFinanciereEnMois || famille.soumisAuxGarantiesFinancieres)
-
-  return false
-}
-
-const getDelaiDeRealisation = (
-  appelOffreId: string,
-  technologie: string | undefined
-): number | null => {
-  const appelOffre = appelsOffreStatic.find((ao) => ao.id === appelOffreId)
-  if (!appelOffre) return null
-  if (appelOffre.decoupageParTechnologie) {
-    if (!isValidTechnologie(technologie)) return null
-    return appelOffre.delaiRealisationEnMoisParTechnologie[technologie]
-  }
-  return appelOffre.delaiRealisationEnMois
-}
-
-const isValidTechnologie = (
-  technologie: string | undefined
-): technologie is 'pv' | 'eolien' | 'hydraulique' => {
-  return !!technologie && ['pv', 'eolien', 'hydraulique'].includes(technologie)
-}
-
-export {
-  appelOffreRepo,
-  appelsOffreStatic,
-  getAppelOffre,
-  isSoumisAuxGarantiesFinancieres,
-  getDelaiDeRealisation,
-}
+export { appelOffreRepo, appelsOffreStatic }

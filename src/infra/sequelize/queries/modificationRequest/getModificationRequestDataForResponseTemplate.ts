@@ -1,11 +1,7 @@
 import moment from 'moment'
 import { oldUserRepo } from '@config/repos.config'
 import { errAsync, logger, ok, okAsync, ResultAsync, wrapInfra } from '@core/utils'
-import {
-  getAppelOffre,
-  getDelaiDeRealisation,
-  isSoumisAuxGarantiesFinancieres,
-} from '@dataAccess/inMemory'
+import { getProjectAppelOffre } from '@config/queries.config'
 import { DREAL } from '@entities'
 import { formatDate } from '../../../../helpers/formatDate'
 import { PeriodeDTO } from '@modules/appelOffre'
@@ -16,6 +12,7 @@ import {
 import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared'
 import models from '../../models'
 import { getPeriode } from '../appelOffre'
+import { getDelaiDeRealisation } from '@modules/projectAppelOffre'
 
 const { ModificationRequest, Project, File, User } = models
 
@@ -101,11 +98,9 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
         } = modificationRequest
 
         const { appelOffreId, periodeId, familleId, technologie } = project
-        const appelOffre = getAppelOffre({ appelOffreId, periodeId })
-        const periode = appelOffre?.periodes.find((periode) => periode.id === periodeId)
-        const famille = appelOffre?.familles.find((famille) => famille.id === familleId)
+        const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
 
-        if (!appelOffre || !periode) {
+        if (!appelOffre || !appelOffre?.periode) {
           logger.error(
             new Error(
               `getModificationRequestDataForResponseTemplate failed to find the appelOffre for this id ${appelOffreId}`
@@ -135,6 +130,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
         } = project
 
         const {
+          periode,
           tarifOuPrimeRetenue,
           tarifOuPrimeRetenueAlt,
           paragraphePrixReference,
@@ -148,6 +144,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           renvoiModification,
           delaiRealisationTexte,
           renvoiSoumisAuxGarantiesFinancieres,
+          isSoumisAuxGFs,
         } = appelOffre
 
         const commonData = {
@@ -175,11 +172,6 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           dateNotification: formatDate(notifiedOn),
         }
 
-        const soumisAuxGarantiesFinancieres = isSoumisAuxGarantiesFinancieres(
-          project.appelOffreId,
-          famille?.id
-        )
-
         switch (type) {
           case 'delai':
             return ok({
@@ -187,7 +179,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
               referenceParagrapheAchevement: periode.paragrapheAchevement,
               contenuParagrapheAchevement: appelOffre.contenuParagrapheAchevement,
               dateLimiteAchevementInitiale: formatDate(
-                +moment(notifiedOn).add(getDelaiDeRealisation(appelOffreId, technologie), 'months')
+                +moment(notifiedOn).add(getDelaiDeRealisation(appelOffre, technologie), 'months')
               ),
               dateLimiteAchevementActuelle: formatDate(completionDueOn),
               dureeDelaiDemandeEnMois: delayInMonths.toString(),
@@ -239,7 +231,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
               unitePuissance,
               eolien: appelOffreId === 'Eolien' ? 'yes' : '',
               AOInnovation: appelOffre.innovation ? 'yes' : '',
-              soumisGF: soumisAuxGarantiesFinancieres ? 'yes' : '',
+              soumisGF: isSoumisAuxGFs ? 'yes' : '',
               renvoiSoumisAuxGarantiesFinancieres,
               renvoiDemandeCompleteRaccordement,
               renvoiRetraitDesignationGarantieFinancieres,

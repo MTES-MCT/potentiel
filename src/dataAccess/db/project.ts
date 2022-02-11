@@ -7,6 +7,7 @@ import { mapExceptError } from '../../helpers/results'
 import { Err, Ok, PaginatedList, Pagination, ResultAsync } from '../../types'
 import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
+import { GetProjectAppelOffre } from '@modules/projectAppelOffre'
 
 // Override these to apply serialization/deserialization on inputs/outputs
 const deserialize = (item) => ({
@@ -38,7 +39,13 @@ const deserialize = (item) => ({
   actionnariat: item.actionnariat || '',
 })
 
-export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): ProjectRepo {
+type MakeProjectRepoDeps = {
+  sequelizeInstance: any
+  getProjectAppelOffre: GetProjectAppelOffre
+}
+type MakeProjectRepo = (deps: MakeProjectRepoDeps) => ProjectRepo
+
+export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProjectAppelOffre }) => {
   const UserModel = sequelizeInstance.model('user')
 
   const ProjectModel = sequelizeInstance.define('project', {
@@ -372,22 +379,15 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
   })
 
   async function addAppelOffreToProject(project: Project): Promise<Project> {
-    project.appelOffre = await appelOffreRepo.findById(project.appelOffreId)
+    const projectAppelOffre = await getProjectAppelOffre({ ...project })
 
-    if (!project.appelOffre) return project
-
-    const periode = project.appelOffre.periodes.find((periode) => periode.id === project.periodeId)
-
-    if (periode) {
-      project.appelOffre.periode = periode
+    return {
+      ...project,
+      ...(projectAppelOffre && {
+        appelOffre: projectAppelOffre,
+        famille: projectAppelOffre.famille,
+      }),
     }
-
-    const famille = project.appelOffre.familles.find((famille) => famille.id === project.familleId)
-    if (famille) {
-      project.famille = famille
-    }
-
-    return project
   }
 
   async function findById(id: Project['id'], includeHistory?: true): Promise<Project | undefined> {
@@ -1069,7 +1069,7 @@ export default function makeProjectRepo({ sequelizeInstance, appelOffreRepo }): 
   }
 }
 
-const getFullTextSearchOptions = (
+export const getFullTextSearchOptions = (
   terms: string,
   customSearchedProjectsColumns?: string[]
 ): object => {
@@ -1105,5 +1105,3 @@ const getFullTextSearchOptions = (
 
   return options
 }
-
-export { makeProjectRepo, getFullTextSearchOptions }

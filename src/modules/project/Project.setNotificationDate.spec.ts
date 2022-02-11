@@ -1,7 +1,7 @@
 import moment from 'moment'
 import { DomainEvent, UniqueEntityID } from '@core/domain'
 import { logger, UnwrapForTest } from '@core/utils'
-import { appelsOffreStatic, getDelaiDeRealisation } from '@dataAccess/inMemory'
+import { appelsOffreStatic } from '@dataAccess/inMemory'
 import { makeUser } from '@entities'
 import { UnwrapForTest as OldUnwrapForTest } from '../../types'
 import makeFakeProject from '../../__tests__/fixtures/project'
@@ -17,6 +17,7 @@ import {
   ProjectNotified,
 } from './events'
 import { makeProject } from './Project'
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
 
 const projectId = new UniqueEntityID('project1')
 const appelOffreId = 'Fessenheim'
@@ -26,10 +27,7 @@ const { familleId, numeroCRE, potentielIdentifier } = fakeProject
 
 const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
 
-const appelsOffres = appelsOffreStatic.reduce((map, appelOffre) => {
-  map[appelOffre.id] = appelOffre
-  return map
-}, {})
+const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
 
 const makeFakeHistory = (fakeProject: any): DomainEvent[] => {
   return [
@@ -90,7 +88,7 @@ describe('Project.setNotificationDate()', () => {
         makeProject({
           projectId,
           history: fakeHistory,
-          appelsOffres,
+          getProjectAppelOffre,
           buildProjectIdentifier: () => '',
         })
       )
@@ -121,7 +119,7 @@ describe('Project.setNotificationDate()', () => {
         makeProject({
           projectId,
           history: fakeHistory,
-          appelsOffres,
+          getProjectAppelOffre,
           buildProjectIdentifier: () => '',
         })
       )
@@ -155,11 +153,7 @@ describe('Project.setNotificationDate()', () => {
 
         expect(targetEvent.payload.projectId).toEqual(projectId.toString())
         expect(targetEvent.payload.completionDueOn).toEqual(
-          moment(newNotifiedOn)
-            .add(getDelaiDeRealisation(appelOffreId, ''), 'months')
-            .subtract(1, 'day')
-            .toDate()
-            .getTime()
+          moment(newNotifiedOn).add(24, 'months').subtract(1, 'day').toDate().getTime()
         )
       })
     })
@@ -181,7 +175,7 @@ describe('Project.setNotificationDate()', () => {
         makeProject({
           projectId,
           history: fakeHistoryWithCompletionDateMoved,
-          appelsOffres,
+          getProjectAppelOffre,
           buildProjectIdentifier: () => '',
         })
       )
@@ -210,7 +204,7 @@ describe('Project.setNotificationDate()', () => {
           makeProject({
             projectId,
             history: fakeHistory,
-            appelsOffres,
+            getProjectAppelOffre,
             buildProjectIdentifier: () => '',
           })
         )
@@ -242,7 +236,7 @@ describe('Project.setNotificationDate()', () => {
           makeProject({
             projectId,
             history: fakeHistory,
-            appelsOffres,
+            getProjectAppelOffre,
             buildProjectIdentifier: () => '',
           })
         )
@@ -280,7 +274,7 @@ describe('Project.setNotificationDate()', () => {
           makeProject({
             projectId,
             history: fakeHistory,
-            appelsOffres,
+            getProjectAppelOffre,
             buildProjectIdentifier: () => '',
           })
         )
@@ -304,7 +298,7 @@ describe('Project.setNotificationDate()', () => {
         makeProject({
           projectId,
           history: fakeHistory,
-          appelsOffres,
+          getProjectAppelOffre,
           buildProjectIdentifier: () => '',
         })
       )
@@ -324,7 +318,7 @@ describe('Project.setNotificationDate()', () => {
       const project = UnwrapForTest(
         makeProject({
           projectId,
-          appelsOffres,
+          getProjectAppelOffre,
           history: fakeHistory.filter((event) => event.type !== ProjectNotified.type),
           buildProjectIdentifier: () => '',
         })
@@ -345,7 +339,7 @@ describe('Project.setNotificationDate()', () => {
         makeProject({
           projectId,
           history: fakeHistory,
-          appelsOffres,
+          getProjectAppelOffre,
           buildProjectIdentifier: () => '',
         })
       )

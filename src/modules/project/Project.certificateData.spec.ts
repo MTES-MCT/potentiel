@@ -5,6 +5,7 @@ import makeFakeProject from '../../__tests__/fixtures/project'
 import { ProjectNotEligibleForCertificateError } from './errors'
 import { LegacyProjectSourced } from './events'
 import { makeProject } from './Project'
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
 
 const projectId = new UniqueEntityID('project1')
 const appelOffreId = 'Fessenheim'
@@ -12,10 +13,7 @@ const periodeId = '2'
 const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' })
 const { familleId, numeroCRE } = fakeProject
 
-const appelsOffres = appelsOffreStatic.reduce((map, appelOffre) => {
-  map[appelOffre.id] = appelOffre
-  return map
-}, {})
+const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
 
 describe('certificateData', () => {
   it('should return template and certificate data', () => {
@@ -35,7 +33,7 @@ describe('certificateData', () => {
             },
           }),
         ],
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )
@@ -66,7 +64,7 @@ describe('certificateData', () => {
             },
           }),
         ],
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )
@@ -95,7 +93,7 @@ describe('certificateData', () => {
             },
           }),
         ],
-        appelsOffres,
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )
