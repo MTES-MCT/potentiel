@@ -2,7 +2,6 @@ import { ensureRole, getCahiersChargesURLs } from '@config'
 import { logger } from '@core/utils'
 import { projectRepo } from '@dataAccess'
 import { NewModificationRequestPage } from '@views'
-import { getProjectAppelOffre } from '@config/queries.config'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import routes from '../../routes'
 import { errorResponse, notFoundResponse } from '../helpers'
@@ -39,19 +38,14 @@ v1Router.get(
       return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
     }
 
-    const { appelOffreId, periodeId, familleId } = project
-
-    const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
+    const { appelOffreId, periodeId } = project
 
     return await getCahiersChargesURLs(appelOffreId, periodeId).match(
       (cahiersChargesURLs) => {
         return response.send(
           NewModificationRequestPage({
             request,
-            project: {
-              ...project,
-              ...(appelOffre && { appelOffre }),
-            },
+            project,
             cahiersChargesURLs,
           })
         )
