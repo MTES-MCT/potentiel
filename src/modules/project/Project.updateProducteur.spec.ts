@@ -68,47 +68,39 @@ describe('Project.updateProducteur()', () => {
     })
 
     describe('when the project in an AO with GF', () => {
-      const project = UnwrapForTest(
-        makeProject({
-          projectId,
-          history: [
-            new LegacyProjectSourced({
-              payload: {
-                projectId: projectId.toString(),
-                potentielIdentifier: '',
-                appelOffreId: 'Fessenheim',
-                periodeId: '3',
-                familleId: '1',
-                numeroCRE,
-                content: { ...fakeProject, notifiedOn: 123 },
-              },
-            }),
-          ],
-          getProjectAppelOffre,
-          buildProjectIdentifier: () => '',
-        })
-      )
-
-      it('should emit ProjectGFDueDateSet for 1 month from now', () => {
-        project.updateProducteur(fakeUser, newProducteur)
-
-        expect(project.pendingEvents).toHaveLength(2)
-
-        const targetEvent = project.pendingEvents.find(
-          (event): event is ProjectGFDueDateSet => event.type === ProjectGFDueDateSet.type
+      describe(`when the project is éliminé`, () => {
+        const project = UnwrapForTest(
+          makeProject({
+            projectId,
+            history: [
+              new LegacyProjectSourced({
+                payload: {
+                  projectId: projectId.toString(),
+                  potentielIdentifier: '',
+                  appelOffreId: 'Fessenheim',
+                  periodeId: '3',
+                  familleId: '1',
+                  numeroCRE,
+                  content: { ...fakeProject, classe: 'Eliminé', notifiedOn: 123 },
+                },
+              }),
+            ],
+            getProjectAppelOffre,
+            buildProjectIdentifier: () => '',
+          })
         )
-        expect(targetEvent).toBeDefined()
-        if (!targetEvent) return
 
-        expect(
-          moment(targetEvent.payload.garantiesFinancieresDueOn).isSame(
-            moment(targetEvent.occurredAt).add(1, 'months'),
-            'day'
+        it('should not emit ProjectGFDueDateSet', () => {
+          project.updateProducteur(fakeUser, newProducteur)
+
+          const targetEvent = project.pendingEvents.find(
+            (event): event is ProjectGFDueDateSet => event.type === ProjectGFDueDateSet.type
           )
-        ).toEqual(true)
+          expect(targetEvent).toBeUndefined()
+        })
       })
 
-      describe('when the project had submitted GF', () => {
+      describe(`when the project is classé`, () => {
         const project = UnwrapForTest(
           makeProject({
             projectId,
@@ -124,27 +116,69 @@ describe('Project.updateProducteur()', () => {
                   content: { ...fakeProject, notifiedOn: 123 },
                 },
               }),
-              new ProjectGFSubmitted({
-                payload: { projectId: projectId.toString() } as ProjectGFSubmittedPayload,
-              }),
             ],
             getProjectAppelOffre,
             buildProjectIdentifier: () => '',
           })
         )
 
-        it('should emit ProjectGFInvalidated', () => {
+        it('should emit ProjectGFDueDateSet for 1 month from now', () => {
           project.updateProducteur(fakeUser, newProducteur)
 
-          expect(project.pendingEvents).toHaveLength(3)
+          expect(project.pendingEvents).toHaveLength(2)
 
           const targetEvent = project.pendingEvents.find(
-            (event): event is ProjectGFInvalidated => event.type === ProjectGFInvalidated.type
+            (event): event is ProjectGFDueDateSet => event.type === ProjectGFDueDateSet.type
           )
           expect(targetEvent).toBeDefined()
           if (!targetEvent) return
 
-          expect(targetEvent.payload.projectId).toEqual(projectId.toString())
+          expect(
+            moment(targetEvent.payload.garantiesFinancieresDueOn).isSame(
+              moment(targetEvent.occurredAt).add(1, 'months'),
+              'day'
+            )
+          ).toEqual(true)
+        })
+
+        describe('when the project had submitted GF', () => {
+          const project = UnwrapForTest(
+            makeProject({
+              projectId,
+              history: [
+                new LegacyProjectSourced({
+                  payload: {
+                    projectId: projectId.toString(),
+                    potentielIdentifier: '',
+                    appelOffreId: 'Fessenheim',
+                    periodeId: '3',
+                    familleId: '1',
+                    numeroCRE,
+                    content: { ...fakeProject, notifiedOn: 123 },
+                  },
+                }),
+                new ProjectGFSubmitted({
+                  payload: { projectId: projectId.toString() } as ProjectGFSubmittedPayload,
+                }),
+              ],
+              getProjectAppelOffre,
+              buildProjectIdentifier: () => '',
+            })
+          )
+
+          it('should emit ProjectGFInvalidated', () => {
+            project.updateProducteur(fakeUser, newProducteur)
+
+            expect(project.pendingEvents).toHaveLength(3)
+
+            const targetEvent = project.pendingEvents.find(
+              (event): event is ProjectGFInvalidated => event.type === ProjectGFInvalidated.type
+            )
+            expect(targetEvent).toBeDefined()
+            if (!targetEvent) return
+
+            expect(targetEvent.payload.projectId).toEqual(projectId.toString())
+          })
         })
       })
     })

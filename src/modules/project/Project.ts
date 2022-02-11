@@ -493,7 +493,9 @@ export const makeProject = (args: {
         })
       )
 
-      if (props.appelOffre?.isSoumisAuxGFs) {
+      const { appelOffre, isClasse } = props
+
+      if (isClasse && appelOffre?.isSoumisAuxGFs) {
         _publishEvent(
           new ProjectGFDueDateSet({
             payload: {
