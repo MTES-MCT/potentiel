@@ -22,10 +22,10 @@ export type ProjectEventDTO =
   | ProjectNotificationDateSetDTO
   | ProjectCompletionDueDateSetDTO
   | ModificationRequestedDTO
-  | ModificationAcceptedDTO
-  | ModificationCancelledDTO
-  | ModificationRejectedDTO
-  | ModificationInstructionStartedDTO
+  | ModificationRequestAcceptedDTO
+  | ModificationRequestCancelledDTO
+  | ModificationRequestRejectedDTO
+  | ModificationRequestInstructionStartedDTO
 
 type File = {
   id: string
@@ -181,31 +181,31 @@ export type ModificationRequestedDTO = {
   delayInMonths: number
 }
 
-export type ModificationAcceptedDTO = {
-  type: 'ModificationAccepted'
+export type ModificationRequestAcceptedDTO = {
+  type: 'ModificationRequestAccepted'
   date: number
   variant: Exclude<UserRole, 'ademe'>
   modificationRequestId: string
   file?: File
 }
 
-export type ModificationRejectedDTO = {
-  type: 'ModificationRejected'
+export type ModificationRequestRejectedDTO = {
+  type: 'ModificationRequestRejected'
   date: number
   variant: Exclude<UserRole, 'ademe'>
   modificationRequestId: string
   file?: File
 }
 
-export type ModificationInstructionStartedDTO = {
-  type: 'ModificationInstructionStarted'
+export type ModificationRequestInstructionStartedDTO = {
+  type: 'ModificationRequestInstructionStarted'
   date: number
   variant: Exclude<UserRole, 'ademe'>
   modificationRequestId: string
 }
 
-export type ModificationCancelledDTO = {
-  type: 'ModificationCancelled'
+export type ModificationRequestCancelledDTO = {
+  type: 'ModificationRequestCancelled'
   date: number
   variant: Exclude<UserRole, 'ademe'>
   modificationRequestId: string
