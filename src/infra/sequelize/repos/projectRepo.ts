@@ -7,17 +7,7 @@ import {
   UniqueEntityID,
 } from '@core/domain'
 import { makeEventStoreRepo, makeEventStoreTransactionalRepo } from '@core/utils'
-import { appelsOffreStatic } from '@dataAccess/inMemory'
-import { AppelOffre } from '@entities'
 import { BuildProjectIdentifier, makeProject, Project } from '@modules/project'
-
-const appelsOffres: Record<AppelOffre['id'], AppelOffre> = appelsOffreStatic.reduce(
-  (map, appelOffre) => {
-    map[appelOffre.id] = appelOffre
-    return map
-  },
-  {}
-)
 
 export const makeProjectRepo = (
   eventStore: EventStore,
