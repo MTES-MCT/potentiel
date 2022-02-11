@@ -29,6 +29,7 @@ export type AppelOffre = {
   periodes: Periode[]
   familles: Famille[]
   contenuParagrapheAchevement: string
+  innovation?: true
 } & (
   | { delaiRealisationEnMois: number; decoupageParTechnologie: false }
   | {

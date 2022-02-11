@@ -238,7 +238,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
               affichageParagrapheECS: affichageParagrapheECS ? 'yes' : '',
               unitePuissance,
               eolien: appelOffreId === 'Eolien' ? 'yes' : '',
-              AOInnovation: appelOffreId === 'CRE4 - Innovation' ? 'yes' : '',
+              AOInnovation: appelOffre.innovation ? 'yes' : '',
               soumisGF: soumisAuxGarantiesFinancieres ? 'yes' : '',
               renvoiSoumisAuxGarantiesFinancieres,
               renvoiDemandeCompleteRaccordement,
