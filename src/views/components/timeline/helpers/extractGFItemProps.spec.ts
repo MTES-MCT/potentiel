@@ -42,11 +42,12 @@ describe('extractGFitemProps', () => {
       })
     })
     describe('when there is no ProjectGF* event', () => {
-      describe('when the project is subject to "garanties financières"', () => {
+      describe('when the GF has already been submitted at application', () => {
         it('should return a "submitted-with-application" GFItemProps with no date', () => {
           const project = {
             isLaureat: true,
             isSoumisAuxGF: true,
+            isGarantiesFinancieresDeposeesALaCandidature: true,
           }
           const events = [
             {
@@ -86,6 +87,7 @@ describe('extractGFitemProps', () => {
         const project = {
           isLaureat: true,
           isSoumisAuxGF: true,
+          isGarantiesFinancieresDeposeesALaCandidature: true,
         }
         const events = [
           {
@@ -110,6 +112,7 @@ describe('extractGFitemProps', () => {
         const project = {
           isLaureat: true,
           isSoumisAuxGF: true,
+          isGarantiesFinancieresDeposeesALaCandidature: true,
         }
         const events = [
           {

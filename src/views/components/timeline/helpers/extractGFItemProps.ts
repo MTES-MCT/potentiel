@@ -28,17 +28,32 @@ export const extractGFItemProps = (
   project: {
     isLaureat: boolean
     isSoumisAuxGF: boolean
+    isGarantiesFinancieresDeposeesALaCandidature?: boolean
   }
 ): GFItemProps | null => {
   if (!events.length || !project.isLaureat || !project.isSoumisAuxGF) {
     return null
   }
-
   const latestProjectGF = events.filter(isProjectGF).pop()
   const latestDueDateSetEvent = events.filter(is('ProjectGFDueDateSet')).pop()
   const latestSubmittedEvent = events.filter(is('ProjectGFSubmitted')).pop()
 
-  if (!latestProjectGF || latestProjectGF.type === 'ProjectGFWithdrawn') {
+  if (!latestProjectGF) {
+    if (project.isGarantiesFinancieresDeposeesALaCandidature) {
+      return {
+        type: 'garanties-financieres',
+        role: events.slice(-1)[0].variant,
+        status: 'submitted-with-application',
+        date: undefined,
+      }
+    }
+    return null
+  }
+
+  if (
+    latestProjectGF.type === 'ProjectGFWithdrawn' &&
+    project.isGarantiesFinancieresDeposeesALaCandidature
+  ) {
     return {
       type: 'garanties-financieres',
       role: events.slice(-1)[0].variant,
@@ -46,7 +61,6 @@ export const extractGFItemProps = (
       date: undefined,
     }
   }
-
   const eventToHandle =
     latestProjectGF.type === 'ProjectGFRemoved' && latestDueDateSetEvent
       ? latestDueDateSetEvent
@@ -64,21 +78,26 @@ export const extractGFItemProps = (
     role,
   }
 
-  return type === 'ProjectGFSubmitted' || type === 'ProjectGFUploaded'
-    ? {
-        ...props,
-        url: eventToHandle.file && makeDocumentUrl(eventToHandle.file.id, eventToHandle.file.name),
-        status:
-          latestProjectGF.type === 'ProjectGFUploaded'
-            ? 'submitted-with-application-and-uploaded'
-            : latestProjectGF.type === 'ProjectGFValidated'
-            ? 'validated'
-            : 'pending-validation',
-      }
-    : {
-        ...props,
-        status: date < now ? 'past-due' : 'due',
-      }
+  if (type === 'ProjectGFUploaded') {
+    return {
+      ...props,
+      url: eventToHandle.file && makeDocumentUrl(eventToHandle.file.id, eventToHandle.file.name),
+      status: 'submitted-with-application-and-uploaded',
+    }
+  }
+
+  if (type === 'ProjectGFSubmitted') {
+    return {
+      ...props,
+      url: eventToHandle.file && makeDocumentUrl(eventToHandle.file.id, eventToHandle.file.name),
+      status: latestProjectGF.type === 'ProjectGFValidated' ? 'validated' : 'pending-validation',
+    }
+  }
+
+  return {
+    ...props,
+    status: date < now ? 'past-due' : 'due',
+  }
 }
 
 const isProjectGF = or(
