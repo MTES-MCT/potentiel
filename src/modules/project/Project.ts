@@ -909,7 +909,8 @@ export const makeProject = (args: {
   }
 
   function _updateGFDate() {
-    if (props.appelOffre?.isSoumisAuxGFs) {
+    const { appelOffre, isClasse } = props
+    if (isClasse && appelOffre?.isSoumisAuxGFs) {
       _removePendingEventsOfType(ProjectGFDueDateSet.type)
       _publishEvent(
         new ProjectGFDueDateSet({
