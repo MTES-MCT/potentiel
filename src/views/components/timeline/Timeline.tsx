@@ -62,12 +62,21 @@ type UndatedItemProps = ItemProps & { date: undefined }
 export const Timeline = ({
   projectEventList: {
     events,
-    project: { id: projectId, isLaureat, isSoumisAuxGF },
+    project: {
+      id: projectId,
+      isLaureat,
+      isSoumisAuxGF,
+      isGarantiesFinancieresDeposeesALaCandidature,
+    },
   },
   now,
 }: TimelineProps) => {
   const PTFItemProps = extractPTFItemProps(events, { isLaureat })
-  const GFItemProps = extractGFItemProps(events, now, { isLaureat, isSoumisAuxGF })
+  const GFItemProps = extractGFItemProps(events, now, {
+    isLaureat,
+    isSoumisAuxGF,
+    isGarantiesFinancieresDeposeesALaCandidature,
+  })
 
   const itemProps: ItemProps[] = [
     extractDesignationItemProps(events, projectId),
