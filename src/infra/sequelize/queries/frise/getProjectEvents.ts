@@ -27,7 +27,13 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
       const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
 
       return {
-        project: { id: projectId, isLaureat, isSoumisAuxGF },
+        project: {
+          id: projectId,
+          isLaureat,
+          isSoumisAuxGF: isSoumisAuxGarantiesFinancieres(appelOffreId, familleId),
+          isGarantiesFinancieresDeposeesALaCandidature:
+            getIsGarantiesFinancieresDeposeesALaCandidature(appelOffreId, periodeId, familleId),
+        },
         events: await rawEvents
           .map((item) => item.get())
           .reduce<Promise<ProjectEventDTO[]>>(
@@ -204,4 +210,13 @@ function getEvents(projectId) {
   return wrapInfra(
     ProjectEvent.findAll({ where: { projectId }, order: [['eventPublishedAt', 'ASC']] })
   )
+}
+
+function getIsGarantiesFinancieresDeposeesALaCandidature(
+  appelOffreId: string,
+  periodeId: string,
+  familleId?: string
+) {
+  const appelOffre = getAppelOffre({ appelOffreId, periodeId, familleId })
+  return appelOffre?.garantiesFinancieresDeposeesALaCandidature
 }

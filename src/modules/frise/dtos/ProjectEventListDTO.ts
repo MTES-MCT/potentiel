@@ -274,6 +274,11 @@ export type ModificationReceivedDTO = {
 )
 
 export type ProjectEventListDTO = {
-  project: { id: Project['id']; isLaureat: boolean; isSoumisAuxGF: boolean }
+  project: {
+    id: Project['id']
+    isLaureat: boolean
+    isSoumisAuxGF: boolean
+    isGarantiesFinancieresDeposeesALaCandidature?: boolean
+  }
   events: ProjectEventDTO[]
 }
