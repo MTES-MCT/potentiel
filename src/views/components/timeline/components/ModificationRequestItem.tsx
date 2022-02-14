@@ -1,5 +1,13 @@
 import React from 'react'
-import { ItemDate, ItemTitle, ContentArea, CurrentIcon, PastIcon, UnvalidatedStepIcon } from '.'
+import {
+  ItemDate,
+  ItemTitle,
+  ContentArea,
+  CurrentIcon,
+  PastIcon,
+  UnvalidatedStepIcon,
+  WarningItem,
+} from '.'
 import { ModificationRequestItemProps } from '../helpers/extractModificationRequestsItemProps'
 import { CancelledStepIcon } from './cancelledStepIcon'
 
@@ -24,13 +32,23 @@ type SubmittedProps = {
   date: number
   delayInMonths?: number
   authority: 'dgec' | 'dreal'
+  role: ModificationRequestItemProps['role']
 }
-const Submitted = ({ status, date, delayInMonths, authority }: SubmittedProps) => {
+const Submitted = ({ status, date, delayInMonths, authority, role }: SubmittedProps) => {
   return (
     <>
       <CurrentIcon />
       <ContentArea>
-        <ItemDate date={date} />
+        <div className="flex">
+          <div className="align-center">
+            <ItemDate date={date} />
+          </div>
+          {role === authority && (
+            <div className="align-center mb-1">
+              <WarningItem message={status === 'envoyée' ? 'à traiter' : 'réponse à envoyer'} />
+            </div>
+          )}
+        </div>
         {delayInMonths && (
           <>
             <ItemTitle title={`Demande de prolongation de délai ${status}`} />
