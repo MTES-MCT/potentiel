@@ -211,6 +211,13 @@ export type ModificationRequestCancelledDTO = {
   modificationRequestId: string
 }
 
+export type ModificationRequestDTO =
+  | ModificationRequestedDTO
+  | ModificationRequestAcceptedDTO
+  | ModificationRequestRejectedDTO
+  | ModificationRequestInstructionStartedDTO
+  | ModificationRequestCancelledDTO
+
 export type ProjectEventListDTO = {
   project: { id: Project['id']; isLaureat: boolean }
   events: ProjectEventDTO[]

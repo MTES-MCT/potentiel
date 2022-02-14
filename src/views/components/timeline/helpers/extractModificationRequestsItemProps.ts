@@ -1,16 +1,14 @@
-import {
-  is,
-  ModificationRequestedDTO,
-  ModificationRequestRejectedDTO,
-  ProjectEventDTO,
-} from '@modules/frise'
-import { ModificationRequestStatusDTO } from '@modules/modificationRequest'
+import { is, ModificationRequestDTO, ProjectEventDTO } from '@modules/frise'
 import { or } from '@core/utils'
+import { makeDocumentUrl } from '.'
+import { UserRole } from '@modules/users'
 
 export type ModificationRequestItemProps = {
   type: 'demande-de-modification'
   date: number
-  status: ModificationRequestStatusDTO
+  status: 'envoyée' | 'en instruction' | 'acceptée' | 'rejetée' | 'annulée'
+  authority: 'dreal' | 'dgec'
+  role: UserRole
   url?: string | undefined
 } & (
   | { modificationType: 'delai'; delayInMonths: number }
@@ -34,7 +32,7 @@ export const extractModificationRequestsItemProps = (
       modificationRequests[event.modificationRequestId] = [event]
     }
     return modificationRequests
-  }, {} as Record<string, (ModificationRequestedDTO | ModificationRequestRejectedDTO)[]>)
+  }, {} as Record<string, ModificationRequestDTO[]>)
 
   const props: ModificationRequestItemProps[] = Object.entries(modificationRequests).map(
     ([, events]) => {
@@ -42,8 +40,14 @@ export const extractModificationRequestsItemProps = (
       const modificationRequestedEvent = events.filter(is('ModificationRequested'))[0]
       const lastEvent = sortedEvents[sortedEvents.length - 1]
 
-      const { date } = lastEvent
+      const { date, variant: role } = lastEvent
       const { authority, modificationType, delayInMonths } = modificationRequestedEvent
+      const status = getStatus(lastEvent)
+      const url =
+        or(is('ModificationRequestRejected'), is('ModificationRequestAccepted'))(lastEvent) &&
+        lastEvent.file
+          ? makeDocumentUrl(lastEvent.file.id, lastEvent.file.name)
+          : undefined
 
       return modificationType === 'delai'
         ? {
@@ -51,7 +55,9 @@ export const extractModificationRequestsItemProps = (
             date,
             authority,
             modificationType,
-            status: lastEvent.type === 'ModificationRequested' ? 'envoyée' : 'rejetée',
+            status,
+            role,
+            url,
             delayInMonths,
           }
         : {
@@ -59,7 +65,9 @@ export const extractModificationRequestsItemProps = (
             date,
             authority,
             modificationType,
-            status: lastEvent.type === 'ModificationRequested' ? 'envoyée' : 'rejetée',
+            status,
+            role,
+            url,
           }
     }
   )
@@ -67,4 +75,25 @@ export const extractModificationRequestsItemProps = (
   return props
 }
 
-const isModificationRequest = or(is('ModificationRequested'), is('ModificationRequestRejected'))
+const isModificationRequest = or(
+  is('ModificationRequested'),
+  is('ModificationRequestRejected'),
+  is('ModificationRequestInstructionStarted'),
+  is('ModificationRequestAccepted'),
+  is('ModificationRequestCancelled')
+)
+
+function getStatus(event: ModificationRequestDTO) {
+  switch (event.type) {
+    case 'ModificationRequested':
+      return 'envoyée'
+    case 'ModificationRequestInstructionStarted':
+      return 'en instruction'
+    case 'ModificationRequestAccepted':
+      return 'acceptée'
+    case 'ModificationRequestRejected':
+      return 'rejetée'
+    case 'ModificationRequestCancelled':
+      return 'annulée'
+  }
+}
