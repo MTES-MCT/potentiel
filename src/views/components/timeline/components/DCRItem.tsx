@@ -57,13 +57,13 @@ type NotSubmittedProps = {
 const NotSubmitted = ({ role, date, projectId, status }: NotSubmittedProps) => {
   return (
     <>
-      {status === 'due' ? <CurrentIcon /> : <WarningIcon />}
+      {status === 'past-due' && role === 'porteur-projet' ? <WarningIcon /> : <CurrentIcon />}
       <ContentArea>
         <div className="flex">
           <div className="align-middle">
             <ItemDate date={date} />
           </div>
-          {status === 'past-due' && (
+          {status === 'past-due' && role === 'porteur-projet' && (
             <div className="align-middle mb-1">
               <WarningItem message="date dépassée" />
             </div>
@@ -71,11 +71,17 @@ const NotSubmitted = ({ role, date, projectId, status }: NotSubmittedProps) => {
         </div>
         <ItemTitle title="Demande complète de raccordement" />
         <div>
-          <p className="mt-0 mb-0">
-            Après avoir effectué cette démarche auprès votre gestionnaire de réseau, vous pouvez
-            nous transmettre l'accusé de réception.
-          </p>
-          {role === 'porteur-projet' && <UploadForm projectId={projectId} />}
+          {role === 'porteur-projet' ? (
+            <>
+              <p className="mt-0 mb-0">
+                Après avoir effectué cette démarche auprès votre gestionnaire de réseau, vous pouvez
+                nous transmettre l'accusé de réception.
+              </p>
+              <UploadForm projectId={projectId} />
+            </>
+          ) : (
+            <p className="mt-0 mb-0">Accusé de réception de la demande en attente</p>
+          )}
         </div>
       </ContentArea>
     </>

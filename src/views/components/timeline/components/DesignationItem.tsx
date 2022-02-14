@@ -8,7 +8,7 @@ export const DesignationItem = ({ certificate, role, date }: DesignationItemProp
     <PastIcon />
     <ContentArea>
       <ItemDate date={date} />
-      <ItemTitle title="Notification de résultat" />
+      <ItemTitle title="Notification des résultats" />
       {certificate ? (
         <Certificate {...{ certificate, role }} />
       ) : (
