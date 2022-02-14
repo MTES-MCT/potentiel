@@ -41,7 +41,7 @@ export const NewModificationRequest = PageLayout(
       useState(false)
 
     const { min: minAutoAcceptPuissanceRatio, max: maxAutoAcceptPuissanceRatio } =
-      getAutoAcceptRatiosForAppelOffre(project.appelOffreId)
+      getAutoAcceptRatiosForAppelOffre(project.appelOffre)
 
     const handlePuissanceOnChange = (e) => {
       const isNewValueCorrect = isStrictlyPositiveNumber(e.target.value)
