@@ -3,6 +3,7 @@ import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 const zni: AppelOffre = {
   id: 'CRE4 - ZNI',
+  type: 'zni',
   title:
     '2019/S 113-276264 portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de l’énergie solaire et situées dans les zones non interconnectées',
   shortTitle: 'CRE4 - ZNI 2019/S 113-276264',

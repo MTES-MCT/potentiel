@@ -3,6 +3,7 @@ import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 const autoconsommationMetropole: AppelOffre = {
   id: 'CRE4 - Autoconsommation métropole',
+  type: 'autoconso',
   title:
     '2017/S 054-100223 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées en métropole continentale',
   shortTitle: 'CRE4 - Autoconsommation métropole 2017/S 054-100223',

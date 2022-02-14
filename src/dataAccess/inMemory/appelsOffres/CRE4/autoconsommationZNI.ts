@@ -3,6 +3,7 @@ import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 const autoconsommationZNI: AppelOffre = {
   id: 'CRE4 - Autoconsommation ZNI',
+  type: 'autoconso',
   title:
     '2019/S 113-276257 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées dans les zones non interconnectées.',
   shortTitle: 'CRE4 - Autoconsommation ZNI 2019/S 113-276257',

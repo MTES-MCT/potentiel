@@ -103,7 +103,7 @@ export const makeLaureat: MakeLaureat = (project) => {
           </Text>
         )}
 
-        {appelOffre.innovation && (
+        {appelOffre.type === 'innovation' && (
           <Text
             style={{
               marginTop: 10,
@@ -180,7 +180,7 @@ export const makeLaureat: MakeLaureat = (project) => {
               </Text>
             </>
           )}
-          {appelOffre.innovation && (
+          {appelOffre.type === 'innovation' && (
             <>
               {'. '}
               <Text

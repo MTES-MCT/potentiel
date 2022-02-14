@@ -3,7 +3,7 @@ import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 const innovation: AppelOffre = {
   id: 'CRE4 - Innovation',
-  innovation: true,
+  type: 'innovation',
   title:
     '2017/S 051-094731 portant sur la réalisation et l’exploitation d’Installations de production d’électricité innovantes à partir de l’énergie solaire, sans dispositifs de stockage',
   shortTitle: 'CRE4 - Innovation 2017/S 051-094731',

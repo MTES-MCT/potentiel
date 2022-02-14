@@ -3,6 +3,7 @@ import { Famille } from './famille'
 
 export type AppelOffre = {
   id: string
+  type: 'autoconso' | 'batiment' | 'eolien' | 'innovation' | 'neutre' | 'sol' | 'zni' | 'autre'
   title: string
   shortTitle: string
   launchDate: string
@@ -29,7 +30,6 @@ export type AppelOffre = {
   periodes: Periode[]
   familles: Famille[]
   contenuParagrapheAchevement: string
-  innovation?: true
 } & (
   | { delaiRealisationEnMois: number; decoupageParTechnologie: false }
   | {

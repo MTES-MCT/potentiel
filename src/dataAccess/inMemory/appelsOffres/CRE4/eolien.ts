@@ -3,6 +3,7 @@ import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 const eolien: AppelOffre = {
   id: 'Eolien',
+  type: 'eolien',
   title:
     '2017/S 083-161855 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie mécanique du vent implantées à terre',
   shortTitle: 'Eolien 2017/S 083-161855',
