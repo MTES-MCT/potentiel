@@ -22,7 +22,7 @@ import {
 } from './appelsOffres'
 import { errAsync, okAsync } from '@core/utils'
 import { EntityNotFoundError } from '@modules/shared'
-import { GetPeriodeTitle, GetFamille } from '@modules/appelOffre'
+import { AppelOffreRepo } from '../appelOffre'
 
 const appelsOffreStatic = [
   batiment,
@@ -44,14 +44,14 @@ const appelsOffreStatic = [
   autoconsommationMetropolePPE2,
 ]
 
-const appelOffreRepo = {
+const appelOffreRepo: AppelOffreRepo = {
   findAll: async () => {
     return appelsOffreStatic
   },
   findById: async (id: AppelOffre['id']) => {
     return _.cloneDeep(appelsOffreStatic.find((ao) => ao.id === id))
   },
-  getFamille: ((appelOffreId: AppelOffre['id'], familleId: Famille['id']) => {
+  getFamille: (appelOffreId: AppelOffre['id'], familleId: Famille['id']) => {
     const appelOffre = appelsOffreStatic.find((ao) => ao.id === appelOffreId)
 
     if (!appelOffre) return errAsync(new EntityNotFoundError())
@@ -61,8 +61,8 @@ const appelOffreRepo = {
     if (!famille) return errAsync(new EntityNotFoundError())
 
     return okAsync(famille)
-  }) as GetFamille,
-  getPeriodeTitle: ((appelOffreId: AppelOffre['id'], periodeId: Periode['id']) => {
+  },
+  getPeriodeTitle: (appelOffreId: AppelOffre['id'], periodeId: Periode['id']) => {
     const appelOffre = appelsOffreStatic.find((ao) => ao.id === appelOffreId)
 
     if (!appelOffre) return errAsync(new EntityNotFoundError())
@@ -75,7 +75,7 @@ const appelOffreRepo = {
       periodeTitle: periode.title,
       appelOffreTitle: appelOffre.shortTitle,
     })
-  }) as GetPeriodeTitle,
+  },
 }
 
-export { appelOffreRepo, appelsOffreStatic }
+export { AppelOffreRepo, appelOffreRepo, appelsOffreStatic }

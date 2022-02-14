@@ -1,14 +1,16 @@
 import { okAsync } from 'neverthrow'
 import { EventBus, Repository, UniqueEntityID } from '@core/domain'
 import { logger } from '@core/utils'
-import { Project, User } from '@entities'
+import { AppelOffre, Project, User } from '@entities'
 import { FileContents, FileObject, makeAndSaveFile } from '@modules/file'
 import { GetProjectAppelOffreId, ModificationRequested } from '@modules/modificationRequest'
 import { NumeroGestionnaireSubmitted } from '@modules/project'
 import { ErrorResult, Ok, ResultAsync } from '../types'
+import { AppelOffreRepo } from '@dataAccess'
 
 interface MakeUseCaseProps {
   fileRepo: Repository<FileObject>
+  appelOffreRepo: AppelOffreRepo
   eventBus: EventBus
   getProjectAppelOffreId: GetProjectAppelOffreId
   shouldUserAccessProject: (args: { user: User; projectId: Project['id'] }) => Promise<boolean>
@@ -49,6 +51,7 @@ export const SYSTEM_ERROR =
 
 export default function makeRequestModification({
   fileRepo,
+  appelOffreRepo,
   eventBus,
   shouldUserAccessProject,
   getProjectAppelOffreId,
@@ -94,14 +97,14 @@ export default function makeRequestModification({
 
     const { justification, puissance, delayInMonths, numeroGestionnaire } = props as any
 
-    let appelOffreId: string = ''
+    let appelOffre: AppelOffre | undefined
     const appelOffreIdRes = await getProjectAppelOffreId(projectId)
     if (appelOffreIdRes.isOk()) {
-      appelOffreId = appelOffreIdRes.value
+      appelOffre = await appelOffreRepo.findById(appelOffreIdRes.value)
     }
 
     const authority: 'dgec' | 'dreal' =
-      type === 'delai' && appelOffreId !== 'Eolien' ? 'dreal' : 'dgec'
+      type === 'delai' && appelOffre?.type !== 'eolien' ? 'dreal' : 'dgec'
 
     const res = await eventBus
       .publish(

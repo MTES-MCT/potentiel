@@ -229,7 +229,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
               paragraphePrixReference,
               affichageParagrapheECS: affichageParagrapheECS ? 'yes' : '',
               unitePuissance,
-              eolien: appelOffreId === 'Eolien' ? 'yes' : '',
+              eolien: appelOffre.type === 'eolien' ? 'yes' : '',
               AOInnovation: appelOffre.type === 'innovation' ? 'yes' : '',
               soumisGF: isSoumisAuxGFs ? 'yes' : '',
               renvoiSoumisAuxGarantiesFinancieres,

@@ -55,7 +55,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
 
   const famille = appelOffre.familles.find((famille) => famille.id === project.familleId)
   const soumisAuxGarantiesFinancieres =
-    appelOffre.id === 'Eolien' ||
+    appelOffre.type === 'eolien' ||
     famille?.garantieFinanciereEnMois ||
     famille?.soumisAuxGarantiesFinancieres
 
@@ -142,7 +142,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
         - si ce n’est déjà fait, déposer une demande complète de raccordement dans les deux (2) mois
         à compter de la présente notification
         {addFootNote(appelOffre.renvoiDemandeCompleteRaccordement)}
-        {appelOffre.id === 'Eolien'
+        {appelOffre.type === 'eolien'
           ? ' ou dans les deux mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale'
           : ''}
         ;
@@ -156,7 +156,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
             marginLeft: 20,
           }}
         >
-          - constituer une garantie {appelOffre.id === 'Eolien' ? 'bancaire ' : ''}
+          - constituer une garantie {appelOffre.type === 'eolien' ? 'bancaire ' : ''}
           d’exécution dans un délai de deux (2) mois à compter de la présente notification. Les
           candidats retenus n’ayant pas adressé au préfet de région du site d’implantation
           l’attestation de constitution de garantie financière dans le délai prévu feront l’objet
@@ -256,7 +256,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
           >
             {appelOffre.affichageParagrapheECS ? (
               <Text>
-                {appelOffre.id === 'Eolien'
+                {appelOffre.type === 'eolien'
                   ? 'Les changements conduisant à une remise en cause de l’autorisation mentionnée au 3.3.3 ne seront pas acceptés'
                   : 'Les changements conduisant à une diminution de la notation d’un ou plusieurs critères d’évaluations de l’offre, notamment par un bilan carbone moins performant, ne seront pas acceptés.'}{' '}
               </Text>

@@ -83,7 +83,7 @@ export const makeLaureat: MakeLaureat = (project) => {
           - si ce n’est déjà fait, déposer une demande complète de raccordement dans les deux (2)
           mois à compter de la présente notification
           {addFootNote(appelOffre.renvoiDemandeCompleteRaccordement)}
-          {appelOffre.id === 'PPE2 - Eolien' &&
+          {appelOffre.type === 'eolien' &&
             ' ou dans les deux mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale'}
           ;
         </Text>
@@ -174,7 +174,7 @@ export const makeLaureat: MakeLaureat = (project) => {
                   textDecoration: 'underline',
                 }}
               >
-                {appelOffre.id === 'PPE2 - Eolien'
+                {appelOffre.type === 'eolien'
                   ? ' Les changements conduisant à une remise en cause de l’autorisation mentionnée au 3.3.3 ne seront pas acceptés'
                   : ' Les changements conduisant à une diminution de la notation d’un ou plusieurs critères d’évaluations de l’offre, notamment par un bilan carbone moins performant, ne seront pas acceptés'}
               </Text>
