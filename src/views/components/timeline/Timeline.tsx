@@ -11,7 +11,7 @@ import {
   CAItem,
   CRItem,
   MeSItem,
-  DelaiItem,
+  ModificationRequestItem,
 } from './components'
 import {
   ACItemProps,
@@ -71,7 +71,7 @@ export const Timeline = ({
     extractDCRItemProps(events, now),
     extractACItemProps(events),
     PTFItemProps?.status === 'submitted' ? PTFItemProps : null,
-    extractModificationRequestsItemProps(events),
+    ...extractModificationRequestsItemProps(events),
   ]
     .filter(isNotNull)
     .sort((a, b) => a.date - b.date)
@@ -113,8 +113,8 @@ export const Timeline = ({
       case 'contrat-achat':
         return <CAItem />
 
-      case 'demande-de-delai':
-        return <DelaiItem {...props} />
+      case 'demande-de-modification':
+        return <ModificationRequestItem {...props} />
     }
   })
 
