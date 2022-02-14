@@ -23,8 +23,8 @@ describe('extractModificationRequestItemProps', () => {
       expect(result).toHaveLength(0)
     })
   })
-  describe('when there are several ModificationRequested event of type delai', () => {
-    it('should return a "demande-de-delai" type', () => {
+  describe('when there are several ModificationRequested events of type delai', () => {
+    it('should return an array with props for each modification request id', () => {
       const firstModificationRequestId = new UniqueEntityID().toString()
       const secondModificationRequestId = new UniqueEntityID().toString()
       const projectEventList: ProjectEventDTO[] = [
@@ -35,7 +35,7 @@ describe('extractModificationRequestItemProps', () => {
           modificationType: 'delai',
           modificationRequestId: firstModificationRequestId,
           delayInMonths: 9,
-          authority: 'dgec'
+          authority: 'dgec',
         },
         {
           type: 'ModificationRequestRejected',
@@ -50,7 +50,7 @@ describe('extractModificationRequestItemProps', () => {
           modificationType: 'delai',
           modificationRequestId: secondModificationRequestId,
           delayInMonths: 10,
-          authority: 'dreal'
+          authority: 'dreal',
         },
       ]
       const result = extractModificationRequestsItemProps(projectEventList)
@@ -62,7 +62,7 @@ describe('extractModificationRequestItemProps', () => {
           delayInMonths: 9,
           status: 'rejetée',
           modificationType: 'delai',
-          authority: 'dgec'
+          authority: 'dgec',
         },
         {
           type: 'demande-de-modification',
@@ -70,7 +70,7 @@ describe('extractModificationRequestItemProps', () => {
           delayInMonths: 10,
           status: 'envoyée',
           modificationType: 'delai',
-          authority: 'dreal'
+          authority: 'dreal',
         },
       ])
     })
