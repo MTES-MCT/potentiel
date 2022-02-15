@@ -1,4 +1,4 @@
-import { resetDatabase } from '@dataAccess'
+import { resetDatabase } from '../../../helpers'
 import { UniqueEntityID } from '@core/domain'
 import { ModificationRequestCancelled } from '@modules/modificationRequest'
 import { ProjectEvent } from '..'
