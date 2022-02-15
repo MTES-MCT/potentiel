@@ -8,12 +8,15 @@ export default ProjectEvent.projector.on(
   async ({ payload: { modificationRequestId, responseFileId }, occurredAt }, transaction) => {
     const { ModificationRequest } = models
     const { File } = models
-    const rawFilename = await File.findByPk(responseFileId, {
-      attributes: ['filename'],
-    })
+    let file: {} | undefined = {}
 
-    const filename: string | undefined = rawFilename?.filename
-    const file = filename && { id: responseFileId, name: filename }
+    if (responseFileId) {
+      const rawFilename = await File.findByPk(responseFileId, {
+        attributes: ['filename'],
+      })
+      const filename = rawFilename?.filename
+      file = filename && { id: responseFileId, name: filename }
+    }
 
     const { projectId } = await ModificationRequest.findByPk(modificationRequestId, {
       attributes: ['projectId'],
