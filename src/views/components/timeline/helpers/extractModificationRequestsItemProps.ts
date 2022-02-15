@@ -36,20 +36,13 @@ export const extractModificationRequestsItemProps = (
 
   const props: ModificationRequestItemProps[] = Object.entries(modificationRequests).map(
     ([, events]) => {
-      const sortedEvents = events.sort((a, b) => a.date - b.date)
-      const modificationRequestedEvent = events.filter(is('ModificationRequested'))[0]
-      const lastEvent = sortedEvents[sortedEvents.length - 1]
+      const latestEvent = getLatestEvent(events)
+      const requestEvent = getRequestEvent(events)
 
-      const { date, variant: role } = lastEvent
-      const { authority, modificationType, delayInMonths } = modificationRequestedEvent
-      const status = getStatus(lastEvent)
-      let url: string | undefined = undefined
-      if (
-        or(is('ModificationRequestRejected'), is('ModificationRequestAccepted'))(lastEvent) &&
-        lastEvent.file?.name
-      ) {
-        url = makeDocumentUrl(lastEvent.file.id, lastEvent.file.name)
-      }
+      const { date, variant: role } = latestEvent
+      const { authority, modificationType, delayInMonths } = requestEvent
+      const status = getStatus(latestEvent)
+      const url = getUrl(latestEvent)
 
       return modificationType === 'delai'
         ? {
@@ -84,6 +77,26 @@ const isModificationRequest = or(
   is('ModificationRequestAccepted'),
   is('ModificationRequestCancelled')
 )
+
+const getLatestEvent = (events: ModificationRequestDTO[]) => {
+  const sortedEvents = events.sort((a, b) => a.date - b.date)
+  return sortedEvents[sortedEvents.length - 1]
+}
+
+const getRequestEvent = (events: ModificationRequestDTO[]) => {
+  return events.filter(is('ModificationRequested'))[0]
+}
+
+const getUrl = (latestEvent: ModificationRequestDTO) => {
+  if (
+    or(is('ModificationRequestRejected'), is('ModificationRequestAccepted'))(latestEvent) &&
+    latestEvent.file?.name
+  ) {
+    return makeDocumentUrl(latestEvent.file.id, latestEvent.file.name)
+  } else {
+    return
+  }
+}
 
 function getStatus(event: ModificationRequestDTO) {
   switch (event.type) {
