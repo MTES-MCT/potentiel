@@ -81,7 +81,8 @@ const batiment: AppelOffre = {
       title: 'dixième',
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
-      noteThresholdByFamily: [
+      noteThresholdBy: 'family',
+      noteThreshold: [
         { familleId: '1', noteThreshold: 27.91 },
         { familleId: '2', noteThreshold: 25.62 },
       ],
@@ -92,7 +93,8 @@ const batiment: AppelOffre = {
       title: 'onzième',
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
-      noteThresholdByFamily: [
+      noteThresholdBy: 'family',
+      noteThreshold: [
         { familleId: '1', noteThreshold: 30.82 },
         { familleId: '2', noteThreshold: 29.85 },
       ],
@@ -103,7 +105,8 @@ const batiment: AppelOffre = {
       title: 'douzième',
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
-      noteThresholdByFamily: [
+      noteThresholdBy: 'family',
+      noteThreshold: [
         { familleId: '1', noteThreshold: 33.77 },
         { familleId: '2', noteThreshold: 32.8 },
       ],
@@ -114,7 +117,8 @@ const batiment: AppelOffre = {
       title: 'treizième',
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
-      noteThresholdByFamily: [
+      noteThresholdBy: 'family',
+      noteThreshold: [
         { familleId: '1', noteThreshold: 22.59 },
         { familleId: '2', noteThreshold: 26.91 },
       ],

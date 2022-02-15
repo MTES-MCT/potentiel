@@ -33,8 +33,6 @@ const autoconsommationZNI: AppelOffre = {
     {
       id: '1',
       title: 'première',
-      isNotifiedOnPotentiel: true,
-      certificateTemplate: 'cre4.v0',
       paragrapheAchevement: '6.3',
     },
     {
@@ -43,7 +41,8 @@ const autoconsommationZNI: AppelOffre = {
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v1',
       paragrapheAchevement: '6.3',
-      noteThresholdByFamily: [{ familleId: '', noteThreshold: 32.9 }],
+      noteThresholdBy: 'family',
+      noteThreshold: [{ familleId: '', noteThreshold: 32.9 }],
     },
   ],
   familles: [],

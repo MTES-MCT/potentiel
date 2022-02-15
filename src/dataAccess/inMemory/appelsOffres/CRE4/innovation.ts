@@ -39,7 +39,8 @@ const innovation: AppelOffre = {
       id: '2',
       title: 'deuxième',
       paragrapheAchevement: '6.3',
-      noteThresholdByFamily: [
+      noteThresholdBy: 'family',
+      noteThreshold: [
         { familleId: '1', noteThreshold: 71.58 },
         { familleId: '2', noteThreshold: 45.49 },
       ],
@@ -50,7 +51,8 @@ const innovation: AppelOffre = {
       id: '3',
       title: 'troisième',
       paragrapheAchevement: '6.3',
-      noteThresholdByFamily: [
+      noteThresholdBy: 'family',
+      noteThreshold: [
         { familleId: '1', noteThreshold: 64.21 },
         { familleId: '2', noteThreshold: 59.32 },
       ],

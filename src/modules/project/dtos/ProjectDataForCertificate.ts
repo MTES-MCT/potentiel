@@ -1,5 +1,4 @@
 import { ProjectAppelOffre } from '@entities'
-import { ProjectDataProps } from '..'
 
 export type ProjectDataForCertificate = {
   appelOffre: ProjectAppelOffre

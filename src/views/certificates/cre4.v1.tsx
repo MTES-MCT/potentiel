@@ -7,6 +7,7 @@ import { formatDate } from '../../helpers/formatDate'
 import { ProjectDataForCertificate } from '@modules/project/dtos'
 import { IllegalProjectStateError } from '@modules/project/errors'
 import { OtherError } from '@modules/shared'
+import { formatNumber, getNoteThreshold } from './helpers'
 
 dotenv.config()
 
@@ -22,11 +23,6 @@ Font.register({
     },
   ],
 })
-
-const formatNumber = (n, precisionOverride?: number) => {
-  const precision = precisionOverride || 100
-  return (Math.round(n * precision) / precision).toString().replace('.', ',')
-}
 
 const FOOTNOTE_INDICES = [185, 178, 179, 186, 9824, 9827, 9829, 9830]
 
@@ -290,44 +286,6 @@ const Laureat = (project: ProjectDataForCertificate) => {
   return { project, appelOffre, periode, objet, body, footnotes }
 }
 
-const getNoteThreshold = (project: ProjectDataForCertificate) => {
-  const periode = project.appelOffre.periode
-
-  if (!periode.noteThresholdByFamily) {
-    logger.error(
-      `candidateCertificate: looking for noteThresholdByFamily for a period that has none. Periode Id : ${periode.id}`
-    )
-    return 'N/A'
-  }
-
-  if (project.territoireProjet && project.territoireProjet.length) {
-    const note = periode.noteThresholdByFamily.find(
-      (item) => item.familleId === project.familleId && item.territoire === project.territoireProjet
-    )?.noteThreshold
-
-    if (!note) {
-      logger.error(
-        `candidateCertificate: looking for noteThreshold for periode: ${periode.id}, famille: ${project.familleId} and territoire: ${project.territoireProjet} but could not find it`
-      )
-      return 'N/A'
-    }
-
-    return note
-  }
-
-  const note = periode.noteThresholdByFamily.find(
-    (item) => item.familleId === project.familleId
-  )?.noteThreshold
-
-  if (!note) {
-    logger.error(
-      `candidateCertificate: looking for noteThreshold for periode: ${periode.id} and famille: ${project.familleId} but could not find it`
-    )
-    return 'N/A'
-  }
-
-  return note
-}
 const Elimine = (project: ProjectDataForCertificate) => {
   const { appelOffre } = project
   const { periode } = appelOffre || {}

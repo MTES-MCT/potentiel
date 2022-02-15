@@ -101,7 +101,7 @@ export const EliminePPE2CompetitiviteBatimentPuissanceInferieureVolumeReserves =
       ...batimentPPE2,
       periode: {
         ...batimentPPE2.periodes[0],
-        noteThresholdByCategory: {
+        noteThreshold: {
           volumeReserve: {
             noteThreshold: 99,
             puissanceMax: 1,
@@ -136,7 +136,7 @@ export const EliminePPE2CompetitiviteBatimentPuissanceSuperieureVolumeReserves =
       ...batimentPPE2,
       periode: {
         ...batimentPPE2.periodes[0],
-        noteThresholdByCategory: {
+        noteThreshold: {
           volumeReserve: {
             noteThreshold: 99,
             puissanceMax: 1,
