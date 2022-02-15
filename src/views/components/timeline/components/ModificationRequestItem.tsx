@@ -27,14 +27,11 @@ export const ModificationRequestItem = (props: ModificationRequestItemProps) => 
   }
 }
 
-type SubmittedProps = {
-  status: ModificationRequestItemProps['status']
-  date: number
-  delayInMonths?: number
-  authority: 'dgec' | 'dreal'
-  role: ModificationRequestItemProps['role']
-}
-const Submitted = ({ status, date, delayInMonths, authority, role }: SubmittedProps) => {
+const Submitted = (props: ModificationRequestItemProps) => {
+  const status: Omit<ModificationRequestItemProps['status'], 'acceptée' | 'rejetée' | 'annulée'> =
+    props.status
+  const { date, authority, role, modificationType } = props
+  const delayInMonths = modificationType === 'delai' && props.delayInMonths
   return (
     <>
       <CurrentIcon />
@@ -63,13 +60,10 @@ const Submitted = ({ status, date, delayInMonths, authority, role }: SubmittedPr
   )
 }
 
-type RejectedProps = {
-  date: number
-  delayInMonths?: number
-  authority: 'dgec' | 'dreal'
-  url?: ModificationRequestItemProps['url']
-}
-const Rejected = ({ date, delayInMonths, url, authority }: RejectedProps) => {
+const Rejected = (props: ModificationRequestItemProps) => {
+  const { date, url, authority, modificationType } = props
+  const delayInMonths = modificationType === 'delai' && props.delayInMonths
+
   return (
     <>
       <UnvalidatedStepIcon />
@@ -90,13 +84,10 @@ const Rejected = ({ date, delayInMonths, url, authority }: RejectedProps) => {
   )
 }
 
-type AcceptedProps = {
-  date: number
-  delayInMonths?: number
-  authority: 'dgec' | 'dreal'
-  url?: ModificationRequestItemProps['url']
-}
-const Accepted = ({ date, delayInMonths, authority, url }: AcceptedProps) => {
+const Accepted = (props: ModificationRequestItemProps) => {
+  const { date, authority, url, modificationType } = props
+  const delayInMonths = modificationType === 'delai' && props.delayInMonths
+
   return (
     <>
       <PastIcon />
@@ -117,11 +108,10 @@ const Accepted = ({ date, delayInMonths, authority, url }: AcceptedProps) => {
   )
 }
 
-type CancelledProps = {
-  date: number
-  delayInMonths?: number
-}
-const Cancelled = ({ date, delayInMonths }: CancelledProps) => {
+const Cancelled = (props: ModificationRequestItemProps) => {
+  const { date, modificationType } = props
+  const delayInMonths = modificationType === 'delai' && props.delayInMonths
+
   return (
     <>
       <CancelledStepIcon />
