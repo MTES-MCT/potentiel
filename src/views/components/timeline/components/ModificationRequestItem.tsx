@@ -84,7 +84,7 @@ const Rejected = ({ date, delayInMonths, url, authority }: RejectedProps) => {
         <p className="p-0 m-0">
           Autorité concernée : <span className="uppercase">{authority}</span>
         </p>
-        <a href={url}>Voir le courrier de réponse</a>
+        {url && <a href={url}>Voir le courrier de réponse</a>}
       </ContentArea>
     </>
   )
@@ -111,7 +111,7 @@ const Accepted = ({ date, delayInMonths, authority, url }: AcceptedProps) => {
         <p className="p-0 m-0">
           Autorité concernée : <span className="uppercase">{authority}</span>
         </p>
-        <a href={url}>Voir le courrier de réponse</a>
+        {url && <a href={url}>Voir le courrier de réponse</a>}
       </ContentArea>
     </>
   )

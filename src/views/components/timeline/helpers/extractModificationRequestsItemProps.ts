@@ -43,11 +43,13 @@ export const extractModificationRequestsItemProps = (
       const { date, variant: role } = lastEvent
       const { authority, modificationType, delayInMonths } = modificationRequestedEvent
       const status = getStatus(lastEvent)
-      const url =
+      let url: string | undefined = undefined
+      if (
         or(is('ModificationRequestRejected'), is('ModificationRequestAccepted'))(lastEvent) &&
-        lastEvent.file
-          ? makeDocumentUrl(lastEvent.file.id, lastEvent.file.name)
-          : undefined
+        lastEvent.file?.name
+      ) {
+        url = makeDocumentUrl(lastEvent.file.id, lastEvent.file.name)
+      }
 
       return modificationType === 'delai'
         ? {
