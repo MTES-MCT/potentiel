@@ -21,6 +21,16 @@ export type ProjectEventDTO =
   | ProjectPTFRemovedDTO
   | ProjectNotificationDateSetDTO
   | ProjectCompletionDueDateSetDTO
+  | ModificationRequestedDTO
+  | ModificationRequestAcceptedDTO
+  | ModificationRequestCancelledDTO
+  | ModificationRequestRejectedDTO
+  | ModificationRequestInstructionStartedDTO
+
+type File = {
+  id: string
+  name: string
+}
 
 type NarrowDTOType<T, N> = T extends { type: N } ? T : never
 
@@ -92,7 +102,7 @@ export type ProjectGFSubmittedDTO = {
   type: 'ProjectGFSubmitted'
   date: number
   variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
-  file?: { id: string; name: string }
+  file?: File
 }
 
 export type ProjectGFDueDateSetDTO = {
@@ -123,7 +133,7 @@ export type ProjectDCRSubmittedDTO = {
   type: 'ProjectDCRSubmitted'
   date: number
   variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
-  file?: { id: string; name: string }
+  file?: File
   numeroDossier: string
 }
 
@@ -144,7 +154,7 @@ export type ProjectPTFSubmittedDTO = {
   type: 'ProjectPTFSubmitted'
   date: number
   variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
-  file?: { id: string; name: string }
+  file?: File
 }
 
 export type ProjectPTFRemovedDTO = {
@@ -159,6 +169,54 @@ export type ProjectCompletionDueDateSetDTO = {
   date: number
   variant: Exclude<UserRole, 'ademe'>
 }
+
+export type ModificationRequestedDTO = {
+  type: 'ModificationRequested'
+  date: number
+  variant: Exclude<UserRole, 'ademe'>
+  modificationRequestId: string
+  authority: 'dgec' | 'dreal'
+} & {
+  modificationType: 'delai'
+  delayInMonths: number
+}
+
+export type ModificationRequestAcceptedDTO = {
+  type: 'ModificationRequestAccepted'
+  date: number
+  variant: Exclude<UserRole, 'ademe'>
+  modificationRequestId: string
+  file?: File
+}
+
+export type ModificationRequestRejectedDTO = {
+  type: 'ModificationRequestRejected'
+  date: number
+  variant: Exclude<UserRole, 'ademe'>
+  modificationRequestId: string
+  file?: File
+}
+
+export type ModificationRequestInstructionStartedDTO = {
+  type: 'ModificationRequestInstructionStarted'
+  date: number
+  variant: Exclude<UserRole, 'ademe'>
+  modificationRequestId: string
+}
+
+export type ModificationRequestCancelledDTO = {
+  type: 'ModificationRequestCancelled'
+  date: number
+  variant: Exclude<UserRole, 'ademe'>
+  modificationRequestId: string
+}
+
+export type ModificationRequestDTO =
+  | ModificationRequestedDTO
+  | ModificationRequestAcceptedDTO
+  | ModificationRequestRejectedDTO
+  | ModificationRequestInstructionStartedDTO
+  | ModificationRequestCancelledDTO
 
 export type ProjectEventListDTO = {
   project: { id: Project['id']; isLaureat: boolean }

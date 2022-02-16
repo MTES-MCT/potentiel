@@ -10,6 +10,7 @@ export default function makeFakeModificationRequest(overrides?, includeInfo?: bo
     type: 'actionnaire',
     actionnaire: 'nouvel actionnaire',
     authority: 'dreal',
+    status: 'envoyée',
   }
 
   if (includeInfo) {

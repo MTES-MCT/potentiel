@@ -12,6 +12,10 @@ import {
   ProjectPTFSubmittedDTO,
   ProjectGFInvalidatedDTO,
   ProjectNotificationDateSetDTO,
+  ModificationRequestedDTO,
+  ModificationRequestAcceptedDTO,
+  ModificationRequestRejectedDTO,
+  ModificationRequestCancelledDTO,
 } from '@modules/frise'
 import { Timeline } from './Timeline'
 
@@ -71,11 +75,11 @@ export const PPGarantiesFinancieresDues = () => (
         } as ProjectNotifiedDTO,
         {
           type: 'ProjectCertificateGenerated',
-          variant: 'admin',
+          variant: 'porteur-projet',
           date: new Date('2022-01-13').getTime(),
           certificateFileId: 'file-id',
           nomProjet: 'mon projet pv',
-          email: 'porteur@test.test',
+          email: undefined,
           potentielIdentifier: 'pot-id',
         } as ProjectCertificateGeneratedDTO,
         {
@@ -106,11 +110,11 @@ export const PPGarantiesFinancieresEnRetard = () => (
         } as ProjectNotifiedDTO,
         {
           type: 'ProjectCertificateGenerated',
-          variant: 'admin',
+          variant: 'porteur-projet',
           date: new Date('2022-01-13').getTime(),
           certificateFileId: 'file-id',
           nomProjet: 'mon projet pv',
-          email: 'porteur@test.test',
+          email: undefined,
           potentielIdentifier: 'pot-id',
         } as ProjectCertificateGeneratedDTO,
         {
@@ -141,11 +145,11 @@ export const PPGarantiesFinancieresEtDCREnRetard = () => (
         } as ProjectNotifiedDTO,
         {
           type: 'ProjectCertificateGenerated',
-          variant: 'admin',
+          variant: 'porteur-projet',
           date: new Date('2022-01-13').getTime(),
           certificateFileId: 'file-id',
           nomProjet: 'mon projet pv',
-          email: 'porteur@test.test',
+          email: undefined,
           potentielIdentifier: 'pot-id',
         } as ProjectCertificateGeneratedDTO,
         {
@@ -405,6 +409,256 @@ export const RecoursAccepte = () => (
           variant: 'admin',
           date: new Date('2022-01-20').getTime(),
         } as ProjectNotificationDateSetDTO,
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)
+
+export const DelayRequestedForPP = () => (
+  <Timeline
+    projectEventList={{
+      project,
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectCertificateGenerated',
+          variant: 'admin',
+          date: new Date('2022-01-13').getTime(),
+          certificateFileId: 'file-id',
+          nomProjet: 'mon projet pv',
+          email: 'porteur@test.test',
+          potentielIdentifier: 'pot-id',
+        } as ProjectCertificateGeneratedDTO,
+        {
+          type: 'ModificationRequested',
+          date: new Date('2022-01-14').getTime(),
+          variant: 'porteur-projet',
+          modificationRequestId: 'id-1',
+          authority: 'dreal',
+          modificationType: 'delai',
+          delayInMonths: 2,
+        } as ModificationRequestedDTO,
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)
+
+export const DelayRequestedInstructionStartedForPP = () => (
+  <Timeline
+    projectEventList={{
+      project,
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectCertificateGenerated',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-13').getTime(),
+          certificateFileId: 'file-id',
+          nomProjet: 'mon projet pv',
+          email: undefined,
+          potentielIdentifier: 'pot-id',
+        } as ProjectCertificateGeneratedDTO,
+        {
+          type: 'ModificationRequested',
+          date: new Date('2022-01-14').getTime(),
+          variant: 'porteur-projet',
+          modificationRequestId: 'id-1',
+          authority: 'dreal',
+          modificationType: 'delai',
+          delayInMonths: 2,
+        } as ModificationRequestedDTO,
+        {
+          type: 'ModificationRequestInstructionStarted',
+          date: new Date('2022-01-15').getTime(),
+          variant: 'porteur-projet',
+          modificationRequestId: 'id-1',
+        },
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)
+
+export const DelayAcceptedForPP = () => (
+  <Timeline
+    projectEventList={{
+      project,
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectCertificateGenerated',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-13').getTime(),
+          certificateFileId: 'file-id',
+          nomProjet: 'mon projet pv',
+          email: undefined,
+          potentielIdentifier: 'pot-id',
+        } as ProjectCertificateGeneratedDTO,
+        {
+          type: 'ModificationRequested',
+          date: new Date('2022-01-14').getTime(),
+          variant: 'porteur-projet',
+          modificationRequestId: 'id-1',
+          authority: 'dreal',
+          modificationType: 'delai',
+          delayInMonths: 2,
+        } as ModificationRequestedDTO,
+        {
+          type: 'ModificationRequestAccepted',
+          date: new Date('2022-01-14').getTime(),
+          variant: 'porteur-projet',
+          modificationRequestId: 'id-1',
+        } as ModificationRequestAcceptedDTO,
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)
+
+export const DelayRejectedForPP = () => (
+  <Timeline
+    projectEventList={{
+      project,
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectCertificateGenerated',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-13').getTime(),
+          certificateFileId: 'file-id',
+          nomProjet: 'mon projet pv',
+          email: undefined,
+          potentielIdentifier: 'pot-id',
+        } as ProjectCertificateGeneratedDTO,
+        {
+          type: 'ModificationRequested',
+          date: new Date('2022-01-14').getTime(),
+          variant: 'porteur-projet',
+          modificationRequestId: 'id-1',
+          authority: 'dreal',
+          modificationType: 'delai',
+          delayInMonths: 2,
+        } as ModificationRequestedDTO,
+        {
+          type: 'ModificationRequestRejected',
+          date: new Date('2022-01-14').getTime(),
+          variant: 'porteur-projet',
+          modificationRequestId: 'id-1',
+          file: { id: 'id', name: 'name' },
+        } as ModificationRequestRejectedDTO,
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)
+export const DelayRequestCancelledForPP = () => (
+  <Timeline
+    projectEventList={{
+      project,
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectCertificateGenerated',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-13').getTime(),
+          certificateFileId: 'file-id',
+          nomProjet: 'mon projet pv',
+          email: undefined,
+          potentielIdentifier: 'pot-id',
+        } as ProjectCertificateGeneratedDTO,
+        {
+          type: 'ModificationRequested',
+          date: new Date('2022-01-14').getTime(),
+          variant: 'porteur-projet',
+          modificationRequestId: 'id-1',
+          authority: 'dreal',
+          modificationType: 'delai',
+          delayInMonths: 2,
+        } as ModificationRequestedDTO,
+        {
+          type: 'ModificationRequestCancelled',
+          date: new Date('2022-01-14').getTime(),
+          variant: 'porteur-projet',
+          modificationRequestId: 'id-1',
+        } as ModificationRequestCancelledDTO,
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)
+
+export const DelayRequestedForDreal = () => (
+  <Timeline
+    projectEventList={{
+      project,
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'dreal',
+          date: new Date('2022-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ModificationRequested',
+          date: new Date('2022-01-14').getTime(),
+          variant: 'dreal',
+          modificationRequestId: 'id-1',
+          authority: 'dreal',
+          modificationType: 'delai',
+          delayInMonths: 2,
+        } as ModificationRequestedDTO,
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)
+
+export const DelayRequestedInstructionStartedForDreal = () => (
+  <Timeline
+    projectEventList={{
+      project,
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'dreal',
+          date: new Date('2022-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ModificationRequested',
+          date: new Date('2022-01-14').getTime(),
+          variant: 'dreal',
+          modificationRequestId: 'id-1',
+          authority: 'dreal',
+          modificationType: 'delai',
+          delayInMonths: 2,
+        } as ModificationRequestedDTO,
+        {
+          type: 'ModificationRequestInstructionStarted',
+          date: new Date('2022-01-15').getTime(),
+          variant: 'dreal',
+          modificationRequestId: 'id-1',
+        },
       ],
     }}
     now={new Date().getTime()}
