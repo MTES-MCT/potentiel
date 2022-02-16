@@ -1,4 +1,13 @@
-import { is, ModificationRequestDTO, ProjectEventDTO } from '@modules/frise'
+import {
+  is,
+  ModificationRequestAcceptedDTO,
+  ModificationRequestCancelledDTO,
+  ModificationRequestDTO,
+  ModificationRequestedDTO,
+  ModificationRequestInstructionStartedDTO,
+  ModificationRequestRejectedDTO,
+  ProjectEventDTO,
+} from '@modules/frise'
 import { or } from '@core/utils'
 import { makeDocumentUrl } from '.'
 import { UserRole } from '@modules/users'
@@ -20,21 +29,15 @@ export type ModificationRequestItemProps = {
 export const extractModificationRequestsItemProps = (
   events: ProjectEventDTO[]
 ): ModificationRequestItemProps[] => {
-  const modificationRequestedEvents = events.filter(isModificationRequest)
-  if (modificationRequestedEvents.length === 0) {
+  const modificationRequestEvents = events.filter(isModificationRequestEvent)
+  if (modificationRequestEvents.length === 0) {
     return []
   }
 
-  const modificationRequests = modificationRequestedEvents.reduce((modificationRequests, event) => {
-    if (modificationRequests[event.modificationRequestId]) {
-      modificationRequests[event.modificationRequestId].push(event)
-    } else {
-      modificationRequests[event.modificationRequestId] = [event]
-    }
-    return modificationRequests
-  }, {} as Record<string, ModificationRequestDTO[]>)
+  const modificationRequestGroups =
+    getEventsGroupedByModificationRequestId(modificationRequestEvents)
 
-  const props: ModificationRequestItemProps[] = Object.entries(modificationRequests).map(
+  const propsArray: ModificationRequestItemProps[] = Object.entries(modificationRequestGroups).map(
     ([, events]) => {
       const latestEvent = getLatestEvent(events)
       const requestEvent = getRequestEvent(events)
@@ -66,17 +69,35 @@ export const extractModificationRequestsItemProps = (
           }
     }
   )
-
-  return props
+  return propsArray
 }
 
-const isModificationRequest = or(
+const isModificationRequestEvent = or(
   is('ModificationRequested'),
   is('ModificationRequestRejected'),
   is('ModificationRequestInstructionStarted'),
   is('ModificationRequestAccepted'),
   is('ModificationRequestCancelled')
 )
+
+const getEventsGroupedByModificationRequestId = (
+  modificationRequestedEvents: (
+    | ModificationRequestedDTO
+    | ModificationRequestAcceptedDTO
+    | ModificationRequestCancelledDTO
+    | ModificationRequestRejectedDTO
+    | ModificationRequestInstructionStartedDTO
+  )[]
+) => {
+  return modificationRequestedEvents.reduce((modificationRequests, event) => {
+    if (modificationRequests[event.modificationRequestId]) {
+      modificationRequests[event.modificationRequestId].push(event)
+    } else {
+      modificationRequests[event.modificationRequestId] = [event]
+    }
+    return modificationRequests
+  }, {} as Record<string, ModificationRequestDTO[]>)
+}
 
 const getLatestEvent = (events: ModificationRequestDTO[]) => {
   const sortedEvents = events.sort((a, b) => a.date - b.date)
