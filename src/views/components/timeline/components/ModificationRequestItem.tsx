@@ -26,11 +26,9 @@ export const ModificationRequestItem = (props: ModificationRequestItemProps) => 
   }
 }
 
-type SubmittedProps = 
-  ModificationRequestItemProps & {
-    status: 'envoyée' | 'en instruction'
-  }
-
+type SubmittedProps = ModificationRequestItemProps & {
+  status: 'envoyée' | 'en instruction'
+}
 
 const Submitted = (props: SubmittedProps) => {
   const { date, authority, role, modificationType, status } = props
@@ -54,16 +52,13 @@ const Submitted = (props: SubmittedProps) => {
             <p className="p-0 m-0">Délai demandé : {props.delayInMonths} mois</p>
           </>
         )}
-        <p className="p-0 m-0">
-          Autorité concernée : <span className="uppercase">{authority}</span>
-        </p>
       </ContentArea>
     </>
   )
 }
 
 const Rejected = (props: ModificationRequestItemProps) => {
-  const { date, url, authority, modificationType } = props
+  const { date, url, modificationType } = props
   return (
     <>
       <UnvalidatedStepIcon />
@@ -75,9 +70,6 @@ const Rejected = (props: ModificationRequestItemProps) => {
             <p className="p-0 m-0">Délai demandé : {props.delayInMonths} mois</p>
           </>
         )}
-        <p className="p-0 m-0">
-          Autorité concernée : <span className="uppercase">{authority}</span>
-        </p>
         {url && <a href={url}>Voir le courrier de réponse</a>}
       </ContentArea>
     </>
@@ -85,7 +77,7 @@ const Rejected = (props: ModificationRequestItemProps) => {
 }
 
 const Accepted = (props: ModificationRequestItemProps) => {
-  const { date, authority, url, modificationType } = props
+  const { date, url, modificationType } = props
   return (
     <>
       <PastIcon />
@@ -97,9 +89,6 @@ const Accepted = (props: ModificationRequestItemProps) => {
             <p className="p-0 m-0">Délai demandé : {props.delayInMonths} mois</p>
           </>
         )}
-        <p className="p-0 m-0">
-          Autorité concernée : <span className="uppercase">{authority}</span>
-        </p>
         {url && <a href={url}>Voir le courrier de réponse</a>}
       </ContentArea>
     </>
