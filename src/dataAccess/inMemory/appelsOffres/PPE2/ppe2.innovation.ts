@@ -4,6 +4,7 @@ import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 const innovationPPE2: AppelOffre = {
   id: 'PPE2 - Innovation',
   type: 'innovation',
+  ppe2: true,
   title:
     '2021 S 203-530267 portant sur la réalisation et l’exploitation d’Installations de production d’électricité innovantes à partir de l’énergie solaire sans dispositifs de stockage',
   shortTitle: 'PPE2 - Innovation 2021 S 203-530267',

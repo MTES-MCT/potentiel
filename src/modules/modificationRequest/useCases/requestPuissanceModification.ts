@@ -1,4 +1,4 @@
-import { GetAutoAcceptRatiosForAppelOffre, PuissanceJustificationOrCourrierMissingError } from '..'
+import { IsModificationPuissanceAuto, PuissanceJustificationOrCourrierMissingError } from '..'
 import { EventBus, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
 import { errAsync, logger, okAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { User } from '@entities'
@@ -15,7 +15,7 @@ import { ModificationRequested, ModificationReceived } from '../events'
 
 interface RequestPuissanceModificationDeps {
   eventBus: EventBus
-  getAutoAcceptRatiosForAppelOffre: GetAutoAcceptRatiosForAppelOffre
+  isModificationPuissanceAuto: IsModificationPuissanceAuto
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
   projectRepo: TransactionalRepository<Project>
   fileRepo: Repository<FileObject>
@@ -46,7 +46,7 @@ export const makeRequestPuissanceModification =
       shouldUserAccessProject,
       projectRepo,
       fileRepo,
-      getAutoAcceptRatiosForAppelOffre,
+      isModificationPuissanceAuto,
     } = deps
 
     return wrapInfra(
@@ -96,18 +96,14 @@ export const makeRequestPuissanceModification =
               | ProjectCannotBeUpdatedIfUnnotifiedError
               | PuissanceJustificationOrCourrierMissingError
             > => {
-              const puissanceModificationRatio = newPuissance / project.puissanceInitiale
-
               if (!project.appelOffre) {
                 return errAsync(new UnauthorizedError())
               }
 
-              const { min: minAutoAcceptPuissanceRatio, max: maxAutoAcceptPuissanceRatio } =
-                getAutoAcceptRatiosForAppelOffre(project.appelOffre)
-
-              const newPuissanceIsAutoAccepted =
-                puissanceModificationRatio >= minAutoAcceptPuissanceRatio &&
-                puissanceModificationRatio <= maxAutoAcceptPuissanceRatio
+              const newPuissanceIsAutoAccepted = isModificationPuissanceAuto({
+                nouvellePuissance: newPuissance,
+                project,
+              })
 
               if (newPuissanceIsAutoAccepted) {
                 return project.updatePuissance(requestedBy, newPuissance).asyncMap(async () => {

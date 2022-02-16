@@ -8,7 +8,7 @@ import { formatDate } from '../../../helpers/formatDate'
 import { appelsOffreStatic } from '@dataAccess/inMemory'
 import { PageLayout } from '../../components/PageLayout'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
-import { getAutoAcceptRatiosForAppelOffre } from '@modules/modificationRequest'
+import { getAutoAcceptRatios, isModificationPuissanceAuto } from '@modules/modificationRequest'
 import moment from 'moment'
 import ModificationRequestActionTitles from '../../components/ModificationRequestActionTitles'
 import { CDCChoiceForm } from '../../components/CDCChoiceForm'
@@ -40,15 +40,13 @@ export const NewModificationRequest = PageLayout(
     const [fileRequiredforPuissanceModification, setFileRequiredforPuissanceModification] =
       useState(false)
 
-    const { min: minAutoAcceptPuissanceRatio, max: maxAutoAcceptPuissanceRatio } =
-      getAutoAcceptRatiosForAppelOffre(project.appelOffre)
-
     const handlePuissanceOnChange = (e) => {
       const isNewValueCorrect = isStrictlyPositiveNumber(e.target.value)
-      const puissanceModificationRatio = toNumber(e.target.value) / project.puissanceInitiale
-      const newPuissanceIsAutoAccepted =
-        puissanceModificationRatio >= minAutoAcceptPuissanceRatio &&
-        puissanceModificationRatio <= maxAutoAcceptPuissanceRatio
+      const nouvellePuissance = toNumber(e.target.value)
+      const newPuissanceIsAutoAccepted = isModificationPuissanceAuto({
+        nouvellePuissance,
+        project,
+      })
 
       setdisplayAlertOnPuissanceType(!isNewValueCorrect)
       setDisableSubmitButton(!isNewValueCorrect)
@@ -57,6 +55,8 @@ export const NewModificationRequest = PageLayout(
     }
 
     const { appelOffre } = project
+    const { min: minAutoAcceptPuissanceRatio, max: maxAutoAcceptPuissanceRatio } =
+      getAutoAcceptRatios(appelOffre)
 
     return (
       <UserDashboard currentPage={'list-requests'}>

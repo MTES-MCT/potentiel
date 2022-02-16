@@ -1,5 +1,5 @@
 import { Readable } from 'stream'
-import { PuissanceJustificationOrCourrierMissingError } from '..'
+import { IsModificationPuissanceAuto, PuissanceJustificationOrCourrierMissingError } from '..'
 import { DomainEvent, Repository } from '@core/domain'
 import { okAsync } from '@core/utils'
 import { makeUser } from '@entities'
@@ -26,7 +26,6 @@ describe('requestPuissanceModification use-case', () => {
     load: jest.fn(),
   }
   const file = { contents: Readable.from('test-content'), filename: 'myfilename.pdf' }
-  const getAutoAcceptRatiosForAppelOffre = jest.fn(() => ({ min: 0.9, max: 1.1 }))
 
   describe('when user is not allowed', () => {
     const shouldUserAccessProject = jest.fn(async () => false)
@@ -34,7 +33,7 @@ describe('requestPuissanceModification use-case', () => {
       projectRepo,
       eventBus,
       shouldUserAccessProject,
-      getAutoAcceptRatiosForAppelOffre,
+      isModificationPuissanceAuto: () => true,
       fileRepo: fileRepo as Repository<FileObject>,
     })
     const newPuissance = 89
@@ -56,15 +55,16 @@ describe('requestPuissanceModification use-case', () => {
 
   describe('when user has rights to this project', () => {
     const shouldUserAccessProject = jest.fn(async () => true)
-    const requestPuissanceModification = makeRequestPuissanceModification({
-      projectRepo,
-      eventBus,
-      shouldUserAccessProject,
-      getAutoAcceptRatiosForAppelOffre,
-      fileRepo: fileRepo as Repository<FileObject>,
-    })
 
-    describe('when new puissance is < 90% of puissanceInitiale', () => {
+    describe('when the modification is not auto accepted', () => {
+      const requestPuissanceModification = makeRequestPuissanceModification({
+        projectRepo,
+        eventBus,
+        shouldUserAccessProject,
+        isModificationPuissanceAuto: () => false,
+        fileRepo: fileRepo as Repository<FileObject>,
+      })
+
       const newPuissance = 89
 
       describe('when there is no justification nor a courrier attached to the demand', () => {
@@ -128,71 +128,14 @@ describe('requestPuissanceModification use-case', () => {
       })
     })
 
-    describe('when new puissance is > 110% of puissanceInitiale', () => {
-      const newPuissance = 111
-
-      describe('when there is no justification nor a courrier attached to the demand', () => {
-        beforeAll(async () => {
-          fakePublish.mockClear()
-          fileRepo.save.mockClear()
-        })
-
-        it('should return a PuissanceJustificationOrCourrierMissingError', async () => {
-          const res = await requestPuissanceModification({
-            projectId: fakeProject.id,
-            requestedBy: fakeUser,
-            newPuissance,
-          })
-
-          expect(res.isErr()).toBe(true)
-          if (res.isOk()) return
-          expect(res.error).toBeInstanceOf(PuissanceJustificationOrCourrierMissingError)
-        })
+    describe('when the modification is auto accepted', () => {
+      const requestPuissanceModification = makeRequestPuissanceModification({
+        projectRepo,
+        eventBus,
+        shouldUserAccessProject,
+        isModificationPuissanceAuto: () => true,
+        fileRepo: fileRepo as Repository<FileObject>,
       })
-
-      describe('when a courrier or a justification is attached to the demand', () => {
-        beforeAll(async () => {
-          fakePublish.mockClear()
-          fileRepo.save.mockClear()
-
-          const res = await requestPuissanceModification({
-            projectId: fakeProject.id,
-            requestedBy: fakeUser,
-            newPuissance,
-            file,
-          })
-
-          expect(res.isOk()).toBe(true)
-
-          expect(shouldUserAccessProject).toHaveBeenCalledWith({
-            user: fakeUser,
-            projectId: fakeProject.id.toString(),
-          })
-        })
-
-        it('should emit a ModificationRequested', () => {
-          expect(eventBus.publish).toHaveBeenCalledTimes(1)
-          const event = eventBus.publish.mock.calls[0][0]
-          expect(event).toBeInstanceOf(ModificationRequested)
-
-          const { type, puissance } = event.payload
-          expect(type).toEqual('puissance')
-          expect(puissance).toEqual(newPuissance)
-        })
-
-        it('should not change the project', () => {
-          expect(fakeProject.pendingEvents).toHaveLength(0)
-        })
-
-        it('should save the file', () => {
-          expect(fileRepo.save).toHaveBeenCalledTimes(1)
-          expect(fileRepo.save.mock.calls[0][0].contents).toEqual(file.contents)
-          expect(fileRepo.save.mock.calls[0][0].filename).toEqual(file.filename)
-        })
-      })
-    })
-
-    describe('when new puissance is between 90% and 110% of puissanceInitiale', () => {
       const newPuissance = 105
 
       beforeAll(async () => {

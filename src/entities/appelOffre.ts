@@ -4,6 +4,7 @@ import { Famille } from './famille'
 export type AppelOffre = {
   id: string
   type: 'autoconso' | 'batiment' | 'eolien' | 'innovation' | 'neutre' | 'sol' | 'zni' | 'autre'
+  ppe2?: true
   title: string
   shortTitle: string
   launchDate: string

@@ -4,6 +4,7 @@ import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 const batimentPPE2: AppelOffre = {
   id: 'PPE2 - Bâtiment',
   type: 'batiment',
+  ppe2: true,
   title:
     '2021 S 176-457518 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie solaire « Centrales sur bâtiments, serres et hangars agricoles et ombrières de parking de puissance supérieure à 500 kWc»',
   shortTitle: 'PPE2 - Bâtiment 2021 S 176-457518',

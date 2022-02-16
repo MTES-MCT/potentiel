@@ -1,1 +1,1 @@
-export * from './getAutoAcceptRatiosForAppelOffre';
+export * from './isModificationPuissanceAuto'

@@ -3,6 +3,7 @@ import { AppelOffre } from '@entities'
 const neutrePPE2: AppelOffre = {
   id: 'PPE2 - Neutre',
   type: 'neutre',
+  ppe2: true,
   title:
     '2021 S 176-457521 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergie solaire photovoltaïque, hydroélectrique ou éolienne situées en métropole continentale',
   shortTitle: 'PPE2 - Neutre 2021 S 176-457521',
