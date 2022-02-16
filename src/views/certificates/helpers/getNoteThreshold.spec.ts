@@ -2,6 +2,24 @@ import { ProjectAppelOffre } from '@entities'
 import { getNoteThreshold } from './getNoteThreshold'
 
 describe(`getNoteThreshold`, () => {
+  describe(`when the periode has a note threshold`, () => {
+    const fakeProject = {
+      appelOffre: {
+        periode: {
+          isNotifiedOnPotentiel: true,
+          noteThreshold: 99,
+        },
+      } as ProjectAppelOffre,
+    }
+
+    const project = { ...fakeProject, puissance: 10 }
+    const actual = getNoteThreshold(project)
+
+    it(`should return the note threshold`, () => {
+      expect(actual).toBe(99)
+    })
+  })
+
   describe(`when the periode has a note threshold by category`, () => {
     const fakeProject = {
       appelOffre: {

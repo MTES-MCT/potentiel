@@ -60,5 +60,5 @@ export const getNoteThreshold: GetNoteThreshold = ({
     return note
   }
 
-  return 'N/A'
+  return periode.noteThreshold
 }

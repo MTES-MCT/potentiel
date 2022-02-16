@@ -35,6 +35,10 @@ export type Periode = {
           noteThresholdBy: 'category'
           noteThreshold: NoteThresholdByCategory
         }
+      | {
+          noteThresholdBy?: undefined
+          noteThreshold: number
+        }
     ))
   | { isNotifiedOnPotentiel?: false }
 )
