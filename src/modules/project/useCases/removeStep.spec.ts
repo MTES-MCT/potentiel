@@ -34,6 +34,7 @@ describe('removeStep use-case', () => {
         const removeStep = makeRemoveStep({
           eventBus: fakeEventBus,
           shouldUserAccessProject,
+          isGarantiesFinancieresDeposeesALaCandidature: jest.fn(),
         })
 
         const res = await removeStep({
@@ -72,6 +73,7 @@ describe('removeStep use-case', () => {
         const removeStep = makeRemoveStep({
           eventBus: fakeEventBus,
           shouldUserAccessProject,
+          isGarantiesFinancieresDeposeesALaCandidature: jest.fn(),
         })
 
         const res = await removeStep({
@@ -103,78 +105,87 @@ describe('removeStep use-case', () => {
     })
 
     describe('when type is garantie-financiere', () => {
-      beforeAll(async () => {
-        const shouldUserAccessProject = jest.fn(async () => true)
-        fakePublish.mockClear()
+      describe('when GF has been submitted on Potentiel after designation', () => {
+        beforeAll(async () => {
+          const shouldUserAccessProject = jest.fn(async () => true)
+          fakePublish.mockClear()
+          const isGarantiesFinancieresDeposeesALaCandidature = jest.fn((projectId: string) =>
+            Promise.resolve(false)
+          )
 
-        const removeStep = makeRemoveStep({
-          eventBus: fakeEventBus,
-          shouldUserAccessProject,
+          const removeStep = makeRemoveStep({
+            eventBus: fakeEventBus,
+            shouldUserAccessProject,
+            isGarantiesFinancieresDeposeesALaCandidature,
+          })
+
+          const res = await removeStep({
+            type: 'garantie-financiere',
+            projectId,
+            removedBy: user,
+          })
+
+          expect(res.isOk()).toBe(true)
+
+          expect(shouldUserAccessProject).toHaveBeenCalledWith({
+            user,
+            projectId,
+          })
         })
 
-        const res = await removeStep({
-          type: 'garantie-financiere',
-          projectId,
-          removedBy: user,
+        it('should trigger a ProjectGFRemoved event', async () => {
+          expect(fakePublish).toHaveBeenCalled()
+          const targetEvent = fakePublish.mock.calls
+            .map((call) => call[0])
+            .find((event) => event.type === ProjectGFRemoved.type) as ProjectGFRemoved
+
+          expect(targetEvent).toBeDefined()
+          if (!targetEvent) return
+
+          expect(targetEvent.payload.projectId).toEqual(projectId)
+          expect(targetEvent.payload.removedBy).toEqual(user.id)
         })
+        describe('when GF has been validated before designation on Potentiel', () => {
+          beforeAll(async () => {
+            const shouldUserAccessProject = jest.fn(async () => true)
+            fakePublish.mockClear()
+            const isGarantiesFinancieresDeposeesALaCandidature = jest.fn((projectId: string) =>
+              Promise.resolve(true)
+            )
 
-        expect(res.isOk()).toBe(true)
+            const removeStep = makeRemoveStep({
+              eventBus: fakeEventBus,
+              shouldUserAccessProject,
+              isGarantiesFinancieresDeposeesALaCandidature,
+            })
 
-        expect(shouldUserAccessProject).toHaveBeenCalledWith({
-          user,
-          projectId,
+            const res = await removeStep({
+              type: 'garantie-financiere',
+              projectId,
+              removedBy: user,
+            })
+
+            expect(res.isOk()).toBe(true)
+
+            expect(shouldUserAccessProject).toHaveBeenCalledWith({
+              user,
+              projectId,
+            })
+          })
+
+          it('should trigger a ProjectGFWidthdrawn event', async () => {
+            expect(fakePublish).toHaveBeenCalled()
+            const targetEvent = fakePublish.mock.calls
+              .map((call) => call[0])
+              .find((event) => event.type === ProjectGFWithdrawn.type) as ProjectGFWithdrawn
+
+            expect(targetEvent).toBeDefined()
+            if (!targetEvent) return
+
+            expect(targetEvent.payload.projectId).toEqual(projectId)
+            expect(targetEvent.payload.removedBy).toEqual(user.id)
+          })
         })
-      })
-
-      it('should trigger a ProjectGFRemoved event', async () => {
-        expect(fakePublish).toHaveBeenCalled()
-        const targetEvent = fakePublish.mock.calls
-          .map((call) => call[0])
-          .find((event) => event.type === ProjectGFRemoved.type) as ProjectGFRemoved
-
-        expect(targetEvent).toBeDefined()
-        if (!targetEvent) return
-
-        expect(targetEvent.payload.projectId).toEqual(projectId)
-        expect(targetEvent.payload.removedBy).toEqual(user.id)
-      })
-    })
-
-    describe('when type is garantie-financiere-ppe2', () => {
-      beforeAll(async () => {
-        const shouldUserAccessProject = jest.fn(async () => true)
-        fakePublish.mockClear()
-
-        const removeStep = makeRemoveStep({
-          eventBus: fakeEventBus,
-          shouldUserAccessProject,
-        })
-
-        const res = await removeStep({
-          type: 'garantie-financiere-ppe2',
-          projectId,
-          removedBy: user,
-        })
-
-        expect(res.isOk()).toBe(true)
-
-        expect(shouldUserAccessProject).toHaveBeenCalledWith({
-          user,
-          projectId,
-        })
-      })
-
-      it('should trigger a ProjectGFWithdrawn event', async () => {
-        expect(fakePublish).toHaveBeenCalled()
-        const targetEvent = fakePublish.mock.calls
-          .map((call) => call[0])
-          .find((event) => event.type === ProjectGFWithdrawn.type) as ProjectGFWithdrawn
-
-        expect(targetEvent).toBeDefined()
-        if (!targetEvent) return
-
-        expect(targetEvent.payload.projectId).toEqual(projectId)
-        expect(targetEvent.payload.removedBy).toEqual(user.id)
       })
     })
   })
@@ -190,6 +201,7 @@ describe('removeStep use-case', () => {
       const removeStep = makeRemoveStep({
         eventBus: fakeEventBus,
         shouldUserAccessProject,
+        isGarantiesFinancieresDeposeesALaCandidature: jest.fn(),
       })
 
       const res = await removeStep({
