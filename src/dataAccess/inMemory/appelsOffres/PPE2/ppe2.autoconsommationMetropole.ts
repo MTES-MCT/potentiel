@@ -34,9 +34,20 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'violaine.tarizzo@developpement-durable.gouv.fr',
   changementPuissance: {
+    changementByTechnologie: true,
     autoAcceptRatios: {
-      min: 0.9,
-      max: 1.1,
+      pv: {
+        min: 0.9,
+        max: 1.1,
+      },
+      eolien: {
+        min: 0.8,
+        max: 1.2,
+      },
+      hydraulique: {
+        min: 0.9,
+        max: 1.1,
+      },
     },
   },
   periodes: [

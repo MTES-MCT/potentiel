@@ -1,12 +1,22 @@
 import { Periode } from './periode'
 import { Famille } from './famille'
 
-type ChangementPuissance = {
-  autoAcceptRatios: {
-    min: number
-    max: number
-  }
+export type Technologie = 'pv' | 'eolien' | 'hydraulique'
+
+type AutoAcceptRatios = {
+  min: number
+  max: number
 }
+
+type ChangementPuissance =
+  | {
+      changementByTechnologie?: undefined
+      autoAcceptRatios: AutoAcceptRatios
+    }
+  | {
+      changementByTechnologie: true
+      autoAcceptRatios: { [key in Technologie]: AutoAcceptRatios }
+    }
 
 type AppelOffreTypes =
   | 'autoconso'
@@ -24,11 +34,7 @@ type DelaiRealisation =
       decoupageParTechnologie: false
     }
   | {
-      delaiRealisationEnMoisParTechnologie: {
-        pv: number
-        eolien: number
-        hydraulique: number
-      }
+      delaiRealisationEnMoisParTechnologie: { [key in Technologie]: number }
       decoupageParTechnologie: true
     }
 
