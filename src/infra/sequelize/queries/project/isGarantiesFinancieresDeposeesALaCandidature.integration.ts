@@ -18,9 +18,9 @@ describe('isGarantiesFinancieresDeposeesALaCandidature', () => {
       const fakeProject = makeFakeProject({ projectId, appelOffreId, periodeId, familleId })
       await Project.create(fakeProject)
 
-      const result = isGarantiesFinancieresDeposeesALaCandidature(projectId)
+      const result = await isGarantiesFinancieresDeposeesALaCandidature(projectId)
 
-      expect(result).toEqual(true)
+      expect(result.isOk()).toEqual(true)
     })
   })
 })
