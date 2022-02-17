@@ -1,6 +1,6 @@
 import { ProjectAppelOffre } from '@entities'
 
-const defaultRatios = { min: 0.9, max: 1.1 }
+export const defaultAutoAcceptRatios = { min: 0.9, max: 1.1 }
 
 export type IsModificationPuissanceAuto = (arg: {
   project: {
@@ -25,24 +25,12 @@ export const isModificationPuissanceAuto: IsModificationPuissanceAuto = ({
     }
   }
 
-  const { min, max } = getAutoAcceptRatios(appelOffre)
+  const { min, max } = appelOffre
+    ? appelOffre.changementPuissance.autoAcceptRatios
+    : defaultAutoAcceptRatios
   const ratio = nouvellePuissance / puissanceInitiale
 
   return ratio >= min && ratio <= max
-}
-
-export const getAutoAcceptRatios = (
-  appelOffre: ProjectAppelOffre | undefined
-): { min: number; max: number } => {
-  if (!appelOffre) {
-    return defaultRatios
-  }
-
-  const {
-    changementPuissance: { autoAcceptRatios },
-  } = appelOffre
-
-  return autoAcceptRatios
 }
 
 const getReservedVolume = (appelOffre: ProjectAppelOffre): { puissanceMax: number } | undefined => {

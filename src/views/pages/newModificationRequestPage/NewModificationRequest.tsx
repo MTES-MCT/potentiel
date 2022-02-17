@@ -8,7 +8,7 @@ import { formatDate } from '../../../helpers/formatDate'
 import { appelsOffreStatic } from '@dataAccess/inMemory'
 import { PageLayout } from '../../components/PageLayout'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
-import { getAutoAcceptRatios, isModificationPuissanceAuto } from '@modules/modificationRequest'
+import { defaultAutoAcceptRatios, isModificationPuissanceAuto } from '@modules/modificationRequest'
 import moment from 'moment'
 import ModificationRequestActionTitles from '../../components/ModificationRequestActionTitles'
 import { CDCChoiceForm } from '../../components/CDCChoiceForm'
@@ -55,8 +55,9 @@ export const NewModificationRequest = PageLayout(
     }
 
     const { appelOffre } = project
-    const { min: minAutoAcceptPuissanceRatio, max: maxAutoAcceptPuissanceRatio } =
-      getAutoAcceptRatios(appelOffre)
+    const { min: minAutoAcceptPuissanceRatio, max: maxAutoAcceptPuissanceRatio } = appelOffre
+      ? appelOffre.changementPuissance.autoAcceptRatios
+      : defaultAutoAcceptRatios
 
     return (
       <UserDashboard currentPage={'list-requests'}>
