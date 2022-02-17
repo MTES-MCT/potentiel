@@ -43,7 +43,7 @@ export const extractModificationRequestsItemProps = (
       const requestEvent = getRequestEvent(events)
 
       const { date, variant: role } = latestEvent
-      const { authority, modificationType, delayInMonths } = requestEvent
+      const { authority, modificationType } = requestEvent
       const status = getStatus(latestEvent)
       const url = getUrl(latestEvent)
 
@@ -56,7 +56,7 @@ export const extractModificationRequestsItemProps = (
             status,
             role,
             url,
-            delayInMonths,
+            delayInMonths: requestEvent.delayInMonths,
           }
         : {
             type: 'demande-de-modification',
