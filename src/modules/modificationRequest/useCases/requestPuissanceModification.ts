@@ -102,7 +102,7 @@ export const makeRequestPuissanceModification =
 
               const newPuissanceIsAutoAccepted = isModificationPuissanceAuto({
                 nouvellePuissance: newPuissance,
-                project: { ...project, technologie: project.data?.technologie },
+                project: { ...project, technologie: project.data?.technologie ?? 'N/A' },
               })
 
               if (newPuissanceIsAutoAccepted) {

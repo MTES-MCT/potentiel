@@ -51,6 +51,7 @@ const fakeProject: ProjectDataForCertificate = {
   puissance: 42,
   potentielId: 'potentielId',
   territoireProjet: 'territoireProjet',
+  technologie: 'N/A',
 }
 
 export const EliminePPE2AuDessusDePcible = () => {

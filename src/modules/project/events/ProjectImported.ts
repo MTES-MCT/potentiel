@@ -1,4 +1,5 @@
 import { DomainEvent, BaseDomainEvent } from '@core/domain'
+import { Technologie } from '@entities'
 
 export interface ProjectImportedPayload {
   projectId: string
@@ -35,7 +36,7 @@ export interface ProjectImportedPayload {
     motifsElimination: string
     notifiedOn: number
     details: any
-    technologie?: string
+    technologie: Technologie
     actionnariat?: string
   }
 }

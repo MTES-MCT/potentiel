@@ -2,7 +2,7 @@ import { FindProjectByIdentifiers } from '..'
 import { UniqueEntityID } from '@core/domain'
 import { okAsync } from '@core/utils'
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
-import { ProjectRawDataImported } from '../events'
+import { ProjectRawDataImported, ProjectRawDataImportedPayload } from '../events'
 import { Project } from '../Project'
 import { handleProjectRawDataImported } from './handleProjectRawDataImported'
 
@@ -35,6 +35,7 @@ const fakeProjectData = {
   details: {
     Autre: 'valeur',
   },
+  technologie: 'N/A',
 }
 
 describe('handleProjectRawDataImported', () => {
@@ -57,7 +58,7 @@ describe('handleProjectRawDataImported', () => {
           payload: {
             importId,
             data: fakeProjectData,
-          },
+          } as ProjectRawDataImportedPayload,
         })
       )
     })
@@ -83,7 +84,7 @@ describe('handleProjectRawDataImported', () => {
           payload: {
             importId,
             data: fakeProjectData,
-          },
+          } as ProjectRawDataImportedPayload,
         })
       )
     })
@@ -111,7 +112,7 @@ describe('handleProjectRawDataImported', () => {
             payload: {
               importId,
               data: fakeNotifiedProjectData,
-            },
+            } as ProjectRawDataImportedPayload,
           })
         )
       })

@@ -1,4 +1,4 @@
-import { ProjectAppelOffre } from '@entities'
+import { ProjectAppelOffre, Technologie } from '@entities'
 
 export type ProjectDataForCertificate = {
   appelOffre: ProjectAppelOffre
@@ -22,6 +22,6 @@ export type ProjectDataForCertificate = {
   puissance: number
   potentielId: string
   territoireProjet: string
-  technologie?: string
+  technologie: Technologie
   actionnariat?: 'financement-collectif' | 'gouvernance-partagee'
 }

@@ -1,7 +1,8 @@
 import { Periode } from './periode'
 import { Famille } from './famille'
 
-export type Technologie = 'pv' | 'eolien' | 'hydraulique'
+export const technologies = ['pv', 'eolien', 'hydraulique', 'N/A'] as const
+export type Technologie = typeof technologies[number]
 
 type AutoAcceptRatios = {
   min: number
@@ -15,7 +16,7 @@ type ChangementPuissance =
     }
   | {
       changementByTechnologie: true
-      autoAcceptRatios: { [key in Technologie]: AutoAcceptRatios }
+      autoAcceptRatios: { [key in Exclude<Technologie, 'N/A'>]: AutoAcceptRatios }
     }
 
 type AppelOffreTypes =
@@ -34,7 +35,7 @@ type DelaiRealisation =
       decoupageParTechnologie: false
     }
   | {
-      delaiRealisationEnMoisParTechnologie: { [key in Technologie]: number }
+      delaiRealisationEnMoisParTechnologie: { [key in Exclude<Technologie, 'N/A'>]: number }
       decoupageParTechnologie: true
     }
 

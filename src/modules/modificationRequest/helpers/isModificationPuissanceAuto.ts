@@ -1,4 +1,4 @@
-import { ProjectAppelOffre } from '@entities'
+import { ProjectAppelOffre, Technologie } from '@entities'
 
 export const defaultAutoAcceptRatios = { min: 0.9, max: 1.1 }
 
@@ -6,7 +6,7 @@ export type IsModificationPuissanceAuto = (arg: {
   project: {
     puissanceInitiale: number
     appelOffre?: ProjectAppelOffre
-    technologie?: string
+    technologie: Technologie
   }
   nouvellePuissance: number
 }) => boolean
@@ -47,7 +47,7 @@ const getReservedVolume = (appelOffre: ProjectAppelOffre): { puissanceMax: numbe
 
 export const getAutoAccepRatios = (project: {
   appelOffre?: ProjectAppelOffre
-  technologie?: string
+  technologie: Technologie
 }): { min: number; max: number } => {
   const { appelOffre, technologie } = project
 
@@ -56,8 +56,11 @@ export const getAutoAccepRatios = (project: {
   }
 
   if (appelOffre.changementPuissance.changementByTechnologie) {
-    const ratios = technologie && appelOffre.changementPuissance.autoAcceptRatios[technologie]
-    return ratios ?? defaultAutoAcceptRatios
+    if (technologie === 'N/A') {
+      return defaultAutoAcceptRatios
+    }
+
+    return appelOffre.changementPuissance.autoAcceptRatios[technologie]
   }
 
   return appelOffre.changementPuissance.autoAcceptRatios
