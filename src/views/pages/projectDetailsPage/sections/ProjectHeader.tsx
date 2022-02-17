@@ -29,7 +29,11 @@ export const ProjectHeader = ({ project, user }: ProjectHeaderProps) => (
       <p className="text-sm font-medium text-gray-500 p-0 m-0">
         {project.communeProjet}, {project.departementProjet}, {project.regionProjet}
       </p>
-      <div style={{ fontSize: 13 }}>{project.potentielIdentifier}</div>
+      <div className="text-sm">{project.potentielIdentifier}</div>
+      <div className="text-sm">
+        Instruction des demandes selon {project.newRulesOptIn ? 'les nouvelles' : 'les anciennes'}{' '}
+        règles
+      </div>
     </div>
     <NewProjectActions project={project} role={user.role} />
   </div>
