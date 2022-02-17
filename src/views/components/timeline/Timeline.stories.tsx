@@ -16,6 +16,7 @@ import {
   ModificationRequestAcceptedDTO,
   ModificationRequestRejectedDTO,
   ModificationRequestCancelledDTO,
+  ModificationRequestInstructionStartedDTO,
 } from '@modules/frise'
 import { Timeline } from './Timeline'
 
@@ -529,7 +530,7 @@ export const DelayAcceptedForPP = () => (
   />
 )
 
-export const DelayRejectedForPP = () => (
+export const RecoursRejectedForPP = () => (
   <Timeline
     projectEventList={{
       project,
@@ -553,9 +554,8 @@ export const DelayRejectedForPP = () => (
           date: new Date('2022-01-14').getTime(),
           variant: 'porteur-projet',
           modificationRequestId: 'id-1',
-          authority: 'dreal',
-          modificationType: 'delai',
-          delayInMonths: 2,
+          authority: 'dgec',
+          modificationType: 'recours',
         } as ModificationRequestedDTO,
         {
           type: 'ModificationRequestRejected',
@@ -569,7 +569,7 @@ export const DelayRejectedForPP = () => (
     now={new Date().getTime()}
   />
 )
-export const DelayRequestCancelledForPP = () => (
+export const AbandonRequestCancelledForPP = () => (
   <Timeline
     projectEventList={{
       project,
@@ -593,9 +593,8 @@ export const DelayRequestCancelledForPP = () => (
           date: new Date('2022-01-14').getTime(),
           variant: 'porteur-projet',
           modificationRequestId: 'id-1',
-          authority: 'dreal',
-          modificationType: 'delai',
-          delayInMonths: 2,
+          authority: 'dgec',
+          modificationType: 'abandon',
         } as ModificationRequestedDTO,
         {
           type: 'ModificationRequestCancelled',
@@ -659,6 +658,62 @@ export const DelayRequestedInstructionStartedForDreal = () => (
           variant: 'dreal',
           modificationRequestId: 'id-1',
         },
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)
+
+export const RecoursRequestedForADMIN = () => (
+  <Timeline
+    projectEventList={{
+      project,
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'admin',
+          date: new Date('2022-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ModificationRequested',
+          date: new Date('2022-01-14').getTime(),
+          variant: 'admin',
+          modificationRequestId: 'id-1',
+          authority: 'dgec',
+          modificationType: 'recours',
+        } as ModificationRequestedDTO,
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)
+
+export const AbandonInstructionStartedForADMIN = () => (
+  <Timeline
+    projectEventList={{
+      project,
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'admin',
+          date: new Date('2022-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ModificationRequested',
+          date: new Date('2022-01-14').getTime(),
+          variant: 'admin',
+          modificationRequestId: 'id-1',
+          authority: 'dgec',
+          modificationType: 'abandon',
+        } as ModificationRequestedDTO,
+        {
+          type: 'ModificationRequestInstructionStarted',
+          date: new Date('2022-01-14').getTime(),
+          variant: 'admin',
+          modificationRequestId: 'id-1',
+          authority: 'dgec',
+          modificationType: 'abandon',
+        } as ModificationRequestInstructionStartedDTO,
       ],
     }}
     now={new Date().getTime()}
