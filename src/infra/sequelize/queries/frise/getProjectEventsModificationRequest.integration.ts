@@ -17,13 +17,13 @@ describe('getProjectEvents for ModificationRequested events', () => {
     await resetDatabase()
     await Project.create(fakeProject)
   })
-  describe('when there is a modification requested', () => {
+  describe('when there are modifications requested of type delai, recours and abandon', () => {
     describe('when user is not ademe', () => {
       for (const role of USER_ROLES.filter((role) => role !== 'ademe')) {
         describe(`when the user is ${role}`, () => {
           const fakeUser = { role } as User
 
-          it('should return a modification requested event', async () => {
+          it('should return modification requested events', async () => {
             const date = new Date('2022-02-09')
 
             await ProjectEvent.create({
@@ -36,6 +36,32 @@ describe('getProjectEvents for ModificationRequested events', () => {
                 modificationType: 'delai',
                 modificationRequestId,
                 delayInMonths: 10,
+                authority: 'dreal',
+              },
+            })
+
+            await ProjectEvent.create({
+              id: new UniqueEntityID().toString(),
+              projectId,
+              type: 'ModificationRequested',
+              valueDate: date.getTime(),
+              eventPublishedAt: date.getTime(),
+              payload: {
+                modificationType: 'recours',
+                modificationRequestId,
+                authority: 'dgec',
+              },
+            })
+
+            await ProjectEvent.create({
+              id: new UniqueEntityID().toString(),
+              projectId,
+              type: 'ModificationRequested',
+              valueDate: date.getTime(),
+              eventPublishedAt: date.getTime(),
+              payload: {
+                modificationType: 'abandon',
+                modificationRequestId,
                 authority: 'dgec',
               },
             })
@@ -50,6 +76,22 @@ describe('getProjectEvents for ModificationRequested events', () => {
                   modificationType: 'delai',
                   modificationRequestId,
                   delayInMonths: 10,
+                  authority: 'dreal',
+                },
+                {
+                  type: 'ModificationRequested',
+                  date: date.getTime(),
+                  variant: role,
+                  modificationType: 'recours',
+                  modificationRequestId,
+                  authority: 'dgec',
+                },
+                {
+                  type: 'ModificationRequested',
+                  date: date.getTime(),
+                  variant: role,
+                  modificationType: 'abandon',
+                  modificationRequestId,
                   authority: 'dgec',
                 },
               ],
@@ -75,6 +117,33 @@ describe('getProjectEvents for ModificationRequested events', () => {
             authority: 'dgec',
           },
         })
+
+        await ProjectEvent.create({
+          id: new UniqueEntityID().toString(),
+          projectId,
+          type: 'ModificationRequested',
+          valueDate: date.getTime(),
+          eventPublishedAt: date.getTime(),
+          payload: {
+            modificationType: 'recours',
+            modificationRequestId,
+            authority: 'dgec',
+          },
+        })
+
+        await ProjectEvent.create({
+          id: new UniqueEntityID().toString(),
+          projectId,
+          type: 'ModificationRequested',
+          valueDate: date.getTime(),
+          eventPublishedAt: date.getTime(),
+          payload: {
+            modificationType: 'abandon',
+            modificationRequestId,
+            authority: 'dgec',
+          },
+        })
+
         const result = await getProjectEvents({ projectId, user: fakeUser })
         expect(result._unsafeUnwrap()).toMatchObject({
           events: [],

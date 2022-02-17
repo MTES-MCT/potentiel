@@ -176,10 +176,13 @@ export type ModificationRequestedDTO = {
   variant: Exclude<UserRole, 'ademe'>
   modificationRequestId: string
   authority: 'dgec' | 'dreal'
-} & {
-  modificationType: 'delai'
-  delayInMonths: number
-}
+} & (
+  | {
+      modificationType: 'delai'
+      delayInMonths: number
+    }
+  | { modificationType: 'abandon' | 'recours' }
+)
 
 export type ModificationRequestAcceptedDTO = {
   type: 'ModificationRequestAccepted'
