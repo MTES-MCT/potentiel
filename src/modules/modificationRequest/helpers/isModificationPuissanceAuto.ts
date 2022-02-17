@@ -1,19 +1,30 @@
-import { AppelOffre } from '@entities'
+import { ProjectAppelOffre } from '@entities'
+
+const defaultRatios = { min: 0.9, max: 1.1 }
 
 export type IsModificationPuissanceAuto = (arg: {
   project: {
     puissanceInitiale: number
-    appelOffre?: AppelOffre
+    appelOffre?: ProjectAppelOffre
   }
   nouvellePuissance: number
 }) => boolean
 
-const defaultRatios = { min: 0.9, max: 1.1 }
-
 export const isModificationPuissanceAuto: IsModificationPuissanceAuto = ({
-  project: { appelOffre, puissanceInitiale },
+  project,
   nouvellePuissance,
 }) => {
+  const { appelOffre, puissanceInitiale } = project
+  const volumeReserve = appelOffre && getReservedVolume(appelOffre)
+
+  if (volumeReserve) {
+    const { puissanceMax } = volumeReserve
+    const wasNotifiedOnReservedVolume = puissanceInitiale <= puissanceMax
+    if (wasNotifiedOnReservedVolume && nouvellePuissance > puissanceMax) {
+      return false
+    }
+  }
+
   const { min, max } = getAutoAcceptRatios(appelOffre)
   const ratio = nouvellePuissance / puissanceInitiale
 
@@ -21,18 +32,29 @@ export const isModificationPuissanceAuto: IsModificationPuissanceAuto = ({
 }
 
 export const getAutoAcceptRatios = (
-  appelOffre: AppelOffre | undefined
+  appelOffre: ProjectAppelOffre | undefined
 ): { min: number; max: number } => {
   if (!appelOffre) {
     return defaultRatios
   }
 
-  switch (appelOffre.type) {
-    case 'autoconso':
-      return { min: 0.8, max: 1 }
-    case 'innovation':
-      return { min: 0.7, max: 1 }
-    default:
-      return defaultRatios
+  const {
+    changementPuissance: { autoAcceptRatios },
+  } = appelOffre
+
+  return autoAcceptRatios
+}
+
+const getReservedVolume = (appelOffre: ProjectAppelOffre): { puissanceMax: number } | undefined => {
+  const { periode } = appelOffre
+
+  if (periode.isNotifiedOnPotentiel) {
+    if (periode.noteThresholdBy === 'category') {
+      const {
+        noteThreshold: { volumeReserve },
+      } = periode
+
+      return volumeReserve
+    }
   }
 }

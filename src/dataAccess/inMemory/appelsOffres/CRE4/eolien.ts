@@ -36,6 +36,12 @@ const eolien: AppelOffre = {
   afficherPhraseRegionImplantation: false,
   afficherValeurEvaluationCarbone: false,
   soumisAuxGarantiesFinancieres: true,
+  changementPuissance: {
+    autoAcceptRatios: {
+      min: 0.9,
+      max: 1.1,
+    },
+  },
   periodes: [
     {
       id: '1',

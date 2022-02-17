@@ -1,10 +1,16 @@
 import { Periode } from './periode'
 import { Famille } from './famille'
 
+type ChangementPuissance = {
+  autoAcceptRatios: {
+    min: number
+    max: number
+  }
+}
+
 export type AppelOffre = {
   id: string
   type: 'autoconso' | 'batiment' | 'eolien' | 'innovation' | 'neutre' | 'sol' | 'zni' | 'autre'
-  ppe2?: true
   title: string
   shortTitle: string
   launchDate: string
@@ -31,6 +37,7 @@ export type AppelOffre = {
   periodes: Periode[]
   familles: Famille[]
   contenuParagrapheAchevement: string
+  changementPuissance: ChangementPuissance
 } & (
   | { delaiRealisationEnMois: number; decoupageParTechnologie: false }
   | {

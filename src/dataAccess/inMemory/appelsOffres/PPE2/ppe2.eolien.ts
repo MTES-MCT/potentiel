@@ -4,7 +4,6 @@ import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 const eolienPPE2: AppelOffre = {
   id: 'PPE2 - Eolien',
   type: 'eolien',
-  ppe2: true,
   title:
     '2021/S 146-386083 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie mécanique du vent implantées à terre',
   shortTitle: 'PPE2 - Eolien 2021/S 146-386083',
@@ -31,6 +30,12 @@ const eolienPPE2: AppelOffre = {
   paragrapheClauseCompetitivite: '2.11',
   afficherPhraseRegionImplantation: false,
   afficherValeurEvaluationCarbone: true,
+  changementPuissance: {
+    autoAcceptRatios: {
+      min: 0.8,
+      max: 1.2,
+    },
+  },
   periodes: [
     {
       id: '1',

@@ -29,6 +29,12 @@ export const autoconsommationMetropole2016: AppelOffre = {
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
+  changementPuissance: {
+    autoAcceptRatios: {
+      min: 0.8,
+      max: 1,
+    },
+  },
   periodes: [
     {
       id: '1',
