@@ -8,9 +8,33 @@ type ChangementPuissance = {
   }
 }
 
+type AppelOffreTypes =
+  | 'autoconso'
+  | 'batiment'
+  | 'eolien'
+  | 'innovation'
+  | 'neutre'
+  | 'sol'
+  | 'zni'
+  | 'autre'
+
+type DelaiRealisation =
+  | {
+      delaiRealisationEnMois: number
+      decoupageParTechnologie: false
+    }
+  | {
+      delaiRealisationEnMoisParTechnologie: {
+        pv: number
+        eolien: number
+        hydraulique: number
+      }
+      decoupageParTechnologie: true
+    }
+
 export type AppelOffre = {
   id: string
-  type: 'autoconso' | 'batiment' | 'eolien' | 'innovation' | 'neutre' | 'sol' | 'zni' | 'autre'
+  type: AppelOffreTypes
   title: string
   shortTitle: string
   launchDate: string
@@ -38,13 +62,7 @@ export type AppelOffre = {
   familles: Famille[]
   contenuParagrapheAchevement: string
   changementPuissance: ChangementPuissance
-} & (
-  | { delaiRealisationEnMois: number; decoupageParTechnologie: false }
-  | {
-      delaiRealisationEnMoisParTechnologie: { pv: number; eolien: number; hydraulique: number }
-      decoupageParTechnologie: true
-    }
-)
+} & DelaiRealisation
 
 export type ProjectAppelOffre = AppelOffre & {
   periode: Periode
