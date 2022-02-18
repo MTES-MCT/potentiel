@@ -7,7 +7,7 @@ process.env.NODE_ENV ?? dotenv.config()
 
 const NODE_ENV = process.env.NODE_ENV || ''
 
-if (!['local', 'test'].includes(NODE_ENV)) {
+if (!['', 'local', 'test'].includes(NODE_ENV)) {
   const build = spawnSync('npm', ['run', 'build'], { stdio: 'inherit' })
   build.status && build.status > 0 && process.exit(build.status)
 
