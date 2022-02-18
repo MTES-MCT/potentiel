@@ -247,4 +247,78 @@ describe('extractModificationRequestItemProps', () => {
       ])
     })
   })
+
+  describe('when there is a ConfirmationRequested event', () => {
+    it('should return a "en attente de confirmation" status', () => {
+      const modificationRequestId = new UniqueEntityID().toString()
+
+      const projectEventList: ProjectEventDTO[] = [
+        {
+          type: 'ModificationRequested',
+          date: new Date('2022-02-09').getTime(),
+          variant: 'porteur-projet',
+          modificationType: 'recours',
+          modificationRequestId: modificationRequestId,
+          authority: 'dgec',
+        },
+        {
+          type: 'ConfirmationRequested',
+          date: new Date('2022-02-10').getTime(),
+          variant: 'porteur-projet',
+          modificationRequestId: modificationRequestId,
+          file: { id: 'fileid', name: 'filename' },
+        },
+      ]
+
+      const result = extractModificationRequestsItemProps(projectEventList)
+      expect(result).toHaveLength(1)
+      expect(result).toEqual([
+        {
+          type: 'demande-de-modification',
+          date: new Date('2022-02-10').getTime(),
+          status: 'en attente de confirmation',
+          modificationType: 'recours',
+          authority: 'dgec',
+          role: 'porteur-projet',
+          url: expect.anything(),
+        },
+      ])
+    })
+  })
+
+  describe('when there is a ModificationRequestConfirmed event', () => {
+    it('should return a "demande confirmée" status', () => {
+      const modificationRequestId = new UniqueEntityID().toString()
+
+      const projectEventList: ProjectEventDTO[] = [
+        {
+          type: 'ModificationRequested',
+          date: new Date('2022-02-09').getTime(),
+          variant: 'porteur-projet',
+          modificationType: 'abandon',
+          modificationRequestId: modificationRequestId,
+          authority: 'dgec',
+        },
+        {
+          type: 'ModificationRequestConfirmed',
+          date: new Date('2022-02-10').getTime(),
+          variant: 'porteur-projet',
+          modificationRequestId: modificationRequestId,
+        },
+      ]
+
+      const result = extractModificationRequestsItemProps(projectEventList)
+      expect(result).toHaveLength(1)
+      expect(result).toEqual([
+        {
+          type: 'demande-de-modification',
+          date: new Date('2022-02-10').getTime(),
+          status: 'demande confirmée',
+          modificationType: 'abandon',
+          authority: 'dgec',
+          role: 'porteur-projet',
+        },
+      ])
+    })
+  })
 })

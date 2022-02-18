@@ -1,13 +1,4 @@
-import {
-  is,
-  ModificationRequestAcceptedDTO,
-  ModificationRequestCancelledDTO,
-  ModificationRequestDTO,
-  ModificationRequestedDTO,
-  ModificationRequestInstructionStartedDTO,
-  ModificationRequestRejectedDTO,
-  ProjectEventDTO,
-} from '@modules/frise'
+import { is, ModificationRequestDTO, ProjectEventDTO } from '@modules/frise'
 import { or } from '@core/utils'
 import { makeDocumentUrl } from '.'
 import { UserRole } from '@modules/users'
@@ -15,7 +6,14 @@ import { UserRole } from '@modules/users'
 export type ModificationRequestItemProps = {
   type: 'demande-de-modification'
   date: number
-  status: 'envoyée' | 'en instruction' | 'acceptée' | 'rejetée' | 'annulée'
+  status:
+    | 'envoyée'
+    | 'en instruction'
+    | 'acceptée'
+    | 'rejetée'
+    | 'annulée'
+    | 'en attente de confirmation'
+    | 'demande confirmée'
   authority: 'dreal' | 'dgec'
   role: UserRole
   url?: string | undefined
@@ -77,17 +75,13 @@ const isModificationRequestEvent = or(
   is('ModificationRequestRejected'),
   is('ModificationRequestInstructionStarted'),
   is('ModificationRequestAccepted'),
-  is('ModificationRequestCancelled')
+  is('ModificationRequestCancelled'),
+  is('ConfirmationRequested'),
+  is('ModificationRequestConfirmed')
 )
 
 const getEventsGroupedByModificationRequestId = (
-  modificationRequestedEvents: (
-    | ModificationRequestedDTO
-    | ModificationRequestAcceptedDTO
-    | ModificationRequestCancelledDTO
-    | ModificationRequestRejectedDTO
-    | ModificationRequestInstructionStartedDTO
-  )[]
+  modificationRequestedEvents: ModificationRequestDTO[]
 ) => {
   return modificationRequestedEvents.reduce((modificationRequests, event) => {
     if (modificationRequests[event.modificationRequestId]) {
@@ -110,7 +104,11 @@ const getRequestEvent = (events: ModificationRequestDTO[]) => {
 
 const getUrl = (latestEvent: ModificationRequestDTO) => {
   if (
-    or(is('ModificationRequestRejected'), is('ModificationRequestAccepted'))(latestEvent) &&
+    or(
+      is('ModificationRequestRejected'),
+      is('ModificationRequestAccepted'),
+      is('ConfirmationRequested')
+    )(latestEvent) &&
     latestEvent.file?.name
   ) {
     return makeDocumentUrl(latestEvent.file.id, latestEvent.file.name)
@@ -131,5 +129,9 @@ function getStatus(event: ModificationRequestDTO) {
       return 'rejetée'
     case 'ModificationRequestCancelled':
       return 'annulée'
+    case 'ConfirmationRequested':
+      return 'en attente de confirmation'
+    case 'ModificationRequestConfirmed':
+      return 'demande confirmée'
   }
 }
