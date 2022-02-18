@@ -26,6 +26,8 @@ export type ProjectEventDTO =
   | ModificationRequestCancelledDTO
   | ModificationRequestRejectedDTO
   | ModificationRequestInstructionStartedDTO
+  | ConfirmationRequestedDTO
+  | ModificationRequestConfirmedDTO
 
 type File = {
   id: string
@@ -214,12 +216,29 @@ export type ModificationRequestCancelledDTO = {
   modificationRequestId: string
 }
 
+export type ConfirmationRequestedDTO = {
+  type: 'ConfirmationRequested'
+  date: number
+  variant: Exclude<UserRole, 'ademe'>
+  modificationRequestId: string
+  file?: File
+}
+
+export type ModificationRequestConfirmedDTO = {
+  type: 'ModificationRequestConfirmed'
+  date: number
+  variant: Exclude<UserRole, 'ademe'>
+  modificationRequestId: string
+}
+
 export type ModificationRequestDTO =
   | ModificationRequestedDTO
   | ModificationRequestAcceptedDTO
   | ModificationRequestRejectedDTO
   | ModificationRequestInstructionStartedDTO
   | ModificationRequestCancelledDTO
+  | ConfirmationRequestedDTO
+  | ModificationRequestConfirmedDTO
 
 export type ProjectEventListDTO = {
   project: { id: Project['id']; isLaureat: boolean }
