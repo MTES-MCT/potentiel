@@ -8,6 +8,9 @@ process.env.NODE_ENV ?? dotenv.config()
 const NODE_ENV = process.env.NODE_ENV || ''
 
 if (!['local', 'test'].includes(NODE_ENV)) {
-  spawnSync('npm', ['run', 'build'], { stdio: 'inherit' })
-  spawnSync('npm', ['run', 'migrate'], { stdio: 'inherit' })
+  const build = spawnSync('npm', ['run', 'build'], { stdio: 'inherit' })
+  build.status && build.status > 0 && process.exit(build.status)
+
+  const migrate = spawnSync('npm', ['run', 'migrate'], { stdio: 'inherit' })
+  process.exit(migrate.status ?? 0)
 }
