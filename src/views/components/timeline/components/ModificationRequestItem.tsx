@@ -58,7 +58,7 @@ type RejectedProps = ModificationRequestItemProps & {
 }
 
 const Rejected = (props: RejectedProps) => {
-  const { date, url, modificationType, status } = props
+  const { date, url } = props
   return (
     <>
       <UnvalidatedStepIcon />
