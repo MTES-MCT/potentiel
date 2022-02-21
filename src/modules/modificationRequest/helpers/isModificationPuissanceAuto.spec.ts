@@ -1,5 +1,4 @@
 import { Periode, ProjectAppelOffre, Technologie } from '@entities'
-import { eolien } from 'src/dataAccess/inMemory/appelsOffres'
 import { isModificationPuissanceAuto } from './isModificationPuissanceAuto'
 
 describe('isModificationPuissanceAuto', () => {
@@ -22,11 +21,11 @@ describe('isModificationPuissanceAuto', () => {
             },
             nouvellePuissance: 80,
           })
-          expect(actual).toEqual(true)
+          expect(actual).toEqual({ isAuto: true })
         })
       })
       describe(`when the new puissance is below the min ratio of the initial puissance`, () => {
-        it(`should return false`, () => {
+        it(`should return false with reason 'hors-ratios-autorisés'`, () => {
           const actual = isModificationPuissanceAuto({
             project: {
               puissanceInitiale: 100,
@@ -35,11 +34,11 @@ describe('isModificationPuissanceAuto', () => {
             },
             nouvellePuissance: 69.9,
           })
-          expect(actual).toEqual(false)
+          expect(actual).toEqual({ isAuto: false, reason: 'hors-ratios-autorisés' })
         })
       })
       describe(`when the new puissance is above the max ratio of the initial puissance`, () => {
-        it(`should return false`, () => {
+        it(`should return false with reason 'hors-ratios-autorisés'`, () => {
           const actual = isModificationPuissanceAuto({
             project: {
               puissanceInitiale: 100,
@@ -48,7 +47,7 @@ describe('isModificationPuissanceAuto', () => {
             },
             nouvellePuissance: 110.1,
           })
-          expect(actual).toEqual(false)
+          expect(actual).toEqual({ isAuto: false, reason: 'hors-ratios-autorisés' })
         })
       })
     })
@@ -87,11 +86,11 @@ describe('isModificationPuissanceAuto', () => {
               },
               nouvellePuissance,
             })
-            expect(actual).toEqual(true)
+            expect(actual).toEqual({ isAuto: true })
           })
         })
         describe(`when the new puissance is below the ${technologie} min ratio of the initial puissance`, () => {
-          it(`should return false`, () => {
+          it(`should return false with reason 'hors-ratios-autorisés'`, () => {
             expect(autoAcceptratios).toBeDefined()
 
             const puissanceInitiale = 100
@@ -105,11 +104,11 @@ describe('isModificationPuissanceAuto', () => {
               },
               nouvellePuissance,
             })
-            expect(actual).toEqual(false)
+            expect(actual).toEqual({ isAuto: false, reason: 'hors-ratios-autorisés' })
           })
         })
         describe(`when the new puissance is above the ${technologie} max ratio of the initial puissance`, () => {
-          it(`should return false`, () => {
+          it(`should return false with reason 'hors-ratios-autorisés'`, () => {
             expect(autoAcceptratios).toBeDefined()
 
             const puissanceInitiale = 100
@@ -123,7 +122,7 @@ describe('isModificationPuissanceAuto', () => {
               },
               nouvellePuissance,
             })
-            expect(actual).toEqual(false)
+            expect(actual).toEqual({ isAuto: false, reason: 'hors-ratios-autorisés' })
           })
         })
       }
@@ -135,25 +134,25 @@ describe('isModificationPuissanceAuto', () => {
               project: { puissanceInitiale: 100, appelOffre, technologie: 'N/A' },
               nouvellePuissance: 105,
             })
-            expect(actual).toEqual(true)
+            expect(actual).toEqual({ isAuto: true })
           })
         })
         describe(`when the new puissance is below 90% of the initial one`, () => {
-          it(`should return false`, () => {
+          it(`should return false with reason 'hors-ratios-autorisés'`, () => {
             const actual = isModificationPuissanceAuto({
               project: { puissanceInitiale: 100, appelOffre, technologie: 'N/A' },
               nouvellePuissance: 89.9,
             })
-            expect(actual).toEqual(false)
+            expect(actual).toEqual({ isAuto: false, reason: 'hors-ratios-autorisés' })
           })
         })
         describe(`when the new puissance is above 110% of the initial one`, () => {
-          it(`should return false`, () => {
+          it(`should return false with reason 'hors-ratios-autorisés'`, () => {
             const actual = isModificationPuissanceAuto({
               project: { puissanceInitiale: 100, appelOffre, technologie: 'N/A' },
               nouvellePuissance: 110.1,
             })
-            expect(actual).toEqual(false)
+            expect(actual).toEqual({ isAuto: false, reason: 'hors-ratios-autorisés' })
           })
         })
       })
@@ -174,12 +173,12 @@ describe('isModificationPuissanceAuto', () => {
 
     describe(`when the project was notified in the reserved volume`, () => {
       describe(`when the new puissance exceed the max power of the reserved volume`, () => {
-        it(`should return false`, () => {
+        it(`should return false with reason 'puissance-max-volume-reseve-depassé'`, () => {
           const actual = isModificationPuissanceAuto({
             project: { puissanceInitiale: 10, appelOffre, technologie: 'pv' },
             nouvellePuissance: 10.1,
           })
-          expect(actual).toEqual(false)
+          expect(actual).toEqual({ isAuto: false, reason: 'puissance-max-volume-reseve-depassé' })
         })
       })
     })
@@ -192,25 +191,25 @@ describe('isModificationPuissanceAuto', () => {
           project: { puissanceInitiale: 100, technologie: 'pv' },
           nouvellePuissance: 105,
         })
-        expect(actual).toEqual(true)
+        expect(actual).toEqual({ isAuto: true })
       })
     })
     describe(`when the new puissance is below 90% of the initial one`, () => {
-      it(`should return false`, () => {
+      it(`should return false with reason 'hors-ratios-autorisés'`, () => {
         const actual = isModificationPuissanceAuto({
           project: { puissanceInitiale: 100, technologie: 'pv' },
           nouvellePuissance: 89.9,
         })
-        expect(actual).toEqual(false)
+        expect(actual).toEqual({ isAuto: false, reason: 'hors-ratios-autorisés' })
       })
     })
     describe(`when the new puissance is above 110% of the initial one`, () => {
-      it(`should return false`, () => {
+      it(`should return false with reason 'hors-ratios-autorisés'`, () => {
         const actual = isModificationPuissanceAuto({
           project: { puissanceInitiale: 100, technologie: 'pv' },
           nouvellePuissance: 110.1,
         })
-        expect(actual).toEqual(false)
+        expect(actual).toEqual({ isAuto: false, reason: 'hors-ratios-autorisés' })
       })
     })
   })

@@ -8,19 +8,27 @@ import { formatDate } from '../../../helpers/formatDate'
 import { appelsOffreStatic } from '@dataAccess/inMemory'
 import { PageLayout } from '../../components/PageLayout'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
-import {
-  defaultAutoAcceptRatios,
-  getAutoAccepRatios,
-  isModificationPuissanceAuto,
-} from '@modules/modificationRequest'
+import { isModificationPuissanceAuto } from '@modules/modificationRequest'
 import moment from 'moment'
 import ModificationRequestActionTitles from '../../components/ModificationRequestActionTitles'
 import { CDCChoiceForm } from '../../components/CDCChoiceForm'
 import toNumber from '../../../helpers/toNumber'
 import { isStrictlyPositiveNumber } from '../../../helpers/formValidators'
 import { getDelaiDeRealisation } from '@modules/projectAppelOffre'
+import { AlertOnPuissanceValue } from './components'
 
 moment.locale('fr')
+
+type ReasonWhy =
+  | 'none'
+  | {
+      reason: 'puissance-max-volume-reseve-depassée'
+      puissanceMax: number
+    }
+  | {
+      reason: 'hors-ratios-autorisés'
+      ratios: { min: number; max: number }
+    }
 
 type PageProps = {
   request: Request
@@ -40,6 +48,9 @@ export const NewModificationRequest = PageLayout(
     const [displayAlertOnPuissanceType, setdisplayAlertOnPuissanceType] = useState(false)
     const [displayForm, setDisplayForm] = useState(project.newRulesOptIn)
     const [displayAlertOnPuissance, setDisplayAlertOnPuissance] = useState(false)
+    const [reasonWhyChangeIsNotAutoAccepted, setReasonWhyChangeIsNotAutoAccepted] = useState(
+      'none' as ReasonWhy
+    )
     const [disableSubmitButton, setDisableSubmitButton] = useState(false)
     const [fileRequiredforPuissanceModification, setFileRequiredforPuissanceModification] =
       useState(false)
@@ -47,20 +58,20 @@ export const NewModificationRequest = PageLayout(
     const handlePuissanceOnChange = (e) => {
       const isNewValueCorrect = isStrictlyPositiveNumber(e.target.value)
       const nouvellePuissance = toNumber(e.target.value)
-      const newPuissanceIsAutoAccepted = isModificationPuissanceAuto({
+      const isChangeAutoResult = isModificationPuissanceAuto({
         nouvellePuissance,
         project,
       })
 
       setdisplayAlertOnPuissanceType(!isNewValueCorrect)
       setDisableSubmitButton(!isNewValueCorrect)
-      setDisplayAlertOnPuissance(!newPuissanceIsAutoAccepted)
-      setFileRequiredforPuissanceModification(!newPuissanceIsAutoAccepted)
+      setDisplayAlertOnPuissance(!isChangeAutoResult.isAuto)
+      setFileRequiredforPuissanceModification(!isChangeAutoResult.isAuto)
+
+      setReasonWhyChangeIsNotAutoAccepted(isChangeAutoResult.isAuto ? 'none' : isChangeAutoResult)
     }
 
     const { appelOffre } = project
-    const { min: minAutoAcceptPuissanceRatio, max: maxAutoAcceptPuissanceRatio } =
-      getAutoAccepRatios(project)
 
     return (
       <UserDashboard currentPage={'list-requests'}>
@@ -190,21 +201,8 @@ export const NewModificationRequest = PageLayout(
                         required={true}
                       />
 
-                      {displayAlertOnPuissance && (
-                        <div
-                          className="notification warning"
-                          style={{ marginTop: 15 }}
-                          {...dataId('modificationRequest-puissance-error-message-out-of-bounds')}
-                        >
-                          Une autorisation est nécessaire si la modification de puissance est
-                          inférieure à {Math.round(minAutoAcceptPuissanceRatio * 100)}% de la
-                          puissance initiale ou supérieure à{' '}
-                          {Math.round(maxAutoAcceptPuissanceRatio * 100)}%. Dans ces cas{' '}
-                          <strong>
-                            il est nécessaire de joindre un justificatif à votre demande
-                          </strong>
-                          .
-                        </div>
+                      {displayAlertOnPuissance && reasonWhyChangeIsNotAutoAccepted !== 'none' && (
+                        <AlertOnPuissanceValue {...reasonWhyChangeIsNotAutoAccepted} />
                       )}
 
                       {displayAlertOnPuissanceType && (
