@@ -123,7 +123,7 @@ const ConfirmationRequested = (props: ModificationRequestItemProps) => {
           </div>
           {role === 'porteur-projet' && (
             <div className="align-center mb-1">
-              <WarningItem message="demande de confirmation à traiter" />
+              <InfoItem message="demande de confirmation à traiter" />
             </div>
           )}
         </div>
@@ -146,7 +146,7 @@ const RequestConfirmed = (props: ModificationRequestItemProps) => {
           </div>
           {['admin', 'dreal'].includes(role) && (
             <div className="align-center mb-1">
-              <WarningItem message="à traiter" />
+              <InfoItem message="à traiter" />
             </div>
           )}
         </div>
