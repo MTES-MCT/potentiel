@@ -23,10 +23,11 @@ describe('extractModificationRequestItemProps', () => {
       expect(result).toHaveLength(0)
     })
   })
-  describe('when there are several ModificationRequested events of type delai with different modificationRequestId', () => {
+  describe('when there are several ModificationRequested events with different modificationRequestId', () => {
     it('should return an array with props for each modification request id', () => {
       const firstModificationRequestId = new UniqueEntityID().toString()
       const secondModificationRequestId = new UniqueEntityID().toString()
+      const thirdModificationRequestId = new UniqueEntityID().toString()
       const projectEventList: ProjectEventDTO[] = [
         {
           type: 'ModificationRequested',
@@ -47,14 +48,21 @@ describe('extractModificationRequestItemProps', () => {
           type: 'ModificationRequested',
           date: new Date('2022-02-09').getTime(),
           variant: 'porteur-projet',
-          modificationType: 'delai',
+          modificationType: 'abandon',
           modificationRequestId: secondModificationRequestId,
-          delayInMonths: 10,
+          authority: 'dreal',
+        },
+        {
+          type: 'ModificationRequested',
+          date: new Date('2022-02-09').getTime(),
+          variant: 'porteur-projet',
+          modificationType: 'recours',
+          modificationRequestId: thirdModificationRequestId,
           authority: 'dreal',
         },
       ]
       const result = extractModificationRequestsItemProps(projectEventList)
-      expect(result).toHaveLength(2)
+      expect(result).toHaveLength(3)
       expect(result).toEqual([
         {
           type: 'demande-de-modification',
@@ -68,9 +76,16 @@ describe('extractModificationRequestItemProps', () => {
         {
           type: 'demande-de-modification',
           date: new Date('2022-02-09').getTime(),
-          delayInMonths: 10,
           status: 'envoyée',
-          modificationType: 'delai',
+          modificationType: 'abandon',
+          authority: 'dreal',
+          role: 'porteur-projet',
+        },
+        {
+          type: 'demande-de-modification',
+          date: new Date('2022-02-09').getTime(),
+          status: 'envoyée',
+          modificationType: 'recours',
           authority: 'dreal',
           role: 'porteur-projet',
         },

@@ -8,7 +8,7 @@ export default ProjectEvent.projector.on(
     { payload: { projectId, type, delayInMonths, modificationRequestId, authority }, occurredAt },
     transaction
   ) => {
-    if (type !== 'delai') {
+    if (!['delai', 'abandon', 'recours'].includes(type)) {
       return
     }
 
@@ -19,7 +19,12 @@ export default ProjectEvent.projector.on(
         valueDate: occurredAt.getTime(),
         eventPublishedAt: occurredAt.getTime(),
         id: new UniqueEntityID().toString(),
-        payload: { modificationType: type, modificationRequestId, delayInMonths, authority },
+        payload: {
+          modificationType: type,
+          modificationRequestId,
+          authority,
+          ...(type === 'delai' && { delayInMonths }),
+        },
       },
       { transaction }
     )

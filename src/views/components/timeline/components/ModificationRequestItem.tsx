@@ -6,7 +6,7 @@ import {
   CurrentIcon,
   PastIcon,
   UnvalidatedStepIcon,
-  WarningItem,
+  InfoItem,
 } from '.'
 import { ModificationRequestItemProps } from '../helpers/extractModificationRequestsItemProps'
 import { CancelledStepIcon } from './cancelledStepIcon'
@@ -18,11 +18,11 @@ export const ModificationRequestItem = (props: ModificationRequestItemProps) => 
     case 'en instruction':
       return <Submitted {...{ ...props, status }} />
     case 'rejetée':
-      return <Rejected {...props} />
+      return <Rejected {...{ ...props, status }} />
     case 'acceptée':
-      return <Accepted {...props} />
+      return <Accepted {...{ ...props, status }} />
     case 'annulée':
-      return <Cancelled {...props} />
+      return <Cancelled {...{ ...props, status }} />
   }
 }
 
@@ -31,7 +31,8 @@ type SubmittedProps = ModificationRequestItemProps & {
 }
 
 const Submitted = (props: SubmittedProps) => {
-  const { date, authority, role, modificationType, status } = props
+  const { date, authority, role, status } = props
+  const displayWarning = (role === 'admin' && authority === 'dgec') || role === authority
   return (
     <>
       <CurrentIcon />
@@ -40,76 +41,93 @@ const Submitted = (props: SubmittedProps) => {
           <div className="align-center">
             <ItemDate date={date} />
           </div>
-          {role === authority && (
+          {displayWarning && (
             <div className="align-center mb-1">
-              <WarningItem message={status === 'envoyée' ? 'à traiter' : 'réponse à envoyer'} />
+              <InfoItem message={status === 'envoyée' ? 'à traiter' : 'réponse à envoyer'} />
             </div>
           )}
         </div>
-        {modificationType === 'delai' && (
-          <>
-            <ItemTitle title={`Demande de prolongation de délai ${status}`} />
-            <p className="p-0 m-0">Délai demandé : {props.delayInMonths} mois</p>
-          </>
-        )}
+        <Title {...props} />
       </ContentArea>
     </>
   )
 }
 
-const Rejected = (props: ModificationRequestItemProps) => {
-  const { date, url, modificationType } = props
+type RejectedProps = ModificationRequestItemProps & {
+  status: 'rejetée'
+}
+
+const Rejected = (props: RejectedProps) => {
+  const { date, url } = props
   return (
     <>
       <UnvalidatedStepIcon />
       <ContentArea>
         <ItemDate date={date} />
-        {modificationType === 'delai' && (
-          <>
-            <ItemTitle title={`Demande de prolongation de délai rejetée`} />
-            <p className="p-0 m-0">Délai demandé : {props.delayInMonths} mois</p>
-          </>
-        )}
+        <Title {...props} />
         {url && <a href={url}>Voir le courrier de réponse</a>}
       </ContentArea>
     </>
   )
 }
 
-const Accepted = (props: ModificationRequestItemProps) => {
-  const { date, url, modificationType } = props
+type AcceptedProps = ModificationRequestItemProps & {
+  status: 'acceptée'
+}
+
+const Accepted = (props: AcceptedProps) => {
+  const { date, url } = props
   return (
     <>
       <PastIcon />
       <ContentArea>
         <ItemDate date={date} />
-        {modificationType === 'delai' && (
-          <>
-            <ItemTitle title={`Demande de prolongation de délai acceptée`} />
-            <p className="p-0 m-0">Délai demandé : {props.delayInMonths} mois</p>
-          </>
-        )}
+        <Title {...props} />
         {url && <a href={url}>Voir le courrier de réponse</a>}
       </ContentArea>
     </>
   )
 }
 
-const Cancelled = (props: ModificationRequestItemProps) => {
-  const { date, modificationType } = props
+type CancelledProps = ModificationRequestItemProps & {
+  status: 'annulée'
+}
+
+const Cancelled = (props: CancelledProps) => {
+  const { date } = props
   return (
     <>
       <CancelledStepIcon />
       <ContentArea>
         <ItemDate date={date} />
-        {modificationType === 'delai' && (
-          <>
-            <ItemTitle title={`Demande de prolongation de délai annulée`} />
-            <p className="p-0 m-0">Délai demandé : {props.delayInMonths} mois</p>
-          </>
-        )}
+        <Title {...props} />
         <p className="p-0 m-0">Demande annulée par le porteur de projet</p>
       </ContentArea>
+    </>
+  )
+}
+
+const Title = (
+  props: { status: ModificationRequestItemProps['status'] } & (
+    | { modificationType: 'delai'; delayInMonths: number }
+    | { modificationType: 'abandon' | 'recours' }
+  )
+) => {
+  const { status, modificationType } = props
+
+  const libelleTypeDemande: { [key in ModificationRequestItemProps['modificationType']]: string } =
+    {
+      abandon: `d'abandon`,
+      delai: `de prolongation de délai`,
+      recours: `de recours`,
+    }
+
+  return (
+    <>
+      <ItemTitle title={`Demande ${libelleTypeDemande[modificationType]} ${status}`} />
+      {modificationType === 'delai' && (
+        <p className="p-0 m-0">Délai demandé : {props.delayInMonths} mois</p>
+      )}
     </>
   )
 }

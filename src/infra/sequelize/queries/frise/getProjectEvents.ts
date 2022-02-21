@@ -119,7 +119,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       variant: user.role,
                       modificationType: payload.modificationType,
                       modificationRequestId: payload.modificationRequestId,
-                      delayInMonths: payload.delayInMonths,
+                      ...(payload.modificationType === 'delai' && {
+                        delayInMonths: payload.delayInMonths,
+                      }),
                       authority: payload.authority,
                     })
                   }
