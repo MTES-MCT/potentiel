@@ -17,6 +17,8 @@ import {
   ModificationRequestRejectedDTO,
   ModificationRequestCancelledDTO,
   ModificationRequestInstructionStartedDTO,
+  ConfirmationRequestedDTO,
+  ModificationRequestConfirmedDTO,
 } from '@modules/frise'
 import { Timeline } from './Timeline'
 
@@ -714,6 +716,178 @@ export const AbandonInstructionStartedForADMIN = () => (
           authority: 'dgec',
           modificationType: 'abandon',
         } as ModificationRequestInstructionStartedDTO,
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)
+
+export const AbandonEnAttenteDeConfirmationForPP = () => (
+  <Timeline
+    projectEventList={{
+      project,
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectCertificateGenerated',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-13').getTime(),
+          certificateFileId: 'file-id',
+          nomProjet: 'mon projet pv',
+          email: undefined,
+          potentielIdentifier: 'pot-id',
+        } as ProjectCertificateGeneratedDTO,
+        {
+          type: 'ModificationRequested',
+          date: new Date('2022-01-14').getTime(),
+          variant: 'porteur-projet',
+          modificationRequestId: 'id-1',
+          authority: 'dgec',
+          modificationType: 'abandon',
+        } as ModificationRequestedDTO,
+        {
+          type: 'ConfirmationRequested',
+          date: new Date('2022-01-15').getTime(),
+          variant: 'porteur-projet',
+          modificationRequestId: 'id-1',
+          file: { id: 'id', name: 'name' },
+        } as ConfirmationRequestedDTO,
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)
+
+export const AbandonEnAttenteDeConfirmationForADMIN = () => (
+  <Timeline
+    projectEventList={{
+      project,
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'admin',
+          date: new Date('2022-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectCertificateGenerated',
+          variant: 'admin',
+          date: new Date('2022-01-13').getTime(),
+          certificateFileId: 'file-id',
+          nomProjet: 'mon projet pv',
+          email: 'email',
+          potentielIdentifier: 'pot-id',
+        } as ProjectCertificateGeneratedDTO,
+        {
+          type: 'ModificationRequested',
+          date: new Date('2022-01-14').getTime(),
+          variant: 'admin',
+          modificationRequestId: 'id-1',
+          authority: 'dgec',
+          modificationType: 'abandon',
+        } as ModificationRequestedDTO,
+        {
+          type: 'ConfirmationRequested',
+          date: new Date('2022-01-15').getTime(),
+          variant: 'admin',
+          modificationRequestId: 'id-1',
+          file: { id: 'id', name: 'name' },
+        } as ConfirmationRequestedDTO,
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)
+
+export const AbandonConfirméForADMIN = () => (
+  <Timeline
+    projectEventList={{
+      project,
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'admin',
+          date: new Date('2022-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectCertificateGenerated',
+          variant: 'admin',
+          date: new Date('2022-01-13').getTime(),
+          certificateFileId: 'file-id',
+          nomProjet: 'mon projet pv',
+          email: 'email',
+          potentielIdentifier: 'pot-id',
+        } as ProjectCertificateGeneratedDTO,
+        {
+          type: 'ModificationRequested',
+          date: new Date('2022-01-14').getTime(),
+          variant: 'admin',
+          modificationRequestId: 'id-1',
+          authority: 'dgec',
+          modificationType: 'abandon',
+        } as ModificationRequestedDTO,
+        {
+          type: 'ConfirmationRequested',
+          date: new Date('2022-01-15').getTime(),
+          variant: 'admin',
+          modificationRequestId: 'id-1',
+          file: { id: 'id', name: 'name' },
+        } as ConfirmationRequestedDTO,
+        {
+          type: 'ModificationRequestConfirmed',
+          date: new Date('2022-01-15').getTime(),
+          variant: 'admin',
+          modificationRequestId: 'id-1',
+        } as ModificationRequestConfirmedDTO,
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)
+
+export const AbandonConfirméForPP = () => (
+  <Timeline
+    projectEventList={{
+      project,
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectCertificateGenerated',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-13').getTime(),
+          certificateFileId: 'file-id',
+          nomProjet: 'mon projet pv',
+          email: undefined,
+          potentielIdentifier: 'pot-id',
+        } as ProjectCertificateGeneratedDTO,
+        {
+          type: 'ModificationRequested',
+          date: new Date('2022-01-14').getTime(),
+          variant: 'porteur-projet',
+          modificationRequestId: 'id-1',
+          authority: 'dgec',
+          modificationType: 'abandon',
+        } as ModificationRequestedDTO,
+        {
+          type: 'ConfirmationRequested',
+          date: new Date('2022-01-15').getTime(),
+          variant: 'porteur-projet',
+          modificationRequestId: 'id-1',
+          file: { id: 'id', name: 'name' },
+        } as ConfirmationRequestedDTO,
+        {
+          type: 'ModificationRequestConfirmed',
+          date: new Date('2022-01-15').getTime(),
+          variant: 'porteur-projet',
+          modificationRequestId: 'id-1',
+        } as ModificationRequestConfirmedDTO,
       ],
     }}
     now={new Date().getTime()}

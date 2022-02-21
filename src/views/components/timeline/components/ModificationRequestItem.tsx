@@ -23,6 +23,10 @@ export const ModificationRequestItem = (props: ModificationRequestItemProps) => 
       return <Accepted {...{ ...props, status }} />
     case 'annulée':
       return <Cancelled {...{ ...props, status }} />
+    case 'en attente de confirmation':
+      return <ConfirmationRequested {...props} />
+    case 'demande confirmée':
+      return <RequestConfirmed {...props} />
   }
 }
 
@@ -102,6 +106,51 @@ const Cancelled = (props: CancelledProps) => {
         <ItemDate date={date} />
         <Title {...props} />
         <p className="p-0 m-0">Demande annulée par le porteur de projet</p>
+      </ContentArea>
+    </>
+  )
+}
+
+const ConfirmationRequested = (props: ModificationRequestItemProps) => {
+  const { date, url, role } = props
+  return (
+    <>
+      <CurrentIcon />
+      <ContentArea>
+        <div className="flex">
+          <div className="align-center">
+            <ItemDate date={date} />
+          </div>
+          {role === 'porteur-projet' && (
+            <div className="align-center mb-1">
+              <InfoItem message="demande de confirmation à traiter" />
+            </div>
+          )}
+        </div>
+        <ItemTitle title={`Demande d'abandon en attente d'une confirmation du Porteur de projet`} />
+        {url && <a href={url}>Voir le courrier de réponse</a>}
+      </ContentArea>
+    </>
+  )
+}
+
+const RequestConfirmed = (props: ModificationRequestItemProps) => {
+  const { date, role } = props
+  return (
+    <>
+      <CurrentIcon />
+      <ContentArea>
+        <div className="flex">
+          <div className="align-center">
+            <ItemDate date={date} />
+          </div>
+          {['admin', 'dreal'].includes(role) && (
+            <div className="align-center mb-1">
+              <InfoItem message="à traiter" />
+            </div>
+          )}
+        </div>
+        <ItemTitle title={`Demande d'abandon confirmée par le porteur de projet`} />
       </ContentArea>
     </>
   )

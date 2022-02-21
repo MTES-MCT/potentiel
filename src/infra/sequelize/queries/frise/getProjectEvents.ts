@@ -128,6 +128,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   break
                 case 'ModificationRequestAccepted':
                 case 'ModificationRequestRejected':
+                case 'ConfirmationRequested':
                   if (userIsNot('ademe')(user)) {
                     events.push({
                       type,
@@ -140,6 +141,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   break
                 case 'ModificationRequestCancelled':
                 case 'ModificationRequestInstructionStarted':
+                case 'ModificationRequestConfirmed':
                   if (userIsNot('ademe')(user)) {
                     events.push({
                       type,

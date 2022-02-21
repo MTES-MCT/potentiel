@@ -17,7 +17,7 @@ describe('onModificationRequestInstructionStarted', () => {
     await resetDatabase()
   })
 
-  it('should create a new project event of ModificationRejected type', async () => {
+  it('should create a new project event of ModificationRequestInstructionStarted type', async () => {
     await Project.create(makeFakeProject({ id: projectId }))
     await ModificationRequest.create(
       makeFakeModificationRequest({ id: modificationRequestId, projectId })

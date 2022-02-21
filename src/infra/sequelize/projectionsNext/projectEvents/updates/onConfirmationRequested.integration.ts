@@ -1,32 +1,38 @@
 import { resetDatabase } from '../../../helpers'
 import { UniqueEntityID } from '@core/domain'
-import { ModificationRequestCancelled } from '@modules/modificationRequest'
+import { ConfirmationRequested } from '@modules/modificationRequest'
 import { ProjectEvent } from '..'
 import models from '../../../models'
-import onModificationRequestCancelled from './onModificationRequestCancelled'
+import onConfirmationRequested from './onConfirmationRequested'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import makeFakeModificationRequest from '../../../../../__tests__/fixtures/modificationRequest'
+import makeFakeFile from '../../../../../__tests__/fixtures/file'
 
-const { ModificationRequest, Project } = models
+const { ModificationRequest, Project, File } = models
 
-describe('onModificationRequestCancelled', () => {
+describe('onConfirmationRequested', () => {
   const projectId = new UniqueEntityID().toString()
   const modificationRequestId = new UniqueEntityID().toString()
+  const fileId = new UniqueEntityID().toString()
   const adminId = new UniqueEntityID().toString()
+
   beforeEach(async () => {
     await resetDatabase()
   })
 
-  it('should create a new project event of ModificationRequestCancelled type', async () => {
+  it('should create a new project event of ConfirmationRequested type', async () => {
     await Project.create(makeFakeProject({ id: projectId }))
     await ModificationRequest.create(
       makeFakeModificationRequest({ id: modificationRequestId, projectId })
     )
-    await onModificationRequestCancelled(
-      new ModificationRequestCancelled({
+    await File.create(makeFakeFile({ id: fileId, filename: 'filename' }))
+
+    await onConfirmationRequested(
+      new ConfirmationRequested({
         payload: {
           modificationRequestId,
-          cancelledBy: adminId,
+          confirmationRequestedBy: adminId,
+          responseFileId: fileId,
         },
         original: {
           version: 1,
@@ -36,9 +42,9 @@ describe('onModificationRequestCancelled', () => {
     )
     const projectEvent = await ProjectEvent.findOne({ where: { projectId } })
     expect(projectEvent).toMatchObject({
-      type: 'ModificationRequestCancelled',
+      type: 'ConfirmationRequested',
       projectId,
-      payload: { modificationRequestId },
+      payload: { modificationRequestId, file: { name: 'filename', id: fileId } },
     })
   })
 })
