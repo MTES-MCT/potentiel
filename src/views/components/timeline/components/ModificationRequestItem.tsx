@@ -31,7 +31,7 @@ type SubmittedProps = ModificationRequestItemProps & {
 }
 
 const Submitted = (props: SubmittedProps) => {
-  const { date, authority, role, modificationType, status } = props
+  const { date, authority, role, status } = props
   const displayWarning = (role === 'admin' && authority === 'dgec') || role === authority
   return (
     <>
@@ -47,11 +47,7 @@ const Submitted = (props: SubmittedProps) => {
             </div>
           )}
         </div>
-        <Title
-          status={status}
-          modificationType={modificationType}
-          delayInMonths={modificationType === 'delai' ? props.delayInMonths : undefined}
-        />
+        <Title {...props} />
       </ContentArea>
     </>
   )
@@ -68,11 +64,7 @@ const Rejected = (props: RejectedProps) => {
       <UnvalidatedStepIcon />
       <ContentArea>
         <ItemDate date={date} />
-        <Title
-          status={status}
-          modificationType={modificationType}
-          delayInMonths={modificationType === 'delai' ? props.delayInMonths : undefined}
-        />
+        <Title {...props} />
         {url && <a href={url}>Voir le courrier de réponse</a>}
       </ContentArea>
     </>
@@ -84,17 +76,13 @@ type AcceptedProps = ModificationRequestItemProps & {
 }
 
 const Accepted = (props: AcceptedProps) => {
-  const { date, url, modificationType, status } = props
+  const { date, url } = props
   return (
     <>
       <PastIcon />
       <ContentArea>
         <ItemDate date={date} />
-        <Title
-          status={status}
-          modificationType={modificationType}
-          delayInMonths={modificationType === 'delai' ? props.delayInMonths : undefined}
-        />
+        <Title {...props} />
         {url && <a href={url}>Voir le courrier de réponse</a>}
       </ContentArea>
     </>
@@ -106,17 +94,13 @@ type CancelledProps = ModificationRequestItemProps & {
 }
 
 const Cancelled = (props: CancelledProps) => {
-  const { date, modificationType, status } = props
+  const { date } = props
   return (
     <>
       <CancelledStepIcon />
       <ContentArea>
         <ItemDate date={date} />
-        <Title
-          status={status}
-          modificationType={modificationType}
-          delayInMonths={modificationType === 'delai' ? props.delayInMonths : undefined}
-        />
+        <Title {...props} />
         <p className="p-0 m-0">Demande annulée par le porteur de projet</p>
       </ContentArea>
     </>
@@ -125,7 +109,7 @@ const Cancelled = (props: CancelledProps) => {
 
 const Title = (
   props: { status: ModificationRequestItemProps['status'] } & (
-    | { modificationType: 'delai'; delayInMonths: number | undefined }
+    | { modificationType: 'delai'; delayInMonths: number }
     | { modificationType: 'abandon' | 'recours' }
   )
 ) => {
