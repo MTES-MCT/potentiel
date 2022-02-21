@@ -6,7 +6,7 @@ import {
   CurrentIcon,
   PastIcon,
   UnvalidatedStepIcon,
-  WarningItem,
+  InfoItem,
 } from '.'
 import { ModificationRequestItemProps } from '../helpers/extractModificationRequestsItemProps'
 import { CancelledStepIcon } from './cancelledStepIcon'
@@ -43,7 +43,7 @@ const Submitted = (props: SubmittedProps) => {
           </div>
           {displayWarning && (
             <div className="align-center mb-1">
-              <WarningItem message={status === 'envoyée' ? 'à traiter' : 'réponse à envoyer'} />
+              <InfoItem message={status === 'envoyée' ? 'à traiter' : 'réponse à envoyer'} />
             </div>
           )}
         </div>
