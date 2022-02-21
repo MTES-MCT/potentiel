@@ -37,7 +37,7 @@ export const ProjectDetails = PageLayout(
 
     return (
       <RoleBasedDashboard role={user.role} currentPage="list-projects">
-        <ProjectHeader project={project} user={user} />
+        <ProjectHeader {...{ project, user, cahiersChargesURLs }} />
         <SuccessErrorBox success={success} error={error} />
         <div className={'flex flex-row flex-wrap gap-3 justify-start items-stretch mt-5'}>
           <div className="panel p-4 mt-0 flex-auto">
