@@ -3,7 +3,7 @@ import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 const innovationPPE2: AppelOffre = {
   id: 'PPE2 - Innovation',
-  innovation: true,
+  type: 'innovation',
   title:
     '2021 S 203-530267 portant sur la réalisation et l’exploitation d’Installations de production d’électricité innovantes à partir de l’énergie solaire sans dispositifs de stockage',
   shortTitle: 'PPE2 - Innovation 2021 S 203-530267',
@@ -29,13 +29,17 @@ const innovationPPE2: AppelOffre = {
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
+  changementPuissance: {
+    autoAcceptRatios: {
+      min: 0.7,
+      max: 1.1,
+    },
+  },
   periodes: [
     {
       id: '1',
       title: 'première',
       paragrapheAchevement: '6.3',
-      isNotifiedOnPotentiel: true,
-      certificateTemplate: 'ppe2.v1',
     },
   ],
   familles: [

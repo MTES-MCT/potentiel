@@ -1,11 +1,11 @@
-import { ProjectAppelOffre } from '@entities'
+import { ProjectAppelOffre, Technologie } from '@entities'
 
 export const getDelaiDeRealisation = (
   appelOffre: ProjectAppelOffre,
-  technologie: string | undefined
+  technologie: Technologie
 ): number | null => {
   if (appelOffre.decoupageParTechnologie) {
-    if (!isValidTechnologie(technologie)) {
+    if (technologie === 'N/A') {
       return null
     }
 
@@ -13,10 +13,4 @@ export const getDelaiDeRealisation = (
   }
 
   return appelOffre.delaiRealisationEnMois
-}
-
-const isValidTechnologie = (
-  technologie: string | undefined
-): technologie is 'pv' | 'eolien' | 'hydraulique' => {
-  return !!technologie && ['pv', 'eolien', 'hydraulique'].includes(technologie)
 }

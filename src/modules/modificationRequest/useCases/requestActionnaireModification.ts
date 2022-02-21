@@ -35,102 +35,75 @@ interface RequestActionnaireModificationArgs {
   file?: { contents: FileContents; filename: string }
 }
 
-export const makeRequestActionnaireModification = (deps: RequestActionnaireModificationDeps) => (
-  args: RequestActionnaireModificationArgs
-): ResultAsync<
-  null,
-  | AggregateHasBeenUpdatedSinceError
-  | InfraNotAvailableError
-  | EntityNotFoundError
-  | UnauthorizedError
-> => {
-  const { projectId, requestedBy, newActionnaire, justification, file } = args
-  const { eventBus, shouldUserAccessProject, projectRepo, fileRepo } = deps
+export const makeRequestActionnaireModification =
+  (deps: RequestActionnaireModificationDeps) =>
+  (
+    args: RequestActionnaireModificationArgs
+  ): ResultAsync<
+    null,
+    | AggregateHasBeenUpdatedSinceError
+    | InfraNotAvailableError
+    | EntityNotFoundError
+    | UnauthorizedError
+  > => {
+    const { projectId, requestedBy, newActionnaire, justification, file } = args
+    const { eventBus, shouldUserAccessProject, projectRepo, fileRepo } = deps
 
-  return wrapInfra(shouldUserAccessProject({ projectId: projectId.toString(), user: requestedBy }))
-    .andThen(
-      (
-        userHasRightsToProject
-      ): ResultAsync<
-        any,
-        AggregateHasBeenUpdatedSinceError | InfraNotAvailableError | UnauthorizedError
-      > => {
-        if (!userHasRightsToProject) return errAsync(new UnauthorizedError())
-        if (!file) return okAsync(null)
-
-        return makeAndSaveFile({
-          file: {
-            designation: 'modification-request',
-            forProject: projectId,
-            createdBy: new UniqueEntityID(requestedBy.id),
-            filename: file.filename,
-            contents: file.contents,
-          },
-          fileRepo,
-        })
-          .map((responseFileId) => responseFileId)
-          .mapErr((e: Error) => {
-            logger.error(e)
-            return new InfraNotAvailableError()
-          })
-      }
+    return wrapInfra(
+      shouldUserAccessProject({ projectId: projectId.toString(), user: requestedBy })
     )
-    .andThen(
-      (
-        fileId: string
-      ): ResultAsync<
-        { requiresAuthorization: boolean; fileId: string },
-        InfraNotAvailableError | EntityNotFoundError
-      > =>
-        deps.getProjectAppelOffreId(projectId.toString()).andThen((appelOffreId) => {
-          if (appelOffreId === 'Eolien') {
-            return combine([
-              deps.hasProjectGarantieFinanciere(projectId.toString()),
-              deps.isProjectParticipatif(projectId.toString()),
-            ]).map(([hasGarantieFinanciere, isProjectParticipatif]) => ({
-              requiresAuthorization: !hasGarantieFinanciere || isProjectParticipatif,
-              fileId,
-            }))
-          }
+      .andThen(
+        (
+          userHasRightsToProject
+        ): ResultAsync<
+          any,
+          AggregateHasBeenUpdatedSinceError | InfraNotAvailableError | UnauthorizedError
+        > => {
+          if (!userHasRightsToProject) return errAsync(new UnauthorizedError())
+          if (!file) return okAsync(null)
 
-          return okAsync({ requiresAuthorization: false, fileId })
-        })
-    )
-    .andThen(({ requiresAuthorization, fileId }) => {
-      if (requiresAuthorization) {
-        return eventBus.publish(
-          new ModificationRequested({
-            payload: {
-              modificationRequestId: new UniqueEntityID().toString(),
-              projectId: projectId.toString(),
-              requestedBy: requestedBy.id,
-              type: 'actionnaire',
-              actionnaire: newActionnaire,
-              justification,
-              fileId,
-              authority: 'dreal',
+          return makeAndSaveFile({
+            file: {
+              designation: 'modification-request',
+              forProject: projectId,
+              createdBy: new UniqueEntityID(requestedBy.id),
+              filename: file.filename,
+              contents: file.contents,
             },
+            fileRepo,
           })
-        )
-      }
+            .map((responseFileId) => responseFileId)
+            .mapErr((e: Error) => {
+              logger.error(e)
+              return new InfraNotAvailableError()
+            })
+        }
+      )
+      .andThen(
+        (
+          fileId: string
+        ): ResultAsync<
+          { requiresAuthorization: boolean; fileId: string },
+          InfraNotAvailableError | EntityNotFoundError
+        > =>
+          deps.getProjectAppelOffreId(projectId.toString()).andThen((appelOffreId) => {
+            if (appelOffreId === 'Eolien') {
+              return combine([
+                deps.hasProjectGarantieFinanciere(projectId.toString()),
+                deps.isProjectParticipatif(projectId.toString()),
+              ]).map(([hasGarantieFinanciere, isProjectParticipatif]) => ({
+                requiresAuthorization: !hasGarantieFinanciere || isProjectParticipatif,
+                fileId,
+              }))
+            }
 
-      return projectRepo
-        .transaction(
-          projectId,
-          (
-            project: Project
-          ): ResultAsync<
-            string,
-            AggregateHasBeenUpdatedSinceError | ProjectCannotBeUpdatedIfUnnotifiedError
-          > => {
-            return project
-              .updateActionnaire(requestedBy, newActionnaire)
-              .asyncMap(async () => fileId)
-          }
-        )
-        .andThen(() =>
-          eventBus.publish(
-            new ModificationReceived({
+            return okAsync({ requiresAuthorization: false, fileId })
+          })
+      )
+      .andThen(({ requiresAuthorization, fileId }) => {
+        if (requiresAuthorization) {
+          return eventBus.publish(
+            new ModificationRequested({
               payload: {
                 modificationRequestId: new UniqueEntityID().toString(),
                 projectId: projectId.toString(),
@@ -143,6 +116,37 @@ export const makeRequestActionnaireModification = (deps: RequestActionnaireModif
               },
             })
           )
-        )
-    })
-}
+        }
+
+        return projectRepo
+          .transaction(
+            projectId,
+            (
+              project: Project
+            ): ResultAsync<
+              string,
+              AggregateHasBeenUpdatedSinceError | ProjectCannotBeUpdatedIfUnnotifiedError
+            > => {
+              return project
+                .updateActionnaire(requestedBy, newActionnaire)
+                .asyncMap(async () => fileId)
+            }
+          )
+          .andThen(() =>
+            eventBus.publish(
+              new ModificationReceived({
+                payload: {
+                  modificationRequestId: new UniqueEntityID().toString(),
+                  projectId: projectId.toString(),
+                  requestedBy: requestedBy.id,
+                  type: 'actionnaire',
+                  actionnaire: newActionnaire,
+                  justification,
+                  fileId,
+                  authority: 'dreal',
+                },
+              })
+            )
+          )
+      })
+  }

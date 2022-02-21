@@ -3,6 +3,7 @@ import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 export const zni2017: AppelOffre = {
   id: 'CRE4 - ZNI 2017',
+  type: 'zni',
   title:
     '2016/S 242-441980 portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de techniques de conversion du rayonnement solaire d’une puissance supérieure à 100 kWc et situées dans les zones non interconnectées',
   shortTitle: 'CRE4 - ZNI 2016/S 242-441980',
@@ -30,6 +31,12 @@ export const zni2017: AppelOffre = {
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   renvoiSoumisAuxGarantiesFinancieres: 'doit être au minimum de 36 mois',
   soumisAuxGarantiesFinancieres: true,
+  changementPuissance: {
+    autoAcceptRatios: {
+      min: 0.9,
+      max: 1.1,
+    },
+  },
   periodes: [
     {
       id: '1',

@@ -1,7 +1,7 @@
 import React from 'react'
 import { ProjectDataForCertificate } from 'src/modules/project'
-import { formatNumber } from '../../../helpers/formatNumber'
-import { getNoteThreshold } from '../../../helpers/getNoteThreshold'
+import { formatNumber } from '../../../../helpers/formatNumber'
+import { getNoteThreshold } from '../../../../helpers/getNoteThreshold'
 
 type CompetitiviteProps = {
   project: ProjectDataForCertificate

@@ -3,6 +3,7 @@ import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 const fessenheim: AppelOffre = {
   id: 'Fessenheim',
+  type: 'autre',
   title:
     '2019/S 019-040037 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie solaire « transition énergétique du territoire de Fessenheim »',
   shortTitle: 'Fessenheim 2019/S 019-040037',
@@ -29,6 +30,12 @@ const fessenheim: AppelOffre = {
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   renvoiSoumisAuxGarantiesFinancieres: 'doit être au minimum de 42 mois',
+  changementPuissance: {
+    autoAcceptRatios: {
+      min: 0.9,
+      max: 1.1,
+    },
+  },
   periodes: [
     {
       id: '1',
@@ -39,7 +46,8 @@ const fessenheim: AppelOffre = {
       id: '2',
       title: 'deuxième',
       paragrapheAchevement: '6.4',
-      noteThresholdByFamily: [
+      noteThresholdBy: 'family',
+      noteThreshold: [
         { familleId: '1', noteThreshold: 69.34 },
         { familleId: '3', noteThreshold: 1.52 },
       ],
@@ -50,7 +58,8 @@ const fessenheim: AppelOffre = {
       id: '3',
       title: 'troisième',
       paragrapheAchevement: '6.4',
-      noteThresholdByFamily: [
+      noteThresholdBy: 'family',
+      noteThreshold: [
         { familleId: '1', noteThreshold: 21.15 },
         { familleId: '2', noteThreshold: 89.09 },
         { familleId: '3', noteThreshold: 18.43 },

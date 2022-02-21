@@ -1,8 +1,47 @@
 import { Periode } from './periode'
 import { Famille } from './famille'
 
+export const technologies = ['pv', 'eolien', 'hydraulique', 'N/A'] as const
+export type Technologie = typeof technologies[number]
+
+type AutoAcceptRatios = {
+  min: number
+  max: number
+}
+
+type ChangementPuissance =
+  | {
+      changementByTechnologie?: undefined
+      autoAcceptRatios: AutoAcceptRatios
+    }
+  | {
+      changementByTechnologie: true
+      autoAcceptRatios: { [key in Exclude<Technologie, 'N/A'>]: AutoAcceptRatios }
+    }
+
+type AppelOffreTypes =
+  | 'autoconso'
+  | 'batiment'
+  | 'eolien'
+  | 'innovation'
+  | 'neutre'
+  | 'sol'
+  | 'zni'
+  | 'autre'
+
+type DelaiRealisation =
+  | {
+      delaiRealisationEnMois: number
+      decoupageParTechnologie: false
+    }
+  | {
+      delaiRealisationEnMoisParTechnologie: { [key in Exclude<Technologie, 'N/A'>]: number }
+      decoupageParTechnologie: true
+    }
+
 export type AppelOffre = {
   id: string
+  type: AppelOffreTypes
   title: string
   shortTitle: string
   launchDate: string
@@ -29,14 +68,8 @@ export type AppelOffre = {
   periodes: Periode[]
   familles: Famille[]
   contenuParagrapheAchevement: string
-  innovation?: true
-} & (
-  | { delaiRealisationEnMois: number; decoupageParTechnologie: false }
-  | {
-      delaiRealisationEnMoisParTechnologie: { pv: number; eolien: number; hydraulique: number }
-      decoupageParTechnologie: true
-    }
-)
+  changementPuissance: ChangementPuissance
+} & DelaiRealisation
 
 export type ProjectAppelOffre = AppelOffre & {
   periode: Periode

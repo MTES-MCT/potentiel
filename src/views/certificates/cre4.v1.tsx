@@ -7,6 +7,7 @@ import { formatDate } from '../../helpers/formatDate'
 import { ProjectDataForCertificate } from '@modules/project/dtos'
 import { IllegalProjectStateError } from '@modules/project/errors'
 import { OtherError } from '@modules/shared'
+import { formatNumber, getNoteThreshold } from './helpers'
 
 dotenv.config()
 
@@ -22,11 +23,6 @@ Font.register({
     },
   ],
 })
-
-const formatNumber = (n, precisionOverride?: number) => {
-  const precision = precisionOverride || 100
-  return (Math.round(n * precision) / precision).toString().replace('.', ',')
-}
 
 const FOOTNOTE_INDICES = [185, 178, 179, 186, 9824, 9827, 9829, 9830]
 
@@ -55,7 +51,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
 
   const famille = appelOffre.familles.find((famille) => famille.id === project.familleId)
   const soumisAuxGarantiesFinancieres =
-    appelOffre.id === 'Eolien' ||
+    appelOffre.type === 'eolien' ||
     famille?.garantieFinanciereEnMois ||
     famille?.soumisAuxGarantiesFinancieres
 
@@ -142,7 +138,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
         - si ce n’est déjà fait, déposer une demande complète de raccordement dans les deux (2) mois
         à compter de la présente notification
         {addFootNote(appelOffre.renvoiDemandeCompleteRaccordement)}
-        {appelOffre.id === 'Eolien'
+        {appelOffre.type === 'eolien'
           ? ' ou dans les deux mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale'
           : ''}
         ;
@@ -156,7 +152,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
             marginLeft: 20,
           }}
         >
-          - constituer une garantie {appelOffre.id === 'Eolien' ? 'bancaire ' : ''}
+          - constituer une garantie {appelOffre.type === 'eolien' ? 'bancaire ' : ''}
           d’exécution dans un délai de deux (2) mois à compter de la présente notification. Les
           candidats retenus n’ayant pas adressé au préfet de région du site d’implantation
           l’attestation de constitution de garantie financière dans le délai prévu feront l’objet
@@ -171,7 +167,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
       ) : (
         <Text />
       )}
-      {appelOffre.innovation ? (
+      {appelOffre.type === 'innovation' ? (
         <Text
           style={{
             fontSize: 10,
@@ -256,14 +252,14 @@ const Laureat = (project: ProjectDataForCertificate) => {
           >
             {appelOffre.affichageParagrapheECS ? (
               <Text>
-                {appelOffre.id === 'Eolien'
+                {appelOffre.type === 'eolien'
                   ? 'Les changements conduisant à une remise en cause de l’autorisation mentionnée au 3.3.3 ne seront pas acceptés'
                   : 'Les changements conduisant à une diminution de la notation d’un ou plusieurs critères d’évaluations de l’offre, notamment par un bilan carbone moins performant, ne seront pas acceptés.'}{' '}
               </Text>
             ) : (
               <Text />
             )}
-            {appelOffre.innovation ? (
+            {appelOffre.type === 'innovation' ? (
               <>
                 Toute demande de modification substantielle de l’innovation sera notamment refusée
                 <Text>{addFootNote('5.4.4')}</Text>.
@@ -290,44 +286,6 @@ const Laureat = (project: ProjectDataForCertificate) => {
   return { project, appelOffre, periode, objet, body, footnotes }
 }
 
-const getNoteThreshold = (project: ProjectDataForCertificate) => {
-  const periode = project.appelOffre.periode
-
-  if (!periode.noteThresholdByFamily) {
-    logger.error(
-      `candidateCertificate: looking for noteThresholdByFamily for a period that has none. Periode Id : ${periode.id}`
-    )
-    return 'N/A'
-  }
-
-  if (project.territoireProjet && project.territoireProjet.length) {
-    const note = periode.noteThresholdByFamily.find(
-      (item) => item.familleId === project.familleId && item.territoire === project.territoireProjet
-    )?.noteThreshold
-
-    if (!note) {
-      logger.error(
-        `candidateCertificate: looking for noteThreshold for periode: ${periode.id}, famille: ${project.familleId} and territoire: ${project.territoireProjet} but could not find it`
-      )
-      return 'N/A'
-    }
-
-    return note
-  }
-
-  const note = periode.noteThresholdByFamily.find(
-    (item) => item.familleId === project.familleId
-  )?.noteThreshold
-
-  if (!note) {
-    logger.error(
-      `candidateCertificate: looking for noteThreshold for periode: ${periode.id} and famille: ${project.familleId} but could not find it`
-    )
-    return 'N/A'
-  }
-
-  return note
-}
 const Elimine = (project: ProjectDataForCertificate) => {
   const { appelOffre } = project
   const { periode } = appelOffre || {}

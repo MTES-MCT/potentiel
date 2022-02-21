@@ -28,7 +28,7 @@ export default function makeFakeProject(overrides?) {
     isFinancementParticipatif: false,
     engagementFournitureDePuissanceAlaPointe: false,
     newRulesOptIn: false,
-    technologie: '',
+    technologie: 'N/A',
   }
 
   const project = {

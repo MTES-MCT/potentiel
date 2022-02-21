@@ -3,6 +3,7 @@ import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 const autoconsommationMetropole: AppelOffre = {
   id: 'CRE4 - Autoconsommation métropole',
+  type: 'autoconso',
   title:
     '2017/S 054-100223 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées en métropole continentale',
   shortTitle: 'CRE4 - Autoconsommation métropole 2017/S 054-100223',
@@ -28,6 +29,12 @@ const autoconsommationMetropole: AppelOffre = {
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
+  changementPuissance: {
+    autoAcceptRatios: {
+      min: 0.8,
+      max: 1,
+    },
+  },
   periodes: [
     {
       id: '1',
@@ -63,7 +70,7 @@ const autoconsommationMetropole: AppelOffre = {
       id: '7',
       title: 'septième',
       paragrapheAchevement: '6.3',
-      noteThresholdByFamily: [{ familleId: '', noteThreshold: 20.04 }],
+      noteThreshold: 20.04,
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v0',
     },
@@ -71,7 +78,7 @@ const autoconsommationMetropole: AppelOffre = {
       id: '8',
       title: 'huitième',
       paragrapheAchevement: '6.3',
-      noteThresholdByFamily: [{ familleId: '', noteThreshold: 32.04 }],
+      noteThreshold: 32.04,
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v1',
     },
@@ -79,7 +86,7 @@ const autoconsommationMetropole: AppelOffre = {
       id: '9',
       title: 'neuvième',
       paragrapheAchevement: '6.3',
-      noteThresholdByFamily: [{ familleId: '', noteThreshold: 9.9 }],
+      noteThreshold: 9.9,
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v1',
     },
@@ -87,7 +94,7 @@ const autoconsommationMetropole: AppelOffre = {
       id: '10',
       title: 'dixième',
       paragrapheAchevement: '6.3',
-      noteThresholdByFamily: [{ familleId: '', noteThreshold: 44.9 }],
+      noteThreshold: 44.9,
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v1',
     },

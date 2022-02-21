@@ -3,6 +3,7 @@ import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 const solPPE2: AppelOffre = {
   id: 'PPE2 - Sol',
+  type: 'sol',
   title:
     '2021 S 211-553136 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie solaire « Centrales au sol »',
   shortTitle: 'PPE2 - Sol 2021 S 211-553136',
@@ -29,13 +30,17 @@ const solPPE2: AppelOffre = {
   afficherValeurEvaluationCarbone: true,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
+  changementPuissance: {
+    autoAcceptRatios: {
+      min: 0.9,
+      max: 1.1,
+    },
+  },
   periodes: [
     {
       id: '1',
       title: 'première',
       paragrapheAchevement: '6.3',
-      isNotifiedOnPotentiel: true,
-      certificateTemplate: 'ppe2.v1',
     },
   ],
   familles: [],

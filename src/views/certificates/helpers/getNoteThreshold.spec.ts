@@ -1,13 +1,32 @@
-import { Periode, ProjectAppelOffre } from '@entities'
-import { ProjectDataForCertificate } from '@modules/project'
+import { ProjectAppelOffre } from '@entities'
 import { getNoteThreshold } from './getNoteThreshold'
 
 describe(`getNoteThreshold`, () => {
-  describe(`when the periode has a note thershold by category`, () => {
+  describe(`when the periode has a note threshold`, () => {
     const fakeProject = {
       appelOffre: {
         periode: {
-          noteThresholdByCategory: {
+          isNotifiedOnPotentiel: true,
+          noteThreshold: 99,
+        },
+      } as ProjectAppelOffre,
+    }
+
+    const project = { ...fakeProject, puissance: 10 }
+    const actual = getNoteThreshold(project)
+
+    it(`should return the note threshold`, () => {
+      expect(actual).toBe(99)
+    })
+  })
+
+  describe(`when the periode has a note threshold by category`, () => {
+    const fakeProject = {
+      appelOffre: {
+        periode: {
+          isNotifiedOnPotentiel: true,
+          noteThresholdBy: 'category',
+          noteThreshold: {
             volumeReserve: {
               noteThreshold: 99,
               puissanceMax: 15,
@@ -18,7 +37,7 @@ describe(`getNoteThreshold`, () => {
           },
         },
       } as ProjectAppelOffre,
-    } as ProjectDataForCertificate
+    }
 
     describe(`when the project puissance is lower than the maximum puissance`, () => {
       const project = { ...fakeProject, puissance: 10 }
@@ -39,16 +58,14 @@ describe(`getNoteThreshold`, () => {
     })
   })
 
-  describe(`when the periode does not have a note thershold by category`, () => {
-    describe(`when the periode does not have a note thershold by family`, () => {
+  describe(`when the periode does not have a note threshold by category`, () => {
+    describe(`when the periode does not have a note threshold by family`, () => {
       const fakeProject = {
+        puissance: 10,
         appelOffre: {
-          periode: {
-            noteThresholdByCategory: undefined,
-            noteThresholdByFamily: undefined,
-          },
+          periode: {},
         } as ProjectAppelOffre,
-      } as ProjectDataForCertificate
+      }
 
       const actual = getNoteThreshold(fakeProject)
 
@@ -58,16 +75,18 @@ describe(`getNoteThreshold`, () => {
     })
   })
 
-  describe(`when the periode has a note thershold by family`, () => {
+  describe(`when the periode has a note threshold by family`, () => {
     const familleId = 'family-id'
     const territoire = 'Guadeloupe'
 
     const fakeProject = {
+      puissance: 10,
       familleId,
       appelOffre: {
         periode: {
-          noteThresholdByCategory: undefined,
-          noteThresholdByFamily: [
+          isNotifiedOnPotentiel: true,
+          noteThresholdBy: 'family',
+          noteThreshold: [
             {
               familleId,
               noteThreshold: 38,
@@ -79,9 +98,9 @@ describe(`getNoteThreshold`, () => {
               territoire: 'Corse',
             },
           ],
-        } as Periode,
+        },
       } as ProjectAppelOffre,
-    } as ProjectDataForCertificate
+    }
 
     describe(`when the project has not the same territoire as the family`, () => {
       const actual = getNoteThreshold({ ...fakeProject, territoireProjet: 'Another' })

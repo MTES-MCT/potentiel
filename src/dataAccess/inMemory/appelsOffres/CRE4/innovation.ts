@@ -3,7 +3,7 @@ import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 const innovation: AppelOffre = {
   id: 'CRE4 - Innovation',
-  innovation: true,
+  type: 'innovation',
   title:
     '2017/S 051-094731 portant sur la réalisation et l’exploitation d’Installations de production d’électricité innovantes à partir de l’énergie solaire, sans dispositifs de stockage',
   shortTitle: 'CRE4 - Innovation 2017/S 051-094731',
@@ -29,6 +29,12 @@ const innovation: AppelOffre = {
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
+  changementPuissance: {
+    autoAcceptRatios: {
+      min: 0.7,
+      max: 1,
+    },
+  },
   periodes: [
     {
       id: '1',
@@ -39,7 +45,8 @@ const innovation: AppelOffre = {
       id: '2',
       title: 'deuxième',
       paragrapheAchevement: '6.3',
-      noteThresholdByFamily: [
+      noteThresholdBy: 'family',
+      noteThreshold: [
         { familleId: '1', noteThreshold: 71.58 },
         { familleId: '2', noteThreshold: 45.49 },
       ],
@@ -50,7 +57,8 @@ const innovation: AppelOffre = {
       id: '3',
       title: 'troisième',
       paragrapheAchevement: '6.3',
-      noteThresholdByFamily: [
+      noteThresholdBy: 'family',
+      noteThreshold: [
         { familleId: '1', noteThreshold: 64.21 },
         { familleId: '2', noteThreshold: 59.32 },
       ],

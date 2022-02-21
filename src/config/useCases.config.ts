@@ -12,7 +12,7 @@ import {
   makeRequestProducteurModification,
   makeRequestPuissanceModification,
   makeUpdateModificationRequestStatus,
-  getAutoAcceptRatiosForAppelOffre,
+  isModificationPuissanceAuto,
 } from '@modules/modificationRequest'
 import {
   makeCorrectProjectData,
@@ -120,7 +120,7 @@ export const updateStepStatus = makeUpdateStepStatus({
 export const requestPuissanceModification = makeRequestPuissanceModification({
   eventBus: eventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  getAutoAcceptRatiosForAppelOffre,
+  isModificationPuissanceAuto,
   projectRepo,
   fileRepo,
 })

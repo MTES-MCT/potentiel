@@ -3,6 +3,7 @@ import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 const autoconsommationZNI: AppelOffre = {
   id: 'CRE4 - Autoconsommation ZNI',
+  type: 'autoconso',
   title:
     '2019/S 113-276257 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées dans les zones non interconnectées.',
   shortTitle: 'CRE4 - Autoconsommation ZNI 2019/S 113-276257',
@@ -28,12 +29,16 @@ const autoconsommationZNI: AppelOffre = {
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
+  changementPuissance: {
+    autoAcceptRatios: {
+      min: 0.8,
+      max: 1,
+    },
+  },
   periodes: [
     {
       id: '1',
       title: 'première',
-      isNotifiedOnPotentiel: true,
-      certificateTemplate: 'cre4.v0',
       paragrapheAchevement: '6.3',
     },
     {
@@ -42,7 +47,7 @@ const autoconsommationZNI: AppelOffre = {
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v1',
       paragrapheAchevement: '6.3',
-      noteThresholdByFamily: [{ familleId: '', noteThreshold: 32.9 }],
+      noteThreshold: 32.9,
     },
   ],
   familles: [],

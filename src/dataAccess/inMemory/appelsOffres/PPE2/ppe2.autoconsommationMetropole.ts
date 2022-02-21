@@ -2,6 +2,7 @@ import { AppelOffre } from '@entities'
 
 const autoconsommationMetropolePPE2: AppelOffre = {
   id: 'PPE2 - Autoconsommation métropole',
+  type: 'autoconso',
   title:
     '2021 S 176-457526 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées en métropole continentale',
   shortTitle: 'PPE2 - Autoconsommation métropole 2021 S 176-457526',
@@ -32,6 +33,23 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'violaine.tarizzo@developpement-durable.gouv.fr',
+  changementPuissance: {
+    changementByTechnologie: true,
+    autoAcceptRatios: {
+      pv: {
+        min: 0.9,
+        max: 1.1,
+      },
+      eolien: {
+        min: 0.8,
+        max: 1.2,
+      },
+      hydraulique: {
+        min: 0.9,
+        max: 1.1,
+      },
+    },
+  },
   periodes: [
     {
       id: '1',
@@ -39,7 +57,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
       paragrapheAchevement: '6.3',
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'ppe2.v1',
-      noteThresholdByFamily: [{ familleId: '', noteThreshold: 62.5 }],
+      noteThreshold: 62.5,
     },
   ],
   familles: [],

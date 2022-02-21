@@ -3,6 +3,7 @@ import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 const sol: AppelOffre = {
   id: 'CRE4 - Sol',
+  type: 'sol',
   title:
     '2016/S 148-268152 portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de l’énergie solaire « Centrale au sol »',
   shortTitle: 'CRE4 - Sol 2016/S 148-268152',
@@ -30,6 +31,12 @@ const sol: AppelOffre = {
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   renvoiSoumisAuxGarantiesFinancieres: 'doit être au minimum de 42 mois',
   soumisAuxGarantiesFinancieres: true,
+  changementPuissance: {
+    autoAcceptRatios: {
+      min: 0.9,
+      max: 1.1,
+    },
+  },
   periodes: [
     {
       id: '1',
@@ -65,7 +72,8 @@ const sol: AppelOffre = {
       id: '7',
       title: 'septième',
       paragrapheAchevement: '6.4',
-      noteThresholdByFamily: [
+      noteThresholdBy: 'family',
+      noteThreshold: [
         { familleId: '1', noteThreshold: 56.6 },
         { familleId: '2', noteThreshold: 48.17 },
         { familleId: '3', noteThreshold: 54.15 },
@@ -77,7 +85,8 @@ const sol: AppelOffre = {
       id: '8',
       title: 'huitième',
       paragrapheAchevement: '6.4',
-      noteThresholdByFamily: [
+      noteThresholdBy: 'family',
+      noteThreshold: [
         { familleId: '1', noteThreshold: 55.25 },
         { familleId: '2', noteThreshold: 52.04 },
         { familleId: '3', noteThreshold: 54.35 },
@@ -89,7 +98,8 @@ const sol: AppelOffre = {
       id: '9',
       title: 'neuvième',
       paragrapheAchevement: '6.4',
-      noteThresholdByFamily: [
+      noteThresholdBy: 'family',
+      noteThreshold: [
         { familleId: '1', noteThreshold: 48.6 },
         { familleId: '2', noteThreshold: 45.49 },
         { familleId: '3', noteThreshold: 36.02 },
@@ -102,7 +112,8 @@ const sol: AppelOffre = {
       title: 'dixième',
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
-      noteThresholdByFamily: [
+      noteThresholdBy: 'family',
+      noteThreshold: [
         { familleId: '1', noteThreshold: 46.86 },
         { familleId: '2', noteThreshold: 43.96 },
         { familleId: '3', noteThreshold: 23.94 },

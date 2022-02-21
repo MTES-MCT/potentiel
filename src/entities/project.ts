@@ -15,7 +15,7 @@ import {
 } from '../types/schemaTypes'
 import { ModificationRequest } from './modificationRequest'
 import { User } from './user'
-import { ProjectAppelOffre } from './appelOffre'
+import { ProjectAppelOffre, Technologie, technologies } from './appelOffre'
 import { Famille } from './famille'
 import { CertificateTemplate } from './periode'
 
@@ -69,7 +69,9 @@ const baseProjectSchema = SchemaRecord({
   numeroGestionnaire: String,
   newRulesOptIn: Boolean,
   potentielIdentifier: String,
-  technologie: String,
+  technologie: String.withGuard((value: string): value is Technologie =>
+    technologies.includes(value as Technologie)
+  ),
 })
 const projectSchema = baseProjectSchema.And(
   SchemaPartial({
@@ -281,6 +283,7 @@ export default ({ makeId }: MakeProjectDependencies) =>
     numeroGestionnaire: '',
     newRulesOptIn: false,
     potentielIdentifier: '',
+    technologie: 'N/A',
   })
 
 export {

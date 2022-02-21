@@ -3,6 +3,7 @@ import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 const zni: AppelOffre = {
   id: 'CRE4 - ZNI',
+  type: 'zni',
   title:
     '2019/S 113-276264 portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de l’énergie solaire et situées dans les zones non interconnectées',
   shortTitle: 'CRE4 - ZNI 2019/S 113-276264',
@@ -29,6 +30,12 @@ const zni: AppelOffre = {
   afficherPhraseRegionImplantation: true,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   renvoiSoumisAuxGarantiesFinancieres: 'doit être au minimum de 36 mois',
+  changementPuissance: {
+    autoAcceptRatios: {
+      min: 0.9,
+      max: 1.1,
+    },
+  },
   periodes: [
     {
       id: '1',
@@ -36,7 +43,8 @@ const zni: AppelOffre = {
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v0',
-      noteThresholdByFamily: [
+      noteThresholdBy: 'family',
+      noteThreshold: [
         { familleId: '1a', territoire: 'Corse', noteThreshold: 53.4 },
         { familleId: '1a', territoire: 'Guadeloupe', noteThreshold: 56.3 },
         { familleId: '1a', territoire: 'La Réunion', noteThreshold: 30.6 },
@@ -61,7 +69,8 @@ const zni: AppelOffre = {
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v0',
-      noteThresholdByFamily: [
+      noteThresholdBy: 'family',
+      noteThreshold: [
         { familleId: '2a', territoire: 'Corse', noteThreshold: 42.1 },
         { familleId: '2a', territoire: 'Guadeloupe', noteThreshold: 47.2 },
         { familleId: '2a', territoire: 'Guyane', noteThreshold: 18.4 },
@@ -85,7 +94,8 @@ const zni: AppelOffre = {
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v1',
-      noteThresholdByFamily: [
+      noteThresholdBy: 'family',
+      noteThreshold: [
         { familleId: '1a', territoire: 'Corse', noteThreshold: 52.7 },
         { familleId: '1a', territoire: 'Guadeloupe', noteThreshold: 30.6 },
         { familleId: '1a', territoire: 'La Réunion', noteThreshold: 29.9 },
@@ -107,7 +117,8 @@ const zni: AppelOffre = {
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v1',
-      noteThresholdByFamily: [
+      noteThresholdBy: 'family',
+      noteThreshold: [
         { familleId: '2a', territoire: 'Corse', noteThreshold: 33.61 },
         { familleId: '2a', territoire: 'Guadeloupe', noteThreshold: 40.48 },
         { familleId: '2a', territoire: 'Guyane', noteThreshold: 30.53 },
@@ -131,7 +142,8 @@ const zni: AppelOffre = {
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v1',
-      noteThresholdByFamily: [
+      noteThresholdBy: 'family',
+      noteThreshold: [
         { familleId: '1a', territoire: 'Mayotte', noteThreshold: 49.99 },
         { familleId: '1a', territoire: 'Guyane', noteThreshold: 30.64 },
         //

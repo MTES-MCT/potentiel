@@ -3,6 +3,7 @@ import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 const batiment: AppelOffre = {
   id: 'CRE4 - Bâtiment',
+  type: 'batiment',
   title:
     '2016/S 174-312851 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie solaire « Centrales sur bâtiments, serres et hangars agricoles et ombrières de parking de puissance comprise entre 100 kWc et 8 MWc »',
   shortTitle: 'CRE4 - Bâtiment 2016/S 174-312851',
@@ -29,6 +30,12 @@ const batiment: AppelOffre = {
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   renvoiSoumisAuxGarantiesFinancieres: 'doit être au minimum de 36 mois',
+  changementPuissance: {
+    autoAcceptRatios: {
+      min: 0.9,
+      max: 1.1,
+    },
+  },
   periodes: [
     {
       id: '1',
@@ -80,7 +87,8 @@ const batiment: AppelOffre = {
       title: 'dixième',
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
-      noteThresholdByFamily: [
+      noteThresholdBy: 'family',
+      noteThreshold: [
         { familleId: '1', noteThreshold: 27.91 },
         { familleId: '2', noteThreshold: 25.62 },
       ],
@@ -91,7 +99,8 @@ const batiment: AppelOffre = {
       title: 'onzième',
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
-      noteThresholdByFamily: [
+      noteThresholdBy: 'family',
+      noteThreshold: [
         { familleId: '1', noteThreshold: 30.82 },
         { familleId: '2', noteThreshold: 29.85 },
       ],
@@ -102,7 +111,8 @@ const batiment: AppelOffre = {
       title: 'douzième',
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
-      noteThresholdByFamily: [
+      noteThresholdBy: 'family',
+      noteThreshold: [
         { familleId: '1', noteThreshold: 33.77 },
         { familleId: '2', noteThreshold: 32.8 },
       ],
@@ -113,7 +123,8 @@ const batiment: AppelOffre = {
       title: 'treizième',
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
-      noteThresholdByFamily: [
+      noteThresholdBy: 'family',
+      noteThreshold: [
         { familleId: '1', noteThreshold: 22.59 },
         { familleId: '2', noteThreshold: 26.91 },
       ],

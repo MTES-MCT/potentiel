@@ -4,6 +4,7 @@ import { logger } from '@core/utils'
 import { AppelOffre, Periode, Project, ProjectAppelOffre } from '@entities'
 import { formatDate } from '../../helpers/formatDate'
 import { getDelaiDeRealisation } from '@modules/projectAppelOffre'
+import { formatNumber, getNoteThreshold } from '../certificates/helpers'
 
 Font.register({
   family: 'Arial',
@@ -17,11 +18,6 @@ Font.register({
     },
   ],
 })
-
-const formatNumber = (n, precisionOverride?: number) => {
-  const precision = precisionOverride || 100
-  return (Math.round(n * precision) / precision).toString().replace('.', ',')
-}
 
 const FOOTNOTE_INDICES = [185, 178, 179, 186, 9824, 9827, 9829, 9830]
 
@@ -162,7 +158,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
       ) : (
         <Text />
       )}
-      {appelOffre.innovation ? (
+      {appelOffre.type === 'innovation' ? (
         <Text
           style={{
             fontSize: 10,
@@ -254,7 +250,7 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
             ) : (
               <Text />
             )}
-            {appelOffre.innovation ? (
+            {appelOffre.type === 'innovation' ? (
               <>
                 Toute demande de modification substantielle de l’innovation sera notamment refusée
                 <Text>{addFootNote('5.4.4')}</Text>.
@@ -279,43 +275,6 @@ const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
     </Text>
   ))
   return { project, appelOffre, periode, objet, body, footnotes }
-}
-
-const getNoteThreshold = (periode: Periode, project: Project) => {
-  if (!periode.noteThresholdByFamily) {
-    logger.error(
-      `candidateCertificate: looking for noteThresholdByFamily for a period that has none. Periode Id : ${periode.id}`
-    )
-    return 'N/A'
-  }
-
-  if (project.territoireProjet && project.territoireProjet.length) {
-    const note = periode.noteThresholdByFamily.find(
-      (item) => item.familleId === project.familleId && item.territoire === project.territoireProjet
-    )?.noteThreshold
-
-    if (!note) {
-      logger.error(
-        `candidateCertificate: looking for noteThreshold for periode: ${periode.id}, famille: ${project.familleId} and territoire: ${project.territoireProjet} but could not find it`
-      )
-      return 'N/A'
-    }
-
-    return note
-  }
-
-  const note = periode.noteThresholdByFamily.find(
-    (item) => item.familleId === project.familleId
-  )?.noteThreshold
-
-  if (!note) {
-    logger.error(
-      `candidateCertificate: looking for noteThreshold for periode: ${periode.id} and famille: ${project.familleId} but could not find it`
-    )
-    return 'N/A'
-  }
-
-  return note
 }
 
 interface ElimineProps {
@@ -343,7 +302,7 @@ const Elimine = ({ project, appelOffre, periode }: ElimineProps) => {
           ? 'Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été classée au-delà de la puissance offerte pour cette période de candidature dans la famille concernée. Votre offre a en effet obtenu une note de ' +
             formatNumber(project.note) +
             ' points alors que le classement des dossiers a fait apparaître que la sélection des offres jusqu’à la note de ' +
-            formatNumber(getNoteThreshold(periode, project)) +
+            formatNumber(getNoteThreshold({ ...project, appelOffre: { ...appelOffre, periode } })) +
             ' points permettait de remplir les objectifs de volumes de l’appel d’offres dans cette famille' +
             (appelOffre.afficherPhraseRegionImplantation
               ? ', et pour la région d’implantation du projet définis au 1.2.2 du cahier des charges'
@@ -358,7 +317,7 @@ const Elimine = ({ project, appelOffre, periode }: ElimineProps) => {
             ' du cahier des charges. Ainsi, pour chaque famille, seules 80 % des projets les mieux notés ont été retenus. Votre offre a en effet obtenu une note de ' +
             formatNumber(project.note) +
             ' points alors que la sélection des offres s’est faite jusqu’à la note de ' +
-            formatNumber(getNoteThreshold(periode, project)) +
+            formatNumber(getNoteThreshold({ ...project, appelOffre: { ...appelOffre, periode } })) +
             ' points. Par conséquent, votre offre n’a pas été retenue.'
           : 'Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été éliminée pour le motif suivant : «' +
             project.motifsElimination +
@@ -581,7 +540,7 @@ const makeCertificate = ({ destination, project }: MakeCertificateProps) => {
 
   let content
 
-  if (project.classe === 'Classé') {
+  if (project.classe === 'Classé' && appelOffre) {
     content = Laureat({ project, appelOffre, periode })
   } else {
     content = Elimine({ project, appelOffre, periode })

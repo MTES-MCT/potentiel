@@ -11,7 +11,7 @@ import {
   ok,
   Result,
 } from '@core/utils'
-import { AppelOffre, CertificateTemplate, ProjectAppelOffre, User } from '@entities'
+import { AppelOffre, CertificateTemplate, ProjectAppelOffre, Technologie, User } from '@entities'
 import {
   EntityNotFoundError,
   HeterogeneousHistoryError,
@@ -148,7 +148,7 @@ export interface ProjectDataProps {
   isInvestissementParticipatif: boolean
   motifsElimination: string
   details: Record<string, string>
-  technologie: string
+  technologie: Technologie
   actionnariat?: 'financement-collectif' | 'gouvernance-partagee'
 }
 
@@ -898,7 +898,10 @@ export const makeProject = (args: {
           completionDueOn:
             completionDueOn ||
             moment(props.notifiedOn)
-              .add(getDelaiDeRealisation(props.appelOffre, props.data?.technologie), 'months')
+              .add(
+                getDelaiDeRealisation(props.appelOffre, props.data?.technologie ?? 'N/A'),
+                'months'
+              )
               .subtract(1, 'day')
               .toDate()
               .getTime(),

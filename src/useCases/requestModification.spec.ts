@@ -7,6 +7,7 @@ import { FileObject } from '@modules/file'
 import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared'
 import makeFakeUser from '../__tests__/fixtures/user'
 import makeRequestModification, { ACCESS_DENIED_ERROR } from './requestModification'
+import { appelOffreRepo } from '@dataAccess/inMemory'
 
 const fakeFileContents = {
   filename: 'fakeFile.pdf',
@@ -33,6 +34,7 @@ describe('requestModification use-case', () => {
 
     const requestModification = makeRequestModification({
       fileRepo,
+      appelOffreRepo,
       eventBus,
       shouldUserAccessProject,
       getProjectAppelOffreId,
@@ -75,6 +77,7 @@ describe('requestModification use-case', () => {
 
     const requestModification = makeRequestModification({
       fileRepo,
+      appelOffreRepo,
       eventBus,
       shouldUserAccessProject,
       getProjectAppelOffreId,
@@ -115,6 +118,7 @@ describe('requestModification use-case', () => {
 
       const requestModification = makeRequestModification({
         fileRepo: fileRepo as Repository<FileObject>,
+        appelOffreRepo,
         eventBus,
         shouldUserAccessProject,
         getProjectAppelOffreId,
@@ -170,6 +174,7 @@ describe('requestModification use-case', () => {
 
       const requestModification = makeRequestModification({
         fileRepo: fileRepo as Repository<FileObject>,
+        appelOffreRepo,
         eventBus,
         shouldUserAccessProject,
         getProjectAppelOffreId,

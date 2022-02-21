@@ -42,6 +42,7 @@ const shouldUserAccessProject = makeShouldUserAccessProject({
 
 const requestModification = makeRequestModification({
   fileRepo,
+  appelOffreRepo,
   eventBus: eventStore,
   shouldUserAccessProject,
   getProjectAppelOffreId,

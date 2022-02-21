@@ -3,6 +3,7 @@ import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 const eolien: AppelOffre = {
   id: 'Eolien',
+  type: 'eolien',
   title:
     '2017/S 083-161855 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie mécanique du vent implantées à terre',
   shortTitle: 'Eolien 2017/S 083-161855',
@@ -35,6 +36,12 @@ const eolien: AppelOffre = {
   afficherPhraseRegionImplantation: false,
   afficherValeurEvaluationCarbone: false,
   soumisAuxGarantiesFinancieres: true,
+  changementPuissance: {
+    autoAcceptRatios: {
+      min: 0.9,
+      max: 1.1,
+    },
+  },
   periodes: [
     {
       id: '1',
@@ -67,7 +74,7 @@ const eolien: AppelOffre = {
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v1',
-      noteThresholdByFamily: [{ familleId: '', noteThreshold: 10.19 }],
+      noteThreshold: 10.19,
     },
     {
       id: '7',
@@ -75,7 +82,7 @@ const eolien: AppelOffre = {
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v1',
-      noteThresholdByFamily: [{ familleId: '', noteThreshold: 13 }],
+      noteThreshold: 13,
     },
     {
       id: '8',
@@ -83,7 +90,7 @@ const eolien: AppelOffre = {
       paragrapheAchevement: '6.4',
       isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v1',
-      noteThresholdByFamily: [{ familleId: '', noteThreshold: 9.8 }],
+      noteThreshold: 9.8,
     },
   ],
   familles: [],

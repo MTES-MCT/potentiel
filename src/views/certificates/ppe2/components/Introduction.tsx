@@ -1,7 +1,7 @@
 import { Text } from '@react-pdf/renderer'
 import React from 'react'
 import { ProjectDataForCertificate } from '@modules/project/dtos'
-import { formatNumber } from '../helpers/formatNumber'
+import { formatNumber } from '../../helpers/formatNumber'
 
 type IntroductionProps = {
   project: ProjectDataForCertificate
