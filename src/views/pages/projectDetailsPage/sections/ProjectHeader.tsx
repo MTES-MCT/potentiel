@@ -4,9 +4,10 @@ import React from 'react'
 import { ProjectStatusLabel } from '../../../components/ProjectStatusLabel'
 import NewProjectActions from '../../projectDetailsPage/components/ProjectActions'
 
-interface ProjectHeaderProps {
+type ProjectHeaderProps = {
   project: ProjectDataForProjectPage
   user: User
+  cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
 }
 
 export const ProjectHeader = ({ project, user }: ProjectHeaderProps) => (
@@ -31,8 +32,8 @@ export const ProjectHeader = ({ project, user }: ProjectHeaderProps) => (
       </p>
       <div className="text-sm">{project.potentielIdentifier}</div>
       <div className="text-sm">
-        Instruction des demandes selon {project.newRulesOptIn ? 'les nouvelles' : 'les anciennes'}{' '}
-        règles
+        Instruction des demandes selon les règles{' '}
+        {project.newRulesOptIn ? `modifiées par l'avis modificatif de juillet 2021` : 'initiales'}
       </div>
     </div>
     <NewProjectActions project={project} role={user.role} />
