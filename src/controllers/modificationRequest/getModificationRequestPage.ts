@@ -1,7 +1,7 @@
 import { ensureRole, getModificationRequestDetails } from '@config'
 import { logger } from '@core/utils'
 import { EntityNotFoundError } from '@modules/shared'
-import { ModificationRequestDetailsPage } from '@views/legacy-pages'
+import { ModificationRequestPage } from '@views'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import routes from '../../routes'
 import { errorResponse, notFoundResponse } from '../helpers'
@@ -22,7 +22,7 @@ v1Router.get(
 
     return modificationRequestResult.match(
       (modificationRequest) => {
-        return response.send(ModificationRequestDetailsPage({ request, modificationRequest }))
+        return response.send(ModificationRequestPage({ request, modificationRequest }))
       },
       (e) => {
         if (e instanceof EntityNotFoundError) {

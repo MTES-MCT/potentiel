@@ -3,12 +3,12 @@ import React from 'react'
 import makeFakeRequest from '../../../__tests__/fixtures/request'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 
-import AdminModificationRequestPage from './'
+import { ModificationRequest } from './ModificationRequest'
 
 export default { title: 'Modification Request Details' }
 
 export const RecoursOuvertPourAdmin = () => (
-  <AdminModificationRequestPage
+  <ModificationRequest
     request={makeFakeRequest({ user: makeFakeUser({ role: 'admin' }) })}
     modificationRequest={{
       id: 'modificationRequest123',
@@ -48,7 +48,7 @@ export const RecoursOuvertPourAdmin = () => (
 )
 
 export const RecoursAccepté = () => (
-  <AdminModificationRequestPage
+  <ModificationRequest
     request={makeFakeRequest({ user: makeFakeUser({ role: 'admin' }) })}
     modificationRequest={{
       id: 'modificationRequest123',
@@ -90,7 +90,7 @@ export const RecoursAccepté = () => (
 )
 
 export const RecoursRejeté = () => (
-  <AdminModificationRequestPage
+  <ModificationRequest
     request={makeFakeRequest({ user: makeFakeUser({ role: 'admin' }) })}
     modificationRequest={{
       id: 'modificationRequest123',
