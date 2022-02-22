@@ -1,34 +1,19 @@
 import React, { useState } from 'react'
+import moment from 'moment'
 import { Project } from '@entities'
 import ROUTES from '../../../routes'
 import { dataId } from '../../../helpers/testId'
 import UserDashboard from '../../components/UserDashboard'
 import { Request } from 'express'
 import { formatDate } from '../../../helpers/formatDate'
-import { appelsOffreStatic } from '@dataAccess/inMemory'
 import { PageLayout } from '../../components/PageLayout'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
-import { isModificationPuissanceAuto } from '@modules/modificationRequest'
-import moment from 'moment'
 import ModificationRequestActionTitles from '../../components/ModificationRequestActionTitles'
 import { CDCChoiceForm } from '../../components/CDCChoiceForm'
-import toNumber from '../../../helpers/toNumber'
-import { isStrictlyPositiveNumber } from '../../../helpers/formValidators'
 import { getDelaiDeRealisation } from '@modules/projectAppelOffre'
-import { AlertOnPuissanceValue } from './components'
+import { ChangementPuissance } from './components'
 
 moment.locale('fr')
-
-type ReasonWhy =
-  | 'none'
-  | {
-      reason: 'puissance-max-volume-reseve-depassée'
-      puissanceMax: number
-    }
-  | {
-      reason: 'hors-ratios-autorisés'
-      ratios: { min: number; max: number }
-    }
 
 type PageProps = {
   request: Request
@@ -36,40 +21,13 @@ type PageProps = {
   cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
 }
 
-const getunitePuissanceForAppelOffre = (appelOffreId: Project['appelOffreId']) => {
-  return appelsOffreStatic.find((item) => item.id === appelOffreId)?.unitePuissance
-}
-
 export const NewModificationRequest = PageLayout(
   ({ request, project, cahiersChargesURLs }: PageProps) => {
     const { action, error, success, puissance, actionnaire, justification, delayInMonths } =
       (request.query as any) || {}
 
-    const [displayAlertOnPuissanceType, setdisplayAlertOnPuissanceType] = useState(false)
     const [displayForm, setDisplayForm] = useState(project.newRulesOptIn)
-    const [displayAlertOnPuissance, setDisplayAlertOnPuissance] = useState(false)
-    const [reasonWhyChangeIsNotAutoAccepted, setReasonWhyChangeIsNotAutoAccepted] = useState(
-      'none' as ReasonWhy
-    )
     const [disableSubmitButton, setDisableSubmitButton] = useState(false)
-    const [fileRequiredforPuissanceModification, setFileRequiredforPuissanceModification] =
-      useState(false)
-
-    const handlePuissanceOnChange = (e) => {
-      const isNewValueCorrect = isStrictlyPositiveNumber(e.target.value)
-      const nouvellePuissance = toNumber(e.target.value)
-      const isChangeAutoResult = isModificationPuissanceAuto({
-        nouvellePuissance,
-        project,
-      })
-
-      setdisplayAlertOnPuissanceType(!isNewValueCorrect)
-      setDisableSubmitButton(!isNewValueCorrect)
-      setDisplayAlertOnPuissance(!isChangeAutoResult.isAuto)
-      setFileRequiredforPuissanceModification(!isChangeAutoResult.isAuto)
-
-      setReasonWhyChangeIsNotAutoAccepted(isChangeAutoResult.isAuto ? 'none' : isChangeAutoResult)
-    }
 
     const { appelOffre } = project
 
@@ -120,7 +78,7 @@ export const NewModificationRequest = PageLayout(
                   </span>
                 </div>
                 <div {...dataId('modificationRequest-item-puissance')}>
-                  {project.puissance} {getunitePuissanceForAppelOffre(project.appelOffreId)}
+                  {project.puissance} {project.appelOffre?.unitePuissance}
                 </div>
                 <div>
                   Désigné le{' '}
@@ -164,90 +122,15 @@ export const NewModificationRequest = PageLayout(
 
               {displayForm && (
                 <div {...dataId('modificationRequest-demandesInputs')}>
-                  {action === 'puissance' ? (
-                    <>
-                      <label>
-                        Puissance à la notification (en{' '}
-                        {getunitePuissanceForAppelOffre(project.appelOffreId)})
-                      </label>
-                      <input
-                        type="text"
-                        disabled
-                        value={project.puissanceInitiale}
-                        {...dataId('modificationRequest-presentPuissanceField')}
-                      />
-                      {project.puissance !== project.puissanceInitiale && (
-                        <>
-                          <label>
-                            Puissance actuelle (
-                            {getunitePuissanceForAppelOffre(project.appelOffreId)})
-                          </label>
-                          <input type="text" disabled value={project.puissance} />
-                        </>
-                      )}
-                      <label className="required" style={{ marginTop: 10 }} htmlFor="puissance">
-                        Nouvelle puissance (en{' '}
-                        {getunitePuissanceForAppelOffre(project.appelOffreId)})
-                      </label>
-                      <input
-                        type="text"
-                        inputMode="numeric"
-                        pattern="[0-9]+([\.,][0-9]+)?"
-                        name="puissance"
-                        id="puissance"
-                        defaultValue={puissance || ''}
-                        {...dataId('modificationRequest-puissanceField')}
-                        onChange={handlePuissanceOnChange}
-                        required={true}
-                      />
-
-                      {displayAlertOnPuissance && reasonWhyChangeIsNotAutoAccepted !== 'none' && (
-                        <AlertOnPuissanceValue {...reasonWhyChangeIsNotAutoAccepted} />
-                      )}
-
-                      {displayAlertOnPuissanceType && (
-                        <div
-                          className="notification error"
-                          {...dataId('modificationRequest-puissance-error-message-wrong-format')}
-                        >
-                          Le format saisi n’est pas conforme, veuillez renseigner un nombre décimal.
-                        </div>
-                      )}
-
-                      <div style={{ marginTop: 10 }}>
-                        <label
-                          style={{ marginTop: 10 }}
-                          className="required"
-                          htmlFor="justification"
-                        >
-                          <strong>
-                            Veuillez nous indiquer les raisons qui motivent votre demande
-                          </strong>
-                          <br />
-                          Pour faciliter le traitement de votre demande, veillez à détailler les
-                          raisons ayant conduit à ce besoin de modification (contexte, facteurs
-                          extérieurs, etc)
-                        </label>
-                        <textarea
-                          name="justification"
-                          id="justification"
-                          defaultValue={justification || ''}
-                          {...dataId('modificationRequest-justificationField')}
-                        />
-                        <label htmlFor="candidats" style={{ marginTop: 10 }}>
-                          Courrier explicatif ou décision administrative.
-                        </label>
-                        <input
-                          type="file"
-                          name="file"
-                          {...dataId('modificationRequest-fileField')}
-                          id="file"
-                          required={fileRequiredforPuissanceModification}
-                        />
-                      </div>
-                    </>
-                  ) : (
-                    ''
+                  {action === 'puissance' && (
+                    <ChangementPuissance
+                      {...{
+                        project,
+                        puissance,
+                        justification,
+                        onPuissanceChecked: (isValid) => setDisableSubmitButton(!isValid),
+                      }}
+                    />
                   )}
                   {action === 'fournisseur' ? (
                     <>

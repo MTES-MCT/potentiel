@@ -1,1 +1,1 @@
-export * from './AlertOnPuissanceValue';
+export * from './puissance'
