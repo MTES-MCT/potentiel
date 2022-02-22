@@ -4,9 +4,10 @@ import { isModificationPuissanceAuto } from './isModificationPuissanceAuto'
 describe('isModificationPuissanceAuto', () => {
   describe(`when the project was notified on an appel offre without a reserved volume`, () => {
     describe(`when automatic accepted ratios are not by technology`, () => {
+      const ratios = { min: 0.7, max: 1.1 }
       const appelOffre = {
         changementPuissance: {
-          autoAcceptRatios: { min: 0.7, max: 1.1 },
+          autoAcceptRatios: ratios,
         },
         periode: { isNotifiedOnPotentiel: true } as Periode,
       } as ProjectAppelOffre
@@ -34,7 +35,7 @@ describe('isModificationPuissanceAuto', () => {
             },
             nouvellePuissance: 69.9,
           })
-          expect(actual).toEqual({ isAuto: false, reason: 'hors-ratios-autorisés' })
+          expect(actual).toEqual({ isAuto: false, reason: 'hors-ratios-autorisés', ratios })
         })
       })
       describe(`when the new puissance is above the max ratio of the initial puissance`, () => {
@@ -47,7 +48,7 @@ describe('isModificationPuissanceAuto', () => {
             },
             nouvellePuissance: 110.1,
           })
-          expect(actual).toEqual({ isAuto: false, reason: 'hors-ratios-autorisés' })
+          expect(actual).toEqual({ isAuto: false, reason: 'hors-ratios-autorisés', ratios })
         })
       })
     })
@@ -104,7 +105,11 @@ describe('isModificationPuissanceAuto', () => {
               },
               nouvellePuissance,
             })
-            expect(actual).toEqual({ isAuto: false, reason: 'hors-ratios-autorisés' })
+            expect(actual).toEqual({
+              isAuto: false,
+              reason: 'hors-ratios-autorisés',
+              ratios: autoAcceptratios,
+            })
           })
         })
         describe(`when the new puissance is above the ${technologie} max ratio of the initial puissance`, () => {
@@ -118,11 +123,15 @@ describe('isModificationPuissanceAuto', () => {
               project: {
                 puissanceInitiale,
                 appelOffre,
-                technologie: 'pv',
+                technologie,
               },
               nouvellePuissance,
             })
-            expect(actual).toEqual({ isAuto: false, reason: 'hors-ratios-autorisés' })
+            expect(actual).toEqual({
+              isAuto: false,
+              reason: 'hors-ratios-autorisés',
+              ratios: autoAcceptratios,
+            })
           })
         })
       }
@@ -143,7 +152,11 @@ describe('isModificationPuissanceAuto', () => {
               project: { puissanceInitiale: 100, appelOffre, technologie: 'N/A' },
               nouvellePuissance: 89.9,
             })
-            expect(actual).toEqual({ isAuto: false, reason: 'hors-ratios-autorisés' })
+            expect(actual).toEqual({
+              isAuto: false,
+              reason: 'hors-ratios-autorisés',
+              ratios: { min: 0.9, max: 1.1 },
+            })
           })
         })
         describe(`when the new puissance is above 110% of the initial one`, () => {
@@ -152,7 +165,11 @@ describe('isModificationPuissanceAuto', () => {
               project: { puissanceInitiale: 100, appelOffre, technologie: 'N/A' },
               nouvellePuissance: 110.1,
             })
-            expect(actual).toEqual({ isAuto: false, reason: 'hors-ratios-autorisés' })
+            expect(actual).toEqual({
+              isAuto: false,
+              reason: 'hors-ratios-autorisés',
+              ratios: { min: 0.9, max: 1.1 },
+            })
           })
         })
       })
@@ -178,7 +195,11 @@ describe('isModificationPuissanceAuto', () => {
             project: { puissanceInitiale: 10, appelOffre, technologie: 'pv' },
             nouvellePuissance: 10.1,
           })
-          expect(actual).toEqual({ isAuto: false, reason: 'puissance-max-volume-reseve-depassé' })
+          expect(actual).toEqual({
+            isAuto: false,
+            reason: 'puissance-max-volume-reseve-depassée',
+            puissanceMax: 10,
+          })
         })
       })
     })
@@ -200,7 +221,11 @@ describe('isModificationPuissanceAuto', () => {
           project: { puissanceInitiale: 100, technologie: 'pv' },
           nouvellePuissance: 89.9,
         })
-        expect(actual).toEqual({ isAuto: false, reason: 'hors-ratios-autorisés' })
+        expect(actual).toEqual({
+          isAuto: false,
+          reason: 'hors-ratios-autorisés',
+          ratios: { min: 0.9, max: 1.1 },
+        })
       })
     })
     describe(`when the new puissance is above 110% of the initial one`, () => {
@@ -209,7 +234,11 @@ describe('isModificationPuissanceAuto', () => {
           project: { puissanceInitiale: 100, technologie: 'pv' },
           nouvellePuissance: 110.1,
         })
-        expect(actual).toEqual({ isAuto: false, reason: 'hors-ratios-autorisés' })
+        expect(actual).toEqual({
+          isAuto: false,
+          reason: 'hors-ratios-autorisés',
+          ratios: { min: 0.9, max: 1.1 },
+        })
       })
     })
   })
