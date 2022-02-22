@@ -11,6 +11,8 @@ type DemandeDelaiProps = {
   justification: string
 }
 
+moment.locale('fr')
+
 export const DemandeDelai = ({ project, delayInMonths, justification }: DemandeDelaiProps) => (
   <>
     <label>Date théorique de mise en service</label>

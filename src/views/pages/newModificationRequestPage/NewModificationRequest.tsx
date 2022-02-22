@@ -18,23 +18,20 @@ import {
   DemandeRecours,
   DemandeDelai,
 } from './components'
-import moment from 'moment'
 
-type PageProps = {
+type NewModificationRequestProps = {
   request: Request
   project: Project
   cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
 }
 
-moment.locale('fr')
-
 export const NewModificationRequest = PageLayout(
-  ({ request, project, cahiersChargesURLs }: PageProps) => {
+  ({ request, project, cahiersChargesURLs }: NewModificationRequestProps) => {
     const { action, error, success, puissance, actionnaire, justification, delayInMonths } =
       (request.query as any) || {}
 
     const [displayForm, setDisplayForm] = useState(project.newRulesOptIn)
-    const [disableSubmitButton, setDisableSubmitButton] = useState(false)
+    const [isSubmitButtonDisabled, setDisableSubmitButton] = useState(false)
 
     return (
       <UserDashboard currentPage={'list-requests'}>
@@ -49,7 +46,6 @@ export const NewModificationRequest = PageLayout(
             <input type="hidden" name="projectId" value={project.id} />
             <input type="hidden" name="type" value={action} />
             <div className="form__group">
-              <h4></h4>
               <div style={{ marginBottom: 5 }}>Concernant le projet:</div>
               <div
                 className="text-quote"
@@ -95,22 +91,18 @@ export const NewModificationRequest = PageLayout(
                   <span {...dataId('modificationRequest-item-famille')}>{project.familleId}</span>
                 </div>
               </div>
-              {error ? (
+              {error && (
                 <div className="notification error" {...dataId('modificationRequest-errorMessage')}>
                   {error}
                 </div>
-              ) : (
-                ''
               )}
-              {success ? (
+              {success && (
                 <div
                   className="notification success"
                   {...dataId('modificationRequest-successMessage')}
                 >
                   {success}
                 </div>
-              ) : (
-                ''
               )}
               <div>
                 <label className="required">
@@ -158,7 +150,7 @@ export const NewModificationRequest = PageLayout(
                     name="submit"
                     id="submit"
                     {...dataId('submit-button')}
-                    disabled={disableSubmitButton}
+                    disabled={isSubmitButtonDisabled}
                   >
                     Envoyer
                   </button>
