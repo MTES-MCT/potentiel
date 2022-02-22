@@ -74,10 +74,10 @@ describe('Sequelize getModificationRequestDetails', () => {
       id: modificationRequestId,
       type: 'recours',
       status: 'envoyée',
-      respondedOn: new Date(321),
+      respondedOn: 321,
       respondedBy: 'Admin Doe',
       versionDate,
-      requestedOn: new Date(123),
+      requestedOn: 123,
       requestedBy: 'John Doe',
       justification: 'justification',
       attachmentFile: {
@@ -87,7 +87,7 @@ describe('Sequelize getModificationRequestDetails', () => {
       project: {
         ...projectInfo,
         unitePuissance: 'MWc',
-        notifiedOn: new Date(projectInfo.notifiedOn),
+        notifiedOn: projectInfo.notifiedOn,
       },
     })
   })

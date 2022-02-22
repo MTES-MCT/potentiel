@@ -27,7 +27,7 @@ export const AdminResponseForm = ({
     >
       <input type="hidden" name="modificationRequestId" value={modificationRequest.id} />
       <input type="hidden" name="type" value={modificationRequest.type} />
-      <input type="hidden" name="versionDate" value={versionDate.getTime()} />
+      <input type="hidden" name="versionDate" value={versionDate} />
 
       {role !== 'dreal' && (
         <div className="form__group" style={{ marginBottom: 20 }}>

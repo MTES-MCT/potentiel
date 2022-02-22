@@ -6,15 +6,15 @@ export type ModificationRequestPageDTO = {
   status: ModificationRequestStatusDTO
 
   respondedBy?: string
-  respondedOn?: Date
+  respondedOn?: number
   responseFile?: {
     filename: string
     id: string
   }
 
-  versionDate: Date
+  versionDate: number
 
-  requestedOn: Date
+  requestedOn: number
   requestedBy: string
 
   justification: string
@@ -24,7 +24,7 @@ export type ModificationRequestPageDTO = {
   }
 
   cancelledBy?: string
-  cancelledOn?: Date
+  cancelledOn?: number
   puissance: number
 
   project: {
@@ -38,8 +38,8 @@ export type ModificationRequestPageDTO = {
     puissance: number
     puissanceInitiale: number
     unitePuissance: string
-    notifiedOn: Date
-    completionDueOn: Date
+    notifiedOn: number
+    completionDueOn: number
     appelOffreId: string
     periodeId: string
     familleId: string | undefined
