@@ -27,7 +27,7 @@ export const Fournisseur = () => (
 
 export const Délais = () => (
   <NewModificationRequest
-    request={makeFakeRequest({ query: { action: 'delais' } })}
+    request={makeFakeRequest({ query: { action: 'delai' } })}
     project={makeFakeProject()}
   />
 )
