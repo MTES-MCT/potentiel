@@ -50,6 +50,9 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   addGeneratedCertificate: jest.fn(
     (args: { projectVersionDate: Date; certificateFileId: string }) => ok<null, never>(null)
   ),
+  addGarantiesFinancieres: jest.fn((gfDate: Date, fileId: string, submittedBy: string) =>
+    ok<null, never>(null)
+  ),
   certificateData: ok({
     template: 'v1' as CertificateTemplate,
     data: {} as ProjectDataForCertificate,

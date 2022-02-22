@@ -1,5 +1,6 @@
 export * from './CertificateFileIsMissingError';
 export * from './EliminatedProjectCannotBeAbandonnedError';
+export * from './GFCertificateHasAlreadyBeenSent';
 export * from './IllegalProjectDataError';
 export * from './IllegalProjectStateError';
 export * from './ProjectAlreadyNotifiedError';

@@ -27,6 +27,7 @@ import {
 import { ProjectDataForCertificate } from './dtos'
 import {
   EliminatedProjectCannotBeAbandonnedError,
+  GFCertificateHasAlreadyBeenSentError,
   IllegalProjectStateError,
   ProjectAlreadyNotifiedError,
   ProjectCannotBeUpdatedIfUnnotifiedError,
@@ -57,6 +58,7 @@ import {
   ProjectPuissanceUpdated,
   ProjectReimported,
   ProjectReimportedPayload,
+  ProjectGFUploaded,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre'
@@ -112,6 +114,11 @@ export interface Project extends EventStoreAggregate {
     certificateFileId: string
     reason?: string
   }) => Result<null, IllegalInitialStateForAggregateError>
+  addGarantiesFinancieres: (
+    gfDate: Date,
+    fileId: string,
+    submittedBy: string
+  ) => Result<null, GFCertificateHasAlreadyBeenSentError>
   readonly shouldCertificateBeGenerated: boolean
   readonly appelOffre?: ProjectAppelOffre
   readonly isClasse?: boolean
@@ -589,6 +596,36 @@ export const makeProject = (args: {
 
       return ok(null)
     },
+    addGarantiesFinancieres: function (gfDate, fileId, submittedBy) {
+      if (props.hasCurrentGf) {
+        return err(new GFCertificateHasAlreadyBeenSentError())
+      }
+      if (props.appelOffre?.garantiesFinancieresDeposeesALaCandidature) {
+        _publishEvent(
+          new ProjectGFUploaded({
+            payload: {
+              projectId: props.projectId.toString(),
+              fileId: fileId,
+              gfDate: gfDate,
+              submittedBy: submittedBy,
+            },
+          })
+        )
+      } else {
+        _publishEvent(
+          new ProjectGFSubmitted({
+            payload: {
+              projectId: props.projectId.toString(),
+              fileId: fileId,
+              gfDate: gfDate,
+              submittedBy: submittedBy,
+            },
+          })
+        )
+      }
+
+      return ok(null)
+    },
     get pendingEvents() {
       return pendingEvents
     },
@@ -699,6 +736,7 @@ export const makeProject = (args: {
       case ProjectGFSubmitted.type:
       case ProjectGFRemoved.type:
       case ProjectGFInvalidated.type:
+      case ProjectGFUploaded.type:
         props.lastUpdatedOn = event.occurredAt
         break
       default:
@@ -802,6 +840,7 @@ export const makeProject = (args: {
 
         break
       case ProjectGFSubmitted.type:
+      case ProjectGFUploaded.type:
         props.hasCurrentGf = true
         break
       case ProjectGFRemoved.type:
