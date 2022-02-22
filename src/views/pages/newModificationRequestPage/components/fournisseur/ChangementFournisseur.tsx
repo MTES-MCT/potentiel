@@ -2,12 +2,12 @@ import { Project } from '@entities'
 import React from 'react'
 import { dataId } from '../../../../../helpers/testId'
 
-type ChangementPuissanceProps = {
+type ChangementFournisseurProps = {
   project: Project
   justification: string
 }
 
-export const ChangementFournisseur = ({ project, justification }: ChangementPuissanceProps) => (
+export const ChangementFournisseur = ({ project, justification }: ChangementFournisseurProps) => (
   <>
     <div>
       <h3 style={{ marginTop: 15 }}>Modules ou films</h3>
