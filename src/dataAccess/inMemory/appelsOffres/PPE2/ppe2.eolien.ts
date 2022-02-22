@@ -41,6 +41,7 @@ const eolienPPE2: AppelOffre = {
       id: '1',
       title: 'première',
       paragrapheAchevement: '6.3',
+      noteThreshold: 0.68,
     },
   ],
   familles: [],
