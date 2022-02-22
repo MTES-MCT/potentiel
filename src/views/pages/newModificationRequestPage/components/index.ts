@@ -1,1 +1,2 @@
-export * from './puissance'
+export * from './fournisseur';
+export * from './puissance';
