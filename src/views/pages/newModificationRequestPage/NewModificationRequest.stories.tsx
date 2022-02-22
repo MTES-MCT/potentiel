@@ -1,4 +1,5 @@
 import React from 'react'
+import { batimentPPE2 } from 'src/dataAccess/inMemory/appelsOffres'
 
 import makeFakeProject from '../../../__tests__/fixtures/project'
 import makeFakeRequest from '../../../__tests__/fixtures/request'
@@ -42,6 +43,17 @@ export const Puissance = () => (
   <NewModificationRequest
     request={makeFakeRequest({ query: { action: 'puissance' } })}
     project={makeFakeProject()}
+  />
+)
+
+export const PuissanceMaxVolumeReserve1MW = () => (
+  <NewModificationRequest
+    request={makeFakeRequest({ query: { action: 'puissance' } })}
+    project={makeFakeProject({
+      appelOffre: { ...batimentPPE2, periode: batimentPPE2.periodes[0] },
+      puissance: 0.6,
+      puissanceInitiale: 0.6,
+    })}
   />
 )
 
