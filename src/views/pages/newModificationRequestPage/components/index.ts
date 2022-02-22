@@ -1,3 +1,4 @@
+export * from './abandon';
 export * from './actionnaire';
 export * from './fournisseur';
 export * from './producteur';
