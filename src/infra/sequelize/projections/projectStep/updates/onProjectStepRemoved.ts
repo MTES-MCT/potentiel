@@ -1,13 +1,23 @@
 import { Op } from 'sequelize'
 import { logger } from '@core/utils'
-import { ProjectDCRRemoved, ProjectGFRemoved, ProjectPTFRemoved } from '@modules/project'
+import {
+  ProjectDCRRemoved,
+  ProjectGFRemoved,
+  ProjectGFWithdrawn,
+  ProjectPTFRemoved,
+} from '@modules/project'
 
-type StepRemovedEvent = ProjectPTFRemoved | ProjectDCRRemoved | ProjectGFRemoved
+type StepRemovedEvent =
+  | ProjectPTFRemoved
+  | ProjectDCRRemoved
+  | ProjectGFRemoved
+  | ProjectGFWithdrawn
 
 const StepTypeByEventType: Record<StepRemovedEvent['type'], string> = {
   [ProjectPTFRemoved.type]: 'ptf',
   [ProjectDCRRemoved.type]: 'dcr',
   [ProjectGFRemoved.type]: 'garantie-financiere',
+  [ProjectGFWithdrawn.type]: 'garantie-financiere',
 }
 
 export const onProjectStepRemoved = (models) => async (event: StepRemovedEvent) => {
@@ -15,13 +25,22 @@ export const onProjectStepRemoved = (models) => async (event: StepRemovedEvent) 
 
   const { projectId } = event.payload
   try {
-    await ProjectStep.destroy({
-      where: {
-        type: StepTypeByEventType[event.type],
-        projectId,
-        [Op.or]: [{ status: null }, { status: 'à traiter' }],
-      },
-    })
+    if (event.type === ProjectGFWithdrawn.type) {
+      await ProjectStep.destroy({
+        where: {
+          type: StepTypeByEventType[event.type],
+          projectId,
+        },
+      })
+    } else {
+      await ProjectStep.destroy({
+        where: {
+          type: StepTypeByEventType[event.type],
+          projectId,
+          [Op.or]: [{ status: null }, { status: 'à traiter' }],
+        },
+      })
+    }
   } catch (e) {
     logger.error(e)
   }
