@@ -14,8 +14,7 @@ export const GFItem = (props: GFItemProps & { projectId: string }) => {
   switch (status) {
     case 'pending-validation':
     case 'validated':
-    case 'submitted-with-application-and-uploaded':
-      return <Submitted {...{ ...props, projectId }} />
+      return <Submitted {...{ ...props, projectId, status }} />
 
     case 'due':
     case 'past-due':
@@ -23,6 +22,9 @@ export const GFItem = (props: GFItemProps & { projectId: string }) => {
 
     case 'submitted-with-application':
       return <SubmittedWithApplication {...{ ...props, projectId }} />
+
+    case 'submitted-with-application-and-uploaded':
+      return <Uploaded {...{ ...props, projectId, status }} />
   }
 }
 
@@ -36,7 +38,7 @@ const SubmittedWithApplication = ({ role, projectId, status }: SubmittedWithAppl
   const isPorteurProjet = role === 'porteur-projet'
   return (
     <>
-      <PastIcon />
+      <CurrentIcon />
       <ContentArea>
         <ItemTitle title={'Constitution des garanties financières'} />
         <span>Garanties financières soumises à la candidature</span>
@@ -52,9 +54,44 @@ const SubmittedWithApplication = ({ role, projectId, status }: SubmittedWithAppl
   )
 }
 
+type UploadedProps = {
+  date: number
+  status: 'submitted-with-application-and-uploaded'
+  url: string | undefined
+  role: UserRole
+  projectId: string
+}
+const Uploaded = ({ date, status, url, role, projectId }: UploadedProps) => {
+  const isPorteurProjet = role === 'porteur-projet'
+
+  return (
+    <>
+      <PastIcon />
+      <ContentArea>
+        <div className="flex">
+          <div className="align-middle">
+            <ItemDate date={date} />
+          </div>
+        </div>
+        <ItemTitle title={'Constitution des garanties financières'} />
+        <div className="flex">
+          {url ? (
+            <a href={url} download>
+              Télécharger l'attestation de garanties financières
+            </a>
+          ) : (
+            <span>Pièce-jointe introuvable</span>
+          )}
+        </div>
+        {isPorteurProjet && <RemoveDocument projectId={projectId} />}
+      </ContentArea>
+    </>
+  )
+}
+
 type SubmittedProps = {
   date: number
-  status: 'pending-validation' | 'validated' | 'submitted-with-application-and-uploaded'
+  status: 'pending-validation' | 'validated'
   url: string | undefined
   role: UserRole
   projectId: string
@@ -87,16 +124,9 @@ const Submitted = ({ date, status, url, role, projectId }: SubmittedProps) => {
             <span>Pièce-jointe introuvable</span>
           )}
           {isValidated && <span>validé</span>}
-          {status === 'pending-validation' && <span>en attente de validation</span>}
-          {status === 'submitted-with-application-and-uploaded' && (
-            <span>validé à la candidature</span>
-          )}
         </div>
         {isPorteurProjet && status === 'pending-validation' && (
           <CancelDeposit projectId={projectId} />
-        )}
-        {isPorteurProjet && status === 'submitted-with-application-and-uploaded' && (
-          <RemoveDocument projectId={projectId} />
         )}
       </ContentArea>
     </>
@@ -204,14 +234,16 @@ type RemoveDocumentProps = {
   projectId: string
 }
 const RemoveDocument = ({ projectId }: RemoveDocumentProps) => (
-  <a
-    href={ROUTES.SUPPRIMER_ETAPE_ACTION({
-      projectId,
-      type: 'garantie-financiere',
-    })}
-    data-confirm="Êtes-vous sur de vouloir retirer l'attestion jointe ?"
-  >
-    Retirer le document de Potentiel (cela n'annule pas les garanties financières soumises à la
-    candidature)
-  </a>
+  <p className="p-0 m-0">
+    <a
+      href={ROUTES.SUPPRIMER_ETAPE_ACTION({
+        projectId,
+        type: 'garantie-financiere',
+      })}
+      data-confirm="Êtes-vous sur de vouloir retirer l'attestion jointe ?"
+    >
+      Retirer le document de Potentiel
+    </a>
+    <span> (cela n'annule pas les garanties financières soumises à la candidature)</span>
+  </p>
 )
