@@ -119,8 +119,8 @@ export interface Project extends EventStoreAggregate {
   addGarantiesFinancieres: (
     gfDate: Date,
     fileId: string,
-    submittedBy: string
-  ) => Result<null, GFCertificateHasAlreadyBeenSentError>
+    submittedBy: User
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>
   deleteGarantiesFinancieres: (
     removedBy: User
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>
@@ -602,6 +602,9 @@ export const makeProject = (args: {
       return ok(null)
     },
     addGarantiesFinancieres: function (gfDate, fileId, submittedBy) {
+      if (!_isNotified()) {
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+      }
       if (props.hasCurrentGf) {
         return err(new GFCertificateHasAlreadyBeenSentError())
       }
@@ -612,7 +615,7 @@ export const makeProject = (args: {
               projectId: props.projectId.toString(),
               fileId: fileId,
               gfDate: gfDate,
-              submittedBy: submittedBy,
+              submittedBy: submittedBy.id,
             },
           })
         )
@@ -623,7 +626,7 @@ export const makeProject = (args: {
               projectId: props.projectId.toString(),
               fileId: fileId,
               gfDate: gfDate,
-              submittedBy: submittedBy,
+              submittedBy: submittedBy.id,
             },
           })
         )
