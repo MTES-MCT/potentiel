@@ -4,7 +4,6 @@ import { resetDatabase } from '../../helpers'
 import { getProjectEvents } from './getProjectEvents'
 import { models } from '../../models'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
-import { boolean } from 'yup/lib/locale'
 
 describe('getProjectEvents project property', () => {
   const { Project } = models
