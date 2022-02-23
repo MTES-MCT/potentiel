@@ -7,13 +7,10 @@ import { InfraNotAvailableError } from '@modules/shared'
 import { UnwrapForTest } from '../../../types'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { UnauthorizedError } from '../../shared'
-import {
-  ProjectDCRSubmitted,
-  ProjectGFSubmitted,
-  ProjectGFUploaded,
-  ProjectPTFSubmitted,
-} from '../events'
+import { ProjectDCRSubmitted, ProjectGFSubmitted, ProjectPTFSubmitted } from '../events'
 import { makeSubmitStep } from './submitStep'
+import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
+import { Project } from '../Project'
 
 const projectId = new UniqueEntityID().toString()
 
@@ -28,6 +25,10 @@ const fakeEventBus: EventBus = {
   publish: fakePublish,
   subscribe: jest.fn(),
 }
+
+const fakeProject = makeFakeProject()
+
+const projectRepo = fakeTransactionalRepo(fakeProject as Project)
 
 describe('submitStep use-case', () => {
   describe('when the user has rights on this project', () => {
@@ -54,7 +55,7 @@ describe('submitStep use-case', () => {
           eventBus: fakeEventBus,
           fileRepo: fileRepo as Repository<FileObject>,
           shouldUserAccessProject,
-          isGarantiesFinancieresDeposeesALaCandidature: jest.fn(),
+          projectRepo,
         })
 
         const res = await submitStep({
@@ -97,7 +98,7 @@ describe('submitStep use-case', () => {
       })
     })
 
-    describe('when type is garantie-financiere and isGarantiesFinancieresDeposeesALaCandidature is false', () => {
+    describe('when type is garantie-financiere', () => {
       const fileRepo = {
         save: jest.fn((file: FileObject) => okAsync(null)),
         load: jest.fn(),
@@ -107,16 +108,13 @@ describe('submitStep use-case', () => {
 
       beforeAll(async () => {
         const shouldUserAccessProject = jest.fn(async () => true)
-        const isGarantiesFinancieresDeposeesALaCandidature = jest.fn((projectId: string) =>
-          Promise.resolve(false)
-        )
         fakePublish.mockClear()
 
         const submitStep = makeSubmitStep({
           eventBus: fakeEventBus,
           fileRepo: fileRepo as Repository<FileObject>,
           shouldUserAccessProject,
-          isGarantiesFinancieresDeposeesALaCandidature,
+          projectRepo,
         })
 
         const res = await submitStep({
@@ -129,8 +127,6 @@ describe('submitStep use-case', () => {
 
         expect(res.isOk()).toBe(true)
 
-        expect(isGarantiesFinancieresDeposeesALaCandidature).toHaveBeenCalledWith(projectId)
-
         expect(shouldUserAccessProject).toHaveBeenCalledWith({
           user,
           projectId,
@@ -142,86 +138,13 @@ describe('submitStep use-case', () => {
         expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents.contents)
       })
 
-      it('should trigger a ProjectGFSubmitted event', async () => {
-        expect(fakePublish).toHaveBeenCalled()
-        const targetEvent = fakePublish.mock.calls
-          .map((call) => call[0])
-          .find((event) => event.type === ProjectGFSubmitted.type) as ProjectGFSubmitted
-
-        expect(targetEvent).toBeDefined()
-        if (!targetEvent) return
-
-        expect(targetEvent.payload.projectId).toEqual(projectId)
-
+      it('should add the GF', () => {
         const fakeFile = fileRepo.save.mock.calls[0][0]
-
-        expect(targetEvent.payload.gfDate).toEqual(gfDate)
-        expect(targetEvent.payload.fileId).toEqual(fakeFile.id.toString())
-        expect(targetEvent.payload.submittedBy).toEqual(user.id)
-      })
-    })
-
-    describe('when type is "garantie-fianciere" and isGarantiesFinancieresDeposeesALaCandidature is "true"', () => {
-      const fileRepo = {
-        save: jest.fn((file: FileObject) => okAsync(null)),
-        load: jest.fn(),
-      }
-
-      const gfDate = new Date(123)
-
-      beforeAll(async () => {
-        const shouldUserAccessProject = jest.fn(async () => true)
-        const isGarantiesFinancieresDeposeesALaCandidature = jest.fn((projectId: string) =>
-          Promise.resolve(true)
+        expect(fakeProject.addGarantiesFinancieres).toHaveBeenCalledWith(
+          gfDate,
+          fakeFile.id.toString(),
+          user
         )
-        fakePublish.mockClear()
-
-        const submitStep = makeSubmitStep({
-          eventBus: fakeEventBus,
-          fileRepo: fileRepo as Repository<FileObject>,
-          shouldUserAccessProject,
-          isGarantiesFinancieresDeposeesALaCandidature,
-        })
-
-        const res = await submitStep({
-          type: 'garantie-financiere',
-          file: fakeFileContents,
-          stepDate: gfDate,
-          projectId,
-          submittedBy: user,
-        })
-
-        expect(res.isOk()).toBe(true)
-
-        expect(isGarantiesFinancieresDeposeesALaCandidature).toHaveBeenCalledWith(projectId)
-
-        expect(shouldUserAccessProject).toHaveBeenCalledWith({
-          user,
-          projectId,
-        })
-      })
-
-      it('should save the attachment file', async () => {
-        expect(fileRepo.save).toHaveBeenCalled()
-        expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents.contents)
-      })
-
-      it('should trigger a ProjectGFUploaded event', async () => {
-        expect(fakePublish).toHaveBeenCalled()
-        const targetEvent = fakePublish.mock.calls
-          .map((call) => call[0])
-          .find((event) => event.type === ProjectGFUploaded.type) as ProjectGFUploaded
-
-        expect(targetEvent).toBeDefined()
-        if (!targetEvent) return
-
-        expect(targetEvent.payload.projectId).toEqual(projectId)
-
-        const fakeFile = fileRepo.save.mock.calls[0][0]
-
-        expect(targetEvent.payload.gfDate).toEqual(gfDate)
-        expect(targetEvent.payload.fileId).toEqual(fakeFile.id.toString())
-        expect(targetEvent.payload.submittedBy).toEqual(user.id)
       })
     })
 
@@ -241,7 +164,7 @@ describe('submitStep use-case', () => {
           eventBus: fakeEventBus,
           fileRepo: fileRepo as Repository<FileObject>,
           shouldUserAccessProject,
-          isGarantiesFinancieresDeposeesALaCandidature: jest.fn(),
+          projectRepo,
         })
 
         const res = await submitStep({
@@ -304,7 +227,7 @@ describe('submitStep use-case', () => {
         eventBus: fakeEventBus,
         fileRepo,
         shouldUserAccessProject,
-        isGarantiesFinancieresDeposeesALaCandidature: jest.fn(),
+        projectRepo,
       })
 
       const res = await submitStep({

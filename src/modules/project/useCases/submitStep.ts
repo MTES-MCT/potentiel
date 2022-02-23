@@ -1,20 +1,24 @@
-import { DomainEvent, EventBus, Repository, UniqueEntityID } from '@core/domain'
-import { errAsync, logger, ResultAsync, wrapInfra } from '@core/utils'
+import {
+  DomainEvent,
+  EventBus,
+  Repository,
+  TransactionalRepository,
+  UniqueEntityID,
+} from '@core/domain'
+import { errAsync, logger, ResultAsync, wrapInfra, ok, okAsync } from '@core/utils'
 import { User } from '@entities'
 import { FileContents, FileObject, makeFileObject } from '../../file'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
-import {
-  ProjectDCRSubmitted,
-  ProjectGFSubmitted,
-  ProjectGFUploaded,
-  ProjectPTFSubmitted,
-} from '../events'
+import { ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors'
+import { GFCertificateHasAlreadyBeenSentError } from '../errors/GFCertificateHasAlreadyBeenSent'
+import { ProjectDCRSubmitted, ProjectPTFSubmitted } from '../events'
+import { Project } from '../Project'
 
 interface SubmitStepDeps {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
   fileRepo: Repository<FileObject>
   eventBus: EventBus
-  isGarantiesFinancieresDeposeesALaCandidature: (projectId: string) => Promise<boolean>
+  projectRepo: TransactionalRepository<Project>
 }
 
 type SubmitStepArgs = {
@@ -32,7 +36,7 @@ type SubmitStepArgs = {
 export const makeSubmitStep =
   (deps: SubmitStepDeps) =>
   (args: SubmitStepArgs): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
-    const { type, projectId, file, submittedBy } = args
+    const { type, projectId, file, submittedBy, stepDate } = args
     const { filename, contents } = file
 
     return wrapInfra(deps.shouldUserAccessProject({ projectId, user: submittedBy }))
@@ -58,32 +62,26 @@ export const makeSubmitStep =
           return res
         }
       )
-      .andThen((fileId) => {
+      .andThen((fileId: string): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
         if (type === 'garantie-financiere') {
-          return wrapInfra(deps.isGarantiesFinancieresDeposeesALaCandidature(projectId))
-            .map((isGarantiesFinancieresDeposeesALaCandidature) => {
-              if (isGarantiesFinancieresDeposeesALaCandidature) {
-                return new ProjectGFUploaded({
-                  payload: {
-                    projectId,
-                    gfDate: args.stepDate,
-                    fileId,
-                    submittedBy: submittedBy.id,
-                  },
-                })
-              }
-              return new ProjectGFSubmitted({
-                payload: {
-                  projectId,
-                  gfDate: args.stepDate,
-                  fileId,
-                  submittedBy: submittedBy.id,
-                },
-              })
-            })
-            .andThen((event) => deps.eventBus.publish(event))
+          return deps.projectRepo.transaction(
+            new UniqueEntityID(projectId),
+            (
+              project: Project
+            ): ResultAsync<
+              null,
+              ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError
+            > => {
+              return project
+                .addGarantiesFinancieres(stepDate, fileId, submittedBy)
+                .asyncMap(async () => null)
+            }
+          )
+        } else {
+          return okAsync(fileId).andThen((fileId) =>
+            deps.eventBus.publish(EventByType[type](args, fileId))
+          )
         }
-        return deps.eventBus.publish(EventByType[type](args, fileId))
       })
   }
 
