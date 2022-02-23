@@ -107,13 +107,13 @@ export const submitStep = makeSubmitStep({
   eventBus: eventStore,
   fileRepo,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  isGarantiesFinancieresDeposeesALaCandidature,
+  projectRepo,
 })
 
 export const removeStep = makeRemoveStep({
   eventBus: eventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  isGarantiesFinancieresDeposeesALaCandidature,
+  projectRepo,
 })
 
 export const updateStepStatus = makeUpdateStepStatus({
