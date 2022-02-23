@@ -1,10 +1,5 @@
 import { UniqueEntityID } from '@core/domain'
-import {
-  ProjectDCRRemoved,
-  ProjectGFRemoved,
-  ProjectGFWithdrawn,
-  ProjectPTFRemoved,
-} from '@modules/project'
+import { ProjectDCRRemoved, ProjectGFRemoved, ProjectPTFRemoved } from '@modules/project'
 import { resetDatabase } from '../../../helpers'
 import models from '../../../models'
 import { onProjectStepRemoved } from './onProjectStepRemoved'
@@ -106,40 +101,6 @@ describe('projectStep.onProjectStepRemoved', () => {
 
       expect(
         await ProjectStep.count({ where: { projectId, type: 'garantie-financiere' } })
-      ).toEqual(0)
-    })
-  })
-
-  describe('when event is ProjectGFWithdrawn', () => {
-    beforeAll(async () => {
-      await resetDatabase()
-
-      await ProjectStep.create({
-        id: projectStepId1,
-        projectId,
-        type: 'garantie-financiere-ppe2',
-        stepDate: new Date(123),
-        fileId: new UniqueEntityID().toString(),
-        submittedBy: new UniqueEntityID().toString(),
-        submittedOn: new Date(1234),
-      })
-
-      expect(
-        await ProjectStep.count({ where: { projectId, type: 'garantie-financiere-ppe2' } })
-      ).toEqual(1)
-    })
-
-    it('should remove the project garantie-financiere-ppe2 step', async () => {
-      const event = new ProjectGFWithdrawn({
-        payload: {
-          projectId,
-          removedBy: new UniqueEntityID().toString(),
-        },
-      })
-      await onProjectStepRemoved(models)(event)
-
-      expect(
-        await ProjectStep.count({ where: { projectId, type: 'garantie-financiere-ppe2' } })
       ).toEqual(0)
     })
   })
