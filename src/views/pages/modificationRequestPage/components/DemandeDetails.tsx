@@ -12,14 +12,8 @@ interface DemandeDetailsProps {
 }
 
 export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => {
-  const {
-    requestedBy,
-    requestedOn,
-    justification,
-    project,
-    attachmentFile,
-    status,
-  } = modificationRequest
+  const { requestedBy, requestedOn, justification, project, attachmentFile, status } =
+    modificationRequest
   return (
     <div className="panel__header">
       <div>
@@ -54,24 +48,27 @@ export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => 
         )
       ) : null}
       {modificationRequest.type === 'puissance' && (
-        <div style={{ marginTop: 5 }}>
+        <div className="flex flex-col" style={{ marginTop: 5 }}>
           <span>
             Puissance à la notification : {modificationRequest.project.puissanceInitiale}{' '}
             {modificationRequest.project.unitePuissance}
           </span>
-
-          <br />
-
           <span>
             Puissance actuelle : {modificationRequest.project.puissance}{' '}
             {modificationRequest.project.unitePuissance}
           </span>
-
-          <br />
-
           <span>
             Nouvelle puissance demandée : {modificationRequest.puissance}{' '}
             {modificationRequest.project.unitePuissance}
+            {!modificationRequest.isAuto && (
+              <span className="rounded-md bg-yellow-400 items-center px-2 py-0.5 ml-2">
+                <span className="text-sm font-bold tracking-wide uppercase text-white m-0">
+                  {modificationRequest.reason === 'hors-ratios-autorisés'
+                    ? 'Hors ratios autorisés'
+                    : 'Puissance maximum du volume reservé dépassé'}
+                </span>
+              </span>
+            )}
           </span>
         </div>
       )}

@@ -1,9 +1,11 @@
 import React from 'react'
 import { dataId } from '../../../../helpers/testId'
 import { ModificationRequestPageDTO } from '@modules/modificationRequest'
-interface PuissanceFormProps {
+
+type PuissanceFormProps = {
   modificationRequest: ModificationRequestPageDTO & { type: 'puissance' }
 }
+
 export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => (
   <>
     <div className="form__group mt-4">

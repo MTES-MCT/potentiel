@@ -25,7 +25,6 @@ export type ModificationRequestPageDTO = {
 
   cancelledBy?: string
   cancelledOn?: number
-  puissance: number
 
   project: {
     id: string
@@ -53,7 +52,18 @@ type Variant =
   | { type: 'actionnaire'; actionnaire: string }
   | { type: 'fournisseur'; fournisseurs: Fournisseur[]; evaluationCarbone?: number }
   | { type: 'producteur'; producteur: string }
-  | { type: 'puissance'; puissance: number }
+  | ({
+      type: 'puissance'
+      puissance: number
+    } & (
+      | {
+          isAuto: true
+        }
+      | {
+          isAuto: false
+          reason: 'hors-ratios-autorisés' | 'puissance-max-volume-reseve-depassée'
+        }
+    ))
   | { type: 'recours' }
   | { type: 'abandon' }
   | { type: 'delai'; delayInMonths: number; acceptanceParams?: { delayInMonths: number } }

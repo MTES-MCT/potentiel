@@ -2,7 +2,7 @@ import { err, ok, wrapInfra } from '@core/utils'
 import { getProjectAppelOffre } from '@config/queries.config'
 import {
   GetModificationRequestDetails,
-  ModificationRequestPageDTO,
+  isModificationPuissanceAuto,
 } from '@modules/modificationRequest'
 import { EntityNotFoundError } from '@modules/shared'
 import models from '../../models'
@@ -45,6 +45,7 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
             'numeroGestionnaire',
             'completionDueOn',
             'potentielIdentifier',
+            'technologie',
           ],
         },
         {
@@ -92,7 +93,7 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
     } = modificationRequestRaw.get()
 
     const { appelOffreId, periodeId } = project
-    const unitePuissance = getProjectAppelOffre({ appelOffreId, periodeId })?.unitePuissance || '??'
+    const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId })
 
     return ok({
       id,
@@ -110,7 +111,6 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
       justification,
       attachmentFile: attachmentFile?.get(),
       delayInMonths,
-      puissance,
       actionnaire,
       fournisseurs,
       evaluationCarbone,
@@ -119,8 +119,15 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
         ...project.get(),
         notifiedOn: new Date(project.notifiedOn).getTime(),
         completionDueOn: new Date(project.completionDueOn).getTime(),
-        unitePuissance,
+        unitePuissance: appelOffre?.unitePuissance || '??',
       },
-    } as ModificationRequestPageDTO)
+      ...(type === 'puissance' && {
+        ...isModificationPuissanceAuto({
+          project: { ...project, appelOffre, technologie: project.technologie ?? 'N/A' },
+          nouvellePuissance: puissance,
+        }),
+        puissance,
+      }),
+    })
   })
 }
