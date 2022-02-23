@@ -29,6 +29,7 @@ import {
   EliminatedProjectCannotBeAbandonnedError,
   GFCertificateHasAlreadyBeenSentError,
   IllegalProjectStateError,
+  NoGFCertificateToDeleteError,
   ProjectAlreadyNotifiedError,
   ProjectCannotBeUpdatedIfUnnotifiedError,
   ProjectNotEligibleForCertificateError,
@@ -59,6 +60,7 @@ import {
   ProjectReimported,
   ProjectReimportedPayload,
   ProjectGFUploaded,
+  ProjectGFWithdrawn,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre'
@@ -119,6 +121,9 @@ export interface Project extends EventStoreAggregate {
     fileId: string,
     submittedBy: string
   ) => Result<null, GFCertificateHasAlreadyBeenSentError>
+  deleteGarantiesFinancieres: (
+    removedBy: User
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>
   readonly shouldCertificateBeGenerated: boolean
   readonly appelOffre?: ProjectAppelOffre
   readonly isClasse?: boolean
@@ -626,6 +631,35 @@ export const makeProject = (args: {
 
       return ok(null)
     },
+    deleteGarantiesFinancieres: function (removedBy) {
+      if (!_isNotified()) {
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+      }
+      if (!props.hasCurrentGf) {
+        return err(new NoGFCertificateToDeleteError())
+      }
+      if (props.appelOffre?.garantiesFinancieresDeposeesALaCandidature) {
+        _publishEvent(
+          new ProjectGFWithdrawn({
+            payload: {
+              projectId: props.projectId.toString(),
+              removedBy: removedBy.id,
+            },
+          })
+        )
+      } else {
+        _publishEvent(
+          new ProjectGFRemoved({
+            payload: {
+              projectId: props.projectId.toString(),
+              removedBy: removedBy.id,
+            },
+          })
+        )
+      }
+
+      return ok(null)
+    },
     get pendingEvents() {
       return pendingEvents
     },
@@ -845,6 +879,7 @@ export const makeProject = (args: {
         break
       case ProjectGFRemoved.type:
       case ProjectGFInvalidated.type:
+      case ProjectGFWithdrawn.type:
         props.hasCurrentGf = false
         break
       default:
