@@ -1,5 +1,5 @@
 import { Readable } from 'stream'
-import { IsModificationPuissanceAuto, PuissanceJustificationOrCourrierMissingError } from '..'
+import { PuissanceJustificationOrCourrierMissingError } from '..'
 import { DomainEvent, Repository } from '@core/domain'
 import { okAsync } from '@core/utils'
 import { makeUser } from '@entities'
@@ -33,7 +33,7 @@ describe('requestPuissanceModification use-case', () => {
       projectRepo,
       eventBus,
       shouldUserAccessProject,
-      isModificationPuissanceAuto: () => true,
+      isModificationPuissanceAuto: () => ({ isAuto: true }),
       fileRepo: fileRepo as Repository<FileObject>,
     })
     const newPuissance = 89
@@ -61,7 +61,11 @@ describe('requestPuissanceModification use-case', () => {
         projectRepo,
         eventBus,
         shouldUserAccessProject,
-        isModificationPuissanceAuto: () => false,
+        isModificationPuissanceAuto: () => ({
+          isAuto: false,
+          reason: 'hors-ratios-autorisés',
+          ratios: { min: 0.9, max: 1.1 },
+        }),
         fileRepo: fileRepo as Repository<FileObject>,
       })
 
@@ -133,7 +137,7 @@ describe('requestPuissanceModification use-case', () => {
         projectRepo,
         eventBus,
         shouldUserAccessProject,
-        isModificationPuissanceAuto: () => true,
+        isModificationPuissanceAuto: () => ({ isAuto: true }),
         fileRepo: fileRepo as Repository<FileObject>,
       })
       const newPuissance = 105

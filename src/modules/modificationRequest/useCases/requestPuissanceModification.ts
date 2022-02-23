@@ -100,7 +100,7 @@ export const makeRequestPuissanceModification =
                 return errAsync(new UnauthorizedError())
               }
 
-              const newPuissanceIsAutoAccepted = isModificationPuissanceAuto({
+              const { isAuto: newPuissanceIsAutoAccepted } = isModificationPuissanceAuto({
                 nouvellePuissance: newPuissance,
                 project: { ...project, technologie: project.data?.technologie ?? 'N/A' },
               })

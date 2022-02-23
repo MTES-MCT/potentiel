@@ -9,7 +9,18 @@ export type IsModificationPuissanceAuto = (arg: {
     technologie: Technologie
   }
   nouvellePuissance: number
-}) => boolean
+}) =>
+  | { isAuto: true }
+  | {
+      isAuto: false
+      reason: 'puissance-max-volume-reseve-depassée'
+      puissanceMax: number
+    }
+  | {
+      isAuto: false
+      reason: 'hors-ratios-autorisés'
+      ratios: typeof defaultAutoAcceptRatios
+    }
 
 export const isModificationPuissanceAuto: IsModificationPuissanceAuto = ({
   project,
@@ -22,13 +33,27 @@ export const isModificationPuissanceAuto: IsModificationPuissanceAuto = ({
     const { puissanceMax } = volumeReserve
     const wasNotifiedOnReservedVolume = puissanceInitiale <= puissanceMax
     if (wasNotifiedOnReservedVolume && nouvellePuissance > puissanceMax) {
-      return false
+      return {
+        isAuto: false,
+        reason: 'puissance-max-volume-reseve-depassée',
+        puissanceMax,
+      }
     }
   }
 
-  const { min, max } = getAutoAccepRatios(project)
+  const { min, max } = getAutoAcceptRatios(project)
   const ratio = nouvellePuissance / puissanceInitiale
-  return ratio >= min && ratio <= max
+  const modificationHorsRatios = !(ratio >= min && ratio <= max)
+
+  return modificationHorsRatios
+    ? {
+        isAuto: false,
+        reason: 'hors-ratios-autorisés',
+        ratios: { min, max },
+      }
+    : {
+        isAuto: true,
+      }
 }
 
 const getReservedVolume = (appelOffre: ProjectAppelOffre): { puissanceMax: number } | undefined => {
@@ -45,7 +70,7 @@ const getReservedVolume = (appelOffre: ProjectAppelOffre): { puissanceMax: numbe
   }
 }
 
-export const getAutoAccepRatios = (project: {
+const getAutoAcceptRatios = (project: {
   appelOffre?: ProjectAppelOffre
   technologie: Technologie
 }): { min: number; max: number } => {
