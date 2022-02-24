@@ -76,7 +76,7 @@ describe('Sequelize getModificationRequestDetails', () => {
       status: 'envoyée',
       respondedOn: 321,
       respondedBy: 'Admin Doe',
-      versionDate,
+      versionDate: versionDate.getTime(),
       requestedOn: 123,
       requestedBy: 'John Doe',
       justification: 'justification',
