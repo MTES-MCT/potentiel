@@ -265,8 +265,8 @@ export const makeProject = (args: {
       )
 
       _updateDCRDate()
-      _updateGFDate()
       _updateCompletionDate()
+      !appelOffre.garantiesFinancieresDeposeesALaCandidature && _updateGFDate()
 
       return ok(null)
     },

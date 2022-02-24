@@ -220,4 +220,38 @@ describe('Project.notify()', () => {
       expect(project.pendingEvents).toHaveLength(0)
     })
   })
+
+  describe('when garantiesFinancieresDeposeesALaCandidature is true', () => {
+    const fakeProjectData = makeFakeProject({
+      notifiedOn: 0,
+      appelOffreId: 'PPE2 - Eolien',
+      periodeId: '1',
+      classe: 'Classé',
+    })
+    const fakeHistory = makeFakeHistory(fakeProjectData)
+
+    const project = UnwrapForTest(
+      makeProject({
+        projectId,
+        history: fakeHistory,
+        getProjectAppelOffre,
+        buildProjectIdentifier: () => '',
+      })
+    )
+
+    beforeAll(() => {
+      const res = project.notify(notifiedOn)
+
+      if (res.isErr()) console.error(res.error)
+      expect(res.isOk()).toBe(true)
+    })
+
+    it('should not trigger ProjectGFDueDateSet', () => {
+      const targetEvent = project.pendingEvents.find(
+        (item) => item.type === ProjectGFDueDateSet.type
+      ) as ProjectGFDueDateSet | undefined
+
+      expect(targetEvent).toBeUndefined()
+    })
+  })
 })
