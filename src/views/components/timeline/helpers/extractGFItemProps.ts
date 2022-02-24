@@ -34,21 +34,23 @@ export const extractGFItemProps = (
   if (!events.length || !project.isLaureat || !project.isSoumisAuxGF) {
     return null
   }
-  const latestProjectGF = events.filter(isProjectGF).pop()
+
+  const GFEvents = events.filter(isProjectGF)
+
+  if (!GFEvents.length) {
+    return project.isGarantiesFinancieresDeposeesALaCandidature
+      ? {
+          type: 'garanties-financieres',
+          role: events.slice(-1)[0].variant,
+          status: 'submitted-with-application',
+          date: undefined,
+        }
+      : null
+  }
+
+  const latestProjectGF = GFEvents.slice(-1)[0]
   const latestDueDateSetEvent = events.filter(is('ProjectGFDueDateSet')).pop()
   const latestSubmittedEvent = events.filter(is('ProjectGFSubmitted')).pop()
-
-  if (!latestProjectGF) {
-    if (project.isGarantiesFinancieresDeposeesALaCandidature) {
-      return {
-        type: 'garanties-financieres',
-        role: events.slice(-1)[0].variant,
-        status: 'submitted-with-application',
-        date: undefined,
-      }
-    }
-    return null
-  }
 
   if (
     latestProjectGF.type === 'ProjectGFWithdrawn' &&
@@ -61,6 +63,7 @@ export const extractGFItemProps = (
       date: undefined,
     }
   }
+
   const eventToHandle =
     latestProjectGF.type === 'ProjectGFRemoved' && latestDueDateSetEvent
       ? latestDueDateSetEvent
