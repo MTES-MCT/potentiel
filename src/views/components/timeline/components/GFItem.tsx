@@ -6,9 +6,10 @@ import { InfoItem } from './InfoItem'
 import { WarningItem } from './WarningItem'
 import { GFItemProps } from '../helpers/extractGFItemProps'
 import { WarningIcon } from './WarningIcon'
-import { UserRole } from '../../../../modules/users'
 
-export const GFItem = (props: GFItemProps & { projectId: string }) => {
+type ComponentProps = GFItemProps & { projectId: string }
+
+export const GFItem = (props: ComponentProps) => {
   const { status, projectId } = props
 
   switch (status) {
@@ -21,124 +22,16 @@ export const GFItem = (props: GFItemProps & { projectId: string }) => {
       return <NotSubmitted {...{ ...props, projectId }} />
 
     case 'submitted-with-application':
-      return <SubmittedWithApplication {...{ ...props, projectId }} />
+      return <NotUploaded {...{ ...props, projectId }} />
 
     case 'submitted-with-application-and-uploaded':
       return <Uploaded {...{ ...props, projectId, status }} />
   }
 }
 
-type SubmittedWithApplicationProps = {
-  role: UserRole
-  projectId: string
-  status: 'submitted-with-application'
-}
+/* CRE4 */
 
-const SubmittedWithApplication = ({ role, projectId, status }: SubmittedWithApplicationProps) => {
-  const isPorteurProjet = role === 'porteur-projet'
-  return (
-    <>
-      <CurrentIcon />
-      <ContentArea>
-        <ItemTitle title={'Constitution des garanties financières'} />
-        <span>Garanties financières soumises à la candidature</span>
-        {isPorteurProjet && (
-          <UploadForm
-            projectId={projectId}
-            URLTitle="Enregistrer mon attestation dans Potentiel"
-            status={status}
-          />
-        )}
-      </ContentArea>
-    </>
-  )
-}
-
-type UploadedProps = {
-  date: number
-  status: 'submitted-with-application-and-uploaded'
-  url: string | undefined
-  role: UserRole
-  projectId: string
-}
-const Uploaded = ({ date, status, url, role, projectId }: UploadedProps) => {
-  const isPorteurProjet = role === 'porteur-projet'
-
-  return (
-    <>
-      <PastIcon />
-      <ContentArea>
-        <div className="flex">
-          <div className="align-middle">
-            <ItemDate date={date} />
-          </div>
-        </div>
-        <ItemTitle title={'Constitution des garanties financières'} />
-        <div className="flex">
-          {url ? (
-            <a href={url} download>
-              Télécharger l'attestation de garanties financières
-            </a>
-          ) : (
-            <span>Pièce-jointe introuvable</span>
-          )}
-        </div>
-        {isPorteurProjet && <RemoveDocument projectId={projectId} />}
-      </ContentArea>
-    </>
-  )
-}
-
-type SubmittedProps = {
-  date: number
-  status: 'pending-validation' | 'validated'
-  url: string | undefined
-  role: UserRole
-  projectId: string
-}
-const Submitted = ({ date, status, url, role, projectId }: SubmittedProps) => {
-  const isPorteurProjet = role === 'porteur-projet'
-  const isValidated = status === 'validated'
-
-  return (
-    <>
-      {isValidated ? <PastIcon /> : <CurrentIcon />}
-      <ContentArea>
-        <div className="flex">
-          <div className="align-middle">
-            <ItemDate date={date} />
-          </div>
-          {!isValidated && (
-            <div className="align-middle mb-1">
-              <InfoItem message={role === 'dreal' ? 'à traiter' : 'validation en attente'} />
-            </div>
-          )}
-        </div>
-        <ItemTitle title={'Constitution des garanties financières'} />
-        <div className="flex">
-          {url ? (
-            <a href={url} download>
-              Télécharger l'attestation de garanties financières
-            </a>
-          ) : (
-            <span>Pièce-jointe introuvable</span>
-          )}
-          {isValidated && <span>validé</span>}
-        </div>
-        {isPorteurProjet && status === 'pending-validation' && (
-          <CancelDeposit projectId={projectId} />
-        )}
-      </ContentArea>
-    </>
-  )
-}
-
-type NotSubmittedProps = {
-  date: number
-  status: 'due' | 'past-due'
-  role: UserRole
-  projectId: string
-}
+type NotSubmittedProps = ComponentProps & { status: 'due' | 'past-due' }
 const NotSubmitted = ({ date, status, role, projectId }: NotSubmittedProps) => {
   const isPorteurProjet = role === 'porteur-projet'
   const displayWarning = status === 'past-due' && isPorteurProjet
@@ -176,8 +69,135 @@ const NotSubmitted = ({ date, status, role, projectId }: NotSubmittedProps) => {
   )
 }
 
+type SubmittedProps = ComponentProps & { status: 'pending-validation' | 'validated' }
+const Submitted = ({ date, status, url, role, projectId }: SubmittedProps) => {
+  const isPorteurProjet = role === 'porteur-projet'
+  const isValidated = status === 'validated'
+
+  return (
+    <>
+      {isValidated ? <PastIcon /> : <CurrentIcon />}
+      <ContentArea>
+        <div className="flex">
+          <div className="align-middle">
+            <ItemDate date={date} />
+          </div>
+          {!isValidated && (
+            <div className="align-middle mb-1">
+              <InfoItem message={role === 'dreal' ? 'à traiter' : 'validation en attente'} />
+            </div>
+          )}
+        </div>
+        <ItemTitle title={'Constitution des garanties financières'} />
+        <div className="flex">
+          {url ? (
+            <a href={url} download>
+              Télécharger l'attestation de garanties financières
+            </a>
+          ) : (
+            <span>Pièce-jointe introuvable</span>
+          )}
+          {isValidated && <span>validé</span>}
+        </div>
+        {isPorteurProjet && status === 'pending-validation' && (
+          <CancelDeposit projectId={projectId} />
+        )}
+      </ContentArea>
+    </>
+  )
+}
+
+type CancelDepositProps = {
+  projectId: ComponentProps['projectId']
+}
+const CancelDeposit = ({ projectId }: CancelDepositProps) => (
+  <a
+    href={ROUTES.SUPPRIMER_ETAPE_ACTION({
+      projectId,
+      type: 'garantie-financiere',
+    })}
+    data-confirm="Êtes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?"
+  >
+    Annuler le dépôt
+  </a>
+)
+
+/* PPE2 */
+
+type NotUploadedProps = ComponentProps & { status: 'submitted-with-application' }
+
+const NotUploaded = ({ role, projectId, status }: NotUploadedProps) => {
+  const isPorteurProjet = role === 'porteur-projet'
+  return (
+    <>
+      <CurrentIcon />
+      <ContentArea>
+        <ItemTitle title={'Constitution des garanties financières'} />
+        <span>Garanties financières soumises à la candidature</span>
+        {isPorteurProjet && (
+          <UploadForm
+            projectId={projectId}
+            URLTitle="Enregistrer mon attestation dans Potentiel"
+            status={status}
+          />
+        )}
+      </ContentArea>
+    </>
+  )
+}
+
+type UploadedProps = ComponentProps & { status: 'submitted-with-application-and-uploaded' }
+
+const Uploaded = ({ date, url, role, projectId }: UploadedProps) => {
+  const isPorteurProjet = role === 'porteur-projet'
+
+  return (
+    <>
+      <PastIcon />
+      <ContentArea>
+        <div className="flex">
+          <div className="align-middle">
+            <ItemDate date={date} />
+          </div>
+        </div>
+        <ItemTitle title={'Constitution des garanties financières'} />
+        <div className="flex">
+          {url ? (
+            <a href={url} download>
+              Télécharger l'attestation de garanties financières
+            </a>
+          ) : (
+            <span>Pièce-jointe introuvable</span>
+          )}
+        </div>
+        {isPorteurProjet && <WithdrawDocument projectId={projectId} />}
+      </ContentArea>
+    </>
+  )
+}
+
+type WithdrawDocumentProps = {
+  projectId: ComponentProps['projectId']
+}
+const WithdrawDocument = ({ projectId }: WithdrawDocumentProps) => (
+  <p className="p-0 m-0">
+    <a
+      href={ROUTES.SUPPRIMER_ETAPE_ACTION({
+        projectId,
+        type: 'garantie-financiere',
+      })}
+      data-confirm="Êtes-vous sur de vouloir retirer l'attestion jointe ?"
+    >
+      Retirer le document de Potentiel
+    </a>
+    <span> (cela n'annule pas les garanties financières soumises à la candidature)</span>
+  </p>
+)
+
+/* shared component */
+
 type UploadFormProps = {
-  projectId: string
+  projectId: ComponentProps['projectId']
   URLTitle: string
   status: 'submitted-with-application' | 'due' | 'past-due'
 }
@@ -202,8 +222,14 @@ const UploadForm = ({ projectId, URLTitle, status }: UploadFormProps) => {
             <DateInput onError={(isError) => setDisableSubmit(isError)} />
           </div>
           <div className="mt-2">
-            <label htmlFor="file">Attestation</label>
+            <label htmlFor="file">
+              Attestation{status === 'submitted-with-application' && <span>*</span>}
+            </label>
             <input type="file" name="file" id="file" required />
+            <p className="m-0 italic">
+              *Il s'agit de l'attestation soumise à la candidature. Cet envoi ne fera pas l'objet
+              d'une nouvelle validation.
+            </p>
           </div>
           <button className="button" type="submit" name="submit" disabled={disableSubmit}>
             Envoyer
@@ -214,36 +240,3 @@ const UploadForm = ({ projectId, URLTitle, status }: UploadFormProps) => {
     </>
   )
 }
-
-type CancelDepositProps = {
-  projectId: string
-}
-const CancelDeposit = ({ projectId }: CancelDepositProps) => (
-  <a
-    href={ROUTES.SUPPRIMER_ETAPE_ACTION({
-      projectId,
-      type: 'garantie-financiere',
-    })}
-    data-confirm="Êtes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?"
-  >
-    Annuler le dépôt
-  </a>
-)
-
-type RemoveDocumentProps = {
-  projectId: string
-}
-const RemoveDocument = ({ projectId }: RemoveDocumentProps) => (
-  <p className="p-0 m-0">
-    <a
-      href={ROUTES.SUPPRIMER_ETAPE_ACTION({
-        projectId,
-        type: 'garantie-financiere',
-      })}
-      data-confirm="Êtes-vous sur de vouloir retirer l'attestion jointe ?"
-    >
-      Retirer le document de Potentiel
-    </a>
-    <span> (cela n'annule pas les garanties financières soumises à la candidature)</span>
-  </p>
-)
