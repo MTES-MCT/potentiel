@@ -41,6 +41,16 @@ const solPPE2: AppelOffre = {
       id: '1',
       title: 'première',
       paragrapheAchevement: '6.3',
+      noteThresholdBy: 'category',
+      noteThreshold: {
+        volumeReserve: {
+          noteThreshold: 46.95,
+          puissanceMax: 5,
+        },
+        autres: {
+          noteThreshold: 54.9,
+        },
+      },
     },
   ],
   familles: [],
