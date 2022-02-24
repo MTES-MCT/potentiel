@@ -13,8 +13,16 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
       getEvents(projectId).map((rawEvents) => ({ rawProject, rawEvents }))
     )
     .map(async ({ rawProject, rawEvents }) => {
-      const { email, nomProjet, potentielIdentifier, classe, abandonedOn, appelOffreId } =
-        rawProject.get()
+      const {
+        email,
+        nomProjet,
+        potentielIdentifier,
+        classe,
+        abandonedOn,
+        appelOffreId,
+        periodeId,
+        familleId,
+      } = rawProject.get()
       const isLaureat = classe === 'Classé' && !abandonedOn
       const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
 
@@ -22,7 +30,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
         project: {
           id: projectId,
           isLaureat,
-          isSoumisAuxGF: isSoumisAuxGF(appelOffreId),
+          isSoumisAuxGF: isSoumisAuxGF(appelOffreId, periodeId, familleId),
           isGarantiesFinancieresDeposeesALaCandidature:
             getIsGarantiesFinancieresDeposeesALaCandidature(appelOffreId),
         },
@@ -209,7 +217,7 @@ function getIsGarantiesFinancieresDeposeesALaCandidature(appelOffreId: string) {
   return appelOffre?.garantiesFinancieresDeposeesALaCandidature
 }
 
-function isSoumisAuxGF(appelOffreId: string) {
-  const appelOffre = appelsOffreStatic.find((ao) => ao.id === appelOffreId)
-  return !!appelOffre?.soumisAuxGarantiesFinancieres
+function isSoumisAuxGF(appelOffreId: string, periodeId: string, familleId: string) {
+  const projectAppelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
+  return !!projectAppelOffre?.isSoumisAuxGFs
 }
