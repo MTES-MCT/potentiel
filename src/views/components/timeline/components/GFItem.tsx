@@ -226,10 +226,12 @@ const UploadForm = ({ projectId, URLTitle, status }: UploadFormProps) => {
               Attestation{status === 'submitted-with-application' && <span>*</span>}
             </label>
             <input type="file" name="file" id="file" required />
-            <p className="m-0 italic">
-              *Il s'agit de l'attestation soumise à la candidature. Cet envoi ne fera pas l'objet
-              d'une nouvelle validation.
-            </p>
+            {status === 'submitted-with-application' && (
+              <p className="m-0 italic">
+                *Il s'agit de l'attestation soumise à la candidature. Cet envoi ne fera pas l'objet
+                d'une nouvelle validation.
+              </p>
+            )}
           </div>
           <button className="button" type="submit" name="submit" disabled={disableSubmit}>
             Envoyer
