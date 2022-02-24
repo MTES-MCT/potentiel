@@ -86,7 +86,12 @@ export const ChangementPuissance = ({
       />
 
       {displayAlertOnPuissance && reasonWhyChangeIsNotAutoAccepted !== 'none' && (
-        <AlerteNouvellePuissance {...reasonWhyChangeIsNotAutoAccepted} />
+        <AlerteNouvellePuissance
+          {...{
+            ...reasonWhyChangeIsNotAutoAccepted,
+            unitePuissance: appelOffre?.unitePuissance || 'MW',
+          }}
+        />
       )}
 
       {displayAlertOnPuissanceType && (

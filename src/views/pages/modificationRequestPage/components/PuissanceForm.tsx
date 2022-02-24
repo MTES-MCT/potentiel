@@ -21,6 +21,18 @@ export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => (
       />
     </div>
 
+    {!modificationRequest.isAuto && (
+      <div className="notification warning mt-3">
+        {modificationRequest.reason === 'hors-ratios-autorisés'
+          ? `La nouvelle puissance demandée est inférieure à ${Math.round(
+              modificationRequest.ratios.min * 100
+            )}% de la puissance initiale ou supérieure à ${Math.round(
+              modificationRequest.ratios.max * 100
+            )}%.`
+          : `La nouvelle puissance demandée dépasse la puissance maximum de ${modificationRequest.puissanceMax} ${modificationRequest.project.unitePuissance} du volume reservé de l'appel d'offre.`}
+      </div>
+    )}
+
     <div className="form__group mb-4">
       <label htmlFor="statusUpdateOnly">
         <input

@@ -177,6 +177,7 @@ export const ChangementPuissanceNonAutoAccepteHorsRatios = () => (
       puissance: 175,
       isAuto: false,
       reason: 'hors-ratios-autorisés',
+      ratios: { min: 0.8, max: 1.1 },
       id: 'modificationRequest123',
       status: 'envoyée',
       versionDate: 7376362,
@@ -211,7 +212,7 @@ export const ChangementPuissanceNonAutoAccepteHorsRatios = () => (
   />
 )
 
-export const ChangementPuissanceNonAutoAccepteSuperieurVOlumeReserve = () => (
+export const ChangementPuissanceNonAutoAccepteSuperieurVolumeReserve = () => (
   <ModificationRequest
     request={makeFakeRequest({ user: makeFakeUser({ role: 'admin' }) })}
     modificationRequest={{
@@ -219,6 +220,7 @@ export const ChangementPuissanceNonAutoAccepteSuperieurVOlumeReserve = () => (
       puissance: 175,
       isAuto: false,
       reason: 'puissance-max-volume-reseve-depassée',
+      puissanceMax: 1,
       id: 'modificationRequest123',
       status: 'envoyée',
       versionDate: 7376362,

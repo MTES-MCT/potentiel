@@ -56,12 +56,16 @@ type Variant =
       type: 'puissance'
       puissance: number
     } & (
+      | { isAuto: true }
       | {
-          isAuto: true
+          isAuto: false
+          reason: 'puissance-max-volume-reseve-depassée'
+          puissanceMax: number
         }
       | {
           isAuto: false
-          reason: 'hors-ratios-autorisés' | 'puissance-max-volume-reseve-depassée'
+          reason: 'hors-ratios-autorisés'
+          ratios: { min: number; max: number }
         }
     ))
   | { type: 'recours' }

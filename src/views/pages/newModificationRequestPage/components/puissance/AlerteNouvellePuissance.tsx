@@ -1,7 +1,7 @@
 import React from 'react'
 import { dataId } from '../../../../../helpers/testId'
 
-type AlertOnPuissanceValueProps =
+type AlertOnPuissanceValueProps = { unitePuissance: string } & (
   | {
       reason: 'puissance-max-volume-reseve-depassée'
       puissanceMax: number
@@ -13,6 +13,7 @@ type AlertOnPuissanceValueProps =
         max: number
       }
     }
+)
 
 export const AlerteNouvellePuissance = (props: AlertOnPuissanceValueProps) => (
   <div
@@ -29,11 +30,15 @@ export const AlerteNouvellePuissance = (props: AlertOnPuissanceValueProps) => (
 
 type AlertOnPuissanceExceedMaxProps = {
   puissanceMax: number
+  unitePuissance: string
 }
-const AlertePuissanceMaxDepassee = ({ puissanceMax }: AlertOnPuissanceExceedMaxProps) => (
+const AlertePuissanceMaxDepassee = ({
+  puissanceMax,
+  unitePuissance,
+}: AlertOnPuissanceExceedMaxProps) => (
   <>
     Une autorisation est nécessaire si la modification de puissance dépasse la puissance maximum de{' '}
-    {puissanceMax} MW du volume reservé de l'appel d'offre. Dans ce cas{' '}
+    {puissanceMax} {unitePuissance} du volume reservé de l'appel d'offre. Dans ce cas{' '}
     <strong>il est nécessaire de joindre un justificatif à votre demande</strong>.
   </>
 )

@@ -60,15 +60,6 @@ export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => 
           <span>
             Nouvelle puissance demandée : {modificationRequest.puissance}{' '}
             {modificationRequest.project.unitePuissance}
-            {!modificationRequest.isAuto && (
-              <span className="rounded-md bg-yellow-400 items-center px-2 py-0.5 ml-2">
-                <span className="text-sm font-bold tracking-wide uppercase text-white m-0">
-                  {modificationRequest.reason === 'hors-ratios-autorisés'
-                    ? 'Hors ratios autorisés'
-                    : 'Puissance maximum du volume reservé dépassé'}
-                </span>
-              </span>
-            )}
           </span>
         </div>
       )}

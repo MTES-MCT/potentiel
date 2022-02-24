@@ -92,7 +92,7 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
       cancelledOn,
     } = modificationRequestRaw.get()
 
-    const { appelOffreId, periodeId } = project
+    const { appelOffreId, periodeId, notifiedOn, completionDueOn, technologie } = project.get()
     const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId })
 
     return ok({
@@ -117,13 +117,13 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
       producteur,
       project: {
         ...project.get(),
-        notifiedOn: new Date(project.notifiedOn).getTime(),
-        completionDueOn: new Date(project.completionDueOn).getTime(),
+        notifiedOn: new Date(notifiedOn).getTime(),
+        completionDueOn: new Date(completionDueOn).getTime(),
         unitePuissance: appelOffre?.unitePuissance || '??',
       },
       ...(type === 'puissance' && {
         ...isModificationPuissanceAuto({
-          project: { ...project, appelOffre, technologie: project.technologie ?? 'N/A' },
+          project: { ...project, appelOffre, technologie: technologie || 'N/A' },
           nouvellePuissance: puissance,
         }),
         puissance,
