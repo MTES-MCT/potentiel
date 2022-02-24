@@ -83,7 +83,7 @@ describe('extractGFitemProps', () => {
       })
     })
     describe('when there is a ProjectGFUploaded event', () => {
-      it('should return a "submitted-with-application-and-uploaded" status', () => {
+      it('should return a "uploaded" status', () => {
         const project = {
           isLaureat: true,
           isSoumisAuxGF: true,
@@ -101,7 +101,7 @@ describe('extractGFitemProps', () => {
         expect(result).toEqual({
           date: new Date('2022-01-09').getTime(),
           type: 'garanties-financieres',
-          status: 'submitted-with-application-and-uploaded',
+          status: 'uploaded',
           role: 'porteur-projet',
           url: '/telechargement/file-id/fichier/file-name',
         })

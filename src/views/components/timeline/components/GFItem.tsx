@@ -24,7 +24,7 @@ export const GFItem = (props: ComponentProps) => {
     case 'submitted-with-application':
       return <NotUploaded {...{ ...props, projectId }} />
 
-    case 'submitted-with-application-and-uploaded':
+    case 'uploaded':
       return <Uploaded {...{ ...props, projectId, status }} />
   }
 }
@@ -146,7 +146,7 @@ const NotUploaded = ({ role, projectId, status }: NotUploadedProps) => {
   )
 }
 
-type UploadedProps = ComponentProps & { status: 'submitted-with-application-and-uploaded' }
+type UploadedProps = ComponentProps & { status: 'uploaded' }
 
 const Uploaded = ({ date, url, role, projectId }: UploadedProps) => {
   const isPorteurProjet = role === 'porteur-projet'

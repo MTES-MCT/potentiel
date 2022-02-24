@@ -12,7 +12,7 @@ export type GFItemProps = {
       date: number
     }
   | {
-      status: 'pending-validation' | 'validated' | 'submitted-with-application-and-uploaded'
+      status: 'pending-validation' | 'validated' | 'uploaded'
       url: string | undefined
       date: number
     }
@@ -82,7 +82,7 @@ export const extractGFItemProps = (
     return {
       ...props,
       url: eventToHandle.file && makeDocumentUrl(eventToHandle.file.id, eventToHandle.file.name),
-      status: 'submitted-with-application-and-uploaded',
+      status: 'uploaded',
     }
   }
 
