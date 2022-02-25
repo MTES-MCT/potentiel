@@ -1,4 +1,5 @@
 export * from './onConfirmationRequested';
+export * from './onLegacyModificationImported';
 export * from './onModificationRequestAccepted';
 export * from './onModificationRequestCancelled';
 export * from './onModificationRequestConfirmed';
