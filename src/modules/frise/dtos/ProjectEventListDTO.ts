@@ -28,6 +28,7 @@ export type ProjectEventDTO =
   | ModificationRequestInstructionStartedDTO
   | ConfirmationRequestedDTO
   | ModificationRequestConfirmedDTO
+  | LegacyModificationImportedDTO
 
 type File = {
   id: string
@@ -239,6 +240,18 @@ export type ModificationRequestDTO =
   | ModificationRequestCancelledDTO
   | ConfirmationRequestedDTO
   | ModificationRequestConfirmedDTO
+
+export type LegacyModificationImportedDTO = {
+  type: 'LegacyModificationImported'
+  date: number
+  variant: Exclude<UserRole, 'ademe'>
+} & (
+  | { modificationType: 'abandon' }
+  | { modificationType: 'recours'; accepted: boolean }
+  | { modificationType: 'delai'; delayInMonths: number }
+  | { modificationType: 'actionnaire'; actionnairePrecedent: string }
+  | { modificationType: 'producteur'; producteurPrecedent: string }
+)
 
 export type ProjectEventListDTO = {
   project: { id: Project['id']; isLaureat: boolean }
