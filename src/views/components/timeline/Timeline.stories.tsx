@@ -22,6 +22,7 @@ import {
   ModificationReceivedDTO,
   ProjectGFUploadedDTO,
   ProjectGFWithdrawnDTO,
+  LegacyModificationImportedDTO,
 } from '@modules/frise'
 import { Timeline } from './Timeline'
 
@@ -1139,6 +1140,69 @@ export const PPGarantiesFinancieresWithdrawn = () => (
           variant: 'porteur-projet',
           date: new Date('2022-01-17').getTime(),
         } as ProjectGFWithdrawnDTO,
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)
+
+export const LegacyModificationsAndDelayRequestForPP = () => (
+  <Timeline
+    projectEventList={{
+      project,
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'porteur-projet',
+          date: new Date('2019-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectCertificateGenerated',
+          variant: 'porteur-projet',
+          date: new Date('2019-01-13').getTime(),
+          certificateFileId: 'file-id',
+          nomProjet: 'mon projet pv',
+          email: undefined,
+          potentielIdentifier: 'pot-id',
+        } as ProjectCertificateGeneratedDTO,
+        {
+          type: 'LegacyModificationImported',
+          date: new Date('2019-01-15').getTime(),
+          variant: 'porteur-projet',
+          modificationType: 'delai',
+          ancienneDateLimiteAchevement: new Date('2022-01-15').getTime(),
+          nouvelleDateLimiteAchevement: new Date('2024-01-15').getTime(),
+        } as LegacyModificationImportedDTO,
+        {
+          type: 'LegacyModificationImported',
+          date: new Date('2019-01-16').getTime(),
+          variant: 'porteur-projet',
+          modificationType: 'producteur',
+          producteurPrecedent: 'ancien producteur',
+        } as LegacyModificationImportedDTO,
+        {
+          type: 'LegacyModificationImported',
+          date: new Date('2019-01-16').getTime(),
+          variant: 'porteur-projet',
+          modificationType: 'autre',
+          column: 'Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)',
+          value: '24',
+        } as LegacyModificationImportedDTO,
+        {
+          type: 'ModificationRequested',
+          date: new Date('2022-01-14').getTime(),
+          variant: 'porteur-projet',
+          modificationRequestId: 'id-1',
+          authority: 'dreal',
+          modificationType: 'delai',
+          delayInMonths: 2,
+        } as ModificationRequestedDTO,
+        {
+          type: 'ModificationRequestAccepted',
+          date: new Date('2022-01-14').getTime(),
+          variant: 'porteur-projet',
+          modificationRequestId: 'id-1',
+        } as ModificationRequestAcceptedDTO,
       ],
     }}
     now={new Date().getTime()}
