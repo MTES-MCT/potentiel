@@ -19,6 +19,7 @@ import {
   ModificationRequestInstructionStartedDTO,
   ConfirmationRequestedDTO,
   ModificationRequestConfirmedDTO,
+  LegacyModificationImportedDTO,
 } from '@modules/frise'
 import { Timeline } from './Timeline'
 
@@ -888,6 +889,38 @@ export const AbandonConfirméForPP = () => (
           variant: 'porteur-projet',
           modificationRequestId: 'id-1',
         } as ModificationRequestConfirmedDTO,
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)
+
+export const LegacyDelayModificationForPP = () => (
+  <Timeline
+    projectEventList={{
+      project,
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectCertificateGenerated',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-13').getTime(),
+          certificateFileId: 'file-id',
+          nomProjet: 'mon projet pv',
+          email: undefined,
+          potentielIdentifier: 'pot-id',
+        } as ProjectCertificateGeneratedDTO,
+        {
+          type: 'LegacyModificationImported',
+          date: new Date('2022-01-15').getTime(),
+          variant: 'porteur-projet',
+          modificationType: 'delai',
+          delayInMonths: 10,
+        } as LegacyModificationImportedDTO,
       ],
     }}
     now={new Date().getTime()}
