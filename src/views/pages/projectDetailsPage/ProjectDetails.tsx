@@ -39,7 +39,7 @@ export const ProjectDetails = PageLayout(
       <RoleBasedDashboard role={user.role} currentPage="list-projects">
         <ProjectHeader {...{ project, user, cahiersChargesURLs }} />
         <SuccessErrorBox success={success} error={error} />
-        <div className="flex flex-col gap-3">
+        <main className="flex flex-col gap-3 mt-5">
           <div className="flex flex-col lg:flex-row gap-3">
             <div className="panel p-4 mt-0 flex-auto">
               <h3 className="section--title">
@@ -231,7 +231,7 @@ export const ProjectDetails = PageLayout(
           ) : (
             ''
           )}
-        </div>
+        </main>
       </RoleBasedDashboard>
     )
   }
