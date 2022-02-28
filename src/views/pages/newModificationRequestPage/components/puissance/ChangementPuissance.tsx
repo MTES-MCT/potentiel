@@ -3,7 +3,7 @@ import { Project } from '@entities'
 import { dataId } from '../../../../../helpers/testId'
 import toNumber from '../../../../../helpers/toNumber'
 import { isStrictlyPositiveNumber } from '../../../../../helpers/formValidators'
-import { isModificationPuissanceAuto } from '@modules/modificationRequest'
+import { isModificationPuissanceAuto, IsModificationPuissanceAutoResult } from '@modules/modificationRequest'
 import { AlerteNouvellePuissance } from './AlerteNouvellePuissance'
 
 type ChangementPuissanceProps = {
@@ -15,14 +15,7 @@ type ChangementPuissanceProps = {
 
 type ReasonWhyChangeIsNotAutoAccepted =
   | 'none'
-  | {
-      reason: 'puissance-max-volume-reserve-depassée'
-      puissanceMax: number
-    }
-  | {
-      reason: 'hors-ratios-autorisés'
-      ratios: { min: number; max: number }
-    }
+  | Extract<IsModificationPuissanceAutoResult, {isAuto: false}>
 
 export const ChangementPuissance = ({
   project,

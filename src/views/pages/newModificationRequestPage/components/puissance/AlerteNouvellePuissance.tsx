@@ -1,19 +1,10 @@
 import React from 'react'
+import { IsModificationPuissanceAutoResult } from '@modules/modificationRequest'
 import { dataId } from '../../../../../helpers/testId'
 
-type AlertOnPuissanceValueProps = { unitePuissance: string } & (
-  | {
-      reason: 'puissance-max-volume-reserve-depassée'
-      puissanceMax: number
-    }
-  | {
-      reason: 'hors-ratios-autorisés'
-      ratios: {
-        min: number
-        max: number
-      }
-    }
-)
+type AlertOnPuissanceValueProps = {
+  unitePuissance: string
+} & Extract<IsModificationPuissanceAutoResult, { isAuto: false }>
 
 export const AlerteNouvellePuissance = (props: AlertOnPuissanceValueProps) => (
   <div

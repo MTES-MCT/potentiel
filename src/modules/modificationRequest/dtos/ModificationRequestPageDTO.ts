@@ -1,3 +1,4 @@
+import { IsModificationPuissanceAutoResult } from '..'
 import { Fournisseur } from '../../project'
 import { ModificationRequestStatusDTO } from './ModificationRequestListItemDTO'
 
@@ -55,19 +56,7 @@ type Variant =
   | ({
       type: 'puissance'
       puissance: number
-    } & (
-      | { isAuto: true }
-      | {
-          isAuto: false
-          reason: 'puissance-max-volume-reserve-depassée'
-          puissanceMax: number
-        }
-      | {
-          isAuto: false
-          reason: 'hors-ratios-autorisés'
-          ratios: { min: number; max: number }
-        }
-    ))
+    } & IsModificationPuissanceAutoResult)
   | { type: 'recours' }
   | { type: 'abandon' }
   | { type: 'delai'; delayInMonths: number; acceptanceParams?: { delayInMonths: number } }

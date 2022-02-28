@@ -2,15 +2,10 @@ import { ProjectAppelOffre, Technologie } from '@entities'
 
 export const defaultAutoAcceptRatios = { min: 0.9, max: 1.1 }
 
-export type IsModificationPuissanceAuto = (arg: {
-  project: {
-    puissanceInitiale: number
-    appelOffre?: ProjectAppelOffre
-    technologie: Technologie
-  }
-  nouvellePuissance: number
-}) =>
-  | { isAuto: true }
+export type IsModificationPuissanceAutoResult =
+  | {
+      isAuto: true
+    }
   | {
       isAuto: false
       reason: 'puissance-max-volume-reserve-depassée'
@@ -21,6 +16,15 @@ export type IsModificationPuissanceAuto = (arg: {
       reason: 'hors-ratios-autorisés'
       ratios: typeof defaultAutoAcceptRatios
     }
+
+export type IsModificationPuissanceAuto = (arg: {
+  project: {
+    puissanceInitiale: number
+    appelOffre?: ProjectAppelOffre
+    technologie: Technologie
+  }
+  nouvellePuissance: number
+}) => IsModificationPuissanceAutoResult
 
 export const isModificationPuissanceAuto: IsModificationPuissanceAuto = ({
   project,
