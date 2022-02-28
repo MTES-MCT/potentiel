@@ -219,7 +219,7 @@ export const ChangementPuissanceNonAutoAccepteSuperieurVolumeReserve = () => (
       type: 'puissance',
       puissance: 175,
       isAuto: false,
-      reason: 'puissance-max-volume-reseve-depassée',
+      reason: 'puissance-max-volume-reserve-depassée',
       puissanceMax: 1,
       id: 'modificationRequest123',
       status: 'envoyée',

@@ -13,7 +13,7 @@ export type IsModificationPuissanceAuto = (arg: {
   | { isAuto: true }
   | {
       isAuto: false
-      reason: 'puissance-max-volume-reseve-depassée'
+      reason: 'puissance-max-volume-reserve-depassée'
       puissanceMax: number
     }
   | {
@@ -35,7 +35,7 @@ export const isModificationPuissanceAuto: IsModificationPuissanceAuto = ({
     if (wasNotifiedOnReservedVolume && nouvellePuissance > puissanceMax) {
       return {
         isAuto: false,
-        reason: 'puissance-max-volume-reseve-depassée',
+        reason: 'puissance-max-volume-reserve-depassée',
         puissanceMax,
       }
     }

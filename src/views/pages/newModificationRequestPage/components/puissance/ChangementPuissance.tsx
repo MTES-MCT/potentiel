@@ -16,7 +16,7 @@ type ChangementPuissanceProps = {
 type ReasonWhyChangeIsNotAutoAccepted =
   | 'none'
   | {
-      reason: 'puissance-max-volume-reseve-depassée'
+      reason: 'puissance-max-volume-reserve-depassée'
       puissanceMax: number
     }
   | {

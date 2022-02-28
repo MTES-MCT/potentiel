@@ -59,7 +59,7 @@ type Variant =
       | { isAuto: true }
       | {
           isAuto: false
-          reason: 'puissance-max-volume-reseve-depassée'
+          reason: 'puissance-max-volume-reserve-depassée'
           puissanceMax: number
         }
       | {

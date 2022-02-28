@@ -196,7 +196,7 @@ describe('isModificationPuissanceAuto', () => {
           })
           expect(actual).toEqual({
             isAuto: false,
-            reason: 'puissance-max-volume-reseve-depassée',
+            reason: 'puissance-max-volume-reserve-depassée',
             puissanceMax: 10,
           })
         })
