@@ -9,7 +9,7 @@ describe('isModificationPuissanceAuto', () => {
         changementPuissance: {
           autoAcceptRatios: ratios,
         },
-        periode: { isNotifiedOnPotentiel: true } as Periode,
+        periode: {} as Periode,
       } as ProjectAppelOffre
 
       describe(`when the new puissance is between the min and max auto accept ratios of the initial puissance`, () => {
@@ -63,7 +63,7 @@ describe('isModificationPuissanceAuto', () => {
             hydraulique: { min: 0.3, max: 1.5 },
           },
         },
-        periode: { isNotifiedOnPotentiel: true } as Periode,
+        periode: {} as Periode,
       } as ProjectAppelOffre
 
       const technologieFixtures: Technologie[] = ['eolien', 'pv', 'hydraulique']
@@ -182,7 +182,6 @@ describe('isModificationPuissanceAuto', () => {
         autoAcceptRatios: { min: 0.7, max: 1.1 },
       },
       periode: {
-        isNotifiedOnPotentiel: true,
         noteThresholdBy: 'category',
         noteThreshold: { volumeReserve: { puissanceMax: 10 } },
       } as Periode,

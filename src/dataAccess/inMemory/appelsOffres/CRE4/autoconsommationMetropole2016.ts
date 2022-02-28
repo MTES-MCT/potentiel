@@ -40,11 +40,13 @@ export const autoconsommationMetropole2016: AppelOffre = {
       id: '1',
       title: 'première',
       paragrapheAchevement: '6.4',
+      type: 'legacy',
     },
     {
       id: '2',
       title: 'deuxième',
       paragrapheAchevement: '6.4',
+      type: 'legacy',
     },
   ],
   familles: [],

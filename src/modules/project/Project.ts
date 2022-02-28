@@ -11,7 +11,14 @@ import {
   ok,
   Result,
 } from '@core/utils'
-import { AppelOffre, CertificateTemplate, ProjectAppelOffre, Technologie, User } from '@entities'
+import {
+  AppelOffre,
+  CertificateTemplate,
+  isNotifiedPeriode,
+  ProjectAppelOffre,
+  Technologie,
+  User,
+} from '@entities'
 import {
   EntityNotFoundError,
   HeterogeneousHistoryError,
@@ -319,7 +326,7 @@ export const makeProject = (args: {
         )
       }
 
-      if (!appelOffre.periode.isNotifiedOnPotentiel && newNotifiedOn) {
+      if (!isNotifiedPeriode(appelOffre.periode) && newNotifiedOn) {
         _publishNewNotificationDate({
           projectId: props.projectId.toString(),
           notifiedOn: newNotifiedOn,
@@ -605,7 +612,7 @@ export const makeProject = (args: {
       return props.isClasse
     },
     get isLegacy() {
-      return props.appelOffre && !props.appelOffre.periode.isNotifiedOnPotentiel
+      return props.appelOffre && props.appelOffre.periode.type === 'legacy'
     },
     get puissanceInitiale() {
       return props.puissanceInitiale
@@ -616,7 +623,7 @@ export const makeProject = (args: {
       }
 
       const { periode } = props.appelOffre
-      if (!periode.isNotifiedOnPotentiel || !periode.certificateTemplate || !props.notifiedOn) {
+      if (!isNotifiedPeriode(periode) || !periode.certificateTemplate || !props.notifiedOn) {
         return err(new ProjectNotEligibleForCertificateError()) as Project['certificateData']
       }
 
@@ -819,7 +826,7 @@ export const makeProject = (args: {
   }
 
   function _periodeHasCertificate() {
-    return !!props.appelOffre?.periode.isNotifiedOnPotentiel
+    return !!props.appelOffre?.periode.certificateTemplate
   }
 
   function _updateAppelOffre(args: {

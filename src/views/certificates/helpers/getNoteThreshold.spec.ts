@@ -6,7 +6,6 @@ describe(`getNoteThreshold`, () => {
     const fakeProject = {
       appelOffre: {
         periode: {
-          isNotifiedOnPotentiel: true,
           noteThreshold: 99,
         },
       } as ProjectAppelOffre,
@@ -24,7 +23,6 @@ describe(`getNoteThreshold`, () => {
     const fakeProject = {
       appelOffre: {
         periode: {
-          isNotifiedOnPotentiel: true,
           noteThresholdBy: 'category',
           noteThreshold: {
             volumeReserve: {
@@ -84,7 +82,6 @@ describe(`getNoteThreshold`, () => {
       familleId,
       appelOffre: {
         periode: {
-          isNotifiedOnPotentiel: true,
           noteThresholdBy: 'family',
           noteThreshold: [
             {

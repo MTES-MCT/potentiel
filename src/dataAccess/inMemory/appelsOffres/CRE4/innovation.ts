@@ -40,6 +40,7 @@ const innovation: AppelOffre = {
       id: '1',
       title: 'première',
       paragrapheAchevement: '6.3',
+      type: 'legacy',
     },
     {
       id: '2',
@@ -50,7 +51,6 @@ const innovation: AppelOffre = {
         { familleId: '1', noteThreshold: 71.58 },
         { familleId: '2', noteThreshold: 45.49 },
       ],
-      isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v0',
     },
     {
@@ -62,7 +62,6 @@ const innovation: AppelOffre = {
         { familleId: '1', noteThreshold: 64.21 },
         { familleId: '2', noteThreshold: 59.32 },
       ],
-      isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v1',
     },
   ],

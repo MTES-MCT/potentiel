@@ -41,7 +41,6 @@ const zni: AppelOffre = {
       id: '1',
       title: 'première',
       paragrapheAchevement: '6.4',
-      isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v0',
       noteThresholdBy: 'family',
       noteThreshold: [
@@ -67,7 +66,6 @@ const zni: AppelOffre = {
       id: '2',
       title: 'deuxième',
       paragrapheAchevement: '6.4',
-      isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v0',
       noteThresholdBy: 'family',
       noteThreshold: [
@@ -92,7 +90,6 @@ const zni: AppelOffre = {
       id: '3',
       title: 'troisième',
       paragrapheAchevement: '6.4',
-      isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v1',
       noteThresholdBy: 'family',
       noteThreshold: [
@@ -115,7 +112,6 @@ const zni: AppelOffre = {
       id: '4',
       title: 'quatrième',
       paragrapheAchevement: '6.4',
-      isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v1',
       noteThresholdBy: 'family',
       noteThreshold: [
@@ -140,7 +136,6 @@ const zni: AppelOffre = {
       id: '5',
       title: 'cinquième',
       paragrapheAchevement: '6.4',
-      isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v1',
       noteThresholdBy: 'family',
       noteThreshold: [
