@@ -1,5 +1,5 @@
 import React from 'react'
-import { ProjectDataForCertificate } from 'src/modules/project'
+import { ProjectDataForCertificate } from '@modules/project'
 import { formatNumber } from '../../../../helpers/formatNumber'
 import { getNoteThreshold } from '../../../../helpers/getNoteThreshold'
 
