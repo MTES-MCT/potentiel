@@ -113,7 +113,7 @@ const SubmitForm = ({ projectId }: SubmitFormProps) => {
       <a onClick={() => showForm(!isFormVisible)}>Transmettre l'attestation</a>
       {isFormVisible && (
         <form
-          action={ROUTES.DEPOSER_ETAPE_ACTION}
+          action={ROUTES.SUBMIT_GARANTIES_FINANCIERES({ projectId })}
           method="post"
           encType="multipart/form-data"
           className="mt-2 border border-solid border-gray-300 rounded-md p-5"
@@ -143,9 +143,8 @@ type CancelDepositProps = {
 }
 const CancelDeposit = ({ projectId }: CancelDepositProps) => (
   <a
-    href={ROUTES.SUPPRIMER_ETAPE_ACTION({
+    href={ROUTES.REMOVE_GARANTIES_FINANCIERES({
       projectId,
-      type: 'garantie-financiere',
     })}
     data-confirm="Êtes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?"
   >
@@ -213,7 +212,7 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
       <a onClick={() => showForm(!isFormVisible)}>Enregistrer mon attestation dans Potentiel</a>
       {isFormVisible && (
         <form
-          action={ROUTES.DEPOSER_ETAPE_ACTION}
+          action={ROUTES.UPLOAD_GARANTIES_FINANCIERES({ projectId })}
           method="post"
           encType="multipart/form-data"
           className="mt-2 border border-solid border-gray-300 rounded-md p-5"
@@ -248,9 +247,8 @@ type WithdrawDocumentProps = {
 const WithdrawDocument = ({ projectId }: WithdrawDocumentProps) => (
   <p className="p-0 m-0">
     <a
-      href={ROUTES.SUPPRIMER_ETAPE_ACTION({
+      href={ROUTES.WITHDRAW_GARANTIES_FINANCIERES({
         projectId,
-        type: 'garantie-financiere',
       })}
       data-confirm="Êtes-vous sur de vouloir retirer l'attestion jointe ?"
     >
