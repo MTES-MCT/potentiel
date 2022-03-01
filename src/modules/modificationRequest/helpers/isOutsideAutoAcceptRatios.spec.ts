@@ -1,4 +1,4 @@
-import { Periode, ProjectAppelOffre, Technologie } from '@entities'
+import { ProjectAppelOffre, Technologie } from '@entities'
 import { isOutsideAutoAcceptRatios } from './isOutsideAutoAcceptRatios'
 
 describe(`isOutsideAutoAcceptRatios`, () => {
@@ -8,7 +8,6 @@ describe(`isOutsideAutoAcceptRatios`, () => {
       changementPuissance: {
         autoAcceptRatios: ratios,
       },
-      periode: { isNotifiedOnPotentiel: true } as Periode,
     } as ProjectAppelOffre
 
     describe(`when the new puissance is between the min and max auto accept ratios of the initial puissance`, () => {
@@ -62,7 +61,6 @@ describe(`isOutsideAutoAcceptRatios`, () => {
           hydraulique: { min: 0.3, max: 1.5 },
         },
       },
-      periode: { isNotifiedOnPotentiel: true } as Periode,
     } as ProjectAppelOffre
 
     const technologieFixtures: Technologie[] = ['eolien', 'pv', 'hydraulique']

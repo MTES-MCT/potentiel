@@ -1,11 +1,11 @@
-import { ProjectAppelOffre } from '@entities'
+import { isNotifiedPeriode, ProjectAppelOffre } from '@entities'
 
 export const getReservedVolume = (
   appelOffre: ProjectAppelOffre
 ): { puissanceMax: number } | undefined => {
   const { periode } = appelOffre
 
-  if (periode.isNotifiedOnPotentiel) {
+  if (isNotifiedPeriode(periode)) {
     if (periode.noteThresholdBy === 'category') {
       const {
         noteThreshold: { volumeReserve },

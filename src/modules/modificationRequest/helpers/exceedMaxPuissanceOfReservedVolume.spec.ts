@@ -8,7 +8,6 @@ describe('exceedMaxPuissanceOfReservedVolume', () => {
         autoAcceptRatios: { min: 0.7, max: 1.1 },
       },
       periode: {
-        isNotifiedOnPotentiel: true,
         noteThresholdBy: 'category',
         noteThreshold: { volumeReserve: { puissanceMax: 10 } },
       } as Periode,
