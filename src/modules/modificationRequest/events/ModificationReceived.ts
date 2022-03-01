@@ -12,6 +12,7 @@ export type ModificationReceivedPayload = {
   | {
       type: 'puissance'
       puissance: number
+      puissanceAuMomentDuDepot?: number // added later, so not always present
     }
   | { type: 'actionnaire'; actionnaire: string }
   | { type: 'producteur'; producteur: string }

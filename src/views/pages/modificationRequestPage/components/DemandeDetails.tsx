@@ -93,26 +93,37 @@ interface PuissanceDetailsProps {
   modificationRequest: ModificationRequestPageDTO & { type: 'puissance' }
 }
 const PuissanceDetails = ({ modificationRequest }: PuissanceDetailsProps) => {
+  const { project, status, puissanceAuMomentDuDepot } = modificationRequest
+  const { puissance, puissanceInitiale, unitePuissance } = project
+
+  const hasPuissanceChangedSinceDepot =
+    puissance !== (puissanceAuMomentDuDepot || puissanceInitiale)
+
   return (
     <div style={{ marginTop: 5 }}>
-      <span>
-        Puissance à la notification : {modificationRequest.project.puissanceInitiale}{' '}
-        {modificationRequest.project.unitePuissance}
-      </span>
+      <div>
+        Puissance à la notification : {puissanceInitiale} {unitePuissance}
+      </div>
 
-      <br />
+      {puissanceAuMomentDuDepot && puissanceInitiale !== puissanceAuMomentDuDepot && (
+        <div>
+          Puissance au moment du dépôt : {puissanceAuMomentDuDepot} {unitePuissance}
+        </div>
+      )}
 
-      <span>
-        Puissance actuelle : {modificationRequest.project.puissance}{' '}
-        {modificationRequest.project.unitePuissance}
-      </span>
+      {(status === 'en instruction' || status === 'envoyée') && (
+        <>
+          {hasPuissanceChangedSinceDepot && (
+            <div>
+              Puissance actuelle : {project.puissance} {unitePuissance}
+            </div>
+          )}
+        </>
+      )}
 
-      <br />
-
-      <span>
-        Nouvelle puissance demandée : {modificationRequest.puissance}{' '}
-        {modificationRequest.project.unitePuissance}
-      </span>
+      <div>
+        Nouvelle puissance demandée : {modificationRequest.puissance} {unitePuissance}
+      </div>
     </div>
   )
 }

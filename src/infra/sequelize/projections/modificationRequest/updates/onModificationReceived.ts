@@ -24,13 +24,15 @@ export const onModificationReceived =
         status: 'information validée',
         type,
         userId: requestedBy,
-        producteur: type === 'producteur' && payload.producteur,
-        puissance: type === 'puissance' && payload.puissance,
+        producteur: type === 'producteur' ? payload.producteur : undefined,
+        puissance: type === 'puissance' ? payload.puissance : undefined,
+        puissanceAuMomentDuDepot:
+          type === 'puissance' ? payload.puissanceAuMomentDuDepot : undefined,
         justification,
         fileId,
-        actionnaire: type === 'actionnaire' && payload.actionnaire,
-        fournisseurs: type === 'fournisseur' && payload.fournisseurs,
-        evaluationCarbone: type === 'fournisseur' && payload.evaluationCarbone,
+        actionnaire: type === 'actionnaire' ? payload.actionnaire : undefined,
+        fournisseurs: type === 'fournisseur' ? payload.fournisseurs : undefined,
+        evaluationCarbone: type === 'fournisseur' ? payload.evaluationCarbone : undefined,
         authority,
       })
     } catch (e) {

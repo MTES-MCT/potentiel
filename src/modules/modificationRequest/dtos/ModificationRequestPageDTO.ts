@@ -55,10 +55,7 @@ type Variant =
   | { type: 'actionnaire'; actionnaire: string }
   | { type: 'fournisseur'; fournisseurs: Fournisseur[]; evaluationCarbone?: number }
   | { type: 'producteur'; producteur: string }
-  | {
-      type: 'puissance'
-      puissance: number
-    }
+  | { type: 'puissance'; puissance: number; puissanceAuMomentDuDepot?: number }
   | { type: 'recours' }
   | { type: 'abandon' }
   | { type: 'delai'; delayInMonths: number; acceptanceParams?: { delayInMonths: number } }

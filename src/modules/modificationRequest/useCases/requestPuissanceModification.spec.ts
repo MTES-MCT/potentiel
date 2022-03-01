@@ -26,12 +26,14 @@ describe('requestPuissanceModification use-case', () => {
     load: jest.fn(),
   }
   const file = { contents: Readable.from('test-content'), filename: 'myfilename.pdf' }
+  const getPuissanceProjet = jest.fn((projectId: string) => okAsync(123))
 
   describe('when user is not allowed', () => {
     const shouldUserAccessProject = jest.fn(async () => false)
     const requestPuissanceModification = makeRequestPuissanceModification({
       projectRepo,
       eventBus,
+      getPuissanceProjet,
       shouldUserAccessProject,
       exceedsRatiosChangementPuissance: () => false,
       exceedsPuissanceMaxDuVolumeReserve: () => false,
@@ -61,6 +63,7 @@ describe('requestPuissanceModification use-case', () => {
       const requestPuissanceModification = makeRequestPuissanceModification({
         projectRepo,
         eventBus,
+        getPuissanceProjet,
         shouldUserAccessProject,
         exceedsRatiosChangementPuissance: () => true,
         exceedsPuissanceMaxDuVolumeReserve: () => false,
@@ -113,9 +116,10 @@ describe('requestPuissanceModification use-case', () => {
           const event = eventBus.publish.mock.calls[0][0]
           expect(event).toBeInstanceOf(ModificationRequested)
 
-          const { type, puissance } = event.payload
+          const { type, puissance, puissanceAuMomentDuDepot } = event.payload
           expect(type).toEqual('puissance')
           expect(puissance).toEqual(newPuissance)
+          expect(puissanceAuMomentDuDepot).toEqual(123)
         })
 
         it('should not change the project', () => {
@@ -134,6 +138,7 @@ describe('requestPuissanceModification use-case', () => {
       const requestPuissanceModification = makeRequestPuissanceModification({
         projectRepo,
         eventBus,
+        getPuissanceProjet,
         shouldUserAccessProject,
         exceedsRatiosChangementPuissance: () => false,
         exceedsPuissanceMaxDuVolumeReserve: () => false,
@@ -165,9 +170,10 @@ describe('requestPuissanceModification use-case', () => {
         const event = eventBus.publish.mock.calls[0][0]
         expect(event).toBeInstanceOf(ModificationReceived)
 
-        const { type, puissance } = event.payload
+        const { type, puissance, puissanceAuMomentDuDepot } = event.payload
         expect(type).toEqual('puissance')
         expect(puissance).toEqual(newPuissance)
+        expect(puissanceAuMomentDuDepot).toEqual(123)
       })
 
       it('should update the puissance', () => {
