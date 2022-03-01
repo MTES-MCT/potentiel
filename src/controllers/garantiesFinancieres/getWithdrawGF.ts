@@ -1,7 +1,7 @@
 import { logger } from '@core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import routes from '../../routes'
-import { removeStep } from '@config/useCases.config'
+import { withdrawGF } from '@config/useCases.config'
 import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'
 import asyncHandler from '../helpers/asyncHandler'
@@ -11,7 +11,7 @@ import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helper
 import { UnauthorizedError } from '@modules/shared'
 
 v1Router.get(
-  routes.SUPPRIMER_ETAPE_ACTION(),
+  routes.REMOVE_GARANTIES_FINANCIERES(),
   ensureRole(['admin', 'dgec', 'porteur-projet']),
   asyncHandler(async (request, response) => {
     const { user } = request
@@ -21,12 +21,12 @@ v1Router.get(
       return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
     }
 
-    if (!['ptf', 'dcr'].includes(type)) {
+    if (type !== 'garanties-financieres') {
       return errorResponse({ request, response })
     }
 
     ;(
-      await removeStep({
+      await withdrawGF({
         removedBy: user,
         projectId,
         type: asLiteral(type),
@@ -35,7 +35,7 @@ v1Router.get(
       () =>
         response.redirect(
           addQueryParams(routes.PROJECT_DETAILS(projectId), {
-            success: 'Le dépôt été annulé avec succès',
+            success: "Le dépôt de l'attestation de garanties financières a été annulé avec succès.",
           })
         ),
       (e) => {

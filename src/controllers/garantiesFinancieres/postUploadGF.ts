@@ -2,41 +2,42 @@ import asyncHandler from '../helpers/asyncHandler'
 import fs from 'fs'
 import moment from 'moment'
 import { ensureRole } from '@config'
-import { submitStep } from '@config/useCases.config'
+import { uploadGF } from '@config/useCases.config'
 import { logger } from '@core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { pathExists } from '../../helpers/pathExists'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import { UnauthorizedError } from '@modules/shared'
 import routes from '../../routes'
-import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
+import { errorResponse, unauthorizedResponse } from '../helpers'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
 
 v1Router.post(
-  routes.DEPOSER_ETAPE_ACTION,
+  routes.UPLOAD_GARANTIES_FINANCIERES(),
   ensureRole(['admin', 'dgec', 'dreal', 'porteur-projet']),
   upload.single('file'),
   asyncHandler(async (request, response) => {
-    const { type, stepDate, projectId, numeroDossier } = request.body
+    const { type, stepDate, projectId } = request.body
 
     if (!validateUniqueId(projectId)) {
       return errorResponse({
         request,
         response,
         customMessage:
-          'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
+          'Il y a eu une erreur lors de le la transmission de votre attestation de garanties financières. Merci de recommencer.',
       })
     }
 
-    if (!['ptf', 'dcr'].includes(type)) {
+    if (type !== 'garanties-financieres') {
       return errorResponse({ request, response, customStatus: 400 })
     }
 
     if (!stepDate) {
       return response.redirect(
         addQueryParams(routes.PROJECT_DETAILS(projectId), {
-          error: "Votre dépôt n'a pas pu être transmis. La date est obligatoire.",
+          error:
+            "Votre attestation de garanties financières n'a pas pu être envoyée. La date est obligatoire.",
         })
       )
     }
@@ -45,7 +46,7 @@ v1Router.post(
       return response.redirect(
         addQueryParams(routes.PROJECT_DETAILS(projectId), {
           error:
-            "Votre dépôt n'a pas pu être transmis. La date envoyée n'est pas au bon format (JJ/MM/AAAA)",
+            "Votre attestation de garanties financières n'a pas pu être envoyée. La date renseignée n'est pas au bon format (JJ/MM/AAAA)",
         })
       )
     }
@@ -56,7 +57,7 @@ v1Router.post(
       return response.redirect(
         addQueryParams(routes.PROJECT_DETAILS(projectId), {
           error:
-            "Votre dépôt n'a pas pu être transmis. Merci d'attacher l'attestation en pièce-jointe.",
+            "Votre attestation de garanties financières n'a pas pu être envoyée. Merci d'attacher l'attestation en pièce-jointe.",
         })
       )
     }
@@ -67,19 +68,18 @@ v1Router.post(
     }
 
     ;(
-      await submitStep({
+      await uploadGF({
         type,
         projectId,
         stepDate: moment(stepDate, 'DD/MM/YYYY').toDate(),
         file,
-        numeroDossier,
         submittedBy: request.user,
       })
     ).match(
       () =>
         response.redirect(
           routes.SUCCESS_OR_ERROR_PAGE({
-            success: 'Votre dépôt a bien été enregistré.',
+            success: 'Votre attestation de garanties financières a bien été enregistrée.',
             redirectUrl: routes.PROJECT_DETAILS(projectId),
             redirectTitle: 'Retourner à la page projet',
           })

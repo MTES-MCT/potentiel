@@ -145,6 +145,7 @@ const CancelDeposit = ({ projectId }: CancelDepositProps) => (
   <a
     href={ROUTES.REMOVE_GARANTIES_FINANCIERES({
       projectId,
+      type: 'garanties-financieres',
     })}
     data-confirm="Êtes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?"
   >
@@ -249,6 +250,7 @@ const WithdrawDocument = ({ projectId }: WithdrawDocumentProps) => (
     <a
       href={ROUTES.WITHDRAW_GARANTIES_FINANCIERES({
         projectId,
+        type: 'garanties-financieres',
       })}
       data-confirm="Êtes-vous sur de vouloir retirer l'attestion jointe ?"
     >

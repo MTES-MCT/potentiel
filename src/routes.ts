@@ -186,7 +186,7 @@ class routes {
   }
 
   /* CRE4 GF */
-  static REMOVE_GARANTIES_FINANCIERES = (args?: { projectId: string }) => {
+  static REMOVE_GARANTIES_FINANCIERES = (args?: { projectId: string; type: string }) => {
     const route = '/projet/:projectId/annuler-attestation-garanties-financieres'
     if (args) {
       const { projectId } = args
@@ -202,7 +202,7 @@ class routes {
   }
 
   /* PPE2 GF */
-  static WITHDRAW_GARANTIES_FINANCIERES = (args?: { projectId: string }) => {
+  static WITHDRAW_GARANTIES_FINANCIERES = (args?: { projectId: string; type: string }) => {
     const route = '/projet/:projectId/retirer-attestation-garanties-financieres'
     if (args) {
       const { projectId } = args
