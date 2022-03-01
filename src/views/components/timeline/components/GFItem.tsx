@@ -118,7 +118,7 @@ const SubmitForm = ({ projectId }: SubmitFormProps) => {
           encType="multipart/form-data"
           className="mt-2 border border-solid border-gray-300 rounded-md p-5"
         >
-          <input type="hidden" name="type" id="type" value="garantie-financiere" />
+          <input type="hidden" name="type" id="type" value="garanties-financieres" />
           <input type="hidden" name="projectId" value={projectId} />
           <div>
             <label htmlFor="date">Date de constitution (format JJ/MM/AAAA)</label>
@@ -164,7 +164,7 @@ const NotUploaded = ({ role, projectId }: NotUploadedProps) => {
       <CurrentIcon />
       <ContentArea>
         <ItemTitle title={'Constitution des garanties financières'} />
-        <span>Garanties financières soumises à la candidature</span>
+        <span>Attestation de constitution des garanties financières soumise à la candidature</span>
         {isPorteurProjet && <UploadForm projectId={projectId} />}
       </ContentArea>
     </>
@@ -218,7 +218,7 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
           encType="multipart/form-data"
           className="mt-2 border border-solid border-gray-300 rounded-md p-5"
         >
-          <input type="hidden" name="type" id="type" value="garantie-financiere" />
+          <input type="hidden" name="type" id="type" value="garanties-financieres" />
           <input type="hidden" name="projectId" value={projectId} />
           <div>
             <label htmlFor="date">Date de constitution (format JJ/MM/AAAA)</label>

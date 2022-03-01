@@ -187,14 +187,14 @@ class routes {
 
   /* CRE4 GF */
   static REMOVE_GARANTIES_FINANCIERES = (args?: { projectId: string; type: string }) => {
-    const route = '/projet/:projectId/annuler-attestation-garanties-financieres'
+    const route = '/projet/:projectId/annuler/:type'
     if (args) {
-      const { projectId } = args
-      return route.replace(':projectId', projectId)
+      const { projectId, type } = args
+      return route.replace(':projectId', projectId).replace(':type', type)
     } else return route
   }
   static SUBMIT_GARANTIES_FINANCIERES = (args?: { projectId: string }) => {
-    const route = '/projet/:projectId/soumettre-attestation-garanties-financieres'
+    const route = '/projet/:projectId/soumettre/garanties-financieres'
     if (args) {
       const { projectId } = args
       return route.replace(':projectId', projectId)
@@ -203,14 +203,14 @@ class routes {
 
   /* PPE2 GF */
   static WITHDRAW_GARANTIES_FINANCIERES = (args?: { projectId: string; type: string }) => {
-    const route = '/projet/:projectId/retirer-attestation-garanties-financieres'
+    const route = '/projet/:projectId/supprimer/:type'
     if (args) {
-      const { projectId } = args
-      return route.replace(':projectId', projectId)
+      const { projectId, type } = args
+      return route.replace(':projectId', projectId).replace(':type', type)
     } else return route
   }
   static UPLOAD_GARANTIES_FINANCIERES = (args?: { projectId: string }) => {
-    const route = '/projet/:projectId/enregistrer-attestation-garanties-financieres'
+    const route = '/projet/:projectId/enregistrer/garanties-financieres'
     if (args) {
       const { projectId } = args
       return route.replace(':projectId', projectId)
