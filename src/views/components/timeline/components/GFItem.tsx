@@ -56,13 +56,7 @@ const NotSubmitted = ({ date, status, role, projectId }: NotSubmittedProps) => {
               Attestation de constitution de garanties financières en attente
             </p>
           </div>
-          {isPorteurProjet && (
-            <UploadForm
-              projectId={projectId}
-              URLTitle="Transmettre l'attestation"
-              status={status}
-            />
-          )}
+          {isPorteurProjet && <SubmitForm projectId={projectId} />}
         </div>
       </ContentArea>
     </>
@@ -107,6 +101,43 @@ const Submitted = ({ date, status, url, role, projectId }: SubmittedProps) => {
   )
 }
 
+type SubmitFormProps = {
+  projectId: ComponentProps['projectId']
+}
+const SubmitForm = ({ projectId }: SubmitFormProps) => {
+  const [isFormVisible, showForm] = useState(false)
+  const [disableSubmit, setDisableSubmit] = useState(true)
+
+  return (
+    <>
+      <a onClick={() => showForm(!isFormVisible)}>Transmettre l'attestation</a>
+      {isFormVisible && (
+        <form
+          action={ROUTES.DEPOSER_ETAPE_ACTION}
+          method="post"
+          encType="multipart/form-data"
+          className="mt-2 border border-solid border-gray-300 rounded-md p-5"
+        >
+          <input type="hidden" name="type" id="type" value="garantie-financiere" />
+          <input type="hidden" name="projectId" value={projectId} />
+          <div>
+            <label htmlFor="date">Date de constitution (format JJ/MM/AAAA)</label>
+            <DateInput onError={(isError) => setDisableSubmit(isError)} />
+          </div>
+          <div className="mt-2">
+            <label htmlFor="file">Attestation</label>
+            <input type="file" name="file" id="file" required />
+          </div>
+          <button className="button" type="submit" name="submit" disabled={disableSubmit}>
+            Envoyer
+          </button>
+          <a onClick={() => showForm(false)}>Annuler</a>
+        </form>
+      )}
+    </>
+  )
+}
+
 type CancelDepositProps = {
   projectId: ComponentProps['projectId']
 }
@@ -124,9 +155,9 @@ const CancelDeposit = ({ projectId }: CancelDepositProps) => (
 
 /* PPE2 */
 
-type NotUploadedProps = ComponentProps & { status: 'submitted-with-application' }
+type NotUploadedProps = ComponentProps
 
-const NotUploaded = ({ role, projectId, status }: NotUploadedProps) => {
+const NotUploaded = ({ role, projectId }: NotUploadedProps) => {
   const isPorteurProjet = role === 'porteur-projet'
   return (
     <>
@@ -134,13 +165,7 @@ const NotUploaded = ({ role, projectId, status }: NotUploadedProps) => {
       <ContentArea>
         <ItemTitle title={'Constitution des garanties financières'} />
         <span>Garanties financières soumises à la candidature</span>
-        {isPorteurProjet && (
-          <UploadForm
-            projectId={projectId}
-            URLTitle="Enregistrer mon attestation dans Potentiel"
-            status={status}
-          />
-        )}
+        {isPorteurProjet && <UploadForm projectId={projectId} />}
       </ContentArea>
     </>
   )
@@ -176,6 +201,47 @@ const Uploaded = ({ date, url, role, projectId }: UploadedProps) => {
   )
 }
 
+type UploadFormProps = {
+  projectId: ComponentProps['projectId']
+}
+const UploadForm = ({ projectId }: UploadFormProps) => {
+  const [isFormVisible, showForm] = useState(false)
+  const [disableSubmit, setDisableSubmit] = useState(true)
+
+  return (
+    <>
+      <a onClick={() => showForm(!isFormVisible)}>Enregistrer mon attestation dans Potentiel</a>
+      {isFormVisible && (
+        <form
+          action={ROUTES.DEPOSER_ETAPE_ACTION}
+          method="post"
+          encType="multipart/form-data"
+          className="mt-2 border border-solid border-gray-300 rounded-md p-5"
+        >
+          <input type="hidden" name="type" id="type" value="garantie-financiere" />
+          <input type="hidden" name="projectId" value={projectId} />
+          <div>
+            <label htmlFor="date">Date de constitution (format JJ/MM/AAAA)</label>
+            <DateInput onError={(isError) => setDisableSubmit(isError)} />
+          </div>
+          <div className="mt-2">
+            <label htmlFor="file">Attestation*</label>
+            <input type="file" name="file" id="file" required />
+            <p className="m-0 italic">
+              *Il s'agit de l'attestation soumise à la candidature. Cet envoi ne fera pas l'objet
+              d'une nouvelle validation.
+            </p>
+          </div>
+          <button className="button" type="submit" name="submit" disabled={disableSubmit}>
+            Envoyer
+          </button>
+          <a onClick={() => showForm(false)}>Annuler</a>
+        </form>
+      )}
+    </>
+  )
+}
+
 type WithdrawDocumentProps = {
   projectId: ComponentProps['projectId']
 }
@@ -193,52 +259,3 @@ const WithdrawDocument = ({ projectId }: WithdrawDocumentProps) => (
     <span> (cela n'annule pas les garanties financières soumises à la candidature)</span>
   </p>
 )
-
-/* shared component */
-
-type UploadFormProps = {
-  projectId: ComponentProps['projectId']
-  URLTitle: string
-  status: 'submitted-with-application' | 'due' | 'past-due'
-}
-const UploadForm = ({ projectId, URLTitle, status }: UploadFormProps) => {
-  const [isFormVisible, showForm] = useState(false)
-  const [disableSubmit, setDisableSubmit] = useState(true)
-
-  return (
-    <>
-      <a onClick={() => showForm(!isFormVisible)}>{URLTitle}</a>
-      {isFormVisible && (
-        <form
-          action={ROUTES.DEPOSER_ETAPE_ACTION}
-          method="post"
-          encType="multipart/form-data"
-          className="mt-2 border border-solid border-gray-300 rounded-md p-5"
-        >
-          <input type="hidden" name="type" id="type" value="garantie-financiere" />
-          <input type="hidden" name="projectId" value={projectId} />
-          <div>
-            <label htmlFor="date">Date de constitution (format JJ/MM/AAAA)</label>
-            <DateInput onError={(isError) => setDisableSubmit(isError)} />
-          </div>
-          <div className="mt-2">
-            <label htmlFor="file">
-              Attestation{status === 'submitted-with-application' && <span>*</span>}
-            </label>
-            <input type="file" name="file" id="file" required />
-            {status === 'submitted-with-application' && (
-              <p className="m-0 italic">
-                *Il s'agit de l'attestation soumise à la candidature. Cet envoi ne fera pas l'objet
-                d'une nouvelle validation.
-              </p>
-            )}
-          </div>
-          <button className="button" type="submit" name="submit" disabled={disableSubmit}>
-            Envoyer
-          </button>
-          <a onClick={() => showForm(false)}>Annuler</a>
-        </form>
-      )}
-    </>
-  )
-}
