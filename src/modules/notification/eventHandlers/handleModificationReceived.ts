@@ -1,4 +1,4 @@
-import { NotificationService } from '..'
+import { NotificationProps, NotificationService } from '..'
 import { logger } from '@core/utils'
 import { ProjectRepo, UserRepo } from '@dataAccess'
 import routes from '../../../routes'
@@ -24,8 +24,8 @@ export const handleModificationReceived =
     // Send user email
     ;(await deps.findUserById(requestedBy)).match({
       some: async ({ email, fullName }) => {
-        const payload: any = {
-          type: 'pp-modification-received',
+        const notificationPayload = {
+          type: 'pp-modification-received' as 'pp-modification-received',
           message: {
             email: email,
             name: fullName,
@@ -40,15 +40,16 @@ export const handleModificationReceived =
             nom_projet: project.nomProjet,
             type_demande: type,
             modification_request_url: routes.USER_LIST_REQUESTS,
+            demande_action_pp: undefined as string | undefined,
           },
         }
 
         if (type === 'producteur')
-          payload.variables.demande_action_pp = `Suite à votre signalement de changement de ${type}, vous devez déposer de nouvelles garanties financières dans un délai d'un mois maximum.`
+          notificationPayload.variables.demande_action_pp = `Suite à votre signalement de changement de ${type}, vous devez déposer de nouvelles garanties financières dans un délai d'un mois maximum.`
 
-        if (type === 'fournisseur' && payload.evaluationCarbone) {
+        if (type === 'fournisseur' && event.payload.evaluationCarbone) {
           const currentEvaluationCarbone = project.evaluationCarbone
-          const newEvaluationCarbone = Number(payload.evaluationCarbone)
+          const newEvaluationCarbone = Number(event.payload.evaluationCarbone)
           const switchBracket =
             Math.round(newEvaluationCarbone / 50) !== Math.round(currentEvaluationCarbone / 50)
 
@@ -56,10 +57,10 @@ export const handleModificationReceived =
             newEvaluationCarbone > currentEvaluationCarbone && switchBracket
 
           if (evaluationCarboneIsOutOfBounds)
-            payload.variables.demande_action_pp = `Vous venez de signaler une augmentation de l'évaluation carbone de votre projet. Cette nouvelle valeur entraîne une dégradation de la note du projet. Celui-ci ne recevra pas d'attestation de conformité.`
+            notificationPayload.variables.demande_action_pp = `Vous venez de signaler une augmentation de l'évaluation carbone de votre projet. Cette nouvelle valeur entraîne une dégradation de la note du projet. Celui-ci ne recevra pas d'attestation de conformité.`
         }
 
-        await deps.sendNotification(payload)
+        await deps.sendNotification(notificationPayload)
       },
       none: () => {},
     })
