@@ -43,8 +43,6 @@ const eolienPPE2: AppelOffre = {
       certificateTemplate: 'ppe2.v1',
       paragrapheAchevement: '6.3',
       noteThreshold: 0.68,
-      isNotifiedOnPotentiel: true,
-      certificateTemplate: 'ppe2.v1',
     },
   ],
   familles: [],
