@@ -10,7 +10,7 @@ import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helper
 import { UnauthorizedError } from '@modules/shared'
 
 v1Router.get(
-  routes.REMOVE_GARANTIES_FINANCIERES(),
+  routes.WITHDRAW_GARANTIES_FINANCIERES(),
   ensureRole(['admin', 'dgec', 'porteur-projet']),
   asyncHandler(async (request, response) => {
     const { user } = request
