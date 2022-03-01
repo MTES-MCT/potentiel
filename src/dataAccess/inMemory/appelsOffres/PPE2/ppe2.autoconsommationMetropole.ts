@@ -35,7 +35,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
   dossierSuiviPar: 'violaine.tarizzo@developpement-durable.gouv.fr',
   changementPuissance: {
     changementByTechnologie: true,
-    autoAcceptRatios: {
+    ratios: {
       pv: {
         min: 0.9,
         max: 1.1,

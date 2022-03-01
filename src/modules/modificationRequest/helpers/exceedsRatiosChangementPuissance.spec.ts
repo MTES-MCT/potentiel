@@ -1,18 +1,18 @@
 import { ProjectAppelOffre, Technologie } from '@entities'
-import { isOutsideAutoAcceptRatios } from './isOutsideAutoAcceptRatios'
+import { exceedsRatiosChangementPuissance } from './exceedsRatiosChangementPuissance'
 
-describe(`isOutsideAutoAcceptRatios`, () => {
+describe(`isOutsideratios`, () => {
   describe(`when automatic accepted ratios are not by technology`, () => {
     const ratios = { min: 0.7, max: 1.1 }
     const appelOffre = {
       changementPuissance: {
-        autoAcceptRatios: ratios,
+        ratios,
       },
     } as ProjectAppelOffre
 
     describe(`when the new puissance is between the min and max auto accept ratios of the initial puissance`, () => {
       it(`should return false`, () => {
-        const actual = isOutsideAutoAcceptRatios({
+        const actual = exceedsRatiosChangementPuissance({
           project: {
             puissanceInitiale: 100,
             appelOffre,
@@ -25,7 +25,7 @@ describe(`isOutsideAutoAcceptRatios`, () => {
     })
     describe(`when the new puissance is below the min ratio of the initial puissance`, () => {
       it(`should return true`, () => {
-        const actual = isOutsideAutoAcceptRatios({
+        const actual = exceedsRatiosChangementPuissance({
           project: {
             puissanceInitiale: 100,
             appelOffre,
@@ -38,7 +38,7 @@ describe(`isOutsideAutoAcceptRatios`, () => {
     })
     describe(`when the new puissance is above the max ratio of the initial puissance`, () => {
       it(`should return true`, () => {
-        const actual = isOutsideAutoAcceptRatios({
+        const actual = exceedsRatiosChangementPuissance({
           project: {
             puissanceInitiale: 100,
             appelOffre,
@@ -55,7 +55,7 @@ describe(`isOutsideAutoAcceptRatios`, () => {
     const appelOffre = {
       changementPuissance: {
         changementByTechnologie: true,
-        autoAcceptRatios: {
+        ratios: {
           pv: { min: 0.5, max: 1.3 },
           eolien: { min: 0.4, max: 1.4 },
           hydraulique: { min: 0.3, max: 1.5 },
@@ -65,18 +65,18 @@ describe(`isOutsideAutoAcceptRatios`, () => {
 
     const technologieFixtures: Technologie[] = ['eolien', 'pv', 'hydraulique']
     for (const technologie of technologieFixtures) {
-      const autoAcceptratios =
+      const ratios =
         appelOffre.changementPuissance.changementByTechnologie &&
-        appelOffre.changementPuissance.autoAcceptRatios[technologie]
+        appelOffre.changementPuissance.ratios[technologie]
 
       describe(`when the new puissance is between the ${technologie} min and max auto accept ratios of the initial puissance`, () => {
         it(`should return false`, () => {
-          expect(autoAcceptratios).toBeDefined()
+          expect(ratios).toBeDefined()
 
           const puissanceInitiale = 100
-          const nouvellePuissance = puissanceInitiale * (autoAcceptratios!.min + 0.1)
+          const nouvellePuissance = puissanceInitiale * (ratios!.min + 0.1)
 
-          const actual = isOutsideAutoAcceptRatios({
+          const actual = exceedsRatiosChangementPuissance({
             project: {
               puissanceInitiale,
               appelOffre,
@@ -89,12 +89,12 @@ describe(`isOutsideAutoAcceptRatios`, () => {
       })
       describe(`when the new puissance is below the ${technologie} min ratio of the initial puissance`, () => {
         it(`should return true`, () => {
-          expect(autoAcceptratios).toBeDefined()
+          expect(ratios).toBeDefined()
 
           const puissanceInitiale = 100
-          const nouvellePuissance = puissanceInitiale * (autoAcceptratios!.min - 0.1)
+          const nouvellePuissance = puissanceInitiale * (ratios!.min - 0.1)
 
-          const actual = isOutsideAutoAcceptRatios({
+          const actual = exceedsRatiosChangementPuissance({
             project: {
               puissanceInitiale,
               appelOffre,
@@ -107,12 +107,12 @@ describe(`isOutsideAutoAcceptRatios`, () => {
       })
       describe(`when the new puissance is above the ${technologie} max ratio of the initial puissance`, () => {
         it(`should return true`, () => {
-          expect(autoAcceptratios).toBeDefined()
+          expect(ratios).toBeDefined()
 
           const puissanceInitiale = 100
-          const nouvellePuissance = puissanceInitiale * (autoAcceptratios!.max + 0.1)
+          const nouvellePuissance = puissanceInitiale * (ratios!.max + 0.1)
 
-          const actual = isOutsideAutoAcceptRatios({
+          const actual = exceedsRatiosChangementPuissance({
             project: {
               puissanceInitiale,
               appelOffre,
@@ -128,7 +128,7 @@ describe(`isOutsideAutoAcceptRatios`, () => {
     describe(`when the technology is unknown`, () => {
       describe(`when the new puissance is between 90% and 110% of the initial one`, () => {
         it(`should return false`, () => {
-          const actual = isOutsideAutoAcceptRatios({
+          const actual = exceedsRatiosChangementPuissance({
             project: { puissanceInitiale: 100, appelOffre, technologie: 'N/A' },
             nouvellePuissance: 105,
           })
@@ -137,7 +137,7 @@ describe(`isOutsideAutoAcceptRatios`, () => {
       })
       describe(`when the new puissance is below 90% of the initial one`, () => {
         it(`should return true`, () => {
-          const actual = isOutsideAutoAcceptRatios({
+          const actual = exceedsRatiosChangementPuissance({
             project: { puissanceInitiale: 100, appelOffre, technologie: 'N/A' },
             nouvellePuissance: 89.9,
           })
@@ -146,7 +146,7 @@ describe(`isOutsideAutoAcceptRatios`, () => {
       })
       describe(`when the new puissance is above 110% of the initial one`, () => {
         it(`should return true`, () => {
-          const actual = isOutsideAutoAcceptRatios({
+          const actual = exceedsRatiosChangementPuissance({
             project: { puissanceInitiale: 100, appelOffre, technologie: 'N/A' },
             nouvellePuissance: 110.1,
           })
@@ -159,7 +159,7 @@ describe(`isOutsideAutoAcceptRatios`, () => {
   describe(`when appel offre is undefined`, () => {
     describe(`when the new puissance is between 90% and 110% of the initial one`, () => {
       it(`should return false`, () => {
-        const actual = isOutsideAutoAcceptRatios({
+        const actual = exceedsRatiosChangementPuissance({
           project: { puissanceInitiale: 100, technologie: 'pv' },
           nouvellePuissance: 105,
         })
@@ -168,7 +168,7 @@ describe(`isOutsideAutoAcceptRatios`, () => {
     })
     describe(`when the new puissance is below 90% of the initial one`, () => {
       it(`should return true`, () => {
-        const actual = isOutsideAutoAcceptRatios({
+        const actual = exceedsRatiosChangementPuissance({
           project: { puissanceInitiale: 100, technologie: 'pv' },
           nouvellePuissance: 89.9,
         })
@@ -177,7 +177,7 @@ describe(`isOutsideAutoAcceptRatios`, () => {
     })
     describe(`when the new puissance is above 110% of the initial one`, () => {
       it(`should return true`, () => {
-        const actual = isOutsideAutoAcceptRatios({
+        const actual = exceedsRatiosChangementPuissance({
           project: { puissanceInitiale: 100, technologie: 'pv' },
           nouvellePuissance: 110.1,
         })

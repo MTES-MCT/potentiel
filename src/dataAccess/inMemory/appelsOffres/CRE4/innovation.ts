@@ -30,7 +30,7 @@ const innovation: AppelOffre = {
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   changementPuissance: {
-    autoAcceptRatios: {
+    ratios: {
       min: 0.7,
       max: 1,
     },

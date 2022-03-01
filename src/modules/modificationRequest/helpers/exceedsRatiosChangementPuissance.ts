@@ -1,7 +1,7 @@
 import { ProjectAppelOffre, Technologie } from '@entities'
-import { getAutoAcceptRatios } from './getAutoAcceptRatios'
+import { getRatiosChangementPuissance } from './getRatiosChangementPuissance'
 
-export type IsOutsideAutoAcceptRatios = (arg: {
+export type ExceedsRatiosChangementPuissance = (arg: {
   project: {
     puissanceInitiale: number
     appelOffre?: ProjectAppelOffre
@@ -10,12 +10,12 @@ export type IsOutsideAutoAcceptRatios = (arg: {
   nouvellePuissance: number
 }) => boolean
 
-export const isOutsideAutoAcceptRatios: IsOutsideAutoAcceptRatios = ({
+export const exceedsRatiosChangementPuissance: ExceedsRatiosChangementPuissance = ({
   project,
   nouvellePuissance,
 }) => {
   const { puissanceInitiale } = project
-  const { min, max } = getAutoAcceptRatios(project)
+  const { min, max } = getRatiosChangementPuissance(project)
   const ratio = nouvellePuissance / puissanceInitiale
   return !(ratio >= min && ratio <= max)
 }

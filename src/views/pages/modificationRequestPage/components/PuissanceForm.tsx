@@ -2,10 +2,10 @@ import React from 'react'
 import { dataId } from '../../../../helpers/testId'
 import {
   ModificationRequestPageDTO,
-  isOutsideAutoAcceptRatios,
-  exceedMaxPuissanceOfReservedVolume,
-  getAutoAcceptRatios,
-  getReservedVolume,
+  exceedsPuissanceMaxDuVolumeReserve,
+  exceedsRatiosChangementPuissance,
+  getRatiosChangementPuissance,
+  getVolumeReserve,
 } from '@modules/modificationRequest'
 
 type PuissanceFormProps = {
@@ -14,10 +14,10 @@ type PuissanceFormProps = {
 
 export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => {
   const { project, puissance: nouvellePuissance } = modificationRequest
-  const isHorsRatios = isOutsideAutoAcceptRatios({ project, nouvellePuissance })
-  const exceedMaxPuissance = exceedMaxPuissanceOfReservedVolume({ project, nouvellePuissance })
-  const ratios = getAutoAcceptRatios(project)
-  const reservedVolume = project.appelOffre && getReservedVolume(project.appelOffre)
+  const exceedsRatios = exceedsRatiosChangementPuissance({ project, nouvellePuissance })
+  const exceedsPuissanceMax = exceedsPuissanceMaxDuVolumeReserve({ project, nouvellePuissance })
+  const ratios = getRatiosChangementPuissance(project)
+  const reservedVolume = project.appelOffre && getVolumeReserve(project.appelOffre)
 
   return (
     <>
@@ -34,13 +34,13 @@ export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => {
         />
       </div>
 
-      {isHorsRatios && (
+      {exceedsRatios && (
         <div className="notification warning mt-3">
           La nouvelle puissance demandée est inférieure à {Math.round(ratios.min * 100)}% de la
           puissance initiale ou supérieure à {Math.round(ratios.max * 100)}%.{' '}
         </div>
       )}
-      {exceedMaxPuissance && reservedVolume && (
+      {exceedsPuissanceMax && reservedVolume && (
         <div className="notification warning mt-3">
           La nouvelle puissance demandée dépasse la puissance maximum de{' '}
           {reservedVolume.puissanceMax} {modificationRequest.project.unitePuissance} du volume

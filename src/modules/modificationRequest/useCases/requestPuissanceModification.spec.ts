@@ -33,8 +33,8 @@ describe('requestPuissanceModification use-case', () => {
       projectRepo,
       eventBus,
       shouldUserAccessProject,
-      isOutsideAutoAcceptRatios: () => false,
-      exceedMaxPuissanceOfReservedVolume: () => false,
+      exceedsRatiosChangementPuissance: () => false,
+      exceedsPuissanceMaxDuVolumeReserve: () => false,
       fileRepo: fileRepo as Repository<FileObject>,
     })
     const newPuissance = 89
@@ -62,8 +62,8 @@ describe('requestPuissanceModification use-case', () => {
         projectRepo,
         eventBus,
         shouldUserAccessProject,
-        isOutsideAutoAcceptRatios: () => true,
-        exceedMaxPuissanceOfReservedVolume: () => false,
+        exceedsRatiosChangementPuissance: () => true,
+        exceedsPuissanceMaxDuVolumeReserve: () => false,
         fileRepo: fileRepo as Repository<FileObject>,
       })
 
@@ -135,8 +135,8 @@ describe('requestPuissanceModification use-case', () => {
         projectRepo,
         eventBus,
         shouldUserAccessProject,
-        isOutsideAutoAcceptRatios: () => false,
-        exceedMaxPuissanceOfReservedVolume: () => false,
+        exceedsRatiosChangementPuissance: () => false,
+        exceedsPuissanceMaxDuVolumeReserve: () => false,
         fileRepo: fileRepo as Repository<FileObject>,
       })
       const newPuissance = 105

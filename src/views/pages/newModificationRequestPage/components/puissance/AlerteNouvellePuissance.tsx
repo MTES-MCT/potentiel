@@ -1,6 +1,6 @@
 import { ProjectAppelOffre, Technologie } from '@entities'
 import React from 'react'
-import { getAutoAcceptRatios, getReservedVolume } from '@modules/modificationRequest'
+import { getRatiosChangementPuissance, getVolumeReserve } from '@modules/modificationRequest'
 
 type AlertOnPuissanceExceedMaxProps = {
   project: {
@@ -13,7 +13,7 @@ export const AlertePuissanceMaxDepassee = ({ project }: AlertOnPuissanceExceedMa
   }
 
   const { appelOffre } = project
-  const reservedVolume = getReservedVolume(appelOffre)
+  const reservedVolume = getVolumeReserve(appelOffre)
 
   return reservedVolume ? (
     <>
@@ -32,7 +32,7 @@ type AlertOnPuissanceOutsideRatiosProps = {
   }
 }
 export const AlertePuissanceHorsRatios = ({ project }: AlertOnPuissanceOutsideRatiosProps) => {
-  const { min, max } = getAutoAcceptRatios(project)
+  const { min, max } = getRatiosChangementPuissance(project)
 
   return (
     <>

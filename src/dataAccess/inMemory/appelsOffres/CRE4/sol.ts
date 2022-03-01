@@ -32,7 +32,7 @@ const sol: AppelOffre = {
   renvoiSoumisAuxGarantiesFinancieres: 'doit être au minimum de 42 mois',
   soumisAuxGarantiesFinancieres: true,
   changementPuissance: {
-    autoAcceptRatios: {
+    ratios: {
       min: 0.9,
       max: 1.1,
     },

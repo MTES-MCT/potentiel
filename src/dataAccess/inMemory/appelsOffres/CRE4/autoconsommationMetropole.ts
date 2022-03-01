@@ -30,7 +30,7 @@ const autoconsommationMetropole: AppelOffre = {
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   changementPuissance: {
-    autoAcceptRatios: {
+    ratios: {
       min: 0.8,
       max: 1,
     },

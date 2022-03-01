@@ -5,8 +5,8 @@ import toNumber from '../../../../../helpers/toNumber'
 import { isStrictlyPositiveNumber } from '../../../../../helpers/formValidators'
 import { AlertePuissanceHorsRatios, AlertePuissanceMaxDepassee } from './AlerteNouvellePuissance'
 import {
-  isOutsideAutoAcceptRatios,
-  exceedMaxPuissanceOfReservedVolume,
+  exceedsRatiosChangementPuissance,
+  exceedsPuissanceMaxDuVolumeReserve,
 } from '@modules/modificationRequest'
 
 type ChangementPuissanceProps = {
@@ -34,13 +34,13 @@ export const ChangementPuissance = ({
   const handlePuissanceOnChange = (e) => {
     const isNewValueCorrect = isStrictlyPositiveNumber(e.target.value)
     const nouvellePuissance = toNumber(e.target.value)
-    const isHorsRatios = isOutsideAutoAcceptRatios({ project, nouvellePuissance })
-    const exceedMaxPuissance = exceedMaxPuissanceOfReservedVolume({ project, nouvellePuissance })
+    const exceedsRatios = exceedsRatiosChangementPuissance({ project, nouvellePuissance })
+    const exceedsPuissanceMax = exceedsPuissanceMaxDuVolumeReserve({ project, nouvellePuissance })
 
     setDisplayAlertOnPuissanceType(!isNewValueCorrect)
-    setDisplayAlertHorsRatios(isHorsRatios)
-    setDisplayAlertPuissanceMaxVolumeReserve(exceedMaxPuissance)
-    setFileRequiredforPuissanceModification(isHorsRatios || exceedMaxPuissance)
+    setDisplayAlertHorsRatios(exceedsRatios)
+    setDisplayAlertPuissanceMaxVolumeReserve(exceedsPuissanceMax)
+    setFileRequiredforPuissanceModification(exceedsRatios || exceedsPuissanceMax)
 
     onPuissanceChecked(isNewValueCorrect)
   }

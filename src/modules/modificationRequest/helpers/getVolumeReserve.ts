@@ -1,6 +1,6 @@
 import { isNotifiedPeriode, ProjectAppelOffre } from '@entities'
 
-export const getReservedVolume = (
+export const getVolumeReserve = (
   appelOffre: ProjectAppelOffre
 ): { puissanceMax: number } | undefined => {
   const { periode } = appelOffre

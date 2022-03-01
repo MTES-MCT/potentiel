@@ -32,7 +32,7 @@ export const zni2017: AppelOffre = {
   renvoiSoumisAuxGarantiesFinancieres: 'doit être au minimum de 36 mois',
   soumisAuxGarantiesFinancieres: true,
   changementPuissance: {
-    autoAcceptRatios: {
+    ratios: {
       min: 0.9,
       max: 1.1,
     },

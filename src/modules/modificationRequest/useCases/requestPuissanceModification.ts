@@ -1,6 +1,6 @@
 import {
-  ExceedMaxPuissanceOfReservedVolume,
-  IsOutsideAutoAcceptRatios,
+  ExceedsPuissanceMaxDuVolumeReserve,
+  ExceedsRatiosChangementPuissance,
   PuissanceJustificationOrCourrierMissingError,
 } from '..'
 import { EventBus, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
@@ -19,8 +19,8 @@ import { ModificationRequested, ModificationReceived } from '../events'
 
 interface RequestPuissanceModificationDeps {
   eventBus: EventBus
-  isOutsideAutoAcceptRatios: IsOutsideAutoAcceptRatios
-  exceedMaxPuissanceOfReservedVolume: ExceedMaxPuissanceOfReservedVolume
+  exceedsRatiosChangementPuissance: ExceedsRatiosChangementPuissance
+  exceedsPuissanceMaxDuVolumeReserve: ExceedsPuissanceMaxDuVolumeReserve
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
   projectRepo: TransactionalRepository<Project>
   fileRepo: Repository<FileObject>
@@ -51,8 +51,8 @@ export const makeRequestPuissanceModification =
       shouldUserAccessProject,
       projectRepo,
       fileRepo,
-      isOutsideAutoAcceptRatios,
-      exceedMaxPuissanceOfReservedVolume,
+      exceedsPuissanceMaxDuVolumeReserve,
+      exceedsRatiosChangementPuissance,
     } = deps
 
     return wrapInfra(
@@ -106,16 +106,16 @@ export const makeRequestPuissanceModification =
                 return errAsync(new UnauthorizedError())
               }
 
-              const isOutsideBoundaries = isOutsideAutoAcceptRatios({
+              const exceedsRatios = exceedsRatiosChangementPuissance({
                 nouvellePuissance: newPuissance,
                 project: { ...project, technologie: project.data?.technologie ?? 'N/A' },
               })
-              const exceedMaxPuissance = exceedMaxPuissanceOfReservedVolume({
+              const exceedsPuissanceMax = exceedsPuissanceMaxDuVolumeReserve({
                 nouvellePuissance: newPuissance,
                 project: { ...project },
               })
 
-              const newPuissanceIsAutoAccepted = !isOutsideBoundaries && !exceedMaxPuissance
+              const newPuissanceIsAutoAccepted = !exceedsRatios && !exceedsPuissanceMax
 
               if (newPuissanceIsAutoAccepted) {
                 return project.updatePuissance(requestedBy, newPuissance).asyncMap(async () => {
