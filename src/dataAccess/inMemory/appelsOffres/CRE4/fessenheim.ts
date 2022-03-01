@@ -41,6 +41,7 @@ const fessenheim: AppelOffre = {
       id: '1',
       title: 'première',
       paragrapheAchevement: '6.4',
+      type: 'legacy',
     },
     {
       id: '2',
@@ -51,7 +52,6 @@ const fessenheim: AppelOffre = {
         { familleId: '1', noteThreshold: 69.34 },
         { familleId: '3', noteThreshold: 1.52 },
       ],
-      isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v0',
     },
     {
@@ -64,7 +64,6 @@ const fessenheim: AppelOffre = {
         { familleId: '2', noteThreshold: 89.09 },
         { familleId: '3', noteThreshold: 18.43 },
       ],
-      isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v0',
     },
   ],

@@ -42,31 +42,37 @@ const sol: AppelOffre = {
       id: '1',
       title: 'première',
       paragrapheAchevement: '6.4',
+      type: 'legacy',
     },
     {
       id: '2',
       title: 'deuxième',
       paragrapheAchevement: '6.4',
+      type: 'legacy',
     },
     {
       id: '3',
       title: 'troisième',
       paragrapheAchevement: '6.4',
+      type: 'legacy',
     },
     {
       id: '4',
       title: 'quatrième',
       paragrapheAchevement: '6.4',
+      type: 'legacy',
     },
     {
       id: '5',
       title: 'cinquième',
       paragrapheAchevement: '6.4',
+      type: 'legacy',
     },
     {
       id: '6',
       title: 'sixième',
       paragrapheAchevement: '6.4',
+      type: 'legacy',
     },
     {
       id: '7',
@@ -78,7 +84,6 @@ const sol: AppelOffre = {
         { familleId: '2', noteThreshold: 48.17 },
         { familleId: '3', noteThreshold: 54.15 },
       ],
-      isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v0',
     },
     {
@@ -91,7 +96,6 @@ const sol: AppelOffre = {
         { familleId: '2', noteThreshold: 52.04 },
         { familleId: '3', noteThreshold: 54.35 },
       ],
-      isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v1',
     },
     {
@@ -104,14 +108,12 @@ const sol: AppelOffre = {
         { familleId: '2', noteThreshold: 45.49 },
         { familleId: '3', noteThreshold: 36.02 },
       ],
-      isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v1',
     },
     {
       id: '10',
       title: 'dixième',
       paragrapheAchevement: '6.4',
-      isNotifiedOnPotentiel: true,
       noteThresholdBy: 'family',
       noteThreshold: [
         { familleId: '1', noteThreshold: 46.86 },

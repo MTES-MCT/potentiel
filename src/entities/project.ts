@@ -17,7 +17,7 @@ import { ModificationRequest } from './modificationRequest'
 import { User } from './user'
 import { ProjectAppelOffre, Technologie, technologies } from './appelOffre'
 import { Famille } from './famille'
-import { CertificateTemplate } from './periode'
+import { CertificateTemplate, isNotifiedPeriode } from './periode'
 
 import { territoireSchema } from './territoire'
 import { logger } from '@core/utils'
@@ -238,7 +238,7 @@ const getCertificateIfProjectEligible = (
     return null
   }
 
-  if (!project.appelOffre?.periode?.isNotifiedOnPotentiel) {
+  if (project.appelOffre?.periode && !isNotifiedPeriode(project.appelOffre?.periode)) {
     logger.error(
       new Error('getCertificateIfProjectEligible failed on periode.isNotifiedOnPotentiel')
     )

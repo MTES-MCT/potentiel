@@ -42,7 +42,7 @@ export const zni2017: AppelOffre = {
       id: '1',
       title: 'première',
       paragrapheAchevement: '6.4',
-      isNotifiedOnPotentiel: false,
+      type: 'legacy',
     },
   ],
   familles: [

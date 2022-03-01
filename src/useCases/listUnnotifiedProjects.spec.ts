@@ -5,7 +5,7 @@ import makeFakeProject from '../__tests__/fixtures/project'
 import { UnwrapForTest } from '../types'
 
 import { appelOffreRepo, appelsOffreStatic } from '@dataAccess/inMemory'
-import { makeProject, Project } from '@entities'
+import { isNotifiedPeriode, makeProject, Project } from '@entities'
 
 const pagination = {
   page: 0,
@@ -41,7 +41,7 @@ const appelsOffresDTOs = [
 
 const makePeriodeDTO = (periode) => ({ id: periode.id, title: periode.title })
 const validFessenheimPeriodes = fessenheim.periodes
-  .filter((periode) => !!periode.isNotifiedOnPotentiel)
+  .filter((periode) => !!isNotifiedPeriode(periode))
   .map(makePeriodeDTO)
 
 const searchAll = jest.fn(async () => projectList)

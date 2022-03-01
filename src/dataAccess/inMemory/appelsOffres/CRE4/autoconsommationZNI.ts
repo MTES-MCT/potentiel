@@ -40,11 +40,11 @@ const autoconsommationZNI: AppelOffre = {
       id: '1',
       title: 'première',
       paragrapheAchevement: '6.3',
+      type: 'legacy',
     },
     {
       id: '2',
       title: 'deuxième',
-      isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v1',
       paragrapheAchevement: '6.3',
       noteThreshold: 32.9,

@@ -1,5 +1,5 @@
 import { logger } from '@core/utils'
-import { ProjectAppelOffre } from '@entities'
+import { isNotifiedPeriode, ProjectAppelOffre } from '@entities'
 
 type GetNoteThreshold = (project: {
   appelOffre: ProjectAppelOffre
@@ -16,7 +16,7 @@ export const getNoteThreshold: GetNoteThreshold = ({
 }) => {
   const { periode } = appelOffre
 
-  if (!periode.isNotifiedOnPotentiel) {
+  if (!isNotifiedPeriode(periode)) {
     logger.error(
       `candidateCertificate: looking for noteThreshold for a period that was not notified on Potentiel. Periode Id : ${periode.id}`
     )

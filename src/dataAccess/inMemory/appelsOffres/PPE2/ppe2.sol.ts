@@ -41,7 +41,6 @@ const solPPE2: AppelOffre = {
       id: '1',
       title: 'première',
       paragrapheAchevement: '6.3',
-      isNotifiedOnPotentiel: true,
       certificateTemplate: 'ppe2.v1',
       noteThresholdBy: 'category',
       noteThreshold: {

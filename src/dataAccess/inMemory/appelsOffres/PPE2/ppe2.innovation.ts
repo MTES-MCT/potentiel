@@ -40,6 +40,8 @@ const innovationPPE2: AppelOffre = {
       id: '1',
       title: 'première',
       paragrapheAchevement: '6.3',
+      type: 'not-yet-notified',
+      certificateTemplate: 'ppe2.v1',
     },
   ],
   familles: [

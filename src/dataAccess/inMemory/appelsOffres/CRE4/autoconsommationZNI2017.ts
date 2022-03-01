@@ -40,6 +40,7 @@ export const autoconsommationZNI2017: AppelOffre = {
       id: '1',
       title: 'première',
       paragrapheAchevement: '6.3',
+      type: 'legacy',
     },
   ],
   familles: [],

@@ -1,4 +1,4 @@
-import { Project, AppelOffre, Periode } from '@entities'
+import { Project, AppelOffre, Periode, isNotifiedPeriode } from '@entities'
 import { Pagination, PaginatedList } from '../types'
 import { ProjectRepo, AppelOffreRepo, ProjectFilters } from '@dataAccess'
 
@@ -83,7 +83,7 @@ export default function makeListUnnotifiedProjects({
 
           return (
             !!periode &&
-            !!periode.isNotifiedOnPotentiel && {
+            !!isNotifiedPeriode(periode) && {
               id: periodeId,
               title: periode.title,
             }

@@ -40,38 +40,43 @@ const autoconsommationMetropole: AppelOffre = {
       id: '1',
       title: 'première',
       paragrapheAchevement: '6.4',
+      type: 'legacy',
     },
     {
       id: '2',
       title: 'deuxième',
       paragrapheAchevement: '6.4',
+      type: 'legacy',
     },
     {
       id: '3',
       title: 'troisième',
       paragrapheAchevement: '6.4',
+      type: 'legacy',
     },
     {
       id: '4',
       title: 'quatrième',
       paragrapheAchevement: '6.3',
+      type: 'legacy',
     },
     {
       id: '5',
       title: 'cinquième',
       paragrapheAchevement: '6.3',
+      type: 'legacy',
     },
     {
       id: '6',
       title: 'sixième',
       paragrapheAchevement: '6.3',
+      type: 'legacy',
     },
     {
       id: '7',
       title: 'septième',
       paragrapheAchevement: '6.3',
       noteThreshold: 20.04,
-      isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v0',
     },
     {
@@ -79,7 +84,6 @@ const autoconsommationMetropole: AppelOffre = {
       title: 'huitième',
       paragrapheAchevement: '6.3',
       noteThreshold: 32.04,
-      isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v1',
     },
     {
@@ -87,7 +91,6 @@ const autoconsommationMetropole: AppelOffre = {
       title: 'neuvième',
       paragrapheAchevement: '6.3',
       noteThreshold: 9.9,
-      isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v1',
     },
     {
@@ -95,7 +98,6 @@ const autoconsommationMetropole: AppelOffre = {
       title: 'dixième',
       paragrapheAchevement: '6.3',
       noteThreshold: 44.9,
-      isNotifiedOnPotentiel: true,
       certificateTemplate: 'cre4.v1',
     },
   ],

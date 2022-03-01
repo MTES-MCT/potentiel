@@ -2,7 +2,7 @@ import moment from 'moment'
 import { EventBus } from '@core/domain'
 import { logger } from '@core/utils'
 import { ProjectRepo } from '@dataAccess'
-import { applyProjectUpdate } from '@entities'
+import { applyProjectUpdate, isNotifiedPeriode } from '@entities'
 import { NotificationService } from '@modules/notification'
 import { ProjectGFReminded } from '@modules/project'
 import routes from '../routes'
@@ -30,7 +30,7 @@ export default function makeRelanceGarantiesFinancieres({
 
     await Promise.all(
       lateProjects.map(async (project) => {
-        if (!project.appelOffre?.periode?.isNotifiedOnPotentiel) {
+        if (project.appelOffre?.periode && !isNotifiedPeriode(project.appelOffre?.periode)) {
           logger.error(
             `Relance impossible pour un projet qui est dans une période non-notifiée sur Potentiel. Id : ${project.id}`
           )

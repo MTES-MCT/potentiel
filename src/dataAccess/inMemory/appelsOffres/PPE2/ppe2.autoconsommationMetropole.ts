@@ -55,7 +55,6 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
       id: '1',
       title: 'première',
       paragrapheAchevement: '6.3',
-      isNotifiedOnPotentiel: true,
       certificateTemplate: 'ppe2.v1',
       noteThreshold: 62.5,
     },

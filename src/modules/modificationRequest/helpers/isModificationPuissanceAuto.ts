@@ -1,4 +1,4 @@
-import { ProjectAppelOffre, Technologie } from '@entities'
+import { isNotifiedPeriode, ProjectAppelOffre, Technologie } from '@entities'
 
 export const defaultAutoAcceptRatios = { min: 0.9, max: 1.1 }
 
@@ -59,14 +59,12 @@ export const isModificationPuissanceAuto: IsModificationPuissanceAuto = ({
 const getReservedVolume = (appelOffre: ProjectAppelOffre): { puissanceMax: number } | undefined => {
   const { periode } = appelOffre
 
-  if (periode.isNotifiedOnPotentiel) {
-    if (periode.noteThresholdBy === 'category') {
-      const {
-        noteThreshold: { volumeReserve },
-      } = periode
+  if (periode.noteThresholdBy === 'category') {
+    const {
+      noteThreshold: { volumeReserve },
+    } = periode
 
-      return volumeReserve
-    }
+    return volumeReserve
   }
 }
 

@@ -10,6 +10,7 @@ import { buildCertificate } from '@views/certificates'
 import asyncHandler from '../helpers/asyncHandler'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import { errorResponse, notFoundResponse } from '../helpers'
+import { isNotifiedPeriode } from '@entities'
 
 v1Router.get(
   routes.PREVIEW_CANDIDATE_CERTIFICATE(),
@@ -30,7 +31,7 @@ v1Router.get(
 
     const periode = project.appelOffre?.periode
 
-    if (!periode || !periode.isNotifiedOnPotentiel || !periode.certificateTemplate) {
+    if (!periode || !isNotifiedPeriode(periode) || !periode.certificateTemplate) {
       logger.error(new Error("Impossible de trouver le modèle d'attestation pour ce projet"))
       return errorResponse({
         request,
