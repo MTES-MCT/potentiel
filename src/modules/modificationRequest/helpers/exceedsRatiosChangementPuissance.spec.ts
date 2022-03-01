@@ -1,8 +1,8 @@
 import { ProjectAppelOffre, Technologie } from '@entities'
 import { exceedsRatiosChangementPuissance } from './exceedsRatiosChangementPuissance'
 
-describe(`isOutsideratios`, () => {
-  describe(`when automatic accepted ratios are not by technology`, () => {
+describe(`exceedsRatiosChangementPuissance`, () => {
+  describe(`when ratios are not by technology`, () => {
     const ratios = { min: 0.7, max: 1.1 }
     const appelOffre = {
       changementPuissance: {
@@ -10,7 +10,7 @@ describe(`isOutsideratios`, () => {
       },
     } as ProjectAppelOffre
 
-    describe(`when the new puissance is between the min and max auto accept ratios of the initial puissance`, () => {
+    describe(`when the new puissance is between the min and max ratios of the initial puissance`, () => {
       it(`should return false`, () => {
         const actual = exceedsRatiosChangementPuissance({
           project: {
@@ -51,7 +51,7 @@ describe(`isOutsideratios`, () => {
     })
   })
 
-  describe(`when automatic accepted ratios are by technology`, () => {
+  describe(`when ratios are by technology`, () => {
     const appelOffre = {
       changementPuissance: {
         changementByTechnologie: true,
@@ -69,7 +69,7 @@ describe(`isOutsideratios`, () => {
         appelOffre.changementPuissance.changementByTechnologie &&
         appelOffre.changementPuissance.ratios[technologie]
 
-      describe(`when the new puissance is between the ${technologie} min and max auto accept ratios of the initial puissance`, () => {
+      describe(`when the new puissance is between the ${technologie} min and max ratios of the initial puissance`, () => {
         it(`should return false`, () => {
           expect(ratios).toBeDefined()
 
