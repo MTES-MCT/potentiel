@@ -35,7 +35,7 @@ export const makeRemoveGF =
             null,
             ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError
           > => {
-            return project.deleteGarantiesFinancieres(removedBy).asyncMap(async () => null)
+            return project.removeGarantiesFinancieres(removedBy).asyncMap(async () => null)
           }
         )
       }

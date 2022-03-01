@@ -68,7 +68,7 @@ describe('submitGF use-case', () => {
 
     it('should add the GF', () => {
       const fakeFile = fileRepo.save.mock.calls[0][0]
-      expect(fakeProject.addGarantiesFinancieres).toHaveBeenCalledWith(
+      expect(fakeProject.submitGarantiesFinancieres).toHaveBeenCalledWith(
         gfDate,
         fakeFile.id.toString(),
         user

@@ -52,10 +52,16 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   addGeneratedCertificate: jest.fn(
     (args: { projectVersionDate: Date; certificateFileId: string }) => ok<null, never>(null)
   ),
-  addGarantiesFinancieres: jest.fn((gfDate: Date, fileId: string, submittedBy: User) =>
+  submitGarantiesFinancieres: jest.fn((gfDate: Date, fileId: string, submittedBy: User) =>
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>(null)
   ),
-  deleteGarantiesFinancieres: jest.fn((removedBy: User) =>
+  removeGarantiesFinancieres: jest.fn((removedBy: User) =>
+    ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>(null)
+  ),
+  uploadGarantiesFinancieres: jest.fn((gfDate: Date, fileId: string, submittedBy: User) =>
+    ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>(null)
+  ),
+  withdrawGarantiesFinancieres: jest.fn((removedBy: User) =>
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>(null)
   ),
   certificateData: ok({

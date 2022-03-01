@@ -44,7 +44,7 @@ describe('withdrawGF use-case', () => {
     })
 
     it('should withdraw the GF', () => {
-      expect(fakeProject.deleteGarantiesFinancieres).toHaveBeenCalledWith(user)
+      expect(fakeProject.withdrawGarantiesFinancieres).toHaveBeenCalledWith(user)
     })
   })
 

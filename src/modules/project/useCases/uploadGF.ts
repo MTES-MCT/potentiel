@@ -63,7 +63,7 @@ export const makeUploadGF =
             ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError
           > => {
             return project
-              .addGarantiesFinancieres(stepDate, fileId, submittedBy)
+              .uploadGarantiesFinancieres(stepDate, fileId, submittedBy)
               .asyncMap(async () => null)
           }
         )

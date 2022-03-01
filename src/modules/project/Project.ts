@@ -116,12 +116,20 @@ export interface Project extends EventStoreAggregate {
     certificateFileId: string
     reason?: string
   }) => Result<null, IllegalInitialStateForAggregateError>
-  addGarantiesFinancieres: (
+  submitGarantiesFinancieres: (
     gfDate: Date,
     fileId: string,
     submittedBy: User
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>
-  deleteGarantiesFinancieres: (
+  uploadGarantiesFinancieres: (
+    gfDate: Date,
+    fileId: string,
+    submittedBy: User
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>
+  removeGarantiesFinancieres: (
+    removedBy: User
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>
+  withdrawGarantiesFinancieres: (
     removedBy: User
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>
   readonly shouldCertificateBeGenerated: boolean
@@ -601,66 +609,76 @@ export const makeProject = (args: {
 
       return ok(null)
     },
-    addGarantiesFinancieres: function (gfDate, fileId, submittedBy) {
+    submitGarantiesFinancieres: function (gfDate, fileId, submittedBy) {
       if (!_isNotified()) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
       }
       if (props.hasCurrentGf) {
         return err(new GFCertificateHasAlreadyBeenSentError())
       }
-      if (props.appelOffre?.garantiesFinancieresDeposeesALaCandidature) {
-        _publishEvent(
-          new ProjectGFUploaded({
-            payload: {
-              projectId: props.projectId.toString(),
-              fileId: fileId,
-              gfDate: gfDate,
-              submittedBy: submittedBy.id,
-            },
-          })
-        )
-      } else {
-        _publishEvent(
-          new ProjectGFSubmitted({
-            payload: {
-              projectId: props.projectId.toString(),
-              fileId: fileId,
-              gfDate: gfDate,
-              submittedBy: submittedBy.id,
-            },
-          })
-        )
-      }
-
+      _publishEvent(
+        new ProjectGFSubmitted({
+          payload: {
+            projectId: props.projectId.toString(),
+            fileId: fileId,
+            gfDate: gfDate,
+            submittedBy: submittedBy.id,
+          },
+        })
+      )
       return ok(null)
     },
-    deleteGarantiesFinancieres: function (removedBy) {
+    uploadGarantiesFinancieres: function (gfDate, fileId, submittedBy) {
+      if (!_isNotified()) {
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+      }
+      if (props.hasCurrentGf) {
+        return err(new GFCertificateHasAlreadyBeenSentError())
+      }
+      _publishEvent(
+        new ProjectGFUploaded({
+          payload: {
+            projectId: props.projectId.toString(),
+            fileId: fileId,
+            gfDate: gfDate,
+            submittedBy: submittedBy.id,
+          },
+        })
+      )
+      return ok(null)
+    },
+    removeGarantiesFinancieres: function (removedBy) {
       if (!_isNotified()) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
       }
       if (!props.hasCurrentGf) {
         return err(new NoGFCertificateToDeleteError())
       }
-      if (props.appelOffre?.garantiesFinancieresDeposeesALaCandidature) {
-        _publishEvent(
-          new ProjectGFWithdrawn({
-            payload: {
-              projectId: props.projectId.toString(),
-              removedBy: removedBy.id,
-            },
-          })
-        )
-      } else {
-        _publishEvent(
-          new ProjectGFRemoved({
-            payload: {
-              projectId: props.projectId.toString(),
-              removedBy: removedBy.id,
-            },
-          })
-        )
+      _publishEvent(
+        new ProjectGFRemoved({
+          payload: {
+            projectId: props.projectId.toString(),
+            removedBy: removedBy.id,
+          },
+        })
+      )
+      return ok(null)
+    },
+    withdrawGarantiesFinancieres: function (removedBy) {
+      if (!_isNotified()) {
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
       }
-
+      if (!props.hasCurrentGf) {
+        return err(new NoGFCertificateToDeleteError())
+      }
+      _publishEvent(
+        new ProjectGFWithdrawn({
+          payload: {
+            projectId: props.projectId.toString(),
+            removedBy: removedBy.id,
+          },
+        })
+      )
       return ok(null)
     },
     get pendingEvents() {
