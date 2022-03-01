@@ -98,56 +98,6 @@ describe('submitStep use-case', () => {
       })
     })
 
-    describe('when type is garantie-financiere', () => {
-      const fileRepo = {
-        save: jest.fn((file: FileObject) => okAsync(null)),
-        load: jest.fn(),
-      }
-
-      const gfDate = new Date(123)
-
-      beforeAll(async () => {
-        const shouldUserAccessProject = jest.fn(async () => true)
-        fakePublish.mockClear()
-
-        const submitStep = makeSubmitStep({
-          eventBus: fakeEventBus,
-          fileRepo: fileRepo as Repository<FileObject>,
-          shouldUserAccessProject,
-          projectRepo,
-        })
-
-        const res = await submitStep({
-          type: 'garantie-financiere',
-          file: fakeFileContents,
-          stepDate: gfDate,
-          projectId,
-          submittedBy: user,
-        })
-
-        expect(res.isOk()).toBe(true)
-
-        expect(shouldUserAccessProject).toHaveBeenCalledWith({
-          user,
-          projectId,
-        })
-      })
-
-      it('should save the attachment file', async () => {
-        expect(fileRepo.save).toHaveBeenCalled()
-        expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents.contents)
-      })
-
-      it('should add the GF', () => {
-        const fakeFile = fileRepo.save.mock.calls[0][0]
-        expect(fakeProject.addGarantiesFinancieres).toHaveBeenCalledWith(
-          gfDate,
-          fakeFile.id.toString(),
-          user
-        )
-      })
-    })
-
     describe('when type is dcr', () => {
       const fileRepo = {
         save: jest.fn((file: FileObject) => okAsync(null)),

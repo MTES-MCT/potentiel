@@ -104,36 +104,6 @@ describe('removeStep use-case', () => {
         expect(targetEvent.payload.removedBy).toEqual(user.id)
       })
     })
-
-    describe('when type is garantie-financiere', () => {
-      beforeAll(async () => {
-        const shouldUserAccessProject = jest.fn(async () => true)
-        fakePublish.mockClear()
-
-        const removeStep = makeRemoveStep({
-          eventBus: fakeEventBus,
-          shouldUserAccessProject,
-          projectRepo,
-        })
-
-        const res = await removeStep({
-          type: 'garantie-financiere',
-          projectId,
-          removedBy: user,
-        })
-
-        expect(res.isOk()).toBe(true)
-
-        expect(shouldUserAccessProject).toHaveBeenCalledWith({
-          user,
-          projectId,
-        })
-      })
-
-      it('should delete the GF', () => {
-        expect(fakeProject.deleteGarantiesFinancieres).toHaveBeenCalledWith(user)
-      })
-    })
   })
 
   describe('When the user doesnt have rights on the project', () => {

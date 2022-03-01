@@ -20,10 +20,14 @@ import {
   makeGenerateCertificate,
   makeImportProjects,
   makeRegenerateCertificatesForPeriode,
+  makeRemoveGF,
   makeRemoveStep,
+  makeSubmitGF,
   makeSubmitStep,
   makeUpdateNewRulesOptIn,
   makeUpdateStepStatus,
+  makeUploadGF,
+  makeWithdrawGF,
 } from '@modules/project'
 import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '@modules/users'
 import { buildCertificate } from '@views/certificates'
@@ -111,14 +115,12 @@ export const submitStep = makeSubmitStep({
 })
 
 export const submitGF = makeSubmitGF({
-  eventBus: eventStore,
   fileRepo,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
 })
 
 export const uploadGF = makeUploadGF({
-  eventBus: eventStore,
   fileRepo,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
@@ -131,13 +133,11 @@ export const removeStep = makeRemoveStep({
 })
 
 export const removeGF = makeRemoveGF({
-  eventBus: eventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
 })
 
 export const withdrawGF = makeWithdrawGF({
-  eventBus: eventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
 })

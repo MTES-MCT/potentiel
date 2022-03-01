@@ -9,8 +9,6 @@ import { errAsync, logger, ResultAsync, wrapInfra, ok, okAsync } from '@core/uti
 import { User } from '@entities'
 import { FileContents, FileObject, makeFileObject } from '../../file'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
-import { ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors'
-import { GFCertificateHasAlreadyBeenSentError } from '../errors/GFCertificateHasAlreadyBeenSent'
 import { ProjectDCRSubmitted, ProjectPTFSubmitted } from '../events'
 import { Project } from '../Project'
 
@@ -22,7 +20,7 @@ interface SubmitStepDeps {
 }
 
 type SubmitStepArgs = {
-  type: 'ptf' | 'dcr' | 'garantie-financiere'
+  type: 'ptf' | 'dcr'
   projectId: string
   stepDate: Date
   numeroDossier?: string
@@ -63,30 +61,14 @@ export const makeSubmitStep =
         }
       )
       .andThen((fileId: string): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
-        if (type === 'garantie-financiere') {
-          return deps.projectRepo.transaction(
-            new UniqueEntityID(projectId),
-            (
-              project: Project
-            ): ResultAsync<
-              null,
-              ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError
-            > => {
-              return project
-                .addGarantiesFinancieres(stepDate, fileId, submittedBy)
-                .asyncMap(async () => null)
-            }
-          )
-        } else {
-          return okAsync(fileId).andThen((fileId) =>
-            deps.eventBus.publish(EventByType[type](args, fileId))
-          )
-        }
+        return okAsync(fileId).andThen((fileId) =>
+          deps.eventBus.publish(EventByType[type](args, fileId))
+        )
       })
   }
 
 const EventByType: Record<
-  Exclude<SubmitStepArgs['type'], 'garantie-financiere'>,
+  SubmitStepArgs['type'],
   (args: SubmitStepArgs, fileId: string) => DomainEvent
 > = {
   dcr: ({ projectId, stepDate, submittedBy, numeroDossier }, fileId) =>

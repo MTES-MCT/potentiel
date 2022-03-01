@@ -29,7 +29,6 @@ v1Router.get(
       await withdrawGF({
         removedBy: user,
         projectId,
-        type: asLiteral(type),
       })
     ).match(
       () =>

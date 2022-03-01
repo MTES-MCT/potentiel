@@ -69,7 +69,6 @@ v1Router.post(
 
     ;(
       await uploadGF({
-        type,
         projectId,
         stepDate: moment(stepDate, 'DD/MM/YYYY').toDate(),
         file,
