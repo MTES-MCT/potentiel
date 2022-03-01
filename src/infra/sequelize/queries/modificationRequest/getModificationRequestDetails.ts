@@ -1,9 +1,6 @@
 import { err, ok, wrapInfra } from '@core/utils'
 import { getProjectAppelOffre } from '@config/queries.config'
-import {
-  GetModificationRequestDetails,
-  isModificationPuissanceAuto,
-} from '@modules/modificationRequest'
+import { GetModificationRequestDetails } from '@modules/modificationRequest'
 import { EntityNotFoundError } from '@modules/shared'
 import models from '../../models'
 
@@ -120,12 +117,9 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
         notifiedOn: new Date(notifiedOn).getTime(),
         completionDueOn: new Date(completionDueOn).getTime(),
         unitePuissance: appelOffre?.unitePuissance || '??',
+        technologie: technologie || 'N/A',
       },
       ...(type === 'puissance' && {
-        ...isModificationPuissanceAuto({
-          project: { ...project, appelOffre, technologie: technologie || 'N/A' },
-          nouvellePuissance: puissance,
-        }),
         puissance,
       }),
     })

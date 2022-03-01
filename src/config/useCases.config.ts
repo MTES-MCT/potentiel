@@ -2,6 +2,8 @@ import { makeImportAppelOffreData, makeImportPeriodeData } from '@modules/appelO
 import { BaseShouldUserAccessProject, makeRevokeRightsToProject } from '@modules/authZ'
 import { makeLoadFileForUser } from '@modules/file'
 import {
+  exceedMaxPuissanceOfReservedVolume,
+  isOutsideAutoAcceptRatios,
   makeAcceptModificationRequest,
   makeCancelModificationRequest,
   makeConfirmRequest,
@@ -12,7 +14,6 @@ import {
   makeRequestProducteurModification,
   makeRequestPuissanceModification,
   makeUpdateModificationRequestStatus,
-  isModificationPuissanceAuto,
 } from '@modules/modificationRequest'
 import {
   makeCorrectProjectData,
@@ -120,7 +121,8 @@ export const updateStepStatus = makeUpdateStepStatus({
 export const requestPuissanceModification = makeRequestPuissanceModification({
   eventBus: eventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  isModificationPuissanceAuto,
+  isOutsideAutoAcceptRatios,
+  exceedMaxPuissanceOfReservedVolume,
   projectRepo,
   fileRepo,
 })

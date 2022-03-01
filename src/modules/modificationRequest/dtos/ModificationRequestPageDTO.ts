@@ -1,4 +1,4 @@
-import { IsModificationPuissanceAutoResult } from '..'
+import { ProjectAppelOffre, Technologie } from '@entities'
 import { Fournisseur } from '../../project'
 import { ModificationRequestStatusDTO } from './ModificationRequestListItemDTO'
 
@@ -46,6 +46,8 @@ export type ModificationRequestPageDTO = {
     numeroGestionnaire: string | undefined
     actionnaire: string
     potentielIdentifier: string
+    technologie: Technologie
+    appelOffre?: ProjectAppelOffre
   }
 } & Variant
 
@@ -53,10 +55,10 @@ type Variant =
   | { type: 'actionnaire'; actionnaire: string }
   | { type: 'fournisseur'; fournisseurs: Fournisseur[]; evaluationCarbone?: number }
   | { type: 'producteur'; producteur: string }
-  | ({
+  | {
       type: 'puissance'
       puissance: number
-    } & IsModificationPuissanceAutoResult)
+    }
   | { type: 'recours' }
   | { type: 'abandon' }
   | { type: 'delai'; delayInMonths: number; acceptanceParams?: { delayInMonths: number } }

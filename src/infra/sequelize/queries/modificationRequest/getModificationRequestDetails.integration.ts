@@ -163,8 +163,6 @@ describe('Sequelize getModificationRequestDetails', () => {
         id: modificationRequestId,
         type: 'puissance',
         puissance: 175,
-        isAuto: false,
-        reason: 'hors-ratios-autorisés',
         status: 'envoyée',
         respondedOn: 321,
         respondedBy: 'Admin Doe',

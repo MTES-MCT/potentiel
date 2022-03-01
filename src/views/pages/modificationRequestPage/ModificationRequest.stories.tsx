@@ -1,4 +1,6 @@
+import { ProjectAppelOffre } from '@entities'
 import React from 'react'
+import { batimentPPE2 } from 'src/dataAccess/inMemory/appelsOffres'
 
 import makeFakeRequest from '../../../__tests__/fixtures/request'
 import makeFakeUser from '../../../__tests__/fixtures/user'
@@ -41,6 +43,7 @@ export const RecoursOuvertPourAdmin = () => (
         actionnaire: 'Mr Actionnaire',
         completionDueOn: 7376362,
         puissanceInitiale: 123,
+        technologie: 'pv',
       },
     }}
   />
@@ -82,6 +85,7 @@ export const RecoursAccepté = () => (
         actionnaire: 'Mr Actionnaire',
         completionDueOn: 7376362,
         puissanceInitiale: 123,
+        technologie: 'pv',
       },
     }}
   />
@@ -123,18 +127,18 @@ export const RecoursRejeté = () => (
         actionnaire: 'Mr Actionnaire',
         completionDueOn: 123,
         puissanceInitiale: 123,
+        technologie: 'pv',
       },
     }}
   />
 )
 
-export const ChangementPuissanceAutoAccepte = () => (
+export const ChangementPuissance = () => (
   <ModificationRequest
     request={makeFakeRequest({ user: makeFakeUser({ role: 'admin' }) })}
     modificationRequest={{
       type: 'puissance',
-      puissance: 175,
-      isAuto: true,
+      puissance: 124,
       id: 'modificationRequest123',
       status: 'envoyée',
       versionDate: 7376362,
@@ -164,49 +168,7 @@ export const ChangementPuissanceAutoAccepte = () => (
         actionnaire: 'Mr Actionnaire',
         completionDueOn: 7376362,
         puissanceInitiale: 123,
-      },
-    }}
-  />
-)
-
-export const ChangementPuissanceNonAutoAccepteHorsRatios = () => (
-  <ModificationRequest
-    request={makeFakeRequest({ user: makeFakeUser({ role: 'admin' }) })}
-    modificationRequest={{
-      type: 'puissance',
-      puissance: 175,
-      isAuto: false,
-      reason: 'hors-ratios-autorisés',
-      ratios: { min: 0.8, max: 1.1 },
-      id: 'modificationRequest123',
-      status: 'envoyée',
-      versionDate: 7376362,
-      requestedOn: 7376362,
-      requestedBy: 'John Doe',
-      justification: 'Ceci est la justification de ma demande de recours',
-      attachmentFile: {
-        filename: 'attachment.pdf',
-        id: 'file123',
-      },
-      project: {
-        id: 'projectId',
-        potentielIdentifier: 'potentielIdentifier',
-        numeroCRE: 'CRE123',
-        nomProjet: 'Project ABC',
-        nomCandidat: 'Mr John Doe',
-        communeProjet: 'Commune',
-        departementProjet: 'Departement',
-        regionProjet: 'Région',
-        puissance: 123,
-        unitePuissance: 'kWc',
-        notifiedOn: 7376362,
-        appelOffreId: 'CRE4 - Nucléaire',
-        periodeId: '10',
-        familleId: '1C',
-        numeroGestionnaire: 'GEFAR-P-1234',
-        actionnaire: 'Mr Actionnaire',
-        completionDueOn: 7376362,
-        puissanceInitiale: 123,
+        technologie: 'pv',
       },
     }}
   />
@@ -217,10 +179,7 @@ export const ChangementPuissanceNonAutoAccepteSuperieurVolumeReserve = () => (
     request={makeFakeRequest({ user: makeFakeUser({ role: 'admin' }) })}
     modificationRequest={{
       type: 'puissance',
-      puissance: 175,
-      isAuto: false,
-      reason: 'puissance-max-volume-reserve-depassée',
-      puissanceMax: 1,
+      puissance: 2,
       id: 'modificationRequest123',
       status: 'envoyée',
       versionDate: 7376362,
@@ -240,7 +199,7 @@ export const ChangementPuissanceNonAutoAccepteSuperieurVolumeReserve = () => (
         communeProjet: 'Commune',
         departementProjet: 'Departement',
         regionProjet: 'Région',
-        puissance: 123,
+        puissance: 0.5,
         unitePuissance: 'kWc',
         notifiedOn: 7376362,
         appelOffreId: 'CRE4 - Nucléaire',
@@ -249,7 +208,9 @@ export const ChangementPuissanceNonAutoAccepteSuperieurVolumeReserve = () => (
         numeroGestionnaire: 'GEFAR-P-1234',
         actionnaire: 'Mr Actionnaire',
         completionDueOn: 7376362,
-        puissanceInitiale: 123,
+        puissanceInitiale: 0.5,
+        technologie: 'pv',
+        appelOffre: { ...batimentPPE2, periode: batimentPPE2.periodes[0] } as ProjectAppelOffre,
       },
     }}
   />
