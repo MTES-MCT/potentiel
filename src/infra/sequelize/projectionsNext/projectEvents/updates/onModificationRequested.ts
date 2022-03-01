@@ -4,10 +4,8 @@ import { ProjectEvent } from '../projectEvent.model'
 
 export default ProjectEvent.projector.on(
   ModificationRequested,
-  async (
-    { payload: { projectId, type, delayInMonths, modificationRequestId, authority }, occurredAt },
-    transaction
-  ) => {
+  async ({ payload, occurredAt }, transaction) => {
+    const { projectId, type, modificationRequestId, authority } = payload
     if (!['delai', 'abandon', 'recours'].includes(type)) {
       return
     }
@@ -23,7 +21,7 @@ export default ProjectEvent.projector.on(
           modificationType: type,
           modificationRequestId,
           authority,
-          ...(type === 'delai' && { delayInMonths }),
+          ...(type === 'delai' && { delayInMonths: payload.delayInMonths }),
         },
       },
       { transaction }

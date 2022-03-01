@@ -1,14 +1,14 @@
-import { Readable } from 'stream'
 import { DomainEvent, Repository } from '@core/domain'
 import { okAsync } from '@core/utils'
 import { makeUser } from '@entities'
+import { Readable } from 'stream'
 import { UnwrapForTest } from '../../../types'
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { FileObject } from '../../file'
 import { Project } from '../../project'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
-import { ModificationReceived, ModificationRequested } from '../events'
+import { ModificationReceived } from '../events'
 import { makeRequestProducteurModification } from './requestProducteurModification'
 
 describe('requestProducteurModification use-case', () => {

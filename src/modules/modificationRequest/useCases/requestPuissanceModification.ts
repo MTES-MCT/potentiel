@@ -142,21 +142,34 @@ export const makeRequestPuissanceModification =
         }): ResultAsync<null, AggregateHasBeenUpdatedSinceError | InfraNotAvailableError> => {
           const { newPuissanceIsAutoAccepted, fileId } = args
 
-          const payload = {
-            modificationRequestId: new UniqueEntityID().toString(),
-            projectId: projectId.toString(),
-            requestedBy: requestedBy.id,
-            type: 'puissance',
-            puissance: newPuissance,
-            justification,
-            fileId,
-            authority: 'dreal' as 'dreal',
-          }
+          const modificationRequestId = new UniqueEntityID().toString()
 
           return eventBus.publish(
             newPuissanceIsAutoAccepted
-              ? new ModificationReceived({ payload })
-              : new ModificationRequested({ payload })
+              ? new ModificationReceived({
+                  payload: {
+                    modificationRequestId,
+                    projectId: projectId.toString(),
+                    requestedBy: requestedBy.id,
+                    type: 'puissance',
+                    puissance: newPuissance,
+                    justification,
+                    fileId,
+                    authority: 'dreal',
+                  },
+                })
+              : new ModificationRequested({
+                  payload: {
+                    modificationRequestId,
+                    projectId: projectId.toString(),
+                    requestedBy: requestedBy.id,
+                    type: 'puissance',
+                    puissance: newPuissance,
+                    justification,
+                    fileId,
+                    authority: 'dreal',
+                  },
+                })
           )
         }
       )

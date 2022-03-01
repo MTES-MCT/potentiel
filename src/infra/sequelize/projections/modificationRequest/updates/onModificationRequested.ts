@@ -4,18 +4,8 @@ import { ModificationRequested } from '@modules/modificationRequest'
 export const onModificationRequested = (models) => async (event: ModificationRequested) => {
   const ModificationRequestModel = models.ModificationRequest
 
-  const {
-    modificationRequestId,
-    type,
-    projectId,
-    fileId,
-    justification,
-    requestedBy,
-    puissance,
-    delayInMonths,
-    actionnaire,
-    authority,
-  } = event.payload
+  const { modificationRequestId, type, projectId, fileId, justification, requestedBy, authority } =
+    event.payload
   try {
     await ModificationRequestModel.create({
       id: modificationRequestId,
@@ -27,9 +17,9 @@ export const onModificationRequested = (models) => async (event: ModificationReq
       fileId,
       userId: requestedBy,
       justification,
-      puissance,
-      delayInMonths,
-      actionnaire,
+      puissance: type === 'puissance' && event.payload.puissance,
+      delayInMonths: type === 'delai' && event.payload.delayInMonths,
+      actionnaire: type === 'actionnaire' && event.payload.actionnaire,
       authority,
     })
   } catch (e) {
