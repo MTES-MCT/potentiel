@@ -12,13 +12,12 @@ import {
   Result,
 } from '@core/utils'
 import {
-  AppelOffre,
   CertificateTemplate,
-  isNotifiedPeriode,
   ProjectAppelOffre,
   Technologie,
   User,
 } from '@entities'
+import { isNotifiedPeriode } from '@entities/periode'
 import {
   EntityNotFoundError,
   HeterogeneousHistoryError,

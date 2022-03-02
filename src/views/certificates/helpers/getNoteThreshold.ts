@@ -1,5 +1,6 @@
 import { logger } from '@core/utils'
-import { isNotifiedPeriode, ProjectAppelOffre } from '@entities'
+import { ProjectAppelOffre } from '@entities'
+import { isNotifiedPeriode } from '@entities/periode'
 
 type GetNoteThreshold = (project: {
   appelOffre: ProjectAppelOffre
