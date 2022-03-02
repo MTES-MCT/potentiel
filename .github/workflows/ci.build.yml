@@ -31,5 +31,6 @@ jobs:
         with:
           node-version: 16.x
           cache: 'npm'
-      - name: 'Install dependencies, build front, css, and back for production'
       - run: npm ci
+        env:
+          DO_NOT_EXECUTE_MIGRATE: '1'
