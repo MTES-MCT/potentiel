@@ -89,13 +89,13 @@ describe('uploadGF use-case', () => {
         load: jest.fn(),
       }
 
-      const submitStep = makeUploadGF({
+      const uploadGF = makeUploadGF({
         fileRepo,
         shouldUserAccessProject,
         projectRepo,
       })
 
-      const res = await submitStep({
+      const res = await uploadGF({
         file: fakeFileContents,
         stepDate: new Date(123),
         projectId,
