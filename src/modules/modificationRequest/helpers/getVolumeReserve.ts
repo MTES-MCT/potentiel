@@ -1,4 +1,5 @@
-import { isNotifiedPeriode, ProjectAppelOffre } from '@entities'
+import { ProjectAppelOffre } from '@entities'
+import { isNotifiedPeriode } from '@entities/periode'
 
 export const getVolumeReserve = (
   appelOffre: ProjectAppelOffre
