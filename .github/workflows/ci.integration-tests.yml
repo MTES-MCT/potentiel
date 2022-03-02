@@ -18,7 +18,7 @@ on:
       - 'LICENSE'
 
 jobs:
-  test:
+  test-int:
     runs-on: ubuntu-latest
     env:
       NODE_ENV: test

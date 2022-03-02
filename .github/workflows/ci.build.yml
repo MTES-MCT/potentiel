@@ -19,8 +19,10 @@ on:
       - 'LICENSE'
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
+    env:
+      NODE_ENV: production
 
     steps:
       - uses: actions/checkout@v2
@@ -29,8 +31,5 @@ jobs:
         with:
           node-version: 16.x
           cache: 'npm'
+      - name: 'Install dependencies, build front, css, and back for production'
       - run: npm ci
-      - name: 'Build the front, css, and back'
-        run: npm run build
-        env:
-          NODE_ENV: production
