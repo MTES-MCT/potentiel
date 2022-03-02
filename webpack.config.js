@@ -3,6 +3,7 @@ const webpack = require('webpack')
 const fs = require('fs')
 const _ = require('lodash')
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 
 const pageDir = path.join(__dirname, 'src', 'views', 'pages')
 
@@ -53,6 +54,7 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.npm_package_version': JSON.stringify(process.env.npm_package_version),
     }),
+    new NodePolyfillPlugin(),
   ],
   module: {
     rules: [
