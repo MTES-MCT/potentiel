@@ -57,6 +57,7 @@
   "dependencies": {
     "@headlessui/react": "^1.4.3",
     "@heroicons/react": "^1.0.5",
+    "@hqoss/monads": "^0.5.0",
     "@keycloak/keycloak-admin-client": "^16.1.0",
     "@react-pdf/renderer": "2.0.19",
     "@sentry/node": "^6.2.5",
@@ -70,7 +71,6 @@
     "@types/passport": "^1.0.6",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
-    "@usefultools/monads": "^3.0.3",
     "aws-sdk": "^2.1057.0",
     "babel-loader": "^8.2.2",
     "chalk": "^4.1.0",

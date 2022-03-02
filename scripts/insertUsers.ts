@@ -20,8 +20,8 @@ initDatabase()
           role: asLiteral(role),
         })
 
-        if (userResult.is_err()) {
-          console.log('Cannot create user', userResult.unwrap_err())
+        if (userResult.isErr()) {
+          console.log('Cannot create user', userResult.unwrapErr())
           return
         }
         const user = userResult.unwrap()
@@ -31,8 +31,8 @@ initDatabase()
           email,
           password,
         })
-        if (credentialsResult.is_err()) {
-          console.log('Cannot create credentials', credentialsResult.unwrap_err())
+        if (credentialsResult.isErr()) {
+          console.log('Cannot create credentials', credentialsResult.unwrapErr())
           return
         }
 

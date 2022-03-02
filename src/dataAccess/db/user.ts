@@ -146,7 +146,7 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
 
       const userInstance = makeUser(deserialize(userInDb))
 
-      if (userInstance.is_err()) throw userInstance.unwrap_err()
+      if (userInstance.isErr()) throw userInstance.unwrapErr()
 
       return Some(userInstance.unwrap())
     } catch (error) {

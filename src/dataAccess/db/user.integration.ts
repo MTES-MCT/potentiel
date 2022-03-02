@@ -116,7 +116,7 @@ describe('userRepo sequelizeInstance', () => {
 
         const result = await userRepo.addProjectToUserWithEmail(targetProjetId, targetEmail)
 
-        expect(result.is_ok()).toBeTruthy()
+        expect(result.isOk()).toBeTruthy()
 
         const UserModel = sequelizeInstance.model('user')
         const ProjectModel = sequelizeInstance.model('project')
@@ -163,7 +163,7 @@ describe('userRepo sequelizeInstance', () => {
 
       const result = await userRepo.addUserToProjectsWithEmail(userId, targetEmail)
 
-      expect(result.is_ok()).toBeTruthy()
+      expect(result.isOk()).toBeTruthy()
 
       const UserModel = sequelizeInstance.model('user')
       const ProjectModel = sequelizeInstance.model('project')

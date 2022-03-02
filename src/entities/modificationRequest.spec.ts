@@ -10,7 +10,7 @@ describe('ModificationRequest entity', () => {
       fileId: 'filename',
     } as any)
 
-    expect(modificationRequestResult.is_ok()).toBeTruthy()
+    expect(modificationRequestResult.isOk()).toBeTruthy()
   })
 
   it("should refuse a 'actionnaire' request that is missing filename", () => {
@@ -21,7 +21,7 @@ describe('ModificationRequest entity', () => {
       actionnaire: 'nouvel actionnaire',
     } as any)
 
-    expect(modificationRequestResult.is_err()).toBeTruthy()
+    expect(modificationRequestResult.isErr()).toBeTruthy()
   })
 
   it("should refuse a 'actionnaire' request that is missing actionnaire", () => {
@@ -32,7 +32,7 @@ describe('ModificationRequest entity', () => {
       fileId: 'filename',
     } as any)
 
-    expect(modificationRequestResult.is_err()).toBeTruthy()
+    expect(modificationRequestResult.isErr()).toBeTruthy()
   })
 
   it("should accept an 'producteur' request with producteur and filename", () => {
@@ -44,7 +44,7 @@ describe('ModificationRequest entity', () => {
       fileId: 'filename',
     } as any)
 
-    expect(modificationRequestResult.is_ok()).toBeTruthy()
+    expect(modificationRequestResult.isOk()).toBeTruthy()
   })
 
   it("should refuse a 'producteur' request that is missing filename", () => {
@@ -55,7 +55,7 @@ describe('ModificationRequest entity', () => {
       producteur: 'nouvel producteur',
     } as any)
 
-    expect(modificationRequestResult.is_err()).toBeTruthy()
+    expect(modificationRequestResult.isErr()).toBeTruthy()
   })
 
   it("should refuse a 'producteur' request that is missing producteur", () => {
@@ -66,7 +66,7 @@ describe('ModificationRequest entity', () => {
       fileId: 'filename',
     } as any)
 
-    expect(modificationRequestResult.is_err()).toBeTruthy()
+    expect(modificationRequestResult.isErr()).toBeTruthy()
   })
 
   it("should accept an 'fournisseur' request with fournisseur, evaluationCarbone, justification and filename", () => {
@@ -80,7 +80,7 @@ describe('ModificationRequest entity', () => {
       justification: 'because',
     } as any)
 
-    expect(modificationRequestResult.is_ok()).toBeTruthy()
+    expect(modificationRequestResult.isOk()).toBeTruthy()
   })
 
   it("should refuse a 'fournisseur' request that is missing filename", () => {
@@ -93,7 +93,7 @@ describe('ModificationRequest entity', () => {
       justification: 'because',
     } as any)
 
-    expect(modificationRequestResult.is_err()).toBeTruthy()
+    expect(modificationRequestResult.isErr()).toBeTruthy()
   })
 
   it("should refuse a 'fournisseur' request that is missing fournisseur", () => {
@@ -106,7 +106,7 @@ describe('ModificationRequest entity', () => {
       justification: 'because',
     } as any)
 
-    expect(modificationRequestResult.is_err()).toBeTruthy()
+    expect(modificationRequestResult.isErr()).toBeTruthy()
   })
 
   it("should refuse a 'fournisseur' request that is missing evaluationCarbone", () => {
@@ -119,7 +119,7 @@ describe('ModificationRequest entity', () => {
       justification: 'because',
     } as any)
 
-    expect(modificationRequestResult.is_err()).toBeTruthy()
+    expect(modificationRequestResult.isErr()).toBeTruthy()
   })
 
   it("should refuse a 'fournisseur' request that is missing justification", () => {
@@ -132,7 +132,7 @@ describe('ModificationRequest entity', () => {
       evaluationCarbone: 10,
     } as any)
 
-    expect(modificationRequestResult.is_err()).toBeTruthy()
+    expect(modificationRequestResult.isErr()).toBeTruthy()
   })
 
   it("should accept an 'delai' request with justification and delayInMonths", () => {
@@ -144,7 +144,7 @@ describe('ModificationRequest entity', () => {
       delayInMonths: 2,
     } as any)
 
-    expect(modificationRequestResult.is_ok()).toBeTruthy()
+    expect(modificationRequestResult.isOk()).toBeTruthy()
   })
 
   it("should set the status to 'envoyée' by default", () => {
@@ -155,7 +155,7 @@ describe('ModificationRequest entity', () => {
       justification: 'miaou',
     } as any)
 
-    expect(modificationRequestResult.is_ok()).toBeTruthy()
+    expect(modificationRequestResult.isOk()).toBeTruthy()
 
     const modificationRequest = modificationRequestResult.unwrap()
     expect(modificationRequest.status).toEqual('envoyée')

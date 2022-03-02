@@ -57,8 +57,8 @@ describe('requestModification use-case', () => {
       })
 
       expect(fileRepo.save).not.toHaveBeenCalled()
-      expect(requestResult.is_err()).toEqual(true)
-      expect(requestResult.unwrap_err().message).toEqual(ACCESS_DENIED_ERROR)
+      expect(requestResult.isErr()).toEqual(true)
+      expect(requestResult.unwrapErr().message).toEqual(ACCESS_DENIED_ERROR)
     })
   })
 
@@ -96,8 +96,8 @@ describe('requestModification use-case', () => {
 
       expect(shouldUserAccessProject).not.toHaveBeenCalled()
       expect(fileRepo.save).not.toHaveBeenCalled()
-      expect(requestResult.is_err()).toEqual(true)
-      expect(requestResult.unwrap_err().message).toEqual(ACCESS_DENIED_ERROR)
+      expect(requestResult.isErr()).toEqual(true)
+      expect(requestResult.unwrapErr().message).toEqual(ACCESS_DENIED_ERROR)
     })
   })
 
@@ -134,7 +134,7 @@ describe('requestModification use-case', () => {
           projectId: 'project1',
         })
 
-        expect(requestResult.is_ok()).toEqual(true)
+        expect(requestResult.isOk()).toEqual(true)
       })
 
       it('should save the file attachment', () => {
@@ -191,7 +191,7 @@ describe('requestModification use-case', () => {
           projectId: 'project1',
         })
 
-        expect(requestResult.is_ok()).toEqual(true)
+        expect(requestResult.isOk()).toEqual(true)
       })
 
       it('should save the file attachment', () => {

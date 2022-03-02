@@ -20,8 +20,8 @@ testRouter.post('/test/addUserToDreal', async (request, response) => {
 
   const additionRes = await userRepo.addToDreal(user.id, region as DREAL)
 
-  if (additionRes.is_err()) {
-    logger.error(additionRes.unwrap_err())
+  if (additionRes.isErr()) {
+    logger.error(additionRes.unwrapErr())
     return response.status(500).send('cant add user to dreal')
   }
 

@@ -17,8 +17,8 @@ async function createUser({ email, fullName, password, role }: CreateUserProps) 
     email,
     role,
   })
-  if (userResult.is_err()) {
-    logger.error(userResult.unwrap_err())
+  if (userResult.isErr()) {
+    logger.error(userResult.unwrapErr())
     return
   }
   const user = userResult.unwrap()
@@ -26,8 +26,8 @@ async function createUser({ email, fullName, password, role }: CreateUserProps) 
   // Insert the user in the database
   const userInsertion = await userRepo.insert(user)
 
-  if (userInsertion.is_err()) {
-    logger.error(userInsertion.unwrap_err())
+  if (userInsertion.isErr()) {
+    logger.error(userInsertion.unwrapErr())
     logger.info(user)
     return
   }

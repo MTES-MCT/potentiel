@@ -64,7 +64,7 @@ testRouter.post('/test/addProjects', async (request, response) => {
     })
     .map(makeFakeProject)
     .map(makeProject)
-    .filter((item) => item.is_ok())
+    .filter((item) => item.isOk())
     .map((item) => item.unwrap())
 
   if (builtProjects.length !== projects.length) {
@@ -72,9 +72,9 @@ testRouter.post('/test/addProjects', async (request, response) => {
     projects
       .map(makeFakeProject)
       .map(makeProject)
-      .filter((item) => item.is_err())
+      .filter((item) => item.isErr())
       .forEach((erroredProject) => {
-        logger.error(erroredProject.unwrap_err())
+        logger.error(erroredProject.unwrapErr())
       })
   }
   await Promise.all(builtProjects.map(projectRepo.save))

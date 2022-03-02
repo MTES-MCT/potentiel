@@ -21,8 +21,8 @@ initDatabase()
       role: 'admin',
     })
 
-    if (userResult.is_err()) {
-      console.log('Cannot create user', userResult.unwrap_err())
+    if (userResult.isErr()) {
+      console.log('Cannot create user', userResult.unwrapErr())
       return process.exit(1)
     }
     const user = userResult.unwrap()
@@ -32,8 +32,8 @@ initDatabase()
       email,
       password,
     })
-    if (credentialsResult.is_err()) {
-      console.log('Cannot create credentials', credentialsResult.unwrap_err())
+    if (credentialsResult.isErr()) {
+      console.log('Cannot create credentials', credentialsResult.unwrapErr())
       return process.exit(1)
     }
 
@@ -42,15 +42,15 @@ initDatabase()
     return Promise.all([userRepo.insert(user), credentialsRepo.insert(credentials)])
   })
   .then(([userInsertion, credentialsInsertion]) => {
-    if (userInsertion.is_err()) {
-      console.log('Oops User could not be inserted into DB', userInsertion.unwrap_err())
+    if (userInsertion.isErr()) {
+      console.log('Oops User could not be inserted into DB', userInsertion.unwrapErr())
       return process.exit(1)
     }
 
-    if (credentialsInsertion.is_err()) {
+    if (credentialsInsertion.isErr()) {
       console.log(
         'Oops Credentials could not be inserted into DB',
-        credentialsInsertion.unwrap_err()
+        credentialsInsertion.unwrapErr()
       )
       return process.exit(1)
     }

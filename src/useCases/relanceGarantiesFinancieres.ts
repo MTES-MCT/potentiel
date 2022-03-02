@@ -91,7 +91,7 @@ export default function makeRelanceGarantiesFinancieres({
 
         if (updatedProject) {
           const updateRes = await saveProject(updatedProject)
-          if (updateRes.is_err()) {
+          if (updateRes.isErr()) {
             logger.error(
               `relanceGarantiesFinancieres use-case: error when calling projectRepo.save`
             )
