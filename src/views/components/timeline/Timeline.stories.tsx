@@ -900,12 +900,12 @@ export const AbandonConfirméForPP = () => (
         {
           type: 'ProjectNotified',
           variant: 'porteur-projet',
-          date: new Date('2022-01-12').getTime(),
+          date: new Date('2019-01-12').getTime(),
         } as ProjectNotifiedDTO,
         {
           type: 'ProjectCertificateGenerated',
           variant: 'porteur-projet',
-          date: new Date('2022-01-13').getTime(),
+          date: new Date('2019-01-13').getTime(),
           certificateFileId: 'file-id',
           nomProjet: 'mon projet pv',
           email: undefined,
