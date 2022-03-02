@@ -7,8 +7,6 @@ import makeFakeUser from '../../../__tests__/fixtures/user'
 import { UnauthorizedError } from '../../shared'
 import { ProjectDCRRemoved, ProjectPTFRemoved } from '../events'
 import { makeRemoveStep } from './removeStep'
-import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
-import { Project } from '../Project'
 
 const projectId = new UniqueEntityID().toString()
 
@@ -18,10 +16,6 @@ const fakeEventBus: EventBus = {
   publish: fakePublish,
   subscribe: jest.fn(),
 }
-
-const fakeProject = makeFakeProject()
-
-const projectRepo = fakeTransactionalRepo(fakeProject as Project)
 
 describe('removeStep use-case', () => {
   describe('when the user has rights on this project', () => {
@@ -35,7 +29,6 @@ describe('removeStep use-case', () => {
         const removeStep = makeRemoveStep({
           eventBus: fakeEventBus,
           shouldUserAccessProject,
-          projectRepo,
         })
 
         const res = await removeStep({
@@ -74,7 +67,6 @@ describe('removeStep use-case', () => {
         const removeStep = makeRemoveStep({
           eventBus: fakeEventBus,
           shouldUserAccessProject,
-          projectRepo,
         })
 
         const res = await removeStep({
@@ -117,7 +109,6 @@ describe('removeStep use-case', () => {
       const removeStep = makeRemoveStep({
         eventBus: fakeEventBus,
         shouldUserAccessProject,
-        projectRepo,
       })
 
       const res = await removeStep({

@@ -1,14 +1,12 @@
-import { DomainEvent, EventBus, TransactionalRepository } from '@core/domain'
+import { DomainEvent, EventBus } from '@core/domain'
 import { errAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { User } from '@entities'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { ProjectDCRRemoved, ProjectPTFRemoved } from '../events'
-import { Project } from '../Project'
 
 interface RemoveStepDeps {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
   eventBus: EventBus
-  projectRepo: TransactionalRepository<Project>
 }
 
 type RemoveStepArgs = {

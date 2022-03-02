@@ -1,22 +1,14 @@
-import {
-  DomainEvent,
-  EventBus,
-  Repository,
-  TransactionalRepository,
-  UniqueEntityID,
-} from '@core/domain'
+import { DomainEvent, EventBus, Repository, UniqueEntityID } from '@core/domain'
 import { errAsync, logger, ResultAsync, wrapInfra, ok, okAsync } from '@core/utils'
 import { User } from '@entities'
 import { FileContents, FileObject, makeFileObject } from '../../file'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { ProjectDCRSubmitted, ProjectPTFSubmitted } from '../events'
-import { Project } from '../Project'
 
 interface SubmitStepDeps {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
   fileRepo: Repository<FileObject>
   eventBus: EventBus
-  projectRepo: TransactionalRepository<Project>
 }
 
 type SubmitStepArgs = {
@@ -34,7 +26,7 @@ type SubmitStepArgs = {
 export const makeSubmitStep =
   (deps: SubmitStepDeps) =>
   (args: SubmitStepArgs): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
-    const { type, projectId, file, submittedBy, stepDate } = args
+    const { type, projectId, file, submittedBy } = args
     const { filename, contents } = file
 
     return wrapInfra(deps.shouldUserAccessProject({ projectId, user: submittedBy }))

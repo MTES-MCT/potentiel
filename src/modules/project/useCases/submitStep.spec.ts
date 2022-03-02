@@ -7,10 +7,8 @@ import { InfraNotAvailableError } from '@modules/shared'
 import { UnwrapForTest } from '../../../types'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { UnauthorizedError } from '../../shared'
-import { ProjectDCRSubmitted, ProjectGFSubmitted, ProjectPTFSubmitted } from '../events'
+import { ProjectDCRSubmitted, ProjectPTFSubmitted } from '../events'
 import { makeSubmitStep } from './submitStep'
-import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
-import { Project } from '../Project'
 
 const projectId = new UniqueEntityID().toString()
 
@@ -25,19 +23,9 @@ const fakeEventBus: EventBus = {
   publish: fakePublish,
   subscribe: jest.fn(),
 }
-
-const fakeProject = makeFakeProject()
-
-const projectRepo = fakeTransactionalRepo(fakeProject as Project)
-
 describe('submitStep use-case', () => {
   describe('when the user has rights on this project', () => {
     const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
-
-    const fileRepo = {
-      save: jest.fn((file: FileObject) => okAsync(null)),
-      load: jest.fn(),
-    }
 
     describe('when type is ptf', () => {
       const fileRepo = {
@@ -55,7 +43,6 @@ describe('submitStep use-case', () => {
           eventBus: fakeEventBus,
           fileRepo: fileRepo as Repository<FileObject>,
           shouldUserAccessProject,
-          projectRepo,
         })
 
         const res = await submitStep({
@@ -114,7 +101,6 @@ describe('submitStep use-case', () => {
           eventBus: fakeEventBus,
           fileRepo: fileRepo as Repository<FileObject>,
           shouldUserAccessProject,
-          projectRepo,
         })
 
         const res = await submitStep({
@@ -177,7 +163,6 @@ describe('submitStep use-case', () => {
         eventBus: fakeEventBus,
         fileRepo,
         shouldUserAccessProject,
-        projectRepo,
       })
 
       const res = await submitStep({

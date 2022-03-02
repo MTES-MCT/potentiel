@@ -111,7 +111,6 @@ export const submitStep = makeSubmitStep({
   eventBus: eventStore,
   fileRepo,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  projectRepo,
 })
 
 export const submitGF = makeSubmitGF({
@@ -129,7 +128,6 @@ export const uploadGF = makeUploadGF({
 export const removeStep = makeRemoveStep({
   eventBus: eventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  projectRepo,
 })
 
 export const removeGF = makeRemoveGF({
