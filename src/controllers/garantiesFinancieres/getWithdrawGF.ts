@@ -14,14 +14,10 @@ v1Router.get(
   ensureRole(['admin', 'dgec', 'porteur-projet']),
   asyncHandler(async (request, response) => {
     const { user } = request
-    const { projectId, type } = request.params
+    const { projectId } = request.params
 
     if (!validateUniqueId(projectId)) {
       return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
-    }
-
-    if (type !== 'garanties-financieres') {
-      return errorResponse({ request, response })
     }
 
     ;(
