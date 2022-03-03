@@ -1,4 +1,8 @@
-import { IsModificationPuissanceAuto, PuissanceJustificationOrCourrierMissingError } from '..'
+import {
+  ExceedsPuissanceMaxDuVolumeReserve,
+  ExceedsRatiosChangementPuissance,
+  PuissanceJustificationOrCourrierMissingError,
+} from '..'
 import { EventBus, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
 import { errAsync, logger, okAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { User } from '@entities'
@@ -15,7 +19,8 @@ import { ModificationRequested, ModificationReceived } from '../events'
 
 interface RequestPuissanceModificationDeps {
   eventBus: EventBus
-  isModificationPuissanceAuto: IsModificationPuissanceAuto
+  exceedsRatiosChangementPuissance: ExceedsRatiosChangementPuissance
+  exceedsPuissanceMaxDuVolumeReserve: ExceedsPuissanceMaxDuVolumeReserve
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
   projectRepo: TransactionalRepository<Project>
   fileRepo: Repository<FileObject>
@@ -46,7 +51,8 @@ export const makeRequestPuissanceModification =
       shouldUserAccessProject,
       projectRepo,
       fileRepo,
-      isModificationPuissanceAuto,
+      exceedsPuissanceMaxDuVolumeReserve,
+      exceedsRatiosChangementPuissance,
     } = deps
 
     return wrapInfra(
@@ -100,10 +106,16 @@ export const makeRequestPuissanceModification =
                 return errAsync(new UnauthorizedError())
               }
 
-              const { isAuto: newPuissanceIsAutoAccepted } = isModificationPuissanceAuto({
+              const exceedsRatios = exceedsRatiosChangementPuissance({
                 nouvellePuissance: newPuissance,
                 project: { ...project, technologie: project.data?.technologie ?? 'N/A' },
               })
+              const exceedsPuissanceMax = exceedsPuissanceMaxDuVolumeReserve({
+                nouvellePuissance: newPuissance,
+                project: { ...project },
+              })
+
+              const newPuissanceIsAutoAccepted = !exceedsRatios && !exceedsPuissanceMax
 
               if (newPuissanceIsAutoAccepted) {
                 return project.updatePuissance(requestedBy, newPuissance).asyncMap(async () => {

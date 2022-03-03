@@ -1,3 +1,4 @@
+import { ProjectAppelOffre, Technologie } from '@entities'
 import { Fournisseur } from '../../project'
 import { ModificationRequestStatusDTO } from './ModificationRequestListItemDTO'
 
@@ -6,15 +7,15 @@ export type ModificationRequestPageDTO = {
   status: ModificationRequestStatusDTO
 
   respondedBy?: string
-  respondedOn?: Date
+  respondedOn?: number
   responseFile?: {
     filename: string
     id: string
   }
 
-  versionDate: Date
+  versionDate: number
 
-  requestedOn: Date
+  requestedOn: number
   requestedBy: string
 
   justification: string
@@ -24,8 +25,7 @@ export type ModificationRequestPageDTO = {
   }
 
   cancelledBy?: string
-  cancelledOn?: Date
-  puissance: number
+  cancelledOn?: number
 
   project: {
     id: string
@@ -38,14 +38,16 @@ export type ModificationRequestPageDTO = {
     puissance: number
     puissanceInitiale: number
     unitePuissance: string
-    notifiedOn: Date
-    completionDueOn: Date
+    notifiedOn: number
+    completionDueOn: number
     appelOffreId: string
     periodeId: string
     familleId: string | undefined
     numeroGestionnaire: string | undefined
     actionnaire: string
     potentielIdentifier: string
+    technologie: Technologie
+    appelOffre?: ProjectAppelOffre
   }
 } & Variant
 
@@ -53,7 +55,10 @@ type Variant =
   | { type: 'actionnaire'; actionnaire: string }
   | { type: 'fournisseur'; fournisseurs: Fournisseur[]; evaluationCarbone?: number }
   | { type: 'producteur'; producteur: string }
-  | { type: 'puissance'; puissance: number }
+  | {
+      type: 'puissance'
+      puissance: number
+    }
   | { type: 'recours' }
   | { type: 'abandon' }
   | { type: 'delai'; delayInMonths: number; acceptanceParams?: { delayInMonths: number } }

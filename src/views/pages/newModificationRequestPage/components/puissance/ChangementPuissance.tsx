@@ -3,8 +3,11 @@ import { Project } from '@entities'
 import { dataId } from '../../../../../helpers/testId'
 import toNumber from '../../../../../helpers/toNumber'
 import { isStrictlyPositiveNumber } from '../../../../../helpers/formValidators'
-import { isModificationPuissanceAuto } from '@modules/modificationRequest'
-import { AlerteNouvellePuissance } from './AlerteNouvellePuissance'
+import { AlertePuissanceHorsRatios, AlertePuissanceMaxDepassee } from './AlerteNouvellePuissance'
+import {
+  exceedsRatiosChangementPuissance,
+  exceedsPuissanceMaxDuVolumeReserve,
+} from '@modules/modificationRequest'
 
 type ChangementPuissanceProps = {
   project: Project
@@ -12,17 +15,6 @@ type ChangementPuissanceProps = {
   justification: string
   onPuissanceChecked: (isValid: boolean) => void
 }
-
-type ReasonWhyChangeIsNotAutoAccepted =
-  | 'none'
-  | {
-      reason: 'puissance-max-volume-reseve-depassée'
-      puissanceMax: number
-    }
-  | {
-      reason: 'hors-ratios-autorisés'
-      ratios: { min: number; max: number }
-    }
 
 export const ChangementPuissance = ({
   project,
@@ -32,26 +24,24 @@ export const ChangementPuissance = ({
 }: ChangementPuissanceProps) => {
   const { appelOffre } = project
 
-  const [displayAlertOnPuissanceType, setdisplayAlertOnPuissanceType] = useState(false)
-  const [displayAlertOnPuissance, setDisplayAlertOnPuissance] = useState(false)
-  const [reasonWhyChangeIsNotAutoAccepted, setReasonWhyChangeIsNotAutoAccepted] = useState(
-    'none' as ReasonWhyChangeIsNotAutoAccepted
-  )
+  const [displayAlertOnPuissanceType, setDisplayAlertOnPuissanceType] = useState(false)
+  const [displayAlertHorsRatios, setDisplayAlertHorsRatios] = useState(false)
+  const [displayAlertPuissanceMaxVolumeReserve, setDisplayAlertPuissanceMaxVolumeReserve] =
+    useState(false)
   const [fileRequiredforPuissanceModification, setFileRequiredforPuissanceModification] =
     useState(false)
 
   const handlePuissanceOnChange = (e) => {
     const isNewValueCorrect = isStrictlyPositiveNumber(e.target.value)
     const nouvellePuissance = toNumber(e.target.value)
-    const isChangeAutoResult = isModificationPuissanceAuto({
-      nouvellePuissance,
-      project,
-    })
+    const exceedsRatios = exceedsRatiosChangementPuissance({ project, nouvellePuissance })
+    const exceedsPuissanceMax = exceedsPuissanceMaxDuVolumeReserve({ project, nouvellePuissance })
 
-    setdisplayAlertOnPuissanceType(!isNewValueCorrect)
-    setDisplayAlertOnPuissance(!isChangeAutoResult.isAuto)
-    setFileRequiredforPuissanceModification(!isChangeAutoResult.isAuto)
-    setReasonWhyChangeIsNotAutoAccepted(isChangeAutoResult.isAuto ? 'none' : isChangeAutoResult)
+    setDisplayAlertOnPuissanceType(!isNewValueCorrect)
+    setDisplayAlertHorsRatios(exceedsRatios)
+    setDisplayAlertPuissanceMaxVolumeReserve(exceedsPuissanceMax)
+    setFileRequiredforPuissanceModification(exceedsRatios || exceedsPuissanceMax)
+
     onPuissanceChecked(isNewValueCorrect)
   }
 
@@ -85,9 +75,9 @@ export const ChangementPuissance = ({
         required={true}
       />
 
-      {displayAlertOnPuissance && reasonWhyChangeIsNotAutoAccepted !== 'none' && (
-        <AlerteNouvellePuissance {...reasonWhyChangeIsNotAutoAccepted} />
-      )}
+      {displayAlertHorsRatios && <AlertePuissanceHorsRatios {...{ project }} />}
+
+      {displayAlertPuissanceMaxVolumeReserve && <AlertePuissanceMaxDepassee {...{ project }} />}
 
       {displayAlertOnPuissanceType && (
         <div

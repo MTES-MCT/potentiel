@@ -18,7 +18,7 @@ export const DelaiForm = ({ modificationRequest }: DelaiFormProps) => {
           name="delayInMonths"
           id="delayInMonths"
           defaultValue={delayInMonths}
-          data-initial-date={project.completionDueOn.getTime()}
+          data-initial-date={project.completionDueOn}
           {...dataId('delayInMonthsField')}
           style={{ width: 75 }}
         />

@@ -1,3 +1,4 @@
+export * from './modificationRequestPage'
 export * from './garantiesFinancieresPage'
 export * from './newModificationRequestPage/NewModificationRequest'
 export * from './projectDetailsPage'

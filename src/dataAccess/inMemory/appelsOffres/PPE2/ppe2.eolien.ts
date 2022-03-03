@@ -31,7 +31,7 @@ const eolienPPE2: AppelOffre = {
   afficherPhraseRegionImplantation: false,
   afficherValeurEvaluationCarbone: true,
   changementPuissance: {
-    autoAcceptRatios: {
+    ratios: {
       min: 0.8,
       max: 1.2,
     },

@@ -13,7 +13,7 @@ import {
   ProjectDCRDueDateSetDTO,
   ProjectPTFSubmittedDTO,
   ProjectCompletionDueDateSetDTO,
-} from 'src/modules/frise'
+} from '@modules/frise'
 
 export default { title: 'Project page' }
 

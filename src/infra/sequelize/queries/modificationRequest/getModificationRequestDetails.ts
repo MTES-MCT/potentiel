@@ -1,9 +1,6 @@
 import { err, ok, wrapInfra } from '@core/utils'
 import { getProjectAppelOffre } from '@config/queries.config'
-import {
-  GetModificationRequestDetails,
-  ModificationRequestPageDTO,
-} from '@modules/modificationRequest'
+import { GetModificationRequestDetails } from '@modules/modificationRequest'
 import { EntityNotFoundError } from '@modules/shared'
 import models from '../../models'
 
@@ -45,6 +42,7 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
             'numeroGestionnaire',
             'completionDueOn',
             'potentielIdentifier',
+            'technologie',
           ],
         },
         {
@@ -91,36 +89,39 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
       cancelledOn,
     } = modificationRequestRaw.get()
 
-    const { appelOffreId, periodeId } = project
-    const unitePuissance = getProjectAppelOffre({ appelOffreId, periodeId })?.unitePuissance || '??'
+    const { appelOffreId, periodeId, notifiedOn, completionDueOn, technologie } = project.get()
+    const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId })
 
     return ok({
       id,
       type,
-      versionDate,
+      versionDate: new Date(versionDate).getTime(),
       status,
-      requestedOn: new Date(requestedOn),
+      requestedOn: new Date(requestedOn).getTime(),
       requestedBy: requestedBy.get().fullName,
-      respondedOn: respondedOn && new Date(respondedOn),
+      respondedOn: respondedOn && new Date(respondedOn).getTime(),
       respondedBy: respondedByUser?.get().fullName,
       responseFile: responseFile?.get(),
-      cancelledOn: cancelledOn && new Date(cancelledOn),
+      cancelledOn: cancelledOn && new Date(cancelledOn).getTime(),
       cancelledBy: cancelledByUser?.get().fullName,
       acceptanceParams,
       justification,
       attachmentFile: attachmentFile?.get(),
       delayInMonths,
-      puissance,
       actionnaire,
       fournisseurs,
       evaluationCarbone,
       producteur,
       project: {
         ...project.get(),
-        notifiedOn: new Date(project.notifiedOn),
-        completionDueOn: new Date(project.completionDueOn),
-        unitePuissance,
+        notifiedOn: new Date(notifiedOn).getTime(),
+        completionDueOn: new Date(completionDueOn).getTime(),
+        unitePuissance: appelOffre?.unitePuissance || '??',
+        technologie: technologie || 'N/A',
       },
-    } as ModificationRequestPageDTO)
+      ...(type === 'puissance' && {
+        puissance,
+      }),
+    })
   })
 }

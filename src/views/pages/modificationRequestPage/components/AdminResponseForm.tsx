@@ -27,7 +27,7 @@ export const AdminResponseForm = ({
     >
       <input type="hidden" name="modificationRequestId" value={modificationRequest.id} />
       <input type="hidden" name="type" value={modificationRequest.type} />
-      <input type="hidden" name="versionDate" value={versionDate.getTime()} />
+      <input type="hidden" name="versionDate" value={versionDate} />
 
       {role !== 'dreal' && (
         <div className="form__group" style={{ marginBottom: 20 }}>
@@ -41,7 +41,7 @@ export const AdminResponseForm = ({
             Demande traitée hors Potentiel
           </label>
           <div style={{ fontSize: 11, lineHeight: '1.5em', marginTop: 3 }}>
-            En cochant cette case, seul le statut de la demande sera mise à jour. La réponse n‘aura
+            En cochant cette case, seul le statut de la demande sera mis à jour. La réponse n‘aura
             pas d‘impact sur le projet et le porteur de projet ne sera pas notifié.
           </div>
         </div>

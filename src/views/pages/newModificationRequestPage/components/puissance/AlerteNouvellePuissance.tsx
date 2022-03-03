@@ -1,55 +1,44 @@
+import { ProjectAppelOffre, Technologie } from '@entities'
 import React from 'react'
-import { dataId } from '../../../../../helpers/testId'
-
-type AlertOnPuissanceValueProps =
-  | {
-      reason: 'puissance-max-volume-reseve-depassée'
-      puissanceMax: number
-    }
-  | {
-      reason: 'hors-ratios-autorisés'
-      ratios: {
-        min: number
-        max: number
-      }
-    }
-
-export const AlerteNouvellePuissance = (props: AlertOnPuissanceValueProps) => (
-  <div
-    className="notification warning mt-3"
-    {...dataId('modificationRequest-puissance-error-message-out-of-bounds')}
-  >
-    {props.reason === 'hors-ratios-autorisés' ? (
-      <AlertePuissanceHorsRatios {...props} />
-    ) : (
-      <AlertePuissanceMaxDepassee {...props} />
-    )}
-  </div>
-)
+import { getRatiosChangementPuissance, getVolumeReserve } from '@modules/modificationRequest'
 
 type AlertOnPuissanceExceedMaxProps = {
-  puissanceMax: number
-}
-const AlertePuissanceMaxDepassee = ({ puissanceMax }: AlertOnPuissanceExceedMaxProps) => (
-  <>
-    Une autorisation est nécessaire si la modification de puissance dépasse la puissance maximum de{' '}
-    {puissanceMax} MW du volume reservé de l'appel d'offre. Dans ce cas{' '}
-    <strong>il est nécessaire de joindre un justificatif à votre demande</strong>.
-  </>
-)
-
-type AlertOnPuissanceOutsideRatiosProps = {
-  ratios: {
-    min: number
-    max: number
+  project: {
+    appelOffre?: ProjectAppelOffre
   }
 }
-export const AlertePuissanceHorsRatios = ({
-  ratios: { min, max },
-}: AlertOnPuissanceOutsideRatiosProps) => (
-  <>
-    Une autorisation est nécessaire si la modification de puissance est inférieure à{' '}
-    {Math.round(min * 100)}% de la puissance initiale ou supérieure à {Math.round(max * 100)}%. Dans
-    ces cas <strong>il est nécessaire de joindre un justificatif à votre demande</strong>.
-  </>
-)
+export const AlertePuissanceMaxDepassee = ({ project }: AlertOnPuissanceExceedMaxProps) => {
+  if (!project.appelOffre) {
+    return null
+  }
+
+  const { appelOffre } = project
+  const reservedVolume = getVolumeReserve(appelOffre)
+
+  return reservedVolume ? (
+    <>
+      Une autorisation est nécessaire si la modification de puissance dépasse la puissance maximum
+      de {reservedVolume.puissanceMax} {appelOffre.unitePuissance} du volume reservé de l'appel
+      d'offre. Dans ce cas{' '}
+      <strong>il est nécessaire de joindre un justificatif à votre demande</strong>.
+    </>
+  ) : null
+}
+
+type AlertOnPuissanceOutsideRatiosProps = {
+  project: {
+    appelOffre?: ProjectAppelOffre
+    technologie: Technologie
+  }
+}
+export const AlertePuissanceHorsRatios = ({ project }: AlertOnPuissanceOutsideRatiosProps) => {
+  const { min, max } = getRatiosChangementPuissance(project)
+
+  return (
+    <>
+      Une autorisation est nécessaire si la modification de puissance est inférieure à{' '}
+      {Math.round(min * 100)}% de la puissance initiale ou supérieure à {Math.round(max * 100)}%.
+      Dans ces cas <strong>il est nécessaire de joindre un justificatif à votre demande</strong>.
+    </>
+  )
+}

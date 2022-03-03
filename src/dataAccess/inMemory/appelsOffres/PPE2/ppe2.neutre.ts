@@ -34,7 +34,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
   afficherPhraseRegionImplantation: false,
   afficherValeurEvaluationCarbone: true,
   changementPuissance: {
-    autoAcceptRatios: {
+    ratios: {
       min: 0.8,
       max: 1.2,
     },

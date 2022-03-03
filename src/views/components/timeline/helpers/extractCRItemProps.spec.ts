@@ -1,4 +1,4 @@
-import { ProjectImportedDTO, ProjectNotifiedDTO } from 'src/modules/frise/dtos/ProjectEventListDTO'
+import { ProjectImportedDTO, ProjectNotifiedDTO } from '@modules/frise'
 import { extractCRItemProps } from './extractCRItemProps'
 
 describe('extractCRItemProps', () => {

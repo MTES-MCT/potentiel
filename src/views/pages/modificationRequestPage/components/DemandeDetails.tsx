@@ -12,14 +12,8 @@ interface DemandeDetailsProps {
 }
 
 export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => {
-  const {
-    requestedBy,
-    requestedOn,
-    justification,
-    project,
-    attachmentFile,
-    status,
-  } = modificationRequest
+  const { requestedBy, requestedOn, justification, project, attachmentFile, status } =
+    modificationRequest
   return (
     <div className="panel__header">
       <div>
@@ -54,21 +48,15 @@ export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => 
         )
       ) : null}
       {modificationRequest.type === 'puissance' && (
-        <div style={{ marginTop: 5 }}>
+        <div className="flex flex-col" style={{ marginTop: 5 }}>
           <span>
             Puissance à la notification : {modificationRequest.project.puissanceInitiale}{' '}
             {modificationRequest.project.unitePuissance}
           </span>
-
-          <br />
-
           <span>
             Puissance actuelle : {modificationRequest.project.puissance}{' '}
             {modificationRequest.project.unitePuissance}
           </span>
-
-          <br />
-
           <span>
             Nouvelle puissance demandée : {modificationRequest.puissance}{' '}
             {modificationRequest.project.unitePuissance}

@@ -33,7 +33,8 @@ describe('requestPuissanceModification use-case', () => {
       projectRepo,
       eventBus,
       shouldUserAccessProject,
-      isModificationPuissanceAuto: () => ({ isAuto: true }),
+      exceedsRatiosChangementPuissance: () => false,
+      exceedsPuissanceMaxDuVolumeReserve: () => false,
       fileRepo: fileRepo as Repository<FileObject>,
     })
     const newPuissance = 89
@@ -61,11 +62,8 @@ describe('requestPuissanceModification use-case', () => {
         projectRepo,
         eventBus,
         shouldUserAccessProject,
-        isModificationPuissanceAuto: () => ({
-          isAuto: false,
-          reason: 'hors-ratios-autorisés',
-          ratios: { min: 0.9, max: 1.1 },
-        }),
+        exceedsRatiosChangementPuissance: () => true,
+        exceedsPuissanceMaxDuVolumeReserve: () => false,
         fileRepo: fileRepo as Repository<FileObject>,
       })
 
@@ -115,7 +113,7 @@ describe('requestPuissanceModification use-case', () => {
           const event = eventBus.publish.mock.calls[0][0]
           expect(event).toBeInstanceOf(ModificationRequested)
 
-          const { type, puissance, justification } = event.payload
+          const { type, puissance } = event.payload
           expect(type).toEqual('puissance')
           expect(puissance).toEqual(newPuissance)
         })
@@ -137,7 +135,8 @@ describe('requestPuissanceModification use-case', () => {
         projectRepo,
         eventBus,
         shouldUserAccessProject,
-        isModificationPuissanceAuto: () => ({ isAuto: true }),
+        exceedsRatiosChangementPuissance: () => false,
+        exceedsPuissanceMaxDuVolumeReserve: () => false,
         fileRepo: fileRepo as Repository<FileObject>,
       })
       const newPuissance = 105

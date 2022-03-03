@@ -16,14 +16,8 @@ interface DemandeStatusProps {
 }
 
 export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps) => {
-  const {
-    respondedOn,
-    respondedBy,
-    cancelledOn,
-    cancelledBy,
-    responseFile,
-    status,
-  } = modificationRequest
+  const { respondedOn, respondedBy, cancelledOn, cancelledBy, responseFile, status } =
+    modificationRequest
   return (
     <div
       className={'notification ' + (status ? ModificationRequestColorByStatus[status] : '')}
@@ -91,7 +85,7 @@ const Confirmation = ({ modificationRequest, role }: ConfirmationProps) => {
       <div>
         <form action={ROUTES.CONFIRMER_DEMANDE_ACTION} method="post" style={{ margin: 0 }}>
           <input type="hidden" name="modificationRequestId" value={id} />
-          <input type="hidden" name="versionDate" value={versionDate.getTime()} />
+          <input type="hidden" name="versionDate" value={versionDate} />
           <button className="button" type="submit" {...dataId('submit-button')}>
             Je confirme ma demande
           </button>

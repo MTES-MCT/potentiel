@@ -37,7 +37,7 @@ const eolien: AppelOffre = {
   afficherValeurEvaluationCarbone: false,
   soumisAuxGarantiesFinancieres: true,
   changementPuissance: {
-    autoAcceptRatios: {
+    ratios: {
       min: 0.9,
       max: 1.1,
     },

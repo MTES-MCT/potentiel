@@ -4,7 +4,7 @@ import { Famille } from './famille'
 export const technologies = ['pv', 'eolien', 'hydraulique', 'N/A'] as const
 export type Technologie = typeof technologies[number]
 
-type AutoAcceptRatios = {
+type Ratios = {
   min: number
   max: number
 }
@@ -12,11 +12,11 @@ type AutoAcceptRatios = {
 type ChangementPuissance =
   | {
       changementByTechnologie?: undefined
-      autoAcceptRatios: AutoAcceptRatios
+      ratios: Ratios
     }
   | {
       changementByTechnologie: true
-      autoAcceptRatios: { [key in Exclude<Technologie, 'N/A'>]: AutoAcceptRatios }
+      ratios: { [key in Exclude<Technologie, 'N/A'>]: Ratios }
     }
 
 type AppelOffreTypes =

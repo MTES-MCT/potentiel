@@ -7,7 +7,6 @@ import AdminRegenerateCertificates from './adminRegenerateCertificates'
 import AdminUsers from './adminUsers'
 import DrealList from './drealList'
 import ImportCandidates from './importCandidates'
-import ModificationRequestDetails from './modificationRequestDetails'
 import InvitationList from './invitationList'
 import NotificationList from './notificationList'
 import ModificationRequestList from './modificationRequestList'
@@ -24,7 +23,6 @@ const ListProjectsPage = makePresenterPage(ListProjects)
 const DrealListPage = makePresenterPage(DrealList)
 const InvitationListPage = makePresenterPage(InvitationList)
 const NotificationListPage = makePresenterPage(NotificationList)
-const ModificationRequestDetailsPage = makePresenterPage(ModificationRequestDetails)
 const ModificationRequestListPage = makePresenterPage(ModificationRequestList)
 const SuccessOrErrorPage = makePresenterPage(SuccessOrError)
 const AdminAppelOffrePage = makePresenterPage(AdminAppelOffre)
@@ -40,7 +38,6 @@ export {
   DrealListPage,
   InvitationListPage,
   NotificationListPage,
-  ModificationRequestDetailsPage,
   ModificationRequestListPage,
   SuccessOrErrorPage as SuccessPage,
   AdminAppelOffrePage,
