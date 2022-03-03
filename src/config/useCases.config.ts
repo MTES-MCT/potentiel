@@ -38,6 +38,7 @@ import {
   hasProjectGarantieFinanciere,
   getProjectDataForProjectClaim,
   isProjectParticipatif,
+  getPuissanceProjet,
 } from './queries.config'
 import { makeClaimProject } from '@modules/projectClaim'
 import {
@@ -125,6 +126,7 @@ export const requestPuissanceModification = makeRequestPuissanceModification({
   exceedsPuissanceMaxDuVolumeReserve,
   projectRepo,
   fileRepo,
+  getPuissanceProjet,
 })
 
 export const requestActionnaireModification = makeRequestActionnaireModification({

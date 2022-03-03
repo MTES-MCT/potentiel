@@ -85,6 +85,10 @@ export const MakeModificationRequestModel = (sequelize) => {
         type: DataTypes.DOUBLE,
         allowNull: true,
       },
+      puissanceAuMomentDuDepot: {
+        type: DataTypes.DOUBLE,
+        allowNull: true,
+      },
       evaluationCarbone: {
         type: DataTypes.DOUBLE,
         allowNull: true,

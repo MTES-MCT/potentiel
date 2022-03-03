@@ -1,23 +1,29 @@
 import { BaseDomainEvent, DomainEvent } from '@core/domain'
 
-export interface ModificationRequestedPayload {
-  type: string
+export type ModificationRequestedPayload = {
   modificationRequestId: string
   projectId: string
   requestedBy: string
   authority: 'dgec' | 'dreal'
   fileId?: string
   justification?: string
-  actionnaire?: string
-  producteur?: string
-  fournisseur?: string
-  puissance?: number
-  evaluationCarbone?: number
-  delayInMonths?: number
-}
+} & (
+  | {
+      type: 'puissance'
+      puissance: number
+      puissanceAuMomentDuDepot?: number // added later, so not always present
+    }
+  | { type: 'actionnaire'; actionnaire: string }
+  | { type: 'producteur'; producteur: string }
+  | { type: 'fournisseur'; fournisseur: string; evaluationCarbone: number }
+  | { type: 'delai'; delayInMonths: number }
+  | { type: 'abandon' }
+  | { type: 'recours' }
+)
 export class ModificationRequested
   extends BaseDomainEvent<ModificationRequestedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ModificationRequested' = 'ModificationRequested'
   public type = ModificationRequested.type
   currentVersion = 1

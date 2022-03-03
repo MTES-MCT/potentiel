@@ -6,5 +6,6 @@ export * from './getModificationRequestListForUser';
 export * from './getModificationRequestRecipient';
 export * from './getModificationRequestStatus';
 export * from './getProjectAppelOffreId';
+export * from './getPuissanceProjet';
 export * from './hasProjectGarantieFinanciere';
 export * from './isProjectParticipatif';

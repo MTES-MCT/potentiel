@@ -1,38 +1,39 @@
 import { logger } from '@core/utils'
 import { ModificationRequested } from '@modules/modificationRequest'
 
-export const onModificationRequested = (models) => async (event: ModificationRequested) => {
-  const ModificationRequestModel = models.ModificationRequest
+export const onModificationRequested =
+  (models) =>
+  async ({ payload, occurredAt }: ModificationRequested) => {
+    const ModificationRequestModel = models.ModificationRequest
 
-  const {
-    modificationRequestId,
-    type,
-    projectId,
-    fileId,
-    justification,
-    requestedBy,
-    puissance,
-    delayInMonths,
-    actionnaire,
-    authority,
-  } = event.payload
-  try {
-    await ModificationRequestModel.create({
-      id: modificationRequestId,
-      projectId,
+    const {
+      modificationRequestId,
       type,
-      requestedOn: event.occurredAt.getTime(),
-      versionDate: event.occurredAt,
-      status: 'envoyée',
+      projectId,
       fileId,
-      userId: requestedBy,
       justification,
-      puissance,
-      delayInMonths,
-      actionnaire,
+      requestedBy,
       authority,
-    })
-  } catch (e) {
-    logger.error(e)
+    } = payload
+    try {
+      await ModificationRequestModel.create({
+        id: modificationRequestId,
+        projectId,
+        type,
+        requestedOn: occurredAt.getTime(),
+        versionDate: occurredAt,
+        status: 'envoyée',
+        fileId,
+        userId: requestedBy,
+        justification,
+        puissance: type === 'puissance' ? payload.puissance : undefined,
+        puissanceAuMomentDuDepot:
+          type === 'puissance' ? payload.puissanceAuMomentDuDepot : undefined,
+        delayInMonths: type === 'delai' ? payload.delayInMonths : undefined,
+        actionnaire: type === 'actionnaire' ? payload.actionnaire : undefined,
+        authority,
+      })
+    } catch (e) {
+      logger.error(e)
+    }
   }
-}

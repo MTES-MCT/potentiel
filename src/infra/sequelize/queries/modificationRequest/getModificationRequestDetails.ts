@@ -81,6 +81,7 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
       versionDate,
       delayInMonths,
       puissance,
+      puissanceAuMomentDuDepot,
       actionnaire,
       fournisseurs,
       evaluationCarbone,
@@ -120,6 +121,7 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
         technologie: technologie || 'N/A',
       },
       ...(type === 'puissance' && {
+        puissanceAuMomentDuDepot,
         puissance,
       }),
     })

@@ -1,24 +1,28 @@
 import { BaseDomainEvent, DomainEvent } from '@core/domain'
 import { Fournisseur } from '../../project/types/fournisseur'
 
-export interface ModificationReceivedPayload {
+export type ModificationReceivedPayload = {
   modificationRequestId: string
-  type: string
   projectId: string
   requestedBy: string
   authority: 'dgec' | 'dreal'
-  puissance?: number
-  actionnaire?: string
-  producteur?: string
-  fournisseurs?: Fournisseur[]
-  evaluationCarbone?: number
   justification?: string
   fileId?: string
-}
+} & (
+  | {
+      type: 'puissance'
+      puissance: number
+      puissanceAuMomentDuDepot?: number // added later, so not always present
+    }
+  | { type: 'actionnaire'; actionnaire: string }
+  | { type: 'producteur'; producteur: string }
+  | { type: 'fournisseur'; fournisseurs?: Fournisseur[]; evaluationCarbone?: number }
+)
 
 export class ModificationReceived
   extends BaseDomainEvent<ModificationReceivedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ModificationReceived' = 'ModificationReceived'
   public type = ModificationReceived.type
   currentVersion = 1

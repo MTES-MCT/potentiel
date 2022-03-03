@@ -4,7 +4,7 @@ import {
   PuissanceJustificationOrCourrierMissingError,
 } from '..'
 import { EventBus, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
-import { errAsync, logger, okAsync, ResultAsync, wrapInfra } from '@core/utils'
+import { errAsync, logger, okAsync, ok, ResultAsync, wrapInfra } from '@core/utils'
 import { User } from '@entities'
 import { FileContents, FileObject, makeAndSaveFile } from '../../file'
 import { ProjectCannotBeUpdatedIfUnnotifiedError } from '../../project'
@@ -21,6 +21,9 @@ interface RequestPuissanceModificationDeps {
   eventBus: EventBus
   exceedsRatiosChangementPuissance: ExceedsRatiosChangementPuissance
   exceedsPuissanceMaxDuVolumeReserve: ExceedsPuissanceMaxDuVolumeReserve
+  getPuissanceProjet: (
+    projectId: string
+  ) => ResultAsync<number, EntityNotFoundError | InfraNotAvailableError>
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
   projectRepo: TransactionalRepository<Project>
   fileRepo: Repository<FileObject>
@@ -142,22 +145,44 @@ export const makeRequestPuissanceModification =
         }): ResultAsync<null, AggregateHasBeenUpdatedSinceError | InfraNotAvailableError> => {
           const { newPuissanceIsAutoAccepted, fileId } = args
 
-          const payload = {
-            modificationRequestId: new UniqueEntityID().toString(),
-            projectId: projectId.toString(),
-            requestedBy: requestedBy.id,
-            type: 'puissance',
-            puissance: newPuissance,
-            justification,
-            fileId,
-            authority: 'dreal' as 'dreal',
-          }
+          const modificationRequestId = new UniqueEntityID().toString()
 
-          return eventBus.publish(
-            newPuissanceIsAutoAccepted
-              ? new ModificationReceived({ payload })
-              : new ModificationRequested({ payload })
-          )
+          return deps
+            .getPuissanceProjet(projectId.toString())
+            .orElse(() => ok(-1))
+            .andThen((puissanceActuelle) => {
+              const puissanceAuMomentDuDepot =
+                puissanceActuelle !== -1 ? puissanceActuelle : undefined
+              return eventBus.publish(
+                newPuissanceIsAutoAccepted
+                  ? new ModificationReceived({
+                      payload: {
+                        modificationRequestId,
+                        projectId: projectId.toString(),
+                        requestedBy: requestedBy.id,
+                        type: 'puissance',
+                        puissance: newPuissance,
+                        puissanceAuMomentDuDepot,
+                        justification,
+                        fileId,
+                        authority: 'dreal',
+                      },
+                    })
+                  : new ModificationRequested({
+                      payload: {
+                        modificationRequestId,
+                        projectId: projectId.toString(),
+                        requestedBy: requestedBy.id,
+                        type: 'puissance',
+                        puissance: newPuissance,
+                        puissanceAuMomentDuDepot,
+                        justification,
+                        fileId,
+                        authority: 'dreal',
+                      },
+                    })
+              )
+            })
         }
       )
   }
