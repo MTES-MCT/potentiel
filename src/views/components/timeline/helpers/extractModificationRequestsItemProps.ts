@@ -35,8 +35,9 @@ export const extractModificationRequestsItemProps = (
   const modificationRequestGroups =
     getEventsGroupedByModificationRequestId(modificationRequestEvents)
 
-  const propsArray: ModificationRequestItemProps[] = Object.entries(modificationRequestGroups).map(
-    ([, events]) => {
+  const propsArray: ModificationRequestItemProps[] = Object.entries(modificationRequestGroups)
+    .filter(([, events]) => events.find(is('ModificationRequested')))
+    .map(([, events]) => {
       const latestEvent = getLatestEvent(events)
       const requestEvent = getRequestEvent(events)
 
@@ -65,8 +66,7 @@ export const extractModificationRequestsItemProps = (
             role,
             url,
           }
-    }
-  )
+    })
   return propsArray
 }
 

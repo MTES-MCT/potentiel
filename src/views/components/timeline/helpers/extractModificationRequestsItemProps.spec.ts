@@ -23,6 +23,50 @@ describe('extractModificationRequestItemProps', () => {
       expect(result).toHaveLength(0)
     })
   })
+  describe('when there are some ModificationRequestXxxed events without a ModificationRequested', () => {
+    it('should return an empty array', () => {
+      const projectEventList: ProjectEventDTO[] = [
+        {
+          type: 'ModificationRequestRejected',
+          date: new Date('2022-02-10').getTime(),
+          variant: 'porteur-projet',
+          modificationRequestId: new UniqueEntityID().toString(),
+        },
+        {
+          type: 'ModificationRequestAccepted',
+          date: new Date('2022-02-09').getTime(),
+          variant: 'porteur-projet',
+          modificationRequestId: new UniqueEntityID().toString(),
+        },
+        {
+          type: 'ModificationRequestCancelled',
+          date: new Date('2022-02-09').getTime(),
+          variant: 'porteur-projet',
+          modificationRequestId: new UniqueEntityID().toString(),
+        },
+        {
+          type: 'ModificationRequestConfirmed',
+          date: new Date('2022-02-09').getTime(),
+          variant: 'porteur-projet',
+          modificationRequestId: new UniqueEntityID().toString(),
+        },
+        {
+          type: 'ModificationRequestInstructionStarted',
+          date: new Date('2022-02-09').getTime(),
+          variant: 'porteur-projet',
+          modificationRequestId: new UniqueEntityID().toString(),
+        },
+        {
+          type: 'ModificationRequestRejected',
+          date: new Date('2022-02-09').getTime(),
+          variant: 'porteur-projet',
+          modificationRequestId: new UniqueEntityID().toString(),
+        },
+      ]
+      const result = extractModificationRequestsItemProps(projectEventList)
+      expect(result).toHaveLength(0)
+    })
+  })
   describe('when there are several ModificationRequested events with different modificationRequestId', () => {
     it('should return an array with props for each modification request id', () => {
       const firstModificationRequestId = new UniqueEntityID().toString()
