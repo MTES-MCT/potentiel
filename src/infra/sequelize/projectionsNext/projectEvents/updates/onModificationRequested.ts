@@ -6,7 +6,8 @@ export default ProjectEvent.projector.on(
   ModificationRequested,
   async ({ payload, occurredAt }, transaction) => {
     const { projectId, type, modificationRequestId, authority } = payload
-    if (!['delai', 'abandon', 'recours'].includes(type)) {
+
+    if (!['delai', 'abandon', 'recours', 'puissance'].includes(type)) {
       return
     }
 
@@ -22,6 +23,7 @@ export default ProjectEvent.projector.on(
           modificationRequestId,
           authority,
           ...(type === 'delai' && { delayInMonths: payload.delayInMonths }),
+          ...(type === 'puissance' && { puissance: payload.puissance }),
         },
       },
       { transaction }
