@@ -31,11 +31,8 @@ export type ProjectEventDTO =
   | ModificationRequestInstructionStartedDTO
   | ConfirmationRequestedDTO
   | ModificationRequestConfirmedDTO
-<<<<<<< HEAD
   | ModificationReceivedDTO
-=======
   | LegacyModificationImportedDTO
->>>>>>> :wrench: Update getProjectEvents with legacy modification events
 
 type File = {
   id: string
@@ -266,7 +263,6 @@ export type ModificationRequestDTO =
   | ConfirmationRequestedDTO
   | ModificationRequestConfirmedDTO
 
-<<<<<<< HEAD
 export type ModificationReceivedDTO = {
   type: 'ModificationReceived'
   date: number
@@ -276,7 +272,8 @@ export type ModificationReceivedDTO = {
   | { modificationType: 'producteur'; producteur: string }
   | { modificationType: 'fournisseur'; fournisseurs: Fournisseur[] }
   | { modificationType: 'puissance'; puissance: number; unitePuissance?: string }
-=======
+)
+
 export type LegacyModificationImportedDTO = {
   type: 'LegacyModificationImported'
   date: number
@@ -291,7 +288,7 @@ export type LegacyModificationImportedDTO = {
     }
   | { modificationType: 'actionnaire'; actionnairePrecedent: string }
   | { modificationType: 'producteur'; producteurPrecedent: string }
->>>>>>> :wrench: Update getProjectEvents with legacy modification events
+  | { modificationType: 'autre'; column: string; value: string }
 )
 
 export type ProjectEventListDTO = {

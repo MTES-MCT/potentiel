@@ -319,4 +319,67 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
       })
     })
   })
+
+  describe('when there is a legacy modification of type "autre"', () => {
+    describe('when user is not ademe', () => {
+      for (const role of USER_ROLES.filter((role) => role !== 'ademe')) {
+        describe(`when the user is ${role}`, () => {
+          const fakeUser = { role } as User
+
+          it('should return the legacy "autre" modification', async () => {
+            const date = new Date('2022-02-09')
+
+            await ProjectEvent.create({
+              id: new UniqueEntityID().toString(),
+              projectId,
+              type: 'LegacyModificationImported',
+              valueDate: date.getTime(),
+              eventPublishedAt: date.getTime(),
+              payload: {
+                modificationType: 'autre',
+                column: 'col',
+                value: 'val',
+              },
+            })
+
+            const result = await getProjectEvents({ projectId, user: fakeUser })
+            expect(result._unsafeUnwrap()).toMatchObject({
+              events: [
+                {
+                  type: 'LegacyModificationImported',
+                  date: date.getTime(),
+                  variant: role,
+                  modificationType: 'autre',
+                  column: 'col',
+                  value: 'val',
+                },
+              ],
+            })
+          })
+        })
+      }
+    })
+    describe('when the user is ademe', () => {
+      it('should not return the legacy producteur modification', async () => {
+        const fakeUser = { role: 'ademe' } as User
+        const date = new Date('2022-02-09')
+        await ProjectEvent.create({
+          id: new UniqueEntityID().toString(),
+          projectId,
+          type: 'LegacyModificationImported',
+          valueDate: date.getTime(),
+          eventPublishedAt: date.getTime(),
+          payload: {
+            modificationType: 'producteur',
+            producteurPrecedent: 'nom producteur précédent',
+          },
+        })
+
+        const result = await getProjectEvents({ projectId, user: fakeUser })
+        expect(result._unsafeUnwrap()).toMatchObject({
+          events: [],
+        })
+      })
+    })
+  })
 })

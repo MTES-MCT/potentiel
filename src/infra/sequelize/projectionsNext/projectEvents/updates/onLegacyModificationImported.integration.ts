@@ -105,6 +105,13 @@ describe('onLegacyModificationImported', () => {
                 type: 'producteur',
                 producteurPrecedent: 'nom ancien producteur',
               },
+              {
+                modifiedOn: new Date('2022-01-01').getTime(),
+                modificationId: new UniqueEntityID().toString(),
+                type: 'autre',
+                column: 'col',
+                value: 'val',
+              },
             ],
           },
           original: {
@@ -118,7 +125,7 @@ describe('onLegacyModificationImported', () => {
         where: { projectId: projectId.toString() },
       })
 
-      expect(projectEvent).toHaveLength(5)
+      expect(projectEvent).toHaveLength(6)
       expect(projectEvent[0]).toMatchObject({
         type: 'LegacyModificationImported',
         payload: { modificationType: 'abandon' },
@@ -145,6 +152,10 @@ describe('onLegacyModificationImported', () => {
       expect(projectEvent[4]).toMatchObject({
         type: 'LegacyModificationImported',
         payload: { modificationType: 'producteur', producteurPrecedent: 'nom ancien producteur' },
+      })
+      expect(projectEvent[5]).toMatchObject({
+        type: 'LegacyModificationImported',
+        payload: { modificationType: 'autre', column: 'col', value: 'val' },
       })
     })
   })

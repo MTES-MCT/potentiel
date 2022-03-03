@@ -57,6 +57,7 @@ const Title = (props: LegacyModificationsItemProps) => {
       recours: `de recours`,
       producteur: 'de changement de producteur',
       actionnaire: "de changement d'actionnaire",
+      autre: 'de modification',
     }
 
   return (
@@ -77,6 +78,11 @@ const Title = (props: LegacyModificationsItemProps) => {
       )}
       {modificationType === 'actionnaire' && (
         <p className="p-0 m-0">Actionnaire précédent : {props.actionnairePrecedent}</p>
+      )}
+      {modificationType === 'autre' && (
+        <p className="p-0 m-0">
+          {props.column} : {props.value}
+        </p>
       )}
       <p className="p-0 m-0 italic">
         *Cette démarche a été réalisée avant l'import du projet dans Potentiel

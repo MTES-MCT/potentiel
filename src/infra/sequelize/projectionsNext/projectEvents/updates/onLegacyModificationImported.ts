@@ -1,7 +1,6 @@
 import { LegacyModificationImported } from '@modules/modificationRequest'
 import { UniqueEntityID } from '@core/domain'
 import { ProjectEvent } from '../projectEvent.model'
-import { logger } from '@core/utils'
 
 export default ProjectEvent.projector.on(
   LegacyModificationImported,
@@ -69,6 +68,19 @@ export default ProjectEvent.projector.on(
               payload: {
                 modificationType: 'producteur',
                 producteurPrecedent: modification.producteurPrecedent,
+              },
+            },
+            { transaction }
+          )
+          break
+        case 'autre':
+          await ProjectEvent.create(
+            {
+              ...common,
+              payload: {
+                modificationType: 'autre',
+                column: modification.column,
+                value: modification.value,
               },
             },
             { transaction }

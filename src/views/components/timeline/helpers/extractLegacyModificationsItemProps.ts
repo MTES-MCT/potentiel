@@ -28,6 +28,12 @@ export type LegacyModificationsItemProps = {
       actionnairePrecedent: string
       status: 'acceptée'
     }
+  | {
+      modificationType: 'autre'
+      column: string
+      value: string
+      status: 'acceptée'
+    }
 )
 
 export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) => {
@@ -85,6 +91,16 @@ export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) =
           date: event.date,
           modificationType: 'producteur',
           producteurPrecedent: event.producteurPrecedent,
+          status: 'acceptée',
+        })
+        break
+      case 'autre':
+        propsArray.push({
+          type: 'modification-historique',
+          date: event.date,
+          modificationType: 'autre',
+          column: event.column,
+          value: event.value,
           status: 'acceptée',
         })
         break

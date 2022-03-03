@@ -150,4 +150,32 @@ describe('extractLegacyModificationsItemProps', () => {
       ])
     })
   })
+
+  describe('when there is a legacy "autre" modification', () => {
+    it('should return an array with legacy "autre" modification props', () => {
+      const date = new Date('2022-03-02').getTime()
+      const projectEventList: ProjectEventDTO[] = [
+        {
+          type: 'LegacyModificationImported',
+          date,
+          variant: 'admin',
+          modificationType: 'autre',
+          column: 'col',
+          value: 'val',
+        } as LegacyModificationImportedDTO,
+      ]
+      const result = extractLegacyModificationsItemProps(projectEventList)
+      expect(result).toHaveLength(1)
+      expect(result).toEqual([
+        {
+          type: 'modification-historique',
+          date,
+          status: 'acceptée',
+          modificationType: 'autre',
+          column: 'col',
+          value: 'val',
+        },
+      ])
+    })
+  })
 })
