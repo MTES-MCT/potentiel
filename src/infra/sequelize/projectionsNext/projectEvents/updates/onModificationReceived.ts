@@ -8,22 +8,51 @@ export default ProjectEvent.projector.on(
     { payload: { projectId, type, producteur, actionnaire, fournisseurs }, occurredAt },
     transaction
   ) => {
-    await ProjectEvent.create(
-      {
-        projectId,
-        type: ModificationReceived.type,
-        valueDate: occurredAt.getTime(),
-        eventPublishedAt: occurredAt.getTime(),
-        id: new UniqueEntityID().toString(),
+    const common = {
+      projectId,
+      type: ModificationReceived.type,
+      valueDate: occurredAt.getTime(),
+      eventPublishedAt: occurredAt.getTime(),
+      id: new UniqueEntityID().toString(),
+    }
 
-        payload: {
-          modificationType: type,
-          ...(type === 'producteur' && { producteur }),
-          ...(type === 'actionnaire' && { actionnaire }),
-          ...(type === 'fournisseurs' && { fournisseurs }),
-        },
-      },
-      { transaction }
-    )
+    switch (type) {
+      case 'producteur':
+        await ProjectEvent.create(
+          {
+            ...common,
+            payload: {
+              modificationType: type,
+              producteur,
+            },
+          },
+          { transaction }
+        )
+        break
+      case 'actionnaire':
+        await ProjectEvent.create(
+          {
+            ...common,
+            payload: {
+              modificationType: type,
+              actionnaire,
+            },
+          },
+          { transaction }
+        )
+        break
+      case 'fournisseurs':
+        await ProjectEvent.create(
+          {
+            ...common,
+            payload: {
+              modificationType: type,
+              fournisseurs,
+            },
+          },
+          { transaction }
+        )
+        break
+    }
   }
 )
