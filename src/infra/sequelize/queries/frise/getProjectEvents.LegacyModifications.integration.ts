@@ -33,7 +33,8 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
               eventPublishedAt: date.getTime(),
               payload: {
                 modificationType: 'delai',
-                delayInMonths: 10,
+                ancienneDateLimiteAchevement: new Date('2022-01-01').getTime(),
+                nouvelleDateLimiteAchevement: new Date('2024-01-01').getTime(),
               },
             })
 
@@ -45,7 +46,8 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
                   date: date.getTime(),
                   variant: role,
                   modificationType: 'delai',
-                  delayInMonths: 10,
+                  ancienneDateLimiteAchevement: new Date('2022-01-01').getTime(),
+                  nouvelleDateLimiteAchevement: new Date('2024-01-01').getTime(),
                 },
               ],
             })

@@ -80,7 +80,8 @@ describe('extractLegacyModificationsItemProps', () => {
           date,
           variant: 'admin',
           modificationType: 'delai',
-          delayInMonths: 10,
+          ancienneDateLimiteAchevement: new Date('2022-01-01').getTime(),
+          nouvelleDateLimiteAchevement: new Date('2024-01-01').getTime(),
         } as LegacyModificationImportedDTO,
       ]
       const result = extractLegacyModificationsItemProps(projectEventList)
@@ -91,7 +92,8 @@ describe('extractLegacyModificationsItemProps', () => {
           date,
           status: 'acceptée',
           modificationType: 'delai',
-          delayInMonths: 10,
+          ancienneDateLimiteAchevement: new Date('2022-01-01').getTime(),
+          nouvelleDateLimiteAchevement: new Date('2024-01-01').getTime(),
         },
       ])
     })

@@ -1,15 +1,7 @@
 import React from 'react'
-import {
-  ItemDate,
-  ItemTitle,
-  ContentArea,
-  CurrentIcon,
-  PastIcon,
-  UnvalidatedStepIcon,
-  InfoItem,
-} from '.'
+import { ItemDate, ItemTitle, ContentArea, PastIcon, UnvalidatedStepIcon } from '.'
 import { LegacyModificationsItemProps } from '../helpers'
-import { CancelledStepIcon } from './cancelledStepIcon'
+import { formatDate } from '../../../../helpers/formatDate'
 
 export const LegacyModificationsItem = (props: LegacyModificationsItemProps) => {
   const { status } = props
@@ -69,12 +61,16 @@ const Title = (props: LegacyModificationsItemProps) => {
 
   return (
     <>
-      <ItemTitle title={`Demande ${libelleTypeDemande[modificationType]} ${status}`} />
-      <p className="p-0 m-0">
-        Cette démarche a été réalisée avant l'import du projet dans Potentiel
-      </p>
+      <ItemTitle title={`Demande ${libelleTypeDemande[modificationType]} ${status}*`} />
       {modificationType === 'delai' && (
-        <p className="p-0 m-0">Délai demandé : {props.delayInMonths} mois</p>
+        <>
+          <p className="p-0 m-0">
+            Ancienne date limite d'achèvement : {formatDate(props.ancienneDateLimiteAchevement)}
+          </p>
+          <p className="p-0 m-0">
+            Nouvelle date limite d'achèvement : {formatDate(props.nouvelleDateLimiteAchevement)}
+          </p>
+        </>
       )}
       {modificationType === 'producteur' && (
         <p className="p-0 m-0">Producteur précédent : {props.producteurPrecedent}</p>
@@ -82,6 +78,9 @@ const Title = (props: LegacyModificationsItemProps) => {
       {modificationType === 'actionnaire' && (
         <p className="p-0 m-0">Actionnaire précédent : {props.actionnairePrecedent}</p>
       )}
+      <p className="p-0 m-0 italic">
+        *Cette démarche a été réalisée avant l'import du projet dans Potentiel
+      </p>
     </>
   )
 }

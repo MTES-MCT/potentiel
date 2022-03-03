@@ -4,7 +4,12 @@ export type LegacyModificationsItemProps = {
   type: 'modification-historique'
   date: number
 } & (
-  | { modificationType: 'delai'; delayInMonths: number; status: 'acceptée' }
+  | {
+      modificationType: 'delai'
+      ancienneDateLimiteAchevement: number
+      nouvelleDateLimiteAchevement: number
+      status: 'acceptée'
+    }
   | {
       modificationType: 'abandon'
       status: 'acceptée'
@@ -60,16 +65,8 @@ export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) =
           type: 'modification-historique',
           date: event.date,
           modificationType: 'delai',
-          delayInMonths: event.delayInMonths,
-          status: 'acceptée',
-        })
-        break
-      case 'delai':
-        propsArray.push({
-          type: 'modification-historique',
-          date: event.date,
-          modificationType: 'delai',
-          delayInMonths: event.delayInMonths,
+          ancienneDateLimiteAchevement: event.ancienneDateLimiteAchevement,
+          nouvelleDateLimiteAchevement: event.nouvelleDateLimiteAchevement,
           status: 'acceptée',
         })
         break

@@ -129,7 +129,11 @@ describe('onLegacyModificationImported', () => {
       })
       expect(projectEvent[2]).toMatchObject({
         type: 'LegacyModificationImported',
-        payload: { modificationType: 'delai', delayInMonths: 6 },
+        payload: {
+          modificationType: 'delai',
+          nouvelleDateLimiteAchevement: new Date('2021-07-01').getTime(),
+          ancienneDateLimiteAchevement: new Date('2021-01-01').getTime(),
+        },
       })
       expect(projectEvent[3]).toMatchObject({
         type: 'LegacyModificationImported',

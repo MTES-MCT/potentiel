@@ -284,7 +284,11 @@ export type LegacyModificationImportedDTO = {
 } & (
   | { modificationType: 'abandon' }
   | { modificationType: 'recours'; accepted: boolean }
-  | { modificationType: 'delai'; delayInMonths: number }
+  | {
+      modificationType: 'delai'
+      ancienneDateLimiteAchevement: number
+      nouvelleDateLimiteAchevement: number
+    }
   | { modificationType: 'actionnaire'; actionnairePrecedent: string }
   | { modificationType: 'producteur'; producteurPrecedent: string }
 >>>>>>> :wrench: Update getProjectEvents with legacy modification events

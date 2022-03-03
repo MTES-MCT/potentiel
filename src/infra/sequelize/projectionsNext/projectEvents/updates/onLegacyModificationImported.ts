@@ -36,14 +36,16 @@ export default ProjectEvent.projector.on(
           )
           break
         case 'delai':
-          const delayInMonths = getDelayInMonths(
-            modification.ancienneDateLimiteAchevement,
-            modification.nouvelleDateLimiteAchevement
-          )
+          const ancienneDateLimiteAchevement = modification.ancienneDateLimiteAchevement
+          const nouvelleDateLimiteAchevement = modification.nouvelleDateLimiteAchevement
           await ProjectEvent.create(
             {
               ...common,
-              payload: { modificationType: 'delai', delayInMonths },
+              payload: {
+                modificationType: 'delai',
+                ancienneDateLimiteAchevement,
+                nouvelleDateLimiteAchevement,
+              },
             },
             { transaction }
           )
@@ -76,13 +78,3 @@ export default ProjectEvent.projector.on(
     }
   }
 )
-
-const getDelayInMonths = (d1: number, d2: number): number => {
-  const date1 = new Date(d1)
-  const date2 = new Date(d2)
-  let months: number
-  months = (date2.getFullYear() - date1.getFullYear()) * 12
-  months -= date1.getMonth()
-  months += date2.getMonth()
-  return months <= 0 ? 0 : months
-}
