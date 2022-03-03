@@ -1,4 +1,4 @@
-import { isNotifiedPeriode, ProjectAppelOffre, Technologie } from '@entities'
+import { ProjectAppelOffre, Technologie } from '@entities'
 
 export const defaultAutoAcceptRatios = { min: 0.9, max: 1.1 }
 

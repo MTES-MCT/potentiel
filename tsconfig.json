@@ -28,6 +28,9 @@
       "@entities": [
         "src/entities/index.ts"
       ],
+      "@entities/*": [
+        "src/entities/*.ts"
+      ],
       "@infra/*": [
         "src/infra/*/index.ts"
       ],
