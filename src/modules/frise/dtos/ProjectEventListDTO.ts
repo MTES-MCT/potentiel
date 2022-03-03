@@ -29,6 +29,7 @@ export type ProjectEventDTO =
   | ModificationRequestInstructionStartedDTO
   | ConfirmationRequestedDTO
   | ModificationRequestConfirmedDTO
+  | ModificationReceivedDTO
 
 type File = {
   id: string
