@@ -12,6 +12,7 @@ import {
   CRItem,
   MeSItem,
   ModificationRequestItem,
+  ModificationReceivedItem,
 } from './components'
 import {
   ACItemProps,
@@ -34,6 +35,8 @@ import {
   PTFItemProps,
   extractModificationRequestsItemProps,
   ModificationRequestItemProps,
+  ModificationReceivedItemProps,
+  extractModificationReceivedItemProps,
 } from './helpers'
 
 export type TimelineProps = {
@@ -52,6 +55,7 @@ type ItemProps =
   | MeSItemProps
   | CAItemProps
   | ModificationRequestItemProps
+  | ModificationReceivedItemProps
 
 type UndatedItemProps = ItemProps & { date: undefined }
 
@@ -72,6 +76,7 @@ export const Timeline = ({
     extractACItemProps(events),
     PTFItemProps?.status === 'submitted' ? PTFItemProps : null,
     ...extractModificationRequestsItemProps(events),
+    ...extractModificationReceivedItemProps(events),
   ]
     .filter(isNotNull)
     .sort((a, b) => a.date - b.date)
@@ -115,6 +120,9 @@ export const Timeline = ({
 
       case 'demande-de-modification':
         return <ModificationRequestItem {...props} />
+
+      case 'modification-information':
+        return <ModificationReceivedItem {...props} />
     }
   })
 

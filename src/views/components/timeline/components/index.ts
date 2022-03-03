@@ -11,6 +11,7 @@ export * from './InfoItem';
 export * from './ItemDate';
 export * from './ItemTitle';
 export * from './MeSItem';
+export * from './ModificationReceivedItem';
 export * from './ModificationRequestItem';
 export * from './NextupIcon';
 export * from './PTFItem';
