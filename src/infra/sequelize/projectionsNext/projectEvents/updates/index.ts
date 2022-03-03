@@ -1,4 +1,5 @@
 export * from './onConfirmationRequested';
+export * from './onModificationReceived';
 export * from './onModificationRequestAccepted';
 export * from './onModificationRequestCancelled';
 export * from './onModificationRequestConfirmed';
