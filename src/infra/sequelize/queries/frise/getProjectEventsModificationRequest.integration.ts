@@ -17,7 +17,7 @@ describe('getProjectEvents for ModificationRequested events', () => {
     await resetDatabase()
     await Project.create(fakeProject)
   })
-  describe('when there are modifications requested of type delai, recours and abandon', () => {
+  describe('when there are modifications requested of type delai, recours, abandon and puissance', () => {
     describe('when user is not ademe', () => {
       for (const role of USER_ROLES.filter((role) => role !== 'ademe')) {
         describe(`when the user is ${role}`, () => {
@@ -66,6 +66,20 @@ describe('getProjectEvents for ModificationRequested events', () => {
               },
             })
 
+            await ProjectEvent.create({
+              id: new UniqueEntityID().toString(),
+              projectId,
+              type: 'ModificationRequested',
+              valueDate: date.getTime(),
+              eventPublishedAt: date.getTime(),
+              payload: {
+                modificationType: 'puissance',
+                modificationRequestId,
+                authority: 'dgec',
+                puissance: 100,
+              },
+            })
+
             const result = await getProjectEvents({ projectId, user: fakeUser })
             expect(result._unsafeUnwrap()).toMatchObject({
               events: [
@@ -93,6 +107,15 @@ describe('getProjectEvents for ModificationRequested events', () => {
                   modificationType: 'abandon',
                   modificationRequestId,
                   authority: 'dgec',
+                },
+                {
+                  type: 'ModificationRequested',
+                  date: date.getTime(),
+                  variant: role,
+                  modificationType: 'puissance',
+                  modificationRequestId,
+                  authority: 'dgec',
+                  puissance: 100,
                 },
               ],
             })
@@ -141,6 +164,20 @@ describe('getProjectEvents for ModificationRequested events', () => {
             modificationType: 'abandon',
             modificationRequestId,
             authority: 'dgec',
+          },
+        })
+
+        await ProjectEvent.create({
+          id: new UniqueEntityID().toString(),
+          projectId,
+          type: 'ModificationRequested',
+          valueDate: date.getTime(),
+          eventPublishedAt: date.getTime(),
+          payload: {
+            modificationType: 'puissance',
+            modificationRequestId,
+            authority: 'dgec',
+            puissance: 100,
           },
         })
 

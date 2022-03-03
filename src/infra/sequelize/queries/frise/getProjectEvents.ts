@@ -133,6 +133,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       ...(payload.modificationType === 'delai' && {
                         delayInMonths: payload.delayInMonths,
                       }),
+                      ...(payload.modificationType === 'puissance' && {
+                        puissance: payload.puissance,
+                      }),
                       authority: payload.authority,
                     })
                   }
