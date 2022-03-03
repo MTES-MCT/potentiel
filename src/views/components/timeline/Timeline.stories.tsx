@@ -419,6 +419,40 @@ export const RecoursAccepte = () => (
   />
 )
 
+export const PuissanceRequestedForPP = () => (
+  <Timeline
+    projectEventList={{
+      project,
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectCertificateGenerated',
+          variant: 'admin',
+          date: new Date('2022-01-13').getTime(),
+          certificateFileId: 'file-id',
+          nomProjet: 'mon projet pv',
+          email: 'porteur@test.test',
+          potentielIdentifier: 'pot-id',
+        } as ProjectCertificateGeneratedDTO,
+        {
+          type: 'ModificationRequested',
+          date: new Date('2022-01-14').getTime(),
+          variant: 'porteur-projet',
+          modificationRequestId: 'id-1',
+          authority: 'dreal',
+          modificationType: 'puissance',
+          puissance: 100,
+        } as ModificationRequestedDTO,
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)
+
 export const DelayRequestedForPP = () => (
   <Timeline
     projectEventList={{
