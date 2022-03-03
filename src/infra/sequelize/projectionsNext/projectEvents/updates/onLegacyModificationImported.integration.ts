@@ -3,42 +3,38 @@ import { resetDatabase } from '../../../helpers'
 import { LegacyModificationImported } from '@modules/modificationRequest'
 import { ProjectEvent } from '..'
 import onLegacyModificationImported from './onLegacyModificationImported'
-import models from '../../../models'
 
 describe('onLegacyModificationImported', () => {
-  describe('generally', () => {
-    const { ModificationRequest } = models
+  beforeEach(async () => {
+    await resetDatabase()
+  })
+  describe('when there already are legacy modification in ProjectEvents for the same project', () => {
+    it('should remove these events from ProjectEvents', async () => {
+      const projectId = new UniqueEntityID().toString()
+      const importId = new UniqueEntityID().toString()
+      const id1 = new UniqueEntityID().toString()
+      const id2 = new UniqueEntityID().toString()
 
-    const projectId = new UniqueEntityID().toString()
-    const importId = new UniqueEntityID().toString()
-    const userId = new UniqueEntityID().toString()
-    const nonLegacyModificationId = new UniqueEntityID().toString()
-    const legacyModificationId = new UniqueEntityID().toString()
+      await ProjectEvent.create({
+        id: id1,
+        projectId,
+        eventPublishedAt: new Date('2022-03-03').getTime(),
+        valueDate: new Date('2022-03-03').getTime(),
+        type: 'LegacyModificationImported',
+        payload: { modificationType: 'abandon' },
+      })
 
-    beforeAll(async () => {
-      await resetDatabase()
+      await ProjectEvent.create({
+        id: id2,
+        projectId,
+        eventPublishedAt: new Date('2022-03-03').getTime(),
+        valueDate: new Date('2022-03-03').getTime(),
+        type: 'LegacyModificationImported',
+        payload: { modificationType: 'abandon' },
+      })
 
-      await ModificationRequest.bulkCreate([
-        {
-          id: nonLegacyModificationId,
-          projectId,
-          userId,
-          type: 'recours',
-          status: 'envoyée',
-          requestedOn: 1,
-          requestedBy: userId,
-        },
-        {
-          id: legacyModificationId,
-          projectId,
-          userId,
-          type: 'recours',
-          status: 'envoyée',
-          requestedOn: 1,
-          requestedBy: userId,
-          isLegacy: true,
-        },
-      ])
+      const projectEvents = await ProjectEvent.findAll({ where: { projectId } })
+      expect(projectEvents).toHaveLength(2)
 
       await onLegacyModificationImported(
         new LegacyModificationImported({
@@ -53,24 +49,19 @@ describe('onLegacyModificationImported', () => {
           },
         })
       )
-    })
 
-    it('should remove previous legacy modifications for this project', async () => {
-      const previousLegacyModification = await ModificationRequest.findByPk(legacyModificationId)
-      expect(previousLegacyModification).toEqual(null)
-    })
+      const projectEventsAfterNewEvent = await ProjectEvent.findAll({ where: { projectId } })
+      expect(projectEventsAfterNewEvent).toHaveLength(0)
 
-    it('should not remove the non-legacy modifications', async () => {
-      const projectModifications = await ModificationRequest.findAll({ where: { projectId } })
-      expect(projectModifications).toHaveLength(1)
-      expect(projectModifications.map((item) => item.id)).toContain(nonLegacyModificationId)
+      const res1 = await ProjectEvent.findAll({ where: { id: id1 } })
+      expect(res1).toHaveLength(0)
+
+      const res2 = await ProjectEvent.findAll({ where: { id: id2 } })
+      expect(res2).toHaveLength(0)
     })
   })
 
   describe('when a LegacyModificationImported event is emitted with modifications', () => {
-    beforeAll(async () => {
-      await resetDatabase()
-    })
     const projectId = new UniqueEntityID()
     const importId = new UniqueEntityID()
     const occurredAt = new Date('2022-01-01')
