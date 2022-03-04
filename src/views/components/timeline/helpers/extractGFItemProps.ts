@@ -27,7 +27,7 @@ export const extractGFItemProps = (
   now: number,
   project: {
     isLaureat: boolean
-    isSoumisAuxGF: boolean
+    isSoumisAuxGF?: boolean
     isGarantiesFinancieresDeposeesALaCandidature?: boolean
   }
 ): GFItemProps | null => {
