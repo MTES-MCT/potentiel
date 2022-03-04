@@ -113,6 +113,7 @@ describe('extractModificationRequestItemProps', () => {
           modificationRequestId: fourthModificationRequestId,
           authority: 'dreal',
           puissance: 100,
+          unitePuissance: 'MW',
         },
       ]
       const result = extractModificationRequestsItemProps(projectEventList)
@@ -151,6 +152,7 @@ describe('extractModificationRequestItemProps', () => {
           authority: 'dreal',
           role: 'porteur-projet',
           puissance: 100,
+          unitePuissance: 'MW',
         },
       ])
     })

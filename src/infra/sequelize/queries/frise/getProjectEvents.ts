@@ -135,6 +135,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       }),
                       ...(payload.modificationType === 'puissance' && {
                         puissance: payload.puissance,
+                        unitePuissance: appelOffre?.unitePuissance,
                       }),
                       authority: payload.authority,
                     })

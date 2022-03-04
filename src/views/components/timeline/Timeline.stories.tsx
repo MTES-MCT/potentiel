@@ -446,6 +446,7 @@ export const PuissanceRequestedForPP = () => (
           authority: 'dreal',
           modificationType: 'puissance',
           puissance: 100,
+          unitePuissance: 'MW',
         } as ModificationRequestedDTO,
       ],
     }}

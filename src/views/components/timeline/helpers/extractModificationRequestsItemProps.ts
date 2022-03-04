@@ -25,6 +25,7 @@ export type ModificationRequestItemProps = {
   | {
       modificationType: 'puissance'
       puissance: number
+      unitePuissance: string
     }
   | {
       modificationType: 'recours' | 'abandon'
@@ -76,6 +77,7 @@ export const extractModificationRequestsItemProps = (
             role,
             url,
             puissance: requestEvent.puissance,
+            unitePuissance: requestEvent.unitePuissance || '??',
           }
 
         default:

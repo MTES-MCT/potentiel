@@ -188,6 +188,7 @@ export type ModificationRequestedDTO = {
   | {
       modificationType: 'puissance'
       puissance: number
+      unitePuissance?: string
     }
   | { modificationType: 'abandon' | 'recours' }
 )

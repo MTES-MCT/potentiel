@@ -159,7 +159,7 @@ const RequestConfirmed = (props: ModificationRequestItemProps) => {
 const Title = (
   props: { status: ModificationRequestItemProps['status'] } & (
     | { modificationType: 'delai'; delayInMonths: number }
-    | { modificationType: 'puissance'; puissance: number }
+    | { modificationType: 'puissance'; puissance: number; unitePuissance: string }
     | { modificationType: 'abandon' | 'recours' }
   )
 ) => {
@@ -180,7 +180,9 @@ const Title = (
         <p className="p-0 m-0">Délai demandé : {props.delayInMonths} mois</p>
       )}
       {modificationType === 'puissance' && (
-        <p className="p-0 m-0">Puissance demandée : {props.puissance} mois</p>
+        <p className="p-0 m-0">
+          Puissance demandée : {props.puissance} {props.unitePuissance}
+        </p>
       )}
     </>
   )
