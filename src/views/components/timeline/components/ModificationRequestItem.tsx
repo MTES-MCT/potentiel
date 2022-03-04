@@ -170,7 +170,7 @@ const Title = (
       abandon: `d'abandon`,
       delai: `de prolongation de délai`,
       recours: `de recours`,
-      puissance: `de changement de puissance`,
+      puissance: `de changement de puissance installée`,
     }
 
   return (
