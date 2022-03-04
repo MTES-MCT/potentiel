@@ -118,7 +118,7 @@ const checkAppelOffrePeriode = (projectData, appelsOffre) => {
     }
   }
 
-  return { isLegacyProject: !periode.isNotifiedOnPotentiel }
+  return { isLegacyProject: periode.type === 'legacy' }
 }
 
 const checkLegacyRules = (args: {
