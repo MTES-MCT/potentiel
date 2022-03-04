@@ -38,12 +38,15 @@ const Title = (props: ModificationReceivedItemProps) => {
           Puissance : {props.puissance} {props.unitePuissance}
         </p>
       )}
-      {modificationType === 'fournisseur' &&
-        props.fournisseurs.map((fournisseur, index) => (
-          <li key={index}>
-            {fournisseur.kind} : {fournisseur.name}
-          </li>
-        ))}
+      {modificationType === 'fournisseur' && (
+        <ul className="list-none p-0">
+          {props.fournisseurs.map((fournisseur, index) => (
+            <li key={`modification-received-fournisseur-${index}`}>
+              {fournisseur.kind} : {fournisseur.name}
+            </li>
+          ))}
+        </ul>
+      )}
     </>
   )
 }
