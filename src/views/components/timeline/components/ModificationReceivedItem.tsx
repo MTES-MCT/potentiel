@@ -18,17 +18,15 @@ const Title = (props: ModificationReceivedItemProps) => {
   const { modificationType } = props
   const libelleTypeDemande: { [key in ModificationReceivedItemProps['modificationType']]: string } =
     {
-      producteur: 'de producteur',
-      actionnaire: "d'actionnaire",
-      fournisseur: 'de fournisseurs',
-      puissance: 'de puissance',
+      producteur: 'un changement de producteur',
+      actionnaire: 'une modification de l’actionnariat',
+      fournisseur: 'un changement de fournisseur(s) ou de produit',
+      puissance: 'une modification de la Puissance installée',
     }
 
   return (
     <>
-      <ItemTitle
-        title={`Information concernant un changement ${libelleTypeDemande[modificationType]}`}
-      />
+      <ItemTitle title={`Information concernant ${libelleTypeDemande[modificationType]}`} />
       {modificationType === 'producteur' && (
         <p className="p-0 m-0">Producteur : {props.producteur}</p>
       )}
