@@ -3,6 +3,7 @@ import { wrapInfra } from '@core/utils'
 import { GetProjectEvents, ProjectEventDTO } from '@modules/frise'
 import { models } from '../../models'
 import { ProjectEvent } from '../../projectionsNext'
+import { getProjectAppelOffre } from '@config/queries.config'
 
 const { Project } = models
 
@@ -12,8 +13,18 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
       getEvents(projectId).map((rawEvents) => ({ rawProject, rawEvents }))
     )
     .map(async ({ rawProject, rawEvents }) => {
-      const { email, nomProjet, potentielIdentifier, classe, abandonedOn } = rawProject.get()
+      const {
+        email,
+        nomProjet,
+        potentielIdentifier,
+        classe,
+        abandonedOn,
+        appelOffreId,
+        periodeId,
+        familleId,
+      } = rawProject.get()
       const isLaureat = classe === 'Classé' && !abandonedOn
+      const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
 
       return {
         project: { id: projectId, isLaureat },
@@ -148,6 +159,29 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       date: valueDate,
                       variant: user.role,
                       modificationRequestId: payload.modificationRequestId,
+                    })
+                  }
+                  break
+                case 'ModificationReceived':
+                  if (userIsNot('ademe')(user)) {
+                    events.push({
+                      type,
+                      date: valueDate,
+                      variant: user.role,
+                      modificationType: payload.modificationType,
+                      ...(payload.modificationType === 'producteur' && {
+                        producteur: payload.producteur,
+                      }),
+                      ...(payload.modificationType === 'actionnaire' && {
+                        actionnaire: payload.actionnaire,
+                      }),
+                      ...(payload.modificationType === 'fournisseur' && {
+                        fournisseurs: payload.fournisseurs,
+                      }),
+                      ...(payload.modificationType === 'puissance' && {
+                        puissance: payload.puissance,
+                        unitePuissance: appelOffre?.unitePuissance,
+                      }),
                     })
                   }
                   break

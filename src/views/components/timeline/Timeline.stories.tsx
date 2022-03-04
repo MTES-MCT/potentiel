@@ -19,6 +19,7 @@ import {
   ModificationRequestInstructionStartedDTO,
   ConfirmationRequestedDTO,
   ModificationRequestConfirmedDTO,
+  ModificationReceivedDTO,
 } from '@modules/frise'
 import { Timeline } from './Timeline'
 
@@ -888,6 +889,63 @@ export const AbandonConfirméForPP = () => (
           variant: 'porteur-projet',
           modificationRequestId: 'id-1',
         } as ModificationRequestConfirmedDTO,
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)
+
+export const PPModificationReceived = () => (
+  <Timeline
+    projectEventList={{
+      project,
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectCertificateGenerated',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-13').getTime(),
+          certificateFileId: 'file-id',
+          nomProjet: 'mon projet pv',
+          email: undefined,
+          potentielIdentifier: 'pot-id',
+        } as ProjectCertificateGeneratedDTO,
+        {
+          type: 'ModificationReceived',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-13').getTime(),
+          modificationType: 'actionnaire',
+          actionnaire: 'nomActionnaire',
+        } as ModificationReceivedDTO,
+        {
+          type: 'ModificationReceived',
+          variant: 'porteur-projet',
+          date: new Date('2022-02-13').getTime(),
+          modificationType: 'fournisseur',
+          fournisseurs: [
+            { kind: 'Nom du fabricant \n(Modules ou films)', name: 'name1' },
+            { kind: 'Nom du fabricant \n(Polysilicium)', name: 'name2' },
+          ],
+        } as ModificationReceivedDTO,
+        {
+          type: 'ModificationReceived',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-13').getTime(),
+          modificationType: 'puissance',
+          puissance: 2,
+          unitePuissance: 'MW',
+        } as ModificationReceivedDTO,
+        {
+          type: 'ModificationReceived',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-13').getTime(),
+          modificationType: 'producteur',
+          producteur: 'nomProducteur',
+        } as ModificationReceivedDTO,
       ],
     }}
     now={new Date().getTime()}

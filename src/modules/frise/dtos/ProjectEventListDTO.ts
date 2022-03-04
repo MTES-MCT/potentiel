@@ -1,5 +1,6 @@
 import { or } from '@core/utils'
 import { Project } from '@entities'
+import { Fournisseur } from 'src/modules/project'
 import { UserRole } from '../../users'
 
 export type ProjectEventDTO =
@@ -28,6 +29,7 @@ export type ProjectEventDTO =
   | ModificationRequestInstructionStartedDTO
   | ConfirmationRequestedDTO
   | ModificationRequestConfirmedDTO
+  | ModificationReceivedDTO
 
 type File = {
   id: string
@@ -239,6 +241,17 @@ export type ModificationRequestDTO =
   | ModificationRequestCancelledDTO
   | ConfirmationRequestedDTO
   | ModificationRequestConfirmedDTO
+
+export type ModificationReceivedDTO = {
+  type: 'ModificationReceived'
+  date: number
+  variant: Exclude<UserRole, 'ademe'>
+} & (
+  | { modificationType: 'actionnaire'; actionnaire: string }
+  | { modificationType: 'producteur'; producteur: string }
+  | { modificationType: 'fournisseur'; fournisseurs: Fournisseur[] }
+  | { modificationType: 'puissance'; puissance: number; unitePuissance?: string }
+)
 
 export type ProjectEventListDTO = {
   project: { id: Project['id']; isLaureat: boolean }
