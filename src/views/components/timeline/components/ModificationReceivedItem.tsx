@@ -39,9 +39,9 @@ const Title = (props: ModificationReceivedItemProps) => {
         </p>
       )}
       {modificationType === 'fournisseur' && (
-        <ul>
+        <ul className="list-none p-0">
           {props.fournisseurs.map((fournisseur, index) => (
-            <li key={index}>
+            <li key={`modification-received-fournisseur-${index}`}>
               {fournisseur.kind} : {fournisseur.name}
             </li>
           ))}
