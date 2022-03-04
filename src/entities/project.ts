@@ -239,9 +239,7 @@ const getCertificateIfProjectEligible = (
   }
 
   if (project.appelOffre?.periode && !isNotifiedPeriode(project.appelOffre?.periode)) {
-    logger.error(
-      new Error('getCertificateIfProjectEligible failed on periode.isNotifiedOnPotentiel')
-    )
+    logger.error(new Error('getCertificateIfProjectEligible failed on isNotifiedPeriode(periode)'))
     return null
   }
 
