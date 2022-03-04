@@ -11,12 +11,7 @@ import {
   ok,
   Result,
 } from '@core/utils'
-import {
-  CertificateTemplate,
-  ProjectAppelOffre,
-  Technologie,
-  User,
-} from '@entities'
+import { CertificateTemplate, ProjectAppelOffre, Technologie, User } from '@entities'
 import { isNotifiedPeriode } from '@entities/periode'
 import {
   EntityNotFoundError,
@@ -61,6 +56,9 @@ import {
   ProjectReimportedPayload,
   ProjectGFUploaded,
   ProjectGFWithdrawn,
+  ProjectGFDueDateCancelled,
+  ProjectCompletionDueDateCancelled,
+  ProjectDCRDueDateCancelled,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre'
@@ -75,7 +73,10 @@ export interface Project extends EventStoreAggregate {
     data: ProjectReimportedPayload['data']
     importId: string
   }) => Result<null, never>
-  import: (args: { data: ProjectImportedPayload['data']; importId: string }) => Result<null, never>
+  import: (args: {
+    data: ProjectImportedPayload['data']
+    importId: string
+  }) => Result<null, IllegalProjectStateError>
   correctData: (
     user: User,
     data: ProjectDataCorrectedPayload['correctedData']
@@ -176,6 +177,7 @@ export interface ProjectDataProps {
   details: Record<string, string>
   technologie: Technologie
   actionnariat?: 'financement-collectif' | 'gouvernance-partagee'
+  classe: 'Classé' | 'Eliminé'
 }
 
 export interface ProjectProps {
@@ -358,25 +360,104 @@ export const makeProject = (args: {
     import: function ({ data, importId }) {
       const { appelOffreId, periodeId, familleId, numeroCRE } = data
       const id = projectId.toString()
-      _publishEvent(
-        new ProjectImported({
-          payload: {
-            projectId: id,
-            appelOffreId,
-            periodeId,
-            familleId,
-            numeroCRE,
-            importId,
-            data,
-            potentielIdentifier: buildProjectIdentifier({
+
+      if (_isNew()) {
+        _publishEvent(
+          new ProjectImported({
+            payload: {
+              projectId: id,
               appelOffreId,
               periodeId,
               familleId,
               numeroCRE,
-            }),
-          },
-        })
-      )
+              importId,
+              data,
+              potentielIdentifier: buildProjectIdentifier({
+                appelOffreId,
+                periodeId,
+                familleId,
+                numeroCRE,
+              }),
+            },
+          })
+        )
+
+        if (data.notifiedOn) {
+          try {
+            isStrictlyPositiveNumber(data.notifiedOn)
+          } catch (e) {
+            return err(new IllegalProjectStateError({ notifiedOn: e.message }))
+          }
+
+          _publishNewNotificationDate({
+            projectId: id,
+            notifiedOn: data.notifiedOn,
+            setBy: '',
+          })
+
+          _publishStepUpdates()
+        }
+      } else {
+        const changes = _computeDelta(data)
+
+        for (const updatedField of props.fieldsUpdatedAfterImport) {
+          if (updatedField.startsWith('details.') && changes.details) {
+            delete changes.details[updatedField.substring('details.'.length)]
+            continue
+          }
+          delete changes[updatedField]
+        }
+        delete changes['notifiedOn']
+
+        const hasNotificationDateChanged = data.notifiedOn !== props.notifiedOn
+
+        if (Object.keys(changes).length) {
+          _publishEvent(
+            new ProjectReimported({
+              payload: {
+                projectId: id,
+                appelOffreId,
+                periodeId,
+                familleId,
+                importId,
+                data: changes,
+              },
+            })
+          )
+        }
+
+        if (hasNotificationDateChanged) {
+          _publishNewNotificationDate({
+            projectId: id,
+            notifiedOn: data.notifiedOn,
+            setBy: '',
+          })
+        }
+
+        if (data.notifiedOn) {
+          console.log('Notification date is present', changes)
+          if (changes.classe) {
+            console.log('Classe has changed to', data.classe)
+            if (data.classe === 'Classé') {
+              // éliminé -> classé
+              _publishStepUpdates()
+            } else if (data.classe === 'Eliminé') {
+              // classé -> eliminé
+              _cancelGFDate()
+              _cancelDCRDate()
+              _cancelCompletionDate()
+            }
+          } else {
+            if (props.isClasse) {
+              if (hasNotificationDateChanged) {
+                // remains classé
+                _publishStepUpdates()
+              }
+            }
+            // remains éliminé
+          }
+        }
+      }
 
       return ok(null)
     },
@@ -450,6 +531,8 @@ export const makeProject = (args: {
         notifiedOn,
         setBy: user?.id || '',
       })
+
+      _publishStepUpdates()
 
       return ok(null)
     },
@@ -981,6 +1064,16 @@ export const makeProject = (args: {
     }
   }
 
+  function _cancelDCRDate() {
+    _publishEvent(
+      new ProjectDCRDueDateCancelled({
+        payload: {
+          projectId: props.projectId.toString(),
+        },
+      })
+    )
+  }
+
   function _updateCompletionDate(forceValue?: { setBy?: string; completionDueOn: number }) {
     if (!props.isClasse) return
 
@@ -1012,6 +1105,16 @@ export const makeProject = (args: {
     )
   }
 
+  function _cancelCompletionDate() {
+    _publishEvent(
+      new ProjectCompletionDueDateCancelled({
+        payload: {
+          projectId: props.projectId.toString(),
+        },
+      })
+    )
+  }
+
   function _updateGFDate() {
     const { appelOffre, isClasse } = props
     if (isClasse && appelOffre?.isSoumisAuxGFs) {
@@ -1021,6 +1124,19 @@ export const makeProject = (args: {
           payload: {
             projectId: props.projectId.toString(),
             garantiesFinancieresDueOn: moment(props.notifiedOn).add(2, 'months').toDate().getTime(),
+          },
+        })
+      )
+    }
+  }
+
+  function _cancelGFDate() {
+    const { appelOffre, isClasse } = props
+    if (appelOffre?.isSoumisAuxGFs) {
+      _publishEvent(
+        new ProjectGFDueDateCancelled({
+          payload: {
+            projectId: props.projectId.toString(),
           },
         })
       )
@@ -1076,7 +1192,9 @@ export const makeProject = (args: {
         payload,
       })
     )
+  }
 
+  function _publishStepUpdates() {
     _updateDCRDate()
     _updateGFDate()
     _updateCompletionDate()
