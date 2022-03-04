@@ -56,7 +56,7 @@ const Title = (props: LegacyModificationsItemProps) => {
       delai: `de prolongation de délai`,
       recours: `de recours`,
       producteur: 'de changement de producteur',
-      actionnaire: "de changement d'actionnaire",
+      actionnaire: "de modification de l'actionnariat",
       autre: 'de modification',
     }
 
