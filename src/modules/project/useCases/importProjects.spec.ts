@@ -41,7 +41,7 @@ const appelOffreRepo = {
   findAll: async () => [
     {
       id: 'appelOffreId',
-      periodes: [{ id: 'periodeId', isNotifiedOnPotentiel: true }],
+      periodes: [{ id: 'periodeId', type: 'notified' }],
       familles: [{ id: 'familleId' }],
     },
   ],
@@ -149,7 +149,7 @@ describe('importProjects', () => {
       findAll: async () => [
         {
           id: 'appelOffreId',
-          periodes: [{ id: 'periodeId', isNotifiedOnPotentiel: false }],
+          periodes: [{ id: 'periodeId', type: 'legacy' }],
           familles: [{ id: 'familleId' }],
         },
       ],
@@ -416,7 +416,7 @@ describe('importProjects', () => {
       findAll: async () => [
         {
           id: 'appelOffreId',
-          periodes: [{ id: 'periodeId', isNotifiedOnPotentiel: false }],
+          periodes: [{ id: 'periodeId', type: 'legacy' }],
           familles: [{ id: 'familleId' }],
         },
       ],
@@ -462,7 +462,7 @@ describe('importProjects', () => {
       findAll: async () => [
         {
           id: 'appelOffreId',
-          periodes: [{ id: 'periodeId', isNotifiedOnPotentiel: true }],
+          periodes: [{ id: 'periodeId', type: 'notified' }],
           familles: [{ id: 'familleId' }],
         },
       ],
@@ -511,7 +511,7 @@ describe('importProjects', () => {
       findAll: async () => [
         {
           id: 'appelOffreId',
-          periodes: [{ id: 'periodeId', isNotifiedOnPotentiel: true }],
+          periodes: [{ id: 'periodeId', type: 'notified' }],
           familles: [{ id: 'familleId' }],
         },
       ],
