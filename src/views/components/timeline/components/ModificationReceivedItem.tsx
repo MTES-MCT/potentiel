@@ -21,7 +21,7 @@ const Title = (props: ModificationReceivedItemProps) => {
       producteur: 'un changement de producteur',
       actionnaire: 'une modification de l’actionnariat',
       fournisseur: 'un changement de fournisseur(s) ou de produit',
-      puissance: 'une modification de la Puissance installée',
+      puissance: 'une modification de la puissance installée',
     }
 
   return (
