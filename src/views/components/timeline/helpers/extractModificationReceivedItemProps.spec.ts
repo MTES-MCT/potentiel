@@ -81,7 +81,7 @@ describe('extractModificationReceivedItemProps', () => {
           type: 'ModificationReceived',
           date,
           variant: 'admin',
-          modificationType: 'fournisseurs',
+          modificationType: 'fournisseur',
           fournisseurs: [
             { kind: 'Nom du fabricant \n(Modules ou films)', name: 'name1' },
             { kind: 'Nom du fabricant \n(Polysilicium)', name: 'name2' },
@@ -94,7 +94,7 @@ describe('extractModificationReceivedItemProps', () => {
         {
           type: 'modification-information',
           date,
-          modificationType: 'fournisseurs',
+          modificationType: 'fournisseur',
           fournisseurs: [
             { kind: 'Nom du fabricant \n(Modules ou films)', name: 'name1' },
             { kind: 'Nom du fabricant \n(Polysilicium)', name: 'name2' },

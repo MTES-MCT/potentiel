@@ -166,7 +166,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       ...(payload.modificationType === 'actionnaire' && {
                         actionnaire: payload.actionnaire,
                       }),
-                      ...(payload.modificationType === 'fournisseurs' && {
+                      ...(payload.modificationType === 'fournisseur' && {
                         fournisseurs: payload.fournisseurs,
                       }),
                       ...(payload.modificationType === 'puissance' && {

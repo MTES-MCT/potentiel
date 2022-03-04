@@ -925,7 +925,7 @@ export const PPModificationReceived = () => (
           type: 'ModificationReceived',
           variant: 'porteur-projet',
           date: new Date('2022-02-13').getTime(),
-          modificationType: 'fournisseurs',
+          modificationType: 'fournisseur',
           fournisseurs: [
             { kind: 'Nom du fabricant \n(Modules ou films)', name: 'name1' },
             { kind: 'Nom du fabricant \n(Polysilicium)', name: 'name2' },

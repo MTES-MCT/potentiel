@@ -39,7 +39,7 @@ export default ProjectEvent.projector.on(
           { transaction }
         )
         break
-      case 'fournisseurs':
+      case 'fournisseur':
         await ProjectEvent.create(
           {
             ...common,

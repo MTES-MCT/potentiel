@@ -66,13 +66,13 @@ describe('onModificationReceived', () => {
     })
   })
 
-  describe('when there is a fournisseurs modification event', () => {
-    it('should create a new project event of type "fournisseurs" in ProjectEvents', async () => {
+  describe('when there is a fournisseur modification event', () => {
+    it('should create a new project event of type "fournisseur" in ProjectEvents', async () => {
       await onModificationReceived(
         new ModificationReceived({
           payload: {
             modificationRequestId,
-            type: 'fournisseurs',
+            type: 'fournisseur',
             projectId,
             requestedBy: user,
             authority: 'dreal',
@@ -92,7 +92,7 @@ describe('onModificationReceived', () => {
         type: 'ModificationReceived',
         projectId,
         payload: {
-          modificationType: 'fournisseurs',
+          modificationType: 'fournisseur',
           fournisseurs: [
             { kind: 'Nom du fabricant \n(Modules ou films)', name: 'name1' },
             { kind: 'Nom du fabricant \n(Polysilicium)', name: 'name2' },

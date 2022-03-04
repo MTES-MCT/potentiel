@@ -20,7 +20,7 @@ const Title = (props: ModificationReceivedItemProps) => {
     {
       producteur: 'de producteur',
       actionnaire: "d'actionnaire",
-      fournisseurs: 'de fournisseurs',
+      fournisseur: 'de fournisseurs',
       puissance: 'de puissance',
     }
 
@@ -40,7 +40,7 @@ const Title = (props: ModificationReceivedItemProps) => {
           Puissance : {props.puissance} {props.unitePuissance}
         </p>
       )}
-      {modificationType === 'fournisseurs' &&
+      {modificationType === 'fournisseur' &&
         props.fournisseurs.map((fournisseur, index) => (
           <li key={index}>
             {fournisseur.kind} : {fournisseur.name}
