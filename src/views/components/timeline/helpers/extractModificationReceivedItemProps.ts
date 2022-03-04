@@ -57,7 +57,7 @@ export const extractModificationReceivedItemProps = (
           date: event.date,
           modificationType: 'puissance',
           puissance: event.puissance,
-          unitePuissance: event.unitePuissance,
+          unitePuissance: event.unitePuissance || '??',
         })
         break
     }
