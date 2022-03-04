@@ -3,7 +3,7 @@ import { wrapInfra } from '@core/utils'
 import { GetProjectEvents, ProjectEventDTO } from '@modules/frise'
 import { models } from '../../models'
 import { ProjectEvent } from '../../projectionsNext'
-import { appelsOffreStatic } from '@dataAccess/inMemory'
+import { getProjectAppelOffre } from '@config/queries.config'
 
 const { Project } = models
 
@@ -13,9 +13,18 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
       getEvents(projectId).map((rawEvents) => ({ rawProject, rawEvents }))
     )
     .map(async ({ rawProject, rawEvents }) => {
-      const { email, nomProjet, potentielIdentifier, classe, abandonedOn, appelOffreId } =
-        rawProject.get()
+      const {
+        email,
+        nomProjet,
+        potentielIdentifier,
+        classe,
+        abandonedOn,
+        appelOffreId,
+        periodeId,
+        familleId,
+      } = rawProject.get()
       const isLaureat = classe === 'Classé' && !abandonedOn
+      const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
 
       return {
         project: { id: projectId, isLaureat },
@@ -171,7 +180,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       }),
                       ...(payload.modificationType === 'puissance' && {
                         puissance: payload.puissance,
-                        unitePuissance: getUnitePuissance(appelOffreId),
+                        unitePuissance: appelOffre?.unitePuissance,
                       }),
                     })
                   }
@@ -189,9 +198,4 @@ function getEvents(projectId) {
   return wrapInfra(
     ProjectEvent.findAll({ where: { projectId }, order: [['eventPublishedAt', 'ASC']] })
   )
-}
-
-function getUnitePuissance(appelOffreId: string) {
-  const appelOffre = appelsOffreStatic.find((ao) => ao.id === appelOffreId)
-  return appelOffre?.unitePuissance
 }

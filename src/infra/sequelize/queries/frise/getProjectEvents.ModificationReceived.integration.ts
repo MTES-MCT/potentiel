@@ -213,9 +213,6 @@ describe('getProjectEvents for ModificationReceived events', () => {
   })
 
   describe('when there is a modification received of type "puissance"', () => {
-    const getUnitePuissance = jest.fn((appelOffreId) => Promise.resolve('MW'))
-    const unitePuissance = getUnitePuissance(fakeProject.appelOffreId)
-
     describe('when user is not ademe', () => {
       for (const role of USER_ROLES.filter((role) => role !== 'ademe')) {
         describe(`when the user is ${role}`, () => {
@@ -245,7 +242,7 @@ describe('getProjectEvents for ModificationReceived events', () => {
                   variant: role,
                   modificationType: 'puissance',
                   puissance: 2,
-                  unitePuissance,
+                  unitePuissance: 'MWc', // unitePuissance for Fessenheim AO
                 },
               ],
             })
