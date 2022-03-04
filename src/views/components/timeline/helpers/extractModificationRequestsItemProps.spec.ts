@@ -72,6 +72,7 @@ describe('extractModificationRequestItemProps', () => {
       const firstModificationRequestId = new UniqueEntityID().toString()
       const secondModificationRequestId = new UniqueEntityID().toString()
       const thirdModificationRequestId = new UniqueEntityID().toString()
+      const fourthModificationRequestId = new UniqueEntityID().toString()
       const projectEventList: ProjectEventDTO[] = [
         {
           type: 'ModificationRequested',
@@ -104,9 +105,19 @@ describe('extractModificationRequestItemProps', () => {
           modificationRequestId: thirdModificationRequestId,
           authority: 'dreal',
         },
+        {
+          type: 'ModificationRequested',
+          date: new Date('2022-02-09').getTime(),
+          variant: 'porteur-projet',
+          modificationType: 'puissance',
+          modificationRequestId: fourthModificationRequestId,
+          authority: 'dreal',
+          puissance: 100,
+          unitePuissance: 'MW',
+        },
       ]
       const result = extractModificationRequestsItemProps(projectEventList)
-      expect(result).toHaveLength(3)
+      expect(result).toHaveLength(4)
       expect(result).toEqual([
         {
           type: 'demande-de-modification',
@@ -132,6 +143,16 @@ describe('extractModificationRequestItemProps', () => {
           modificationType: 'recours',
           authority: 'dreal',
           role: 'porteur-projet',
+        },
+        {
+          type: 'demande-de-modification',
+          date: new Date('2022-02-09').getTime(),
+          status: 'envoyée',
+          modificationType: 'puissance',
+          authority: 'dreal',
+          role: 'porteur-projet',
+          puissance: 100,
+          unitePuissance: 'MW',
         },
       ])
     })

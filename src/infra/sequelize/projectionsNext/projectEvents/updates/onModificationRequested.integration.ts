@@ -107,4 +107,38 @@ describe('onModificationRequested', () => {
       })
     })
   })
+
+  describe('when modification type is "puissance"', () => {
+    it('should create a new project event of modificationType puissance', async () => {
+      await onModificationRequested(
+        new ModificationRequested({
+          payload: {
+            type: 'puissance',
+            modificationRequestId,
+            projectId,
+            requestedBy: 'user-id',
+            authority: 'dgec',
+            fileId: 'file-id',
+            justification: 'justification',
+            puissance: 100,
+          } as ModificationRequestedPayload,
+          original: {
+            version: 1,
+            occurredAt: new Date('2022-02-09'),
+          },
+        })
+      )
+      const projectEvent = await ProjectEvent.findOne({ where: { projectId } })
+      expect(projectEvent).toMatchObject({
+        type: 'ModificationRequested',
+        projectId,
+        payload: {
+          modificationType: 'puissance',
+          modificationRequestId,
+          authority: 'dgec',
+          puissance: 100,
+        },
+      })
+    })
+  })
 })

@@ -18,7 +18,15 @@ export type ModificationRequestItemProps = {
   role: UserRole
   url?: string | undefined
 } & (
-  | { modificationType: 'delai'; delayInMonths: number }
+  | {
+      modificationType: 'delai'
+      delayInMonths: number
+    }
+  | {
+      modificationType: 'puissance'
+      puissance: number
+      unitePuissance: string
+    }
   | {
       modificationType: 'recours' | 'abandon'
     }
@@ -37,7 +45,7 @@ export const extractModificationRequestsItemProps = (
 
   const propsArray: ModificationRequestItemProps[] = Object.entries(modificationRequestGroups)
     .filter(([, events]) => events.find(is('ModificationRequested')))
-    .map(([, events]) => {
+    .map(([, events]): ModificationRequestItemProps => {
       const latestEvent = getLatestEvent(events)
       const requestEvent = getRequestEvent(events)
 
@@ -46,8 +54,9 @@ export const extractModificationRequestsItemProps = (
       const status = getStatus(latestEvent)
       const url = getUrl(latestEvent)
 
-      return modificationType === 'delai'
-        ? {
+      switch (modificationType) {
+        case 'delai':
+          return {
             type: 'demande-de-modification',
             date,
             authority,
@@ -57,7 +66,22 @@ export const extractModificationRequestsItemProps = (
             url,
             delayInMonths: requestEvent.delayInMonths,
           }
-        : {
+
+        case 'puissance':
+          return {
+            type: 'demande-de-modification',
+            date,
+            authority,
+            modificationType,
+            status,
+            role,
+            url,
+            puissance: requestEvent.puissance,
+            unitePuissance: requestEvent.unitePuissance || '??',
+          }
+
+        default:
+          return {
             type: 'demande-de-modification',
             date,
             authority,
@@ -66,7 +90,9 @@ export const extractModificationRequestsItemProps = (
             role,
             url,
           }
+      }
     })
+
   return propsArray
 }
 

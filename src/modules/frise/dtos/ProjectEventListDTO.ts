@@ -185,6 +185,11 @@ export type ModificationRequestedDTO = {
       modificationType: 'delai'
       delayInMonths: number
     }
+  | {
+      modificationType: 'puissance'
+      puissance: number
+      unitePuissance?: string
+    }
   | { modificationType: 'abandon' | 'recours' }
 )
 

@@ -159,6 +159,7 @@ const RequestConfirmed = (props: ModificationRequestItemProps) => {
 const Title = (
   props: { status: ModificationRequestItemProps['status'] } & (
     | { modificationType: 'delai'; delayInMonths: number }
+    | { modificationType: 'puissance'; puissance: number; unitePuissance: string }
     | { modificationType: 'abandon' | 'recours' }
   )
 ) => {
@@ -169,6 +170,7 @@ const Title = (
       abandon: `d'abandon`,
       delai: `de prolongation de délai`,
       recours: `de recours`,
+      puissance: `de changement de puissance installée`,
     }
 
   return (
@@ -176,6 +178,11 @@ const Title = (
       <ItemTitle title={`Demande ${libelleTypeDemande[modificationType]} ${status}`} />
       {modificationType === 'delai' && (
         <p className="p-0 m-0">Délai demandé : {props.delayInMonths} mois</p>
+      )}
+      {modificationType === 'puissance' && (
+        <p className="p-0 m-0">
+          Puissance demandée : {props.puissance} {props.unitePuissance}
+        </p>
       )}
     </>
   )
