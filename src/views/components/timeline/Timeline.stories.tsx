@@ -931,6 +931,21 @@ export const PPModificationReceived = () => (
             { kind: 'Nom du fabricant \n(Polysilicium)', name: 'name2' },
           ],
         } as ModificationReceivedDTO,
+        {
+          type: 'ModificationReceived',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-13').getTime(),
+          modificationType: 'puissance',
+          puissance: 2,
+          unitePuissance: 'MW',
+        } as ModificationReceivedDTO,
+        {
+          type: 'ModificationReceived',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-13').getTime(),
+          modificationType: 'producteur',
+          producteur: 'nomProducteur',
+        } as ModificationReceivedDTO,
       ],
     }}
     now={new Date().getTime()}

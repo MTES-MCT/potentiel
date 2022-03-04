@@ -8,6 +8,7 @@ export type ModificationReceivedItemProps = {
   | { modificationType: 'actionnaire'; actionnaire: string }
   | { modificationType: 'producteur'; producteur: string }
   | { modificationType: 'fournisseurs'; fournisseurs: Fournisseur[] }
+  | { modificationType: 'puissance'; puissance: number; unitePuissance: string }
 )
 
 export const extractModificationReceivedItemProps = (
@@ -48,6 +49,15 @@ export const extractModificationReceivedItemProps = (
           date: event.date,
           modificationType: 'fournisseurs',
           fournisseurs: event.fournisseurs,
+        })
+        break
+      case 'puissance':
+        propsArray.push({
+          type: 'modification-information',
+          date: event.date,
+          modificationType: 'puissance',
+          puissance: event.puissance,
+          unitePuissance: event.unitePuissance,
         })
         break
     }

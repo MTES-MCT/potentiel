@@ -101,4 +101,31 @@ describe('onModificationReceived', () => {
       })
     })
   })
+
+  describe('when there is a puissance modification event', () => {
+    it('should create a new project event of type "puissance" in ProjectEvents', async () => {
+      await onModificationReceived(
+        new ModificationReceived({
+          payload: {
+            modificationRequestId,
+            type: 'puissance',
+            projectId,
+            requestedBy: user,
+            authority: 'dreal',
+            puissance: 2,
+          } as ModificationReceivedPayload,
+          original: {
+            version: 1,
+            occurredAt: new Date('2022-02-09'),
+          },
+        })
+      )
+      const projectEvent = await ProjectEvent.findOne({ where: { projectId } })
+      expect(projectEvent).toMatchObject({
+        type: 'ModificationReceived',
+        projectId,
+        payload: { modificationType: 'puissance', puissance: 2 },
+      })
+    })
+  })
 })

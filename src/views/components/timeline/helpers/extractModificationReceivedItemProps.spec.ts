@@ -103,4 +103,31 @@ describe('extractModificationReceivedItemProps', () => {
       ])
     })
   })
+
+  describe('when there is a puissance modification', () => {
+    it('should return an array with puissance props', () => {
+      const date = new Date('2022-03-02').getTime()
+      const projectEventList: ProjectEventDTO[] = [
+        {
+          type: 'ModificationReceived',
+          date,
+          variant: 'admin',
+          modificationType: 'puissance',
+          puissance: 2,
+          unitePuissance: 'MW',
+        } as ModificationReceivedDTO,
+      ]
+      const result = extractModificationReceivedItemProps(projectEventList)
+      expect(result).toHaveLength(1)
+      expect(result).toEqual([
+        {
+          type: 'modification-information',
+          date,
+          modificationType: 'puissance',
+          puissance: 2,
+          unitePuissance: 'MW',
+        },
+      ])
+    })
+  })
 })

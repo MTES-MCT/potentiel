@@ -250,6 +250,7 @@ export type ModificationReceivedDTO = {
   | { modificationType: 'actionnaire'; actionnaire: string }
   | { modificationType: 'producteur'; producteur: string }
   | { modificationType: 'fournisseurs'; fournisseurs: Fournisseur[] }
+  | { modificationType: 'puissance'; puissance: number; unitePuissance: string }
 )
 
 export type ProjectEventListDTO = {

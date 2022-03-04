@@ -4,10 +4,8 @@ import { ProjectEvent } from '../projectEvent.model'
 
 export default ProjectEvent.projector.on(
   ModificationReceived,
-  async (
-    { payload: { projectId, type, producteur, actionnaire, fournisseurs }, occurredAt },
-    transaction
-  ) => {
+  async ({ payload, occurredAt }, transaction) => {
+    const { projectId, type, producteur, actionnaire, fournisseurs, puissance } = payload
     const common = {
       projectId,
       type: ModificationReceived.type,
@@ -48,6 +46,18 @@ export default ProjectEvent.projector.on(
             payload: {
               modificationType: type,
               fournisseurs,
+            },
+          },
+          { transaction }
+        )
+        break
+      case 'puissance':
+        await ProjectEvent.create(
+          {
+            ...common,
+            payload: {
+              modificationType: type,
+              puissance,
             },
           },
           { transaction }

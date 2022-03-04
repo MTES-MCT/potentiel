@@ -21,6 +21,7 @@ const Title = (props: ModificationReceivedItemProps) => {
       producteur: 'de producteur',
       actionnaire: "d'actionnaire",
       fournisseurs: 'de fournisseurs',
+      puissance: 'de puissance',
     }
 
   return (
@@ -33,6 +34,11 @@ const Title = (props: ModificationReceivedItemProps) => {
       )}
       {modificationType === 'actionnaire' && (
         <p className="p-0 m-0">Actionnaire : {props.actionnaire}</p>
+      )}
+      {modificationType === 'puissance' && (
+        <p className="p-0 m-0">
+          Puissance : {props.puissance} {props.unitePuissance}
+        </p>
       )}
       {modificationType === 'fournisseurs' &&
         props.fournisseurs.map((fournisseur, index) => (
