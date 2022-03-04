@@ -10,18 +10,18 @@ describe('onLegacyModificationImported', () => {
   })
   describe('when there already are events in ProjectEvents table', () => {
     it("should remove only the same project's legacy events", async () => {
-      const projectId1 = new UniqueEntityID().toString()
-      const id11 = new UniqueEntityID().toString()
-      const id12 = new UniqueEntityID().toString()
-      const id13 = new UniqueEntityID().toString()
-      const importId1 = new UniqueEntityID().toString()
-      const projectId2 = new UniqueEntityID().toString()
-      const id2 = new UniqueEntityID().toString()
+      const targetProjectId = new UniqueEntityID().toString()
+      const legacyTargetProject1 = new UniqueEntityID().toString()
+      const legacyTargetProject2 = new UniqueEntityID().toString()
+      const nonLegacyTargetProject = new UniqueEntityID().toString()
+      const importId = new UniqueEntityID().toString()
+      const otherProjectId = new UniqueEntityID().toString()
+      const legacyOtherProject = new UniqueEntityID().toString()
 
       await ProjectEvent.create({
         // legacy event, same project
-        id: id11,
-        projectId: projectId1,
+        id: legacyTargetProject1,
+        projectId: targetProjectId,
         eventPublishedAt: new Date('2022-03-03').getTime(),
         valueDate: new Date('2022-03-03').getTime(),
         type: 'LegacyModificationImported',
@@ -30,8 +30,8 @@ describe('onLegacyModificationImported', () => {
 
       await ProjectEvent.create({
         // legacy event, same project
-        id: id12,
-        projectId: projectId1,
+        id: legacyTargetProject2,
+        projectId: targetProjectId,
         eventPublishedAt: new Date('2022-03-03').getTime(),
         valueDate: new Date('2022-03-03').getTime(),
         type: 'LegacyModificationImported',
@@ -40,8 +40,8 @@ describe('onLegacyModificationImported', () => {
 
       await ProjectEvent.create({
         // non legacy event, same project
-        id: id13,
-        projectId: projectId1,
+        id: nonLegacyTargetProject,
+        projectId: targetProjectId,
         eventPublishedAt: new Date('2022-03-03').getTime(),
         valueDate: new Date('2022-03-03').getTime(),
         type: 'ProjectImported',
@@ -50,8 +50,8 @@ describe('onLegacyModificationImported', () => {
 
       await ProjectEvent.create({
         // legacy event, different project
-        id: id2,
-        projectId: projectId2,
+        id: legacyOtherProject,
+        projectId: otherProjectId,
         eventPublishedAt: new Date('2022-03-03').getTime(),
         valueDate: new Date('2022-03-03').getTime(),
         type: 'LegacyModificationImported',
@@ -64,8 +64,8 @@ describe('onLegacyModificationImported', () => {
       await onLegacyModificationImported(
         new LegacyModificationImported({
           payload: {
-            projectId: projectId1.toString(),
-            importId: importId1.toString(),
+            projectId: targetProjectId,
+            importId,
             modifications: [],
           },
           original: {
@@ -78,17 +78,11 @@ describe('onLegacyModificationImported', () => {
       const res = await ProjectEvent.findAll()
       expect(res).toHaveLength(2)
 
-      const res1 = await ProjectEvent.findAll({ where: { id: id11 } })
-      expect(res1).toHaveLength(0)
+      expect(res).not.toContainEqual(expect.objectContaining({ id: legacyTargetProject1 }))
+      expect(res).not.toContainEqual(expect.objectContaining({ id: legacyTargetProject2 }))
 
-      const res2 = await ProjectEvent.findAll({ where: { id: id12 } })
-      expect(res2).toHaveLength(0)
-
-      const res3 = await ProjectEvent.findAll({ where: { id: id13 } })
-      expect(res3).toHaveLength(1)
-
-      const res4 = await ProjectEvent.findAll({ where: { id: id2 } })
-      expect(res4).toHaveLength(1)
+      expect(res).toContainEqual(expect.objectContaining({ id: nonLegacyTargetProject }))
+      expect(res).toContainEqual(expect.objectContaining({ id: legacyOtherProject }))
     })
   })
 
