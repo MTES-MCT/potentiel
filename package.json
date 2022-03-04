@@ -101,7 +101,7 @@
     "neverthrow": "^4.3.1",
     "node-mailjet": "^3.3.7",
     "npm": "^8.5.3",
-    "passport": "^0.4.1",
+    "passport": "^0.5.2",
     "passport-local": "^1.0.0",
     "path-browserify": "^1.0.1",
     "pg": "^8.7.3",
