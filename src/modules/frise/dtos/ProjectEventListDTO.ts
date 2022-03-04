@@ -277,7 +277,7 @@ export type ProjectEventListDTO = {
   project: {
     id: Project['id']
     isLaureat: boolean
-    isSoumisAuxGF: boolean
+    isSoumisAuxGF?: boolean
     isGarantiesFinancieresDeposeesALaCandidature?: boolean
   }
   events: ProjectEventDTO[]

@@ -30,9 +30,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
         project: {
           id: projectId,
           isLaureat,
-          isSoumisAuxGF: isSoumisAuxGF(appelOffreId, periodeId, familleId),
+          isSoumisAuxGF: appelOffre?.isSoumisAuxGFs,
           isGarantiesFinancieresDeposeesALaCandidature:
-            getIsGarantiesFinancieresDeposeesALaCandidature(appelOffreId),
+            appelOffre?.garantiesFinancieresDeposeesALaCandidature,
         },
         events: await rawEvents
           .map((item) => item.get())
@@ -210,14 +210,4 @@ function getEvents(projectId) {
   return wrapInfra(
     ProjectEvent.findAll({ where: { projectId }, order: [['eventPublishedAt', 'ASC']] })
   )
-}
-
-function getIsGarantiesFinancieresDeposeesALaCandidature(appelOffreId: string) {
-  const appelOffre = appelsOffreStatic.find((ao) => ao.id === appelOffreId)
-  return appelOffre?.garantiesFinancieresDeposeesALaCandidature
-}
-
-function isSoumisAuxGF(appelOffreId: string, periodeId: string, familleId: string) {
-  const projectAppelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
-  return !!projectAppelOffre?.isSoumisAuxGFs
 }

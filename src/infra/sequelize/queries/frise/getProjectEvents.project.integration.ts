@@ -51,10 +51,6 @@ describe('getProjectEvents project property', () => {
         const appelOffreId = 'PPE2 - Eolien'
         const familleId = '1'
         const periodeId = '1'
-        const isSoumisAuxGarantiesFinancieres = jest.fn((appelOffreId, familleId) =>
-          Promise.resolve(true)
-        )
-        const isSoumisAuxGF = isSoumisAuxGarantiesFinancieres(appelOffreId, familleId)
         const fakeProject = makeFakeProject({
           id: projectId,
           classe: 'Classé',
@@ -70,7 +66,7 @@ describe('getProjectEvents project property', () => {
           project: {
             id: projectId,
             isLaureat: true,
-            isSoumisAuxGF,
+            isSoumisAuxGF: true,
           },
         })
       })
@@ -88,11 +84,6 @@ describe('getProjectEvents project property', () => {
             periodeId,
           })
           await Project.create(fakeProject)
-          const getIsGarantiesFinancieresDeposeesALaCandidature = jest.fn(
-            (appelOffreId, periodeId, familleId) => Promise.resolve(true)
-          )
-          const isGarantiesFinancieresDeposeesALaCandidature =
-            getIsGarantiesFinancieresDeposeesALaCandidature(appelOffreId, periodeId, familleId)
           const res = await getProjectEvents({ projectId, user: fakeUser })
 
           expect(res._unsafeUnwrap()).toMatchObject({
@@ -100,7 +91,7 @@ describe('getProjectEvents project property', () => {
               id: projectId,
               isLaureat: true,
               isSoumisAuxGF: true,
-              isGarantiesFinancieresDeposeesALaCandidature,
+              isGarantiesFinancieresDeposeesALaCandidature: true,
             },
           })
         })
@@ -112,10 +103,6 @@ describe('getProjectEvents project property', () => {
         const appelOffreId = 'PPE2 - Innovation'
         const familleId = '1'
         const periodeId = '1'
-        const isSoumisAuxGarantiesFinancieres = jest.fn((appelOffreId, familleId) =>
-          Promise.resolve(false)
-        )
-        const isSoumisAuxGF = isSoumisAuxGarantiesFinancieres(appelOffreId, familleId)
         const fakeProject = makeFakeProject({
           id: projectId,
           classe: 'Classé',
@@ -131,7 +118,7 @@ describe('getProjectEvents project property', () => {
           project: {
             id: projectId,
             isLaureat: true,
-            isSoumisAuxGF,
+            isSoumisAuxGF: false,
           },
         })
       })
