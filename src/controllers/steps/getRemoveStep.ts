@@ -12,7 +12,7 @@ import { UnauthorizedError } from '@modules/shared'
 
 v1Router.get(
   routes.SUPPRIMER_ETAPE_ACTION(),
-  ensureRole(['admin', 'dgec', 'porteur-projet']),
+  ensureRole(['porteur-projet']),
   asyncHandler(async (request, response) => {
     const { user } = request
     const { projectId, type } = request.params

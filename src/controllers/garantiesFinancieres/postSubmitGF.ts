@@ -15,7 +15,7 @@ import { v1Router } from '../v1Router'
 
 v1Router.post(
   routes.SUBMIT_GARANTIES_FINANCIERES(),
-  ensureRole(['admin', 'dgec', 'dreal', 'porteur-projet']),
+  ensureRole(['porteur-projet']),
   upload.single('file'),
   asyncHandler(async (request, response) => {
     const { type, stepDate, projectId } = request.body
