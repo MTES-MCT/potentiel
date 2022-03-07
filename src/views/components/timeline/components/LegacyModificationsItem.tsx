@@ -6,63 +6,56 @@ import { formatDate } from '../../../../helpers/formatDate'
 export const LegacyModificationsItem = (props: LegacyModificationsItemProps) => {
   const { status } = props
   switch (status) {
-    case 'rejetée':
-      return <Rejected {...{ ...props, status }} />
-    case 'acceptée':
-      return <Accepted {...{ ...props, status }} />
+    case 'rejeté':
+      return <RecoursRejected {...props} />
+    case 'accepté':
+      return <Accepted {...props} />
   }
 }
 
-type RejectedProps = LegacyModificationsItemProps & {
-  status: 'rejetée'
-}
-
-const Rejected = (props: RejectedProps) => {
-  const { date, status } = props
+const RecoursRejected = (props: LegacyModificationsItemProps) => {
+  const { date } = props
   return (
     <>
       <UnvalidatedStepIcon />
       <ContentArea>
         <ItemDate date={date} />
-        <Title {...{ ...props, status }} />
+        <ItemTitle title={`Recours rejeté *`} />
+        <p className="p-0 m-0 italic">*Démarche réalisée avant l'import du projet dans Potentiel</p>
       </ContentArea>
     </>
   )
 }
 
-type AcceptedProps = LegacyModificationsItemProps & {
-  status: 'acceptée'
-}
-
-const Accepted = (props: AcceptedProps) => {
+const Accepted = (props: LegacyModificationsItemProps) => {
   const { date } = props
   return (
     <>
       <PastIcon />
       <ContentArea>
         <ItemDate date={date} />
-        <Title {...props} />
+        <Details {...props} />
       </ContentArea>
     </>
   )
 }
 
-const Title = (props: LegacyModificationsItemProps) => {
-  const { status, modificationType } = props
+const Details = (props: LegacyModificationsItemProps) => {
+  const { modificationType } = props
 
   const libelleTypeDemande: { [key in LegacyModificationsItemProps['modificationType']]: string } =
     {
-      abandon: `d'abandon`,
-      delai: `de prolongation de délai`,
-      recours: `de recours`,
-      producteur: 'de changement de producteur',
-      actionnaire: "de modification de l'actionnariat",
-      autre: 'de modification',
+      abandon: `Abandon`,
+      delai: `Delai supplémentaire`,
+      recours: `Recours`,
+      producteur: 'Changement de producteur',
+      actionnaire: "Modification de l'actionnariat",
+      autre: 'Modification',
     }
 
   return (
     <>
-      <ItemTitle title={`Demande ${libelleTypeDemande[modificationType]} ${status}*`} />
+      <ItemTitle title={`${libelleTypeDemande[modificationType]}*`} />
       {modificationType === 'delai' && (
         <>
           <p className="p-0 m-0">
@@ -84,9 +77,7 @@ const Title = (props: LegacyModificationsItemProps) => {
           {props.column} : {props.value}
         </p>
       )}
-      <p className="p-0 m-0 italic">
-        *Cette démarche a été réalisée avant l'import du projet dans Potentiel
-      </p>
+      <p className="p-0 m-0 italic">*Démarche réalisée avant l'import du projet dans Potentiel</p>
     </>
   )
 }

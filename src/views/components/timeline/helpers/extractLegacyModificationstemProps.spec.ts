@@ -39,7 +39,7 @@ describe('extractLegacyModificationsItemProps', () => {
         {
           type: 'modification-historique',
           date,
-          status: 'acceptée',
+          status: 'accepté',
           modificationType: 'abandon',
         },
       ])
@@ -64,7 +64,7 @@ describe('extractLegacyModificationsItemProps', () => {
         {
           type: 'modification-historique',
           date,
-          status: 'rejetée',
+          status: 'rejeté',
           modificationType: 'recours',
         },
       ])
@@ -90,7 +90,7 @@ describe('extractLegacyModificationsItemProps', () => {
         {
           type: 'modification-historique',
           date,
-          status: 'acceptée',
+          status: 'accepté',
           modificationType: 'delai',
           ancienneDateLimiteAchevement: new Date('2022-01-01').getTime(),
           nouvelleDateLimiteAchevement: new Date('2024-01-01').getTime(),
@@ -117,7 +117,7 @@ describe('extractLegacyModificationsItemProps', () => {
         {
           type: 'modification-historique',
           date,
-          status: 'acceptée',
+          status: 'accepté',
           modificationType: 'actionnaire',
           actionnairePrecedent: 'actionnaire précédent',
         },
@@ -143,7 +143,7 @@ describe('extractLegacyModificationsItemProps', () => {
         {
           type: 'modification-historique',
           date,
-          status: 'acceptée',
+          status: 'accepté',
           modificationType: 'producteur',
           producteurPrecedent: 'producteur précédent',
         },
@@ -170,7 +170,7 @@ describe('extractLegacyModificationsItemProps', () => {
         {
           type: 'modification-historique',
           date,
-          status: 'acceptée',
+          status: 'accepté',
           modificationType: 'autre',
           column: 'col',
           value: 'val',

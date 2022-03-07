@@ -8,31 +8,31 @@ export type LegacyModificationsItemProps = {
       modificationType: 'delai'
       ancienneDateLimiteAchevement: number
       nouvelleDateLimiteAchevement: number
-      status: 'acceptée'
+      status: 'accepté'
     }
   | {
       modificationType: 'abandon'
-      status: 'acceptée'
+      status: 'accepté'
     }
   | {
       modificationType: 'recours'
-      status: 'acceptée' | 'rejetée'
+      status: 'accepté' | 'rejeté'
     }
   | {
       modificationType: 'producteur'
       producteurPrecedent: string
-      status: 'acceptée'
+      status: 'accepté'
     }
   | {
       modificationType: 'actionnaire'
       actionnairePrecedent: string
-      status: 'acceptée'
+      status: 'accepté'
     }
   | {
       modificationType: 'autre'
       column: string
       value: string
-      status: 'acceptée'
+      status: 'accepté'
     }
 )
 
@@ -54,7 +54,7 @@ export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) =
         propsArray.push({
           type: 'modification-historique',
           date: event.date,
-          status: 'acceptée',
+          status: 'accepté',
           modificationType: 'abandon',
         })
         break
@@ -62,7 +62,7 @@ export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) =
         propsArray.push({
           type: 'modification-historique',
           date: event.date,
-          status: event.accepted ? 'acceptée' : 'rejetée',
+          status: event.accepted ? 'accepté' : 'rejeté',
           modificationType: 'recours',
         })
         break
@@ -73,7 +73,7 @@ export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) =
           modificationType: 'delai',
           ancienneDateLimiteAchevement: event.ancienneDateLimiteAchevement,
           nouvelleDateLimiteAchevement: event.nouvelleDateLimiteAchevement,
-          status: 'acceptée',
+          status: 'accepté',
         })
         break
       case 'actionnaire':
@@ -82,7 +82,7 @@ export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) =
           date: event.date,
           modificationType: 'actionnaire',
           actionnairePrecedent: event.actionnairePrecedent,
-          status: 'acceptée',
+          status: 'accepté',
         })
         break
       case 'producteur':
@@ -91,7 +91,7 @@ export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) =
           date: event.date,
           modificationType: 'producteur',
           producteurPrecedent: event.producteurPrecedent,
-          status: 'acceptée',
+          status: 'accepté',
         })
         break
       case 'autre':
@@ -101,7 +101,7 @@ export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) =
           modificationType: 'autre',
           column: event.column,
           value: event.value,
-          status: 'acceptée',
+          status: 'accepté',
         })
         break
     }
