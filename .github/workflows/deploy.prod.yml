@@ -24,6 +24,7 @@ jobs:
         uses: 47ng/actions-clever-cloud@v1
         with:
           appID: app_01c01a7d-783f-42a6-8d10-db9167ae056b
+          timeout: 1800
         env:
           CLEVER_TOKEN: ${{ secrets.CLEVER_TOKEN }}
           CLEVER_SECRET: ${{ secrets.CLEVER_SECRET }}
