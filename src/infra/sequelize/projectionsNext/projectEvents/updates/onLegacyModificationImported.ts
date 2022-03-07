@@ -5,7 +5,10 @@ import { ProjectEvent } from '../projectEvent.model'
 export default ProjectEvent.projector.on(
   LegacyModificationImported,
   async ({ payload: { projectId, modifications }, occurredAt }, transaction) => {
-    await ProjectEvent.destroy({ where: { projectId, type: 'LegacyModificationImported' } })
+    await ProjectEvent.destroy({
+      where: { projectId, type: 'LegacyModificationImported' },
+      transaction,
+    })
 
     for (const modification of modifications) {
       const common = {
