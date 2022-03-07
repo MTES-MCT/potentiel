@@ -123,7 +123,7 @@ describe('extractModificationRequestItemProps', () => {
           type: 'demande-de-modification',
           date: new Date('2022-02-10').getTime(),
           delayInMonths: 9,
-          status: 'rejetée',
+          status: 'rejeté',
           modificationType: 'delai',
           authority: 'dgec',
           role: 'porteur-projet',
@@ -131,7 +131,7 @@ describe('extractModificationRequestItemProps', () => {
         {
           type: 'demande-de-modification',
           date: new Date('2022-02-09').getTime(),
-          status: 'envoyée',
+          status: 'envoyé',
           modificationType: 'abandon',
           authority: 'dreal',
           role: 'porteur-projet',
@@ -139,7 +139,7 @@ describe('extractModificationRequestItemProps', () => {
         {
           type: 'demande-de-modification',
           date: new Date('2022-02-09').getTime(),
-          status: 'envoyée',
+          status: 'envoyé',
           modificationType: 'recours',
           authority: 'dreal',
           role: 'porteur-projet',
@@ -147,7 +147,7 @@ describe('extractModificationRequestItemProps', () => {
         {
           type: 'demande-de-modification',
           date: new Date('2022-02-09').getTime(),
-          status: 'envoyée',
+          status: 'envoyé',
           modificationType: 'puissance',
           authority: 'dreal',
           role: 'porteur-projet',
@@ -158,7 +158,7 @@ describe('extractModificationRequestItemProps', () => {
     })
   })
   describe('when there is a ModificationRequestAccepted event', () => {
-    it('should return an "acceptée" status', () => {
+    it('should return an "accepté" status', () => {
       const modificationRequestId = new UniqueEntityID().toString()
 
       const projectEventList: ProjectEventDTO[] = [
@@ -187,7 +187,7 @@ describe('extractModificationRequestItemProps', () => {
           type: 'demande-de-modification',
           date: new Date('2022-02-10').getTime(),
           delayInMonths: 9,
-          status: 'acceptée',
+          status: 'accepté',
           modificationType: 'delai',
           authority: 'dgec',
           role: 'porteur-projet',
@@ -227,7 +227,7 @@ describe('extractModificationRequestItemProps', () => {
           type: 'demande-de-modification',
           date: new Date('2022-02-10').getTime(),
           delayInMonths: 9,
-          status: 'rejetée',
+          status: 'rejeté',
           modificationType: 'delai',
           authority: 'dgec',
           role: 'porteur-projet',
@@ -304,7 +304,7 @@ describe('extractModificationRequestItemProps', () => {
           type: 'demande-de-modification',
           date: new Date('2022-02-10').getTime(),
           delayInMonths: 9,
-          status: 'annulée',
+          status: 'annulé',
           modificationType: 'delai',
           authority: 'dgec',
           role: 'porteur-projet',
@@ -378,7 +378,7 @@ describe('extractModificationRequestItemProps', () => {
         {
           type: 'demande-de-modification',
           date: new Date('2022-02-10').getTime(),
-          status: 'demande confirmée',
+          status: 'confirmé',
           modificationType: 'abandon',
           authority: 'dgec',
           role: 'porteur-projet',

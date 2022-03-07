@@ -14,24 +14,24 @@ import { CancelledStepIcon } from './cancelledStepIcon'
 export const ModificationRequestItem = (props: ModificationRequestItemProps) => {
   const { status } = props
   switch (status) {
-    case 'envoyée':
+    case 'envoyé':
     case 'en instruction':
       return <Submitted {...{ ...props, status }} />
-    case 'rejetée':
+    case 'rejeté':
       return <Rejected {...{ ...props, status }} />
-    case 'acceptée':
+    case 'accepté':
       return <Accepted {...{ ...props, status }} />
-    case 'annulée':
+    case 'annulé':
       return <Cancelled {...{ ...props, status }} />
     case 'en attente de confirmation':
       return <ConfirmationRequested {...props} />
-    case 'demande confirmée':
+    case 'confirmé':
       return <RequestConfirmed {...props} />
   }
 }
 
 type SubmittedProps = ModificationRequestItemProps & {
-  status: 'envoyée' | 'en instruction'
+  status: 'envoyé' | 'en instruction'
 }
 
 const Submitted = (props: SubmittedProps) => {
@@ -47,18 +47,18 @@ const Submitted = (props: SubmittedProps) => {
           </div>
           {displayWarning && (
             <div className="align-center mb-1">
-              <InfoItem message={status === 'envoyée' ? 'à traiter' : 'réponse à envoyer'} />
+              <InfoItem message={status === 'envoyé' ? 'à traiter' : 'réponse à envoyer'} />
             </div>
           )}
         </div>
-        <Title {...props} />
+        <Details {...props} />
       </ContentArea>
     </>
   )
 }
 
 type RejectedProps = ModificationRequestItemProps & {
-  status: 'rejetée'
+  status: 'rejeté'
 }
 
 const Rejected = (props: RejectedProps) => {
@@ -68,7 +68,7 @@ const Rejected = (props: RejectedProps) => {
       <UnvalidatedStepIcon />
       <ContentArea>
         <ItemDate date={date} />
-        <Title {...props} />
+        <Details {...props} />
         {url && <a href={url}>Voir le courrier de réponse</a>}
       </ContentArea>
     </>
@@ -76,7 +76,7 @@ const Rejected = (props: RejectedProps) => {
 }
 
 type AcceptedProps = ModificationRequestItemProps & {
-  status: 'acceptée'
+  status: 'accepté'
 }
 
 const Accepted = (props: AcceptedProps) => {
@@ -86,7 +86,7 @@ const Accepted = (props: AcceptedProps) => {
       <PastIcon />
       <ContentArea>
         <ItemDate date={date} />
-        <Title {...props} />
+        <Details {...props} />
         {url && <a href={url}>Voir le courrier de réponse</a>}
       </ContentArea>
     </>
@@ -94,7 +94,7 @@ const Accepted = (props: AcceptedProps) => {
 }
 
 type CancelledProps = ModificationRequestItemProps & {
-  status: 'annulée'
+  status: 'annulé'
 }
 
 const Cancelled = (props: CancelledProps) => {
@@ -104,7 +104,7 @@ const Cancelled = (props: CancelledProps) => {
       <CancelledStepIcon />
       <ContentArea>
         <ItemDate date={date} />
-        <Title {...props} />
+        <Details {...props} />
         <p className="p-0 m-0">Demande annulée par le porteur de projet</p>
       </ContentArea>
     </>
@@ -123,11 +123,11 @@ const ConfirmationRequested = (props: ModificationRequestItemProps) => {
           </div>
           {role === 'porteur-projet' && (
             <div className="align-center mb-1">
-              <InfoItem message="demande de confirmation à traiter" />
+              <InfoItem message="Abandon à confirmer" />
             </div>
           )}
         </div>
-        <ItemTitle title={`Demande d'abandon en attente d'une confirmation du Porteur de projet`} />
+        <ItemTitle title={`Abandon en attente de confirmation`} />
         {url && <a href={url}>Voir le courrier de réponse</a>}
       </ContentArea>
     </>
@@ -150,13 +150,13 @@ const RequestConfirmed = (props: ModificationRequestItemProps) => {
             </div>
           )}
         </div>
-        <ItemTitle title={`Demande d'abandon confirmée par le porteur de projet`} />
+        <ItemTitle title={`Abandon confirmé par le porteur`} />
       </ContentArea>
     </>
   )
 }
 
-const Title = (
+const Details = (
   props: { status: ModificationRequestItemProps['status'] } & (
     | { modificationType: 'delai'; delayInMonths: number }
     | { modificationType: 'puissance'; puissance: number; unitePuissance: string }
@@ -167,15 +167,15 @@ const Title = (
 
   const libelleTypeDemande: { [key in ModificationRequestItemProps['modificationType']]: string } =
     {
-      abandon: `d'abandon`,
-      delai: `de prolongation de délai`,
-      recours: `de recours`,
-      puissance: `de changement de puissance installée`,
+      abandon: `Abandon`,
+      delai: `Délai supplémentaire`,
+      recours: `Recours`,
+      puissance: `Changement de puissance installée`,
     }
 
   return (
     <>
-      <ItemTitle title={`Demande ${libelleTypeDemande[modificationType]} ${status}`} />
+      <ItemTitle title={`${libelleTypeDemande[modificationType]} ${status}`} />
       {modificationType === 'delai' && (
         <p className="p-0 m-0">Délai demandé : {props.delayInMonths} mois</p>
       )}
