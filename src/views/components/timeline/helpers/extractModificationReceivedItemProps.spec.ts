@@ -33,6 +33,7 @@ describe('extractModificationReceivedItemProps', () => {
           variant: 'admin',
           modificationType: 'actionnaire',
           actionnaire: 'actionnaire',
+          modificationRequestId: 'id',
         } as ModificationReceivedDTO,
       ]
       const result = extractModificationReceivedItemProps(projectEventList)
@@ -43,6 +44,7 @@ describe('extractModificationReceivedItemProps', () => {
           date,
           modificationType: 'actionnaire',
           actionnaire: 'actionnaire',
+          detailsUrl: expect.anything(),
         },
       ])
     })
@@ -58,6 +60,7 @@ describe('extractModificationReceivedItemProps', () => {
           variant: 'admin',
           modificationType: 'producteur',
           producteur: 'producteur',
+          modificationRequestId: 'id',
         } as ModificationReceivedDTO,
       ]
       const result = extractModificationReceivedItemProps(projectEventList)
@@ -68,6 +71,7 @@ describe('extractModificationReceivedItemProps', () => {
           date,
           modificationType: 'producteur',
           producteur: 'producteur',
+          detailsUrl: expect.anything(),
         },
       ])
     })
@@ -86,6 +90,7 @@ describe('extractModificationReceivedItemProps', () => {
             { kind: 'Nom du fabricant \n(Modules ou films)', name: 'name1' },
             { kind: 'Nom du fabricant \n(Polysilicium)', name: 'name2' },
           ],
+          modificationRequestId: 'id',
         } as ModificationReceivedDTO,
       ]
       const result = extractModificationReceivedItemProps(projectEventList)
@@ -99,6 +104,7 @@ describe('extractModificationReceivedItemProps', () => {
             { kind: 'Nom du fabricant \n(Modules ou films)', name: 'name1' },
             { kind: 'Nom du fabricant \n(Polysilicium)', name: 'name2' },
           ],
+          detailsUrl: expect.anything(),
         },
       ])
     })
@@ -115,6 +121,7 @@ describe('extractModificationReceivedItemProps', () => {
           modificationType: 'puissance',
           puissance: 2,
           unitePuissance: 'MW',
+          modificationRequestId: 'id',
         } as ModificationReceivedDTO,
       ]
       const result = extractModificationReceivedItemProps(projectEventList)
@@ -126,6 +133,7 @@ describe('extractModificationReceivedItemProps', () => {
           modificationType: 'puissance',
           puissance: 2,
           unitePuissance: 'MW',
+          detailsUrl: expect.anything(),
         },
       ])
     })
