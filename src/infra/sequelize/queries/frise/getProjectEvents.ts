@@ -197,6 +197,33 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                     })
                   }
                   break
+                case 'LegacyModificationImported':
+                  if (userIsNot('ademe')(user)) {
+                    events.push({
+                      type,
+                      date: valueDate,
+                      variant: user.role,
+                      modificationType: payload.modificationType,
+                      ...(payload.modificationType === 'delai' && {
+                        ancienneDateLimiteAchevement: payload.ancienneDateLimiteAchevement,
+                        nouvelleDateLimiteAchevement: payload.nouvelleDateLimiteAchevement,
+                      }),
+                      ...(payload.modificationType === 'recours' && {
+                        accepted: payload.accepted,
+                      }),
+                      ...(payload.modificationType === 'actionnaire' && {
+                        actionnairePrecedent: payload.actionnairePrecedent,
+                      }),
+                      ...(payload.modificationType === 'producteur' && {
+                        producteurPrecedent: payload.producteurPrecedent,
+                      }),
+                      ...(payload.modificationType === 'autre' && {
+                        column: payload.column,
+                        value: payload.value,
+                      }),
+                    })
+                  }
+                  break
               }
 
               return Promise.resolve(events)

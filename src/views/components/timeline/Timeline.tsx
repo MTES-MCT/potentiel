@@ -37,7 +37,10 @@ import {
   ModificationRequestItemProps,
   ModificationReceivedItemProps,
   extractModificationReceivedItemProps,
+  extractLegacyModificationsItemProps,
+  LegacyModificationsItemProps,
 } from './helpers'
+import { LegacyModificationsItem } from './components/LegacyModificationsItem'
 
 export type TimelineProps = {
   projectEventList: ProjectEventListDTO
@@ -56,6 +59,7 @@ type ItemProps =
   | CAItemProps
   | ModificationRequestItemProps
   | ModificationReceivedItemProps
+  | LegacyModificationsItemProps
 
 type UndatedItemProps = ItemProps & { date: undefined }
 
@@ -87,6 +91,7 @@ export const Timeline = ({
     PTFItemProps?.status === 'submitted' ? PTFItemProps : null,
     ...extractModificationRequestsItemProps(events),
     ...extractModificationReceivedItemProps(events),
+    ...extractLegacyModificationsItemProps(events),
   ]
     .filter(isNotNull)
     .sort((a, b) => a.date - b.date)
@@ -135,6 +140,9 @@ export const Timeline = ({
 
       case 'modification-information':
         return <ModificationReceivedItem {...props} />
+
+      case 'modification-historique':
+        return <LegacyModificationsItem {...props} />
     }
   })
 

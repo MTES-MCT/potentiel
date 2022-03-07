@@ -10,6 +10,7 @@ export * from './ImportItem';
 export * from './InfoItem';
 export * from './ItemDate';
 export * from './ItemTitle';
+export * from './LegacyModificationsItem';
 export * from './MeSItem';
 export * from './ModificationReceivedItem';
 export * from './ModificationRequestItem';

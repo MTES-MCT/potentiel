@@ -5,6 +5,7 @@ export * from './extractDCRItemProps';
 export * from './extractDesignationItemProps';
 export * from './extractGFItemProps';
 export * from './extractImportItemProps';
+export * from './extractLegacyModificationsItemProps';
 export * from './extractMeSItemProps';
 export * from './extractModificationReceivedItemProps';
 export * from './extractModificationRequestsItemProps';

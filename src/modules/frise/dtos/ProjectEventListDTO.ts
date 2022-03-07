@@ -32,6 +32,7 @@ export type ProjectEventDTO =
   | ConfirmationRequestedDTO
   | ModificationRequestConfirmedDTO
   | ModificationReceivedDTO
+  | LegacyModificationImportedDTO
 
 type File = {
   id: string
@@ -271,6 +272,23 @@ export type ModificationReceivedDTO = {
   | { modificationType: 'producteur'; producteur: string }
   | { modificationType: 'fournisseur'; fournisseurs: Fournisseur[] }
   | { modificationType: 'puissance'; puissance: number; unitePuissance?: string }
+)
+
+export type LegacyModificationImportedDTO = {
+  type: 'LegacyModificationImported'
+  date: number
+  variant: Exclude<UserRole, 'ademe'>
+} & (
+  | { modificationType: 'abandon' }
+  | { modificationType: 'recours'; accepted: boolean }
+  | {
+      modificationType: 'delai'
+      ancienneDateLimiteAchevement: number
+      nouvelleDateLimiteAchevement: number
+    }
+  | { modificationType: 'actionnaire'; actionnairePrecedent: string }
+  | { modificationType: 'producteur'; producteurPrecedent: string }
+  | { modificationType: 'autre'; column: string; value: string }
 )
 
 export type ProjectEventListDTO = {
