@@ -267,6 +267,7 @@ export type ModificationReceivedDTO = {
   type: 'ModificationReceived'
   date: number
   variant: Exclude<UserRole, 'ademe'>
+  modificationRequestId: string
 } & (
   | { modificationType: 'actionnaire'; actionnaire: string }
   | { modificationType: 'producteur'; producteur: string }

@@ -5,7 +5,7 @@ import { ProjectEvent } from '../projectEvent.model'
 export default ProjectEvent.projector.on(
   ModificationReceived,
   async ({ payload, occurredAt }, transaction) => {
-    const { projectId, type } = payload
+    const { projectId, type, modificationRequestId } = payload
     const common = {
       projectId,
       type: ModificationReceived.type,
@@ -22,6 +22,7 @@ export default ProjectEvent.projector.on(
             payload: {
               modificationType: type,
               producteur: payload.producteur,
+              modificationRequestId,
             },
           },
           { transaction }
@@ -34,6 +35,7 @@ export default ProjectEvent.projector.on(
             payload: {
               modificationType: type,
               actionnaire: payload.actionnaire,
+              modificationRequestId,
             },
           },
           { transaction }
@@ -46,6 +48,7 @@ export default ProjectEvent.projector.on(
             payload: {
               modificationType: type,
               fournisseurs: payload.fournisseurs,
+              modificationRequestId,
             },
           },
           { transaction }
@@ -58,6 +61,7 @@ export default ProjectEvent.projector.on(
             payload: {
               modificationType: type,
               puissance: payload.puissance,
+              modificationRequestId,
             },
           },
           { transaction }
