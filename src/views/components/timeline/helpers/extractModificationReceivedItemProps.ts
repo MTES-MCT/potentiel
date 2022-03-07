@@ -1,9 +1,11 @@
 import { is, ProjectEventDTO } from '@modules/frise'
 import { Fournisseur } from '@modules/project'
+import ROUTES from '../../../../routes'
 
 export type ModificationReceivedItemProps = {
   type: 'modification-information'
   date: number
+  detailsUrl: string
 } & (
   | { modificationType: 'actionnaire'; actionnaire: string }
   | { modificationType: 'producteur'; producteur: string }
@@ -26,6 +28,7 @@ export const extractModificationReceivedItemProps = (
   let propsArray: ModificationReceivedItemProps[] = []
 
   for (const event of modificationReceivedEvents) {
+    const detailsUrl = ROUTES.DEMANDE_PAGE_DETAILS(event.modificationRequestId)
     switch (event.modificationType) {
       case 'actionnaire':
         propsArray.push({
@@ -33,6 +36,7 @@ export const extractModificationReceivedItemProps = (
           date: event.date,
           modificationType: 'actionnaire',
           actionnaire: event.actionnaire,
+          detailsUrl,
         })
         break
       case 'producteur':
@@ -41,6 +45,7 @@ export const extractModificationReceivedItemProps = (
           date: event.date,
           modificationType: 'producteur',
           producteur: event.producteur,
+          detailsUrl,
         })
         break
       case 'fournisseur':
@@ -49,6 +54,7 @@ export const extractModificationReceivedItemProps = (
           date: event.date,
           modificationType: 'fournisseur',
           fournisseurs: event.fournisseurs,
+          detailsUrl,
         })
         break
       case 'puissance':
@@ -58,6 +64,7 @@ export const extractModificationReceivedItemProps = (
           modificationType: 'puissance',
           puissance: event.puissance,
           unitePuissance: event.unitePuissance || '??',
+          detailsUrl,
         })
         break
     }

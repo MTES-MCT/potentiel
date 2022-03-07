@@ -15,7 +15,7 @@ export const ModificationReceivedItem = (props: ModificationReceivedItemProps) =
 }
 
 const Details = (props: ModificationReceivedItemProps) => {
-  const { modificationType } = props
+  const { modificationType, detailsUrl } = props
   const libelleTypeDemande: { [key in ModificationReceivedItemProps['modificationType']]: string } =
     {
       producteur: 'Changement de producteur',
@@ -47,6 +47,7 @@ const Details = (props: ModificationReceivedItemProps) => {
           ))}
         </ul>
       )}
+      <a href={detailsUrl}>Voir la demande</a>
     </>
   )
 }
