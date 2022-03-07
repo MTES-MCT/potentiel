@@ -17,6 +17,8 @@ export * from './onProjectDCRSubmitted';
 export * from './onProjectGFDueDateSet';
 export * from './onProjectGFRemoved';
 export * from './onProjectGFSubmitted';
+export * from './onProjectGFUploaded';
+export * from './onProjectGFWithdrawn';
 export * from './onProjectImported';
 export * from './onProjectNotificationDateSet';
 export * from './onProjectNotified';

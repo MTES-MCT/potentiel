@@ -5,7 +5,7 @@ import { InfraNotAvailableError } from '@modules/shared'
 import { UnwrapForTest } from '../../../types'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { UnauthorizedError } from '../../shared'
-import { ProjectDCRRemoved, ProjectGFRemoved, ProjectPTFRemoved } from '../events'
+import { ProjectDCRRemoved, ProjectPTFRemoved } from '../events'
 import { makeRemoveStep } from './removeStep'
 
 const projectId = new UniqueEntityID().toString()
@@ -88,44 +88,6 @@ describe('removeStep use-case', () => {
         const targetEvent = fakePublish.mock.calls
           .map((call) => call[0])
           .find((event) => event.type === ProjectDCRRemoved.type) as ProjectDCRRemoved
-
-        expect(targetEvent).toBeDefined()
-        if (!targetEvent) return
-
-        expect(targetEvent.payload.projectId).toEqual(projectId)
-        expect(targetEvent.payload.removedBy).toEqual(user.id)
-      })
-    })
-
-    describe('when type is garantie-financiere', () => {
-      beforeAll(async () => {
-        const shouldUserAccessProject = jest.fn(async () => true)
-        fakePublish.mockClear()
-
-        const removeStep = makeRemoveStep({
-          eventBus: fakeEventBus,
-          shouldUserAccessProject,
-        })
-
-        const res = await removeStep({
-          type: 'garantie-financiere',
-          projectId,
-          removedBy: user,
-        })
-
-        expect(res.isOk()).toBe(true)
-
-        expect(shouldUserAccessProject).toHaveBeenCalledWith({
-          user,
-          projectId,
-        })
-      })
-
-      it('should trigger a ProjectGFRemoved event', async () => {
-        expect(fakePublish).toHaveBeenCalled()
-        const targetEvent = fakePublish.mock.calls
-          .map((call) => call[0])
-          .find((event) => event.type === ProjectGFRemoved.type) as ProjectGFRemoved
 
         expect(targetEvent).toBeDefined()
         if (!targetEvent) return

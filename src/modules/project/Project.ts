@@ -27,7 +27,9 @@ import {
 import { ProjectDataForCertificate } from './dtos'
 import {
   EliminatedProjectCannotBeAbandonnedError,
+  GFCertificateHasAlreadyBeenSentError,
   IllegalProjectStateError,
+  NoGFCertificateToDeleteError,
   ProjectAlreadyNotifiedError,
   ProjectCannotBeUpdatedIfUnnotifiedError,
   ProjectNotEligibleForCertificateError,
@@ -57,6 +59,8 @@ import {
   ProjectPuissanceUpdated,
   ProjectReimported,
   ProjectReimportedPayload,
+  ProjectGFUploaded,
+  ProjectGFWithdrawn,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre'
@@ -112,6 +116,22 @@ export interface Project extends EventStoreAggregate {
     certificateFileId: string
     reason?: string
   }) => Result<null, IllegalInitialStateForAggregateError>
+  submitGarantiesFinancieres: (
+    gfDate: Date,
+    fileId: string,
+    submittedBy: User
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>
+  uploadGarantiesFinancieres: (
+    gfDate: Date,
+    fileId: string,
+    submittedBy: User
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>
+  removeGarantiesFinancieres: (
+    removedBy: User
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>
+  withdrawGarantiesFinancieres: (
+    removedBy: User
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>
   readonly shouldCertificateBeGenerated: boolean
   readonly appelOffre?: ProjectAppelOffre
   readonly isClasse?: boolean
@@ -253,8 +273,8 @@ export const makeProject = (args: {
       )
 
       _updateDCRDate()
-      _updateGFDate()
       _updateCompletionDate()
+      !appelOffre.garantiesFinancieresDeposeesALaCandidature && _updateGFDate()
 
       return ok(null)
     },
@@ -589,6 +609,78 @@ export const makeProject = (args: {
 
       return ok(null)
     },
+    submitGarantiesFinancieres: function (gfDate, fileId, submittedBy) {
+      if (!_isNotified()) {
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+      }
+      if (props.hasCurrentGf) {
+        return err(new GFCertificateHasAlreadyBeenSentError())
+      }
+      _publishEvent(
+        new ProjectGFSubmitted({
+          payload: {
+            projectId: props.projectId.toString(),
+            fileId: fileId,
+            gfDate: gfDate,
+            submittedBy: submittedBy.id,
+          },
+        })
+      )
+      return ok(null)
+    },
+    uploadGarantiesFinancieres: function (gfDate, fileId, submittedBy) {
+      if (!_isNotified()) {
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+      }
+      if (props.hasCurrentGf) {
+        return err(new GFCertificateHasAlreadyBeenSentError())
+      }
+      _publishEvent(
+        new ProjectGFUploaded({
+          payload: {
+            projectId: props.projectId.toString(),
+            fileId: fileId,
+            gfDate: gfDate,
+            submittedBy: submittedBy.id,
+          },
+        })
+      )
+      return ok(null)
+    },
+    removeGarantiesFinancieres: function (removedBy) {
+      if (!_isNotified()) {
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+      }
+      if (!props.hasCurrentGf) {
+        return err(new NoGFCertificateToDeleteError())
+      }
+      _publishEvent(
+        new ProjectGFRemoved({
+          payload: {
+            projectId: props.projectId.toString(),
+            removedBy: removedBy.id,
+          },
+        })
+      )
+      return ok(null)
+    },
+    withdrawGarantiesFinancieres: function (removedBy) {
+      if (!_isNotified()) {
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+      }
+      if (!props.hasCurrentGf) {
+        return err(new NoGFCertificateToDeleteError())
+      }
+      _publishEvent(
+        new ProjectGFWithdrawn({
+          payload: {
+            projectId: props.projectId.toString(),
+            removedBy: removedBy.id,
+          },
+        })
+      )
+      return ok(null)
+    },
     get pendingEvents() {
       return pendingEvents
     },
@@ -699,6 +791,7 @@ export const makeProject = (args: {
       case ProjectGFSubmitted.type:
       case ProjectGFRemoved.type:
       case ProjectGFInvalidated.type:
+      case ProjectGFUploaded.type:
         props.lastUpdatedOn = event.occurredAt
         break
       default:
@@ -802,10 +895,12 @@ export const makeProject = (args: {
 
         break
       case ProjectGFSubmitted.type:
+      case ProjectGFUploaded.type:
         props.hasCurrentGf = true
         break
       case ProjectGFRemoved.type:
       case ProjectGFInvalidated.type:
+      case ProjectGFWithdrawn.type:
         props.hasCurrentGf = false
         break
       default:

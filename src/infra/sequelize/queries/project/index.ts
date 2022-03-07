@@ -1,6 +1,6 @@
 export * from './findProjectByIdentifiers'
+export * from './getNonLegacyProjectsByContactEmail'
 export * from './getProjectDataForProjectClaim'
 export * from './getProjectDataForProjectPage'
 export * from './getProjectIdsForPeriode'
-export * from './getNonLegacyProjectsByContactEmail'
 export * from './getUnnotifiedProjectsForPeriode'

@@ -23,6 +23,7 @@ const solPPE2: AppelOffre = {
   renvoiDemandeCompleteRaccordement: '6.1',
   renvoiRetraitDesignationGarantieFinancieres: '5.1',
   soumisAuxGarantiesFinancieres: true,
+  garantiesFinancieresDeposeesALaCandidature: true,
   renvoiEngagementIPFPGPFC: '3.2.7',
   paragrapheClauseCompetitivite: '2.10',
   tarifOuPrimeRetenue: "le prix de référence T de l'électricité retenu",

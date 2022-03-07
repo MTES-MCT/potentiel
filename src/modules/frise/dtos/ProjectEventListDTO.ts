@@ -11,7 +11,9 @@ export type ProjectEventDTO =
   | ProjectCertificateUpdatedDTO
   | ProjectClaimedDTO
   | ProjectGFSubmittedDTO
+  | ProjectGFUploadedDTO
   | ProjectGFRemovedDTO
+  | ProjectGFWithdrawnDTO
   | ProjectGFDueDateSetDTO
   | ProjectGFValidatedDTO
   | ProjectGFInvalidatedDTO
@@ -109,6 +111,13 @@ export type ProjectGFSubmittedDTO = {
   file?: File
 }
 
+export type ProjectGFUploadedDTO = {
+  type: 'ProjectGFUploaded'
+  date: number
+  variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
+  file?: { id: string; name: string }
+}
+
 export type ProjectGFDueDateSetDTO = {
   type: 'ProjectGFDueDateSet'
   date: number
@@ -117,6 +126,12 @@ export type ProjectGFDueDateSetDTO = {
 
 export type ProjectGFRemovedDTO = {
   type: 'ProjectGFRemoved'
+  date: number
+  variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
+}
+
+export type ProjectGFWithdrawnDTO = {
+  type: 'ProjectGFWithdrawn'
   date: number
   variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
 }
@@ -259,6 +274,11 @@ export type ModificationReceivedDTO = {
 )
 
 export type ProjectEventListDTO = {
-  project: { id: Project['id']; isLaureat: boolean }
+  project: {
+    id: Project['id']
+    isLaureat: boolean
+    isSoumisAuxGF?: boolean
+    isGarantiesFinancieresDeposeesALaCandidature?: boolean
+  }
   events: ProjectEventDTO[]
 }

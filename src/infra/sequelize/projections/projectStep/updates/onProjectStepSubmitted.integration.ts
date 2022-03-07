@@ -1,5 +1,10 @@
 import { UniqueEntityID } from '@core/domain'
-import { ProjectDCRSubmitted, ProjectGFSubmitted, ProjectPTFSubmitted } from '@modules/project'
+import {
+  ProjectDCRSubmitted,
+  ProjectGFSubmitted,
+  ProjectGFUploaded,
+  ProjectPTFSubmitted,
+} from '@modules/project'
 import { resetDatabase } from '../../../helpers'
 import models from '../../../models'
 import { onProjectStepSubmitted } from './onProjectStepSubmitted'
@@ -17,7 +22,7 @@ describe('projectStep.onProjectStepSubmitted', () => {
   })
 
   describe('when event is ProjectPTFSubmitted', () => {
-    it('should create a new ptf step', async () => {
+    it('should create a new ptf step with a "à traiter" status', async () => {
       const event = new ProjectPTFSubmitted({
         payload: {
           projectId,
@@ -45,12 +50,13 @@ describe('projectStep.onProjectStepSubmitted', () => {
         submittedBy: userId,
         submittedOn: new Date(345),
         details: null,
+        status: 'à traiter',
       })
     })
   })
 
   describe('when event is ProjectDCRSubmitted', () => {
-    it('should create a new dcr step', async () => {
+    it('should create a new dcr step with a "à traiter" status', async () => {
       const event = new ProjectDCRSubmitted({
         payload: {
           projectId,
@@ -81,12 +87,13 @@ describe('projectStep.onProjectStepSubmitted', () => {
         details: {
           numeroDossier: 'numeroDossier',
         },
+        status: 'à traiter',
       })
     })
   })
 
   describe('when event is ProjectGFSubmitted', () => {
-    it('should create a new garantie-financiere step', async () => {
+    it('should create a new garantie-financiere step with a "à traiter" status', async () => {
       const event = new ProjectGFSubmitted({
         payload: {
           projectId,
@@ -114,6 +121,41 @@ describe('projectStep.onProjectStepSubmitted', () => {
         submittedBy: userId,
         submittedOn: new Date(456),
         details: null,
+        status: 'à traiter',
+      })
+    })
+  })
+
+  describe('when event is ProjectGFUploaded', () => {
+    it('should create a new garantie-financiere step with "validé" status', async () => {
+      const event = new ProjectGFUploaded({
+        payload: {
+          projectId,
+          gfDate: new Date(123),
+          fileId,
+          submittedBy: userId,
+        },
+        original: {
+          version: 1,
+          occurredAt: new Date(456),
+        },
+      })
+      await onProjectStepSubmitted(models)(event)
+
+      const projection = await ProjectStep.findOne({ where: { projectId } })
+
+      expect(projection).toBeTruthy()
+      if (!projection) return
+
+      expect(projection.get()).toMatchObject({
+        type: 'garantie-financiere',
+        projectId,
+        stepDate: new Date(123),
+        fileId,
+        submittedBy: userId,
+        submittedOn: new Date(456),
+        details: null,
+        status: 'validé',
       })
     })
   })

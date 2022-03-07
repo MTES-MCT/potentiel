@@ -1,13 +1,23 @@
 import { UniqueEntityID } from '@core/domain'
 import { logger } from '@core/utils'
-import { ProjectDCRSubmitted, ProjectGFSubmitted, ProjectPTFSubmitted } from '@modules/project'
+import {
+  ProjectDCRSubmitted,
+  ProjectGFSubmitted,
+  ProjectGFUploaded,
+  ProjectPTFSubmitted,
+} from '@modules/project'
 
-type StepSubmittedEvent = ProjectPTFSubmitted | ProjectDCRSubmitted | ProjectGFSubmitted
+type StepSubmittedEvent =
+  | ProjectPTFSubmitted
+  | ProjectDCRSubmitted
+  | ProjectGFSubmitted
+  | ProjectGFUploaded
 
 const StepTypeByEventType: Record<StepSubmittedEvent['type'], string> = {
   [ProjectPTFSubmitted.type]: 'ptf',
   [ProjectDCRSubmitted.type]: 'dcr',
   [ProjectGFSubmitted.type]: 'garantie-financiere',
+  [ProjectGFUploaded.type]: 'garantie-financiere',
 }
 
 const StepDateByEvent = (event: StepSubmittedEvent): Date => {
@@ -17,6 +27,7 @@ const StepDateByEvent = (event: StepSubmittedEvent): Date => {
     case ProjectDCRSubmitted.type:
       return event.payload.dcrDate
     case ProjectGFSubmitted.type:
+    case ProjectGFUploaded.type:
       return event.payload.gfDate
   }
 }
@@ -25,6 +36,10 @@ const StepDetailsByEvent = (event: StepSubmittedEvent): Record<string, any> | un
   if (event.type === ProjectDCRSubmitted.type) {
     return { numeroDossier: event.payload.numeroDossier }
   }
+}
+
+const getStatus = (event: StepSubmittedEvent) => {
+  return event.type === ProjectGFUploaded.type ? 'validé' : 'à traiter'
 }
 
 export const onProjectStepSubmitted = (models) => async (event: StepSubmittedEvent) => {
@@ -41,6 +56,7 @@ export const onProjectStepSubmitted = (models) => async (event: StepSubmittedEve
       submittedBy,
       submittedOn: event.occurredAt,
       details: StepDetailsByEvent(event),
+      status: getStatus(event),
     })
   } catch (e) {
     logger.error(e)

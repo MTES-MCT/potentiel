@@ -10,6 +10,8 @@ import {
   ProjectCannotBeUpdatedIfUnnotifiedError,
   ProjectDataCorrectedPayload,
   ProjectDataProps,
+  GFCertificateHasAlreadyBeenSentError,
+  NoGFCertificateToDeleteError,
 } from '@modules/project'
 
 export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
@@ -49,6 +51,18 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   grantClasse: jest.fn((user: User) => ok<null, never>(null)),
   addGeneratedCertificate: jest.fn(
     (args: { projectVersionDate: Date; certificateFileId: string }) => ok<null, never>(null)
+  ),
+  submitGarantiesFinancieres: jest.fn((gfDate: Date, fileId: string, submittedBy: User) =>
+    ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>(null)
+  ),
+  removeGarantiesFinancieres: jest.fn((removedBy: User) =>
+    ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>(null)
+  ),
+  uploadGarantiesFinancieres: jest.fn((gfDate: Date, fileId: string, submittedBy: User) =>
+    ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>(null)
+  ),
+  withdrawGarantiesFinancieres: jest.fn((removedBy: User) =>
+    ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>(null)
   ),
   certificateData: ok({
     template: 'v1' as CertificateTemplate,

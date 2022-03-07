@@ -20,12 +20,19 @@ import {
   ConfirmationRequestedDTO,
   ModificationRequestConfirmedDTO,
   ModificationReceivedDTO,
+  ProjectGFUploadedDTO,
+  ProjectGFWithdrawnDTO,
 } from '@modules/frise'
 import { Timeline } from './Timeline'
 
 export default { title: 'Nouvelle frise' }
 
-const project = { id: 'fake-project-id', isLaureat: true }
+const project = {
+  id: 'fake-project-id',
+  isLaureat: true,
+  isSoumisAuxGF: true,
+  isGarantiesFinancieresDeposeesALaCandidature: false,
+}
 
 export const adminGarantiesFinancieresDues = () => (
   <Timeline
@@ -981,6 +988,157 @@ export const PPModificationReceived = () => (
           modificationType: 'producteur',
           producteur: 'nomProducteur',
         } as ModificationReceivedDTO,
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)
+
+export const drealGarantiesFinancieresNotUploaded = () => (
+  <Timeline
+    projectEventList={{
+      project: { ...project, isGarantiesFinancieresDeposeesALaCandidature: true },
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'dreal',
+          date: new Date('2022-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectDCRDueDateSet',
+          variant: 'dreal',
+          date: new Date('2022-02-13').getTime(),
+        } as ProjectDCRDueDateSetDTO,
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)
+
+export const PPGarantiesFinancieresNotUploaded = () => (
+  <Timeline
+    projectEventList={{
+      project: { ...project, isGarantiesFinancieresDeposeesALaCandidature: true },
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectCertificateGenerated',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-13').getTime(),
+          certificateFileId: 'file-id',
+          nomProjet: 'mon projet pv',
+          email: undefined,
+          potentielIdentifier: 'pot-id',
+        } as ProjectCertificateGeneratedDTO,
+        {
+          type: 'ProjectDCRDueDateSet',
+          variant: 'porteur-projet',
+          date: new Date('2022-02-13').getTime(),
+        } as ProjectDCRDueDateSetDTO,
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)
+
+export const drealGarantiesFinancieresUploaded = () => (
+  <Timeline
+    projectEventList={{
+      project: { ...project, isGarantiesFinancieresDeposeesALaCandidature: true },
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'dreal',
+          date: new Date('2022-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectDCRDueDateSet',
+          variant: 'dreal',
+          date: new Date('2022-02-13').getTime(),
+        } as ProjectDCRDueDateSetDTO,
+        {
+          type: 'ProjectGFUploaded',
+          variant: 'dreal',
+          date: new Date('2022-01-17').getTime(),
+          fileId: 'file-id',
+          filename: 'file-name',
+        } as ProjectGFUploadedDTO,
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)
+
+export const PPGarantiesFinancieresUploaded = () => (
+  <Timeline
+    projectEventList={{
+      project: { ...project, isGarantiesFinancieresDeposeesALaCandidature: true },
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectCertificateGenerated',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-13').getTime(),
+          certificateFileId: 'file-id',
+          nomProjet: 'mon projet pv',
+          email: undefined,
+          potentielIdentifier: 'pot-id',
+        } as ProjectCertificateGeneratedDTO,
+        {
+          type: 'ProjectDCRDueDateSet',
+          variant: 'porteur-projet',
+          date: new Date('2022-02-13').getTime(),
+        } as ProjectDCRDueDateSetDTO,
+        {
+          type: 'ProjectGFUploaded',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-17').getTime(),
+          fileId: 'file-id',
+          filename: 'file-name',
+        } as ProjectGFUploadedDTO,
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)
+
+export const PPGarantiesFinancieresWithdrawn = () => (
+  <Timeline
+    projectEventList={{
+      project: { ...project, isGarantiesFinancieresDeposeesALaCandidature: true },
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectCertificateGenerated',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-13').getTime(),
+          certificateFileId: 'file-id',
+          nomProjet: 'mon projet pv',
+          email: undefined,
+          potentielIdentifier: 'pot-id',
+        } as ProjectCertificateGeneratedDTO,
+        {
+          type: 'ProjectDCRDueDateSet',
+          variant: 'porteur-projet',
+          date: new Date('2022-02-13').getTime(),
+        } as ProjectDCRDueDateSetDTO,
+        {
+          type: 'ProjectGFWithdrawn',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-17').getTime(),
+        } as ProjectGFWithdrawnDTO,
       ],
     }}
     now={new Date().getTime()}

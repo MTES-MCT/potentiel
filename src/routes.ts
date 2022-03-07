@@ -3,21 +3,23 @@ import querystring from 'querystring'
 import sanitize from 'sanitize-filename'
 import { makeCertificateFilename } from '@modules/project'
 
-const withParams = <T extends Record<string, any>>(url: string) => (params?: T) => {
-  if (!params) return url
+const withParams =
+  <T extends Record<string, any>>(url: string) =>
+  (params?: T) => {
+    if (!params) return url
 
-  let priorQuery = {}
-  if (url.indexOf('?') > -1) {
-    priorQuery = querystring.parse(url.substring(url.indexOf('?') + 1))
+    let priorQuery = {}
+    if (url.indexOf('?') > -1) {
+      priorQuery = querystring.parse(url.substring(url.indexOf('?') + 1))
+    }
+
+    const newQueryString = querystring.stringify({ ...priorQuery, ...params })
+
+    return (
+      (url.indexOf('?') === -1 ? url : url.substring(0, url.indexOf('?'))) +
+      (newQueryString.length ? '?' + newQueryString.toString() : '')
+    )
   }
-
-  const newQueryString = querystring.stringify({ ...priorQuery, ...params })
-
-  return (
-    (url.indexOf('?') === -1 ? url : url.substring(0, url.indexOf('?'))) +
-    (newQueryString.length ? '?' + newQueryString.toString() : '')
-  )
-}
 
 const withProjectId = (url: string) => (projectId: Project['id']) => withParams(url)({ projectId })
 
@@ -180,6 +182,38 @@ class routes {
     if (args) {
       const { type, projectId } = args
       return route.replace(':projectId', projectId).replace(':type', type)
+    } else return route
+  }
+
+  /* CRE4 GF */
+  static REMOVE_GARANTIES_FINANCIERES = (args?: { projectId: string }) => {
+    const route = '/projet/:projectId/annuler-depot/garanties-financieres'
+    if (args) {
+      const { projectId } = args
+      return route.replace(':projectId', projectId)
+    } else return route
+  }
+  static SUBMIT_GARANTIES_FINANCIERES = (args?: { projectId: string }) => {
+    const route = '/projet/:projectId/deposer/garanties-financieres'
+    if (args) {
+      const { projectId } = args
+      return route.replace(':projectId', projectId)
+    } else return route
+  }
+
+  /* PPE2 GF */
+  static WITHDRAW_GARANTIES_FINANCIERES = (args?: { projectId: string }) => {
+    const route = '/projet/:projectId/supprimer/garanties-financieres'
+    if (args) {
+      const { projectId } = args
+      return route.replace(':projectId', projectId)
+    } else return route
+  }
+  static UPLOAD_GARANTIES_FINANCIERES = (args?: { projectId: string }) => {
+    const route = '/projet/:projectId/enregistrer/garanties-financieres'
+    if (args) {
+      const { projectId } = args
+      return route.replace(':projectId', projectId)
     } else return route
   }
 

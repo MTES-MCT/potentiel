@@ -27,7 +27,13 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
       const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
 
       return {
-        project: { id: projectId, isLaureat },
+        project: {
+          id: projectId,
+          isLaureat,
+          isSoumisAuxGF: appelOffre?.isSoumisAuxGFs,
+          isGarantiesFinancieresDeposeesALaCandidature:
+            appelOffre?.garantiesFinancieresDeposeesALaCandidature,
+        },
         events: await rawEvents
           .map((item) => item.get())
           .reduce<Promise<ProjectEventDTO[]>>(
@@ -85,6 +91,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                 case 'ProjectGFSubmitted':
                 case 'ProjectDCRSubmitted':
                 case 'ProjectPTFSubmitted':
+                case 'ProjectGFUploaded':
                   if (userIs(['porteur-projet', 'admin', 'dgec', 'dreal'])(user)) {
                     const { file } = payload
                     events.push({
@@ -103,6 +110,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                 case 'ProjectGFInvalidated':
                 case 'ProjectDCRRemoved':
                 case 'ProjectPTFRemoved':
+                case 'ProjectGFWithdrawn':
                   if (userIs(['porteur-projet', 'admin', 'dgec', 'dreal'])(user)) {
                     events.push({
                       type,

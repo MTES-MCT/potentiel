@@ -26,6 +26,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
   renvoiDemandeCompleteRaccordement: '6.1',
   renvoiRetraitDesignationGarantieFinancieres: '5.1',
   soumisAuxGarantiesFinancieres: true,
+  garantiesFinancieresDeposeesALaCandidature: true,
   renvoiEngagementIPFPGPFC: '',
   paragrapheClauseCompetitivite: '2.15',
   tarifOuPrimeRetenue: 'la prime retenue',
