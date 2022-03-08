@@ -165,6 +165,8 @@ const Details = (
 ) => {
   const { status, modificationType } = props
 
+  const demandStatus = status === 'envoyé' ? 'demandé' : status
+
   const libelleTypeDemande: { [key in ModificationRequestItemProps['modificationType']]: string } =
     {
       abandon: `Abandon`,
@@ -175,7 +177,7 @@ const Details = (
 
   return (
     <>
-      <ItemTitle title={`${libelleTypeDemande[modificationType]} ${status}`} />
+      <ItemTitle title={`${libelleTypeDemande[modificationType]} ${demandStatus}`} />
       {modificationType === 'delai' && (
         <p className="p-0 m-0">Délai demandé : {props.delayInMonths} mois</p>
       )}
