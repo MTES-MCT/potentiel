@@ -112,7 +112,7 @@ const Cancelled = (props: CancelledProps) => {
 }
 
 const ConfirmationRequested = (props: ModificationRequestItemProps) => {
-  const { date, responseUrl, role } = props
+  const { date, responseUrl, role, detailsUrl } = props
   return (
     <>
       <CurrentIcon />
@@ -129,13 +129,14 @@ const ConfirmationRequested = (props: ModificationRequestItemProps) => {
         </div>
         <ItemTitle title={`Abandon en attente de confirmation`} />
         {responseUrl && <a href={responseUrl}>Voir le courrier de réponse</a>}
+        <a href={detailsUrl}>Voir la demande</a>
       </ContentArea>
     </>
   )
 }
 
 const RequestConfirmed = (props: ModificationRequestItemProps) => {
-  const { date, role } = props
+  const { date, role, detailsUrl } = props
   return (
     <>
       <CurrentIcon />
@@ -151,6 +152,7 @@ const RequestConfirmed = (props: ModificationRequestItemProps) => {
           )}
         </div>
         <ItemTitle title={`Abandon confirmé par le porteur`} />
+        <a href={detailsUrl}>Voir la demande</a>
       </ContentArea>
     </>
   )
