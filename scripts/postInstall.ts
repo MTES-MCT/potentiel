@@ -15,9 +15,7 @@ const trackerWebsiteId = process.env.TRACKER_WEBSITE_ID
 postInstall()
 
 async function postInstall() {
-  console.log('postInstall')
   if (!['', 'local', 'test'].includes(NODE_ENV)) {
-    console.log('postInstall executes')
     const build = spawnSync('npm', ['run', 'build'], { stdio: 'inherit' })
     if (build.status && build.status > 0) process.exit(build.status)
 
@@ -33,26 +31,21 @@ async function postInstall() {
 }
 
 async function insertTracker() {
-  console.log('postInstall insertTracker start', { trackerWebsiteId })
   if (!trackerWebsiteId) return
 
   const trackerScript = getTrackerScript(trackerWebsiteId)
-
-  const indexPath = path.resolve('dist/src/public/index.html')
-
   const trackerRegexp = /<!-- TRACKER -->/g
 
+  const indexPath = path.resolve('dist/src/public/index.html')
   const indexHtml = await fs.readFile(indexPath, { encoding: 'utf-8' })
 
   if (!indexHtml.match(trackerRegexp)) {
     console.warn(
       'WARNING ! TRACKER COULD NOT BE INJECTED, index.html does not contain <!-- TRACKER -->'
     )
-  } else {
-    console.log('Inserting tracker script to', indexPath)
-    await fs.writeFile(indexPath, indexHtml.replace(trackerRegexp, trackerScript))
 
-    const oldIndexPath = path.resolve('src/public/index.html')
-    await fs.writeFile(oldIndexPath, 'TEST')
+    return
   }
+
+  await fs.writeFile(indexPath, indexHtml.replace(trackerRegexp, trackerScript))
 }
