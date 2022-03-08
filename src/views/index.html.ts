@@ -1,5 +1,6 @@
 import ReactDOMServer from 'react-dom/server'
 import type { Request } from 'express'
+import { getTrackerScript } from '../infra/umami'
 interface HasRequest {
   request: Request
 }
@@ -18,6 +19,8 @@ function stripRequest(props: HasRequest) {
     request: { query, user },
   }
 }
+
+const trackerWebsiteId = process.env.TRACKER_WEBSITE_ID
 
 export const makeHtml = <T extends HasRequest>(args: PageProps<T>) => {
   const { Component, props } = args
@@ -52,6 +55,7 @@ export const makeHtml = <T extends HasRequest>(args: PageProps<T>) => {
         <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png" />
         <link rel="manifest" href="/images/favicons/manifest.json" />
         <link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#5bbad5" />
+        ${trackerWebsiteId ? getTrackerScript(trackerWebsiteId) : ''}
       </head>
 
       <body>
