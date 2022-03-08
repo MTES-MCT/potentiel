@@ -8,25 +8,25 @@ export const ModificationReceivedItem = (props: ModificationReceivedItemProps) =
       <PastIcon />
       <ContentArea>
         <ItemDate date={date} />
-        <Title {...props} />
+        <Details {...props} />
       </ContentArea>
     </>
   )
 }
 
-const Title = (props: ModificationReceivedItemProps) => {
+const Details = (props: ModificationReceivedItemProps) => {
   const { modificationType } = props
   const libelleTypeDemande: { [key in ModificationReceivedItemProps['modificationType']]: string } =
     {
-      producteur: 'un changement de producteur',
-      actionnaire: 'une modification de l’actionnariat',
-      fournisseur: 'un changement de fournisseur(s) ou de produit',
-      puissance: 'une modification de la puissance installée',
+      producteur: 'Changement de producteur',
+      actionnaire: 'Modification de l’actionnariat',
+      fournisseur: 'Changement de fournisseur(s) ou de produit',
+      puissance: 'Modification de la puissance installée',
     }
 
   return (
     <>
-      <ItemTitle title={`Information concernant ${libelleTypeDemande[modificationType]}`} />
+      <ItemTitle title={`${libelleTypeDemande[modificationType]}`} />
       {modificationType === 'producteur' && (
         <p className="p-0 m-0">Producteur : {props.producteur}</p>
       )}

@@ -51,7 +51,7 @@ const Submitted = (props: SubmittedProps) => {
             </div>
           )}
         </div>
-        <Title {...props} />
+        <Details {...props} />
       </ContentArea>
     </>
   )
@@ -68,7 +68,7 @@ const Rejected = (props: RejectedProps) => {
       <UnvalidatedStepIcon />
       <ContentArea>
         <ItemDate date={date} />
-        <Title {...props} />
+        <Details {...props} />
         {url && <a href={url}>Voir le courrier de réponse</a>}
       </ContentArea>
     </>
@@ -86,7 +86,7 @@ const Accepted = (props: AcceptedProps) => {
       <PastIcon />
       <ContentArea>
         <ItemDate date={date} />
-        <Title {...props} />
+        <Details {...props} />
         {url && <a href={url}>Voir le courrier de réponse</a>}
       </ContentArea>
     </>
@@ -104,7 +104,7 @@ const Cancelled = (props: CancelledProps) => {
       <CancelledStepIcon />
       <ContentArea>
         <ItemDate date={date} />
-        <Title {...props} />
+        <Details {...props} />
         <p className="p-0 m-0">Demande annulée par le porteur de projet</p>
       </ContentArea>
     </>
@@ -123,11 +123,11 @@ const ConfirmationRequested = (props: ModificationRequestItemProps) => {
           </div>
           {role === 'porteur-projet' && (
             <div className="align-center mb-1">
-              <InfoItem message="demande de confirmation à traiter" />
+              <InfoItem message="Abandon à confirmer" />
             </div>
           )}
         </div>
-        <ItemTitle title={`Demande d'abandon en attente d'une confirmation du Porteur de projet`} />
+        <ItemTitle title={`Abandon en attente de confirmation`} />
         {url && <a href={url}>Voir le courrier de réponse</a>}
       </ContentArea>
     </>
@@ -150,13 +150,13 @@ const RequestConfirmed = (props: ModificationRequestItemProps) => {
             </div>
           )}
         </div>
-        <ItemTitle title={`Demande d'abandon confirmée par le porteur de projet`} />
+        <ItemTitle title={`Abandon confirmé par le porteur`} />
       </ContentArea>
     </>
   )
 }
 
-const Title = (
+const Details = (
   props: { status: ModificationRequestItemProps['status'] } & (
     | { modificationType: 'delai'; delayInMonths: number }
     | { modificationType: 'puissance'; puissance: number; unitePuissance: string }
@@ -167,15 +167,25 @@ const Title = (
 
   const libelleTypeDemande: { [key in ModificationRequestItemProps['modificationType']]: string } =
     {
-      abandon: `d'abandon`,
-      delai: `de prolongation de délai`,
-      recours: `de recours`,
-      puissance: `de changement de puissance installée`,
+      abandon: `Abandon`,
+      delai: `Délai supplémentaire`,
+      recours: `Recours`,
+      puissance: `Changement de puissance installée`,
     }
+
+  const libelleStatus: { [key in ModificationRequestItemProps['status']]: string } = {
+    envoyée: `demandé`,
+    acceptée: `accepté`,
+    rejetée: `rejeté`,
+    annulée: `annulé`,
+    'demande confirmée': `confirmé`,
+    'en attente de confirmation': `en attente de confirmation`,
+    'en instruction': `en instruction`,
+  }
 
   return (
     <>
-      <ItemTitle title={`Demande ${libelleTypeDemande[modificationType]} ${status}`} />
+      <ItemTitle title={`${libelleTypeDemande[modificationType]} ${libelleStatus[status]}`} />
       {modificationType === 'delai' && (
         <p className="p-0 m-0">Délai demandé : {props.delayInMonths} mois</p>
       )}

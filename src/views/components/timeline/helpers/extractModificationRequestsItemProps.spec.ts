@@ -158,7 +158,7 @@ describe('extractModificationRequestItemProps', () => {
     })
   })
   describe('when there is a ModificationRequestAccepted event', () => {
-    it('should return an "acceptée" status', () => {
+    it('should return an "accepté" status', () => {
       const modificationRequestId = new UniqueEntityID().toString()
 
       const projectEventList: ProjectEventDTO[] = [

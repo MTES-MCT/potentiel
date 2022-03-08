@@ -1208,3 +1208,35 @@ export const LegacyModificationsAndDelayRequestForPP = () => (
     now={new Date().getTime()}
   />
 )
+
+export const LegacyRecoursRejectedForPP = () => (
+  <Timeline
+    projectEventList={{
+      project,
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'porteur-projet',
+          date: new Date('2019-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectCertificateGenerated',
+          variant: 'porteur-projet',
+          date: new Date('2019-01-13').getTime(),
+          certificateFileId: 'file-id',
+          nomProjet: 'mon projet pv',
+          email: undefined,
+          potentielIdentifier: 'pot-id',
+        } as ProjectCertificateGeneratedDTO,
+        {
+          type: 'LegacyModificationImported',
+          date: new Date('2019-01-15').getTime(),
+          variant: 'porteur-projet',
+          modificationType: 'recours',
+          accepted: false,
+        } as LegacyModificationImportedDTO,
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)
