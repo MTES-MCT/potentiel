@@ -38,6 +38,7 @@ describe('getProjectEvents for ModificationReceived events', () => {
               payload: {
                 modificationType: 'producteur',
                 producteur: 'nom producteur',
+                modificationRequestId: 'id',
               },
             })
 
@@ -50,6 +51,7 @@ describe('getProjectEvents for ModificationReceived events', () => {
                   variant: role,
                   modificationType: 'producteur',
                   producteur: 'nom producteur',
+                  modificationRequestId: 'id',
                 },
               ],
             })
@@ -70,6 +72,7 @@ describe('getProjectEvents for ModificationReceived events', () => {
           payload: {
             modificationType: 'producteur',
             producteur: 'nom producteur',
+            modificationRequestId: 'id',
           },
         })
 
@@ -99,6 +102,7 @@ describe('getProjectEvents for ModificationReceived events', () => {
               payload: {
                 modificationType: 'actionnaire',
                 actionnaire: 'nom actionnaire',
+                modificationRequestId: 'id',
               },
             })
 
@@ -111,6 +115,7 @@ describe('getProjectEvents for ModificationReceived events', () => {
                   variant: role,
                   modificationType: 'actionnaire',
                   actionnaire: 'nom actionnaire',
+                  modificationRequestId: 'id',
                 },
               ],
             })
@@ -131,6 +136,7 @@ describe('getProjectEvents for ModificationReceived events', () => {
           payload: {
             modificationType: 'actionnaire',
             actionnaire: 'nom actionnaire',
+            modificationRequestId: 'id',
           },
         })
 
@@ -163,6 +169,7 @@ describe('getProjectEvents for ModificationReceived events', () => {
                   { kind: 'Nom du fabricant \n(Modules ou films)', name: 'name1' },
                   { kind: 'Nom du fabricant \n(Polysilicium)', name: 'name2' },
                 ],
+                modificationRequestId: 'id',
               },
             })
 
@@ -178,6 +185,7 @@ describe('getProjectEvents for ModificationReceived events', () => {
                     { kind: 'Nom du fabricant \n(Modules ou films)', name: 'name1' },
                     { kind: 'Nom du fabricant \n(Polysilicium)', name: 'name2' },
                   ],
+                  modificationRequestId: 'id',
                 },
               ],
             })
@@ -201,6 +209,7 @@ describe('getProjectEvents for ModificationReceived events', () => {
               { kind: 'Nom du fabricant \n(Modules ou films)', name: 'name1' },
               { kind: 'Nom du fabricant \n(Polysilicium)', name: 'name2' },
             ],
+            modificationRequestId: 'id',
           },
         })
 
@@ -230,6 +239,7 @@ describe('getProjectEvents for ModificationReceived events', () => {
               payload: {
                 modificationType: 'puissance',
                 puissance: 2,
+                modificationRequestId: 'id',
               },
             })
 
@@ -243,6 +253,7 @@ describe('getProjectEvents for ModificationReceived events', () => {
                   modificationType: 'puissance',
                   puissance: 2,
                   unitePuissance: 'MWc', // unitePuissance for Fessenheim AO
+                  modificationRequestId: 'id',
                 },
               ],
             })
@@ -263,6 +274,7 @@ describe('getProjectEvents for ModificationReceived events', () => {
           payload: {
             modificationType: 'producteur',
             producteur: 2,
+            modificationRequestId: 'id',
           },
         })
 

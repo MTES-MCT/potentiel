@@ -181,6 +181,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       date: valueDate,
                       variant: user.role,
                       modificationType: payload.modificationType,
+                      modificationRequestId: payload.modificationRequestId,
                       ...(payload.modificationType === 'producteur' && {
                         producteur: payload.producteur,
                       }),

@@ -127,6 +127,7 @@ describe('extractModificationRequestItemProps', () => {
           modificationType: 'delai',
           authority: 'dgec',
           role: 'porteur-projet',
+          detailsUrl: expect.anything(),
         },
         {
           type: 'demande-de-modification',
@@ -135,6 +136,7 @@ describe('extractModificationRequestItemProps', () => {
           modificationType: 'abandon',
           authority: 'dreal',
           role: 'porteur-projet',
+          detailsUrl: expect.anything(),
         },
         {
           type: 'demande-de-modification',
@@ -143,6 +145,7 @@ describe('extractModificationRequestItemProps', () => {
           modificationType: 'recours',
           authority: 'dreal',
           role: 'porteur-projet',
+          detailsUrl: expect.anything(),
         },
         {
           type: 'demande-de-modification',
@@ -153,6 +156,7 @@ describe('extractModificationRequestItemProps', () => {
           role: 'porteur-projet',
           puissance: 100,
           unitePuissance: 'MW',
+          detailsUrl: expect.anything(),
         },
       ])
     })
@@ -191,7 +195,8 @@ describe('extractModificationRequestItemProps', () => {
           modificationType: 'delai',
           authority: 'dgec',
           role: 'porteur-projet',
-          url: expect.anything(),
+          responseUrl: expect.anything(),
+          detailsUrl: expect.anything(),
         },
       ])
     })
@@ -231,7 +236,8 @@ describe('extractModificationRequestItemProps', () => {
           modificationType: 'delai',
           authority: 'dgec',
           role: 'porteur-projet',
-          url: expect.anything(),
+          responseUrl: expect.anything(),
+          detailsUrl: expect.anything(),
         },
       ])
     })
@@ -270,6 +276,7 @@ describe('extractModificationRequestItemProps', () => {
           modificationType: 'delai',
           authority: 'dgec',
           role: 'porteur-projet',
+          detailsUrl: expect.anything(),
         },
       ])
     })
@@ -308,6 +315,7 @@ describe('extractModificationRequestItemProps', () => {
           modificationType: 'delai',
           authority: 'dgec',
           role: 'porteur-projet',
+          detailsUrl: expect.anything(),
         },
       ])
     })
@@ -345,7 +353,8 @@ describe('extractModificationRequestItemProps', () => {
           modificationType: 'recours',
           authority: 'dgec',
           role: 'porteur-projet',
-          url: expect.anything(),
+          responseUrl: expect.anything(),
+          detailsUrl: expect.anything(),
         },
       ])
     })
@@ -382,6 +391,7 @@ describe('extractModificationRequestItemProps', () => {
           modificationType: 'abandon',
           authority: 'dgec',
           role: 'porteur-projet',
+          detailsUrl: expect.anything(),
         },
       ])
     })

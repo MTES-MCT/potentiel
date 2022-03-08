@@ -34,7 +34,11 @@ describe('onModificationReceived', () => {
       expect(projectEvent).toMatchObject({
         type: 'ModificationReceived',
         projectId,
-        payload: { modificationType: 'actionnaire', actionnaire: 'nouvel actionnaire' },
+        payload: {
+          modificationType: 'actionnaire',
+          actionnaire: 'nouvel actionnaire',
+          modificationRequestId,
+        },
       })
     })
   })
@@ -61,7 +65,11 @@ describe('onModificationReceived', () => {
       expect(projectEvent).toMatchObject({
         type: 'ModificationReceived',
         projectId,
-        payload: { modificationType: 'producteur', producteur: 'nouveau producteur' },
+        payload: {
+          modificationType: 'producteur',
+          producteur: 'nouveau producteur',
+          modificationRequestId,
+        },
       })
     })
   })
@@ -97,6 +105,7 @@ describe('onModificationReceived', () => {
             { kind: 'Nom du fabricant \n(Modules ou films)', name: 'name1' },
             { kind: 'Nom du fabricant \n(Polysilicium)', name: 'name2' },
           ],
+          modificationRequestId,
         },
       })
     })
@@ -124,7 +133,7 @@ describe('onModificationReceived', () => {
       expect(projectEvent).toMatchObject({
         type: 'ModificationReceived',
         projectId,
-        payload: { modificationType: 'puissance', puissance: 2 },
+        payload: { modificationType: 'puissance', puissance: 2, modificationRequestId },
       })
     })
   })

@@ -62,14 +62,14 @@ type RejectedProps = ModificationRequestItemProps & {
 }
 
 const Rejected = (props: RejectedProps) => {
-  const { date, url } = props
+  const { date, responseUrl } = props
   return (
     <>
       <UnvalidatedStepIcon />
       <ContentArea>
         <ItemDate date={date} />
         <Details {...props} />
-        {url && <a href={url}>Voir le courrier de réponse</a>}
+        {responseUrl && <a href={responseUrl}>Voir le courrier de réponse</a>}
       </ContentArea>
     </>
   )
@@ -80,14 +80,14 @@ type AcceptedProps = ModificationRequestItemProps & {
 }
 
 const Accepted = (props: AcceptedProps) => {
-  const { date, url } = props
+  const { date, responseUrl } = props
   return (
     <>
       <PastIcon />
       <ContentArea>
         <ItemDate date={date} />
         <Details {...props} />
-        {url && <a href={url}>Voir le courrier de réponse</a>}
+        {responseUrl && <a href={responseUrl}>Voir le courrier de réponse</a>}
       </ContentArea>
     </>
   )
@@ -112,7 +112,7 @@ const Cancelled = (props: CancelledProps) => {
 }
 
 const ConfirmationRequested = (props: ModificationRequestItemProps) => {
-  const { date, url, role } = props
+  const { date, responseUrl, role, detailsUrl } = props
   return (
     <>
       <CurrentIcon />
@@ -128,14 +128,15 @@ const ConfirmationRequested = (props: ModificationRequestItemProps) => {
           )}
         </div>
         <ItemTitle title={`Abandon en attente de confirmation`} />
-        {url && <a href={url}>Voir le courrier de réponse</a>}
+        {responseUrl && <a href={responseUrl}>Voir le courrier de réponse</a>}
+        <a href={detailsUrl}>Voir la demande</a>
       </ContentArea>
     </>
   )
 }
 
 const RequestConfirmed = (props: ModificationRequestItemProps) => {
-  const { date, role } = props
+  const { date, role, detailsUrl } = props
   return (
     <>
       <CurrentIcon />
@@ -151,19 +152,20 @@ const RequestConfirmed = (props: ModificationRequestItemProps) => {
           )}
         </div>
         <ItemTitle title={`Abandon confirmé par le porteur`} />
+        <a href={detailsUrl}>Voir la demande</a>
       </ContentArea>
     </>
   )
 }
 
 const Details = (
-  props: { status: ModificationRequestItemProps['status'] } & (
+  props: { status: ModificationRequestItemProps['status']; detailsUrl: string } & (
     | { modificationType: 'delai'; delayInMonths: number }
     | { modificationType: 'puissance'; puissance: number; unitePuissance: string }
     | { modificationType: 'abandon' | 'recours' }
   )
 ) => {
-  const { status, modificationType } = props
+  const { status, modificationType, detailsUrl } = props
 
   const libelleTypeDemande: { [key in ModificationRequestItemProps['modificationType']]: string } =
     {
@@ -194,6 +196,7 @@ const Details = (
           Puissance demandée : {props.puissance} {props.unitePuissance}
         </p>
       )}
+      <a href={detailsUrl}>Voir la demande</a>
     </>
   )
 }

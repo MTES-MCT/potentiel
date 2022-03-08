@@ -2,6 +2,7 @@ import { is, ModificationRequestDTO, ProjectEventDTO } from '@modules/frise'
 import { or } from '@core/utils'
 import { makeDocumentUrl } from '.'
 import { UserRole } from '@modules/users'
+import ROUTES from '../../../../routes'
 
 export type ModificationRequestItemProps = {
   type: 'demande-de-modification'
@@ -16,7 +17,8 @@ export type ModificationRequestItemProps = {
     | 'demande confirmée'
   authority: 'dreal' | 'dgec'
   role: UserRole
-  url?: string | undefined
+  responseUrl?: string | undefined
+  detailsUrl: string
 } & (
   | {
       modificationType: 'delai'
@@ -52,7 +54,8 @@ export const extractModificationRequestsItemProps = (
       const { date, variant: role } = latestEvent
       const { authority, modificationType } = requestEvent
       const status = getStatus(latestEvent)
-      const url = getUrl(latestEvent)
+      const responseUrl = getResponseUrl(latestEvent)
+      const detailsUrl = ROUTES.DEMANDE_PAGE_DETAILS(requestEvent.modificationRequestId)
 
       switch (modificationType) {
         case 'delai':
@@ -63,8 +66,9 @@ export const extractModificationRequestsItemProps = (
             modificationType,
             status,
             role,
-            url,
+            responseUrl,
             delayInMonths: requestEvent.delayInMonths,
+            detailsUrl,
           }
 
         case 'puissance':
@@ -75,9 +79,10 @@ export const extractModificationRequestsItemProps = (
             modificationType,
             status,
             role,
-            url,
+            responseUrl,
             puissance: requestEvent.puissance,
             unitePuissance: requestEvent.unitePuissance || '??',
+            detailsUrl,
           }
 
         default:
@@ -88,7 +93,8 @@ export const extractModificationRequestsItemProps = (
             modificationType,
             status,
             role,
-            url,
+            responseUrl,
+            detailsUrl,
           }
       }
     })
@@ -128,7 +134,7 @@ const getRequestEvent = (events: ModificationRequestDTO[]) => {
   return events.filter(is('ModificationRequested'))[0]
 }
 
-const getUrl = (latestEvent: ModificationRequestDTO) => {
+const getResponseUrl = (latestEvent: ModificationRequestDTO) => {
   if (
     or(
       is('ModificationRequestRejected'),
