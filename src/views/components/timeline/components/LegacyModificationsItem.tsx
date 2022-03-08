@@ -6,9 +6,9 @@ import { formatDate } from '../../../../helpers/formatDate'
 export const LegacyModificationsItem = (props: LegacyModificationsItemProps) => {
   const { status } = props
   switch (status) {
-    case 'rejeté':
+    case 'rejetée':
       return <RecoursRejected {...props} />
-    case 'accepté':
+    case 'acceptée':
       return <Accepted {...props} />
   }
 }
@@ -50,7 +50,7 @@ const Details = (props: LegacyModificationsItemProps) => {
       recours: `Recours`,
       producteur: 'Changement de producteur',
       actionnaire: "Modification de l'actionnariat",
-      autre: 'Modification',
+      autre: 'Modification du projet',
     }
 
   return (

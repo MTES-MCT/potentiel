@@ -7,13 +7,13 @@ export type ModificationRequestItemProps = {
   type: 'demande-de-modification'
   date: number
   status:
-    | 'envoyé'
+    | 'envoyée'
     | 'en instruction'
-    | 'accepté'
-    | 'rejeté'
-    | 'annulé'
+    | 'acceptée'
+    | 'rejetée'
+    | 'annulée'
     | 'en attente de confirmation'
-    | 'confirmé'
+    | 'demande confirmée'
   authority: 'dreal' | 'dgec'
   role: UserRole
   url?: string | undefined
@@ -146,18 +146,18 @@ const getUrl = (latestEvent: ModificationRequestDTO) => {
 function getStatus(event: ModificationRequestDTO) {
   switch (event.type) {
     case 'ModificationRequested':
-      return 'envoyé'
+      return 'envoyée'
     case 'ModificationRequestInstructionStarted':
       return 'en instruction'
     case 'ModificationRequestAccepted':
-      return 'accepté'
+      return 'acceptée'
     case 'ModificationRequestRejected':
-      return 'rejeté'
+      return 'rejetée'
     case 'ModificationRequestCancelled':
-      return 'annulé'
+      return 'annulée'
     case 'ConfirmationRequested':
       return 'en attente de confirmation'
     case 'ModificationRequestConfirmed':
-      return 'confirmé'
+      return 'demande confirmée'
   }
 }
