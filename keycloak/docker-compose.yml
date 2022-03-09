@@ -6,7 +6,8 @@ services:
       context: .
       dockerfile: Dockerfile.local
     volumes:
-      - ./themes:/opt/jboss/keycloak/themes
+      - ./themes/potentiel:/opt/jboss/keycloak/themes/potentiel
+      - ./disable-theme-cache.cli:/opt/jboss/startup-scripts/disable-theme-cache.cli
     environment:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: test
