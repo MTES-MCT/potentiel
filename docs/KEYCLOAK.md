@@ -110,3 +110,27 @@ clever deploy -a keycloak-vanilla --force
 ```
 
 C'est la variable d'environnement `CC_DOCKERFILE` qui pointe sur `keycloak/Dockerfile` (coté clever cloud, pas en local) et permet de bien déployer la bonne partie du repo.
+
+## Configuration de l'authentification à double facteur pour un role précis
+
+Pour se faire il faut se rendre dans la partie `Authentification` du realm concerné.
+
+### Créer un nouveau flow `Browser`
+
+1. Dans l'onglet `Flows`
+1. Faire une copie du flow `Browser` avec par exemple le nom `Browser with OTP for role`
+1. Supprimer la partie `Browser - Conditional OTP`
+1. Au niveau de l'étape `Browser with OTP for role`, supprimer l'exécution `Browser - Conditional OTP`
+1. Ajouter une nouvelle exécution de type `Conditional OTP Form`
+1. Modifer cette exécution pour être `REQUIRED`
+1. Modifier la config de l'exécution :
+   - Sélectionner le role voulu dans l'option `Force OTP for Role`
+   - Sélectionner `skip` dans l'option `Fallback OTP handling`
+
+### Affecter le flow Browser au flow nouvellement créé
+
+1. Dans l'onglet `Bindings`
+1. Sélectionner le flow `Browser with OTP for role` pour l'option `Browser Flow`
+1. Sauvegarder
+
+Désormais les utilisateurs avec le rôle spécifiés dans l'exécution `Browser - Conditional OTP` devront configurer une application comme FreeOTP ou Google Authenticator pour se connecter à Potentiel.
