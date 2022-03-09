@@ -1,88 +1,277 @@
 <#macro mainLayout active bodyClass>
-<!doctype html>
-<html>
-<head>
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="fr">
+  <head>
     <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="${url.resourcesPath}/dsfr/dsfr.min.css">
+  
+    <meta name="theme-color" content="#000091"><!-- Défini la couleur de thème du navigateur (Safari/Android) -->
+    <link rel="apple-touch-icon" href="${url.resourcesPath}/favicon/apple-touch-icon.png"><!-- 180×180 -->
+    <link rel="icon" href="${url.resourcesPath}/favicon/favicon.svg" type="image/svg+xml">
+    <link rel="shortcut icon" href="${url.resourcesPath}/favicon/favicon.ico" type="image/x-icon"><!-- 32×32 -->
+    <link rel="manifest" href="${url.resourcesPath}/favicon/manifest.webmanifest" crossorigin="use-credentials">
+    <!-- Modifier les chemins relatifs des favicons en fonction de la structure du projet -->
+    <!-- Dans le fichier manifest.webmanifest aussi, modifier les chemins vers les images -->
 
-    <title>${msg("accountManagementTitle")}</title>
-    <link rel="icon" href="${url.resourcesPath}/img/favicon.ico">
-    <#if properties.stylesCommon?has_content>
-        <#list properties.stylesCommon?split(' ') as style>
-            <link href="${url.resourcesCommonPath}/${style}" rel="stylesheet" />
-        </#list>
-    </#if>
-    <#if properties.styles?has_content>
-        <#list properties.styles?split(' ') as style>
-            <link href="${url.resourcesPath}/${style}" rel="stylesheet" />
-        </#list>
-    </#if>
-    <#if properties.scripts?has_content>
-        <#list properties.scripts?split(' ') as script>
-            <script type="text/javascript" src="${url.resourcesPath}/${script}"></script>
-        </#list>
-    </#if>
-</head>
-<body class="admin-console user ${bodyClass}">
-        
-    <header class="navbar navbar-default navbar-pf navbar-main header">
-        <nav class="navbar" role="navigation">
-            <div class="navbar-header">
-                <div class="container">
-                    <h1 class="navbar-title">Keycloak</h1>
+    <title>Mon compte - Potentiel</title>
+  </head>
+
+  <body>
+    <svg aria-hidden="true" focusable="false" style="display:none">
+      <defs>
+      <symbol
+          viewBox="0 0 32 32"
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          stroke-linejoin="round"
+          stroke-miterlimit="1.414"
+          id="expand"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            style="
+              stroke: none;
+              fill-rule: nonzero;
+              fill: rgb(0%, 0%, 0%);
+              fill-opacity: 1;
+            "
+            d="M 28.265625 6.132812 L 16 18.398438 L 3.734375 6.132812 L 0 9.867188 L 16 25.867188 L 32 9.867188 Z M 28.265625 6.132812 "
+          />
+        </symbol>
+        <symbol
+          id="building"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+          ></path>
+        </symbol>
+        <symbol
+          id="user-circle"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+          ></path>
+        </symbol>
+        <symbol
+          id="cog"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+          ></path>
+          <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+        </symbol>
+        <symbol
+          id="clipboard-check"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+        </symbol>
+        <symbol
+          id="dots-vertical"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+          ></path>
+        </symbol>
+      </defs>
+    </svg>
+  
+    <header role="banner" class="fr-header">
+      <div class="fr-header__body">
+        <div class="fr-container">
+          <div class="fr-header__body-row">
+            <div class="fr-header__brand fr-enlarge-link">
+              <div class="fr-header__brand-top">
+                <div class="fr-header__logo">
+                  <p class="fr-logo">
+                    République
+                    <br />Française
+                  </p>
                 </div>
-            </div>
-            <div class="navbar-collapse navbar-collapse-1">
-                <div class="container">
-                    <ul class="nav navbar-nav navbar-utility">
-                        <#if realm.internationalizationEnabled>
-                            <li>
-                                <div class="kc-dropdown" id="kc-locale-dropdown">
-                                    <a href="#" id="kc-current-locale-link">${locale.current}</a>
-                                    <ul>
-                                        <#list locale.supported as l>
-                                            <li class="kc-dropdown-item"><a href="${l.url}">${l.label}</a></li>
-                                        </#list>
-                                    </ul>
-                                </div>
-                            <li>
-                        </#if>
-                        <#if referrer?has_content && referrer.url?has_content><li><a href="${referrer.url}" id="referrer">${msg("backTo",referrer.name)}</a></li></#if>
-                        <li><a href="${url.logoutUrl}">${msg("doSignOut")}</a></li>
-                    </ul>
+                <div class="fr-header__navbar">
+                  <button
+                    class="fr-btn--menu fr-btn"
+                    data-fr-opened="false"
+                    aria-controls="modal-833"
+                    aria-haspopup="menu"
+                    title="Menu"
+                    id="fr-btn-menu-mobile"
+                  >
+                    Menu
+                  </button>
                 </div>
+              </div>
+              <div class="fr-header__service">
+                <a href="/" title="Accueil - [À MODIFIER | Nom du site / service]">
+                  <p class="fr-header__service-title">Potentiel</p>
+                </a>
+                <p class="fr-header__service-tagline">
+                  Facilite le parcours des producteurs d'énergies renouvelables
+                </p>
+              </div>
             </div>
-        </nav>
+          </div>
+        </div>
+      </div>
+    
+      <!-- Navigation principale -->
+      <div
+        class="fr-header__menu fr-modal"
+        id="modal-833"
+        aria-labelledby="fr-btn-menu-mobile"
+      >
+        <div class="fr-container">
+          <button class="fr-link--close fr-link" aria-controls="modal-833">
+            Fermer
+          </button>
+          <div class="fr-header__menu-links"></div>
+          <nav
+            class="fr-nav"
+            id="navigation-832"
+            role="navigation"
+            aria-label="Menu principal"
+          >
+            <ul class="fr-nav__list">
+              <li class="fr-nav__item">
+                <a class="fr-nav__link" href="${properties.potentielUrl}/go-to-user-dashboard" target="_self">
+                  <span class="fr-fi-arrow-left-line" aria-hidden="true"></span> Retourner sur Potentiel
+                </a>
+              </li>
+              <li class="fr-nav__item">
+                <a class="fr-nav__link" href="${url.accountUrl}" target="_self" <#if active=='account'>aria-current="page"</#if>>${msg("account")}</a>
+              </li>
+              <#if features.passwordUpdateSupported>
+              <li class="fr-nav__item">
+                <a class="fr-nav__link" href="${url.passwordUrl}" target="_self" <#if active=='password'>aria-current="page"</#if>>${msg("password")}</a>
+              </li>
+              </#if>
+              <li class="fr-nav__item">
+                <a class="fr-nav__link" href="${url.totpUrl}" target="_self" <#if active=='totp'>aria-current="page"</#if>>${msg("authenticator")}</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
     </header>
 
-    <div class="container">
-        <div class="bs-sidebar col-sm-3">
-            <ul>
-                <li class="<#if active=='account'>active</#if>"><a href="${url.accountUrl}">${msg("account")}</a></li>
-                <#if features.passwordUpdateSupported><li class="<#if active=='password'>active</#if>"><a href="${url.passwordUrl}">${msg("password")}</a></li></#if>
-                <li class="<#if active=='totp'>active</#if>"><a href="${url.totpUrl}">${msg("authenticator")}</a></li>
-                <#if features.identityFederation><li class="<#if active=='social'>active</#if>"><a href="${url.socialUrl}">${msg("federatedIdentity")}</a></li></#if>
-                <li class="<#if active=='sessions'>active</#if>"><a href="${url.sessionsUrl}">${msg("sessions")}</a></li>
-                <li class="<#if active=='applications'>active</#if>"><a href="${url.applicationsUrl}">${msg("applications")}</a></li>
-                <#if features.log><li class="<#if active=='log'>active</#if>"><a href="${url.logUrl}">${msg("log")}</a></li></#if>
-                <#if realm.userManagedAccessAllowed && features.authorization><li class="<#if active=='authorization'>active</#if>"><a href="${url.resourceUrl}">${msg("myResources")}</a></li></#if>
+    <main role="main">
+      <div class="fr-container fr-py-6w">
+        <section>
+          <#nested "content">
+        </section>
+      </div>
+    </main>
+    
+    <footer class="fr-footer" role="contentinfo" id="footer">
+      <div class="fr-container">
+        <div class="fr-footer__body">
+          <div class="fr-footer__brand fr-enlarge-link">
+            <a href="/" title="Retour à l’accueil">
+              <p class="fr-logo" title="république française">
+                Ministère<br />
+                de la transition<br />
+                écologique
+              </p>
+            </a>
+          </div>
+          <div class="fr-footer__content">
+            <p class="fr-footer__content-desc">
+              Suivez efficacement vos projets :<br />
+              Transmettez vos documents, demandez des modifications.
+            </p>
+            <ul class="fr-footer__content-list">
+              <li class="fr-footer__content-item">
+                <a class="fr-footer__content-link" href="https://legifrance.gouv.fr"
+                  >legifrance.gouv.fr</a
+                >
+              </li>
+              <li class="fr-footer__content-item">
+                <a class="fr-footer__content-link" href="https://gouvernement.fr"
+                  >gouvernement.fr</a
+                >
+              </li>
+              <li class="fr-footer__content-item">
+                <a class="fr-footer__content-link" href="https://service-public.fr"
+                  >service-public.fr</a
+                >
+              </li>
+              <li class="fr-footer__content-item">
+                <a class="fr-footer__content-link" href="https://data.gouv.fr"
+                  >data.gouv.fr</a
+                >
+              </li>
             </ul>
+          </div>
         </div>
-
-        <div class="col-sm-9 content-area">
-            <#if message?has_content>
-                <div class="alert alert-${message.type}">
-                    <#if message.type=='success' ><span class="pficon pficon-ok"></span></#if>
-                    <#if message.type=='error' ><span class="pficon pficon-error-circle-o"></span></#if>
-                    <span class="kc-feedback-text">${kcSanitize(message.summary)?no_esc}</span>
-                </div>
-            </#if>
-
-            <#nested "content">
+        <div class="fr-footer__bottom">
+          <ul class="fr-footer__bottom-list">
+            <li class="fr-footer__bottom-item">
+              <a class="fr-footer__bottom-link" href="#">Plan du site</a>
+            </li>
+            <li class="fr-footer__bottom-item">
+              <a class="fr-footer__bottom-link" href="#"
+                >Accessibilité: non conforme</a
+              >
+            </li>
+            <li class="fr-footer__bottom-item">
+              <a class="fr-footer__bottom-link" href="https://docs.potentiel.beta.gouv.fr/info/cgu">Mentions légales</a>
+            </li>
+            <li class="fr-footer__bottom-item">
+              <a class="fr-footer__bottom-link" href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel">Guide d'utilisation</a>
+            </li>
+            <li class="fr-footer__bottom-item">
+              <a class="fr-footer__bottom-link" href="https://potentiel.beta.gouv.fr/stats.html">Statistiques</a>
+            </li>
+            <li class="fr-footer__bottom-item">
+              <a class="fr-footer__bottom-link" href="https://docs.potentiel.beta.gouv.fr/info/cgu#cookies">Gestion des cookies</a>
+            </li>
+          </ul>
+          <div class="fr-footer__bottom-copy">
+            <p>
+              Sauf mention contraire, tous les contenus de ce site sont sous
+              <a
+                href="https://github.com/etalab/licence-ouverte/blob/master/LO.md"
+                target="_blank"
+                >licence etalab-2.0</a
+              >
+            </p>
+          </div>
         </div>
-    </div>
+      </div>
+    </footer>
 
-</body>
+    <script type="module" src="${url.resourcesPath}/dsfr/dsfr.module.min.js"></script>
+    <script type="text/javascript" nomodule src="${url.resourcesPath}/dsfr/dsfr.nomodule.min.js"></script>
+  </body>
 </html>
 </#macro>
