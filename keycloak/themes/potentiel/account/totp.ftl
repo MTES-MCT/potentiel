@@ -1,55 +1,45 @@
 <#import "template.ftl" as layout>
 <@layout.mainLayout active='totp' bodyClass='totp'; section>
 
-    <div class="row">
-        <div class="col-md-10">
-            <h2>${msg("authenticatorTitle")}</h2>
-        </div>
-        <#if totp.otpCredentials?size == 0>
-            <div class="col-md-2 subtitle">
-                <span class="subtitle"><span class="required">*</span> ${msg("requiredFields")}</span>
-            </div>
-        </#if>
+    <h1>${msg("authenticatorTitle")}</h1>
+    <#if message?has_content>
+    <div class="fr-alert fr-alert--${message.type} fr-alert--sm fr-mb-3w">
+      <p class="fr-alert__title">${kcSanitize(message.summary)?no_esc}</p>
     </div>
+    </#if>
 
     <#if totp.enabled>
-        <table class="table table-bordered table-striped">
-            <thead>
-            <#if totp.otpCredentials?size gt 1>
-                <tr>
-                    <th colspan="4">${msg("configureAuthenticators")}</th>
-                </tr>
-            <#else>
-                <tr>
-                    <th colspan="3">${msg("configureAuthenticators")}</th>
-                </tr>
-            </#if>
-            </thead>
-            <tbody>
-            <#list totp.otpCredentials as credential>
-                <tr>
-                    <td class="provider">${msg("mobile")}</td>
-                    <#if totp.otpCredentials?size gt 1>
-                        <td class="provider">${credential.id}</td>
-                    </#if>
-                    <td class="provider">${credential.userLabel!}</td>
-                    <td class="action">
-                        <form action="${url.totpUrl}" method="post" class="form-inline">
-                            <input type="hidden" id="stateChecker" name="stateChecker" value="${stateChecker}">
-                            <input type="hidden" id="submitAction" name="submitAction" value="Delete">
-                            <input type="hidden" id="credentialId" name="credentialId" value="${credential.id}">
-                            <button id="remove-mobile" class="btn btn-default">
-                                <i class="pficon pficon-delete"></i>
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            </#list>
-            </tbody>
-        </table>
-        <#else>
+    <ul class="fr-m-0 fr-p-0" style="list-style: none;">
+    <#list totp.otpCredentials as credential>
+      <li>
+        <div class="fr-tile fr-tile--horizontal">
+          <div class="fr-tile__body">
+            <h4 class="fr-tile__title">
+              <#if totp.otpCredentials?size gt 1>
+              <span>${credential.id}. </span>
+              </#if>
+              Validation en deux étapes activée sur téléphone mobile 
+              <#if credential.userLabel?has_content>
+              ${credential.userLabel}
+              </#if>
+            </h4>
+            <p class="fr-tile__desc">
+              <form action="${url.totpUrl}" method="post">
+                <input type="hidden" id="stateChecker" name="stateChecker" value="${stateChecker}">
+                <input type="hidden" id="submitAction" name="submitAction" value="Delete">
+                <input type="hidden" id="credentialId" name="credentialId" value="${credential.id}">
+                <button id="remove-mobile" class="fr-btn">Supprimer</button>
+              </form>
+            </p>
+          </div>
+        </div>
+      </li>
+    </#list>
+    </ul>
 
-    <hr/>
+    <#else>
+
+    <div class="fr-mb-3w">* ${msg("requiredFields")}</div>
 
     <ol>
         <li>
@@ -90,51 +80,52 @@
         </#if>
         <li>
             <p>${msg("totpStep3")}</p>
-            <p>${msg("totpStep3DeviceName")}</p>
         </li>
     </ol>
 
     <hr/>
 
-    <form action="${url.totpUrl}" class="form-horizontal" method="post">
-        <input type="hidden" id="stateChecker" name="stateChecker" value="${stateChecker}">
-        <div class="form-group">
-            <div class="col-sm-2 col-md-2">
-                <label for="totp" class="control-label">${msg("authenticatorCode")}</label> <span class="required">*</span>
-            </div>
+    <form action="${url.totpUrl}" method="post">
+      <input type="hidden" id="stateChecker" name="stateChecker" value="${stateChecker}">
 
-            <div class="col-sm-10 col-md-10">
-                <input type="text" class="form-control" id="totp" name="totp" autocomplete="off" autofocus>
-                <input type="hidden" id="totpSecret" name="totpSecret" value="${totp.totpSecret}"/>
-            </div>
+      <div class="fr-input-group">
+        <label for="totp" class="fr-label">${msg("authenticatorCode")} *</label>
+        <input
+          type="text"
+          class="fr-input"
+          id="totp"
+          name="totp"
+          autocomplete="off" 
+          autofocus
+        />
+        <input type="hidden" id="totpSecret" name="totpSecret" value="${totp.totpSecret}"/>
+      </div>
 
+      <div class="fr-input-group ${messagesPerField.printIfExists('userLabel','fr-input-group--error')}">
+        <label for="userLabel" class="fr-label">${msg("totpDeviceName")}</label><#if totp.otpCredentials?size gte 1><span class="required"> *</span></#if>
+        <input
+          type="text"
+          class="fr-input ${messagesPerField.printIfExists('userLabel','fr-input--error')}"
+          aria-describedby="userLabel-input-error-desc-error"
+          id="userLabel"
+          name="userLabel"
+          autocomplete="off"
+        />
+        <#if messagesPerField.existsError('userLabel')>
+        <p id="userLabel-input-error-desc-error" class="fr-error-text">
+          ${messagesPerField.get('userLabel')}
+        </p>
+        </#if>
+      </div>
 
-        </div>
-
-        <div class="form-group" ${messagesPerField.printIfExists('userLabel',properties.kcFormGroupErrorClass!)}">
-            <div class="col-sm-2 col-md-2">
-                <label for="userLabel" class="control-label">${msg("totpDeviceName")}</label> <#if totp.otpCredentials?size gte 1><span class="required">*</span></#if>
-            </div>
-
-            <div class="col-sm-10 col-md-10">
-                <input type="text" class="form-control" id="userLabel" name="userLabel" autocomplete="off">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div id="kc-form-buttons" class="col-md-offset-2 col-md-10 submit">
-                <div class="">
-                    <button type="submit"
-                            class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonLargeClass!}"
-                            id="saveTOTPBtn" name="submitAction" value="Save">${msg("doSave")}
-                    </button>
-                    <button type="submit"
-                            class="${properties.kcButtonClass!} ${properties.kcButtonDefaultClass!} ${properties.kcButtonLargeClass!}"
-                            id="cancelTOTPBtn" name="submitAction" value="Cancel">${msg("doCancel")}
-                    </button>
-                </div>
-            </div>
-        </div>
+      <ul class="fr-btns-group fr-btns-group--inline">
+        <li>
+          <button type="submit" class="fr-btn" id="saveTOTPBtn" name="submitAction" value="Save">${msg("doSave")}</button>
+        </li>
+        <li>
+          <button type="submit" class="fr-btn fr-btn--secondary" id="cancelTOTPBtn" name="submitAction" value="Cancel">${msg("doCancel")}</button>
+        </li>
+      </ul>
     </form>
     </#if>
 
