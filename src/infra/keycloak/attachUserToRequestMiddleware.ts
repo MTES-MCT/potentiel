@@ -7,63 +7,59 @@ type AttachUserToRequestMiddlewareDependencies = {
   createUser: CreateUser
 }
 
-const makeAttachUserToRequestMiddleware = ({
-  getUserByEmail,
-  createUser,
-}: AttachUserToRequestMiddlewareDependencies) => async (
-  request: Request,
-  response: Response,
-  next: NextFunction
-) => {
-  if (
-    // Theses paths should be prefixed with /static in the future
-    request.path.startsWith('/fonts') ||
-    request.path.startsWith('/css') ||
-    request.path.startsWith('/images') ||
-    request.path.startsWith('/scripts') ||
-    request.path.startsWith('/main') ||
-    request.path === '/'
-  ) {
-    next()
-    return
-  }
+const makeAttachUserToRequestMiddleware =
+  ({ getUserByEmail, createUser }: AttachUserToRequestMiddlewareDependencies) =>
+  async (request: Request, response: Response, next: NextFunction) => {
+    if (
+      // Theses paths should be prefixed with /static in the future
+      request.path.startsWith('/fonts') ||
+      request.path.startsWith('/css') ||
+      request.path.startsWith('/images') ||
+      request.path.startsWith('/scripts') ||
+      request.path.startsWith('/main') ||
+      request.path === '/'
+    ) {
+      next()
+      return
+    }
 
-  const token = request.kauth?.grant?.access_token
-  const userEmail = token?.content?.email
-  const kRole = USER_ROLES.find((role) => token?.hasRealmRole(role))
+    const token = request.kauth?.grant?.access_token
+    const userEmail = token?.content?.email
+    const kRole = USER_ROLES.find((role) => token?.hasRealmRole(role))
+    const fullName = token?.content?.name
 
-  if (userEmail) {
-    await getUserByEmail(userEmail)
-      .andThen((user) => {
-        if (user) {
-          return ok({
-            ...user,
-            role: kRole!,
-          })
-        }
-
-        const fullName = token?.content?.name
-        const createUserArgs = { email: userEmail, role: kRole, fullName }
-
-        return createUser(createUserArgs).andThen(({ id, role }) => {
-          if (!kRole) {
-            request.session.destroy(() => {})
+    if (userEmail) {
+      await getUserByEmail(userEmail)
+        .andThen((user) => {
+          if (user) {
+            return ok({
+              ...user,
+              ...(fullName && { fullName }),
+              role: kRole!,
+            })
           }
 
-          return ok({ ...createUserArgs, id, role })
-        })
-      })
-      .match(
-        (user) => {
-          request.user = user
-        },
-        (e: Error) => {
-          logger.error(e)
-        }
-      )
-  }
+          const createUserArgs = { email: userEmail, role: kRole, fullName }
 
-  next()
-}
+          return createUser(createUserArgs).andThen(({ id, role }) => {
+            if (!kRole) {
+              request.session.destroy(() => {})
+            }
+
+            return ok({ ...createUserArgs, id, role })
+          })
+        })
+        .match(
+          (user) => {
+            request.user = user
+          },
+          (e: Error) => {
+            logger.error(e)
+          }
+        )
+    }
+
+    next()
+  }
 
 export { makeAttachUserToRequestMiddleware }

@@ -73,12 +73,13 @@ describe(`attachUserToRequestMiddleware`, () => {
           const userEmail = 'user@email.com'
 
           token.content['email'] = userEmail
+          token.content['name'] = 'User name from token'
 
           const user: User = {
             email: userEmail,
             fullName: 'User',
             id: 'user-id',
-            role: (undefined as unknown) as UserRole,
+            role: undefined as unknown as UserRole,
           }
 
           const getUserByEmail: GetUserByEmail = jest.fn((email) =>
@@ -94,7 +95,7 @@ describe(`attachUserToRequestMiddleware`, () => {
           middleware(request, {} as express.Response, nextFunction)
 
           it('should attach the user to the request with no role and execute the next function', () => {
-            expect(request.user).toMatchObject(user)
+            expect(request.user).toMatchObject({ ...user, fullName: 'User name from token' })
             expect(nextFunction).toHaveBeenCalled()
           })
         })
@@ -116,6 +117,7 @@ describe(`attachUserToRequestMiddleware`, () => {
           const userEmail = 'user@email.com'
 
           token.content['email'] = userEmail
+          token.content['name'] = 'User name from token'
 
           const user: User = {
             email: userEmail,
@@ -139,6 +141,7 @@ describe(`attachUserToRequestMiddleware`, () => {
           it('should attach the user to the request with role from token', () => {
             const expectedUser = {
               ...user,
+              fullName: 'User name from token',
               role: tokenUserRole,
             }
             expect(request.user).toMatchObject(expectedUser)

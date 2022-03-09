@@ -35,11 +35,19 @@ const Header = ({ request }: HeaderProps) => {
           <ul className="flex flex-col sm:flex-row gap-3 fr-links-group">
             {user ? (
               <>
-                <li
-                  className="fr-link fr-fi-user-line justify-end"
-                  style={{ color: 'var(--text-default-grey)' }}
-                >
-                  {user.fullName}
+                <li>
+                  {['admin', 'dgec'].includes(user.role) ? (
+                    <a className="fr-link fr-fi-user-line" href={routes.ACCOUNT()}>
+                      {user.fullName}
+                    </a>
+                  ) : (
+                    <span
+                      className="fr-link fr-fi-user-line"
+                      style={{ color: 'var(--text-default-grey)' }}
+                    >
+                      {user.fullName}
+                    </span>
+                  )}
                 </li>
                 <li>
                   <a className="fr-link fr-fi-logout-box-r-line" href={routes.LOGOUT_ACTION}>
