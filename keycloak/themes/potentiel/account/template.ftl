@@ -52,6 +52,21 @@
                 </p>
               </div>
             </div>
+            <div class="fr-header__tools">
+              <div class="fr-header__tools-links">
+                <ul class="fr-links-group">
+                  <li>
+                    <a 
+                      class="fr-link fr-fi-logout-box-r-line" 
+                      href="${properties.potentielUrl}/logout"
+                      >
+                      Se déconnecter
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
