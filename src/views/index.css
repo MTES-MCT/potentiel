@@ -1,7 +1,6 @@
 /* @tailwind base;
 @tailwind components; */
 @tailwind utilities;
-
 .list--action-menu {
   display: none;
   position: absolute;

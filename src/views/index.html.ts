@@ -30,12 +30,25 @@ export const makeHtml = <T extends HasRequest>(args: PageProps<T>) => {
       <head>
         <meta charset="utf-8" />
         <meta http-equiv="x-ua-compatible" content="ie=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="theme-color" content="#000091" />
+        <!-- Défini la couleur de thème du navigateur (Safari/Android) -->
+        <link rel="apple-touch-icon" href="dsfr/favicon/apple-touch-icon.png" />
+        <!-- 180×180 -->
+        <link rel="icon" href="dsfr/favicon/favicon.svg" type="image/svg+xml" />
+        <link rel="shortcut icon" href="dsfr/favicon/favicon.ico" type="image/x-icon" />
+        <!-- 32×32 -->
+        <link
+          rel="manifest"
+          href="dsfr/favicon/manifest.webmanifest"
+          crossorigin="use-credentials"
+        />
 
         <title>Potentiel - Suivi des Projets d'Energies Renouvelables</title>
 
         <link href="/main.min.css" rel="stylesheet" />
         <link href="/css/index.css" rel="stylesheet" />
+        <link href="/css/dsfr.css" rel="stylesheet" />
         <script src="/scripts.js"></script>
         ${args.hydrate
           ? html`
@@ -44,17 +57,6 @@ export const makeHtml = <T extends HasRequest>(args: PageProps<T>) => {
             `
           : ''}
 
-        <!-- Favicons -->
-        <meta name="theme-color" content="#ffffff" />
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/images/favicons/apple-icon-180x180.png"
-        />
-        <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png" />
-        <link rel="manifest" href="/images/favicons/manifest.json" />
-        <link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#5bbad5" />
         ${trackerWebsiteId ? getTrackerScript(trackerWebsiteId) : ''}
       </head>
 

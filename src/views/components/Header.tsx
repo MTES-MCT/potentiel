@@ -10,48 +10,68 @@ interface HeaderProps {
 const Header = ({ request }: HeaderProps) => {
   const user = request.user
   return (
-    <header className="navbar" role="navigation">
-      <div className="navbar__container">
-        <a className="navbar__home" href="/index.html">
-          <img
-            className="navbar__logo"
-            src="/images/logo-marianne.svg"
-            alt="potentiel.beta.gouv.fr"
-          />
-          <span className="navbar__domain">
-            potentiel.<b>beta.gouv</b>
-            <i>.fr</i>
-          </span>
-        </a>
-
-        <nav>
-          <ul className="nav__links">
-            <li className="nav__item">
-              {user ? (
-                <>
-                  <a
-                    href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Aide{' '}
-                    <img
-                      src="/images/icons/external/external-link-alt-solid.svg"
-                      style={{ width: 12, height: 12 }}
-                      alt="Ouvrir dans un nouvel onglet"
-                    ></img>
+    <div className="only-dsfr">
+      <header role="banner" className="fr-header">
+        <div className="fr-header__body">
+          <div className="fr-container">
+            <div className="fr-header__body-row">
+              <div className="fr-header__brand fr-enlarge-link">
+                <div className="fr-header__brand-top">
+                  <div className="fr-header__logo">
+                    <p className="fr-logo">
+                      République
+                      <br />
+                      Française
+                    </p>
+                  </div>
+                  <div className="fr-header__navbar">
+                    <button
+                      className="fr-btn--menu fr-btn"
+                      data-fr-opened="false"
+                      aria-controls="modal-833"
+                      aria-haspopup="menu"
+                      title="Menu"
+                      id="fr-btn-menu-mobile"
+                    >
+                      Menu
+                    </button>
+                  </div>
+                </div>
+                <div className="fr-header__service">
+                  <a href="/" title="Accueil - Potentiel - Ministère de la transition écologique">
+                    <p className="fr-header__service-title text-black">Potentiel</p>
                   </a>
-                  <span>{user.fullName}</span>
-                  <a href={routes.LOGOUT_ACTION}>Me déconnecter</a>
-                </>
-              ) : (
-                <a href={routes.LOGIN}>M'identifier</a>
-              )}
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </header>
+                  <p className="fr-header__service-tagline">
+                    Facilite le parcours des producteurs d'énergies renouvelables
+                  </p>
+                </div>
+              </div>
+              <div className="fr-header__tools">
+                <div className="fr-header__tools-links">
+                  <ul className="fr-links-group">
+                    <li>
+                      <a className="fr-link fr-fi-account-line" href="login.html">
+                        Se connecter
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        className="fr-link fr-fi-external-link-line fr-link--icon-right"
+                        target="_blank"
+                        rel="noopener"
+                        href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel"
+                      >
+                        Guide d'utilisation
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+    </div>
   )
 }
 
