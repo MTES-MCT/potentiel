@@ -2,6 +2,7 @@ import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
 import express, { Request } from 'express'
 import helmet from 'helmet'
+import path from 'path'
 import morgan from 'morgan'
 import { isDevEnv, registerAuth } from './config'
 import { v1Router } from './controllers'
@@ -30,10 +31,15 @@ export async function makeServer(port: number, sessionSecret: string) {
           contentSecurityPolicy: {
             directives: {
               'default-src': ["'self'", 'metabase.potentiel.beta.gouv.fr'],
-              'connect-src': ["'self'", "'unsafe-inline'"],
+              'connect-src': ["'self'", "'unsafe-inline'", 'analytics.potentiel.beta.gouv.fr'],
               'img-src': ["'self'", 'data:'],
               'style-src': ["'self'", 'data:', "'unsafe-inline'"],
-              'script-src': ["'unsafe-inline'", "'self'", 'metabase.potentiel.beta.gouv.fr'],
+              'script-src': [
+                "'unsafe-inline'",
+                "'self'",
+                'metabase.potentiel.beta.gouv.fr',
+                'analytics.potentiel.beta.gouv.fr',
+              ],
               'object-src': ["'none'"],
             },
           },
@@ -66,8 +72,7 @@ export async function makeServer(port: number, sessionSecret: string) {
     registerAuth({ app, sessionSecret, router: v1Router })
 
     app.use(v1Router)
-
-    app.use(express.static('src/public'))
+    app.use(express.static(path.join(__dirname, 'public')))
 
     if (process.env.NODE_ENV === 'test') {
       app.use(testRouter)
