@@ -1,6 +1,7 @@
 import React from 'react'
 import routes from '../../routes'
 import { Request } from 'express'
+import { ExternalLinkIcon, UserIcon } from '@heroicons/react/solid'
 
 interface HeaderProps {
   request: Request
