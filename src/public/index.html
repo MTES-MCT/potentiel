@@ -80,21 +80,25 @@
     </header>
 
     <main role="main">
-      <section class="fr-p-8w text-white" style="background-color: #000091">
-        <div class="fr-container flex">
-          <p class="fr-px-15w" style="font-size: 2.5rem; font-weight: semi-bold; line-height: 3rem">
-            Suivez efficacement vos projets : <br />Transmettez vos documents, demandez des
+      <section class="text-white py-4 md:py-0" style="background-color: #000091">
+        <div class="fr-container flex flex-col md:flex-row md:justify-between">
+          <p class="flex-2 m-0 text-xl text-center md:self-center md:text-2xl md:pr-4 lg:text-4xl">
+            Suivez efficacement vos projets : <br />Transmettez vos documents, <br />demandez des
             modifications.
           </p>
-          <img src="./images/eoliennes.jpg" style="width: 40%" alt="éoliennes" />
+          <div
+            class="hidden md:block bg-contain bg-no-repeat bg-right flex-1 p-40"
+            style="background-image: url(./images/eoliennes.jpg); width: 100%"
+            aria-hidden="true"
+          ></div>
         </div>
       </section>
       <section class="fr-py-4w fr-container">
-        <a href="login.html" style="display: block; text-align: center; box-shadow: none">
+        <a href="login.html" class="block text-center" style="box-shadow: none">
           <button class="fr-btn" style="font-size: 1.2rem">Se connecter</button>
         </a>
       </section>
-      <section class="fr-container fr-py-6w">
+      <section class="fr-container pb-10">
         <p>
           L’Etat français met en œuvre une politique volontariste de soutien au développement des
           énergies renouvelables (EnR) électriques. L’objectif est d’atteindre une part de 40% de
