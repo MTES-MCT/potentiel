@@ -86,7 +86,7 @@
     "express": "^4.17.3",
     "express-async-handler": "^1.2.0",
     "express-session": "^1.17.2",
-    "helmet": "^4.6.0",
+    "helmet": "^5.0.2",
     "iconv-lite": "^0.6.3",
     "ioredis": "^4.28.5",
     "isemail": "^3.2.0",
