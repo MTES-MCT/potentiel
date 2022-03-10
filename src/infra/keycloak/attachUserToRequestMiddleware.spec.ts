@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { Request } from 'express'
 import { okAsync } from '@core/utils'
 import { User } from '@entities'
 import { GetUserByEmail, UserRole } from '@modules/users'
@@ -95,7 +95,11 @@ describe(`attachUserToRequestMiddleware`, () => {
           middleware(request, {} as express.Response, nextFunction)
 
           it('should attach the user to the request with no role and execute the next function', () => {
-            expect(request.user).toMatchObject({ ...user, fullName: 'User name from token' })
+            expect(request.user).toMatchObject({
+              ...user,
+              fullName: 'User name from token',
+              accountUrl: expect.any(String),
+            })
             expect(nextFunction).toHaveBeenCalled()
           })
         })
@@ -143,6 +147,7 @@ describe(`attachUserToRequestMiddleware`, () => {
               ...user,
               fullName: 'User name from token',
               role: tokenUserRole,
+              accountUrl: expect.any(String),
             }
             expect(request.user).toMatchObject(expectedUser)
           })
@@ -188,11 +193,12 @@ describe(`attachUserToRequestMiddleware`, () => {
           middleware(request, {} as express.Response, nextFunction)
 
           it('should attach a new user to the request', () => {
-            const expectedUser: User = {
+            const expectedUser: Request['user'] = {
               email: userEmail,
               fullName: userName,
               id: userId,
               role: 'porteur-projet',
+              accountUrl: expect.any(String),
             }
             expect(request.user).toMatchObject(expectedUser)
           })
@@ -239,11 +245,12 @@ describe(`attachUserToRequestMiddleware`, () => {
           middleware(request, {} as express.Response, nextFunction)
 
           it('should attach a new user to the request with the same role of the token', () => {
-            const expectedUser: User = {
+            const expectedUser: Request['user'] = {
               email: userEmail,
               fullName: userName,
               id: userId,
               role: userRole,
+              accountUrl: expect.any(String),
             }
             expect(request.user).toMatchObject(expectedUser)
           })

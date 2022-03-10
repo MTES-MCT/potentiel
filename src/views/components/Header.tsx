@@ -38,7 +38,7 @@ const Header = ({ request }: HeaderProps) => {
               <>
                 <li>
                   {['admin', 'dgec'].includes(user.role) ? (
-                    <a className="fr-link fr-fi-user-line" href={routes.ACCOUNT()}>
+                    <a className="fr-link fr-fi-user-line" href={user.accountUrl}>
                       {user.fullName}
                     </a>
                   ) : (

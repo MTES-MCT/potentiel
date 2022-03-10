@@ -51,7 +51,10 @@ const makeAttachUserToRequestMiddleware =
         })
         .match(
           (user) => {
-            request.user = user
+            request.user = {
+              ...user,
+              accountUrl: `${process.env.KEYCLOAK_SERVER}/realms/${process.env.KEYCLOAK_REALM}/account`,
+            }
           },
           (e: Error) => {
             logger.error(e)

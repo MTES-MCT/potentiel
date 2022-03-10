@@ -31,8 +31,6 @@ class routes {
   static LOGIN_ACTION = '/login.html'
   static STATS = '/stats.html'
   static LOGOUT_ACTION = '/logout'
-  static ACCOUNT = () =>
-    `${process.env.KEYCLOAK_SERVER}/realms/${process.env.KEYCLOAK_REALM}/account`
 
   static REDIRECT_BASED_ON_ROLE = '/go-to-user-dashboard'
   static ADMIN_DASHBOARD = '/admin/dashboard.html'
