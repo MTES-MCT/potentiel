@@ -1,7 +1,14 @@
+const postCssImport = require('postcss-import')
+const postCssPrefixSelector = require('postcss-prefix-selector')
+const purgecss = require('@fullhuman/postcss-purgecss')
+
 module.exports = {
-  plugins: {
-    'postcss-import': {},
-    'postcss-prefix-selector': {
+  plugins: [
+    postCssImport(),
+    purgecss({
+      content: ['./src/views/**/*.tsx', './src/views/**/*.html', './src/views/index.html.ts'],
+    }),
+    postCssPrefixSelector({
       prefix: '.only-dsfr',
       transform(prefix, selector, prefixedSelector, filepath) {
         if (selector.match(/^(html|body)/)) {
@@ -14,6 +21,6 @@ module.exports = {
 
         return prefixedSelector
       },
-    },
-  },
+    }),
+  ],
 }
