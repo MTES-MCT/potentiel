@@ -50,9 +50,21 @@ const Header = ({ request }: HeaderProps) => {
                 <div className="fr-header__tools-links">
                   <ul className="fr-links-group">
                     <li>
-                      <a className="fr-link fr-fi-account-line" href="login.html">
-                        Se connecter
-                      </a>
+                      {user ? (
+                        <>
+                          <span>{user.fullName}</span>
+                          <a
+                            className="fr-link fr-fi-logout-box-r-line"
+                            href={routes.LOGOUT_ACTION}
+                          >
+                            Me déconnecter
+                          </a>
+                        </>
+                      ) : (
+                        <a className="fr-link fr-fi-account-line" href={routes.LOGIN}>
+                          M'identifier
+                        </a>
+                      )}
                     </li>
                     <li>
                       <a
