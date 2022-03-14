@@ -50,6 +50,7 @@ export const makeHtml = <T extends HasRequest>(args: PageProps<T>) => {
         <link href="/css/index.css" rel="stylesheet" />
         <link href="/css/dsfr.css" rel="stylesheet" />
         <script src="/scripts.js"></script>
+        <!-- TRACKER -->
         ${args.hydrate
           ? html`
               <script src="/js/shared.js"></script>
