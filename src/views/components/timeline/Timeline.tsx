@@ -82,7 +82,7 @@ export const Timeline = ({
     extractImportItemProps(events),
     GFItemProps?.date ? GFItemProps : null,
     extractDCRItemProps(events, now, { status }),
-    extractACItemProps(events),
+    extractACItemProps(events, { status }),
     PTFItemProps?.status === 'submitted' ? PTFItemProps : null,
     ...extractModificationRequestsItemProps(events),
     ...extractModificationReceivedItemProps(events),
