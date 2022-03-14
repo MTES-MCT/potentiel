@@ -110,7 +110,7 @@ export const Timeline = ({
         return <ImportItem {...props} />
 
       case 'garanties-financieres':
-        return <GFItem {...{ ...props, projectId }} />
+        return <GFItem {...{ ...props, projectId, projectStatus: status }} />
 
       case 'demande-complete-de-raccordement':
         return <DCRItem {...{ ...props, projectId }} />
@@ -131,7 +131,7 @@ export const Timeline = ({
         return <CAItem />
 
       case 'demande-de-modification':
-        return <ModificationRequestItem {...props} />
+        return <ModificationRequestItem {...{ ...props, projectStatus: status }} />
 
       case 'modification-information':
         return <ModificationReceivedItem {...props} />

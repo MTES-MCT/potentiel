@@ -1,4 +1,5 @@
 import React from 'react'
+import { ProjectEventListDTO } from 'src/modules/frise/dtos/ProjectEventListDTO'
 import {
   ItemDate,
   ItemTitle,
@@ -11,12 +12,16 @@ import {
 import { ModificationRequestItemProps } from '../helpers/extractModificationRequestsItemProps'
 import { CancelledStepIcon } from './cancelledStepIcon'
 
-export const ModificationRequestItem = (props: ModificationRequestItemProps) => {
-  const { status } = props
+type ComponentProps = ModificationRequestItemProps & {
+  projectStatus: ProjectEventListDTO['project']['status']
+}
+
+export const ModificationRequestItem = (props: ComponentProps) => {
+  const { status, projectStatus } = props
   switch (status) {
     case 'envoyée':
     case 'en instruction':
-      return <Submitted {...{ ...props, status }} />
+      return <Submitted {...{ ...props, status, projectStatus }} />
     case 'rejetée':
       return <Rejected {...{ ...props, status }} />
     case 'acceptée':
@@ -30,13 +35,14 @@ export const ModificationRequestItem = (props: ModificationRequestItemProps) => 
   }
 }
 
-type SubmittedProps = ModificationRequestItemProps & {
+type SubmittedProps = ComponentProps & {
   status: 'envoyée' | 'en instruction'
 }
 
 const Submitted = (props: SubmittedProps) => {
-  const { date, authority, role, status } = props
-  const displayWarning = (role === 'admin' && authority === 'dgec') || role === authority
+  const { date, authority, role, status, projectStatus } = props
+  const roleRequiresAction = (role === 'admin' && authority === 'dgec') || role === authority
+  const isAbandoned = projectStatus === 'Abandonné'
   return (
     <>
       <CurrentIcon />
@@ -45,7 +51,7 @@ const Submitted = (props: SubmittedProps) => {
           <div className="align-center">
             <ItemDate date={date} />
           </div>
-          {displayWarning && (
+          {roleRequiresAction && !isAbandoned && (
             <div className="align-center mb-1">
               <InfoItem message={status === 'envoyée' ? 'à traiter' : 'réponse à envoyer'} />
             </div>

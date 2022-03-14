@@ -6,16 +6,19 @@ import { InfoItem } from './InfoItem'
 import { WarningItem } from './WarningItem'
 import { GFItemProps } from '../helpers/extractGFItemProps'
 import { WarningIcon } from './WarningIcon'
+import { ProjectEventListDTO } from 'src/modules/frise'
 
-type ComponentProps = GFItemProps & { projectId: string }
-
+type ComponentProps = GFItemProps & {
+  projectId: string
+  projectStatus: ProjectEventListDTO['project']['status']
+}
 export const GFItem = (props: ComponentProps) => {
-  const { status, projectId } = props
+  const { status, projectId, projectStatus } = props
 
   switch (status) {
     case 'pending-validation':
     case 'validated':
-      return <Submitted {...{ ...props, projectId, status }} />
+      return <Submitted {...{ ...props, projectId, status, projectStatus }} />
 
     case 'due':
     case 'past-due':
@@ -64,9 +67,10 @@ const NotSubmitted = ({ date, status, role, projectId }: NotSubmittedProps) => {
 }
 
 type SubmittedProps = ComponentProps & { status: 'pending-validation' | 'validated' }
-const Submitted = ({ date, status, url, role, projectId }: SubmittedProps) => {
+const Submitted = ({ date, status, url, role, projectId, projectStatus }: SubmittedProps) => {
   const isPorteurProjet = role === 'porteur-projet'
   const isValidated = status === 'validated'
+  const isAbandonned = projectStatus === 'Abandonné'
 
   return (
     <>
@@ -76,7 +80,7 @@ const Submitted = ({ date, status, url, role, projectId }: SubmittedProps) => {
           <div className="align-middle">
             <ItemDate date={date} />
           </div>
-          {!isValidated && (
+          {!isValidated && !isAbandonned && (
             <div className="align-middle mb-1">
               <InfoItem message={role === 'dreal' ? 'à traiter' : 'validation en attente'} />
             </div>
