@@ -42,7 +42,7 @@ const Header = ({ request }: HeaderProps) => {
                     <p className="fr-header__service-title text-black">Potentiel</p>
                   </a>
                   <p className="fr-header__service-tagline">
-                    Facilite le parcours des producteurs d'énergies renouvelables
+                    Facilite le parcours des producteurs d'énergies renouvelables électriques
                   </p>
                 </div>
               </div>
