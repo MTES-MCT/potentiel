@@ -1,4 +1,4 @@
-import { is, ProjectEventDTO } from '@modules/frise'
+import { is, ProjectEventDTO, ProjectEventListDTO } from '@modules/frise'
 import { or } from '@core/utils'
 import { UserRole } from '@modules/users'
 import { makeDocumentUrl } from './makeDocumentUrl'
@@ -21,10 +21,10 @@ export type PTFItemProps = {
 export const extractPTFItemProps = (
   events: ProjectEventDTO[],
   project: {
-    isLaureat: boolean
+    status: ProjectEventListDTO['project']['status']
   }
 ): PTFItemProps | null => {
-  if (!events.length || !project.isLaureat) {
+  if (!events.length || project.status === 'Eliminé') {
     return null
   }
 
@@ -32,12 +32,14 @@ export const extractPTFItemProps = (
   const latestProjectPTF = projectPTFEvents.pop()
 
   if (!latestProjectPTF || is('ProjectPTFRemoved')(latestProjectPTF)) {
-    return {
-      type: 'proposition-technique-et-financiere',
-      role: latestProjectPTF ? latestProjectPTF.variant : events.slice(-1)[0].variant,
-      status: 'not-submitted',
-      date: undefined,
-    }
+    return project.status !== 'Abandonné'
+      ? {
+          type: 'proposition-technique-et-financiere',
+          role: latestProjectPTF ? latestProjectPTF.variant : events.slice(-1)[0].variant,
+          status: 'not-submitted',
+          date: undefined,
+        }
+      : null
   }
 
   const { variant: role, date, file } = latestProjectPTF
