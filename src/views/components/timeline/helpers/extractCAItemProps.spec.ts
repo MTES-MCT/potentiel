@@ -1,11 +1,16 @@
-import { ProjectImportedDTO, ProjectNotifiedDTO } from 'src/modules/frise/dtos/ProjectEventListDTO'
+import {
+  ProjectEventListDTO,
+  ProjectImportedDTO,
+  ProjectNotifiedDTO,
+} from 'src/modules/frise/dtos/ProjectEventListDTO'
 import { extractCAItemProps } from './extractCAItemProps'
 
 describe('extractCAItemProps', () => {
-  describe(`when the project is not lauréat`, () => {
+  describe(`when the project is Eliminé`, () => {
     const project = {
-      isLaureat: false,
-    }
+      status: 'Eliminé',
+    } as ProjectEventListDTO['project']
+
     it(`should return null`, () => {
       const events = [
         {
@@ -20,9 +25,10 @@ describe('extractCAItemProps', () => {
   })
   describe('when project is lauréat', () => {
     const project = {
-      isLaureat: true,
-    }
-    describe('when there is no events', () => {
+      status: 'Classé',
+    } as ProjectEventListDTO['project']
+
+    describe('when there is no event at all', () => {
       it('should return null', () => {
         const events = []
         const result = extractCAItemProps(events, project)

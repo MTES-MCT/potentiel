@@ -1,4 +1,4 @@
-import { ProjectEventDTO } from '@modules/frise'
+import { ProjectEventDTO, ProjectEventListDTO } from '@modules/frise'
 
 export type CAItemProps = {
   type: 'contrat-achat'
@@ -9,10 +9,10 @@ export type CAItemProps = {
 export const extractCAItemProps = (
   events: ProjectEventDTO[],
   project: {
-    isLaureat: boolean
+    status: ProjectEventListDTO['project']['status']
   }
 ): CAItemProps | null => {
-  if (!events.length || !project.isLaureat) {
+  if (!events.length || project.status !== 'Classé') {
     return null
   }
 
