@@ -9,6 +9,7 @@
 
     <link href="main.min.css" rel="stylesheet" />
     <link href="/css/index.css" rel="stylesheet" />
+    <link href="/css/dsfr.css" rel="stylesheet" />
 
     <meta name="theme-color" content="#000091" />
     <!-- Défini la couleur de thème du navigateur (Safari/Android) -->
@@ -165,20 +166,56 @@
       </defs>
     </svg>
 
-    <header class="navbar" role="navigation">
-      <div class="navbar__container">
-        <a class="navbar__home" href="index.html">
-          <img class="navbar__logo" src="/images/logo-marianne.svg" alt="potentiel.beta.gouv.fr" />
-          <span class="navbar__domain"> potentiel.<b>beta.gouv</b><i>.fr</i> </span>
-        </a>
-
-        <nav>
-          <ul class="nav__links">
-            <li class="nav__item"><a href="/login.html">M'identifier</a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
+    <div class="only-dsfr">
+      <header role="banner" class="fr-header">
+        <div class="fr-header__body">
+          <div class="fr-container">
+            <div class="fr-header__body-row">
+              <div class="fr-header__brand fr-enlarge-link">
+                <div class="fr-header__brand-top">
+                  <div class="fr-header__logo">
+                    <p class="fr-logo">
+                      République
+                      <br />
+                      Française
+                    </p>
+                  </div>
+                  <div class="fr-header__navbar">
+                    <button class="fr-btn--menu fr-btn" data-fr-opened="false" aria-controls="modal-833"
+                      aria-haspopup="menu" title="Menu" id="fr-btn-menu-mobile">
+                      Menu
+                    </button>
+                  </div>
+                </div>
+                <div class="fr-header__service">
+                  <a href="/" title="Accueil - Potentiel - Ministère de la transition écologique">
+                    <p class="fr-header__service-title text-black">Potentiel</p>
+                  </a>
+                  <p class="fr-header__service-tagline">
+                    Facilite le parcours des producteurs d'énergies renouvelables
+                  </p>
+                </div>
+              </div>
+              <div class="fr-header__tools">
+                <div class="fr-header__tools-links">
+                  <ul class="fr-links-group">
+                    <li>
+                      <a class="fr-link fr-fi-account-line" href="/login.html">M'identifier</a>
+                    </li>
+                    <li>
+                      <a class="fr-link fr-fi-external-link-line fr-link--icon-right" target="_blank" rel="noopener"
+                        href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel">
+                        Guide d'utilisation
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+    </div>
 
     <div
       class="hero"
