@@ -5,9 +5,10 @@ const purgecss = require('@fullhuman/postcss-purgecss')
 module.exports = {
   plugins: [
     postCssImport(),
-    purgecss({
-      content: ['./src/views/**/*.tsx', './src/views/**/*.html', './src/views/index.html.ts'],
-    }),
+    process.env.NODE_ENV === 'production' &&
+      purgecss({
+        content: ['./src/views/**/*.tsx', './src/views/**/*.html', './src/views/index.html.ts'],
+      }),
     postCssPrefixSelector({
       prefix: '.only-dsfr',
       transform(prefix, selector, prefixedSelector, filepath) {
