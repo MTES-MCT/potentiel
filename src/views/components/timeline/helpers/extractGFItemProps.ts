@@ -1,4 +1,4 @@
-import { is, ProjectEventDTO } from '@modules/frise'
+import { is, ProjectEventDTO, ProjectEventListDTO } from '@modules/frise'
 import { or } from '@core/utils'
 import { UserRole } from '@modules/users'
 import { makeDocumentUrl } from './makeDocumentUrl'
@@ -26,19 +26,19 @@ export const extractGFItemProps = (
   events: ProjectEventDTO[],
   now: number,
   project: {
-    isLaureat: boolean
+    status: ProjectEventListDTO['project']['status']
     isSoumisAuxGF?: boolean
     isGarantiesFinancieresDeposeesALaCandidature?: boolean
   }
 ): GFItemProps | null => {
-  if (!events.length || !project.isLaureat || !project.isSoumisAuxGF) {
+  if (!events.length || project.status === 'Eliminé' || !project.isSoumisAuxGF) {
     return null
   }
 
   const GFEvents = events.filter(isProjectGF)
 
   if (!GFEvents.length) {
-    return project.isGarantiesFinancieresDeposeesALaCandidature
+    return project.isGarantiesFinancieresDeposeesALaCandidature && project.status !== 'Abandonné'
       ? {
           type: 'garanties-financieres',
           role: events.slice(-1)[0].variant,
@@ -54,7 +54,8 @@ export const extractGFItemProps = (
 
   if (
     latestProjectGF.type === 'ProjectGFWithdrawn' &&
-    project.isGarantiesFinancieresDeposeesALaCandidature
+    project.isGarantiesFinancieresDeposeesALaCandidature &&
+    project.status !== 'Abandonné'
   ) {
     return {
       type: 'garanties-financieres',
@@ -97,10 +98,12 @@ export const extractGFItemProps = (
     }
   }
 
-  return {
-    ...props,
-    status: date < now ? 'past-due' : 'due',
-  }
+  return project.status !== 'Abandonné'
+    ? {
+        ...props,
+        status: date < now ? 'past-due' : 'due',
+      }
+    : null
 }
 
 const isProjectGF = or(
