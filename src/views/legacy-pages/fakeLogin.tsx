@@ -12,7 +12,7 @@ export default function FakeLoginPage({ request }: Props) {
   const { error } = (request.query as any) || {}
   return (
     <main role="main">
-      <section className="section section-grey">
+      <section className="section section-grey" style={{ minHeight: 'calc(100vh - 420px)' }}>
         <div className="container">
           <form action={routes.LOGIN_ACTION} method="post" name="form">
             <h3 id="login">Je m‘identifie</h3>

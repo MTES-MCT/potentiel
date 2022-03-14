@@ -61,7 +61,7 @@ export const makeHtml = <T extends HasRequest>(args: PageProps<T>) => {
         ${trackerWebsiteId ? getTrackerScript(trackerWebsiteId) : ''}
       </head>
 
-      <body>
+      <body style="min-height: 100vh; display: flex; flex-direction: column;">
         <svg aria-hidden="true" focusable="false" style="display:none">
           <defs>
             <symbol
