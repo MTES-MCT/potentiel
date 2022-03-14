@@ -295,7 +295,7 @@ export type LegacyModificationImportedDTO = {
 export type ProjectEventListDTO = {
   project: {
     id: Project['id']
-    isLaureat: boolean
+    status: 'Classé' | 'Eliminé' | 'Abandonné'
     isSoumisAuxGF?: boolean
     isGarantiesFinancieresDeposeesALaCandidature?: boolean
   }
