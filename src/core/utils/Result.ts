@@ -25,8 +25,8 @@ export const fromOldResultAsync = <T>(oldResultAsync: OldResultAsync<T>): Result
 }
 
 export const fromOldResult = <T>(oldResult: OldResult<T, Error>): Result<T, Error> => {
-  if (oldResult.is_err()) {
-    return err(oldResult.unwrap_err())
+  if (oldResult.isErr()) {
+    return err(oldResult.unwrapErr())
   }
 
   return ok(oldResult.unwrap())

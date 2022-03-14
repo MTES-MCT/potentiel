@@ -55,7 +55,7 @@ describe('relanceGarantiesFinancieres use-case', () => {
     fakePublish.mockClear()
     const result = await relanceGarantiesFinancieres()
 
-    expect(result.is_ok()).toEqual(true)
+    expect(result.isOk()).toEqual(true)
   })
 
   it('should get projects with garanties financieres pending in less than 15 days', () => {

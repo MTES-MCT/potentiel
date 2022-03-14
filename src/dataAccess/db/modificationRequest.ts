@@ -155,7 +155,7 @@ export default function makeModificationRequestRepo({
         deserialize(modificationRequestInDb)
       )
 
-      if (modificationRequestInstance.is_err()) throw modificationRequestInstance.unwrap_err()
+      if (modificationRequestInstance.isErr()) throw modificationRequestInstance.unwrapErr()
 
       return Some(modificationRequestInstance.unwrap())
     } catch (error) {

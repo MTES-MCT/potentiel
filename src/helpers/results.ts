@@ -1,4 +1,4 @@
-import { Result } from '@usefultools/monads'
+import { Result } from '@hqoss/monads'
 import { logger } from '@core/utils'
 
 const mapExceptError = <T, K>(arr: Array<T>, fn: (T) => K, errorMessage: string): Array<K> =>
@@ -19,11 +19,11 @@ const mapIfOk = <T, K>(
 ): Array<K> =>
   arr.reduce((validItems: Array<K>, item: T) => {
     const result = fn(item)
-    if (result.is_ok()) {
+    if (result.isOk()) {
       validItems.push(result.unwrap())
     } else {
       if (errorMessage) logger.error(errorMessage)
-      logger.error(result.unwrap_err())
+      logger.error(result.unwrapErr())
       logger.info(item)
     }
     return validItems
