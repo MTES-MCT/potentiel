@@ -26,7 +26,6 @@ const makeAttachUserToRequestMiddleware =
     const token = request.kauth?.grant?.access_token
     const userEmail = token?.content?.email
     const kRole = USER_ROLES.find((role) => token?.hasRealmRole(role))
-    const fullName = token?.content?.name
 
     if (userEmail) {
       await getUserByEmail(userEmail)
@@ -34,11 +33,11 @@ const makeAttachUserToRequestMiddleware =
           if (user) {
             return ok({
               ...user,
-              ...(fullName && { fullName }),
               role: kRole!,
             })
           }
 
+          const fullName = token?.content?.name
           const createUserArgs = { email: userEmail, role: kRole, fullName }
 
           return createUser(createUserArgs).andThen(({ id, role }) => {
