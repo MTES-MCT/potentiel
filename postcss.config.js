@@ -7,7 +7,12 @@ module.exports = {
     postCssImport(),
     process.env.NODE_ENV === 'production' &&
       purgecss({
-        content: ['./src/views/**/*.tsx', './src/views/**/*.html', './src/views/index.html.ts'],
+        content: [
+          './src/views/**/*.tsx',
+          './src/views/**/*.html',
+          './src/views/index.html.ts',
+          // './keycloak/themes/potentiel/login/template.ftl',
+        ],
       }),
     postCssPrefixSelector({
       prefix: '.only-dsfr',

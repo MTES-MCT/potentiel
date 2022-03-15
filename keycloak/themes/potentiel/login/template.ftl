@@ -12,35 +12,19 @@
 
     <link href="${url.resourcesPath}/css/main.min.css" rel="stylesheet" />
     <link href="${url.resourcesPath}/css/index.css" rel="stylesheet" />
+    <link href="${url.resourcesPath}/css/dsfr.css" rel="stylesheet" />
 
-    <!-- Favicons -->
-    <meta name="theme-color" content="#ffffff" />
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="${url.resourcesPath}/img/favicons/apple-icon-180x180.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="${url.resourcesPath}/img/favicons/favicon-16x16.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="${url.resourcesPath}/img/favicons/favicon-32x32.png"
-    />
-    <link rel="manifest" href="${url.resourcesPath}/img/favicons/manifest.json" />
-    <link
-      rel="mask-icon"
-      href="${url.resourcesPath}/img/favicons/safari-pinned-tab.svg"
-      color="#5bbad5"
-    />
+    <meta name="theme-color" content="#000091" />
+    <!-- Défini la couleur de thème du navigateur (Safari/Android) -->
+    <link rel="apple-touch-icon" href="${url.resourcesPath}/dsfr/favicon/apple-touch-icon.png" />
+    <!-- 180×180 -->
+    <link rel="icon" href="${url.resourcesPath}/dsfr/favicon/favicon.svg" type="image/svg+xml" />
+    <link rel="shortcut icon" href="${url.resourcesPath}/dsfr/favicon/favicon.ico" type="image/x-icon" />
+    <!-- 32×32 -->
+    <link rel="manifest" href="${url.resourcesPath}/dsfr/favicon/manifest.webmanifest" crossorigin="use-credentials" />
   </head>
 
-  <body>
+  <body style="min-height: 100vh; display: flex; flex-direction: column;">
     <svg aria-hidden="true" focusable="false" style="display:none">
       <defs>
       <symbol
@@ -128,13 +112,121 @@
         </symbol>
       </defs>
     </svg>
-<header class="navbar" role="navigation"><div class="navbar__container"><a class="navbar__home" href="/"><img class="navbar__logo" src="${url.resourcesPath}/img/logo-marianne.svg" alt="potentiel.beta.gouv.fr"/><span class="navbar__domain">potentiel.<b>beta.gouv</b><i>.fr</i></span></a><nav></nav></div></header><main role="main"><section class="section section-grey"><div class="container">
+    <div class="only-dsfr">
+      <header role="banner" class="fr-header">
+        <div class="fr-header__body">
+          <div class="fr-container">
+            <div class="fr-header__body-row">
+              <div class="fr-header__brand fr-enlarge-link">
+                <div class="fr-header__brand-top">
+                  <div class="fr-header__logo">
+                    <p class="fr-logo">
+                      République
+                      <br />
+                      Française
+                    </p>
+                  </div>
+                </div>
+                <div class="fr-header__service">
+                  <a href="/" title="Accueil - Potentiel - Ministère de la transition écologique">
+                    <p class="fr-header__service-title text-black">Potentiel</p>
+                  </a>
+                  <p class="fr-header__service-tagline">
+                    Facilite le parcours des producteurs d'énergies renouvelables électriques
+                  </p>
+                </div>
+              </div>
+              <div class="fr-header__tools">
+                <div class="fr-header__tools-links">
+                  <ul class="fr-links-group">
+                    <li>
+                      <a class="fr-link fr-fi-external-link-line fr-link--icon-right" target="_blank" rel="noopener"
+                        href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel">
+                        Guide d'utilisation
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+    </div>
+    <main role="main">
+      <section class="section section-grey" style="min-height: calc(100vh - 400px)">
+        <div class="container">
+          <#--  <#nested "header">  -->
+          <#nested "form">
+          <#nested "info">
 
-<#--  <#nested "header">  -->
-<#nested "form">
-<#nested "info">
-
-</div></section></main><footer class="footer" role="contentinfo"><div class="container"><img style="max-width:100%" src="${url.resourcesPath}/img/MIN_Transition_Ecologique_RVB_petit.png" alt="Logo du ministère de la transition énergétique" width="300" height="215"/><ul class="footer__links"><li><a href="https://docs.potentiel.beta.gouv.fr/info/cgu">Mentions Légales et Conditions Générales d‘Utilisation</a></li><li><a href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel">Guide d‘utilisation</a></li><li><a href="https://potentiel.beta.gouv.fr/stats.html">Statistiques</a></li><li><a href="https://docs.potentiel.beta.gouv.fr/info/cgu#cookies">Notre politique de cookies</a></li></ul><div>2.34.0</div></div></footer>
+        </div>
+      </section>
+    </main>
+    <div class="only-dsfr" style="margin-top: auto;">
+      <footer class="fr-footer" role="contentinfo" id="footer">
+        <div class="fr-container">
+          <div class="fr-footer__body">
+            <div class="fr-footer__brand fr-enlarge-link">
+              <a href="/" title="Retour à l’accueil">
+                <p class="fr-logo" title="république française">
+                  Ministère<br />
+                  de la transition<br />
+                  écologique
+                </p>
+              </a>
+            </div>
+            <div class="fr-footer__content">
+              <p class="fr-footer__content-desc">
+                Suivez efficacement vos projets :<br />
+                Transmettez vos documents, demandez des modifications.
+              </p>
+              <ul class="fr-footer__content-list">
+                <li class="fr-footer__content-item">
+                  <a class="fr-footer__content-link" href="https://legifrance.gouv.fr">legifrance.gouv.fr</a>
+                </li>
+                <li class="fr-footer__content-item">
+                  <a class="fr-footer__content-link" href="https://gouvernement.fr">gouvernement.fr</a>
+                </li>
+                <li class="fr-footer__content-item">
+                  <a class="fr-footer__content-link" href="https://service-public.fr">service-public.fr</a>
+                </li>
+                <li class="fr-footer__content-item">
+                  <a class="fr-footer__content-link" href="https://data.gouv.fr">data.gouv.fr</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="fr-footer__bottom">
+            <ul class="fr-footer__bottom-list">
+              <li class="fr-footer__bottom-item">
+                <a class="fr-footer__bottom-link" href="#">Accessibilité: non conforme</a>
+              </li>
+              <li class="fr-footer__bottom-item">
+                <a class="fr-footer__bottom-link" href="https://docs.potentiel.beta.gouv.fr/info/cgu">Mentions légales</a>
+              </li>
+              <li class="fr-footer__bottom-item">
+                <a class="fr-footer__bottom-link"
+                  href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel">Guide d'utilisation</a>
+              </li>
+              <li class="fr-footer__bottom-item">
+                <a class="fr-footer__bottom-link" href="https://potentiel.beta.gouv.fr/stats.html">Statistiques</a>
+              </li>
+              <li class="fr-footer__bottom-item">
+                <a class="fr-footer__bottom-link" href="https://docs.potentiel.beta.gouv.fr/info/cgu#cookies">Gestion des
+                  cookies</a>
+              </li>
+            </ul>
+            <div class="fr-footer__bottom-copy">
+              <p>
+                Sauf mention contraire, tous les contenus de ce site sont sous
+                <a href="https://github.com/etalab/licence-ouverte/blob/master/LO.md" target="_blank">licence etalab-2.0</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
   </body>
 </html>
 </#macro>

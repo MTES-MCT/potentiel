@@ -1,0 +1,1808 @@
+/*!
+ * DSFR v1.3.1 | SPDX-License-Identifier: MIT | License-Filename: LICENSE.md | restricted use (see terms and conditions)
+ */
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  CORE
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/**
+ * Déclaration des fontes
+ */
+
+@font-face {
+  font-family: Marianne;
+  src: url('../fonts/Marianne-Light.woff2') format('woff2'),
+    url('../fonts/Marianne-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Marianne;
+  src: url('../fonts/Marianne-Light_Italic.woff2') format('woff2'),
+    url('../fonts/Marianne-Light_Italic.woff') format('woff');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Marianne;
+  src: url('../fonts/Marianne-Regular.woff2') format('woff2'),
+    url('../fonts/Marianne-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Marianne;
+  src: url('../fonts/Marianne-Regular_Italic.woff2') format('woff2'),
+    url('../fonts/Marianne-Regular_Italic.woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Marianne;
+  src: url('../fonts/Marianne-Bold.woff2') format('woff2'),
+    url('../fonts/Marianne-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Marianne;
+  src: url('../fonts/Marianne-Bold_Italic.woff2') format('woff2'),
+    url('../fonts/Marianne-Bold_Italic.woff') format('woff');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Spectral;
+  src: url('../fonts/Spectral-Regular.woff2') format('woff2'),
+    url('../fonts/Spectral-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Spectral;
+  src: url('../fonts/Spectral-ExtraBold.woff2') format('woff2'),
+    url('../fonts/Spectral-ExtraBold.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+.only-dsfr *,
+.only-dsfr *::before,
+.only-dsfr *::after {
+  box-sizing: inherit;
+}
+
+:root {
+  box-sizing: border-box;
+  --link-underline: 0 1px 0 0 currentColor;
+  --link-blank-font: normal 700 normal 1rem/1 dsfr-icon;
+  --link-blank-content: '\00a0';
+  --ul-type: '●\00a0\00a0';
+  --ol-type: decimal;
+  --ul-start: 1rem;
+  --ol-start: 1.5rem;
+  --xl-block: 0.5rem;
+  --li-bottom: 0.25rem;
+  --xl-base: 1em;
+  --ol-content: counters(li-counter, '.') '.\00a0\00a0';
+  --background-default-grey: var(--grey-1000-50);
+  --background-default-grey-blend: 0deg, 0%, 75%;
+  --background-elevated-grey: var(--grey-1000-75);
+  --background-elevated-grey-blend: 0deg, 0%, 75%;
+  --background-alt-grey: var(--grey-975-75);
+  --background-alt-grey-blend: 0deg, 0%, 71.5%;
+  --background-alt-blue-france: var(--blue-france-975-75);
+  --background-alt-blue-france-blend: 240deg, 86.3%, 73%;
+  --background-alt-red-marianne: var(--red-marianne-975-75);
+  --background-alt-red-marianne-blend: 359.6deg, 88.3%, 72.7%;
+  --background-alt-green-tilleul-verveine: var(--green-tilleul-verveine-975-75);
+  --background-alt-green-tilleul-verveine-blend: 48.6deg, 92.3%, 67.4%;
+  --background-alt-green-bourgeon: var(--green-bourgeon-975-75);
+  --background-alt-green-bourgeon-blend: 100.1deg, 92.4%, 67.4%;
+  --background-alt-green-emeraude: var(--green-emeraude-975-75);
+  --background-alt-green-emeraude-blend: 138.2deg, 84.3%, 69.1%;
+  --background-alt-green-menthe: var(--green-menthe-975-75);
+  --background-alt-green-menthe-blend: 168deg, 86%, 68.2%;
+  --background-alt-green-archipel: var(--green-archipel-975-75);
+  --background-alt-green-archipel-blend: 187deg, 88.9%, 69.5%;
+  --background-alt-blue-ecume: var(--blue-ecume-975-75);
+  --background-alt-blue-ecume-blend: 228.2deg, 88.1%, 72.7%;
+  --background-alt-blue-cumulus: var(--blue-cumulus-975-75);
+  --background-alt-blue-cumulus-blend: 221.3deg, 89.2%, 72.5%;
+  --background-alt-purple-glycine: var(--purple-glycine-975-75);
+  --background-alt-purple-glycine-blend: 305.2deg, 89%, 72.5%;
+  --background-alt-pink-macaron: var(--pink-macaron-975-75);
+  --background-alt-pink-macaron-blend: 8.3deg, 89.6%, 72.4%;
+  --background-alt-pink-tuile: var(--pink-tuile-975-75);
+  --background-alt-pink-tuile-blend: 5.7deg, 89.2%, 72.5%;
+  --background-alt-yellow-tournesol: var(--yellow-tournesol-975-75);
+  --background-alt-yellow-tournesol-blend: 41.4deg, 95.4%, 69.3%;
+  --background-alt-yellow-moutarde: var(--yellow-moutarde-975-75);
+  --background-alt-yellow-moutarde-blend: 34.8deg, 94.2%, 70.4%;
+  --background-alt-orange-terre-battue: var(--orange-terre-battue-975-75);
+  --background-alt-orange-terre-battue-blend: 10.7deg, 90%, 72.3%;
+  --background-alt-brown-cafe-creme: var(--brown-cafe-creme-975-75);
+  --background-alt-brown-cafe-creme-blend: 37deg, 62.2%, 70.7%;
+  --background-alt-brown-caramel: var(--brown-caramel-975-75);
+  --background-alt-brown-caramel-blend: 20.3deg, 50.7%, 71.7%;
+  --background-alt-brown-opera: var(--brown-opera-975-75);
+  --background-alt-brown-opera-blend: 23.1deg, 52.4%, 71.6%;
+  --background-alt-beige-gris-galet: var(--beige-gris-galet-975-75);
+  --background-alt-beige-gris-galet-blend: 30.2deg, 36.5%, 71.4%;
+  --background-contrast-grey: var(--grey-950-100);
+  --background-contrast-grey-blend: 0deg, 0%, 68.3%;
+  --background-contrast-blue-france: var(--blue-france-950-100);
+  --background-contrast-blue-france-blend: 240deg, 86.4%, 71.1%;
+  --background-contrast-red-marianne: var(--red-marianne-950-100);
+  --background-contrast-red-marianne-blend: 359.6deg, 88.6%, 70.4%;
+  --background-contrast-green-tilleul-verveine: var(--green-tilleul-verveine-950-100);
+  --background-contrast-green-tilleul-verveine-blend: 49.8deg, 93.5%, 58.1%;
+  --background-contrast-green-bourgeon: var(--green-bourgeon-950-100);
+  --background-contrast-green-bourgeon-blend: 98deg, 93.6%, 58.1%;
+  --background-contrast-green-emeraude: var(--green-emeraude-950-100);
+  --background-contrast-green-emeraude-blend: 139.4deg, 85.8%, 62.4%;
+  --background-contrast-green-menthe: var(--green-menthe-950-100);
+  --background-contrast-green-menthe-blend: 169deg, 87.3%, 60.5%;
+  --background-contrast-green-archipel: var(--green-archipel-950-100);
+  --background-contrast-green-archipel-blend: 186.6deg, 89.6%, 63.4%;
+  --background-contrast-blue-ecume: var(--blue-ecume-950-100);
+  --background-contrast-blue-ecume-blend: 227.9deg, 88.3%, 70.4%;
+  --background-contrast-blue-cumulus: var(--blue-cumulus-950-100);
+  --background-contrast-blue-cumulus-blend: 220.9deg, 89.4%, 69.9%;
+  --background-contrast-purple-glycine: var(--purple-glycine-950-100);
+  --background-contrast-purple-glycine-blend: 305deg, 89.2%, 70%;
+  --background-contrast-pink-macaron: var(--pink-macaron-950-100);
+  --background-contrast-pink-macaron-blend: 8.6deg, 90%, 69.8%;
+  --background-contrast-pink-tuile: var(--pink-tuile-950-100);
+  --background-contrast-pink-tuile-blend: 5.9deg, 89.6%, 70%;
+  --background-contrast-yellow-tournesol: var(--yellow-tournesol-950-100);
+  --background-contrast-yellow-tournesol-blend: 42.5deg, 95.9%, 62.8%;
+  --background-contrast-yellow-moutarde: var(--yellow-moutarde-950-100);
+  --background-contrast-yellow-moutarde-blend: 35.8deg, 94.7%, 65.5%;
+  --background-contrast-orange-terre-battue: var(--orange-terre-battue-950-100);
+  --background-contrast-orange-terre-battue-blend: 11deg, 90.4%, 69.6%;
+  --background-contrast-brown-cafe-creme: var(--brown-cafe-creme-950-100);
+  --background-contrast-brown-cafe-creme-blend: 37.6deg, 64%, 66.3%;
+  --background-contrast-brown-caramel: var(--brown-caramel-950-100);
+  --background-contrast-brown-caramel-blend: 20.6deg, 51.9%, 68.4%;
+  --background-contrast-brown-opera: var(--brown-opera-950-100);
+  --background-contrast-brown-opera-blend: 23.5deg, 53.6%, 68.2%;
+  --background-contrast-beige-gris-galet: var(--beige-gris-galet-950-100);
+  --background-contrast-beige-gris-galet-blend: 30.5deg, 37.7%, 67.7%;
+  --background-contrast-info: var(--info-950-100);
+  --background-contrast-info-blend: 226.9deg, 100%, 70.5%;
+  --background-contrast-success: var(--success-950-100);
+  --background-contrast-success-blend: 135deg, 96.5%, 60.8%;
+  --background-contrast-warning: var(--warning-950-100);
+  --background-contrast-warning-blend: 7.1deg, 100%, 70.1%;
+  --background-contrast-error: var(--error-950-100);
+  --background-contrast-error-blend: 0.2deg, 100%, 70.6%;
+  --background-flat-grey: var(--grey-200-850);
+  --background-flat-grey-blend: 0deg, 0%, 47.7%;
+  --background-flat-info: var(--info-425-625);
+  --background-flat-info-blend: 210.8deg, 100%, 64.8%;
+  --background-flat-success: var(--success-425-625);
+  --background-flat-success-blend: 143deg, 65.5%, 52.7%;
+  --background-flat-warning: var(--warning-425-625);
+  --background-flat-warning-blend: 21.3deg, 100%, 60.1%;
+  --background-flat-error: var(--error-425-625);
+  --background-flat-error-blend: 1.4deg, 100%, 65.4%;
+  --background-action-high-blue-france: var(--blue-france-sun-113-625);
+  --background-action-high-blue-france-blend: 240deg, 100%, 53.4%;
+  --background-action-high-red-marianne: var(--red-marianne-425-625);
+  --background-action-high-red-marianne-blend: 358.1deg, 78%, 69.3%;
+  --background-action-high-green-tilleul-verveine: var(--green-tilleul-verveine-sun-418-moon-817);
+  --background-action-high-green-tilleul-verveine-blend: 61.4deg, 25.6%, 57.2%;
+  --background-action-high-green-bourgeon: var(--green-bourgeon-sun-425-moon-759);
+  --background-action-high-green-bourgeon-blend: 126.8deg, 24.1%, 60.3%;
+  --background-action-high-green-emeraude: var(--green-emeraude-sun-425-moon-753);
+  --background-action-high-green-emeraude-blend: 155.5deg, 47%, 55.5%;
+  --background-action-high-green-menthe: var(--green-menthe-sun-373-moon-652);
+  --background-action-high-green-menthe-blend: 174.5deg, 28.6%, 55.2%;
+  --background-action-high-green-archipel: var(--green-archipel-sun-391-moon-716);
+  --background-action-high-green-archipel-blend: 182.7deg, 100%, 46.8%;
+  --background-action-high-blue-ecume: var(--blue-ecume-sun-247-moon-675);
+  --background-action-high-blue-ecume-blend: 225.8deg, 43.4%, 57.5%;
+  --background-action-high-blue-cumulus: var(--blue-cumulus-sun-368-moon-732);
+  --background-action-high-blue-cumulus-blend: 220.7deg, 50.7%, 67.2%;
+  --background-action-high-purple-glycine: var(--purple-glycine-sun-319-moon-630);
+  --background-action-high-purple-glycine-blend: 328.6deg, 23.6%, 59.9%;
+  --background-action-high-pink-macaron: var(--pink-macaron-sun-406-moon-833);
+  --background-action-high-pink-macaron-blend: 15.9deg, 38.9%, 64.8%;
+  --background-action-high-pink-tuile: var(--pink-tuile-sun-425-moon-750);
+  --background-action-high-pink-tuile-blend: 0.6deg, 41.8%, 71.6%;
+  --background-action-high-yellow-tournesol: var(--yellow-tournesol-sun-407-moon-922);
+  --background-action-high-yellow-tournesol-blend: 37.8deg, 25.6%, 60.3%;
+  --background-action-high-yellow-moutarde: var(--yellow-moutarde-sun-348-moon-860);
+  --background-action-high-yellow-moutarde-blend: 26.3deg, 24.3%, 58.1%;
+  --background-action-high-orange-terre-battue: var(--orange-terre-battue-sun-370-moon-672);
+  --background-action-high-orange-terre-battue-blend: 14.7deg, 23.8%, 62.1%;
+  --background-action-high-brown-cafe-creme: var(--brown-cafe-creme-sun-383-moon-885);
+  --background-action-high-brown-cafe-creme-blend: 37.5deg, 18.2%, 59.5%;
+  --background-action-high-brown-caramel: var(--brown-caramel-sun-425-moon-901);
+  --background-action-high-brown-caramel-blend: 21deg, 29.9%, 65%;
+  --background-action-high-brown-opera: var(--brown-opera-sun-395-moon-820);
+  --background-action-high-brown-opera-blend: 26.7deg, 24.1%, 61.7%;
+  --background-action-high-beige-gris-galet: var(--beige-gris-galet-sun-407-moon-821);
+  --background-action-high-beige-gris-galet-blend: 33deg, 10.4%, 62.6%;
+  --background-action-high-info: var(--info-425-625);
+  --background-action-high-info-blend: 210.8deg, 100%, 64.8%;
+  --background-action-high-success: var(--success-425-625);
+  --background-action-high-success-blend: 143deg, 65.5%, 52.7%;
+  --background-action-high-warning: var(--warning-425-625);
+  --background-action-high-warning-blend: 21.3deg, 100%, 60.1%;
+  --background-action-high-error: var(--error-425-625);
+  --background-action-high-error-blend: 1.4deg, 100%, 65.4%;
+  --background-action-low-blue-france: var(--blue-france-925-125);
+  --background-action-low-blue-france-blend: 240deg, 86.5%, 69.2%;
+  --background-action-low-red-marianne: var(--red-marianne-925-125);
+  --background-action-low-red-marianne-blend: 359.6deg, 88.9%, 68.2%;
+  --background-action-low-green-tilleul-verveine: var(--green-tilleul-verveine-925-125);
+  --background-action-low-green-tilleul-verveine-blend: 51.6deg, 95%, 94.8%;
+  --background-action-low-green-bourgeon: var(--green-bourgeon-925-125);
+  --background-action-low-green-bourgeon-blend: 93.7deg, 95.1%, 94.7%;
+  --background-action-low-green-emeraude: var(--green-emeraude-925-125);
+  --background-action-low-green-emeraude-blend: 141.2deg, 87.5%, 54.8%;
+  --background-action-low-green-menthe: var(--green-menthe-925-125);
+  --background-action-low-green-menthe-blend: 170.3deg, 88.9%, 51%;
+  --background-action-low-green-archipel: var(--green-archipel-925-125);
+  --background-action-low-green-archipel-blend: 186deg, 90.4%, 56.6%;
+  --background-action-low-blue-ecume: var(--blue-ecume-925-125);
+  --background-action-low-blue-ecume-blend: 227.6deg, 88.4%, 68.2%;
+  --background-action-low-blue-cumulus: var(--blue-cumulus-925-125);
+  --background-action-low-blue-cumulus-blend: 220.4deg, 89.6%, 67.4%;
+  --background-action-low-purple-glycine: var(--purple-glycine-925-125);
+  --background-action-low-purple-glycine-blend: 304.9deg, 89.4%, 67.6%;
+  --background-action-low-pink-macaron: var(--pink-macaron-925-125);
+  --background-action-low-pink-macaron-blend: 8.8deg, 90.3%, 67.3%;
+  --background-action-low-pink-tuile: var(--pink-tuile-925-125);
+  --background-action-low-pink-tuile-blend: 6.1deg, 89.9%, 67.6%;
+  --background-action-low-yellow-tournesol: var(--yellow-tournesol-925-125);
+  --background-action-low-yellow-tournesol-blend: 44deg, 96.5%, 55.3%;
+  --background-action-low-yellow-moutarde: var(--yellow-moutarde-925-125);
+  --background-action-low-yellow-moutarde-blend: 37deg, 95.2%, 60.2%;
+  --background-action-low-orange-terre-battue: var(--orange-terre-battue-925-125);
+  --background-action-low-orange-terre-battue-blend: 11.4deg, 90.8%, 66.9%;
+  --background-action-low-brown-cafe-creme: var(--brown-cafe-creme-925-125);
+  --background-action-low-brown-cafe-creme-blend: 38.3deg, 65.9%, 61.8%;
+  --background-action-low-brown-caramel: var(--brown-caramel-925-125);
+  --background-action-low-brown-caramel-blend: 21deg, 53.1%, 65.2%;
+  --background-action-low-brown-opera: var(--brown-opera-925-125);
+  --background-action-low-brown-opera-blend: 24deg, 54.9%, 64.8%;
+  --background-action-low-beige-gris-galet: var(--beige-gris-galet-925-125);
+  --background-action-low-beige-gris-galet-blend: 30.9deg, 39.1%, 64.2%;
+  --background-active-blue-france: var(--blue-france-sun-113-625);
+  --background-active-blue-france-blend: 240deg, 100%, 53.4%;
+  --background-active-red-marianne: var(--red-marianne-425-625);
+  --background-active-red-marianne-blend: 358.1deg, 78%, 69.3%;
+  --background-open-blue-france: var(--blue-france-925-125);
+  --background-open-blue-france-blend: 240deg, 86.5%, 69.2%;
+  --background-open-red-marianne: var(--red-marianne-925-125);
+  --background-open-red-marianne-blend: 359.6deg, 88.9%, 68.2%;
+  --background-disabled-grey: var(--grey-925-125);
+  --background-disabled-grey-blend: 0deg, 0%, 64.8%;
+  --background-overlay-grey: var(--grey-50-1000-a375);
+  --text-default-grey: var(--grey-200-850);
+  --text-default-info: var(--info-425-625);
+  --text-default-success: var(--success-425-625);
+  --text-default-warning: var(--warning-425-625);
+  --text-default-error: var(--error-425-625);
+  --text-action-high-grey: var(--grey-50-1000);
+  --text-action-high-blue-france: var(--blue-france-sun-113-625);
+  --text-action-high-red-marianne: var(--red-marianne-425-625);
+  --text-action-high-green-tilleul-verveine: var(--green-tilleul-verveine-sun-418-moon-817);
+  --text-action-high-green-bourgeon: var(--green-bourgeon-sun-425-moon-759);
+  --text-action-high-green-emeraude: var(--green-emeraude-sun-425-moon-753);
+  --text-action-high-green-menthe: var(--green-menthe-sun-373-moon-652);
+  --text-action-high-green-archipel: var(--green-archipel-sun-391-moon-716);
+  --text-action-high-blue-ecume: var(--blue-ecume-sun-247-moon-675);
+  --text-action-high-blue-cumulus: var(--blue-cumulus-sun-368-moon-732);
+  --text-action-high-purple-glycine: var(--purple-glycine-sun-319-moon-630);
+  --text-action-high-pink-macaron: var(--pink-macaron-sun-406-moon-833);
+  --text-action-high-pink-tuile: var(--pink-tuile-sun-425-moon-750);
+  --text-action-high-yellow-tournesol: var(--yellow-tournesol-sun-407-moon-922);
+  --text-action-high-yellow-moutarde: var(--yellow-moutarde-sun-348-moon-860);
+  --text-action-high-orange-terre-battue: var(--orange-terre-battue-sun-370-moon-672);
+  --text-action-high-brown-cafe-creme: var(--brown-cafe-creme-sun-383-moon-885);
+  --text-action-high-brown-caramel: var(--brown-caramel-sun-425-moon-901);
+  --text-action-high-brown-opera: var(--brown-opera-sun-395-moon-820);
+  --text-action-high-beige-gris-galet: var(--beige-gris-galet-sun-407-moon-821);
+  --text-title-grey: var(--grey-50-1000);
+  --text-title-blue-france: var(--blue-france-sun-113-625);
+  --text-title-red-marianne: var(--red-marianne-425-625);
+  --text-label-grey: var(--grey-50-1000);
+  --text-label-blue-france: var(--blue-france-sun-113-625);
+  --text-label-red-marianne: var(--red-marianne-425-625);
+  --text-label-green-tilleul-verveine: var(--green-tilleul-verveine-sun-418-moon-817);
+  --text-label-green-bourgeon: var(--green-bourgeon-sun-425-moon-759);
+  --text-label-green-emeraude: var(--green-emeraude-sun-425-moon-753);
+  --text-label-green-menthe: var(--green-menthe-sun-373-moon-652);
+  --text-label-green-archipel: var(--green-archipel-sun-391-moon-716);
+  --text-label-blue-ecume: var(--blue-ecume-sun-247-moon-675);
+  --text-label-blue-cumulus: var(--blue-cumulus-sun-368-moon-732);
+  --text-label-purple-glycine: var(--purple-glycine-sun-319-moon-630);
+  --text-label-pink-macaron: var(--pink-macaron-sun-406-moon-833);
+  --text-label-pink-tuile: var(--pink-tuile-sun-425-moon-750);
+  --text-label-yellow-tournesol: var(--yellow-tournesol-sun-407-moon-922);
+  --text-label-yellow-moutarde: var(--yellow-moutarde-sun-348-moon-860);
+  --text-label-orange-terre-battue: var(--orange-terre-battue-sun-370-moon-672);
+  --text-label-brown-cafe-creme: var(--brown-cafe-creme-sun-383-moon-885);
+  --text-label-brown-caramel: var(--brown-caramel-sun-425-moon-901);
+  --text-label-brown-opera: var(--brown-opera-sun-395-moon-820);
+  --text-label-beige-gris-galet: var(--beige-gris-galet-sun-407-moon-821);
+  --text-active-grey: var(--grey-50-1000);
+  --text-active-blue-france: var(--blue-france-sun-113-625);
+  --text-active-red-marianne: var(--red-marianne-425-625);
+  --text-mention-grey: var(--grey-425-625);
+  --text-inverted-grey: var(--grey-1000-50);
+  --text-inverted-blue-france: var(--blue-france-975-sun-113);
+  --text-inverted-red-marianne: var(--red-marianne-975-75);
+  --text-inverted-info: var(--info-975-75);
+  --text-inverted-success: var(--success-975-75);
+  --text-inverted-warning: var(--warning-975-75);
+  --text-inverted-error: var(--error-975-75);
+  --text-inverted-green-tilleul-verveine: var(--green-tilleul-verveine-975-75);
+  --text-inverted-green-bourgeon: var(--green-bourgeon-975-75);
+  --text-inverted-green-emeraude: var(--green-emeraude-975-75);
+  --text-inverted-green-menthe: var(--green-menthe-975-75);
+  --text-inverted-green-archipel: var(--green-archipel-975-75);
+  --text-inverted-blue-ecume: var(--blue-ecume-975-75);
+  --text-inverted-blue-cumulus: var(--blue-cumulus-975-75);
+  --text-inverted-purple-glycine: var(--purple-glycine-975-75);
+  --text-inverted-pink-macaron: var(--pink-macaron-975-75);
+  --text-inverted-pink-tuile: var(--pink-tuile-975-75);
+  --text-inverted-yellow-tournesol: var(--yellow-tournesol-975-75);
+  --text-inverted-yellow-moutarde: var(--yellow-moutarde-975-75);
+  --text-inverted-orange-terre-battue: var(--orange-terre-battue-975-75);
+  --text-inverted-brown-cafe-creme: var(--brown-cafe-creme-975-75);
+  --text-inverted-brown-caramel: var(--brown-caramel-975-75);
+  --text-inverted-brown-opera: var(--brown-opera-975-75);
+  --text-inverted-beige-gris-galet: var(--beige-gris-galet-975-75);
+  --text-disabled-grey: var(--grey-625-425);
+  --border-default-grey: var(--grey-925-125);
+  --border-default-blue-france: var(--blue-france-main-525);
+  --border-default-red-marianne: var(--red-marianne-main-472);
+  --border-default-green-tilleul-verveine: var(--green-tilleul-verveine-main-707);
+  --border-default-green-bourgeon: var(--green-bourgeon-main-640);
+  --border-default-green-emeraude: var(--green-emeraude-main-632);
+  --border-default-green-menthe: var(--green-menthe-main-548);
+  --border-default-green-archipel: var(--green-archipel-main-557);
+  --border-default-blue-ecume: var(--blue-ecume-main-400);
+  --border-default-blue-cumulus: var(--blue-cumulus-main-526);
+  --border-default-purple-glycine: var(--purple-glycine-main-494);
+  --border-default-pink-macaron: var(--pink-macaron-main-689);
+  --border-default-pink-tuile: var(--pink-tuile-main-556);
+  --border-default-yellow-tournesol: var(--yellow-tournesol-main-731);
+  --border-default-yellow-moutarde: var(--yellow-moutarde-main-679);
+  --border-default-orange-terre-battue: var(--orange-terre-battue-main-645);
+  --border-default-brown-cafe-creme: var(--brown-cafe-creme-main-782);
+  --border-default-brown-caramel: var(--brown-caramel-main-648);
+  --border-default-brown-opera: var(--brown-opera-main-680);
+  --border-default-beige-gris-galet: var(--beige-gris-galet-main-702);
+  --border-active-blue-france: var(--blue-france-sun-113-625);
+  --border-active-red-marianne: var(--red-marianne-425-625);
+  --border-action-high-grey: var(--grey-50-1000);
+  --border-action-high-blue-france: var(--blue-france-sun-113-625);
+  --border-action-high-red-marianne: var(--red-marianne-425-625);
+  --border-action-high-info: var(--info-425-625);
+  --border-action-high-success: var(--success-425-625);
+  --border-action-high-warning: var(--warning-425-625);
+  --border-action-high-error: var(--error-425-625);
+  --border-action-low-blue-france: var(--blue-france-850-200);
+  --border-action-low-red-marianne: var(--red-marianne-850-200);
+  --border-action-low-green-tilleul-verveine: var(--green-tilleul-verveine-850-200);
+  --border-action-low-green-bourgeon: var(--green-bourgeon-850-200);
+  --border-action-low-green-emeraude: var(--green-emeraude-850-200);
+  --border-action-low-green-menthe: var(--green-menthe-850-200);
+  --border-action-low-green-archipel: var(--green-archipel-850-200);
+  --border-action-low-blue-ecume: var(--blue-ecume-850-200);
+  --border-action-low-blue-cumulus: var(--blue-cumulus-850-200);
+  --border-action-low-purple-glycine: var(--purple-glycine-850-200);
+  --border-action-low-pink-macaron: var(--pink-macaron-850-200);
+  --border-action-low-pink-tuile: var(--pink-tuile-850-200);
+  --border-action-low-yellow-tournesol: var(--yellow-tournesol-850-200);
+  --border-action-low-yellow-moutarde: var(--yellow-moutarde-850-200);
+  --border-action-low-orange-terre-battue: var(--orange-terre-battue-850-200);
+  --border-action-low-brown-cafe-creme: var(--brown-cafe-creme-850-200);
+  --border-action-low-brown-caramel: var(--brown-caramel-850-200);
+  --border-action-low-brown-opera: var(--brown-opera-850-200);
+  --border-action-low-beige-gris-galet: var(--beige-gris-galet-850-200);
+  --border-open-blue-france: var(--blue-france-925-125);
+  --border-open-red-marianne: var(--red-marianne-925-125);
+  --border-plain-grey: var(--grey-200-850);
+  --border-plain-blue-france: var(--blue-france-sun-113-625);
+  --border-plain-red-marianne: var(--red-marianne-425-625);
+  --border-plain-info: var(--info-425-625);
+  --border-plain-success: var(--success-425-625);
+  --border-plain-warning: var(--warning-425-625);
+  --border-plain-error: var(--error-425-625);
+  --border-plain-green-tilleul-verveine: var(--green-tilleul-verveine-sun-418-moon-817);
+  --border-plain-green-bourgeon: var(--green-bourgeon-sun-425-moon-759);
+  --border-plain-green-emeraude: var(--green-emeraude-sun-425-moon-753);
+  --border-plain-green-menthe: var(--green-menthe-sun-373-moon-652);
+  --border-plain-green-archipel: var(--green-archipel-sun-391-moon-716);
+  --border-plain-blue-ecume: var(--blue-ecume-sun-247-moon-675);
+  --border-plain-blue-cumulus: var(--blue-cumulus-sun-368-moon-732);
+  --border-plain-purple-glycine: var(--purple-glycine-sun-319-moon-630);
+  --border-plain-pink-macaron: var(--pink-macaron-sun-406-moon-833);
+  --border-plain-pink-tuile: var(--pink-tuile-sun-425-moon-750);
+  --border-plain-yellow-tournesol: var(--yellow-tournesol-sun-407-moon-922);
+  --border-plain-yellow-moutarde: var(--yellow-moutarde-sun-348-moon-860);
+  --border-plain-orange-terre-battue: var(--orange-terre-battue-sun-370-moon-672);
+  --border-plain-brown-cafe-creme: var(--brown-cafe-creme-sun-383-moon-885);
+  --border-plain-brown-caramel: var(--brown-caramel-sun-425-moon-901);
+  --border-plain-brown-opera: var(--brown-opera-sun-395-moon-820);
+  --border-plain-beige-gris-galet: var(--beige-gris-galet-sun-407-moon-821);
+  --border-disabled-grey: var(--grey-925-125);
+  --artwork-major-blue-france: var(--blue-france-sun-113-625);
+  --artwork-major-red-marianne: var(--red-marianne-425-625);
+  --artwork-minor-blue-france: var(--blue-france-main-525);
+  --artwork-minor-red-marianne: var(--red-marianne-main-472);
+  --artwork-minor-green-tilleul-verveine: var(--green-tilleul-verveine-main-707);
+  --artwork-minor-green-bourgeon: var(--green-bourgeon-main-640);
+  --artwork-minor-green-emeraude: var(--green-emeraude-main-632);
+  --artwork-minor-green-menthe: var(--green-menthe-main-548);
+  --artwork-minor-green-archipel: var(--green-archipel-main-557);
+  --artwork-minor-blue-ecume: var(--blue-ecume-main-400);
+  --artwork-minor-blue-cumulus: var(--blue-cumulus-main-526);
+  --artwork-minor-purple-glycine: var(--purple-glycine-main-494);
+  --artwork-minor-pink-macaron: var(--pink-macaron-main-689);
+  --artwork-minor-pink-tuile: var(--pink-tuile-main-556);
+  --artwork-minor-yellow-tournesol: var(--yellow-tournesol-main-731);
+  --artwork-minor-yellow-moutarde: var(--yellow-moutarde-main-679);
+  --artwork-minor-orange-terre-battue: var(--orange-terre-battue-main-645);
+  --artwork-minor-brown-cafe-creme: var(--brown-cafe-creme-main-782);
+  --artwork-minor-brown-caramel: var(--brown-caramel-main-648);
+  --artwork-minor-brown-opera: var(--brown-opera-main-680);
+  --artwork-minor-beige-gris-galet: var(--beige-gris-galet-main-702);
+  --artwork-decorative-blue-france: var(--blue-france-950-100);
+  --artwork-decorative-red-marianne: var(--red-marianne-950-100);
+  --grey-1000-50: #fff;
+  --grey-1000-75: #fff;
+  --grey-975-75: #f6f6f6;
+  --grey-950-100: #eee;
+  --grey-200-850: #3a3a3a;
+  --grey-925-125: #e5e5e5;
+  --grey-50-1000-a375: hsla(0deg, 0%, 8.6%, 0.375);
+  --grey-50-1000: #161616;
+  --grey-425-625: #666;
+  --grey-625-425: #929292;
+  --blue-france-975-75: #f5f5fe;
+  --blue-france-950-100: #ececfe;
+  --blue-france-sun-113-625: #000091;
+  --blue-france-925-125: #e3e3fd;
+  --blue-france-975-sun-113: #f5f5fe;
+  --blue-france-main-525: #6a6af4;
+  --blue-france-850-200: #cacafb;
+  --red-marianne-975-75: #fef4f4;
+  --red-marianne-950-100: #fee9e9;
+  --red-marianne-425-625: #c9191e;
+  --red-marianne-925-125: #fddede;
+  --red-marianne-main-472: #e1000f;
+  --red-marianne-850-200: #fcbfbf;
+  --info-950-100: #e8edff;
+  --info-425-625: #0063cb;
+  --info-975-75: #f4f6ff;
+  --success-950-100: #b8fec9;
+  --success-425-625: #18753c;
+  --success-975-75: #dffee6;
+  --warning-950-100: #ffe9e6;
+  --warning-425-625: #b34000;
+  --warning-975-75: #fff4f3;
+  --error-950-100: #ffe9e9;
+  --error-425-625: #ce0500;
+  --error-975-75: #fff4f4;
+  --green-tilleul-verveine-975-75: #fef7da;
+  --green-tilleul-verveine-950-100: #fceeac;
+  --green-tilleul-verveine-sun-418-moon-817: #66673d;
+  --green-tilleul-verveine-925-125: #fbe769;
+  --green-tilleul-verveine-main-707: #b7a73f;
+  --green-tilleul-verveine-850-200: #e2cf58;
+  --green-bourgeon-975-75: #e6feda;
+  --green-bourgeon-950-100: #c9fcac;
+  --green-bourgeon-sun-425-moon-759: #447049;
+  --green-bourgeon-925-125: #a9fb68;
+  --green-bourgeon-main-640: #68a532;
+  --green-bourgeon-850-200: #95e257;
+  --green-emeraude-975-75: #e3fdeb;
+  --green-emeraude-950-100: #c3fad5;
+  --green-emeraude-sun-425-moon-753: #297254;
+  --green-emeraude-925-125: #9ef9be;
+  --green-emeraude-main-632: #00a95f;
+  --green-emeraude-850-200: #6fe49d;
+  --green-menthe-975-75: #dffdf7;
+  --green-menthe-950-100: #bafaee;
+  --green-menthe-sun-373-moon-652: #37635f;
+  --green-menthe-925-125: #8bf8e7;
+  --green-menthe-main-548: #009081;
+  --green-menthe-850-200: #73e0cf;
+  --green-archipel-975-75: #e5fbfd;
+  --green-archipel-950-100: #c7f6fc;
+  --green-archipel-sun-391-moon-716: #006a6f;
+  --green-archipel-925-125: #a6f2fa;
+  --green-archipel-main-557: #009099;
+  --green-archipel-850-200: #60e0eb;
+  --blue-ecume-975-75: #f4f6fe;
+  --blue-ecume-950-100: #e9edfe;
+  --blue-ecume-sun-247-moon-675: #2f4077;
+  --blue-ecume-925-125: #dee5fd;
+  --blue-ecume-main-400: #465f9d;
+  --blue-ecume-850-200: #bfccfb;
+  --blue-cumulus-975-75: #f3f6fe;
+  --blue-cumulus-950-100: #e6eefe;
+  --blue-cumulus-sun-368-moon-732: #3558a2;
+  --blue-cumulus-925-125: #dae6fd;
+  --blue-cumulus-main-526: #417dc4;
+  --blue-cumulus-850-200: #b6cffb;
+  --purple-glycine-975-75: #fef3fd;
+  --purple-glycine-950-100: #fee7fc;
+  --purple-glycine-sun-319-moon-630: #6e445a;
+  --purple-glycine-925-125: #fddbfa;
+  --purple-glycine-main-494: #a558a0;
+  --purple-glycine-850-200: #fbb8f6;
+  --pink-macaron-975-75: #fef4f2;
+  --pink-macaron-950-100: #fee9e6;
+  --pink-macaron-sun-406-moon-833: #8d533e;
+  --pink-macaron-925-125: #fddfda;
+  --pink-macaron-main-689: #e18b76;
+  --pink-macaron-850-200: #fcc0b4;
+  --pink-tuile-975-75: #fef4f3;
+  --pink-tuile-950-100: #fee9e7;
+  --pink-tuile-sun-425-moon-750: #a94645;
+  --pink-tuile-925-125: #fddfdb;
+  --pink-tuile-main-556: #ce614a;
+  --pink-tuile-850-200: #fcbfb7;
+  --yellow-tournesol-975-75: #fef6e3;
+  --yellow-tournesol-950-100: #feecc2;
+  --yellow-tournesol-sun-407-moon-922: #716043;
+  --yellow-tournesol-925-125: #fde39c;
+  --yellow-tournesol-main-731: #c8aa39;
+  --yellow-tournesol-850-200: #efcb3a;
+  --yellow-moutarde-975-75: #fef5e8;
+  --yellow-moutarde-950-100: #feebd0;
+  --yellow-moutarde-sun-348-moon-860: #695240;
+  --yellow-moutarde-925-125: #fde2b5;
+  --yellow-moutarde-main-679: #c3992a;
+  --yellow-moutarde-850-200: #fcc63a;
+  --orange-terre-battue-975-75: #fef4f2;
+  --orange-terre-battue-950-100: #fee9e5;
+  --orange-terre-battue-sun-370-moon-672: #755348;
+  --orange-terre-battue-925-125: #fddfd8;
+  --orange-terre-battue-main-645: #e4794a;
+  --orange-terre-battue-850-200: #fcc0b0;
+  --brown-cafe-creme-975-75: #fbf6ed;
+  --brown-cafe-creme-950-100: #f7ecdb;
+  --brown-cafe-creme-sun-383-moon-885: #685c48;
+  --brown-cafe-creme-925-125: #f4e3c7;
+  --brown-cafe-creme-main-782: #d1b781;
+  --brown-cafe-creme-850-200: #e7ca8e;
+  --brown-caramel-975-75: #fbf5f2;
+  --brown-caramel-950-100: #f7ebe5;
+  --brown-caramel-sun-425-moon-901: #845d48;
+  --brown-caramel-925-125: #f3e2d9;
+  --brown-caramel-main-648: #c08c65;
+  --brown-caramel-850-200: #eac7b2;
+  --brown-opera-975-75: #fbf5f2;
+  --brown-opera-950-100: #f7ece4;
+  --brown-opera-sun-395-moon-820: #745b47;
+  --brown-opera-925-125: #f3e2d7;
+  --brown-opera-main-680: #bd987a;
+  --brown-opera-850-200: #eac7ad;
+  --beige-gris-galet-975-75: #f9f6f2;
+  --beige-gris-galet-950-100: #f3ede5;
+  --beige-gris-galet-sun-407-moon-821: #6a6156;
+  --beige-gris-galet-925-125: #eee4d9;
+  --beige-gris-galet-main-702: #aea397;
+  --beige-gris-galet-850-200: #e0cab0;
+  --blend-full-size: 100%;
+  --text-spacing: 0 0 1.5rem;
+  --title-spacing: 0 0 1.5rem;
+  --display-spacing: 0 0 2rem;
+}
+
+body .only-dsfr {
+  font-family: 'Marianne', arial, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  --blend: var(--background-default-grey-blend);
+  background-color: var(--background-default-grey);
+  color: var(--text-default-grey);
+}
+
+.only-dsfr p {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  margin: var(--text-spacing);
+}
+
+.only-dsfr a {
+  text-decoration: none;
+  color: inherit;
+  --blend-full-size: 0;
+}
+
+.only-dsfr [href] {
+  box-shadow: var(--link-underline);
+}
+
+.only-dsfr [target='_blank']::after {
+  content: var(--link-blank-content);
+  font: var(--link-blank-font);
+}
+
+.only-dsfr ul {
+  margin: 0;
+  padding: 0;
+  margin-block-start: var(--xl-block);
+  margin-block-end: var(--xl-block);
+  --xl-size: var(--xl-base);
+}
+
+.only-dsfr ul {
+  list-style-type: var(--ul-type);
+  padding-inline-start: var(--ul-start);
+}
+
+.only-dsfr ul > li::marker {
+  font-size: calc(var(--xl-size) * 0.9);
+}
+
+.only-dsfr li {
+  --xl-base: calc(var(--xl-size) * 0.9);
+  padding-bottom: var(--li-bottom);
+}
+
+.only-dsfr *:focus,
+.only-dsfr *:focus-visible {
+  z-index: 2000;
+}
+
+.only-dsfr a {
+  outline-offset: 2px;
+  outline-width: 2px;
+  outline-color: #0a76f6;
+}
+
+.only-dsfr a:focus {
+  outline-style: solid;
+}
+
+.only-dsfr a:focus:not(:focus-visible) {
+  outline-style: none;
+}
+
+.only-dsfr a:focus-visible {
+  outline-style: solid;
+}
+
+.only-dsfr a {
+  --hsla: hsla(var(--blend), var(--a));
+  --blend-size: 0;
+  --blend-position: 50%;
+  --a: 0;
+  background-repeat: no-repeat;
+  background-size: var(--blend-size);
+  background-position: var(--blend-position);
+  background-image: radial-gradient(circle at center, var(--hsla), var(--hsla) 3%);
+}
+
+.only-dsfr a:hover {
+  --a: 0.3;
+}
+
+.only-dsfr a:active {
+  --a: 0.5;
+}
+
+.only-dsfr a {
+  cursor: pointer;
+}
+
+.only-dsfr a:not([href]) {
+  cursor: not-allowed;
+}
+
+/**
+ * Override de l'opacité chrome sur un élément disabled
+ */
+
+.only-dsfr a:not([href]) {
+  opacity: 1;
+  color: var(--text-disabled-grey);
+}
+
+.only-dsfr .fr-enlarge-link {
+  position: relative;
+}
+
+.only-dsfr .fr-enlarge-link a {
+  background-image: none !important;
+  outline-width: 0 !important;
+  --blend-full-size: 100%;
+}
+
+.only-dsfr .fr-enlarge-link a::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  outline-offset: 2px;
+  outline-style: inherit;
+  outline-color: inherit;
+  outline-width: 2px;
+  z-index: 1;
+}
+
+@font-face {
+  font-family: 'dsfr-icon';
+  font-weight: 400;
+  src: url('data:font/truetype;charset=utf-8;base64,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')
+    format('truetype');
+}
+
+@font-face {
+  font-family: 'dsfr-icon';
+  font-weight: 700;
+  src: url('data:font/truetype;charset=utf-8;base64,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')
+    format('truetype');
+}
+
+.only-dsfr [class^='fr-fi-']::before,
+.only-dsfr [class*=' fr-fi-']::before {
+  font: normal normal normal 1.5rem/1 dsfr-icon;
+}
+
+/**
+ * Définitions des symboles des icones
+ **/
+
+.only-dsfr .fr-fi-external-link-line::before {
+  content: '';
+  font-weight: 700;
+}
+
+/**
+* Fixe le scroll en arrière plan
+*/
+
+.only-dsfr .fr-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  SCHEME
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  UPLOAD
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  LOGO
+\* ˍˍˍˍˍˍˍˍˍ */
+
+.only-dsfr .fr-logo {
+  --link-underline: none;
+  --link-blank-font: none;
+  --link-blank-content: none;
+  display: inline-block;
+  padding: 1em;
+  font-weight: 700;
+  line-height: 1.03175em;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  vertical-align: middle;
+  text-indent: -0.1em;
+  font-size: 1.05rem;
+  margin-bottom: 0;
+  color: var(--text-title-grey);
+}
+
+.only-dsfr .fr-logo::before {
+  width: 2.75rem;
+  height: 1rem;
+  margin-bottom: 0.33333rem;
+  background-size: 2.75rem 1.125rem, 2.75rem 1rem, 0;
+  background-position: 0 -0.0625rem, 0 0, 0 0;
+  content: '';
+  display: block;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 18'%3E%3Cpath fill='%23fff' d='M11.3 10.2c-.9.6-1.7 1.3-2.3 2.1v-.1c.4-.5.7-1 1-1.5.4-.2.7-.5 1-.8.5-.5 1-1 1.7-1.3.3-.1.5-.1.8 0-.1.1-.2.1-.4.2H13v-.1c-.3.3-.7.5-1 .9-.1.2-.2.6-.7.6 0 .1.1 0 0 0zm1.6 4.6c0-.1-.1 0-.2 0l-.1.1-.1.1-.2.2s.1.1.2 0l.1-.1c.1 0 .2-.1.2-.2.1 0 .1 0 .1-.1 0 .1 0 0 0 0zm-1.6-4.3c.1 0 .2 0 .2-.1s.1-.1.1-.1v-.1c-.2.1-.3.2-.3.3zm2.4 1.9s0-.1 0 0c.1-.1.2-.1.3-.1.7-.1 1.4-.3 2.1-.6-.8-.5-1.7-.9-2.6-1h.1c-.1-.1-.3-.1-.5-.2h.1c-.2-.1-.5-.1-.7-.2.1 0 .2-.2.2-.3h-.1c-.4.2-.6.5-.8.9.2.1.5 0 .7.1h-.3c-.1 0-.2.1-.2.2h.1c-.1 0-.1.1-.2.1.1.1.2 0 .4 0 0 .1.1.1.1.1-.1 0-.2.1-.3.3-.1.2-.2.2-.3.3v.1c-.3.2-.6.5-.9.8v.1c-.1.1-.2.1-.2.2v.1c.4-.1.6-.4 1-.5l.6-.3c.2 0 .3-.1.5-.1v.1h.2c0 .1-.2 0-.1.1s.3.1.4 0c.2-.2.3-.2.4-.2zM12.4 14c-.4.2-.9.2-1.2.4 0 0 0 .1-.1.1 0 0-.1 0-.1.1-.1 0-.1.1-.2.2l-.1.1s0 .1.1 0l.1-.1s-.1.1-.1.2V15.3l-.1.1s0 .1-.1.1l-.1.1.2-.2.1-.1h.2s0-.1.1-.1c.1-.1.2-.2.3-.2h.1c.1-.1.3-.1.4-.2.1-.1.2-.2.3-.2.2-.2.5-.3.8-.5-.1 0-.2-.1-.3-.1 0 .1-.2 0-.3 0zM30 9.7c-.1.2-.4.2-.6.3-.2.2 0 .4.1.5.1.3-.2.5-.4.5.1.1.2.1.2.1 0 .2.2.2.1.4s-.5.3-.3.5c.1.2.1.5 0 .7-.1.2-.3.4-.5.5-.2.1-.4.1-.6 0-.1 0-.1-.1-.2-.1-.5-.1-1-.2-1.5-.2-.1 0-.3.1-.4.1-.1.1-.3.2-.4.3l-.1.1c-.1.1-.2.2-.2.3-.1.2-.2.4-.2.6-.2.5-.2 1 0 1.4 0 0 1 .3 1.7.6.2.1.5.2.7.4l1.7 1H13.2l1.6-1c.6-.4 1.3-.7 2-1 .5-.2 1.1-.5 1.5-.9.2-.2.3-.4.5-.5.3-.4.6-.7 1-1l.3-.3s0-.1.1-.1c-.2.1-.2.2-.4.2 0 0-.1 0 0-.1s.2-.2.3-.2v-.1c-.4 0-.7.2-1 .5h-.2c-.5.2-.8.5-1.2.7v-.1c-.2.1-.4.2-.5.2-.2 0-.5.1-.8 0-.4 0-.7.1-1.1.2-.2.1-.4.1-.6.2v.1l-.2.2c-.2.1-.3.2-.5.4l-.5.5h-.1l.1-.1.1-.1c0-.1.1-.1.1-.2.2-.1.3-.3.5-.4 0 0-.1 0 0 0 0 0 0-.1.1-.1l-.1.1c-.1.1-.1.2-.2.2v-.1-.1l.2-.2c.1-.1.2-.1.3-.2h.1c-.2.1-.3.1-.5.2H14h-.1c0-.1.1-.1.2-.2h.1c1-.8 2.3-.6 3.4-1 .1-.1.2-.1.3-.2.1-.1.3-.2.5-.3.2-.2.4-.4.5-.7v-.1c-.4.4-.8.7-1.3 1-.6.2-1.3.4-2 .4 0-.1.1-.1.1-.1 0-.1.1-.1.1-.2h.1s0-.1.1-.1h.1c-.1-.1-.3.1-.4 0 .1-.1 0-.2.1-.2h.1s0-.1.1-.1c.5-.3.9-.5 1.3-.7-.1 0-.1.1-.2 0 .1 0 0-.1.1-.1.3-.1.6-.3.9-.4-.1 0-.2.1-.3 0 .1 0 .1-.1.2-.1v-.1h0c0-.1.1 0 .2-.1h-.1c.1-.1.2-.2.4-.2 0-.1-.1 0-.1-.1h.1-.5c-.1 0 0-.1 0-.1.1-.2.2-.5.3-.7h-.1c-.3.3-.8.5-1.2.6h-.2c-.2.1-.4.1-.5 0-.1-.1-.2-.2-.3-.2-.2-.1-.5-.3-.8-.4-.7-.2-1.5-.4-2.3-.3.3-.1.7-.2 1.1-.3.5-.2 1-.3 1.5-.3h-.3c-.4 0-.9.1-1.3.2-.3.1-.6.2-.9.2-.2.1-.3.2-.5.2v-.1c.3-.4.7-.7 1.1-.8.5-.1 1.1 0 1.6.1.4 0 .8.1 1.1.2.1 0 .2.2.3.3.2.1.4 0 .5.1v-.2c.1-.1.3 0 .4 0 .2-.2-.2-.4-.3-.6v-.1c.2.2.5.4.7.6.1.1.5.2.5 0-.2-.3-.4-.6-.7-.9v-.2c-.1 0-.1 0-.1-.1-.1-.1-.1-.2-.1-.3-.1-.2 0-.4-.1-.5-.1-.2-.1-.3-.1-.5-.1-.5-.2-1-.3-1.4-.1-.6.3-1 .6-1.5.2-.4.5-.7.8-1 .1-.4.3-.7.6-1 .3-.3.6-.5.9-.6.3-.1.5-.2.8-.3l2.5-.4H25l1.8.3c.1 0 .2 0 .2.1.1.1.3.2.4.2.2.1.4.3.6.5.1.1.2.3.1.4-.1.1-.1.4-.2.4-.2.1-.4.1-.6.1-.1 0-.2 0-.4-.1.5.2.9.4 1.2.8 0 .1.2.1.3.1v.1c-.1.1-.1.1-.1.2h.1c.1-.1.1-.4.3-.3.2.1.2.3.1.4-.1.1-.2.2-.4.3v.2c.1.1.1.2.2.4s.1.5.2.7c.1.5.2.9.2 1.4 0 .2-.1.5 0 .7l.3.6c.1.2.2.3.3.5.2.3.6.6.4 1zm-15.6 5.2c-.1 0-.1.1-.1.1s.1 0 .1-.1zm5.8-1.8c-.1.1 0 0 0 0zm-6.7-.2c0 .1.1 0 .1 0 .2-.1.5 0 .6-.2-.1-.1-.2 0-.2-.1-.1 0-.2 0-.2.1-.1.1-.3.1-.3.2z'/%3E%3Cpath fill='gray' d='M27.9 6.8c.1 0 .3 0 .3.1-.1.2-.4.3-.6.5h-.1c-.1.1-.1.2-.1.2h-.3c.1.1.3.2.5.2l.1.1h.2V8c-.1.1-.2.1-.4.1.2.1.5.1.7 0 .2-.1 0-.4.1-.5-.1 0 0-.1-.1-.1.1-.1.1-.2.2-.2s.1 0 .2-.1c0-.1-.1-.1-.1-.2.2-.1.3-.3.3-.5 0-.1-.3-.1-.4-.2h-.5c-.2 0-.3.1-.5.1l-.6.3c.2-.1.4-.1.7-.2 0 .3.2.3.4.3'/%3E%3C/svg%3E"),
+    linear-gradient(90deg, #000091 0%, #000091 50%, #e1000f 50%, #e1000f 100%),
+    linear-gradient(90deg, #161616 0%, #161616 100%);
+}
+
+.only-dsfr .fr-logo::after {
+  min-width: 2.625rem;
+  background-size: 5.25rem 3.75rem;
+  background-position: 0 calc(100% + 1.875rem);
+  padding-top: 2.20833rem;
+  content: '';
+  display: block;
+  background-repeat: no-repeat;
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 252 180'%3E%3Cdefs%3E%3Csymbol id='a' viewBox='0 0 11 15.5'%3E%3Cpath d='M10.4 5.3C11.9 1.5 10.1 0 7.9 0 4.2 0 0 6.5 0 11.7c0 2.5 1.2 3.8 3 3.8 2.1 0 4.3-2 6.2-5.5h-1c-1.2 1.5-2.6 2.6-3.9 2.6-1.3 0-2-.8-2-2.6a10.7 10.7 0 01.3-2.2zm-4-3.1c1.1 0 2 .8 1.5 2.6L3.1 6.1c.8-2.2 2.2-4 3.4-4z'/%3E%3C/symbol%3E%3Csymbol id='b' viewBox='0 0 12.4 21.8'%3E%3Cuse width='11' height='15.5' y='6.4' href='%23a'/%3E%3Cpath d='M7.9 4.7L12.4.6V0h-3L6.7 4.7H8z'/%3E%3C/symbol%3E%3Csymbol id='c' viewBox='0 0 11.5 19'%3E%3Cpath d='M1.7 5.7h2.6L.1 17.1a1.3 1.3 0 001.2 2c3 0 6.4-2.6 7.8-6.2h-.7a9.4 9.4 0 01-5.1 3.5L7 5.7H11l.5-1.6H7.7L9 0H7.6L4.9 4.1l-3.2.4v1.2z'/%3E%3C/symbol%3E%3Csymbol id='d' viewBox='0 0 9.8 21.9'%3E%3Cpath d='M7.6 8c.3-1-.4-1.6-1-1.6-2.2 0-5 2.1-6 5h.7A5.6 5.6 0 014.4 9L.1 20.3a1.1 1.1 0 001 1.6c2.2 0 4.7-2 5.8-5H6A5.6 5.6 0 013 19.5zM8 3.7a1.8 1.8 0 001.8-1.8A1.8 1.8 0 008 0a1.8 1.8 0 00-1.8 1.8A1.8 1.8 0 008 3.6'/%3E%3C/symbol%3E%3Csymbol id='e' viewBox='0 0 14.8 15.5'%3E%3Cpath d='M3.3 3.1c.7 0 1 1 0 3.4l-3 6.8c-.7 1.3 0 2.2 1.2 2.2a1.3 1.3 0 001.5-1l3-8C7.4 4.8 10 3 11 3s.8.6.3 1.6l-4.6 9a1.3 1.3 0 001.1 1.9c2.3 0 5-2 6-5h-.6A5.6 5.6 0 0110 13l4-8a6.1 6.1 0 00.8-2.8A2 2 0 0012.6 0c-2 0-3.6 2.2-6 5V2.8C6.6 1.4 6.1 0 4.8 0 3.2 0 1.8 2.5.7 4.9h.7c.7-1.1 1.3-1.8 2-1.8'/%3E%3C/symbol%3E%3Csymbol id='f' viewBox='0 0 12 15.5'%3E%3Cpath d='M11.8 3.5c.5-1.9.2-3.5-1.2-3.5-1.8 0-2.3 1.2-4 5V2.8C6.5 1.3 6 0 4.6 0 3.1 0 1.7 2.5.5 5h.8C2 3.7 2.8 3 3.3 3c.7 0 1 1 0 3.4l-3 6.8c-.7 1.3 0 2.1 1.2 2.1a1.3 1.3 0 001.5-1l3-8a50.3 50.3 0 012.6-3h3.2z'/%3E%3C/symbol%3E%3Csymbol id='g' viewBox='0 0 14.7 16.2'%3E%3Cpath d='M10.5 13.1c-.6 0-1-1 0-3.4L14.6.1 13.4 0l-1.3 1.3h-.3C6.1 1.3 0 8.6 0 14.2a2 2 0 002.1 2.1c1.7 0 3.3-2.4 5.2-5l-.1 1c-.3 2.6.6 4 2 4 1.5 0 3-2.4 4-4.9h-.7c-.7 1.1-1.5 1.8-2 1.8zM7.9 9.8c-1.3 1.6-3.4 3.5-4.3 3.5-.5 0-.9-.5-.9-1.6 0-3.5 4-8.2 6-8.2a4.2 4.2 0 011.4.2z'/%3E%3C/symbol%3E%3Csymbol id='h' viewBox='0 0 21.9 19.8'%3E%3Cpath d='M11.2 19.8l.3-.9c-3.8-.7-4.3-.7-2.7-4.8l1.4-3.9h3c1.9 0 1.9.9 1.6 3h1l2.6-6.9h-1c-1 1.6-1.8 2.9-3.8 2.9h-3l2-5.6c.8-2 1.1-2.4 3.7-2.4h.7c2.6 0 3 .7 3 3.5h1l.9-4.7H7.3L7 .9c3 .6 3.3.9 2 4.8L5.7 14c-1.5 3.9-2 4.2-5.5 4.8l-.3.9z'/%3E%3C/symbol%3E%3Csymbol id='i' viewBox='0 0 10.1 21.9'%3E%3Cpath d='M2.9 19.4L10.1.3 9.8 0l-5 .6v.6l1 .7c.9.7.6 1.3-.2 3.4L.2 19.9a1.3 1.3 0 001.1 2c2.3 0 4.7-2.1 5.8-5h-.7a6.5 6.5 0 01-3.5 2.5'/%3E%3C/symbol%3E%3Csymbol id='j' viewBox='0 0 18 22'%3E%3Cpath d='M18 .6h-4.3a3.8 3.8 0 00-2.1-.6A6.6 6.6 0 005 6.5a3.3 3.3 0 003 3.6c-1.9.8-3 1.8-3 2.9a1.7 1.7 0 00.9 1.5c-4.3 1.3-6 2.8-6 4.7 0 2 2.6 2.8 5.6 2.8 5.3 0 9.6-2.7 9.6-5.1 0-1.8-1.6-2.5-4.3-3.3-2.2-.7-3.2-.8-3.2-1.6A2.4 2.4 0 019 10.2a6.6 6.6 0 006.1-6.5 4.5 4.5 0 00-.2-1.5h2.5zM9.8 16.2c2.1.7 3 1 3 1.6 0 1.4-2 2.5-5.6 2.5-2.7 0-4-.6-4-2 0-1.5 1.4-2.5 3.5-3.3a21.5 21.5 0 003 1.2zM9 9c-1 0-1.3-.8-1.3-1.7 0-2.8 1.4-6.2 3.5-6.2 1 0 1.3.8 1.3 1.6 0 2.9-1.4 6.3-3.5 6.3z'/%3E%3C/symbol%3E%3Csymbol id='k' viewBox='0 0 23 25.1'%3E%3Cpath d='M14.3 15.6c1.9 0 2 .8 1.6 2.8H17l2.5-6.8h-1c-1 1.6-1.7 2.9-3.8 2.9h-4.1l2-5.6c.7-2 1-2.4 3.7-2.4H18c2.6 0 3 .7 3 3.5h1l.9-4.7H7.3l-.3.9c3 .6 3.3.9 2 4.8l-3.2 8.4c-1.5 3.9-2 4.2-5.6 4.8l-.2 1h17.4l3.2-5h-1.2c-2 2-4 3.8-8 3.8-4.7 0-4.3-.3-2.7-4.6l1.4-3.8h4.2zm2.3-11.8L21 .6V0h-3l-2.6 3.9h1.2v-.1z'/%3E%3C/symbol%3E%3Csymbol id='l' viewBox='0 0 13.6 21.8'%3E%3Cpath d='M11.4 6.4c-2 0-4 2.2-5.8 4.8L9.6.3 9.4 0l-5 .6V1l1 .8c.9.7.6 1.3-.2 3.4L.8 16.8A13.9 13.9 0 000 19c0 1.4 1.8 2.7 3.5 2.7 3.8 0 10-6.9 10-12.2 0-2.3-.5-3.2-2.1-3.2zM4.8 19.5c-.8 0-1.9-.7-1.9-1.3a15.5 15.5 0 01.8-2.2L5 12.7C6.3 11 8.4 9.3 9.6 9.3c.7 0 1.2.4 1.2 1.5 0 3.1-2.9 8.7-6 8.7z'/%3E%3C/symbol%3E%3Csymbol id='m' viewBox='0 0 19.2 19.9'%3E%3Cpath d='M17.6 0H7.3L7 .9c3 .6 3.3.9 2 4.8l-3.2 8.5c-1.5 3.9-2 4.2-5.5 4.8L0 20h15.7l3.5-6H18c-2 2-4.2 4.8-7.7 4.8-2.7 0-3-.5-1.6-4.5l3.1-8.5c1.4-3.9 2-4.2 5.5-4.8z'/%3E%3C/symbol%3E%3Csymbol id='n' viewBox='0 0 126 90'%3E%3Cuse width='12.4' height='21.8' x='112.7' y='66.1' href='%23b'/%3E%3Cuse width='11.5' height='19' x='102.2' y='69' href='%23c'/%3E%3Cuse width='9.8' height='21.9' x='93.6' y='66.1' href='%23d'/%3E%3Cuse width='14.8' height='15.5' x='77.2' y='72.5' href='%23e'/%3E%3Cuse width='12' height='15.5' x='65.7' y='72.5' href='%23f'/%3E%3Cuse width='11' height='15.5' x='54.3' y='72.5' href='%23a'/%3E%3Cuse width='11.5' height='19' x='43.7' y='69' href='%23c'/%3E%3Cuse width='14.7' height='16.2' x='28.9' y='71.8' href='%23g'/%3E%3Cuse width='12' height='15.5' x='19.6' y='72.5' href='%23f'/%3E%3Cuse width='21.9' height='19.8' y='67.6' href='%23h'/%3E%3Cuse width='12.4' height='21.8' x='77.3' y='33.1' href='%23b'/%3E%3Cuse width='11.5' height='19' x='66.8' y='36' href='%23c'/%3E%3Cuse width='9.8' height='21.9' x='58.2' y='33' href='%23d'/%3E%3Cuse width='10.1' height='21.9' x='49.4' y='33.1' href='%23i'/%3E%3Cuse width='14.7' height='16.2' x='34.9' y='38.8' href='%23g'/%3E%3Cuse width='18' height='22' x='18.6' y='39.4' href='%23j'/%3E%3Cuse width='23' height='25.1' y='29.3' href='%23k'/%3E%3Cuse width='12.4' height='21.8' x='76.8' y='.1' href='%23b'/%3E%3Cuse width='11.5' height='19' x='66.2' y='2.9' href='%23c'/%3E%3Cuse width='12' height='15.5' x='54.8' y='6.5' href='%23f'/%3E%3Cuse width='11' height='15.5' x='43.4' y='6.4' href='%23a'/%3E%3Cuse width='13.6' height='21.8' x='29.4' y='.1' href='%23l'/%3E%3Cuse width='9.8' height='21.9' x='20.6' href='%23d'/%3E%3Cuse width='19.2' height='19.9' y='1.4' href='%23m'/%3E%3C/symbol%3E%3C/defs%3E%3Cuse fill='%23161616' width='126' height='90' x='0' y='0' href='%23n'/%3E%3Cuse fill='%23fff' width='126' height='90' x='126' y='90' href='%23n'/%3E%3C/svg%3E");
+}
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  CARD
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  QUOTE
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  BREADCRUMB
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/**
+un padding de 4px et une marge négative en compensation sont mis en place afin d'éviter de couper le focus.
+ */
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  FORM
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/**
+ * Style du texte d'aide
+ */
+
+/**
+ * Style du texte d'erreur
+ */
+
+/**
+ * Style du texte de l'état validé
+ */
+
+/**
+ * Style d'un ensemble de champs
+ */
+
+/**
+  * Style du texte d'aide
+  */
+
+/**
+  * Style du texte d'erreur
+  */
+
+/**
+  * Style du texte de l'état validé
+  */
+
+/**
+  * Style d'un ensemble de champs
+  */
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  LINK
+\* ˍˍˍˍˍˍˍˍˍ */
+
+.only-dsfr .fr-link {
+  --link-underline: none;
+  --link-blank-font: none;
+  --link-blank-content: none;
+  --text-spacing: 0;
+  --title-spacing: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  z-index: 1;
+  --blend-full-size: 100%;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  min-height: 2rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  color: var(--text-action-high-blue-france);
+}
+
+.only-dsfr .fr-link:not([class*='fr-link--icon-'])[class^='fr-fi-'],
+.only-dsfr .fr-link:not([class*='fr-link--icon-'])[class*=' fr-fi-'] {
+  flex-direction: row;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 2rem;
+  max-height: 2rem;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}
+
+.only-dsfr .fr-link:not([class*='fr-link--icon-'])[class^='fr-fi-']::before,
+.only-dsfr .fr-link:not([class*='fr-link--icon-'])[class*=' fr-fi-']::before {
+  margin-left: 0;
+  margin-right: 0.25rem;
+  font-size: 1.5rem;
+}
+
+.only-dsfr .fr-link--icon-right[class^='fr-fi-'],
+.only-dsfr .fr-link--icon-right[class*=' fr-fi-'] {
+  flex-direction: row-reverse;
+  overflow: initial;
+  max-width: 100%;
+  max-height: none;
+}
+
+.only-dsfr .fr-link--icon-right[class^='fr-fi-']::before,
+.only-dsfr .fr-link--icon-right[class*=' fr-fi-']::before {
+  margin-right: -0.25rem;
+  margin-left: 0.5rem;
+  font-size: 1rem;
+}
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  SIDEMENU
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  HIGHLIGHT
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  SUMMARY
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  TABLE
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/*
+* Cache la caption
+*/
+
+/*
+* Fixe le caption en bas du tableau
+*/
+
+/*
+* pas de scroll ni de shadow
+*/
+
+/*
+* Fixe la taille des colonnes du tableau
+*/
+
+/*
+* Ombres ajoutées en Js si le contenu est plus grand que le conteneur
+*/
+
+/*
+* Positionnement ombres sur le tableau sans caption
+*/
+
+/*
+* Positionnement ombres sur le tableau avec caption en bas
+*/
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  TILE
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  ACCORDION
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  ALERT
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/* ------------------------------------ *\
+  Badge
+\* ------------------------------------ */
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  BUTTON
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  RADIO
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/**
+ * L'input de type radio avec son label est contenu dans un groupe
+ * Ce groupe contient également le texte d'aide (optionnels)
+ */
+
+/**
+ * Modificateur pour la taille sm
+ */
+
+/**
+ * Style spécifique des radios intégrés dans un fiedset
+ */
+
+/**
+ * Modificateur pour la taille sm
+ */
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  CHECKBOX
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/**
+ * L'input de type checkbox avec son label est contenu dans un groupe
+ * Ce groupe contient également les textes de validation, d'erreur et d'aide (optionnels)
+ */
+
+/**
+ * L'input de type checkbox avec son label est contenu dans un groupe
+ * Ce groupe contient également les textes de validation, d'erreur et d'aide (optionnels)
+ */
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  CONTENT
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  TOGGLE
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/*
+ * Passage du label ferré à gauche, le toggle ferré à droite
+ */
+
+/*
+ * On surcharge les styles de base
+ */
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  SKIPLINK
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  SELECT
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  TAB
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/*
+* Ombres ajoutées en Js si le contenu est plus grand que le conteneur
+*/
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  PAGINATION
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  SHARE
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  FOOTER
+\* ˍˍˍˍˍˍˍˍˍ */
+
+.only-dsfr .fr-footer {
+  --link-underline: none;
+  --link-blank-font: none;
+  --link-blank-content: none;
+  --ul-type: none;
+  --ol-type: none;
+  --ul-start: 0;
+  --ol-start: 0;
+  --xl-block: 0;
+  --li-bottom: 0;
+  --ol-content: none;
+  width: 100%;
+  padding-top: 2.5rem;
+  /**
+   * Conteneur du bloc marque, avec le logo principal et éventuellement
+   * un logo opérateur
+   */
+  /**
+   * On fixe une largeur maximale pour le logo opérateur
+   */
+  /**
+ * La partie "content" représente les informations sous forme de texte rajoutées dans le footer
+ * ainsi que les éventuels liens simples
+ */
+  /**
+ * Contenu texte simple
+ */
+  /**
+ * Liste des liens situés en dessous de la partie texte
+ */
+  /**
+ * La partie "top" du footer est constituée de colonnes basées sur le système de grille du Design System
+ * Ces colonnes sont constituées d’une catégorie (optionnel) et d'une liste verticale de liens
+ */
+  /**
+ * Catégorie (optionnel)
+ */
+  /**
+ * Style de la liste
+ */
+  /**
+ * Style du lien
+ */
+  /**
+ * La partie "bottom" du footer est constituée d'une liste de liens simples (ferrée à gauche)
+ * ainsi que du copyright (ferré à droite)
+ */
+  /**
+ * Liste de liens avec séparateur
+ */
+  /**
+ * Style du lien de la liste
+ */
+  /**
+ * Copyright
+ */
+  /**
+ * La partie "partners" du footer est constituée de logos organisés
+ * en partenaires principaux (ferré à gauche) et secondaires (ferrés à droite)
+ */
+  /**
+ * Container des logos partenaires (principaux et secondaires)
+ */
+  /**
+ * Container des logos partenaires principaux
+ */
+  /**
+ * Container des logos partenaires secondaires
+ */
+  box-shadow: 0 -2px 0 0 var(--border-plain-blue-france),
+    inset 0 -1px 0 0 var(--border-default-grey);
+}
+
+.only-dsfr .fr-footer__body {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.only-dsfr .fr-footer__body + .fr-footer__bottom {
+  margin-top: 1rem;
+}
+
+.only-dsfr .fr-footer__brand {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-basis: 100%;
+  /**
+     * Si on ajoute un logo opérateur à côté du logo principal, on lui applique une marge à gauche
+     * On prévoit que le logo soit encapsulé dans un <a>, ou bien directement en img ou en svg
+     * (Eventuellement prévoir une classe pour pouvoir le mettre en background image)
+     */
+}
+
+.only-dsfr .fr-footer__brand .fr-logo {
+  font-size: 1.05rem;
+  margin: -1em;
+}
+
+.only-dsfr .fr-footer__brand .fr-logo::before {
+  width: 2.75rem;
+  height: 1rem;
+  margin-bottom: 0.33333rem;
+  background-size: 2.75rem 1.125rem, 2.75rem 1rem, 0;
+  background-position: 0 -0.0625rem, 0 0, 0 0;
+}
+
+.only-dsfr .fr-footer__brand .fr-logo::after {
+  min-width: 2.625rem;
+  background-size: 5.25rem 3.75rem;
+  background-position: 0 calc(100% + 1.875rem);
+  padding-top: 2.20833rem;
+}
+
+.only-dsfr .fr-footer__content {
+  display: flex;
+  flex-wrap: wrap;
+  flex-basis: 100%;
+  margin-top: 1.5rem;
+}
+
+.only-dsfr .fr-footer__content-desc {
+  --link-underline: 0 1px 0 0 currentColor;
+  --link-blank-font: normal 700 normal 1rem/1 dsfr-icon;
+  --link-blank-content: '\00a0';
+  margin: 0 0 0.5rem;
+  width: 100%;
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+}
+
+.only-dsfr .fr-footer__content-list {
+  display: flex;
+  flex-direction: row;
+  align-self: center;
+  flex-wrap: wrap;
+}
+
+.only-dsfr .fr-footer__content-list > li {
+  margin-right: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.only-dsfr .fr-footer__content-list > li::before {
+  content: none;
+}
+
+.only-dsfr .fr-footer__content-list > li:last-child {
+  margin-right: 0;
+}
+
+.only-dsfr .fr-footer__content-link {
+  display: inline-flex;
+  font-weight: bold;
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+}
+
+.only-dsfr .fr-footer__bottom {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 2.5rem;
+  box-shadow: inset 0 1px 0 0 var(--border-default-grey);
+}
+
+.only-dsfr .fr-footer__bottom-list {
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 0.5rem 0 1rem;
+  width: 100%;
+  margin: 0;
+}
+
+.only-dsfr .fr-footer__bottom-item {
+  position: relative;
+  margin: 0.5rem 0 0 0.25rem;
+  display: inline;
+}
+
+.only-dsfr .fr-footer__bottom-item::before {
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  width: 1px;
+  height: 1rem;
+  margin-right: 0.25rem;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+  box-shadow: inset 0 0 0 1px var(--border-default-grey);
+}
+
+.only-dsfr .fr-footer__bottom-item:first-child {
+  margin: 0.5rem 0 0;
+}
+
+.only-dsfr .fr-footer__bottom-item:first-child::before {
+  content: none;
+}
+
+.only-dsfr .fr-footer__bottom-link {
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  color: var(--text-mention-grey);
+}
+
+.only-dsfr .fr-footer__bottom-copy * {
+  --link-underline: 0 1px 0 0 currentColor;
+  --link-blank-font: normal 700 normal 1rem/1 dsfr-icon;
+  --link-blank-content: '\00a0';
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+}
+
+.only-dsfr .fr-footer__content-link {
+  color: var(--text-title-grey);
+}
+
+.only-dsfr .fr-footer__bottom-copy {
+  color: var(--text-mention-grey);
+}
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  TAG
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  INPUT
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/* stylelint-disable */
+
+/**
+ * Ajout d'un wrapper quand on a besoin de mettre une icône
+ */
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  CALLOUT
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  MODAL
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  NAVIGATION
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  SEARCH
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  CONSENT MAIN
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/**
+* Consent service correspond à un bloc de finalité (titre, radios, description)
+**/
+
+/**
+* fr-consent-services contient les sous services
+**/
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  FOLLOW
+\* ˍˍˍˍˍˍˍˍˍ */
+
+/**
+* Mixin d'ajout des icones des réseaux sociaux
+**/
+
+/* ¯¯¯¯¯¯¯¯¯ *\
+  HEADER
+\* ˍˍˍˍˍˍˍˍˍ */
+
+.only-dsfr .fr-header {
+  --link-underline: none;
+  --link-blank-font: none;
+  --link-blank-content: none;
+  --ul-type: none;
+  --ol-type: none;
+  --ul-start: 0;
+  --ol-start: 0;
+  --xl-block: 0;
+  --li-bottom: 0;
+  --ol-content: none;
+  --text-spacing: 0;
+  --title-spacing: 0;
+  width: 100%;
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.1), 0 8px 16px -16px rgba(0, 0, 0, 0.32);
+  position: relative;
+  --blend: var(--background-elevated-grey-blend);
+  background-color: var(--background-elevated-grey);
+}
+
+.only-dsfr .fr-header__body-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 0 -1rem;
+}
+
+.only-dsfr .fr-header__brand {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.only-dsfr .fr-header__brand-top {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.only-dsfr .fr-header__logo {
+  order: 1;
+  flex: 0 0 auto;
+  padding: 0.75rem;
+}
+
+.only-dsfr .fr-header__logo .fr-logo {
+  font-size: 0.7875rem;
+  margin: -1em;
+}
+
+.only-dsfr .fr-header__logo .fr-logo::before {
+  width: 2.0625rem;
+  height: 0.75rem;
+  margin-bottom: 0.25rem;
+  background-size: 2.0625rem 0.84375rem, 2.0625rem 0.75rem, 0;
+  background-position: 0 -0.04688rem, 0 0, 0 0;
+}
+
+.only-dsfr .fr-header__logo .fr-logo::after {
+  min-width: 1.96875rem;
+  background-size: 3.9375rem 2.8125rem;
+  background-position: 0 calc(100% + 1.40625rem);
+  padding-top: 1.65625rem;
+}
+
+.only-dsfr .fr-header__service {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  margin-left: 0.75rem;
+  margin-right: 0.75rem;
+  width: 100%;
+  box-shadow: inset 0 1px 0 0 var(--border-default-grey);
+}
+
+.only-dsfr .fr-header__service-title {
+  font-weight: 700;
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+}
+
+.only-dsfr .fr-header .fr-links-group .fr-link {
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+  min-height: 2rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  flex-direction: row;
+  overflow: initial;
+  max-width: 100%;
+  max-height: none;
+}
+
+.only-dsfr .fr-header .fr-links-group .fr-link::before {
+  font: normal 700 normal 1rem/1 dsfr-icon;
+  margin-left: -0.25rem;
+  margin-right: 0.5rem;
+  font-size: 1rem;
+}
+
+.only-dsfr .fr-header__tools-links {
+  display: none;
+}
+
+.only-dsfr .fr-header__tools-links .fr-links-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  margin-left: -1rem;
+  margin-right: -1rem;
+}
+
+.only-dsfr .fr-header__tools-links .fr-links-group > *:not(:last-child) > .fr-link::after,
+.only-dsfr .fr-header__tools-links .fr-links-group > .fr-link:not(:last-child)::after {
+  content: '';
+  display: block;
+  position: relative;
+  right: -1rem;
+  width: 1px;
+  height: 1rem;
+}
+
+.only-dsfr .fr-header__tools-links .fr-link {
+  overflow: initial;
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+
+.only-dsfr .fr-header__tools-links .fr-link::after {
+  box-shadow: inset 0 0 0 1px var(--border-default-grey);
+}
+
+/**
+  * Style du texte d'aide
+  */
+
+/**
+  * Style du texte d'erreur
+  */
+
+/**
+  * Style du texte de l'état validé
+  */
+
+/**
+  * Style d'un ensemble de champs
+  */
+
+@media (min-width: 36em) {
+  /*! media sm */
+  .only-dsfr .fr-footer__content-list > li {
+    margin-right: 1.5rem;
+  }
+}
+
+@media (min-width: 48em) {
+  /*! media md */
+  .only-dsfr .fr-footer__body {
+    margin-bottom: 1.5rem;
+  }
+  .only-dsfr .fr-footer__brand .fr-logo {
+    font-size: 1.3125rem;
+  }
+  .only-dsfr .fr-footer__brand .fr-logo::before {
+    width: 3.4375rem;
+    height: 1.25rem;
+    margin-bottom: 0.41667rem;
+    background-size: 3.4375rem 1.40625rem, 3.4375rem 1.25rem, 0;
+    background-position: 0 -0.07812rem, 0 0, 0 0;
+  }
+  .only-dsfr .fr-footer__brand .fr-logo::after {
+    min-width: 3.28125rem;
+    background-size: 6.5625rem 4.6875rem;
+    background-position: 0 calc(100% + 2.34375rem);
+    padding-top: 2.76042rem;
+  }
+  .only-dsfr .fr-footer__brand {
+    flex-basis: auto;
+    padding-right: 1rem;
+  }
+  .only-dsfr .fr-footer__content {
+    margin-left: auto;
+  }
+  .only-dsfr .fr-footer__bottom-item {
+    margin: 0.5rem 0 0 0.75rem;
+  }
+  .only-dsfr .fr-footer__bottom-item::before {
+    margin-right: 0.75rem;
+    margin-bottom: 0.25rem;
+    margin-top: 0.25rem;
+  }
+  .only-dsfr .fr-header__service-title {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+}
+
+@media (min-width: 62em) {
+  /*! media lg */
+  .only-dsfr .fr-container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  .only-dsfr .fr-footer__content {
+    margin-top: 0;
+    flex-basis: calc(100% - (100% / 2));
+  }
+  .only-dsfr .fr-header__body-row {
+    padding: 1.5rem 0;
+  }
+  .only-dsfr .fr-header__brand {
+    margin-top: -1rem;
+    margin-bottom: -1rem;
+    flex-wrap: nowrap;
+    width: auto;
+  }
+  .only-dsfr .fr-header__brand-top {
+    width: auto;
+  }
+  .only-dsfr .fr-header__logo,
+  .only-dsfr .fr-header__service {
+    padding: 1rem;
+  }
+  .only-dsfr .fr-header__logo:not(:last-child),
+  .only-dsfr .fr-header__service:not(:last-child) {
+    margin-right: 0.5rem;
+  }
+  .only-dsfr .fr-header__service {
+    margin-left: 0;
+    margin-right: 0;
+    width: auto;
+    box-shadow: none;
+  }
+  .only-dsfr .fr-header__tools {
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-left: auto;
+    flex: 1 0 auto;
+  }
+  .only-dsfr .fr-header__tools-links {
+    display: initial;
+  }
+}
+
+@media (min-width: 78em) {
+  /*! media xl */
+  .only-dsfr .fr-container {
+    max-width: 78rem;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .only-dsfr a[href]:hover,
+  .only-dsfr a[href]:active {
+    --blend-size: var(--blend-full-size);
+  }
+  .only-dsfr .fr-enlarge-link a::before {
+    background-repeat: no-repeat;
+    background-size: var(--blend-size);
+    background-position: var(--blend-position);
+    background-image: radial-gradient(circle at center, var(--hsla), var(--hsla) 3%);
+  }
+  .only-dsfr .fr-header__brand.fr-enlarge-link a[href]:hover {
+    --a: 0.1;
+  }
+  .only-dsfr .fr-header__brand.fr-enlarge-link a[href]:active {
+    --a: 0.2;
+  }
+}
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  body .only-dsfr {
+    background-color: #fff;
+    color: #3a3a3a;
+  }
+  .only-dsfr a:not([href]) {
+    color: #929292;
+  }
+  .only-dsfr .fr-logo {
+    color: #161616;
+  }
+  /**
+  * Correctif de la hauteur de la navigation latérale
+  */
+  /**
+  * Correction largeur max du texte
+  */
+  /**
+  * reset liste à puce
+  */
+  /**
+  * Correctif de la largeur de la légende d'un fieldset
+  */
+  /**
+  * Reset liste à puce
+  */
+  .only-dsfr .fr-links-group > li {
+    list-style: none;
+  }
+  .only-dsfr .fr-link {
+    color: #000091;
+  }
+  /**
+  * Correctif de la hauteur de la navigation latérale
+  */
+  /**
+  * Reset de la liste à puce
+  */
+  /**
+  * Correctif placement caption
+  */
+  /**
+  * Correctif de la largeur du texte dans la tuile
+  */
+  /**
+  * Reset liste à puce
+  */
+  /**
+  * reset des marges dans l'alerte
+  */
+  /**
+  * Reset liste à puce
+  */
+  /**
+  * Correctif radio
+  */
+  /**
+  * Correctif alignement vertical IE
+  * Inconvéniant : fixe la height à la min-height, soit 5.5 rem
+  */
+  /**
+  * Correctif
+  */
+  /**
+  * Cache l'icone native du select sur IE
+  */
+  /**
+  * Reset liste à puce
+  */
+  /**
+  * Correctif de la largeur de la légende d'un fieldset
+  */
+  /**
+  * Reset liste à puce
+  */
+  /**
+  * Reset liste à puce
+  */
+  .only-dsfr .fr-footer__content-item {
+    list-style: none;
+  }
+  .only-dsfr .fr-footer {
+    box-shadow: 0 -2px 0 0 #000091, inset 0 -1px 0 0 #e5e5e5;
+  }
+  .only-dsfr .fr-footer__content-link {
+    color: #161616;
+  }
+  .only-dsfr .fr-footer__bottom {
+    box-shadow: inset 0 1px 0 0 #e5e5e5;
+  }
+  .only-dsfr .fr-footer__bottom-item::before {
+    box-shadow: inset 0 0 0 1px #e5e5e5;
+  }
+  .only-dsfr .fr-footer__bottom-link {
+    color: #666;
+  }
+  .only-dsfr .fr-footer__bottom-copy {
+    color: #666;
+  }
+  /**
+  * Marge des titres et textes
+  */
+  /**
+  * reset liste à puce
+  */
+  /**
+  * reset margin
+  */
+  /**
+  * Correctif de la largeur max des textes
+  */
+  .only-dsfr .fr-header__tools-links .fr-link {
+    overflow: visible;
+  }
+  .only-dsfr .fr-header {
+    background-color: #fff;
+  }
+  .only-dsfr .fr-header__service {
+    box-shadow: inset 0 1px 0 0 #e5e5e5;
+  }
+  .only-dsfr .fr-header__tools-links .fr-link::after {
+    box-shadow: inset 0 0 0 1px #e5e5e5;
+  }
+}
+
+@media all and (min-width: 62em) and (-ms-high-contrast: none),
+  (min-width: 62em) and (-ms-high-contrast: active) {
+  /**
+    * Correctif de l'alignement des menus sur la droite
+    */
+  /**
+    * Correctif valeur 'initial' non prise en compte par IE
+    */
+  .only-dsfr .fr-header__tools-links {
+    display: block;
+  }
+}
