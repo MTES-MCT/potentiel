@@ -1,4 +1,4 @@
-import { ProjectEventDTO, ProjectEventListDTO } from '@modules/frise'
+import { ProjectEventDTO, ProjectStatus } from '@modules/frise'
 
 export type CRItemProps = {
   type: 'convention-de-raccordement'
@@ -9,7 +9,7 @@ export type CRItemProps = {
 export const extractCRItemProps = (
   events: ProjectEventDTO[],
   project: {
-    status: ProjectEventListDTO['project']['status']
+    status: ProjectStatus
   }
 ): CRItemProps | null => {
   if (!events.length || project.status !== 'Classé') {

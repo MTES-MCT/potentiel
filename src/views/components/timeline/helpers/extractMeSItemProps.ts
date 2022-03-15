@@ -1,4 +1,4 @@
-import { ProjectEventDTO, ProjectEventListDTO } from '@modules/frise'
+import { ProjectEventDTO, ProjectStatus } from '@modules/frise'
 
 export type MeSItemProps = {
   type: 'mise-en-service'
@@ -9,7 +9,7 @@ export type MeSItemProps = {
 export const extractMeSItemProps = (
   events: ProjectEventDTO[],
   project: {
-    status: ProjectEventListDTO['project']['status']
+    status: ProjectStatus
   }
 ): MeSItemProps | null => {
   if (!events.length || project.status !== 'Classé') {

@@ -1,4 +1,4 @@
-import { is, ProjectEventDTO, ProjectEventListDTO } from '@modules/frise'
+import { is, ProjectEventDTO, ProjectStatus } from '@modules/frise'
 
 export type ACItemProps = {
   type: 'attestation-de-conformite'
@@ -7,7 +7,7 @@ export type ACItemProps = {
 
 export const extractACItemProps = (
   events: ProjectEventDTO[],
-  project: { status: ProjectEventListDTO['project']['status'] }
+  project: { status: ProjectStatus }
 ): ACItemProps | null => {
   if (project.status !== 'Classé') {
     return null

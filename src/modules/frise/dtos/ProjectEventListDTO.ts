@@ -39,6 +39,8 @@ type File = {
   name: string
 }
 
+export type ProjectStatus = 'Classé' | 'Eliminé' | 'Abandonné'
+
 type NarrowDTOType<T, N> = T extends { type: N } ? T : never
 
 export const is =
@@ -295,7 +297,7 @@ export type LegacyModificationImportedDTO = {
 export type ProjectEventListDTO = {
   project: {
     id: Project['id']
-    status: 'Classé' | 'Eliminé' | 'Abandonné'
+    status: ProjectStatus
     isSoumisAuxGF?: boolean
     isGarantiesFinancieresDeposeesALaCandidature?: boolean
   }

@@ -1,4 +1,4 @@
-import { is, ProjectEventDTO, ProjectEventListDTO } from '@modules/frise'
+import { is, ProjectEventDTO, ProjectStatus } from '@modules/frise'
 import { or } from '@core/utils'
 import { UserRole } from '@modules/users'
 import { makeDocumentUrl } from './makeDocumentUrl'
@@ -26,7 +26,7 @@ export const extractGFItemProps = (
   events: ProjectEventDTO[],
   now: number,
   project: {
-    status: ProjectEventListDTO['project']['status']
+    status: ProjectStatus
     isSoumisAuxGF?: boolean
     isGarantiesFinancieresDeposeesALaCandidature?: boolean
   }

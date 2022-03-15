@@ -1,4 +1,4 @@
-import { ProjectEventDTO, is, ProjectEventListDTO } from '@modules/frise'
+import { ProjectEventDTO, is, ProjectStatus } from '@modules/frise'
 import { or } from '@core/utils'
 import { UserRole } from '@modules/users'
 import { makeDocumentUrl } from './makeDocumentUrl'
@@ -22,7 +22,7 @@ export const extractDCRItemProps = (
   events: ProjectEventDTO[],
   now: number,
   project: {
-    status: ProjectEventListDTO['project']['status']
+    status: ProjectStatus
   }
 ): DCRItemProps | null => {
   const projectDCREvents = events.filter(isProjectDCR)

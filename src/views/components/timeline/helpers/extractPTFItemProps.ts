@@ -1,4 +1,4 @@
-import { is, ProjectEventDTO, ProjectEventListDTO } from '@modules/frise'
+import { is, ProjectEventDTO, ProjectStatus } from '@modules/frise'
 import { or } from '@core/utils'
 import { UserRole } from '@modules/users'
 import { makeDocumentUrl } from './makeDocumentUrl'
@@ -21,7 +21,7 @@ export type PTFItemProps = {
 export const extractPTFItemProps = (
   events: ProjectEventDTO[],
   project: {
-    status: ProjectEventListDTO['project']['status']
+    status: ProjectStatus
   }
 ): PTFItemProps | null => {
   if (!events.length || project.status === 'Eliminé') {

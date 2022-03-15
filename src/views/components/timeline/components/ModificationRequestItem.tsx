@@ -1,5 +1,5 @@
 import React from 'react'
-import { ProjectEventListDTO } from 'src/modules/frise/dtos/ProjectEventListDTO'
+import { ProjectStatus } from 'src/modules/frise/dtos/ProjectEventListDTO'
 import {
   ItemDate,
   ItemTitle,
@@ -13,7 +13,7 @@ import { ModificationRequestItemProps } from '../helpers/extractModificationRequ
 import { CancelledStepIcon } from './cancelledStepIcon'
 
 type ComponentProps = ModificationRequestItemProps & {
-  projectStatus: ProjectEventListDTO['project']['status']
+  projectStatus: ProjectStatus
 }
 
 export const ModificationRequestItem = (props: ComponentProps) => {

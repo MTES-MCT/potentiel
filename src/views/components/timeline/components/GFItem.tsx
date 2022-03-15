@@ -6,11 +6,11 @@ import { InfoItem } from './InfoItem'
 import { WarningItem } from './WarningItem'
 import { GFItemProps } from '../helpers/extractGFItemProps'
 import { WarningIcon } from './WarningIcon'
-import { ProjectEventListDTO } from 'src/modules/frise'
+import { ProjectStatus } from 'src/modules/frise'
 
 type ComponentProps = GFItemProps & {
   projectId: string
-  projectStatus: ProjectEventListDTO['project']['status']
+  projectStatus: ProjectStatus
 }
 export const GFItem = (props: ComponentProps) => {
   const { status, projectId, projectStatus } = props
