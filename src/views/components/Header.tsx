@@ -42,7 +42,9 @@ const Header = ({ request }: HeaderProps) => {
                     <p className="fr-header__service-title text-black">Potentiel</p>
                   </a>
                   <p className="fr-header__service-tagline">
-                    Facilite le parcours des producteurs d'énergies renouvelables électriques
+                    Facilite le parcours des producteurs
+                    <br />
+                    d'énergies renouvelables électriques
                   </p>
                 </div>
               </div>
@@ -52,7 +54,12 @@ const Header = ({ request }: HeaderProps) => {
                     <li>
                       {user ? (
                         <>
-                          <span>{user.fullName}</span>
+                          <span
+                            className="fr-link fr-fi-user-line"
+                            style={{ color: 'var(--text-default-grey)' }}
+                          >
+                            {user.fullName}
+                          </span>
                           <a
                             className="fr-link fr-fi-logout-box-r-line"
                             href={routes.LOGOUT_ACTION}
@@ -73,7 +80,7 @@ const Header = ({ request }: HeaderProps) => {
                         rel="noopener"
                         href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel"
                       >
-                        Guide d'utilisation
+                        Aide
                       </a>
                     </li>
                   </ul>

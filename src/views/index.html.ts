@@ -31,33 +31,33 @@ export const makeHtml = <T extends HasRequest>(args: PageProps<T>) => {
         <meta charset="utf-8" />
         <meta http-equiv="x-ua-compatible" content="ie=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="theme-color" content="#000091" />
-        <!-- Défini la couleur de thème du navigateur (Safari/Android) -->
-        <link rel="apple-touch-icon" href="dsfr/favicon/apple-touch-icon.png" />
-        <!-- 180×180 -->
-        <link rel="icon" href="dsfr/favicon/favicon.svg" type="image/svg+xml" />
-        <link rel="shortcut icon" href="dsfr/favicon/favicon.ico" type="image/x-icon" />
-        <!-- 32×32 -->
-        <link
-          rel="manifest"
-          href="dsfr/favicon/manifest.webmanifest"
-          crossorigin="use-credentials"
-        />
 
         <title>Potentiel - Suivi des Projets d'Energies Renouvelables</title>
 
         <link href="/main.min.css" rel="stylesheet" />
         <link href="/css/index.css" rel="stylesheet" />
         <link href="/css/dsfr.css" rel="stylesheet" />
+
+        <meta name="theme-color" content="#000091" />
+        <!-- Défini la couleur de thème du navigateur (Safari/Android) -->
+        <link rel="apple-touch-icon" href="/dsfr/favicon/apple-touch-icon.png" />
+        <!-- 180×180 -->
+        <link rel="icon" href="/dsfr/favicon/favicon.svg" type="image/svg+xml" />
+        <link rel="shortcut icon" href="/dsfr/favicon/favicon.ico" type="image/x-icon" />
+        <!-- 32×32 -->
+        <link
+          rel="manifest"
+          href="/dsfr/favicon/manifest.webmanifest"
+          crossorigin="use-credentials"
+        />
         <script src="/scripts.js"></script>
-        <!-- TRACKER -->
+
         ${args.hydrate
           ? html`
               <script src="/js/shared.js"></script>
               <script src="/js/${args.pageName}.js?${process.env.npm_package_version}"></script>
             `
           : ''}
-
         ${trackerWebsiteId ? getTrackerScript(trackerWebsiteId) : ''}
       </head>
 

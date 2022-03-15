@@ -49,9 +49,7 @@ const Footer = () => {
           <div className="fr-footer__bottom">
             <ul className="fr-footer__bottom-list">
               <li className="fr-footer__bottom-item">
-                <a className="fr-footer__bottom-link" href="#">
-                  Accessibilité: non conforme
-                </a>
+                <span className="fr-footer__bottom-link">Accessibilité: non conforme</span>
               </li>
               <li className="fr-footer__bottom-item">
                 <a
@@ -93,7 +91,7 @@ const Footer = () => {
             </ul>
             <div className="fr-footer__bottom-copy">
               <p>
-                Sauf mention contraire, tous les contenus de ce site sont sous
+                Sauf mention contraire, tous les contenus de ce site sont sous{' '}
                 <a
                   href="https://github.com/etalab/licence-ouverte/blob/master/LO.md"
                   target="_blank"

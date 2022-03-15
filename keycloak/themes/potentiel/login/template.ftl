@@ -132,7 +132,7 @@
                     <p class="fr-header__service-title text-black">Potentiel</p>
                   </a>
                   <p class="fr-header__service-tagline">
-                    Facilite le parcours des producteurs d'énergies renouvelables électriques
+                    Facilite le parcours des producteurs<br/>d'énergies renouvelables électriques
                   </p>
                 </div>
               </div>
@@ -142,7 +142,7 @@
                     <li>
                       <a class="fr-link fr-fi-external-link-line fr-link--icon-right" target="_blank" rel="noopener"
                         href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel">
-                        Guide d'utilisation
+                        Aide
                       </a>
                     </li>
                   </ul>
@@ -200,7 +200,7 @@
           <div class="fr-footer__bottom">
             <ul class="fr-footer__bottom-list">
               <li class="fr-footer__bottom-item">
-                <a class="fr-footer__bottom-link" href="#">Accessibilité: non conforme</a>
+                <span class="fr-footer__bottom-link" >Accessibilité: non conforme</span>
               </li>
               <li class="fr-footer__bottom-item">
                 <a class="fr-footer__bottom-link" href="https://docs.potentiel.beta.gouv.fr/info/cgu">Mentions légales</a>
@@ -219,8 +219,7 @@
             </ul>
             <div class="fr-footer__bottom-copy">
               <p>
-                Sauf mention contraire, tous les contenus de ce site sont sous
-                <a href="https://github.com/etalab/licence-ouverte/blob/master/LO.md" target="_blank">licence etalab-2.0</a>
+                Sauf mention contraire, tous les contenus de ce site sont sous <a href="https://github.com/etalab/licence-ouverte/blob/master/LO.md" target="_blank">licence etalab-2.0</a>
               </p>
             </div>
           </div>
