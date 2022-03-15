@@ -1,11 +1,16 @@
-import { ProjectImportedDTO, ProjectNotifiedDTO } from 'src/modules/frise/dtos/ProjectEventListDTO'
+import {
+  ProjectEventListDTO,
+  ProjectImportedDTO,
+  ProjectNotifiedDTO,
+} from 'src/modules/frise/dtos/ProjectEventListDTO'
 import { extractMeSItemProps } from './extractMeSItemProps'
 
 describe('extractMeSItemProps', () => {
-  describe(`when the project is not lauréat`, () => {
+  describe(`when the project is Eliminé`, () => {
     const project = {
-      isLaureat: false,
-    }
+      status: 'Eliminé',
+    } as ProjectEventListDTO['project']
+
     it(`should return null`, () => {
       const events = [
         {
@@ -18,11 +23,31 @@ describe('extractMeSItemProps', () => {
       expect(result).toEqual(null)
     })
   })
+
+  describe(`when the project is Abandonné`, () => {
+    const project = {
+      status: 'Abandonné',
+    } as ProjectEventListDTO['project']
+
+    it(`should return null`, () => {
+      const events = [
+        {
+          type: 'ProjectNotified',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-09').getTime(),
+        } as ProjectNotifiedDTO,
+      ]
+      const result = extractMeSItemProps(events, project)
+      expect(result).toEqual(null)
+    })
+  })
+
   describe('when project is lauréat', () => {
     const project = {
-      isLaureat: true,
-    }
-    describe('when there is no events', () => {
+      status: 'Classé',
+    } as ProjectEventListDTO['project']
+
+    describe('when there is no event at all', () => {
       it('should return null', () => {
         const events = []
         const result = extractMeSItemProps(events, project)

@@ -1,4 +1,5 @@
 import {
+  ProjectEventListDTO,
   ProjectGFDueDateSetDTO,
   ProjectGFInvalidatedDTO,
   ProjectGFRemovedDTO,
@@ -11,11 +12,11 @@ import {
 import { extractGFItemProps } from './extractGFItemProps'
 
 describe('extractGFitemProps', () => {
-  describe(`when the project is not lauréat`, () => {
+  describe(`when the project is Eliminé`, () => {
     const project = {
-      isLaureat: false,
+      status: 'Eliminé',
       isSoumisAuxGF: true,
-    }
+    } as ProjectEventListDTO['project']
 
     it(`should return null`, () => {
       const events = [
@@ -29,11 +30,13 @@ describe('extractGFitemProps', () => {
       expect(result).toEqual(null)
     })
   })
+
   describe('when the project is lauréat', () => {
     const project = {
-      isLaureat: true,
+      status: 'Classé',
       isSoumisAuxGF: true,
-    }
+    } as ProjectEventListDTO['project']
+
     describe('when there is no event', () => {
       it('should return null', () => {
         const events = []
@@ -41,14 +44,16 @@ describe('extractGFitemProps', () => {
         expect(result).toBeNull()
       })
     })
+
     describe('when there is no ProjectGF* event', () => {
       describe('when the GF has already been submitted at application', () => {
         it('should return a "submitted-with-application" GFItemProps with no date', () => {
           const project = {
-            isLaureat: true,
+            status: 'Classé',
             isSoumisAuxGF: true,
             isGarantiesFinancieresDeposeesALaCandidature: true,
-          }
+          } as ProjectEventListDTO['project']
+
           const events = [
             {
               type: 'ProjectNotified',
@@ -64,12 +69,14 @@ describe('extractGFitemProps', () => {
           })
         })
       })
+
       describe('when the project is not subject to GF', () => {
         it('should return a null', () => {
           const project = {
-            isLaureat: true,
+            status: 'Classé',
             isSoumisAuxGF: false,
-          }
+          } as ProjectEventListDTO['project']
+
           const events = [
             {
               type: 'ProjectNotified',
@@ -82,13 +89,15 @@ describe('extractGFitemProps', () => {
         })
       })
     })
+
     describe('when there is a ProjectGFUploaded event', () => {
       it('should return a "uploaded" status', () => {
         const project = {
-          isLaureat: true,
+          status: 'Classé',
           isSoumisAuxGF: true,
           isGarantiesFinancieresDeposeesALaCandidature: true,
-        }
+        } as ProjectEventListDTO['project']
+
         const events = [
           {
             type: 'ProjectGFUploaded',
@@ -107,13 +116,15 @@ describe('extractGFitemProps', () => {
         })
       })
     })
+
     describe('when there is a ProjectGFWithdrawn event', () => {
       it('should return a "submitted-with-application" status', () => {
         const project = {
-          isLaureat: true,
+          status: 'Classé',
           isSoumisAuxGF: true,
           isGarantiesFinancieresDeposeesALaCandidature: true,
-        }
+        } as ProjectEventListDTO['project']
+
         const events = [
           {
             type: 'ProjectGFWithdrawn',
@@ -391,6 +402,159 @@ describe('extractGFitemProps', () => {
           status: 'pending-validation',
           role: 'porteur-projet',
           url: expect.anything(),
+        })
+      })
+    })
+  })
+
+  describe('when the project is abandoned', () => {
+    const project = {
+      status: 'Abandonné',
+      isSoumisAuxGF: true,
+      isGarantiesFinancieresDeposeesALaCandidature: true,
+    } as ProjectEventListDTO['project']
+
+    describe('when the GF has not been submitted or uploaded', () => {
+      it('should return null', () => {
+        const events = [
+          {
+            type: 'ProjectNotified',
+            variant: 'porteur-projet',
+            date: new Date('2022-01-09').getTime(),
+          } as ProjectNotifiedDTO,
+        ]
+        const result = extractGFItemProps(events, new Date('2022-01-08').getTime(), project)
+        expect(result).toEqual(null)
+      })
+    })
+    describe('when the GF has been removed', () => {
+      it('should return null', () => {
+        const events = [
+          {
+            type: 'ProjectGFRemoved',
+            variant: 'porteur-projet',
+            date: new Date('2022-01-09').getTime(),
+          } as ProjectGFRemovedDTO,
+        ]
+        const result = extractGFItemProps(events, new Date('2022-01-08').getTime(), project)
+        expect(result).toEqual(null)
+      })
+    })
+    describe('when the GF has been withdrawn', () => {
+      it('should return null', () => {
+        const events = [
+          {
+            type: 'ProjectGFWithdrawn',
+            variant: 'porteur-projet',
+            date: new Date('2022-01-09').getTime(),
+          } as ProjectGFWithdrawnDTO,
+        ]
+        const result = extractGFItemProps(events, new Date('2022-01-08').getTime(), project)
+        expect(result).toEqual(null)
+      })
+    })
+    describe('when the GF has been submitted (CRE4 AO)', () => {
+      it('should return GF submitted props', () => {
+        const events = [
+          {
+            type: 'ProjectGFSubmitted',
+            variant: 'porteur-projet',
+            date: new Date('2022-01-09').getTime(),
+            file: { id: 'file-id', name: 'file-name' },
+          } as ProjectGFSubmittedDTO,
+        ]
+        const result = extractGFItemProps(events, new Date('2022-01-08').getTime(), project)
+        expect(result).toEqual({
+          date: new Date('2022-01-09').getTime(),
+          type: 'garanties-financieres',
+          status: 'pending-validation',
+          role: 'porteur-projet',
+          url: '/telechargement/file-id/fichier/file-name',
+        })
+      })
+    })
+    describe('when there is a ProjectGFValidated', () => {
+      it('should return latest ProjectGFSubmitted props as validated', () => {
+        const events = [
+          {
+            type: 'ProjectGFSubmitted',
+            variant: 'porteur-projet',
+            date: new Date('2021-12-01').getTime(),
+            file: { id: 'file-id', name: 'file-name' },
+          } as ProjectGFSubmittedDTO,
+          {
+            type: 'ProjectGFValidated',
+            variant: 'porteur-projet',
+            date: new Date('2022-01-14').getTime(),
+            newStatus: 'validé',
+            stepType: 'garantie-financiere',
+          } as ProjectGFValidatedDTO,
+        ]
+        const result = extractGFItemProps(events, new Date('2022-01-20').getTime(), project)
+        expect(result).not.toBeNull()
+        expect(result).toEqual({
+          date: new Date('2021-12-01').getTime(),
+          type: 'garanties-financieres',
+          status: 'validated',
+          role: 'porteur-projet',
+          url: '/telechargement/file-id/fichier/file-name',
+        })
+      })
+    })
+    describe('when there is a ProjectGFInvalidated', () => {
+      it('should return latest ProjectGFSubmitted props as pending for validation', () => {
+        const events = [
+          {
+            type: 'ProjectGFSubmitted',
+            variant: 'porteur-projet',
+            file: { id: 'file-id', name: 'file-name' },
+            date: new Date('2021-12-10').getTime(),
+          } as ProjectGFSubmittedDTO,
+          {
+            type: 'ProjectGFSubmitted',
+            variant: 'porteur-projet',
+            file: { id: 'file-id', name: 'file-name' },
+            date: new Date('2021-12-01').getTime(),
+          } as ProjectGFSubmittedDTO,
+          {
+            type: 'ProjectGFValidated',
+            variant: 'porteur-projet',
+            date: new Date('2022-01-14').getTime(),
+          } as ProjectGFValidatedDTO,
+          {
+            type: 'ProjectGFInvalidated',
+            variant: 'porteur-projet',
+            date: new Date('2022-01-15').getTime(),
+          } as ProjectGFInvalidatedDTO,
+        ]
+        const result = extractGFItemProps(events, new Date('2022-01-20').getTime(), project)
+        expect(result).not.toBeNull()
+        expect(result).toEqual({
+          date: new Date('2021-12-01').getTime(),
+          type: 'garanties-financieres',
+          status: 'pending-validation',
+          role: 'porteur-projet',
+          url: expect.anything(),
+        })
+      })
+    })
+    describe('when the GF has been uploaded (PPE2 AP)', () => {
+      it('should return GF uploaded props', () => {
+        const events = [
+          {
+            type: 'ProjectGFUploaded',
+            variant: 'porteur-projet',
+            date: new Date('2022-01-09').getTime(),
+            file: { id: 'file-id', name: 'file-name' },
+          } as ProjectGFUploadedDTO,
+        ]
+        const result = extractGFItemProps(events, new Date('2022-01-08').getTime(), project)
+        expect(result).toEqual({
+          date: new Date('2022-01-09').getTime(),
+          type: 'garanties-financieres',
+          status: 'uploaded',
+          role: 'porteur-projet',
+          url: '/telechargement/file-id/fichier/file-name',
         })
       })
     })

@@ -66,18 +66,13 @@ type UndatedItemProps = ItemProps & { date: undefined }
 export const Timeline = ({
   projectEventList: {
     events,
-    project: {
-      id: projectId,
-      isLaureat,
-      isSoumisAuxGF,
-      isGarantiesFinancieresDeposeesALaCandidature,
-    },
+    project: { id: projectId, status, isSoumisAuxGF, isGarantiesFinancieresDeposeesALaCandidature },
   },
   now,
 }: TimelineProps) => {
-  const PTFItemProps = extractPTFItemProps(events, { isLaureat })
+  const PTFItemProps = extractPTFItemProps(events, { status })
   const GFItemProps = extractGFItemProps(events, now, {
-    isLaureat,
+    status,
     isSoumisAuxGF,
     isGarantiesFinancieresDeposeesALaCandidature,
   })
@@ -86,8 +81,8 @@ export const Timeline = ({
     extractDesignationItemProps(events, projectId),
     extractImportItemProps(events),
     GFItemProps?.date ? GFItemProps : null,
-    extractDCRItemProps(events, now),
-    extractACItemProps(events),
+    extractDCRItemProps(events, now, { status }),
+    extractACItemProps(events, { status }),
     PTFItemProps?.status === 'submitted' ? PTFItemProps : null,
     ...extractModificationRequestsItemProps(events),
     ...extractModificationReceivedItemProps(events),
@@ -98,9 +93,9 @@ export const Timeline = ({
 
   PTFItemProps?.status === 'not-submitted' &&
     insertBefore(itemProps, 'attestation-de-conformite', PTFItemProps)
-  insertBefore(itemProps, 'attestation-de-conformite', extractCRItemProps(events, { isLaureat }))
-  insertAfter(itemProps, 'attestation-de-conformite', extractCAItemProps(events, { isLaureat }))
-  insertAfter(itemProps, 'attestation-de-conformite', extractMeSItemProps(events, { isLaureat }))
+  insertBefore(itemProps, 'attestation-de-conformite', extractCRItemProps(events, { status }))
+  insertAfter(itemProps, 'attestation-de-conformite', extractCAItemProps(events, { status }))
+  insertAfter(itemProps, 'attestation-de-conformite', extractMeSItemProps(events, { status }))
   GFItemProps?.status === 'submitted-with-application' &&
     insertAfter(itemProps, 'designation', GFItemProps)
 
@@ -115,7 +110,7 @@ export const Timeline = ({
         return <ImportItem {...props} />
 
       case 'garanties-financieres':
-        return <GFItem {...{ ...props, projectId }} />
+        return <GFItem {...{ ...props, project: { id: projectId, status } }} />
 
       case 'demande-complete-de-raccordement':
         return <DCRItem {...{ ...props, projectId }} />
@@ -136,7 +131,7 @@ export const Timeline = ({
         return <CAItem />
 
       case 'demande-de-modification':
-        return <ModificationRequestItem {...props} />
+        return <ModificationRequestItem {...{ ...props, projectStatus: status }} />
 
       case 'modification-information':
         return <ModificationReceivedItem {...props} />

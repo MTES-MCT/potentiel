@@ -1,4 +1,4 @@
-import { ProjectEventDTO, is } from '@modules/frise'
+import { ProjectEventDTO, is, ProjectStatus } from '@modules/frise'
 import { or } from '@core/utils'
 import { UserRole } from '@modules/users'
 import { makeDocumentUrl } from './makeDocumentUrl'
@@ -20,25 +20,28 @@ export type DCRItemProps = {
 
 export const extractDCRItemProps = (
   events: ProjectEventDTO[],
-  now: number
+  now: number,
+  project: {
+    status: ProjectStatus
+  }
 ): DCRItemProps | null => {
   const projectDCREvents = events.filter(isProjectDCR)
 
-  if (!projectDCREvents.length) {
+  if (!projectDCREvents.length || project.status === 'Eliminé') {
     return null
   }
 
   const lastProjectDCREvent = projectDCREvents.slice(-1)[0]
 
-  const projectDCRDueDateSetOrSubmitted = is('ProjectDCRRemoved')(lastProjectDCREvent)
+  const projectDCREvent = is('ProjectDCRRemoved')(lastProjectDCREvent)
     ? projectDCREvents.filter(is('ProjectDCRDueDateSet')).pop()
     : projectDCREvents.pop()
 
-  if (!projectDCRDueDateSetOrSubmitted) {
+  if (!projectDCREvent) {
     return null
   }
 
-  const { date, variant: role, type } = projectDCRDueDateSetOrSubmitted
+  const { date, variant: role, type } = projectDCREvent
 
   const props = {
     type: 'demande-complete-de-raccordement' as 'demande-complete-de-raccordement',
@@ -50,18 +53,17 @@ export const extractDCRItemProps = (
     ? {
         ...props,
         url:
-          projectDCRDueDateSetOrSubmitted.file &&
-          makeDocumentUrl(
-            projectDCRDueDateSetOrSubmitted.file.id,
-            projectDCRDueDateSetOrSubmitted.file.name
-          ),
+          projectDCREvent.file &&
+          makeDocumentUrl(projectDCREvent.file.id, projectDCREvent.file.name),
         status: 'submitted',
-        numeroDossier: projectDCRDueDateSetOrSubmitted.numeroDossier,
+        numeroDossier: projectDCREvent.numeroDossier,
       }
-    : {
+    : project.status !== 'Abandonné'
+    ? {
         ...props,
         status: date < now ? 'past-due' : 'due',
       }
+    : null
 }
 
 const isProjectDCR = or(

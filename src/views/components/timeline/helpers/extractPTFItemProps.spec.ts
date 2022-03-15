@@ -1,11 +1,16 @@
-import { ProjectPTFRemovedDTO, ProjectPTFSubmittedDTO, ProjectNotifiedDTO } from '@modules/frise'
+import {
+  ProjectPTFRemovedDTO,
+  ProjectPTFSubmittedDTO,
+  ProjectNotifiedDTO,
+  ProjectEventListDTO,
+} from '@modules/frise'
 import { extractPTFItemProps } from './extractPTFItemProps'
 
 describe('extractPTFitemProps', () => {
-  describe(`when the project is not lauréat`, () => {
+  describe(`when the project is Eliminé`, () => {
     const project = {
-      isLaureat: false,
-    }
+      status: 'Eliminé',
+    } as ProjectEventListDTO['project']
 
     it(`should return null`, () => {
       const events = [
@@ -20,10 +25,10 @@ describe('extractPTFitemProps', () => {
     })
   })
 
-  describe(`when the project is lauréat`, () => {
+  describe(`when the project is Classé`, () => {
     const project = {
-      isLaureat: true,
-    }
+      status: 'Classé',
+    } as ProjectEventListDTO['project']
 
     describe('when there is no events', () => {
       it('should return null', () => {
@@ -120,6 +125,52 @@ describe('extractPTFitemProps', () => {
           type: 'proposition-technique-et-financiere',
           status: 'submitted',
           role: 'porteur-projet',
+        })
+      })
+    })
+  })
+
+  describe(`when the project is Abandonné`, () => {
+    const project = {
+      status: 'Abandonné',
+    } as ProjectEventListDTO['project']
+
+    describe('when there is no PTF in the project', () => {
+      it(`should return null`, () => {
+        const events = [
+          {
+            type: 'ProjectNotified',
+            variant: 'porteur-projet',
+            date: new Date('2022-01-09').getTime(),
+          } as ProjectNotifiedDTO,
+        ]
+        const result = extractPTFItemProps(events, project)
+        expect(result).toEqual(null)
+      })
+    })
+
+    describe('when the PTF has already been sent', () => {
+      it(`should return submitted PTF props`, () => {
+        const events = [
+          {
+            type: 'ProjectNotified',
+            variant: 'porteur-projet',
+            date: new Date('2022-01-09').getTime(),
+          } as ProjectNotifiedDTO,
+          {
+            type: 'ProjectPTFSubmitted',
+            variant: 'porteur-projet',
+            date: new Date('2022-01-09').getTime(),
+            file: { id: 'file-id', name: 'file-name' },
+          } as ProjectPTFSubmittedDTO,
+        ]
+        const result = extractPTFItemProps(events, project)
+        expect(result).toEqual({
+          date: new Date('2022-01-09').getTime(),
+          type: 'proposition-technique-et-financiere',
+          status: 'submitted',
+          role: 'porteur-projet',
+          url: '/telechargement/file-id/fichier/file-name',
         })
       })
     })

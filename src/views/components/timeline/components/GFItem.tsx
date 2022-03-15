@@ -6,33 +6,35 @@ import { InfoItem } from './InfoItem'
 import { WarningItem } from './WarningItem'
 import { GFItemProps } from '../helpers/extractGFItemProps'
 import { WarningIcon } from './WarningIcon'
+import { ProjectStatus } from 'src/modules/frise'
 
-type ComponentProps = GFItemProps & { projectId: string }
-
+type ComponentProps = GFItemProps & {
+  project: { id: string; status: ProjectStatus }
+}
 export const GFItem = (props: ComponentProps) => {
-  const { status, projectId } = props
+  const { status, project } = props
 
   switch (status) {
     case 'pending-validation':
     case 'validated':
-      return <Submitted {...{ ...props, projectId, status }} />
+      return <Submitted {...{ ...props, status, project }} />
 
     case 'due':
     case 'past-due':
-      return <NotSubmitted {...{ ...props, projectId }} />
+      return <NotSubmitted {...{ ...props, project }} />
 
     case 'submitted-with-application':
-      return <NotUploaded {...{ ...props, projectId }} />
+      return <NotUploaded {...{ ...props, project }} />
 
     case 'uploaded':
-      return <Uploaded {...{ ...props, projectId, status }} />
+      return <Uploaded {...{ ...props, project, status }} />
   }
 }
 
 /* CRE4 */
 
 type NotSubmittedProps = ComponentProps & { status: 'due' | 'past-due' }
-const NotSubmitted = ({ date, status, role, projectId }: NotSubmittedProps) => {
+const NotSubmitted = ({ date, status, role, project }: NotSubmittedProps) => {
   const isPorteurProjet = role === 'porteur-projet'
   const displayWarning = status === 'past-due' && isPorteurProjet
   return (
@@ -56,7 +58,7 @@ const NotSubmitted = ({ date, status, role, projectId }: NotSubmittedProps) => {
               Attestation de constitution de garanties financières en attente
             </p>
           </div>
-          {isPorteurProjet && <SubmitForm projectId={projectId} />}
+          {isPorteurProjet && <SubmitForm projectId={project.id} />}
         </div>
       </ContentArea>
     </>
@@ -64,9 +66,10 @@ const NotSubmitted = ({ date, status, role, projectId }: NotSubmittedProps) => {
 }
 
 type SubmittedProps = ComponentProps & { status: 'pending-validation' | 'validated' }
-const Submitted = ({ date, status, url, role, projectId }: SubmittedProps) => {
+const Submitted = ({ date, status, url, role, project }: SubmittedProps) => {
   const isPorteurProjet = role === 'porteur-projet'
   const isValidated = status === 'validated'
+  const isAbandonned = project.status === 'Abandonné'
 
   return (
     <>
@@ -76,7 +79,7 @@ const Submitted = ({ date, status, url, role, projectId }: SubmittedProps) => {
           <div className="align-middle">
             <ItemDate date={date} />
           </div>
-          {!isValidated && (
+          {!isValidated && !isAbandonned && (
             <div className="align-middle mb-1">
               <InfoItem message={role === 'dreal' ? 'à traiter' : 'validation en attente'} />
             </div>
@@ -94,7 +97,7 @@ const Submitted = ({ date, status, url, role, projectId }: SubmittedProps) => {
           {isValidated && <span>validé</span>}
         </div>
         {isPorteurProjet && status === 'pending-validation' && (
-          <CancelDeposit projectId={projectId} />
+          <CancelDeposit projectId={project.id} />
         )}
       </ContentArea>
     </>
@@ -102,7 +105,7 @@ const Submitted = ({ date, status, url, role, projectId }: SubmittedProps) => {
 }
 
 type SubmitFormProps = {
-  projectId: ComponentProps['projectId']
+  projectId: string
 }
 const SubmitForm = ({ projectId }: SubmitFormProps) => {
   const [isFormVisible, showForm] = useState(false)
@@ -139,7 +142,7 @@ const SubmitForm = ({ projectId }: SubmitFormProps) => {
 }
 
 type CancelDepositProps = {
-  projectId: ComponentProps['projectId']
+  projectId: string
 }
 const CancelDeposit = ({ projectId }: CancelDepositProps) => (
   <a
@@ -156,7 +159,7 @@ const CancelDeposit = ({ projectId }: CancelDepositProps) => (
 
 type NotUploadedProps = ComponentProps
 
-const NotUploaded = ({ role, projectId }: NotUploadedProps) => {
+const NotUploaded = ({ role, project }: NotUploadedProps) => {
   const isPorteurProjet = role === 'porteur-projet'
   return (
     <>
@@ -164,7 +167,7 @@ const NotUploaded = ({ role, projectId }: NotUploadedProps) => {
       <ContentArea>
         <ItemTitle title={'Constitution des garanties financières'} />
         <span>Attestation de constitution des garanties financières soumise à la candidature</span>
-        {isPorteurProjet && <UploadForm projectId={projectId} />}
+        {isPorteurProjet && <UploadForm projectId={project.id} />}
       </ContentArea>
     </>
   )
@@ -172,7 +175,7 @@ const NotUploaded = ({ role, projectId }: NotUploadedProps) => {
 
 type UploadedProps = ComponentProps & { status: 'uploaded' }
 
-const Uploaded = ({ date, url, role, projectId }: UploadedProps) => {
+const Uploaded = ({ date, url, role, project }: UploadedProps) => {
   const isPorteurProjet = role === 'porteur-projet'
 
   return (
@@ -194,14 +197,14 @@ const Uploaded = ({ date, url, role, projectId }: UploadedProps) => {
             <span>Pièce-jointe introuvable</span>
           )}
         </div>
-        {isPorteurProjet && <WithdrawDocument projectId={projectId} />}
+        {isPorteurProjet && <WithdrawDocument projectId={project.id} />}
       </ContentArea>
     </>
   )
 }
 
 type UploadFormProps = {
-  projectId: ComponentProps['projectId']
+  projectId: string
 }
 const UploadForm = ({ projectId }: UploadFormProps) => {
   const [isFormVisible, showForm] = useState(false)
@@ -242,7 +245,7 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
 }
 
 type WithdrawDocumentProps = {
-  projectId: ComponentProps['projectId']
+  projectId: string
 }
 const WithdrawDocument = ({ projectId }: WithdrawDocumentProps) => (
   <p className="p-0 m-0">

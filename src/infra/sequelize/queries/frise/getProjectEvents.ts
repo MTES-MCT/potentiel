@@ -1,6 +1,11 @@
 import { userIs, userIsNot } from '@modules/users'
 import { wrapInfra } from '@core/utils'
-import { GetProjectEvents, ProjectEventDTO } from '@modules/frise'
+import {
+  GetProjectEvents,
+  ProjectEventDTO,
+  ProjectEventListDTO,
+  ProjectStatus,
+} from '@modules/frise'
 import { models } from '../../models'
 import { ProjectEvent } from '../../projectionsNext'
 import { getProjectAppelOffre } from '@config/queries.config'
@@ -23,13 +28,13 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
         periodeId,
         familleId,
       } = rawProject.get()
-      const isLaureat = classe === 'Classé' && !abandonedOn
+      const status: ProjectStatus = abandonedOn ? 'Abandonné' : classe
       const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
 
       return {
         project: {
           id: projectId,
-          isLaureat,
+          status,
           isSoumisAuxGF: appelOffre?.isSoumisAuxGFs,
           isGarantiesFinancieresDeposeesALaCandidature:
             appelOffre?.garantiesFinancieresDeposeesALaCandidature,

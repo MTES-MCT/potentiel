@@ -23,6 +23,7 @@ import {
   ProjectGFUploadedDTO,
   ProjectGFWithdrawnDTO,
   LegacyModificationImportedDTO,
+  ProjectEventListDTO,
 } from '@modules/frise'
 import { Timeline } from './Timeline'
 
@@ -30,10 +31,10 @@ export default { title: 'Nouvelle frise' }
 
 const project = {
   id: 'fake-project-id',
-  isLaureat: true,
+  status: 'Classé',
   isSoumisAuxGF: true,
   isGarantiesFinancieresDeposeesALaCandidature: false,
-}
+} as ProjectEventListDTO['project']
 
 export const adminGarantiesFinancieresDues = () => (
   <Timeline
@@ -393,7 +394,7 @@ export const AdminAttestationEnCoursDeGeneration = () => (
 export const projetEliminé = () => (
   <Timeline
     projectEventList={{
-      project: { ...project, isLaureat: false },
+      project: { ...project, status: 'Eliminé' },
       events: [
         {
           type: 'ProjectImported',
@@ -932,6 +933,63 @@ export const AbandonConfirméForPP = () => (
           variant: 'porteur-projet',
           modificationRequestId: 'id-1',
         } as ModificationRequestConfirmedDTO,
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)
+
+export const AbandonAcceptéForPP = () => (
+  <Timeline
+    projectEventList={{
+      project: { ...project, status: 'Abandonné' },
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'porteur-projet',
+          date: new Date('2019-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectCertificateGenerated',
+          variant: 'porteur-projet',
+          date: new Date('2019-01-13').getTime(),
+          certificateFileId: 'file-id',
+          nomProjet: 'mon projet pv',
+          email: undefined,
+          potentielIdentifier: 'pot-id',
+        } as ProjectCertificateGeneratedDTO,
+        {
+          type: 'ProjectDCRDueDateSet',
+          variant: 'porteur-projet',
+          date: new Date('2022-01-03').getTime(),
+        } as ProjectDCRDueDateSetDTO,
+        {
+          type: 'ProjectGFSubmitted',
+          variant: 'admin',
+          date: new Date('2022-01-01').getTime(),
+          fileId: 'file-id',
+        } as ProjectGFSubmittedDTO,
+        {
+          type: 'ModificationRequested',
+          date: new Date('2022-01-14').getTime(),
+          variant: 'porteur-projet',
+          modificationRequestId: 'id-1',
+          authority: 'dgec',
+          modificationType: 'abandon',
+        } as ModificationRequestedDTO,
+        {
+          type: 'ConfirmationRequested',
+          date: new Date('2022-01-15').getTime(),
+          variant: 'porteur-projet',
+          modificationRequestId: 'id-1',
+          file: { id: 'id', name: 'name' },
+        } as ConfirmationRequestedDTO,
+        {
+          type: 'ModificationRequestAccepted',
+          date: new Date('2022-01-15').getTime(),
+          variant: 'porteur-projet',
+          modificationRequestId: 'id-1',
+        } as ModificationRequestAcceptedDTO,
       ],
     }}
     now={new Date().getTime()}
