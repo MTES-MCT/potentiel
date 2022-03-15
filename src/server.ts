@@ -28,7 +28,9 @@ export async function makeServer(port: number, sessionSecret: string) {
             includeSubDomains: false,
             preload: true,
           },
+          crossOriginEmbedderPolicy: false,
           contentSecurityPolicy: {
+            useDefaults: false,
             directives: {
               'default-src': ["'self'", 'metabase.potentiel.beta.gouv.fr'],
               'connect-src': ["'self'", "'unsafe-inline'", 'analytics.potentiel.beta.gouv.fr'],
