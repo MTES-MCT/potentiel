@@ -28,6 +28,7 @@ export async function makeServer(port: number, sessionSecret: string) {
             includeSubDomains: false,
             preload: true,
           },
+          crossOriginEmbedderPolicy: false,
           contentSecurityPolicy: {
             useDefaults: false,
             directives: {
