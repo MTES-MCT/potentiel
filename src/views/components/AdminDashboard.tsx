@@ -34,6 +34,7 @@ interface AdminDashboardProps {
     | 'regenerate-certificates'
     | 'admin-ao'
     | 'admin-users'
+    | 'admin-statistiques'
     | undefined
 }
 
@@ -170,6 +171,17 @@ export default function AdminDashboard({ children, currentPage, role }: AdminDas
               route={ROUTES.ADMIN_USERS}
               itemPage={'admin-users'}
               title="Gérer les utilisateurs"
+              visibleForRoles={['admin']}
+              role={role}
+              currentPage={currentPage}
+            />
+
+            <SeparatorItem visibleForRoles={['admin']} role={role} />
+
+            <MenuItem
+              route={ROUTES.ADMIN_STATISTIQUES}
+              itemPage={'admin-statistiques'}
+              title="Admin statistiques"
               visibleForRoles={['admin']}
               role={role}
               currentPage={currentPage}
