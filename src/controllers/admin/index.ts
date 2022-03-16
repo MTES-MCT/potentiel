@@ -1,3 +1,4 @@
+export * from './getAdminStatistiquesPage';
 export * from './getAppelOffreAdminPage';
 export * from './getAppelOffreCsv';
 export * from './getGarantiesFinancieresPage';
