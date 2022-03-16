@@ -48,7 +48,9 @@
                   <p class="fr-header__service-title">Potentiel</p>
                 </a>
                 <p class="fr-header__service-tagline">
-                  Facilite le parcours des producteurs d'énergies renouvelables
+                  Facilite le parcours des producteurs
+                  <br/>
+                  d'énergies renouvelables électriques
                 </p>
               </div>
             </div>
@@ -61,6 +63,12 @@
                       href="${properties.potentielUrl}/logout"
                       >
                       Se déconnecter
+                    </a>
+                  </li>
+                  <li>
+                    <a class="fr-link fr-fi-external-link-line fr-link--icon-right" target="_blank" rel="noopener"
+                      href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel">
+                      Aide
                     </a>
                   </li>
                 </ul>
@@ -123,13 +131,11 @@
       <div class="fr-container">
         <div class="fr-footer__body">
           <div class="fr-footer__brand fr-enlarge-link">
-            <a href="/" title="Retour à l’accueil">
-              <p class="fr-logo" title="république française">
-                Ministère<br />
-                de la transition<br />
-                écologique
-              </p>
-            </a>
+            <p class="fr-logo" title="république française">
+              Ministère<br />
+              de la transition<br />
+              écologique
+            </p>
           </div>
           <div class="fr-footer__content">
             <p class="fr-footer__content-desc">

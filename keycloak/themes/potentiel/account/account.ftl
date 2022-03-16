@@ -10,7 +10,7 @@
     <#--  <span>${msg("allFieldsRequired")}</span>  -->
     <div class="fr-alert fr-alert--info fr-alert--sm fr-mb-3w">
       <p class="fr-alert__title">
-        L'édition du nom et prénom du compte n'est pas encore possible.
+        L'édition des nom et prénom du compte n'est pas encore possible.
       </p>
     </div>
 
