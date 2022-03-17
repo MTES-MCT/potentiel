@@ -36,9 +36,9 @@ const Header = ({ request }: HeaderProps) => {
           <ul className="flex flex-col sm:flex-row gap-3 fr-links-group">
             {user ? (
               <>
-                <li>
+                <li className="justify-end">
                   {['admin', 'dgec'].includes(user.role) ? (
-                    <a className="fr-link fr-fi-user-line" href={user.accountUrl}>
+                    <a className="fr-link fr-fi-user-line " href={user.accountUrl}>
                       {user.fullName}
                     </a>
                   ) : (
