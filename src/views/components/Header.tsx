@@ -41,13 +41,17 @@ const Header = ({ request }: HeaderProps) => {
                 >
                   {user.fullName}
                 </li>
-                <li className="fr-link fr-fi-logout-box-r-line">
-                  <a href={routes.LOGOUT_ACTION}>Me déconnecter</a>
+                <li>
+                  <a className="fr-link fr-fi-logout-box-r-line" href={routes.LOGOUT_ACTION}>
+                    Me déconnecter
+                  </a>
                 </li>
               </>
             ) : (
-              <li className="fr-link fr-fi-account-line">
-                <a href={routes.LOGIN}>M'identifier</a>
+              <li>
+                <a className="fr-link fr-fi-account-line" href={routes.LOGIN}>
+                  M'identifier
+                </a>
               </li>
             )}
             <li className="list-none">
@@ -55,7 +59,7 @@ const Header = ({ request }: HeaderProps) => {
                 target="_blank"
                 rel="noopener"
                 href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel"
-                className="fr-link fr-fi-external-link-line fr-link--icon-right"
+                className="fr-link fr-fi-external-link-line"
               >
                 Aide
               </a>
