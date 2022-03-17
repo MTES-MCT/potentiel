@@ -13,6 +13,7 @@
     <link href="${url.resourcesPath}/css/main.min.css" rel="stylesheet" />
     <link href="${url.resourcesPath}/css/index.css" rel="stylesheet" />
     <link href="${url.resourcesPath}/css/dsfr.css" rel="stylesheet" />
+    <link href="${url.resourcesPath}/css/tailwind.css" rel="stylesheet" />
 
     <meta name="theme-color" content="#000091" />
     <!-- Défini la couleur de thème du navigateur (Safari/Android) -->
@@ -113,44 +114,39 @@
       </defs>
     </svg>
     <div class="only-dsfr">
-      <header role="banner" class="fr-header">
-        <div class="fr-header__body">
-          <div class="fr-container">
-            <div class="fr-header__body-row">
-              <div class="fr-header__brand fr-enlarge-link">
-                <div class="fr-header__brand-top">
-                  <div class="fr-header__logo">
-                    <p class="fr-logo">
-                      République
-                      <br />
-                      Française
-                    </p>
-                  </div>
-                </div>
-                <div class="fr-header__service">
-                  <a href="/" title="Accueil - Potentiel - Ministère de la transition écologique">
-                    <p class="fr-header__service-title text-black">Potentiel</p>
-                  </a>
-                  <p class="fr-header__service-tagline">
-                    Facilite le parcours des producteurs<br/>d'énergies renouvelables électriques
-                  </p>
-                </div>
-              </div>
-              <div class="fr-header__tools">
-                <div class="fr-header__tools-links">
-                  <ul class="fr-links-group">
-                    <li>
-                      <a class="fr-link fr-fi-external-link-line fr-link--icon-right" target="_blank" rel="noopener"
-                        href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel">
-                        Aide
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
+      <header
+        class="fr-header flex flex-wrap items-center justify-between fr-container"
+        style="box-shadow: none; padding: 0"
+      >
+        <div class="order-1">
+          <p class="fr-logo">
+            République
+            <br />
+            Française
+          </p>
         </div>
+        <div class="fr-header__service order-3 sm:order-2 sm:grow">
+          <a href="/" title="Accueil - Potentiel - Ministère de la transition écologique">
+            <p class="fr-header__service-title text-black">Potentiel</p>
+          </a>
+          <p class="fr-header__service-tagline">
+            Facilite le parcours des producteurs<br />d'énergies renouvelables électriques
+          </p>
+        </div>
+        <nav class="order-2 sm:order-3 text-right mr-2 mt-2">
+          <ul class="flex flex-col sm:flex-row gap-3 fr-links-group">
+            <li class="list-none">
+              <a
+                target="_blank"
+                rel="noopener"
+                href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel"
+                class="fr-link fr-fi-external-link-line fr-link--icon-right"
+              >
+                Aide
+              </a>
+            </li>
+          </ul>
+        </nav>
       </header>
     </div>
     <main role="main">
