@@ -20,8 +20,7 @@ const RecoursRejected = (props: LegacyModificationsItemProps) => {
       <UnvalidatedStepIcon />
       <ContentArea>
         <ItemDate date={date} />
-        <ItemTitle title={`Recours rejeté *`} />
-        <p className="p-0 m-0 italic">*Démarche réalisée avant l'import du projet dans Potentiel</p>
+        <ItemTitle title={`Recours rejeté`} />
       </ContentArea>
     </>
   )
@@ -55,14 +54,16 @@ const Details = (props: LegacyModificationsItemProps) => {
 
   return (
     <>
-      <ItemTitle title={`${libelleTypeDemande[modificationType]}*`} />
+      <ItemTitle title={`${libelleTypeDemande[modificationType]}`} />
       {modificationType === 'delai' && (
         <>
           <p className="p-0 m-0">
-            Ancienne date limite d'achèvement : {formatDate(props.ancienneDateLimiteAchevement)}
+            Ancienne date limite d'attestation de conformité :{' '}
+            {formatDate(props.ancienneDateLimiteAchevement)}
           </p>
           <p className="p-0 m-0">
-            Nouvelle date limite d'achèvement : {formatDate(props.nouvelleDateLimiteAchevement)}
+            Nouvelle date limite d'attestation de conformité :{' '}
+            {formatDate(props.nouvelleDateLimiteAchevement)}
           </p>
         </>
       )}
@@ -77,7 +78,6 @@ const Details = (props: LegacyModificationsItemProps) => {
           {props.column} : {props.value}
         </p>
       )}
-      <p className="p-0 m-0 italic">*Démarche réalisée avant l'import du projet dans Potentiel</p>
     </>
   )
 }
