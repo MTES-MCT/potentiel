@@ -5,7 +5,7 @@ moment.tz.setDefault('Europe/Paris')
 
 export const parseProjectModifications = (line: Record<string, string>) => {
   const modificationsByDate: Record<string, LegacyModificationDTO> = {}
-  for (const index of [1, 2, 3]) {
+  for (const index of [1, 2, 3, 4, 5]) {
     if (line[`Type de modification ${index}`]) {
       const date = line[`Date de modification ${index}`]
       modificationsByDate[date] = extractModificationType(line, index, modificationsByDate[date])
