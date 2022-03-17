@@ -23,7 +23,7 @@
     <!-- TRACKER -->
   </head>
 
-  <body style="min-height: 100vh; display: flex; flex-direction: column;">
+  <body style="min-height: 100vh; display: flex; flex-direction: column">
     <svg aria-hidden="true" focusable="false" style="display: none">
       <defs>
         <symbol
@@ -167,53 +167,42 @@
     </svg>
 
     <div class="only-dsfr">
-      <header role="banner" class="fr-header">
-        <div class="fr-header__body">
-          <div class="fr-container">
-            <div class="fr-header__body-row">
-              <div class="fr-header__brand fr-enlarge-link">
-                <div class="fr-header__brand-top">
-                  <div class="fr-header__logo">
-                    <p class="fr-logo">
-                      République
-                      <br />
-                      Française
-                    </p>
-                  </div>
-                  <div class="fr-header__navbar">
-                    <button class="fr-btn--menu fr-btn" data-fr-opened="false" aria-controls="modal-833"
-                      aria-haspopup="menu" title="Menu" id="fr-btn-menu-mobile">
-                      Menu
-                    </button>
-                  </div>
-                </div>
-                <div class="fr-header__service">
-                  <a href="/" title="Accueil - Potentiel - Ministère de la transition écologique">
-                    <p class="fr-header__service-title text-black">Potentiel</p>
-                  </a>
-                  <p class="fr-header__service-tagline">
-                    Facilite le parcours des producteurs<br/>d'énergies renouvelables électriques
-                  </p>
-                </div>
-              </div>
-              <div class="fr-header__tools">
-                <div class="fr-header__tools-links">
-                  <ul class="fr-links-group">
-                    <li>
-                      <a class="fr-link fr-fi-account-line" href="/login.html">M'identifier</a>
-                    </li>
-                    <li>
-                      <a class="fr-link fr-fi-external-link-line fr-link--icon-right" target="_blank" rel="noopener"
-                        href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel">
-                        Aide
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
+      <header
+        class="fr-header flex flex-wrap items-center justify-between fr-container"
+        style="box-shadow: none; padding: 0"
+      >
+        <div class="order-1">
+          <p class="fr-logo">
+            République
+            <br />
+            Française
+          </p>
         </div>
+        <div class="fr-header__service order-3 sm:order-2 sm:grow">
+          <a href="/" title="Accueil - Potentiel - Ministère de la transition écologique">
+            <p class="fr-header__service-title text-black">Potentiel</p>
+          </a>
+          <p class="fr-header__service-tagline">
+            Facilite le parcours des producteurs<br />d'énergies renouvelables électriques
+          </p>
+        </div>
+        <nav class="order-2 sm:order-3 text-right mr-2 mt-2">
+          <ul class="flex flex-col sm:flex-row gap-3 fr-links-group">
+            <li class="list-none">
+              <a class="fr-link fr-fi-account-line" href="/login.html">M'identifier</a>
+            </li>
+            <li class="list-none">
+              <a
+                target="_blank"
+                rel="noopener"
+                href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel"
+                class="fr-link fr-fi-external-link-line fr-link--icon-right"
+              >
+                Aide
+              </a>
+            </li>
+          </ul>
+        </nav>
       </header>
     </div>
 
@@ -222,7 +211,7 @@
       role="banner"
       style="background: url('images/PV.jpg') no-repeat center; background-size: cover"
     >
-      <div class="hero__container">
+      <div class="hero__container text-center">
         <h1 style="color: white; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7)">POTENTIEL</h1>
         <p style="color: white; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7)">
           Faciliter le parcours des producteurs d'énergies renouvelables électriques
@@ -230,20 +219,24 @@
       </div>
     </div>
 
-    <main role="main" >
+    <main role="main">
       <section class="section section-grey" style="min-height: calc(100vh - 810px)">
         <div class="container">
           <p class="section__subtitle">
             Potentiel est un nouveau service du ministère de la transition écologique. <br />Cette
             plateforme, en cours de développement, permettra la gestion des projets d'énergie
-            renouvelable électrique soutenus par les appels d’offres de l’Etat.
-            <br/><a class="button button-primary" style="margin-top: 50px" href="/login.html">Je m'identifie</a>
+            renouvelable électrique soutenus par les appels d’offres de l’Etat. <br /><a
+              class="button button-primary"
+              style="margin-top: 50px"
+              href="/login.html"
+              >Je m'identifie</a
+            >
           </p>
         </div>
       </section>
     </main>
 
-    <div class="only-dsfr" style="margin-top: auto;">
+    <div class="only-dsfr" style="margin-top: auto">
       <footer class="fr-footer" role="contentinfo" id="footer">
         <div class="fr-container">
           <div class="fr-footer__body">
@@ -263,13 +256,19 @@
               </p>
               <ul class="fr-footer__content-list">
                 <li class="fr-footer__content-item">
-                  <a class="fr-footer__content-link" href="https://legifrance.gouv.fr">legifrance.gouv.fr</a>
+                  <a class="fr-footer__content-link" href="https://legifrance.gouv.fr"
+                    >legifrance.gouv.fr</a
+                  >
                 </li>
                 <li class="fr-footer__content-item">
-                  <a class="fr-footer__content-link" href="https://gouvernement.fr">gouvernement.fr</a>
+                  <a class="fr-footer__content-link" href="https://gouvernement.fr"
+                    >gouvernement.fr</a
+                  >
                 </li>
                 <li class="fr-footer__content-item">
-                  <a class="fr-footer__content-link" href="https://service-public.fr">service-public.fr</a>
+                  <a class="fr-footer__content-link" href="https://service-public.fr"
+                    >service-public.fr</a
+                  >
                 </li>
                 <li class="fr-footer__content-item">
                   <a class="fr-footer__content-link" href="https://data.gouv.fr">data.gouv.fr</a>
@@ -283,23 +282,40 @@
                 <span class="fr-footer__bottom-link">Accessibilité: non conforme</span>
               </li>
               <li class="fr-footer__bottom-item">
-                <a class="fr-footer__bottom-link" href="https://docs.potentiel.beta.gouv.fr/info/cgu">Mentions légales</a>
+                <a
+                  class="fr-footer__bottom-link"
+                  href="https://docs.potentiel.beta.gouv.fr/info/cgu"
+                  >Mentions légales</a
+                >
               </li>
               <li class="fr-footer__bottom-item">
-                <a class="fr-footer__bottom-link"
-                  href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel">Guide d'utilisation</a>
+                <a
+                  class="fr-footer__bottom-link"
+                  href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel"
+                  >Guide d'utilisation</a
+                >
               </li>
               <li class="fr-footer__bottom-item">
-                <a class="fr-footer__bottom-link" href="https://potentiel.beta.gouv.fr/stats.html">Statistiques</a>
+                <a class="fr-footer__bottom-link" href="https://potentiel.beta.gouv.fr/stats.html"
+                  >Statistiques</a
+                >
               </li>
               <li class="fr-footer__bottom-item">
-                <a class="fr-footer__bottom-link" href="https://docs.potentiel.beta.gouv.fr/info/cgu#cookies">Gestion des
-                  cookies</a>
+                <a
+                  class="fr-footer__bottom-link"
+                  href="https://docs.potentiel.beta.gouv.fr/info/cgu#cookies"
+                  >Gestion des cookies</a
+                >
               </li>
             </ul>
             <div class="fr-footer__bottom-copy">
               <p>
-                Sauf mention contraire, tous les contenus de ce site sont sous <a href="https://github.com/etalab/licence-ouverte/blob/master/LO.md" target="_blank">licence etalab-2.0</a>
+                Sauf mention contraire, tous les contenus de ce site sont sous
+                <a
+                  href="https://github.com/etalab/licence-ouverte/blob/master/LO.md"
+                  target="_blank"
+                  >licence etalab-2.0</a
+                >
               </p>
             </div>
           </div>
