@@ -106,6 +106,53 @@ describe('handleLegacyModificationImported', () => {
     })
   })
 
+  describe('when several of the modifications accepted are of type "delai"', () => {
+    const fakeProject = makeFakeProject()
+    const projectRepo = fakeTransactionalRepo<Project>(fakeProject as Project)
+    const earlierModifiedOn = new Date('2021-01-01').getTime()
+    const earlierModificationDateAchevement = new Date('2022-01-01').getTime()
+    const latterModifiedOn = new Date('2021-01-02').getTime()
+    const latterModificationDateAchevement = new Date('2024-01-01').getTime()
+
+    beforeAll(async () => {
+      await handleLegacyModificationImported({
+        projectRepo,
+      })(
+        new LegacyModificationImported({
+          payload: {
+            projectId,
+            importId,
+            modifications: [
+              {
+                type: 'delai',
+                nouvelleDateLimiteAchevement: earlierModificationDateAchevement,
+                ancienneDateLimiteAchevement: 123,
+                modifiedOn: earlierModifiedOn,
+                modificationId,
+                accepted: true,
+              },
+              {
+                type: 'delai',
+                nouvelleDateLimiteAchevement: latterModificationDateAchevement,
+                ancienneDateLimiteAchevement: 123,
+                modifiedOn: latterModifiedOn,
+                modificationId,
+                accepted: true,
+              },
+            ],
+          },
+        })
+      )
+    })
+
+    it('should call Project.abandonLegacy() on the latter of the modifications of type abandon', () => {
+      expect(fakeProject.setCompletionDueDate).toHaveBeenCalledTimes(1)
+      expect(fakeProject.setCompletionDueDate).toHaveBeenCalledWith(
+        latterModificationDateAchevement
+      )
+    })
+  })
+
   describe('when one of the modifications is a "abandon" request that is rejected', () => {
     const fakeProject = makeFakeProject()
     const projectRepo = fakeTransactionalRepo<Project>(fakeProject as Project)
