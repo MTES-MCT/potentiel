@@ -29,10 +29,12 @@ module.exports = {
         )
 
         if (events && events.length) {
-          const importId = events
-            .map((event) => fromPersistance(event))
-            .filter((event) => event !== null && event.type === 'ProjectImported')
-            .map((projectImportedEvent) => projectImportedEvent.payload.importId)
+          const importedEvent = fromPersistance(
+            events.filter((e) => e.type === 'ProjectImported').pop()
+          )
+          const {
+            payload: { importId },
+          } = importedEvent
 
           const rawImportedEvents = await queryInterface.sequelize.query(
             `SELECT * FROM "eventStores" WHERE type = ? AND "aggregateId" && ?`,
@@ -45,8 +47,8 @@ module.exports = {
 
           const eventsToDelete = events
             .concat(rawImportedEvents)
-            .map((event) => fromPersistance(event))
             .filter((event) => event !== null)
+            .map(fromPersistance)
 
           await queryInterface.sequelize.query(
             `DELETE FROM "eventStores" WHERE "id" IN (${eventsToDelete
