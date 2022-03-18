@@ -134,6 +134,7 @@ function extractModificationType(
     [`Colonne concernée ${index}`]: colonneConcernee,
     [`Ancienne valeur ${index}`]: ancienneValeur,
     [`Date de modification ${index}`]: dateModification,
+    [`Statut demandes ${index}`]: statut,
   } = line
   const modifiedOnDate = moment(dateModification, 'DD/MM/YYYY')
 
@@ -147,6 +148,12 @@ function extractModificationType(
 
   if (modifiedOnDate.isBefore(moment('01/01/2010', 'DD/MM/YYYY'))) {
     throw new Error(`Date de modification ${index} est une date trop loin dans le passé.`)
+  }
+
+  if (['Acceptée', 'Refusée', 'Accord de principe'].indexOf(statut) === -1) {
+    throw new Error(
+      `Statut de la modification ${index} invalide, le statut doit correspondre à l'une de ces valeurs "Acceptée", "Refusée", ou "Accord de principe"`
+    )
   }
 
   const modifiedOn = modifiedOnDate.toDate().getTime()

@@ -8,6 +8,7 @@ describe('parseProjectModifications', () => {
       'Date de modification 1': '25/04/2019',
       'Colonne concernée 1': '',
       'Ancienne valeur 1': '',
+      'Statut demandes 1': 'Acceptée',
     }
 
     it('should return a modification of type abandon', async () => {
@@ -27,6 +28,7 @@ describe('parseProjectModifications', () => {
       'Date de modification 1': '25/04/2019',
       'Colonne concernée 1': 'column',
       'Ancienne valeur 1': 'value',
+      'Statut demandes 1': 'Acceptée',
     }
 
     it('should return a modification of type autre', async () => {
@@ -48,6 +50,7 @@ describe('parseProjectModifications', () => {
       'Date de modification 1': '25/04/2019',
       'Colonne concernée 1': 'Classé ?',
       'Ancienne valeur 1': 'Eliminé',
+      'Statut demandes 1': 'Refusée',
     }
 
     it('should return a modification of type recours and rejected', async () => {
@@ -68,6 +71,7 @@ describe('parseProjectModifications', () => {
       'Date de modification 1': '25/04/2019',
       'Colonne concernée 1': 'Classé ?',
       'Ancienne valeur 1': 'Classé',
+      'Statut demandes 1': 'Acceptée',
     }
 
     it('should return a modification of type recours and accepted', async () => {
@@ -87,10 +91,12 @@ describe('parseProjectModifications', () => {
       'Date de modification 1': '25/04/2019',
       'Colonne concernée 1': 'Classé ?',
       'Ancienne valeur 1': 'Classé',
+      'Statut demandes 1': 'Acceptée',
       'Type de modification 2': 'Recours gracieux',
       'Date de modification 2': '25/04/2019',
       'Colonne concernée 2': "Motif d'élimination",
       'Ancienne valeur 2': 'Ancien motif',
+      'Statut demandes 2': 'Acceptée',
     }
 
     it('should return a modification of type recours, accepted and contain the previous motifs', async () => {
@@ -112,6 +118,7 @@ describe('parseProjectModifications', () => {
       'Date de modification 1': '25/04/2019',
       'Colonne concernée 1': '22/12/2024',
       'Ancienne valeur 1': '01/01/2024',
+      'Statut demandes 1': 'Acceptée',
     }
 
     it('should return a modification of type delai with the proper dates', async () => {
@@ -137,6 +144,8 @@ describe('parseProjectModifications', () => {
       'Date de modification 2': '25/04/2019',
       'Colonne concernée 2': 'Numéro SIREN ou SIRET*',
       'Ancienne valeur 2': 'ancien siret',
+      'Statut demandes 1': 'Acceptée',
+      'Statut demandes 2': 'Acceptée',
     }
 
     it('should return a modification of type actionnaire with ancien actionnaire and ancien siret', async () => {
@@ -158,6 +167,7 @@ describe('parseProjectModifications', () => {
       'Date de modification 1': '25/04/2019',
       'Colonne concernée 1': 'Nom (personne physique) ou raison sociale (personne morale) : ',
       'Ancienne valeur 1': 'ancien producteur',
+      'Statut demandes 1': 'Acceptée',
     }
 
     it('should return a modification of type producteur with ancien producteur', async () => {
@@ -186,6 +196,9 @@ describe('parseProjectModifications', () => {
       'Date de modification 3': '27/04/2019',
       'Colonne concernée 3': 'Classé ?',
       'Ancienne valeur 3': 'Eliminé',
+      'Statut demandes 1': 'Acceptée',
+      'Statut demandes 2': 'Acceptée',
+      'Statut demandes 3': 'Acceptée',
     }
 
     it('should return all the corresponding modifications', async () => {
@@ -217,6 +230,7 @@ describe('parseProjectModifications', () => {
       'Date de modification 1': '25/04/2019',
       'Colonne concernée 1': '',
       'Ancienne valeur 1': '',
+      'Statut demandes 1': 'Acceptée',
     }
 
     beforeAll(async () => {})
@@ -241,6 +255,7 @@ describe('parseProjectModifications', () => {
           'Date de modification 1': 'abcd',
           'Colonne concernée 1': '',
           'Ancienne valeur 1': '',
+          'Statut demandes 1': 'Acceptée',
         })
       } catch (error) {
         expect(error).toBeDefined()
@@ -275,11 +290,32 @@ describe('parseProjectModifications', () => {
           'Date de modification 1': '01/01/2009',
           'Colonne concernée 1': '',
           'Ancienne valeur 1': '',
+          'Statut demandes 1': 'Acceptée',
         })
       } catch (error) {
         expect(error).toBeDefined()
         expect(error.message).toContain(
           'Date de modification 1 est une date trop loin dans le passé'
+        )
+      }
+    })
+  })
+
+  describe('when the request status is not "Acceptée", "Refusée" or "Accord de principe"', () => {
+    it('should throw an error', async () => {
+      expect.assertions(2)
+      try {
+        parseProjectModifications({
+          'Type de modification 1': 'Abandon',
+          'Date de modification 1': '25/04/2019',
+          'Colonne concernée 1': '',
+          'Ancienne valeur 1': '',
+          'Statut demandes': 'pas ok',
+        })
+      } catch (error) {
+        expect(error).toBeDefined()
+        expect(error.message).toContain(
+          `Statut de la modification 1 invalide, le statut doit correspondre à l'une de ces valeurs "Acceptée", "Refusée", ou "Accord de principe"`
         )
       }
     })
