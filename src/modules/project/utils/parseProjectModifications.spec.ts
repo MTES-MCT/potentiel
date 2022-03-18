@@ -180,6 +180,23 @@ describe('parseProjectModifications', () => {
     })
   })
 
+  describe('when line has a single Prolongation de délai modification accepted without new date', () => {
+    it('should throw an error', async () => {
+      expect.assertions(2)
+      try {
+        parseProjectModifications({
+          'Type de modification 1': 'Prolongation de délai',
+          'Date de modification 1': '25/04/2019',
+          'Ancienne valeur 1': '01/01/2024',
+          'Statut demandes 1': 'Acceptée',
+        })
+      } catch (error) {
+        expect(error).toBeDefined()
+        expect(error.message).toContain(`Colonne concernée 1 manquante`)
+      }
+    })
+  })
+
   describe('when line has a Actionnaire modification', () => {
     const phonyLine = {
       'Type de modification 1': "Changement d'actionnaire",

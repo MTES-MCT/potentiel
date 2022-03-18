@@ -61,6 +61,10 @@ function extractDelaiType(args: {
   statut: string
 }): LegacyModificationDTO {
   const { colonneConcernee, modifiedOn, ancienneValeur, index, statut } = args
+  const accepted = statut === 'Acceptée'
+  if (accepted && !colonneConcernee) {
+    throw new Error(`Colonne concernée ${index} manquante`)
+  }
   const nouvelleDateLimiteAchevement = moment(colonneConcernee, 'DD/MM/YYYY').toDate().getTime()
   if (isNaN(nouvelleDateLimiteAchevement)) {
     throw new Error(`Colonne concernée ${index} contient une date invalide`)
@@ -70,7 +74,6 @@ function extractDelaiType(args: {
   if (isNaN(ancienneDateLimiteAchevement)) {
     throw new Error(`Ancienne valeur ${index} contient une date invalide`)
   }
-  const accepted = statut === 'Acceptée'
   return {
     type: 'delai',
     modifiedOn,
