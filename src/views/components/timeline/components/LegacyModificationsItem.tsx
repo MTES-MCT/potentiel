@@ -7,20 +7,21 @@ export const LegacyModificationsItem = (props: LegacyModificationsItemProps) => 
   const { status } = props
   switch (status) {
     case 'rejetée':
-      return <RecoursRejected {...props} />
+      return <Rejected {...props} />
     case 'acceptée':
       return <Accepted {...props} />
   }
 }
 
-const RecoursRejected = (props: LegacyModificationsItemProps) => {
-  const { date } = props
+const Rejected = (props: LegacyModificationsItemProps) => {
+  const { date, modificationType } = props
   return (
     <>
       <UnvalidatedStepIcon />
       <ContentArea>
         <ItemDate date={date} />
-        <ItemTitle title={`Recours rejeté`} />
+        {modificationType === 'abandon' && <ItemTitle title={`Abandon rejeté`} />}
+        {modificationType === 'recours' && <ItemTitle title={`Recours rejeté`} />}
       </ContentArea>
     </>
   )
