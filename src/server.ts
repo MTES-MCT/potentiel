@@ -35,6 +35,7 @@ export async function makeServer(port: number, sessionSecret: string) {
               'default-src': ["'self'", 'metabase.potentiel.beta.gouv.fr'],
               'connect-src': ["'self'", "'unsafe-inline'", 'analytics.potentiel.beta.gouv.fr'],
               'img-src': ["'self'", 'data:'],
+              'font-src': ["'self'", 'data:'],
               'style-src': ["'self'", 'data:', "'unsafe-inline'"],
               'script-src': [
                 "'unsafe-inline'",
