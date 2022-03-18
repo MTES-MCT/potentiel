@@ -42,7 +42,7 @@ describe('handleLegacyModificationImported', () => {
     })
   })
 
-  describe('when one of the modifications is of type delai', () => {
+  describe('when one of the modifications is a "delai" request that is not accepted', () => {
     const fakeProject = makeFakeProject()
     const projectRepo = fakeTransactionalRepo<Project>(fakeProject as Project)
 
@@ -61,6 +61,39 @@ describe('handleLegacyModificationImported', () => {
                 ancienneDateLimiteAchevement: 123,
                 modifiedOn,
                 modificationId,
+                accepted: false,
+              },
+            ],
+          },
+        })
+      )
+    })
+
+    it('should not call Project.setCompletionDueDate()', () => {
+      expect(fakeProject.setCompletionDueDate).not.toHaveBeenCalledWith(123456)
+    })
+  })
+
+  describe('when one of the modifications is a "delai" request that is accepted', () => {
+    const fakeProject = makeFakeProject()
+    const projectRepo = fakeTransactionalRepo<Project>(fakeProject as Project)
+
+    beforeAll(async () => {
+      await handleLegacyModificationImported({
+        projectRepo,
+      })(
+        new LegacyModificationImported({
+          payload: {
+            projectId,
+            importId,
+            modifications: [
+              {
+                type: 'delai',
+                nouvelleDateLimiteAchevement: 123456,
+                ancienneDateLimiteAchevement: 123,
+                modifiedOn,
+                modificationId,
+                accepted: true,
               },
             ],
           },
@@ -73,7 +106,7 @@ describe('handleLegacyModificationImported', () => {
     })
   })
 
-  describe('when one of the modifications is of type abandon', () => {
+  describe('when one of the modifications is a "abandon" request that is rejected', () => {
     const fakeProject = makeFakeProject()
     const projectRepo = fakeTransactionalRepo<Project>(fakeProject as Project)
 
@@ -90,6 +123,37 @@ describe('handleLegacyModificationImported', () => {
                 type: 'abandon',
                 modifiedOn,
                 modificationId,
+                accepted: false,
+              },
+            ],
+          },
+        })
+      )
+    })
+
+    it('should not call Project.abandonLegacy()', () => {
+      expect(fakeProject.abandonLegacy).not.toHaveBeenCalledWith(modifiedOn)
+    })
+  })
+
+  describe('when one of the modifications is a "abandon" request that is accepted', () => {
+    const fakeProject = makeFakeProject()
+    const projectRepo = fakeTransactionalRepo<Project>(fakeProject as Project)
+
+    beforeAll(async () => {
+      await handleLegacyModificationImported({
+        projectRepo,
+      })(
+        new LegacyModificationImported({
+          payload: {
+            projectId,
+            importId,
+            modifications: [
+              {
+                type: 'abandon',
+                modifiedOn,
+                modificationId,
+                accepted: true,
               },
             ],
           },
@@ -121,11 +185,13 @@ describe('handleLegacyModificationImported', () => {
                 type: 'abandon',
                 modifiedOn: latterModifiedOn,
                 modificationId,
+                accepted: true,
               },
               {
                 type: 'abandon',
                 modifiedOn: earlierModifiedOn,
                 modificationId,
+                accepted: true,
               },
             ],
           },
