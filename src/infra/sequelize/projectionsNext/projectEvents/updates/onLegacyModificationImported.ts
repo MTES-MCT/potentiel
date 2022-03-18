@@ -18,12 +18,13 @@ export default ProjectEvent.projector.on(
         valueDate: modification.modifiedOn,
         type: 'LegacyModificationImported',
       }
+      const filename = modification.filename
       switch (modification.type) {
         case 'abandon':
           await ProjectEvent.create(
             {
               ...common,
-              payload: { modificationType: 'abandon' },
+              payload: { modificationType: 'abandon', accepted: modification.accepted, filename },
             },
             { transaction }
           )
@@ -32,25 +33,39 @@ export default ProjectEvent.projector.on(
           await ProjectEvent.create(
             {
               ...common,
-              payload: { modificationType: 'recours', accepted: modification.accepted },
+              payload: { modificationType: 'recours', accepted: modification.accepted, filename },
             },
             { transaction }
           )
           break
         case 'delai':
-          const ancienneDateLimiteAchevement = modification.ancienneDateLimiteAchevement
-          const nouvelleDateLimiteAchevement = modification.nouvelleDateLimiteAchevement
-          await ProjectEvent.create(
-            {
-              ...common,
-              payload: {
-                modificationType: 'delai',
-                ancienneDateLimiteAchevement,
-                nouvelleDateLimiteAchevement,
+          if (modification.accepted) {
+            await ProjectEvent.create(
+              {
+                ...common,
+                payload: {
+                  modificationType: 'delai',
+                  accepted: true,
+                  ancienneDateLimiteAchevement: modification.ancienneDateLimiteAchevement,
+                  nouvelleDateLimiteAchevement: modification.nouvelleDateLimiteAchevement,
+                  filename,
+                },
               },
-            },
-            { transaction }
-          )
+              { transaction }
+            )
+          } else {
+            await ProjectEvent.create(
+              {
+                ...common,
+                payload: {
+                  modificationType: 'delai',
+                  accepted: false,
+                  filename,
+                },
+              },
+              { transaction }
+            )
+          }
           break
         case 'actionnaire':
           await ProjectEvent.create(
@@ -59,6 +74,7 @@ export default ProjectEvent.projector.on(
               payload: {
                 modificationType: 'actionnaire',
                 actionnairePrecedent: modification.actionnairePrecedent,
+                filename,
               },
             },
             { transaction }
@@ -71,6 +87,7 @@ export default ProjectEvent.projector.on(
               payload: {
                 modificationType: 'producteur',
                 producteurPrecedent: modification.producteurPrecedent,
+                filename,
               },
             },
             { transaction }
@@ -84,6 +101,7 @@ export default ProjectEvent.projector.on(
                 modificationType: 'autre',
                 column: modification.column,
                 value: modification.value,
+                filename,
               },
             },
             { transaction }

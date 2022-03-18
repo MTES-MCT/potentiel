@@ -102,6 +102,8 @@ describe('onLegacyModificationImported', () => {
                 modifiedOn: new Date('2019-01-01').getTime(),
                 modificationId: new UniqueEntityID().toString(),
                 type: 'abandon',
+                accepted: true,
+                filename: 'filename',
               },
               {
                 modifiedOn: new Date('2019-01-01').getTime(),
@@ -116,6 +118,7 @@ describe('onLegacyModificationImported', () => {
                 type: 'delai',
                 nouvelleDateLimiteAchevement: new Date('2021-07-01').getTime(),
                 ancienneDateLimiteAchevement: new Date('2021-01-01').getTime(),
+                accepted: true,
               },
               {
                 modifiedOn: new Date('2021-01-01').getTime(),
@@ -153,7 +156,7 @@ describe('onLegacyModificationImported', () => {
       expect(projectEvent).toHaveLength(6)
       expect(projectEvent[0]).toMatchObject({
         type: 'LegacyModificationImported',
-        payload: { modificationType: 'abandon' },
+        payload: { modificationType: 'abandon', filename: 'filename' },
       })
       expect(projectEvent[1]).toMatchObject({
         type: 'LegacyModificationImported',
