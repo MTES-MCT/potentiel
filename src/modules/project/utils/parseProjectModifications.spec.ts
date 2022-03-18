@@ -2,7 +2,7 @@ import moment from 'moment'
 import { parseProjectModifications } from './parseProjectModifications'
 
 describe('parseProjectModifications', () => {
-  describe('when line has a single Abandon modification', () => {
+  describe('when line has a single Abandon modification accepted', () => {
     const phonyLine = {
       'Type de modification 1': 'Abandon',
       'Date de modification 1': '25/04/2019',
@@ -11,13 +11,35 @@ describe('parseProjectModifications', () => {
       'Statut demandes 1': 'Acceptée',
     }
 
-    it('should return a modification of type abandon', async () => {
+    it('should return a modification of type abandon accepted', async () => {
       const modifications = parseProjectModifications(phonyLine)
 
       expect(modifications).toHaveLength(1)
       expect(modifications[0]).toMatchObject({
         type: 'abandon',
         modifiedOn: 1556143200000,
+        accepted: true,
+      })
+    })
+  })
+
+  describe('when line has a single Abandon modification rejected', () => {
+    const phonyLine = {
+      'Type de modification 1': 'Abandon',
+      'Date de modification 1': '25/04/2019',
+      'Colonne concernée 1': '',
+      'Ancienne valeur 1': '',
+      'Statut demandes 1': 'Refusée',
+    }
+
+    it('should return a modification of type abandon not accepted', async () => {
+      const modifications = parseProjectModifications(phonyLine)
+
+      expect(modifications).toHaveLength(1)
+      expect(modifications[0]).toMatchObject({
+        type: 'abandon',
+        modifiedOn: 1556143200000,
+        accepted: false,
       })
     })
   })
@@ -112,7 +134,7 @@ describe('parseProjectModifications', () => {
     })
   })
 
-  describe('when line has a single Prolongation de délai modification', () => {
+  describe('when line has a single Prolongation de délai modification accepted', () => {
     const phonyLine = {
       'Type de modification 1': 'Prolongation de délai',
       'Date de modification 1': '25/04/2019',
@@ -121,7 +143,7 @@ describe('parseProjectModifications', () => {
       'Statut demandes 1': 'Acceptée',
     }
 
-    it('should return a modification of type delai with the proper dates', async () => {
+    it('should return an accepted modification of type delai with the proper dates', async () => {
       const modifications = parseProjectModifications(phonyLine)
 
       expect(modifications).toHaveLength(1)
@@ -130,6 +152,30 @@ describe('parseProjectModifications', () => {
         nouvelleDateLimiteAchevement: 1734822000000,
         ancienneDateLimiteAchevement: 1704063600000,
         modifiedOn: 1556143200000,
+        accepted: true,
+      })
+    })
+  })
+
+  describe('when line has a single Prolongation de délai modification rejected', () => {
+    const phonyLine = {
+      'Type de modification 1': 'Prolongation de délai',
+      'Date de modification 1': '25/04/2019',
+      'Colonne concernée 1': '22/12/2024',
+      'Ancienne valeur 1': '01/01/2024',
+      'Statut demandes 1': 'Refusée',
+    }
+
+    it('should return a rejected modification of type delai with the proper dates', async () => {
+      const modifications = parseProjectModifications(phonyLine)
+
+      expect(modifications).toHaveLength(1)
+      expect(modifications[0]).toMatchObject({
+        type: 'delai',
+        nouvelleDateLimiteAchevement: 1734822000000,
+        ancienneDateLimiteAchevement: 1704063600000,
+        modifiedOn: 1556143200000,
+        accepted: false,
       })
     })
   })
@@ -215,6 +261,7 @@ describe('parseProjectModifications', () => {
         nouvelleDateLimiteAchevement: 1734822000000,
         ancienneDateLimiteAchevement: 1704063600000,
         modifiedOn: 1556229600000,
+        accepted: true,
       })
       expect(modifications[2]).toMatchObject({
         type: 'recours',

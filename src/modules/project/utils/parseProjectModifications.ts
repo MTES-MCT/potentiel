@@ -58,8 +58,9 @@ function extractDelaiType(args: {
   colonneConcernee: string
   ancienneValeur: string
   index: number
+  statut: string
 }): LegacyModificationDTO {
-  const { colonneConcernee, modifiedOn, ancienneValeur, index } = args
+  const { colonneConcernee, modifiedOn, ancienneValeur, index, statut } = args
   const nouvelleDateLimiteAchevement = moment(colonneConcernee, 'DD/MM/YYYY').toDate().getTime()
   if (isNaN(nouvelleDateLimiteAchevement)) {
     throw new Error(`Colonne concernée ${index} contient une date invalide`)
@@ -69,12 +70,14 @@ function extractDelaiType(args: {
   if (isNaN(ancienneDateLimiteAchevement)) {
     throw new Error(`Ancienne valeur ${index} contient une date invalide`)
   }
+  const accepted = statut === 'Acceptée'
   return {
     type: 'delai',
     modifiedOn,
     nouvelleDateLimiteAchevement,
     ancienneDateLimiteAchevement,
     modificationId: new UniqueEntityID().toString(),
+    accepted,
   }
 }
 
@@ -168,7 +171,13 @@ function extractModificationType(
         modificationId: new UniqueEntityID().toString(),
       }
     case 'Abandon':
-      return { type: 'abandon', modifiedOn, modificationId: new UniqueEntityID().toString() }
+      const accepted = statut === 'Acceptée'
+      return {
+        type: 'abandon',
+        modifiedOn,
+        modificationId: new UniqueEntityID().toString(),
+        accepted,
+      }
     case 'Recours gracieux':
       return extractRecoursType({
         modifiedOn,
@@ -183,6 +192,7 @@ function extractModificationType(
         colonneConcernee,
         ancienneValeur,
         index,
+        statut,
       })
     case "Changement d'actionnaire":
       return extractActionnaireType({

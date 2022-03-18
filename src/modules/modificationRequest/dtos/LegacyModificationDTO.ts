@@ -1,5 +1,6 @@
 export interface LegacyAbandon {
   type: 'abandon'
+  accepted: boolean
 }
 
 export interface LegacyRecours {
@@ -12,6 +13,7 @@ export interface LegacyDelai {
   type: 'delai'
   nouvelleDateLimiteAchevement: number
   ancienneDateLimiteAchevement: number
+  accepted: boolean
 }
 
 export interface LegacyActionnaire {
