@@ -282,16 +282,21 @@ export type LegacyModificationImportedDTO = {
   date: number
   variant: Exclude<UserRole, 'ademe'>
 } & (
-  | { modificationType: 'abandon' }
+  | { modificationType: 'abandon'; accepted: boolean }
   | { modificationType: 'recours'; accepted: boolean }
   | {
       modificationType: 'delai'
+      accepted: true
       ancienneDateLimiteAchevement: number
       nouvelleDateLimiteAchevement: number
     }
-  | { modificationType: 'actionnaire'; actionnairePrecedent: string }
-  | { modificationType: 'producteur'; producteurPrecedent: string }
-  | { modificationType: 'autre'; column: string; value: string }
+  | {
+      modificationType: 'delai'
+      accepted: false
+    }
+  | { modificationType: 'actionnaire'; actionnairePrecedent: string; accepted: true }
+  | { modificationType: 'producteur'; producteurPrecedent: string; accepted: true }
+  | { modificationType: 'autre'; column: string; value: string; accepted: true }
 )
 
 export type ProjectEventListDTO = {

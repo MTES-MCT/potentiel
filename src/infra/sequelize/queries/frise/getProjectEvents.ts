@@ -210,11 +210,21 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       date: valueDate,
                       variant: user.role,
                       modificationType: payload.modificationType,
-                      ...(payload.modificationType === 'delai' && {
-                        ancienneDateLimiteAchevement: payload.ancienneDateLimiteAchevement,
-                        nouvelleDateLimiteAchevement: payload.nouvelleDateLimiteAchevement,
-                      }),
+                      accepted: true,
+                      ...(payload.modificationType === 'delai' &&
+                        payload.accepted && {
+                          accepted: payload.accepted,
+                          ancienneDateLimiteAchevement: payload.ancienneDateLimiteAchevement,
+                          nouvelleDateLimiteAchevement: payload.nouvelleDateLimiteAchevement,
+                        }),
+                      ...(payload.modificationType === 'delai' &&
+                        !payload.accepted && {
+                          accepted: payload.accepted,
+                        }),
                       ...(payload.modificationType === 'recours' && {
+                        accepted: payload.accepted,
+                      }),
+                      ...(payload.modificationType === 'abandon' && {
                         accepted: payload.accepted,
                       }),
                       ...(payload.modificationType === 'actionnaire' && {

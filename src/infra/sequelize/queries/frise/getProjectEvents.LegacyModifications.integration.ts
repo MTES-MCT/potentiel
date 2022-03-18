@@ -33,6 +33,7 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
               eventPublishedAt: date.getTime(),
               payload: {
                 modificationType: 'delai',
+                accepted: true,
                 ancienneDateLimiteAchevement: new Date('2022-01-01').getTime(),
                 nouvelleDateLimiteAchevement: new Date('2024-01-01').getTime(),
               },
@@ -46,6 +47,7 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
                   date: date.getTime(),
                   variant: role,
                   modificationType: 'delai',
+                  accepted: true,
                   ancienneDateLimiteAchevement: new Date('2022-01-01').getTime(),
                   nouvelleDateLimiteAchevement: new Date('2024-01-01').getTime(),
                 },
@@ -67,7 +69,9 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
           eventPublishedAt: date.getTime(),
           payload: {
             modificationType: 'delai',
-            delayInMonths: 10,
+            accepted: true,
+            ancienneDateLimiteAchevement: new Date('2022-01-01').getTime(),
+            nouvelleDateLimiteAchevement: new Date('2024-01-01').getTime(),
           },
         })
 
@@ -96,6 +100,7 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
               eventPublishedAt: date.getTime(),
               payload: {
                 modificationType: 'abandon',
+                accepted: true,
               },
             })
 
@@ -107,6 +112,7 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
                   date: date.getTime(),
                   variant: role,
                   modificationType: 'abandon',
+                  accepted: true,
                 },
               ],
             })
@@ -126,6 +132,7 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
           eventPublishedAt: date.getTime(),
           payload: {
             modificationType: 'abandon',
+            accepted: true,
           },
         })
 
@@ -228,6 +235,7 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
                   variant: role,
                   modificationType: 'actionnaire',
                   actionnairePrecedent: 'nom actionnaire précédent',
+                  accepted: true,
                 },
               ],
             })
@@ -289,6 +297,7 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
                   variant: role,
                   modificationType: 'producteur',
                   producteurPrecedent: 'nom producteur précédent',
+                  accepted: true,
                 },
               ],
             })
@@ -352,6 +361,7 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
                   modificationType: 'autre',
                   column: 'col',
                   value: 'val',
+                  accepted: true,
                 },
               ],
             })
