@@ -66,8 +66,8 @@ describe('modificationRequest.onLegacyModificationImported', () => {
     })
   })
 
-  describe('when given a legacy modification of type abandon', () => {
-    it('should add a modificationRequest of type abandon', async () => {
+  describe('when given a legacy modification of type abandon that is accepted', () => {
+    it('should add a modificationRequest of type abandon accepted', async () => {
       const modificationId = new UniqueEntityID().toString()
 
       await resetDatabase()
@@ -81,6 +81,8 @@ describe('modificationRequest.onLegacyModificationImported', () => {
                 type: 'abandon',
                 modifiedOn: 123,
                 modificationId,
+                accepted: true,
+                filename: 'filename',
               },
             ],
           },
@@ -93,6 +95,41 @@ describe('modificationRequest.onLegacyModificationImported', () => {
         type: 'abandon',
         status: 'acceptée',
         isLegacy: true,
+        filename: 'filename',
+      })
+    })
+  })
+
+  describe('when given a legacy modification of type abandon that is not accepted', () => {
+    it('should add a modificationRequest of type abandon not accepted', async () => {
+      const modificationId = new UniqueEntityID().toString()
+
+      await resetDatabase()
+      await onLegacyModificationImported(models)(
+        new LegacyModificationImported({
+          payload: {
+            projectId,
+            importId,
+            modifications: [
+              {
+                type: 'abandon',
+                modifiedOn: 123,
+                modificationId,
+                accepted: false,
+                filename: 'filename',
+              },
+            ],
+          },
+        })
+      )
+
+      const newLegacyModification = await ModificationRequest.findByPk(modificationId)
+      expect(newLegacyModification).not.toEqual(null)
+      expect(newLegacyModification).toMatchObject({
+        type: 'abandon',
+        status: 'rejetée',
+        isLegacy: true,
+        filename: 'filename',
       })
     })
   })
@@ -114,6 +151,7 @@ describe('modificationRequest.onLegacyModificationImported', () => {
                 siretPrecedent: 'siretPrecedent',
                 modifiedOn: 123,
                 modificationId,
+                filename: 'filename',
               },
             ],
           },
@@ -130,12 +168,13 @@ describe('modificationRequest.onLegacyModificationImported', () => {
         },
         status: 'acceptée',
         isLegacy: true,
+        filename: 'filename',
       })
     })
   })
 
-  describe('when given a legacy modification of type delai', () => {
-    it('should add a modificationRequest of type delai', async () => {
+  describe('when given a legacy modification of type delai that is accepted', () => {
+    it('should add a modificationRequest of type delai accepted', async () => {
       const modificationId = new UniqueEntityID().toString()
 
       await resetDatabase()
@@ -151,6 +190,8 @@ describe('modificationRequest.onLegacyModificationImported', () => {
                 ancienneDateLimiteAchevement: 5678,
                 modifiedOn: 123,
                 modificationId,
+                accepted: true,
+                filename: 'filename',
               },
             ],
           },
@@ -167,6 +208,41 @@ describe('modificationRequest.onLegacyModificationImported', () => {
         },
         status: 'acceptée',
         isLegacy: true,
+        filename: 'filename',
+      })
+    })
+  })
+
+  describe('when given a legacy modification of type delai that is not accepted', () => {
+    it('should add a modificationRequest of type delai not accepted', async () => {
+      const modificationId = new UniqueEntityID().toString()
+
+      await resetDatabase()
+      await onLegacyModificationImported(models)(
+        new LegacyModificationImported({
+          payload: {
+            projectId,
+            importId,
+            modifications: [
+              {
+                type: 'delai',
+                modifiedOn: 123,
+                modificationId,
+                accepted: false,
+                filename: 'filename',
+              },
+            ],
+          },
+        })
+      )
+
+      const newLegacyModification = await ModificationRequest.findByPk(modificationId)
+      expect(newLegacyModification).not.toEqual(null)
+      expect(newLegacyModification).toMatchObject({
+        type: 'delai',
+        status: 'rejetée',
+        isLegacy: true,
+        filename: 'filename',
       })
     })
   })
@@ -187,6 +263,7 @@ describe('modificationRequest.onLegacyModificationImported', () => {
                 producteurPrecedent: 'producteurPrecedent',
                 modifiedOn: 123,
                 modificationId,
+                filename: 'filename',
               },
             ],
           },
@@ -202,6 +279,7 @@ describe('modificationRequest.onLegacyModificationImported', () => {
         },
         status: 'acceptée',
         isLegacy: true,
+        filename: 'filename',
       })
     })
   })
@@ -223,6 +301,7 @@ describe('modificationRequest.onLegacyModificationImported', () => {
                 motifElimination: 'motifElimination',
                 modifiedOn: 123,
                 modificationId,
+                filename: 'filename',
               },
             ],
           },
@@ -238,6 +317,7 @@ describe('modificationRequest.onLegacyModificationImported', () => {
         },
         status: 'acceptée',
         isLegacy: true,
+        filename: 'filename',
       })
     })
   })
@@ -259,6 +339,7 @@ describe('modificationRequest.onLegacyModificationImported', () => {
                 motifElimination: 'motifElimination',
                 modifiedOn: 123,
                 modificationId,
+                filename: 'filename',
               },
             ],
           },
@@ -274,6 +355,7 @@ describe('modificationRequest.onLegacyModificationImported', () => {
         },
         status: 'rejetée',
         isLegacy: true,
+        filename: 'filename',
       })
     })
   })
