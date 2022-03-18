@@ -9,6 +9,7 @@ describe('parseProjectModifications', () => {
       'Colonne concernée 1': '',
       'Ancienne valeur 1': '',
       'Statut demandes 1': 'Acceptée',
+      'Nom courrier 1': 'filename',
     }
 
     it('should return a modification of type abandon accepted', async () => {
@@ -19,6 +20,7 @@ describe('parseProjectModifications', () => {
         type: 'abandon',
         modifiedOn: 1556143200000,
         accepted: true,
+        filename: 'filename',
       })
     })
   })
@@ -30,6 +32,7 @@ describe('parseProjectModifications', () => {
       'Colonne concernée 1': '',
       'Ancienne valeur 1': '',
       'Statut demandes 1': 'Refusée',
+      'Nom courrier 1': 'filename',
     }
 
     it('should return a modification of type abandon not accepted', async () => {
@@ -40,6 +43,7 @@ describe('parseProjectModifications', () => {
         type: 'abandon',
         modifiedOn: 1556143200000,
         accepted: false,
+        filename: 'filename',
       })
     })
   })
@@ -51,6 +55,7 @@ describe('parseProjectModifications', () => {
       'Colonne concernée 1': 'column',
       'Ancienne valeur 1': 'value',
       'Statut demandes 1': 'Acceptée',
+      'Nom courrier 1': 'filename',
     }
 
     it('should return a modification of type autre', async () => {
@@ -62,6 +67,7 @@ describe('parseProjectModifications', () => {
         modifiedOn: 1556143200000,
         column: 'column',
         value: 'value',
+        filename: 'filename',
       })
     })
   })
@@ -73,6 +79,7 @@ describe('parseProjectModifications', () => {
       'Colonne concernée 1': 'Classé ?',
       'Ancienne valeur 1': 'Eliminé',
       'Statut demandes 1': 'Refusée',
+      'Nom courrier 1': 'filename',
     }
 
     it('should return a modification of type recours and rejected', async () => {
@@ -83,6 +90,7 @@ describe('parseProjectModifications', () => {
         type: 'recours',
         accepted: false,
         modifiedOn: 1556143200000,
+        filename: 'filename',
       })
     })
   })
@@ -94,6 +102,7 @@ describe('parseProjectModifications', () => {
       'Colonne concernée 1': 'Classé ?',
       'Ancienne valeur 1': 'Classé',
       'Statut demandes 1': 'Acceptée',
+      'Nom courrier 1': 'filename',
     }
 
     it('should return a modification of type recours and accepted', async () => {
@@ -104,6 +113,7 @@ describe('parseProjectModifications', () => {
         type: 'recours',
         accepted: true,
         modifiedOn: 1556143200000,
+        filename: 'filename',
       })
     })
   })
@@ -119,6 +129,7 @@ describe('parseProjectModifications', () => {
       'Colonne concernée 2': "Motif d'élimination",
       'Ancienne valeur 2': 'Ancien motif',
       'Statut demandes 2': 'Acceptée',
+      'Nom courrier 2': 'filename',
     }
 
     it('should return a modification of type recours, accepted and contain the previous motifs', async () => {
@@ -130,6 +141,7 @@ describe('parseProjectModifications', () => {
         accepted: true,
         modifiedOn: 1556143200000,
         motifElimination: 'Ancien motif',
+        filename: 'filename',
       })
     })
   })
@@ -141,6 +153,7 @@ describe('parseProjectModifications', () => {
       'Colonne concernée 1': '22/12/2024',
       'Ancienne valeur 1': '01/01/2024',
       'Statut demandes 1': 'Acceptée',
+      'Nom courrier 1': 'filename',
     }
 
     it('should return an accepted modification of type delai with the proper dates', async () => {
@@ -153,6 +166,7 @@ describe('parseProjectModifications', () => {
         ancienneDateLimiteAchevement: 1704063600000,
         modifiedOn: 1556143200000,
         accepted: true,
+        filename: 'filename',
       })
     })
   })
@@ -164,6 +178,7 @@ describe('parseProjectModifications', () => {
       'Colonne concernée 1': '22/12/2024',
       'Ancienne valeur 1': '01/01/2024',
       'Statut demandes 1': 'Refusée',
+      'Nom courrier 1': 'filename',
     }
 
     it('should return a rejected modification of type delai with the proper dates', async () => {
@@ -176,6 +191,7 @@ describe('parseProjectModifications', () => {
         ancienneDateLimiteAchevement: 1704063600000,
         modifiedOn: 1556143200000,
         accepted: false,
+        filename: 'filename',
       })
     })
   })
@@ -209,6 +225,7 @@ describe('parseProjectModifications', () => {
       'Ancienne valeur 2': 'ancien siret',
       'Statut demandes 1': 'Acceptée',
       'Statut demandes 2': 'Acceptée',
+      'Nom courrier 2': 'filename',
     }
 
     it('should return a modification of type actionnaire with ancien actionnaire and ancien siret', async () => {
@@ -220,6 +237,7 @@ describe('parseProjectModifications', () => {
         actionnairePrecedent: 'ancien candidat',
         siretPrecedent: 'ancien siret',
         modifiedOn: 1556143200000,
+        filename: 'filename',
       })
     })
   })
@@ -231,6 +249,7 @@ describe('parseProjectModifications', () => {
       'Colonne concernée 1': 'Nom (personne physique) ou raison sociale (personne morale) : ',
       'Ancienne valeur 1': 'ancien producteur',
       'Statut demandes 1': 'Acceptée',
+      'Nom courrier 1': 'filename',
     }
 
     it('should return a modification of type producteur with ancien producteur', async () => {
@@ -241,6 +260,7 @@ describe('parseProjectModifications', () => {
         type: 'producteur',
         producteurPrecedent: 'ancien producteur',
         modifiedOn: 1556143200000,
+        filename: 'filename',
       })
     })
   })
@@ -262,6 +282,7 @@ describe('parseProjectModifications', () => {
       'Statut demandes 1': 'Acceptée',
       'Statut demandes 2': 'Acceptée',
       'Statut demandes 3': 'Acceptée',
+      'Nom courrier 3': 'filename',
     }
 
     it('should return all the corresponding modifications', async () => {
@@ -284,6 +305,7 @@ describe('parseProjectModifications', () => {
         type: 'recours',
         accepted: false,
         modifiedOn: 1556316000000,
+        filename: 'filename',
       })
     })
   })
@@ -295,6 +317,7 @@ describe('parseProjectModifications', () => {
       'Colonne concernée 1': '',
       'Ancienne valeur 1': '',
       'Statut demandes 1': 'Acceptée',
+      'Nom courrier 1': 'filename',
     }
 
     beforeAll(async () => {})
@@ -320,6 +343,7 @@ describe('parseProjectModifications', () => {
           'Colonne concernée 1': '',
           'Ancienne valeur 1': '',
           'Statut demandes 1': 'Acceptée',
+          'Nom courrier 1': 'filename',
         })
       } catch (error) {
         expect(error).toBeDefined()
@@ -337,6 +361,7 @@ describe('parseProjectModifications', () => {
           'Date de modification 1': moment().add(1, 'day').format('DD/MM/YYYY'),
           'Colonne concernée 1': '',
           'Ancienne valeur 1': '',
+          'Nom courrier 1': 'filename',
         })
       } catch (error) {
         expect(error).toBeDefined()
@@ -355,6 +380,7 @@ describe('parseProjectModifications', () => {
           'Colonne concernée 1': '',
           'Ancienne valeur 1': '',
           'Statut demandes 1': 'Acceptée',
+          'Nom courrier 1': 'filename',
         })
       } catch (error) {
         expect(error).toBeDefined()
@@ -375,6 +401,7 @@ describe('parseProjectModifications', () => {
           'Colonne concernée 1': '',
           'Ancienne valeur 1': '',
           'Statut demandes': 'pas ok',
+          'Nom courrier 1': 'filename',
         })
       } catch (error) {
         expect(error).toBeDefined()

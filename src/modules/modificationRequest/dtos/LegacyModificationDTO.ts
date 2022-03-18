@@ -43,4 +43,5 @@ export type LegacyVariant =
 export type LegacyModificationDTO = {
   modifiedOn: number
   modificationId: string
+  filename?: string
 } & LegacyVariant

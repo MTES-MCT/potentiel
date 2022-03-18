@@ -21,8 +21,10 @@ function extractRecoursType(args: {
   ancienneValeur: string
   index: number
   sameDateModification: LegacyModificationDTO | undefined
+  nomCourrier: string
 }): LegacyModificationDTO {
-  const { colonneConcernee, modifiedOn, ancienneValeur, index, sameDateModification } = args
+  const { colonneConcernee, modifiedOn, ancienneValeur, index, sameDateModification, nomCourrier } =
+    args
   if (!['Classé ?', "Motif d'élimination"].includes(colonneConcernee)) {
     throw new Error(
       `Colonne concernée ${index} doit être soit "Classé ?" soit "Motif d'élimination" pour un Recours gracieux`
@@ -44,11 +46,13 @@ function extractRecoursType(args: {
       accepted,
       motifElimination: '',
       modificationId: new UniqueEntityID().toString(),
+      filename: nomCourrier,
     } as LegacyModificationDTO
   } else {
     return {
       ...sameDateModification,
       motifElimination: ancienneValeur,
+      filename: nomCourrier,
     } as LegacyModificationDTO
   }
 }
@@ -59,8 +63,9 @@ function extractDelaiType(args: {
   ancienneValeur: string
   index: number
   statut: string
+  nomCourrier: string
 }): LegacyModificationDTO {
-  const { colonneConcernee, modifiedOn, ancienneValeur, index, statut } = args
+  const { colonneConcernee, modifiedOn, ancienneValeur, index, statut, nomCourrier } = args
   const accepted = statut === 'Acceptée'
   if (accepted && !colonneConcernee) {
     throw new Error(`Colonne concernée ${index} manquante`)
@@ -81,6 +86,7 @@ function extractDelaiType(args: {
     ancienneDateLimiteAchevement,
     modificationId: new UniqueEntityID().toString(),
     accepted,
+    filename: nomCourrier,
   }
 }
 
@@ -90,8 +96,10 @@ function extractActionnaireType(args: {
   ancienneValeur: string
   index: number
   sameDateModification: LegacyModificationDTO | undefined
+  nomCourrier: string
 }): LegacyModificationDTO {
-  const { colonneConcernee, modifiedOn, ancienneValeur, index, sameDateModification } = args
+  const { colonneConcernee, modifiedOn, ancienneValeur, index, sameDateModification, nomCourrier } =
+    args
   if (colonneConcernee === 'Candidat') {
     return {
       type: 'actionnaire',
@@ -99,12 +107,14 @@ function extractActionnaireType(args: {
       siretPrecedent: '',
       modifiedOn,
       modificationId: new UniqueEntityID().toString(),
+      filename: nomCourrier,
     }
   } else if (colonneConcernee === 'Numéro SIREN ou SIRET*') {
     return {
       ...sameDateModification,
       siretPrecedent: ancienneValeur,
       modifiedOn,
+      filename: nomCourrier,
     } as LegacyModificationDTO
   } else {
     throw new Error(`Colonne concernée ${index} n'est pas reconnue`)
@@ -116,14 +126,16 @@ function extractProducteurType(args: {
   colonneConcernee: string
   ancienneValeur: string
   index: number
+  nomCourrier: string
 }): LegacyModificationDTO {
-  const { colonneConcernee, modifiedOn, ancienneValeur, index } = args
+  const { colonneConcernee, modifiedOn, ancienneValeur, index, nomCourrier } = args
   if (colonneConcernee === 'Nom (personne physique) ou raison sociale (personne morale) : ') {
     return {
       type: 'producteur',
       producteurPrecedent: ancienneValeur,
       modifiedOn,
       modificationId: new UniqueEntityID().toString(),
+      filename: nomCourrier,
     }
   } else {
     throw new Error(`Colonne concernée ${index} n'est pas reconnue`)
@@ -141,6 +153,7 @@ function extractModificationType(
     [`Ancienne valeur ${index}`]: ancienneValeur,
     [`Date de modification ${index}`]: dateModification,
     [`Statut demandes ${index}`]: statut,
+    [`Nom courrier ${index}`]: nomCourrier,
   } = line
   const modifiedOnDate = moment(dateModification, 'DD/MM/YYYY')
 
@@ -172,6 +185,7 @@ function extractModificationType(
         value: ancienneValeur,
         modifiedOn,
         modificationId: new UniqueEntityID().toString(),
+        filename: nomCourrier,
       }
     case 'Abandon':
       const accepted = statut === 'Acceptée'
@@ -180,6 +194,7 @@ function extractModificationType(
         modifiedOn,
         modificationId: new UniqueEntityID().toString(),
         accepted,
+        filename: nomCourrier,
       }
     case 'Recours gracieux':
       return extractRecoursType({
@@ -188,6 +203,7 @@ function extractModificationType(
         colonneConcernee,
         ancienneValeur,
         index,
+        nomCourrier,
       })
     case 'Prolongation de délai':
       return extractDelaiType({
@@ -196,6 +212,7 @@ function extractModificationType(
         ancienneValeur,
         index,
         statut,
+        nomCourrier,
       })
     case "Changement d'actionnaire":
       return extractActionnaireType({
@@ -204,6 +221,7 @@ function extractModificationType(
         colonneConcernee,
         ancienneValeur,
         index,
+        nomCourrier,
       })
     case 'Changement de producteur':
       return extractProducteurType({
@@ -211,6 +229,7 @@ function extractModificationType(
         colonneConcernee,
         ancienneValeur,
         index,
+        nomCourrier,
       })
     default:
       throw new Error(`Type de modification ${index} n'est pas reconnu`)
