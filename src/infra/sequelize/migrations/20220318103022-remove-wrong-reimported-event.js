@@ -13,15 +13,15 @@ module.exports = {
     try {
       for (const projectId of projectIds) {
         const events = await queryInterface.sequelize.query(
-          `SELECT * FROM "eventStores" WHERE "aggregateId" && ? ORDER BY "occurredAt" ASC`,
+          `SELECT * FROM "eventStores" WHERE type = ? AND "aggregateId" && ? ORDER BY "occurredAt" ASC`,
           {
             type: queryInterface.sequelize.QueryTypes.SELECT,
-            replacements: [`{${projectId}}`],
+            replacements: ['ProjectReimported', `{${projectId}}`],
             transaction,
           }
         )
 
-        const lastReimportedEvent = events.filter((e) => e.type === 'ProjectReimported').pop()
+        const lastReimportedEvent = events.pop()
 
         if (lastReimportedEvent) {
           await queryInterface.sequelize.query(

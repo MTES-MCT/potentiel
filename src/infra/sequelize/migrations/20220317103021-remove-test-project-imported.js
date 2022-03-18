@@ -1,7 +1,5 @@
 'use strict'
 
-const { fromPersistance } = require('../helpers/fromPersistance')
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const projectIds = [
@@ -19,47 +17,20 @@ module.exports = {
           transaction,
         })
 
-        const events = await queryInterface.sequelize.query(
-          `SELECT * FROM "eventStores" WHERE "aggregateId" && ?`,
+        await queryInterface.sequelize.query(`DELETE FROM "eventStores" WHERE "aggregateId" && ?`, {
+          type: queryInterface.sequelize.QueryTypes.SELECT,
+          replacements: [`{${projectId}}`],
+          transaction,
+        })
+
+        await queryInterface.sequelize.query(
+          `DELETE FROM "eventStores" WHERE type = ? AND "aggregateId" && ?`,
           {
             type: queryInterface.sequelize.QueryTypes.SELECT,
-            replacements: [`{${projectId}}`],
+            replacements: ['ProjectRawDataImported', `{f9bc992e-4af5-4b32-a24c-1472203b52b7}`],
             transaction,
           }
         )
-
-        if (events && events.length) {
-          const importedEvent = fromPersistance(
-            events.filter((e) => e.type === 'ProjectImported').pop()
-          )
-          const {
-            payload: { importId },
-          } = importedEvent
-
-          const rawImportedEvents = await queryInterface.sequelize.query(
-            `SELECT * FROM "eventStores" WHERE type = ? AND "aggregateId" && ?`,
-            {
-              type: queryInterface.sequelize.QueryTypes.SELECT,
-              replacements: ['ProjectRawDataImported', `{${importId}}`],
-              transaction,
-            }
-          )
-
-          const eventsToDelete = events
-            .concat(rawImportedEvents)
-            .filter((event) => event !== null)
-            .map(fromPersistance)
-
-          await queryInterface.sequelize.query(
-            `DELETE FROM "eventStores" WHERE "id" IN (${eventsToDelete
-              .map((e) => `'${e.id}'`)
-              .join(',')})`,
-            {
-              type: queryInterface.sequelize.QueryTypes.DELETE,
-              transaction,
-            }
-          )
-        }
       }
       await transaction.commit()
     } catch (err) {
