@@ -11,7 +11,6 @@
     <title>Potentiel - Suivi des Projets d'Energies Renouvelables</title>
 
     <link href="${url.resourcesPath}/css/main.min.css" rel="stylesheet" />
-    <link href="${url.resourcesPath}/css/index.css" rel="stylesheet" />
     <link href="${url.resourcesPath}/css/dsfr.css" rel="stylesheet" />
     <link href="${url.resourcesPath}/css/tailwind.css" rel="stylesheet" />
 
