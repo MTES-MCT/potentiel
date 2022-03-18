@@ -322,3 +322,8 @@ pre {
   border-bottom: 4px solid var(--theme-primary);
   color: var(--black);
 }
+
+.dashboard {
+  margin-bottom: 2px;
+  min-height: calc(100vh - 500px);
+}

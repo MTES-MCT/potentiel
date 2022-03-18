@@ -127,6 +127,7 @@ cypress/videos
 
 # Generated css file
 src/public/css/index.css
+src/public/css/dsfr.css
 
 # Generated js files
 src/public/js
