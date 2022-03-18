@@ -12,7 +12,7 @@ export type LegacyModificationsItemProps = {
     }
   | {
       modificationType: 'abandon'
-      status: 'acceptée'
+      status: 'acceptée' | 'rejetée'
     }
   | {
       modificationType: 'recours'
@@ -54,7 +54,7 @@ export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) =
         propsArray.push({
           type: 'modification-historique',
           date: event.date,
-          status: 'acceptée',
+          status: event.accepted ? 'acceptée' : 'rejetée',
           modificationType: 'abandon',
         })
         break
@@ -67,14 +67,16 @@ export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) =
         })
         break
       case 'delai':
-        propsArray.push({
-          type: 'modification-historique',
-          date: event.date,
-          modificationType: 'delai',
-          ancienneDateLimiteAchevement: event.ancienneDateLimiteAchevement,
-          nouvelleDateLimiteAchevement: event.nouvelleDateLimiteAchevement,
-          status: 'acceptée',
-        })
+        if (event.accepted) {
+          propsArray.push({
+            type: 'modification-historique',
+            date: event.date,
+            modificationType: 'delai',
+            ancienneDateLimiteAchevement: event.ancienneDateLimiteAchevement,
+            nouvelleDateLimiteAchevement: event.nouvelleDateLimiteAchevement,
+            status: 'acceptée',
+          })
+        }
         break
       case 'actionnaire':
         propsArray.push({
