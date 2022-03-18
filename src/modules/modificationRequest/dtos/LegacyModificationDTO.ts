@@ -9,12 +9,12 @@ export interface LegacyRecours {
   motifElimination: string
 }
 
-export interface LegacyDelai {
+export type LegacyDelai = {
   type: 'delai'
-  nouvelleDateLimiteAchevement: number
-  ancienneDateLimiteAchevement: number
-  accepted: boolean
-}
+} & (
+  | { accepted: true; nouvelleDateLimiteAchevement: number; ancienneDateLimiteAchevement: number }
+  | { accepted: false }
+)
 
 export interface LegacyActionnaire {
   type: 'actionnaire'
