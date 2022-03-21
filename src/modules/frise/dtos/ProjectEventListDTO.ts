@@ -282,8 +282,7 @@ export type LegacyModificationImportedDTO = {
   date: number
   variant: Exclude<UserRole, 'ademe'>
 } & (
-  | { modificationType: 'abandon'; accepted: boolean }
-  | { modificationType: 'recours'; accepted: boolean }
+  | { modificationType: 'recours' | 'abandon'; accepted: boolean }
   | {
       modificationType: 'delai'
       accepted: true

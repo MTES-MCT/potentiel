@@ -205,39 +205,49 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   break
                 case 'LegacyModificationImported':
                   if (userIsNot('ademe')(user)) {
-                    events.push({
+                    const modificationType = payload.modificationType
+                    const accepted = payload.accepted
+                    const common = {
                       type,
                       date: valueDate,
                       variant: user.role,
-                      modificationType: payload.modificationType,
-                      accepted: true,
-                      ...(payload.modificationType === 'delai' &&
-                        payload.accepted && {
-                          accepted: payload.accepted,
+                      modificationType,
+                    }
+                    if (modificationType === 'delai') {
+                      events.push({
+                        ...common,
+                        accepted,
+                        ...(accepted && {
                           ancienneDateLimiteAchevement: payload.ancienneDateLimiteAchevement,
                           nouvelleDateLimiteAchevement: payload.nouvelleDateLimiteAchevement,
                         }),
-                      ...(payload.modificationType === 'delai' &&
-                        !payload.accepted && {
-                          accepted: payload.accepted,
-                        }),
-                      ...(payload.modificationType === 'recours' && {
-                        accepted: payload.accepted,
-                      }),
-                      ...(payload.modificationType === 'abandon' && {
-                        accepted: payload.accepted,
-                      }),
-                      ...(payload.modificationType === 'actionnaire' && {
+                      })
+                    }
+                    if (modificationType === 'actionnaire') {
+                      events.push({
+                        ...common,
                         actionnairePrecedent: payload.actionnairePrecedent,
-                      }),
-                      ...(payload.modificationType === 'producteur' && {
+                        accepted: true,
+                      })
+                    }
+                    if (modificationType === 'producteur') {
+                      events.push({
+                        ...common,
                         producteurPrecedent: payload.producteurPrecedent,
-                      }),
-                      ...(payload.modificationType === 'autre' && {
+                        accepted: true,
+                      })
+                    }
+                    if (modificationType === 'abandon' || modificationType === 'recours') {
+                      events.push({ ...common, accepted })
+                    }
+                    if (modificationType === 'autre') {
+                      events.push({
+                        ...common,
                         column: payload.column,
                         value: payload.value,
-                      }),
-                    })
+                        accepted: true,
+                      })
+                    }
                   }
                   break
               }
