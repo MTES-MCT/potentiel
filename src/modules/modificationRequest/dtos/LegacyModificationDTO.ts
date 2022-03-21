@@ -1,9 +1,9 @@
-export interface LegacyAbandon {
+export type LegacyAbandon = {
   type: 'abandon'
   accepted: boolean
 }
 
-export interface LegacyRecours {
+export type LegacyRecours = {
   type: 'recours'
   accepted: boolean
   motifElimination: string
@@ -16,17 +16,17 @@ export type LegacyDelai = {
   | { accepted: false }
 )
 
-export interface LegacyActionnaire {
+export type LegacyActionnaire = {
   type: 'actionnaire'
   actionnairePrecedent: string
   siretPrecedent: string
 }
-export interface LegacyProducteur {
+export type LegacyProducteur = {
   type: 'producteur'
   producteurPrecedent: string
 }
 
-export interface LegacyAutre {
+export type LegacyAutre = {
   type: 'autre'
   column: string
   value: string
