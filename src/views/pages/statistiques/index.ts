@@ -1,1 +1,2 @@
-export * from './Statistiques'
+export * from './AdminStatistiques';
+export * from './Statistiques';
