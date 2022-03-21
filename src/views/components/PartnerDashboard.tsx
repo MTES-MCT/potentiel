@@ -21,7 +21,7 @@ const SeparatorItem = ({ visibleForRoles, role }: SeparatorItemProps) =>
 interface PartnerDashboardProps {
   children: React.ReactNode
   role: UserRole | undefined
-  currentPage: 'list-projects' | undefined
+  currentPage: 'list-projects' | 'ademe-statistiques' | undefined
 }
 
 interface MenuItemProps {
@@ -66,6 +66,17 @@ export default function PartnerDashboard({ children, currentPage, role }: Partne
               itemPage={'list-projects'}
               title="Projets"
               visibleForRoles={['acheteur-obligé', 'ademe']}
+              role={role}
+              currentPage={currentPage}
+            />
+
+            <SeparatorItem visibleForRoles={['admin']} role={role} />
+
+            <MenuItem
+              route={ROUTES.USER_LIST_PROJECTS}
+              itemPage={'ademe-statistiques'}
+              title="Ademe statistiques"
+              visibleForRoles={['ademe']}
               role={role}
               currentPage={currentPage}
             />
