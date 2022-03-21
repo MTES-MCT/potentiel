@@ -51,6 +51,7 @@ class routes {
   static IMPORT_PROJECTS = '/admin/importer-candidats.html'
 
   static ADMIN_STATISTIQUES = '/admin/statistiques.html'
+  static ADEME_STATISTIQUES = '/ademe/statistiques.html'
 
   static PROJECT_DETAILS = (projectId?: Project['id']) => {
     const route = '/projet/:projectId/details.html'

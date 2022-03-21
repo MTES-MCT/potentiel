@@ -73,7 +73,7 @@ export default function PartnerDashboard({ children, currentPage, role }: Partne
             <SeparatorItem visibleForRoles={['admin']} role={role} />
 
             <MenuItem
-              route={ROUTES.USER_LIST_PROJECTS}
+              route={ROUTES.ADEME_STATISTIQUES}
               itemPage={'ademe-statistiques'}
               title="Ademe statistiques"
               visibleForRoles={['ademe']}
