@@ -57,8 +57,6 @@ describe('handleLegacyModificationImported', () => {
             modifications: [
               {
                 type: 'delai',
-                nouvelleDateLimiteAchevement: 123456,
-                ancienneDateLimiteAchevement: 123,
                 modifiedOn,
                 modificationId,
                 accepted: false,
