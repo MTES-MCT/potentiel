@@ -1656,14 +1656,6 @@
         "config": {}
       }
     ],
-    "org.keycloak.userprofile.UserProfileProvider": [
-      {
-        "id": "261a176a-55bc-4e6e-92e4-03867f15928f",
-        "providerId": "declarative-user-profile",
-        "subComponents": {},
-        "config": {}
-      }
-    ],
     "org.keycloak.keys.KeyProvider": [
       {
         "id": "11d456a7-588b-4675-9f2d-071773d6d4d3",
@@ -2446,7 +2438,7 @@
       "config": {}
     }
   ],
-  "browserFlow": "browser",
+  "browserFlow": "browser with OTP required",
   "registrationFlow": "registration",
   "directGrantFlow": "direct grant",
   "resetCredentialsFlow": "reset credentials",
