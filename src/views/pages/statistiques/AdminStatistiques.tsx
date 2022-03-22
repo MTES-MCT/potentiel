@@ -1,5 +1,6 @@
 import type { Request } from 'express'
 import React from 'react'
+import AdminDashboard from 'src/views/components/AdminDashboard'
 import { PageLayout } from '../../components/PageLayout'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
 
@@ -11,28 +12,28 @@ interface Props {
 /* Pure component */
 export const AdminStatistiques = PageLayout(function (props: Props) {
   return (
-    <main role="main">
-      <section className="section section-color">
-        <div className="container">
-          <h2 className="section__title">Admin statistiques</h2>
+    <AdminDashboard currentPage="admin-statistiques" role="admin">
+      <main role="main" className="panel">
+        <div className="panel__header">
+          <h3>Tableau de bord</h3>
         </div>
-      </section>
-      <section className="section section-white" style={{ paddingTop: 0 }}>
-        <script src="https://metabase.potentiel.beta.gouv.fr/app/iframeResizer.js"></script>
-        <div
-          className="container"
-          dangerouslySetInnerHTML={{
-            __html: `<iframe
+        <section className="section section-white" style={{ paddingTop: 0 }}>
+          <script src="https://metabase.potentiel.beta.gouv.fr/app/iframeResizer.js"></script>
+          <div
+            className="container"
+            dangerouslySetInnerHTML={{
+              __html: `<iframe
             src="${props.iframeUrl}"
             frameBorder="0"
             width="100%"
             allowTransparency
             onload="iFrameResize({}, this)"
           ></iframe>`,
-          }}
-        ></div>
-      </section>
-    </main>
+            }}
+          ></div>
+        </section>
+      </main>
+    </AdminDashboard>
   )
 })
 
