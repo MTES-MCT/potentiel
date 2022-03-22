@@ -1,6 +1,7 @@
 import React from 'react'
 import routes from '../../routes'
 import { Request } from 'express'
+import { ExternalLinkIcon, UserIcon } from '@heroicons/react/solid'
 
 interface HeaderProps {
   request: Request
@@ -35,11 +36,19 @@ const Header = ({ request }: HeaderProps) => {
           <ul className="flex flex-col sm:flex-row gap-3 fr-links-group">
             {user ? (
               <>
-                <li
-                  className="fr-link fr-fi-user-line justify-end"
-                  style={{ color: 'var(--text-default-grey)' }}
-                >
-                  {user.fullName}
+                <li className="justify-end">
+                  {['admin', 'dgec'].includes(user.role) ? (
+                    <a className="fr-link fr-fi-user-line " href={user.accountUrl}>
+                      {user.fullName}
+                    </a>
+                  ) : (
+                    <span
+                      className="fr-link fr-fi-user-line"
+                      style={{ color: 'var(--text-default-grey)' }}
+                    >
+                      {user.fullName}
+                    </span>
+                  )}
                 </li>
                 <li>
                   <a className="fr-link fr-fi-logout-box-r-line" href={routes.LOGOUT_ACTION}>

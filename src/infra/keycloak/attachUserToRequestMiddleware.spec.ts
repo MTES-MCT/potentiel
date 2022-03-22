@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { Request } from 'express'
 import { okAsync } from '@core/utils'
 import { User } from '@entities'
 import { GetUserByEmail, UserRole } from '@modules/users'
@@ -78,7 +78,7 @@ describe(`attachUserToRequestMiddleware`, () => {
             email: userEmail,
             fullName: 'User',
             id: 'user-id',
-            role: (undefined as unknown) as UserRole,
+            role: undefined as unknown as UserRole,
           }
 
           const getUserByEmail: GetUserByEmail = jest.fn((email) =>
@@ -94,7 +94,10 @@ describe(`attachUserToRequestMiddleware`, () => {
           middleware(request, {} as express.Response, nextFunction)
 
           it('should attach the user to the request with no role and execute the next function', () => {
-            expect(request.user).toMatchObject(user)
+            expect(request.user).toMatchObject({
+              ...user,
+              accountUrl: expect.any(String),
+            })
             expect(nextFunction).toHaveBeenCalled()
           })
         })
@@ -140,6 +143,7 @@ describe(`attachUserToRequestMiddleware`, () => {
             const expectedUser = {
               ...user,
               role: tokenUserRole,
+              accountUrl: expect.any(String),
             }
             expect(request.user).toMatchObject(expectedUser)
           })
@@ -185,11 +189,12 @@ describe(`attachUserToRequestMiddleware`, () => {
           middleware(request, {} as express.Response, nextFunction)
 
           it('should attach a new user to the request', () => {
-            const expectedUser: User = {
+            const expectedUser: Request['user'] = {
               email: userEmail,
               fullName: userName,
               id: userId,
               role: 'porteur-projet',
+              accountUrl: expect.any(String),
             }
             expect(request.user).toMatchObject(expectedUser)
           })
@@ -236,11 +241,12 @@ describe(`attachUserToRequestMiddleware`, () => {
           middleware(request, {} as express.Response, nextFunction)
 
           it('should attach a new user to the request with the same role of the token', () => {
-            const expectedUser: User = {
+            const expectedUser: Request['user'] = {
               email: userEmail,
               fullName: userName,
               id: userId,
               role: userRole,
+              accountUrl: expect.any(String),
             }
             expect(request.user).toMatchObject(expectedUser)
           })

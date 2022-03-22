@@ -1,88 +1,210 @@
 <#macro mainLayout active bodyClass>
-<!doctype html>
-<html>
-<head>
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="fr">
+  <head>
     <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="${url.resourcesPath}/dsfr/dsfr.min.css">
+  
+    <meta name="theme-color" content="#000091"><!-- Défini la couleur de thème du navigateur (Safari/Android) -->
+    <link rel="apple-touch-icon" href="${url.resourcesPath}/favicon/apple-touch-icon.png"><!-- 180×180 -->
+    <link rel="icon" href="${url.resourcesPath}/favicon/favicon.svg" type="image/svg+xml">
+    <link rel="shortcut icon" href="${url.resourcesPath}/favicon/favicon.ico" type="image/x-icon"><!-- 32×32 -->
+    <link rel="manifest" href="${url.resourcesPath}/favicon/manifest.webmanifest" crossorigin="use-credentials">
+    <!-- Modifier les chemins relatifs des favicons en fonction de la structure du projet -->
+    <!-- Dans le fichier manifest.webmanifest aussi, modifier les chemins vers les images -->
 
-    <title>${msg("accountManagementTitle")}</title>
-    <link rel="icon" href="${url.resourcesPath}/img/favicon.ico">
-    <#if properties.stylesCommon?has_content>
-        <#list properties.stylesCommon?split(' ') as style>
-            <link href="${url.resourcesCommonPath}/${style}" rel="stylesheet" />
-        </#list>
-    </#if>
-    <#if properties.styles?has_content>
-        <#list properties.styles?split(' ') as style>
-            <link href="${url.resourcesPath}/${style}" rel="stylesheet" />
-        </#list>
-    </#if>
-    <#if properties.scripts?has_content>
-        <#list properties.scripts?split(' ') as script>
-            <script type="text/javascript" src="${url.resourcesPath}/${script}"></script>
-        </#list>
-    </#if>
-</head>
-<body class="admin-console user ${bodyClass}">
-        
-    <header class="navbar navbar-default navbar-pf navbar-main header">
-        <nav class="navbar" role="navigation">
-            <div class="navbar-header">
-                <div class="container">
-                    <h1 class="navbar-title">Keycloak</h1>
+    <title>Mon compte - Potentiel</title>
+  </head>
+
+  <body>
+    <header role="banner" class="fr-header">
+      <div class="fr-header__body">
+        <div class="fr-container">
+          <div class="fr-header__body-row">
+            <div class="fr-header__brand fr-enlarge-link">
+              <div class="fr-header__brand-top">
+                <div class="fr-header__logo">
+                  <p class="fr-logo">
+                    République
+                    <br />Française
+                  </p>
                 </div>
-            </div>
-            <div class="navbar-collapse navbar-collapse-1">
-                <div class="container">
-                    <ul class="nav navbar-nav navbar-utility">
-                        <#if realm.internationalizationEnabled>
-                            <li>
-                                <div class="kc-dropdown" id="kc-locale-dropdown">
-                                    <a href="#" id="kc-current-locale-link">${locale.current}</a>
-                                    <ul>
-                                        <#list locale.supported as l>
-                                            <li class="kc-dropdown-item"><a href="${l.url}">${l.label}</a></li>
-                                        </#list>
-                                    </ul>
-                                </div>
-                            <li>
-                        </#if>
-                        <#if referrer?has_content && referrer.url?has_content><li><a href="${referrer.url}" id="referrer">${msg("backTo",referrer.name)}</a></li></#if>
-                        <li><a href="${url.logoutUrl}">${msg("doSignOut")}</a></li>
-                    </ul>
+                <div class="fr-header__navbar">
+                  <button
+                    class="fr-btn--menu fr-btn"
+                    data-fr-opened="false"
+                    aria-controls="modal-833"
+                    aria-haspopup="menu"
+                    title="Menu"
+                    id="fr-btn-menu-mobile"
+                  >
+                    Menu
+                  </button>
                 </div>
+              </div>
+              <div class="fr-header__service">
+                <a href="${properties.potentielUrl}" title="Accueil - Potentiel - Ministère de la transition écologique">
+                  <p class="fr-header__service-title">Potentiel</p>
+                </a>
+                <p class="fr-header__service-tagline">
+                  Facilite le parcours des producteurs
+                  <br/>
+                  d'énergies renouvelables électriques
+                </p>
+              </div>
             </div>
-        </nav>
+            <div class="fr-header__tools">
+              <div class="fr-header__tools-links">
+                <ul class="fr-links-group">
+                  <li>
+                    <a 
+                      class="fr-link fr-fi-logout-box-r-line" 
+                      href="${properties.potentielUrl}/logout"
+                      >
+                      Se déconnecter
+                    </a>
+                  </li>
+                  <li>
+                    <a class="fr-link fr-fi-external-link-line fr-link--icon-right" target="_blank" rel="noopener"
+                      href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel">
+                      Aide
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    
+      <!-- Navigation principale -->
+      <div
+        class="fr-header__menu fr-modal"
+        id="modal-833"
+        aria-labelledby="fr-btn-menu-mobile"
+      >
+        <div class="fr-container">
+          <button class="fr-link--close fr-link" aria-controls="modal-833">
+            Fermer
+          </button>
+          <div class="fr-header__menu-links"></div>
+          <nav
+            class="fr-nav"
+            id="navigation-832"
+            role="navigation"
+            aria-label="Menu principal"
+          >
+            <ul class="fr-nav__list">
+              <li class="fr-nav__item">
+                <a class="fr-nav__link" href="${properties.potentielUrl}/go-to-user-dashboard" target="_self">
+                  <span class="fr-fi-arrow-left-line" aria-hidden="true"></span> Retourner sur Potentiel
+                </a>
+              </li>
+              <li class="fr-nav__item">
+                <a class="fr-nav__link" href="${url.accountUrl}" target="_self" <#if active=='account'>aria-current="page"</#if>>${msg("account")}</a>
+              </li>
+              <#if features.passwordUpdateSupported>
+              <li class="fr-nav__item">
+                <a class="fr-nav__link" href="${url.passwordUrl}" target="_self" <#if active=='password'>aria-current="page"</#if>>${msg("password")}</a>
+              </li>
+              </#if>
+              <li class="fr-nav__item">
+                <a class="fr-nav__link" href="${url.totpUrl}" target="_self" <#if active=='totp'>aria-current="page"</#if>>${msg("authenticator")}</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
     </header>
 
-    <div class="container">
-        <div class="bs-sidebar col-sm-3">
-            <ul>
-                <li class="<#if active=='account'>active</#if>"><a href="${url.accountUrl}">${msg("account")}</a></li>
-                <#if features.passwordUpdateSupported><li class="<#if active=='password'>active</#if>"><a href="${url.passwordUrl}">${msg("password")}</a></li></#if>
-                <li class="<#if active=='totp'>active</#if>"><a href="${url.totpUrl}">${msg("authenticator")}</a></li>
-                <#if features.identityFederation><li class="<#if active=='social'>active</#if>"><a href="${url.socialUrl}">${msg("federatedIdentity")}</a></li></#if>
-                <li class="<#if active=='sessions'>active</#if>"><a href="${url.sessionsUrl}">${msg("sessions")}</a></li>
-                <li class="<#if active=='applications'>active</#if>"><a href="${url.applicationsUrl}">${msg("applications")}</a></li>
-                <#if features.log><li class="<#if active=='log'>active</#if>"><a href="${url.logUrl}">${msg("log")}</a></li></#if>
-                <#if realm.userManagedAccessAllowed && features.authorization><li class="<#if active=='authorization'>active</#if>"><a href="${url.resourceUrl}">${msg("myResources")}</a></li></#if>
+    <main role="main">
+      <div class="fr-container fr-py-6w">
+        <section>
+          <#nested "content">
+        </section>
+      </div>
+    </main>
+    
+    <footer class="fr-footer" role="contentinfo" id="footer">
+      <div class="fr-container">
+        <div class="fr-footer__body">
+          <div class="fr-footer__brand fr-enlarge-link">
+            <p class="fr-logo" title="république française">
+              Ministère<br />
+              de la transition<br />
+              écologique
+            </p>
+          </div>
+          <div class="fr-footer__content">
+            <p class="fr-footer__content-desc">
+              Suivez efficacement vos projets :<br />
+              Transmettez vos documents, demandez des modifications.
+            </p>
+            <ul class="fr-footer__content-list">
+              <li class="fr-footer__content-item">
+                <a class="fr-footer__content-link" href="https://legifrance.gouv.fr"
+                  >legifrance.gouv.fr</a
+                >
+              </li>
+              <li class="fr-footer__content-item">
+                <a class="fr-footer__content-link" href="https://gouvernement.fr"
+                  >gouvernement.fr</a
+                >
+              </li>
+              <li class="fr-footer__content-item">
+                <a class="fr-footer__content-link" href="https://service-public.fr"
+                  >service-public.fr</a
+                >
+              </li>
+              <li class="fr-footer__content-item">
+                <a class="fr-footer__content-link" href="https://data.gouv.fr"
+                  >data.gouv.fr</a
+                >
+              </li>
             </ul>
+          </div>
         </div>
-
-        <div class="col-sm-9 content-area">
-            <#if message?has_content>
-                <div class="alert alert-${message.type}">
-                    <#if message.type=='success' ><span class="pficon pficon-ok"></span></#if>
-                    <#if message.type=='error' ><span class="pficon pficon-error-circle-o"></span></#if>
-                    <span class="kc-feedback-text">${kcSanitize(message.summary)?no_esc}</span>
-                </div>
-            </#if>
-
-            <#nested "content">
+        <div class="fr-footer__bottom">
+          <ul class="fr-footer__bottom-list">
+            <li class="fr-footer__bottom-item">
+              <a class="fr-footer__bottom-link" href="#">Plan du site</a>
+            </li>
+            <li class="fr-footer__bottom-item">
+              <a class="fr-footer__bottom-link" href="#"
+                >Accessibilité: non conforme</a
+              >
+            </li>
+            <li class="fr-footer__bottom-item">
+              <a class="fr-footer__bottom-link" href="https://docs.potentiel.beta.gouv.fr/info/cgu">Mentions légales</a>
+            </li>
+            <li class="fr-footer__bottom-item">
+              <a class="fr-footer__bottom-link" href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel">Guide d'utilisation</a>
+            </li>
+            <li class="fr-footer__bottom-item">
+              <a class="fr-footer__bottom-link" href="https://potentiel.beta.gouv.fr/stats.html">Statistiques</a>
+            </li>
+            <li class="fr-footer__bottom-item">
+              <a class="fr-footer__bottom-link" href="https://docs.potentiel.beta.gouv.fr/info/cgu#cookies">Gestion des cookies</a>
+            </li>
+          </ul>
+          <div class="fr-footer__bottom-copy">
+            <p>
+              Sauf mention contraire, tous les contenus de ce site sont sous
+              <a
+                href="https://github.com/etalab/licence-ouverte/blob/master/LO.md"
+                target="_blank"
+                >licence etalab-2.0</a
+              >
+            </p>
+          </div>
         </div>
-    </div>
+      </div>
+    </footer>
 
-</body>
+    <script type="module" src="${url.resourcesPath}/dsfr/dsfr.module.min.js"></script>
+    <script type="text/javascript" nomodule src="${url.resourcesPath}/dsfr/dsfr.nomodule.min.js"></script>
+  </body>
 </html>
 </#macro>
