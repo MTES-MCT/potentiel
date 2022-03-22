@@ -79,6 +79,6 @@ v1Router.get(routes.ADMIN_DASHBOARD, ensureRole(['admin', 'dgec', 'dreal']), get
 
 v1Router.get(
   routes.USER_DASHBOARD,
-  ensureRole(['porteur-projet', 'acheteur-obligé', 'ademe']),
+  ensureRole(['admin', 'dgec', 'dreal', 'porteur-projet', 'acheteur-obligé', 'ademe']),
   getProjectListPage
 )
