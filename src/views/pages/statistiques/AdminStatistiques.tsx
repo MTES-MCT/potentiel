@@ -1,6 +1,6 @@
 import type { Request } from 'express'
 import React from 'react'
-import AdminDashboard from 'src/views/components/AdminDashboard'
+import AdminDashboard from '../../components/AdminDashboard'
 import { PageLayout } from '../../components/PageLayout'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
 
