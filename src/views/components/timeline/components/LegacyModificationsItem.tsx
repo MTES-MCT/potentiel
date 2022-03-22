@@ -115,7 +115,9 @@ const Actionnaire = (props: ActionnaireProps) => {
       <ContentArea>
         <ItemDate date={date} />
         <ItemTitle title={`Modification de l'actionnariat ${titleStatus}`} />
-        <p className="p-0 m-0">Actionnaire précédent : {actionnairePrecedent}</p>
+        {actionnairePrecedent !== '' && (
+          <p className="p-0 m-0">Actionnaire précédent : {actionnairePrecedent}</p>
+        )}
       </ContentArea>
     </>
   )
