@@ -56,17 +56,17 @@
             </div>
             <div class="fr-header__tools">
               <div class="fr-header__tools-links">
-                <ul class="fr-links-group">
+                <ul class="fr-btns-group">
                   <li>
                     <a 
-                      class="fr-link fr-fi-logout-box-r-line" 
+                      class="fr-btn fr-fi-logout-box-r-line" 
                       href="${properties.potentielUrl}/logout"
                       >
                       Se déconnecter
                     </a>
                   </li>
                   <li>
-                    <a class="fr-link fr-fi-external-link-line fr-link--icon-right" target="_blank" rel="noopener"
+                    <a class="fr-btn fr-fi-external-link-line" target="_blank" rel="noopener"
                       href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel">
                       Aide
                     </a>
@@ -86,7 +86,7 @@
         aria-labelledby="fr-btn-menu-mobile"
       >
         <div class="fr-container">
-          <button class="fr-link--close fr-link" aria-controls="modal-833">
+          <button class="fr-btn--close fr-btn" aria-controls="modal-833">
             Fermer
           </button>
           <div class="fr-header__menu-links"></div>
