@@ -1230,6 +1230,7 @@ export const LegacyModificationsAndDelayRequestForPP = () => (
           modificationType: 'delai',
           ancienneDateLimiteAchevement: new Date('2022-01-15').getTime(),
           nouvelleDateLimiteAchevement: new Date('2024-01-15').getTime(),
+          status: 'acceptée',
         } as LegacyModificationImportedDTO,
         {
           type: 'LegacyModificationImported',
@@ -1237,6 +1238,7 @@ export const LegacyModificationsAndDelayRequestForPP = () => (
           variant: 'porteur-projet',
           modificationType: 'producteur',
           producteurPrecedent: 'ancien producteur',
+          status: 'accord-de-principe',
         } as LegacyModificationImportedDTO,
         {
           type: 'LegacyModificationImported',
@@ -1245,6 +1247,7 @@ export const LegacyModificationsAndDelayRequestForPP = () => (
           modificationType: 'autre',
           column: 'Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)',
           value: '24',
+          status: 'acceptée',
         } as LegacyModificationImportedDTO,
         {
           type: 'ModificationRequested',
@@ -1291,7 +1294,7 @@ export const LegacyRecoursRejectedForPP = () => (
           date: new Date('2019-01-15').getTime(),
           variant: 'porteur-projet',
           modificationType: 'recours',
-          accepted: false,
+          status: 'rejetée',
         } as LegacyModificationImportedDTO,
       ],
     }}

@@ -29,6 +29,7 @@ describe('handleLegacyModificationImported', () => {
                 value: 'b',
                 modifiedOn,
                 modificationId,
+                status: 'acceptée',
               },
             ],
           },
@@ -59,7 +60,7 @@ describe('handleLegacyModificationImported', () => {
                 type: 'delai',
                 modifiedOn,
                 modificationId,
-                accepted: false,
+                status: 'rejetée',
               },
             ],
           },
@@ -68,7 +69,7 @@ describe('handleLegacyModificationImported', () => {
     })
 
     it('should not call Project.setCompletionDueDate()', () => {
-      expect(fakeProject.setCompletionDueDate).not.toHaveBeenCalledWith(123456)
+      expect(fakeProject.setCompletionDueDate).not.toHaveBeenCalled()
     })
   })
 
@@ -91,7 +92,7 @@ describe('handleLegacyModificationImported', () => {
                 ancienneDateLimiteAchevement: 123,
                 modifiedOn,
                 modificationId,
-                accepted: true,
+                status: 'acceptée',
               },
             ],
           },
@@ -127,7 +128,7 @@ describe('handleLegacyModificationImported', () => {
                 ancienneDateLimiteAchevement: 123,
                 modifiedOn: earlierModifiedOn,
                 modificationId,
-                accepted: true,
+                status: 'acceptée',
               },
               {
                 type: 'delai',
@@ -135,7 +136,7 @@ describe('handleLegacyModificationImported', () => {
                 ancienneDateLimiteAchevement: 123,
                 modifiedOn: latterModifiedOn,
                 modificationId,
-                accepted: true,
+                status: 'acceptée',
               },
             ],
           },
@@ -168,7 +169,7 @@ describe('handleLegacyModificationImported', () => {
                 type: 'abandon',
                 modifiedOn,
                 modificationId,
-                accepted: false,
+                status: 'rejetée',
               },
             ],
           },
@@ -198,7 +199,7 @@ describe('handleLegacyModificationImported', () => {
                 type: 'abandon',
                 modifiedOn,
                 modificationId,
-                accepted: true,
+                status: 'acceptée',
               },
             ],
           },
@@ -230,13 +231,13 @@ describe('handleLegacyModificationImported', () => {
                 type: 'abandon',
                 modifiedOn: latterModifiedOn,
                 modificationId,
-                accepted: true,
+                status: 'acceptée',
               },
               {
                 type: 'abandon',
                 modifiedOn: earlierModifiedOn,
                 modificationId,
-                accepted: true,
+                status: 'acceptée',
               },
             ],
           },

@@ -206,18 +206,18 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                 case 'LegacyModificationImported':
                   if (userIsNot('ademe')(user)) {
                     const modificationType = payload.modificationType
-                    const accepted = payload.accepted
+                    const status = payload.status
                     const common = {
                       type,
                       date: valueDate,
                       variant: user.role,
                       modificationType,
+                      status,
                     }
                     if (modificationType === 'delai') {
                       events.push({
                         ...common,
-                        accepted,
-                        ...(accepted && {
+                        ...(status !== 'rejetée' && {
                           ancienneDateLimiteAchevement: payload.ancienneDateLimiteAchevement,
                           nouvelleDateLimiteAchevement: payload.nouvelleDateLimiteAchevement,
                         }),
@@ -227,25 +227,22 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       events.push({
                         ...common,
                         actionnairePrecedent: payload.actionnairePrecedent,
-                        accepted: true,
                       })
                     }
                     if (modificationType === 'producteur') {
                       events.push({
                         ...common,
                         producteurPrecedent: payload.producteurPrecedent,
-                        accepted: true,
                       })
                     }
                     if (modificationType === 'abandon' || modificationType === 'recours') {
-                      events.push({ ...common, accepted })
+                      events.push({ ...common })
                     }
                     if (modificationType === 'autre') {
                       events.push({
                         ...common,
                         column: payload.column,
                         value: payload.value,
-                        accepted: true,
                       })
                     }
                   }

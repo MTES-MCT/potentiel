@@ -19,12 +19,13 @@ export default ProjectEvent.projector.on(
         type: 'LegacyModificationImported',
       }
       const filename = modification.filename
+      const status = modification.status
       switch (modification.type) {
         case 'abandon':
           await ProjectEvent.create(
             {
               ...common,
-              payload: { modificationType: 'abandon', accepted: modification.accepted, filename },
+              payload: { modificationType: 'abandon', status, filename },
             },
             { transaction }
           )
@@ -33,19 +34,19 @@ export default ProjectEvent.projector.on(
           await ProjectEvent.create(
             {
               ...common,
-              payload: { modificationType: 'recours', accepted: modification.accepted, filename },
+              payload: { modificationType: 'recours', status, filename },
             },
             { transaction }
           )
           break
         case 'delai':
-          if (modification.accepted) {
+          if (status === 'acceptée' || status === 'accord-de-principe') {
             await ProjectEvent.create(
               {
                 ...common,
                 payload: {
                   modificationType: 'delai',
-                  accepted: true,
+                  status,
                   ancienneDateLimiteAchevement: modification.ancienneDateLimiteAchevement,
                   nouvelleDateLimiteAchevement: modification.nouvelleDateLimiteAchevement,
                   filename,
@@ -59,7 +60,7 @@ export default ProjectEvent.projector.on(
                 ...common,
                 payload: {
                   modificationType: 'delai',
-                  accepted: false,
+                  status,
                   filename,
                 },
               },
@@ -75,6 +76,7 @@ export default ProjectEvent.projector.on(
                 modificationType: 'actionnaire',
                 actionnairePrecedent: modification.actionnairePrecedent,
                 filename,
+                status,
               },
             },
             { transaction }
@@ -88,6 +90,7 @@ export default ProjectEvent.projector.on(
                 modificationType: 'producteur',
                 producteurPrecedent: modification.producteurPrecedent,
                 filename,
+                status,
               },
             },
             { transaction }
@@ -102,6 +105,7 @@ export default ProjectEvent.projector.on(
                 column: modification.column,
                 value: modification.value,
                 filename,
+                status,
               },
             },
             { transaction }

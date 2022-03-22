@@ -102,14 +102,14 @@ describe('onLegacyModificationImported', () => {
                 modifiedOn: new Date('2019-01-01').getTime(),
                 modificationId: new UniqueEntityID().toString(),
                 type: 'abandon',
-                accepted: true,
+                status: 'acceptée',
                 filename: 'filename',
               },
               {
                 modifiedOn: new Date('2019-01-01').getTime(),
                 modificationId: new UniqueEntityID().toString(),
                 type: 'recours',
-                accepted: true,
+                status: 'acceptée',
                 motifElimination: 'motif',
               },
               {
@@ -118,7 +118,7 @@ describe('onLegacyModificationImported', () => {
                 type: 'delai',
                 nouvelleDateLimiteAchevement: new Date('2021-07-01').getTime(),
                 ancienneDateLimiteAchevement: new Date('2021-01-01').getTime(),
-                accepted: true,
+                status: 'acceptée',
               },
               {
                 modifiedOn: new Date('2021-01-01').getTime(),
@@ -126,12 +126,14 @@ describe('onLegacyModificationImported', () => {
                 type: 'actionnaire',
                 actionnairePrecedent: 'nom ancien actionnaire',
                 siretPrecedent: 'siret',
+                status: 'acceptée',
               },
               {
                 modifiedOn: new Date('2022-01-01').getTime(),
                 modificationId: new UniqueEntityID().toString(),
                 type: 'producteur',
                 producteurPrecedent: 'nom ancien producteur',
+                status: 'acceptée',
               },
               {
                 modifiedOn: new Date('2022-01-01').getTime(),
@@ -139,6 +141,7 @@ describe('onLegacyModificationImported', () => {
                 type: 'autre',
                 column: 'col',
                 value: 'val',
+                status: 'acceptée',
               },
             ],
           },
@@ -156,11 +159,11 @@ describe('onLegacyModificationImported', () => {
       expect(projectEvent).toHaveLength(6)
       expect(projectEvent[0]).toMatchObject({
         type: 'LegacyModificationImported',
-        payload: { modificationType: 'abandon', filename: 'filename' },
+        payload: { modificationType: 'abandon', filename: 'filename', status: 'acceptée' },
       })
       expect(projectEvent[1]).toMatchObject({
         type: 'LegacyModificationImported',
-        payload: { modificationType: 'recours', accepted: true },
+        payload: { modificationType: 'recours', status: 'acceptée' },
       })
       expect(projectEvent[2]).toMatchObject({
         type: 'LegacyModificationImported',
@@ -168,6 +171,7 @@ describe('onLegacyModificationImported', () => {
           modificationType: 'delai',
           nouvelleDateLimiteAchevement: new Date('2021-07-01').getTime(),
           ancienneDateLimiteAchevement: new Date('2021-01-01').getTime(),
+          status: 'acceptée',
         },
       })
       expect(projectEvent[3]).toMatchObject({
@@ -175,15 +179,20 @@ describe('onLegacyModificationImported', () => {
         payload: {
           modificationType: 'actionnaire',
           actionnairePrecedent: 'nom ancien actionnaire',
+          status: 'acceptée',
         },
       })
       expect(projectEvent[4]).toMatchObject({
         type: 'LegacyModificationImported',
-        payload: { modificationType: 'producteur', producteurPrecedent: 'nom ancien producteur' },
+        payload: {
+          modificationType: 'producteur',
+          producteurPrecedent: 'nom ancien producteur',
+          status: 'acceptée',
+        },
       })
       expect(projectEvent[5]).toMatchObject({
         type: 'LegacyModificationImported',
-        payload: { modificationType: 'autre', column: 'col', value: 'val' },
+        payload: { modificationType: 'autre', column: 'col', value: 'val', status: 'acceptée' },
       })
     })
   })

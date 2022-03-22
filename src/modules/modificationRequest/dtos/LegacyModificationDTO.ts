@@ -1,19 +1,23 @@
+export type LegacyModificationStatus = 'acceptée' | 'rejetée' | 'accord-de-principe'
+
 export type LegacyAbandon = {
   type: 'abandon'
-  accepted: boolean
 }
 
 export type LegacyRecours = {
   type: 'recours'
-  accepted: boolean
   motifElimination: string
 }
 
 export type LegacyDelai = {
   type: 'delai'
 } & (
-  | { accepted: true; nouvelleDateLimiteAchevement: number; ancienneDateLimiteAchevement: number }
-  | { accepted: false }
+  | {
+      status: Extract<LegacyModificationStatus, 'acceptée' | 'accord-de-principe'>
+      nouvelleDateLimiteAchevement: number
+      ancienneDateLimiteAchevement: number
+    }
+  | { status: Extract<LegacyModificationStatus, 'rejetée'> }
 )
 
 export type LegacyActionnaire = {
@@ -44,4 +48,5 @@ export type LegacyModificationDTO = {
   modifiedOn: number
   modificationId: string
   filename?: string
+  status: LegacyModificationStatus
 } & LegacyVariant

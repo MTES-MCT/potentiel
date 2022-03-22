@@ -13,19 +13,18 @@ export const onLegacyModificationImported =
         const common = {
           id: modification.modificationId,
           type: modification.type,
-          status: 'acceptée',
           respondedOn: modification.modifiedOn,
           requestedOn: modification.modifiedOn,
           projectId,
           versionDate: event.occurredAt,
           isLegacy: true,
           filename: modification.filename,
+          status: modification.status,
         }
         switch (modification.type) {
           case 'abandon':
             await ModificationRequest.create({
               ...common,
-              status: modification.accepted ? 'acceptée' : 'rejetée',
             })
             break
           case 'actionnaire':
@@ -38,10 +37,12 @@ export const onLegacyModificationImported =
             })
             break
           case 'delai':
-            if (modification.accepted) {
+            if (
+              modification.status === 'acceptée' ||
+              modification.status === 'accord-de-principe'
+            ) {
               await ModificationRequest.create({
                 ...common,
-                status: 'acceptée',
                 acceptanceParams: {
                   nouvelleDateLimiteAchevement: modification.nouvelleDateLimiteAchevement,
                   ancienneDateLimiteAchevement: modification.ancienneDateLimiteAchevement,
@@ -50,7 +51,6 @@ export const onLegacyModificationImported =
             } else {
               await ModificationRequest.create({
                 ...common,
-                status: 'rejetée',
               })
             }
             break
@@ -68,7 +68,6 @@ export const onLegacyModificationImported =
               acceptanceParams: {
                 motifElimination: modification.motifElimination,
               },
-              status: modification.accepted ? 'acceptée' : 'rejetée',
             })
             break
         }

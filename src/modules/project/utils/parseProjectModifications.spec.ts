@@ -19,7 +19,7 @@ describe('parseProjectModifications', () => {
       expect(modifications[0]).toMatchObject({
         type: 'abandon',
         modifiedOn: 1556143200000,
-        accepted: true,
+        status: 'acceptée',
         filename: 'filename',
       })
     })
@@ -35,14 +35,14 @@ describe('parseProjectModifications', () => {
       'Nom courrier 1': 'filename',
     }
 
-    it('should return a modification of type abandon not accepted', async () => {
+    it('should return a modification of type abandon rejected', async () => {
       const modifications = parseProjectModifications(phonyLine)
 
       expect(modifications).toHaveLength(1)
       expect(modifications[0]).toMatchObject({
         type: 'abandon',
         modifiedOn: 1556143200000,
-        accepted: false,
+        status: 'rejetée',
         filename: 'filename',
       })
     })
@@ -68,6 +68,7 @@ describe('parseProjectModifications', () => {
         column: 'column',
         value: 'value',
         filename: 'filename',
+        status: 'acceptée',
       })
     })
   })
@@ -88,7 +89,7 @@ describe('parseProjectModifications', () => {
       expect(modifications).toHaveLength(1)
       expect(modifications[0]).toMatchObject({
         type: 'recours',
-        accepted: false,
+        status: 'rejetée',
         modifiedOn: 1556143200000,
         filename: 'filename',
       })
@@ -111,7 +112,7 @@ describe('parseProjectModifications', () => {
       expect(modifications).toHaveLength(1)
       expect(modifications[0]).toMatchObject({
         type: 'recours',
-        accepted: true,
+        status: 'acceptée',
         modifiedOn: 1556143200000,
         filename: 'filename',
       })
@@ -138,7 +139,7 @@ describe('parseProjectModifications', () => {
       expect(modifications).toHaveLength(1)
       expect(modifications[0]).toMatchObject({
         type: 'recours',
-        accepted: true,
+        status: 'acceptée',
         modifiedOn: 1556143200000,
         motifElimination: 'Ancien motif',
         filename: 'filename',
@@ -165,7 +166,7 @@ describe('parseProjectModifications', () => {
         nouvelleDateLimiteAchevement: 1734822000000,
         ancienneDateLimiteAchevement: 1704063600000,
         modifiedOn: 1556143200000,
-        accepted: true,
+        status: 'acceptée',
         filename: 'filename',
       })
     })
@@ -187,10 +188,31 @@ describe('parseProjectModifications', () => {
       expect(modifications).toHaveLength(1)
       expect(modifications[0]).toMatchObject({
         type: 'delai',
-        nouvelleDateLimiteAchevement: 1734822000000,
-        ancienneDateLimiteAchevement: 1704063600000,
         modifiedOn: 1556143200000,
-        accepted: false,
+        status: 'rejetée',
+        filename: 'filename',
+      })
+    })
+  })
+
+  describe('when line has a single Prolongation de délai modification pending', () => {
+    const phonyLine = {
+      'Type de modification 1': 'Prolongation de délai',
+      'Date de modification 1': '25/04/2019',
+      'Colonne concernée 1': '22/12/2024',
+      'Ancienne valeur 1': '01/01/2024',
+      'Statut demandes 1': 'Accord de principe',
+      'Nom courrier 1': 'filename',
+    }
+
+    it('should return a rejected modification of type delai with the proper dates', async () => {
+      const modifications = parseProjectModifications(phonyLine)
+
+      expect(modifications).toHaveLength(1)
+      expect(modifications[0]).toMatchObject({
+        type: 'delai',
+        modifiedOn: 1556143200000,
+        status: 'accord-de-principe',
         filename: 'filename',
       })
     })
@@ -238,6 +260,7 @@ describe('parseProjectModifications', () => {
         siretPrecedent: 'ancien siret',
         modifiedOn: 1556143200000,
         filename: 'filename',
+        status: 'acceptée',
       })
     })
   })
@@ -261,6 +284,7 @@ describe('parseProjectModifications', () => {
         producteurPrecedent: 'ancien producteur',
         modifiedOn: 1556143200000,
         filename: 'filename',
+        status: 'acceptée',
       })
     })
   })
@@ -293,19 +317,20 @@ describe('parseProjectModifications', () => {
         type: 'producteur',
         producteurPrecedent: 'ancien producteur',
         modifiedOn: 1556143200000,
+        status: 'acceptée',
       })
       expect(modifications[1]).toMatchObject({
         type: 'delai',
         nouvelleDateLimiteAchevement: 1734822000000,
         ancienneDateLimiteAchevement: 1704063600000,
         modifiedOn: 1556229600000,
-        accepted: true,
+        status: 'acceptée',
       })
       expect(modifications[2]).toMatchObject({
         type: 'recours',
-        accepted: false,
         modifiedOn: 1556316000000,
         filename: 'filename',
+        status: 'acceptée',
       })
     })
   })

@@ -16,7 +16,7 @@ export const handleLegacyModificationImported =
       switch (modification.type) {
         case 'delai':
           if (delayApplied) continue
-          if (modification.accepted) {
+          if (modification.status === 'acceptée') {
             await projectRepo.transaction(new UniqueEntityID(projectId), (project) => {
               return project.setCompletionDueDate(modification.nouvelleDateLimiteAchevement)
             })
@@ -25,7 +25,7 @@ export const handleLegacyModificationImported =
           break
         case 'abandon':
           if (abandonApplied) continue
-          if (modification.accepted) {
+          if (modification.status === 'acceptée') {
             await projectRepo.transaction(new UniqueEntityID(projectId), (project) => {
               return project.abandonLegacy(modification.modifiedOn)
             })
