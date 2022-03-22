@@ -37,10 +37,7 @@ export const onLegacyModificationImported =
             })
             break
           case 'delai':
-            if (
-              modification.status === 'acceptée' ||
-              modification.status === 'accord-de-principe'
-            ) {
+            if (modification.status === 'acceptée') {
               await ModificationRequest.create({
                 ...common,
                 acceptanceParams: {

@@ -176,8 +176,8 @@ describe('parseProjectModifications', () => {
     const phonyLine = {
       'Type de modification 1': 'Prolongation de délai',
       'Date de modification 1': '25/04/2019',
-      'Colonne concernée 1': '22/12/2024',
-      'Ancienne valeur 1': '01/01/2024',
+      'Colonne concernée 1': '',
+      'Ancienne valeur 1': '',
       'Statut demandes 1': 'Refusée',
       'Nom courrier 1': 'filename',
     }
@@ -199,8 +199,8 @@ describe('parseProjectModifications', () => {
     const phonyLine = {
       'Type de modification 1': 'Prolongation de délai',
       'Date de modification 1': '25/04/2019',
-      'Colonne concernée 1': '22/12/2024',
-      'Ancienne valeur 1': '01/01/2024',
+      'Colonne concernée 1': '',
+      'Ancienne valeur 1': '',
       'Statut demandes 1': 'Accord de principe',
       'Nom courrier 1': 'filename',
     }

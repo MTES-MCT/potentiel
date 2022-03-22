@@ -217,7 +217,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                     if (modificationType === 'delai') {
                       events.push({
                         ...common,
-                        ...(status !== 'rejetée' && {
+                        ...(status === 'acceptée' && {
                           ancienneDateLimiteAchevement: payload.ancienneDateLimiteAchevement,
                           nouvelleDateLimiteAchevement: payload.nouvelleDateLimiteAchevement,
                         }),

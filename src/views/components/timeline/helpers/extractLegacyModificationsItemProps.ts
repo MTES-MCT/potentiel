@@ -8,13 +8,13 @@ export type LegacyModificationsItemProps = {
 } & (
   | {
       modificationType: 'delai'
-      status: Extract<LegacyModificationStatus, 'acceptée' | 'accord-de-principe'>
+      status: Extract<LegacyModificationStatus, 'acceptée'>
       ancienneDateLimiteAchevement: number
       nouvelleDateLimiteAchevement: number
     }
   | {
       modificationType: 'delai'
-      status: Extract<LegacyModificationStatus, 'rejetée'>
+      status: Extract<LegacyModificationStatus, 'rejetée' | 'accord-de-principe'>
     }
   | {
       modificationType: 'abandon'
@@ -70,7 +70,7 @@ export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) =
         })
         break
       case 'delai':
-        if (event.status !== 'rejetée') {
+        if (event.status === 'acceptée') {
           propsArray.push({
             type: 'modification-historique',
             date: event.date,

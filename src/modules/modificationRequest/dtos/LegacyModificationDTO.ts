@@ -13,11 +13,11 @@ export type LegacyDelai = {
   type: 'delai'
 } & (
   | {
-      status: Extract<LegacyModificationStatus, 'acceptée' | 'accord-de-principe'>
+      status: Extract<LegacyModificationStatus, 'acceptée'>
       nouvelleDateLimiteAchevement: number
       ancienneDateLimiteAchevement: number
     }
-  | { status: Extract<LegacyModificationStatus, 'rejetée'> }
+  | { status: Extract<LegacyModificationStatus, 'rejetée' | 'accord-de-principe'> }
 )
 
 export type LegacyActionnaire = {

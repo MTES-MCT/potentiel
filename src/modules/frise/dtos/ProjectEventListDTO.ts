@@ -288,13 +288,13 @@ export type LegacyModificationImportedDTO = {
   | { modificationType: 'recours'; motifElimination: string }
   | {
       modificationType: 'delai'
-      status: Extract<LegacyModificationStatus, 'acceptée' | 'accord-de-principe'>
+      status: Extract<LegacyModificationStatus, 'acceptée'>
       ancienneDateLimiteAchevement: number
       nouvelleDateLimiteAchevement: number
     }
   | {
       modificationType: 'delai'
-      status: Extract<LegacyModificationStatus, 'rejetée'>
+      status: Extract<LegacyModificationStatus, 'rejetée' | 'accord-de-principe'>
     }
   | { modificationType: 'actionnaire'; actionnairePrecedent: string }
   | { modificationType: 'producteur'; producteurPrecedent: string }

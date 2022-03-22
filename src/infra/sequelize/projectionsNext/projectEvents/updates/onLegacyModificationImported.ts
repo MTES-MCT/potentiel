@@ -45,7 +45,7 @@ export default ProjectEvent.projector.on(
           )
           break
         case 'delai':
-          if (status === 'acceptée' || status === 'accord-de-principe') {
+          if (status === 'acceptée') {
             await ProjectEvent.create(
               {
                 ...common,

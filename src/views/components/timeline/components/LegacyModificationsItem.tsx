@@ -61,7 +61,6 @@ type DelaiProps = LegacyModificationsItemProps & { modificationType: 'delai' }
 
 const Delai = (props: DelaiProps) => {
   const { date, status } = props
-  const notRejected = status === 'acceptée' || status === 'accord-de-principe'
   const titleStatus =
     status === 'acceptée' ? 'accepté' : status === 'accord-de-principe' ? 'à accorder' : 'rejeté'
   return (
@@ -70,7 +69,7 @@ const Delai = (props: DelaiProps) => {
       <ContentArea>
         <ItemDate date={date} />
         <ItemTitle title={`Délai supplémentaire ${titleStatus}`} />
-        {notRejected && (
+        {status === 'acceptée' && (
           <>
             <p className="p-0 m-0">
               Ancienne date limite d'attestation de conformité :{' '}
