@@ -181,7 +181,7 @@ export default function AdminDashboard({ children, currentPage, role }: AdminDas
             <MenuItem
               route={ROUTES.ADMIN_STATISTIQUES}
               itemPage={'admin-statistiques'}
-              title="tableau de bord"
+              title="Tableau de bord"
               visibleForRoles={['admin']}
               role={role}
               currentPage={currentPage}
