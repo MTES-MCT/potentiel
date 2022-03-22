@@ -20,6 +20,9 @@ import {
   ProjectNewRulesOptedIn,
   ProjectImported,
   ProjectReimported,
+  ProjectCompletionDueDateCancelled,
+  ProjectDCRDueDateCancelled,
+  ProjectGFDueDateCancelled,
 } from '@modules/project'
 import { onProjectImported } from './onProjectImported'
 import { onProjectCertificate } from './onProjectCertificate'
@@ -43,15 +46,24 @@ import { onProjectReimported } from './onProjectReimported'
 import { onProjectClaimed } from './onProjectClaimed'
 import { ProjectClaimed, ProjectClaimedByOwner } from '@modules/projectClaim'
 import { EventBus } from '@core/domain'
+import { onProjectCompletionDueDateCancelled } from './onProjectCompletionDueDateCancelled'
+import { onProjectDCRDueDateCancelled } from './onProjectDCRDueDateCancelled'
+import { onProjectGFDueDateCancelled } from './onProjectGFDueDateCancelled'
 
 export const initProjectProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ProjectImported.type, onProjectImported(models))
   eventBus.subscribe(ProjectReimported.type, onProjectReimported(models))
   eventBus.subscribe(ProjectDataCorrected.type, onProjectDataCorrected(models))
   eventBus.subscribe(ProjectDCRDueDateSet.type, onProjectDCRDueDateSet(models))
+  eventBus.subscribe(ProjectDCRDueDateCancelled.type, onProjectDCRDueDateCancelled(models))
   eventBus.subscribe(ProjectGFDueDateSet.type, onProjectGFDueDateSet(models))
+  eventBus.subscribe(ProjectGFDueDateCancelled.type, onProjectGFDueDateCancelled(models))
   eventBus.subscribe(ProjectGFInvalidated.type, onProjectGFInvalidated(models))
   eventBus.subscribe(ProjectCompletionDueDateSet.type, onProjectCompletionDueDateSet(models))
+  eventBus.subscribe(
+    ProjectCompletionDueDateCancelled.type,
+    onProjectCompletionDueDateCancelled(models)
+  )
   eventBus.subscribe(ProjectNotified.type, onProjectNotificationDateSet(models))
   eventBus.subscribe(ProjectNotificationDateSet.type, onProjectNotificationDateSet(models))
   eventBus.subscribe(ProjectCertificateGenerated.type, onProjectCertificate(models))
