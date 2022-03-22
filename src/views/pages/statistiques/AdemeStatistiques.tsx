@@ -15,7 +15,7 @@ export const AdemeStatistiques = PageLayout(function (props: Props) {
     <PartnerDashboard currentPage="ademe-statistiques" role="ademe">
       <main role="main" className="panel">
         <div className="panel__header">
-          <h3>Ademe statistiques</h3>
+          <h3>Tableau de bord</h3>
         </div>
         <section className="section section-white" style={{ paddingTop: 0 }}>
           <script src="https://metabase.potentiel.beta.gouv.fr/app/iframeResizer.js"></script>
