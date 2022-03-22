@@ -28,7 +28,9 @@ v1Router.post(
     }
 
     const redirectTo = Array.isArray(projectId)
-      ? routes.USER_LIST_PROJECTS
+      ? user.role === 'porteur-projet'
+        ? routes.USER_LIST_PROJECTS
+        : routes.ADMIN_LIST_PROJECTS
       : routes.PROJECT_DETAILS(projectId)
     ;(
       await inviteUserToProject({
