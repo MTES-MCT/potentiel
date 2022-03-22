@@ -162,6 +162,7 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
               payload: {
                 modificationType: 'recours',
                 status: 'acceptée',
+                motifElimination: 'motif',
               },
             })
 
@@ -174,6 +175,7 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
                   variant: role,
                   modificationType: 'recours',
                   status: 'acceptée',
+                  motifElimination: 'motif',
                 },
               ],
             })
@@ -194,6 +196,7 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
           payload: {
             modificationType: 'recours',
             status: 'acceptée',
+            motifElimination: 'motif',
           },
         })
 

@@ -17,7 +17,11 @@ export type LegacyModificationsItemProps = {
       status: Extract<LegacyModificationStatus, 'rejetée'>
     }
   | {
-      modificationType: 'abandon' | 'recours'
+      modificationType: 'abandon'
+    }
+  | {
+      modificationType: 'recours'
+      motifElimination: string
     }
   | {
       modificationType: 'producteur'
@@ -62,6 +66,7 @@ export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) =
           date: event.date,
           status: event.status,
           modificationType: 'recours',
+          motifElimination: event.motifElimination,
         })
         break
       case 'delai':

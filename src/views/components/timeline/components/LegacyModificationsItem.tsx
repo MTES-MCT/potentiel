@@ -42,7 +42,7 @@ const Abandon = (props: AbandonProps) => {
 type RecoursProps = LegacyModificationsItemProps & { modificationType: 'recours' }
 
 const Recours = (props: RecoursProps) => {
-  const { status, date } = props
+  const { status, date, motifElimination } = props
   const titleStatus =
     status === 'acceptée' ? 'accepté' : status === 'accord-de-principe' ? 'à accorder' : 'rejeté'
   return (
@@ -51,6 +51,7 @@ const Recours = (props: RecoursProps) => {
       <ContentArea>
         <ItemDate date={date} />
         <ItemTitle title={`Recours ${titleStatus}`} />
+        {motifElimination !== '' && <p>Motif de l'élimination : {motifElimination}</p>}
       </ContentArea>
     </>
   )

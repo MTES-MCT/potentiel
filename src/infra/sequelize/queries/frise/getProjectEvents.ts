@@ -235,8 +235,11 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                         producteurPrecedent: payload.producteurPrecedent,
                       })
                     }
-                    if (modificationType === 'abandon' || modificationType === 'recours') {
+                    if (modificationType === 'abandon') {
                       events.push({ ...common })
+                    }
+                    if (modificationType === 'recours') {
+                      events.push({ ...common, motifElimination: payload.motifElimination })
                     }
                     if (modificationType === 'autre') {
                       events.push({

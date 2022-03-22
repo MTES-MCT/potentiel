@@ -34,7 +34,12 @@ export default ProjectEvent.projector.on(
           await ProjectEvent.create(
             {
               ...common,
-              payload: { modificationType: 'recours', status, filename },
+              payload: {
+                modificationType: 'recours',
+                status,
+                filename,
+                motifElimination: modification.motifElimination,
+              },
             },
             { transaction }
           )

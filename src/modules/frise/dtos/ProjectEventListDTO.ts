@@ -284,7 +284,8 @@ export type LegacyModificationImportedDTO = {
   variant: Exclude<UserRole, 'ademe'>
   status: LegacyModificationStatus
 } & (
-  | { modificationType: 'recours' | 'abandon' }
+  | { modificationType: 'abandon' }
+  | { modificationType: 'recours'; motifElimination: string }
   | {
       modificationType: 'delai'
       status: Extract<LegacyModificationStatus, 'acceptée' | 'accord-de-principe'>

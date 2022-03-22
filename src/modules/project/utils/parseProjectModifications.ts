@@ -46,12 +46,10 @@ function extractRecoursType(args: {
       )
     }
 
-    const accepted = ancienneValeur === 'Classé'
     return {
       type: 'recours',
       projectId: '',
       modifiedOn,
-      accepted,
       motifElimination: '',
       modificationId: new UniqueEntityID().toString(),
       filename: nomCourrier,

@@ -163,7 +163,7 @@ describe('onLegacyModificationImported', () => {
       })
       expect(projectEvent[1]).toMatchObject({
         type: 'LegacyModificationImported',
-        payload: { modificationType: 'recours', status: 'acceptée' },
+        payload: { modificationType: 'recours', status: 'acceptée', motifElimination: 'motif' },
       })
       expect(projectEvent[2]).toMatchObject({
         type: 'LegacyModificationImported',

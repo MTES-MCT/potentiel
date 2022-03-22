@@ -1295,6 +1295,7 @@ export const LegacyRecoursRejectedForPP = () => (
           variant: 'porteur-projet',
           modificationType: 'recours',
           status: 'rejetée',
+          motifElimination: 'documents manquants',
         } as LegacyModificationImportedDTO,
       ],
     }}

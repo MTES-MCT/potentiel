@@ -82,6 +82,7 @@ describe('extractLegacyModificationsItemProps', () => {
           variant: 'admin',
           modificationType: 'recours',
           status: 'rejetée',
+          motifElimination: 'motif',
         } as LegacyModificationImportedDTO,
       ]
       const result = extractLegacyModificationsItemProps(projectEventList)
@@ -92,6 +93,7 @@ describe('extractLegacyModificationsItemProps', () => {
           date,
           status: 'rejetée',
           modificationType: 'recours',
+          motifElimination: 'motif',
         },
       ])
     })
