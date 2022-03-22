@@ -15,7 +15,7 @@ export const AdminStatistiques = PageLayout(function (props: Props) {
     <AdminDashboard currentPage="admin-statistiques" role="admin">
       <main role="main" className="panel">
         <div className="panel__header">
-          <h3>Admin statistiques</h3>
+          <h3>Tableau de bord</h3>
         </div>
         <section className="section section-white" style={{ paddingTop: 0 }}>
           <script src="https://metabase.potentiel.beta.gouv.fr/app/iframeResizer.js"></script>
