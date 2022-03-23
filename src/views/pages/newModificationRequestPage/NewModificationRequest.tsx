@@ -33,6 +33,8 @@ export const NewModificationRequest = PageLayout(
     const [displayForm, setDisplayForm] = useState(project.newRulesOptIn)
     const [isSubmitButtonDisabled, setDisableSubmitButton] = useState(false)
 
+    const isEolien = project.appelOffre?.type === 'eolien'
+
     return (
       <UserDashboard currentPage={'list-requests'}>
         <div className="panel">
@@ -104,20 +106,22 @@ export const NewModificationRequest = PageLayout(
                   {success}
                 </div>
               )}
-              <div>
-                <label className="required">
-                  <strong>
-                    Veuillez saisir les modalités d'instruction à appliquer à ce changement
-                  </strong>
-                </label>
-                <CDCChoiceForm
-                  newRulesOptIn={project.newRulesOptIn}
-                  cahiersChargesURLs={cahiersChargesURLs}
-                  onChoiceChange={(isNewRule: boolean) => setDisplayForm(!isNewRule)}
-                />
-              </div>
+              {!isEolien && (
+                <div>
+                  <label className="required">
+                    <strong>
+                      Veuillez saisir les modalités d'instruction à appliquer à ce changement
+                    </strong>
+                  </label>
+                  <CDCChoiceForm
+                    newRulesOptIn={project.newRulesOptIn}
+                    cahiersChargesURLs={cahiersChargesURLs}
+                    onChoiceChange={(isNewRule: boolean) => setDisplayForm(!isNewRule)}
+                  />
+                </div>
+              )}
 
-              {displayForm && (
+              {(isEolien || displayForm) && (
                 <div {...dataId('modificationRequest-demandesInputs')}>
                   {action === 'puissance' && (
                     <ChangementPuissance
