@@ -327,3 +327,13 @@ pre {
   margin-bottom: 2px;
   min-height: calc(100vh - 500px);
 }
+
+#menu-toggle:checked ~ .menu {
+  display: block;
+}
+#menu-toggle:checked ~ label .menu-close {
+  display: block;
+}
+#menu-toggle:checked ~ label .menu-open {
+  display: none;
+}
