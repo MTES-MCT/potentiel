@@ -35,6 +35,9 @@ export const ProjectDetails = PageLayout(
       return <div />
     }
 
+    const displayCDCForm =
+      user.role == 'porteur-projet' && project.isClasse && project.appelOffre.type !== 'eolien'
+
     return (
       <RoleBasedDashboard role={user.role} currentPage="list-projects">
         <ProjectHeader {...{ project, user, cahiersChargesURLs }} />
@@ -200,7 +203,7 @@ export const ProjectDetails = PageLayout(
               )}
             </div>
           </div>
-          {user.role == 'porteur-projet' && project.isClasse ? (
+          {displayCDCForm ? (
             <Section title="Cahier des charges" icon="clipboard-check">
               <form action={ROUTES.CHANGER_CDC} method="post" className={'m-0 max-w-full'}>
                 <CDCChoiceForm
