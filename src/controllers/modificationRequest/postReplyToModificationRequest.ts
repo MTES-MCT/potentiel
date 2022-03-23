@@ -45,7 +45,6 @@ v1Router.post(
       delayInMonths,
       puissance,
       isDecisionJustice,
-      replyWithoutAttachment,
       actionnaire,
       producteur,
     } = request.body
@@ -112,8 +111,7 @@ v1Router.post(
       filename: request.file.originalname,
     }
 
-    const courrierReponseIsOk =
-      responseFile || (acceptedReply && (isDecisionJustice || replyWithoutAttachment))
+    const courrierReponseIsOk = responseFile || (acceptedReply && isDecisionJustice)
 
     if (!courrierReponseIsOk) {
       return response.redirect(
