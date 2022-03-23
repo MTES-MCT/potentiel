@@ -17,7 +17,7 @@ export const UploadResponseFile = ({ modificationRequest }: UploadResponseFilePr
           type="file"
           name="file"
           id="file"
-          required={modificationRequest.type === 'recours'}
+          required={modificationRequest.type !== 'puissance'}
         />
       </div>
     </>
