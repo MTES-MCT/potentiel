@@ -32,6 +32,7 @@ export const NewModificationRequest = PageLayout(
 
     const [displayForm, setDisplayForm] = useState(project.newRulesOptIn)
     const [isSubmitButtonDisabled, setDisableSubmitButton] = useState(false)
+    const isEolien = project.appelOffre?.type === 'eolien'
 
     return (
       <UserDashboard currentPage={'list-requests'}>
@@ -150,7 +151,7 @@ export const NewModificationRequest = PageLayout(
                     name="submit"
                     id="submit"
                     {...dataId('submit-button')}
-                    disabled={isSubmitButtonDisabled}
+                    disabled={isEolien || isSubmitButtonDisabled}
                   >
                     Envoyer
                   </button>
