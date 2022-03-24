@@ -136,14 +136,14 @@
               <div class="hidden lg:block logo-after"></div>
             </div>
 
-            <div class="ml-2 lg:ml-8">
+            <a class="ml-2 lg:ml-8 no-underline" style="color: black" href="${properties.potentielUrl}">
               <div class="font-bold lg:text-xl">Potentiel</div>
               <div class="hidden lg:block text-base">
                 Facilite le parcours des producteurs
                 <br />
                 d'énergies renouvelables électriques
               </div>
-            </div>
+            </a>
 
             <div class="flex flex-row ml-auto">
               <ul

@@ -48,14 +48,14 @@ const Logo = () => (
 )
 
 const Title = () => (
-  <div className="ml-2 lg:ml-8">
+  <a className="ml-2 lg:ml-8 no-underline" style={{ color: 'black' }} href={routes.HOME}>
     <div className="font-bold lg:text-xl">Potentiel</div>
     <div className="hidden lg:block text-base">
       Facilite le parcours des producteurs
       <br />
       d'énergies renouvelables électriques
     </div>
-  </div>
+  </a>
 )
 
 type QuickAccessProps = {
