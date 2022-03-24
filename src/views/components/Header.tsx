@@ -7,7 +7,6 @@ type HeaderProps = {
 }
 
 const Header = ({ request }: HeaderProps) => {
-  const user = request.user
   return (
     <>
       <header
@@ -16,16 +15,20 @@ const Header = ({ request }: HeaderProps) => {
           boxShadow: '0 8px 8px 0 rgb(0 0 0 / 10%)',
         }}
       >
-        <div className="flex flex-col p-2 lg:p-0 lg:px-2 xl:mx-auto xl:max-w-7xl text-lg">
-          <section className="flex flex-row px-2 pb-1 lg:p-4 items-center">
-            <Logo />
-            <Title />
-            <QuickAccess {...request} />
-          </section>
+        <div className="p-2 lg:p-0 text-lg">
+          <div className="flex flex-col xl:mx-auto xl:max-w-7xl">
+            <section className="flex flex-row px-2 pb-1 lg:p-4 items-center">
+              <Logo />
+              <Title />
+              <QuickAccess {...request} />
+            </section>
+          </div>
 
-          {/* <section>
-            <MainMenu />
-          </section> */}
+          {/* <div className="lg:border-0 lg:border-t lg:border-solid lg:border-slate-200 ">
+            <section className="flex flex-col xl:mx-auto xl:max-w-7xl">
+              <MainMenu />
+            </section>
+          </div> */}
         </div>
       </header>
     </>
@@ -127,7 +130,7 @@ const MainMenu = () => (
       <i className="menu-open ri-menu-line"></i>
       <i className="menu-close hidden ri-close-line"></i>
     </label>
-    <nav className="menu hidden lg:block absolute lg:relative top-8 lg:top-0 left-0 w-full h-full lg:h-auto bg-white lg:bg-transparent lg:border-0 lg:border-t lg:border-solid lg:border-slate-200 z-50 pt-6 lg:pt-0">
+    <nav className="menu hidden lg:block absolute lg:relative top-8 lg:top-0 left-0 w-full h-full lg:h-auto bg-white lg:bg-transparent z-50 pt-6 lg:pt-0">
       <ul className="flex flex-col list-none px-4 lg:px-0 py-2 lg:py-0 m-0 lg:flex-row lg:text-sm lg:font-normal">
         <li className="pb-4 lg:p-4">
           <a className="no-underline text-black" href="#">
