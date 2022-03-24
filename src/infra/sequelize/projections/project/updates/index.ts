@@ -23,6 +23,7 @@ import {
   ProjectCompletionDueDateCancelled,
   ProjectDCRDueDateCancelled,
   ProjectGFDueDateCancelled,
+  ProjectCertificateObsolete,
 } from '@modules/project'
 import { onProjectImported } from './onProjectImported'
 import { onProjectCertificate } from './onProjectCertificate'
@@ -49,6 +50,7 @@ import { EventBus } from '@core/domain'
 import { onProjectCompletionDueDateCancelled } from './onProjectCompletionDueDateCancelled'
 import { onProjectDCRDueDateCancelled } from './onProjectDCRDueDateCancelled'
 import { onProjectGFDueDateCancelled } from './onProjectGFDueDateCancelled'
+import { onProjectCertificateObsolete } from './onProjectCertificateObsolete'
 
 export const initProjectProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ProjectImported.type, onProjectImported(models))
@@ -83,6 +85,8 @@ export const initProjectProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ProjectNewRulesOptedIn.type, onProjectNewRulesOptedIn(models))
   eventBus.subscribe(ProjectClaimed.type, onProjectClaimed(models))
   eventBus.subscribe(ProjectClaimedByOwner.type, onProjectClaimed(models))
+
+  eventBus.subscribe(ProjectCertificateObsolete.type, onProjectCertificateObsolete(models))
 
   logger.info('Initialized Project projections')
 }

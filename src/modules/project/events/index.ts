@@ -9,6 +9,7 @@ export * from './ProjectActionnaireUpdated';
 export * from './ProjectCertificateDownloaded';
 export * from './ProjectCertificateGenerated';
 export * from './ProjectCertificateGenerationFailed';
+export * from './ProjectCertificateObsolete';
 export * from './ProjectCertificateRegenerated';
 export * from './ProjectCertificateUpdateFailed';
 export * from './ProjectCertificateUpdated';

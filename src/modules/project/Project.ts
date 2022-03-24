@@ -59,6 +59,7 @@ import {
   ProjectGFDueDateCancelled,
   ProjectCompletionDueDateCancelled,
   ProjectDCRDueDateCancelled,
+  ProjectCertificateObsolete,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre'
@@ -447,6 +448,14 @@ export const makeProject = (args: {
               _cancelDCRDate()
               _cancelCompletionDate()
             }
+
+            _publishEvent(
+              new ProjectCertificateObsolete({
+                payload: {
+                  projectId: id,
+                },
+              })
+            )
           } else {
             if (props.isClasse) {
               if (hasNotificationDateChanged) {

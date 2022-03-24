@@ -5,6 +5,7 @@ import makeFakeProject from '../../__tests__/fixtures/project'
 import {
   LegacyProjectSourced,
   ProjectActionnaireUpdated,
+  ProjectCertificateObsolete,
   ProjectCompletionDueDateSet,
   ProjectDataCorrected,
   ProjectDCRDueDateSet,
@@ -544,15 +545,25 @@ describe('Project.import({ data, importId })', () => {
           })
         )
 
-        it('should emit GF/DCR/CompletionDueDateSet', () => {
+        beforeAll(() => {
           project.import({ data: { ...data, classe: 'Classé' }, importId })
+        })
 
-          expect(project.pendingEvents).toHaveLength(4)
+        it('should emit GF/DCR/CompletionDueDateSet', () => {
+          expect(project.pendingEvents).toHaveLength(5)
 
           const pendingEventTypes = project.pendingEvents.map((item) => item.type)
           expect(pendingEventTypes).toContain('ProjectGFDueDateSet')
           expect(pendingEventTypes).toContain('ProjectDCRDueDateSet')
           expect(pendingEventTypes).toContain('ProjectCompletionDueDateSet')
+        })
+
+        it('should emit ProjectCertificateObsolete', () => {
+          const targetEvent = findEventOfType(ProjectCertificateObsolete, project.pendingEvents)
+          expect(targetEvent).toBeDefined()
+          if (!targetEvent) return
+
+          expect(targetEvent.payload.projectId).toEqual(projectId.toString())
         })
       })
 
@@ -693,18 +704,29 @@ describe('Project.import({ data, importId })', () => {
             buildProjectIdentifier: () => '',
           })
         )
-        it('should emit GF/DCR/CompletionDueDateCancelled', () => {
+
+        beforeAll(() => {
           project.import({
             data: { ...data, classe: 'Eliminé' },
             importId,
           })
+        })
 
-          expect(project.pendingEvents).toHaveLength(4)
+        it('should emit GF/DCR/CompletionDueDateCancelled', () => {
+          expect(project.pendingEvents).toHaveLength(5)
 
           const pendingEventTypes = project.pendingEvents.map((item) => item.type)
           expect(pendingEventTypes).toContain('ProjectGFDueDateCancelled')
           expect(pendingEventTypes).toContain('ProjectDCRDueDateCancelled')
           expect(pendingEventTypes).toContain('ProjectCompletionDueDateCancelled')
+        })
+
+        it('should emit ProjectCertificateObsolete', () => {
+          const targetEvent = findEventOfType(ProjectCertificateObsolete, project.pendingEvents)
+          expect(targetEvent).toBeDefined()
+          if (!targetEvent) return
+
+          expect(targetEvent.payload.projectId).toEqual(projectId.toString())
         })
       })
 
