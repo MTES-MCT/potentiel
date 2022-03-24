@@ -6,5 +6,5 @@ export const handleProjectCertificateObsolete =
   async (event: ProjectCertificateObsolete) => {
     const { projectId } = event.payload
 
-    await deps.generateCertificate(projectId, 'certificate-obsolete')
+    await deps.generateCertificate(projectId)
   }

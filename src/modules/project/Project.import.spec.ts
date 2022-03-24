@@ -842,5 +842,41 @@ describe('Project.import({ data, importId })', () => {
         })
       })
     })
+
+    describe('when data does not contain a notification date', () => {
+      const data = { ...fakeProject, notifiedOn: 0 }
+
+      describe('when the project was already notified', () => {
+        const project = UnwrapForTest(
+          makeProject({
+            projectId,
+            history: [
+              new LegacyProjectSourced({
+                payload: {
+                  projectId: projectId.toString(),
+                  periodeId,
+                  appelOffreId,
+                  familleId,
+                  numeroCRE,
+                  potentielIdentifier: '',
+                  content: {
+                    ...data,
+                    notifiedOn: new Date('2020-01-01').getTime(),
+                  },
+                },
+              }),
+            ],
+            getProjectAppelOffre,
+            buildProjectIdentifier: () => '',
+          })
+        )
+
+        it('should not emit', () => {
+          project.import({ data: fakeProject, importId })
+
+          expect(project.pendingEvents).toHaveLength(0)
+        })
+      })
+    })
   })
 })

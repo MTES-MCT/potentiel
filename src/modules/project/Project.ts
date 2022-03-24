@@ -363,7 +363,8 @@ export const makeProject = (args: {
         }
         delete changes['notifiedOn']
 
-        const hasNotificationDateChanged = data.notifiedOn !== props.notifiedOn
+        const previouslyNotified = !!props.notifiedOn
+        const hasNotificationDateChanged = data.notifiedOn && data.notifiedOn !== props.notifiedOn
 
         if (Object.keys(changes).length) {
           _publishEvent(
@@ -388,7 +389,7 @@ export const makeProject = (args: {
           })
         }
 
-        if (data.notifiedOn) {
+        if (props.notifiedOn) {
           if (changes.classe) {
             if (data.classe === 'Classé') {
               // éliminé -> classé
@@ -400,13 +401,15 @@ export const makeProject = (args: {
               _cancelCompletionDate()
             }
 
-            _publishEvent(
-              new ProjectCertificateObsolete({
-                payload: {
-                  projectId: id,
-                },
-              })
-            )
+            if (previouslyNotified) {
+              _publishEvent(
+                new ProjectCertificateObsolete({
+                  payload: {
+                    projectId: id,
+                  },
+                })
+              )
+            }
           } else {
             if (props.isClasse) {
               if (hasNotificationDateChanged) {

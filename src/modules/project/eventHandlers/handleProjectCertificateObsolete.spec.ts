@@ -20,6 +20,6 @@ describe('handleProjectCertificateObsolete', () => {
   })
 
   it('should generate a new certificate', () => {
-    expect(fakeGenerateCertificate).toHaveBeenCalledWith(projectId, 'certificate-obsolete')
+    expect(fakeGenerateCertificate).toHaveBeenCalledWith(projectId)
   })
 })
