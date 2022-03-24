@@ -18,7 +18,6 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   notify: jest.fn((notifiedOn: number) =>
     ok<null, IllegalProjectDataError | ProjectAlreadyNotifiedError>(null)
   ),
-  reimport: jest.fn((args) => ok<null, never>(null)),
   import: jest.fn((args) => ok<null, never>(null)),
   abandon: jest.fn((user: User) => ok<null, EliminatedProjectCannotBeAbandonnedError>(null)),
   abandonLegacy: jest.fn((abandonnedOn: number) => ok<null, never>(null)),

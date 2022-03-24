@@ -70,10 +70,6 @@ export interface Project extends EventStoreAggregate {
   ) => Result<null, IllegalProjectStateError | ProjectAlreadyNotifiedError>
   abandon: (user: User) => Result<null, EliminatedProjectCannotBeAbandonnedError>
   abandonLegacy: (abandonnedOn: number) => Result<null, never>
-  reimport: (args: {
-    data: ProjectReimportedPayload['data']
-    importId: string
-  }) => Result<null, never>
   import: (args: {
     data: ProjectImportedPayload['data']
     importId: string
@@ -315,49 +311,6 @@ export const makeProject = (args: {
 
       return ok(null)
     },
-    reimport: function ({ data, importId }) {
-      const { appelOffre } = props
-
-      if (!appelOffre) return ok(null)
-
-      const changes = _computeDelta(data)
-
-      for (const updatedField of props.fieldsUpdatedAfterImport) {
-        if (updatedField.startsWith('details.') && changes.details) {
-          delete changes.details[updatedField.substring('details.'.length)]
-          continue
-        }
-        delete changes[updatedField]
-      }
-
-      const newNotifiedOn = changes['notifiedOn']
-      delete changes['notifiedOn']
-
-      if (changes && Object.keys(changes).length) {
-        _publishEvent(
-          new ProjectReimported({
-            payload: {
-              projectId: props.projectId.toString(),
-              appelOffreId: appelOffre.id,
-              periodeId: appelOffre.periode.id,
-              familleId: appelOffre.famille?.id,
-              importId,
-              data: changes,
-            },
-          })
-        )
-      }
-
-      if (!isNotifiedPeriode(appelOffre.periode) && newNotifiedOn) {
-        _publishNewNotificationDate({
-          projectId: props.projectId.toString(),
-          notifiedOn: newNotifiedOn,
-          setBy: '',
-        })
-      }
-
-      return ok(null)
-    },
     import: function ({ data, importId }) {
       const { appelOffreId, periodeId, familleId, numeroCRE } = data
       const id = projectId.toString()
@@ -436,9 +389,7 @@ export const makeProject = (args: {
         }
 
         if (data.notifiedOn) {
-          console.log('Notification date is present', changes)
           if (changes.classe) {
-            console.log('Classe has changed to', data.classe)
             if (data.classe === 'Classé') {
               // éliminé -> classé
               _publishStepUpdates()

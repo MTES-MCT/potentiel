@@ -497,7 +497,7 @@ describe('Project.import({ data, importId })', () => {
         )
 
         it('should ignore the changes on the fields that were corrected', () => {
-          project.reimport({
+          project.import({
             data: {
               ...fakeProject,
               nomCandidat: '678',
