@@ -12,7 +12,9 @@
 
     <link href="${url.resourcesPath}/css/main.min.css" rel="stylesheet" />
     <link href="${url.resourcesPath}/css/dsfr.css" rel="stylesheet" />
+    <link href="${url.resourcesPath}/css/potentiel.css" rel="stylesheet" />
     <link href="${url.resourcesPath}/css/tailwind.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" />
 
     <meta name="theme-color" content="#000091" />
     <!-- Défini la couleur de thème du navigateur (Safari/Android) -->
@@ -112,42 +114,64 @@
         </symbol>
       </defs>
     </svg>
-    <div class="only-dsfr">
-      <header
-        class="fr-header flex flex-wrap items-center justify-between fr-container"
-        style="box-shadow: none; padding: 0"
+    <header
+      style="
+        font-family: Marianne, arial, sans-serif;
+        box-shadow: 0 8px 8px 0 rgb(0 0 0 / 10%);
+      "
+    >
+      <div
+        class="flex flex-col p-2 lg:p-0 lg:px-2 xl:mx-auto xl:max-w-7xl text-lg"
       >
-        <div class="order-1">
-          <p class="fr-logo">
-            République
-            <br />
-            Française
-          </p>
-        </div>
-        <div class="fr-header__service order-3 sm:order-2 sm:grow">
-          <a href="/" title="Accueil - Potentiel - Ministère de la transition écologique">
-            <p class="fr-header__service-title text-black">Potentiel</p>
-          </a>
-          <p class="fr-header__service-tagline">
-            Facilite le parcours des producteurs<br />d'énergies renouvelables électriques
-          </p>
-        </div>
-        <nav class="order-2 sm:order-3 text-right mr-2 mt-2">
-          <ul class="flex flex-col sm:flex-row gap-3 fr-links-group">
-            <li class="list-none">
-              <a
-                target="_blank"
-                rel="noopener"
-                href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel"
-                class="fr-link fr-fi-external-link-line fr-link--icon-right"
-              >
-                Aide
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </header>
-    </div>
+        <section class="flex flex-row px-2 pb-1 lg:p-4 items-center">
+          <div class="flex flex-col">
+            <div class="lg:mb-1 logo-before"></div>
+            <div
+              class="hidden lg:block uppercase font-bold leading-none tracking-tighter"
+            >
+              République
+              <br />
+              Française
+            </div>
+            <div class="hidden lg:block logo-after"></div>
+          </div>
+
+          <div class="ml-2 lg:ml-8">
+            <div class="font-bold lg:text-xl">Potentiel</div>
+            <div class="hidden lg:block text-base">
+              Facilite le parcours des producteurs
+              <br />
+              d'énergies renouvelables électriques
+            </div>
+          </div>
+
+          <div class="flex flex-row ml-auto">
+            <ul
+              class="flex flex-row text-xl lg:text-sm font-normal list-none p-0 m-0 lg:mr-0"
+            >
+              <li>
+                <a
+                  class="no-underline flex flex-row items-center px-2 md:px-3"
+                  style="color: #000091"
+                  target="_blank"
+                  rel="noopener"
+                  href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel"
+                >
+                  <i class="ri-question-line lg:hidden"></i>
+                  <span class="hidden lg:block pt-0.5 mx-1">Aide</span>
+                  <i class="hidden lg:block ri-external-link-line"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- <section>
+          <MainMenu />
+        </section> -->
+      </div>
+    </header>
+
     <main role="main">
       <section class="section section-grey" style="min-height: calc(100vh - 400px)">
         <div class="container">
