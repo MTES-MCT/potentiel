@@ -151,7 +151,7 @@ export const NewModificationRequest = PageLayout(
                     name="submit"
                     id="submit"
                     {...dataId('submit-button')}
-                    disabled={isEolien || isSubmitButtonDisabled}
+                    disabled={(isEolien && action === 'producteur') || isSubmitButtonDisabled}
                   >
                     Envoyer
                   </button>
