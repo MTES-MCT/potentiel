@@ -75,6 +75,14 @@ const porteurProjetActions = (project: {
         title: 'Demander un délai',
         link: ROUTES.DEMANDE_DELAIS(project.id),
       },
+      ...(!isEolien
+        ? [
+            {
+              title: 'Changer de producteur',
+              link: ROUTES.CHANGER_PRODUCTEUR(project.id),
+            },
+          ]
+        : []),
       {
         title: 'Changer de fournisseur',
         link: ROUTES.CHANGER_FOURNISSEUR(project.id),
@@ -93,13 +101,6 @@ const porteurProjetActions = (project: {
       },
     ]
   )
-
-  if (!isEolien) {
-    actions.splice(2, 0, {
-      title: 'Changer de producteur',
-      link: ROUTES.CHANGER_PRODUCTEUR(project.id),
-    })
-  }
 
   return actions
 }
