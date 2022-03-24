@@ -10,18 +10,6 @@ interface UploadResponseFileProps {
 export const UploadResponseFile = ({ modificationRequest }: UploadResponseFileProps) => {
   return (
     <>
-      <div className="form__group" style={{ marginBottom: 20 }}>
-        {modificationRequest.type !== 'recours' && (
-          <label htmlFor="replyWithoutAttachment">
-            <input
-              type="checkbox"
-              name="replyWithoutAttachment"
-              {...dataId('modificationRequest-replyWithoutAttachmentField')}
-            />
-            Répondre sans pièce jointe (uniquement pour accepter)
-          </label>
-        )}
-      </div>
       <DownloadResponseTemplate modificationRequest={modificationRequest} />
       <div className="form__group">
         <label htmlFor="file">Réponse signée (fichier pdf)</label>
@@ -29,7 +17,7 @@ export const UploadResponseFile = ({ modificationRequest }: UploadResponseFilePr
           type="file"
           name="file"
           id="file"
-          required={modificationRequest.type === 'recours'}
+          required={modificationRequest.type !== 'puissance'}
         />
       </div>
     </>
