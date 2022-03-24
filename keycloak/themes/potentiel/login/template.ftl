@@ -115,61 +115,58 @@
       </defs>
     </svg>
     <header
+      class="mb-4"
       style="
         font-family: Marianne, arial, sans-serif;
         box-shadow: 0 8px 8px 0 rgb(0 0 0 / 10%);
       "
     >
-      <div
-        class="flex flex-col p-2 lg:p-0 lg:px-2 xl:mx-auto xl:max-w-7xl text-lg"
-      >
-        <section class="flex flex-row px-2 pb-1 lg:p-4 items-center">
-          <div class="flex flex-col">
-            <div class="lg:mb-1 logo-before"></div>
-            <div
-              class="hidden lg:block uppercase font-bold leading-none tracking-tighter"
-            >
-              République
-              <br />
-              Française
+      <div class="p-2 lg:p-0 text-lg">
+        <div class="flex flex-col xl:mx-auto xl:max-w-7xl">
+          <section class="flex flex-row px-2 pb-1 lg:p-4 items-center">
+            <div class="flex flex-col">
+              <div class="lg:mb-1 logo-before"></div>
+              <div
+                class="hidden lg:block uppercase font-bold leading-none tracking-tighter"
+              >
+                République
+                <br />
+                Française
+              </div>
+              <div class="hidden lg:block logo-after"></div>
             </div>
-            <div class="hidden lg:block logo-after"></div>
-          </div>
 
-          <div class="ml-2 lg:ml-8">
-            <div class="font-bold lg:text-xl">Potentiel</div>
-            <div class="hidden lg:block text-base">
-              Facilite le parcours des producteurs
-              <br />
-              d'énergies renouvelables électriques
+            <div class="ml-2 lg:ml-8">
+              <div class="font-bold lg:text-xl">Potentiel</div>
+              <div class="hidden lg:block text-base">
+                Facilite le parcours des producteurs
+                <br />
+                d'énergies renouvelables électriques
+              </div>
             </div>
-          </div>
 
-          <div class="flex flex-row ml-auto">
-            <ul
-              class="flex flex-row text-xl lg:text-sm font-normal list-none p-0 m-0 lg:mr-0"
-            >
-              <li>
-                <a
-                  class="no-underline flex flex-row items-center px-2 md:px-3"
-                  style="color: #000091"
-                  target="_blank"
-                  rel="noopener"
-                  href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel"
-                >
-                  <i class="ri-question-line lg:hidden"></i>
-                  <span class="hidden lg:block pt-0.5 mx-1">Aide</span>
-                  <i class="hidden lg:block ri-external-link-line"></i>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </section>
-
-        <!-- <section>
-          <MainMenu />
-        </section> -->
-      </div>
+            <div class="flex flex-row ml-auto">
+              <ul
+                class="flex flex-row text-xl lg:text-sm font-normal list-none p-0 m-0 lg:mr-0"
+              >
+                <li>
+                  <a
+                    class="no-underline flex flex-row items-center px-2 md:px-3"
+                    style="color: #000091"
+                    target="_blank"
+                    rel="noopener"
+                    href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel"
+                  >
+                    <i class="ri-question-line lg:hidden"></i>
+                    <span class="hidden lg:block pt-0.5 mx-1">Aide</span>
+                    <i class="hidden lg:block ri-external-link-line"></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </div>
+    </div>
     </header>
 
     <main role="main">
