@@ -1,6 +1,15 @@
 import React from 'react'
 import routes from '../../routes'
 import { Request } from 'express'
+import {
+  RiAccountCircleLine,
+  RiCloseLine,
+  RiExternalLinkLine,
+  RiLogoutBoxLine,
+  RiMenuLine,
+  RiQuestionLine,
+  RiUserLine,
+} from 'react-icons/ri'
 
 type HeaderProps = {
   request: Request
@@ -66,47 +75,47 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
     <ul className="flex flex-row text-xl lg:text-sm font-normal list-none p-0 m-0 lg:mr-0">
       {user ? (
         <>
-          <li>
+          <li className="flex items-center">
             {['admin', 'dgec'].includes(user.role) ? (
               <a
                 className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
                 href={user.accountUrl}
                 style={{ color: `#000091` }}
               >
-                <i className="ri-user-line"></i>
+                <RiUserLine />
                 <span className="hidden lg:block pt-0.5 mx-1">{user.fullName}</span>
               </a>
             ) : (
               <span className="hidden lg:block" style={{ color: 'var(--text-default-grey)' }}>
-                <i className="ri-user-line"></i>
+                <RiUserLine />
                 <span className="pt-0.5 mx-1">{user.fullName}</span>
               </span>
             )}
           </li>
-          <li>
+          <li className="flex items-center">
             <a
               className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
               href={routes.LOGOUT_ACTION}
               style={{ color: `#000091` }}
             >
-              <i className="ri-logout-box-line"></i>
+              <RiLogoutBoxLine />
               <span className="hidden lg:block pt-0.5 mx-1">Me déconnecter</span>
             </a>
           </li>
         </>
       ) : (
-        <li>
+        <li className="flex items-center">
           <a
             className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
             href={routes.LOGIN}
             style={{ color: `#000091` }}
           >
-            <i className="ri-account-circle-line"></i>
+            <RiAccountCircleLine />
             <span className="hidden lg:block pt-0.5 mx-1">M'identifier</span>
           </a>
         </li>
       )}
-      <li>
+      <li className="flex items-center">
         <a
           className="no-underline flex flex-row items-center px-2 md:px-3"
           style={{ color: `#000091` }}
@@ -114,9 +123,9 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
           rel="noopener"
           href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel"
         >
-          <i className="ri-question-line lg:hidden"></i>
+          <RiQuestionLine className="lg:hidden" />
           <span className="hidden lg:block pt-0.5 mx-1">Aide</span>
-          <i className="hidden lg:block ri-external-link-line"></i>
+          <RiExternalLinkLine className="hidden lg:block" />
         </a>
       </li>
     </ul>
@@ -127,8 +136,8 @@ const MainMenu = () => (
   <>
     <input id="menu-toggle" className="hidden" type="checkbox" />
     <label className="absolute top-2 right-2 text-xl lg:hidden" htmlFor="menu-toggle">
-      <i className="menu-open ri-menu-line"></i>
-      <i className="menu-close hidden ri-close-line"></i>
+      <RiMenuLine className="menu-open" />
+      <RiCloseLine className="menu-close hidden" />
     </label>
     <nav className="menu hidden lg:block absolute lg:relative top-8 lg:top-0 left-0 w-full h-full lg:h-auto bg-white lg:bg-transparent z-50 pt-6 lg:pt-0">
       <ul className="flex flex-col list-none px-0 py-2 lg:py-0 m-0 lg:flex-row lg:text-sm lg:font-normal">
