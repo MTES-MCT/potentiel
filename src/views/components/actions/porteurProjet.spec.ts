@@ -101,7 +101,7 @@ describe('porteurProjetActions', () => {
         })
       })
       describe('when the AO is eolien', () => {
-        it('should not retourn "changement de producteur" action', () => {
+        it('should not return "changement de producteur" action', () => {
           const fakeProject = makeFakeProject({ isClasse: true, appelOffre: { type: 'eolien' } })
           const result = porteurProjetActions(fakeProject)
           expect(result).toHaveLength(6)
