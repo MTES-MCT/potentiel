@@ -131,19 +131,23 @@ const MainMenu = () => (
       <i className="menu-close hidden ri-close-line"></i>
     </label>
     <nav className="menu hidden lg:block absolute lg:relative top-8 lg:top-0 left-0 w-full h-full lg:h-auto bg-white lg:bg-transparent z-50 pt-6 lg:pt-0">
-      <ul className="flex flex-col list-none px-4 lg:px-0 py-2 lg:py-0 m-0 lg:flex-row lg:text-sm lg:font-normal">
-        <li className="pb-4 lg:p-4">
-          <a className="no-underline text-black" href="#">
+      <ul className="flex flex-col list-none px-0 py-2 lg:py-0 m-0 lg:flex-row lg:text-sm lg:font-normal">
+        <li className="py-2 border-0 border-b lg:border-b-0 border-solid border-slate-200 lg:p-4 lg:pb-0">
+          <a
+            className="no-underline pl-4 lg:pl-0 lg:pb-4 text-blue-800 font-medium border-0 border-l-4 border-solid border-blue-800 lg:border-l-0 lg:border-b-2"
+            aria-current="page"
+            href="#"
+          >
             Ressources EnR
           </a>
         </li>
-        <li className="pb-4 lg:p-4">
-          <a className="no-underline text-black" href="#">
+        <li className="py-2 border-0 border-b border-solid border-slate-200 lg:p-4">
+          <a className="no-underline pl-4 lg:pl-0 lg:pb-4 text-black" href="#">
             Statistiques
           </a>
         </li>
-        <li className="pb-4 lg:p-4">
-          <a className="no-underline text-black" href="#">
+        <li className="py-2 border-0 border-b border-solid border-slate-200 lg:p-4">
+          <a className="no-underline pl-4 text-black" href="#">
             Nous contacter
           </a>
         </li>

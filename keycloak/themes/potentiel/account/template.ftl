@@ -100,25 +100,23 @@
             <nav
               class="menu hidden lg:block absolute lg:relative top-8 lg:top-0 left-0 w-full h-full lg:h-auto z-50 bg-white lg:bg-transparent pt-6 lg:pt-0"
             >
-              <ul
-                class="flex flex-col list-none px-4 lg:px-0 py-2 lg:py-0 m-0 lg:flex-row lg:text-sm lg:font-normal"
-              >
-                <li class="pb-4 lg:p-4">
-                  <a class="flex flex-row items-center no-underline text-black" href="${properties.potentielUrl}/go-to-user-dashboard">
+              <ul class="flex flex-col list-none px-0 py-2 lg:py-0 m-0 lg:flex-row lg:text-sm lg:font-normal">
+                <li class="py-2 border-0 border-b lg:border-b-0 border-solid border-slate-200 lg:p-4 lg:pb-0">
+                  <a class="flex flex-row items-center no-underline pl-4 lg:pl-0 lg:pb-4 text-black" href="${properties.potentielUrl}/go-to-user-dashboard">
                     <i class="ri-arrow-left-line mr-2"></i>
                     Retourner sur Potentiel
                   </a>
                 </li>
-                <li class="pb-4 lg:p-4">
-                  <a class="no-underline text-black" href="${url.accountUrl}" target="_self" <#if active=='account'>aria-current="page"</#if>>${msg("account")}</a>
+                <li class="py-2 border-0 border-b border-solid border-slate-200 lg:p-4">
+                  <a class="no-underline pl-4 lg:pl-0 lg:pb-4 <#if active=='account'>text-blue-800 font-medium border-0 border-l-4 border-solid border-blue-800 lg:border-l-0 lg:border-b-2</#if>" href="${url.accountUrl}" target="_self" <#if active=='account'>aria-current="page"</#if>>${msg("account")}</a>
                 </li>
                 <#if features.passwordUpdateSupported>
-                <li class="pb-4 lg:p-4">
-                  <a class="no-underline text-black" href="${url.passwordUrl}" target="_self" <#if active=='password'>aria-current="page"</#if>>${msg("password")}</a>
+                <li class="py-2 border-0 border-b border-solid border-slate-200 lg:p-4">
+                  <a class="no-underline pl-4 lg:pl-0 lg:pb-4 <#if active=='password'>text-blue-800 font-medium border-0 border-l-4 border-solid border-blue-800 lg:border-l-0 lg:border-b-2</#if>" href="${url.passwordUrl}" target="_self" <#if active=='password'>aria-current="page"</#if>>${msg("password")}</a>
                 </li>
                 </#if>
-                <li class="pb-4 lg:p-4">
-                  <a class="no-underline text-black" href="${url.totpUrl}" target="_self" <#if active=='totp'>aria-current="page"</#if>>${msg("authenticator")}</a>
+                <li class="py-2 border-0 border-b border-solid border-slate-200 lg:p-4">
+                  <a class="no-underline pl-4 lg:pl-0 lg:pb-4 <#if active=='totp'>text-blue-800 font-medium border-0 border-l-4 border-solid border-blue-800 lg:border-l-0 lg:border-b-2</#if>" href="${url.totpUrl}" target="_self" <#if active=='totp'>aria-current="page"</#if>>${msg("authenticator")}</a>
                 </li>
               </ul>
             </nav>
