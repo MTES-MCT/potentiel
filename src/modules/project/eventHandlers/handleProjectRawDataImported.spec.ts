@@ -63,8 +63,8 @@ describe('handleProjectRawDataImported', () => {
       )
     })
 
-    it('should call Project.reimport with the new data', () => {
-      expect(fakeProject.reimport).toHaveBeenCalledWith({ data: fakeProjectData, importId })
+    it('should call Project.import with the new data', () => {
+      expect(fakeProject.import).toHaveBeenCalledWith({ data: fakeProjectData, importId })
     })
   })
 
@@ -91,39 +91,6 @@ describe('handleProjectRawDataImported', () => {
 
     it('should call Project.import with the data', () => {
       expect(fakeProject.import).toHaveBeenCalledWith({ data: fakeProjectData, importId })
-    })
-
-    describe('when the project is already notified', () => {
-      const projectId = new UniqueEntityID()
-
-      const fakeProject = { ...makeFakeProject(), id: projectId }
-      const projectRepo = fakeTransactionalRepo(fakeProject as Project)
-
-      const notifiedOn = 1631786848940
-
-      const fakeNotifiedProjectData = { ...fakeProjectData, notifiedOn }
-
-      beforeAll(async () => {
-        await handleProjectRawDataImported({
-          findProjectByIdentifiers,
-          projectRepo,
-        })(
-          new ProjectRawDataImported({
-            payload: {
-              importId,
-              data: fakeNotifiedProjectData,
-            } as ProjectRawDataImportedPayload,
-          })
-        )
-      })
-
-      it('should call Project.setNotificationDate', () => {
-        expect(fakeProject.setNotificationDate).toHaveBeenCalledWith(null, notifiedOn)
-      })
-
-      it('should still call Project.import with the data', () => {
-        expect(fakeProject.import).toHaveBeenCalledWith({ data: fakeNotifiedProjectData, importId })
-      })
     })
   })
 })

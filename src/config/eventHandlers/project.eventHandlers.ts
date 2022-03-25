@@ -1,13 +1,15 @@
-import { LegacyModificationImported, ModificationReceived } from '@modules/modificationRequest'
+import { LegacyModificationImported } from '@modules/modificationRequest'
 import {
-  handlePeriodeNotified,
-  handleProjectRawDataImported,
   handleLegacyModificationImported,
+  handlePeriodeNotified,
+  handleProjectCertificateObsolete,
+  handleProjectRawDataImported,
   PeriodeNotified,
+  ProjectCertificateObsolete,
   ProjectRawDataImported,
 } from '@modules/project'
 import { eventStore } from '../eventStore.config'
-import { getUnnotifiedProjectsForPeriode, findProjectByIdentifiers } from '../queries.config'
+import { findProjectByIdentifiers, getUnnotifiedProjectsForPeriode } from '../queries.config'
 import { projectRepo } from '../repos.config'
 import { generateCertificate } from '../useCases.config'
 
@@ -17,6 +19,13 @@ eventStore.subscribe(
     projectRepo,
     generateCertificate,
     getUnnotifiedProjectsForPeriode,
+  })
+)
+
+eventStore.subscribe(
+  ProjectCertificateObsolete.type,
+  handleProjectCertificateObsolete({
+    generateCertificate,
   })
 )
 
