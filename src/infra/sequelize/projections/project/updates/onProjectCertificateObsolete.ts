@@ -3,8 +3,8 @@ import { ProjectCertificateObsolete } from '@modules/project'
 
 export const onProjectCertificateObsolete =
   (models) => async (event: ProjectCertificateObsolete) => {
-    const ProjectModel = models.Project
-    const projectInstance = await ProjectModel.findByPk(event.payload.projectId)
+    const { Project } = models
+    const projectInstance = await Project.findByPk(event.payload.projectId)
 
     if (!projectInstance) {
       logger.error(

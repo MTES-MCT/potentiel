@@ -9,16 +9,11 @@ const { Project } = models
 
 describe('project.onProjectGFDueDateCancelled', () => {
   const projectId = uuid()
-  const fakeProjectId = uuid()
 
   const fakeProjects = [
     {
       id: projectId,
       garantiesFinancieresDueOn: new Date('2020-01-01').getTime(),
-    },
-    {
-      id: fakeProjectId,
-      garantiesFinancieresDueOn: 123456,
     },
   ].map(makeFakeProject)
 
@@ -38,11 +33,5 @@ describe('project.onProjectGFDueDateCancelled', () => {
 
     const updatedProject = await Project.findByPk(projectId)
     expect(updatedProject.garantiesFinancieresDueOn).toEqual(0)
-
-    const nonUpdatedProject = await Project.findByPk(fakeProjectId)
-    expect(nonUpdatedProject).toBeDefined()
-    if (nonUpdatedProject) return
-
-    expect(nonUpdatedProject.garantiesFinancieresDueOn).toEqual(123456)
   })
 })

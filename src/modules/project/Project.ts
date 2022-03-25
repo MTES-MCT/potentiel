@@ -349,7 +349,9 @@ export const makeProject = (args: {
             setBy: '',
           })
 
-          _publishStepUpdates()
+          _updateDCRDate()
+          _updateGFDate()
+          _updateCompletionDate()
         }
       } else {
         const changes = _computeDelta(data)
@@ -393,7 +395,9 @@ export const makeProject = (args: {
           if (changes.classe) {
             if (data.classe === 'Classé') {
               // éliminé -> classé
-              _publishStepUpdates()
+              _updateDCRDate()
+              _updateGFDate()
+              _updateCompletionDate()
             } else if (data.classe === 'Eliminé') {
               // classé -> eliminé
               _cancelGFDate()
@@ -414,7 +418,9 @@ export const makeProject = (args: {
             if (props.isClasse) {
               if (hasNotificationDateChanged) {
                 // remains classé
-                _publishStepUpdates()
+                _updateDCRDate()
+                _updateGFDate()
+                _updateCompletionDate()
               }
             }
             // remains éliminé
@@ -495,7 +501,9 @@ export const makeProject = (args: {
         setBy: user?.id || '',
       })
 
-      _publishStepUpdates()
+      _updateDCRDate()
+      _updateGFDate()
+      _updateCompletionDate()
 
       return ok(null)
     },
@@ -1155,11 +1163,5 @@ export const makeProject = (args: {
         payload,
       })
     )
-  }
-
-  function _publishStepUpdates() {
-    _updateDCRDate()
-    _updateGFDate()
-    _updateCompletionDate()
   }
 }

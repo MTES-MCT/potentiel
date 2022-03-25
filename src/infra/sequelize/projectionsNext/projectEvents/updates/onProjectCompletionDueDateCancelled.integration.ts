@@ -19,7 +19,7 @@ describe('onProjectCompletionDueDateCancelled', () => {
     })
   })
 
-  it('should create a new project event of type ProjectCompletionDueDateCancelled', async () => {
+  it('should remove the ProjectCompletionDueDateSet event for this project', async () => {
     await onProjectCompletionDueDateCancelled(
       new ProjectCompletionDueDateCancelled({
         payload: {

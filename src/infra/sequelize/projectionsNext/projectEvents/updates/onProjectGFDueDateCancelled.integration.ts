@@ -19,7 +19,7 @@ describe('onProjectGFDueDateCancelled', () => {
     })
   })
 
-  it('should create a new project event of type ProjectGFDueDateCancelled', async () => {
+  it('should remove the ProjectGFDueDateSet event for this project', async () => {
     await onProjectGFDueDateCancelled(
       new ProjectGFDueDateCancelled({
         payload: {

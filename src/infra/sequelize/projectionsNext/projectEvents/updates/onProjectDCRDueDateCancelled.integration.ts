@@ -19,7 +19,7 @@ describe('onProjectDCRDueDateCancelled', () => {
     })
   })
 
-  it('should create a new project event of type ProjectDCRDueDateCancelled', async () => {
+  it('should remove the ProjectDCRDueDateSet event for this project', async () => {
     await onProjectDCRDueDateCancelled(
       new ProjectDCRDueDateCancelled({
         payload: {
