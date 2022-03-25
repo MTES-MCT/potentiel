@@ -230,6 +230,18 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                     })
                   }
                   break
+                case 'FileAttachedToProject':
+                  if (userIs(['porteur-projet', 'admin', 'dgec', 'dreal'])(user)) {
+                    events.push({
+                      type: 'FileAttachedToProject',
+                      date: valueDate,
+                      variant: user.role,
+                      title: payload.title,
+                      description: payload.description,
+                      files: payload.files,
+                    })
+                  }
+                  break
               }
 
               return Promise.resolve(events)

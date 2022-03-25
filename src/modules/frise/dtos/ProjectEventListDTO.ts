@@ -33,6 +33,7 @@ export type ProjectEventDTO =
   | ModificationRequestConfirmedDTO
   | ModificationReceivedDTO
   | LegacyModificationImportedDTO
+  | FileAttachedToProjectDTO
 
 type File = {
   id: string
@@ -293,6 +294,15 @@ export type LegacyModificationImportedDTO = {
   | { modificationType: 'producteur'; producteurPrecedent: string }
   | { modificationType: 'autre'; column: string; value: string }
 )
+
+export type FileAttachedToProjectDTO = {
+  type: 'FileAttachedToProject'
+  variant: Exclude<UserRole, 'ademe'>
+  date: number
+  title: string
+  description?: string
+  files: File[]
+}
 
 export type ProjectEventListDTO = {
   project: {
