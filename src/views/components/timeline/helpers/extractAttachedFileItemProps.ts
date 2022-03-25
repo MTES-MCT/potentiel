@@ -8,6 +8,9 @@ export type AttachedFileItemProps = {
   title: string
   description?: string
   files: { id: string; name: string }[]
+  isOwner: boolean
+  attachmentId: string
+  projectId: string
 }
 
 export const extractAttachedFileItemProps = (
@@ -22,12 +25,17 @@ export const extractAttachedFileItemProps = (
     return []
   }
 
-  return attachedFileEvents.map(({ variant, date, title, description, files }) => ({
-    type: 'fichier-attaché',
-    role: variant,
-    date,
-    title,
-    description,
-    files,
-  }))
+  return attachedFileEvents.map(
+    ({ variant, date, title, description, files, isOwner, attachmentId, projectId }) => ({
+      type: 'fichier-attaché',
+      role: variant,
+      date,
+      title,
+      description,
+      files,
+      isOwner,
+      attachmentId,
+      projectId,
+    })
+  )
 }

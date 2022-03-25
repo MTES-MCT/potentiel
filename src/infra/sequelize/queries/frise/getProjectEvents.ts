@@ -232,13 +232,17 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   break
                 case 'FileAttachedToProject':
                   if (userIs(['porteur-projet', 'admin', 'dgec', 'dreal'])(user)) {
+                    const { title, description, files, attachedBy, attachmentId } = payload
                     events.push({
                       type: 'FileAttachedToProject',
                       date: valueDate,
                       variant: user.role,
-                      title: payload.title,
-                      description: payload.description,
-                      files: payload.files,
+                      title,
+                      description,
+                      files,
+                      isOwner: attachedBy === user.id,
+                      attachmentId,
+                      projectId,
                     })
                   }
                   break

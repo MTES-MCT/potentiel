@@ -1,11 +1,12 @@
-import { PaperClipIcon } from '@heroicons/react/outline'
+import { PaperClipIcon, TrashIcon } from '@heroicons/react/outline'
 import React from 'react'
 import { ContentArea, ItemDate, ItemTitle, PastIcon } from '.'
+import routes from '../../../../routes'
 import { makeDocumentUrl } from '../helpers'
 import { AttachedFileItemProps } from '../helpers/extractAttachedFileItemProps'
 
 export const AttachedFileItem = (props: AttachedFileItemProps) => {
-  const { date, title, description, files } = props
+  const { date, title, description, files, isOwner, attachmentId, projectId } = props
   return (
     <>
       <PastIcon />
@@ -25,6 +26,25 @@ export const AttachedFileItem = (props: AttachedFileItemProps) => {
             </li>
           ))}
         </ul>
+        {isOwner && (
+          <form
+            className="p-0 ml-0 mt-2"
+            method="post"
+            action={routes.RETIRER_FICHIER_DU_PROJET_ACTION}
+          >
+            <input type="hidden" name="attachmentId" value={attachmentId} />
+            <input type="hidden" name="projectId" value={projectId} />
+            <button
+              className="button-outline small warning"
+              onClick={(event) =>
+                confirm('Etes-vous sur de vouloir retirer ces fichiers ?') || event.preventDefault()
+              }
+            >
+              <TrashIcon className="h-4 w-4 mr-2 align-middle" />
+              <span className="mt-2 relative top-[2px]">Retirer</span>
+            </button>
+          </form>
+        )}
       </ContentArea>
     </>
   )

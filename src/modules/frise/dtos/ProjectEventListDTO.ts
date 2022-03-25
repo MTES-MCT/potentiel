@@ -302,6 +302,9 @@ export type FileAttachedToProjectDTO = {
   title: string
   description?: string
   files: File[]
+  isOwner: boolean
+  attachmentId: string
+  projectId: string
 }
 
 export type ProjectEventListDTO = {

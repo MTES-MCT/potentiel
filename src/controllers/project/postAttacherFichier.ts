@@ -22,8 +22,6 @@ v1Router.post(
   asyncHandler(async (request, response) => {
     const { projectId, stepDate, title, description, file } = request.body
 
-    console.log('attacher fichier', request.body)
-
     if (!validateUniqueId(projectId)) {
       return errorResponse({
         request,

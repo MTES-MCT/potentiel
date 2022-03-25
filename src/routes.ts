@@ -276,6 +276,7 @@ class routes {
   }>('/retirer-droits')
 
   static ATTACHER_FICHIER_AU_PROJET_ACTION = '/attacher-fichier-au-projet'
+  static RETIRER_FICHIER_DU_PROJET_ACTION = '/retirer-fichier-du-projet'
 }
 
 export default routes

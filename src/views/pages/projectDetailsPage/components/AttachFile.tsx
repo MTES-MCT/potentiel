@@ -42,7 +42,7 @@ export const AttachFile = ({ projectId }: AttachFileProps) => {
             <input type="text" name="title" id="title" required />
           </div>
           <div className="mt-2">
-            <label htmlFor="description">Description (optionnel)</label>
+            <label htmlFor="description">Description (optionnelle)</label>
             <textarea name="description" id="description" />
           </div>
           <div className="mt-2">

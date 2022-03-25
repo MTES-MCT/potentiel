@@ -8,5 +8,6 @@ export * from './postAttacherFichier';
 export * from './postClaimProjects';
 export * from './postCorrectProjectData';
 export * from './postInviteUserToProject';
+export * from './postRetirerFichier';
 export * from './postRevokeUserRightsToProject';
 export * from './postUpdateNewRulesOptIn';

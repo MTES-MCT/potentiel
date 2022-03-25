@@ -11,7 +11,7 @@ export default ProjectEvent.projector.on(
         valueDate: date,
         eventPublishedAt: occurredAt.getTime(),
         id,
-        payload,
+        payload: { ...payload, attachmentId: id },
       },
       { transaction }
     )
