@@ -99,7 +99,6 @@ v1Router.post(
         new FileAttachedToProject({
           payload: {
             projectId,
-            attachmentId: new UniqueEntityID().toString(),
             title,
             description,
             files: uploadedFiles,

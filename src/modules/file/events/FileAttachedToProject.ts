@@ -7,7 +7,6 @@ type AttachedFile = {
 
 export interface FileAttachedToProjectPayload {
   projectId: string
-  attachmentId: string
   title: string
   description?: string
   files: AttachedFile[]
@@ -24,6 +23,6 @@ export class FileAttachedToProject
   currentVersion = 1
 
   aggregateIdFromPayload(payload: FileAttachedToProjectPayload) {
-    return payload.attachmentId
+    return undefined
   }
 }
