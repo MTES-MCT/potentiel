@@ -13,6 +13,7 @@ import {
   MeSItem,
   ModificationRequestItem,
   ModificationReceivedItem,
+  AttachedFileItem,
 } from './components'
 import {
   ACItemProps,
@@ -39,6 +40,8 @@ import {
   extractModificationReceivedItemProps,
   extractLegacyModificationsItemProps,
   LegacyModificationsItemProps,
+  AttachedFileItemProps,
+  extractAttachedFileItemProps,
 } from './helpers'
 import { LegacyModificationsItem } from './components/LegacyModificationsItem'
 
@@ -60,6 +63,7 @@ type ItemProps =
   | ModificationRequestItemProps
   | ModificationReceivedItemProps
   | LegacyModificationsItemProps
+  | AttachedFileItemProps
 
 type UndatedItemProps = ItemProps & { date: undefined }
 
@@ -87,6 +91,7 @@ export const Timeline = ({
     ...extractModificationRequestsItemProps(events),
     ...extractModificationReceivedItemProps(events),
     ...extractLegacyModificationsItemProps(events),
+    ...extractAttachedFileItemProps(events),
   ]
     .filter(isNotNull)
     .sort((a, b) => a.date - b.date)
@@ -138,6 +143,9 @@ export const Timeline = ({
 
       case 'modification-historique':
         return <LegacyModificationsItem {...props} />
+
+      case 'fichier-attaché':
+        return <AttachedFileItem {...props} />
     }
   })
 

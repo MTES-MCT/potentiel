@@ -1,4 +1,5 @@
 export * from './extractACItemProps';
+export * from './extractAttachedFileItemProps';
 export * from './extractCAItemProps';
 export * from './extractCRItemProps';
 export * from './extractDCRItemProps';
