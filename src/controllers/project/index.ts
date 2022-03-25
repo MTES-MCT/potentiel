@@ -4,6 +4,7 @@ export * from './getProjectListCsv';
 export * from './getProjectListPage';
 export * from './getProjectPage';
 export * from './getProjectsLaureatsCsv';
+export * from './postAttacherFichier';
 export * from './postClaimProjects';
 export * from './postCorrectProjectData';
 export * from './postInviteUserToProject';

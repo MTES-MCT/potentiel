@@ -48,7 +48,7 @@ export const AttachFile = ({ projectId }: AttachFileProps) => {
           <div className="mt-2">
             <label htmlFor="file">Fichier(s) à attacher</label>
             {Array.from({ length: fileCount }, (v, i) => i).map((i) => (
-              <input key={`file_${i}`} type="file" name="file" id="file" required />
+              <input key={`file_${i}`} type="file" name="file" id="file" />
             ))}
             <a onClick={() => setFileCount(fileCount + 1)}>+ Ajouter un autre fichier</a>
           </div>
