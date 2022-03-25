@@ -274,6 +274,8 @@ class routes {
     projectId: string
     userId: string
   }>('/retirer-droits')
+
+  static ATTACHER_FICHIER_AU_PROJET_ACTION = '/attacher-fichier-au-projet'
 }
 
 export default routes

@@ -1,17 +1,17 @@
+import { logger } from '@core/utils'
+import { CalendarIcon } from '@heroicons/react/outline'
+import { ProjectEventListDTO } from '@modules/frise'
+import { ProjectDataForProjectPage } from '@modules/project/dtos'
 import { Request } from 'express'
 import React, { useState } from 'react'
-import { logger } from '@core/utils'
 import { dataId } from '../../../helpers/testId'
-import { ProjectDataForProjectPage } from '@modules/project/dtos'
 import ROUTES from '../../../routes'
-import { RoleBasedDashboard, SuccessErrorBox, Timeline } from '../../components'
-import { NoteElement, Section } from './components'
-import { EditProjectData, ProjectHeader } from './sections'
+import { CDCChoiceForm, RoleBasedDashboard, SuccessErrorBox, Timeline } from '../../components'
 import { PageLayout } from '../../components/PageLayout'
 import { hydrateOnClient } from '../../helpers'
-import { CDCChoiceForm } from '../../components'
-import { ProjectEventListDTO } from '@modules/frise'
-import { CalendarIcon } from '@heroicons/react/outline'
+import { NoteElement, Section } from './components'
+import { AttachFile } from './components/AttachFile'
+import { EditProjectData, ProjectHeader } from './sections'
 
 interface ProjectDetailsProps {
   request: Request
@@ -55,6 +55,9 @@ export const ProjectDetails = PageLayout(
                   now,
                 }}
               />
+              {['admin', 'dgec', 'dreal'].includes(user.role) && (
+                <AttachFile projectId={project.id} />
+              )}
             </div>
             <div className="flex flex-col gap-3">
               <Section title="Projet" icon="building">
