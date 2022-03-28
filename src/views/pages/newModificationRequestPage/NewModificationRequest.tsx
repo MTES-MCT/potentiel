@@ -34,8 +34,6 @@ export const NewModificationRequest = PageLayout(
     const [isSubmitButtonDisabled, setDisableSubmitButton] = useState(false)
     const isEolien = project.appelOffre?.type === 'eolien'
 
-    const isEolien = project.appelOffre?.type === 'eolien'
-
     return (
       <UserDashboard currentPage={'list-requests'}>
         <div className="panel">
