@@ -1,6 +1,6 @@
 import type { Request } from 'express'
 import React from 'react'
-import PartnerDashboard from 'src/views/components/PartnerDashboard'
+import PartnerDashboard from '../../components/PartnerDashboard'
 import { PageLayout } from '../../components/PageLayout'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
 
