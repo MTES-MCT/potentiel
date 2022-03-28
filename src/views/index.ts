@@ -7,6 +7,7 @@ import {
   Error,
   ModificationRequest,
   AdminStatistiques,
+  Home,
 } from './pages'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -62,4 +63,12 @@ export const ModificationRequestPage = (props: Parameters<typeof ModificationReq
     props,
     hydrate: true,
     pageName: 'modificationRequest', // This must match the Component name
+  })
+
+export const HomePage = (props: Parameters<typeof Home>[0]) =>
+  makeHtml({
+    Component: Home,
+    props,
+    hydrate: true,
+    pageName: 'home', // This must match the Component name
   })

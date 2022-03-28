@@ -12,6 +12,7 @@
 
     <link href="${url.resourcesPath}/css/main.min.css" rel="stylesheet" />
     <link href="${url.resourcesPath}/css/dsfr.css" rel="stylesheet" />
+    <link href="${url.resourcesPath}/css/potentiel.css" rel="stylesheet" />
     <link href="${url.resourcesPath}/css/tailwind.css" rel="stylesheet" />
 
     <meta name="theme-color" content="#000091" />
@@ -25,129 +26,81 @@
   </head>
 
   <body style="min-height: 100vh; display: flex; flex-direction: column;">
-    <svg aria-hidden="true" focusable="false" style="display:none">
-      <defs>
-      <symbol
-          viewBox="0 0 32 32"
-          fill-rule="evenodd"
-          clip-rule="evenodd"
-          stroke-linejoin="round"
-          stroke-miterlimit="1.414"
-          id="expand"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            style="
-              stroke: none;
-              fill-rule: nonzero;
-              fill: rgb(0%, 0%, 0%);
-              fill-opacity: 1;
-            "
-            d="M 28.265625 6.132812 L 16 18.398438 L 3.734375 6.132812 L 0 9.867188 L 16 25.867188 L 32 9.867188 Z M 28.265625 6.132812 "
-          />
-        </symbol>
-        <symbol
-          id="building"
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-          ></path>
-        </symbol>
-        <symbol
-          id="user-circle"
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-          ></path>
-        </symbol>
-        <symbol
-          id="cog"
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-          ></path>
-          <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-        </symbol>
-        <symbol
-          id="clipboard-check"
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
-        </symbol>
-        <symbol
-          id="dots-vertical"
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-          ></path>
-        </symbol>
-      </defs>
+    <svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="0" height="0" style="display:none;">
+      <symbol viewBox="0 0 24 24" id="ri-question-line">
+        <g>
+          <path fill="none" d="M0 0h24v24H0z"/>
+          <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-5h2v2h-2v-2zm2-1.645V14h-2v-1.5a1 1 0 0 1 1-1 1.5 1.5 0 1 0-1.471-1.794l-1.962-.393A3.501 3.501 0 1 1 13 13.355z"/>
+        </g>
+      </symbol>
+      <symbol viewBox="0 0 24 24" id="ri-external-link-line">
+        <g>
+          <path fill="none" d="M0 0h24v24H0z"/>
+          <path d="M10 6v2H5v11h11v-5h2v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6zm11-3v8h-2V6.413l-7.793 7.794-1.414-1.414L17.585 5H13V3h8z"/>
+        </g>
+      </symbol>
     </svg>
-    <div class="only-dsfr">
-      <header
-        class="fr-header flex flex-wrap items-center justify-between fr-container"
-        style="box-shadow: none; padding: 0"
-      >
-        <div class="order-1">
-          <p class="fr-logo">
-            République
-            <br />
-            Française
-          </p>
-        </div>
-        <div class="fr-header__service order-3 sm:order-2 sm:grow">
-          <a href="/" title="Accueil - Potentiel - Ministère de la transition écologique">
-            <p class="fr-header__service-title text-black">Potentiel</p>
-          </a>
-          <p class="fr-header__service-tagline">
-            Facilite le parcours des producteurs<br />d'énergies renouvelables électriques
-          </p>
-        </div>
-        <nav class="order-2 sm:order-3 text-right mr-2 mt-2">
-          <ul class="flex flex-col sm:flex-row gap-3 fr-links-group">
-            <li class="list-none">
-              <a
-                target="_blank"
-                rel="noopener"
-                href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel"
-                class="fr-link fr-fi-external-link-line fr-link--icon-right"
+
+    <header
+      class="relative"
+      style="
+        font-family: Marianne, arial, sans-serif;
+        box-shadow: 0 8px 8px 0 rgb(0 0 0 / 10%);
+      "
+    >
+      <div class="p-2 lg:p-0 text-lg">
+        <div class="flex flex-col xl:mx-auto xl:max-w-7xl">
+          <section class="flex flex-row px-2 pb-1 lg:p-4 items-center">
+            <div class="flex flex-col">
+              <div class="lg:mb-1 logo-before"></div>
+              <div
+                class="hidden lg:block uppercase font-bold leading-none tracking-tighter"
               >
-                Aide
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </header>
+                République
+                <br />
+                Française
+              </div>
+              <div class="hidden lg:block logo-after"></div>
+            </div>
+
+            <a class="ml-2 lg:ml-8 no-underline" style="color: black" href="${properties.potentielUrl}">
+              <div class="font-bold lg:text-xl">Potentiel</div>
+              <div class="hidden lg:block text-base">
+                Facilite le parcours des producteurs
+                <br />
+                d'énergies renouvelables électriques
+              </div>
+            </a>
+
+            <div class="flex flex-row ml-auto">
+              <ul
+                class="flex flex-row text-xl lg:text-sm font-normal list-none p-0 m-0 lg:mr-0"
+              >
+                <li>
+                  <a
+                    class="no-underline flex flex-row items-center px-2 md:px-3"
+                    style="color: #000091"
+                    target="_blank"
+                    rel="noopener"
+                    href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel"
+                  >
+                    
+                    <svg class="lg:hidden" height="1em" width="1em" style="fill: #000091">
+                      <use xlink:href="#ri-question-line"></use>
+                    </svg>
+                    <span class="hidden lg:block pt-0.5 mx-1">Aide</span>
+                    <svg class="hidden lg:block" height="1em" width="1em" style="fill: #000091">
+                      <use xlink:href="#ri-external-link-line"></use>
+                    </svg>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </div>
     </div>
+    </header>
+
     <main role="main">
       <section class="section section-grey" style="min-height: calc(100vh - 400px)">
         <div class="container">

@@ -1,83 +1,168 @@
 import React from 'react'
 import routes from '../../routes'
 import { Request } from 'express'
-import { ExternalLinkIcon, UserIcon } from '@heroicons/react/solid'
+import {
+  RiAccountCircleLine,
+  RiCloseLine,
+  RiExternalLinkLine,
+  RiLogoutBoxLine,
+  RiMenuLine,
+  RiQuestionLine,
+  RiUserLine,
+} from 'react-icons/ri'
 
-interface HeaderProps {
+type HeaderProps = {
   request: Request
 }
 
 const Header = ({ request }: HeaderProps) => {
-  const user = request.user
   return (
-    <div className="only-dsfr">
+    <>
       <header
-        className="fr-header flex flex-wrap items-center justify-between fr-container"
-        style={{ boxShadow: 'none', padding: 0 }}
+        style={{
+          fontFamily: 'Marianne, arial, sans-serif',
+          boxShadow: '0 8px 8px 0 rgb(0 0 0 / 10%)',
+        }}
       >
-        <div className="order-1">
-          <p className="fr-logo">
-            République
-            <br />
-            Française
-          </p>
+        <div className="p-2 lg:p-0 text-lg">
+          <div className="flex flex-col xl:mx-auto xl:max-w-7xl">
+            <section className="flex flex-row px-2 pb-1 lg:p-4 items-center">
+              <Logo />
+              <Title />
+              <QuickAccess {...request} />
+            </section>
+          </div>
+
+          {/* <div className="lg:border-0 lg:border-t lg:border-solid lg:border-slate-200 ">
+            <section className="flex flex-col xl:mx-auto xl:max-w-7xl">
+              <MainMenu />
+            </section>
+          </div> */}
         </div>
-        <div className="fr-header__service order-3 sm:order-2 sm:grow">
-          <a href="/" title="Accueil - Potentiel - Ministère de la transition écologique">
-            <p className="fr-header__service-title text-black">Potentiel</p>
-          </a>
-          <p className="fr-header__service-tagline">
-            Facilite le parcours des producteurs
-            <br />
-            d'énergies renouvelables électriques
-          </p>
-        </div>
-        <nav className="order-2 sm:order-3 text-right mr-2 mt-2">
-          <ul className="flex flex-col sm:flex-row gap-3 fr-links-group">
-            {user ? (
-              <>
-                <li className="justify-end">
-                  {['admin', 'dgec'].includes(user.role) ? (
-                    <a className="fr-link fr-fi-user-line " href={user.accountUrl}>
-                      {user.fullName}
-                    </a>
-                  ) : (
-                    <span
-                      className="fr-link fr-fi-user-line"
-                      style={{ color: 'var(--text-default-grey)' }}
-                    >
-                      {user.fullName}
-                    </span>
-                  )}
-                </li>
-                <li>
-                  <a className="fr-link fr-fi-logout-box-r-line" href={routes.LOGOUT_ACTION}>
-                    Me déconnecter
-                  </a>
-                </li>
-              </>
-            ) : (
-              <li>
-                <a className="fr-link fr-fi-account-line" href={routes.LOGIN}>
-                  M'identifier
-                </a>
-              </li>
-            )}
-            <li className="list-none">
-              <a
-                target="_blank"
-                rel="noopener"
-                href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel"
-                className="fr-link fr-fi-external-link-line"
-              >
-                Aide
-              </a>
-            </li>
-          </ul>
-        </nav>
       </header>
-    </div>
+    </>
   )
 }
+
+const Logo = () => (
+  <div className="flex flex-col">
+    <div className="lg:mb-1 logo-before"></div>
+    <div className="hidden lg:block uppercase font-bold leading-none tracking-tighter">
+      République
+      <br />
+      Française
+    </div>
+    <div className="hidden lg:block logo-after"></div>
+  </div>
+)
+
+const Title = () => (
+  <a className="ml-2 lg:ml-8 no-underline" style={{ color: 'black' }} href={routes.HOME}>
+    <div className="font-bold lg:text-xl">Potentiel</div>
+    <div className="hidden lg:block text-base">
+      Facilite le parcours des producteurs
+      <br />
+      d'énergies renouvelables électriques
+    </div>
+  </a>
+)
+
+type QuickAccessProps = {
+  user: Request['user']
+}
+const QuickAccess = ({ user }: QuickAccessProps) => (
+  <div className="flex flex-row ml-auto">
+    <ul className="flex flex-row text-xl lg:text-sm font-normal list-none p-0 m-0 lg:mr-0">
+      {user ? (
+        <>
+          <li className="flex items-center">
+            {['admin', 'dgec'].includes(user.role) ? (
+              <a
+                className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
+                href={user.accountUrl}
+                style={{ color: `#000091` }}
+              >
+                <RiUserLine />
+                <span className="hidden lg:block pt-0.5 mx-1">{user.fullName}</span>
+              </a>
+            ) : (
+              <span className="hidden lg:block" style={{ color: 'var(--text-default-grey)' }}>
+                <RiUserLine />
+                <span className="pt-0.5 mx-1">{user.fullName}</span>
+              </span>
+            )}
+          </li>
+          <li className="flex items-center">
+            <a
+              className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
+              href={routes.LOGOUT_ACTION}
+              style={{ color: `#000091` }}
+            >
+              <RiLogoutBoxLine />
+              <span className="hidden lg:block pt-0.5 mx-1">Me déconnecter</span>
+            </a>
+          </li>
+        </>
+      ) : (
+        <li className="flex items-center">
+          <a
+            className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
+            href={routes.LOGIN}
+            style={{ color: `#000091` }}
+          >
+            <RiAccountCircleLine />
+            <span className="hidden lg:block pt-0.5 mx-1">M'identifier</span>
+          </a>
+        </li>
+      )}
+      <li className="flex items-center">
+        <a
+          className="no-underline flex flex-row items-center px-2 md:px-3"
+          style={{ color: `#000091` }}
+          target="_blank"
+          rel="noopener"
+          href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel"
+        >
+          <RiQuestionLine className="lg:hidden" />
+          <span className="hidden lg:block pt-0.5 mx-1">Aide</span>
+          <RiExternalLinkLine className="hidden lg:block" />
+        </a>
+      </li>
+    </ul>
+  </div>
+)
+
+const MainMenu = () => (
+  <>
+    <input id="menu-toggle" className="hidden" type="checkbox" />
+    <label className="absolute top-2 right-2 text-xl lg:hidden" htmlFor="menu-toggle">
+      <RiMenuLine className="menu-open" />
+      <RiCloseLine className="menu-close hidden" />
+    </label>
+    <nav className="menu hidden lg:block absolute lg:relative top-8 lg:top-0 left-0 w-full h-full lg:h-auto bg-white lg:bg-transparent z-50 pt-6 lg:pt-0">
+      <ul className="flex flex-col list-none px-0 py-2 lg:py-0 m-0 lg:flex-row lg:text-sm lg:font-normal">
+        <li className="py-2 border-0 border-b lg:border-b-0 border-solid border-slate-200 lg:p-4 lg:pb-0">
+          <a
+            className="no-underline pl-4 lg:pl-0 lg:pb-4 text-blue-800 font-medium border-0 border-l-4 border-solid border-blue-800 lg:border-l-0 lg:border-b-2"
+            aria-current="page"
+            href="#"
+          >
+            Ressources EnR
+          </a>
+        </li>
+        <li className="py-2 border-0 border-b border-solid border-slate-200 lg:p-4">
+          <a className="no-underline pl-4 lg:pl-0 lg:pb-4 text-black" href="#">
+            Statistiques
+          </a>
+        </li>
+        <li className="py-2 border-0 border-b border-solid border-slate-200 lg:p-4">
+          <a className="no-underline pl-4 text-black" href="#">
+            Nous contacter
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </>
+)
 
 export default Header
