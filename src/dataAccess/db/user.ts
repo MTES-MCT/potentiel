@@ -85,7 +85,7 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
     try {
       if (!dreal) return []
 
-      const drealUsersIds = (
+      const drealUsersIds: string[] = (
         await UserDrealModel.findAll({
           where: { dreal },
         })
@@ -93,17 +93,15 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
 
       if (!drealUsersIds.length) return []
 
-      const drealUsersRaw = await UserModel.findAll({
-        where: { id: drealUsersIds },
-      })
-
-      const deserializedItems = mapExceptError(
-        drealUsersRaw.map((item) => item.get()),
-        deserialize,
-        'User.findUsersForDreal.deserialize error'
+      const drealUsers: User[] = (
+        await UserModel.findAll({
+          where: { id: drealUsersIds },
+        })
       )
+        .map((item) => item.get())
+        .map(deserialize)
 
-      return mapIfOk(deserializedItems, makeUser, 'User.findUsersForDreal.makeUser error')
+      return drealUsers
     } catch (error) {
       if (CONFIG.logDbErrors) logger.error(error)
       return []
