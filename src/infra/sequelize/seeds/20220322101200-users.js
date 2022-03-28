@@ -18,7 +18,7 @@ module.exports = {
       const drealUserId = '5c3c3cd0-95f1-11ea-b350-bb5aa5faa992'
       const users = [
         {
-          id: '5c3bc7a0-95f1-11ea-b350-bb5aa5faa992',
+          id: '5c3bc7a0-95f1-11ea-b350-bb5aa5faa993',
           fullName: 'Admin Test',
           email: 'admin@test.test',
           role: 'admin',
@@ -30,10 +30,16 @@ module.exports = {
           role: 'dreal',
         },
         {
-          id: '5c3c3cd4-95f1-11ea-b350-bb5aa5faa992',
+          id: '5c3c3cd4-95f1-11ea-b350-bb5aa5faa994',
           fullName: 'Porteur Projet Test',
           email: 'porteur@test.test',
           role: 'porteur-projet',
+        },
+        {
+          id: '5c3c3cd4-95f1-11ea-b350-bb5aa5faa995',
+          fullName: 'Ademe Test',
+          email: 'ademe@test.test',
+          role: 'ademe',
         },
       ]
 
