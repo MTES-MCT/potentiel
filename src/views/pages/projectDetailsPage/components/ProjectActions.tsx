@@ -5,10 +5,12 @@ import { ChevronDownIcon, PaperClipIcon } from '@heroicons/react/solid'
 import { UserRole } from '../../../../modules/users'
 import { ACTION_BY_ROLE } from '../../../components'
 import { dataId } from '../../../../helpers/testId'
+import { ProjectAppelOffre } from '@entities/appelOffre'
 
 interface Props {
   project: {
     id: string
+    appelOffre: ProjectAppelOffre
     isClasse: boolean
     isAbandoned: boolean
     notifiedOn?: Date

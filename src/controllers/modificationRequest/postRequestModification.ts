@@ -212,6 +212,12 @@ v1Router.post(
       if (res.isErr()) return handleError(res.error)
     }
 
+    if (data.type === 'producteur' && project?.appelOffre?.type === 'eolien') {
+      const customTitle = 'Action non autorisée'
+      const customMessage = 'Vous ne pouvez pas changer le producteur pour ce projet'
+      return unauthorizedResponse({ request, response, customTitle, customMessage })
+    }
+
     switch (data.type) {
       case 'puissance':
         await requestPuissanceModification({

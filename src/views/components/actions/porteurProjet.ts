@@ -1,7 +1,9 @@
+import { ProjectAppelOffre } from '@entities/appelOffre'
 import ROUTES from '../../../routes'
 
 const porteurProjetActions = (project: {
   id: string
+  appelOffre: ProjectAppelOffre
   isClasse: boolean
   isAbandoned: boolean
   certificateFile?: {
@@ -18,6 +20,7 @@ const porteurProjetActions = (project: {
   potentielIdentifier: string
 }) => {
   const canDownloadCertificate = !!project.certificateFile
+  const isEolien = project.appelOffre.type === 'eolien'
 
   if (project.isAbandoned) return []
 
@@ -72,10 +75,14 @@ const porteurProjetActions = (project: {
         title: 'Demander un délai',
         link: ROUTES.DEMANDE_DELAIS(project.id),
       },
-      {
-        title: 'Changer de producteur',
-        link: ROUTES.CHANGER_PRODUCTEUR(project.id),
-      },
+      ...(!isEolien
+        ? [
+            {
+              title: 'Changer de producteur',
+              link: ROUTES.CHANGER_PRODUCTEUR(project.id),
+            },
+          ]
+        : []),
       {
         title: 'Changer de fournisseur',
         link: ROUTES.CHANGER_FOURNISSEUR(project.id),

@@ -9,12 +9,20 @@ type ChangementProducteurProps = {
 
 export const ChangementProducteur = ({ project, justification }: ChangementProducteurProps) => {
   const { appelOffre } = project
+  const isEolien = appelOffre?.type === 'eolien'
 
   return (
     <>
+      {isEolien && (
+        <div className="notification error" style={{ marginTop: 10, marginBottom: 10 }}>
+          <span>
+            Vous ne pouvez pas changer de producteur avant la date d'achèvement de ce projet.
+          </span>
+        </div>
+      )}
       <label>Ancien producteur</label>
       <input type="text" disabled defaultValue={project.nomCandidat} />
-      {appelOffre?.isSoumisAuxGFs && (
+      {!isEolien && appelOffre?.isSoumisAuxGFs && (
         <div className="notification warning" style={{ marginTop: 10, marginBottom: 10 }}>
           <span>
             Attention : de nouvelles garanties financières devront être déposées d'ici un mois
@@ -29,6 +37,8 @@ export const ChangementProducteur = ({ project, justification }: ChangementProdu
         name="producteur"
         id="producteur"
         {...dataId('modificationRequest-producteurField')}
+        disabled={isEolien}
+        required
       />
       <label htmlFor="candidats">Statuts mis à jour</label>
       <input type="file" name="file" {...dataId('modificationRequest-fileField')} id="file" />
