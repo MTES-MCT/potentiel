@@ -1,6 +1,6 @@
 {
   "name": "potentiel.beta.gouv.fr",
-  "version": "2.121.4",
+  "version": "2.121.5",
   "description": "Suivi des Projets d'Energies Renouvelables",
   "main": "index.js",
   "scripts": {
