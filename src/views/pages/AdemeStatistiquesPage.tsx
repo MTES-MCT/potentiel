@@ -1,8 +1,8 @@
 import type { Request } from 'express'
 import React from 'react'
-import AdminDashboard from '../../components/AdminDashboard'
-import { PageLayout } from '../../components/PageLayout'
-import { hydrateOnClient } from '../../helpers/hydrateOnClient'
+import PartnerDashboard from '../components/PartnerDashboard'
+import { PageLayout } from '../components/PageLayout'
+import { hydrateOnClient } from '../helpers/hydrateOnClient'
 
 interface Props {
   request: Request
@@ -10,9 +10,9 @@ interface Props {
 }
 
 /* Pure component */
-export const AdminStatistiques = PageLayout(function (props: Props) {
+export const AdemeStatistiques = PageLayout(function (props: Props) {
   return (
-    <AdminDashboard currentPage="admin-statistiques" role="admin">
+    <PartnerDashboard currentPage="ademe-statistiques" role="ademe">
       <main role="main" className="panel">
         <div className="panel__header">
           <h3>Tableau de bord</h3>
@@ -33,8 +33,8 @@ export const AdminStatistiques = PageLayout(function (props: Props) {
           ></div>
         </section>
       </main>
-    </AdminDashboard>
+    </PartnerDashboard>
   )
 })
 
-hydrateOnClient(AdminStatistiques)
+hydrateOnClient(AdemeStatistiques)
