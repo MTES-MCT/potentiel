@@ -1331,6 +1331,11 @@ export const AdminFichierAttache = () => (
           isOwner: true,
           projectId: project.id,
           attachmentId: '123',
+          attachedBy: {
+            id: '123',
+            name: 'Bernard Thierry',
+            administration: 'DREAL PACA',
+          },
         },
         {
           type: 'FileAttachedToProject',
@@ -1348,6 +1353,9 @@ export const AdminFichierAttache = () => (
           isOwner: false,
           projectId: project.id,
           attachmentId: '124',
+          attachedBy: {
+            id: '123',
+          },
         },
       ],
     }}

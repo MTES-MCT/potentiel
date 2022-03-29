@@ -6,7 +6,7 @@ import { makeDocumentUrl } from '../helpers'
 import { AttachedFileItemProps } from '../helpers/extractAttachedFileItemProps'
 
 export const AttachedFileItem = (props: AttachedFileItemProps) => {
-  const { date, title, description, files, isOwner, attachmentId, projectId } = props
+  const { date, title, description, files, isOwner, attachmentId, projectId, attachedBy } = props
   return (
     <>
       <PastIcon />
@@ -26,6 +26,12 @@ export const AttachedFileItem = (props: AttachedFileItemProps) => {
             </li>
           ))}
         </ul>
+        {!!attachedBy.name ? (
+          <div className="text-sm mt-1">
+            Attaché par {attachedBy.name}{' '}
+            {!!attachedBy.administration && `(${attachedBy.administration})`}
+          </div>
+        ) : null}
         {isOwner && (
           <form
             className="p-0 ml-0 mt-2"

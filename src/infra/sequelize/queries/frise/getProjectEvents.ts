@@ -1,11 +1,6 @@
 import { userIs, userIsNot } from '@modules/users'
 import { wrapInfra } from '@core/utils'
-import {
-  GetProjectEvents,
-  ProjectEventDTO,
-  ProjectEventListDTO,
-  ProjectStatus,
-} from '@modules/frise'
+import { GetProjectEvents, ProjectEventDTO, ProjectStatus } from '@modules/frise'
 import { models } from '../../models'
 import { ProjectEvent } from '../../projectionsNext'
 import { getProjectAppelOffre } from '@config/queries.config'
@@ -240,7 +235,8 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       title,
                       description,
                       files,
-                      isOwner: attachedBy === user.id,
+                      isOwner: attachedBy?.id === user.id,
+                      attachedBy,
                       attachmentId,
                       projectId,
                     })

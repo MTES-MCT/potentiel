@@ -305,6 +305,11 @@ export type FileAttachedToProjectDTO = {
   isOwner: boolean
   attachmentId: string
   projectId: string
+  attachedBy: {
+    id: string
+    name?: string
+    administration?: string
+  }
 }
 
 export type ProjectEventListDTO = {
