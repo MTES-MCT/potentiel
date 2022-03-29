@@ -8,6 +8,8 @@ import { PaginatedList } from '../../types'
 import { RoleBasedDashboard } from '../components'
 import { DownloadIcon } from '../components/DownloadIcon'
 import ProjectList from '../components/ProjectList'
+import user from '@entities/user'
+import { RiFileExcel2Line } from 'react-icons/ri'
 
 interface ListProjectsProps {
   request: Request
@@ -305,17 +307,27 @@ export default function ListProjects({
         )}
         {projects ? (
           <>
-            <div className="pagination__count">
-              <strong>{Array.isArray(projects) ? projects.length : projects.itemCount}</strong>{' '}
-              projets
-              <a
-                href={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(
+            <div className="flex flex-col md:flex-row md:items-center py-2">
+              {request.user.role !== 'dreal' && (
+                <span>
+                  <strong>{Array.isArray(projects) ? projects.length : projects.itemCount}</strong>{' '}
+                  projets{' '}
+                </span>
+              )}
+              <form
+                className="m-0 inline md:ml-auto"
+                action={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(
                   request.query as any
                 )}`}
-                download
               >
-                <DownloadIcon />
-              </a>
+                <button
+                  className="button"
+                  style={{ margin: 0, paddingLeft: '1rem', paddingRight: '1rem' }}
+                >
+                  Télécharger un export
+                  <RiFileExcel2Line className="ml-2 h-4 w-4" />
+                </button>
+              </form>
             </div>
             <ProjectList
               displayColumns={[
