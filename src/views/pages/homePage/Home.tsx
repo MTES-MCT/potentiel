@@ -3,41 +3,38 @@ import React from 'react'
 import { PageLayout } from '../../components/PageLayout'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
 
-interface Props {
+type Props = {
   request: Request
 }
 
-/* Pure component */
 export const Home = PageLayout(function (props: Props) {
   return (
     <>
-      <div
-        className="hero"
-        role="banner"
-        style={{ background: "url('images/PV.jpg') no-repeat center", backgroundSize: 'cover' }}
-      >
-        <div className="hero__container text-center">
-          <h1 style={{ color: 'white', textShadow: '1px 1px 3px rgba(0, 0, 0, 0.7)' }}>
-            POTENTIEL
-          </h1>
-          <p style={{ color: 'white', textShadow: '1px 1px 3px rgba(0, 0, 0, 0.7)' }}>
-            Faciliter le parcours des producteurs d'énergies renouvelables électriques
-          </p>
-        </div>
-      </div>
-
       <main role="main">
-        <section className="section section-grey" style={{ minHeight: 'calc(100vh - 810px)' }}>
-          <div className="container">
-            <p className="section__subtitle">
-              Potentiel est un nouveau service du ministère de la transition écologique. <br />
-              Cette plateforme, en cours de développement, permettra la gestion des projets
-              d'énergie renouvelable électrique soutenus par les appels d’offres de l’Etat. <br />
-              <a className="button button-primary" style={{ marginTop: '50px' }} href="/login.html">
-                Je m'identifie
-              </a>
+        <section className="bg-blue-900 text-white">
+          <div className="xl:mx-auto xl:max-w-7xl flex flex-col p-6 gap-6 xl:py-10">
+            <div className="flex flex-col md:flex-row gap-6">
+              <p className="m-0 text-3xl lg:text-5xl xl:text-6xl font-bold">
+                Suivez efficacement vos projets EnRE*, transmettez vos documents, demandez des
+                modifications.
+                <br />
+                <span className="text-sm lg:text-base font-light">
+                  *Énergies renouvelables électriques
+                </span>
+              </p>
+              <img className="w-full md:w-1/2" src="/images/home/proposition_valeur.png" />
+            </div>
+            <p className="text-lg md:text-base lg:text-xl font-medium md:font-semibold md:text-center md:m-0 md:mt-10 md:mb-0 lg:px-16 lg:leading-loose">
+              Potentiel est le service du Ministère de la Transition Écologique qui connecte
+              <br className="hidden md:inline" /> tous les acteurs du parcours administratif des
+              projets d'EnRE soumis à appel d'offre en France
             </p>
           </div>
+        </section>
+        <section className="p-6">
+          <a className="button button-primary" href="/login.html">
+            Je m'identifie
+          </a>
         </section>
       </main>
     </>
