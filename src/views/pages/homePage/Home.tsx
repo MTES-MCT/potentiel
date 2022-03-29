@@ -1,5 +1,6 @@
 import type { Request } from 'express'
 import React from 'react'
+import { RiAccountCircleLine } from 'react-icons/ri'
 import { PageLayout } from '../../components/PageLayout'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
 
@@ -31,8 +32,13 @@ export const Home = PageLayout(function (props: Props) {
             </p>
           </div>
         </section>
-        <section className="p-6">
-          <a className="button button-primary" href="/login.html">
+        <section className="flex xl:mx-auto xl:max-w-7xl p-6">
+          <a
+            className="no-underline mx-auto inline-flex items-center px-6 py-3 border border-transparent text-base lg:text-lg font-medium shadow-sm text-white bg-blue-700 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600"
+            style={{ color: 'white' }}
+            href="/login.html"
+          >
+            <RiAccountCircleLine className="mr-4" />
             Je m'identifie
           </a>
         </section>
