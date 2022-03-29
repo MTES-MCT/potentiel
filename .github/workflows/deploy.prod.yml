@@ -21,7 +21,7 @@ jobs:
       - run: git fetch --prune --unshallow
 
       - name: Deploy to Clever Cloud
-        uses: 47ng/actions-clever-cloud@v1
+        uses: 47ng/actions-clever-cloud@v1.1
         with:
           appID: app_01c01a7d-783f-42a6-8d10-db9167ae056b
           timeout: 1800
