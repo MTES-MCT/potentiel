@@ -52,8 +52,8 @@ export const AttachFile = ({ projectId }: AttachFileProps) => {
             ))}
             <a onClick={() => setFileCount(fileCount + 1)}>+ Ajouter un autre fichier</a>
           </div>
-          <div className="notification mt-3 mb-2">
-            Ce fichier sera visible pour l'administration et le porteur de projet.
+          <div className="text-sm mt-4">
+            Les fichiers attachés sont visibles de l'administration et du porteur de projet.
           </div>
           <button className="button" type="submit" name="submit" disabled={false}>
             Envoyer
