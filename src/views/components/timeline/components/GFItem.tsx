@@ -16,8 +16,10 @@ export const GFItem = (props: ComponentProps) => {
 
   switch (status) {
     case 'pending-validation':
-    case 'validated':
       return <Submitted {...{ ...props, status, project }} />
+
+    case 'validated':
+      return <Validated {...{ ...props, status, project }} />
 
     case 'due':
     case 'past-due':
@@ -65,25 +67,21 @@ const NotSubmitted = ({ date, status, role, project }: NotSubmittedProps) => {
   )
 }
 
-type SubmittedProps = ComponentProps & { status: 'pending-validation' | 'validated' }
-const Submitted = ({ date, status, url, role, project }: SubmittedProps) => {
+type SubmittedProps = ComponentProps & { status: 'pending-validation' }
+const Submitted = ({ date, url, role, project }: SubmittedProps) => {
   const isPorteurProjet = role === 'porteur-projet'
-  const isValidated = status === 'validated'
-  const isAbandonned = project.status === 'Abandonné'
 
   return (
     <>
-      {isValidated ? <PastIcon /> : <CurrentIcon />}
+      <CurrentIcon />
       <ContentArea>
         <div className="flex">
           <div className="align-middle">
             <ItemDate date={date} />
           </div>
-          {!isValidated && !isAbandonned && (
-            <div className="align-middle mb-1">
-              <InfoItem message={role === 'dreal' ? 'à traiter' : 'validation en attente'} />
-            </div>
-          )}
+          <div className="align-middle mb-1">
+            <InfoItem message={role === 'dreal' ? 'à traiter' : 'validation en attente'} />
+          </div>
         </div>
         <ItemTitle title={'Constitution des garanties financières'} />
         <div className="flex">
@@ -94,11 +92,37 @@ const Submitted = ({ date, status, url, role, project }: SubmittedProps) => {
           ) : (
             <span>Pièce-jointe introuvable</span>
           )}
-          {isValidated && <span>validé</span>}
         </div>
-        {isPorteurProjet && status === 'pending-validation' && (
-          <CancelDeposit projectId={project.id} />
-        )}
+        {isPorteurProjet && <CancelDeposit projectId={project.id} />}
+      </ContentArea>
+    </>
+  )
+}
+
+type ValidatedProps = ComponentProps & { status: 'validated' }
+const Validated = ({ date, url }: ValidatedProps) => {
+  return (
+    <>
+      <PastIcon />
+      <ContentArea>
+        <div className="flex">
+          <div className="align-middle">
+            <ItemDate date={date} />
+          </div>
+        </div>
+        <ItemTitle title={'Constitution des garanties financières'} />
+        <div>
+          {url ? (
+            <>
+              <a href={url} download>
+                Télécharger l'attestation de garanties financières
+              </a>
+              <span>&nbsp;(validée)</span>
+            </>
+          ) : (
+            <span>Pièce-jointe introuvable</span>
+          )}
+        </div>
       </ContentArea>
     </>
   )

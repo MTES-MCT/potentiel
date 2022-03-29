@@ -24,6 +24,7 @@ import {
   ProjectGFWithdrawnDTO,
   LegacyModificationImportedDTO,
   ProjectEventListDTO,
+  ProjectGFValidatedDTO,
 } from '@modules/frise'
 import { Timeline } from './Timeline'
 
@@ -226,6 +227,58 @@ export const garantiesFinancieresConstituees = () => (
           variant: 'admin',
           date: new Date('2022-01-18').getTime(),
         } as ProjectGFInvalidatedDTO,
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)
+
+export const garantiesFinancieresValidées = () => (
+  <Timeline
+    projectEventList={{
+      project,
+      events: [
+        {
+          type: 'ProjectImported',
+          variant: 'admin',
+          date: new Date('2022-01-11').getTime(),
+        } as ProjectImportedDTO,
+        {
+          type: 'ProjectNotified',
+          variant: 'admin',
+          date: new Date('2022-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectCertificateGenerated',
+          variant: 'admin',
+          date: new Date('2022-01-13').getTime(),
+          certificateFileId: 'file-id',
+          nomProjet: 'mon projet pv',
+          email: 'porteur@test.test',
+          potentielIdentifier: 'pot-id',
+        } as ProjectCertificateGeneratedDTO,
+        {
+          type: 'ProjectClaimed',
+          variant: 'admin',
+          date: new Date('2022-01-14').getTime(),
+          potentielIdentifier: 'pot-id',
+          certificateFileId: 'file-id',
+          nomProjet: 'nom-projet',
+          email: 'email',
+          claimedBy: 'someone',
+        } as ProjectClaimedDTO,
+        {
+          type: 'ProjectGFSubmitted',
+          variant: 'admin',
+          date: new Date('2022-01-17').getTime(),
+          fileId: 'file-id',
+          filename: 'file-name',
+        } as ProjectGFSubmittedDTO,
+        {
+          type: 'ProjectGFValidated',
+          variant: 'admin',
+          date: new Date('2022-01-18').getTime(),
+        } as ProjectGFValidatedDTO,
       ],
     }}
     now={new Date().getTime()}
