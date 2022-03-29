@@ -13,7 +13,7 @@ export const Home = PageLayout(function (props: Props) {
     <>
       <main role="main">
         <section className="bg-blue-900 text-white">
-          <div className="xl:mx-auto xl:max-w-7xl flex flex-col p-6 gap-6 xl:py-10">
+          <div className="new-container flex flex-col p-6 gap-6 xl:py-10">
             <div className="flex flex-col md:flex-row gap-6">
               <p className="m-0 text-3xl lg:text-5xl xl:text-6xl font-bold">
                 Suivez efficacement vos projets EnRE*, transmettez vos documents, demandez des
@@ -32,12 +32,8 @@ export const Home = PageLayout(function (props: Props) {
             </p>
           </div>
         </section>
-        <section className="flex xl:mx-auto xl:max-w-7xl p-6">
-          <a
-            className="no-underline mx-auto inline-flex items-center px-6 py-3 border border-transparent text-base lg:text-lg font-medium shadow-sm text-white bg-blue-700 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600"
-            style={{ color: 'white' }}
-            href="/login.html"
-          >
+        <section className="new-container flex p-6">
+          <a className="no-underline mx-auto btn" style={{ color: 'white' }} href="/login.html">
             <RiAccountCircleLine className="mr-4" />
             Je m'identifie
           </a>
