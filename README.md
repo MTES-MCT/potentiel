@@ -19,6 +19,7 @@ La suite de ce document explique comment lancer l'application sur sa machine et 
 - [Les grandes 'recettes' pour le développeur](./docs/RECIPES.md)
 - [L'authentification avec Keycloak](./docs/KEYCLOAK.md)
 - [L'analyse de données avec Metabase](./docs/METABASE.md)
+- [Optimisation d'un bundle js front](./docs/BUNDLE_FRONT.md)
 
 ## Sommaire
 - [Développement en local](#développement-en-local)
