@@ -37,7 +37,8 @@ export const AttachedFileItem = (props: AttachedFileItemProps) => {
             <button
               className="button-outline small warning"
               onClick={(event) =>
-                confirm('Etes-vous sur de vouloir retirer ces fichiers ?') || event.preventDefault()
+                confirm('Etes-vous sur de vouloir retirer ce(s) fichier(s) ?') ||
+                event.preventDefault()
               }
             >
               <TrashIcon className="h-4 w-4 mr-2 align-middle" />

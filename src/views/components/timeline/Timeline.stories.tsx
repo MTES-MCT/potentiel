@@ -1329,6 +1329,8 @@ export const AdminFichierAttache = () => (
           ],
           title: 'Action en justice',
           isOwner: true,
+          projectId: project.id,
+          attachmentId: '123',
         },
         {
           type: 'FileAttachedToProject',
@@ -1344,6 +1346,8 @@ export const AdminFichierAttache = () => (
             },
           ],
           isOwner: false,
+          projectId: project.id,
+          attachmentId: '124',
         },
       ],
     }}

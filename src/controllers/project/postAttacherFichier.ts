@@ -20,7 +20,7 @@ v1Router.post(
   upload.multiple(),
   ensureRole(['admin', 'dgec', 'dreal']),
   asyncHandler(async (request, response) => {
-    const { projectId, stepDate, title, description, file } = request.body
+    const { projectId, stepDate, title, description } = request.body
 
     if (!validateUniqueId(projectId)) {
       return errorResponse({

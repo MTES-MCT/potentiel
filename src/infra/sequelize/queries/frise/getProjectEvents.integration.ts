@@ -295,7 +295,7 @@ describe('frise.getProjectEvents', () => {
   }
 
   for (const role of USER_ROLES.filter(
-    (role) => role === 'admin' || role === 'dgec' || role === 'porteur-projet'
+    (role) => role === 'admin' || role === 'dgec' || role === 'dreal' || role === 'porteur-projet'
   )) {
     describe(`when the user is ${role}`, () => {
       const fakeUser = { role } as User
