@@ -1,7 +1,7 @@
 import { Result, Ok, ErrorResult } from '../types'
 import { Runtype } from '../types/schemaTypes'
 import { Optional } from 'utility-types'
-import _ from 'lodash'
+import pick from 'lodash/pick'
 
 interface HasId {
   id: string
@@ -14,7 +14,7 @@ const buildMakeEntity = <T extends HasId>(
   defaults?: Record<string, any>
 ) => {
   // Make a small utility to remove all unnecessary fields
-  const extractTypeFields = (obj: any) => _.pick(obj, typeFields)
+  const extractTypeFields = (obj: any) => pick(obj, typeFields)
 
   // The input object doesn't require an id
   return (obj: Optional<T, 'id'>): Result<T, Error> => {

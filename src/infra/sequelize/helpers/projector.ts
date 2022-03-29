@@ -1,4 +1,4 @@
-import { merge } from 'lodash'
+import merge from 'lodash/merge'
 
 import { BaseDomainEvent, DomainEvent, EventBus } from '@core/domain'
 import { logger } from '@core/utils'
