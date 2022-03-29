@@ -104,6 +104,7 @@ export default function ProjectActions({ project, role }: Props) {
           href={downloadAction.link}
           className="button inline-block pl-1 grow whitespace-nowrap text-center lg:max-w-fit self-start"
           style={{ marginTop: 0, marginRight: 0 }}
+          download
         >
           <PaperClipIcon className="h-5 w-5 align-middle mr-2" />
           {downloadAction.title}
