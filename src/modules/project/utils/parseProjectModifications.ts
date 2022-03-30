@@ -171,7 +171,7 @@ function extractModificationType(
     [`Colonne concernée ${index}`]: colonneConcernee,
     [`Ancienne valeur ${index}`]: ancienneValeur,
     [`Date de modification ${index}`]: dateModification,
-    [`Statut demandes ${index}`]: statut,
+    [`Statut demande ${index}`]: statut,
     [`Nom courrier ${index}`]: nomCourrier,
   } = line
   const modifiedOnDate = moment(dateModification, 'DD/MM/YYYY')

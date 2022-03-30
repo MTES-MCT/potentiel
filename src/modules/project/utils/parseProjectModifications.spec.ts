@@ -8,7 +8,7 @@ describe('parseProjectModifications', () => {
       'Date de modification 1': '25/04/2019',
       'Colonne concernée 1': '',
       'Ancienne valeur 1': '',
-      'Statut demandes 1': 'Acceptée',
+      'Statut demande 1': 'Acceptée',
       'Nom courrier 1': 'filename',
     }
 
@@ -31,7 +31,7 @@ describe('parseProjectModifications', () => {
       'Date de modification 1': '25/04/2019',
       'Colonne concernée 1': '',
       'Ancienne valeur 1': '',
-      'Statut demandes 1': 'Refusée',
+      'Statut demande 1': 'Refusée',
       'Nom courrier 1': 'filename',
     }
 
@@ -54,7 +54,7 @@ describe('parseProjectModifications', () => {
       'Date de modification 1': '25/04/2019',
       'Colonne concernée 1': 'column',
       'Ancienne valeur 1': 'value',
-      'Statut demandes 1': 'Acceptée',
+      'Statut demande 1': 'Acceptée',
       'Nom courrier 1': 'filename',
     }
 
@@ -79,7 +79,7 @@ describe('parseProjectModifications', () => {
       'Date de modification 1': '25/04/2019',
       'Colonne concernée 1': 'Classé ?',
       'Ancienne valeur 1': 'Eliminé',
-      'Statut demandes 1': 'Refusée',
+      'Statut demande 1': 'Refusée',
       'Nom courrier 1': 'filename',
     }
 
@@ -102,7 +102,7 @@ describe('parseProjectModifications', () => {
       'Date de modification 1': '25/04/2019',
       'Colonne concernée 1': 'Classé ?',
       'Ancienne valeur 1': 'Classé',
-      'Statut demandes 1': 'Acceptée',
+      'Statut demande 1': 'Acceptée',
       'Nom courrier 1': 'filename',
     }
 
@@ -124,12 +124,12 @@ describe('parseProjectModifications', () => {
       'Date de modification 1': '25/04/2019',
       'Colonne concernée 1': 'Classé ?',
       'Ancienne valeur 1': 'Classé',
-      'Statut demandes 1': 'Acceptée',
+      'Statut demande 1': 'Acceptée',
       'Type de modification 2': 'Recours gracieux',
       'Date de modification 2': '25/04/2019',
       'Colonne concernée 2': "Motif d'élimination",
       'Ancienne valeur 2': 'Ancien motif',
-      'Statut demandes 2': 'Acceptée',
+      'Statut demande 2': 'Acceptée',
       'Nom courrier 2': 'filename',
     }
 
@@ -153,7 +153,7 @@ describe('parseProjectModifications', () => {
       'Date de modification 1': '25/04/2019',
       'Colonne concernée 1': '22/12/2024',
       'Ancienne valeur 1': '01/01/2024',
-      'Statut demandes 1': 'Acceptée',
+      'Statut demande 1': 'Acceptée',
       'Nom courrier 1': 'filename',
     }
 
@@ -178,7 +178,7 @@ describe('parseProjectModifications', () => {
       'Date de modification 1': '25/04/2019',
       'Colonne concernée 1': '',
       'Ancienne valeur 1': '',
-      'Statut demandes 1': 'Refusée',
+      'Statut demande 1': 'Refusée',
       'Nom courrier 1': 'filename',
     }
 
@@ -201,7 +201,7 @@ describe('parseProjectModifications', () => {
       'Date de modification 1': '25/04/2019',
       'Colonne concernée 1': '',
       'Ancienne valeur 1': '',
-      'Statut demandes 1': 'Accord de principe',
+      'Statut demande 1': 'Accord de principe',
       'Nom courrier 1': 'filename',
     }
 
@@ -226,7 +226,7 @@ describe('parseProjectModifications', () => {
           'Type de modification 1': 'Prolongation de délai',
           'Date de modification 1': '25/04/2019',
           'Ancienne valeur 1': '01/01/2024',
-          'Statut demandes 1': 'Acceptée',
+          'Statut demande 1': 'Acceptée',
         })
       } catch (error) {
         expect(error).toBeDefined()
@@ -245,8 +245,8 @@ describe('parseProjectModifications', () => {
       'Date de modification 2': '25/04/2019',
       'Colonne concernée 2': 'Numéro SIREN ou SIRET*',
       'Ancienne valeur 2': 'ancien siret',
-      'Statut demandes 1': 'Acceptée',
-      'Statut demandes 2': 'Acceptée',
+      'Statut demande 1': 'Acceptée',
+      'Statut demande 2': 'Acceptée',
       'Nom courrier 2': 'filename',
     }
 
@@ -271,7 +271,7 @@ describe('parseProjectModifications', () => {
       'Date de modification 1': '25/04/2019',
       'Colonne concernée 1': 'Nom (personne physique) ou raison sociale (personne morale) : ',
       'Ancienne valeur 1': 'ancien producteur',
-      'Statut demandes 1': 'Acceptée',
+      'Statut demande 1': 'Acceptée',
       'Nom courrier 1': 'filename',
     }
 
@@ -303,9 +303,9 @@ describe('parseProjectModifications', () => {
       'Date de modification 3': '27/04/2019',
       'Colonne concernée 3': 'Classé ?',
       'Ancienne valeur 3': 'Eliminé',
-      'Statut demandes 1': 'Acceptée',
-      'Statut demandes 2': 'Acceptée',
-      'Statut demandes 3': 'Acceptée',
+      'Statut demande 1': 'Acceptée',
+      'Statut demande 2': 'Acceptée',
+      'Statut demande 3': 'Acceptée',
       'Nom courrier 3': 'filename',
     }
 
@@ -341,7 +341,7 @@ describe('parseProjectModifications', () => {
       'Date de modification 1': '25/04/2019',
       'Colonne concernée 1': '',
       'Ancienne valeur 1': '',
-      'Statut demandes 1': 'Acceptée',
+      'Statut demande 1': 'Acceptée',
       'Nom courrier 1': 'filename',
     }
 
@@ -367,7 +367,7 @@ describe('parseProjectModifications', () => {
           'Date de modification 1': 'abcd',
           'Colonne concernée 1': '',
           'Ancienne valeur 1': '',
-          'Statut demandes 1': 'Acceptée',
+          'Statut demande 1': 'Acceptée',
           'Nom courrier 1': 'filename',
         })
       } catch (error) {
@@ -404,7 +404,7 @@ describe('parseProjectModifications', () => {
           'Date de modification 1': '01/01/2009',
           'Colonne concernée 1': '',
           'Ancienne valeur 1': '',
-          'Statut demandes 1': 'Acceptée',
+          'Statut demande 1': 'Acceptée',
           'Nom courrier 1': 'filename',
         })
       } catch (error) {
@@ -425,7 +425,7 @@ describe('parseProjectModifications', () => {
           'Date de modification 1': '25/04/2019',
           'Colonne concernée 1': '',
           'Ancienne valeur 1': '',
-          'Statut demandes': 'pas ok',
+          'Statut demande': 'pas ok',
           'Nom courrier 1': 'filename',
         })
       } catch (error) {
