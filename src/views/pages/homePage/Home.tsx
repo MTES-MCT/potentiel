@@ -11,11 +11,11 @@ type Props = {
 export const Home = PageLayout(function (props: Props) {
   return (
     <>
-      <main role="main">
-        <section className="bg-blue-900 text-white">
-          <div className="new-container flex flex-col p-6 gap-6 xl:py-10">
+      <main role="main" style={{ fontFamily: 'Marianne, arial, sans-serif' }}>
+        <section className="bg-blue-france-sun-base text-white">
+          <div className="xl:mx-auto xl:max-w-7xl flex flex-col p-6 gap-6 xl:py-10">
             <div className="flex flex-col md:flex-row gap-6">
-              <p className="m-0 text-3xl lg:text-5xl xl:text-6xl font-bold">
+              <p className="m-0 text-3xl lg:text-5xl xl:text-6xl font-semibold">
                 Suivez efficacement vos projets EnRE*, transmettez vos documents, demandez des
                 modifications.
                 <br />
@@ -32,8 +32,12 @@ export const Home = PageLayout(function (props: Props) {
             </p>
           </div>
         </section>
-        <section className="new-container flex p-6">
-          <a className="no-underline mx-auto btn" style={{ color: 'white' }} href="/login.html">
+        <section className="xl:mx-auto xl:max-w-7xl flex p-6">
+          <a
+            className="mx-auto no-underline inline-flex items-center px-6 py-3 border border-transparent text-base lg:text-lg font-medium shadow-sm text-white bg-blue-france-sun-base hover:bg-blue-france-sun-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:bg-blue-france-sun-active"
+            style={{ color: 'white', textDecoration: 'none' }}
+            href="/login.html"
+          >
             <RiAccountCircleLine className="mr-4" />
             Je m'identifie
           </a>
