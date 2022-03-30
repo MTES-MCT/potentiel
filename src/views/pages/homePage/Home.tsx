@@ -13,7 +13,7 @@ export const Home = PageLayout(function (props: Props) {
     <>
       <main role="main" style={{ fontFamily: 'Marianne, arial, sans-serif' }}>
         <section className="bg-blue-france-sun-base text-white">
-          <div className="xl:mx-auto xl:max-w-7xl flex flex-col p-6 gap-6 xl:py-10">
+          <Container className="flex flex-col p-6 gap-6 xl:py-10">
             <div className="flex flex-col md:flex-row gap-6">
               <p className="m-0 text-3xl lg:text-5xl xl:text-6xl font-semibold">
                 Suivez efficacement vos projets EnRE*, transmettez vos documents, demandez des
@@ -30,21 +30,43 @@ export const Home = PageLayout(function (props: Props) {
               <br className="hidden md:inline" /> tous les acteurs du parcours administratif des
               projets d'EnRE soumis à appel d'offre en France
             </p>
-          </div>
+          </Container>
         </section>
-        <section className="xl:mx-auto xl:max-w-7xl flex p-6">
-          <a
-            className="mx-auto no-underline inline-flex items-center px-6 py-3 border border-transparent text-base lg:text-lg font-medium shadow-sm text-white bg-blue-france-sun-base hover:bg-blue-france-sun-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:bg-blue-france-sun-active"
-            style={{ color: 'white', textDecoration: 'none' }}
-            href="/login.html"
-          >
-            <RiAccountCircleLine className="mr-4" />
-            Je m'identifie
-          </a>
+
+        <section>
+          <Container className="flex p-6">
+            <LinkButton className="mx-auto" href="/login.html">
+              <RiAccountCircleLine className="mr-4" />
+              Je m'identifie
+            </LinkButton>
+          </Container>
         </section>
       </main>
     </>
   )
 })
+
+type ContainerProps = {
+  className?: string
+  children?: React.ReactNode
+}
+const Container = ({ className, children }: ContainerProps) => (
+  <div className={`flex xl:mx-auto xl:max-w-7xl ${className}`}>{children}</div>
+)
+
+type LinkButtonProps = {
+  href: string
+  className?: string
+  children?: React.ReactNode
+}
+const LinkButton = ({ href, className, children }: LinkButtonProps) => (
+  <a
+    className={`no-underline inline-flex items-center px-6 py-3 border border-transparent text-base lg:text-lg font-medium shadow-sm text-white bg-blue-france-sun-base hover:bg-blue-france-sun-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:bg-blue-france-sun-active ${className}`}
+    style={{ color: 'white', textDecoration: 'none' }}
+    href={href}
+  >
+    {children}
+  </a>
+)
 
 hydrateOnClient(Home)
