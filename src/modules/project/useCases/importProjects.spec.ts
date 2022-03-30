@@ -139,10 +139,12 @@ describe('importProjects', () => {
         'Date de modification 1': '25/04/2019',
         'Colonne concernée 1': 'Nom (personne physique) ou raison sociale (personne morale) : ',
         'Ancienne valeur 1': 'ancien producteur',
+        'Statut demande 1': 'Acceptée',
         'Type de modification 2': 'Prolongation de délai',
         'Date de modification 2': '26/04/2019',
         'Colonne concernée 2': '22/12/2024',
         'Ancienne valeur 2': '01/01/2024',
+        'Statut demande 2': 'Acceptée',
       },
     ] as Record<string, string>[]
     const appelOffreRepo = {
@@ -505,6 +507,7 @@ describe('importProjects', () => {
       'Date de modification 1': '25/04/2019',
       'Colonne concernée 1': 'Nom (personne physique) ou raison sociale (personne morale) : ',
       'Ancienne valeur 1': 'ancien producteur',
+      'Statut demande 1': 'Acceptée',
     }
 
     const appelOffreRepo = {

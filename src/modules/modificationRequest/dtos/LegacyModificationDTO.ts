@@ -1,30 +1,36 @@
-export interface LegacyAbandon {
+export type LegacyModificationStatus = 'acceptée' | 'rejetée' | 'accord-de-principe'
+
+export type LegacyAbandon = {
   type: 'abandon'
 }
 
-export interface LegacyRecours {
+export type LegacyRecours = {
   type: 'recours'
-  accepted: boolean
   motifElimination: string
 }
 
-export interface LegacyDelai {
+export type LegacyDelai = {
   type: 'delai'
-  nouvelleDateLimiteAchevement: number
-  ancienneDateLimiteAchevement: number
-}
+} & (
+  | {
+      status: Extract<LegacyModificationStatus, 'acceptée'>
+      nouvelleDateLimiteAchevement: number
+      ancienneDateLimiteAchevement: number
+    }
+  | { status: Extract<LegacyModificationStatus, 'rejetée' | 'accord-de-principe'> }
+)
 
-export interface LegacyActionnaire {
+export type LegacyActionnaire = {
   type: 'actionnaire'
   actionnairePrecedent: string
   siretPrecedent: string
 }
-export interface LegacyProducteur {
+export type LegacyProducteur = {
   type: 'producteur'
   producteurPrecedent: string
 }
 
-export interface LegacyAutre {
+export type LegacyAutre = {
   type: 'autre'
   column: string
   value: string
@@ -41,4 +47,6 @@ export type LegacyVariant =
 export type LegacyModificationDTO = {
   modifiedOn: number
   modificationId: string
+  filename?: string
+  status: LegacyModificationStatus
 } & LegacyVariant

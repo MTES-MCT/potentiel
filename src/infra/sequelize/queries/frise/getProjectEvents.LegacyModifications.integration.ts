@@ -33,6 +33,7 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
               eventPublishedAt: date.getTime(),
               payload: {
                 modificationType: 'delai',
+                status: 'acceptée',
                 ancienneDateLimiteAchevement: new Date('2022-01-01').getTime(),
                 nouvelleDateLimiteAchevement: new Date('2024-01-01').getTime(),
               },
@@ -46,6 +47,7 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
                   date: date.getTime(),
                   variant: role,
                   modificationType: 'delai',
+                  status: 'acceptée',
                   ancienneDateLimiteAchevement: new Date('2022-01-01').getTime(),
                   nouvelleDateLimiteAchevement: new Date('2024-01-01').getTime(),
                 },
@@ -67,7 +69,9 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
           eventPublishedAt: date.getTime(),
           payload: {
             modificationType: 'delai',
-            delayInMonths: 10,
+            status: 'acceptée',
+            ancienneDateLimiteAchevement: new Date('2022-01-01').getTime(),
+            nouvelleDateLimiteAchevement: new Date('2024-01-01').getTime(),
           },
         })
 
@@ -96,6 +100,7 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
               eventPublishedAt: date.getTime(),
               payload: {
                 modificationType: 'abandon',
+                status: 'acceptée',
               },
             })
 
@@ -107,6 +112,7 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
                   date: date.getTime(),
                   variant: role,
                   modificationType: 'abandon',
+                  status: 'acceptée',
                 },
               ],
             })
@@ -126,6 +132,7 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
           eventPublishedAt: date.getTime(),
           payload: {
             modificationType: 'abandon',
+            status: 'acceptée',
           },
         })
 
@@ -154,7 +161,8 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
               eventPublishedAt: date.getTime(),
               payload: {
                 modificationType: 'recours',
-                accepted: true,
+                status: 'acceptée',
+                motifElimination: 'motif',
               },
             })
 
@@ -166,7 +174,8 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
                   date: date.getTime(),
                   variant: role,
                   modificationType: 'recours',
-                  accepted: true,
+                  status: 'acceptée',
+                  motifElimination: 'motif',
                 },
               ],
             })
@@ -186,7 +195,8 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
           eventPublishedAt: date.getTime(),
           payload: {
             modificationType: 'recours',
-            accepted: true,
+            status: 'acceptée',
+            motifElimination: 'motif',
           },
         })
 
@@ -216,6 +226,7 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
               payload: {
                 modificationType: 'actionnaire',
                 actionnairePrecedent: 'nom actionnaire précédent',
+                status: 'acceptée',
               },
             })
 
@@ -228,6 +239,7 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
                   variant: role,
                   modificationType: 'actionnaire',
                   actionnairePrecedent: 'nom actionnaire précédent',
+                  status: 'acceptée',
                 },
               ],
             })
@@ -248,6 +260,7 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
           payload: {
             modificationType: 'actionnaire',
             actionnairePrecedent: 'nom actionnaire précédent',
+            status: 'acceptée',
           },
         })
 
@@ -277,6 +290,7 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
               payload: {
                 modificationType: 'producteur',
                 producteurPrecedent: 'nom producteur précédent',
+                status: 'acceptée',
               },
             })
 
@@ -289,6 +303,7 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
                   variant: role,
                   modificationType: 'producteur',
                   producteurPrecedent: 'nom producteur précédent',
+                  status: 'acceptée',
                 },
               ],
             })
@@ -309,6 +324,7 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
           payload: {
             modificationType: 'producteur',
             producteurPrecedent: 'nom producteur précédent',
+            status: 'acceptée',
           },
         })
 
@@ -339,6 +355,7 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
                 modificationType: 'autre',
                 column: 'col',
                 value: 'val',
+                status: 'acceptée',
               },
             })
 
@@ -352,6 +369,7 @@ describe('getProjectEvents for LegacyModificationImported events', () => {
                   modificationType: 'autre',
                   column: 'col',
                   value: 'val',
+                  status: 'acceptée',
                 },
               ],
             })

@@ -1,38 +1,40 @@
 import { is, ProjectEventDTO } from '@modules/frise/dtos'
+import { LegacyModificationStatus } from 'src/modules/modificationRequest'
 
 export type LegacyModificationsItemProps = {
   type: 'modification-historique'
   date: number
+  status: LegacyModificationStatus
 } & (
   | {
       modificationType: 'delai'
+      status: Extract<LegacyModificationStatus, 'acceptée'>
       ancienneDateLimiteAchevement: number
       nouvelleDateLimiteAchevement: number
-      status: 'acceptée'
+    }
+  | {
+      modificationType: 'delai'
+      status: Extract<LegacyModificationStatus, 'rejetée' | 'accord-de-principe'>
     }
   | {
       modificationType: 'abandon'
-      status: 'acceptée'
     }
   | {
       modificationType: 'recours'
-      status: 'acceptée' | 'rejetée'
+      motifElimination: string
     }
   | {
       modificationType: 'producteur'
       producteurPrecedent: string
-      status: 'acceptée'
     }
   | {
       modificationType: 'actionnaire'
       actionnairePrecedent: string
-      status: 'acceptée'
     }
   | {
       modificationType: 'autre'
       column: string
       value: string
-      status: 'acceptée'
     }
 )
 
@@ -54,7 +56,7 @@ export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) =
         propsArray.push({
           type: 'modification-historique',
           date: event.date,
-          status: 'acceptée',
+          status: event.status,
           modificationType: 'abandon',
         })
         break
@@ -62,19 +64,29 @@ export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) =
         propsArray.push({
           type: 'modification-historique',
           date: event.date,
-          status: event.accepted ? 'acceptée' : 'rejetée',
+          status: event.status,
           modificationType: 'recours',
+          motifElimination: event.motifElimination,
         })
         break
       case 'delai':
-        propsArray.push({
-          type: 'modification-historique',
-          date: event.date,
-          modificationType: 'delai',
-          ancienneDateLimiteAchevement: event.ancienneDateLimiteAchevement,
-          nouvelleDateLimiteAchevement: event.nouvelleDateLimiteAchevement,
-          status: 'acceptée',
-        })
+        if (event.status === 'acceptée') {
+          propsArray.push({
+            type: 'modification-historique',
+            date: event.date,
+            modificationType: 'delai',
+            status: event.status,
+            ancienneDateLimiteAchevement: event.ancienneDateLimiteAchevement,
+            nouvelleDateLimiteAchevement: event.nouvelleDateLimiteAchevement,
+          })
+        } else {
+          propsArray.push({
+            type: 'modification-historique',
+            date: event.date,
+            modificationType: 'delai',
+            status: event.status,
+          })
+        }
         break
       case 'actionnaire':
         propsArray.push({
@@ -82,7 +94,7 @@ export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) =
           date: event.date,
           modificationType: 'actionnaire',
           actionnairePrecedent: event.actionnairePrecedent,
-          status: 'acceptée',
+          status: event.status,
         })
         break
       case 'producteur':
@@ -91,7 +103,7 @@ export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) =
           date: event.date,
           modificationType: 'producteur',
           producteurPrecedent: event.producteurPrecedent,
-          status: 'acceptée',
+          status: event.status,
         })
         break
       case 'autre':
@@ -101,7 +113,7 @@ export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) =
           modificationType: 'autre',
           column: event.column,
           value: event.value,
-          status: 'acceptée',
+          status: event.status,
         })
         break
     }

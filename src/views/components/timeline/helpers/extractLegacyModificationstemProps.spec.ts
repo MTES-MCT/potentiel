@@ -22,8 +22,8 @@ describe('extractLegacyModificationsItemProps', () => {
       expect(result).toHaveLength(0)
     })
   })
-  describe('when there is a legacy abandon modification', () => {
-    it('should return an array with legacy abandon props', () => {
+  describe('when there is a legacy abandon modification accepted', () => {
+    it('should return an array with legacy abandon accepted props', () => {
       const date = new Date('2022-03-02').getTime()
       const projectEventList: ProjectEventDTO[] = [
         {
@@ -31,6 +31,7 @@ describe('extractLegacyModificationsItemProps', () => {
           date,
           variant: 'admin',
           modificationType: 'abandon',
+          status: 'acceptée',
         } as LegacyModificationImportedDTO,
       ]
       const result = extractLegacyModificationsItemProps(projectEventList)
@@ -40,6 +41,31 @@ describe('extractLegacyModificationsItemProps', () => {
           type: 'modification-historique',
           date,
           status: 'acceptée',
+          modificationType: 'abandon',
+        },
+      ])
+    })
+  })
+
+  describe('when there is a legacy abandon modification not accepted', () => {
+    it('should return an array with legacy abandon not accepted props', () => {
+      const date = new Date('2022-03-02').getTime()
+      const projectEventList: ProjectEventDTO[] = [
+        {
+          type: 'LegacyModificationImported',
+          date,
+          variant: 'admin',
+          modificationType: 'abandon',
+          status: 'rejetée',
+        } as LegacyModificationImportedDTO,
+      ]
+      const result = extractLegacyModificationsItemProps(projectEventList)
+      expect(result).toHaveLength(1)
+      expect(result).toEqual([
+        {
+          type: 'modification-historique',
+          date,
+          status: 'rejetée',
           modificationType: 'abandon',
         },
       ])
@@ -55,7 +81,8 @@ describe('extractLegacyModificationsItemProps', () => {
           date,
           variant: 'admin',
           modificationType: 'recours',
-          accepted: false,
+          status: 'rejetée',
+          motifElimination: 'motif',
         } as LegacyModificationImportedDTO,
       ]
       const result = extractLegacyModificationsItemProps(projectEventList)
@@ -66,12 +93,13 @@ describe('extractLegacyModificationsItemProps', () => {
           date,
           status: 'rejetée',
           modificationType: 'recours',
+          motifElimination: 'motif',
         },
       ])
     })
   })
 
-  describe('when there is a legacy delai modification', () => {
+  describe('when there is a legacy delai modification that is accepted', () => {
     it('should return an array with legacy delai props', () => {
       const date = new Date('2022-03-02').getTime()
       const projectEventList: ProjectEventDTO[] = [
@@ -82,6 +110,7 @@ describe('extractLegacyModificationsItemProps', () => {
           modificationType: 'delai',
           ancienneDateLimiteAchevement: new Date('2022-01-01').getTime(),
           nouvelleDateLimiteAchevement: new Date('2024-01-01').getTime(),
+          status: 'acceptée',
         } as LegacyModificationImportedDTO,
       ]
       const result = extractLegacyModificationsItemProps(projectEventList)
@@ -99,6 +128,33 @@ describe('extractLegacyModificationsItemProps', () => {
     })
   })
 
+  describe('when there is a legacy delai modification not accepted', () => {
+    it('should not return props', () => {
+      const date = new Date('2022-03-02').getTime()
+      const projectEventList: ProjectEventDTO[] = [
+        {
+          type: 'LegacyModificationImported',
+          date,
+          variant: 'admin',
+          modificationType: 'delai',
+          ancienneDateLimiteAchevement: new Date('2022-01-01').getTime(),
+          nouvelleDateLimiteAchevement: new Date('2024-01-01').getTime(),
+          status: 'rejetée',
+        } as LegacyModificationImportedDTO,
+      ]
+      const result = extractLegacyModificationsItemProps(projectEventList)
+      expect(result).toHaveLength(1)
+      expect(result).toEqual([
+        {
+          type: 'modification-historique',
+          date,
+          status: 'rejetée',
+          modificationType: 'delai',
+        },
+      ])
+    })
+  })
+
   describe('when there is a legacy actionnaire modification', () => {
     it('should return an array with legacy actionnaire props', () => {
       const date = new Date('2022-03-02').getTime()
@@ -109,6 +165,7 @@ describe('extractLegacyModificationsItemProps', () => {
           variant: 'admin',
           modificationType: 'actionnaire',
           actionnairePrecedent: 'actionnaire précédent',
+          status: 'acceptée',
         } as LegacyModificationImportedDTO,
       ]
       const result = extractLegacyModificationsItemProps(projectEventList)
@@ -135,6 +192,7 @@ describe('extractLegacyModificationsItemProps', () => {
           variant: 'admin',
           modificationType: 'producteur',
           producteurPrecedent: 'producteur précédent',
+          status: 'acceptée',
         } as LegacyModificationImportedDTO,
       ]
       const result = extractLegacyModificationsItemProps(projectEventList)
@@ -162,6 +220,7 @@ describe('extractLegacyModificationsItemProps', () => {
           modificationType: 'autre',
           column: 'col',
           value: 'val',
+          status: 'acceptée',
         } as LegacyModificationImportedDTO,
       ]
       const result = extractLegacyModificationsItemProps(projectEventList)
@@ -171,6 +230,34 @@ describe('extractLegacyModificationsItemProps', () => {
           type: 'modification-historique',
           date,
           status: 'acceptée',
+          modificationType: 'autre',
+          column: 'col',
+          value: 'val',
+        },
+      ])
+    })
+  })
+  describe('when there is a legacy "autre" modification pending', () => {
+    it('should return an array with legacy "autre" modification props', () => {
+      const date = new Date('2022-03-02').getTime()
+      const projectEventList: ProjectEventDTO[] = [
+        {
+          type: 'LegacyModificationImported',
+          date,
+          variant: 'admin',
+          modificationType: 'autre',
+          column: 'col',
+          value: 'val',
+          status: 'accord-de-principe',
+        } as LegacyModificationImportedDTO,
+      ]
+      const result = extractLegacyModificationsItemProps(projectEventList)
+      expect(result).toHaveLength(1)
+      expect(result).toEqual([
+        {
+          type: 'modification-historique',
+          date,
+          status: 'accord-de-principe',
           modificationType: 'autre',
           column: 'col',
           value: 'val',

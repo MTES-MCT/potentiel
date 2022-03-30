@@ -1,5 +1,6 @@
 import { or } from '@core/utils'
 import { Project } from '@entities'
+import { LegacyModificationStatus } from 'src/modules/modificationRequest'
 import { Fournisseur } from 'src/modules/project'
 import { UserRole } from '../../users'
 
@@ -281,13 +282,19 @@ export type LegacyModificationImportedDTO = {
   type: 'LegacyModificationImported'
   date: number
   variant: Exclude<UserRole, 'ademe'>
+  status: LegacyModificationStatus
 } & (
   | { modificationType: 'abandon' }
-  | { modificationType: 'recours'; accepted: boolean }
+  | { modificationType: 'recours'; motifElimination: string }
   | {
       modificationType: 'delai'
+      status: Extract<LegacyModificationStatus, 'acceptée'>
       ancienneDateLimiteAchevement: number
       nouvelleDateLimiteAchevement: number
+    }
+  | {
+      modificationType: 'delai'
+      status: Extract<LegacyModificationStatus, 'rejetée' | 'accord-de-principe'>
     }
   | { modificationType: 'actionnaire'; actionnairePrecedent: string }
   | { modificationType: 'producteur'; producteurPrecedent: string }
