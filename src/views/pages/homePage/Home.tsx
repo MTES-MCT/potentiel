@@ -2,16 +2,22 @@ import type { Request } from 'express'
 import React from 'react'
 import { RiAccountCircleLine, RiDashboardLine, RiLogoutBoxLine } from 'react-icons/ri'
 import routes from '../../../routes'
-import { PageLayout } from '../../components/PageLayout'
+import { Header, Footer } from '../../components'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
 
 type Props = {
   request: Request
 }
 
-export const Home = PageLayout(function ({ request: { user } }: Props) {
+export const Home = (props: Props) => {
+  const {
+    request: { user },
+  } = props
+
   return (
     <>
+      <Header {...props} />
+
       <main role="main" style={{ fontFamily: 'Marianne, arial, sans-serif' }}>
         <section className="bg-blue-france-sun-base text-white">
           <Container className="flex flex-col p-6 gap-6 xl:py-10">
@@ -65,9 +71,11 @@ export const Home = PageLayout(function ({ request: { user } }: Props) {
           </Container>
         </section>
       </main>
+
+      <Footer />
     </>
   )
-})
+}
 
 type ContainerProps = {
   className?: string

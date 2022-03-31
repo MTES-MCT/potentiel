@@ -165,4 +165,4 @@ const MainMenu = () => (
   </>
 )
 
-export default Header
+export { Header }
