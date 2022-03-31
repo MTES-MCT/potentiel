@@ -16,12 +16,10 @@ export const Home = PageLayout(function (props: Props) {
           <Container className="flex flex-col p-6 gap-6 xl:py-10">
             <div className="flex flex-col md:flex-row gap-6">
               <p className="m-0 text-3xl lg:text-5xl xl:text-6xl font-semibold">
-                Suivez efficacement vos projets EnRE*, transmettez vos documents, demandez des
+                Suivez efficacement vos projets EnR*, transmettez vos documents, demandez des
                 modifications.
                 <br />
-                <span className="text-sm lg:text-base font-light">
-                  *Énergies renouvelables électriques
-                </span>
+                <span className="text-sm lg:text-base font-light">*Énergies renouvelables</span>
               </p>
               <img
                 className="object-scale-down w-full md:w-1/2"
@@ -30,8 +28,8 @@ export const Home = PageLayout(function (props: Props) {
             </div>
             <p className="text-lg md:text-base lg:text-xl font-medium md:font-semibold md:text-center md:m-0 md:mt-10 md:mb-0 lg:px-16 lg:leading-loose">
               Potentiel est le service du Ministère de la Transition Écologique qui connecte
-              <br className="hidden md:inline" /> tous les acteurs du parcours administratif des
-              projets d'EnRE soumis à appel d'offre en France
+              <br className="hidden md:inline" /> les acteurs du parcours administratif des projets
+              d'EnR soumis à appel d'offres en France
             </p>
           </Container>
         </section>
