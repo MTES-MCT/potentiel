@@ -88,7 +88,7 @@ const LinkButton = ({ href, className, children, primary }: LinkButtonProps) => 
     className={`no-underline inline-flex items-center px-6 py-3 border border-solid text-base lg:text-lg font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 ${
       primary
         ? 'border-transparent text-white bg-blue-france-sun-base hover:bg-blue-france-sun-hover focus:bg-blue-france-sun-active'
-        : 'border-blue-france-sun-base text-blue-france-sun-base bg-white hover:bg-white focus:bg-white'
+        : 'border-blue-france-sun-base text-blue-france-sun-base bg-white hover:bg-blue-france-975-base focus:bg-blue-france-975-base'
     } ${className}`}
     style={{ color: primary ? 'white' : '#000091', textDecoration: 'none' }}
     href={href}

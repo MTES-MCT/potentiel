@@ -9,6 +9,11 @@ module.exports = {
           hover: '#1212ff',
           active: '#2323ff',
         },
+        'blue-france-975': {
+          base: '#f5f5fe',
+          hover: '#dcdcfc',
+          active: '#cbcbfa',
+        },
       },
     },
   },
