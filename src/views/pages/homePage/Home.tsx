@@ -1,6 +1,11 @@
 import type { Request } from 'express'
 import React from 'react'
-import { RiAccountCircleLine, RiDashboardLine, RiLogoutBoxLine } from 'react-icons/ri'
+import {
+  RiAccountCircleLine,
+  RiArrowRightCircleLine,
+  RiDashboardLine,
+  RiLogoutBoxLine,
+} from 'react-icons/ri'
 import routes from '../../../routes'
 import { Header, Footer } from '../../components'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
@@ -16,7 +21,16 @@ export const Home = (props: Props) => {
 
   return (
     <>
-      <Header {...props} />
+      <Header {...props}>
+        {user && (
+          <Header.MenuItem href={routes.REDIRECT_BASED_ON_ROLE}>
+            <div className="flex flex-row items-center">
+              Voir {user.role === 'porteur-projet' ? 'mes' : 'les'} projets
+              <RiArrowRightCircleLine className="w-5 h-5 ml-2" />
+            </div>
+          </Header.MenuItem>
+        )}
+      </Header>
 
       <main role="main" style={{ fontFamily: 'Marianne, arial, sans-serif' }}>
         <section className="bg-blue-france-sun-base text-white">
