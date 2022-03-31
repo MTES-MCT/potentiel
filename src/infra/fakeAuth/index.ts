@@ -25,8 +25,7 @@ export const makeFakeAuth = (deps) => {
         request.path.startsWith('/css') ||
         request.path.startsWith('/images') ||
         request.path.startsWith('/scripts') ||
-        request.path.startsWith('/main') ||
-        request.path === '/'
+        request.path.startsWith('/main')
       ) {
         next()
         return
