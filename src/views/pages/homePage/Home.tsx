@@ -55,10 +55,12 @@ export const Home = PageLayout(function ({ request: { user } }: Props) {
                 </div>
               </div>
             ) : (
-              <LinkButton className="mx-auto" href={routes.LOGIN} primary={true}>
-                <RiAccountCircleLine className="mr-4" />
-                Je m'identifie
-              </LinkButton>
+              <div className="flex flex-col md:flex-row w-full md:w-fit md:mx-auto">
+                <LinkButton href={routes.LOGIN} primary={true}>
+                  <RiAccountCircleLine className="mr-4" />
+                  Je m'identifie
+                </LinkButton>
+              </div>
             )}
           </Container>
         </section>
