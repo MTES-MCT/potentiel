@@ -1,11 +1,6 @@
 import { userIs, userIsNot } from '@modules/users'
 import { wrapInfra } from '@core/utils'
-import {
-  GetProjectEvents,
-  ProjectEventDTO,
-  ProjectEventListDTO,
-  ProjectStatus,
-} from '@modules/frise'
+import { GetProjectEvents, ProjectEventDTO, ProjectStatus } from '@modules/frise'
 import { models } from '../../models'
 import { ProjectEvent } from '../../projectionsNext'
 import { getProjectAppelOffre } from '@config/queries.config'
@@ -248,6 +243,23 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                         value: payload.value,
                       })
                     }
+                  }
+                  break
+                case 'FileAttachedToProject':
+                  if (userIs(['porteur-projet', 'admin', 'dgec', 'dreal'])(user)) {
+                    const { title, description, files, attachedBy, attachmentId } = payload
+                    events.push({
+                      type: 'FileAttachedToProject',
+                      date: valueDate,
+                      variant: user.role,
+                      title,
+                      description,
+                      files,
+                      isOwner: attachedBy?.id === user.id,
+                      attachedBy,
+                      attachmentId,
+                      projectId,
+                    })
                   }
                   break
               }

@@ -11,6 +11,7 @@ type FileDesignation =
   | 'attestation-designation'
   | 'attestation-designation-proof' // attestation uploaded by user when he claims a project ownership
   | 'ptf'
+  | 'fichier-attaché-au-projet'
   | 'other'
 
 /* global NodeJS */

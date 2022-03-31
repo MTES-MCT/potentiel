@@ -1355,3 +1355,67 @@ export const LegacyRecoursRejectedForPP = () => (
     now={new Date().getTime()}
   />
 )
+
+export const AdminFichierAttache = () => (
+  <Timeline
+    projectEventList={{
+      project,
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'admin',
+          date: new Date('2019-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'FileAttachedToProject',
+          variant: 'admin',
+          date: new Date('2022-02-01').getTime(),
+          files: [
+            {
+              id: '1234',
+              name: 'Fichier 1.pdf',
+            },
+            {
+              id: '1234',
+              name: 'Fichier 2.pdf',
+            },
+            {
+              id: '1234',
+              name: 'Fichier 3.pdf',
+            },
+          ],
+          title: 'Action en justice',
+          isOwner: true,
+          projectId: project.id,
+          attachmentId: '123',
+          attachedBy: {
+            id: '123',
+            name: 'Bernard Thierry',
+            administration: 'DREAL PACA',
+          },
+        },
+        {
+          type: 'FileAttachedToProject',
+          variant: 'admin',
+          title: 'Evenement avec description',
+          description:
+            'Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa.',
+          date: new Date('2022-02-10').getTime(),
+          files: [
+            {
+              id: '1234',
+              name: 'Fichier 1.pdf',
+            },
+          ],
+          isOwner: false,
+          projectId: project.id,
+          attachmentId: '124',
+          attachedBy: {
+            id: '123',
+          },
+        },
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)

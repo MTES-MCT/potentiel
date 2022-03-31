@@ -1,4 +1,5 @@
 export * from './ACItem';
+export * from './AttachedFileItem';
 export * from './CAItem';
 export * from './CRItem';
 export * from './ContentArea';

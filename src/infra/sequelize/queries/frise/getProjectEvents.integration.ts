@@ -294,6 +294,42 @@ describe('frise.getProjectEvents', () => {
     })
   }
 
+  for (const role of USER_ROLES.filter(
+    (role) => role === 'admin' || role === 'dgec' || role === 'dreal' || role === 'porteur-projet'
+  )) {
+    describe(`when the user is ${role}`, () => {
+      const fakeUser = { role } as User
+      it('should return FileAttachedToProject events', async () => {
+        await ProjectEvent.create({
+          id: new UniqueEntityID().toString(),
+          projectId,
+          type: 'FileAttachedToProject',
+          valueDate: 1234567,
+          eventPublishedAt: eventTimestamp,
+          payload: {
+            title: 'title',
+            description: 'description',
+            files: [{ id: 'fileId', name: 'fileName' }],
+          },
+        })
+
+        const res = await getProjectEvents({ projectId, user: fakeUser })
+
+        expect(res._unsafeUnwrap()).toMatchObject({
+          events: [
+            {
+              type: 'FileAttachedToProject',
+              date: 1234567,
+              title: 'title',
+              description: 'description',
+              files: [{ id: 'fileId', name: 'fileName' }],
+            },
+          ],
+        })
+      })
+    })
+  }
+
   it('should return events sorted by eventPublishedAt date', async () => {
     const fakeUser = { role: 'porteur-projet' } as User
 
