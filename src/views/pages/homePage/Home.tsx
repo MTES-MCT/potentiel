@@ -23,7 +23,10 @@ export const Home = PageLayout(function (props: Props) {
                   *Énergies renouvelables électriques
                 </span>
               </p>
-              <img className="w-full md:w-1/2" src="/images/home/proposition_valeur.png" />
+              <img
+                className="object-scale-down w-full md:w-1/2"
+                src="/images/home/proposition_valeur.png"
+              />
             </div>
             <p className="text-lg md:text-base lg:text-xl font-medium md:font-semibold md:text-center md:m-0 md:mt-10 md:mb-0 lg:px-16 lg:leading-loose">
               Potentiel est le service du Ministère de la Transition Écologique qui connecte
