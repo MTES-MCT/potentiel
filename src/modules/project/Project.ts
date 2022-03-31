@@ -130,6 +130,7 @@ export interface Project extends EventStoreAggregate {
   withdrawGarantiesFinancieres: (
     removedBy: User
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>
+  cancelGFDueDateSet: () => Result<null, never>
   readonly shouldCertificateBeGenerated: boolean
   readonly appelOffre?: ProjectAppelOffre
   readonly isClasse?: boolean
@@ -730,6 +731,16 @@ export const makeProject = (args: {
           payload: {
             projectId: props.projectId.toString(),
             removedBy: removedBy.id,
+          },
+        })
+      )
+      return ok(null)
+    },
+    cancelGFDueDateSet: function () {
+      _publishEvent(
+        new ProjectGFDueDateCancelled({
+          payload: {
+            projectId: props.projectId.toString(),
           },
         })
       )
