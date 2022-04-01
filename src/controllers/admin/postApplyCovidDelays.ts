@@ -23,6 +23,22 @@ v1Router.get(
     }
 
     const projectIds = result.value
+
+    try {
+      for (const projectId of projectIds) {
+        const res = await projectRepo.transaction(new UniqueEntityID(projectId), (project) => {
+          return project.applyCovidDelay()
+        })
+        if (res.isErr()) {
+          throw res.error
+        }
+      }
+    } catch (e) {
+      logger.error(e)
+      return errorResponse({ response, request })
+    }
+
+    response.send('Les projets ont bien été prolongés')
   })
 )
 

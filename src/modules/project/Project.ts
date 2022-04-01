@@ -18,6 +18,7 @@ import {
   HeterogeneousHistoryError,
   IllegalInitialStateForAggregateError,
   IncompleteDataError,
+  ProjectNotQualifiedForCovidDelay,
 } from '../shared'
 import { ProjectDataForCertificate } from './dtos'
 import {
@@ -60,9 +61,11 @@ import {
   ProjectCompletionDueDateCancelled,
   ProjectDCRDueDateCancelled,
   ProjectCertificateObsolete,
+  CovidDelayGranted,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre'
+import { date } from 'yup'
 
 export interface Project extends EventStoreAggregate {
   notify: (
@@ -130,6 +133,7 @@ export interface Project extends EventStoreAggregate {
   withdrawGarantiesFinancieres: (
     removedBy: User
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>
+  applyCovidDelay: () => Result<null, ProjectNotQualifiedForCovidDelay>
   readonly shouldCertificateBeGenerated: boolean
   readonly appelOffre?: ProjectAppelOffre
   readonly isClasse?: boolean
@@ -730,6 +734,35 @@ export const makeProject = (args: {
           payload: {
             projectId: props.projectId.toString(),
             removedBy: removedBy.id,
+          },
+        })
+      )
+      return ok(null)
+    },
+    applyCovidDelay: function () {
+      // vérifier que la date initiale de complétion est après le 12 mars 2020 inclus
+      const delaiRealisationEnMois =
+        !props.appelOffre?.decoupageParTechnologie && props.appelOffre?.delaiRealisationEnMois
+
+      if ((delaiRealisationEnMois && isNaN(delaiRealisationEnMois)) || !delaiRealisationEnMois) {
+        return err(new ProjectNotQualifiedForCovidDelay())
+      }
+      const initialeCompletionDueDate = moment(props.notifiedOn)
+        .add(delaiRealisationEnMois, 'months')
+        .toDate()
+        .getTime()
+
+      if (initialeCompletionDueDate < new Date('2020-03-12').getTime()) {
+        return err(new ProjectNotQualifiedForCovidDelay())
+      }
+
+      const newCompletionDueOn = moment(props.completionDueOn).add(7, 'months').toDate().getTime()
+
+      _publishEvent(
+        new CovidDelayGranted({
+          payload: {
+            projectId: props.projectId.toString(),
+            completionDueOn: newCompletionDueOn,
           },
         })
       )
