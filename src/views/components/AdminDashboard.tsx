@@ -35,6 +35,7 @@ interface AdminDashboardProps {
     | 'admin-ao'
     | 'admin-users'
     | 'admin-statistiques'
+    | 'admin-upload-legacy-modification-files'
     | undefined
 }
 
@@ -133,6 +134,16 @@ export default function AdminDashboard({ children, currentPage, role }: AdminDas
               route={ROUTES.ADMIN_NOTIFICATION_LIST}
               itemPage={'list-notifications'}
               title="Emails en erreur"
+              visibleForRoles={['admin']}
+              role={role}
+              currentPage={currentPage}
+            />
+            <SeparatorItem visibleForRoles={['admin']} role={role} />
+
+            <MenuItem
+              route={ROUTES.UPLOAD_LEGACY_MODIFICATION_FILES}
+              itemPage={'admin-upload-legacy-modification-files'}
+              title="Importer des courriers historiques"
               visibleForRoles={['admin']}
               role={role}
               currentPage={currentPage}
