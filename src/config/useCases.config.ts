@@ -5,6 +5,7 @@ import {
   exceedsPuissanceMaxDuVolumeReserve,
   exceedsRatiosChangementPuissance,
   makeAcceptModificationRequest,
+  makeAttachLegacyModificationFile,
   makeCancelModificationRequest,
   makeConfirmRequest,
   makeRejectModificationRequest,
@@ -43,6 +44,7 @@ import {
   getProjectDataForProjectClaim,
   isProjectParticipatif,
   getPuissanceProjet,
+  getLegacyModificationByFilename,
 } from './queries.config'
 import { makeClaimProject } from '@modules/projectClaim'
 import {
@@ -233,4 +235,10 @@ export const claimProject = makeClaimProject({
   fileRepo,
   getProjectDataForProjectClaim,
   eventBus: eventStore,
+})
+
+export const attachLegacyModificationFile = makeAttachLegacyModificationFile({
+  eventBus: eventStore,
+  getLegacyModificationByFilename,
+  fileRepo,
 })

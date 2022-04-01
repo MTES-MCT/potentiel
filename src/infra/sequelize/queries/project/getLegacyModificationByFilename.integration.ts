@@ -6,10 +6,10 @@ import { getLegacyModificationByFilename } from './getLegacyModificationByFilena
 describe('getLegacyModificationByFilename', () => {
   const filename = '123.pdf'
   describe('when there is no legacy modification with this filename', () => {
-    it('should return null', async () => {
+    it('should return an empty array', async () => {
       await resetDatabase()
       const res = await getLegacyModificationByFilename(filename)
-      expect(res).toBeNull()
+      expect(res).toHaveLength(0)
     })
   })
 

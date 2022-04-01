@@ -5,8 +5,14 @@ import ROUTES from '../../routes'
 import AdminDashboard from '../components/AdminDashboard'
 import { PageLayout } from '../components/PageLayout'
 
+export type UploadLegacyModificationFileResult =
+  | {
+      filename: string
+    } & ({ error: false } | { error: true; message: string })
+
 type UploadLegacyModificationFilesProps = {
   request: Request
+  results?: UploadLegacyModificationFileResult[]
 }
 
 export const UploadLegacyModificationFiles = PageLayout(
