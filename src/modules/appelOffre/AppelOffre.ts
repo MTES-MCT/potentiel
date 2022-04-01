@@ -116,7 +116,7 @@ export const makeAppelOffre = (args: {
           })
         )
       } else {
-        const delta = _.omitBy(data, (value, key) => periode.data[key] === value)
+        const delta = omitBy(data, (value, key) => periode.data[key] === value)
         if (Object.keys(delta).length) {
           _publishEvent(
             new PeriodeUpdated({
