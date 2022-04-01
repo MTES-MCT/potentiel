@@ -8,7 +8,6 @@ export * from './getPeriodesCsv';
 export * from './getRegenerateCertificatesPage';
 export * from './getUsersPage';
 export * from './postAppelsOffres';
-export * from './postCancelGFDueDateForPPE2AOs';
 export * from './postInviteUser';
 export * from './postPeriodes';
 export * from './postRegenerateCertificates';
