@@ -36,6 +36,7 @@ export type ProjectEventDTO =
   | LegacyModificationImportedDTO
   | FileAttachedToProjectDTO
   | LegacyModificationFileAttachedDTO
+  | CovidDelayGrantedDTO
 
 type File = {
   id: string
@@ -325,6 +326,12 @@ export type FileAttachedToProjectDTO = {
     name?: string
     administration?: string
   }
+}
+
+export type CovidDelayGrantedDTO = {
+  type: 'CovidDelayGranted'
+  date: number
+  variant: Exclude<UserRole, 'ademe'>
 }
 
 export type ProjectEventListDTO = {
