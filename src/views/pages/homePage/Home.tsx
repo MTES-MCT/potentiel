@@ -1,11 +1,9 @@
 import type { Request } from 'express'
 import React from 'react'
-import {
-  RiAccountCircleLine,
-  RiArrowRightCircleLine,
-  RiDashboardLine,
-  RiLogoutBoxLine,
-} from 'react-icons/ri'
+import { RiAccountCircleLine } from '@react-icons/all-files/ri/RiAccountCircleLine'
+import { RiArrowRightCircleLine } from '@react-icons/all-files/ri/RiArrowRightCircleLine'
+import { RiDashboardLine } from '@react-icons/all-files/ri/RiDashboardLine'
+import { RiLogoutBoxLine } from '@react-icons/all-files/ri/RiLogoutBoxLine'
 import routes from '../../../routes'
 import { Header, Footer } from '../../components'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
