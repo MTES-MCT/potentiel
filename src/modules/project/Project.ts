@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import remove from 'lodash/remove'
 import moment from 'moment-timezone'
 import sanitize from 'sanitize-filename'
 import { BuildProjectIdentifier, Fournisseur } from '.'
@@ -1014,7 +1014,7 @@ export const makeProject = (args: {
   }
 
   function _removePendingEventsOfType(type: DomainEvent['type']) {
-    _.remove(pendingEvents, (event) => event.type === type)
+    remove(pendingEvents, (event) => event.type === type)
   }
 
   function _hasPendingEventOfType(type: DomainEvent['type']) {

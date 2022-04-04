@@ -1,6 +1,7 @@
 import asyncHandler from '../helpers/asyncHandler'
 import fs from 'fs'
-import _ from 'lodash'
+import pick from 'lodash/pick'
+import omit from 'lodash/omit'
 import {
   requestActionnaireModification,
   requestFournisseurModification,
@@ -81,7 +82,7 @@ v1Router.post(
       return unauthorizedResponse({ request, response })
     }
 
-    const data = _.pick(request.body, [
+    const data = pick(request.body, [
       'type',
       'actionnaire',
       'producteur',
@@ -175,7 +176,7 @@ v1Router.post(
       if (error instanceof PuissanceJustificationOrCourrierMissingError) {
         return response.redirect(
           addQueryParams(redirectRoute, {
-            ..._.omit(data, 'projectId'),
+            ...omit(data, 'projectId'),
             error: error.message,
           })
         )
@@ -184,7 +185,7 @@ v1Router.post(
       if (error instanceof AggregateHasBeenUpdatedSinceError) {
         return response.redirect(
           addQueryParams(redirectRoute, {
-            ..._.omit(data, 'projectId'),
+            ...omit(data, 'projectId'),
             error:
               'Le projet a été modifié entre le moment où vous avez ouvert cette page et le moment où vous avez validé la demande. Merci de prendre en compte le changement et refaire votre demande si nécessaire.',
           })

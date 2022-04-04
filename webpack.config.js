@@ -41,7 +41,7 @@ module.exports = {
       : 'development',
   entry: {
     ...pageEntries,
-    shared: ['react', 'react-dom'],
+    shared: ['react', 'react-dom', 'moment', 'moment-timezone'],
   },
   target: 'web',
   resolve: {

@@ -1,7 +1,7 @@
 import { DomainEvent, Constructor, HasType } from '@core/domain'
 import { ResultAsync } from '@core/utils'
 import { InfraNotAvailableError } from '@modules/shared'
-import _ from 'lodash'
+import isMatch from 'lodash/isMatch'
 import { diffLinesUnified2 } from 'jest-diff'
 import { format } from 'pretty-format'
 
@@ -31,7 +31,7 @@ Instead, the eventBus triggered ${this.utils.printReceived(emittedEventTypes.joi
       }
     }
 
-    const pass = eventsOfClass.some((event) => _.isMatch(event.payload, expectedPayload))
+    const pass = eventsOfClass.some((event) => isMatch(event.payload, expectedPayload))
 
     const message = pass
       ? () =>

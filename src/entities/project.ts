@@ -1,5 +1,5 @@
 import isEmail from 'isemail'
-import _ from 'lodash'
+import pick from 'lodash/pick'
 import buildMakeEntity from '../helpers/buildMakeEntity'
 import {
   Boolean,
@@ -184,8 +184,8 @@ const buildApplyProjectUpdate = (makeId: () => string) => {
                 ].filter((innerKey) => project[key][innerKey] !== update[key][innerKey])
 
                 if (changedKeys.length) {
-                  before[key] = _.pick(project[key], changedKeys)
-                  after[key] = _.pick(update[key], changedKeys)
+                  before[key] = pick(project[key], changedKeys)
+                  after[key] = pick(update[key], changedKeys)
                 }
               } else {
                 // For other types, do a shallow comparison

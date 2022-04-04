@@ -1,6 +1,5 @@
 import map from 'lodash/map'
 import { sequelizeInstance } from '../../../sequelize.legacy.config'
-
 export default async function truncateAllTables() {
   const { models } = sequelizeInstance
   return await Promise.all(

@@ -1,5 +1,5 @@
 import { AppelOffre, Famille, Periode } from '@entities'
-import _ from 'lodash'
+import cloneDeep from 'lodash/cloneDeep'
 
 import {
   fessenheim,
@@ -49,7 +49,7 @@ const appelOffreRepo: AppelOffreRepo = {
     return appelsOffreStatic
   },
   findById: async (id: AppelOffre['id']) => {
-    return _.cloneDeep(appelsOffreStatic.find((ao) => ao.id === id))
+    return cloneDeep(appelsOffreStatic.find((ao) => ao.id === id))
   },
   getFamille: (appelOffreId: AppelOffre['id'], familleId: Famille['id']) => {
     const appelOffre = appelsOffreStatic.find((ao) => ao.id === appelOffreId)

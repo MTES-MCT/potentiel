@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import omitBy from 'lodash/omitBy'
 
 import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '@core/domain'
 import { err, ok, Result } from '@core/utils'
@@ -69,7 +69,7 @@ export const makeAppelOffre = (args: {
         return err(new UnauthorizedError())
       }
 
-      const delta = _.omitBy(data, (value, key) => props.data[key] === value)
+      const delta = omitBy(data, (value, key) => props.data[key] === value)
 
       if (Object.keys(delta).length) {
         _publishEvent(
@@ -116,7 +116,7 @@ export const makeAppelOffre = (args: {
           })
         )
       } else {
-        const delta = _.omitBy(data, (value, key) => periode.data[key] === value)
+        const delta = omitBy(data, (value, key) => periode.data[key] === value)
         if (Object.keys(delta).length) {
           _publishEvent(
             new PeriodeUpdated({

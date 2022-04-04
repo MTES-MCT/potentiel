@@ -1,4 +1,4 @@
-import { matches } from 'lodash'
+import matches from 'lodash/matches'
 import { resetDatabase } from '../../helpers/resetDatabase'
 
 interface ShouldCreateProps {
