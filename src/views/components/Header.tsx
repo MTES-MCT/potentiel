@@ -1,15 +1,13 @@
 import React from 'react'
 import routes from '../../routes'
 import { Request } from 'express'
-import {
-  RiAccountCircleLine,
-  RiCloseLine,
-  RiExternalLinkLine,
-  RiLogoutBoxLine,
-  RiMenuLine,
-  RiQuestionLine,
-  RiUserLine,
-} from 'react-icons/ri'
+import { RiAccountCircleLine } from '@react-icons/all-files/ri/RiAccountCircleLine'
+import { RiCloseLine } from '@react-icons/all-files/ri/RiCloseLine'
+import { RiExternalLinkLine } from '@react-icons/all-files/ri/RiExternalLinkLine'
+import { RiLogoutBoxLine } from '@react-icons/all-files/ri/RiLogoutBoxLine'
+import { RiMenuLine } from '@react-icons/all-files/ri/RiMenuLine'
+import { RiQuestionLine } from '@react-icons/all-files/ri/RiQuestionLine'
+import { RiUserLine } from '@react-icons/all-files/ri/RiUserLine'
 
 type HeaderProps = {
   request: Request

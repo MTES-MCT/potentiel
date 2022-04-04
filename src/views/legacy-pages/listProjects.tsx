@@ -8,8 +8,7 @@ import { PaginatedList } from '../../types'
 import { RoleBasedDashboard } from '../components'
 import { DownloadIcon } from '../components/DownloadIcon'
 import ProjectList from '../components/ProjectList'
-import user from '@entities/user'
-import { RiFileExcel2Line } from 'react-icons/ri'
+import { RiFileExcel2Line } from '@react-icons/all-files/ri/RiFileExcel2Line'
 
 interface ListProjectsProps {
   request: Request
