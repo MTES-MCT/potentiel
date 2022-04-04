@@ -14,7 +14,7 @@ Un bundle est créé par page. Pour cela, la page doit se situer dans [src/views
 Webpack détermine ce qu'il faut inclure dans le bundle en regardant les imports. Si cette analyse n'est pas faite correctement, il est possible d'embarquer des choses inutiles et de se retrouver avec un bundle énorme.
 
 ### Analyse de bundle avec Statoscope
-[Statoscope](https://github.com/statoscope/statoscope/tree/master/packages/webpack-plugin) est un utilitaire permet de voir ce qui est inclus dans le bundle (et pourquoi)
+[Statoscope](https://github.com/statoscope/statoscope/tree/master/packages/webpack-plugin) est un utilitaire qui permet de voir ce qui est inclus dans le bundle (et pourquoi)
 
 ```bash
 npm install @statoscope/webpack-plugin
