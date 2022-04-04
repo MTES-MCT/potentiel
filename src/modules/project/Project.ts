@@ -908,6 +908,7 @@ export const makeProject = (args: {
         props.fieldsUpdatedAfterImport.add('notifiedOn')
         break
       case ProjectCompletionDueDateSet.type:
+      case CovidDelayGranted.type:
         if (props.completionDueOn !== 0) props.hasCompletionDueDateMoved = true
         props.completionDueOn = event.payload.completionDueOn
         break
