@@ -1,0 +1,148 @@
+N°CRE;Appel d'offres;Période;Famille;Candidat;Société mère;Nom projet;"Territoire
+(AO ZNI)";Puissance installé du projet indiquée au B. du formulaire de candidature (MWc);Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh);"Taux d'autoconsommation 
+(AO autoconsommation)";Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc);Note prix;Note carbone;Note environnementale;"Note innovation
+(AO innovation)";;;Note totale;;Nom (personne physique) ou raison sociale (personne morale) :;Nature du candidat;Numéro SIREN ou SIRET*;Code NACE;Type entreprise;Région d'implantation;Adresse;Nom et prénom du représentant légal;Titre du représentant légal;Nom et prénom du signataire du formulaire;Nom et prénom du contact;Titre du contact;Adresse postale du contact;Adresse électronique du contact;Téléphone;Nom du projet;"Nb d'aérogénérateurs
+(AO éolien)";Famille de candidature;Puissance installée (MWc);"Type de consommateur associé
+(AO autoconsommation)";"Nature et nombre du ou des consommateur(s)
+(AO autoconsommation)";Typologie de projet;N°, voie, lieu-dit;CP;Commune;Département;Région;Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (degrés);Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (minutes);Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (secondes);Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (cardinal);"Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude
+(degrés)";"Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude
+(minutes)";"Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude
+(secondes)";"Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude
+(cardinal)";"Taux occupation toiture
+(AO autoconsommation)";Surface projetée au sol de l’ensemble des Capteurs solaires (ha);Surface du Terrain d’implantation (ha);Référence du dossier de raccordement*;Dépôt 1ère périodes précédentes ?;;Prix de référence (€/MWh);Valeur de l’évaluation carbone des modules (kg eq CO2/kWc);"Engagement de fourniture de puissance à la pointe
+(AO ZNI)";Terrain d’implantation est dégradé au sens du cas 3 du 2.6;Terrain d’implantation bénéficie de la dérogation sur le c) du Cas 2 du 2.6;Détention de l’Autorisation d’Urbanisme;"Coût total du lot (M€)
+(Développement)";"Contenu local français (%)
+(Développement)";"Contenu local européen (%)
+(Développement)";"Contenu local développement :
+Commentaires";"Contenu local Fabrication de composants et assemblage :
+Total coût du lot (M€)";"Contenu local Fabrication de composants et assemblage :
+Pourcentage de contenu local français (%)";"Contenu local Fabrication de composants et assemblage :
+Pourcentage de contenu local européen (%)";"Contenu local Fabrication de composants et assemblage :
+Commentaires";Technologie (Modules ou films);"Référence commerciale 
+(Modules ou films)";"Nom du fabricant 
+(Modules ou films)";"Lieu(x) de fabrication 
+(Modules ou films)";"Puissance crête (Wc) 
+(Modules ou films)";"Rendement nominal 
+(Modules ou films)";Coût des modules €/Wc;"Diamètre du rotor (m)
+(AO éolien)";"Hauteur bout de pâle (m)
+(AO éolien)";"Coût total du lot (M€)
+(Modules ou films)";"Contenu local français (%)
+(Modules ou films)";"Contenu local européen (%)
+(Modules ou films)";Nom du fabricant (Cellules);Lieu(x) de fabrication (Cellules);"Coût total du lot (M€)
+(Cellules)";"Contenu local français (%)
+(Cellules)";"Contenu local européen (%)
+(Cellules)";"Nom du fabricant 
+(Plaquettes de silicium (wafers))";"Lieu(x) de fabrication 
+(Plaquettes de silicium (wafers))";"Coût total du lot (M€)
+(Plaquettes de silicium (wafers))";"Contenu local français (%)
+(Plaquettes de silicium (wafers))";"Contenu local européen (%)
+(Plaquettes de silicium (wafers))";"Nom du fabricant 
+(Polysilicium)";"Lieu(x) de fabrication 
+(Polysilicium)";"Coût total du lot (M€)
+(Polysilicium)";"Contenu local français (%)
+(Polysilicium)";"Contenu local européen (%)
+(Polysilicium)";"Nom du fabricant 
+(Postes de conversion)";"Lieu(x) de fabrication 
+(Postes de conversion)";"Coût total du lot (M€)
+(Postes de conversion)";"Contenu local français (%)
+(Postes de conversion)";"Contenu local européen (%)
+(Postes de conversion)";"Nom du fabricant 
+(Structure)";"Lieu(x) de fabrication 
+(Structure)";"Coût total du lot (M€)
+(Structure)";"Contenu local français (%)
+(Structure)";"Contenu local européen (%)
+(Structure)";"Technologie 
+(Dispositifs de stockage de l’énergie *)";"Nom du fabricant 
+(Dispositifs de stockage de l’énergie *)";"Lieu(x) de fabrication 
+(Dispositifs de stockage de l’énergie *)";"Coût total du lot (M€)
+(Dispositifs de stockage de l’énergie *)";"Contenu local français (%)
+(Dispositifs de stockage de l’énergie *)";"Contenu local européen (%)
+(Dispositifs de stockage de l’énergie *)";;"Technologie 
+(Dispositifs de suivi de la course du soleil *)";"Nom du fabricant 
+(Dispositifs de suivi de la course du soleil *)";"Lieu(x) de fabrication 
+(Dispositifs de suivi de la course du soleil *)";"Coût total du lot (M€)
+(Dispositifs de suivi de la course du soleil *)";"Contenu local français (%)
+(Dispositifs de suivi de la course du soleil *)";"Contenu local européen (%)
+(Dispositifs de suivi de la course du soleil *)";;"Référence commerciale 
+(Autres technologies)";"Nom du fabricant 
+(Autres technologies)";"Lieu(x) de fabrication 
+(Autres technologies)";"Coût total du lot (M€)
+(Autres technologies)";"Contenu local français (%)
+(Autres technologies)";"Contenu local européen (%)
+(Autres technologies)";"Coût total du lot (M€)
+(Installation et mise en service )";"Contenu local français (%)
+(Installation et mise en service) ";"Contenu local européen (%)
+(Installation et mise en service)";"Commentaires contenu local
+(Installation et mise en service)";"Coût total du lot (M€)
+(raccordement)";"Contenu local français (%)
+(raccordement)";"Contenu local européen (%)
+(raccordement)";"Contenu local TOTAL :
+coût total (M€)";Contenu local TOTAL français (%);Contenu local TOTAL européen (%);"Contenu local TOTAL :
+Commentaires";Ensoleillement de référence (kWh/m²/an);Productible annuel (MWh/an);Facteur de charges (kWh/kWc);Date de mise en service du raccordement attendue (mm/aaaa);Capacité du raccordement (kW);Montant estimé du raccordement (k€);Raccordement € / kWc;Investissement total (k€);dont quantité de fonds propres (k€);dont quantité d'endettement  (k€);dont quantité de subventions à l'investissement  (k€);dont quantité d'autres avantages financiers  (k€);Location (€/an/MWc);"CAPEX Moyen
+(k€ / MWc)";"date
+(candidature)";"heure
+(candidature)";"Reference Pli
+(candidature)";Typologie de projet;"Condition d'admissibilité ?
+(AO éolien)";Type d'utorisation d'Urbanisme (pièce n°3);"Investissement ou financement participatif
+(Oui/non) ?";Investissement ou financement participatif ?;€/MWh bonus participatif;"Note degré d’innovation (/20pt)
+(AO innovation)";"Commentaire final sur note degré d’innovation
+(AO innovation)";"Nom de l'innovation (ADEME)
+(AO innovation)";"Type de l'innovation (ADEME)
+(AO innovation)";"Note synergie avec l'usage agricole (/10pt)
+(AO Innovation)";"Commentaire final sur note synergie avec l'usage agricole 
+(AO Innovation)";"Note positionnement sur le marché (/10pt)
+(AO innovation)";"Commentaire final sur note positionnement sur le marché 
+(AO innovation)";"Note qualité technique (/5pt)
+(AO innovation)";"Commentaire final sur note qualité technique
+(AO innovation)";"Note adéquation du projet avec les ambitions industrielles (/5pt)
+(AO innovation)";"Commentaire final sur note adéquation du projet avec les ambitions industrielles
+(AO innovation)";"Note aspects environnementaux et sociaux (/5pt)
+(AO innovation)";"Commentaire final sur note aspects environnementaux et sociaux
+(AO innovation)";Respect de toutes les conditions d'admissibilité ?;Suspicion de doublon ? ;Oui projet ;Suspicion de 500m inter-famille ? ;Avis admissibilité;"Comm 1 
+(pièce n°1)";"Comm 2 
+(pièce n°1)";"Avis 
+(pièce n°1)";"Comm 1 
+(pièce n°2)";"Comm 2 
+(pièce n°2)";"Avis 
+(pièce n°2)";"Type de terrain d'implantation 
+(pièce n°3)";"Période visée par certificat d'éligibilité du terrain 
+(pièce n°3)";"Comm 1 
+(pièce n°3)";"Comm 2
+(pièce n°3)";"Types Cas 3 
+(pièce n°3)";"Avis 
+(pièce n°3)";"Comm 1
+(pièce n°4 AO innovation)";"Comm 2
+(pièce n°4 AO innovation)";"Avis
+(pièce n°4 AO innovation)";"Comm 1
+(pièce n°5 AO innovation)";"Comm 2
+(pièce n°5 AO innovation)";"Avis
+(pièce n°5 AO innovation)";"Type d'AU 
+(pièce n°4)";"Date 
+(pièce n°4)";"Comm 2 
+(pièce n°4)";"Avis 
+(pièce n°4)";"Comm 1 
+(pièce n°6)";"Comm 2 
+(pièce n°6)";"Avis 
+(pièce n°6)";"Oui/non ? 
+(pièce n°7)";"Comm 1 
+(pièce n°7)";"Comm 2 
+(pièce n°7)";"Avis 
+(pièce n°7)";"Comm 1 
+(Délégation de signature)";"Comm 2 
+(Délégation de signature)";"Avis 
+(Délégation de signature)";Commentaire final;Avis final;Avis final CRE + ADEME;;Puissance cumulée;Classé ?;Prix Majoré;"Codes cas
+(AO sol)";"Codes cas
+(AO sol)";"Codes cas
+(AO sol)";Motif d'élimination;Nom projet (doublon);CP (doublon);Commune (doublon);Modifications;Statut;Notification;Commentaires;;Type de modification 1;Date de modification 1;Colonne concernée 1;Ancienne valeur 1;Type de modification 2;Date de modification 2;Colonne concernée 2;Ancienne valeur 2;Type de modification 3;Date de modification 3;Colonne concernée 3;Ancienne valeur 3;Type de modification 4;Date de modification 4;Colonne concernée 4;Ancienne valeur 4;Type de modification 5;Date de modification 5;Colonne concernée 5;Ancienne valeur 5
+test-1;CRE4 - Sol;8;2;SD3B;;Centrale Solaire 1;;0,51;1;;300;1;2;3;;;;70;;SD3B;Personne morale;;;PME;;1 place carpeaux;Valentin COGNITO;Gérant;;Jean-Luc LASSUS;Directeur du développement;1 place carpeaux;porteur@test.test;;Centrale Solaire 1;;2;0,51;;;;1 place carpeaux;92055;PUTEAUX;;Ile-de-France;;;;;;;;;;;;;;;1;300;;;;;;;;;;;;;;;Silicium polycristallin;123;MODULE PV;France;360;18,26%;;;;;CELLULE PV;France;;;;PLAQUETTE PV;France;;;;POLYSI PV;France;;;;CONVERT PV;France;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1820;6342;1469;01/11/2021;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Classé;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+test-2;CRE4 - Sol;8;1;SD3B;;Centrale Solaire 2;;8;1;;400;4;5;6;;;;65;;SD3B;Personne morale;;;PME;;1 place carpeaux;Valentin COGNITO;Gérant;;Jean-Luc LASSUS;Directeur du développement;1 place carpeaux;porteur@test.test;;Centrale Solaire 2;;1;8;;;;1 place carpeaux;92055;PUTEAUX;;Ile-de-France;;;;;;;;;;;;;;;1;400;;Oui;;;;;;;;;;;;;Silicium monocristallin;456;MODULE PV;Chine;400;19,70%;;;;;CELLULE PV;Chine;;;;PLAQUETTE PV;Chine;;;;POLYSI PV;Chine;;;;CONVERT PV;Chine;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2055;5200;1585;01/12/2021;;;;;;;;;;;;;;;;;;Investissement participatif (T1);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Favorable;;;Classé;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+test-3;CRE4 - Sol;8;1;SD3B;;Centrale Solaire 3;;8;1;;400;7;8;9;;;;60;;SD3B;Collectivité;;;PME;;1 place carpeaux;Valentin COGNITO;Gérant;;Jean-Luc LASSUS;Directeur du développement;1 place carpeaux;porteur@test.test;;Centrale Solaire 3;;1;8;;;;1 place carpeaux;92055;PUTEAUX;;Ile-de-France;;;;;;;;;;;;;;;1;400;;;;;;;;;;;;;;;Silicium monocristallin;789;MODULE PV;Mexique;435;20,10%;;;;;CELLULE PV;Mexique;;;;PLAQUETTE PV;Mexique;;;;POLYSI PV;Mexique;;;;CONVERT PV;Mexique;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1953;2661;1573;01/09/2021;;;;;;;;;;;;;;;;;;Financement participatif (T2);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Classé;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+test-4;CRE4 - Sol;8;2;SD3B;;Centrale Solaire 4;;0,51;1;;300;1;2;3;;;;70;;SD3B;Personne morale;;;PME;;1 place carpeaux;Valentin COGNITO;Gérant;;Jean-Luc LASSUS;Directeur du développement;1 place carpeaux;porteur@test.test;;Centrale Solaire 4;;2;0,51;;;;1 place carpeaux;92055;PUTEAUX;;Ile-de-France;;;;;;;;;;;;;;;1;300;;;;;;;;;;;;;;;Silicium polycristallin;123;MODULE PV;France;360;18,26%;;;;;CELLULE PV;France;;;;PLAQUETTE PV;France;;;;POLYSI PV;France;;;;CONVERT PV;France;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1820;6342;1469;01/11/2021;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Eliminé;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+test-10;CRE4 - Sol;4;2;SD3B;;Centrale Solaire 10;;0,51;1;;300;1;2;3;;;;70;;SD3B;Personne morale;;;PME;;1 place carpeaux;Valentin COGNITO;Gérant;;Jean-Luc LASSUS;Directeur du développement;1 place carpeaux;porteur@test.test;;Centrale Solaire 10;;2;0,51;;;;1 place carpeaux;92055;PUTEAUX;;Ile-de-France;;;;;;;;;;;;;;;1;300;;;;;;;;;;;;;;;Silicium polycristallin;123;MODULE PV;France;360;18,26%;;;;;CELLULE PV;France;;;;PLAQUETTE PV;France;;;;POLYSI PV;France;;;;CONVERT PV;France;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1820;6342;1469;01/11/2021;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Classé;;;;;;;;;;;14/04/2018;;;;;;;;;;;;;;;;;;;;;;
+test-20;CRE4 - Sol;4;1;SD3B;;Centrale Solaire 20;;8;1;;400;4;5;6;;;;65;;SD3B;Personne morale;;;PME;;1 place carpeaux;Valentin COGNITO;Gérant;;Jean-Luc LASSUS;Directeur du développement;1 place carpeaux;porteur@test.test;;Centrale Solaire 20;;1;8;;;;1 place carpeaux;92055;PUTEAUX;;Ile-de-France;;;;;;;;;;;;;;;1;400;;Oui;;;;;;;;;;;;;Silicium monocristallin;456;MODULE PV;Chine;400;19,70%;;;;;CELLULE PV;Chine;;;;PLAQUETTE PV;Chine;;;;POLYSI PV;Chine;;;;CONVERT PV;Chine;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2055;5200;1585;01/12/2021;;;;;;;;;;;;;;;;;;Investissement participatif (T1);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Favorable;;;Classé;;;;;;;;;;;14/04/2018;;;;;;;;;;;;;;;;;;;;;;
+test-30;CRE4 - Sol;4;1;SD3B;;Centrale Solaire 30;;8;1;;400;7;8;9;;;;60;;SD3B;Collectivité;;;PME;;1 place carpeaux;Valentin COGNITO;Gérant;;Jean-Luc LASSUS;Directeur du développement;1 place carpeaux;porteur@test.test;;Centrale Solaire 30;;1;8;;;;1 place carpeaux;92055;PUTEAUX;;Ile-de-France;;;;;;;;;;;;;;;1;400;;;;;;;;;;;;;;;Silicium monocristallin;789;MODULE PV;Mexique;435;20,10%;;;;;CELLULE PV;Mexique;;;;PLAQUETTE PV;Mexique;;;;POLYSI PV;Mexique;;;;CONVERT PV;Mexique;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1953;2661;1573;01/09/2021;;;;;;;;;;;;;;;;;;Financement participatif (T2);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Classé;;;;;;;;;;;14/04/2018;;;;;;;;;;;;;;;;;;;;;;
+test-100;CRE4 - Sol;4;2;SD3B;;Centrale Solaire 100;;0,51;1;;300;1;2;3;;;;70;;SD3B;Personne morale;;;PME;;1 place carpeaux;Valentin COGNITO;Gérant;;Jean-Luc LASSUS;Directeur du développement;1 place carpeaux;porteur2@test.test;;Centrale Solaire 100;;2;0,51;;;;1 place carpeaux;92055;PUTEAUX;;Ile-de-France;;;;;;;;;;;;;;;1;300;;;;;;;;;;;;;;;Silicium polycristallin;123;MODULE PV;France;360;18,26%;;;;;CELLULE PV;France;;;;PLAQUETTE PV;France;;;;POLYSI PV;France;;;;CONVERT PV;France;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1820;6342;1469;01/11/2021;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Classé;;;;;;;;;;;14/04/2018;;;;;;;;;;;;;;;;;;;;;;
+test-200;CRE4 - Sol;4;1;SD3B;;Centrale Solaire 200;;8;1;;400;4;5;6;;;;65;;SD3B;Personne morale;;;PME;;1 place carpeaux;Valentin COGNITO;Gérant;;Jean-Luc LASSUS;Directeur du développement;1 place carpeaux;porteur2@test.test;;Centrale Solaire 200;;1;8;;;;1 place carpeaux;92055;PUTEAUX;;Ile-de-France;;;;;;;;;;;;;;;1;400;;Oui;;;;;;;;;;;;;Silicium monocristallin;456;MODULE PV;Chine;400;19,70%;;;;;CELLULE PV;Chine;;;;PLAQUETTE PV;Chine;;;;POLYSI PV;Chine;;;;CONVERT PV;Chine;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2055;5200;1585;01/12/2021;;;;;;;;;;;;;;;;;;Investissement participatif (T1);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Favorable;;;Classé;;;;;;;;;;;14/04/2018;;;;;;;;;;;;;;;;;;;;;;
+test-300;CRE4 - Sol;4;1;SD3B;;Centrale Solaire 300;;8;1;;400;7;8;9;;;;60;;SD3B;Collectivité;;;PME;;1 place carpeaux;Valentin COGNITO;Gérant;;Jean-Luc LASSUS;Directeur du développement;1 place carpeaux;porteur2@test.test;;Centrale Solaire 300;;1;8;;;;1 place carpeaux;92055;PUTEAUX;;Ile-de-France;;;;;;;;;;;;;;;1;400;;;;;;;;;;;;;;;Silicium monocristallin;789;MODULE PV;Mexique;435;20,10%;;;;;CELLULE PV;Mexique;;;;PLAQUETTE PV;Mexique;;;;POLYSI PV;Mexique;;;;CONVERT PV;Mexique;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1953;2661;1573;01/09/2021;;;;;;;;;;;;;;;;;;Financement participatif (T2);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Classé;;;;;;;;;;;14/04/2018;;;;;;;;;;;;;;;;;;;;;;
+test-400;CRE4 - Sol;4;1;SD3B;;Centrale Solaire 400;;8;1,26;;400;7;8;9;;;;60;;SD3B;Collectivité;;;PME;;1 place carpeaux;Valentin COGNITO;Gérant;;Jean-Luc LASSUS;Directeur du développement;1 place carpeaux;porteur2@test.test;;Centrale Solaire 400;;1;8;;;;1 place carpeaux;92055;PUTEAUX;;Ile-de-France;;;;;;;;;;;;;;;1,26;400;;;;;;;;;;;;;;;Silicium monocristallin;789;MODULE PV;Mexique;435;20,10%;;;;;CELLULE PV;Mexique;;;;PLAQUETTE PV;Mexique;;;;POLYSI PV;Mexique;;;;CONVERT PV;Mexique;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1953;2661;1573;01/09/2021;;;;;;;;;;;;;;;;;;Financement participatif (T2);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Classé;;;;;;;;;;;14/04/2018;;;;;;;;;;;;;;;;;;;;;;
+test-500;CRE4 - Sol;4;1;SD3B;;Centrale Solaire 500;;8;1,26;;400;7;8;9;;;;60;;SD3B;Collectivité;;;PME;;1 place carpeaux;Valentin COGNITO;Gérant;;Jean-Luc LASSUS;Directeur du développement;1 place carpeaux;porteur2@test.test;;Centrale Solaire 500;;1;8;;;;1 place carpeaux;92055;PUTEAUX;;Ile-de-France;;;;;;;;;;;;;;;1,26;400;;;;;;;;;;;;;;;Silicium monocristallin;789;MODULE PV;Mexique;435;20,10%;;;;;CELLULE PV;Mexique;;;;PLAQUETTE PV;Mexique;;;;POLYSI PV;Mexique;;;;CONVERT PV;Mexique;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1953;2661;1573;01/09/2021;;;;;;;;;;;;;;;;;;Financement participatif (T2);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Eliminé;;;;;;;;;;;14/04/2018;;;;;;;;;;;;;;;;;;;;;;
