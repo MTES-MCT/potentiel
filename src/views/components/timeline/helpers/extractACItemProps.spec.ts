@@ -48,6 +48,30 @@ describe('extractACItemProps', () => {
         })
       })
     })
+
+    describe('when there is a CovidDelayGranted event', () => {
+      it('should return props with covid delay', () => {
+        const events = [
+          {
+            type: 'ProjectCompletionDueDateSet',
+            date: new Date('2025-01-01').getTime(),
+            variant: 'admin',
+          } as ProjectCompletionDueDateSetDTO,
+          {
+            type: 'CovidDelayGranted',
+            date: new Date('2022-04-04').getTime(),
+            variant: 'admin',
+          },
+        ]
+
+        const result = extractACItemProps(events, project)
+        expect(result).toMatchObject({
+          type: 'attestation-de-conformite',
+          date: new Date('2025-01-01').getTime(),
+          covidDelay: true,
+        })
+      })
+    })
   })
   describe('when the project is Eliminé', () => {
     const project = {
