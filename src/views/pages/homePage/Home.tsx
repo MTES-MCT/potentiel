@@ -59,16 +59,15 @@ export const Home = (props: Props) => {
           <Container className="flex p-6 md:p-12">
             {user ? (
               <div className="flex flex-col items-center md:mx-auto">
-                <p className="m-0 text-2xl lg:text-3xl font-semibold">
-                  Bonjour, nous sommes ravis de vous revoir
+                <p className="mt-0 text-2xl lg:text-3xl font-semibold">
+                  Bonjour {user.fullName}, nous sommes ravis de vous revoir.
                 </p>
-                <p>Vous êtes connecté-e en tant que {user.fullName}</p>
                 <div className="flex flex-col md:flex-row w-full md:w-fit gap-3">
                   <LinkButton href={routes.REDIRECT_BASED_ON_ROLE} primary={true}>
                     <RiDashboardLine className="mr-4" />
                     Voir {user.role === 'porteur-projet' ? 'mes' : 'les'} projets
                   </LinkButton>
-                  <LinkButton href={routes.REDIRECT_BASED_ON_ROLE}>
+                  <LinkButton href={routes.LOGOUT_ACTION}>
                     <RiLogoutBoxLine className="mr-4" />
                     Me déconnecter
                   </LinkButton>
