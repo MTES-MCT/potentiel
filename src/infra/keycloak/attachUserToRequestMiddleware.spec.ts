@@ -6,7 +6,7 @@ import { makeFakeCreateUser } from '../../__tests__/fakes'
 import { makeAttachUserToRequestMiddleware } from './attachUserToRequestMiddleware'
 
 describe(`attachUserToRequestMiddleware`, () => {
-  const staticPaths = ['/fonts', '/css', '/images', '/scripts', '/main', '/']
+  const staticPaths = ['/fonts', '/css', '/images', '/scripts', '/main']
   staticPaths.forEach((path) => {
     describe(`when the path starts with ${path}`, () => {
       const request = {
