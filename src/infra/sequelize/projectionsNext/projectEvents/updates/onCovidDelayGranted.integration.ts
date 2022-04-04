@@ -33,7 +33,7 @@ describe('onCovidDelayGranted', () => {
     expect(projectEvent).not.toBeNull()
     expect(projectEvent).toMatchObject({
       type: 'CovidDelayGranted',
-      valueDate: eventDate.getTime(),
+      valueDate: completionDueOn,
       eventPublishedAt: eventDate.getTime(),
       payload: {},
     })

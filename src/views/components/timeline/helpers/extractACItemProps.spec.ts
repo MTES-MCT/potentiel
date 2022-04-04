@@ -1,4 +1,5 @@
 import {
+  CovidDelayGrantedDTO,
   ProjectCompletionDueDateSetDTO,
   ProjectEventListDTO,
   ProjectImportedDTO,
@@ -50,24 +51,29 @@ describe('extractACItemProps', () => {
     })
 
     describe('when there is a CovidDelayGranted event', () => {
-      it('should return props with covid delay', () => {
+      it('should return props with covid delay and the latest due date', () => {
         const events = [
           {
             type: 'ProjectCompletionDueDateSet',
-            date: new Date('2025-01-01').getTime(),
+            date: 3,
             variant: 'admin',
           } as ProjectCompletionDueDateSetDTO,
           {
             type: 'CovidDelayGranted',
-            date: new Date('2022-04-04').getTime(),
+            date: 2,
             variant: 'admin',
-          },
+          } as CovidDelayGrantedDTO,
+          {
+            type: 'ProjectCompletionDueDateSet',
+            date: 1,
+            variant: 'admin',
+          } as ProjectCompletionDueDateSetDTO,
         ]
 
         const result = extractACItemProps(events, project)
         expect(result).toMatchObject({
           type: 'attestation-de-conformite',
-          date: new Date('2025-01-01').getTime(),
+          date: 3,
           covidDelay: true,
         })
       })

@@ -4,12 +4,12 @@ import { ProjectEvent } from '../projectEvent.model'
 
 export default ProjectEvent.projector.on(
   CovidDelayGranted,
-  async ({ payload: { projectId }, occurredAt }, transaction) => {
+  async ({ payload: { projectId, completionDueOn }, occurredAt }, transaction) => {
     await ProjectEvent.create(
       {
         projectId,
         type: CovidDelayGranted.type,
-        valueDate: occurredAt.getTime(),
+        valueDate: completionDueOn,
         eventPublishedAt: occurredAt.getTime(),
         id: new UniqueEntityID().toString(),
         payload: {},
