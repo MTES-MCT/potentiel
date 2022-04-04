@@ -1,11 +1,10 @@
 import { ensureRole, projectRepo } from '@config'
 import { UniqueEntityID } from '../../core/domain'
-import { errAsync, logger, okAsync, ResultAsync } from '../../core/utils'
+import { logger, ResultAsync } from '../../core/utils'
 import asyncHandler from '../helpers/asyncHandler'
 import { v1Router } from '../v1Router'
 import models from '../../infra/sequelize/models'
 import { InfraNotAvailableError } from '../../modules/shared'
-import { ok } from 'assert'
 import { errorResponse } from '../helpers'
 import { Op } from 'sequelize'
 
