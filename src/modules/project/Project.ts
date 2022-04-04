@@ -740,19 +740,8 @@ export const makeProject = (args: {
       return ok(null)
     },
     applyCovidDelay: function () {
-      // vérifier que la date initiale de complétion est après le 12 mars 2020 inclus
-      const delaiRealisationEnMois =
-        !props.appelOffre?.decoupageParTechnologie && props.appelOffre?.delaiRealisationEnMois
-
-      if ((delaiRealisationEnMois && isNaN(delaiRealisationEnMois)) || !delaiRealisationEnMois) {
-        return err(new ProjectNotQualifiedForCovidDelay())
-      }
-      const initialeCompletionDueDate = moment(props.notifiedOn)
-        .add(delaiRealisationEnMois, 'months')
-        .toDate()
-        .getTime()
-
-      if (initialeCompletionDueDate < new Date('2020-03-12').getTime()) {
+      // vérifier que la date de complétion actuelle est après le 12 mars 2020 inclus
+      if (props.completionDueOn < new Date('2020-03-12').getTime()) {
         return err(new ProjectNotQualifiedForCovidDelay())
       }
 
