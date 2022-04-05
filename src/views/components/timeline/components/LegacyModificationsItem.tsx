@@ -8,17 +8,17 @@ export const LegacyModificationsItem = (props: LegacyModificationsItemProps) => 
   const { modificationType } = props
   switch (modificationType) {
     case 'abandon':
-      return <Abandon {...{ ...props, modificationType }} />
+      return <Abandon {...props} />
     case 'recours':
-      return <Recours {...{ ...props, modificationType }} />
+      return <Recours {...props} />
     case 'delai':
-      return <Delai {...{ ...props, modificationType }} />
+      return <Delai {...props} />
     case 'producteur':
-      return <Producteur {...{ ...props, modificationType }} />
+      return <Producteur {...props} />
     case 'actionnaire':
-      return <Actionnaire {...{ ...props, modificationType }} />
+      return <Actionnaire {...props} />
     case 'autre':
-      return <Autre {...{ ...props, modificationType }} />
+      return <Autre {...props} />
   }
 }
 
@@ -142,7 +142,6 @@ const Autre = (props: AutreProps) => {
 
 const StepIcon = (props: { status: LegacyModificationsItemProps['status'] }) => {
   const { status } = props
-  console.log(status)
   return (
     <>
       {status === 'acceptée' && <PastIcon />}
