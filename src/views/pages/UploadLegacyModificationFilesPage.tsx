@@ -2,6 +2,7 @@ import type { Request } from 'express'
 import React from 'react'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '../../routes'
+import { ErrorBox } from '../components'
 import AdminDashboard from '../components/AdminDashboard'
 import { PageLayout } from '../components/PageLayout'
 
@@ -19,6 +20,7 @@ export const UploadLegacyModificationFiles = PageLayout(
   ({ request, results }: UploadLegacyModificationFilesProps) => {
     const {
       user: { role },
+      query: { error },
     } = request
 
     const errors =
@@ -33,6 +35,8 @@ export const UploadLegacyModificationFiles = PageLayout(
           <div className="panel__header">
             <h3>Importer des courriers historiques</h3>
           </div>
+
+          <ErrorBox error={error as string} />
 
           {Boolean(errors.length) && (
             <div className="notification error py-2">
@@ -63,7 +67,7 @@ export const UploadLegacyModificationFiles = PageLayout(
               <b>Attention</b>: seuls les fichiers mentionnés dans un colonne 'Nom courrier [N]'
               pourront être associés.
             </div>
-            <input type="file" multiple id="files" />
+            <input type="file" multiple name="files" />
             <div className="text-sm mt-2">
               Vous pouvez attacher jusqu'à 50Mo de fichiers à la fois
             </div>
