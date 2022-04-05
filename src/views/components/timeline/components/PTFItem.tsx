@@ -96,7 +96,7 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
           <input type="hidden" name="type" id="type" value="ptf" />
           <input type="hidden" name="projectId" value={projectId} />
           <div>
-            <label htmlFor="date">Date de la proposition (format JJ/MM/AAAA)</label>
+            <label htmlFor="date">Date de la signature (format JJ/MM/AAAA)</label>
             <DateInput onError={(isError) => setDisableSubmit(isError)} />
           </div>
           <div className="mt-2">
