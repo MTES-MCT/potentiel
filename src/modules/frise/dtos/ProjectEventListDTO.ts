@@ -35,6 +35,7 @@ export type ProjectEventDTO =
   | ModificationReceivedDTO
   | LegacyModificationImportedDTO
   | FileAttachedToProjectDTO
+  | LegacyModificationFileAttachedDTO
 
 type File = {
   id: string
@@ -284,6 +285,7 @@ export type LegacyModificationImportedDTO = {
   date: number
   variant: Exclude<UserRole, 'ademe'>
   status: LegacyModificationStatus
+  filename?: string
 } & (
   | { modificationType: 'abandon' }
   | { modificationType: 'recours'; motifElimination: string }
@@ -301,6 +303,12 @@ export type LegacyModificationImportedDTO = {
   | { modificationType: 'producteur'; producteurPrecedent: string }
   | { modificationType: 'autre'; column: string; value: string }
 )
+
+export type LegacyModificationFileAttachedDTO = {
+  type: 'LegacyModificationFileAttached'
+  variant: UserRole
+  file: File
+}
 
 export type FileAttachedToProjectDTO = {
   type: 'FileAttachedToProject'
