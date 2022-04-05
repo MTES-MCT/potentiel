@@ -1,6 +1,7 @@
 import type { Request } from 'express'
 import React from 'react'
 import { RiAccountCircleLine } from '@react-icons/all-files/ri/RiAccountCircleLine'
+import { RiAccountPinBoxLine } from '@react-icons/all-files/ri/RiAccountPinBoxLine'
 import { RiArrowRightCircleLine } from '@react-icons/all-files/ri/RiArrowRightCircleLine'
 import { RiDashboardLine } from '@react-icons/all-files/ri/RiDashboardLine'
 import { RiLogoutBoxLine } from '@react-icons/all-files/ri/RiLogoutBoxLine'
@@ -36,8 +37,8 @@ export const Home = (props: Props) => {
           <Container className="flex flex-col p-6 gap-6 xl:py-10">
             <div className="flex flex-col md:flex-row gap-6">
               <p className="m-0 text-3xl lg:text-5xl xl:text-6xl font-semibold">
-                Suivez efficacement vos projets EnR*, transmettez vos documents, demandez des
-                modifications.
+                Suivez efficacement vos projets EnR* électriques, transmettez vos documents,
+                demandez des modifications.
                 <br />
                 <span className="text-sm lg:text-base font-light">*Énergies renouvelables</span>
               </p>
@@ -54,11 +55,14 @@ export const Home = (props: Props) => {
           </Container>
         </section>
 
-        <section>
+        <section
+          className="bg-blue-france-sun-base"
+          style={{ background: 'linear-gradient(180deg, #000091 50%, white 50%)' }}
+        >
           <Container className="flex p-6 md:p-12">
             {user ? (
-              <div className="flex flex-col items-center md:mx-auto">
-                <p className="mt-0 text-2xl lg:text-3xl font-semibold">
+              <div className="flex flex-col items-center md:mx-auto shadow-md bg-blue-france-975-base p-7">
+                <p className="mt-0 text-2xl lg:text-3xl font-semibold text-blue-france-sun-base">
                   Bonjour {user.fullName}, nous sommes ravis de vous revoir.
                 </p>
                 <div className="flex flex-col md:flex-row w-full md:w-fit gap-3">
@@ -77,11 +81,41 @@ export const Home = (props: Props) => {
                 </div>
               </div>
             ) : (
-              <div className="flex flex-col md:flex-row w-full md:w-fit md:mx-auto">
-                <LinkButton href={routes.LOGIN} primary={true}>
-                  <RiAccountCircleLine className="mr-4" />
-                  Je m'identifie
-                </LinkButton>
+              <div className="flex mx-auto flex-col lg:flex-row">
+                <div className="px-20 py-14 shadow-md text-center flex-1 flex flex-col justify-between gap-7 bg-white">
+                  <p className="text-blue-france-sun-base font-semibold text-4xl m-0 pb-5">
+                    Inscription
+                  </p>
+                  <div className="flex">
+                    <Tab active={true}>Porteur de projet</Tab>
+                    <Tab>Autre partenaire</Tab>
+                  </div>
+                  <LinkButton href="" className="mx-auto">
+                    <RiAccountCircleLine className="mr-4" />
+                    S'inscrire
+                  </LinkButton>
+                  <p className="m-0">
+                    <a href={routes.LOGIN}>Vous avez déjà un compte ?</a>
+                  </p>
+                </div>
+                <div
+                  className="px-20 py-14 shadow-md text-center flex-1 flex flex-col justify-between gap-7"
+                  style={{ backgroundColor: '#e3e3fd' }}
+                >
+                  <p className="text-blue-france-sun-base font-semibold text-4xl m-0 pb-5">
+                    Connexion
+                  </p>
+                  <p className="m-0 whitespace-nowrap font-semibold text-xl text-blue-france-sun-base">
+                    Nous sommes ravis de vous revoir !
+                  </p>
+                  <LinkButton href={routes.LOGIN} primary={true} className="mx-auto">
+                    <RiAccountPinBoxLine className="mr-4" />
+                    Se connecter
+                  </LinkButton>
+                  <p className="m-0">
+                    <a href="">Mot de passe oublié</a>
+                  </p>
+                </div>
               </div>
             )}
           </Container>
