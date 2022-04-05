@@ -16,16 +16,42 @@ type UploadLegacyModificationFilesProps = {
 }
 
 export const UploadLegacyModificationFiles = PageLayout(
-  ({ request }: UploadLegacyModificationFilesProps) => {
+  ({ request, results }: UploadLegacyModificationFilesProps) => {
     const {
       user: { role },
     } = request
+
+    const errors =
+      results?.filter(
+        (result): result is UploadLegacyModificationFileResult & { error: true } => result.error
+      ) || []
+    const successes = results?.filter((result) => !result.error) || []
+
     return (
       <AdminDashboard role={role} currentPage={'admin-upload-legacy-modification-files'}>
         <div className="panel">
           <div className="panel__header">
             <h3>Importer des courriers historiques</h3>
           </div>
+
+          {Boolean(errors.length) && (
+            <div className="notification error py-2">
+              <div>Erreur(s):</div>
+              <ul className="pl-3 mb-0 mt-1">
+                {errors.map((result) => (
+                  <li key={`result_for_${result.filename}`} className="mb-1">
+                    <div>{result.filename}</div>
+                    <div className="text-sm">{result.message}</div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {Boolean(successes.length) && (
+            <div className="notification success">
+              {successes.length} courrier(s) rattaché(s) avec succès
+            </div>
+          )}
 
           <form
             action={ROUTES.UPLOAD_LEGACY_MODIFICATION_FILES}
