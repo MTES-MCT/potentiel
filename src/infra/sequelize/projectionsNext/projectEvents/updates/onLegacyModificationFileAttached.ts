@@ -1,10 +1,9 @@
-import { UniqueEntityID } from '@core/domain'
 import { LegacyModificationFileAttached } from '@modules/modificationRequest'
 import { ProjectEvent } from '../projectEvent.model'
 
 export default ProjectEvent.projector.on(
   LegacyModificationFileAttached,
-  async ({ payload, occurredAt }, transaction) => {
+  async ({ payload, occurredAt, id }, transaction) => {
     const { projectId, fileId, filename } = payload
 
     await ProjectEvent.create(
@@ -13,7 +12,7 @@ export default ProjectEvent.projector.on(
         type: 'LegacyModificationFileAttached',
         valueDate: occurredAt.getTime(),
         eventPublishedAt: occurredAt.getTime(),
-        id: new UniqueEntityID().toString(),
+        id,
         payload: {
           fileId,
           filename,
