@@ -8,6 +8,7 @@ import { PaginatedList } from '../../../types'
 import { PageLayout, RoleBasedDashboard } from '../../components'
 import RequestList from '../../components/RequestList'
 import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers'
+import { userIs } from '@modules/users'
 
 type ModificationRequestListProps = {
   request: Request
@@ -196,7 +197,13 @@ export const ModificationRequestList = PageLayout(
                 </div>
               </div>
 
-              {['admin', 'dgec'].includes(request.user.role) && (
+              {hasFilters ? (
+                <a style={{ marginTop: 10 }} href="#" {...dataId('resetSelectors')}>
+                  Retirer tous les filtres
+                </a>
+              ) : null}
+
+              {userIs(['admin', 'dgec'])(request.user) && (
                 <div className="flex flex-row mt-5">
                   <input
                     id="showOnlyDGEC"
@@ -210,12 +217,6 @@ export const ModificationRequestList = PageLayout(
                   </label>
                 </div>
               )}
-
-              {hasFilters ? (
-                <a style={{ marginTop: 10 }} href="#" {...dataId('resetSelectors')}>
-                  Retirer tous les filtres
-                </a>
-              ) : null}
             </form>
           </div>
           {success ? (

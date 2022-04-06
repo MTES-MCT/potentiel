@@ -8,7 +8,7 @@ import {
   ModificationRequestStatusDTO,
 } from '../dtos'
 
-interface GetModificationRequestListForUserDeps {
+type GetModificationRequestListForUserFilter = {
   user: User
   appelOffreId?: AppelOffre['id']
   periodeId?: Periode['id']
@@ -17,11 +17,9 @@ interface GetModificationRequestListForUserDeps {
   recherche?: string
   modificationRequestStatus?: ModificationRequestStatusDTO
   modificationRequestType?: ModificationRequestVariants['type']
+  forceNoAuthority?: true
 }
 
-export interface GetModificationRequestListForUser {
-  (deps: GetModificationRequestListForUserDeps): ResultAsync<
-    PaginatedList<ModificationRequestListItemDTO>,
-    InfraNotAvailableError
-  >
-}
+export type GetModificationRequestListForUser = (
+  filter: GetModificationRequestListForUserFilter
+) => ResultAsync<PaginatedList<ModificationRequestListItemDTO>, InfraNotAvailableError>

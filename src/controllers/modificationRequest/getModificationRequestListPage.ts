@@ -8,17 +8,19 @@ import { Pagination } from '../../types'
 import { ModificationRequestListPage } from '@views'
 import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'
+import { userIs } from '@modules/users'
 
 const getModificationRequestListPage = asyncHandler(async (request, response) => {
   const { user, cookies, query } = request
 
-  let {
+  const {
     appelOffreId,
     periodeId,
     familleId,
     recherche,
     modificationRequestStatus,
     modificationRequestType,
+    showOnlyDGEC = 'true',
     pageSize,
   } = query as any
 
@@ -29,12 +31,6 @@ const getModificationRequestListPage = asyncHandler(async (request, response) =>
 
   const pagination = makePagination(query, defaultPagination)
   const appelsOffre = await appelOffreRepo.findAll()
-
-  if (!appelOffreId) {
-    // Reset the periodId and familleId if there is no appelOffreId
-    periodeId = undefined
-    familleId = undefined
-  }
 
   if (pageSize) {
     const MONTH_MILLISECONDS = 1000 * 60 * 60 * 24 * 30
@@ -48,11 +44,12 @@ const getModificationRequestListPage = asyncHandler(async (request, response) =>
     user,
     pagination,
     appelOffreId,
-    periodeId,
-    familleId,
+    ...(appelOffreId && { periodeId }),
+    ...(appelOffreId && { familleId }),
     recherche,
     modificationRequestStatus,
     modificationRequestType,
+    ...(userIs(['admin', 'dgec'])(user) && showOnlyDGEC !== 'true' && { forceNoAuthority: true }),
   }).match(
     (modificationRequests) =>
       response.send(
