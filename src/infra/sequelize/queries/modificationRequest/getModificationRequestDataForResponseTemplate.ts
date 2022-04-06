@@ -179,7 +179,10 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
               referenceParagrapheAchevement: periode.paragrapheAchevement,
               contenuParagrapheAchevement: appelOffre.contenuParagrapheAchevement,
               dateLimiteAchevementInitiale: formatDate(
-                +moment(notifiedOn).add(getDelaiDeRealisation(appelOffre, technologie), 'months')
+                +moment(notifiedOn)
+                  .add(getDelaiDeRealisation(appelOffre, technologie), 'months')
+                  .subtract(1, 'day'),
+                'DD/MM/YYYY'
               ),
               dateLimiteAchevementActuelle: formatDate(completionDueOn),
               dureeDelaiDemandeEnMois: delayInMonths.toString(),
