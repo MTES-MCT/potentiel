@@ -54,7 +54,7 @@ function getQualifiedProjects() {
         },
         details: {
           'Délai automatique Covid': {
-            [Op.not]: 'x',
+            [Op.notIn]: ['x', 'X'],
           },
         },
       },
