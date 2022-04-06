@@ -1,5 +1,5 @@
 import { Request } from 'express'
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import { AppelOffre } from '@entities'
 import { dataId } from '../../../helpers/testId'
 import { ModificationRequestListItemDTO } from '@modules/modificationRequest'
@@ -7,6 +7,7 @@ import ROUTES from '../../../routes'
 import { PaginatedList } from '../../../types'
 import { PageLayout, RoleBasedDashboard } from '../../components'
 import RequestList from '../../components/RequestList'
+import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers'
 
 type ModificationRequestListProps = {
   request: Request
@@ -16,6 +17,10 @@ type ModificationRequestListProps = {
 
 export const ModificationRequestList = PageLayout(
   ({ request, modificationRequests, appelsOffre }: ModificationRequestListProps) => {
+    const handleShowOnlyDGEC = (e: ChangeEvent<HTMLInputElement>) => {
+      refreshPageWithNewSearchParamValue('showOnlyDGEC', `${e.target.checked}`)
+    }
+
     const {
       error,
       success,
@@ -25,6 +30,7 @@ export const ModificationRequestList = PageLayout(
       familleId,
       modificationRequestStatus,
       modificationRequestType,
+      showOnlyDGEC = 'true',
     } = (request.query as any) || {}
 
     const hasFilters =
@@ -190,6 +196,21 @@ export const ModificationRequestList = PageLayout(
                 </div>
               </div>
 
+              {['admin', 'dgec'].includes(request.user.role) && (
+                <div className="flex flex-row mt-5">
+                  <input
+                    id="showOnlyDGEC"
+                    name="showOnlyDGEC"
+                    type="checkbox"
+                    checked={showOnlyDGEC === 'true' ? true : false}
+                    onChange={handleShowOnlyDGEC}
+                  />
+                  <label htmlFor="showOnlyDGEC">
+                    Afficher seulement les demandes adressées à la DGEC
+                  </label>
+                </div>
+              )}
+
               {hasFilters ? (
                 <a style={{ marginTop: 10 }} href="#" {...dataId('resetSelectors')}>
                   Retirer tous les filtres
@@ -217,3 +238,5 @@ export const ModificationRequestList = PageLayout(
     )
   }
 )
+
+hydrateOnClient(ModificationRequestList)
