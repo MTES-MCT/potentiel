@@ -39,18 +39,13 @@ const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
             <th>Projet</th>
             <th>Type</th>
             <th>Statut</th>
-            {requestActions ? <th></th> : ''}
+            {requestActions ? <th></th> : null}
           </tr>
         </thead>
         <tbody>
           {modificationRequests.items.map((modificationRequestItem) => {
-            const {
-              project,
-              requestedBy,
-              requestedOn,
-              status,
-              ...modificationRequest
-            } = modificationRequestItem
+            const { project, requestedBy, requestedOn, status, ...modificationRequest } =
+              modificationRequestItem
             return (
               <tr
                 key={'modificationRequest_' + modificationRequest.id}
@@ -76,7 +71,7 @@ const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
                     }}
                     {...dataId('requestList-item-famille')}
                   >
-                    {project.familleId?.length ? `famille ${project.familleId}` : ''}
+                    {project.familleId?.length ? `famille ${project.familleId}` : null}
                   </div>
                 </td>
                 <td valign="top">
@@ -124,9 +119,7 @@ const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
                       <span>
                         {modificationRequest.puissance} {project.unitePuissance}
                       </span>
-                    ) : (
-                      ''
-                    )}
+                    ) : null}
                   </div>
                   <div
                     style={{
@@ -140,7 +133,7 @@ const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
                     modificationRequest.type === 'delai' ||
                     modificationRequest.type === 'fournisseur'
                       ? modificationRequest?.justification
-                      : ''}
+                      : null}
                   </div>
                   <div
                     style={{
@@ -160,9 +153,7 @@ const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
                       >
                         Télécharger la pièce-jointe
                       </a>
-                    ) : (
-                      ''
-                    )}
+                    ) : null}
                   </div>
                 </td>
                 <td
@@ -202,9 +193,7 @@ const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
                       )}
                     </ul>
                   </td>
-                ) : (
-                  ''
-                )}
+                ) : null}
               </tr>
             )
           })}
