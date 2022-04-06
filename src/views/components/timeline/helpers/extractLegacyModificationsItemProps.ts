@@ -1,6 +1,5 @@
 import { is, ProjectEventDTO } from '@modules/frise/dtos'
 import { LegacyModificationStatus } from 'src/modules/modificationRequest'
-import { or } from '../../../../core/utils'
 
 export type LegacyModificationsItemProps = {
   type: 'modification-historique'
@@ -50,7 +49,7 @@ export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) =
     return []
   }
 
-  let propsArray: LegacyModificationsItemProps[] = []
+  const propsArray: LegacyModificationsItemProps[] = []
 
   const legacyFiles = events.filter(is('LegacyModificationFileAttached'))
   const getCourrier = (filename: string | undefined): { id: string; name: string } | undefined => {
@@ -61,6 +60,7 @@ export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) =
   }
 
   for (const event of legacyModificationEvents) {
+    const courrier = getCourrier(event.filename)
     switch (event.modificationType) {
       case 'abandon':
         propsArray.push({
@@ -68,7 +68,7 @@ export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) =
           date: event.date,
           status: event.status,
           modificationType: 'abandon',
-          courrier: getCourrier(event.filename),
+          courrier,
         })
         break
       case 'recours':
@@ -78,7 +78,7 @@ export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) =
           status: event.status,
           modificationType: 'recours',
           motifElimination: event.motifElimination,
-          courrier: getCourrier(event.filename),
+          courrier,
         })
         break
       case 'delai':
@@ -90,7 +90,7 @@ export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) =
             status: event.status,
             ancienneDateLimiteAchevement: event.ancienneDateLimiteAchevement,
             nouvelleDateLimiteAchevement: event.nouvelleDateLimiteAchevement,
-            courrier: getCourrier(event.filename),
+            courrier,
           })
         } else {
           propsArray.push({
@@ -98,7 +98,7 @@ export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) =
             date: event.date,
             modificationType: 'delai',
             status: event.status,
-            courrier: getCourrier(event.filename),
+            courrier,
           })
         }
         break
@@ -109,7 +109,7 @@ export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) =
           modificationType: 'actionnaire',
           actionnairePrecedent: event.actionnairePrecedent,
           status: event.status,
-          courrier: getCourrier(event.filename),
+          courrier,
         })
         break
       case 'producteur':
@@ -119,7 +119,7 @@ export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) =
           modificationType: 'producteur',
           producteurPrecedent: event.producteurPrecedent,
           status: event.status,
-          courrier: getCourrier(event.filename),
+          courrier,
         })
         break
       case 'autre':
@@ -130,7 +130,7 @@ export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) =
           column: event.column,
           value: event.value,
           status: event.status,
-          courrier: getCourrier(event.filename),
+          courrier,
         })
         break
     }
