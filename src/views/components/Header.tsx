@@ -94,10 +94,12 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
               style={{ color: `#000091` }}
             >
               <RiUserLine />
-              <span className="hidden lg:block pt-0.5 mx-1">{user.fullName}</span>
+              <span className="hidden lg:flex pt-0.5 mx-1">{user.fullName}</span>
             </a>
           ) : (
-            <span className="hidden lg:block" style={{ color: 'var(--text-default-grey)' }}>
+            <span 
+              className="hidden lg:flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid" 
+              style={{ color: 'var(--text-default-grey)' }}>
               <RiUserLine />
               <span className="pt-0.5 mx-1">{user.fullName}</span>
             </span>
