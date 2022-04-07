@@ -19,15 +19,7 @@ export const DemandeDelai = ({ project, delayInMonths, justification }: DemandeD
     <input
       type="text"
       disabled
-      defaultValue={formatDate(
-        +moment(project.notifiedOn)
-          .add(
-            project.appelOffre && getDelaiDeRealisation(project.appelOffre, project.technologie),
-            'months'
-          )
-          .subtract(1, 'day'),
-        'DD/MM/YYYY'
-      )}
+      defaultValue={formatDate(project.completionDueOn)}
       {...dataId('modificationRequest-presentServiceDateField')}
     />
     <label style={{ marginTop: 5 }} className="required" htmlFor="delayedServiceDate">
