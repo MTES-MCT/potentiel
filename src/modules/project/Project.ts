@@ -740,11 +740,6 @@ export const makeProject = (args: {
       return ok(null)
     },
     applyCovidDelay: function () {
-      // vérifier que la date de complétion actuelle est après le 12 mars 2020 inclus
-      if (props.completionDueOn < new Date('2020-03-12').getTime()) {
-        return err(new ProjectNotQualifiedForCovidDelay())
-      }
-
       const newCompletionDueOn = moment(props.completionDueOn).add(7, 'months').toDate().getTime()
 
       _publishEvent(

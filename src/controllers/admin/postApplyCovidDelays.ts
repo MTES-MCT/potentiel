@@ -26,7 +26,6 @@ v1Router.get(
     }
 
     const projectIds = result.value
-    console.log('ID des projets trouvés', projectIds)
 
     try {
       for (const projectId of projectIds) {
@@ -46,7 +45,7 @@ v1Router.get(
       })
     }
 
-    response.send('Les projets ont bien été prolongés')
+    response.send(`${projectIds.length} projets ont bien été prolongés de 7 mois`)
   })
 )
 
@@ -65,6 +64,9 @@ function getQualifiedProjects() {
           'Délai automatique Covid': {
             [Op.is]: null,
           },
+        },
+        completionDueOn: {
+          [Op.gte]: new Date('2020-03-12').getTime(),
         },
       },
     }),
