@@ -11,5 +11,9 @@ export const getLegacyModificationByFilename = async (
 
   if (!legacyModificationEvents.length) return []
 
-  return legacyModificationEvents.map((item: any) => item.projectId)
+  const projectIds = new Set<string>()
+  for (const item of legacyModificationEvents) {
+    projectIds.add((item as any).projectId)
+  }
+  return Array.from(projectIds)
 }
