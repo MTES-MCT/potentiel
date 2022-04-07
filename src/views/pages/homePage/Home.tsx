@@ -7,6 +7,7 @@ import { RiLogoutBoxLine } from '@react-icons/all-files/ri/RiLogoutBoxLine'
 import routes from '../../../routes'
 import { Header, Footer } from '../../components'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
+import { LinkButton } from '../../components/buttons'
 
 type Props = {
   request: Request
@@ -61,11 +62,15 @@ export const Home = (props: Props) => {
                   Bonjour {user.fullName}, nous sommes ravis de vous revoir.
                 </p>
                 <div className="flex flex-col md:flex-row w-full md:w-fit gap-3">
-                  <LinkButton href={routes.REDIRECT_BASED_ON_ROLE} primary={true}>
+                  <LinkButton
+                    className="lg:text-lg"
+                    href={routes.REDIRECT_BASED_ON_ROLE}
+                    primary={true}
+                  >
                     <RiDashboardLine className="mr-4" />
                     Voir {user.role === 'porteur-projet' ? 'mes' : 'les'} projets
                   </LinkButton>
-                  <LinkButton href={routes.LOGOUT_ACTION}>
+                  <LinkButton className="lg:text-lg" href={routes.LOGOUT_ACTION}>
                     <RiLogoutBoxLine className="mr-4" />
                     Me déconnecter
                   </LinkButton>
@@ -94,26 +99,6 @@ type ContainerProps = {
 }
 const Container = ({ className, children }: ContainerProps) => (
   <div className={`flex xl:mx-auto xl:max-w-7xl ${className}`}>{children}</div>
-)
-
-type LinkButtonProps = {
-  href: string
-  className?: string
-  children?: React.ReactNode
-  primary?: true
-}
-const LinkButton = ({ href, className, children, primary }: LinkButtonProps) => (
-  <a
-    className={`no-underline inline-flex items-center px-6 py-3 border border-solid text-base lg:text-lg font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 ${
-      primary
-        ? 'border-transparent text-white bg-blue-france-sun-base hover:bg-blue-france-sun-hover focus:bg-blue-france-sun-active'
-        : 'border-blue-france-sun-base text-blue-france-sun-base bg-white hover:bg-blue-france-975-base focus:bg-blue-france-975-base'
-    } ${className}`}
-    style={{ color: primary ? 'white' : '#000091', textDecoration: 'none' }}
-    href={href}
-  >
-    {children}
-  </a>
 )
 
 hydrateOnClient(Home)

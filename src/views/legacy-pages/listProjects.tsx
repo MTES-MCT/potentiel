@@ -9,8 +9,9 @@ import { RoleBasedDashboard } from '../components'
 import { DownloadIcon } from '../components/DownloadIcon'
 import ProjectList from '../components/ProjectList'
 import { RiFileExcel2Line } from '@react-icons/all-files/ri/RiFileExcel2Line'
+import { LinkButton } from '../components/buttons'
 
-interface ListProjectsProps {
+type ListProjectsProps = {
   request: Request
   projects?: PaginatedList<Project>
   appelsOffre: Array<AppelOffre>
@@ -313,20 +314,16 @@ export default function ListProjects({
                   projets{' '}
                 </span>
               )}
-              <form
-                className="m-0 inline md:ml-auto"
-                action={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(
+              <LinkButton
+                className="m-0 md:ml-auto"
+                href={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(
                   request.query as any
                 )}`}
+                download
               >
-                <button
-                  className="button"
-                  style={{ margin: 0, paddingLeft: '1rem', paddingRight: '1rem' }}
-                >
-                  Télécharger un export
-                  <RiFileExcel2Line className="ml-2 h-4 w-4" />
-                </button>
-              </form>
+                Télécharger un export
+                <RiFileExcel2Line className="ml-2 h-4 w-4" />
+              </LinkButton>
             </div>
             <ProjectList
               displayColumns={[
