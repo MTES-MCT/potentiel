@@ -18,10 +18,15 @@ v1Router.get(
     const result = await getQualifiedProjects()
 
     if (result.isErr()) {
-      return errorResponse({ response, request })
+      return errorResponse({
+        response,
+        request,
+        customMessage: 'Impossible de retrouver les projets éligibles',
+      })
     }
 
     const projectIds = result.value
+    console.log('ID des projets trouvés', projectIds)
 
     try {
       for (const projectId of projectIds) {
@@ -34,7 +39,11 @@ v1Router.get(
       }
     } catch (e) {
       logger.error(e)
-      return errorResponse({ response, request })
+      return errorResponse({
+        response,
+        request,
+        customMessage: 'Impossible de modifier les projets',
+      })
     }
 
     response.send('Les projets ont bien été prolongés')
