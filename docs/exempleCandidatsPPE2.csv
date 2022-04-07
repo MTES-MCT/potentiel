@@ -1,0 +1,200 @@
+N°CRE;Appel d'offres;Période;Famille;Candidat;Nom projet;Puissance installé du projet indiquée au B. du formulaire de candidature (MWc);Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh);Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc);Note prix;Note carbone;Note environnementale;Note totale;Nom (personne physique) ou raison sociale (personne morale) :;Nature du candidat;Numéro SIREN ou SIRET*;Code NACE;Type entreprise;Société mère;Région d'implantation;Adresse;Nom et prénom du représentant légal;Titre du représentant légal;Nom et prénom du contact;Société du contact;Titre du contact;Adresse postale du contact;Adresse électronique du contact;Téléphone;Nom du projet;Famille de candidature;Numéro SIRET de l'installation;N°, voie, lieu-dit;CP;Commune;Département;Région;Deuxième commune si le projet est implanté sur deux communes;Puissance installée (MWc);Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (degrés);Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (minutes);Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (secondes);"Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude
+(degrés)";"Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude
+(minutes)";"Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude
+(secondes)";Prix de référence (€/MWh);Valeur de l’évaluation carbone des modules (kg eq CO2/kWc);Financement collectif (Oui/Non);Part minimale du financement collectif (%);Origine du financement collectif;Gouvernance partagée (Oui/Non);Niveau d'engagement gouvernance partagée (%);Type d'utorisation d'Urbanisme (pièce n°3);Numéro de l'autorisation d'urbanisme;Date d'obtention de l'autorisation d'urbanisme;Commentaire si plusieurs autorisation d'urbanisme;Dépôt 1ère périodes précédentes ? 1;Dépôt 1ère périodes précédentes ? 2;Dépôt 1ère périodes précédentes ? 3;Date d'obtention du CETI;"Type de terrain d'implantation 
+(pièce n°3)";"Types Cas 3 
+(pièce n°3)";Surface projetée au sol de l’ensemble des Capteurs solaires (ha);Surface du Terrain d’implantation (ha);Typologie de projet;Ensoleillement de référence (kWh/m²/an);"Nb d'aérogénérateurs
+(AO éolien)";Puissance unitaire des aérogénérateurs (AO éolien);"Diamètre du rotor (m)
+(AO éolien)";"Hauteur bout de pâle (m)
+(AO éolien)";Technologie (AO éolien);Installation renouvellée (AO éolien);Référence du dossier de raccordement*;Date de mise en service du raccordement attendue (mm/aaaa);Capacité du raccordement (kW);"Type de consommateur associé
+(AO autoconsommation)";"Nature et nombre du ou des consommateur(s)
+(AO autoconsommation)";Nom et prénom du signataire du formulaire;"date
+(candidature)";"heure
+(candidature)";"Reference Pli
+(candidature)";Respect de toutes les conditions d'admissibilité ?;;Suspicion de doublon ? Colonnes DL à DP;Vérif précédentes périodes (colonnes BC à BE);Suspicion de 250m ? Colonnes DL à DP;Avis admissibilité du projet;Identification du candidat (pièce n°1);Comm identification du candidat;Avis identification du candidat;Comm 1 formulaire de candidature;Comm2 formulaire de candidature;Avis formulaire de candidature;;;;;;Comm 1 garanties financières (Pièce n°5);Montant garanties financières (Pièce n°5);Vérification montant garanties financières (Pièce n°5);Date d'effet garanties financières (Pièce n°5);Avis garanties financières (Pièce n°5);;;;;;;;;;;;;;;;;Classé ?;;;;;;;;;;"Technologie
+(dispositif de production)";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Technologie (Modules ou films);"Référence commerciale 
+(Modules ou films)";"Nom du fabricant 
+(Modules ou films) 1";"Nom du fabricant 
+(Modules ou films) 2";"Nom du fabricant 
+(Modules ou films) 3";"Nom du fabricant 
+(Modules ou films) 4";"Nom du fabricant 
+(Modules ou films) 5";"Lieu(x) de fabrication 
+(Modules ou films) 1";"Lieu(x) de fabrication 
+(Modules ou films) 2";"Lieu(x) de fabrication 
+(Modules ou films) 3";"Lieu(x) de fabrication 
+(Modules ou films) 4";"Lieu(x) de fabrication 
+(Modules ou films) 5";"Puissance crête (Wc) 
+(Modules ou films)";"Rendement nominal 
+(Modules ou films)";Nom du fabricant (Cellules) 1;Nom du fabricant (Cellules) 2;Nom du fabricant (Cellules) 3;Nom du fabricant (Cellules) 4;Nom du fabricant (Cellules) 5;Lieu(x) de fabrication (Cellules) 1;Lieu(x) de fabrication (Cellules) 2;Lieu(x) de fabrication (Cellules) 3;Lieu(x) de fabrication (Cellules) 4;Lieu(x) de fabrication (Cellules) 5;"Nom du fabricant 
+(Plaquettes de silicium (wafers)) 1";"Nom du fabricant 
+(Plaquettes de silicium (wafers)) 2";"Nom du fabricant 
+(Plaquettes de silicium (wafers)) 3";"Nom du fabricant 
+(Plaquettes de silicium (wafers)) 4";"Nom du fabricant 
+(Plaquettes de silicium (wafers)) 5";"Lieu(x) de fabrication 
+(Plaquettes de silicium (wafers)) 1";"Lieu(x) de fabrication 
+(Plaquettes de silicium (wafers)) 2";"Lieu(x) de fabrication 
+(Plaquettes de silicium (wafers)) 3";"Lieu(x) de fabrication 
+(Plaquettes de silicium (wafers)) 4";"Lieu(x) de fabrication 
+(Plaquettes de silicium (wafers)) 5";"Nom du fabricant 
+(Polysilicium) 1";"Nom du fabricant 
+(Polysilicium) 2";"Nom du fabricant 
+(Polysilicium) 3";"Nom du fabricant 
+(Polysilicium) 4";"Nom du fabricant 
+(Polysilicium) 5";"Lieu(x) de fabrication 
+(Polysilicium) 1";"Lieu(x) de fabrication 
+(Polysilicium) 2";"Lieu(x) de fabrication 
+(Polysilicium) 3";"Lieu(x) de fabrication 
+(Polysilicium) 4";"Lieu(x) de fabrication 
+(Polysilicium) 5";"Nom du fabricant 
+(Postes de conversion) 1";"Nom du fabricant 
+(Postes de conversion) 2";"Nom du fabricant 
+(Postes de conversion) 3";"Nom du fabricant 
+(Postes de conversion) 4";"Nom du fabricant 
+(Postes de conversion) 5";"Lieu(x) de fabrication 
+(Postes de conversion) 1";"Lieu(x) de fabrication 
+(Postes de conversion) 2";"Lieu(x) de fabrication 
+(Postes de conversion) 3";"Lieu(x) de fabrication 
+(Postes de conversion) 4";"Lieu(x) de fabrication 
+(Postes de conversion) 5";"Technologie 
+(Dispositifs de stockage de l’énergie *)";"Nom du fabricant 
+(Dispositifs de stockage de l’énergie *) 1";"Nom du fabricant 
+(Dispositifs de stockage de l’énergie *) 2";"Nom du fabricant 
+(Dispositifs de stockage de l’énergie *) 3";"Nom du fabricant 
+(Dispositifs de stockage de l’énergie *) 4";"Nom du fabricant 
+(Dispositifs de stockage de l’énergie *) 5";"Lieu(x) de fabrication 
+(Dispositifs de stockage de l’énergie *) 1";"Lieu(x) de fabrication 
+(Dispositifs de stockage de l’énergie *) 2";"Lieu(x) de fabrication 
+(Dispositifs de stockage de l’énergie *) 3";"Lieu(x) de fabrication 
+(Dispositifs de stockage de l’énergie *) 4";"Lieu(x) de fabrication 
+(Dispositifs de stockage de l’énergie *) 5";"Technologie 
+(Dispositifs de suivi de la course du soleil *)";"Nom du fabricant 
+(Dispositifs de suivi de la course du soleil *) 1";"Nom du fabricant 
+(Dispositifs de suivi de la course du soleil *) 2";"Nom du fabricant 
+(Dispositifs de suivi de la course du soleil *) 3";"Nom du fabricant 
+(Dispositifs de suivi de la course du soleil *) 4";"Nom du fabricant 
+(Dispositifs de suivi de la course du soleil *) 5";"Lieu(x) de fabrication 
+(Dispositifs de suivi de la course du soleil *) 1";"Lieu(x) de fabrication 
+(Dispositifs de suivi de la course du soleil *) 2";"Lieu(x) de fabrication 
+(Dispositifs de suivi de la course du soleil *) 3";"Lieu(x) de fabrication 
+(Dispositifs de suivi de la course du soleil *) 4";"Lieu(x) de fabrication 
+(Dispositifs de suivi de la course du soleil *) 5";"Référence commerciale 
+(Autres technologies)";"Nom du fabricant 
+(Autres technologies) 1";"Nom du fabricant 
+(Autres technologies) 2";"Nom du fabricant 
+(Autres technologies) 3";"Nom du fabricant 
+(Autres technologies) 4";"Nom du fabricant 
+(Autres technologies) 5";"Lieu(x) de fabrication 
+(Autres technologies) 1";"Lieu(x) de fabrication 
+(Autres technologies) 2";"Lieu(x) de fabrication 
+(Autres technologies) 3";"Lieu(x) de fabrication 
+(Autres technologies) 4";"Lieu(x) de fabrication 
+(Autres technologies) 5";;;;;;;;;;;;;;"Coût total du lot (M€)
+(Développement)";"Coût total du lot (M€)
+(Modules ou films)";"Coût total du lot (M€)
+(Cellules)";"Coût total du lot (M€)
+(Plaquettes de silicium (wafers))";"Coût total du lot (M€)
+(Polysilicium)";"Coût total du lot (M€)
+(Postes de conversion)";"Coût total du lot (M€)
+(Structure)";"Coût total du lot (M€)
+(Dispositifs de stockage de l’énergie *)";"Coût total du lot (M€)
+(Dispositifs de suivi de la course du soleil *)";"Coût total du lot (M€)
+(Autres technologies)";"Coût total du lot (M€)
+(Installation et mise en service )";"Coût total du lot (M€)
+(raccordement)";"Contenu local français (%)
+(Développement)";"Contenu local français (%)
+(Modules ou films)";"Contenu local français (%)
+(Cellules)";"Contenu local français (%)
+(Plaquettes de silicium (wafers))";"Contenu local français (%)
+(Polysilicium)";"Contenu local français (%)
+(Postes de conversion)";"Contenu local français (%)
+(Structure)";"Contenu local français (%)
+(Dispositifs de stockage de l’énergie *)";"Contenu local français (%)
+(Dispositifs de suivi de la course du soleil *)";"Contenu local français (%)
+(Autres technologies)";"Contenu local français (%)
+(Installation et mise en service) ";"Contenu local français (%)
+(raccordement)";"Contenu local européen (%)
+(Développement)";"Contenu local européen (%)
+(Modules ou films)";"Contenu local européen (%)
+(Cellules)";"Contenu local européen (%)
+(Plaquettes de silicium (wafers))";"Contenu local européen (%)
+(Polysilicium)";"Contenu local européen (%)
+(Postes de conversion)";"Contenu local européen (%)
+(Structure)";"Contenu local européen (%)
+(Dispositifs de stockage de l’énergie *)";"Contenu local européen (%)
+(Dispositifs de suivi de la course du soleil *)";"Contenu local européen (%)
+(Autres technologies)";"Contenu local européen (%)
+(Installation et mise en service)";"Contenu local européen (%)
+(raccordement)";"Contenu local développement :
+Commentaires";Puissance cumulée;Motif d'élimination;"Territoire
+(AO ZNI)";"Note innovation
+(AO innovation)";Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (cardinal);"Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude
+(cardinal)";"Taux occupation toiture
+(AO autoconsommation)";"Engagement de fourniture de puissance à la pointe
+(AO ZNI)";Terrain d’implantation bénéficie de la dérogation sur le c) du Cas 2 du 2.6;"Contenu local Fabrication de composants et assemblage :
+Commentaires";Coût des modules €/Wc;"Nom du fabricant 
+(Structure)";"Lieu(x) de fabrication 
+(Structure)";"Commentaires contenu local
+(Installation et mise en service)";"Contenu local TOTAL :
+coût total (M€)";Contenu local TOTAL français (%);Contenu local TOTAL européen (%);"Contenu local TOTAL :
+Commentaires";Productible annuel (MWh/an);Facteur de charges (kWh/kWc);Montant estimé du raccordement (k€);Raccordement € / kWc;Investissement total (k€); dont quantité de fonds propres (k€) ;dont quantité d'endettement  (k€);dont quantité de subventions à l'investissement  (k€);dont quantité d'autres avantages financiers  (k€);Location (€/an/MWc);"CAPEX Moyen
+(k€ / MWc)";"Condition d'admissibilité ?
+(AO éolien)";"Investissement ou financement participatif
+(Oui/non) ?";Investissement ou financement participatif ?;€/MWh bonus participatif;"Note degré d’innovation (/20pt)
+(AO innovation)";"Commentaire final sur note degré d’innovation
+(AO innovation)";"Nom de l'innovation (ADEME)
+(AO innovation)";"Type de l'innovation (ADEME)
+(AO innovation)";"Note synergie avec l'usage agricole (/10pt)
+(AO Innovation)";"Commentaire final sur note synergie avec l'usage agricole 
+(AO Innovation)";"Note positionnement sur le marché (/10pt)
+(AO innovation)";"Commentaire final sur note positionnement sur le marché 
+(AO innovation)";"Note qualité technique (/5pt)
+(AO innovation)";"Commentaire final sur note qualité technique
+(AO innovation)";"Note adéquation du projet avec les ambitions industrielles (/5pt)
+(AO innovation)";"Commentaire final sur note adéquation du projet avec les ambitions industrielles
+(AO innovation)";"Note aspects environnementaux et sociaux (/5pt)
+(AO innovation)";"Commentaire final sur note aspects environnementaux et sociaux
+(AO innovation)";Respect de toutes les conditions d'admissibilité ?;Suspicion de doublon ? ;Oui projet ;Suspicion de 500m inter-famille ? ;Avis admissibilité;"Comm 1 
+(pièce n°1)";"Comm 2 
+(pièce n°1)";"Avis 
+(pièce n°1)";"Comm 1 
+(pièce n°2)";"Comm 2 
+(pièce n°2)";"Avis 
+(pièce n°2)";"Période visée par certificat d'éligibilité du terrain 
+(pièce n°3)";"Comm 1 
+(pièce n°3)";"Comm 2
+(pièce n°3)";"Avis 
+(pièce n°3)";"Comm 1
+(pièce n°4 AO innovation)";"Comm 2
+(pièce n°4 AO innovation)";"Avis
+(pièce n°4 AO innovation)";"Comm 1
+(pièce n°5 AO innovation)";"Comm 2
+(pièce n°5 AO innovation)";"Avis
+(pièce n°5 AO innovation)";"Date 
+(pièce n°4)";"Comm 2 
+(pièce n°4)";"Avis 
+(pièce n°4)";"Comm 1 
+(pièce n°6)";"Comm 2 
+(pièce n°6)";"Avis 
+(pièce n°6)";"Oui/non ? 
+(pièce n°7)";"Comm 1 
+(pièce n°7)";"Comm 2 
+(pièce n°7)";"Avis 
+(pièce n°7)";"Comm 1 
+(Délégation de signature)";"Comm 2 
+(Délégation de signature)";"Avis 
+(Délégation de signature)";Commentaire final;Avis final;Avis final CRE + ADEME;Prix Majoré;"Codes cas
+(AO sol)";"Codes cas
+(AO sol)";"Codes cas
+(AO sol)";Nom projet (doublon);CP (doublon);Commune (doublon);Modifications;Statut;Notification;Commentaires;;Type de modification 1;Date de modification 1;Colonne concernée 1;Ancienne valeur 1;Type de modification 2;Date de modification 2;Colonne concernée 2;Ancienne valeur 2;Type de modification 3;Date de modification 3;Colonne concernée 3;Ancienne valeur 3;Type de modification 4;Date de modification 4;Colonne concernée 4;Ancienne valeur 4;Type de modification 5;Date de modification 5;Colonne concernée 5;Ancienne valeur 5
+test-51;PPE2 - Bâtiment;1;;SD3B;Centrale PV 51;2,615;1;500;63,91;3,57;;67,48;SD3B;Personne morale;;;PME;DGEC;Ile-de-France;58 rue de Sèvres 92100 Boulogne-Billancourt;Valentin COGNITO;Gérant;Jean-Luc LASSUS;SD3B;Directeur du développement;1 place carpeaux;porteur@test.test;;Centrale PV 51;;;1 place carpeaux;92055;PUTEAUX;Hauts de Seine;Ile-de-France;;2,615;;;;;;;1;500;Non;;;Non;;Déclaration préalable de travaux;;;;;;;;;;;;Bâtiment;1025;;;;;;;;;;;;;;;;oui;Bâtiment;;;;Favorable;Kbis;;Favorable;;;Favorable;Déclaration préalable de travaux;;;AMD;Favorable;GPD;78455;30001,91205;21/10/2021;Favorable;;Favorable;Non;0%;0;;Non;0%;;Favorable;oui;Favorable;;Favorable;;Retenu;Classé;;1;1;1;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;;;;;;;;;;;;;;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;#N/A;2,615;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+test-49;PPE2 - Bâtiment;1;;SD3B;Centrale PV 49;1,589;1;424;51,8;9;;62,8;SD3B;Personne morale;;;PME;DGEC;Ile-de-France;58 rue de Sèvres 92100 Boulogne-Billancourt;Valentin COGNITO;Président;Jean-Luc LASSUS;SD3B;Directeur du développement;1 place carpeaux;porteur@test.test;;Centrale PV 49;;;1 place carpeaux;92055;PUTEAUX;Hauts de Seine;Ile-de-France;;1,589;;;;;;;1;424;Oui;10%;Au moins 20 personnes physiques;Non;;Permis de construire;;;;;;;; ;;;;Ombrière de parking;1384;;;;;;;;;;;;;;;;oui;Ombrière de parking;;;;Favorable;Kbis;;Favorable;;;Favorable;Permis de construire;;;AMD;Favorable;GPD;47670;30000;21/01/2022;Favorable;;Favorable;Oui;10%;Au moins 20 personnes physiques;;Non;0%;;Favorable;s.o.;Favorable;;Favorable;;Retenu;Classé;;3;1;1;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Silicium monocristallin;123;MODULE PV;0;0;0;0;Chine;0;0;0;0;405;0,211;CELLULE PV;0;0;0;0;Chine;0;0;0;0;PLAQUETTE PV;0;0;0;0;Allemagne;0;0;0;0;POLYSI PV;0;0;0;0;Norvège;0;0;0;0;CONVERT PV;0;0;0;0;Chine;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;;;;;;;;;;;;;;0,021;0,446203;0;0;0;0,05;0,563728;0;0;0;0,0556664;0,104194;1;0;0;0;0;0;0;0;0;0;1;1;1;0;0;0;0;0;1;0;0;0;1;1;"Ces montants sont donnés avec les données disponibles à ce jour pour le porteur de projet. Toutes les informations ne sont pas disponibles.
+
+Le prix des modules comprend l'ensemble des sous-lots (pas de détails disponible pour le candidat)";4,204;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+test-45;PPE2 - Bâtiment;1;;SD3B;Centrale PV 45;1,7;1;474;54,81;5,43;;62,24;SD3B;Personne morale;;;PME;DGEC;Ile-de-France;58 rue de Sèvres 92100 Boulogne-Billancourt;Valentin COGNITO;Président;Jean-Luc LASSUS;SD3B;Directeur du développement;1 place carpeaux;porteur@test.test;;Centrale PV 45;;;1 place carpeaux;92055;PUTEAUX;Hauts de Seine;Ile-de-France;;1,7;;;;;;;1;474;Oui;10%;Au moins 20 personnes physiques;Non;;Permis de construire;;;;;;;; ;;;;Ombrière de parking;1789;;;;;;;;;;;;;;;;;Ombrière de parking;;;;Favorable;Kbis;;Favorable;;;Favorable;Permis de construire;;;;Favorable;GPD;51000;30000;;Favorable;;Favorable;Oui;10%;Au moins 20 personnes physiques;;Non;0%;;Favorable;oui;Favorable;;Favorable;;Retenu;Classé;;2;1;1;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Silicium monocristallin;456;MODULE PV;0;0;0;0;Corée du Sud;0;0;0;0;385;0,196;CELLULE PV;0;0;0;0;Corée du Sud;0;0;0;0;PLAQUETTE PV;0;0;0;0;Corée du Sud;0;0;0;0;POLYSI PV;0;0;0;0;Corée du Sud;0;0;0;0;CONVERT PV;0;0;0;0;Chine;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;;;;;;;;;;;;;;0;442000;0;0;0;44200;487000;0;0;0;817111;294275;0;0;0;0;0;0;1;0;0;0;1;1;0;0;0;0;0;0;0;0;0;0;0;0;0;5,904;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+test-54;PPE2 - Sol;1;;SD3B;Centrale PV 54;3,05;1;500;57,83;3,57;;61,4;SD3B;Personne morale;;;PME;DGEC;Ile-de-France;58 rue de Sèvres 92100 Boulogne-Billancourt;Valentin COGNITO;Gérant;Jean-Luc LASSUS;SD3B;Directeur du développement;1 place carpeaux;porteur@test.test;;Centrale PV 54;;;1 place carpeaux;92055;PUTEAUX;Hauts de Seine;Ile-de-France;;3,05;;;;;;;1;500;;;;;;Permis de construire;;;;;;;; ;;;;Serre;1250;;;;;;;;;;;;;;;;oui;Serre;;;;Favorable;Kbis;;Favorable;;;Favorable;Permis de construire;;;AMD;Favorable;CDC;91500;30000;12/10/2021;Favorable;;Favorable;0;0%;0;;0;0%;;Favorable;oui;Favorable;;Favorable;;Retenu;Classé;;1;1;1;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Silicium monocristallin;789;MODULE PV;0;0;0;0;Thaïlande;Chine;0;0;0;410;0,21;CELLULE PV;0;0;0;0;Thaïlande;Chine;0;0;0;PLAQUETTE PV;0;0;0;0;Chine;0;0;0;0;POLYSI PV;0;0;0;0;Allemagne;0;0;0;0;CONVERT PV;0;0;0;0;Chine;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;;;;;;;;;;;;;;0,126;1,078;0;0;0;0,086;0,012;0;0;0;0,622;0,6;1;0;0;0;0;0;0;0;0;0;1;1;1;0,34;0;0;1;0;0,1;0;0;0;1;1;0;8,954;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+test-87;PPE2 - Sol;1;;SD3B;Centrale PV 87;12,849;1;450;50,52;7,14;;59,66;SD3B;Personne morale;;;PME;DGEC;Ile-de-France;58 rue de Sèvres 92100 Boulogne-Billancourt;Valentin COGNITO;Président;Jean-Luc LASSUS;SD3B;Directeur du développement;1 place carpeaux;porteur@test.test;;Centrale PV 87;;;1 place carpeaux;92055;PUTEAUX;Hauts de Seine;Ile-de-France;;12,849;;;;;;;1;450;Oui;10%;Au moins 20 personnes physiques;Non;;Permis de construire;;;;;;;; ;;;;Bâtiment;1163;;;;;;;;;;;;;;;;oui;Bâtiment;;;;Favorable;Kbis;;Favorable;;;Favorable;Permis de construire;;;;Favorable;GPD;387000;30119,07541;21/01/2022;Favorable;;Favorable;Oui;10%;Au moins 20 personnes physiques;;Non;0%;;Favorable;s.o.;Favorable;;Favorable;;Retenu;Classé;;7;1;1;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Silicium monocristallin;789;MODULE PV;0;0;0;0;Chine;0;0;0;0;380;0,2086;CELLULE PV;0;0;0;0;Chine;0;0;0;0;PLAQUETTE PV;0;0;0;0;Chine;0;0;0;0;POLYSI PV;0;0;0;0;Etats-Unis;Chine;0;0;0;CONVERT PV;0;0;0;0;Chine;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;;;;;;;;;;;;;;0,08;0,4381;0,4381;0,65715;2,84765;0,36;1,49;0;0;0;2;1,82;1;0;0;0;0;0;1;0;0;0;0;1;1;0;0;0;0;0;1;0;0;0;1;1;0;21,803;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+test-41;PPE2 - Bâtiment;1;;SD3B;Centrale PV 41;1,795;1;450;50,25;7,14;;59,39;SD3B;Personne morale;;;PME;DGEC;Ile-de-France;58 rue de Sèvres 92100 Boulogne-Billancourt;Valentin COGNITO;Gérante;Jean-Luc LASSUS;SD3B;Directeur du développement;1 place carpeaux;porteur@test.test;;Centrale PV 41;;;1 place carpeaux;92055;PUTEAUX;Hauts de Seine;Ile-de-France;;1,79452;;;;;;;1;450;Oui;10%;Au moins 20 personnes physiques;Non;;Déclaration préalable de travaux;;;;;;;; ;;;;Bâtiment;1514;;;;;;;;;;;;;;;;oui;Bâtiment;;;;Favorable;Kbis;;Favorable;;;Favorable;Déclaration préalable de travaux;;;;Favorable;GF1 : Annexe 3 non-servie;;0;;Défavorable;;Favorable;Oui;10%;Au moins 20 personnes physiques;;Non;0%;;Favorable;s.o.;Favorable;;Défavorable;;Eliminé;Eliminé;;4;1;1;2;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Silicium monocristallin;789;MODULE PV;0;0;0;0;Thaïlande;0;0;0;0;455;0,2059;CELLULE PV;0;0;0;0;Thaïlande;0;0;0;0;PLAQUETTE PV;0;0;0;0;Thaïlande;0;0;0;0;POLYSI PV;0;0;0;0;Norvège;0;0;0;0;CONVERT PV;0;0;0;0;Chine;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;;;;;;;;;;;;;;0,125616;0,088649;0,132974;0,05901;0,099889;0,062808;0,44863;0;0;0;0,125616;0,05;1;0;0;0;0;0;1;0;0;0;1;1;1;0;0;0,2;0;0;1;0;0;0;1;1;0;21,803;Le candidat n’a pas fourni le document relatif à la garantie financière. L'offre a donc été éliminée en application des prescriptions du paragraphe 3.2.4 du cahier des charges;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+test-42;PPE2 - Bâtiment;1;;SD3B;Centrale PV 42;0,75;1;450;50,25;7,14;;59,39;SD3B;Personne morale;;;PME;DGEC;Ile-de-France;58 rue de Sèvres 92100 Boulogne-Billancourt;Valentin COGNITO;Président;Jean-Luc LASSUS;SD3B;Directeur du développement;1 place carpeaux;porteur@test.test;;Centrale PV 42;;;1 place carpeaux;92055;PUTEAUX;Hauts de Seine;Ile-de-France;;0,75016;;;;;;;1;450;Oui;10%;Au moins 20 personnes physiques;Non;;Permis de construire;;;;;;;; ;;;;Bâtiment;1703;;;;;;;;;;;;;;;;oui;Bâtiment;;;;Favorable;Kbis;;Favorable;;;Favorable;Permis de construire;;;AMD;Favorable;GF1 : Annexe 3 non-servie;;0;;Défavorable;;Favorable;Oui;10%;Au moins 20 personnes physiques;;Non;0%;;Favorable;oui;Favorable;;Défavorable;;Eliminé;Eliminé;;4;3;1;3;3;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Silicium monocristallin;789;MODULE PV;0;0;0;0;Thaïlande;0;0;0;0;455;0,2059;CELLULE PV;0;0;0;0;Thaïlande;0;0;0;0;PLAQUETTE PV;0;0;0;0;Thaïlande;0;0;0;0;POLYSI PV;0;0;0;0;Norvège;0;0;0;0;CONVERT PV;0;0;0;0;Chine;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;;;;;;;;;;;;;;0,052553;0,0339339;0,05090085;0,05090085;0,0339339;0,02627625;0,135135;0;0;0;0,0525525;0,05;1;0;0;0;0;0;1;0;0;0;1;1;1;0;0;0,2;0;0;1;0;0;0;1;1;0;21,803;Le candidat n’a pas fourni le document relatif à la garantie financière. L'offre a donc été éliminée en application des prescriptions du paragraphe 3.2.4 du cahier des charges;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+test-44;PPE2 - Bâtiment;1;;SD3B;Centrale PV 44;1,103;1;450;50,25;7,14;;59,39;SD3B;Personne morale;;;PME;DGEC;Ile-de-France;58 rue de Sèvres 92100 Boulogne-Billancourt;Valentin COGNITO;Président;Jean-Luc LASSUS;SD3B;Directeur du développement;1 place carpeaux;porteur@test.test;;Centrale PV 44;;;1 place carpeaux;92055;PUTEAUX;Hauts de Seine;Ile-de-France;;1,10292;;;;;;;1;450;Oui;10%;Au moins 20 personnes physiques;Non;;Permis de construire;;;;;;;; ;;;;Bâtiment;1687;;;;;;;;;;;;;;;;oui;Bâtiment;;;;Favorable;Kbis;;Favorable;;;Favorable;Permis de construire;;;AMD;Favorable;GF1 : Annexe 3 non-servie;;0;;Défavorable;;Favorable;Oui;10%;Au moins 20 personnes physiques;;Non;0%;;Favorable;oui;Favorable;;Défavorable;;Eliminé;Eliminé;;4;3;1;3;3;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Silicium monocristallin;789;MODULE PV;0;0;0;0;Thaïlande;0;0;0;0;455;0,2059;CELLULE PV;0;0;0;0;Thaïlande;0;0;0;0;PLAQUETTE PV;0;0;0;0;Thaïlande;0;0;0;0;POLYSI PV;0;0;0;0;Norvège;0;0;0;0;CONVERT PV;0;0;0;0;Chine;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;;;;;;;;;;;;;;0,10313;0,066592708;0,099889062;0,099889062;0,066592708;0,05156515;0,2651922;0;0;0;0,1031303;0,05;1;0;0;0;0;0;1;0;0;0;1;1;1;0;0;0,2;0;0;1;0;0;0;1;1;0;21,803;Le candidat n’a pas fourni le document relatif à la garantie financière. L'offre a donc été éliminée en application des prescriptions du paragraphe 3.2.4 du cahier des charges;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+test-26;PPE2 - Eolien;1;;SD3B;Centrale éolienne 26;3,59;1;450;50,22;7,14;;59,36;SD3B;Personne morale;;;PME;DGEC;Ile-de-France;58 rue de Sèvres 92100 Boulogne-Billancourt;Valentin COGNITO;Président;Jean-Luc LASSUS;SD3B;Directeur du développement;1 place carpeaux;porteur@test.test;;Centrale éolienne 26;;;1 place carpeaux;92055;PUTEAUX;Hauts de Seine;Ile-de-France;;3,59;;;;;;;1;450;Oui;10%;Au moins 20 personnes physiques;Non;;Permis de construire;;;;;;;; ;;;;Ombrière de parking;1414;;;;;;;;;;;;;;;;oui;Ombrière de parking;;;;Favorable;Kbis;;Favorable;;;Favorable;Permis de construire;;;AMD;Favorable;GPD;108000;30083,56546;21/01/2022;Favorable;;Favorable;Oui;10%;Au moins 20 personnes physiques;;Non;0%;;Favorable;s.o.;Favorable;;Favorable;;Retenu;Classé;;7;1;1;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Silicium monocristallin;789;MODULE PV;0;0;0;0;Chine;0;0;0;0;380;0,2086;CELLULE PV;0;0;0;0;Chine;0;0;0;0;PLAQUETTE PV;0;0;0;0;Chine;0;0;0;0;POLYSI PV;0;0;0;0;Etats-Unis;Chine;0;0;0;CONVERT PV;0;0;0;0;Chine;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;;;;;;;;;;;;;;0,048;0,11752;0,11752;0,17628;0,76388;0,09;0,28;0;0;0;1,01;0,3;1;0;0;0;0;0;0;0;0;0;0;1;1;0;0;0;0;0;1;0;0;0;1;1;0;25,393;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+test-43;PPE2 - Autoconsommation métropole;1;;SD3B;Centrale PV 43;1,103;1;450;50,22;7,14;;59,36;SD3B;Personne morale;;;PME;DGEC;Ile-de-France;58 rue de Sèvres 92100 Boulogne-Billancourt;Valentin COGNITO;Président;Jean-Luc LASSUS;SD3B;Directeur du développement;1 place carpeaux;porteur@test.test;;Centrale PV 43;;;1 place carpeaux;92055;PUTEAUX;Hauts de Seine;Ile-de-France;;1,10292;;;;;;;1;450;Oui;10%;Au moins 20 personnes physiques;Non;;Permis de construire;;;;;;;; ;;;;Bâtiment;1709;;;;;;;;;;;;;;;;oui;Bâtiment;;;;Favorable;Kbis;;Favorable;;;Favorable;Permis de construire;;;;Favorable;GF1 : Annexe 3 non-servie;;0;;Défavorable;;Favorable;Oui;10%;Au moins 20 personnes physiques;;Non;0%;;Favorable;oui;Favorable;;Défavorable;;Eliminé;Eliminé;;4;3;1;3;3;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Silicium monocristallin;789;MODULE PV;0;0;0;0;Thaïlande;0;0;0;0;455;0,2059;CELLULE PV;0;0;0;0;Thaïlande;0;0;0;0;PLAQUETTE PV;0;0;0;0;Thaïlande;0;0;0;0;POLYSI PV;0;0;0;0;Norvège;0;0;0;0;CONVERT PV;0;0;0;0;Chine;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;;;;;;;;;;;;;;0,077204;0,049851984;0,074777976;0,074777976;0,049851984;0,0386022;0,1985256;0;0;0;0,0772044;0,05;1;0;0;0;0;0;1;0;0;0;1;1;1;0;0;0,2;0;0;1;0;0;0;1;1;0;25,393;Le candidat n’a pas fourni le document relatif à la garantie financière. L'offre a donc été éliminée en application des prescriptions du paragraphe 3.2.4 du cahier des charges;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
