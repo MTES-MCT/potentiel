@@ -13,6 +13,7 @@ import {
   ProjectDCRDueDateSetDTO,
   ProjectPTFSubmittedDTO,
   ProjectCompletionDueDateSetDTO,
+  ProjectEventListDTO,
 } from '@modules/frise'
 
 export default { title: 'Project page' }
@@ -22,8 +23,8 @@ const appelOffre: ProjectAppelOffre | undefined = appelsOffreStatic.find(
 ) as ProjectAppelOffre
 if (appelOffre) appelOffre.periode = appelOffre.periodes[1]
 
-const projectEventList = {
-  project: { id: 'fake-project-id', isLaureat: true },
+const projectEventList: ProjectEventListDTO = {
+  project: { id: 'fake-project-id', status: 'Classé' },
   events: [
     {
       type: 'ProjectImported',

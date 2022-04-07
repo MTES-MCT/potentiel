@@ -11,6 +11,7 @@ import {
 import { InfraNotAvailableError } from '@modules/shared'
 import { PaginatedList } from '../../../../types'
 import models from '../../models'
+import { userIs } from '@modules/users'
 
 function _getPuissanceForAppelOffre(args: { appelOffreId; periodeId }): string {
   return getProjectAppelOffre(args)?.unitePuissance || 'unité de puissance'
@@ -48,49 +49,31 @@ export const getModificationRequestListForUser: GetModificationRequestListForUse
   modificationRequestStatus,
   pagination,
   recherche,
+  forceNoAuthority,
 }) => {
   return _getDrealRegionsForUser(user, models)
     .andThen((drealRegions) => {
-      const projectOpts: any = { where: {} }
-
-      if (recherche) {
-        projectOpts.where[Op.or] = { ...getFullTextSearchOptions(recherche) }
+      const projectOpts = {
+        where: {
+          ...(recherche && { [Op.or]: { ...getFullTextSearchOptions(recherche) } }),
+          ...(appelOffreId && { appelOffreId }),
+          ...(periodeId && { periodeId }),
+          ...(familleId && { familleId }),
+          ...(userIs('dreal')(user) && { regionProjet: drealRegions }),
+        },
       }
 
-      if (appelOffreId) {
-        projectOpts.where.appelOffreId = appelOffreId
-      }
-
-      if (periodeId) {
-        projectOpts.where.periodeId = periodeId
-      }
-
-      if (familleId) {
-        projectOpts.where.familleId = familleId
-      }
-
-      const opts: any = { where: { isLegacy: { [Op.or]: [false, null] } } }
-
-      if (user.role === 'porteur-projet') opts.where.userId = user.id
-      if (user.role === 'dreal') {
-        opts.where.authority = 'dreal'
-        projectOpts.where.regionProjet = drealRegions
-      }
-      if (user.role === 'admin' || user.role === 'dgec') {
-        opts.where.authority = 'dgec'
-      }
-
-      if (modificationRequestType) {
-        opts.where.type = modificationRequestType
-
-        if (user.role === 'admin' || user.role === 'dgec') {
-          // Admins can see any request (even dreals) when they set the type
-          delete opts.where.authority
-        }
-      }
-
-      if (modificationRequestStatus) {
-        opts.where.status = modificationRequestStatus
+      const opts = {
+        where: {
+          isLegacy: {
+            [Op.or]: [false, null],
+          },
+          ...(userIs('porteur-projet')(user) && { userId: user.id }),
+          ...(userIs('dreal')(user) && { authority: 'dreal' }),
+          ...(userIs(['admin', 'dgec'])(user) && !forceNoAuthority && { authority: 'dgec' }),
+          ...(modificationRequestType && { type: modificationRequestType }),
+          ...(modificationRequestStatus && { status: modificationRequestStatus }),
+        },
       }
 
       return wrapInfra(

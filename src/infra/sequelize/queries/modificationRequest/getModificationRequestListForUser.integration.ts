@@ -164,6 +164,19 @@ describe('Sequelize getModificationRequestListForUser', () => {
 
       expect(res._unsafeUnwrap().items[0]).toMatchObject({ actionnaire: 'target' })
     })
+
+    describe('when the noAuthority filter is true', () => {
+      it('should return all modification requests of all authorities', async () => {
+        const res = await getModificationRequestListForUser({
+          user: fakeUser,
+          pagination: { page: 0, pageSize: 10 },
+          forceNoAuthority: true,
+        })
+
+        expect(res.isOk()).toBe(true)
+        expect(res._unsafeUnwrap().itemCount).toEqual(2)
+      })
+    })
   })
 
   describe('when user is dreal', () => {

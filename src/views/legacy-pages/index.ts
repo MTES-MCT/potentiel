@@ -9,7 +9,6 @@ import DrealList from './drealList'
 import ImportCandidates from './importCandidates'
 import InvitationList from './invitationList'
 import NotificationList from './notificationList'
-import ModificationRequestList from './modificationRequestList'
 import InvitationsAreDeprecated from './invitationsAreDeprecated'
 import ListProjects from './listProjects'
 import SuccessOrError from './successOrError'
@@ -23,7 +22,6 @@ const ListProjectsPage = makePresenterPage(ListProjects)
 const DrealListPage = makePresenterPage(DrealList)
 const InvitationListPage = makePresenterPage(InvitationList)
 const NotificationListPage = makePresenterPage(NotificationList)
-const ModificationRequestListPage = makePresenterPage(ModificationRequestList)
 const SuccessOrErrorPage = makePresenterPage(SuccessOrError)
 const AdminAppelOffrePage = makePresenterPage(AdminAppelOffre)
 const AdminUsersPage = makePresenterPage(AdminUsers)
@@ -38,7 +36,6 @@ export {
   DrealListPage,
   InvitationListPage,
   NotificationListPage,
-  ModificationRequestListPage,
   SuccessOrErrorPage as SuccessPage,
   AdminAppelOffrePage,
   AdminUsersPage,
