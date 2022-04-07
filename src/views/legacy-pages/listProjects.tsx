@@ -310,20 +310,22 @@ export default function ListProjects({
             <div className="flex flex-col md:flex-row md:items-center py-2">
               {request.user.role !== 'dreal' && (
                 <span>
-                  <strong>{Array.isArray(projects) ? projects.length : projects.itemCount}</strong>{' '}
-                  projets{' '}
+                  <strong>{getProjectsCount(projects)}</strong> projets
                 </span>
               )}
-              <LinkButton
-                className="m-0 md:ml-auto"
-                href={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(
-                  request.query as any
-                )}`}
-                download
-              >
-                Télécharger un export
-                <RiFileExcel2Line className="ml-2 h-4 w-4" />
-              </LinkButton>
+
+              {getProjectsCount(projects) > 0 && (
+                <LinkButton
+                  className="m-0 md:ml-auto"
+                  href={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(
+                    request.query as any
+                  )}`}
+                  download
+                >
+                  Télécharger un export
+                  <RiFileExcel2Line className="ml-2 h-4 w-4" />
+                </LinkButton>
+              )}
             </div>
             <ProjectList
               displayColumns={[
@@ -345,3 +347,6 @@ export default function ListProjects({
     </RoleBasedDashboard>
   )
 }
+
+const getProjectsCount = (projects: PaginatedList<Project>): number =>
+  Array.isArray(projects) ? projects.length : projects.itemCount
