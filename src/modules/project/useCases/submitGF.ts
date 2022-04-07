@@ -25,7 +25,12 @@ type SubmitGFArgs = {
 
 export const makeSubmitGF =
   (deps: SubmitGFDeps) =>
-  (args: SubmitGFArgs): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
+  (
+    args: SubmitGFArgs
+  ): ResultAsync<
+    null,
+    InfraNotAvailableError | UnauthorizedError | GFCertificateHasAlreadyBeenSentError
+  > => {
     const { fileRepo, projectRepo, shouldUserAccessProject } = deps
     const { projectId, file, submittedBy, stepDate } = args
     const { filename, contents } = file
@@ -53,19 +58,26 @@ export const makeSubmitGF =
           return fileId
         }
       )
-      .andThen((fileId: string): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
-        return projectRepo.transaction(
-          new UniqueEntityID(projectId),
-          (
-            project: Project
-          ): ResultAsync<
-            null,
-            ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError
-          > => {
-            return project
-              .submitGarantiesFinancieres(stepDate, fileId, submittedBy)
-              .asyncMap(async () => null)
-          }
-        )
-      })
+      .andThen(
+        (
+          fileId: string
+        ): ResultAsync<
+          null,
+          InfraNotAvailableError | UnauthorizedError | GFCertificateHasAlreadyBeenSentError
+        > => {
+          return projectRepo.transaction(
+            new UniqueEntityID(projectId),
+            (
+              project: Project
+            ): ResultAsync<
+              null,
+              ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError
+            > => {
+              return project
+                .submitGarantiesFinancieres(stepDate, fileId, submittedBy)
+                .asyncMap(async () => null)
+            }
+          )
+        }
+      )
   }
