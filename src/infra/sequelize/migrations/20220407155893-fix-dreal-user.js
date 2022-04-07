@@ -6,9 +6,9 @@ module.exports = {
 
     try {
       await queryInterface.sequelize.query(
-        `DELETE FROM "userDreals" 
-         WHERE "userId" = '186dbf1e-fbb1-4f91-809b-1e8215aecbc9'
-         AND dreal = 'Auvergne-Rhône-Alpes'`,
+        `UPDATE "users" 
+         SET role = 'dreal'
+         WHERE "id" = '4181f87d-2ac2-4b00-bcf7-272e9a6bae4b'`,
         {
           type: queryInterface.sequelize.QueryTypes.DELETE,
           transaction,
