@@ -5,8 +5,9 @@ import { formatDate } from '../../../../helpers/formatDate'
 import { dataId } from '../../../../helpers/testId'
 import { ProjectDataForProjectPage } from '@modules/project/dtos'
 import ROUTES from '../../../../routes'
+import { Section } from '../components'
 
-interface EditProjectDataProps {
+type EditProjectDataProps = {
   project: ProjectDataForProjectPage
   request: Request
 }
@@ -29,7 +30,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
   }
 
   return (
-    <div>
+    <Section title="Modifier le projet" icon="building">
       <form
         action={ROUTES.ADMIN_CORRECT_PROJECT_DATA_ACTION}
         method="post"
@@ -306,6 +307,6 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
           Modifier
         </button>
       </form>
-    </div>
+    </Section>
   )
 }

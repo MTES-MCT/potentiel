@@ -32,27 +32,37 @@ export const ProjectHeader = ({ project, user, cahiersChargesURLs }: ProjectHead
         {project.communeProjet}, {project.departementProjet}, {project.regionProjet}
       </p>
       <div className="text-sm">{project.potentielIdentifier}</div>
-      <div className="text-sm">
-        Instruction des demandes selon les règles du{' '}
-        {project.newRulesOptIn ? (
-          cahiersChargesURLs?.newCahierChargesURL ? (
-            <a target="_blank" href={cahiersChargesURLs.newCahierChargesURL}>
-              cahier des charges modifié (option choisie par le candidat){' '}
-              <ExternalLinkIcon className="w-4" />
-            </a>
-          ) : (
-            `cahier des charges modifié (option choisie par le candidat)`
-          )
-        ) : cahiersChargesURLs?.oldCahierChargesURL ? (
-          <a target="_blank" href={cahiersChargesURLs.oldCahierChargesURL}>
-            cahier des charges initial (en vigueur à la candidature){' '}
-            <ExternalLinkIcon className="w-4" />
-          </a>
-        ) : (
-          `cahier des charges initial (en vigueur à la candidature)`
-        )}
-      </div>
+
+      <CDCInfo {...{ project, cahiersChargesURLs }} />
     </div>
     <NewProjectActions project={project} role={user.role} />
+  </div>
+)
+
+type CDCInfoProps = {
+  project: ProjectDataForProjectPage
+  cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
+}
+
+const CDCInfo = ({ project, cahiersChargesURLs }: CDCInfoProps) => (
+  <div className="text-sm">
+    Instruction des demandes selon les règles du{' '}
+    {project.newRulesOptIn ? (
+      cahiersChargesURLs?.newCahierChargesURL ? (
+        <a target="_blank" href={cahiersChargesURLs.newCahierChargesURL}>
+          cahier des charges modifié (option choisie par le candidat){' '}
+          <ExternalLinkIcon className="w-4" />
+        </a>
+      ) : (
+        `cahier des charges modifié (option choisie par le candidat)`
+      )
+    ) : cahiersChargesURLs?.oldCahierChargesURL ? (
+      <a target="_blank" href={cahiersChargesURLs.oldCahierChargesURL}>
+        cahier des charges initial (en vigueur à la candidature){' '}
+        <ExternalLinkIcon className="w-4" />
+      </a>
+    ) : (
+      `cahier des charges initial (en vigueur à la candidature)`
+    )}
   </div>
 )
