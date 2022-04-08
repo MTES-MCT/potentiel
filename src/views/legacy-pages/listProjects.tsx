@@ -9,8 +9,9 @@ import { RoleBasedDashboard } from '../components'
 import { DownloadIcon } from '../components/DownloadIcon'
 import ProjectList from '../components/ProjectList'
 import { RiFileExcel2Line } from '@react-icons/all-files/ri/RiFileExcel2Line'
+import { LinkButton } from '../components/buttons'
 
-interface ListProjectsProps {
+type ListProjectsProps = {
   request: Request
   projects?: PaginatedList<Project>
   appelsOffre: Array<AppelOffre>
@@ -309,24 +310,22 @@ export default function ListProjects({
             <div className="flex flex-col md:flex-row md:items-center py-2">
               {request.user.role !== 'dreal' && (
                 <span>
-                  <strong>{Array.isArray(projects) ? projects.length : projects.itemCount}</strong>{' '}
-                  projets{' '}
+                  <strong>{getProjectsCount(projects)}</strong> projets
                 </span>
               )}
-              <form
-                className="m-0 inline md:ml-auto"
-                action={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(
-                  request.query as any
-                )}`}
-              >
-                <button
-                  className="button"
-                  style={{ margin: 0, paddingLeft: '1rem', paddingRight: '1rem' }}
+
+              {getProjectsCount(projects) > 0 && (
+                <LinkButton
+                  className="m-0 md:ml-auto"
+                  href={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(
+                    request.query as any
+                  )}`}
+                  download
                 >
                   Télécharger un export
                   <RiFileExcel2Line className="ml-2 h-4 w-4" />
-                </button>
-              </form>
+                </LinkButton>
+              )}
             </div>
             <ProjectList
               displayColumns={[
@@ -348,3 +347,6 @@ export default function ListProjects({
     </RoleBasedDashboard>
   )
 }
+
+const getProjectsCount = (projects: PaginatedList<Project>): number =>
+  Array.isArray(projects) ? projects.length : projects.itemCount
