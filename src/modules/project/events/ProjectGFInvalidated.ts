@@ -5,12 +5,13 @@ export interface ProjectGFInvalidatedPayload {
 }
 export class ProjectGFInvalidated
   extends BaseDomainEvent<ProjectGFInvalidatedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ProjectGFInvalidated' = 'ProjectGFInvalidated'
   public type = ProjectGFInvalidated.type
   currentVersion = 1
 
   aggregateIdFromPayload(payload: ProjectGFInvalidatedPayload) {
-    return undefined
+    return payload.projectId
   }
 }
