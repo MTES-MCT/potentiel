@@ -1,8 +1,9 @@
 import type { Request } from 'express'
-import React from 'react'
+import React, { useState } from 'react'
 import { RiAccountCircleLine } from '@react-icons/all-files/ri/RiAccountCircleLine'
 import { RiAccountPinBoxLine } from '@react-icons/all-files/ri/RiAccountPinBoxLine'
 import { RiArrowRightCircleLine } from '@react-icons/all-files/ri/RiArrowRightCircleLine'
+import { RiMailAddFill } from '@react-icons/all-files/ri/RiMailAddFill'
 import { RiDashboardLine } from '@react-icons/all-files/ri/RiDashboardLine'
 import { RiLogoutBoxLine } from '@react-icons/all-files/ri/RiLogoutBoxLine'
 import routes from '../../../routes'
@@ -82,46 +83,13 @@ export const Home = (props: Props) => {
               </div>
             ) : (
               <div className="flex mx-auto flex-col lg:flex-row">
-                <div className="px-20 py-14 shadow-md text-center flex-1 flex flex-col justify-between gap-7 bg-white">
-                  <p className="text-blue-france-sun-base font-semibold text-4xl m-0 pb-5">
-                    Inscription
-                  </p>
-                  <div className="flex">
-                    <Tab active={true}>Porteur de projet</Tab>
-                    <Tab>Autre partenaire</Tab>
-                  </div>
-                  <LinkButton href="" className="mx-auto">
-                    <RiAccountCircleLine className="mr-4" />
-                    S'inscrire
-                  </LinkButton>
-                  <p className="m-0">
-                    <a href={routes.LOGIN}>Vous avez déjà un compte ?</a>
-                  </p>
-                </div>
-                <div
-                  className="px-20 py-14 shadow-md text-center flex-1 flex flex-col justify-between gap-7"
-                  style={{ backgroundColor: '#e3e3fd' }}
-                >
-                  <p className="text-blue-france-sun-base font-semibold text-4xl m-0 pb-5">
-                    Connexion
-                  </p>
-                  <p className="m-0 whitespace-nowrap font-semibold text-xl text-blue-france-sun-base">
-                    Nous sommes ravis de vous revoir !
-                  </p>
-                  <LinkButton href={routes.LOGIN} primary={true} className="mx-auto">
-                    <RiAccountPinBoxLine className="mr-4" />
-                    Se connecter
-                  </LinkButton>
-                  <p className="m-0">
-                    <a href="">Mot de passe oublié</a>
-                  </p>
-                </div>
+                <SignupBox />
+                <LoginBox />
               </div>
             )}
           </Container>
         </section>
       </main>
-
       <Footer />
     </>
   )
@@ -134,5 +102,123 @@ type ContainerProps = {
 const Container = ({ className, children }: ContainerProps) => (
   <div className={`flex xl:mx-auto xl:max-w-7xl ${className}`}>{children}</div>
 )
+
+const tabItems = [
+  { id: 1, title: 'Porteur de projet', url: 'http://localhost:3000/login.html', current: true },
+  { id: 2, title: 'Autre partenaire', url: '', current: false },
+]
+
+const SignupBox = () => {
+  const [active, setActive] = useState(1)
+
+  return (
+    <div className="px-16 py-10 shadow-md text-center flex-1 flex flex-col justify-between gap-7 bg-white">
+      <p className="text-blue-france-sun-base font-semibold text-4xl m-0 pb-5">Inscription</p>
+      <div className="flex justify-center">
+        {tabItems.map(({ id, title }) => (
+          <Tab
+            key={title}
+            title={title}
+            onItemClicked={() => setActive(id)}
+            isActive={active === id}
+          />
+        ))}
+      </div>
+      {active === 1 && (
+        <>
+          <p className="m-0 p-0">
+            Porteur de projet, inscrivez-vous dès maintenant pour suivre et mettre à jour vos
+            projets.
+          </p>
+          <LinkButton href="" className="mx-auto">
+            <RiAccountCircleLine className="mr-4" />
+            M'inscrire
+          </LinkButton>
+        </>
+      )}
+      {active === 2 && (
+        <>
+          <p className="m-0 p-0">
+            DGEC, DREAL, ADEME, envoyez-nous une demande par email pour obtenir un accès à
+            Potentiel.
+          </p>
+          <LinkButton className="mx-auto" href="mailto:contact@potentiel.beta.gouv.fr">
+            <RiMailAddFill className="mr-4" />
+            Nous contacter
+          </LinkButton>
+        </>
+      )}
+      <p className="m-0">
+        <a href={routes.LOGIN}>Vous avez déjà un compte ?</a>
+      </p>
+    </div>
+  )
+}
+
+type TabProps = {
+  title: string
+  isActive: boolean
+  onItemClicked: () => void
+}
+
+const Tab = ({ title, onItemClicked, isActive = false }: TabProps) => {
+  return (
+    <div>
+      <button
+        onClick={onItemClicked}
+        className={`rounded-none bg-white px-5 py-3 whitespace-nowrap text-lg font-semibold ${
+          isActive
+            ? ' border border-solid border-t-4 border-x-1 border-b-0 border-t-slate-700 border-x-slate-300'
+            : 'bg-blue-france-975-base border-none text-blue-france-sun-base'
+        }`}
+      >
+        {title}
+      </button>
+    </div>
+  )
+}
+
+const LoginBox = () => {
+  return (
+    <div
+      className="px-16 py-10 shadow-md text-center flex-1 flex flex-col justify-between gap-7"
+      style={{ backgroundColor: '#e3e3fd' }}
+    >
+      <p className="text-blue-france-sun-base font-semibold text-4xl m-0 pb-5">Connexion</p>
+      <p className="m-0 whitespace-nowrap font-semibold text-xl text-blue-france-sun-base">
+        Nous sommes ravis de vous revoir !
+      </p>
+      <LinkButton href={routes.LOGIN} primary={true} className="mx-auto">
+        <RiAccountPinBoxLine className="mr-4" />
+        M'identifier
+      </LinkButton>
+      <p className="m-0">
+        <a href="">Mot de passe oublié</a>
+      </p>
+    </div>
+  )
+}
+
+const InscriptionBox2 = () => {
+  return (
+    <div className="px-14 py-14 shadow-md text-center flex-1 flex flex-col justify-between gap-7 bg-white">
+      <p className="text-blue-france-sun-base font-semibold text-4xl m-0 pb-5">Inscription</p>
+      <p className="m-0 whitespace-nowrap font-semibold text-xl text-blue-france-sun-base">
+        Je souhaite m'inscrire en tant que
+      </p>
+      <div className="flex gap-3">
+        <LinkButton href={routes.LOGIN} primary={true} className="mx-auto whitespace-nowrap">
+          Porteur de projet
+        </LinkButton>
+        <LinkButton href={routes.LOGIN} primary={true} className="mx-auto whitespace-nowrap">
+          Autre partenaire
+        </LinkButton>
+      </div>
+      <p className="m-0">
+        <a href={routes.LOGIN}>Vous avez déjà un compte ?</a>
+      </p>
+    </div>
+  )
+}
 
 hydrateOnClient(Home)
