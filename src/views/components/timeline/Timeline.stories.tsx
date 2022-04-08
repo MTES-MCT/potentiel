@@ -25,6 +25,7 @@ import {
   LegacyModificationImportedDTO,
   ProjectEventListDTO,
   ProjectGFValidatedDTO,
+  LegacyModificationFileAttachedDTO,
 } from '@modules/frise'
 import { Timeline } from './Timeline'
 
@@ -1284,7 +1285,17 @@ export const LegacyModificationsAndDelayRequestForPP = () => (
           ancienneDateLimiteAchevement: new Date('2022-01-15').getTime(),
           nouvelleDateLimiteAchevement: new Date('2024-01-15').getTime(),
           status: 'acceptée',
+          filename: 'fichier.pdf',
         } as LegacyModificationImportedDTO,
+        {
+          type: 'LegacyModificationFileAttached',
+          date: new Date('2019-01-15').getTime(),
+          variant: 'porteur-projet',
+          file: {
+            id: '123',
+            name: 'fichier.pdf',
+          },
+        } as LegacyModificationFileAttachedDTO,
         {
           type: 'LegacyModificationImported',
           date: new Date('2019-01-16').getTime(),

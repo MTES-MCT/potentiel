@@ -1,9 +1,14 @@
-import { LegacyModificationImportedDTO, ProjectEventDTO, ProjectNotifiedDTO } from '@modules/frise'
+import {
+  LegacyModificationFileAttachedDTO,
+  LegacyModificationImportedDTO,
+  ProjectEventDTO,
+  ProjectNotifiedDTO,
+} from '@modules/frise'
 import { extractLegacyModificationsItemProps } from './extractLegacyModificationsItemProps'
 
 describe('extractLegacyModificationsItemProps', () => {
   describe('when there is no event at all', () => {
-    it('should return an empry array', () => {
+    it('should return an empty array', () => {
       const projectEventList: ProjectEventDTO[] = []
       const result = extractLegacyModificationsItemProps(projectEventList)
       expect(result).toHaveLength(0)
@@ -261,6 +266,61 @@ describe('extractLegacyModificationsItemProps', () => {
           modificationType: 'autre',
           column: 'col',
           value: 'val',
+        },
+      ])
+    })
+  })
+
+  describe('when there is a file attached with the same filename', () => {
+    it('should attach the file to the correct modification', () => {
+      const date = new Date('2022-03-02').getTime()
+      const projectEventList: ProjectEventDTO[] = [
+        {
+          type: 'LegacyModificationImported',
+          date,
+          variant: 'admin',
+          modificationType: 'autre',
+          column: 'col',
+          value: 'val',
+          status: 'accord-de-principe',
+          filename: 'file.pdf',
+        } as LegacyModificationImportedDTO,
+        {
+          type: 'LegacyModificationImported',
+          date,
+          variant: 'admin',
+          modificationType: 'autre',
+          status: 'acceptée',
+          column: 'col',
+          value: 'val',
+          filename: 'otherfile.pdf',
+        } as LegacyModificationImportedDTO,
+        {
+          type: 'LegacyModificationFileAttached',
+          date,
+          variant: 'admin',
+          file: { id: 'fileId', name: 'file.pdf' },
+        } as LegacyModificationFileAttachedDTO,
+      ]
+      const result = extractLegacyModificationsItemProps(projectEventList)
+      expect(result).toHaveLength(2)
+      expect(result).toEqual([
+        {
+          type: 'modification-historique',
+          date,
+          status: 'accord-de-principe',
+          modificationType: 'autre',
+          column: 'col',
+          value: 'val',
+          courrier: { id: 'fileId', name: 'file.pdf' },
+        },
+        {
+          type: 'modification-historique',
+          date,
+          modificationType: 'autre',
+          column: 'col',
+          value: 'val',
+          status: 'acceptée',
         },
       ])
     })

@@ -208,6 +208,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       variant: user.role,
                       modificationType,
                       status,
+                      filename: payload.filename,
                     }
                     if (modificationType === 'delai') {
                       events.push({
@@ -262,6 +263,16 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                     })
                   }
                   break
+                case 'LegacyModificationFileAttached':
+                  const { fileId, filename } = payload
+                  events.push({
+                    type: 'LegacyModificationFileAttached',
+                    variant: user.role,
+                    file: {
+                      id: fileId,
+                      name: filename,
+                    },
+                  })
               }
 
               return Promise.resolve(events)

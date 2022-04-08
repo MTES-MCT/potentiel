@@ -42,6 +42,8 @@ class routes {
   static EXPORT_AO_CSV = '/admin/appelsOffres.csv'
   static EXPORT_PERIODE_CSV = '/admin/periodes.csv'
 
+  static UPLOAD_LEGACY_MODIFICATION_FILES = '/admin/importer-documents-historiques'
+
   static ADMIN_USERS = '/admin/utilisateurs.html'
   static ADMIN_INVITE_USER_ACTION = '/admin/inviterUtilisateur'
 
