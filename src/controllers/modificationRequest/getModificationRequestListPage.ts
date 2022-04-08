@@ -20,7 +20,7 @@ const getModificationRequestListPage = asyncHandler(async (request, response) =>
     recherche,
     modificationRequestStatus,
     modificationRequestType,
-    showOnlyDGEC = 'true',
+    showOnlyDGEC = 'on',
     pageSize,
   } = query as any
 
@@ -49,7 +49,7 @@ const getModificationRequestListPage = asyncHandler(async (request, response) =>
     recherche,
     modificationRequestStatus,
     modificationRequestType,
-    ...(userIs(['admin', 'dgec'])(user) && showOnlyDGEC !== 'true' && { forceNoAuthority: true }),
+    ...(userIs(['admin', 'dgec'])(user) && showOnlyDGEC !== 'on' && { forceNoAuthority: true }),
   }).match(
     (modificationRequests) =>
       response.send(

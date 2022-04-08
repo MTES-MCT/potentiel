@@ -1,5 +1,5 @@
 import { Request } from 'express'
-import React, { ChangeEvent } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import { AppelOffre } from '@entities'
 import { dataId } from '../../../helpers/testId'
 import { ModificationRequestListItemDTO } from '@modules/modificationRequest'
@@ -19,7 +19,9 @@ type ModificationRequestListProps = {
 export const ModificationRequestList = PageLayout(
   ({ request, modificationRequests, appelsOffre }: ModificationRequestListProps) => {
     const handleShowOnlyDGEC = (e: ChangeEvent<HTMLInputElement>) => {
-      refreshPageWithNewSearchParamValue('showOnlyDGEC', `${e.target.checked}`)
+      const isChecked = e.target.checked
+      setIsShowOnlyDGECChecked(isChecked)
+      refreshPageWithNewSearchParamValue('showOnlyDGEC', `${isChecked ? 'on' : 'off'}`)
     }
 
     const {
@@ -31,8 +33,10 @@ export const ModificationRequestList = PageLayout(
       familleId,
       modificationRequestStatus,
       modificationRequestType,
-      showOnlyDGEC = 'true',
+      showOnlyDGEC = 'on',
     } = (request.query as any) || {}
+
+    const [isShowOnlyDGECChecked, setIsShowOnlyDGECChecked] = useState(showOnlyDGEC === 'on')
 
     const hasFilters =
       appelOffreId || periodeId || familleId || modificationRequestStatus || modificationRequestType
@@ -49,11 +53,11 @@ export const ModificationRequestList = PageLayout(
           <div className="panel__header">
             <h3>Demandes</h3>
             <form
-              action={
+              action={`${
                 request.user?.role === 'porteur-projet'
                   ? ROUTES.USER_LIST_REQUESTS
                   : ROUTES.ADMIN_LIST_REQUESTS
-              }
+              }?showOnlyDGEC=${isShowOnlyDGECChecked ? 'on' : 'off'}`}
               method="GET"
               style={{ maxWidth: 'auto', margin: '0 0 25px 0' }}
             >
@@ -209,7 +213,7 @@ export const ModificationRequestList = PageLayout(
                     id="showOnlyDGEC"
                     name="showOnlyDGEC"
                     type="checkbox"
-                    checked={showOnlyDGEC === 'true' ? true : false}
+                    {...(isShowOnlyDGECChecked && { checked: true })}
                     onChange={handleShowOnlyDGEC}
                   />
                   <label htmlFor="showOnlyDGEC">
