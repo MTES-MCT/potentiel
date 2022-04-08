@@ -35,14 +35,17 @@ export const Home = (props: Props) => {
 
       <main role="main" style={{ fontFamily: 'Marianne, arial, sans-serif' }}>
         <section className="bg-blue-france-sun-base text-white">
-          <Container className="flex flex-col p-6 gap-6 xl:py-10">
+          <Container className="flex flex-col p-6 gap-6 xl:pt-10">
             <div className="flex flex-col md:flex-row gap-6">
-              <p className="m-0 text-3xl lg:text-5xl xl:text-6xl font-semibold">
+              <h1
+                className="m-0 text-3xl lg:text-4xl xl:text-5xl font-semibold lg:pt-10"
+                style={{ fontFamily: 'Marianne, arial, sans-serif' }}
+              >
                 Suivez efficacement vos projets EnR* électriques, transmettez vos documents,
                 demandez des modifications.
                 <br />
                 <span className="text-sm lg:text-base font-light">*Énergies renouvelables</span>
-              </p>
+              </h1>
               <img
                 className="object-scale-down w-full md:w-1/2"
                 src="/images/home/proposition_valeur.png"
@@ -60,6 +63,9 @@ export const Home = (props: Props) => {
           className="bg-blue-france-sun-base"
           style={{ background: 'linear-gradient(180deg, #000091 50%, white 50%)' }}
         >
+          <h1 className="sr-only" style={{ fontFamily: 'Marianne, arial, sans-serif' }}>
+            Inscription ou connection
+          </h1>
           <Container className="flex p-6 md:p-12">
             {user ? (
               <div className="flex flex-col items-center md:mx-auto shadow-md bg-blue-france-975-base p-7">
@@ -89,6 +95,30 @@ export const Home = (props: Props) => {
             )}
           </Container>
         </section>
+
+        <section className="text-blue-france-sun-base mb-10">
+          <h1
+            className="text-3xl lg:text-4xl xl:text-5xl font-semibold lg:pt-10 text-center mb-20"
+            style={{ fontFamily: 'Marianne, arial, sans-serif' }}
+          >
+            Producteurs d'énergies renouvelables électriques
+          </h1>
+          <Container>
+            <div className="flex-2">
+              <img className="object-scale-down w-full" src="/images/home/enr-illustration.png" />
+            </div>
+            <div className="bg-blue-france-975-base p-10">
+              <ul className="text-lg md:text-base lg:text-xl font-medium md:font-semibold">
+                <Benefice title="Retrouvez vos projets" />
+                <Benefice title="Suivez-les étape par étape" />
+                <Benefice title="Gérer vos documents" />
+                <Benefice title="Signalez des changements" />
+                <Benefice title="Demandez des modifications" />
+                <Benefice title="Invitez vos collègues" />
+              </ul>
+            </div>
+          </Container>
+        </section>
       </main>
       <Footer />
     </>
@@ -112,8 +142,13 @@ const SignupBox = () => {
   const [active, setActive] = useState(1)
 
   return (
-    <div className="px-16 py-10 shadow-md text-center flex-1 flex flex-col justify-between gap-7 bg-white">
-      <p className="text-blue-france-sun-base font-semibold text-4xl m-0 pb-5">Inscription</p>
+    <div className="p-4 lg:px-16 lg:py-10 shadow-md text-center flex-1 flex flex-col justify-between gap-7 bg-white">
+      <h2
+        className="text-blue-france-sun-base font-semibold text-4xl m-0 pb-5"
+        style={{ fontFamily: 'Marianne, arial, sans-serif' }}
+      >
+        Inscription
+      </h2>
       <div className="flex justify-center">
         {tabItems.map(({ id, title }) => (
           <Tab
@@ -181,10 +216,15 @@ const Tab = ({ title, onItemClicked, isActive = false }: TabProps) => {
 const LoginBox = () => {
   return (
     <div
-      className="px-16 py-10 shadow-md text-center flex-1 flex flex-col justify-between gap-7"
+      className=" p-4 lg:px-16 lg:py-10 shadow-md text-center flex-1 flex flex-col justify-between gap-7"
       style={{ backgroundColor: '#e3e3fd' }}
     >
-      <p className="text-blue-france-sun-base font-semibold text-4xl m-0 pb-5">Connexion</p>
+      <h2
+        className="text-blue-france-sun-base font-semibold text-4xl m-0 pb-5"
+        style={{ fontFamily: 'Marianne, arial, sans-serif' }}
+      >
+        Connexion
+      </h2>
       <p className="m-0 whitespace-nowrap font-semibold text-xl text-blue-france-sun-base">
         Nous sommes ravis de vous revoir !
       </p>
@@ -198,6 +238,16 @@ const LoginBox = () => {
     </div>
   )
 }
+
+type BeneficeProps = {
+  title: string
+}
+const Benefice = ({ title }: BeneficeProps) => (
+  <li className="leading-loose whitespace-nowrap list-none">
+    <img src="/images/home/check.png" className="align-bottom mr-2"></img>
+    {title}
+  </li>
+)
 
 const InscriptionBox2 = () => {
   return (
