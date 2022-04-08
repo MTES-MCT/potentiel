@@ -33,11 +33,11 @@ describe('notification.handleModificationReceived', () => {
     })(
       new ModificationReceived({
         payload: {
-          type: 'producteur',
+          type: 'actionnaire',
           modificationRequestId,
           projectId,
           requestedBy: userId,
-          producteur: 'test producteur',
+          actionnaire: 'test actionnaire',
           justification: 'justification',
           authority: 'dreal',
         },
@@ -55,9 +55,9 @@ describe('notification.handleModificationReceived', () => {
           notification.type === 'pp-modification-received' &&
           notification.message.email === 'pp@test.test' &&
           notification.variables.nom_projet === 'nomProjet' &&
-          notification.variables.type_demande === 'producteur' &&
+          notification.variables.type_demande === 'actionnaire' &&
           notification.variables.modification_request_url === routes.USER_LIST_REQUESTS &&
-          notification.variables.demande_action_pp !== undefined &&
+          notification.variables.demande_action_pp === undefined &&
           notification.context.modificationRequestId === modificationRequestId &&
           notification.context.userId === userId &&
           notification.context.projectId === projectId
@@ -282,6 +282,56 @@ describe('notification.handleModificationReceived', () => {
 
         if (notification.type !== 'pp-modification-received') return
         expect(notification.variables.demande_action_pp).not.toBeUndefined()
+      })
+    })
+  })
+  describe('when event type is "producteur', () => {
+    describe('when the project is not subject to GF', () => {
+      const sendNotification = jest.fn(async (args: NotificationArgs) => null)
+      const findProjectById = jest.fn(async (region: string) =>
+        makeProject(
+          makeFakeProject({
+            id: projectId,
+            nomProjet: 'nomProjet',
+            regionProjet: 'region',
+            evaluationCarbone: 100,
+            appelOffreId: 'PPE2 - Eolien',
+            periodeId: '1',
+            appelOffre: { isSoumisAuxGFs: false },
+          })
+        ).unwrap()
+      )
+      const findUserById = jest.fn(async (userId: string) =>
+        Some(makeFakeUser({ email: 'pp@test.test', fullName: 'john doe' }))
+      )
+      const findUsersForDreal = jest.fn(async (region: string) => [])
+
+      beforeAll(async () => {
+        await handleModificationReceived({
+          sendNotification,
+          findProjectById,
+          findUserById,
+          findUsersForDreal,
+        })(
+          new ModificationReceived({
+            payload: {
+              type: 'producteur',
+              modificationRequestId,
+              projectId,
+              requestedBy: userId,
+              producteur: 'new producteur',
+              authority: 'dreal',
+            },
+          })
+        )
+      })
+
+      it('should NOT add a warning section for GF in the sent email', async () => {
+        const [notification] = sendNotification.mock.calls.map((call) => call[0])
+
+        if (notification.type !== 'pp-modification-received') return
+
+        expect(notification.variables.demande_action_pp).toBeUndefined()
       })
     })
   })
