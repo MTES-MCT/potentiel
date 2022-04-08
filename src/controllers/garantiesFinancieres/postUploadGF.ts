@@ -12,6 +12,7 @@ import routes from '../../routes'
 import { errorResponse, unauthorizedResponse } from '../helpers'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
+import { GFCertificateHasAlreadyBeenSentError } from '../../modules/project'
 
 v1Router.post(
   routes.UPLOAD_GARANTIES_FINANCIERES(),
@@ -84,6 +85,15 @@ v1Router.post(
           })
         ),
       (e) => {
+        if (e instanceof GFCertificateHasAlreadyBeenSentError) {
+          return response.redirect(
+            addQueryParams(routes.PROJECT_DETAILS(projectId), {
+              error:
+                "Il semblerait qu'il y ait déjà une garantie financière en cours de validité sur ce projet.",
+            })
+          )
+        }
+
         if (e instanceof UnauthorizedError) {
           return unauthorizedResponse({ request, response })
         }

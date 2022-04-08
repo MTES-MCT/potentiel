@@ -4,7 +4,7 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      const projectImportedEvents = await queryInterface.sequelize.query(
+      const projectGFInvalidatedEvents = await queryInterface.sequelize.query(
         'SELECT * FROM "eventStores" WHERE type = ?',
         {
           type: queryInterface.sequelize.QueryTypes.SELECT,
@@ -13,7 +13,7 @@ module.exports = {
         }
       )
 
-      for (const event of projectImportedEvents) {
+      for (const event of projectGFInvalidatedEvents) {
         const { id, payload } = event
 
         const { projectId } = payload
