@@ -3,19 +3,18 @@ import { ProjectDataForProjectPage } from '@modules/project/dtos'
 import { Request } from 'express'
 import React from 'react'
 import { userIs } from '@modules/users'
-import { RoleBasedDashboard, SuccessErrorBox } from '../../components'
-import { PageLayout } from '../../components/PageLayout'
+import { RoleBasedDashboard, SuccessErrorBox, PageLayout } from '../../components'
 import { hydrateOnClient } from '../../helpers'
 import {
   EtapesProjet,
   CDCForm,
   EditProjectData,
-  ProjectHeader,
   InfoGenerales,
   Contact,
   MaterielsEtTechnologies,
   ResultatsAppelOffre,
 } from './sections'
+import { ProjectHeader } from './components'
 
 type ProjectDetailsProps = {
   request: Request

@@ -1,9 +1,10 @@
+import React from 'react'
 import { User } from '@entities'
 import { ProjectDataForProjectPage } from '@modules/project/dtos'
-import React from 'react'
-import { ProjectStatusLabel } from '../../../components/ProjectStatusLabel'
-import NewProjectActions from '../../projectDetailsPage/components/ProjectActions'
+import { ProjectStatusLabel } from '../../../components'
+import { ProjectActions } from './ProjectActions'
 import { ExternalLinkIcon } from '@heroicons/react/solid'
+import { userIs } from '@modules/users'
 
 type ProjectHeaderProps = {
   project: ProjectDataForProjectPage
@@ -35,7 +36,8 @@ export const ProjectHeader = ({ project, user, cahiersChargesURLs }: ProjectHead
 
       <CDCInfo {...{ project, cahiersChargesURLs }} />
     </div>
-    <NewProjectActions project={project} role={user.role} />
+
+    <ProjectActions {...{ project, user }} />
   </div>
 )
 
@@ -43,7 +45,6 @@ type CDCInfoProps = {
   project: ProjectDataForProjectPage
   cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
 }
-
 const CDCInfo = ({ project, cahiersChargesURLs }: CDCInfoProps) => (
   <div className="text-sm">
     Instruction des demandes selon les règles du{' '}
