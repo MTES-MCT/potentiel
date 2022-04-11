@@ -11,6 +11,7 @@ import {
   Home,
   AdemeStatistiques,
   UploadLegacyModificationFiles,
+  ReportDemandeDelai,
 } from './pages'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -99,4 +100,12 @@ export const UploadLegacyModificationFilesPage = (
     Component: UploadLegacyModificationFiles,
     props,
     hydrate: false,
+  })
+
+export const ReportDemandeDelaiPage = (props: Parameters<typeof ReportDemandeDelai>[0]) =>
+  makeHtml({
+    Component: ReportDemandeDelai,
+    props,
+    hydrate: true,
+    pageName: 'reportDemandeDelai', // This must match the Component name
   })
