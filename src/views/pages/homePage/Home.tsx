@@ -36,12 +36,12 @@ export const Home = (props: Props) => {
       <main role="main" style={{ fontFamily: 'Marianne, arial, sans-serif' }}>
         <section className="bg-blue-france-sun-base text-white">
           <Container className="flex flex-col p-6 gap-6 xl:pt-10">
-            <div className="flex flex-col md:flex-row gap-6">
+            <div className="flex flex-col md:flex-row">
               <h1
                 className="m-0 text-3xl lg:text-4xl xl:text-5xl font-semibold lg:pt-10"
                 style={{ fontFamily: 'Marianne, arial, sans-serif' }}
               >
-                Suivez efficacement vos projets EnR* électriques, transmettez vos documents,
+                Suivez efficacement vos projets d'EnR* électriques, transmettez vos documents,
                 demandez des modifications.
                 <br />
                 <span className="text-sm lg:text-base font-light">*Énergies renouvelables</span>
@@ -54,7 +54,7 @@ export const Home = (props: Props) => {
             <p className="text-lg md:text-base lg:text-xl font-medium md:font-semibold md:text-center md:m-0 md:mt-10 md:mb-0 lg:px-16 lg:leading-loose">
               Potentiel est le service du Ministère de la Transition Écologique qui connecte
               <br className="hidden md:inline" /> les acteurs du parcours administratif des projets
-              d'EnR soumis à appel d'offres en France
+              d'EnR électriques soumis à appel d'offres en France.
             </p>
           </Container>
         </section>
@@ -162,7 +162,7 @@ const SignupBox = () => {
       {active === 1 && (
         <>
           <p className="m-0 p-0">
-            Porteur de projet, inscrivez-vous dès maintenant pour suivre et mettre à jour vos
+            Porteur de projets, inscrivez-vous dès maintenant pour suivre et mettre à jour vos
             projets.
           </p>
           <LinkButton href="" className="mx-auto">
@@ -174,8 +174,7 @@ const SignupBox = () => {
       {active === 2 && (
         <>
           <p className="m-0 p-0">
-            DGEC, DREAL, ADEME, envoyez-nous une demande par email pour obtenir un accès à
-            Potentiel.
+            Autre partenaire, envoyez-nous une demande par email pour obtenir un accès à Potentiel.
           </p>
           <LinkButton className="mx-auto" href="mailto:contact@potentiel.beta.gouv.fr">
             <RiMailAddFill className="mr-4" />
@@ -227,6 +226,9 @@ const LoginBox = () => {
       </h2>
       <p className="m-0 whitespace-nowrap font-semibold text-xl text-blue-france-sun-base">
         Nous sommes ravis de vous revoir !
+      </p>
+      <p className="m-0 p-0">
+        Vous avez déjà un compte sur Potentiel ? Connectez-vous pour accéder aux projets.
       </p>
       <LinkButton href={routes.LOGIN} primary={true} className="mx-auto">
         <RiAccountPinBoxLine className="mr-4" />
