@@ -134,8 +134,8 @@ const Container = ({ className, children }: ContainerProps) => (
 )
 
 const tabItems = [
-  { id: 1, title: 'Porteur de projet', url: 'http://localhost:3000/login.html', current: true },
-  { id: 2, title: 'Autre partenaire', url: '', current: false },
+  { id: 1, title: 'Porteur de projet' },
+  { id: 2, title: 'Autre partenaire' },
 ]
 
 const SignupBox = () => {
