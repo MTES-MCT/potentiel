@@ -66,9 +66,9 @@ export const Home = (props: Props) => {
           <h1 className="sr-only" style={{ fontFamily: 'Marianne, arial, sans-serif' }}>
             Inscription ou connection
           </h1>
-          <Container className="flex p-6 md:p-12">
+          <Container className="flex p-0 lg:p-8">
             {user ? (
-              <div className="flex flex-col items-center md:mx-auto shadow-md bg-blue-france-975-base p-7">
+              <div className="flex flex-col items-center md:mx-auto shadow-md bg-blue-france-975-base p-10">
                 <p className="mt-0 text-2xl lg:text-3xl font-semibold text-blue-france-sun-base">
                   Bonjour {user.fullName}, nous sommes ravis de vous revoir.
                 </p>
@@ -98,17 +98,17 @@ export const Home = (props: Props) => {
 
         <section className="text-blue-france-sun-base mb-10">
           <h1
-            className="text-3xl lg:text-4xl xl:text-5xl font-semibold lg:pt-10 text-center mb-20"
+            className="text-3xl lg:text-4xl xl:text-5xl font-semibold pb-5 pt-10 text-center mb-0 md:mb-10"
             style={{ fontFamily: 'Marianne, arial, sans-serif' }}
           >
             Producteurs d'énergies renouvelables électriques
           </h1>
           <Container>
-            <div className="flex-2">
+            <div className="flex-2 hidden md:block md:self-center">
               <img className="object-scale-down w-full" src="/images/home/enr-illustration.png" />
             </div>
-            <div className="bg-blue-france-975-base p-10">
-              <ul className="text-lg md:text-base lg:text-xl font-medium md:font-semibold">
+            <div className="bg-blue-france-975-base py-5 lg:p-10 m-auto">
+              <ul className="text-lg md:text-base lg:text-xl font-medium md:font-semibold px-5 py-0">
                 <Benefice title="Retrouvez vos projets" />
                 <Benefice title="Suivez-les étape par étape" />
                 <Benefice title="Gérer vos documents" />
@@ -142,7 +142,7 @@ const SignupBox = () => {
   const [active, setActive] = useState(1)
 
   return (
-    <div className="p-4 lg:px-16 lg:py-10 shadow-md text-center flex-1 flex flex-col justify-between gap-7 bg-white">
+    <div className="px-2 py-4 md:px-12 md:py-10 shadow-md text-center flex-1 flex flex-col justify-between gap-7 bg-white">
       <h2
         className="text-blue-france-sun-base font-semibold text-4xl m-0 pb-5"
         style={{ fontFamily: 'Marianne, arial, sans-serif' }}
@@ -215,8 +215,8 @@ const Tab = ({ title, onItemClicked, isActive = false }: TabProps) => {
 const LoginBox = () => {
   return (
     <div
-      className=" p-4 lg:px-16 lg:py-10 shadow-md text-center flex-1 flex flex-col justify-between gap-7"
-      style={{ backgroundColor: '#e3e3fd' }}
+      className="px-2 py-4 md:px-12 md:py-10 shadow-md text-center flex-1 flex flex-col justify-between gap-7"
+      style={{ backgroundColor: '#f5f5fe' }}
     >
       <h2
         className="text-blue-france-sun-base font-semibold text-4xl m-0 pb-5"
@@ -228,7 +228,8 @@ const LoginBox = () => {
         Nous sommes ravis de vous revoir !
       </p>
       <p className="m-0 p-0">
-        Vous avez déjà un compte sur Potentiel ? Connectez-vous pour accéder aux projets.
+        Vous avez déjà un compte sur Potentiel ? <br />
+        Connectez-vous pour accéder aux projets.
       </p>
       <LinkButton href={routes.LOGIN} primary={true} className="mx-auto">
         <RiAccountPinBoxLine className="mr-4" />
@@ -250,27 +251,5 @@ const Benefice = ({ title }: BeneficeProps) => (
     {title}
   </li>
 )
-
-const InscriptionBox2 = () => {
-  return (
-    <div className="px-14 py-14 shadow-md text-center flex-1 flex flex-col justify-between gap-7 bg-white">
-      <p className="text-blue-france-sun-base font-semibold text-4xl m-0 pb-5">Inscription</p>
-      <p className="m-0 whitespace-nowrap font-semibold text-xl text-blue-france-sun-base">
-        Je souhaite m'inscrire en tant que
-      </p>
-      <div className="flex gap-3">
-        <LinkButton href={routes.LOGIN} primary={true} className="mx-auto whitespace-nowrap">
-          Porteur de projet
-        </LinkButton>
-        <LinkButton href={routes.LOGIN} primary={true} className="mx-auto whitespace-nowrap">
-          Autre partenaire
-        </LinkButton>
-      </div>
-      <p className="m-0">
-        <a href={routes.LOGIN}>Vous avez déjà un compte ?</a>
-      </p>
-    </div>
-  )
-}
 
 hydrateOnClient(Home)
