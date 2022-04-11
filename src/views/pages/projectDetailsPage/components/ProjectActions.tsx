@@ -40,7 +40,7 @@ const ReportPastRequestModification = ({ project }: ReportPastRequestModificatio
       <Menu.Items className="absolute xs:left-0 lg:right-0 w-56 z-10 mt-2 lg:origin-top-right origin-top-left bg-white divide-y divide-gray-400 rounded-md border-solid border border-blue-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
         <Menu.Item key={`report_demande_delai`}>
           <a
-            href={ROUTES.REPORT_DEMANDE_DELAI(project.id)}
+            href={ROUTES.ADMIN_REPORT_DEMANDE_DELAI(project.id)}
             className="no-underline bg-none hover:bg-none"
           >
             <div className={'text-center rounded-md w-full py-2 hover:bg-slate-100'}>

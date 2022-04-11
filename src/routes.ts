@@ -130,12 +130,13 @@ class routes {
   static ADMIN_NOTIFICATION_LIST = '/admin/notifications.html'
   static ADMIN_NOTIFICATION_RETRY_ACTION = '/admin/retryNotifications'
 
-  static REPORT_DEMANDE_DELAI = (projectId?: Project['id']) => {
+  static ADMIN_REPORT_DEMANDE_DELAI = (projectId?: Project['id']) => {
     const route = '/admin/projet/:projectId/reportDemandeDelai.html'
     if (projectId) {
       return route.replace(':projectId', projectId)
     } else return route
   }
+  static ADMIN_CREATE_PAST_DEMANDE_DELAI = withProjectId('/admin/reportDemandeDelai')
 
   static SUCCESS_OR_ERROR_PAGE = withParams<{
     success?: string
