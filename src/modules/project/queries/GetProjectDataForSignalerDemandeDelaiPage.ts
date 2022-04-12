@@ -5,6 +5,7 @@ export type ProjectDataForSignalerDemandeDelaiPage = {
   id: string
   nomProjet: string
   completionDueOn?: Date
+  hasPendingDemandeDelai: boolean
 }
 
 export type GetProjectDataForSignalerDemandeDelaiPage = ({
