@@ -10,7 +10,7 @@ type SignalerDemandeDelaiProps = {
 }
 export const SignalerDemandeDelai = PageLayout(
   ({ request: { user }, project }: SignalerDemandeDelaiProps) => {
-    const [status, setStatus] = useState('accepted')
+    const [isAccepted, setIsAccepted] = useState(true)
 
     return (
       <RoleBasedDashboard role={user.role} currentPage="list-projects">
@@ -18,23 +18,25 @@ export const SignalerDemandeDelai = PageLayout(
           <h1>Signaler une demande de délai traitée hors Potentiel</h1>
 
           <p>
-            Le projet {project.nomProjet} a actuellement une date d'achèvement au{' '}
-            {new Intl.DateTimeFormat('fr').format(project.completionDueOn)} (la date la plus récente
-            sera prise en compte pour le projet).
+            Le projet {project.nomProjet} a actuellement une date d'attestation de conformité prévue
+            le {new Intl.DateTimeFormat('fr').format(project.completionDueOn)} (la date la plus
+            récente sera prise en compte pour le projet).
           </p>
 
-          <form action={routes.ADMIN_SIGNALER_DEMANDE_DELAI_POST(project.id)} method="POST">
+          <form action={routes.ADMIN_SIGNALER_DEMANDE_DELAI_POST} method="POST">
+            <input name="projectId" value={project.id} required hidden />
+
             <label>Date de la décision*</label>
-            <input name="decisionDate" placeholder="JJ/MM/AAAA" required />
+            <input name="decidedOn" placeholder="JJ/MM/AAAA" required />
 
             <div className="flex flex-row gap-3 my-2">
               <div>
                 <input
                   type="radio"
                   id="status-accepted"
-                  name="status"
-                  onChange={(e) => e.target.checked && setStatus('accepted')}
-                  {...(status === 'accepted' && { checked: true })}
+                  name="isAccepted"
+                  onChange={(e) => e.target.checked && setIsAccepted(true)}
+                  {...(isAccepted && { checked: true })}
                   required
                 />
                 <label htmlFor="status-accepted">Acceptée</label>
@@ -43,9 +45,9 @@ export const SignalerDemandeDelai = PageLayout(
                 <input
                   type="radio"
                   id="status-rejected"
-                  name="status"
-                  onChange={(e) => e.target.checked && setStatus('rejected')}
-                  {...(status === 'rejected' && { checked: true })}
+                  name="isAccepted"
+                  onChange={(e) => e.target.checked && setIsAccepted(false)}
+                  {...(!isAccepted && { checked: true })}
                   required
                 />
                 <label htmlFor="status-rejected">Refusée</label>
@@ -53,7 +55,7 @@ export const SignalerDemandeDelai = PageLayout(
             </div>
 
             <label>Nouvelle date d'attestation de conformité*</label>
-            <input name="newCompletionDueDate" placeholder="JJ/MM/AAAA" />
+            <input name="newCompletionDueOn" placeholder="JJ/MM/AAAA" />
 
             <label>Courrier de la réponse (fichier joint)</label>
             <input name="answerFile" type="file" />

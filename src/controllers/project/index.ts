@@ -10,4 +10,5 @@ export * from './postCorrectProjectData';
 export * from './postInviteUserToProject';
 export * from './postRetirerFichier';
 export * from './postRevokeUserRightsToProject';
+export * from './postSignalerDemandeDelai';
 export * from './postUpdateNewRulesOptIn';
