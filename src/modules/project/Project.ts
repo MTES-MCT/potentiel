@@ -54,7 +54,6 @@ import {
   ProjectProducteurUpdated,
   ProjectPuissanceUpdated,
   ProjectReimported,
-  ProjectReimportedPayload,
   ProjectGFUploaded,
   ProjectGFWithdrawn,
   ProjectGFDueDateCancelled,
@@ -62,6 +61,7 @@ import {
   ProjectDCRDueDateCancelled,
   ProjectCertificateObsolete,
   CovidDelayGranted,
+  DemandeDelaiSignaled,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre'
@@ -133,6 +133,12 @@ export interface Project extends EventStoreAggregate {
   withdrawGarantiesFinancieres: (
     removedBy: User
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>
+  signalerDemandeDelai: (args: {
+    decidedOn: Date
+    newCompletionDueOn: Date
+    isAccepted: boolean
+    signaledBy: User
+  }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
   readonly shouldCertificateBeGenerated: boolean
   readonly appelOffre?: ProjectAppelOffre
   readonly isClasse?: boolean
@@ -733,6 +739,26 @@ export const makeProject = (args: {
           payload: {
             projectId: props.projectId.toString(),
             removedBy: removedBy.id,
+          },
+        })
+      )
+      return ok(null)
+    },
+    signalerDemandeDelai: function ({ newCompletionDueOn, isAccepted, signaledBy }) {
+      if (!_isNotified()) {
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+      }
+
+      const isNewDateApplicable = props.completionDueOn < newCompletionDueOn.getTime()
+
+      _publishEvent(
+        new DemandeDelaiSignaled({
+          payload: {
+            projectId: props.projectId.toString(),
+            newCompletionDueOn: newCompletionDueOn.getTime(),
+            isNewDateApplicable,
+            isAccepted,
+            signaledBy: signaledBy.id,
           },
         })
       )
