@@ -1,16 +1,16 @@
 import { ensureRole } from '@config'
 import asyncHandler from '../helpers/asyncHandler'
-import { getProjectDataForReportPage } from '@config/queries.config'
+import { getProjectDataForSignalerDemandeDelaiPage } from '@config/queries.config'
 import { shouldUserAccessProject } from '@config/useCases.config'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import { EntityNotFoundError } from '@modules/shared'
 import routes from '../../routes'
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
 import { v1Router } from '../v1Router'
-import { ReportDemandeDelaiPage } from '@views'
+import { SignalerDemandeDelaiPage } from '@views'
 
 v1Router.get(
-  routes.ADMIN_REPORT_DEMANDE_DELAI(),
+  routes.ADMIN_SIGNALER_DEMANDE_DELAI_PAGE(),
   ensureRole(['admin', 'dgec', 'dreal']),
   asyncHandler(async (request, response) => {
     const { projectId } = request.params
@@ -29,14 +29,14 @@ v1Router.get(
       return unauthorizedResponse({
         request,
         response,
-        customMessage: `Votre compte ne vous permet pas d'accéder à ce projet.`,
+        customMessage: `Votre compte ne vous permet pas d'accéder à cette page.`,
       })
     }
 
-    await getProjectDataForReportPage({ projectId }).match(
+    await getProjectDataForSignalerDemandeDelaiPage({ projectId }).match(
       (project) => {
         return response.send(
-          ReportDemandeDelaiPage({
+          SignalerDemandeDelaiPage({
             request,
             project,
           })

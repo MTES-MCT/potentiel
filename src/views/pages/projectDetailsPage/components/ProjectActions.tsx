@@ -16,14 +16,14 @@ export const ProjectActions = ({ project, user }: ProjectActionsProps) => (
   <div className="whitespace-nowrap">
     {userIs(['admin', 'dgec'])(user) && <AdminActions {...{ project }} />}
     {userIs(['porteur-projet'])(user) && <PorteurProjetActions {...{ project }} />}
-    {userIs(['dreal'])(user) && <ReportPastRequestModification {...{ project }} />}
+    {userIs(['dreal'])(user) && <SignalerUnChangement {...{ project }} />}
   </div>
 )
 
-type ReportPastRequestModificationProps = {
+type SignalerUnChangementProps = {
   project: ProjectDataForProjectPage
 }
-const ReportPastRequestModification = ({ project }: ReportPastRequestModificationProps) => (
+const SignalerUnChangement = ({ project }: SignalerUnChangementProps) => (
   <Menu as="div" className="self-stretch relative grow md:grow-0 text-left">
     <Menu.Button className="w-full button-outline primary lg:max-w-fit">
       Signaler un changement
@@ -38,9 +38,9 @@ const ReportPastRequestModification = ({ project }: ReportPastRequestModificatio
       leaveTo="transform opacity-0 scale-95"
     >
       <Menu.Items className="absolute xs:left-0 lg:right-0 w-56 z-10 mt-2 lg:origin-top-right origin-top-left bg-white divide-y divide-gray-400 rounded-md border-solid border border-blue-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-        <Menu.Item key={`report_demande_delai`}>
+        <Menu.Item key={`signaler_demande_delai`}>
           <a
-            href={ROUTES.ADMIN_REPORT_DEMANDE_DELAI(project.id)}
+            href={ROUTES.ADMIN_SIGNALER_DEMANDE_DELAI_PAGE(project.id)}
             className="no-underline bg-none hover:bg-none"
           >
             <div className={'text-center rounded-md w-full py-2 hover:bg-slate-100'}>
@@ -168,7 +168,7 @@ type AdminActionsProps = {
 }
 const AdminActions = ({ project }: AdminActionsProps) => (
   <div className="flex flex-col xl:flex-row gap-2 items-center">
-    <ReportPastRequestModification {...{ project }} />
+    <SignalerUnChangement {...{ project }} />
 
     {project.notifiedOn && project.certificateFile ? (
       <LinkButton

@@ -2,27 +2,28 @@ import React, { useState } from 'react'
 import { Request } from 'express'
 import { PageLayout, RoleBasedDashboard } from '@views/components'
 import routes from '../../../routes'
-import { ProjectDataForReportPage } from '@modules/project'
+import { ProjectDataForSignalerDemandeDelaiPage } from '@modules/project'
 
-type ReportDemandeDelaiProps = {
+type SignalerDemandeDelaiProps = {
   request: Request
-  project: ProjectDataForReportPage
+  project: ProjectDataForSignalerDemandeDelaiPage
 }
-export const ReportDemandeDelai = PageLayout(
-  ({ request: { user }, project }: ReportDemandeDelaiProps) => {
+export const SignalerDemandeDelai = PageLayout(
+  ({ request: { user }, project }: SignalerDemandeDelaiProps) => {
     const [status, setStatus] = useState('accepted')
 
     return (
       <RoleBasedDashboard role={user.role} currentPage="list-projects">
         <div className="p-3">
-          <h1>Signaler une demande de délai</h1>
+          <h1>Signaler une demande de délai traitée hors Potentiel</h1>
 
           <p>
             Le projet {project.nomProjet} a actuellement une date d'achèvement au{' '}
-            {new Intl.DateTimeFormat('fr').format(project.completionDueOn)}
+            {new Intl.DateTimeFormat('fr').format(project.completionDueOn)} (la date la plus récente
+            sera prise en compte pour le projet).
           </p>
 
-          <form action={routes.ADMIN_CREATE_PAST_DEMANDE_DELAI(project.id)} method="POST">
+          <form action={routes.ADMIN_SIGNALER_DEMANDE_DELAI_POST(project.id)} method="POST">
             <label>Date de la décision*</label>
             <input name="decisionDate" placeholder="JJ/MM/AAAA" required />
 

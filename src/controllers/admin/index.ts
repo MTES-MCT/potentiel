@@ -6,7 +6,7 @@ export * from './getInvitationListPage';
 export * from './getNotificationListPage';
 export * from './getPeriodesCsv';
 export * from './getRegenerateCertificatesPage';
-export * from './getReportDemandeDelaiPage';
+export * from './getSignalerDemandeDelaiPage';
 export * from './getUsersPage';
 export * from './postAppelsOffres';
 export * from './postInviteUser';
