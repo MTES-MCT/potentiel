@@ -6,6 +6,7 @@ export interface DemandeDelaiSignaledPayload {
   isAccepted: boolean
   isNewDateApplicable: boolean
   notes?: string
+  attachments?: string[]
   signaledBy: string
 }
 export class DemandeDelaiSignaled

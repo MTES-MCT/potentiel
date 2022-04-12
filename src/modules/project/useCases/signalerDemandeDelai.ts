@@ -1,7 +1,7 @@
 import { Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
-import { errAsync, ResultAsync, wrapInfra } from '@core/utils'
+import { errAsync, logger, okAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { User } from '@entities'
-import { FileContents, FileObject } from '../../file'
+import { FileContents, FileObject, makeFileObject } from '../../file'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors'
 import { GFCertificateHasAlreadyBeenSentError } from '../errors/GFCertificateHasAlreadyBeenSent'
@@ -31,13 +31,40 @@ export const makeSignalerDemandeDelai =
   (
     args: SignalerDemandeDelaiArgs
   ): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
-    const { projectRepo, shouldUserAccessProject } = deps
-    const { projectId, decidedOn, newCompletionDueOn, isAccepted, notes, signaledBy } = args
+    const { projectRepo, fileRepo, shouldUserAccessProject } = deps
+    const { projectId, decidedOn, newCompletionDueOn, isAccepted, notes, signaledBy, file } = args
 
-    return wrapInfra(shouldUserAccessProject({ projectId, user: signaledBy })).andThen(
-      (userHasRightsToProject): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
-        if (!userHasRightsToProject) return errAsync(new UnauthorizedError())
+    return wrapInfra(shouldUserAccessProject({ projectId, user: signaledBy }))
+      .andThen(
+        (
+          userHasRightsToProject
+        ): ResultAsync<string | null, InfraNotAvailableError | UnauthorizedError> => {
+          if (!userHasRightsToProject) {
+            return errAsync(new UnauthorizedError())
+          }
 
+          if (file) {
+            const { filename, contents } = file
+            const fileId = makeFileObject({
+              designation: 'other',
+              forProject: new UniqueEntityID(projectId),
+              createdBy: new UniqueEntityID(signaledBy.id),
+              filename,
+              contents,
+            })
+              .asyncAndThen((file) => fileRepo.save(file).map(() => file.id.toString()))
+              .mapErr((e: Error) => {
+                logger.error(e)
+                return new InfraNotAvailableError()
+              })
+
+            return fileId
+          }
+
+          return okAsync(null)
+        }
+      )
+      .andThen((fileId) => {
         return projectRepo.transaction(
           new UniqueEntityID(projectId),
           (
@@ -52,11 +79,11 @@ export const makeSignalerDemandeDelai =
                 newCompletionDueOn: new Date(newCompletionDueOn),
                 isAccepted,
                 notes,
+                attachments: fileId ? [fileId] : [],
                 signaledBy,
               })
               .asyncMap(async () => null)
           }
         )
-      }
-    )
+      })
   }

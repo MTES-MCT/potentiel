@@ -138,6 +138,7 @@ export interface Project extends EventStoreAggregate {
     newCompletionDueOn: Date
     isAccepted: boolean
     notes?: string
+    attachments: string[]
     signaledBy: User
   }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
   readonly shouldCertificateBeGenerated: boolean
@@ -745,7 +746,13 @@ export const makeProject = (args: {
       )
       return ok(null)
     },
-    signalerDemandeDelai: function ({ newCompletionDueOn, isAccepted, notes, signaledBy }) {
+    signalerDemandeDelai: function ({
+      newCompletionDueOn,
+      isAccepted,
+      notes,
+      attachments,
+      signaledBy,
+    }) {
       if (!_isNotified()) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
       }
@@ -760,6 +767,7 @@ export const makeProject = (args: {
             isNewDateApplicable,
             isAccepted,
             notes,
+            attachments,
             signaledBy: signaledBy.id,
           },
         })

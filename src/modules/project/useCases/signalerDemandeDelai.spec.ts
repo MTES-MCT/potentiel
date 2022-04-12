@@ -9,8 +9,13 @@ import { UnauthorizedError } from '../../shared'
 import { makeSignalerDemandeDelai } from './signalerDemandeDelai'
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
 import { Project } from '../Project'
+import { Readable } from 'stream'
 
 const projectId = new UniqueEntityID().toString()
+const fakeFileContents = {
+  filename: 'fakeFile.pdf',
+  contents: Readable.from('test-content'),
+}
 
 const fakePublish = jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null))
 
@@ -44,6 +49,7 @@ describe('signalerDemandeDelai use-case', () => {
         isAccepted: true,
         newCompletionDueOn: new Date('2025-01-31').getTime(),
         notes: 'notes',
+        file: fakeFileContents,
         signaledBy: user,
       })
 
@@ -55,12 +61,19 @@ describe('signalerDemandeDelai use-case', () => {
       })
     })
 
+    it('should save the attachment file', async () => {
+      expect(fileRepo.save).toHaveBeenCalled()
+      expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents.contents)
+    })
+
     it('should call signalerDemandDelai', () => {
+      const fakeFile = fileRepo.save.mock.calls[0][0]
       expect(fakeProject.signalerDemandeDelai).toHaveBeenCalledWith({
         decidedOn: new Date('2022-04-12'),
         isAccepted: true,
         newCompletionDueOn: new Date('2025-01-31'),
         notes: 'notes',
+        attachments: [fakeFile.id.toString()],
         signaledBy: user,
       })
     })

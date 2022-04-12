@@ -1,3 +1,4 @@
+import fs from 'fs'
 import { ensureRole, signalerDemandeDelai } from '@config'
 import { logger } from '@core/utils'
 import asyncHandler from '../helpers/asyncHandler'
@@ -25,12 +26,18 @@ v1Router.post(
       })
     }
 
+    const file = {
+      contents: fs.createReadStream(request.file!.path),
+      filename: `${Date.now()}-${request.file!.originalname}`,
+    }
+
     const result = signalerDemandeDelai({
       projectId,
       decidedOn,
       isAccepted,
       newCompletionDueOn,
       notes,
+      file,
       signaledBy,
     })
 
