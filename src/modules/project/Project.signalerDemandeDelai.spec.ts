@@ -125,6 +125,7 @@ describe('Project.signalerDemandeDelai()', () => {
           decidedOn: new Date('2022-04-12'),
           newCompletionDueOn,
           isAccepted: true,
+          notes: 'notes',
           signaledBy: fakeUser,
         })
 
@@ -138,6 +139,7 @@ describe('Project.signalerDemandeDelai()', () => {
         expect(targetEvent.payload.newCompletionDueOn).toEqual(newCompletionDueOn.getTime())
         expect(targetEvent.payload.isAccepted).toEqual(true)
         expect(targetEvent.payload.isNewDateApplicable).toEqual(false)
+        expect(targetEvent.payload.notes).toEqual('notes')
         expect(targetEvent.payload.signaledBy).toEqual(fakeUser.id)
       })
     })
@@ -201,6 +203,7 @@ describe('Project.signalerDemandeDelai()', () => {
           decidedOn: new Date('2022-04-12'),
           newCompletionDueOn,
           isAccepted: true,
+          notes: 'notes',
           signaledBy: fakeUser,
         })
 
@@ -214,6 +217,7 @@ describe('Project.signalerDemandeDelai()', () => {
         expect(targetEvent.payload.newCompletionDueOn).toEqual(newCompletionDueOn.getTime())
         expect(targetEvent.payload.isAccepted).toEqual(true)
         expect(targetEvent.payload.isNewDateApplicable).toEqual(true)
+        expect(targetEvent.payload.notes).toEqual('notes')
         expect(targetEvent.payload.signaledBy).toEqual(fakeUser.id)
       })
     })

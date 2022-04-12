@@ -12,7 +12,7 @@ v1Router.post(
   ensureRole(['admin', 'dgec', 'dreal']),
   asyncHandler(async (request, response) => {
     const {
-      body: { projectId, decidedOn, isAccepted, newCompletionDueOn },
+      body: { projectId, decidedOn, isAccepted, newCompletionDueOn, notes },
       user: signaledBy,
     } = request
 
@@ -30,6 +30,7 @@ v1Router.post(
       decidedOn,
       isAccepted,
       newCompletionDueOn,
+      notes,
       signaledBy,
     })
 

@@ -1,7 +1,7 @@
 import { Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
-import { errAsync, logger, ok, okAsync, ResultAsync, wrapInfra } from '@core/utils'
+import { errAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { User } from '@entities'
-import { FileContents, FileObject, makeFileObject } from '../../file'
+import { FileContents, FileObject } from '../../file'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors'
 import { GFCertificateHasAlreadyBeenSentError } from '../errors/GFCertificateHasAlreadyBeenSent'
@@ -18,6 +18,7 @@ type SignalerDemandeDelaiArgs = {
   decidedOn: number
   isAccepted: boolean
   newCompletionDueOn: number
+  notes?: string
   signaledBy: User
   file?: {
     contents: FileContents
@@ -31,7 +32,7 @@ export const makeSignalerDemandeDelai =
     args: SignalerDemandeDelaiArgs
   ): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
     const { projectRepo, shouldUserAccessProject } = deps
-    const { projectId, decidedOn, newCompletionDueOn, isAccepted, signaledBy } = args
+    const { projectId, decidedOn, newCompletionDueOn, isAccepted, notes, signaledBy } = args
 
     return wrapInfra(shouldUserAccessProject({ projectId, user: signaledBy })).andThen(
       (userHasRightsToProject): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
@@ -50,6 +51,7 @@ export const makeSignalerDemandeDelai =
                 decidedOn: new Date(decidedOn),
                 newCompletionDueOn: new Date(newCompletionDueOn),
                 isAccepted,
+                notes,
                 signaledBy,
               })
               .asyncMap(async () => null)

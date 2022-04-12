@@ -43,6 +43,7 @@ describe('signalerDemandeDelai use-case', () => {
         decidedOn: new Date('2022-04-12').getTime(),
         isAccepted: true,
         newCompletionDueOn: new Date('2025-01-31').getTime(),
+        notes: 'notes',
         signaledBy: user,
       })
 
@@ -59,6 +60,7 @@ describe('signalerDemandeDelai use-case', () => {
         decidedOn: new Date('2022-04-12'),
         isAccepted: true,
         newCompletionDueOn: new Date('2025-01-31'),
+        notes: 'notes',
         signaledBy: user,
       })
     })

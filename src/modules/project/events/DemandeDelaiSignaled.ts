@@ -5,6 +5,7 @@ export interface DemandeDelaiSignaledPayload {
   newCompletionDueOn: number
   isAccepted: boolean
   isNewDateApplicable: boolean
+  notes?: string
   signaledBy: string
 }
 export class DemandeDelaiSignaled

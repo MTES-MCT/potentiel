@@ -64,8 +64,13 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>(null)
   ),
   signalerDemandeDelai: jest.fn(
-    (args: { decidedOn: Date; newCompletionDueOn: Date; isAccepted: boolean; signaledBy: User }) =>
-      ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)
+    (args: {
+      decidedOn: Date
+      newCompletionDueOn: Date
+      isAccepted: boolean
+      notes?: string
+      signaledBy: User
+    }) => ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)
   ),
 
   certificateData: ok({
