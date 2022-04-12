@@ -63,6 +63,11 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   withdrawGarantiesFinancieres: jest.fn((removedBy: User) =>
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>(null)
   ),
+  signalerDemandeDelai: jest.fn(
+    (args: { decidedOn: Date; newCompletionDueOn: Date; isAccepted: boolean; signaledBy: User }) =>
+      ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)
+  ),
+
   certificateData: ok({
     template: 'v1' as CertificateTemplate,
     data: {} as ProjectDataForCertificate,

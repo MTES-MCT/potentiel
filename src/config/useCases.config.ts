@@ -23,6 +23,7 @@ import {
   makeRegenerateCertificatesForPeriode,
   makeRemoveGF,
   makeRemoveStep,
+  makeSignalerDemandeDelai,
   makeSubmitGF,
   makeSubmitStep,
   makeUpdateNewRulesOptIn,
@@ -241,4 +242,10 @@ export const attachLegacyModificationFile = makeAttachLegacyModificationFile({
   eventBus: eventStore,
   getLegacyModificationByFilename,
   fileRepo,
+})
+
+export const signalerDemandeDelai = makeSignalerDemandeDelai({
+  fileRepo,
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+  projectRepo,
 })
