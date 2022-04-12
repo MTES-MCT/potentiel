@@ -919,6 +919,11 @@ export const makeProject = (args: {
         if (props.completionDueOn !== 0) props.hasCompletionDueDateMoved = true
         props.completionDueOn = event.payload.completionDueOn
         break
+      case DemandeDelaiSignaled.type:
+        if (event.payload.isAccepted && event.payload.isNewDateApplicable) {
+          props.completionDueOn = event.payload.newCompletionDueOn
+        }
+        break
       case ProjectDataCorrected.type:
         props.data = { ...props.data, ...event.payload.correctedData } as ProjectProps['data']
         for (const updatedField of Object.keys(event.payload.correctedData)) {
