@@ -1,4 +1,5 @@
 export * from './actions';
+export * from './buttons';
 export * from './timeline';
 export * from './AdminDashboard';
 export * from './CDCChoiceForm';
@@ -14,6 +15,7 @@ export * from './PageLayout';
 export * from './Pagination';
 export * from './PartnerDashboard';
 export * from './ProjectActions';
+export * from './ProjectInfo';
 export * from './ProjectList';
 export * from './ProjectStatusLabel';
 export * from './RequestList';

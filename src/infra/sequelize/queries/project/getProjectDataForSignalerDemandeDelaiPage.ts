@@ -21,12 +21,32 @@ export const getProjectDataForSignalerDemandeDelaiPage: GetProjectDataForSignale
         > => {
           if (!projectRaw) return err(new EntityNotFoundError())
 
-          const { id, completionDueOn, nomProjet } = projectRaw.get()
+          const {
+            id,
+            completionDueOn,
+            nomProjet,
+            nomCandidat,
+            communeProjet,
+            regionProjet,
+            departementProjet,
+            notifiedOn,
+            periodeId,
+            familleId,
+            appelOffreId,
+          } = projectRaw.get()
 
           const project = {
             id,
             nomProjet,
             completionDueOn: completionDueOn ? new Date(completionDueOn) : undefined,
+            nomCandidat,
+            communeProjet,
+            regionProjet,
+            departementProjet,
+            notifiedOn,
+            periodeId,
+            familleId,
+            appelOffreId,
           }
 
           return ok(project)

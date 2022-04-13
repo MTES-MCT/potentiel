@@ -4,6 +4,7 @@ import { PageLayout, RoleBasedDashboard } from '@views/components'
 import routes from '../../../routes'
 import { ProjectDataForSignalerDemandeDelaiPage } from '@modules/project'
 import { Button } from 'src/views/components/buttons/Button'
+import { ProjectInfo } from 'src/views/components/ProjectInfo'
 
 type SignalerDemandeDelaiProps = {
   request: Request
@@ -30,6 +31,11 @@ export const SignalerDemandeDelai = PageLayout(
             method="POST"
             className="flex flex-col gap-5"
           >
+            <div>
+              <p className="m-0">Pour le projet</p>
+              <ProjectInfo project={project} />
+            </div>
+
             <input name="projectId" value={project.id} required hidden />
 
             <div>

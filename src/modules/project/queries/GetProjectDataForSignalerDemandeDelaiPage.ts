@@ -6,6 +6,14 @@ export type ProjectDataForSignalerDemandeDelaiPage = {
   nomProjet: string
   completionDueOn?: Date
   hasPendingDemandeDelai: boolean
+  nomCandidat: string
+  communeProjet: string
+  regionProjet: string
+  departementProjet: string
+  periodeId: string
+  familleId: string
+  notifiedOn: number
+  appelOffreId: string
 }
 
 export type GetProjectDataForSignalerDemandeDelaiPage = ({
