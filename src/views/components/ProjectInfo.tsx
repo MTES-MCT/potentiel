@@ -5,9 +5,10 @@ import { ProjectDataForSignalerDemandeDelaiPage } from 'src/modules/project/quer
 
 type ProjectInfoProps = {
   project: ProjectDataForSignalerDemandeDelaiPage
+  children?: React.ReactNode
 }
 
-export const ProjectInfo = ({ project }: ProjectInfoProps) => {
+export const ProjectInfo = ({ project, children }: ProjectInfoProps) => {
   return (
     <div
       className="text-quote"
@@ -45,6 +46,7 @@ export const ProjectInfo = ({ project }: ProjectInfoProps) => {
         </span>{' '}
         famille <span {...dataId('modificationRequest-item-famille')}>{project.familleId}</span>
       </p>
+      {children}
     </div>
   )
 }

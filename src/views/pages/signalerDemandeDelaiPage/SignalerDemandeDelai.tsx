@@ -5,6 +5,7 @@ import routes from '../../../routes'
 import { ProjectDataForSignalerDemandeDelaiPage } from '@modules/project'
 import { Button } from 'src/views/components/buttons/Button'
 import { ProjectInfo } from 'src/views/components/ProjectInfo'
+import { hydrateOnClient } from '../../helpers/hydrateOnClient'
 
 type SignalerDemandeDelaiProps = {
   request: Request
@@ -20,11 +21,6 @@ export const SignalerDemandeDelai = PageLayout(
           <div className="panel__header">
             <h1 className="text-2xl">Signaler une demande de délai traitée hors Potentiel</h1>
           </div>
-          <p>
-            Le projet {project.nomProjet} a actuellement une date d'attestation de conformité prévue
-            le {new Intl.DateTimeFormat('fr').format(project.completionDueOn)} (la date la plus
-            récente sera prise en compte pour le projet).
-          </p>
 
           <form
             action={routes.ADMIN_SIGNALER_DEMANDE_DELAI_POST}
@@ -33,7 +29,12 @@ export const SignalerDemandeDelai = PageLayout(
           >
             <div>
               <p className="m-0">Pour le projet</p>
-              <ProjectInfo project={project} />
+              <ProjectInfo project={project}>
+                <p className="m-0">
+                  Date théorique actuelle de mise en service du projet au{' '}
+                  <strong>{new Intl.DateTimeFormat('fr').format(project.completionDueOn)}</strong>
+                </p>
+              </ProjectInfo>
             </div>
 
             <input name="projectId" value={project.id} required hidden />
@@ -44,7 +45,7 @@ export const SignalerDemandeDelai = PageLayout(
             </div>
 
             <div className="flex flex-row gap-3 my-2">
-              <p className="m-0">Demande : </p>
+              <p className="m-0">Décision : </p>
               <div className="flex">
                 <input
                   type="radio"
@@ -54,7 +55,7 @@ export const SignalerDemandeDelai = PageLayout(
                   {...(isAccepted && { checked: true })}
                   required
                 />
-                <label htmlFor="status-accepted">Acceptée</label>
+                <label htmlFor="status-accepted">Demande acceptée</label>
               </div>
               <div className="flex">
                 <input
@@ -65,13 +66,24 @@ export const SignalerDemandeDelai = PageLayout(
                   {...(!isAccepted && { checked: true })}
                   required
                 />
-                <label htmlFor="status-rejected">Refusée</label>
+                <label htmlFor="status-rejected">Demande refusée</label>
               </div>
             </div>
 
             <div>
-              <label>Nouvelle date d'attestation de conformité*</label>
+              <label>Date de mise en service demandée par le porteur*</label>
               <input type="date" name="newCompletionDueOn" />
+              {isAccepted ? (
+                <p className="m-0 italic">
+                  Cette date impactera le projet seulement si elle est postérieure à la date
+                  théorique de mise en service actuelle.
+                </p>
+              ) : (
+                <p className="m-0 italic">
+                  Cette information sera indiquée dans l'historique du projet (frise de la page du
+                  projet) mais n'aura pas d'impact sur la date de mise en service du projet.
+                </p>
+              )}
             </div>
 
             <div>
@@ -93,3 +105,5 @@ export const SignalerDemandeDelai = PageLayout(
     )
   }
 )
+
+//hydrateOnClient(SignalerDemandeDelai)
