@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Request } from 'express'
-import { PageLayout, RoleBasedDashboard } from '@views/components'
+import { LinkButton, PageLayout, RoleBasedDashboard } from '@views/components'
 import routes from '../../../routes'
 import { ProjectDataForSignalerDemandeDelaiPage } from '@modules/project'
 import { Button } from 'src/views/components/buttons/Button'
@@ -96,9 +96,12 @@ export const SignalerDemandeDelai = PageLayout(
               <textarea name="notes"></textarea>
             </div>
 
-            <Button type="submit" primary={true} className="inline-block m-auto">
-              Enregistrer
-            </Button>
+            <div className="m-auto flex gap-4">
+              <Button type="submit" primary={true}>
+                Enregistrer
+              </Button>
+              <LinkButton href={routes.PROJECT_DETAILS(project.id)}>Annuler</LinkButton>
+            </div>
           </form>
         </main>
       </RoleBasedDashboard>
