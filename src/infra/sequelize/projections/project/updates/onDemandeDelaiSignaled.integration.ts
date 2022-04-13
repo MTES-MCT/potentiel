@@ -26,6 +26,7 @@ describe('project.onDemandeDelaiSignaled', () => {
         new DemandeDelaiSignaled({
           payload: {
             projectId,
+            decidedOn: 67890,
             isAccepted: true,
             isNewDateApplicable: true,
             newCompletionDueOn: 12345,
@@ -45,6 +46,7 @@ describe('project.onDemandeDelaiSignaled', () => {
         new DemandeDelaiSignaled({
           payload: {
             projectId,
+            decidedOn: 67890,
             isAccepted: false,
             isNewDateApplicable: true,
             newCompletionDueOn: 12345,
@@ -64,6 +66,7 @@ describe('project.onDemandeDelaiSignaled', () => {
         new DemandeDelaiSignaled({
           payload: {
             projectId,
+            decidedOn: 67890,
             isAccepted: true,
             isNewDateApplicable: false,
             newCompletionDueOn: 12345,

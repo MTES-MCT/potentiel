@@ -7,6 +7,7 @@ type Attachment = {
 
 export interface DemandeDelaiSignaledPayload {
   projectId: string
+  decidedOn: number
   newCompletionDueOn: number
   isAccepted: boolean
   isNewDateApplicable: boolean

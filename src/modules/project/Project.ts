@@ -747,6 +747,7 @@ export const makeProject = (args: {
       return ok(null)
     },
     signalerDemandeDelai: function ({
+      decidedOn,
       newCompletionDueOn,
       isAccepted,
       notes,
@@ -763,6 +764,7 @@ export const makeProject = (args: {
         new DemandeDelaiSignaled({
           payload: {
             projectId: props.projectId.toString(),
+            decidedOn: decidedOn.getTime(),
             newCompletionDueOn: newCompletionDueOn.getTime(),
             isNewDateApplicable,
             isAccepted,

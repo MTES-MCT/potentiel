@@ -138,6 +138,7 @@ describe('Project.signalerDemandeDelai()', () => {
 
         expect(targetEvent.type).toEqual(DemandeDelaiSignaled.type)
         expect(targetEvent.payload.projectId).toEqual(projectId.toString())
+        expect(targetEvent.payload.decidedOn).toEqual(new Date('2022-04-12').getTime())
         expect(targetEvent.payload.newCompletionDueOn).toEqual(newCompletionDueOn.getTime())
         expect(targetEvent.payload.isAccepted).toEqual(true)
         expect(targetEvent.payload.isNewDateApplicable).toEqual(false)
@@ -218,6 +219,7 @@ describe('Project.signalerDemandeDelai()', () => {
 
         expect(targetEvent.type).toEqual(DemandeDelaiSignaled.type)
         expect(targetEvent.payload.projectId).toEqual(projectId.toString())
+        expect(targetEvent.payload.decidedOn).toEqual(new Date('2022-04-12').getTime())
         expect(targetEvent.payload.newCompletionDueOn).toEqual(newCompletionDueOn.getTime())
         expect(targetEvent.payload.isAccepted).toEqual(true)
         expect(targetEvent.payload.isNewDateApplicable).toEqual(true)
