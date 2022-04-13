@@ -7,9 +7,11 @@ import { UnauthorizedError } from '@modules/shared'
 import routes from '../../routes'
 import { errorResponse, unauthorizedResponse } from '../helpers'
 import { v1Router } from '../v1Router'
+import { upload } from '../upload'
 
 v1Router.post(
   routes.ADMIN_SIGNALER_DEMANDE_DELAI_POST,
+  upload.single('file'),
   ensureRole(['admin', 'dgec', 'dreal']),
   asyncHandler(async (request, response) => {
     const {
