@@ -3,6 +3,7 @@ import { Request } from 'express'
 import { PageLayout, RoleBasedDashboard } from '@views/components'
 import routes from '../../../routes'
 import { ProjectDataForSignalerDemandeDelaiPage } from '@modules/project'
+import { Button } from 'src/views/components/buttons/Button'
 
 type SignalerDemandeDelaiProps = {
   request: Request
@@ -14,23 +15,31 @@ export const SignalerDemandeDelai = PageLayout(
 
     return (
       <RoleBasedDashboard role={user.role} currentPage="list-projects">
-        <div className="p-3">
-          <h1>Signaler une demande de délai traitée hors Potentiel</h1>
-
+        <main role="main" className="panel">
+          <div className="panel__header">
+            <h1 className="text-2xl">Signaler une demande de délai traitée hors Potentiel</h1>
+          </div>
           <p>
             Le projet {project.nomProjet} a actuellement une date d'attestation de conformité prévue
             le {new Intl.DateTimeFormat('fr').format(project.completionDueOn)} (la date la plus
             récente sera prise en compte pour le projet).
           </p>
 
-          <form action={routes.ADMIN_SIGNALER_DEMANDE_DELAI_POST} method="POST">
+          <form
+            action={routes.ADMIN_SIGNALER_DEMANDE_DELAI_POST}
+            method="POST"
+            className="flex flex-col gap-5"
+          >
             <input name="projectId" value={project.id} required hidden />
 
-            <label>Date de la décision*</label>
-            <input name="decidedOn" placeholder="JJ/MM/AAAA" required />
+            <div>
+              <label>Date de la décision*</label>
+              <input type="date" name="decidedOn" required />
+            </div>
 
             <div className="flex flex-row gap-3 my-2">
-              <div>
+              <p className="m-0">Demande : </p>
+              <div className="flex">
                 <input
                   type="radio"
                   id="status-accepted"
@@ -41,7 +50,7 @@ export const SignalerDemandeDelai = PageLayout(
                 />
                 <label htmlFor="status-accepted">Acceptée</label>
               </div>
-              <div>
+              <div className="flex">
                 <input
                   type="radio"
                   id="status-rejected"
@@ -54,20 +63,26 @@ export const SignalerDemandeDelai = PageLayout(
               </div>
             </div>
 
-            <label>Nouvelle date d'attestation de conformité*</label>
-            <input name="newCompletionDueOn" placeholder="JJ/MM/AAAA" />
+            <div>
+              <label>Nouvelle date d'attestation de conformité*</label>
+              <input type="date" name="newCompletionDueOn" />
+            </div>
 
-            <label>Courrier de la réponse (fichier joint)</label>
-            <input name="answerFile" type="file" />
+            <div>
+              <label>Courrier de la réponse (fichier joint)</label>
+              <input name="answerFile" type="file" />
+            </div>
 
-            <label>Notes</label>
-            <textarea name="notes"></textarea>
+            <div>
+              <label>Notes</label>
+              <textarea name="notes"></textarea>
+            </div>
 
-            <button className="button primary" type="submit">
+            <Button type="submit" primary={true} className="inline-block m-auto">
               Enregistrer
-            </button>
+            </Button>
           </form>
-        </div>
+        </main>
       </RoleBasedDashboard>
     )
   }
