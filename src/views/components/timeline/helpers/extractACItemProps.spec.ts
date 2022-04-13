@@ -1,5 +1,6 @@
 import {
   CovidDelayGrantedDTO,
+  DemandeDelaiSignaledDTO,
   ProjectCompletionDueDateSetDTO,
   ProjectEventListDTO,
   ProjectImportedDTO,
@@ -78,6 +79,96 @@ describe('extractACItemProps', () => {
         })
       })
     })
+    describe('when there is some DemandeDelaiSignaled event with a due date applicable later than the due date', () => {
+      it('should return the latest new due date', () => {
+        const events = [
+          {
+            type: 'ProjectCompletionDueDateSet',
+            date: new Date('2024-01-01').getTime(),
+            variant: 'admin',
+          } as ProjectCompletionDueDateSetDTO,
+          {
+            type: 'DemandeDelaiSignaled',
+            date: new Date('2025-01-01').getTime(),
+            variant: 'admin',
+            isAccepted: true,
+            isNewDateApplicable: true,
+            newCompletionDueOn: new Date('2024-06-30').getTime(),
+          } as DemandeDelaiSignaledDTO,
+          {
+            type: 'ProjectCompletionDueDateSet',
+            date: new Date('2025-01-01').getTime(),
+            variant: 'admin',
+          } as ProjectCompletionDueDateSetDTO,
+          {
+            type: 'DemandeDelaiSignaled',
+            date: new Date('2025-01-01').getTime(),
+            variant: 'admin',
+            isAccepted: false,
+            isNewDateApplicable: false,
+            newCompletionDueOn: new Date('2024-07-31').getTime(),
+          } as DemandeDelaiSignaledDTO,
+          {
+            type: 'DemandeDelaiSignaled',
+            date: new Date('2025-01-01').getTime(),
+            variant: 'admin',
+            isAccepted: true,
+            isNewDateApplicable: true,
+            newCompletionDueOn: new Date('2025-02-01').getTime(),
+          } as DemandeDelaiSignaledDTO,
+          {
+            type: 'DemandeDelaiSignaled',
+            date: new Date('2025-01-01').getTime(),
+            variant: 'admin',
+            isAccepted: true,
+            isNewDateApplicable: true,
+            newCompletionDueOn: new Date('2026-01-01').getTime(),
+          } as DemandeDelaiSignaledDTO,
+          {
+            type: 'DemandeDelaiSignaled',
+            date: new Date('2025-01-01').getTime(),
+            variant: 'admin',
+            isAccepted: true,
+            isNewDateApplicable: false,
+            newCompletionDueOn: new Date('2023-01-01').getTime(),
+          } as DemandeDelaiSignaledDTO,
+        ]
+        const result = extractACItemProps(events, project)
+        expect(result).toMatchObject({
+          type: 'attestation-de-conformite',
+          date: new Date('2026-01-01').getTime(),
+        })
+      })
+    })
+    describe('when there is some DemandeDelaiSignaled event with a due date applicable earlier than the due date', () => {
+      it('should return the latest due date', () => {
+        const events = [
+          {
+            type: 'ProjectCompletionDueDateSet',
+            date: new Date('2024-01-01').getTime(),
+            variant: 'admin',
+          } as ProjectCompletionDueDateSetDTO,
+          {
+            type: 'ProjectCompletionDueDateSet',
+            date: new Date('2025-01-01').getTime(),
+            variant: 'admin',
+          } as ProjectCompletionDueDateSetDTO,
+          {
+            type: 'DemandeDelaiSignaled',
+            date: new Date('2025-01-01').getTime(),
+            variant: 'admin',
+            isAccepted: true,
+            isNewDateApplicable: true,
+            newCompletionDueOn: new Date('2023-01-01').getTime(),
+          } as DemandeDelaiSignaledDTO,
+        ]
+        const result = extractACItemProps(events, project)
+        expect(result).toMatchObject({
+          type: 'attestation-de-conformite',
+          date: new Date('2025-01-01').getTime(),
+        })
+      })
+    })
   })
   describe('when the project is Eliminé', () => {
     const project = {
@@ -96,7 +187,6 @@ describe('extractACItemProps', () => {
       expect(result).toBeNull()
     })
   })
-
   describe('when the project is Abandonné', () => {
     const project = {
       status: 'Abandonné',

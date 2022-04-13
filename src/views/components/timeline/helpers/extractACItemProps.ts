@@ -23,11 +23,23 @@ export const extractACItemProps = (
 
   const hasCovidDelay = events.find(is('CovidDelayGranted'))
 
-  return latestEvent
-    ? {
-        type: 'attestation-de-conformite',
-        date: latestEvent.date,
-        ...(hasCovidDelay && { covidDelay: true }),
-      }
-    : null
+  if (latestEvent) {
+    const demandeDelaiSignaledEventApplicable = events
+      .filter(is('DemandeDelaiSignaled'))
+      .filter(
+        (e) => e.isAccepted && e.isNewDateApplicable && e.newCompletionDueOn > latestEvent.date
+      )
+      .sort((a, b) => a.newCompletionDueOn - b.newCompletionDueOn)
+      .pop()
+
+    return {
+      type: 'attestation-de-conformite',
+      date: demandeDelaiSignaledEventApplicable
+        ? demandeDelaiSignaledEventApplicable.newCompletionDueOn
+        : latestEvent.date,
+      ...(hasCovidDelay && { covidDelay: true }),
+    }
+  }
+
+  return null
 }
