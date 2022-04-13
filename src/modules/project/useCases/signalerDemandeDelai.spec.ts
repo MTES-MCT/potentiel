@@ -73,7 +73,7 @@ describe('signalerDemandeDelai use-case', () => {
         isAccepted: true,
         newCompletionDueOn: new Date('2025-01-31'),
         notes: 'notes',
-        attachments: [fakeFile.id.toString()],
+        attachments: [{ id: fakeFile.id.toString(), name: fakeFileContents.filename }],
         signaledBy: user,
       })
     })

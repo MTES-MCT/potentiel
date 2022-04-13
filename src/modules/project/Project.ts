@@ -138,7 +138,7 @@ export interface Project extends EventStoreAggregate {
     newCompletionDueOn: Date
     isAccepted: boolean
     notes?: string
-    attachments: string[]
+    attachments: Array<{ id: string; name: string }>
     signaledBy: User
   }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
   readonly shouldCertificateBeGenerated: boolean

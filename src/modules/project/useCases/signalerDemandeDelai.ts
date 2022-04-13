@@ -38,14 +38,17 @@ export const makeSignalerDemandeDelai =
       .andThen(
         (
           userHasRightsToProject
-        ): ResultAsync<string | null, InfraNotAvailableError | UnauthorizedError> => {
+        ): ResultAsync<
+          { id: string; name: string } | null,
+          InfraNotAvailableError | UnauthorizedError
+        > => {
           if (!userHasRightsToProject) {
             return errAsync(new UnauthorizedError())
           }
 
           if (file) {
             const { filename, contents } = file
-            const fileId = makeFileObject({
+            const fileObject = makeFileObject({
               designation: 'other',
               forProject: new UniqueEntityID(projectId),
               createdBy: new UniqueEntityID(signaledBy.id),
@@ -53,18 +56,19 @@ export const makeSignalerDemandeDelai =
               contents,
             })
               .asyncAndThen((file) => fileRepo.save(file).map(() => file.id.toString()))
+              .map((fileId) => ({ id: fileId, name: filename }))
               .mapErr((e: Error) => {
                 logger.error(e)
                 return new InfraNotAvailableError()
               })
 
-            return fileId
+            return fileObject
           }
 
           return okAsync(null)
         }
       )
-      .andThen((fileId) => {
+      .andThen((file) => {
         return projectRepo.transaction(
           new UniqueEntityID(projectId),
           (
@@ -79,7 +83,7 @@ export const makeSignalerDemandeDelai =
                 newCompletionDueOn: new Date(newCompletionDueOn),
                 isAccepted,
                 notes,
-                attachments: fileId ? [fileId] : [],
+                attachments: file ? [file] : [],
                 signaledBy,
               })
               .asyncMap(async () => null)

@@ -127,7 +127,7 @@ describe('Project.signalerDemandeDelai()', () => {
           newCompletionDueOn,
           isAccepted: true,
           notes: 'notes',
-          attachments: ['file-id'],
+          attachments: [{ id: 'file-id', name: 'file-name' }],
           signaledBy: fakeUser,
         })
 
@@ -142,7 +142,7 @@ describe('Project.signalerDemandeDelai()', () => {
         expect(targetEvent.payload.isAccepted).toEqual(true)
         expect(targetEvent.payload.isNewDateApplicable).toEqual(false)
         expect(targetEvent.payload.notes).toEqual('notes')
-        expect(targetEvent.payload.attachments).toEqual(['file-id'])
+        expect(targetEvent.payload.attachments).toEqual([{ id: 'file-id', name: 'file-name' }])
         expect(targetEvent.payload.signaledBy).toEqual(fakeUser.id)
       })
     })
@@ -207,7 +207,7 @@ describe('Project.signalerDemandeDelai()', () => {
           newCompletionDueOn,
           isAccepted: true,
           notes: 'notes',
-          attachments: ['file-id'],
+          attachments: [{ id: 'file-id', name: 'file-name' }],
           signaledBy: fakeUser,
         })
 
@@ -222,7 +222,7 @@ describe('Project.signalerDemandeDelai()', () => {
         expect(targetEvent.payload.isAccepted).toEqual(true)
         expect(targetEvent.payload.isNewDateApplicable).toEqual(true)
         expect(targetEvent.payload.notes).toEqual('notes')
-        expect(targetEvent.payload.attachments).toEqual(['file-id'])
+        expect(targetEvent.payload.attachments).toEqual([{ id: 'file-id', name: 'file-name' }])
         expect(targetEvent.payload.signaledBy).toEqual(fakeUser.id)
       })
     })

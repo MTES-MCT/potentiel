@@ -69,7 +69,7 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
       newCompletionDueOn: Date
       isAccepted: boolean
       notes?: string
-      attachments: string[]
+      attachments: Array<{ id: string; name: string }>
       signaledBy: User
     }) => ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)
   ),
