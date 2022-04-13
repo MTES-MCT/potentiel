@@ -8,6 +8,9 @@ import routes from '../../routes'
 import { errorResponse, unauthorizedResponse } from '../helpers'
 import { v1Router } from '../v1Router'
 import { upload } from '../upload'
+import moment from 'moment'
+
+const FORMAT_DATE = 'DD/MM/YYYY'
 
 v1Router.post(
   routes.ADMIN_SIGNALER_DEMANDE_DELAI_POST,
@@ -35,9 +38,9 @@ v1Router.post(
 
     const result = signalerDemandeDelai({
       projectId,
-      decidedOn,
+      decidedOn: moment(decidedOn, FORMAT_DATE).toDate().getTime(),
       isAccepted,
-      newCompletionDueOn,
+      newCompletionDueOn: moment(newCompletionDueOn, FORMAT_DATE).toDate().getTime(),
       notes,
       file,
       signaledBy,

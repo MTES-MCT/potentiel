@@ -3,6 +3,7 @@ import { Request } from 'express'
 import { PageLayout, RoleBasedDashboard } from '@views/components'
 import routes from '../../../routes'
 import { ProjectDataForSignalerDemandeDelaiPage } from '@modules/project'
+import { formatDate } from '../../../helpers/formatDate'
 
 type SignalerDemandeDelaiProps = {
   request: Request
@@ -15,21 +16,28 @@ export const SignalerDemandeDelai = PageLayout(
         <div className="p-3">
           <h1>Signaler une demande de délai traitée hors Potentiel</h1>
 
-          <p>
-            Le projet {project.nomProjet} a actuellement une date d'attestation de conformité prévue
-            le {new Intl.DateTimeFormat('fr').format(project.completionDueOn)} (la date la plus
-            récente sera prise en compte pour le projet).
-          </p>
+          {project.completionDueOn && (
+            <p>
+              Le projet {project.nomProjet} a actuellement une date d'attestation de conformité
+              prévue le {formatDate(project.completionDueOn)} (la date la plus récente sera prise en
+              compte pour le projet).
+            </p>
+          )}
 
           <form
             action={routes.ADMIN_SIGNALER_DEMANDE_DELAI_POST}
             method="POST"
             encType="multipart/form-data"
           >
-            <input name="projectId" value={project.id} required hidden />
+            <input name="projectId" value={project.id} readOnly hidden />
 
             <label>Date de la décision*</label>
-            <input name="decidedOn" placeholder="JJ/MM/AAAA" required />
+            <input
+              name="decidedOn"
+              placeholder="JJ/MM/AAAA"
+              defaultValue={formatDate(new Date())}
+              required
+            />
 
             <div className="flex flex-row gap-3 my-2">
               <div>
