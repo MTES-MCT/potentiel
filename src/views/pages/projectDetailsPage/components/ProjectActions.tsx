@@ -24,8 +24,8 @@ type SignalerUnChangementProps = {
   project: ProjectDataForProjectPage
 }
 const SignalerUnChangement = ({ project }: SignalerUnChangementProps) => (
-  <Menu as="div" className="self-stretch relative grow md:grow-0 text-left">
-    <Menu.Button className="w-full button-outline primary lg:max-w-fit">
+  <Menu as="div" className="self-stretch relative grow md:grow-0 text-left mx-auto">
+    <Menu.Button className="inline-flex items-center px-6 py-2 border border-solid text-base font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 border-blue-france-sun-base text-blue-france-sun-base bg-white hover:bg-blue-france-975-base focus:bg-blue-france-975-base">
       Signaler un changement
     </Menu.Button>
     <Transition
@@ -73,6 +73,8 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
           potentielIdentifier: project.potentielIdentifier,
         })}
         download
+        primary={true}
+        className="mb-2 ml-4"
       >
         <PaperClipIcon className="h-5 w-5 align-middle mr-2" />
         Télécharger mon attestation
@@ -81,7 +83,7 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
 
     {project.isClasse && (
       <Menu as="div" className="self-stretch relative grow md:grow-0 text-left">
-        <Menu.Button className="w-full button-outline primary whitespace-nowrap lg:max-w-fit">
+        <Menu.Button className="ml-4 inline-flex items-center px-6 py-2 border border-solid text-base font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 border-blue-france-sun-base text-blue-france-sun-base bg-white hover:bg-blue-france-975-base focus:bg-blue-france-975-base">
           Faire une demande
         </Menu.Button>
         <Transition
@@ -167,7 +169,7 @@ type AdminActionsProps = {
   project: ProjectDataForProjectPage
 }
 const AdminActions = ({ project }: AdminActionsProps) => (
-  <div className="flex flex-col xl:flex-row gap-2 items-center">
+  <div className="flex flex-col md:flex-row gap-2">
     <SignalerUnChangement {...{ project }} />
 
     {project.notifiedOn && project.certificateFile ? (
@@ -180,6 +182,7 @@ const AdminActions = ({ project }: AdminActionsProps) => (
         })}
         download
         primary
+        className="m-auto"
       >
         <PaperClipIcon className="h-5 w-5 align-middle mr-2" />
         Voir attestation
