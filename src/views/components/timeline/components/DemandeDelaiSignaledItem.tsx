@@ -4,25 +4,17 @@ import { ItemDate, ItemTitle, ContentArea, PastIcon, UnvalidatedStepIcon } from 
 import { makeDocumentUrl } from '../helpers'
 
 type DemandeDelaiSignaledItemProps = {
-  status: 'acceptée' | 'rejetée'
+  isAccepted: boolean
   date: number
   newCompletionDueOn: number
   attachment?: { id: string; name: string }
 }
 
 export const DemandeDelaiSignaledItem = (props: DemandeDelaiSignaledItemProps) => {
-  const { status } = props
-  switch (status) {
-    case 'rejetée':
-      return <Rejected {...{ ...props, status }} />
-    case 'acceptée':
-      return <Accepted {...{ ...props, status }} />
-  }
+  return props.isAccepted ? <Accepted {...props} /> : <Rejected {...props} />
 }
 
-type RejectedProps = DemandeDelaiSignaledItemProps & {
-  status: 'rejetée'
-}
+type RejectedProps = DemandeDelaiSignaledItemProps
 
 const Rejected = (props: RejectedProps) => {
   const { date, newCompletionDueOn, attachment } = props
@@ -45,9 +37,7 @@ const Rejected = (props: RejectedProps) => {
   )
 }
 
-type AcceptedProps = DemandeDelaiSignaledItemProps & {
-  status: 'acceptée'
-}
+type AcceptedProps = DemandeDelaiSignaledItemProps
 
 const Accepted = (props: AcceptedProps) => {
   const { date, newCompletionDueOn, attachment } = props
