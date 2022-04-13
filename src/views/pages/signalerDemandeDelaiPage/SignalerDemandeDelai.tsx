@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Request } from 'express'
 import { PageLayout, RoleBasedDashboard } from '@views/components'
 import routes from '../../../routes'
@@ -10,8 +10,6 @@ type SignalerDemandeDelaiProps = {
 }
 export const SignalerDemandeDelai = PageLayout(
   ({ request: { user }, project }: SignalerDemandeDelaiProps) => {
-    const [isAccepted, setIsAccepted] = useState(true)
-
     return (
       <RoleBasedDashboard role={user.role} currentPage="list-projects">
         <div className="p-3">
@@ -23,7 +21,11 @@ export const SignalerDemandeDelai = PageLayout(
             récente sera prise en compte pour le projet).
           </p>
 
-          <form action={routes.ADMIN_SIGNALER_DEMANDE_DELAI_POST} method="POST">
+          <form
+            action={routes.ADMIN_SIGNALER_DEMANDE_DELAI_POST}
+            method="POST"
+            encType="multipart/form-data"
+          >
             <input name="projectId" value={project.id} required hidden />
 
             <label>Date de la décision*</label>
@@ -35,21 +37,13 @@ export const SignalerDemandeDelai = PageLayout(
                   type="radio"
                   id="status-accepted"
                   name="isAccepted"
-                  onChange={(e) => e.target.checked && setIsAccepted(true)}
-                  {...(isAccepted && { checked: true })}
+                  defaultChecked
                   required
                 />
                 <label htmlFor="status-accepted">Acceptée</label>
               </div>
               <div>
-                <input
-                  type="radio"
-                  id="status-rejected"
-                  name="isAccepted"
-                  onChange={(e) => e.target.checked && setIsAccepted(false)}
-                  {...(!isAccepted && { checked: true })}
-                  required
-                />
+                <input type="radio" id="status-rejected" name="isAccepted" required />
                 <label htmlFor="status-rejected">Refusée</label>
               </div>
             </div>
@@ -58,7 +52,7 @@ export const SignalerDemandeDelai = PageLayout(
             <input name="newCompletionDueOn" placeholder="JJ/MM/AAAA" />
 
             <label>Courrier de la réponse (fichier joint)</label>
-            <input name="answerFile" type="file" />
+            <input name="file" type="file" />
 
             <label>Notes</label>
             <textarea name="notes"></textarea>
