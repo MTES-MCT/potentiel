@@ -1,12 +1,13 @@
 import React from 'react'
 import { formatDate } from '../../../../helpers/formatDate'
 import { ItemDate, ItemTitle, ContentArea, PastIcon, UnvalidatedStepIcon } from '.'
+import { makeDocumentUrl } from '../helpers'
 
 type DemandeDelaiSignaledItemProps = {
   status: 'acceptée' | 'rejetée'
   date: number
   newCompletionDueOn: number
-  responseUrl: string
+  attachment?: { id: string; name: string }
 }
 
 export const DemandeDelaiSignaledItem = (props: DemandeDelaiSignaledItemProps) => {
@@ -24,7 +25,7 @@ type RejectedProps = DemandeDelaiSignaledItemProps & {
 }
 
 const Rejected = (props: RejectedProps) => {
-  const { date, newCompletionDueOn, responseUrl } = props
+  const { date, newCompletionDueOn, attachment } = props
   return (
     <>
       <UnvalidatedStepIcon />
@@ -36,7 +37,9 @@ const Rejected = (props: RejectedProps) => {
             Date d'attestation de conformité demandée {formatDate(newCompletionDueOn)}
           </p>
         </>
-        {responseUrl && <a href={responseUrl}>Voir le courrier de réponse</a>}
+        {attachment && (
+          <a href={makeDocumentUrl(attachment.id, attachment.name)}>Voir le courrier de réponse</a>
+        )}
       </ContentArea>
     </>
   )
@@ -47,7 +50,7 @@ type AcceptedProps = DemandeDelaiSignaledItemProps & {
 }
 
 const Accepted = (props: AcceptedProps) => {
-  const { date, newCompletionDueOn, responseUrl } = props
+  const { date, newCompletionDueOn, attachment } = props
   return (
     <>
       <PastIcon />
@@ -59,7 +62,9 @@ const Accepted = (props: AcceptedProps) => {
             Date d'attestation de conformité demandée {formatDate(newCompletionDueOn)}
           </p>
         </>
-        {responseUrl && <a href={responseUrl}>Voir le courrier de réponse</a>}
+        {attachment && (
+          <a href={makeDocumentUrl(attachment.id, attachment.name)}>Voir le courrier de réponse</a>
+        )}
       </ContentArea>
     </>
   )

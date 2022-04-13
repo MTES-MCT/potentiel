@@ -1504,10 +1504,12 @@ export const DemandeDelaiSignaléAcceptée = () => (
         } as ProjectCertificateGeneratedDTO,
         {
           type: 'DemandeDelaiSignaled',
+          variant: 'porteur-projet',
           status: 'acceptée',
           date: new Date('2019-01-16').getTime(),
+          isNewDateApplicable: true,
           newCompletionDueOn: new Date('2022-01-16').getTime(),
-          responseUrl: 'response-url',
+          attachment: { id: 'file-id', name: 'file-name' },
         },
       ],
     }}
@@ -1536,10 +1538,12 @@ export const DemandeDelaiSignaléRefusée = () => (
         } as ProjectCertificateGeneratedDTO,
         {
           type: 'DemandeDelaiSignaled',
+          variant: 'porteur-projet',
           status: 'rejetée',
           date: new Date('2019-01-16').getTime(),
+          isNewDateApplicable: false,
           newCompletionDueOn: new Date('2022-01-16').getTime(),
-          responseUrl: 'response-url',
+          attachment: { id: 'file-id', name: 'file-name' },
         },
       ],
     }}

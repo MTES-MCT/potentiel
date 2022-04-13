@@ -33,7 +33,7 @@ export default ProjectEvent.projector.on(
           isAccepted,
           isNewDateApplicable,
           notes,
-          attachment: attachments ? attachments[0] : [],
+          attachment: attachments.length > 0 ? attachments[0] : [],
         },
       },
       { transaction }

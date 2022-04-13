@@ -274,6 +274,29 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       name: filename,
                     },
                   })
+                  break
+                case 'DemandeDelaiSignaled':
+                  if (userIsNot('ademe')(user)) {
+                    const {
+                      signaledBy,
+                      isNewDateApplicable,
+                      isAccepted,
+                      newCompletionDueOn,
+                      attachment,
+                      notes,
+                    } = payload
+                    events.push({
+                      type: 'DemandeDelaiSignaled',
+                      variant: user.role,
+                      date: valueDate,
+                      signaledBy,
+                      newCompletionDueOn,
+                      isAccepted,
+                      isNewDateApplicable,
+                      notes,
+                      attachment,
+                    })
+                  }
               }
 
               return Promise.resolve(events)

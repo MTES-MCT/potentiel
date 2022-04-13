@@ -337,10 +337,14 @@ export type CovidDelayGrantedDTO = {
 
 export type DemandeDelaiSignaledDTO = {
   type: 'DemandeDelaiSignaled'
-  status: 'acceptée' | 'rejetée'
+  variant: Exclude<UserRole, 'ademe'>
   date: number
+  signaledBy: string
+  isAccepted: boolean
+  isNewDateApplicable: boolean
   newCompletionDueOn: number
-  responseUrl: string
+  attachment?: File
+  notes?: string
 }
 
 export type ProjectEventListDTO = {
