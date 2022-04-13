@@ -1,5 +1,5 @@
 import React from 'react'
-import { ProjectEventListDTO } from '@modules/frise'
+import { DemandeDelaiSignaledDTO, is, ProjectEventListDTO } from '@modules/frise'
 import {
   TimelineItem,
   DesignationItem,
@@ -44,6 +44,7 @@ import {
   extractAttachedFileItemProps,
 } from './helpers'
 import { LegacyModificationsItem } from './components/LegacyModificationsItem'
+import { DemandeDelaiSignaledItem } from 'src/views/components/timeline/components/DemandeDelaiSignaledItem'
 
 export type TimelineProps = {
   projectEventList: ProjectEventListDTO
@@ -64,6 +65,7 @@ type ItemProps =
   | ModificationReceivedItemProps
   | LegacyModificationsItemProps
   | AttachedFileItemProps
+  | DemandeDelaiSignaledDTO
 
 type UndatedItemProps = ItemProps & { date: undefined }
 
@@ -89,6 +91,7 @@ export const Timeline = ({
     extractACItemProps(events, { status }),
     PTFItemProps?.status === 'submitted' ? PTFItemProps : null,
     ...extractModificationRequestsItemProps(events),
+    ...events.filter(is('DemandeDelaiSignaled')),
     ...extractModificationReceivedItemProps(events),
     ...extractLegacyModificationsItemProps(events),
     ...extractAttachedFileItemProps(events),
@@ -146,6 +149,9 @@ export const Timeline = ({
 
       case 'fichier-attaché':
         return <AttachedFileItem {...props} />
+
+      case 'DemandeDelaiSignaled':
+        return <DemandeDelaiSignaledItem {...props} />
     }
   })
 

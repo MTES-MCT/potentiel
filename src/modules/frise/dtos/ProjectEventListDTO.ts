@@ -37,6 +37,7 @@ export type ProjectEventDTO =
   | FileAttachedToProjectDTO
   | LegacyModificationFileAttachedDTO
   | CovidDelayGrantedDTO
+  | DemandeDelaiSignaledDTO
 
 type File = {
   id: string
@@ -332,6 +333,14 @@ export type CovidDelayGrantedDTO = {
   type: 'CovidDelayGranted'
   date: number
   variant: Exclude<UserRole, 'ademe'>
+}
+
+export type DemandeDelaiSignaledDTO = {
+  type: 'DemandeDelaiSignaled'
+  status: 'acceptée' | 'rejetée'
+  date: number
+  newCompletionDueOn: number
+  responseUrl: string
 }
 
 export type ProjectEventListDTO = {
