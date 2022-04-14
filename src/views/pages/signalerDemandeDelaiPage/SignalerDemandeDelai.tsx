@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Request } from 'express'
 import { LinkButton, PageLayout, RoleBasedDashboard } from '@views/components'
 import routes from '../../../routes'
@@ -14,6 +14,7 @@ type SignalerDemandeDelaiProps = {
 }
 export const SignalerDemandeDelai = PageLayout(
   ({ request: { user }, project }: SignalerDemandeDelaiProps) => {
+    const [isAccepted, setIsAccepted] = useState(true)
     return (
       <RoleBasedDashboard role={user.role} currentPage="list-projects">
         <main role="main" className="panel">
@@ -43,14 +44,17 @@ export const SignalerDemandeDelai = PageLayout(
             <input name="projectId" value={project.id} readOnly hidden />
 
             <div className="flex flex-row gap-3 my-2">
-              <p className="m-0">Décision : </p>
+              <p className="m-0">Décision* : </p>
               <div className="flex">
                 <input
                   type="radio"
                   id="status-accepted"
+                  value="status-accepted"
                   name="isAccepted"
-                  defaultChecked
+                  onChange={(e) => e.target.checked && setIsAccepted(true)}
+                  {...(isAccepted && { checked: true })}
                   required
+                  defaultChecked
                 />
                 <label htmlFor="status-accepted">Demande acceptée</label>
               </div>
@@ -58,6 +62,7 @@ export const SignalerDemandeDelai = PageLayout(
                 <input
                   type="radio"
                   id="status-rejected"
+                  value="status-rejected"
                   name="isAccepted"
                   onChange={(e) => e.target.checked && setIsAccepted(false)}
                   {...(!isAccepted && { checked: true })}

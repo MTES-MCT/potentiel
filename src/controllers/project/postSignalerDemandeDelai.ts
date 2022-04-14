@@ -39,7 +39,7 @@ v1Router.post(
     const result = signalerDemandeDelai({
       projectId,
       decidedOn: moment(decidedOn, FORMAT_DATE).toDate().getTime(),
-      isAccepted,
+      isAccepted: isAccepted === 'status-accepted',
       newCompletionDueOn: moment(newCompletionDueOn, FORMAT_DATE).toDate().getTime(),
       notes,
       file,
