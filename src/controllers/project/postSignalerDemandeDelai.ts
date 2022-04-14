@@ -22,8 +22,6 @@ v1Router.post(
       user: signaledBy,
     } = request
 
-    console.log(JSON.stringify(request.body))
-
     if (!validateUniqueId(projectId)) {
       return errorResponse({
         request,
