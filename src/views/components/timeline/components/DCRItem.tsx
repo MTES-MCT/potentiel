@@ -39,7 +39,7 @@ const Submitted = ({ role, date, url, numeroDossier, projectId }: SubmittedProps
           ) : (
             <span>Pièce-jointe introuvable</span>
           )}
-          <span>&nbsp;(dossier {numeroDossier})</span>
+          {numeroDossier && <span>&nbsp;(dossier {numeroDossier})</span>}
         </div>
         {role === 'porteur-projet' && <CancelDeposit {...{ projectId }} />}
       </ContentArea>
