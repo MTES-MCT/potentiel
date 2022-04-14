@@ -4,7 +4,7 @@ import { InfraNotAvailableError, EntityNotFoundError } from '../../shared'
 export type ProjectDataForSignalerDemandeDelaiPage = {
   id: string
   nomProjet: string
-  completionDueOn?: Date
+  completionDueOn?: number
   hasPendingDemandeDelai: boolean
   nomCandidat: string
   communeProjet: string

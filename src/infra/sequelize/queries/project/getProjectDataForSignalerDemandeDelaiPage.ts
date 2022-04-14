@@ -38,7 +38,7 @@ export const getProjectDataForSignalerDemandeDelaiPage: GetProjectDataForSignale
           const project = {
             id,
             nomProjet,
-            completionDueOn: completionDueOn ? new Date(completionDueOn) : undefined,
+            ...(completionDueOn > 0 && { completionDueOn }),
             nomCandidat,
             communeProjet,
             regionProjet,

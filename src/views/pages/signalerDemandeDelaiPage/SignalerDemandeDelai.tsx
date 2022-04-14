@@ -30,10 +30,14 @@ export const SignalerDemandeDelai = PageLayout(
             <div>
               <p className="m-0">Pour le projet</p>
               <ProjectInfo project={project}>
+                {project.completionDueOn ? (
                 <p className="m-0">
                   Date théorique actuelle de mise en service du projet au{' '}
-                  <strong>{new Intl.DateTimeFormat('fr').format(project.completionDueOn)}</strong>
+                    {formatDate(project.completionDueOn)}
                 </p>
+                ) : (
+                  <p>Ce projet n'a pas de date théorique de mise en service.</p>
+                )}
               </ProjectInfo>
             </div>
 
