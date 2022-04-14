@@ -9,7 +9,7 @@ const projectId = new UniqueEntityID().toString()
 const projectInfo = makeFakeProject({
   id: projectId,
   nomProjet: 'nomProjet',
-  completionDueOn: new Date(5678).getTime(),
+  completionDueOn: new Date('2025-01-31').getTime(),
 })
 const modificationRequest = {
   id: new UniqueEntityID().toString(),
@@ -30,7 +30,7 @@ describe('Sequelize getProjectDataForSignalerDemandeDelaiPage', () => {
     expect(res).toMatchObject({
       id: projectId,
       nomProjet: 'nomProjet',
-      completionDueOn: new Date(5678),
+      completionDueOn: new Date('2025-01-31').getTime(),
       hasPendingDemandeDelai: true,
     })
   })
