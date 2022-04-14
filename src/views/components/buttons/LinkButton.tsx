@@ -8,7 +8,13 @@ type LinkButtonProps = {
   download?: true
 }
 
-export const LinkButton = ({ href, className, children, primary, download }: LinkButtonProps) => (
+export const LinkButton = ({
+  href,
+  className = '',
+  children,
+  primary,
+  download,
+}: LinkButtonProps) => (
   <a
     className={`no-underline inline-flex items-center px-6 py-2 border border-solid text-base font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 ${
       primary

@@ -6,6 +6,7 @@ import { ProjectDataForSignalerDemandeDelaiPage } from '@modules/project'
 import { Button } from 'src/views/components/buttons/Button'
 import { ProjectInfo } from 'src/views/components/ProjectInfo'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
+import { formatDate } from 'src/helpers/formatDate'
 
 type SignalerDemandeDelaiProps = {
   request: Request
@@ -31,22 +32,17 @@ export const SignalerDemandeDelai = PageLayout(
               <p className="m-0">Pour le projet</p>
               <ProjectInfo project={project}>
                 {project.completionDueOn ? (
-                <p className="m-0">
-                  Date théorique actuelle de mise en service du projet au{' '}
+                  <p className="m-0">
+                    Date théorique actuelle de mise en service du projet au{' '}
                     {formatDate(project.completionDueOn)}
-                </p>
+                  </p>
                 ) : (
                   <p>Ce projet n'a pas de date théorique de mise en service.</p>
                 )}
               </ProjectInfo>
             </div>
 
-            <input name="projectId" value={project.id} required hidden />
-
-            <div>
-              <label>Date de la décision*</label>
-              <input type="date" name="decidedOn" required />
-            </div>
+            <input name="projectId" value={project.id} readOnly hidden />
 
             <div className="flex flex-row gap-3 my-2">
               <p className="m-0">Décision : </p>
@@ -75,8 +71,13 @@ export const SignalerDemandeDelai = PageLayout(
             </div>
 
             <div>
+              <label>Date de la décision*</label>
+              <InputDate name="decidedOn" required />
+            </div>
+
+            <div>
               <label>Date de mise en service demandée par le porteur*</label>
-              <input type="date" name="newCompletionDueOn" />
+              <InputDate name="newCompletionDueOn" required />
               {isAccepted ? (
                 <p className="m-0 italic">
                   Cette date impactera le projet seulement si elle est postérieure à la date
@@ -92,12 +93,15 @@ export const SignalerDemandeDelai = PageLayout(
 
             <div>
               <label>Courrier de la réponse (fichier joint)</label>
-              <input name="answerFile" type="file" />
+              <input name="answerFile" type="file" className="rounded-none" />
             </div>
 
             <div>
               <label>Notes</label>
-              <textarea name="notes"></textarea>
+              <textarea
+                className="bg-gray-100 border-x-0 border-t-0 border-b-2 border-solid border-gray-600 rounded-none"
+                name="notes"
+              ></textarea>
             </div>
 
             <div className="m-auto flex gap-4">
@@ -113,4 +117,19 @@ export const SignalerDemandeDelai = PageLayout(
   }
 )
 
-//hydrateOnClient(SignalerDemandeDelai)
+hydrateOnClient(SignalerDemandeDelai)
+
+type InputDateProps = {
+  name: string
+  required?: true
+  className?: string
+}
+
+const InputDate = ({ name, required, className = '' }: InputDateProps) => (
+  <input
+    type="date"
+    name={name}
+    {...(required && { required: true })}
+    className={`${className} bg-gray-100 border-x-0 border-t-0 border-b-2 border-solid border-gray-600 rounded-none`}
+  />
+)
