@@ -23,9 +23,10 @@ type ProjectInfoProps = {
     unitePuissance?: string
   }
   children?: React.ReactNode
+  className?: string
 }
 
-export const ProjectInfo = ({ project, children }: ProjectInfoProps) => {
+export const ProjectInfo = ({ project, children, className = '' }: ProjectInfoProps) => {
   const {
     id,
     nomProjet,
@@ -45,12 +46,7 @@ export const ProjectInfo = ({ project, children }: ProjectInfoProps) => {
   const displayPuissance = puissance && (appelOffre || unitePuissance)
   return (
     <div
-      className="text-quote"
-      style={{
-        paddingTop: 10,
-        paddingBottom: 10,
-        marginBottom: 10,
-      }}
+      className={`${className} p-4 bg-gray-100 border-solid border-l-4 border-y-0 border-r-0 border-blue-france-main-525-base`}
     >
       <div {...dataId('modificationRequest-item-nomProjet')}>
         <a href={routes.PROJECT_DETAILS(id)}>{nomProjet}</a>

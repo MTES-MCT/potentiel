@@ -45,7 +45,7 @@ export const ModificationRequest = PageLayout(
           <DemandeDetails modificationRequest={modificationRequest} />
 
           <p className="m-0">Concernant le projet :</p>
-          <ProjectInfo project={modificationRequest.project}></ProjectInfo>
+          <ProjectInfo project={modificationRequest.project} className="mb-3"></ProjectInfo>
 
           <ErrorBox error={error} />
           <SuccessBox success={success} />

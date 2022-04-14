@@ -49,7 +49,7 @@ export const NewModificationRequest = PageLayout(
             <input type="hidden" name="type" value={action} />
             <div className="form__group">
               <div style={{ marginBottom: 5 }}>Concernant le projet:</div>
-              <ProjectInfo project={project}></ProjectInfo>
+              <ProjectInfo project={project} className="mb-3"></ProjectInfo>
               {error && (
                 <div className="notification error" {...dataId('modificationRequest-errorMessage')}>
                   {error}
