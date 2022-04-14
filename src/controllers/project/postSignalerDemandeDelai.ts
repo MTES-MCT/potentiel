@@ -10,7 +10,7 @@ import { v1Router } from '../v1Router'
 import { upload } from '../upload'
 import moment from 'moment'
 
-const FORMAT_DATE = 'DD/MM/YYYY'
+const FORMAT_DATE = 'YYYY-MM-DD'
 
 v1Router.post(
   routes.ADMIN_SIGNALER_DEMANDE_DELAI_POST,
@@ -21,6 +21,8 @@ v1Router.post(
       body: { projectId, decidedOn, isAccepted, newCompletionDueOn, notes },
       user: signaledBy,
     } = request
+
+    console.log(JSON.stringify(request.body))
 
     if (!validateUniqueId(projectId)) {
       return errorResponse({

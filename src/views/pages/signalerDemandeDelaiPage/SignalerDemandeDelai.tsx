@@ -14,7 +14,8 @@ type SignalerDemandeDelaiProps = {
 }
 export const SignalerDemandeDelai = PageLayout(
   ({ request: { user }, project }: SignalerDemandeDelaiProps) => {
-    const [isAccepted, setIsAccepted] = useState(true)
+    const [doesNewDateImpactProject, changeDoesNewDateImpactProject] = useState(true)
+
     return (
       <RoleBasedDashboard role={user.role} currentPage="list-projects">
         <main role="main" className="panel">
@@ -51,10 +52,9 @@ export const SignalerDemandeDelai = PageLayout(
                   id="status-accepted"
                   value="status-accepted"
                   name="isAccepted"
-                  onChange={(e) => e.target.checked && setIsAccepted(true)}
-                  {...(isAccepted && { checked: true })}
-                  required
+                  onChange={(e) => e.target.checked && changeDoesNewDateImpactProject(true)}
                   defaultChecked
+                  required
                 />
                 <label htmlFor="status-accepted">Demande acceptée</label>
               </div>
@@ -64,8 +64,7 @@ export const SignalerDemandeDelai = PageLayout(
                   id="status-rejected"
                   value="status-rejected"
                   name="isAccepted"
-                  onChange={(e) => e.target.checked && setIsAccepted(false)}
-                  {...(!isAccepted && { checked: true })}
+                  onChange={(e) => e.target.checked && changeDoesNewDateImpactProject(false)}
                   required
                 />
                 <label htmlFor="status-rejected">Demande refusée</label>
@@ -80,7 +79,7 @@ export const SignalerDemandeDelai = PageLayout(
             <div>
               <label>Date de mise en service demandée par le porteur*</label>
               <InputDate name="newCompletionDueOn" required />
-              {isAccepted ? (
+              {doesNewDateImpactProject ? (
                 <p className="m-0 italic">
                   Cette date impactera le projet seulement si elle est postérieure à la date
                   théorique de mise en service actuelle.
@@ -95,7 +94,7 @@ export const SignalerDemandeDelai = PageLayout(
 
             <div>
               <label>Courrier de la réponse (fichier joint)</label>
-              <input name="answerFile" type="file" className="rounded-none" />
+              <input name="file" type="file" className="rounded-none" />
             </div>
 
             <div>
@@ -107,7 +106,7 @@ export const SignalerDemandeDelai = PageLayout(
             </div>
 
             <div className="m-auto flex gap-4">
-              <Button type="submit" primary={true}>
+              <Button type="submit" primary>
                 Enregistrer
               </Button>
               <LinkButton href={routes.PROJECT_DETAILS(project.id)}>Annuler</LinkButton>
