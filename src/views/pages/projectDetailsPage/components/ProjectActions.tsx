@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import ROUTES from '../../../../routes'
 import { Menu, Transition } from '@headlessui/react'
-import { PaperClipIcon } from '@heroicons/react/solid'
+import { InboxInIcon, PaperClipIcon } from '@heroicons/react/solid'
 import { ProjectDataForProjectPage } from '@modules/project'
 import { LinkButton } from '../../../components/buttons'
 import { userIs } from '@modules/users'
@@ -37,13 +37,17 @@ const SignalerUnChangement = ({ project }: SignalerUnChangementProps) => (
       leaveFrom="transform opacity-100 scale-100"
       leaveTo="transform opacity-0 scale-95"
     >
-      <Menu.Items className="absolute xs:left-0 lg:right-0 w-56 z-10 mt-2 lg:origin-top-right origin-top-left bg-white divide-y divide-gray-400 rounded-md border-solid border border-blue-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+      <Menu.Items className="absolute xs:left-0 lg:right-0 w-56 z-10 lg:origin-top-right origin-top-left bg-white divide-y divide-gray-400 border-solid border border-blue-france-sun-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none border-t-0">
         <Menu.Item key={`signaler_demande_delai`}>
           <a
             href={ROUTES.ADMIN_SIGNALER_DEMANDE_DELAI_PAGE(project.id)}
             className="no-underline bg-none hover:bg-none"
           >
-            <div className={'text-center rounded-md w-full py-2 hover:bg-slate-100'}>
+            <div
+              className={
+                'text-center rounded-md w-full py-2 hover:bg-blue-france-975-base focus:bg-blue-france-975-base text-blue-france-sun-base'
+              }
+            >
               Demande de délai
             </div>
           </a>
@@ -57,11 +61,121 @@ type PorteurProjetActionsProps = {
   project: ProjectDataForProjectPage
 }
 const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
-  <>
+  <div className="flex flex-col xl:flex-row gap-2">
     {!project.isClasse && (
       <LinkButton href={ROUTES.DEPOSER_RECOURS(project.id)}>
         Faire une demande de recours
       </LinkButton>
+    )}
+
+    {project.isClasse && (
+      <Menu as="div" className="m-auto self-stretch relative grow md:grow-0 text-left">
+        <Menu.Button className="inline-flex items-center px-6 py-2 border border-solid text-base font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 border-blue-france-sun-base text-blue-france-sun-base bg-white hover:bg-blue-france-975-base focus:bg-blue-france-975-base">
+          <InboxInIcon className="h-5 w-5 align-middle mr-2" />
+          Faire une demande
+        </Menu.Button>
+        <Transition
+          as={Fragment}
+          enter="transition ease-out duration-100"
+          enterFrom="transform opacity-0 scale-95"
+          enterTo="transform opacity-100 scale-100"
+          leave="transition ease-in duration-75"
+          leaveFrom="transform opacity-100 scale-100"
+          leaveTo="transform opacity-0 scale-95"
+        >
+          <Menu.Items
+            style={{ width: 216.76 }}
+            className="absolute xs:left-0 lg:right-0 z-10 lg:origin-top-right origin-top-left bg-white divide-y divide-gray-400 border-solid border border-blue-france-sun-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none border-t-0"
+          >
+            <Menu.Item key={`action_demande_delai`}>
+              <a
+                href={ROUTES.DEMANDE_DELAIS(project.id)}
+                className="no-underline bg-none hover:bg-none"
+              >
+                <div
+                  className={
+                    'text-center w-full py-2 hover:bg-blue-france-975-base focus:bg-blue-france-975-base text-blue-france-sun-base'
+                  }
+                >
+                  Demander un délai
+                </div>
+              </a>
+            </Menu.Item>
+            {project.appelOffre.type !== 'eolien' && (
+              <Menu.Item key={`action_changer_producteur`}>
+                <a
+                  href={ROUTES.CHANGER_PRODUCTEUR(project.id)}
+                  className="no-underline bg-none hover:bg-none"
+                >
+                  <div
+                    className={
+                      'text-center w-full py-2 hover:bg-blue-france-975-base focus:bg-blue-france-975-base text-blue-france-sun-base'
+                    }
+                  >
+                    Changer de producteur
+                  </div>
+                </a>
+              </Menu.Item>
+            )}
+            <Menu.Item key={`action_changer_fournisseur`}>
+              <a
+                href={ROUTES.CHANGER_FOURNISSEUR(project.id)}
+                className="no-underline bg-none hover:bg-none"
+              >
+                <div
+                  className={
+                    'text-center w-full py-2 hover:bg-blue-france-975-base focus:bg-blue-france-975-base text-blue-france-sun-base'
+                  }
+                >
+                  Changer de fournisseur
+                </div>
+              </a>
+            </Menu.Item>
+            <Menu.Item key={`action_changer_actionnaire`}>
+              <a
+                href={ROUTES.CHANGER_ACTIONNAIRE(project.id)}
+                className="no-underline bg-none hover:bg-none"
+              >
+                <div
+                  className={
+                    'text-center w-full py-2 hover:bg-blue-france-975-base focus:bg-blue-france-975-base text-blue-france-sun-base'
+                  }
+                >
+                  Changer d'actionnaire
+                </div>
+              </a>
+            </Menu.Item>
+            <Menu.Item key={`action_changer_puissance`}>
+              <a
+                href={ROUTES.CHANGER_PUISSANCE(project.id)}
+                className="no-underline bg-none hover:bg-none"
+              >
+                <div
+                  className={
+                    'text-center w-full py-2 hover:bg-blue-france-975-base focus:bg-blue-france-975-base text-blue-france-sun-base'
+                  }
+                >
+                  Changer de puissance
+                </div>
+              </a>
+            </Menu.Item>
+            <Menu.Item key={`action_demande_abandon`}>
+              <a
+                href={ROUTES.DEMANDER_ABANDON(project.id)}
+                className="no-underline bg-none hover:bg-none"
+              >
+                <div
+                  className={
+                    'text-center w-full py-2 hover:bg-blue-france-975-base focus:bg-blue-france-975-base text-blue-france-sun-base'
+                  }
+                >
+                  Demander un abandon
+                </div>
+              </a>
+            </Menu.Item>
+          </Menu.Items>
+        </Transition>
+      </Menu>
     )}
 
     {project.notifiedOn && project.certificateFile && (
@@ -74,95 +188,13 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
         })}
         download
         primary={true}
-        className="mb-2 ml-4"
+        className="m-auto"
       >
         <PaperClipIcon className="h-5 w-5 align-middle mr-2" />
         Télécharger mon attestation
       </LinkButton>
     )}
-
-    {project.isClasse && (
-      <Menu as="div" className="self-stretch relative grow md:grow-0 text-left">
-        <Menu.Button className="ml-4 inline-flex items-center px-6 py-2 border border-solid text-base font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 border-blue-france-sun-base text-blue-france-sun-base bg-white hover:bg-blue-france-975-base focus:bg-blue-france-975-base">
-          Faire une demande
-        </Menu.Button>
-        <Transition
-          as={Fragment}
-          enter="transition ease-out duration-100"
-          enterFrom="transform opacity-0 scale-95"
-          enterTo="transform opacity-100 scale-100"
-          leave="transition ease-in duration-75"
-          leaveFrom="transform opacity-100 scale-100"
-          leaveTo="transform opacity-0 scale-95"
-        >
-          <Menu.Items className="absolute xs:left-0 lg:right-0 w-56 z-10 mt-2 lg:origin-top-right origin-top-left bg-white divide-y divide-gray-400 rounded-md border-solid border border-blue-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-            <Menu.Item key={`action_demande_delai`}>
-              <a
-                href={ROUTES.DEMANDE_DELAIS(project.id)}
-                className="no-underline bg-none hover:bg-none"
-              >
-                <div className={'text-center rounded-md w-full py-2 hover:bg-slate-100'}>
-                  Demander un délai
-                </div>
-              </a>
-            </Menu.Item>
-            {project.appelOffre.type !== 'eolien' && (
-              <Menu.Item key={`action_changer_producteur`}>
-                <a
-                  href={ROUTES.CHANGER_PRODUCTEUR(project.id)}
-                  className="no-underline bg-none hover:bg-none"
-                >
-                  <div className={'text-center rounded-md w-full py-2 hover:bg-slate-100'}>
-                    Changer de producteur
-                  </div>
-                </a>
-              </Menu.Item>
-            )}
-            <Menu.Item key={`action_changer_fournisseur`}>
-              <a
-                href={ROUTES.CHANGER_FOURNISSEUR(project.id)}
-                className="no-underline bg-none hover:bg-none"
-              >
-                <div className={'text-center rounded-md w-full py-2 hover:bg-slate-100'}>
-                  Changer de fournisseur
-                </div>
-              </a>
-            </Menu.Item>
-            <Menu.Item key={`action_changer_actionnaire`}>
-              <a
-                href={ROUTES.CHANGER_ACTIONNAIRE(project.id)}
-                className="no-underline bg-none hover:bg-none"
-              >
-                <div className={'text-center rounded-md w-full py-2 hover:bg-slate-100'}>
-                  Changer d'actionnaire
-                </div>
-              </a>
-            </Menu.Item>
-            <Menu.Item key={`action_changer_puissance`}>
-              <a
-                href={ROUTES.CHANGER_PUISSANCE(project.id)}
-                className="no-underline bg-none hover:bg-none"
-              >
-                <div className={'text-center rounded-md w-full py-2 hover:bg-slate-100'}>
-                  Changer de puissance
-                </div>
-              </a>
-            </Menu.Item>
-            <Menu.Item key={`action_demande_abandon`}>
-              <a
-                href={ROUTES.DEMANDER_ABANDON(project.id)}
-                className="no-underline bg-none hover:bg-none"
-              >
-                <div className={'text-center rounded-md w-full py-2 hover:bg-slate-100'}>
-                  Demander un abandon
-                </div>
-              </a>
-            </Menu.Item>
-          </Menu.Items>
-        </Transition>
-      </Menu>
-    )}
-  </>
+  </div>
 )
 
 type AdminActionsProps = {
