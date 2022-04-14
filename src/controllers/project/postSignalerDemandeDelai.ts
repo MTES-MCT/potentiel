@@ -7,9 +7,14 @@ import { UnauthorizedError } from '@modules/shared'
 import routes from '../../routes'
 import { errorResponse, unauthorizedResponse } from '../helpers'
 import { v1Router } from '../v1Router'
+import { upload } from '../upload'
+import moment from 'moment'
+
+const FORMAT_DATE = 'DD/MM/YYYY'
 
 v1Router.post(
   routes.ADMIN_SIGNALER_DEMANDE_DELAI_POST,
+  upload.single('file'),
   ensureRole(['admin', 'dgec', 'dreal']),
   asyncHandler(async (request, response) => {
     const {
@@ -26,16 +31,16 @@ v1Router.post(
       })
     }
 
-    const file = {
-      contents: fs.createReadStream(request.file!.path),
-      filename: `${Date.now()}-${request.file!.originalname}`,
+    const file = request.file && {
+      contents: fs.createReadStream(request.file.path),
+      filename: `${Date.now()}-${request.file.originalname}`,
     }
 
     const result = signalerDemandeDelai({
       projectId,
-      decidedOn,
+      decidedOn: moment(decidedOn, FORMAT_DATE).toDate().getTime(),
       isAccepted,
-      newCompletionDueOn,
+      newCompletionDueOn: moment(newCompletionDueOn, FORMAT_DATE).toDate().getTime(),
       notes,
       file,
       signaledBy,

@@ -1482,3 +1482,71 @@ export const AdminDélaiCovid = () => (
     now={new Date().getTime()}
   />
 )
+
+export const DemandeDelaiSignaléAcceptée = () => (
+  <Timeline
+    projectEventList={{
+      project,
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'porteur-projet',
+          date: new Date('2019-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectCertificateGenerated',
+          variant: 'porteur-projet',
+          date: new Date('2019-01-13').getTime(),
+          certificateFileId: 'file-id',
+          nomProjet: 'mon projet pv',
+          email: undefined,
+          potentielIdentifier: 'pot-id',
+        } as ProjectCertificateGeneratedDTO,
+        {
+          type: 'DemandeDelaiSignaled',
+          variant: 'porteur-projet',
+          status: 'acceptée',
+          date: new Date('2019-01-16').getTime(),
+          isNewDateApplicable: true,
+          newCompletionDueOn: new Date('2022-01-16').getTime(),
+          attachment: { id: 'file-id', name: 'file-name' },
+        },
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)
+
+export const DemandeDelaiSignaléRefusée = () => (
+  <Timeline
+    projectEventList={{
+      project,
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'porteur-projet',
+          date: new Date('2019-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectCertificateGenerated',
+          variant: 'porteur-projet',
+          date: new Date('2019-01-13').getTime(),
+          certificateFileId: 'file-id',
+          nomProjet: 'mon projet pv',
+          email: undefined,
+          potentielIdentifier: 'pot-id',
+        } as ProjectCertificateGeneratedDTO,
+        {
+          type: 'DemandeDelaiSignaled',
+          variant: 'porteur-projet',
+          status: 'rejetée',
+          date: new Date('2019-01-16').getTime(),
+          isNewDateApplicable: false,
+          newCompletionDueOn: new Date('2022-01-16').getTime(),
+          attachment: { id: 'file-id', name: 'file-name' },
+        },
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)
