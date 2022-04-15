@@ -60,6 +60,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   break
                 case 'ProjectNotified':
                 case 'ProjectNotificationDateSet':
+                case 'CovidDelayGranted':
                   if (userIsNot('ademe')(user)) {
                     events.push({
                       type,

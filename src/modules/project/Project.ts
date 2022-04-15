@@ -18,6 +18,7 @@ import {
   HeterogeneousHistoryError,
   IllegalInitialStateForAggregateError,
   IncompleteDataError,
+  ProjectNotQualifiedForCovidDelay,
 } from '../shared'
 import { ProjectDataForCertificate } from './dtos'
 import {
@@ -60,9 +61,11 @@ import {
   ProjectCompletionDueDateCancelled,
   ProjectDCRDueDateCancelled,
   ProjectCertificateObsolete,
+  CovidDelayGranted,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre'
+import { date } from 'yup'
 
 export interface Project extends EventStoreAggregate {
   notify: (
@@ -130,6 +133,7 @@ export interface Project extends EventStoreAggregate {
   withdrawGarantiesFinancieres: (
     removedBy: User
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>
+  applyCovidDelay: () => Result<null, ProjectNotQualifiedForCovidDelay>
   readonly shouldCertificateBeGenerated: boolean
   readonly appelOffre?: ProjectAppelOffre
   readonly isClasse?: boolean
@@ -735,6 +739,19 @@ export const makeProject = (args: {
       )
       return ok(null)
     },
+    applyCovidDelay: function () {
+      const newCompletionDueOn = moment(props.completionDueOn).add(7, 'months').toDate().getTime()
+
+      _publishEvent(
+        new CovidDelayGranted({
+          payload: {
+            projectId: props.projectId.toString(),
+            completionDueOn: newCompletionDueOn,
+          },
+        })
+      )
+      return ok(null)
+    },
     get pendingEvents() {
       return pendingEvents
     },
@@ -886,6 +903,7 @@ export const makeProject = (args: {
         props.fieldsUpdatedAfterImport.add('notifiedOn')
         break
       case ProjectCompletionDueDateSet.type:
+      case CovidDelayGranted.type:
         if (props.completionDueOn !== 0) props.hasCompletionDueDateMoved = true
         props.completionDueOn = event.payload.completionDueOn
         break

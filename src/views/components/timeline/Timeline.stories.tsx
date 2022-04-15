@@ -26,6 +26,8 @@ import {
   ProjectEventListDTO,
   ProjectGFValidatedDTO,
   LegacyModificationFileAttachedDTO,
+  CovidDelayGrantedDTO,
+  ProjectCompletionDueDateSetDTO,
 } from '@modules/frise'
 import { Timeline } from './Timeline'
 
@@ -1425,6 +1427,56 @@ export const AdminFichierAttache = () => (
             id: '123',
           },
         },
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)
+
+export const AdminDélaiCovid = () => (
+  <Timeline
+    projectEventList={{
+      project,
+      events: [
+        {
+          type: 'ProjectImported',
+          variant: 'admin',
+          date: new Date('2022-01-11').getTime(),
+        } as ProjectImportedDTO,
+        {
+          type: 'ProjectNotified',
+          variant: 'admin',
+          date: new Date('2022-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'ProjectCertificateGenerated',
+          variant: 'admin',
+          date: new Date('2022-01-13').getTime(),
+          certificateFileId: 'file-id',
+          nomProjet: 'mon projet pv',
+          email: 'porteur@test.test',
+          potentielIdentifier: 'pot-id',
+        } as ProjectCertificateGeneratedDTO,
+        {
+          type: 'ProjectGFDueDateSet',
+          variant: 'admin',
+          date: new Date('2022-01-13').getTime(),
+        } as ProjectGFDueDateSetDTO,
+        {
+          type: 'ProjectDCRDueDateSet',
+          variant: 'admin',
+          date: new Date('2022-02-13').getTime(),
+        } as ProjectDCRDueDateSetDTO,
+        {
+          type: 'CovidDelayGranted',
+          variant: 'admin',
+          date: new Date('2022-02-13').getTime(),
+        } as CovidDelayGrantedDTO,
+        {
+          type: 'ProjectCompletionDueDateSet',
+          variant: 'admin',
+          date: new Date('2022-02-13').getTime(),
+        } as ProjectCompletionDueDateSetDTO,
       ],
     }}
     now={new Date().getTime()}

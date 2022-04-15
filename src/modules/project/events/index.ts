@@ -1,4 +1,5 @@
 export * from './CertificatesForPeriodeRegenerated';
+export * from './CovidDelayGranted';
 export * from './ImportExecuted';
 export * from './LegacyProjectEventSourced';
 export * from './LegacyProjectSourced';

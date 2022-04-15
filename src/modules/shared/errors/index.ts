@@ -6,4 +6,5 @@ export * from './IllegalInitialStateForAggregateError';
 export * from './IncompleteDataError';
 export * from './InfraNotAvailable';
 export * from './OtherError';
+export * from './ProjectNotQualifiedForCovidDelay';
 export * from './UnauthorizedError';

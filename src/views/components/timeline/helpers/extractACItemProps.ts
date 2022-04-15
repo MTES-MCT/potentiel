@@ -1,8 +1,10 @@
 import { is, ProjectEventDTO, ProjectStatus } from '@modules/frise'
+import { or } from '@core/utils'
 
 export type ACItemProps = {
   type: 'attestation-de-conformite'
   date: number
+  covidDelay?: true
 }
 
 export const extractACItemProps = (
@@ -13,11 +15,19 @@ export const extractACItemProps = (
     return null
   }
 
-  const completionDueDateSetEvent = events.filter(is('ProjectCompletionDueDateSet')).pop()
-  return completionDueDateSetEvent
+  const completionDueOnEvents = events
+    .filter(or(is('ProjectCompletionDueDateSet'), is('CovidDelayGranted')))
+    .sort((a, b) => a.date - b.date)
+
+  const latestEvent = completionDueOnEvents.pop()
+
+  const hasCovidDelay = events.find(is('CovidDelayGranted'))
+
+  return latestEvent
     ? {
         type: 'attestation-de-conformite',
-        date: completionDueDateSetEvent.date,
+        date: latestEvent.date,
+        ...(hasCovidDelay && { covidDelay: true }),
       }
     : null
 }
