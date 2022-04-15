@@ -1511,6 +1511,8 @@ export const DemandeDelaiSignaléAcceptée = () => (
           isNewDateApplicable: true,
           newCompletionDueOn: new Date('2022-01-16').getTime(),
           attachment: { id: 'file-id', name: 'file-name' },
+          notes:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam',
         },
       ],
     }}
@@ -1546,6 +1548,8 @@ export const DemandeDelaiSignaléRefusée = () => (
           isNewDateApplicable: false,
           newCompletionDueOn: new Date('2022-01-16').getTime(),
           attachment: { id: 'file-id', name: 'file-name' },
+          notes:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam',
         },
       ],
     }}
