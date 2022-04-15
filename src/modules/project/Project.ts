@@ -133,7 +133,6 @@ export interface Project extends EventStoreAggregate {
   withdrawGarantiesFinancieres: (
     removedBy: User
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>
-  applyCovidDelay: () => Result<null, ProjectNotQualifiedForCovidDelay>
   readonly shouldCertificateBeGenerated: boolean
   readonly appelOffre?: ProjectAppelOffre
   readonly isClasse?: boolean
@@ -734,19 +733,6 @@ export const makeProject = (args: {
           payload: {
             projectId: props.projectId.toString(),
             removedBy: removedBy.id,
-          },
-        })
-      )
-      return ok(null)
-    },
-    applyCovidDelay: function () {
-      const newCompletionDueOn = moment(props.completionDueOn).add(7, 'months').toDate().getTime()
-
-      _publishEvent(
-        new CovidDelayGranted({
-          payload: {
-            projectId: props.projectId.toString(),
-            completionDueOn: newCompletionDueOn,
           },
         })
       )
