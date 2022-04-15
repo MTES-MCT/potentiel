@@ -57,7 +57,7 @@ describe('getProjectEvents for DemandeDelaiSignaled events', () => {
 
             const result = await getProjectEvents({ projectId, user: fakeUser })
             expect(result._unsafeUnwrap()).toMatchObject({
-              events: [
+              events: expect.arrayContaining([
                 {
                   type: 'DemandeDelaiSignaled',
                   variant: role,
@@ -67,7 +67,7 @@ describe('getProjectEvents for DemandeDelaiSignaled events', () => {
                   isNewDateApplicable: true,
                   newCompletionDueOn: new Date('2025-01-31').getTime(),
                   attachment: { id: 'file-id', name: 'file-name' },
-                  notes: 'notes',
+                  ...(['admin', 'dgec'].includes(role) && { notes: 'notes' }),
                 },
                 {
                   type: 'DemandeDelaiSignaled',
@@ -78,9 +78,9 @@ describe('getProjectEvents for DemandeDelaiSignaled events', () => {
                   isNewDateApplicable: false,
                   newCompletionDueOn: new Date('2026-01-31').getTime(),
                   attachment: { id: 'file-id', name: 'file-name' },
-                  notes: 'notes',
+                  ...(['admin', 'dgec'].includes(role) && { notes: 'notes' }),
                 },
-              ],
+              ]),
             })
           })
         })
@@ -123,9 +123,8 @@ describe('getProjectEvents for DemandeDelaiSignaled events', () => {
         })
 
         const result = await getProjectEvents({ projectId, user: fakeUser })
-        expect(result._unsafeUnwrap()).toMatchObject({
-          events: [],
-        })
+        const { events } = result._unsafeUnwrap()
+        expect(events).toHaveLength(0)
       })
     })
   })
