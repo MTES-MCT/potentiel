@@ -110,7 +110,7 @@ describe('Project.signalerDemandeDelai()', () => {
           },
         }),
       ]
-      it('should emit a DemandeDelaiSignaled event', () => {
+      it('should emit a DemandeDelaiSignaled event with isNewDateApplicable=false', () => {
         const project = UnwrapForTest(
           makeProject({
             projectId,
@@ -191,7 +191,7 @@ describe('Project.signalerDemandeDelai()', () => {
           },
         }),
       ]
-      it('should emit a DemandeDelaiSignaled event', () => {
+      it('should emit a DemandeDelaiSignaled event with isNewDateApplicable=true', () => {
         const project = UnwrapForTest(
           makeProject({
             projectId,

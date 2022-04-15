@@ -4,7 +4,6 @@ import { ProjectDataForProjectPage } from '@modules/project/dtos'
 import { ProjectStatusLabel } from '../../../components'
 import { ProjectActions } from './ProjectActions'
 import { ExternalLinkIcon } from '@heroicons/react/solid'
-import { userIs } from '@modules/users'
 
 type ProjectHeaderProps = {
   project: ProjectDataForProjectPage

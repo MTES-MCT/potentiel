@@ -12,7 +12,7 @@ type SignalerDemandeDelaiProps = {
 }
 export const SignalerDemandeDelai = PageLayout(
   ({ request: { user }, project }: SignalerDemandeDelaiProps) => {
-    const [doesNewDateImpactProject, changeDoesNewDateImpactProject] = useState(true)
+    const [doesNewDateImpactProject, newDateImpactsProject] = useState(true)
 
     return (
       <RoleBasedDashboard role={user.role} currentPage="list-projects">
@@ -52,7 +52,7 @@ export const SignalerDemandeDelai = PageLayout(
                   id="status-accepted"
                   value="status-accepted"
                   name="isAccepted"
-                  onChange={(e) => e.target.checked && changeDoesNewDateImpactProject(true)}
+                  onChange={(e) => e.target.checked && newDateImpactsProject(true)}
                   defaultChecked
                   required
                 />
@@ -64,7 +64,7 @@ export const SignalerDemandeDelai = PageLayout(
                   id="status-rejected"
                   value="status-rejected"
                   name="isAccepted"
-                  onChange={(e) => e.target.checked && changeDoesNewDateImpactProject(false)}
+                  onChange={(e) => e.target.checked && newDateImpactsProject(false)}
                   required
                 />
                 <label htmlFor="status-rejected">Demande refusée</label>
@@ -73,12 +73,12 @@ export const SignalerDemandeDelai = PageLayout(
 
             <div>
               <label>Date de la décision*</label>
-              <InputDate name="decidedOn" required />
+              <DateInput name="decidedOn" required />
             </div>
 
             <div>
               <label>Date de mise en service demandée par le porteur*</label>
-              <InputDate name="newCompletionDueOn" required />
+              <DateInput name="newCompletionDueOn" required />
               {doesNewDateImpactProject ? (
                 <p className="m-0 italic">
                   Cette date impactera le projet seulement si elle est postérieure à la date
@@ -126,7 +126,7 @@ type InputDateProps = {
   className?: string
 }
 
-const InputDate = ({ name, required, className = '' }: InputDateProps) => (
+const DateInput = ({ name, required, className = '' }: InputDateProps) => (
   <input
     type="date"
     name={name}

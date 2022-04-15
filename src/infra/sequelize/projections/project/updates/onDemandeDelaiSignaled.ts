@@ -7,8 +7,8 @@ export const onDemandeDelaiSignaled =
     payload: { isAccepted, isNewDateApplicable, projectId, newCompletionDueOn },
   }: DemandeDelaiSignaled) => {
     if (isAccepted && isNewDateApplicable) {
-      const ProjectModel = models.Project
-      const projectInstance = await ProjectModel.findByPk(projectId)
+      const { Project } = models
+      const projectInstance = await Project.findByPk(projectId)
 
       if (!projectInstance) {
         logger.error(

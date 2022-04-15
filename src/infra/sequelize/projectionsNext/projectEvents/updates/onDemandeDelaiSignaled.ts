@@ -16,6 +16,7 @@ export default ProjectEvent.projector.on(
         notes,
         attachments,
       },
+      id,
       occurredAt,
     },
     transaction
@@ -26,7 +27,7 @@ export default ProjectEvent.projector.on(
         type: DemandeDelaiSignaled.type,
         valueDate: decidedOn,
         eventPublishedAt: occurredAt.getTime(),
-        id: new UniqueEntityID().toString(),
+        id,
         payload: {
           signaledBy,
           newCompletionDueOn,
