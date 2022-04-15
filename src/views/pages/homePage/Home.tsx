@@ -161,10 +161,6 @@ const SignupBox = () => {
       </div>
       {active === 1 && (
         <>
-          <p className="m-0 p-0">
-            Porteur de projets, inscrivez-vous dès maintenant pour suivre et mettre à jour vos
-            projets.
-          </p>
           <LinkButton href="" className="mx-auto">
             <RiAccountCircleLine className="mr-4" />
             M'inscrire
@@ -173,13 +169,10 @@ const SignupBox = () => {
       )}
       {active === 2 && (
         <>
-          <p className="m-0 p-0">
-            Autre partenaire, envoyez-nous une demande par email pour obtenir un accès à Potentiel.
+          <p className="m-0 p-0 font-semibold text-lg">
+            Contactez-nous par email <br />
+            pour obtenir un accès à Potentiel.
           </p>
-          <LinkButton className="mx-auto" href="mailto:contact@potentiel.beta.gouv.fr">
-            <RiMailAddFill className="mr-4" />
-            Nous contacter
-          </LinkButton>
         </>
       )}
       <p className="m-0">
@@ -224,13 +217,12 @@ const LoginBox = () => {
       >
         Connexion
       </h2>
-      <p className="m-0 whitespace-nowrap font-semibold text-xl text-blue-france-sun-base">
-        Nous sommes ravis de vous revoir !
-      </p>
-      <p className="m-0 p-0">
-        Vous avez déjà un compte sur Potentiel ? <br />
-        Connectez-vous pour accéder aux projets.
-      </p>
+      <div>
+        <p className="m-0 mb-3 whitespace-nowrap font-semibold text-xl text-blue-france-sun-base">
+          Vous avez déjà un compte sur Potentiel ?
+        </p>
+        <p className="m-0 p-0">Connectez-vous pour accéder aux projets.</p>
+      </div>
       <LinkButton href={routes.LOGIN} primary={true} className="mx-auto">
         <RiAccountPinBoxLine className="mr-4" />
         M'identifier
