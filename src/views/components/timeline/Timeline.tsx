@@ -14,6 +14,8 @@ import {
   ModificationRequestItem,
   ModificationReceivedItem,
   AttachedFileItem,
+  LegacyModificationsItem,
+  DemandeDelaiSignaledItem,
 } from './components'
 import {
   ACItemProps,
@@ -43,8 +45,6 @@ import {
   AttachedFileItemProps,
   extractAttachedFileItemProps,
 } from './helpers'
-import { LegacyModificationsItem } from './components/LegacyModificationsItem'
-import { DemandeDelaiSignaledItem } from 'src/views/components/timeline/components/DemandeDelaiSignaledItem'
 
 export type TimelineProps = {
   projectEventList: ProjectEventListDTO

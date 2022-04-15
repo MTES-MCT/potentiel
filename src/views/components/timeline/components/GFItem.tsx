@@ -6,7 +6,7 @@ import { InfoItem } from './InfoItem'
 import { WarningItem } from './WarningItem'
 import { GFItemProps } from '../helpers/extractGFItemProps'
 import { WarningIcon } from './WarningIcon'
-import { ProjectStatus } from 'src/modules/frise'
+import { ProjectStatus } from '@modules/frise'
 
 type ComponentProps = GFItemProps & {
   project: { id: string; status: ProjectStatus }

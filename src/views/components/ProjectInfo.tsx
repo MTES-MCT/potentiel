@@ -1,9 +1,8 @@
 import { AppelOffre } from '@entities'
-import { String } from 'aws-sdk/clients/apigateway'
 import React from 'react'
-import { formatDate } from 'src/helpers/formatDate'
-import { dataId } from 'src/helpers/testId'
-import routes from 'src/routes'
+import { formatDate } from '../../helpers/formatDate'
+import { dataId } from '../../helpers/testId'
+import routes from '../../routes'
 
 type ProjectInfoProps = {
   project: {

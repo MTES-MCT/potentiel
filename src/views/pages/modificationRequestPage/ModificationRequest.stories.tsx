@@ -1,6 +1,6 @@
 import { ProjectAppelOffre } from '@entities'
 import React from 'react'
-import { batimentPPE2 } from 'src/dataAccess/inMemory/appelsOffres'
+import { batimentPPE2 } from '@dataAccess/inMemory/appelsOffres'
 
 import makeFakeRequest from '../../../__tests__/fixtures/request'
 import makeFakeUser from '../../../__tests__/fixtures/user'

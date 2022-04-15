@@ -18,7 +18,7 @@ import {
   DemandeRecours,
   DemandeDelai,
 } from './components'
-import { ProjectInfo } from 'src/views/components'
+import { ProjectInfo } from '@views/components'
 
 type NewModificationRequestProps = {
   request: Request

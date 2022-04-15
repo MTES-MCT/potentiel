@@ -1,7 +1,7 @@
 import { or } from '@core/utils'
 import { Project } from '@entities'
-import { LegacyModificationStatus } from 'src/modules/modificationRequest'
-import { Fournisseur } from 'src/modules/project'
+import { LegacyModificationStatus } from '@modules/modificationRequest'
+import { Fournisseur } from '@modules/project'
 import { UserRole } from '../../users'
 
 export type ProjectEventDTO =

@@ -1,5 +1,5 @@
 import { is, ProjectEventDTO } from '@modules/frise/dtos'
-import { LegacyModificationStatus } from 'src/modules/modificationRequest'
+import { LegacyModificationStatus } from '@modules/modificationRequest'
 
 export type LegacyModificationsItemProps = {
   type: 'modification-historique'

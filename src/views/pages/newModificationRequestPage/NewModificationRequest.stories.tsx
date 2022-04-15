@@ -1,5 +1,5 @@
 import React from 'react'
-import { batimentPPE2 } from 'src/dataAccess/inMemory/appelsOffres'
+import { batimentPPE2 } from '@dataAccess/inMemory/appelsOffres'
 
 import makeFakeProject from '../../../__tests__/fixtures/project'
 import makeFakeRequest from '../../../__tests__/fixtures/request'
