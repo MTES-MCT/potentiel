@@ -1505,8 +1505,9 @@ export const DemandeDelaiSignaléAcceptée = () => (
         {
           type: 'DemandeDelaiSignaled',
           variant: 'porteur-projet',
-          status: 'acceptée',
+          isAccepted: true,
           date: new Date('2019-01-16').getTime(),
+          signaledBy: 'fakeuser-id',
           isNewDateApplicable: true,
           newCompletionDueOn: new Date('2022-01-16').getTime(),
           attachment: { id: 'file-id', name: 'file-name' },
@@ -1539,8 +1540,9 @@ export const DemandeDelaiSignaléRefusée = () => (
         {
           type: 'DemandeDelaiSignaled',
           variant: 'porteur-projet',
-          status: 'rejetée',
+          isAccepted: false,
           date: new Date('2019-01-16').getTime(),
+          signaledBy: 'fakeuser-id',
           isNewDateApplicable: false,
           newCompletionDueOn: new Date('2022-01-16').getTime(),
           attachment: { id: 'file-id', name: 'file-name' },
