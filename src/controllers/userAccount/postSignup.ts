@@ -59,12 +59,13 @@ v1Router.post(
       }
     } catch (e) {
       logger.error(e)
-      return errorResponse({
-        response,
-        request,
-        customMessage:
-          'Impossible de créer le compte utilisateur. Veuillez nous contacter si le problème persiste.',
-      })
+      return response.redirect(
+        addQueryParams(routes.SIGNUP, {
+          error:
+            'Impossible de créer le compte utilisateur. Veuillez tester de nouveau et nous contacter si le problème persiste.',
+          ...request.body,
+        })
+      )
     }
     return response.redirect(
       addQueryParams(routes.SIGNUP, {
