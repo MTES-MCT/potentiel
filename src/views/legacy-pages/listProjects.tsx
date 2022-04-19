@@ -316,7 +316,7 @@ export default function ListProjects({
 
               {getProjectsCount(projects) > 0 && (
                 <LinkButton
-                  className="m-0 md:ml-auto"
+                  className="inline-flex items-center m-0 md:ml-auto"
                   href={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(
                     request.query as any
                   )}`}

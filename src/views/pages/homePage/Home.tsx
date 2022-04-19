@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import { RiAccountCircleLine } from '@react-icons/all-files/ri/RiAccountCircleLine'
 import { RiAccountPinBoxLine } from '@react-icons/all-files/ri/RiAccountPinBoxLine'
 import { RiArrowRightCircleLine } from '@react-icons/all-files/ri/RiArrowRightCircleLine'
-import { RiMailAddFill } from '@react-icons/all-files/ri/RiMailAddFill'
 import { RiDashboardLine } from '@react-icons/all-files/ri/RiDashboardLine'
 import { RiLogoutBoxLine } from '@react-icons/all-files/ri/RiLogoutBoxLine'
 import routes from '../../../routes'
@@ -74,14 +73,17 @@ export const Home = (props: Props) => {
                 </p>
                 <div className="flex flex-col md:flex-row w-full md:w-fit gap-3">
                   <LinkButton
-                    className="lg:text-lg"
+                    className="inline-flex items-center lg:text-lg"
                     href={routes.REDIRECT_BASED_ON_ROLE}
                     primary={true}
                   >
                     <RiDashboardLine className="mr-4" />
                     Voir {user.role === 'porteur-projet' ? 'mes' : 'les'} projets
                   </LinkButton>
-                  <LinkButton className="lg:text-lg" href={routes.LOGOUT_ACTION}>
+                  <LinkButton
+                    className="inline-flex items-center lg:text-lg"
+                    href={routes.LOGOUT_ACTION}
+                  >
                     <RiLogoutBoxLine className="mr-4" />
                     Me déconnecter
                   </LinkButton>
@@ -161,7 +163,7 @@ const SignupBox = () => {
       </div>
       {active === 1 && (
         <>
-          <LinkButton href={routes.SIGNUP} className="mx-auto">
+          <LinkButton href={routes.SIGNUP} className="inline-flex items-center mx-auto">
             <RiAccountCircleLine className="mr-4" />
             M'inscrire
           </LinkButton>
@@ -223,7 +225,7 @@ const LoginBox = () => {
         </p>
         <p className="m-0 p-0">Connectez-vous pour accéder aux projets.</p>
       </div>
-      <LinkButton href={routes.LOGIN} primary={true} className="mx-auto">
+      <LinkButton href={routes.LOGIN} primary={true} className="inline-flex items-center mx-auto">
         <RiAccountPinBoxLine className="mr-4" />
         M'identifier
       </LinkButton>
