@@ -228,7 +228,7 @@ const LoginBox = () => {
         M'identifier
       </LinkButton>
       <p className="m-0">
-        <a href="">Mot de passe oublié</a>
+        <a href={routes.RESET_PASSWORD}>Mot de passe oublié</a>
       </p>
     </div>
   )
