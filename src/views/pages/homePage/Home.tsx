@@ -161,7 +161,7 @@ const SignupBox = () => {
       </div>
       {active === 1 && (
         <>
-          <LinkButton href="" className="mx-auto">
+          <LinkButton href={routes.SIGNUP} className="mx-auto">
             <RiAccountCircleLine className="mr-4" />
             M'inscrire
           </LinkButton>
