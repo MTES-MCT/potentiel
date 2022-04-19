@@ -4,6 +4,7 @@ import { RiErrorWarningFill } from '@react-icons/all-files/ri/RiErrorWarningFill
 type InputProps = React.HTMLAttributes<HTMLInputElement> & {
   type?: 'text' | 'email' | 'date'
   name?: string
+  placeholder?: string
   required?: true
   pattern?: string
   error?: string

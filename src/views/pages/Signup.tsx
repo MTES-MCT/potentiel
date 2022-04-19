@@ -1,7 +1,7 @@
 import { Request } from 'express'
 import React from 'react'
 import routes from 'src/routes'
-import { Footer, Header, Button, Input, Container } from '../components'
+import { Footer, Header, Button, Input, Container, EmailInput } from '../components'
 import { RiSaveLine } from '@react-icons/all-files/ri/RiSaveLine'
 
 type SignupProps = {
@@ -40,8 +40,8 @@ export const Signup = (props: SignupProps) => (
               </div>
 
               <div>
-                <label htmlFor="email">Adresse email</label>
-                <Input type="email" id="email" name="email" required />
+                <label htmlFor="email">Adresse courriel</label>
+                <EmailInput id="email" name="email" required />
               </div>
 
               <Button className="inline-flex items-center mx-auto" type="submit" primary>
