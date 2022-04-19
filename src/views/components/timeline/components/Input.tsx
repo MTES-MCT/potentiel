@@ -15,6 +15,7 @@ export const Input = ({ label, type, name, required, className = '' }: InputProp
       <input
         type={type}
         id={name}
+        name={name}
         {...(required && { required: true })}
         className={`${className}bg-gray-100 border-x-0 border-t-0 border-b-2 border-solid border-gray-600 rounded-none`}
       />

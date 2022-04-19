@@ -6,9 +6,12 @@ import { Input } from '../components/timeline/components/Input'
 
 type SignupProps = {
   request: Request
+  error?: string
+  success?: string
 }
 
 export const Signup = (props: SignupProps) => {
+  const { error, success } = props
   return (
     <>
       <Header {...props}></Header>
@@ -22,7 +25,9 @@ export const Signup = (props: SignupProps) => {
             documents et déposer des demandes.
           </h1>
         </div>
-        <form className="flex flex-col gap-3 bg-white p-10">
+        <form action={routes.SIGNUP} method="POST" className="flex flex-col gap-3 bg-white p-10">
+          {error && <div className="notification warning mt-4">{error}</div>}
+          {success && <div className="notification success mt-4">{success}</div>}
           <Input type="text" name="firstname" label="Prénom" required />
           <Input type="text" name="lastname" label="Nom" required />
           <Input type="email" name="email" label="Adresse email" required />
