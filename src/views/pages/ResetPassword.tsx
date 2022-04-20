@@ -1,8 +1,7 @@
 import { Request } from 'express'
 import React from 'react'
 import routes from 'src/routes'
-import { Footer, Header, SuccessErrorBox } from '../components'
-import { Input } from '../components/timeline/components/Input'
+import { Button, EmailInput, Footer, Header, SuccessErrorBox } from '../components'
 
 type ResetPasswordProps = {
   request: Request
@@ -29,14 +28,14 @@ export const ResetPassword = (props: ResetPasswordProps) => {
           className="flex flex-col gap-3 bg-white p-10"
         >
           <SuccessErrorBox success={success} error={error} />
-          <Input
-            type="email"
-            name="email"
-            label="Saisissez ici votre adresse email pour recevoir un lien de réinitialisation du mot de passe par
-            mail (le lien sera valable une heure) :"
-            required
-          />
-          <button type="submit">Envoyer</button>
+
+          <label htmlFor="email">
+            Saisissez ici votre adresse email pour recevoir un lien de réinitialisation du mot de
+            passe par mail (le lien sera valable une heure) :
+          </label>
+          <EmailInput id="email" name="email" required />
+
+          <Button type="submit">Envoyer</Button>
         </form>
       </main>
       <Footer></Footer>
