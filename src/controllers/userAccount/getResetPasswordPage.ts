@@ -6,7 +6,11 @@ import { ResetPasswordPage } from '@views'
 v1Router.get(
   routes.RESET_PASSWORD,
   asyncHandler(async (request, response) => {
-    const { query } = request
+    const { user, query } = request
+
+    if (user) {
+      response.redirect(routes.REDIRECT_BASED_ON_ROLE)
+    }
 
     const validationErrors: Array<{ [fieldName: string]: string }> = Object.entries(query).reduce(
       (errors, [key, value]) => ({
