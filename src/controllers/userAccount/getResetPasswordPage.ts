@@ -21,6 +21,7 @@ v1Router.get(
         request,
         ...(validationErrors.length > 0 && { validationErrors }),
         error: query['error']?.toString(),
+        success: query['success']?.toString(),
       })
     )
   })

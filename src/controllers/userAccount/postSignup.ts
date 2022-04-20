@@ -54,6 +54,10 @@ v1Router.post(
       )
     }
 
-    return response.redirect(routes.SIGNUP_SUCCESS)
+    return response.redirect(
+      addQueryParams(routes.SIGNUP, {
+        success: true,
+      })
+    )
   })
 )

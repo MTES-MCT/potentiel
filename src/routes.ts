@@ -32,7 +32,6 @@ class routes {
   static STATS = '/stats.html'
   static LOGOUT_ACTION = '/logout'
   static SIGNUP = '/signup'
-  static SIGNUP_SUCCESS = '/signup-successful'
   static RESET_PASSWORD = '/reset-password'
 
   static REDIRECT_BASED_ON_ROLE = '/go-to-user-dashboard'
