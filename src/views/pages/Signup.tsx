@@ -1,7 +1,7 @@
 import { Request } from 'express'
 import React from 'react'
 import routes from 'src/routes'
-import { Footer, Header, Button, Input, Container } from '../components'
+import { Footer, Header, Button, Input, Container, LinkButton } from '../components'
 import { RiSaveLine } from '@react-icons/all-files/ri/RiSaveLine'
 
 type SignupProps = {
@@ -31,6 +31,8 @@ export const Signup = ({ user, validationErrors }: SignupProps) => {
                 method="POST"
                 className="flex flex-col gap-3 p-4 mx-0 bg-white"
               >
+                <div className="text-sm italic">Tous les champs sont obligatoires</div>
+
                 <div>
                   <label htmlFor="firstname">Prénom</label>
                   <Input
@@ -65,10 +67,13 @@ export const Signup = ({ user, validationErrors }: SignupProps) => {
                   />
                 </div>
 
-                <Button className="inline-flex items-center mx-auto" type="submit" primary>
-                  <RiSaveLine className="mr-2" />
-                  M'inscrire
-                </Button>
+                <div className="flex flex-row gap-2 mx-auto mt-2">
+                  <Button className="inline-flex items-center" type="submit" primary>
+                    <RiSaveLine className="mr-2" />
+                    M'inscrire
+                  </Button>
+                  <LinkButton href={routes.HOME}>Annuler</LinkButton>
+                </div>
               </form>
             </div>
           </Container>

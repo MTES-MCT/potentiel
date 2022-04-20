@@ -1,7 +1,7 @@
 import { Request } from 'express'
 import React from 'react'
 import routes from 'src/routes'
-import { Button, Container, Footer, Header, Input } from '../components'
+import { Button, Container, Footer, Header, Input, LinkButton } from '../components'
 import { RiLock2Line } from '@react-icons/all-files/ri/RiLock2Line'
 
 type ResetPasswordProps = {
@@ -31,10 +31,12 @@ export const ResetPassword = ({ validationErrors, user }: ResetPasswordProps) =>
               method="POST"
               className="flex flex-col gap-3 p-4 mx-0 md:mx-auto bg-white"
             >
-              <label htmlFor="email">
-                Saisissez ici votre adresse email pour recevoir un lien de réinitialisation du mot
-                de passe par mail (le lien sera valable une heure) :
-              </label>
+              <div className="text-sm italic">
+                Après validation du formulaire, vous recevrez un lien de réinitialisation du mot de
+                passe par courriel qui sera valable pendant une heure
+              </div>
+
+              <label htmlFor="email">Adresse courriel (obligatoire)</label>
               <Input
                 type="email"
                 id="email"
@@ -44,9 +46,12 @@ export const ResetPassword = ({ validationErrors, user }: ResetPasswordProps) =>
                 {...(validationErrors && { error: validationErrors['email']?.toString() })}
               />
 
-              <Button className="mx-auto" type="submit" primary>
-                Envoyer
-              </Button>
+              <div className="flex flex-row gap-2 mx-auto mt-2">
+                <Button type="submit" primary>
+                  Réinitialiser
+                </Button>
+                <LinkButton href={routes.HOME}>Annuler</LinkButton>
+              </div>
             </form>
           </div>
         </Container>
