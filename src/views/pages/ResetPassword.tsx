@@ -1,7 +1,7 @@
 import { Request } from 'express'
 import React from 'react'
 import routes from 'src/routes'
-import { Button, Container, EmailInput, Footer, Header, SuccessErrorBox } from '../components'
+import { Button, Container, Footer, Header, Input, SuccessErrorBox } from '../components'
 import { RiLock2Line } from '@react-icons/all-files/ri/RiLock2Line'
 
 type ResetPasswordProps = {
@@ -39,7 +39,13 @@ export const ResetPassword = (props: ResetPasswordProps) => {
                   Saisissez ici votre adresse email pour recevoir un lien de réinitialisation du mot
                   de passe par mail (le lien sera valable une heure) :
                 </label>
-                <EmailInput id="email" name="email" required />
+                <Input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                />
 
                 <Button className="mx-auto" type="submit" primary>
                   Envoyer
