@@ -1,7 +1,7 @@
 import asyncHandler from '../helpers/asyncHandler'
 import routes from '../../routes'
 import { v1Router } from '../v1Router'
-import { userRepo } from '@config'
+import { createUser, userRepo } from '@config'
 import { logger } from 'src/core/utils'
 import { addQueryParams } from 'src/helpers/addQueryParams'
 
@@ -42,8 +42,10 @@ v1Router.post(
     }
 
     try {
-      const res = await userRepo.transaction(email, (user) => {
-        return user.create({ fullName: `${firstname} ${lastname}`, role: 'porteur-projet' })
+      const res = await createUser({
+        email,
+        fullName: `${firstname} ${lastname}`,
+        role: 'porteur-projet',
       })
 
       if (res.isErr()) {
