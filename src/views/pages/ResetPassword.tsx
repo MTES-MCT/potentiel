@@ -48,8 +48,8 @@ const ResetForm = ({ validationErrors, error }: ResetFormProps) => (
       className="flex flex-col gap-3 p-4 mx-0 md:mx-auto bg-white"
     >
       {error && (
-        <div className="flex flex-row border border-solid border-red-600">
-          <div className="bg-red-600 p-3">
+        <div className="flex flex-row border border-solid border-red-marianne-main-472-base">
+          <div className="bg-red-marianne-main-472-base p-3">
             <RiErrorWarningFill className="text-white text-2xl" />
           </div>
           <p className="text-sm m-0 px-4 py-2">{error}</p>

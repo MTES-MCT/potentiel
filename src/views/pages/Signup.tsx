@@ -43,8 +43,8 @@ const SignupForm = ({ validationErrors, error }: SignupFormProps) => (
     <div className="w-full md:w-1/2 lg:w-2/5 md:p-8 lg:p-10 xl:p-14">
       <form action={routes.SIGNUP} method="POST" className="flex flex-col gap-3 p-4 mx-0 bg-white">
         {error && (
-          <div className="flex flex-row border border-solid border-red-600">
-            <div className="bg-red-600 p-3">
+          <div className="flex flex-row border border-solid border-red-marianne-main-472-base">
+            <div className="bg-red-marianne-main-472-base p-3">
               <RiErrorWarningFill className="text-white text-2xl" />
             </div>
             <p className="text-sm m-0 px-4 py-2">{error}</p>
