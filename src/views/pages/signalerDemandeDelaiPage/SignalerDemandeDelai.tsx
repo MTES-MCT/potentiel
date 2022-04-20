@@ -72,12 +72,12 @@ export const SignalerDemandeDelai = PageLayout(
             </div>
 
             <div>
-              <label>Date de la décision*</label>
+              <label>Date de la décision (=date du courrier)*</label>
               <DateInput name="decidedOn" required />
             </div>
 
             <div>
-              <label>Date de mise en service demandée par le porteur*</label>
+              <label>Nouvelle date d'achèvement accordée*</label>
               <DateInput name="newCompletionDueOn" required />
               {doesNewDateImpactProject ? (
                 <p className="m-0 italic">
