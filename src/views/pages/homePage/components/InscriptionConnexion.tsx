@@ -58,7 +58,7 @@ const Bienvenue = ({ user }: BienvenueProps) => (
 )
 
 const SignupBox = () => {
-  const [active, setActive] = useState(1)
+  const [active, setActive] = useState<'porteur-projet' | 'autre-partenaire'>('porteur-projet')
 
   return (
     <div className="px-2 py-4 md:px-12 md:py-10 shadow-md text-center flex-1 flex flex-col justify-between gap-7 bg-white">
@@ -69,33 +69,30 @@ const SignupBox = () => {
         Inscription
       </h2>
       <div className="flex justify-center">
-        {[
-          { id: 1, title: 'Porteur de projet' },
-          { id: 2, title: 'Autre partenaire' },
-        ].map(({ id, title }) => (
-          <Tab
-            key={title}
-            title={title}
-            onItemClicked={() => setActive(id)}
-            isActive={active === id}
-          />
-        ))}
+        <Tab
+          key="porteur-projet"
+          title="Porteur de projet"
+          onItemClicked={() => setActive('porteur-projet')}
+          isActive={active === 'porteur-projet'}
+        />
+        <Tab
+          key="autre-partenaire"
+          title="Autre partenaire"
+          onItemClicked={() => setActive('autre-partenaire')}
+          isActive={active === 'autre-partenaire'}
+        />
       </div>
-      {active === 1 && (
-        <>
-          <LinkButton href={routes.SIGNUP} className="inline-flex items-center mx-auto">
-            <RiAccountCircleLine className="mr-4" />
-            M'inscrire
-          </LinkButton>
-        </>
+      {active === 'porteur-projet' && (
+        <LinkButton href={routes.SIGNUP} className="inline-flex items-center mx-auto">
+          <RiAccountCircleLine className="mr-4" />
+          M'inscrire
+        </LinkButton>
       )}
-      {active === 2 && (
-        <>
-          <p className="m-0 p-0 font-semibold text-lg">
-            Contactez-nous par email <br />
-            pour obtenir un accès à Potentiel.
-          </p>
-        </>
+      {active === 'autre-partenaire' && (
+        <p className="m-0 p-0 font-semibold text-lg">
+          Contactez-nous par email <br />
+          pour obtenir un accès à Potentiel.
+        </p>
       )}
       <p className="m-0">
         <a href={routes.LOGIN}>Vous avez déjà un compte ?</a>
