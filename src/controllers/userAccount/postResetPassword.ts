@@ -11,20 +11,27 @@ v1Router.post(
   asyncHandler(async (request, response) => {
     const { email } = request.body
 
-    if (!email || !email.length) {
-      return response.redirect(
-        addQueryParams(routes.RESET_PASSWORD, {
-          error: 'Merci de renseigner votre adresse email.',
-          ...request.body,
-        })
-      )
-    }
+    const validationErrors: Array<{ field: string; error: string }> = [
+      ...(!email || !email.length
+        ? [{ field: 'email', error: 'Merci de renseigner votre adresse email' }]
+        : !email.match(/\S+@\S+\.\S+/)
+        ? [
+            {
+              field: 'email',
+              error: `L'adresse courriel renseignée n'est pas valide`,
+            },
+          ]
+        : []),
+    ]
 
-    if (!email.match(/\S+@\S+\.\S+/)) {
+    if (validationErrors.length > 0) {
       return response.redirect(
-        addQueryParams(routes.RESET_PASSWORD, {
-          error: "L'adresse email renseignée n'est pas valide.",
+        addQueryParams(routes.SIGNUP, {
           ...request.body,
+          ...validationErrors.reduce(
+            (errors, { field, error }) => ({ ...errors, [`error-${field}`]: error }),
+            {}
+          ),
         })
       )
     }
@@ -60,7 +67,7 @@ v1Router.post(
 
     return response.redirect(
       addQueryParams(routes.RESET_PASSWORD, {
-        success: `Le lien de réinitialisation du mot de passe vous a bien été envoyé par mail à l\`adresse suivante : ${email}.`,
+        success: `Le lien de réinitialisation du mot de passe vous a bien été envoyé par mail à l'adresse suivante : ${email}.`,
         ...request.body,
       })
     )

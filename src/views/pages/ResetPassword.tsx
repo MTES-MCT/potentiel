@@ -9,7 +9,7 @@ type ResetPasswordProps = {
 }
 
 export const ResetPassword = (props: ResetPasswordProps) => {
-  const { error, success } = (props.request.query as any) || {}
+  const { query } = props.request
 
   return (
     <>
@@ -33,8 +33,6 @@ export const ResetPassword = (props: ResetPasswordProps) => {
                 method="POST"
                 className="flex flex-col gap-3 p-4 mx-0 md:mx-auto bg-white"
               >
-                <SuccessErrorBox success={success} error={error} />
-
                 <label htmlFor="email">
                   Saisissez ici votre adresse email pour recevoir un lien de réinitialisation du mot
                   de passe par mail (le lien sera valable une heure) :
@@ -45,6 +43,7 @@ export const ResetPassword = (props: ResetPasswordProps) => {
                   name="email"
                   required
                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                  error={query['error-email']?.toString()}
                 />
 
                 <Button className="mx-auto" type="submit" primary>

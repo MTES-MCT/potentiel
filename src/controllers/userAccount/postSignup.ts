@@ -23,7 +23,7 @@ v1Router.post(
         ? [
             {
               field: 'email',
-              error: `L'adresse email renseignée n'est pas valide`,
+              error: `L'adresse courriel renseignée n'est pas valide`,
             },
           ]
         : []),
