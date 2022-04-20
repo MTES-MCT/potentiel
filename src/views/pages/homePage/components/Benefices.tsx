@@ -4,17 +4,18 @@ import { Container } from '../../../components'
 export const Benefices = () => (
   <section className="text-blue-france-sun-base mb-10">
     <h1
-      className="text-3xl lg:text-4xl xl:text-5xl font-semibold pb-5 pt-10 text-center mb-0 md:mb-10"
+      className="text-3xl lg:text-4xl xl:text-5xl font-semibold pb-5 pt-10 px-4 text-center mb-0 md:mb-10"
       style={{ fontFamily: 'Marianne, arial, sans-serif' }}
     >
       Producteurs d'énergies renouvelables électriques
     </h1>
-    <Container className="flex flex-row">
-      <div className="flex-2 hidden md:block md:self-center">
-        <img className="object-scale-down w-full" src="/images/home/enr-illustration.png" />
-      </div>
-      <div className="bg-blue-france-975-base py-5 lg:p-10 m-auto">
-        <ul className="text-lg md:text-base lg:text-xl font-medium md:font-semibold px-5 py-0">
+    <Container className="flex flex-col lg:flex-row">
+      <img
+        className="flex-2 hidden md:block self-center w-full p-4 lg:w-3/5 object-scale-down"
+        src="/images/home/enr-illustration.png"
+      />
+      <div className="bg-blue-france-975-base lg:p-10 w-full lg:w-2/5">
+        <ul className="flex flex-col text-lg xl:text-xl font-medium md:font-semibold w-fit md:mx-auto m-0 p-4">
           <Benefice title="Retrouvez vos projets" />
           <Benefice title="Suivez-les étape par étape" />
           <Benefice title="Gérer vos documents" />
@@ -31,7 +32,7 @@ type BeneficeProps = {
   title: string
 }
 const Benefice = ({ title }: BeneficeProps) => (
-  <li className="leading-loose whitespace-nowrap list-none">
+  <li className="flex flex-row items-center leading-loose list-none">
     <img src="/images/home/check.png" className="align-bottom mr-2"></img>
     {title}
   </li>
