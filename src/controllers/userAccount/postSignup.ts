@@ -12,13 +12,13 @@ v1Router.post(
 
     const validationErrors: Array<{ field: string; error: string }> = [
       ...(!firstname || !firstname.length
-        ? [{ field: 'firstname', error: 'Merci de renseigner votre prénom' }]
+        ? [{ field: 'firstname', error: 'Ce champ est obligatoire' }]
         : []),
       ...(!lastname || !lastname.length
-        ? [{ field: 'lastname', error: 'Merci de renseigner votre nom' }]
+        ? [{ field: 'lastname', error: 'Ce champ est obligatoire' }]
         : []),
       ...(!email || !email.length
-        ? [{ field: 'email', error: 'Merci de renseigner votre adresse email' }]
+        ? [{ field: 'email', error: 'Ce champ est obligatoire' }]
         : !email.match(/\S+@\S+\.\S+/)
         ? [
             {

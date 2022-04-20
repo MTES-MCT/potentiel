@@ -13,7 +13,7 @@ v1Router.post(
 
     const validationErrors: Array<{ field: string; error: string }> = [
       ...(!email || !email.length
-        ? [{ field: 'email', error: 'Merci de renseigner votre adresse email' }]
+        ? [{ field: 'email', error: 'Ce champ est obligatoire' }]
         : !email.match(/\S+@\S+\.\S+/)
         ? [
             {

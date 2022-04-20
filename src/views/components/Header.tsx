@@ -10,12 +10,12 @@ import { RiQuestionLine } from '@react-icons/all-files/ri/RiQuestionLine'
 import { RiUserLine } from '@react-icons/all-files/ri/RiUserLine'
 
 type HeaderProps = {
-  request: Request
+  user: Request['user']
   children?: React.ReactNode
 }
 
 const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
-  request,
+  user,
   children,
 }: HeaderProps) => {
   const menuItems = React.Children.map(children, (child: React.ReactElement) => {
@@ -38,7 +38,7 @@ const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
               <Logo />
               <Title />
               <div className={`flex flex-row ml-auto ${menuItems && 'mr-4'}`}>
-                <QuickAccess {...request} />
+                <QuickAccess {...{ user }} />
               </div>
             </section>
           </div>
@@ -97,9 +97,10 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
               <span className="hidden lg:flex pt-0.5 mx-1">{user.fullName}</span>
             </a>
           ) : (
-            <span 
-              className="hidden lg:flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid" 
-              style={{ color: 'var(--text-default-grey)' }}>
+            <span
+              className="hidden lg:flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
+              style={{ color: 'var(--text-default-grey)' }}
+            >
               <RiUserLine />
               <span className="pt-0.5 mx-1">{user.fullName}</span>
             </span>

@@ -5,15 +5,14 @@ import { Footer, Header, Button, Input, Container } from '../components'
 import { RiSaveLine } from '@react-icons/all-files/ri/RiSaveLine'
 
 type SignupProps = {
-  request: Request
+  user: Request['user']
+  validationErrors?: Array<{ [fieldName: string]: string }>
 }
 
-export const Signup = (props: SignupProps) => {
-  const { query } = props.request
-
+export const Signup = ({ user, validationErrors }: SignupProps) => {
   return (
     <>
-      <Header {...props} />
+      <Header {...{ user }} />
 
       <main style={{ fontFamily: 'Marianne, arial, sans-serif' }}>
         <section className="bg-blue-france-sun-base pb-0.5">
@@ -39,7 +38,7 @@ export const Signup = (props: SignupProps) => {
                     id="firstname"
                     name="firstname"
                     required
-                    error={query['error-firstname']?.toString()}
+                    {...(validationErrors && { error: validationErrors['firstname']?.toString() })}
                   />
                 </div>
 
@@ -50,7 +49,7 @@ export const Signup = (props: SignupProps) => {
                     id="lastname"
                     name="lastname"
                     required
-                    error={query['error-lastname']?.toString()}
+                    {...(validationErrors && { error: validationErrors['lastname']?.toString() })}
                   />
                 </div>
 
@@ -62,7 +61,7 @@ export const Signup = (props: SignupProps) => {
                     name="email"
                     required
                     pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-                    error={query['error-email']?.toString()}
+                    {...(validationErrors && { error: validationErrors['email']?.toString() })}
                   />
                 </div>
 
