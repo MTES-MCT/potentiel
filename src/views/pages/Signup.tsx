@@ -18,7 +18,13 @@ export const Signup = ({ validationErrors, error, success }: SignupProps) => (
 
     <main style={{ fontFamily: 'Marianne, arial, sans-serif' }}>
       <section className="bg-blue-france-sun-base pb-0.5">
-        {success ? <SignupSuccessful /> : <SignupForm {...{ validationErrors, error }} />}
+        {success ? (
+          <SignupSuccessful />
+        ) : error ? (
+          <SignupFailed error={error} />
+        ) : (
+          <SignupForm {...{ validationErrors }} />
+        )}
       </section>
     </main>
 
@@ -120,5 +126,35 @@ const SignupSuccessful = () => (
     <LinkButton className="my-4 mx-auto" href={routes.HOME}>
       Retour à l'accueil
     </LinkButton>
+  </Container>
+)
+
+type SignupFailedProps = {
+  error: string
+}
+const SignupFailed = ({ error }: SignupFailedProps) => (
+  <Container className="flex flex-col p-4 md:p-10 text-white">
+    <h1
+      className="flex items-center text-center w-full m-0 text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold"
+      style={{ fontFamily: 'Marianne, arial, sans-serif' }}
+    >
+      <span className="flex flex-col gap-5 md:text-center md:mx-auto">
+        Le compte utilisateur n'a pas pu être créé.
+      </span>
+    </h1>
+
+    <div className="my-8 text-lg text-center">{error}</div>
+
+    <div className="flex gap-5 mt-10 flex-col mx-auto">
+      <LinkButton className="text-center" href={routes.LOGIN}>
+        M'identifier
+      </LinkButton>
+      <LinkButton className="text-center" href={routes.SIGNUP}>
+        M'inscrire
+      </LinkButton>
+      <LinkButton className="text-center" href={routes.RESET_PASSWORD}>
+        Réinitialiser mon mot de passe
+      </LinkButton>
+    </div>
   </Container>
 )

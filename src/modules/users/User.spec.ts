@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '@core/domain'
-import { EntityNotFoundError } from '../shared'
+import { EmailAlreadyUsedError, EntityNotFoundError } from '../shared'
 import { UserCreated } from './events'
 import { makeUser } from './User'
 
@@ -46,7 +46,7 @@ describe('User.create()', () => {
 
     it('should emit nothing', () => {
       const res = user.create({ fullName: 'name', role: 'porteur-projet', createdBy: 'createdBy' })
-      expect(res.isOk()).toBe(true)
+      expect(res._unsafeUnwrapErr()).toBeInstanceOf(EmailAlreadyUsedError)
       expect(user.pendingEvents).toHaveLength(0)
     })
   })

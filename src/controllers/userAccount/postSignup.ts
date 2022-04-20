@@ -48,7 +48,9 @@ v1Router.post(
 
       return response.redirect(
         addQueryParams(routes.SIGNUP, {
-          error: `Une erreur est survenue lors de la création du compte. N'hésitez pas à nous contacter si le problème persiste`,
+          error:
+            res.error.message ||
+            `Une erreur est survenue lors de la création du compte. N'hésitez pas à nous contacter si le problème persiste.`,
           ...request.body,
         })
       )
