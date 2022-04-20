@@ -1,46 +1,41 @@
 import asyncHandler from '../helpers/asyncHandler'
 import routes from '../../routes'
 import { v1Router } from '../v1Router'
-import { createUser, userRepo } from '@config'
+import { createUser } from '@config'
 import { logger } from 'src/core/utils'
 import { addQueryParams } from 'src/helpers/addQueryParams'
+import * as yup from 'yup'
+import { ValidationError } from 'yup'
+
+const requestBodySchema = yup.object({
+  firstname: yup.string().required('Ce champ est obligatoire'),
+  lastname: yup.string().required('Ce champ est obligatoire'),
+  email: yup
+    .string()
+    .required('Ce champ est obligatoire')
+    .email(`L'adresse courriel renseignée n'est pas valide`),
+})
 
 v1Router.post(
   routes.SIGNUP,
   asyncHandler(async (request, response) => {
-    const { firstname, lastname, email } = request.body
-
-    const validationErrors: Array<{ field: string; error: string }> = [
-      ...(!firstname || !firstname.length
-        ? [{ field: 'firstname', error: 'Ce champ est obligatoire' }]
-        : []),
-      ...(!lastname || !lastname.length
-        ? [{ field: 'lastname', error: 'Ce champ est obligatoire' }]
-        : []),
-      ...(!email || !email.length
-        ? [{ field: 'email', error: 'Ce champ est obligatoire' }]
-        : !email.match(/\S+@\S+\.\S+/)
-        ? [
-            {
-              field: 'email',
-              error: `L'adresse courriel renseignée n'est pas valide`,
-            },
-          ]
-        : []),
-    ]
-
-    if (validationErrors.length > 0) {
-      return response.redirect(
-        addQueryParams(routes.SIGNUP, {
-          ...request.body,
-          ...validationErrors.reduce(
-            (errors, { field, error }) => ({ ...errors, [`error-${field}`]: error }),
-            {}
-          ),
-        })
-      )
+    try {
+      requestBodySchema.validateSync(request.body, { abortEarly: false })
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        return response.redirect(
+          addQueryParams(routes.SIGNUP, {
+            ...request.body,
+            ...error.inner.reduce(
+              (errors, { path, message }) => ({ ...errors, [`error-${path}`]: message }),
+              {}
+            ),
+          })
+        )
+      }
     }
 
+    const { firstname, lastname, email } = request.body
     try {
       const res = await createUser({
         email,
