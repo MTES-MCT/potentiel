@@ -5,7 +5,9 @@ import { SignupPage } from '@views'
 
 v1Router.get(
   routes.SIGNUP,
-  asyncHandler(async ({ user, query }, response) => {
+  asyncHandler(async (request, response) => {
+    const { query } = request
+
     const validationErrors: Array<{ [fieldName: string]: string }> = Object.entries(query).reduce(
       (errors, [key, value]) => ({
         ...errors,
@@ -14,6 +16,12 @@ v1Router.get(
       [] as Array<{ [fieldName: string]: string }>
     )
 
-    return response.send(SignupPage({ user, validationErrors }))
+    return response.send(
+      SignupPage({
+        request,
+        ...(validationErrors.length > 0 && { validationErrors }),
+        error: query['error']?.toString(),
+      })
+    )
   })
 )

@@ -3,15 +3,17 @@ import React from 'react'
 import routes from 'src/routes'
 import { Button, Container, Footer, Header, Input, LinkButton } from '../components'
 import { RiLock2Line } from '@react-icons/all-files/ri/RiLock2Line'
+import { RiErrorWarningFill } from '@react-icons/all-files/ri/RiErrorWarningFill'
 
 type ResetPasswordProps = {
-  user: Request['user']
+  request: Request
   validationErrors?: Array<{ [fieldName: string]: string }>
+  error?: string
 }
 
-export const ResetPassword = ({ validationErrors, user }: ResetPasswordProps) => (
+export const ResetPassword = ({ validationErrors, error }: ResetPasswordProps) => (
   <>
-    <Header {...{ user }}></Header>
+    <Header />
     <main>
       <section className="bg-blue-france-sun-base pb-0.5">
         <Container className="flex flex-col">
@@ -31,6 +33,15 @@ export const ResetPassword = ({ validationErrors, user }: ResetPasswordProps) =>
               method="POST"
               className="flex flex-col gap-3 p-4 mx-0 md:mx-auto bg-white"
             >
+              {error && (
+                <div className="flex flex-row border border-solid border-red-600">
+                  <div className="bg-red-600 p-3">
+                    <RiErrorWarningFill className="text-white text-2xl" />
+                  </div>
+                  <p className="text-sm m-0 px-4 py-2">{error}</p>
+                </div>
+              )}
+
               <div className="text-sm italic">
                 Après validation du formulaire, vous recevrez un lien de réinitialisation du mot de
                 passe par courriel qui sera valable pendant une heure

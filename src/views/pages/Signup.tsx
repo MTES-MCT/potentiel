@@ -3,16 +3,18 @@ import React from 'react'
 import routes from 'src/routes'
 import { Footer, Header, Button, Input, Container, LinkButton } from '../components'
 import { RiSaveLine } from '@react-icons/all-files/ri/RiSaveLine'
+import { RiErrorWarningFill } from '@react-icons/all-files/ri/RiErrorWarningFill'
 
 type SignupProps = {
-  user: Request['user']
+  request: Request
   validationErrors?: Array<{ [fieldName: string]: string }>
+  error?: string
 }
 
-export const Signup = ({ user, validationErrors }: SignupProps) => {
+export const Signup = ({ validationErrors, error }: SignupProps) => {
   return (
     <>
-      <Header {...{ user }} />
+      <Header />
 
       <main style={{ fontFamily: 'Marianne, arial, sans-serif' }}>
         <section className="bg-blue-france-sun-base pb-0.5">
@@ -31,6 +33,15 @@ export const Signup = ({ user, validationErrors }: SignupProps) => {
                 method="POST"
                 className="flex flex-col gap-3 p-4 mx-0 bg-white"
               >
+                {error && (
+                  <div className="flex flex-row border border-solid border-red-600">
+                    <div className="bg-red-600 p-3">
+                      <RiErrorWarningFill className="text-white text-2xl" />
+                    </div>
+                    <p className="text-sm m-0 px-4 py-2">{error}</p>
+                  </div>
+                )}
+
                 <div className="text-sm italic">Tous les champs sont obligatoires</div>
 
                 <div>

@@ -36,31 +36,24 @@ v1Router.post(
     }
 
     const { firstname, lastname, email } = request.body
-    try {
-      const res = await createUser({
-        email,
-        fullName: `${firstname} ${lastname}`,
-        role: 'porteur-projet',
-      })
 
-      if (res.isErr()) {
-        throw res.error
-      }
-    } catch (e) {
-      logger.error(e)
+    const res = await createUser({
+      email,
+      fullName: `${firstname} ${lastname}`,
+      role: 'porteur-projet',
+    })
+
+    if (res.isErr()) {
+      logger.error(res.error)
+
       return response.redirect(
         addQueryParams(routes.SIGNUP, {
-          error:
-            'Impossible de créer le compte utilisateur. Veuillez tester de nouveau et nous contacter si le problème persiste.',
+          error: `Une erreur est survenue lors de la création du compte. N'hésitez pas à nous contacter si le problème persiste`,
           ...request.body,
         })
       )
     }
-    return response.redirect(
-      addQueryParams(routes.SIGNUP, {
-        success: 'Votre compte utilisateur a bien été créé.',
-        ...request.body,
-      })
-    )
+
+    return response.redirect(routes.SIGNUP_SUCCESS)
   })
 )

@@ -10,7 +10,7 @@ import { RiQuestionLine } from '@react-icons/all-files/ri/RiQuestionLine'
 import { RiUserLine } from '@react-icons/all-files/ri/RiUserLine'
 
 type HeaderProps = {
-  user: Request['user']
+  user?: Request['user']
   children?: React.ReactNode
 }
 
@@ -80,7 +80,7 @@ const Title = () => (
 )
 
 type QuickAccessProps = {
-  user: Request['user']
+  user?: Request['user']
 }
 const QuickAccess = ({ user }: QuickAccessProps) => (
   <ul className="flex flex-row text-xl lg:text-sm font-normal list-none p-0 m-0 lg:mr-0">

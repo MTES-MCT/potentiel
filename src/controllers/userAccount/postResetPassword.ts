@@ -45,16 +45,12 @@ v1Router.post(
       )
     }
 
-    try {
-      const res = await sendResetPasswordEmail({
-        email,
-      })
+    const res = await sendResetPasswordEmail({
+      email,
+    })
 
-      if (res.isErr()) {
-        throw res.error
-      }
-    } catch (e) {
-      logger.error(e)
+    if (res.isErr()) {
+      logger.error(res.error)
       return response.redirect(
         addQueryParams(routes.RESET_PASSWORD, {
           error:
