@@ -1,7 +1,8 @@
 import { Request } from 'express'
 import React from 'react'
 import routes from 'src/routes'
-import { Button, EmailInput, Footer, Header, SuccessErrorBox } from '../components'
+import { Button, Container, EmailInput, Footer, Header, SuccessErrorBox } from '../components'
+import { RiLock2Line } from '@react-icons/all-files/ri/RiLock2Line'
 
 type ResetPasswordProps = {
   request: Request
@@ -14,29 +15,39 @@ export const ResetPassword = (props: ResetPasswordProps) => {
     <>
       <Header {...props}></Header>
       <main>
-        <div className="bg-blue-france-sun-base">
-          <h1
-            className="text-xl lg:text-2xl xl:text-3xl font-semibold lg:py-10 text-white"
-            style={{ fontFamily: 'Marianne, arial, sans-serif', maxWidth: 1280, margin: 'auto' }}
-          >
-            Réinitialisation du mot de passe
-          </h1>
-        </div>
-        <form
-          action={routes.RESET_PASSWORD}
-          method="POST"
-          className="flex flex-col gap-3 bg-white p-10"
-        >
-          <SuccessErrorBox success={success} error={error} />
+        <section className="bg-blue-france-sun-base pb-0.5">
+          <Container className="flex flex-col">
+            <h1
+              className="flex items-center w-full m-0 p-4 md:p-8 text-white text-2xl md:text-3xl lg:text-4xl font-semibold"
+              style={{ fontFamily: 'Marianne, arial, sans-serif' }}
+            >
+              <div className="flex flex-col gap-5 md:text-center md:mx-auto">
+                <RiLock2Line className="text-6xl hidden md:flex mx-auto" />
+                Réinitialisation du mot de passe
+              </div>
+            </h1>
 
-          <label htmlFor="email">
-            Saisissez ici votre adresse email pour recevoir un lien de réinitialisation du mot de
-            passe par mail (le lien sera valable une heure) :
-          </label>
-          <EmailInput id="email" name="email" required />
+            <div className="w-full md:p-8 lg:p-10 xl:p-14">
+              <form
+                action={routes.RESET_PASSWORD}
+                method="POST"
+                className="flex flex-col gap-3 p-4 mx-0 md:mx-auto bg-white"
+              >
+                <SuccessErrorBox success={success} error={error} />
 
-          <Button type="submit">Envoyer</Button>
-        </form>
+                <label htmlFor="email">
+                  Saisissez ici votre adresse email pour recevoir un lien de réinitialisation du mot
+                  de passe par mail (le lien sera valable une heure) :
+                </label>
+                <EmailInput id="email" name="email" required />
+
+                <Button className="mx-auto" type="submit" primary>
+                  Envoyer
+                </Button>
+              </form>
+            </div>
+          </Container>
+        </section>
       </main>
       <Footer></Footer>
     </>

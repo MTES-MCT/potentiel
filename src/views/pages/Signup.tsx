@@ -13,7 +13,7 @@ export const Signup = (props: SignupProps) => (
     <Header {...props} />
 
     <main style={{ fontFamily: 'Marianne, arial, sans-serif' }}>
-      <section className="bg-blue-france-sun-base">
+      <section className="bg-blue-france-sun-base pb-0.5">
         <Container className="flex flex-col md:flex-row">
           <h1
             className="flex items-center w-full md:w-1/2 lg:w-3/5 m-0 p-4 text-white text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold"
