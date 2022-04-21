@@ -340,12 +340,18 @@ export type DemandeDelaiSignaledDTO = {
   variant: Exclude<UserRole, 'ademe'>
   date: number
   signaledBy: string
-  status: 'acceptée' | 'rejetée' | 'accord-de-principe'
-  isNewDateApplicable: boolean
-  newCompletionDueOn: number
   attachment?: File
   notes?: string
-}
+} & (
+  | {
+      status: 'acceptée'
+      isNewDateApplicable: boolean
+      newCompletionDueOn: number
+    }
+  | {
+      status: 'rejetée' | 'accord-de-principe'
+    }
+)
 
 export type ProjectEventListDTO = {
   project: {

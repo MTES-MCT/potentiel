@@ -4,7 +4,7 @@ import { DemandeDelaiSignaled } from '@modules/project'
 export const onDemandeDelaiSignaled =
   (models) =>
   async ({ payload }: DemandeDelaiSignaled) => {
-    const { status, projectId, newCompletionDueOn } = payload
+    const { status, projectId } = payload
 
     if (status === 'acceptée' && payload.isNewDateApplicable) {
       const { Project } = models
@@ -17,7 +17,7 @@ export const onDemandeDelaiSignaled =
         return
       }
 
-      projectInstance.completionDueOn = newCompletionDueOn
+      projectInstance.completionDueOn = payload.newCompletionDueOn
 
       try {
         await projectInstance.save()

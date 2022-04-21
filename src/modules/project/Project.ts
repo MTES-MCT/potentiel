@@ -146,7 +146,6 @@ export interface Project extends EventStoreAggregate {
         }
       | {
           status: 'rejetée' | 'accord-de-principe'
-          newCompletionDueOn?: undefined
         }
     )
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
@@ -755,14 +754,8 @@ export const makeProject = (args: {
       )
       return ok(null)
     },
-    signalerDemandeDelai: function ({
-      decidedOn,
-      newCompletionDueOn,
-      status,
-      notes,
-      attachments,
-      signaledBy,
-    }) {
+    signalerDemandeDelai: function (args) {
+      const { decidedOn, status, notes, attachments, signaledBy } = args
       if (!_isNotified()) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
       }
@@ -778,8 +771,8 @@ export const makeProject = (args: {
             ...(status === 'acceptée'
               ? {
                   status,
-                  newCompletionDueOn: newCompletionDueOn.getTime(),
-                  isNewDateApplicable: props.completionDueOn < newCompletionDueOn.getTime(),
+                  newCompletionDueOn: args.newCompletionDueOn.getTime(),
+                  isNewDateApplicable: props.completionDueOn < args.newCompletionDueOn.getTime(),
                 }
               : { status }),
           },

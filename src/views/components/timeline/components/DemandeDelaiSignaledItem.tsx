@@ -1,32 +1,47 @@
 import React from 'react'
 import { formatDate } from '../../../../helpers/formatDate'
-import { ItemDate, ItemTitle, ContentArea, PastIcon, UnvalidatedStepIcon } from '.'
+import { ItemDate, ItemTitle, ContentArea, PastIcon, UnvalidatedStepIcon, CurrentIcon } from '.'
 import { makeDocumentUrl } from '../helpers'
 
 type DemandeDelaiSignaledItemProps = {
-  status: 'acceptée' | 'rejetée' | 'accord-de-principe'
   date: number
-  newCompletionDueOn: number
   attachment?: { id: string; name: string }
   notes?: string
-}
+} & (
+  | {
+      status: 'acceptée'
+      newCompletionDueOn: number
+    }
+  | {
+      status: 'rejetée'
+    }
+  | {
+      status: 'accord-de-principe'
+    }
+)
 
 export const DemandeDelaiSignaledItem = (props: DemandeDelaiSignaledItemProps) => {
-  return props.status === 'acceptée' ? <Accepted {...props} /> : <Rejected {...props} />
+  switch (props.status) {
+    case 'acceptée':
+      return <Accepted {...props} />
+
+    case 'rejetée':
+      return <Rejected {...props} />
+
+    case 'accord-de-principe':
+      return <AccordPrincipe {...props} />
+  }
 }
 
-type RejectedProps = DemandeDelaiSignaledItemProps
+type RejectedProps = Extract<DemandeDelaiSignaledItemProps, { status: 'rejetée' }>
 
-const Rejected = ({ date, newCompletionDueOn, attachment, notes }: RejectedProps) => (
+const Rejected = ({ date, attachment, notes }: RejectedProps) => (
   <>
     <UnvalidatedStepIcon />
     <ContentArea>
       <ItemDate date={date} />
       <>
         <ItemTitle title="Délai supplémentaire rejeté" />
-        <p className="p-0 m-0">
-          Date d'attestation de conformité demandée {formatDate(newCompletionDueOn)}
-        </p>
         {notes && <p className="p-0 m-0 italic">Note : {notes}</p>}
       </>
       {attachment && (
@@ -36,7 +51,25 @@ const Rejected = ({ date, newCompletionDueOn, attachment, notes }: RejectedProps
   </>
 )
 
-type AcceptedProps = DemandeDelaiSignaledItemProps
+type AccordPrincipeProps = Extract<DemandeDelaiSignaledItemProps, { status: 'accord-de-principe' }>
+
+const AccordPrincipe = ({ date, attachment, notes }: AccordPrincipeProps) => (
+  <>
+    <CurrentIcon />
+    <ContentArea>
+      <ItemDate date={date} />
+      <>
+        <ItemTitle title="Délai supplémentaire à accorder" />
+        {notes && <p className="p-0 m-0 italic">Note : {notes}</p>}
+      </>
+      {attachment && (
+        <a href={makeDocumentUrl(attachment.id, attachment.name)}>Voir le courrier de réponse</a>
+      )}
+    </ContentArea>
+  </>
+)
+
+type AcceptedProps = Extract<DemandeDelaiSignaledItemProps, { status: 'acceptée' }>
 
 const Accepted = ({ date, newCompletionDueOn, attachment, notes }: AcceptedProps) => (
   <>

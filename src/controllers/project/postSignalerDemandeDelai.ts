@@ -58,7 +58,6 @@ type RequestBody = {
     }
   | {
       status: 'rejetée' | 'accord-de-principe'
-      newCompletionDueOn?: undefined
     }
 )
 
@@ -113,7 +112,8 @@ v1Router.post(
       })
     }
 
-    const { projectId, decidedOn, status, newCompletionDueOn, notes } = validation.value
+    const body = validation.value
+    const { projectId, decidedOn, status, notes } = body
     const { user: signaledBy } = request
 
     const file = request.file && {
@@ -125,7 +125,7 @@ v1Router.post(
       projectId,
       decidedOn: decidedOn.getTime(),
       ...(status === 'acceptée'
-        ? { status, newCompletionDueOn: newCompletionDueOn.getTime() }
+        ? { status, newCompletionDueOn: body.newCompletionDueOn.getTime() }
         : { status }),
       notes,
       file,

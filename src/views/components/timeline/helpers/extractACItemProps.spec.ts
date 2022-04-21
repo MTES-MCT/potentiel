@@ -105,8 +105,6 @@ describe('extractACItemProps', () => {
             date: new Date('2025-01-01').getTime(),
             variant: 'admin',
             status: 'rejetée',
-            isNewDateApplicable: false,
-            newCompletionDueOn: new Date('2024-07-31').getTime(),
           } as DemandeDelaiSignaledDTO,
           {
             type: 'DemandeDelaiSignaled',

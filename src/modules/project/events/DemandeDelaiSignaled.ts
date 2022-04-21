@@ -19,7 +19,6 @@ export type DemandeDelaiSignaledPayload = {
     }
   | {
       status: 'rejetée' | 'accord-de-principe'
-      newCompletionDueOn?: undefined
     }
 )
 export class DemandeDelaiSignaled

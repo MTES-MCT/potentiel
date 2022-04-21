@@ -1,4 +1,4 @@
-import { is, ProjectEventDTO, ProjectStatus } from '@modules/frise'
+import { DemandeDelaiSignaledDTO, is, ProjectEventDTO, ProjectStatus } from '@modules/frise'
 import { or } from '@core/utils'
 
 export type ACItemProps = {
@@ -27,7 +27,7 @@ export const extractACItemProps = (
     const demandeDelaiSignaledEventApplicable = events
       .filter(is('DemandeDelaiSignaled'))
       .filter(
-        (e) =>
+        (e): e is Extract<DemandeDelaiSignaledDTO, { status: 'acceptée' }> =>
           e.status === 'acceptée' &&
           e.isNewDateApplicable &&
           e.newCompletionDueOn > latestEvent.date

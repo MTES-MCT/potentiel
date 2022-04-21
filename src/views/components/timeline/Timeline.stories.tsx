@@ -1545,8 +1545,6 @@ export const DemandeDelaiSignaléRefusée = () => (
           status: 'rejetée',
           date: new Date('2019-01-16').getTime(),
           signaledBy: 'fakeuser-id',
-          isNewDateApplicable: false,
-          newCompletionDueOn: new Date('2022-01-16').getTime(),
           attachment: { id: 'file-id', name: 'file-name' },
           notes:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam',
