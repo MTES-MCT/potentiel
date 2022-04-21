@@ -9,7 +9,36 @@ import { errorResponse, unauthorizedResponse } from '../helpers'
 import { v1Router } from '../v1Router'
 import { upload } from '../upload'
 import moment from 'moment'
+import * as yup from 'yup'
+import { ValidationError } from 'yup'
+import { addQueryParams } from '../../helpers/addQueryParams'
+import { parse, isDate } from 'date-fns'
 
+const parseDateString = (value, originalValue) => {
+  const parsedDate = isDate(originalValue)
+    ? originalValue
+    : parse(originalValue, 'yyyy-MM-dd', new Date())
+
+  return parsedDate
+}
+const requestBodySchema = yup.object({
+  projectId: yup.string().uuid().required(),
+  decidedOn: yup
+    .date()
+    .transform(parseDateString)
+    .required('Ce champ est obligatoire')
+    .typeError(`La date saisie n'est pas valide`),
+  status: yup
+    .mixed()
+    .oneOf(['acceptée', 'rejetée', 'accord-de-principe'])
+    .required('Ce champ est obligatoire'),
+  newCompletionDueOn: yup
+    .date()
+    .transform(parseDateString)
+    .optional()
+    .typeError(`La date saisie n'est pas valide`),
+  notes: yup.string().optional(),
+})
 const FORMAT_DATE = 'YYYY-MM-DD'
 
 v1Router.post(
@@ -17,8 +46,24 @@ v1Router.post(
   upload.single('file'),
   ensureRole(['admin', 'dgec', 'dreal']),
   asyncHandler(async (request, response) => {
+    try {
+      requestBodySchema.validateSync(request.body, { abortEarly: false })
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        return response.redirect(
+          addQueryParams(routes.ADMIN_SIGNALER_DEMANDE_DELAI_PAGE(request.body.projectId), {
+            ...request.body,
+            ...error.inner.reduce(
+              (errors, { path, message }) => ({ ...errors, [`error-${path}`]: message }),
+              {}
+            ),
+          })
+        )
+      }
+    }
+
     const {
-      body: { projectId, decidedOn, isAccepted, newCompletionDueOn, notes },
+      body: { projectId, decidedOn, status, newCompletionDueOn, notes },
       user: signaledBy,
     } = request
 
@@ -39,7 +84,7 @@ v1Router.post(
     const result = signalerDemandeDelai({
       projectId,
       decidedOn: moment(decidedOn, FORMAT_DATE).toDate().getTime(),
-      isAccepted: isAccepted === 'status-accepted',
+      status,
       newCompletionDueOn: moment(newCompletionDueOn, FORMAT_DATE).toDate().getTime(),
       notes,
       file,

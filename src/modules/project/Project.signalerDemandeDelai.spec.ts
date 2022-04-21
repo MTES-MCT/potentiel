@@ -54,7 +54,7 @@ describe('Project.signalerDemandeDelai()', () => {
       const res = project.signalerDemandeDelai({
         decidedOn: new Date('2022-04-12'),
         newCompletionDueOn: new Date('2025-04-12'),
-        isAccepted: false,
+        status: 'rejetée',
         attachments: [],
         signaledBy: fakeUser,
       })
@@ -125,7 +125,7 @@ describe('Project.signalerDemandeDelai()', () => {
         project.signalerDemandeDelai({
           decidedOn: new Date('2022-04-12'),
           newCompletionDueOn,
-          isAccepted: true,
+          status: 'acceptée',
           notes: 'notes',
           attachments: [{ id: 'file-id', name: 'file-name' }],
           signaledBy: fakeUser,
@@ -140,7 +140,7 @@ describe('Project.signalerDemandeDelai()', () => {
         expect(targetEvent.payload.projectId).toEqual(projectId.toString())
         expect(targetEvent.payload.decidedOn).toEqual(new Date('2022-04-12').getTime())
         expect(targetEvent.payload.newCompletionDueOn).toEqual(newCompletionDueOn.getTime())
-        expect(targetEvent.payload.isAccepted).toEqual(true)
+        expect(targetEvent.payload.status).toEqual('acceptée')
         expect(targetEvent.payload.isNewDateApplicable).toEqual(false)
         expect(targetEvent.payload.notes).toEqual('notes')
         expect(targetEvent.payload.attachments).toEqual([{ id: 'file-id', name: 'file-name' }])
@@ -206,7 +206,7 @@ describe('Project.signalerDemandeDelai()', () => {
         project.signalerDemandeDelai({
           decidedOn: new Date('2022-04-12'),
           newCompletionDueOn,
-          isAccepted: true,
+          status: 'acceptée',
           notes: 'notes',
           attachments: [{ id: 'file-id', name: 'file-name' }],
           signaledBy: fakeUser,
@@ -221,7 +221,7 @@ describe('Project.signalerDemandeDelai()', () => {
         expect(targetEvent.payload.projectId).toEqual(projectId.toString())
         expect(targetEvent.payload.decidedOn).toEqual(new Date('2022-04-12').getTime())
         expect(targetEvent.payload.newCompletionDueOn).toEqual(newCompletionDueOn.getTime())
-        expect(targetEvent.payload.isAccepted).toEqual(true)
+        expect(targetEvent.payload.status).toEqual('acceptée')
         expect(targetEvent.payload.isNewDateApplicable).toEqual(true)
         expect(targetEvent.payload.notes).toEqual('notes')
         expect(targetEvent.payload.attachments).toEqual([{ id: 'file-id', name: 'file-name' }])

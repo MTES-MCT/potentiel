@@ -1,6 +1,13 @@
 import React, { useState } from 'react'
 import { Request } from 'express'
-import { Button, LinkButton, PageLayout, ProjectInfo, RoleBasedDashboard } from '@views/components'
+import {
+  Button,
+  Input,
+  LinkButton,
+  PageLayout,
+  ProjectInfo,
+  RoleBasedDashboard,
+} from '../../components'
 import routes from '../../../routes'
 import { ProjectDataForSignalerDemandeDelaiPage } from '@modules/project'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
@@ -9,9 +16,10 @@ import { formatDate } from '../../../helpers/formatDate'
 type SignalerDemandeDelaiProps = {
   request: Request
   project: ProjectDataForSignalerDemandeDelaiPage
+  validationErrors?: Array<{ [fieldName: string]: string }>
 }
 export const SignalerDemandeDelai = PageLayout(
-  ({ request: { user }, project }: SignalerDemandeDelaiProps) => {
+  ({ request: { user }, project, validationErrors }: SignalerDemandeDelaiProps) => {
     const [doesNewDateImpactProject, newDateImpactsProject] = useState(true)
 
     return (
@@ -44,53 +52,73 @@ export const SignalerDemandeDelai = PageLayout(
 
             <input name="projectId" value={project.id} readOnly hidden />
 
-            <div className="flex flex-row gap-3 my-2">
-              <p className="m-0">Décision* : </p>
-              <div className="flex">
-                <input
-                  type="radio"
-                  id="status-accepted"
-                  value="status-accepted"
-                  name="isAccepted"
-                  onChange={(e) => e.target.checked && newDateImpactsProject(true)}
-                  defaultChecked
-                  required
-                />
-                <label htmlFor="status-accepted">Demande acceptée</label>
-              </div>
-              <div className="flex">
-                <input
-                  type="radio"
-                  id="status-rejected"
-                  value="status-rejected"
-                  name="isAccepted"
-                  onChange={(e) => e.target.checked && newDateImpactsProject(false)}
-                  required
-                />
-                <label htmlFor="status-rejected">Demande refusée</label>
+            <div>
+              <p className="m-0">Décision* :</p>
+              <div className="flex flex-col lg:flex-row gap-3 my-2">
+                <div className="flex flex-row">
+                  <input
+                    type="radio"
+                    id="status-accepted"
+                    value="acceptée"
+                    name="status"
+                    onChange={(e) => e.target.checked && newDateImpactsProject(true)}
+                    defaultChecked
+                    required
+                  />
+                  <label htmlFor="status-accepted">Demande acceptée</label>
+                </div>
+                <div className="flex flex-row">
+                  <input
+                    type="radio"
+                    id="status-rejected"
+                    value="rejetée"
+                    name="status"
+                    onChange={(e) => e.target.checked && newDateImpactsProject(false)}
+                    required
+                  />
+                  <label htmlFor="status-rejected">Demande refusée</label>
+                </div>
+                <div className="flex flex-row">
+                  <input
+                    type="radio"
+                    id="status-accord-principe"
+                    value="accord-de-principe"
+                    name="status"
+                    onChange={(e) => e.target.checked && newDateImpactsProject(false)}
+                    required
+                  />
+                  <label htmlFor="status-accord-principe">Accord de principe</label>
+                </div>
               </div>
             </div>
 
             <div>
               <label>Date de la décision (=date du courrier)*</label>
-              <DateInput name="decidedOn" required />
+              <Input
+                type="date"
+                name="decidedOn"
+                required
+                {...(validationErrors && { error: validationErrors['decidedOn']?.toString() })}
+              />
             </div>
 
-            <div>
-              <label>Nouvelle date d'achèvement accordée*</label>
-              <DateInput name="newCompletionDueOn" required />
-              {doesNewDateImpactProject ? (
+            {doesNewDateImpactProject && (
+              <div>
+                <label>Nouvelle date d'achèvement accordée*</label>
+                <Input
+                  type="date"
+                  name="newCompletionDueOn"
+                  required
+                  {...(validationErrors && {
+                    error: validationErrors['newCompletionDueOn']?.toString(),
+                  })}
+                />
                 <p className="m-0 italic">
                   Cette date impactera le projet seulement si elle est postérieure à la date
                   théorique de mise en service actuelle.
                 </p>
-              ) : (
-                <p className="m-0 italic">
-                  Cette information sera indiquée dans l'historique du projet (frise de la page du
-                  projet) mais n'aura pas d'impact sur la date de mise en service du projet.
-                </p>
-              )}
-            </div>
+              </div>
+            )}
 
             <div>
               <label>Courrier de la réponse (fichier joint)</label>
@@ -104,6 +132,8 @@ export const SignalerDemandeDelai = PageLayout(
                 name="notes"
               ></textarea>
             </div>
+
+            <p className="italic text-sm">*Champs obligatoires</p>
 
             <div className="m-auto flex gap-4">
               <Button type="submit" primary>
@@ -119,18 +149,3 @@ export const SignalerDemandeDelai = PageLayout(
 )
 
 hydrateOnClient(SignalerDemandeDelai)
-
-type InputDateProps = {
-  name: string
-  required?: true
-  className?: string
-}
-
-const DateInput = ({ name, required, className = '' }: InputDateProps) => (
-  <input
-    type="date"
-    name={name}
-    {...(required && { required: true })}
-    className={`${className} bg-gray-100 border-x-0 border-t-0 border-b-2 border-solid border-gray-600 rounded-none`}
-  />
-)

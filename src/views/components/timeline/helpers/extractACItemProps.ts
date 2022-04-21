@@ -27,7 +27,10 @@ export const extractACItemProps = (
     const demandeDelaiSignaledEventApplicable = events
       .filter(is('DemandeDelaiSignaled'))
       .filter(
-        (e) => e.isAccepted && e.isNewDateApplicable && e.newCompletionDueOn > latestEvent.date
+        (e) =>
+          e.status === 'acceptée' &&
+          e.isNewDateApplicable &&
+          e.newCompletionDueOn > latestEvent.date
       )
       .sort((a, b) => a.newCompletionDueOn - b.newCompletionDueOn)
       .pop()

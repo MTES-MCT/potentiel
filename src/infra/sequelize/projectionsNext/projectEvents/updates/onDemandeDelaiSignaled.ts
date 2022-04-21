@@ -11,7 +11,7 @@ export default ProjectEvent.projector.on(
         decidedOn,
         signaledBy,
         newCompletionDueOn,
-        isAccepted,
+        status,
         isNewDateApplicable,
         notes,
         attachments,
@@ -31,7 +31,7 @@ export default ProjectEvent.projector.on(
         payload: {
           signaledBy,
           newCompletionDueOn,
-          isAccepted,
+          status,
           isNewDateApplicable,
           notes,
           attachment: attachments.length > 0 ? attachments[0] : undefined,

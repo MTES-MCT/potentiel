@@ -46,7 +46,7 @@ describe('signalerDemandeDelai use-case', () => {
       const res = await signalerDemandeDelai({
         projectId,
         decidedOn: new Date('2022-04-12').getTime(),
-        isAccepted: true,
+        status: 'acceptée',
         newCompletionDueOn: new Date('2025-01-31').getTime(),
         notes: 'notes',
         file: fakeFileContents,
@@ -70,7 +70,7 @@ describe('signalerDemandeDelai use-case', () => {
       const fakeFile = fileRepo.save.mock.calls[0][0]
       expect(fakeProject.signalerDemandeDelai).toHaveBeenCalledWith({
         decidedOn: new Date('2022-04-12'),
-        isAccepted: true,
+        status: 'acceptée',
         newCompletionDueOn: new Date('2025-01-31'),
         notes: 'notes',
         attachments: [{ id: fakeFile.id.toString(), name: fakeFileContents.filename }],
@@ -101,7 +101,7 @@ describe('signalerDemandeDelai use-case', () => {
       const res = await signalerDemandeDelai({
         projectId,
         decidedOn: new Date('2022-04-12').getTime(),
-        isAccepted: true,
+        status: 'acceptée',
         newCompletionDueOn: new Date('2025-01-31').getTime(),
         signaledBy: user,
       })

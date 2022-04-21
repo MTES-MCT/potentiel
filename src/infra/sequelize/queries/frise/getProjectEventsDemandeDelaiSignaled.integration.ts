@@ -31,7 +31,7 @@ describe('getProjectEvents for DemandeDelaiSignaled events', () => {
               eventPublishedAt: new Date('2022-02-09').getTime(),
               payload: {
                 signaledBy: 'user-id',
-                isAccepted: true,
+                status: 'acceptée',
                 isNewDateApplicable: true,
                 newCompletionDueOn: new Date('2025-01-31').getTime(),
                 attachment: { id: 'file-id', name: 'file-name' },
@@ -47,7 +47,7 @@ describe('getProjectEvents for DemandeDelaiSignaled events', () => {
               eventPublishedAt: new Date('2022-03-09').getTime(),
               payload: {
                 signaledBy: 'user-id',
-                isAccepted: false,
+                status: 'rejetée',
                 isNewDateApplicable: false,
                 newCompletionDueOn: new Date('2026-01-31').getTime(),
                 attachment: { id: 'file-id', name: 'file-name' },
@@ -63,7 +63,7 @@ describe('getProjectEvents for DemandeDelaiSignaled events', () => {
                   variant: role,
                   date: new Date('2022-02-09').getTime(),
                   signaledBy: 'user-id',
-                  isAccepted: true,
+                  status: 'acceptée',
                   isNewDateApplicable: true,
                   newCompletionDueOn: new Date('2025-01-31').getTime(),
                   attachment: { id: 'file-id', name: 'file-name' },
@@ -74,7 +74,7 @@ describe('getProjectEvents for DemandeDelaiSignaled events', () => {
                   variant: role,
                   date: new Date('2022-03-09').getTime(),
                   signaledBy: 'user-id',
-                  isAccepted: false,
+                  status: 'rejetée',
                   isNewDateApplicable: false,
                   newCompletionDueOn: new Date('2026-01-31').getTime(),
                   attachment: { id: 'file-id', name: 'file-name' },
@@ -98,7 +98,7 @@ describe('getProjectEvents for DemandeDelaiSignaled events', () => {
           eventPublishedAt: new Date('2022-02-09').getTime(),
           payload: {
             signaledBy: 'user-id',
-            isAccepted: true,
+            status: 'acceptée',
             isNewDateApplicable: true,
             newCompletionDueOn: new Date('2025-01-31').getTime(),
             attachment: { id: 'file-id', name: 'file-name' },
@@ -114,7 +114,7 @@ describe('getProjectEvents for DemandeDelaiSignaled events', () => {
           eventPublishedAt: new Date('2022-03-09').getTime(),
           payload: {
             signaledBy: 'user-id',
-            isAccepted: false,
+            status: 'rejetée',
             isNewDateApplicable: false,
             newCompletionDueOn: new Date('2026-01-31').getTime(),
             attachment: { id: 'file-id', name: 'file-name' },

@@ -1505,7 +1505,7 @@ export const DemandeDelaiSignaléAcceptée = () => (
         {
           type: 'DemandeDelaiSignaled',
           variant: 'porteur-projet',
-          isAccepted: true,
+          status: 'acceptée',
           date: new Date('2019-01-16').getTime(),
           signaledBy: 'fakeuser-id',
           isNewDateApplicable: true,
@@ -1542,7 +1542,7 @@ export const DemandeDelaiSignaléRefusée = () => (
         {
           type: 'DemandeDelaiSignaled',
           variant: 'porteur-projet',
-          isAccepted: false,
+          status: 'rejetée',
           date: new Date('2019-01-16').getTime(),
           signaledBy: 'fakeuser-id',
           isNewDateApplicable: false,

@@ -9,7 +9,7 @@ export interface DemandeDelaiSignaledPayload {
   projectId: string
   decidedOn: number
   newCompletionDueOn: number
-  isAccepted: boolean
+  status: 'acceptée' | 'rejetée' | 'accord-de-principe'
   isNewDateApplicable: boolean
   notes?: string
   attachments: Attachment[]

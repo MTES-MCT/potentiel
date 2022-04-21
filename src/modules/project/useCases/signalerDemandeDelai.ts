@@ -16,7 +16,7 @@ type SignalerDemandeDelaiDeps = {
 type SignalerDemandeDelaiArgs = {
   projectId: string
   decidedOn: number
-  isAccepted: boolean
+  status: 'acceptée' | 'rejetée' | 'accord-de-principe'
   newCompletionDueOn: number
   notes?: string
   signaledBy: User
@@ -32,7 +32,7 @@ export const makeSignalerDemandeDelai =
     args: SignalerDemandeDelaiArgs
   ): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
     const { projectRepo, fileRepo, shouldUserAccessProject } = deps
-    const { projectId, decidedOn, newCompletionDueOn, isAccepted, notes, signaledBy, file } = args
+    const { projectId, decidedOn, newCompletionDueOn, status, notes, signaledBy, file } = args
 
     return wrapInfra(shouldUserAccessProject({ projectId, user: signaledBy }))
       .andThen(
@@ -81,7 +81,7 @@ export const makeSignalerDemandeDelai =
               .signalerDemandeDelai({
                 decidedOn: new Date(decidedOn),
                 newCompletionDueOn: new Date(newCompletionDueOn),
-                isAccepted,
+                status,
                 notes,
                 attachments: file ? [file] : [],
                 signaledBy,

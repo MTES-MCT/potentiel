@@ -340,7 +340,7 @@ export type DemandeDelaiSignaledDTO = {
   variant: Exclude<UserRole, 'ademe'>
   date: number
   signaledBy: string
-  isAccepted: boolean
+  status: 'acceptée' | 'rejetée' | 'accord-de-principe'
   isNewDateApplicable: boolean
   newCompletionDueOn: number
   attachment?: File

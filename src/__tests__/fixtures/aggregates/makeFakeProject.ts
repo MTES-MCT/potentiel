@@ -69,7 +69,7 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
     (args: {
       decidedOn: Date
       newCompletionDueOn: Date
-      isAccepted: boolean
+      status: 'acceptée' | 'rejetée' | 'accord-de-principe'
       notes?: string
       attachments: Array<{ id: string; name: string }>
       signaledBy: User

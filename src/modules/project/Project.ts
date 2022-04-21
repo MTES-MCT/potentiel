@@ -136,7 +136,7 @@ export interface Project extends EventStoreAggregate {
   signalerDemandeDelai: (args: {
     decidedOn: Date
     newCompletionDueOn: Date
-    isAccepted: boolean
+    status: 'acceptée' | 'rejetée' | 'accord-de-principe'
     notes?: string
     attachments: Array<{ id: string; name: string }>
     signaledBy: User
@@ -749,7 +749,7 @@ export const makeProject = (args: {
     signalerDemandeDelai: function ({
       decidedOn,
       newCompletionDueOn,
-      isAccepted,
+      status,
       notes,
       attachments,
       signaledBy,
@@ -767,7 +767,7 @@ export const makeProject = (args: {
             decidedOn: decidedOn.getTime(),
             newCompletionDueOn: newCompletionDueOn.getTime(),
             isNewDateApplicable,
-            isAccepted,
+            status,
             notes,
             attachments,
             signaledBy: signaledBy.id,

@@ -21,7 +21,7 @@ describe('onDemandeDelaiSignaled', () => {
           projectId,
           decidedOn,
           newCompletionDueOn: new Date('2028-04-12').getTime(),
-          isAccepted: true,
+          status: 'acceptée',
           isNewDateApplicable: true,
           notes: 'notes',
           attachments: [{ id: 'file-id', name: 'file-name' }],
@@ -45,7 +45,7 @@ describe('onDemandeDelaiSignaled', () => {
       payload: {
         signaledBy: 'fakeUser',
         newCompletionDueOn: new Date('2028-04-12').getTime(),
-        isAccepted: true,
+        status: 'acceptée',
         isNewDateApplicable: true,
         notes: 'notes',
         attachment: { id: 'file-id', name: 'file-name' },

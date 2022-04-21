@@ -4,9 +4,9 @@ import { DemandeDelaiSignaled } from '@modules/project'
 export const onDemandeDelaiSignaled =
   (models) =>
   async ({
-    payload: { isAccepted, isNewDateApplicable, projectId, newCompletionDueOn },
+    payload: { status, isNewDateApplicable, projectId, newCompletionDueOn },
   }: DemandeDelaiSignaled) => {
-    if (isAccepted && isNewDateApplicable) {
+    if (status === 'acceptée' && isNewDateApplicable) {
       const { Project } = models
       const projectInstance = await Project.findByPk(projectId)
 

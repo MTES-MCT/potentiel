@@ -14,7 +14,7 @@ v1Router.get(
   ensureRole(['admin', 'dgec', 'dreal']),
   asyncHandler(async (request, response) => {
     const { projectId } = request.params
-    const { user } = request
+    const { user, query } = request
 
     if (!validateUniqueId(projectId)) {
       return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
@@ -33,12 +33,21 @@ v1Router.get(
       })
     }
 
+    const validationErrors: Array<{ [fieldName: string]: string }> = Object.entries(query).reduce(
+      (errors, [key, value]) => ({
+        ...errors,
+        ...(key.startsWith('error-') && { [key.replace('error-', '')]: value }),
+      }),
+      [] as Array<{ [fieldName: string]: string }>
+    )
+
     await getProjectDataForSignalerDemandeDelaiPage({ projectId }).match(
       (project) => {
         return response.send(
           SignalerDemandeDelaiPage({
             request,
             project,
+            validationErrors,
           })
         )
       },

@@ -280,7 +280,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                     const {
                       signaledBy,
                       isNewDateApplicable,
-                      isAccepted,
+                      status,
                       newCompletionDueOn,
                       attachment,
                       notes,
@@ -291,7 +291,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       date: valueDate,
                       signaledBy,
                       newCompletionDueOn,
-                      isAccepted,
+                      status,
                       isNewDateApplicable,
                       ...(userIs(['admin', 'dgec'])(user) && { notes }),
                       attachment,

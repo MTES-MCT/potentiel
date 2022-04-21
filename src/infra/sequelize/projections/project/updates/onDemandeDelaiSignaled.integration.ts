@@ -27,10 +27,11 @@ describe('project.onDemandeDelaiSignaled', () => {
           payload: {
             projectId,
             decidedOn: 67890,
-            isAccepted: true,
+            status: 'acceptée',
             isNewDateApplicable: true,
             newCompletionDueOn: 12345,
             signaledBy: 'fake-user',
+            attachments: [],
           },
         })
       )
@@ -47,10 +48,11 @@ describe('project.onDemandeDelaiSignaled', () => {
           payload: {
             projectId,
             decidedOn: 67890,
-            isAccepted: false,
+            status: 'rejetée',
             isNewDateApplicable: true,
             newCompletionDueOn: 12345,
             signaledBy: 'fake-user',
+            attachments: [],
           },
         })
       )
@@ -67,10 +69,11 @@ describe('project.onDemandeDelaiSignaled', () => {
           payload: {
             projectId,
             decidedOn: 67890,
-            isAccepted: true,
+            status: 'acceptée',
             isNewDateApplicable: false,
             newCompletionDueOn: 12345,
             signaledBy: 'fake-user',
+            attachments: [],
           },
         })
       )
