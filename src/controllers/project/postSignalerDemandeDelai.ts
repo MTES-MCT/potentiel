@@ -1,14 +1,13 @@
+import { Request } from 'express'
 import fs from 'fs'
 import { ensureRole, signalerDemandeDelai } from '@config'
-import { logger } from '@core/utils'
+import { err, logger, ok, Result } from '@core/utils'
 import asyncHandler from '../helpers/asyncHandler'
-import { validateUniqueId } from '../../helpers/validateUniqueId'
 import { UnauthorizedError } from '@modules/shared'
 import routes from '../../routes'
 import { errorResponse, unauthorizedResponse } from '../helpers'
 import { v1Router } from '../v1Router'
 import { upload } from '../upload'
-import moment from 'moment'
 import * as yup from 'yup'
 import { ValidationError } from 'yup'
 import { addQueryParams } from '../../helpers/addQueryParams'
@@ -34,40 +33,78 @@ const requestBodySchema = yup.object({
     .required('Ce champ est obligatoire'),
   newCompletionDueOn: yup
     .date()
-    .transform(parseDateString)
     .optional()
-    .typeError(`La date saisie n'est pas valide`),
+    .transform(parseDateString)
+    .typeError(`La date saisie n'est pas valide`)
+    .when('status', {
+      is: (status) => status === 'acceptée',
+      then: yup
+        .date()
+        .transform(parseDateString)
+        .required('Ce champ est obligatoire')
+        .typeError(`La date saisie n'est pas valide`),
+    }),
   notes: yup.string().optional(),
 })
-const FORMAT_DATE = 'YYYY-MM-DD'
+
+type RequestBody = {
+  projectId: string
+  decidedOn: Date
+  notes?: string
+} & (
+  | {
+      status: 'acceptée'
+      newCompletionDueOn: Date
+    }
+  | {
+      status: 'rejetée' | 'accord-de-principe'
+      newCompletionDueOn?: undefined
+    }
+)
+
+class RequestValidationError extends Error {
+  constructor(public errors: { [fieldName: string]: string }) {
+    super("La requête n'est pas valide.")
+  }
+}
+
+const validateRequestBody = (
+  body: Request['body'],
+  schema: typeof requestBodySchema
+): Result<RequestBody, any> => {
+  try {
+    return ok(schema.validateSync(body, { abortEarly: false }))
+  } catch (error) {
+    if (error instanceof ValidationError) {
+      const errors = error.inner.reduce(
+        (errors, { path, message }) => ({ ...errors, [`error-${path}`]: message }),
+        {}
+      )
+      return err(new RequestValidationError(errors))
+    }
+
+    return err(error)
+  }
+}
 
 v1Router.post(
   routes.ADMIN_SIGNALER_DEMANDE_DELAI_POST,
   upload.single('file'),
   ensureRole(['admin', 'dgec', 'dreal']),
   asyncHandler(async (request, response) => {
-    try {
-      requestBodySchema.validateSync(request.body, { abortEarly: false })
-    } catch (error) {
-      if (error instanceof ValidationError) {
+    const validation = validateRequestBody(request.body, requestBodySchema)
+
+    if (validation.isErr()) {
+      if (validation.error instanceof RequestValidationError) {
         return response.redirect(
           addQueryParams(routes.ADMIN_SIGNALER_DEMANDE_DELAI_PAGE(request.body.projectId), {
             ...request.body,
-            ...error.inner.reduce(
-              (errors, { path, message }) => ({ ...errors, [`error-${path}`]: message }),
-              {}
-            ),
+            ...validation.error.errors,
           })
         )
       }
-    }
 
-    const {
-      body: { projectId, decidedOn, status, newCompletionDueOn, notes },
-      user: signaledBy,
-    } = request
-
-    if (!validateUniqueId(projectId)) {
+      logger.error(validation.error)
       return errorResponse({
         request,
         response,
@@ -76,6 +113,9 @@ v1Router.post(
       })
     }
 
+    const { projectId, decidedOn, status, newCompletionDueOn, notes } = validation.value
+    const { user: signaledBy } = request
+
     const file = request.file && {
       contents: fs.createReadStream(request.file.path),
       filename: `${Date.now()}-${request.file.originalname}`,
@@ -83,9 +123,10 @@ v1Router.post(
 
     const result = signalerDemandeDelai({
       projectId,
-      decidedOn: moment(decidedOn, FORMAT_DATE).toDate().getTime(),
-      status,
-      newCompletionDueOn: moment(newCompletionDueOn, FORMAT_DATE).toDate().getTime(),
+      decidedOn: decidedOn.getTime(),
+      ...(status === 'acceptée'
+        ? { status, newCompletionDueOn: newCompletionDueOn.getTime() }
+        : { status }),
       notes,
       file,
       signaledBy,

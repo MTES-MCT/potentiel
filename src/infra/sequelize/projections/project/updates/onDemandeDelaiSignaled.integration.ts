@@ -49,8 +49,6 @@ describe('project.onDemandeDelaiSignaled', () => {
             projectId,
             decidedOn: 67890,
             status: 'rejetée',
-            isNewDateApplicable: true,
-            newCompletionDueOn: 12345,
             signaledBy: 'fake-user',
             attachments: [],
           },

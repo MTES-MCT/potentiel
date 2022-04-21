@@ -5,16 +5,23 @@ type Attachment = {
   name: string
 }
 
-export interface DemandeDelaiSignaledPayload {
+export type DemandeDelaiSignaledPayload = {
   projectId: string
   decidedOn: number
-  newCompletionDueOn: number
-  status: 'acceptée' | 'rejetée' | 'accord-de-principe'
-  isNewDateApplicable: boolean
   notes?: string
   attachments: Attachment[]
   signaledBy: string
-}
+} & (
+  | {
+      status: 'acceptée'
+      newCompletionDueOn: number
+      isNewDateApplicable: boolean
+    }
+  | {
+      status: 'rejetée' | 'accord-de-principe'
+      newCompletionDueOn?: undefined
+    }
+)
 export class DemandeDelaiSignaled
   extends BaseDomainEvent<DemandeDelaiSignaledPayload>
   implements DomainEvent

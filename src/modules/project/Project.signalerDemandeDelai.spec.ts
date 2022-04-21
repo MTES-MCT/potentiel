@@ -53,7 +53,6 @@ describe('Project.signalerDemandeDelai()', () => {
       )
       const res = project.signalerDemandeDelai({
         decidedOn: new Date('2022-04-12'),
-        newCompletionDueOn: new Date('2025-04-12'),
         status: 'rejetée',
         attachments: [],
         signaledBy: fakeUser,

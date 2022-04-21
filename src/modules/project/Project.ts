@@ -133,14 +133,23 @@ export interface Project extends EventStoreAggregate {
   withdrawGarantiesFinancieres: (
     removedBy: User
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>
-  signalerDemandeDelai: (args: {
-    decidedOn: Date
-    newCompletionDueOn: Date
-    status: 'acceptée' | 'rejetée' | 'accord-de-principe'
-    notes?: string
-    attachments: Array<{ id: string; name: string }>
-    signaledBy: User
-  }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
+  signalerDemandeDelai: (
+    args: {
+      decidedOn: Date
+      notes?: string
+      attachments: Array<{ id: string; name: string }>
+      signaledBy: User
+    } & (
+      | {
+          status: 'acceptée'
+          newCompletionDueOn: Date
+        }
+      | {
+          status: 'rejetée' | 'accord-de-principe'
+          newCompletionDueOn?: undefined
+        }
+    )
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
   readonly shouldCertificateBeGenerated: boolean
   readonly appelOffre?: ProjectAppelOffre
   readonly isClasse?: boolean
@@ -758,19 +767,21 @@ export const makeProject = (args: {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
       }
 
-      const isNewDateApplicable = props.completionDueOn < newCompletionDueOn.getTime()
-
       _publishEvent(
         new DemandeDelaiSignaled({
           payload: {
             projectId: props.projectId.toString(),
             decidedOn: decidedOn.getTime(),
-            newCompletionDueOn: newCompletionDueOn.getTime(),
-            isNewDateApplicable,
-            status,
             notes,
             attachments,
             signaledBy: signaledBy.id,
+            ...(status === 'acceptée'
+              ? {
+                  status,
+                  newCompletionDueOn: newCompletionDueOn.getTime(),
+                  isNewDateApplicable: props.completionDueOn < newCompletionDueOn.getTime(),
+                }
+              : { status }),
           },
         })
       )

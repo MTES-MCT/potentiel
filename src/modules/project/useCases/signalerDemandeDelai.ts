@@ -16,15 +16,22 @@ type SignalerDemandeDelaiDeps = {
 type SignalerDemandeDelaiArgs = {
   projectId: string
   decidedOn: number
-  status: 'acceptée' | 'rejetée' | 'accord-de-principe'
-  newCompletionDueOn: number
-  notes?: string
   signaledBy: User
+  notes?: string
   file?: {
     contents: FileContents
     filename: string
   }
-}
+} & (
+  | {
+      status: 'acceptée'
+      newCompletionDueOn: number
+    }
+  | {
+      status: 'rejetée' | 'accord-de-principe'
+      newCompletionDueOn?: undefined
+    }
+)
 
 export const makeSignalerDemandeDelai =
   (deps: SignalerDemandeDelaiDeps) =>
@@ -80,8 +87,12 @@ export const makeSignalerDemandeDelai =
             return project
               .signalerDemandeDelai({
                 decidedOn: new Date(decidedOn),
-                newCompletionDueOn: new Date(newCompletionDueOn),
-                status,
+                ...(status === 'acceptée'
+                  ? {
+                      status,
+                      newCompletionDueOn: new Date(newCompletionDueOn),
+                    }
+                  : { status }),
                 notes,
                 attachments: file ? [file] : [],
                 signaledBy,
