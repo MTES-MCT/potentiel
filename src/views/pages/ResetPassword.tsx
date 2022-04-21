@@ -1,6 +1,6 @@
 import { Request } from 'express'
 import React from 'react'
-import routes from 'src/routes'
+import routes from '../../routes'
 import { Button, Container, Footer, Header, Input, LinkButton } from '../components'
 import { RiLock2Line } from '@react-icons/all-files/ri/RiLock2Line'
 import { RiErrorWarningFill } from '@react-icons/all-files/ri/RiErrorWarningFill'
