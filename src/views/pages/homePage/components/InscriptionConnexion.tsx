@@ -137,7 +137,7 @@ const LoginBox = () => {
         Connexion
       </h2>
       <div>
-        <p className="m-0 mb-3 font-semibold text-xl text-blue-france-sun-base">
+        <p className="m-0 mb-3 font-semibold text-xl text-blue-france-sun-base md:whitespace-nowrap">
           Vous avez déjà un compte sur Potentiel ?
         </p>
         <p className="m-0 p-0">Connectez-vous pour accéder aux projets.</p>
