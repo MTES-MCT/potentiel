@@ -93,10 +93,11 @@ export const SignalerDemandeDelai = PageLayout(
             </div>
 
             <div>
-              <label>Date de la décision (=date du courrier)*</label>
+              <label htmlFor="decidedOn">Date de la décision (=date du courrier)*</label>
               <Input
                 type="date"
                 name="decidedOn"
+                id="decidedOn"
                 required
                 {...(validationErrors && { error: validationErrors['decidedOn']?.toString() })}
               />
@@ -104,10 +105,11 @@ export const SignalerDemandeDelai = PageLayout(
 
             {doesNewDateImpactProject && (
               <div>
-                <label>Nouvelle date d'achèvement accordée*</label>
+                <label htmlFor="newCompletionDueOn">Nouvelle date d'achèvement accordée*</label>
                 <Input
                   type="date"
                   name="newCompletionDueOn"
+                  id="newCompletionDueOn"
                   required
                   {...(validationErrors && {
                     error: validationErrors['newCompletionDueOn']?.toString(),
@@ -121,15 +123,16 @@ export const SignalerDemandeDelai = PageLayout(
             )}
 
             <div>
-              <label>Courrier de la réponse (fichier joint)</label>
-              <input name="file" type="file" className="rounded-none" />
+              <label htmlFor="file">Courrier de la réponse (fichier joint)</label>
+              <input name="file" type="file" className="rounded-none" id="file" />
             </div>
 
             <div>
-              <label>Notes</label>
+              <label htmlFor="notes">Notes</label>
               <textarea
                 className="bg-gray-100 border-x-0 border-t-0 border-b-2 border-solid border-gray-600 rounded-none"
                 name="notes"
+                id="notes"
               ></textarea>
             </div>
 
