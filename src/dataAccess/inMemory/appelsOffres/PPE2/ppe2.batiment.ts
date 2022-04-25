@@ -54,6 +54,22 @@ const batimentPPE2: AppelOffre = {
         },
       },
     },
+    {
+      id: '2',
+      title: 'deuxième',
+      paragrapheAchevement: '6.3',
+      certificateTemplate: 'ppe2.v1',
+      noteThresholdBy: 'category',
+      noteThreshold: {
+        volumeReserve: {
+          noteThreshold: 12.9244110177221,
+          puissanceMax: 1,
+        },
+        autres: {
+          noteThreshold: 11.4362187267599,
+        },
+      },
+    },
   ],
   familles: [],
 }
