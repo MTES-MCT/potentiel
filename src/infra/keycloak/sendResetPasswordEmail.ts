@@ -39,7 +39,7 @@ export const sendResetPasswordEmail: SendResetPasswordEmail = (args) => {
         id,
         clientId: KEYCLOAK_USER_CLIENT_ID,
         realm: KEYCLOAK_REALM,
-        lifespan: 3600,
+        lifespan: 3600000,
         actions: [RequiredActionAlias.UPDATE_PASSWORD],
         redirectUri: BASE_URL + routes.REDIRECT_BASED_ON_ROLE,
       })
