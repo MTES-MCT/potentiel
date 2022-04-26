@@ -1,12 +1,12 @@
 import { AppelOffre } from '@entities'
 import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
-const batimentPPE2: AppelOffre = {
-  id: 'PPE2 - Bâtiment',
+const batiment2PPE2: AppelOffre = {
+  id: 'PPE2 - Bâtiment 2',
   type: 'batiment',
   title:
-    '2021 S 176-457518 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie solaire « Centrales sur bâtiments, serres et hangars agricoles et ombrières de parking de puissance supérieure à 500 kWc»',
-  shortTitle: 'PPE2 - Bâtiment 2021 S 176-457518',
+    '2022 S 020-047803 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie solaire « Centrales sur bâtiments, serres et hangars agricoles et ombrières de parking de puissance supérieure à 500 kWc»',
+  shortTitle: 'PPE2 - Bâtiment 2022 S 020-047803',
   launchDate: 'Août 2021',
   unitePuissance: 'MW',
   delaiRealisationEnMois: 30,
@@ -39,18 +39,18 @@ const batimentPPE2: AppelOffre = {
   },
   periodes: [
     {
-      id: '1',
-      title: 'première',
+      id: '2',
+      title: 'deuxième',
       paragrapheAchevement: '6.3',
       certificateTemplate: 'ppe2.v1',
       noteThresholdBy: 'category',
       noteThreshold: {
         volumeReserve: {
-          noteThreshold: 18.79,
+          noteThreshold: 12.9244110177221,
           puissanceMax: 1,
         },
         autres: {
-          noteThreshold: 26.46,
+          noteThreshold: 11.4362187267599,
         },
       },
     },
@@ -58,4 +58,4 @@ const batimentPPE2: AppelOffre = {
   familles: [],
 }
 
-export { batimentPPE2 }
+export { batiment2PPE2 }
