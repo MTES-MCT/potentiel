@@ -28,7 +28,7 @@ describe('redisPublish', () => {
 
   describe('when publishing an event', () => {
     it('the published event should be in the stream', async () => {
-      const redisPublish = makeRedisPublish({ redis, streamName })
+      const redisPublish = makeRedisPublish({ redis, streamName, streamMaxLength: 10000 })
 
       const targetEvent = new DummyEvent({ payload: {} })
       await redisPublish(targetEvent)

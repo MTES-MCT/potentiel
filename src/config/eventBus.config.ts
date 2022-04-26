@@ -17,7 +17,13 @@ if (isTestEnv) {
   publishToEventBus = makeInMemoryPublish({ eventEmitter })
   console.log(`EventBus will be using in-memory for the eventbus`)
 } else {
-  const { REDIS_PORT, REDIS_HOST, REDIS_PASSWORD, REDIS_EVENT_BUS_STREAM_NAME } = process.env
+  const {
+    REDIS_PORT,
+    REDIS_HOST,
+    REDIS_PASSWORD,
+    REDIS_EVENT_BUS_STREAM_NAME,
+    REDIS_EVENT_BUS_MAX_LENGTH = 10000,
+  } = process.env
 
   if (!REDIS_PORT || !REDIS_HOST || !REDIS_EVENT_BUS_STREAM_NAME || !REDIS_PASSWORD) {
     console.error('Missing REDIS env variables. Aborting.')
@@ -42,6 +48,7 @@ if (isTestEnv) {
     redisPublish: makeRedisPublish({
       redis,
       streamName: REDIS_EVENT_BUS_STREAM_NAME,
+      streamMaxLength: +REDIS_EVENT_BUS_MAX_LENGTH,
     }),
     inMemoryPublish: makeInMemoryPublish({ eventEmitter }),
   })
