@@ -9,7 +9,7 @@ type InputProps = React.HTMLAttributes<HTMLInputElement> & {
   error?: string
 }
 
-export const Input = ({ className = '', error = '', ...props }: InputProps) => {
+export const Input = ({ className = '', error = '', onChange, ...props }: InputProps) => {
   const [valueHasChanged, valueChanged] = useState(false)
   const isOnError = error !== '' && !valueHasChanged
 
@@ -20,7 +20,10 @@ export const Input = ({ className = '', error = '', ...props }: InputProps) => {
         className={`${className} bg-gray-100 border-x-0 border-t-0 border-b-2 border-solid ${
           isOnError ? 'border-red-marianne-main-472-base' : 'border-gray-600'
         } rounded-none`}
-        onChange={() => valueChanged(true)}
+        onChange={(e) => {
+          valueChanged(true)
+          onChange && onChange(e)
+        }}
       />
       {isOnError && (
         <p
