@@ -13,7 +13,7 @@ export const Button = ({ className = '', children, primary, ...props }: ButtonPr
         : 'border-blue-france-sun-base text-blue-france-sun-base bg-white hover:bg-blue-france-975-base focus:bg-blue-france-975-base'
     } ${className}`}
     style={{ color: primary ? 'white' : '#000091', textDecoration: 'none' }}
-    {...{ props }}
+    {...props}
   >
     {children}
   </button>
