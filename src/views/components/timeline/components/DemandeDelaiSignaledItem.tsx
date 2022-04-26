@@ -79,7 +79,7 @@ const Accepted = ({ date, newCompletionDueOn, attachment, notes }: AcceptedProps
       <>
         <ItemTitle title="Délai supplémentaire accepté" />
         <p className="p-0 m-0">
-          Date d'attestation de conformité demandée {formatDate(newCompletionDueOn)}
+          Date d'attestation de conformité demandée : {formatDate(newCompletionDueOn)}
         </p>
         {notes && <p className="p-0 m-0 italic">Note : {notes}</p>}
       </>
