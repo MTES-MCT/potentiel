@@ -20,6 +20,9 @@ export class ProjectGFUploaded
 
     // convert to date (in case it is a string)
     this.payload.gfDate = new Date(this.payload.gfDate)
+    if (this.payload.expirationDate) {
+      this.payload.expirationDate = new Date(this.payload.expirationDate)
+    }
   }
 
   aggregateIdFromPayload(payload: ProjectGFUploadedPayload) {
