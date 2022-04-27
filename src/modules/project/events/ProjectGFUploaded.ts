@@ -5,6 +5,7 @@ export interface ProjectGFUploadedPayload {
   gfDate: Date
   fileId: string
   submittedBy: string
+  expirationDate?: Date
 }
 export class ProjectGFUploaded
   extends BaseDomainEvent<ProjectGFUploadedPayload>

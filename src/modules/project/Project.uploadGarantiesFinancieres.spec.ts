@@ -41,7 +41,12 @@ describe('Project.uploadGarantiesFinancieres()', () => {
           buildProjectIdentifier: () => '',
         })
       )
-      const res = project.uploadGarantiesFinancieres(new Date('2022-01-01'), 'fileId', fakeUser)
+      const res = project.uploadGarantiesFinancieres(
+        new Date('2022-01-01'),
+        'fileId',
+        fakeUser,
+        new Date('2025-01-01')
+      )
 
       expect(res.isErr()).toEqual(true)
       if (res.isOk()) return
@@ -115,7 +120,8 @@ describe('Project.uploadGarantiesFinancieres()', () => {
           const res = project.uploadGarantiesFinancieres(
             new Date('2022-02-21'),
             'file-id2',
-            fakeUser
+            fakeUser,
+            new Date('2025-01-01')
           )
           expect(res.isErr()).toEqual(true)
           if (res.isOk()) return
@@ -135,8 +141,9 @@ describe('Project.uploadGarantiesFinancieres()', () => {
 
           const gfDate = new Date('2022-02-21')
           const fileId = 'file-id'
+          const expirationDate = new Date('2025-01-01')
 
-          project.uploadGarantiesFinancieres(gfDate, fileId, fakeUser)
+          project.uploadGarantiesFinancieres(gfDate, fileId, fakeUser, expirationDate)
 
           expect(project.pendingEvents).toHaveLength(1)
 
@@ -147,6 +154,7 @@ describe('Project.uploadGarantiesFinancieres()', () => {
           expect(targetEvent.payload.projectId).toEqual(projectId.toString())
           expect(targetEvent.payload.fileId).toEqual(fileId)
           expect(targetEvent.payload.submittedBy).toEqual(fakeUser.id)
+          expect(targetEvent.payload.expirationDate).toEqual(expirationDate)
         })
       })
     })

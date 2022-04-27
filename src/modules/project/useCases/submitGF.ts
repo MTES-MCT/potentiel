@@ -16,6 +16,7 @@ type SubmitGFDeps = {
 type SubmitGFArgs = {
   projectId: string
   stepDate: Date
+  expirationDate: Date
   file: {
     contents: FileContents
     filename: string
@@ -32,7 +33,7 @@ export const makeSubmitGF =
     InfraNotAvailableError | UnauthorizedError | GFCertificateHasAlreadyBeenSentError
   > => {
     const { fileRepo, projectRepo, shouldUserAccessProject } = deps
-    const { projectId, file, submittedBy, stepDate } = args
+    const { projectId, file, submittedBy, stepDate, expirationDate } = args
     const { filename, contents } = file
 
     return wrapInfra(shouldUserAccessProject({ projectId, user: submittedBy }))
@@ -74,7 +75,7 @@ export const makeSubmitGF =
               ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError
             > => {
               return project
-                .submitGarantiesFinancieres(stepDate, fileId, submittedBy)
+                .submitGarantiesFinancieres(stepDate, fileId, submittedBy, expirationDate)
                 .asyncMap(async () => null)
             }
           )

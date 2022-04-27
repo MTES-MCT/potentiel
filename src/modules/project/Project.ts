@@ -119,12 +119,14 @@ export interface Project extends EventStoreAggregate {
   submitGarantiesFinancieres: (
     gfDate: Date,
     fileId: string,
-    submittedBy: User
+    submittedBy: User,
+    expirationDate: Date
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>
   uploadGarantiesFinancieres: (
     gfDate: Date,
     fileId: string,
-    submittedBy: User
+    submittedBy: User,
+    expirationDate: Date
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>
   removeGarantiesFinancieres: (
     removedBy: User
@@ -690,7 +692,7 @@ export const makeProject = (args: {
 
       return ok(null)
     },
-    submitGarantiesFinancieres: function (gfDate, fileId, submittedBy) {
+    submitGarantiesFinancieres: function (gfDate, fileId, submittedBy, expirationDate) {
       if (!_isNotified()) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
       }
@@ -701,15 +703,16 @@ export const makeProject = (args: {
         new ProjectGFSubmitted({
           payload: {
             projectId: props.projectId.toString(),
-            fileId: fileId,
-            gfDate: gfDate,
+            fileId,
+            gfDate,
             submittedBy: submittedBy.id,
+            expirationDate,
           },
         })
       )
       return ok(null)
     },
-    uploadGarantiesFinancieres: function (gfDate, fileId, submittedBy) {
+    uploadGarantiesFinancieres: function (gfDate, fileId, submittedBy, expirationDate) {
       if (!_isNotified()) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
       }
@@ -723,6 +726,7 @@ export const makeProject = (args: {
             fileId: fileId,
             gfDate: gfDate,
             submittedBy: submittedBy.id,
+            expirationDate,
           },
         })
       )

@@ -34,6 +34,7 @@ describe('submitGF use-case', () => {
     }
 
     const gfDate = new Date(123)
+    const expirationDate = new Date(456)
 
     beforeAll(async () => {
       const shouldUserAccessProject = jest.fn(async () => true)
@@ -51,6 +52,7 @@ describe('submitGF use-case', () => {
         stepDate: gfDate,
         projectId,
         submittedBy: user,
+        expirationDate,
       })
 
       expect(res.isOk()).toBe(true)
@@ -71,7 +73,8 @@ describe('submitGF use-case', () => {
       expect(fakeProject.submitGarantiesFinancieres).toHaveBeenCalledWith(
         gfDate,
         fakeFile.id.toString(),
-        user
+        user,
+        expirationDate
       )
     })
   })
@@ -100,6 +103,7 @@ describe('submitGF use-case', () => {
         stepDate: new Date(123),
         projectId,
         submittedBy: user,
+        expirationDate: new Date(456),
       })
 
       expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)

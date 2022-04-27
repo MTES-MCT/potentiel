@@ -16,6 +16,7 @@ type UploadGFDeps = {
 type UploadGFArgs = {
   projectId: string
   stepDate: Date
+  expirationDate: Date
   file: {
     contents: FileContents
     filename: string
@@ -27,7 +28,7 @@ export const makeUploadGF =
   (deps: UploadGFDeps) =>
   (args: UploadGFArgs): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
     const { fileRepo, projectRepo, shouldUserAccessProject } = deps
-    const { projectId, file, submittedBy, stepDate } = args
+    const { projectId, file, submittedBy, stepDate, expirationDate } = args
     const { filename, contents } = file
 
     return wrapInfra(shouldUserAccessProject({ projectId, user: submittedBy }))
@@ -63,7 +64,7 @@ export const makeUploadGF =
             ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError
           > => {
             return project
-              .uploadGarantiesFinancieres(stepDate, fileId, submittedBy)
+              .uploadGarantiesFinancieres(stepDate, fileId, submittedBy, expirationDate)
               .asyncMap(async () => null)
           }
         )
