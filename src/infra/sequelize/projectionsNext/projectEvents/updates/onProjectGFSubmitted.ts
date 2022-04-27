@@ -6,7 +6,7 @@ import { logger } from '@core/utils'
 
 export default ProjectEvent.projector.on(
   ProjectGFSubmitted,
-  async ({ payload: { projectId, fileId, gfDate }, occurredAt }, transaction) => {
+  async ({ payload: { projectId, fileId, gfDate, expirationDate }, occurredAt }, transaction) => {
     const { File } = models
     const rawFilename = await File.findOne({
       attributes: ['filename'],
@@ -31,7 +31,7 @@ export default ProjectEvent.projector.on(
         valueDate: gfDate.getTime(),
         eventPublishedAt: occurredAt.getTime(),
         id: new UniqueEntityID().toString(),
-        payload: { file },
+        payload: { file, expirationDate: expirationDate && expirationDate.getTime() },
       },
       { transaction }
     )
