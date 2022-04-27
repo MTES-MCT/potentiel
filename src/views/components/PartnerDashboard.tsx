@@ -21,7 +21,7 @@ const SeparatorItem = ({ visibleForRoles, role }: SeparatorItemProps) =>
 interface PartnerDashboardProps {
   children: React.ReactNode
   role: UserRole | undefined
-  currentPage: 'list-projects' | 'ademe-statistiques' | undefined
+  currentPage: 'list-projects' | 'ademe-statistiques' | 'upload-edf' | undefined
 }
 
 interface MenuItemProps {
@@ -75,6 +75,15 @@ export default function PartnerDashboard({ children, currentPage, role }: Partne
               itemPage={'ademe-statistiques'}
               title="Tableau de bord"
               visibleForRoles={['ademe']}
+              role={role}
+              currentPage={currentPage}
+            />
+
+            <MenuItem
+              route={ROUTES.UPLOAD_EDF_FILE}
+              itemPage={'upload-edf'}
+              title="Importer des données"
+              visibleForRoles={['acheteur-obligé']}
               role={role}
               currentPage={currentPage}
             />
