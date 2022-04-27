@@ -104,6 +104,7 @@ describe('extractGFitemProps', () => {
             variant: 'porteur-projet',
             date: new Date('2022-01-09').getTime(),
             file: { id: 'file-id', name: 'file-name' },
+            expirationDate: new Date('2025-01-09').getTime(),
           } as ProjectGFUploadedDTO,
         ]
         const result = extractGFItemProps(events, new Date('2022-01-08').getTime(), project)
@@ -113,6 +114,7 @@ describe('extractGFitemProps', () => {
           status: 'uploaded',
           role: 'porteur-projet',
           url: '/telechargement/file-id/fichier/file-name',
+          expirationDate: new Date('2025-01-09').getTime(),
         })
       })
     })
@@ -203,6 +205,7 @@ describe('extractGFitemProps', () => {
             variant: 'porteur-projet',
             date: submittedDate,
             file: { id: 'file-id', name: 'file-name' },
+            expirationDate: new Date('2025-01-09').getTime(),
           } as ProjectGFSubmittedDTO,
         ]
         const result = extractGFItemProps(events, new Date('2022-01-10').getTime(), project)
@@ -212,6 +215,7 @@ describe('extractGFitemProps', () => {
           status: 'pending-validation',
           url: '/telechargement/file-id/fichier/file-name',
           role: 'porteur-projet',
+          expirationDate: new Date('2025-01-09').getTime(),
         })
       })
       describe('when there is no file', () => {
@@ -546,6 +550,7 @@ describe('extractGFitemProps', () => {
             variant: 'porteur-projet',
             date: new Date('2022-01-09').getTime(),
             file: { id: 'file-id', name: 'file-name' },
+            expirationDate: new Date('2025-01-09').getTime(),
           } as ProjectGFUploadedDTO,
         ]
         const result = extractGFItemProps(events, new Date('2022-01-08').getTime(), project)
@@ -555,6 +560,7 @@ describe('extractGFitemProps', () => {
           status: 'uploaded',
           role: 'porteur-projet',
           url: '/telechargement/file-id/fichier/file-name',
+          expirationDate: new Date('2025-01-09').getTime(),
         })
       })
     })

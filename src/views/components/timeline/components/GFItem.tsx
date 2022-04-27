@@ -6,6 +6,7 @@ import { WarningItem } from './WarningItem'
 import { GFItemProps } from '../helpers/extractGFItemProps'
 import { WarningIcon } from './WarningIcon'
 import { ProjectStatus } from '@modules/frise'
+import { formatDate } from '../../../../helpers/formatDate'
 
 type ComponentProps = GFItemProps & {
   project: { id: string; status: ProjectStatus }
@@ -67,7 +68,7 @@ const NotSubmitted = ({ date, status, role, project }: NotSubmittedProps) => {
 }
 
 type SubmittedProps = ComponentProps & { status: 'pending-validation' }
-const Submitted = ({ date, url, role, project }: SubmittedProps) => {
+const Submitted = ({ date, url, role, project, expirationDate }: SubmittedProps) => {
   const isPorteurProjet = role === 'porteur-projet'
 
   return (
@@ -83,6 +84,7 @@ const Submitted = ({ date, url, role, project }: SubmittedProps) => {
           </div>
         </div>
         <ItemTitle title={'Constitution des garanties financières'} />
+        {expirationDate && <p className="m-0">Date d'échéance : {formatDate(expirationDate)}</p>}
         <div className="flex">
           {url ? (
             <a href={url} download>
@@ -99,7 +101,7 @@ const Submitted = ({ date, url, role, project }: SubmittedProps) => {
 }
 
 type ValidatedProps = ComponentProps & { status: 'validated' }
-const Validated = ({ date, url }: ValidatedProps) => {
+const Validated = ({ date, url, expirationDate }: ValidatedProps) => {
   return (
     <>
       <PastIcon />
@@ -110,6 +112,7 @@ const Validated = ({ date, url }: ValidatedProps) => {
           </div>
         </div>
         <ItemTitle title={'Constitution des garanties financières'} />
+        {expirationDate && <p className="m-0">Date d'échéance : {formatDate(expirationDate)}</p>}
         <div>
           {url ? (
             <>
@@ -209,7 +212,7 @@ const NotUploaded = ({ role, project }: NotUploadedProps) => {
 
 type UploadedProps = ComponentProps & { status: 'uploaded' }
 
-const Uploaded = ({ date, url, role, project }: UploadedProps) => {
+const Uploaded = ({ date, url, role, project, expirationDate }: UploadedProps) => {
   const isPorteurProjet = role === 'porteur-projet'
 
   return (
@@ -222,6 +225,7 @@ const Uploaded = ({ date, url, role, project }: UploadedProps) => {
           </div>
         </div>
         <ItemTitle title={'Constitution des garanties financières'} />
+        {expirationDate && <p className="m-0">Date d'échéance : {formatDate(expirationDate)}</p>}
         <div className="flex">
           {url ? (
             <a href={url} download>

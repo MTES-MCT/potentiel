@@ -224,6 +224,7 @@ export const garantiesFinancieresConstituees = () => (
           date: new Date('2022-01-17').getTime(),
           fileId: 'file-id',
           filename: 'file-name',
+          expirationDate: new Date('2025-01-17').getTime(),
         } as ProjectGFSubmittedDTO,
         {
           type: 'ProjectGFInvalidated',
@@ -276,6 +277,7 @@ export const garantiesFinancieresValidées = () => (
           date: new Date('2022-01-17').getTime(),
           fileId: 'file-id',
           filename: 'file-name',
+          expirationDate: new Date('2025-01-17').getTime(),
         } as ProjectGFSubmittedDTO,
         {
           type: 'ProjectGFValidated',
