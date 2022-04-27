@@ -32,6 +32,7 @@ export const SignalerDemandeDelai = PageLayout(
           <form
             action={routes.ADMIN_SIGNALER_DEMANDE_DELAI_POST}
             method="POST"
+            encType="multipart/form-data"
             className="flex flex-col gap-5"
           >
             <div>
