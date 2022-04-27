@@ -1,6 +1,5 @@
 import asyncHandler from '../helpers/asyncHandler'
 import fs from 'fs'
-import moment from 'moment'
 import { ensureRole } from '@config'
 import { submitGF } from '@config/useCases.config'
 import { logger } from '@core/utils'
@@ -13,6 +12,7 @@ import { errorResponse, unauthorizedResponse } from '../helpers'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
 import { GFCertificateHasAlreadyBeenSentError } from '../../modules/project'
+import { parse, isDate } from 'date-fns'
 
 v1Router.post(
   routes.SUBMIT_GARANTIES_FINANCIERES(),
@@ -43,7 +43,9 @@ v1Router.post(
       )
     }
 
-    if (!isDateFormatValid(stepDate)) {
+    const parsedStepDate = isDate(stepDate) ? stepDate : parse(stepDate, 'yyyy-MM-dd', new Date())
+
+    if (!isDate(parsedStepDate)) {
       return response.redirect(
         addQueryParams(routes.PROJECT_DETAILS(projectId), {
           error:
@@ -71,7 +73,7 @@ v1Router.post(
     ;(
       await submitGF({
         projectId,
-        stepDate: moment(stepDate, 'DD/MM/YYYY').toDate(),
+        stepDate: parsedStepDate,
         file,
         submittedBy: request.user,
       })
@@ -104,7 +106,3 @@ v1Router.post(
     )
   })
 )
-
-function isDateFormatValid(dateStr: string) {
-  return moment(dateStr, 'DD/MM/YYYY').isValid()
-}

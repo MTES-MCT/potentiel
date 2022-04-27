@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '.'
 import ROUTES from '../../../../routes'
-import { DateInput } from '../..'
 import { InfoItem } from './InfoItem'
 import { WarningItem } from './WarningItem'
 import { GFItemProps } from '../helpers/extractGFItemProps'
@@ -133,7 +132,6 @@ type SubmitFormProps = {
 }
 const SubmitForm = ({ projectId }: SubmitFormProps) => {
   const [isFormVisible, showForm] = useState(false)
-  const [disableSubmit, setDisableSubmit] = useState(true)
 
   return (
     <>
@@ -143,22 +141,30 @@ const SubmitForm = ({ projectId }: SubmitFormProps) => {
           action={ROUTES.SUBMIT_GARANTIES_FINANCIERES({ projectId })}
           method="post"
           encType="multipart/form-data"
-          className="mt-2 border border-solid border-gray-300 rounded-md p-5"
+          className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
         >
           <input type="hidden" name="type" id="type" value="garanties-financieres" />
           <input type="hidden" name="projectId" value={projectId} />
           <div>
-            <label htmlFor="date">Date de constitution (format JJ/MM/AAAA)</label>
-            <DateInput onError={(isError) => setDisableSubmit(isError)} />
+            <label htmlFor="stepDate">Date de constitution (format JJ/MM/AAAA)</label>
+            <input
+              type="date"
+              name="stepDate"
+              id="stepDate"
+              max={new Date().toLocaleDateString('en-ca')}
+              required
+            />
           </div>
-          <div className="mt-2">
+          <div>
             <label htmlFor="file">Attestation</label>
             <input type="file" name="file" id="file" required />
           </div>
-          <button className="button" type="submit" name="submit" disabled={disableSubmit}>
-            Envoyer
-          </button>
-          <a onClick={() => showForm(false)}>Annuler</a>
+          <div>
+            <button className="button" type="submit" name="submit">
+              Envoyer
+            </button>
+            <a onClick={() => showForm(false)}>Annuler</a>
+          </div>
         </form>
       )}
     </>
@@ -232,7 +238,6 @@ type UploadFormProps = {
 }
 const UploadForm = ({ projectId }: UploadFormProps) => {
   const [isFormVisible, showForm] = useState(false)
-  const [disableSubmit, setDisableSubmit] = useState(true)
 
   return (
     <>
@@ -242,15 +247,21 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
           action={ROUTES.UPLOAD_GARANTIES_FINANCIERES({ projectId })}
           method="post"
           encType="multipart/form-data"
-          className="mt-2 border border-solid border-gray-300 rounded-md p-5"
+          className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
         >
           <input type="hidden" name="type" id="type" value="garanties-financieres" />
           <input type="hidden" name="projectId" value={projectId} />
           <div>
-            <label htmlFor="date">Date de constitution (format JJ/MM/AAAA)</label>
-            <DateInput onError={(isError) => setDisableSubmit(isError)} />
+            <label htmlFor="stepDate">Date de constitution (format JJ/MM/AAAA)</label>
+            <input
+              type="date"
+              name="stepDate"
+              id="stepDate"
+              max={new Date().toLocaleDateString('en-ca')}
+              required
+            />
           </div>
-          <div className="mt-2">
+          <div>
             <label htmlFor="file">Attestation*</label>
             <input type="file" name="file" id="file" required />
             <p className="m-0 italic">
@@ -258,10 +269,12 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
               d'une nouvelle validation.
             </p>
           </div>
-          <button className="button" type="submit" name="submit" disabled={disableSubmit}>
-            Envoyer
-          </button>
-          <a onClick={() => showForm(false)}>Annuler</a>
+          <div>
+            <button className="button" type="submit" name="submit">
+              Envoyer
+            </button>
+            <a onClick={() => showForm(false)}>Annuler</a>
+          </div>
         </form>
       )}
     </>
