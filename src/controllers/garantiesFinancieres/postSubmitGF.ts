@@ -19,7 +19,7 @@ v1Router.post(
   ensureRole(['porteur-projet']),
   upload.single('file'),
   asyncHandler(async (request, response) => {
-    const { type, stepDate, projectId } = request.body
+    const { type, stepDate, projectId, expirationDate } = request.body
 
     if (!validateUniqueId(projectId)) {
       return errorResponse({
@@ -54,6 +54,28 @@ v1Router.post(
       )
     }
 
+    if (!expirationDate) {
+      return response.redirect(
+        addQueryParams(routes.PROJECT_DETAILS(projectId), {
+          error:
+            "Votre attestation de garanties financières n'a pas pu être soumise. La date d'échéance est obligatoire.",
+        })
+      )
+    }
+
+    const parsedExpirationDate = isDate(expirationDate)
+      ? expirationDate
+      : parse(expirationDate, 'yyyy-MM-dd', new Date())
+
+    if (!isDate(parsedExpirationDate)) {
+      return response.redirect(
+        addQueryParams(routes.PROJECT_DETAILS(projectId), {
+          error:
+            "Votre attestation de garanties financières n'a pas pu être soumise. La date d'échéance n'est pas au bon format (JJ/MM/AAAA)",
+        })
+      )
+    }
+
     const attestationExists: boolean = !!request.file && (await pathExists(request.file.path))
 
     if (!attestationExists) {
@@ -74,6 +96,7 @@ v1Router.post(
       await submitGF({
         projectId,
         stepDate: parsedStepDate,
+        expirationDate: parsedExpirationDate,
         file,
         submittedBy: request.user,
       })

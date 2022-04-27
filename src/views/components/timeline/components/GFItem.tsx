@@ -146,7 +146,7 @@ const SubmitForm = ({ projectId }: SubmitFormProps) => {
           <input type="hidden" name="type" id="type" value="garanties-financieres" />
           <input type="hidden" name="projectId" value={projectId} />
           <div>
-            <label htmlFor="stepDate">Date de constitution (format JJ/MM/AAAA)</label>
+            <label htmlFor="stepDate">Date de constitution</label>
             <input
               type="date"
               name="stepDate"
@@ -154,6 +154,10 @@ const SubmitForm = ({ projectId }: SubmitFormProps) => {
               max={new Date().toLocaleDateString('en-ca')}
               required
             />
+          </div>
+          <div>
+            <label htmlFor="expirationDate">Date d'échéance de la garantie</label>
+            <input type="date" name="expirationDate" id="expirationDate" required />
           </div>
           <div>
             <label htmlFor="file">Attestation</label>
@@ -252,7 +256,7 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
           <input type="hidden" name="type" id="type" value="garanties-financieres" />
           <input type="hidden" name="projectId" value={projectId} />
           <div>
-            <label htmlFor="stepDate">Date de constitution (format JJ/MM/AAAA)</label>
+            <label htmlFor="stepDate">Date de constitution</label>
             <input
               type="date"
               name="stepDate"
@@ -260,6 +264,10 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
               max={new Date().toLocaleDateString('en-ca')}
               required
             />
+          </div>
+          <div>
+            <label htmlFor="expirationDate">Date d'échéance de la garantie</label>
+            <input type="date" name="expirationDate" id="expirationDate" required />
           </div>
           <div>
             <label htmlFor="file">Attestation*</label>
