@@ -1,6 +1,5 @@
 import {
   CovidDelayGrantedDTO,
-  DemandeDelaiSignaledDTO,
   ProjectCompletionDueDateSetDTO,
   ProjectEventListDTO,
   ProjectImportedDTO,
@@ -76,94 +75,6 @@ describe('extractACItemProps', () => {
           type: 'attestation-de-conformite',
           date: 3,
           covidDelay: true,
-        })
-      })
-    })
-    describe('when there is some DemandeDelaiSignaled event with a due date applicable later than the due date', () => {
-      it('should return the latest new due date', () => {
-        const events = [
-          {
-            type: 'ProjectCompletionDueDateSet',
-            date: new Date('2024-01-01').getTime(),
-            variant: 'admin',
-          } as ProjectCompletionDueDateSetDTO,
-          {
-            type: 'DemandeDelaiSignaled',
-            date: new Date('2025-01-01').getTime(),
-            variant: 'admin',
-            status: 'acceptée',
-            isNewDateApplicable: true,
-            newCompletionDueOn: new Date('2024-06-30').getTime(),
-          } as DemandeDelaiSignaledDTO,
-          {
-            type: 'ProjectCompletionDueDateSet',
-            date: new Date('2025-01-01').getTime(),
-            variant: 'admin',
-          } as ProjectCompletionDueDateSetDTO,
-          {
-            type: 'DemandeDelaiSignaled',
-            date: new Date('2025-01-01').getTime(),
-            variant: 'admin',
-            status: 'rejetée',
-          } as DemandeDelaiSignaledDTO,
-          {
-            type: 'DemandeDelaiSignaled',
-            date: new Date('2025-01-01').getTime(),
-            variant: 'admin',
-            status: 'acceptée',
-            isNewDateApplicable: true,
-            newCompletionDueOn: new Date('2025-02-01').getTime(),
-          } as DemandeDelaiSignaledDTO,
-          {
-            type: 'DemandeDelaiSignaled',
-            date: new Date('2025-01-01').getTime(),
-            variant: 'admin',
-            status: 'acceptée',
-            isNewDateApplicable: true,
-            newCompletionDueOn: new Date('2026-01-01').getTime(),
-          } as DemandeDelaiSignaledDTO,
-          {
-            type: 'DemandeDelaiSignaled',
-            date: new Date('2025-01-01').getTime(),
-            variant: 'admin',
-            status: 'acceptée',
-            isNewDateApplicable: false,
-            newCompletionDueOn: new Date('2023-01-01').getTime(),
-          } as DemandeDelaiSignaledDTO,
-        ]
-        const result = extractACItemProps(events, project)
-        expect(result).toMatchObject({
-          type: 'attestation-de-conformite',
-          date: new Date('2026-01-01').getTime(),
-        })
-      })
-    })
-    describe('when there is some DemandeDelaiSignaled event with a due date applicable earlier than the due date', () => {
-      it('should return the latest due date', () => {
-        const events = [
-          {
-            type: 'ProjectCompletionDueDateSet',
-            date: new Date('2024-01-01').getTime(),
-            variant: 'admin',
-          } as ProjectCompletionDueDateSetDTO,
-          {
-            type: 'ProjectCompletionDueDateSet',
-            date: new Date('2025-01-01').getTime(),
-            variant: 'admin',
-          } as ProjectCompletionDueDateSetDTO,
-          {
-            type: 'DemandeDelaiSignaled',
-            date: new Date('2025-01-01').getTime(),
-            variant: 'admin',
-            status: 'acceptée',
-            isNewDateApplicable: true,
-            newCompletionDueOn: new Date('2023-01-01').getTime(),
-          } as DemandeDelaiSignaledDTO,
-        ]
-        const result = extractACItemProps(events, project)
-        expect(result).toMatchObject({
-          type: 'attestation-de-conformite',
-          date: new Date('2025-01-01').getTime(),
         })
       })
     })

@@ -54,7 +54,6 @@ import { onProjectDCRDueDateCancelled } from './onProjectDCRDueDateCancelled'
 import { onProjectGFDueDateCancelled } from './onProjectGFDueDateCancelled'
 import { onProjectCertificateObsolete } from './onProjectCertificateObsolete'
 import { onCovidDelayGranted } from './onCovidDelayGranted'
-import { onDemandeDelaiSignaled } from './onDemandeDelaiSignaled'
 
 export const initProjectProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ProjectImported.type, onProjectImported(models))
@@ -93,7 +92,6 @@ export const initProjectProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ProjectCertificateObsolete.type, onProjectCertificateObsolete(models))
 
   eventBus.subscribe(CovidDelayGranted.type, onCovidDelayGranted(models))
-  eventBus.subscribe(DemandeDelaiSignaled.type, onDemandeDelaiSignaled(models))
 
   logger.info('Initialized Project projections')
 }

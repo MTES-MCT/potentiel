@@ -17,8 +17,8 @@ export default ProjectEvent.projector.on(
           signaledBy,
           status,
           ...(status === 'acceptée' && {
+            oldCompletionDueOn: payload.oldCompletionDueOn,
             newCompletionDueOn: payload.newCompletionDueOn,
-            isNewDateApplicable: payload.isNewDateApplicable,
           }),
           notes,
           attachment: attachments.length > 0 ? attachments[0] : undefined,

@@ -760,6 +760,9 @@ export const makeProject = (args: {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
       }
 
+      const isNewDateApplicable =
+        status === 'acceptée' && props.completionDueOn < args.newCompletionDueOn.getTime()
+
       _publishEvent(
         new DemandeDelaiSignaled({
           payload: {
@@ -771,13 +774,26 @@ export const makeProject = (args: {
             ...(status === 'acceptée'
               ? {
                   status,
+                  ...(isNewDateApplicable && { oldCompletionDueOn: props.completionDueOn }),
                   newCompletionDueOn: args.newCompletionDueOn.getTime(),
-                  isNewDateApplicable: props.completionDueOn < args.newCompletionDueOn.getTime(),
+                  isNewDateApplicable,
                 }
               : { status }),
           },
         })
       )
+
+      if (isNewDateApplicable) {
+        _publishEvent(
+          new ProjectCompletionDueDateSet({
+            payload: {
+              projectId: props.projectId.toString(),
+              completionDueOn: args.newCompletionDueOn.getTime(),
+              setBy: signaledBy.id,
+            },
+          })
+        )
+      }
       return ok(null)
     },
     get pendingEvents() {
@@ -934,11 +950,6 @@ export const makeProject = (args: {
       case CovidDelayGranted.type:
         if (props.completionDueOn !== 0) props.hasCompletionDueDateMoved = true
         props.completionDueOn = event.payload.completionDueOn
-        break
-      case DemandeDelaiSignaled.type:
-        if (event.payload.isAccepted && event.payload.isNewDateApplicable) {
-          props.completionDueOn = event.payload.newCompletionDueOn
-        }
         break
       case ProjectDataCorrected.type:
         props.data = { ...props.data, ...event.payload.correctedData } as ProjectProps['data']

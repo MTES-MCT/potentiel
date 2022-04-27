@@ -279,8 +279,8 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   if (userIsNot('ademe')(user)) {
                     const {
                       signaledBy,
-                      isNewDateApplicable,
                       status,
+                      oldCompletionDueOn,
                       newCompletionDueOn,
                       attachment,
                       notes,
@@ -290,9 +290,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       variant: user.role,
                       date: valueDate,
                       signaledBy,
+                      oldCompletionDueOn,
                       newCompletionDueOn,
                       status,
-                      isNewDateApplicable,
                       ...(userIs(['admin', 'dgec', 'dreal'])(user) && { notes }),
                       attachment,
                     })

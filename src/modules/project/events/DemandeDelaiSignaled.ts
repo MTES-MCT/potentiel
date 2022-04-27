@@ -14,8 +14,8 @@ export type DemandeDelaiSignaledPayload = {
 } & (
   | {
       status: 'acceptée'
+      oldCompletionDueOn?: number
       newCompletionDueOn: number
-      isNewDateApplicable: boolean
     }
   | {
       status: 'rejetée' | 'accord-de-principe'

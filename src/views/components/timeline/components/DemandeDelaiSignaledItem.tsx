@@ -10,6 +10,7 @@ type DemandeDelaiSignaledItemProps = {
 } & (
   | {
       status: 'acceptée'
+      oldCompletionDueOn?: number
       newCompletionDueOn: number
     }
   | {
@@ -71,13 +72,24 @@ const AccordPrincipe = ({ date, attachment, notes }: AccordPrincipeProps) => (
 
 type AcceptedProps = Extract<DemandeDelaiSignaledItemProps, { status: 'acceptée' }>
 
-const Accepted = ({ date, newCompletionDueOn, attachment, notes }: AcceptedProps) => (
+const Accepted = ({
+  date,
+  newCompletionDueOn,
+  oldCompletionDueOn,
+  attachment,
+  notes,
+}: AcceptedProps) => (
   <>
     <PastIcon />
     <ContentArea>
       <ItemDate date={date} />
       <>
         <ItemTitle title="Délai supplémentaire accepté" />
+        {oldCompletionDueOn && (
+          <p className="p-0 m-0">
+            Ancienne date limite d'attestation de conformité : {formatDate(oldCompletionDueOn)}
+          </p>
+        )}
         <p className="p-0 m-0">
           Nouvelle date limite d'attestation de conformité : {formatDate(newCompletionDueOn)}
         </p>

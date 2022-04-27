@@ -345,7 +345,7 @@ export type DemandeDelaiSignaledDTO = {
 } & (
   | {
       status: 'acceptée'
-      isNewDateApplicable: boolean
+      oldCompletionDueOn?: number
       newCompletionDueOn: number
     }
   | {

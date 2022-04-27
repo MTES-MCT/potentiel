@@ -109,7 +109,7 @@ describe('Project.signalerDemandeDelai()', () => {
           },
         }),
       ]
-      it('should emit a DemandeDelaiSignaled event with isNewDateApplicable=false', () => {
+      it('should emit a DemandeDelaiSignaled event without an old completion due date', () => {
         const project = UnwrapForTest(
           makeProject({
             projectId,
@@ -138,9 +138,9 @@ describe('Project.signalerDemandeDelai()', () => {
         expect(targetEvent.type).toEqual(DemandeDelaiSignaled.type)
         expect(targetEvent.payload.projectId).toEqual(projectId.toString())
         expect(targetEvent.payload.decidedOn).toEqual(new Date('2022-04-12').getTime())
+        expect(targetEvent.payload.oldCompletionDueOn).toBeUndefined()
         expect(targetEvent.payload.newCompletionDueOn).toEqual(newCompletionDueOn.getTime())
         expect(targetEvent.payload.status).toEqual('acceptée')
-        expect(targetEvent.payload.isNewDateApplicable).toEqual(false)
         expect(targetEvent.payload.notes).toEqual('notes')
         expect(targetEvent.payload.attachments).toEqual([{ id: 'file-id', name: 'file-name' }])
         expect(targetEvent.payload.signaledBy).toEqual(fakeUser.id)
@@ -190,7 +190,7 @@ describe('Project.signalerDemandeDelai()', () => {
           },
         }),
       ]
-      it('should emit a DemandeDelaiSignaled event with isNewDateApplicable=true', () => {
+      it('should emit a DemandeDelaiSignaled event with the old completion due date', () => {
         const project = UnwrapForTest(
           makeProject({
             projectId,
@@ -211,7 +211,7 @@ describe('Project.signalerDemandeDelai()', () => {
           signaledBy: fakeUser,
         })
 
-        expect(project.pendingEvents).toHaveLength(1)
+        expect(project.pendingEvents).toHaveLength(2)
 
         const targetEvent = project.pendingEvents[0]
         if (!targetEvent) return
@@ -219,12 +219,43 @@ describe('Project.signalerDemandeDelai()', () => {
         expect(targetEvent.type).toEqual(DemandeDelaiSignaled.type)
         expect(targetEvent.payload.projectId).toEqual(projectId.toString())
         expect(targetEvent.payload.decidedOn).toEqual(new Date('2022-04-12').getTime())
+        expect(targetEvent.payload.oldCompletionDueOn).toBeDefined()
         expect(targetEvent.payload.newCompletionDueOn).toEqual(newCompletionDueOn.getTime())
         expect(targetEvent.payload.status).toEqual('acceptée')
-        expect(targetEvent.payload.isNewDateApplicable).toEqual(true)
         expect(targetEvent.payload.notes).toEqual('notes')
         expect(targetEvent.payload.attachments).toEqual([{ id: 'file-id', name: 'file-name' }])
         expect(targetEvent.payload.signaledBy).toEqual(fakeUser.id)
+      })
+      it('should emit a CompletionDueDateSet event with the new completion due date', () => {
+        const project = UnwrapForTest(
+          makeProject({
+            projectId,
+            history: fakeHistory,
+            getProjectAppelOffre,
+            buildProjectIdentifier: () => '',
+          })
+        )
+
+        const newCompletionDueOn = new Date('2024-01-31')
+
+        project.signalerDemandeDelai({
+          decidedOn: new Date('2022-04-12'),
+          newCompletionDueOn,
+          status: 'acceptée',
+          notes: 'notes',
+          attachments: [{ id: 'file-id', name: 'file-name' }],
+          signaledBy: fakeUser,
+        })
+
+        expect(project.pendingEvents).toHaveLength(2)
+
+        const targetEvent = project.pendingEvents[1]
+        if (!targetEvent) return
+
+        expect(targetEvent.type).toEqual(ProjectCompletionDueDateSet.type)
+        expect(targetEvent.payload.projectId).toEqual(projectId.toString())
+        expect(targetEvent.payload.completionDueOn).toEqual(newCompletionDueOn.getTime())
+        expect(targetEvent.payload.setBy).toEqual(fakeUser.id)
       })
     })
   })

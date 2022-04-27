@@ -1508,7 +1508,7 @@ export const DemandeDelaiSignaléAcceptée = () => (
           status: 'acceptée',
           date: new Date('2019-01-16').getTime(),
           signaledBy: 'fakeuser-id',
-          isNewDateApplicable: true,
+          oldCompletionDueOn: new Date('2021-10-16').getTime(),
           newCompletionDueOn: new Date('2022-01-16').getTime(),
           attachment: { id: 'file-id', name: 'file-name' },
           notes:
