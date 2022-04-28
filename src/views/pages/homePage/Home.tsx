@@ -17,7 +17,7 @@ export const Home = (props: HomeProps) => {
 
   return (
     <>
-      <Header {...props}>
+      <Header {...{ user }}>
         {user && (
           <Header.MenuItem href={routes.REDIRECT_BASED_ON_ROLE}>
             <div className="flex flex-row items-center">
