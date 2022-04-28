@@ -1,4 +1,4 @@
-import { DemandeDelaiSignaledDTO, is, ProjectEventDTO, ProjectStatus } from '@modules/frise'
+import { is, ProjectEventDTO, ProjectStatus } from '@modules/frise'
 import { or } from '@core/utils'
 
 export type ACItemProps = {
