@@ -167,6 +167,7 @@ describe('getProjectEvents for GF events', () => {
           payload: {
             file: { id: fileId, name: 'my-file' },
             expirationDate,
+            submittedByRole: 'porteur-projet',
           },
         })
 
@@ -189,6 +190,7 @@ describe('getProjectEvents for GF events', () => {
               variant: role,
               file: { id: fileId, name: 'my-file' },
               expirationDate,
+              submittedByRole: 'porteur-projet',
             },
             {
               type: 'ProjectGFWithdrawn',

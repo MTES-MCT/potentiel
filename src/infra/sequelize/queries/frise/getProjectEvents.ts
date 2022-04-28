@@ -106,6 +106,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       ...((type === 'ProjectGFSubmitted' || type == 'ProjectGFUploaded') && {
                         expirationDate: payload.expirationDate,
                       }),
+                      ...(type == 'ProjectGFUploaded' && {
+                        submittedByRole: payload.submittedByRole,
+                      }),
                     })
                   }
                   break
