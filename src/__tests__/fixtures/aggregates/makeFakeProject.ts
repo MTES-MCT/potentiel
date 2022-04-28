@@ -13,6 +13,7 @@ import {
   GFCertificateHasAlreadyBeenSentError,
   NoGFCertificateToDeleteError,
 } from '@modules/project'
+import { ProjectNotQualifiedForCovidDelay } from '@modules/shared'
 
 export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   notify: jest.fn((notifiedOn: number) =>
@@ -63,6 +64,18 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   withdrawGarantiesFinancieres: jest.fn((removedBy: User) =>
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>(null)
   ),
+  applyCovidDelay: jest.fn(() => ok<null, ProjectNotQualifiedForCovidDelay>(null)),
+  signalerDemandeDelai: jest.fn(
+    (args: {
+      decidedOn: Date
+      newCompletionDueOn: Date
+      status: 'acceptée' | 'rejetée' | 'accord-de-principe'
+      notes?: string
+      attachments: Array<{ id: string; name: string }>
+      signaledBy: User
+    }) => ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)
+  ),
+
   certificateData: ok({
     template: 'v1' as CertificateTemplate,
     data: {} as ProjectDataForCertificate,

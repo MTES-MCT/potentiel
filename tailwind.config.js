@@ -14,6 +14,19 @@ module.exports = {
           hover: '#dcdcfc',
           active: '#cbcbfa',
         },
+        'blue-france-main-525': {
+          base: '#6a6af4',
+        },
+        'red-marianne-main-472': {
+          base: '#e1000f',
+          hover: '#ff292f',
+          active: '#ff4347',
+        },
+        'red-marianne-425': {
+          base: '#c9191e',
+          hover: '#f93f42',
+          active: '#f95a5c',
+        },
       },
     },
   },

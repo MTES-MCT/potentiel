@@ -23,11 +23,13 @@ export const extractACItemProps = (
 
   const hasCovidDelay = events.find(is('CovidDelayGranted'))
 
-  return latestEvent
-    ? {
-        type: 'attestation-de-conformite',
-        date: latestEvent.date,
-        ...(hasCovidDelay && { covidDelay: true }),
-      }
-    : null
+  if (latestEvent) {
+    return {
+      type: 'attestation-de-conformite',
+      date: latestEvent.date,
+      ...(hasCovidDelay && { covidDelay: true }),
+    }
+  }
+
+  return null
 }

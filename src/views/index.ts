@@ -11,6 +11,7 @@ import {
   Home,
   AdemeStatistiques,
   UploadLegacyModificationFiles,
+  SignalerDemandeDelai,
 } from './pages'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -99,4 +100,12 @@ export const UploadLegacyModificationFilesPage = (
     Component: UploadLegacyModificationFiles,
     props,
     hydrate: false,
+  })
+
+export const SignalerDemandeDelaiPage = (props: Parameters<typeof SignalerDemandeDelai>[0]) =>
+  makeHtml({
+    Component: SignalerDemandeDelai,
+    props,
+    hydrate: true,
+    pageName: 'signalerDemandeDelai', // This must match the Component name
   })

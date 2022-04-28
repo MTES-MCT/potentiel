@@ -2,14 +2,13 @@ import { Request } from 'express'
 import moment from 'moment'
 import React from 'react'
 import { ModificationRequestPageDTO } from '@modules/modificationRequest'
-import { ErrorBox, PageLayout, RoleBasedDashboard, SuccessBox } from '../../components'
+import { ErrorBox, PageLayout, ProjectInfo, RoleBasedDashboard, SuccessBox } from '../../components'
 import ModificationRequestActionTitles from '../../components/ModificationRequestActionTitles'
 import {
   AdminResponseForm,
   DelaiForm,
   DemandeDetails,
   DemandeStatus,
-  ProjectDetails,
   RecoursForm,
   AbandonForm,
   CancelButton,
@@ -45,7 +44,8 @@ export const ModificationRequest = PageLayout(
 
           <DemandeDetails modificationRequest={modificationRequest} />
 
-          <ProjectDetails modificationRequest={modificationRequest} />
+          <p className="m-0">Concernant le projet :</p>
+          <ProjectInfo project={modificationRequest.project} className="mb-3"></ProjectInfo>
 
           <ErrorBox error={error} />
           <SuccessBox success={success} />

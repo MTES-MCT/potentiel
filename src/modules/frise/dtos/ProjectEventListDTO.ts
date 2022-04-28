@@ -1,7 +1,7 @@
 import { or } from '@core/utils'
 import { Project } from '@entities'
-import { LegacyModificationStatus } from 'src/modules/modificationRequest'
-import { Fournisseur } from 'src/modules/project'
+import { LegacyModificationStatus } from '@modules/modificationRequest'
+import { Fournisseur } from '@modules/project'
 import { UserRole } from '../../users'
 
 export type ProjectEventDTO =
@@ -37,6 +37,7 @@ export type ProjectEventDTO =
   | FileAttachedToProjectDTO
   | LegacyModificationFileAttachedDTO
   | CovidDelayGrantedDTO
+  | DemandeDelaiSignaledDTO
 
 type File = {
   id: string
@@ -333,6 +334,24 @@ export type CovidDelayGrantedDTO = {
   date: number
   variant: Exclude<UserRole, 'ademe'>
 }
+
+export type DemandeDelaiSignaledDTO = {
+  type: 'DemandeDelaiSignaled'
+  variant: Exclude<UserRole, 'ademe'>
+  date: number
+  signaledBy: string
+  attachment?: File
+  notes?: string
+} & (
+  | {
+      status: 'acceptée'
+      oldCompletionDueOn?: number
+      newCompletionDueOn: number
+    }
+  | {
+      status: 'rejetée' | 'accord-de-principe'
+    }
+)
 
 export type ProjectEventListDTO = {
   project: {

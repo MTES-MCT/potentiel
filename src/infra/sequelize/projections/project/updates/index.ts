@@ -25,6 +25,7 @@ import {
   ProjectGFDueDateCancelled,
   ProjectCertificateObsolete,
   CovidDelayGranted,
+  DemandeDelaiSignaled,
 } from '@modules/project'
 import { onProjectImported } from './onProjectImported'
 import { onProjectCertificate } from './onProjectCertificate'

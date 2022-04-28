@@ -54,7 +54,6 @@ import {
   ProjectProducteurUpdated,
   ProjectPuissanceUpdated,
   ProjectReimported,
-  ProjectReimportedPayload,
   ProjectGFUploaded,
   ProjectGFWithdrawn,
   ProjectGFDueDateCancelled,
@@ -62,6 +61,7 @@ import {
   ProjectDCRDueDateCancelled,
   ProjectCertificateObsolete,
   CovidDelayGranted,
+  DemandeDelaiSignaled,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre'
@@ -133,6 +133,22 @@ export interface Project extends EventStoreAggregate {
   withdrawGarantiesFinancieres: (
     removedBy: User
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>
+  signalerDemandeDelai: (
+    args: {
+      decidedOn: Date
+      notes?: string
+      attachments: Array<{ id: string; name: string }>
+      signaledBy: User
+    } & (
+      | {
+          status: 'acceptée'
+          newCompletionDueOn: Date
+        }
+      | {
+          status: 'rejetée' | 'accord-de-principe'
+        }
+    )
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
   readonly shouldCertificateBeGenerated: boolean
   readonly appelOffre?: ProjectAppelOffre
   readonly isClasse?: boolean
@@ -736,6 +752,48 @@ export const makeProject = (args: {
           },
         })
       )
+      return ok(null)
+    },
+    signalerDemandeDelai: function (args) {
+      const { decidedOn, status, notes, attachments, signaledBy } = args
+      if (!_isNotified()) {
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+      }
+
+      const isNewDateApplicable =
+        status === 'acceptée' && props.completionDueOn < args.newCompletionDueOn.getTime()
+
+      _publishEvent(
+        new DemandeDelaiSignaled({
+          payload: {
+            projectId: props.projectId.toString(),
+            decidedOn: decidedOn.getTime(),
+            notes,
+            attachments,
+            signaledBy: signaledBy.id,
+            ...(status === 'acceptée'
+              ? {
+                  status,
+                  ...(isNewDateApplicable && { oldCompletionDueOn: props.completionDueOn }),
+                  newCompletionDueOn: args.newCompletionDueOn.getTime(),
+                  isNewDateApplicable,
+                }
+              : { status }),
+          },
+        })
+      )
+
+      if (isNewDateApplicable) {
+        _publishEvent(
+          new ProjectCompletionDueDateSet({
+            payload: {
+              projectId: props.projectId.toString(),
+              completionDueOn: args.newCompletionDueOn.getTime(),
+              setBy: signaledBy.id,
+            },
+          })
+        )
+      }
       return ok(null)
     },
     get pendingEvents() {

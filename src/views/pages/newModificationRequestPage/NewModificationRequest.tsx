@@ -18,6 +18,7 @@ import {
   DemandeRecours,
   DemandeDelai,
 } from './components'
+import { ProjectInfo } from '@views/components'
 
 type NewModificationRequestProps = {
   request: Request
@@ -48,50 +49,7 @@ export const NewModificationRequest = PageLayout(
             <input type="hidden" name="type" value={action} />
             <div className="form__group">
               <div style={{ marginBottom: 5 }}>Concernant le projet:</div>
-              <div
-                className="text-quote"
-                style={{
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                  marginBottom: 10,
-                }}
-              >
-                <div {...dataId('modificationRequest-item-nomProjet')}>{project.nomProjet}</div>
-                <div
-                  style={{
-                    fontStyle: 'italic',
-                    lineHeight: 'normal',
-                    fontSize: 12,
-                  }}
-                >
-                  <div {...dataId('modificationRequest-item-nomCandidat')}>
-                    {project.nomCandidat}
-                  </div>
-                  <span {...dataId('modificationRequest-item-communeProjet')}>
-                    {project.communeProjet}
-                  </span>
-                  ,{' '}
-                  <span {...dataId('modificationRequest-item-departementProjet')}>
-                    {project.departementProjet}
-                  </span>
-                  ,{' '}
-                  <span {...dataId('modificationRequest-item-regionProjet')}>
-                    {project.regionProjet}
-                  </span>
-                </div>
-                <div {...dataId('modificationRequest-item-puissance')}>
-                  {project.puissance} {project.appelOffre?.unitePuissance}
-                </div>
-                <div>
-                  Désigné le{' '}
-                  <span {...dataId('modificationRequest-item-designationDate')}>
-                    {formatDate(project.notifiedOn, 'DD/MM/YYYY')}
-                  </span>{' '}
-                  pour la période{' '}
-                  <span {...dataId('modificationRequest-item-periode')}>{project.periodeId}</span>{' '}
-                  <span {...dataId('modificationRequest-item-famille')}>{project.familleId}</span>
-                </div>
-              </div>
+              <ProjectInfo project={project} className="mb-3"></ProjectInfo>
               {error && (
                 <div className="notification error" {...dataId('modificationRequest-errorMessage')}>
                   {error}

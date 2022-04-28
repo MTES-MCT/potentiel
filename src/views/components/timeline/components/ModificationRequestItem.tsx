@@ -1,5 +1,5 @@
 import React from 'react'
-import { ProjectStatus } from 'src/modules/frise/dtos/ProjectEventListDTO'
+import { ProjectStatus } from '@modules/frise'
 import {
   ItemDate,
   ItemTitle,

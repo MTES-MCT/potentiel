@@ -96,7 +96,6 @@ describe('extractACItemProps', () => {
       expect(result).toBeNull()
     })
   })
-
   describe('when the project is Abandonné', () => {
     const project = {
       status: 'Abandonné',
