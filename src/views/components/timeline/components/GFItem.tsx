@@ -159,13 +159,18 @@ const SubmitForm = ({ projectId }: SubmitFormProps) => {
             />
           </div>
           <div>
-            <label htmlFor="expirationDate">Date d'échéance de la garantie</label>
+            <label htmlFor="expirationDate">Date d'échéance de la garantie*</label>
             <input type="date" name="expirationDate" id="expirationDate" required />
           </div>
           <div>
             <label htmlFor="file">Attestation</label>
             <input type="file" name="file" id="file" required />
           </div>
+          <p className="m-0 mt-3 italic">
+            *La garantie doit avoir une durée couvrant le projet jusqu’à 6 mois après la date
+            d’Achèvement de l’installation ou être renouvelée régulièrement afin d’assurer une telle
+            couverture temporelle.
+          </p>
           <div>
             <button className="button" type="submit" name="submit">
               Envoyer
@@ -270,14 +275,19 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
             />
           </div>
           <div>
-            <label htmlFor="expirationDate">Date d'échéance de la garantie</label>
+            <label htmlFor="expirationDate">Date d'échéance de la garantie*</label>
             <input type="date" name="expirationDate" id="expirationDate" required />
           </div>
           <div>
-            <label htmlFor="file">Attestation*</label>
+            <label htmlFor="file">Attestation**</label>
             <input type="file" name="file" id="file" required />
-            <p className="m-0 italic">
-              *Il s'agit de l'attestation soumise à la candidature. Cet envoi ne fera pas l'objet
+            <p className="m-0 mt-3 italic">
+              *La garantie doit avoir une durée couvrant le projet jusqu’à 6 mois après la date
+              d’Achèvement de l’installation ou être renouvelée régulièrement afin d’assurer une
+              telle couverture temporelle.
+            </p>
+            <p className="m-0 mt-3 italic">
+              **Il s'agit de l'attestation soumise à la candidature. Cet envoi ne fera pas l'objet
               d'une nouvelle validation.
             </p>
           </div>
