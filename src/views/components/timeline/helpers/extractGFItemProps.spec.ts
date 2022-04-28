@@ -216,6 +216,7 @@ describe('extractGFitemProps', () => {
           url: '/telechargement/file-id/fichier/file-name',
           role: 'porteur-projet',
           expirationDate: new Date('2025-01-09').getTime(),
+          submittedByRole: 'porteur-projet',
         })
       })
       describe('when there is no file', () => {
@@ -240,6 +241,7 @@ describe('extractGFitemProps', () => {
             status: 'pending-validation',
             url: undefined,
             role: 'porteur-projet',
+            submittedByRole: 'porteur-projet',
           })
         })
       })
@@ -334,6 +336,7 @@ describe('extractGFitemProps', () => {
           status: 'pending-validation',
           role: 'porteur-projet',
           url: '/telechargement/file-id/fichier/file-name',
+          submittedByRole: 'porteur-projet',
         })
       })
     })
@@ -369,6 +372,7 @@ describe('extractGFitemProps', () => {
           status: 'validated',
           role: 'porteur-projet',
           url: '/telechargement/file-id/fichier/file-name',
+          submittedByRole: 'porteur-projet',
         })
       })
     })
@@ -406,6 +410,7 @@ describe('extractGFitemProps', () => {
           status: 'pending-validation',
           role: 'porteur-projet',
           url: expect.anything(),
+          submittedByRole: 'porteur-projet',
         })
       })
     })
@@ -474,6 +479,7 @@ describe('extractGFitemProps', () => {
           status: 'pending-validation',
           role: 'porteur-projet',
           url: '/telechargement/file-id/fichier/file-name',
+          submittedByRole: 'porteur-projet',
         })
       })
     })
@@ -502,6 +508,7 @@ describe('extractGFitemProps', () => {
           status: 'validated',
           role: 'porteur-projet',
           url: '/telechargement/file-id/fichier/file-name',
+          submittedByRole: 'porteur-projet',
         })
       })
     })
@@ -539,6 +546,7 @@ describe('extractGFitemProps', () => {
           status: 'pending-validation',
           role: 'porteur-projet',
           url: expect.anything(),
+          submittedByRole: 'porteur-projet',
         })
       })
     })
@@ -551,6 +559,7 @@ describe('extractGFitemProps', () => {
             date: new Date('2022-01-09').getTime(),
             file: { id: 'file-id', name: 'file-name' },
             expirationDate: new Date('2025-01-09').getTime(),
+            submittedByRole: 'porteur-projet',
           } as ProjectGFUploadedDTO,
         ]
         const result = extractGFItemProps(events, new Date('2022-01-08').getTime(), project)
@@ -561,6 +570,7 @@ describe('extractGFitemProps', () => {
           role: 'porteur-projet',
           url: '/telechargement/file-id/fichier/file-name',
           expirationDate: new Date('2025-01-09').getTime(),
+          submittedByRole: 'porteur-projet',
         })
       })
     })

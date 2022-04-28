@@ -1183,6 +1183,7 @@ export const drealGarantiesFinancieresUploaded = () => (
           date: new Date('2022-01-17').getTime(),
           fileId: 'file-id',
           filename: 'file-name',
+          submittedByRole: 'porteur-projet',
         } as ProjectGFUploadedDTO,
       ],
     }}
@@ -1220,6 +1221,7 @@ export const PPGarantiesFinancieresUploaded = () => (
           date: new Date('2022-01-17').getTime(),
           fileId: 'file-id',
           filename: 'file-name',
+          submittedByRole: 'dreal',
         } as ProjectGFUploadedDTO,
       ],
     }}
