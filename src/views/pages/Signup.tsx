@@ -152,9 +152,6 @@ const SignupFailed = ({ error }: SignupFailedProps) => (
       <LinkButton className="text-center" href={routes.SIGNUP}>
         M'inscrire
       </LinkButton>
-      <LinkButton className="text-center" href={routes.RESET_PASSWORD}>
-        Réinitialiser mon mot de passe
-      </LinkButton>
     </div>
   </Container>
 )

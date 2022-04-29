@@ -127,7 +127,7 @@ const Tab = ({ title, onItemClicked, isActive = false }: TabProps) => {
 const LoginBox = () => {
   return (
     <div
-      className="px-2 py-4 md:px-12 md:py-10 shadow-md text-center flex-1 flex flex-col justify-between gap-7"
+      className="px-2 py-4 md:px-12 md:py-10 shadow-md text-center flex-1 flex flex-col gap-6"
       style={{ backgroundColor: '#f5f5fe' }}
     >
       <h2
@@ -146,9 +146,6 @@ const LoginBox = () => {
         <RiAccountPinBoxLine className="mr-4" />
         M'identifier
       </LinkButton>
-      <p className="m-0">
-        <a href={routes.RESET_PASSWORD}>Mot de passe oublié</a>
-      </p>
     </div>
   )
 }

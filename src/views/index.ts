@@ -14,7 +14,6 @@ import {
   SignalerDemandeDelai,
   SignalerDemandeAbandon,
   Signup,
-  ResetPassword,
 } from './pages'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -123,13 +122,6 @@ export const SignalerDemandeAbandonPage = (props: Parameters<typeof SignalerDema
 export const SignupPage = (props: Parameters<typeof Signup>[0]) =>
   makeHtml({
     Component: Signup,
-    props,
-    hydrate: false,
-  })
-
-export const ResetPasswordPage = (props: Parameters<typeof ResetPassword>[0]) =>
-  makeHtml({
-    Component: ResetPassword,
     props,
     hydrate: false,
   })

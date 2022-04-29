@@ -58,7 +58,7 @@
                       <input type="hidden" id="id-hidden-input" name="credentialId" <#if auth.selectedCredential?has_content>value="${auth.selectedCredential}"</#if>/>
                       <button tabindex="4" class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!} button" name="login" id="kc-login" type="submit">Je m'identifie</button>
                       <#if realm.resetPasswordAllowed>
-                        <a tabindex="5" href="${properties.potentielUrl}/reset-password">Mot de passe oublié</a>
+                        <a tabindex="5" href="${url.loginResetCredentialsUrl}">Mot de passe oublié</a>
                     </#if>
                   </div>
 
