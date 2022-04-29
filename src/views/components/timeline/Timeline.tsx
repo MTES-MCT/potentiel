@@ -1,5 +1,10 @@
 import React from 'react'
-import { DemandeDelaiSignaledDTO, is, ProjectEventListDTO } from '@modules/frise'
+import {
+  DemandeDelaiSignaledDTO,
+  DemandeAbandonSignaledDTO,
+  is,
+  ProjectEventListDTO,
+} from '@modules/frise'
 import {
   TimelineItem,
   DesignationItem,
@@ -16,6 +21,7 @@ import {
   AttachedFileItem,
   LegacyModificationsItem,
   DemandeDelaiSignaledItem,
+  DemandeAbandonSignaledItem,
 } from './components'
 import {
   ACItemProps,
@@ -66,6 +72,7 @@ type ItemProps =
   | LegacyModificationsItemProps
   | AttachedFileItemProps
   | DemandeDelaiSignaledDTO
+  | DemandeAbandonSignaledDTO
 
 type UndatedItemProps = ItemProps & { date: undefined }
 
@@ -92,6 +99,7 @@ export const Timeline = ({
     PTFItemProps?.status === 'submitted' ? PTFItemProps : null,
     ...extractModificationRequestsItemProps(events),
     ...events.filter(is('DemandeDelaiSignaled')),
+    ...events.filter(is('DemandeAbandonSignaled')),
     ...extractModificationReceivedItemProps(events),
     ...extractLegacyModificationsItemProps(events),
     ...extractAttachedFileItemProps(events),
@@ -152,6 +160,9 @@ export const Timeline = ({
 
       case 'DemandeDelaiSignaled':
         return <DemandeDelaiSignaledItem {...props} />
+
+      case 'DemandeAbandonSignaled':
+        return <DemandeAbandonSignaledItem {...props} />
     }
   })
 
