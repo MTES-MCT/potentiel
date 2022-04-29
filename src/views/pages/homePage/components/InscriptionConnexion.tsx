@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { RiDashboardLine } from '@react-icons/all-files/ri/RiDashboardLine'
 import { RiLogoutBoxLine } from '@react-icons/all-files/ri/RiLogoutBoxLine'
 import { RiAccountCircleLine } from '@react-icons/all-files/ri/RiAccountCircleLine'
-import { RiAccountPinBoxLine } from '@react-icons/all-files/ri/RiAccountPinBoxLine'
+import { RiLockLine } from '@react-icons/all-files/ri/RiLockLine'
 import { User } from '@entities'
 import routes from '../../../../routes'
 import { Container, LinkButton } from '../../../components'
@@ -143,7 +143,7 @@ const LoginBox = () => {
         <p className="m-0 p-0">Connectez-vous pour accéder aux projets.</p>
       </div>
       <LinkButton href={routes.LOGIN} primary={true} className="inline-flex items-center mx-auto">
-        <RiAccountPinBoxLine className="mr-4" />
+        <RiLockLine className="mr-4" />
         M'identifier
       </LinkButton>
     </div>

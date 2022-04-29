@@ -8,6 +8,7 @@ import { RiLogoutBoxLine } from '@react-icons/all-files/ri/RiLogoutBoxLine'
 import { RiMenuLine } from '@react-icons/all-files/ri/RiMenuLine'
 import { RiQuestionLine } from '@react-icons/all-files/ri/RiQuestionLine'
 import { RiUserLine } from '@react-icons/all-files/ri/RiUserLine'
+import { RiLockLine } from '@react-icons/all-files/ri/RiLockLine'
 
 type HeaderProps = {
   user?: Request['user']
@@ -118,16 +119,28 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
         </li>
       </>
     ) : (
-      <li className="flex items-center">
-        <a
-          className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
-          href={routes.LOGIN}
-          style={{ color: `#000091` }}
-        >
-          <RiAccountCircleLine />
-          <span className="hidden lg:block pt-0.5 mx-1">M'identifier</span>
-        </a>
-      </li>
+      <>
+        <li className="flex items-center">
+          <a
+            className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
+            href={routes.SIGNUP}
+            style={{ color: `#000091` }}
+          >
+            <RiAccountCircleLine />
+            <span className="hidden lg:block pt-0.5 mx-1">M'inscrire</span>
+          </a>
+        </li>
+        <li className="flex items-center">
+          <a
+            className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
+            href={routes.LOGIN}
+            style={{ color: `#000091` }}
+          >
+            <RiLockLine />
+            <span className="hidden lg:block pt-0.5 mx-1">M'identifier</span>
+          </a>
+        </li>
+      </>
     )}
     <li className="flex items-center">
       <a
