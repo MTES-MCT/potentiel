@@ -358,6 +358,7 @@ export type DemandeAbandonSignaledDTO = {
   type: 'DemandeAbandonSignaled'
   variant: Exclude<UserRole, 'ademe'>
   date: number
+  signaledBy: string
   status: 'acceptée' | 'rejetée' | 'à accorder'
   attachment?: File
   notes?: string
