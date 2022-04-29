@@ -12,6 +12,7 @@ import {
   AdemeStatistiques,
   UploadLegacyModificationFiles,
   SignalerDemandeDelai,
+  SignalerDemandeAbandon,
 } from './pages'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -108,4 +109,12 @@ export const SignalerDemandeDelaiPage = (props: Parameters<typeof SignalerDemand
     props,
     hydrate: true,
     pageName: 'signalerDemandeDelai', // This must match the Component name
+  })
+
+export const SignalerDemandeAbandonPage = (props: Parameters<typeof SignalerDemandeAbandon>[0]) =>
+  makeHtml({
+    Component: SignalerDemandeAbandon,
+    props,
+    hydrate: true,
+    pageName: 'signalerDemandeAbandon', // This must match the Component name
   })
