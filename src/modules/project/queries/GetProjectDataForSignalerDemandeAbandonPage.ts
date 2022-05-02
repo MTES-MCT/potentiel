@@ -4,7 +4,7 @@ import { InfraNotAvailableError, EntityNotFoundError } from '../../shared'
 export type ProjectDataForSignalerDemandeAbandonPage = {
   id: string
   nomProjet: string
-  status: string
+  status: 'non-notifié' | 'abandonné' | 'lauréat' | 'éliminé'
   nomCandidat: string
   communeProjet: string
   regionProjet: string
@@ -12,6 +12,7 @@ export type ProjectDataForSignalerDemandeAbandonPage = {
   periodeId: string
   familleId: string
   notifiedOn: number
+  abandonedOn?: number
   appelOffreId: string
 }
 
