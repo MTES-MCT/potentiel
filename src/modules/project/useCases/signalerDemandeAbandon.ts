@@ -4,7 +4,6 @@ import { User } from '@entities'
 import { FileContents, FileObject, makeFileObject } from '../../file'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors'
-import { GFCertificateHasAlreadyBeenSentError } from '../errors/GFCertificateHasAlreadyBeenSent'
 import { Project } from '../Project'
 
 type SignalerDemandeAbandonDeps = {
@@ -15,7 +14,7 @@ type SignalerDemandeAbandonDeps = {
 
 type SignalerDemandeAbandonArgs = {
   projectId: string
-  decidedOn: number
+  decidedOn: Date
   signaledBy: User
   notes?: string
   file?: {
@@ -67,16 +66,16 @@ export const makeSignalerDemandeAbandon =
           return okAsync(null)
         }
       )
-      .andThen((file) => {
+      .andThen((attachment) => {
         return projectRepo.transaction(
           new UniqueEntityID(projectId),
           (project: Project): ResultAsync<null, ProjectCannotBeUpdatedIfUnnotifiedError> => {
             return project
               .signalerDemandeAbandon({
-                decidedOn: new Date(decidedOn),
+                decidedOn: decidedOn,
                 status,
                 notes,
-                attachments: file ? [file] : [],
+                ...(attachment && { attachment }),
                 signaledBy,
               })
               .asyncMap(async () => null)

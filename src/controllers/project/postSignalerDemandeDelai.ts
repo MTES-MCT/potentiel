@@ -11,15 +11,10 @@ import { upload } from '../upload'
 import * as yup from 'yup'
 import { ValidationError } from 'yup'
 import { addQueryParams } from '../../helpers/addQueryParams'
-import { parse, isDate } from 'date-fns'
+import { parse } from 'date-fns'
 
-const parseDateString = (value, originalValue) => {
-  const parsedDate = isDate(originalValue)
-    ? originalValue
-    : parse(originalValue, 'yyyy-MM-dd', new Date())
+const parseDateString = (_, dateString) => parse(dateString, 'yyyy-MM-dd', new Date())
 
-  return parsedDate
-}
 const requestBodySchema = yup.object({
   projectId: yup.string().uuid().required(),
   decidedOn: yup
@@ -123,9 +118,9 @@ v1Router.post(
 
     const result = signalerDemandeDelai({
       projectId,
-      decidedOn: decidedOn.getTime(),
+      decidedOn,
       ...(status === 'acceptée'
-        ? { status, newCompletionDueOn: body.newCompletionDueOn.getTime() }
+        ? { status, newCompletionDueOn: body.newCompletionDueOn }
         : { status }),
       notes,
       file,

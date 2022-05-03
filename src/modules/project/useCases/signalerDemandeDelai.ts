@@ -4,7 +4,6 @@ import { User } from '@entities'
 import { FileContents, FileObject, makeFileObject } from '../../file'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors'
-import { GFCertificateHasAlreadyBeenSentError } from '../errors/GFCertificateHasAlreadyBeenSent'
 import { Project } from '../Project'
 
 type SignalerDemandeDelaiDeps = {
@@ -15,7 +14,7 @@ type SignalerDemandeDelaiDeps = {
 
 type SignalerDemandeDelaiArgs = {
   projectId: string
-  decidedOn: number
+  decidedOn: Date
   signaledBy: User
   notes?: string
   file?: {
@@ -25,7 +24,7 @@ type SignalerDemandeDelaiArgs = {
 } & (
   | {
       status: 'acceptée'
-      newCompletionDueOn: number
+      newCompletionDueOn: Date
     }
   | {
       status: 'rejetée' | 'accord-de-principe'
@@ -74,21 +73,21 @@ export const makeSignalerDemandeDelai =
           return okAsync(null)
         }
       )
-      .andThen((file) => {
+      .andThen((attachment) => {
         return projectRepo.transaction(
           new UniqueEntityID(projectId),
           (project: Project): ResultAsync<null, ProjectCannotBeUpdatedIfUnnotifiedError> => {
             return project
               .signalerDemandeDelai({
-                decidedOn: new Date(decidedOn),
+                decidedOn,
                 ...(status === 'acceptée'
                   ? {
                       status,
-                      newCompletionDueOn: new Date(args.newCompletionDueOn),
+                      newCompletionDueOn: args.newCompletionDueOn,
                     }
                   : { status }),
                 notes,
-                attachments: file ? [file] : [],
+                ...(attachment && { attachment }),
                 signaledBy,
               })
               .asyncMap(async () => null)

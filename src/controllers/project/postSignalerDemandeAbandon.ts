@@ -11,32 +11,23 @@ import { upload } from '../upload'
 import * as yup from 'yup'
 import { ValidationError } from 'yup'
 import { addQueryParams } from '../../helpers/addQueryParams'
-import { parse, isDate } from 'date-fns'
+import { parse } from 'date-fns'
 
-const parseDateString = (value, originalValue) => {
-  const parsedDate = isDate(originalValue)
-    ? originalValue
-    : parse(originalValue, 'yyyy-MM-dd', new Date())
-
-  return parsedDate
-}
 const requestBodySchema = yup.object({
   projectId: yup.string().uuid().required(),
   decidedOn: yup
     .date()
-    .transform(parseDateString)
+    .transform((_, dateString) => parse(dateString, 'yyyy-MM-dd', new Date()))
     .required('Ce champ est obligatoire')
     .typeError(`La date saisie n'est pas valide`),
-  status: yup.mixed().oneOf(['acceptée', 'rejetée']).required('Ce champ est obligatoire'),
+  status: yup
+    .mixed<'acceptée' | 'rejetée'>()
+    .oneOf(['acceptée', 'rejetée'])
+    .required('Ce champ est obligatoire'),
   notes: yup.string().optional(),
 })
 
-type RequestBody = {
-  projectId: string
-  decidedOn: Date
-  notes?: string
-  status: 'acceptée' | 'rejetée'
-}
+type RequestBody = yup.InferType<typeof requestBodySchema>
 
 class RequestValidationError extends Error {
   constructor(public errors: { [fieldName: string]: string }) {
@@ -100,7 +91,7 @@ v1Router.post(
 
     const result = signalerDemandeAbandon({
       projectId,
-      decidedOn: decidedOn.getTime(),
+      decidedOn,
       status,
       notes,
       file,

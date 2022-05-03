@@ -18,7 +18,6 @@ import {
   HeterogeneousHistoryError,
   IllegalInitialStateForAggregateError,
   IncompleteDataError,
-  ProjectNotQualifiedForCovidDelay,
 } from '../shared'
 import { ProjectDataForCertificate } from './dtos'
 import {
@@ -137,7 +136,7 @@ export interface Project extends EventStoreAggregate {
     args: {
       decidedOn: Date
       notes?: string
-      attachments: Array<{ id: string; name: string }>
+      attachment?: { id: string; name: string }
       signaledBy: User
     } & (
       | {
@@ -152,7 +151,7 @@ export interface Project extends EventStoreAggregate {
   signalerDemandeAbandon: (args: {
     decidedOn: Date
     notes?: string
-    attachments: Array<{ id: string; name: string }>
+    attachment?: { id: string; name: string }
     signaledBy: User
     status: 'acceptée' | 'rejetée'
   }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
@@ -764,7 +763,7 @@ export const makeProject = (args: {
       return ok(null)
     },
     signalerDemandeDelai: function (args) {
-      const { decidedOn, status, notes, attachments, signaledBy } = args
+      const { decidedOn, status, notes, attachment, signaledBy } = args
       if (!_isNotified()) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
       }
@@ -778,7 +777,7 @@ export const makeProject = (args: {
             projectId: props.projectId.toString(),
             decidedOn: decidedOn.getTime(),
             notes,
-            attachments,
+            attachments: attachment ? [attachment] : [],
             signaledBy: signaledBy.id,
             ...(status === 'acceptée'
               ? {
@@ -806,7 +805,7 @@ export const makeProject = (args: {
       return ok(null)
     },
     signalerDemandeAbandon: function (args) {
-      const { decidedOn, status, notes, attachments, signaledBy } = args
+      const { decidedOn, status, notes, attachment, signaledBy } = args
       if (!_isNotified()) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
       }
@@ -817,7 +816,7 @@ export const makeProject = (args: {
             projectId: props.projectId.toString(),
             decidedOn: decidedOn.getTime(),
             notes,
-            attachments,
+            attachments: attachment ? [attachment] : [],
             signaledBy: signaledBy.id,
             status,
           },
@@ -833,7 +832,7 @@ export const makeProject = (args: {
             },
             original: {
               version: 1,
-              occurredAt: new Date(decidedOn),
+              occurredAt: decidedOn,
             },
           })
         )

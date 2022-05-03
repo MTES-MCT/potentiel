@@ -54,7 +54,6 @@ describe('Project.signalerDemandeDelai()', () => {
       const res = project.signalerDemandeDelai({
         decidedOn: new Date('2022-04-12'),
         status: 'rejetée',
-        attachments: [],
         signaledBy: fakeUser,
       })
 
@@ -126,7 +125,7 @@ describe('Project.signalerDemandeDelai()', () => {
           newCompletionDueOn,
           status: 'acceptée',
           notes: 'notes',
-          attachments: [{ id: 'file-id', name: 'file-name' }],
+          attachment: { id: 'file-id', name: 'file-name' },
           signaledBy: fakeUser,
         })
 
@@ -207,7 +206,7 @@ describe('Project.signalerDemandeDelai()', () => {
           newCompletionDueOn,
           status: 'acceptée',
           notes: 'notes',
-          attachments: [{ id: 'file-id', name: 'file-name' }],
+          attachment: { id: 'file-id', name: 'file-name' },
           signaledBy: fakeUser,
         })
 
@@ -243,7 +242,7 @@ describe('Project.signalerDemandeDelai()', () => {
           newCompletionDueOn,
           status: 'acceptée',
           notes: 'notes',
-          attachments: [{ id: 'file-id', name: 'file-name' }],
+          attachment: { id: 'file-id', name: 'file-name' },
           signaledBy: fakeUser,
         })
 

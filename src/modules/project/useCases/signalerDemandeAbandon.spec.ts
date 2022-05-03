@@ -45,7 +45,7 @@ describe('signalerDemandeAbandon use-case', () => {
 
       const res = await signalerDemandeAbandon({
         projectId,
-        decidedOn: new Date('2022-04-12').getTime(),
+        decidedOn: new Date('2022-04-12'),
         status: 'acceptée',
         notes: 'notes',
         file: fakeFileContents,
@@ -71,7 +71,7 @@ describe('signalerDemandeAbandon use-case', () => {
         decidedOn: new Date('2022-04-12'),
         status: 'acceptée',
         notes: 'notes',
-        attachments: [{ id: fakeFile.id.toString(), name: fakeFileContents.filename }],
+        attachment: { id: fakeFile.id.toString(), name: fakeFileContents.filename },
         signaledBy: user,
       })
     })
@@ -98,7 +98,7 @@ describe('signalerDemandeAbandon use-case', () => {
 
       const res = await signalerDemandeAbandon({
         projectId,
-        decidedOn: new Date('2022-04-12').getTime(),
+        decidedOn: new Date('2022-04-12'),
         status: 'acceptée',
         signaledBy: user,
       })

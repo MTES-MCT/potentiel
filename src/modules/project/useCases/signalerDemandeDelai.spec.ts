@@ -45,9 +45,9 @@ describe('signalerDemandeDelai use-case', () => {
 
       const res = await signalerDemandeDelai({
         projectId,
-        decidedOn: new Date('2022-04-12').getTime(),
+        decidedOn: new Date('2022-04-12'),
         status: 'acceptée',
-        newCompletionDueOn: new Date('2025-01-31').getTime(),
+        newCompletionDueOn: new Date('2025-01-31'),
         notes: 'notes',
         file: fakeFileContents,
         signaledBy: user,
@@ -73,7 +73,7 @@ describe('signalerDemandeDelai use-case', () => {
         status: 'acceptée',
         newCompletionDueOn: new Date('2025-01-31'),
         notes: 'notes',
-        attachments: [{ id: fakeFile.id.toString(), name: fakeFileContents.filename }],
+        attachment: { id: fakeFile.id.toString(), name: fakeFileContents.filename },
         signaledBy: user,
       })
     })
@@ -100,9 +100,9 @@ describe('signalerDemandeDelai use-case', () => {
 
       const res = await signalerDemandeDelai({
         projectId,
-        decidedOn: new Date('2022-04-12').getTime(),
+        decidedOn: new Date('2022-04-12'),
         status: 'acceptée',
-        newCompletionDueOn: new Date('2025-01-31').getTime(),
+        newCompletionDueOn: new Date('2025-01-31'),
         signaledBy: user,
       })
 
