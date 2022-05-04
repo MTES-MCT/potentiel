@@ -28,8 +28,6 @@ const requestBodySchema = yup.object({
   notes: yup.string().optional(),
 })
 
-type RequestBody = yup.InferType<typeof requestBodySchema>
-
 class RequestValidationError extends Error {
   constructor(public errors: { [fieldName: string]: string }) {
     super("La requête n'est pas valide.")
@@ -39,7 +37,7 @@ class RequestValidationError extends Error {
 const validateRequestBody = (
   body: Request['body'],
   schema: typeof requestBodySchema
-): Result<RequestBody, RequestValidationError | Error> => {
+): Result<yup.InferType<typeof schema>, RequestValidationError | Error> => {
   try {
     return ok(schema.validateSync(body, { abortEarly: false }))
   } catch (error) {
