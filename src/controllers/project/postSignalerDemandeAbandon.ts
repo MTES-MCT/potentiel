@@ -5,25 +5,26 @@ import { err, logger, ok, Result } from '@core/utils'
 import asyncHandler from '../helpers/asyncHandler'
 import { UnauthorizedError } from '@modules/shared'
 import routes from '../../routes'
-import { errorResponse, unauthorizedResponse } from '../helpers'
+import { errorResponse, iso8601DateToDateYupTransformation, unauthorizedResponse } from '../helpers'
 import { v1Router } from '../v1Router'
 import { upload } from '../upload'
 import * as yup from 'yup'
 import { ValidationError } from 'yup'
 import { addQueryParams } from '../../helpers/addQueryParams'
-import { parse } from 'date-fns'
 
 const requestBodySchema = yup.object({
   projectId: yup.string().uuid().required(),
   decidedOn: yup
     .date()
-    .transform((_, dateString) => parse(dateString, 'yyyy-MM-dd', new Date()))
     .required('Ce champ est obligatoire')
+    .nullable()
+    .transform(iso8601DateToDateYupTransformation)
     .typeError(`La date saisie n'est pas valide`),
   status: yup
     .mixed<'acceptée' | 'rejetée'>()
     .oneOf(['acceptée', 'rejetée'])
-    .required('Ce champ est obligatoire'),
+    .required('Ce champ est obligatoire')
+    .typeError(`Le status n'est pas valide`),
   notes: yup.string().optional(),
 })
 
@@ -38,7 +39,7 @@ class RequestValidationError extends Error {
 const validateRequestBody = (
   body: Request['body'],
   schema: typeof requestBodySchema
-): Result<RequestBody, any> => {
+): Result<RequestBody, RequestValidationError | Error> => {
   try {
     return ok(schema.validateSync(body, { abortEarly: false }))
   } catch (error) {
@@ -59,63 +60,57 @@ v1Router.post(
   upload.single('file'),
   ensureRole(['admin', 'dgec', 'dreal']),
   asyncHandler(async (request, response) => {
-    const validation = validateRequestBody(request.body, requestBodySchema)
+    validateRequestBody(request.body, requestBodySchema)
+      .asyncAndThen((body) => {
+        const { projectId, decidedOn, status, notes } = body
+        const { user: signaledBy } = request
 
-    if (validation.isErr()) {
-      if (validation.error instanceof RequestValidationError) {
-        return response.redirect(
-          addQueryParams(routes.ADMIN_SIGNALER_DEMANDE_ABANDON_PAGE(request.body.projectId), {
-            ...request.body,
-            ...validation.error.errors,
-          })
-        )
-      }
-
-      logger.error(validation.error)
-      return errorResponse({
-        request,
-        response,
-        customMessage:
-          'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
-      })
-    }
-
-    const body = validation.value
-    const { projectId, decidedOn, status, notes } = body
-    const { user: signaledBy } = request
-
-    const file = request.file && {
-      contents: fs.createReadStream(request.file.path),
-      filename: `${Date.now()}-${request.file.originalname}`,
-    }
-
-    const result = signalerDemandeAbandon({
-      projectId,
-      decidedOn,
-      status,
-      notes,
-      file,
-      signaledBy,
-    })
-
-    await result.match(
-      () => {
-        response.redirect(
-          routes.SUCCESS_OR_ERROR_PAGE({
-            success: `Votre signalement de demande d'abandon a bien été enregistré.`,
-            redirectUrl: routes.PROJECT_DETAILS(projectId),
-            redirectTitle: 'Retourner à la page projet',
-          })
-        )
-      },
-      (error) => {
-        if (error instanceof UnauthorizedError) {
-          return unauthorizedResponse({ request, response })
+        const file = request.file && {
+          contents: fs.createReadStream(request.file.path),
+          filename: `${Date.now()}-${request.file.originalname}`,
         }
 
-        logger.error(error)
-        return errorResponse({ request, response })
-      }
-    )
+        return signalerDemandeAbandon({
+          projectId,
+          decidedOn,
+          status,
+          notes,
+          file,
+          signaledBy,
+        }).map(() => ({ projectId }))
+      })
+      .match(
+        ({ projectId }) => {
+          return response.redirect(
+            routes.SUCCESS_OR_ERROR_PAGE({
+              success: `Votre signalement de demande d'abandon a bien été enregistré.`,
+              redirectUrl: routes.PROJECT_DETAILS(projectId),
+              redirectTitle: 'Retourner à la page projet',
+            })
+          )
+        },
+        (error) => {
+          if (error instanceof RequestValidationError) {
+            return response.redirect(
+              addQueryParams(routes.ADMIN_SIGNALER_DEMANDE_ABANDON_PAGE(request.body.projectId), {
+                ...request.body,
+                ...error.errors,
+              })
+            )
+          }
+
+          if (error instanceof UnauthorizedError) {
+            return unauthorizedResponse({ request, response })
+          }
+
+          logger.error(error)
+          return errorResponse({
+            request,
+            response,
+            customMessage:
+              'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
+          })
+        }
+      )
   })
 )
