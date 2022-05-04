@@ -1,5 +1,6 @@
 export * from './asyncHandler'
 export * from './errorResponse'
 export * from './notFoundResponse'
+export * from './validateRequestBody'
 export * from './unauthorizedResponse'
-export * from './yupTransofrmations'
+export * from './yupTransformations'

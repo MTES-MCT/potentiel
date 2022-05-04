@@ -1,15 +1,19 @@
-import { Request } from 'express'
 import fs from 'fs'
 import { ensureRole, signalerDemandeDelai } from '@config'
-import { err, logger, ok, Result } from '@core/utils'
+import { logger } from '@core/utils'
 import asyncHandler from '../helpers/asyncHandler'
 import { UnauthorizedError } from '@modules/shared'
 import routes from '../../routes'
-import { errorResponse, iso8601DateToDateYupTransformation, unauthorizedResponse } from '../helpers'
+import {
+  errorResponse,
+  iso8601DateToDateYupTransformation,
+  RequestValidationError,
+  unauthorizedResponse,
+  validateRequestBody,
+} from '../helpers'
 import { v1Router } from '../v1Router'
 import { upload } from '../upload'
 import * as yup from 'yup'
-import { ValidationError } from 'yup'
 import { addQueryParams } from '../../helpers/addQueryParams'
 
 const requestBodySchema = yup.object({
@@ -42,31 +46,6 @@ const requestBodySchema = yup.object({
   }),
   notes: yup.string().optional(),
 })
-
-class RequestValidationError extends Error {
-  constructor(public errors: { [fieldName: string]: string }) {
-    super("La requête n'est pas valide.")
-  }
-}
-
-const validateRequestBody = (
-  body: Request['body'],
-  schema: typeof requestBodySchema
-): Result<yup.InferType<typeof schema>, RequestValidationError | Error> => {
-  try {
-    return ok(schema.validateSync(body, { abortEarly: false }))
-  } catch (error) {
-    if (error instanceof ValidationError) {
-      const errors = error.inner.reduce(
-        (errors, { path, message }) => ({ ...errors, [`error-${path}`]: message }),
-        {}
-      )
-      return err(new RequestValidationError(errors))
-    }
-
-    return err(error)
-  }
-}
 
 v1Router.post(
   routes.ADMIN_SIGNALER_DEMANDE_DELAI_POST,
