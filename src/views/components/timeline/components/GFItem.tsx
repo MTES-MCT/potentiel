@@ -221,7 +221,7 @@ const NotUploaded = ({ role, project }: NotUploadedProps) => {
 
 type UploadedProps = ComponentProps & { status: 'uploaded' }
 
-const Uploaded = ({ date, url, role, project, expirationDate, submittedByRole }: UploadedProps) => {
+const Uploaded = ({ date, url, role, project, expirationDate, uploadedByRole }: UploadedProps) => {
   const isPorteurProjet = role === 'porteur-projet'
 
   return (
@@ -245,9 +245,9 @@ const Uploaded = ({ date, url, role, project, expirationDate, submittedByRole }:
           )}
         </div>
         {isPorteurProjet && (
-          <WithdrawDocument projectId={project.id} submittedByRole={submittedByRole} />
+          <WithdrawDocument projectId={project.id} uploadedByRole={uploadedByRole} />
         )}
-        {submittedByRole === 'dreal' && (
+        {uploadedByRole === 'dreal' && (
           <p className="m-0 italic">Ce document a été ajouté par la DREAL</p>
         )}
       </ContentArea>
@@ -322,9 +322,9 @@ const UploadForm = ({ projectId, role }: UploadFormProps) => {
 
 type WithdrawDocumentProps = {
   projectId: string
-  submittedByRole: 'porteur-projet' | 'dreal' | undefined
+  uploadedByRole: 'porteur-projet' | 'dreal' | undefined
 }
-const WithdrawDocument = ({ projectId, submittedByRole }: WithdrawDocumentProps) => (
+const WithdrawDocument = ({ projectId, uploadedByRole }: WithdrawDocumentProps) => (
   <p className="p-0 m-0">
     <a
       href={ROUTES.WITHDRAW_GARANTIES_FINANCIERES({
@@ -334,7 +334,7 @@ const WithdrawDocument = ({ projectId, submittedByRole }: WithdrawDocumentProps)
     >
       Retirer le document de Potentiel
     </a>
-    {submittedByRole === 'porteur-projet' && (
+    {uploadedByRole === 'porteur-projet' && (
       <span> (cela n'annule pas les garanties financières soumises à la candidature)</span>
     )}
   </p>

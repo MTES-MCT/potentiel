@@ -51,7 +51,7 @@ export default ProjectEvent.projector.on(
         payload: {
           file,
           expirationDate: expirationDate && expirationDate.getTime(),
-          submittedByRole: rawUser && rawUser.role,
+          uploadedByRole: rawUser && rawUser.role,
         },
       },
       { transaction }

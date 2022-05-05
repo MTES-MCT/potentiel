@@ -61,7 +61,7 @@ describe('onProjectGFUploaded', () => {
         payload: {
           file: { id: fileId, name: filename },
           expirationDate: expirationDate.getTime(),
-          submittedByRole: role,
+          uploadedByRole: role,
         },
       })
     })

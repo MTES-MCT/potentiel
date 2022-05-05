@@ -127,7 +127,7 @@ export type ProjectGFUploadedDTO = {
   variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
   file?: { id: string; name: string }
   expirationDate?: number
-  submittedByRole: 'porteur-projet' | 'dreal'
+  uploadedByRole: 'porteur-projet' | 'dreal'
 }
 
 export type ProjectGFDueDateSetDTO = {
