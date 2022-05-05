@@ -7,6 +7,7 @@ import { GFItemProps } from '../helpers/extractGFItemProps'
 import { WarningIcon } from './WarningIcon'
 import { ProjectStatus } from '@modules/frise'
 import { formatDate } from '../../../../helpers/formatDate'
+import { format } from 'date-fns'
 
 type ComponentProps = GFItemProps & {
   project: { id: string; status: ProjectStatus }
@@ -154,7 +155,7 @@ const SubmitForm = ({ projectId }: SubmitFormProps) => {
               type="date"
               name="stepDate"
               id="stepDate"
-              max={new Date().toLocaleDateString('en-ca')}
+              max={format(new Date(), 'yyyy-MM-dd')}
               required
             />
           </div>
@@ -270,8 +271,8 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
               type="date"
               name="stepDate"
               id="stepDate"
-              max={new Date().toLocaleDateString('en-ca')}
               required
+              max={format(new Date(), 'yyyy-MM-dd')}
             />
           </div>
           <div>

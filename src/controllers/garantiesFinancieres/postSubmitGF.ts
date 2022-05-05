@@ -13,7 +13,7 @@ import {
   CertificateFileIsMissingError,
   GFCertificateHasAlreadyBeenSentError,
 } from '../../modules/project'
-import { parse } from 'date-fns'
+import { format, parse } from 'date-fns'
 import * as yup from 'yup'
 import { ValidationError, BaseSchema, InferType } from 'yup'
 import { pathExists } from '../../helpers/pathExists'
@@ -28,7 +28,7 @@ const requestBodySchema = yup.object({
     .date()
     .transform(parseStringDate)
     .max(
-      new Date().toLocaleDateString('en-ca'),
+      format(new Date(), 'yyyy-MM-dd'),
       "La date de constitution ne doit dépasser la date d'aujourd'hui."
     )
     .required('Vous devez renseigner la date de constitution.')
