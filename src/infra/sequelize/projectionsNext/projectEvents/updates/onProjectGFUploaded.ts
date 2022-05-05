@@ -6,7 +6,10 @@ import { logger } from '@core/utils'
 
 export default ProjectEvent.projector.on(
   ProjectGFUploaded,
-  async ({ payload: { projectId, fileId, gfDate, expirationDate }, occurredAt }, transaction) => {
+  async (
+    { payload: { projectId, fileId, gfDate, expirationDate, submittedBy }, occurredAt },
+    transaction
+  ) => {
     const { File } = models
     const rawFilename = await File.findOne({
       attributes: ['filename'],
@@ -21,6 +24,20 @@ export default ProjectEvent.projector.on(
       )
     }
 
+    const { User } = models
+    const rawUser = await User.findOne({
+      attributes: ['role'],
+      where: { id: submittedBy },
+    })
+
+    if (!rawUser) {
+      logger.error(
+        new Error(
+          `Impossible de trouver l'utilisateur (id = ${submittedBy}) émetteur d'une GF pour le project ${projectId})`
+        )
+      )
+    }
+
     const filename: string | undefined = rawFilename?.filename
     const file = filename && { id: fileId, name: filename }
 
@@ -31,7 +48,11 @@ export default ProjectEvent.projector.on(
         valueDate: gfDate.getTime(),
         eventPublishedAt: occurredAt.getTime(),
         id: new UniqueEntityID().toString(),
-        payload: { file, expirationDate: expirationDate && expirationDate.getTime() },
+        payload: {
+          file,
+          expirationDate: expirationDate && expirationDate.getTime(),
+          uploadedByRole: rawUser && rawUser.role,
+        },
       },
       { transaction }
     )

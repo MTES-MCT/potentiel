@@ -12,10 +12,17 @@ export type GFItemProps = {
       date: number
     }
   | {
-      status: 'pending-validation' | 'validated' | 'uploaded'
+      status: 'pending-validation' | 'validated'
       url: string | undefined
       date: number
       expirationDate: number | undefined
+    }
+  | {
+      status: 'uploaded'
+      url: string | undefined
+      date: number
+      expirationDate: number | undefined
+      uploadedByRole: 'porteur-projet' | 'dreal'
     }
   | {
       status: 'submitted-with-application'
@@ -89,6 +96,7 @@ export const extractGFItemProps = (
       url: eventToHandle.file && makeDocumentUrl(eventToHandle.file.id, eventToHandle.file.name),
       status: 'uploaded',
       expirationDate: eventToHandle.expirationDate,
+      uploadedByRole: eventToHandle.uploadedByRole,
     }
   }
 

@@ -62,7 +62,7 @@ const validateRequestBody = (
 
 v1Router.post(
   routes.UPLOAD_GARANTIES_FINANCIERES(),
-  ensureRole(['porteur-projet']),
+  ensureRole(['porteur-projet', 'dreal']),
   upload.single('file'),
   asyncHandler(async (request, response) => {
     validateRequestBody(request.body, requestBodySchema)

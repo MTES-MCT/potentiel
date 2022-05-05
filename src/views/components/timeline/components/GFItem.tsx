@@ -40,6 +40,7 @@ type NotSubmittedProps = ComponentProps & { status: 'due' | 'past-due' }
 const NotSubmitted = ({ date, status, role, project }: NotSubmittedProps) => {
   const isPorteurProjet = role === 'porteur-projet'
   const displayWarning = status === 'past-due' && isPorteurProjet
+  const isDreal = role === 'dreal'
   return (
     <>
       {displayWarning ? <WarningIcon /> : <CurrentIcon />}
@@ -62,6 +63,7 @@ const NotSubmitted = ({ date, status, role, project }: NotSubmittedProps) => {
             </p>
           </div>
           {isPorteurProjet && <SubmitForm projectId={project.id} />}
+          {isDreal && <UploadForm projectId={project.id} role={role} />}
         </div>
       </ContentArea>
     </>
@@ -203,14 +205,14 @@ const CancelDeposit = ({ projectId }: CancelDepositProps) => (
 type NotUploadedProps = ComponentProps
 
 const NotUploaded = ({ role, project }: NotUploadedProps) => {
-  const isPorteurProjet = role === 'porteur-projet'
+  const hasRightsToUpload = role === 'porteur-projet' || role === 'dreal'
   return (
     <>
       <CurrentIcon />
       <ContentArea>
         <ItemTitle title={'Constitution des garanties financières'} />
         <span>Attestation de constitution des garanties financières soumise à la candidature</span>
-        {isPorteurProjet && <UploadForm projectId={project.id} />}
+        {hasRightsToUpload && <UploadForm projectId={project.id} role={role} />}
       </ContentArea>
     </>
   )
@@ -218,7 +220,7 @@ const NotUploaded = ({ role, project }: NotUploadedProps) => {
 
 type UploadedProps = ComponentProps & { status: 'uploaded' }
 
-const Uploaded = ({ date, url, role, project, expirationDate }: UploadedProps) => {
+const Uploaded = ({ date, url, role, project, expirationDate, uploadedByRole }: UploadedProps) => {
   const isPorteurProjet = role === 'porteur-projet'
 
   return (
@@ -241,7 +243,12 @@ const Uploaded = ({ date, url, role, project, expirationDate }: UploadedProps) =
             <span>Pièce-jointe introuvable</span>
           )}
         </div>
-        {isPorteurProjet && <WithdrawDocument projectId={project.id} />}
+        {isPorteurProjet && (
+          <WithdrawDocument projectId={project.id} uploadedByRole={uploadedByRole} />
+        )}
+        {uploadedByRole === 'dreal' && (
+          <p className="m-0 italic">Ce document a été ajouté par la DREAL</p>
+        )}
       </ContentArea>
     </>
   )
@@ -249,13 +256,15 @@ const Uploaded = ({ date, url, role, project, expirationDate }: UploadedProps) =
 
 type UploadFormProps = {
   projectId: string
+  role: 'porteur-projet' | 'dreal'
 }
-const UploadForm = ({ projectId }: UploadFormProps) => {
+const UploadForm = ({ projectId, role }: UploadFormProps) => {
   const [isFormVisible, showForm] = useState(false)
+  const isPorteur = role === 'porteur-projet'
 
   return (
     <>
-      <a onClick={() => showForm(!isFormVisible)}>Enregistrer mon attestation dans Potentiel</a>
+      <a onClick={() => showForm(!isFormVisible)}>Enregistrer l'attestation dans Potentiel</a>
       {isFormVisible && (
         <form
           action={ROUTES.UPLOAD_GARANTIES_FINANCIERES({ projectId })}
@@ -276,7 +285,9 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
             />
           </div>
           <div>
-            <label htmlFor="expirationDate">Date d'échéance de la garantie*</label>
+            <label htmlFor="expirationDate">
+              Date d'échéance de la garantie{isPorteur && <span>*</span>}
+            </label>
             <input type="date" name="expirationDate" id="expirationDate" required />
           </div>
           <div>
@@ -306,8 +317,9 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
 
 type WithdrawDocumentProps = {
   projectId: string
+  uploadedByRole: 'porteur-projet' | 'dreal' | undefined
 }
-const WithdrawDocument = ({ projectId }: WithdrawDocumentProps) => (
+const WithdrawDocument = ({ projectId, uploadedByRole }: WithdrawDocumentProps) => (
   <p className="p-0 m-0">
     <a
       href={ROUTES.WITHDRAW_GARANTIES_FINANCIERES({
@@ -317,6 +329,8 @@ const WithdrawDocument = ({ projectId }: WithdrawDocumentProps) => (
     >
       Retirer le document de Potentiel
     </a>
-    <span> (cela n'annule pas les garanties financières soumises à la candidature)</span>
+    {uploadedByRole === 'porteur-projet' && (
+      <span> (cela n'annule pas les garanties financières soumises à la candidature)</span>
+    )}
   </p>
 )

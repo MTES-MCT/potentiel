@@ -551,6 +551,7 @@ describe('extractGFitemProps', () => {
             date: new Date('2022-01-09').getTime(),
             file: { id: 'file-id', name: 'file-name' },
             expirationDate: new Date('2025-01-09').getTime(),
+            uploadedByRole: 'porteur-projet',
           } as ProjectGFUploadedDTO,
         ]
         const result = extractGFItemProps(events, new Date('2022-01-08').getTime(), project)
@@ -561,6 +562,7 @@ describe('extractGFitemProps', () => {
           role: 'porteur-projet',
           url: '/telechargement/file-id/fichier/file-name',
           expirationDate: new Date('2025-01-09').getTime(),
+          uploadedByRole: 'porteur-projet',
         })
       })
     })

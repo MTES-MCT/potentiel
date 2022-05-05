@@ -6,14 +6,15 @@ import { ProjectEvent } from '../projectEvent.model'
 import onProjectGFUploaded from './onProjectGFUploaded'
 
 describe('onProjectGFUploaded', () => {
-  const { File } = models
+  const { File, User } = models
   const projectId = new UniqueEntityID().toString()
   const fileId = new UniqueEntityID().toString()
   const occurredAt = new Date('2022-01-04')
-  const submittedBy = 'user-id'
   const gfDate = new Date('2021-12-26')
   const filename = 'my-file'
   const expirationDate = new Date('2025-01-01')
+  const userId = new UniqueEntityID().toString()
+  const role = 'porteur-projet'
 
   beforeEach(async () => {
     await resetDatabase()
@@ -27,12 +28,19 @@ describe('onProjectGFUploaded', () => {
         designation: 'garantie-financiere-ppe2',
       })
 
+      await User.create({
+        id: userId,
+        fullName: 'userName',
+        email: 'email@test.test',
+        role,
+      })
+
       await onProjectGFUploaded(
         new ProjectGFUploaded({
           payload: {
             projectId,
             fileId,
-            submittedBy,
+            submittedBy: userId,
             gfDate,
             expirationDate,
           } as ProjectGFUploadedPayload,
@@ -50,7 +58,11 @@ describe('onProjectGFUploaded', () => {
         type: 'ProjectGFUploaded',
         valueDate: gfDate.getTime(),
         eventPublishedAt: occurredAt.getTime(),
-        payload: { file: { id: fileId, name: filename }, expirationDate: expirationDate.getTime() },
+        payload: {
+          file: { id: fileId, name: filename },
+          expirationDate: expirationDate.getTime(),
+          uploadedByRole: role,
+        },
       })
     })
   })
@@ -61,7 +73,7 @@ describe('onProjectGFUploaded', () => {
           payload: {
             projectId,
             fileId,
-            submittedBy,
+            submittedBy: userId,
             gfDate,
           } as ProjectGFUploadedPayload,
           original: {
