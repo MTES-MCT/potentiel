@@ -12,7 +12,6 @@ import routes from '../../routes'
 import { ProjectDetailsPage } from '@views'
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
 import { v1Router } from '../v1Router'
-import { okAsync } from '@core/utils'
 
 v1Router.get(
   routes.PROJECT_DETAILS(),

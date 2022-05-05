@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '.'
 import ROUTES from '../../../../routes'
-import { DateInput } from '../..'
 import { InfoItem } from './InfoItem'
 import { WarningItem } from './WarningItem'
 import { GFItemProps } from '../helpers/extractGFItemProps'
 import { WarningIcon } from './WarningIcon'
 import { ProjectStatus } from '@modules/frise'
+import { formatDate } from '../../../../helpers/formatDate'
+import { format } from 'date-fns'
 
 type ComponentProps = GFItemProps & {
   project: { id: string; status: ProjectStatus }
@@ -68,7 +69,7 @@ const NotSubmitted = ({ date, status, role, project }: NotSubmittedProps) => {
 }
 
 type SubmittedProps = ComponentProps & { status: 'pending-validation' }
-const Submitted = ({ date, url, role, project }: SubmittedProps) => {
+const Submitted = ({ date, url, role, project, expirationDate }: SubmittedProps) => {
   const isPorteurProjet = role === 'porteur-projet'
 
   return (
@@ -84,6 +85,7 @@ const Submitted = ({ date, url, role, project }: SubmittedProps) => {
           </div>
         </div>
         <ItemTitle title={'Constitution des garanties financières'} />
+        {expirationDate && <p className="m-0">Date d'échéance : {formatDate(expirationDate)}</p>}
         <div className="flex">
           {url ? (
             <a href={url} download>
@@ -100,7 +102,7 @@ const Submitted = ({ date, url, role, project }: SubmittedProps) => {
 }
 
 type ValidatedProps = ComponentProps & { status: 'validated' }
-const Validated = ({ date, url }: ValidatedProps) => {
+const Validated = ({ date, url, expirationDate }: ValidatedProps) => {
   return (
     <>
       <PastIcon />
@@ -111,6 +113,7 @@ const Validated = ({ date, url }: ValidatedProps) => {
           </div>
         </div>
         <ItemTitle title={'Constitution des garanties financières'} />
+        {expirationDate && <p className="m-0">Date d'échéance : {formatDate(expirationDate)}</p>}
         <div>
           {url ? (
             <>
@@ -133,7 +136,6 @@ type SubmitFormProps = {
 }
 const SubmitForm = ({ projectId }: SubmitFormProps) => {
   const [isFormVisible, showForm] = useState(false)
-  const [disableSubmit, setDisableSubmit] = useState(true)
 
   return (
     <>
@@ -143,22 +145,39 @@ const SubmitForm = ({ projectId }: SubmitFormProps) => {
           action={ROUTES.SUBMIT_GARANTIES_FINANCIERES({ projectId })}
           method="post"
           encType="multipart/form-data"
-          className="mt-2 border border-solid border-gray-300 rounded-md p-5"
+          className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
         >
           <input type="hidden" name="type" id="type" value="garanties-financieres" />
           <input type="hidden" name="projectId" value={projectId} />
           <div>
-            <label htmlFor="date">Date de constitution (format JJ/MM/AAAA)</label>
-            <DateInput onError={(isError) => setDisableSubmit(isError)} />
+            <label htmlFor="stepDate">Date de constitution</label>
+            <input
+              type="date"
+              name="stepDate"
+              id="stepDate"
+              max={format(new Date(), 'yyyy-MM-dd')}
+              required
+            />
           </div>
-          <div className="mt-2">
+          <div>
+            <label htmlFor="expirationDate">Date d'échéance de la garantie*</label>
+            <input type="date" name="expirationDate" id="expirationDate" required />
+          </div>
+          <div>
             <label htmlFor="file">Attestation</label>
             <input type="file" name="file" id="file" required />
           </div>
-          <button className="button" type="submit" name="submit" disabled={disableSubmit}>
-            Envoyer
-          </button>
-          <a onClick={() => showForm(false)}>Annuler</a>
+          <p className="m-0 mt-3 italic">
+            *La garantie doit avoir une durée couvrant le projet jusqu’à 6 mois après la date
+            d’Achèvement de l’installation ou être renouvelée régulièrement afin d’assurer une telle
+            couverture temporelle.
+          </p>
+          <div>
+            <button className="button" type="submit" name="submit">
+              Envoyer
+            </button>
+            <a onClick={() => showForm(false)}>Annuler</a>
+          </div>
         </form>
       )}
     </>
@@ -199,7 +218,7 @@ const NotUploaded = ({ role, project }: NotUploadedProps) => {
 
 type UploadedProps = ComponentProps & { status: 'uploaded' }
 
-const Uploaded = ({ date, url, role, project }: UploadedProps) => {
+const Uploaded = ({ date, url, role, project, expirationDate }: UploadedProps) => {
   const isPorteurProjet = role === 'porteur-projet'
 
   return (
@@ -212,6 +231,7 @@ const Uploaded = ({ date, url, role, project }: UploadedProps) => {
           </div>
         </div>
         <ItemTitle title={'Constitution des garanties financières'} />
+        {expirationDate && <p className="m-0">Date d'échéance : {formatDate(expirationDate)}</p>}
         <div className="flex">
           {url ? (
             <a href={url} download>
@@ -232,7 +252,6 @@ type UploadFormProps = {
 }
 const UploadForm = ({ projectId }: UploadFormProps) => {
   const [isFormVisible, showForm] = useState(false)
-  const [disableSubmit, setDisableSubmit] = useState(true)
 
   return (
     <>
@@ -242,26 +261,43 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
           action={ROUTES.UPLOAD_GARANTIES_FINANCIERES({ projectId })}
           method="post"
           encType="multipart/form-data"
-          className="mt-2 border border-solid border-gray-300 rounded-md p-5"
+          className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
         >
           <input type="hidden" name="type" id="type" value="garanties-financieres" />
           <input type="hidden" name="projectId" value={projectId} />
           <div>
-            <label htmlFor="date">Date de constitution (format JJ/MM/AAAA)</label>
-            <DateInput onError={(isError) => setDisableSubmit(isError)} />
+            <label htmlFor="stepDate">Date de constitution</label>
+            <input
+              type="date"
+              name="stepDate"
+              id="stepDate"
+              required
+              max={format(new Date(), 'yyyy-MM-dd')}
+            />
           </div>
-          <div className="mt-2">
-            <label htmlFor="file">Attestation*</label>
+          <div>
+            <label htmlFor="expirationDate">Date d'échéance de la garantie*</label>
+            <input type="date" name="expirationDate" id="expirationDate" required />
+          </div>
+          <div>
+            <label htmlFor="file">Attestation**</label>
             <input type="file" name="file" id="file" required />
-            <p className="m-0 italic">
-              *Il s'agit de l'attestation soumise à la candidature. Cet envoi ne fera pas l'objet
+            <p className="m-0 mt-3 italic">
+              *La garantie doit avoir une durée couvrant le projet jusqu’à 6 mois après la date
+              d’Achèvement de l’installation ou être renouvelée régulièrement afin d’assurer une
+              telle couverture temporelle.
+            </p>
+            <p className="m-0 mt-3 italic">
+              **Il s'agit de l'attestation soumise à la candidature. Cet envoi ne fera pas l'objet
               d'une nouvelle validation.
             </p>
           </div>
-          <button className="button" type="submit" name="submit" disabled={disableSubmit}>
-            Envoyer
-          </button>
-          <a onClick={() => showForm(false)}>Annuler</a>
+          <div>
+            <button className="button" type="submit" name="submit">
+              Envoyer
+            </button>
+            <a onClick={() => showForm(false)}>Annuler</a>
+          </div>
         </form>
       )}
     </>

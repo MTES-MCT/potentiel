@@ -5,10 +5,12 @@ export interface ProjectGFSubmittedPayload {
   gfDate: Date
   fileId: string
   submittedBy: string
+  expirationDate?: Date
 }
 export class ProjectGFSubmitted
   extends BaseDomainEvent<ProjectGFSubmittedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ProjectGFSubmitted' = 'ProjectGFSubmitted'
   public type = ProjectGFSubmitted.type
   currentVersion = 1
@@ -18,6 +20,9 @@ export class ProjectGFSubmitted
 
     // convert to date (in case it is a string)
     this.payload.gfDate = new Date(this.payload.gfDate)
+    if (this.payload.expirationDate) {
+      this.payload.expirationDate = new Date(this.payload.expirationDate)
+    }
   }
 
   aggregateIdFromPayload(payload: ProjectGFSubmittedPayload) {

@@ -77,6 +77,7 @@ describe('getProjectEvents for GF events', () => {
         const removedAt = new Date('2021-12-30').getTime()
         const validatedAt = new Date('2022-01-14').getTime()
         const invalidatedAt = new Date('2022-01-15').getTime()
+        const expirationDate = new Date('2025-12-26').getTime()
 
         await ProjectEvent.create({
           id: new UniqueEntityID().toString(),
@@ -86,6 +87,7 @@ describe('getProjectEvents for GF events', () => {
           eventPublishedAt: new Date('2021-12-27').getTime(),
           payload: {
             file: { id: fileId, name: 'my-file' },
+            expirationDate,
           },
         })
 
@@ -123,6 +125,7 @@ describe('getProjectEvents for GF events', () => {
               date: gfDate,
               variant: role,
               file: { id: fileId, name: 'my-file' },
+              expirationDate,
             },
             {
               type: 'ProjectGFRemoved',
@@ -153,6 +156,7 @@ describe('getProjectEvents for GF events', () => {
       it('should return ProjectGFUploaded and ProjectGFWithdrawn events', async () => {
         const fileId = new UniqueEntityID().toString()
         const gfDate = new Date('2021-12-26').getTime()
+        const expirationDate = new Date('2025-12-26').getTime()
 
         await ProjectEvent.create({
           id: new UniqueEntityID().toString(),
@@ -162,6 +166,7 @@ describe('getProjectEvents for GF events', () => {
           eventPublishedAt: new Date('2021-12-27').getTime(),
           payload: {
             file: { id: fileId, name: 'my-file' },
+            expirationDate,
           },
         })
 
@@ -183,6 +188,7 @@ describe('getProjectEvents for GF events', () => {
               date: gfDate,
               variant: role,
               file: { id: fileId, name: 'my-file' },
+              expirationDate,
             },
             {
               type: 'ProjectGFWithdrawn',

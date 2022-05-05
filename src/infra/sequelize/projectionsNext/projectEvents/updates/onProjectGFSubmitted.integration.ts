@@ -13,6 +13,7 @@ describe('onProjectGFSubmitted', () => {
   const submittedBy = 'user-id'
   const gfDate = new Date('2021-12-26')
   const filename = 'my-file'
+  const expirationDate = new Date('2025-01-01')
 
   beforeEach(async () => {
     await resetDatabase()
@@ -33,6 +34,7 @@ describe('onProjectGFSubmitted', () => {
             fileId,
             submittedBy,
             gfDate,
+            expirationDate,
           } as ProjectGFSubmittedPayload,
           original: {
             version: 1,
@@ -48,7 +50,7 @@ describe('onProjectGFSubmitted', () => {
         type: 'ProjectGFSubmitted',
         valueDate: gfDate.getTime(),
         eventPublishedAt: occurredAt.getTime(),
-        payload: { file: { id: fileId, name: filename } },
+        payload: { file: { id: fileId, name: filename }, expirationDate: expirationDate.getTime() },
       })
     })
   })

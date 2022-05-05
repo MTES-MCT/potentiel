@@ -15,6 +15,7 @@ export type GFItemProps = {
       status: 'pending-validation' | 'validated' | 'uploaded'
       url: string | undefined
       date: number
+      expirationDate: number | undefined
     }
   | {
       status: 'submitted-with-application'
@@ -87,6 +88,7 @@ export const extractGFItemProps = (
       ...props,
       url: eventToHandle.file && makeDocumentUrl(eventToHandle.file.id, eventToHandle.file.name),
       status: 'uploaded',
+      expirationDate: eventToHandle.expirationDate,
     }
   }
 
@@ -95,6 +97,7 @@ export const extractGFItemProps = (
       ...props,
       url: eventToHandle.file && makeDocumentUrl(eventToHandle.file.id, eventToHandle.file.name),
       status: latestProjectGF.type === 'ProjectGFValidated' ? 'validated' : 'pending-validation',
+      expirationDate: eventToHandle.expirationDate,
     }
   }
 
