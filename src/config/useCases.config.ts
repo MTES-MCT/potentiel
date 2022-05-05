@@ -24,6 +24,7 @@ import {
   makeRemoveGF,
   makeRemoveStep,
   makeSignalerDemandeDelai,
+  makeSignalerDemandeAbandon,
   makeSubmitGF,
   makeSubmitStep,
   makeUpdateNewRulesOptIn,
@@ -245,6 +246,12 @@ export const attachLegacyModificationFile = makeAttachLegacyModificationFile({
 })
 
 export const signalerDemandeDelai = makeSignalerDemandeDelai({
+  fileRepo,
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+  projectRepo,
+})
+
+export const signalerDemandeAbandon = makeSignalerDemandeAbandon({
   fileRepo,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,

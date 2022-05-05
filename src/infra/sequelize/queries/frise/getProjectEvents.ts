@@ -297,6 +297,19 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       attachment,
                     })
                   }
+                case 'DemandeAbandonSignaled':
+                  if (userIsNot('ademe')(user)) {
+                    const { signaledBy, status, attachment, notes } = payload
+                    events.push({
+                      type: 'DemandeAbandonSignaled',
+                      variant: user.role,
+                      date: valueDate,
+                      signaledBy,
+                      status,
+                      ...(userIs(['admin', 'dgec', 'dreal'])(user) && { notes }),
+                      attachment,
+                    })
+                  }
               }
 
               return Promise.resolve(events)

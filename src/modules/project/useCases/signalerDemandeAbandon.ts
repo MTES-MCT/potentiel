@@ -6,13 +6,13 @@ import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors'
 import { Project } from '../Project'
 
-type SignalerDemandeDelaiDeps = {
+type SignalerDemandeAbandonDeps = {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
   fileRepo: Repository<FileObject>
   projectRepo: TransactionalRepository<Project>
 }
 
-type SignalerDemandeDelaiArgs = {
+type SignalerDemandeAbandonArgs = {
   projectId: string
   decidedOn: Date
   signaledBy: User
@@ -21,20 +21,13 @@ type SignalerDemandeDelaiArgs = {
     contents: FileContents
     filename: string
   }
-} & (
-  | {
-      status: 'acceptée'
-      newCompletionDueOn: Date
-    }
-  | {
-      status: 'rejetée' | 'accord-de-principe'
-    }
-)
+  status: 'acceptée' | 'rejetée'
+}
 
-export const makeSignalerDemandeDelai =
-  (deps: SignalerDemandeDelaiDeps) =>
+export const makeSignalerDemandeAbandon =
+  (deps: SignalerDemandeAbandonDeps) =>
   (
-    args: SignalerDemandeDelaiArgs
+    args: SignalerDemandeAbandonArgs
   ): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
     const { projectRepo, fileRepo, shouldUserAccessProject } = deps
     const { projectId, decidedOn, status, notes, signaledBy, file } = args
@@ -78,14 +71,9 @@ export const makeSignalerDemandeDelai =
           new UniqueEntityID(projectId),
           (project: Project): ResultAsync<null, ProjectCannotBeUpdatedIfUnnotifiedError> => {
             return project
-              .signalerDemandeDelai({
-                decidedOn,
-                ...(status === 'acceptée'
-                  ? {
-                      status,
-                      newCompletionDueOn: args.newCompletionDueOn,
-                    }
-                  : { status }),
+              .signalerDemandeAbandon({
+                decidedOn: decidedOn,
+                status,
                 notes,
                 ...(attachment && { attachment }),
                 signaledBy,

@@ -4,6 +4,7 @@ export * from './importProjects';
 export * from './regenerateCertificatesForPeriode';
 export * from './removeGF';
 export * from './removeStep';
+export * from './signalerDemandeAbandon';
 export * from './signalerDemandeDelai';
 export * from './submitGF';
 export * from './submitStep';

@@ -18,7 +18,6 @@ import {
   HeterogeneousHistoryError,
   IllegalInitialStateForAggregateError,
   IncompleteDataError,
-  ProjectNotQualifiedForCovidDelay,
 } from '../shared'
 import { ProjectDataForCertificate } from './dtos'
 import {
@@ -62,10 +61,10 @@ import {
   ProjectCertificateObsolete,
   CovidDelayGranted,
   DemandeDelaiSignaled,
+  DemandeAbandonSignaled,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre'
-import { date } from 'yup'
 
 export interface Project extends EventStoreAggregate {
   notify: (
@@ -137,7 +136,7 @@ export interface Project extends EventStoreAggregate {
     args: {
       decidedOn: Date
       notes?: string
-      attachments: Array<{ id: string; name: string }>
+      attachment?: { id: string; name: string }
       signaledBy: User
     } & (
       | {
@@ -149,6 +148,13 @@ export interface Project extends EventStoreAggregate {
         }
     )
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
+  signalerDemandeAbandon: (args: {
+    decidedOn: Date
+    notes?: string
+    attachment?: { id: string; name: string }
+    signaledBy: User
+    status: 'acceptée' | 'rejetée'
+  }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
   readonly shouldCertificateBeGenerated: boolean
   readonly appelOffre?: ProjectAppelOffre
   readonly isClasse?: boolean
@@ -200,6 +206,7 @@ export interface ProjectProps {
   projectId: UniqueEntityID
   appelOffre?: ProjectAppelOffre
   notifiedOn: number
+  abandonedOn: number
   completionDueOn: number
   hasCompletionDueDateMoved: boolean
   lastUpdatedOn?: Date
@@ -236,6 +243,7 @@ export const makeProject = (args: {
   const pendingEvents: DomainEvent[] = []
   const props: ProjectProps = {
     notifiedOn: 0,
+    abandonedOn: 0,
     completionDueOn: 0,
     hasCompletionDueDateMoved: false,
     projectId,
@@ -755,7 +763,7 @@ export const makeProject = (args: {
       return ok(null)
     },
     signalerDemandeDelai: function (args) {
-      const { decidedOn, status, notes, attachments, signaledBy } = args
+      const { decidedOn, status, notes, attachment, signaledBy } = args
       if (!_isNotified()) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
       }
@@ -769,7 +777,7 @@ export const makeProject = (args: {
             projectId: props.projectId.toString(),
             decidedOn: decidedOn.getTime(),
             notes,
-            attachments,
+            attachments: attachment ? [attachment] : [],
             signaledBy: signaledBy.id,
             ...(status === 'acceptée'
               ? {
@@ -794,6 +802,42 @@ export const makeProject = (args: {
           })
         )
       }
+      return ok(null)
+    },
+    signalerDemandeAbandon: function (args) {
+      const { decidedOn, status, notes, attachment, signaledBy } = args
+      if (!_isNotified()) {
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+      }
+
+      _publishEvent(
+        new DemandeAbandonSignaled({
+          payload: {
+            projectId: props.projectId.toString(),
+            decidedOn: decidedOn.getTime(),
+            notes,
+            attachments: attachment ? [attachment] : [],
+            signaledBy: signaledBy.id,
+            status,
+          },
+        })
+      )
+
+      if (status === 'acceptée' && props.abandonedOn === 0) {
+        _publishEvent(
+          new ProjectAbandoned({
+            payload: {
+              projectId: props.projectId.toString(),
+              abandonAcceptedBy: signaledBy.id,
+            },
+            original: {
+              version: 1,
+              occurredAt: decidedOn,
+            },
+          })
+        )
+      }
+
       return ok(null)
     },
     get pendingEvents() {
@@ -1018,6 +1062,9 @@ export const makeProject = (args: {
       case ProjectGFInvalidated.type:
       case ProjectGFWithdrawn.type:
         props.hasCurrentGf = false
+        break
+      case ProjectAbandoned.type:
+        props.abandonedOn = event.occurredAt.getTime()
         break
       default:
         // ignore other event types

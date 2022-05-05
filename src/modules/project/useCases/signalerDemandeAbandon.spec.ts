@@ -6,7 +6,7 @@ import { InfraNotAvailableError } from '@modules/shared'
 import { UnwrapForTest } from '../../../types'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { UnauthorizedError } from '../../shared'
-import { makeSignalerDemandeDelai } from './signalerDemandeDelai'
+import { makeSignalerDemandeAbandon } from './signalerDemandeAbandon'
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
 import { Project } from '../Project'
 import { Readable } from 'stream'
@@ -23,7 +23,7 @@ const fakeProject = makeFakeProject()
 
 const projectRepo = fakeTransactionalRepo(fakeProject as Project)
 
-describe('signalerDemandeDelai use-case', () => {
+describe('signalerDemandeAbandon use-case', () => {
   describe('when the user has rights on this project', () => {
     const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
 
@@ -37,17 +37,16 @@ describe('signalerDemandeDelai use-case', () => {
 
       fakePublish.mockClear()
 
-      const signalerDemandeDelai = makeSignalerDemandeDelai({
+      const signalerDemandeAbandon = makeSignalerDemandeAbandon({
         fileRepo: fileRepo as Repository<FileObject>,
         shouldUserAccessProject,
         projectRepo,
       })
 
-      const res = await signalerDemandeDelai({
+      const res = await signalerDemandeAbandon({
         projectId,
         decidedOn: new Date('2022-04-12'),
         status: 'acceptée',
-        newCompletionDueOn: new Date('2025-01-31'),
         notes: 'notes',
         file: fakeFileContents,
         signaledBy: user,
@@ -66,12 +65,11 @@ describe('signalerDemandeDelai use-case', () => {
       expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents.contents)
     })
 
-    it('should call signalerDemandDelai', () => {
+    it('should call signalerDemandAbandon', () => {
       const fakeFile = fileRepo.save.mock.calls[0][0]
-      expect(fakeProject.signalerDemandeDelai).toHaveBeenCalledWith({
+      expect(fakeProject.signalerDemandeAbandon).toHaveBeenCalledWith({
         decidedOn: new Date('2022-04-12'),
         status: 'acceptée',
-        newCompletionDueOn: new Date('2025-01-31'),
         notes: 'notes',
         attachment: { id: fakeFile.id.toString(), name: fakeFileContents.filename },
         signaledBy: user,
@@ -92,17 +90,16 @@ describe('signalerDemandeDelai use-case', () => {
         load: jest.fn(),
       }
 
-      const signalerDemandeDelai = makeSignalerDemandeDelai({
+      const signalerDemandeAbandon = makeSignalerDemandeAbandon({
         fileRepo,
         shouldUserAccessProject,
         projectRepo,
       })
 
-      const res = await signalerDemandeDelai({
+      const res = await signalerDemandeAbandon({
         projectId,
         decidedOn: new Date('2022-04-12'),
         status: 'acceptée',
-        newCompletionDueOn: new Date('2025-01-31'),
         signaledBy: user,
       })
 

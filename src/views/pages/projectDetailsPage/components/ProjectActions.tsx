@@ -52,6 +52,20 @@ const SignalerUnChangement = ({ project }: SignalerUnChangementProps) => (
             </div>
           </a>
         </Menu.Item>
+        <Menu.Item key={`signaler_demande_abandon`}>
+          <a
+            href={ROUTES.ADMIN_SIGNALER_DEMANDE_ABANDON_PAGE(project.id)}
+            className="no-underline bg-none hover:bg-none"
+          >
+            <div
+              className={
+                'text-center rounded-md w-full py-2 hover:bg-blue-france-975-base focus:bg-blue-france-975-base text-blue-france-sun-base'
+              }
+            >
+              Demande d'abandon
+            </div>
+          </a>
+        </Menu.Item>
       </Menu.Items>
     </Transition>
   </Menu>

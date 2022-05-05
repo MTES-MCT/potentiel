@@ -1,16 +1,11 @@
 import fs from 'fs'
-import { ensureRole, signalerDemandeDelai } from '@config'
+import { ensureRole, signalerDemandeAbandon } from '@config'
 import { logger } from '@core/utils'
 import asyncHandler from '../helpers/asyncHandler'
+import { RequestValidationError, validateRequestBody } from '../helpers'
 import { UnauthorizedError } from '@modules/shared'
 import routes from '../../routes'
-import {
-  errorResponse,
-  iso8601DateToDateYupTransformation,
-  RequestValidationError,
-  unauthorizedResponse,
-  validateRequestBody,
-} from '../helpers'
+import { errorResponse, iso8601DateToDateYupTransformation, unauthorizedResponse } from '../helpers'
 import { v1Router } from '../v1Router'
 import { upload } from '../upload'
 import * as yup from 'yup'
@@ -25,30 +20,15 @@ const requestBodySchema = yup.object({
     .transform(iso8601DateToDateYupTransformation)
     .typeError(`La date saisie n'est pas valide`),
   status: yup
-    .mixed<'acceptée' | 'rejetée' | 'accord-de-principe'>()
-    .oneOf(['acceptée', 'rejetée', 'accord-de-principe'])
+    .mixed<'acceptée' | 'rejetée'>()
+    .oneOf(['acceptée', 'rejetée'])
     .required('Ce champ est obligatoire')
-    .typeError(`Le statut n'est pas valide`),
-  newCompletionDueOn: yup.date().when('status', {
-    is: (status) => status === 'acceptée',
-    then: yup
-      .date()
-      .required('Ce champ est obligatoire')
-      .nullable()
-      .transform(iso8601DateToDateYupTransformation)
-      .typeError(`La date saisie n'est pas valide`),
-    otherwise: yup
-      .date()
-      .optional()
-      .nullable()
-      .transform(iso8601DateToDateYupTransformation)
-      .typeError(`La date saisie n'est pas valide`),
-  }),
+    .typeError(`Le status n'est pas valide`),
   notes: yup.string().optional(),
 })
 
 v1Router.post(
-  routes.ADMIN_SIGNALER_DEMANDE_DELAI_POST,
+  routes.ADMIN_SIGNALER_DEMANDE_ABANDON_POST,
   upload.single('file'),
   ensureRole(['admin', 'dgec', 'dreal']),
   asyncHandler(async (request, response) => {
@@ -62,12 +42,10 @@ v1Router.post(
           filename: `${Date.now()}-${request.file.originalname}`,
         }
 
-        return signalerDemandeDelai({
+        return signalerDemandeAbandon({
           projectId,
           decidedOn,
-          ...(status === 'acceptée'
-            ? { status, newCompletionDueOn: body.newCompletionDueOn! }
-            : { status }),
+          status,
           notes,
           file,
           signaledBy,
@@ -77,7 +55,7 @@ v1Router.post(
         ({ projectId }) => {
           return response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
-              success: 'Votre signalement de demande de délai a bien été enregistré.',
+              success: `Votre signalement de demande d'abandon a bien été enregistré.`,
               redirectUrl: routes.PROJECT_DETAILS(projectId),
               redirectTitle: 'Retourner à la page projet',
             })
