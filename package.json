@@ -12,23 +12,16 @@
     "build:dsfr": "postcss ./src/views/dsfr.css -o ./src/public/css/dsfr.css",
     "install": "ts-node ./scripts/postInstall.ts",
     "test": "NODE_ENV=unit-test jest --config=jest.unit.config.js --detectOpenHandles",
+    "test:watch": "NODE_ENV=test TEST=unit jest --config=jest.unit.config.js --detectOpenHandles --watch",
     "test-int": "NODE_ENV=test jest --config=jest.integration.config.js --detectOpenHandles --runInBand",
-    "ci:test-e2e": "NODE_ENV=test start-server-and-test start http://localhost:3000 cy:run",
-    "ci:test-e2e:legacy": "NODE_ENV=test start-server-and-test start http://localhost:3000 cy:run:legacy",
-    "test-e2e": "NODE_ENV=test start-server-and-test watch http://localhost:3000 cy:run",
-    "test-e2e-legacy": "NODE_ENV=test start-server-and-test watch http://localhost:3000 cy:run:legacy",
-    "cy:run": "cypress run",
-    "cy:open": "cypress open",
-    "cy:run:legacy": "cypress run --config-file=cypress.legacy.json",
-    "cy:open:legacy": "cypress open --config-file=cypress.legacy.json",
+    "test-int:watch": "NODE_ENV=test jest --config=jest.integration.config.js --detectOpenHandles --watch",
     "launch-test-db": "export NODE_ENV=test && export COMPOSE_PROJECT_NAME=potentiel_tests && docker-compose down --remove-orphans && docker-compose -f ./docker-compose-integration.yml up -d && until docker exec potentiel_db_tests_integration pg_isready -U testuser -d potentiel_test; do sleep 1; done",
     "migrate": "rm -rf dist/migrations && ttsc --build tsconfig.migrations.json && npx sequelize-cli db:migrate --migrations-path=dist/migrations/src/infra/sequelize/migrations",
     "seed": "npx sequelize-cli db:seed:all",
     "test-db": "export NODE_ENV=test && npm run launch-test-db && sleep 2 && npm run migrate",
     "dev-db": "docker-compose down --remove-orphans && docker-compose up -d",
-    "test-int:watch": "NODE_ENV=test jest --config=jest.integration.config.js --detectOpenHandles --watch",
-    "test:watch": "NODE_ENV=test TEST=unit jest --config=jest.unit.config.js --detectOpenHandles --watch",
     "storybook": "concurrently \"npm run watch:css\" \"BASE_URL=http://localhost:6006 start-storybook -p 6006\"",
+    "build-storybook": "build-storybook",
     "storybook-build": "build-storybook-c .storybook -o docs",
     "start": "node ./dist/src/index.js",
     "watch": "concurrently \"npm run watch:back\" \"npm run watch:front\" \"npm run watch:css\" \"npm run build:dsfr\"",
@@ -43,8 +36,7 @@
     "add:projection": "npm run generate -- projection",
     "add:p": "npm run add:projection",
     "add:query": "npm run generate -- query",
-    "add:q": "npm run add:query",
-    "build-storybook": "build-storybook"
+    "add:q": "npm run add:query"
   },
   "repository": {
     "type": "git",
@@ -149,9 +141,6 @@
     "@typescript-eslint/parser": "^5.21.0",
     "babel-jest": "^27.5.1",
     "babel-loader": "^8.2.5",
-    "cypress": "^9.6.0",
-    "cypress-cucumber-preprocessor": "^4.3.1",
-    "cypress-file-upload": "^5.0.8",
     "cz-emoji": "^1.3.1",
     "dotenv-cli": "^5.1.0",
     "eslint": "^8.14.0",
@@ -171,11 +160,6 @@
     "start-server-and-test": "^1.14.0",
     "ts-jest": "^27.1.4",
     "wait-for-expect": "^3.0.2"
-  },
-  "cypress-cucumber-preprocessor": {
-    "nonGlobalStepDefinitions": true,
-    "stepDefinitions": "e2e-legacy/integration",
-    "commonPath": "e2e-legacy/integration/common"
   },
   "husky": {
     "hooks": {
