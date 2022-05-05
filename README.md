@@ -1,4 +1,5 @@
 # Suivi des Projets d'Energies Renouvelables
+
 ## Introduction
 
 L’Etat français met en œuvre une politique volontariste de soutien au développement des énergies renouvelables (EnR) électriques. L’objectif est d’atteindre une part de 40% de ces énergies sur le total de l’électricité produite à l’horizon 2030. Chaque année, environ 1500 projets d’EnR électrique sont d’ores et déjà désignés lauréats d’un appel d’offre pour la production d’électricité renouvelable.
@@ -22,6 +23,7 @@ La suite de ce document explique comment lancer l'application sur sa machine et 
 - [Optimisation d'un bundle js front](./docs/BUNDLE_FRONT.md)
 
 ## Sommaire
+
 - [Développement en local](#développement-en-local)
   - [Mise en place initiale](#mise-en-place-initiale)
     - [Pré-requis](#pré-requis)
@@ -40,9 +42,11 @@ La suite de ce document explique comment lancer l'application sur sa machine et 
   - [Accès à la base de données distantes](#accès-à-la-base-de-données-distantes)
   - [Créer un dump de base de données](#créer-un-dump-de-base-de-données)
   - [Restaurer un dump de base de données](#restaurer-un-dump-de-base-de-données)
+
 # Développement en local
 
 [Ouvrir dans conteneur Gitpod](https://gitpod.io/#https://github.com/MTES-MCT/potentiel)
+
 ## Mise en place initiale
 
 ### Pré-requis
@@ -198,19 +202,6 @@ Storybook est configuré pour inclure tous les fichiers avec ce suffixe dans le 
 
    _NB: Si le schéma de base de données a changé, il faut relancer `npm run test-db`._
 
-4. Lancer les tests end-to-end
-
-   ```shell
-
-   # Tous, une fois
-   npm run test-e2e
-
-   # Ouvrir le studio cypress (mode conseillé en local)
-   npm run cy:open
-   ```
-
-   _NB: L'application doit être en route (`npm run watch`)._
-
 ## Keycloak
 
 L'authentification de Potentiel se fait via un service autonome, sous la forme d'une instance [Keycloak](https://www.keycloak.org). Cette instance est déployée sur Clever Cloud et est partagée entre les environnements de `staging` et `production`.
@@ -218,8 +209,6 @@ L'authentification de Potentiel se fait via un service autonome, sous la forme d
 Dans les autres environnements (ex: `development`), l'authentification est géré par un servie `fakeAuth`. Il n'est donc pas nécessaire d'avoir une instance keycloak en local ou en démo.
 
 Une documentation plus poussée de keycloak est disponible dans [`docs/KEYCLOAK.md`](/docs/KEYCLOAK.md).
-
-
 
 # Déploiement
 

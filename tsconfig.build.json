@@ -7,10 +7,6 @@
     "**/*.integration.ts",
     "**/*.stories.tsx",
     "**/__tests__/**/*",
-    "e2e-legacy",
-    "e2e-legacy/**/*",
-    "e2e",
-    "e2e/**/*",
     "scripts"
   ]
 }

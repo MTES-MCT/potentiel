@@ -16,8 +16,6 @@
 clevercloud/                  # CRON à déclencher sur clever cloud
 devtools/                     # scripts de génération de code (experimental)
 docs/                         # documentation
-e2e/                          # tests end-to-end
-e2e-legacy/                   # tests end-to-end legacy (sont toujours valides mais ont vocation être remplacés)
 scripts/                      # scripts qui sont executés soit manuellement, soit par CRON
 src/                          # code source de l'application
   __tests__/                  # utilitaires pour les tests
@@ -98,22 +96,6 @@ Chaque test doit nettoyer la base au début de son lancement, pour être sur qu'
 Si notre test a besoin de données préalablement au test (par exemple, si on veut tester une mise à jour), alors on crée ces fausses données au début du test.
 
 Les tests d'intégration permettent également de détecter des régressions. Si par exemple, le schéma de base de données change, il est possible que ça casse des requêtes sur celle-ci. Ce sont les tests d'intégration qui le réveleront.
-
-### Les tests end-to-end (e2e)
-
-Les différentes briques de l'application (use-case, queries, updates) sont testées via des tests unitaires ou d'intégration. Les tests end-to-end sont effectués sur l'application lancée en mode réel et permettent donc de voir que tout est bien branché ensemble (notamment les routes sur les use-case, etc.).
-
-Les tests end-to-end utilisent `cypress`. Ils se situent dans les dossier racines `e2e/tests` ou `e2e-legacy/integration` et terminent en `.test.js`.
-La raison pour ces deux dossiers est historique. Nous avons commencé par écrire des tests en mode BDD avec cucumber mais ce mode d'écriture a rendu les choses plus compliquées et n'a pas apporté beaucoup de valeur (le support n'a pas obtenu d'intérêt de la part de l'équipe métier). Ces tests historiques sont situés dans le dossier `e2e-legacy`. Ils ne sont pas obsolètes et doivent donc passer mais nous n'écrirons pas de nouveaux tests dans ce style et ce dossier.
-Les nouveaux tests e2e doivent être créés dans le dossier `e2e` et utiliser le style normal de cypress.
-
-Ce sont des tests qui ouvrent un navigateur et simulent un comportement humain (click sur des boutons voire appel à une API publique). C'est pourquoi, il faut lancer l'application en local pour lancer les tests.
-
-Comme les différents cas de figure métier sont testés dans les tests unitaires, il n'est pas nécessaire de les reprendre tous dans les tests end-to-end. On ne reprendra que les "grands" cas, ce qui souvent signifie un "happy-path" (ou succès) et un cas d'erreur. Si le point d'entrée est complexe, on pourra ajouter des tests pour vérifier les zones d'ombre (à l'appréciation du développeur). Encore un fois, on veut surtout vérifier que tout est bien cablé.
-
-Les tests e2e utilisent une vraie db mais doivent être indépendants les uns des autres. Il est donc impératif de vider la base au début de chaque test-case.
-Pour rajouter des données de test, on fait appel à des point d'API spécialement ajoutés. Ceux-ci se situent dans le dossier `src/__tests__/e2e`. Ils ne sont rajoutés au serveur que si `NODE_ENV=test`.
-Pour appeler ces points d'API, on peut utiliser `cy.request` ou bien, pour éviter les répétitions, rajouter une commande cypress dans `e2e/support/commands.js`.
 
 ## Ecrire une query
 

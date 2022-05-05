@@ -7,7 +7,6 @@ import morgan from 'morgan'
 import { isDevEnv, registerAuth } from './config'
 import { v1Router } from './controllers'
 import { logger } from './core/utils'
-import { testRouter } from './__tests__/e2e'
 
 dotenv.config()
 
@@ -76,10 +75,6 @@ export async function makeServer(port: number, sessionSecret: string) {
 
     app.use(v1Router)
     app.use(express.static(path.join(__dirname, 'public')))
-
-    if (process.env.NODE_ENV === 'test') {
-      app.use(testRouter)
-    }
 
     app.use((error, req, res, next) => {
       logger.error(error)
