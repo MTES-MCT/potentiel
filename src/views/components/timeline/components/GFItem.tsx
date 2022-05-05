@@ -205,8 +205,7 @@ const CancelDeposit = ({ projectId }: CancelDepositProps) => (
 type NotUploadedProps = ComponentProps
 
 const NotUploaded = ({ role, project }: NotUploadedProps) => {
-  const isPorteurProjet = role === 'porteur-projet'
-  const hasRightsToUpload = isPorteurProjet || role === 'dreal'
+  const hasRightsToUpload = role === 'porteur-projet' || role === 'dreal'
   return (
     <>
       <CurrentIcon />
@@ -292,21 +291,17 @@ const UploadForm = ({ projectId, role }: UploadFormProps) => {
             <input type="date" name="expirationDate" id="expirationDate" required />
           </div>
           <div>
-            <label htmlFor="file">Attestation{isPorteur && <span>**</span>}</label>
+            <label htmlFor="file">Attestation**</label>
             <input type="file" name="file" id="file" required />
-            {isPorteur && (
-              <>
-                <p className="m-0 mt-3 italic">
-                  *La garantie doit avoir une durée couvrant le projet jusqu’à 6 mois après la date
-                  d’Achèvement de l’installation ou être renouvelée régulièrement afin d’assurer une
-                  telle couverture temporelle.
-                </p>
-                <p className="m-0 mt-3 italic">
-                  **Il s'agit de l'attestation soumise à la candidature. Cet envoi ne fera pas
-                  l'objet d'une nouvelle validation.
-                </p>
-              </>
-            )}
+            <p className="m-0 mt-3 italic">
+              *La garantie doit avoir une durée couvrant le projet jusqu’à 6 mois après la date
+              d’Achèvement de l’installation ou être renouvelée régulièrement afin d’assurer une
+              telle couverture temporelle.
+            </p>
+            <p className="m-0 mt-3 italic">
+              **Il s'agit de l'attestation soumise à la candidature. Cet envoi ne fera pas l'objet
+              d'une nouvelle validation.
+            </p>
           </div>
           <div>
             <button className="button" type="submit" name="submit">
