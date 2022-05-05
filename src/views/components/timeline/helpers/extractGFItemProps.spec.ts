@@ -216,7 +216,6 @@ describe('extractGFitemProps', () => {
           url: '/telechargement/file-id/fichier/file-name',
           role: 'porteur-projet',
           expirationDate: new Date('2025-01-09').getTime(),
-          uploadedByRole: 'porteur-projet',
         })
       })
       describe('when there is no file', () => {
@@ -241,7 +240,6 @@ describe('extractGFitemProps', () => {
             status: 'pending-validation',
             url: undefined,
             role: 'porteur-projet',
-            uploadedByRole: 'porteur-projet',
           })
         })
       })
@@ -336,7 +334,6 @@ describe('extractGFitemProps', () => {
           status: 'pending-validation',
           role: 'porteur-projet',
           url: '/telechargement/file-id/fichier/file-name',
-          uploadedByRole: 'porteur-projet',
         })
       })
     })
@@ -372,7 +369,6 @@ describe('extractGFitemProps', () => {
           status: 'validated',
           role: 'porteur-projet',
           url: '/telechargement/file-id/fichier/file-name',
-          uploadedByRole: 'porteur-projet',
         })
       })
     })
@@ -410,7 +406,6 @@ describe('extractGFitemProps', () => {
           status: 'pending-validation',
           role: 'porteur-projet',
           url: expect.anything(),
-          uploadedByRole: 'porteur-projet',
         })
       })
     })
@@ -479,7 +474,6 @@ describe('extractGFitemProps', () => {
           status: 'pending-validation',
           role: 'porteur-projet',
           url: '/telechargement/file-id/fichier/file-name',
-          uploadedByRole: 'porteur-projet',
         })
       })
     })
@@ -508,7 +502,6 @@ describe('extractGFitemProps', () => {
           status: 'validated',
           role: 'porteur-projet',
           url: '/telechargement/file-id/fichier/file-name',
-          uploadedByRole: 'porteur-projet',
         })
       })
     })
@@ -546,7 +539,6 @@ describe('extractGFitemProps', () => {
           status: 'pending-validation',
           role: 'porteur-projet',
           url: expect.anything(),
-          uploadedByRole: 'porteur-projet',
         })
       })
     })
