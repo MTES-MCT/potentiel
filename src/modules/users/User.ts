@@ -1,12 +1,16 @@
 import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '@core/domain'
 import { err, ok, Result } from '@core/utils'
-import { EntityNotFoundError } from '../shared'
+import { EmailAlreadyUsedError, EntityNotFoundError } from '../shared'
 import { UserCreated } from './events'
 import { UserRole } from './UserRoles'
 
 export interface User extends EventStoreAggregate {
   getUserId: () => Result<string, EntityNotFoundError>
-  create: (args: { fullName?: string; role: UserRole; createdBy?: string }) => Result<null, never>
+  create: (args: {
+    fullName?: string
+    role: UserRole
+    createdBy?: string
+  }) => Result<null, EmailAlreadyUsedError>
 }
 
 type UserProps = {
@@ -18,7 +22,7 @@ type UserProps = {
 export const makeUser = (args: {
   id: UniqueEntityID
   events?: DomainEvent[]
-}): Result<User, EntityNotFoundError> => {
+}): Result<User, EntityNotFoundError | EmailAlreadyUsedError> => {
   const { events, id } = args
 
   const pendingEvents: DomainEvent[] = []
@@ -76,6 +80,8 @@ export const makeUser = (args: {
             },
           })
         )
+      } else {
+        return err(new EmailAlreadyUsedError())
       }
 
       return ok(null)

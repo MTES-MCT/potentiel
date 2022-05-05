@@ -65,7 +65,7 @@
                 <#if realm.password && realm.registrationAllowed && !registrationDisabled??>
                     <div id="kc-registration-container" style="margin-top: 30px">
                         <div id="kc-registration">
-                            <span>${msg("noAccount")} <a tabindex="6" href="${url.registrationUrl}">Je crée mon compte Potentiel</a></span>
+                            <span>${msg("noAccount")} <a tabindex="6" href="${properties.potentielUrl}/signup">Je crée mon compte Potentiel</a></span>
                         </div>
                     </div>
                 </#if>

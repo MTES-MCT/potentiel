@@ -12,7 +12,7 @@ export const PageLayout =
   (props: T) => {
     return (
       <>
-        <Header {...props} />
+        <Header {...{ user: props.request.user }} />
         <Component {...props} />
         <Footer />
       </>

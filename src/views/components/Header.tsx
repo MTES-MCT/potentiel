@@ -8,14 +8,15 @@ import { RiLogoutBoxLine } from '@react-icons/all-files/ri/RiLogoutBoxLine'
 import { RiMenuLine } from '@react-icons/all-files/ri/RiMenuLine'
 import { RiQuestionLine } from '@react-icons/all-files/ri/RiQuestionLine'
 import { RiUserLine } from '@react-icons/all-files/ri/RiUserLine'
+import { RiLockLine } from '@react-icons/all-files/ri/RiLockLine'
 
 type HeaderProps = {
-  request: Request
+  user?: Request['user']
   children?: React.ReactNode
 }
 
 const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
-  request,
+  user,
   children,
 }: HeaderProps) => {
   const menuItems = React.Children.map(children, (child: React.ReactElement) => {
@@ -38,7 +39,7 @@ const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
               <Logo />
               <Title />
               <div className={`flex flex-row ml-auto ${menuItems && 'mr-4'}`}>
-                <QuickAccess {...request} />
+                <QuickAccess {...{ user }} />
               </div>
             </section>
           </div>
@@ -80,7 +81,7 @@ const Title = () => (
 )
 
 type QuickAccessProps = {
-  user: Request['user']
+  user?: Request['user']
 }
 const QuickAccess = ({ user }: QuickAccessProps) => (
   <ul className="flex flex-row text-xl lg:text-sm font-normal list-none p-0 m-0 lg:mr-0">
@@ -97,9 +98,10 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
               <span className="hidden lg:flex pt-0.5 mx-1">{user.fullName}</span>
             </a>
           ) : (
-            <span 
-              className="hidden lg:flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid" 
-              style={{ color: 'var(--text-default-grey)' }}>
+            <span
+              className="hidden lg:flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
+              style={{ color: 'var(--text-default-grey)' }}
+            >
               <RiUserLine />
               <span className="pt-0.5 mx-1">{user.fullName}</span>
             </span>
@@ -117,16 +119,28 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
         </li>
       </>
     ) : (
-      <li className="flex items-center">
-        <a
-          className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
-          href={routes.LOGIN}
-          style={{ color: `#000091` }}
-        >
-          <RiAccountCircleLine />
-          <span className="hidden lg:block pt-0.5 mx-1">M'identifier</span>
-        </a>
-      </li>
+      <>
+        <li className="flex items-center">
+          <a
+            className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
+            href={routes.SIGNUP}
+            style={{ color: `#000091` }}
+          >
+            <RiAccountCircleLine />
+            <span className="hidden lg:block pt-0.5 mx-1">M'inscrire</span>
+          </a>
+        </li>
+        <li className="flex items-center">
+          <a
+            className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
+            href={routes.LOGIN}
+            style={{ color: `#000091` }}
+          >
+            <RiLockLine />
+            <span className="hidden lg:block pt-0.5 mx-1">M'identifier</span>
+          </a>
+        </li>
+      </>
     )}
     <li className="flex items-center">
       <a
