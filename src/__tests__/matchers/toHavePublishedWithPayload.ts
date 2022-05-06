@@ -13,6 +13,19 @@ expect.extend({
     eventClass: Constructor<DomainEvent> & HasType,
     expectedPayload: any
   ) {
+    if (!eventBus.publish.mock.calls.length) {
+      return {
+        message: () => {
+          return `
+Expected the eventBus to have published an event of type ${this.utils.printExpected(
+            eventClass.type
+          )}
+Instead, the eventBus did not trigger.`
+        },
+        pass: false,
+      }
+    }
+
     const eventsOfClass = eventBus.publish.mock.calls
       .map((call) => call[0])
       .filter((event) => event.type === eventClass.type)
@@ -25,7 +38,7 @@ expect.extend({
 Expected the eventBus to have published an event of type ${this.utils.printExpected(
             eventClass.type
           )}
-Instead, the eventBus triggered ${this.utils.printReceived(emittedEventTypes.join(', '))}`
+Instead, the eventBus triggered ${this.utils.printReceived(emittedEventTypes.join(', '))}.`
         },
         pass: false,
       }
