@@ -1,6 +1,7 @@
 import { EventBus } from '@core/domain'
 import {
   EDFContractAutomaticallyLinkedToProject,
+  EDFContractHasMultipleMatches,
   EDFContractUpdated,
   EDFFileUploaded,
 } from '../events'
@@ -63,11 +64,12 @@ export const makeImportEdfData =
     for (const line of linesGoodContract) {
       // Try to find a match by numero contrat
       const contractDataFromLine = extractContractData(line)
+      const { type, dateSignature, dateEffet, duree, numero } = contractDataFromLine
 
-      const projectForNumeroContrat = searchIndex.findByNumeroContrat(contractDataFromLine.numero)
+      const projectForNumeroContrat = searchIndex.findByNumeroContrat(numero)
 
       if (projectForNumeroContrat) {
-        const { projectId, numero } = projectForNumeroContrat
+        const { projectId } = projectForNumeroContrat
 
         const changes = shallowDelta(projectForNumeroContrat, contractDataFromLine)
 
@@ -86,21 +88,29 @@ export const makeImportEdfData =
         continue
       }
 
-      const results = searchIndex.search(line)
+      const matches = searchIndex.search(line)
 
-      if (!results.length) {
-        // emit EDFContractHasNoCandidates
+      if (!matches.length) {
+        // no match
         continue
       }
 
-      if (results.length > 1) {
-        // emit EDFContractHasMultipleCandidates
+      if (matches.length > 1) {
+        // multiple matches
+        await publish(
+          new EDFContractHasMultipleMatches({
+            payload: {
+              numero,
+              matches,
+              rawValues: line,
+            },
+          })
+        )
         continue
       }
 
       // only one match
-      const { projectId, score } = results[0]
-      const { type, dateSignature, dateEffet, duree, numero } = contractDataFromLine
+      const { projectId, score } = matches[0]
       await publish(
         new EDFContractAutomaticallyLinkedToProject({
           payload: {

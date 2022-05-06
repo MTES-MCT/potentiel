@@ -4,6 +4,7 @@ import {
   EDFFileUploaded,
   EDFContractUpdated,
   EDFContractAutomaticallyLinkedToProject,
+  EDFContractHasMultipleMatches,
 } from '../events'
 import { AO_CODES, makeImportEdfData } from './importEdfData'
 
@@ -184,6 +185,39 @@ describe('importEdfData', () => {
           dateSignature,
           dateEffet,
           duree,
+          rawValues: line,
+        })
+      })
+    })
+
+    describe('when the search returns multiple matches', () => {
+      const matches = [
+        {
+          projectId: '1',
+          score: 1,
+        },
+        {
+          projectId: '2',
+          score: 2,
+        },
+      ]
+      const search = jest.fn((line: any) => matches)
+      const importEdfData = makeImportEdfData({
+        publish,
+        parseCsvFile,
+        makeSearchIndex: jest.fn(() =>
+          Promise.resolve({
+            findByNumeroContrat,
+            search,
+          })
+        ),
+      })
+
+      it('should emit EDFContractAutomaticallyLinkedToProject', async () => {
+        await importEdfData(fakeEvent)
+        expect({ publish }).toHavePublishedWithPayload(EDFContractHasMultipleMatches, {
+          numero: numeroContratEDF,
+          matches,
           rawValues: line,
         })
       })

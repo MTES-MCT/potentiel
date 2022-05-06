@@ -1,3 +1,4 @@
-export * from './EDFContractUpdated'
-export * from './EDFFileUploaded'
-export * from './EDFContractAutomaticallyLinkedToProject'
+export * from './EDFContractAutomaticallyLinkedToProject';
+export * from './EDFContractHasMultipleMatches';
+export * from './EDFContractUpdated';
+export * from './EDFFileUploaded';
