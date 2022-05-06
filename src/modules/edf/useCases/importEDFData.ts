@@ -2,6 +2,7 @@ import { EventBus } from '@core/domain'
 import {
   EDFContractAutomaticallyLinkedToProject,
   EDFContractHasMultipleMatches,
+  EDFContractHasNoMatch,
   EDFContractUpdated,
   EDFFileUploaded,
 } from '../events'
@@ -92,6 +93,14 @@ export const makeImportEdfData =
 
       if (!matches.length) {
         // no match
+        await publish(
+          new EDFContractHasNoMatch({
+            payload: {
+              numero,
+              rawValues: line,
+            },
+          })
+        )
         continue
       }
 

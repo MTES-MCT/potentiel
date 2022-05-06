@@ -5,6 +5,7 @@ import {
   EDFContractUpdated,
   EDFContractAutomaticallyLinkedToProject,
   EDFContractHasMultipleMatches,
+  EDFContractHasNoMatch,
 } from '../events'
 import { AO_CODES, makeImportEdfData } from './importEdfData'
 
@@ -138,9 +139,8 @@ describe('importEdfData', () => {
     const parseCsvFile = jest.fn(() => Promise.resolve([line]))
     const findByNumeroContrat = jest.fn((numeroContratEDF: string) => null)
 
-    const publish = jest.fn((event: DomainEvent) => okAsync(null))
-
     it('should call search on the line', async () => {
+      const publish = jest.fn((event: DomainEvent) => okAsync(null))
       const search = jest.fn((line: any) => [])
       const importEdfData = makeImportEdfData({
         publish,
@@ -159,6 +159,7 @@ describe('importEdfData', () => {
     })
 
     describe('when the search returns a single result', () => {
+      const publish = jest.fn((event: DomainEvent) => okAsync(null))
       const score = 123
       const result = {
         projectId,
@@ -202,6 +203,7 @@ describe('importEdfData', () => {
         },
       ]
       const search = jest.fn((line: any) => matches)
+      const publish = jest.fn((event: DomainEvent) => okAsync(null))
       const importEdfData = makeImportEdfData({
         publish,
         parseCsvFile,
@@ -218,6 +220,29 @@ describe('importEdfData', () => {
         expect({ publish }).toHavePublishedWithPayload(EDFContractHasMultipleMatches, {
           numero: numeroContratEDF,
           matches,
+          rawValues: line,
+        })
+      })
+    })
+
+    describe('when the search returns no matches', () => {
+      const search = jest.fn((line: any) => [])
+      const publish = jest.fn((event: DomainEvent) => okAsync(null))
+      const importEdfData = makeImportEdfData({
+        publish,
+        parseCsvFile,
+        makeSearchIndex: jest.fn(() =>
+          Promise.resolve({
+            findByNumeroContrat,
+            search,
+          })
+        ),
+      })
+
+      it('should emit EDFContractHasNoMatch', async () => {
+        await importEdfData(fakeEvent)
+        expect({ publish }).toHavePublishedWithPayload(EDFContractHasNoMatch, {
+          numero: numeroContratEDF,
           rawValues: line,
         })
       })
