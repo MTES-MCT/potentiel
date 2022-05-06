@@ -1,7 +1,3 @@
-import remove from 'lodash/remove'
-import moment from 'moment-timezone'
-import sanitize from 'sanitize-filename'
-import { BuildProjectIdentifier, Fournisseur } from '.'
 import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '@core/domain'
 import {
   err,
@@ -13,6 +9,12 @@ import {
 } from '@core/utils'
 import { AppelOffre, CertificateTemplate, ProjectAppelOffre, Technologie, User } from '@entities'
 import { isNotifiedPeriode } from '@entities/periode'
+import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre'
+import remove from 'lodash/remove'
+import moment from 'moment-timezone'
+import sanitize from 'sanitize-filename'
+import { BuildProjectIdentifier, Fournisseur } from '.'
+import { shallowDelta } from '../../helpers/shallowDelta'
 import {
   EntityNotFoundError,
   HeterogeneousHistoryError,
@@ -33,22 +35,29 @@ import {
   NoGFCertificateToUpdateError,
 } from './errors'
 import {
+  CovidDelayGranted,
   LegacyProjectSourced,
   ProjectAbandoned,
   ProjectActionnaireUpdated,
   ProjectCertificateGenerated,
+  ProjectCertificateObsolete,
   ProjectCertificateRegenerated,
   ProjectCertificateUpdated,
   ProjectClasseGranted,
+  ProjectCompletionDueDateCancelled,
   ProjectCompletionDueDateSet,
   ProjectDataCorrected,
   ProjectDataCorrectedPayload,
+  ProjectDCRDueDateCancelled,
   ProjectDCRDueDateSet,
   ProjectFournisseursUpdated,
+  ProjectGFDueDateCancelled,
   ProjectGFDueDateSet,
   ProjectGFInvalidated,
   ProjectGFRemoved,
   ProjectGFSubmitted,
+  ProjectGFUploaded,
+  ProjectGFWithdrawn,
   ProjectImported,
   ProjectImportedPayload,
   ProjectNotificationDateSet,
@@ -56,13 +65,6 @@ import {
   ProjectProducteurUpdated,
   ProjectPuissanceUpdated,
   ProjectReimported,
-  ProjectGFUploaded,
-  ProjectGFWithdrawn,
-  ProjectGFDueDateCancelled,
-  ProjectCompletionDueDateCancelled,
-  ProjectDCRDueDateCancelled,
-  ProjectCertificateObsolete,
-  CovidDelayGranted,
   DemandeDelaiSignaled,
   DemandeAbandonSignaled,
   DemandeRecoursSignaled,
@@ -70,7 +72,6 @@ import {
   DateEchéanceGFAjoutée,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
-import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre'
 
 export interface Project extends EventStoreAggregate {
   notify: (
@@ -1328,12 +1329,11 @@ export const makeProject = (args: {
   }
 
   function _computeDelta(data) {
-    const mainChanges = !!data && _lowLevelDelta(props.data || {}, { ...data, details: undefined })
+    const mainChanges = !!data && shallowDelta(props.data || {}, { ...data, details: undefined })
 
     const changes = { ...mainChanges } as Partial<ProjectDataProps>
 
-    const detailsChanges =
-      !!data?.details && _lowLevelDelta(props.data?.details || {}, data.details)
+    const detailsChanges = !!data?.details && shallowDelta(props.data?.details || {}, data.details)
 
     if (detailsChanges) {
       changes.details = detailsChanges
@@ -1346,28 +1346,6 @@ export const makeProject = (args: {
     }
 
     return changes
-  }
-
-  function _lowLevelDelta(previousData, newData) {
-    const changes = Object.entries(newData).reduce((delta, [correctionKey, correctionValue]) => {
-      // If the specific property is missing from previousData
-      // or it's value has changed, add it to the delta
-      if (_isValueChanged(correctionKey, correctionValue, previousData)) {
-        delta[correctionKey] = correctionValue
-      }
-
-      return delta
-    }, {})
-
-    return Object.keys(changes).length ? changes : undefined
-  }
-
-  function _isValueChanged(key, newValue, data) {
-    return (
-      typeof newValue !== 'undefined' &&
-      data &&
-      (typeof data[key] === 'undefined' || data[key] !== newValue)
-    )
   }
 
   function _publishNewNotificationDate(payload: ProjectNotificationDateSet['payload']) {
