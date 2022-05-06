@@ -1,5 +1,9 @@
 import { EventBus } from '@core/domain'
-import { EDFContractUpdated, EDFFileUploaded } from '../events'
+import {
+  EDFContractAutomaticallyLinkedToProject,
+  EDFContractUpdated,
+  EDFFileUploaded,
+} from '../events'
 
 type SearchResult = {
   projectId: string
@@ -58,26 +62,21 @@ export const makeImportEdfData =
 
     for (const line of linesGoodContract) {
       // Try to find a match by numero contrat
-      const numeroContratEDF = line['Contrat - Numéro']
+      const contractDataFromLine = extractContractData(line)
 
-      const projectForNumeroContrat = searchIndex.findByNumeroContrat(numeroContratEDF)
+      const projectForNumeroContrat = searchIndex.findByNumeroContrat(contractDataFromLine.numero)
 
       if (projectForNumeroContrat) {
-        const { projectId, numero, ...contractData } = projectForNumeroContrat
+        const { projectId, numero } = projectForNumeroContrat
 
-        const changes = shallowDelta(contractData, {
-          type: line['Contrat - Type (code)'],
-          dateEffet: line["Contrat - Date d'effet"],
-          dateSignature: line['Contrat - Date de signature'],
-          duree: line['Contrat - Durée'],
-        })
+        const changes = shallowDelta(projectForNumeroContrat, contractDataFromLine)
 
         // grab info for this contract
         if (changes) {
           await publish(
             new EDFContractUpdated({
               payload: {
-                numero: numeroContratEDF,
+                numero,
                 projectId,
                 ...changes,
               },
@@ -99,7 +98,33 @@ export const makeImportEdfData =
         continue
       }
 
-      // emit EDFContractAutomaticallyLinkedToProject
+      // only one match
+      const { projectId, score } = results[0]
+      const { type, dateSignature, dateEffet, duree, numero } = contractDataFromLine
+      await publish(
+        new EDFContractAutomaticallyLinkedToProject({
+          payload: {
+            projectId,
+            score,
+            type,
+            numero,
+            dateEffet,
+            dateSignature,
+            duree,
+            rawValues: line,
+          },
+        })
+      )
     }
   }
+
+function extractContractData(line: Record<string, string>) {
+  return {
+    numero: line['Contrat - Numéro'],
+    type: line['Contrat - Type (code)'],
+    dateEffet: line["Contrat - Date d'effet"],
+    dateSignature: line['Contrat - Date de signature'],
+    duree: line['Contrat - Durée'],
+  }
+}
 import { EDFContractUpdated, EDFFileUploaded } from '../events'

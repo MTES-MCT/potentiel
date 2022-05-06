@@ -1,6 +1,10 @@
 import { okAsync } from 'neverthrow'
 import { DomainEvent } from '../../../core/domain'
-import { EDFFileUploaded, EDFContractUpdated } from '../events'
+import {
+  EDFFileUploaded,
+  EDFContractUpdated,
+  EDFContractAutomaticallyLinkedToProject,
+} from '../events'
 import { AO_CODES, makeImportEdfData } from './importEdfData'
 
 describe('importEdfData', () => {
@@ -27,12 +31,11 @@ describe('importEdfData', () => {
 
     expect(parseCsvFile).toHaveBeenCalledWith(fileId)
   })
+  const dateEffet = '1/1/20'
+  const dateSignature = '3/23/21'
+  const duree = '2222'
 
-  describe("when the line's numero contrat is linked to a project", () => {
-    const dateEffet = '1/1/20'
-    const dateSignature = '3/23/21'
-    const duree = '2222'
-
+  describe('when the numero contrat is linked to a project', () => {
     describe('when the contract data has changed', () => {
       const parseCsvFile = jest.fn(() =>
         Promise.resolve([
@@ -117,6 +120,72 @@ describe('importEdfData', () => {
         await importEdfData(fakeEvent)
 
         expect(publish).not.toHaveBeenCalled()
+      })
+    })
+  })
+
+  describe('when the numero contrat is not linked to a project', () => {
+    const line = {
+      'Contrat - Type (code)': typeContrat,
+      'Contrat - Numéro': numeroContratEDF,
+      "Contrat - Date d'effet": dateEffet,
+      'Contrat - Date de signature': dateSignature,
+      'Contrat - Durée': duree,
+      param1: 'value1',
+      param2: 'value2',
+    }
+    const parseCsvFile = jest.fn(() => Promise.resolve([line]))
+    const findByNumeroContrat = jest.fn((numeroContratEDF: string) => null)
+
+    const publish = jest.fn((event: DomainEvent) => okAsync(null))
+
+    it('should call search on the line', async () => {
+      const search = jest.fn((line: any) => [])
+      const importEdfData = makeImportEdfData({
+        publish,
+        parseCsvFile,
+        makeSearchIndex: jest.fn(() =>
+          Promise.resolve({
+            findByNumeroContrat,
+            search,
+          })
+        ),
+      })
+
+      await importEdfData(fakeEvent)
+
+      expect(search).toHaveBeenCalledWith(line)
+    })
+
+    describe('when the search returns a single result', () => {
+      const score = 123
+      const result = {
+        projectId,
+        score,
+      }
+      const search = jest.fn((line: any) => [result])
+      const importEdfData = makeImportEdfData({
+        publish,
+        parseCsvFile,
+        makeSearchIndex: jest.fn(() =>
+          Promise.resolve({
+            findByNumeroContrat,
+            search,
+          })
+        ),
+      })
+
+      it('should emit EDFContractAutomaticallyLinkedToProject', async () => {
+        await importEdfData(fakeEvent)
+        expect({ publish }).toHavePublishedWithPayload(EDFContractAutomaticallyLinkedToProject, {
+          numero: numeroContratEDF,
+          projectId,
+          type: typeContrat,
+          dateSignature,
+          dateEffet,
+          duree,
+          rawValues: line,
+        })
       })
     })
   })
