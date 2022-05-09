@@ -14,8 +14,11 @@ import {
   ProjectNotified,
 } from './events'
 import { makeProject } from './Project'
-import { getDelaiDeRealisation, makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
-import { ProjectCannotBeUpdatedIfUnnotifiedError } from './errors'
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
+import {
+  ProjectCannotBeUpdatedIfUnnotifiedError,
+  AttachmentRequiredForDemandeRecoursAcceptedError,
+} from './errors'
 import { UnwrapForTest as OldUnwrapForTest } from '../../types'
 import makeFakeUser from '../../__tests__/fixtures/user'
 import { makeUser } from '@entities'
@@ -243,6 +246,31 @@ describe('Project.signalerDemandeRecours()', () => {
             },
           }),
         ]
+
+        describe(`when it's accepted BUT without an attachment`, () => {
+          it('should return an error', () => {
+            const project = UnwrapForTest(
+              makeProject({
+                projectId,
+                history: fakeHistory,
+                getProjectAppelOffre,
+                buildProjectIdentifier: () => '',
+              })
+            )
+
+            const res = project.signalerDemandeRecours({
+              decidedOn: new Date('2022-04-12'),
+              status: 'acceptée',
+              notes: 'notes',
+              signaledBy: fakeUser,
+            })
+
+            expect(res.isErr()).toEqual(true)
+            if (res.isErr()) {
+              expect(res.error).toBeInstanceOf(AttachmentRequiredForDemandeRecoursAcceptedError)
+            }
+          })
+        })
 
         it('should emit a DemandeRecoursSignaled event', () => {
           const project = UnwrapForTest(

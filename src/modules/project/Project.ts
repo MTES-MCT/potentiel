@@ -21,6 +21,7 @@ import {
 } from '../shared'
 import { ProjectDataForCertificate } from './dtos'
 import {
+  AttachmentRequiredForDemandeRecoursAcceptedError,
   EliminatedProjectCannotBeAbandonnedError,
   GFCertificateHasAlreadyBeenSentError,
   IllegalProjectStateError,
@@ -856,6 +857,10 @@ export const makeProject = (args: {
       const { decidedOn, status, notes, attachment, signaledBy } = args
       if (!_isNotified()) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+      }
+
+      if (status === 'acceptée' && !attachment) {
+        return err(new AttachmentRequiredForDemandeRecoursAcceptedError())
       }
 
       _publishEvent(
