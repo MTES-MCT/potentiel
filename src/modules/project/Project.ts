@@ -62,6 +62,7 @@ import {
   CovidDelayGranted,
   DemandeDelaiSignaled,
   DemandeAbandonSignaled,
+  DemandeRecoursSignaled,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre'
@@ -151,6 +152,13 @@ export interface Project extends EventStoreAggregate {
     )
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
   signalerDemandeAbandon: (args: {
+    decidedOn: Date
+    notes?: string
+    attachment?: { id: string; name: string }
+    signaledBy: User
+    status: 'acceptée' | 'rejetée'
+  }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
+  signalerDemandeRecours: (args: {
     decidedOn: Date
     notes?: string
     attachment?: { id: string; name: string }
@@ -841,6 +849,27 @@ export const makeProject = (args: {
           })
         )
       }
+
+      return ok(null)
+    },
+    signalerDemandeRecours: function (args) {
+      const { decidedOn, status, notes, attachment, signaledBy } = args
+      if (!_isNotified()) {
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+      }
+
+      _publishEvent(
+        new DemandeRecoursSignaled({
+          payload: {
+            projectId: props.projectId.toString(),
+            decidedOn: decidedOn.getTime(),
+            notes,
+            attachments: attachment ? [attachment] : [],
+            signaledBy: signaledBy.id,
+            status,
+          },
+        })
+      )
 
       return ok(null)
     },
