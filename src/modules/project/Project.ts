@@ -878,8 +878,8 @@ export const makeProject = (args: {
 
       if (status === 'acceptée' && !props.isClasse) {
         this.grantClasse(signaledBy)
-        attachment && this.updateCertificate(signaledBy, attachment.id)
-        this.setNotificationDate(signaledBy, decidedOn.getTime())
+          .andThen(() => attachment && this.updateCertificate(signaledBy, attachment.id))
+          .andThen(() => this.setNotificationDate(signaledBy, decidedOn.getTime()))
       }
 
       return ok(null)
