@@ -31,6 +31,7 @@ import {
   makeUpdateStepStatus,
   makeUploadGF,
   makeWithdrawGF,
+  makeSignalerDemandeRecours,
 } from '@modules/project'
 import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '@modules/users'
 import { buildCertificate } from '@views/certificates'
@@ -252,6 +253,12 @@ export const signalerDemandeDelai = makeSignalerDemandeDelai({
 })
 
 export const signalerDemandeAbandon = makeSignalerDemandeAbandon({
+  fileRepo,
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+  projectRepo,
+})
+
+export const signalerDemandeRecours = makeSignalerDemandeRecours({
   fileRepo,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
