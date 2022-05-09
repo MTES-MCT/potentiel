@@ -172,6 +172,10 @@ export const MakeProjectModel = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      contratEDF: {
+        type: DataTypes.JSON,
+        allowNull: true,
+      },
     },
     {
       timestamps: true,
