@@ -161,9 +161,9 @@ export interface Project extends EventStoreAggregate {
   signalerDemandeRecours: (args: {
     decidedOn: Date
     notes?: string
-    attachment?: { id: string; name: string }
     signaledBy: User
     status: 'acceptée' | 'rejetée'
+    attachment?: { id: string; name: string }
   }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
   readonly shouldCertificateBeGenerated: boolean
   readonly appelOffre?: ProjectAppelOffre
@@ -870,6 +870,12 @@ export const makeProject = (args: {
           },
         })
       )
+
+      if (status === 'acceptée' && !props.isClasse) {
+        this.grantClasse(signaledBy)
+        attachment && this.updateCertificate(signaledBy, attachment.id)
+        this.setNotificationDate(signaledBy, decidedOn.getTime())
+      }
 
       return ok(null)
     },
