@@ -221,7 +221,7 @@ const NotUploaded = ({ role, project }: NotUploadedProps) => {
 type UploadedProps = ComponentProps & { status: 'uploaded' }
 
 const Uploaded = ({ date, url, role, project, expirationDate, uploadedByRole }: UploadedProps) => {
-  const canWithdrawGF = role === uploadedByRole
+  const canWithdrawGF = role === 'porteur-projet' || role === 'dreal'
 
   return (
     <>
