@@ -9,6 +9,7 @@ import { v1Router } from '../v1Router'
 import * as yup from 'yup'
 import { errorResponse, RequestValidationError, validateRequestBody } from '../helpers'
 import { logger } from '@core/utils'
+import { EmailAlreadyUsedError } from '../../modules/shared/errors'
 
 const requestBodySchema = yup.object({
   role: yup
@@ -65,6 +66,15 @@ v1Router.post(
               addQueryParams(routes.ADMIN_DREAL_LIST, {
                 ...request.body,
                 ...error.errors,
+              })
+            )
+          }
+          if (error instanceof EmailAlreadyUsedError) {
+            return response.redirect(
+              addQueryParams(routes.ADMIN_DREAL_LIST, {
+                ...request.body,
+                error:
+                  "L'invitation n'a pas pu être envoyée car l'adresse email est déjà associée à un compte Potentiel.",
               })
             )
           }
