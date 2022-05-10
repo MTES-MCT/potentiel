@@ -38,7 +38,7 @@ export default function DREALList({ request, users }: DREALListProps) {
             ''
           )}
           <form
-            action={ROUTES.ADMIN_INVITE_USER_ACTION}
+            action={ROUTES.ADMIN_INVITE_DREAL_USER_ACTION}
             method="post"
             style={{ maxWidth: 'auto', margin: '0 0 15px 0' }}
           >
