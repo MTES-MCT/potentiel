@@ -69,7 +69,7 @@ v1Router.post(
         (error) => {
           if (error instanceof RequestValidationError) {
             return response.redirect(
-              addQueryParams(routes.ADMIN_SIGNALER_DEMANDE_ABANDON_PAGE(request.body.projectId), {
+              addQueryParams(routes.ADMIN_SIGNALER_DEMANDE_RECOURS_PAGE(request.body.projectId), {
                 ...request.body,
                 ...error.errors,
               })
