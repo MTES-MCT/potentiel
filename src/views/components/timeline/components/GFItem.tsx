@@ -221,7 +221,7 @@ const NotUploaded = ({ role, project }: NotUploadedProps) => {
 type UploadedProps = ComponentProps & { status: 'uploaded' }
 
 const Uploaded = ({ date, url, role, project, expirationDate, uploadedByRole }: UploadedProps) => {
-  const isPorteurProjet = role === 'porteur-projet'
+  const canWithdrawGF = role === 'porteur-projet' || role === 'dreal'
 
   return (
     <>
@@ -243,7 +243,7 @@ const Uploaded = ({ date, url, role, project, expirationDate, uploadedByRole }: 
             <span>Pièce-jointe introuvable</span>
           )}
         </div>
-        {isPorteurProjet && (
+        {canWithdrawGF && (
           <WithdrawDocument projectId={project.id} uploadedByRole={uploadedByRole} />
         )}
         {uploadedByRole === 'dreal' && (
@@ -285,23 +285,23 @@ const UploadForm = ({ projectId, role }: UploadFormProps) => {
             />
           </div>
           <div>
-            <label htmlFor="expirationDate">
-              Date d'échéance de la garantie{isPorteur && <span>*</span>}
-            </label>
+            <label htmlFor="expirationDate">Date d'échéance de la garantie*</label>
             <input type="date" name="expirationDate" id="expirationDate" required />
           </div>
           <div>
-            <label htmlFor="file">Attestation**</label>
+            <label htmlFor="file">Attestation{isPorteur && <span>**</span>}</label>
             <input type="file" name="file" id="file" required />
             <p className="m-0 mt-3 italic">
               *La garantie doit avoir une durée couvrant le projet jusqu’à 6 mois après la date
               d’Achèvement de l’installation ou être renouvelée régulièrement afin d’assurer une
               telle couverture temporelle.
             </p>
-            <p className="m-0 mt-3 italic">
-              **Il s'agit de l'attestation soumise à la candidature. Cet envoi ne fera pas l'objet
-              d'une nouvelle validation.
-            </p>
+            {isPorteur && (
+              <p className="m-0 mt-3 italic">
+                **Il s'agit de l'attestation soumise à la candidature. Cet envoi ne fera pas l'objet
+                d'une nouvelle validation.
+              </p>
+            )}
           </div>
           <div>
             <button className="button" type="submit" name="submit">
@@ -317,7 +317,7 @@ const UploadForm = ({ projectId, role }: UploadFormProps) => {
 
 type WithdrawDocumentProps = {
   projectId: string
-  uploadedByRole: 'porteur-projet' | 'dreal' | undefined
+  uploadedByRole: 'porteur-projet' | 'dreal'
 }
 const WithdrawDocument = ({ projectId, uploadedByRole }: WithdrawDocumentProps) => (
   <p className="p-0 m-0">
