@@ -1,20 +1,20 @@
 import { Request } from 'express'
 import React from 'react'
 import { DREAL, REGIONS, User } from '@entities'
-import { dataId } from '../../helpers/testId'
-import ROUTES from '../../routes'
-import AdminDashboard from '../components/AdminDashboard'
-import { Button, Input, Select } from '../components'
+import { dataId } from '../../../helpers/testId'
+import ROUTES from '../../../routes'
+import AdminDashboard from '../../components/AdminDashboard'
+import { Button, Input, PageLayout, Select } from '../../components'
+import { hydrateOnClient } from '../../helpers'
 
-interface DREALListProps {
+interface DrealListProps {
   request: Request
   users: Array<{ user: User; dreals: Array<DREAL> }>
 }
 
 /* Pure component */
-export default function DREALList({ request, users }: DREALListProps) {
+export const DrealList = PageLayout(({ request, users }: DrealListProps) => {
   const { error, success } = (request.query as any) || {}
-
   return (
     <AdminDashboard role={request.user?.role} currentPage="list-dreal">
       <div className="panel">
@@ -97,4 +97,6 @@ export default function DREALList({ request, users }: DREALListProps) {
       </div>
     </AdminDashboard>
   )
-}
+})
+
+hydrateOnClient(DrealList)
