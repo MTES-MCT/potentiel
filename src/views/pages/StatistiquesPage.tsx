@@ -1,7 +1,6 @@
 import type { Request } from 'express'
 import React from 'react'
 import { PageLayout } from '../components/PageLayout'
-import { hydrateOnClient } from '../helpers/hydrateOnClient'
 
 interface Props {
   request: Request
@@ -49,5 +48,3 @@ export const Statistiques = PageLayout(function (props: Props) {
     </main>
   )
 })
-
-hydrateOnClient(Statistiques)
