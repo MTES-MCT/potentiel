@@ -15,7 +15,7 @@ interface DrealListProps {
 
 /* Pure component */
 export const DrealList = PageLayout(({ request, users, validationErrors }: DrealListProps) => {
-  const { success } = (request.query as any) || {}
+  const { success, error } = (request.query as any) || {}
   return (
     <AdminDashboard role={request.user?.role} currentPage="list-dreal">
       <div className="panel">
@@ -28,6 +28,12 @@ export const DrealList = PageLayout(({ request, users, validationErrors }: Dreal
           {success && (
             <div className="notification success" {...dataId('success-message')}>
               {success}
+            </div>
+          )}
+
+          {error && (
+            <div className="notification error" {...dataId('error-message')}>
+              {error}
             </div>
           )}
 
