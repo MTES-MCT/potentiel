@@ -103,7 +103,7 @@ export const Timeline = ({
     ...extractModificationRequestsItemProps(events),
     ...events.filter(is('DemandeDelaiSignaled')),
     ...events.filter(is('DemandeAbandonSignaled')),
-    ...events.filter(is('DemandeRecoursSignaled')).filter((e) => e.status === 'rejetée'),
+    ...events.filter(is('DemandeRecoursSignaled')),
     ...extractModificationReceivedItemProps(events),
     ...extractLegacyModificationsItemProps(events),
     ...extractAttachedFileItemProps(events),

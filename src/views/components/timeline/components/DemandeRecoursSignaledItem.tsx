@@ -1,25 +1,26 @@
 import React from 'react'
-import { ItemDate, ItemTitle, ContentArea, UnvalidatedStepIcon } from '.'
+import { ItemDate, ItemTitle, ContentArea, UnvalidatedStepIcon, PastIcon } from '.'
 import { makeDocumentUrl } from '../helpers'
 
 type DemandeRecoursSignaledItemProps = {
   date: number
   attachment?: { id: string; name: string }
   notes?: string
-  status: 'rejetée'
+  status: 'acceptée' | 'rejetée'
 }
 
 export const DemandeRecoursSignaledItem = ({
+  status,
   date,
   attachment,
   notes,
 }: DemandeRecoursSignaledItemProps) => (
   <>
-    <UnvalidatedStepIcon />
+    <StatusIcon {...{ status }} />
     <ContentArea>
       <ItemDate date={date} />
       <>
-        <ItemTitle title="Recours rejeté" />
+        <ItemTitle title={`Recours ${status === 'acceptée' ? 'accepté' : 'rejeté'}`} />
         {notes && <p className="p-0 m-0 italic">Note : {notes}</p>}
       </>
       {attachment && (
@@ -28,3 +29,15 @@ export const DemandeRecoursSignaledItem = ({
     </ContentArea>
   </>
 )
+
+type StatusIconProps = {
+  status: DemandeRecoursSignaledItemProps['status']
+}
+const StatusIcon = ({ status }: StatusIconProps) => {
+  switch (status) {
+    case 'acceptée':
+      return <PastIcon />
+    case 'rejetée':
+      return <UnvalidatedStepIcon />
+  }
+}
