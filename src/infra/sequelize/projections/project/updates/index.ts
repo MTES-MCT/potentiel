@@ -1,6 +1,5 @@
 import { EventBus } from '@core/domain'
 import { logger } from '@core/utils'
-import { EDFContractAutomaticallyLinkedToProject } from '@modules/edf'
 import {
   AppelOffreProjetModifié,
   CovidDelayGranted,
@@ -30,10 +29,10 @@ import {
   ProjectPuissanceUpdated,
   ProjectReimported,
 } from '@modules/project'
+import { EDFContractAutomaticallyLinkedToProject, EDFContractUpdated } from '@modules/edf'
 import { ProjectClaimed, ProjectClaimedByOwner } from '@modules/projectClaim'
 import { onAppelOffreProjetModifié } from './onAppelOffreProjetModifié'
 import { onCovidDelayGranted } from './onCovidDelayGranted'
-import { onEDFContractAutomaticallyLinkedToProject } from './onEDFContractAutomaticallyLinkedToProject'
 import { onNumeroGestionnaireSubmitted } from './onNumeroGestionnaireSubmitted'
 import { onProjectAbandoned } from './onProjectAbandoned'
 import { onProjectActionnaireUpdated } from './onProjectActionnaireUpdated'
@@ -57,6 +56,8 @@ import { onProjectNotificationDateSet } from './onProjectNotificationDateSet'
 import { onProjectProducteurUpdated } from './onProjectProducteurUpdated'
 import { onProjectPuissanceUpdated } from './onProjectPuissanceUpdated'
 import { onProjectReimported } from './onProjectReimported'
+import { onEDFContractAutomaticallyLinkedToProject } from './onEDFContractAutomaticallyLinkedToProject'
+import { onEDFContractUpdated } from './onEDFContractUpdated'
 
 export const initProjectProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ProjectImported.type, onProjectImported(models))
@@ -101,6 +102,7 @@ export const initProjectProjections = (eventBus: EventBus, models) => {
     EDFContractAutomaticallyLinkedToProject.type,
     onEDFContractAutomaticallyLinkedToProject(models)
   )
+  eventBus.subscribe(EDFContractUpdated.type, onEDFContractUpdated(models))
 
   logger.info('Initialized Project projections')
 }
