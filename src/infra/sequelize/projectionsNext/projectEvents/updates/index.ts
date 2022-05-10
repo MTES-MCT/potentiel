@@ -2,6 +2,7 @@ export * from './onConfirmationRequested';
 export * from './onCovidDelayGranted';
 export * from './onDemandeAbandonSignaled';
 export * from './onDemandeDelaiSignaled';
+export * from './onDemandeRecoursSignaled';
 export * from './onFileAttachedToProject';
 export * from './onFileDetachedFromProject';
 export * from './onLegacyModificationFileAttached';

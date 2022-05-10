@@ -281,6 +281,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                     },
                   })
                   break
+
                 case 'DemandeDelaiSignaled':
                   if (userIsNot('ademe')(user)) {
                     const {
@@ -292,7 +293,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       notes,
                     } = payload
                     events.push({
-                      type: 'DemandeDelaiSignaled',
+                      type,
                       variant: user.role,
                       date: valueDate,
                       signaledBy,
@@ -303,11 +304,13 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       attachment,
                     })
                   }
+                  break
+
                 case 'DemandeAbandonSignaled':
                   if (userIsNot('ademe')(user)) {
                     const { signaledBy, status, attachment, notes } = payload
                     events.push({
-                      type: 'DemandeAbandonSignaled',
+                      type,
                       variant: user.role,
                       date: valueDate,
                       signaledBy,
@@ -316,6 +319,22 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       attachment,
                     })
                   }
+                  break
+
+                case 'DemandeRecoursSignaled':
+                  if (userIsNot('ademe')(user)) {
+                    const { signaledBy, status, attachment, notes } = payload
+                    events.push({
+                      type,
+                      variant: user.role,
+                      date: valueDate,
+                      signaledBy,
+                      status,
+                      ...(userIs(['admin', 'dgec', 'dreal'])(user) && { notes }),
+                      attachment,
+                    })
+                  }
+                  break
               }
 
               return Promise.resolve(events)
