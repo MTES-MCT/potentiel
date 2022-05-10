@@ -53,8 +53,10 @@ v1Router.post(
       .match(
         ({ email }) =>
           response.redirect(
-            addQueryParams(routes.ADMIN_DREAL_LIST, {
-              success: `Une invitation a bien été envoyée à ${email}`,
+            routes.SUCCESS_OR_ERROR_PAGE({
+              success: `Une invitation a bien été envoyée à ${email}.`,
+              redirectUrl: routes.ADMIN_DREAL_LIST,
+              redirectTitle: 'Retourner à la liste des DREALs',
             })
           ),
         (error: Error) => {
