@@ -49,6 +49,7 @@ import {
   isProjectParticipatif,
   getPuissanceProjet,
   getLegacyModificationByFilename,
+  getSearchIndex,
 } from './queries.config'
 import { makeClaimProject } from '@modules/projectClaim'
 import {
@@ -63,6 +64,8 @@ import {
   projectClaimRepo,
 } from './repos.config'
 import { getAppelOffre } from '@dataAccess/inMemory'
+import { makeImportEdfData } from '@modules/edf'
+import { makeParseEdfCsv } from '../infra/parseEdfCsv'
 
 export const shouldUserAccessProject = new BaseShouldUserAccessProject(
   oldUserRepo,
@@ -269,4 +272,10 @@ export const signalerDemandeRecours = makeSignalerDemandeRecours({
   fileRepo,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
+})
+
+export const importEdfData = makeImportEdfData({
+  publish: eventStore.publish.bind(eventStore),
+  parseCsvFile: makeParseEdfCsv({ fileRepo }),
+  getSearchIndex,
 })

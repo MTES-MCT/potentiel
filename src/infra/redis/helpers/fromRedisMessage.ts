@@ -7,6 +7,7 @@ import * as ProjectEvents from '@modules/project/events'
 import * as ProjectClaimEvents from '@modules/projectClaim/events'
 import * as UserEvents from '@modules/users/events'
 import * as FileEvents from '@modules/file/events'
+import * as EDFEvents from '@modules/edf/events'
 import * as LegacyCandidateNotificationEvents from '@modules/legacyCandidateNotification/events'
 import { RedisMessage } from './RedisMessage'
 
@@ -33,6 +34,7 @@ const EventClassByType: Record<string, HasEventConstructor> = {
   ...UserEvents,
   ...LegacyCandidateNotificationEvents,
   ...FileEvents,
+  ...EDFEvents,
 }
 
 export const fromRedisMessage = (message: RedisMessage): DomainEvent => {
