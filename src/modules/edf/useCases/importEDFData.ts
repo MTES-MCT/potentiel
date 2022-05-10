@@ -7,12 +7,14 @@ import {
   EDFFileUploaded,
 } from '../events'
 
+import { shallowDelta } from '../../../helpers/shallowDelta'
+
 type SearchResult = {
   projectId: string
   score: number
 }
 
-type ContratEDF = {
+export type ContratEDF = {
   numero: string
   type: string
   dateEffet: string
@@ -20,7 +22,7 @@ type ContratEDF = {
   duree: string
 }
 
-type SearchIndex = {
+export type SearchIndex = {
   findByNumeroContrat: (numeroContratEDF: string) => ({ projectId: string } & ContratEDF) | null
   search: (line: any) => SearchResult[]
 }
@@ -28,7 +30,7 @@ type SearchIndex = {
 interface ImportEdfDataDeps {
   publish: EventBus['publish']
   parseCsvFile: (fileId: string) => Promise<any[]>
-  makeSearchIndex: () => Promise<SearchIndex>
+  getSearchIndex: () => Promise<SearchIndex>
 }
 
 export const AO_BY_CONTRACT = {
@@ -49,7 +51,7 @@ export const AO_BY_CONTRACT = {
 export const AO_CODES = new Set(Object.keys(AO_BY_CONTRACT))
 
 export const makeImportEdfData =
-  ({ publish, parseCsvFile, makeSearchIndex }: ImportEdfDataDeps) =>
+  ({ publish, parseCsvFile, getSearchIndex: makeSearchIndex }: ImportEdfDataDeps) =>
   async (event: EDFFileUploaded): Promise<void> => {
     const {
       payload: { fileId },
@@ -146,4 +148,3 @@ function extractContractData(line: Record<string, string>) {
     duree: line['Contrat - Durée'],
   }
 }
-import { EDFContractUpdated, EDFFileUploaded } from '../events'

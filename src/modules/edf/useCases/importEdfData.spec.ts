@@ -26,7 +26,7 @@ describe('importEdfData', () => {
     const importEdfData = makeImportEdfData({
       publish: jest.fn(),
       parseCsvFile,
-      makeSearchIndex: jest.fn(),
+      getSearchIndex: jest.fn(),
     })
 
     await importEdfData(fakeEvent)
@@ -66,7 +66,7 @@ describe('importEdfData', () => {
       const importEdfData = makeImportEdfData({
         publish,
         parseCsvFile,
-        makeSearchIndex: jest.fn(() =>
+        getSearchIndex: jest.fn(() =>
           Promise.resolve({
             findByNumeroContrat,
             search: () => [],
@@ -111,7 +111,7 @@ describe('importEdfData', () => {
       const importEdfData = makeImportEdfData({
         publish,
         parseCsvFile,
-        makeSearchIndex: jest.fn(() =>
+        getSearchIndex: jest.fn(() =>
           Promise.resolve({
             findByNumeroContrat,
             search: () => [],
@@ -145,7 +145,7 @@ describe('importEdfData', () => {
       const importEdfData = makeImportEdfData({
         publish,
         parseCsvFile,
-        makeSearchIndex: jest.fn(() =>
+        getSearchIndex: jest.fn(() =>
           Promise.resolve({
             findByNumeroContrat,
             search,
@@ -169,7 +169,7 @@ describe('importEdfData', () => {
       const importEdfData = makeImportEdfData({
         publish,
         parseCsvFile,
-        makeSearchIndex: jest.fn(() =>
+        getSearchIndex: jest.fn(() =>
           Promise.resolve({
             findByNumeroContrat,
             search,
@@ -207,7 +207,7 @@ describe('importEdfData', () => {
       const importEdfData = makeImportEdfData({
         publish,
         parseCsvFile,
-        makeSearchIndex: jest.fn(() =>
+        getSearchIndex: jest.fn(() =>
           Promise.resolve({
             findByNumeroContrat,
             search,
@@ -231,7 +231,7 @@ describe('importEdfData', () => {
       const importEdfData = makeImportEdfData({
         publish,
         parseCsvFile,
-        makeSearchIndex: jest.fn(() =>
+        getSearchIndex: jest.fn(() =>
           Promise.resolve({
             findByNumeroContrat,
             search,
