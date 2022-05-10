@@ -373,7 +373,7 @@ export type DemandeRecoursSignaledDTO = {
   variant: Exclude<UserRole, 'ademe'>
   date: number
   signaledBy: string
-  status: 'rejetée'
+  status: 'acceptée' | 'rejetée'
   attachment?: File
   notes?: string
 }

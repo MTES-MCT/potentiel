@@ -169,7 +169,6 @@ export const Timeline = ({
         return <DemandeAbandonSignaledItem {...props} />
 
       case 'DemandeRecoursSignaled':
-        console.log(`DemandeRecoursSignaled`)
         return <DemandeRecoursSignaledItem {...props} />
     }
   })
