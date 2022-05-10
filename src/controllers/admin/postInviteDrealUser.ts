@@ -19,7 +19,7 @@ const requestBodySchema = yup.object({
   email: yup.string().email("L'email saisi est invalide").required('Ce champ est obligatoire'),
   region: yup
     .mixed()
-    .oneOf([...REGIONS])
+    .oneOf([...REGIONS], 'Vous devez sélectionner une région dans le menu déroulant ci-dessus')
     .required('Ce champ est obligatoire')
     .typeError("La région saisie n'est pas valide"),
 })

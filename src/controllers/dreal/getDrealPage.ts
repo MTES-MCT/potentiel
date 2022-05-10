@@ -9,6 +9,14 @@ v1Router.get(
   routes.ADMIN_DREAL_LIST,
   ensureRole('admin'),
   asyncHandler(async (request, response) => {
+    const { query } = request
+    const validationErrors: Array<{ [fieldName: string]: string }> = Object.entries(query).reduce(
+      (errors, [key, value]) => ({
+        ...errors,
+        ...(key.startsWith('error-') && { [key.replace('error-', '')]: value }),
+      }),
+      [] as Array<{ [fieldName: string]: string }>
+    )
     // Get all dreal users
     const drealUsers = await userRepo.findAll({ role: 'dreal' })
 
@@ -19,6 +27,6 @@ v1Router.get(
       })
     )
 
-    return response.send(DrealListPage({ request, users }))
+    return response.send(DrealListPage({ request, users, validationErrors }))
   })
 )
