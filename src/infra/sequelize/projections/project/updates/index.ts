@@ -1,60 +1,62 @@
+import { EventBus } from '@core/domain'
+import { logger } from '@core/utils'
+import { EDFContractAutomaticallyLinkedToProject } from '@modules/edf'
 import {
+  AppelOffreProjetModifié,
+  CovidDelayGranted,
+  NumeroGestionnaireSubmitted,
+  ProjectAbandoned,
+  ProjectActionnaireUpdated,
   ProjectCertificateGenerated,
+  ProjectCertificateObsolete,
   ProjectCertificateRegenerated,
   ProjectCertificateUpdated,
   ProjectClasseGranted,
+  ProjectCompletionDueDateCancelled,
+  ProjectCompletionDueDateSet,
   ProjectDataCorrected,
+  ProjectDCRDueDateCancelled,
   ProjectDCRDueDateSet,
+  ProjectDCRSubmitted,
+  ProjectFournisseursUpdated,
+  ProjectGFDueDateCancelled,
   ProjectGFDueDateSet,
+  ProjectGFInvalidated,
+  ProjectImported,
+  ProjectNewRulesOptedIn,
   ProjectNotificationDateSet,
   ProjectNotified,
-  ProjectDCRSubmitted,
-  ProjectCompletionDueDateSet,
-  NumeroGestionnaireSubmitted,
-  ProjectAbandoned,
-  ProjectPuissanceUpdated,
-  ProjectActionnaireUpdated,
   ProjectProducteurUpdated,
-  ProjectGFInvalidated,
-  ProjectFournisseursUpdated,
-  ProjectNewRulesOptedIn,
-  ProjectImported,
+  ProjectPuissanceUpdated,
   ProjectReimported,
-  ProjectCompletionDueDateCancelled,
-  ProjectDCRDueDateCancelled,
-  ProjectGFDueDateCancelled,
-  ProjectCertificateObsolete,
-  CovidDelayGranted,
-  AppelOffreProjetModifié,
 } from '@modules/project'
-import { onProjectImported } from './onProjectImported'
+import { ProjectClaimed, ProjectClaimedByOwner } from '@modules/projectClaim'
+import { onAppelOffreProjetModifié } from './onAppelOffreProjetModifié'
+import { onCovidDelayGranted } from './onCovidDelayGranted'
+import { onEDFContractAutomaticallyLinkedToProject } from './onEDFContractAutomaticallyLinkedToProject'
+import { onNumeroGestionnaireSubmitted } from './onNumeroGestionnaireSubmitted'
+import { onProjectAbandoned } from './onProjectAbandoned'
+import { onProjectActionnaireUpdated } from './onProjectActionnaireUpdated'
 import { onProjectCertificate } from './onProjectCertificate'
+import { onProjectCertificateObsolete } from './onProjectCertificateObsolete'
+import { onProjectClaimed } from './onProjectClaimed'
+import { onProjectClasseGranted } from './onProjectClasseGranted'
+import { onProjectCompletionDueDateCancelled } from './onProjectCompletionDueDateCancelled'
+import { onProjectCompletionDueDateSet } from './onProjectCompletionDueDateSet'
 import { onProjectDataCorrected } from './onProjectDataCorrected'
+import { onProjectDCRDueDateCancelled } from './onProjectDCRDueDateCancelled'
 import { onProjectDCRDueDateSet } from './onProjectDCRDueDateSet'
+import { onProjectDCRSubmitted } from './onProjectDCRSubmitted'
+import { onProjectFournisseursUpdated } from './onProjectFournisseursUpdated'
+import { onProjectGFDueDateCancelled } from './onProjectGFDueDateCancelled'
 import { onProjectGFDueDateSet } from './onProjectGFDueDateSet'
 import { onProjectGFInvalidated } from './onProjectGFInvalidated'
-import { onProjectCompletionDueDateSet } from './onProjectCompletionDueDateSet'
-import { onProjectNotificationDateSet } from './onProjectNotificationDateSet'
-import { onProjectClasseGranted } from './onProjectClasseGranted'
-import { onNumeroGestionnaireSubmitted } from './onNumeroGestionnaireSubmitted'
-import { onProjectDCRSubmitted } from './onProjectDCRSubmitted'
-import { onProjectAbandoned } from './onProjectAbandoned'
-import { onProjectPuissanceUpdated } from './onProjectPuissanceUpdated'
-import { onProjectActionnaireUpdated } from './onProjectActionnaireUpdated'
-import { onProjectProducteurUpdated } from './onProjectProducteurUpdated'
-import { onProjectFournisseursUpdated } from './onProjectFournisseursUpdated'
+import { onProjectImported } from './onProjectImported'
 import { onProjectNewRulesOptedIn } from './onProjectNewRulesOptedIn'
-import { logger } from '@core/utils'
+import { onProjectNotificationDateSet } from './onProjectNotificationDateSet'
+import { onProjectProducteurUpdated } from './onProjectProducteurUpdated'
+import { onProjectPuissanceUpdated } from './onProjectPuissanceUpdated'
 import { onProjectReimported } from './onProjectReimported'
-import { onProjectClaimed } from './onProjectClaimed'
-import { ProjectClaimed, ProjectClaimedByOwner } from '@modules/projectClaim'
-import { EventBus } from '@core/domain'
-import { onProjectCompletionDueDateCancelled } from './onProjectCompletionDueDateCancelled'
-import { onProjectDCRDueDateCancelled } from './onProjectDCRDueDateCancelled'
-import { onProjectGFDueDateCancelled } from './onProjectGFDueDateCancelled'
-import { onProjectCertificateObsolete } from './onProjectCertificateObsolete'
-import { onCovidDelayGranted } from './onCovidDelayGranted'
-import { onAppelOffreProjetModifié } from './onAppelOffreProjetModifié'
 
 export const initProjectProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ProjectImported.type, onProjectImported(models))
@@ -94,6 +96,11 @@ export const initProjectProjections = (eventBus: EventBus, models) => {
 
   eventBus.subscribe(CovidDelayGranted.type, onCovidDelayGranted(models))
   eventBus.subscribe(AppelOffreProjetModifié.type, onAppelOffreProjetModifié(models))
+
+  eventBus.subscribe(
+    EDFContractAutomaticallyLinkedToProject.type,
+    onEDFContractAutomaticallyLinkedToProject(models)
+  )
 
   logger.info('Initialized Project projections')
 }
