@@ -1,10 +1,11 @@
 import { Request } from 'express'
 import React from 'react'
 import { User } from '@entities'
-import { dataId } from '../../helpers/testId'
-import ROUTES from '../../routes'
-import AdminDashboard from '../components/AdminDashboard'
-import { SuccessErrorBox } from '../components'
+import { dataId } from '../../../helpers/testId'
+import ROUTES from '../../../routes'
+import AdminDashboard from '../../components/AdminDashboard'
+import { PageLayout, SuccessErrorBox } from '../../components'
+import { hydrateOnClient } from '../../../views/helpers'
 
 interface AdminUsersProps {
   request: Request
@@ -12,17 +13,17 @@ interface AdminUsersProps {
 }
 
 /* Pure component */
-export default function AdminUsers({ request, users }: AdminUsersProps) {
+export const PartnersList = PageLayout(({ request, users }: AdminUsersProps) => {
   const { error, success } = (request.query as any) || {}
 
   return (
     <AdminDashboard role={request.user?.role} currentPage="admin-users">
       <div className="panel">
         <div className="panel__header">
-          <h3>Utilisateurs</h3>
+          <h1 className="text-2xl">Utilisateurs partenaires</h1>
         </div>
         <div className="panel__header">
-          <h5>Ajouter un utilisateur</h5>
+          <h2 className="text-lg">Ajouter un utilisateur</h2>
 
           <SuccessErrorBox success={success} error={error} />
           <form
@@ -57,7 +58,7 @@ export default function AdminUsers({ request, users }: AdminUsersProps) {
         </div>
         {Boolean(users?.length) && (
           <>
-            <h5>Liste des utilisateurs</h5>
+            <h2 className="text-lg">Liste des utilisateurs</h2>
             <table className="table" {...dataId('projectList-list')}>
               <thead>
                 <tr>
@@ -83,4 +84,6 @@ export default function AdminUsers({ request, users }: AdminUsersProps) {
       </div>
     </AdminDashboard>
   )
-}
+})
+
+hydrateOnClient(PartnersList)

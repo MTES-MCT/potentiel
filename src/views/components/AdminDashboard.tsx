@@ -179,9 +179,9 @@ export default function AdminDashboard({ children, currentPage, role }: AdminDas
             />
 
             <MenuItem
-              route={ROUTES.ADMIN_USERS}
+              route={ROUTES.ADMIN_PARTNER_USERS}
               itemPage={'admin-users'}
-              title="Gérer les utilisateurs"
+              title="Gérer les utilisateurs partenaires"
               visibleForRoles={['admin']}
               role={role}
               currentPage={currentPage}

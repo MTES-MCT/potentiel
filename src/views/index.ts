@@ -16,6 +16,7 @@ import {
   SignalerDemandeRecours,
   Signup,
   DrealList,
+  PartnersList,
 } from './pages'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -140,4 +141,12 @@ export const DrealListPage = (props: Parameters<typeof DrealList>[0]) =>
     props,
     hydrate: true,
     pageName: 'drealList', // This must match the Component name
+  })
+
+export const PartnersListPage = (props: Parameters<typeof PartnersList>[0]) =>
+  makeHtml({
+    Component: PartnersList,
+    props,
+    hydrate: true,
+    pageName: 'partnersList', // This must match the Component name
   })
