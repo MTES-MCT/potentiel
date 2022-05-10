@@ -2,7 +2,6 @@ import type { Request } from 'express'
 import React from 'react'
 import AdminDashboard from '../components/AdminDashboard'
 import { PageLayout } from '../components/PageLayout'
-import { hydrateOnClient } from '../helpers/hydrateOnClient'
 
 interface Props {
   request: Request
@@ -36,5 +35,3 @@ export const AdminStatistiques = PageLayout(function (props: Props) {
     </AdminDashboard>
   )
 })
-
-hydrateOnClient(AdminStatistiques)

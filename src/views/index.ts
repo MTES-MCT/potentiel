@@ -21,24 +21,21 @@ export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
   makeHtml({
     Component: Statistiques,
     props,
-    hydrate: true,
-    pageName: 'statistiques', // This must match the Component name
+    hydrate: false,
   })
 
 export const AdminStatistiquesPage = (props: Parameters<typeof AdminStatistiques>[0]) =>
   makeHtml({
     Component: AdminStatistiques,
     props,
-    hydrate: true,
-    pageName: 'adminStatistiques', // This must match the Component name
+    hydrate: false,
   })
 
 export const AdemeStatistiquesPage = (props: Parameters<typeof AdemeStatistiques>[0]) =>
   makeHtml({
     Component: AdemeStatistiques,
     props,
-    hydrate: true,
-    pageName: 'ademeStatistiques', // This must match the Component name
+    hydrate: false,
   })
 
 export const ProjectDetailsPage = (props: Parameters<typeof ProjectDetails>[0]) =>
