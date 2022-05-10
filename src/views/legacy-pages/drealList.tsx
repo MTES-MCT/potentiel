@@ -4,6 +4,7 @@ import { DREAL, REGIONS, User } from '@entities'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '../../routes'
 import AdminDashboard from '../components/AdminDashboard'
+import { Button, Input, Select } from '../components'
 
 interface DREALListProps {
   request: Request
@@ -40,37 +41,32 @@ export default function DREALList({ request, users }: DREALListProps) {
           <form
             action={ROUTES.ADMIN_INVITE_DREAL_USER_ACTION}
             method="post"
-            style={{ maxWidth: 'auto', margin: '0 0 15px 0' }}
+            className="flex flex-col gap-4"
           >
-            <div className="form__group">
+            <input type="hidden" name="role" value="dreal" />
+            <div>
               <label htmlFor="email">Adresse email</label>
-              <input type="hidden" name="role" value="dreal" />
-              <input
-                type="text"
-                name="email"
-                id="email"
-                {...dataId('email-field')}
-                style={{ width: 'auto' }}
-              />
-              <select name="region" id="region" {...dataId('region-field')}>
-                {[...REGIONS]
-                  .sort((a, b) => a.localeCompare(b))
-                  .map((region, index) => (
-                    <option key={'region_' + index} value={region}>
-                      {region}
-                    </option>
-                  ))}
-              </select>
-              <button
-                className="button"
-                type="submit"
-                name="submit"
-                id="submit"
-                {...dataId('submit-button')}
-              >
-                Inviter
-              </button>
+              <Input type="email" name="email" id="email" {...dataId('email-field')} required />
             </div>
+            <div>
+              <label htmlFor="region">Sélectionnez une région</label>
+              <Select
+                name="region"
+                id="region"
+                options={[...REGIONS]}
+                {...dataId('region-field')}
+                required
+              />
+            </div>
+            <Button
+              type="submit"
+              primary
+              id="submit"
+              {...dataId('submit-button')}
+              className="m-auto"
+            >
+              Inviter
+            </Button>
           </form>
         </div>
         {users && users.length && (
