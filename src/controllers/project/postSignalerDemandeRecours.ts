@@ -60,7 +60,7 @@ v1Router.post(
         ({ projectId }) => {
           return response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
-              success: 'Votre signalement de demande de délai a bien été enregistré.',
+              success: 'Votre signalement de demande de recours a bien été enregistré.',
               redirectUrl: routes.PROJECT_DETAILS(projectId),
               redirectTitle: 'Retourner à la page projet',
             })

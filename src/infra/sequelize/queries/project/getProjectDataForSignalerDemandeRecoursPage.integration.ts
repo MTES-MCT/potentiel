@@ -25,7 +25,7 @@ describe('Sequelize getProjectDataForSignalerDemandeRecoursPage', () => {
   })
 
   describe(`when Project has not been notified`, () => {
-    it(`should return a ProjectDataForSignalerDemandeDelaiPage dto with status = 'non-notifié'`, async () => {
+    it(`should return a ProjectDataForSignalerDemandeRecoursPage dto with status = 'non-notifié'`, async () => {
       await Project.create({ ...projectInfo, notifiedOn: undefined })
 
       const res = (await getProjectDataForSignalerDemandeRecoursPage({ projectId }))._unsafeUnwrap()
@@ -52,7 +52,7 @@ describe('Sequelize getProjectDataForSignalerDemandeRecoursPage', () => {
     }
 
     describe(`when Project has already been abandoned`, () => {
-      it(`should return a ProjectDataForSignalerDemandeDelaiPage dto with status = 'abandonné'`, async () => {
+      it(`should return a ProjectDataForSignalerDemandeRecoursPage dto with status = 'abandonné'`, async () => {
         await Project.create({ ...notifiedProject, abandonedOn: new Date('2021-02-01').getTime() })
 
         const res = (
@@ -76,7 +76,7 @@ describe('Sequelize getProjectDataForSignalerDemandeRecoursPage', () => {
     })
 
     describe(`when Project is 'Classé'`, () => {
-      it(`should return a ProjectDataForSignalerDemandeDelaiPage dto with status = 'lauréat'`, async () => {
+      it(`should return a ProjectDataForSignalerDemandeRecoursPage dto with status = 'lauréat'`, async () => {
         await Project.create(makeFakeProject({ ...notifiedProject, classe: 'Classé' }))
 
         const res = (
@@ -100,7 +100,7 @@ describe('Sequelize getProjectDataForSignalerDemandeRecoursPage', () => {
     })
 
     describe(`when Project is not 'Classé'`, () => {
-      it(`should return a ProjectDataForSignalerDemandeDelaiPage dto with status = 'lauréat'`, async () => {
+      it(`should return a ProjectDataForSignalerDemandeRecoursPage dto with status = 'éliminé'`, async () => {
         await Project.create(makeFakeProject({ ...notifiedProject, classe: 'Eliminé' }))
 
         const res = (
