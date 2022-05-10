@@ -45,7 +45,7 @@ class routes {
 
   static UPLOAD_LEGACY_MODIFICATION_FILES = '/admin/importer-documents-historiques'
 
-  static ADMIN_USERS = '/admin/utilisateurs.html'
+  static ADMIN_PARTNER_USERS = '/admin/utilisateurs-partenaires.html'
   static ADMIN_INVITE_USER_ACTION = '/admin/inviterUtilisateur'
   static ADMIN_INVITE_DREAL_USER_ACTION = '/admin/inviterUtilisateurDreal'
 
