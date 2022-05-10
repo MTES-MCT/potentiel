@@ -14,6 +14,7 @@ import {
   SignalerDemandeDelai,
   SignalerDemandeAbandon,
   Signup,
+  DrealList,
 } from './pages'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -119,9 +120,18 @@ export const SignalerDemandeAbandonPage = (props: Parameters<typeof SignalerDema
     hydrate: true,
     pageName: 'signalerDemandeAbandon', // This must match the Component name
   })
+
 export const SignupPage = (props: Parameters<typeof Signup>[0]) =>
   makeHtml({
     Component: Signup,
     props,
     hydrate: false,
+  })
+
+export const DrealListPage = (props: Parameters<typeof DrealList>[0]) =>
+  makeHtml({
+    Component: DrealList,
+    props,
+    hydrate: true,
+    pageName: 'drealList', // This must match the Component name
   })
