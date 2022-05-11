@@ -5,8 +5,8 @@ const zni: AppelOffre = {
   id: 'CRE4 - ZNI',
   type: 'zni',
   title:
-    '${referencePeriode} portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de l’énergie solaire et situées dans les zones non interconnectées',
-  shortTitle: 'CRE4 - ZNI ${referencePeriode}',
+    'portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de l’énergie solaire et situées dans les zones non interconnectées',
+  shortTitle: 'CRE4 - ZNI',
   launchDate: 'juin 2019',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,

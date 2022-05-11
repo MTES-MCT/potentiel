@@ -14,8 +14,8 @@ export const Objet = ({ project }: ObjetProps) => {
     <Text style={{ fontWeight: 'bold', marginTop: 30 }}>
       Objet :{' '}
       {isClasse
-        ? `Désignation des lauréats de la ${periode.title} période de l'appel d'offres ${appelOffre.title}`
-        : `Avis de rejet à l’issue de la ${periode.title} période de l'appel offres ${appelOffre.title}`}
+        ? `Désignation des lauréats de la ${periode.title} période de l'appel d'offres ${periode.reference} ${appelOffre.title}`
+        : `Avis de rejet à l’issue de la ${periode.title} période de l'appel d'offres ${periode.reference} ${appelOffre.title}`}
     </Text>
   )
 }

@@ -21,7 +21,7 @@ interface CallUseCaseProps {
 
 export type AppelOffreDTO = {
   id: AppelOffre['id']
-  shortTitle: AppelOffre['title']
+  shortTitle: AppelOffre['shortTitle']
 }
 
 export type PeriodeDTO = {

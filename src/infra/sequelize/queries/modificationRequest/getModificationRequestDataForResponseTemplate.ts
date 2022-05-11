@@ -159,7 +159,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           adresseCandidat: (details && details['Adresse postale du contact']) || '',
           email,
           titrePeriode: periode.title,
-          titreAppelOffre: appelOffre.title,
+          titreAppelOffre: `${periode.reference} ${appelOffre.title}`,
           familles: appelOffre.familles.length ? 'yes' : '',
           titreFamille: familleId,
           nomProjet,

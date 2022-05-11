@@ -5,8 +5,8 @@ const innovation: AppelOffre = {
   id: 'CRE4 - Innovation',
   type: 'innovation',
   title:
-    '${referencePeriode} portant sur la réalisation et l’exploitation d’Installations de production d’électricité innovantes à partir de l’énergie solaire, sans dispositifs de stockage',
-  shortTitle: 'CRE4 - Innovation ${referencePeriode}',
+    'portant sur la réalisation et l’exploitation d’Installations de production d’électricité innovantes à partir de l’énergie solaire, sans dispositifs de stockage',
+  shortTitle: 'CRE4 - Innovation',
   launchDate: 'mars 2017',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,

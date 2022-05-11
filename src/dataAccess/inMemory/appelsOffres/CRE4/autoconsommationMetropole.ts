@@ -5,8 +5,8 @@ const autoconsommationMetropole: AppelOffre = {
   id: 'CRE4 - Autoconsommation métropole',
   type: 'autoconso',
   title:
-    '${referencePeriode} portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées en métropole continentale',
-  shortTitle: 'CRE4 - Autoconsommation métropole ${referencePeriode}',
+    'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées en métropole continentale',
+  shortTitle: 'CRE4 - Autoconsommation métropole',
   launchDate: 'mars 2017',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,

@@ -5,8 +5,8 @@ export const autoconsommationZNI2017: AppelOffre = {
   id: 'CRE4 - Autoconsommation ZNI 2017',
   type: 'autoconso',
   title:
-    '${referencePeriode} portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées dans les zones non interconnectées',
-  shortTitle: 'CRE4 - Autoconsommation ZNI ${referencePeriode}',
+    'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées dans les zones non interconnectées',
+  shortTitle: 'CRE4 - Autoconsommation ZNI',
   launchDate: 'décembre 2016',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 30,

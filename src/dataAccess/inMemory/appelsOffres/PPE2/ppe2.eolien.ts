@@ -5,7 +5,7 @@ const eolienPPE2: AppelOffre = {
   id: 'PPE2 - Eolien',
   type: 'eolien',
   title:
-    '${referencePeriode} portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie mécanique du vent implantées à terre',
+    'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie mécanique du vent implantées à terre',
   shortTitle: 'PPE2 - Eolien',
   dossierSuiviPar: 'violaine.tarizzo@developpement-durable.gouv.fr',
   launchDate: 'Août 2021',

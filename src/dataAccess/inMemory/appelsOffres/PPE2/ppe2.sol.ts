@@ -5,7 +5,7 @@ const solPPE2: AppelOffre = {
   id: 'PPE2 - Sol',
   type: 'sol',
   title:
-    '${referencePeriode} portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie solaire « Centrales au sol »',
+    'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie solaire « Centrales au sol »',
   shortTitle: 'PPE2 - Sol',
   launchDate: 'Août 2021',
   unitePuissance: 'MW',

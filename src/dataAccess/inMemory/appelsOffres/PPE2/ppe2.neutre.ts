@@ -4,7 +4,7 @@ const neutrePPE2: AppelOffre = {
   id: 'PPE2 - Neutre',
   type: 'neutre',
   title:
-    '${referencePeriode} portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergie solaire photovoltaïque, hydroélectrique ou éolienne situées en métropole continentale',
+    'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergie solaire photovoltaïque, hydroélectrique ou éolienne situées en métropole continentale',
   shortTitle: 'PPE2 - Neutre',
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   launchDate: 'Août 2021',

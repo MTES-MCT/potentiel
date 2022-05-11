@@ -4,7 +4,7 @@ const autoconsommationMetropolePPE2: AppelOffre = {
   id: 'PPE2 - Autoconsommation métropole',
   type: 'autoconso',
   title:
-    '${referencePeriode} portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées en métropole continentale',
+    'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées en métropole continentale',
   shortTitle: 'PPE2 - Autoconsommation métropole',
   launchDate: 'Août 2021',
   unitePuissance: 'MW',

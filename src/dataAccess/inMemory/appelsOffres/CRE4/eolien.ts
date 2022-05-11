@@ -5,8 +5,8 @@ const eolien: AppelOffre = {
   id: 'Eolien',
   type: 'eolien',
   title:
-    '${referencePeriode} portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie mécanique du vent implantées à terre',
-  shortTitle: 'Eolien ${referencePeriode}',
+    'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie mécanique du vent implantées à terre',
+  shortTitle: 'Eolien',
   dossierSuiviPar: 'Sandra Stojkovic (sandra.stojkovic@developpement-durable.gouv.fr)',
   launchDate: 'mai 2017',
   unitePuissance: 'MW',
