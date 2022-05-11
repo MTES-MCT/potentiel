@@ -112,6 +112,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           updatedAt,
           newRulesOptIn,
           potentielIdentifier,
+          contratEDF,
         } = projectRaw.get()
 
         if (!notifiedOn && !['admin', 'dgec'].includes(user.role)) {
@@ -159,6 +160,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           garantiesFinancieres: undefined,
           updatedAt,
           newRulesOptIn,
+          contratEDF,
         }
 
         if (user.role !== 'dreal') {

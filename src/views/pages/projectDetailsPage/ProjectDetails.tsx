@@ -13,6 +13,7 @@ import {
   Contact,
   MaterielsEtTechnologies,
   ResultatsAppelOffre,
+  ContratEDF,
 } from './sections'
 import { ProjectHeader } from './components'
 
@@ -57,6 +58,10 @@ export const ProjectDetails = PageLayout(
 
           {userIs(['admin', 'dgec'])(user) && project.notifiedOn && (
             <EditProjectData project={project} request={request} />
+          )}
+
+          {['admin', 'dgec'].includes(user.role) && !!project.contratEDF && (
+            <ContratEDF contrat={project.contratEDF} />
           )}
         </main>
       </RoleBasedDashboard>

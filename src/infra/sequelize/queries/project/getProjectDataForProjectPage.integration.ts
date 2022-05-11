@@ -47,6 +47,10 @@ const projectInfo = {
 
   classe: 'Classé',
   motifsElimination: 'motifsElimination',
+
+  contratEDF: {
+    numero: '123',
+  },
 }
 
 const user = makeFakeUser({ role: 'admin', id: new UniqueEntityID().toString() })
@@ -105,6 +109,10 @@ describe('Sequelize getProjectDataForProjectPage', () => {
       isClasse: true,
 
       motifsElimination: 'motifsElimination',
+
+      contratEDF: {
+        numero: '123',
+      },
     })
 
     expect(res).not.toHaveProperty([

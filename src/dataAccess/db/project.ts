@@ -37,7 +37,6 @@ const deserialize = (item) => ({
   potentielIdentifier: item.potentielIdentifier || '',
   technologie: item.technologie || '',
   actionnariat: item.actionnariat || '',
-  contratEDF: item.contratEDF || undefined,
 })
 
 type MakeProjectRepoDeps = {
@@ -304,10 +303,6 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
       },
       statusUpdatedBy: {
         type: DataTypes.UUID,
-        allowNull: true,
-      },
-      contratEDF: {
-        type: DataTypes.JSON,
         allowNull: true,
       },
     },
