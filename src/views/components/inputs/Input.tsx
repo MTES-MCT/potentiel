@@ -2,12 +2,13 @@ import React, { useState } from 'react'
 import { RiErrorWarningFill } from '@react-icons/all-files/ri/RiErrorWarningFill'
 
 type InputProps = React.HTMLAttributes<HTMLInputElement> & {
-  type?: 'text' | 'email' | 'date'
+  type?: 'text' | 'email' | 'date' | 'file'
   name?: string
   placeholder?: string
   required?: true
   pattern?: string
   error?: string
+  max?: string
 }
 
 export const Input = ({ className = '', error = '', onChange, ...props }: InputProps) => {
