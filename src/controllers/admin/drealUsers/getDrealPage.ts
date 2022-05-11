@@ -1,8 +1,8 @@
 import { userRepo } from '@dataAccess'
-import asyncHandler from '../helpers/asyncHandler'
-import routes from '../../routes'
+import asyncHandler from '../../helpers/asyncHandler'
+import routes from '../../../routes'
 import { ensureRole } from '@config'
-import { v1Router } from '../v1Router'
+import { v1Router } from '../../v1Router'
 import { DrealListPage } from '@views'
 
 v1Router.get(

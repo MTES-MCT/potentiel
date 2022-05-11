@@ -1,37 +1,31 @@
 import { createUser, eventStore } from '@config'
-import { REGIONS } from '@entities'
-import asyncHandler from '../helpers/asyncHandler'
-import { addQueryParams } from '../../helpers/addQueryParams'
-import { DrealUserInvited } from '@modules/authZ'
-import routes from '../../routes'
+import asyncHandler from '../../helpers/asyncHandler'
+import { addQueryParams } from '../../../helpers/addQueryParams'
+import { PartnerUserInvited } from '@modules/authZ'
+import routes from '../../../routes'
 import { ensureRole } from '@config'
-import { v1Router } from '../v1Router'
+import { v1Router } from '../../v1Router'
 import * as yup from 'yup'
-import { errorResponse, RequestValidationError, validateRequestBody } from '../helpers'
+import { errorResponse, RequestValidationError, validateRequestBody } from '../../helpers'
 import { logger } from '@core/utils'
-import { EmailAlreadyUsedError } from '../../modules/shared/errors'
+import { EmailAlreadyUsedError } from '../../../modules/shared/errors'
 
 const requestBodySchema = yup.object({
   role: yup
-    .mixed()
-    .oneOf(['dreal'])
+    .mixed<'acheteur-obligé' | 'ademe'>()
+    .oneOf(['acheteur-obligé', 'ademe'])
     .required('Ce champ est obligatoire')
     .typeError(`Le rôle n'est pas valide`),
   email: yup.string().email("L'email saisi est invalide").required('Ce champ est obligatoire'),
-  region: yup
-    .mixed()
-    .oneOf([...REGIONS], 'Vous devez sélectionner une région dans le menu déroulant ci-dessus')
-    .required('Ce champ est obligatoire')
-    .typeError("La région saisie n'est pas valide"),
 })
 
 v1Router.post(
-  routes.ADMIN_INVITE_DREAL_USER_ACTION,
+  routes.ADMIN_INVITE_USER_ACTION,
   ensureRole('admin'),
   asyncHandler(async (request, response) => {
     validateRequestBody(request.body, requestBodySchema)
       .asyncAndThen((body) => {
-        const { email, role, region } = body
+        const { email, role } = body
 
         return createUser({
           email: email.toLowerCase(),
@@ -40,10 +34,10 @@ v1Router.post(
         }).andThen(({ id: userId }) => {
           return eventStore
             .publish(
-              new DrealUserInvited({
+              new PartnerUserInvited({
                 payload: {
                   userId,
-                  region,
+                  role,
                   invitedBy: request.user.id,
                 },
               })
@@ -56,14 +50,14 @@ v1Router.post(
           response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
               success: `Une invitation a bien été envoyée à ${email}.`,
-              redirectUrl: routes.ADMIN_DREAL_LIST,
-              redirectTitle: 'Retourner à la liste des DREALs',
+              redirectUrl: routes.ADMIN_PARTNER_USERS,
+              redirectTitle: 'Retourner à la liste des utilisateurs partenaires',
             })
           ),
         (error: Error) => {
           if (error instanceof RequestValidationError) {
             return response.redirect(
-              addQueryParams(routes.ADMIN_DREAL_LIST, {
+              addQueryParams(routes.ADMIN_PARTNER_USERS, {
                 ...request.body,
                 ...error.errors,
               })
@@ -71,7 +65,7 @@ v1Router.post(
           }
           if (error instanceof EmailAlreadyUsedError) {
             return response.redirect(
-              addQueryParams(routes.ADMIN_DREAL_LIST, {
+              addQueryParams(routes.ADMIN_PARTNER_USERS, {
                 ...request.body,
                 error:
                   "L'invitation n'a pas pu être envoyée car l'adresse email est déjà associée à un compte Potentiel.",
