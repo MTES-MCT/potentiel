@@ -3,7 +3,7 @@ import { EDFContractAutomaticallyLinkedToProject } from '@modules/edf'
 
 export const onEDFContractAutomaticallyLinkedToProject =
   (models) => async (event: EDFContractAutomaticallyLinkedToProject) => {
-    const { projectId, numero, type, dateEffet, dateSignature, duree } = event.payload
+    const { projectId, numero, type, dateEffet, dateSignature, statut, duree } = event.payload
     const { Project } = models
     const projectInstance = await Project.findByPk(projectId)
 
@@ -19,6 +19,7 @@ export const onEDFContractAutomaticallyLinkedToProject =
       type,
       dateEffet,
       dateSignature,
+      statut,
       duree: duree && Number(duree),
     }
 

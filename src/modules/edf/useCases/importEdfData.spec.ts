@@ -36,13 +36,14 @@ describe('importEdfData', () => {
   const dateEffet = '1/1/20'
   const dateSignature = '3/23/21'
   const duree = '2222'
-
+  const statut = 'SIGNE'
   describe('when the numero contrat is linked to a project', () => {
     describe('when the contract data has changed', () => {
       const parseCsvFile = jest.fn(() =>
         Promise.resolve([
           {
             'Contrat - Type (code)': typeContrat,
+            'Contrat - Statut (code)': updatedStatut,
             'Contrat - Numéro': numeroContratEDF,
             "Contrat - Date d'effet": updatedDateEffet,
             'Contrat - Date de signature': dateSignature,
@@ -52,6 +53,7 @@ describe('importEdfData', () => {
       )
       const updatedDateEffet = 'abcde'
       const updatedDuree = 'nouvelle duree'
+      const updatedStatut = 'nouveau statut'
       const findByNumeroContrat = jest.fn((numeroContratEDF: string) => ({
         projectId,
         numero: numeroContratEDF,
@@ -59,6 +61,7 @@ describe('importEdfData', () => {
         dateSignature,
         type: typeContrat,
         duree,
+        statut,
       }))
 
       const publish = jest.fn((event: DomainEvent) => okAsync(null))
@@ -81,6 +84,7 @@ describe('importEdfData', () => {
           projectId,
           dateEffet: updatedDateEffet,
           duree: updatedDuree,
+          statut: updatedStatut,
         })
       })
     })
@@ -90,6 +94,7 @@ describe('importEdfData', () => {
         Promise.resolve([
           {
             'Contrat - Type (code)': typeContrat,
+            'Contrat - Statut (code)': statut,
             'Contrat - Numéro': numeroContratEDF,
             "Contrat - Date d'effet": dateEffet,
             'Contrat - Date de signature': dateSignature,
@@ -104,6 +109,7 @@ describe('importEdfData', () => {
         dateSignature,
         type: typeContrat,
         duree,
+        statut,
       }))
 
       const publish = jest.fn((event: DomainEvent) => okAsync(null))
@@ -129,6 +135,7 @@ describe('importEdfData', () => {
   describe('when the numero contrat is not linked to a project', () => {
     const line = {
       'Contrat - Type (code)': typeContrat,
+      'Contrat - Statut (code)': statut,
       'Contrat - Numéro': numeroContratEDF,
       "Contrat - Date d'effet": dateEffet,
       'Contrat - Date de signature': dateSignature,
@@ -186,6 +193,7 @@ describe('importEdfData', () => {
           dateSignature,
           dateEffet,
           duree,
+          statut,
           rawValues: line,
         })
       })

@@ -125,6 +125,7 @@ const fakeProjectData = {
     dateEffet: '1/1/20',
     dateSignature: '3/23/21',
     duree: 7303,
+    statut: 'SIGNE',
   },
 } as unknown as ProjectDataForProjectPage
 
