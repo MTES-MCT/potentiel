@@ -4,16 +4,17 @@ import { User } from '@entities'
 import { dataId } from '../../../helpers/testId'
 import ROUTES from '../../../routes'
 import AdminDashboard from '../../components/AdminDashboard'
-import { PageLayout, SuccessErrorBox } from '../../components'
+import { Button, Input, PageLayout, SuccessErrorBox } from '../../components'
 import { hydrateOnClient } from '../../../views/helpers'
 
 interface AdminUsersProps {
   request: Request
   users: Array<User>
+  validationErrors?: Array<{ [fieldName: string]: string }>
 }
 
 /* Pure component */
-export const PartnersList = PageLayout(({ request, users }: AdminUsersProps) => {
+export const PartnersList = PageLayout(({ request, users, validationErrors }: AdminUsersProps) => {
   const { error, success } = (request.query as any) || {}
 
   return (
@@ -29,31 +30,48 @@ export const PartnersList = PageLayout(({ request, users }: AdminUsersProps) => 
           <form
             action={ROUTES.ADMIN_INVITE_USER_ACTION}
             method="post"
-            style={{ maxWidth: 'auto', margin: '0 0 15px 0' }}
+            className="flex flex-col gap-4"
           >
-            <div className="form__group">
+            <div>
               <label htmlFor="email">Adresse email</label>
-              <input
-                type="text"
+              <Input
+                type="email"
                 name="email"
                 id="email"
                 {...dataId('email-field')}
-                style={{ width: 'auto' }}
+                required
+                {...(validationErrors && { error: validationErrors['email']?.toString() })}
               />
-              <select name="role" {...dataId('role-field')}>
-                <option value="acheteur-obligé">Acheteur obligé</option>
-                <option value="ademe">ADEME</option>
-              </select>
-              <button
-                className="button"
-                type="submit"
-                name="submit"
-                id="submit"
-                {...dataId('submit-button')}
-              >
-                Inviter
-              </button>
             </div>
+            <div className="flex gap-6">
+              <p className="m-0">Sélectionnez un rôle : </p>
+              <div className="flex gap-6">
+                <div className="flex">
+                  <input
+                    type="radio"
+                    name="role"
+                    id="acheteur-obligé"
+                    value="acheteur-obligé"
+                    defaultChecked
+                    required
+                  />
+                  <label htmlFor="acheteur-obligé">Acheteur obligé</label>
+                </div>
+                <div className="flex">
+                  <input type="radio" name="role" id="ademe" value="ademe" required />
+                  <label htmlFor="ademe">ADEME</label>
+                </div>
+              </div>
+            </div>
+            <Button
+              className="m-auto"
+              primary
+              type="submit"
+              id="submit"
+              {...dataId('submit-button')}
+            >
+              Inviter
+            </Button>
           </form>
         </div>
         {Boolean(users?.length) && (
