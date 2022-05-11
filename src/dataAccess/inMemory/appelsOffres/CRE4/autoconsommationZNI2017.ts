@@ -5,8 +5,8 @@ export const autoconsommationZNI2017: AppelOffre = {
   id: 'CRE4 - Autoconsommation ZNI 2017',
   type: 'autoconso',
   title:
-    '2016/S 242-441979 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées dans les zones non interconnectées',
-  shortTitle: 'CRE4 - Autoconsommation ZNI 2016/S 242-441979',
+    '${referencePeriode} portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées dans les zones non interconnectées',
+  shortTitle: 'CRE4 - Autoconsommation ZNI ${referencePeriode}',
   launchDate: 'décembre 2016',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 30,
@@ -41,6 +41,7 @@ export const autoconsommationZNI2017: AppelOffre = {
       title: 'première',
       paragrapheAchevement: '6.3',
       type: 'legacy',
+      reference: '2016/S 242-441979',
     },
   ],
   familles: [],

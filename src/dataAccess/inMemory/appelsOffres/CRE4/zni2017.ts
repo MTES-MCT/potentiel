@@ -5,8 +5,8 @@ export const zni2017: AppelOffre = {
   id: 'CRE4 - ZNI 2017',
   type: 'zni',
   title:
-    '2016/S 242-441980 portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de techniques de conversion du rayonnement solaire d’une puissance supérieure à 100 kWc et situées dans les zones non interconnectées',
-  shortTitle: 'CRE4 - ZNI 2016/S 242-441980',
+    '${referencePeriode} portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de techniques de conversion du rayonnement solaire d’une puissance supérieure à 100 kWc et situées dans les zones non interconnectées',
+  shortTitle: 'CRE4 - ZNI ${referencePeriode}',
   launchDate: 'mai 2015',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 36,
@@ -43,6 +43,7 @@ export const zni2017: AppelOffre = {
       title: 'première',
       paragrapheAchevement: '6.4',
       type: 'legacy',
+      reference: '2016/S 242-441980',
     },
   ],
   familles: [

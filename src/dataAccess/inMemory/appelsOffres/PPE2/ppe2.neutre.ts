@@ -4,8 +4,8 @@ const neutrePPE2: AppelOffre = {
   id: 'PPE2 - Neutre',
   type: 'neutre',
   title:
-    '2021 S 176-457521 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergie solaire photovoltaïque, hydroélectrique ou éolienne situées en métropole continentale',
-  shortTitle: 'PPE2 - Neutre 2021 S 176-457521',
+    '${referencePeriode} portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergie solaire photovoltaïque, hydroélectrique ou éolienne situées en métropole continentale',
+  shortTitle: 'PPE2 - Neutre',
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   launchDate: 'Août 2021',
   unitePuissance: 'MW',
@@ -47,6 +47,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
       paragrapheAchevement: '6.3',
       type: 'not-yet-notified',
       certificateTemplate: 'ppe2.v1',
+      reference: '2021 S 176-457521',
     },
   ],
   familles: [

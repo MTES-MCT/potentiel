@@ -4,8 +4,8 @@ const autoconsommationMetropolePPE2: AppelOffre = {
   id: 'PPE2 - Autoconsommation métropole',
   type: 'autoconso',
   title:
-    '2021 S 176-457526 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées en métropole continentale',
-  shortTitle: 'PPE2 - Autoconsommation métropole 2021 S 176-457526',
+    '${referencePeriode} portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées en métropole continentale',
+  shortTitle: 'PPE2 - Autoconsommation métropole',
   launchDate: 'Août 2021',
   unitePuissance: 'MW',
   delaiRealisationEnMoisParTechnologie: { eolien: 36, pv: 30, hydraulique: 0 },
@@ -58,6 +58,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
       paragrapheAchevement: '6.3',
       certificateTemplate: 'ppe2.v1',
       noteThreshold: 62.5,
+      reference: '2021 S 176-457526',
     },
   ],
   familles: [],

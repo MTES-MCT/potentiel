@@ -5,8 +5,8 @@ const autoconsommationZNI: AppelOffre = {
   id: 'CRE4 - Autoconsommation ZNI',
   type: 'autoconso',
   title:
-    '2019/S 113-276257 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées dans les zones non interconnectées.',
-  shortTitle: 'CRE4 - Autoconsommation ZNI 2019/S 113-276257',
+    '${referencePeriode} portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées dans les zones non interconnectées.',
+  shortTitle: 'CRE4 - Autoconsommation ZNI ${referencePeriode}',
   launchDate: 'juin 2019',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 30,
@@ -41,6 +41,7 @@ const autoconsommationZNI: AppelOffre = {
       title: 'première',
       paragrapheAchevement: '6.3',
       type: 'legacy',
+      reference: '2019/S 113-276257',
     },
     {
       id: '2',
@@ -48,6 +49,7 @@ const autoconsommationZNI: AppelOffre = {
       certificateTemplate: 'cre4.v1',
       paragrapheAchevement: '6.3',
       noteThreshold: 32.9,
+      reference: '2019/S 113-276257',
     },
   ],
   familles: [],
