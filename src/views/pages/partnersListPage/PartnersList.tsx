@@ -43,7 +43,7 @@ export const PartnersList = PageLayout(({ request, users, validationErrors }: Ad
                 {...(validationErrors && { error: validationErrors['email']?.toString() })}
               />
             </div>
-            <div className="flex gap-6">
+            <div className="flex gap-2 md:gap-6 flex-col md:flex-row">
               <p className="m-0">Sélectionnez un rôle : </p>
               <div className="flex gap-6">
                 <div className="flex">
