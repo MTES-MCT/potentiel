@@ -187,7 +187,7 @@ const SubmitForm = ({ projectId }: SubmitFormProps) => {
             d’Achèvement de l’installation ou être renouvelée régulièrement afin d’assurer une telle
             couverture temporelle.
           </p>
-          <div className="flex gap-4">
+          <div className="flex gap-4 flex-col md:flex-row">
             <Button type="submit" primary>
               Enregistrer
             </Button>
@@ -318,7 +318,7 @@ const UploadForm = ({ projectId, role }: UploadFormProps) => {
               </p>
             )}
           </div>
-          <div className="flex gap-4">
+          <div className="flex gap-4 flex-col md:flex-row">
             <Button type="submit" primary>
               Enregistrer
             </Button>
@@ -373,7 +373,7 @@ const AddExpirationDateForm = ({ projectId }: AddExpirationDateFormProps) => {
             date d’Achèvement de l’installation ou être renouvelée régulièrement afin d’assurer une
             telle couverture temporelle.
           </p>
-          <div className="flex gap-4">
+          <div className="flex gap-4 flex-col md:flex-row">
             <Button type="submit" primary>
               Enregistrer
             </Button>

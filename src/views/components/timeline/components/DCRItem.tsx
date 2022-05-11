@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '../components'
 import ROUTES from '../../../../routes'
-import { DateInput } from '../../'
+import { Button } from '../../'
 import { WarningItem } from '../components/WarningItem'
 import { DCRItemProps } from '../helpers/extractDCRItemProps'
 import { WarningIcon } from './WarningIcon'
+import { Input } from '../../inputs'
+import { format } from 'date-fns'
 
 export const DCRItem = (props: DCRItemProps & { projectId: string }) => {
   const { status, projectId } = props
@@ -110,8 +112,6 @@ type UploadFormProps = {
 const UploadForm = ({ projectId }: UploadFormProps) => {
   const [isFormVisible, showForm] = useState(false)
 
-  const [disableSubmit, setDisableSubmit] = useState(true)
-
   return (
     <>
       <a onClick={() => showForm(!isFormVisible)}>Transmettre l'accusé de réception</a>
@@ -125,23 +125,31 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
           <input type="hidden" name="type" id="type" value="dcr" />
           <input type="hidden" name="projectId" value={projectId} />
           <div>
-            <label htmlFor="date">Date de l'accusé de réception (format JJ/MM/AAAA)</label>
-            <DateInput onError={(isError) => setDisableSubmit(isError)} />
+            <label htmlFor="stepDate">Date de l'accusé de réception</label>
+            <Input
+              type="date"
+              id="stepDate"
+              name="stepDate"
+              max={format(new Date(), 'yyyy-MM-dd')}
+              required
+            />
           </div>
           <div className="mt-2">
             <label htmlFor="numero-dossier">
               Identifiant gestionnaire de réseau (ex : GEFAR-P)
             </label>
-            <input type="text" name="numeroDossier" id="numero-dossier" required />
+            <Input type="text" name="numeroDossier" id="numero-dossier" required />
           </div>
           <div className="mt-2">
             <label htmlFor="file">Accusé de réception</label>
-            <input type="file" name="file" id="file" required />
+            <Input type="file" name="file" id="file" required />
           </div>
-          <button className="button" type="submit" name="submit" disabled={disableSubmit}>
-            Envoyer
-          </button>
-          <a onClick={() => showForm(false)}>Annuler</a>
+          <div className="flex gap-4 flex-col md:flex-row mt-4">
+            <Button type="submit" primary>
+              Envoyer
+            </Button>
+            <Button onClick={() => showForm(false)}>Annuler</Button>
+          </div>
         </form>
       )}
     </>
