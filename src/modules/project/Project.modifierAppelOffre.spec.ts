@@ -12,6 +12,14 @@ Fonctionnalité : Modifier l'appel d'offre d'un projet
     On souhaite pouvoir modifier l'appel d'offre du projet
 */
 
+const getProjectAppelOffre = ({ appelOffreId, periodeId, familleId }) => {
+  return {
+    id: appelOffreId,
+    periode: { id: periodeId },
+    ...(familleId && { famille: { id: familleId } }),
+  } as ProjectAppelOffre
+}
+
 // Scénario
 describe(`Modifier l'AO d'un projet`, () => {
   describe(`Étant donné un projet importé avec l'AO "PPE2 - Batiment 2"`, () => {
@@ -36,13 +44,7 @@ describe(`Modifier l'AO d'un projet`, () => {
             },
           }),
         ],
-        getProjectAppelOffre: ({ appelOffreId, periodeId, familleId }) => {
-          return {
-            id: appelOffreId,
-            periode: { id: periodeId },
-            ...(familleId && { famille: { id: familleId } }),
-          } as ProjectAppelOffre
-        },
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )
@@ -99,13 +101,7 @@ describe(`Charger un projet avec un AO modifié`, () => {
             },
           }),
         ],
-        getProjectAppelOffre: ({ appelOffreId, periodeId, familleId }) => {
-          return {
-            id: appelOffreId,
-            periode: { id: periodeId },
-            ...(familleId && { famille: { id: familleId } }),
-          } as ProjectAppelOffre
-        },
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )
@@ -139,13 +135,7 @@ describe(`Modifier l'AO d'un projet avec le même`, () => {
             },
           }),
         ],
-        getProjectAppelOffre: ({ appelOffreId, periodeId, familleId }) => {
-          return {
-            id: appelOffreId,
-            periode: { id: periodeId },
-            ...(familleId && { famille: { id: familleId } }),
-          } as ProjectAppelOffre
-        },
+        getProjectAppelOffre,
         buildProjectIdentifier: () => '',
       })
     )
