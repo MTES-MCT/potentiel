@@ -1,3 +1,4 @@
+export * from './AppelOffreProjetModifie';
 export * from './CertificatesForPeriodeRegenerated';
 export * from './CovidDelayGranted';
 export * from './DemandeAbandonSignaled';

@@ -64,6 +64,7 @@ import {
   DemandeDelaiSignaled,
   DemandeAbandonSignaled,
   DemandeRecoursSignaled,
+  AppelOffreProjetModifie,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre'
@@ -166,6 +167,7 @@ export interface Project extends EventStoreAggregate {
     status: 'acceptée' | 'rejetée'
     attachment?: { id: string; name: string }
   }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
+  modifierAppelOffre: (appelOffre: { id: string }) => Result<null, null>
   readonly shouldCertificateBeGenerated: boolean
   readonly appelOffre?: ProjectAppelOffre
   readonly isClasse?: boolean
@@ -884,6 +886,19 @@ export const makeProject = (args: {
 
       return ok(null)
     },
+    modifierAppelOffre: ({ id: appelOffreId }) => {
+      props.appelOffre?.id !== appelOffreId &&
+        _publishEvent(
+          new AppelOffreProjetModifie({
+            payload: {
+              projectId: props.projectId.toString(),
+              appelOffreId,
+            },
+          })
+        )
+
+      return ok(null)
+    },
     get pendingEvents() {
       return pendingEvents
     },
@@ -1109,6 +1124,9 @@ export const makeProject = (args: {
         break
       case ProjectAbandoned.type:
         props.abandonedOn = event.occurredAt.getTime()
+        break
+      case AppelOffreProjetModifie.type:
+        _updateAppelOffre({ appelOffreId: event.payload.appelOffreId })
         break
       default:
         // ignore other event types
