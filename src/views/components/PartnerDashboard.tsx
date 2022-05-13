@@ -2,22 +2,6 @@ import React from 'react'
 import { UserRole } from '@modules/users'
 import ROUTES from '../../routes'
 
-interface SeparatorItemProps {
-  visibleForRoles: Array<UserRole>
-  role: UserRole | undefined
-}
-const SeparatorItem = ({ visibleForRoles, role }: SeparatorItemProps) =>
-  role && visibleForRoles.includes(role) ? (
-    <div
-      style={{
-        height: 3,
-        width: '100%',
-        backgroundColor: 'var(--lighter-grey)',
-        margin: '5px 0px',
-      }}
-    />
-  ) : null
-
 interface PartnerDashboardProps {
   children: React.ReactNode
   role: UserRole | undefined
@@ -79,14 +63,16 @@ export default function PartnerDashboard({ children, currentPage, role }: Partne
               currentPage={currentPage}
             />
 
-            <MenuItem
-              route={ROUTES.UPLOAD_EDF_FILE}
-              itemPage={'upload-edf'}
-              title="Importer des données"
-              visibleForRoles={['acheteur-obligé']}
-              role={role}
-              currentPage={currentPage}
-            />
+            {!!process.env.ENABLE_EDF_IMPORT && (
+              <MenuItem
+                route={ROUTES.UPLOAD_EDF_FILE}
+                itemPage={'upload-edf'}
+                title="Importer des données"
+                visibleForRoles={['acheteur-obligé']}
+                role={role}
+                currentPage={currentPage}
+              />
+            )}
           </ul>
         </aside>
         <div className="main">{children}</div>
