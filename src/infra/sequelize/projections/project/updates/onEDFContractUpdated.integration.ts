@@ -35,7 +35,7 @@ describe('project.onEDFContractUpdated', () => {
           dateEffet: '3/23/21',
           dateSignature: '5/2/20',
           duree: '1234',
-          status: 'ACTIF',
+          statut: 'ACTIF',
         },
       })
     )
@@ -47,7 +47,7 @@ describe('project.onEDFContractUpdated', () => {
       dateEffet: '3/23/21',
       dateSignature: '5/2/20',
       duree: 1234,
-      status: 'ACTIF',
+      statut: 'ACTIF',
     })
   })
 })
