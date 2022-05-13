@@ -32,6 +32,7 @@ import {
   makeUploadGF,
   makeWithdrawGF,
   makeSignalerDemandeRecours,
+  makeModifierAppelOffreProjet,
 } from '@modules/project'
 import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '@modules/users'
 import { buildCertificate } from '@views/certificates'
@@ -61,6 +62,7 @@ import {
   projectRepo,
   projectClaimRepo,
 } from './repos.config'
+import { getAppelOffre } from '@dataAccess/inMemory'
 
 export const shouldUserAccessProject = new BaseShouldUserAccessProject(
   oldUserRepo,
@@ -262,4 +264,9 @@ export const signalerDemandeRecours = makeSignalerDemandeRecours({
   fileRepo,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
+})
+
+export const modifierAppelOffreProjet = makeModifierAppelOffreProjet({
+  projectRepo,
+  getAppelOffre,
 })

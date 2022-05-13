@@ -1,6 +1,7 @@
 export * from './correctProjectData';
 export * from './generateCertificate';
 export * from './importProjects';
+export * from './modifierAppelOffreProjet';
 export * from './regenerateCertificatesForPeriode';
 export * from './removeGF';
 export * from './removeStep';
