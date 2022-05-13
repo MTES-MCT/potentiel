@@ -3,7 +3,7 @@ import { UniqueEntityID } from '@core/domain'
 import { AppelOffreProjetModifie, ProjectImported } from './events'
 import { makeProject } from './Project'
 import makeFakeProject from '../../__tests__/fixtures/project'
-import { ProjectAppelOffre } from '@entities'
+import { AppelOffre, ProjectAppelOffre } from '@entities'
 
 /* 
 Fonctionnalité : Modifier l'appel d'offre d'un projet
@@ -49,7 +49,7 @@ describe(`Modifier l'AO d'un projet`, () => {
       })
     )
     describe(`Quand on modifie l'AO du projet par "PPE2 - Batiment"`, () => {
-      project.modifierAppelOffre({ id: 'PPE2 - Batiment' })
+      project.modifierAppelOffre({ id: 'PPE2 - Batiment' } as AppelOffre)
 
       it(`Alors l'évennement "AppelOffreProjetModifie" doit être émis avec le nouvel AO`, () => {
         const actualEvent = project.pendingEvents.find((e) => e.type === 'AppelOffreProjetModifie')
@@ -140,7 +140,7 @@ describe(`Modifier l'AO d'un projet avec le même`, () => {
       })
     )
     describe(`Quand on modifie l'AO du projet par "PPE2 - Batiment"`, () => {
-      project.modifierAppelOffre({ id: 'PPE2 - Batiment' })
+      project.modifierAppelOffre({ id: 'PPE2 - Batiment' } as AppelOffre)
 
       it(`Alors aucun évennement ne doit être émis`, () => {
         expect(project.pendingEvents).toHaveLength(0)

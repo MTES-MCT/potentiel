@@ -11,7 +11,7 @@ import {
   ok,
   Result,
 } from '@core/utils'
-import { CertificateTemplate, ProjectAppelOffre, Technologie, User } from '@entities'
+import { AppelOffre, CertificateTemplate, ProjectAppelOffre, Technologie, User } from '@entities'
 import { isNotifiedPeriode } from '@entities/periode'
 import {
   EntityNotFoundError,
@@ -167,7 +167,7 @@ export interface Project extends EventStoreAggregate {
     status: 'acceptée' | 'rejetée'
     attachment?: { id: string; name: string }
   }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
-  modifierAppelOffre: (appelOffre: { id: string }) => Result<null, null>
+  modifierAppelOffre: (appelOffre: AppelOffre) => Result<null, null>
   readonly shouldCertificateBeGenerated: boolean
   readonly appelOffre?: ProjectAppelOffre
   readonly isClasse?: boolean
