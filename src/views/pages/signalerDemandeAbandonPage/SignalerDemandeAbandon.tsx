@@ -23,7 +23,7 @@ export const SignalerDemandeAbandon = PageLayout(
       <RoleBasedDashboard role={user.role} currentPage="list-projects">
         <main role="main" className="panel">
           <div className="panel__header">
-            <h1 className="text-2xl">Signaler une demande d'abandon traitée hors Potentiel</h1>
+            <h1 className="text-2xl">Enregistrer une demande d'abandon traitée hors Potentiel</h1>
           </div>
 
           <form

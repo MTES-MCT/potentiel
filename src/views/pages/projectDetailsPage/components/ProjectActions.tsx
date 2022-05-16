@@ -16,17 +16,17 @@ export const ProjectActions = ({ project, user }: ProjectActionsProps) => (
   <div className="whitespace-nowrap">
     {userIs(['admin', 'dgec'])(user) && <AdminActions {...{ project }} />}
     {userIs(['porteur-projet'])(user) && <PorteurProjetActions {...{ project }} />}
-    {userIs(['dreal'])(user) && <SignalerUnChangement {...{ project }} />}
+    {userIs(['dreal'])(user) && <EnregistrerUneModification {...{ project }} />}
   </div>
 )
 
-type SignalerUnChangementProps = {
+type EnregistrerUneModificationProps = {
   project: ProjectDataForProjectPage
 }
-const SignalerUnChangement = ({ project }: SignalerUnChangementProps) => (
+const EnregistrerUneModification = ({ project }: EnregistrerUneModificationProps) => (
   <Menu as="div" className="self-stretch relative grow md:grow-0 text-left mx-auto">
     <Menu.Button className="inline-flex items-center px-6 py-2 border border-solid text-base font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 border-blue-france-sun-base text-blue-france-sun-base bg-white hover:bg-blue-france-975-base focus:bg-blue-france-975-base">
-      Signaler un changement
+      Enregistrer une modification
     </Menu.Button>
     <Transition
       as={Fragment}
@@ -216,7 +216,7 @@ type AdminActionsProps = {
 }
 const AdminActions = ({ project }: AdminActionsProps) => (
   <div className="flex flex-col md:flex-row gap-2">
-    <SignalerUnChangement {...{ project }} />
+    <EnregistrerUneModification {...{ project }} />
 
     {project.notifiedOn && project.certificateFile ? (
       <LinkButton
