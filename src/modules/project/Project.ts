@@ -29,6 +29,8 @@ import {
   ProjectAlreadyNotifiedError,
   ProjectCannotBeUpdatedIfUnnotifiedError,
   ProjectNotEligibleForCertificateError,
+  NoGFCertificateToUpdateError,
+  GFAlreadyHasExpirationDateError,
 } from './errors'
 import {
   LegacyProjectSourced,
@@ -65,6 +67,7 @@ import {
   DemandeAbandonSignaled,
   DemandeRecoursSignaled,
   AppelOffreProjetModifié,
+  ProjectGFExpirationDateAdded,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre'
@@ -168,6 +171,16 @@ export interface Project extends EventStoreAggregate {
     attachment?: { id: string; name: string }
   }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
   modifierAppelOffre: (appelOffre: AppelOffre) => Result<null, null>
+  addGFExpirationDate: (args: {
+    projectId: string
+    expirationDate: Date
+    submittedBy: User
+  }) => Result<
+    null,
+    | ProjectCannotBeUpdatedIfUnnotifiedError
+    | NoGFCertificateToUpdateError
+    | GFAlreadyHasExpirationDateError
+  >
   readonly shouldCertificateBeGenerated: boolean
   readonly appelOffre?: ProjectAppelOffre
   readonly isClasse?: boolean
@@ -232,6 +245,7 @@ export interface ProjectProps {
   fieldsUpdatedAfterImport: Set<string>
   potentielIdentifier?: string
   hasCurrentGf: boolean
+  GFExpirationDate: Date | undefined
 }
 
 const projectValidator = makePropertyValidator({
@@ -267,6 +281,7 @@ export const makeProject = (args: {
     newRulesOptIn: false,
     fieldsUpdatedAfterImport: new Set<string>(),
     hasCurrentGf: false,
+    GFExpirationDate: undefined,
   }
 
   // Initialize aggregate by processing each event in history
@@ -899,6 +914,29 @@ export const makeProject = (args: {
 
       return ok(null)
     },
+    addGFExpirationDate: function (args) {
+      const { expirationDate, submittedBy, projectId } = args
+      if (!_isNotified()) {
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+      }
+      if (!props.hasCurrentGf) {
+        return err(new NoGFCertificateToUpdateError())
+      }
+      if (props.GFExpirationDate) {
+        return err(new GFAlreadyHasExpirationDateError())
+      }
+      _publishEvent(
+        new ProjectGFExpirationDateAdded({
+          payload: {
+            expirationDate,
+            submittedBy: submittedBy.id,
+            projectId,
+          },
+        })
+      )
+
+      return ok(null)
+    },
     get pendingEvents() {
       return pendingEvents
     },
@@ -1116,6 +1154,9 @@ export const makeProject = (args: {
       case ProjectGFSubmitted.type:
       case ProjectGFUploaded.type:
         props.hasCurrentGf = true
+        if (event.payload.expirationDate) {
+          props.GFExpirationDate = event.payload.expirationDate
+        }
         break
       case ProjectGFRemoved.type:
       case ProjectGFInvalidated.type:
@@ -1127,6 +1168,9 @@ export const makeProject = (args: {
         break
       case AppelOffreProjetModifié.type:
         _updateAppelOffre({ appelOffreId: event.payload.appelOffreId })
+        break
+      case ProjectGFExpirationDateAdded.type:
+        props.GFExpirationDate = event.payload.expirationDate
         break
       default:
         // ignore other event types
