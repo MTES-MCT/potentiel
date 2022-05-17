@@ -5,7 +5,7 @@ import {
   ContratEDFMisAJour,
   ContratEDFRapprochéAutomatiquement,
   ContratEDFAvecPlusieursProjetsPossibles,
-  EDFContractHasNoMatch,
+  ContratEDFOrphelin,
 } from '../events'
 import { AO_CODES, makeImportEdfData } from './importEdfData'
 
@@ -254,9 +254,9 @@ describe('importEdfData', () => {
         ),
       })
 
-      it('should emit EDFContractHasNoMatch', async () => {
+      it('should emit ContratEDFOrphelin', async () => {
         await importEdfData(fakeEvent)
-        expect({ publish }).toHavePublishedWithPayload(EDFContractHasNoMatch, {
+        expect({ publish }).toHavePublishedWithPayload(ContratEDFOrphelin, {
           numero: numeroContratEDF,
           rawValues: line,
         })

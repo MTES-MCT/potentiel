@@ -2,7 +2,7 @@ import { EventBus } from '@core/domain'
 import {
   ContratEDFRapprochéAutomatiquement,
   ContratEDFAvecPlusieursProjetsPossibles,
-  EDFContractHasNoMatch,
+  ContratEDFOrphelin,
   ContratEDFMisAJour,
   EDFFileUploaded,
 } from '../events'
@@ -99,7 +99,7 @@ export const makeImportEdfData =
       if (!matches.length) {
         // no match
         await publish(
-          new EDFContractHasNoMatch({
+          new ContratEDFOrphelin({
             payload: {
               numero,
               rawValues: line,
