@@ -1,3 +1,4 @@
+export * from './AttachmentRequiredForDemandeRecoursAcceptedError';
 export * from './CertificateFileIsMissingError';
 export * from './EliminatedProjectCannotBeAbandonnedError';
 export * from './GFCertificateHasAlreadyBeenSent';

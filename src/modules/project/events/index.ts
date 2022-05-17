@@ -2,6 +2,7 @@ export * from './CertificatesForPeriodeRegenerated';
 export * from './CovidDelayGranted';
 export * from './DemandeAbandonSignaled';
 export * from './DemandeDelaiSignaled';
+export * from './DemandeRecoursSignaled';
 export * from './ImportExecuted';
 export * from './LegacyProjectEventSourced';
 export * from './LegacyProjectSourced';

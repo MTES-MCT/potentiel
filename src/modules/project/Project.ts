@@ -21,6 +21,7 @@ import {
 } from '../shared'
 import { ProjectDataForCertificate } from './dtos'
 import {
+  AttachmentRequiredForDemandeRecoursAcceptedError,
   EliminatedProjectCannotBeAbandonnedError,
   GFCertificateHasAlreadyBeenSentError,
   IllegalProjectStateError,
@@ -62,6 +63,7 @@ import {
   CovidDelayGranted,
   DemandeDelaiSignaled,
   DemandeAbandonSignaled,
+  DemandeRecoursSignaled,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre'
@@ -156,6 +158,13 @@ export interface Project extends EventStoreAggregate {
     attachment?: { id: string; name: string }
     signaledBy: User
     status: 'acceptée' | 'rejetée'
+  }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
+  signalerDemandeRecours: (args: {
+    decidedOn: Date
+    notes?: string
+    signaledBy: User
+    status: 'acceptée' | 'rejetée'
+    attachment?: { id: string; name: string }
   }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
   readonly shouldCertificateBeGenerated: boolean
   readonly appelOffre?: ProjectAppelOffre
@@ -840,6 +849,37 @@ export const makeProject = (args: {
             },
           })
         )
+      }
+
+      return ok(null)
+    },
+    signalerDemandeRecours: function (args) {
+      const { decidedOn, status, notes, attachment, signaledBy } = args
+      if (!_isNotified()) {
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+      }
+
+      if (status === 'acceptée' && !attachment) {
+        return err(new AttachmentRequiredForDemandeRecoursAcceptedError())
+      }
+
+      _publishEvent(
+        new DemandeRecoursSignaled({
+          payload: {
+            projectId: props.projectId.toString(),
+            decidedOn: decidedOn.getTime(),
+            notes,
+            attachments: attachment ? [attachment] : [],
+            signaledBy: signaledBy.id,
+            status,
+          },
+        })
+      )
+
+      if (status === 'acceptée' && !props.isClasse) {
+        this.grantClasse(signaledBy)
+          .andThen(() => attachment && this.updateCertificate(signaledBy, attachment.id))
+          .andThen(() => this.setNotificationDate(signaledBy, decidedOn.getTime()))
       }
 
       return ok(null)

@@ -6,6 +6,7 @@ export * from './removeGF';
 export * from './removeStep';
 export * from './signalerDemandeAbandon';
 export * from './signalerDemandeDelai';
+export * from './signalerDemandeRecours';
 export * from './submitGF';
 export * from './submitStep';
 export * from './updateNewRulesOptIn';

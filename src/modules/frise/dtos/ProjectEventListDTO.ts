@@ -39,6 +39,7 @@ export type ProjectEventDTO =
   | CovidDelayGrantedDTO
   | DemandeDelaiSignaledDTO
   | DemandeAbandonSignaledDTO
+  | DemandeRecoursSignaledDTO
 
 type File = {
   id: string
@@ -363,6 +364,16 @@ export type DemandeAbandonSignaledDTO = {
   date: number
   signaledBy: string
   status: 'acceptée' | 'rejetée' | 'à accorder'
+  attachment?: File
+  notes?: string
+}
+
+export type DemandeRecoursSignaledDTO = {
+  type: 'DemandeRecoursSignaled'
+  variant: Exclude<UserRole, 'ademe'>
+  date: number
+  signaledBy: string
+  status: 'acceptée' | 'rejetée'
   attachment?: File
   notes?: string
 }

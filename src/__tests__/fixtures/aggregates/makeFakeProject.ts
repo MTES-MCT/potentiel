@@ -84,6 +84,15 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
       signaledBy: User
     }) => ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)
   ),
+  signalerDemandeRecours: jest.fn(
+    (args: {
+      decidedOn: Date
+      status: 'acceptée' | 'rejetée'
+      notes?: string
+      attachments: Array<{ id: string; name: string }>
+      signaledBy: User
+    }) => ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)
+  ),
 
   certificateData: ok({
     template: 'v1' as CertificateTemplate,

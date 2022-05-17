@@ -147,6 +147,14 @@ class routes {
   }
   static ADMIN_SIGNALER_DEMANDE_ABANDON_POST = '/admin/signalerDemandeAbandon'
 
+  static ADMIN_SIGNALER_DEMANDE_RECOURS_PAGE = (projectId?: Project['id']) => {
+    const route = '/admin/projet/:projectId/signalerDemandeRecours.html'
+    if (projectId) {
+      return route.replace(':projectId', projectId)
+    } else return route
+  }
+  static ADMIN_SIGNALER_DEMANDE_RECOURS_POST = '/admin/signalerDemandeRecours'
+
   static SUCCESS_OR_ERROR_PAGE = withParams<{
     success?: string
     error?: string

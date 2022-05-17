@@ -13,6 +13,7 @@ import {
   UploadLegacyModificationFiles,
   SignalerDemandeDelai,
   SignalerDemandeAbandon,
+  SignalerDemandeRecours,
   Signup,
 } from './pages'
 
@@ -119,6 +120,15 @@ export const SignalerDemandeAbandonPage = (props: Parameters<typeof SignalerDema
     hydrate: true,
     pageName: 'signalerDemandeAbandon', // This must match the Component name
   })
+
+export const SignalerDemandeRecoursPage = (props: Parameters<typeof SignalerDemandeRecours>[0]) =>
+  makeHtml({
+    Component: SignalerDemandeRecours,
+    props,
+    hydrate: true,
+    pageName: 'signalerDemandeRecours', // This must match the Component name
+  })
+
 export const SignupPage = (props: Parameters<typeof Signup>[0]) =>
   makeHtml({
     Component: Signup,

@@ -66,10 +66,35 @@ const EnregistrerUneModification = ({ project }: EnregistrerUneModificationProps
             </div>
           </a>
         </Menu.Item>
+        {getProjectStatus(project) === 'éliminé' && (
+          <Menu.Item key={`signaler_demande_recours`}>
+            <a
+              href={ROUTES.ADMIN_SIGNALER_DEMANDE_RECOURS_PAGE(project.id)}
+              className="no-underline bg-none hover:bg-none"
+            >
+              <div
+                className={
+                  'text-center rounded-md w-full py-2 hover:bg-blue-france-975-base focus:bg-blue-france-975-base text-blue-france-sun-base'
+                }
+              >
+                Demande de recours
+              </div>
+            </a>
+          </Menu.Item>
+        )}
       </Menu.Items>
     </Transition>
   </Menu>
 )
+
+const getProjectStatus = (project: ProjectDataForProjectPage) =>
+  !project.notifiedOn
+    ? 'non-notifié'
+    : project.isAbandoned
+    ? 'abandonné'
+    : project.isClasse
+    ? 'lauréat'
+    : 'éliminé'
 
 type PorteurProjetActionsProps = {
   project: ProjectDataForProjectPage
