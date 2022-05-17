@@ -1,6 +1,6 @@
 import { EventBus } from '@core/domain'
 import {
-  EDFContractAutomaticallyLinkedToProject,
+  ContratEDFRapprochéAutomatiquement,
   EDFContractHasMultipleMatches,
   EDFContractHasNoMatch,
   ContratEDFMisAJour,
@@ -126,7 +126,7 @@ export const makeImportEdfData =
       // only one match
       const { projectId, score } = matches[0]
       await publish(
-        new EDFContractAutomaticallyLinkedToProject({
+        new ContratEDFRapprochéAutomatiquement({
           payload: {
             projectId,
             score,

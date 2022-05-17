@@ -1,6 +1,6 @@
 import { DomainEvent, BaseDomainEvent } from '../../../core/domain/DomainEvent'
 
-export interface EDFContractAutomaticallyLinkedToProjectPayload {
+export interface ContratEDFRapprochéAutomatiquementPayload {
   projectId: string
   numero: string
   type: string
@@ -13,16 +13,15 @@ export interface EDFContractAutomaticallyLinkedToProjectPayload {
   score: number
 }
 
-export class EDFContractAutomaticallyLinkedToProject
-  extends BaseDomainEvent<EDFContractAutomaticallyLinkedToProjectPayload>
+export class ContratEDFRapprochéAutomatiquement
+  extends BaseDomainEvent<ContratEDFRapprochéAutomatiquementPayload>
   implements DomainEvent
 {
-  public static type: 'EDFContractAutomaticallyLinkedToProject' =
-    'EDFContractAutomaticallyLinkedToProject'
-  public type = EDFContractAutomaticallyLinkedToProject.type
+  public static type: 'ContratEDFRapprochéAutomatiquement' = 'ContratEDFRapprochéAutomatiquement'
+  public type = ContratEDFRapprochéAutomatiquement.type
   currentVersion = 1
 
-  aggregateIdFromPayload(payload: EDFContractAutomaticallyLinkedToProjectPayload) {
+  aggregateIdFromPayload(payload: ContratEDFRapprochéAutomatiquementPayload) {
     return undefined
   }
 }

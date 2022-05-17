@@ -3,7 +3,7 @@ import { DomainEvent } from '../../../core/domain'
 import {
   EDFFileUploaded,
   ContratEDFMisAJour,
-  EDFContractAutomaticallyLinkedToProject,
+  ContratEDFRapprochéAutomatiquement,
   EDFContractHasMultipleMatches,
   EDFContractHasNoMatch,
 } from '../events'
@@ -190,9 +190,9 @@ describe('importEdfData', () => {
         ),
       })
 
-      it('should emit EDFContractAutomaticallyLinkedToProject', async () => {
+      it('should emit ContratEDFRapprochéAutomatiquement', async () => {
         await importEdfData(fakeEvent)
-        expect({ publish }).toHavePublishedWithPayload(EDFContractAutomaticallyLinkedToProject, {
+        expect({ publish }).toHavePublishedWithPayload(ContratEDFRapprochéAutomatiquement, {
           numero: numeroContratEDF,
           projectId,
           type: typeContrat,
@@ -230,7 +230,7 @@ describe('importEdfData', () => {
         ),
       })
 
-      it('should emit EDFContractAutomaticallyLinkedToProject', async () => {
+      it('should emit ContratEDFRapprochéAutomatiquement', async () => {
         await importEdfData(fakeEvent)
         expect({ publish }).toHavePublishedWithPayload(EDFContractHasMultipleMatches, {
           numero: numeroContratEDF,

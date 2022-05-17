@@ -1,4 +1,4 @@
-export * from './EDFContractAutomaticallyLinkedToProject'
+export * from './ContratEDFRapprochéAutomatiquement'
 export * from './EDFContractHasMultipleMatches'
 export * from './EDFContractHasNoMatch'
 export * from './ContratEDFMisAJour'

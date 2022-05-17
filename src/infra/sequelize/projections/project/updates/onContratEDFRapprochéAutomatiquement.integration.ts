@@ -1,11 +1,11 @@
 import models from '../../../models'
 import { resetDatabase } from '../../../helpers'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
-import { onEDFContractAutomaticallyLinkedToProject } from './onEDFContractAutomaticallyLinkedToProject'
-import { EDFContractAutomaticallyLinkedToProject } from '@modules/edf'
+import { onContratEDFRapprochéAutomatiquement } from './onContratEDFRapprochéAutomatiquement'
+import { ContratEDFRapprochéAutomatiquement } from '@modules/edf'
 import { v4 as uuid } from 'uuid'
 
-describe('project.onEDFContractAutomaticallyLinkedToProject', () => {
+describe('project.onContratEDFRapprochéAutomatiquement', () => {
   const ProjectModel = models.Project
   const projectId = uuid()
   const project = makeFakeProject({ id: projectId, puissanceInitiale: 100, puissance: 100 })
@@ -17,8 +17,8 @@ describe('project.onEDFContractAutomaticallyLinkedToProject', () => {
   })
 
   it('should set the project contratEDF', async () => {
-    await onEDFContractAutomaticallyLinkedToProject(models)(
-      new EDFContractAutomaticallyLinkedToProject({
+    await onContratEDFRapprochéAutomatiquement(models)(
+      new ContratEDFRapprochéAutomatiquement({
         payload: {
           projectId,
           numero: '123',

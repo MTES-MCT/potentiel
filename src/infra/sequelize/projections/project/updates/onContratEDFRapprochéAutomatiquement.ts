@@ -1,8 +1,8 @@
 import { logger } from '@core/utils'
-import { EDFContractAutomaticallyLinkedToProject } from '@modules/edf'
+import { ContratEDFRapprochéAutomatiquement } from '@modules/edf'
 
-export const onEDFContractAutomaticallyLinkedToProject =
-  (models) => async (event: EDFContractAutomaticallyLinkedToProject) => {
+export const onContratEDFRapprochéAutomatiquement =
+  (models) => async (event: ContratEDFRapprochéAutomatiquement) => {
     const { projectId, numero, type, dateEffet, dateSignature, dateMiseEnService, statut, duree } =
       event.payload
     const { Project } = models

@@ -29,7 +29,7 @@ import {
   ProjectPuissanceUpdated,
   ProjectReimported,
 } from '@modules/project'
-import { EDFContractAutomaticallyLinkedToProject, ContratEDFMisAJour } from '@modules/edf'
+import { ContratEDFRapprochéAutomatiquement, ContratEDFMisAJour } from '@modules/edf'
 import { ProjectClaimed, ProjectClaimedByOwner } from '@modules/projectClaim'
 import { onAppelOffreProjetModifié } from './onAppelOffreProjetModifié'
 import { onCovidDelayGranted } from './onCovidDelayGranted'
@@ -56,7 +56,7 @@ import { onProjectNotificationDateSet } from './onProjectNotificationDateSet'
 import { onProjectProducteurUpdated } from './onProjectProducteurUpdated'
 import { onProjectPuissanceUpdated } from './onProjectPuissanceUpdated'
 import { onProjectReimported } from './onProjectReimported'
-import { onEDFContractAutomaticallyLinkedToProject } from './onEDFContractAutomaticallyLinkedToProject'
+import { onContratEDFRapprochéAutomatiquement } from './onContratEDFRapprochéAutomatiquement'
 import { onContratEDFMisAJour } from './onContratEDFMisAJour'
 
 export const initProjectProjections = (eventBus: EventBus, models) => {
@@ -99,8 +99,8 @@ export const initProjectProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(AppelOffreProjetModifié.type, onAppelOffreProjetModifié(models))
 
   eventBus.subscribe(
-    EDFContractAutomaticallyLinkedToProject.type,
-    onEDFContractAutomaticallyLinkedToProject(models)
+    ContratEDFRapprochéAutomatiquement.type,
+    onContratEDFRapprochéAutomatiquement(models)
   )
   eventBus.subscribe(ContratEDFMisAJour.type, onContratEDFMisAJour(models))
 
