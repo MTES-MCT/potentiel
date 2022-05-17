@@ -6,10 +6,10 @@
  * @returns either an object with the changed properties or undefined if no properties have changed
  */
 
-export function shallowDelta(
-  previousData: Record<string, any>,
-  newData: Record<string, any>
-): Record<string, any> | undefined {
+export function shallowDelta<DataType extends Record<string, any>>(
+  previousData: DataType,
+  newData: DataType
+): Partial<DataType> | undefined {
   const changes = Object.entries(newData).reduce((delta, [correctionKey, correctionValue]) => {
     // If the specific property is missing from previousData
     // or it's value has changed, add it to the delta
