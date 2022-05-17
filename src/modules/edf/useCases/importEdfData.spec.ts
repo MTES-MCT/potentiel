@@ -1,7 +1,7 @@
 import { okAsync } from 'neverthrow'
 import { DomainEvent } from '../../../core/domain'
 import {
-  EDFFileUploaded,
+  ListingEDFImporté,
   ContratEDFMisAJour,
   ContratEDFRapprochéAutomatiquement,
   ContratEDFAvecPlusieursProjetsPossibles,
@@ -14,7 +14,7 @@ describe('importEdfData', () => {
   const projectId = 'fakeProjectId'
   const numeroContratEDF = 'fakeNumeroContratEDF'
   const typeContrat = AO_CODES.keys().next().value
-  const fakeEvent = new EDFFileUploaded({
+  const fakeEvent = new ListingEDFImporté({
     payload: {
       fileId,
       uploadedBy: '',

@@ -4,7 +4,7 @@ import {
   ContratEDFAvecPlusieursProjetsPossibles,
   ContratEDFOrphelin,
   ContratEDFMisAJour,
-  EDFFileUploaded,
+  ListingEDFImporté,
 } from '../events'
 
 import { shallowDelta } from '../../../helpers/shallowDelta'
@@ -54,7 +54,7 @@ export const AO_CODES = new Set(Object.keys(AO_BY_CONTRACT))
 
 export const makeImportEdfData =
   ({ publish, parseCsvFile, getSearchIndex: makeSearchIndex }: ImportEdfDataDeps) =>
-  async (event: EDFFileUploaded): Promise<void> => {
+  async (event: ListingEDFImporté): Promise<void> => {
     const {
       payload: { fileId },
     } = event

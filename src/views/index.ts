@@ -17,7 +17,7 @@ import {
   Signup,
   DrealList,
   PartnersList,
-  UploadEDFFile,
+  ImporterListingEDF,
 } from './pages'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -152,9 +152,9 @@ export const PartnersListPage = (props: Parameters<typeof PartnersList>[0]) =>
     pageName: 'partnersList', // This must match the Component name
   })
 
-export const UploadEDFFilePage = (props: Parameters<typeof UploadEDFFile>[0]) =>
+export const ImporterListingEDFPage = (props: Parameters<typeof ImporterListingEDF>[0]) =>
   makeHtml({
-    Component: UploadEDFFile,
+    Component: ImporterListingEDF,
     props,
     hydrate: false,
   })

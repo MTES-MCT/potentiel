@@ -65,7 +65,7 @@ export default function PartnerDashboard({ children, currentPage, role }: Partne
 
             {!!process.env.ENABLE_EDF_IMPORT && (
               <MenuItem
-                route={ROUTES.UPLOAD_EDF_FILE}
+                route={ROUTES.IMPORTER_LISTING_EDF}
                 itemPage={'upload-edf'}
                 title="Importer des données"
                 visibleForRoles={['acheteur-obligé']}

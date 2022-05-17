@@ -11,6 +11,6 @@ export * from './userAccount';
 export * from './getDeprecatedRegistrationPage';
 export * from './getStatistiquesPage';
 export * from './getSuccessPage';
+export * from './importerListingEDF';
 export * from './upload';
-export * from './uploadEDFFile';
 export * from './v1Router';
