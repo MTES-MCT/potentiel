@@ -29,6 +29,7 @@ if (isProdEnv) {
 
   logger.on('errorLog', (exception: Error | string) => {
     console.error(exception)
+    Sentry.setExtra('exception', exception)
     Sentry.captureException(exception)
   })
 } else {

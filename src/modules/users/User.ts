@@ -83,7 +83,7 @@ export const makeUser = (args: {
           })
         )
       } else {
-        return err(new EmailAlreadyUsedError({ userId }))
+        return err(new EmailAlreadyUsedError(userId))
       }
 
       return ok(null)
