@@ -68,7 +68,9 @@ export const makeUser = (args: {
       return ok(props.userId)
     },
     create: function ({ fullName, role, createdBy }) {
-      if (!props.userId) {
+      const { userId } = props
+
+      if (!userId) {
         _publishEvent(
           new UserCreated({
             payload: {
@@ -81,7 +83,7 @@ export const makeUser = (args: {
           })
         )
       } else {
-        return err(new EmailAlreadyUsedError())
+        return err(new EmailAlreadyUsedError(userId))
       }
 
       return ok(null)

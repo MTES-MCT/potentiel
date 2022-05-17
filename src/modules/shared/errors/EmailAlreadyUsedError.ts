@@ -1,7 +1,7 @@
 import { DomainError } from '@core/domain'
 
 export class EmailAlreadyUsedError extends DomainError {
-  constructor() {
-    super('Cette adresse mail est déjà utilisée pour un compte Potentiel existant.')
+  constructor(public userId: string) {
+    super(`Cette adresse email est déjà utilisée pour un compte Potentiel existant.`)
   }
 }
