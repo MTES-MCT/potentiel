@@ -1,5 +1,5 @@
 export * from './ContratEDFRapprochéAutomatiquement'
-export * from './EDFContractHasMultipleMatches'
+export * from './ContratEDFAvecPlusieursProjetsPossibles'
 export * from './EDFContractHasNoMatch'
 export * from './ContratEDFMisAJour'
 export * from './EDFFileUploaded'

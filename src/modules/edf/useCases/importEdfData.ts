@@ -1,7 +1,7 @@
 import { EventBus } from '@core/domain'
 import {
   ContratEDFRapprochéAutomatiquement,
-  EDFContractHasMultipleMatches,
+  ContratEDFAvecPlusieursProjetsPossibles,
   EDFContractHasNoMatch,
   ContratEDFMisAJour,
   EDFFileUploaded,
@@ -112,7 +112,7 @@ export const makeImportEdfData =
       if (matches.length > 1) {
         // multiple matches
         await publish(
-          new EDFContractHasMultipleMatches({
+          new ContratEDFAvecPlusieursProjetsPossibles({
             payload: {
               numero,
               matches,
