@@ -360,14 +360,13 @@ const AddExpirationDateForm = ({ projectId }: AddExpirationDateFormProps) => {
       <a onClick={() => showForm(!isFormVisible)}>Renseigner la date d'échéance</a>
       {isFormVisible && (
         <form
-          action=""
-          method="post"
-          encType="multipart/form-data"
+          action={ROUTES.ADD_GF_EXPIRATION_DATE({ projectId })}
+          method="POST"
           className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
         >
-          <input type="hidden" name="projectId" value={projectId} />
+          <input name="projectId" value={projectId} readOnly hidden />
           <label htmlFor="expirationDate">Date d'échéance des garanties financières*</label>
-          <Input type="date" name="date" id="date" />
+          <Input type="date" name="expirationDate" id="expirationDate" />
           <p className="italic">
             *A noter : la garantie doit avoir une durée couvrant le projet jusqu’à 6 mois après la
             date d’Achèvement de l’installation ou être renouvelée régulièrement afin d’assurer une
