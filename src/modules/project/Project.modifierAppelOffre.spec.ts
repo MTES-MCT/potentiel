@@ -1,6 +1,6 @@
 import { UnwrapForTest } from '@core/utils'
 import { UniqueEntityID } from '@core/domain'
-import { AppelOffreProjetModifie, ProjectImported } from './events'
+import { AppelOffreProjetModifié, ProjectImported } from './events'
 import { makeProject } from './Project'
 import makeFakeProject from '../../__tests__/fixtures/project'
 import { AppelOffre, ProjectAppelOffre } from '@entities'
@@ -94,7 +94,7 @@ describe(`Charger un projet avec un AO modifié`, () => {
               data: projectData,
             },
           }),
-          new AppelOffreProjetModifie({
+          new AppelOffreProjetModifié({
             payload: {
               projectId: 'project-1',
               appelOffreId: 'PPE2 - Batiment',

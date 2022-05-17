@@ -64,7 +64,7 @@ import {
   DemandeDelaiSignaled,
   DemandeAbandonSignaled,
   DemandeRecoursSignaled,
-  AppelOffreProjetModifie,
+  AppelOffreProjetModifié,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre'
@@ -889,7 +889,7 @@ export const makeProject = (args: {
     modifierAppelOffre: ({ id: appelOffreId }) => {
       props.appelOffre?.id !== appelOffreId &&
         _publishEvent(
-          new AppelOffreProjetModifie({
+          new AppelOffreProjetModifié({
             payload: {
               projectId: props.projectId.toString(),
               appelOffreId,
@@ -1125,7 +1125,7 @@ export const makeProject = (args: {
       case ProjectAbandoned.type:
         props.abandonedOn = event.occurredAt.getTime()
         break
-      case AppelOffreProjetModifie.type:
+      case AppelOffreProjetModifié.type:
         _updateAppelOffre({ appelOffreId: event.payload.appelOffreId })
         break
       default:
