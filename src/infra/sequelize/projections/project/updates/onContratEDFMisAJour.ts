@@ -1,7 +1,7 @@
 import { logger } from '@core/utils'
-import { EDFContractUpdated } from '@modules/edf'
+import { ContratEDFMisAJour } from '@modules/edf'
 
-export const onEDFContractUpdated = (models) => async (event: EDFContractUpdated) => {
+export const onContratEDFMisAJour = (models) => async (event: ContratEDFMisAJour) => {
   const { projectId, numero, type, dateEffet, dateSignature, dateMiseEnService, statut, duree } =
     event.payload
   const { Project } = models
@@ -9,7 +9,7 @@ export const onEDFContractUpdated = (models) => async (event: EDFContractUpdated
 
   if (!projectInstance) {
     logger.error(
-      `Error: onEDFContractUpdated projection failed to retrieve project from db: ${event}`
+      `Error: onContratEDFMisAJour projection failed to retrieve project from db: ${event}`
     )
     return
   }
@@ -29,6 +29,6 @@ export const onEDFContractUpdated = (models) => async (event: EDFContractUpdated
     await projectInstance.save()
   } catch (e) {
     logger.error(e)
-    logger.info('Error: onEDFContractUpdated projection failed to update project', event)
+    logger.info('Error: onContratEDFMisAJour projection failed to update project', event)
   }
 }

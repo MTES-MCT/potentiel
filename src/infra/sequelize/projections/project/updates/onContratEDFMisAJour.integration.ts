@@ -1,11 +1,11 @@
 import models from '../../../models'
 import { resetDatabase } from '../../../helpers'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
-import { onEDFContractUpdated } from './onEDFContractUpdated'
-import { EDFContractUpdated } from '@modules/edf'
+import { onContratEDFMisAJour } from './onContratEDFMisAJour'
+import { ContratEDFMisAJour } from '@modules/edf'
 import { v4 as uuid } from 'uuid'
 
-describe('project.onEDFContractUpdated', () => {
+describe('project.onContratEDFMisAJour', () => {
   const ProjectModel = models.Project
   const projectId = uuid()
   const project = makeFakeProject({
@@ -27,8 +27,8 @@ describe('project.onEDFContractUpdated', () => {
   })
 
   it('should set the project contratEDF', async () => {
-    await onEDFContractUpdated(models)(
-      new EDFContractUpdated({
+    await onContratEDFMisAJour(models)(
+      new ContratEDFMisAJour({
         payload: {
           projectId,
           numero: '123',

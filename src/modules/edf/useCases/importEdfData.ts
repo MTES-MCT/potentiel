@@ -3,7 +3,7 @@ import {
   EDFContractAutomaticallyLinkedToProject,
   EDFContractHasMultipleMatches,
   EDFContractHasNoMatch,
-  EDFContractUpdated,
+  ContratEDFMisAJour,
   EDFFileUploaded,
 } from '../events'
 
@@ -82,7 +82,7 @@ export const makeImportEdfData =
         // grab info for this contract
         if (changes) {
           await publish(
-            new EDFContractUpdated({
+            new ContratEDFMisAJour({
               payload: {
                 numero,
                 projectId,

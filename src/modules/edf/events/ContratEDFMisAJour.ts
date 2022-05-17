@@ -1,6 +1,6 @@
 import { DomainEvent, BaseDomainEvent } from '@core/domain'
 
-export interface EDFContractUpdatedPayload {
+export interface ContratEDFMisAJourPayload {
   projectId: string
   numero: string
   type?: string
@@ -11,15 +11,15 @@ export interface EDFContractUpdatedPayload {
   statut?: string
 }
 
-export class EDFContractUpdated
-  extends BaseDomainEvent<EDFContractUpdatedPayload>
+export class ContratEDFMisAJour
+  extends BaseDomainEvent<ContratEDFMisAJourPayload>
   implements DomainEvent
 {
-  public static type: 'EDFContractUpdated' = 'EDFContractUpdated'
-  public type = EDFContractUpdated.type
+  public static type: 'ContratEDFMisAJour' = 'ContratEDFMisAJour'
+  public type = ContratEDFMisAJour.type
   currentVersion = 1
 
-  aggregateIdFromPayload(payload: EDFContractUpdatedPayload) {
+  aggregateIdFromPayload(payload: ContratEDFMisAJourPayload) {
     return undefined
   }
 }

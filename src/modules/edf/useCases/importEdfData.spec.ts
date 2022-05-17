@@ -2,7 +2,7 @@ import { okAsync } from 'neverthrow'
 import { DomainEvent } from '../../../core/domain'
 import {
   EDFFileUploaded,
-  EDFContractUpdated,
+  ContratEDFMisAJour,
   EDFContractAutomaticallyLinkedToProject,
   EDFContractHasMultipleMatches,
   EDFContractHasNoMatch,
@@ -79,10 +79,10 @@ describe('importEdfData', () => {
           })
         ),
       })
-      it('should emit EDFContractUpdated with the updated fields', async () => {
+      it('should emit ContratEDFMisAJour with the updated fields', async () => {
         await importEdfData(fakeEvent)
 
-        expect({ publish }).toHavePublishedWithPayload(EDFContractUpdated, {
+        expect({ publish }).toHavePublishedWithPayload(ContratEDFMisAJour, {
           numero: numeroContratEDF,
           projectId,
           dateEffet: updatedDateEffet,
