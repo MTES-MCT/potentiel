@@ -36,7 +36,9 @@ export const ProjectHeader = ({ project, user, cahiersChargesURLs }: ProjectHead
       <CDCInfo {...{ project, cahiersChargesURLs }} />
     </div>
 
-    <ProjectActions {...{ project, user }} />
+    <div className="px-3">
+      <ProjectActions {...{ project, user }} />
+    </div>
   </div>
 )
 
