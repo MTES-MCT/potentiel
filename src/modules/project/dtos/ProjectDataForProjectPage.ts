@@ -43,6 +43,7 @@ export type ProjectDataForProjectPage = {
     type: string
     dateEffet: string
     dateSignature: string
+    dateMiseEnService: string
     duree: number
     statut: string
   }>

@@ -2,7 +2,8 @@ import { logger } from '@core/utils'
 import { EDFContractUpdated } from '@modules/edf'
 
 export const onEDFContractUpdated = (models) => async (event: EDFContractUpdated) => {
-  const { projectId, numero, type, dateEffet, dateSignature, statut, duree } = event.payload
+  const { projectId, numero, type, dateEffet, dateSignature, dateMiseEnService, statut, duree } =
+    event.payload
   const { Project } = models
   const projectInstance = await Project.findByPk(projectId)
 
@@ -18,6 +19,7 @@ export const onEDFContractUpdated = (models) => async (event: EDFContractUpdated
     ...(type ? { type } : undefined),
     ...(dateEffet ? { dateEffet } : undefined),
     ...(dateSignature ? { dateSignature } : undefined),
+    ...(dateMiseEnService ? { dateMiseEnService } : undefined),
     ...(statut ? { statut } : undefined),
     ...(duree ? { duree: Number(duree) } : undefined),
   })

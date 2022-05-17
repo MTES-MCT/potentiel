@@ -6,6 +6,7 @@ export interface EDFContractAutomaticallyLinkedToProjectPayload {
   type: string
   dateEffet: string // de la forme MM/DD/YY (ex: 3/23/21)
   dateSignature: string // de la forme MM/DD/YY (ex: 3/23/21)
+  dateMiseEnService: string // de la forme MM/DD/YY (ex: 3/23/21)
   duree: string
   statut: string
   rawValues: Record<string, string>

@@ -35,6 +35,7 @@ describe('importEdfData', () => {
   })
   const dateEffet = '1/1/20'
   const dateSignature = '3/23/21'
+  const dateMiseEnService = '3/1/22'
   const duree = '2222'
   const statut = 'SIGNE'
   describe('when the numero contrat is linked to a project', () => {
@@ -48,6 +49,7 @@ describe('importEdfData', () => {
             "Contrat - Date d'effet": updatedDateEffet,
             'Contrat - Date de signature': dateSignature,
             'Contrat - Durée': updatedDuree,
+            'Date de mise en service du raccordement': dateMiseEnService,
           },
         ])
       )
@@ -59,6 +61,7 @@ describe('importEdfData', () => {
         numero: numeroContratEDF,
         dateEffet,
         dateSignature,
+        dateMiseEnService,
         type: typeContrat,
         duree,
         statut,
@@ -99,6 +102,7 @@ describe('importEdfData', () => {
             "Contrat - Date d'effet": dateEffet,
             'Contrat - Date de signature': dateSignature,
             'Contrat - Durée': duree,
+            'Date de mise en service du raccordement': dateMiseEnService,
           },
         ])
       )
@@ -107,6 +111,7 @@ describe('importEdfData', () => {
         numero: numeroContratEDF,
         dateEffet,
         dateSignature,
+        dateMiseEnService,
         type: typeContrat,
         duree,
         statut,
@@ -140,6 +145,7 @@ describe('importEdfData', () => {
       "Contrat - Date d'effet": dateEffet,
       'Contrat - Date de signature': dateSignature,
       'Contrat - Durée': duree,
+      'Date de mise en service du raccordement': dateMiseEnService,
       param1: 'value1',
       param2: 'value2',
     }
@@ -192,6 +198,7 @@ describe('importEdfData', () => {
           type: typeContrat,
           dateSignature,
           dateEffet,
+          dateMiseEnService,
           duree,
           statut,
           rawValues: line,

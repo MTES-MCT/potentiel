@@ -7,7 +7,7 @@ type ContratEDFProps = {
 }
 
 export const ContratEDF = ({ contrat }: ContratEDFProps) => {
-  const { numero, dateEffet, dateSignature, type, duree, statut } = contrat
+  const { numero, dateEffet, dateSignature, dateMiseEnService, type, duree, statut } = contrat
 
   return (
     <Section title="Contrat EDF" icon="building">
@@ -16,6 +16,7 @@ export const ContratEDF = ({ contrat }: ContratEDFProps) => {
       <Item title="Type" value={type} />
       <Item title="Date d'effet" value={dateEffet} />
       <Item title="Date de signature" value={dateSignature} />
+      <Item title="Date de mise en service" value={dateMiseEnService} />
       <Item title="duree" value={`${duree?.toLocaleString()} jours`} />
     </Section>
   )

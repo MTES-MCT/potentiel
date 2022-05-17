@@ -25,6 +25,7 @@ describe('project.onEDFContractAutomaticallyLinkedToProject', () => {
           type: 'type',
           dateEffet: '3/23/21',
           dateSignature: '5/2/20',
+          dateMiseEnService: '1/1/22',
           duree: '1234',
           statut: 'SIGNE',
           rawValues: {},
@@ -39,6 +40,7 @@ describe('project.onEDFContractAutomaticallyLinkedToProject', () => {
       type: 'type',
       dateEffet: '3/23/21',
       dateSignature: '5/2/20',
+      dateMiseEnService: '1/1/22',
       duree: 1234,
       statut: 'SIGNE',
     })

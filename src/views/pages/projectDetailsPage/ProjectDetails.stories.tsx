@@ -124,6 +124,7 @@ const fakeProjectData = {
     type: 'FV16BCR',
     dateEffet: '1/1/20',
     dateSignature: '3/23/21',
+    dateMiseEnService: '3/1/22',
     duree: 7303,
     statut: 'SIGNE',
   },

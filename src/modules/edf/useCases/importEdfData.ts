@@ -19,6 +19,7 @@ export type ContratEDF = {
   type: string
   dateEffet: string
   dateSignature: string
+  dateMiseEnService: string
   duree: string
   statut: string
 }
@@ -68,7 +69,8 @@ export const makeImportEdfData =
     for (const line of linesGoodContract) {
       // Try to find a match by numero contrat
       const contractDataFromLine = extractContractData(line)
-      const { type, dateSignature, dateEffet, duree, numero, statut } = contractDataFromLine
+      const { type, dateSignature, dateEffet, dateMiseEnService, duree, numero, statut } =
+        contractDataFromLine
 
       const projectForNumeroContrat = searchIndex.findByNumeroContrat(numero)
 
@@ -132,6 +134,7 @@ export const makeImportEdfData =
             numero,
             dateEffet,
             dateSignature,
+            dateMiseEnService,
             duree,
             statut,
             rawValues: line,
@@ -147,6 +150,7 @@ function extractContractData(line: Record<string, string>) {
     type: line['Contrat - Type (code)'],
     dateEffet: line["Contrat - Date d'effet"],
     dateSignature: line['Contrat - Date de signature'],
+    dateMiseEnService: line['Date de mise en service du raccordement'],
     duree: line['Contrat - Durée'],
     statut: line['Contrat - Statut (code)'],
   }
