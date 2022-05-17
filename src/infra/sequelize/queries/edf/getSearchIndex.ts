@@ -69,6 +69,8 @@ export const getSearchIndex = async (): Promise<SearchIndex> => {
 
       if (siret === match.siret) {
         match.score += 10
+      } else if (siret.substring(0, 4) === match.siret?.substring(0, 4)) {
+        match.score += 5
       }
     }
 

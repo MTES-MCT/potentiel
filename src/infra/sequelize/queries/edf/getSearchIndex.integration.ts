@@ -70,18 +70,6 @@ describe('getSearchIndex', () => {
       appelOffreId: AO_BY_CONTRACT[typeContrat],
     }
 
-    // const line = {
-    //   'Contrat - Type (code)': typeContrat,
-    //   'Installation - Nom': nomProjet,
-    //   'Acteur - Titulaire - Nom': nomCandidat,
-    //   'Installation - Adresse1': adresseProjet,
-    //   'Installation - Commune': communeProjet,
-    //   "Pmax d'achat": (puissance * 1000).toString(),
-    //   'Tarif de référence': (prixReference / 10).toString(),
-    //   'Installation - Siret': `${siret}00000`,
-    //   'Installation - Code Postal': codePostalProjet,
-    // }
-
     const makeLine = (overrides?: any) => {
       const projectWithOverrides = { ...project, ...(overrides || {}) }
       const {
@@ -321,6 +309,29 @@ describe('getSearchIndex', () => {
 
       const results = searchIndex.search(
         makeLine({ details: { 'Numéro SIREN ou SIRET*': '123456' } })
+      )
+      expect(results).toHaveLength(2)
+
+      expect(results[0].score).toBeGreaterThan(results[1].score)
+      expect(results[0].projectId).toEqual(projectId)
+    })
+
+    it('should give a higher score to projects with the same first 4 digits', async () => {
+      await resetDatabase()
+      await Project.bulkCreate([
+        makeProjetType({
+          id: projectId,
+          details: { 'Numéro SIREN ou SIRET*': '123456' },
+        }),
+        makeProjetType({
+          details: { 'Numéro SIREN ou SIRET*': '121456' },
+        }),
+      ])
+
+      const searchIndex = await getSearchIndex()
+
+      const results = searchIndex.search(
+        makeLine({ details: { 'Numéro SIREN ou SIRET*': '123478' } })
       )
       expect(results).toHaveLength(2)
 
