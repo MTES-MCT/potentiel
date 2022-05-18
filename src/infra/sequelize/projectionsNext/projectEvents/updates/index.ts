@@ -26,6 +26,7 @@ export * from './onProjectDCRRemoved';
 export * from './onProjectDCRSubmitted';
 export * from './onProjectGFDueDateCancelled';
 export * from './onProjectGFDueDateSet';
+export * from './onProjectGFExpirationDateAdded';
 export * from './onProjectGFRemoved';
 export * from './onProjectGFSubmitted';
 export * from './onProjectGFUploaded';
