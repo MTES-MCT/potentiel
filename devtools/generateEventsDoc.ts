@@ -2,7 +2,7 @@ import { Node, Project, ReferenceEntry, SyntaxKind } from 'ts-morph'
 import path from 'node:path'
 import { writeFile } from 'node:fs/promises'
 
-function wait() {}
+init()
 
 async function init() {
   console.log('init')
@@ -16,13 +16,16 @@ async function init() {
   const eventsDocPath = path.resolve(__dirname, '../docs/EVENTS.md')
   // console.log(JSON.stringify(events.slice(0, 10), null, 2))
 
-  await writeFile(eventsDocPath, eventsPage(events))
+  await writeFile(eventsDocPath, EventsDocument(events))
 
   console.log(`Documentation générée dans ${eventsDocPath}`)
 }
 
-function eventsPage(events: EventResult[]) {
-  // TODO: mark the unpublished events as deprecated
+function EventsDocument(events: EventResult[]) {
+  // TODO: mark the unpublished events as deprecated (mention that it cannot be deleted because there might be items in the db with this type)
+
+  // TODO: fetch comments written above the class definition
+  // TODO: other way around : for each projection, which events update
 
   const modules = events.reduce<Record<string, EventResult[]>>((moduleMap, event) => {
     const { module } = event
@@ -38,20 +41,44 @@ function eventsPage(events: EventResult[]) {
   return `
 # Evenements
 
+${Sommaire(modules)}
+
+${Modules(modules)}
+  `
+}
+
+function Sommaire(modules: Record<string, EventResult[]>) {
+  return `
 ## Sommaire
 
 ${Object.entries(modules)
-  .map(
-    ([module, events]) => `
+  .map(([module, events]) => SommaireModuleItem(module, events))
+  .join('\n')}`
+}
+
+function SommaireModuleItem(module: string, events: EventResult[]) {
+  return `
 - ${module}
-${events.map(({ name }) => `  - [${name}](#${name.toLowerCase()})`).join('\n')}
+${events.map(SommaireEventItem).join('\n')}
 `
-  )
-  .join('\n')}
+}
+
+function SommaireEventItem({ name }: EventResult) {
+  return `  - [${name}](#${name.toLowerCase()})`
+}
+
+function Modules(modules: Record<string, EventResult[]>) {
+  return `
+## Événements par module
 
 ${Object.entries(modules)
-  .map(
-    ([module, events]) => `
+  .map(([module, events]) => DetailedModuleItem(module, events))
+  .join('\n')}
+  `
+}
+
+function DetailedModuleItem(module: string, events: EventResult[]) {
+  return `
 ## ${module}
 ${events
   .map(
@@ -59,24 +86,35 @@ ${events
 ### ${name}
 [aller à la définition](${relativeFilePath(sourceFile)})
 
-${
-  publishers.length
+${Publishers(publishers)}
+${ProjectionUpdates(projectionUpdates)}
+${EventHandlers(eventHandlers)}
+`
+  )
+  .join('\n\n')}
+`
+}
+
+function Publishers(publishers: EventResult['publishers']) {
+  return publishers.length
     ? `- Emis par
 ${publishers
   .map(({ fileName, sourceFile }) => `  - [${fileName}](${relativeFilePath(sourceFile)})`)
   .join('\n')}`
     : ''
 }
-${
-  projectionUpdates.length
+
+function ProjectionUpdates(projectionUpdates: EventResult['projectionUpdates']) {
+  return projectionUpdates.length
     ? `- Mets à jour
 ${projectionUpdates
   .map(({ projection, sourceFile }) => `  - [${projection}](${relativeFilePath(sourceFile)})`)
   .join('\n')}`
     : ''
 }
-${
-  eventHandlers.length
+
+function EventHandlers(eventHandlers: EventResult['eventHandlers']) {
+  return eventHandlers.length
     ? `- Déclenche
 ${eventHandlers
   .map(
@@ -86,21 +124,10 @@ ${eventHandlers
   .join('\n')}`
     : ''
 }
-`
-  )
-  .join('\n\n')}
-`
-  )
-  .join('\n')}
-
-  `
-}
 
 function relativeFilePath(absolutePath: string) {
   return path.relative(__dirname, absolutePath)
 }
-
-init()
 
 type ProjectionUpdate = {
   sourceFile: string
