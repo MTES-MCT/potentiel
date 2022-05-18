@@ -23,18 +23,40 @@ async function init() {
 
 function eventsPage(events: EventResult[]) {
   // TODO: mark the unpublished events as deprecated
-  // TODO: group events by module
+
+  const modules = events.reduce<Record<string, EventResult[]>>((moduleMap, event) => {
+    const { module } = event
+    if (!moduleMap[module]) {
+      moduleMap[module] = []
+    }
+
+    moduleMap[module].push(event)
+
+    return moduleMap
+  }, {})
+
   return `
 # Evenements
 
 ## Sommaire
 
-${events.map(({ name }) => `- [${name}](#${name.toLowerCase()})`).join('\n')}
+${Object.entries(modules)
+  .map(
+    ([module, events]) => `
+- ${module}
+${events.map(({ name }) => `  - [${name}](#${name.toLowerCase()})`).join('\n')}
+`
+  )
+  .join('\n')}
 
+${Object.entries(modules)
+  .map(
+    ([module, events]) => `
+## ${module}
 ${events
   .map(
     ({ name, sourceFile, publishers, eventHandlers, projectionUpdates }) => `
-## ${name}
+### ${name}
 [aller à la définition](${relativeFilePath(sourceFile)})
 
 ${
@@ -67,6 +89,10 @@ ${eventHandlers
 `
   )
   .join('\n\n')}
+`
+  )
+  .join('\n')}
+
   `
 }
 
@@ -89,6 +115,7 @@ type EventHandler = {
 
 type EventResult = {
   name: string
+  module: string
   sourceFile: string
   projectionUpdates: ProjectionUpdate[]
   eventHandlers: EventHandler[]
@@ -130,12 +157,15 @@ function getEvents(project: Project) {
       const eventName = eventNode.compilerNode.escapedText.toString()
 
       if (eventsUnique.has(eventName)) continue
-
       eventsUnique.add(eventName)
+
+      const sourceFilePath = eventNode.getSourceFile().getFilePath()
+      const module = extractDirBefore(sourceFilePath, '/events/')
 
       const eventResult: EventResult = {
         name: eventName,
-        sourceFile: eventNode.getSourceFile().getFilePath(),
+        module,
+        sourceFile: sourceFilePath,
         projectionUpdates: [],
         eventHandlers: [],
         publishers: [],
