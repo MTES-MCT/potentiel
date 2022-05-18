@@ -19,7 +19,6 @@ import {
   neutrePPE2,
   innovationPPE2,
   autoconsommationMetropolePPE2,
-  batiment2PPE2,
 } from './appelsOffres'
 import { errAsync, okAsync } from '@core/utils'
 import { EntityNotFoundError } from '@modules/shared'
@@ -43,7 +42,6 @@ const appelsOffreStatic = [
   neutrePPE2,
   innovationPPE2,
   autoconsommationMetropolePPE2,
-  batiment2PPE2,
 ]
 
 const appelOffreRepo: AppelOffreRepo = {
