@@ -15,6 +15,6 @@
     "yargs": "^17.0.1"
   },
   "devDependencies": {
-    "ts-morph": "^11.0.3"
+    "ts-morph": "^14.0.0"
   }
 }
