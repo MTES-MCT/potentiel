@@ -1,12 +1,12 @@
 import asyncHandler from '../helpers/asyncHandler'
 import { ensureRole, getProjectIdsForPeriode, modifierAppelOffreProjet } from '@config'
 import { v1Router } from '../v1Router'
-import { combine, logger } from '@core/utils'
+import { combine, logger, ok } from '@core/utils'
 import routes from '../../routes'
 import { addQueryParams } from '../../helpers/addQueryParams'
 
-v1Router.post(
-  'admin/corriger-ao-projet-ppe2-batiment2',
+v1Router.get(
+  '/admin/corriger-ao-projet-ppe2-batiment2',
   ensureRole(['admin']),
   asyncHandler(async (request, response) => {
     getProjectIdsForPeriode({ appelOffreId: 'PPE2 - Bâtiment 2', periodeId: '2' })
