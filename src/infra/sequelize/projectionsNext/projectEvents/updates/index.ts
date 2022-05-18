@@ -1,5 +1,6 @@
 export * from './onConfirmationRequested';
 export * from './onCovidDelayGranted';
+export * from './onDateEchéanceGFAjoutée';
 export * from './onDemandeAbandonSignaled';
 export * from './onDemandeDelaiSignaled';
 export * from './onDemandeRecoursSignaled';
@@ -26,7 +27,6 @@ export * from './onProjectDCRRemoved';
 export * from './onProjectDCRSubmitted';
 export * from './onProjectGFDueDateCancelled';
 export * from './onProjectGFDueDateSet';
-export * from './onProjectGFExpirationDateAdded';
 export * from './onProjectGFRemoved';
 export * from './onProjectGFSubmitted';
 export * from './onProjectGFUploaded';

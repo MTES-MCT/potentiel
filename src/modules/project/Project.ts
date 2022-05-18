@@ -67,7 +67,7 @@ import {
   DemandeAbandonSignaled,
   DemandeRecoursSignaled,
   AppelOffreProjetModifié,
-  ProjectGFExpirationDateAdded,
+  DateEchéanceGFAjoutée,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre'
@@ -926,7 +926,7 @@ export const makeProject = (args: {
         return err(new GFAlreadyHasExpirationDateError())
       }
       _publishEvent(
-        new ProjectGFExpirationDateAdded({
+        new DateEchéanceGFAjoutée({
           payload: {
             expirationDate,
             submittedBy: submittedBy.id,
@@ -1169,7 +1169,7 @@ export const makeProject = (args: {
       case AppelOffreProjetModifié.type:
         _updateAppelOffre({ appelOffreId: event.payload.appelOffreId })
         break
-      case ProjectGFExpirationDateAdded.type:
+      case DateEchéanceGFAjoutée.type:
         props.GFExpirationDate = event.payload.expirationDate
         break
       default:

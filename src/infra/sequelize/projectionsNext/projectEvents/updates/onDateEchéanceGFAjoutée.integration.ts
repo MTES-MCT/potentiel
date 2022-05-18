@@ -1,10 +1,10 @@
 import { UniqueEntityID } from '@core/domain'
-import { ProjectGFExpirationDateAdded } from '@modules/project'
+import { DateEchéanceGFAjoutée } from '@modules/project'
 import { resetDatabase } from '../../../helpers'
 import { ProjectEvent } from '../projectEvent.model'
-import onProjectGFExpirationDateAdded from './onProjectGFExpirationDateAdded'
+import onDateEchéanceGFAjoutée from './onDateEchéanceGFAjoutée'
 
-describe('onProjectGFExpirationDateAdded', () => {
+describe('onDateEchéanceGFAjoutée', () => {
   describe('when there are several ProjectGFSubmitted/Uploaded event in ProjectEvent', () => {
     const projectId = new UniqueEntityID().toString()
     const expirationDate = new Date('2024-01-01')
@@ -34,8 +34,8 @@ describe('onProjectGFExpirationDateAdded', () => {
       }
     })
     it('should add an expiration date to the latest event published', async () => {
-      await onProjectGFExpirationDateAdded(
-        new ProjectGFExpirationDateAdded({
+      await onDateEchéanceGFAjoutée(
+        new DateEchéanceGFAjoutée({
           payload: { projectId, expirationDate, submittedBy: 'id' },
         })
       )

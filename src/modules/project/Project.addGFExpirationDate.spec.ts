@@ -5,7 +5,7 @@ import { makeProject } from './Project'
 import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
 import { appelsOffreStatic } from '@dataAccess/inMemory'
 import {
-  ProjectGFExpirationDateAdded,
+  DateEchéanceGFAjoutée,
   ProjectGFSubmitted,
   ProjectImported,
   ProjectNotified,
@@ -174,7 +174,7 @@ describe('Project.addGFExpirationDate()', () => {
               projectId,
               history: [
                 ...fakeHistory,
-                new ProjectGFExpirationDateAdded({
+                new DateEchéanceGFAjoutée({
                   payload: {
                     projectId: projectId.toString(),
                     expirationDate: new Date('2022-02-20'),
@@ -242,7 +242,7 @@ describe('Project.addGFExpirationDate()', () => {
       })
 
       describe("when the GFs doesn't have an expiration date yet", () => {
-        it('should emit a ProjectGFExpirationDateAdded event', () => {
+        it('should emit a DateEchéanceGFAjoutée event', () => {
           const project = UnwrapForTest(
             makeProject({
               projectId,
@@ -260,7 +260,7 @@ describe('Project.addGFExpirationDate()', () => {
 
           expect(res.isOk()).toEqual(true)
           expect(project.pendingEvents).toHaveLength(1)
-          expect(project.pendingEvents[0].type).toEqual('ProjectGFExpirationDateAdded')
+          expect(project.pendingEvents[0].type).toEqual('DateEchéanceGFAjoutée')
           expect(project.pendingEvents[0].payload.expirationDate).toEqual(new Date('2023-01-01'))
         })
       })

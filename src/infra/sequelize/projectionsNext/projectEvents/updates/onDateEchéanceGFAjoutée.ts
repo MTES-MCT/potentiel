@@ -1,11 +1,10 @@
-import { UniqueEntityID } from '@core/domain'
-import { ProjectGFExpirationDateAdded } from '@modules/project'
+import { DateEchéanceGFAjoutée } from '@modules/project'
 import { ProjectEvent } from '../projectEvent.model'
 import { Op } from 'sequelize'
 import { logger } from '@core/utils'
 
 export default ProjectEvent.projector.on(
-  ProjectGFExpirationDateAdded,
+  DateEchéanceGFAjoutée,
   async ({ payload: { expirationDate, projectId } }, transaction) => {
     const events = await ProjectEvent.findAll({
       where: { type: { [Op.or]: ['ProjectGFSubmitted', 'ProjectGFUploaded'] }, projectId },
