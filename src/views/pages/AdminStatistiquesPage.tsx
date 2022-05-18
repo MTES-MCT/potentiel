@@ -3,13 +3,13 @@ import React from 'react'
 import AdminDashboard from '../components/AdminDashboard'
 import { PageLayout } from '../components/PageLayout'
 
-interface Props {
+type AdminStatistiquesProps = {
   request: Request
   iframeUrl: string
 }
 
 /* Pure component */
-export const AdminStatistiques = PageLayout(function (props: Props) {
+export const AdminStatistiques = PageLayout(function (props: AdminStatistiquesProps) {
   return (
     <AdminDashboard currentPage="admin-statistiques" role="admin">
       <main role="main" className="panel">

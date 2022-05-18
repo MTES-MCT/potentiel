@@ -3,13 +3,13 @@ import React from 'react'
 import PartnerDashboard from '../components/PartnerDashboard'
 import { PageLayout } from '../components/PageLayout'
 
-interface Props {
+type AdemeStatistiquesProps = {
   request: Request
   iframeUrl: string
 }
 
 /* Pure component */
-export const AdemeStatistiques = PageLayout(function (props: Props) {
+export const AdemeStatistiques = PageLayout(function (props: AdemeStatistiquesProps) {
   return (
     <PartnerDashboard currentPage="ademe-statistiques" role="ademe">
       <main role="main" className="panel">

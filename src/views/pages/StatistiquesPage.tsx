@@ -2,14 +2,14 @@ import type { Request } from 'express'
 import React from 'react'
 import { PageLayout } from '../components/PageLayout'
 
-interface Props {
+type StatistiquesProps = {
   request: Request
   mainIframeUrl: string
   mapIframeUrl: string
 }
 
 /* Pure component */
-export const Statistiques = PageLayout(function (props: Props) {
+export const Statistiques = PageLayout(function (props: StatistiquesProps) {
   return (
     <main role="main">
       <section className="section section-color">

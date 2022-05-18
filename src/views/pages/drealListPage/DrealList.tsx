@@ -7,7 +7,7 @@ import AdminDashboard from '../../components/AdminDashboard'
 import { Button, Input, PageLayout, Select } from '../../components'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
 
-interface DrealListProps {
+type DrealListProps = {
   request: Request
   users: Array<{ user: { email: string; fullName: string }; dreals: Array<DREAL> }>
   validationErrors?: Array<{ [fieldName: string]: string }>
