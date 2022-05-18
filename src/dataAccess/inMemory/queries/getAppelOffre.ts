@@ -1,5 +1,5 @@
 import { ResultAsync, errAsync, okAsync } from '@core/utils'
-import { EntityNotFoundError } from 'src/modules/shared'
+import { EntityNotFoundError } from '@modules/shared'
 import { appelsOffreStatic } from '../appelOffre'
 import { AppelOffre } from '@entities/appelOffre'
 
