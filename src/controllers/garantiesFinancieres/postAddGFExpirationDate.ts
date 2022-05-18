@@ -1,52 +1,33 @@
 import asyncHandler from '../helpers/asyncHandler'
 import { addGFExpirationDate, ensureRole } from '@config'
-import { logger, Result, ok, err } from '@core/utils'
+import { logger } from '@core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { UnauthorizedError } from '@modules/shared'
 import routes from '../../routes'
-import { errorResponse, unauthorizedResponse } from '../helpers'
+import {
+  errorResponse,
+  unauthorizedResponse,
+  validateRequestBodyForErrorArray,
+  RequestValidationErrorArray,
+  iso8601DateToDateYupTransformation,
+} from '../helpers'
 import { v1Router } from '../v1Router'
-import { parse } from 'date-fns'
 import * as yup from 'yup'
-import { ValidationError, BaseSchema, InferType } from 'yup'
-
-const parseStringDate = (value, originalValue) => {
-  return parse(originalValue, 'yyyy-MM-dd', new Date())
-}
 
 const requestBodySchema = yup.object({
   projectId: yup.string().uuid().required(),
   expirationDate: yup
     .date()
     .required("Vous devez renseigner la date d'échéance.")
-    .transform(parseStringDate)
+    .transform(iso8601DateToDateYupTransformation)
     .typeError(`La date d'échéance saisie n'est pas valide.`),
 })
-class RequestValidationError extends Error {
-  constructor(public errors: Array<string>) {
-    super("L'attestation de constitution des garanties financières n'a pas pu être envoyée.")
-  }
-}
-
-const validateRequestBody = (
-  body: Request['body'],
-  schema: BaseSchema
-): Result<InferType<typeof schema>, RequestValidationError | Error> => {
-  try {
-    return ok(schema.validateSync(body, { abortEarly: false }))
-  } catch (error) {
-    if (error instanceof ValidationError) {
-      return err(new RequestValidationError(error.errors))
-    }
-    return err(error)
-  }
-}
 
 v1Router.post(
   routes.ADD_GF_EXPIRATION_DATE(),
   ensureRole(['porteur-projet', 'dreal']),
   asyncHandler(async (request, response) => {
-    validateRequestBody(request.body, requestBodySchema)
+    validateRequestBodyForErrorArray(request.body, requestBodySchema)
       .asyncAndThen((body) => {
         const { projectId, expirationDate } = body
         const { user: submittedBy } = request
@@ -66,7 +47,7 @@ v1Router.post(
           )
         },
         (error: Error) => {
-          if (error instanceof RequestValidationError) {
+          if (error instanceof RequestValidationErrorArray) {
             return response.redirect(
               addQueryParams(routes.PROJECT_DETAILS(request.body.projectId), {
                 ...request.body,

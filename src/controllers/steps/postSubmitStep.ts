@@ -6,24 +6,25 @@ import { addQueryParams } from '../../helpers/addQueryParams'
 import { pathExists } from '../../helpers/pathExists'
 import { UnauthorizedError } from '@modules/shared'
 import routes from '../../routes'
-import { errorResponse, unauthorizedResponse } from '../helpers'
+import {
+  errorResponse,
+  unauthorizedResponse,
+  validateRequestBodyForErrorArray,
+  RequestValidationErrorArray,
+  iso8601DateToDateYupTransformation,
+} from '../helpers'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
-import { format, parse } from 'date-fns'
+import { format } from 'date-fns'
 import * as yup from 'yup'
-import { ValidationError, BaseSchema, InferType } from 'yup'
-import { logger, Result, ok, err } from '@core/utils'
+import { logger, ok, err } from '@core/utils'
 import { CertificateFileIsMissingError } from 'src/modules/project/errors'
-
-const parseStringDate = (value, originalValue) => {
-  return parse(originalValue, 'yyyy-MM-dd', new Date())
-}
 
 const requestBodySchema = yup.object({
   projectId: yup.string().uuid().required(),
   stepDate: yup
     .date()
-    .transform(parseStringDate)
+    .transform(iso8601DateToDateYupTransformation)
     .max(format(new Date(), 'yyyy-MM-dd'), "La date ne doit dépasser la date d'aujourd'hui.")
     .required('Vous devez renseigner une date.')
     .typeError(`La date n'est pas valide.`),
@@ -37,32 +38,13 @@ const requestBodySchema = yup.object({
     otherwise: yup.string().optional().typeError("Le numéro de dossier saisi n'est pas valide"),
   }),
 })
-class RequestValidationError extends Error {
-  constructor(public errors: Array<string>) {
-    super("Le dépôt n'a pas pu être envoyé.")
-  }
-}
-
-const validateRequestBody = (
-  body: Request['body'],
-  schema: BaseSchema
-): Result<InferType<typeof schema>, RequestValidationError | Error> => {
-  try {
-    return ok(schema.validateSync(body, { abortEarly: false }))
-  } catch (error) {
-    if (error instanceof ValidationError) {
-      return err(new RequestValidationError(error.errors))
-    }
-    return err(error)
-  }
-}
 
 v1Router.post(
   routes.DEPOSER_ETAPE_ACTION,
   ensureRole(['porteur-projet']),
   upload.single('file'),
   asyncHandler(async (request, response) => {
-    validateRequestBody(request.body, requestBodySchema)
+    validateRequestBodyForErrorArray(request.body, requestBodySchema)
       .andThen((body) => {
         if (!request.file || !pathExists(request.file.path)) {
           return err(new CertificateFileIsMissingError())
@@ -94,7 +76,7 @@ v1Router.post(
           )
         },
         (error) => {
-          if (error instanceof RequestValidationError) {
+          if (error instanceof RequestValidationErrorArray) {
             return response.redirect(
               addQueryParams(routes.PROJECT_DETAILS(request.body.projectId), {
                 ...request.body,
