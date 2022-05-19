@@ -32,7 +32,6 @@ import {
   makeUploadGF,
   makeWithdrawGF,
   makeSignalerDemandeRecours,
-  makeModifierAppelOffreProjet,
 } from '@modules/project'
 import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '@modules/users'
 import { buildCertificate } from '@views/certificates'
@@ -264,9 +263,4 @@ export const signalerDemandeRecours = makeSignalerDemandeRecours({
   fileRepo,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
-})
-
-export const modifierAppelOffreProjet = makeModifierAppelOffreProjet({
-  projectRepo,
-  getAppelOffre,
 })
