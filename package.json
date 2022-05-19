@@ -10,6 +10,7 @@
     "build:front": "webpack --config=webpack.config.js",
     "build:css": "npx tailwindcss -i ./src/views/index.css -o ./src/public/css/index.css",
     "build:dsfr": "postcss ./src/views/dsfr.css -o ./src/public/css/dsfr.css",
+    "generate:doc": "ts-node ./devtools/generateEventsDoc",
     "install": "ts-node ./scripts/postInstall.ts",
     "test": "NODE_ENV=unit-test jest --config=jest.unit.config.js --detectOpenHandles",
     "test:watch": "NODE_ENV=test TEST=unit jest --config=jest.unit.config.js --detectOpenHandles --watch",

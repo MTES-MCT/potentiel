@@ -1,162 +1,6 @@
 import { Node, Project, ReferenceEntry, SyntaxKind } from 'ts-morph'
-import path from 'node:path'
-import { writeFile } from 'node:fs/promises'
 
-init()
-
-async function init() {
-  console.log('init')
-
-  const project = new Project({
-    tsConfigFilePath: path.resolve(__dirname, '../tsconfig.json'),
-  })
-
-  const events = getEvents(project)
-
-  const eventsDocPath = path.resolve(__dirname, '../docs/EVENTS.md')
-  // console.log(JSON.stringify(events.slice(0, 10), null, 2))
-
-  await writeFile(eventsDocPath, EventsDocument(events))
-
-  console.log(`Documentation générée dans ${eventsDocPath}`)
-}
-
-function EventsDocument(events: EventResult[]) {
-  // TODO: mark the unpublished events as deprecated (mention that it cannot be deleted because there might be items in the db with this type)
-
-  // TODO: fetch comments written above the class definition
-  // TODO: other way around : for each projection, which events update
-
-  const modules = events.reduce<Record<string, EventResult[]>>((moduleMap, event) => {
-    const { module } = event
-    if (!moduleMap[module]) {
-      moduleMap[module] = []
-    }
-
-    moduleMap[module].push(event)
-
-    return moduleMap
-  }, {})
-
-  return `
-# Evenements
-
-${Sommaire(modules)}
-
-${Modules(modules)}
-  `
-}
-
-function Sommaire(modules: Record<string, EventResult[]>) {
-  return `
-## Sommaire
-
-${Object.entries(modules)
-  .map(([module, events]) => SommaireModuleItem(module, events))
-  .join('\n')}`
-}
-
-function SommaireModuleItem(module: string, events: EventResult[]) {
-  return `
-- ${module}
-${events.map(SommaireEventItem).join('\n')}
-`
-}
-
-function SommaireEventItem({ name }: EventResult) {
-  return `  - [${name}](#${name.toLowerCase()})`
-}
-
-function Modules(modules: Record<string, EventResult[]>) {
-  return `
-## Événements par module
-
-${Object.entries(modules)
-  .map(([module, events]) => DetailedModuleItem(module, events))
-  .join('\n')}
-  `
-}
-
-function DetailedModuleItem(module: string, events: EventResult[]) {
-  return `
-## ${module}
-${events
-  .map(
-    ({ name, sourceFile, publishers, eventHandlers, projectionUpdates }) => `
-### ${name}
-[aller à la définition](${relativeFilePath(sourceFile)})
-
-${Publishers(publishers)}
-${ProjectionUpdates(projectionUpdates)}
-${EventHandlers(eventHandlers)}
-`
-  )
-  .join('\n\n')}
-`
-}
-
-function Publishers(publishers: EventResult['publishers']) {
-  return publishers.length
-    ? `- Emis par
-${publishers
-  .map(({ fileName, sourceFile }) => `  - [${fileName}](${relativeFilePath(sourceFile)})`)
-  .join('\n')}`
-    : ''
-}
-
-function ProjectionUpdates(projectionUpdates: EventResult['projectionUpdates']) {
-  return projectionUpdates.length
-    ? `- Mets à jour
-${projectionUpdates
-  .map(({ projection, sourceFile }) => `  - [${projection}](${relativeFilePath(sourceFile)})`)
-  .join('\n')}`
-    : ''
-}
-
-function EventHandlers(eventHandlers: EventResult['eventHandlers']) {
-  return eventHandlers.length
-    ? `- Déclenche
-${eventHandlers
-  .map(
-    ({ module, fileName, sourceFile }) =>
-      `  - ${module} / [${fileName}](${relativeFilePath(sourceFile)})`
-  )
-  .join('\n')}`
-    : ''
-}
-
-function relativeFilePath(absolutePath: string) {
-  return path.relative(__dirname, absolutePath)
-}
-
-type ProjectionUpdate = {
-  sourceFile: string
-  projection: string
-}
-
-type EventHandler = {
-  module: string
-  fileName: string
-  sourceFile: string
-}
-
-type EventResult = {
-  name: string
-  module: string
-  sourceFile: string
-  projectionUpdates: ProjectionUpdate[]
-  eventHandlers: EventHandler[]
-  publishers: {
-    fileName: string
-    sourceFile: string
-  }[]
-  others: {
-    ref: ReferenceEntry
-    sourceFile: string
-  }[]
-}
-
-function getEvents(project: Project) {
+export function getEvents(project: Project) {
   const eventsUnique = new Set<string>()
   const results: EventResult[] = []
 
@@ -214,11 +58,9 @@ function getEvents(project: Project) {
         // - if it's a use-case, check if there is a test file, link it
         // - extract the specs for the test file, insert them inside the doc (foldable section)
         // - only include the test cases which mention the event by name
-
         // We are not interested in import statements
         // For "new Event()", ref.getNode() is Identifier (79) and ref.getNode().getParent() is NewExpression(208)
         // For .on(Event), parent is 207 (Call Expression)
-
         if (isProjectionUpdate(eventReference)) {
           addProjectionUpdate(eventReference, eventResult)
         } else if (isEventHandler(eventReference)) {
@@ -240,14 +82,40 @@ function getEvents(project: Project) {
 
   return results
 }
+export type EventResult = {
+  name: string
+  module: string
+  sourceFile: string
+  projectionUpdates: ProjectionUpdate[]
+  eventHandlers: EventHandler[]
+  publishers: {
+    fileName: string
+    sourceFile: string
+  }[]
+  others: {
+    ref: ReferenceEntry
+    sourceFile: string
+  }[]
+}
 
-function isProjectionUpdate(eventRef: ReferenceEntry) {
+type ProjectionUpdate = {
+  sourceFile: string
+  projection: string
+}
+
+type EventHandler = {
+  module: string
+  fileName: string
+  sourceFile: string
+}
+
+export function isProjectionUpdate(eventRef: ReferenceEntry) {
   const sourceFile = eventRef.getSourceFile()
   const fileName = sourceFile.getBaseNameWithoutExtension()
   const filePath = sourceFile.getFilePath()
   return filePath.includes('/updates/') && fileName !== 'index'
 }
-function addProjectionUpdate(eventReference: ReferenceEntry, eventResult: EventResult) {
+export function addProjectionUpdate(eventReference: ReferenceEntry, eventResult: EventResult) {
   if (
     eventResult.projectionUpdates.find(
       ({ sourceFile }) => sourceFile === eventReference.getSourceFile().getFilePath()
@@ -266,18 +134,18 @@ function addProjectionUpdate(eventReference: ReferenceEntry, eventResult: EventR
   })
 }
 
-function extractDirBefore(path, followingSegment) {
+export function extractDirBefore(path, followingSegment) {
   const beginning = path.substring(0, path.indexOf(followingSegment))
   return beginning.substring(beginning.lastIndexOf('/') + 1)
 }
 
-function isEventHandler(eventRef: ReferenceEntry) {
+export function isEventHandler(eventRef: ReferenceEntry) {
   const sourceFile = eventRef.getSourceFile()
   const fileName = sourceFile.getBaseNameWithoutExtension()
   return fileName.startsWith('handle')
 }
 
-function addEventHandler(eventReference: ReferenceEntry, eventResult: EventResult) {
+export function addEventHandler(eventReference: ReferenceEntry, eventResult: EventResult) {
   if (
     eventResult.eventHandlers.find(
       ({ sourceFile }) => sourceFile === eventReference.getSourceFile().getFilePath()
@@ -297,11 +165,11 @@ function addEventHandler(eventReference: ReferenceEntry, eventResult: EventResul
   })
 }
 
-function isPublisher(eventRef: ReferenceEntry) {
+export function isPublisher(eventRef: ReferenceEntry) {
   return eventRef.getNode()?.getParent()?.getKind() === SyntaxKind.NewExpression
 }
 
-function addPublisher(eventReference: ReferenceEntry, eventResult: EventResult) {
+export function addPublisher(eventReference: ReferenceEntry, eventResult: EventResult) {
   // If it's in an aggregate file, find which command(s) trigger(s) the event
 
   if (
@@ -319,7 +187,7 @@ function addPublisher(eventReference: ReferenceEntry, eventResult: EventResult) 
   })
 }
 
-function isImport(eventRef: ReferenceEntry) {
+export function isImport(eventRef: ReferenceEntry) {
   return (
     eventRef
       .getNode()
@@ -328,19 +196,19 @@ function isImport(eventRef: ReferenceEntry) {
   )
 }
 
-function isAggregateFile(eventRef: ReferenceEntry) {
+export function isAggregateFile(eventRef: ReferenceEntry) {
   return eventRef.getSourceFile().getText().includes('EventStoreAggregate')
 }
 
-function isConfigFile(eventRef: ReferenceEntry) {
+export function isConfigFile(eventRef: ReferenceEntry) {
   return eventRef.getSourceFile().getFilePath().includes('/config/')
 }
 
-function isBarrelIndexFile(eventRef: ReferenceEntry) {
+export function isBarrelIndexFile(eventRef: ReferenceEntry) {
   return eventRef.getSourceFile().getBaseName() === 'index.ts'
 }
 
-function isTestFile(ref: ReferenceEntry) {
+export function isTestFile(ref: ReferenceEntry) {
   const filePath = ref.getSourceFile().getFilePath()
   const sourceFile = ref.getSourceFile().getBaseName()
   return (
@@ -350,7 +218,7 @@ function isTestFile(ref: ReferenceEntry) {
   )
 }
 
-function getDomainEvent(project: Project) {
+export function getDomainEvent(project: Project) {
   const baseDomainEventFile = project.getSourceFileOrThrow('DomainEvent.ts')
 
   const baseDomainEventLine = baseDomainEventFile.getStatementOrThrow(
@@ -373,7 +241,7 @@ function getDomainEvent(project: Project) {
   return baseDomainEvent
 }
 
-function findReferences(node: Node | undefined) {
+export function findReferences(node: Node | undefined) {
   const references: ReferenceEntry[] = []
 
   if (node && Node.isReferenceFindable(node)) {
