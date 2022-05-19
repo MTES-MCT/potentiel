@@ -1,7 +1,7 @@
 import { userRepo } from '@dataAccess'
 import asyncHandler from '../../helpers/asyncHandler'
 import routes from '../../../routes'
-import { ensureRole } from '@config'
+import { ensureRole, getDreals } from '@config'
 import { v1Router } from '../../v1Router'
 import { DrealListPage } from '@views'
 
@@ -17,15 +17,8 @@ v1Router.get(
       }),
       [] as Array<{ [fieldName: string]: string }>
     )
-    // Get all dreal users
-    const drealUsers = await userRepo.findAll({ role: 'dreal' })
 
-    const users = await Promise.all(
-      drealUsers.map(async (user) => {
-        const dreals = await userRepo.findDrealsForUser(user.id)
-        return { user, dreals }
-      })
-    )
+    const users = await getDreals()
 
     return response.send(DrealListPage({ request, users, validationErrors }))
   })

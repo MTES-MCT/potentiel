@@ -65,7 +65,7 @@ describe('userRepo sequelizeInstance', () => {
   describe('findDrealsForUser', () => {
     const userId = uuid()
 
-    it('return the users associated to the dreal', async () => {
+    it('return the dreals associated to the user', async () => {
       const UserModel = sequelizeInstance.model('user')
       const UserDrealModel = sequelizeInstance.model('userDreal')
 
