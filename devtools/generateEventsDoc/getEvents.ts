@@ -1,4 +1,15 @@
-import { Identifier, JSDoc, Node, Project, ReferenceEntry, SyntaxKind } from 'ts-morph'
+import {
+  FunctionDeclaration,
+  Identifier,
+  JSDoc,
+  MethodDeclaration,
+  Node,
+  Project,
+  PropertyAssignment,
+  ReferenceEntry,
+  SourceFile,
+  SyntaxKind,
+} from 'ts-morph'
 
 export function getEvents(project: Project) {
   const eventsUnique = new Set<string>()
@@ -82,6 +93,7 @@ export type EventResult = {
   eventHandlers: EventHandler[]
   publishers: {
     fileName: string
+    aggregateMethod?: string
     sourceFile: string
   }[]
   others: {
@@ -174,8 +186,79 @@ function isPublisher(eventRef: ReferenceEntry) {
   return eventRef.getNode()?.getParent()?.getKind() === SyntaxKind.NewExpression
 }
 
+function addAggregatePublisher(eventReference: ReferenceEntry, eventResult: EventResult) {
+  const sourceFile = eventReference.getSourceFile()
+
+  function addUniqueAggregateMethod(
+    methodDeclaration: ReturnType<typeof findAggregateMethodDefinition>
+  ) {
+    const aggregateMethod = (
+      methodDeclaration as MethodDeclaration | PropertyAssignment
+    ).compilerNode.name.getText()
+    const alreadyAdded = eventResult.publishers.some(
+      (publisher) =>
+        publisher.sourceFile === sourceFile.getFilePath() &&
+        publisher.aggregateMethod === aggregateMethod
+    )
+
+    if (!alreadyAdded) {
+      eventResult.publishers.push({
+        fileName: sourceFile.getBaseNameWithoutExtension(),
+        sourceFile: sourceFile.getFilePath(),
+        aggregateMethod,
+      })
+    }
+  }
+
+  const methodDeclaration = findAggregateMethodDefinition(eventReference.getNode())
+  if (methodDeclaration) {
+    // Event is emitted inside the aggregate method declaration itself
+    addUniqueAggregateMethod(methodDeclaration)
+
+    return
+  }
+
+  // It's not a direct aggregate method, maybe a function declaration
+  const functionDeclaration = eventReference
+    .getNode()
+    .getParentWhile((_, child) => child.getKind() !== SyntaxKind.FunctionDeclaration) as
+    | FunctionDeclaration
+    | SourceFile
+
+  if (functionDeclaration !== sourceFile) {
+    // Event is emitted from inside a function
+
+    const calls = findCallReferences(functionDeclaration)
+    for (const callRef of calls) {
+      const methodDeclaration = findAggregateMethodDefinition(callRef.getNode())
+      if (methodDeclaration) {
+        // This function is called from inside a aggregate method
+        addUniqueAggregateMethod(methodDeclaration)
+
+        continue
+      }
+
+      console.log(
+        'Event is emitted from a function inside an aggregate, but this function is not called by any aggregate commands (maybe there is another function involved (separated by another degree) ?'
+      )
+    }
+
+    return
+  }
+
+  console.log(
+    'Event is emitted from inside an aggregate but not by an aggregate method and not inside a function declaration',
+    eventReference
+  )
+}
+
 function addPublisher(eventReference: ReferenceEntry, eventResult: EventResult) {
-  // If it's in an aggregate file, find which command(s) trigger(s) the event
+  const sourceFile = eventReference.getSourceFile()
+
+  if (isAggregateFile(eventReference)) {
+    addAggregatePublisher(eventReference, eventResult)
+    return
+  }
 
   if (
     eventResult.publishers.find(
@@ -184,12 +267,21 @@ function addPublisher(eventReference: ReferenceEntry, eventResult: EventResult) 
   ) {
     return
   }
-
-  const sourceFile = eventReference.getSourceFile()
   eventResult.publishers.push({
     fileName: sourceFile.getBaseNameWithoutExtension(),
     sourceFile: sourceFile.getFilePath(),
   })
+}
+
+function findAggregateMethodDefinition(node: Node) {
+  const result = node.getParentWhile(
+    (_, child) =>
+      child.getKind() !== SyntaxKind.MethodDeclaration &&
+      child.getKind() !== SyntaxKind.PropertyAssignment &&
+      child.getKind() !== SyntaxKind.ShorthandPropertyAssignment
+  ) as MethodDeclaration | PropertyAssignment | SourceFile
+
+  return result === node.getSourceFile() ? undefined : result
 }
 
 function isImport(eventRef: ReferenceEntry) {
@@ -244,6 +336,24 @@ function getDomainEvent(project: Project) {
   }
 
   return baseDomainEvent
+}
+
+function findCallReferences(node: Node) {
+  const references: ReferenceEntry[] = []
+
+  if (Node.isReferenceFindable(node)) {
+    const referenceSymbols = node.findReferences()
+
+    for (const referenceSymbol of referenceSymbols) {
+      for (const reference of referenceSymbol.getReferences()) {
+        if (!reference.isDefinition()) {
+          references.push(reference)
+        }
+      }
+    }
+  }
+
+  return references
 }
 
 function findReferences(node: Node | undefined) {

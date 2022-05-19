@@ -112,9 +112,32 @@ ${events
 ### [${name}](${relativeFilePath(sourceFile)})
 ${description ? `>${description.split('\n').join('\n>')}` : ''}
 
-${Publishers(publishers)}
-${ProjectionUpdates(projectionUpdates)}
-${EventHandlers(eventHandlers)}
+${Table([
+  {
+    heading: 'Emetteurs',
+    rows: publishers.map(
+      ({ fileName, sourceFile, aggregateMethod }) =>
+        `[${fileName}${aggregateMethod ? `.${aggregateMethod}` : ''}](${relativeFilePath(
+          sourceFile
+        )})`
+    ),
+  },
+  {
+    heading: 'Récepteurs',
+    rows: [
+      ...projectionUpdates.map(
+        ({ projection, sourceFile }) =>
+          `[Mise à jour](${relativeFilePath(
+            sourceFile
+          )}) de [${projection}](#table-${projection.toLowerCase()})`
+      ),
+      ...eventHandlers.map(
+        ({ module, fileName, sourceFile }) =>
+          `${module} / [${fileName}](${relativeFilePath(sourceFile)})`
+      ),
+    ],
+  },
+])}
 `
   )
   .join('\n\n')}
@@ -125,7 +148,12 @@ function Publishers(publishers: EventResult['publishers']) {
   return publishers.length
     ? `- Emis par
 ${publishers
-  .map(({ fileName, sourceFile }) => `  - [${fileName}](${relativeFilePath(sourceFile)})`)
+  .map(
+    ({ fileName, sourceFile, aggregateMethod }) =>
+      `  - [${fileName}${aggregateMethod ? `.${aggregateMethod}` : ''}](${relativeFilePath(
+        sourceFile
+      )})`
+  )
   .join('\n')}`
     : ''
 }
@@ -153,4 +181,19 @@ ${eventHandlers
 
 function relativeFilePath(absolutePath: string) {
   return path.relative(path.resolve(__dirname, '..'), absolutePath)
+}
+
+function Table(columns: { heading: string; rows: string[] }[]) {
+  const maxRows = columns.reduce((max, { rows }) => Math.max(max, rows.length), 0)
+
+  let table = `
+|${columns.map(({ heading }) => heading).join('|')}|
+|${columns.map(() => '---').join('|')}|
+`
+
+  for (let i = 0; i < maxRows; i++) {
+    table += `|${columns.map(({ rows }) => rows[i] || '').join('|')}|\n`
+  }
+
+  return table
 }
