@@ -51,7 +51,7 @@ describe(`Modifier l'AO d'un projet`, () => {
     describe(`Quand on modifie l'AO du projet par "PPE2 - Batiment"`, () => {
       project.modifierAppelOffre({ id: 'PPE2 - Batiment' } as AppelOffre)
 
-      it(`Alors l'évennement "AppelOffreProjetModifié" doit être émis avec le nouvel AO`, () => {
+      it(`Alors l'événement "AppelOffreProjetModifié" doit être émis avec le nouvel AO`, () => {
         const actualEvent = project.pendingEvents.find((e) => e.type === 'AppelOffreProjetModifié')
 
         expect(actualEvent).toBeDefined()
