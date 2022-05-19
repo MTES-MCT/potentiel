@@ -1,7 +1,7 @@
 import { userRepo } from '@dataAccess'
 import asyncHandler from '../../helpers/asyncHandler'
 import routes from '../../../routes'
-import { ensureRole } from '@config'
+import { ensureRole, getPartnersList } from '@config'
 import { v1Router } from '../../v1Router'
 import { PartnersListPage } from '@views'
 
@@ -17,7 +17,7 @@ v1Router.get(
       }),
       [] as Array<{ [fieldName: string]: string }>
     )
-    const users = await userRepo.findAll({ role: ['acheteur-obligé', 'ademe'] })
+    const users = await getPartnersList()
 
     return response.send(PartnersListPage({ request, users, validationErrors }))
   })
