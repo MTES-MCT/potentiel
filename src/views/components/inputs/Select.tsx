@@ -2,11 +2,11 @@ import { RiErrorWarningFill } from '@react-icons/all-files/ri/RiErrorWarningFill
 import React, { useState } from 'react'
 
 type SelectProps = React.HTMLAttributes<HTMLSelectElement> & {
-  options: string[]
   name?: string
   id: string
   required?: true
   error?: string
+  children: React.ReactNode
 }
 
 export const Select = ({
@@ -16,7 +16,7 @@ export const Select = ({
   name,
   id,
   required,
-  options,
+  children,
 }: SelectProps) => {
   const [valueHasChanged, valueChanged] = useState(false)
   const isOnError = error !== '' && !valueHasChanged
@@ -34,13 +34,7 @@ export const Select = ({
           onChange && onChange(e)
         }}
       >
-        {options
-          .sort((a, b) => a.localeCompare(b))
-          .map((value, index) => (
-            <option key={name + '_' + index} value={value}>
-              {value}
-            </option>
-          ))}
+        {children}
       </select>
       {isOnError && (
         <p

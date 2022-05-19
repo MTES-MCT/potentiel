@@ -59,11 +59,18 @@ export const DrealList = PageLayout(({ request, users, validationErrors }: Dreal
               <Select
                 name="region"
                 id="region"
-                options={[...REGIONS]}
                 {...dataId('region-field')}
                 required
                 {...(validationErrors && { error: validationErrors['region']?.toString() })}
-              />
+              >
+                {[...REGIONS]
+                  .sort((a, b) => a.localeCompare(b))
+                  .map((value, index) => (
+                    <option key={value + '_' + index} value={value}>
+                      {value}
+                    </option>
+                  ))}
+              </Select>
             </div>
             <Button
               type="submit"
