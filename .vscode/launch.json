@@ -40,7 +40,7 @@
       // "smartStep": false,
       "sourceMaps": true,
       "program": "${workspaceFolder}/node_modules/ts-node-dev/lib/bin.js",
-      "args": ["--transpile-only", "./devtools/generateEventsDoc.ts"
+      "args": ["--transpile-only", "./devtools/generateEventsDoc/index.ts"
       ],
       "console": "integratedTerminal"
     },

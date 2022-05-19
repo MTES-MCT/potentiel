@@ -2,9 +2,6 @@ import { EventResult } from './getEvents'
 import path from 'node:path'
 
 export function EventsDocument(events: EventResult[]) {
-  // TODO: mark the unpublished events as deprecated (mention that it cannot be deleted because there might be items in the db with this type)
-  // TODO: fetch comments written above the class definition
-  // TODO: other way around : for each projection, which events update
   const modules = events.reduce<Record<string, EventResult[]>>((moduleMap, event) => {
     const { module } = event
     if (!moduleMap[module]) {
@@ -43,7 +40,7 @@ ${Modules(modules)}
   `
 }
 
-export function SommaireProjections(projections: Record<string, EventResult[]>) {
+function SommaireProjections(projections: Record<string, EventResult[]>) {
   return `
 - Projections (tables)
 ${Object.keys(projections)
@@ -52,7 +49,7 @@ ${Object.keys(projections)
   .join('\n')}`
 }
 
-export function SommaireEvenementsParModule(modules: Record<string, EventResult[]>) {
+function SommaireEvenementsParModule(modules: Record<string, EventResult[]>) {
   return `
 - Événements par module
 ${Object.entries(modules)
@@ -71,7 +68,7 @@ function SommaireEventItem({ name }: EventResult) {
   return `    - [${name}](#${name.toLowerCase()})`
 }
 
-export function Projections(projections: Record<string, EventResult[]>) {
+function Projections(projections: Record<string, EventResult[]>) {
   return `
 ## Projections
 
@@ -96,7 +93,7 @@ ${events
 `
 }
 
-export function Modules(modules: Record<string, EventResult[]>) {
+function Modules(modules: Record<string, EventResult[]>) {
   return `
 ## Événements par module
 
@@ -111,9 +108,9 @@ function DetailedModuleItem(module: string, events: EventResult[]) {
 ## ${module}
 ${events
   .map(
-    ({ name, sourceFile, publishers, eventHandlers, projectionUpdates }) => `
-### ${name}
-[aller à la définition](${relativeFilePath(sourceFile)})
+    ({ name, description, sourceFile, publishers, eventHandlers, projectionUpdates }) => `
+### [${name}](${relativeFilePath(sourceFile)})
+${description ? `>${description.split('\n').join('\n>')}` : ''}
 
 ${Publishers(publishers)}
 ${ProjectionUpdates(projectionUpdates)}
