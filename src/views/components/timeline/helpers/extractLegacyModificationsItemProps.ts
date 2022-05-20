@@ -1,5 +1,6 @@
 import { is, ProjectEventDTO } from '@modules/frise/dtos'
 import { LegacyModificationStatus } from '@modules/modificationRequest'
+import { format } from 'date-fns'
 
 export type LegacyModificationsItemProps = {
   type: 'modification-historique'
@@ -72,14 +73,21 @@ export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) =
         })
         break
       case 'recours':
-        propsArray.push({
-          type: 'modification-historique',
-          date: event.date,
-          status: event.status,
-          modificationType: 'recours',
-          motifElimination: event.motifElimination,
-          courrier,
-        })
+        const projectNotifiedAtSameDate = events
+          .filter(is('ProjectNotified'))
+          .filter((e) => format(e.date, 'yyyy-MM-dd') === format(event.date, 'yyyy-MM-dd'))
+          .pop()
+
+        event.status !== 'acceptée' &&
+          !projectNotifiedAtSameDate &&
+          propsArray.push({
+            type: 'modification-historique',
+            date: event.date,
+            status: event.status,
+            modificationType: 'recours',
+            motifElimination: event.motifElimination,
+            courrier,
+          })
         break
       case 'delai':
         if (event.status === 'acceptée') {

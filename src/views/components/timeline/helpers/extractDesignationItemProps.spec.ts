@@ -204,32 +204,5 @@ describe('extractDesignationItemProps', () => {
         })
       })
     })
-    describe('when there are several ProjectNotificationDateSet events', () => {
-      it(' it should return the latest ProjectNotificationDateSet date', () => {
-        const projectEventList = [
-          {
-            type: 'ProjectNotified',
-            variant: 'admin',
-            date: new Date('2022-01-18').getTime(),
-          } as ProjectNotifiedDTO,
-          {
-            type: 'ProjectNotificationDateSet',
-            variant: 'admin',
-            date: new Date('2022-01-19').getTime(),
-          } as ProjectNotificationDateSetDTO,
-          {
-            type: 'ProjectNotificationDateSet',
-            variant: 'admin',
-            date: new Date('2022-01-20').getTime(),
-          } as ProjectNotificationDateSetDTO,
-        ]
-
-        const result = extractDesignationItemProps(projectEventList, projectId)
-        expect(result).toMatchObject({
-          type: 'designation',
-          date: new Date('2022-01-20').getTime(),
-        })
-      })
-    })
   })
 })
