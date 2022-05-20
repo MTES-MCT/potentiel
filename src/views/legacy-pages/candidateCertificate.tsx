@@ -41,11 +41,7 @@ interface LaureatProps {
   periode: Periode
 }
 const Laureat = ({ project, appelOffre, periode }: LaureatProps) => {
-  const objet =
-    'Désignation des lauréats de la ' +
-    periode.title +
-    " période de l'appel offres " +
-    appelOffre.title
+  const objet = `Désignation des lauréats de la ${periode.title} période de l'appel d'offres ${periode.reference} ${appelOffre.title}`
 
   const garantieFinanciereEnMois = appelOffre.familles.find(
     (famille) => famille.id === project.familleId
@@ -283,11 +279,7 @@ interface ElimineProps {
   periode: Periode
 }
 const Elimine = ({ project, appelOffre, periode }: ElimineProps) => {
-  const objet =
-    'Avis de rejet à l’issue de la ' +
-    periode.title +
-    " période de l'appel offres " +
-    appelOffre.title
+  const objet = `Avis de rejet à l’issue de la ${periode.title} période de l'appel d'offres ${periode.reference} ${appelOffre.title}`
 
   const body = (
     <>

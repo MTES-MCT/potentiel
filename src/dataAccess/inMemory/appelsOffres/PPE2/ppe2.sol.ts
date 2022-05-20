@@ -5,8 +5,8 @@ const solPPE2: AppelOffre = {
   id: 'PPE2 - Sol',
   type: 'sol',
   title:
-    '2021 S 211-553136 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie solaire « Centrales au sol »',
-  shortTitle: 'PPE2 - Sol 2021 S 211-553136',
+    'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie solaire « Centrales au sol »',
+  shortTitle: 'PPE2 - Sol',
   launchDate: 'Août 2021',
   unitePuissance: 'MW',
   delaiRealisationEnMois: 30,
@@ -43,6 +43,7 @@ const solPPE2: AppelOffre = {
       title: 'première',
       paragrapheAchevement: '6.3',
       certificateTemplate: 'ppe2.v1',
+      reference: '2021 S 211-553136',
       noteThresholdBy: 'category',
       noteThreshold: {
         volumeReserve: {

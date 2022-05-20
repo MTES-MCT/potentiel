@@ -5,8 +5,8 @@ const zni: AppelOffre = {
   id: 'CRE4 - ZNI',
   type: 'zni',
   title:
-    '2019/S 113-276264 portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de l’énergie solaire et situées dans les zones non interconnectées',
-  shortTitle: 'CRE4 - ZNI 2019/S 113-276264',
+    'portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de l’énergie solaire et situées dans les zones non interconnectées',
+  shortTitle: 'CRE4 - ZNI',
   launchDate: 'juin 2019',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,
@@ -42,6 +42,7 @@ const zni: AppelOffre = {
       title: 'première',
       paragrapheAchevement: '6.4',
       certificateTemplate: 'cre4.v0',
+      reference: '2019/S 113-276264',
       noteThresholdBy: 'family',
       noteThreshold: [
         { familleId: '1a', territoire: 'Corse', noteThreshold: 53.4 },
@@ -67,6 +68,7 @@ const zni: AppelOffre = {
       title: 'deuxième',
       paragrapheAchevement: '6.4',
       certificateTemplate: 'cre4.v0',
+      reference: '2019/S 113-276264',
       noteThresholdBy: 'family',
       noteThreshold: [
         { familleId: '2a', territoire: 'Corse', noteThreshold: 42.1 },
@@ -91,6 +93,7 @@ const zni: AppelOffre = {
       title: 'troisième',
       paragrapheAchevement: '6.4',
       certificateTemplate: 'cre4.v1',
+      reference: '2019/S 113-276264',
       noteThresholdBy: 'family',
       noteThreshold: [
         { familleId: '1a', territoire: 'Corse', noteThreshold: 52.7 },
@@ -113,6 +116,7 @@ const zni: AppelOffre = {
       title: 'quatrième',
       paragrapheAchevement: '6.4',
       certificateTemplate: 'cre4.v1',
+      reference: '2019/S 113-276264',
       noteThresholdBy: 'family',
       noteThreshold: [
         { familleId: '2a', territoire: 'Corse', noteThreshold: 33.61 },
@@ -137,6 +141,7 @@ const zni: AppelOffre = {
       title: 'cinquième',
       paragrapheAchevement: '6.4',
       certificateTemplate: 'cre4.v1',
+      reference: '2019/S 113-276264',
       noteThresholdBy: 'family',
       noteThreshold: [
         { familleId: '1a', territoire: 'Mayotte', noteThreshold: 49.99 },

@@ -5,8 +5,8 @@ const innovation: AppelOffre = {
   id: 'CRE4 - Innovation',
   type: 'innovation',
   title:
-    '2017/S 051-094731 portant sur la réalisation et l’exploitation d’Installations de production d’électricité innovantes à partir de l’énergie solaire, sans dispositifs de stockage',
-  shortTitle: 'CRE4 - Innovation 2017/S 051-094731',
+    'portant sur la réalisation et l’exploitation d’Installations de production d’électricité innovantes à partir de l’énergie solaire, sans dispositifs de stockage',
+  shortTitle: 'CRE4 - Innovation',
   launchDate: 'mars 2017',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,
@@ -41,6 +41,7 @@ const innovation: AppelOffre = {
       title: 'première',
       paragrapheAchevement: '6.3',
       type: 'legacy',
+      reference: '2017/S 051-094731',
     },
     {
       id: '2',
@@ -52,6 +53,7 @@ const innovation: AppelOffre = {
         { familleId: '2', noteThreshold: 45.49 },
       ],
       certificateTemplate: 'cre4.v0',
+      reference: '2017/S 051-094731',
     },
     {
       id: '3',
@@ -63,6 +65,7 @@ const innovation: AppelOffre = {
         { familleId: '2', noteThreshold: 59.32 },
       ],
       certificateTemplate: 'cre4.v1',
+      reference: '2017/S 051-094731',
     },
   ],
   familles: [

@@ -61,6 +61,7 @@ import {
   projectRepo,
   projectClaimRepo,
 } from './repos.config'
+import { getAppelOffre } from '@dataAccess/inMemory'
 
 export const shouldUserAccessProject = new BaseShouldUserAccessProject(
   oldUserRepo,

@@ -64,7 +64,9 @@ v1Router.get(
         dateMiseEnDemeure: formatDate(Date.now()),
         contactDreal: request.user.email,
         referenceProjet: project.potentielIdentifier,
-        titreAppelOffre: project.appelOffre?.title || '!!!AO NON DISPONIBLE!!!',
+        titreAppelOffre: project.appelOffre?.periode
+          ? `${project.appelOffre?.periode.reference} ${project.appelOffre.title}`
+          : '!!!AO NON DISPONIBLE!!!',
         dateLancementAppelOffre: project.appelOffre?.launchDate || '!!!AO NON DISPONIBLE!!!',
         nomProjet: project.nomProjet,
         adresseCompleteProjet: `${project.adresseProjet} ${project.codePostalProjet} ${project.communeProjet}`,

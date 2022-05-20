@@ -5,8 +5,8 @@ const sol: AppelOffre = {
   id: 'CRE4 - Sol',
   type: 'sol',
   title:
-    '2016/S 148-268152 portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de l’énergie solaire « Centrale au sol »',
-  shortTitle: 'CRE4 - Sol 2016/S 148-268152',
+    'portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de l’énergie solaire « Centrale au sol »',
+  shortTitle: 'CRE4 - Sol',
   launchDate: 'août 2016',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,
@@ -43,36 +43,42 @@ const sol: AppelOffre = {
       title: 'première',
       paragrapheAchevement: '6.4',
       type: 'legacy',
+      reference: '2016/S 148-268152',
     },
     {
       id: '2',
       title: 'deuxième',
       paragrapheAchevement: '6.4',
       type: 'legacy',
+      reference: '2016/S 148-268152',
     },
     {
       id: '3',
       title: 'troisième',
       paragrapheAchevement: '6.4',
       type: 'legacy',
+      reference: '2016/S 148-268152',
     },
     {
       id: '4',
       title: 'quatrième',
       paragrapheAchevement: '6.4',
       type: 'legacy',
+      reference: '2016/S 148-268152',
     },
     {
       id: '5',
       title: 'cinquième',
       paragrapheAchevement: '6.4',
       type: 'legacy',
+      reference: '2016/S 148-268152',
     },
     {
       id: '6',
       title: 'sixième',
       paragrapheAchevement: '6.4',
       type: 'legacy',
+      reference: '2016/S 148-268152',
     },
     {
       id: '7',
@@ -85,6 +91,7 @@ const sol: AppelOffre = {
         { familleId: '3', noteThreshold: 54.15 },
       ],
       certificateTemplate: 'cre4.v0',
+      reference: '2016/S 148-268152',
     },
     {
       id: '8',
@@ -97,6 +104,7 @@ const sol: AppelOffre = {
         { familleId: '3', noteThreshold: 54.35 },
       ],
       certificateTemplate: 'cre4.v1',
+      reference: '2016/S 148-268152',
     },
     {
       id: '9',
@@ -109,6 +117,7 @@ const sol: AppelOffre = {
         { familleId: '3', noteThreshold: 36.02 },
       ],
       certificateTemplate: 'cre4.v1',
+      reference: '2016/S 148-268152',
     },
     {
       id: '10',
@@ -121,6 +130,7 @@ const sol: AppelOffre = {
         { familleId: '3', noteThreshold: 23.94 },
       ],
       certificateTemplate: 'cre4.v1',
+      reference: '2016/S 148-268152',
     },
   ],
   familles: [

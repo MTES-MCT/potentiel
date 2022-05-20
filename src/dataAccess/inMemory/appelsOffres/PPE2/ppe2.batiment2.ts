@@ -5,8 +5,8 @@ const batiment2PPE2: AppelOffre = {
   id: 'PPE2 - Bâtiment 2',
   type: 'batiment',
   title:
-    '2022 S 020-047803 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie solaire « Centrales sur bâtiments, serres et hangars agricoles et ombrières de parking de puissance supérieure à 500 kWc»',
-  shortTitle: 'PPE2 - Bâtiment 2022 S 020-047803',
+    'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie solaire « Centrales sur bâtiments, serres et hangars agricoles et ombrières de parking de puissance supérieure à 500 kWc»',
+  shortTitle: 'PPE2 - Bâtiment',
   launchDate: 'Août 2021',
   unitePuissance: 'MW',
   delaiRealisationEnMois: 30,
@@ -43,6 +43,7 @@ const batiment2PPE2: AppelOffre = {
       title: 'deuxième',
       paragrapheAchevement: '6.3',
       certificateTemplate: 'ppe2.v1',
+      reference: '2022 S 020-047803',
       noteThresholdBy: 'category',
       noteThreshold: {
         volumeReserve: {

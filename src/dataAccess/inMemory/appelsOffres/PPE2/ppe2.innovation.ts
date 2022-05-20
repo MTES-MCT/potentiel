@@ -5,8 +5,8 @@ const innovationPPE2: AppelOffre = {
   id: 'PPE2 - Innovation',
   type: 'innovation',
   title:
-    '2021 S 203-530267 portant sur la réalisation et l’exploitation d’Installations de production d’électricité innovantes à partir de l’énergie solaire sans dispositifs de stockage',
-  shortTitle: 'PPE2 - Innovation 2021 S 203-530267',
+    'portant sur la réalisation et l’exploitation d’Installations de production d’électricité innovantes à partir de l’énergie solaire sans dispositifs de stockage',
+  shortTitle: 'PPE2 - Innovation',
   launchDate: 'Août 2021',
   unitePuissance: 'MW',
   delaiRealisationEnMois: 30,
@@ -42,6 +42,7 @@ const innovationPPE2: AppelOffre = {
       paragrapheAchevement: '6.3',
       type: 'not-yet-notified',
       certificateTemplate: 'ppe2.v1',
+      reference: '2021 S 203-530267',
     },
   ],
   familles: [

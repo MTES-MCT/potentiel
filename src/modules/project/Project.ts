@@ -11,7 +11,7 @@ import {
   ok,
   Result,
 } from '@core/utils'
-import { CertificateTemplate, ProjectAppelOffre, Technologie, User } from '@entities'
+import { AppelOffre, CertificateTemplate, ProjectAppelOffre, Technologie, User } from '@entities'
 import { isNotifiedPeriode } from '@entities/periode'
 import {
   EntityNotFoundError,
@@ -64,6 +64,7 @@ import {
   DemandeDelaiSignaled,
   DemandeAbandonSignaled,
   DemandeRecoursSignaled,
+  AppelOffreProjetModifié,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre'
@@ -166,6 +167,7 @@ export interface Project extends EventStoreAggregate {
     status: 'acceptée' | 'rejetée'
     attachment?: { id: string; name: string }
   }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
+  modifierAppelOffre: (appelOffre: AppelOffre) => Result<null, null>
   readonly shouldCertificateBeGenerated: boolean
   readonly appelOffre?: ProjectAppelOffre
   readonly isClasse?: boolean
@@ -884,6 +886,19 @@ export const makeProject = (args: {
 
       return ok(null)
     },
+    modifierAppelOffre: ({ id: appelOffreId }) => {
+      props.appelOffre?.id !== appelOffreId &&
+        _publishEvent(
+          new AppelOffreProjetModifié({
+            payload: {
+              projectId: props.projectId.toString(),
+              appelOffreId,
+            },
+          })
+        )
+
+      return ok(null)
+    },
     get pendingEvents() {
       return pendingEvents
     },
@@ -1109,6 +1124,9 @@ export const makeProject = (args: {
         break
       case ProjectAbandoned.type:
         props.abandonedOn = event.occurredAt.getTime()
+        break
+      case AppelOffreProjetModifié.type:
+        _updateAppelOffre({ appelOffreId: event.payload.appelOffreId })
         break
       default:
         // ignore other event types

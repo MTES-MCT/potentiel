@@ -54,6 +54,7 @@ export type Periode = {
   id: string
   title: string
   paragrapheAchevement: string
+  reference: string
 } & (NotifiedPeriode | NotYetNotifiedPeriode | LegacyPeriode)
 
 export const isNotifiedPeriode = (periode: Periode): periode is Periode & NotifiedPeriode => {

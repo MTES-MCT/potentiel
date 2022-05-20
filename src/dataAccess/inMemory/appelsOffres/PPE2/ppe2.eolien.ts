@@ -5,8 +5,8 @@ const eolienPPE2: AppelOffre = {
   id: 'PPE2 - Eolien',
   type: 'eolien',
   title:
-    '2021/S 146-386083 portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie mécanique du vent implantées à terre',
-  shortTitle: 'PPE2 - Eolien 2021/S 146-386083',
+    'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie mécanique du vent implantées à terre',
+  shortTitle: 'PPE2 - Eolien',
   dossierSuiviPar: 'violaine.tarizzo@developpement-durable.gouv.fr',
   launchDate: 'Août 2021',
   unitePuissance: 'MW',
@@ -44,6 +44,7 @@ const eolienPPE2: AppelOffre = {
       certificateTemplate: 'ppe2.v1',
       paragrapheAchevement: '6.3',
       noteThreshold: 0.68,
+      reference: '2021/S 146-386083',
     },
   ],
   familles: [],
