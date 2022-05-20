@@ -15,30 +15,29 @@ import {
   SignalerDemandeAbandon,
   SignalerDemandeRecours,
   Signup,
+  DrealList,
+  PartnersList,
 } from './pages'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
   makeHtml({
     Component: Statistiques,
     props,
-    hydrate: true,
-    pageName: 'statistiques', // This must match the Component name
+    hydrate: false,
   })
 
 export const AdminStatistiquesPage = (props: Parameters<typeof AdminStatistiques>[0]) =>
   makeHtml({
     Component: AdminStatistiques,
     props,
-    hydrate: true,
-    pageName: 'adminStatistiques', // This must match the Component name
+    hydrate: false,
   })
 
 export const AdemeStatistiquesPage = (props: Parameters<typeof AdemeStatistiques>[0]) =>
   makeHtml({
     Component: AdemeStatistiques,
     props,
-    hydrate: true,
-    pageName: 'ademeStatistiques', // This must match the Component name
+    hydrate: false,
   })
 
 export const ProjectDetailsPage = (props: Parameters<typeof ProjectDetails>[0]) =>
@@ -134,4 +133,20 @@ export const SignupPage = (props: Parameters<typeof Signup>[0]) =>
     Component: Signup,
     props,
     hydrate: false,
+  })
+
+export const DrealListPage = (props: Parameters<typeof DrealList>[0]) =>
+  makeHtml({
+    Component: DrealList,
+    props,
+    hydrate: true,
+    pageName: 'drealList', // This must match the Component name
+  })
+
+export const PartnersListPage = (props: Parameters<typeof PartnersList>[0]) =>
+  makeHtml({
+    Component: PartnersList,
+    props,
+    hydrate: true,
+    pageName: 'partnersList', // This must match the Component name
   })

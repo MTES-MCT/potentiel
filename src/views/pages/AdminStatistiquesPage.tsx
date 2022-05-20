@@ -2,15 +2,14 @@ import type { Request } from 'express'
 import React from 'react'
 import AdminDashboard from '../components/AdminDashboard'
 import { PageLayout } from '../components/PageLayout'
-import { hydrateOnClient } from '../helpers/hydrateOnClient'
 
-interface Props {
+type AdminStatistiquesProps = {
   request: Request
   iframeUrl: string
 }
 
 /* Pure component */
-export const AdminStatistiques = PageLayout(function (props: Props) {
+export const AdminStatistiques = PageLayout(function (props: AdminStatistiquesProps) {
   return (
     <AdminDashboard currentPage="admin-statistiques" role="admin">
       <main role="main" className="panel">
@@ -36,5 +35,3 @@ export const AdminStatistiques = PageLayout(function (props: Props) {
     </AdminDashboard>
   )
 })
-
-hydrateOnClient(AdminStatistiques)

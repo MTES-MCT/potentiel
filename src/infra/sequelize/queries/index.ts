@@ -1,5 +1,6 @@
 export * from './appelOffre'
 export * from './candidateNotification'
+export * from './users/dreals'
 export * from './file'
 export * from './frise'
 export * from './modificationRequest'

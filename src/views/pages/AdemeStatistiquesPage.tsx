@@ -2,15 +2,14 @@ import type { Request } from 'express'
 import React from 'react'
 import PartnerDashboard from '../components/PartnerDashboard'
 import { PageLayout } from '../components/PageLayout'
-import { hydrateOnClient } from '../helpers/hydrateOnClient'
 
-interface Props {
+type AdemeStatistiquesProps = {
   request: Request
   iframeUrl: string
 }
 
 /* Pure component */
-export const AdemeStatistiques = PageLayout(function (props: Props) {
+export const AdemeStatistiques = PageLayout(function (props: AdemeStatistiquesProps) {
   return (
     <PartnerDashboard currentPage="ademe-statistiques" role="ademe">
       <main role="main" className="panel">
@@ -36,5 +35,3 @@ export const AdemeStatistiques = PageLayout(function (props: Props) {
     </PartnerDashboard>
   )
 })
-
-hydrateOnClient(AdemeStatistiques)

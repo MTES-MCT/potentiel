@@ -4,8 +4,6 @@ import { makeHtml } from '../index.html'
 import AdminAppelOffre from './adminAppelOffre'
 import AdminNotifyCandidates from './adminNotifyCandidates'
 import AdminRegenerateCertificates from './adminRegenerateCertificates'
-import AdminUsers from './adminUsers'
-import DrealList from './drealList'
 import ImportCandidates from './importCandidates'
 import InvitationList from './invitationList'
 import NotificationList from './notificationList'
@@ -19,12 +17,10 @@ const AdminNotifyCandidatesPage = makePresenterPage(AdminNotifyCandidates)
 const AdminRegenerateCertificatesPage = makePresenterPage(AdminRegenerateCertificates)
 const ImportCandidatesPage = makePresenterPage(ImportCandidates)
 const ListProjectsPage = makePresenterPage(ListProjects)
-const DrealListPage = makePresenterPage(DrealList)
 const InvitationListPage = makePresenterPage(InvitationList)
 const NotificationListPage = makePresenterPage(NotificationList)
 const SuccessOrErrorPage = makePresenterPage(SuccessOrError)
 const AdminAppelOffrePage = makePresenterPage(AdminAppelOffre)
-const AdminUsersPage = makePresenterPage(AdminUsers)
 const ListMissingOwnerProjectsPage = makePresenterPage(ListMissingOwnerProjects)
 const InvitationsAreDeprecatedPage = makePresenterPage(InvitationsAreDeprecated)
 const FakeLoginPage = makePresenterPage(FakeLogin)
@@ -33,12 +29,10 @@ export {
   ImportCandidatesPage,
   ListProjectsPage,
   AdminNotifyCandidatesPage,
-  DrealListPage,
   InvitationListPage,
   NotificationListPage,
   SuccessOrErrorPage as SuccessPage,
   AdminAppelOffrePage,
-  AdminUsersPage,
   AdminRegenerateCertificatesPage,
   ListMissingOwnerProjectsPage,
   InvitationsAreDeprecatedPage,
