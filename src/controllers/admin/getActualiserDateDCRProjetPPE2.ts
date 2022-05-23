@@ -18,6 +18,7 @@ v1Router.get(
         where: {
           appelOffreId: { [Op.like]: 'PPE2%' },
           notifiedOn: { [Op.gt]: 0 },
+          classe: 'Classé',
         },
         attributes: ['id', 'notifiedOn'],
       }),
