@@ -34,6 +34,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'violaine.tarizzo@developpement-durable.gouv.fr',
+  delaiDcrEnMois: { valeur: 3, texte: 'trois' },
   changementPuissance: {
     changementByTechnologie: true,
     ratios: {

@@ -70,6 +70,10 @@ export type AppelOffre = {
   familles: Famille[]
   contenuParagrapheAchevement: string
   changementPuissance: ChangementPuissance
+  delaiDcrEnMois: {
+    valeur: number
+    texte: string
+  }
 } & DelaiRealisation
 
 export type ProjectAppelOffre = AppelOffre & {

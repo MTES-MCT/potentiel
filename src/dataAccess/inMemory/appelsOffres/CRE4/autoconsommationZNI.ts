@@ -29,6 +29,7 @@ const autoconsommationZNI: AppelOffre = {
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
+  delaiDcrEnMois: { valeur: 2, texte: 'deux' },
   changementPuissance: {
     ratios: {
       min: 0.8,

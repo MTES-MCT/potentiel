@@ -30,6 +30,7 @@ const fessenheim: AppelOffre = {
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   renvoiSoumisAuxGarantiesFinancieres: 'doit être au minimum de 42 mois',
+  delaiDcrEnMois: { valeur: 2, texte: 'deux' },
   changementPuissance: {
     ratios: {
       min: 0.9,

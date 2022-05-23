@@ -34,6 +34,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
   paragrapheClauseCompetitivite: '2.14',
   afficherPhraseRegionImplantation: false,
   afficherValeurEvaluationCarbone: true,
+  delaiDcrEnMois: { valeur: 3, texte: 'trois' },
   changementPuissance: {
     ratios: {
       min: 0.8,
