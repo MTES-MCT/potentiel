@@ -61,6 +61,14 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
       noteThreshold: 62.5,
       reference: '2021 S 176-457526',
     },
+    {
+      id: '2',
+      title: 'deuxième',
+      paragrapheAchevement: '6.3',
+      certificateTemplate: 'ppe2.v1',
+      noteThreshold: 66.95,
+      reference: '2022 S 038 098159',
+    },
   ],
   familles: [],
 }
