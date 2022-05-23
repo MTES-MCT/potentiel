@@ -18,7 +18,7 @@ import { v1Router } from '../v1Router'
 import { format } from 'date-fns'
 import * as yup from 'yup'
 import { logger, ok, err } from '@core/utils'
-import { CertificateFileIsMissingError } from 'src/modules/project/errors'
+import { CertificateFileIsMissingError } from '@modules/project'
 
 const requestBodySchema = yup.object({
   projectId: yup.string().uuid().required(),
