@@ -31,6 +31,7 @@ const batimentPPE2: AppelOffre = {
   afficherValeurEvaluationCarbone: true,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
+  delaiDcrEnMois: { valeur: 3, texte: 'trois' },
   changementPuissance: {
     ratios: {
       min: 0.9,

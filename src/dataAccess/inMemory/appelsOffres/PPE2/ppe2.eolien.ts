@@ -7,7 +7,7 @@ const eolienPPE2: AppelOffre = {
   title:
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie mécanique du vent implantées à terre',
   shortTitle: 'PPE2 - Eolien',
-  dossierSuiviPar: 'violaine.tarizzo@developpement-durable.gouv.fr',
+  dossierSuiviPar: 'tiphany.genin@developpement-durable.gouv.fr',
   launchDate: 'Août 2021',
   unitePuissance: 'MW',
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
@@ -31,6 +31,7 @@ const eolienPPE2: AppelOffre = {
   paragrapheClauseCompetitivite: '2.11',
   afficherPhraseRegionImplantation: false,
   afficherValeurEvaluationCarbone: true,
+  delaiDcrEnMois: { valeur: 3, texte: 'trois' },
   changementPuissance: {
     ratios: {
       min: 0.8,
