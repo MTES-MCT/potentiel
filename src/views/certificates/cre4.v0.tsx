@@ -42,7 +42,7 @@ const makeAddFootnote = (footNotes: Array<any>) => {
 
 const Laureat = (project: ProjectDataForCertificate) => {
   const { appelOffre } = project
-  const { periode } = appelOffre || {}
+  const { periode, delaiDcrEnMois } = appelOffre || {}
 
   const objet = `Désignation des lauréats de la ${periode.title} période de l'appel d'offres ${periode.reference} ${appelOffre.title}`
 
@@ -130,8 +130,8 @@ const Laureat = (project: ProjectDataForCertificate) => {
           marginLeft: 20,
         }}
       >
-        - si ce n’est déjà fait, déposer une demande complète de raccordement dans les deux (2) mois
-        à compter de la présente notification
+        - si ce n’est déjà fait, déposer une demande complète de raccordement dans les{' '}
+        {delaiDcrEnMois.texte} ({delaiDcrEnMois.valeur}) mois à compter de la présente notification
         {addFootNote(appelOffre.renvoiDemandeCompleteRaccordement)}.
       </Text>
       {garantieFinanciereEnMois ? (

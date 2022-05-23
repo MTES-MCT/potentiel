@@ -42,7 +42,7 @@ const makeAddFootnote = (footNotes: Array<any>) => {
 
 const Laureat = (project: ProjectDataForCertificate) => {
   const { appelOffre } = project
-  const { periode } = appelOffre || {}
+  const { periode, delaiDcrEnMois } = appelOffre || {}
   const objet = `Désignation des lauréats de la ${periode.title} période de l'appel d'offres ${periode.reference} ${appelOffre.title}`
 
   const famille = appelOffre.familles.find((famille) => famille.id === project.familleId)
@@ -131,11 +131,11 @@ const Laureat = (project: ProjectDataForCertificate) => {
           marginLeft: 20,
         }}
       >
-        - si ce n’est déjà fait, déposer une demande complète de raccordement dans les deux (2) mois
-        à compter de la présente notification
+        - si ce n’est déjà fait, déposer une demande complète de raccordement dans les{' '}
+        {delaiDcrEnMois.texte} ({delaiDcrEnMois.valeur}) mois à compter de la présente notification
         {addFootNote(appelOffre.renvoiDemandeCompleteRaccordement)}
         {appelOffre.type === 'eolien'
-          ? ' ou dans les deux mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale'
+          ? ` ou dans les ${delaiDcrEnMois.texte} mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale`
           : ''}
         ;
       </Text>

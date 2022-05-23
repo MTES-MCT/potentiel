@@ -11,7 +11,7 @@ type MakeLaureat = (project: ProjectDataForCertificate) => {
 
 export const makeLaureat: MakeLaureat = (project) => {
   const { appelOffre, technologie } = project
-  const { periode, isSoumisAuxGFs } = appelOffre || {}
+  const { periode, isSoumisAuxGFs, delaiDcrEnMois } = appelOffre || {}
 
   const footnotes: Array<Footnote> = []
   const addFootNote = makeAddFootnote(footnotes)
@@ -80,11 +80,12 @@ export const makeLaureat: MakeLaureat = (project) => {
             marginTop: 10,
           }}
         >
-          - si ce n’est déjà fait, déposer une demande complète de raccordement dans les deux (2)
-          mois à compter de la présente notification
+          - si ce n’est déjà fait, déposer une demande complète de raccordement dans les{' '}
+          {delaiDcrEnMois.texte} ({delaiDcrEnMois.valeur}) mois à compter de la présente
+          notification
           {addFootNote(appelOffre.renvoiDemandeCompleteRaccordement)}
           {appelOffre.type === 'eolien' &&
-            ' ou dans les deux mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale'}
+            ` ou dans les ${delaiDcrEnMois.texte} mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale`}
           ;
         </Text>
 
