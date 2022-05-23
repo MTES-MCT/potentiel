@@ -18,6 +18,7 @@ import {
   HeterogeneousHistoryError,
   IllegalInitialStateForAggregateError,
   IncompleteDataError,
+  ProjectDcrDelayIsMissingError,
 } from '../shared'
 import { ProjectDataForCertificate } from './dtos'
 import {
@@ -1195,17 +1196,20 @@ export const makeProject = (args: {
   function _updateDCRDate() {
     if (props.isClasse) {
       _removePendingEventsOfType(ProjectDCRDueDateSet.type)
-      _publishEvent(
-        new ProjectDCRDueDateSet({
-          payload: {
-            projectId: props.projectId.toString(),
-            dcrDueOn: moment(props.notifiedOn)
-              .add(props.appelOffre?.delaiDcrEnMois, 'months')
-              .toDate()
-              .getTime(),
-          },
-        })
-      )
+      const notifiedOnDate = new Date(props.notifiedOn)
+      const delaiDcr = props.appelOffre?.delaiDcrEnMois.valeur
+      if (delaiDcr) {
+        _publishEvent(
+          new ProjectDCRDueDateSet({
+            payload: {
+              projectId: props.projectId.toString(),
+              dcrDueOn: notifiedOnDate.setMonth(notifiedOnDate.getMonth() + delaiDcr),
+            },
+          })
+        )
+      } else {
+        return err(new ProjectDcrDelayIsMissingError())
+      }
     }
   }
 
