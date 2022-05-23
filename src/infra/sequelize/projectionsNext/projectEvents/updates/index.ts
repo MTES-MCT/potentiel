@@ -1,5 +1,6 @@
 export * from './onConfirmationRequested';
 export * from './onCovidDelayGranted';
+export * from './onDateEchéanceGFAjoutée';
 export * from './onDemandeAbandonSignaled';
 export * from './onDemandeDelaiSignaled';
 export * from './onDemandeRecoursSignaled';

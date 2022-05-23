@@ -248,6 +248,14 @@ class routes {
     } else return route
   }
 
+  static ADD_GF_EXPIRATION_DATE = (args?: { projectId: string }) => {
+    const route = '/projet/:projectId/actualiser/garanties-financieres'
+    if (args) {
+      const { projectId } = args
+      return route.replace(':projectId', projectId)
+    } else return route
+  }
+
   static UPDATE_PROJECT_STEP_STATUS = (args?: {
     projectId: string
     newStatus: 'à traiter' | 'validé'

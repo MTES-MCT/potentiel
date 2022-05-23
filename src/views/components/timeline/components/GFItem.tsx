@@ -8,6 +8,8 @@ import { WarningIcon } from './WarningIcon'
 import { ProjectStatus } from '@modules/frise'
 import { formatDate } from '../../../../helpers/formatDate'
 import { format } from 'date-fns'
+import { Input } from '../../inputs'
+import { Button } from '../../buttons'
 
 type ComponentProps = GFItemProps & {
   project: { id: string; status: ProjectStatus }
@@ -73,6 +75,7 @@ const NotSubmitted = ({ date, status, role, project }: NotSubmittedProps) => {
 type SubmittedProps = ComponentProps & { status: 'pending-validation' }
 const Submitted = ({ date, url, role, project, expirationDate }: SubmittedProps) => {
   const isPorteurProjet = role === 'porteur-projet'
+  const canAddExpDate = role === 'porteur-projet' || role === 'dreal'
 
   return (
     <>
@@ -87,7 +90,11 @@ const Submitted = ({ date, url, role, project, expirationDate }: SubmittedProps)
           </div>
         </div>
         <ItemTitle title={'Constitution des garanties financières'} />
-        {expirationDate && <p className="m-0">Date d'échéance : {formatDate(expirationDate)}</p>}
+        {expirationDate ? (
+          <p className="m-0">Date d'échéance : {formatDate(expirationDate)}</p>
+        ) : (
+          canAddExpDate && <AddExpirationDateForm projectId={project.id} />
+        )}
         <div className="flex">
           {url ? (
             <a href={url} download>
@@ -104,7 +111,9 @@ const Submitted = ({ date, url, role, project, expirationDate }: SubmittedProps)
 }
 
 type ValidatedProps = ComponentProps & { status: 'validated' }
-const Validated = ({ date, url, expirationDate }: ValidatedProps) => {
+const Validated = ({ date, url, expirationDate, role, project }: ValidatedProps) => {
+  const canAddExpDate = role === 'porteur-projet' || role === 'dreal'
+
   return (
     <>
       <PastIcon />
@@ -115,7 +124,11 @@ const Validated = ({ date, url, expirationDate }: ValidatedProps) => {
           </div>
         </div>
         <ItemTitle title={'Constitution des garanties financières'} />
-        {expirationDate && <p className="m-0">Date d'échéance : {formatDate(expirationDate)}</p>}
+        {expirationDate ? (
+          <p className="m-0">Date d'échéance : {formatDate(expirationDate)}</p>
+        ) : (
+          canAddExpDate && <AddExpirationDateForm projectId={project.id} />
+        )}
         <div>
           {url ? (
             <>
@@ -153,7 +166,7 @@ const SubmitForm = ({ projectId }: SubmitFormProps) => {
           <input type="hidden" name="projectId" value={projectId} />
           <div>
             <label htmlFor="stepDate">Date de constitution</label>
-            <input
+            <Input
               type="date"
               name="stepDate"
               id="stepDate"
@@ -163,22 +176,22 @@ const SubmitForm = ({ projectId }: SubmitFormProps) => {
           </div>
           <div>
             <label htmlFor="expirationDate">Date d'échéance de la garantie*</label>
-            <input type="date" name="expirationDate" id="expirationDate" required />
+            <Input type="date" name="expirationDate" id="expirationDate" required />
           </div>
           <div>
             <label htmlFor="file">Attestation</label>
-            <input type="file" name="file" id="file" required />
+            <Input type="file" name="file" id="file" required />
           </div>
           <p className="m-0 mt-3 italic">
             *La garantie doit avoir une durée couvrant le projet jusqu’à 6 mois après la date
             d’Achèvement de l’installation ou être renouvelée régulièrement afin d’assurer une telle
             couverture temporelle.
           </p>
-          <div>
-            <button className="button" type="submit" name="submit">
-              Envoyer
-            </button>
-            <a onClick={() => showForm(false)}>Annuler</a>
+          <div className="flex gap-4 flex-col md:flex-row">
+            <Button type="submit" primary>
+              Enregistrer
+            </Button>
+            <Button onClick={() => showForm(false)}>Annuler</Button>
           </div>
         </form>
       )}
@@ -221,7 +234,7 @@ const NotUploaded = ({ role, project }: NotUploadedProps) => {
 type UploadedProps = ComponentProps & { status: 'uploaded' }
 
 const Uploaded = ({ date, url, role, project, expirationDate, uploadedByRole }: UploadedProps) => {
-  const canWithdrawGF = role === 'porteur-projet' || role === 'dreal'
+  const canUpdateGF = role === 'porteur-projet' || role === 'dreal'
 
   return (
     <>
@@ -233,7 +246,11 @@ const Uploaded = ({ date, url, role, project, expirationDate, uploadedByRole }: 
           </div>
         </div>
         <ItemTitle title={'Constitution des garanties financières'} />
-        {expirationDate && <p className="m-0">Date d'échéance : {formatDate(expirationDate)}</p>}
+        {expirationDate ? (
+          <p className="m-0">Date d'échéance : {formatDate(expirationDate)}</p>
+        ) : (
+          canUpdateGF && <AddExpirationDateForm projectId={project.id} />
+        )}
         <div className="flex">
           {url ? (
             <a href={url} download>
@@ -243,9 +260,7 @@ const Uploaded = ({ date, url, role, project, expirationDate, uploadedByRole }: 
             <span>Pièce-jointe introuvable</span>
           )}
         </div>
-        {canWithdrawGF && (
-          <WithdrawDocument projectId={project.id} uploadedByRole={uploadedByRole} />
-        )}
+        {canUpdateGF && <WithdrawDocument projectId={project.id} uploadedByRole={uploadedByRole} />}
         {uploadedByRole === 'dreal' && (
           <p className="m-0 italic">Ce document a été ajouté par la DREAL</p>
         )}
@@ -276,7 +291,7 @@ const UploadForm = ({ projectId, role }: UploadFormProps) => {
           <input type="hidden" name="projectId" value={projectId} />
           <div>
             <label htmlFor="stepDate">Date de constitution</label>
-            <input
+            <Input
               type="date"
               name="stepDate"
               id="stepDate"
@@ -286,11 +301,11 @@ const UploadForm = ({ projectId, role }: UploadFormProps) => {
           </div>
           <div>
             <label htmlFor="expirationDate">Date d'échéance de la garantie*</label>
-            <input type="date" name="expirationDate" id="expirationDate" required />
+            <Input type="date" name="expirationDate" id="expirationDate" required />
           </div>
           <div>
             <label htmlFor="file">Attestation{isPorteur && <span>**</span>}</label>
-            <input type="file" name="file" id="file" required />
+            <Input type="file" name="file" id="file" required />
             <p className="m-0 mt-3 italic">
               *La garantie doit avoir une durée couvrant le projet jusqu’à 6 mois après la date
               d’Achèvement de l’installation ou être renouvelée régulièrement afin d’assurer une
@@ -303,11 +318,11 @@ const UploadForm = ({ projectId, role }: UploadFormProps) => {
               </p>
             )}
           </div>
-          <div>
-            <button className="button" type="submit" name="submit">
-              Envoyer
-            </button>
-            <a onClick={() => showForm(false)}>Annuler</a>
+          <div className="flex gap-4 flex-col md:flex-row">
+            <Button type="submit" primary>
+              Enregistrer
+            </Button>
+            <Button onClick={() => showForm(false)}>Annuler</Button>
           </div>
         </form>
       )}
@@ -334,3 +349,37 @@ const WithdrawDocument = ({ projectId, uploadedByRole }: WithdrawDocumentProps) 
     )}
   </p>
 )
+
+type AddExpirationDateFormProps = {
+  projectId: string
+}
+const AddExpirationDateForm = ({ projectId }: AddExpirationDateFormProps) => {
+  const [isFormVisible, showForm] = useState(false)
+  return (
+    <>
+      <a onClick={() => showForm(!isFormVisible)}>Renseigner la date d'échéance</a>
+      {isFormVisible && (
+        <form
+          action={ROUTES.ADD_GF_EXPIRATION_DATE({ projectId })}
+          method="POST"
+          className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
+        >
+          <input name="projectId" value={projectId} readOnly hidden />
+          <label htmlFor="expirationDate">Date d'échéance des garanties financières*</label>
+          <Input type="date" name="expirationDate" id="expirationDate" />
+          <p className="italic">
+            *A noter : la garantie doit avoir une durée couvrant le projet jusqu’à 6 mois après la
+            date d’Achèvement de l’installation ou être renouvelée régulièrement afin d’assurer une
+            telle couverture temporelle.
+          </p>
+          <div className="flex gap-4 flex-col md:flex-row">
+            <Button type="submit" primary>
+              Enregistrer
+            </Button>
+            <Button onClick={() => showForm(false)}>Annuler</Button>
+          </div>
+        </form>
+      )}
+    </>
+  )
+}

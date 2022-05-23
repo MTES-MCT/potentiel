@@ -6,27 +6,28 @@ import { logger, Result, ok, err } from '@core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { UnauthorizedError } from '@modules/shared'
 import routes from '../../routes'
-import { errorResponse, unauthorizedResponse } from '../helpers'
+import {
+  errorResponse,
+  unauthorizedResponse,
+  validateRequestBodyForErrorArray,
+  RequestValidationErrorArray,
+  iso8601DateToDateYupTransformation,
+} from '../helpers'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
 import {
   CertificateFileIsMissingError,
   GFCertificateHasAlreadyBeenSentError,
 } from '../../modules/project'
-import { format, parse } from 'date-fns'
+import { format } from 'date-fns'
 import * as yup from 'yup'
-import { ValidationError, BaseSchema, InferType } from 'yup'
 import { pathExists } from '../../helpers/pathExists'
-
-const parseStringDate = (value, originalValue) => {
-  return parse(originalValue, 'yyyy-MM-dd', new Date())
-}
 
 const requestBodySchema = yup.object({
   projectId: yup.string().uuid().required(),
   stepDate: yup
     .date()
-    .transform(parseStringDate)
+    .transform(iso8601DateToDateYupTransformation)
     .max(
       format(new Date(), 'yyyy-MM-dd'),
       "La date de constitution ne doit dépasser la date d'aujourd'hui."
@@ -35,37 +36,18 @@ const requestBodySchema = yup.object({
     .typeError(`La date de constitution n'est pas valide.`),
   expirationDate: yup
     .date()
-    .transform(parseStringDate)
+    .transform(iso8601DateToDateYupTransformation)
     .required("Vous devez renseigner la date d'échéance.")
     .typeError(`La date d'échéance saisie n'est pas valide.`),
   type: yup.mixed().oneOf(['garanties-financieres']).required('Ce champ est obligatoire.'),
 })
-class RequestValidationError extends Error {
-  constructor(public errors: Array<string>) {
-    super("L'attestation de constitution des garanties financières n'a pas pu être envoyée.")
-  }
-}
-
-const validateRequestBody = (
-  body: Request['body'],
-  schema: BaseSchema
-): Result<InferType<typeof schema>, RequestValidationError | Error> => {
-  try {
-    return ok(schema.validateSync(body, { abortEarly: false }))
-  } catch (error) {
-    if (error instanceof ValidationError) {
-      return err(new RequestValidationError(error.errors))
-    }
-    return err(error)
-  }
-}
 
 v1Router.post(
   routes.UPLOAD_GARANTIES_FINANCIERES(),
   ensureRole(['porteur-projet', 'dreal']),
   upload.single('file'),
   asyncHandler(async (request, response) => {
-    validateRequestBody(request.body, requestBodySchema)
+    validateRequestBodyForErrorArray(request.body, requestBodySchema)
       .andThen((body) => {
         if (!request.file || !pathExists(request.file.path)) {
           return err(new CertificateFileIsMissingError())
@@ -95,7 +77,7 @@ v1Router.post(
           )
         },
         (error) => {
-          if (error instanceof RequestValidationError) {
+          if (error instanceof RequestValidationErrorArray) {
             return response.redirect(
               addQueryParams(routes.PROJECT_DETAILS(request.body.projectId), {
                 ...request.body,

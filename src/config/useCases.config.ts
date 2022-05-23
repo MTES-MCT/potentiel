@@ -32,6 +32,7 @@ import {
   makeUploadGF,
   makeWithdrawGF,
   makeSignalerDemandeRecours,
+  makeAddGFExpirationDate,
 } from '@modules/project'
 import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '@modules/users'
 import { buildCertificate } from '@views/certificates'
@@ -127,6 +128,11 @@ export const submitGF = makeSubmitGF({
 
 export const uploadGF = makeUploadGF({
   fileRepo,
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+  projectRepo,
+})
+
+export const addGFExpirationDate = makeAddGFExpirationDate({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
 })

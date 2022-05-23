@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '.'
 import ROUTES from '../../../../routes'
-import { DateInput } from '../..'
+import { Button, Input } from '../..'
 import { PTFItemProps } from '../helpers/extractPTFItemProps'
 import { UserRole } from '@modules/users'
+import { format } from 'date-fns'
 
 export const PTFItem = (props: PTFItemProps & { projectId: string }) => {
   const { projectId, status } = props
@@ -81,8 +82,6 @@ type UploadFormProps = {
 const UploadForm = ({ projectId }: UploadFormProps) => {
   const [isFormVisible, showForm] = useState(false)
 
-  const [disableSubmit, setDisableSubmit] = useState(true)
-
   return (
     <>
       <a onClick={() => showForm(!isFormVisible)}>Indiquer la date de la signature</a>
@@ -96,20 +95,28 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
           <input type="hidden" name="type" id="type" value="ptf" />
           <input type="hidden" name="projectId" value={projectId} />
           <div>
-            <label htmlFor="date">Date de la signature (format JJ/MM/AAAA)</label>
-            <DateInput onError={(isError) => setDisableSubmit(isError)} />
+            <label htmlFor="stepDate">Date de la signature</label>
+            <Input
+              type="date"
+              id="stepDate"
+              name="stepDate"
+              max={format(new Date(), 'yyyy-MM-dd')}
+              required
+            />
           </div>
           <div className="mt-2">
             <label htmlFor="file">Document*</label>
-            <input type="file" name="file" id="file" required />
+            <Input type="file" name="file" id="file" required />
             <span className="italic">
               * Le dépôt est informatif, il ne remplace pas la transmission à votre gestionnaire
             </span>
           </div>
-          <button className="button" type="submit" name="submit" disabled={disableSubmit}>
-            Envoyer
-          </button>
-          <a onClick={() => showForm(false)}>Annuler</a>
+          <div className="flex gap-4 flex-col md:flex-row mt-4">
+            <Button type="submit" primary>
+              Envoyer
+            </Button>
+            <Button onClick={() => showForm(false)}>Annuler</Button>
+          </div>
         </form>
       )}
     </>
