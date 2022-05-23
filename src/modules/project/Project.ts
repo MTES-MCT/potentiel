@@ -1199,7 +1199,10 @@ export const makeProject = (args: {
         new ProjectDCRDueDateSet({
           payload: {
             projectId: props.projectId.toString(),
-            dcrDueOn: moment(props.notifiedOn).add(2, 'months').toDate().getTime(),
+            dcrDueOn: moment(props.notifiedOn)
+              .add(props.appelOffre?.delaiDcrEnMois, 'months')
+              .toDate()
+              .getTime(),
           },
         })
       )
