@@ -1,6 +1,20 @@
 require('dotenv').config()
 require('pg').defaults.parseInt8 = true
+const { parse } = require('pg-connection-string')
+
 const Sequelize = require('sequelize')
+
+const getOptionsFromUrl = (url) => {
+  const { host, port, database, user: username, password } = parse(url)
+
+  return {
+    host,
+    username,
+    password,
+    database,
+    port,
+  }
+}
 
 const {
   POSTGRESQL_ADDON_HOST,
@@ -17,7 +31,7 @@ let databaseOptions = {
   dialect: 'postgres',
   ...(DATABASE_URL
     ? {
-        host: DATABASE_URL,
+        ...getOptionsFromUrl(DATABASE_URL),
       }
     : {
         host: POSTGRESQL_ADDON_HOST,

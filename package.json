@@ -103,6 +103,7 @@
     "passport-local": "^1.0.0",
     "path-browserify": "^1.0.1",
     "pg": "^8.7.3",
+    "pg-connection-string": "^2.5.0",
     "pg-hstore": "^2.3.4",
     "pizzip": "^3.1.1",
     "postcss-cli": "^9.1.0",
