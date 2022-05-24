@@ -4,16 +4,11 @@ import makeFakeProject from '../../__tests__/fixtures/project'
 import { makeProject } from './Project'
 import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
 import { appelsOffreStatic } from '@dataAccess/inMemory'
-import {
-  DateEchéanceGFAjoutée,
-  ProjectGFSubmitted,
-  ProjectImported,
-  ProjectNotified,
-} from './events'
+import { ProjectGFSubmitted, ProjectImported, ProjectNotified } from './events'
 import { UnwrapForTest as OldUnwrapForTest } from '../../types'
 import makeFakeUser from '../../__tests__/fixtures/user'
 import { makeUser } from '@entities'
-import { GFAlreadyHasExpirationDateError, ProjectCannotBeUpdatedIfUnnotifiedError } from './errors'
+import { ProjectCannotBeUpdatedIfUnnotifiedError } from './errors'
 import { NoGFCertificateToUpdateError } from './errors/NoGFCertificateToUpdateError'
 
 const projectId = new UniqueEntityID()
@@ -166,103 +161,26 @@ describe('Project.addGFExpirationDate()', () => {
           },
         }),
       ]
-
-      describe('when the GF has already been updated with an expiration date', () => {
-        it('should a emit a GFAlreadyHasExpirationDateError', () => {
-          const project = UnwrapForTest(
-            makeProject({
-              projectId,
-              history: [
-                ...fakeHistory,
-                new DateEchéanceGFAjoutée({
-                  payload: {
-                    projectId: projectId.toString(),
-                    expirationDate: new Date('2022-02-20'),
-                    submittedBy: 'user-id',
-                  },
-                  original: {
-                    occurredAt: new Date(123),
-                    version: 1,
-                  },
-                }),
-              ],
-              getProjectAppelOffre,
-              buildProjectIdentifier: () => '',
-            })
-          )
-
-          const res = project.addGFExpirationDate({
-            projectId: projectId.toString(),
-            submittedBy: fakeUser,
-            expirationDate: new Date('2023-01-01'),
+      it('should emit a DateEchéanceGFAjoutée event', () => {
+        const project = UnwrapForTest(
+          makeProject({
+            projectId,
+            history: [...fakeHistory],
+            getProjectAppelOffre,
+            buildProjectIdentifier: () => '',
           })
+        )
 
-          expect(res.isErr()).toEqual(true)
-          if (res.isOk()) return
-          expect(res.error).toBeInstanceOf(GFAlreadyHasExpirationDateError)
+        const res = project.addGFExpirationDate({
+          projectId: projectId.toString(),
+          submittedBy: fakeUser,
+          expirationDate: new Date('2023-01-01'),
         })
-      })
 
-      describe('when the GF expiration date has been set at GF submission', () => {
-        it('should a emit a GFAlreadyHasExpirationDateError', () => {
-          const project = UnwrapForTest(
-            makeProject({
-              projectId,
-              history: [
-                ...fakeHistory,
-                new ProjectGFSubmitted({
-                  payload: {
-                    projectId: projectId.toString(),
-                    gfDate: new Date('2022-02-20'),
-                    fileId: 'file-id1',
-                    submittedBy: 'user-id',
-                    expirationDate: new Date('2022-01-01'),
-                  },
-                  original: {
-                    occurredAt: new Date(123),
-                    version: 1,
-                  },
-                }),
-              ],
-              getProjectAppelOffre,
-              buildProjectIdentifier: () => '',
-            })
-          )
-
-          const res = project.addGFExpirationDate({
-            projectId: projectId.toString(),
-            submittedBy: fakeUser,
-            expirationDate: new Date('2023-01-01'),
-          })
-
-          expect(res.isErr()).toEqual(true)
-          if (res.isOk()) return
-          expect(res.error).toBeInstanceOf(GFAlreadyHasExpirationDateError)
-        })
-      })
-
-      describe("when the GFs doesn't have an expiration date yet", () => {
-        it('should emit a DateEchéanceGFAjoutée event', () => {
-          const project = UnwrapForTest(
-            makeProject({
-              projectId,
-              history: [...fakeHistory],
-              getProjectAppelOffre,
-              buildProjectIdentifier: () => '',
-            })
-          )
-
-          const res = project.addGFExpirationDate({
-            projectId: projectId.toString(),
-            submittedBy: fakeUser,
-            expirationDate: new Date('2023-01-01'),
-          })
-
-          expect(res.isOk()).toEqual(true)
-          expect(project.pendingEvents).toHaveLength(1)
-          expect(project.pendingEvents[0].type).toEqual('DateEchéanceGFAjoutée')
-          expect(project.pendingEvents[0].payload.expirationDate).toEqual(new Date('2023-01-01'))
-        })
+        expect(res.isOk()).toEqual(true)
+        expect(project.pendingEvents).toHaveLength(1)
+        expect(project.pendingEvents[0].type).toEqual('DateEchéanceGFAjoutée')
+        expect(project.pendingEvents[0].payload.expirationDate).toEqual(new Date('2023-01-01'))
       })
     })
   })
