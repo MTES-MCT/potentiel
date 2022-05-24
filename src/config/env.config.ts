@@ -1,6 +1,8 @@
 import dotenv from 'dotenv'
 dotenv.config()
 
+console.info(`NODE_ENV = ${process.env.NODE_ENV}`)
+
 if (
   !['local', 'test', 'development', 'staging', 'production'].includes(process.env.NODE_ENV || '')
 ) {
