@@ -30,19 +30,17 @@ const {
 let databaseOptions = {
   dialect: 'postgres',
   ...(DATABASE_URL
-    ? {
-        ...getOptionsFromUrl(DATABASE_URL),
-      }
+    ? getOptionsFromUrl(DATABASE_URL)
     : {
         host: POSTGRESQL_ADDON_HOST,
         username: POSTGRESQL_ADDON_USER,
         password: POSTGRESQL_ADDON_PASSWORD,
         database: POSTGRESQL_ADDON_DB,
         port: POSTGRESQL_ADDON_PORT,
-        pool: {
-          max: Number(POSTGRESQL_POOL_MAX),
-        },
       }),
+  pool: {
+    max: Number(POSTGRESQL_POOL_MAX),
+  },
   logging: false,
 }
 
