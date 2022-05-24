@@ -165,11 +165,11 @@ export const makeAppelOffre = (args: {
         break
       case AppelOffreRemoved.type:
         props.removed = true
+        props.periodes = []
         break
       case PeriodeUpdated.type:
         existingPeriode = props.periodes.find((periode) => periode.periodeId === periodeId)
         if (!existingPeriode) {
-          _isError = true
           break
         }
         existingPeriode.data = { ...existingPeriode.data, ...delta }

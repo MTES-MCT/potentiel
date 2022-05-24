@@ -1,5 +1,6 @@
 import { logger } from '@core/utils'
 import { PeriodeUpdated } from '@modules/appelOffre'
+import { ProjectionEnEchec } from '@modules/shared'
 
 export const onPeriodeUpdated = (models) => async (event: PeriodeUpdated) => {
   const { Periode } = models
@@ -11,10 +12,10 @@ export const onPeriodeUpdated = (models) => async (event: PeriodeUpdated) => {
 
   if (!instance) {
     logger.error(
-      `Error: onPeriodeUpdated projection failed to retrieve project from db ${{
-        appelOffreId,
-        periodeId,
-      }}`
+      new ProjectionEnEchec(`La période à mettre à jour n'existe pas`, {
+        nomProjection: 'onPeriodeUpdated',
+        evennement: event,
+      })
     )
     return
   }
