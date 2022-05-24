@@ -2,6 +2,7 @@ import { Project } from '@entities'
 import ROUTES from '../../../../routes'
 import { isCertificateDTO, is, ProjectCertificateDTO, ProjectEventDTO } from '@modules/frise'
 import { UserRole } from '@modules/users'
+import { format } from 'date-fns'
 
 export type DesignationItemProps = {
   type: 'designation'
@@ -25,12 +26,7 @@ export const extractDesignationItemProps = (
 ): DesignationItemProps | null => {
   const projectNotifiedEvent = events.find(is('ProjectNotified'))
   if (!projectNotifiedEvent) return null
-  const role = projectNotifiedEvent.variant
-
-  const latestProjectNotificationDateSet = events.filter(is('ProjectNotificationDateSet')).pop()
-  const date = latestProjectNotificationDateSet
-    ? latestProjectNotificationDateSet.date
-    : projectNotifiedEvent.date
+  const { variant: role, date } = projectNotifiedEvent
 
   if (role === 'dreal') {
     return {
@@ -41,7 +37,10 @@ export const extractDesignationItemProps = (
     }
   }
 
-  const certificateEvent = events.filter(isCertificateDTO).pop()
+  const certificateEvent = events
+    .filter(isCertificateDTO)
+    .filter((e) => format(e.date, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd'))
+    .pop()
 
   if (certificateEvent) {
     return {
