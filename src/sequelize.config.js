@@ -10,19 +10,26 @@ const {
   POSTGRESQL_ADDON_PASSWORD,
   POSTGRESQL_POOL_MAX,
   NODE_ENV,
+  DATABASE_URL,
 } = process.env
 
 let databaseOptions = {
   dialect: 'postgres',
-  host: POSTGRESQL_ADDON_HOST,
-  username: POSTGRESQL_ADDON_USER,
-  password: POSTGRESQL_ADDON_PASSWORD,
-  database: POSTGRESQL_ADDON_DB,
-  port: POSTGRESQL_ADDON_PORT,
+  ...(DATABASE_URL
+    ? {
+        host: DATABASE_URL,
+      }
+    : {
+        host: POSTGRESQL_ADDON_HOST,
+        username: POSTGRESQL_ADDON_USER,
+        password: POSTGRESQL_ADDON_PASSWORD,
+        database: POSTGRESQL_ADDON_DB,
+        port: POSTGRESQL_ADDON_PORT,
+        pool: {
+          max: Number(POSTGRESQL_POOL_MAX),
+        },
+      }),
   logging: false,
-  pool: {
-    max: Number(POSTGRESQL_POOL_MAX),
-  },
 }
 
 if (NODE_ENV === 'test') {
@@ -34,8 +41,8 @@ if (NODE_ENV === 'test') {
     port: 5433,
     logging: false,
     pool: {
-      max: 2
-    }
+      max: 2,
+    },
   }
 }
 
