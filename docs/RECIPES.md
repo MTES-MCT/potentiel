@@ -57,7 +57,6 @@ src/                          # code source de l'application
     pages/                    # pages qui ont du comportement front géré par React + Webpack
   routes.ts                   # déclaration de toutes les routes de l'application
   sequelize.config.ts         # configuration de sequelize
-  sequelize.legacy.config.ts  # configuration de sequelize (legacy)
   server.ts                   # point de lancement de l'application (serveur express + middlewares)
 ```
 
