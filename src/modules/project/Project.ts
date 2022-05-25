@@ -31,7 +31,6 @@ import {
   ProjectCannotBeUpdatedIfUnnotifiedError,
   ProjectNotEligibleForCertificateError,
   NoGFCertificateToUpdateError,
-  GFAlreadyHasExpirationDateError,
 } from './errors'
 import {
   LegacyProjectSourced,
@@ -176,12 +175,7 @@ export interface Project extends EventStoreAggregate {
     projectId: string
     expirationDate: Date
     submittedBy: User
-  }) => Result<
-    null,
-    | ProjectCannotBeUpdatedIfUnnotifiedError
-    | NoGFCertificateToUpdateError
-    | GFAlreadyHasExpirationDateError
-  >
+  }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToUpdateError>
   readonly shouldCertificateBeGenerated: boolean
   readonly appelOffre?: ProjectAppelOffre
   readonly isClasse?: boolean
@@ -922,9 +916,6 @@ export const makeProject = (args: {
       }
       if (!props.hasCurrentGf) {
         return err(new NoGFCertificateToUpdateError())
-      }
-      if (props.GFExpirationDate) {
-        return err(new GFAlreadyHasExpirationDateError())
       }
       _publishEvent(
         new DateEchéanceGFAjoutée({

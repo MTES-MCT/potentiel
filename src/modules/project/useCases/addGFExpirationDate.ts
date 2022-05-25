@@ -2,11 +2,7 @@ import { TransactionalRepository, UniqueEntityID } from '@core/domain'
 import { errAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { User } from '@entities'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
-import {
-  GFAlreadyHasExpirationDateError,
-  NoGFCertificateToUpdateError,
-  ProjectCannotBeUpdatedIfUnnotifiedError,
-} from '../errors'
+import { NoGFCertificateToUpdateError, ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors'
 import { Project } from '../Project'
 
 type addGFExpidationDateDeps = {
@@ -37,9 +33,7 @@ export const makeAddGFExpirationDate =
             project: Project
           ): ResultAsync<
             null,
-            | ProjectCannotBeUpdatedIfUnnotifiedError
-            | NoGFCertificateToUpdateError
-            | GFAlreadyHasExpirationDateError
+            ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToUpdateError
           > => {
             return project
               .addGFExpirationDate({ expirationDate, submittedBy, projectId })
