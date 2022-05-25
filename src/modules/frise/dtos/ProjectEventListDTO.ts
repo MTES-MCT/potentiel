@@ -227,6 +227,7 @@ export type ModificationRequestAcceptedDTO = {
   variant: Exclude<UserRole, 'ademe'>
   modificationRequestId: string
   file?: File
+  delayInMonthsGranted?: number
 }
 
 export type ModificationRequestRejectedDTO = {

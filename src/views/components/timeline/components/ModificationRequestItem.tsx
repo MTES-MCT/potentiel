@@ -195,7 +195,9 @@ const Details = (
     <>
       <ItemTitle title={`${libelleTypeDemande[modificationType]} ${libelleStatus[status]}`} />
       {modificationType === 'delai' && (
-        <p className="p-0 m-0">Délai demandé : {props.delayInMonths} mois</p>
+        <p className="p-0 m-0">
+          {status === 'acceptée' ? 'Délai accordé' : 'Délai demandé'} : {props.delayInMonths} mois
+        </p>
       )}
       {modificationType === 'puissance' && (
         <p className="p-0 m-0">

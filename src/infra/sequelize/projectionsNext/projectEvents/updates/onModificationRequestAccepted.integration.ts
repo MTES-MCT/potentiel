@@ -77,4 +77,46 @@ describe('onModificationRequestAccepted', () => {
       })
     })
   })
+
+  describe('when the request is a delay request', () => {
+    it('should add the delay granted to the ProjectEvent event payload (can differ from delay requested)', async () => {
+      const fileId = new UniqueEntityID().toString()
+      await Project.create(makeFakeProject({ id: projectId }))
+      await File.create(makeFakeFile({ id: fileId, filename: 'filename' }))
+      await ModificationRequest.create({
+        id: modificationRequestId,
+        userId: new UniqueEntityID().toString(),
+        projectId,
+        type: 'delai',
+        actionnaire: 'nouvel actionnaire',
+        authority: 'dreal',
+        status: 'envoyée',
+        delayInMonths: 10,
+      })
+      await onModificationRequestAccepted(
+        new ModificationRequestAccepted({
+          payload: {
+            modificationRequestId,
+            acceptedBy: adminId,
+            responseFileId: fileId,
+            params: { type: 'delai', delayInMonths: 5 },
+          } as ModificationRequestAcceptedPayload,
+          original: {
+            version: 1,
+            occurredAt: new Date('2022-02-09'),
+          },
+        })
+      )
+      const projectEvent = await ProjectEvent.findOne({ where: { projectId } })
+      expect(projectEvent).toMatchObject({
+        type: 'ModificationRequestAccepted',
+        projectId,
+        payload: {
+          modificationRequestId,
+          file: { name: 'filename', id: fileId },
+          delayInMonthsGranted: 5,
+        },
+      })
+    })
+  })
 })
