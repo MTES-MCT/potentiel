@@ -15,7 +15,7 @@ const validLine = {
   'Nom (personne physique) ou raison sociale (personne morale) :': 'nomCandidat',
   Candidat: '',
   'Nom projet': 'nomProjet',
-  'N°CRE': 'numeroCRE',
+  'N°CRE': '20',
   'Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)': '1.234',
   'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)': '3.456',
   'Note totale': '10.10',
@@ -99,7 +99,7 @@ describe('importProjects', () => {
         appelOffreId: 'appelOffreId',
         periodeId: 'periodeId',
         familleId: 'familleId',
-        numeroCRE: 'numeroCRE',
+        numeroCRE: '20',
         nomProjet: 'nomProjet',
         nomCandidat: 'nomCandidat',
         puissance: 1.234,
@@ -192,7 +192,7 @@ describe('importProjects', () => {
         appelOffreId: 'appelOffreId',
         periodeId: 'periodeId',
         familleId: 'familleId',
-        numeroCRE: 'numeroCRE',
+        numeroCRE: '20',
         modifications: [
           {
             type: 'producteur',
