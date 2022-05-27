@@ -9,7 +9,7 @@ const fakeLine = {
   Candidat: '',
   'Nom projet': 'nomProjet',
   'Société mère': 'actionnaire',
-  'N°CRE': 'numeroCRE',
+  'N°CRE': '17',
   'Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)': '1.234',
   'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)': '3.456',
   'Note totale': '10.10',
@@ -40,7 +40,7 @@ describe('parseProjectLine', () => {
       appelOffreId: 'appelOffreId',
       periodeId: 'periodeId',
       familleId: 'familleId',
-      numeroCRE: 'numeroCRE',
+      numeroCRE: '17',
       nomCandidat: 'nomCandidat',
       nomProjet: 'nomProjet',
       actionnaire: 'actionnaire',
@@ -304,6 +304,14 @@ describe('parseProjectLine', () => {
   describe('when the N°CRE is missing', () => {
     it('should throw an error', () => {
       expect(() => parseProjectLine({ ...fakeLine, 'N°CRE': '' })).toThrowError('N°CRE manquant')
+    })
+  })
+
+  describe('when the N°CRE a wrong value', () => {
+    it('should throw an error', () => {
+      expect(() => parseProjectLine({ ...fakeLine, 'N°CRE': '20-1' })).toThrowError(
+        'Le N°CRE doit être un nombre strictement positif'
+      )
     })
   })
 

@@ -178,7 +178,10 @@ const projectSchema = yup.object().shape({
   appelOffreId: yup.string().required("Appel d'offres manquant"),
   periodeId: yup.string().required('Période manquante'),
   familleId: yup.string().default(''),
-  numeroCRE: yup.string().required('N°CRE manquant'),
+  numeroCRE: yup
+    .string()
+    .required('N°CRE manquant')
+    .matches(/^\+?([1-9]\d*)$/, 'Le N°CRE doit être un nombre strictement positif'),
   nomCandidat: yup.string().required('Candidat manquant'),
   actionnaire: yup.string().ensure(),
   nomProjet: yup.string().required('Nom projet manquant'),
