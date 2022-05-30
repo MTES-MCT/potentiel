@@ -259,15 +259,17 @@ const AdminActions = ({ project }: AdminActionsProps) => (
         Voir attestation
       </LinkButton>
     ) : (
-      <LinkButton
-        href={ROUTES.PREVIEW_CANDIDATE_CERTIFICATE(project)}
-        download
-        primary
-        className="m-auto"
-      >
-        <PaperClipIcon className="h-5 w-5 align-middle mr-2" />
-        Aperçu attestation
-      </LinkButton>
+      !project.isLegacy && (
+        <LinkButton
+          href={ROUTES.PREVIEW_CANDIDATE_CERTIFICATE(project)}
+          download
+          primary
+          className="m-auto"
+        >
+          <PaperClipIcon className="h-5 w-5 align-middle mr-2" />
+          Aperçu attestation
+        </LinkButton>
+      )
     )}
   </div>
 )
