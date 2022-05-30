@@ -43,7 +43,12 @@ v1Router.post(
         familleId,
         user,
         reason,
-        newNotifiedOn: moment(notificationDate, FORMAT_DATE).tz('Europe/London').toDate().getTime(),
+        ...(notificationDate && {
+          newNotifiedOn: moment(notificationDate, FORMAT_DATE)
+            .tz('Europe/London')
+            .toDate()
+            .getTime(),
+        }),
       })
     ).match(
       () =>
