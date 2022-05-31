@@ -220,6 +220,9 @@ Pour la production, le déploiement se fait de manière automatisée à chaque p
 
 ## Staging / dev / démo
 
+Une migration pour passer sur Scalingo est en cours. Pour l'instant seule l'instance `staging` est disponible.
+[Voici la démarche à suivre pour faire un déploiement manuel](docs/DEPLOY.md)
+
 Pour les environnements de `staging` (recette), de `demo` ou de `dev`, le déploiement est manuel et se fait via l'outil de cli `clever-tools`.
 
 ### Installation des clever-tools

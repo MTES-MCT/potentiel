@@ -1,4 +1,4 @@
-import { sequelizeInstance } from '../../sequelize.legacy.config'
+import { sequelizeInstance } from '../../sequelize.config'
 
 import { makeUserRepo } from './user'
 import { makeProjectRepo, getFullTextSearchOptions } from './project'

@@ -1,6 +1,20 @@
 require('dotenv').config()
 require('pg').defaults.parseInt8 = true
+const { parse } = require('pg-connection-string')
+
 const Sequelize = require('sequelize')
+
+const getOptionsFromUrl = (url) => {
+  const { host, port, database, user: username, password } = parse(url)
+
+  return {
+    host,
+    username,
+    password,
+    database,
+    port,
+  }
+}
 
 const {
   POSTGRESQL_ADDON_HOST,
@@ -10,19 +24,24 @@ const {
   POSTGRESQL_ADDON_PASSWORD,
   POSTGRESQL_POOL_MAX,
   NODE_ENV,
+  DATABASE_URL,
 } = process.env
 
 let databaseOptions = {
   dialect: 'postgres',
-  host: POSTGRESQL_ADDON_HOST,
-  username: POSTGRESQL_ADDON_USER,
-  password: POSTGRESQL_ADDON_PASSWORD,
-  database: POSTGRESQL_ADDON_DB,
-  port: POSTGRESQL_ADDON_PORT,
-  logging: false,
+  ...(DATABASE_URL
+    ? getOptionsFromUrl(DATABASE_URL)
+    : {
+        host: POSTGRESQL_ADDON_HOST,
+        username: POSTGRESQL_ADDON_USER,
+        password: POSTGRESQL_ADDON_PASSWORD,
+        database: POSTGRESQL_ADDON_DB,
+        port: POSTGRESQL_ADDON_PORT,
+      }),
   pool: {
     max: Number(POSTGRESQL_POOL_MAX),
   },
+  logging: false,
 }
 
 if (NODE_ENV === 'test') {
@@ -34,8 +53,8 @@ if (NODE_ENV === 'test') {
     port: 5433,
     logging: false,
     pool: {
-      max: 2
-    }
+      max: 2,
+    },
   }
 }
 

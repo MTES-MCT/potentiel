@@ -3,7 +3,7 @@ import { Pagination } from '../../types'
 import makeFakeProject from '../../__tests__/fixtures/project'
 import makeFakeUser from '../../__tests__/fixtures/user'
 import { projectRepo, resetDatabase, userRepo } from './'
-import { sequelizeInstance } from '../../sequelize.legacy.config'
+import { sequelizeInstance } from '../../sequelize.config'
 
 const defaultPagination = { page: 0, pageSize: 2 } as Pagination
 
