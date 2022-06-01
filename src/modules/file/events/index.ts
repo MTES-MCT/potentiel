@@ -1,2 +1,2 @@
-export * from './FileAttachedToProject';
-export * from './FileDetachedFromProject';
+export * from './FileAttachedToProject'
+export * from './FileDetachedFromProject'

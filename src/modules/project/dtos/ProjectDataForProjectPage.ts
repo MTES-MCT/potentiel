@@ -38,6 +38,16 @@ export type ProjectDataForProjectPage = {
 
   details: Record<string, any>
 
+  contratEDF?: Partial<{
+    numero: string
+    type: string
+    dateEffet: string
+    dateSignature: string
+    dateMiseEnService: string
+    duree: number
+    statut: string
+  }>
+
   updatedAt?: Date
 } & (IsNotified | IsNotNotified) &
   (IsClasse | IsElimine | IsAbandoned)

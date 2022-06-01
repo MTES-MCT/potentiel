@@ -91,6 +91,7 @@
     "json2csv": "^5.0.7",
     "jsonwebtoken": "^8.5.1",
     "keycloak-connect": "^17.0.1",
+    "minisearch": "^4.0.3",
     "mkdirp": "^1.0.4",
     "moment": "^2.29.3",
     "moment-timezone": "^0.5.34",

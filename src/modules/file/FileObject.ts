@@ -13,6 +13,7 @@ type FileDesignation =
   | 'ptf'
   | 'fichier-attaché-au-projet'
   | 'courrier-modification-historique'
+  | 'listing-edf'
   | 'other'
 
 /* global NodeJS */
