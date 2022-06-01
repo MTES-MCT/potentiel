@@ -61,11 +61,13 @@ export default function AdminRegenerateCertificates({ request }: AdminRegenerate
               defaultValue={appelOffreId}
             >
               <option value="">Choisir appel d‘offre</option>
-              {appelsOffreStatic.map((appelOffre) => (
-                <option key={'appel_' + appelOffre.id} value={appelOffre.id}>
-                  {appelOffre.shortTitle}
-                </option>
-              ))}
+              {appelsOffreStatic
+                .filter((appelOffre) => appelOffre.id !== 'PPE2 - Bâtiment 2')
+                .map((appelOffre) => (
+                  <option key={'appel_' + appelOffre.id} value={appelOffre.id}>
+                    {appelOffre.shortTitle}
+                  </option>
+                ))}
             </select>
             {periodes && periodes.length ? (
               <select
