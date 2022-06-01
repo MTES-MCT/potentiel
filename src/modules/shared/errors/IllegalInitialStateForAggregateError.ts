@@ -7,7 +7,7 @@ type IllegalInitialStateForAggregateErrorDetails = {
 }
 
 export class IllegalInitialStateForAggregateError extends DomainError {
-  constructor(public details: IllegalInitialStateForAggregateErrorDetails) {
+  constructor(public details?: IllegalInitialStateForAggregateErrorDetails) {
     super("L'objet concerné semble endommagé.")
   }
 }
