@@ -2,6 +2,7 @@ export * from './authN.eventHandlers';
 export * from './authZ.eventHandlers';
 export * from './candidateNotification.eventHandlers';
 export * from './edf.eventHandlers';
+export * from './enedis.eventHandlers';
 export * from './legacyCandidateNotification.eventHandlers';
 export * from './modificationRequest.eventHandlers';
 export * from './notification.eventHandlers';

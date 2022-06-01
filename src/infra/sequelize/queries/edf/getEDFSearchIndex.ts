@@ -3,7 +3,7 @@ import MiniSearch from 'minisearch'
 import models from '../../models'
 const { Project } = models
 
-export const getSearchIndex = async (): Promise<SearchIndex> => {
+export const getEDFSearchIndex = async (): Promise<SearchIndex> => {
   const projects = await Project.findAll({
     attributes: [
       ...METADATA_FIELDS.filter((field) => field !== 'siret'),

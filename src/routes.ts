@@ -47,6 +47,7 @@ class routes {
 
   static ADMIN_PARTNER_USERS = '/admin/utilisateurs-partenaires.html'
   static IMPORTER_LISTING_EDF = '/importer-donnees-producteurs-edf'
+  static IMPORTER_LISTING_ENEDIS = '/importer-donnees-producteurs-enedis'
 
   static ADMIN_USERS = '/admin/utilisateurs.html'
   static ADMIN_INVITE_USER_ACTION = '/admin/inviterUtilisateur'

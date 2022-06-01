@@ -12,7 +12,7 @@ describe('parseEdfCsv', () => {
       okAsync({
         id: fileId,
         filename: 'filename',
-        designation: 'upload-edf' as 'upload-edf',
+        designation: 'listing-edf' as 'listing-edf',
         createdAt: new Date(),
         contents: fakeFileStream,
         path: 'path',

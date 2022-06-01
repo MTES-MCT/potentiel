@@ -18,6 +18,7 @@ import {
   DrealList,
   PartnersList,
   ImporterListingEDF,
+  ImporterListingEnedis,
 } from './pages'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -155,6 +156,13 @@ export const PartnersListPage = (props: Parameters<typeof PartnersList>[0]) =>
 export const ImporterListingEDFPage = (props: Parameters<typeof ImporterListingEDF>[0]) =>
   makeHtml({
     Component: ImporterListingEDF,
+    props,
+    hydrate: false,
+  })
+
+export const ImporterListingEnedisPage = (props: Parameters<typeof ImporterListingEnedis>[0]) =>
+  makeHtml({
+    Component: ImporterListingEnedis,
     props,
     hydrate: false,
   })

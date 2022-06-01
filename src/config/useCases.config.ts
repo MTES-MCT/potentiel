@@ -49,7 +49,8 @@ import {
   isProjectParticipatif,
   getPuissanceProjet,
   getLegacyModificationByFilename,
-  getSearchIndex,
+  getEDFSearchIndex,
+  getEnedisSearchIndex,
 } from './queries.config'
 import { makeClaimProject } from '@modules/projectClaim'
 import {
@@ -66,6 +67,7 @@ import {
 import { getAppelOffre } from '@dataAccess/inMemory'
 import { makeImportEdfData } from '@modules/edf'
 import { makeParseEdfCsv } from '../infra/parseEdfCsv'
+import { makeImportEnedisData } from '../modules/enedis'
 
 export const shouldUserAccessProject = new BaseShouldUserAccessProject(
   oldUserRepo,
@@ -277,5 +279,11 @@ export const signalerDemandeRecours = makeSignalerDemandeRecours({
 export const importEdfData = makeImportEdfData({
   publish: eventStore.publish.bind(eventStore),
   parseCsvFile: makeParseEdfCsv({ fileRepo }),
-  getSearchIndex,
+  getSearchIndex: getEDFSearchIndex,
+})
+
+export const importEnedisData = makeImportEnedisData({
+  publish: eventStore.publish.bind(eventStore),
+  parseCsvFile: makeParseEdfCsv({ fileRepo }),
+  getSearchIndex: getEnedisSearchIndex,
 })

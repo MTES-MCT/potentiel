@@ -1,10 +1,9 @@
 import { UniqueEntityID } from '../../../../core/domain'
 import { AO_BY_CONTRACT, AO_CODES } from '../../../../modules/edf/useCases'
-import { Puissance } from '../../../../views/pages/newModificationRequestPage/NewModificationRequest.stories'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
 import { resetDatabase } from '../../helpers'
 import models from '../../models'
-import { getSearchIndex } from './getSearchIndex'
+import { getEDFSearchIndex } from './getEDFSearchIndex'
 const { Project } = models
 
 const projectId = new UniqueEntityID().toString()
@@ -28,7 +27,7 @@ describe('getSearchIndex', () => {
         )
       })
       it('should return the contract info', async () => {
-        const searchIndex = await getSearchIndex()
+        const searchIndex = await getEDFSearchIndex()
 
         expect(searchIndex.findByNumeroContrat(numeroContratEDF)).toEqual({
           projectId,
@@ -46,7 +45,7 @@ describe('getSearchIndex', () => {
         await resetDatabase()
       })
       it('should return null', async () => {
-        const searchIndex = await getSearchIndex()
+        const searchIndex = await getEDFSearchIndex()
 
         expect(searchIndex.findByNumeroContrat(numeroContratEDF)).toEqual(null)
       })
@@ -117,7 +116,7 @@ describe('getSearchIndex', () => {
         }),
       ])
 
-      const searchIndex = await getSearchIndex()
+      const searchIndex = await getEDFSearchIndex()
 
       const results = searchIndex.search(makeLine())
       expect(results).toHaveLength(1)
@@ -138,7 +137,7 @@ describe('getSearchIndex', () => {
         }),
       ])
 
-      const searchIndex = await getSearchIndex()
+      const searchIndex = await getEDFSearchIndex()
 
       const results = searchIndex.search(makeLine())
       expect(results).toHaveLength(1)
@@ -158,7 +157,7 @@ describe('getSearchIndex', () => {
         }),
       ])
 
-      const searchIndex = await getSearchIndex()
+      const searchIndex = await getEDFSearchIndex()
 
       const results = searchIndex.search(makeLine({ nomProjet: 'ceci est ma requete' }))
       expect(results).toHaveLength(2)
@@ -179,7 +178,7 @@ describe('getSearchIndex', () => {
         }),
       ])
 
-      const searchIndex = await getSearchIndex()
+      const searchIndex = await getEDFSearchIndex()
 
       const results = searchIndex.search(makeLine({ nomCandidat: 'ceci est ma requete' }))
       expect(results).toHaveLength(2)
@@ -200,7 +199,7 @@ describe('getSearchIndex', () => {
         }),
       ])
 
-      const searchIndex = await getSearchIndex()
+      const searchIndex = await getEDFSearchIndex()
 
       const results = searchIndex.search(makeLine({ adresseProjet: 'ceci est ma requete' }))
       expect(results).toHaveLength(2)
@@ -221,7 +220,7 @@ describe('getSearchIndex', () => {
         }),
       ])
 
-      const searchIndex = await getSearchIndex()
+      const searchIndex = await getEDFSearchIndex()
 
       const results = searchIndex.search(makeLine({ communeProjet: 'ceci est ma requete' }))
       expect(results).toHaveLength(2)
@@ -242,7 +241,7 @@ describe('getSearchIndex', () => {
         }),
       ])
 
-      const searchIndex = await getSearchIndex()
+      const searchIndex = await getEDFSearchIndex()
 
       const results = searchIndex.search(makeLine({ codePostalProjet: '12345' }))
       expect(results).toHaveLength(2)
@@ -263,7 +262,7 @@ describe('getSearchIndex', () => {
         }),
       ])
 
-      const searchIndex = await getSearchIndex()
+      const searchIndex = await getEDFSearchIndex()
 
       const results = searchIndex.search(makeLine({ puissance: 123 }))
       expect(results).toHaveLength(2)
@@ -284,7 +283,7 @@ describe('getSearchIndex', () => {
         }),
       ])
 
-      const searchIndex = await getSearchIndex()
+      const searchIndex = await getEDFSearchIndex()
 
       const results = searchIndex.search(makeLine({ prixReference: 123 }))
       expect(results).toHaveLength(2)
@@ -305,7 +304,7 @@ describe('getSearchIndex', () => {
         }),
       ])
 
-      const searchIndex = await getSearchIndex()
+      const searchIndex = await getEDFSearchIndex()
 
       const results = searchIndex.search(
         makeLine({ details: { 'Numéro SIREN ou SIRET*': '123456' } })
@@ -328,7 +327,7 @@ describe('getSearchIndex', () => {
         }),
       ])
 
-      const searchIndex = await getSearchIndex()
+      const searchIndex = await getEDFSearchIndex()
 
       const results = searchIndex.search(
         makeLine({ details: { 'Numéro SIREN ou SIRET*': '123478' } })
