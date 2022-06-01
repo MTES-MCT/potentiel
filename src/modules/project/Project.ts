@@ -289,7 +289,7 @@ export const makeProject = (args: {
       _processEvent(event)
 
       if (props.hasError) {
-        return err(new IllegalInitialStateForAggregateError())
+        return err(new IllegalInitialStateForAggregateError({ event, projectId }))
       }
     }
   }
