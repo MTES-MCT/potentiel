@@ -67,7 +67,10 @@ export const extractModificationRequestsItemProps = (
             status,
             role,
             responseUrl,
-            delayInMonths: requestEvent.delayInMonths,
+            delayInMonths:
+              latestEvent.type === 'ModificationRequestAccepted' && latestEvent.delayInMonthsGranted
+                ? latestEvent.delayInMonthsGranted
+                : requestEvent.delayInMonths,
             detailsUrl,
           }
 

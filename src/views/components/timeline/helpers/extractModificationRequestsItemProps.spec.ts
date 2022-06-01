@@ -200,6 +200,48 @@ describe('extractModificationRequestItemProps', () => {
         },
       ])
     })
+
+    describe('when the delay granted is different from the delay requested', () => {
+      it('should return props with the granted delay', () => {
+        const modificationRequestId = new UniqueEntityID().toString()
+
+        const projectEventList: ProjectEventDTO[] = [
+          {
+            type: 'ModificationRequested',
+            date: new Date('2022-02-09').getTime(),
+            variant: 'porteur-projet',
+            modificationType: 'delai',
+            modificationRequestId: modificationRequestId,
+            delayInMonths: 9,
+            authority: 'dgec',
+          },
+          {
+            type: 'ModificationRequestAccepted',
+            date: new Date('2022-02-10').getTime(),
+            variant: 'porteur-projet',
+            modificationRequestId: modificationRequestId,
+            file: { id: 'fileid', name: 'filename' },
+            delayInMonthsGranted: 6,
+          },
+        ]
+
+        const result = extractModificationRequestsItemProps(projectEventList)
+        expect(result).toHaveLength(1)
+        expect(result).toEqual([
+          {
+            type: 'demande-de-modification',
+            date: new Date('2022-02-10').getTime(),
+            delayInMonths: 6,
+            status: 'acceptée',
+            modificationType: 'delai',
+            authority: 'dgec',
+            role: 'porteur-projet',
+            responseUrl: expect.anything(),
+            detailsUrl: expect.anything(),
+          },
+        ])
+      })
+    })
   })
 
   describe('when there is a ModificationRequestRejected event', () => {

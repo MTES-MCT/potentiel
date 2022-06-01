@@ -5,7 +5,10 @@ import { ProjectEvent } from '../projectEvent.model'
 
 export default ProjectEvent.projector.on(
   ModificationRequestAccepted,
-  async ({ payload: { modificationRequestId, responseFileId }, occurredAt }, transaction) => {
+  async (
+    { payload: { modificationRequestId, responseFileId, params }, occurredAt },
+    transaction
+  ) => {
     const { ModificationRequest } = models
     const { File } = models
     let file: {} | undefined = {}
@@ -30,7 +33,12 @@ export default ProjectEvent.projector.on(
           valueDate: occurredAt.getTime(),
           eventPublishedAt: occurredAt.getTime(),
           id: new UniqueEntityID().toString(),
-          payload: { modificationRequestId, file },
+          payload: {
+            modificationRequestId,
+            file,
+            ...(params &&
+              params.type === 'delai' && { delayInMonthsGranted: params.delayInMonths }),
+          },
         },
         { transaction }
       )

@@ -166,6 +166,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       variant: user.role,
                       modificationRequestId: payload.modificationRequestId,
                       file: payload.file,
+                      ...(payload.delayInMonthsGranted && {
+                        delayInMonthsGranted: payload.delayInMonthsGranted,
+                      }),
                     })
                   }
                   break
