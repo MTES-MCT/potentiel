@@ -290,7 +290,8 @@ export const makeProject = (args: {
       _processEvent(event)
 
       if (props.hasError) {
-        return err(new IllegalInitialStateForAggregateError())
+        const errorMessage = `Problème lors du traitement de l'événement ${event.type} par _ProcessEvent pour le projet ${projectId}`
+        return err(new IllegalInitialStateForAggregateError({ projectId, errorMessage }))
       }
     }
   }
@@ -301,7 +302,8 @@ export const makeProject = (args: {
       const { appelOffre, data, projectId } = props
 
       if (!appelOffre) {
-        return err(new IllegalInitialStateForAggregateError())
+        const errorMessage = `Appel d'offre inaccessible dans project.notify pour le project ${projectId}`
+        return err(new IllegalInitialStateForAggregateError({ projectId, errorMessage }))
       }
 
       if (props.notifiedOn) {
@@ -683,7 +685,8 @@ export const makeProject = (args: {
     },
     addGeneratedCertificate: function ({ projectVersionDate, certificateFileId, reason }) {
       if (!props.appelOffre) {
-        return err(new IllegalInitialStateForAggregateError())
+        const errorMessage = `Appel d'offre inaccessible dans project.addGeneratedCertificate pour le project ${projectId}`
+        return err(new IllegalInitialStateForAggregateError({ projectId, errorMessage }))
       }
 
       if (props.lastCertificateUpdate) {
@@ -959,7 +962,10 @@ export const makeProject = (args: {
     },
     get certificateData() {
       if (!props.appelOffre) {
-        return err(new IllegalInitialStateForAggregateError()) as Project['certificateData']
+        const errorMessage = `Appel d'offre inaccessible dans project.addGeneratedCertificate pour le project ${projectId}`
+        return err(
+          new IllegalInitialStateForAggregateError({ projectId, errorMessage })
+        ) as Project['certificateData']
       }
 
       const { periode } = props.appelOffre
@@ -1199,7 +1205,6 @@ export const makeProject = (args: {
     if (!appelOffreId || !periodeId) return
 
     const newAppelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
-
     if (!newAppelOffre) {
       props.hasError = true
     } else {
