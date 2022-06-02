@@ -42,8 +42,14 @@ export const getEnedisSearchIndex = async (): Promise<SearchIndex> => {
 
     searchInField({ term: line['Installation - Nom'], field: 'nomProjet', matches, index })
     searchInField({ term: line['Acteur - Titulaire - Nom'], field: 'nomCandidat', matches, index })
-    // searchInField({ term: line['Installation - Adresse1'], field: 'adresseProjet', matches, index })
-    // searchInField({ term: line['Installation - Commune'], field: 'communeProjet', matches, index })
+    searchInField({
+      term: line['Installation - Adresse1'],
+      field: 'adresseProjet',
+      matches,
+      index,
+      options: { fuzzy: 0.2 },
+    })
+    searchInField({ term: line['Installation - Commune'], field: 'communeProjet', matches, index })
 
     const puissance = Number(line["Pmax d'achat"].replace(',', '.')) / 1000
     const siret = line['Installation - Siret'].slice(0, 6)
@@ -116,17 +122,21 @@ function searchInField(args: {
   field: SearchableField
   matches: Record<string, Match>
   index: MiniSearch<any>
+  options?: Parameters<MiniSearch['search']>[1]
 }) {
-  const { term, field, matches, index } = args
-  const results = index.search(term, { fields: [field] })
+  const { term, field, matches, index, options } = args
+  const results = index.search(term, { fields: [field], ...options })
 
   for (const result of results) {
     const { id, score } = result
     if (!matches[id]) {
-      matches[id] = { id, score: 0 }
-
-      for (const field of METADATA_FIELDS) {
-        if (!matches[id][field]) matches[id][field] = result[field]
+      matches[id] = {
+        id,
+        score: 0,
+        db: [...METADATA_FIELDS, ...INDEXED_FIELDS].reduce(
+          (res, field) => ({ ...res, [field]: result[field] }),
+          {}
+        ),
       }
     }
 
