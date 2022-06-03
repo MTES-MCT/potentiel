@@ -176,6 +176,10 @@ export const MakeProjectModel = (sequelize) => {
         type: DataTypes.JSON,
         allowNull: true,
       },
+      contratEnedis: {
+        type: DataTypes.JSON,
+        allowNull: true,
+      },
     },
     {
       timestamps: true,

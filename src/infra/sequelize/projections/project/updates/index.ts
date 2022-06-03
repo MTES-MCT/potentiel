@@ -58,6 +58,12 @@ import { onProjectPuissanceUpdated } from './onProjectPuissanceUpdated'
 import { onProjectReimported } from './onProjectReimported'
 import { onContratEDFRapprochéAutomatiquement } from './onContratEDFRapprochéAutomatiquement'
 import { onContratEDFMisAJour } from './onContratEDFMisAJour'
+import {
+  ContratEnedisRapprochéAutomatiquement,
+  ContratEnedisMisAJour,
+} from '../../../../../modules/enedis'
+import { onContratEnedisMisAJour } from './onContratEnedisMisAJour'
+import { onContratEnedisRapprochéAutomatiquement } from './onContratEnedisRapprochéAutomatiquement'
 
 export const initProjectProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ProjectImported.type, onProjectImported(models))
@@ -103,6 +109,12 @@ export const initProjectProjections = (eventBus: EventBus, models) => {
     onContratEDFRapprochéAutomatiquement(models)
   )
   eventBus.subscribe(ContratEDFMisAJour.type, onContratEDFMisAJour(models))
+
+  eventBus.subscribe(
+    ContratEnedisRapprochéAutomatiquement.type,
+    onContratEnedisRapprochéAutomatiquement(models)
+  )
+  eventBus.subscribe(ContratEnedisMisAJour.type, onContratEnedisMisAJour(models))
 
   logger.info('Initialized Project projections')
 }

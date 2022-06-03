@@ -128,6 +128,10 @@ const fakeProjectData = {
     duree: 7303,
     statut: 'SIGNE',
   },
+
+  contratEnedis: {
+    numero: 'ENEDIS12345',
+  },
 } as unknown as ProjectDataForProjectPage
 
 export const forAdminsLaureat = () => (

@@ -51,6 +51,10 @@ const projectInfo = {
   contratEDF: {
     numero: '123',
   },
+
+  contratEnedis: {
+    numero: '345',
+  },
 }
 
 const user = makeFakeUser({ role: 'admin', id: new UniqueEntityID().toString() })
@@ -112,6 +116,10 @@ describe('Sequelize getProjectDataForProjectPage', () => {
 
       contratEDF: {
         numero: '123',
+      },
+
+      contratEnedis: {
+        numero: '345',
       },
     })
 
