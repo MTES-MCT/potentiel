@@ -1238,7 +1238,7 @@ export const makeProject = (args: {
     if (props.isClasse) {
       _removePendingEventsOfType(ProjectDCRDueDateSet.type)
       const notifiedOnDate = new Date(props.notifiedOn)
-      const delaiDcr = props.appelOffre?.delaiDcrEnMois.valeur
+      const delaiDcr = props.appelOffre?.periode.delaiDcrEnMois.valeur
       if (delaiDcr) {
         _publishEvent(
           new ProjectDCRDueDateSet({

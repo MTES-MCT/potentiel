@@ -31,7 +31,6 @@ const solPPE2: AppelOffre = {
   afficherValeurEvaluationCarbone: true,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
-  delaiDcrEnMois: { valeur: 3, texte: 'trois' },
   changementPuissance: {
     ratios: {
       min: 0.9,
@@ -45,6 +44,7 @@ const solPPE2: AppelOffre = {
       paragrapheAchevement: '6.3',
       certificateTemplate: 'ppe2.v1',
       reference: '2021 S 211-553136',
+      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       noteThresholdBy: 'category',
       noteThreshold: {
         volumeReserve: {

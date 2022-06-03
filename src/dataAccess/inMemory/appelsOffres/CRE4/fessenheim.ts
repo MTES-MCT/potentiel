@@ -30,7 +30,6 @@ const fessenheim: AppelOffre = {
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   renvoiSoumisAuxGarantiesFinancieres: 'doit être au minimum de 42 mois',
-  delaiDcrEnMois: { valeur: 2, texte: 'deux' },
   changementPuissance: {
     ratios: {
       min: 0.9,
@@ -44,6 +43,7 @@ const fessenheim: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       reference: '2019/S 019-040037',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '2',
@@ -56,6 +56,7 @@ const fessenheim: AppelOffre = {
       ],
       certificateTemplate: 'cre4.v0',
       reference: '2019/S 019-040037',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '3',
@@ -69,6 +70,7 @@ const fessenheim: AppelOffre = {
       ],
       certificateTemplate: 'cre4.v0',
       reference: '2019/S 019-040037',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
   ],
   familles: [

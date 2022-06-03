@@ -1,5 +1,6 @@
 export * from './drealUsers'
 export * from './partnerUsers'
+export * from './getActualiserDelaiDcrPPE2Autoconso1'
 export * from './getAdminStatistiquesPage'
 export * from './getAppelOffreAdminPage'
 export * from './getAppelOffreCsv'

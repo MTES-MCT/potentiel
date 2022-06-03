@@ -31,7 +31,6 @@ const eolienPPE2: AppelOffre = {
   paragrapheClauseCompetitivite: '2.11',
   afficherPhraseRegionImplantation: false,
   afficherValeurEvaluationCarbone: true,
-  delaiDcrEnMois: { valeur: 3, texte: 'trois' },
   changementPuissance: {
     ratios: {
       min: 0.8,
@@ -46,6 +45,7 @@ const eolienPPE2: AppelOffre = {
       paragrapheAchevement: '6.3',
       noteThreshold: 0.68,
       reference: '2021/S 146-386083',
+      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
     },
   ],
   familles: [],

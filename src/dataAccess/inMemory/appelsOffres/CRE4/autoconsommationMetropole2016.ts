@@ -29,7 +29,6 @@ export const autoconsommationMetropole2016: AppelOffre = {
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
-  delaiDcrEnMois: { valeur: 2, texte: 'deux' },
   changementPuissance: {
     ratios: {
       min: 0.8,
@@ -43,6 +42,7 @@ export const autoconsommationMetropole2016: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       reference: '2016/S 146-264282',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '2',
@@ -50,6 +50,7 @@ export const autoconsommationMetropole2016: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       reference: '2016/S 146-264282',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
   ],
   familles: [],

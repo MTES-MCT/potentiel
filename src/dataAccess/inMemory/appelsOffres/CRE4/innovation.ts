@@ -29,7 +29,6 @@ const innovation: AppelOffre = {
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
-  delaiDcrEnMois: { valeur: 2, texte: 'deux' },
   changementPuissance: {
     ratios: {
       min: 0.7,
@@ -43,6 +42,7 @@ const innovation: AppelOffre = {
       paragrapheAchevement: '6.3',
       type: 'legacy',
       reference: '2017/S 051-094731',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '2',
@@ -55,6 +55,7 @@ const innovation: AppelOffre = {
       ],
       certificateTemplate: 'cre4.v0',
       reference: '2017/S 051-094731',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '3',
@@ -67,6 +68,7 @@ const innovation: AppelOffre = {
       ],
       certificateTemplate: 'cre4.v1',
       reference: '2017/S 051-094731',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
   ],
   familles: [

@@ -29,7 +29,6 @@ const autoconsommationMetropole: AppelOffre = {
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
-  delaiDcrEnMois: { valeur: 2, texte: 'deux' },
   changementPuissance: {
     ratios: {
       min: 0.8,
@@ -43,6 +42,7 @@ const autoconsommationMetropole: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       reference: '2017/S 054-100223',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '2',
@@ -50,6 +50,7 @@ const autoconsommationMetropole: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       reference: '2017/S 054-100223',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '3',
@@ -57,6 +58,7 @@ const autoconsommationMetropole: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       reference: '2017/S 054-100223',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '4',
@@ -64,6 +66,7 @@ const autoconsommationMetropole: AppelOffre = {
       paragrapheAchevement: '6.3',
       type: 'legacy',
       reference: '2017/S 054-100223',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '5',
@@ -71,6 +74,7 @@ const autoconsommationMetropole: AppelOffre = {
       paragrapheAchevement: '6.3',
       type: 'legacy',
       reference: '2017/S 054-100223',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '6',
@@ -78,6 +82,7 @@ const autoconsommationMetropole: AppelOffre = {
       paragrapheAchevement: '6.3',
       type: 'legacy',
       reference: '2017/S 054-100223',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '7',
@@ -86,6 +91,7 @@ const autoconsommationMetropole: AppelOffre = {
       noteThreshold: 20.04,
       certificateTemplate: 'cre4.v0',
       reference: '2017/S 054-100223',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '8',
@@ -94,6 +100,7 @@ const autoconsommationMetropole: AppelOffre = {
       noteThreshold: 32.04,
       certificateTemplate: 'cre4.v1',
       reference: '2017/S 054-100223',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '9',
@@ -102,6 +109,7 @@ const autoconsommationMetropole: AppelOffre = {
       noteThreshold: 9.9,
       certificateTemplate: 'cre4.v1',
       reference: '2017/S 054-100223',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '10',
@@ -110,6 +118,7 @@ const autoconsommationMetropole: AppelOffre = {
       noteThreshold: 44.9,
       certificateTemplate: 'cre4.v1',
       reference: '2017/S 054-100223',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
   ],
   familles: [],

@@ -34,7 +34,6 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
   paragrapheClauseCompetitivite: '2.14',
   afficherPhraseRegionImplantation: false,
   afficherValeurEvaluationCarbone: true,
-  delaiDcrEnMois: { valeur: 3, texte: 'trois' },
   changementPuissance: {
     ratios: {
       min: 0.8,
@@ -49,6 +48,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
       type: 'not-yet-notified',
       certificateTemplate: 'ppe2.v1',
       reference: '2021 S 176-457521',
+      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
     },
   ],
   familles: [
