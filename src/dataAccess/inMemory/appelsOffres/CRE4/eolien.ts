@@ -36,7 +36,6 @@ const eolien: AppelOffre = {
   afficherPhraseRegionImplantation: false,
   afficherValeurEvaluationCarbone: false,
   soumisAuxGarantiesFinancieres: true,
-  delaiDcrEnMois: { valeur: 2, texte: 'deux' },
   changementPuissance: {
     ratios: {
       min: 0.9,
@@ -50,6 +49,7 @@ const eolien: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       reference: '2017/S 083-161855',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '2',
@@ -57,6 +57,7 @@ const eolien: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       reference: '2017/S 083-161855',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '3',
@@ -64,6 +65,7 @@ const eolien: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       reference: '2017/S 083-161855',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '4',
@@ -71,6 +73,7 @@ const eolien: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       reference: '2017/S 083-161855',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '5',
@@ -78,6 +81,7 @@ const eolien: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       reference: '2017/S 083-161855',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '6',
@@ -86,6 +90,7 @@ const eolien: AppelOffre = {
       certificateTemplate: 'cre4.v1',
       noteThreshold: 10.19,
       reference: '2017/S 083-161855',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '7',
@@ -94,6 +99,7 @@ const eolien: AppelOffre = {
       certificateTemplate: 'cre4.v1',
       noteThreshold: 13,
       reference: '2017/S 083-161855',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '8',
@@ -102,6 +108,7 @@ const eolien: AppelOffre = {
       certificateTemplate: 'cre4.v1',
       noteThreshold: 9.8,
       reference: '2017/S 083-161855',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
   ],
   familles: [],

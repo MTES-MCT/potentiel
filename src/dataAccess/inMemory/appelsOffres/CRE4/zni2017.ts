@@ -31,7 +31,6 @@ export const zni2017: AppelOffre = {
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   renvoiSoumisAuxGarantiesFinancieres: 'doit être au minimum de 36 mois',
   soumisAuxGarantiesFinancieres: true,
-  delaiDcrEnMois: { valeur: 2, texte: 'deux' },
   changementPuissance: {
     ratios: {
       min: 0.9,
@@ -45,6 +44,7 @@ export const zni2017: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       reference: '2016/S 242-441980',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
   ],
   familles: [

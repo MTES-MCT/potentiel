@@ -34,7 +34,6 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'violaine.tarizzo@developpement-durable.gouv.fr',
-  delaiDcrEnMois: { valeur: 3, texte: 'trois' },
   changementPuissance: {
     changementByTechnologie: true,
     ratios: {
@@ -60,6 +59,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
       certificateTemplate: 'ppe2.v1',
       noteThreshold: 62.5,
       reference: '2021 S 176-457526',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '2',
@@ -68,7 +68,9 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
       certificateTemplate: 'ppe2.v1',
       noteThreshold: 66.95,
       reference: '2022 S 038 098159',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
+    // A partir de la période 3 le délai DCR passe à trois mois
   ],
   familles: [],
 }

@@ -30,7 +30,6 @@ const zni: AppelOffre = {
   afficherPhraseRegionImplantation: true,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   renvoiSoumisAuxGarantiesFinancieres: 'doit être au minimum de 36 mois',
-  delaiDcrEnMois: { valeur: 2, texte: 'deux' },
   changementPuissance: {
     ratios: {
       min: 0.9,
@@ -44,6 +43,7 @@ const zni: AppelOffre = {
       paragrapheAchevement: '6.4',
       certificateTemplate: 'cre4.v0',
       reference: '2019/S 113-276264',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       noteThresholdBy: 'family',
       noteThreshold: [
         { familleId: '1a', territoire: 'Corse', noteThreshold: 53.4 },
@@ -70,6 +70,7 @@ const zni: AppelOffre = {
       paragrapheAchevement: '6.4',
       certificateTemplate: 'cre4.v0',
       reference: '2019/S 113-276264',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       noteThresholdBy: 'family',
       noteThreshold: [
         { familleId: '2a', territoire: 'Corse', noteThreshold: 42.1 },
@@ -95,6 +96,7 @@ const zni: AppelOffre = {
       paragrapheAchevement: '6.4',
       certificateTemplate: 'cre4.v1',
       reference: '2019/S 113-276264',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       noteThresholdBy: 'family',
       noteThreshold: [
         { familleId: '1a', territoire: 'Corse', noteThreshold: 52.7 },
@@ -118,6 +120,7 @@ const zni: AppelOffre = {
       paragrapheAchevement: '6.4',
       certificateTemplate: 'cre4.v1',
       reference: '2019/S 113-276264',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       noteThresholdBy: 'family',
       noteThreshold: [
         { familleId: '2a', territoire: 'Corse', noteThreshold: 33.61 },
@@ -144,6 +147,7 @@ const zni: AppelOffre = {
       certificateTemplate: 'cre4.v1',
       reference: '2019/S 113-276264',
       noteThresholdBy: 'family',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       noteThreshold: [
         { familleId: '1a', territoire: 'Mayotte', noteThreshold: 49.99 },
         { familleId: '1a', territoire: 'Guyane', noteThreshold: 30.64 },

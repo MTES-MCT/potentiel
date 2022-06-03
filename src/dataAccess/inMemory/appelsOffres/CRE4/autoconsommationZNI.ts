@@ -29,7 +29,6 @@ const autoconsommationZNI: AppelOffre = {
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
-  delaiDcrEnMois: { valeur: 2, texte: 'deux' },
   changementPuissance: {
     ratios: {
       min: 0.8,
@@ -43,6 +42,7 @@ const autoconsommationZNI: AppelOffre = {
       paragrapheAchevement: '6.3',
       type: 'legacy',
       reference: '2019/S 113-276257',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '2',
@@ -51,6 +51,7 @@ const autoconsommationZNI: AppelOffre = {
       paragrapheAchevement: '6.3',
       noteThreshold: 32.9,
       reference: '2019/S 113-276257',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
   ],
   familles: [],

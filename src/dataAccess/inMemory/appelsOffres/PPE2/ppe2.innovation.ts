@@ -29,7 +29,6 @@ const innovationPPE2: AppelOffre = {
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
-  delaiDcrEnMois: { valeur: 3, texte: 'trois' },
   changementPuissance: {
     ratios: {
       min: 0.7,
@@ -44,6 +43,7 @@ const innovationPPE2: AppelOffre = {
       type: 'not-yet-notified',
       certificateTemplate: 'ppe2.v1',
       reference: '2021 S 203-530267',
+      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
     },
   ],
   familles: [

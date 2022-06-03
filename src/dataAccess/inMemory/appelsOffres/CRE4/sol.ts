@@ -31,7 +31,6 @@ const sol: AppelOffre = {
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   renvoiSoumisAuxGarantiesFinancieres: 'doit être au minimum de 42 mois',
   soumisAuxGarantiesFinancieres: true,
-  delaiDcrEnMois: { valeur: 2, texte: 'deux' },
   changementPuissance: {
     ratios: {
       min: 0.9,
@@ -45,6 +44,7 @@ const sol: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       reference: '2016/S 148-268152',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '2',
@@ -52,6 +52,7 @@ const sol: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       reference: '2016/S 148-268152',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '3',
@@ -59,6 +60,7 @@ const sol: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       reference: '2016/S 148-268152',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '4',
@@ -66,6 +68,7 @@ const sol: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       reference: '2016/S 148-268152',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '5',
@@ -73,6 +76,7 @@ const sol: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       reference: '2016/S 148-268152',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '6',
@@ -80,6 +84,7 @@ const sol: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       reference: '2016/S 148-268152',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '7',
@@ -93,6 +98,7 @@ const sol: AppelOffre = {
       ],
       certificateTemplate: 'cre4.v0',
       reference: '2016/S 148-268152',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '8',
@@ -106,6 +112,7 @@ const sol: AppelOffre = {
       ],
       certificateTemplate: 'cre4.v1',
       reference: '2016/S 148-268152',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '9',
@@ -119,6 +126,7 @@ const sol: AppelOffre = {
       ],
       certificateTemplate: 'cre4.v1',
       reference: '2016/S 148-268152',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
       id: '10',
@@ -132,6 +140,7 @@ const sol: AppelOffre = {
       ],
       certificateTemplate: 'cre4.v1',
       reference: '2016/S 148-268152',
+      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
   ],
   familles: [
