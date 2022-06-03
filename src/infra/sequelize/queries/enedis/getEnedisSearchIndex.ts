@@ -133,10 +133,6 @@ function searchInField(args: {
       matches[id] = {
         id,
         score: 0,
-        db: [...METADATA_FIELDS, ...INDEXED_FIELDS].reduce(
-          (res, field) => ({ ...res, [field]: result[field] }),
-          {}
-        ),
       }
     }
 
