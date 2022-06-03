@@ -42,7 +42,8 @@ const makeAddFootnote = (footNotes: Array<any>) => {
 
 const Laureat = (project: ProjectDataForCertificate) => {
   const { appelOffre } = project
-  const { periode, delaiDcrEnMois } = appelOffre || {}
+  const { periode } = appelOffre || {}
+  const { delaiDcrEnMois } = periode
   const objet = `Désignation des lauréats de la ${periode.title} période de l'appel d'offres ${periode.reference} ${appelOffre.title}`
 
   const famille = appelOffre.familles.find((famille) => famille.id === project.familleId)
