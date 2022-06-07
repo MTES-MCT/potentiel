@@ -1,571 +1,117 @@
 
 # Evenements
 
+Tous les "faits" métier sont persistés sous forme d'événements.
+Si quelque chose s'est passé sur l'application, alors il y aura un événement correspondant.
+
+Ces événements peuvent être émis par différentes parties de l'application.
+Ils peuvent également être écoutés pour le déclenchement d'effets (ex: envoi d'un email) ou la mise à jour de [projections](./PROJECTIONS.md).
+
 ## Sommaire
 
-- Projections (tables)
-  - [appelOffre](#table-appeloffre)
-  - [modificationRequest](#table-modificationrequest)
-  - [project](#table-project)
-  - [projectEvents](#table-projectevents)
-  - [projectStep](#table-projectstep)
-  - [user](#table-user)
-  - [userDreal](#table-userdreal)
-  - [userProjectClaims](#table-userprojectclaims)
-  - [userProjects](#table-userprojects)
-
-- Événements par module
-
-  - appelOffre
-    - [AppelOffreCreated](#appeloffrecreated)
-    - [AppelOffreRemoved](#appeloffreremoved)
-    - [AppelOffreUpdated](#appeloffreupdated)
-    - [PeriodeCreated](#periodecreated)
-    - [PeriodeUpdated](#periodeupdated)
-
-
-  - modificationRequest
-    - [ConfirmationRequested](#confirmationrequested)
-    - [LegacyModificationImported](#legacymodificationimported)
-    - [ModificationReceived](#modificationreceived)
-    - [ModificationRequestAccepted](#modificationrequestaccepted)
-    - [ModificationRequestCancelled](#modificationrequestcancelled)
-    - [ModificationRequestConfirmed](#modificationrequestconfirmed)
-    - [ModificationRequestInstructionStarted](#modificationrequestinstructionstarted)
-    - [ModificationRequestRejected](#modificationrequestrejected)
-    - [ModificationRequestStatusUpdated](#modificationrequeststatusupdated)
-    - [ModificationRequested](#modificationrequested)
-    - [ResponseTemplateDownloaded](#responsetemplatedownloaded)
-    - [LegacyModificationRawDataImported](#legacymodificationrawdataimported)
-    - [LegacyModificationFileAttached](#legacymodificationfileattached)
-
-
-  - file
-    - [FileAttachedToProject](#fileattachedtoproject)
-    - [FileDetachedFromProject](#filedetachedfromproject)
-
-
-  - authZ
-    - [DrealUserInvited](#drealuserinvited)
-    - [InvitationToProjectCancelled](#invitationtoprojectcancelled)
-    - [PartnerUserInvited](#partneruserinvited)
-    - [UserInvitedToProject](#userinvitedtoproject)
-    - [UserProjectsLinkedByContactEmail](#userprojectslinkedbycontactemail)
-    - [UserRightsToProjectGranted](#userrightstoprojectgranted)
-    - [UserRightsToProjectRevoked](#userrightstoprojectrevoked)
-
-
-  - project
-    - [CertificatesForPeriodeRegenerated](#certificatesforperioderegenerated)
-    - [CovidDelayGranted](#coviddelaygranted)
-    - [DemandeAbandonSignaled](#demandeabandonsignaled)
-    - [DemandeDelaiSignaled](#demandedelaisignaled)
-    - [DemandeRecoursSignaled](#demanderecourssignaled)
-    - [ImportExecuted](#importexecuted)
-    - [LegacyProjectEventSourced](#legacyprojecteventsourced)
-    - [LegacyProjectSourced](#legacyprojectsourced)
-    - [NumeroGestionnaireSubmitted](#numerogestionnairesubmitted)
-    - [PeriodeNotified](#periodenotified)
-    - [ProjectAbandoned](#projectabandoned)
-    - [ProjectActionnaireUpdated](#projectactionnaireupdated)
-    - [ProjectCertificateDownloaded](#projectcertificatedownloaded)
-    - [ProjectCertificateGenerated](#projectcertificategenerated)
-    - [ProjectCertificateGenerationFailed](#projectcertificategenerationfailed)
-    - [ProjectCertificateObsolete](#projectcertificateobsolete)
-    - [ProjectCertificateRegenerated](#projectcertificateregenerated)
-    - [ProjectCertificateUpdateFailed](#projectcertificateupdatefailed)
-    - [ProjectCertificateUpdated](#projectcertificateupdated)
-    - [ProjectClasseGranted](#projectclassegranted)
-    - [ProjectCompletionDueDateCancelled](#projectcompletionduedatecancelled)
-    - [ProjectCompletionDueDateSet](#projectcompletionduedateset)
-    - [ProjectDCRDueDateCancelled](#projectdcrduedatecancelled)
-    - [ProjectDCRDueDateSet](#projectdcrduedateset)
-    - [ProjectDCRRemoved](#projectdcrremoved)
-    - [ProjectDCRSubmitted](#projectdcrsubmitted)
-    - [ProjectDataCorrected](#projectdatacorrected)
-    - [ProjectFournisseursUpdated](#projectfournisseursupdated)
-    - [ProjectGFDueDateCancelled](#projectgfduedatecancelled)
-    - [ProjectGFDueDateSet](#projectgfduedateset)
-    - [ProjectGFInvalidated](#projectgfinvalidated)
-    - [ProjectGFReminded](#projectgfreminded)
-    - [ProjectGFRemoved](#projectgfremoved)
-    - [ProjectGFSubmitted](#projectgfsubmitted)
-    - [ProjectGFUploaded](#projectgfuploaded)
-    - [ProjectGFWithdrawn](#projectgfwithdrawn)
-    - [ProjectImported](#projectimported)
-    - [ProjectNewRulesOptedIn](#projectnewrulesoptedin)
-    - [ProjectNotificationDateSet](#projectnotificationdateset)
-    - [ProjectNotified](#projectnotified)
-    - [ProjectPTFRemoved](#projectptfremoved)
-    - [ProjectPTFSubmitted](#projectptfsubmitted)
-    - [ProjectProducteurUpdated](#projectproducteurupdated)
-    - [ProjectPuissanceUpdated](#projectpuissanceupdated)
-    - [ProjectRawDataImported](#projectrawdataimported)
-    - [ProjectReimported](#projectreimported)
-    - [ProjectStepStatusUpdated](#projectstepstatusupdated)
-
-
-  - projectClaim
-    - [ProjectClaimFailed](#projectclaimfailed)
-    - [ProjectClaimed](#projectclaimed)
-    - [ProjectClaimedByOwner](#projectclaimedbyowner)
-
-
-  - legacyCandidateNotification
-    - [LegacyCandidateNotified](#legacycandidatenotified)
-
-
-  - users
-    - [InvitationRelanceSent](#invitationrelancesent)
-    - [LegacyUserCreated](#legacyusercreated)
-    - [UserCreated](#usercreated)
-
-
-  - candidateNotification
-    - [CandidateInformationOfCertificateUpdateFailed](#candidateinformationofcertificateupdatefailed)
-    - [CandidateInformedOfCertificateUpdate](#candidateinformedofcertificateupdate)
-    - [CandidateNotifiedForPeriode](#candidatenotifiedforperiode)
-
-
-
-## Projections
-
-
-### Table appelOffre
-Mise à jour par:
-
+- appelOffre
   - [AppelOffreCreated](#appeloffrecreated)
-
-
-
   - [AppelOffreRemoved](#appeloffreremoved)
-
-
-
   - [AppelOffreUpdated](#appeloffreupdated)
-
-
-
   - [PeriodeCreated](#periodecreated)
-
-
-
   - [PeriodeUpdated](#periodeupdated)
 
-
-
-### Table modificationRequest
-Mise à jour par:
-
+- modificationRequest
   - [ConfirmationRequested](#confirmationrequested)
-
-
-
   - [LegacyModificationImported](#legacymodificationimported)
-
-
-
   - [ModificationReceived](#modificationreceived)
-
-
-
   - [ModificationRequestAccepted](#modificationrequestaccepted)
-
-
-
   - [ModificationRequestCancelled](#modificationrequestcancelled)
-
-
-
   - [ModificationRequestConfirmed](#modificationrequestconfirmed)
-
-
-
   - [ModificationRequestInstructionStarted](#modificationrequestinstructionstarted)
-
-
-
   - [ModificationRequestRejected](#modificationrequestrejected)
-
-
-
   - [ModificationRequestStatusUpdated](#modificationrequeststatusupdated)
-
-
-
   - [ModificationRequested](#modificationrequested)
-
-
-
-### Table project
-Mise à jour par:
-
-  - [CovidDelayGranted](#coviddelaygranted)
-
-
-
-  - [NumeroGestionnaireSubmitted](#numerogestionnairesubmitted)
-
-
-
-  - [ProjectAbandoned](#projectabandoned)
-
-
-
-  - [ProjectActionnaireUpdated](#projectactionnaireupdated)
-
-
-
-  - [ProjectCertificateGenerated](#projectcertificategenerated)
-
-
-
-  - [ProjectCertificateObsolete](#projectcertificateobsolete)
-
-
-
-  - [ProjectCertificateRegenerated](#projectcertificateregenerated)
-
-
-
-  - [ProjectCertificateUpdated](#projectcertificateupdated)
-
-
-
-  - [ProjectClasseGranted](#projectclassegranted)
-
-
-
-  - [ProjectCompletionDueDateCancelled](#projectcompletionduedatecancelled)
-
-
-
-  - [ProjectCompletionDueDateSet](#projectcompletionduedateset)
-
-
-
-  - [ProjectDCRDueDateCancelled](#projectdcrduedatecancelled)
-
-
-
-  - [ProjectDCRDueDateSet](#projectdcrduedateset)
-
-
-
-  - [ProjectDCRSubmitted](#projectdcrsubmitted)
-
-
-
-  - [ProjectDataCorrected](#projectdatacorrected)
-
-
-
-  - [ProjectFournisseursUpdated](#projectfournisseursupdated)
-
-
-
-  - [ProjectGFDueDateCancelled](#projectgfduedatecancelled)
-
-
-
-  - [ProjectGFDueDateSet](#projectgfduedateset)
-
-
-
-  - [ProjectGFInvalidated](#projectgfinvalidated)
-
-
-
-  - [ProjectImported](#projectimported)
-
-
-
-  - [ProjectNewRulesOptedIn](#projectnewrulesoptedin)
-
-
-
-  - [ProjectNotificationDateSet](#projectnotificationdateset)
-
-
-
-  - [ProjectNotified](#projectnotified)
-
-
-
-  - [ProjectProducteurUpdated](#projectproducteurupdated)
-
-
-
-  - [ProjectPuissanceUpdated](#projectpuissanceupdated)
-
-
-
-  - [ProjectReimported](#projectreimported)
-
-
-
-  - [ProjectClaimed](#projectclaimed)
-
-
-
-  - [ProjectClaimedByOwner](#projectclaimedbyowner)
-
-
-
-### Table projectEvents
-Mise à jour par:
-
-  - [ConfirmationRequested](#confirmationrequested)
-
-
-
-  - [LegacyModificationImported](#legacymodificationimported)
-
-
-
-  - [ModificationReceived](#modificationreceived)
-
-
-
-  - [ModificationRequestAccepted](#modificationrequestaccepted)
-
-
-
-  - [ModificationRequestCancelled](#modificationrequestcancelled)
-
-
-
-  - [ModificationRequestConfirmed](#modificationrequestconfirmed)
-
-
-
-  - [ModificationRequestInstructionStarted](#modificationrequestinstructionstarted)
-
-
-
-  - [ModificationRequestRejected](#modificationrequestrejected)
-
-
-
-  - [ModificationRequested](#modificationrequested)
-
-
-
-  - [FileAttachedToProject](#fileattachedtoproject)
-
-
-
-  - [FileDetachedFromProject](#filedetachedfromproject)
-
-
-
-  - [CovidDelayGranted](#coviddelaygranted)
-
-
-
-  - [DemandeAbandonSignaled](#demandeabandonsignaled)
-
-
-
-  - [DemandeDelaiSignaled](#demandedelaisignaled)
-
-
-
-  - [DemandeRecoursSignaled](#demanderecourssignaled)
-
-
-
-  - [ProjectCertificateGenerated](#projectcertificategenerated)
-
-
-
-  - [ProjectCertificateRegenerated](#projectcertificateregenerated)
-
-
-
-  - [ProjectCertificateUpdated](#projectcertificateupdated)
-
-
-
-  - [ProjectCompletionDueDateCancelled](#projectcompletionduedatecancelled)
-
-
-
-  - [ProjectCompletionDueDateSet](#projectcompletionduedateset)
-
-
-
-  - [ProjectCompletionDueDateSet](#projectcompletionduedateset)
-
-
-
-  - [ProjectDCRDueDateCancelled](#projectdcrduedatecancelled)
-
-
-
-  - [ProjectDCRDueDateSet](#projectdcrduedateset)
-
-
-
-  - [ProjectDCRDueDateSet](#projectdcrduedateset)
-
-
-
-  - [ProjectDCRRemoved](#projectdcrremoved)
-
-
-
-  - [ProjectDCRSubmitted](#projectdcrsubmitted)
-
-
-
-  - [ProjectGFDueDateCancelled](#projectgfduedatecancelled)
-
-
-
-  - [ProjectGFDueDateSet](#projectgfduedateset)
-
-
-
-  - [ProjectGFDueDateSet](#projectgfduedateset)
-
-
-
-  - [ProjectGFRemoved](#projectgfremoved)
-
-
-
-  - [ProjectGFSubmitted](#projectgfsubmitted)
-
-
-
-  - [ProjectGFUploaded](#projectgfuploaded)
-
-
-
-  - [ProjectGFWithdrawn](#projectgfwithdrawn)
-
-
-
-  - [ProjectImported](#projectimported)
-
-
-
-  - [ProjectNotificationDateSet](#projectnotificationdateset)
-
-
-
-  - [ProjectNotified](#projectnotified)
-
-
-
-  - [ProjectPTFRemoved](#projectptfremoved)
-
-
-
-  - [ProjectPTFSubmitted](#projectptfsubmitted)
-
-
-
-  - [ProjectStepStatusUpdated](#projectstepstatusupdated)
-
-
-
-  - [ProjectClaimed](#projectclaimed)
-
-
-
+  - [ResponseTemplateDownloaded](#responsetemplatedownloaded)
+  - [LegacyModificationRawDataImported](#legacymodificationrawdataimported)
   - [LegacyModificationFileAttached](#legacymodificationfileattached)
 
+- file
+  - [FileAttachedToProject](#fileattachedtoproject)
+  - [FileDetachedFromProject](#filedetachedfromproject)
 
-
-### Table projectStep
-Mise à jour par:
-
-  - [ProjectDCRRemoved](#projectdcrremoved)
-
-
-
-  - [ProjectDCRSubmitted](#projectdcrsubmitted)
-
-
-
-  - [ProjectGFRemoved](#projectgfremoved)
-
-
-
-  - [ProjectGFSubmitted](#projectgfsubmitted)
-
-
-
-  - [ProjectGFUploaded](#projectgfuploaded)
-
-
-
-  - [ProjectGFWithdrawn](#projectgfwithdrawn)
-
-
-
-  - [ProjectPTFRemoved](#projectptfremoved)
-
-
-
-  - [ProjectPTFSubmitted](#projectptfsubmitted)
-
-
-
-  - [ProjectStepStatusUpdated](#projectstepstatusupdated)
-
-
-
-### Table user
-Mise à jour par:
-
-  - [UserCreated](#usercreated)
-
-
-
-### Table userDreal
-Mise à jour par:
-
+- authZ
   - [DrealUserInvited](#drealuserinvited)
-
-
-
-### Table userProjectClaims
-Mise à jour par:
-
-  - [ProjectClaimFailed](#projectclaimfailed)
-
-
-
-### Table userProjects
-Mise à jour par:
-
+  - [InvitationToProjectCancelled](#invitationtoprojectcancelled)
+  - [PartnerUserInvited](#partneruserinvited)
   - [UserInvitedToProject](#userinvitedtoproject)
-
-
-
   - [UserProjectsLinkedByContactEmail](#userprojectslinkedbycontactemail)
-
-
-
   - [UserRightsToProjectGranted](#userrightstoprojectgranted)
-
-
-
   - [UserRightsToProjectRevoked](#userrightstoprojectrevoked)
 
+- project
+  - [CertificatesForPeriodeRegenerated](#certificatesforperioderegenerated)
+  - [CovidDelayGranted](#coviddelaygranted)
+  - [DemandeAbandonSignaled](#demandeabandonsignaled)
+  - [DemandeDelaiSignaled](#demandedelaisignaled)
+  - [DemandeRecoursSignaled](#demanderecourssignaled)
+  - [ImportExecuted](#importexecuted)
+  - [LegacyProjectEventSourced](#legacyprojecteventsourced)
+  - [LegacyProjectSourced](#legacyprojectsourced)
+  - [NumeroGestionnaireSubmitted](#numerogestionnairesubmitted)
+  - [PeriodeNotified](#periodenotified)
+  - [ProjectAbandoned](#projectabandoned)
+  - [ProjectActionnaireUpdated](#projectactionnaireupdated)
+  - [ProjectCertificateDownloaded](#projectcertificatedownloaded)
+  - [ProjectCertificateGenerated](#projectcertificategenerated)
+  - [ProjectCertificateGenerationFailed](#projectcertificategenerationfailed)
+  - [ProjectCertificateObsolete](#projectcertificateobsolete)
+  - [ProjectCertificateRegenerated](#projectcertificateregenerated)
+  - [ProjectCertificateUpdateFailed](#projectcertificateupdatefailed)
+  - [ProjectCertificateUpdated](#projectcertificateupdated)
+  - [ProjectClasseGranted](#projectclassegranted)
+  - [ProjectCompletionDueDateCancelled](#projectcompletionduedatecancelled)
+  - [ProjectCompletionDueDateSet](#projectcompletionduedateset)
+  - [ProjectDCRDueDateCancelled](#projectdcrduedatecancelled)
+  - [ProjectDCRDueDateSet](#projectdcrduedateset)
+  - [ProjectDCRRemoved](#projectdcrremoved)
+  - [ProjectDCRSubmitted](#projectdcrsubmitted)
+  - [ProjectDataCorrected](#projectdatacorrected)
+  - [ProjectFournisseursUpdated](#projectfournisseursupdated)
+  - [ProjectGFDueDateCancelled](#projectgfduedatecancelled)
+  - [ProjectGFDueDateSet](#projectgfduedateset)
+  - [ProjectGFInvalidated](#projectgfinvalidated)
+  - [ProjectGFReminded](#projectgfreminded)
+  - [ProjectGFRemoved](#projectgfremoved)
+  - [ProjectGFSubmitted](#projectgfsubmitted)
+  - [ProjectGFUploaded](#projectgfuploaded)
+  - [ProjectGFWithdrawn](#projectgfwithdrawn)
+  - [ProjectImported](#projectimported)
+  - [ProjectNewRulesOptedIn](#projectnewrulesoptedin)
+  - [ProjectNotificationDateSet](#projectnotificationdateset)
+  - [ProjectNotified](#projectnotified)
+  - [ProjectPTFRemoved](#projectptfremoved)
+  - [ProjectPTFSubmitted](#projectptfsubmitted)
+  - [ProjectProducteurUpdated](#projectproducteurupdated)
+  - [ProjectPuissanceUpdated](#projectpuissanceupdated)
+  - [ProjectRawDataImported](#projectrawdataimported)
+  - [ProjectReimported](#projectreimported)
+  - [ProjectStepStatusUpdated](#projectstepstatusupdated)
 
-
+- projectClaim
+  - [ProjectClaimFailed](#projectclaimfailed)
   - [ProjectClaimed](#projectclaimed)
-
-
-
   - [ProjectClaimedByOwner](#projectclaimedbyowner)
 
+- legacyCandidateNotification
+  - [LegacyCandidateNotified](#legacycandidatenotified)
 
-  
+- users
+  - [InvitationRelanceSent](#invitationrelancesent)
+  - [LegacyUserCreated](#legacyusercreated)
+  - [UserCreated](#usercreated)
+
+- candidateNotification
+  - [CandidateInformationOfCertificateUpdateFailed](#candidateinformationofcertificateupdatefailed)
+  - [CandidateInformedOfCertificateUpdate](#candidateinformedofcertificateupdate)
+  - [CandidateNotifiedForPeriode](#candidatenotifiedforperiode)
+
+
 
 ## Événements par module
 
@@ -578,7 +124,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[importAppelOffreData](../src/modules/appelOffre/useCases/importAppelOffreData.ts)|[Mise à jour](../src/infra/sequelize/projections/appelOffre/updates/onAppelOffreCreated.ts) de [appelOffre](#table-appeloffre)|
+|[importAppelOffreData](../src/modules/appelOffre/useCases/importAppelOffreData.ts)|[Mise à jour](../src/infra/sequelize/projections/appelOffre/updates/onAppelOffreCreated.ts) de [appelOffre](./PROJECTIONS.md#appeloffre)|
 
 
 
@@ -589,7 +135,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[AppelOffre.remove](../src/modules/appelOffre/AppelOffre.ts)|[Mise à jour](../src/infra/sequelize/projections/appelOffre/updates/onAppelOffreRemoved.ts) de [appelOffre](#table-appeloffre)|
+|[AppelOffre.remove](../src/modules/appelOffre/AppelOffre.ts)|[Mise à jour](../src/infra/sequelize/projections/appelOffre/updates/onAppelOffreRemoved.ts) de [appelOffre](./PROJECTIONS.md#appeloffre)|
 
 
 
@@ -600,7 +146,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[AppelOffre.update](../src/modules/appelOffre/AppelOffre.ts)|[Mise à jour](../src/infra/sequelize/projections/appelOffre/updates/onAppelOffreUpdated.ts) de [appelOffre](#table-appeloffre)|
+|[AppelOffre.update](../src/modules/appelOffre/AppelOffre.ts)|[Mise à jour](../src/infra/sequelize/projections/appelOffre/updates/onAppelOffreUpdated.ts) de [appelOffre](./PROJECTIONS.md#appeloffre)|
 
 
 
@@ -611,7 +157,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[AppelOffre.updatePeriode](../src/modules/appelOffre/AppelOffre.ts)|[Mise à jour](../src/infra/sequelize/projections/appelOffre/updates/onPeriodeCreated.ts) de [appelOffre](#table-appeloffre)|
+|[AppelOffre.updatePeriode](../src/modules/appelOffre/AppelOffre.ts)|[Mise à jour](../src/infra/sequelize/projections/appelOffre/updates/onPeriodeCreated.ts) de [appelOffre](./PROJECTIONS.md#appeloffre)|
 
 
 
@@ -622,7 +168,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[AppelOffre.updatePeriode](../src/modules/appelOffre/AppelOffre.ts)|[Mise à jour](../src/infra/sequelize/projections/appelOffre/updates/onPeriodeUpdated.ts) de [appelOffre](#table-appeloffre)|
+|[AppelOffre.updatePeriode](../src/modules/appelOffre/AppelOffre.ts)|[Mise à jour](../src/infra/sequelize/projections/appelOffre/updates/onPeriodeUpdated.ts) de [appelOffre](./PROJECTIONS.md#appeloffre)|
 
 
 
@@ -635,8 +181,8 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[ModificationRequest.requestConfirmation](../src/modules/modificationRequest/ModificationRequest.ts)|[Mise à jour](../src/infra/sequelize/projections/modificationRequest/updates/onConfirmationRequested.ts) de [modificationRequest](#table-modificationrequest)|
-||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onConfirmationRequested.ts) de [projectEvents](#table-projectevents)|
+|[ModificationRequest.requestConfirmation](../src/modules/modificationRequest/ModificationRequest.ts)|[Mise à jour](../src/infra/sequelize/projections/modificationRequest/updates/onConfirmationRequested.ts) de [modificationRequest](./PROJECTIONS.md#modificationrequest)|
+||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onConfirmationRequested.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 ||notification / [handleModificationRequestStatusChanged](../src/modules/notification/eventHandlers/handleModificationRequestStatusChanged.ts)|
 
 
@@ -648,8 +194,8 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-||[Mise à jour](../src/infra/sequelize/projections/modificationRequest/updates/onLegacyModificationImported.ts) de [modificationRequest](#table-modificationrequest)|
-||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onLegacyModificationImported.ts) de [projectEvents](#table-projectevents)|
+||[Mise à jour](../src/infra/sequelize/projections/modificationRequest/updates/onLegacyModificationImported.ts) de [modificationRequest](./PROJECTIONS.md#modificationrequest)|
+||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onLegacyModificationImported.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 ||modificationRequest / [handleLegacyModificationRawDataImported](../src/modules/modificationRequest/eventHandlers/handleLegacyModificationRawDataImported.ts)|
 ||project / [handleLegacyModificationImported](../src/modules/project/eventHandlers/handleLegacyModificationImported.ts)|
 
@@ -662,8 +208,8 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[requestActionnaireModification](../src/modules/modificationRequest/useCases/requestActionnaireModification.ts)|[Mise à jour](../src/infra/sequelize/projections/modificationRequest/updates/onModificationReceived.ts) de [modificationRequest](#table-modificationrequest)|
-|[requestFournisseursModification](../src/modules/modificationRequest/useCases/requestFournisseursModification.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onModificationReceived.ts) de [projectEvents](#table-projectevents)|
+|[requestActionnaireModification](../src/modules/modificationRequest/useCases/requestActionnaireModification.ts)|[Mise à jour](../src/infra/sequelize/projections/modificationRequest/updates/onModificationReceived.ts) de [modificationRequest](./PROJECTIONS.md#modificationrequest)|
+|[requestFournisseursModification](../src/modules/modificationRequest/useCases/requestFournisseursModification.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onModificationReceived.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 |[requestProducteurModification](../src/modules/modificationRequest/useCases/requestProducteurModification.ts)|notification / [handleModificationReceived](../src/modules/notification/eventHandlers/handleModificationReceived.ts)|
 |[requestPuissanceModification](../src/modules/modificationRequest/useCases/requestPuissanceModification.ts)|notification / [handleModificationRequestStatusChanged](../src/modules/notification/eventHandlers/handleModificationRequestStatusChanged.ts)|
 
@@ -676,8 +222,8 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[ModificationRequest.accept](../src/modules/modificationRequest/ModificationRequest.ts)|[Mise à jour](../src/infra/sequelize/projections/modificationRequest/updates/onModificationRequestAccepted.ts) de [modificationRequest](#table-modificationrequest)|
-||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onModificationRequestAccepted.ts) de [projectEvents](#table-projectevents)|
+|[ModificationRequest.accept](../src/modules/modificationRequest/ModificationRequest.ts)|[Mise à jour](../src/infra/sequelize/projections/modificationRequest/updates/onModificationRequestAccepted.ts) de [modificationRequest](./PROJECTIONS.md#modificationrequest)|
+||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onModificationRequestAccepted.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 ||notification / [handleModificationRequestStatusChanged](../src/modules/notification/eventHandlers/handleModificationRequestStatusChanged.ts)|
 
 
@@ -689,8 +235,8 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[ModificationRequest.cancel](../src/modules/modificationRequest/ModificationRequest.ts)|[Mise à jour](../src/infra/sequelize/projections/modificationRequest/updates/onModificationRequestCancelled.ts) de [modificationRequest](#table-modificationrequest)|
-||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onModificationRequestCancelled.ts) de [projectEvents](#table-projectevents)|
+|[ModificationRequest.cancel](../src/modules/modificationRequest/ModificationRequest.ts)|[Mise à jour](../src/infra/sequelize/projections/modificationRequest/updates/onModificationRequestCancelled.ts) de [modificationRequest](./PROJECTIONS.md#modificationrequest)|
+||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onModificationRequestCancelled.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 ||notification / [handleModificationRequestCancelled](../src/modules/notification/eventHandlers/handleModificationRequestCancelled.ts)|
 ||notification / [handleModificationRequestStatusChanged](../src/modules/notification/eventHandlers/handleModificationRequestStatusChanged.ts)|
 
@@ -703,8 +249,8 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[ModificationRequest.confirm](../src/modules/modificationRequest/ModificationRequest.ts)|[Mise à jour](../src/infra/sequelize/projections/modificationRequest/updates/onModificationRequestConfirmed.ts) de [modificationRequest](#table-modificationrequest)|
-||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onModificationRequestConfirmed.ts) de [projectEvents](#table-projectevents)|
+|[ModificationRequest.confirm](../src/modules/modificationRequest/ModificationRequest.ts)|[Mise à jour](../src/infra/sequelize/projections/modificationRequest/updates/onModificationRequestConfirmed.ts) de [modificationRequest](./PROJECTIONS.md#modificationrequest)|
+||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onModificationRequestConfirmed.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 ||notification / [handleModificationRequestConfirmed](../src/modules/notification/eventHandlers/handleModificationRequestConfirmed.ts)|
 
 
@@ -716,8 +262,8 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-||[Mise à jour](../src/infra/sequelize/projections/modificationRequest/updates/onModificationRequestInstructionStarted.ts) de [modificationRequest](#table-modificationrequest)|
-||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onModificationRequestInstructionStarted.ts) de [projectEvents](#table-projectevents)|
+||[Mise à jour](../src/infra/sequelize/projections/modificationRequest/updates/onModificationRequestInstructionStarted.ts) de [modificationRequest](./PROJECTIONS.md#modificationrequest)|
+||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onModificationRequestInstructionStarted.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 ||notification / [handleModificationRequestStatusChanged](../src/modules/notification/eventHandlers/handleModificationRequestStatusChanged.ts)|
 ||modificationRequest / [handleResponseTemplateDownloaded](../src/modules/modificationRequest/eventHandlers/handleResponseTemplateDownloaded.ts)|
 
@@ -730,8 +276,8 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[ModificationRequest.reject](../src/modules/modificationRequest/ModificationRequest.ts)|[Mise à jour](../src/infra/sequelize/projections/modificationRequest/updates/onModificationRequestRejected.ts) de [modificationRequest](#table-modificationrequest)|
-||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onModificationRequestRejected.ts) de [projectEvents](#table-projectevents)|
+|[ModificationRequest.reject](../src/modules/modificationRequest/ModificationRequest.ts)|[Mise à jour](../src/infra/sequelize/projections/modificationRequest/updates/onModificationRequestRejected.ts) de [modificationRequest](./PROJECTIONS.md#modificationrequest)|
+||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onModificationRequestRejected.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 ||notification / [handleModificationRequestStatusChanged](../src/modules/notification/eventHandlers/handleModificationRequestStatusChanged.ts)|
 
 
@@ -743,7 +289,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[ModificationRequest.updateStatus](../src/modules/modificationRequest/ModificationRequest.ts)|[Mise à jour](../src/infra/sequelize/projections/modificationRequest/updates/onModificationRequestStatusUpdated.ts) de [modificationRequest](#table-modificationrequest)|
+|[ModificationRequest.updateStatus](../src/modules/modificationRequest/ModificationRequest.ts)|[Mise à jour](../src/infra/sequelize/projections/modificationRequest/updates/onModificationRequestStatusUpdated.ts) de [modificationRequest](./PROJECTIONS.md#modificationrequest)|
 
 
 
@@ -754,8 +300,8 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[requestActionnaireModification](../src/modules/modificationRequest/useCases/requestActionnaireModification.ts)|[Mise à jour](../src/infra/sequelize/projections/modificationRequest/updates/onModificationRequested.ts) de [modificationRequest](#table-modificationrequest)|
-|[requestPuissanceModification](../src/modules/modificationRequest/useCases/requestPuissanceModification.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onModificationRequested.ts) de [projectEvents](#table-projectevents)|
+|[requestActionnaireModification](../src/modules/modificationRequest/useCases/requestActionnaireModification.ts)|[Mise à jour](../src/infra/sequelize/projections/modificationRequest/updates/onModificationRequested.ts) de [modificationRequest](./PROJECTIONS.md#modificationrequest)|
+|[requestPuissanceModification](../src/modules/modificationRequest/useCases/requestPuissanceModification.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onModificationRequested.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 |[requestModification](../src/useCases/requestModification.ts)|notification / [handleModificationRequested](../src/modules/notification/eventHandlers/handleModificationRequested.ts)|
 
 
@@ -789,7 +335,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[attachLegacyModificationFile](../src/modules/modificationRequest/useCases/attachLegacyModificationFile.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onLegacyModificationFileAttached.ts) de [projectEvents](#table-projectevents)|
+|[attachLegacyModificationFile](../src/modules/modificationRequest/useCases/attachLegacyModificationFile.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onLegacyModificationFileAttached.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 
 
 
@@ -802,7 +348,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[postAttacherFichier](../src/controllers/project/postAttacherFichier.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onFileAttachedToProject.ts) de [projectEvents](#table-projectevents)|
+|[postAttacherFichier](../src/controllers/project/postAttacherFichier.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onFileAttachedToProject.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 
 
 
@@ -813,7 +359,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[postRetirerFichier](../src/controllers/project/postRetirerFichier.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onFileDetachedFromProject.ts) de [projectEvents](#table-projectevents)|
+|[postRetirerFichier](../src/controllers/project/postRetirerFichier.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onFileDetachedFromProject.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 
 
 
@@ -826,7 +372,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[postInviteUser](../src/controllers/admin/postInviteUser.ts)|[Mise à jour](../src/infra/sequelize/projections/userDreal/updates/onDrealUserInvited.ts) de [userDreal](#table-userdreal)|
+|[postInviteUser](../src/controllers/admin/postInviteUser.ts)|[Mise à jour](../src/infra/sequelize/projections/userDreal/updates/onDrealUserInvited.ts) de [userDreal](./PROJECTIONS.md#userdreal)|
 
 
 
@@ -858,7 +404,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[inviteUserToProject](../src/modules/users/useCases/inviteUserToProject.ts)|[Mise à jour](../src/infra/sequelize/projections/userProjects/updates/onUserInvitedToProject.ts) de [userProjects](#table-userprojects)|
+|[inviteUserToProject](../src/modules/users/useCases/inviteUserToProject.ts)|[Mise à jour](../src/infra/sequelize/projections/userProjects/updates/onUserInvitedToProject.ts) de [userProjects](./PROJECTIONS.md#userprojects)|
 ||notification / [handleUserInvitedToProject](../src/modules/notification/eventHandlers/handleUserInvitedToProject.ts)|
 
 
@@ -870,7 +416,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-||[Mise à jour](../src/infra/sequelize/projections/userProjects/updates/onUserProjectsLinkedByContactEmail.ts) de [userProjects](#table-userprojects)|
+||[Mise à jour](../src/infra/sequelize/projections/userProjects/updates/onUserProjectsLinkedByContactEmail.ts) de [userProjects](./PROJECTIONS.md#userprojects)|
 ||authZ / [handleUserCreated](../src/modules/authZ/eventHandlers/handleUserCreated.ts)|
 
 
@@ -882,7 +428,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-||[Mise à jour](../src/infra/sequelize/projections/userProjects/updates/onUserRightsToProjectGranted.ts) de [userProjects](#table-userprojects)|
+||[Mise à jour](../src/infra/sequelize/projections/userProjects/updates/onUserRightsToProjectGranted.ts) de [userProjects](./PROJECTIONS.md#userprojects)|
 ||authZ / [handleProjectImported](../src/modules/authZ/eventHandlers/handleProjectImported.ts)|
 
 
@@ -894,7 +440,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[revokeRightsToProject](../src/modules/authZ/useCases/revokeRightsToProject.ts)|[Mise à jour](../src/infra/sequelize/projections/userProjects/updates/onUserRightsToProjectRevoked.ts) de [userProjects](#table-userprojects)|
+|[revokeRightsToProject](../src/modules/authZ/useCases/revokeRightsToProject.ts)|[Mise à jour](../src/infra/sequelize/projections/userProjects/updates/onUserRightsToProjectRevoked.ts) de [userProjects](./PROJECTIONS.md#userprojects)|
 
 
 
@@ -918,8 +464,8 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-||[Mise à jour](../src/infra/sequelize/projections/project/updates/onCovidDelayGranted.ts) de [project](#table-project)|
-||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onCovidDelayGranted.ts) de [projectEvents](#table-projectevents)|
+||[Mise à jour](../src/infra/sequelize/projections/project/updates/onCovidDelayGranted.ts) de [project](./PROJECTIONS.md#project)|
+||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onCovidDelayGranted.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 
 
 
@@ -930,7 +476,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[Project.signalerDemandeAbandon](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onDemandeAbandonSignaled.ts) de [projectEvents](#table-projectevents)|
+|[Project.signalerDemandeAbandon](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onDemandeAbandonSignaled.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 
 
 
@@ -941,7 +487,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[Project.signalerDemandeDelai](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onDemandeDelaiSignaled.ts) de [projectEvents](#table-projectevents)|
+|[Project.signalerDemandeDelai](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onDemandeDelaiSignaled.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 
 
 
@@ -952,7 +498,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[Project.signalerDemandeRecours](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onDemandeRecoursSignaled.ts) de [projectEvents](#table-projectevents)|
+|[Project.signalerDemandeRecours](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onDemandeRecoursSignaled.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 
 
 
@@ -994,7 +540,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[requestModification](../src/useCases/requestModification.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onNumeroGestionnaireSubmitted.ts) de [project](#table-project)|
+|[requestModification](../src/useCases/requestModification.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onNumeroGestionnaireSubmitted.ts) de [project](./PROJECTIONS.md#project)|
 
 
 
@@ -1016,7 +562,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[Project.abandon](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectAbandoned.ts) de [project](#table-project)|
+|[Project.abandon](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectAbandoned.ts) de [project](./PROJECTIONS.md#project)|
 |[Project.abandonLegacy](../src/modules/project/Project.ts)||
 |[Project.signalerDemandeAbandon](../src/modules/project/Project.ts)||
 
@@ -1029,7 +575,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[Project.updateActionnaire](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectActionnaireUpdated.ts) de [project](#table-project)|
+|[Project.updateActionnaire](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectActionnaireUpdated.ts) de [project](./PROJECTIONS.md#project)|
 
 
 
@@ -1051,8 +597,8 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[Project.addGeneratedCertificate](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectCertificate.ts) de [project](#table-project)|
-||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectCertificateGenerated.ts) de [projectEvents](#table-projectevents)|
+|[Project.addGeneratedCertificate](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectCertificate.ts) de [project](./PROJECTIONS.md#project)|
+||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectCertificateGenerated.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 ||candidateNotification / [handleProjectCertificateGeneratedOrFailed](../src/modules/candidateNotification/eventHandlers/handleProjectCertificateGeneratedOrFailed.ts)|
 
 
@@ -1075,7 +621,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[Project.import](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectCertificateObsolete.ts) de [project](#table-project)|
+|[Project.import](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectCertificateObsolete.ts) de [project](./PROJECTIONS.md#project)|
 ||project / [handleProjectCertificateObsolete](../src/modules/project/eventHandlers/handleProjectCertificateObsolete.ts)|
 
 
@@ -1087,8 +633,8 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[Project.addGeneratedCertificate](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectCertificate.ts) de [project](#table-project)|
-||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectCertificateRegenerated.ts) de [projectEvents](#table-projectevents)|
+|[Project.addGeneratedCertificate](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectCertificate.ts) de [project](./PROJECTIONS.md#project)|
+||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectCertificateRegenerated.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 ||notification / [handleProjectCertificateUpdatedOrRegenerated](../src/modules/notification/eventHandlers/handleProjectCertificateUpdatedOrRegenerated.ts)|
 
 
@@ -1110,8 +656,8 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[Project.updateCertificate](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectCertificate.ts) de [project](#table-project)|
-||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectCertificateUpdated.ts) de [projectEvents](#table-projectevents)|
+|[Project.updateCertificate](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectCertificate.ts) de [project](./PROJECTIONS.md#project)|
+||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectCertificateUpdated.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 ||notification / [handleProjectCertificateUpdatedOrRegenerated](../src/modules/notification/eventHandlers/handleProjectCertificateUpdatedOrRegenerated.ts)|
 
 
@@ -1123,7 +669,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[Project.grantClasse](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectClasseGranted.ts) de [project](#table-project)|
+|[Project.grantClasse](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectClasseGranted.ts) de [project](./PROJECTIONS.md#project)|
 
 
 
@@ -1134,8 +680,8 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[Project.import](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectCompletionDueDateCancelled.ts) de [project](#table-project)|
-||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectCompletionDueDateCancelled.ts) de [projectEvents](#table-projectevents)|
+|[Project.import](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectCompletionDueDateCancelled.ts) de [project](./PROJECTIONS.md#project)|
+||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectCompletionDueDateCancelled.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 
 
 
@@ -1146,9 +692,9 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[Project.signalerDemandeDelai](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectCompletionDueDateSet.ts) de [project](#table-project)|
-|[Project.notify](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectCompletionDueDateCancelled.ts) de [projectEvents](#table-projectevents)|
-|[Project.import](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectCompletionDueDateSet.ts) de [projectEvents](#table-projectevents)|
+|[Project.signalerDemandeDelai](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectCompletionDueDateSet.ts) de [project](./PROJECTIONS.md#project)|
+|[Project.notify](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectCompletionDueDateCancelled.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
+|[Project.import](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectCompletionDueDateSet.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 |[Project.setCompletionDueDate](../src/modules/project/Project.ts)||
 |[Project.moveCompletionDueDate](../src/modules/project/Project.ts)||
 |[Project.setNotificationDate](../src/modules/project/Project.ts)||
@@ -1162,8 +708,8 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[Project.import](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectDCRDueDateCancelled.ts) de [project](#table-project)|
-||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectDCRDueDateCancelled.ts) de [projectEvents](#table-projectevents)|
+|[Project.import](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectDCRDueDateCancelled.ts) de [project](./PROJECTIONS.md#project)|
+||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectDCRDueDateCancelled.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 
 
 
@@ -1174,9 +720,9 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[Project.notify](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectDCRDueDateSet.ts) de [project](#table-project)|
-|[Project.import](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectDCRDueDateCancelled.ts) de [projectEvents](#table-projectevents)|
-|[Project.setNotificationDate](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectDCRDueDateSet.ts) de [projectEvents](#table-projectevents)|
+|[Project.notify](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectDCRDueDateSet.ts) de [project](./PROJECTIONS.md#project)|
+|[Project.import](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectDCRDueDateCancelled.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
+|[Project.setNotificationDate](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectDCRDueDateSet.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 
 
 
@@ -1187,8 +733,8 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[removeStep](../src/modules/project/useCases/removeStep.ts)|[Mise à jour](../src/infra/sequelize/projections/projectStep/updates/onProjectStepRemoved.ts) de [projectStep](#table-projectstep)|
-||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectDCRRemoved.ts) de [projectEvents](#table-projectevents)|
+|[removeStep](../src/modules/project/useCases/removeStep.ts)|[Mise à jour](../src/infra/sequelize/projections/projectStep/updates/onProjectStepRemoved.ts) de [projectStep](./PROJECTIONS.md#projectstep)|
+||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectDCRRemoved.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 
 
 
@@ -1199,9 +745,9 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[submitStep](../src/modules/project/useCases/submitStep.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectDCRSubmitted.ts) de [project](#table-project)|
-||[Mise à jour](../src/infra/sequelize/projections/projectStep/updates/onProjectStepSubmitted.ts) de [projectStep](#table-projectstep)|
-||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectDCRSubmitted.ts) de [projectEvents](#table-projectevents)|
+|[submitStep](../src/modules/project/useCases/submitStep.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectDCRSubmitted.ts) de [project](./PROJECTIONS.md#project)|
+||[Mise à jour](../src/infra/sequelize/projections/projectStep/updates/onProjectStepSubmitted.ts) de [projectStep](./PROJECTIONS.md#projectstep)|
+||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectDCRSubmitted.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 
 
 
@@ -1212,7 +758,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[Project.correctData](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectDataCorrected.ts) de [project](#table-project)|
+|[Project.correctData](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectDataCorrected.ts) de [project](./PROJECTIONS.md#project)|
 
 
 
@@ -1223,7 +769,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[Project.updateFournisseurs](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectFournisseursUpdated.ts) de [project](#table-project)|
+|[Project.updateFournisseurs](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectFournisseursUpdated.ts) de [project](./PROJECTIONS.md#project)|
 
 
 
@@ -1234,8 +780,8 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[Project.import](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectGFDueDateCancelled.ts) de [project](#table-project)|
-||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectGFDueDateCancelled.ts) de [projectEvents](#table-projectevents)|
+|[Project.import](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectGFDueDateCancelled.ts) de [project](./PROJECTIONS.md#project)|
+||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectGFDueDateCancelled.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 
 
 
@@ -1246,9 +792,9 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[Project.updateProducteur](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectGFDueDateSet.ts) de [project](#table-project)|
-|[Project.notify](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectGFDueDateCancelled.ts) de [projectEvents](#table-projectevents)|
-|[Project.import](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectGFDueDateSet.ts) de [projectEvents](#table-projectevents)|
+|[Project.updateProducteur](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectGFDueDateSet.ts) de [project](./PROJECTIONS.md#project)|
+|[Project.notify](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectGFDueDateCancelled.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
+|[Project.import](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectGFDueDateSet.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 |[Project.setNotificationDate](../src/modules/project/Project.ts)||
 
 
@@ -1260,7 +806,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[Project.updateProducteur](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectGFInvalidated.ts) de [project](#table-project)|
+|[Project.updateProducteur](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectGFInvalidated.ts) de [project](./PROJECTIONS.md#project)|
 
 
 
@@ -1282,8 +828,8 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[Project.removeGarantiesFinancieres](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/projectStep/updates/onProjectStepRemoved.ts) de [projectStep](#table-projectstep)|
-||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectGFRemoved.ts) de [projectEvents](#table-projectevents)|
+|[Project.removeGarantiesFinancieres](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/projectStep/updates/onProjectStepRemoved.ts) de [projectStep](./PROJECTIONS.md#projectstep)|
+||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectGFRemoved.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 
 
 
@@ -1294,8 +840,8 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[Project.submitGarantiesFinancieres](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/projectStep/updates/onProjectStepSubmitted.ts) de [projectStep](#table-projectstep)|
-||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectGFSubmitted.ts) de [projectEvents](#table-projectevents)|
+|[Project.submitGarantiesFinancieres](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/projectStep/updates/onProjectStepSubmitted.ts) de [projectStep](./PROJECTIONS.md#projectstep)|
+||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectGFSubmitted.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 ||notification / [handleProjectGFSubmitted](../src/modules/notification/eventHandlers/handleProjectGFSubmitted.ts)|
 
 
@@ -1307,8 +853,8 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[Project.uploadGarantiesFinancieres](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/projectStep/updates/onProjectStepSubmitted.ts) de [projectStep](#table-projectstep)|
-||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectGFUploaded.ts) de [projectEvents](#table-projectevents)|
+|[Project.uploadGarantiesFinancieres](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/projectStep/updates/onProjectStepSubmitted.ts) de [projectStep](./PROJECTIONS.md#projectstep)|
+||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectGFUploaded.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 
 
 
@@ -1319,8 +865,8 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[Project.withdrawGarantiesFinancieres](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/projectStep/updates/onProjectStepRemoved.ts) de [projectStep](#table-projectstep)|
-||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectGFWithdrawn.ts) de [projectEvents](#table-projectevents)|
+|[Project.withdrawGarantiesFinancieres](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/projectStep/updates/onProjectStepRemoved.ts) de [projectStep](./PROJECTIONS.md#projectstep)|
+||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectGFWithdrawn.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 
 
 
@@ -1331,8 +877,8 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[Project.import](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectImported.ts) de [project](#table-project)|
-||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectImported.ts) de [projectEvents](#table-projectevents)|
+|[Project.import](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectImported.ts) de [project](./PROJECTIONS.md#project)|
+||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectImported.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 ||authZ / [handleProjectImported](../src/modules/authZ/eventHandlers/handleProjectImported.ts)|
 ||legacyCandidateNotification / [handleProjectImported](../src/modules/legacyCandidateNotification/eventHandlers/handleProjectImported.ts)|
 
@@ -1345,7 +891,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[updateNewRulesOptIn](../src/modules/project/useCases/updateNewRulesOptIn.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectNewRulesOptedIn.ts) de [project](#table-project)|
+|[updateNewRulesOptIn](../src/modules/project/useCases/updateNewRulesOptIn.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectNewRulesOptedIn.ts) de [project](./PROJECTIONS.md#project)|
 ||notification / [handleNewRulesOptedIn](../src/modules/notification/eventHandlers/handleNewRulesOptedIn.ts)|
 
 
@@ -1357,8 +903,8 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[Project.import](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectNotificationDateSet.ts) de [project](#table-project)|
-|[Project.setNotificationDate](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectNotificationDateSet.ts) de [projectEvents](#table-projectevents)|
+|[Project.import](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectNotificationDateSet.ts) de [project](./PROJECTIONS.md#project)|
+|[Project.setNotificationDate](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectNotificationDateSet.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 
 
 
@@ -1369,8 +915,8 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[Project.notify](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectNotificationDateSet.ts) de [project](#table-project)|
-||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectNotified.ts) de [projectEvents](#table-projectevents)|
+|[Project.notify](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectNotificationDateSet.ts) de [project](./PROJECTIONS.md#project)|
+||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectNotified.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 
 
 
@@ -1381,8 +927,8 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[removeStep](../src/modules/project/useCases/removeStep.ts)|[Mise à jour](../src/infra/sequelize/projections/projectStep/updates/onProjectStepRemoved.ts) de [projectStep](#table-projectstep)|
-||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectPTFRemoved.ts) de [projectEvents](#table-projectevents)|
+|[removeStep](../src/modules/project/useCases/removeStep.ts)|[Mise à jour](../src/infra/sequelize/projections/projectStep/updates/onProjectStepRemoved.ts) de [projectStep](./PROJECTIONS.md#projectstep)|
+||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectPTFRemoved.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 
 
 
@@ -1393,8 +939,8 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[submitStep](../src/modules/project/useCases/submitStep.ts)|[Mise à jour](../src/infra/sequelize/projections/projectStep/updates/onProjectStepSubmitted.ts) de [projectStep](#table-projectstep)|
-||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectPTFSubmitted.ts) de [projectEvents](#table-projectevents)|
+|[submitStep](../src/modules/project/useCases/submitStep.ts)|[Mise à jour](../src/infra/sequelize/projections/projectStep/updates/onProjectStepSubmitted.ts) de [projectStep](./PROJECTIONS.md#projectstep)|
+||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectPTFSubmitted.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 
 
 
@@ -1405,7 +951,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[Project.updateProducteur](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectProducteurUpdated.ts) de [project](#table-project)|
+|[Project.updateProducteur](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectProducteurUpdated.ts) de [project](./PROJECTIONS.md#project)|
 
 
 
@@ -1416,7 +962,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[Project.updatePuissance](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectPuissanceUpdated.ts) de [project](#table-project)|
+|[Project.updatePuissance](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectPuissanceUpdated.ts) de [project](./PROJECTIONS.md#project)|
 
 
 
@@ -1438,7 +984,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[Project.import](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectReimported.ts) de [project](#table-project)|
+|[Project.import](../src/modules/project/Project.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectReimported.ts) de [project](./PROJECTIONS.md#project)|
 ||authZ / [handleProjectImported](../src/modules/authZ/eventHandlers/handleProjectImported.ts)|
 ||legacyCandidateNotification / [handleProjectImported](../src/modules/legacyCandidateNotification/eventHandlers/handleProjectImported.ts)|
 
@@ -1451,8 +997,8 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[updateStepStatus](../src/modules/project/useCases/updateStepStatus.ts)|[Mise à jour](../src/infra/sequelize/projections/projectStep/updates/onProjectStepStatusUpdated.ts) de [projectStep](#table-projectstep)|
-||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectStepStatusUpdated.ts) de [projectEvents](#table-projectevents)|
+|[updateStepStatus](../src/modules/project/useCases/updateStepStatus.ts)|[Mise à jour](../src/infra/sequelize/projections/projectStep/updates/onProjectStepStatusUpdated.ts) de [projectStep](./PROJECTIONS.md#projectstep)|
+||[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectStepStatusUpdated.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
 
 
 
@@ -1465,7 +1011,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[claimProject](../src/modules/projectClaim/useCases/claimProject.ts)|[Mise à jour](../src/infra/sequelize/projections/userProjectClaims/updates/onProjectClaimFailed.ts) de [userProjectClaims](#table-userprojectclaims)|
+|[claimProject](../src/modules/projectClaim/useCases/claimProject.ts)|[Mise à jour](../src/infra/sequelize/projections/userProjectClaims/updates/onProjectClaimFailed.ts) de [userProjectClaims](./PROJECTIONS.md#userprojectclaims)|
 
 
 
@@ -1476,9 +1022,9 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[ProjectClaim.claim](../src/modules/projectClaim/ProjectClaim.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectClaimed.ts) de [projectEvents](#table-projectevents)|
-||[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectClaimed.ts) de [project](#table-project)|
-||[Mise à jour](../src/infra/sequelize/projections/userProjects/updates/onProjectClaimed.ts) de [userProjects](#table-userprojects)|
+|[ProjectClaim.claim](../src/modules/projectClaim/ProjectClaim.ts)|[Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectClaimed.ts) de [projectEvents](./PROJECTIONS.md#projectevents)|
+||[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectClaimed.ts) de [project](./PROJECTIONS.md#project)|
+||[Mise à jour](../src/infra/sequelize/projections/userProjects/updates/onProjectClaimed.ts) de [userProjects](./PROJECTIONS.md#userprojects)|
 
 
 
@@ -1489,8 +1035,8 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[ProjectClaim.claim](../src/modules/projectClaim/ProjectClaim.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectClaimed.ts) de [project](#table-project)|
-||[Mise à jour](../src/infra/sequelize/projections/userProjects/updates/onProjectClaimed.ts) de [userProjects](#table-userprojects)|
+|[ProjectClaim.claim](../src/modules/projectClaim/ProjectClaim.ts)|[Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectClaimed.ts) de [project](./PROJECTIONS.md#project)|
+||[Mise à jour](../src/infra/sequelize/projections/userProjects/updates/onProjectClaimed.ts) de [userProjects](./PROJECTIONS.md#userprojects)|
 
 
 
@@ -1538,7 +1084,7 @@ Mise à jour par:
 
 |Emetteurs|Récepteurs|
 |---|---|
-|[User.create](../src/modules/users/User.ts)|[Mise à jour](../src/infra/sequelize/projections/user/updates/onUserCreated.ts) de [user](#table-user)|
+|[User.create](../src/modules/users/User.ts)|[Mise à jour](../src/infra/sequelize/projections/user/updates/onUserCreated.ts) de [user](./PROJECTIONS.md#user)|
 ||authZ / [handleUserCreated](../src/modules/authZ/eventHandlers/handleUserCreated.ts)|
 ||authN / [handleUserCreated](../src/modules/authN/eventHandlers/handleUserCreated.ts)|
 

@@ -13,29 +13,18 @@ export function EventsDocument(events: EventResult[]) {
     return moduleMap
   }, {})
 
-  const projections = events.reduce<Record<string, EventResult[]>>((projectionMap, event) => {
-    const { projectionUpdates } = event
-
-    for (const projectionUpdate of projectionUpdates) {
-      const { projection } = projectionUpdate
-      if (!projectionMap[projection]) {
-        projectionMap[projection] = []
-      }
-
-      projectionMap[projection].push(event)
-    }
-
-    return projectionMap
-  }, {})
-
   return `
 # Evenements
 
+Tous les "faits" métier sont persistés sous forme d'événements.
+Si quelque chose s'est passé sur l'application, alors il y aura un événement correspondant.
+
+Ces événements peuvent être émis par différentes parties de l'application.
+Ils peuvent également être écoutés pour le déclenchement d'effets (ex: envoi d'un email) ou la mise à jour de [projections](./PROJECTIONS.md).
+
 ## Sommaire
-${SommaireProjections(projections)}
 ${SommaireEvenementsParModule(modules)}
 
-${Projections(projections)}
 ${Modules(modules)}
   `
 }
@@ -51,46 +40,19 @@ ${Object.keys(projections)
 
 function SommaireEvenementsParModule(modules: Record<string, EventResult[]>) {
   return `
-- Événements par module
 ${Object.entries(modules)
   .map(([module, events]) => SommaireModuleItem(module, events))
   .join('\n')}`
 }
 
 function SommaireModuleItem(module: string, events: EventResult[]) {
-  return `
-  - ${module}
+  return `- ${module}
 ${events.map(SommaireEventItem).join('\n')}
 `
 }
 
 function SommaireEventItem({ name }: EventResult) {
-  return `    - [${name}](#${name.toLowerCase()})`
-}
-
-function Projections(projections: Record<string, EventResult[]>) {
-  return `
-## Projections
-
-${Object.entries(projections)
-  .sort((a, b) => a[0].localeCompare(b[0]))
-  .map(([projection, events]) => DetailedProjectionItem(projection, events))
-  .join('\n')}
-  `
-}
-
-function DetailedProjectionItem(projection: string, events: EventResult[]) {
-  return `
-### Table ${projection}
-Mise à jour par:
-${events
-  .map(
-    ({ name }) => `
-  - [${name}](#${name.toLowerCase()})
-`
-  )
-  .join('\n\n')}
-`
+  return `  - [${name}](#${name.toLowerCase()})`
 }
 
 function Modules(modules: Record<string, EventResult[]>) {
@@ -129,7 +91,7 @@ ${Table([
         ({ projection, sourceFile }) =>
           `[Mise à jour](${relativeFilePath(
             sourceFile
-          )}) de [${projection}](#table-${projection.toLowerCase()})`
+          )}) de [${projection}](./PROJECTIONS.md#${projection.toLowerCase()})`
       ),
       ...eventHandlers.map(
         ({ module, fileName, sourceFile }) =>
@@ -142,41 +104,6 @@ ${Table([
   )
   .join('\n\n')}
 `
-}
-
-function Publishers(publishers: EventResult['publishers']) {
-  return publishers.length
-    ? `- Emis par
-${publishers
-  .map(
-    ({ fileName, sourceFile, aggregateMethod }) =>
-      `  - [${fileName}${aggregateMethod ? `.${aggregateMethod}` : ''}](${relativeFilePath(
-        sourceFile
-      )})`
-  )
-  .join('\n')}`
-    : ''
-}
-
-function ProjectionUpdates(projectionUpdates: EventResult['projectionUpdates']) {
-  return projectionUpdates.length
-    ? `- Mets à jour
-${projectionUpdates
-  .map(({ projection, sourceFile }) => `  - [${projection}](${relativeFilePath(sourceFile)})`)
-  .join('\n')}`
-    : ''
-}
-
-function EventHandlers(eventHandlers: EventResult['eventHandlers']) {
-  return eventHandlers.length
-    ? `- Déclenche
-${eventHandlers
-  .map(
-    ({ module, fileName, sourceFile }) =>
-      `  - ${module} / [${fileName}](${relativeFilePath(sourceFile)})`
-  )
-  .join('\n')}`
-    : ''
 }
 
 function relativeFilePath(absolutePath: string) {

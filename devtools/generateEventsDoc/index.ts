@@ -1,7 +1,8 @@
 import { writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { Project } from 'ts-morph'
-import { EventsDocument } from './EventsDocument.template'
+import { EventsDocument } from './Events.md'
+import { ProjectionsDocument } from './Projections.md'
 import { getEvents } from './getEvents'
 
 generateEventsDoc()
@@ -16,8 +17,11 @@ async function generateEventsDoc() {
   const events = getEvents(project)
 
   const eventsDocPath = path.resolve(__dirname, '../../docs/EVENTS.md')
+  const projectionsDocPath = path.resolve(__dirname, '../../docs/PROJECTIONS.md')
 
   await writeFile(eventsDocPath, EventsDocument(events))
+  await writeFile(projectionsDocPath, ProjectionsDocument(events))
 
-  console.log(`La documentation a été générée dans ${eventsDocPath}`)
+  console.log(`La documentation des événements a été générée dans ${eventsDocPath}`)
+  console.log(`La documentation des projections a été générée dans ${projectionsDocPath}`)
 }
