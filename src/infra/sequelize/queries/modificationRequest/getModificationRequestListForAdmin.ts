@@ -5,7 +5,7 @@ import { getProjectAppelOffre } from '@config/queries.config'
 import { User } from '@entities'
 import { makePaginatedList, paginate } from '../../../../helpers/paginate'
 import {
-  GetModificationRequestListForUser,
+  GetModificationRequestListForAdmin,
   ModificationRequestListItemDTO,
 } from '@modules/modificationRequest'
 import { InfraNotAvailableError } from '@modules/shared'
@@ -40,7 +40,7 @@ function _getDrealRegionsForUser(user: User, models) {
 }
 
 const { ModificationRequest, Project, User, File } = models
-export const getModificationRequestListForUser: GetModificationRequestListForUser = ({
+export const getModificationRequestListForAdmin: GetModificationRequestListForAdmin = ({
   user,
   appelOffreId,
   periodeId,
@@ -68,7 +68,6 @@ export const getModificationRequestListForUser: GetModificationRequestListForUse
           isLegacy: {
             [Op.or]: [false, null],
           },
-          ...(userIs('porteur-projet')(user) && { userId: user.id }),
           ...(userIs('dreal')(user) && { authority: 'dreal' }),
           ...(userIs(['admin', 'dgec'])(user) && !forceNoAuthority && { authority: 'dgec' }),
           ...(modificationRequestType && { type: modificationRequestType }),

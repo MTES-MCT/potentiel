@@ -1,4 +1,4 @@
-import { getModificationRequestListForUser } from '@config/queries.config'
+import { getModificationRequestListForAdmin } from '@config/queries.config'
 import { logger } from '@core/utils'
 import { appelOffreRepo } from '@dataAccess/inMemory'
 import asyncHandler from '../helpers/asyncHandler'
@@ -43,7 +43,7 @@ v1Router.get(
       })
     }
 
-    return await getModificationRequestListForUser({
+    return await getModificationRequestListForAdmin({
       user,
       pagination,
       appelOffreId,
