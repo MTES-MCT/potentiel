@@ -96,7 +96,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
             >
               <RiUserLine />
               <span
-                className="w-60 whitespace-nowrap overflow-hidden overflow-ellipsis pt-0.5 mx-1"
+                className="max-w-xs whitespace-nowrap overflow-hidden overflow-ellipsis pt-0.5 mx-1"
                 title={user.fullName ? user.fullName : user.email}
               >
                 {user.fullName ? user.fullName : user.email}
@@ -109,7 +109,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
             >
               <RiUserLine />
               <span
-                className="w-60 whitespace-nowrap overflow-hidden overflow-ellipsis pt-0.5 mx-1"
+                className="max-w-xs whitespace-nowrap overflow-hidden overflow-ellipsis pt-0.5 mx-1"
                 title={user.fullName ? user.fullName : user.email}
               >
                 {user.fullName ? user.fullName : user.email}
