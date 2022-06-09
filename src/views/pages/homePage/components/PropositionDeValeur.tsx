@@ -6,7 +6,7 @@ export const PropositionDeValeur = () => (
     <Container className="flex flex-col p-6 gap-6 xl:pt-10">
       <div className="flex flex-col md:flex-row">
         <h1
-          className="m-0 text-3xl lg:text-4xl xl:text-5xl font-semibold lg:pt-10"
+          className="m-0 text-3xl lg:text-4xl xl:text-5xl font-semibold lg:pt-10 md:w-1/2"
           style={{ fontFamily: 'Marianne, arial, sans-serif' }}
         >
           Suivez efficacement vos projets d'EnR* électriques, transmettez vos documents, demandez
@@ -15,7 +15,7 @@ export const PropositionDeValeur = () => (
           <span className="text-sm lg:text-base font-light">*Énergies renouvelables</span>
         </h1>
         <img
-          className="object-scale-down w-full md:w-1/2"
+          className="flex object-scale-down w-full md:w-1/2"
           src="/images/home/proposition_valeur.png"
         />
       </div>
