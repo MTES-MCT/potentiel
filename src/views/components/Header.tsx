@@ -95,7 +95,12 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
               style={{ color: `#000091` }}
             >
               <RiUserLine />
-              <span className="hidden lg:flex pt-0.5 mx-1">{user.fullName}</span>
+              <span
+                className="max-w-xs whitespace-nowrap overflow-hidden overflow-ellipsis pt-0.5 mx-1"
+                title={user.fullName ? user.fullName : user.email}
+              >
+                {user.fullName ? user.fullName : user.email}
+              </span>
             </a>
           ) : (
             <span
@@ -103,7 +108,12 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
               style={{ color: 'var(--text-default-grey)' }}
             >
               <RiUserLine />
-              <span className="pt-0.5 mx-1">{user.fullName}</span>
+              <span
+                className="max-w-xs whitespace-nowrap overflow-hidden overflow-ellipsis pt-0.5 mx-1"
+                title={user.fullName ? user.fullName : user.email}
+              >
+                {user.fullName ? user.fullName : user.email}
+              </span>
             </span>
           )}
         </li>
