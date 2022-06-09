@@ -9,7 +9,7 @@ import {
 } from '../dtos'
 
 type GetModificationRequestListForPorteurFilter = {
-  user: User
+  user: User & { role: 'porteur-projet' }
   appelOffreId?: AppelOffre['id']
   periodeId?: Periode['id']
   familleId?: Famille['id']
