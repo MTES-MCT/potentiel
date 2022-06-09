@@ -3,88 +3,160 @@ import { resetDatabase } from '../../helpers'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
 import makeFakeFile from '../../../../__tests__/fixtures/file'
 import makeFakeUser from '../../../../__tests__/fixtures/user'
-import { getModificationRequestListForAdmin } from './getModificationRequestListForAdmin'
+import { getModificationRequestListForPorteur } from './getModificationRequestListForPorteur'
 import { UniqueEntityID } from '@core/domain'
 import { UnwrapForTest as OldUnwrapForTest } from '../../../../types'
 import { makeUser } from '@entities'
 
-const { Project, User, File, ModificationRequest } = models
+const { Project, User, File, ModificationRequest, UserProjects } = models
 
-describe('Sequelize getModificationRequestListForAdmin', () => {
-  const projectId = new UniqueEntityID().toString()
+describe('Sequelize getModificationRequestListForPorteur', () => {
   const fileId = new UniqueEntityID().toString()
-  const userId = new UniqueEntityID().toString()
 
-  describe('when user is porteur-projet', () => {
-    const fakeUserInfo = makeFakeUser({
-      id: userId,
-      fullName: 'John Doe',
-      role: 'porteur-projet',
-      email: 'email@test.test',
+  // User 1
+  const user1Id = new UniqueEntityID().toString()
+  const fakeUser1 = OldUnwrapForTest(
+    makeUser(
+      makeFakeUser({
+        id: user1Id,
+        role: 'porteur-projet',
+      })
+    )
+  )
+
+  // User 2
+  const user2Id = new UniqueEntityID().toString()
+  const fakeUser2 = OldUnwrapForTest(
+    makeUser(
+      makeFakeUser({
+        id: user2Id,
+        role: 'porteur-projet',
+        email: 'email@test.test',
+        fullName: 'John Doe',
+      })
+    )
+  )
+
+  // Projects
+  const projectAId = new UniqueEntityID().toString()
+  const projectBId = new UniqueEntityID().toString()
+
+  const modification1 = new UniqueEntityID().toString()
+  const modification2 = new UniqueEntityID().toString()
+  const modification3 = new UniqueEntityID().toString()
+
+  beforeAll(async () => {
+    await resetDatabase()
+
+    await User.create(fakeUser1)
+    await User.create(fakeUser2)
+
+    await Project.create(
+      makeFakeProject({
+        id: projectAId,
+        nomProjet: 'nomProjet',
+        communeProjet: 'communeProjet',
+        departementProjet: 'departementProjet',
+        regionProjet: 'regionProjet',
+        appelOffreId: 'Fessenheim',
+        periodeId: '1',
+        familleId: 'familleId',
+        unitePuissance: 'MWc',
+      })
+    )
+    await Project.create(makeFakeProject({ id: projectBId }))
+
+    await File.create(makeFakeFile({ id: fileId, filename: 'filename' }))
+
+    // User 1 has rights on project A, User 2 has rights on both projects A and B
+    await UserProjects.bulkCreate([
+      { projectId: projectAId, userId: user1Id },
+      { projectId: projectAId, userId: user2Id },
+      { projectId: projectBId, userId: user2Id },
+    ])
+
+    // User 1 requests modification for project A
+    await ModificationRequest.create({
+      projectId: projectAId,
+      fileId,
+      requestedOn: 123,
+      status: 'envoyée',
+      type: 'recours',
+      id: modification1,
+      userId: user1Id,
+      authority: 'dgec',
     })
-    const fakeUser = OldUnwrapForTest(makeUser(fakeUserInfo))
 
-    const projectInfo = {
-      id: projectId,
-      nomProjet: 'nomProjet',
-      communeProjet: 'communeProjet',
-      departementProjet: 'departementProjet',
-      regionProjet: 'regionProjet',
-      appelOffreId: 'Fessenheim',
-      periodeId: '1',
-      familleId: 'familleId',
-    }
-
-    const userModificationRequestId = new UniqueEntityID().toString()
-
-    const otherUserId = new UniqueEntityID().toString()
-    const fakeOtherUser = OldUnwrapForTest(makeUser(makeFakeUser({ id: otherUserId })))
-
-    beforeAll(async () => {
-      // Create the tables and remove all data
-      await resetDatabase()
-
-      await Project.create(makeFakeProject(projectInfo))
-
-      await File.create(makeFakeFile({ id: fileId, filename: 'filename' }))
-
-      await User.create(fakeUser)
-      await User.create(fakeOtherUser)
-
-      const baseRequest = {
-        projectId,
-        fileId,
-        requestedOn: 123,
-        status: 'envoyée',
-        type: 'recours',
-      }
-
-      await ModificationRequest.create({
-        ...baseRequest,
-        id: userModificationRequestId,
-        userId,
-        authority: 'dgec',
-      })
-
-      // Create a modification request from otherUser
-      await ModificationRequest.create({
-        ...baseRequest,
-        id: new UniqueEntityID().toString(),
-        userId: otherUserId,
-        authority: 'dgec',
-      })
+    // User 2 requests modification for project A
+    await ModificationRequest.create({
+      projectId: projectAId,
+      fileId,
+      requestedOn: 123,
+      status: 'envoyée',
+      type: 'recours',
+      id: modification2,
+      userId: user2Id,
+      authority: 'dgec',
+      justification: 'justification',
     })
 
-    it('should return a paginated list of the user‘s modification requests', async () => {
-      const res = await getModificationRequestListForAdmin({
-        user: fakeUser,
-        pagination: { page: 0, pageSize: 10 },
-      })
+    // User 2 requests modification for project B
+    await ModificationRequest.create({
+      projectId: projectBId,
+      fileId,
+      requestedOn: 123,
+      status: 'envoyée',
+      type: 'recours',
+      id: modification3,
+      userId: user2Id,
+      authority: 'dgec',
+    })
+  })
 
-      expect(res.isOk()).toBe(true)
+  it('should return a paginated list of the modification requests the user has rights on', async () => {
+    const resForUser1 = await getModificationRequestListForPorteur({
+      user: fakeUser1,
+      pagination: { page: 0, pageSize: 10 },
+    })
 
-      expect(res._unsafeUnwrap().itemCount).toEqual(1)
-      expect(res._unsafeUnwrap().items[0].id).toEqual(userModificationRequestId)
+    const resForUser2 = await getModificationRequestListForPorteur({
+      user: fakeUser2,
+      pagination: { page: 0, pageSize: 10 },
+    })
+
+    expect(resForUser1.isOk()).toBe(true)
+    expect(resForUser2.isOk()).toBe(true)
+
+    expect(resForUser1._unsafeUnwrap().itemCount).toEqual(2)
+    expect(resForUser2._unsafeUnwrap().itemCount).toEqual(3)
+
+    expect(resForUser1._unsafeUnwrap().items[0].id).toEqual(modification2)
+    expect(resForUser1._unsafeUnwrap().items[1].id).toEqual(modification1)
+
+    expect(resForUser1._unsafeUnwrap().items[0]).toMatchObject({
+      id: modification2,
+      status: 'envoyée',
+      requestedOn: new Date(123),
+      requestedBy: {
+        email: 'email@test.test',
+        fullName: 'John Doe',
+      },
+      attachmentFile: {
+        filename: 'filename',
+        id: fileId,
+      },
+      project: {
+        nomProjet: 'nomProjet',
+        communeProjet: 'communeProjet',
+        departementProjet: 'departementProjet',
+        regionProjet: 'regionProjet',
+        appelOffreId: 'Fessenheim',
+        periodeId: '1',
+        familleId: 'familleId',
+        unitePuissance: 'MWc', // see fessenheim.ts
+      },
+      type: 'recours',
+      justification: 'justification',
     })
   })
 })
