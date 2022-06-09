@@ -16,7 +16,7 @@ function _getPuissanceForAppelOffre(args: { appelOffreId; periodeId }): string {
   return getProjectAppelOffre(args)?.unitePuissance || 'unité de puissance'
 }
 
-const { ModificationRequest, Project, User, File } = models
+const { ModificationRequest, Project, User, File, UserProjects } = models
 export const getModificationRequestListForPorteur: GetModificationRequestListForPorteur = ({
   user,
   appelOffreId,
@@ -36,20 +36,16 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
     },
   }
 
-  const opts = {
-    where: {
-      isLegacy: {
-        [Op.or]: [false, null],
-      },
-      userId: user.id,
-      ...(modificationRequestType && { type: modificationRequestType }),
-      ...(modificationRequestStatus && { status: modificationRequestStatus }),
-    },
-  }
-
   return wrapInfra(
     ModificationRequest.findAndCountAll({
-      ...opts,
+      where: {
+        isLegacy: {
+          [Op.or]: [false, null],
+        },
+        userId: user.id,
+        ...(modificationRequestType && { type: modificationRequestType }),
+        ...(modificationRequestStatus && { status: modificationRequestStatus }),
+      },
       include: [
         {
           model: Project,
@@ -77,6 +73,11 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
           as: 'attachmentFile',
           attributes: ['id', 'filename'],
           required: false,
+        },
+        {
+          model: UserProjects,
+          where: { userId: user.id },
+          required: true,
         },
       ],
       order: [['createdAt', 'DESC']],
