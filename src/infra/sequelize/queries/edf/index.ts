@@ -1,1 +1,1 @@
-export * from './getSearchIndex';
+export * from './getEDFSearchIndex'

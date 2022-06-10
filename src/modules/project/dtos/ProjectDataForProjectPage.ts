@@ -48,6 +48,10 @@ export type ProjectDataForProjectPage = {
     statut: string
   }>
 
+  contratEnedis?: {
+    numero: string
+  }
+
   updatedAt?: Date
 } & (IsNotified | IsNotNotified) &
   (IsClasse | IsElimine | IsAbandoned)

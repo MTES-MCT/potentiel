@@ -14,6 +14,7 @@ type FileDesignation =
   | 'fichier-attaché-au-projet'
   | 'courrier-modification-historique'
   | 'listing-edf'
+  | 'listing-enedis'
   | 'other'
 
 /* global NodeJS */

@@ -1,26 +1,26 @@
-import { AO_BY_CONTRACT, SearchIndex } from '@modules/edf/useCases'
+import { SearchIndex } from '@modules/enedis/useCases'
 import MiniSearch from 'minisearch'
 import models from '../../models'
 const { Project } = models
 
-export const getSearchIndex = async (): Promise<SearchIndex> => {
+export const getEnedisSearchIndex = async (): Promise<SearchIndex> => {
   const projects = await Project.findAll({
     attributes: [
       ...METADATA_FIELDS.filter((field) => field !== 'siret'),
       ...INDEXED_FIELDS,
       'details',
-      'contratEDF',
+      'contratEnedis',
     ],
   })
 
-  const findByNumeroContrat: SearchIndex['findByNumeroContrat'] = (numeroContratEDF) => {
-    const result = projects.find((project) => project.contratEDF?.numero === numeroContratEDF)
+  const findByNumeroContrat: SearchIndex['findByNumeroContrat'] = (numeroContratEnedis) => {
+    const result = projects.find((project) => project.contratEnedis?.numero === numeroContratEnedis)
 
     if (!result) return null
 
-    const { id, contratEDF } = result
+    const { id, contratEnedis } = result
     return {
-      ...contratEDF,
+      ...contratEnedis,
       projectId: id,
     }
   }
@@ -34,7 +34,7 @@ export const getSearchIndex = async (): Promise<SearchIndex> => {
     storeFields: [...METADATA_FIELDS, ...INDEXED_FIELDS], // fields to return with search results
   })
 
-  const indexedProjects = projects.filter((project) => !project.contratEDF)
+  const indexedProjects = projects.filter((project) => !project.contratEnedis)
   index.addAll(indexedProjects)
 
   const search: SearchIndex['search'] = (line) => {
@@ -42,12 +42,16 @@ export const getSearchIndex = async (): Promise<SearchIndex> => {
 
     searchInField({ term: line['Installation - Nom'], field: 'nomProjet', matches, index })
     searchInField({ term: line['Acteur - Titulaire - Nom'], field: 'nomCandidat', matches, index })
-    searchInField({ term: line['Installation - Adresse1'], field: 'adresseProjet', matches, index })
+    searchInField({
+      term: line['Installation - Adresse1'],
+      field: 'adresseProjet',
+      matches,
+      index,
+      options: { fuzzy: 0.2 },
+    })
     searchInField({ term: line['Installation - Commune'], field: 'communeProjet', matches, index })
 
     const puissance = Number(line["Pmax d'achat"].replace(',', '.')) / 1000
-    const prixReference =
-      Math.round(Number(line['Tarif de référence'].replace(',', '.')) * 10 * 100) / 100
     const siret = line['Installation - Siret'].slice(0, 6)
 
     for (const match of Object.values(matches)) {
@@ -61,12 +65,6 @@ export const getSearchIndex = async (): Promise<SearchIndex> => {
         match.score += puissanceScore
       }
 
-      const ecartPrix = relativeDiff(match.prixReference, prixReference)
-      if (ecartPrix <= 10) {
-        const prixReferenceScore = 10 - ecartPrix
-        match.score += prixReferenceScore
-      }
-
       if (siret === match.siret) {
         match.score += 10
       } else if (siret.substring(0, 4) === match.siret?.substring(0, 4)) {
@@ -74,23 +72,24 @@ export const getSearchIndex = async (): Promise<SearchIndex> => {
       }
     }
 
-    return Object.values(matches)
-      .filter((item: any) => item.appelOffreId === AO_BY_CONTRACT[line['Contrat - Type (code)']])
-      .filter((item) => item.score > 20)
-      .sort((a: any, b: any) => b.score - a.score)
-      .reduce<Match[]>((shortList, item) => {
-        if (!shortList.length) {
-          // Top item
-          return [item]
-        }
+    return (
+      Object.values(matches)
+        // .filter((item) => item.score > 20)
+        .sort((a: any, b: any) => b.score - a.score)
+        .reduce<Match[]>((shortList, item) => {
+          if (!shortList.length) {
+            // Top item
+            return [item]
+          }
 
-        if (relativeDiff(item.score, shortList[0].score) < 50) {
-          shortList.push(item)
-        }
+          if (relativeDiff(item.score, shortList[0].score) < 10) {
+            shortList.push(item)
+          }
 
-        return shortList
-      }, [])
-      .map(({ id, score }) => ({ projectId: id, score }))
+          return shortList
+        }, [])
+        .map(({ id, score }) => ({ projectId: id, score }))
+    )
   }
 
   return { findByNumeroContrat, search }
@@ -99,14 +98,7 @@ export const getSearchIndex = async (): Promise<SearchIndex> => {
 const INDEXED_FIELDS = ['nomProjet', 'nomCandidat', 'adresseProjet', 'communeProjet'] as const
 type SearchableField = typeof INDEXED_FIELDS[number]
 
-const METADATA_FIELDS = [
-  'id',
-  'codePostalProjet',
-  'appelOffreId',
-  'puissance',
-  'prixReference',
-  'siret',
-] as const
+const METADATA_FIELDS = ['id', 'codePostalProjet', 'appelOffreId', 'puissance', 'siret'] as const
 
 function relativeDiff(a, b) {
   return 100 * Math.abs((a - b) / ((a + b) / 2))
@@ -130,17 +122,17 @@ function searchInField(args: {
   field: SearchableField
   matches: Record<string, Match>
   index: MiniSearch<any>
+  options?: Parameters<MiniSearch['search']>[1]
 }) {
-  const { term, field, matches, index } = args
-  const results = index.search(term, { fields: [field] })
+  const { term, field, matches, index, options } = args
+  const results = index.search(term, { fields: [field], ...options })
 
   for (const result of results) {
     const { id, score } = result
     if (!matches[id]) {
-      matches[id] = { id, score: 0 }
-
-      for (const field of METADATA_FIELDS) {
-        if (!matches[id][field]) matches[id][field] = result[field]
+      matches[id] = {
+        id,
+        score: 0,
       }
     }
 

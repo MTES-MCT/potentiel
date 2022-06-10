@@ -13,6 +13,7 @@ export * from './AdemeStatistiquesPage';
 export * from './AdminStatistiquesPage';
 export * from './Error';
 export * from './ImporterListingEDFPage';
+export * from './ImporterListingEnedisPage';
 export * from './Signup';
 export * from './StatistiquesPage';
 export * from './UploadLegacyModificationFilesPage';

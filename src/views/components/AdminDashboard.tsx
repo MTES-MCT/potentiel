@@ -36,6 +36,7 @@ interface AdminDashboardProps {
     | 'admin-users'
     | 'admin-statistiques'
     | 'admin-upload-legacy-modification-files'
+    | 'import-enedis'
     | undefined
 }
 
@@ -150,6 +151,17 @@ export default function AdminDashboard({ children, currentPage, role }: AdminDas
             />
 
             <SeparatorItem visibleForRoles={['admin']} role={role} />
+            {!!process.env.ENABLE_ENEDIS_IMPORT && (
+              <MenuItem
+                route={ROUTES.IMPORTER_LISTING_ENEDIS}
+                itemPage={'import-enedis'}
+                title="Importer des données Enedis"
+                visibleForRoles={['admin', 'dgec']}
+                role={role}
+                currentPage={currentPage}
+              />
+            )}
+            <SeparatorItem visibleForRoles={['admin']} role={role} />
 
             <MenuItem
               route={ROUTES.ADMIN_DREAL_LIST}
@@ -186,7 +198,6 @@ export default function AdminDashboard({ children, currentPage, role }: AdminDas
               role={role}
               currentPage={currentPage}
             />
-
             <SeparatorItem visibleForRoles={['admin']} role={role} />
 
             <MenuItem
