@@ -32,6 +32,21 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "Debug documentation generation",
+      "runtimeExecutable": "/Users/paduc/.nvm/versions/node/v16.11.1/bin/node",
+      "skipFiles": [
+        "${workspaceFolder}/node_modules/**/*.js, <node_internals>/**/*.js, ${workspaceFolder}/devtools/node_modules/**/*.js"
+      ],
+      // "smartStep": false,
+      "sourceMaps": true,
+      "program": "${workspaceFolder}/node_modules/ts-node-dev/lib/bin.js",
+      "args": ["--transpile-only", "./devtools/generateEventsDoc/index.ts"
+      ],
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Jest All",
       "program": "${workspaceFolder}/node_modules/.bin/jest",
       "args": ["--runInBand"],
