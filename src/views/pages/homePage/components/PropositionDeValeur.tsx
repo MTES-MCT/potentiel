@@ -20,7 +20,7 @@ export const PropositionDeValeur = () => (
         />
       </div>
       <p className="text-lg md:text-base lg:text-xl font-medium md:font-semibold md:text-center md:m-0 md:mt-10 md:mb-0 lg:px-16 lg:leading-loose">
-        Potentiel est le service du Ministère de la Transition Écologique qui connecte
+        Potentiel est le service du Ministère de la Transition Énergétique qui connecte
         <br className="hidden md:inline" /> les acteurs du parcours administratif des projets d'EnR
         électriques soumis à appel d'offres en France.
       </p>
