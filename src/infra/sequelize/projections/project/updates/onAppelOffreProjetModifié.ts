@@ -11,7 +11,7 @@ export const onAppelOffreProjetModifié = (models) => async (event: AppelOffrePr
     logger.error(
       new ProjectionEnEchec(`Le projet n'existe pas`, {
         nomProjection: 'onAppelOffreProjetModifié',
-        evennement: event,
+        evenement: event,
       })
     )
     return
@@ -27,7 +27,7 @@ export const onAppelOffreProjetModifié = (models) => async (event: AppelOffrePr
         `Erreur lors de l'enregistrement des modification sur la projection Project`,
         {
           nomProjection: 'onAppelOffreProjetModifié',
-          evennement: event,
+          evenement: event,
         },
         e
       )

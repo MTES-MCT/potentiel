@@ -12,7 +12,7 @@ export const onIdentifiantPotentielPPE2Batiment2Corrigé =
       logger.error(
         new ProjectionEnEchec(`Le projet n'existe pas`, {
           nomProjection: 'onIdentifiantPotentielPPE2Batiment2Corrigé',
-          evennement: event,
+          evenement: event,
         })
       )
       return
@@ -28,7 +28,7 @@ export const onIdentifiantPotentielPPE2Batiment2Corrigé =
           `Erreur lors de l'enregistrement des modification sur la projection Project`,
           {
             nomProjection: 'onIdentifiantPotentielPPE2Batiment2Corrigé',
-            evennement: event,
+            evenement: event,
           },
           e
         )
