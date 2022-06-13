@@ -46,7 +46,9 @@ const eolienPPE2: AppelOffre = {
       noteThreshold: 0.68,
       reference: '2021/S 146-386083',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      dossierSuiviPar: 'violaine.tarizzo@developpement-durable.gouv.fr',
     },
+    // période 2 : ne pas mettre de valeur pour dossierSuiviPar
   ],
   familles: [],
 }

@@ -8,6 +8,7 @@ type HeaderProps = {
 }
 export const Header = ({ project }: HeaderProps) => {
   const { appelOffre } = project
+  const { periode } = appelOffre
 
   return (
     <>
@@ -39,7 +40,7 @@ export const Header = ({ project }: HeaderProps) => {
 
         <View style={{ fontSize: 8 }}>
           <Text>Code Potentiel: {project.potentielId}</Text>
-          <Text>Dossier suivi par : {appelOffre.dossierSuiviPar}</Text>
+          <Text>Dossier suivi par : {periode.dossierSuiviPar || appelOffre.dossierSuiviPar}</Text>
         </View>
 
         <View style={{ textAlign: 'right', paddingTop: 20 }}>
