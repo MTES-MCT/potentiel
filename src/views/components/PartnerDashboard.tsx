@@ -63,7 +63,7 @@ export default function PartnerDashboard({ children, currentPage, role }: Partne
               currentPage={currentPage}
             />
 
-            {!!process.env.ENABLE_EDF_IMPORT && (
+            {/* {!!process.env.ENABLE_EDF_IMPORT && (
               <MenuItem
                 route={ROUTES.IMPORTER_LISTING_EDF}
                 itemPage={'upload-edf'}
@@ -72,7 +72,7 @@ export default function PartnerDashboard({ children, currentPage, role }: Partne
                 role={role}
                 currentPage={currentPage}
               />
-            )}
+            )} */}
           </ul>
         </aside>
         <div className="main">{children}</div>
