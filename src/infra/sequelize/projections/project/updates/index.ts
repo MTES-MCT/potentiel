@@ -28,6 +28,7 @@ import {
   ProjectProducteurUpdated,
   ProjectPuissanceUpdated,
   ProjectReimported,
+  IdentifiantPotentielPPE2Batiment2Corrigé,
 } from '@modules/project'
 import { ContratEDFRapprochéAutomatiquement, ContratEDFMisAJour } from '@modules/edf'
 import { ProjectClaimed, ProjectClaimedByOwner } from '@modules/projectClaim'
@@ -64,6 +65,7 @@ import {
 } from '../../../../../modules/enedis'
 import { onContratEnedisMisAJour } from './onContratEnedisMisAJour'
 import { onContratEnedisRapprochéAutomatiquement } from './onContratEnedisRapprochéAutomatiquement'
+import { onIdentifiantPotentielPPE2Batiment2Corrigé } from './onIdentifiantPotentielPPE2Batiment2Corrigé.ts'
 
 export const initProjectProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ProjectImported.type, onProjectImported(models))
@@ -115,6 +117,11 @@ export const initProjectProjections = (eventBus: EventBus, models) => {
     onContratEnedisRapprochéAutomatiquement(models)
   )
   eventBus.subscribe(ContratEnedisMisAJour.type, onContratEnedisMisAJour(models))
+
+  eventBus.subscribe(
+    IdentifiantPotentielPPE2Batiment2Corrigé.type,
+    onIdentifiantPotentielPPE2Batiment2Corrigé(models)
+  )
 
   logger.info('Initialized Project projections')
 }
