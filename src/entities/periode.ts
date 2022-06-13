@@ -48,7 +48,7 @@ type LegacyPeriode = {
   noteThreshold?: undefined
 }
 
-export type CertificateTemplate = 'cre4.v0' | 'cre4.v1' | 'ppe2.v1'
+export type CertificateTemplate = 'cre4.v0' | 'cre4.v1' | 'ppe2.v1' | 'ppe2.v2'
 
 export type Periode = {
   id: string

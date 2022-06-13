@@ -6,7 +6,7 @@ import { Certificate } from './Certificate'
 import { batimentPPE2, eolienPPE2 } from '@dataAccess/inMemory/appelsOffres'
 import { Elimine } from './components/elimine/Elimine'
 
-export default { title: 'Attestations PDF' }
+export default { title: 'Attestations PDF/PPE2/v1' }
 
 Font.register({
   family: 'Arimo',
