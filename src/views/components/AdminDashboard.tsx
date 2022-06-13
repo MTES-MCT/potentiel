@@ -151,7 +151,7 @@ export default function AdminDashboard({ children, currentPage, role }: AdminDas
             />
 
             <SeparatorItem visibleForRoles={['admin']} role={role} />
-            {!!process.env.ENABLE_ENEDIS_IMPORT && (
+            {/* {!!process.env.ENABLE_ENEDIS_IMPORT && (
               <MenuItem
                 route={ROUTES.IMPORTER_LISTING_ENEDIS}
                 itemPage={'import-enedis'}
@@ -160,7 +160,7 @@ export default function AdminDashboard({ children, currentPage, role }: AdminDas
                 role={role}
                 currentPage={currentPage}
               />
-            )}
+            )} */}
             <SeparatorItem visibleForRoles={['admin']} role={role} />
 
             <MenuItem
