@@ -1,5 +1,5 @@
 import { Op } from 'sequelize'
-import { errAsync, ok, okAsync, Result, ResultAsync, wrapInfra } from '@core/utils'
+import { ok, Result, wrapInfra } from '@core/utils'
 import { getFullTextSearchOptions } from '@dataAccess/db'
 import { getProjectAppelOffre } from '@config/queries.config'
 import { User } from '@entities'
@@ -12,7 +12,7 @@ import { InfraNotAvailableError } from '@modules/shared'
 import { PaginatedList } from '../../../../types'
 import models from '../../models'
 
-const { ModificationRequest, Project, User, File } = models
+const { ModificationRequest, Project, User, File, UserProjects } = models
 export const getModificationRequestListForPorteur: GetModificationRequestListForPorteur = ({
   user,
   appelOffreId,
@@ -23,7 +23,7 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
   pagination,
   recherche,
 }) => {
-  return _getProjectIdsForUser(user, models)
+  return _getProjectIdsForUser(user)
     .andThen((projectIds) => {
       return wrapInfra(
         ModificationRequest.findAndCountAll({
@@ -137,28 +137,17 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
     )
 }
 
-function _getPuissanceForAppelOffre(args: { appelOffreId; periodeId }): string {
+const _getPuissanceForAppelOffre = (args: { appelOffreId; periodeId }): string => {
   return getProjectAppelOffre(args)?.unitePuissance || 'unité de puissance'
 }
 
-function _getProjectIdsForUser(user: User, models) {
-  if (user.role !== 'porteur-projet') {
-    return okAsync<any, InfraNotAvailableError>([])
-  }
-
-  const { UserProjects } = models
-  if (!UserProjects) return errAsync(new InfraNotAvailableError())
-
-  return ResultAsync.fromPromise(
+const _getProjectIdsForUser = (user: User) => {
+  return wrapInfra(
     UserProjects.findAll({
       attributes: ['projectId'],
       where: {
         userId: user.id,
       },
-    }),
-    (e) => {
-      console.error(e)
-      return new InfraNotAvailableError()
-    }
+    })
   ).map((items: any) => items.map((item) => item.projectId))
 }
