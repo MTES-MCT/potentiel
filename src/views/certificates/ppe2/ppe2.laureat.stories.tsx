@@ -91,12 +91,28 @@ export const LaureatPPE2BatimentGouvernancePartagee = () => {
   )
 }
 
-export const LaureatPPE2Eolien = () => {
+export const LaureatPPE2EolienP1 = () => {
   const project = {
     ...fakeProject,
     appelOffre: {
       ...eolienPPE2,
       periode: eolienPPE2.periodes[0],
+    } as ProjectAppelOffre,
+  }
+  const { content, footnotes } = makeLaureat(project)
+  return (
+    <PDFViewer width="100%" height="900px">
+      <Certificate {...{ project, type: 'laureat', content, footnotes }} />
+    </PDFViewer>
+  )
+}
+
+export const LaureatPPE2EolienP2 = () => {
+  const project = {
+    ...fakeProject,
+    appelOffre: {
+      ...eolienPPE2,
+      periode: eolienPPE2.periodes[1],
     } as ProjectAppelOffre,
   }
   const { content, footnotes } = makeLaureat(project)
