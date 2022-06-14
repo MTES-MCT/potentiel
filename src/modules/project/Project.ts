@@ -7,7 +7,7 @@ import {
   ok,
   Result,
 } from '@core/utils'
-import { AppelOffre, CertificateTemplate, ProjectAppelOffre, Technologie, User } from '@entities'
+import { CertificateTemplate, ProjectAppelOffre, Technologie, User } from '@entities'
 import { isNotifiedPeriode } from '@entities/periode'
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre'
 import remove from 'lodash/remove'
@@ -172,13 +172,11 @@ export interface Project extends EventStoreAggregate {
     status: 'acceptée' | 'rejetée'
     attachment?: { id: string; name: string }
   }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
-  modifierAppelOffre: (appelOffre: AppelOffre) => Result<null, null>
   addGFExpirationDate: (args: {
     projectId: string
     expirationDate: Date
     submittedBy: User
   }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToUpdateError>
-  corrigerIdentifiantPotentielPPE2Batiment2: () => Result<null, null>
   readonly shouldCertificateBeGenerated: boolean
   readonly appelOffre?: ProjectAppelOffre
   readonly isClasse?: boolean
@@ -903,19 +901,6 @@ export const makeProject = (args: {
 
       return ok(null)
     },
-    modifierAppelOffre: ({ id: appelOffreId }) => {
-      props.appelOffre?.id !== appelOffreId &&
-        _publishEvent(
-          new AppelOffreProjetModifié({
-            payload: {
-              projectId: props.projectId.toString(),
-              appelOffreId,
-            },
-          })
-        )
-
-      return ok(null)
-    },
     addGFExpirationDate: function (args) {
       const { expirationDate, submittedBy, projectId } = args
       if (!_isNotified()) {
@@ -934,21 +919,6 @@ export const makeProject = (args: {
         })
       )
 
-      return ok(null)
-    },
-    corrigerIdentifiantPotentielPPE2Batiment2: function () {
-      const nouvelIdentifiant = props.potentielIdentifier?.replace('Bâtiment 2', 'Bâtiment')
-
-      if (nouvelIdentifiant) {
-        _publishEvent(
-          new IdentifiantPotentielPPE2Batiment2Corrigé({
-            payload: {
-              nouvelIdentifiant,
-              projectId: props.projectId.toString(),
-            },
-          })
-        )
-      }
       return ok(null)
     },
     get pendingEvents() {
