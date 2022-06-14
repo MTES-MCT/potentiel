@@ -7,7 +7,7 @@ import {
   ok,
   Result,
 } from '@core/utils'
-import { AppelOffre, CertificateTemplate, ProjectAppelOffre, Technologie, User } from '@entities'
+import { CertificateTemplate, ProjectAppelOffre, Technologie, User } from '@entities'
 import { isNotifiedPeriode } from '@entities/periode'
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre'
 import remove from 'lodash/remove'
@@ -177,7 +177,6 @@ export interface Project extends EventStoreAggregate {
     expirationDate: Date
     submittedBy: User
   }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToUpdateError>
-  corrigerIdentifiantPotentielPPE2Batiment2: () => Result<null, null>
   readonly shouldCertificateBeGenerated: boolean
   readonly appelOffre?: ProjectAppelOffre
   readonly isClasse?: boolean
@@ -920,21 +919,6 @@ export const makeProject = (args: {
         })
       )
 
-      return ok(null)
-    },
-    corrigerIdentifiantPotentielPPE2Batiment2: function () {
-      const nouvelIdentifiant = props.potentielIdentifier?.replace('Bâtiment 2', 'Bâtiment')
-
-      if (nouvelIdentifiant) {
-        _publishEvent(
-          new IdentifiantPotentielPPE2Batiment2Corrigé({
-            payload: {
-              nouvelIdentifiant,
-              projectId: props.projectId.toString(),
-            },
-          })
-        )
-      }
       return ok(null)
     },
     get pendingEvents() {
