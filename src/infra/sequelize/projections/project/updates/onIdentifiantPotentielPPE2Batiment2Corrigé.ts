@@ -25,7 +25,7 @@ export const onIdentifiantPotentielPPE2Batiment2Corrigé =
     } catch (e) {
       logger.error(
         new ProjectionEnEchec(
-          `Erreur lors de l'enregistrement des modification sur la projection Project`,
+          `Erreur lors de l'enregistrement des modifications sur la projection Project`,
           {
             nomProjection: 'onIdentifiantPotentielPPE2Batiment2Corrigé',
             evenement: event,
