@@ -19,7 +19,8 @@ describe('Obtenir la liste des demandes de modification pour un porteur de proje
               et deux modifications faites par ce porteur sur le projet : 
               - une modification non-legacy,
               - une modification legacy, `, () => {
-      it(`alors le porteur devrait recevoir les détails de la modification non-legacy.`, async () => {
+      it(`Quand le porteur accède à ses demandes, 
+         alors il devrait recevoir les détails de la modification non-legacy.`, async () => {
         const user = _creerPorteurProjet('email@test.test', 'John Doe')
         await User.create(user)
 
@@ -107,7 +108,8 @@ describe('Obtenir la liste des demandes de modification pour un porteur de proje
   describe(`Afficher les modifications faites par un autre porteur pour un porteur ayant accès au même projet`, () => {
     describe(`Etant donnés un project accessible pour deux porteurs A et B, 
               et une modification faite par le porteur A sur le projet, `, () => {
-      it(`alors le porteur B devrait recevoir cette modification.`, async () => {
+      it(`Quand le porteur B accède à ses demandes, 
+        alors il devrait recevoir cette modification du porteur A.`, async () => {
         const userA = _creerPorteurProjet('email@test.test', 'John Doe')
         await User.create(userA)
 
@@ -153,7 +155,8 @@ describe('Obtenir la liste des demandes de modification pour un porteur de proje
   describe(`Ne pas afficher les modifications si le porteur n'a pas accès au projet.`, () => {
     describe(`Etant donnés un projet accessible par un porteur A uniquement,
               et une modification faite par le porteur A sur le projet, `, () => {
-      it(`alors un porteur B qui n'a pas accès au projet ne devrait pas recevoir la modification.`, async () => {
+      it(`Quand le porteur B accède à ses demandes, 
+      alors il ne devrait pas recevoir la modification.`, async () => {
         const userA = _creerPorteurProjet('email@test.test', 'John Doe')
         await User.create(userA)
 
