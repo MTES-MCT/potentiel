@@ -172,7 +172,6 @@ export interface Project extends EventStoreAggregate {
     status: 'acceptée' | 'rejetée'
     attachment?: { id: string; name: string }
   }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
-  modifierAppelOffre: (appelOffre: AppelOffre) => Result<null, null>
   addGFExpirationDate: (args: {
     projectId: string
     expirationDate: Date
@@ -900,19 +899,6 @@ export const makeProject = (args: {
           .andThen(() => attachment && this.updateCertificate(signaledBy, attachment.id))
           .andThen(() => this.setNotificationDate(signaledBy, decidedOn.getTime()))
       }
-
-      return ok(null)
-    },
-    modifierAppelOffre: ({ id: appelOffreId }) => {
-      props.appelOffre?.id !== appelOffreId &&
-        _publishEvent(
-          new AppelOffreProjetModifié({
-            payload: {
-              projectId: props.projectId.toString(),
-              appelOffreId,
-            },
-          })
-        )
 
       return ok(null)
     },
