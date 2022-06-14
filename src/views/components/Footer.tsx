@@ -13,7 +13,7 @@ const Footer = () => {
                   <br />
                   de la transition
                   <br />
-                  écologique
+                  énergétique
                 </p>
               </a>
             </div>
