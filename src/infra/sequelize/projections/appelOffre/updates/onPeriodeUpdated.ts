@@ -14,7 +14,7 @@ export const onPeriodeUpdated = (models) => async (event: PeriodeUpdated) => {
     logger.error(
       new ProjectionEnEchec(`La période à mettre à jour n'existe pas`, {
         nomProjection: 'onPeriodeUpdated',
-        evennement: event,
+        evenement: event,
       })
     )
     return

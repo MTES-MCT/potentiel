@@ -70,6 +70,7 @@ import {
   DemandeRecoursSignaled,
   AppelOffreProjetModifié,
   DateEchéanceGFAjoutée,
+  IdentifiantPotentielPPE2Batiment2Corrigé,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 
@@ -177,6 +178,7 @@ export interface Project extends EventStoreAggregate {
     expirationDate: Date
     submittedBy: User
   }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToUpdateError>
+  corrigerIdentifiantPotentielPPE2Batiment2: () => Result<null, null>
   readonly shouldCertificateBeGenerated: boolean
   readonly appelOffre?: ProjectAppelOffre
   readonly isClasse?: boolean
@@ -278,6 +280,7 @@ export const makeProject = (args: {
     fieldsUpdatedAfterImport: new Set<string>(),
     hasCurrentGf: false,
     GFExpirationDate: undefined,
+    potentielIdentifier: '',
   }
 
   // Initialize aggregate by processing each event in history
@@ -933,6 +936,21 @@ export const makeProject = (args: {
 
       return ok(null)
     },
+    corrigerIdentifiantPotentielPPE2Batiment2: function () {
+      const nouvelIdentifiant = props.potentielIdentifier?.replace('Bâtiment 2', 'Bâtiment')
+
+      if (nouvelIdentifiant) {
+        _publishEvent(
+          new IdentifiantPotentielPPE2Batiment2Corrigé({
+            payload: {
+              nouvelIdentifiant,
+              projectId: props.projectId.toString(),
+            },
+          })
+        )
+      }
+      return ok(null)
+    },
     get pendingEvents() {
       return pendingEvents
     },
@@ -1171,6 +1189,8 @@ export const makeProject = (args: {
       case DateEchéanceGFAjoutée.type:
         props.GFExpirationDate = event.payload.expirationDate
         break
+      case IdentifiantPotentielPPE2Batiment2Corrigé.type:
+        props.potentielIdentifier = event.payload.nouvelIdentifiant
       default:
         // ignore other event types
         break
