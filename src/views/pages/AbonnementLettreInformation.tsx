@@ -19,7 +19,7 @@ export const AbonnementLettreInformation = ({
   success,
 }: AbonnementLettreInformationProps) => (
   <>
-    <Header />
+    <Header {...{ user }} />
 
     <main style={{ fontFamily: 'Marianne, arial, sans-serif' }}>
       <section className="bg-blue-france-sun-base pb-0.5">
@@ -41,6 +41,7 @@ type AbonnementLettreInformationFormProps = {
   error?: string
 }
 const AbonnementLettreInformationForm = ({
+  user,
   validationErrors,
   error,
 }: AbonnementLettreInformationFormProps) => (
@@ -75,10 +76,16 @@ const AbonnementLettreInformationForm = ({
             type="email"
             id="email"
             name="email"
+            value={user?.email}
             required
             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
             {...(validationErrors && { error: validationErrors['email']?.toString() })}
           />
+        </div>
+
+        <div className="">
+          En m'abonnant, j'accepte de recevoir cette lettre d'information et je comprends que je
+          peux me désabonner facilement à tout moment.
         </div>
 
         <div className="flex flex-row gap-2 mx-auto mt-2">
@@ -101,7 +108,8 @@ const AbonnementLettreInformationSuccessful = () => (
     >
       <div className="flex flex-col gap-5 md:text-center md:mx-auto">
         <div>🎉</div>
-        Votre inscription à la lettre d'information a été réalisée avec succès
+        Vous êtes bien inscrit à la lettre d'information Potentiel.
+        <div className="my-3">À bientôt !</div>
       </div>
     </h1>
 
