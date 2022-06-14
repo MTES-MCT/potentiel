@@ -8,8 +8,8 @@ import {
   ModificationRequestStatusDTO,
 } from '../dtos'
 
-type GetModificationRequestListForUserFilter = {
-  user: User
+type GetModificationRequestListForAdminFilter = {
+  user: User & { role: 'dreal' | 'dgec' | 'admin' }
   appelOffreId?: AppelOffre['id']
   periodeId?: Periode['id']
   familleId?: Famille['id']
@@ -20,6 +20,6 @@ type GetModificationRequestListForUserFilter = {
   forceNoAuthority?: true
 }
 
-export type GetModificationRequestListForUser = (
-  filter: GetModificationRequestListForUserFilter
+export type GetModificationRequestListForAdmin = (
+  filter: GetModificationRequestListForAdminFilter
 ) => ResultAsync<PaginatedList<ModificationRequestListItemDTO>, InfraNotAvailableError>

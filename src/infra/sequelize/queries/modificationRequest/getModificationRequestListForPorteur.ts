@@ -1,46 +1,19 @@
 import { Op } from 'sequelize'
-import { errAsync, ok, okAsync, Result, ResultAsync, wrapInfra } from '@core/utils'
+import { ok, Result, wrapInfra } from '@core/utils'
 import { getFullTextSearchOptions } from '@dataAccess/db'
 import { getProjectAppelOffre } from '@config/queries.config'
 import { User } from '@entities'
 import { makePaginatedList, paginate } from '../../../../helpers/paginate'
 import {
-  GetModificationRequestListForUser,
+  GetModificationRequestListForPorteur,
   ModificationRequestListItemDTO,
 } from '@modules/modificationRequest'
 import { InfraNotAvailableError } from '@modules/shared'
 import { PaginatedList } from '../../../../types'
 import models from '../../models'
-import { userIs } from '@modules/users'
 
-function _getPuissanceForAppelOffre(args: { appelOffreId; periodeId }): string {
-  return getProjectAppelOffre(args)?.unitePuissance || 'unité de puissance'
-}
-
-function _getDrealRegionsForUser(user: User, models) {
-  if (user.role !== 'dreal') {
-    return okAsync<any, InfraNotAvailableError>([])
-  }
-
-  const { UserDreal } = models
-  if (!UserDreal) return errAsync(new InfraNotAvailableError())
-
-  return ResultAsync.fromPromise(
-    UserDreal.findAll({
-      attributes: ['dreal'],
-      where: {
-        userId: user.id,
-      },
-    }),
-    (e) => {
-      console.error(e)
-      return new InfraNotAvailableError()
-    }
-  ).map((items: any) => items.map((item) => item.dreal))
-}
-
-const { ModificationRequest, Project, User, File } = models
-export const getModificationRequestListForUser: GetModificationRequestListForUser = ({
+const { ModificationRequest, Project, User, File, UserProjects } = models
+export const getModificationRequestListForPorteur: GetModificationRequestListForPorteur = ({
   user,
   appelOffreId,
   periodeId,
@@ -49,36 +22,21 @@ export const getModificationRequestListForUser: GetModificationRequestListForUse
   modificationRequestStatus,
   pagination,
   recherche,
-  forceNoAuthority,
 }) => {
-  return _getDrealRegionsForUser(user, models)
-    .andThen((drealRegions) => {
-      const projectOpts = {
-        where: {
-          ...(recherche && { [Op.or]: { ...getFullTextSearchOptions(recherche) } }),
-          ...(appelOffreId && { appelOffreId }),
-          ...(periodeId && { periodeId }),
-          ...(familleId && { familleId }),
-          ...(userIs('dreal')(user) && { regionProjet: drealRegions }),
-        },
-      }
-
-      const opts = {
-        where: {
-          isLegacy: {
-            [Op.or]: [false, null],
-          },
-          ...(userIs('porteur-projet')(user) && { userId: user.id }),
-          ...(userIs('dreal')(user) && { authority: 'dreal' }),
-          ...(userIs(['admin', 'dgec'])(user) && !forceNoAuthority && { authority: 'dgec' }),
-          ...(modificationRequestType && { type: modificationRequestType }),
-          ...(modificationRequestStatus && { status: modificationRequestStatus }),
-        },
-      }
-
+  return _getProjectIdsForUser(user)
+    .andThen((projectIds) => {
       return wrapInfra(
         ModificationRequest.findAndCountAll({
-          ...opts,
+          where: {
+            isLegacy: {
+              [Op.or]: [false, null],
+            },
+            projectId: {
+              [Op.in]: projectIds,
+            },
+            ...(modificationRequestType && { type: modificationRequestType }),
+            ...(modificationRequestStatus && { status: modificationRequestStatus }),
+          },
           include: [
             {
               model: Project,
@@ -92,7 +50,12 @@ export const getModificationRequestListForUser: GetModificationRequestListForUse
                 'departementProjet',
                 'regionProjet',
               ],
-              ...projectOpts,
+              where: {
+                ...(recherche && { [Op.or]: { ...getFullTextSearchOptions(recherche) } }),
+                ...(appelOffreId && { appelOffreId }),
+                ...(periodeId && { periodeId }),
+                ...(familleId && { familleId }),
+              },
               required: true,
             },
             {
@@ -172,4 +135,19 @@ export const getModificationRequestListForUser: GetModificationRequestListForUse
         return ok(makePaginatedList(modificationRequests, count, pagination))
       }
     )
+}
+
+const _getPuissanceForAppelOffre = (args: { appelOffreId; periodeId }): string => {
+  return getProjectAppelOffre(args)?.unitePuissance || 'unité de puissance'
+}
+
+const _getProjectIdsForUser = (user: User) => {
+  return wrapInfra(
+    UserProjects.findAll({
+      attributes: ['projectId'],
+      where: {
+        userId: user.id,
+      },
+    })
+  ).map((items: any) => items.map((item) => item.projectId))
 }

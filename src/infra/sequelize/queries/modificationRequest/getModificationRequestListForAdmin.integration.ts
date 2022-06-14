@@ -2,15 +2,13 @@ import models from '../../models'
 import { resetDatabase } from '../../helpers'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
 import makeFakeFile from '../../../../__tests__/fixtures/file'
-import makeFakeUser from '../../../../__tests__/fixtures/user'
-import { getModificationRequestListForUser } from './getModificationRequestListForUser'
+import { getModificationRequestListForAdmin } from './getModificationRequestListForAdmin'
 import { UniqueEntityID } from '@core/domain'
-import { UnwrapForTest as OldUnwrapForTest } from '../../../../types'
-import { makeUser } from '@entities'
+import { User as userEntity } from '@entities'
 
 const { Project, User, File, ModificationRequest } = models
 
-describe('Sequelize getModificationRequestListForUser', () => {
+describe('Sequelize getModificationRequestListForAdmin', () => {
   const projectId = new UniqueEntityID().toString()
   const fileId = new UniqueEntityID().toString()
   const userId = new UniqueEntityID().toString()
@@ -29,13 +27,8 @@ describe('Sequelize getModificationRequestListForUser', () => {
       familleId: 'familleId',
     }
 
-    const fakeUserInfo = makeFakeUser({
-      id: userId,
-      fullName: 'John Doe',
-      role: 'admin',
-      email: 'email@test.test',
-    })
-    const fakeUser = OldUnwrapForTest(makeUser(fakeUserInfo))
+    const fakePorteur = _creerPorteurProjet()
+    const fakeAdmin = _creerAdmin()
 
     beforeAll(async () => {
       // Create the tables and remove all data
@@ -45,12 +38,13 @@ describe('Sequelize getModificationRequestListForUser', () => {
 
       await File.create(makeFakeFile({ id: fileId, filename: 'filename' }))
 
-      await User.create(fakeUser)
+      await User.create(fakePorteur)
+      await User.create(fakeAdmin)
 
       await ModificationRequest.create({
         id: modificationRequestId,
         projectId,
-        userId,
+        userId: fakePorteur.id,
         fileId,
         type: 'recours',
         requestedOn: 123,
@@ -62,7 +56,7 @@ describe('Sequelize getModificationRequestListForUser', () => {
       await ModificationRequest.create({
         id: new UniqueEntityID().toString(),
         projectId,
-        userId,
+        userId: fakePorteur.id,
         fileId,
         type: 'abandon',
         requestedOn: 123,
@@ -74,8 +68,8 @@ describe('Sequelize getModificationRequestListForUser', () => {
     })
 
     it('should return a paginated list of all non-legacy modification requests', async () => {
-      const res = await getModificationRequestListForUser({
-        user: fakeUser,
+      const res = await getModificationRequestListForAdmin({
+        user: fakeAdmin,
         pagination: { page: 0, pageSize: 1 },
       })
 
@@ -87,8 +81,8 @@ describe('Sequelize getModificationRequestListForUser', () => {
         status: 'envoyée',
         requestedOn: new Date(123),
         requestedBy: {
-          email: 'email@test.test',
-          fullName: 'John Doe',
+          email: fakePorteur.email,
+          fullName: fakePorteur.fullName,
         },
         attachmentFile: {
           filename: 'filename',
@@ -111,11 +105,8 @@ describe('Sequelize getModificationRequestListForUser', () => {
   })
 
   describe('when user is admin', () => {
-    const fakeUserInfo = makeFakeUser({
-      id: userId,
-      role: 'admin',
-    })
-    const fakeUser = OldUnwrapForTest(makeUser(fakeUserInfo))
+    const fakePorteur = _creerPorteurProjet()
+    const fakeAdmin = _creerAdmin()
 
     beforeAll(async () => {
       // Create the tables and remove all data
@@ -125,12 +116,13 @@ describe('Sequelize getModificationRequestListForUser', () => {
 
       await File.create(makeFakeFile({ id: fileId }))
 
-      await User.create(fakeUser)
+      await User.create(fakeAdmin)
+      await User.create(fakePorteur)
 
       const baseRequest = {
         projectId,
         type: 'actionnaire',
-        userId,
+        userId: fakePorteur.id,
         fileId,
         requestedOn: 123,
         status: 'envoyée',
@@ -153,8 +145,8 @@ describe('Sequelize getModificationRequestListForUser', () => {
     })
 
     it('should return all modification requests of authority dgec', async () => {
-      const res = await getModificationRequestListForUser({
-        user: fakeUser,
+      const res = await getModificationRequestListForAdmin({
+        user: fakeAdmin,
         pagination: { page: 0, pageSize: 10 },
       })
 
@@ -167,8 +159,8 @@ describe('Sequelize getModificationRequestListForUser', () => {
 
     describe('when the noAuthority filter is true', () => {
       it('should return all modification requests of all authorities', async () => {
-        const res = await getModificationRequestListForUser({
-          user: fakeUser,
+        const res = await getModificationRequestListForAdmin({
+          user: fakeAdmin,
           pagination: { page: 0, pageSize: 10 },
           forceNoAuthority: true,
         })
@@ -180,19 +172,8 @@ describe('Sequelize getModificationRequestListForUser', () => {
   })
 
   describe('when user is dreal', () => {
-    const drealUserId = new UniqueEntityID().toString()
-    const drealUserInfo = makeFakeUser({
-      id: drealUserId,
-      role: 'dreal',
-    })
-    const drealUser = OldUnwrapForTest(makeUser(drealUserInfo))
-
-    const ppUserId = new UniqueEntityID().toString()
-    const ppUserInfo = makeFakeUser({
-      id: ppUserId,
-      role: 'porteur-projet',
-    })
-    const ppUser = OldUnwrapForTest(makeUser(ppUserInfo))
+    const fakeDreal = _creerDreal()
+    const fakePorteur = _creerPorteurProjet()
 
     beforeAll(async () => {
       // Create the tables and remove all data
@@ -210,12 +191,12 @@ describe('Sequelize getModificationRequestListForUser', () => {
       await FileModel.create(makeFakeFile({ id: fileId }))
 
       const UserModel = models.User
-      await UserModel.create(drealUser)
-      await UserModel.create(ppUser)
+      await UserModel.create(fakeDreal)
+      await UserModel.create(fakePorteur)
 
       const UserDrealModel = models.UserDreal
       await UserDrealModel.create({
-        userId: drealUserId,
+        userId: fakeDreal.id,
         dreal: 'Bretagne',
       })
 
@@ -223,7 +204,7 @@ describe('Sequelize getModificationRequestListForUser', () => {
 
       const baseRequest = {
         projectId,
-        userId: ppUserId,
+        userId: fakePorteur.id,
         fileId,
         requestedOn: 123,
         status: 'envoyée',
@@ -255,8 +236,8 @@ describe('Sequelize getModificationRequestListForUser', () => {
     })
 
     it('should return all modification requests with authority of dreal in the user‘s region', async () => {
-      const res = await getModificationRequestListForUser({
-        user: drealUser,
+      const res = await getModificationRequestListForAdmin({
+        user: fakeDreal,
         pagination: { page: 0, pageSize: 10 },
       })
 
@@ -275,77 +256,31 @@ describe('Sequelize getModificationRequestListForUser', () => {
       ).toBe(true)
     })
   })
-
-  describe('when user is porteur-projet', () => {
-    const fakeUserInfo = makeFakeUser({
-      id: userId,
-      fullName: 'John Doe',
-      role: 'porteur-projet',
-      email: 'email@test.test',
-    })
-    const fakeUser = OldUnwrapForTest(makeUser(fakeUserInfo))
-
-    const projectInfo = {
-      id: projectId,
-      nomProjet: 'nomProjet',
-      communeProjet: 'communeProjet',
-      departementProjet: 'departementProjet',
-      regionProjet: 'regionProjet',
-      appelOffreId: 'Fessenheim',
-      periodeId: '1',
-      familleId: 'familleId',
-    }
-
-    const userModificationRequestId = new UniqueEntityID().toString()
-
-    const otherUserId = new UniqueEntityID().toString()
-    const fakeOtherUser = OldUnwrapForTest(makeUser(makeFakeUser({ id: otherUserId })))
-
-    beforeAll(async () => {
-      // Create the tables and remove all data
-      await resetDatabase()
-
-      await Project.create(makeFakeProject(projectInfo))
-
-      await File.create(makeFakeFile({ id: fileId, filename: 'filename' }))
-
-      await User.create(fakeUser)
-      await User.create(fakeOtherUser)
-
-      const baseRequest = {
-        projectId,
-        fileId,
-        requestedOn: 123,
-        status: 'envoyée',
-        type: 'recours',
-      }
-
-      await ModificationRequest.create({
-        ...baseRequest,
-        id: userModificationRequestId,
-        userId,
-        authority: 'dgec',
-      })
-
-      // Create a modification request from otherUser
-      await ModificationRequest.create({
-        ...baseRequest,
-        id: new UniqueEntityID().toString(),
-        userId: otherUserId,
-        authority: 'dgec',
-      })
-    })
-
-    it('should return a paginated list of the user‘s modification requests', async () => {
-      const res = await getModificationRequestListForUser({
-        user: fakeUser,
-        pagination: { page: 0, pageSize: 10 },
-      })
-
-      expect(res.isOk()).toBe(true)
-
-      expect(res._unsafeUnwrap().itemCount).toEqual(1)
-      expect(res._unsafeUnwrap().items[0].id).toEqual(userModificationRequestId)
-    })
-  })
 })
+
+function _creerAdmin(): userEntity & { role: 'admin' } {
+  return {
+    role: 'admin',
+    email: 'mail',
+    fullName: 'name',
+    id: new UniqueEntityID().toString(),
+  }
+}
+
+function _creerDreal(): userEntity & { role: 'dreal' } {
+  return {
+    role: 'dreal',
+    email: 'mail',
+    fullName: 'name',
+    id: new UniqueEntityID().toString(),
+  }
+}
+
+function _creerPorteurProjet(): userEntity & { role: 'porteur-projet' } {
+  return {
+    role: 'porteur-projet',
+    email: 'mail',
+    fullName: 'name',
+    id: new UniqueEntityID().toString(),
+  }
+}
