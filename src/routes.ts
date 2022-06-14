@@ -30,6 +30,7 @@ class routes {
   static LOGIN = '/login.html'
   static LOGIN_ACTION = '/login.html'
   static STATS = '/stats.html'
+  static ABONNEMENT_LETTRE_INFORMATION = '/abonnement-lettre-information.html'
   static LOGOUT_ACTION = '/logout'
   static SIGNUP = '/signup'
 

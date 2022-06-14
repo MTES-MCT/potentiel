@@ -19,6 +19,7 @@ import {
   PartnersList,
   ImporterListingEDF,
   ImporterListingEnedis,
+  AbonnementLettreInformation,
 } from './pages'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -163,6 +164,15 @@ export const ImporterListingEDFPage = (props: Parameters<typeof ImporterListingE
 export const ImporterListingEnedisPage = (props: Parameters<typeof ImporterListingEnedis>[0]) =>
   makeHtml({
     Component: ImporterListingEnedis,
+    props,
+    hydrate: false,
+  })
+
+export const AbonnementLettreInformationPage = (
+  props: Parameters<typeof AbonnementLettreInformation>[0]
+) =>
+  makeHtml({
+    Component: AbonnementLettreInformation,
     props,
     hydrate: false,
   })
