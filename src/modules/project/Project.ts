@@ -83,7 +83,7 @@ export interface Project extends EventStoreAggregate {
   import: (args: {
     data: ProjectImportedPayload['data']
     importId: string
-  }) => Result<null, IllegalProjectStateError>
+  }) => Result<null, IllegalProjectStateError | EntityNotFoundError>
   correctData: (
     user: User,
     data: ProjectDataCorrectedPayload['correctedData']
@@ -242,6 +242,9 @@ export interface ProjectProps {
   potentielIdentifier?: string
   hasCurrentGf: boolean
   GFExpirationDate: Date | undefined
+  appelOffreId: string
+  periodeId: string
+  familleId: string
 }
 
 const projectValidator = makePropertyValidator({
@@ -279,6 +282,9 @@ export const makeProject = (args: {
     hasCurrentGf: false,
     GFExpirationDate: undefined,
     potentielIdentifier: '',
+    appelOffreId: '',
+    periodeId: '',
+    familleId: '',
   }
 
   // Initialize aggregate by processing each event in history
@@ -295,6 +301,12 @@ export const makeProject = (args: {
         return err(new IllegalInitialStateForAggregateError({ projectId, errorMessage }))
       }
     }
+
+    _updateAppelOffre({
+      appelOffreId: props.appelOffreId,
+      periodeId: props.periodeId,
+      familleId: props.familleId,
+    })
   }
 
   // public methods
@@ -367,6 +379,10 @@ export const makeProject = (args: {
     },
     import: function ({ data, importId }) {
       const { appelOffreId, periodeId, familleId, numeroCRE } = data
+      const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
+      if (!appelOffre) return err(new EntityNotFoundError())
+      props.appelOffre = appelOffre
+
       const id = projectId.toString()
 
       if (_isNew()) {
@@ -389,7 +405,6 @@ export const makeProject = (args: {
             },
           })
         )
-
         if (data.notifiedOn) {
           try {
             isStrictlyPositiveNumber(data.notifiedOn)
@@ -1051,14 +1066,18 @@ export const makeProject = (args: {
         props.puissanceInitiale = event.payload.content.puissance
         props.potentielIdentifier = event.payload.potentielIdentifier
         _updateClasse(event.payload.content.classe)
-        _updateAppelOffre(event.payload)
+        props.appelOffreId = event.payload.appelOffreId
+        props.periodeId = event.payload.periodeId
+        props.familleId = event.payload.familleId
         break
       case ProjectImported.type:
         props.data = event.payload.data
         props.puissanceInitiale = event.payload.data.puissance
         props.potentielIdentifier = event.payload.potentielIdentifier
         _updateClasse(event.payload.data.classe)
-        _updateAppelOffre(event.payload)
+        props.appelOffreId = event.payload.appelOffreId
+        props.periodeId = event.payload.periodeId
+        props.familleId = event.payload.familleId
         break
       case ProjectReimported.type:
         props.data = { ...props.data, ...event.payload.data }
@@ -1154,7 +1173,8 @@ export const makeProject = (args: {
         props.abandonedOn = event.occurredAt.getTime()
         break
       case AppelOffreProjetModifié.type:
-        _updateAppelOffre({ appelOffreId: event.payload.appelOffreId })
+        props.appelOffreId = event.payload.appelOffreId
+        props.periodeId = event.payload.periodeId
         break
       case DateEchéanceGFAjoutée.type:
         props.GFExpirationDate = event.payload.expirationDate
