@@ -177,6 +177,7 @@ export interface Project extends EventStoreAggregate {
     expirationDate: Date
     submittedBy: User
   }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToUpdateError>
+  corrigerProjetSansDatesDues: () => Result<null, null>
   readonly shouldCertificateBeGenerated: boolean
   readonly appelOffre?: ProjectAppelOffre
   readonly isClasse?: boolean
@@ -919,6 +920,16 @@ export const makeProject = (args: {
         })
       )
 
+      return ok(null)
+    },
+    corrigerProjetSansDatesDues: function () {
+      if (!props.abandonedOn) {
+        if (!props.hasCurrentGf) {
+          _updateGFDate()
+        }
+        _updateDCRDate()
+        _updateCompletionDate()
+      }
       return ok(null)
     },
     get pendingEvents() {
