@@ -1,8 +1,8 @@
 import { ensureRole, projectRepo } from '@config'
-import { UniqueEntityID } from 'src/core/domain'
-import { logger } from 'src/core/utils'
-import { addQueryParams } from 'src/helpers/addQueryParams'
-import routes from 'src/routes'
+import { UniqueEntityID } from '@core/domain'
+import { logger } from '@core/utils'
+import { addQueryParams } from '../../helpers/addQueryParams'
+import routes from '../../routes'
 import asyncHandler from '../helpers/asyncHandler'
 import { v1Router } from '../v1Router'
 
